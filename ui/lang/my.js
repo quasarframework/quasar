@@ -21,7 +21,7 @@ export default {
     daysShort: 'Aha_Isn_Sel_Rab_Kha_Jum_Sab'.split('_'),
     months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
     monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogo_Sep_Okt_Nov_Dis'.split('_'),
-    headerTitle: date => new Intl.DateTimeFormat('zh-CN', {
+    headerTitle: date => new Intl.DateTimeFormat('my', {
       weekday: 'short', month: 'short', day: 'numeric'
     }).format(date),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...

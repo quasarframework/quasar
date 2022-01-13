@@ -214,5 +214,9 @@
   {
     "isoName": "zh-TW",
     "nativeName": "中文（繁體）"
+  },
+  {
+    "isoName": "my",
+    "nativeName": "Melayu"
   }
 ]
