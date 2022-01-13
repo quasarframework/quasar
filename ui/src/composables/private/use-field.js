@@ -402,6 +402,8 @@ export default function (state) {
             name: props.clearIcon || $q.iconSet.field.clear,
             tabindex: 0,
             type: 'button',
+            'aria-hidden': null,
+            role: null,
             onClick: clearValue
           })
         ])
