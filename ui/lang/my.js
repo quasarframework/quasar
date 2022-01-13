@@ -21,9 +21,11 @@ export default {
     daysShort: 'Aha_Isn_Sel_Rab_Kha_Jum_Sab'.split('_'),
     months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_September_Oktober_November_Disember'.split('_'),
     monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogo_Sep_Okt_Nov_Dis'.split('_'),
-    headerTitle: date => new Intl.DateTimeFormat('my', {
-      weekday: 'short', month: 'short', day: 'numeric'
-    }).format(date),
+    headerTitle: function (date) {
+      return new Intl.DateTimeFormat('my', {
+        weekday: 'short', month: 'short', day: 'numeric'
+      }).format(date)
+    },
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     pluralDay: 'langit'
@@ -32,10 +34,14 @@ export default {
     noData: 'tiada data tersedia',
     noResults: 'Tiada data yang sepadan ditemui',
     loading: 'memuatkan...',
-    selectedRecords: rows => 'dipilih' + rows + 'baris',
+    selectedRecords: function (rows) {
+      return 'dipilih' + rows + 'baris'
+    },
     recordsPerPage: 'baris setiap muka surat:',
     allRows: 'semua',
-    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' / ' + total
+    },
     columns: 'Senaraikan'
   },
   editor: {
