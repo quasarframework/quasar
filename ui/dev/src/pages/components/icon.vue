@@ -39,6 +39,10 @@
       <!-- Testing for 'M.' -->
       <q-icon :name="oiBatteryEmpty" size="5rem" color="secondary" />
 
+      <q-btn id="showInfoBtn" no-caps class="q-ml-sm">
+        <q-icon size="2em" name="img:https://www.gfbr.global/wp-content/uploads/2015/10/TwitterLogo_55acee-49x49.png" />
+      </q-btn>
+
       <q-space />
 
       <q-expansion-item
@@ -275,3 +279,13 @@ export default {
   }
 }
 </script>
+
+<style>
+#showInfoBtn {
+  position: absolute;
+  right: 10px;
+  z-index: 3;
+  width: 36px;
+  height: 36px;
+}
+</style>
