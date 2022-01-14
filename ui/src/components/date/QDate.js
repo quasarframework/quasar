@@ -559,16 +559,18 @@ export default createComponent({
 
       // if current view has days in model
       if (daysMap.value[ viewMonthHash.value ] !== void 0) {
-        daysMap.value[ viewMonthHash.value ].forEach(day => {
-          const i = index + day - 1
-          Object.assign(res[ i ], {
-            selected: true,
-            unelevated: true,
-            flat: false,
-            color: computedColor.value,
-            textColor: computedTextColor.value
+        daysMap.value[ viewMonthHash.value ]
+          .filter(day => day > 0)
+          .forEach(day => {
+            const i = index + day - 1
+            Object.assign(res[ i ], {
+              selected: true,
+              unelevated: true,
+              flat: false,
+              color: computedColor.value,
+              textColor: computedTextColor.value
+            })
           })
-        })
       }
 
       // if current view has ranges in model
