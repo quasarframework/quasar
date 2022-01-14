@@ -150,7 +150,7 @@ function addNotification (config, vm, originalApi) {
   closeBtn && actions.push({
     label: typeof closeBtn === 'string'
       ? closeBtn
-      : this.$q.lang.label.close
+      : vm.$q.lang.label.close
   })
 
   notif.actions = actions.map(({ handler, noDismiss, style, class: klass, attrs, ...props }) => ({
