@@ -22,10 +22,31 @@ function indent (num) {
   return ' '.repeat(num * 2)
 }
 
-const isComposable = argv.component.startsWith('use-')
+const split = argv.component.split('/')
+let json = {}
+let component = ''
 
-const component = isComposable ? argv.component : toPascalCase(argv.component)
-const json = isComposable ? require(`../../../src/composables/private/${ component }.json`) : require(`../../../src/components/${ argv.component }/Q${ component }.json`)
+if (split.length > 1) {
+  if (split[ 1 ].startsWith('use-')) {
+    component = split[ 1 ]
+    json = require(`../../../src/components/${ split[ 0 ] }/${ component }.json`)
+  }
+  else {
+    component = toPascalCase(split[ 1 ])
+    json = require(`../../../src/components/${ split[ 0 ] }/Q${ component }.json`)
+  }
+}
+else {
+  if (argv.component.startsWith('use-')) {
+    component = argv.component
+    json = require(`../../../src/composables/private/${ component }.json`)
+  }
+  else {
+    component = toPascalCase(argv.component)
+    json = require(`../../../src/components/${ argv.component }/Q${ component }.json`)
+  }
+}
+
 const extendJson = require('../../../src/api.extends.json')
 // console.log(json)
 const extendProps = extendJson.props
@@ -41,8 +62,13 @@ if (json.props) {
       else categories[ json.props[ prop ].category ].push(prop)
     }
     else {
-      if (!categories[ extendProps[ json.props[ prop ].extends ].category ]) categories[ extendProps[ json.props[ prop ].extends ].category ] = [ prop ]
-      else categories[ extendProps[ json.props[ prop ].extends ].category ].push(prop)
+      if (extendProps[ json.props[ prop ].extends ]) {
+        if (!categories[ extendProps[ json.props[ prop ].extends ].category ]) categories[ extendProps[ json.props[ prop ].extends ].category ] = [ prop ]
+        else categories[ extendProps[ json.props[ prop ].extends ].category ].push(prop)
+      }
+      else {
+        console.log(`property ${ prop } does not have a category and also does not extend something`)
+      }
     }
   }
   const keys = Object.keys(categories).sort()
