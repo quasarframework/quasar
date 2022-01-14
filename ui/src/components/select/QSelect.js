@@ -632,34 +632,34 @@ export default Vue.extend({
 
       if (typeof value === 'string' && value.length > 0) {
         const needle = value.toLocaleLowerCase()
+        const findFn = extractFn => {
+          const option = this.options.find(opt => extractFn(opt).toLocaleLowerCase() === needle)
 
-        let fn = opt => this.getOptionValue(opt).toLocaleLowerCase() === needle
-        let option = this.options.find(fn)
+          if (option === void 0) {
+            return false
+          }
 
-        if (option !== void 0) {
           if (this.innerValue.indexOf(option) === -1) {
             this.toggleOption(option)
           }
           else {
             this.hidePopup()
           }
-        }
-        else {
-          fn = opt => this.getOptionLabel(opt).toLocaleLowerCase() === needle
-          option = this.options.find(fn)
 
-          if (option !== void 0) {
-            if (this.innerValue.indexOf(option) === -1) {
-              this.toggleOption(option)
-            }
-            else {
-              this.hidePopup()
-            }
-          }
-          else {
-            this.filter(value, true)
-          }
+          return true
         }
+        const fillFn = afterFilter => {
+          if (findFn(this.getOptionValue) === true) {
+            return
+          }
+          if (findFn(this.getOptionLabel) === true || afterFilter === true) {
+            return
+          }
+
+          this.filter(value, true, () => fillFn(true))
+        }
+
+        fillFn()
       }
       else {
         this.__clearValue(e)
@@ -1134,7 +1134,7 @@ export default Vue.extend({
       }
     },
 
-    filter (val, keepClosed) {
+    filter (val, keepClosed, afterUpdateFn) {
       if (this.qListeners.filter === void 0 || (keepClosed !== true && this.focused !== true)) {
         return
       }
@@ -1191,6 +1191,7 @@ export default Vue.extend({
               }
 
               typeof afterFn === 'function' && this.$nextTick(() => { afterFn(this) })
+              typeof afterUpdateFn === 'function' && this.$nextTick(() => { afterUpdateFn(this) })
             })
           }
         },
