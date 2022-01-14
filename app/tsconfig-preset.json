@@ -8,6 +8,8 @@
     // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36
     "noEmit": true,
     "resolveJsonModule": true,
+    // Avoid cross-os errors due to inconsistent file casing
+    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "strict": true,
     "target": "es6",
