@@ -3,7 +3,7 @@ import * as ElectronBuilder from "electron-builder";
 import * as ElectronPackager from "electron-packager";
 import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
-import { LiteralUnion } from "../ts-helpers";
+import { LiteralUnion } from "quasar";
 
 export type QuasarElectronBundlersInternal = "builder" | "packager";
 
