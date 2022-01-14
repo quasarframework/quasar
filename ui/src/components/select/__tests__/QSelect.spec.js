@@ -1501,98 +1501,495 @@ describe('QSelect API', () => {
 
   describe('Methods', () => {
     describe('(method): focus', () => {
-      it.skip(' ', () => {
-      //
+      it('should focus the component', () => {
+        mount(WrapperOne)
+
+        cy.dataCy('select')
+          .get('[tabindex="0"]')
+          .should('not.have.focus')
+        cy.dataCy('select')
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.focus()
+          })
+        cy.dataCy('select')
+          .get('[tabindex="0"]')
+          .should('have.focus')
       })
     })
 
     describe('(method): showPopup', () => {
-      it.skip(' ', () => {
-      //
+      it('should open the popup and focus the component', () => {
+        mount(WrapperOne, {
+          attrs: {
+            options: [ '1', '2' ]
+          }
+        })
+
+        cy.get('.q-menu')
+          .should('not.exist')
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.showPopup()
+          })
+        cy.get('.q-menu')
+          .should('be.visible')
+        cy.dataCy('select')
+          .get('[tabindex="0"]')
+          .should('have.focus')
       })
     })
 
     describe('(method): hidePopup', () => {
-      it.skip(' ', () => {
-      //
+      it('should hide the popup', () => {
+        mount(WrapperOne, {
+          attrs: {
+            options: [ '1', '2' ]
+          }
+        })
+
+        cy.get('.select-root')
+          .click()
+        cy.get('.q-menu')
+          .should('be.visible')
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.hidePopup()
+          })
+        cy.get('.q-menu')
+          .should('not.exist')
       })
     })
 
     describe('(method): removeAtIndex', () => {
-      it.skip(' ', () => {
-      //
+      it('should remove a selected option at the correct index', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const model = ref([ '1', '2', '4' ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            multiple: true,
+            options
+          }
+        })
+          .then(() => {
+            expect(model.value.includes('4')).to.be.true
+            Cypress.vueWrapper.vm.compRef.removeAtIndex(2)
+            expect(model.value.includes('4')).to.be.false
+          })
       })
     })
 
     describe('(method): add', () => {
-      it.skip(' ', () => {
-      //
+      it('should add a selected option', () => {
+        const model = ref([ '1', '2' ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            multiple: true
+          }
+        })
+          .then(() => {
+            expect(model.value.includes('100')).to.be.false
+            Cypress.vueWrapper.vm.compRef.add('100')
+            expect(model.value.includes('100')).to.be.true
+          })
+      })
+
+      it('should not add a duplicate option when unique is true', () => {
+        const model = ref([ '1', '2' ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            multiple: true
+          }
+        })
+          .then(() => {
+            expect(model.value.length).to.be.equal(2)
+            Cypress.vueWrapper.vm.compRef.add('2', true)
+            expect(model.value.length).to.be.equal(2)
+            Cypress.vueWrapper.vm.compRef.add('2')
+            expect(model.value.length).to.be.equal(3)
+          })
       })
     })
 
     describe('(method): toggleOption', () => {
-      it.skip(' ', () => {
-      //
+      it('should toggle an option', () => {
+        const model = ref([ '1', '2' ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            multiple: true
+          }
+        })
+          .then(() => {
+            expect(model.value.length).to.be.equal(2)
+            Cypress.vueWrapper.vm.compRef.toggleOption('2')
+            expect(model.value.length).to.be.equal(1)
+            // Todo: Toggling an option back and forth without a rerender inbetween does not work, should it?
+          })
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.toggleOption('2')
+            expect(model.value.length).to.be.equal(2)
+          })
+      })
+
+      // Todo: toggleOption argument keepOpen only does something when using single select. This is not clear from the docs.
+      // should this be consistent? E.g. use `true` as argument when multiple is true by default but make sure it can be overridden.
+      it('should close the menu and clear the filter', () => {
+        const model = ref('1')
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            options: [ '1', '2' ],
+            useInput: true
+          }
+        })
+
+        cy.get('.select-root')
+          .click()
+          .get('input')
+          .type('h')
+        cy.get('.q-menu')
+          .should('be.visible')
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.toggleOption('2')
+          })
+        cy.get('.q-menu')
+          .should('not.exist')
+        cy.get('input')
+          .should('have.value', '')
+      })
+
+      it('should not close the menu and clear the filter when keepOpen is true', () => {
+        const model = ref('1')
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            'onUpdate:modelValue': (val) => {
+              model.value = val
+            },
+            options: [ '1', '2' ],
+            useInput: true
+          }
+        })
+
+        cy.get('.select-root')
+          .click()
+          .get('input')
+          .type('h')
+        cy.get('.q-menu')
+          .should('be.visible')
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.toggleOption('2', true)
+          })
+        cy.get('.q-menu')
+          .should('be.visible')
+        cy.get('input')
+          .should('have.value', 'h')
       })
     })
 
     describe('(method): setOptionIndex', () => {
-      it.skip(' ', () => {
-      //
+      it('should set an option from the menu dropdown as focused', () => {
+        const options = [ '1', '2', '3', '4' ]
+        mount(WrapperOne, {
+          attrs: {
+            options
+          }
+        })
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.setOptionIndex(0)
+          })
+          .get('[role="option"]')
+          .first()
+          .should('have.class', 'q-manual-focusable--focused')
       })
     })
 
     describe('(method): moveOptionSelection', () => {
-      it.skip(' ', () => {
-      //
+      it('should move the optionSelection by some index offset', () => {
+        const options = [ '1', '2', '3', '4' ]
+        mount(WrapperOne, {
+          attrs: {
+            options
+          }
+        })
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.setOptionIndex(0)
+          })
+          .get('[role="option"]')
+          .first()
+          .should('have.class', 'q-manual-focusable--focused')
+          .then(() => {
+            Cypress.vueWrapper.vm.compRef.moveOptionSelection(3)
+          })
+          .get('[role="option"]')
+          .last()
+          .should('have.class', 'q-manual-focusable--focused')
       })
     })
 
     describe('(method): filter', () => {
-      it.skip(' ', () => {
-      //
+      it('should filter the options list', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const fn = cy.stub()
+        const text = 'test'
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            useInput: true,
+            onFilter: fn
+          }
+        })
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            expect(fn).not.to.be.calledWith(text)
+            Cypress.vueWrapper.vm.compRef.filter(text)
+            expect(fn).to.be.calledWith(text)
+          })
       })
     })
 
     describe('(method): updateMenuPosition', () => {
       it.skip(' ', () => {
-      //
+        // Not sure in what scenario this is needed, there is also some auto repositioning going on
       })
     })
 
     describe('(method): updateInputValue', () => {
-      it.skip(' ', () => {
-      //
+      it('should update the input value', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const fn = cy.stub()
+        const text = 'test'
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            useInput: true,
+            onFilter: fn
+          }
+        })
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            expect(fn).not.to.be.calledWith(text)
+            Cypress.vueWrapper.vm.compRef.updateInputValue(text)
+            expect(fn).to.be.calledWith(text)
+          })
+          .get('input')
+          .should('have.value', text)
+      })
+
+      it('should not trigger the filter when specified', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const fn = cy.stub()
+        const text = 'test'
+        mount(WrapperOne, {
+          attrs: {
+            options,
+            useInput: true,
+            onFilter: fn
+          }
+        })
+        cy.get('.select-root')
+          .click()
+          .then(() => {
+            expect(fn).not.to.be.calledWith(text)
+            Cypress.vueWrapper.vm.compRef.updateInputValue(text, true)
+            expect(fn).not.to.be.calledWith(text)
+          })
+          .get('input')
+          .should('have.value', text)
       })
     })
 
     describe('(method): isOptionSelected', () => {
-      it.skip(' ', () => {
-      //
+      it('should tell when an option is selected', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const model = ref([ '1', '2', '4' ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            multiple: true,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.isOptionSelected(options[ 0 ])).to.be.true
+            expect(Cypress.vueWrapper.vm.compRef.isOptionSelected(options[ 2 ])).to.be.false
+          })
       })
     })
 
     describe('(method): getEmittingOptionValue', () => {
-      it.skip(' ', () => {
-      //
+      it('should return the emit value with plain options', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const model = ref('1')
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getEmittingOptionValue(options[ 2 ])).to.equal(options[ 2 ])
+          })
+      })
+
+      it('should return the emit value with object options', () => {
+        const options = [ { label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getEmittingOptionValue(options[ 2 ])).to.equal(options[ 2 ])
+          })
+      })
+
+      it('should respect emit-value when using options', () => {
+        const options = [ { label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options,
+            emitValue: true
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getEmittingOptionValue(options[ 2 ])).to.equal(options[ 2 ].value)
+          })
       })
     })
 
     describe('(method): getOptionValue', () => {
-      it.skip(' ', () => {
-      //
+      it('should return the option value with plain options', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const model = ref('1')
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getOptionValue(options[ 2 ])).to.equal(options[ 2 ])
+          })
+      })
+
+      it('should return the option value with object options (value by default)', () => {
+        const options = [ { label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getOptionValue(options[ 2 ])).to.equal(options[ 2 ].value)
+          })
+      })
+
+      it('should respect the option-value option', () => {
+        const options = [ { label: '1', test: 1 }, { label: '2', test: 2 }, { label: '3', test: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options,
+            optionValue: 'test'
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getOptionValue(options[ 2 ])).to.equal(options[ 2 ].test)
+          })
       })
     })
 
     describe('(method): getOptionLabel', () => {
-      it.skip(' ', () => {
-      //
+      it('should return the option label with plain options', () => {
+        const options = [ '1', '2', '3', '4' ]
+        const model = ref('1')
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getOptionLabel(options[ 2 ])).to.equal(options[ 2 ])
+          })
+      })
+
+      it('should return the option label with object options (label by default)', () => {
+        const options = [ { label: '1', value: 1 }, { label: '2', value: 2 }, { label: '3', value: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getOptionLabel(options[ 2 ])).to.equal(options[ 2 ].label)
+          })
+      })
+
+      it('should respect the option-value option', () => {
+        const options = [ { test: '1', value: 1 }, { test: '2', value: 2 }, { test: '3', value: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options,
+            optionLabel: 'test'
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.getOptionLabel(options[ 2 ])).to.equal(options[ 2 ].test)
+          })
       })
     })
 
     describe('(method): isOptionDisabled', () => {
-      it.skip(' ', () => {
-      //
+      it('should return if an option is disabled correctly', () => {
+        const options = [ { label: '1', value: 1, disable: true }, { label: '2', value: 2 }, { label: '3', value: 3 } ]
+        const model = ref(options[ 0 ])
+        mount(WrapperOne, {
+          attrs: {
+            modelValue: model,
+            options
+          }
+        })
+          .then(() => {
+            expect(Cypress.vueWrapper.vm.compRef.isOptionDisabled(options[ 0 ])).to.be.true
+            // This currently fails: https://github.com/quasarframework/quasar/issues/12046
+            // expect(Cypress.vueWrapper.vm.compRef.isOptionDisabled(options[ 1 ])).to.be.false
+            // expect(Cypress.vueWrapper.vm.compRef.isOptionDisabled(options[ 2 ])).to.be.false
+          })
       })
     })
   })

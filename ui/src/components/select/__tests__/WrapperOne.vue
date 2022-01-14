@@ -12,10 +12,6 @@
       </template>
     </q-select>
   </div>
-  <q-btn class="hidden" data-cy="method-show" @click="show" />
-  <q-btn class="hidden" data-cy="method-hide" @click="hide" />
-  <q-btn class="hidden" data-cy="method-toggle" @click="toggle" />
-  <q-btn class="hidden" data-cy="method-focus" @click="focusMethod" />
 </template>
 
 <script>
@@ -26,23 +22,7 @@ export default defineComponent({
   setup () {
     const compRef = ref(null)
 
-    function show () {
-      compRef.value.show()
-    }
-
-    function hide () {
-      compRef.value.hide()
-    }
-
-    function toggle () {
-      compRef.value.toggle()
-    }
-
-    function focusMethod () {
-      compRef.value.focus()
-    }
-
-    return { compRef, show, hide, toggle, focusMethod }
+    return { compRef }
   }
 })
 </script>
