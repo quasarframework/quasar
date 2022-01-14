@@ -1,3 +1,6 @@
+// Error on "quasar" import shown in IDE is normal, as we only have Components/Directives/Plugins types after the build step
+// The import will work correctly at runtime
+import { QUploader, QUploaderProps } from "quasar";
 import {
   ComponentOptionsMixin,
   ComponentPropsOptions,
@@ -135,4 +138,4 @@ export function createUploaderComponent<
   Emits extends EmitsOptions = []
 >(
   options: CreateUploaderComponentOptions<Props, Emits>
-): DefineComponent<Props, {}, {}, {}, {}, {}, {}, EmitsOptions>;
+): QUploader & DefineComponent<Props & QUploaderProps, {}, {}, {}, {}, {}, {}, Emits>;
