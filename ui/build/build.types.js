@@ -36,7 +36,7 @@ const typeMap = new Map([
 
 const fallbackComplexTypeMap = new Map([
   [ 'Array', 'any[]' ],
-  [ 'Object', 'LooseDictionary' ]
+  [ 'Object', 'any' ]
 ])
 
 const dontNarrowValues = [
@@ -287,7 +287,7 @@ function writeIndexDTS (apis) {
   writeLine(contents, '/// <reference types="@quasar/app" />')
   // ----
   writeLine(contents, 'import { App, Component, ComponentPublicInstance, VNode } from \'vue\'')
-  writeLine(contents, 'import { LooseDictionary, ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
+  writeLine(contents, 'import { ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
