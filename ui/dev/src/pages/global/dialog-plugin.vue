@@ -26,6 +26,7 @@
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
         <q-btn label="Checkbox (validation)" flat color="primary" @click="checkboxValidation" />
+        <q-btn label="Disable button" flat color="primary" @click="disabledButtons" />
         <q-btn-dropdown color="accent" label="Open from dropdown" unelevated>
           <q-list flat>
             <q-item @click="alert" clickable v-close-popup>
@@ -331,6 +332,30 @@ export default {
         },
         cancel: true,
         persistent: true,
+        dark: this.dark
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+    
+    disabledButtons () {
+      this.dialogHandler = this.$q.dialog({
+        title: 'Disabled buttons',
+        message: 'buttons should be disabled',
+        ok: {
+          label: 'resend',
+          unelevated: true,
+          disable: true
+        },
+        cancel: {
+          label: 'remove',
+          flat: true,
+          disable: true
+        },
         dark: this.dark
       }).onOk(data => {
         console.log('>>>> OK, received', data)

@@ -120,8 +120,8 @@ export default Vue.extend({
         color: this.vmColor,
         label: this.okLabel,
         ripple: false,
-        ...(Object(this.ok) === this.ok ? this.ok : { flat: true }),
-        disable: this.okDisabled
+        disable: this.okDisabled,
+        ...(Object(this.ok) === this.ok ? this.ok : { flat: true })
       }
     },
 
