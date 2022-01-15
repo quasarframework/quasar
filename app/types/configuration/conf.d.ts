@@ -1,5 +1,5 @@
 import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
-import * as WebpackDevServer from "webpack-dev-server";
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 import { QuasarBootConfiguration } from "./boot";
 import { QuasarBuildConfiguration } from "./build";
 import { QuasarCapacitorConfiguration } from "./capacitor-conf";
@@ -12,7 +12,7 @@ import { QuasarSsrConfiguration } from "./ssr-conf";
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
 interface QuasarDevServerConfiguration
-  extends Omit<WebpackDevServer.Configuration, "open"> {
+  extends Omit<WebpackDevServerConfiguration, "open"> {
   /**
    * Behind the scenes, webpack devServer `open` property is always set to false
    *  and that feature is delegated to `open` library.
