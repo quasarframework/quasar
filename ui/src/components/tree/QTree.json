@@ -6,6 +6,7 @@
   "props": {
     "nodes": {
       "type": "Array",
+      "tsType": "QTreeNode",
       "desc": "The array of nodes that designates the tree structure",
       "required": true,
       "examples": [ "[ {...}, {...} ]" ],

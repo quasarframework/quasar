@@ -419,3 +419,26 @@ export default {
   }
 }
 ```
+
+If you're using TypeScript, you'd need to register the new component types to allow Volar to autocomplete props and slots for you.
+
+```js
+import {
+  GlobalComponentConstructor,
+  QUploaderProps,
+  QUploaderSlots,
+} from 'quasar';
+
+interface MyUploaderProps extends QUploaderProps {
+  // .. add custom props
+  freeze: boolean;
+  // .. add custom events
+  onFreeze: boolean;
+}
+
+declare module '@vue/runtime-core' {
+  interface GlobalComponents {
+    MyUploader: GlobalComponentConstructor<MyUploaderProps, QUploaderSlots>;
+  }
+}
+```
