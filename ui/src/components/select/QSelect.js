@@ -947,7 +947,7 @@ export default Vue.extend({
           h('div', {
             ref: 'target',
             key: 'd_t',
-            staticClass: 'no-outline',
+            staticClass: 'q-select__focus-target',
             attrs: {
               id: this.targetUid,
               tabindex: this.tabindex,
@@ -964,7 +964,7 @@ export default Vue.extend({
         if (typeof this.autocomplete === 'string' && this.autocomplete.length > 0) {
           child.push(
             h('input', {
-              staticClass: 'q-select__autocomplete-input no-outline',
+              staticClass: 'q-select__autocomplete-input',
               attrs: { autocomplete: this.autocomplete },
               on: cache(this, 'autoinp', {
                 keyup: this.__onTargetAutocomplete
