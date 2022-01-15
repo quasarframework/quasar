@@ -422,7 +422,7 @@ export default {
 
 If you're using TypeScript, you'd need to register the new component types to allow Volar to autocomplete props and slots for you.
 
-```ts
+```js
 import {
   GlobalComponentConstructor,
   QUploaderProps,
