@@ -17,6 +17,7 @@
             <q-toggle v-model="dark" label="On dark background" :false-value="null" />
             <q-toggle v-model="dense" label="Dense" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
+            <q-toggle v-model="noSelectionUnset" label="noSelectionUnset" />
             <q-toggle v-model="noConnectors" label="No connectors" />
           </div>
           <div class="col-xs-12 col-md-4">
@@ -54,6 +55,7 @@
           :color="color"
           :filter="filter"
           :no-connectors="noConnectors"
+          :no-selection-unset="noSelectionUnset"
           @lazy-load="onLazyLoad"
         >
           <!--
@@ -129,6 +131,7 @@ export default {
     return {
       noConnectors: false,
       selected: null,
+      noSelectionUnset: false,
       tickStrategy: 'leaf',
       ticked: [
         'KEY: Node 2.2',

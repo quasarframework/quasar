@@ -2,6 +2,7 @@
   "props": {
     "factory": {
       "type": "Function",
+      "tsType": "QUploaderFactoryFn",
       "desc": "Function which should return an Object or a Promise resolving with an Object; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "files": {
@@ -112,7 +113,7 @@
       },
       "returns": {
         "type": "String",
-        "desc": "An array consists of objects with header definitions",
+        "desc": "An array consisting of objects with header definitions",
         "__exemption": [ "examples" ]
       },
       "category": "upload"

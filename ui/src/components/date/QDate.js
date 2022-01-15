@@ -153,7 +153,12 @@ export default createComponent({
       normalizedModel.value
         .filter(date => typeof date === 'string')
         .map(date => decodeString(date, innerMask.value, innerLocale.value))
-        .filter(date => date.dateHash !== null)
+        .filter(date =>
+          date.dateHash !== null
+          && date.day !== null
+          && date.month !== null
+          && date.year !== null
+        )
     )
 
     const rangeModel = computed(() => {

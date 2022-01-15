@@ -6,6 +6,7 @@
   "props": {
     "nodes": {
       "type": "Array",
+      "tsType": "QTreeNode",
       "desc": "The array of nodes that designates the tree structure",
       "required": true,
       "examples": [ "[ {...}, {...} ]" ],
@@ -104,6 +105,13 @@
       "sync": true,
       "examples": [ "v-model:selected=\"selectedKey\"" ],
       "category": "state"
+    },
+
+    "no-selection-unset": {
+      "type": "Boolean",
+      "desc": "Do not allow un-selection when clicking currently selected node",
+      "category": "behavior",
+      "addedIn": "v2.4.10"
     },
 
     "default-expand-all": {

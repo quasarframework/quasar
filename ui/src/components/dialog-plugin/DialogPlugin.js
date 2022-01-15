@@ -144,8 +144,8 @@ export default createComponent({
       color: vmColor.value,
       label: okLabel.value,
       ripple: false,
-      ...(Object(props.ok) === props.ok ? props.ok : { flat: true }),
       disable: okDisabled.value,
+      ...(Object(props.ok) === props.ok ? props.ok : { flat: true }),
       'data-autofocus': (props.focus === 'ok' && hasForm.value !== true) || void 0,
       onClick: onOk
     }))
