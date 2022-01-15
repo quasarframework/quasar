@@ -46,10 +46,6 @@ export default createComponent({
     controlColor: String,
     textColor: String,
     selectedColor: String,
-    unSelectable: {
-      type: Boolean,
-      default: true
-    },
 
     icon: String,
 
@@ -61,6 +57,8 @@ export default createComponent({
     ticked: Array, // v-model:ticked
     expanded: Array, // v-model:expanded
     selected: {}, // v-model:selected
+
+    noSelectionUnset: Boolean,
 
     defaultExpandAll: Boolean,
     accordion: Boolean,
@@ -619,10 +617,9 @@ export default createComponent({
 
       if (hasSelection.value) {
         if (meta.selectable) {
-          if (props.unSelectable) {
-            emit('update:selected', meta.key !== props.selected ? meta.key : null)
-          } else if (meta.key !== props.selected) {
-            emit('update:selected', meta.key || null)
+          const val = meta.key !== props.selected ? meta.key : null
+          if (props.noSelectionUnset !== true || val !== null) {
+            emit('update:selected', val)
           }
         }
       }
