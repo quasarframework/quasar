@@ -1462,7 +1462,7 @@ export default createComponent({
             h('div', {
               ref: targetRef,
               key: 'd_t',
-              class: 'no-outline',
+              class: 'q-select__focus-target',
               id: state.targetUid.value,
               ...comboboxAttrs.value,
               onKeydown: onTargetKeydown,
@@ -1474,7 +1474,7 @@ export default createComponent({
           if (typeof props.autocomplete === 'string' && props.autocomplete.length > 0) {
             child.push(
               h('input', {
-                class: 'q-select__autocomplete-input no-outline',
+                class: 'q-select__autocomplete-input',
                 autocomplete: props.autocomplete,
                 onKeyup: onTargetAutocomplete
               })
