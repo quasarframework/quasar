@@ -644,34 +644,34 @@ export default createComponent({
 
       if (typeof value === 'string' && value.length > 0) {
         const needle = value.toLocaleLowerCase()
+        const findFn = extractFn => {
+          const option = props.options.find(opt => extractFn.value(opt).toLocaleLowerCase() === needle)
 
-        let fn = opt => getOptionValue.value(opt).toLocaleLowerCase() === needle
-        let option = props.options.find(fn)
+          if (option === void 0) {
+            return false
+          }
 
-        if (option !== void 0) {
           if (innerValue.value.indexOf(option) === -1) {
             toggleOption(option)
           }
           else {
             hidePopup()
           }
-        }
-        else {
-          fn = opt => getOptionLabel.value(opt).toLocaleLowerCase() === needle
-          option = props.options.find(fn)
 
-          if (option !== void 0) {
-            if (innerValue.value.indexOf(option) === -1) {
-              toggleOption(option)
-            }
-            else {
-              hidePopup()
-            }
-          }
-          else {
-            filter(value, true)
-          }
+          return true
         }
+        const fillFn = afterFilter => {
+          if (findFn(getOptionValue) === true) {
+            return
+          }
+          if (findFn(getOptionLabel) === true || afterFilter === true) {
+            return
+          }
+
+          filter(value, true, () => fillFn(true))
+        }
+
+        fillFn()
       }
       else {
         state.clearValue(e)
@@ -1050,7 +1050,7 @@ export default createComponent({
       }
     }
 
-    function filter (val, keepClosed) {
+    function filter (val, keepClosed, afterUpdateFn) {
       if (props.onFilter === void 0 || (keepClosed !== true && state.focused.value !== true)) {
         return
       }
@@ -1108,6 +1108,7 @@ export default createComponent({
               }
 
               typeof afterFn === 'function' && nextTick(() => { afterFn(proxy) })
+              typeof afterUpdateFn === 'function' && nextTick(() => { afterUpdateFn(proxy) })
             })
           }
         },
@@ -1462,7 +1463,7 @@ export default createComponent({
             h('div', {
               ref: targetRef,
               key: 'd_t',
-              class: 'no-outline',
+              class: 'q-select__focus-target',
               id: state.targetUid.value,
               ...comboboxAttrs.value,
               onKeydown: onTargetKeydown,
@@ -1474,7 +1475,7 @@ export default createComponent({
           if (typeof props.autocomplete === 'string' && props.autocomplete.length > 0) {
             child.push(
               h('input', {
-                class: 'q-select__autocomplete-input no-outline',
+                class: 'q-select__autocomplete-input',
                 autocomplete: props.autocomplete,
                 onKeyup: onTargetAutocomplete
               })
