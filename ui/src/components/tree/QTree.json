@@ -108,6 +108,13 @@
       "category": "state"
     },
 
+    "no-selection-unset": {
+      "type": "Boolean",
+      "desc": "Do not allow un-selection when clicking currently selected node",
+      "category": "behavior",
+      "addedIn": "v1.17.5"
+    },
+
     "default-expand-all": {
       "type": "Boolean",
       "desc": "Allow the tree to have all its branches expanded, when first rendered",

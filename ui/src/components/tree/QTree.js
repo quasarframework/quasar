@@ -53,6 +53,8 @@ export default Vue.extend({
     expanded: Array, // sync
     selected: {}, // sync
 
+    noSelectionUnset: Boolean,
+
     defaultExpandAll: Boolean,
     accordion: Boolean,
 
@@ -604,7 +606,10 @@ export default Vue.extend({
 
       if (this.hasSelection) {
         if (meta.selectable) {
-          this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
+          const val = meta.key !== this.selected ? meta.key : null
+          if (this.noSelectionUnset !== true || val !== null) {
+            this.$emit('update:selected', val)
+          }
         }
       }
       else {
