@@ -150,7 +150,12 @@ export default Vue.extend({
       return this.normalizedModel
         .filter(date => typeof date === 'string')
         .map(date => this.__decodeString(date, this.innerMask, this.innerLocale))
-        .filter(date => date.dateHash !== null)
+        .filter(date =>
+          date.dateHash !== null &&
+          date.day !== null &&
+          date.month !== null &&
+          date.year !== null
+        )
     },
 
     rangeModel () {
