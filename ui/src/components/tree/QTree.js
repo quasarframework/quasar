@@ -58,6 +58,8 @@ export default createComponent({
     expanded: Array, // v-model:expanded
     selected: {}, // v-model:selected
 
+    noSelectionUnset: Boolean,
+
     defaultExpandAll: Boolean,
     accordion: Boolean,
 
@@ -615,7 +617,10 @@ export default createComponent({
 
       if (hasSelection.value) {
         if (meta.selectable) {
-          emit('update:selected', meta.key !== props.selected ? meta.key : null)
+          const val = meta.key !== props.selected ? meta.key : null
+          if (props.noSelectionUnset !== true || val !== null) {
+            emit('update:selected', val)
+          }
         }
       }
       else {
