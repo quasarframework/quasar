@@ -39,9 +39,9 @@ Let's say that you want to create a "showcase" Vuex Module. You issue `$ quasar 
 ```bash
 .
 └── src/
-    └── store/
+    └── store/
         ├── index.js         # Vuex Store definition
-        └── showcase         # Module "showcase"
+        └── showcase         # Module "showcase"
             ├── index.js     # Gluing the module together
             ├── actions.js   # Module actions
             ├── getters.js   # Module getters
@@ -152,6 +152,7 @@ With Vuex, currently, only the state is strongly typed. If you want to use typed
 
 ### Using Vuex Smart Module
 One of the options for a fully typed store is a package called `vuex-smart-module`. You can add this package by running the following command:
+
 ```bash
 yarn add vuex-smart-module
 ```
@@ -258,7 +259,7 @@ export default boot(({store}) => {
 ```
 
 #### Using a typed store in Prefetch
-Similarly, you can also use a typed store when using the [Prefetch feature](https://quasar.dev/quasar-cli/prefetch-feature). Here is an example: 
+Similarly, you can also use a typed store when using the [Prefetch feature](https://quasar.dev/quasar-cli/prefetch-feature). Here is an example:
 
 ```html
 <script lang="ts">
@@ -281,10 +282,11 @@ export default defineComponent({
 You can take advantage of the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) to code-split Vuex modules.
 
 ### Code splitting Vuex Smart Module
-Code splitting with Vuex Smart Module works slightly different compared to regular Vuex. 
+Code splitting with Vuex Smart Module works slightly different compared to regular Vuex.
 
 Suppose we have the following module example:
-```ts
+
+```js
 // store/modules/index.ts
 // simple module example, with everything in one file
 import { Getters, Mutations, Actions, Module, createComposable } from 'vuex-smart-module'
@@ -326,7 +328,8 @@ export const useAdmin = createComposable(admin)
 
 We then want to only load this module, when a certain route component is visited. We can do that in (at least) two different ways.
 
-The first method is using the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /admin route which is a child of our MainLayout: 
+The first method is using the [PreFetch Feature](/quasar-cli/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /admin route which is a child of our MainLayout:
+
 ```
 { path: 'admin', component: () => import('pages/Admin.vue') }
 ```
@@ -354,8 +357,8 @@ export default defineComponent({
             registerModule(store, 'admin', 'admin/', admin)
     },
     setup() {
-        const $store = useStore() 
-        // eslint-disable-next-line 
+        const $store = useStore()
+        // eslint-disable-next-line
         if (!process.env.SERVER && !$store.hasModule('admin') && (window as any).__INITIAL_STATE__) {
             // This works both for SSR and SPA
             registerModule($store, ['admin'], 'admin/', admin, {
@@ -387,7 +390,7 @@ export default defineComponent({
 </script>
 ```
 
-The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense, if you have a section of you app, which is only used by a small percentage of visitors. For example an `/admin` section of your site under which you have multiple sub routes. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that for every route that starts with `/admin/...`. 
+The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense, if you have a section of you app, which is only used by a small percentage of visitors. For example an `/admin` section of your site under which you have multiple sub routes. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that for every route that starts with `/admin/...`.
 
 To do this, you can use a [Boot File](/quasar-cli/boot-files) in Quasar that looks like this:
 
@@ -395,7 +398,7 @@ To do this, you can use a [Boot File](/quasar-cli/boot-files) in Quasar that loo
 The example below is designed to work with both SSR and SPA. If you only use SPA, this can be simplified by removing the last argument of `registerModule` entirely.
 :::
 
-```ts
+```js
 import { boot } from 'quasar/wrappers'
 import { admin } from 'src/store/module'
 import { registerModule, unregisterModule } from 'vuex-smart-module'
