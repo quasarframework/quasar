@@ -118,8 +118,9 @@ export default createComponent({
     const progress = ref(0)
     const onScreen = ref(false)
     const animate = ref(true)
+    const calls = ref(0)
 
-    let calls = 0, timer, speed
+    let timer, speed
 
     const classes = computed(() =>
       `q-loading-bar q-loading-bar--${ props.position }`
@@ -165,9 +166,9 @@ export default createComponent({
       const oldSpeed = speed
       speed = Math.max(0, newSpeed) || 0
 
-      calls++
+      calls.value++
 
-      if (calls > 1) {
+      if (calls.value > 1) {
         if (oldSpeed === 0 && newSpeed > 0) {
           planNextStep()
         }
@@ -193,14 +194,14 @@ export default createComponent({
     }
 
     function increment (amount) {
-      if (calls > 0) {
+      if (calls.value > 0) {
         progress.value = inc(progress.value, amount)
       }
     }
 
     function stop () {
-      calls = Math.max(0, calls - 1)
-      if (calls > 0) { return }
+      calls.value = Math.max(0, calls.value - 1)
+      if (calls.value > 0) { return }
 
       clearTimeout(timer)
       emit('stop')
@@ -249,7 +250,7 @@ export default createComponent({
     })
 
     // expose public methods
-    Object.assign(proxy, { start, stop, increment })
+    Object.assign(proxy, { start, stop, increment, calls })
 
     return () => h('div', {
       class: classes.value,

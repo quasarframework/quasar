@@ -49,11 +49,12 @@ const Plugin = defineReactivePlugin({
     Object.assign(this, {
       start (speed) {
         barRef.value.start(speed)
-        Plugin.isActive = barRef.value.calls > 0
+        Plugin.isActive = barRef.value.calls.value > 0
       },
       stop () {
         barRef.value.stop()
-        Plugin.isActive = barRef.value.calls > 0
+        console.log(barRef.value.isActive);
+        Plugin.isActive = barRef.value.calls.value > 0
       },
       increment () {
         barRef.value.increment.apply(null, arguments)
