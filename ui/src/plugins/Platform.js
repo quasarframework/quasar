@@ -27,15 +27,11 @@ function getMatch (userAgent, platformMatch) {
     || /(opr)[\/]([\w.]+)/.exec(userAgent)
     || /(vivaldi)[\/]([\w.]+)/.exec(userAgent)
     || /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
-    || /(iemobile)[\/]([\w.]+)/.exec(userAgent)
     || /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
     || /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
     || /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent)
     || /(webkit)[\/]([\w.]+)/.exec(userAgent)
     || /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent)
-    || /(msie) ([\w.]+)/.exec(userAgent)
-    || (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent))
-    || (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent))
     || []
 
   return {
