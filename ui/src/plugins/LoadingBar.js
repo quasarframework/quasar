@@ -53,7 +53,6 @@ const Plugin = defineReactivePlugin({
       },
       stop () {
         barRef.value.stop()
-        console.log(barRef.value.isActive);
         Plugin.isActive = barRef.value.calls.value > 0
       },
       increment () {
