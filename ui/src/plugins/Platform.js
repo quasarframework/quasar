@@ -1,6 +1,4 @@
 /* eslint-disable no-useless-escape */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-mixed-operators */
 
 import { ref, reactive } from 'vue'
 import { injectProp } from '../utils/private/inject-obj-prop'
@@ -60,6 +58,8 @@ function getPlatformMatch (userAgent) {
     || /(mac)/.exec(userAgent)
     || /(linux)/.exec(userAgent)
     || /(cros)/.exec(userAgent)
+    // TODO: Remove BlackBerry detection. BlackBerry OS, BlackBerry 10, and BlackBerry PlayBook OS
+    // is officially dead as of January 4, 2022 (https://www.blackberry.com/us/en/support/devices/end-of-life)
     || /(playbook)/.exec(userAgent)
     || /(bb)/.exec(userAgent)
     || /(blackberry)/.exec(userAgent)
@@ -151,6 +151,10 @@ function getPlatform (UA) {
     delete browser[ 'windows phone' ]
   }
 
+  // TODO: The assumption about WebKit based browsers below is not completely accurate.
+  // Google released Blink(a fork of WebKit) engine on April 3, 2013, which is really different than WebKit today.
+  // Today, one might want to check for WebKit to deal with its bugs, which is used on all browsers on iOS, and Safari browser on all platforms.
+
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
   if (
     browser.chrome
@@ -168,7 +172,7 @@ function getPlatform (UA) {
   }
 
   // Blackberry browsers are marked as Safari on BlackBerry
-  if (browser.safari && browser.blackberry || browser.bb) {
+  if ((browser.safari && browser.blackberry) || browser.bb) {
     matched.browser = 'blackberry'
     browser.blackberry = true
   }
