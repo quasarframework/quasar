@@ -23,7 +23,7 @@ export let iosEmulated = false
 export let iosCorrection
 
 function getMatch (userAgent, platformMatch) {
-  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
+  const match = /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
     || /(opr)[\/]([\w.]+)/.exec(userAgent)
     || /(vivaldi)[\/]([\w.]+)/.exec(userAgent)
     || /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
@@ -169,6 +169,13 @@ function getPlatform (UA) {
     )
   ) {
     browser.webkit = true
+  }
+
+  // TODO: (Qv3) rename the terms 'edge' to 'edge legacy'(or remove it) then 'edge chromium' to 'edge' to match with the known up-to-date terms
+  // Microsoft Edge is the new Chromium-based browser. Microsoft Edge Legacy is the old EdgeHTML-based browser (EOL: March 9, 2021).
+  if (browser.edg) {
+    matched.browser = 'edgechromium'
+    browser.edgeChromium = true
   }
 
   // Blackberry browsers are marked as Safari on BlackBerry

@@ -98,6 +98,11 @@
           "required": false,
           "desc": "Whether the browser is Safari"
         },
+        "edgeChromium": {
+          "type": "Boolean",
+          "required": false,
+          "desc": "Whether the browser is Microsoft Edge (Chromium)"
+        },
         "edge": {
           "type": "Boolean",
           "required": false,
