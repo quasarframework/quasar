@@ -352,6 +352,14 @@ export default Vue.extend({
     this.autogrow === true && this.__adjustHeight()
   },
 
+  activated () {
+    this.__wasDeactivated !== void 0 && this.autofocus === true && this.$nextTick(() => { this.focus() })
+  },
+
+  deactivated () {
+    this.__wasDeactivated = true
+  },
+  
   beforeDestroy () {
     this.__onFinishEditing()
   }
