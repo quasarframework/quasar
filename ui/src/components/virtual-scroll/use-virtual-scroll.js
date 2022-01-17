@@ -596,9 +596,9 @@ export function useVirtualScroll ({
       : Math.ceil(scrollViewSize / virtualScrollItemSizeComputed.value)
 
     const baseSize = Math.max(
-      10,
+      1,
       view,
-      Math.ceil(props.virtualScrollSliceSize / multiplier)
+      Math.ceil((props.virtualScrollSliceSize > 0 ? props.virtualScrollSliceSize : 10) / multiplier)
     )
 
     virtualScrollSliceSizeComputed.value = {
