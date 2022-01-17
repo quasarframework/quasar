@@ -75,10 +75,9 @@
         }
       },
       "returns": {
-        "sessions": {
-          "type": "Number",
-          "desc": "Number of active simultaneous sessions"
-        }
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions",
+        "__exemption": [ "examples" ]
       }
     },
 
@@ -92,20 +91,18 @@
         }
       },
       "returns": {
-        "sessions": {
-          "type": "Number",
-          "desc": "Number of active simultaneous sessions"
-        }
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions",
+        "__exemption": [ "examples" ]
       }
     },
 
     "stop": {
       "desc": "Notify bar that one process you were waiting has finished",
       "returns": {
-        "sessions": {
-          "type": "Number",
-          "desc": "Number of active simultaneous sessions"
-        }
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions",
+        "__exemption": [ "examples" ]
       }
     }
   }
