@@ -240,7 +240,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .self-<bp>-(start|end|center|baseline|stretch)
 .flex-<bp>-center
 .gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
-.(col|offset)-<bp>(|0..12)
+.(col|offset)-<bp>-(|0..12)
 ```
 
 There are also responsive classes for spacing, both for padding and for margin:
