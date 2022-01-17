@@ -302,6 +302,10 @@ module.exports = class Extension {
     )
   }
 
+  /**
+   * Get the app extension's source folder from the package.json entrypoint "main"
+   * TODO: Should be replaced or extended with "exports" for ESM support
+   */
   __getPkgSrc () {
     const pkg = require.resolve(this.packageName + `/package.json`, {
       paths: [ appPaths.appDir ]
