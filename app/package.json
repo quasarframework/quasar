@@ -105,7 +105,7 @@
     "webpack": "^5.58.1",
     "webpack-bundle-analyzer": "4.5.0",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.7.1",
+    "webpack-dev-server": "4.7.3",
     "webpack-merge": "5.8.0",
     "webpack-node-externals": "3.0.0"
   },
