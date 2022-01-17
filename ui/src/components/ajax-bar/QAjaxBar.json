@@ -73,6 +73,11 @@
           "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing",
           "examples": [ 400, 0 ]
         }
+      },
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions",
+        "__exemption": [ "examples" ]
       }
     },
 
@@ -84,11 +89,21 @@
           "desc": "Amount (0 < x <= 100) to increment with",
           "examples": [ 1 ]
         }
+      },
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions",
+        "__exemption": [ "examples" ]
       }
     },
 
     "stop": {
-      "desc": "Notify bar that one process you were waiting has finished"
+      "desc": "Notify bar that one process you were waiting has finished",
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions",
+        "__exemption": [ "examples" ]
+      }
     }
   }
 }

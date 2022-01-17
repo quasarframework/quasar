@@ -182,7 +182,8 @@ export default Vue.extend({
         else if (oldSpeed > 0 && speed <= 0) {
           clearTimeout(this.timer)
         }
-        return
+
+        return this.calls
       }
 
       clearTimeout(this.timer)
@@ -190,25 +191,33 @@ export default Vue.extend({
 
       this.progress = 0
 
-      if (this.onScreen === true) { return }
-
-      this.onScreen = true
-      this.animate = false
       this.timer = setTimeout(() => {
         this.animate = true
         speed > 0 && this.__work()
       }, 100)
+
+      if (this.onScreen !== true) {
+        this.onScreen = true
+        this.animate = false
+      }
+
+      return this.calls
     },
 
     increment (amount) {
       if (this.calls > 0) {
         this.progress = inc(this.progress, amount)
       }
+
+      return this.calls
     },
 
     stop () {
       this.calls = Math.max(0, this.calls - 1)
-      if (this.calls > 0) { return }
+
+      if (this.calls > 0) {
+        return this.calls
+      }
 
       clearTimeout(this.timer)
       this.$emit('stop')
@@ -227,6 +236,8 @@ export default Vue.extend({
       else {
         end()
       }
+
+      return this.calls
     },
 
     __work () {

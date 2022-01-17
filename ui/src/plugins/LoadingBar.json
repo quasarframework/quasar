@@ -16,6 +16,14 @@
     }
   },
 
+  "props": {
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is LoadingBar active?",
+      "reactive": true
+    }
+  },
+
   "methods": {
     "start": {
       "desc": "Notify bar you've started a background activity",

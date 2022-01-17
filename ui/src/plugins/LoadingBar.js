@@ -41,11 +41,11 @@ export default {
     Object.assign(this, {
       start: speed => {
         bar.start(speed)
-        this.isActive = bar.isActive = bar.calls > 0
+        this.isActive = bar.isActive = true
       },
       stop: () => {
-        bar.stop()
-        this.isActive = bar.isActive = bar.calls > 0
+        const sessions = bar.stop()
+        this.isActive = bar.isActive = sessions > 0
       },
       increment: bar.increment,
       setDefaults: opts => {
