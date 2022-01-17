@@ -118,9 +118,8 @@ export default createComponent({
     const progress = ref(0)
     const onScreen = ref(false)
     const animate = ref(true)
-    const calls = ref(0)
 
-    let timer, speed
+    let sessions = 0, timer, speed
 
     const classes = computed(() =>
       `q-loading-bar q-loading-bar--${ props.position }`
@@ -166,16 +165,17 @@ export default createComponent({
       const oldSpeed = speed
       speed = Math.max(0, newSpeed) || 0
 
-      calls.value++
+      sessions++
 
-      if (calls.value > 1) {
+      if (sessions > 1) {
         if (oldSpeed === 0 && newSpeed > 0) {
           planNextStep()
         }
         else if (oldSpeed > 0 && newSpeed <= 0) {
           clearTimeout(timer)
         }
-        return
+
+        return sessions
       }
 
       clearTimeout(timer)
@@ -183,7 +183,9 @@ export default createComponent({
 
       progress.value = 0
 
-      if (onScreen.value === true) { return }
+      if (onScreen.value === true) {
+        return sessions
+      }
 
       onScreen.value = true
       animate.value = false
@@ -191,17 +193,23 @@ export default createComponent({
         animate.value = true
         newSpeed > 0 && planNextStep()
       }, 100)
+
+      return sessions
     }
 
     function increment (amount) {
-      if (calls.value > 0) {
+      if (sessions > 0) {
         progress.value = inc(progress.value, amount)
       }
+
+      return sessions
     }
 
     function stop () {
-      calls.value = Math.max(0, calls.value - 1)
-      if (calls.value > 0) { return }
+      sessions = Math.max(0, sessions - 1)
+      if (sessions > 0) {
+        return sessions
+      }
 
       clearTimeout(timer)
       emit('stop')
@@ -220,6 +228,8 @@ export default createComponent({
       else {
         end()
       }
+
+      return sessions
     }
 
     function planNextStep () {
@@ -250,7 +260,7 @@ export default createComponent({
     })
 
     // expose public methods
-    Object.assign(proxy, { start, stop, increment, calls })
+    Object.assign(proxy, { start, stop, increment })
 
     return () => h('div', {
       class: classes.value,
