@@ -171,15 +171,15 @@ export default Vue.extend({
   methods: {
     start (speed = 300) {
       const oldSpeed = this.speed
-      this.speed = Math.max(0, speed) || 0
+      const newSpeed = this.speed = Math.max(0, speed) || 0
 
       this.calls++
 
       if (this.calls > 1) {
-        if (oldSpeed === 0 && speed > 0) {
+        if (oldSpeed === 0 && newSpeed > 0) {
           this.__work()
         }
-        else if (oldSpeed > 0 && speed <= 0) {
+        else if (oldSpeed > 0 && newSpeed <= 0) {
           clearTimeout(this.timer)
         }
 
@@ -193,8 +193,8 @@ export default Vue.extend({
 
       this.timer = setTimeout(() => {
         this.animate = true
-        speed > 0 && this.__work()
-      }, 100)
+        newSpeed > 0 && this.__work()
+      }, this.onScreen === true ? 500 : 1)
 
       if (this.onScreen !== true) {
         this.onScreen = true
