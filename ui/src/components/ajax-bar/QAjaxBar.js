@@ -186,7 +186,7 @@ export default createComponent({
       timer = setTimeout(() => {
         animate.value = true
         newSpeed > 0 && planNextStep()
-      }, 100)
+      }, onScreen.value === true ? 500 : 1)
 
       if (onScreen.value !== true) {
         onScreen.value = true
