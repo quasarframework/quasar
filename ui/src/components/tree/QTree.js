@@ -606,9 +606,11 @@ export default Vue.extend({
 
       if (this.hasSelection) {
         if (meta.selectable) {
-          const val = meta.key !== this.selected ? meta.key : null
-          if (this.noSelectionUnset !== true || val !== null) {
-            this.$emit('update:selected', val)
+          if (this.noSelectionUnset === false) {
+            this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
+          }
+          else if (meta.key !== this.selected) {
+            this.$emit('update:selected', meta.key || null)
           }
         }
       }
