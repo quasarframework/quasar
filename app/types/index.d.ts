@@ -14,4 +14,5 @@ export * from "./boot";
 export * from "./configuration";
 export * from "./route";
 export * from "./ssrmiddleware";
+export * from "./app-extension";
 import "./wrappers";
