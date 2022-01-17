@@ -13,10 +13,7 @@
 // the project's config changing)
 
 import { injectDevServer } from '@quasar/quasar-app-extension-testing-e2e-cypress/cct-dev-server'
-
-const {
-  addMatchImageSnapshotPlugin
-} = require('cypress-image-snapshot/plugin')
+import { addMatchImageSnapshotPlugin } from 'cypress-image-snapshot/plugin'
 
 module.exports = async (on, config) => {
   addMatchImageSnapshotPlugin(on, config)
