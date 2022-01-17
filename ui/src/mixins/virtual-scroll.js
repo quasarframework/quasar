@@ -596,9 +596,9 @@ export default {
         ? 1
         : Math.ceil(scrollViewSize / this.virtualScrollItemSizeComputed)
       const baseSize = Math.max(
-        10,
+        1,
         view,
-        Math.ceil(this.virtualScrollSliceSize / multiplier)
+        Math.ceil((this.virtualScrollSliceSize > 0 ? this.virtualScrollSliceSize : 10) / multiplier)
       )
 
       this.virtualScrollSliceSizeComputed = {

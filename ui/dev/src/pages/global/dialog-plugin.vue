@@ -341,7 +341,7 @@ export default {
         this.dialogHandler = void 0
       })
     },
-    
+
     disabledButtons () {
       this.dialogHandler = this.$q.dialog({
         title: 'Disabled buttons',

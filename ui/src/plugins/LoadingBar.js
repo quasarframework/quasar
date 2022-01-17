@@ -12,8 +12,9 @@ export default {
   setDefaults: noop,
 
   install ({ $q, cfg }) {
+    $q.loadingBar = this
+
     if (isSSR === true) {
-      $q.loadingBar = this
       return
     }
 
@@ -21,7 +22,7 @@ export default {
       ? { ...cfg.loadingBar }
       : {}
 
-    const bar = $q.loadingBar = new Vue({
+    const bar = new Vue({
       name: 'LoadingBar',
 
       // hide App from Vue devtools
