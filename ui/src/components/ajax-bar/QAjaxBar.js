@@ -183,16 +183,15 @@ export default createComponent({
 
       progress.value = 0
 
-      if (onScreen.value === true) {
-        return sessions
-      }
-
-      onScreen.value = true
-      animate.value = false
       timer = setTimeout(() => {
         animate.value = true
         newSpeed > 0 && planNextStep()
       }, 100)
+
+      if (onScreen.value !== true) {
+        onScreen.value = true
+        animate.value = false
+      }
 
       return sessions
     }
