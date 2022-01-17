@@ -619,7 +619,8 @@ export default createComponent({
         if (meta.selectable) {
           if (props.noSelectionUnset === false) {
             emit('update:selected', meta.key !== props.selected ? meta.key : null)
-          } else if (meta.key !== props.selected) {
+          }
+          else if (meta.key !== props.selected) {
             emit('update:selected', meta.key || null)
           }
         }
