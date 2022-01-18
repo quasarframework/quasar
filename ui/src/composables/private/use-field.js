@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -531,6 +531,16 @@ export default function (state) {
 
   // expose public methods
   Object.assign(proxy, { focus, blur })
+
+  let shouldActivate = false
+
+  onDeactivated(() => {
+    shouldActivate = true
+  })
+
+  onActivated(() => {
+    shouldActivate === true && props.autofocus === true && proxy.focus()
+  })
 
   onMounted(() => {
     if (isRuntimeSsrPreHydration.value === true && props.for === void 0) {

@@ -41,7 +41,6 @@ export default createComponent({
     const rootRef = ref(null)
 
     let index = props.initialIndex || 0
-    let scrollPos = false
     let localScrollTarget, poll
 
     const classes = computed(() =>
@@ -180,8 +179,10 @@ export default createComponent({
     watch(() => props.scrollTarget, updateScrollTarget)
     watch(() => props.debounce, setDebounce)
 
+    let scrollPos = false
+
     onActivated(() => {
-      if (localScrollTarget && scrollPos !== false) {
+      if (scrollPos !== false && localScrollTarget) {
         setVerticalScrollPosition(localScrollTarget, scrollPos)
       }
     })

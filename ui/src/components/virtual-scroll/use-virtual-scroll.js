@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onActivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onActivated, onDeactivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
@@ -691,7 +691,15 @@ export function useVirtualScroll ({
     setVirtualScrollSize()
   })
 
+  let shouldActivate = false
+
+  onDeactivated(() => {
+    shouldActivate = true
+  })
+
   onActivated(() => {
+    if (shouldActivate !== true) { return }
+
     const scrollEl = getVirtualScrollTarget()
 
     if (prevScrollStart !== void 0 && scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {

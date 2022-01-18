@@ -1,4 +1,4 @@
-import { h, ref, computed, withDirectives, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, withDirectives, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -377,6 +377,26 @@ export default createComponent({
           percentage * (scroll[ axis ].size.value - container[ axis ].value),
           duration
         )
+      }
+    })
+
+    let scrollPosition = null
+
+    onDeactivated(() => {
+      scrollPosition = {
+        top: scroll.vertical.position.value,
+        left: scroll.horizontal.position.value
+      }
+    })
+
+    onActivated(() => {
+      if (scrollPosition === null) { return }
+
+      const scrollTarget = targetRef.value
+
+      if (scrollTarget !== null) {
+        setHorizontalScrollPosition(scrollTarget, scrollPosition.left)
+        setVerticalScrollPosition(scrollTarget, scrollPosition.top)
       }
     })
 
