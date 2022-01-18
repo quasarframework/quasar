@@ -125,7 +125,7 @@ export default {
       },
 
       render () {
-        return h('div', () => ([
+        return h('div', [
           'keep alive test ' + this.name,
           h(QForm, {
             autofocus: true
@@ -142,7 +142,7 @@ export default {
               }
             })
           ]))
-        ]))
+        ])
       }
     }
   },
