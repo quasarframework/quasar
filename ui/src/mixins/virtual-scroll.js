@@ -690,6 +690,8 @@ export default {
   },
 
   activated () {
+    if (this.shouldActivate !== true) { return }
+
     const scrollEl = this.__getVirtualScrollTarget()
 
     if (this.prevScrollStart !== void 0 && scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {
@@ -703,6 +705,10 @@ export default {
     else {
       this.scrollTo(this.prevToIndex)
     }
+  },
+
+  deactivated () {
+    this.shouldActivate = true
   },
 
   beforeMount () {

@@ -72,6 +72,8 @@
 </template>
 
 <script>
+import { QInput, QForm } from 'quasar'
+
 export default {
   components: {
     KeepAliveTest: {
@@ -79,6 +81,12 @@ export default {
 
       props: {
         name: String
+      },
+
+      data () {
+        return {
+          text: 'input text sample'
+        }
       },
 
       created () {
@@ -91,6 +99,14 @@ export default {
 
       mounted () {
         this.log('mounted')
+      },
+
+      activated () {
+        this.log('activated')
+      },
+
+      deactivated () {
+        this.log('deactivated')
       },
 
       beforeDestroy () {
@@ -108,7 +124,30 @@ export default {
       },
 
       render (h) {
-        return h('div', [ 'keep alive test ' + this.name ])
+        return h('div', [
+          'keep alive test ' + this.name,
+          h(QForm, {
+            props: {
+              autofocus: true
+            }
+          }, [
+            h(QInput, {
+              class: 'q-my-md',
+              style: 'max-width: 300px',
+              props: {
+                value: this.text,
+                // autofocus: true,
+                outlined: true,
+                label: 'Input with autofocus'
+              },
+              on: {
+                input: val => {
+                  this.text = val
+                }
+              }
+            })
+          ])
+        ])
       }
     }
   },

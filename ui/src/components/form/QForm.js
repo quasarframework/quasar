@@ -33,6 +33,15 @@ export default Vue.extend({
     this.autofocus === true && this.focus()
   },
 
+  activated () {
+    if (this.shouldActivate !== true) { return }
+    this.autofocus === true && this.focus()
+  },
+
+  deactivated () {
+    this.shouldActivate = true
+  },
+
   methods: {
     validate (shouldFocus) {
       const promises = []

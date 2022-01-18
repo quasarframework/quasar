@@ -194,7 +194,7 @@ export default Vue.extend({
   },
 
   activated () {
-    if (this.__scrollTarget && this.__scrollPosition !== void 0) {
+    if (this.__scrollPosition !== void 0 && this.__scrollTarget) {
       setScrollPosition(this.__scrollTarget, this.__scrollPosition)
     }
   },
