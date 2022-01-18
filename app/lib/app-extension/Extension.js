@@ -125,10 +125,7 @@ module.exports = class Extension {
 
   isInstalled () {
     try {
-      const pkgSrc = this.__getPkgSrc()
-      require.resolve(`${this.packageName}/${pkgSrc}/index`, {
-        paths: [ appPaths.appDir ]
-      })
+      this.__resolvePackageFile('index')
     }
     catch (e) {
       return false
@@ -303,23 +300,40 @@ module.exports = class Extension {
   }
 
   /**
-   * Get the app extension's source folder from the package.json entrypoint "main"
-   * TODO: Should be replaced or extended with "exports" for ESM support
+   * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
+   * searches it into the dist folder extracted from package.json "main" entrypoint.
+   * 
+   * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
+   * as long as the corresponding file isn't available into the default folder
    */
-  __getPkgSrc () {
-    const pkg = require.resolve(this.packageName + `/package.json`, {
-      paths: [ appPaths.appDir ]
-    })
-    return require(pkg).main.split('/')[0]
+  // TODO: Should be upgraded to support ESM by taking into consideration "exports" field too
+  __resolvePackageFile (fileRelativePath) {
+    let fileAbsolutePath
+
+    // TODO: (Qv3) consider removing the default folder and mark a breaking change,
+    // forcing devs to be explicit and consistent about the folder where they put dist files
+    try {
+      fileAbsolutePath = require.resolve(`${this.packageName}/src/${fileRelativePath}`, {
+        paths: [ appPaths.appDir ]
+      })
+    } catch (e) {
+      const packagePath = require.resolve(`${this.packageName}/package.json`, {
+        paths: [ appPaths.appDir ]
+      })
+      const packageDistPath = require(packagePath).main.split('/')[0]
+
+      fileAbsolutePath = require.resolve(`${this.packageName}/${packageDistPath}/${fileRelativePath}`, {
+        paths: [ appPaths.appDir ]
+      })
+    }
+
+    return fileAbsolutePath
   }
 
   __getScript (scriptName, fatalError) {
     let script
-    const pkgSrc = this.__getPkgSrc()
     try {
-      script = require.resolve(`${this.packageName}/${pkgSrc}/${scriptName}`, {
-        paths: [ appPaths.appDir ]
-      })
+      script = this.__resolvePackageFile(scriptName)
     }
     catch (e) {
       if (fatalError) {
