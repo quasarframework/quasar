@@ -1,4 +1,4 @@
-import { h, ref, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
+import { h, ref, onActivated, onDeactivated, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -159,6 +159,16 @@ export default createComponent({
           registeredComponents.splice(index, 1)
         }
       }
+    })
+
+    let shouldActivate = false
+
+    onDeactivated(() => {
+      shouldActivate = true
+    })
+
+    onActivated(() => {
+      shouldActivate === true && props.autofocus === true && focus()
     })
 
     onMounted(() => {
