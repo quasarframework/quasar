@@ -36,6 +36,8 @@ export default Vue.extend({
     debounce: [String, Number],
 
     autogrow: Boolean, // makes a textarea
+    
+    preventFocusScroll: Boolean,
 
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object]
@@ -172,7 +174,7 @@ export default Vue.extend({
           // IE can have null document.activeElement
           (el === null || el.id !== this.targetUid)
         ) {
-          this.$refs.input.focus()
+           this.$refs.input.focus({ preventScroll: this.preventFocusScroll })
         }
       })
     },
