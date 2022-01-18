@@ -33,6 +33,8 @@ export const useBtnProps = {
     default: 'button'
   },
 
+  tag: String,
+
   label: [ Number, String ],
   icon: String,
   iconRight: String,
