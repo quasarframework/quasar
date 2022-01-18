@@ -11,6 +11,7 @@
     <keep-alive>
       <q-scroll-area
         v-if="!darkVariant"
+        key="scl"
         ref="scroll"
         style="width: 400px; height: 500px;"
         class="bg-yellow"
@@ -34,9 +35,10 @@
 
       <q-scroll-area
         v-else
+        key="scd"
         ref="scroll"
         style="width: 400px; height: 500px;"
-        class="bg-dark text-white q-mt-lg"
+        class="bg-dark text-white"
         :visible="alwaysVisible"
         dark
         :tabindex="focusable === true ? 0 : void 0"
@@ -164,7 +166,8 @@ export default {
             backgroundColor: '#888',
             borderRadius: '7px',
             borderStyle: 'solid',
-            borderColor: 'transparent'
+            borderColor: 'transparent',
+            backgroundClip: 'content-box'
           }
         : null
     },
