@@ -124,17 +124,8 @@ module.exports = class Extension {
   }
 
   isInstalled () {
-    try {
-      const pkgSrc = this.__getPkgSrc()
-      require.resolve(`${this.packageName}/${pkgSrc}/index`, {
-        paths: [ appPaths.appDir ]
-      })
-    }
-    catch (e) {
-      return false
-    }
-
-    return true
+    const indexScript = this.__getScriptFile('index')
+    return !!indexScript
   }
 
   async install (skipPkgInstall) {
@@ -302,31 +293,33 @@ module.exports = class Extension {
     )
   }
 
-  /**
-   * Get the app extension's source folder from the package.json entrypoint "main"
-   * TODO: Should be replaced or extended with "exports" for ESM support
-   */
-  __getPkgSrc () {
-    const pkg = require.resolve(this.packageName + `/package.json`, {
-      paths: [ appPaths.appDir ]
-    })
-    return require(pkg).main.split('/')[0]
-  }
-
-  __getScript (scriptName, fatalError) {
+  __getScriptFile (scriptName) {
     let script
-    const pkgSrc = this.__getPkgSrc()
+
     try {
-      script = require.resolve(`${this.packageName}/${pkgSrc}/${scriptName}`, {
+      script = require.resolve(this.packageName + '/dist/' + scriptName, {
         paths: [ appPaths.appDir ]
       })
     }
     catch (e) {
-      if (fatalError) {
-        fatal(`App Extension "${this.extId}" has missing ${scriptName} script...`)
+      try {
+        script = require.resolve(this.packageName + '/src/' + scriptName, {
+          paths: [ appPaths.appDir ]
+        })
       }
+      catch (e) {
+        return
+      }
+    }
 
-      return
+    return script
+  }
+
+  __getScript (scriptName, fatalError) {
+    const script = this.__getScriptFile(scriptName)
+
+    if (fatalError && !script) {
+      fatal(`App Extension "${this.extId}" has missing ${scriptName} script...`)
     }
 
     return require(script)
