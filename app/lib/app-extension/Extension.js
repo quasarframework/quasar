@@ -124,8 +124,13 @@ module.exports = class Extension {
   }
 
   isInstalled () {
-    const indexScript = this.__getScriptFile('index')
-    return !!indexScript
+    try {
+      this.__getScriptFile('index')
+    }
+    catch (e) {
+      return false
+    }
+    return true
   }
 
   async install (skipPkgInstall) {
@@ -293,33 +298,42 @@ module.exports = class Extension {
     )
   }
 
+  /**
+   * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
+   * searches it into the `dist` folder.
+   * 
+   * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
+   * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
+   */
   __getScriptFile (scriptName) {
     let script
 
     try {
-      script = require.resolve(this.packageName + '/dist/' + scriptName, {
+      script = require.resolve(`${this.packageName}/src/${scriptName}`, {
         paths: [ appPaths.appDir ]
       })
     }
     catch (e) {
-      try {
-        script = require.resolve(this.packageName + '/src/' + scriptName, {
-          paths: [ appPaths.appDir ]
-        })
-      }
-      catch (e) {
-        return
-      }
+      script = require.resolve(`${this.packageName}/dist/${scriptName}`, {
+        paths: [ appPaths.appDir ]
+      })
     }
 
     return script
   }
 
   __getScript (scriptName, fatalError) {
-    const script = this.__getScriptFile(scriptName)
+    let script
 
-    if (fatalError && !script) {
-      fatal(`App Extension "${this.extId}" has missing ${scriptName} script...`)
+    try {
+      script = this.__getScriptFile(scriptName)
+    }
+    catch (e) {
+      if (fatalError) {
+        fatal(`App Extension "${this.extId}" has missing ${scriptName} script...`)
+      }
+
+      return
     }
 
     return require(script)
