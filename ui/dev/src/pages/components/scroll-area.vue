@@ -8,46 +8,48 @@
 
     <div style="height: 200px;" />
 
-    <q-scroll-area
-      v-if="!darkVariant"
-      ref="scroll"
-      style="width: 400px; height: 500px;"
-      class="bg-yellow"
-      :visible="alwaysVisible"
-      :bar-style="customBarStyle"
-      :vertical-bar-style="customVBarStyle"
-      :horizontal-bar-style="customHBarStyle"
-      :thumbStyle="customThumbStyle"
-      :vertical-thumb-style="customVThumbStyle"
-      :horizontal-thumb-style="customHThumbStyle"
-      :tabindex="focusable === true ? 0 : void 0"
-    >
-      <div :class="{ 'flex no-wrap' : horizontal }">
-        <div style="margin-top: 150px" />
-        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
-          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          <q-btn label="Click" color="primary" />
+    <keep-alive>
+      <q-scroll-area
+        v-if="!darkVariant"
+        ref="scroll"
+        style="width: 400px; height: 500px;"
+        class="bg-yellow"
+        :visible="alwaysVisible"
+        :bar-style="customBarStyle"
+        :vertical-bar-style="customVBarStyle"
+        :horizontal-bar-style="customHBarStyle"
+        :thumbStyle="customThumbStyle"
+        :vertical-thumb-style="customVThumbStyle"
+        :horizontal-thumb-style="customHThumbStyle"
+        :tabindex="focusable === true ? 0 : void 0"
+      >
+        <div :class="{ 'flex no-wrap' : horizontal }">
+          <div style="margin-top: 150px" />
+          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
         </div>
-      </div>
-    </q-scroll-area>
+      </q-scroll-area>
 
-    <q-scroll-area
-      v-else
-      ref="scroll"
-      style="width: 400px; height: 500px;"
-      class="bg-dark text-white q-mt-lg"
-      :visible="alwaysVisible"
-      dark
-      :tabindex="focusable === true ? 0 : void 0"
-    >
-      <div :class="{ 'flex no-wrap' : horizontal }">
-        <div style="margin-top: 150px" />
-        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
-          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          <q-btn label="Click" color="primary" />
+      <q-scroll-area
+        v-else
+        ref="scroll"
+        style="width: 400px; height: 500px;"
+        class="bg-dark text-white q-mt-lg"
+        :visible="alwaysVisible"
+        dark
+        :tabindex="focusable === true ? 0 : void 0"
+      >
+        <div :class="{ 'flex no-wrap' : horizontal }">
+          <div style="margin-top: 150px" />
+          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
         </div>
-      </div>
-    </q-scroll-area>
+      </q-scroll-area>
+    </keep-alive>
 
     <br>
     <q-btn @click="number--">
