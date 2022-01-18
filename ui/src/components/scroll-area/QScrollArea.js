@@ -548,9 +548,11 @@ export default Vue.extend({
   },
 
   activated () {
+    if (this.__scrollPosition === void 0) { return }
+
     const scrollTarget = this.getScrollTarget()
 
-    if (scrollTarget !== void 0 && this.__scrollPosition !== void 0) {
+    if (scrollTarget !== void 0) {
       setHorizontalScrollPosition(scrollTarget, this.__scrollPosition.left)
       setVerticalScrollPosition(scrollTarget, this.__scrollPosition.top)
     }

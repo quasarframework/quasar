@@ -590,10 +590,6 @@ export default Vue.extend({
     }
   },
 
-  activated () {
-    this.__recalculateScroll()
-  },
-
   created () {
     this.buffer = []
 
@@ -604,6 +600,15 @@ export default Vue.extend({
 
   mounted () {
     this.rtlHasScrollBug = rtlHasScrollBug()
+  },
+
+  activated () {
+    if (this.shouldActivate !== true) { return }
+    this.__recalculateScroll()
+  },
+
+  deactivated () {
+    this.shouldActivate = true
   },
 
   beforeDestroy () {
