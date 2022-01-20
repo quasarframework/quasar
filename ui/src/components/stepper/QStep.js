@@ -73,7 +73,7 @@ export default createComponent({
       ($q.platform.is.ios !== true && $q.platform.is.safari !== true)
         || isActive.value !== true
         || $stepper.value.vertical !== true
-        ? void 0
+        ? {}
         : {
           onScroll (ev) {
             const { target } = ev
