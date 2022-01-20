@@ -994,7 +994,7 @@ export default createComponent({
         ...inputControlEvents.value
       }
 
-      if (fromDialog !== true && hasDialog === true && String(data.class).indexOf('no-pointer-events') === -1) {
+      if (fromDialog !== true && hasDialog === true) {
         if (Array.isArray(data.class) === true) {
           data.class = [ ...data.class, 'no-pointer-events' ]
         }
