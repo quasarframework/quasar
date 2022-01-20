@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, nextTick, inject, KeepAlive } from 'vue'
+import { h, ref, computed, inject, getCurrentInstance, KeepAlive } from 'vue'
 
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
@@ -56,7 +56,9 @@ export default createComponent({
     error: Boolean
   },
 
-  setup (props, { slots }) {
+  setup (props, { attrs, slots }) {
+    const { proxy: { $q } } = getCurrentInstance()
+
     const $stepper = inject(stepperKey, () => {
       console.error('QStep needs to be child of QStepper')
     })
@@ -67,18 +69,21 @@ export default createComponent({
 
     const isActive = computed(() => $stepper.value.modelValue === props.name)
 
-    watch(isActive, active => {
-      if (
-        active === true
-        && $stepper.value.vertical === true
-      ) {
-        nextTick(() => {
-          if (rootRef.value !== null) {
-            rootRef.value.scrollTop = 0
+    const scrollEvent = computed(() => (
+      isActive.value !== true
+        || $stepper.value.vertical !== true
+        || ($q.platform.is.ios !== true && $q.platform.is.safari !== true && $q.platform.is.ie !== true)
+        ? void 0
+        : {
+          onScroll (ev) {
+            const { target } = ev
+            if (target.scrollTop > 0) {
+              target.scrollTop = 0
+            }
+            attrs.onScroll !== void 0 && attrs.onScroll(ev)
           }
-        })
-      }
-    })
+        }
+    ))
 
     const contentKey = computed(() => (
       typeof props.name === 'string' || typeof props.name === 'number'
@@ -114,7 +119,7 @@ export default createComponent({
 
     return () => h(
       'div',
-      { ref: rootRef, class: 'q-stepper__step' },
+      { ref: rootRef, class: 'q-stepper__step', ...scrollEvent.value },
       $stepper.value.vertical === true
         ? [
             h(StepHeader, {
