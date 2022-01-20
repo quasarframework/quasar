@@ -41,8 +41,10 @@ export default Vue.extend({
     __getInner (h) {
       const child = [
         h(QSpinner, {
-          size: this.size,
-          color: this.color
+          props: {
+            size: this.size,
+            color: this.color
+          }
         })
       ]
 
