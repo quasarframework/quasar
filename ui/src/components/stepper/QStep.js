@@ -70,9 +70,9 @@ export default createComponent({
     const isActive = computed(() => $stepper.value.modelValue === props.name)
 
     const scrollEvent = computed(() => (
-      isActive.value !== true
+      ($q.platform.is.ios !== true && $q.platform.is.safari !== true)
+        || isActive.value !== true
         || $stepper.value.vertical !== true
-        || ($q.platform.is.ios !== true && $q.platform.is.safari !== true && $q.platform.is.ie !== true)
         ? void 0
         : {
           onScroll (ev) {
