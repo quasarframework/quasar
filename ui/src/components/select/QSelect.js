@@ -610,8 +610,12 @@ export default createComponent({
       return innerOptionsValue.value.find(v => isDeepEqual(v, val)) !== void 0
     }
 
-    function selectInputText () {
-      if (props.useInput === true && targetRef.value !== null) {
+    function selectInputText (e) {
+      if (
+        props.useInput === true
+        && targetRef.value !== null
+        && (e === void 0 || (targetRef.value === e.target && e.target.value === selectedString.value))
+      ) {
         targetRef.value.select()
       }
     }
@@ -981,7 +985,7 @@ export default createComponent({
         type: 'search',
         ...comboboxAttrs.value,
         ...state.splitAttrs.attributes.value,
-        id: state.targetUid.value,
+        id: isTarget === true ? state.targetUid.value : void 0,
         maxlength: props.maxlength,
         autocomplete: props.autocomplete,
         'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
@@ -990,9 +994,9 @@ export default createComponent({
         ...inputControlEvents.value
       }
 
-      if (fromDialog !== true && hasDialog === true) {
+      if (fromDialog !== true && hasDialog === true && String(data.class).indexOf('no-pointer-events') === -1) {
         if (Array.isArray(data.class) === true) {
-          data.class[ 0 ] += ' no-pointer-events'
+          data.class = [ ...data.class, 'no-pointer-events' ]
         }
         else {
           data.class += ' no-pointer-events'
@@ -1458,13 +1462,13 @@ export default createComponent({
           child.push(getInput(fromDialog, isTarget))
         }
         // there can be only one (when dialog is opened the control in dialog should be target)
-        else if (state.editable.value === true && isTarget === true) {
+        else if (state.editable.value === true) {
           child.push(
             h('div', {
-              ref: targetRef,
+              ref: isTarget === true ? targetRef : void 0,
               key: 'd_t',
               class: 'q-select__focus-target',
-              id: state.targetUid.value,
+              id: isTarget === true ? state.targetUid.value : void 0,
               ...comboboxAttrs.value,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,
@@ -1472,7 +1476,7 @@ export default createComponent({
             })
           )
 
-          if (typeof props.autocomplete === 'string' && props.autocomplete.length > 0) {
+          if (isTarget === true && typeof props.autocomplete === 'string' && props.autocomplete.length > 0) {
             child.push(
               h('input', {
                 class: 'q-select__autocomplete-input',

@@ -181,7 +181,7 @@ export default createComponent({
 
         if (node && node.contains(document.activeElement) !== true) {
           node = node.querySelector('[autofocus], [data-autofocus]') || node
-          node.focus()
+          node.focus({ preventScroll: true })
         }
       })
     }
@@ -309,6 +309,7 @@ export default createComponent({
       // the focus is not in a vue child component
       if (
         handlesFocus.value === true
+        && props.noFocus !== true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus()
