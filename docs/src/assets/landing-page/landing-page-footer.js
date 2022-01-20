@@ -1,15 +1,11 @@
 export const footerNavs = [
   {
-    path: 'start',
-    name: 'Getting Started'
-  },
-  {
     path: 'contribution-guide',
-    name: 'Contribution Guide'
+    name: 'How to contribute'
   },
   {
     path: 'options',
-    name: 'Quasar Options & Helpers'
+    name: 'Options & Helpers'
   },
   {
     path: 'security',
@@ -17,9 +13,41 @@ export const footerNavs = [
   },
   {
     path: 'quasar-cli',
-    name: 'Quasar CLI',
-    // because of the structure of menu, we need a condition to know what to ignore
-    menuExitCondition: (item) => item.path === 'testing-and-auditing'
+    name: 'Quasar CLI'
+  },
+  {
+    name: 'Quasar Modes',
+    areOrphans: true,
+    items: [
+      {
+        name: 'Developing SPA',
+        path: 'quasar-cli/developing-spa/introduction'
+      },
+      {
+        name: 'Developing SSR',
+        path: 'quasar-cli/developing-ssr/introduction'
+      },
+      {
+        name: 'Developing PWA',
+        path: 'quasar-cli/developing-pwa/introduction'
+      },
+      {
+        name: 'Developing Capacitor Apps',
+        path: 'quasar-cli/developing-capacitor-apps/introduction'
+      },
+      {
+        name: 'Developing Cordova Apps',
+        path: 'quasar-cli/developing-cordova-apps/introduction'
+      },
+      {
+        name: 'Developing Electron Apps',
+        path: 'quasar-cli/developing-electron-apps/introduction'
+      },
+      {
+        name: 'Developing Browser Extensions',
+        path: 'quasar-cli/developing-browser-extensions/introduction'
+      }
+    ]
   },
   {
     path: 'icongenie',
@@ -31,22 +59,58 @@ export const footerNavs = [
   },
   {
     path: 'layout',
-    name: 'Layout & Grid'
+    name: 'Layout & Grid',
+    itemToUnshift: {
+      name: 'Flex Grid',
+      path: 'grid/introduction-to-flexbox'
+    }
   },
   {
-    path: 'vue-directives',
-    name: 'Vue Directives'
+    name: 'UI Library',
+    areOrphans: true,
+    items: [
+      {
+        name: 'Vue Components',
+        path: 'components'
+      },
+      {
+        name: 'Vue Directives',
+        path: 'vue-directives'
+      },
+      {
+        name: 'Quasar Plugins',
+        path: 'quasar-plugins'
+      },
+      {
+        name: 'Vue Composables',
+        path: 'vue-composables'
+      },
+      {
+        name: 'Quasar Utils',
+        path: 'quasar-utils'
+      }
+    ]
   },
   {
-    path: 'quasar-plugins',
-    name: 'Quasar Plugins'
-  },
-  {
-    path: 'app-extensions',
-    name: 'App Extensions'
-  },
-  {
-    path: 'quasar-utils',
-    name: 'Quasar Utils'
+    name: 'App Extensions',
+    areOrphans: true,
+    items: [
+      {
+        name: 'Introduction',
+        path: 'app-extensions/introduction'
+      },
+      {
+        name: 'Discover App Extensions',
+        path: 'app-extensions/discover'
+      },
+      {
+        name: 'Development Guide',
+        path: 'app-extensions/development-guide/introduction'
+      },
+      {
+        name: 'Tips & Tricks',
+        path: 'app-extensions/tips-and-tricks'
+      }
+    ]
   }
 ]

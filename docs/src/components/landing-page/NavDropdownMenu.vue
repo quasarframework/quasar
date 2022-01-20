@@ -1,9 +1,9 @@
 <template>
-  <q-list class="shadow-bottom-small font-monserrat">
+  <q-list class="shadow-bottom-small font-monserrat letter-spacing-263">
     <template v-for="(navItem, navIndex) in navItems" :key="`navMenu-${navIndex}`">
       <q-separator v-if="navItem.isSeparator" class="q-mb-sm q-mt-md"/>
       <template v-else>
-        <q-item-label v-if="navItem.isHeader" header class="text-lp-accent text-size-12 q-pt-lg q-pb-sm">
+        <q-item-label v-if="navItem.isHeader" header class="text-lp-accent text-size-12 q-pt-lg q-pb-sm letter-spacing-40">
           {{ navItem.label }}
         </q-item-label>
         <q-item

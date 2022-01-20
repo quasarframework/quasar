@@ -39,8 +39,8 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   q-page-container
     router-view
 
-  q-page-scroller
-    q-btn(fab-mini, color="brand-primary", glossy, :icon="mdiChevronUp")
+  q-page-scroller(scroll-offset="150" :offset="[18, 18]")
+    q-btn(round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md")
 </template>
 
 <script>

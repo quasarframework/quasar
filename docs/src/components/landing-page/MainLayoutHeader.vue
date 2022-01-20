@@ -1,6 +1,9 @@
 <template>
   <q-header :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'" class="font-monserrat lp-header" ref="layoutHeader">
-    <q-toolbar :class="$q.screen.xs? 'shadow-bottom-small':''" class="primary-toolbar q-pl-lg q-pr-md justify-between items-stretch">
+    <q-toolbar
+      :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-300': $q.screen.gt.md }"
+      class="primary-toolbar q-pl-lg q-pr-md justify-between items-stretch"
+    >
       <q-btn v-if="$q.screen.xs" flat @click="$emit('update:modelValue', !modelValue)" round dense icon="menu" color="lp-primary"/>
       <div v-if="$q.screen.gt.xs || !isSearchFieldActive" class="row justify-center items-center cursor-pointer" @click="$router.push({name: 'home'})">
         <img v-if="$q.screen.sm" :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`" width="48" height="48" alt="Quasar Logo">
@@ -27,9 +30,10 @@
           </q-btn>
         </div>
         <q-form v-if="isSearchFieldActive" autocapitalize="off" autocomplete="off" spellcheck="false" class="search-form position-relative">
-          <q-input ref="searchInputRef" autofocus v-model="searchTerms" dark dense square debounce="300" @keydown="onSearchKeydown" @focus="onSearchFocus" @blur="onSearchBlur" placeholder="Search Quasar v2...">
+          <q-input ref="searchInputRef" autofocus v-model="searchTerms" :dark="!dark" dense square debounce="300" @keydown="onSearchKeydown" @focus="onSearchFocus" @blur="closeSearchForm" placeholder="Search Quasar v2...">
             <template #append>
-              <q-icon name="cancel" color="lp-primary" @click.stop="toggleSearchInputField" />
+              <q-icon v-if="!searchTerms" name="search" size="sm" color="lp-primary" />
+              <q-icon v-else name="cancel" @click.stop="resetSearch" class="cursor-pointer"/>
             </template>
           </q-input>
           <div class="search-result-field">
@@ -47,11 +51,11 @@
     </q-toolbar>
     <q-separator :color="dark? 'black-12':'lp-primary'"/>
     <template v-if="$q.screen.gt.xs">
-      <q-toolbar :class="!dark? 'shadow-bottom-small':''" class="q-pl-none q-pr-md secondary-toolbar">
+      <q-toolbar :class="!dark? 'add-bottom-glow':''" class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225">
         <q-btn v-if="$q.screen.sm" class="q-pl-sm q-mx-md" flat round dense icon="menu" color="lp-primary" @click="$emit('update:modelValue', !modelValue)"/>
         <q-btn-dropdown no-caps dense auto-close align="left" class="text-weight-bold version-dropdown" :class="$q.screen.gt.sm ? 'q-ml-lg' : ''" padding="sm" outline color="lp-primary">
           <template #label>
-            <span :class="dark? 'text-dark':'text-white'" class="text-size-12">{{ `v${$q.version}` }}</span>
+            <span :class="dark? 'text-dark':'text-white'" class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
             <q-space />
           </template>
           <nav-dropdown-menu :nav-items="versionHistory"/>
@@ -66,7 +70,7 @@
         <q-space/>
 
         <template v-if="$q.screen.gt.sm">
-          <!-- We remove "Quasar brand resources" link when on smallwe viewports -->
+          <!-- We remove "Quasar brand resources" link when on smaller viewports -->
           <q-btn
             v-for="(subNavItem, navIndex) in $q.screen.gt.md ? navItems.subNavItems : navItems.subNavItems.slice(0, -1)"
             :key="`nav-${navIndex}`"
@@ -77,8 +81,7 @@
             flat
             :color="dark? 'black-54':'white-54'"
             no-caps
-            size="12px"
-            class="text-weight-bold"
+            class="text-weight-bold letter-spacing-225 text-size-12"
           >
             <q-menu v-if="subNavItem.subMenu" class="shadow-bottom-small">
               <nav-dropdown-menu :nav-items="subNavItem.subMenu"/>
@@ -228,7 +231,13 @@ export default defineComponent({
 
     useSearch(scope, $q, $route)
 
-    return scope
+    function closeSearchForm () {
+      scope.onSearchBlur()
+      scope.resetSearch()
+      toggleSearchInputField()
+    }
+
+    return { ...scope, closeSearchForm }
   }
 })
 </script>
@@ -277,5 +286,19 @@ $search-form-width: 300px;
 
 .lp-header {
   transition: all .3s ease-in-out;
+}
+
+.add-bottom-glow {
+  transition: all .5s;
+  animation: bottom-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes bottom-glow {
+  0% {
+    box-shadow: 0 6px 6px 0 rgba($lp-primary, 0.48);
+  }
+  to {
+    box-shadow: 0 4.5px 4.5px 0 rgba($lp-primary, 0.28);
+  }
 }
 </style>

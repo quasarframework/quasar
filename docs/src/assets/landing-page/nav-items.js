@@ -80,10 +80,6 @@ export const navItems = {
       ]
     },
     {
-      label: 'Announcements',
-      href: 'https://forum.quasar-framework.org/category/1/announcements'
-    },
-    {
       label: 'Tools',
       subMenu: [
         {
@@ -150,6 +146,10 @@ export const navItems = {
           href: 'https://codesandbox.quasar.dev'
         }
       ]
+    },
+    {
+      label: 'Announcements',
+      href: 'https://forum.quasar-framework.org/category/1/announcements'
     },
     {
       label: 'Roadmap',

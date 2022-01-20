@@ -25,11 +25,7 @@ import './AppMenu.sass'
 function getHeaderPathsAndLabels (navItems) {
   const headerPathsAndLabels = []
   Object.keys(navItems).forEach(key => {
-    const headerItems = [...navItems[ key ]] // create non referenced copy
-    for (const headerItem of headerItems) {
-      if (headerItem.subMenu) {
-        headerItems.push(...headerItem.subMenu) // consider path/label/href of subMenu too
-      }
+    for (const headerItem of navItems[ key ]) {
       // add the path or href and label to the array
       const headerPath = headerItem.path || headerItem.href
       headerPathsAndLabels.push(headerItem.label)
@@ -96,7 +92,7 @@ export default {
         return h(
           QExpansionItem,
           {
-            class: 'non-selectable',
+            class: 'non-selectable text-black-87',
             ref: vm => { if (vm) { childRefs[ path ] = vm } },
             key: `${menu.name}-${path}`,
             label: menu.name,
@@ -120,7 +116,7 @@ export default {
       const props = {
         ref: vm => { if (vm) { childRefs[ path ] = vm } },
         key: path,
-        class: 'app-menu-entry non-selectable',
+        class: 'non-selectable text-black-87',
         to: path,
         dense: level > 0,
         insetLevel: level > 1 ? 1.2 : level
@@ -158,7 +154,7 @@ export default {
       )
     }
 
-    return () => h(QList, { ref: rootRef, class: 'app-menu font-monserrat', dense: true }, () => sidebarMenu.value.map(
+    return () => h(QList, { ref: rootRef, class: 'app-menu font-monserrat letter-spacing-25', dense: true }, () => sidebarMenu.value.map(
       item => getDrawerMenu(item, '/' + item.path, 0)
     ))
   }

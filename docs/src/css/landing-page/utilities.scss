@@ -100,7 +100,7 @@ $text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
     }
     color: $lp-primary;
     font-weight: 700;
-    margin: 36px 0 36px 0;
+    margin: 36px 0;
   }
 
   &--medium {
@@ -116,7 +116,7 @@ $text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
     @media screen and (max-width: $lp-breakpoint-xs-max) {
       font-size: 16px;
     }
-    color: rgba($color: white, $alpha: 0.54);
+    color: white;
     font-weight: 400;
     text-transform: initial;
   }
@@ -129,6 +129,7 @@ $text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
     color: $lp-primary;
     font-weight: 400;
     text-transform: initial;
+    letter-spacing: 3px;
   }
 }
 
@@ -174,4 +175,17 @@ $text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
   font-weight: bold;
   font-size: 14px;
   letter-spacing: 2.63px;
+  padding: 16px;
+}
+
+$letter-spacing-list: 25, 40, 100, 225, 263, 300, 375, 450, 675;
+
+@each $letter-spacing in $letter-spacing-list {
+  .letter-spacing-#{$letter-spacing} {
+    letter-spacing: ($letter-spacing/100) + px;
+  }
+}
+
+.primary-line-height {
+  line-height: 1.5;
 }

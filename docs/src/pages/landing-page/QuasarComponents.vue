@@ -1,27 +1,26 @@
 <template>
-  <q-page class="column items-center q-mt-xl lp-mb--large text-white q-mx-xl" :class="{'large-screen-margin': $q.screen.gt.md}">
-    <div class="chips-container bg-lp-dark column items-center">
+  <q-page class="q-mt-xl lp-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
+    <div :class="$q.screen.gt.sm? 'justify-between q-pa-lg':'justify-center q-pa-md'" class="row no-wrap items-center q-mx-xl chips-container bg-lp-dark">
       <q-input
         v-model="search"
+        :class="$q.screen.gt.sm? 'q-ml-xl':''"
         label-color="grey-6"
         borderless
         label="Search component"
         dense
         dark
-        size="16px"
-        class="relative-position search-field"
+        class="relative-position search-field text-size-16"
       >
         <template #append>
           <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
           <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
         </template>
       </q-input>
-      <div class="row q-my-xl justify-center">
+      <div class="row justify-start q-ml-xl" v-if="$q.screen.gt.sm">
         <q-chip
           v-for="({label, value}, chipIndex) in filterChips"
           :key="chipIndex"
           :label="label"
-          class="row component-chip"
           :color="value === filterTag ? 'lp-accent' : 'lp-primary'"
           clickable
           text-color="white"
@@ -38,7 +37,7 @@
         <q-card
           v-for="({name, description, path}, i) in filteredComponents"
           :key="name + i"
-          class="raise-on-hover text-size-16 shadow-bottom-small cursor-pointer"
+          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           @click="$router.push(componentPath({path, name}))"
         >
           <div class="thumbnail-container">
@@ -47,7 +46,7 @@
           <q-card-section class="text-lp-primary text-weight-bold">
             {{ name }}
           </q-card-section>
-          <q-card-section class="text-lp-dark">
+          <q-card-section class="text-lp-dark q-pt-none">
             {{ description }}
           </q-card-section>
         </q-card>
@@ -109,27 +108,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$number-of-card-columns-gt-sm: 5;
-$number-of-card-columns-sm-max: 3;
-$number-of-card-columns-xs-max: 1;
 
 .components {
   display: grid;
-  letter-spacing: 3px;
-  grid-template-columns: repeat($number-of-card-columns-gt-sm, 1fr);
+  grid-template-columns: repeat(auto-fit, 300px);
   gap: 24px;
-  margin: 240px 64px 100px 64px;
-
-  @media screen and (max-width: $breakpoint-sm-max) {
-    margin: auto;
-    grid-template-columns: repeat($number-of-card-columns-sm-max, 1fr);
-    gap: 20px;
-  }
-  @media screen and (max-width: $breakpoint-xs-max) {
-    margin: auto;
-    grid-template-columns: repeat($number-of-card-columns-xs-max, 1fr);
-    gap: 20px;
-  }
+  margin: 48px 24px 100px 24px;
+  justify-content: center;
 }
 
 .thumbnail-container {
@@ -147,26 +132,30 @@ $number-of-card-columns-xs-max: 1;
 }
 
 .raise-on-hover {
-  transition: transform .3s;
+  transition: transform .3s, box-shadow 0.3s;
 
   &:hover {
-   box-shadow: $lp-box-shadow--large;
+   box-shadow: 0 24px 24px 0 rgba(0, 180, 255, 0.4);
    transform: scale(1.03)
   }
 }
 
-.search-field::after {
-  content: "";
-  position: absolute;
-  width: 108%;
-  left: -4%;
-  border-bottom: 1px solid $lp-primary;
-  top: 40px;
-  z-index: 3;
-}
+.search-field {
+  width: 80%;
 
-.component-chip {
-  margin-left: 20px;
+  @media screen and (min-width: $breakpoint-md-min) {
+    width: auto;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: calc(100% + 16px);
+    left: -8px;
+    border-bottom: 1px solid $lp-primary;
+    top: 40px;
+    z-index: 3;
+  }
 }
 
 .large-screen-margin {
@@ -174,10 +163,13 @@ $number-of-card-columns-xs-max: 1;
 }
 
 .chips-container {
-  padding-top: 135px;
-  position: fixed;
+  position: sticky;
   top: 80px;
   z-index: 2;
-  width: 100%;
+
+  @media screen and (min-width: $breakpoint-xs-max) {
+    top: 150px;
+  }
 }
+
 </style>

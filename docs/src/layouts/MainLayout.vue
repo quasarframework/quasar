@@ -1,7 +1,11 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
-    <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader"/>
+    <!-- div for stars -->
+    <div id="stars-sm"/>
+    <div id="stars-md"/>
+    <div id="stars-lg"/>
 
+    <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader"/>
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
       <q-scroll-area class="full-height">
         <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
@@ -13,19 +17,19 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="bg-lp-grey text-size-12 text-capitalize main-layout-footer" ref="mainLayoutFooter">
+    <q-footer class="bg-lp-grey text-size-12 main-layout-footer" ref="mainLayoutFooter">
       <div class="lp-footer lp-ma--large">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
-          <q-item-label class="text-lp-dark text-weight-bold">{{ footerItem.name }}</q-item-label>
+          <q-item-label class="text-lp-dark text-weight-bold letter-spacing-225">{{ footerItem.name }}</q-item-label>
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-            <q-item v-if="item.external" dense class="q-pa-none" clickable tag="a" :href="item.path" target="_blank">
-              <q-item-section class="text-lp-dark text-capitalize">
+            <q-item v-if="item.external" dense class="q-pa-none" clickable type="a" :href="item.path" target="_blank">
+              <q-item-section class="text-lp-dark letter-spacing-100">
                 {{ item.name }}
               </q-item-section>
             </q-item>
-            <q-item v-else dense class="q-pa-none" clickable :to="`/${footerItem.path}/${item.path}`">
-              <q-item-section class="text-lp-dark text-capitalize">
+            <q-item v-else dense class="q-pa-none" clickable :to="footerItem.areOrphans? `/${item.path}` : `/${footerItem.path}/${item.path}`">
+              <q-item-section class="text-lp-dark letter-spacing-100">
                 {{ item.name }}
               </q-item-section>
             </q-item>
@@ -33,14 +37,14 @@
         </q-list>
       </div>
       <q-separator color="lp-primary" class="lp-mx--large"/>
-      <div class="row justify-center q-my-md">
+      <div class="row justify-center q-my-md letter-spacing-225">
         <q-btn type="a" no-caps flat href="https://github.com/quasarframework/quasar/blob/dev/LICENSE" target="_blank" class="text-black-54 text-weight-bold" label="MIT License"/>
         <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
       </div>
       <q-separator class="full-width" />
-      <div class="row text-lp-dark justify-center q-my-lg">
+      <div class="row text-lp-dark justify-center q-my-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
-        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm">Dreamonkey Srl</a>
+        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm text-lp-accent text-weight-bold">Dreamonkey Srl</a>
       </div>
     </q-footer>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
@@ -68,13 +72,11 @@ const currentYear = (new Date()).getFullYear()
 function createFooterNavsFromMenuItem (menus, exitCondition = () => false) {
   const footerItems = []
   for (const item of menus) {
-    footerItems.push(item)
-    if (typeof exitCondition === 'function' && exitCondition(item)) {
-      return footerItems
-    }
     if (item.children) {
-      footerItems.push(...item.children)
+      // do not add parent item nor its children
+      continue
     }
+    footerItems.push(item)
   }
   return footerItems
 }
@@ -87,15 +89,28 @@ function createFooterNavsFromMenuItem (menus, exitCondition = () => false) {
  */
 function extractFooterSectionsFromMenu (footerNavs, menu) {
   return footerNavs.flatMap(footerNav => {
+    if (footerNav.areOrphans && footerNav.items) {
+      return footerNav
+    }
     // select the items from menu only if they are in the footerNavs
     const menuItem = menu.find(item => item.path === footerNav.path)
     if (!menuItem) {
       return []
     }
-    return {
+    const footerItems = {
       ...footerNav,
       items: createFooterNavsFromMenuItem(menuItem.children, footerNav.menuExitCondition)
     }
+
+    if (footerNav.itemToUnshift) {
+      footerItems.items.unshift(footerNav.itemToUnshift)
+    }
+
+    if (footerNav.itemToPush) {
+      footerItems.items.push(footerNav.itemToPush)
+    }
+
+    return footerItems
   })
 }
 
@@ -130,7 +145,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$footer-columns-md-min: 6;
+$footer-columns-md-min: 5;
 $footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
 
@@ -161,4 +176,52 @@ $adjust-header-viewport: 860px;
   z-index: 5; // ensures it's lower than header but higher than components page filter section
 }
 
+@function generateRandomStars($number-of-stars) {
+  $value: '#{random(7000)}px #{random(7000)}px #{$lp-primary}';
+  @for $i from 1 through $number-of-stars {
+    $value: '#{$value}, #{random(7000)}px #{random(7000)}px #{$lp-primary}';
+  }
+  @return unquote($value);
+}
+
+$shadows-sm: generateRandomStars(700);
+$shadows-md: generateRandomStars(600);
+$shadows-lg: generateRandomStars(500);
+$stars-spread-distance: 3500; // distance to spread stars from top
+
+@mixin createStar($size, $box-shadow, $animation-duration) {
+  animation: animateStar $animation-duration linear infinite;
+  background: transparent;
+  box-shadow: $box-shadow;
+  height: #{$size}px;
+  width: #{$size}px;
+
+  &:after {
+    background: transparent;
+    box-shadow: $box-shadow;
+    content: "";
+    height: #{$size}px;
+    position: absolute;
+    width: #{$size}px;
+  }
+}
+
+#stars-sm {
+  @include createStar(1, $shadows-sm, 70s);
+}
+#stars-md {
+  @include createStar(2, $shadows-md, 100s);
+}
+#stars-lg {
+  @include createStar(3, $shadows-lg, 150s);
+}
+
+@keyframes animateStar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-#{$stars-spread-distance}px);
+  }
+}
 </style>

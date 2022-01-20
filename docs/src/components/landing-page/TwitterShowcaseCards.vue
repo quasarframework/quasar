@@ -1,8 +1,6 @@
 <template>
   <q-carousel
     v-model="slide"
-    transition-prev="scale"
-    transition-next="scale"
     swipeable
     animated
     navigation
@@ -15,20 +13,9 @@
   >
     <template v-slot:navigation-icon="{ active, btnProps, onClick }">
       <q-btn
-        v-if="active"
         size="xs"
         :icon="btnProps.icon"
-        color="lp-primary"
-        flat
-        round
-        dense
-        @click="onClick"
-      />
-      <q-btn
-        v-else
-        size="xs"
-        :icon="btnProps.icon"
-        color="grey-8"
+        :color="active ? 'lp-primary' : 'grey-8'"
         flat
         round
         dense
@@ -36,10 +23,8 @@
       />
     </template>
     <q-carousel-slide :name="slideIndex" class="showcase-cards text-size-10" v-for="(tweetGroup, slideIndex) in tweetGroups" :key="`slide-${slideIndex}`">
-      <div class="carousel-grid" :style="carouselGridTemplateColumns">
-        <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" class="tweeter-tweet">
-          <div :id="`tweet-container-${tweetId}`"></div>
-        </div>
+      <div class="carousel-grid">
+        <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" :id="`tweet-container-${tweetId}`" />
       </div>
     </q-carousel-slide>
   </q-carousel>
@@ -136,11 +121,9 @@ export default defineComponent({
         tweetId,
         document.getElementById(tweetContainerId),
         {
-          theme: 'light',
           conversation: 'none',
           cards: 'hidden',
-          hide_thread: true,
-          align: 'center'
+          dnt: true
         }
       )
     }
@@ -155,7 +138,10 @@ export default defineComponent({
       alreadyDisplayedTweetGroupsIndexes.push(INITIAL_TWEET_GROUP_INDEX)
     })
 
-    function loadTweets () {
+    async function loadTweets () {
+      if (!twitterInstance) {
+        twitterInstance = await getTwitterInstance()
+      }
       // do not create card if it has already been rendered
       if (!alreadyDisplayedTweetGroupsIndexes.includes(slide.value)) {
         tweetGroups.value[ slide.value ].forEach(tweetId => {
@@ -166,25 +152,25 @@ export default defineComponent({
     }
 
     // calculate how many tweets to show per carousel depending on the screen size
-    // e.g. if screen size is sm, show 2 tweets per carousel. Hence, grid template-columns: repeat(2, 1fr);
-    const carouselGridTemplateColumns = computed(() => ({ gridTemplateColumns: `repeat(${NUMBER_OF_TWEETS_PER_CAROUSEL[ Screen.name ]}, 1fr)` }))
+    const tweetsPerPage = computed(() => NUMBER_OF_TWEETS_PER_CAROUSEL[ Screen.name ])
 
     return {
       slide,
       tweetGroups,
       loadTweets,
-      carouselGridTemplateColumns
+      tweetsPerPage
     }
   }
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .carousel-grid {
   display: grid;
   grid-column-gap: 16px;
   align-content: center;
   flex: 1;
+  grid-template-columns: repeat(v-bind(tweetsPerPage), 1fr)
 }
 .showcase-cards {
   // prevent tweets with content larger than tweet height from overflowing.
@@ -193,11 +179,7 @@ export default defineComponent({
   display: flex;
   justify-content: center
 }
-.twitter-tweet {
+:deep(.twitter-tweet) {
   box-shadow: $lp-box-shadow--large;
-  border-radius: 20px;
-  overflow: hidden;
-  background-color: $white;
-  max-width: 100%;
 }
 </style>

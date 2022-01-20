@@ -10,21 +10,21 @@ export const whyQuasar = [
     title: 'Top Class Components',
     body: 'A library of more than 70 high performance customizable Material Design web components for all your needs',
     btnLabel: 'Consult Library',
-    btnLink: '#'
+    btnLink: 'components'
   },
   {
-    icon: 'img:homepage-icons/components.svg',
+    icon: 'img:homepage-icons/source.svg',
     title: 'One codebase many integrations',
     body: 'Keep your favorite technology, we provide all the needed integrations out of the box.',
-    btnLabel: 'Consult Library',
+    btnLabel: 'Discover Integrations',
     btnLink: '#'
   },
   {
     icon: 'img:homepage-icons/documentation.svg',
     title: 'Great documentation',
     body: 'All the details you deserve to start working properly. Every star-pilot needs a good manual.',
-    btnLabel: 'Consult Library',
-    btnLink: '#'
+    btnLabel: 'Get Started',
+    btnLink: 'start/pick-quasar-flavour'
   }
 ]
 
@@ -49,9 +49,10 @@ export const components = [
   { name: 'Dialogs', description: 'To show actions and info only when needed', tag: 'panel', path: 'dialog' },
   { name: 'Editor WYSIWYG', description: 'To write text and style it directly', tag: 'other', path: 'editor-wysiwyg' },
   { name: 'Expansion Panels', description: 'To show hidden extra info and actions', tag: 'panel', path: 'expansion-item' },
-  { name: 'Form Fields', description: 'To collect users\' typed text input', tag: 'input', path: 'field' },
   { name: 'File Pickers', description: 'To access and choose a file from users\' device', tag: 'media', path: 'file-picker' },
+  { name: 'Floating Action Button', description: 'To display the page primary action', tag: 'other' },
   { name: 'Forms', description: 'A system to submit validated inputs', tag: 'input', path: 'form' },
+  { name: 'Form Fields', description: 'To collect users\' typed text input', tag: 'input', path: 'field' },
   { name: 'Icon', description: 'To insert icons inside other components', tag: 'media' },
   { name: 'Img', description: 'To set some basic image features', tag: 'media' },
   { name: 'Infinite Scroll', description: 'To enable new content display while scrolling', tag: 'scroll' },
@@ -64,7 +65,8 @@ export const components = [
   { name: 'Markup Table', description: 'To display data and content on a table', tag: 'table' },
   { name: 'Menu', description: 'A dropdown panel to access options', tag: 'panel' },
   { name: 'No SSR', description: 'Ignore irrelevant code during SSR generation', tag: 'other' },
-  { name: 'Observers scroll', description: 'Emit an Event when the user scrolls', tag: 'other', path: 'scroll-observer' },
+  { name: 'Observer Resize', description: 'Emit an Event when an element resizes', tag: 'other', path: 'observer-resize' },
+  { name: 'Observer scroll', description: 'Emit an Event when the user scrolls', tag: 'other', path: 'observer-scroll' },
   { name: 'Option Group', description: 'Helper component to set groups of options', tag: 'input' },
   { name: 'Pagination', description: 'To navigate content on multiple pages', tag: ['navigation'] },
   { name: 'Parallax', description: 'To create interesting UI image background', tag: 'media' },

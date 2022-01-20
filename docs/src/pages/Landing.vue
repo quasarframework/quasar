@@ -1,29 +1,9 @@
 <template lang="pug">
 q-page.landing
-  h1.landing__title Quasar Framework
-  section.landing__hero.flex.flex-center
-    .row.items-center.justify-center.landing__hero-inner
-      .landing__hero-logo.col-12.flex.flex-center.q-mb-lg
-        img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg")
-      .landing__hero-text.col-12.column.items-center
-        //- .text-h4.landing__hero-text-main.text-bold.text-brand-primary.q-pb-xs QUASAR FRAMEWORK
-        .q-pb-lg.text-grey-6.landing__hero-quote.text-center
-          | Effortlessly build high-performance & high-quality
-          | <span class="text-bold text-no-wrap">Vue.js 3</span> user interfaces in record time
-        .landing__hero-row.q-gutter-sm.row.items-center
-          q-btn(color="brand-primary" unelevated no-caps to="/introduction-to-quasar" label="Why Quasar?")
-          q-btn(color="brand-primary" outline no-caps to="/start" label="Get Started")
-          q-btn(color="accent" unelevated no-caps to="/video-tutorials" label="Video Tutorials")
-
   section.landing__front.text-center
     div
       .row.justify-center
         introduction-video.landing__video
-
-  section.bg-white.text-grey-10.text-center
-    div
-      .text-h4.q-mb-xl Our Premium Sponsors
-      sponsor-list
 
   section.bg-white.text-grey-10.text-center.row.justify-center
     .landing__features.row
@@ -52,35 +32,6 @@ q-page.landing
               q-badge(label="$ npm i -g @quasar/cli" color="grey-8")
               q-badge(label="$ npm init quasar" color="grey-8")
 
-  section.bg-white.text-grey-10.text-center
-    .landing__features.row.items-start.q-col-gutter-lg
-      .col-12.text-center
-        h4 Impressive User Interface Building Blocks
-      .col-12.row
-        .col-12.col-md-8.landing__features-section.row.text-left
-          .col-12.text-left.text-subtitle1.text-bold.q-mt-lg.q-mb-md.q-mx-xs Components
-          router-link.landing__features-link.col-6.col-sm-4(
-            v-for="dir in features.comps"
-            :key="dir.name"
-            :to="'/vue-components/' + dir.path"
-          ) {{ dir.name }}
-
-        .col-6.col-sm-4.col-md-2.landing__features-section.column.text-left
-          .text-left.text-subtitle1.text-bold.q-mt-lg.q-mb-md.q-mx-xs Directives
-          router-link.landing__features-link(
-            v-for="dir in features.dirs"
-            :key="dir.name"
-            :to="'/vue-directives/' + dir.path"
-          ) {{ dir.name }}
-
-        .col-6.col-sm-4.col-md-2.landing__features-section.column.text-left
-          .text-left.text-subtitle1.text-bold.q-mt-lg.q-mb-md.q-mx-xs Plugins
-          router-link.landing__features-link(
-            v-for="dir in features.plugins"
-            :key="dir.name"
-            :to="'/quasar-plugins/' + dir.path"
-          ) {{ dir.name }}
-
   section.bg-white.text-grey-10.text-center.row.justify-center
     .landing__features.row
       .col-12.q-my-xl.row.items-center.justify-center
@@ -89,48 +40,15 @@ q-page.landing
           h4 Quasar Icon Genie
           .q-mt-lg.q-mb-xl Consumes a source icon and automatically clones, scales, minifies and places the (needed) 100+ generated icons and splash screens in the appropriate directories for you.
           q-btn(color="brand-primary", unelevated, no-caps, no-wrap, :icon-right="mdiLaunch", label="IconGenie", to="/icongenie/introduction")
-
-  section.landing__footer.flex.flex-center
-    div.text-center
-      div.landing__footer-icons.row.flex-center.q-gutter-md
-        a(href="https://github.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="fabGithub")
-
-        a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="mdiPost")
-
-        a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
-          q-icon(:name="mdiChat")
-
-        a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
-          q-icon(:name="mdiForum")
-
-        a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="fabTwitter")
-
-        a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="fabFacebook")
-
-        a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
-          q-icon(:name="fasMedkit")
-
-      div.q-mt-lg
-        | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
-
-      div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 </template>
 
 <script>
 import { useMeta } from 'quasar'
 
-import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor.vue'
-import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList.vue'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo.vue'
-// import SurveyCountdown from '../components/SurveyCountdown.vue'
 
 import {
-  fabGithub, fabTwitter, fabFacebook, fasMedkit,
-  fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
+  fasMedkit, fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
   fabFirefox, fabEdge, fabSafari, fabGoogle
 } from '@quasar/extras/fontawesome-v5'
 
@@ -146,9 +64,6 @@ export default {
   name: 'Landing',
 
   components: {
-    Sponsor,
-    SponsorList,
-    // SurveyCountdown,
     IntroductionVideo
   },
 
@@ -162,12 +77,8 @@ export default {
     $store.toc = []
 
     return {
-      year: (new Date()).getFullYear(),
       features,
 
-      fabGithub,
-      fabTwitter,
-      fabFacebook,
       fasMedkit,
       fabApple,
       fabWindows,
@@ -192,12 +103,6 @@ export default {
 <style lang="sass">
 .landing
 
-  &__title
-    font-size: 0
-    line-height: 0
-    opacity: 0
-    margin: 0 !important
-
   > section
     display: flex
     justify-content: center
@@ -207,27 +112,6 @@ export default {
       position: relative
       max-width: 1040px
       width: 100%
-
-  &__hero
-    min-height: 400px
-
-    &-inner
-      max-width: 650px !important
-
-    &-text-main
-      font-size: 24px
-
-    &-quote
-      padding-top: 70px
-      font-size: 16px
-
-    .text-h1
-      font-size: 5.2rem
-      line-height: 5.2rem
-
-  &__logo-image
-    width: 280px
-    height: 280px
 
   &__icongenie-logo
     max-width: 220px !important
@@ -240,10 +124,6 @@ export default {
   &__video
     width: 530px
     max-width: 100%
-
-  &__logo
-    max-width: 170px
-    max-height: 170px
 
   &__features
 
@@ -267,60 +147,4 @@ export default {
 
       &:hover
         color: $brand-primary
-
-  &__footer
-    padding-top: 72px !important
-    padding-bottom: 72px !important
-
-  &__footer-icons
-    font-size: 28px
-
-    a
-      text-decoration: none
-      outline: 0
-      color: $brand-primary
-      transition: color .28s
-
-      &:hover
-        color: $teal
-
-@media (max-width: 1092px)
-  .landing
-    &__hero
-      &-quote
-        padding-top: 40px
-      .text-h1
-        font-size: 3.5rem
-        line-height: 4.05rem
-
-@media (max-width: 1023px)
-  .landing
-
-    &__logo-image
-      width: 190px
-      height: 190px
-
-    &__hero
-      text-align: center
-
-      &-row
-        justify-content: center
-
-      &-logo
-        padding-right: 0
-        justify-content: center
-
-      &-text
-        text-align: center
-
-      &-quote
-        margin-left: auto
-        margin-right: auto
-
-    > section.padding
-      padding-top: 90px
-      padding-bottom: 90px
-
-    .landing__feature-item
-      text-align: center
 </style>
