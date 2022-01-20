@@ -75,12 +75,12 @@ export default createComponent({
         || $stepper.value.vertical !== true
         ? {}
         : {
-          onScroll (ev) {
-            const { target } = ev
+          onScroll (e) {
+            const { target } = e
             if (target.scrollTop > 0) {
               target.scrollTop = 0
             }
-            attrs.onScroll !== void 0 && attrs.onScroll(ev)
+            attrs.onScroll !== void 0 && attrs.onScroll(e)
           }
         }
     ))
