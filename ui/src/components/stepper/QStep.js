@@ -62,21 +62,24 @@ export default Vue.extend({
   computed: {
     isActive () {
       return this.stepper.value === this.name
+    },
+
+    onEvents () {
+      return this.isActive !== true ||
+        this.stepper.vertical !== true ||
+        (this.$q.platform.is.ios !== true && this.$q.platform.is.safari !== true && this.$q.platform.is.ie !== true)
+        ? { ...this.qListeners }
+        : { ...this.qListeners, scroll: this.__keepScroll }
     }
   },
 
-  watch: {
-    isActive (active) {
-      if (
-        active === true &&
-        this.stepper.vertical === true
-      ) {
-        this.$nextTick(() => {
-          if (this.$el !== void 0) {
-            this.$el.scrollTop = 0
-          }
-        })
+  methods: {
+    __keepScroll (ev) {
+      const { target } = ev
+      if (target.scrollTop > 0) {
+        target.scrollTop = 0
       }
+      this.qListeners.scroll !== void 0 && this.qListeners.scroll(ev)
     }
   },
 
@@ -99,7 +102,7 @@ export default Vue.extend({
       'div',
       {
         staticClass: 'q-stepper__step',
-        on: { ...this.qListeners }
+        on: this.onEvents
       },
       vertical === true
         ? [
