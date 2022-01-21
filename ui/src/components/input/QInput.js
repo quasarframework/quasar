@@ -177,7 +177,7 @@ export default createComponent({
           && inputRef.value !== el
           && (el === null || el.id !== state.targetUid.value)
         ) {
-          inputRef.value.focus()
+          inputRef.value.focus({ preventScroll: true })
         }
       })
     }

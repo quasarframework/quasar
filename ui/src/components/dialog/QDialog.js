@@ -257,7 +257,7 @@ export default createComponent({
         }
 
         node = node.querySelector('[autofocus], [data-autofocus]') || node
-        node.focus()
+        node.focus({ preventScroll: true })
       })
     }
 
