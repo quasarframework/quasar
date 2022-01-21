@@ -591,7 +591,9 @@ export default {
 
       this.__scrollViewSize = scrollViewSize
 
-      const multiplier = 1 + this.virtualScrollSliceRatioBefore + this.virtualScrollSliceRatioAfter
+      const virtualScrollSliceRatioBefore = parseFloat(this.virtualScrollSliceRatioBefore) || 0
+      const virtualScrollSliceRatioAfter = parseFloat(this.virtualScrollSliceRatioAfter) || 0
+      const multiplier = 1 + virtualScrollSliceRatioBefore + virtualScrollSliceRatioAfter
       const view = scrollViewSize === void 0 || scrollViewSize <= 0
         ? 1
         : Math.ceil(scrollViewSize / this.virtualScrollItemSizeComputed)
@@ -603,9 +605,9 @@ export default {
 
       this.virtualScrollSliceSizeComputed = {
         total: Math.ceil(baseSize * multiplier),
-        start: Math.ceil(baseSize * this.virtualScrollSliceRatioBefore),
-        center: Math.ceil(baseSize * (0.5 + this.virtualScrollSliceRatioBefore)),
-        end: Math.ceil(baseSize * (1 + this.virtualScrollSliceRatioBefore)),
+        start: Math.ceil(baseSize * virtualScrollSliceRatioBefore),
+        center: Math.ceil(baseSize * (0.5 + virtualScrollSliceRatioBefore)),
+        end: Math.ceil(baseSize * (1 + virtualScrollSliceRatioBefore)),
         view
       }
     },
