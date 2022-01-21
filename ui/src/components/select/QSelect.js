@@ -598,8 +598,12 @@ export default Vue.extend({
       return this.innerOptionsValue.find(v => isDeepEqual(v, val)) !== void 0
     },
 
-    __selectInputText () {
-      if (this.useInput === true && this.$refs.target !== void 0) {
+    __selectInputText (e) {
+      if (
+        this.useInput === true &&
+        this.$refs.target !== void 0 &&
+        (e === void 0 || (this.$refs.target === e.target && e.target.value === this.selectedString))
+      ) {
         this.$refs.target.select()
       }
     },
@@ -942,14 +946,14 @@ export default Vue.extend({
         child.push(this.__getInput(h, fromDialog, isTarget))
       }
       // there can be only one (when dialog is opened the control in dialog should be target)
-      else if (this.editable === true && isTarget === true) {
+      else if (this.editable === true) {
         child.push(
           h('div', {
-            ref: 'target',
+            ref: isTarget === true ? 'target' : void 0,
             key: 'd_t',
             staticClass: 'q-select__focus-target',
             attrs: {
-              id: this.targetUid,
+              id: isTarget === true ? this.targetUid : void 0,
               tabindex: this.tabindex,
               ...this.comboboxAttrs
             },
@@ -961,7 +965,7 @@ export default Vue.extend({
           })
         )
 
-        if (typeof this.autocomplete === 'string' && this.autocomplete.length > 0) {
+        if (isTarget === true && typeof this.autocomplete === 'string' && this.autocomplete.length > 0) {
           child.push(
             h('input', {
               staticClass: 'q-select__autocomplete-input',
@@ -1063,7 +1067,7 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.qAttrs,
-          id: this.targetUid,
+          id: isTarget === true ? this.targetUid : void 0,
           maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           autocomplete: this.autocomplete,

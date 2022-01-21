@@ -138,7 +138,7 @@ export default Vue.extend({
 
         if (node !== void 0 && node.contains(document.activeElement) !== true) {
           node = node.querySelector('[autofocus], [data-autofocus]') || node
-          node.focus()
+          node.focus({ preventScroll: true })
         }
       })
     },

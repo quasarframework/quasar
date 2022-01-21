@@ -172,7 +172,7 @@ export default Vue.extend({
           // IE can have null document.activeElement
           (el === null || el.id !== this.targetUid)
         ) {
-          this.$refs.input.focus()
+          this.$refs.input.focus({ preventScroll: true })
         }
       })
     },

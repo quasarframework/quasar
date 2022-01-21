@@ -432,7 +432,7 @@ export default Vue.extend({
 
     focus () {
       addFocusFn(() => {
-        this.$refs.content !== void 0 && this.$refs.content.focus()
+        this.$refs.content !== void 0 && this.$refs.content.focus({ preventScroll: true })
       })
     },
 
