@@ -267,7 +267,7 @@ export default Vue.extend({
       // IE can have null document.activeElement
       if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
         target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
-        target !== null && target !== el && target.focus()
+        target !== null && target !== el && target.focus({ preventScroll: true })
       }
     },
 
@@ -469,6 +469,7 @@ export default Vue.extend({
     },
 
     __onControlFocusin (e) {
+      clearTimeout(this.focusoutTimer)
       if (this.editable === true && this.focused === false) {
         this.focused = true
         this.$emit('focus', e)
