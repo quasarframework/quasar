@@ -559,13 +559,14 @@ export function useVirtualScroll ({
     prevToIndex = -1
     prevScrollStart = void 0
 
+    virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, virtualScrollSliceRange.value.from)
+    virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, virtualScrollSliceRange.value.to, virtualScrollLength.value)
+
     if (toIndex >= 0) {
       updateVirtualScrollSizes(virtualScrollSliceRange.value.from)
       nextTick(() => { scrollTo(toIndex) })
     }
     else {
-      virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, virtualScrollSliceRange.value.from)
-      virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, virtualScrollSliceRange.value.to, virtualScrollLength.value)
       onVirtualScrollEvt()
     }
   }
