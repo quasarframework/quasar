@@ -556,6 +556,9 @@ export default {
       this.prevToIndex = -1
       this.prevScrollStart = void 0
 
+      this.virtualScrollPaddingBefore = sumSize(this.virtualScrollSizesAgg, this.virtualScrollSizes, 0, this.virtualScrollSliceRange.from)
+      this.virtualScrollPaddingAfter = sumSize(this.virtualScrollSizesAgg, this.virtualScrollSizes, this.virtualScrollSliceRange.to, this.virtualScrollLength)
+
       if (toIndex >= 0) {
         this.__updateVirtualScrollSizes(this.virtualScrollSliceRange.from)
 
@@ -564,9 +567,6 @@ export default {
         })
       }
       else {
-        this.virtualScrollPaddingBefore = sumSize(this.virtualScrollSizesAgg, this.virtualScrollSizes, 0, this.virtualScrollSliceRange.from)
-        this.virtualScrollPaddingAfter = sumSize(this.virtualScrollSizesAgg, this.virtualScrollSizes, this.virtualScrollSliceRange.to, this.virtualScrollLength)
-
         this.__onVirtualScrollEvt()
       }
     },
