@@ -67,7 +67,7 @@ export default Vue.extend({
     onEvents () {
       return this.isActive !== true ||
         this.stepper.vertical !== true ||
-        (this.$q.platform.is.ios !== true && this.$q.platform.is.safari !== true && this.$q.platform.is.ie !== true)
+        (this.$q.platform.is.ios !== true && this.$q.platform.is.chrome === true)
         ? { ...this.qListeners }
         : { ...this.qListeners, scroll: this.__keepScroll }
     }
