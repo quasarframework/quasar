@@ -20,7 +20,7 @@ export * from './utils/event';
 export * from './utils/format';
 export * from './utils/scroll';
 
-import { VueStyleObjectProp } from "../api/vue-prop-types";
+import { VueStyleObjectProp } from "./api/vue-prop-types";
 
 interface ExportFileOpts {
   mimeType?: string;
