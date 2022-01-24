@@ -244,8 +244,8 @@ module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, sv
     const banner = getBanner(iconSetName, versionOrPackageName);
     const distIndex = `${distFolder}/index`
 
-    writeFileSync(`${distIndex}.js`, banner + svgExports.join('\n'), 'utf-8')
-    writeFileSync(`${distIndex}.d.ts`, banner + typeExports.join('\n'), 'utf-8')
+    writeFileSync(`${distIndex}.js`, banner + svgExports.sort().join('\n'), 'utf-8')
+    writeFileSync(`${distIndex}.d.ts`, banner + typeExports.sort().join('\n'), 'utf-8')
 
     if (skipped.length > 0) {
       console.log(`${iconSetName} - skipped (${skipped.length}): ${skipped}`)
