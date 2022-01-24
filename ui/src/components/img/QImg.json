@@ -53,13 +53,11 @@
     },
 
     "ratio": {
-      "type": [ "String", "Number" ],
       "desc": "Force the component to maintain an aspect ratio",
       "examples": [
         "(Number format) :ratio=\"16/9\"",
         "(String format) ratio=\"1\""
-      ],
-      "category": "style"
+      ]
     },
 
     "initial-ratio": {
