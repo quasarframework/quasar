@@ -2,8 +2,11 @@
 
 // --- Props
 
+import { VueClassProp } from '../ts-helpers'
+
 interface SliderMarkerLabelPartialDefinition {
   label?: number | string;
+  classes?: VueClassProp;
   style?: Partial<CSSStyleDeclaration>;
 }
 
@@ -19,15 +22,11 @@ interface SliderMarkerLabelObjectDefinition {
   [value: number]: string | SliderMarkerLabelDefinition;
 }
 
-declare function SliderMarkerLabelFunctionDefinition(
-  value: number
-): string | SliderMarkerLabelDefinition;
-
 export type SliderMarkerLabels =
   | boolean
   | Array<SliderMarkerLabelDefinitionRequiredValue>
   | SliderMarkerLabelObjectDefinition
-  | typeof SliderMarkerLabelFunctionDefinition
+  | ((value: number) => string | SliderMarkerLabelDefinition)
 
 // --- Slots
 

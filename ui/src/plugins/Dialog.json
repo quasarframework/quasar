@@ -14,6 +14,7 @@
         "opts": {
           "desc": "Dialog options",
           "tsType": "QDialogOptions",
+          "autoDefineTsType": true,
           "definition": {
             "title": {
               "type": "String",

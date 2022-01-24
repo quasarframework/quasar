@@ -199,15 +199,17 @@ function copyPredefinedTypes (dir, parentDir) {
 
 function addToExtraInterfaces (def) {
   if (def !== void 0 && def !== null && def.tsType !== void 0) {
-    // When a type name is found and it has a definition,
+    // When a type name is found and it has autoDefineTsType and a definition,
     //  it's added for later usage if a previous definition isn't already there.
     // When the new interface doesn't have a definition, we initialize its key anyway
     //  to mark its existence, but with an undefined value.
     // In this way it can be overwritten if a definition is found later on.
     // Interfaces without definition at the end of the build script
     //  are considered external custom types and imported as such
-    if (extraInterfaces[ def.tsType ] === void 0 && def.definition !== void 0) {
-      extraInterfaces[ def.tsType ] = getPropDefinitions({ definitions: def.definition })
+    if (def.autoDefineTsType === true) {
+      if (extraInterfaces[ def.tsType ] === void 0) {
+        extraInterfaces[ def.tsType ] = getPropDefinitions({ definitions: def.definition })
+      }
     }
     else if (!extraInterfaces.hasOwnProperty(def.tsType)) {
       extraInterfaces[ def.tsType ] = void 0

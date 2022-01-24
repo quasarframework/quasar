@@ -40,3 +40,12 @@ export type GlobalComponentConstructor<Props = {}, Slots = {}> = {
     $slots: Slots
   }
 }
+
+interface ClsObject {
+  [value: string]: any
+}
+
+export type VueClassProp =
+  | string
+  | Array<VueClassProp>
+  | ClsObject;

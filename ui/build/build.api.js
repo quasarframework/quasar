@@ -65,7 +65,7 @@ const objectTypes = {
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
@@ -74,7 +74,7 @@ const objectTypes = {
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition' ],
@@ -90,7 +90,7 @@ const objectTypes = {
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'params', 'returns' ],
@@ -99,7 +99,7 @@ const objectTypes = {
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
@@ -292,6 +292,13 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
     // If required is specified, use it, if not and it has a default value, then it's optional, otherwise use undefined so it can get overridden later
     api[ itemName ].required = obj.required !== void 0 ? obj.required : obj.default !== void 0 ? false : undefined
+  }
+
+  if (obj.tsType && obj.autoDefineTsType === true && !obj.definition) {
+    logError(`${ banner } object is auto defining "${ obj.tsType }" TS type but it is missing "definition" prop`)
+    console.error(obj)
+    console.log()
+    process.exit(1)
   }
 
   if (obj.returns) {
