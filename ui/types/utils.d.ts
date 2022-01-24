@@ -20,6 +20,8 @@ export * from './utils/event';
 export * from './utils/format';
 export * from './utils/scroll';
 
+import { VueStyleObjectProp } from "../api/vue-prop-types";
+
 interface ExportFileOpts {
   mimeType?: string;
   byteOrderMark?: string | Uint8Array;
@@ -62,7 +64,7 @@ interface MorphOptions {
   delay?: number;
   fill?: string;
 
-  style?: string | Partial<CSSStyleDeclaration>;
+  style?: string | VueStyleObjectProp;
   classes?: string;
 
   resize?: boolean;

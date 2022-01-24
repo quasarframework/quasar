@@ -2,12 +2,12 @@
 
 // --- Props
 
-import { VueClassProp } from '../ts-helpers'
+import { VueClassProp, VueStyleObjectProp } from "./vue-prop-types";
 
 interface SliderMarkerLabelPartialDefinition {
   label?: number | string;
   classes?: VueClassProp;
-  style?: Partial<CSSStyleDeclaration>;
+  style?: VueStyleObjectProp;
 }
 
 interface SliderMarkerLabelDefinition extends SliderMarkerLabelPartialDefinition {
@@ -35,7 +35,7 @@ export type SliderMarkerLabelConfig = {
   value: number;
   label: number | string;
   classes: string;
-  style: Partial<CSSStyleDeclaration>
+  style: VueStyleObjectProp
 };
 
 export type SliderMarkerLabelArrayConfig = SliderMarkerLabelConfig[];

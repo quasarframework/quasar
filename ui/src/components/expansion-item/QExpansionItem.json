@@ -26,7 +26,8 @@
     },
 
     "expand-icon-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Apply custom class(es) to the expand icon item section",
       "examples": [ "text-purple" ],
       "category": "style"
@@ -134,7 +135,8 @@
     },
 
     "header-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Apply custom style to the header",
       "examples": [
         "background: '#ff0000'",
@@ -144,7 +146,8 @@
     },
 
     "header-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Apply custom class(es) to the header",
       "examples": [
         "my-custom-class",

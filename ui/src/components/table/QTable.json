@@ -482,6 +482,7 @@
 
     "table-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "background-color: #ff0000",
@@ -492,6 +493,7 @@
 
     "table-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "my-special-class",
@@ -502,6 +504,7 @@
 
     "table-header-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to header of native HTML <table> (which is a TR)",
       "examples": [
         "background-color: #ff0000",
@@ -512,6 +515,7 @@
 
     "table-header-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to header of native HTML <table> (which is a TR)",
       "examples": [
         "my-special-class",
@@ -522,6 +526,7 @@
 
     "card-container-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to the cards container (when in grid mode)",
       "examples": [
         "background-color: #ff0000",
@@ -532,6 +537,7 @@
 
     "card-container-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to the cards container (when in grid mode)",
       "examples": [
         "my-special-class",
@@ -543,6 +549,7 @@
 
     "card-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "background-color: #ff0000",
@@ -553,6 +560,7 @@
 
     "card-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "my-special-class",
@@ -563,6 +571,7 @@
 
     "title-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to the title (if using 'title' prop)",
       "examples": [
         "my-special-class",

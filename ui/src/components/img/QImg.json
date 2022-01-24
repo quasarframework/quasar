@@ -162,6 +162,7 @@
 
     "img-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Apply CSS to the native img element",
       "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
       "category": "style"

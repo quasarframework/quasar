@@ -227,13 +227,15 @@
 
     "content-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for styling the container of QEditor",
       "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
       "category": "style"
     },
 
     "content-class": {
-      "type": [ "Object", "Array", "String" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes for the input area",
       "examples": [
         "my-special-class",
