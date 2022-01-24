@@ -90,7 +90,7 @@ function convertTypeVal (type, def) {
 
 function getTypeVal (def) {
   return Array.isArray(def.type)
-    ? def.type.map(type => convertTypeVal(type, def)).join(' | ')
+    ? def.tsType || def.type.map(type => convertTypeVal(type, def)).join(' | ')
     : convertTypeVal(def.type, def)
 }
 
