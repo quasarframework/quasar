@@ -211,7 +211,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `img/[name]${fileHash}.[ext]`
+        name: `img/[path][name]${fileHash}.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
@@ -223,7 +223,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `fonts/[name]${fileHash}.[ext]`
+        name: `fonts/[path][name]${fileHash}.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
@@ -235,7 +235,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `media/[name]${fileHash}.[ext]`
+        name: `media/[path][name]${fileHash}.[ext]`
       })
 
   injectStyleRules(chain, {
