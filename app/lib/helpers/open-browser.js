@@ -7,8 +7,7 @@ module.exports = function openBrowser({ url, opts, wait = true }) {
     log('Opening default browser at ' + url + '\n')
 
     open(url, {
-      wait,
-      url: true
+      wait
     }).catch(() => {
       warn(`Failed to open default browser`)
       warn()
@@ -16,12 +15,11 @@ module.exports = function openBrowser({ url, opts, wait = true }) {
   }
 
   if (opts) {
-    log('Opening browser at ' + url + ' with options: ' + opts)
+    log('Opening browser at ' + url + ' with options: ' + JSON.stringify(opts))
     log()
     open(url, {
-      app: opts,
-      wait,
-      url: true
+      ...opts,
+      wait
     }).catch(() => {
       warn(`Failed to open specific browser`)
       warn()

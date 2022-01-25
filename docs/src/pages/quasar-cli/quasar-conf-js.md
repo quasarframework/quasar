@@ -222,20 +222,39 @@ Most used properties are:
 | --- | --- | --- |
 | port | Number | Port of dev server |
 | host | String | Local IP/Host to use for dev server |
-| open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. If specifying a String then see explanations below. |
+| open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. Uses [open](https://github.com/sindresorhus/open#usage) package params. For more details, please see below. |
 | proxy | Object/Array | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain. |
 | devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
 | server | Object | Here you can configure HTTPS instead of HTTP (see below) |
 | onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
 | onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open/blob/master/test.js) based on the host OS):
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#usage)). Some examples:
 
 ```js
 // quasar.conf.js
 
+// opens Google Chrome
 devServer: {
-  open: 'firefox'
+  open: {
+    app: { name: 'google chrome' }
+  }
+}
+
+// opens Firefox
+devServer: {
+  open: {
+    app: { name: 'firefox' }
+  }
+}
+
+// opens Google Chrome and automatically deals with cross-platform issues:
+const open = require('open')
+
+devServer: {
+  open: {
+    app: { name: open.apps.chrome }
+  }
 }
 ```
 
