@@ -233,6 +233,7 @@ Using `open` prop to open with a specific browser and not with the default brows
 
 ```js
 // quasar.conf.js
+// (syntax below requires @quasar/app v3.3+)
 
 // opens Google Chrome
 devServer: {
