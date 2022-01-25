@@ -44,9 +44,7 @@ module.exports = class WebserverAssetsPlugin {
         {
           'compression': '^1.0.0',
           'express': '^4.0.0',
-          'vue': cliDeps.vue,
-          '@quasar/ssr-helpers': cliDeps['@quasar/ssr-helpers'],
-          'vue-router': cliDeps['vue-router']
+          '@quasar/ssr-helpers': cliDeps['@quasar/ssr-helpers']
         },
         this.cfg.build.transpile === true
           ? { '@quasar/babel-preset-app': cliDeps['@quasar/babel-preset-app'] }

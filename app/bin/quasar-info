@@ -36,10 +36,10 @@ function getSpawnOutput (command) {
     const child = spawn(command, ['--version'])
     return child.status === 0
       ? chalk.green(String(child.output[1]).trim())
-      : chalk.red('Not installed')
+      : chalk.grey('Not installed')
   }
   catch (err) {
-    return chalk.red('Not installed')
+    return chalk.grey('Not installed')
   }
 }
 
@@ -55,7 +55,7 @@ function safePkgInfo (pkg, folder) {
   else {
     return {
       key: `  ${pkg}`,
-      value: chalk.red('Not installed')
+      value: chalk.grey('Not installed')
     }
   }
 }

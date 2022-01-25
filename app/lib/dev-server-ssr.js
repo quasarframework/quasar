@@ -5,7 +5,6 @@ const WebpackDevServer = require('webpack-dev-server')
 const chokidar = require('chokidar')
 
 const express = require('express')
-const { renderToString } = require('@vue/server-renderer')
 const createRenderer = require('@quasar/ssr-helpers/create-renderer')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side')
 const { getServerManifest } = require('./webpack/ssr/plugin.server-side')
@@ -13,6 +12,8 @@ const { doneExternalWork } = require('./webpack/plugin.progress')
 const { webpackNames } = require('./webpack/symbols')
 
 const appPaths = require('./app-paths')
+const getPackage = require('./helpers/get-package')
+const { renderToString } = getPackage('@vue/server-renderer')
 const openBrowser = require('./helpers/open-browser')
 const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
 
