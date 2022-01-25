@@ -85,7 +85,7 @@
     "null-loader": "4.0.1",
     "open": "8.4.0",
     "ouch": "2.0.0",
-    "postcss": "^8.2.10",
+    "postcss": "^8.4.4",
     "postcss-loader": "6.2.1",
     "postcss-rtlcss": "3.5.1",
     "pretty-error": "4.0.0",
@@ -119,8 +119,8 @@
   "peerDependencies": {
     "electron-builder": "^22.0.0",
     "electron-packager": "^15.0.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12"
   },
   "peerDependenciesMeta": {
     "electron-builder": {
