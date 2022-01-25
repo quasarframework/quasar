@@ -235,7 +235,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `media/[name]${fileHash}.[ext]`
+        name: `media/[path][name]${fileHash}.[ext]`
       })
 
   injectStyleRules(chain, {
