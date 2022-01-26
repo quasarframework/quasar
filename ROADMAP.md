@@ -54,7 +54,7 @@ We are updating this section constantly in order to keep you up to date with our
 * 🚧 (WIP) Quasar website revamp 🔥
 * 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
 * 🚧 (WIP) Add automatic tests to Quasar UI ([reference](https://github.com/Evertvdw/quasar/tree/unit-testing))
-* More triaging automation ([reference](https://github.com/quasarframework/rfcs/issues/10))
+* More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
 * Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
 * Creation of official Quasar Organizational chart
 * Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
