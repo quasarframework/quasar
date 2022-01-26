@@ -50,7 +50,7 @@ We are updating this section constantly in order to keep you up to date with our
 * ✌️ (DONE) Enhance Quasar types to be more precise, provide guidelines for community contributions ([#8642](https://github.com/quasarframework/quasar/issues/8642), [#8493](https://github.com/quasarframework/quasar/issues/8493), [#11090](https://github.com/quasarframework/quasar/issues/11090), [#11043](https://github.com/quasarframework/quasar/issues/11043))
 
 ### Q1 2022
-* ✌️ (DONE) Fix intellisense problem for packages provided by `@quasar/app` ([reference](https://github.com/quasarframework/quasar/issues/9235))
+* ✌️ (DONE) Fix intellisense problem for packages provided by `@quasar/app` ([#9235](https://github.com/quasarframework/quasar/issues/9235))
 * 🚧 (WIP) Quasar website revamp 🔥
 * 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
 * 🚧 (WIP) Add automatic tests to Quasar UI ([reference](https://github.com/Evertvdw/quasar/tree/unit-testing))
