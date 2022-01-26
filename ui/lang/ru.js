@@ -1,5 +1,5 @@
 function plurals (n, opts) {
-  return opts[n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2]
+  return opts[ n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2 ]
 }
 
 export default {
@@ -26,22 +26,21 @@ export default {
     months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
     monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'дней'
   },
   table: {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loading: 'Загрузка...',
-    selectedRecords: function (rows) {
-      return rows > 0
-        ? rows + ' ' + plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано']) + '.'
+    selectedRecords: rows => (
+      rows > 0
+        ? rows + ' ' + plurals(rows, [ 'строка выбрана', 'строки выбраны', 'строк выбрано' ]) + '.'
         : 'Ни одна строка не выбрана.'
-    },
+    ),
     recordsPerPage: 'Строк на странице:',
     allRows: 'Все',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' из ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' из ' + total,
     columns: 'Колонки'
   },
   editor: {

@@ -1,9 +1,14 @@
-import Layout from 'layouts/Layout.vue'
+import DocLayout from 'layouts/DocLayout.vue'
 import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
 import layoutGallery from 'assets/layout-gallery.js'
 
-const docsPages = []
+const docsPages = [
+  {
+    path: '',
+    component: () => import('pages/Landing.vue')
+  }
+]
 
 function parseMenuNode (node, __path) {
   const prefix = __path + (node.path !== void 0 ? '/' + node.path : '')
@@ -17,12 +22,12 @@ function parseMenuNode (node, __path) {
           const to = node.external === true
             ? node.path
             : (
-              prefix + (
-                node.path !== void 0
-                  ? '/' + node.path
-                  : (node.listPath !== void 0 ? '/' + node.listPath : '')
+                prefix + (
+                  node.path !== void 0
+                    ? '/' + node.path
+                    : (node.listPath !== void 0 ? '/' + node.listPath : '')
+                )
               )
-            )
 
           if (node.external !== true && node.listPath !== void 0) {
             docsPages.push({
@@ -61,18 +66,24 @@ menu.forEach(node => {
   parseMenuNode(node, '')
 })
 
+const redirects = [
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' }
+]
+
 const routes = [
-  {
-    path: '/',
-    component: () => import('pages/Landing.vue')
-  },
+  ...redirects.map(entry => ({
+    path: entry.from,
+    redirect: entry.to
+  })),
+
   {
     path: '/start',
     redirect: '/start/pick-quasar-flavour'
   },
   {
     path: '/',
-    component: Layout,
+    component: DocLayout,
     children: docsPages
   },
 
@@ -96,13 +107,17 @@ const routes = [
         }
       }
     ]
-  }))
-]
+  })),
 
-// Always leave this as last one
-routes.push({
-  path: process.env.MODE === 'ssr' ? '/not-found' : '*',
-  component: () => import('pages/Error404.vue')
-})
+  // Always leave this as last one
+  {
+    path: '/:catchAll(.*)*',
+    component: DocLayout,
+    children: [{
+      path: '',
+      component: () => import('pages/Error404.vue')
+    }]
+  }
+]
 
 export default routes

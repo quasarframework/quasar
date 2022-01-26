@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+
+    <title>Quasar UMD test</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="dist/quasar.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="q-app1">
+      <q-toolbar class="bg-primary text-white shadow-2 q-mb-xl">
+        <q-toolbar-title>
+          Quasar App
+        </q-toolbar-title>
+
+        <q-btn
+          class="q-mx-md"
+          type="a"
+          href="./index.umd.html"
+          outline
+          color="white"
+          icon="launch"
+          label="To Single-App"
+          no-caps
+        ></q-btn>
+
+        <div>Quasar v{{ $q.version }} | Vue v{{ vueVersion }}</div>
+      </q-toolbar>
+    </div>
+
+    <div id="q-app2">
+      <div class="flex flex-center">
+
+        <!-- page content; replace this entirely -->
+        <q-card flat bordered>
+          <q-card-section>
+            <div class="q-mb-md row items-center">
+              <span class="text-subtitle1">"yarn dev:umd"</span>
+              <q-rating class="q-ml-md" v-model="stars" size="24px"></q-rating>
+            </div>
+            <div class="text-caption">You need to build & refresh page on each change on Quasar</div>
+            <div class="text-caption">Do not include index-multiapp.umd.html in your commits</div>
+          </q-card-section>
+
+          <q-separator></q-separator>
+
+          <q-card-section class="row items-center no-wrap q-py-xs">
+            <div class="text-caption text-grey">$q.lang.label.update: {{ $q.lang.label.update }}</div>
+            <q-space></q-space>
+            <q-btn flat color="primary" label="Refresh" @click="onRefreshClick"></q-btn>
+          </q-card-section>
+        </q-card>
+
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@^3.0.0/dist/vue.global.prod.js"></script>
+    <script src="dist/quasar.umd.js"></script>
+    <script src="dist/lang/es.umd.prod.js"></script>
+    <script src="dist/lang/de.umd.prod.js"></script>
+    <script src="dist/lang/en-GB.umd.prod.js"></script>
+    <script src="dist/icon-set/fontawesome-v5.umd.prod.js"></script>
+    <script src="dist/icon-set/svg-fontawesome-v5.umd.prod.js"></script>
+
+    <script>
+      const app1 = Vue.createApp({
+        setup () {
+          return {
+            version: Quasar.version,
+            vueVersion: Vue.version
+          }
+        }
+      })
+
+      app1.use(Quasar, {
+        lang: Quasar.lang.es,
+        config: {
+          // globalNodes: {
+          //   class: 'gigi'
+          // }
+          brand: {
+            primary: '#ff0000'
+          }
+        }
+      })
+
+      const app2 = Vue.createApp({
+        setup () {
+          return {
+            stars: Vue.ref(5),
+            onRefreshClick () {
+              window.location.reload()
+            }
+          }
+        }
+      })
+
+      app2.use(Quasar, {
+        lang: Quasar.lang.de
+      })
+
+      Quasar.Notify.create('Startup notification')
+
+      Quasar.lang.set(Quasar.lang.es)
+      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)
+
+      app1.mount('#q-app1')
+      app2.mount('#q-app2')
+
+      console.log('fontawesome-v5 set', Quasar.iconSet.fontawesomeV5)
+      console.log('svg-fontawesome-v5 set', Quasar.iconSet.svgFontawesomeV5)
+      console.log('es lang', Quasar.lang.es)
+      console.log('en-GB lang', Quasar.lang.enGB)
+    </script>
+  </body>
+</html>

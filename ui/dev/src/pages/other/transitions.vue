@@ -3,28 +3,45 @@
     <q-btn push color="teal" label="Trigger" @click="trigger" class="q-my-lg" />
 
     <div class="q-gutter-lg row items-start">
-      <q-img
+      <div
         v-for="transition in transitions"
         :key="transition"
-        :transition="transition"
-        :src="url"
-        style="width: 150px"
-        ratio="1"
-        spinner-color="white"
+        style="width: 150px; height: 150px"
+        class="relative-position overflow-hidden"
       >
-        <div class="absolute-bottom text-center text-body2">
-          {{ transition }}
-        </div>
-      </q-img>
+        <transition :name="'q-transition--' + transition" appear>
+          <img
+            :key="gIndex + transition"
+            :src="url"
+            class="absolute-full"
+            style="width: 150px; height: 150px"
+          >
+        </transition>
+        <div class="bg-black text-center text-white absolute-top">{{ transition }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    let index = 0
+
+    const url = ref('https://cdn.quasar.dev/img/parallax2.jpg')
+    const gIndex = ref('q_0_')
+
     return {
-      url: 'https://placeimg.com/500/300/nature',
+      trigger () {
+        gIndex.value = 'q_' + (++index) + '_'
+        url.value = url.value === 'https://cdn.quasar.dev/img/parallax2.jpg'
+          ? 'https://cdn.quasar.dev/img/parallax1.jpg'
+          : 'https://cdn.quasar.dev/img/parallax2.jpg'
+      },
+      url,
+      gIndex,
       transitions: [
         'slide-right',
         'slide-left',
@@ -42,12 +59,6 @@ export default {
         'jump-up',
         'jump-down'
       ]
-    }
-  },
-
-  methods: {
-    trigger () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
     }
   }
 }

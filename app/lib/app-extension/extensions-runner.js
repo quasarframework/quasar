@@ -1,6 +1,6 @@
 const extensionJson = require('./extension-json')
 const Extension = require('./Extension')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 
 class ExtensionsRunner {
   constructor () {
@@ -14,7 +14,7 @@ class ExtensionsRunner {
     this.hooks = {}
     for (let ext of this.extensions) {
       const hooks = await ext.run(ctx)
-      this.hooks = merge(this.hooks, hooks)
+      this.hooks = merge({}, this.hooks, hooks)
     }
   }
 

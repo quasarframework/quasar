@@ -1,0 +1,127 @@
+{
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
+
+  "props": {
+    "model-value": {
+      "extends": "model-value",
+      "type": [ "Any", "Array" ],
+      "examples": [ "false", "['car', 'building']" ]
+    },
+
+    "val": {
+      "type": "Any",
+      "desc": "Works when model ('value') is Array. It tells the component which value should add/remove when ticked/unticked",
+      "examples": [ "car" ],
+      "category": "model"
+    },
+
+    "true-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as checked/ticked/on?",
+      "default": true,
+      "examples": [ "Agreed" ],
+      "category": "model"
+    },
+
+    "false-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as unchecked/unticked/off?",
+      "default": false,
+      "examples": [ "Disagree" ],
+      "category": "model"
+    },
+
+    "indeterminate-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as 'indeterminate'?",
+      "default": null,
+      "examples": [ 0, "not_answered" ],
+      "category": "behavior"
+    },
+
+    "toggle-order": {
+      "type": "String",
+      "desc": "Determines toggle order of the two states ('t' stands for state of true, 'f' for state of false); If 'toggle-indeterminate' is true, then the order is: indet -> first state -> second state -> indet (and repeat), otherwise: indet -> first state -> second state -> first state -> second state -> ...",
+      "default": "tf",
+      "values": [ "tf", "ft" ],
+      "category": "behavior"
+    },
+
+    "toggle-indeterminate": {
+      "type": "Boolean",
+      "desc": "When user clicks/taps on the component, should we toggle through the indeterminate state too?",
+      "category": "behavior"
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "Label to display along the component (or use the default slot instead of this prop)",
+      "examples": [ "I agree with the Terms and Conditions" ],
+      "category": "label"
+    },
+
+    "left-label": {
+      "type": "Boolean",
+      "desc": "Label (if any specified) should be displayed on the left side of the component",
+      "category": "label"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "keep-color": {
+      "type": "Boolean",
+      "desc": "Should the color (if specified any) be kept when the component is unticked/ off?",
+      "category": "behavior"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  },
+
+  "events": {
+    "update:model-value": {
+      "desc": "Emitted when the component needs to change the model; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "New model value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "toggle": {
+      "desc": "Toggle the state (of the model)"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot can be used as label, unless 'label' prop is specified; Suggestion: string"
+    }
+  }
+}

@@ -22,22 +22,21 @@ export default {
     months: 'Januaro_Februaro_Marto_Aprilo_Majo_Junio_Julio_Aŭgusto_Septembro_Oktobro_Novembro_Decembro'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aŭg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'tagoj'
   },
   table: {
     noData: 'Neniu datumo afiŝenda',
     noResults: 'Neniu datumo trovita',
     loading: 'Ŝarĝado...',
-    selectedRecords: function (rows) {
-      return rows > 0
+    selectedRecords: rows => (
+      rows > 0
         ? rows + ' ' + (rows === 1 ? 'elektita linio' : 'elektitaj linioj') + '.'
         : 'Neniu elektita linio.'
-    },
+    ),
     recordsPerPage: 'Linioj po paĝoj:',
     allRows: 'Ĉiuj',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' el ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' el ' + total,
     columns: 'Kolumnoj'
   },
   editor: {

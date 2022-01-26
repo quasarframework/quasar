@@ -22,22 +22,21 @@ export default {
     months: 'Siječanj_Veljača_Ožujak_Travanj_Svibanj_Lipanj_Srpanj_Kolovoz_Rujan_Listopad_Studeni_Prosinac'.split('_'),
     monthsShort: 'Sij_Velj_Ožu_Tra_Svi_Lip_Srp_Kol_Ruj_Lis_Stu_Pro'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dana'
   },
   table: {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',
     loading: 'Učitavanje...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' izabranih redova.'
         : (rows === 0 ? 'Nema' : '1') + ' izabranih redova.'
-    },
+    ),
     recordsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' od ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
     columns: 'Stupci'
   },
   editor: {

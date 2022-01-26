@@ -1,82 +1,106 @@
-import Vue from 'vue'
+import { h, ref, computed, Transition } from 'vue'
+
+import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
-import TagMixin from '../../mixins/tag.js'
-import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
+
+export default createComponent({
   name: 'QIntersection',
 
-  mixins: [ TagMixin ],
-
-  directives: {
-    Intersection
-  },
-
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     once: Boolean,
     transition: String,
+    transitionDuration: {
+      type: [ String, Number ],
+      default: 300
+    },
+
+    ssrPrerender: Boolean,
 
     margin: String,
     threshold: [ Number, Array ],
+    root: {
+      default: null
+    },
 
-    disable: Boolean
+    disable: Boolean,
+
+    onVisibility: Function
   },
 
-  data () {
-    return {
-      showing: false
-    }
-  },
+  setup (props, { slots, emit }) {
+    const showing = ref(isRuntimeSsrPreHydration.value === true ? props.ssrPrerender : false)
 
-  computed: {
-    value () {
-      return this.margin !== void 0 || this.threshold !== void 0
+    const intersectionProps = computed(() => (
+      props.root !== void 0 || props.margin !== void 0 || props.threshold !== void 0
         ? {
-          handler: this.__trigger,
-          cfg: {
-            rootMargin: this.margin,
-            threshold: this.threshold
+            handler: trigger,
+            cfg: {
+              root: props.root,
+              rootMargin: props.margin,
+              threshold: props.threshold
+            }
           }
-        }
-        : this.__trigger
-    }
-  },
+        : trigger
+    ))
 
-  methods: {
-    __trigger (entry) {
-      if (this.showing !== entry.isIntersecting) {
-        this.showing = entry.isIntersecting
+    const hasDirective = computed(() =>
+      props.disable !== true
+      && (isRuntimeSsrPreHydration.value !== true || props.once !== true || props.ssrPrerender !== true)
+    )
 
-        if (this.$listeners.visibility !== void 0) {
-          this.$emit('visibility', this.showing)
-        }
+    const directives = computed(() => {
+      // if hasDirective.value === true
+      return [ [
+        Intersection,
+        intersectionProps.value,
+        void 0,
+        { once: props.once }
+      ] ]
+    })
+
+    const transitionStyle = computed(
+      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+    )
+
+    function trigger (entry) {
+      if (showing.value !== entry.isIntersecting) {
+        showing.value = entry.isIntersecting
+        props.onVisibility !== void 0 && emit('visibility', showing.value)
       }
     }
-  },
 
-  render (h) {
-    const content = this.showing === true
-      ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
-      : void 0
+    function getContent () {
+      return showing.value === true
+        ? [ h('div', { key: 'content', style: transitionStyle.value }, hSlot(slots.default)) ]
+        : void 0
+    }
 
-    return h(this.tag, {
-      staticClass: 'q-intersection',
-      on: this.$listeners,
-      directives: this.disable === true ? null : [{
-        name: 'intersection',
-        value: this.value,
-        modifiers: {
-          once: this.once
-        }
-      }]
-    }, this.transition
-      ? [
-        h('transition', {
-          props: { name: 'q-transition--' + this.transition }
-        }, content)
-      ]
-      : content
-    )
+    return () => {
+      const child = props.transition
+        ? [
+            h(Transition, {
+              name: 'q-transition--' + props.transition
+            }, getContent)
+          ]
+        : getContent()
+
+      return hDir(
+        props.tag,
+        { class: 'q-intersection' },
+        child,
+        'main',
+        hasDirective.value,
+        () => directives.value
+      )
+    }
   }
 })

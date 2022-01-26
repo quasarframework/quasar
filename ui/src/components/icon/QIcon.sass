@@ -9,7 +9,7 @@
   direction: ltr
   text-align: center
   position: relative
-
+  box-sizing: content-box
   fill: currentColor // for svg paths
 
   &:before, &:after
@@ -19,9 +19,10 @@
     align-items: center
     justify-content: center
 
-  > svg
-    width: 100%
-    height: 100%
+  > svg,
+  > img
+    width: 1em
+    height: 1em
 
 .q-icon,
 .material-icons,

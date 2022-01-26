@@ -1,15 +1,26 @@
 .app-menu
+  .q-item
+    font-size: 12px
+
+  > .q-item, > .q-expansion-item > .q-expansion-item__container > .q-item
+    padding-top: 6px
+    padding-bottom: 6px
 
   .q-item__section--avatar
-    color: $primary
+    color: $brand-primary
+  .q-expansion-item__toggle-icon
+    color: $grey-5
 
-  .q-expansion-item--expanded > div > .q-item > .q-item__section--main
-    color: $primary
-    font-weight: 700
+  .q-expansion-item--expanded > div > .q-item
+      > .q-item__section--main
+        color: $brand-primary
+        font-weight: 500
+      > .q-item__section--side .q-expansion-item__toggle-icon
+        color: $brand-primary
 
   .q-expansion-item__content .q-item
     border-radius: 0 10px 10px 0
     margin-right: 12px
 
   .q-item.q-router-link--active
-    background: scale-color($primary, $lightness: 90%)
+    background: scale-color($brand-primary, $lightness: 90%)

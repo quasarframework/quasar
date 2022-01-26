@@ -1,12 +1,14 @@
 ---
 title: Input
 desc: The QInput Vue component is used to capture text input from the user.
+keys: QInput
 ---
 
 The QInput component is used to capture text input from the user. It uses `v-model`, similar to a regular input. It has support for errors and validation, and comes in a variety of styles, colors, and types.
 
-## Installation
-<doc-installation components="QInput"/>
+## QInput API
+
+<doc-api file="QInput" />
 
 ## Design
 
@@ -101,7 +103,7 @@ You'll be using `v-model.number` (notice the `number` modifier) along with `type
 :::
 
 ::: warning
-Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@input` event), but not write it.
+Do NOT use a `v-model` when QInput is of `type="file"`. Browser security policy does not allow a value to be set to such an input. As a result, you can only read it (attach an `@update:model-value` event), but not write it.
 :::
 
 <doc-example title="Input of file type" file="QInput/InputTypeFile" />
@@ -117,6 +119,22 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 ### Prefix and suffix
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
+
+### Custom Label
+
+Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
+
+::: tip
+Do not forget to set the `label-slot` property.
+
+If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
+:::
+
+<doc-example title="Custom label" file="QInput/CustomLabel" />
+
+### Shadow text
+
+<doc-example title="Shadow text" file="QInput/ShadowText" />
 
 ### Slots with QBtn type "submit"
 
@@ -154,7 +172,7 @@ Below are mask tokens:
 | `X` | Alphanumeric, transformed to uppercase for letters |
 | `x` | Alphanumeric, transformed to lowercase for letters |
 
-There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
+There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
 
 <doc-example title="Basic" file="QInput/MaskBasic" />
 
@@ -197,7 +215,7 @@ You can use v-money directive:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <input :id="id" class="q-field__input text-right" :value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+    <input :id="id" class="q-field__input text-right" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
   </template>
 </q-field>
 ```
@@ -223,7 +241,7 @@ Or you can use money component:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <money :id="id" class="q-field__input text-right" :value="value" @input="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+    <money :id="id" class="q-field__input text-right" :model-value="value" @update:model-value="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
   </template>
 </q-field>
 ```
@@ -245,6 +263,10 @@ moneyFormatForComponent: {
 
 You can validate QInput components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
 
+::: tip
+By default, for perf reasons, a change in the rules does not trigger a new validation until the model changes. In order to trigger the validation when rules change too, then use `reactive-rules` Boolean prop. The downside is a performance penalty (so use it when you really need this only!) and it can be slightly mitigated by using a computed prop as value for the rules (and not specify them inline in the vue template).
+:::
+
 This is so you can write convenient rules of shape like:
 
 ```js
@@ -263,7 +285,7 @@ There are **helpers** for QInput `rules` prop: [full list](https://github.com/qu
 
 <doc-example title="Maximum length" file="QInput/ValidationMaxLength" />
 
-If you set `lazy-rules`, validation starts after first blur.
+If you set `lazy-rules`, validation starts after first blur. If `lazy-rules` is set to `ondemand` String, then validation will be triggered only when component's validate() method is manually called or when the wrapper QForm submits itself.
 
 <doc-example title="Lazy rules" file="QInput/ValidationLazy" />
 
@@ -292,11 +314,8 @@ You can also customize the slot for error message:
 
 <doc-example title="Slot for error message" file="QInput/ValidationSlots" />
 
-## Native form submit <q-badge align="top" label="v1.9+" />
+## Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QInput/NativeForm" />
-
-## QInput API
-<doc-api file="QInput" />

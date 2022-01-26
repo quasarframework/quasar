@@ -31,39 +31,42 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      inView: []
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onIntersection (entry) {
+export default {
+  setup () {
+    const inView = ref([])
+
+    function onIntersection (entry) {
       if (entry.isIntersecting === true) {
-        this.add(entry.target.dataset.id)
+        add(entry.target.dataset.id)
       }
       else {
-        this.remove(entry.target.dataset.id)
+        remove(entry.target.dataset.id)
       }
-    },
+    }
 
-    add (i) {
-      this.remove(i)
-      this.inView.push(i)
-      this.inView.sort(this.sortAtoi)
-    },
+    function add (i) {
+      remove(i)
+      inView.value.push(i)
+      inView.value.sort(sortAtoi)
+    }
 
-    remove (i) {
+    function remove (i) {
       let index
-      while ((index = this.inView.indexOf(i)) > -1) {
-        this.inView.splice(index, 1)
-        this.inView.sort(this.sortAtoi)
+      while ((index = inView.value.indexOf(i)) > -1) {
+        inView.value.splice(index, 1)
+        inView.value.sort(sortAtoi)
       }
-    },
+    }
 
-    sortAtoi (a, b) {
+    function sortAtoi (a, b) {
       return Number(a) - Number(b)
+    }
+
+    return {
+      inView,
+      onIntersection
     }
   }
 }

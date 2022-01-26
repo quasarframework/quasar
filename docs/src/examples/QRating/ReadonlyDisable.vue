@@ -19,14 +19,13 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      ratingModel: 3
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
+export default {
+  setup () {
+    return {
+      ratingModel: ref(3)
+    }
   }
 }
 </script>

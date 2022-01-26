@@ -1,23 +1,16 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import { mergeSlot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { hUniqueSlot } from '../../utils/private/render.js'
+import { layoutKey } from '../../utils/private/symbols.js'
+
+export default createComponent({
   name: 'QHeader',
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QHeader needs to be child of QLayout')
-      }
-    }
-  },
-
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
       default: true
     },
@@ -30,149 +23,158 @@ export default Vue.extend({
     elevated: Boolean,
 
     heightHint: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 50
     }
   },
 
-  data () {
-    return {
-      size: parseInt(this.heightHint, 10),
-      revealed: true
-    }
-  },
+  emits: [ 'reveal', 'focusin' ],
 
-  watch: {
-    value (val) {
-      this.__update('space', val)
-      this.__updateLocal('revealed', true)
-      this.layout.__animate()
-    },
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
 
-    offset (val) {
-      this.__update('offset', val)
-    },
+    const $layout = inject(layoutKey, () => {
+      console.error('QHeader needs to be child of QLayout')
+    })
 
-    reveal (val) {
-      val === false && this.__updateLocal('revealed', this.value)
-    },
+    const size = ref(parseInt(props.heightHint, 10))
+    const revealed = ref(true)
 
-    revealed (val) {
-      this.layout.__animate()
-      this.$emit('reveal', val)
-    },
+    const fixed = computed(() =>
+      props.reveal === true
+      || $layout.view.value.indexOf('H') > -1
+      || ($q.platform.is.ios && $layout.isContainer.value === true)
+    )
 
-    'layout.scroll' (scroll) {
-      this.reveal === true && this.__updateLocal('revealed',
-        scroll.direction === 'up' ||
-        scroll.position <= this.revealOffset ||
-        scroll.position - scroll.inflexionPosition < 100
-      )
-    }
-  },
-
-  computed: {
-    fixed () {
-      return this.reveal === true ||
-        this.layout.view.indexOf('H') > -1 ||
-        this.layout.container === true
-    },
-
-    offset () {
-      if (this.value !== true) {
+    const offset = computed(() => {
+      if (props.modelValue !== true) {
         return 0
       }
-      if (this.fixed === true) {
-        return this.revealed === true ? this.size : 0
+      if (fixed.value === true) {
+        return revealed.value === true ? size.value : 0
       }
-      const offset = this.size - this.layout.scroll.position
+      const offset = size.value - $layout.scroll.value.position
       return offset > 0 ? offset : 0
-    },
+    })
 
-    classes () {
-      return (
-        this.fixed === true ? 'fixed' : 'absolute') + '-top' +
-        (this.bordered === true ? ' q-header--bordered' : '') +
-        (
-          this.value !== true || (this.fixed === true && this.revealed !== true)
-            ? ' q-header--hidden'
-            : ''
-        )
-    },
+    const hidden = computed(() => props.modelValue !== true
+      || (fixed.value === true && revealed.value !== true)
+    )
 
-    style () {
+    const revealOnFocus = computed(() =>
+      props.modelValue === true && hidden.value === true && props.reveal === true
+    )
+
+    const classes = computed(() =>
+      'q-header q-layout__section--marginal '
+      + (fixed.value === true ? 'fixed' : 'absolute') + '-top'
+      + (props.bordered === true ? ' q-header--bordered' : '')
+      + (hidden.value === true ? ' q-header--hidden' : '')
+      + (props.modelValue !== true ? ' q-layout--prevent-focus' : '')
+    )
+
+    const style = computed(() => {
       const
-        view = this.layout.rows.top,
+        view = $layout.rows.value.top,
         css = {}
 
-      if (view[0] === 'l' && this.layout.left.space === true) {
-        css[this.$q.lang.rtl === true ? 'right' : 'left'] = `${this.layout.left.size}px`
+      if (view[ 0 ] === 'l' && $layout.left.space === true) {
+        css[ $q.lang.rtl === true ? 'right' : 'left' ] = `${ $layout.left.size }px`
       }
-      if (view[2] === 'r' && this.layout.right.space === true) {
-        css[this.$q.lang.rtl === true ? 'left' : 'right'] = `${this.layout.right.size}px`
+      if (view[ 2 ] === 'r' && $layout.right.space === true) {
+        css[ $q.lang.rtl === true ? 'left' : 'right' ] = `${ $layout.right.size }px`
       }
 
       return css
+    })
+
+    function updateLayout (prop, val) {
+      $layout.update('header', prop, val)
     }
-  },
 
-  render (h) {
-    const child = mergeSlot([
-      h(QResizeObserver, {
-        props: { debounce: 0 },
-        on: cache(this, 'resize', { resize: this.__onResize })
-      })
-    ], this, 'default')
-
-    this.elevated === true && child.push(
-      h('div', {
-        staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
-      })
-    )
-
-    return h('header', {
-      staticClass: 'q-header q-layout__section--marginal',
-      class: this.classes,
-      style: this.style,
-      on: {
-        ...this.$listeners,
-        input: stop
+    function updateLocal (prop, val) {
+      if (prop.value !== val) {
+        prop.value = val
       }
-    }, child)
-  },
-
-  created () {
-    this.layout.instances.header = this
-    this.value === true && this.__update('size', this.size)
-    this.__update('space', this.value)
-    this.__update('offset', this.offset)
-  },
-
-  beforeDestroy () {
-    if (this.layout.instances.header === this) {
-      this.layout.instances.header = void 0
-      this.__update('size', 0)
-      this.__update('offset', 0)
-      this.__update('space', false)
     }
-  },
 
-  methods: {
-    __onResize ({ height }) {
-      this.__updateLocal('size', height)
-      this.__update('size', height)
-    },
+    function onResize ({ height }) {
+      updateLocal(size, height)
+      updateLayout('size', height)
+    }
 
-    __update (prop, val) {
-      if (this.layout.header[prop] !== val) {
-        this.layout.header[prop] = val
+    function onFocusin (evt) {
+      if (revealOnFocus.value === true) {
+        updateLocal(revealed, true)
       }
-    },
 
-    __updateLocal (prop, val) {
-      if (this[prop] !== val) {
-        this[prop] = val
+      emit('focusin', evt)
+    }
+
+    watch(() => props.modelValue, val => {
+      updateLayout('space', val)
+      updateLocal(revealed, true)
+      $layout.animate()
+    })
+
+    watch(offset, val => {
+      updateLayout('offset', val)
+    })
+
+    watch(() => props.reveal, val => {
+      val === false && updateLocal(revealed, props.modelValue)
+    })
+
+    watch(revealed, val => {
+      $layout.animate()
+      emit('reveal', val)
+    })
+
+    watch($layout.scroll, scroll => {
+      props.reveal === true && updateLocal(revealed,
+        scroll.direction === 'up'
+        || scroll.position <= props.revealOffset
+        || scroll.position - scroll.inflectionPoint < 100
+      )
+    })
+
+    const instance = {}
+
+    $layout.instances.header = instance
+    props.modelValue === true && updateLayout('size', size.value)
+    updateLayout('space', props.modelValue)
+    updateLayout('offset', offset.value)
+
+    onBeforeUnmount(() => {
+      if ($layout.instances.header === instance) {
+        $layout.instances.header = void 0
+        updateLayout('size', 0)
+        updateLayout('offset', 0)
+        updateLayout('space', false)
       }
+    })
+
+    return () => {
+      const child = hUniqueSlot(slots.default, [])
+
+      props.elevated === true && child.push(
+        h('div', {
+          class: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        })
+      )
+
+      child.push(
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize
+        })
+      )
+
+      return h('header', {
+        class: classes.value,
+        style: style.value,
+        onFocusin
+      }, child)
     }
   }
 })

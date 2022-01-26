@@ -14,7 +14,25 @@
       <div class="text-h6">
         Internal validation
         <q-btn label="Reset" @click="reset" color="primary" flat />
+
+        <q-toggle v-model="testRule20" label="Trigger rule on less than 20" />
       </div>
+
+      <q-input
+        v-model.number="test1"
+        type="number"
+        :label="`Trigger error on less than ${ testRule20 ? 20 : 10 }`"
+        :rules="testRule"
+      />
+
+      <q-input
+        v-model.number="test2"
+        type="number"
+        :label="`Lazy trigger error on less than ${ testRule20 ? 20 : 10 }`"
+        :rules="testRule"
+        reactive-rules
+        lazy-rules
+      />
 
       <q-input
         v-model.number="model"
@@ -45,7 +63,9 @@
           val => val.length <= 3 || 'Please use maximum 3 characters'
         ]"
       >
-        <q-icon slot="append" name="close" @click="model2 = ''" class="cursor-pointer" />
+        <template v-slot:append>
+          <q-icon name="close" @click="model2 = ''" class="cursor-pointer" />
+        </template>
       </q-input>
 
       <q-input
@@ -89,7 +109,7 @@
         v-bind="{[type]: true}"
         label="Slider - >= 10, Lazy"
         stack-label
-        :value="num"
+        :model-value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
@@ -110,7 +130,7 @@
         v-bind="{[type]: true}"
         label="Date - required, Lazy"
         stack-label
-        :value="date"
+        :model-value="date"
         :rules="[
           val => !!val || '* Required',
         ]"
@@ -127,7 +147,7 @@
         v-bind="{[type]: true}"
         label="Time - required, Lazy"
         stack-label
-        :value="time"
+        :model-value="time"
         :rules="[
           val => !!val || '* Required',
         ]"
@@ -144,7 +164,7 @@
         v-bind="{[type]: true}"
         label="Knob - >= 10, Lazy"
         stack-label
-        :value="num"
+        :model-value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
@@ -167,7 +187,7 @@
       </q-field>
 
       <q-input
-        ref="input3"
+        ref="input4"
         v-bind="{[type]: true}"
         v-model="model4"
         label="Required, Len > 1, Len > 2"
@@ -181,7 +201,7 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input5"
         v-bind="{[type]: true}"
         v-model="model5"
         label="Multiple - call stack test *"
@@ -193,7 +213,7 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input6"
         v-bind="{[type]: true}"
         v-model="model6"
         label="Multiple - async call stack test *"
@@ -207,7 +227,7 @@
         Async rules
       </div>
       <q-input
-        ref="input1"
+        ref="input7"
         v-bind="{[type]: true}"
         v-model="model7"
         label="Only async *"
@@ -217,9 +237,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input8"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model8"
         label="Multiple async *"
         :rules="[
           asyncRule,
@@ -228,9 +248,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input9"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model9"
         label="Loading slot *"
         :rules="[
           asyncRule
@@ -242,9 +262,9 @@
       </q-input>
 
       <q-input
-        ref="input1"
+        ref="input10"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model10"
         debounce="1000"
         label="X Mixed *"
         :rules="[
@@ -254,9 +274,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input11"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model11"
         debounce="1000"
         label="Debounced input *"
         :rules="[
@@ -265,9 +285,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input12"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model12"
         label="Mixed, Lazy *"
         lazy-rules
         :rules="[
@@ -277,9 +297,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input13"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model13"
         label="Lazy async *"
         lazy-rules
         :rules="[
@@ -296,7 +316,6 @@
         <q-radio v-model="errorMessage" val="Second error" label="Second error" />
       </div>
       <q-input
-        ref="inputExternal"
         v-bind="{[type]: true}"
         v-model="modelExternal"
         label="Label"
@@ -306,7 +325,6 @@
       />
 
       <q-input
-        ref="inputExternal"
         v-bind="{[type]: true}"
         v-model="modelExternal"
         label="Label"
@@ -314,12 +332,11 @@
         :error="error"
         style="margin-bottom: 30px"
       >
-        <div slot="error">
-          Slotted error message
-        </div>
-        <div slot="error">
-          Second slotted error message
-        </div>
+        <template v-slot:error>
+          <div>
+            Slotted error message
+          </div>
+        </template>
       </q-input>
     </div>
   </div>
@@ -328,7 +345,7 @@
 <script>
 export default {
   data () {
-    const n = 7
+    const n = 13
 
     const data = {
       model: null,
@@ -343,20 +360,37 @@ export default {
       ],
       num: 0,
       date: '',
-      time: ''
+      time: '',
+
+      test1: 11,
+      test2: 11,
+
+      testRule20: false
     }
 
     for (let i = 1; i <= n; i++) {
-      data['model' + i] = ''
+      data[ 'model' + i ] = ''
     }
 
     return data
   },
 
+  computed: {
+    testRule () {
+      return this.testRule20 === true
+        ? [
+            val => val >= 20 || 'Select at least 20'
+          ]
+        : [
+            val => val >= 10 || 'Select at least 10'
+          ]
+    }
+  },
+
   methods: {
     reset () {
       for (let i = 1; i <= this.n; i++) {
-        this.$refs['input' + i].resetValidation()
+        this.$refs[ 'input' + i ].resetValidation()
       }
     },
 

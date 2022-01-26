@@ -2,28 +2,37 @@ const fs = require('fs')
 const path = require('path')
 const compileTemplate = require('lodash.template')
 
-const log = require('./helpers/logger')('app:generator')
+const { log } = require('./helpers/logger')
 const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {
-  constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+  constructor (quasarConfFile) {
+    const { ctx } = quasarConfFile.quasarConf
 
     this.alreadyGenerated = false
-    this.quasarConfig = quasarConfig
+    this.quasarConfFile = quasarConfFile
 
     const paths = [
       'app.js',
       'client-entry.js',
-      'import-quasar.js'
+      'client-prefetch.js',
+      'quasar-user-options.js'
     ]
 
-    if (preFetch) {
-      paths.push('client-prefetch.js')
-    }
     if (ctx.mode.ssr) {
-      paths.push('server-entry.js')
+      paths.push(
+        'server-entry.js',
+        'ssr-pwa.js',
+        'ssr-middlewares.js'
+      )
+
+      if (ctx.prod) {
+        paths.push(
+          'ssr-prod-webserver.js',
+          'ssr-fallback-production-export.js'
+        )
+      }
     }
 
     this.files = paths.map(file => {
@@ -40,25 +49,10 @@ class Generator {
         template: compileTemplate(content)
       }
     })
-
-    if (ctx.prod && ctx.mode.ssr) {
-      const ssrFile = path.join(__dirname, 'ssr/template.prod-webserver.js')
-
-      this.files.push({
-        filename: 'ssr.js',
-        dest: path.join(quasarFolder, 'ssr-config.js'),
-        template: compileTemplate(fs.readFileSync(ssrFile, 'utf-8')),
-        dataFn: quasarConfig => ({
-          opts: quasarConfig.ssr.__templateOpts,
-          flags: quasarConfig.ssr.__templateFlags
-        })
-      })
-    }
   }
 
   build () {
-    log(`Generating Webpack entry point`)
-    const data = this.quasarConfig.getBuildConfig()
+    const data = this.quasarConfFile.quasarConf
 
     // ensure .quasar folder
     if (!fs.existsSync(quasarFolder)) {
@@ -71,11 +65,7 @@ class Generator {
     }
 
     this.files.forEach(file => {
-      const templateData = file.dataFn !== void 0
-        ? file.dataFn(data)
-        : data
-
-      fs.writeFileSync(file.dest, file.template(templateData), 'utf-8')
+      fs.writeFileSync(file.dest, file.template(data), 'utf-8')
     })
 
     if (!this.alreadyGenerated) {

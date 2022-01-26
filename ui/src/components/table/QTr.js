@@ -1,8 +1,9 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import { slot } from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default createComponent({
   name: 'QTr',
 
   props: {
@@ -10,17 +11,13 @@ export default Vue.extend({
     noHover: Boolean
   },
 
-  computed: {
-    classes () {
-      return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
-        (this.noHover === true ? ' q-tr--no-hover' : '')
-    }
-  },
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-tr'
+      + (props.props === void 0 || props.props.header === true ? '' : ' ' + props.props.__trClass)
+      + (props.noHover === true ? ' q-tr--no-hover' : '')
+    )
 
-  render (h) {
-    return h('tr', {
-      on: this.$listeners,
-      class: this.classes
-    }, slot(this, 'default'))
+    return () => h('tr', { class: classes.value }, hSlot(slots.default))
   }
 })

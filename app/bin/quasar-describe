@@ -4,8 +4,7 @@ const parseArgs = require('minimist')
 const chalk = require('chalk')
 
 const getApi = require('../lib/helpers/get-api')
-const logger = require('../lib/helpers/logger')
-const warn = logger('app:describe', 'red')
+const { fatal } = require('../lib/helpers/logger')
 
 const partArgs = {
   p: 'props',
@@ -41,6 +40,11 @@ if (!item || argv.help) {
 
   Usage
     $ quasar describe <component/directive/Quasar plugin>
+
+    # list all available API entries:
+    $ quasar describe list
+    # list available API entries that contain a String (ex "storage"):
+    $ quasar describe list storage
 
     # display everything:
     $ quasar describe QIcon
@@ -242,36 +246,8 @@ function printSlots ({ slots }) {
   }
 
   for (let slot in slots) {
-    console.log('\n   ' + chalk.green(slot))
-    console.log('     ' + slots[slot].desc)
-  }
-}
-
-function printScopedSlots ({ scopedSlots }) {
-  const keys = Object.keys(scopedSlots || {})
-
-  console.log('\n ' + chalk.underline('Scoped Slots'))
-
-  if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No scoped slots*'))
-    return
-  }
-
-  if (argv.filter) {
-    keys.forEach(key => {
-      if (key.indexOf(argv.filter) === -1) {
-        delete scopedSlots[key]
-      }
-    })
-    if (Object.keys(scopedSlots).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching scoped slots*'))
-      return
-    }
-  }
-
-  for (let slot in scopedSlots) {
     console.log()
-    printProp(scopedSlots[slot], slot, 3)
+    printProp(slots[slot], slot, 3)
   }
 }
 
@@ -280,14 +256,8 @@ function printEvents ({ events, behavior = {} }) {
 
   console.log('\n ' + chalk.underline('Events'))
 
-  if (behavior.$listeners !== void 0) {
-    console.log(`\n   ${chalk.italic(behavior.$listeners.desc)}`)
-  }
-
   if (keys.length === 0) {
-    if (behavior.$listeners === void 0) {
-      console.log('\n   ' + chalk.italic('*No events*'))
-    }
+    console.log('\n   ' + chalk.italic('*No events*'))
     return
   }
 
@@ -460,14 +430,15 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
 function describe (api) {
   switch (api.type) {
     case 'component':
+      apiParts.quasar === true && printQuasarConfOptions(api)
       apiParts.props === true && printProperties(api)
       apiParts.slots === true && printSlots(api)
-      apiParts.slots === true && printScopedSlots(api)
       apiParts.events === true && printEvents(api)
       apiParts.methods === true && printMethods(api)
       break
 
     case 'directive':
+      apiParts.quasar === true && printQuasarConfOptions(api)
       apiParts.value === true && printValue(api)
       apiParts.arg === true && printArg(api)
       apiParts.modifiers === true && printModifiers(api)
@@ -499,7 +470,8 @@ async function run () {
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
-        console.log(` Opening the docs URL also requires "quasar" v1.5+`)
+        console.log(` Please report this issue to: https://github.com/quasarframework/quasar/issues/`)
+        console.log(` Write down the command that you tried along with a complete log of "quasar info" command output`)
         console.log()
       }
     }
@@ -518,9 +490,48 @@ async function run () {
     }
   }
   catch (e) {
-    warn(e)
-    process.exit(1)
+    fatal(e)
   }
 }
 
-run()
+function listElements () {
+  const getDevlandFile = require('../lib/helpers/get-devland-file')
+  let api = getDevlandFile('quasar/dist/transforms/api-list.json')
+
+  if (api === void 0) {
+    console.log(e)
+    fatal(` Could not retrieve list...`)
+  }
+
+  const filter = argv._[1]
+
+  if (filter) {
+    const needle = filter.toLowerCase()
+    const filterBanner = chalk.green(filter)
+    api = api.filter(entry => entry.toLowerCase().indexOf(needle) !== -1)
+
+    if (api.length === 0) {
+      console.log(`\n Nothing matches "${ filterBanner }". Please refine the search term.\n`)
+      process.exit(0)
+    }
+
+    console.log(`\n The list of API elements that match "${ filterBanner }":\n`)
+  }
+  else {
+    console.log(`\n The complete list of API elements:\n`)
+  }
+
+  const dot = chalk.green('  • ')
+
+  api.forEach(entry => {
+    console.log(dot + entry)
+  })
+  console.log()
+}
+
+if (item === 'list') {
+  listElements()
+}
+else {
+  run()
+}

@@ -4,15 +4,13 @@ desc: How to use the Sass/SCSS variables defined by Quasar.
 components:
   - style/SassVariables
 related:
-  - /quasar-cli/cli-documentation/css-preprocessors
-  - /style/stylus-variables
+  - /quasar-cli/css-preprocessors
 ---
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
 
 ::: warning
-* This applies to Quasar CLI managed apps only.
-* **The minimum required version of `@quasar/app` is v1.1. You will also need `quasar` v1.1.1+.**
+This applies to Quasar CLI managed apps only.
 :::
 
 ## Usage
@@ -40,7 +38,7 @@ You don't need to necessarily have the `src/css/quasar.variables.sass` or `src/c
 :::
 
 ::: danger
-When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your devserver in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
+When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
 :::
 
 ## Caveat
@@ -72,10 +70,9 @@ Quasar is very easy to customize without the need of tampering with the Sass/SCS
 :::
 
 ## Quasar's CSS
-Quasar's own CSS is compiled using the variables file (if it exists), but you can also use [Stylus variables](/style/stylus-variables). So there has to be a priority list for Quasar CLI:
+Quasar's own CSS is compiled using the variables file (if it exists), but there are multiple forms (sass, scss). So there has to be a priority list for Quasar CLI:
 
-* Does `src/css/quasar.variables.styl` exists? Use that.
-* If not, then does `src/css/quasar.variables.scss` exists? Use that.
+* Does `src/css/quasar.variables.scss` exists? Use that.
 * If not, then does `src/css/quasar.variables.sass` exists? Use that.
 * If not, then use pre-compiled Quasar CSS.
 

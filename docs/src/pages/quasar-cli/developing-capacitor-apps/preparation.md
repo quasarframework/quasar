@@ -1,5 +1,5 @@
 ---
-title: Capacitor App Preparation
+title: Preparation for Capacitor App
 desc: What you need to do before developing a Quasar hybrid mobile app with Capacitor.
 ---
 
@@ -13,25 +13,31 @@ Before we dive in to the actual development, we need to do some preparation work
 
 * Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin and call `sdkmanager --licenses`.
 
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
+
 * Add Android installation to your path:
 
 #### Unix (macOS, linux)
 
 ```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
-PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
+export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
+PATH=$PATH:$ANDROID_SDK_ROOT/tools; PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 ```
 
-> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
+> Please note that sometimes the `/Android/Sdk` folder is added inside `/Library/` inside your user folder. Check your user folder and if the `/Android/` folder is only inside `/Library/` do: `export ANDROID_SDK_ROOT="$HOME/Library/Android/Sdk"` or `export ANDROID_HOME="$HOME/Library/Android/Sdk"` instead.
 
 #### Windows
 
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
+setx ANDROID_SDK_ROOT "%USERPROFILE%\AppData\Local\Android\Sdk"
+setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools"
 ```
 
-- Start Android studio by changing into the folder you installed it in and run `./studio.sh`. Next step is to install the individual SDKs:
+- Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
 
 - Open the "Configure" menu at the bottom of the window:
 
@@ -61,7 +67,7 @@ To start a dev server with HMR, run the command below:
 $ quasar dev -m capacitor -T [android|ios]
 ```
 
-Once the dev server is ready, your IDE will open (Android Studio or Xcode)and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.
+Once the dev server is ready, your IDE will open (Android Studio or Xcode) and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.
 
 ::: warning
 In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
@@ -71,4 +77,5 @@ In Android Studio, you will be greeted with a message recommending to upgrade th
 If you encounter any IDE errors then click on File > Invalidate caches and restart.
 
 <img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+
 :::

@@ -42,12 +42,12 @@
             right: 0
           }"
         >
-          <img src="https://cdn.quasar.dev/img/quasar-logo.png" style="width: 150px; height: 150px">
+          <img src="https://cdn.quasar.dev/logo-v2/128/logo-dark.png" style="width: 150px; height: 150px">
           <div class="text-h3 text-white text-center">
             Quasar Framework
           </div>
           <div class="text-h6 text-grey-3 text-center">
-            Scoped slot
+            Using content slot
           </div>
         </div>
       </template>
@@ -81,7 +81,7 @@
     <q-toggle v-model="imgSrc" true-value="https://cdn.quasar.dev/img/parallax1.jpg" false-value="https://cdn.quasar.dev/img/mountains.jpg" label="Toggle Image" />
     <q-parallax :src="imgSrc" :height="200">
       <h1 class="text-white">
-        Parallax  Title
+        Parallax Title
       </h1>
     </q-parallax>
 

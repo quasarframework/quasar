@@ -14,10 +14,7 @@
     </q-card>
 
     <q-card class="my-card">
-      <q-img
-        src="https://cdn.quasar.dev/img/parallax2.jpg"
-        basic
-      >
+      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
         <div class="absolute-bottom text-subtitle2 text-center">
           Title
         </div>
@@ -25,10 +22,7 @@
     </q-card>
 
     <q-card class="my-card">
-      <q-img
-        src="https://cdn.quasar.dev/img/parallax2.jpg"
-        basic
-      >
+      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
         <div class="absolute-bottom text-h6">
           Title
         </div>
@@ -90,7 +84,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     }

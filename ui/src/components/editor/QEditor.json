@@ -1,19 +1,18 @@
 {
-  "mixins": [ "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-fullscreen" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/editor"
+    "docsUrl": "https://v2.quasar.dev/vue-components/editor"
   },
 
   "props": {
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": "String",
-      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "required": true,
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [
         "v-model=\"content\""
-      ],
-      "category": "model"
+      ]
     },
 
     "readonly": {
@@ -35,8 +34,7 @@
     },
 
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "disable": {
@@ -116,20 +114,36 @@
           "examples": [ "insertHTML", "justifyFull" ]
         },
         "param": {
-          "type": [ "String", "Function" ],
+          "type": "String",
           "desc": "Only set a param if using a \"cmd\". This is commonly text or HTML to inject, but is highly dependent upon the specific cmd being called.",
           "examples": [ "<img src=\"://uploads/001.jpg\" alt=\"nice pic\" />" ]
         },
         "disable": {
           "type": [ "Boolean", "Function" ],
-          "desc": "Is button disabled? If specifying a function, return a Boolean value.",
-          "examples": [ "() => this.userIsActive()" ]
+          "desc": "Is button disabled?",
+          "returns": {
+            "type": "Boolean",
+            "desc": "If true, the button will be disabled"
+          },
+          "examples": [ "!user.active", "() => !checkIfUserIsActive()" ]
         },
         "type": {
           "type": "String",
           "desc": "Pass the value \"no-state\" if the button should not have an \"active\" state",
           "values": [ null, "no-state" ],
           "examples": [ "no-state" ]
+        },
+        "fixedLabel": {
+          "type": "Boolean",
+          "desc": "Lock the button label, so it doesn't change based on the child option selected."
+        },
+        "fixedIcon": {
+          "type": "Boolean",
+          "desc": "Lock the button icon, so it doesn't change based on the child option selected."
+        },
+        "highlight": {
+          "type": "Boolean",
+          "desc": "Highlight the toolbar button, when a child option has been selected."
         }
       },
       "category": "toolbar"
@@ -204,27 +218,43 @@
       "category": "toolbar|style"
     },
 
+    "paragraph-tag": {
+      "type": "String",
+      "desc": "Paragraph tag to be used",
+      "values": [ "div", "p" ],
+      "category": "behavior"
+    },
+
     "content-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for styling the container of QEditor",
       "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
       "category": "style"
     },
 
     "content-class": {
-      "type": [ "Object", "Array", "String" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes for the input area",
       "examples": [
         "my-special-class",
         ":content-class=\"{ 'my-special-class': <condition> }\""
       ],
       "category": "style"
+    },
+
+    "placeholder": {
+      "type": "String",
+      "desc": "Text to display as placeholder",
+      "examples": [ "Type your story here ..." ],
+      "category": "content"
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "params": {
         "value": {
           "type": "String",
@@ -268,7 +298,7 @@
     "getContentEl": {
       "desc": "Retrieve the content of the Editor",
       "returns": {
-        "type": "String",
+        "type": "Element",
         "desc": "Provides the pure HTML within the editable area",
         "__exemption": [ "examples" ]
       }

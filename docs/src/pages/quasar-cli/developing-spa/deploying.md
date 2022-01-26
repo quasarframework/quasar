@@ -12,7 +12,8 @@ If your favorite deployment tool is missing feel free to create a pull request o
 
 The first step in deploying your Quasar SPA is always to build a production-ready bundle of your files, which gets rid of development statements and minifies your source.
 
-To produce such a build use Quasar CLI with the following command
+To produce such a build use Quasar CLI with the following command:
+
 ```bash
 $ quasar build
 ```
@@ -26,6 +27,7 @@ Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](http
 The web server requires no special setup (unless you built with Vue Router in "history" mode in `quasar.conf.js`). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
 
 An example config for nginx may look like this:
+
 ```
 server {
     listen 80 http2;
@@ -45,7 +47,6 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
-    location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
 
     access_log off;
@@ -57,12 +58,46 @@ server {
 }
 ```
 
+## Important Hosting Configuration
 
-## Deploying with Now.sh
-Deploying your Quasar application with [now](https://zeit.co/now) is really easy.
-All you have to do is to download the [now-cli](https://zeit.co/download#now-cli) and log in by running:
+It's important that you do not allow browsers to cache the `index.html` file. Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the index.html from cache.
+
+This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of the `index.html` file via your hosting service.
+
+As an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:
+
+```json
+{
+  "hosting": {
+    "headers": [
+      {
+        "source": "/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(jpg|jpeg|gif|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=604800"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Deploying with Vercel
+Deploying your Quasar application with [Vercel](https://vercel.com/) is really easy.
+All you have to do is to download the [vercel-cli](https://vercel.com/download#now-cli) and log in by running:
 ```bash
-$ now login
+$ vercel login
 ```
 
 Then proceed to build your Quasar application using the steps described in "General deployment" section.
@@ -70,27 +105,27 @@ Then proceed to build your Quasar application using the steps described in "Gene
 After the build is finished, change directory into your deploy root (example: `/dist/spa`) and run:
 ```bash
 # from /dist/spa (or your distDir)
-$ now
+$ vercel
 ```
 
-The Now CLI should now display information regarding your deployment, like the URL. That's it. You're done.
+The Vercel CLI should now display information regarding your deployment, like the URL. That's it. You're done.
 
-### _Now.sh_ configuration tips
+### Vercel configuration tips
 You should consider adding some additional configurations to your project.
 
-* Since _now.sh_ expects the _build_ script to be defined, you may add in `package.json` the following scripts: 
+* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
 ```json
   {
     ..
     "scripts": {
       ...
       "build": "quasar build",
-      "deploy": "now"
+      "deploy": "vercel"
     }
   }
 ```
 
-* Since _now.sh_ expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
+* Since Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
 consider updating `quasar.conf.js` accordingly:
 ```js
 module.exports = function (ctx) {
@@ -102,7 +137,7 @@ module.exports = function (ctx) {
     }
 ```
 
-* In order to support SPA routing in the deployed app, consider adding `now.json` file in your root folder:
+* In order to support SPA routing in the deployed app, consider adding `vercel.json` file in your root folder:
 ```json
 {
   "routes": [
@@ -138,6 +173,7 @@ app.listen(port)
 ```
 
 Heroku assumes a set of npm scripts to be available, so we have to alter our `package.json` and add the following under the `script` section:
+
 ```js
 "build": "quasar build",
 "start": "node server.js",
@@ -145,13 +181,26 @@ Heroku assumes a set of npm scripts to be available, so we have to alter our `pa
 ```
 
 Now it is time to create an app on Heroku by running:
+
 ```bash
 $ heroku create
 ```
 
 and deploy to Heroku using:
+
 ```bash
-$ heroku deploy
+$ git init
+$ heroku git:remote -a <heroku app name>
+
+$ git add .
+$ git commit -am "make it better"
+$ git push heroku master
+```
+
+For existing Git repositories, simply add the heroku remote:
+
+```bash
+$ heroku git:remote -a <heroku app name>
 ```
 
 ## Deploying with Surge
@@ -159,16 +208,19 @@ $ heroku deploy
 [Surge](https://surge.sh/) is a popular tool to host and deploy static sites.
 
 If you want to deploy your application with Surge you first need to install the Surge CLI tool:
+
 ```bash
 $ npm install -g surge
 ```
 
 Next, we will use Quasar CLI to build our app:
+
 ```bash
 $ quasar build
 ```
 
 Now we can deploy our application using Surge by calling:
+
 ```bash
 $ surge dist/spa
 ```
@@ -192,11 +244,13 @@ Please see the [GitHub pages guides](https://help.github.com/articles/using-a-cu
 Manual copying all your files to your GitHub Pages repository can be a cumbersome task to do. This step can be automated by using the [push-dir](https://github.com/L33T-KR3W/push-dir) package.
 
 First, install the package with:
+
 ```js
 $ yarn add --dev push-dir
 ```
 
 Then add a `deploy` script command to your `package.json`:
+
 ```json
 "scripts": {
   "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
@@ -204,13 +258,16 @@ Then add a `deploy` script command to your `package.json`:
 ```
 
 Add your GitHub Pages repository as a remote named `gh-pages`:
+
 ```bash
 $ git remote add gh-pages git@github.com:<username>/<username>.github.io.git
 ```
 
 Now you can build and deploy your application using:
+
 ```bash
 $ quasar build
 $ yarn deploy
 ```
+
 which will push the content of your build directory to your master branch on your GitHub Pages repository.

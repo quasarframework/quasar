@@ -1,13 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/video"
+    "docsUrl": "https://v2.quasar.dev/vue-components/video"
   },
 
-  "mixins": [ "mixins/ratio" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "composables/private/use-ratio" ],
 
   "props": {
     "src": {
@@ -15,13 +11,20 @@
       "desc": "The source url to display in an iframe",
       "required": true,
       "examples": [
-        "src=\"https://www.youtube.com/embed/k3_tw44QsZQ\""
+        "https://www.youtube.com/embed/k3_tw44QsZQ"
       ],
       "category": "model"
     },
 
-    "ratio": {
-      "addedIn": "v1.7.0"
+    "title": {
+      "type": "String",
+      "desc": "(Accessibility) Set the native 'title' attribute value of the inner iframe being used",
+      "required": false,
+      "examples": [
+        "My Daily Marathon"
+      ],
+      "category": "accessibility",
+      "addedIn": "v2.4.3"
     }
   }
 }

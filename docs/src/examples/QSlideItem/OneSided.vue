@@ -10,7 +10,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar2.jpg" draggable="false">
             </q-avatar>
           </q-item-section>
           <q-item-section>Only left action</q-item-section>
@@ -25,7 +25,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar3.jpg" draggable="false">
             </q-avatar>
           </q-item-section>
           <q-item-section>Only right action</q-item-section>
@@ -36,7 +36,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar5.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar5.jpg" draggable="false">
             </q-avatar>
           </q-item-section>
           <q-item-section>No actions</q-item-section>
@@ -48,27 +48,35 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  methods: {
-    onLeft ({ reset }) {
-      this.$q.notify('Left action triggered. Resetting in 1 second.')
-      this.finalize(reset)
-    },
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-    onRight ({ reset }) {
-      this.$q.notify('Right action triggered. Resetting in 1 second.')
-      this.finalize(reset)
-    },
-
-    finalize (reset) {
-      this.timer = setTimeout(() => {
+    function finalize (reset) {
+      timer = setTimeout(() => {
         reset()
       }, 1000)
     }
-  },
 
-  beforeDestroy () {
-    clearTimeout(this.timer)
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    return {
+      onLeft ({ reset }) {
+        $q.notify('Left action triggered. Resetting in 1 second.')
+        finalize(reset)
+      },
+
+      onRight ({ reset }) {
+        $q.notify('Right action triggered. Resetting in 1 second.')
+        finalize(reset)
+      }
+    }
   }
 }
 </script>

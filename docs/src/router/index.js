@@ -1,42 +1,35 @@
 /* global gtag */
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createMemoryHistory, createWebHistory } from 'vue-router'
 
 import routes from './routes'
 
-Vue.use(VueRouter)
-
 /*
  * If not building with SSR mode, you can
- * directly export the Router instantiation
+ * directly export the Router instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Router instance.
  */
 
-export default function ({ store }) {
-  const Router = new VueRouter({
+export default function () {
+  const createHistory = process.env.SERVER
+    ? createMemoryHistory
+    : createWebHistory
+
+  const Router = createRouter({
+    scrollBehavior: (to, _, savedPosition) => (
+      to.hash.length > 1
+        ? false
+        : (savedPosition || { left: 0, top: 0 })
+    ),
     routes,
 
-    scrollBehavior (to, _, savedPosition) {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          if (to.hash !== void 0 && to.hash !== '') {
-            const el = document.getElementById(to.hash.substring(1))
-
-            if (el !== null) {
-              resolve({ x: 0, y: el.offsetTop - el.scrollHeight })
-              return
-            }
-          }
-
-          resolve(savedPosition || { x: 0, y: 0 })
-        }, 100)
-      })
-    },
-
-    // Leave these as is and change from quasar.conf.js instead!
+    // Leave this as is and make changes in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
-    mode: process.env.VUE_ROUTER_MODE,
-    base: process.env.VUE_ROUTER_BASE
+    // quasar.conf.js -> build -> publicPath
+    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 
   process.env.CLIENT === true && Router.afterEach(to => {

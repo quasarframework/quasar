@@ -1,0 +1,52 @@
+{
+  "name": "@quasar/vite-plugin",
+  "version": "1.0.4",
+  "description": "Vite plugin for Quasar Framework",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "rollup --config rollup.config.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "vite-plugin",
+    "quasar",
+    "vite",
+    "vue",
+    "vuejs"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "devDependencies": {
+    "rollup": "^2.58.0"
+  },
+  "peerDependencies": {
+    "quasar": "^2.0.0",
+    "vite": "^2.0.0",
+    "vue": "^3.0.0"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

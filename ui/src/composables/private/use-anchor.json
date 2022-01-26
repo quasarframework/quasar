@@ -1,0 +1,29 @@
+{
+  "props": {
+    "target": {
+      "type": [ "Boolean", "String", "Element" ],
+      "desc": "Configure a target element to trigger component toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) or a DOM element it attaches the events to the specified DOM element (if it exists)",
+      "default": true,
+      "values": [ "(Boolean) true", "(Boolean) false", "(CSS selector)", "(DOM Element)" ],
+      "examples": [
+        ":target=\"false\"",
+        ":target=\"$refs.target\"",
+        "target=\".my-parent\"",
+        "target=\"#target-id\""
+      ],
+      "category": "behavior"
+    },
+
+    "no-parent-event": {
+      "type": "Boolean",
+      "desc": "Skips attaching events to the target DOM element (that trigger the element to get shown)",
+      "category": "behavior"
+    },
+
+    "context-menu": {
+      "type": "Boolean",
+      "desc": "Allows the component to behave like a context menu, which opens with a right mouse click (or long tap on mobile)",
+      "category": "behavior"
+    }
+  }
+}

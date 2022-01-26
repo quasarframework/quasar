@@ -16,6 +16,7 @@
     <q-tab-panels
       v-model="tab"
       keep-alive
+      keep-alive-exclude="three"
       swipeable
       animated
       infinite
@@ -45,6 +46,7 @@
       </q-tab-panel>
 
       <q-tab-panel name="three">
+        <div class="text-weight-bold">Excluded from keep-alive</div>
         <keep-alive-test name="three" />
         <q-uploader
           multiple
@@ -70,6 +72,9 @@
 </template>
 
 <script>
+import { h } from 'vue'
+import { QInput, QForm } from 'quasar'
+
 export default {
   components: {
     KeepAliveTest: {
@@ -77,6 +82,12 @@ export default {
 
       props: {
         name: String
+      },
+
+      data () {
+        return {
+          text: 'input text sample'
+        }
       },
 
       created () {
@@ -91,22 +102,47 @@ export default {
         this.log('mounted')
       },
 
-      beforeDestroy () {
-        this.log('beforeDestroy')
+      activated () {
+        this.log('activated')
       },
 
-      destroyed () {
-        this.log('destroyed')
+      deactivated () {
+        this.log('deactivated')
+      },
+
+      beforeUnmount () {
+        this.log('beforeUnmount')
+      },
+
+      unmounted () {
+        this.log('unmounted')
       },
 
       methods: {
         log (what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
         }
       },
 
-      render (h) {
-        return h('div', [ 'keep alive test ' + this.name ])
+      render () {
+        return h('div', [
+          'keep alive test ' + this.name,
+          h(QForm, {
+            autofocus: true
+          }, () => ([
+            h(QInput, {
+              class: 'q-my-md',
+              style: 'max-width: 300px',
+              modelValue: this.text,
+              // autofocus: true,
+              outlined: true,
+              label: 'Input with autofocus',
+              'onUpdate:model-value': val => {
+                this.text = val
+              }
+            })
+          ]))
+        ])
       }
     }
   },

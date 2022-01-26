@@ -4,6 +4,7 @@
       <q-date
         v-model="date"
         dark
+        bordered
       />
 
       <q-date
@@ -11,16 +12,19 @@
         color="orange"
         text-color="black"
         dark
+        bordered
       />
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      date: '2019/02/01'
+      date: ref('2019/02/01')
     }
   }
 }

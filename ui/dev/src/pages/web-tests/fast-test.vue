@@ -13,16 +13,15 @@
 
 <script>
 /* eslint-disable */
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 export default {
-  data () {
+  setup () {
     return {
     }
-  },
-  methods: {
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 </style>

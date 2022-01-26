@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/table"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/table"
   },
 
   "props": {
@@ -18,7 +14,6 @@
     "no-hover": {
       "type": "Boolean",
       "desc": "Disable hover effect",
-      "addedIn": "v1.5.9",
       "category": "style"
     }
   },

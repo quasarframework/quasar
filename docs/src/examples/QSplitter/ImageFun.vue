@@ -32,27 +32,25 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const width = ref(400)
+
     return {
-      width: 400,
-      splitterModel: 50 // start at 50%
-    }
-  },
+      width,
+      splitterModel: ref(50), // start at 50%
 
-  methods: {
-    // we are using QResizeObserver to keep
-    // this example mobile-friendly
-    onResize ({ width }) {
-      this.width = width
-    }
-  },
+      splitterStyle: computed(() => ({
+        height: Math.min(600, 0.66 * width.value) + 'px',
+        width: width.value + 'px'
+      })),
 
-  computed: {
-    splitterStyle () {
-      return {
-        height: Math.min(600, 0.66 * this.width) + 'px',
-        width: this.width + 'px'
+      // we are using QResizeObserver to keep
+      // this example mobile-friendly
+      onResize (info) {
+        width.value = info.width
       }
     }
   }

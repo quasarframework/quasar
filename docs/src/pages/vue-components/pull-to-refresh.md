@@ -1,6 +1,7 @@
 ---
 title: Pull to refresh
 desc: The QPullToRefresh Vue component allows the user to pull down in order to refresh or retrieve the newest content on a page.
+keys: QPullToRefresh
 related:
   - /vue-components/infinite-scroll
   - /vue-components/intersection
@@ -9,8 +10,9 @@ related:
 
 The QPullToRefresh is a component that allows the user to pull down in order to refresh page content (or retrieve the newest content).
 
-## Installation
-<doc-installation components="QPullToRefresh" />
+## QPullToRefresh API
+
+<doc-api file="QPullToRefresh" />
 
 ## Usage
 
@@ -28,13 +30,16 @@ To refresh, pull down (with mouse or through finger touch) on the content below 
 
 <doc-example title="Custom icon" file="QPullToRefresh/Icon" />
 
-### Custom coloring <q-badge align="top" label="v1.9.5+" />
+### Custom coloring
 
 <doc-example title="Custom coloring" file="QPullToRefresh/CustomColoring" />
 
 ## Tips
+
+::: tip Scrolling container
+Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
+:::
+
 * If using a QLayout, then it's recommended that you put QPullToRefresh as direct child of QPage and wrap your page content with it.
 * If you change the parent of this component, don't forget to call `updateScrollTarget()` on the QPullToRefresh Vue reference.
-
-## QPullToRefresh API
-<doc-api file="QPullToRefresh" />
+* QPullToRefresh also allows text selection, so if your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.

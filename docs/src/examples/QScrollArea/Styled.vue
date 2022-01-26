@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       contentStyle: {
         backgroundColor: 'rgba(0,0,0,0.02)',

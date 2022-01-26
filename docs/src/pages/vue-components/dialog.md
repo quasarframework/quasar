@@ -1,6 +1,7 @@
 ---
 title: Dialog
 desc: The QDialog component provides a UI for modals with functionalities like positioning, styling, maximizing and more.
+keys: QDialog
 related:
   - /quasar-plugins/dialog
   - /vue-directives/close-popup
@@ -17,11 +18,12 @@ Dialogs can also be used as a globally available method for more basic use cases
 :::
 
 ::: warning Masterclass TIP
-Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#Invoking-custom-component) to invoke it from anywhere in your app.
+Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.
 :::
 
-## Installation
-<doc-installation components="QDialog" directives="ClosePopup" />
+## QDialog API
+
+<doc-api file="QDialog" />
 
 ## Usage
 
@@ -91,7 +93,12 @@ return {
   framework: {
     config: {
       cordova: {
-        backButtonExit: true/false
+        // Quasar handles app exit on mobile phone back button.
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        backButton: true/false
       }
     }
   }
@@ -99,17 +106,18 @@ return {
 
 // quasar.conf.js;
 // for Capacitor (only!)
-// and Quasar v1.9.3+:
 return {
   framework: {
     config: {
       capacitor: {
-        backButtonExit: true/false
+        // Quasar handles app exit on mobile phone back button.
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        backButton: true/false
       }
     }
   }
 }
 ```
-
-## QDialog API
-<doc-api file="QDialog" />

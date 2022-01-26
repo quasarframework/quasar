@@ -1,22 +1,18 @@
-import {
-  QuasarAnimations,
-  QuasarBootConfiguration,
-  QuasarBuildConfiguration,
-  QuasarFonts,
-  QuasarFrameworkConfiguration,
-  QuasarIconSets,
-  WebpackConfiguration
-} from "quasar";
-import "../ts-helpers";
-import "./build";
-import "./framework-conf";
-import "./pwa-conf";
-import "./ssr-conf";
+import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import { QuasarBootConfiguration } from "./boot";
+import { QuasarBuildConfiguration } from "./build";
+import { QuasarCapacitorConfiguration } from "./capacitor-conf";
+import { QuasarCordovaConfiguration } from "./cordova-conf";
+import { QuasarElectronConfiguration } from "./electron-conf";
+import { QuasarFrameworkConfiguration } from "./framework-conf";
+import { QuasarPwaConfiguration } from "./pwa-conf";
+import { QuasarSsrConfiguration } from "./ssr-conf";
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
 interface QuasarDevServerConfiguration
-  extends Omit<WebpackConfiguration["devServer"], "open"> {
+  extends Omit<WebpackDevServerConfiguration, "open"> {
   /**
    * Behind the scenes, webpack devServer `open` property is always set to false
    *  and that feature is delegated to `open` library.
@@ -37,26 +33,28 @@ interface QuasarDevServerConfiguration
  * ```typescript
  * {
  *  rootComponent: 'src/App.vue',
- *  router: 'src/router',
- *  store: 'src/store',
+ *  router: 'src/router/index',
+ *  store: 'src/store/index',
  *  indexHtmlTemplate: 'src/index.template.html',
- *  registerServiceWorker: 'src-pwa/register-service-worker.js',
- *  serviceWorker: 'src-pwa/custom-service-worker.js',
- *  electronMainDev: 'src-electron/main-process/electron-main.dev.js',
- *  electronMainProd: 'src-electron/main-process/electron-main.js'
+ *  registerServiceWorker: 'src-pwa/register-service-worker',
+ *  serviceWorker: 'src-pwa/custom-service-worker',
+ *  electronMain: 'src-electron/electron-main',
+ *  electronPreload: 'src-electron/electron-preload'
+ *  ssrServerIndex: 'src-ssr/index.js'
  * }
  * ```
  */
-type QuasarSourceFilesConfiguration = Partial<{
-  rootComponent: string;
-  router: string;
-  store: string;
-  indexHtmlTemplate: string;
-  registerServiceWorker: string;
-  serviceWorker: string;
-  electronMainDev: string;
-  electronMainProd: string;
-}>;
+interface QuasarSourceFilesConfiguration {
+  rootComponent?: string;
+  router?: string;
+  store?: string;
+  indexHtmlTemplate?: string;
+  registerServiceWorker?: string;
+  serviceWorker?: string;
+  electronMain?: string;
+  electronPreload?: string;
+  ssrServerIndex?: string;
+}
 
 interface BaseQuasarConfiguration {
   /** Boot files to load. Order is important. */
@@ -66,7 +64,7 @@ interface BaseQuasarConfiguration {
    * except for theme files, which are included by default.
    */
   css?: string[];
-  /** Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). */
+  /** Enable [PreFetch Feature](/quasar-cli/prefetch-feature). */
   preFetch?: boolean;
   /**
    * What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package.
@@ -79,21 +77,16 @@ interface BaseQuasarConfiguration {
     remove: string[];
   };
   /**
-   * Add support for IE11+.
-   *
-   * Ignored when in Capacitor, Cordova and Electron mode.
+   * Add support for TypeScript.
    *
    * @default false
    */
-  supportIE?: boolean;
+  supportTS?: boolean | { tsLoaderConfig: object; tsCheckerConfig: object };
   /** Add variables that you can use in index.template.html. */
   htmlVariables?: { [index: string]: string };
   /**
-   * What Quasar components/directives/plugins to import,
-   * what Quasar language pack to use, what Quasar icon
+   * What Quasar language pack to use, what Quasar icon
    * set to use for Quasar components.
-   *
-   * When not specified or when equal to `all`, it's treated as `{ all: true }`
    */
   framework?: QuasarFrameworkConfiguration;
   /**
@@ -115,25 +108,23 @@ interface BaseQuasarConfiguration {
   sourceFiles?: QuasarSourceFilesConfiguration;
 }
 
-declare module "quasar" {
-  interface QuasarHookParams {
-    quasarConf: QuasarConf;
-  }
-
-  type QuasarConf = BaseQuasarConfiguration & {
-    /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
-    pwa?: QuasarPwaConfiguration;
-  } & {
-    /** SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). */
-    ssr?: QuasarSsrConfiguration;
-  } & {
-    /** Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). */
-    capacitor?: QuasarCapacitorConfiguration;
-  } & {
-    /** Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). */
-    cordova?: QuasarCordovaConfiguration;
-  } & {
-    /** Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). */
-    electron?: QuasarElectronConfiguration;
-  };
+export interface QuasarHookParams {
+  quasarConf: QuasarConf;
 }
+
+export type QuasarConf = BaseQuasarConfiguration & {
+  /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
+  pwa?: QuasarPwaConfiguration;
+} & {
+  /** SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). */
+  ssr?: QuasarSsrConfiguration;
+} & {
+  /** Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). */
+  capacitor?: QuasarCapacitorConfiguration;
+} & {
+  /** Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). */
+  cordova?: QuasarCordovaConfiguration;
+} & {
+  /** Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). */
+  electron?: QuasarElectronConfiguration;
+};

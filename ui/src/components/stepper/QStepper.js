@@ -1,29 +1,38 @@
-import Vue from 'vue'
+import { h, computed, provide, getCurrentInstance } from 'vue'
 
-import { PanelParentMixin } from '../../mixins/panel.js'
-import DarkMixin from '../../mixins/dark.js'
 import StepHeader from './StepHeader.js'
-import { slot, mergeSlot } from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
 
-export default Vue.extend({
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import { stepperKey } from '../../utils/private/symbols.js'
+import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
+
+const camelRE = /(-\w)/g
+
+function camelizeProps (props) {
+  const acc = {}
+  for (const key in props) {
+    const newKey = key.replace(camelRE, m => m[ 1 ].toUpperCase())
+    acc[ newKey ] = props[ key ]
+  }
+  return acc
+}
+
+export default createComponent({
   name: 'QStepper',
 
-  provide () {
-    return {
-      stepper: this
-    }
-  },
-
-  mixins: [ DarkMixin, PanelParentMixin ],
-
   props: {
+    ...useDarkProps,
+    ...usePanelProps,
+
     flat: Boolean,
     bordered: Boolean,
     alternativeLabels: Boolean,
     headerNav: Boolean,
     contracted: Boolean,
+    headerClass: String,
 
     inactiveColor: String,
     inactiveIcon: String,
@@ -35,67 +44,91 @@ export default Vue.extend({
     errorColor: String
   },
 
-  computed: {
-    classes () {
-      return `q-stepper--${this.vertical === true ? 'vertical' : 'horizontal'}` +
-        (this.flat === true || this.isDark === true ? ' q-stepper--flat no-shadow' : '') +
-        (this.bordered === true || (this.isDark === true && this.flat === false) ? ' q-stepper--bordered' : '') +
-        (this.contracted === true ? ' q-stepper--contracted' : '') +
-        (this.isDark === true ? ' q-stepper--dark q-dark' : '')
-    }
-  },
+  emits: usePanelEmits,
 
-  methods: {
-    __getContent (h) {
-      let top = slot(this, 'message', [])
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-      if (this.vertical === true) {
-        this.__isValidPanelName(this.value) && this.__updatePanelIndex()
+    const {
+      updatePanelsList, isValidPanelName,
+      updatePanelIndex, getPanelContent,
+      getPanels, panelDirectives, goToPanel,
+      keepAliveProps, needsUniqueKeepAliveWrapper
+    } = usePanel()
 
-        return top.concat(
-          h('div', {
-            staticClass: 'q-stepper__content',
-            // stop propagation of content emitted @input
-            // which would tamper with Panel's model
-            on: cache(this, 'stop', { input: stop })
-          }, slot(this, 'default'))
-        )
+    provide(stepperKey, computed(() => ({
+      goToPanel,
+      keepAliveProps,
+      needsUniqueKeepAliveWrapper,
+      ...props
+    })))
+
+    const classes = computed(() =>
+      `q-stepper q-stepper--${ props.vertical === true ? 'vertical' : 'horizontal' }`
+      + (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '')
+      + (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '')
+      + (isDark.value === true ? ' q-stepper--dark q-dark' : '')
+    )
+
+    const headerClasses = computed(() =>
+      'q-stepper__header row items-stretch justify-between'
+      + ` q-stepper__header--${ props.alternativeLabels === true ? 'alternative' : 'standard' }-labels`
+      + (props.flat === false || props.bordered === true ? ' q-stepper__header--border' : '')
+      + (props.contracted === true ? ' q-stepper__header--contracted' : '')
+      + (props.headerClass !== void 0 ? ` ${ props.headerClass }` : '')
+    )
+
+    function getContent () {
+      const top = hSlot(slots.message, [])
+
+      if (props.vertical === true) {
+        isValidPanelName(props.modelValue) && updatePanelIndex()
+
+        const content = h('div', {
+          class: 'q-stepper__content'
+        }, hSlot(slots.default))
+
+        return top === void 0
+          ? [ content ]
+          : top.concat(content)
       }
 
       return [
-        h('div', {
-          staticClass: 'q-stepper__header row items-stretch justify-between',
-          class: {
-            [`q-stepper__header--${this.alternativeLabels ? 'alternative' : 'standard'}-labels`]: true,
-            'q-stepper__header--border': !this.flat || this.bordered
-          }
-        }, this.__getAllPanels().map(panel => {
-          const step = panel.componentOptions.propsData
+        h(
+          'div',
+          { class: headerClasses.value },
+          getPanels().map(panel => {
+            const step = camelizeProps(panel.props)
 
-          return h(StepHeader, {
-            key: step.name,
-            props: {
-              stepper: this,
-              step
-            }
+            return h(StepHeader, {
+              key: step.name,
+              stepper: props,
+              step,
+              goToPanel
+            })
           })
-        }))
-      ].concat(
+        ),
+
         top,
 
-        h('div', {
-          staticClass: 'q-stepper__content q-panel-parent',
-          directives: this.panelDirectives
-        }, this.__getPanelContent(h))
-      )
-    },
+        hDir(
+          'div',
+          { class: 'q-stepper__content q-panel-parent' },
+          getPanelContent(),
+          'cont',
+          props.swipeable,
+          () => panelDirectives.value
+        )
+      ]
+    }
 
-    __renderPanels (h) {
+    return () => {
+      updatePanelsList(slots)
+
       return h('div', {
-        staticClass: 'q-stepper',
-        class: this.classes,
-        on: this.$listeners
-      }, mergeSlot(this.__getContent(h), this, 'navigation'))
+        class: classes.value
+      }, hMergeSlot(slots.navigation, getContent()))
     }
   }
 })

@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app with Capacitor.
 ---
 
 ## $q.capacitor
-While you are developing a Mobile App with Capacitor Mode, you can access `this.$q.capacitor` in your Vue files. This is an alias to the global `Capacitor` Object.
+While you are developing a Mobile App with Capacitor Mode, you can access `$q.capacitor` in your Vue files. This is an alias to the global `Capacitor` Object.
 
 ## Android Tips
 
@@ -22,16 +22,20 @@ This way you have Chrome Dev Tools directly for your App running on the emulator
 If you are having problems getting Android builds to finish and you see a message like:
 
 ```
-> Failed to install the following Android SDK packages as some licences have not been accepted.
+> Failed to install the following Android SDK packages as some licenses have not been accepted.
 ```
 
 If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
 
-Linux: `sdkmanager --licenses`
-macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
-Windows: `%ANDROID_HOME%/tools/bin/sdkmanager --licenses`
+- Linux: `sdkmanager --licenses`
+- macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
+- Windows: `%ANDROID_SDK_ROOT%/tools/bin/sdkmanager --licenses`
 
 ### Android SDK not found after installation of the SDK
+
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
 
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment.
 
@@ -39,12 +43,21 @@ This could have two different reasons: Usually the paths aren't configured corre
 
 ```bash
 $ echo $ANDROID_HOME
+
+# or
+
+$ echo $ANDROID_SDK_ROOT
+
 ```
 
 The expected output should be a path similar to this `$HOME/Android/Sdk`. After this run:
 
 ```bash
 $ ls -la $ANDROID_HOME
+
+# or
+
+$ ls -la $ANDROID_SDK_ROOT
 ```
 
 To ensure the folder contains the SDK. The expected output should contain folders like 'tools', 'sources', 'platform-tools', etc.
@@ -144,13 +157,13 @@ Quasar has support for these CSS safe-areas by default in QHeader/QFooter and No
 
 In cases you need to manually tweak your CSS you can do so with:
 
-```stylus
+```
 // for your app's header
-padding-top constant(safe-area-inset-top) // for iOS 11.0
-padding-top env(safe-area-inset-top) // for iOS 11.2 +
+padding-top: constant(safe-area-inset-top) // for iOS 11.0
+padding-top: env(safe-area-inset-top) // for iOS 11.2 +
 // for your app's footer
-padding-bottom constant(safe-area-inset-bottom)
-padding-bottom env(safe-area-inset-bottom)
+padding-bottom: constant(safe-area-inset-bottom)
+padding-bottom: env(safe-area-inset-bottom)
 ```
 
 Of course you can also use the above example with `margin` instead of `padding` depending on your app.

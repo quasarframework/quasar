@@ -1,0 +1,141 @@
+{
+  "props": {
+    "virtual-scroll-horizontal": {
+      "type": "Boolean",
+      "desc": "Make virtual list work in horizontal mode",
+      "category": "behavior"
+    },
+
+    "virtual-scroll-slice-size": {
+      "type": [ "Number", "String" ],
+      "desc": "Minimum number of items to render in the virtual list",
+      "default": "30",
+      "examples": [ "virtual-scroll-slice-size=\"60\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-slice-ratio-before": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of items in visible zone to render before it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-slice-ratio-after": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of items in visible zone to render after it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-item-size": {
+      "type": [ "Number", "String" ],
+      "desc": "Default size in pixels (height if vertical, width if horizontal) of an item; This value is used for rendering the initial list; Try to use a value close to the minimum size of an item",
+      "default": "24",
+      "examples": [ "virtual-scroll-item-size=\"48\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": [ "Number", "String" ],
+      "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the start of the list; A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": [ "Number", "String" ],
+      "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the end of the list; A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "table-colspan": {
+      "type": [ "Number", "String" ],
+      "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
+      "examples": [ "table-colspan=\"12\"" ],
+      "category": "virtual-scroll|content"
+    }
+  },
+
+  "events": {
+    "virtual-scroll": {
+      "desc": "Emitted when the virtual scroll occurs",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "required": true,
+              "desc": "Index of the list item that was scrolled into view (0 based)",
+              "examples": [ 30 ]
+            },
+            "from": {
+              "type": "Number",
+              "required": true,
+              "desc": "The index of the first list item that is rendered (0 based)",
+              "examples": [ 10 ]
+            },
+            "to": {
+              "type": "Number",
+              "required": true,
+              "desc": "The index of the last list item that is rendered (0 based)",
+              "examples": [ 50 ]
+            },
+            "direction": {
+              "type": "String",
+              "required": true,
+              "desc": "Direction of change",
+              "values": [ "increase", "decrease" ]
+            },
+            "ref": {
+              "type": "Component",
+              "required": true,
+              "desc": "Vue reference to the component which triggered the event"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "scrollTo": {
+      "desc": "Scroll the virtual scroll list to the item with the specified index (0 based)",
+      "params": {
+        "index": {
+          "type": [ "String", "Number" ],
+          "desc": "The index of the list item (0 based)",
+          "required": true,
+          "examples": [ "1", 23 ]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ]
+        }
+      }
+    },
+
+    "reset": {
+      "desc": "Resets the virtual scroll computations; Needed for custom edge-cases"
+    },
+
+    "refresh": {
+      "desc": "Refreshes the virtual scroll list; Use it after appending items",
+      "params": {
+        "index": {
+          "type": [ "String", "Number" ],
+          "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed; Use a negative value to keep scroll position",
+          "examples": [ "1", 23, -1 ]
+        }
+      }
+    }
+  }
+}

@@ -41,36 +41,40 @@ Now let's put this plugin to some good use. In one of your Quasar project's page
 </template>
 
 <script>
-import { Plugins } from '@capacitor/core'
-
-const { Geolocation } = Plugins
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { Geolocation } from '@capacitor/geolocation'
 
 export default {
-  data () {
-    return {
-      position: 'determining...'
-    }
-  },
-  methods: {
-    getCurrentPosition() {
-      Geolocation.getCurrentPosition().then(position => {
-        console.log('Current', position);
-        this.position = position
-      });
-    }
-  },
-  mounted () {
-    this.getCurrentPosition()
+  setup () {
+    const position = ref('determining...')
 
-    // we start listening
-    this.geoId = Geolocation.watchPosition({}, (position, err) => {
-      console.log('New GPS position')
-      this.position = position
+    function getCurrentPosition() {
+      Geolocation.getCurrentPosition().then(newPosition => {
+        console.log('Current', newPosition)
+        position.value = newPosition
+      })
+    }
+
+    let geoId
+
+    onMounted(() => {
+      getCurrentPosition()
+
+      // we start listening
+      geoId = Geolocation.watchPosition({}, (newPosition, err) => {
+        console.log('New GPS position')
+        position.value = newPosition
+      })
     })
-  },
-  beforeDestroy () {
-    // we do cleanup
-    Geolocation.clearWatch(this.geoId)
+
+    onBeforeUnmount(() => {
+      // we do cleanup
+      Geolocation.clearWatch(geoId)
+    })
+
+    return {
+      position
+    }
   }
 }
 </script>
@@ -96,35 +100,37 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 </template>
 
 <script>
-import { Plugins, CameraResultType } from '@capacitor/core'
-
-const { Camera } = Plugins
+import { ref } from 'vue'
+import { Camera, CameraResultType } from '@capacitor/camera'
 
 export default {
-  data () {
-    return {
-      imageSrc: ''
-    }
-  },
-  methods: {
-    async captureImage () {
+  setup () {
+    const imageSrc = ref('')
+
+    async function captureImage () {
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,
         resultType: CameraResultType.Uri
       })
-      // image.webPath will contain a path that can be set as an image src.
-      // You can access the original file using image.path, which can be
-      // passed to the Filesystem API to read the raw data of the image,
-      // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
-      this.imageSrc = image.webPath
+
+      // The result will vary on the value of the resultType option.
+      // CameraResultType.Uri - Get the result from image.webPath
+      // CameraResultType.Base64 - Get the result from image.base64String
+      // CameraResultType.DataUrl - Get the result from image.dataUrl
+      imageSrc.value = image.webPath
+    }
+
+    return {
+      imageSrc,
+      captureImage
     }
   }
 }
 </script>
 ```
 
-Some Capacitor plugins, such as Camera, have web-based UI available when not running natively but in an standard web browser. To enable these controls, add @ionic/pwa-elements to your proyect:
+Some Capacitor plugins, such as Camera, have a web-based UI available when not running natively but in a standard web browser. To enable these controls, add @ionic/pwa-elements to your project:
 
 ```bash
 $ npm install @ionic/pwa-elements
@@ -146,7 +152,7 @@ Don't forget to call the boot script in `quasar.conf.js`
 boot: ['capacitor']
 ```
 
-Now you are able to use the Camera API not just in nativ Android or iOS, but also in web based projects like a SPA or PWA.
+Now you are able to use the Camera API not just in native Android or iOS, but also in web based projects like a SPA or PWA.
 
 
 ### Example: Device
@@ -168,22 +174,25 @@ Now let's put this API to some good use. In one of your Quasar project's pages/l
 </template>
 
 <script>
-import { Plugins } from '@capacitor/core'
-
-const { Device } = Plugins
+import { ref, onMounted } from 'vue'
+import { Device } from '@capacitor/device'
 
 export default {
-  data () {
-    return {
-      model: 'Please wait...',
-      manufacturer: 'Please wait...'
-    }
-  },
-  mounted () {
-    Device.getInfo().then(info => {
-      this.model = info.model
-      this.manufacturer = info.manufacturer
+  setup () {
+    const model = ref('Please wait...')
+    const manufacturer = ref('Please wait...')
+
+    onMounted(() => {
+      Device.getInfo().then(info => {
+        model.value = info.model
+        manufacturer.value = info.manufacturer
+      })
     })
+
+    return {
+      model,
+      manufacturer
+    }
   }
 }
 </script>

@@ -11,8 +11,8 @@
       <p class="caption">
         Standalone
       </p>
-      <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied" indeterminate-icon="help" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
         Sizes
@@ -34,9 +34,26 @@
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
 
       <p class="caption">
+        Order ({{ JSON.stringify(orderModel) }})
+      </p>
+      <div class="q-gutter-sm row items-center q-mb-sm">
+        <q-btn size="sm" label="Set true" @click="orderModel = true" />
+        <q-btn size="sm" label="Set false" @click="orderModel = false" />
+        <q-btn size="sm" label="Set indeterminate" @click="orderModel = null" />
+      </div>
+
+      <div class="inline-block q-pa-sm" style="border: 1px solid">
+        <q-checkbox v-model="orderModel" toggle-order="tf" label="tf" :dark="dark" />
+        <q-checkbox v-model="orderModel" toggle-order="ft" label="ft" :dark="dark" />
+      </div>
+      <div class="inline-block q-pa-sm" style="border: 1px solid">
+        <q-checkbox v-model="orderModel" toggle-order="tf" label="tf + toggle indet" toggle-indeterminate :dark="dark" />
+        <q-checkbox v-model="orderModel" toggle-order="ft" label="ft + toggle indet" toggle-indeterminate :dark="dark" />
+      </div>
+      <p class="caption">
         Tests
       </p>
-      <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox @change="onChange" @update:model-value="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" label="Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <q-checkbox v-model="checked" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -118,7 +135,7 @@
         type="checkbox"
         color="secondary"
         v-model="group"
-        @input="onInput"
+        @update:model-value="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -170,8 +187,8 @@
         <q-field v-model="checked" label="Checkbox field" stack-label :dark="dark" :dense="dense">
           <template v-slot:control="{ value, emitValue }">
             <q-checkbox
-              :value="value"
-              @input="emitValue"
+              :model-value="value"
+              @update:model-value="emitValue"
               color="orange"
               :dark="dark"
               :dense="dense"
@@ -226,15 +243,16 @@
 export default {
   data () {
     const
-      trueVal = [true],
-      falseVal = [false]
+      trueVal = [ true ],
+      falseVal = [ false ]
 
     return {
       val: true,
       ind: false,
       checked: true,
-      group: ['op2'],
-      selection: ['one', 'two', 'three'],
+      orderModel: 'bogus',
+      group: [ 'op2' ],
+      selection: [ 'one', 'two', 'three' ],
       dark: null,
       dense: false,
       keepColor: false,
@@ -243,12 +261,12 @@ export default {
       trueVal,
       falseVal,
       modelArr: falseVal,
-      modelArrComplex: [falseVal, trueVal]
+      modelArrComplex: [ falseVal, trueVal ]
     }
   },
   watch: {
     group (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -256,7 +274,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onFocus () {
       console.log('focused')

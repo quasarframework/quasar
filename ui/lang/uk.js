@@ -26,22 +26,21 @@ export default {
     months: 'Січень_Лютий_Березень_Квітень_Травень_Червень_Липень_Серпень_Вересень_Жовтень_Листопад_Грудень'.split('_'),
     monthsShort: 'Січ_Лют_Бер_Кві_Тра_Чер_Лип_Сер_Вер_Жов_Лис_Гру'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'днів'
   },
   table: {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
     loading: 'Завантаження...',
-    selectedRecords: function (rows) {
-      return rows > 0
-        ? rows + ' ' + plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано']) + '.'
+    selectedRecords: rows => (
+      rows > 0
+        ? rows + ' ' + plurals(rows, [ 'рядок обраний', 'рядки обрані', 'рядків обрано' ]) + '.'
         : 'Жодного рядку не обрано.'
-    },
+    ),
     recordsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' з ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' з ' + total,
     columns: 'Колонки'
   },
   editor: {

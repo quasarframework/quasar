@@ -22,22 +22,21 @@ export default {
     months: 'ஜனவரி_பிப்ரவரி_மார்ச்_ஏப்ரல்_மே_ஜூன்_ஜூலை_ஆகஸ்ட்_செப்டம்பர்_அக்டோபர்_நவம்பர்_டிசம்பர்'.split('_'),
     monthsShort: 'ஜன_பிப்_மார்_ஏப்_மே_ஜூன்_ஜூலை_ஆக_செப்_அக்_நவ_டிச'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: 'நாட்கள்'
   },
   table: {
     noData: 'தரவு எதுவும் கிடைக்கவில்லை',
     noResults: 'பொருந்தும் பதிவுகள் எதுவும் கிடைக்கவில்லை',
     loading: 'ஏற்றுகிறது...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 பதிவு தேர்ந்தெடுக்கப்பட்டது.'
         : (rows === 0 ? '0' : rows) + ' பதிவு தேர்ந்தெடுக்கப்பட்டது.'
-    },
+    ),
     recordsPerPage: 'ஒரு பக்கத்திற்கு பதிவுகள்:',
     allRows: 'அனைத்தும்',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' மொத்தம் ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' மொத்தம் ' + total,
     columns: 'பத்திகள்'
   },
   editor: {

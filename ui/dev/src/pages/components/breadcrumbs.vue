@@ -27,11 +27,19 @@
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs active-color="secondary" class="text-orange" align="right">
-        <q-breadcrumbs-el label="Home Disabled" disable to="/" />
-        <q-breadcrumbs-el label="Home" to="/" />
-        <q-breadcrumbs-el label="Components" to="/components" />
-        <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />
-        <q-breadcrumbs-el label="Bogus" to="/components/breadcrumbs/bogus" />
+        <q-breadcrumbs-el label="Router; Home Disabled" disable to="/" />
+        <q-breadcrumbs-el label="Router; Home" to="/" />
+        <q-breadcrumbs-el label="Router; Components" to="/components" />
+        <q-breadcrumbs-el label="Router; Breadcrumbs" to="/components/breadcrumbs" active-class="special-breadcrumbs-class" />
+        <q-breadcrumbs-el label="Router; Bogus" to="/components/breadcrumbs/bogus" />
+      </q-breadcrumbs>
+      <br><br>
+      <q-breadcrumbs active-color="secondary" class="text-orange" align="right">
+        <q-breadcrumbs-el label="href; Home Disabled" disable href="/" />
+        <q-breadcrumbs-el label="href; Home + _blank" href="/" target="_blank" />
+        <q-breadcrumbs-el label="href; Components" href="/components" />
+        <q-breadcrumbs-el label="href; Breadcrumbs" href="/components/breadcrumbs" />
+        <q-breadcrumbs-el label="href; Bogus" href="/components/breadcrumbs/bogus" />
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="center">
@@ -75,3 +83,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.special-breadcrumbs-class
+  color: green !important
+</style>

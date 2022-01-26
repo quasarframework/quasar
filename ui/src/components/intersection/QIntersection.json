@@ -1,23 +1,31 @@
 {
-  "mixins": [ "mixins/tag" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/intersection"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/intersection"
   },
 
   "props": {
     "tag": {
-      "examples": [ "div", "span", "blockquote" ],
-      "addedIn": "v1.9.3"
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "span", "blockquote" ]
     },
 
     "once": {
       "type": "Boolean",
       "desc": "Get triggered only once",
+      "category": "behavior"
+    },
+
+    "ssr-prerender": {
+      "type": "Boolean",
+      "desc": "Pre-render content on server side if using SSR (use it to pre-render above the fold content)",
+      "category": "behavior"
+    },
+
+    "root": {
+      "type": "Element",
+      "desc": "[Intersection API root prop] Lets you define an alternative to the viewport as your root (through its DOM element); It is important to keep in mind that root needs to be an ancestor of the observed element",
+      "examples": [ "$refs.myTable.$el", "getElementById(\"myTable\")" ],
       "category": "behavior"
     },
 
@@ -41,6 +49,15 @@
     "transition": {
       "extends": "transition",
       "category": "behavior"
+    },
+
+    "transition-duration": {
+      "type": [ "String", "Number" ],
+      "desc": "Transition duration (in milliseconds, without unit)",
+      "default": 300,
+      "examples": [ 500, "1200" ],
+      "category": "behavior",
+      "addedIn": "v2.3.1"
     },
 
     "disable": {

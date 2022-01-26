@@ -1,4 +1,5 @@
-import { isDeepEqual } from '../utils/is.js'
+import { createDirective } from '../utils/private/create.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 const defaultCfg = {
   childList: true,
@@ -9,38 +10,20 @@ const defaultCfg = {
   characterDataOldValue: true
 }
 
-function update (el, ctx, { modifiers: { once, ...mod }, value }) {
-  let changed
+function update (el, ctx, value) {
+  ctx.handler = value
+  ctx.observer !== void 0 && ctx.observer.disconnect()
 
-  ctx.once = once
-
-  if (ctx.handler !== value) {
-    changed = true
-    ctx.handler = value
-  }
-
-  if (ctx.opts === void 0 || isDeepEqual(mod, ctx.mod) === false) {
-    changed = true
-    ctx.mod = mod
-    ctx.opts = Object.keys(mod).length === 0
-      ? defaultCfg
-      : mod
-  }
-
-  if (changed === true) {
-    ctx.observer !== void 0 && ctx.observer.disconnect()
-
-    ctx.observer = new MutationObserver(list => {
-      if (typeof ctx.handler === 'function') {
-        const res = ctx.handler(list)
-        if (res === false || ctx.once === true) {
-          destroy(el)
-        }
+  ctx.observer = new MutationObserver(list => {
+    if (typeof ctx.handler === 'function') {
+      const res = ctx.handler(list)
+      if (res === false || ctx.once === true) {
+        destroy(el)
       }
-    })
+    }
+  })
 
-    ctx.observer.observe(el, ctx.opts)
-  }
+  ctx.observer.observe(el, ctx.opts)
 }
 
 function destroy (el) {
@@ -52,19 +35,31 @@ function destroy (el) {
   }
 }
 
-export default {
-  name: 'mutation',
+export default createDirective(__QUASAR_SSR_SERVER__
+  ? { name: 'mutation', getSSRProps }
+  : {
+      name: 'mutation',
 
-  inserted (el, binding) {
-    const ctx = {}
-    update(el, ctx, binding)
-    el.__qmutation = ctx
-  },
+      mounted (el, { modifiers: { once, ...mod }, value }) {
+        const ctx = {
+          once,
+          opts: Object.keys(mod).length === 0
+            ? defaultCfg
+            : mod
+        }
 
-  update (el, binding) {
-    const ctx = el.__qmutation
-    ctx !== void 0 && update(el, ctx, binding)
-  },
+        update(el, ctx, value)
 
-  unbind: destroy
-}
+        el.__qmutation = ctx
+      },
+
+      updated (el, { oldValue, value }) {
+        const ctx = el.__qmutation
+        if (ctx !== void 0 && oldValue !== value) {
+          update(el, ctx, value)
+        }
+      },
+
+      beforeUnmount: destroy
+    }
+)

@@ -5,7 +5,7 @@
       animated
       arrows
       v-model="slide"
-      :fullscreen.sync="fullscreen"
+      v-model:fullscreen="fullscreen"
       infinite
     >
       <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
@@ -30,11 +30,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slide: 1,
-      fullscreen: false
+      slide: ref(1),
+      fullscreen: ref(false)
     }
   }
 }

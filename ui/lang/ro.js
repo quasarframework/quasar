@@ -22,22 +22,21 @@ export default {
     months: 'Ianuarie_Februarie_Martie_Aprilie_Mai_Iunie_Iulie_August_Septembrie_Octombrie_Noiembrie_Decembrie'.split('_'),
     monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'zile'
   },
   table: {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',
     loading: 'Se încarcă...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' înregistrări selectate.'
         : (rows === 0 ? 'Nici o' : '1') + ' înregistrare selectată.'
-    },
+    ),
     recordsPerPage: 'Înregistrări pe pagină:',
     allRows: 'Toate',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' din ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' din ' + total,
     columns: 'Coloane'
   },
   editor: {

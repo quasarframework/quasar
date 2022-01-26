@@ -8,10 +8,14 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    customBtn () {
-      this.$q.dialog({
+  setup () {
+    const $q = useQuasar()
+
+    function customBtn () {
+      $q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
         ok: {
@@ -29,28 +33,30 @@ export default {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
-    },
+    }
 
-    positioned () {
-      this.$q.dialog({
+    function positioned () {
+      $q.dialog({
         title: 'Positioned',
         message: 'This dialog appears from bottom.',
         position: 'bottom'
       })
-    },
+    }
 
-    stacked () {
-      this.$q.dialog({
+    function stacked () {
+      $q.dialog({
         title: 'Stacked Buttons',
         stackButtons: true,
         cancel: true
       })
-    },
+    }
 
-    autoClose () {
-      const dialog = this.$q.dialog({
+    function autoClose () {
+      let seconds = 3
+
+      const dialog = $q.dialog({
         title: 'Alert',
-        message: 'Autoclosing in 3 seconds.'
+        message: `Autoclosing in ${seconds} seconds.`
       }).onOk(() => {
         // console.log('OK')
       }).onCancel(() => {
@@ -60,10 +66,22 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
 
-      const timer = setTimeout(() => {
-        dialog.hide()
-      }, 3000)
+      const timer = setInterval(() => {
+        seconds--
+
+        if (seconds > 0) {
+          dialog.update({
+            message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+          })
+        }
+        else {
+          clearInterval(timer)
+          dialog.hide()
+        }
+      }, 1000)
     }
+
+    return { customBtn, positioned, stacked, autoClose }
   }
 }
 </script>

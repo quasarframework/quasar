@@ -22,22 +22,21 @@ export default {
     months: 'Január_Február_Marec_Apríl_Máj_Jún_Júl_August_September_Október_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Máj_Jún_Júl_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dní'
   },
   table: {
     noData: 'Nie sú dostupné údaje',
     noResults: 'Neboli nájdené vyhovujúce záznamy',
     loading: 'Načítavam...',
-    selectedRecords: function (rows) {
-      return rows > 0
+    selectedRecords: rows => (
+      rows > 0
         ? rows + ' ' + (rows === 1 ? 'riadok vybratý' : (rows < 5 ? 'riadky vybraté' : 'riadkov vybratých')) + '.'
         : 'Žiadne vybraté riadky.'
-    },
+    ),
     recordsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' z ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' z ' + total,
     columns: 'Stĺpce'
   },
   editor: {

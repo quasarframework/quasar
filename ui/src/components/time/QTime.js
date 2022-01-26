@@ -1,25 +1,50 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, withDirectives, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { slot } from '../../utils/slot.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
+import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
-import DateTimeMixin from '../../mixins/datetime.js'
 
-export default Vue.extend({
+function getViewByModel (model, withSeconds) {
+  if (model.hour !== null) {
+    if (model.minute === null) {
+      return 'minute'
+    }
+    else if (withSeconds === true && model.second === null) {
+      return 'second'
+    }
+  }
+
+  return 'hour'
+}
+
+function getCurrentTime () {
+  const d = new Date()
+
+  return {
+    hour: d.getHours(),
+    minute: d.getMinutes(),
+    second: d.getSeconds(),
+    millisecond: d.getMilliseconds()
+  }
+}
+
+export default createComponent({
   name: 'QTime',
 
-  mixins: [ DateTimeMixin ],
-
-  directives: {
-    TouchPan
-  },
-
   props: {
+    ...useDarkProps,
+    ...useFormProps,
+    ...useDatetimeProps,
+
     mask: {
       default: null
     },
@@ -43,88 +68,60 @@ export default Vue.extend({
     nowBtn: Boolean
   },
 
-  data () {
+  emits: useDatetimeEmits,
+
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+
+    const isDark = useDark(props, $q)
+    const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
+
+    const formAttrs = useFormAttrs(props)
+    const injectFormInput = useFormInject(formAttrs)
+
+    let draggingClockRect, dragCache
+
+    const clockRef = ref(null)
+
+    const mask = computed(() => getMask())
+    const locale = computed(() => getLocale())
+
     const model = __splitDate(
-      this.value,
-      this.__getComputedMask(),
-      this.__getComputedLocale(),
-      this.calendar,
-      this.__getDefaultDateModel()
+      props.modelValue,
+      getMask(),
+      getLocale(),
+      props.calendar,
+      getDefaultDateModel()
     )
 
-    let view = 'Hour'
+    const view = ref(getViewByModel(model))
+    const innerModel = ref(model)
+    const isAM = ref(model.hour === null || model.hour < 12)
 
-    if (model.hour !== null) {
-      if (model.minute === null) {
-        view = 'Minute'
-      }
-      else if (this.withSeconds === true && model.second === null) {
-        view = 'Second'
-      }
-    }
+    const classes = computed(() =>
+      `q-time q-time--${ props.landscape === true ? 'landscape' : 'portrait' }`
+      + (isDark.value === true ? ' q-time--dark q-dark' : '')
+      + (props.disable === true ? ' disabled' : (props.readonly === true ? ' q-time--readonly' : ''))
+      + (props.bordered === true ? ' q-time--bordered' : '')
+      + (props.square === true ? ' q-time--square no-border-radius' : '')
+      + (props.flat === true ? ' q-time--flat no-shadow' : '')
+    )
 
-    return {
-      view,
-      isAM: model.hour === null || model.hour < 12,
-      innerModel: model
-    }
-  },
-
-  watch: {
-    value (v) {
-      const model = __splitDate(
-        v,
-        this.computedMask,
-        this.computedLocale,
-        this.calendar,
-        this.defaultDateModel
-      )
-
-      if (
-        model.dateHash !== this.innerModel.dateHash ||
-        model.timeHash !== this.innerModel.timeHash
-      ) {
-        this.innerModel = model
-
-        if (model.hour === null) {
-          this.view = 'Hour'
-        }
-        else {
-          this.isAM = model.hour < 12
-        }
-      }
-    }
-  },
-
-  computed: {
-    classes () {
-      return `q-time q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
-        (this.isDark === true ? ' q-time--dark q-dark' : '') +
-        (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-time--readonly' : '')) +
-        (this.bordered === true ? ` q-time--bordered` : '') +
-        (this.square === true ? ` q-time--square no-border-radius` : '') +
-        (this.flat === true ? ` q-time--flat no-shadow` : '')
-    },
-
-    computedMask () {
-      return this.__getComputedMask()
-    },
-
-    stringModel () {
-      const time = this.innerModel
+    const stringModel = computed(() => {
+      const time = innerModel.value
 
       return {
         hour: time.hour === null
           ? '--'
           : (
-            this.computedFormat24h === true
-              ? pad(time.hour)
-              : String(
-                this.isAM === true
-                  ? (time.hour === 0 ? 12 : time.hour)
-                  : (time.hour > 12 ? time.hour - 12 : time.hour)
-              )
-          ),
+              computedFormat24h.value === true
+                ? pad(time.hour)
+                : String(
+                  isAM.value === true
+                    ? (time.hour === 0 ? 12 : time.hour)
+                    : (time.hour > 12 ? time.hour - 12 : time.hour)
+                )
+            ),
         minute: time.minute === null
           ? '--'
           : pad(time.minute),
@@ -132,83 +129,110 @@ export default Vue.extend({
           ? '--'
           : pad(time.second)
       }
-    },
+    })
 
-    defaultDateModel () {
-      return this.__getDefaultDateModel()
-    },
+    const defaultDateModel = computed(() => getDefaultDateModel())
 
-    computedFormat24h () {
-      return this.format24h !== null
-        ? this.format24h
-        : this.$q.lang.date.format24h
-    },
+    const computedFormat24h = computed(() => (
+      props.format24h !== null
+        ? props.format24h
+        : $q.lang.date.format24h
+    ))
 
-    pointerStyle () {
+    const pointerStyle = computed(() => {
       const
-        forHour = this.view === 'Hour',
+        forHour = view.value === 'hour',
         divider = forHour === true ? 12 : 60,
-        amount = this.innerModel[this.view.toLowerCase()],
+        amount = innerModel.value[ view.value ],
         degrees = Math.round(amount * (360 / divider)) - 180
 
-      let transform = `rotate(${degrees}deg) translateX(-50%)`
+      let transform = `rotate(${ degrees }deg) translateX(-50%)`
 
       if (
-        forHour === true &&
-        this.computedFormat24h === true &&
-        this.innerModel.hour >= 12
+        forHour === true
+        && computedFormat24h.value === true
+        && innerModel.value.hour >= 12
       ) {
         transform += ' scale(.7)'
       }
 
       return { transform }
-    },
+    })
 
-    minLink () {
-      return this.innerModel.hour !== null
-    },
+    const minLink = computed(() => innerModel.value.hour !== null)
+    const secLink = computed(() => minLink.value === true && innerModel.value.minute !== null)
 
-    secLink () {
-      return this.minLink === true && this.innerModel.minute !== null
-    },
-
-    hourInSelection () {
-      return this.hourOptions !== void 0
-        ? val => this.hourOptions.includes(val)
+    const hourInSelection = computed(() => (
+      props.hourOptions !== void 0
+        ? val => props.hourOptions.includes(val)
         : (
-          this.options !== void 0
-            ? val => this.options(val, null, null)
-            : void 0
-        )
-    },
+            props.options !== void 0
+              ? val => props.options(val, null, null)
+              : null
+          )
+    ))
 
-    minuteInSelection () {
-      return this.minuteOptions !== void 0
-        ? val => this.minuteOptions.includes(val)
+    const minuteInSelection = computed(() => (
+      props.minuteOptions !== void 0
+        ? val => props.minuteOptions.includes(val)
         : (
-          this.options !== void 0
-            ? val => this.options(this.innerModel.hour, val, null)
-            : void 0
-        )
-    },
+            props.options !== void 0
+              ? val => props.options(innerModel.value.hour, val, null)
+              : null
+          )
+    ))
 
-    secondInSelection () {
-      return this.secondOptions !== void 0
-        ? val => this.secondOptions.includes(val)
+    const secondInSelection = computed(() => (
+      props.secondOptions !== void 0
+        ? val => props.secondOptions.includes(val)
         : (
-          this.options !== void 0
-            ? val => this.options(this.innerModel.hour, this.innerModel.minute, val)
-            : void 0
-        )
-    },
+            props.options !== void 0
+              ? val => props.options(innerModel.value.hour, innerModel.value.minute, val)
+              : null
+          )
+    ))
 
-    positions () {
-      let start, end, offset = 0, step = 1, inSel
+    const validHours = computed(() => {
+      if (hourInSelection.value === null) {
+        return null
+      }
 
-      if (this.view === 'Hour') {
-        inSel = this.hourInSelection
+      const am = getValidValues(0, 11, hourInSelection.value)
+      const pm = getValidValues(12, 11, hourInSelection.value)
+      return { am, pm, values: am.values.concat(pm.values) }
+    })
 
-        if (this.computedFormat24h === true) {
+    const validMinutes = computed(() => (
+      minuteInSelection.value !== null
+        ? getValidValues(0, 59, minuteInSelection.value)
+        : null
+    ))
+
+    const validSeconds = computed(() => (
+      secondInSelection.value !== null
+        ? getValidValues(0, 59, secondInSelection.value)
+        : null
+    ))
+
+    const viewValidOptions = computed(() => {
+      switch (view.value) {
+        case 'hour':
+          return validHours.value
+        case 'minute':
+          return validMinutes.value
+        case 'second':
+          return validSeconds.value
+      }
+    })
+
+    const positions = computed(() => {
+      let start, end, offset = 0, step = 1
+      const values = viewValidOptions.value !== null
+        ? viewValidOptions.value.values
+        : void 0
+
+      if (view.value === 'hour') {
+        if (computedFormat24h.value === true) {
           start = 0
           end = 23
         }
@@ -216,7 +240,7 @@ export default Vue.extend({
           start = 0
           end = 11
 
-          if (this.isAM === false) {
+          if (isAM.value === false) {
             offset = 12
           }
         }
@@ -225,13 +249,6 @@ export default Vue.extend({
         start = 0
         end = 55
         step = 5
-
-        if (this.view === 'Minute') {
-          inSel = this.minuteInSelection
-        }
-        else {
-          inSel = this.secondInSelection
-        }
       }
 
       const pos = []
@@ -239,438 +256,489 @@ export default Vue.extend({
       for (let val = start, index = start; val <= end; val += step, index++) {
         const
           actualVal = val + offset,
-          disable = inSel !== void 0 && inSel(actualVal) === false,
-          label = this.view === 'Hour' && val === 0
-            ? (this.format24h === true ? '00' : '12')
+          disable = values !== void 0 && values.includes(actualVal) === false,
+          label = view.value === 'hour' && val === 0
+            ? (computedFormat24h.value === true ? '00' : '12')
             : val
 
         pos.push({ val: actualVal, index, disable, label })
       }
 
       return pos
-    }
-  },
+    })
 
-  methods: {
-    setNow () {
-      this.__updateValue({
-        ...this.__getCurrentDate(),
-        ...this.__getCurrentTime()
+    const clockDirectives = computed(() => {
+      return [ [
+        TouchPan,
+        onPan,
+        void 0,
+        {
+          stop: true,
+          prevent: true,
+          mouse: true
+        }
+      ] ]
+    })
+
+    watch(() => props.modelValue, v => {
+      const model = __splitDate(
+        v,
+        mask.value,
+        locale.value,
+        props.calendar,
+        defaultDateModel.value
+      )
+
+      if (
+        model.dateHash !== innerModel.value.dateHash
+        || model.timeHash !== innerModel.value.timeHash
+      ) {
+        innerModel.value = model
+
+        if (model.hour === null) {
+          view.value = 'hour'
+        }
+        else {
+          isAM.value = model.hour < 12
+        }
+      }
+    })
+
+    watch([ mask, locale ], () => {
+      nextTick(() => {
+        updateValue()
       })
-      this.view = 'Hour'
-    },
+    })
 
-    __getDefaultDateModel () {
-      if (typeof this.defaultDate !== 'string') {
-        const date = this.__getCurrentDate()
-        date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+    function setNow () {
+      const date = {
+        ...getCurrentDate(),
+        ...getCurrentTime()
+      }
 
+      updateValue(date)
+      Object.assign(innerModel.value, date) // reset any pending changes to innerModel
+
+      view.value = 'hour'
+    }
+
+    function getValidValues (start, count, testFn) {
+      const values = Array.apply(null, { length: count + 1 })
+        .map((_, index) => {
+          const i = index + start
+          return {
+            index: i,
+            val: testFn(i) === true // force boolean
+          }
+        })
+        .filter(v => v.val === true)
+        .map(v => v.index)
+
+      return {
+        min: values[ 0 ],
+        max: values[ values.length - 1 ],
+        values,
+        threshold: count + 1
+      }
+    }
+
+    function getWheelDist (a, b, threshold) {
+      const diff = Math.abs(a - b)
+      return Math.min(diff, threshold - diff)
+    }
+
+    function getNormalizedClockValue (val, { min, max, values, threshold }) {
+      if (val === min) {
+        return min
+      }
+
+      if (val < min || val > max) {
+        return getWheelDist(val, min, threshold) <= getWheelDist(val, max, threshold)
+          ? min
+          : max
+      }
+
+      const
+        index = values.findIndex(v => val <= v),
+        before = values[ index - 1 ],
+        after = values[ index ]
+
+      return val - before <= after - val
+        ? before
+        : after
+    }
+
+    function getMask () {
+      return props.calendar !== 'persian' && props.mask !== null
+        ? props.mask
+        : `HH:mm${ props.withSeconds === true ? ':ss' : '' }`
+    }
+
+    function getDefaultDateModel () {
+      if (typeof props.defaultDate !== 'string') {
+        const date = getCurrentDate(true)
+        date.dateHash = getDayHash(date)
         return date
       }
 
-      return __splitDate(this.defaultDate, 'YYYY/MM/DD', void 0, this.calendar)
-    },
+      return __splitDate(props.defaultDate, 'YYYY/MM/DD', void 0, props.calendar)
+    }
 
-    __click (evt) {
-      // __activate() has already updated the offset
-      // we only need to change the view now, so:
-
-      if (this.$q.platform.is.desktop !== true) {
-        this.__drag({ isFirst: true, evt })
-      }
-
-      this.__drag({ isFinal: true, evt })
-    },
-
-    __activate (evt) {
-      this.__drag({ isFirst: true, evt }, true)
-      this.__drag({ isFinal: true, evt }, true)
-    },
-
-    __drag (event, noViewChange) {
-      // cases when on a popup getting closed
-      // on previously emitted value
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
-        return
-      }
-
-      if (event.isFirst) {
-        const
-          clock = this.$refs.clock,
-          { top, left, width } = clock.getBoundingClientRect(),
-          dist = width / 2
-
-        this.dragging = {
-          top: top + dist,
-          left: left + dist,
-          dist: dist * 0.7
-        }
-        this.dragCache = null
-        this.__updateClock(event.evt)
-        return
-      }
-
-      this.__updateClock(event.evt)
-
-      if (event.isFinal && noViewChange !== true) {
-        this.dragging = false
-
-        if (this.view === 'Hour') {
-          this.view = 'Minute'
-        }
-        else if (this.withSeconds && this.view === 'Minute') {
-          this.view = 'Second'
-        }
-      }
-    },
-
-    __updateClock (evt) {
-      let
-        val,
-        pos = position(evt),
-        height = Math.abs(pos.top - this.dragging.top),
-        distance = Math.sqrt(
-          Math.pow(Math.abs(pos.top - this.dragging.top), 2) +
-          Math.pow(Math.abs(pos.left - this.dragging.left), 2)
-        ),
-        angle = Math.asin(height / distance) * (180 / Math.PI)
-
-      if (pos.top < this.dragging.top) {
-        angle = this.dragging.left < pos.left ? 90 - angle : 270 + angle
-      }
-      else {
-        angle = this.dragging.left < pos.left ? angle + 90 : 270 - angle
-      }
-
-      if (this.view === 'Hour') {
-        val = Math.round(angle / 30)
-
-        if (this.computedFormat24h === true) {
-          if (distance < this.dragging.dist) {
-            if (val < 12) {
-              val += 12
-            }
-          }
-          else if (val === 12) {
-            val = 0
-          }
-          this.isAM = val < 12
-        }
-        else if (this.isAM === true && val === 12) {
-          val = 0
-        }
-        else if (this.isAM === false && val !== 12) {
-          val += 12
-        }
-      }
-      else {
-        val = Math.round(angle / 6)
-
-        if (val === 60) {
-          val = 0
-        }
-      }
-
-      if (this.dragCache === val) {
-        return
-      }
-
-      const opt = this[`${this.view.toLowerCase()}InSelection`]
-
-      if (opt !== void 0 && opt(val) !== true) {
-        return
-      }
-
-      this.dragCache = val
-      this[`__set${this.view}`](val)
-    },
-
-    __onKeyupHour (e) {
-      if (e.keyCode === 13) { // ENTER
-        this.view = 'Hour'
-      }
-      else {
-        const
-          wrap = this.computedFormat24h === true ? 24 : 12,
-          offset = this.computedFormat24h !== true && this.isAM === false ? 12 : 0
-
-        if (e.keyCode === 37) { // ARROW LEFT
-          this.__setHour(offset + (24 + this.innerModel.hour - 1) % wrap)
-        }
-        else if (e.keyCode === 39) { // ARROW RIGHT
-          this.__setHour(offset + (24 + this.innerModel.hour + 1) % wrap)
-        }
-      }
-    },
-
-    __onKeyupMinute (e) {
-      if (e.keyCode === 13) { // ENTER
-        this.view = 'Minute'
-      }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setMinute((60 + this.innerModel.minute - 1) % 60)
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setMinute((60 + this.innerModel.minute + 1) % 60)
-      }
-    },
-
-    __onKeyupSecond (e) {
-      if (e.keyCode === 13) { // ENTER
-        this.view = 'Second'
-      }
-      else if (e.keyCode === 37) { // ARROW LEFT
-        this.__setSecond((60 + this.innerModel.second - 1) % 60)
-      }
-      else if (e.keyCode === 39) { // ARROW RIGHT
-        this.__setSecond((60 + this.innerModel.second + 1) % 60)
-      }
-    },
-
-    __getHeader (h) {
-      const label = [
-        h('div', {
-          staticClass: 'q-time__link',
-          class: this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer',
-          attrs: { tabindex: this.computedTabindex },
-          on: cache(this, 'vH', {
-            click: () => { this.view = 'Hour' },
-            keyup: this.__onKeyupHour
-          })
-        }, [ this.stringModel.hour ]),
-
-        h('div', [ ':' ]),
-
-        h(
-          'div',
-          this.minLink === true
-            ? {
-              staticClass: 'q-time__link',
-              class: this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer',
-              attrs: { tabindex: this.computedTabindex },
-              on: cache(this, 'vM', {
-                click: () => { this.view = 'Minute' },
-                keyup: this.__onKeyupMinute
-              })
-            }
-            : { staticClass: 'q-time__link' },
-          [ this.stringModel.minute ]
-        )
-      ]
-
-      if (this.withSeconds === true) {
-        label.push(
-          h('div', [ ':' ]),
-
-          h(
-            'div',
-            this.secLink === true
-              ? {
-                staticClass: 'q-time__link',
-                class: this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer',
-                attrs: { tabindex: this.computedTabindex },
-                on: cache(this, 'vS', {
-                  click: () => { this.view = 'Second' },
-                  keyup: this.__onKeyupSecond
-                })
-              }
-              : { staticClass: 'q-time__link' },
-            [ this.stringModel.second ]
+    function shouldAbortInteraction () {
+      return vm.isDeactivated === true
+        || vm.isUnmounted === true
+        // if we have limited options, can we actually set any?
+        || (
+          viewValidOptions.value !== null
+          && (
+            viewValidOptions.value.values.length === 0
+            || (
+              view.value === 'hour' && computedFormat24h.value !== true
+              && validHours.value[ isAM.value === true ? 'am' : 'pm' ].values.length === 0
+            )
           )
         )
-      }
+    }
 
-      return h('div', {
-        staticClass: 'q-time__header flex flex-center no-wrap',
-        class: this.headerClass
-      }, [
-        h('div', {
-          staticClass: 'q-time__header-label row items-center no-wrap',
-          attrs: { dir: 'ltr' }
-        }, label),
-
-        this.computedFormat24h === false ? h('div', {
-          staticClass: 'q-time__header-ampm column items-between no-wrap'
-        }, [
-          h('div', {
-            staticClass: 'q-time__link',
-            class: this.isAM === true ? 'q-time__link--active' : 'cursor-pointer',
-            attrs: { tabindex: this.computedTabindex },
-            on: cache(this, 'AM', {
-              click: this.__setAm,
-              keyup: e => { e.keyCode === 13 && this.__setAm() }
-            })
-          }, [ 'AM' ]),
-
-          h('div', {
-            staticClass: 'q-time__link',
-            class: this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer',
-            attrs: { tabindex: this.computedTabindex },
-            on: cache(this, 'PM', {
-              click: this.__setPm,
-              keyup: e => { e.keyCode === 13 && this.__setPm() }
-            })
-          }, [ 'PM' ])
-        ]) : null
-      ])
-    },
-
-    __getClock (h) {
+    function getClockRect () {
       const
-        view = this.view.toLowerCase(),
-        current = this.innerModel[view]
+        clock = clockRef.value,
+        { top, left, width } = clock.getBoundingClientRect(),
+        dist = width / 2
 
-      return h('div', {
-        staticClass: 'q-time__content col relative-position'
-      }, [
-        h('transition', {
-          props: { name: 'q-transition--scale' }
-        }, [
-          h('div', {
-            key: 'clock' + this.view,
-            staticClass: 'q-time__container-parent absolute-full'
-          }, [
-            h('div', {
-              ref: 'clock',
-              staticClass: 'q-time__container-child fit overflow-hidden'
-            }, [
-              h('div', {
-                staticClass: 'q-time__clock cursor-pointer non-selectable',
-                on: cache(this, 'click', {
-                  click: this.__click,
-                  mousedown: this.__activate
-                }),
-                directives: cache(this, 'touch', [{
-                  name: 'touch-pan',
-                  value: this.__drag,
-                  modifiers: {
-                    stop: true,
-                    prevent: true,
-                    mouse: true
-                  }
-                }])
-              }, [
-                h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                  h('div', {
-                    staticClass: 'q-time__clock-pointer',
-                    style: this.pointerStyle,
-                    class: this.innerModel[view] === null ? 'hidden' : (this.color !== void 0 ? `text-${this.color}` : '')
-                  }),
-
-                  this.positions.map(pos => h('div', {
-                    staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
-                    class: pos.val === current
-                      ? this.headerClass.concat(' q-time__clock-position--active')
-                      : (pos.disable === true ? 'q-time__clock-position--disable' : null)
-                  }, [ h('span', [ pos.label ]) ]))
-                ])
-              ])
-            ])
-          ])
-        ]),
-
-        this.nowBtn === true ? h(QBtn, {
-          staticClass: 'q-time__now-button absolute',
-          props: {
-            icon: this.$q.iconSet.datetime.now,
-            unelevated: true,
-            size: 'sm',
-            round: true,
-            color: this.color,
-            textColor: this.textColor,
-            tabindex: this.computedTabindex
-          },
-          on: cache(this, 'now', {
-            click: this.setNow
-          })
-        }) : null
-      ])
-    },
-
-    __setHour (hour) {
-      if (this.innerModel.hour !== hour) {
-        this.innerModel.hour = hour
-        this.innerModel.minute = null
-        this.innerModel.second = null
+      return {
+        top: top + dist,
+        left: left + dist,
+        dist: dist * 0.7
       }
-    },
+    }
 
-    __setMinute (minute) {
-      if (this.innerModel.minute !== minute) {
-        this.innerModel.minute = minute
-        this.innerModel.second = null
-        this.withSeconds !== true && this.__updateValue({ minute })
-      }
-    },
-
-    __setSecond (second) {
-      this.innerModel.second !== second && this.__updateValue({ second })
-    },
-
-    __setAm () {
-      if (this.isAM) { return }
-
-      this.isAM = true
-
-      if (this.innerModel.hour === null) { return }
-      this.innerModel.hour -= 12
-      this.__verifyAndUpdate()
-    },
-
-    __setPm () {
-      if (!this.isAM) { return }
-
-      this.isAM = false
-
-      if (this.innerModel.hour === null) { return }
-      this.innerModel.hour += 12
-      this.__verifyAndUpdate()
-    },
-
-    __verifyAndUpdate () {
-      if (this.hourInSelection !== void 0 && this.hourInSelection(this.innerModel.hour) !== true) {
-        this.innerModel = __splitDate()
-        this.isAM = true
-        this.view = 'Hour'
+    function onPan (event) {
+      if (shouldAbortInteraction() === true) {
         return
       }
 
-      if (this.minuteInSelection !== void 0 && this.minuteInSelection(this.innerModel.minute) !== true) {
-        this.innerModel.minute = null
-        this.innerModel.second = null
-        this.view = 'Minute'
+      if (event.isFirst === true) {
+        draggingClockRect = getClockRect()
+        dragCache = updateClock(event.evt, draggingClockRect)
         return
       }
 
-      if (this.withSeconds === true && this.secondInSelection !== void 0 && this.secondInSelection(this.innerModel.second) !== true) {
-        this.innerModel.second = null
-        this.view = 'Second'
+      dragCache = updateClock(event.evt, draggingClockRect, dragCache)
+
+      if (event.isFinal === true) {
+        draggingClockRect = false
+        dragCache = null
+        goToNextView()
+      }
+    }
+
+    function goToNextView () {
+      if (view.value === 'hour') {
+        view.value = 'minute'
+      }
+      else if (props.withSeconds && view.value === 'minute') {
+        view.value = 'second'
+      }
+    }
+
+    function updateClock (evt, clockRect, cacheVal) {
+      const
+        pos = position(evt),
+        height = Math.abs(pos.top - clockRect.top),
+        distance = Math.sqrt(
+          Math.pow(Math.abs(pos.top - clockRect.top), 2)
+          + Math.pow(Math.abs(pos.left - clockRect.left), 2)
+        )
+
+      let
+        val,
+        angle = Math.asin(height / distance) * (180 / Math.PI)
+
+      if (pos.top < clockRect.top) {
+        angle = clockRect.left < pos.left ? 90 - angle : 270 + angle
+      }
+      else {
+        angle = clockRect.left < pos.left ? angle + 90 : 270 - angle
+      }
+
+      if (view.value === 'hour') {
+        val = angle / 30
+
+        if (validHours.value !== null) {
+          const am = computedFormat24h.value !== true
+            ? isAM.value === true
+            : (
+                validHours.value.am.values.length > 0 && validHours.value.pm.values.length > 0
+                  ? distance >= clockRect.dist
+                  : validHours.value.am.values.length > 0
+              )
+
+          val = getNormalizedClockValue(
+            val + (am === true ? 0 : 12),
+            validHours.value[ am === true ? 'am' : 'pm' ]
+          )
+        }
+        else {
+          val = Math.round(val)
+
+          if (computedFormat24h.value === true) {
+            if (distance < clockRect.dist) {
+              if (val < 12) {
+                val += 12
+              }
+            }
+            else if (val === 12) {
+              val = 0
+            }
+          }
+          else if (isAM.value === true && val === 12) {
+            val = 0
+          }
+          else if (isAM.value === false && val !== 12) {
+            val += 12
+          }
+        }
+
+        if (computedFormat24h.value === true) {
+          isAM.value = val < 12
+        }
+      }
+      else {
+        val = Math.round(angle / 6) % 60
+
+        if (view.value === 'minute' && validMinutes.value !== null) {
+          val = getNormalizedClockValue(val, validMinutes.value)
+        }
+        else if (view.value === 'second' && validSeconds.value !== null) {
+          val = getNormalizedClockValue(val, validSeconds.value)
+        }
+      }
+
+      if (cacheVal !== val) {
+        setModel[ view.value ](val)
+      }
+
+      return val
+    }
+
+    const setView = {
+      hour () { view.value = 'hour' },
+      minute () { view.value = 'minute' },
+      second () { view.value = 'second' }
+    }
+
+    function setAmOnKey (e) {
+      e.keyCode === 13 && setAm()
+    }
+
+    function setPmOnKey (e) {
+      e.keyCode === 13 && setPm()
+    }
+
+    function onClick (evt) {
+      if (shouldAbortInteraction() !== true) {
+        // onMousedown() has already updated the offset
+        // (on desktop only, through mousedown event)
+        if ($q.platform.is.desktop !== true) {
+          updateClock(evt, getClockRect())
+        }
+
+        goToNextView()
+      }
+    }
+
+    function onMousedown (evt) {
+      if (shouldAbortInteraction() !== true) {
+        updateClock(evt, getClockRect())
+      }
+    }
+
+    function onKeyupHour (e) {
+      if (e.keyCode === 13) { // ENTER
+        view.value = 'hour'
+      }
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (validHours.value !== null) {
+          const values = computedFormat24h.value === true
+            ? validHours.value.values
+            : validHours.value[ isAM.value === true ? 'am' : 'pm' ].values
+
+          if (values.length === 0) { return }
+
+          if (innerModel.value.hour === null) {
+            setHour(values[ 0 ])
+          }
+          else {
+            const index = (
+              values.length
+              + values.indexOf(innerModel.value.hour)
+              + payload
+            ) % values.length
+
+            setHour(values[ index ])
+          }
+        }
+        else {
+          const
+            wrap = computedFormat24h.value === true ? 24 : 12,
+            offset = computedFormat24h.value !== true && isAM.value === false ? 12 : 0,
+            val = innerModel.value.hour === null ? -payload : innerModel.value.hour
+
+          setHour(offset + (24 + val + payload) % wrap)
+        }
+      }
+    }
+
+    function onKeyupMinute (e) {
+      if (e.keyCode === 13) { // ENTER
+        view.value = 'minute'
+      }
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (validMinutes.value !== null) {
+          const values = validMinutes.value.values
+
+          if (values.length === 0) { return }
+
+          if (innerModel.value.minute === null) {
+            setMinute(values[ 0 ])
+          }
+          else {
+            const index = (
+              values.length
+              + values.indexOf(innerModel.value.minute)
+              + payload
+            ) % values.length
+
+            setMinute(values[ index ])
+          }
+        }
+        else {
+          const val = innerModel.value.minute === null ? -payload : innerModel.value.minute
+          setMinute((60 + val + payload) % 60)
+        }
+      }
+    }
+
+    function onKeyupSecond (e) {
+      if (e.keyCode === 13) { // ENTER
+        view.value = 'second'
+      }
+      else if ([ 37, 39 ].includes(e.keyCode)) {
+        const payload = e.keyCode === 37 ? -1 : 1
+
+        if (validSeconds.value !== null) {
+          const values = validSeconds.value.values
+
+          if (values.length === 0) { return }
+
+          if (innerModel.value.seconds === null) {
+            setSecond(values[ 0 ])
+          }
+          else {
+            const index = (
+              values.length
+              + values.indexOf(innerModel.value.second)
+              + payload
+            ) % values.length
+
+            setSecond(values[ index ])
+          }
+        }
+        else {
+          const val = innerModel.value.second === null ? -payload : innerModel.value.second
+          setSecond((60 + val + payload) % 60)
+        }
+      }
+    }
+
+    function setHour (hour) {
+      if (innerModel.value.hour !== hour) {
+        innerModel.value.hour = hour
+        verifyAndUpdate()
+      }
+    }
+
+    function setMinute (minute) {
+      if (innerModel.value.minute !== minute) {
+        innerModel.value.minute = minute
+        verifyAndUpdate()
+      }
+    }
+
+    function setSecond (second) {
+      if (innerModel.value.second !== second) {
+        innerModel.value.second = second
+        verifyAndUpdate()
+      }
+    }
+
+    const setModel = {
+      hour: setHour,
+      minute: setMinute,
+      second: setSecond
+    }
+
+    function setAm () {
+      if (isAM.value === false) {
+        isAM.value = true
+
+        if (innerModel.value.hour !== null) {
+          innerModel.value.hour -= 12
+          verifyAndUpdate()
+        }
+      }
+    }
+
+    function setPm () {
+      if (isAM.value === true) {
+        isAM.value = false
+
+        if (innerModel.value.hour !== null) {
+          innerModel.value.hour += 12
+          verifyAndUpdate()
+        }
+      }
+    }
+
+    function verifyAndUpdate () {
+      if (hourInSelection.value !== null && hourInSelection.value(innerModel.value.hour) !== true) {
+        innerModel.value = __splitDate()
+        view.value = 'hour'
         return
       }
 
-      if (this.innerModel.hour === null || this.innerModel.minute === null || (this.withSeconds === true && this.innerModel.second === null)) {
+      if (minuteInSelection.value !== null && minuteInSelection.value(innerModel.value.minute) !== true) {
+        innerModel.value.minute = null
+        innerModel.value.second = null
+        view.value = 'minute'
         return
       }
 
-      this.__updateValue({})
-    },
-
-    __getComputedMask () {
-      return this.calendar !== 'persian' && this.mask !== null
-        ? this.mask
-        : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
-    },
-
-    __updateValue (obj) {
-      const date = {
-        ...this.innerModel,
-        ...obj
+      if (props.withSeconds === true && secondInSelection.value !== null && secondInSelection.value(innerModel.value.second) !== true) {
+        innerModel.value.second = null
+        view.value = 'second'
+        return
       }
 
-      const val = this.calendar === 'persian'
-        ? pad(date.hour) + ':' +
-          pad(date.minute) +
-          (this.withSeconds === true ? ':' + pad(date.second) : '')
+      if (innerModel.value.hour === null || innerModel.value.minute === null || (props.withSeconds === true && innerModel.value.second === null)) {
+        return
+      }
+
+      updateValue()
+    }
+
+    function updateValue (obj) {
+      const date = Object.assign({ ...innerModel.value }, obj)
+
+      const val = props.calendar === 'persian'
+        ? pad(date.hour) + ':'
+          + pad(date.minute)
+          + (props.withSeconds === true ? ':' + pad(date.second) : '')
         : formatDate(
           new Date(
             date.year,
@@ -681,37 +749,176 @@ export default Vue.extend({
             date.second,
             date.millisecond
           ),
-          this.computedMask,
-          this.computedLocale,
-          date.year
+          mask.value,
+          locale.value,
+          date.year,
+          date.timezoneOffset
         )
 
-      date.changed = val !== this.value
-      this.$emit('input', val, date)
-    }
-  },
-
-  render (h) {
-    const child = [
-      this.__getClock(h)
-    ]
-
-    const def = slot(this, 'default')
-    def !== void 0 && child.push(
-      h('div', { staticClass: 'q-time__actions' }, def)
-    )
-
-    if (this.name !== void 0 && this.disable !== true) {
-      this.__injectFormInput(child, 'push')
+      date.changed = val !== props.modelValue
+      emit('update:modelValue', val, date)
     }
 
-    return h('div', {
-      class: this.classes,
-      on: this.$listeners,
-      attrs: { tabindex: -1 }
-    }, [
-      this.__getHeader(h),
-      h('div', { staticClass: 'q-time__main col overflow-auto' }, child)
-    ])
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, { setNow })
+
+    function getHeader () {
+      const label = [
+        h('div', {
+          class: 'q-time__link '
+            + (view.value === 'hour' ? 'q-time__link--active' : 'cursor-pointer'),
+          tabindex: tabindex.value,
+          onClick: setView.hour,
+          onKeyup: onKeyupHour
+        }, stringModel.value.hour),
+
+        h('div', ':'),
+
+        h(
+          'div',
+          minLink.value === true
+            ? {
+                class: 'q-time__link '
+                + (view.value === 'minute' ? 'q-time__link--active' : 'cursor-pointer'),
+                tabindex: tabindex.value,
+                onKeyup: onKeyupMinute,
+                onClick: setView.minute
+              }
+            : { class: 'q-time__link' },
+          stringModel.value.minute
+        )
+      ]
+
+      if (props.withSeconds === true) {
+        label.push(
+          h('div', ':'),
+
+          h(
+            'div',
+            secLink.value === true
+              ? {
+                  class: 'q-time__link '
+                  + (view.value === 'second' ? 'q-time__link--active' : 'cursor-pointer'),
+                  tabindex: tabindex.value,
+                  onKeyup: onKeyupSecond,
+                  onClick: setView.second
+                }
+              : { class: 'q-time__link' },
+            stringModel.value.second
+          )
+        )
+      }
+
+      const child = [
+        h('div', {
+          class: 'q-time__header-label row items-center no-wrap',
+          dir: 'ltr'
+        }, label)
+      ]
+
+      computedFormat24h.value === false && child.push(
+        h('div', {
+          class: 'q-time__header-ampm column items-between no-wrap'
+        }, [
+          h('div', {
+            class: 'q-time__link '
+              + (isAM.value === true ? 'q-time__link--active' : 'cursor-pointer'),
+            tabindex: tabindex.value,
+            onClick: setAm,
+            onKeyup: setAmOnKey
+          }, 'AM'),
+
+          h('div', {
+            class: 'q-time__link '
+              + (isAM.value !== true ? 'q-time__link--active' : 'cursor-pointer'),
+            tabindex: tabindex.value,
+            onClick: setPm,
+            onKeyup: setPmOnKey
+          }, 'PM')
+        ])
+      )
+
+      return h('div', {
+        class: 'q-time__header flex flex-center no-wrap ' + headerClass.value
+      }, child)
+    }
+
+    function getClock () {
+      const current = innerModel.value[ view.value ]
+
+      return h('div', {
+        class: 'q-time__content col relative-position'
+      }, [
+        h(Transition, {
+          name: 'q-transition--scale'
+        }, () => h('div', {
+          key: 'clock' + view.value,
+          class: 'q-time__container-parent absolute-full'
+        }, [
+          h('div', {
+            ref: clockRef,
+            class: 'q-time__container-child fit overflow-hidden'
+          }, [
+            withDirectives(
+              h('div', {
+                class: 'q-time__clock cursor-pointer non-selectable',
+                onClick,
+                onMousedown
+              }, [
+                h('div', { class: 'q-time__clock-circle fit' }, [
+                  h('div', {
+                    class: 'q-time__clock-pointer'
+                      + (innerModel.value[ view.value ] === null ? ' hidden' : (props.color !== void 0 ? ` text-${ props.color }` : '')),
+                    style: pointerStyle.value
+                  }),
+
+                  positions.value.map(pos => h('div', {
+                    class: `q-time__clock-position row flex-center q-time__clock-pos-${ pos.index }`
+                      + (pos.val === current
+                        ? ' q-time__clock-position--active ' + headerClass.value
+                        : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
+                  }, [ h('span', pos.label) ]))
+                ])
+              ]),
+              clockDirectives.value
+            )
+          ])
+        ])),
+
+        props.nowBtn === true ? h(QBtn, {
+          class: 'q-time__now-button absolute',
+          icon: $q.iconSet.datetime.now,
+          unelevated: true,
+          size: 'sm',
+          round: true,
+          color: props.color,
+          textColor: props.textColor,
+          tabindex: tabindex.value,
+          onClick: setNow
+        }) : null
+      ])
+    }
+
+    return () => {
+      const child = [ getClock() ]
+
+      const def = hSlot(slots.default)
+      def !== void 0 && child.push(
+        h('div', { class: 'q-time__actions' }, def)
+      )
+
+      if (props.name !== void 0 && props.disable !== true) {
+        injectFormInput(child, 'push')
+      }
+
+      return h('div', {
+        class: classes.value,
+        tabindex: -1
+      }, [
+        getHeader(),
+        h('div', { class: 'q-time__main col overflow-auto' }, child)
+      ])
+    }
   }
 })

@@ -24,17 +24,38 @@
       markers
       color="purple"
     />
+
+    <q-badge color="secondary">
+      Model: {{ orangeModel }}<br>(0 to 16, step 2, marker step 4)
+    </q-badge>
+    <q-range
+      v-model="orangeModel"
+      :min="-8"
+      :max="16"
+      :step="2"
+      label
+      snap
+      :markers="4"
+      color="orange"
+    />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      marker: {
+      marker: ref({
         min: 6,
         max: 8
-      }
+      }),
+
+      orangeModel: ref({
+        min: 6,
+        max: 10
+      })
     }
   }
 }

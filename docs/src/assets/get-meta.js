@@ -1,5 +1,3 @@
-// Make sure to keep in sync with /build/md-loader-utils.js
-
 export default function (title, desc) {
   return {
     title: {
@@ -7,7 +5,7 @@ export default function (title, desc) {
       content: title
     },
     ogTitle: {
-      name: 'og:title',
+      property: 'og:title',
       content: title
     },
     twitterTitle: {
@@ -20,7 +18,7 @@ export default function (title, desc) {
       content: desc
     },
     ogDesc: {
-      name: 'og:description',
+      property: 'og:description',
       content: desc
     },
     twitterDesc: {

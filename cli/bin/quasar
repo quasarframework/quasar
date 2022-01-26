@@ -2,6 +2,11 @@
 
 require('../lib/node-version-check')
 
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
+
+updateNotifier({ pkg }).notify()
+
 function getQuasarAppExecutable (which, root) {
   try {
     return require.resolve(which, {
@@ -69,12 +74,14 @@ else {
         process.argv.splice(2, 1)
       }
       else {
-        if (cmd === '-v' || cmd === '--version') {
+        if (cmd === '-v' || cmd === '--version' || cmd === '-V') {
           console.log(require('../package.json').version)
           process.exit(0)
         }
 
         const chalk = require('chalk')
+
+        require(`./quasar-help`)
 
         console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
 
@@ -83,7 +90,7 @@ else {
         }
 
         console.log()
-        cmd = 'help'
+        process.exit(1)
       }
     }
     else {

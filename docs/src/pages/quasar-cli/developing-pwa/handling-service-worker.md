@@ -62,14 +62,36 @@ When you set `devServer > https: true` in your quasar.conf.js file, Quasar will 
 ```js
 // quasar.conf.js
 
-const fs = require('fs')
-// ...
-
 devServer: {
-  https: {
-    key: fs.readFileSync('/path/to/server.key'),
-    cert: fs.readFileSync('/path/to/server.crt'),
-    ca: fs.readFileSync('/path/to/ca.pem'),
+  server: {
+    type: 'https', // NECESSARY
+
+    options: {
+      // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+      key: "/path/to/server.key",
+      pfx: "/path/to/server.pfx",
+      cert: "/path/to/server.crt",
+      ca: "/path/to/ca.pem",
+      passphrase: 'webpack-dev-server' // do you need it?
+    }
+  }
+}
+```
+
+## Important Hosting Configuration
+
+It's important that you do not allow browsers to cache the `service-worker.js` file. Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the service-worker from cache.
+
+This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of `service-worker.js` file via your hosting service.
+
+As an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:
+
+```json
+{
+  "hosting": {
+    "headers": [
+      { "source":"/service-worker.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}] }
+    ]
   }
 }
 ```

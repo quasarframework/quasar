@@ -1,15 +1,15 @@
 {
-  "mixins": [ "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-fullscreen" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/table"
+    "docsUrl": "https://v2.quasar.dev/vue-components/table"
   },
 
   "props": {
-    "data": {
+    "rows": {
       "type": "Array",
       "desc": "Rows of data to display",
-      "examples": [ ":data=\"myData\"" ],
+      "examples": [ ":rows=\"myData\"" ],
       "category": "general"
     },
 
@@ -17,6 +17,18 @@
       "type": [ "String", "Function" ],
       "desc": "Property of each row that defines the unique key of each row (the result must be a primitive, not Object, Array, etc); The value of property must be string or a function taking a row and returning the desired (nested) key in the row; If supplying a function then for best performance, reference it from your scope and do not define it inline",
       "default": "id",
+      "params": {
+        "row": {
+          "type": "Object",
+          "desc": "The current row being processed",
+          "examples": [ "{ name: 'Lorem Ipsum', price: 19 }" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Current row's key",
+        "examples": [ "'34f39dda-6206-4071-a9df-4393aabe49ac'", "34" ]
+      },
       "examples": [ "row-key=\"name\"", ":row-key=\"row => row.name\"" ],
       "category": "general"
     },
@@ -24,57 +36,87 @@
     "virtual-scroll": {
       "type": "Boolean",
       "desc": "Display data using QVirtualScroll (for non-grid mode only)",
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-size": {
-      "type": "Number",
-      "desc": "Number of rows to render in the virtual list",
+      "type": [ "Number", "String" ],
+      "desc": "Minimum number of rows to render in the virtual list",
       "default": "30",
-      "examples": [
-        ":virtual-scroll-slice-size=\"60\""
-      ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-slice-size=\"60\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-slice-ratio-before": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of rows in visible zone to render before it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-slice-ratio-after": {
+      "type": [ "Number", "String" ],
+      "desc": "Ratio of number of rows in visible zone to render after it",
+      "default": "1",
+      "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-item-size": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
-      "examples": [
-        ":virtual-scroll-item-size=\"48\""
-      ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-item-size=\"48\"" ],
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-start": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [
-        ":virtual-scroll-sticky-size-start=\"48\""
-      ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-end": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [
-        ":virtual-scroll-sticky-size-end=\"48\""
-      ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
+      "category": "virtual-scroll"
+    },
+
+    "table-colspan": {
+      "type": [ "Number", "String" ],
+      "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
+      "examples": [ "table-colspan=\"12\"" ],
+      "category": "virtual-scroll|content"
     },
 
     "color": {
       "extends": "color",
       "default": "grey-8"
+    },
+
+    "icon-first-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix"
+    },
+
+    "icon-prev-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix"
+    },
+
+    "icon-next-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix"
+    },
+
+    "icon-last-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "grid": {
@@ -98,7 +140,171 @@
       "type": "Array",
       "desc": "The column definitions (Array of Objects)",
       "examples": [ ":columns=\"tableColumns\"" ],
-      "category": "column"
+      "category": "column",
+      "definition": {
+        "name": {
+          "type": "String",
+          "required": true,
+          "desc": "Unique id, identifies column, (used by pagination.sortBy, 'body-cell-[name]' slot, ...)",
+          "examples": [ "desc" ]
+        },
+        "label": {
+          "type": "String",
+          "required": true,
+          "desc": "Label for header",
+          "examples": [ "Dessert (100g serving)" ]
+        },
+        "field": {
+          "type": [ "String", "Function" ],
+          "required": true,
+          "desc": "Row Object property to determine value for this column or function which maps to the required property",
+          "params": {
+            "row": {
+              "type": "Object",
+              "required": true,
+              "desc": "The current row being processed",
+              "examples": [ "{ name: 'Lorem Ipsum', prices: { active: 19, old: 25, list: 29 } }" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "Value for this column",
+            "examples": [ "19" ]
+          },
+          "examples": [ "name", "row => row.prices.active" ]
+        },
+        "required": {
+          "type": "Boolean",
+          "desc": "If we use visible-columns, this col will always be visible"
+        },
+        "align": {
+          "type": "String",
+          "desc": "Horizontal alignment of cells in this column",
+          "values": [ "left", "right", "center" ],
+          "default": "right"
+        },
+        "sortable": {
+          "type": "Boolean",
+          "desc": "Tell QTable you want this column sortable",
+          "default": false
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Compare function if you have some custom data or want a specific way to compare two rows",
+          "examples": ["(a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)"],
+          "params": {
+            "a": {
+              "type": "Any",
+              "required": true,
+              "desc": "Value of the first comparison term",
+              "examples": [ 123, "abc" ]
+            },
+            "b": {
+              "type": "Any",
+              "required": true,
+              "desc": "Value of the second comparison term",
+              "examples": [ 123, "abc" ]
+            },
+            "rowA": {
+              "type": "Object",
+              "required": true,
+              "desc": "Full Row object in which is contained the first term",
+              "examples": [ "{ name: 'Potassium', value: 'K' }" ]
+            },
+            "rowB": {
+              "type": "Object",
+              "required": true,
+              "desc": "Full Row object in which is contained the second term",
+              "examples": [ "{ name: 'Fluorine', value: 'F' }" ]
+            }
+          },
+          "returns": {
+            "type": "Number",
+            "desc": "Comparison result of term 'a' with term 'b'. Less than 0 when 'a' should come first; greater than 0 if 'b' should come first; equal to 0 if their position must not be changed with respect to each other",
+            "examples": [ "-1", "0", "1" ]
+          }
+        },
+        "sortOrder": {
+          "type": "String",
+          "desc": "Set column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending); Overrides the 'column-sort-order' prop",
+          "values": [ "ad", "da" ],
+          "default": "ad"
+        },
+        "format": {
+          "type": "Function",
+          "desc": "Function you can apply to format your data",
+          "examples": [ "(val, row) => `${val}%`", "val => val ? /* Unicode checkmark checked */ '\u2611' : /* Unicode checkmark unchecked */ '\u2610'" ],
+          "params": {
+            "val": {
+              "type": "Any",
+              "required": true,
+              "desc": "Value of the cell",
+              "examples": [ 123, "abc" ]
+            },
+            "row": {
+              "type": "Object",
+              "required": true,
+              "desc": "Full Row object in which the cell is contained",
+              "examples": [ "{ name: 'Potassium', value: 'K' }" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "The resulting formatted value",
+            "examples": [ "20%" ]
+          }
+        },
+        "style": {
+          "type": [ "String", "Function" ],
+          "desc": "Style to apply on normal cells of the column",
+          "params": {
+            "row": {
+              "type": "Object",
+              "required": true,
+              "desc": "The current row being processed",
+              "examples": [ "{ name: 'Frozen Yogurt', calories: 159 }" ]
+            }
+          },
+          "returns": {
+            "type": "String",
+            "__exemption": [ "desc", "examples" ]
+          },
+          "examples": [
+            "'width: 500px'",
+            "row => (row.calories % 2 === 0 ? 'width: 10px' : 'font-size: 2em; font-weight: bold')"
+          ]
+        },
+        "classes": {
+          "type": [ "String", "Function" ],
+          "desc": "Classes to add on normal cells of the column",
+          "params": {
+            "row": {
+              "type": "Object",
+              "required": true,
+              "desc": "The current row being processed",
+              "examples": [ "{ name: 'Frozen Yogurt', calories: 159 }" ]
+            }
+          },
+          "returns": {
+            "type": "String",
+            "__exemption": [ "desc", "examples" ]
+          },
+          "examples": [
+            "'my-special-class bg-primary'",
+            "row => (row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow')"
+          ]
+        },
+        "headerStyle": {
+          "type": "String",
+          "desc": "Style to apply on header cells of the column",
+          "examples": [ "width: 500px" ]
+        },
+        "headerClasses": {
+          "type": "String",
+          "desc": "Classes to add on header cells of the column",
+          "examples": [ "my-special-class" ]
+        }
+      }
     },
 
     "visible-columns": {
@@ -113,7 +319,7 @@
 
     "loading": {
       "type": "Boolean",
-      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the covers",
+      "desc": "Put Table into 'loading' state; Notify the user something is happening behind the scenes",
       "category": "behavior|content"
     },
 
@@ -132,7 +338,25 @@
 
     "hide-bottom": {
       "type": "Boolean",
-      "desc": "Hide table bottom layer",
+      "desc": "Hide table bottom layer regardless of what it has to display",
+      "category": "content"
+    },
+
+    "hide-selected-banner": {
+      "type": "Boolean",
+      "desc": "Hide the selected rows banner (if any)",
+      "category": "content"
+    },
+
+    "hide-no-data": {
+      "type": "Boolean",
+      "desc": "Hide the default no data bottom layer",
+      "category": "content"
+    },
+
+    "hide-pagination": {
+      "type": "Boolean",
+      "desc": "Hide the pagination controls at the bottom",
       "category": "content"
     },
 
@@ -157,7 +381,6 @@
       "desc": "Use a separator/border between rows, columns or all cells",
       "default": "horizontal",
       "values": [ "horizontal", "vertical", "cell", "none" ],
-      "examples": [ "cell" ],
       "category": "content"
     },
 
@@ -170,6 +393,14 @@
     "binary-state-sort": {
       "type": "Boolean",
       "desc": "Skip the third state (unsorted) when user toggles column sort direction",
+      "category": "sorting"
+    },
+
+    "column-sort-order": {
+      "type": "String",
+      "desc": "Set column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending); It gets applied to all columns unless a column has its own sortOrder specified in the 'columns' definition prop",
+      "values": [ "ad", "da" ],
+      "default": "ad",
       "category": "sorting"
     },
 
@@ -251,6 +482,7 @@
 
     "table-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "background-color: #ff0000",
@@ -261,6 +493,7 @@
 
     "table-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to native HTML <table> element's wrapper (which is a DIV)",
       "examples": [
         "my-special-class",
@@ -271,6 +504,7 @@
 
     "table-header-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to header of native HTML <table> (which is a TR)",
       "examples": [
         "background-color: #ff0000",
@@ -281,6 +515,7 @@
 
     "table-header-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to header of native HTML <table> (which is a TR)",
       "examples": [
         "my-special-class",
@@ -291,30 +526,31 @@
 
     "card-container-style": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "CSS style to apply to the cards container (when in grid mode)",
       "examples": [
         "background-color: #ff0000",
         ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "card-container-class": {
       "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "CSS classes to apply to the cards container (when in grid mode)",
       "examples": [
         "my-special-class",
         "justify-center",
         ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
-      "category": "style",
-      "addedIn": "v1.4.0"
+      "category": "style"
     },
 
     "card-style": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS style to apply to the card (when in grid mode)",
+      "tsType": "VueStyleProp",
+      "desc": "CSS style to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "background-color: #ff0000",
         ":card-style=\"{ backgroundColor: '#ff0000' }\""
@@ -324,10 +560,23 @@
 
     "card-class": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS classes to apply to the card (when in grid mode)",
+      "tsType": "VueClassProp",
+      "desc": "CSS classes to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "my-special-class",
         ":card-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style"
+    },
+
+    "title-class": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
+      "desc": "CSS classes to apply to the title (if using 'title' prop)",
+      "examples": [
+        "my-special-class",
+        "text-h1",
+        ":title-class=\"{ 'text-h1': [Boolean condition] }\""
       ],
       "category": "style"
     },
@@ -346,18 +595,16 @@
         "rows": {
           "type": "Array",
           "desc": "Array of rows",
-          "required": true,
           "__exemption": [ "examples" ]
         },
         "terms": {
           "type": [ "String", "Object" ],
           "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-          "required": true,
           "__exemption": [ "examples" ]
         },
         "cols": {
           "type": "Array",
-          "desc": "Optional column definitions",
+          "desc": "Column definitions",
           "__exemption": [ "examples" ]
         },
         "getCellValue": {
@@ -366,11 +613,13 @@
           "params": {
             "col": {
               "type": "Object",
+              "required": true,
               "desc": "Column name from column definitions",
               "__exemption": [ "examples" ]
             },
             "row": {
               "type": "Object",
+              "required": true,
               "desc": "The row object",
               "__exemption": [ "examples" ]
             }
@@ -396,8 +645,7 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object",
-      "sync": true,
+      "desc": "Pagination object; You can also use the 'v-model:pagination' for synching; When not synching it simply initializes the pagination on first render",
       "definition": {
         "sortBy": {
           "type": "String",
@@ -425,7 +673,8 @@
         }
       },
       "examples": [
-        ":pagination.sync=\"myPagination\""
+        ":pagination=\"myInitialPagination\"",
+        "v-model:pagination=\"myPagination\""
       ],
       "category": "pagination"
     },
@@ -452,10 +701,9 @@
     "selected": {
       "type": "Array",
       "desc": "Keeps the user selection array",
-      "sync": true,
       "default": "[]",
       "examples": [
-        ":selected.sync=\"selection\""
+        "v-model:selected=\"selection\""
       ],
       "category": "selection"
     },
@@ -463,13 +711,11 @@
     "expanded": {
       "type": "Array",
       "desc": "Keeps the array with expanded rows keys",
-      "sync": true,
       "default": "[]",
       "examples": [
-        ":expanded.sync=\"expanded\""
+        "v-model:expanded=\"expanded\""
       ],
-      "category": "expansion",
-      "addedIn": "v1.8.3"
+      "category": "expansion"
     },
 
     "sort-method": {
@@ -506,23 +752,30 @@
 
   "slots": {
     "loading": {
-      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading",
-      "addedIn": "v1.8.0"
-    }
-  },
+      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading"
+    },
 
-  "scopedSlots": {
     "item": {
       "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard",
       "scope": {
         "key": {
           "type": "Any",
-          "desc": "Row's key",
+          "desc": "Row/Item's key",
           "__exemption": [ "examples" ]
         },
         "row": {
           "type": "Object",
-          "desc": "Row object",
+          "desc": "Row/Item object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row/Item's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row/Item's index (0 based) in the current page of the filtered and sorted table",
           "__exemption": [ "examples" ]
         },
         "cols": {
@@ -535,20 +788,37 @@
           "desc": "Column mapping (key is column name, value is column object)",
           "__exemption": [ "examples" ]
         },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
         "selected": {
           "type": "Boolean",
-          "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "desc": "(Only if using selection) Is row/item selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true
         },
         "expand": {
           "type": "Boolean",
-          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "desc": "Is row/item expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true
         },
-        "__trClass": {
-          "type": "String",
-          "desc": "Internal prop passed down to QTr (if used)",
-          "__exemption": [ "examples" ]
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
         }
       }
     },
@@ -566,6 +836,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
@@ -576,15 +856,37 @@
           "desc": "Column mapping (key is column name, value is column object)",
           "__exemption": [ "examples" ]
         },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
         "selected": {
           "type": "Boolean",
-          "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
         },
         "__trClass": {
           "type": "String",
@@ -597,11 +899,6 @@
     "body-cell": {
       "desc": "Slot to define how all body cells look like; Suggestion: QTd",
       "scope": {
-        "row": {
-          "type": "Object",
-          "desc": "Row object",
-          "__exemption": [ "examples" ]
-        },
         "col": {
           "type": "Object",
           "desc": "Column definition for column associated with table cell",
@@ -611,6 +908,68 @@
           "type": "Any",
           "desc": "Parsed/Formatted value of table cell",
           "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Row's key",
+          "__exemption": [ "examples" ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
         }
       }
     },
@@ -618,11 +977,6 @@
     "body-cell-[name]": {
       "desc": "Slot to define how a specific column cell looks like; replace '[name]' with column name (from columns definition object)",
       "scope": {
-        "row": {
-          "type": "Object",
-          "desc": "Row object",
-          "__exemption": [ "examples" ]
-        },
         "col": {
           "type": "Object",
           "desc": "Column definition for column associated with table cell",
@@ -632,6 +986,68 @@
           "type": "Any",
           "desc": "Parsed/Formatted value of table cell",
           "__exemption": [ "examples" ]
+        },
+        "key": {
+          "type": "Any",
+          "desc": "Row's key",
+          "__exemption": [ "examples" ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
         }
       }
     },
@@ -655,12 +1071,36 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
           "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
+        },
+        "__trClass": {
+          "type": "String",
+          "desc": "Internal prop passed down to QTr (if used)",
+          "__exemption": [ "examples" ]
         },
         "header": {
           "type": "Boolean",
@@ -693,12 +1133,31 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
           "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
         }
       }
     },
@@ -727,15 +1186,149 @@
           "params": {
             "col": {
               "type": [ "String", "Object" ],
-              "desc": "Column name or column definition object",
               "required": true,
+              "desc": "Column name or column definition object",
               "examples": [ "calories" ]
             }
           },
           "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
         }
-      },
-      "addedIn": "v1.1.1"
+      }
+    },
+
+    "body-selection": {
+      "desc": "Slot to define how body selection column looks like; Suggestion: QCheckbox",
+      "scope": {
+        "key": {
+          "type": "Any",
+          "desc": "Row's key",
+          "__exemption": [ "examples" ]
+        },
+        "row": {
+          "type": "Object",
+          "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
+        }
+      }
+    },
+
+    "header-selection": {
+      "desc": "Slot to define how header selection column looks like (available only for multiple selection mode); Suggestion: QCheckbox",
+      "scope": {
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "required": true,
+              "desc": "Column name or column definition object",
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
+          "reactive": true
+        },
+        "expand": {
+          "type": "Boolean",
+          "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
+          "reactive": true
+        },
+        "color": {
+          "extends": "color"
+        },
+        "dark": {
+          "extends": "dark"
+        },
+        "dense": {
+          "extends": "dense"
+        }
+      }
     },
 
     "top-row": {
@@ -769,20 +1362,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -801,6 +1398,12 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -810,6 +1413,12 @@
         "nextPage": {
           "type": "Function",
           "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
           "params": null,
           "returns": null
         },
@@ -835,20 +1444,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -867,6 +1480,12 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -876,6 +1495,12 @@
         "nextPage": {
           "type": "Function",
           "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
           "params": null,
           "returns": null
         },
@@ -901,20 +1526,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -933,6 +1562,12 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -942,6 +1577,12 @@
         "nextPage": {
           "type": "Function",
           "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
           "params": null,
           "returns": null
         },
@@ -967,20 +1608,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -999,6 +1644,12 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1008,6 +1659,12 @@
         "nextPage": {
           "type": "Function",
           "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
           "params": null,
           "returns": null
         },
@@ -1033,20 +1690,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1065,6 +1726,12 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1074,6 +1741,12 @@
         "nextPage": {
           "type": "Function",
           "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
           "params": null,
           "returns": null
         },
@@ -1099,20 +1772,24 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
             }
@@ -1131,6 +1808,12 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1140,6 +1823,12 @@
         "nextPage": {
           "type": "Function",
           "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
           "params": null,
           "returns": null
         },
@@ -1180,7 +1869,6 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "required": true,
           "__exemption": [ "examples" ]
         },
 
@@ -1188,9 +1876,14 @@
           "type": "Object",
           "desc": "The row upon which user has clicked/tapped",
           "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.2.6"
+      }
     },
 
     "row-dblclick": {
@@ -1199,7 +1892,6 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "required": true,
           "__exemption": [ "examples" ]
         },
 
@@ -1207,9 +1899,37 @@
           "type": "Object",
           "desc": "The row upon which user has double clicked/tapped",
           "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ]
         }
-      },
-      "addedIn": "v1.5.10"
+      }
+    },
+
+    "row-contextmenu": {
+      "desc": "Emitted when user right clicks/long taps on a row; Is not emitted when using body/row/item scoped slots",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        },
+
+        "row": {
+          "type": "Object",
+          "desc": "The row upon which user has right clicked/long tapped",
+          "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ]
+        }
+      }
     },
 
     "request": {
@@ -1221,24 +1941,29 @@
           "definition": {
             "pagination": {
               "type": "Object",
+              "required": true,
               "desc": "Pagination object",
               "definition": {
                 "sortBy": {
                   "type": "String",
+                  "required": true,
                   "desc": "Column name (from column definition)",
                   "examples": [ "calories" ]
                 },
                 "descending": {
                   "type": "Boolean",
+                  "required": true,
                   "desc": "Is sorting in descending order?"
                 },
                 "page": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Page number (1-based)",
                   "examples": [ 3 ]
                 },
                 "rowsPerPage": {
                   "type": "Number",
+                  "required": true,
                   "desc": "How many rows per page? 0 means Infinite",
                   "examples": [ 10 ]
                 }
@@ -1246,18 +1971,19 @@
             },
             "filter": {
               "type": "Function",
+              "required": true,
               "desc": "Filter method (the 'filter-method' prop)",
               "params": {
                 "rows": {
                   "type": "Array",
-                  "desc": "Array of rows",
                   "required": true,
+                  "desc": "Array of rows",
                   "__exemption": [ "examples" ]
                 },
                 "terms": {
                   "type": [ "String", "Object" ],
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "required": true,
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "__exemption": [ "examples" ]
                 },
                 "cols": {
@@ -1271,11 +1997,13 @@
                   "params": {
                     "col": {
                       "type": "Object",
+                      "required": true,
                       "desc": "Column name from column definitions",
                       "__exemption": [ "examples" ]
                     },
                     "row": {
                       "type": "Object",
+                      "required": true,
                       "desc": "The row object",
                       "__exemption": [ "examples" ]
                     }
@@ -1295,15 +2023,18 @@
             },
             "getCellValue": {
               "type": "Function",
-              "desc": "Optional function to get a cell value",
+              "required": true,
+              "desc": "Function to get a cell value",
               "params": {
                 "col": {
                   "type": "Object",
+                  "required": true,
                   "desc": "Column name from column definitions",
                   "__exemption": [ "examples" ]
                 },
                 "row": {
                   "type": "Object",
+                  "required": true,
                   "desc": "The row object",
                   "__exemption": [ "examples" ]
                 }
@@ -1328,17 +2059,26 @@
           "definition": {
             "rows": {
               "type": "Array",
+              "required": true,
               "desc": "Array of row objects that were selected/unselected",
               "__exemption": [ "examples" ]
             },
             "keys": {
               "type": "Array",
+              "required": true,
               "desc": "Array of the keys of rows that were selected/unselected",
               "__exemption": [ "examples" ]
             },
             "added": {
               "type": "Boolean",
+              "required": true,
               "desc": "Were the rows added to selection (true) or removed from selection (false)"
+            },
+            "evt": {
+              "type": "Object",
+              "required": true,
+              "desc": "JS event object",
+              "__exemption": [ "examples" ]
             }
           }
         }
@@ -1346,7 +2086,7 @@
     },
 
     "update:pagination": {
-      "desc": "Used by Vue on 'pagination.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:pagination' for updating its value",
       "params": {
         "newPagination": {
           "type": "Object",
@@ -1354,22 +2094,32 @@
           "definition": {
             "sortBy": {
               "type": "String",
+              "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
             "descending": {
               "type": "Boolean",
+              "required": true,
               "desc": "Is sorting in descending order?"
             },
             "page": {
               "type": "Number",
+              "required": true,
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
             },
             "rowsPerPage": {
               "type": "Number",
+              "required": true,
               "desc": "How many rows per page? 0 means Infinite",
               "examples": [ 10 ]
+            },
+            "rowsNumber": {
+              "type": "Number",
+              "required": false,
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table.",
+              "examples": [ 100, 200 ]
             }
           }
         }
@@ -1377,7 +2127,7 @@
     },
 
     "update:selected": {
-      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:selected' prop for updating its value",
       "params": {
         "newSelected": {
           "type": "Array",
@@ -1390,7 +2140,7 @@
     },
 
     "update:expanded": {
-      "desc": "Used by Vue on 'expanded.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:expanded' prop for updating its value",
       "params": {
         "newExpanded": {
           "type": "Array",
@@ -1399,8 +2149,7 @@
             "[ 'row-a', 'row-b' ]"
           ]
         }
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "virtual-scroll": {
@@ -1412,28 +2161,31 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index of the list item that was scrolled into view (0 based)",
               "examples": [ 30 ]
             },
             "from": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the first list item that is rendered (0 based)",
               "examples": [ 10 ]
             },
             "to": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the last list item that is rendered (0 based)",
               "examples": [ 50 ]
             },
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of change",
               "values": [ "increase", "decrease" ]
             }
           }
         }
-      },
-      "addedIn": "v1.4.1"
+      }
     }
   },
 
@@ -1443,10 +2195,12 @@
       "params": {
         "props": {
           "type": "Object",
+          "required": false,
           "desc": "Request details",
           "definition": {
             "pagination": {
               "type": "Object",
+              "required": false,
               "desc": "Optional pagination object",
               "definition": {
                 "sortBy": {
@@ -1476,14 +2230,14 @@
               "params": {
                 "rows": {
                   "type": "Array",
-                  "desc": "Array of rows",
                   "required": true,
+                  "desc": "Array of rows",
                   "__exemption": [ "examples" ]
                 },
                 "terms": {
                   "type": [ "String", "Object" ],
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "required": true,
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
                   "__exemption": [ "examples" ]
                 },
                 "cols": {
@@ -1525,12 +2279,12 @@
     },
 
     "setPagination": {
-      "desc": "Unless using an external pagination Object (through 'pagination.sync' prop), you can use this method and force the internal pagination to change",
+      "desc": "Unless using an external pagination Object (through 'v-model:pagination' prop), you can use this method and force the internal pagination to change",
       "params": {
         "pagination": {
           "type": "Object",
-          "desc": "Pagination object",
           "required": true,
+          "desc": "Pagination object",
           "definition": {
             "sortBy": {
               "type": "String",
@@ -1560,6 +2314,10 @@
       }
     },
 
+    "firstPage": {
+      "desc": "Navigates to first page"
+    },
+
     "prevPage": {
       "desc": "Navigates to previous page, if available"
     },
@@ -1568,13 +2326,17 @@
       "desc": "Navigates to next page, if available"
     },
 
+    "lastPage": {
+      "desc": "Navigates to last page"
+    },
+
     "isRowSelected": {
       "desc": "Determine if a row has been selected by user",
       "params": {
         "key": {
           "type": "Any",
-          "desc": "Row key value",
           "required": true,
+          "desc": "Row key value",
           "examples": [ "calories" ]
         }
       },
@@ -1593,16 +2355,15 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "Row key value",
           "required": true,
+          "desc": "Row key value",
           "examples": [ "calories" ]
         }
       },
       "returns": {
         "type": "Boolean",
         "desc": "Is row expanded or not?"
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "setExpanded": {
@@ -1610,12 +2371,11 @@
       "params": {
         "expanded": {
           "type": "Array",
-          "desc": "Array containing keys of the expanded rows",
           "required": true,
+          "desc": "Array containing keys of the expanded rows",
           "examples": [ "[ 'row-a', 'row-b' ]" ]
         }
-      },
-      "addedIn": "v1.8.3"
+      }
     },
 
     "sort": {
@@ -1623,8 +2383,8 @@
       "params": {
         "col": {
           "type": [ "String", "Object" ],
-          "desc": "Column name or column definition object",
           "required": true,
+          "desc": "Column name or column definition object",
           "examples": [ "calories" ]
         }
       }
@@ -1643,12 +2403,17 @@
       "params": {
         "index": {
           "type": [ "String", "Number" ],
-          "desc": "The index of the row in page (0 based)",
           "required": true,
+          "desc": "The index of the row in page (0 based)",
           "examples": [ "1", 23 ]
+        },
+        "edge": {
+          "type": "String",
+          "desc": "Only for virtual scroll - the edge to align to if the row is not visible already; If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
+          "default": "end (if scrolling towards the end) / start (if scrolling towards the start)"
         }
-      },
-      "addedIn": "v1.7.2"
+      }
     }
   }
 }

@@ -1,14 +1,16 @@
 ---
 title: Select
 desc: The QSelect Vue component has two types of selection - single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
+keys: QSelect
 ---
 
 The QSelect component has two types of selection: single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
 
 In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
 
-## Installation
-<doc-installation components="QSelect"/>
+## QSelect API
+
+<doc-api file="QSelect" />
 
 ## Design
 
@@ -106,6 +108,10 @@ If you use functions for custom props always check if the option is null. These 
 
 ### Customizing menu options
 
+::: warning
+The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
+:::
+
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
 
 Here is another example where we add a QToggle to each option. The possibilities are endless.
@@ -146,13 +152,15 @@ All the attributes set on QSelect that are not in the list of props in the API w
 
 More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
-<doc-example title="Filtering options" file="QSelect/InputFilter" />
+<doc-example title="Filtering options" file="QSelect/InputFilterOptions" />
 
-<doc-example title="Basic autocomplete" file="QSelect/InputAutocomplete" />
+<doc-example title="Basic filtering" file="QSelect/BasicFiltering" />
 
-<doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
+<doc-example title="Filtering on more than 2 chars" file="QSelect/InputFilterMin" />
 
-<doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
+<doc-example title="Text autocomplete" file="QSelect/TextAutocomplete" />
+
+<doc-example title="Lazy filtering" file="QSelect/InputFilterLazy" />
 
 <doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
 
@@ -199,31 +207,25 @@ Generating multiple values from input:
 
 ## Sanitization
 
-::: warning
-Always sanitize values if you do not trust the origin (if the value comes from user input).
-:::
+**By default, all options (included selected ones) are sanitized**. This means that displaying them in HTML format is disabled. However, if you require HTML on your options and you trust their content, then there are a few ways to do this.
 
-You can force sanitization of the menu options by:
-  - setting `sanitize` key of the untrusted option to `true` (for specific untrusted options)
-  - or by setting `options-sanitize` prop of QSelect (for all options)
+You can force the HTML form of the menu options by:
+  - setting `html` key of the trusted option to `true` (for specific trusted options)
+  - or by setting `options-html` prop of QSelect (for all options)
 
-::: warning
-If you use `option` slot, then you are responsible for sanitization of the menu options. The `options-sanitize` prop will not apply.
-:::
-
-The displayed value of QSelect is sanitized if:
-  - the `display-value-sanitize` prop of QSelect is set
+The displayed value of QSelect is displayed as HTML if:
+  - the `display-value-html` prop of QSelect is set
   - or you are not using `display-value` and
-    - the `options-sanitize` prop of QSelect is set
-    - any selected option has `sanitize` key set to `true`
+    - the `options-html` prop of QSelect is set
+    - any selected option has `html` key set to `true`
 
 ::: warning
-If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-sanitize` prop will not apply.
+If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
 :::
 
-<doc-example title="Sanitize options" file="QSelect/SanitizeOptions" />
+<doc-example title="Options in HTML form" file="QSelect/HtmlOptions" />
 
-<doc-example title="Sanitize display value" file="QSelect/SanitizeDisplayCustomValue" />
+<doc-example title="Display value in HTML form" file="QSelect/HtmlDisplayValue" />
 
 ## Render performance
 
@@ -231,7 +233,8 @@ The render performance is NOT affected much by the number of options, unless `ma
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
 ::: tip
-To get the best performance while using lots of options freeze the array you are passing in the `options` prop using `Object.freeze(options)`.
+* (Composition API) To get the best performance while using lots of options, do not wrap the array that you are passing in the `options` prop with ref()/computed()/reactive()/etc. This allows Vue to skip making the list "responsive" to changes.
+* (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
 :::
 
 <doc-example title="100k options" file="QSelect/RenderPerf" />
@@ -252,16 +255,15 @@ When QSelect is focused:
 
 When the list of options is opened:
   - pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options
+  - pressing <kbd>PAGE UP</kbd> or <kbd>PAGE DOWN</kbd> will navigate one page up or down in the list of options
+  - pressing <kbd>HOME</kbd> or <kbd>END</kbd> will navigate to the start or end of the list of options (only if you are not using `use-input`, or the input is empty)
   - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
   - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
     - select the option and close the list of options if `multiple` is not set
     - toggle the option if `multiple` is set
 
-## Native form submit <q-badge align="top" label="v1.9+" />
+## Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QSelect/NativeForm" />
-
-## QSelect API
-<doc-api file="QSelect" />

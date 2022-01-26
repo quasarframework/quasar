@@ -22,22 +22,21 @@ export default {
     months: 'Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος'.split('_'),
     monthsShort: 'Ιαν_Φεβ_Μαρ_Απρ_Μαϊ_Ιουν_Ιουλ_Αυγ_Σεπ_Οκτ_Νοε_Δεκ'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'ημέρες'
   },
   table: {
     noData: 'Χωρίς δεδομένα',
     noResults: 'Δεν βρέθηκαν αποτελέσματα',
     loading: 'Φόρτωση...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 επιλεγμένη εγγραφή.'
         : (rows === 0 ? 'Καμμία' : rows) + ' επιλεγμένες εγγραφές.'
-    },
+    ),
     recordsPerPage: 'Εγγραφές ανα σελίδα:',
     allRows: 'Όλες',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' από ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' από ' + total,
     columns: 'Στήλες'
   },
   editor: {

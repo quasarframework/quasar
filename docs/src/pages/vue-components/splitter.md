@@ -1,6 +1,7 @@
 ---
 title: QSplitter
 desc: The QSplitter Vue component allow containers to be split vertically and/or horizontally through a draggable separator bar.
+keys: QSplitter
 related:
   - /vue-components/expansion-item
   - /vue-components/slide-item
@@ -9,8 +10,10 @@ related:
 
 The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.
 
-## Installation
-<doc-installation components="QSplitter" />
+
+## QSplitter API
+
+<doc-api file="QSplitter" />
 
 ## Usage
 
@@ -46,6 +49,10 @@ By default, the model is connected to the `before` slot size. But you can revers
 
 ### Adding content to separator
 
+::: tip
+If you use images as content for the separator slot, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 <doc-example title="Adding to separator" file="QSplitter/SeparatorSlot" />
 
 ### Dark design
@@ -63,6 +70,3 @@ A QSplitter can be embedded in another QSplitter's `before` and/or `after` slots
 <doc-example title="Image Fun" file="QSplitter/ImageFun" />
 
 <doc-example title="Reactive Images" file="QSplitter/ReactiveImages" />
-
-## QSplitter API
-<doc-api file="QSplitter" />

@@ -22,22 +22,21 @@ export default {
     months: 'Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jun_Jul_Aug_Sep_Okt_Nov_Dez'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'Tage'
   },
   table: {
     noData: 'Keine Daten vorhanden.',
     noResults: 'Keine Einträge gefunden',
     loading: 'Lade...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' ausgewählte Zeilen'
         : (rows === 0 ? 'Keine' : '1') + ' ausgewählt.'
-    },
+    ),
     recordsPerPage: 'Zeilen pro Seite',
     allRows: 'Alle',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' von ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' von ' + total,
     columns: 'Spalten'
   },
   editor: {

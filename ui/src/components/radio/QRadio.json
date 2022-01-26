@@ -1,21 +1,19 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/radio"
+    "docsUrl": "https://v2.quasar.dev/vue-components/radio"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
-      "type": [ "Number", "String" ],
-      "required": true,
-      "examples": [ "v-model=\"option\"" ],
-      "category": "model"
+    "model-value": {
+      "extends": "model-value",
+      "type": [ "Number", "String", "null", "undefined" ],
+      "examples": [ "v-model=\"option\"" ]
     },
 
     "val": {
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null", "undefined" ],
       "required": true,
       "desc": "The actual value of the option with which model value is changed",
       "examples": [ "opt1", 50 ],
@@ -45,10 +43,6 @@
       "category": "behavior"
     },
 
-    "size": {
-      "addedIn": "v1.8.0"
-    },
-
     "dark": {
       "extends": "dark"
     },
@@ -73,8 +67,22 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "desc": "Emitted when the component needs to change the model; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "New model value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
     }
   },
 

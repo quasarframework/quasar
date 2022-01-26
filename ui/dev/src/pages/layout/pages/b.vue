@@ -36,8 +36,8 @@ export default {
   created () {
     console.log('B created')
   },
-  beforeDestroy () {
-    console.log('B beforeDestroy')
+  beforeUnmount () {
+    console.log('B beforeUnmount')
   }
 }
 </script>

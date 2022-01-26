@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Check Discussions
+    url: https://github.com/quasarframework/quasar/discussions
+    about: Visit our Discussions forum to view announcements, ideas, search for previous help requests, and more!
+  - name: Have a question or need help?
+    url: https://github.com/quasarframework/quasar/discussions/new
+    about: Create a new discussion (or join our Discord server from the link below.)
+  - name: Get help from the community on Discord
+    url: https://chat.quasar.dev
+    about: Join our Discord Server for getting help, helping others, finding/posting jobs, and more!
+  - name: Check for existing ideas and feature suggestions
+    url: https://github.com/quasarframework/quasar/discussions/categories/ideas-proposals
+    about: Visit the "💫 Ideas / Proposals" forum to view, discuss, and vote existing ideas and feature suggestions.
+  - name: Suggest a feature
+    url: https://github.com/quasarframework/quasar/discussions/new?category=ideas-proposals
+    about: (Please check the existing ones first) Suggest new features for Quasar Framework!

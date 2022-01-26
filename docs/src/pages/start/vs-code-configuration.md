@@ -53,6 +53,8 @@ You can now edit files without violating the standard es-lint rules!
 
 ## Prettier ES-Lint rules
 
+VS Code can use the Prettier extension to automatically format your code on save. 
+
 ### Install VS Code Extensions for Prettier
 
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
@@ -65,15 +67,16 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 
 ```js
 {
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
 
-    "editor.codeActionsOnSave": {
-        "source.fixAll": true
-    },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
 
-    "vetur.format.defaultFormatter.html": "prettyhtml",
-    "vetur.format.defaultFormatter.js": "prettier-eslint"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
 }
 ```
 
@@ -102,7 +105,6 @@ You can now edit files without violating the standard es-lint rules!
 - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)
 - [Sass](https://marketplace.visualstudio.com/items?itemName=Syler.sass-indented)
 - [Sass Lint](https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint)
-- [language-stylus](https://marketplace.visualstudio.com/items?itemName=sysoev.language-stylus)
 - [npm](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script)
 - [npm Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense)
 - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
@@ -116,6 +118,17 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 
 ```js
 {
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "vetur.format.defaultFormatter.html": "prettyhtml",
+  "vetur.format.defaultFormatter.js": "prettier-eslint",
+
   "attrsSorter.order": [
     "is",
     "v-for",
@@ -168,9 +181,9 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
     "**/*.html",
     "**/*.php",
     "**/*.css",
+    "**/*.sass",
     "**/*.scss",
-    "**/*.vue",
-    "**/*.styl"
+    "**/*.vue"
   ],
   "workbench.iconTheme": "vscode-icons"
 }

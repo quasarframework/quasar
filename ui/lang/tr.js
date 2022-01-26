@@ -22,20 +22,17 @@ export default {
     months: 'Ocak_Şubat_Mart_Nisan_Mayıs_Haziran_Temmuz_Ağustos_Eylül_Ekim_Kasım_Aralık'.split('_'),
     monthsShort: 'Oca_Şub_Mar_Nis_May_Haz_Tem_Ağu_Eyl_Eki_Kas_Ara'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'gün'
   },
   table: {
     noData: 'Veri yok',
     noResults: 'Uyuşan kayıt bulunamadı',
     loading: 'Yükleniyor...',
-    selectedRecords: function (rows) {
-      return rows + ' seçili kayıt.'
-    },
+    selectedRecords: rows => rows + ' seçili kayıt.',
     recordsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' toplam ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' toplam ' + total,
     columns: 'Sütunlar'
   },
   editor: {

@@ -20,18 +20,19 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      url: null
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    toggle () {
-      this.url = this.url === null
-        ? 'https://placeimg.com/500/300/nature?t=' + Math.random()
-        : null
+export default {
+  setup () {
+    const url = ref(null)
+
+    return {
+      url,
+      toggle () {
+        url.value = url.value === null
+          ? 'https://placeimg.com/500/300/nature?t=' + Math.random()
+          : null
+      }
     }
   }
 }

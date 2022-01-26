@@ -1,11 +1,14 @@
-import Vue from 'vue'
+import { h, computed, inject, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import FabMixin from '../../mixins/fab.js'
+import useFab, { useFabProps } from './use-fab.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import { fabKey } from '../../utils/private/symbols.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { noop } from '../../utils/event.js'
 
 const anchorMap = {
   start: 'self-end',
@@ -15,15 +18,15 @@ const anchorMap = {
 
 const anchorValues = Object.keys(anchorMap)
 
-export default Vue.extend({
+export default createComponent({
   name: 'QFabAction',
 
-  mixins: [ FabMixin ],
-
   props: {
+    ...useFabProps,
+
     icon: {
       type: String,
-      required: true
+      default: ''
     },
 
     anchor: {
@@ -31,58 +34,71 @@ export default Vue.extend({
       validator: v => anchorValues.includes(v)
     },
 
-    to: [String, Object],
+    to: [ String, Object ],
     replace: Boolean
   },
 
-  inject: {
-    __qFabClose: {
-      default () {
-        console.error('QFabAction needs to be child of QFab')
-      }
-    }
-  },
+  emits: [ 'click' ],
 
-  computed: {
-    classes () {
-      const align = anchorMap[this.anchor]
-      return this.formClass + (align !== void 0 ? ` ${align}` : '')
-    }
-  },
+  setup (props, { slots, emit }) {
+    const $fab = inject(fabKey, () => ({
+      showing: { value: true },
+      onChildClick: noop
+    }))
 
-  methods: {
-    click (e) {
-      this.__qFabClose()
-      this.$emit('click', e)
-    }
-  },
+    const { formClass, labelProps } = useFab(props, $fab.showing)
 
-  render (h) {
-    const child = [
-      h(QIcon, {
-        props: { name: this.icon }
-      })
-    ]
+    const classes = computed(() => {
+      const align = anchorMap[ props.anchor ]
+      return formClass.value + (align !== void 0 ? ` ${ align }` : '')
+    })
 
-    this.label !== '' && child[this.labelProps.action](
-      h('div', this.labelProps.data, [ this.label ])
+    const isDisabled = computed(() =>
+      props.disable === true
+      || $fab.showing.value !== true
     )
 
-    return h(QBtn, {
-      class: this.classes,
-      props: {
-        ...this.$props,
-        noWrap: true,
-        stack: this.stacked,
-        icon: void 0,
-        label: void 0,
-        noCaps: true,
-        fabMini: true
-      },
-      on: {
-        ...this.$listeners,
-        click: this.click
+    function click (e) {
+      $fab.onChildClick(e)
+      emit('click', e)
+    }
+
+    function getContent () {
+      const child = []
+
+      if (slots.icon !== void 0) {
+        child.push(slots.icon())
       }
-    }, mergeSlot(child, this, 'default'))
+      else if (props.icon !== '') {
+        child.push(
+          h(QIcon, { name: props.icon })
+        )
+      }
+
+      if (props.label !== '' || slots.label !== void 0) {
+        child[ labelProps.value.action ](
+          h('div', labelProps.value.data, slots.label !== void 0 ? slots.label() : [ props.label ])
+        )
+      }
+
+      return hMergeSlot(slots.default, child)
+    }
+
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, { click })
+
+    return () => h(QBtn, {
+      class: classes.value,
+      ...props,
+      noWrap: true,
+      stack: props.stacked,
+      icon: void 0,
+      label: void 0,
+      noCaps: true,
+      fabMini: true,
+      disable: isDisabled.value,
+      onClick: click
+    }, getContent)
   }
 })

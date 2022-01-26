@@ -4,6 +4,7 @@
       <q-time
         v-model="time"
         dark
+        bordered
       />
 
       <q-time
@@ -11,16 +12,19 @@
         color="orange"
         text-color="black"
         dark
+        bordered
       />
     </div>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      time: '10:56'
+      time: ref('10:56')
     }
   }
 }

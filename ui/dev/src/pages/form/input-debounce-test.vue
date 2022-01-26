@@ -35,7 +35,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.stop()
   }
 }

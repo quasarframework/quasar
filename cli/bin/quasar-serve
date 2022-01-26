@@ -86,9 +86,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const
-  fs = require('fs'),
-  path = require('path')
+const fs = require('fs')
+const path = require('path')
 
 const root = getAbsolutePath(argv._[0] || '.')
 const resolve = p => path.resolve(root, p)
@@ -99,9 +98,8 @@ function getAbsolutePath (pathParam) {
     : path.join(process.cwd(), pathParam)
 }
 
-const
-  pkgFile = resolve('package.json'),
-  indexFile = resolve('index.js')
+const pkgFile = resolve('package.json')
+const indexFile = resolve('index.js')
 
 let ssrDetected = false
 
@@ -131,13 +129,22 @@ if (ssrDetected === false) {
 
   const
     express = require('express'),
+    resolvedIndex = resolve(argv.index),
     microCacheSeconds = argv.micro
       ? parseInt(argv.micro, 10)
       : false
 
   function serve (path, cache) {
     const opts = {
-      maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0
+      maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0,
+      setHeaders (res, path) {
+        if (res.req.method === 'GET' && path === resolvedIndex) {
+          res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+          res.set('Pragma', 'no-cache')
+          res.set('Expires', '0')
+          res.set('Surrogate-Control', 'no-store')
+        }
+      }
     }
 
     if (argv.history !== true) {
@@ -173,6 +180,20 @@ if (ssrDetected === false) {
     app.use('/service-worker.js', serve('service-worker.js'))
   }
 
+  if (argv.proxy) {
+    let file = argv.proxy = getAbsolutePath(argv.proxy)
+    if (!fs.existsSync(file)) {
+      console.error('Proxy definition file not found! ' + file)
+      process.exit(1)
+    }
+    file = require(file)
+
+    const { createProxyMiddleware } = require('http-proxy-middleware')
+    file.forEach(entry => {
+      app.use(entry.path, createProxyMiddleware(entry.rule))
+    })
+  }
+
   if (argv.history) {
     const history = require('connect-history-api-fallback')
     app.use(
@@ -196,20 +217,6 @@ if (ssrDetected === false) {
     )
   }
 
-  if (argv.proxy) {
-    let file = argv.proxy = getAbsolutePath(argv.proxy)
-    if (!fs.existsSync(file)) {
-      console.error('Proxy definition file not found! ' + file)
-      process.exit(1)
-    }
-    file = require(file)
-
-    const proxy = require('http-proxy-middleware')
-    file.forEach(entry => {
-      app.use(entry.path, proxy(entry.rule))
-    })
-  }
-
   app.get('*', (req, res) => {
     res.setHeader('Content-Type', 'text/html')
     res.status(404).send('404 | Page Not Found')
@@ -225,9 +232,8 @@ if (ssrDetected === false) {
   }
 
   getServer(app).listen(argv.port, argv.hostname, () => {
-    const
-      url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`,
-      { version } = require('../package.json')
+    const url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`
+    const { version } = require('../package.json')
 
     const info = [
       ['Quasar CLI', `v${version}`],

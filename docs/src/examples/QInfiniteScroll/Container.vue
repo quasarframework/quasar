@@ -1,7 +1,7 @@
 <template>
   <div>
     <div ref="scrollTargetRef" class="q-pa-md" style="max-height: 250px; overflow: auto;">
-      <q-infinite-scroll @load="onLoadRef" :offset="250" :scroll-target="$refs.scrollTargetRef">
+      <q-infinite-scroll @load="onLoadRef" :offset="250" :scroll-target="scrollTargetRef">
         <div v-for="(item, index) in itemsRef" :key="index" class="caption">
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.</p>
         </div>
@@ -31,31 +31,32 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const itemsRef = ref([ {}, {}, {}, {}, {}, {}, {} ])
+    const itemsId = ref([ {}, {}, {}, {}, {}, {}, {} ])
+    const scrollTargetRef = ref(null)
+
     return {
-      itemsRef: [ {}, {}, {}, {}, {}, {}, {} ],
-      itemsId: [ {}, {}, {}, {}, {}, {}, {} ]
-    }
-  },
+      itemsRef,
+      itemsId,
+      scrollTargetRef,
 
-  methods: {
-    onLoadRef (index, done) {
-      setTimeout(() => {
-        if (this.itemsRef) {
-          this.itemsRef.push({}, {}, {}, {}, {}, {}, {})
+      onLoadRef (index, done) {
+        setTimeout(() => {
+          itemsRef.value.push({}, {}, {}, {}, {}, {}, {})
           done()
-        }
-      }, 2000)
-    },
+        }, 2000)
+      },
 
-    onLoadId (index, done) {
-      setTimeout(() => {
-        if (this.itemsId) {
-          this.itemsId.push({}, {}, {}, {}, {}, {}, {})
+      onLoadId (index, done) {
+        setTimeout(() => {
+          itemsId.value.push({}, {}, {}, {}, {}, {}, {})
           done()
-        }
-      }, 2000)
+        }, 2000)
+      }
     }
   }
 }

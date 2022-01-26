@@ -1,8 +1,8 @@
 {
-  "mixins": [ "utils/global-dialog" ],
+  "mixins": [ "utils/private/global-dialog" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/dialog"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dialog"
   },
 
   "injection": "$q.dialog",
@@ -14,6 +14,7 @@
         "opts": {
           "desc": "Dialog options",
           "tsType": "QDialogOptions",
+          "autoDefineTsType": true,
           "definition": {
             "title": {
               "type": "String",
@@ -46,8 +47,8 @@
               "definition": {
                 "model": {
                   "type": "String",
-                  "desc": "The initial value of the input",
                   "required": true,
+                  "desc": "The initial value of the input",
                   "__exemption": [ "examples" ]
                 },
 
@@ -58,47 +59,13 @@
                   "examples": [ "text", "number", "textarea" ]
                 },
 
-                "label": {
-                  "type": "String",
-                  "desc": "A text label that will “float” up above the input field, once the field gets focus",
-                  "examples": [ "Username" ],
-                  "addedIn": "v1.9.3"
-                },
-
-                "stack-label": {
-                  "type": "Boolean",
-                  "desc": "Label will be always shown above the field regardless of field content (if any)",
-                  "addedIn": "v1.9.3"
-                },
-
-                "filled": {
-                  "type": "Boolean",
-                  "desc": "Use 'filled' design for the field",
-                  "addedIn": "v1.9.3"
-                },
-
-                "outlined": {
-                  "type": "Boolean",
-                  "desc": "Use 'outlined' design for the field",
-                  "addedIn": "v1.9.3"
-                },
-
-                "standout": {
-                  "type": [ "Boolean", "String" ],
-                  "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
-                  "examples": [
-                    "standout",
-                    "standout=\"bg-primary text-white\""
-                  ],
-                  "addedIn": "v1.9.3"
-                },
-
                 "isValid": {
                   "type": "Function",
                   "desc": "Is typed content valid?",
                   "params": {
                     "val": {
                       "type": "String",
+                      "required": true,
                       "desc": "The value of the input",
                       "__exemption": [ "examples" ]
                     }
@@ -107,6 +74,74 @@
                     "type": "Boolean",
                     "desc": "The text passed validation or not"
                   }
+                },
+
+                "attrs": {
+                  "type": "Object",
+                  "desc": "Attributes to pass to prompt control",
+                  "examples": [ "{ autocomplete: 'off' }" ]
+                },
+
+                "label": {
+                  "type": "String",
+                  "desc": "A text label that will “float” up above the input field, once the field gets focus",
+                  "examples": [ "Username" ]
+                },
+
+                "stackLabel": {
+                  "type": "Boolean",
+                  "desc": "Label will be always shown above the field regardless of field content (if any)"
+                },
+
+                "filled": {
+                  "type": "Boolean",
+                  "desc": "Use 'filled' design for the field"
+                },
+
+                "outlined": {
+                  "type": "Boolean",
+                  "desc": "Use 'outlined' design for the field"
+                },
+
+                "standout": {
+                  "type": [ "Boolean", "String" ],
+                  "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+                  "examples": [
+                    "standout",
+                    "standout=\"bg-primary text-white\""
+                  ]
+                },
+
+                "rounded": {
+                  "extends": "rounded"
+                },
+
+                "square": {
+                  "type": "Boolean",
+                  "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop"
+                },
+
+                "counter": {
+                  "type": "Boolean",
+                  "desc": "Show an automatic counter on bottom right"
+                },
+
+                "maxlength": {
+                  "type": [ "String", "Number" ],
+                  "desc": "Specify a max length of model",
+                  "examples": [ "12" ]
+                },
+
+                "prefix": {
+                  "type": "String",
+                  "desc": "Prefix",
+                  "examples": [ "$" ]
+                },
+
+                "suffix": {
+                  "type": "String",
+                  "desc": "Suffix",
+                  "examples": [ "@gmail.com" ]
                 }
               }
             },
@@ -118,8 +153,8 @@
               "definition": {
                 "model": {
                   "type": [ "String", "Array" ],
-                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
                   "required": true,
+                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
                   "examples": [ "[]" ]
                 },
 
@@ -144,6 +179,7 @@
                   "params": {
                     "model": {
                       "type": [ "String", "Array" ],
+                      "required": true,
                       "desc": "The current model (String if it's of type radio or Array otherwise)",
                       "examples": [
                         "opt2",
@@ -157,6 +193,20 @@
                     "type": "Boolean",
                     "desc": "The selection passed validation or not"
                   }
+                }
+              }
+            },
+
+            "progress": {
+              "type": [ "Boolean", "Object" ],
+              "desc": "Display a Quasar spinner (if value is true, then the defaults are used); Useful for conveying the idea that something is happening behind the covers; Tip: use along with persistent, ok: false and update() method",
+              "definition": {
+                "spinner": {
+                  "type": "Component",
+                  "desc": "One of the QSpinners"
+                },
+                "color": {
+                  "extends": "color"
                 }
               }
             },
@@ -189,8 +239,7 @@
               "type": "String",
               "desc": "What button to focus, unless you also have 'prompt' or 'options'",
               "values": [ "ok", "cancel", "none" ],
-              "default": "ok",
-              "addedIn": "v1.5.0"
+              "default": "ok"
             },
 
             "stackButtons": {
@@ -212,17 +261,17 @@
               "desc": "User cannot dismiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
             },
 
-            "no-esc-dismiss": {
+            "noEscDismiss": {
               "type": "Boolean",
               "desc": "User cannot dismiss Dialog by hitting ESC key; No need to set it if 'persistent' prop is also set"
             },
 
-            "no-backdrop-dismiss": {
+            "noBackdropDismiss": {
               "type": "Boolean",
               "desc": "User cannot dismiss Dialog by clicking outside of it; No need to set it if 'persistent' prop is also set"
             },
 
-            "no-route-dismiss": {
+            "noRouteDismiss": {
               "type": "Boolean",
               "desc": "Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set"
             },
@@ -237,46 +286,33 @@
               "desc": "Put Dialog into maximized mode"
             },
 
-            "full-width": {
+            "fullWidth": {
               "type": "Boolean",
               "desc": "Dialog will try to render with same width as the window"
             },
 
-            "full-height": {
+            "fullHeight": {
               "type": "Boolean",
               "desc": "Dialog will try to render with same height as the window"
             },
 
-            "transition-show": {
+            "transitionShow": {
               "extends": "transition",
               "default": "scale"
             },
 
-            "transition-hide": {
+            "transitionHide": {
               "extends": "transition",
               "default": "scale"
             },
 
             "component": {
-              "type": "Any",
-              "desc": "Use custom dialog component; use along with 'parent' prop where possible; if using this prop, all others described here will be supplied to your custom component",
-              "__exemption": [ "examples" ]
+              "type": "Component",
+              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible"
             },
 
-            "parent": {
+            "componentProps": {
               "type": "Object",
-              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify Vue parent component",
-              "examples": [ "parent: this" ]
-            },
-
-            "root": {
-              "type": "Object",
-              "desc": "Deprecated alias for parent",
-              "examples": [ "root: this" ]
-            },
-
-            "...props": {
-              "type": "Any",
               "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
               "__exemption": [ "examples" ]
             }

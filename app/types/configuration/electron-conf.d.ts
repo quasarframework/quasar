@@ -1,23 +1,36 @@
-import { Configuration as ElectronBuilderConfiguration } from "electron-builder";
-import {
-  arch,
-  Options as ElectronPackagerOptions,
-  platform
-} from "electron-packager";
-import { WebpackConfiguration } from "quasar";
+import * as ElectronBuilderUtil from "builder-util";
+import * as ElectronBuilder from "electron-builder";
+import * as ElectronPackager from "electron-packager";
+import { Configuration as WebpackConfiguration } from "webpack";
 import * as WebpackChain from "webpack-chain";
-import "../ts-helpers";
+import { LiteralUnion } from "quasar";
 
-type QuasarElectronBundlersInternal = "builder" | "packager";
+export type QuasarElectronBundlersInternal = "builder" | "packager";
+
+type ElectronBuilderConfiguration = ElectronBuilder.Configuration;
+type ElectronPackagerOptions = ElectronPackager.Options;
 
 interface QuasarBaseElectronConfiguration {
-  /** Webpack config object for the Main Process ONLY (`/src-electron/main-process/`) */
-  extendWebpack?: (config: WebpackConfiguration) => void;
   /**
-   * Equivalent to `extendWebpack()` but uses `webpack-chain` instead,
-   *  for the Main Process ONLY (`/src-electron/main-process/`)
+   * Add/remove/change properties of production generated package.json
    */
-  chainWebpack?: (chain: WebpackChain) => void;
+  extendPackageJson?: (pkg: { [index in string]: any }) => void;
+
+  /** Webpack config object for the Main Process ONLY (`/src-electron/electron-main`) */
+  extendWebpackMain?: (config: WebpackConfiguration) => void;
+  /**
+   * Equivalent to `extendWebpackMain()` but uses `webpack-chain` instead,
+   *  for the Main Process ONLY (`/src-electron/electron-main`)
+   */
+  chainWebpackMain?: (chain: WebpackChain) => void;
+
+  /** Webpack config object for the Preload Process ONLY (`/src-electron/electron-preload`) */
+  extendWebpackPreload?: (config: WebpackConfiguration) => void;
+  /**
+   * Equivalent to `extendWebpackPreload()` but uses `webpack-chain` instead,
+   *  for the Preload Process ONLY (`/src-electron/electron-preload`)
+   */
+  chainWebpackPreload?: (chain: WebpackChain) => void;
 
   /**
    * You have to choose to use either packager or builder.
@@ -31,7 +44,18 @@ interface QuasarBaseElectronConfiguration {
    *  or we haven’t found the recipe yet.
    */
   // This property definition is here merely to avoid duplicating the TSDoc
+  // It should not be optional, as TS cannot infer the discriminated union based on the absence of a field
+  // Futhermore, making it optional here won't change the exported interface which is the union
+  // of the two derivate interfaces where `bundler` is set without optionality
   bundler: QuasarElectronBundlersInternal;
+
+  /**
+   * Specify additional parameters when yarn/npm installing
+   * the UnPackaged folder, right before bundling with either
+   * electron packager or electron builder;
+   * Example: [ '--ignore-optional', '--some-other-param' ]
+   */
+  unPackagedInstallParams?: string[];
 }
 
 interface QuasarElectronPackagerConfiguration
@@ -53,23 +77,19 @@ interface QuasarElectronBuilderConfiguration
   builder?: ElectronBuilderConfiguration;
 }
 
-declare module "quasar" {
-  type QuasarElectronBundlers = QuasarElectronBundlersInternal;
+export type QuasarElectronBundlers = QuasarElectronBundlersInternal;
 
-  type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
+export type ElectronBuilderArchs = ElectronBuilderUtil.Arch;
+// ElectronBuilder doesn't export exact types for the target option
+export type ElectronBuilderTargets = string;
 
-  type ElectronBuilderTargets =
-    | "darwin"
-    | "mac"
-    | "win32"
-    | "win"
-    | "linux"
-    | "all";
+export type ElectronPackagerArchs = LiteralUnion<
+  ElectronPackager.OfficialArch | "all"
+>;
+export type ElectronPackagerTargets = LiteralUnion<
+  ElectronPackager.OfficialPlatform | "all"
+>;
 
-  type ElectronPackagerArchs = arch;
-  type ElectronPackagerTargets = platform;
-
-  type QuasarElectronConfiguration =
-    | QuasarElectronPackagerConfiguration
-    | QuasarElectronBuilderConfiguration;
-}
+export type QuasarElectronConfiguration =
+  | QuasarElectronPackagerConfiguration
+  | QuasarElectronBuilderConfiguration;

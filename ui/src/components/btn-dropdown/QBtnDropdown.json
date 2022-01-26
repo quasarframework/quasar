@@ -1,15 +1,17 @@
 {
-  "mixins": [ "mixins/btn", "mixins/model-toggle" ],
+  "mixins": [ "components/btn/use-btn", "composables/private/use-model-toggle" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/button-dropdown"
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
   },
 
   "props": {
-    "value": {
-      "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "examples": [ "v-model=\"menuState\"" ],
-      "category": "model"
+    "model-value": {
+      "extends": "model-value",
+      "type": "Boolean",
+      "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": false,
+      "examples": [ "v-model=\"menuState\"" ]
     },
 
     "split": {
@@ -19,8 +21,7 @@
     },
 
     "dropdown-icon": {
-      "extends": "icon",
-      "addedIn": "v1.1.6"
+      "extends": "icon"
     },
 
     "disable-main-btn": {
@@ -35,8 +36,15 @@
       "category": "behavior"
     },
 
+    "no-icon-animation": {
+      "type": "Boolean",
+      "desc": "Disables the rotation of the dropdown icon when state is toggled",
+      "category": "style"
+    },
+
     "content-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the menu",
       "examples": [
         "background-color: #ff0000",
@@ -46,7 +54,8 @@
     },
 
     "content-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the menu",
       "examples": [
         "my-special-class",
@@ -67,6 +76,12 @@
       "category": "behavior"
     },
 
+    "no-route-dismiss": {
+      "type": "Boolean",
+      "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
+      "category": "behavior"
+    },
+
     "auto-close": {
       "type": "Boolean",
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
@@ -77,12 +92,12 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom center", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "bottom right",
-      "examples": [ "top left", "bottom right" ],
+      "default": "bottom end",
+      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -90,12 +105,12 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom center", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "default": "top right",
-      "examples": [ "top left", "bottom right" ],
+      "default": "top end",
+      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -103,8 +118,7 @@
       "type": "Array",
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[8, 8]", "[5, 10]" ],
-      "category": "position",
-      "addedIn": "v1.9.2"
+      "category": "position"
     }
   },
 

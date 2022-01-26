@@ -22,22 +22,21 @@ export default {
     months: 'Janvāris_Februāris_Marts_Aprīlis_Maijs_Jūnijs_Jūlijs_Augusts_Septembris_Okrobris_Novembris_Decembris'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Mai_Jūn_Jūl_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dienas'
   },
   table: {
     noData: 'Nav datu',
     noResults: 'Ieraksti nav atrasti',
     loading: 'Atjaunojas...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 izvēlēta rinda.'
         : (rows === 0 ? 'Nav' : rows) + ' izvēlētas rindas.'
-    },
+    ),
     recordsPerPage: 'Rindas lapā:',
     allRows: 'Visas',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' no ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' no ' + total,
     columns: 'Kolonnas'
   },
   editor: {

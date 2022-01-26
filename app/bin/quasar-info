@@ -16,8 +16,10 @@ if (argv.help) {
   console.log(`
   Description
     Displays information about your machine and your Quasar App.
+
   Usage
     $ quasar info
+
   Options
     --help, -h     Displays this message
   `)
@@ -27,20 +29,22 @@ if (argv.help) {
 const os = require('os')
 const spawn = require('cross-spawn').sync
 
+const appPaths = require('../lib/app-paths')
+
 function getSpawnOutput (command) {
   try {
     const child = spawn(command, ['--version'])
     return child.status === 0
       ? chalk.green(String(child.output[1]).trim())
-      : chalk.red('Not installed')
+      : chalk.grey('Not installed')
   }
   catch (err) {
-    return chalk.red('Not installed')
+    return chalk.grey('Not installed')
   }
 }
 
-function safePkgInfo (pkg) {
-  const json = getPackageJson(pkg)
+function safePkgInfo (pkg, folder) {
+  const json = getPackageJson(pkg, folder)
 
   if (json !== void 0) {
     return {
@@ -51,7 +55,7 @@ function safePkgInfo (pkg) {
   else {
     return {
       key: `  ${pkg}`,
-      value: chalk.red('Not installed')
+      value: chalk.grey('Not installed')
     }
   }
 }
@@ -66,6 +70,7 @@ print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })
 print({ key: '  yarn', value: getSpawnOutput('yarn') })
 print({ key: '  @quasar/cli', value: chalk.green(process.env.QUASAR_CLI_VERSION) })
+print({ key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
 
 print({ key: 'Important local packages', section: true })
@@ -74,22 +79,27 @@ print({ key: 'Important local packages', section: true })
   'quasar',
   '@quasar/app',
   '@quasar/extras',
+  'eslint-plugin-quasar',
   'vue',
   'vue-router',
   'vuex',
   'electron',
   'electron-packager',
   'electron-builder',
-  '@capacitor/core',
-  '@capacitor/cli',
-  '@capacitor/android',
-  '@capacitor/ios',
   '@babel/core',
   'webpack',
   'webpack-dev-server',
   'workbox-webpack-plugin',
-  'register-service-worker'
-].forEach(pkg => print(safePkgInfo(pkg)))
+  'register-service-worker',
+  'typescript'
+].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
+
+;[
+  '@capacitor/core',
+  '@capacitor/cli',
+  '@capacitor/android',
+  '@capacitor/ios',
+].forEach(pkg => print(safePkgInfo(pkg, appPaths.capacitorDir)))
 
 print({ key: 'Quasar App Extensions', section: true })
 

@@ -15,7 +15,7 @@ Because the actual rendering process needs to be deterministic, we will also be 
 ## Component Lifecycle Hooks
 Since there are no dynamic updates, of all the Vue lifecycle hooks, only `beforeCreate` and `created` will be called during SSR. This means any code inside other lifecycle hooks such as `beforeMount` or `mounted` will only be executed on the client.
 
-Another thing to note is that you should avoid code that produces global side effects in `beforeCreate` and `created`, for example setting up timers with `setInterval`. In client-side only code we may setup a timer and then tear it down in `beforeDestroy` or `destroyed`. However, because the destroy hooks will not be called during SSR, the timers will stay around forever. To avoid this, move your side-effect code into `beforeMount` or `mounted` instead.
+Another thing to note is that you should avoid code that produces global side effects in `beforeCreate` and `created`, for example setting up timers with `setInterval`. In client-side only code we may setup a timer and then tear it down in `beforeUnmount` or `destroyed`. However, because the destroy hooks will not be called during SSR, the timers will stay around forever. To avoid this, move your side-effect code into `beforeMount` or `mounted` instead.
 
 ## Avoid Stateful Singletons
 When writing client-only code, we are used to the fact that our code will be evaluated in a fresh context every time. However, a Node.js server is a long-running process. When our code is required into the process, it will be evaluated once and then it stays in memory. This means if you create a singleton object, it will be shared between every incoming request.
@@ -59,7 +59,7 @@ For browser-only APIs, the common approach is to lazily access them inside clien
 ## Boot Files
 Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into a server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
 
-When you add a 3rd party library to your project (through a [Boot File](/quasar-cli/cli-documentation/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.conf.js:
+When you add a 3rd party library to your project (through a [Boot File](/quasar-cli/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.conf.js:
 
 ```js
 // quasar.conf.js
@@ -76,7 +76,7 @@ return {
 ## Data Pre-Fetching and State
 During SSR, we are essentially rendering a "snapshot" of our app, so if the app relies on some asynchronous data, this data need to be pre-fetched and resolved before we start the rendering process.
 
-The Quasar CLI [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature) has been created to solve this problem. Take a few moments to read about it.
+The Quasar CLI [PreFetch Feature](/quasar-cli/prefetch-feature) has been created to solve this problem. Take a few moments to read about it.
 
 <q-separator class="q-mt-xl" />
 

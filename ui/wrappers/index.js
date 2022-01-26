@@ -10,6 +10,26 @@ module.exports.boot = function (callback) {
   return callback
 }
 
+module.exports.ssrMiddleware = function (callback) {
+  return callback
+}
+
+module.exports.ssrProductionExport = function (callback) {
+  return callback
+}
+
 module.exports.configure = function (callback) {
+  return callback
+}
+
+module.exports.preFetch = function (callback) {
+  return callback
+}
+
+module.exports.route = function (callback) {
+  return callback
+}
+
+module.exports.store = function (callback) {
   return callback
 }

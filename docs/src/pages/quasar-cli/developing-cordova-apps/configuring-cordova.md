@@ -18,8 +18,29 @@ Some properties from this file will get overwritten as we'll see in next section
 Quasar CLI helps you in setting some properties of the mobile Apps automatically (from config.xml): the Cordova "id", app version, description and android-versionCode. This is for convenience so you'll be able to have a single point where, for example, you change the version of your app, not multiple files that you need to simultaneously touch which is error prone.
 
 For determining the values for each of the properties mentioned above, Quasar CLI:
-1. Looks in `/quasar.conf.js` for a "cordova" Object. Does it have "id", "version", "description" and/or "androidVersionCode"? If yes, it will use them.
+1. Looks in `/quasar.conf.js` for a "cordova" Object. Does it have "version", "description" and/or "androidVersionCode"? If yes, it will use them.
 2. If not, then it looks into your `/package.json` for "cordovaId", "version" and "description" fields.
+
+```js
+return {
+  capacitor: {
+    // If not present, will look for package.json > version
+    version: '..', // string
+    // If not present, will look for package.json > description
+    description: '...', // string
+    androidVersionCode: '..', // string
+
+    /**
+     * Enable Xcode modern build even if after considering iOS-Cordova issues.
+     * You can enable it if you know what you are doing,
+     *  for example if you want to specify the build type in your “build.json”.
+     *
+     * Default: false
+     */
+    noIosLegacyBuildFlag: true/false
+  }
+}
+```
 
 Other options you can configure:
 
@@ -28,8 +49,15 @@ return {
   framework: {
     config: {
       cordova: {
-        iosStatusBarPadding: true/false, // add the dynamic top padding on iOS mobile devices
-        backButtonExit: true/false // Quasar handles app exit on mobile phone back button
+        // add the dynamic top padding on iOS mobile devices
+        iosStatusBarPadding: true/false,
+
+        // Quasar handles app exit on mobile phone back button.
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        backButton: true/false
       }
     }
   }

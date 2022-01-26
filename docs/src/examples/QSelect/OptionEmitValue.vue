@@ -17,38 +17,41 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: null,
+      model: ref(null),
+
       options: [
         {
           label: 'Google',
-          value: 'Google',
+          value: 'goog',
           description: 'Search engine',
           icon: 'mail'
         },
         {
           label: 'Facebook',
-          value: 'Facebook',
+          value: 'fb',
           description: 'Social media',
           icon: 'bluetooth'
         },
         {
           label: 'Twitter',
-          value: 'Twitter',
+          value: 'twt',
           description: 'Quick updates',
           icon: 'map'
         },
         {
           label: 'Apple',
-          value: 'Apple',
+          value: 'app',
           description: 'iStuff',
           icon: 'golf_course'
         },
         {
           label: 'Oracle',
-          value: 'Oracle',
+          value: 'ora',
           disable: true,
           description: 'Databases',
           icon: 'casino'

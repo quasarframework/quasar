@@ -22,22 +22,21 @@ export default {
     months: 'Januar_Februar_Marts_April_Maj_Juni_Juli_August_September_Oktober_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dage'
   },
   table: {
     noData: 'Ingen data tilgængelig',
     noResults: 'Ingen matchende resultater fundet',
     loading: 'Indlæser...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 række valgt.'
         : (rows === 0 ? 'Ingen' : rows) + ' rækker valgt.'
-    },
+    ),
     recordsPerPage: 'Rækker per side:',
     allRows: 'Alle',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' af ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' af ' + total,
     columns: 'Kolonner'
   },
   editor: {

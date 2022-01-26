@@ -16,13 +16,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      snap: {
+      snap: ref({
         min: 2,
         max: 12
-      }
+      })
     }
   }
 }

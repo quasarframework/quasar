@@ -21,7 +21,7 @@
       <q-input dark outlined v-model="text" :readonly="readonly" :disable="disable">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg">
           </q-avatar>
         </template>
       </q-input>
@@ -49,13 +49,14 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: '',
+import { ref } from 'vue'
 
-      readonly: false,
-      disable: false
+export default {
+  setup () {
+    return {
+      text: ref(''),
+      readonly: ref(false),
+      disable: ref(false)
     }
   }
 }

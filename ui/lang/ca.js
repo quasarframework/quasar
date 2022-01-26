@@ -22,22 +22,21 @@ export default {
     months: 'Gener_Febrer_Març_Abril_Maig_Juny_Juliol_Agost_Setembre_Octubre_Novembre_Desembre'.split('_'),
     monthsShort: 'Gen_Feb_Mar_Abr_Mai_Jun_Jul_Ago_Set_Oct_Nov_Des'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dies'
   },
   table: {
     noData: 'No hi ha dades disponibles',
     noResults: 'No s\'han trobat resultats',
     loading: 'Carregant...',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' files seleccionades.'
         : (rows === 0 ? 'Sense' : '1') + ' fila seleccionada.'
-    },
+    ),
     recordsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' de ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' de ' + total,
     columns: 'Columnes'
   },
   editor: {

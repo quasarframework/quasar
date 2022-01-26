@@ -7,10 +7,14 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    alert () {
-      this.$q.dialog({
+  setup () {
+    const $q = useQuasar()
+
+    function alert () {
+      $q.dialog({
         dark: true,
         title: 'Alert',
         message: 'Some message'
@@ -21,10 +25,10 @@ export default {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
-    },
+    }
 
-    confirm () {
-      this.$q.dialog({
+    function confirm () {
+      $q.dialog({
         dark: true,
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
@@ -39,10 +43,10 @@ export default {
       }).onDismiss(() => {
         // console.log('I am triggered on both OK and Cancel')
       })
-    },
+    }
 
-    prompt () {
-      this.$q.dialog({
+    function prompt () {
+      $q.dialog({
         dark: true,
         title: 'Prompt',
         message: 'What is your name?',
@@ -60,6 +64,8 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
     }
+
+    return { alert, confirm, prompt }
   }
 }
 </script>

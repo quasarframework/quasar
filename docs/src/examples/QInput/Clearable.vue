@@ -24,10 +24,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Some text'
+      text: ref('Some text')
     }
   }
 }

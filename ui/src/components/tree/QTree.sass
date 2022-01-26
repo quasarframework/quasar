@@ -39,7 +39,7 @@
     position: absolute
     top: -3px
     bottom: 50%
-    width: 35px
+    width: 31px
     left: -35px
     border-left: 1px solid currentColor
     border-bottom: 1px solid currentColor
@@ -84,11 +84,13 @@
   &__node--selected .q-tree__node-header-content
     color: $grey
 
-  &__icon, &__node-header-content .q-icon, &__spinner
+  &__icon,
+  &__node-header-content .q-icon
     font-size: 21px
 
   &__img
     height: 42px
+    border-radius: 2px
 
   &__avatar, &__node-header-content .q-avatar
     font-size: 28px
@@ -96,14 +98,19 @@
     width: 28px
     height: 28px
 
-  &__arrow, &__spinner
+  &__arrow,
+  &__spinner
     font-size: 16px
 
   &__arrow
     transition: transform .3s
+    margin-right: 4px
 
     &--rotate
       transform: rotate3d(0, 0, 1, 90deg)
+
+  &__tickbox
+    margin-right: 4px
 
   // remove connectors before root
   > .q-tree__node
@@ -123,10 +130,55 @@
     .q-tree__node-body:after
       display: none !important
 
+  &--dense
+    > .q-tree__node--child > .q-tree__node-header
+      padding-left: 1px
+
+    .q-tree
+      &__arrow,
+      &__spinner
+        margin-right: 1px
+
+      &__img
+        height: 32px
+
+      &__tickbox
+        margin-right: 3px
+
+      &__node
+        padding: 0
+        &:after
+          top: 0
+          left: -8px
+
+      &__node-header
+        margin-top: 0
+        padding: 1px
+        &:before
+          top: 0
+          left: -8px
+          width: 8px
+
+      &__node--child
+        padding-left: 17px
+        > .q-tree__node-header:before
+          left: -25px
+          width: 21px
+
+      &__node-body
+        padding: 0 0 2px
+
+      &__node--parent > .q-tree__node-collapsible > .q-tree__node-body
+        padding: 0 0 2px 20px
+        &:after
+          left: 8px
+
+      &__children
+        padding-left: 16px
+
 [dir=rtl]
   .q-tree__arrow
     transform: rotate3d(0, 0, 1, 180deg) #{"/* rtl:ignore */"}
 
     &--rotate
       transform: rotate3d(0, 0, 1, 90deg) #{"/* rtl:ignore */"}
-

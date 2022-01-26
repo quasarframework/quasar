@@ -1,13 +1,16 @@
-import { isSSR, client } from './Platform.js'
-import { getEmptyStorage, getStorage } from '../utils/web-storage.js'
+import { client } from './Platform.js'
+import { getEmptyStorage, getStorage } from '../utils/private/web-storage.js'
 
-export default {
+const storage = __QUASAR_SSR_SERVER__ || client.has.webStorage === false
+  ? getEmptyStorage()
+  : getStorage('session')
+
+const Plugin = {
   install ({ $q }) {
-    const storage = isSSR === true || client.has.webStorage === false
-      ? getEmptyStorage()
-      : getStorage('session')
-
     $q.sessionStorage = storage
-    Object.assign(this, storage)
   }
 }
+
+Object.assign(Plugin, storage)
+
+export default Plugin

@@ -24,19 +24,20 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      inView: Array.apply(null, Array(50)).map(_ => false)
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onIntersection (entry) {
-      const index = parseInt(entry.target.dataset.id, 10)
-      setTimeout(() => {
-        this.inView.splice(index, 1, entry.isIntersecting)
-      }, 50)
+export default {
+  setup () {
+    const inView = ref(Array.apply(null, Array(50)).map(_ => false))
+
+    return {
+      inView,
+      onIntersection (entry) {
+        const index = parseInt(entry.target.dataset.id, 10)
+        setTimeout(() => {
+          inView.value.splice(index, 1, entry.isIntersecting)
+        }, 50)
+      }
     }
   }
 }

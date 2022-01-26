@@ -6,6 +6,9 @@
     line-height: 2rem
     letter-spacing: .0125em
 
+  &__progress
+    font-size: 4rem
+
   &__inner
     outline: 0
 
@@ -21,7 +24,7 @@
       border-radius: 0 !important
 
     > .q-card
-      > .q-card__actions .q-btn--rectangle .q-btn__wrapper
+      > .q-card__actions .q-btn--rectangle
         min-width: 64px
 
     &--minimized
@@ -36,6 +39,8 @@
         max-height: 100vh
         max-width: 100vw
         border-radius: 0 !important
+        top: 0px !important
+        left: 0px !important
 
     &--top, &--bottom
       padding-top: 0 !important
@@ -45,16 +50,16 @@
       padding-left: 0 !important
 
     &--left, &--top
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-top-left-radius: 0
     &--right, &--top
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-top-right-radius: 0
     &--left, &--bottom
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-bottom-left-radius: 0
     &--right, &--bottom
-      > div
+      &:not(.q-dialog__inner--animating) > div
         border-bottom-right-radius: 0
 
     &--fullwidth
@@ -69,6 +74,7 @@
   &__backdrop
     z-index: -1
     pointer-events: all
+    outline: 0
     background: $dimmed-background
 
 // addressbar always gets shown, so need to slim this down

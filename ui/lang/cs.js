@@ -23,13 +23,14 @@ export default {
       '_'),
     monthsShort: 'Led_Úno_Bře_Dub_Kvě_Čvn_Čvc_Srp_Zář_Říj_Lis_Pro'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dny'
   },
   table: {
     noData: 'Žádná data k dispozici',
     noResults: 'Nebyly nalezeny žádné odpovídající záznamy',
     loading: 'Načítá se...',
-    selectedRecords: function (rows) {
+    selectedRecords: rows => {
       switch (rows) {
         case 0:
           return 'Nejsou vybrány žádné řádky.'
@@ -46,9 +47,7 @@ export default {
     },
     recordsPerPage: 'Počet řádků na stránku:',
     allRows: 'Všechny',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' z ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' z ' + total,
     columns: 'Sloupce'
   },
   editor: {

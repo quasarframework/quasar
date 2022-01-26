@@ -3,6 +3,7 @@
     <div class="q-layout-padding">
       <q-toggle label="Vertical" v-model="vertical" />
       <q-toggle label="Animated" v-model="animated" />
+      <q-toggle label="Swipeable" v-model="swipeable" />
       <q-toggle label="Alternative Labels" v-model="alt" />
       <q-toggle label="Contracted" v-model="contracted" />
       <q-toggle label="Header Navigation" v-model="headerNav" />
@@ -20,6 +21,8 @@
 
       <q-toggle label="Keep alive" v-model="keepAlive" />
 
+      <q-toggle label="Custom Header Class" v-model="customHeaderClass" />
+
       <q-btn label="One" @click="step = 1" />
       <q-btn label="Two" @click="step = 2" />
 
@@ -27,6 +30,7 @@
         :class="'q-mt-lg' + (dark ? ' bg-black' : '')"
         :vertical="vertical"
         :animated="animated"
+        :swipeable="swipeable"
         :dark="dark"
         :flat="flat"
         :bordered="bordered"
@@ -37,10 +41,11 @@
         :keep-alive="keepAlive"
         :alternative-labels="alt"
         :contracted="contracted && !vertical"
+        :header-class="customHeaderClass ? 'text-bold' : void 0"
       >
         <q-step :name="1" :prefix="prefix ? 1 : ''" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <q-input v-model="myInput" />
-          <div>{{ myInput }}</div>
+          <div>{{ myInput || 'null' }}</div>
           <keep-alive-test name="one" />
           <q-date v-model="date" />
           <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
@@ -151,6 +156,7 @@
 </template>
 
 <script>
+import { h } from 'vue'
 
 export default {
   components: {
@@ -173,22 +179,22 @@ export default {
         this.log('mounted')
       },
 
-      beforeDestroy () {
-        this.log('beforeDestroy')
+      beforeUnmount () {
+        this.log('beforeUnmount')
       },
 
-      destroyed () {
-        this.log('destroyed')
+      unmounted () {
+        this.log('unmounted')
       },
 
       methods: {
         log (what) {
-          console.log(`[KeepAliveTest > ${this.name}] ${what}`)
+          console.log(`[KeepAliveTest > ${ this.name }] ${ what }`)
         }
       },
 
-      render (h) {
-        return h('div', [ 'keep alive test ' + this.name ])
+      render () {
+        return h('div', 'keep alive test ' + this.name)
       }
     }
   },
@@ -204,6 +210,7 @@ export default {
       step: 1,
       vertical: false,
       animated: true,
+      swipeable: true,
       alt: false,
       contracted: false,
       headerNav: true,
@@ -217,7 +224,9 @@ export default {
       useDone: false,
       headerNavStep: false,
 
-      keepAlive: true
+      keepAlive: true,
+
+      customHeaderClass: false
     }
   },
   watch: {

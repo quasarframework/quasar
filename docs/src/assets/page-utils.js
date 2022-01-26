@@ -1,5 +1,7 @@
+import { Notify } from 'quasar'
+
 export function copyToClipboard (text) {
-  var textArea = document.createElement('textarea')
+  const textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
   document.body.appendChild(textArea)
@@ -18,7 +20,12 @@ export function copyHeading (id) {
     el.id = ''
   }
 
-  window.location.hash = '#' + id
+  if ('replaceState' in history) {
+    history.replaceState(history.state, '', `${location.pathname}#${id}`)
+  }
+  else {
+    window.location.hash = '#' + id
+  }
 
   if (el) {
     setTimeout(() => {
@@ -28,16 +35,24 @@ export function copyHeading (id) {
 
   copyToClipboard(text)
 
-  this.$q.notify({
+  Notify.create({
     message: 'Anchor has been copied to clipboard.',
-    color: 'white',
-    textColor: 'primary',
     position: 'top',
-    actions: [ { icon: 'close', color: 'primary', dense: true, round: true } ],
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
     timeout: 2000
   })
 }
 
+// eslint-disable-next-line
+const specialRE = /[\s·/_\\,:;\.\(\)\[\]]+/g
+const andRE = /&/g
+const nonWordRE = /[^\w-]+/g
+const multipleDashRE = /--+/g
+
 export function slugify (str) {
-  return encodeURIComponent(String(str).trim().replace(/\s+/g, '-'))
+  return String(str).toLowerCase()
+    .replace(specialRE, '-')
+    .replace(andRE, '-and-')
+    .replace(nonWordRE, '')
+    .replace(multipleDashRE, '-')
 }

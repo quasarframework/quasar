@@ -2,7 +2,7 @@
   <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 500px">
       <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
-        <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+        <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
       </router-link>
       <div class="text-caption text-center">
         Quasar v{{ $q.version }}
@@ -17,14 +17,14 @@
       </div>
 
       <q-list dense class="q-mb-xl">
-        <template v-for="(category, title) in filteredList">
-          <q-item-label :key="`category-${title}`" header class="q-mt-lg text-uppercase text-weight-bold">
+        <template v-for="(category, title) in filteredList" :key="`category-${title}`">
+          <q-item-label header class="q-mt-lg text-uppercase text-weight-bold">
             {{ title }}
           </q-item-label>
 
           <q-item
             v-for="feature in category"
-            :key="`${feature.route}${feature.title}`"
+            :key="`elem-${feature.title}`"
             :to="feature.route"
           >
             <q-item-section>{{ feature.title }}</q-item-section>
@@ -45,15 +45,21 @@ const STORAGE_KEY = 'index-filter'
 
 const list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
-  const [folder, file] = page.split('/')
-  if (!list[folder]) {
-    list[folder] = []
+  const [ folder, file ] = page.split('/')
+  if (!list[ folder ]) {
+    list[ folder ] = []
   }
-  list[folder].push({
-    route: page,
+  list[ folder ].push({
+    route: '/' + page,
     title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
   })
 })
+
+list.Meta = [
+  { route: '/meta/layout_1/first', title: 'Meta Layout 1' },
+  { route: '/meta/layout_2/first', title: 'Meta Layout 2' },
+  { route: '/meta/title', title: 'Meta Title page' }
+]
 
 export default {
   created () {
@@ -69,7 +75,7 @@ export default {
     this.$q.platform.is.desktop === true && this.$refs.filter.focus()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     window.removeEventListener('keydown', this.onKeyup, { passive: false, capture: true })
   },
 
@@ -93,11 +99,11 @@ export default {
       const filter = this.filter.toLowerCase()
 
       Object.keys(this.list).forEach(categName => {
-        const filtered = this.list[categName]
+        const filtered = this.list[ categName ]
           .filter(feature => feature.title.toLowerCase().indexOf(filter) > -1)
 
         if (filtered.length > 0) {
-          newList[categName] = filtered
+          newList[ categName ] = filtered
         }
       })
 
@@ -133,15 +139,30 @@ export default {
       let el = document.activeElement
 
       if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
-        this.focus(document.querySelector('.q-item'))
+        let nextEl
+        if (op === 'nextSibling') {
+          nextEl = document.querySelector('.q-item')
+        }
+        else {
+          const nodes = document.querySelectorAll('.q-item')
+          if (nodes.length > 0) {
+            nextEl = nodes[ nodes.length - 1 ]
+          }
+        }
+
+        if (nextEl) {
+          this.focus(nextEl)
+        }
         return
       }
 
-      if (el[op]) {
-        do { el = el[op] }
-        while (el && el.tagName.toUpperCase() !== 'A')
+      if (el[ op ]) {
+        do {
+          el = el[ op ]
+        }
+        while (el && (el.nodeType === 3 || el.tagName.toUpperCase() !== 'A'))
 
-        if (!el) {
+        if (!el || el.nodeType === 3) {
           this.focus(this.$refs.filter.$el)
         }
         else if (el.tagName.toUpperCase() === 'A') {

@@ -22,22 +22,21 @@ export default {
     months: 'Januar_Februar_Marec_April_Maj_Junij_Julij_Avgust_September_Oktober_November_December'.split('_'),
     monthsShort: 'Jan_Feb_Mar_Apr_Maj_Jun_Jul_Avg_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Nedelja, 1 Ponedeljek, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'dni'
   },
   table: {
     noData: 'Ni dosegljivih podatkov',
     noResults: 'Ne najdem ustreznic',
     loading: 'Nalagam...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 izbrana vrstica.'
         : (rows === 2 ? '2 izbrani vrstici.' : (rows === 0 ? 'Ni' : rows) + ' izbranih vrstic.')
-    },
+    ),
     recordsPerPage: 'Vrstic na stran:',
     allRows: 'Vse',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' od ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' od ' + total,
     columns: 'Stolpci'
   },
   editor: {

@@ -1,28 +1,58 @@
-import Vue from 'vue'
-
-import { isSSR } from './plugins/Platform.js'
+import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import materialIcons from '../icon-set/material-icons.js'
+import { injectProp } from './utils/private/inject-obj-prop.js'
 
-export default {
-  install ($q, iconSet) {
-    this.set = (iconDef = materialIcons) => {
-      iconDef.set = this.set
+const Plugin = defineReactivePlugin({
+  iconMapFn: null,
+  __icons: {}
+}, {
+  set (setObject, ssrContext) {
+    const def = { ...setObject, rtl: setObject.rtl === true }
 
-      if (isSSR === true || $q.iconSet !== void 0) {
-        $q.iconSet = iconDef
+    if (__QUASAR_SSR_SERVER__) {
+      if (ssrContext === void 0) {
+        console.error('SSR ERROR: second param required: Quasar.iconSet.set(iconSet, ssrContext)')
+        return
+      }
+
+      def.set = ssrContext.$q.iconSet.set
+      Object.assign(ssrContext.$q.iconSet, def)
+    }
+    else {
+      def.set = Plugin.set
+      Object.assign(Plugin.__icons, def)
+    }
+  },
+
+  install ({ $q, iconSet, ssrContext }) {
+    if (__QUASAR_SSR_SERVER__) {
+      const initialSet = iconSet || materialIcons
+
+      $q.iconMapFn = ssrContext.$q.config.iconMapFn || this.iconMapFn || null
+      $q.iconSet = {}
+      $q.iconSet.set = setObject => {
+        this.set(setObject, ssrContext)
+      }
+
+      $q.iconSet.set(initialSet)
+    }
+    else {
+      if ($q.config.iconMapFn !== void 0) {
+        this.iconMapFn = $q.config.iconMapFn
+      }
+
+      $q.iconSet = this.__icons
+
+      injectProp($q, 'iconMapFn', () => this.iconMapFn, val => { this.iconMapFn = val })
+
+      if (this.__installed === true) {
+        iconSet !== void 0 && this.set(iconSet)
       }
       else {
-        Vue.util.defineReactive($q, 'iconSet', iconDef)
+        this.set(iconSet || materialIcons)
       }
-
-      this.name = iconDef.name
-      this.def = iconDef
-    }
-
-    this.set(iconSet)
-
-    if (isSSR !== true) {
-      Vue.util.defineReactive($q, 'iconMapFn', void 0)
     }
   }
-}
+})
+
+export default Plugin

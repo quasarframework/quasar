@@ -1,6 +1,7 @@
 process.env.NODE_ENV = 'production'
 
-const type = process.argv[2]
+const type = process.argv[ 2 ]
+const subtype = process.argv[ 3 ]
 const { createFolder } = require('./build.utils')
 const { green } = require('chalk')
 
@@ -17,21 +18,22 @@ if (!type) {
   require('./script.clean.js')
 }
 
-console.log(` 📦 Building Quasar ${green('v' + require('../package.json').version)}...\n`)
+console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').version) }...\n`)
 
 createFolder('dist')
 
 if (!type || type === 'js') {
   createFolder('dist/vetur')
   createFolder('dist/api')
-  createFolder('dist/babel-transforms')
+  createFolder('dist/transforms')
   createFolder('dist/lang')
   createFolder('dist/icon-set')
   createFolder('dist/types')
+  createFolder('dist/ssr-directives')
 
-  require('./script.build.javascript')()
+  require('./script.build.javascript')(subtype || 'full')
 }
 
 if (!type || type === 'css') {
-  require('./script.build.css')()
+  require('./script.build.css')(/* with diff */ type === 'css')
 }

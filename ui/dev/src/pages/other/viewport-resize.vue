@@ -73,12 +73,12 @@ export default {
       ]
 
       this.timer = setInterval(() => {
-        this.viewport = keys.map(k => k + ': ' + window.visualViewport[k])
+        this.viewport = keys.map(k => k + ': ' + window.visualViewport[ k ])
       }, 500)
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.timer)
   }
 }

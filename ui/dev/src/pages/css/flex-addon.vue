@@ -874,50 +874,50 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .test-flex-demo
-  padding-bottom 30vh
+  padding-bottom: 30vh
   h1
-    font-size 1.5em
-    margin 1em 0 .2em 0
+    font-size: 1.5em
+    margin: 1em 0 .2em 0
     &:first-child
-      margin-top 0
+      margin-top: 0
   .test-flex
     .placeholder
-      color #ccc
+      color: #ccc
 
     :not(.placeholder)
-      position relative
+      position: relative
       &:hover:before
-        content attr(class)
-        position absolute
-        top 0
-        left 50%
-        transform translateX(-50%) translateY(-100%)
-        min-width 100%
-        padding 2px 5px
-        background-color rgba(0,0,0,.5)
-        color white
-        white-space normal
+        content: attr(class)
+        position: absolute
+        top: 0
+        left: 50%
+        transform: translateX(-50%) translateY(-100%)
+        min-width: 100%
+        padding: 2px 5px
+        background-color: rgba(0,0,0,.5)
+        color: white
+        white-space: normal
 
     [class^='column']
-      height 100%
-      background-color rgba(255, 0, 0, .05)
-      outline 1px solid #c33
+      height: 100%
+      background-color: rgba(255, 0, 0, .05)
+      outline: 1px solid #c33
       > div
-        background-color rgba(0, 255, 0, .1)
-        text-align center
-        outline 1px solid #ccc
+        background-color: rgba(0, 255, 0, .1)
+        text-align: center
+        outline: 1px solid #ccc
         > div.fit
-          background-color rgba(0, 0, 255, .2)
+          background-color: rgba(0, 0, 255, .2)
     [class^='row']
       @extends .test-flex-demo .test-flex [class^='column']
       > div
-        white-space nowrap
-        text-overflow ellipsis
+        white-space: nowrap
+        text-overflow: ellipsis
       .placeholder
-        display inline-block
-        width 2em
+        display: inline-block
+        width: 2em
 </style>
 
 <script>

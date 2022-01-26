@@ -22,22 +22,21 @@ export default {
     months: 'Januari_Februari_Mac_April_Mei_Jun_Julai_Ogos_Oktober_November_Disember'.split('_'),
     monthsShort: 'Jan_Feb_Mac_Apr_Mei_Jun_Jul_Ogos_Sep_Okt_Nov_Dis'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: 'hari'
   },
   table: {
     noData: 'Tiada data tersedia',
     noResults: 'Tiada rekod sepadan yang dijumpai',
     loading: 'Sedang dalam proses..',
-    selectedRecords: function (rows) {
-      return rows > 1
+    selectedRecords: rows => (
+      rows > 1
         ? rows + ' rekod terpilih.'
         : (rows === 0 ? 'tiada' : '1') + ' rekod terpilih.'
-    },
+    ),
     recordsPerPage: 'Rekod per halaman:',
     allRows: 'Semua',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' dari ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' dari ' + total,
     columns: 'Kolum'
   },
   editor: {

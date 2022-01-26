@@ -3,23 +3,24 @@ title: Testing & Auditing
 desc: How to unit and end to end test a Quasar app and also how to audit for quality and security.
 ---
 
-Your Quasar projects have the ability to add unit and e2e testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the "Further Reading" section.
+Your Quasar projects have the ability to add unit and e2e testing harnesses. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing/tree/next). If you are a beginner, consider reading one of the books in the "Further Reading" section.
 
 ## High level overview
 
-You can install multiple pre-rigged testing harnesses to your existing 1.0+ Quasar application by running a simple command. This command will pull and install a node module (with dependencies) into your project's `package.json`, place necessary configuration files as appropriate and if you so choose, it will also add script commands that expose some of the functionality of the respective harness. You can add multiple harnesses and even use them for your continuous integration pipelines - as appropriate.
+You can install multiple pre-rigged testing harnesses to your existing Quasar application by running a simple command. This command will pull and install a node module (with dependencies) into your project's `package.json`, place necessary configuration files as appropriate and if you so choose, it will also add script commands that expose some of the functionality of the respective harness. You can add multiple harnesses and even use them for your continuous integration pipelines - as appropriate.
 
 Testing is not in and of itself hard. The most complicated part is setting up the testing harness. The trick lies in knowing what to test. If you are new to testing, it is absolutely imperative that you familiarize yourself with some of the concepts and patterns. There are some links for further reading at the end of this document page.
 
 ## Testing documentation
 
-Testing has its own documentation website (https://testing.quasar.dev), so head there for full info.
+Some Qv2-compatible Testing AEs are currently in alpha or beta phase, existing documentation website (https://testing.quasar.dev) still refer to Qv1 AEs.
+You can find the updated documentation into `next` branch of quasar-testing repo.
 
-<q-btn color="primary" label="testing.quasar.dev" icon-right="launch" no-caps type="a"  href="https://testing.quasar.dev" target="_blank" />
+<q-btn color="brand-primary" label="Testing repo @next branch" icon-right="launch" no-caps href="https://github.com/quasarframework/quasar-testing/tree/next" target="_blank" />
 
 ## Installing
 
-```shell
+```bash
 $ cd your-quasar-project
 $ quasar ext add @quasar/testing
 ```
@@ -28,7 +29,7 @@ The lightweight extension installer will ask you which testing harnesses you wan
 
 It will provide you with a new `quasar run` command that you can use to execute test-runners - and even your HMR dev environment at the same time. This approach can, for example, be quite helpful if you need to pass quasar.ctx to the test runner...
 
-```shell
+```bash
 # Example to run jest && dev server in pwa mode
 $ quasar test --unit jest --dev="-m pwa"
 ```

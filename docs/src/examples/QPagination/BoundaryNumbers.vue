@@ -5,17 +5,18 @@
       color="purple"
       :max="10"
       :max-pages="6"
-      :boundary-numbers="true"
-    >
-    </q-pagination>
+      boundary-numbers
+    />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      current: 6
+      current: ref(6)
     }
   }
 }

@@ -1,14 +1,47 @@
-import Vue from 'vue'
-
-import { isSSR } from './Platform.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { changeGlobalNodesTarget } from '../utils/private/global-nodes.js'
 
 const prefixes = {}
 
-// needed for consistency across browsers,
-// including IE11 which does not return anything
+function assignFn (fn) {
+  Object.assign(Plugin, {
+    request: fn,
+    exit: fn,
+    toggle: fn
+  })
+}
+
+function getFullscreenElement () {
+  return (
+    document.fullscreenElement
+    || document.mozFullScreenElement
+    || document.webkitFullscreenElement
+    || document.msFullscreenElement
+    || null
+  )
+}
+
+function updateEl () {
+  const newEl = Plugin.activeEl = Plugin.isActive === false
+    ? null
+    : getFullscreenElement()
+
+  changeGlobalNodesTarget(
+    newEl === null || newEl === document.documentElement
+      ? document.body
+      : newEl
+  )
+}
+
+function togglePluginState () {
+  Plugin.isActive = Plugin.isActive === false
+  updateEl()
+}
+
+// needed for consistency across browsers
 function promisify (target, fn) {
   try {
-    const res = target[fn]()
+    const res = target[ fn ]()
     return res === void 0
       ? Promise.resolve()
       : res
@@ -18,67 +51,77 @@ function promisify (target, fn) {
   }
 }
 
-export default {
-  isCapable: false,
+const Plugin = defineReactivePlugin({
   isActive: false,
-
-  request (target) {
-    return this.isCapable && !this.isActive
-      ? promisify(target || document.documentElement, prefixes.request)
-      : this.__getErr()
-  },
-
-  exit () {
-    return this.isCapable && this.isActive
-      ? promisify(document, prefixes.exit)
-      : this.__getErr()
-  },
-
-  toggle (target) {
-    return this.isActive
-      ? this.exit()
-      : this.request(target)
-  },
+  activeEl: null
+}, {
+  isCapable: false,
 
   install ({ $q }) {
     $q.fullscreen = this
+  }
+})
 
-    if (isSSR === true) { return }
+if (__QUASAR_SSR_SERVER__ === true) {
+  assignFn(() => Promise.resolve())
+}
+else {
+  prefixes.request = [
+    'requestFullscreen',
+    'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
+  ].find(request => document.documentElement[ request ] !== void 0)
 
-    prefixes.request = [
-      'requestFullscreen',
-      'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
-    ].find(request => document.documentElement[request])
+  Plugin.isCapable = prefixes.request !== void 0
 
-    this.isCapable = prefixes.request !== void 0
+  if (Plugin.isCapable === false) {
+    // it means the browser does NOT support it
+    assignFn(() => Promise.reject('Not capable'))
+  }
+  else {
+    Object.assign(Plugin, {
+      request (target) {
+        const el = target || document.documentElement
+        const { activeEl } = Plugin
 
-    if (this.isCapable === false) {
-      // it means the browser does NOT support it
-      this.__getErr = () => Promise.reject('Not capable')
-      return
-    }
+        if (el === activeEl) {
+          return Promise.resolve()
+        }
 
-    this.__getErr = () => Promise.resolve()
+        const queue = activeEl !== null && el.contains(activeEl) === true
+          ? Plugin.exit()
+          : Promise.resolve()
+
+        return queue.finally(() => promisify(el, prefixes.request))
+      },
+
+      exit () {
+        return Plugin.isActive === true
+          ? promisify(document, prefixes.exit)
+          : Promise.resolve()
+      },
+
+      toggle (target) {
+        return Plugin.isActive === true
+          ? Plugin.exit()
+          : Plugin.request(target)
+      }
+    })
 
     prefixes.exit = [
       'exitFullscreen',
       'msExitFullscreen', 'mozCancelFullScreen', 'webkitExitFullscreen'
-    ].find(exit => document[exit])
+    ].find(exit => document[ exit ])
 
-    this.isActive = !!(document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement ||
-      document.msFullscreenElement)
+    Plugin.isActive = Boolean(getFullscreenElement())
+    Plugin.isActive === true && updateEl()
 
     ;[
       'onfullscreenchange',
       'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
-      document[evt] = () => {
-        this.isActive = !this.isActive
-      }
+      document[ evt ] = togglePluginState
     })
-
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
   }
 }
+
+export default Plugin

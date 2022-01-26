@@ -15,21 +15,19 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const progress1 = ref(0.3)
+    const progress2 = ref(0.9)
+
     return {
-      progress1: 0.3,
-      progress2: 0.9
-    }
-  },
+      progress1,
+      progressLabel1: computed(() => (progress1.value * 100).toFixed(2) + '%'),
 
-  computed: {
-    progressLabel1 () {
-      return (this.progress1 * 100).toFixed(2) + '%'
-    },
-
-    progressLabel2 () {
-      return (this.progress2 * 100).toFixed(2) + '%'
+      progress2,
+      progressLabel2: computed(() => (progress2.value * 100).toFixed(2) + '%')
     }
   }
 }

@@ -14,8 +14,8 @@
           <q-virtual-scroll component="q-list" :items="heavyList" separator :scroll-target="scrollTarget" @virtual-scroll="onVirtualScroll1">
             <template v-slot="{ item, index }">
               <q-item
+                :key="'a'+index"
                 v-if="(index % 3) === 0"
-                :key="index"
                 clickable
               >
                 <q-item-section>
@@ -24,7 +24,8 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-banner v-else-if="(index % 5) === 0" class="bg-negative" :key="index">
+
+              <q-banner :key="'b'+index" v-else-if="(index % 5) === 0" class="bg-negative">
                 <template v-slot:avatar>
                   <q-avatar square color="warning" text-color="negative">
                     {{ item.value }}
@@ -32,7 +33,8 @@
                 </template>
                 {{ item.label }} #{{ index }}
               </q-banner>
-              <div v-else class="bg-yellow q-py-lg text-center scroll" :key="index" style="max-height: 100px">
+
+              <div :key="'c'+index" v-else class="bg-yellow q-py-lg text-center scroll" style="max-height: 100px">
                 {{ item.label }} #{{ index }}
               </div>
             </template>
@@ -46,12 +48,12 @@
           <div class="q-pa-md">
             <q-input
               type="number"
-              :value="virtualListIndex2"
+              :model-value="virtualListIndex2"
               :min="0"
               :max="99999"
               label="Scroll to index"
               input-class="text-right"
-              @input="onIndexChange"
+              @update:model-value="onIndexChange"
             />
           </div>
 

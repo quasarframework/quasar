@@ -1,17 +1,62 @@
-const logger = require('../helpers/logger')
-const log = logger('app:extension')
-const warn = logger('app:extension', 'red')
+const fs = require('fs-extra')
+const path = require('path')
+
+const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
 const { spawnSync } = require('../helpers/spawn')
 const extensionJson = require('./extension-json')
 
-async function renderFolders ({ source, rawCopy, scope }) {
-  const fs = require('fs-extra')
-  const path = require('path')
-  const fglob = require('fast-glob')
-  const isBinary = require('isbinaryfile').isBinaryFileSync
+async function promptOverwrite ({ targetPath, options }) {
   const inquirer = require('inquirer')
+
+  const choices = [
+    { name: 'Overwrite', value: 'overwrite' },
+    { name: 'Overwrite all', value: 'overwriteAll' },
+    { name: 'Skip (might break extension)', value: 'skip' },
+    { name: 'Skip all (might break extension)', value: 'skipAll' }
+  ]
+
+  const answer = await inquirer.prompt([{
+    name: 'action',
+    type: 'list',
+    message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
+    choices: options !== void 0
+      ? choices.filter(choice => options.includes(choice.value))
+      : choices,
+    default: 'overwrite'
+  }])
+  return answer
+}
+
+async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
+  const isBinary = require('isbinaryfile').isBinaryFileSync
   const compileTemplate = require('lodash.template')
+
+  if (overwritePrompt === true && fs.existsSync(targetPath)) {
+    const answer = await promptOverwrite({
+      targetPath,
+      options: [ 'overwrite', 'skip' ]
+    })
+
+    if (answer.action === 'skip') {
+      return
+    }
+  }
+
+  fs.ensureFileSync(targetPath)
+
+  if (rawCopy || isBinary(sourcePath)) {
+    fs.copyFileSync(sourcePath, targetPath)
+  }
+  else {
+    const rawContent = fs.readFileSync(sourcePath, 'utf-8')
+    const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
+    fs.writeFileSync(targetPath, template(scope), 'utf-8')
+  }
+}
+
+async function renderFolders ({ source, rawCopy, scope }) {
+  const fglob = require('fast-glob')
 
   let overwrite
   const files = fglob.sync(['**/*'], { cwd: source })
@@ -37,18 +82,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
         continue
       }
       else {
-        const answer = await inquirer.prompt([{
-          name: 'action',
-          type: 'list',
-          message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
-          choices: [
-            { name: 'Overwrite', value: 'overwrite' },
-            { name: 'Overwrite all', value: 'overwriteAll' },
-            { name: 'Skip (might break extension)', value: 'skip' },
-            { name: 'Skip all (might break extension)', value: 'skipAll' }
-          ],
-          default: 'overwrite'
-        }])
+        const answer = await promptOverwrite({ targetPath })
 
         if (answer.action === 'overwriteAll') {
           overwrite = 'overwriteAll'
@@ -63,16 +97,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
-    fs.ensureFileSync(targetPath)
-
-    if (rawCopy || isBinary(sourcePath)) {
-      fs.copyFileSync(sourcePath, targetPath)
-    }
-    else {
-      const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-      const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
-      fs.writeFileSync(targetPath, template(scope), 'utf-8')
-    }
+    renderFile({ sourcePath, targetPath, rawCopy, scope })
   }
 }
 
@@ -81,8 +106,7 @@ module.exports = class Extension {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
       if (slashIndex === -1) {
-        warn(`⚠️  Invalid Quasar App Extension name: "${name}"`)
-        process.exit(1)
+        fatal(`Invalid Quasar App Extension name: "${name}"`)
       }
 
       this.packageFullName = name.substring(0, slashIndex + 1) +
@@ -101,14 +125,11 @@ module.exports = class Extension {
 
   isInstalled () {
     try {
-      require.resolve(this.packageName, {
-        paths: [ appPaths.appDir ]
-      })
+      this.__getScriptFile('index')
     }
     catch (e) {
       return false
     }
-
     return true
   }
 
@@ -130,8 +151,7 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgInstall === true) {
       if (!isInstalled) {
-        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but its npm package is not installed`)
-        process.exit(1)
+        fatal(`Tried to invoke App Extension "${this.extId}" but its npm package is not installed`)
       }
     }
     else if (isInstalled) {
@@ -178,12 +198,11 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgUninstall === true) {
       if (!isInstalled) {
-        warn(`⚠️  Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`)
-        process.exit(1)
+        fatal(`Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`)
       }
     }
     else if (!isInstalled) {
-      warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
+      warn(`Quasar App Extension "${this.packageName}" is not installed...`)
       return
     }
 
@@ -208,7 +227,7 @@ module.exports = class Extension {
 
   async run (ctx) {
     if (!this.isInstalled()) {
-      warn(`⚠️  Quasar App Extension "${this.extId}" is missing...`)
+      warn(`Quasar App Extension "${this.extId}" is missing...`)
       process.exit(1, 'ext-missing')
     }
 
@@ -260,7 +279,7 @@ module.exports = class Extension {
       nodePackager,
       cmdParam.concat(this.packageFullName),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`⚠️  Failed to install ${this.packageFullName}`)
+      () => fatal(`Failed to install ${this.packageFullName}`, 'FAIL')
     )
   }
 
@@ -275,22 +294,43 @@ module.exports = class Extension {
       nodePackager,
       cmdParam.concat(this.packageName),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
+      () => warn(`Failed to uninstall "${this.packageName}"`)
     )
   }
 
-  __getScript (scriptName, fatal) {
+  /**
+   * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
+   * searches it into the `dist` folder.
+   * 
+   * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
+   * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
+   */
+  __getScriptFile (scriptName) {
     let script
 
     try {
-      script = require.resolve(this.packageName + '/src/' + scriptName, {
+      script = require.resolve(`${this.packageName}/src/${scriptName}`, {
         paths: [ appPaths.appDir ]
       })
     }
     catch (e) {
-      if (fatal) {
-        warn(`⚠️  App Extension "${this.extId}" has missing ${scriptName} script...`)
-        process.exit(1)
+      script = require.resolve(`${this.packageName}/dist/${scriptName}`, {
+        paths: [ appPaths.appDir ]
+      })
+    }
+
+    return script
+  }
+
+  __getScript (scriptName, fatalError) {
+    let script
+
+    try {
+      script = this.__getScriptFile(scriptName)
+    }
+    catch (e) {
+      if (fatalError) {
+        fatal(`App Extension "${this.extId}" has missing ${scriptName} script...`)
       }
 
       return
@@ -325,6 +365,12 @@ module.exports = class Extension {
       }
     }
 
+    if (hooks.renderFiles.length > 0) {
+      for (let entry of hooks.renderFiles) {
+        await renderFile(entry)
+      }
+    }
+
     if (api.__needsNodeModulesUpdate) {
       const nodePackager = require('../helpers/node-packager')
       const cmdParam = nodePackager === 'npm'
@@ -336,7 +382,7 @@ module.exports = class Extension {
         nodePackager,
         cmdParam,
         { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-        () => warn(`⚠️  Failed to update dependencies`)
+        () => warn(`Failed to update dependencies`)
       )
     }
 

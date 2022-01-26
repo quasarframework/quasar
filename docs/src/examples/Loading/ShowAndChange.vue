@@ -5,42 +5,42 @@
 </template>
 
 <script>
-import { QSpinnerGears } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
+import { onBeforeUnmount } from 'vue'
 
 export default {
-  methods: {
-    showLoading () {
-      /* This is for Codepen (using UMD) to work */
-      const spinner = typeof QSpinnerGears !== 'undefined'
-        ? QSpinnerGears
-        : Quasar.components.QSpinnerGears // eslint-disable-line
-      /* End of Codepen workaround */
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-      this.$q.loading.show({
-        message: 'First message. Gonna change it in 3 seconds...'
-      })
+    onBeforeUnmount(() => {
+      if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+      }
+    })
 
-      this.timer = setTimeout(() => {
-        this.$q.loading.show({
-          spinner,
-          spinnerColor: 'red',
-          messageColor: 'black',
-          backgroundColor: 'yellow',
-          message: 'Updated message'
+    return {
+      showLoading () {
+        $q.loading.show({
+          message: 'First message. Gonna change it in 3 seconds...'
         })
 
-        this.timer = setTimeout(() => {
-          this.$q.loading.hide()
-          this.timer = void 0
-        }, 2000)
-      }, 2000)
-    }
-  },
+        timer = setTimeout(() => {
+          $q.loading.show({
+            spinner: QSpinnerGears,
+            spinnerColor: 'red',
+            messageColor: 'black',
+            backgroundColor: 'yellow',
+            message: 'Updated message'
+          })
 
-  beforeDestroy () {
-    if (this.timer !== void 0) {
-      clearTimeout(this.timer)
-      this.$q.loading.hide()
+          timer = setTimeout(() => {
+            $q.loading.hide()
+            timer = void 0
+          }, 2000)
+        }, 2000)
+      }
     }
   }
 }

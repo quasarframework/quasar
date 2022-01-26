@@ -5,38 +5,38 @@
 </template>
 
 <script>
-import { QSpinnerFacebook } from 'quasar'
+import { useQuasar, QSpinnerFacebook } from 'quasar'
+import { onBeforeUnmount } from 'vue'
 
 export default {
-  methods: {
-    showLoading () {
-      /* This is for Codepen (using UMD) to work */
-      const spinner = typeof QSpinnerFacebook !== 'undefined'
-        ? QSpinnerFacebook // Non-UMD, imported above
-        : Quasar.components.QSpinnerFacebook // eslint-disable-line
-      /* End of Codepen workaround */
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-      this.$q.loading.show({
-        spinner,
-        spinnerColor: 'yellow',
-        spinnerSize: 140,
-        backgroundColor: 'purple',
-        message: 'Some important process is in progress. Hang on...',
-        messageColor: 'black'
-      })
+    onBeforeUnmount(() => {
+      if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+      }
+    })
 
-      // hiding in 3s
-      this.timer = setTimeout(() => {
-        this.$q.loading.hide()
-        this.timer = void 0
-      }, 3000)
-    }
-  },
+    return {
+      showLoading () {
+        $q.loading.show({
+          spinner: QSpinnerFacebook,
+          spinnerColor: 'yellow',
+          spinnerSize: 140,
+          backgroundColor: 'purple',
+          message: 'Some important process is in progress. Hang on...',
+          messageColor: 'black'
+        })
 
-  beforeDestroy () {
-    if (this.timer !== void 0) {
-      clearTimeout(this.timer)
-      this.$q.loading.hide()
+        // hiding in 3s
+        timer = setTimeout(() => {
+          $q.loading.hide()
+          timer = void 0
+        }, 3000)
+      }
     }
   }
 }

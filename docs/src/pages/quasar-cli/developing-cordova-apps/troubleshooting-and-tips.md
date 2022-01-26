@@ -4,7 +4,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app with Cordova.
 ---
 
 ## $q.cordova
-While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
+While you are developing a Mobile App with Cordova Mode, you can access `$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
 
 ## Android Tips
 
@@ -20,16 +20,21 @@ This way you have Chrome Dev Tools directly for your App running on the emulator
 If you are having problems getting Android builds to finish and you see a message like:
 
 ```
-> Failed to install the following Android SDK packages as some licences have not been accepted.
+> Failed to install the following Android SDK packages as some licenses have not been accepted.
 ```
 
 If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
 
-Linux: `sdkmanager --licenses`
-macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
-Windows: `%ANDROID_HOME%/tools/bin/sdkmanager --licenses`
+- Linux: `sdkmanager --licenses`
+- macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
+- Windows: `%ANDROID_SDK_ROOT%/tools/bin/sdkmanager --licenses`
 
 ### Android SDK not found after installation of the SDK
+
+::: warning
+The environmental variable `ANDROID_HOME` has been deprecated and replaced with `ANDROID_SDK_ROOT`. Depending on your version of Android Studio you may need one or the other. It doesn't hurt to have both set.
+:::
+
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment. The output might look similar to this:
 
 ``` bash
@@ -39,7 +44,7 @@ Requirements check results for android:
 Java JDK: installed 1.8.0
 Android SDK: installed true
 Android target: not installed
-Android SDK not found. Make sure that it is installed. If it is not at the default location, set the ANDROID_HOME environment variable.
+Android SDK not found. Make sure that it is installed. If it is not at the default location, set the ANDROID_HOME (or ANDROID_SDK_ROOT) environment variable.
 Gradle: not installed
 Could not find gradle wrapper within Android SDK. Might need to update your Android SDK.
 Looked here: /home/your_user/Android/Sdk/tools/templates/gradle/wrapper
@@ -50,6 +55,10 @@ This could have two different reasons: Usually the paths aren't configured corre
 
 ``` bash
 $ echo $ANDROID_HOME
+
+# or
+
+$ echo $ANDROID_SDK_ROOT
 ```
 
 The expected output should be a path similar to this `$HOME/Android/Sdk`. After this run:
@@ -57,6 +66,10 @@ The expected output should be a path similar to this `$HOME/Android/Sdk`. After 
 
 ``` bash
 $ ls -la $ANDROID_HOME
+
+# or
+
+$ ls -la $ANDROID_SDK_ROOT
 ```
 
 To ensure the folder contains the SDK. The expected output should contain folders like 'tools', 'sources', 'platform-tools', etc.
@@ -89,7 +102,7 @@ You may bump into `?????? no permissions` problem when trying to run your App di
 
 Here's how you fix this:
 
-``` bash
+```bash
 # create the .rules file and insert the content
 # from below this example
 sudo vim /etc/udev/rules.d/51-android.rules
@@ -139,6 +152,7 @@ Now running `adb devices` should discover your device.
 
 ### Post-build debugging
 There are intermediate states to help with debugging, between `quasar dev` and distributing a completed app. If your app works fine on `quasar dev` but is not running properly after `quasar build`, you have two options:
+
 * go to your `src-cordova` directory and `cordova run [platform]`.
   * You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
   * For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)
@@ -164,7 +178,7 @@ Then it means you need to specify an emulator. Depending on your Cordova CLI ver
 
 ```bash
 $ quasar dev -m cordova -T ios -e iPhone-X,12.2
-# or whith older versions of Cordova CLI installed on your machine:
+# or with older versions of Cordova CLI installed on your machine:
 $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 
@@ -216,6 +230,6 @@ body.cordova .my-selector {
 ### Disabling iOS rubber band effect
 When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
-``` xml
+```xml
 <preference name="DisallowOverscroll" value="true" />
 ```

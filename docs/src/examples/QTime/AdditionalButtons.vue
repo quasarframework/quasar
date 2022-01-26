@@ -7,7 +7,7 @@
     </div>
 
     <q-btn icon="access_time" round color="primary">
-      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+      <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
         <q-time v-model="proxyTime">
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="primary" flat v-close-popup />
@@ -20,21 +20,24 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const time = ref('10:56')
+    const proxyTime = ref('10:56')
+
     return {
-      time: '10:56',
-      proxyTime: '10:56'
-    }
-  },
+      time,
+      proxyTime,
 
-  methods: {
-    updateProxy () {
-      this.proxyTime = this.time
-    },
+      updateProxy () {
+        proxyTime.value = time.value
+      },
 
-    save () {
-      this.time = this.proxyTime
+      save () {
+        time.value = proxyTime.value
+      }
     }
   }
 }

@@ -11,59 +11,82 @@ function component (path) {
   }
 }
 
+const placeholderComponent = { template: '<router-view />' }
+
 const metaChildren = [
-  { path: '', redirect: 'first' },
   { path: 'first', component: load('meta/pages/first') },
   { path: 'second', component: load('meta/pages/second') },
   { path: 'third', component: load('meta/pages/third') }
 ]
 
-let routes = [
+const routes = [
   { path: '/', component: load('Index') },
   {
     path: '/meta/layout_1',
-    component: load('meta/layout_1'),
+    component: load('meta/layouts/layout_1'),
     children: metaChildren
   },
   {
+    path: '/meta/title',
+    component: load('meta/layouts/title')
+  },
+  {
     path: '/meta/layout_2',
-    component: load('meta/layout_2'),
+    component: load('meta/layouts/layout_2'),
     children: metaChildren
   },
   {
     path: '/components/tabs',
     component: load('components/tabs'),
     children: [
-      { path: 'a' },
-      { path: 'a/a' },
-      { path: 'a/b' },
-      { path: 'b' },
-      { path: 'b/a' },
-      { path: 'c' },
+      // { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a/a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a/b', component: placeholderComponent, meta: { skipScroll: true } },
+      {
+        path: 'a', component: placeholderComponent, meta: { skipScroll: true },
+        children: [
+          { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
+          { path: 'b', component: placeholderComponent, meta: { skipScroll: true } }
+        ]
+      },
+
+      {
+        path: 'b', component: placeholderComponent, meta: { skipScroll: true },
+        children: [
+          { path: 'a', component: placeholderComponent, meta: { skipScroll: true } }
+        ]
+      },
+      { path: 'c', component: placeholderComponent, meta: { skipScroll: true } },
       {
         path: 't',
+        component: placeholderComponent,
         children: [
-          { path: ':id/a', name: 'ta' },
-          { path: ':id/b', name: 'tb' }
-        ]
+          { path: ':id/a', name: 'ta', component: placeholderComponent, meta: { skipScroll: true } },
+          { path: ':id/b', name: 'tb', component: placeholderComponent, meta: { skipScroll: true } }
+        ],
+        meta: { skipScroll: true }
       },
       {
         name: 'r',
         path: 'r',
+        component: placeholderComponent,
         redirect: { name: 'r.1' },
         children: [
           {
             name: 'r.1',
             path: '1',
+            component: placeholderComponent,
             children: [
-              { name: 'r.1.1', path: '1' },
-              { name: 'r.1.2', path: '2', redirect: { name: 'r' } },
-              { name: 'r.1.3', path: '3', redirect: { name: 'r.1.1' } }
-            ]
+              { name: 'r.1.1', path: '1', component: placeholderComponent, meta: { skipScroll: true } },
+              { name: 'r.1.2', path: '2', redirect: { name: 'r' }, meta: { skipScroll: true } },
+              { name: 'r.1.3', path: '3', redirect: { name: 'r.1.1' }, meta: { skipScroll: true } }
+            ],
+            meta: { skipScroll: true }
           },
-          { name: 'r.2', path: '2' },
-          { name: 'r.3', path: '3', redirect: { name: 'ta', params: { id: 2 } } }
-        ]
+          { name: 'r.2', path: '2', component: placeholderComponent, meta: { skipScroll: true } },
+          { name: 'r.3', path: '3', redirect: { name: 'ta', params: { id: 2 } }, meta: { skipScroll: true } }
+        ],
+        meta: { skipScroll: true }
       }
     ]
   },
@@ -96,11 +119,16 @@ pages.forEach(page => {
 })
 
 // Always leave this as last one
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
-}
+routes.push({
+  path: '/:catchAll(.*)*',
+  component: () => import('pages/Error404.vue')
+})
 
 export default routes
+
+// function load (component) {
+//   return () => import('pages/' + component + '.vue')
+// }
+// export default [
+//   { path: '/', component: load('Index') }
+// ]

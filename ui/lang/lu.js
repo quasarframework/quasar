@@ -22,22 +22,21 @@ export default {
     months: 'Januar_Februar_März_Abrëll_Mäi_Juni_Juli_August_September_Oktober_November_Dezember'.split('_'),
     monthsShort: 'Jan_Feb_Mär_Abr_Mäi_Jun_Jul_Aug_Sep_Okt_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'deeg'
   },
   table: {
     noData: 'Keng Donnéen do',
     noResults: 'Keng Anträg fonnt',
     loading: 'Luedt...',
-    selectedRecords: function (rows) {
-      return rows === 1
+    selectedRecords: rows => (
+      rows === 1
         ? '1 ausgewielten Zeil.'
         : (rows === 0 ? 'Keng' : rows) + ' Zeilen ausgewielt.'
-    },
+    ),
     recordsPerPage: 'Zeilen pro Säit:',
     allRows: 'All',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' vun ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' vun ' + total,
     columns: 'Kolonnen'
   },
   editor: {

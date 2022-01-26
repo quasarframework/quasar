@@ -22,7 +22,8 @@ export default {
     months: 'tammikuu_helmikuu_maaliskuu_huhtikuu_toukokuu_kesäkuu_heinäkuu_elokuu_syyskuu_lokakuu_marraskuu_joulukuu'.split('_'),
     monthsShort: 'tammi_helmi_maalis_huhti_touko_kesä_heinä_elo_syys_loka_marras_joulu'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: true
+    format24h: true,
+    pluralDay: 'päivää'
   },
   pullToRefresh: {
     pull: 'Vedä alas päivittääksesi',
@@ -33,16 +34,10 @@ export default {
     noData: 'Ei tietoja',
     noResults: 'Ei tuloksia',
     loading: 'Ladataan...',
-    selectedRecords: function (rows) {
-      return rows === 1
-        ? '1 rivi valittu.'
-        : rows + ' riviä valittu.'
-    },
+    selectedRecords: rows => (rows === 1 ? '1 rivi valittu.' : rows + ' riviä valittu.'),
     recordsPerPage: 'Rivejä sivulla:',
     allRows: 'Kaikki',
-    pagination: function (start, end, total) {
-      return start + '-' + end + ' / ' + total
-    },
+    pagination: (start, end, total) => start + '-' + end + ' / ' + total,
     columns: 'Sarakkeet'
   },
   editor: {

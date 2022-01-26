@@ -1,29 +1,16 @@
-import { Request, Response } from "express";
-import { HasSsr, HasStore } from "quasar";
-import Vue, { ComponentOptions, VueConstructor } from "vue";
-import VueRouter from "vue-router";
+import { App } from "vue";
+import { Router, RouteLocationRaw } from "vue-router";
+import { HasSsrParam } from "./ssr";
+import { HasStoreParam } from "./store";
 
-declare module "quasar" {
-  interface QSsrContext {
-    req: Request;
-    res: Response;
-    url: Request["url"];
-  }
-
-  type HasSsrBootParams = HasSsr<{ ssrContext?: QSsrContext | null }>;
-  type HasStoreBootParams<S = any> = HasStore<{ store: S }>;
-
-  interface BootFileParams<TStore>
-    extends HasSsrBootParams,
-      HasStoreBootParams<TStore> {
-    app: ComponentOptions<Vue>;
-    Vue: VueConstructor<Vue>;
-    router: VueRouter;
-    urlPath: string;
-    redirect: (url: string) => void;
-  }
-
-  type BootCallback<TStore> = (
-    params: BootFileParams<TStore>
-  ) => void | Promise<void>;
+interface BootFileParams<TState> extends HasSsrParam, HasStoreParam<TState> {
+  app: App;
+  router: Router;
+  urlPath: string;
+  publicPath: string;
+  redirect: (url: string | RouteLocationRaw) => void;
 }
+
+export type BootCallback<TState> = (
+  params: BootFileParams<TState>
+) => void | Promise<void>;
