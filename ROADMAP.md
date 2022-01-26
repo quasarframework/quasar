@@ -45,7 +45,7 @@ We are updating this section constantly in order to keep you up to date with our
 ### Q4 2021
 * ✌️ (DONE) Volar support ([reference](https://github.com/quasarframework/quasar/discussions/10619))
 * ✌️ (DONE) Vite.js plugin for Quasar v2 ([reference](https://github.com/quasarframework/quasar/issues/7815))
-* ✌️ (DONE) Triaging enhancements ([reference](https://github.com/quasarframework/rfcs/issues/10))
+* ✌️ (DONE) Triaging enhancements ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
 * ✌️ (DONE) Support Cypress Component Testing into Quasar Cypress AE ([reference](https://github.com/quasarframework/quasar-testing/issues/163) [reference](https://github.com/quasarframework/quasar-testing/pull/185) [reference](https://github.com/quasarframework/quasar/discussions/11496))
 * ✌️ (DONE) Enhance Quasar types to be more precise, provide guidelines for community contributions ([#8642](https://github.com/quasarframework/quasar/issues/8642), [#8493](https://github.com/quasarframework/quasar/issues/8493), [#11090](https://github.com/quasarframework/quasar/issues/11090), [#11043](https://github.com/quasarframework/quasar/issues/11043))
 
