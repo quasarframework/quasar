@@ -3,6 +3,7 @@ title: Touch Pan Directive
 desc: Vue directive which triggers an event when the user drags the finger or mouse on a component or element.
 related:
   - /vue-directives/touch-swipe
+  - /vue-directives/touch-repeat
   - /vue-directives/touch-hold
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
