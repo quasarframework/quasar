@@ -1,7 +1,8 @@
 {
+  "eslint.format.enable": true,
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "editor.formatOnSave": true,
   "eslint.workingDirectories": ["./docs", "./ui"],
-  "eslint.format.enable": false,
-  "editor.formatOnSave": false,
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
