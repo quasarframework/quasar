@@ -19,7 +19,7 @@ export default function () {
   let historyEntry, fullscreenFillerNode, container
   const inFullscreen = ref(false)
 
-  vmHasRouter(vm) === true && watch(() => proxy.$route, () => {
+  vmHasRouter(vm) === true && watch(() => proxy.$route.fullPath, () => {
     props.noRouteFullscreenExit !== true && exitFullscreen()
   })
 
