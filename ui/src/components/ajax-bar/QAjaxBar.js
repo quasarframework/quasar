@@ -119,7 +119,7 @@ export default createComponent({
     const onScreen = ref(false)
     const animate = ref(true)
 
-    let calls = 0, timer, speed
+    let sessions = 0, timer, speed
 
     const classes = computed(() =>
       `q-loading-bar q-loading-bar--${ props.position }`
@@ -165,16 +165,17 @@ export default createComponent({
       const oldSpeed = speed
       speed = Math.max(0, newSpeed) || 0
 
-      calls++
+      sessions++
 
-      if (calls > 1) {
+      if (sessions > 1) {
         if (oldSpeed === 0 && newSpeed > 0) {
           planNextStep()
         }
         else if (oldSpeed > 0 && newSpeed <= 0) {
           clearTimeout(timer)
         }
-        return
+
+        return sessions
       }
 
       clearTimeout(timer)
@@ -182,25 +183,32 @@ export default createComponent({
 
       progress.value = 0
 
-      if (onScreen.value === true) { return }
-
-      onScreen.value = true
-      animate.value = false
       timer = setTimeout(() => {
         animate.value = true
         newSpeed > 0 && planNextStep()
-      }, 100)
+      }, onScreen.value === true ? 500 : 1)
+
+      if (onScreen.value !== true) {
+        onScreen.value = true
+        animate.value = false
+      }
+
+      return sessions
     }
 
     function increment (amount) {
-      if (calls > 0) {
+      if (sessions > 0) {
         progress.value = inc(progress.value, amount)
       }
+
+      return sessions
     }
 
     function stop () {
-      calls = Math.max(0, calls - 1)
-      if (calls > 0) { return }
+      sessions = Math.max(0, sessions - 1)
+      if (sessions > 0) {
+        return sessions
+      }
 
       clearTimeout(timer)
       emit('stop')
@@ -219,6 +227,8 @@ export default createComponent({
       else {
         end()
       }
+
+      return sessions
     }
 
     function planNextStep () {

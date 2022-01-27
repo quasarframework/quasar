@@ -617,9 +617,11 @@ export default createComponent({
 
       if (hasSelection.value) {
         if (meta.selectable) {
-          const val = meta.key !== props.selected ? meta.key : null
-          if (props.noSelectionUnset !== true || val !== null) {
-            emit('update:selected', val)
+          if (props.noSelectionUnset === false) {
+            emit('update:selected', meta.key !== props.selected ? meta.key : null)
+          }
+          else if (meta.key !== props.selected) {
+            emit('update:selected', meta.key || null)
           }
         }
       }

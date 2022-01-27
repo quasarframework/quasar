@@ -39,6 +39,13 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
+It's recommended to keep `vue` & `vue-router` packages up to date too:
+
+```bash
+# optional, but recommended
+$ yarn add vue@latest vue-router@latest
+```
+
 ::: warning Note for code editor terminals
 If you're using a code editor terminal instead of an external one and you run `quasar upgrade` and get the error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%*, then restart your code editor.
 :::
@@ -51,11 +58,11 @@ $ yarn upgrade quasar
 
 Optionally, you may also want to make sure that you have the latest `@quasar/vite-plugin` package.
 
-It's highly recommended to keep `@quasar/extras` package up to date too:
+It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add @quasar/extras@latest
+$ yarn add vue@latest @quasar/extras@latest
 ```
 
 ### With Vue CLI
@@ -66,11 +73,11 @@ $ yarn upgrade quasar
 
 Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
-It's highly recommended to keep `@quasar/extras` package up to date too:
+It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add @quasar/extras@latest
+$ yarn add vue@latest @quasar/extras@latest
 ```
 
 ## Migrate to v2 from v1
@@ -143,10 +150,10 @@ Before starting, it is highly suggested to make a copy of your current working p
   nvm uninstall 12.14.0
   ```
 3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-4) **Install**: `@quasar/app` v3 and `quasar` v2 packages:
+4) **Install**: `@quasar/app` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
   ```bash
   $ yarn add --dev @quasar/app@3
-  $ yarn add quasar@2
+  $ yarn add quasar@2 vue@latest vue-router@latest
   ```
 5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 6) If you are using ESLint, then edit `/.eslintrc.js`:

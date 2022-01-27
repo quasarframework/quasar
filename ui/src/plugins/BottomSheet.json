@@ -33,6 +33,7 @@
               "definition": {
                 "classes": {
                   "type": [ "String", "Array", "Object" ],
+                  "tsType": "VueClassProp",
                   "desc": "CSS classes for this action",
                   "examples": [ "my-class" ]
                 },

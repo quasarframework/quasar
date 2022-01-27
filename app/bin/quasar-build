@@ -93,6 +93,9 @@ if (argv.help) {
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
+const ensureVueDeps = require('../lib/helpers/ensure-vue-deps')
+ensureVueDeps()
+
 const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 

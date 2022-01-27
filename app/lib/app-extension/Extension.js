@@ -125,15 +125,11 @@ module.exports = class Extension {
 
   isInstalled () {
     try {
-      const pkgSrc = this.__getPkgSrc()
-      require.resolve(`${this.packageName}/${pkgSrc}/index`, {
-        paths: [ appPaths.appDir ]
-      })
+      this.__getScriptFile('index')
     }
     catch (e) {
       return false
     }
-
     return true
   }
 
@@ -303,23 +299,34 @@ module.exports = class Extension {
   }
 
   /**
-   * Get the app extension's source folder from the package.json entrypoint "main"
-   * TODO: Should be replaced or extended with "exports" for ESM support
+   * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
+   * searches it into the `dist` folder.
+   * 
+   * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
+   * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
-  __getPkgSrc () {
-    const pkg = require.resolve(this.packageName + `/package.json`, {
-      paths: [ appPaths.appDir ]
-    })
-    return require(pkg).main.split('/')[0]
+  __getScriptFile (scriptName) {
+    let script
+
+    try {
+      script = require.resolve(`${this.packageName}/src/${scriptName}`, {
+        paths: [ appPaths.appDir ]
+      })
+    }
+    catch (e) {
+      script = require.resolve(`${this.packageName}/dist/${scriptName}`, {
+        paths: [ appPaths.appDir ]
+      })
+    }
+
+    return script
   }
 
   __getScript (scriptName, fatalError) {
     let script
-    const pkgSrc = this.__getPkgSrc()
+
     try {
-      script = require.resolve(`${this.packageName}/${pkgSrc}/${scriptName}`, {
-        paths: [ appPaths.appDir ]
-      })
+      script = this.__getScriptFile(scriptName)
     }
     catch (e) {
       if (fatalError) {

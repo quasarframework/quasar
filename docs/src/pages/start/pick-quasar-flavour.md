@@ -5,7 +5,7 @@ desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI, Vue C
 
 **If you'd like to learn more about why choosing Quasar** then read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.
 
-There are three ways of using Quasar. Pick the one that suits you best:
+There are four ways of using Quasar. Pick the one that suits you best:
 
 - [UMD/Standalone](/start/umd) (embed into an existing project through CDN, progressive integration)
 - [Quasar CLI](/start/quasar-cli) (**the premium developer experience and highly recommended**)

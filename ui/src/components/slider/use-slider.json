@@ -164,11 +164,13 @@
         },
         "classes": {
           "type": [ "String", "Array", "Object" ],
+          "tsType": "VueClassProp",
           "desc": "CSS classes to be attributed to the marker label",
           "examples": [ "my-class-name" ]
         },
         "style": {
           "type": "Object",
+          "tsType": "VueStyleObjectProp",
           "desc": "Style definitions to be attributed to the marker label",
           "examples": [ "{ height: '24px' }" ]
         }
@@ -197,11 +199,13 @@
           },
           "classes": {
             "type": [ "String", "Array", "Object" ],
+            "tsType": "VueClassProp",
             "desc": "CSS classes to be attributed to the marker label",
             "examples": [ "my-class-name" ]
           },
           "style": {
             "type": "Object",
+            "tsType": "VueStyleObjectProp",
             "desc": "Style definitions to be attributed to the marker label",
             "examples": [ "{ height: '24px' }" ]
           }
@@ -317,6 +321,7 @@
             },
             "style": {
               "type": "Object",
+              "tsType": "VueStyleObjectProp",
               "desc": "Style definitions to be attributed to the marker label",
               "examples": [ "{ height: '24px' }" ]
             }
@@ -350,6 +355,7 @@
             },
             "style": {
               "type": "Object",
+              "tsType": "VueStyleObjectProp",
               "desc": "Style definitions to be attributed to the marker label",
               "examples": [ "{ height: '24px' }" ]
             }
@@ -387,6 +393,7 @@
                 },
                 "style": {
                   "type": "Object",
+                  "tsType": "VueStyleObjectProp",
                   "desc": "Style definitions to be attributed to the marker label",
                   "examples": [ "{ height: '24px' }" ]
                 }
@@ -453,6 +460,7 @@
             },
             "style": {
               "type": "Object",
+              "tsType": "VueStyleObjectProp",
               "desc": "Style definitions to be attributed to the marker label",
               "examples": [ "{ height: '24px' }" ]
             }
@@ -490,6 +498,7 @@
                 },
                 "style": {
                   "type": "Object",
+                  "tsType": "VueStyleObjectProp",
                   "desc": "Style definitions to be attributed to the marker label",
                   "examples": [ "{ height: '24px' }" ]
                 }

@@ -454,7 +454,7 @@ export default createComponent({
 
     function focus () {
       addFocusFn(() => {
-        contentRef.value !== null && contentRef.value.focus()
+        contentRef.value !== null && contentRef.value.focus({ preventScroll: true })
       })
     }
 

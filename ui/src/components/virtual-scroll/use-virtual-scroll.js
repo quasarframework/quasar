@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onActivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onActivated, onDeactivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
@@ -559,13 +559,14 @@ export function useVirtualScroll ({
     prevToIndex = -1
     prevScrollStart = void 0
 
+    virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, virtualScrollSliceRange.value.from)
+    virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, virtualScrollSliceRange.value.to, virtualScrollLength.value)
+
     if (toIndex >= 0) {
       updateVirtualScrollSizes(virtualScrollSliceRange.value.from)
       nextTick(() => { scrollTo(toIndex) })
     }
     else {
-      virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, virtualScrollSliceRange.value.from)
-      virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, virtualScrollSliceRange.value.to, virtualScrollLength.value)
       onVirtualScrollEvt()
     }
   }
@@ -590,22 +591,24 @@ export function useVirtualScroll ({
 
     localScrollViewSize = scrollViewSize
 
-    const multiplier = 1 + props.virtualScrollSliceRatioBefore + props.virtualScrollSliceRatioAfter
+    const virtualScrollSliceRatioBefore = parseFloat(props.virtualScrollSliceRatioBefore) || 0
+    const virtualScrollSliceRatioAfter = parseFloat(props.virtualScrollSliceRatioAfter) || 0
+    const multiplier = 1 + virtualScrollSliceRatioBefore + virtualScrollSliceRatioAfter
     const view = scrollViewSize === void 0 || scrollViewSize <= 0
       ? 1
       : Math.ceil(scrollViewSize / virtualScrollItemSizeComputed.value)
 
     const baseSize = Math.max(
-      10,
+      1,
       view,
-      Math.ceil(props.virtualScrollSliceSize / multiplier)
+      Math.ceil((props.virtualScrollSliceSize > 0 ? props.virtualScrollSliceSize : 10) / multiplier)
     )
 
     virtualScrollSliceSizeComputed.value = {
       total: Math.ceil(baseSize * multiplier),
-      start: Math.ceil(baseSize * props.virtualScrollSliceRatioBefore),
-      center: Math.ceil(baseSize * (0.5 + props.virtualScrollSliceRatioBefore)),
-      end: Math.ceil(baseSize * (1 + props.virtualScrollSliceRatioBefore)),
+      start: Math.ceil(baseSize * virtualScrollSliceRatioBefore),
+      center: Math.ceil(baseSize * (0.5 + virtualScrollSliceRatioBefore)),
+      end: Math.ceil(baseSize * (1 + virtualScrollSliceRatioBefore)),
       view
     }
   }
@@ -691,7 +694,15 @@ export function useVirtualScroll ({
     setVirtualScrollSize()
   })
 
+  let shouldActivate = false
+
+  onDeactivated(() => {
+    shouldActivate = true
+  })
+
   onActivated(() => {
+    if (shouldActivate !== true) { return }
+
     const scrollEl = getVirtualScrollTarget()
 
     if (prevScrollStart !== void 0 && scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {

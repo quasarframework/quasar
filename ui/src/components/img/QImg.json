@@ -53,13 +53,11 @@
     },
 
     "ratio": {
-      "type": [ "String", "Number" ],
       "desc": "Force the component to maintain an aspect ratio",
       "examples": [
         "(Number format) :ratio=\"16/9\"",
         "(String format) ratio=\"1\""
-      ],
-      "category": "style"
+      ]
     },
 
     "initial-ratio": {
@@ -162,6 +160,7 @@
 
     "img-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Apply CSS to the native img element",
       "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
       "category": "style"

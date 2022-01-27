@@ -51,7 +51,8 @@
     },
 
     "input-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the input (if using one)",
       "examples": [
         "background-color: #ff0000",
@@ -61,7 +62,8 @@
     },
 
     "input-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the input (if using one)",
       "examples": [
         "my-special-class",

@@ -9,21 +9,24 @@
     },
 
     "bar-style": {
-      "type": [ "Array", "String", "Object"],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for custom styling the scrollbars (both vertical and horizontal)",
       "examples": [ ":bar-style=\"{ borderRadius: '5px', background: 'red', opacity: 1 }\"" ],
       "category": "style"
     },
 
     "vertical-bar-style": {
-      "type": [ "Array", "String", "Object"],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for custom styling the vertical scrollbar; Is applied on top of 'bar-style' prop",
       "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
       "category": "style"
     },
 
     "horizontal-bar-style": {
-      "type": [ "Array", "String", "Object"],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for custom styling the horizontal scrollbar; Is applied on top of 'bar-style' prop",
       "examples": [ ":bar-style=\"{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }\"" ],
       "category": "style"
@@ -31,6 +34,7 @@
 
     "thumb-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for custom styling the thumb of scrollbars (both vertical and horizontal)",
       "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
       "category": "style"
@@ -38,6 +42,7 @@
 
     "vertical-thumb-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for custom styling the thumb of the vertical scrollbar; Is applied on top of 'thumb-style' prop",
       "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
       "category": "style"
@@ -45,20 +50,23 @@
 
     "horizontal-thumb-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Object with CSS properties and values for custom styling the thumb of the horizontal scrollbar; Is applied on top of 'thumb-style' prop",
       "examples": [ ":thumb-style=\"{ bottom: '4px', borderRadius: '5px', background: 'red', height: '10px', opacity: 1 }\"" ],
       "category": "style"
     },
 
     "content-style": {
-      "type": [ "Array", "String", "Object"],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for styling the container of QScrollArea",
       "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
       "category": "style"
     },
 
     "content-active-style": {
-      "type": [ "Array", "String", "Object"],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered)",
       "examples": [ ":content-active-style=\"{ backgroundColor: 'white' }\"" ],
       "category": "style"

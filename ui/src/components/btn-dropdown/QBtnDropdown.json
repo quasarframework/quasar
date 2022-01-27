@@ -43,7 +43,8 @@
     },
 
     "content-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the menu",
       "examples": [
         "background-color: #ff0000",
@@ -53,7 +54,8 @@
     },
 
     "content-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the menu",
       "examples": [
         "my-special-class",

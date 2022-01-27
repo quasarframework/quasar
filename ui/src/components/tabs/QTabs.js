@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, onDeactivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -568,7 +568,15 @@ export default createComponent({
       unwatchRoute !== void 0 && unwatchRoute()
     })
 
-    onActivated(recalculateScroll)
+    let shouldActivate = false
+
+    onDeactivated(() => {
+      shouldActivate = true
+    })
+
+    onActivated(() => {
+      shouldActivate === true && recalculateScroll()
+    })
 
     return () => {
       const child = [

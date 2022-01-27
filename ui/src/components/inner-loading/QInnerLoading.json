@@ -41,7 +41,8 @@
     },
 
     "label-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Apply custom style to the label; Works along the 'label' prop only",
       "examples": [
         "font-size: 28px",

@@ -65,7 +65,7 @@ const objectTypes = {
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
@@ -74,7 +74,7 @@ const objectTypes = {
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition' ],
@@ -90,7 +90,7 @@ const objectTypes = {
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'params', 'returns' ],
@@ -99,7 +99,7 @@ const objectTypes = {
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
@@ -175,6 +175,22 @@ const objectTypes = {
   }
 }
 
+// assumes type does NOT have any duplicates
+function isClassStyleType (type) {
+  if (Array.isArray(type) === false) { return false }
+  if (type.length !== 3) { return false }
+
+  let hits = 0
+
+  ;[ 'String', 'Array', 'Object' ].forEach(entry => {
+    if (type.includes(entry) === true) {
+      hits++
+    }
+  })
+
+  return hits === 3
+}
+
 function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   let obj = api[ itemName ]
 
@@ -235,7 +251,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
       }
     }
 
-    [ ...def.required, ...(verifyCategory ? [ 'category' ] : []) ].forEach(prop => {
+    ;[ ...def.required, ...(verifyCategory ? [ 'category' ] : []) ].forEach(prop => {
       if (obj.__exemption !== void 0 && obj.__exemption.includes(prop)) {
         return
       }
@@ -292,6 +308,51 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
     // If required is specified, use it, if not and it has a default value, then it's optional, otherwise use undefined so it can get overridden later
     api[ itemName ].required = obj.required !== void 0 ? obj.required : obj.default !== void 0 ? false : undefined
+  }
+
+  if (obj.tsType && obj.autoDefineTsType === true && !obj.definition) {
+    logError(`${ banner } object is auto defining "${ obj.tsType }" TS type but it is missing "definition" prop`)
+    console.error(obj)
+    console.log()
+    process.exit(1)
+  }
+
+  if (masterType === 'props') {
+    if (Array.isArray(obj.type) === true && (new Set(obj.type)).size !== obj.type.length) {
+      logError(`${ banner } object has "type" defined as Array, but the Array contains duplicates`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
+    }
+
+    if (itemName.indexOf('class') !== -1) {
+      if (obj.type === 'Object' && obj.tsType !== 'VueClassObjectProp') {
+        logError(`${ banner } object is class-type (Object form) but "tsType" prop is set to "${ obj.tsType }" instead of "VueClassObjectProp":`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+      else if (obj.tsType !== 'VueClassProp' && isClassStyleType(obj.type) === true) {
+        logError(`${ banner } object is class-type (String/Array/Object form) but "tsType" prop is set to "${ obj.tsType }" instead of "VueClassProp":`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    }
+    else if (itemName.indexOf('style') !== -1) {
+      if (obj.type === 'Object' && obj.tsType !== 'VueStyleObjectProp') {
+        logError(`${ banner } object is style-type (Object form) but "tsType" prop is set to "${ obj.tsType }" instead of "VueStyleObjectProp":`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+      else if (obj.tsType !== 'VueStyleProp' && isClassStyleType(obj.type) === true) {
+        logError(`${ banner } object is style-type (String/Array/Object form) but "tsType" prop is set to "${ obj.tsType }" instead of "VueStyleProp":`)
+        console.error(obj)
+        console.log()
+        process.exit(1)
+      }
+    }
   }
 
   if (obj.returns) {

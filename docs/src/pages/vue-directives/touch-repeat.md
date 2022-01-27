@@ -1,6 +1,10 @@
 ---
 title: Touch Repeat Directive
 desc: Vue directive which triggers an event at specified intervals of time while the user touches and holds on a component or element.
+related:
+  - /vue-directives/touch-swipe
+  - /vue-directives/touch-pan
+  - /vue-directives/touch-hold
 keys: touch-repeat
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and `v-touch-repeat`.

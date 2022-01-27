@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -270,7 +270,7 @@ export default function (state) {
     if (target && (el === null || el.id !== state.targetUid.value)) {
       target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
       if (target && target !== el) {
-        target.focus()
+        target.focus({ preventScroll: true })
       }
     }
   }
@@ -288,6 +288,7 @@ export default function (state) {
   }
 
   function onControlFocusin (e) {
+    clearTimeout(focusoutTimer)
     if (state.editable.value === true && state.focused.value === false) {
       state.focused.value = true
       emit('focus', e)
@@ -300,13 +301,9 @@ export default function (state) {
       if (
         document.hasFocus() === true && (
           state.hasPopupOpen === true
-          || (
-            state.controlRef !== void 0
-            && (
-              state.controlRef.value === null
-              || state.controlRef.value.contains(document.activeElement) !== false
-            )
-          )
+          || state.controlRef === void 0
+          || state.controlRef.value === null
+          || state.controlRef.value.contains(document.activeElement) !== false
         )
       ) {
         return
@@ -531,6 +528,16 @@ export default function (state) {
 
   // expose public methods
   Object.assign(proxy, { focus, blur })
+
+  let shouldActivate = false
+
+  onDeactivated(() => {
+    shouldActivate = true
+  })
+
+  onActivated(() => {
+    shouldActivate === true && props.autofocus === true && proxy.focus()
+  })
 
   onMounted(() => {
     if (isRuntimeSsrPreHydration.value === true && props.for === void 0) {
