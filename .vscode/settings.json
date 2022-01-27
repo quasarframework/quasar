@@ -1,14 +1,10 @@
 {
-  "eslint.format.enable": true,
-  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-  "editor.formatOnSave": true,
+  "eslint.format.enable": false,
+  "editor.formatOnSave": false,
   "eslint.workingDirectories": ["./docs", "./ui"],
   "editor.tabSize": 2,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "eslint.validate": [
-    "javascript",
-    "vue",
-  ]
+  "eslint.validate": ["javascript", "vue"]
 }
