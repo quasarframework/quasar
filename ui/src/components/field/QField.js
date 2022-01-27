@@ -420,7 +420,7 @@ export default Vue.extend({
 
       const hasCounter = this.counter === true || this.$scopedSlots.counter !== void 0
 
-      if (this.hideBottomSpace === true && hasCounter === false && msg === void 0) {
+      if (this.hideBottomSpace === true && hasCounter === false && key === void 0) {
         return
       }
 
