@@ -1389,7 +1389,7 @@ export default createComponent({
       filter, updateMenuPosition, updateInputValue,
       isOptionSelected,
       getEmittingOptionValue,
-      isOptionDisabled: (...args) => isOptionDisabled.value.apply(null, args),
+      isOptionDisabled: (...args) => isOptionDisabled.value.apply(null, args) === true,
       getOptionValue: (...args) => getOptionValue.value.apply(null, args),
       getOptionLabel: (...args) => getOptionLabel.value.apply(null, args)
     })
