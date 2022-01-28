@@ -191,9 +191,6 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 
 ## Debugging a Quasar project in VS Code
 
-1. First, head to [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) and read it thoroughly.
-2. Then, since Quasar is based on Vue, you will also want to refer to [Vue Cookbook for VSCode debugging](https://vuejs.org/v2/cookbook/debugging-in-vscode.html) for setting up debugging Vue apps.
-
 The best approach is to open that in a browser beside this page so you can review these instructions as you are reading those instructions. And apply the changes to your project as you go.
 
 The first step of the Vue cookbook says it is to enable source maps. Quasar automatically enables source maps for development mode. Here is [a good article](https://blog.scottlogic.com/2017/11/01/webpack-source-map-options-quick-guide.html) that describes the different values for the [webpack devtool setting](https://webpack.js.org/configuration/devtool/) (the one that turns on or off source maps.) Quasar uses _cheap-module-eval-source-map_ by default.
@@ -222,10 +219,13 @@ Then you need to tell VSCode to add a configuration to the debugger. The easiest
   "webRoot": "${workspaceFolder}/src",
   "breakOnLoad": true,
   "sourceMapPathOverrides": {
-    "webpack:///./src/*": "${webRoot}/*"
+    "webpack://package-name/./src/*": "${webRoot}/*"
   }
 }
 ```
+::: tip
+Replace "package-name" with the name property from the package.json file.
+:::
 
 Now save the file, then select that configuration in the drop down on the title bar of the debug and run pane. Before you can launch the debugger, the app must be running. From the command line, launch dev mode of your app with `quasar dev`. Then click the green "go" button in the debug and run pane to launch the debugging session and attach to your running app. You can now set break points and control step over/in/out etc, all from VSCode. You can also launch the built in Chrome debugger and it will stay in sync. This might be useful if you also have the [Vue devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) installed (highly recommended).
 
