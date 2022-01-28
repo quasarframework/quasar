@@ -492,7 +492,7 @@ export default function (state) {
 
     const hasCounter = props.counter === true || slots.counter !== void 0
 
-    if (props.hideBottomSpace === true && hasCounter === false && key === void 0) {
+    if (props.hideBottomSpace === true && hasCounter === false && msg === void 0) {
       return
     }
 
