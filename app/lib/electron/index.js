@@ -182,6 +182,7 @@ class ElectronRunner {
   }
 
   __startElectron (extraParams) {
+    if (this.killPromise) return
     this.pid = spawn(
       getPackage('electron'),
       [
