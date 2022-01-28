@@ -180,7 +180,7 @@ function updateClient () {
 function getAttr (seed) {
   return att => {
     const val = seed[att]
-    return att + (val !== void 0 ? `="${val}"` : '')
+    return att + (val !== true && val !== void 0 ? `="${val}"` : '')
   }
 }
 
