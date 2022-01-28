@@ -6,6 +6,7 @@ import { createComponent } from '../../utils/private/create.js'
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
 const bgNode = h('div', {
+  key: 'svg',
   class: 'q-checkbox__bg absolute'
 }, [
   h('svg', {
@@ -34,25 +35,21 @@ export default createComponent({
 
   setup (props) {
     function getInner (isTrue, isIndeterminate) {
-      const hasIcons = computed(() =>
-        props.checkedIcon !== void 0
-        && props.uncheckedIcon !== void 0
-      )
-
       const icon = computed(() =>
         (isTrue.value === true
           ? props.checkedIcon
           : (isIndeterminate.value === true
-              ? props.indeterminateIcon || props.uncheckedIcon
+              ? props.indeterminateIcon
               : props.uncheckedIcon
             )
-        )
+        ) || null
       )
 
       return () => (
-        hasIcons.value === true
+        icon.value !== null
           ? [
               h('div', {
+                key: 'icon',
                 class: 'q-checkbox__icon-container absolute flex flex-center no-wrap'
               }, [
                 h(QIcon, {
