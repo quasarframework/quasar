@@ -3,5 +3,19 @@
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/checkbox"
+  },
+
+  "props": {
+    "checked-icon": {
+      "desc": "The icon to be used when the model is truthy; Use in conjuction with 'unchecked-icon' otherwise it is ignored"
+    },
+
+    "unchecked-icon": {
+      "desc": "The icon to be used when the toggle is falsy; Use in conjuction with 'checked-icon' otherwise it is ignored"
+    },
+
+    "indeterminate-icon": {
+      "desc": "The icon to be used when the model is indeterminate; Use in conjuction with 'checked-icon' and 'unchecked-icon' otherwise it is ignored"
+    }
   }
 }

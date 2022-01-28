@@ -66,6 +66,24 @@
       "category": "label"
     },
 
+    "checked-icon": {
+      "type": "String",
+      "examples": [ "visibility" ],
+      "category": "content"
+    },
+
+    "unchecked-icon": {
+      "type": "String",
+      "examples": [ "visibility_off" ],
+      "category": "content"
+    },
+
+    "indeterminate-icon": {
+      "type": "String",
+      "examples": [ "help" ],
+      "category": "content"
+    },
+
     "color": {
       "extends": "color"
     },

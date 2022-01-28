@@ -13,6 +13,10 @@
       </p>
       <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" color="primary" :keep-color="keepColor" />
+      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" checked-icon="star" unchecked-icon="star_border" />
+      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" color="primary" :keep-color="keepColor" checked-icon="star" unchecked-icon="star_border" />
+      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" color="green" checked-icon="star" unchecked-icon="star_border" />
 
       <p class="caption">
         Sizes

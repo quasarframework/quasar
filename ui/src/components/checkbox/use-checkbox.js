@@ -24,6 +24,10 @@ export const useCheckboxProps = {
   falseValue: { default: false },
   indeterminateValue: { default: null },
 
+  checkedIcon: String,
+  uncheckedIcon: String,
+  indeterminateIcon: String,
+
   toggleOrder: {
     type: String,
     validator: v => v === 'tf' || v === 'ft'

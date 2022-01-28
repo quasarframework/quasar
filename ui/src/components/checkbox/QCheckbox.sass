@@ -17,6 +17,20 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     width: 1px
     height: 1px
 
+  &__icon-container
+    top: .25em
+    left: .25em
+    width: .5em
+    height: .5em
+    user-select: none
+    z-index: 0
+
+  &__icon
+    color: currentColor
+    font-size: .7em
+    min-width: 1em
+    z-index: 1
+
   &__svg
     color: #fff
 
@@ -67,6 +81,13 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
         color: var(--q-primary)
 
   &--dense
+
+    .q-checkbox__icon-container
+      top: 0
+      left: 0
+
+    .q-checkbox__icon
+      font-size: .5em
 
     .q-checkbox__inner
       width: .5em
