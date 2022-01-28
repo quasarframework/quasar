@@ -70,7 +70,7 @@ export default {
       else if (this.isDirty === false) {
         this.isDirty = true
 
-        if (this.hasRules === true && this.lazyRules !== 'ondemand') {
+        if (this.hasActiveRules === true && this.lazyRules !== 'ondemand') {
           this.debouncedValidate()
         }
       }
@@ -84,10 +84,13 @@ export default {
 
   computed: {
     hasRules () {
-      return this.disable !== true &&
-        this.rules !== void 0 &&
+      return this.rules !== void 0 &&
         this.rules !== null &&
         this.rules.length > 0
+    },
+
+    hasActiveRules () {
+      return this.disable !== true && this.hasRules === true
     },
 
     hasError () {
@@ -127,7 +130,7 @@ export default {
      *   - Promise (pending async validation)
      */
     validate (val = this.value) {
-      if (this.hasRules !== true) {
+      if (this.hasActiveRules !== true) {
         return true
       }
 
@@ -223,7 +226,7 @@ export default {
 
     __validateIfNeeded (changedRules) {
       if (
-        this.hasRules === true &&
+        this.hasActiveRules === true &&
         this.lazyRules !== 'ondemand' &&
         (this.isDirty === true || (this.lazyRules !== true && changedRules !== true))
       ) {
