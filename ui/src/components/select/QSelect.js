@@ -368,7 +368,8 @@ export default Vue.extend({
     // returns method to tell if an option is disabled;
     // takes into account 'option-disable' prop
     isOptionDisabled () {
-      return this.__getPropValueFn('optionDisable', 'disable') === true
+      const fn = this.__getPropValueFn('optionDisable', 'disable')
+      return (...args) => fn.apply(null, args) === true
     },
 
     inputControlEvents () {
