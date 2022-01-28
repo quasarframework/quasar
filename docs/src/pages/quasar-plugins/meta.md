@@ -175,6 +175,40 @@ Metas are computed from .vue files in the order their vue components are activat
 
 When a component that uses Meta plugin gets rendered or destroyed, it is added/removed to/from the chain and metas are updated accordingly.
 
+### Handling HTML attributes
+When you need to set a Boolean HTML attribute in `meta`, `link` or `script` sections, set its value to Boolean `true`.
+
+```js
+script: {
+  myScript: {
+    src: 'https://...',
+    defer: true
+  }
+}
+// will output:
+// <script src="https://..."
+//         defer
+//         data-qmeta="myScript">
+```
+
+If you have an attribute and you want to set it to the actual value of "true", then use String form. More details below:
+
+```js
+someattribute: 'true'
+// will output: someattribute="true"
+
+someattribute: true
+// will output: someattribute
+
+someattribute: void 0
+// will NOT output the attribute
+// (useful when you set it upstream
+// and want to remove it downstream)
+
+someattribute: ''
+// will output: someattribute=""
+```
+
 ### Non-reactive
 
 Notice that all properties (except for title and titleTemplate) are Objects; you can override meta props defined in previous Vue components in the chain by using the same keys again. Example:

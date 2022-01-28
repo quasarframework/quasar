@@ -53,6 +53,12 @@ export default {
       },
       htmlAttr: {
         'third-page': 'w'
+      },
+      script: {
+        ldJson: {
+          type: 'application/ld+json',
+          innerHTML: `{ "@context": "http://schema.org" }` // eslint-disable-line
+        }
       }
     })
 
