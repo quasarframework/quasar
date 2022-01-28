@@ -106,7 +106,7 @@ export default function (focused, innerLoading) {
    *   - Promise (pending async validation)
    */
   function validate (val = props.modelValue) {
-    if (hasRules.value !== true) {
+    if (hasActiveRules.value !== true) {
       return true
     }
 
