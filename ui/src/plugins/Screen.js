@@ -47,12 +47,15 @@ export default {
       return
     }
 
+    const { visualViewport } = window
+    const getSize = visualViewport === void 0
+      ? () => [ window.innerWidth, window.innerHeight ]
+      : () => [ visualViewport.width * visualViewport.scale, visualViewport.height * visualViewport.scale ]
+
     const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
     const update = force => {
-      const
-        w = window.innerWidth,
-        h = window.innerHeight
+      const [ w, h ] = getSize()
 
       if (h !== this.height) {
         this.height = h
