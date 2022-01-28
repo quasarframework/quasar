@@ -71,6 +71,15 @@ export default Vue.extend({
       this.autogrow === true && this.$nextTick(this.__adjustHeight)
     },
 
+    // some browsers lose the native input value
+    // so we need to reattach it dynamically
+    // (like type="password" <-> type="text"; see #12078)
+    type () {
+      if (this.$refs.input) {
+        this.$refs.input.value = this.value
+      }
+    },
+
     autogrow (autogrow) {
       // textarea only
       if (autogrow === true) {
