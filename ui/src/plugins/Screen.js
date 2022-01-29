@@ -47,12 +47,19 @@ export default {
       return
     }
 
+    const { visualViewport } = window
+    const getSize = visualViewport === void 0
+      ? () => [ window.innerWidth, window.innerHeight ]
+      : () => [
+        visualViewport.width * visualViewport.scale + window.innerWidth - document.scrollingElement.clientWidth,
+        visualViewport.height * visualViewport.scale + window.innerHeight - document.scrollingElement.clientHeight
+      ]
+
+    const target = visualViewport || window
     const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
     const update = force => {
-      const
-        w = window.innerWidth,
-        h = window.innerHeight
+      const [ w, h ] = getSize()
 
       if (h !== this.height) {
         this.height = h
@@ -110,11 +117,7 @@ export default {
     }
 
     const start = () => {
-      const
-        style = getComputedStyle(document.body),
-        target = window.visualViewport !== void 0
-          ? window.visualViewport
-          : window
+      const style = getComputedStyle(document.body)
 
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
