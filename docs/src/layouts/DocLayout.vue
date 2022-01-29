@@ -129,7 +129,7 @@ import AppSearchResults from 'components/AppSearchResults'
 
 import LayoutSearchMixin from './layout-search-mixin'
 
-const { setScrollPosition, getScrollPosition } = scroll
+const { setScrollPosition, getScrollPosition, executeWhenScrollable } = scroll
 
 export default {
   name: 'Layout',
@@ -189,8 +189,9 @@ export default {
 
   watch: {
     $route (newRoute, oldRoute) {
+      this.resetScrollQueue()
       this.leftDrawerState = this.$q.screen.width > 1023
-      setTimeout(() => {
+      this.removeScrollFn = executeWhenScrollable(() => {
         this.scrollToCurrentAnchor(newRoute.path !== oldRoute.path)
       })
     },
@@ -227,17 +228,11 @@ export default {
     },
 
     scrollTo (id) {
-      clearTimeout(this.scrollTimer)
-
-      if (this.rightDrawerOnLayout !== true) {
-        this.rightDrawerState = false
-        this.scrollTimer = setTimeout(() => {
-          this.changeRouterHash('#' + id)
-        }, 300)
-      }
-      else {
+      this.resetScrollQueue()
+      this.rightDrawerOnLayout !== true && (this.rightDrawerState = false)
+      this.removeScrollFn = executeWhenScrollable(() => {
         this.changeRouterHash('#' + id)
-      }
+      })
     },
 
     scrollPage (el, delay) {
@@ -327,6 +322,14 @@ export default {
         this.preventTocUpdate = false
         this.updateActiveToc()
       }
+    },
+
+    resetScrollQueue () {
+      clearTimeout(this.scrollTimer)
+      if (this.removeScrollFn !== void 0) {
+        this.removeScrollFn()
+        this.removeScrollFn = void 0
+      }
     }
   },
 
@@ -335,7 +338,7 @@ export default {
   },
 
   beforeDestroy () {
-    clearTimeout(this.scrollTimer)
+    this.resetScrollQueue()
   }
 }
 </script>
