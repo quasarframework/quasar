@@ -17,15 +17,30 @@
         <q-radio @change="onChange" @input="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
         <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
+       <div class="q-gutter-md">
+        <q-radio :checked-icon="mdiCheckboxMarkedCircleOutline" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio checked-icon="task_alt" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio checked-icon="task_alt" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio checked-icon="task_alt" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      </div>
 
       <p class="caption">
         Sizes
       </p>
       <q-radio
         v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
-        :key="size"
+        :key="'a' + size"
         :size="size"
         :label="size"
+        v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
+      />
+      <div />
+      <q-radio
+        v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+        :key="'b' + size"
+        :size="size"
+        :label="size"
+        checked-icon="task_alt" unchecked-icon="circle"
         v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
       />
 
@@ -200,6 +215,8 @@
 </template>
 
 <script>
+import { mdiCheckboxMarkedCircleOutline } from '@quasar/extras/mdi-v6'
+
 export default {
   data () {
     return {
@@ -225,6 +242,9 @@ export default {
     onInput (val) {
       console.log('@input', JSON.stringify(val))
     }
+  },
+  created () {
+    this.mdiCheckboxMarkedCircleOutline = mdiCheckboxMarkedCircleOutline
   }
 }
 </script>

@@ -23,6 +23,10 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 
 <doc-example title="Standard" file="QRadio/Standard" />
 
+### With custom icons <q-badge align="top" color="brand-primary" label="v1.18+" />
+
+<doc-example title="With icons" file="QRadio/WithIcons" />
+
 ### Dense
 
 <doc-example title="Dense" file="QRadio/Dense" />

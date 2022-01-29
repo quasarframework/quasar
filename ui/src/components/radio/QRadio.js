@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import QIcon from '../icon/QIcon.js'
+
 import DarkMixin from '../../mixins/dark.js'
 import OptionSizeMixin from '../../mixins/option-size.js'
 import FormMixin from '../../mixins/form.js'
@@ -24,6 +26,9 @@ export default Vue.extend({
 
     label: String,
     leftLabel: Boolean,
+
+    checkedIcon: String,
+    uncheckedIcon: String,
 
     color: String,
     keepColor: Boolean,
@@ -55,6 +60,12 @@ export default Vue.extend({
         : ''
 
       return `q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
+    },
+
+    computedIcon () {
+      return this.isTrue === true
+        ? this.checkedIcon
+        : this.uncheckedIcon
     },
 
     computedTabindex () {
@@ -108,25 +119,38 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = [
-      h('svg', {
-        staticClass: 'q-radio__bg absolute non-selectable',
-        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
-      }, [
-        h('path', {
-          attrs: {
-            d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
-          }
-        }),
+    const content = this.computedIcon !== void 0
+      ? [
+        h('div', {
+          key: 'icon',
+          staticClass: 'q-radio__icon-container absolute flex flex-center no-wrap'
+        }, [
+          h(QIcon, {
+            staticClass: 'q-radio__icon',
+            props: { name: this.computedIcon }
+          })
+        ])
+      ]
+      : [
+        h('svg', {
+          key: 'svg',
+          staticClass: 'q-radio__bg absolute non-selectable',
+          attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
+        }, [
+          h('path', {
+            attrs: {
+              d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
+            }
+          }),
 
-        h('path', {
-          staticClass: 'q-radio__check',
-          attrs: {
-            d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
-          }
-        })
-      ])
-    ]
+          h('path', {
+            staticClass: 'q-radio__check',
+            attrs: {
+              d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
+            }
+          })
+        ])
+      ]
 
     this.disable !== true && this.__injectFormInput(
       content,

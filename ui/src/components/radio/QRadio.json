@@ -35,6 +35,22 @@
       "category": "label"
     },
 
+    "checked-icon": {
+      "type": "String",
+      "desc": "The icon to be used when selected (instead of the default design)",
+      "examples": [ "visibility" ],
+      "category": "icons",
+      "addedIn": "v1.18"
+    },
+
+    "unchecked-icon": {
+      "type": "String",
+      "desc": "The icon to be used when un-selected (instead of the default design)",
+      "examples": [ "visibility_off" ],
+      "category": "icons",
+      "addedIn": "v1.18"
+    },
+
     "color": {
       "extends": "color"
     },

@@ -1,13 +1,34 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-checkbox v-model="right" label="Label on Right" />
-    </div>
-    <div class="q-gutter-sm">
-      <q-checkbox left-label v-model="left" label="Label on Left" />
-    </div>
+      <div>
+        <q-checkbox v-model="right" label="Label on Right" />
+      </div>
 
-    <div class="q-px-sm">
+      <div>
+        <q-checkbox left-label v-model="left" label="Label on Left" />
+      </div>
+
+      <div>
+        <q-checkbox
+          v-model="right2"
+          label="Swipe"
+          checked-icon="swipe_left"
+          unchecked-icon="swipe_right"
+          color="green"
+          keep-color
+        />
+      </div>
+
+      <div>
+        <q-checkbox
+          left-label
+          v-model="left2"
+          label="I agree"
+          checked-icon="task_alt"
+          unchecked-icon="highlight_off"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -17,7 +38,9 @@ export default {
   data () {
     return {
       left: true,
-      right: false
+      right: false,
+      left2: true,
+      right2: false
     }
   }
 }
