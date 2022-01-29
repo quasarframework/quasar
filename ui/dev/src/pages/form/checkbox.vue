@@ -8,30 +8,52 @@
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
-      <p class="caption">
+      <p class="caption q-mt-md q-mb-xs">
         Standalone
       </p>
-      <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <div>
+        <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" color="primary" :keep-color="keepColor" />
+      </div>
+      <div>
+        <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" checked-icon="star" unchecked-icon="star_border" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" color="primary" :keep-color="keepColor" checked-icon="star" unchecked-icon="star_border" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" color="green" checked-icon="star" unchecked-icon="star_border" />
+      </div>
 
-      <p class="caption">
+      <p class="caption q-mt-md q-mb-xs">
         Sizes
       </p>
       <q-checkbox
         v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
-        :key="size"
+        :key="'a' + size"
         :size="size"
         :label="size"
-        v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor"
+        v-model="indModel" :dark="dark" :dense="dense" :keep-color="keepColor"
+      />
+      <div />
+      <q-checkbox
+        v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+        :key="'b' + size"
+        :size="size"
+        :label="size"
+        checked-icon="star" unchecked-icon="star_border" indeterminate-icon="star_half"
+        v-model="indModel" :dark="dark" :dense="dense" :keep-color="keepColor"
       />
 
-      <p class="caption">
+      <p class="caption q-mt-md q-mb-xs">
         Indeterminate
       </p>
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" label="Three states" />
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
+      <div />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" label="Three states" />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
 
       <p class="caption">
         Order ({{ JSON.stringify(orderModel) }})

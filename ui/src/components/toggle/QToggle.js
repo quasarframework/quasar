@@ -10,9 +10,6 @@ export default Vue.extend({
 
   props: {
     icon: String,
-    checkedIcon: String,
-    uncheckedIcon: String,
-    indeterminateIcon: String,
 
     iconColor: String
   },
