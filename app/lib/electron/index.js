@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const debounce = require('lodash.debounce')
 
 const { log, warn, fatal, success } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')
@@ -12,6 +13,11 @@ class ElectronRunner {
     this.pid = 0
     this.mainWatcher = null
     this.preloadWatcher = null
+
+    this.__restartElectron = debounce(params => {
+      this.__stopElectron()
+      this.__startElectron(params)
+    }, 1000)
   }
 
   init () {}
@@ -19,13 +25,12 @@ class ElectronRunner {
   async run (quasarConfFile, argv) {
     const url = quasarConfFile.quasarConf.build.APP_URL
 
+    if (this.url === url) {
+      return
+    }
+
     if (this.pid) {
-      if (this.url !== url) {
-        await this.stop()
-      }
-      else {
-        return
-      }
+      this.stop()
     }
 
     this.url = url
@@ -50,8 +55,7 @@ class ElectronRunner {
         mainReady = true
 
         if (preloadReady === true) {
-          await this.__stopElectron()
-          this.__startElectron(argv._)
+          this.__restartElectron(argv._)
         }
 
         resolve()
@@ -72,8 +76,7 @@ class ElectronRunner {
         preloadReady = true
 
         if (mainReady === true) {
-          await this.__stopElectron()
-          this.__startElectron(argv._)
+          this.__restartElectron(argv._)
         }
 
         resolve()
@@ -154,31 +157,29 @@ class ElectronRunner {
   }
 
   stop () {
-    return new Promise(resolve => {
-      let counter = 0
-      const maxCounter = (this.mainWatcher ? 1 : 0) + (this.preloadWatcher ? 1 : 0)
+    this.__restartElectron.cancel()
 
-      const finalize = () => {
-        counter++
-        if (maxCounter <= counter) {
-          this.__stopElectron().then(resolve)
+    this.__stopElectron()
+
+    ;[ this.mainWatcher, this.preloadWatcher]
+      .forEach(w => {
+        if (w) {
+          w.close()
         }
-      }
+      })
 
-      if (this.mainWatcher) {
-        this.mainWatcher.close(finalize)
-        this.mainWatcher = null
-      }
+    this.mainWatcher = null
+    this.preloadWatcher = null
+  }
 
-      if (this.preloadWatcher) {
-        this.preloadWatcher.close(finalize)
-        this.preloadWatcher = null
-      }
+  __stopElectron () {
+    if (!this.pid) { return }
 
-      if (maxCounter === 0) {
-        finalize()
-      }
-    })
+    log('Shutting down Electron process...')
+    process.kill(this.pid)
+
+    this.pid = 0
+    this.__justKilledIt = true
   }
 
   __startElectron (extraParams) {
@@ -190,9 +191,9 @@ class ElectronRunner {
       ].concat(extraParams),
       { cwd: appPaths.appDir },
       code => {
-        if (this.killPromise) {
-          this.killPromise()
-          this.killPromise = null
+        if (this.__justKilledIt === true) {
+          this.__justKilledIt = false
+          return
         }
         else if (code) {
           warn()
@@ -204,21 +205,6 @@ class ElectronRunner {
         }
       }
     )
-  }
-
-  __stopElectron () {
-    const pid = this.pid
-
-    if (!pid) {
-      return Promise.resolve()
-    }
-
-    log('Shutting down Electron process...')
-    this.pid = 0
-    return new Promise(resolve => {
-      this.killPromise = resolve
-      process.kill(pid)
-    })
   }
 }
 
