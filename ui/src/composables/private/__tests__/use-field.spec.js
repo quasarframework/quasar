@@ -1,8 +1,6 @@
 import { mount } from '@cypress/vue'
 import FieldWrapper from './FieldWrapper.vue'
 
-const snapshotOptions = { customSnapshotsDir: '../__tests__' }
-
 describe('use-field API', () => {
   describe('Props', () => {
     describe('Category: behavior', () => {
@@ -62,7 +60,7 @@ describe('use-field API', () => {
           cy.get('.select-root')
             .get(`div:contains(${ label })`)
             .should('exist')
-          cy.get('.select-root').matchImageSnapshot(snapshotOptions)
+            .should('not.have.class', 'q-field--float')
         })
 
         it('should show the label stacked when focused', () => {
@@ -76,7 +74,7 @@ describe('use-field API', () => {
             .focus()
           cy.get(`.select-root:contains(${ label })`)
             .should('exist')
-          cy.get('.select-root').matchImageSnapshot(snapshotOptions)
+            .should('have.class', 'q-field--float')
         })
       })
 
@@ -91,7 +89,7 @@ describe('use-field API', () => {
           })
           cy.get(`.select-root:contains(${ label })`)
             .should('exist')
-          cy.get('.select-root').matchImageSnapshot(snapshotOptions)
+            .should('have.class', 'q-field--float')
         })
       })
 

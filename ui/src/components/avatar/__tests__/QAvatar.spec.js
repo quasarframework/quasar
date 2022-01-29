@@ -1,8 +1,6 @@
 import { mount } from '@cypress/vue'
 import QAvatar from '../QAvatar'
 
-const snapshotOptions = { customSnapshotsDir: '../src/components/avatar/__tests__' }
-
 describe('Avatar API', () => {
   describe('Props', () => {
     describe('Category: content', () => {
@@ -19,11 +17,6 @@ describe('Avatar API', () => {
           cy.get('.q-avatar')
             .get('.q-icon')
             .should('have.text', `${ icon }`)
-
-          // Waiting because it can be flaky with the import of the material-icons css file in support.js if done to early
-          cy.get('.q-avatar')
-            .wait(500)
-            .matchImageSnapshot(snapshotOptions)
         })
       })
     })
@@ -45,8 +38,6 @@ describe('Avatar API', () => {
 
           cy.get('.q-avatar')
             .should('have.css', 'font-size', size)
-            // Match image snapshot cannot be chained directly before a .should
-            .matchImageSnapshot(snapshotOptions)
             .get('.q-avatar__content')
             .should('have.css', 'font-size', fontSize)
         })
@@ -63,7 +54,6 @@ describe('Avatar API', () => {
 
           cy.get('.q-avatar')
             .should('have.class', `bg-${ color }`)
-            .matchImageSnapshot(snapshotOptions)
         })
       })
 
@@ -78,7 +68,6 @@ describe('Avatar API', () => {
 
           cy.get('.q-avatar')
             .should('have.class', `text-${ textColor }`)
-            .matchImageSnapshot(snapshotOptions)
         })
       })
 
@@ -93,7 +82,7 @@ describe('Avatar API', () => {
 
           cy.get('.q-avatar')
             .should('have.class', 'q-avatar--square')
-            .matchImageSnapshot(snapshotOptions)
+            .should('have.css', 'border-radius', '0px')
         })
       })
 
@@ -108,7 +97,6 @@ describe('Avatar API', () => {
 
           cy.get('.q-avatar')
             .should('have.class', 'rounded-borders')
-            .matchImageSnapshot(snapshotOptions)
         })
       })
     })

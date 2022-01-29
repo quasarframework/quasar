@@ -3,8 +3,6 @@ import { mount } from '@cypress/vue'
 import { ref, h } from 'vue'
 import WrapperOne from './WrapperOne.vue'
 
-const snapshotOptions = { customSnapshotsDir: '../src/components/select/__tests__' }
-
 // QSelect does not set the `data-cy` attribute on the root element, but on the `.q-field__native` element
 // This means we cannot use data-cy everywhere, but instead use a custom class `select-root` for this purpose
 describe('QSelect API', () => {
@@ -492,7 +490,8 @@ describe('QSelect API', () => {
           cy.get('.select-root')
             .click()
           cy.get('.q-menu')
-            .matchImageSnapshot(snapshotOptions)
+            .get('.q-item')
+            .should('have.class', 'q-item--dense')
         })
       })
 
@@ -508,7 +507,8 @@ describe('QSelect API', () => {
           cy.get('.select-root')
             .click()
           cy.get('.q-menu')
-            .matchImageSnapshot(snapshotOptions)
+            .get('.q-item')
+            .should('have.class', 'q-item--dark')
         })
       })
 
@@ -640,10 +640,16 @@ describe('QSelect API', () => {
               menuShrink: true
             }
           })
+          let selectWidth = 0
           cy.get('.select-root')
+            .then(($el) => {
+              selectWidth = $el[ 0 ].clientWidth
+            })
             .click()
           cy.get('.q-menu')
-            .matchImageSnapshot(snapshotOptions)
+            .then(($el) => {
+              expect($el[ 0 ].clientWidth).to.below(selectWidth)
+            })
         })
       })
 
@@ -1636,8 +1642,9 @@ describe('QSelect API', () => {
             expect(model.value.length).to.be.equal(2)
             Cypress.vueWrapper.vm.compRef.toggleOption('2')
             expect(model.value.length).to.be.equal(1)
-            // Todo: Toggling an option back and forth without a rerender inbetween does not work, should it?
           })
+          // When not using this wait this test will succeed on `open-ct` but fail on `run-ct`
+          .wait(50)
           .then(() => {
             Cypress.vueWrapper.vm.compRef.toggleOption('2')
             expect(model.value.length).to.be.equal(2)

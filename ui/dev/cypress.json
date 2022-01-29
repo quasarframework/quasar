@@ -2,6 +2,8 @@
   "fixturesFolder": "../test/cypress/fixtures",
   "screenshotsFolder": "../test/cypress/screenshots",
   "videosFolder": "../test/cypress/videos",
+  "videoCompression": false,
+  "videoUploadOnPasses": false, 
   "component": {
     "componentFolder": "../src",
     "testFiles": "**/*.spec.js",

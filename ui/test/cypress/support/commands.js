@@ -1,13 +1,6 @@
-import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 import { registerCommands } from '@quasar/quasar-app-extension-testing-e2e-cypress'
 
 registerCommands()
-
-addMatchImageSnapshotCommand({
-  customSnapshotsDir: '../test/cypress/snapshots',
-  // Cypress clips the screenshots taken a bit weird, add a bit of padding to center the image
-  padding: [ 0, 2, 0, 0 ]
-})
 
 Cypress.Commands.add(
   'checkVerticalPosition',
