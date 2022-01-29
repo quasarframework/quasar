@@ -47,12 +47,12 @@
           "examples": [ 15 ]
         },
         "min": {
-          "type": "Number",
+          "type": [ "Number", "null" ],
           "desc": "Minutes",
           "examples": [ 38 ]
         },
         "sec": {
-          "type": "Number",
+          "type": [ "Number", "null" ],
           "desc": "Seconds",
           "examples": [ 12 ]
         }
