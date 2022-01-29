@@ -50,7 +50,10 @@ export default {
     const { visualViewport } = window
     const getSize = visualViewport === void 0
       ? () => [ window.innerWidth, window.innerHeight ]
-      : () => [ visualViewport.width * visualViewport.scale, visualViewport.height * visualViewport.scale ]
+      : () => [
+        visualViewport.width * visualViewport.scale + window.innerWidth - document.scrollingElement.clientWidth,
+        visualViewport.height * visualViewport.scale + window.innerHeight - document.scrollingElement.clientHeight
+      ]
 
     const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
