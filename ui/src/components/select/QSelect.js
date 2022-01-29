@@ -270,7 +270,7 @@ export default Vue.extend({
       const { options, optionEls } = this.__optionScopeCache
 
       return this.options.slice(from, to).map((opt, i) => {
-        const disable = this.isOptionDisabled(opt) === true
+        const disable = this.isOptionDisabled(opt)
         const index = from + i
 
         const itemProps = {
