@@ -40,7 +40,7 @@
       "desc": "The icon to be used when selected (instead of the default design)",
       "examples": [ "visibility" ],
       "category": "icons",
-      "addedIn": "v1.17.9"
+      "addedIn": "v1.18"
     },
 
     "unchecked-icon": {
@@ -48,7 +48,7 @@
       "desc": "The icon to be used when un-selected (instead of the default design)",
       "examples": [ "visibility_off" ],
       "category": "icons",
-      "addedIn": "v1.17.9"
+      "addedIn": "v1.18"
     },
 
     "color": {
