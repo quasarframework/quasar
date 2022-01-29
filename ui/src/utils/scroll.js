@@ -1,5 +1,6 @@
 import { isSSR } from '../plugins/Platform.js'
 import { css, getElement } from './dom.js'
+import { noop } from '../utils/event.js'
 
 const scrollTargets = isSSR === true
   ? []
@@ -219,6 +220,33 @@ export function hasScrollbar (el, onY = true) {
     )
 }
 
+let executeWhenScrollableList = []
+
+export function executeWhenScrollable (fn) {
+  if (document.qScrollPrevented !== true) {
+    fn()
+
+    return noop
+  }
+
+  if (executeWhenScrollableList.indexOf(fn) === -1) {
+    executeWhenScrollableList.push(fn)
+  }
+
+  return () => {
+    const index = executeWhenScrollableList.indexOf(fn)
+    if (index > -1) {
+      executeWhenScrollableList = executeWhenScrollableList.splice(index, 1)
+    }
+  }
+}
+
+export function triggerIsScrollable () {
+  const list = executeWhenScrollableList.slice()
+  executeWhenScrollableList = []
+  list.forEach(fn => { fn() })
+}
+
 export default {
   getScrollTarget,
 
@@ -237,6 +265,8 @@ export default {
   setScrollPosition,
   setVerticalScrollPosition,
   setHorizontalScrollPosition,
+
+  executeWhenScrollable,
 
   getScrollbarWidth,
   hasScrollbar

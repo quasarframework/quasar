@@ -10,6 +10,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
+import { executeWhenScrollable } from '../../utils/scroll.js'
 import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150
@@ -115,7 +116,10 @@ export default Vue.extend({
     },
 
     'layout.totalWidth' () {
-      if (this.layout.container === true || document.qScrollPrevented !== true) {
+      if (this.layout.container !== true) {
+        this.clearExecuteWhenScrollable = executeWhenScrollable(this.__updateBelowBreakpoint)
+      }
+      else {
         this.__updateBelowBreakpoint()
       }
     },
@@ -635,6 +639,7 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
+    this.clearExecuteWhenScrollable !== void 0 && this.clearExecuteWhenScrollable()
     this.watcher !== void 0 && this.watcher()
     clearTimeout(this.timerMini)
 

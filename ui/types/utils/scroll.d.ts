@@ -16,6 +16,8 @@ export namespace scroll {
   function setScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
   function setHorizontalScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
 
+  function executeWhenScrollable(fn: (...args: any[]) => any): () => void;
+
   function getScrollbarWidth(): number;
   function hasScrollbar(el: Element | Window, onY?: boolean): boolean;
 }

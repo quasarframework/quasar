@@ -1,5 +1,5 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition, triggerIsScrollable } from '../utils/scroll.js'
 import { client } from '../plugins/Platform.js'
 
 let
@@ -142,6 +142,7 @@ function apply (action) {
 
     window.scrollTo(scrollPositionX, scrollPositionY)
     maxScrollTop = void 0
+    triggerIsScrollable()
   }
 }
 

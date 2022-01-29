@@ -109,6 +109,22 @@ console.log( getScrollWidth(el) )
 // 824 (it's in pixels always)
 ```
 
+## Execute function when document becomes scrollable <q-badge align="top" color="brand-primary" label="v1.18+" />
+Execute a function when the document becomes scrollable. If document is scrollable the function is executed immediately. Returns a cleanup function.
+
+``` js
+import { scroll } from 'quasar'
+const { executeWhenScrollable } = scroll
+
+const cleanupFn = executeWhenScrollable(() => {
+  console.log('document is scrollable')
+})
+// if document is scrollable the function will be executed at this point
+
+cleanupFn()
+// after this point the function will not be executed anymore
+```
+
 ## Determining scrollbar width
 Computes the width of scrollbar in pixels.
 
