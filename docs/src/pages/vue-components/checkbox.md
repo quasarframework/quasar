@@ -23,7 +23,7 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 
 <doc-example title="Standard" file="QCheckbox/Standard" />
 
-### With custom icons <q-badge align="top" color="brand-primary" label="v1.17.9+" />
+### With custom icons <q-badge align="top" color="brand-primary" label="v1.18+" />
 
 <doc-example title="With icons" file="QCheckbox/WithIcons" />
 
