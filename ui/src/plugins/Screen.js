@@ -55,6 +55,7 @@ export default {
         visualViewport.height * visualViewport.scale + window.innerHeight - document.scrollingElement.clientHeight
       ]
 
+    const target = visualViewport || window
     const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
     const update = force => {
@@ -116,11 +117,7 @@ export default {
     }
 
     const start = () => {
-      const
-        style = getComputedStyle(document.body),
-        target = window.visualViewport !== void 0
-          ? window.visualViewport
-          : window
+      const style = getComputedStyle(document.body)
 
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
