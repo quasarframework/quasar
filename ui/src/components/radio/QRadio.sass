@@ -3,19 +3,26 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 .q-radio
   vertical-align: middle
 
-  &__bg
+  &__native
+    width: 1px
+    height: 1px
+
+  &__bg,
+  &__icon-container
     top: 25%
     left: 25%
     width: 50%
     height: 50%
-    -webkit-print-color-adjust: exact
+    user-select: none
 
+  &__bg
+    -webkit-print-color-adjust: exact
     path
       fill: currentColor
 
-  &__native
-    width: 1px
-    height: 1px
+  &__icon
+    color: currentColor
+    font-size: .6em
 
   &__check
     transform-origin: 50% 50%
@@ -49,12 +56,16 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 
   &--dense
 
+    .q-checkbox__icon
+      font-size: .6em
+
     .q-radio__inner
       width: .5em
       min-width: .5em
       height: .5em
 
-    .q-radio__bg
+    .q-radio__bg,
+    .q-radio__icon-container
       left: 0
       top: 0
       width: 100%

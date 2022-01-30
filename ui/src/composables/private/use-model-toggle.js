@@ -136,7 +136,7 @@ export default function ({
   watch(() => props.modelValue, processModelChange)
 
   if (hideOnRouteChange !== void 0 && vmHasRouter(vm) === true) {
-    watch(() => proxy.$route, () => {
+    watch(() => proxy.$route.fullPath, () => {
       if (hideOnRouteChange.value === true && showing.value === true) {
         hide()
       }

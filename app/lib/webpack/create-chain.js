@@ -41,9 +41,10 @@ function getRootDefines (rootDefines, configName) {
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
-  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor', 'bex'].includes(cfg.ctx.modeName)
-  const fileHash = needsHash ? '.[contenthash:8]' : ''
-  const chunkHash = needsHash ? '.[chunkhash:8]' : ''
+  const useFastHash = cfg.ctx.dev || ['electron', 'cordova', 'capacitor', 'bex'].includes(cfg.ctx.modeName)
+  const fileHash = useFastHash === true ? '' : '.[contenthash:8]'
+  const assetHash = useFastHash === true ? '.[hash:8]' : '.[contenthash:8]'
+
   const resolveModules = [
     'node_modules',
     appPaths.resolve.app('node_modules'),
@@ -63,7 +64,7 @@ module.exports = function (cfg, configName) {
       )
       .publicPath(cfg.build.publicPath)
       .filename(`js/[name]${fileHash}.js`)
-      .chunkFilename(`js/[name]${chunkHash}.js`)
+      .chunkFilename(`js/[name]${useFastHash === true ? '' : '.[chunkhash:8]'}.js`)
   }
 
   chain.resolve.extensions
@@ -211,7 +212,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `img/[name]${fileHash}.[ext]`
+        name: `img/[name]${assetHash}.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
@@ -223,7 +224,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `fonts/[name]${fileHash}.[ext]`
+        name: `fonts/[name]${assetHash}.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
@@ -235,7 +236,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `media/[name]${fileHash}.[ext]`
+        name: `media/[name]${assetHash}.[ext]`
       })
 
   injectStyleRules(chain, {

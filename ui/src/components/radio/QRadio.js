@@ -1,5 +1,7 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
+import QIcon from '../icon/QIcon.js'
+
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
@@ -11,6 +13,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
 const svg = h('svg', {
+  key: 'svg',
   class: 'q-radio__bg absolute non-selectable',
   viewBox: '0 0 24 24',
   'aria-hidden': 'true'
@@ -38,6 +41,9 @@ export default createComponent({
 
     label: String,
     leftLabel: Boolean,
+
+    checkedIcon: String,
+    uncheckedIcon: String,
 
     color: String,
     keepColor: Boolean,
@@ -79,6 +85,13 @@ export default createComponent({
       return 'q-radio__inner relative-position '
         + `q-radio__inner--${ isTrue.value === true ? 'truthy' : 'falsy' }${ color }`
     })
+
+    const icon = computed(() =>
+      (isTrue.value === true
+        ? props.checkedIcon
+        : props.uncheckedIcon
+      ) || null
+    )
 
     const tabindex = computed(() => (
       props.disable === true ? -1 : props.tabindex || 0
@@ -125,7 +138,19 @@ export default createComponent({
     Object.assign(proxy, { set: onClick })
 
     return () => {
-      const content = [ svg ]
+      const content = icon.value !== null
+        ? [
+            h('div', {
+              key: 'icon',
+              class: 'q-radio__icon-container absolute flex flex-center no-wrap'
+            }, [
+              h(QIcon, {
+                class: 'q-radio__icon',
+                name: icon.value
+              })
+            ])
+          ]
+        : [ svg ]
 
       props.disable !== true && injectFormInput(
         content,

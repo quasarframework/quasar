@@ -37,10 +37,14 @@ export default function (focused, innerLoading) {
   let validateIndex = 0, unwatchRules
 
   const hasRules = computed(() =>
-    props.disable !== true
-    && props.rules !== void 0
+    props.rules !== void 0
     && props.rules !== null
     && props.rules.length > 0
+  )
+
+  const hasActiveRules = computed(() =>
+    props.disable !== true
+    && hasRules.value === true
   )
 
   const hasError = computed(() =>
@@ -80,7 +84,7 @@ export default function (focused, innerLoading) {
     else if (isDirtyModel.value === false) {
       isDirtyModel.value = true
 
-      if (hasRules.value === true && props.lazyRules !== 'ondemand') {
+      if (hasActiveRules.value === true && props.lazyRules !== 'ondemand') {
         debouncedValidate()
       }
     }
@@ -102,7 +106,7 @@ export default function (focused, innerLoading) {
    *   - Promise (pending async validation)
    */
   function validate (val = props.modelValue) {
-    if (hasRules.value !== true) {
+    if (hasActiveRules.value !== true) {
       return true
     }
 
@@ -190,7 +194,7 @@ export default function (focused, innerLoading) {
 
   function validateIfNeeded (changedRules) {
     if (
-      hasRules.value === true
+      hasActiveRules.value === true
       && props.lazyRules !== 'ondemand'
       && (isDirtyModel.value === true || (props.lazyRules !== true && changedRules !== true))
     ) {

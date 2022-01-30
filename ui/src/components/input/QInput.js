@@ -125,6 +125,15 @@ export default createComponent({
       return attrs
     })
 
+    // some browsers lose the native input value
+    // so we need to reattach it dynamically
+    // (like type="password" <-> type="text"; see #12078)
+    watch(() => props.type, () => {
+      if (inputRef.value) {
+        inputRef.value.value = props.modelValue
+      }
+    })
+
     watch(() => props.modelValue, v => {
       if (hasMask.value === true) {
         if (stopValueWatcher === true) {

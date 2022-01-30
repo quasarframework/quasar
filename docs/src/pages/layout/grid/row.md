@@ -54,6 +54,10 @@ Use flexbox alignment utilities to vertically and horizontally align columns.
 
 <doc-example title="Horizontal alignment" file="grid/RowHorizontalAlignment" />
 
+::: tip
+There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
+:::
+
 ### Column wrapping
 If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.
 

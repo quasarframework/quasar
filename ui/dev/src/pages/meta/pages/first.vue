@@ -67,6 +67,13 @@ export default {
         },
         noscript: {
           default: 'This is for non-JS'
+        },
+        script: {
+          ldJson: {
+            type: 'application/ld+json',
+            defer: true,
+            innerHTML: `{ "@context": "http://schema.org" }` // eslint-disable-line
+          }
         }
       }
     })
