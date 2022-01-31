@@ -194,7 +194,8 @@ function applyYearMonthDayChange (date, mod, sign) {
 
   date.setFullYear(year)
   date.setMonth(month)
-  date.setDate(day)
+
+  date.setDate(Math.min(day, daysInMonth(date)))
 
   return date
 }
