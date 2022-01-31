@@ -174,25 +174,16 @@ function formatTimezone (offset, delimeter = '') {
 function applyYearMonthDayChange (date, mod, sign) {
   let
     year = date.getFullYear(),
-    month = date.getMonth(),
-    day = date.getDate()
+    month = date.getMonth()
+
+  const day = date.getDate()
 
   if (mod.years !== void 0) {
     year += sign * mod.years
   }
-  else if (mod.year !== void 0) {
-    year += sign * mod.year
-  }
 
   if (mod.months !== void 0) {
     month += sign * mod.months
-  }
-  else if (mod.month !== void 0) {
-    month += sign * mod.month
-  }
-
-  if (mod.days !== void 0) {
-    day += sign * mod.days
   }
 
   date.setDate(1)
@@ -200,7 +191,11 @@ function applyYearMonthDayChange (date, mod, sign) {
 
   date.setFullYear(year)
   date.setMonth(month)
-  date.setDate(day)
+  date.setDate(Math.min(day, daysInMonth(date)))
+
+  if (mod.days !== void 0) {
+    date.setDate(date.getDate() + sign * mod.days)
+  }
 
   return date
 }
