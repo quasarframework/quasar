@@ -185,17 +185,16 @@ function applyYearMonthDayChange (date, mod, sign) {
     month += sign * mod.months
   }
 
-  if (mod.days !== void 0) {
-    day += sign * mod.days
-  }
-
   date.setDate(1)
   date.setMonth(2)
 
   date.setFullYear(year)
   date.setMonth(month)
-
   date.setDate(Math.min(day, daysInMonth(date)))
+
+  if (mod.days !== void 0) {
+    date.setDate(date.getDate() + sign * mod.days)
+  }
 
   return date
 }
