@@ -15,19 +15,25 @@ export function getParentVm (vm) {
   }
 }
 
+function fillNormalizedVNodes (children, vnode) {
+  if (typeof vnode.type === 'symbol') {
+    if (Array.isArray(vnode.children) === true) {
+      vnode.children.forEach(child => {
+        fillNormalizedVNodes(children, child)
+      })
+    }
+  }
+  else {
+    children.add(vnode)
+  }
+}
+
 // vnodes from rendered in advanced slots
 export function getNormalizedVNodes (vnodes) {
   const children = new Set()
 
   vnodes.forEach(vnode => {
-    if (typeof vnode.type === 'symbol' && Array.isArray(vnode.children) === true) {
-      vnode.children.forEach(child => {
-        children.add(child)
-      })
-    }
-    else {
-      children.add(vnode)
-    }
+    fillNormalizedVNodes(children, vnode)
   })
 
   return Array.from(children)
