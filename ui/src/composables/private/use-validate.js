@@ -84,7 +84,14 @@ export default function (focused, innerLoading) {
     else if (isDirtyModel.value === false) {
       isDirtyModel.value = true
 
-      if (hasActiveRules.value === true && props.lazyRules !== 'ondemand') {
+      if (
+        hasActiveRules.value === true
+        && props.lazyRules !== 'ondemand'
+        // Don't re-trigger if it's already in progress;
+        // It might mean that focus switched to submit btn and
+        // QForm's submit() has been called already (ENTER key)
+        && innerLoading.value === false
+      ) {
         debouncedValidate()
       }
     }
@@ -110,7 +117,7 @@ export default function (focused, innerLoading) {
       return true
     }
 
-    validateIndex++
+    const index = ++validateIndex
 
     if (innerLoading.value !== true && props.lazyRules !== true) {
       isDirtyModel.value = true
@@ -127,9 +134,7 @@ export default function (focused, innerLoading) {
         innerErrorMessage.value = m
       }
 
-      if (innerLoading.value !== false) {
-        innerLoading.value = false
-      }
+      innerLoading.value = false
     }
 
     const promises = []
@@ -159,35 +164,26 @@ export default function (focused, innerLoading) {
       return true
     }
 
-    if (innerLoading.value !== true) {
-      innerLoading.value = true
-    }
-
-    const index = validateIndex
+    innerLoading.value = true
 
     return Promise.all(promises).then(
       res => {
-        if (index !== validateIndex) {
-          return true
-        }
-
         if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
-          update(false)
+          index === validateIndex && update(false)
           return true
         }
 
         const msg = res.find(r => r === false || typeof r === 'string')
-        update(msg !== void 0, msg)
+        index === validateIndex && update(msg !== void 0, msg)
         return msg === void 0
       },
       e => {
         if (index === validateIndex) {
           console.error(e)
           update(true)
-          return false
         }
 
-        return true
+        return false
       }
     )
   }
