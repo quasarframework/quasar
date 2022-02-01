@@ -247,10 +247,12 @@ function normalizeMod (mod) {
     acc.year = mod.years
     delete acc.years
   }
+
   if (mod.months !== void 0) {
     acc.month = mod.months
     delete acc.months
   }
+
   if (mod.days !== void 0) {
     acc.date = mod.days
     delete acc.days
@@ -258,6 +260,26 @@ function normalizeMod (mod) {
   if (mod.day !== void 0) {
     acc.date = mod.day
     delete acc.day
+  }
+
+  if (mod.hour !== void 0) {
+    acc.hours = mod.hour
+    delete acc.hour
+  }
+
+  if (mod.minute !== void 0) {
+    acc.minutes = mod.minute
+    delete acc.minute
+  }
+
+  if (mod.second !== void 0) {
+    acc.seconds = mod.second
+    delete acc.second
+  }
+
+  if (mod.millisecond !== void 0) {
+    acc.milliseconds = mod.millisecond
+    delete acc.millisecond
   }
 
   return acc
