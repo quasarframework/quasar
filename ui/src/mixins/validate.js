@@ -70,7 +70,14 @@ export default {
       else if (this.isDirty === false) {
         this.isDirty = true
 
-        if (this.hasActiveRules === true && this.lazyRules !== 'ondemand') {
+        if (
+          this.hasActiveRules === true &&
+          this.lazyRules !== 'ondemand' &&
+          // Don't re-trigger if it's already in progress;
+          // It might mean that focus switched to submit btn and
+          // QForm's submit() has been called already (ENTER key)
+          this.innerLoading === false
+        ) {
           this.debouncedValidate()
         }
       }
@@ -134,7 +141,7 @@ export default {
         return true
       }
 
-      this.validateIndex++
+      const index = ++this.validateIndex
 
       if (this.innerLoading !== true && this.lazyRules !== true) {
         this.isDirty = true
@@ -187,31 +194,24 @@ export default {
         this.innerLoading = true
       }
 
-      const index = this.validateIndex
-
       return Promise.all(promises).then(
         res => {
-          if (index !== this.validateIndex) {
-            return true
-          }
-
           if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
-            update(false)
+            index === this.validateIndex && update(false)
             return true
           }
 
           const msg = res.find(r => r === false || typeof r === 'string')
-          update(msg !== void 0, msg)
+          index === this.validateIndex && update(msg !== void 0, msg)
           return msg === void 0
         },
         e => {
           if (index === this.validateIndex) {
             console.error(e)
             update(true)
-            return false
           }
 
-          return true
+          return false
         }
       )
     },

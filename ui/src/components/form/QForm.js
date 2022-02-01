@@ -49,7 +49,7 @@ export default Vue.extend({
         ? shouldFocus
         : this.noErrorFocus !== true
 
-      this.validateIndex++
+      const index = ++this.validateIndex
 
       const components = this.getValidationComponents().filter(c => c.disable !== true)
 
@@ -65,7 +65,7 @@ export default Vue.extend({
           promises.push(
             valid.then(
               valid => ({ valid, comp }),
-              error => ({ valid: false, comp, error })
+              err => ({ valid: false, comp, err })
             )
           )
         }
@@ -89,19 +89,19 @@ export default Vue.extend({
         return Promise.resolve(true)
       }
 
-      const index = this.validateIndex
-
       return Promise.all(promises).then(
         res => {
+          const errors = res.filter(r => r.valid !== true)
+
+          if (errors.length === 0) {
+            index === this.validateIndex && emit(true)
+            return true
+          }
+
+          const { valid, comp, err } = errors[0]
+
           if (index === this.validateIndex) {
-            const errors = res.filter(r => r.valid !== true)
-
-            if (errors.length === 0) {
-              emit(true)
-              return true
-            }
-
-            const { valid, comp } = errors[0]
+            err !== void 0 && console.error(err)
 
             emit(false, comp)
 
@@ -112,9 +112,9 @@ export default Vue.extend({
             ) {
               comp.focus()
             }
-
-            return false
           }
+
+          return false
         }
       )
     },
@@ -130,8 +130,11 @@ export default Vue.extend({
     submit (evt) {
       evt !== void 0 && stopAndPrevent(evt)
 
+      const index = this.validateIndex + 1
+
       this.validate().then(val => {
-        if (val === true) {
+        // if not outdated && validation succeeded
+        if (index === this.validateIndex && val === true) {
           if (this.qListeners.submit !== void 0) {
             this.$emit('submit', evt)
           }
