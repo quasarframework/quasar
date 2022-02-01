@@ -97,10 +97,10 @@ The object literal provided can contain the following keys (all are optional):
 
 | Key | Description |
 | --- | --- |
-| `milliseconds` | for the milliseconds component of the date/time |
-| `seconds` | for the seconds component of the date/time |
-| `minutes` | for the minutes component of the date/time |
-| `hours` | for the hours component of the date/time |
+| `millisecond(s)` | for the milliseconds component of the date/time |
+| `second(s)` | for the seconds component of the date/time |
+| `minute(s)` | for the minutes component of the date/time |
+| `hour(s)` | for the hours component of the date/time |
 | `day(s)`/`date` | for the day component of the date/time |
 | `month(s)` | for the month component of the date/time |
 | `year(s)` | for the year component of the date/time |
@@ -137,10 +137,10 @@ The object literal provided can contain the following keys (all are optional):
 
 | Key | Description |
 | --- | --- |
-| `milliseconds` | for a duration in milliseconds |
-| `seconds` | for a duration in seconds |
-| `minutes` | for a duration in minutes |
-| `hours` | for a duration in hours |
+| `millisecond(s)` | for a duration in milliseconds |
+| `second(s)` | for a duration in seconds |
+| `minute(s)` | for a duration in minutes |
+| `hour(s)` | for a duration in hours |
 | `day(s)`/`date` | for a duration in days |
 | `month(s)` | for a duration in months |
 | `year(s)` | for a duration in years |
@@ -162,10 +162,10 @@ The object literal provided can contain the following keys (all are optional):
 
 | Key | Description |
 | --- | --- |
-| `milliseconds` | for the milliseconds component of the date/time |
-| `seconds` | for the seconds component of the date/time |
-| `minutes` | for the minutes component of the date/time |
-| `hours` | for the hours component of the date/time |
+| `millisecond(s)` | for the milliseconds component of the date/time |
+| `second(s)` | for the seconds component of the date/time |
+| `minute(s)` | for the minutes component of the date/time |
+| `hour(s)` | for the hours component of the date/time |
 | `day(s)`/`date` | for the day component of the date/time |
 | `month(s)` | for the month component of the date/time |
 | `year(s)` | for the year component of the date/time |
@@ -280,9 +280,9 @@ The unit parameter indicates the unit of measurement, if not specified then it i
 
 | Unit | Description |
 | --- | --- |
-| `seconds` | distance in seconds (disregarding milliseconds) |
-| `minutes` | distance in minutes (disregarding seconds, ...) |
-| `hours` | distance in hours (disregarding minutes, seconds, ...) |
+| `second(s)` | distance in seconds (disregarding milliseconds) |
+| `minute(s)` | distance in minutes (disregarding seconds, ...) |
+| `hour(s)` | distance in hours (disregarding minutes, seconds, ...) |
 | `day(s)`/`date` | distance in calendar days |
 | `month(s)` | distance in calendar months |
 | `year(s)` | distance in calendar years |

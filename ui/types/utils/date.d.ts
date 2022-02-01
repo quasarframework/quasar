@@ -1,8 +1,12 @@
 interface DateOptions {
   milliseconds?: number;
+  millisecond?: number;
   seconds?: number;
+  second?: number;
   minutes?: number;
+  minute?: number;
   hours?: number;
+  hour?: number;
   days?: number;
   day?: number;
   date?: number;
