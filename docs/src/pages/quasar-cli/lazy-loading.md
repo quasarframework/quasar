@@ -79,6 +79,34 @@ import('./categories.json')
   })
 ```
 
+::: warning
+Quasar includes installed Node packages in the app bundle by default, even if your code imports them dynamically.
+
+For example, if you have installed the ````node-vibrant```` package that extracts the dominant colors from images, you could import it dynamically like this:
+
+````js
+import('node-vibrant')
+  .then(vibrant => {
+    // use vibrant
+  })
+````
+
+To make Quasar put ````node-vibrant```` in its own bundle you'd also have to enter it in ````quasar.conf.js````:
+
+````js
+// quasar.conf.js
+return {
+  vendor: {
+    remove: ['node-vibrant']
+  }
+}
+````
+
+For more details, see the [vendors section](https://quasar.dev/quasar-cli/quasar-conf-js#property-vendor)
+of ````quasar.conf.js````.
+
+:::
+
 One advantage of using dynamic imports as opposed to regular imports is that the import path can be determined at runtime:
 
 ```js
