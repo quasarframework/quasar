@@ -52,6 +52,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       left: 0
       right: 0
       bottom: 0
+      backface-visibility: hidden
 
   &__messages
     line-height: 1
@@ -190,11 +191,13 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     text-transform: inherit
     transform-origin: left top
     transition: transform $field-transition, max-width $field-transition-label-right-up
+    backface-visibility: hidden
 
   &--float .q-field__label
     max-width: 133%
     transform: translateY(-40%) scale(.75)
     transition: transform $field-transition, max-width $field-transition-label-right-down
+    backface-visibility: hidden
 
   &--highlighted
     .q-field__label
