@@ -84,7 +84,7 @@ export default function (focused, innerLoading) {
     else if (isDirtyModel.value === false) {
       isDirtyModel.value = true
 
-      if (hasActiveRules.value === true && props.lazyRules !== 'ondemand') {
+      if (hasActiveRules.value === true && props.lazyRules !== 'ondemand' && innerLoading.value !== true) {
         debouncedValidate()
       }
     }
