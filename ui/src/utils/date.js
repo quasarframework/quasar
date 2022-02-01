@@ -255,6 +255,10 @@ function normalizeMod (mod) {
     acc.date = mod.days
     delete acc.days
   }
+  if (mod.day !== void 0) {
+    acc.date = mod.day
+    delete acc.day
+  }
 
   return acc
 }
