@@ -70,7 +70,7 @@ export default {
       else if (this.isDirty === false) {
         this.isDirty = true
 
-        if (this.hasActiveRules === true && this.lazyRules !== 'ondemand') {
+        if (this.hasActiveRules === true && this.lazyRules !== 'ondemand' && this.innerLoading !== true) {
           this.debouncedValidate()
         }
       }
