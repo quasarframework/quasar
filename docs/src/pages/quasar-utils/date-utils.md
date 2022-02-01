@@ -102,9 +102,9 @@ The object literal provided can contain the following keys (all are optional):
 | `seconds` | for the seconds component of the date/time |
 | `minutes` | for the minutes component of the date/time |
 | `hours` | for the hours component of the date/time |
-| `date` | for the day component of the date/time |
-| `month` | for the month component of the date/time |
-| `year` | for the year component of the date/time |
+| `day(s)`/`date` | for the day component of the date/time |
+| `month(s)` | for the month component of the date/time |
+| `year(s)` | for the year component of the date/time |
 
 ### Validate
 To check if a date string is valid use:
@@ -142,9 +142,9 @@ The object literal provided can contain the following keys (all are optional):
 | `seconds` | for a duration in seconds |
 | `minutes` | for a duration in minutes |
 | `hours` | for a duration in hours |
-| `days` | for a duration in days |
-| `months` | for a duration in months |
-| `years` | for a duration in years |
+| `day(s)`/`date` | for a duration in days |
+| `month(s)` | for a duration in months |
+| `year(s)` | for a duration in years |
 
 ### Set date/time
 To set a specified unit(s) of date/time:
@@ -167,9 +167,9 @@ The object literal provided can contain the following keys (all are optional):
 | `seconds` | for the seconds component of the date/time |
 | `minutes` | for the minutes component of the date/time |
 | `hours` | for the hours component of the date/time |
-| `date` | for the day component of the date/time |
-| `month` | for the month component of the date/time |
-| `year` | for the year component of the date/time |
+| `day(s)`/`date` | for the day component of the date/time |
+| `month(s)` | for the month component of the date/time |
+| `year(s)` | for the year component of the date/time |
 
 ## Query dates
 
@@ -255,12 +255,12 @@ Unit parameter can be omitted, in which case a full date/time comparison will oc
 
 | Unit | Description |
 | --- | --- |
-| `second` | test if same second only |
-| `minute` | test if same minute only |
-| `hour` | test if same hour only |
-| `day` | test if same day only |
-| `month` | test if same month only |
-| `year` | test if same year only |
+| `second(s)` | test if same second only |
+| `minute(s)` | test if same minute only |
+| `hour(s)` | test if same hour only |
+| `day(s)`/`date` | test if same day only |
+| `month(s)` | test if same month only |
+| `year(s)` | test if same year only |
 
 ### Difference
 To compute the difference between two dates use:
@@ -283,9 +283,9 @@ The unit parameter indicates the unit of measurement, if not specified then it i
 | `seconds` | distance in seconds (disregarding milliseconds) |
 | `minutes` | distance in minutes (disregarding seconds, ...) |
 | `hours` | distance in hours (disregarding minutes, seconds, ...) |
-| `days` | distance in calendar days |
-| `months` | distance in calendar months |
-| `years` | distance in calendar years |
+| `day(s)`/`date` | distance in calendar days |
+| `month(s)` | distance in calendar months |
+| `year(s)` | distance in calendar years |
 
 ### Calendar
 To get the [ISO week number in year](https://en.wikipedia.org/wiki/ISO_week_date) for a given date object use:
@@ -341,12 +341,12 @@ The second parameter indicates a unit to reset to (beginning of it or end of it)
 
 | Unit | Description |
 | --- | --- |
-| `second` | reset seconds |
-| `minute` | reset minutes |
-| `hour` | reset hours |
-| `day` | reset days |
-| `month` | reset months |
-| `year` | reset years |
+| `second(s)` | reset seconds |
+| `minute(s)` | reset minutes |
+| `hour(s)` | reset hours |
+| `day(s)`/`date` | reset days |
+| `month(s)` | reset months |
+| `year(s)` | reset years |
 
 ## Other
 

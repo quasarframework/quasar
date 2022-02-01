@@ -174,15 +174,18 @@ function formatTimezone (offset, delimeter = '') {
 function applyYearMonthDayChange (date, mod, sign) {
   let
     year = date.getFullYear(),
-    month = date.getMonth(),
-    day = date.getDate()
+    month = date.getMonth()
 
-  if (mod.years !== void 0) {
-    year += sign * mod.years
+  const day = date.getDate()
+
+  if (mod.year !== void 0) {
+    year += sign * mod.year
+    delete mod.year
   }
 
-  if (mod.months !== void 0) {
-    month += sign * mod.months
+  if (mod.month !== void 0) {
+    month += sign * mod.month
+    delete mod.month
   }
 
   date.setDate(1)
@@ -192,28 +195,12 @@ function applyYearMonthDayChange (date, mod, sign) {
   date.setMonth(month)
   date.setDate(Math.min(day, daysInMonth(date)))
 
-  if (mod.days !== void 0) {
-    date.setDate(date.getDate() + sign * mod.days)
+  if (mod.date !== void 0) {
+    date.setDate(date.getDate() + sign * mod.date)
+    delete mod.date
   }
 
   return date
-}
-
-function getChange (date, mod, sign) {
-  const
-    d = new Date(date),
-    t = mod.years !== void 0 || mod.months !== void 0 || mod.days !== void 0
-      ? applyYearMonthDayChange(d, mod, sign)
-      : d
-
-  for (const key in mod) {
-    if (key !== 'years' && key !== 'months' && key !== 'days') {
-      const op = capitalize(key)
-      t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
-    }
-  }
-
-  return t
 }
 
 function applyYearMonthDay (date, mod, middle) {
@@ -230,22 +217,60 @@ function applyYearMonthDay (date, mod, middle) {
   date[ `set${ middle }Month` ](month)
   date[ `set${ middle }Date` ](day)
 
+  delete mod.year
+  delete mod.month
+  delete mod.date
+
   return date
 }
 
-export function adjustDate (date, mod, utc) {
+function getChange (date, rawMod, sign) {
   const
-    middle = utc === true ? 'UTC' : '',
+    mod = normalizeMod(rawMod),
     d = new Date(date),
     t = mod.year !== void 0 || mod.month !== void 0 || mod.date !== void 0
-      ? applyYearMonthDay(d, mod, middle)
+      ? applyYearMonthDayChange(d, mod, sign) // removes year/month/day
       : d
 
   for (const key in mod) {
-    if (key !== 'year' && key !== 'month' && key !== 'date') {
-      const op = key.charAt(0).toUpperCase() + key.slice(1)
-      t[ `set${ middle }${ op }` ](mod[ key ])
-    }
+    const op = capitalize(key)
+    t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
+  }
+
+  return t
+}
+
+function normalizeMod (mod) {
+  const acc = { ...mod }
+
+  if (mod.years !== void 0) {
+    acc.year = mod.years
+    delete acc.years
+  }
+  if (mod.months !== void 0) {
+    acc.month = mod.months
+    delete acc.months
+  }
+  if (mod.days !== void 0) {
+    acc.date = mod.days
+    delete acc.days
+  }
+
+  return acc
+}
+
+export function adjustDate (date, rawMod, utc) {
+  const
+    mod = normalizeMod(rawMod),
+    middle = utc === true ? 'UTC' : '',
+    d = new Date(date),
+    t = mod.year !== void 0 || mod.month !== void 0 || mod.date !== void 0
+      ? applyYearMonthDay(d, mod, middle) // removes year/month/day
+      : d
+
+  for (const key in mod) {
+    const op = key.charAt(0).toUpperCase() + key.slice(1)
+    t[ `set${ middle }${ op }` ](mod[ key ])
   }
 
   return t
@@ -479,16 +504,23 @@ export function startOfDate (date, unit, utc) {
 
   switch (unit) {
     case 'year':
+    case 'years':
       t[ `${ prefix }Month` ](0)
     case 'month':
+    case 'months':
       t[ `${ prefix }Date` ](1)
     case 'day':
+    case 'days':
+    case 'date':
       t[ `${ prefix }Hours` ](0)
     case 'hour':
+    case 'hours':
       t[ `${ prefix }Minutes` ](0)
     case 'minute':
+    case 'minutes':
       t[ `${ prefix }Seconds` ](0)
     case 'second':
+    case 'seconds':
       t[ `${ prefix }Milliseconds` ](0)
   }
   return t
@@ -501,16 +533,23 @@ export function endOfDate (date, unit, utc) {
 
   switch (unit) {
     case 'year':
+    case 'years':
       t[ `${ prefix }Month` ](11)
     case 'month':
+    case 'months':
       t[ `${ prefix }Date` ](daysInMonth(t))
     case 'day':
+    case 'days':
+    case 'date':
       t[ `${ prefix }Hours` ](23)
     case 'hour':
+    case 'hours':
       t[ `${ prefix }Minutes` ](59)
     case 'minute':
+    case 'minutes':
       t[ `${ prefix }Seconds` ](59)
     case 'second':
+    case 'seconds':
       t[ `${ prefix }Milliseconds` ](999)
   }
   return t
@@ -546,18 +585,24 @@ export function getDateDiff (date, subtract, unit = 'days') {
 
   switch (unit) {
     case 'years':
+    case 'year':
       return (t.getFullYear() - sub.getFullYear())
 
     case 'months':
+    case 'month':
       return (t.getFullYear() - sub.getFullYear()) * 12 + t.getMonth() - sub.getMonth()
 
     case 'days':
+    case 'day':
+    case 'date':
       return getDiff(startOfDate(t, 'day'), startOfDate(sub, 'day'), MILLISECONDS_IN_DAY)
 
     case 'hours':
+    case 'hour':
       return getDiff(startOfDate(t, 'hour'), startOfDate(sub, 'hour'), MILLISECONDS_IN_HOUR)
 
     case 'minutes':
+    case 'minute':
       return getDiff(startOfDate(t, 'minute'), startOfDate(sub, 'minute'), MILLISECONDS_IN_MINUTE)
 
     case 'seconds':
@@ -606,26 +651,33 @@ export function isSameDate (date, date2, unit) {
 
   switch (unit) {
     case 'second':
+    case 'seconds':
       if (t.getSeconds() !== d.getSeconds()) {
         return false
       }
     case 'minute': // intentional fall-through
+    case 'minutes':
       if (t.getMinutes() !== d.getMinutes()) {
         return false
       }
     case 'hour': // intentional fall-through
+    case 'hours':
       if (t.getHours() !== d.getHours()) {
         return false
       }
     case 'day': // intentional fall-through
+    case 'days':
+    case 'date':
       if (t.getDate() !== d.getDate()) {
         return false
       }
     case 'month': // intentional fall-through
+    case 'months':
       if (t.getMonth() !== d.getMonth()) {
         return false
       }
     case 'year': // intentional fall-through
+    case 'years':
       if (t.getFullYear() !== d.getFullYear()) {
         return false
       }
