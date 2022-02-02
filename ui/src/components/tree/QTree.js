@@ -604,14 +604,12 @@ export default Vue.extend({
     __onClick (node, meta, e, keyboard) {
       keyboard !== true && this.__blur(meta.key)
 
-      if (this.hasSelection) {
-        if (meta.selectable) {
-          if (this.noSelectionUnset === false) {
-            this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
-          }
-          else if (meta.key !== this.selected) {
-            this.$emit('update:selected', meta.key || null)
-          }
+      if (this.hasSelection && meta.selectable) {
+        if (this.noSelectionUnset === false) {
+          this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
+        }
+        else if (meta.key !== this.selected) {
+          this.$emit('update:selected', meta.key || null)
         }
       }
       else {
