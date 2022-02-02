@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR } from './Platform.js'
+import { isSSR, fromSSR, client } from './Platform.js'
 import { listenOpts, noop } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
@@ -48,8 +48,11 @@ export default {
     }
 
     const { visualViewport } = window
-    const getSize = visualViewport === void 0
-      ? () => [ window.innerWidth, window.innerHeight ]
+    const getSize = visualViewport === void 0 || client.is.mobile === true
+      ? () => [
+        Math.max(window.innerWidth, document.scrollingElement.clientWidth),
+        Math.max(window.innerHeight, document.scrollingElement.clientHeight)
+      ]
       : () => [
         visualViewport.width * visualViewport.scale + window.innerWidth - document.scrollingElement.clientWidth,
         visualViewport.height * visualViewport.scale + window.innerHeight - document.scrollingElement.clientHeight
