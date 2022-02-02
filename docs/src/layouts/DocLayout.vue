@@ -50,20 +50,6 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         //- q-separator.q-mb-lg
 
         .row.justify-center.q-my-md
-          q-btn.q-mb-md.doc-layout__main-btn(
-            href="https://stateofjs.com"
-            target="_blank"
-            rel="noopener"
-            color="grey-10"
-            unelevated
-            no-wrap
-            no-caps
-            stack
-            padding="8px"
-          )
-            q-img(src="https://cdn.quasar.dev/img/stateofjs2021.png")
-            .q-mt-sm Take the Stateofjs survey
-
           q-btn.doc-layout__main-btn(
             href="https://donate.quasar.dev"
             target="_blank"
