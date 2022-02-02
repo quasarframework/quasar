@@ -632,6 +632,7 @@ export function getDateDiff (date, subtract, unit = 'days') {
       return getDiff(startOfDate(t, 'minute'), startOfDate(sub, 'minute'), MILLISECONDS_IN_MINUTE)
 
     case 'seconds':
+    case 'second':
       return getDiff(startOfDate(t, 'second'), startOfDate(sub, 'second'), 1000)
   }
 }
