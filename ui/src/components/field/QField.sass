@@ -45,6 +45,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     line-height: 1
     color: rgba(0,0,0,.54)
     padding: 8px 12px 0
+    backface-visibility: hidden
 
     &--animated
       transform: translateY(100%)
@@ -191,6 +192,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     text-transform: inherit
     transform-origin: left top
     transition: transform $field-transition, right $field-transition-label-right-up
+    backface-visibility: hidden
 
   &--float .q-field__label
     transform: translateY(-40%) scale(.75)
