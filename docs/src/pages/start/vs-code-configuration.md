@@ -208,7 +208,9 @@ build: {
 }
 ```
 
-Then you need to tell VSCode to add a configuration to the debugger. The easiest way to do that is to click on the bug icon on the action bar (for ltr languages, that is the bar on the far left). Once you click on that bug icon, the file tree area will switch to the debug and run area. Click on the gear icon in the title bar of that window and it will bring up a file called _launch.json_. This is where you put the different configurations of launching the application to be debugged. Here are the settings for launching a Quasar app in Chrome. For the Firefox version, look at the Vue cookbook mentioned above.
+Then you need to tell VSCode to add a configuration to the debugger. The easiest way to do that is to click on the bug icon on the action bar (for ltr languages, that is the bar on the far left). Once you click on that bug icon, the file tree area will switch to the debug and run area. Click on the gear icon in the title bar of that window and it will bring up a file called _launch.json_. This is where you put the different configurations of launching the application to be debugged. Here are the settings for launching a Quasar app in Chrome. For the Firefox version, look at the Vue cookbook.
+
+In the example below, replace "package-name" with the name property from your package.json file:
 
 ```js
 {
@@ -223,9 +225,6 @@ Then you need to tell VSCode to add a configuration to the debugger. The easiest
   }
 }
 ```
-::: tip
-Replace "package-name" with the name property from the package.json file.
-:::
 
 Now save the file, then select that configuration in the drop down on the title bar of the debug and run pane. Before you can launch the debugger, the app must be running. From the command line, launch dev mode of your app with `quasar dev`. Then click the green "go" button in the debug and run pane to launch the debugging session and attach to your running app. You can now set break points and control step over/in/out etc, all from VSCode. You can also launch the built in Chrome debugger and it will stay in sync. This might be useful if you also have the [Vue devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) installed (highly recommended).
 
