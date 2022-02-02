@@ -191,9 +191,6 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 
 ## Debugging a Quasar project in VS Code
 
-1. First, head to [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) and read it thoroughly.
-2. Then, since Quasar is based on Vue, you will also want to refer to [Vue Cookbook for VSCode debugging](https://vuejs.org/v2/cookbook/debugging-in-vscode.html) for setting up debugging Vue apps.
-
 The best approach is to open that in a browser beside this page so you can review these instructions as you are reading those instructions. And apply the changes to your project as you go.
 
 The first step of the Vue cookbook says it is to enable source maps. Quasar automatically enables source maps for development mode. Here is [a good article](https://blog.scottlogic.com/2017/11/01/webpack-source-map-options-quick-guide.html) that describes the different values for the [webpack devtool setting](https://webpack.js.org/configuration/devtool/) (the one that turns on or off source maps.) Quasar uses _cheap-module-eval-source-map_ by default.
@@ -211,7 +208,9 @@ build: {
 }
 ```
 
-Then you need to tell VSCode to add a configuration to the debugger. The easiest way to do that is to click on the bug icon on the action bar (for ltr languages, that is the bar on the far left). Once you click on that bug icon, the file tree area will switch to the debug and run area. Click on the gear icon in the title bar of that window and it will bring up a file called _launch.json_. This is where you put the different configurations of launching the application to be debugged. Here are the settings for launching a Quasar app in Chrome. For the Firefox version, look at the Vue cookbook mentioned above.
+Then you need to tell VSCode to add a configuration to the debugger. The easiest way to do that is to click on the bug icon on the action bar (for ltr languages, that is the bar on the far left). Once you click on that bug icon, the file tree area will switch to the debug and run area. Click on the gear icon in the title bar of that window and it will bring up a file called _launch.json_. This is where you put the different configurations of launching the application to be debugged. Here are the settings for launching a Quasar app in Chrome. For the Firefox version, look at the Vue cookbook.
+
+In the example below, replace "package-name" with the name property from your package.json file:
 
 ```js
 {
@@ -222,7 +221,7 @@ Then you need to tell VSCode to add a configuration to the debugger. The easiest
   "webRoot": "${workspaceFolder}/src",
   "breakOnLoad": true,
   "sourceMapPathOverrides": {
-    "webpack:///./src/*": "${webRoot}/*"
+    "webpack://package-name/./src/*": "${webRoot}/*"
   }
 }
 ```
