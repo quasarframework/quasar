@@ -3,6 +3,9 @@
     <div style="max-width: 600px" class="q-gutter-y-md">
       <h1>Input Mask</h1>
 
+      <test-mask-field v-model="incrementExampleValue" />
+      {{ incrementExampleValue }}
+
       <div>Model: {{ text1 }}</div>
       <q-input mask="date" v-model="text1" filled hint="Date ####/##/##" label="Label" />
 
@@ -105,6 +108,8 @@
 </template>
 
 <script>
+import TestMaskField from './input-mask-test-field.vue'
+
 export default {
   data () {
     return {
@@ -120,6 +125,7 @@ export default {
       variableMaskValue1: '',
       variableMaskValue2: '',
       variableMaskValue3: '',
+      incrementExampleValue: '',
 
       // mask: '(###) ###S - (###)',
       mask: '#.##',
@@ -130,6 +136,10 @@ export default {
       fillUnmask: false,
       fillMaskText: '0'
     }
+  },
+
+  components: {
+    TestMaskField
   },
 
   computed: {

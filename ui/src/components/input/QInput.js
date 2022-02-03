@@ -136,11 +136,6 @@ export default createComponent({
 
     watch(() => props.modelValue, v => {
       if (hasMask.value === true) {
-        if (stopValueWatcher === true) {
-          stopValueWatcher = false
-          return
-        }
-
         updateMaskValue(v)
       }
       else if (innerValue.value !== v) {

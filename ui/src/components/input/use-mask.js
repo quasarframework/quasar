@@ -286,10 +286,6 @@ export default function (props, emit, emitValue, inputRef) {
           const cursor = Math.max(0, maskMarked.indexOf(MARKER), Math.min(preMasked.length, end) - 1)
           moveCursor.right(inp, cursor, cursor)
         }
-        else {
-          const cursor = end - 1
-          moveCursor.right(inp, cursor, cursor)
-        }
       }
     })
 
