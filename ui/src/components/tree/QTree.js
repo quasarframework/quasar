@@ -12,6 +12,8 @@ import cache from '../../utils/cache.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 
+const shouldRenderNodeChildren = new WeakMap()
+
 export default Vue.extend({
   name: 'QTree',
 
@@ -163,6 +165,10 @@ export default Vue.extend({
           ticked: strictTicking === true
             ? this.innerTicked.includes(key)
             : (isLeaf === true ? this.innerTicked.includes(key) : false)
+        }
+
+        if (m.expanded === true && shouldRenderNodeChildren.has(node) !== true) {
+          shouldRenderNodeChildren.set(node, true)
         }
 
         meta[key] = m
@@ -583,14 +589,17 @@ export default Vue.extend({
               staticClass: 'q-tree__node-collapsible',
               class: this.textColorClass,
               directives: [{ name: 'show', value: meta.expanded }]
-            }, [
-              body,
+            }, shouldRenderNodeChildren.has(node) === true
+              ? [
+                body,
 
-              h('div', {
-                staticClass: 'q-tree__children',
-                class: { 'q-tree__node--disabled': meta.disabled }
-              }, children)
-            ])
+                h('div', {
+                  staticClass: 'q-tree__children',
+                  class: { 'q-tree__node--disabled': meta.disabled }
+                }, children)
+              ]
+              : void 0
+            )
           ])
           : body
       ])

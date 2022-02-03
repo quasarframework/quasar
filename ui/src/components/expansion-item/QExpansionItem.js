@@ -63,7 +63,10 @@ export default Vue.extend({
 
   watch: {
     showing (val) {
-      val === true && this.group !== void 0 && this.$root.$emit(eventName, this)
+      if (val === true) {
+        this.shouldRenderContent !== true && (this.shouldRenderContent = true)
+        this.group !== void 0 && this.$root.$emit(eventName, this)
+      }
     },
 
     group (newVal, oldVal) {
@@ -253,7 +256,7 @@ export default Vue.extend({
             staticClass: 'q-expansion-item__content relative-position',
             style: this.contentStyle,
             directives: [{ name: 'show', value: this.showing }]
-          }, slot(this, 'default'))
+          }, this.shouldRenderContent === true ? slot(this, 'default') : void 0)
         ])
       ]
 
@@ -288,6 +291,7 @@ export default Vue.extend({
   },
 
   created () {
+    this.shouldRenderContent = this.showing === true
     this.group !== void 0 && this.$root.$on(eventName, this.__eventHandler)
   },
 
