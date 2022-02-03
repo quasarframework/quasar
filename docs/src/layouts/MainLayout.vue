@@ -147,7 +147,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 $footer-columns-md-min: 5;
 $footer-columns-sm-min: 4;
-$adjust-header-viewport: 860px;
 
 .lp-footer {
   display: grid;
@@ -176,18 +175,19 @@ $adjust-header-viewport: 860px;
   z-index: 5; // ensures it's lower than header but higher than components page filter section
 }
 
-@function generateRandomStars($number-of-stars) {
-  $value: '#{random(7000)}px #{random(7000)}px #{$lp-primary}';
+$max-viewport-height: 7000; // max height at which stars are spread
+
+@function generateRandomStars($number-of-stars, $max-viewport-height) {
+  $value: '#{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}';
   @for $i from 1 through $number-of-stars {
-    $value: '#{$value}, #{random(7000)}px #{random(7000)}px #{$lp-primary}';
+    $value: '#{$value}, #{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}';
   }
   @return unquote($value);
 }
 
-$shadows-sm: generateRandomStars(700);
-$shadows-md: generateRandomStars(600);
-$shadows-lg: generateRandomStars(500);
-$stars-spread-distance: 3500; // distance to spread stars from top
+$shadows-sm: generateRandomStars(700, $max-viewport-height);
+$shadows-md: generateRandomStars(600, $max-viewport-height);
+$shadows-lg: generateRandomStars(500, $max-viewport-height);
 
 @mixin createStar($size, $box-shadow, $animation-duration) {
   animation: animateStar $animation-duration linear infinite;
@@ -195,15 +195,6 @@ $stars-spread-distance: 3500; // distance to spread stars from top
   box-shadow: $box-shadow;
   height: #{$size}px;
   width: #{$size}px;
-
-  &:after {
-    background: transparent;
-    box-shadow: $box-shadow;
-    content: "";
-    height: #{$size}px;
-    position: absolute;
-    width: #{$size}px;
-  }
 }
 
 #stars-sm {
@@ -221,7 +212,8 @@ $stars-spread-distance: 3500; // distance to spread stars from top
     transform: translateY(0px);
   }
   to {
-    transform: translateY(-#{$stars-spread-distance}px);
+    // animate at half the spread distance of stars
+    transform: translateY(-#{$max-viewport-height/2}px);
   }
 }
 </style>

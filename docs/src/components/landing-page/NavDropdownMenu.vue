@@ -25,7 +25,7 @@
             <q-icon name="keyboard_arrow_right" color="lp-dark"/>
           </q-item-section>
 
-          <q-menu anchor="top end" self="top start">
+          <q-menu anchor="top end" self="top start" class="shadow-bottom-medium">
             <nav-dropdown-menu :nav-items="navItem.subMenu" />
           </q-menu>
         </q-item>

@@ -1,71 +1,65 @@
-<template lang="pug">
-q-page.landing
-  section.landing__front.text-center
-    div
-      .row.justify-center
-        introduction-video.landing__video
+<template>
+  <q-page class="landing column justify-center bg-lp-light-grey q-px-xl font-monserrat">
+    <h1 class="lp-heading lp-heading--large landing__title normal-line-height">Welcome to quasar docs</h1>
+    <p
+      class="letter-spacing-300 text-size-16 text-weight-bold text-center text-lp-deep-dark"
+    >Here you can find everything you need to start working with Quasar.</p>
+    <p
+      class="letter-spacing-40 text-size-16 text-lp-dark text-center"
+    >In the top navigation bar there is a search function that helps you find what you need and also
+      <br v-if="$q.screen.gt.sm"> many other pages that you can explore, like beginner resources and other cool content
+      about <br v-if="$q.screen.gt.sm"> the Quasar galaxy. Don’t forget to check our page to
+      <a
+        class="text-lp-accent"
+        href="https://github.com/sponsors/rstoenescu"
+        target="_blank">become sponsor</a>!
+    </p>
+    <p class="letter-spacing-40 text-size-16 text-lp-dark text-center">If you are an experienced explorer get right into
+      action: use the navigation drawer on the left <br v-if="$q.screen.gt.sm"> to navigate through our most important
+      technical resources.
+    </p>
+    <h2
+      class="lp-heading lp-heading--medium q-mb-lg cards-title normal-line-height"
+    >Have a look at Our most used pages</h2>
+    <div class="cards-grid lp-mb--large">
+      <q-card
+        v-for="({path, label, icon}, cardIndex) in quickNavCards"
+        :key="cardIndex"
+        class="raise-on-hover card column justify-end items-center cursor-pointer"
+        flat
+        @click="$router.push(`/${path}`)"
+      >
+        <q-card-section class="q-pa-none q-mb-lg">
+          <q-icon
+            :name="icon"
+            class="card__icon"
+            color="lp-primary"/>
+        </q-card-section>
 
-  section.bg-white.text-grey-10.text-center.row.justify-center
-    .landing__features.row
-      .col-12.text-center
-        h4 All Platforms in One Go
-      .col-12.text-center.q-my-xl
-        .landing__features-icons.q-gutter-lg
-          q-icon(:name="fabApple")
-          q-icon(:name="fabWindows")
-          q-icon(:name="fabLinux")
-          q-icon(:name="fabAndroid")
-          q-icon(:name="fabChrome")
-          q-icon(:name="fabFirefox")
-          q-icon(:name="fabEdge")
-          q-icon(:name="fabSafari")
-      .col-12.text-center.q-my-xl
-        p Combine the power of Quasar UI with Quasar CLI. One source code for all platforms simultaneously with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
-      .col-12.row.justify-center
-        q-card.bg-grey-1.q-px-lg.q-py-sm(bordered flat)
-          q-card-section(horizontal)
-            q-card-section.text-left.column.items-center.q-gutter-sm
-              q-badge(label="$ yarn global add @quasar/cli" color="grey-8")
-              q-badge(label="$ yarn create quasar" color="grey-8")
-            q-separator(vertical)
-            q-card-section.text-left.column.items-center.q-gutter-sm
-              q-badge(label="$ npm i -g @quasar/cli" color="grey-8")
-              q-badge(label="$ npm init quasar" color="grey-8")
-
-  section.bg-white.text-grey-10.text-center.row.justify-center
-    .landing__features.row
-      .col-12.q-my-xl.row.items-center.justify-center
-        q-img.col-12.col-sm-4.landing__icongenie-logo(src="https://cdn.quasar.dev/img/iconfactory.png")
-        .col-12.col-sm-8.column.items-center
-          h4 Quasar Icon Genie
-          .q-mt-lg.q-mb-xl Consumes a source icon and automatically clones, scales, minifies and places the (needed) 100+ generated icons and splash screens in the appropriate directories for you.
-          q-btn(color="brand-primary", unelevated, no-caps, no-wrap, :icon-right="mdiLaunch", label="IconGenie", to="/icongenie/introduction")
+        <q-card-section class="q-pa-none">
+          <q-btn
+            :label="label"
+            :to="path"
+            class="q-mb-md text-size-16 text-weight-bold letter-spacing-300"
+            color="lp-deep-dark"
+            flat
+            no-caps
+            padding="sm"
+          />
+        </q-card-section>
+      </q-card>
+    </div>
+  </q-page>
 </template>
 
 <script>
+import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 
-import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo.vue'
-
-import {
-  fasMedkit, fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
-  fabFirefox, fabEdge, fabSafari, fabGoogle
-} from '@quasar/extras/fontawesome-v5'
-
-import {
-  mdiChevronDown, mdiLaunch, mdiPost,
-  mdiChat, mdiForum
-} from '@quasar/extras/mdi-v6'
-
 import { useDocStore } from 'assets/doc-store.js'
-import features from 'assets/features.js'
 
-export default {
+export default defineComponent({
   name: 'Landing',
-
-  components: {
-    IntroductionVideo
-  },
 
   setup () {
     useMeta({
@@ -76,75 +70,96 @@ export default {
     const $store = useDocStore()
     $store.toc = []
 
-    return {
-      features,
-
-      fasMedkit,
-      fabApple,
-      fabWindows,
-      fabLinux,
-      fabAndroid,
-      fabChrome,
-      fabFirefox,
-      fabEdge,
-      fabSafari,
-      fabGoogle,
-
-      mdiChevronDown,
-      mdiLaunch,
-      mdiPost,
-      mdiChat,
-      mdiForum
-    }
+    const quickNavCards = [
+      {
+        label: 'Layout Gallery',
+        icon: 'view_quilt',
+        path: 'layout/gallery'
+      },
+      {
+        label: 'Options & Helpers',
+        icon: 'tune',
+        path: 'options'
+      },
+      {
+        label: 'Color Palette',
+        icon: 'style',
+        path: 'style/color-palette'
+      },
+      {
+        label: 'Typography',
+        icon: 'view_quilt',
+        path: '#'
+      },
+      {
+        label: 'Layout Gallery',
+        icon: 'view_quilt',
+        path: 'layout/gallery'
+      },
+      {
+        label: 'Layout Gallery',
+        icon: 'view_quilt',
+        path: 'layout/gallery'
+      },
+      {
+        label: 'Layout Gallery',
+        icon: 'view_quilt',
+        path: 'layout/gallery'
+      },
+      {
+        label: 'Layout Gallery',
+        icon: 'view_quilt',
+        path: 'layout/gallery'
+      }
+    ]
+    return { quickNavCards }
   }
-}
+})
+
 </script>
 
-<style lang="sass">
-.landing
+<style lang="scss" scoped>
+.landing {
+  &__title {
+    margin-top: 72px;
+  }
+}
 
-  > section
-    display: flex
-    justify-content: center
-    padding: 70px 16px 100px
+.cards-grid {
+  display: grid;
+  gap: 24px;
+  justify-content: center;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, 240px);
+  grid-auto-rows: 240px;
 
-    > div
-      position: relative
-      max-width: 1040px
-      width: 100%
+  @media screen and (min-width: $breakpoint-md-max) {
+    grid-template-columns: repeat(4, 240px);
+  }
 
-  &__icongenie-logo
-    max-width: 220px !important
+  &-title {
+    margin-top: 100px;
+  }
+}
 
-  &__front
+.card {
+  height: 240px;
+  width: 240px;
+  border-radius: 8px;
+  border: solid 1px rgba(0, 0, 0, 0.12);
 
-    > div
-      max-width: 700px !important
+  &__icon {
+    font-size: 100px;
+  }
+}
 
-  &__video
-    width: 530px
-    max-width: 100%
+.raise-on-hover {
+  transition: transform .3s, box-shadow 0.3s;
 
-  &__features
-
-    h4, h6
-      margin: 26px 0
-
-    h6
-      margin-top: 18px
-
-    p
-      opacity: .6
-      font-size: 16px
-
-    &-icons
-      font-size: 64px
-
-    &-link
-      color: $grey-9
-      text-decoration: none !important
-      padding: 2px 3px
-
-      &:hover
-        color: $brand-primary
+  &:hover {
+    // !important needed when used with flat cards
+    box-shadow: 0 8px 8px 0 rgba($lp-dark, .2) !important;
+    transform: scale(1.03)
+  }
+}
 </style>

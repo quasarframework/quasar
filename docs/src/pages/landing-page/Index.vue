@@ -1,58 +1,50 @@
 <template>
   <q-page class="text-white q-mx-lg">
-    <div class="row flex-center lp-mt--large">
-      <div class="col-md-6 col-xs-12 column items-center text-center">
-        <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
+    <div class="column items-center intro-section letter-spacing-300">
+      <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" />
 
-        <h1 class="lp-my--medium text-white-54 text-size-20 letter-spacing-375 primary-line-height">
-          The open source multi-platform development framework based on Vue.js
-          with an enterprise vocation.
-        </h1>
+      <h1
+        :class="$q.screen.gt.md? 'letter-spacing-375':'letter-spacing-300'"
+        class="lp-my--medium text-center text-white-54 text-size-20 primary-line-height"
+      >
+        The open source multi-platform development framework <br v-if="$q.screen.gt.sm"> based on Vue.js
+        with an enterprise vocation.
+      </h1>
 
-        <q-btn
-          color="lp-accent"
-          label="Take a look across the stars"
-          class="call-to-action-btn shadow-bottom-small"
-          @click="scrollSectionIntoView('why-quasar-section')"
-        />
+      <q-btn
+        color="lp-accent"
+        label="Take a look across the stars"
+        class="call-to-action-btn shadow-bottom-small"
+        @click="scrollSectionIntoView('why-quasar-section')"
+      />
 
-        <div class="q-mt-lg">
-          <q-btn
-            flat
-            round
-            icon="arrow_downward"
-            class="text-white"
-            size="lg"
-            padding="none"
-            @click="scrollSectionIntoView('why-quasar-section')"
-          />
-        </div>
-      </div>
-    </div>
+      <q-btn
+        flat
+        round
+        icon="arrow_downward"
+        class="text-white q-mt-md"
+        size="lg"
+        padding="none"
+        @click="scrollSectionIntoView('why-quasar-section')"
+      />
 
-    <div class="sponsors letter-spacing-300">
-      <div
-        class="text-weight-bold text-lp-primary text-center text-size-16 text-capitalize"
-      >Our Platinum sponsors</div>
-      <div class="sponsors__logos row col-6 col-sm-4 justify-center lp-my--medium">
-        <q-img
-          v-for="(src, index) in sponsorLogos.platinum"
-          :key="index"
-          :src="`sponsor-logos/${src}`"
-          width="200px"
-        />
-      </div>
-      <div class="row justify-center lp-mt--medium">
-        <q-btn
-          flat
-          padding="none"
-          text-color="white-54"
-          no-caps
-          label="Full sponsor's list"
-          class="lp-btn-underline text-size-16 letter-spacing-300"
-          @click="scrollSectionIntoView('sponsors_section')"
-        />
-      </div>
+      <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">Our Platinum sponsors</div>
+      <q-img
+        v-for="(src, index) in sponsorLogos.platinum"
+        :key="index"
+        :src="`sponsor-logos/${src}`"
+        width="200px"
+        class="q-my-md"
+      />
+      <q-btn
+        flat
+        padding="none"
+        text-color="white-54"
+        no-caps
+        label="Full sponsor's list"
+        class="lp-btn-underline text-size-16 letter-spacing-300"
+        @click="scrollSectionIntoView('sponsors-section')"
+      />
     </div>
 
     <div class="q-my-xl" id="why-quasar-section">
@@ -83,15 +75,15 @@
     </div>
 
     <div class="window-height support-quasar-section">
-      <div class="row justify-center">
-        <div class="col-6 col-xs-10">
+      <div class="column items-center">
+        <div class="support-quasar-section__container">
           <h2
             class="text-uppercase lp-heading--large support-quasar-section__title"
           >Support quasar: Become sponsor!</h2>
 
           <div
-            class="lp-heading--small text-left support-quasar-caption-text"
-          >Working for a company or freelancer? You can contribute, ever a bit and getting something back.</div>
+            class="lp-heading--small text-left"
+          >Working for a company or freelancer? You can contribute, even a <br> bit and getting something back.</div>
 
           <q
             class="q-my-md lp-heading--quote primary-line-height lp-my--medium"
@@ -114,35 +106,33 @@
           src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png"
         />
         <q-img
+          :img-style="{ width: '102%' }"
           class="astronaut-hand--right"
           width="50%"
-          :img-style="{ width: '102%' }"
           src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png"
         />
       </div>
     </div>
 
-    <div class="text-center sponsors-section" id="sponsors_section">
+    <div class="text-center sponsors-section" id="sponsors-section">
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
       <h2 class="lp-heading lp-heading--large">Our Sponsors</h2>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
-      <div class="row justify-center">
-        <div class="col-8 text-size-16 text-weight-bold">
-          <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
-          <q-img
-            :src="`sponsor-logos/${src}`"
-            width="200px"
-            v-for="(src, index) in sponsorLogos.platinum"
-            :key="index"
-          />
-          <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
-          <q-img
-            :src="`sponsor-logos/${src}`"
-            width="200px"
-            v-for="(src, index) in sponsorLogos.silver"
-            :key="index"
-          />
-        </div>
+      <div class="text-size-16 text-weight-bold">
+        <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
+        <q-img
+          v-for="(src, platinumSponsorIndex) in sponsorLogos.platinum"
+          :key="platinumSponsorIndex"
+          :src="`sponsor-logos/${src}`"
+          width="200px"
+        />
+        <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
+        <q-img
+          v-for="(src, silverSponsorIndex) in sponsorLogos.silver"
+          :key="silverSponsorIndex"
+          :src="`sponsor-logos/${src}`"
+          width="200px"
+        />
       </div>
     </div>
 
@@ -251,14 +241,8 @@ q {
     margin-top: -100px;
 
     @media screen and (min-width: $breakpoint-md-min) {
-      margin-top: -600px;
+      margin-top: -400px;
     }
-  }
-}
-
-.support-quasar-caption-text {
-  @media screen and (min-width: $breakpoint-sm-min) {
-    width: 65%;
   }
 }
 
@@ -281,6 +265,9 @@ q {
 }
 
 .support-quasar-section {
+  &__container {
+    margin: 0 24px 0 24px;
+  }
   &__title {
     margin-top: 256px;
   }
@@ -291,6 +278,19 @@ q {
   @media screen and (min-width: $breakpoint-md-max) {
     height: 18vh;
     margin-top: 400px;
+  }
+}
+
+.intro-section {
+  margin-top: 60px;
+  margin-bottom: 208px;
+
+  @media screen and (min-height: 980px) {
+    margin-top: 100px;
+
+    &__sponsors-heading {
+      margin-top: 80px !important;
+    }
   }
 }
 </style>

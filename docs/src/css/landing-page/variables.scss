@@ -5,6 +5,9 @@ $lp-accent: #EA5E13;
 $lp-dark: #050a14;
 $lp-grey: #d8e1e5;
 
+$lp-light-grey: #fafafa;
+$lp-deep-dark: #475d66;
+
 $lp-positive: #21BA45;
 $lp-negative: #C10015;
 $lp-info: #31CCEC;
@@ -14,6 +17,7 @@ $lp-font-family: 'Montserrat', sans-serif;
 $lp-font-family-avenir: Avenir, $lp-font-family;
 
 $lp-box-shadow--large: 0 24px 24px 0 rgba(0, 180, 255, 0.24);
+$lp-box-shadow--medium: 0 6px 6px 0 rgba($lp-primary, 0.38);
 $lp-box-shadow--small: 0 6px 6px 0 rgba($lp-primary, 0.28);
 
 @import "utilities.scss";

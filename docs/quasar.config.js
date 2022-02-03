@@ -22,7 +22,7 @@ module.exports = ctx => ({
     // rebuildCache: true,
 
     viteVuePluginOptions: {
-      include: [ /\.(vue|md)$/ ]
+      include: [/\.(vue|md)$/]
     },
 
     vitePlugins: [
@@ -72,7 +72,7 @@ module.exports = ctx => ({
     ]
   },
 
-  animations: [ 'fadeIn', 'fadeOut' ],
+  animations: [ 'fadeIn', 'fadeOut', 'slideInDown' ],
 
   ssr: {
     pwa: ctx.prod,

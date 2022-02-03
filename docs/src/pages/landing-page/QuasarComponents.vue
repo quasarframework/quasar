@@ -8,12 +8,14 @@
         borderless
         label="Search component"
         dense
+        debounce="300"
         dark
+        hide-bottom-space
         class="relative-position search-field text-size-16"
       >
         <template #append>
           <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
-          <q-icon v-else name="cancel" @click.stop="search = ''" class="cursor-pointer"/>
+          <q-icon v-else name="clear" color="lp-primary" class="cursor-pointer" @click.stop="search = ''" />
         </template>
       </q-input>
       <div class="row justify-start q-ml-xl" v-if="$q.screen.gt.sm">
@@ -40,8 +42,10 @@
           class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           @click="$router.push(componentPath({path, name}))"
         >
-          <div class="thumbnail-container">
-            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" />
+          <!-- bg-lp-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
+          <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
+          <div class="thumbnail-container bg-lp-dark">
+            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" class="bg-lp-dark" />
           </div>
           <q-card-section class="text-lp-primary text-weight-bold">
             {{ name }}

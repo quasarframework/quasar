@@ -50,33 +50,15 @@ const NUMBER_OF_TWEETS_PER_CAROUSEL = {
 }
 
 const SHOW_CASE_TWEETS = [
-  '1138034912232185856',
-  '1260959783496101894',
-  '1317128110509379585',
-  '1258436297087086594',
-  '1453670879825629189',
-  '1044280073690517504',
-  '1217321922402250752',
-  '971542817834074113',
-  '1209117858904629248',
-  '1185955239343476737',
-  '1315274816354750465',
-  '1377514650212970497',
-  '1398305954882543616',
-  '1301171191269462017',
-  '1301043009987866624',
-  '1250060119402065923',
   '1162928248600387585',
-  '1258436297087086594',
-  '1221914932402442240',
-  '1185955239343476737',
-  '1189462396659752960',
   '1189641922182307840',
-  '1190864547734794241',
-  '1190967242202271744',
-  '1191008308209094660',
-  '1191369727253176320',
-  '1215238079868538880'
+  '1398305954882543616',
+  '1317128110509379585',
+  '1209117858904629248',
+  '1301043009987866624',
+  '1185955239343476737',
+  '1138034912232185856',
+  '1189462396659752960'
 ]
 
 function splitArrayIntoChunks (arrayToChunk, chunkLength) {
@@ -165,6 +147,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+/*
+ [1]: needed to create a white card behind the twitter card, this card gets shown when moving to a previous carousel
+ (carouse that had already being displayed) Necessary since the tweet content takes a few seconds to load
+ */
+
 .carousel-grid {
   display: grid;
   grid-column-gap: 16px;
@@ -180,6 +167,8 @@ export default defineComponent({
   justify-content: center
 }
 :deep(.twitter-tweet) {
+  background-color: $white; // [1]
+  border-radius: 20px; // [1]
   box-shadow: $lp-box-shadow--large;
 }
 </style>

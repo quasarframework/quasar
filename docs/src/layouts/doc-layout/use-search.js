@@ -1,5 +1,4 @@
 import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
-import { useRouter } from 'vue-router'
 
 import { apiTypeToComponentMap } from 'components/AppSearchResults.vue'
 import ResultEmpty from 'components/search-results/ResultEmpty.vue'
@@ -34,12 +33,11 @@ function fetchQuery (val, onResult, onError) {
 
 export default function useSearch (scope, $q, $route) {
   const searchTerms = ref('')
-  const searchResults = ref(null)
+  const searchResults = ref()
   const searchHasFocus = ref(false)
-  const searchActiveId = ref(null)
-  const searchInputRef = ref(null)
-
-  const $router = useRouter()
+  const searchActiveId = ref()
+  const searchInputRef = ref()
+  const focusByKeyboard = ref(false)
 
   function parseResults (hits) {
     if (hits.length === 0) {
@@ -67,15 +65,13 @@ export default function useSearch (scope, $q, $route) {
 
       const entry = {
         component: component.name,
+        to: hit.url,
         ...component.extractProps(hit),
 
         onMouseenter () {
           if (searchHasFocus.value === true) {
             searchActiveId.value = entry.id
           }
-        },
-        onClick () {
-          $router.push(hit.url).catch(() => {})
         }
       }
 
@@ -103,12 +99,10 @@ export default function useSearch (scope, $q, $route) {
     ) {
       evt.preventDefault()
 
-      if (scope.leftDrawerState.value !== true) {
-        scope.leftDrawerState.value = true
-      }
-
       setTimeout(() => {
-        searchInputRef.value.focus()
+        // focus is caused by /
+        focusByKeyboard.value = !focusByKeyboard.value
+        searchInputRef.value && searchInputRef.value.focus()
       })
     }
   }
@@ -123,13 +117,13 @@ export default function useSearch (scope, $q, $route) {
 
   function onSearchBlur () {
     searchHasFocus.value = false
-    searchActiveId.value = null
+    searchActiveId.value = undefined
   }
 
   function resetSearch () {
     searchTerms.value = ''
-    searchResults.value = null
-    searchActiveId.value = null
+    searchResults.value = undefined
+    searchActiveId.value = undefined
   }
 
   function onSearchClear () {
@@ -146,8 +140,8 @@ export default function useSearch (scope, $q, $route) {
       case 38: // up
       case 40: // down
         evt.preventDefault()
-        if (searchResults.value !== null && searchResults.value.ids !== void 0) {
-          if (searchActiveId.value === null) {
+        if (searchResults.value !== void 0 && searchResults.value.ids !== void 0) {
+          if (searchActiveId.value === void 0) {
             searchActiveId.value = searchResults.value.ids[ 0 ]
           }
           else {
@@ -168,7 +162,7 @@ export default function useSearch (scope, $q, $route) {
       case 13: // enter
         evt.preventDefault()
         evt.stopPropagation()
-        if (searchResults.value !== null && searchActiveId.value !== null) {
+        if (searchResults.value !== void 0 && searchActiveId.value !== void 0) {
           document.getElementById(searchActiveId.value).click(evt)
         }
         break
@@ -223,6 +217,7 @@ export default function useSearch (scope, $q, $route) {
     searchHasFocus,
     searchActiveId,
     searchInputRef,
+    focusByKeyboard,
     resetSearch,
     onSearchKeydown,
     onSearchFocus,
