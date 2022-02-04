@@ -301,7 +301,7 @@ export default {
         ? this.__unmask(masked)
         : masked
 
-      this.value !== val && this.__emitValue(val, true)
+      String(this.value) !== val && this.__emitValue(val, true)
     },
 
     __moveCursorForPaste (inp, start, end) {
