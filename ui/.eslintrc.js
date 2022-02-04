@@ -5,21 +5,26 @@ module.exports = {
     sourceType: 'module'
   },
   env: {
-    browser: true
+    browser: true,
+    mocha: true
   },
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/vue3-essential',
+    'plugin:cypress/recommended',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'no-only-tests'
   ],
   globals: {
     cordova: true,
+    cy: true,
+    expect: true,
     __statics: true,
     __QUASAR_VERSION__: true,
     __QUASAR_SSR__: true,
@@ -76,6 +81,10 @@ module.exports = {
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',
     'vue/no-v-model-argument': 'off',
-    'vue/require-explicit-emits': 'off'
+    'vue/require-explicit-emits': 'off',
+
+    // Testing
+    'cypress/no-unnecessary-waiting': 'off',
+    'no-only-tests/no-only-tests': 'error'
   }
 }

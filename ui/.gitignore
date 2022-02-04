@@ -14,3 +14,4 @@ cordova
 debug.log
 package-lock.json
 .vscode
+__diff_output__

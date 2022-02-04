@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.4.13",
+  "version": "2.5.3",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "main": "dist/quasar.cjs.prod.js",
   "module": "dist/quasar.esm.prod.js",
@@ -27,7 +27,10 @@
     "build": "node build/script.build.js",
     "test": "yarn lint && yarn build",
     "lint": "eslint --ext .js,.vue src dev",
-    "lint-fix": "eslint --ext .js,.vue src dev --fix"
+    "lint-fix": "eslint --ext .js,.vue src dev --fix",
+    "test:unit": "cd ./dev && cypress open-ct && cd ..",
+    "test:unit:ci": "cd ./dev && cypress run-ct && cd ..",
+    "test:create": "node ./test/cypress/helpers/create-spec.js -c"
   },
   "repository": {
     "type": "git",
@@ -64,6 +67,7 @@
     "@babel/eslint-parser": "^7.13.14",
     "@quasar/app": "^3.0.0",
     "@quasar/extras": "^1.12.0",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^4.0.1",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.3.3",
     "babel-preset-es2015-rollup": "^3.0.0",
@@ -72,7 +76,9 @@
     "eslint": "^7.4.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-friendly-formatter": "^4.0.1",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-no-only-tests": "^2.6.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-vue": "^7.0.0",
@@ -81,13 +87,17 @@
     "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
     "prettier": "^2.4.1",
+    "quasar": "^2.1.9",
     "recast": "^0.18.5",
     "rimraf": "^3.0.1",
     "rollup": "^2.34.0",
     "rollup-plugin-typescript2": "^0.29.0",
     "table": "^6.0.4",
     "tslib": "^2.0.3",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
+    "yargs": "^17.3.0"
   },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",
