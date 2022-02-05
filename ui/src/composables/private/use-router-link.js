@@ -248,7 +248,7 @@ export default function (fallbackTag) {
     prevent(e)
 
     return proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
-      .catch(() => {})
+      .catch(err => err)
   }
 
   return {

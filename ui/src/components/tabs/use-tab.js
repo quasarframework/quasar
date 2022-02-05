@@ -108,9 +108,12 @@ export default function (props, slots, emit, routerProps) {
               $tabs.avoidRouteWatcher = false
             }
             else {
-              res.then(() => {
+              res.then(err => {
                 $tabs.avoidRouteWatcher = false
-                $tabs.updateModel({ name: props.name, fromRoute: true })
+
+                if (err === void 0) {
+                  $tabs.updateModel({ name: props.name, fromRoute: true })
+                }
               })
             }
           }
@@ -167,12 +170,12 @@ export default function (props, slots, emit, routerProps) {
     props.alert !== false && content.push(
       props.alertIcon !== void 0
         ? h(QIcon, {
-            class: 'q-tab__alert-icon',
-            color: props.alert !== true
-              ? props.alert
-              : void 0,
-            name: props.alertIcon
-          })
+          class: 'q-tab__alert-icon',
+          color: props.alert !== true
+            ? props.alert
+            : void 0,
+          name: props.alertIcon
+        })
         : h('div', {
           class: 'q-tab__alert'
             + (props.alert !== true ? ` text-${ props.alert }` : '')

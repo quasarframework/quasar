@@ -61,6 +61,8 @@ list.Meta = [
   { route: '/meta/title', title: 'Meta Title page' }
 ]
 
+list[ 'web-tests' ].push({ route: '/tabs-router', title: 'Tabs Router' })
+
 export default {
   created () {
     this.list = list
