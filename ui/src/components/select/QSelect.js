@@ -337,7 +337,7 @@ export default createComponent({
           itemProps[ 'aria-selected' ] = itemProps.active === true ? 'true' : 'false'
 
           if ($q.platform.is.desktop === true) {
-            itemProps.onMousemove = () => { setOptionIndex(index) }
+            itemProps.onMousemove = () => { menu.value === true && setOptionIndex(index) }
           }
         }
 
