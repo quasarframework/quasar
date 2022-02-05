@@ -302,7 +302,7 @@ export default Vue.extend({
         }
 
         if (this.$q.platform.is.desktop === true) {
-          itemEvents.mousemove = () => { this.setOptionIndex(index) }
+          itemEvents.mousemove = () => { this.menu === true && this.setOptionIndex(index) }
         }
 
         const option = {
