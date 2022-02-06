@@ -43,6 +43,11 @@ describe('QSelect API', () => {
           //
         })
       })
+      describe('(prop): open-on-hover', () => {
+        it.skip(' ', () => {
+          //
+        })
+      })
     })
 
     describe('Category: content', () => {
