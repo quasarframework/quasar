@@ -43,7 +43,7 @@ It's recommended to keep `vue` & `vue-router` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add vue@next vue-router@next
+$ yarn add vue@3 vue-router@4
 ```
 
 ::: warning Note for code editor terminals
@@ -62,7 +62,7 @@ It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add vue@next @quasar/extras@latest
+$ yarn add vue@3 @quasar/extras@latest
 ```
 
 ### With Vue CLI
@@ -77,7 +77,7 @@ It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add vue@next @quasar/extras@latest
+$ yarn add vue@3 @quasar/extras@latest
 ```
 
 ## Migrate to v2 from v1
@@ -153,7 +153,7 @@ Before starting, it is highly suggested to make a copy of your current working p
 4) **Install**: `@quasar/app` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
   ```bash
   $ yarn add --dev @quasar/app@3
-  $ yarn add quasar@2 vue@next vue-router@next
+  $ yarn add quasar@2 vue@3 vue-router@4
   ```
 5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 6) If you are using ESLint, then edit `/.eslintrc.js`:
