@@ -43,7 +43,7 @@ It's recommended to keep `vue` & `vue-router` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add vue@latest vue-router@latest
+$ yarn add vue@next vue-router@next
 ```
 
 ::: warning Note for code editor terminals
@@ -62,7 +62,7 @@ It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add vue@latest @quasar/extras@latest
+$ yarn add vue@next @quasar/extras@latest
 ```
 
 ### With Vue CLI
@@ -77,7 +77,7 @@ It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add vue@latest @quasar/extras@latest
+$ yarn add vue@next @quasar/extras@latest
 ```
 
 ## Migrate to v2 from v1
