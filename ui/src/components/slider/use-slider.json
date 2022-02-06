@@ -29,7 +29,7 @@
     "inner-max": {
       "type": "Number",
       "desc": "Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be lower or equal to 'max' prop; Defaults to 'max' prop",
-      "examples": [ ":max-value=\"100\"" ],
+      "examples": [ ":inner-max=\"100\"" ],
       "category": "model",
       "addedIn": "v2.4"
     },

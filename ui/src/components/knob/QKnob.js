@@ -27,6 +27,9 @@ export default createComponent({
       required: true
     },
 
+    innerMin: Number,
+    innerMax: Number,
+
     step: {
       type: Number,
       default: 1,
@@ -51,27 +54,33 @@ export default createComponent({
     const model = ref(props.modelValue)
     const dragging = ref(false)
 
+    const innerMin = computed(() => (
+      isNaN(props.innerMin) === true || props.innerMin < props.min
+        ? props.min
+        : props.innerMin
+    ))
+    const innerMax = computed(() => (
+      isNaN(props.innerMax) === true || props.innerMax > props.max
+        ? props.max
+        : props.innerMax
+    ))
+
     let centerPosition, $el
 
-    watch(() => props.modelValue, val => {
-      if (val < props.min) {
-        model.value = props.min
-      }
-      else if (val > props.max) {
-        model.value = props.max
-      }
-      else {
-        if (val !== model.value) {
-          model.value = val
-        }
-        return
-      }
+    function normalizeModel () {
+      model.value = props.modelValue === null
+        ? innerMin.value
+        : between(props.modelValue, innerMin.value, innerMax.value)
 
-      if (model.value !== props.modelValue) {
-        emit('update:modelValue', model.value)
-        emit('change', model.value)
-      }
-    })
+      updateValue(true)
+    }
+
+    watch(
+      () => `${ props.modelValue }|${ innerMin.value }|${ innerMax.value }`,
+      normalizeModel
+    )
+
+    normalizeModel()
 
     const editable = computed(() => props.disable === false && props.readonly === false)
 
@@ -169,8 +178,8 @@ export default createComponent({
 
       model.value = between(
         parseFloat((model.value + offset).toFixed(decimals.value)),
-        props.min,
-        props.max
+        innerMin.value,
+        innerMax.value
       )
 
       updateValue()
@@ -213,7 +222,7 @@ export default createComponent({
         newModel = parseFloat(newModel.toFixed(decimals.value))
       }
 
-      newModel = between(newModel, props.min, props.max)
+      newModel = between(newModel, innerMin.value, innerMax.value)
 
       emit('drag-value', newModel)
 
@@ -249,8 +258,8 @@ export default createComponent({
       const data = {
         class: classes.value,
         role: 'slider',
-        'aria-valuemin': props.min,
-        'aria-valuemax': props.max,
+        'aria-valuemin': innerMin.value,
+        'aria-valuemax': innerMax.value,
         'aria-valuenow': props.modelValue,
         ...attrs.value,
         ...circularProps.value,
