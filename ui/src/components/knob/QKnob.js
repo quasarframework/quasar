@@ -6,6 +6,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { createComponent } from '../../utils/private/create.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
+import { hDir } from '../../utils/private/render.js'
 
 import { useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
 import { useCircularCommonProps } from '../circular-progress/use-circular-progress.js'
@@ -262,18 +263,18 @@ export default createComponent({
         default: slots.default
       }
 
-      if (editable.value === true) {
-        if (props.name !== void 0) {
-          child.internal = getNameInput
-        }
-
-        return withDirectives(
-          h(QCircularProgress, data, child),
-          directives.value
-        )
+      if (editable.value === true && props.name !== void 0) {
+        child.internal = getNameInput
       }
 
-      return h(QCircularProgress, data, child)
+      return hDir(
+        QCircularProgress,
+        data,
+        child,
+        'knob',
+        editable.value,
+        () => directives.value
+      )
     }
   }
 })
