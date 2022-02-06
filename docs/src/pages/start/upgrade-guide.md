@@ -153,7 +153,7 @@ Before starting, it is highly suggested to make a copy of your current working p
 4) **Install**: `@quasar/app` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
   ```bash
   $ yarn add --dev @quasar/app@3
-  $ yarn add quasar@2 vue@latest vue-router@latest
+  $ yarn add quasar@2 vue@next vue-router@next
   ```
 5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 6) If you are using ESLint, then edit `/.eslintrc.js`:
