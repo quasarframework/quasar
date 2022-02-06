@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
