@@ -113,7 +113,7 @@ export default {
 
             // "ref" is the Vue reference to the QSelect
             ref => {
-              if (val !== '' && ref.options.length > 0 && ref.optionIndex === -1) {
+              if (val !== '' && ref.options.length > 0 && ref.getOptionIndex() === -1) {
                 ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
                 ref.toggleOption(ref.options[ ref.optionIndex ], true) // toggle the focused option
               }

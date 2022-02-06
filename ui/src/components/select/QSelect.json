@@ -718,13 +718,26 @@
       }
     },
 
-    "setOptionIndex": {
-      "desc": "Sets option from menu as 'focused'",
+    "getOptionIndex": {
+      "desc": "Gets current focused option index from menu; It's -1 if no option is focused",
       "params": {
         "index": {
           "type": "Number",
           "required": true,
-          "desc": "Index of option from menu",
+          "desc": "Index of option from menu; -1 if no option is focused",
+          "examples": [ 10 ]
+        }
+      },
+      "addedIn": "v2.5.4"
+    },
+
+    "setOptionIndex": {
+      "desc": "Sets option from menu as 'focused'; -1 to focus none",
+      "params": {
+        "index": {
+          "type": "Number",
+          "required": true,
+          "desc": "Index of option from menu; -1 to focus none",
           "examples": [ 10 ]
         }
       }

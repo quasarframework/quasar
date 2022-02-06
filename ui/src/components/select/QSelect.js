@@ -1385,6 +1385,7 @@ export default createComponent({
     Object.assign(proxy, {
       showPopup, hidePopup,
       removeAtIndex, add, toggleOption,
+      getOptionIndex: () => optionIndex.value,
       setOptionIndex, moveOptionSelection,
       filter, updateMenuPosition, updateInputValue,
       isOptionSelected,
