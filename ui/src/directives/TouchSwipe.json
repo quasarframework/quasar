@@ -12,9 +12,8 @@
         "desc": "Event details",
         "definition": {
           "evt": {
-            "type": "Object",
-            "desc": "Original JS event Object",
-            "__exemption": [ "examples" ]
+            "extends": "evt",
+            "desc": "Original JS event Object"
           },
           "touch": {
             "type": "Boolean",

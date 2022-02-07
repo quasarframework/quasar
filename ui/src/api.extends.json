@@ -139,6 +139,11 @@
       "default": true,
       "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
       "category": "style"
+    },
+
+    "evt": {
+      "type": "Event",
+      "desc": "JS event object"
     }
   },
 
@@ -165,10 +170,8 @@
       "desc": "Emitted after component has triggered show()",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     },
@@ -177,10 +180,8 @@
       "desc": "Emitted when component triggers show() but before it finishes doing it",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     },
@@ -193,10 +194,8 @@
       "desc": "Emitted after component has triggered hide()",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     },
@@ -205,10 +204,8 @@
       "desc": "Emitted when component triggers hide() but before it finishes doing it",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     },
@@ -221,10 +218,8 @@
       "desc": "Emitted when user clicks/taps on the component",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     }
@@ -235,10 +230,8 @@
       "desc": "Triggers component to show",
       "params": {
         "evt": {
-          "type": "Object",
-          "required": false,
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": false
         }
       }
     },
@@ -247,10 +240,8 @@
       "desc": "Triggers component to hide",
       "params": {
         "evt": {
-          "type": "Object",
-          "required": false,
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": false
         }
       }
     },
@@ -258,10 +249,8 @@
     "toggle": {
       "params": {
         "evt": {
-          "type": "Object",
-          "required": false,
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": false
         }
       },
       "desc": "Triggers component to toggle between show/hide"

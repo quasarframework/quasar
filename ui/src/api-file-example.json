@@ -63,7 +63,7 @@
       "desc": "Emitted on QChip click if 'clickable' property is set",
       "params": {
         "evt": {
-          "type": "Object",
+          "type": "Event",
           "desc": "JS event object"
         }
       }
@@ -83,7 +83,7 @@
     "hide": {
       "params": {
         "evt": {
-          "type": "Object",
+          "type": "Event",
           "required": false,
           "desc": "JS event object"
         }

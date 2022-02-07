@@ -95,9 +95,7 @@
       "desc": "Manually trigger form validation and submit",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -106,9 +104,7 @@
       "desc": "Manually trigger form reset",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
