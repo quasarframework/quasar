@@ -37,7 +37,13 @@
 
   "events": {
     "submit": {
-      "desc": "Emitted when all validations have passed when tethered to a submit button"
+      "desc": "Emitted when all validations have passed when tethered to a submit button",
+      "params": {
+        "evt": {
+          "type": "SubmitEvent",
+          "desc": "Form submission event object"
+        }
+      }
     },
 
     "reset": {
@@ -75,9 +81,7 @@
       "returns": {
         "type": "Promise<boolean>",
         "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid models detected)",
-        "examples": [
-          "validate().then(outcome => { ... })"
-        ]
+        "examples": ["validate().then(outcome => { ... })"]
       }
     },
 
@@ -91,7 +95,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "__exemption": ["examples"]
         }
       }
     },
@@ -102,7 +106,7 @@
         "evt": {
           "type": "Object",
           "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "__exemption": ["examples"]
         }
       }
     },
@@ -112,7 +116,7 @@
       "returns": {
         "type": "Array",
         "desc": "Vue components that support Quasar validation API",
-        "__exemption": [ "examples" ]
+        "__exemption": ["examples"]
       }
     }
   }
