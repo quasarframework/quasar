@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -272,18 +272,30 @@ export default createComponent({
         default: slots.default
       }
 
-      if (editable.value === true && props.name !== void 0) {
-        child.internal = getNameInput
+      if (editable.value === true) {
+        if (props.name !== void 0) {
+          child.internal = getNameInput
+        }
+
+        return withDirectives(
+          h(QCircularProgress, data, child),
+          directives.value
+        )
       }
 
-      return hDir(
-        QCircularProgress,
-        data,
-        child,
-        'knob',
-        editable.value,
-        () => directives.value
+      return withDirectives(
+        h(QCircularProgress, data, child),
+        [ [ TouchPan ] ]
       )
+
+      // return hDir(
+      //   QCircularProgress,
+      //   data,
+      //   child,
+      //   'knob',
+      //   editable.value,
+      //   () => directives.value
+      // )
     }
   }
 })
