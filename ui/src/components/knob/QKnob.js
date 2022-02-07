@@ -25,6 +25,9 @@ export default Vue.extend({
   },
 
   props: {
+    innerMin: Number,
+    innerMax: Number,
+
     step: {
       type: Number,
       default: 1,
@@ -41,31 +44,22 @@ export default Vue.extend({
   },
 
   data () {
+    const innerMin = this.__getInnerMin(this.innerMin)
+    const innerMax = this.__getInnerMax(this.innerMax)
+
     return {
-      model: this.value,
+      model: this.value === null ? innerMin : between(this.value, innerMin, innerMax),
       dragging: false
     }
   },
 
   watch: {
-    value (value) {
-      if (value < this.min) {
-        this.model = this.min
-      }
-      else if (value > this.max) {
-        this.model = this.max
-      }
-      else {
-        if (value !== this.model) {
-          this.model = value
-        }
-        return
-      }
+    modelUpdate () {
+      this.model = this.value === null
+        ? this.computedInnerMin
+        : between(this.value, this.computedInnerMin, this.computedInnerMax)
 
-      if (this.model !== this.value) {
-        this.$emit('input', this.model)
-        this.$emit('change', this.model)
-      }
+      this.__updateValue(true)
     }
   },
 
@@ -76,6 +70,18 @@ export default Vue.extend({
           ? ' q-knob--editable'
           : (this.disable === true ? ' disabled' : '')
       )
+    },
+
+    computedInnerMin () {
+      return this.__getInnerMin(this.innerMin)
+    },
+
+    computedInnerMax () {
+      return this.__getInnerMax(this.innerMax)
+    },
+
+    modelUpdate () {
+      return `${this.value}|${this.computedInnerMin}|${this.computedInnerMax}`
     },
 
     editable () {
@@ -109,8 +115,8 @@ export default Vue.extend({
     attrs () {
       const attrs = {
         role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        'aria-valuemin': this.computedInnerMin,
+        'aria-valuemax': this.computedInnerMax,
         'aria-valuenow': this.value
       }
 
@@ -126,6 +132,18 @@ export default Vue.extend({
   },
 
   methods: {
+    __getInnerMin (val) {
+      return isNaN(val) === true || this.innerMin < this.min
+        ? this.min
+        : this.innerMin
+    },
+
+    __getInnerMax (val) {
+      return isNaN(val) === true || val > this.max
+        ? this.max
+        : this.innerMax
+    },
+
     __updateCenterPosition () {
       const { top, left, width, height } = this.$el.getBoundingClientRect()
       this.centerPosition = {
@@ -167,8 +185,8 @@ export default Vue.extend({
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.decimals)),
-        this.min,
-        this.max
+        this.computedInnerMin,
+        this.computedInnerMax
       )
 
       this.__updateValue()
@@ -225,7 +243,7 @@ export default Vue.extend({
         model = parseFloat(model.toFixed(this.decimals))
       }
 
-      model = between(model, this.min, this.max)
+      model = between(model, this.computedInnerMin, this.computedInnerMax)
 
       this.$emit('drag-value', model)
 
