@@ -146,6 +146,18 @@ const objectTypes = {
     isBoolean: [ 'internal' ]
   },
 
+  Event: {
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
+  },
+
+  SubmitEvent: {
+    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
+  },
+
   // component only
   slots: {
     props: [ 'desc', 'link', 'scope', 'addedIn', 'internal' ],
