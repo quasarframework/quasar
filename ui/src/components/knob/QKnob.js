@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -65,7 +65,7 @@ export default createComponent({
         : props.innerMax
     ))
 
-    let centerPosition, $el
+    let centerPosition
 
     function normalizeModel () {
       model.value = props.modelValue === null
@@ -148,7 +148,7 @@ export default createComponent({
     })
 
     function updateCenterPosition () {
-      const { top, left, width, height } = $el.getBoundingClientRect()
+      const { top, left, width, height } = proxy.$el.getBoundingClientRect()
       centerPosition = {
         top: top + height / 2,
         left: left + width / 2
@@ -249,10 +249,6 @@ export default createComponent({
     function getNameInput () {
       return h('input', formAttrs.value)
     }
-
-    onMounted(() => {
-      $el = proxy.$el
-    })
 
     return () => {
       const data = {
