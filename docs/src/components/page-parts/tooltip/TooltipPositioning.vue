@@ -44,8 +44,8 @@
 
     q-separator
 
-    .q-pa-md.relative-position
-      doc-code(lang="html") {{ tooltipExport }}
+    .q-pa-md.relative-position.bg-grey-2
+      doc-code(lang="html" :code="tooltipExport")
 
 </template>
 

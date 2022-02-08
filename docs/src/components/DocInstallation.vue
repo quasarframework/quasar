@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card.doc-installation.q-my-lg(flat, bordered)
-  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="brand-primary", dense, :breakpoint="0")
+  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="brand-primary", dense, :breakpoint="0", no-caps)
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
       :key="`installation-${tab}`"
@@ -12,13 +12,13 @@ q-card.doc-installation.q-my-lg(flat, bordered)
 
   q-tab-panels.bg-code(v-model="currentTab", animated)
     q-tab-panel.q-pa-none(name="Quasar CLI")
-      doc-code {{ QuasarCli }}
+      doc-code(:code="QuasarCli")
 
     q-tab-panel.q-pa-none(name="UMD")
-      doc-code {{ UMD }}
+      doc-code(:code="UMD")
 
     q-tab-panel.q-pa-none(name="Vue CLI")
-      doc-code {{ VueCli }}
+      doc-code(:code="VueCli")
 </template>
 
 <script>

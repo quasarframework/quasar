@@ -79,7 +79,7 @@ module.exports = function (ctx) {
 
       config: {
         loadingBar: {
-          color: 'amber'
+          color: 'brand-primary'
         }
       }
     },
@@ -87,7 +87,7 @@ module.exports = function (ctx) {
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: true
+      pwa: ctx.prod
     },
 
     pwa: {

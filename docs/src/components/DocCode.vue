@@ -1,10 +1,9 @@
 <template lang="pug">
 div
-  code-prism(:lang="lang")
-    slot
+  code-prism(:lang="lang" :code="code" :style="style")
 
-  .absolute(style="top: 8px; right: 8px;")
-    copy-button(:text="getMarkup")
+  .doc-code-container__copy.absolute
+    copy-button(:text="code")
 </template>
 
 <script>
@@ -20,16 +19,28 @@ export default {
   },
 
   props: {
+    code: String,
+    maxHeight: String,
+
     lang: {
       type: String,
       default: 'js'
     }
   },
 
-  methods: {
-    getMarkup () {
-      return this.$el.querySelector('pre').innerText
+  computed: {
+    style () {
+      return this.maxHeight !== void 0
+        ? { overflow: 'auto', maxHeight: this.maxHeight }
+        : null
     }
   }
 }
 </script>
+
+<style lang="sass">
+.doc-code-container
+  &__copy
+    top: 8px
+    right: 16px
+</style>

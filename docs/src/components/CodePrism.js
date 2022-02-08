@@ -1,33 +1,26 @@
 import 'prismjs'
 
 export default {
-  functional: true,
-
   props: {
-    code: {
-      type: String
-    },
-
+    code: String,
     lang: String
   },
 
-  render (h, ctx) {
-    const
-      code = ctx.props.code || ctx.children[0].text,
-      language = ctx.props.lang,
-      prismLanguage = Prism.languages[language],
-      className = `language-${language}`
+  computed: {
+    className () {
+      return `language-${this.lang}`
+    }
+  },
 
+  render (h) {
     return h(
       'pre',
-      Object.assign({}, ctx.data, {
-        class: 'doc-code ' + className
-      }),
+      { class: 'doc-code ' + this.className },
       [
         h('code', {
-          class: 'doc-code__inner ' + className,
+          class: 'doc-code__inner ' + this.className,
           domProps: {
-            innerHTML: Prism.highlight(code, prismLanguage, language)
+            innerHTML: Prism.highlight(this.code, Prism.languages[this.lang], this.lang)
           }
         })
       ]
