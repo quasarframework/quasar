@@ -34,11 +34,6 @@
 import { defineComponent, onMounted, ref, computed } from 'vue'
 import { Screen } from 'quasar'
 
-const scriptElement = document.createElement('script')
-scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
-scriptElement.setAttribute('charset', 'utf-8')
-document.head.appendChild(scriptElement)
-
 const INITIAL_TWEET_GROUP_INDEX = 0
 
 const NUMBER_OF_TWEETS_PER_CAROUSEL = {
@@ -72,6 +67,11 @@ function splitArrayIntoChunks (arrayToChunk, chunkLength) {
 }
 
 async function getTwitterInstance () {
+  const scriptElement = document.createElement('script')
+  scriptElement.setAttribute('src', 'https://platform.twitter.com/widgets.js')
+  scriptElement.setAttribute('charset', 'utf-8')
+  document.head.appendChild(scriptElement)
+
   return new Promise(resolve => {
     scriptElement.onload = () => {
       resolve(window.twttr)

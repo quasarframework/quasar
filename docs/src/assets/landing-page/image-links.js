@@ -17,7 +17,7 @@ export const whyQuasar = [
     title: 'One codebase many integrations',
     body: 'Keep your favorite technology, we provide all the needed integrations out of the box.',
     btnLabel: 'Discover Integrations',
-    btnLink: '#'
+    btnLink: 'docs/integrations'
   },
   {
     icon: 'img:homepage-icons/documentation.svg',

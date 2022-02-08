@@ -19,7 +19,7 @@
       technical resources.
     </p>
     <h2
-      class="lp-heading lp-heading--medium q-mb-lg cards-title normal-line-height"
+      class="lp-heading lp-heading--medium q-mb-lg normal-line-height"
     >Have a look at Our most used pages</h2>
     <div class="cards-grid lp-mb--large">
       <q-card

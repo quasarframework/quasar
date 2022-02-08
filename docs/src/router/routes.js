@@ -10,6 +10,11 @@ const docsPages = [
   {
     path: '',
     component: () => import('../pages/Landing.vue')
+  },
+  {
+    path: 'integrations',
+    name: 'integrations',
+    component: () => import('../pages/landing-page/QuasarIntegrations.vue')
   }
 ]
 

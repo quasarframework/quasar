@@ -666,7 +666,8 @@
   },
   {
     "name": "Quasar Plugins",
-    "icon": "extension",
+    "//": "TODO: optimize and ensure it uses the right color",
+    "icon": "img:homepage-icons/plug-not-connected.svg",
     "path": "quasar-plugins",
     "children": [
       {
@@ -1644,7 +1645,7 @@
   },
   {
     "name": "App Extensions",
-    "icon": "note_add",
+    "icon": "extension",
     "path": "app-extensions",
     "children": [
       {
