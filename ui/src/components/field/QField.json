@@ -81,9 +81,7 @@
       "desc": "Emitted when component gets focused",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -92,9 +90,7 @@
       "desc": "Emitted when component loses focus",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }

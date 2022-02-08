@@ -115,9 +115,7 @@
       "desc": "Emitted on QChip click if 'clickable' property is set",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },

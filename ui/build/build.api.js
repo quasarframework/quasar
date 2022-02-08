@@ -42,6 +42,8 @@ const topSections = {
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
+const nativeTypes = [ 'Component', 'Error', 'Element', 'File', 'FileList', 'Event', 'SubmitEvent' ]
+
 const objectTypes = {
   Boolean: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
@@ -106,44 +108,9 @@ const objectTypes = {
     isArray: [ 'examples', 'values' ]
   },
 
-  // special type, not common
-  Error: {
-    props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
-  },
-
-  // special type, not common
-  Component: {
-    props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
-  },
-
   meta: {
     props: [ 'docsUrl' ],
     required: []
-  },
-
-  // special type, not common
-  Element: {
-    props: [ 'desc', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
-  },
-
-  // special type, not common
-  File: {
-    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
-  },
-
-  // special type, not common
-  FileList: {
-    props: [ 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
-    required: [ 'desc' ],
-    isBoolean: [ 'internal' ]
   },
 
   // component only
@@ -174,6 +141,14 @@ const objectTypes = {
     required: [ 'propName', 'definition' ]
   }
 }
+
+nativeTypes.forEach(name => {
+  objectTypes[ name ] = {
+    props: [ 'tsType', 'desc', 'required', 'category', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ]
+  }
+})
 
 // assumes type does NOT have any duplicates
 function isClassStyleType (type) {

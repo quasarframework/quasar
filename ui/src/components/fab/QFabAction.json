@@ -59,9 +59,7 @@
       "desc": "Emulate click on QFabAction",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }

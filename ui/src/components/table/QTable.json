@@ -1867,9 +1867,7 @@
       "desc": "Emitted when user clicks/taps on a row; Is not emitted when using body/row/item scoped slots",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         },
 
         "row": {
@@ -1890,9 +1888,7 @@
       "desc": "Emitted when user quickly double clicks/taps on a row; Is not emitted when using body/row/item scoped slots; Please check JS dblclick event support before using",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         },
 
         "row": {
@@ -1913,9 +1909,7 @@
       "desc": "Emitted when user right clicks/long taps on a row; Is not emitted when using body/row/item scoped slots",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         },
 
         "row": {
@@ -2075,10 +2069,8 @@
               "desc": "Were the rows added to selection (true) or removed from selection (false)"
             },
             "evt": {
-              "type": "Object",
-              "required": true,
-              "desc": "JS event object",
-              "__exemption": [ "examples" ]
+              "extends": "evt",
+              "required": true
             }
           }
         }

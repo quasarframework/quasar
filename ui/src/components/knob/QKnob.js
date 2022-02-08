@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -65,7 +65,7 @@ export default createComponent({
         : props.innerMax
     ))
 
-    let centerPosition, $el
+    let centerPosition
 
     function normalizeModel () {
       model.value = props.modelValue === null
@@ -148,7 +148,7 @@ export default createComponent({
     })
 
     function updateCenterPosition () {
-      const { top, left, width, height } = $el.getBoundingClientRect()
+      const { top, left, width, height } = proxy.$el.getBoundingClientRect()
       centerPosition = {
         top: top + height / 2,
         left: left + width / 2
@@ -250,10 +250,6 @@ export default createComponent({
       return h('input', formAttrs.value)
     }
 
-    onMounted(() => {
-      $el = proxy.$el
-    })
-
     return () => {
       const data = {
         class: classes.value,
@@ -272,30 +268,18 @@ export default createComponent({
         default: slots.default
       }
 
-      if (editable.value === true) {
-        if (props.name !== void 0) {
-          child.internal = getNameInput
-        }
-
-        return withDirectives(
-          h(QCircularProgress, data, child),
-          directives.value
-        )
+      if (editable.value === true && props.name !== void 0) {
+        child.internal = getNameInput
       }
 
-      return withDirectives(
-        h(QCircularProgress, data, child),
-        [ [ TouchPan ] ]
+      return hDir(
+        QCircularProgress,
+        data,
+        child,
+        'knob',
+        editable.value,
+        () => directives.value
       )
-
-      // return hDir(
-      //   QCircularProgress,
-      //   data,
-      //   child,
-      //   'knob',
-      //   editable.value,
-      //   () => directives.value
-      // )
     }
   }
 })

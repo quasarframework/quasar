@@ -628,9 +628,7 @@
       "desc": "Emitted when the select options menu or dialog is shown.",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -639,9 +637,7 @@
       "desc": "Emitted when the select options menu or dialog is hidden.",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
