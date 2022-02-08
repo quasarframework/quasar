@@ -3,8 +3,6 @@ import { coreProps, coreEmits, getRenderer } from '../components/uploader/upload
 import { createComponent } from './private/create.js'
 import getEmitsObject from './private/get-emits-object.js'
 
-const coreEmitsObject = getEmitsObject(coreEmits)
-
 export default ({ name, props, emits, injectPlugin }) => createComponent({
   name,
 
@@ -14,7 +12,7 @@ export default ({ name, props, emits, injectPlugin }) => createComponent({
   },
 
   emits: Object(emits) === emits
-    ? { ...coreEmitsObject, ...emits }
+    ? { ...getEmitsObject(coreEmits), ...getEmitsObject(emits) }
     : [ ...coreEmits, ...emits ],
 
   setup () {
