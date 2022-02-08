@@ -109,11 +109,13 @@ Then in your website/app you can access `process.env.API` and it's gonna point t
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
 
-```
+```bash
 # we set an env variable in terminal
 $ MY_API=api.com quasar build
+```
 
-# then we pick it up in /quasar.conf.js
+```js
+// then we pick it up in /quasar.conf.js
 build: {
   env: {
     API: ctx.dev
