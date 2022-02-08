@@ -227,7 +227,7 @@ export default createComponent({
       }
 
       if (daysInModel.value > 1) {
-        return `${ daysInModel.value } ${ innerLocale.value.pluralDay }`
+        return `${ daysInModel.value } ${ innerLocale.value.pluralDay || $q.lang.date.pluralDay }`
       }
 
       const model = daysModel.value[ 0 ]
