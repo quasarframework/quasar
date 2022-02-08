@@ -44,7 +44,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
           :key="`pane-${tab}`"
           :name="tab"
         )
-          doc-code(lang="markup", :code="def.parts[tab]")
+          doc-code(lang="markup" :code="def.parts[tab]" max-height="70vh")
 
       q-separator.doc-example__separator
 
