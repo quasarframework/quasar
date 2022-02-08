@@ -51,7 +51,7 @@
     <div class="search-result-field rounded-borders letter-spacing-25">
       <q-scroll-area
         :class="searchResults? 'set-scrollarea-height':'scroll-area-opacity-0'"
-        class="bg-white text-dark rounded-borders search-result-container shadow-bottom-medium"
+        class="bg-white text-dark rounded-borders search-result-container shadow-bottom-medium text-size-16"
       >
         <template v-if="searchResults">
           <component
@@ -116,6 +116,10 @@ export default {
 
     watch(() => scope.focusByKeyboard.value, () => {
       emit('focus-by-keyboard', scope.focusByKeyboard.value)
+    })
+
+    watch(() => scope.searchResults.value, () => {
+      emit('search-result-change', scope.searchResults.value)
     })
 
     return scope

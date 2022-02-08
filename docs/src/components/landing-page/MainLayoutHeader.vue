@@ -65,6 +65,7 @@
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
               @focus-by-keyboard="isSearchFieldActive = true"
+              @search-result-change="handlePageScroll"
             />
           </div>
         </div>
@@ -238,6 +239,7 @@
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-md':''"
               @focus-by-kbd="isSearchFieldActive = true"
+              @search-result-change="handlePageScroll"
             />
           </div>
         </div>
@@ -287,6 +289,7 @@ export default defineComponent({
     const scrollOffSetInitPosition = ref(props.scrollData?.position)
     const scrollDirection = ref(props.scrollData?.direction)
     const primaryHeaderIsVisible = ref(true)
+    const searchResultIsDisplayed = ref(false)
 
     const versionHistory = [
       {
@@ -366,7 +369,17 @@ export default defineComponent({
       })
     })
 
+    function handlePageScroll (searchResults) {
+      searchResultIsDisplayed.value = !!searchResults
+    }
+
     watch(() => props.scrollData, (currentScrollData) => {
+      // if search form is shown, then stop any possible header change
+      // a header change will prevent search result form from staying visible when one
+      // of the result items is clicked and the page scrolls to it
+      if (searchResultIsDisplayed.value) {
+        return
+      }
       // scroll direction has changed
       if (currentScrollData.direction !== scrollDirection.value) {
         scrollOffSetInitPosition.value = currentScrollData.position
@@ -390,7 +403,7 @@ export default defineComponent({
       searchForm,
       secondaryHeaderNavItems,
       primaryHeaderIsVisible,
-      SWAP_HEADER_OFFSET
+      handlePageScroll
     }
   }
 })
