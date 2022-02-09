@@ -1,6 +1,6 @@
 ---
-name: Website report
-about: Provide feedback for the new website revamp to help us improve. Currently only open to Quasar team, other issues will be closed
+name: Website revamp report
+about: Always search for existing issues, upvote them to make the severity level rise. Currently only open to Quasar team feedback
 title: ''
 labels: ''
 assignees: ''
