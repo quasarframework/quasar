@@ -67,6 +67,12 @@
       "category": "header"
     },
 
+    "hide-active-icon": {
+      "type": "Boolean",
+      "desc": "Don't show the active icon when a step is active. Instead the step 'icon' will be shown or the step 'prefix' if it is defined.",
+      "category": "header|behavior"
+    },
+
     "active-color": {
       "extends": "color",
       "category": "header"
@@ -75,6 +81,12 @@
     "error-icon": {
       "extends": "icon",
       "category": "header"
+    },
+
+    "hide-error-icon": {
+      "type": "Boolean",
+      "desc": "Don't show the error icon when a step has an error. Instead the step 'icon' will be shown or the step 'prefix' if it is defined.",
+      "category": "header|behavior"
     },
 
     "error-color": {

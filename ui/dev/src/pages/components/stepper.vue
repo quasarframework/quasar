@@ -15,6 +15,8 @@
       <q-toggle label="Global Navigation" v-model="globalNav" />
       <q-toggle label="Caption" v-model="caption" />
       <q-toggle label="Prefix" v-model="prefix" />
+      <q-toggle label="Hide active icon" v-model="hideActiveIcon" />
+      <q-toggle label="Hide error icon" v-model="hideErrorIcon" />
       <q-toggle label="Use 'done' prop" v-model="useDone" />
 
       <q-toggle label="Step 4 disable" v-model="stepDisable" />
@@ -35,6 +37,8 @@
         :flat="flat"
         :bordered="bordered"
         :header-nav="headerNav"
+        :hide-active-icon="hideActiveIcon"
+        :hide-error-icon="hideErrorIcon"
         :color="color"
         ref="stepper"
         v-model="step"
@@ -221,6 +225,8 @@ export default {
       globalNav: false,
       caption: false,
       prefix: false,
+      hideActiveIcon: false,
+      hideErrorIcon: false,
       useDone: false,
       headerNavStep: false,
 

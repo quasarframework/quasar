@@ -47,19 +47,19 @@ export default createComponent({
 
     const hasPrefix = computed(() => {
       return props.step.prefix
-        && isActive.value === false
-        && isError.value === false
-        && isDone.value === false
+        && (props.stepper.hideActiveIcon || isActive.value === false)
+        && (props.stepper.hideErrorIcon || isError.value === false)
+        && (props.stepper.hideErrorIcon || isDone.value === false)
     })
 
     const icon = computed(() => {
-      if (isActive.value === true) {
+      if (!props.stepper.hideActiveIcon && isActive.value === true) {
         return props.step.activeIcon || props.stepper.activeIcon || $q.iconSet.stepper.active
       }
-      if (isError.value === true) {
+      if (!props.stepper.hideErrorIcon && isError.value === true) {
         return props.step.errorIcon || props.stepper.errorIcon || $q.iconSet.stepper.error
       }
-      if (isDisable.value === false && isDone.value === true) {
+      if (isDisable.value === false && isError.value === false && isDone.value === true) {
         return props.step.doneIcon || props.stepper.doneIcon || $q.iconSet.stepper.done
       }
 
