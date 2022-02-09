@@ -57,7 +57,9 @@ export default function (props, $q) {
   })
 
   function getLocale () {
-    return props.locale || $q.lang.date
+    return props.locale !== void 0
+      ? { ...$q.lang.date, ...props.locale }
+      : $q.lang.date
   }
 
   function getCurrentDate (dateOnly) {

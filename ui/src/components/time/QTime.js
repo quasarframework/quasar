@@ -86,12 +86,14 @@ export default createComponent({
     const mask = computed(() => getMask())
     const locale = computed(() => getLocale())
 
+    const defaultDateModel = computed(() => getDefaultDateModel())
+
     const model = __splitDate(
       props.modelValue,
-      getMask(),
-      getLocale(),
+      mask.value, // initial mask
+      locale.value, // initial locale
       props.calendar,
-      getDefaultDateModel()
+      defaultDateModel.value
     )
 
     const view = ref(getViewByModel(model))
@@ -130,8 +132,6 @@ export default createComponent({
           : pad(time.second)
       }
     })
-
-    const defaultDateModel = computed(() => getDefaultDateModel())
 
     const computedFormat24h = computed(() => (
       props.format24h !== null
