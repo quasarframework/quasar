@@ -57,6 +57,10 @@ If you define any actions, the notification will automatically be dismissed when
 
 <doc-example title="With spinner" file="Notify/Spinner" />
 
+### Icon customization
+
+<doc-example title="With icon customization" file="Notify/IconCustomization" />
+
 ### With actions
 
 <doc-example title="With actions" file="Notify/Actions" />

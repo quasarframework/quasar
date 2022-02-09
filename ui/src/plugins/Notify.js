@@ -405,7 +405,9 @@ function getComponent () {
                 h(QIcon, {
                   class: 'q-notification__icon q-notification__icon--' + meta.leftClass,
                   name: notif.icon,
-                  role: 'img'
+                  role: 'img',
+                  color: notif.iconColor ? notif.iconColor : void 0,
+                  size: notif.iconSize ? notif.iconSize : void 0
                 })
               )
             }

@@ -206,6 +206,7 @@ export default {
       type: 'my-error',
       message: 'Type: my-error, with overrided props',
       icon: 'map',
+      iconColor: 'yellow',
       position: 'top'
     })
 
@@ -238,6 +239,8 @@ export default {
     })
 
     this.$q.notify.setDefaults({
+      // iconColor: 'green',
+      // iconSize: 'lg',
       color: 'red'
     })
     this.$q.notify('red; with defaults')
@@ -278,6 +281,7 @@ export default {
     this.$q.notify({
       html: true,
       icon: 'map',
+      iconColor: 'yellow',
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
       message: 'HTML; You need to know about this!',
       caption: 'This is a caption',
