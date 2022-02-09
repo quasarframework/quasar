@@ -40,8 +40,9 @@
       "desc": "Emitted when all validations have passed when tethered to a submit button",
       "params": {
         "evt": {
-          "type": "SubmitEvent",
-          "desc": "Form submission event object"
+          "type": [ "Event", "SubmitEvent" ],
+          "desc": "Form submission event object",
+          "__exemption": [ "examples" ]
         }
       }
     },
