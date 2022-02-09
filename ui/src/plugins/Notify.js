@@ -397,7 +397,11 @@ function getComponent () {
           if (meta.hasMedia === true) {
             if (notif.spinner !== false) {
               mainChild.push(
-                h(notif.spinner, { class: 'q-notification__spinner q-notification__spinner--' + meta.leftClass })
+                h(notif.spinner, {
+                  class: 'q-notification__spinner q-notification__spinner--' + meta.leftClass,
+                  color: notif.spinnerColor,
+                  size: notif.spinnerSize
+                })
               )
             }
             else if (notif.icon) {
@@ -405,6 +409,8 @@ function getComponent () {
                 h(QIcon, {
                   class: 'q-notification__icon q-notification__icon--' + meta.leftClass,
                   name: notif.icon,
+                  color: notif.iconColor,
+                  size: notif.iconSize,
                   role: 'img'
                 })
               )

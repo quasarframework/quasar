@@ -43,6 +43,16 @@
         "extends": "icon"
       },
 
+      "iconColor": {
+        "extends": "color",
+        "addedIn": "v2.5.5"
+      },
+
+      "iconSize": {
+        "extends": "size",
+        "addedIn": "v2.5.5"
+      },
+
       "avatar": {
         "type": "String",
         "desc": "URL to an avatar/image; Suggestion: use public folder",
@@ -56,6 +66,16 @@
       "spinner": {
         "type": "Boolean",
         "desc": "Useful for notifications that are updated; Displays the default Quasar spinner instead of an avatar or icon"
+      },
+
+      "spinnerColor": {
+        "extends": "color",
+        "addedIn": "v2.5.5"
+      },
+
+      "spinnerSize": {
+        "extends": "size",
+        "addedIn": "v2.5.5"
       },
 
       "position": {
@@ -202,6 +222,16 @@
               "extends": "icon"
             },
 
+            "iconColor": {
+              "extends": "color",
+              "addedIn": "v2.5.5"
+            },
+
+            "iconSize": {
+              "extends": "size",
+              "addedIn": "v2.5.5"
+            },
+
             "avatar": {
               "type": "String",
               "desc": "URL to an avatar/image; Suggestion: public folder",
@@ -216,6 +246,16 @@
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
               "examples": [ true, "QSpinnerBars" ]
+            },
+
+            "spinnerColor": {
+              "extends": "color",
+              "addedIn": "v2.5.5"
+            },
+
+            "spinnerSize": {
+              "extends": "size",
+              "addedIn": "v2.5.5"
             },
 
             "position": {
@@ -388,6 +428,16 @@
                 "extends": "icon"
               },
 
+              "iconColor": {
+                "extends": "color",
+                "addedIn": "v2.5.5"
+              },
+
+              "iconSize": {
+                "extends": "size",
+                "addedIn": "v2.5.5"
+              },
+
               "avatar": {
                 "type": "String",
                 "desc": "URL to an avatar/image; Suggestion: use public folder",
@@ -402,6 +452,16 @@
                 "type": [ "Boolean", "Component" ],
                 "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
                 "__exemption": [ "examples" ]
+              },
+
+              "spinnerColor": {
+                "extends": "color",
+                "addedIn": "v2.5.5"
+              },
+
+              "spinnerSize": {
+                "extends": "size",
+                "addedIn": "v2.5.5"
               },
 
               "progress": {
@@ -523,6 +583,16 @@
               "extends": "icon"
             },
 
+            "iconColor": {
+              "extends": "color",
+              "addedIn": "v2.5.5"
+            },
+
+            "iconSize": {
+              "extends": "size",
+              "addedIn": "v2.5.5"
+            },
+
             "avatar": {
               "type": "String",
               "desc": "URL to an avatar/image; Suggestion: use public folder",
@@ -531,12 +601,22 @@
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
-          },
+            },
 
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
               "__exemption": [ "examples" ]
+            },
+
+            "spinnerColor": {
+              "extends": "color",
+              "addedIn": "v2.5.5"
+            },
+
+            "spinnerSize": {
+              "extends": "size",
+              "addedIn": "v2.5.5"
             },
 
             "position": {
@@ -706,6 +786,16 @@
               "extends": "icon"
             },
 
+            "iconColor": {
+              "extends": "color",
+              "addedIn": "v2.5.5"
+            },
+
+            "iconSize": {
+              "extends": "size",
+              "addedIn": "v2.5.5"
+            },
+
             "avatar": {
               "type": "String",
               "desc": "URL to an avatar/image; Suggestion: use public folder",
@@ -714,12 +804,22 @@
                 "(relative path format) require('./my_img.jpg')",
                 "(URL) https://some-site.net/some-img.gif"
               ]
-          },
+            },
 
             "spinner": {
               "type": [ "Boolean", "Component" ],
               "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
               "__exemption": [ "examples" ]
+            },
+
+            "spinnerColor": {
+              "extends": "color",
+              "addedIn": "v2.5.5"
+            },
+
+            "spinnerSize": {
+              "extends": "size",
+              "addedIn": "v2.5.5"
             },
 
             "position": {
