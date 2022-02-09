@@ -47,23 +47,36 @@ export default createComponent({
 
     const hasPrefix = computed(() => {
       return props.step.prefix
-        && (props.stepper.hideActiveIcon || isActive.value === false)
-        && (props.stepper.hideErrorIcon || isError.value === false)
-        && (props.stepper.hideErrorIcon || isDone.value === false)
+        && (isActive.value === false || props.stepper.activeIcon === 'none')
+        && (isError.value === false || props.stepper.errorIcon === 'none')
+        && (isDone.value === false || props.stepper.doneIcon === 'none')
     })
 
     const icon = computed(() => {
-      if (!props.stepper.hideActiveIcon && isActive.value === true) {
-        return props.step.activeIcon || props.stepper.activeIcon || $q.iconSet.stepper.active
-      }
-      if (!props.stepper.hideErrorIcon && isError.value === true) {
-        return props.step.errorIcon || props.stepper.errorIcon || $q.iconSet.stepper.error
-      }
-      if (isDisable.value === false && isError.value === false && isDone.value === true) {
-        return props.step.doneIcon || props.stepper.doneIcon || $q.iconSet.stepper.done
+      const defaultIcon = props.step.icon || props.stepper.inactiveIcon
+
+      if (isActive.value === true) {
+        const icon = props.step.activeIcon || props.stepper.activeIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || $q.iconSet.stepper.active
       }
 
-      return props.step.icon || props.stepper.inactiveIcon
+      if (isError.value === true) {
+        const icon = props.step.errorIcon || props.stepper.errorIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || $q.iconSet.stepper.error
+      }
+
+      if (isDisable.value === false && isDone.value === true) {
+        const icon = props.step.doneIcon || props.stepper.doneIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || $q.iconSet.stepper.done
+      }
+
+      return defaultIcon
     })
 
     const color = computed(() => {
@@ -90,7 +103,9 @@ export default createComponent({
     const classes = computed(() => {
       return 'q-stepper__tab col-grow flex items-center no-wrap relative-position'
         + (color.value !== void 0 ? ` text-${ color.value }` : '')
-        + (isError.value === true ? ' q-stepper__tab--error' : '')
+        + (isError.value === true
+          ? ' q-stepper__tab--error q-stepper__tab--error-with-' + (hasPrefix.value ? 'prefix' : 'icon')
+          : '')
         + (isActive.value === true ? ' q-stepper__tab--active' : '')
         + (isDone.value === true ? ' q-stepper__tab--done' : '')
         + (headerNav.value === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '')

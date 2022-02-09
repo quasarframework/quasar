@@ -54,6 +54,7 @@
 
     "done-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 
@@ -64,13 +65,8 @@
 
     "active-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
-    },
-
-    "hide-active-icon": {
-      "type": "Boolean",
-      "desc": "Don't show the active icon when a step is active. Instead the step 'icon' will be shown or the step 'prefix' if it is defined.",
-      "category": "header|behavior"
     },
 
     "active-color": {
@@ -80,13 +76,8 @@
 
     "error-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
-    },
-
-    "hide-error-icon": {
-      "type": "Boolean",
-      "desc": "Don't show the error icon when a step has an error. Instead the step 'icon' will be shown or the step 'prefix' if it is defined.",
-      "category": "header|behavior"
     },
 
     "error-color": {
