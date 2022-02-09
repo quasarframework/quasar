@@ -38,6 +38,11 @@
           "type": "Array",
           "desc": "List of short month names (MMM), starting with January",
           "examples": [ "['Ian', 'Feb', 'Mar', '...']" ]
+        },
+        "pluralDay": {
+          "type": "String",
+          "desc": "Plural word for `day` in this locale",
+          "examples": [ "days" ]
         }
       },
       "category": "model"
