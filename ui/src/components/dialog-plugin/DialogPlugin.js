@@ -17,6 +17,7 @@ import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/private/key-composition.js'
+import { isPlainObject } from '../../utils/private/is.js'
 
 export default createComponent({
   name: 'DialogPlugin',
@@ -80,7 +81,7 @@ export default createComponent({
       props.progress === false
         ? null
         : (
-            Object(props.progress) === props.progress
+            isPlainObject(props.progress) === true
               ? {
                   component: props.progress.spinner || QSpinner,
                   props: { color: props.progress.color || vmColor.value }
@@ -109,7 +110,7 @@ export default createComponent({
     })
 
     const okLabel = computed(() => (
-      Object(props.ok) === props.ok
+      isPlainObject(props.ok) === true
         ? $q.lang.label.ok
         : (
             props.ok === true
@@ -119,7 +120,7 @@ export default createComponent({
     ))
 
     const cancelLabel = computed(() => (
-      Object(props.cancel) === props.cancel
+      isPlainObject(props.cancel) === true
         ? $q.lang.label.cancel
         : (
             props.cancel === true
@@ -145,7 +146,7 @@ export default createComponent({
       label: okLabel.value,
       ripple: false,
       disable: okDisabled.value,
-      ...(Object(props.ok) === props.ok ? props.ok : { flat: true }),
+      ...(isPlainObject(props.ok) === true ? props.ok : { flat: true }),
       'data-autofocus': (props.focus === 'ok' && hasForm.value !== true) || void 0,
       onClick: onOk
     }))
@@ -154,7 +155,7 @@ export default createComponent({
       color: vmColor.value,
       label: cancelLabel.value,
       ripple: false,
-      ...(Object(props.cancel) === props.cancel ? props.cancel : { flat: true }),
+      ...(isPlainObject(props.cancel) === true ? props.cancel : { flat: true }),
       'data-autofocus': (props.focus === 'cancel' && hasForm.value !== true) || void 0,
       onClick: onCancel
     }))
@@ -201,9 +202,9 @@ export default createComponent({
     function getSection (classes, text) {
       return props.html === true
         ? h(QCardSection, {
-            class: classes,
-            innerHTML: text
-          })
+          class: classes,
+          innerHTML: text
+        })
         : h(QCardSection, { class: classes }, () => text)
     }
 

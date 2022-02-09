@@ -2,6 +2,7 @@ import { coreProps, coreEmits, getRenderer } from '../components/uploader/upload
 
 import { createComponent } from './private/create.js'
 import getEmitsObject from './private/get-emits-object.js'
+import { isPlainObject } from './private/is.js'
 
 const coreEmitsObject = getEmitsObject(coreEmits)
 
@@ -13,7 +14,7 @@ export default ({ name, props, emits, injectPlugin }) => createComponent({
     ...props
   },
 
-  emits: Object(emits) === emits
+  emits: isPlainObject(emits) === true
     ? { ...coreEmitsObject, ...emits }
     : [ ...coreEmits, ...emits ],
 

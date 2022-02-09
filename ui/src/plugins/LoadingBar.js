@@ -6,6 +6,7 @@ import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
+import { isPlainObject } from '../utils/private/is.js'
 
 const barRef = ref(null)
 
@@ -59,7 +60,7 @@ const Plugin = defineReactivePlugin({
         barRef.value.increment.apply(null, arguments)
       },
       setDefaults (opts) {
-        if (opts === Object(opts)) {
+        if (isPlainObject(opts) === true) {
           Object.assign(props.value, opts)
         }
       }

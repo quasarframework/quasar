@@ -1,32 +1,4 @@
-const
-  toString = Object.prototype.toString,
-  hasOwn = Object.prototype.hasOwnProperty,
-  class2type = {}
-
-'Boolean Number String Function Array Date RegExp Object'.split(' ').forEach(name => {
-  class2type[ '[object ' + name + ']' ] = name.toLowerCase()
-})
-
-function type (obj) {
-  return obj === null ? String(obj) : class2type[ toString.call(obj) ] || 'object'
-}
-
-function isPlainObject (obj) {
-  if (!obj || type(obj) !== 'object') {
-    return false
-  }
-
-  if (obj.constructor
-    && !hasOwn.call(obj, 'constructor')
-    && !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
-    return false
-  }
-
-  let key
-  for (key in obj) {} // eslint-disable-line
-
-  return key === undefined || hasOwn.call(obj, key)
-}
+import { isPlainObject } from './private/is'
 
 export default function extend () {
   let
@@ -42,7 +14,7 @@ export default function extend () {
     i = 2
   }
 
-  if (Object(target) !== target && type(target) !== 'function') {
+  if (Object(target) !== target && typeof target !== 'function') {
     target = {}
   }
 
@@ -61,13 +33,13 @@ export default function extend () {
           continue
         }
 
-        if (deep && copy && (isPlainObject(copy) || (copyIsArray = type(copy) === 'array'))) {
+        if (deep && copy && (isPlainObject(copy) === true || (copyIsArray = Array.isArray(copy) === true))) {
           if (copyIsArray) {
             copyIsArray = false
-            clone = src && type(src) === 'array' ? src : []
+            clone = src && Array.isArray(src) === true ? src : []
           }
           else {
-            clone = src && isPlainObject(src) ? src : {}
+            clone = src && isPlainObject(src) === true ? src : {}
           }
 
           target[ name ] = extend(deep, clone, copy)

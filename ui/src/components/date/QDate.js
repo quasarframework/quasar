@@ -12,6 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
+import { isPlainObject } from '../../utils/private/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -164,7 +165,7 @@ export default createComponent({
     const rangeModel = computed(() => {
       const fn = date => decodeString(date, innerMask.value, innerLocale.value)
       return normalizedModel.value
-        .filter(date => Object(date) === date && date.from !== void 0 && date.to !== void 0)
+        .filter(date => isPlainObject(date) === true && date.from !== void 0 && date.to !== void 0)
         .map(range => ({ from: fn(range.from), to: fn(range.to) }))
         .filter(range => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash)
     })
@@ -1217,24 +1218,24 @@ export default createComponent({
             }, days.value.map(day => h('div', { class: day.classes }, [
               day.in === true
                 ? h(
-                    QBtn, {
-                      class: day.today === true ? 'q-date__today' : '',
-                      dense: true,
-                      flat: day.flat,
-                      unelevated: day.unelevated,
-                      color: day.color,
-                      textColor: day.textColor,
-                      label: day.i,
-                      tabindex: tabindex.value,
-                      ...getCache('day#' + day.i, {
-                        onClick: () => { onDayClick(day.i) },
-                        onMouseover: () => { onDayMouseover(day.i) }
-                      })
-                    },
-                    day.event !== false
-                      ? () => h('div', { class: 'q-date__event bg-' + day.event })
-                      : null
-                  )
+                  QBtn, {
+                    class: day.today === true ? 'q-date__today' : '',
+                    dense: true,
+                    flat: day.flat,
+                    unelevated: day.unelevated,
+                    color: day.color,
+                    textColor: day.textColor,
+                    label: day.i,
+                    tabindex: tabindex.value,
+                    ...getCache('day#' + day.i, {
+                      onClick: () => { onDayClick(day.i) },
+                      onMouseover: () => { onDayMouseover(day.i) }
+                    })
+                  },
+                  day.event !== false
+                    ? () => h('div', { class: 'q-date__event bg-' + day.event })
+                    : null
+                )
                 : h('div', '' + day.i)
             ]))))
           ])

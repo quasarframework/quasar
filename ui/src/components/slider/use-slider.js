@@ -7,7 +7,7 @@ import { useFormProps, useFormInject } from '../../composables/private/use-form.
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
-import { isNumber } from '../../utils/private/is.js'
+import { isNumber, isPlainObject } from '../../utils/private/is.js'
 import { hDir } from '../../utils/private/render.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'
@@ -340,7 +340,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
     if (typeof def === 'function') {
       return markerTicks.value.map(value => {
         const item = def(value)
-        return Object(item) === item ? { ...item, value } : { value, label: item }
+        return isPlainObject(item) === true ? { ...item, value } : { value, label: item }
       })
     }
 
@@ -348,14 +348,14 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
 
     if (Array.isArray(def) === true) {
       return def
-        .map(item => (Object(item) === item ? item : { value: item }))
+        .map(item => (isPlainObject(item) === true ? item : { value: item }))
         .filter(filterFn)
     }
 
     return Object.keys(def).map(key => {
       const item = def[ key ]
       const value = Number(key)
-      return Object(item) === item ? { ...item, value } : { value, label: item }
+      return isPlainObject(item) === true ? { ...item, value } : { value, label: item }
     }).filter(filterFn)
   }
 

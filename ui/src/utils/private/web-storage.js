@@ -1,10 +1,11 @@
 import { noop } from '../event.js'
+import { isDate, isRegexp } from './is.js'
 
 function encode (value) {
-  if (Object.prototype.toString.call(value) === '[object Date]') {
+  if (isDate(value) === true) {
     return '__q_date|' + value.toUTCString()
   }
-  if (Object.prototype.toString.call(value) === '[object RegExp]') {
+  if (isRegexp(value) === true) {
     return '__q_expr|' + value.source
   }
   if (typeof value === 'number') {
