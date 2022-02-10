@@ -229,7 +229,7 @@ Most used properties are:
 | onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
 | onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.conf > devSever > open with. Some examples:
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.conf.js > devSever > open with. Some examples:
 
 ```js
 // quasar.conf.js

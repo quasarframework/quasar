@@ -93,7 +93,7 @@ Quasar comes with a bunch of useful Webpack aliases preconfigured. You can use t
 | `assets` | /src/assets |
 | `boot` | /src/boot |
 
-Also if you configure to build with the Vue compiler version (quasar.conf > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
+Also if you configure to build with the Vue compiler version (quasar.conf.js > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
 
 ### Adding Webpack aliases
 
