@@ -34,7 +34,7 @@ function runMacOS (mode, target) {
       : appPaths.resolve.capacitor('android')
 
     open(folder, {
-      app: 'android studio',
+      app: { name: 'android studio' },
       wait: false
     })
   }
@@ -45,6 +45,10 @@ function getLinuxPath (bin) {
     '/usr/local/android-studio/bin/studio.sh',
     '/opt/android-studio/bin/studio.sh'
   ]
+
+  if (process.env.ANDROID_STUDIO_PATH) {
+    canonicalPaths.push(process.env.ANDROID_STUDIO_PATH)
+  }
 
   if (bin.linuxAndroidStudio) {
     canonicalPaths.unshift(bin.linuxAndroidStudio)
@@ -66,7 +70,7 @@ function runLinux (mode, bin, target) {
         : appPaths.resolve.capacitor('android')
 
       open(folder, {
-        app: studioPath,
+        app: { name: studioPath },
         wait: false
       })
 
@@ -117,7 +121,7 @@ function runWindows (mode, bin, target) {
         : appPaths.resolve.capacitor('android')
 
       open(folder, {
-        app: `${studioPath}`,
+        app: { name: studioPath },
         wait: false
       })
 
