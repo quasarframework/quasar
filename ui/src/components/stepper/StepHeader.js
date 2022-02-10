@@ -104,7 +104,7 @@ export default createComponent({
       return 'q-stepper__tab col-grow flex items-center no-wrap relative-position'
         + (color.value !== void 0 ? ` text-${ color.value }` : '')
         + (isError.value === true
-          ? ' q-stepper__tab--error q-stepper__tab--error-with-' + (hasPrefix.value ? 'prefix' : 'icon')
+          ? ' q-stepper__tab--error q-stepper__tab--error-with-' + (hasPrefix.value === true ? 'prefix' : 'icon')
           : '')
         + (isActive.value === true ? ' q-stepper__tab--active' : '')
         + (isDone.value === true ? ' q-stepper__tab--done' : '')

@@ -69,7 +69,7 @@ export default createComponent({
       let cls
       let icon = props.name
 
-      if (!icon || icon === 'none') {
+      if (icon === 'none' || !icon) {
         return { none: true }
       }
 
@@ -78,7 +78,7 @@ export default createComponent({
         if (res !== void 0) {
           if (res.icon !== void 0) {
             icon = res.icon
-            if (icon === 'none') {
+            if (icon === 'none' || !icon) {
               return { none: true }
             }
           }

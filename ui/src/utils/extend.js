@@ -44,7 +44,7 @@ export default function extend () {
 
           target[ name ] = extend(deep, clone, copy)
         }
-        else if (copy !== undefined) {
+        else if (copy !== void 0) {
           target[ name ] = copy
         }
       }
