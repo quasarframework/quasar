@@ -67,7 +67,7 @@ export default Vue.extend({
       let cls
       let icon = this.name
 
-      if (!icon) {
+      if (icon === 'none' || !icon) {
         return { none: true }
       }
 
@@ -76,6 +76,9 @@ export default Vue.extend({
         if (res !== void 0) {
           if (res.icon !== void 0) {
             icon = res.icon
+            if (icon === 'none' || !icon) {
+              return { none: true }
+            }
           }
           else {
             return {

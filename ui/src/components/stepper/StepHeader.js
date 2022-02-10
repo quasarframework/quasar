@@ -53,23 +53,36 @@ export default Vue.extend({
 
     hasPrefix () {
       return this.step.prefix &&
-        this.isActive === false &&
-        this.isError === false &&
-        this.isDone === false
+        (this.isActive === false || this.stepper.activeIcon === 'none') &&
+        (this.isError === false || this.stepper.errorIcon === 'none') &&
+        (this.isDone === false || this.stepper.doneIcon === 'none')
     },
 
     icon () {
+      const defaultIcon = this.step.icon || this.stepper.inactiveIcon
+
       if (this.isActive === true) {
-        return this.step.activeIcon || this.stepper.activeIcon || this.$q.iconSet.stepper.active
-      }
-      if (this.isError === true) {
-        return this.step.errorIcon || this.stepper.errorIcon || this.$q.iconSet.stepper.error
-      }
-      if (this.isDisable === false && this.isDone === true) {
-        return this.step.doneIcon || this.stepper.doneIcon || this.$q.iconSet.stepper.done
+        const icon = this.step.activeIcon || this.stepper.activeIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || this.$q.iconSet.stepper.active
       }
 
-      return this.step.icon || this.stepper.inactiveIcon
+      if (this.isError === true) {
+        const icon = this.step.errorIcon || this.stepper.errorIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || this.$q.iconSet.stepper.error
+      }
+
+      if (this.isDisable === false && this.isDone === true) {
+        const icon = this.step.doneIcon || this.stepper.doneIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || this.$q.iconSet.stepper.done
+      }
+
+      return defaultIcon
     },
 
     color () {
@@ -96,7 +109,9 @@ export default Vue.extend({
     classes () {
       return `q-stepper__tab col-grow flex items-center no-wrap relative-position` +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
-        (this.isError === true ? ' q-stepper__tab--error' : '') +
+        (this.isError === true
+          ? ' q-stepper__tab--error q-stepper__tab--error-with-' + (this.hasPrefix === true ? 'prefix' : 'icon')
+          : '') +
         (this.isActive === true ? ' q-stepper__tab--active' : '') +
         (this.isDone === true ? ' q-stepper__tab--done' : '') +
         (this.headerNav === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '') +
