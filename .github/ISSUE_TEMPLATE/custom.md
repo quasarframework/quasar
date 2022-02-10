@@ -1,8 +1,9 @@
 ---
 name: Website revamp report
-about: Always search for existing issues, upvote them to make the severity level rise. Currently only open to Quasar team feedback
+about: Always search for existing issues, upvote them to make the severity level rise.
+  Currently only open to Quasar team feedback
 title: ''
-labels: ''
+labels: ":triangular_ruler:  triaging"
 assignees: ''
 
 ---
