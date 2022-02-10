@@ -409,7 +409,8 @@ const Notifications = {
           if (notif.spinner !== false) {
             mainChild.push(
               h(notif.spinner, {
-                staticClass: 'q-notification__spinner q-notification__spinner--' + meta.leftClass
+                staticClass: 'q-notification__spinner q-notification__spinner--' + meta.leftClass,
+                props: { color: notif.spinnerColor, size: notif.spinnerSize }
               })
             )
           }
@@ -418,7 +419,7 @@ const Notifications = {
               h(QIcon, {
                 staticClass: 'q-notification__icon q-notification__icon--' + meta.leftClass,
                 attrs: { role: 'img' },
-                props: { name: notif.icon }
+                props: { name: notif.icon, color: notif.iconColor, size: notif.iconSize }
               })
             )
           }
