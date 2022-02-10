@@ -295,7 +295,7 @@ devServer: {
 | publicPath | String | Public path of your app. By default, it uses the root. Use it when your public path is something else, like "&lt;protocol&gt;://&lt;domain&gt;/some/nested/folder" -- in this case, it means the distributables are in "some/nested/folder" on your webserver. |
 | appBase | String | (**@quasar/app 1.4.2+**) Force app base tag with your custom value; configure only if you **really** know what you are doing, otherwise you can easily break your app. Highly recommended is to leave this computed by quasar/app. |
 | vueRouterBase | String | (**@quasar/app 1.4.2+**) Force vue router base with your custom value; configure only if you **really** know what you are doing, otherwise you can easily break your app. Highly recommended is to leave this computed by quasar/app. |
-| vueRouterMode | String | Sets [Vue Router mode](https://router.vuejs.org/en/essentials/history-mode.html): 'hash' or 'history'. Pick wisely. History mode requires configuration on your deployment web server too. |
+| vueRouterMode | String | Sets [Vue Router mode](https://v3.router.vuejs.org/en/essentials/history-mode.html): 'hash' or 'history'. Pick wisely. History mode requires configuration on your deployment web server too. |
 | htmlFilename | String | Default is 'index.html'. |
 | ssrPwaHtmlFilename | String | (**@quasar/app 1.8+**) Used for SSR+PWA mode. Default is 'offline.html'. |
 | productName | String | Default value is taken from package.json > productName field. |

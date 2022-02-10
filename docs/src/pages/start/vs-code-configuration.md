@@ -179,7 +179,7 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
 ## Debugging a Quasar project in VS Code
 
 1. First, head to [Debugger for Chrome](https://marketplace.visualstudio.com/items?itemName=msjsdiag.debugger-for-chrome) and read it thoroughly.
-2. Then, since Quasar is based on Vue, you will also want to refer to [Vue Cookbook for VSCode debugging](https://vuejs.org/v2/cookbook/debugging-in-vscode.html) for setting up debugging Vue apps.
+2. Then, since Quasar is based on Vue, you will also want to refer to [Vue Cookbook for VSCode debugging](https://v2.vuejs.org/v2/cookbook/debugging-in-vscode.html) for setting up debugging Vue apps.
 
 The best approach is to open that in a browser beside this page so you can review these instructions as you are reading those instructions. And apply the changes to your project as you go.
 
@@ -219,6 +219,3 @@ Now save the file, then select that configuration in the drop down on the title 
 ::: tip
 If you just want to use the Chrome or Firefox debuggers but you find it hard to locate the right source file in the browser source tab then you can use the debugger statement in your code to force the debugger to stop on that line and bring up the proper source code.
 :::
-
-
-

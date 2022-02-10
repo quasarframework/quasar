@@ -9,12 +9,12 @@ Not to be confused with events supported by Quasar Components. Those are Vue eve
 :::
 
 ::: tip
-Consider using [Vuex](https://vuex.vuejs.org) instead of an event bus.
+Consider using [Vuex](https://v3.vuex.vuejs.org) instead of an event bus.
 :::
 
 ## Usage
 
-Please check the Vue [Instance Methods / Events](https://vuejs.org/v2/api/#Instance-Methods-Events) page for the API. Then let's see how, for example, to register an event on the root Vue component of your app:
+Please check the Vue [Instance Methods / Events](https://v2.vuejs.org/v2/api/#Instance-Methods-Events) page for the API. Then let's see how, for example, to register an event on the root Vue component of your app:
 
 ```js
 // callback
@@ -37,7 +37,7 @@ this.$root.$off('event_name', cb)
 this.$root.$emit('event_name', 'some message')
 ```
 
-Example using event to open drawer from another component or page. Not recommended -- a better way would be through [Vuex](https://vuex.vuejs.org), but the example below is for educational purposes only.
+Example using event to open drawer from another component or page. Not recommended -- a better way would be through [Vuex](https://v3.vuex.vuejs.org), but the example below is for educational purposes only.
 
 ```js
 // (1) This code is inside layout file that has a drawer

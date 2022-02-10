@@ -89,7 +89,7 @@ module.exports = {
   // Remove this if you have an higher level ESLint config file (it usually happens into a monorepos)
   root: true,
 
-  // https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
+  // https://eslint.vuejs.org/user-guide/#how-to-use-a-custom-parser
   // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
@@ -116,7 +116,7 @@ module.exports = {
     // consider disabling this class of rules if linting takes too long
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
-    // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
+    // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention-for-vue-js-2-x
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules
     'plugin:vue/essential',
 
@@ -132,7 +132,7 @@ module.exports = {
     // required to apply rules which need type information
     '@typescript-eslint',
 
-    // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-file
+    // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
     // required to lint *.vue files
     'vue',
   ],
