@@ -20,7 +20,7 @@ Further extension of one of the Eslint setups above can be made. Your project wi
 
 ```js
 extends: [
-  // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
+  // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention-for-vue-js-3-x
   // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
   'plugin:vue/strongly-recommended'
 ]
@@ -43,7 +43,7 @@ The linting rules can be removed, changed, or added. Notice some things:
 * Some rules are for the Standard, Airbnb or Prettier standards (whichever you chose when project was created). Example: 'brace-style'.
 * Some rules are for eslint-plugin-vue. Example: 'vue/max-attributes-per-line'.
 
-You can add/remove/change rules by first visiting https://eslint.org/docs/rules/ or https://github.com/vuejs/eslint-plugin-vue.
+You can add/remove/change rules by first visiting [https://eslint.org/docs/rules/](https://eslint.org/docs/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).
 
 Example of ESLint rules below:
 ```js

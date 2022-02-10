@@ -10,7 +10,7 @@ We'll cover how you can lazy load / code split parts of your app so that they ar
 It's normal to use the Vue Router calling static components as below.
 
 ::: warning
-Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://next.router.vuejs.org/).
+Quasar documentation assumes you are already familiar with [Vue Router](https://github.com/vuejs/vue-router). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue Router documentation](https://router.vuejs.org/).
 :::
 
 ```js

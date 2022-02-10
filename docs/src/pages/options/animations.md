@@ -3,11 +3,11 @@ title: Animations
 desc: Helper CSS animations supplied by Animate.css for a Quasar app.
 ---
 
-CSS Transitions can be handled by the [Vue Transition Component](https://v3.vuejs.org/guide/transitions-overview.html). The transitions are used for entering (appearing) or leaving (disappearing) animations.
+CSS Transitions can be handled by the [Vue Transition Component](https://vuejs.org/guide/transitions-overview.html). The transitions are used for entering (appearing) or leaving (disappearing) animations.
 
 However, Quasar can supply a big list of ready to use CSS animations. The animation effects are borrowed from [Animate.css](https://animate.style/). So there are 80+ animation types available for you to use out of the box. Check the list either on Animate.css website or on the demo available for this page.
 
-> Please refer to [Vue](https://v3.vuejs.org/api/built-in-components.html#transition) documentation for learning on how to use the Vue supplied `<transition>` component.
+> Please refer to [Vue](https://vuejs.org/api/built-in-components.html#transition) documentation for learning on how to use the Vue supplied `<transition>` component.
 
 ## Installation
 Edit `/quasar.conf.js`.
@@ -88,4 +88,3 @@ Please note some things in the above example:
 1. Note `<transition-group>` instead of `<transition>`.
 2. The components and DOM elements must be keyed, like `key="text"` or `key="email-button"` in the example above.
 3. Both examples above have the Boolean property `appear` specified, which makes the entering animation kick in right after component(s) have been rendered. This property is optional.
-

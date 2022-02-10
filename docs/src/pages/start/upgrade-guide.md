@@ -286,13 +286,13 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 For Quasar CLI projects, you don't need to manually install/upgrade the `vue` package as "@quasar/app" v3 is already supplying the correct version of Vue for you.
 :::
 
-Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
+Since you will also switch to [Vue 3](https://vuejs.org), it's best that you also take a look at its [migration guide](https://vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
 
-If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
+If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://vuejs.org/guide/composition-api-introduction.html)).
 
 We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition, you can convert all your Vue components to Composition API, but in no way is this a requirement.
 
-Along with Vue3, there is a new major version of [Vue Router v4](https://next.router.vuejs.org), which has its own [breaking changes](https://next.router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
+Along with Vue3, there is a new major version of [Vue Router v4](https://router.vuejs.org), which has its own [breaking changes](https://router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
 
 #### Vue 3 breaking changes examples
 
@@ -323,7 +323,7 @@ If you'd like to use the Vue.js Devtools with Vue 3, you'll need to replace your
 For Quasar CLI projects, you don't need to manually install/upgrade the `vue-router` package as "@quasar/app" v3 is already supplying the correct version of Vue Router for you.
 :::
 
-This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
+This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
 
 ```js
 // default src/router/index.js content:
@@ -384,7 +384,7 @@ $ yarn add vuex@4
 $ npm install vuex@4
 ```
 
-This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
+This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
 ```js
 // default src/store/index.js content:
@@ -518,7 +518,7 @@ function onClick (e, go) {
 
 #### QBreadcrumbsEl
 
-Removed "append" prop because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Removed "append" prop because Vue Router v4 [has also dropped it](https://router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 Added "tag" and "ripple" properties.
 
 #### QCarousel
@@ -551,7 +551,7 @@ Use "class" and "style" attributes instead of "content-class" / "content-style" 
 
 #### QExpansionItem
 
-Removed the "append" property because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Removed the "append" property because Vue Router v4 [has also dropped it](https://router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 
 #### (New) Connecting to QForm
 
