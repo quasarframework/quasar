@@ -11,7 +11,7 @@ import QItemLabel from '../item/QItemLabel.js'
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
-import { isDeepEqual } from '../../utils/is.js'
+import { isDeepEqual, isPlainObject } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
@@ -589,7 +589,7 @@ export default Vue.extend({
 
       return typeof val === 'function'
         ? val
-        : opt => Object(opt) === opt && val in opt
+        : opt => isPlainObject(opt) === true && val in opt
           ? opt[val]
           : opt
     },

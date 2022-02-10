@@ -8,6 +8,8 @@ import QSpinner from '../components/spinner/QSpinner.js'
 import { noop } from '../utils/event.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
 import debounce from '../utils/debounce.js'
+import { isPlainObject } from '../utils/is.js'
+
 import { isSSR } from './Platform.js'
 
 let uid = 0, vm
@@ -71,7 +73,7 @@ function addNotification (config, vm, originalApi) {
     Object.assign(notif, defaults)
   }
 
-  if (Object(config) !== config) {
+  if (isPlainObject(config) === false) {
     if (notif.type) {
       Object.assign(notif, notifTypes[notif.type])
     }
@@ -518,13 +520,13 @@ const Notifications = {
 
 export default {
   setDefaults (opts) {
-    if (isSSR !== true && opts === Object(opts)) {
+    if (isSSR !== true && isPlainObject(opts) === true) {
       Object.assign(defaults, opts)
     }
   },
 
   registerType (typeName, typeOpts) {
-    if (isSSR !== true && typeOpts === Object(typeOpts)) {
+    if (isSSR !== true && isPlainObject(typeOpts) === true) {
       notifTypes[typeName] = typeOpts
     }
   },

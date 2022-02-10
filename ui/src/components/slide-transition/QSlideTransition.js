@@ -73,8 +73,8 @@ export default Vue.extend({
 
           this.timer = setTimeout(() => {
             el.style.height = `${el.scrollHeight}px`
-            this.animListener = ev => {
-              if (Object(ev) !== ev || ev.target === el) {
+            this.animListener = evt => {
+              if (Object(evt) !== evt || evt.target === el) {
                 this.__end(el, 'show')
               }
             }
@@ -99,8 +99,8 @@ export default Vue.extend({
 
           this.timer = setTimeout(() => {
             el.style.height = 0
-            this.animListener = ev => {
-              if (Object(ev) !== ev || ev.target === el) {
+            this.animListener = evt => {
+              if (Object(evt) !== evt || evt.target === el) {
                 this.__end(el, 'hide')
               }
             }

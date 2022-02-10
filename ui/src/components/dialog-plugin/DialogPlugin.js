@@ -20,6 +20,7 @@ import DarkMixin from '../../mixins/dark.js'
 import AttrsMixin from '../../mixins/attrs.js'
 
 import cache from '../../utils/cache.js'
+import { isPlainObject } from '../../utils/is.js'
 
 export default Vue.extend({
   name: 'DialogPlugin',
@@ -64,7 +65,7 @@ export default Vue.extend({
 
     spinner () {
       if (this.progress !== false) {
-        return Object(this.progress) === this.progress
+        return isPlainObject(this.progress) === true
           ? {
             component: this.progress.spinner || QSpinner,
             props: { color: this.progress.color || this.vmColor }
@@ -81,7 +82,7 @@ export default Vue.extend({
     },
 
     okLabel () {
-      return Object(this.ok) === this.ok
+      return isPlainObject(this.ok) === true
         ? this.$q.lang.label.ok
         : (
           this.ok === true
@@ -91,7 +92,7 @@ export default Vue.extend({
     },
 
     cancelLabel () {
-      return Object(this.cancel) === this.cancel
+      return isPlainObject(this.cancel) === true
         ? this.$q.lang.label.cancel
         : (
           this.cancel === true
@@ -121,7 +122,7 @@ export default Vue.extend({
         label: this.okLabel,
         ripple: false,
         disable: this.okDisabled,
-        ...(Object(this.ok) === this.ok ? this.ok : { flat: true })
+        ...(isPlainObject(this.ok) === true ? this.ok : { flat: true })
       }
     },
 
@@ -130,7 +131,7 @@ export default Vue.extend({
         color: this.vmColor,
         label: this.cancelLabel,
         ripple: false,
-        ...(Object(this.cancel) === this.cancel ? this.cancel : { flat: true })
+        ...(isPlainObject(this.cancel) === true ? this.cancel : { flat: true })
       }
     }
   },

@@ -1,4 +1,5 @@
 import { getElement } from './dom.js'
+import { isPlainObject } from './is'
 
 let id = 0
 let offsetBase = void 0
@@ -433,7 +434,7 @@ export default function morph (_options) {
       if (typeof options.style === 'string') {
         elTo.style.cssText += ' ' + options.style
       }
-      else if (options.style === Object(options.style)) {
+      else if (isPlainObject(options.style) === true) {
         for (const prop in options.style) {
           elTo.style[prop] = options.style[prop]
         }
@@ -870,8 +871,8 @@ export default function morph (_options) {
         elToClone.style.animation = `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}-to`
         elTo.style.animation = `${options.duration}ms ${options.easing} ${options.delay}ms ${animationDirection} ${options.fill} ${qAnimId}`
 
-        const cleanup = ev => {
-          if (ev === Object(ev) && ev.animationName !== qAnimId) {
+        const cleanup = evt => {
+          if (evt === Object(evt) && evt.animationName !== qAnimId) {
             return
           }
 
