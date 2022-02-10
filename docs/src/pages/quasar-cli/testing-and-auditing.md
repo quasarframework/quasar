@@ -49,7 +49,7 @@ If you don't want to install the base package, you don't have to do so. You can 
 - ... add your suggestions here
 
 ### Documentation
-- [@vue/test-utils](https://vue-test-utils.vuejs.org)
+- [@vue/test-utils](https://test-utils.vuejs.org)
 - [jest 24](https://facebook.github.io/jest/)
 - [cypress](https://docs.cypress.io/guides/core-concepts/introduction-to-cypress.html#Cypress-Is-Simple)
 - [lighthouse](https://developers.google.com/web/tools/lighthouse/#cli)
