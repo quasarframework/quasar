@@ -75,7 +75,9 @@ export default {
 
   methods: {
     __getLocale () {
-      return this.locale || this.$q.lang.date
+      return this.locale !== void 0
+        ? { ...this.$q.lang.date, ...this.locale }
+        : this.$q.lang.date
     },
 
     __getCurrentDate (dateOnly) {
