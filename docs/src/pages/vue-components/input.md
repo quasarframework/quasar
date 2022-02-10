@@ -74,6 +74,10 @@ Please check these resources for more information about native attributes (for i
 
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.
 
+::: warning
+Won't work with `v-model` managed input modifiers such as `.trim` because in that case Vue doesn't handle `null` values.
+:::
+
 <doc-example title="Clearable" file="QInput/Clearable" />
 
 ### Input types
