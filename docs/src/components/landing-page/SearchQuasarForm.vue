@@ -81,7 +81,7 @@ import AppSearchResults from 'components/AppSearchResults.vue'
 import useSearch from 'layouts/doc-layout/use-search'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
-import { watch } from 'vue'
+import { watch, watchEffect } from 'vue'
 
 export default {
   name: 'search-quasar-form',
@@ -118,9 +118,7 @@ export default {
       emit('focus-by-keyboard', scope.focusByKeyboard.value)
     })
 
-    watch(() => scope.searchResults.value, () => {
-      emit('search-result-change', scope.searchResults.value)
-    })
+    watchEffect(() => emit('search-result-change', scope.searchResults.value))
 
     return scope
   }

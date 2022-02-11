@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
+q-layout.doc-layout.bg-lp-light-grey(view="hHh LpR lff", @scroll="handleScroll")
   main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData")
 
   q-drawer.doc-left-drawer(

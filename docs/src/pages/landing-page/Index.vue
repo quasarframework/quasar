@@ -171,6 +171,7 @@ import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links.js'
 import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import { scroll } from 'quasar'
+import { useMeta } from 'quasar'
 
 const { getScrollTarget, setVerticalScrollPosition } = scroll
 function scrollToElement (el) {
@@ -184,6 +185,10 @@ export default defineComponent({
   name: 'Index',
   components: { TwitterShowcaseCards, WhyQuasarCard },
   setup () {
+    useMeta({
+      title: 'Quasar Framework',
+      titleTemplate: ''
+    })
     function scrollSectionIntoView (idOfTarget) {
       const el = document.getElementById(idOfTarget)
       scrollToElement(el)

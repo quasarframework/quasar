@@ -65,7 +65,7 @@
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
               @focus-by-keyboard="isSearchFieldActive = true"
-              @search-result-change="handlePageScroll"
+              @search-result-change="preventHeaderSwapping"
             />
           </div>
         </div>
@@ -240,7 +240,7 @@
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-md':''"
               @focus-by-kbd="isSearchFieldActive = true"
-              @search-result-change="handlePageScroll"
+              @search-result-change="preventHeaderSwapping"
             />
           </div>
         </div>
@@ -370,7 +370,7 @@ export default defineComponent({
       })
     })
 
-    function handlePageScroll (searchResults) {
+    function preventHeaderSwapping (searchResults) {
       searchResultIsDisplayed.value = !!searchResults
     }
 
@@ -404,7 +404,7 @@ export default defineComponent({
       searchForm,
       secondaryHeaderNavItems,
       primaryHeaderIsVisible,
-      handlePageScroll
+      preventHeaderSwapping
     }
   }
 })

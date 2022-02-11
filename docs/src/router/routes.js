@@ -14,7 +14,7 @@ const docsPages = [
   {
     path: 'integrations',
     name: 'integrations',
-    component: () => import('../pages/landing-page/QuasarIntegrations.vue')
+    component: () => import('../components/page-parts/platform-integrations/QuasarIntegrations.vue')
   }
 ]
 

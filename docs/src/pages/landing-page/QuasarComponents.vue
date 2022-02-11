@@ -64,6 +64,7 @@
 <script>
 import { defineComponent, ref, computed } from 'vue'
 import { components } from 'src/assets/landing-page/image-links.js'
+import { useMeta } from 'quasar'
 
 const FILTER_CHIPS = [
   { label: 'Buttons', value: 'button' },
@@ -84,6 +85,9 @@ const componentPath = ({ path, name }) => `/vue-components/${path || componentNa
 export default defineComponent({
   name: 'Components',
   setup () {
+    useMeta({
+      title: 'Components'
+    })
     const search = ref('')
     const filterTag = ref()
 
