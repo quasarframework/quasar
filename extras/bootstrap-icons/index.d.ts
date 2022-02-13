@@ -1,4 +1,4 @@
-/* Bootstrap v1.8.1 */
+/* Bootstrap v1.8.0 */
 
 export declare const bi123: string;
 export declare const biActivity: string;
@@ -1651,8 +1651,8 @@ export declare const biWindows: string;
 export declare const biWordpress: string;
 export declare const biWrench: string;
 export declare const biWrenchAdjustable: string;
-export declare const biWrenchAdjustableCircle: string;
 export declare const biWrenchAdjustableCircleFill: string;
+export declare const biWrenchAdjustableCricle: string;
 export declare const biX: string;
 export declare const biXCircle: string;
 export declare const biXCircleFill: string;
