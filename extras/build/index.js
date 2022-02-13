@@ -73,7 +73,7 @@ async function generate () {
   runJob('./animate.js')
 
   runJob('./mdi-v6.js')
-  runJob('./fontawesome-v6.js')
+  runJob('./fontawesome-v5.js')
   runJob('./ionicons-v6.js')
   runJob('./eva-icons.js')
   runJob('./themify.js')

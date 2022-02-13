@@ -36,7 +36,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "6.0.0",
+    "@fortawesome/fontawesome-free": "5.15.4",
     "@mdi/font": "6.5.95",
     "@mdi/svg": "6.5.95",
     "animate.css": "4.1.1",
