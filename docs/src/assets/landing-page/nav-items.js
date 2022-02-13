@@ -140,7 +140,7 @@ export const navItems = {
       path: 'sponsors-and-backers'
     },
     {
-      label: 'Meet the Team',
+      label: 'Team',
       path: 'meet-the-team'
     },
     {

@@ -4,7 +4,7 @@
     leave-active-class="animated fadeOut"
   >
     <q-header
-      v-if="primaryHeaderIsVisible"
+      v-if="$q.screen.xs || primaryHeaderIsVisible"
       ref="layoutHeader"
       :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
       class="font-monserrat lp-header"
@@ -61,7 +61,7 @@
           <div ref="searchForm">
             <search-quasar-form
               :dark="dark"
-              :is-open-by-default="$q.screen.gt.md"
+              :is-open-by-default="$q.screen.gt.lg"
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
               @focus-by-keyboard="isSearchFieldActive = true"
@@ -176,23 +176,24 @@
           icon="menu"
           round
           @click="$emit('update:modelValue', !modelValue)"/>
-        <a
+        <div
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
-          href="/"
         >
-          <img
-            v-if="$q.screen.sm"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
-            alt="Quasar Logo"
-            height="48"
-            width="48">
-          <img
-            v-else
-            :height="$q.screen.xs? '24':'48'"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
-            alt="Quasar Logo"
-            width="236">
+          <router-link :to="{ name: 'home' }">
+            <img
+              v-if="$q.screen.sm"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
+              alt="Quasar Logo"
+              height="48"
+              width="48">
+            <img
+              v-else
+              :height="$q.screen.xs? '24':'48'"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
+              alt="Quasar Logo"
+              width="236">
+          </router-link>
           <q-separator
             v-if="$q.screen.gt.xs"
             :color="dark? 'black-12':'lp-primary'"
@@ -219,7 +220,7 @@
             </template>
             <nav-dropdown-menu :nav-items="versionHistory"/>
           </q-btn-dropdown>
-        </a>
+        </div>
         <div class="row items-center text-size-12">
           <div
             v-if="$q.screen.gt.xs && showNavItems"

@@ -150,7 +150,7 @@
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
               :label="socialLink.name"
-              class="call-to-action-btn"
+              class="call-to-action-btn social-button--outline"
               color="lp-accent"
               outline
               type="a"
@@ -176,7 +176,7 @@ const { getScrollTarget, setVerticalScrollPosition } = scroll
 function scrollToElement (el) {
   const target = getScrollTarget(el)
   const offset = el.offsetTop
-  const duration = 1000
+  const duration = 400
   setVerticalScrollPosition(target, offset, duration)
 }
 
@@ -292,5 +292,10 @@ q {
       margin-top: 80px !important;
     }
   }
+}
+
+:deep(.q-btn--outline:before) {
+  border: 2px solid $lp-accent;
+  box-shadow: 0 1px 1px 0 rgba($black, 0.12);
 }
 </style>

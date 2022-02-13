@@ -1,6 +1,9 @@
 <template>
   <q-page class="q-mt-xl lp-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
-    <div :class="$q.screen.gt.sm? 'justify-between q-pa-lg':'justify-center q-pa-md'" class="row no-wrap items-center q-mx-xl chips-container bg-lp-dark">
+    <div
+      :class="{'justify-between q-pa-lg': $q.screen.gt.sm, 'q-mx-xl': $q.screen.xl}"
+      class="justify-center q-pa-md row no-wrap items-center chips-container bg-lp-dark"
+    >
       <q-input
         v-model="search"
         :class="$q.screen.gt.sm? 'q-ml-xl':''"
@@ -33,8 +36,7 @@
     <div class="components text-size-16">
       <transition-group
         appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
+        name="slide-fade"
       >
         <q-card
           v-for="({name, description, path}, i) in filteredComponents"
@@ -174,6 +176,13 @@ export default defineComponent({
   @media screen and (min-width: $breakpoint-xs-max) {
     top: 150px;
   }
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease-in-out;
+}
+.slide-fade-leave-active {
+  transition: all .3s ease-in-out;
 }
 
 </style>

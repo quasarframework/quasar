@@ -42,7 +42,7 @@
         <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
       </div>
       <q-separator class="full-width" />
-      <div class="row text-lp-dark justify-center q-my-lg letter-spacing-100">
+      <div class="text-lp-dark text-center q-ma-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
         <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm text-lp-accent text-weight-bold">Dreamonkey Srl</a>
       </div>
