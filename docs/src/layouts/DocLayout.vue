@@ -76,7 +76,7 @@ export default {
     const $q = useQuasar()
     const $route = useRoute()
     const headerScrollData = ref()
-    const HEADER_SCROLL_OFFSET = 100 // number of pixels of scroll before firing a possible header scroll
+    const HEADER_SCROLL_OFFSET = 64 // number of pixels of scroll before firing a possible header scroll
 
     const scope = {
       mdiMenu,

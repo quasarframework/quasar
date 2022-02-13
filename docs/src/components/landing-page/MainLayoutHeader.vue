@@ -258,8 +258,10 @@ import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
+import { useRoute } from 'vue-router'
 
-const SWAP_HEADER_OFFSET = 100
+const SWAP_HEADER_OFFSET_DOWN = 64
+const SWAP_HEADER_OFFSET_UP = 200
 
 export default defineComponent({
   name: 'MainLayoutHeader',
@@ -291,6 +293,7 @@ export default defineComponent({
     const scrollDirection = ref(props.scrollData?.direction)
     const primaryHeaderIsVisible = ref(true)
     const searchResultIsDisplayed = ref(false)
+    const $route = useRoute()
 
     const versionHistory = [
       {
@@ -386,9 +389,19 @@ export default defineComponent({
         scrollOffSetInitPosition.value = currentScrollData.position
         scrollDirection.value = currentScrollData.direction
       }
-      if (Math.abs(currentScrollData.position - scrollOffSetInitPosition.value) >= SWAP_HEADER_OFFSET) {
+      const scrollDirectionOffset = currentScrollData.direction === 'down' ? SWAP_HEADER_OFFSET_DOWN : SWAP_HEADER_OFFSET_UP
+      if (Math.abs(currentScrollData.position - scrollOffSetInitPosition.value) >= scrollDirectionOffset) {
         primaryHeaderIsVisible.value = currentScrollData.direction !== 'down'
       }
+      // when at the top always display the primary header
+      if (props.scrollData.position <= SWAP_HEADER_OFFSET_DOWN) {
+        primaryHeaderIsVisible.value = true
+      }
+    })
+
+    watch(() => $route.path, () => {
+      // when navigating to a new doc page, always force the primary header to be displayed
+      primaryHeaderIsVisible.value = true
     })
 
     return {
