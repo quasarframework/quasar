@@ -97,7 +97,7 @@ import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
 import matRoundSet from 'quasar/icon-set/material-icons-round.js'
 import matSharpSet from 'quasar/icon-set/material-icons-sharp.js'
 import mdiSet from 'quasar/icon-set/mdi-v6.js'
-import fontawesomeSet from 'quasar/icon-set/fontawesome-v6.js'
+import fontawesomeSet from 'quasar/icon-set/fontawesome-v5.js'
 import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
 import evaSet from 'quasar/icon-set/eva-icons.js'
 import themifySet from 'quasar/icon-set/themify.js'
@@ -112,8 +112,7 @@ import svgMdiSet from 'quasar/icon-set/svg-mdi-v6.js'
 import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4.js'
 import svgIoniconsV5Set from 'quasar/icon-set/svg-ionicons-v5.js'
 import svgIoniconsV6Set from 'quasar/icon-set/svg-ionicons-v6.js'
-import svgFontawesomeV5Set from 'quasar/icon-set/svg-fontawesome-v5.js'
-import svgFontawesomeV6Set from 'quasar/icon-set/svg-fontawesome-v6.js'
+import svgFontawesomeSet from 'quasar/icon-set/svg-fontawesome-v5.js'
 import svgEvaSet from 'quasar/icon-set/svg-eva-icons.js'
 import svgThemifySet from 'quasar/icon-set/svg-themify.js'
 import svgLineawesomeSet from 'quasar/icon-set/svg-line-awesome.js'
@@ -124,7 +123,7 @@ import { mdiAirballoon } from '@quasar/extras/mdi-v6'
 import { ionMdAirplane, ionIosAirplane } from '@quasar/extras/ionicons-v4'
 import { ionCarOutline } from '@quasar/extras/ionicons-v6'
 import { ionAirplane } from '@quasar/extras/ionicons-v5'
-import { fabGithub } from '@quasar/extras/fontawesome-v6'
+import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
 import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
@@ -269,8 +268,7 @@ export default {
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
-        svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set,
-        svgFontawesomeV5Set, svgFontawesomeV6Set,
+        svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet, svgBootstrapiconsSet
       ].map(({ name, ...set }) => parseSet(name, set)),
 

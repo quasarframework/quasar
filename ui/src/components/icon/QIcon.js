@@ -36,7 +36,6 @@ const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
 const faLaRE = /^[lf]a[srlbdk]? /
-const fa6RE = /^fa-(brand|regular|solid) /
 
 export default createComponent({
   name: 'QIcon',
@@ -130,7 +129,7 @@ export default createComponent({
       if (matches !== null) {
         cls = libMap[ matches[ 1 ] ](icon)
       }
-      else if (faLaRE.test(icon) === true || fa6RE.test(icon) === true) {
+      else if (faLaRE.test(icon) === true) {
         cls = icon
       }
       else if (ionRE.test(icon) === true) {
