@@ -122,7 +122,8 @@ export default {
     badge: String,
     metaTitle: String,
     metaDesc: String,
-    toc: Array
+    toc: Array,
+    editPagePath: String
   },
 
   setup (props) {
@@ -137,7 +138,11 @@ export default {
 
     const $route = useRoute()
     const editHref = computed(() => {
-      return `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages${$route.path}.md`
+      const baseEditHref = 'https://github.com/quasarframework/quasar/edit/dev'
+      if (props.editPagePath) {
+        return `${baseEditHref}/${props.editPagePath}`
+      }
+      return `${baseEditHref}/docs/src/pages${$route.path}.md`
     })
 
     return {
