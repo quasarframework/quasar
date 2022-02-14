@@ -155,32 +155,39 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
-      if (isKeyCode(e, [ 13, 32 ]) === true) {
-        stopAndPrevent(e)
+      this.$emit('keydown', e)
 
+      if (isKeyCode(e, [ 13, 32 ]) === true) {
         if (keyboardTarget !== this.$el) {
           keyboardTarget !== void 0 && this.__cleanup()
 
-          // focus external button if the focus helper was focused before
-          this.$el.focus()
+          if (e.defaultPrevented !== true) {
+            // focus external button if the focus helper was focused before
+            this.$el.focus()
 
-          keyboardTarget = this.$el
-          this.$el.classList.add('q-btn--active')
-          document.addEventListener('keyup', this.__onPressEnd, true)
-          this.$el.addEventListener('blur', this.__onPressEnd, passiveCapture)
+            keyboardTarget = this.$el
+            this.$el.classList.add('q-btn--active')
+            document.addEventListener('keyup', this.__onPressEnd, true)
+            this.$el.addEventListener('blur', this.__onPressEnd, passiveCapture)
+          }
         }
-      }
 
-      this.$emit('keydown', e)
+        stopAndPrevent(e)
+      }
     },
 
     __onTouchstart (e) {
+      this.$emit('touchstart', e)
+
       if (touchTarget !== this.$el) {
         touchTarget !== void 0 && this.__cleanup()
-        touchTarget = this.$el
-        const target = this.touchTargetEl = e.target
-        target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
-        target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
+
+        if (e.defaultPrevented !== true) {
+          touchTarget = this.$el
+          const target = this.touchTargetEl = e.target
+          target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+          target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
+        }
       }
 
       // avoid duplicated mousedown event
@@ -190,20 +197,21 @@ export default Vue.extend({
       this.mouseTimer = setTimeout(() => {
         this.avoidMouseRipple = false
       }, 200)
-
-      this.$emit('touchstart', e)
     },
 
     __onMousedown (e) {
-      if (mouseTarget !== this.$el) {
-        mouseTarget !== void 0 && this.__cleanup()
-        mouseTarget = this.$el
-        this.$el.classList.add('q-btn--active')
-        document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
-      }
-
       e.qSkipRipple = this.avoidMouseRipple === true
       this.$emit('mousedown', e)
+
+      if (mouseTarget !== this.$el) {
+        mouseTarget !== void 0 && this.__cleanup()
+
+        if (e.defaultPrevented !== true) {
+          mouseTarget = this.$el
+          this.$el.classList.add('q-btn--active')
+          document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
+        }
+      }
     },
 
     __onPressEnd (e) {
