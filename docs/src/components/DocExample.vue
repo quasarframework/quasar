@@ -62,7 +62,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 
 import {
   fabGithub, fabCodepen
-} from '@quasar/extras/fontawesome-v6'
+} from '@quasar/extras/fontawesome-v5'
 
 import { slugify } from 'assets/page-utils'
 

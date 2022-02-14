@@ -160,7 +160,7 @@
 
 <script>
 import { ref } from 'vue'
-import { fabGithub } from '@quasar/extras/fontawesome-v6'
+import { fabGithub } from '@quasar/extras/fontawesome-v5'
 
 const stringOptions = [
   'quasarframework/quasar',

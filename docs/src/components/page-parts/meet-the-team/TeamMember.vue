@@ -26,7 +26,7 @@ import { computed } from 'vue'
 
 import {
   fabGithub, fabTwitter
-} from '@quasar/extras/fontawesome-v6'
+} from '@quasar/extras/fontawesome-v5'
 
 export default {
   name: 'TeamMember',

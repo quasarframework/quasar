@@ -88,7 +88,7 @@ import { useRoute } from 'vue-router'
 
 import {
   fabGithub, fabTwitter, fabFacebook
-} from '@quasar/extras/fontawesome-v6'
+} from '@quasar/extras/fontawesome-v5'
 
 import {
   mdiPost, mdiForum, mdiChat, mdiCharity,

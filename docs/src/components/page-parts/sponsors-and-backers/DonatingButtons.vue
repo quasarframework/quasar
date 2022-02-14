@@ -42,7 +42,7 @@
 <script>
 import {
   fabGithub, fabPaypal
-} from '@quasar/extras/fontawesome-v6'
+} from '@quasar/extras/fontawesome-v5'
 
 export default {
   name: 'DonatingButtons',
