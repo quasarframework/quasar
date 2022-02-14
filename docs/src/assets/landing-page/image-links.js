@@ -9,7 +9,7 @@ export const whyQuasar = [
     icon: 'img:homepage-icons/components.svg',
     title: 'Top Class Components',
     body: 'A library of more than 70 high performance customizable Material Design web components for all your needs',
-    btnLabel: 'Consult Library',
+    btnLabel: 'Browse components',
     btnLink: 'components'
   },
   {

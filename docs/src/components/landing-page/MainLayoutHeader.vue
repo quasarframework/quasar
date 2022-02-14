@@ -427,8 +427,6 @@ export default defineComponent({
 })
 </script>
 <style lang="scss" scoped>
-$footer-columns-md-min: 6;
-$footer-columns-sm-min: 4;
 $adjust-header-viewport: 860px;
 
 // remove second child, (components nav)

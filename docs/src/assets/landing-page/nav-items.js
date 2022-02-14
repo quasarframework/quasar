@@ -157,7 +157,7 @@ export const navItems = {
     { ...toolsNavItem },
     {
       label: 'Announcements',
-      href: 'https://forum.quasar-framework.org/category/1/announcements'
+      href: 'https://github.com/quasarframework/quasar/discussions/categories/announcements'
     },
     {
       label: 'Roadmap',

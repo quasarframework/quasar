@@ -13,7 +13,7 @@
 
       <q-btn
         color="lp-accent"
-        label="Take a look across the stars"
+        label="Are you ready to lift off?"
         class="call-to-action-btn shadow-bottom-small"
         @click="scrollSectionIntoView('why-quasar-section')"
       />
