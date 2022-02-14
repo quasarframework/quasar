@@ -97,7 +97,7 @@ import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
 import matRoundSet from 'quasar/icon-set/material-icons-round.js'
 import matSharpSet from 'quasar/icon-set/material-icons-sharp.js'
 import mdiSet from 'quasar/icon-set/mdi-v6.js'
-import fontawesomeSet from 'quasar/icon-set/fontawesome-v6.js'
+import fontawesomeV5Set from 'quasar/icon-set/fontawesome-v6.js'
 import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
 import evaSet from 'quasar/icon-set/eva-icons.js'
 import themifySet from 'quasar/icon-set/themify.js'
@@ -266,7 +266,7 @@ export default {
 
       sets: [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
-        mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
+        mdiSet, fontawesomeV5Set, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set,
