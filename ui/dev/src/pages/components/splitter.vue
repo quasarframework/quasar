@@ -40,7 +40,9 @@
       style="height: 700px; border: 1px solid black"
     >
       <template v-slot:before>
-        <div class="q-layout-padding">
+        <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+          <div class="q-focus-helper" />
+
           <div class="text-h1 q-mb-md">
             Before
           </div>
@@ -60,7 +62,9 @@
       />
 
       <template v-slot:after>
-        <div class="q-layout-padding">
+        <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+          <div class="q-focus-helper" />
+
           <div class="text-h1 q-mb-md">
             After
           </div>
@@ -83,7 +87,9 @@
       separator-class="bg-deep-orange"
     >
       <template v-slot:before>
-        <div class="q-layout-padding">
+        <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+          <div class="q-focus-helper" />
+
           <div class="text-h1 q-mb-md">
             Before
           </div>
@@ -109,9 +115,12 @@
           separator-class="bg-deep-orange"
           class="bg-white rounded-borders"
           style="width: 50vw; height: 30vh"
+          @keydown.stop
         >
           <template v-slot:before>
-            <div class="q-layout-padding">
+            <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+              <div class="q-focus-helper" />
+
               <div v-for="n in 20" :key="n" class="q-my-md">
                 {{ n }}. Lorem ipsum dolor sit.
               </div>
@@ -119,7 +128,9 @@
           </template>
 
           <template v-slot:after>
-            <div class="q-layout-padding">
+            <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+              <div class="q-focus-helper" />
+
               <div v-for="n in 20" :key="n" class="q-my-md">
                 {{ n }}. Lorem ipsum dolor sit.
               </div>
@@ -137,7 +148,9 @@
           separator-class="bg-deep-orange"
         >
           <template v-slot:before>
-            <div class="q-layout-padding">
+            <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+              <div class="q-focus-helper" />
+
               <div class="text-h1 q-mb-md">
                 After - Before
               </div>
@@ -158,7 +171,9 @@
           />
 
           <template v-slot:after>
-            <div class="q-layout-padding">
+            <div class="q-layout-padding q-focusable relative-position" tabindex="0">
+              <div class="q-focus-helper" />
+
               <div class="text-h1 q-mb-md">
                 After - After
               </div>

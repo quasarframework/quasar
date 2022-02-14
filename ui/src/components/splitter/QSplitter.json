@@ -51,6 +51,10 @@
       "category": "content|model"
     },
 
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
     "disable": {
       "extends": "disable"
     },
