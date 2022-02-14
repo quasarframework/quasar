@@ -539,10 +539,18 @@ export default Vue.extend({
     this.__onPreRender !== void 0 && this.__onPreRender()
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
+    const attrs = this.__getControl === void 0 && this.$scopedSlots.control === void 0
+      ? {
+        ...this.qAttrs,
+        'data-autofocus': this.autofocus,
+        ...this.attrs
+      }
+      : this.attrs
+
     return h('label', {
       staticClass: 'q-field q-validation-component row no-wrap items-start',
       class: this.classes,
-      attrs: this.attrs
+      attrs
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center',

@@ -948,6 +948,8 @@ export default Vue.extend({
       }
       // there can be only one (when dialog is opened the control in dialog should be target)
       else if (this.editable === true) {
+        const attrs = isTarget === true ? this.comboboxAttrs : void 0
+
         child.push(
           h('div', {
             ref: isTarget === true ? 'target' : void 0,
@@ -956,7 +958,7 @@ export default Vue.extend({
             attrs: {
               id: isTarget === true ? this.targetUid : void 0,
               tabindex: this.tabindex,
-              ...this.comboboxAttrs
+              ...attrs
             },
             on: cache(this, 'f-tget', {
               keydown: this.__onTargetKeydown,
@@ -995,7 +997,9 @@ export default Vue.extend({
         )
       }
 
-      return h('div', { staticClass: 'q-field__native row items-center', attrs: this.qAttrs }, child)
+      const attrs = this.useInput === true || isTarget !== true ? void 0 : this.qAttrs
+
+      return h('div', { staticClass: 'q-field__native row items-center', attrs }, child)
     },
 
     __getOptions (h) {
@@ -1057,6 +1061,8 @@ export default Vue.extend({
     },
 
     __getInput (h, fromDialog, isTarget) {
+      const attrs = isTarget === true ? { ...this.comboboxAttrs, ...this.qAttrs } : void 0
+
       const options = {
         ref: isTarget === true ? 'target' : void 0,
         key: 'i_t',
@@ -1067,15 +1073,14 @@ export default Vue.extend({
         attrs: {
           // required for Android in order to show ENTER key when in form
           type: 'search',
-          ...this.qAttrs,
+          ...attrs,
           id: isTarget === true ? this.targetUid : void 0,
           maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           autocomplete: this.autocomplete,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           disabled: this.disable === true,
-          readonly: this.readonly === true,
-          ...this.comboboxAttrs
+          readonly: this.readonly === true
         },
         on: this.inputControlEvents
       }
