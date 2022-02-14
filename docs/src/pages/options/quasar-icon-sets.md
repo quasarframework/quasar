@@ -50,10 +50,10 @@ Full example of including MDI & Fontawesome and telling Quasar to use Fontawesom
 ```js
 extras: [
   'mdi-v6',
-  'fontawesome-v5'
+  'fontawesome-v6'
 ],
 framework: {
-  iconSet: 'fontawesome-v5'
+  iconSet: 'fontawesome-v6'
 }
 ```
 
@@ -64,9 +64,9 @@ Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to 
 
 ```html
 <!-- include this after Quasar JS tag -->
-<script src="https://cdn.jsdelivr.net/npm/quasar@v2/dist/icon-set/fontawesome-v5.umd.prod.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quasar@v2/dist/icon-set/fontawesome-v6.umd.prod.js"></script>
 <script>
-  Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
+  Quasar.iconSet.set(Quasar.iconSet.fontawesome-v6)
 </script>
 ```
 
@@ -79,8 +79,8 @@ We edit your `main.js`:
 // ...
 import { Quasar } from 'quasar'
 // ...
-import iconSet from 'quasar/icon-set/fontawesome-v5'
-import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
+import iconSet from 'quasar/icon-set/fontawesome-v6'
+import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 // ...
 app.use(Quasar, {
   // ...,
@@ -92,7 +92,7 @@ app.use(Quasar, {
 We edit your `main.js`:
 
 ```js
-import iconSet from 'quasar/icon-set/fontawesome-v5'
+import iconSet from 'quasar/icon-set/fontawesome-v6'
 // ...
 import { Quasar } from 'quasar'
 // ...
@@ -113,7 +113,7 @@ export default async () => {
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v6|fontawesome-v5)\.js$/ */
+      /* webpackInclude: /(mdi-v6|fontawesome-v6)\.js$/ */
       'quasar/icon-set/' + iconSetName
       )
       .then(setDefinition => {
@@ -151,7 +151,7 @@ export default async ({ ssrContext }) => {
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v6|fontawesome-v5)\.js$/ */
+      /* webpackInclude: /(mdi-v6|fontawesome-v6)\.js$/ */
       'quasar/icon-set/' + iconSetName
       )
       .then(setDefinition => {

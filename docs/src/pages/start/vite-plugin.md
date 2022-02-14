@@ -56,7 +56,11 @@ $ pnpm add -D @quasar/vite-plugin sass@1.32.0
 
 ## Using Quasar
 
-We have built a configurator to help you get started as quick as possible:
+We have built a configurator to help you get started as quick as possible.
+
+::: warning
+You can use both Fontawesome v5 and v6 web fonts at the same time. Refer to their [Upgrade Guide](https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5) for more information.
+:::
 
 <vite-plugin-usage />
 

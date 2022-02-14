@@ -58,6 +58,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | ionicons-v5/v6 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
+| fontawesome-v5 | fa[s,r,l,d,b] fa- or fa-[solid,regular,brands] | "fas fa-ambulance" or "fa-solid fa-ambulance"| QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags); **@quasar/extras v1.13+** |
 | mdi-v6/v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v6, mdi-v5, mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
@@ -79,7 +80,8 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 #### Fontawesome
 
 * Icon names are in hyphen-serapated case and always begin with "fas fa-", "fab fa-", "fal fa-" or "far fa-" prefixes.
-* Go to [FontAwesome](https://fontawesome.com/icons), look for your desired icon, click on it. You'll get to its page. Below the icon name (as title), you will see something like `<i class="fas fa-air-freshener"></i>`. The result is `fas fa-air-freshener`.
+* For Fontawesome v6, instead of "fas", "far", and "fab", you can now use in replacement "fa-solid", "fa-regular", and "fa-brands", respectively.
+* Go to [FontAwesome](https://fontawesome.com/icons), look for your desired icon, click on it. You'll get to its page. Below the icon name (as title), you will see something like `<i class="fas fa-air-freshener"></i>`. The result is `fas fa-air-freshener`. For Fontawesome v6, you will see something like `<i class="fa-solid fa-air-conditioner"></i>`. The result is `fa-solid fa-air-conditioner`.
 
 #### Ionicons
 
@@ -132,7 +134,7 @@ Notice in the example below that we want to avoid the Vue observable wrapping, s
 <script>
 import { matMenu } from '@quasar/extras/material-icons'
 import { mdiAbTesting } from '@quasar/extras/mdi-v6'
-import { fasFont } from '@quasar/extras/fontawesome-v5'
+import { fasFont } from '@quasar/extras/fontawesome-v6'
 
 export default {
   // ...
@@ -156,7 +158,8 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Icons Round (Google) | svg-material-icons-round | @quasar/extras/material-icons-round | @quasar/extras v1.9+ |
 | MDI (Material Design Icons) (v3-v5) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
 | MDI (Material Design Icons) v6 | svg-mdi-v6 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+ |
-| Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
+| Font Awesome v6 | svg-fontawesome-v6 | @quasar/extras/fontawesome-v6 | @quasar/extras v1.13+ |
+| Font Awesome v5 | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
 | Ionicons v6 | svg-ionicons-v6 | @quasar/extras/ionicons-v6 | @quasar/extras v1.12+ |
 | Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | @quasar/extras v1.7+ |
 | Ionicons v4 | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
@@ -203,8 +206,10 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 * Icon names are in camel-case and always begin with "fas", "fab", "fal" or "far" prefixes.
 * Go to [FontAwesome](https://fontawesome.com/icons), look for your desired icon, click on it. You'll get to its page. Below the icon name (as title), you will see something like `<i class="fas fa-air-freshener"></i>`. This would translate to `fasAirFreshner`. The prefix from the tag is important.
+* For Fontawesome v6, there is no change in the way svg icons are prefixed. If the site says `<i class="fa-solid fa-air-conditioner"></i>`, then convert to `fasAirConditioner`.
 * Note that we cannot supply the "Pro" version of the icons in svg format because of the license.
 * Import statement example: `import { fasAirFreshener } from '@quasar/extras/fontawesome-v5'`.
+* Import statement example: `import { fasAirConditioner } from '@quasar/extras/fontawesome-v6'`.
 
 #### SVG Ionicons
 

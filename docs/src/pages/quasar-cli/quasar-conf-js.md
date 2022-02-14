@@ -203,7 +203,7 @@ return {
     // You'll see this mentioned for components/directives/plugins which use it
     config: { /* ... */ },
 
-    iconSet: 'fontawesome-v5', // requires icon library to be specified in "extras" section too,
+    iconSet: 'fontawesome-v6', // requires icon library to be specified in "extras" section too,
     lang: 'de', // Tell Quasar which language pack to use for its own components
 
     cssAddon: true // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
