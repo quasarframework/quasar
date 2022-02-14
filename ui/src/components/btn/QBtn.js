@@ -84,7 +84,7 @@ export default createComponent({
           onClick,
           onKeydown,
           onMousedown,
-          onTouchstartPassive
+          onTouchstart
         }
       }
 
@@ -153,12 +153,12 @@ export default createComponent({
       // is it already destroyed?
       if (rootRef.value === null) { return }
 
-      if (isKeyCode(e, [ 13, 32 ]) === true) {
-        stopAndPrevent(e)
+      emit('keydown', e)
 
-        if (keyboardTarget !== rootRef.value) {
-          keyboardTarget !== null && cleanup()
+      if (isKeyCode(e, [ 13, 32 ]) === true && keyboardTarget !== rootRef.value) {
+        keyboardTarget !== null && cleanup()
 
+        if (e.defaultPrevented !== true) {
           // focus external button if the focus helper was focused before
           rootRef.value.focus()
 
@@ -167,14 +167,18 @@ export default createComponent({
           document.addEventListener('keyup', onPressEnd, true)
           rootRef.value.addEventListener('blur', onPressEnd, passiveCapture)
         }
-      }
 
-      emit('keydown', e)
+        stopAndPrevent(e)
+      }
     }
 
-    function onTouchstartPassive (e) {
+    function onTouchstart (e) {
       // is it already destroyed?
       if (rootRef.value === null) { return }
+
+      emit('touchstart', e)
+
+      if (e.defaultPrevented === true) { return }
 
       if (touchTarget !== rootRef.value) {
         touchTarget !== null && cleanup()
@@ -192,23 +196,21 @@ export default createComponent({
       mouseTimer = setTimeout(() => {
         avoidMouseRipple = false
       }, 200)
-
-      emit('touchstart', e)
     }
 
     function onMousedown (e) {
       // is it already destroyed?
       if (rootRef.value === null) { return }
 
-      if (mouseTarget !== rootRef.value) {
+      e.qSkipRipple = avoidMouseRipple === true
+      emit('mousedown', e)
+
+      if (e.defaultPrevented !== true && mouseTarget !== rootRef.value) {
         mouseTarget !== null && cleanup()
         mouseTarget = rootRef.value
         rootRef.value.classList.add('q-btn--active')
         document.addEventListener('mouseup', onPressEnd, passiveCapture)
       }
-
-      e.qSkipRipple = avoidMouseRipple === true
-      emit('mousedown', e)
     }
 
     function onPressEnd (e) {
