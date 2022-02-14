@@ -149,7 +149,11 @@
             size="md"
             target="__blank"
             type="a"
-          />
+          >
+            <q-tooltip class="letter-spacing-263">
+              {{ socialLink.name }}
+            </q-tooltip>
+          </q-btn>
         </q-toolbar>
         <q-separator :color="dark? 'black-12':'lp-primary'"/>
       </template>
