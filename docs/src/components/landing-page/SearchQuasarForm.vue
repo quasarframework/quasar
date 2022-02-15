@@ -126,10 +126,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$search-form-width: 360px;
+$search-form-width-sm: 256px;
+$search-form-width-lg: 360px;
 
 .search-form {
-  width: $search-form-width;
+  width: $search-form-width-sm;
+  @media screen and (min-width: $breakpoint-xs-max) {
+    width: $search-form-width-lg;
+  }
 
   .forward-slash-key {
     font-size: .6em !important;
@@ -142,12 +146,18 @@ $search-form-width: 360px;
   position: absolute;
   left: 0;
   z-index: 10000;
-  width: $search-form-width;
+  width: $search-form-width-sm;
+  @media screen and (min-width: $breakpoint-xs-max) {
+    width: $search-form-width-lg;
+  }
 }
 
 .search-result-container {
   transition: height .3s ease-in-out;
-  max-width: $search-form-width;
+  max-width: $search-form-width-sm;
+  @media screen and (min-width: $breakpoint-xs-max) {
+    max-width: $search-form-width-lg;
+  }
 }
 
 .scroll-area-opacity-0 {

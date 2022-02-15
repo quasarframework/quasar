@@ -29,13 +29,18 @@
       />
 
       <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">Our Platinum sponsors</div>
-      <q-img
-        v-for="(src, index) in sponsorLogos.platinum"
-        :key="index"
-        :src="`sponsor-logos/${src}`"
-        width="200px"
-        class="q-my-md"
-      />
+      <a
+        v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
+        :href="`https://${href}`"
+        :key="platinumSponsorIndex"
+        target='_blank'
+      >
+        <q-img
+          :src="`sponsor-logos/${src}`"
+          width="200px"
+          class="q-my-md"
+        />
+      </a>
       <q-btn
         flat
         padding="none"
@@ -120,26 +125,34 @@
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
       <div class="text-size-16 text-weight-bold">
         <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
-        <q-img
-          v-for="(src, platinumSponsorIndex) in sponsorLogos.platinum"
+        <a
+          v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
           :key="platinumSponsorIndex"
-          :src="`sponsor-logos/${src}`"
-          width="200px"
-        />
+          :href="`https://${href}`"
+        >
+          <q-img
+            :src="`sponsor-logos/${src}`"
+            width="200px"
+          />
+        </a>
         <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
-        <q-img
-          v-for="(src, silverSponsorIndex) in sponsorLogos.silver"
+        <a
+          v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
           :key="silverSponsorIndex"
-          :src="`sponsor-logos/${src}`"
-          width="200px"
-        />
+          :href="`https://${href}`"
+        >
+          <q-img
+            :src="`sponsor-logos/${src}`"
+            width="200px"
+          />
+        </a>
       </div>
     </div>
 
     <div class="text-center social-channels-call-to-action lp-mb--large">
       <q-img
         src="~assets/landing-page/homepage-background-images/planet.png"
-        :height="$q.screen.lt.md ? '80vh' : '1080'"
+        :height="$q.screen.lt.md ? '80vh' : ''"
       >
         <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
@@ -281,7 +294,7 @@ q {
   margin-top: 200px;
 
   @media screen and (min-width: $breakpoint-md-max) {
-    height: 18vh;
+    height: calc(100vh - 152px);
     margin-top: 400px;
   }
 }

@@ -2,7 +2,6 @@
   <q-carousel
     v-model="slide"
     swipeable
-    animated
     navigation
     padding
     :arrows="$q.screen.gt.xs"
@@ -24,7 +23,13 @@
     </template>
     <q-carousel-slide :name="slideIndex" class="showcase-cards text-size-10" v-for="(tweetGroup, slideIndex) in tweetGroups" :key="`slide-${slideIndex}`">
       <div class="carousel-grid">
-        <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" :id="`tweet-container-${tweetId}`" />
+        <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" :id="`tweet-container-${tweetId}`" class="row justify-center">
+          <q-spinner
+            v-if="tweetGroupIsLoading"
+            color="lp-primary"
+            size="xl"
+          />
+        </div>
       </div>
     </q-carousel-slide>
   </q-carousel>
@@ -82,6 +87,8 @@ async function getTwitterInstance () {
 export default defineComponent({
   name: 'TwitterShowcaseCards',
   setup () {
+    const tweetGroupIsLoading = ref(true)
+
     const tweetGroups = computed(() => {
       // create tweet groups depending on the size of the screen
       if (Screen.xs) {
@@ -107,7 +114,9 @@ export default defineComponent({
           cards: 'hidden',
           dnt: true
         }
-      )
+      ).then(() => {
+        tweetGroupIsLoading.value = false
+      })
     }
 
     onMounted(async () => {
@@ -121,6 +130,7 @@ export default defineComponent({
     })
 
     async function loadTweets () {
+      tweetGroupIsLoading.value = true
       if (!twitterInstance) {
         twitterInstance = await getTwitterInstance()
       }
@@ -131,6 +141,9 @@ export default defineComponent({
         })
         alreadyDisplayedTweetGroupsIndexes.push(slide.value)
       }
+      else {
+        tweetGroupIsLoading.value = false
+      }
     }
 
     // calculate how many tweets to show per carousel depending on the screen size
@@ -140,7 +153,8 @@ export default defineComponent({
       slide,
       tweetGroups,
       loadTweets,
-      tweetsPerPage
+      tweetsPerPage,
+      tweetGroupIsLoading
     }
   }
 })

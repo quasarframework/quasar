@@ -1,7 +1,15 @@
 export const sponsorLogos = {
-  platinum: ['dreamonkey.png'],
+  platinum: [{ src: 'dreamonkey.png', href: 'dreamonkey.com' }],
   gold: [],
-  silver: [ 'letsbutterfly.png', 'kalisio.png', 'platformpurple.png', 'comcomservices.png', 'digitalocean.png', 'jugglest.png', 'ibl.png' ]
+  silver: [
+    { src: 'letsbutterfly.png', href: 'letsbutterfly.com' },
+    { src: 'kalisio.png', href: 'kalisio.com' },
+    { src: 'platformpurple.png', href: 'platformpurple.com' },
+    { src: 'comcomservices.png', href: 'comcomservices.com' },
+    { src: 'digitalocean.png', href: 'www.digitalocean.com' },
+    { src: 'jugglest.png', href: 'www.jugglestreet.com.au' },
+    { src: 'ibl.png', href: 'ib-langenthal.ch' }
+  ]
 }
 
 export const whyQuasar = [

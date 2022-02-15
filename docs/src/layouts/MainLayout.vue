@@ -146,7 +146,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $footer-columns-md-min: 5;
-$footer-columns-sm-min: 4;
+$footer-columns-sm-min: 3;
+$footer-columns-after-xs: 2;
 
 .lp-footer {
   display: grid;
@@ -155,10 +156,22 @@ $footer-columns-sm-min: 4;
   grid-row-gap: 100px;
 
   @media screen and (min-width: $breakpoint-sm-min) {
+    margin-left: 30px;
+    margin-right: 30px;
+    grid-column-gap: 36px;
     grid-template-columns: repeat($footer-columns-sm-min, 1fr);
   }
+
   @media screen and (min-width: $breakpoint-md-min) {
+    margin-left: 100px;
+    margin-right: 100px;
     grid-template-columns: repeat($footer-columns-md-min, 1fr);
+  }
+  // handle edge case, on devices just after $breakpoint-xs-max and into sm
+  @media screen and (min-width: $breakpoint-xs-max) and (max-width: 807px) {
+    margin-left: 64px;
+    margin-right: 64px;
+    grid-template-columns: repeat($footer-columns-after-xs, 1fr);
   }
 }
 
