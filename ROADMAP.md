@@ -38,7 +38,7 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Q3 2021
 * ✌️ (DONE) Migration to Quasar v2 of official AEs ([reference](https://github.com/quasarframework/quasar/discussions/9560))
-* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/next/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/next/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/next/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
+* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
 * ✌️ (DONE) Quasar brand rework ([reference](https://dev.to/quasar/quasar-brand-refresh-and-new-partnership-ao1))
 * 🚫 (CANCELLED 😢) ~~Quasar.Conf 2021~~ ([reference](https://twitter.com/quasarframework/status/1435177368352698375))
 
