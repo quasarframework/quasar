@@ -61,6 +61,7 @@ import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
+import { HEADER_SCROLL_OFFSET } from 'assets/landing-page/constants.js'
 
 export default {
   name: 'DocLayout',
@@ -76,7 +77,6 @@ export default {
     const $q = useQuasar()
     const $route = useRoute()
     const headerScrollData = ref()
-    const HEADER_SCROLL_OFFSET = 64 // number of pixels of scroll before firing a possible header scroll
 
     const scope = {
       mdiMenu,

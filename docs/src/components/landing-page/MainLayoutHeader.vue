@@ -263,8 +263,8 @@ import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
 import HeaderNavLink from 'components/landing-page/HeaderNavLink'
 import { useRoute } from 'vue-router'
+import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 
-const SWAP_HEADER_OFFSET_DOWN = 64
 const SWAP_HEADER_OFFSET_UP = 200
 
 export default defineComponent({

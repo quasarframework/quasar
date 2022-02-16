@@ -13,7 +13,7 @@
     <q-card-section class="q-pa-none">
       <q-btn
         outline
-        class="call-to-action-btn"
+        class="call-to-action-btn no-border-radius"
         color="lp-accent"
         :label="btnLabel"
         :to="`/${btnLink}`"
