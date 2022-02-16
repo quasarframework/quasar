@@ -3,7 +3,7 @@ title: Testing & Auditing
 desc: How to unit and end to end test a Quasar app and also how to audit for quality and security.
 ---
 
-Your Quasar projects have the ability to add unit and e2e testing harnesses. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing/tree/next). If you are a beginner, consider reading one of the books in the "Further Reading" section.
+Your Quasar projects have the ability to add unit and e2e testing harnesses. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing/tree/dev). If you are a beginner, consider reading one of the books in the "Further Reading" section.
 
 ## High level overview
 
@@ -13,10 +13,10 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 
 ## Testing documentation
 
-Some Qv2-compatible Testing AEs are currently in alpha or beta phase, existing documentation website (https://testing.quasar.dev) still refer to Qv1 AEs.
-You can find the updated documentation into `next` branch of quasar-testing repo.
+Most Testing AEs have been migrated to be Qv2-compatible, but since some are still in alpha or beta phase existing documentation website (https://testing.quasar.dev) still refer to Qv1 AEs.
+You can find the updated documentation into `dev` branch of quasar-testing repo.
 
-<q-btn color="brand-primary" label="Testing repo @next branch" icon-right="launch" no-caps href="https://github.com/quasarframework/quasar-testing/tree/next" target="_blank" />
+<q-btn color="brand-primary" label="Testing repo @dev branch" icon-right="launch" no-caps href="https://github.com/quasarframework/quasar-testing/tree/dev" target="_blank" />
 
 ## Installing
 
