@@ -7,8 +7,7 @@
         :class="$q.screen.gt.md? 'letter-spacing-375':'letter-spacing-300'"
         class="lp-my--medium text-center text-white-54 text-size-20 primary-line-height"
       >
-        The open source multi-platform development framework <br v-if="$q.screen.gt.sm"> based on Vue.js
-        with an enterprise vocation.
+        The enterprise-ready cross-platform VueJs framework
       </h1>
 
       <q-btn
