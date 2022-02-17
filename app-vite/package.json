@@ -1,0 +1,123 @@
+{
+  "name": "@quasar/app-vite",
+  "version": "1.0.0-alpha.0",
+  "description": "Quasar Framework local CLI",
+  "bin": {
+    "quasar": "./bin/quasar"
+  },
+  "typings": "types/index.d.ts",
+  "files": [
+    "assets",
+    "bin",
+    "lib",
+    "templates",
+    "types",
+    "tsconfig-preset.json"
+  ],
+  "keywords": [
+    "quasar",
+    "cli",
+    "web",
+    "spa",
+    "pwa",
+    "electron",
+    "vue",
+    "vuejs",
+    "cordova"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "dependencies": {
+    "@quasar/fastclick": "1.1.4",
+    "@quasar/ssr-helpers": "2.1.1",
+    "@quasar/vite-plugin": "^1.0.4",
+    "@types/cordova": "0.0.34",
+    "@types/express": "4.17.13",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "archiver": "5.3.0",
+    "autoprefixer": "10.4.2",
+    "browserslist": "^4.12.0",
+    "chalk": "4.1.2",
+    "chokidar": "3.5.3",
+    "ci-info": "3.3.0",
+    "cross-spawn": "7.0.3",
+    "cssnano": "5.0.17",
+    "dot-prop": "6.0.1",
+    "elementtree": "0.1.7",
+    "error-stack-parser": "2.0.6",
+    "express": "4.17.2",
+    "esbuild": "0.14.22",
+    "fast-glob": "3.2.11",
+    "fs-extra": "10.0.0",
+    "hash-sum": "2.0.0",
+    "html-minifier": "4.0.0",
+    "inquirer": "8.2.0",
+    "isbinaryfile": "4.0.8",
+    "launch-editor-middleware": "2.3.0",
+    "lodash.debounce": "4.0.8",
+    "lodash.template": "4.5.0",
+    "lodash.throttle": "4.1.1",
+    "log-update": "4.0.0",
+    "memory-fs": "0.5.0",
+    "minimist": "1.2.5",
+    "open": "8.4.0",
+    "ouch": "2.0.0",
+    "postcss": "^8.4.4",
+    "pretty-error": "4.0.0",
+    "register-service-worker": "1.7.2",
+    "sass": "1.32.12",
+    "semver": "7.3.5",
+    "table": "6.8.0",
+    "typescript": "4.5.5",
+    "vite": "^2.8.2",
+    "webpack-merge": "5.8.0"
+  },
+  "devDependencies": {
+    "electron-builder": "22.14.13",
+    "electron-packager": "^15.3.0",
+    "quasar": "^2.0.4",
+    "ts-essentials": "^9.1.2",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
+    "vuex": "^4.0.0"
+  },
+  "peerDependencies": {
+    "electron-builder": "^22.0.0",
+    "electron-packager": "^15.0.0",
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12"
+  },
+  "peerDependenciesMeta": {
+    "electron-builder": {
+      "optional": true
+    },
+    "electron-packager": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.14.12",
+    "yarn": ">= 1.17.3"
+  },
+  "volta": {
+    "node": "lts"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
