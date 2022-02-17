@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="`https://${href}`"
+    :href="href"
     target='_blank'
   >
     <q-img

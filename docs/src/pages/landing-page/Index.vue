@@ -32,7 +32,7 @@
       <sponsor-link
         v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
         :key="platinumSponsorIndex"
-        :href="`https://${href}`"
+        :href="href"
         :src="src"
       />
       <q-btn
