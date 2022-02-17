@@ -46,7 +46,7 @@
     </div>
 
     <div class="q-my-xl" id="why-quasar-section">
-      <h2 class="lp-heading lp-heading--large">Why should your team choose quasar?</h2>
+      <h2 class="lp-heading lp-heading--large">Why should you choose quasar?</h2>
 
       <div class="why-quasar__grid justify-center">
         <why-quasar-card
