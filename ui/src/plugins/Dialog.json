@@ -307,7 +307,7 @@
             },
 
             "component": {
-              "type": ["Component","String"],
+              "type": [ "Component", "String" ],
               "desc": "Use custom dialog component; use along with 'componentProps' prop where possible"
             },
 
