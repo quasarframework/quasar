@@ -173,7 +173,7 @@ export default {
 
 <style lang="sass">
 .doc-page
-  padding: 56px 64px 16px
+  padding: 56px 46px 16px
   max-width: 900px
   margin-left: auto
   margin-right: auto
