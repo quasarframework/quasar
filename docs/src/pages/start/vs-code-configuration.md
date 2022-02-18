@@ -33,7 +33,7 @@ Just restart VS Code after installing them and you are ready to go! 🚀
 
 ## Vite & Vue CLI & UMD
 
-Depending on which features/presets you are using and add the related options to `.vscode/settings.json`.
+Depending on which features/presets you are using, you can add the related options to `.vscode/settings.json`.
 
 ### Common Configuration
 
