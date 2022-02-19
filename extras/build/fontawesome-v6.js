@@ -7,7 +7,7 @@ const prefix = 'fa'
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { writeFileSync } = require('fs')
+const { readFileSync, writeFileSync } = require('fs')
 const { resolve, join } = require('path')
 
 let skipped = []
@@ -55,7 +55,9 @@ const webfont = [
   'fa-regular-400.ttf',
   'fa-regular-400.woff2',
   'fa-solid-900.ttf',
-  'fa-solid-900.woff2'
+  'fa-solid-900.woff2',
+  'fa-v4compatibility.ttf',
+  'fa-v4compatibility.woff2'
 ]
 
 webfont.forEach(file => {
@@ -64,6 +66,16 @@ webfont.forEach(file => {
     resolve(__dirname, `../fontawesome-v6/${file}`)
   )
 })
+
+copySync(
+  resolve(__dirname, `../node_modules/${packageName}/css/all.css`),
+  resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`)
+)
+
+const cssFile = resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`)
+let cssData = readFileSync(cssFile, 'utf-8')
+cssData = cssData.replace(/\.\.\/webfonts/g, '\.')
+writeFileSync(cssFile, cssData, 'utf-8')
 
 copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE.txt`),

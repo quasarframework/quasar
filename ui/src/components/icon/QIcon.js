@@ -36,7 +36,7 @@ const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
 const faLaRE = /^[lf]a[srlbdk]? /
-const fa6RE = /^fa-(brand|regular|solid) /
+const fa6RE = /^fa-(brand|regular|solid)/
 
 export default createComponent({
   name: 'QIcon',

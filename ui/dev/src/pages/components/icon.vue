@@ -97,7 +97,7 @@ import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
 import matRoundSet from 'quasar/icon-set/material-icons-round.js'
 import matSharpSet from 'quasar/icon-set/material-icons-sharp.js'
 import mdiSet from 'quasar/icon-set/mdi-v6.js'
-import fontawesomeV5Set from 'quasar/icon-set/fontawesome-v6.js'
+import fontawesomeSet from 'quasar/icon-set/fontawesome-v6.js'
 import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
 import evaSet from 'quasar/icon-set/eva-icons.js'
 import themifySet from 'quasar/icon-set/themify.js'
@@ -245,8 +245,9 @@ export default {
         { value: 's_add_box', label: 'A Material Sharp icon' },
         { value: 'mdi-airballoon', label: 'A MDI v6 icon' },
         { value: mdiAirballoon, label: 'A MDI v6 SVG icon' },
-        { value: 'fab fa-github', label: 'A Fontawesome icon' },
-        { value: fabGithub, label: 'A Fontawesome SVG icon' },
+        { value: 'fab fa-github', label: 'A Fontawesome v6 icon' },
+        { value: 'fa-brands fa-twitter', label: 'A Fontawesome v6 icon' },
+        { value: fabGithub, label: 'A Fontawesome SVG v6 icon' },
         { value: ionCarOutline, label: 'A SVG Ionicon v6' },
         { value: ionAirplane, label: 'A SVG Ionicon v5' },
         { value: 'ion-airplane', label: 'A Ionicon v4 (platform dependent)' },
@@ -266,7 +267,7 @@ export default {
 
       sets: [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
-        mdiSet, fontawesomeV5Set, ioniconsV4Set, evaSet, themifySet,
+        mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set,

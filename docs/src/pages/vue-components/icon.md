@@ -58,7 +58,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | ionicons-v5/v6 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
-| fontawesome-v5 | fa[s,r,l,d,b] fa- or fa-[solid,regular,brands] | "fas fa-ambulance" or "fa-solid fa-ambulance"| QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags); **@quasar/extras v1.13+** |
+| fontawesome-v6 | fa[s,r,l,d,b] fa- or fa-[solid,regular,brands] | "fas fa-ambulance" or "fa-solid fa-ambulance"| QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags); **@quasar/extras v1.13+** |
 | mdi-v6/v5/v4/v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v6, mdi-v5, mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
