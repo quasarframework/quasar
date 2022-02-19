@@ -74,6 +74,10 @@ class CapacitorConfigFile {
   }
 
   reset () {
+    if (this.#tamperedFiles.length === 0) {
+      return
+    }
+
     this.#tamperedFiles.forEach(file => {
       file.content = file.originalContent
     })

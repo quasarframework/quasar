@@ -14,7 +14,10 @@ class ElectronBuilder extends AppBuilder {
     await this.#buildFiles()
     await this.#writePackageJson()
     await this.#copyElectronFiles()
-    await this.#packageFiles()
+
+    if (this.argv['skip-pkg'] !== true) {
+      await this.#packageFiles()
+    }
   }
 
   async #buildFiles () {

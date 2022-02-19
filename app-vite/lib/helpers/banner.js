@@ -45,7 +45,9 @@ module.exports = function (argv, cmd, details) {
       ? grey('skip')
       : green(getPackager(argv, cmd))
 
-    banner += `\n ${cmd === 'build' ? 'Packaging' : 'Running'} mode......... ${cmd === 'build' ? '' : '..'} ${packaging}`
+    banner += cmd === 'build'
+      ? `\n Packaging mode......... ${packaging}`
+      : `\n Running mode........... ${packaging}`
   }
 
   if (details) {
