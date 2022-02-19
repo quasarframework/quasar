@@ -174,6 +174,12 @@ async function goLive () {
     await startVueDevtools()
   }
 
+  const entryFiles = require('../lib/entry-files-generator')(ctx)
+  entryFiles.generate(quasarConf)
+
+  const AppDevServer = require(`../lib/modes/${argv.mode}/${argv.mode}-devserver`)
+  const devServer = new AppDevServer({ argv, entryFiles, quasarConf })
+
   if (typeof quasarConf.build.beforeDev === 'function') {
     await quasarConf.build.beforeDev({ quasarConf })
   }
@@ -184,12 +190,6 @@ async function goLive () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  const entryFiles = require('../lib/entry-files-generator')(ctx)
-  const AppDevServer = require(`../lib/modes/${argv.mode}/${argv.mode}-devserver`)
-
-  const devServer = new AppDevServer({ argv, entryFiles, quasarConf })
-
-  entryFiles.generate(quasarConf)
   devServer.run(quasarConf)
     .then(async () => {
       if (typeof quasarConf.build.afterDev === 'function') {

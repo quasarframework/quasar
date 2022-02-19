@@ -14,8 +14,8 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName) {
-  const { spawnSync } = require('../helpers/spawn')
-  const nodePackager = require('../helpers/node-packager')
+  const { spawnSync } = require('../../helpers/spawn')
+  const nodePackager = require('../../helpers/node-packager')
   const cmdParam = nodePackager === 'npm'
     ? ['install', '--save-dev']
     : ['add', '--dev']

@@ -97,24 +97,7 @@ const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
 const { log, fatal } = require('../lib/helpers/logger')
-
-const { build: viteBuild } = require('vite')
 const path = require('path')
-
-function parseWebpackConfig (cfg, mode) {
-  let data = splitWebpackConfig(cfg, mode)
-
-  if (mode === 'pwa') {
-    // CSW needs to be compiled separately, before UI
-    data = data.filter(entry => entry.name !== webpackNames.pwa.csw)
-  }
-
-  return {
-    configs: data.map(d => d.webpack),
-    name: data.map(d => d.name),
-    folder: data.map(d => d.webpack.output.path)
-  }
-}
 
 async function build () {
   // install mode if it's missing
@@ -158,7 +141,7 @@ async function build () {
   regenerateTypesFeatureFlags(quasarConf)
 
   const AppProdBuilder = require(`../lib/modes/${argv.mode}/${argv.mode}-builder`)
-  const appBuilder = new AppProdBuilder()
+  const appBuilder = new AppProdBuilder({ argv, quasarConf })
 
   const artifacts = require('../lib/artifacts')
   let outputFolder = quasarConf.metaConf.packagedDistDir || quasarConf.build.distDir
@@ -177,7 +160,7 @@ async function build () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  appBuilder.build(quasarConf).then(async () => {
+  appBuilder.build().then(async () => {
     artifacts.add(outputFolder)
 
     outputFolder = argv.mode === 'cordova'

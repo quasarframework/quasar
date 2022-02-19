@@ -1,11 +1,11 @@
-const { build } = require('vite')
 
+const AppBuilder = require('../../builder')
 const config = require('./spa-config')
 
-class SpaBuilder {
-  async build (quasarConf) {
-    const viteConfig = config.vite(quasarConf)
-    await build(viteConfig)
+class SpaBuilder extends AppBuilder {
+  async build () {
+    const viteConfig = config.vite(this.quasarConf)
+    await this.buildWithVite('SPA UI', viteConfig)
   }
 }
 

@@ -1,6 +1,8 @@
 const { green, grey, underline } = require('chalk')
 
-const { getBrowsersBanner } = require('./browsers-support')
+// TODO:
+// const { getBrowsersBanner } = require('./browsers-support')
+
 const getPackageJson = require('./get-package-json')
 const quasarVersion = getPackageJson('quasar').version
 const cliAppVersion = require('../../package.json').version
@@ -105,9 +107,10 @@ module.exports = function (argv, cmd, details) {
 
   console.log(banner + '\n')
 
-  if (!details) {
-    console.log(getBrowsersBanner())
-  }
+  // TODO
+  // if (!details) {
+  //   console.log(getBrowsersBanner())
+  // }
 }
 
 module.exports.quasarVersion = quasarVersion

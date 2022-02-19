@@ -17,12 +17,12 @@ const ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.
 const findPort = require('../lib/helpers/net').findClosestOpenPort
 const isMinimalTerminal = require('./helpers/is-minimal-terminal')
 
-const quasarConfFilename = appPaths.resolve.app('quasar.conf.js')
+const quasarConfFilename = appPaths.resolve.app('quasar.config.js')
 const appPkg = require(appPaths.resolve.app('package.json'))
 
 const confErrors = {
-  CANNOT_READ: { error: 'Could not load quasar.conf.js config file' },
-  HAS_JS_ERRORS: { error: 'quasar.conf.js has JS errors' },
+  CANNOT_READ: { error: 'Could not load quasar.config.js config file' },
+  HAS_JS_ERRORS: { error: 'quasar.config.js has JS errors' },
   EXTENSIONS_FAILED: { error: 'One of your installed App Extensions failed to run' },
   NETWORK_ERROR: { error: 'Network error encountered while following the quasar.conf host/port config' }
 }
@@ -168,7 +168,7 @@ class QuasarConfFile {
     .watch(quasarConfFilename, { watchers: { chokidar: { ignoreInitial: true } } })
     .on('change', debounce(async () => {
       console.log()
-      log(`Reading quasar.conf.js as it changed`)
+      log(`Reading quasar.config.js as it changed`)
 
       const result = await this.read()
 
@@ -176,7 +176,7 @@ class QuasarConfFile {
         warn(result.error)
       }
       else {
-        log(`Queuing quasar.conf.js changes`)
+        log(`Queuing quasar.config.js changes`)
         log()
 
         onChange(result)
@@ -691,7 +691,7 @@ class QuasarConfFile {
 
       if (cfg.pwa.manifest.icons.length === 0) {
         warn()
-        warn(`PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.\n`)
+        warn(`PWA manifest in quasar.config.js > pwa > manifest is missing "icons" prop.\n`)
         process.exit(1)
       }
 
@@ -725,7 +725,7 @@ class QuasarConfFile {
       cfg.metaConf.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
-      cfg.build.rawDefine[`process.env.APP_URL`] = `"file://" + __dirname + "/index.html"`
+      cfg.build.env.APP_URL = `"file://" + __dirname + "/index.html"`
     }
 
     Object.assign(cfg.build.env, {
@@ -758,7 +758,7 @@ class QuasarConfFile {
       })
     }
     else if (this.ctx.mode.electron && this.ctx.prod) {
-      const bundler = require('./electron/bundler')
+      const bundler = require('./modes/electron/bundler')
 
       const icon = appPaths.resolve.electron('icons/icon.png')
       const builderIcon = process.platform === 'linux'

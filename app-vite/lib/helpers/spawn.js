@@ -9,7 +9,11 @@ module.exports.spawn = function (cmd, params, opts, onClose) {
     fatal(`Command name was not available. Please run again.`)
   }
 
-  log(`Running "${cmd} ${params.join(' ')}"`)
+  const targetFolder = opts && opts.cwd
+    ? ` in ${opts.cwd}`
+    : ''
+
+  log(`Running "${cmd} ${params.join(' ')}"${targetFolder}`)
   log()
 
   const runner = crossSpawn(
@@ -38,7 +42,11 @@ module.exports.spawn = function (cmd, params, opts, onClose) {
  Returns nothing, takes onFail
  */
 module.exports.spawnSync = function (cmd, params, opts, onFail) {
-  log(`[sync] Running "${cmd} ${params.join(' ')}"`)
+  const targetFolder = opts && opts.cwd
+    ? ` in ${opts.cwd}`
+    : ''
+
+  log(`[sync] Running "${cmd} ${params.join(' ')}"${targetFolder}`)
   log()
 
   const runner = crossSpawn.sync(
