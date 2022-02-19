@@ -716,13 +716,9 @@
 
     "getOptionIndex": {
       "desc": "Gets current focused option index from menu; It's -1 if no option is focused",
-      "params": {
-        "index": {
-          "type": "Number",
-          "required": true,
-          "desc": "Index of option from menu; -1 if no option is focused",
-          "examples": [ 10 ]
-        }
+      "returns": {
+        "type": "Number",
+        "desc": "Index of option from menu; It's -1 if no option is focused"
       },
       "addedIn": "v2.5.4"
     },
