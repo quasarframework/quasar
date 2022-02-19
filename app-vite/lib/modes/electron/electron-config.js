@@ -20,7 +20,7 @@ function getCommonEsbuild (quasarConf) {
     target: 'node12',
     format: 'cjs',
     bundle: true,
-    sourcemap: 'inline',
+    sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
     external,
     minify: quasarConf.build.minify !== false,
     define: parseEnv({

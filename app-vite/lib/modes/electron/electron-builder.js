@@ -26,9 +26,18 @@ class ElectronBuilder extends AppBuilder {
 
     const mainConfig = config.main(this.quasarConf)
     await this.buildWithEsbuild('Main thread', mainConfig)
+    this.#replaceAppUrl(mainConfig.outfile)
 
     const preloadConfig = config.preload(this.quasarConf)
     await this.buildWithEsbuild('Preload thread', preloadConfig)
+    this.#replaceAppUrl(preloadConfig.outfile)
+  }
+
+  // we can't do it by define() cause esbuild
+  // does not accepts the syntax of the replacement
+  #replaceAppUrl (file) {
+    const content = this.readFile(file)
+    this.writeFile(file, content.replace(/process\.env\.APP_URL/g, `"file://" + __dirname + "/index.html"`))
   }
 
   async #writePackageJson () {

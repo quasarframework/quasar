@@ -724,9 +724,6 @@ class QuasarConfFile {
     else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'
     }
-    else if (this.ctx.mode.electron) {
-      cfg.build.env.APP_URL = `"file://" + __dirname + "/index.html"`
-    }
 
     Object.assign(cfg.build.env, {
       NODE_ENV: this.ctx.prod ? 'production' : 'development',

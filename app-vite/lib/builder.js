@@ -1,7 +1,7 @@
 
 const fglob = require('fast-glob')
 const { lstatSync } = require('fs')
-const { writeFileSync, copySync, existsSync } = require('fs-extra')
+const { readFileSync, writeFileSync, copySync, existsSync } = require('fs-extra')
 const { join, isAbsolute, basename } = require('path')
 
 const { build: viteBuild } = require('vite')
@@ -50,6 +50,14 @@ class AppBuilder {
     const diffTime = +new Date() - startTime
     success(`"${thread}" compiled with success • ${diffTime}ms`, 'DONE')
     log()
+  }
+
+  readFile (filename) {
+    const target = isAbsolute(filename) === true
+      ? filename
+      : join(this.quasarConf.build.distDir, filename)
+
+    return readFileSync(target, 'utf-8')
   }
 
   writeFile (filename, content) {
