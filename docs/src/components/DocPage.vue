@@ -90,7 +90,7 @@ q-page.doc-page
 <script>
 import {
   fabGithub, fabTwitter, fabFacebook
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
   mdiPost, mdiForum, mdiChat, mdiCharity,

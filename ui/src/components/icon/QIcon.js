@@ -36,7 +36,8 @@ const mRE = /^[Mm]\s?[-+]?\.?\d/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
-const faLaRE = /^[lf]a[srlbdk]? /
+const faLaRE = /^[lf]a[srlbdk]?/
+const fa6RE = /^fa-(brand|regular|solid)/
 
 export default Vue.extend({
   name: 'QIcon',
@@ -130,7 +131,7 @@ export default Vue.extend({
       if (matches !== null) {
         cls = libMap[ matches[ 1 ] ](icon)
       }
-      else if (faLaRE.test(icon) === true) {
+      else if (faLaRE.test(icon) === true || fa6RE.test(icon) === true) {
         cls = icon
       }
       else if (ionRE.test(icon) === true) {

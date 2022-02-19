@@ -13,6 +13,7 @@
       q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
       q-toggle(v-model="css['mdi-v6']" label="MDI v6")
+      q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
       q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
       q-toggle(v-model="css['ionicons-v5']" label="Ionicons v5")
       q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
@@ -68,6 +69,8 @@ import languages from 'quasar/lang/index.json'
 const cssMap = {
   'mdi-v6': 'cdn.jsdelivr.net/npm/@mdi/font@^6.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.0.13/css/all.css',
+  // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
+  'fontawesome-v6': 'use.fontawesome.com/releases/v6.0.0/css/all.css',
   'ionicons-v5': 'cdn.jsdelivr.net/npm/ionicons@^5.0.0/dist/css/ionicons.min.css',
   'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
@@ -101,6 +104,7 @@ export default {
         'material-icons-sharp': false,
 
         'mdi-v6': false,
+        'fontawesome-v6': false,
         'fontawesome-v5': false,
         'ionicons-v5': false,
         'ionicons-v4': false,
@@ -286,6 +290,8 @@ export default {
       { label: 'Ionicons v5 (svg)', value: 'svg-ionicons-v5' },
       { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
       { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
+      { label: 'Fontawesome v6 (webfont)', value: 'fontawesome-v6' },
+      { label: 'Fontawesome v6 (svg)', value: 'svg-fontawesome-v6' },
       { label: 'Fontawesome v5 (webfont)', value: 'fontawesome-v5' },
       { label: 'Fontawesome v5 (svg)', value: 'svg-fontawesome-v5' },
       { label: 'Eva Icons (webfont)', value: 'eva-icons' },

@@ -60,7 +60,7 @@ import { openURL } from 'quasar'
 
 import {
   fabGithub, fabCodepen
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import { slugify } from 'assets/page-utils'
 

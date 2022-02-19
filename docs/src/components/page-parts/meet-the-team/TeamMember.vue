@@ -24,7 +24,7 @@
 <script>
 import {
   fabGithub, fabTwitter
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 export default {
   name: 'TeamMember',

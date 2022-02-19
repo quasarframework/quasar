@@ -160,7 +160,7 @@
 </template>
 
 <script>
-import { fabGithub } from '@quasar/extras/fontawesome-v5'
+import { fabGithub } from '@quasar/extras/fontawesome-v6'
 
 const stringOptions = [
   'quasarframework/quasar',
