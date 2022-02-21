@@ -718,7 +718,8 @@
       "desc": "Gets current focused option index from menu; It's -1 if no option is focused",
       "returns": {
         "type": "Number",
-        "desc": "Index of option from menu; It's -1 if no option is focused"
+        "desc": "Index of option from menu; It's -1 if no option is focused",
+        "examples": [ -1, 0, 10 ]
       },
       "addedIn": "v2.5.4"
     },
