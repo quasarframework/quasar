@@ -1,4 +1,7 @@
 
+const { build: esBuild } = require('esbuild')
+const { bold, underline, green } = require('chalk')
+
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
     return typeof value === 'function'
@@ -9,6 +12,12 @@ function encode (obj) {
 
 function getConfSnapshot (extractFn, quasarConf) {
   return extractFn(quasarConf).map(item => item ? encode(item) : '')
+}
+
+const { log, info, success } = require('./helpers/logger')
+
+function coloredName (name) {
+  return bold(underline(green(name)))
 }
 
 class DevServer {
@@ -102,6 +111,20 @@ class DevServer {
     }
 
     return false
+  }
+
+  async buildWithEsbuild (name, esbuildConfig) {
+    const thread = coloredName(name)
+    const startTime = Date.now()
+
+    info(`Compiling of "${thread}" with Vite in progress...`, 'WAIT')
+    log()
+    await esBuild(esbuildConfig)
+    log()
+
+    const diffTime = +new Date() - startTime
+    success(`"${thread}" compiled with success • ${diffTime}ms`, 'DONE')
+    log()
   }
 }
 

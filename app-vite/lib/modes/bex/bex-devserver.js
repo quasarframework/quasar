@@ -1,37 +1,33 @@
-// const webpack = require('webpack')
+// const { createServer } = require('vite')
 
-// class BexRunner {
-//   constructor () {
-//     this.watcher = null
-//   }
+// const DevServer = require('../../devserver')
+// const config = require('./bex-config')
 
-//   init () {}
+// class BexDevServer extends DevServer {
+//   #server
 
-//   async run (quasarConfFile) {
-//     this.stop()
+//   run (quasarConf, __isRetry) {
+//     const { diff, queue } = super.run(quasarConf, __isRetry)
 
-//     const compiler = webpack(quasarConfFile.webpackConf.main)
-
-//     return new Promise(resolve => {
-//       this.watcher = compiler.watch({}, (err, stats) => {
-//         if (err) {
-//           console.log(err)
-//           return
-//         }
-
-//         if (stats.hasErrors() !== true) {
-//           resolve()
-//         }
-//       })
-//     })
-//   }
-
-//   stop () {
-//     if (this.watcher) {
-//       this.watcher.close()
-//       this.watcher = null
+//     if (diff('vite', quasarConf) === true) {
+//       return queue(() => this.#runVite(quasarConf))
 //     }
+
+//     // if (diff('bex', quasarConf) === true) {
+//     //   return queue(() => this.#runScripts())
+//     // }
+//   }
+
+//   async #runVite (quasarConf) {
+//     if (this.#server !== void 0) {
+//       this.#server.close()
+//     }
+
+//     const viteConfig = config.vite(quasarConf)
+
+//     this.#server = await createServer(viteConfig)
+//     await this.#server.listen()
 //   }
 // }
 
-// module.exports = new BexRunner()
+// module.exports = BexDevServer

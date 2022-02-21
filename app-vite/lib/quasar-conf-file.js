@@ -465,7 +465,7 @@ class QuasarConfFile {
                                           // will mess up SSR
       vueRouterMode: 'hash',
       minify: !cfg.metaConf.debugging && this.ctx.mode.bex !== true,
-      sourcemap: cfg.metaConf.debugging
+      sourcemap: cfg.metaConf.debugging === true
     }, cfg.build)
 
     if (this.ctx.mode.ssr) {
