@@ -1,3 +1,6 @@
+
+const { join } = require('path')
+
 const createViteConfig = require('../../create-vite-config')
 
 const appPaths = require('../../app-paths')
@@ -12,9 +15,6 @@ const external = [
   ...Object.keys(appDevDeps)
 ]
 
-const ssrMiddlewareEntry = appPaths.resolve.app('.quasar/ssr-middlewares.js')
-const ssrMiddlewareOutput = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
-
 module.exports = {
   viteClient: quasarConf => {
     const cfg = createViteConfig(quasarConf, 'ssr-client')
@@ -24,8 +24,8 @@ module.exports = {
 
     cfg.server = { middlewareMode: true }
 
-    cfg.build.ssr = appPaths.resolve.app('.quasar/entry-client.js')
-    cfg.build.manifest = true
+    cfg.build.ssrManifest = true
+    cfg.build.outDir = join(quasarConf.build.distDir, 'client')
 
     return cfg
   },
@@ -50,14 +50,14 @@ module.exports = {
       ]
     }
 
-    cfg.build.ssr = appPaths.resolve.app('.quasar/entry-server.js')
-    cfg.build.ssrManifest = true
+    cfg.build.ssr = appPaths.resolve.app('.quasar/server-entry.js')
+    cfg.build.outDir = join(quasarConf.build.distDir, 'server')
 
     return cfg
   },
 
   webserver: quasarConf => {
-    return {
+    const cfg = {
       platform: 'node',
       target: 'node12',
       format: 'cjs',
@@ -65,9 +65,39 @@ module.exports = {
       sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
       external,
       minify: quasarConf.build.minify !== false,
-      define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine),
-      entryPoints: [ ssrMiddlewareEntry ],
-      outfile: ssrMiddlewareOutput
+      define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
     }
+
+    cfg.define['process.env.CLIENT'] = false
+    cfg.define['process.env.SERVER'] = true
+
+    if (quasarConf.ctx.dev) {
+      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-middlewares.js') ]
+      cfg.outfile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
+    }
+    else {
+      // if ( TODO
+      //   existsSync(prodExportFile.js) === false &&
+      //   existsSync(prodExportFile.ts) === false
+      // ) {
+      //   chain.resolve.alias.set('src-ssr/production-export', prodExportFile.fallback)
+      // }
+
+      cfg.external = [
+        ...cfg.external,
+        'vue/server-renderer',
+        'vue/compiler-sfc',
+        './render-template.js',
+        './ssr-manifest.json',
+        './server/server-entry.js',
+        'compression',
+        'express'
+      ]
+
+      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-prod-webserver.js') ]
+      cfg.outfile = join(quasarConf.build.distDir, 'index.js')
+    }
+
+    return cfg
   }
 }

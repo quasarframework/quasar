@@ -44,7 +44,7 @@ class AppTool {
       }
       : esbuildConfig
 
-    info(`Compiling of "${thread}" with Vite in progress...`, 'WAIT')
+    info(`Compiling of "${thread}" with Esbuild in progress...`, 'WAIT')
     const result = await esBuild(cfg)
 
     const diffTime = +new Date() - startTime

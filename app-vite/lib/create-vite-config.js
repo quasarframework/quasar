@@ -7,18 +7,29 @@ const parseEnv = require('./parse-env')
 
 const quasarVitePluginIndexHtmlTransform = require('./vite-plugins/index-html-transform')
 
+function printInvalidSyntax (name) {
+  console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified:', name)
+  console.error(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ]`)
+}
+
 function parseVitePlugins (entries) {
   const acc = []
 
-  entries.forEach(([ name, opts ]) => {
+  entries.forEach(entry => {
+    if (Array.isArray(entry) === false) {
+      printInvalidSyntax(name)
+      return
+    }
+
+    const [ name, opts ] = entry
+
     if (typeof name === 'function') {
       acc.push(name(opts))
       return
     }
 
     if (typeof name !== 'string') {
-      console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified:', name)
-      console.error(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ]`)
+      printInvalidSyntax(name)
       return
     }
 

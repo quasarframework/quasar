@@ -5,7 +5,7 @@ const compileTemplate = require('lodash.template')
  * _meta.resource[X] is generated from ssr-helpers/create-renderer
  */
 
-function injectSsrInterpolation (html) {
+function injectSsrInterpolation (html, compiledEntryPoint) {
   return html
   .replace(
     /(<html[^>]*)(>)/i,
@@ -31,7 +31,7 @@ function injectSsrInterpolation (html) {
   )
   .replace(
     /(<\/head>)/i,
-    (_, tag) => `{{ _meta.endingHeadTags || '' }}${tag}`
+    (_, tag) => `{{ _meta.resourceStyles }}{{ _meta.endingHeadTags || '' }}${tag}`
   )
   .replace(
     /(<body[^>]*)(>)/i,
@@ -51,7 +51,7 @@ function injectSsrInterpolation (html) {
     }
   )
   .replace(
-    '<!-- quasar:entry-point -->',
+    compiledEntryPoint === true ? '<div id="q-app"></div>' : '<!-- quasar:entry-point -->',
     '<div id="q-app">{{ _meta.resourceApp }}</div>{{ _meta.resourceScripts }}'
   )
 }
@@ -60,7 +60,7 @@ module.exports.getIndexHtml = function (template, quasarConf) {
   const compiled = compileTemplate(template)
   let html = compiled(quasarConf.htmlVariables)
 
-  html = injectSsrInterpolation(html)
+  html = injectSsrInterpolation(html, quasarConf.ctx.prod)
 
   if (quasarConf.build.minify) {
     const { minify } = require('html-minifier')

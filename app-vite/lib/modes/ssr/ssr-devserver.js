@@ -24,6 +24,8 @@ function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
 }
 
+const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+
 function renderVuexState (ssrContext, nonce) {
   if (ssrContext.state !== void 0) {
     const state = serialize(ssrContext.state, { isJSON: true })

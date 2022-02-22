@@ -22,10 +22,7 @@ class EntryFilesGenerator {
       )
 
       if (ctx.prod) {
-        paths.push(
-          'ssr-prod-webserver.js',
-          'ssr-fallback-production-export.js'
-        )
+        paths.push('ssr-prod-webserver.js')
       }
     }
 

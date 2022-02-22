@@ -451,9 +451,7 @@ class QuasarConfFile {
           layouts: appPaths.resolve.src(`layouts`),
           pages: appPaths.resolve.src(`pages`),
           assets: appPaths.resolve.src(`assets`),
-          boot: appPaths.resolve.src(`boot`),
-
-          'src-bex': appPaths.bexDir // needed for app/templates
+          boot: appPaths.resolve.src(`boot`)
         }
       },
 

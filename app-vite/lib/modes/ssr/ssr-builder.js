@@ -1,50 +1,90 @@
-// function renderPreloadLinks (modules, manifest) {
-//   let links = ''
-//   const seen = new Set()
-//   modules.forEach((id) => {
-//     const files = manifest[id]
-//     if (files) {
-//       files.forEach((file) => {
-//         if (!seen.has(file)) {
-//           seen.add(file)
-//           const filename = basename(file)
-//           if (manifest[filename]) {
-//             for (const depFile of manifest[filename]) {
-//               links += renderPreloadLink(depFile)
-//               seen.add(depFile)
-//             }
-//           }
-//           links += renderPreloadLink(file)
-//         }
-//       })
-//     }
-//   })
-//   return links
-// }
 
-// function renderPreloadLink (file) {
-//   if (file.endsWith('.js')) {
-//     return `<link rel="modulepreload" crossorigin href="${file}">`
-//   } else if (file.endsWith('.css')) {
-//     return `<link rel="stylesheet" href="${file}">`
-//   } else if (file.endsWith('.woff')) {
-//     return ` <link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
-//   } else if (file.endsWith('.woff2')) {
-//     return ` <link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
-//   } else if (file.endsWith('.gif')) {
-//     return ` <link rel="preload" href="${file}" as="image" type="image/gif">`
-//   } else if (file.endsWith('.jpg') || file.endsWith('.jpeg')) {
-//     return ` <link rel="preload" href="${file}" as="image" type="image/jpeg">`
-//   } else if (file.endsWith('.png')) {
-//     return ` <link rel="preload" href="${file}" as="image" type="image/png">`
-//   } else {
-//     // TODO
-//     return ''
-//   }
-// }
+const { join } = require('path')
 
-// // @vitejs/plugin-vue injects code into a component's setup() that registers
-// // itself on ctx.modules. After the render, ctx.modules would contain all the
-// // components that have been instantiated during this render call.
-// endingHeadTags: ssrContext._meta.endingHeadTags
-//   + renderPreloadLinks(ssrContext.modules, {})
+const AppBuilder = require('../../app-builder')
+const config = require('./ssr-config')
+const appPaths = require('../../app-paths')
+const getFixedDeps = require('../../helpers/get-fixed-deps')
+const { getIndexHtml } = require('./html-template')
+
+class SsrBuilder extends AppBuilder {
+  async build () {
+    await this.#buildWebserver()
+    await this.#copyWebserverFiles()
+    await this.#writePackageJson()
+
+    const viteClientConfig = config.viteClient(this.quasarConf)
+    await this.buildWithVite('Client', viteClientConfig)
+
+    this.moveFile('client/ssr-manifest.json', 'ssr-manifest.json')
+
+    await this.#writeHtmlTemplate()
+
+    const viteServerConfig = config.viteServer(this.quasarConf)
+    await this.buildWithVite('Server', viteServerConfig)
+  }
+
+  async #buildWebserver () {
+    const esbuildConfig = config.webserver(this.quasarConf)
+    await this.buildWithEsbuild('Webserver', esbuildConfig)
+  }
+
+  async #copyWebserverFiles () {
+    const patterns = [
+      '.npmrc',
+      '.yarnrc'
+    ].map(filename => ({
+      from: filename,
+      to: '.'
+    }))
+
+    this.copyFiles(patterns)
+  }
+
+  async #writePackageJson () {
+    const appPkg = require(appPaths.resolve.app('package.json'))
+
+    if (appPkg.dependencies !== void 0) {
+      delete appPkg.dependencies['@quasar/extras']
+    }
+
+    const appDeps = getFixedDeps(appPkg.dependencies || {})
+
+    const pkg = {
+      name: appPkg.name,
+      version: appPkg.version,
+      description: appPkg.description,
+      author: appPkg.author,
+      private: true,
+      scripts: {
+        start: 'node index.js'
+      },
+      dependencies: Object.assign(appDeps, {
+        'compression': '^1.0.0',
+        'express': '^4.0.0'
+      }),
+      engines: appPkg.engines,
+      browserslist: appPkg.browserslist,
+      quasar: { ssr: true }
+    }
+
+    if (this.quasarConf.ssr.extendPackageJson) {
+      this.quasarConf.ssr.extendPackageJson(pkg)
+    }
+
+    this.writeFile('package.json', JSON.stringify(pkg, null, 2))
+  }
+
+  async #writeHtmlTemplate () {
+    const htmlFile = join(this.quasarConf.build.distDir, 'client', this.quasarConf.build.htmlFilename)
+    const renderTemplate = getIndexHtml(this.readFile(htmlFile), this.quasarConf)
+
+    this.writeFile('render-template.js', `module.exports=${renderTemplate.source}`)
+
+    // remove the original; not needed and in the way
+    // when static serving the client folder
+    this.removeFile(htmlFile)
+  }
+}
+
+module.exports = SsrBuilder

@@ -1,8 +1,8 @@
 
 const fglob = require('fast-glob')
 const { lstatSync } = require('fs')
-const { readFileSync, writeFileSync, copySync, existsSync } = require('fs-extra')
-const { join, isAbsolute, basename } = require('path')
+const { readFileSync, writeFileSync, copySync, existsSync, ensureDirSync, moveSync, removeSync } = require('fs-extra')
+const { join, isAbsolute, basename, dirname } = require('path')
 
 const AppTool = require('./app-tool')
 const appPaths = require('./app-paths')
@@ -33,6 +33,7 @@ class AppBuilder extends AppTool {
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
+    ensureDirSync(dirname(target))
     writeFileSync(target, content, 'utf-8')
   }
 
@@ -58,6 +59,26 @@ class AppBuilder extends AppTool {
         copySync(entry, join(to, basename(entry)))
       })
     })
+  }
+
+  moveFile (source, destination) {
+    const input = isAbsolute(source) === true
+      ? source
+      : join(this.quasarConf.build.distDir, source)
+
+    const output = isAbsolute(destination) === true
+      ? destination
+      : join(this.quasarConf.build.distDir, destination)
+
+    moveSync(input, output)
+  }
+
+  removeFile (filename) {
+    const target = isAbsolute(filename) === true
+      ? filename
+      : join(this.quasarConf.build.distDir, filename)
+
+    removeSync(target)
   }
 }
 
