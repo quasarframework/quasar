@@ -1,10 +1,10 @@
 const { createServer } = require('vite')
 
-const DevServer = require('../../devserver')
+const AppDevserver = require('../../app-devserver')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./spa-config')
 
-class SpaDevServer extends DevServer {
+class SpaDevServer extends AppDevserver {
   #server
 
   run (quasarConf, __isRetry) {

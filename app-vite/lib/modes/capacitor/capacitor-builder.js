@@ -1,7 +1,7 @@
 
 const fse = require('fs-extra')
 
-const AppBuilder = require('../../builder')
+const AppBuilder = require('../../app-builder')
 const config = require('./capacitor-config')
 
 const { log, warn, fatal } = require('../../helpers/logger')

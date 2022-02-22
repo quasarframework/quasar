@@ -4,7 +4,7 @@ const { join } = require('path')
 const chokidar = require('chokidar')
 const { readFileSync } = require('fs')
 
-const DevServer = require('../../devserver')
+const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
 const getPackage = require('../../helpers/get-package')
 const openBrowser = require('../../helpers/open-browser')
@@ -50,11 +50,14 @@ function renderError ({ err, req, res }) {
   })
 }
 
-class SsrDevServer extends DevServer {
+class SsrDevServer extends AppDevserver {
   #app
   #viteClient
   #viteServer
   #htmlWatcher
+  #webserverWatcher
+  #appOptions = {}
+  #isBusy = false
 
   constructor (opts) {
     super(opts)
@@ -69,6 +72,10 @@ class SsrDevServer extends DevServer {
   run (quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    if (this.#isBusy !== false) {
+      return queue(() => this.#isBusy)
+    }
+
     if (diff('webserver', quasarConf) === true) {
       return queue(() => this.#compileWebserver(quasarConf))
     }
@@ -79,34 +86,76 @@ class SsrDevServer extends DevServer {
   }
 
   async #compileWebserver (quasarConf) {
+    if (this.#webserverWatcher) {
+      await this.#webserverWatcher.close()
+    }
+
     const esbuildConfig = config.webserver(quasarConf)
-    await this.buildWithEsbuild('Webserver', esbuildConfig)
-    // TODO reload when files change
+    await this.buildWithEsbuild('Webserver', esbuildConfig, () => {
+      if (this.#app !== void 0) {
+        this.#isBusy = new Promise(resolve => {
+          this.#app.close()
+          this.#bootApp()
+          resolve()
+          this.#isBusy = false
+        })
+      }
+    }).then(result => {
+      this.#webserverWatcher = result
+    })
   }
 
-  #cleanupVite () {
-    this.#viteClient.close()
-    this.#viteServer.close()
-    this.#app.close()
-    this.#htmlWatcher.close()
+  async #bootApp () {
+    const app = express()
+
+    app.use(this.#viteClient.middlewares)
+    app.use(this.#viteServer.middlewares)
+
+    delete require.cache[compiledMiddlewareFile]
+    const injectMiddleware = require(compiledMiddlewareFile)
+
+    await injectMiddleware.default({
+      app,
+      resolve: {
+        urlPath: this.#appOptions.resolveUrlPath,
+        root () { return join(rootFolder, ...arguments) },
+        public: resolvePublicFolder
+      },
+      publicPath: this.#appOptions.publicPath,
+      folders: {
+        root: rootFolder,
+        public: publicFolder
+      },
+      render: this.#appOptions.render,
+      serve: {
+        static: this.#appOptions.serveStatic,
+        error: renderError
+      }
+    })
+
+    this.#app = app.listen(this.#appOptions.port)
+    await this.#app
   }
 
   async #runVite (quasarConf, urlDiffers) {
     if (this.#app !== void 0) {
-      this.#cleanupVite()
+      this.#htmlWatcher.close()
+      this.#viteClient.close()
+      this.#viteServer.close()
+      this.#app.close()
     }
 
-    const publicPath = quasarConf.build.publicPath
-    const resolveUrlPath = publicPath === '/'
+    this.#appOptions.port = quasarConf.devServer.port
+
+    const publicPath = this.#appOptions.publicPath = quasarConf.build.publicPath
+    this.#appOptions.resolveUrlPath = publicPath === '/'
       ? url => url || '/'
       : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
-    const app = this.#app = express()
-    const viteClient = this.#viteClient = await createServer(config.viteClient(quasarConf))
-    const viteServer = this.#viteServer = await createServer(config.viteServer(quasarConf))
+    this.#viteClient = await createServer(config.viteClient(quasarConf))
+    this.#viteServer = await createServer(config.viteServer(quasarConf))
 
-    app.use(viteClient.middlewares)
-    app.use(viteServer.middlewares)
+    const viteServer = this.#viteServer
 
     let renderTemplate
     const { getIndexHtml } = require('./html-template')
@@ -122,7 +171,7 @@ class SsrDevServer extends DevServer {
       logServerMessage('Change detected', 'index.html template updated')
     })
 
-    function serveStatic (path, opts = {}) {
+    this.#appOptions.serveStatic = (path, opts = {}) => {
       return express.static(resolvePublicFolder(path), {
         ...opts,
         maxAge: opts.maxAge === void 0
@@ -131,7 +180,7 @@ class SsrDevServer extends DevServer {
       })
     }
 
-    async function render (ssrContext) {
+    this.#appOptions.render = async (ssrContext) => {
       const startTime = Date.now()
       const onRenderedList = []
 
@@ -175,29 +224,7 @@ class SsrDevServer extends DevServer {
       }
     }
 
-    delete require.cache[compiledMiddlewareFile]
-    const injectMiddleware = require(compiledMiddlewareFile) // TODO reload when build changes
-
-    await injectMiddleware.default({
-      app,
-      resolve: {
-        urlPath: resolveUrlPath,
-        root () { return join(rootFolder, ...arguments) },
-        public: resolvePublicFolder
-      },
-      publicPath,
-      folders: {
-        root: rootFolder,
-        public: publicFolder
-      },
-      render,
-      serve: {
-        static: serveStatic,
-        error: renderError
-      }
-    })
-
-    await app.listen(quasarConf.devServer.port)
+    await this.#bootApp()
 
     if (urlDiffers === true && quasarConf.metaConf.openBrowser) {
       const { metaConf } = quasarConf

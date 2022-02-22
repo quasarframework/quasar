@@ -1,6 +1,6 @@
 const { createServer } = require('vite')
 
-const DevServer = require('../../devserver')
+const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
 const CordovaConfigFile = require('./config-file')
 const { log, fatal } = require('../../helpers/logger')
@@ -9,7 +9,7 @@ const onShutdown = require('../../helpers/on-shutdown')
 const openIde = require('../../helpers/open-ide')
 const config = require('./cordova-config')
 
-class CordovaDevServer extends DevServer {
+class CordovaDevServer extends AppDevserver {
   #pid = 0
   #server
   #ctx

@@ -1,9 +1,9 @@
 // const { createServer } = require('vite')
 
-// const DevServer = require('../../devserver')
+// const AppDevserver = require('../../app-devserver')
 // const config = require('./bex-config')
 
-// class BexDevServer extends DevServer {
+// class BexDevServer extends AppDevserver {
 //   #server
 
 //   run (quasarConf, __isRetry) {

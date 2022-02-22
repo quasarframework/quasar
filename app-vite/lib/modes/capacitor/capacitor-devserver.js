@@ -1,6 +1,6 @@
 const { createServer } = require('vite')
 
-const DevServer = require('../../devserver')
+const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
 const CapacitorConfigFile = require('./config-file')
 const { log, fatal } = require('../../helpers/logger')
@@ -11,7 +11,7 @@ const config = require('./capacitor-config')
 
 const { capBin } = require('./cap-cli')
 
-class CapacitorDevServer extends DevServer {
+class CapacitorDevServer extends AppDevserver {
   #pid = 0
   #server
   #target

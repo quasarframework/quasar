@@ -1,5 +1,5 @@
 
-const AppBuilder = require('../../builder')
+const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
 
 const { log, info, warn, fatal, success } = require('../../helpers/logger')

@@ -1,5 +1,5 @@
 
-const AppBuilder = require('../../builder')
+const AppBuilder = require('../../app-builder')
 const config = require('./spa-config')
 
 class SpaBuilder extends AppBuilder {

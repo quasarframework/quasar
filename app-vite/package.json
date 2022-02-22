@@ -77,7 +77,6 @@
     "open": "8.4.0",
     "ouch": "2.0.0",
     "postcss": "^8.4.4",
-    "pretty-error": "4.0.0",
     "register-service-worker": "1.7.2",
     "sass": "1.32.12",
     "semver": "7.3.5",

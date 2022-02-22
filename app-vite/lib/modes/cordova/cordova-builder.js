@@ -1,7 +1,7 @@
 
 const fse = require('fs-extra')
 
-const AppBuilder = require('../../builder')
+const AppBuilder = require('../../app-builder')
 const config = require('./cordova-config')
 
 const { fatal } = require('../../helpers/logger')

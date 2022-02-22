@@ -12,6 +12,9 @@ const external = [
   ...Object.keys(appDevDeps)
 ]
 
+const ssrMiddlewareEntry = appPaths.resolve.app('.quasar/ssr-middlewares.js')
+const ssrMiddlewareOutput = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
+
 module.exports = {
   viteClient: quasarConf => {
     const cfg = createViteConfig(quasarConf, 'ssr-client')
@@ -63,8 +66,8 @@ module.exports = {
       external,
       minify: quasarConf.build.minify !== false,
       define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine),
-      entryPoints: [ appPaths.resolve.app('.quasar/ssr-middlewares.js') ],
-      outfile: appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
+      entryPoints: [ ssrMiddlewareEntry ],
+      outfile: ssrMiddlewareOutput
     }
   }
 }

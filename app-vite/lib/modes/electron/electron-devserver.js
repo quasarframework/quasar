@@ -1,7 +1,6 @@
 const { createServer } = require('vite')
-const esbuild = require('esbuild')
 
-const DevServer = require('../../devserver')
+const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
 const { log, warn, fatal } = require('../../helpers/logger')
 const { spawn } = require('../../helpers/spawn')
@@ -15,7 +14,7 @@ function wait (time) {
   })
 }
 
-class ElectronDevServer extends DevServer {
+class ElectronDevServer extends AppDevserver {
   #pid = 0
   #server
   #stopMain
@@ -72,35 +71,24 @@ class ElectronDevServer extends DevServer {
     let mainReady = false
     let preloadReady = false
 
-    const cfgMain = {
-      ...config.main(quasarConf),
-      watch: {
-        onRebuild: error => {
-          if (!error && preloadReady === true) {
-            this.#runElectron()
-          }
-        }
-      }
-    }
-
-    const cfgPreload = {
-      ...config.preload(quasarConf),
-      watch: {
-        onRebuild: error => {
-          if (!error && mainReady === true) {
-            this.#runElectron()
-          }
-        }
-      }
-    }
+    const cfgMain = config.main(quasarConf)
+    const cfgPreload = config.preload(quasarConf)
 
     return Promise.all([
-      esbuild.build(cfgMain).then(result => {
+      this.buildWithEsbuild('Main thread', cfgMain, () => {
+        if (preloadReady === true) {
+          this.#runElectron(quasarConf)
+        }
+      }).then(result => {
         mainReady = true
         this.#stopMain = result.stop
       }),
 
-      esbuild.build(cfgPreload).then(result => {
+      this.buildWithEsbuild('Preload thread', cfgPreload, () => {
+        if (mainReady === true) {
+          this.#runElectron(quasarConf)
+        }
+      }).then(result => {
         preloadReady = true
         this.#stopPreload = result.stop
       })
