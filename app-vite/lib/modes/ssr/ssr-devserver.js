@@ -3,13 +3,14 @@ const express = require('express')
 const { join } = require('path')
 const chokidar = require('chokidar')
 const { readFileSync } = require('fs')
+const Ouch = require('ouch')
 
 const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
 const getPackage = require('../../helpers/get-package')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./ssr-config')
-const { infoPill, errorPill } = require('../../helpers/logger')
+const { log, warn, info, success } = require('../../helpers/logger')
 
 const { renderToString } = getPackage('vue/server-renderer')
 
@@ -33,20 +34,18 @@ function renderVuexState (ssrContext, nonce) {
 }
 
 function logServerMessage (title, msg, additional) {
-  console.log(`\n• ${infoPill(title)} • ${msg}${additional !== void 0 ? ` • ${additional}` : ''}`)
-}
-function logServerError (title, msg) {
-  console.log(`\n• ${errorPill(title)} • ${msg}`)
+  log()
+  info(`${msg}${additional !== void 0 ? ` • ${additional}` : ''}`, title)
 }
 
-const Ouch = require('ouch')
 ouchInstance = (new Ouch()).pushHandler(
   new Ouch.handlers.PrettyPageHandler('orange', null, 'sublime')
 )
 
 function renderError ({ err, req, res }) {
   ouchInstance.handleException(err, req, res, () => {
-    logServerError('Render fail', `${req.url}`)
+    log()
+    warn(req.url, 'Render fail')
   })
 }
 
@@ -57,7 +56,6 @@ class SsrDevServer extends AppDevserver {
   #htmlWatcher
   #webserverWatcher
   #appOptions = {}
-  #isBusy = false
 
   constructor (opts) {
     super(opts)
@@ -72,12 +70,8 @@ class SsrDevServer extends AppDevserver {
   run (quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
-    if (this.#isBusy !== false) {
-      return queue(() => this.#isBusy)
-    }
-
     if (diff('webserver', quasarConf) === true) {
-      return queue(() => this.#compileWebserver(quasarConf))
+      return queue(() => this.#compileWebserver(quasarConf, queue))
     }
 
     if (diff('vite', quasarConf) === true) {
@@ -85,7 +79,7 @@ class SsrDevServer extends AppDevserver {
     }
   }
 
-  async #compileWebserver (quasarConf) {
+  async #compileWebserver (quasarConf, queue) {
     if (this.#webserverWatcher) {
       await this.#webserverWatcher.close()
     }
@@ -93,12 +87,12 @@ class SsrDevServer extends AppDevserver {
     const esbuildConfig = config.webserver(quasarConf)
     await this.buildWithEsbuild('Webserver', esbuildConfig, () => {
       if (this.#app !== void 0) {
-        this.#isBusy = new Promise(resolve => {
+        queue(() => new Promise(resolve => {
           this.#app.close()
-          this.#bootApp()
-          resolve()
-          this.#isBusy = false
-        })
+          this.#bootApp().then(() => {
+            resolve()
+          })
+        }))
       }
     }).then(result => {
       this.#webserverWatcher = result
@@ -106,6 +100,8 @@ class SsrDevServer extends AppDevserver {
   }
 
   async #bootApp () {
+    info('Registering SSR middlewares...', 'WAIT')
+
     const app = express()
 
     app.use(this.#viteClient.middlewares)
@@ -135,6 +131,9 @@ class SsrDevServer extends AppDevserver {
 
     this.#app = app.listen(this.#appOptions.port)
     await this.#app
+
+    success('SSR middlewares were registered', 'DONE')
+    log()
   }
 
   async #runVite (quasarConf, urlDiffers) {
