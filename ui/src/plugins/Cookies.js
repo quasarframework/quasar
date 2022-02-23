@@ -28,7 +28,14 @@ function read (string) {
   string = decode(string.replace(/\+/g, ' '))
 
   try {
-    string = JSON.parse(string)
+    const value = JSON.parse(string);
+    if (typeof value === 'number') {
+      if (value < Number.MAX_SAFE_INTEGER) {
+        string = value;
+      }
+    } else {
+      string = value;
+    }
   }
   catch (e) {}
 
