@@ -1,5 +1,5 @@
 <template>
-  <q-list class="shadow-bottom-small font-monserrat letter-spacing-263">
+  <q-list class="shadow-bottom-small font-monserrat letter-spacing-263 q-py-sm">
     <template v-for="(navItem, navIndex) in navItems" :key="`navMenu-${navIndex}`">
       <q-separator v-if="navItem.isSeparator" class="q-mb-sm q-mt-md"/>
       <template v-else>
