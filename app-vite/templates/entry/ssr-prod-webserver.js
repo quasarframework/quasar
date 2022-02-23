@@ -8,7 +8,7 @@ import express from 'express'
 import { renderToString } from 'vue/server-renderer'
 
 import renderTemplate from './render-template.js'
-import clientManifest from './ssr-manifest.json'
+import clientManifest from './quasar.manifest.json'
 import injectMiddlewares from './ssr-middlewares.js'
 import serverEntry from './server/server-entry.js'
 
@@ -92,6 +92,9 @@ function renderPreloadLink (file) {
   }
   else if (file.endsWith('.png')) {
     return '<link rel="preload" href="' + file + '" as="image" type="image/png">'
+  }
+  else if (file.endsWith('.svg')) {
+    return '<link rel="preload" href="' + file + '" as="image" type="image/svg">'
   }
   else {
     // TODO

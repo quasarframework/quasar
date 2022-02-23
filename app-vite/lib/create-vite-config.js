@@ -12,6 +12,10 @@ function printInvalidSyntax (name) {
   console.error(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ]`)
 }
 
+function isPlainObject (v) {
+  return Object.prototype.toString.call(v) === '[object Object]'
+}
+
 function parseVitePlugins (entries) {
   const acc = []
 
@@ -46,16 +50,25 @@ function parseVitePlugins (entries) {
   return acc
 }
 
+// Inject props only if explicitly specified
+// otherwise it might mess up with Vite's defaults
+function inject (target, source, propList) {
+  for (const prop of propList) {
+    const entry = source[prop]
+    if (
+      entry !== void 0
+      && (
+        isPlainObject(entry) === false
+        || Object.keys(entry).length > 0
+      )
+    ) {
+      target[prop] = entry
+    }
+  }
+}
+
 module.exports = function (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
-  const quasarPluginOptions = {
-    autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
-    sassVariables: quasarConf.metaConf.css.variablesFile
-  }
-
-  if (quasarRunMode !== void 0) {
-    quasarPluginOptions.runMode = quasarRunMode
-  }
 
   const viteConf = {
     configFile: false,
@@ -66,30 +79,53 @@ module.exports = function (quasarConf, quasarRunMode) {
       : appPaths.publicDir,
     clearScreen: false,
     mode: ctx.dev === true ? 'development' : 'production',
+    cacheDir: appPaths.resolve.app(
+      'node_modules/.cache/vite/'
+      + (quasarRunMode || quasarConf.ctx.modeName)
+    ),
+
     resolve: build.resolve,
     define: parseEnv(build.env, build.rawDefine),
-    css: build.css,
-    json: build.json,
-    optimizeDeps: build.optimizeDeps,
-    assetsInclude: build.assetsInclude,
+
     build: {
-      rollupOptions: build.rollupOptions,
-      commonjsOptions: build.commonjsOptions,
-      dynamicImportVarsOptions: build.dynamicImportVarsOptions,
-      reportCompressedSize: build.reportCompressedSize,
-      chunkSizeWarningLimit: build.chunkSizeWarningLimit,
-      assetsInlineLimit: build.assetsInlineLimit,
-      cssCodeSplit: build.cssCodeSplit,
+      emptyOutDir: false,
       sourcemap: build.sourcemap === true
         ? 'inline'
         : build.sourcemap || false
     },
+
     plugins: [
-      quasarVitePluginIndexHtmlTransform(quasarConf),
       vueVitePlugin(build.viteVuePluginOptions),
-      quasarVitePlugin(quasarPluginOptions),
+      quasarVitePlugin({
+        runMode: quasarRunMode || void 0,
+        autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
+        sassVariables: quasarConf.metaConf.css.variablesFile
+      }),
       ...parseVitePlugins(build.vitePlugins)
     ]
+  }
+
+  inject(viteConf, build, [
+    'css',
+    'json',
+    'optimizeDeps',
+    'assetsInclude'
+  ])
+
+  inject(viteConf.build, build, [
+    'rollupOptions',
+    'commonjsOptions',
+    'dynamicImportVarsOptions',
+    'reportCompressedSize',
+    'chunkSizeWarningLimit',
+    'assetsInlineLimit',
+    'cssCodeSplit'
+  ])
+
+  if (quasarRunMode !== 'ssr-server') {
+    viteConf.plugins.unshift(
+      quasarVitePluginIndexHtmlTransform(quasarConf)
+    )
   }
 
   if (ctx.dev) {

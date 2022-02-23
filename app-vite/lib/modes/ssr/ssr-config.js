@@ -1,5 +1,6 @@
 
 const { join } = require('path')
+const { mergeConfig } = require('vite')
 
 const createViteConfig = require('../../create-vite-config')
 
@@ -19,41 +20,52 @@ module.exports = {
   viteClient: quasarConf => {
     const cfg = createViteConfig(quasarConf, 'ssr-client')
 
-    cfg.define['process.env.CLIENT'] = true
-    cfg.define['process.env.SERVER'] = false
-
-    cfg.server = { middlewareMode: true }
-
-    cfg.build.ssrManifest = true
-    cfg.build.outDir = join(quasarConf.build.distDir, 'client')
-
-    return cfg
+    return mergeConfig(cfg, {
+      define: {
+        'process.env.CLIENT': true,
+        'process.env.SERVER': false
+      },
+      server: {
+        middlewareMode: true
+      },
+      build: {
+        manifest: true,
+        ssrManifest: true,
+        outDir: join(quasarConf.build.distDir, 'client'),
+        rollupOptions: {
+          input: appPaths.resolve.app('.quasar/client-entry.js')
+        }
+      }
+    })
   },
 
   viteServer: quasarConf => {
     const cfg = createViteConfig(quasarConf, 'ssr-server')
 
-    cfg.define['process.env.CLIENT'] = false
-    cfg.define['process.env.SERVER'] = true
-
-    cfg.publicDir = false // let client config deal with it
-
-    cfg.server = {
-      hmr: false,
-      middlewareMode: 'ssr'
-    }
-
-    cfg.ssr = {
-      noExternal: [
-        /\/esm\/.*\.js$/,
-        /\.(es|esm|esm-browser|esm-bundler).js$/
-      ]
-    }
-
-    cfg.build.ssr = appPaths.resolve.app('.quasar/server-entry.js')
-    cfg.build.outDir = join(quasarConf.build.distDir, 'server')
-
-    return cfg
+    return mergeConfig(cfg, {
+      define: {
+        'process.env.CLIENT': false,
+        'process.env.SERVER': true
+      },
+      publicDir: false, // let client config deal with it
+      server: {
+        hmr: false, // let client config deal with it
+        middlewareMode: 'ssr'
+      },
+      ssr: {
+        noExternal: [
+          /\/esm\/.*\.js$/,
+          /\.(es|esm|esm-browser|esm-bundler).js$/
+        ]
+      },
+      build: {
+        ssr: true,
+        outDir: join(quasarConf.build.distDir, 'server'),
+        rollupOptions: {
+          input: appPaths.resolve.app('.quasar/server-entry.js')
+        }
+      }
+    })
   },
 
   webserver: quasarConf => {
@@ -76,19 +88,12 @@ module.exports = {
       cfg.outfile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
     }
     else {
-      // if ( TODO
-      //   existsSync(prodExportFile.js) === false &&
-      //   existsSync(prodExportFile.ts) === false
-      // ) {
-      //   chain.resolve.alias.set('src-ssr/production-export', prodExportFile.fallback)
-      // }
-
       cfg.external = [
         ...cfg.external,
         'vue/server-renderer',
         'vue/compiler-sfc',
         './render-template.js',
-        './ssr-manifest.json',
+        './quasar.manifest.json',
         './server/server-entry.js',
         'compression',
         'express'

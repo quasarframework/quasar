@@ -5,7 +5,7 @@ const AppBuilder = require('../../app-builder')
 const config = require('./ssr-config')
 const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')
-const { getIndexHtml } = require('./html-template')
+const getTemplateFn = require('./get-template-fn')
 
 class SsrBuilder extends AppBuilder {
   async build () {
@@ -16,9 +16,12 @@ class SsrBuilder extends AppBuilder {
     const viteClientConfig = config.viteClient(this.quasarConf)
     await this.buildWithVite('Client', viteClientConfig)
 
-    this.moveFile('client/ssr-manifest.json', 'ssr-manifest.json')
+    this.moveFile(
+      viteClientConfig.build.outDir + '/ssr-manifest.json',
+      'quasar.manifest.json'
+    )
 
-    await this.#writeHtmlTemplate()
+    await this.#writeHtmlTemplate(viteClientConfig.build.outDir)
 
     const viteServerConfig = config.viteServer(this.quasarConf)
     await this.buildWithVite('Server', viteServerConfig)
@@ -75,15 +78,17 @@ class SsrBuilder extends AppBuilder {
     this.writeFile('package.json', JSON.stringify(pkg, null, 2))
   }
 
-  async #writeHtmlTemplate () {
-    const htmlFile = join(this.quasarConf.build.distDir, 'client', this.quasarConf.build.htmlFilename)
-    const renderTemplate = getIndexHtml(this.readFile(htmlFile), this.quasarConf)
+  async #writeHtmlTemplate (clientDir) {
+    const htmlFile = appPaths.resolve.app(this.quasarConf.build.htmlFilename)
+    const manifestFile = join(clientDir, '/manifest.json')
 
-    this.writeFile('render-template.js', `module.exports=${renderTemplate.source}`)
+    const html = this.readFile(htmlFile)
+    const manifest = require(manifestFile)
 
-    // remove the original; not needed and in the way
-    // when static serving the client folder
-    this.removeFile(htmlFile)
+    const templateFn = getTemplateFn(this.quasarConf, html, manifest)
+
+    this.writeFile('render-template.js', `module.exports=${templateFn.source}`)
+    this.removeFile(manifestFile)
   }
 }
 
