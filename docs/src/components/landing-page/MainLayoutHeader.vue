@@ -10,8 +10,8 @@
       class="font-monserrat lp-header"
     >
       <q-toolbar
-        :class="{ 'shadow-bottom-small': $q.screen.xs, 'letter-spacing-25': $q.screen.lt.lg, 'letter-spacing-300': $q.screen.gt.md, 'items-stretch': $q.screen.gt.xs }"
-        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16"
+        :class="{ 'shadow-bottom-small': $q.screen.xs, 'items-stretch': $q.screen.gt.xs }"
+        class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300"
       >
         <q-btn
           v-if="$q.screen.xs"
@@ -54,14 +54,14 @@
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              :padding="`xs ${$q.screen.name}`"
+              :padding="`xs ${$q.screen.gt.sm? 'xl' : 'md'}`"
               nav-item-class="text-size-16"
             />
           </div>
           <div ref="searchForm">
             <search-quasar-form
               :dark="dark"
-              :is-open-by-default="$q.screen.gt.lg"
+              :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md? 'q-ml-lg':''"
               @focus-by-keyboard="isSearchFieldActive = true"
