@@ -9,7 +9,7 @@ q-layout.doc-layout.bg-lp-light-grey(view="hHh LpR lff", @scroll="handleScroll")
     bordered
   )
     q-scroll-area(style="height: 100%;")
-      app-menu.q-mb-lg
+      app-menu.q-mb-lg.q-mt-sm
 
   q-drawer(
     v-if="hasRightDrawer"
