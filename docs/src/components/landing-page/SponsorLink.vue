@@ -6,7 +6,7 @@
     <q-img
       :src="`sponsor-logos/${src}`"
       class="q-my-md"
-      width="200px"
+      width="260px"
     />
   </a>
 </template>

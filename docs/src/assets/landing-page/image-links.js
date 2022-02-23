@@ -6,8 +6,8 @@ export const sponsorLogos = {
     { src: 'kalisio.png', href: 'kalisio.com' },
     { src: 'comcomservices.png', href: 'comcomservices.com' },
     { src: 'digitalocean.png', href: 'www.digitalocean.com' },
-    { src: 'jugglest.png', href: 'www.jugglestreet.com.au' },
-    { src: 'ibl.png', href: 'ib-langenthal.ch' }
+    { src: 'ibl.png', href: 'ib-langenthal.ch' },
+    { src: 'jugglest.png', href: 'www.jugglestreet.com.au' }
   ]
 }
 

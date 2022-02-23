@@ -116,21 +116,23 @@
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
       <h2 class="lp-heading lp-heading--large">Our Sponsors</h2>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
-      <div class="text-size-16 text-weight-bold">
-        <div class="q-my-md letter-spacing-300">Platinum Sponsors</div>
-        <sponsor-link
-          v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
-          :key="platinumSponsorIndex"
-          :href="`https://${href}`"
-          :src="src"
-        />
-        <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
-        <sponsor-link
-          v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
-          :key="silverSponsorIndex"
-          :href="`https://${href}`"
-          :src="src"
-        />
+      <div class="row justify-center text-size-16 text-weight-bold">
+        <div class="sponsors-section__logos">
+          <div class="q-mt-xl q-mb-md letter-spacing-300">Platinum Sponsors</div>
+          <sponsor-link
+            v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
+            :key="platinumSponsorIndex"
+            :href="`https://${href}`"
+            :src="src"
+          />
+          <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
+          <sponsor-link
+            v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
+            :key="silverSponsorIndex"
+            :href="`https://${href}`"
+            :src="src"
+          />
+        </div>
       </div>
     </div>
 
@@ -282,6 +284,13 @@ q {
     // 100vh - header height
     height: calc(100vh - 156px);
     margin-top: 400px;
+  }
+
+  &__logos {
+    @media screen and (min-width: $breakpoint-md-min) {
+      // we want to have about 4 logos per row
+      width: calc(100vw/1.5);
+    }
   }
 }
 
