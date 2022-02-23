@@ -113,11 +113,9 @@ module.exports = function (template, quasarConf, clientManifest) {
 
   let html = compiled(quasarConf.htmlVariables)
 
-  if (publicPath) {
-    html = injectPublicPath(html, publicPath)
-  }
-
   if (quasarConf.ctx.mode.ssr === true) {
+    html = injectPublicPath(html, publicPath)
+
     if (clientManifest !== void 0) {
       html = injectEntryPoints(html, clientManifest, publicPath)
     }
@@ -125,7 +123,13 @@ module.exports = function (template, quasarConf, clientManifest) {
     html = injectRuntimeInterpolation(html)
   }
   else {
-    const file = publicPath + '.quasar/client-entry.js'
+    // publicPath tampered by vite, so we just need a forward slash
+
+    if (publicPath) {
+      html = injectPublicPath(html, '/')
+    }
+
+    const file = (publicPath ? '/' : '') + '.quasar/client-entry.js'
     html = html.replace(
       '<!-- quasar:entry-point -->',
       `<div id="q-app"></div><script type="module" src="${file}"></script>`
