@@ -6,28 +6,28 @@ export default {
     ok: 'OK',
     cancel: 'Cancelar',
     close: 'Cerrar',
-    set: 'Establecer',
-    select: 'Seleccionar',
-    reset: 'Restablecer',
-    remove: 'Eliminar',
-    update: 'Actualizar',
-    create: 'Crear',
-    search: 'Buscar',
-    filter: 'Filtrar',
-    refresh: 'Actualizar'
+    set: 'Ezarri',
+    select: 'Hautatu',
+    reset: 'Berrezarri',
+    remove: 'Ezabatu',
+    update: 'Eguneratu',
+    create: 'Sortu',
+    search: 'Bilatu',
+    filter: 'Iragazi',
+    refresh: 'Eguneratu'
   },
   date: {
-    days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
-    daysShort: 'Dom_Lun_Mar_Mié_Jue_Vie_Sáb'.split('_'),
-    months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
-    monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
+    days: 'Igandea_Astelehena_Astearte_Asteazkena_Osteguna_Ostirala_Larunbata'.split('_'),
+    daysShort: 'Iga_Ast_Asr_Asz_Ost_Osr_Lar'.split('_'),
+    months: 'Urtarrila_Otsaila_Martxoa_Apirila_Maiatza_Ekaina_Uztailea_Abuztua_Iraila_Urria_Azaroa_Abendua'.split('_'),
+    monthsShort: 'Urt_Ots_Mar_Api_Mai_Eka_Uzt_Abu_Ira_Urr_Aza_Abe'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dias'
+    pluralDay: 'egun'
   },
   table: {
-    noData: 'Sin datos disponibles',
-    noResults: 'No se han encontrado resultado',
+    noData: 'Daturik ez',
+    noResults: 'Ez da emaitzarik aurkitu',
     loading: 'Cargando...',
     selectedRecords: rows => (
       rows > 1
