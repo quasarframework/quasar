@@ -5,7 +5,7 @@ const AppBuilder = require('../../app-builder')
 const config = require('./ssr-config')
 const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')
-const getTemplateFn = require('./get-template-fn')
+const getHtmlTemplateFn = require('../../helpers/get-html-template')
 
 class SsrBuilder extends AppBuilder {
   async build () {
@@ -85,7 +85,11 @@ class SsrBuilder extends AppBuilder {
     const html = this.readFile(htmlFile)
     const manifest = require(manifestFile)
 
-    const templateFn = getTemplateFn(this.quasarConf, html, manifest)
+    const templateFn = getHtmlTemplateFn(
+      html,
+      this.quasarConf,
+      manifest
+    )
 
     this.writeFile('render-template.js', `module.exports=${templateFn.source}`)
     this.removeFile(manifestFile)

@@ -1,7 +1,5 @@
-const compileTemplate = require('lodash.template')
 
-const entryFile = '.quasar/client-entry.js'
-const entryScript = `<div id="q-app"></div><script type="module" src="${entryFile}"></script>`
+const getHtmlTemplate = require('../helpers/get-html-template')
 
 module.exports = quasarConf => {
   return {
@@ -9,13 +7,7 @@ module.exports = quasarConf => {
     enforce: 'pre',
     transformIndexHtml: {
       enforce: 'pre',
-      transform: html => {
-        const compiled = compileTemplate(html)
-        return compiled(quasarConf.htmlVariables).replace(
-          '<!-- quasar:entry-point -->',
-          entryScript
-        )
-      }
+      transform: html => getHtmlTemplate(html, quasarConf)
     }
   }
 }

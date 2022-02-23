@@ -12,7 +12,7 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 
-const urlRegex = /^http(s)?:\/\//
+const urlRegex = /^http(s)?:\/\//i
 const ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
 const findPort = require('../lib/helpers/net').findClosestOpenPort
 const isMinimalTerminal = require('./helpers/is-minimal-terminal')
@@ -36,7 +36,7 @@ function escapeHTMLAttribute (str) {
 
 function formatPublicPath (path) {
   if (!path) {
-    return ''
+    return '/'
   }
 
   if (!path.endsWith('/')) {
@@ -495,7 +495,7 @@ class QuasarConfFile {
     cfg.build.publicPath =
       cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
-        : (cfg.build.vueRouterMode === 'hash' ? '' : '/')
+        : (['capacitor', 'cordova', 'electron'].includes(this.ctx.modeName) ? '' : '/')
 
     /* careful if you configure the following; make sure that you really know what you are doing */
     cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0

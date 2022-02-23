@@ -1,3 +1,4 @@
+
 const compileTemplate = require('lodash.template')
 
 function injectRuntimeInterpolation (html) {
@@ -51,22 +52,7 @@ function injectRuntimeInterpolation (html) {
   )
 }
 
-/**
- * Injects the entry JS and CSS
- */
- function injectEntryPoints ({ html, jsPreloadTags, jsTag, cssTags }) {
-  return html
-  .replace(
-    /(<\/head>)/i,
-    (_, tag) => `${cssTags}${jsPreloadTags}${tag}`
-  )
-  .replace(
-    '<!-- quasar:entry-point -->',
-    `<!-- quasar:entry-point -->${jsTag}`
-  )
-}
-
-function extractStaticTags (clientManifest, publicPath) {
+function injectEntryPoints (html, clientManifest, publicPath) {
   const js = []
   const css = []
 
@@ -89,31 +75,62 @@ function extractStaticTags (clientManifest, publicPath) {
 
   inject(clientManifest['.quasar/client-entry.js'])
 
-  return {
-    jsPreloadTags: js
-      .map(file => `<link rel="modulepreload" crossorigin href="${file}">`)
-      .join(''),
+  const jsPreloadTags = js
+    .map(file => `<link rel="modulepreload" crossorigin href="${file}">`)
+    .join('')
 
-    jsTag: `<script type="module" crossorigin src="${js[js.length - 1]}"></script>`,
+  const jsTag = `<script type="module" crossorigin src="${js[js.length - 1]}"></script>`
 
-    cssTags: css
-      .map(file => `<link rel="stylesheet" href="${file}">`)
-      .join('')
-  }
+  const cssTags = css
+    .map(file => `<link rel="stylesheet" href="${file}">`)
+    .join('')
+
+  return html
+  .replace(
+    /(<\/head>)/i,
+    (_, tag) => `${cssTags}${jsPreloadTags}${tag}`
+  )
+  .replace(
+    '<!-- quasar:entry-point -->',
+    `<!-- quasar:entry-point -->${jsTag}`
+  )
 }
 
-module.exports = function (quasarConf, template, clientManifest) {
+const absoluteUrlRE = /^(https?:\/\/|\/)/i
+
+function injectPublicPath (html, publicPath) {
+  return html.replace(
+    /(href|src)\s*=\s*['"](.+)['"]/ig,
+    (_, att, val) => absoluteUrlRE.test(val.trim()) === true
+      ? `${att}=${val}`
+      : `${att}=${publicPath + val}`
+  )
+}
+
+module.exports = function (template, quasarConf, clientManifest) {
+  const { publicPath = '' } = quasarConf.build
   const compiled = compileTemplate(template)
+
   let html = compiled(quasarConf.htmlVariables)
 
-  if (clientManifest !== void 0) {
-    html = injectEntryPoints({
-      html,
-      ...extractStaticTags(clientManifest, quasarConf.build.publicPath)
-    })
+  if (publicPath) {
+    html = injectPublicPath(html, publicPath)
   }
 
-  html = injectRuntimeInterpolation(html)
+  if (quasarConf.ctx.mode.ssr === true) {
+    if (clientManifest !== void 0) {
+      html = injectEntryPoints(html, clientManifest, publicPath)
+    }
+
+    html = injectRuntimeInterpolation(html)
+  }
+  else {
+    const file = publicPath + '.quasar/client-entry.js'
+    html = html.replace(
+      '<!-- quasar:entry-point -->',
+      `<div id="q-app"></div><script type="module" src="${file}"></script>`
+    )
+  }
 
   if (quasarConf.build.minify) {
     const { minify } = require('html-minifier')
@@ -123,5 +140,7 @@ module.exports = function (quasarConf, template, clientManifest) {
     })
   }
 
-  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
+  return quasarConf.ctx.mode.ssr === true
+    ? compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
+    : html
 }

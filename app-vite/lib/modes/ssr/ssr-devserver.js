@@ -11,7 +11,7 @@ const getPackage = require('../../helpers/get-package')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./ssr-config')
 const { log, warn, info, success } = require('../../helpers/logger')
-const getTemplateFn = require('./get-template-fn')
+const getHtmlTemplateFn = require('../../helpers/get-html-template')
 
 const { renderToString } = getPackage('vue/server-renderer')
 
@@ -162,7 +162,10 @@ class SsrDevServer extends AppDevserver {
     let renderTemplate
 
     function updateTemplate () {
-      renderTemplate = getTemplateFn(quasarConf, readFileSync(templatePath, 'utf-8'))
+      renderTemplate = getHtmlTemplateFn(
+        readFileSync(templatePath, 'utf-8'),
+        quasarConf
+      )
     }
 
     updateTemplate()
