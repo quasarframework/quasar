@@ -77,11 +77,11 @@
         <div class="support-quasar-section__container">
           <h2
             class="text-uppercase lp-heading--large support-quasar-section__title"
-          >Support quasar: Become sponsor!</h2>
+          >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
 
           <div
             class="lp-heading--small text-left"
-          >Working for a company or freelancer? You can contribute, even a <br> bit and getting something back.</div>
+          >Working for a company? Are you a freelancer? You can contribute, even a bit, <br> and even get something back in return.</div>
 
           <q
             class="q-my-md lp-heading--quote primary-line-height lp-my--medium"

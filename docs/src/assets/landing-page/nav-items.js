@@ -136,7 +136,7 @@ export const navItems = {
       path: 'components'
     },
     {
-      label: 'Become sponsor',
+      label: 'Sponsor',
       path: 'sponsors-and-backers'
     },
     {
