@@ -184,16 +184,16 @@
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
         >
-          <router-link :to="{ name: 'home' }">
+          <router-link :to="{ name: 'home' }" class="row items-center">
             <img
               v-if="$q.screen.sm"
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
               alt="Quasar Logo"
-              height="48"
+              height="36"
               width="48">
             <img
               v-else
-              :height="$q.screen.xs? '24':'48'"
+              :height="$q.screen.xs? '24':'36'"
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
               alt="Quasar Logo"
               width="236">
@@ -214,7 +214,7 @@
             dense
             no-caps
             outline
-            padding="sm">
+            padding="xs sm">
             <template #label>
               <span
                 :class="dark? 'text-dark':'text-white'"
