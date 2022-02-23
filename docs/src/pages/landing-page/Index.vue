@@ -136,7 +136,7 @@
       </div>
     </div>
 
-    <div class="text-center social-channels-call-to-action lp-mb--large">
+    <div class="text-center social-channels-call-to-action">
       <q-img
         src="~assets/landing-page/homepage-background-images/planet.png"
         :height="$q.screen.lt.md ? '80vh' : ''"
@@ -145,7 +145,7 @@
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news</div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row reverse justify-center q-mb-xl q-mt-md q-gutter-md">
+          <div class="row reverse justify-center q-mt-md q-gutter-md lp-mb--large">
             <q-btn
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
