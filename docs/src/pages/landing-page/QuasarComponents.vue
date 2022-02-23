@@ -1,8 +1,8 @@
 <template>
   <q-page class="q-mt-xl lp-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
     <div
-      :class="{'justify-between q-pa-lg': $q.screen.gt.sm, 'q-mx-xl': $q.screen.xl}"
-      class="justify-center q-pa-md row no-wrap items-center chips-container bg-lp-dark"
+      :class="$q.screen.xl? 'justify-between q-ml-lg margin-right-60' : 'justify-around padding-x-100'"
+      class="q-pa-lg q-pa-md row no-wrap items-center chips-container bg-lp-dark"
     >
       <q-input
         v-model="search"
@@ -174,7 +174,7 @@ export default defineComponent({
 
 .chips-container {
   position: sticky;
-  top: 80px;
+  top: 60px;
   z-index: 2;
 
   @media screen and (min-width: $breakpoint-xs-max) {
@@ -189,4 +189,11 @@ export default defineComponent({
   transition: all .3s ease-in-out;
 }
 
+.margin-right-60 {
+  margin-right: 60px;
+}
+.padding-x-100 {
+  padding-left: 100px;
+  padding-right: 100px;
+}
 </style>

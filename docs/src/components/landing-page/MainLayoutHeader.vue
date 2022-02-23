@@ -54,8 +54,8 @@
               :key="navItemIndex"
               :dark="dark"
               :nav-item="navItem"
-              :padding="`xs ${$q.screen.gt.sm? 'xl' : 'md'}`"
-              nav-item-class="text-size-16"
+              padding="xs lg"
+              nav-item-class="text-size-16 main-header-nav-item-padding"
             />
           </div>
           <div ref="searchForm">
@@ -477,6 +477,17 @@ $adjust-header-viewport: 860px;
   }
   to {
     box-shadow: 0 4.5px 4.5px 0 rgba($lp-primary, 0.28);
+  }
+}
+
+// We need to adjust the padding at some viewports, to prevent the icon or some other nav item
+// from collapsing while keeping the airy (spacious) nature of the main header.
+.main-header-nav-item-padding {
+  @media screen and (min-width: 1015px) and (max-width: 1105px) {
+    padding: 4px 24px !important;
+  }
+  @media screen and (min-width: $breakpoint-xs-max) and (max-width: 642px) {
+    padding: 4px 16px !important;
   }
 }
 </style>
