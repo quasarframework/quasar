@@ -27,8 +27,12 @@ function resolvePublicFolder () {
 
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
 
-function renderVuexState (ssrContext, nonce) {
+function renderVuexState (ssrContext) {
   if (ssrContext.state !== void 0) {
+    const nonce = ssrContext.nonce !== void 0
+      ? ` nonce="${ ssrContext.nonce }" `
+      : ''
+
     const state = serialize(ssrContext.state, { isJSON: true })
     return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
   }
@@ -205,14 +209,10 @@ class SsrDevServer extends AppDevserver {
         // like @vue/apollo-ssr:
         typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-        const nonce = ssrContext.nonce !== void 0
-          ? ` nonce="${ ssrContext.nonce }" `
-          : ''
-
         Object.assign(ssrContext._meta, {
           resourceApp,
           resourceStyles: '',
-          resourceScripts: renderVuexState(ssrContext, nonce)
+          resourceScripts: renderVuexState(ssrContext)
             + '<script type="module" src="/.quasar/client-entry.js"></script>'
         })
 
@@ -227,6 +227,11 @@ class SsrDevServer extends AppDevserver {
         throw err
       }
     }
+
+    info('Warming up the server...', 'WAIT')
+    await viteServer.ssrLoadModule(serverEntryFile)
+    success('Server is warmed up', 'DONE')
+    log()
 
     await this.#bootApp()
 
