@@ -95,7 +95,10 @@ module.exports = function (quasarConf, quasarRunMode) {
     },
 
     plugins: [
-      vueVitePlugin(build.viteVuePluginOptions),
+      vueVitePlugin({
+        ssr: quasarRunMode === 'ssr-server',
+        ...build.viteVuePluginOptions
+      }),
       quasarVitePlugin({
         runMode: quasarRunMode || void 0,
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,

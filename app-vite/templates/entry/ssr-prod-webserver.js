@@ -73,7 +73,7 @@ function renderPreloadLinks (modules) {
 
 function renderPreloadLink (file) {
   if (file.endsWith('.js')) {
-    return '<link rel="modulepreload" crossorigin href="' + file + '">'
+    return '<link rel="modulepreload" href="' + file + '" crossorigin>'
   }
   else if (file.endsWith('.css')) {
     return '<link rel="stylesheet" href="' + file + '">'
@@ -92,9 +92,6 @@ function renderPreloadLink (file) {
   }
   else if (file.endsWith('.png')) {
     return '<link rel="preload" href="' + file + '" as="image" type="image/png">'
-  }
-  else if (file.endsWith('.svg')) {
-    return '<link rel="preload" href="' + file + '" as="image" type="image/svg">'
   }
   else {
     // TODO

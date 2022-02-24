@@ -14,7 +14,7 @@ const getPackageMajorVersion = require('./helpers/get-package-major-version')
 
 const urlRegex = /^http(s)?:\/\//i
 const ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
-const findPort = require('../lib/helpers/net').findClosestOpenPort
+const { findClosestOpenPort } = require('../lib/helpers/net')
 const isMinimalTerminal = require('./helpers/is-minimal-terminal')
 
 const quasarConfFilename = appPaths.resolve.app('quasar.config.js')
@@ -102,7 +102,7 @@ async function onAddress ({ host, port }, mode) {
   }
 
   try {
-    const openPort = await findPort(port, host)
+    const openPort = await findClosestOpenPort(port, host)
     if (port !== openPort) {
       warn()
       warn(`️️Setting port to closest one available: ${openPort}`)
@@ -414,6 +414,7 @@ class QuasarConfFile {
 
     cfg.build = merge({
       viteVuePluginOptions: {
+        isProduction: this.ctx.prod === true,
         template: {
           transformAssetUrls: merge({
             base: null,
@@ -570,7 +571,6 @@ class QuasarConfFile {
 
     if (this.ctx.dev) {
     //   const originalSetup = cfg.vite.setupMiddlewares
-    //   const openInEditor = require('launch-editor-middleware') // TODO VITE
 
     //   delete cfg.vite.setupMiddlewares
 
@@ -631,8 +631,6 @@ class QuasarConfFile {
     //           app.use('/', express.static(folder, { maxAge: 0 }))
     //         }
     //       }
-
-    //       app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
     //       return originalSetup
     //         ? originalSetup(middlewares, opts)
