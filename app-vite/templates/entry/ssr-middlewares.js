@@ -6,7 +6,7 @@
 export default (opts) => {
   return Promise.all([
     <% ssr.middlewares.forEach((asset, index) => { %>
-    import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < ssr.middlewares.length - 1 ? ',' : '' %>
+    import('<%= asset.path %>')<%= index < ssr.middlewares.length - 1 ? ',' : '' %>
     <% }) %>
   ]).then(async rawMiddlewares => {
     const middlewares = rawMiddlewares

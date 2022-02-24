@@ -44,7 +44,7 @@ function parseVitePlugins (entries) {
       return
     }
 
-    acc.push(plugin(opts))
+    acc.push((plugin.default || plugin)(opts))
   })
 
   return acc
@@ -133,6 +133,17 @@ module.exports = function (quasarConf, quasarRunMode) {
   }
   else {
     viteConf.build.outDir = build.distDir
+
+    const analyze = quasarConf.build.analyze
+    if (analyze) {
+      viteConf.plugins.push(
+        require('rollup-plugin-visualizer').visualizer({
+          open: true,
+          filename: 'stats-' + (quasarRunMode || quasarConf.ctx.modeName) + '.html',
+          ...(Object(analyze) === analyze ? analyze : {})
+        })
+      )
+    }
   }
 
   if (build.minify === false) {

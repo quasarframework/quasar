@@ -263,7 +263,7 @@ createQuasarApp(<%=
   .then(app => {
     return Promise.all([
       <% bootEntries.forEach((asset, index) => { %>
-      import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+      import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
       <% }) %>
     ]).then(bootFiles => {
       const boot = bootFiles
