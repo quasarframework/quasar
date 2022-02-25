@@ -10,7 +10,7 @@
     <q-menu>
       <q-list>
         <q-item
-          v-for="theme in availableThemes"
+          v-for="theme in AVAILABLE_THEMES"
           :key="theme"
           :class="theme === currentTheme ? 'text-lp-primary' : ''"
           class="text-capitalize"
@@ -30,7 +30,7 @@
 <script>
 import { mdiThemeLightDark } from '@quasar/extras/mdi-v6'
 import { useQuasar } from 'quasar'
-import { useTheme } from 'src/components/landing-page/use-theme'
+import { useTheme, AVAILABLE_THEMES } from 'src/components/landing-page/use-theme'
 import { computed, defineComponent, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -41,7 +41,7 @@ export default defineComponent({
   setup () {
     const $q = useQuasar()
     const $route = useRoute()
-    const { currentTheme, availableThemes } = useTheme()
+    const { currentTheme } = useTheme()
 
     const isThemeSwitcherEnabled = computed(() => !BRAND_THEME_ONLY_PAGES.includes($route.name))
 
@@ -57,7 +57,7 @@ export default defineComponent({
 
     return {
       currentTheme,
-      availableThemes,
+      AVAILABLE_THEMES,
       setTheme,
       isThemeSwitcherEnabled,
       mdiThemeLightDark

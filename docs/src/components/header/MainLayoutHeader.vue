@@ -36,7 +36,7 @@
 
         <div class="row items-center">
           <div ref="searchForm">
-            <search-quasar-form
+            <search-form
               :dark="dark"
               :is-open-by-default="false"
               :show-search-input-field="isSearchFieldActive"

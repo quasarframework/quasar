@@ -72,7 +72,9 @@
           <br />desktop app and browser extension altogether in less than 12 minutes.
         </q>
       </div>
-      <twitter-showcase-cards />
+      <q-no-ssr>
+        <twitter-showcase-cards />
+      </q-no-ssr>
     </div>
 
     <div class="support-quasar-section">

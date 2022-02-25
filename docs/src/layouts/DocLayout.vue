@@ -1,6 +1,6 @@
 <template lang="pug">
 q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
-  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData" :dark="currentTheme === 'brand' || currentTheme === 'dark'")
+  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData" :dark="['brand', 'dark'].includes(currentTheme)")
 
   q-drawer.doc-left-drawer(
     side="left"

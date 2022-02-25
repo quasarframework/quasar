@@ -7,11 +7,15 @@ import { useMeta } from 'quasar'
 
 import { provideDocStore } from 'assets/doc-store.js'
 import getMeta from 'assets/get-meta.js'
+import { useTheme } from 'components/landing-page/use-theme'
 
 export default {
   name: 'App',
 
   setup () {
+    // Provide shared theme ref to the whole subtree
+    useTheme()
+
     useMeta({
       title: 'Quasar Framework',
       titleTemplate: title => `${title} | Quasar Framework`,
