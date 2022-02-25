@@ -1,7 +1,102 @@
 @import './prism-theme.sass'
 
+body.body--dark
+  color: $dark-text-color
+  background: $darker-background
+
+  .q-page-container img
+    background-color: $grey-dark-background
+    padding: 2px
+    border-radius: 4px
+
+  .q-drawer-container
+    background: $darkest-background
+
+  .q-drawer--right
+    background: $darkest-background !important
+
+  .q-item--dark
+    color: $dark-text-color !important
+
+  .q-toolbar .q-btn
+    color: $dark-text-color
+
+  .doc-page-nav .q-link
+    border: 1px solid $brand-primary
+    background: $darkest-background !important
+    color: $brand-primary
+
+  .app-menu .q-item.q-router-link--active
+    background: $dark-background !important
+
+  .doc-toc .q-item.q-item--active
+    background: $dark-background !important
+
+  .doc-note
+    background-color: #c2cec5
+    color: #1d1d1d
+
+  .doc-note--tip
+    background-color: #a3d8b0
+    color: #404140
+
+  .doc-note--warning
+    background-color: #d6d590
+
+  .doc-note--danger
+    background-color: #dbacac
+
+  .q-table__card--dark, .q-table--dark
+    background: $dark-background
+
+  .doc-note--tip .doc-token
+    border: 1px dotted $dark-text-color
+    background-color: #9cedaf
+    color: #000
+
+  .doc-token
+    border: 1px dotted $dark-text-color
+    background-color: $darkest-background
+    color: $dark-text-color
+
+  .doc-link
+    color: $primary
+
+  .doc-link .doc-token
+    border: 1px dotted $dark-text-color
+    background-color: $dark-background
+    color: $dark-text-color
+
+  .doc-code__inner
+    background-color: #d4eafa
+
+  .q-card--dark
+    background: $dark-background
+
+  .doc-api .api-container
+    background: $dark-background
+
+  .api-row
+    background: $dark-background
+    color: $dark-text-color
+
+  .api-row__value
+    color: $dark-text-color
+
+  .api-row__example
+    background-color: #004564
+
+  .flex-playground
+    background: $darker-background !important
+
+  .flex-playground--content
+    background: $darker-background !important
+
+  .q-badge--single-line
+    background: #5b667c
+
 .text-brand-primary
-  color: $brand-primary !important
+  color: #b8b8b8
 .bg-brand-primary
   background-color: $brand-primary !important
 
@@ -167,3 +262,28 @@ body.q-scroll--lock .q-page
 
   > .q-scroll--anchor
     overflow-anchor: auto
+
+// makes the scroll bar look better for the drop-down menus in the header
+::-webkit-scrollbar
+  height: 12px
+  width: 14px
+  background: transparent
+  z-index: 12
+  overflow: visible
+
+
+::-webkit-scrollbar-thumb
+  width: 10px
+  background-color: #c1c1c1
+  border-radius: 10px
+  z-index: 12
+  border: 4px solid rgba(0, 0, 0, 0)
+  background-clip: padding-box
+  transition: background-color .32s ease-in-out
+  margin: 4px
+  min-height: 32px
+  min-width: 32px
+
+
+::-webkit-scrollbar-thumb:hover
+  background: #c1c1c1

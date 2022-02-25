@@ -22,7 +22,7 @@
         <q-item v-else clickable class="add-shadow-on-hover">
           <q-item-section>{{ navItem.label }}</q-item-section>
           <q-item-section side>
-            <q-icon name="keyboard_arrow_right" color="lp-dark"/>
+            <q-icon name="keyboard_arrow_right"/>
           </q-item-section>
 
           <q-menu anchor="top end" self="top start" class="shadow-bottom-medium">

@@ -15,8 +15,8 @@
         ref="searchInputRef"
         v-model="searchTerms"
         :dark="!dark"
-        :bg-color="dark? 'black-12':'white-28'"
-        :input-class="`q-ml-xs text-size-16 letter-spacing-40 ${dark? 'text-black':'text-white'}`"
+        :bg-color="dark ? 'white-28' : 'black-12'"
+        :input-class="`q-ml-xs text-size-16 letter-spacing-40 ${dark? 'text-white' : 'text-black'}`"
         :autofocus="$q.screen.lt.lg"
         standout
         dense
@@ -72,7 +72,6 @@
     round
     color="lp-primary"
     icon="search"
-    size="12px"
   />
 </template>
 

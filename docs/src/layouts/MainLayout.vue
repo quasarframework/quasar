@@ -1,14 +1,19 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
     <!-- div for stars -->
-    <div id="stars-sm"/>
-    <div id="stars-md"/>
-    <div id="stars-lg"/>
+    <div id="stars-sm" />
+    <div id="stars-md" />
+    <div id="stars-lg" />
 
-    <main-layout-header v-model="showDrawer" :dark="footerHasMetHeader" ref="mainLayoutHeader"/>
+    <main-layout-header v-model="showDrawer" :dark="!footerHasMetHeader" ref="mainLayoutHeader" />
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
       <q-scroll-area class="full-height">
-        <survey-countdown class="layout-countdown" color="lp-primary" align-class="justify-center" padding-class="q-py-md"/>
+        <survey-countdown
+          class="layout-countdown"
+          color="lp-primary"
+          align-class="justify-center"
+          padding-class="q-py-md"
+        />
         <app-menu class="q-mb-lg" />
       </q-scroll-area>
     </q-drawer>
@@ -20,41 +25,74 @@
     <q-footer class="bg-lp-grey text-size-12 main-layout-footer" ref="mainLayoutFooter">
       <div class="lp-footer lp-ma--large">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
-          <q-item-label class="text-lp-dark text-weight-bold letter-spacing-225">{{ footerItem.name }}</q-item-label>
+          <q-item-label
+            class="text-lp-dark text-weight-bold letter-spacing-225"
+          >{{ footerItem.name }}</q-item-label>
           <q-separator spaced color="lp-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
-            <q-item v-if="item.external" dense class="q-pa-none" clickable type="a" :href="item.path" target="_blank">
-              <q-item-section class="text-lp-dark letter-spacing-100">
-                {{ item.name }}
-              </q-item-section>
+            <q-item
+              v-if="item.external"
+              dense
+              class="q-pa-none"
+              clickable
+              type="a"
+              :href="item.path"
+              target="_blank"
+            >
+              <q-item-section class="text-lp-dark letter-spacing-100">{{ item.name }}</q-item-section>
             </q-item>
-            <q-item v-else dense class="q-pa-none" clickable :to="footerItem.areOrphans? `/${item.path}` : `/${footerItem.path}/${item.path}`">
-              <q-item-section class="text-lp-dark letter-spacing-100">
-                {{ item.name }}
-              </q-item-section>
+            <q-item
+              v-else
+              dense
+              class="q-pa-none"
+              clickable
+              :to="footerItem.areOrphans ? `/${item.path}` : `/${footerItem.path}/${item.path}`"
+            >
+              <q-item-section class="text-lp-dark letter-spacing-100">{{ item.name }}</q-item-section>
             </q-item>
           </template>
         </q-list>
       </div>
-      <q-separator color="lp-primary" class="lp-mx--large"/>
+      <q-separator color="lp-primary" class="lp-mx--large" />
       <div class="row justify-center q-my-md letter-spacing-225">
-        <q-btn type="a" no-caps flat href="https://github.com/quasarframework/quasar/blob/dev/LICENSE" target="_blank" class="text-black-54 text-weight-bold" label="MIT License"/>
-        <q-btn type="a" no-caps flat href="https://www.iubenda.com/privacy-policy/40685560" target="_blank" class="text-black-54 text-weight-bold" label="Privacy Policy"/>
+        <q-btn
+          type="a"
+          no-caps
+          flat
+          href="https://github.com/quasarframework/quasar/blob/dev/LICENSE"
+          target="_blank"
+          class="text-black-54 text-weight-bold"
+          label="MIT License"
+        />
+        <q-btn
+          type="a"
+          no-caps
+          flat
+          href="https://www.iubenda.com/privacy-policy/40685560"
+          target="_blank"
+          class="text-black-54 text-weight-bold"
+          label="Privacy Policy"
+        />
       </div>
       <q-separator class="full-width" />
       <div class="text-lp-dark text-center q-ma-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
-        <a href="https://www.dreamonkey.com/" target="_blank" class="q-ml-sm text-lp-accent text-weight-bold">Dreamonkey Srl</a>
+        <a
+          href="https://www.dreamonkey.com/"
+          target="_blank"
+          class="q-ml-sm text-lp-accent text-weight-bold"
+        >Dreamonkey Srl</a>
       </div>
     </q-footer>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-      <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md"/>
+      <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md" />
     </q-page-scroller>
   </q-layout>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useQuasar } from 'quasar'
 import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
@@ -124,11 +162,13 @@ export default defineComponent({
     const footerHasMetHeader = ref(false)
     const mainLayoutFooter = ref()
     const mainLayoutHeader = ref()
+    const $q = useQuasar()
 
     function checkHeaderMetFooter () {
       const headerSize = mainLayoutHeader.value.$el.clientHeight
       const positionFromTop = mainLayoutFooter.value.$el.getBoundingClientRect().top
       footerHasMetHeader.value = positionFromTop <= headerSize
+      $q.dark.set(footerHasMetHeader.value)
     }
 
     return {
@@ -176,7 +216,16 @@ $footer-columns-after-xs: 2;
 }
 
 .layout-countdown {
-  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff);
+  background: linear-gradient(
+    45deg,
+    #e6f1fc 25%,
+    #c3e0ff 25%,
+    #c3e0ff 50%,
+    #e6f1fc 50%,
+    #e6f1fc 75%,
+    #c3e0ff 75%,
+    #c3e0ff
+  );
   background-size: 40px 40px;
 }
 
@@ -191,9 +240,9 @@ $footer-columns-after-xs: 2;
 $max-viewport-height: 7000; // max height at which stars are spread
 
 @function generateRandomStars($number-of-stars, $max-viewport-height) {
-  $value: '#{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}';
+  $value: "#{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}";
   @for $i from 1 through $number-of-stars {
-    $value: '#{$value}, #{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}';
+    $value: "#{$value}, #{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}";
   }
   @return unquote($value);
 }

@@ -1,7 +1,7 @@
 <template>
   <q-btn
     v-if="!navItem.subMenu"
-    :class="`text-weight-bold ${navItemClass} ${!dark? 'white-color-on-hover':''}`"
+    :class="`text-weight-bold ${navItemClass} ${dark? 'white-color-on-hover':''}`"
     :color="setActivePrimaryNavColor($route.path, navItem.path)"
     :href="computeRouteNav(navItem, 'href')"
     :label="navItem.label"
@@ -12,8 +12,8 @@
   />
   <q-btn-dropdown
     v-else
-    :class="!dark? 'white-color-on-hover':''"
-    :color="dark? 'black-54':''"
+    :class="dark? 'white-color-on-hover':''"
+    :color="!dark? 'black-54':''"
     :label="navItem.label"
     :menu-offset="[150, 0]"
     :padding="dropdownBtnPadding"
@@ -59,7 +59,7 @@ export default {
   setup (props) {
     function setActivePrimaryNavColor (routePath, navItemPath) {
       if (routePath === `/${navItemPath}`) {
-        return props.dark ? 'lp-primary' : 'white'
+        return props.dark ? 'white' : 'lp-primary'
       }
     }
 

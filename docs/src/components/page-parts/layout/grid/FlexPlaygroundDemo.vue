@@ -5,28 +5,86 @@
         color="secondary"
         @click="toggleFullscreen"
         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
-        :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Try playground in Fullscreen'"
+        :label="
+          $q.fullscreen.isActive
+            ? 'Exit Fullscreen'
+            : 'Try playground in Fullscreen'
+        "
       />
     </div>
     <div class="text-subtitle2 q-pb-md">Parent Properties (container)</div>
     <div class="row wrap justify-start content-stretch">
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.containerGroup" :options="containerOptions" label="Container" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-6 flex-playground">
+        <q-select
+          color="blue-12"
+          v-model="group.containerGroup"
+          :options="containerOptions"
+          label="Container"
+          emit-value
+          map-options
+          dense
+          options-dense
+        />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.directionGroup" :options="directionOptions" label="Direction" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-6 flex-playground">
+        <q-select
+          color="blue-12"
+          v-model="group.directionGroup"
+          :options="directionOptions"
+          label="Direction"
+          emit-value
+          map-options
+          dense
+          options-dense
+        />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.wrapGroup" :options="wrapOptions" label="Wrap" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-6 flex-playground">
+        <q-select
+          color="blue-12"
+          v-model="group.wrapGroup"
+          :options="wrapOptions"
+          label="Wrap"
+          emit-value
+          map-options
+          dense
+          options-dense
+        />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.justifyGroup" :options="justifyOptions" label="Justify Content" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-6 flex-playground">
+        <q-select
+          color="blue-12"
+          v-model="group.justifyGroup"
+          :options="justifyOptions"
+          label="Justify Content"
+          emit-value
+          map-options
+          dense
+          options-dense
+        />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.itemsGroup" :options="itemsOptions" label="Align Items" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-6 flex-playground">
+        <q-select
+          color="blue-12"
+          v-model="group.itemsGroup"
+          :options="itemsOptions"
+          label="Align Items"
+          emit-value
+          map-options
+          dense
+          options-dense
+        />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-6 flex-playground">
+        <q-select
+          color="blue-12"
+          v-model="group.contentGroup"
+          :options="contentOptions"
+          label="Align Content"
+          emit-value
+          map-options
+          dense
+          options-dense
+        />
       </div>
     </div>
 
@@ -38,22 +96,53 @@
     </q-input>
 
     <div class="text-subtitle2 float-left">
-      Results <span class="text-weight-thin">(children: {{ group.children.length }}/10)</span>
+      Results
+      <span class="text-weight-thin"
+        >(children: {{ group.children.length }}/10)</span
+      >
     </div>
 
-    <q-btn class="float-right" round dense flat :icon="mdiShareVariant" @click="share">
-      <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
+    <q-btn
+      class="float-right"
+      round
+      dense
+      flat
+      :icon="mdiShareVariant"
+      @click="share"
+    >
+      <q-tooltip>{{ copied ? "Copied to clipboard" : "Share URL" }}</q-tooltip>
     </q-btn>
-    <q-btn class="float-right" round dense flat :icon="fabCodepen" @click="editInCodepen">
+    <q-btn
+      class="float-right"
+      round
+      dense
+      flat
+      :icon="fabCodepen"
+      @click="editInCodepen"
+    >
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
 
-    <q-btn class="float-right" label="Add Child" :icon="mdiPlus" dense flat :disabled="group.children.length >= 10" @click="addChild" />
-    <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
-      <div id="parent" :class="classes" style="overflow: hidden;">
-        <child v-for="(child, index) in group.children" :key="index"
+    <q-btn
+      class="float-right"
+      label="Add Child"
+      :icon="mdiPlus"
+      dense
+      flat
+      :disabled="group.children.length >= 10"
+      @click="addChild"
+    />
+    <div class="row full-width" style="min-height: 400px">
+      <div id="parent" :class="classes" style="overflow: hidden">
+        <child class="flex-playground--content"
+          v-for="(child, index) in group.children"
+          :key="index"
           :child="child"
-          :ref="el => { childRef[index] = el }"
+          :ref="
+            (el) => {
+              childRef[index] = el;
+            }
+          "
           :index="index"
           :selected-index="selectedIndex"
           @delete="onDelete"
@@ -76,7 +165,11 @@
       </template>
     </q-input>
 
-    <doc-codepen ref="codepenRef" title="Flex example" slugifiedTitle="flex-example" />
+    <doc-codepen
+      ref="codepenRef"
+      title="Flex example"
+      slugifiedTitle="flex-example"
+    />
   </div>
 </template>
 
@@ -227,9 +320,9 @@ export default {
     }
 
     function share () {
-      let playgroudUrl = window.location.href
-      if (playgroudUrl.includes('?')) {
-        playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
+      let playgroundUrl = window.location.href
+      if (playgroundUrl.includes('?')) {
+        playgroundUrl = playgroundUrl.substring(0, playgroundUrl.indexOf('?'))
       }
       let queryString = '',
         index = 0
@@ -250,7 +343,7 @@ export default {
           queryString += '&'
         }
       }
-      copyToClipboard(`${playgroudUrl}?${queryString}`)
+      copyToClipboard(`${playgroundUrl}?${queryString}`)
       copied.value = true
       setTimeout(() => {
         copied.value = false
@@ -290,12 +383,19 @@ export default {
     })
 
     const classes = computed(() => {
-      return (group.containerGroup +
-        ' ' + group.directionGroup +
-        ' ' + group.wrapGroup +
-        ' ' + group.justifyGroup +
-        ' ' + group.itemsGroup +
-        ' ' + group.contentGroup)
+      return (
+        group.containerGroup +
+        ' ' +
+        group.directionGroup +
+        ' ' +
+        group.wrapGroup +
+        ' ' +
+        group.justifyGroup +
+        ' ' +
+        group.itemsGroup +
+        ' ' +
+        group.contentGroup
+      )
         .replace(/,/g, ' ')
         .replace(/'  +'/g, ' ')
         .trim()
@@ -307,9 +407,7 @@ export default {
             style: {
               backgroundColor: '#fff'
             },
-            class: [
-              'q-pa-md'
-            ]
+            class: ['q-pa-md']
           }
         : {}
     })

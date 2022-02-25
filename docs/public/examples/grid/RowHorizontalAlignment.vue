@@ -64,11 +64,11 @@
 
 <style lang="sass" scoped>
 .row
-  background: rgba(255,0,0,.1)
+  background: rgba(61,89,124,.15)
 .row > div
   padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
+  background: rgba(61,89,124, .20)
+  border: 1px solid rgba(126,135,149, .6)
 .doc-container > div + div
   margin-top: 1rem
 </style>

@@ -34,7 +34,7 @@
           </div>
         </div>
       </q-btn>
-      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="background: transparent;">
     </form>
   </div>
 </template>

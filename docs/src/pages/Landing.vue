@@ -1,21 +1,26 @@
 <template>
-  <q-page class="landing column justify-center q-px-xl font-monserrat">
-    <h1 class="lp-heading lp-heading--large landing__title normal-line-height">Welcome to quasar docs</h1>
+  <q-page class="column justify-center q-px-xl font-monserrat">
+    <h1
+      class="lp-heading lp-heading--large landing__title normal-line-height"
+    >Welcome to quasar docs</h1>
     <p
-      class="letter-spacing-300 text-size-16 text-weight-bold text-center text-lp-deep-dark"
+      class="letter-spacing-300 text-size-16 text-weight-bold text-center"
     >Here you can find everything you need to start working with Quasar.</p>
-    <p
-      class="letter-spacing-40 text-size-16 text-lp-dark text-center"
-    >In the top navigation bar there is a search function that helps you find what you need and also
-      <br v-if="$q.screen.gt.sm"> many other pages that you can explore, like beginner resources and other cool content
-      about <br v-if="$q.screen.gt.sm"> the Quasar galaxy. Don’t forget to check our page to
+    <p class="letter-spacing-40 text-size-16 text-center">
+      In the top navigation bar there is a search function that helps you find what you need and also
+      <br v-if="$q.screen.gt.sm" />many other pages that you can explore, like beginner resources and other cool content
+      about
+      <br v-if="$q.screen.gt.sm" />the Quasar galaxy. Don’t forget to check our page to
       <a
         class="text-lp-accent"
         href="https://github.com/sponsors/rstoenescu"
-        target="_blank">become sponsor</a>!
+        target="_blank"
+      >become a sponsor</a>!
     </p>
-    <p class="letter-spacing-40 text-size-16 text-lp-dark text-center">If you are an experienced explorer get right into
-      action: use the navigation drawer on the left <br v-if="$q.screen.gt.sm"> to navigate through our most important
+    <p class="letter-spacing-40 text-size-16 text-center">
+      If you are an experienced explorer get right into
+      action: use the navigation drawer on the left
+      <br v-if="$q.screen.gt.sm" />to navigate through our most important
       technical resources.
     </p>
     <h2
@@ -23,17 +28,15 @@
     >Have a look at Our most used pages</h2>
     <div class="cards-grid lp-mb--large">
       <q-card
-        v-for="({path, label, icon}, cardIndex) in quickNavCards"
+        v-for="({ path, label, icon }, cardIndex) in quickNavCards"
         :key="cardIndex"
         class="raise-on-hover card column justify-end items-center cursor-pointer"
         flat
+        background="grey-10"
         @click="$router.push(`/${path}`)"
       >
         <q-card-section class="q-pa-none q-mb-lg">
-          <q-icon
-            :name="icon"
-            class="card__icon"
-            color="lp-primary"/>
+          <q-icon :name="icon" class="card__icon" color="lp-primary" />
         </q-card-section>
 
         <q-card-section class="q-pa-none">
@@ -153,12 +156,12 @@ export default defineComponent({
 }
 
 .raise-on-hover {
-  transition: transform .3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
 
   &:hover {
     // !important needed when used with flat cards
-    box-shadow: 0 8px 8px 0 rgba($lp-dark, .2) !important;
-    transform: scale(1.03)
+    box-shadow: 0 8px 8px 0 rgba($lp-dark, 0.2) !important;
+    transform: scale(1.03);
   }
 }
 </style>

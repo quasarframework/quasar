@@ -17,10 +17,7 @@ module.exports = {
   ],
 
   // required to lint *.vue files
-  plugins: [
-    'vue',
-    'quasar'
-  ],
+  plugins: [ 'vue', 'quasar' ],
 
   globals: {
     ga: true, // Google Analytics
@@ -35,7 +32,7 @@ module.exports = {
 
   // add your custom rules here
   rules: {
-    'brace-style': [ 2, 'stroustrup', { 'allowSingleLine': true } ],
+    'brace-style': [ 2, 'stroustrup', { allowSingleLine: true } ],
     'prefer-const': 2,
     'prefer-promise-reject-errors': 'off',
     'multiline-ternary': 'off',

@@ -1,12 +1,9 @@
 <template>
-  <transition
-    enter-active-class="animated slideInDown"
-    leave-active-class="animated fadeOut"
-  >
+  <transition enter-active-class="animated slideInDown" leave-active-class="animated fadeOut">
     <q-header
       v-if="$q.screen.xs || primaryHeaderIsVisible"
       ref="layoutHeader"
-      :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
+      :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
       class="font-monserrat lp-header"
     >
       <q-toolbar
@@ -20,7 +17,8 @@
           flat
           icon="menu"
           round
-          @click="$emit('update:modelValue', !modelValue)"/>
+          @click="$emit('update:modelValue', !modelValue)"
+        />
         <router-link
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
@@ -28,27 +26,28 @@
         >
           <img
             v-if="$q.screen.sm"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
+            :src="`https://cdn.quasar.dev/logo-v2/svg/logo${dark ? '-dark' : ''}.svg`"
             alt="Quasar Logo"
             height="48"
-            width="48">
+            width="48"
+          />
           <img
             v-else
-            :height="$q.screen.xs? '24':'48'"
-            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
+            :height="$q.screen.xs ? '24' : '48'"
+            :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark ? '-dark' : ''}.svg`"
             alt="Quasar Logo"
-            width="236">
+            width="236"
+          />
           <q-separator
             v-if="$q.screen.gt.xs"
-            :color="dark? 'black-12':'lp-primary'"
+            :color="dark ? 'lp-primary' : 'black-12'"
             class="q-ml-lg"
-            vertical/>
+            vertical
+          />
         </router-link>
 
         <div class="row items-center">
-          <div
-            v-if="$q.screen.gt.xs && showNavItems"
-            class="toolbar-menu-items">
+          <div v-if="$q.screen.gt.xs && showNavItems" class="toolbar-menu-items">
             <header-nav-link
               v-for="(navItem, navItemIndex) in navItems.mainNavItems"
               :key="navItemIndex"
@@ -63,19 +62,20 @@
               :dark="dark"
               :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
-              :class="$q.screen.gt.md? 'q-ml-lg':''"
+              :class="$q.screen.gt.md ? 'q-ml-lg' : ''"
               @focus-by-keyboard="isSearchFieldActive = true"
               @search-result-change="preventHeaderSwapping"
             />
           </div>
+          <theme-switcher />
         </div>
-
       </q-toolbar>
-      <q-separator :color="dark? 'black-12':'lp-primary'"/>
+      <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
       <template v-if="$q.screen.gt.xs">
         <q-toolbar
-          :class="!dark? 'add-bottom-glow':''"
-          class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225">
+          :class="dark ? 'add-bottom-glow' : ''"
+          class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225"
+        >
           <q-btn
             v-if="$q.screen.sm"
             class="q-pl-sm q-mx-md"
@@ -84,7 +84,8 @@
             flat
             icon="menu"
             round
-            @click="$emit('update:modelValue', !modelValue)"/>
+            @click="$emit('update:modelValue', !modelValue)"
+          />
           <q-btn-dropdown
             :class="$q.screen.gt.sm ? 'q-ml-lg' : ''"
             align="left"
@@ -95,36 +96,40 @@
             dense
             no-caps
             outline
-            padding="sm">
+            padding="sm"
+          >
             <template #label>
               <span
-                :class="dark? 'text-dark':'text-white'"
-                class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
+                :class="dark ? 'text-white' : 'text-dark'"
+                class="text-size-12 letter-spacing-225"
+              >{{ `v${$q.version}` }}</span>
               <!-- q-space for space before icon -->
-              <q-space/>
+              <q-space />
             </template>
-            <nav-dropdown-menu :nav-items="versionHistory"/>
+            <nav-dropdown-menu :nav-items="versionHistory" />
           </q-btn-dropdown>
           <template v-if="$q.screen.sm">
             <q-separator
-              :color="dark? 'black-12':'lp-primary'"
+              :color="dark ? 'lp-primary' : 'black-12'"
               class="q-ml-md q-mr-sm"
               inset
-              vertical/>
+              vertical
+            />
             <q-btn-dropdown
-              :color="dark? 'text-dark':'text-white'"
+              :color="dark ? 'text-white' : 'text-dark'"
               :menu-offset="[150, 5]"
               class="font-monserrat text-weight-bold text-size-12"
               dense
               flat
               label="More"
               menu-anchor="bottom right"
-              no-caps>
-              <nav-dropdown-menu :nav-items="moreNavItems"/>
+              no-caps
+            >
+              <nav-dropdown-menu :nav-items="moreNavItems" />
             </q-btn-dropdown>
           </template>
 
-          <q-space/>
+          <q-space />
 
           <template v-if="$q.screen.gt.sm">
             <!-- navItems.subNavItems.slice(0, -1): We remove "Quasar brand resources" link when on smaller viewports -->
@@ -136,11 +141,10 @@
               nav-item-class="text-size-12 text-capitalize"
             />
           </template>
-
           <q-btn
             v-for="(socialLink, socialLinkIndex) in socialLinks"
             :key="`social-${socialLinkIndex}`"
-            :color="dark? 'black-54':'lp-primary'"
+            :color="dark ? 'lp-primary' : 'black-54'"
             :href="socialLink.href"
             :icon="socialLink.icon"
             flat
@@ -150,26 +154,26 @@
             target="__blank"
             type="a"
           >
-            <q-tooltip class="letter-spacing-263">
-              {{ socialLink.name }}
-            </q-tooltip>
+            <q-tooltip class="letter-spacing-263">{{ socialLink.name }}</q-tooltip>
           </q-btn>
         </q-toolbar>
-        <q-separator :color="dark? 'black-12':'lp-primary'"/>
+        <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
       </template>
     </q-header>
     <q-header
       v-else
       ref="layoutHeader"
-      :class="dark? 'bg-white text-black-54':'bg-lp-dark text-white-54'"
-      class="font-monserrat lp-header">
+      :class="dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'"
+      class="font-monserrat lp-header"
+    >
       <q-toolbar
         :class="{
-          'add-bottom-glow': !dark,
+          'add-bottom-glow': dark,
           'shadow-bottom-small': $q.screen.xs,
           'letter-spacing-25': $q.screen.lt.lg,
           'letter-spacing-225': $q.screen.gt.md,
-          'items-stretch': $q.screen.gt.xs }"
+          'items-stretch': $q.screen.gt.xs
+        }"
         class="secondary-header q-pl-lg q-pr-md justify-between"
       >
         <q-btn
@@ -179,7 +183,8 @@
           flat
           icon="menu"
           round
-          @click="$emit('update:modelValue', !modelValue)"/>
+          @click="$emit('update:modelValue', !modelValue)"
+        />
         <div
           v-if="$q.screen.gt.xs || !isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
@@ -187,22 +192,25 @@
           <router-link :to="{ name: 'home' }" class="row items-center">
             <img
               v-if="$q.screen.sm"
-              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${!dark? '-dark':''}.svg`"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo${dark ? '-dark' : ''}.svg`"
               alt="Quasar Logo"
               height="36"
-              width="48">
+              width="48"
+            />
             <img
               v-else
               :height="$q.screen.xs? '24':'36'"
-              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${!dark? '-dark':''}.svg`"
+              :src="`https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${dark? '-dark':''}.svg`"
               alt="Quasar Logo"
-              width="236">
+              width="236"
+            />
           </router-link>
           <q-separator
             v-if="$q.screen.gt.xs"
-            :color="dark? 'black-12':'lp-primary'"
+            :color="dark ? 'lp-primary' : 'black-12'"
             class="q-ml-lg"
-            vertical/>
+            vertical
+          />
           <q-btn-dropdown
             v-if="$q.screen.gt.sm"
             :class="$q.screen.gt.sm ? 'q-ml-lg' : 'q-ml-sm'"
@@ -214,21 +222,21 @@
             dense
             no-caps
             outline
-            padding="xs sm">
+            padding="xs sm"
+          >
             <template #label>
               <span
-                :class="dark? 'text-dark':'text-white'"
-                class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
+                :class="dark ? 'text-white' : 'text-dark'"
+                class="text-size-12 letter-spacing-225"
+              >{{ `v${$q.version}` }}</span>
               <!-- q-space for space before icon -->
-              <q-space/>
+              <q-space />
             </template>
-            <nav-dropdown-menu :nav-items="versionHistory"/>
+            <nav-dropdown-menu :nav-items="versionHistory" />
           </q-btn-dropdown>
         </div>
         <div class="row items-center text-size-12">
-          <div
-            v-if="$q.screen.gt.xs && showNavItems"
-            class="toolbar-menu-items">
+          <div v-if="$q.screen.gt.xs && showNavItems" class="toolbar-menu-items">
             <header-nav-link
               v-for="(navItem, navItemIndex) in secondaryHeaderNavItems"
               :key="navItemIndex"
@@ -242,28 +250,30 @@
               :dark="dark"
               :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
-              :class="$q.screen.gt.md? 'q-ml-md':''"
+              :class="$q.screen.gt.md ? 'q-ml-md' : ''"
               @focus-by-kbd="isSearchFieldActive = true"
               @search-result-change="preventHeaderSwapping"
             />
           </div>
+          <theme-switcher />
         </div>
       </q-toolbar>
-      <q-separator :color="dark? 'black-12':'lp-primary'"/>
+      <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
     </q-header>
   </transition>
 </template>
 <script>
-import { defineComponent, onMounted, ref, watch } from 'vue'
 import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
-import { socialLinks } from 'assets/landing-page/social-links.js'
-import { Screen, useQuasar } from 'quasar'
+import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 import { navItems, secondaryHeaderNavItems } from 'assets/landing-page/nav-items.js'
+import { socialLinks } from 'assets/landing-page/social-links.js'
+import HeaderNavLink from 'components/landing-page/HeaderNavLink'
+import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
 import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
-import HeaderNavLink from 'components/landing-page/HeaderNavLink'
+import { Screen, useQuasar } from 'quasar'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 
 const SWAP_HEADER_OFFSET_UP = 200
 
@@ -286,7 +296,8 @@ export default defineComponent({
   components: {
     HeaderNavLink,
     SearchQuasarForm,
-    NavDropdownMenu
+    NavDropdownMenu,
+    ThemeSwitcher
   },
   setup (props) {
     const $q = useQuasar()
@@ -298,7 +309,6 @@ export default defineComponent({
     const primaryHeaderIsVisible = ref(true)
     const searchResultIsDisplayed = ref(false)
     const $route = useRoute()
-
     const versionHistory = [
       {
         label: `Latest (v${$q.version})`,
@@ -463,11 +473,11 @@ $adjust-header-viewport: 860px;
 }
 
 .lp-header {
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .add-bottom-glow {
-  transition: all .5s;
+  transition: all 0.5s;
   animation: bottom-glow 1.5s ease-in-out infinite alternate;
 }
 

@@ -13,6 +13,6 @@
 <style lang="sass" scoped>
 .my-content
   padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
+  background: rgba(61,89,124, .15)
+  border: 1px solid rgba(126,135,149, .6)
 </style>

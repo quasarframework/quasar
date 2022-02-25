@@ -1,6 +1,6 @@
 <template lang="pug">
-q-layout.doc-layout.bg-lp-light-grey(view="hHh LpR lff", @scroll="handleScroll")
-  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
+  main-layout-header(v-model="leftDrawerState" :scroll-data="headerScrollData" :dark="currentTheme === 'brand' || currentTheme === 'dark'")
 
   q-drawer.doc-left-drawer(
     side="left"
@@ -26,7 +26,7 @@ q-layout.doc-layout.bg-lp-light-grey(view="hHh LpR lff", @scroll="handleScroll")
         q-item(
           v-for="tocItem in tocList"
           :key="tocItem.id"
-          :id="'toc--'+tocItem.id"
+          :id="'toc--' + tocItem.id"
           clickable
           v-ripple
           dense
@@ -62,6 +62,7 @@ import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
 import { HEADER_SCROLL_OFFSET } from 'assets/landing-page/constants.js'
+import { useTheme } from 'components/landing-page/use-theme'
 
 export default {
   name: 'DocLayout',
@@ -76,6 +77,7 @@ export default {
   setup () {
     const $q = useQuasar()
     const $route = useRoute()
+    const { currentTheme } = useTheme()
     const headerScrollData = ref()
 
     const scope = {
@@ -101,7 +103,7 @@ export default {
       scope.onScroll(scrollDetails)
     }
 
-    return { ...scope, headerScrollData, handleScroll }
+    return { ...scope, headerScrollData, handleScroll, currentTheme }
   }
 }
 </script>

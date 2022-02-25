@@ -55,15 +55,16 @@ We are updating this section constantly in order to keep you up to date with our
 * ✌️ (DONE) Add automatic tests to Quasar UI ([#12047](https://github.com/quasarframework/quasar/pull/12047))
 * 🚧 (WIP) Quasar website revamp 🔥
 * 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
-* ✌️ (DONE) More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
+* More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
 * Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
 * Creation of official Quasar Organizational chart
-* Quasar Scaffolding (official name TBD) (this will be a paid service) ([reference](https://github.com/quasarframework/quasar/discussions/10053))
+* Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
 
 ### Q2 2022
 * April 1st 2022 marks the end of life for Quasar v1. It will no longer receive updates.
 * Work starting on Quasar v3
 * Stable release of the new CLI based on Vite.js
+* Quasar Scaffolding (official name TBD) (this will be a paid service) ([reference](https://github.com/quasarframework/quasar/discussions/10053))
 * 2022 Quasar Survey
 
 ### Q3 2022

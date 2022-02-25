@@ -31,7 +31,7 @@ q-card.doc-api.q-my-lg(flat bordered)
   template(v-else)
     q-separator
 
-    q-tabs.bg-grey-2.text-grey-7(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
+    q-tabs(:class="$q.dark.isActive ? 'bg-blue-grey-9' : 'bg-grey-2 text-grey-7'", v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
       q-tab(
         v-for="tab in tabsList"
         :key="`api-tab-${tab}`"

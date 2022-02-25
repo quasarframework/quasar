@@ -5,6 +5,7 @@ import layoutGallery from 'assets/layout-gallery.js'
 
 const mdPageList = import.meta.glob('../pages/**/*.md')
 const mdGalleryPageList = import.meta.glob('../layouts/gallery/*.vue')
+export const BRAND_THEME_ONLY_PAGES = [ 'home', 'lpComponents' ]
 
 const docsPages = [
   {
