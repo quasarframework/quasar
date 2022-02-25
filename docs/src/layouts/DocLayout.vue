@@ -7,7 +7,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     v-model="leftDrawerState"
     show-if-above
     bordered
-    width="285"
+    :width="285"
   )
     q-scroll-area(style="height: 100%")
       app-menu.q-mb-lg.q-mt-sm

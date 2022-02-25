@@ -80,9 +80,9 @@ import AppSearchResults from 'components/search-results/AppSearchResults.vue'
 import useSearch from 'layouts/doc-layout/use-search'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
-import { watch, watchEffect } from 'vue'
+import { defineComponent, watch, watchEffect } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'SearchForm',
   components: { AppSearchResults },
   props: {
@@ -121,7 +121,7 @@ export default {
 
     return scope
   }
-}
+})
 </script>
 
 <style lang="scss" scoped>

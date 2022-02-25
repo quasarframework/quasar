@@ -1,7 +1,8 @@
 import { useQuasar } from 'quasar'
-import { inject, provide, ref, watch } from 'vue'
+import { inject, onMounted, provide, ref, watch } from 'vue'
 
 const THEME_INJECTION_KEY = Symbol('q-theme')
+const DEFAULT_THEME = 'brand'
 
 export const AVAILABLE_THEMES = [ 'brand', 'light', 'dark' ]
 
@@ -11,9 +12,19 @@ export function useTheme () {
   let currentTheme = inject(THEME_INJECTION_KEY, undefined)
 
   if (!currentTheme) {
-    currentTheme = ref($q.localStorage.getItem('theme') ?? 'brand')
+    currentTheme = ref(DEFAULT_THEME)
     provide(THEME_INJECTION_KEY, currentTheme)
-    watch(currentTheme, newTheme => $q.dark.set(newTheme === 'dark'))
+    onMounted(() => {
+      const userPreference = $q.localStorage.getItem('theme')
+
+      if (userPreference) {
+        currentTheme.value = userPreference
+      }
+      else {
+        $q.localStorage.set('theme', DEFAULT_THEME)
+      }
+    })
+    watch(currentTheme, newTheme => $q.dark.set(newTheme === 'dark'), { immediate: true })
   }
 
   return { currentTheme }

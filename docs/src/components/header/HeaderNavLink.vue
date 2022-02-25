@@ -30,8 +30,9 @@
 <script>
 import NavDropdownMenu from 'components/header/NavDropdownMenu'
 import { computeRouteNav } from 'assets/landing-page/nav-items.js'
+import { defineComponent } from 'vue'
 
-export default {
+export default defineComponent({
   name: 'HeaderNavLink',
   components: { NavDropdownMenu },
   props: {
@@ -64,5 +65,5 @@ export default {
       setActivePrimaryNavColor
     }
   }
-}
+})
 </script>
