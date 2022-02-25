@@ -57,7 +57,7 @@ export const components = [
   { name: 'Editor WYSIWYG', description: 'To write text and style it directly', tag: 'other', path: 'editor-wysiwyg' },
   { name: 'Expansion Panels', description: 'To show hidden extra info and actions', tag: 'panel', path: 'expansion-item' },
   { name: 'File Pickers', description: 'To access and choose a file from users\' device', tag: 'media', path: 'file-picker' },
-  { name: 'Floating Action Button', description: 'To display the page primary action', tag: 'other' },
+  { name: 'Floating Action Button', description: 'To display the page primary action', tag: 'button' },
   { name: 'Forms', description: 'A system to submit validated inputs', tag: 'input', path: 'form' },
   { name: 'Form Fields', description: 'To collect users\' typed text input', tag: 'input', path: 'field' },
   { name: 'Icon', description: 'To insert icons inside other components', tag: 'media' },

@@ -12,20 +12,20 @@ import { mdiMenuDown } from '@quasar/extras/mdi-v6'
 import { h, ref, watch, onBeforeUpdate, withDirectives, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Screen } from 'quasar'
-import { navItems } from 'assets/landing-page/nav-items.js'
+import { expandedHeaderMainToolbarNavItems, expandedHeaderSecondaryToolbarNavItems } from 'assets/landing-page/nav-items.js'
 
 import Menu from 'assets/menu.json'
 import './AppMenu.sass'
 
 /**
  * Creates an array with all paths, labels and hrefs from navItems (and immediate subMenus nav items) which can then be filtered easily
- * @param navItems The header navigation items (both mainNavItems and subNavItems)
+ * @param navItems The header navigation items (both mainNavItems and secondaryNavItems)
  * @return headerNavPaths string[] the array with paths, labels and hrefs from navItems and subMenus of nav items
  */
-function getHeaderPathsAndLabels (navItems) {
+function getHeaderPathsAndLabels (navItemsGroups) {
   const headerPathsAndLabels = []
-  Object.keys(navItems).forEach(key => {
-    for (const headerItem of navItems[ key ]) {
+  navItemsGroups.forEach(navItems => {
+    for (const headerItem of navItems) {
       // add the path or href and label to the array
       const headerPath = headerItem.path || headerItem.href
       headerPathsAndLabels.push(headerItem.label)
@@ -38,7 +38,7 @@ function getHeaderPathsAndLabels (navItems) {
 }
 
 const sidebarMenu = computed(() => {
-  const headerPathsAndLabels = getHeaderPathsAndLabels(navItems)
+  const headerPathsAndLabels = getHeaderPathsAndLabels([ expandedHeaderMainToolbarNavItems, expandedHeaderSecondaryToolbarNavItems ])
   return Screen.xs ? Menu : Menu.filter(menuItem => !headerPathsAndLabels.includes(menuItem.name) && !headerPathsAndLabels.includes(menuItem.path))
 })
 

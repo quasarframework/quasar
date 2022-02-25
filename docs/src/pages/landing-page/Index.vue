@@ -48,7 +48,7 @@
     <div class="q-my-xl" id="why-quasar-section">
       <h2 class="lp-heading lp-heading--large">Why should you choose quasar?</h2>
 
-      <div class="why-quasar__grid justify-center">
+      <div :class="$q.screen.gt.xs? 'why-quasar__grid--large':'why-quasar__grid--small'" class="why-quasar__grid justify-center">
         <why-quasar-card
           v-for="({ icon, title, body, btnLabel, btnLink }, whyQuasarCardIndex) in whyQuasar"
           :key="whyQuasarCardIndex"
@@ -73,7 +73,7 @@
       <twitter-showcase-cards />
     </div>
 
-    <div class="window-height support-quasar-section">
+    <div class="support-quasar-section">
       <div class="column items-center">
         <div class="support-quasar-section__container">
           <h2
@@ -141,17 +141,17 @@
     <div class="text-center social-channels-call-to-action">
       <q-img
         src="~assets/landing-page/homepage-background-images/planet.png"
-        :height="$q.screen.lt.md ? '80vh' : ''"
+        height="600px"
       >
         <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
           <div class="lp-heading lp-heading--large">Don't miss the news</div>
           <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div class="row reverse justify-center q-mt-md q-gutter-md lp-mb--large">
+          <div :class="$q.screen.gt.xs? 'lp-mb--large':'q-mb-md'" class="row reverse justify-center q-mt-md q-gutter-md">
             <q-btn
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
-              :label="socialLink.name"
+              :label="socialLink.label"
               class="call-to-action-btn no-border-radius"
               color="lp-accent"
               outline
@@ -208,7 +208,8 @@ export default defineComponent({
 
 <style scoped lang="scss">
 $undo-margin-from-qpage: 0 -24px 0 -24px;
-$why-quasar-card-side: 400px;
+$why-quasar-card-side--large: 400px;
+$why-quasar-card-side--small: 300px;
 
 .lp-btn-underline {
   border-bottom: 1px solid rgba($color: white, $alpha: 0.54);
@@ -225,19 +226,25 @@ q {
 .why-quasar__grid {
   display: grid;
   gap: 24px;
-  grid-template-columns: $why-quasar-card-side;
+  grid-template-columns: $why-quasar-card-side--large;
   justify-items: center;
 
-  @media screen and (min-width: $breakpoint-md-min) and (max-width: $breakpoint-md-max) {
-    grid-template-columns: repeat(2, $why-quasar-card-side);
-
-    > :last-of-type {
-      grid-column: span 2;
-    }
+  &--small {
+    grid-template-columns: $why-quasar-card-side--small;
   }
 
-  @media screen and (min-width: $breakpoint-lg-min) {
-    grid-template-columns: repeat(3, $why-quasar-card-side);
+  &--large {
+    @media screen and (min-width: $breakpoint-md-min) and (max-width: $breakpoint-md-max) {
+      grid-template-columns: repeat(2, $why-quasar-card-side--large);
+
+      > :last-of-type {
+        grid-column: span 2;
+      }
+    }
+
+    @media screen and (min-width: $breakpoint-lg-min) {
+      grid-template-columns: repeat(3, $why-quasar-card-side--large);
+    }
   }
 }
 
@@ -285,7 +292,6 @@ q {
   @media screen and (min-width: $breakpoint-md-max) {
     // 100vh - header height
     height: calc(100vh - 156px);
-    margin-top: 400px;
   }
 
   &__logos {
@@ -307,6 +313,10 @@ q {
       margin-top: 80px !important;
     }
   }
+}
+
+h2 {
+  line-height: 1.5em;
 }
 
 // We need a thickness of 2px but the default is 1px, and there's no

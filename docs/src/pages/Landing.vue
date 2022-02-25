@@ -28,28 +28,22 @@
     >Have a look at Our most used pages</h2>
     <div class="cards-grid lp-mb--large">
       <q-card
-        v-for="({ path, label, icon }, cardIndex) in quickNavCards"
-        :key="cardIndex"
+        v-for="({path, label, icon}, pageIndex) in mostUsedPages"
+        :key="pageIndex"
         class="raise-on-hover card column justify-end items-center cursor-pointer"
         flat
         background="grey-10"
         @click="$router.push(`/${path}`)"
       >
-        <q-card-section class="q-pa-none q-mb-lg">
-          <q-icon :name="icon" class="card__icon" color="lp-primary" />
-        </q-card-section>
+        <q-icon
+          :name="icon"
+          class="card__icon q-mb-lg"
+          color="lp-primary"
+        />
 
-        <q-card-section class="q-pa-none">
-          <q-btn
-            :label="label"
-            :to="path"
-            class="q-mb-md text-size-16 text-weight-bold letter-spacing-300"
-            color="lp-deep-dark"
-            flat
-            no-caps
-            padding="sm"
-          />
-        </q-card-section>
+        <div class="q-pa-sm q-mb-md text-center text-lp-deep-dark text-size-16 text-weight-bold letter-spacing-300">
+          {{ label }}
+        </div>
       </q-card>
     </div>
   </q-page>
@@ -60,6 +54,54 @@ import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 
 import { useDocStore } from 'assets/doc-store.js'
+
+const mostUsedPages = [
+  {
+    label: 'QTable',
+    icon: 'view_quilt',
+    path: 'vue-components/table'
+  },
+  {
+    label: 'QInput',
+    icon: 'view_quilt',
+    path: 'vue-components/input'
+  },
+  {
+    label: 'QSelect',
+    icon: 'view_quilt',
+    path: 'vue-components/select'
+  },
+  {
+    label: 'QBtn',
+    icon: 'view_quilt',
+    path: 'vue-components/button'
+  },
+  {
+    label: 'QCard',
+    icon: 'view_quilt',
+    path: 'vue-components/card'
+  },
+  {
+    label: 'Pick Quasar Flavour',
+    icon: 'view_quilt',
+    path: 'start/pick-quasar-flavour'
+  },
+  {
+    label: 'QIcon',
+    icon: 'view_quilt',
+    path: 'vue-components/icon'
+  },
+  {
+    label: 'QList and QItem',
+    icon: 'view_quilt',
+    path: 'vue-components/list-and-list-items'
+  },
+  {
+    label: 'QDialog',
+    icon: 'view_quilt',
+    path: 'vue-components/dialog'
+  }
+]
 
 export default defineComponent({
   name: 'Landing',
@@ -72,49 +114,7 @@ export default defineComponent({
     const $store = useDocStore()
     $store.toc = []
 
-    const quickNavCards = [
-      {
-        label: 'Layout Gallery',
-        icon: 'view_quilt',
-        path: 'layout/gallery'
-      },
-      {
-        label: 'Options & Helpers',
-        icon: 'tune',
-        path: 'options'
-      },
-      {
-        label: 'Color Palette',
-        icon: 'style',
-        path: 'style/color-palette'
-      },
-      {
-        label: 'Typography',
-        icon: 'view_quilt',
-        path: '#'
-      },
-      {
-        label: 'Layout Gallery',
-        icon: 'view_quilt',
-        path: 'layout/gallery'
-      },
-      {
-        label: 'Layout Gallery',
-        icon: 'view_quilt',
-        path: 'layout/gallery'
-      },
-      {
-        label: 'Layout Gallery',
-        icon: 'view_quilt',
-        path: 'layout/gallery'
-      },
-      {
-        label: 'Layout Gallery',
-        icon: 'view_quilt',
-        path: 'layout/gallery'
-      }
-    ]
-    return { quickNavCards }
+    return { mostUsedPages }
   }
 })
 

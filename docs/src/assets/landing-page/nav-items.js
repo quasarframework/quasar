@@ -8,9 +8,11 @@ import {
   mdiFlask, mdiJsfiddle, mdiCodepen
 } from '@quasar/extras/mdi-v6'
 import { fasCubes } from '@quasar/extras/fontawesome-v5'
+import { socialLinks } from './social-links'
 
 const gettingStartedNavItem = {
   label: 'Getting Started',
+  name: 'getting-started',
   subMenu: [
     {
       label: 'Installation',
@@ -58,6 +60,7 @@ const gettingStartedNavItem = {
 
 const toolsNavItem = {
   label: 'Tools',
+  name: 'tools',
   subMenu: [
     {
       label: 'Awesome List',
@@ -125,66 +128,82 @@ const toolsNavItem = {
   ]
 }
 
-export const navItems = {
-  mainNavItems: [
-    {
-      label: 'Docs',
-      path: 'docs'
-    },
-    {
-      label: 'Components',
-      path: 'components'
-    },
-    {
-      label: 'Sponsor',
-      path: 'sponsors-and-backers'
-    },
-    {
-      label: 'Team',
-      path: 'meet-the-team'
-    },
-    {
-      label: 'Blog',
-      href: 'https://dev.to/quasar'
-    }
-  ],
-  subNavItems: [
-    {
-      label: 'Why Quasar?',
-      path: 'introduction-to-quasar'
-    },
-    { ...gettingStartedNavItem },
-    { ...toolsNavItem },
-    {
-      label: 'Announcements',
-      href: 'https://github.com/quasarframework/quasar/discussions/categories/announcements'
-    },
-    {
-      label: 'Roadmap',
-      path: 'start/roadmap'
-    },
-    {
-      label: 'Video Tutorials',
-      path: 'video-tutorials'
-    },
-    {
-      label: 'Quasar Brand resources',
-      href: 'https://github.com/quasarframework/quasar-art'
-    }
-  ]
+const docsNavItem = {
+  label: 'Docs',
+  path: 'docs'
 }
-export const secondaryHeaderNavItems = [
+
+const componentsNavItem = {
+  label: 'Components',
+  path: 'components'
+}
+
+const socialsNavItem = {
+  label: 'Socials',
+  name: 'socials',
+  subMenu: socialLinks
+}
+
+export const expandedHeaderMainToolbarNavItems = [
+  docsNavItem,
+  componentsNavItem,
   {
-    label: 'Docs',
-    path: 'docs'
+    label: 'Sponsor',
+    path: 'sponsors-and-backers'
   },
   {
-    label: 'Components',
-    path: 'components'
+    label: 'Team',
+    path: 'meet-the-team'
   },
-  { ...gettingStartedNavItem },
-  { ...toolsNavItem }
+  {
+    label: 'Blog',
+    name: 'blog',
+    href: 'https://dev.to/quasar'
+  }
 ]
+export const expandedHeaderSecondaryToolbarNavItems = [
+  {
+    label: 'Why Quasar?',
+    path: 'introduction-to-quasar'
+  },
+  gettingStartedNavItem,
+  toolsNavItem,
+  {
+    label: 'Announcements',
+    name: 'announcements',
+    href: 'https://github.com/quasarframework/quasar/discussions/categories/announcements'
+  },
+  {
+    label: 'Roadmap',
+    path: 'start/roadmap'
+  },
+  {
+    label: 'Video Tutorials',
+    path: 'video-tutorials'
+  },
+  {
+    label: 'Brand resources',
+    name: 'brand-resources',
+    href: 'https://github.com/quasarframework/quasar-art'
+  },
+  socialsNavItem
+]
+
+export const expandedHeaderMoreDropdownNavItems = [
+  componentsNavItem,
+  ...expandedHeaderSecondaryToolbarNavItems
+]
+
+export const denseHeaderNavItems = [
+  docsNavItem,
+  componentsNavItem,
+  gettingStartedNavItem,
+  toolsNavItem
+]
+
+export function filterNavItems (navItems, pagesToHide) {
+  return navItems.filter(({ name, path }) => !pagesToHide.includes(name ?? path))
+}
 
 export function computeRouteNav (navItem, navType = 'to') {
   if (navType === 'href') {
