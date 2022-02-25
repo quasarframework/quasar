@@ -28,7 +28,7 @@
   </q-btn-dropdown>
 </template>
 <script>
-import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
+import NavDropdownMenu from 'components/header/NavDropdownMenu'
 import { computeRouteNav } from 'assets/landing-page/nav-items.js'
 
 export default {

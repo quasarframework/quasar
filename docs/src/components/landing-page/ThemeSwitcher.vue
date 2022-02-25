@@ -30,10 +30,11 @@
 <script>
 import { mdiThemeLightDark } from '@quasar/extras/mdi-v6'
 import { useQuasar } from 'quasar'
-import { BRAND_THEME_ONLY_PAGES } from 'src/router/routes'
 import { useTheme } from 'src/components/landing-page/use-theme'
 import { computed, defineComponent, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+
+export const BRAND_THEME_ONLY_PAGES = [ 'landing', 'components' ]
 
 export default defineComponent({
   name: 'ThemeSwitcher',

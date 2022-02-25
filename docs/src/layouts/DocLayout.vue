@@ -54,10 +54,9 @@ import {
 } from '@quasar/extras/mdi-v6'
 
 import AppMenu from 'components/AppMenu.js'
-import AppSearchResults from 'components/AppSearchResults.vue'
 // import SurveyCountdown from 'components/SurveyCountdown.vue'
 import HeaderMenu from 'components/HeaderMenu.vue'
-import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
+import MainLayoutHeader from 'components/header/MainLayoutHeader'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
@@ -70,7 +69,6 @@ export default {
 
   components: {
     AppMenu,
-    AppSearchResults,
     HeaderMenu,
     MainLayoutHeader
   },
@@ -161,25 +159,6 @@ export default {
       font-size: 18px
     .time
       font-size: 38px
-
-.app-search-input,
-.app-search-input .q-field__control
-  height: 50px
-
-.app-search-input
-  .q-field__control
-    padding: 0 18px 0 16px !important
-  input
-    line-height: 38px
-  .q-field__prepend,
-  .q-field__append
-    height: 100%
-    cursor: text !important
-  kbd
-    font-size: .6em !important
-    min-width: 1.6em
-    min-height: 1.5em
-    font-weight: bold
 
 body.mobile .app-search-input kbd
   display: none

@@ -76,14 +76,14 @@
 </template>
 
 <script>
-import AppSearchResults from 'components/AppSearchResults.vue'
+import AppSearchResults from 'components/search-results/AppSearchResults.vue'
 import useSearch from 'layouts/doc-layout/use-search'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 import { watch, watchEffect } from 'vue'
 
 export default {
-  name: 'search-quasar-form',
+  name: 'SearchForm',
   components: { AppSearchResults },
   props: {
     dark: {

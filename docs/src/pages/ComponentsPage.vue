@@ -67,9 +67,9 @@
 </template>
 
 <script>
-import { defineComponent, ref, computed } from 'vue'
-import { components } from 'src/assets/landing-page/image-links.js'
 import { useMeta } from 'quasar'
+import { components } from 'src/assets/landing-page/image-links.js'
+import { computed, defineComponent, ref } from 'vue'
 
 const FILTER_CHIPS = [
   { label: 'Buttons', value: 'button' },
@@ -88,7 +88,7 @@ const componentNameToKebabCase = (componentName) => componentName.replaceAll(' '
 const componentPath = ({ path, name }) => `/vue-components/${path || componentNameToKebabCase(name)}`
 
 export default defineComponent({
-  name: 'Components',
+  name: 'ComponentsPage',
   setup () {
     useMeta({
       title: 'Components'

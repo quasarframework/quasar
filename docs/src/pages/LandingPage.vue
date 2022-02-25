@@ -25,14 +25,16 @@
         @click="scrollSectionIntoView('why-quasar-section')"
       />
 
-      <div
-        class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize"
-      >Our Platinum sponsors</div>
-      <sponsor-link
-        v-for="({ src, href }, platinumSponsorIndex) in sponsorLogos.platinum"
+      <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">
+        Our Platinum sponsors
+      </div>
+      <sponsor-tile
+        v-for="({src, name, href, cdn}, platinumSponsorIndex) in sponsors.platinum"
         :key="platinumSponsorIndex"
-        :href="href"
         :src="src"
+        :name="name"
+        :href="href"
+        :cdn="cdn || false"
       />
       <q-btn
         flat
@@ -118,23 +120,8 @@
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
       <h2 class="lp-heading lp-heading--large">Our Sponsors</h2>
       <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
-      <div class="row justify-center text-size-16 text-weight-bold">
-        <div class="sponsors-section__logos">
-          <div class="q-mt-xl q-mb-md letter-spacing-300">Platinum Sponsors</div>
-          <sponsor-link
-            v-for="({src, href}, platinumSponsorIndex) in sponsorLogos.platinum"
-            :key="platinumSponsorIndex"
-            :href="`https://${href}`"
-            :src="src"
-          />
-          <div class="q-my-md letter-spacing-300">Silver Sponsors</div>
-          <sponsor-link
-            v-for="({src, href}, silverSponsorIndex) in sponsorLogos.silver"
-            :key="silverSponsorIndex"
-            :href="`https://${href}`"
-            :src="src"
-          />
-        </div>
+      <div class="q-pt-lg">
+        <sponsor-list />
       </div>
     </div>
 
@@ -167,13 +154,15 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
-import { sponsorLogos, whyQuasar } from 'src/assets/landing-page/image-links.js'
-import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
 import { socialLinks } from 'assets/landing-page/social-links.js'
+import SponsorTile from 'components/page-parts/sponsors-and-backers/SponsorTile.vue'
+import SponsorList from 'components/landing-page/SponsorList.vue'
 import { scroll, useMeta } from 'quasar'
-import SponsorLink from 'components/landing-page/SponsorLink'
+import { whyQuasar } from 'src/assets/landing-page/image-links.js'
+import { sponsors } from 'src/assets/sponsors.js'
+import TwitterShowcaseCards from 'src/components/landing-page/TwitterShowcaseCards.vue'
+import WhyQuasarCard from 'src/components/landing-page/WhyQuasarCard.vue'
+import { defineComponent } from 'vue'
 
 const { getScrollTarget, setVerticalScrollPosition } = scroll
 function scrollToElement (el) {
@@ -184,8 +173,8 @@ function scrollToElement (el) {
 }
 
 export default defineComponent({
-  name: 'Index',
-  components: { SponsorLink, TwitterShowcaseCards, WhyQuasarCard },
+  name: 'LandingPage',
+  components: { SponsorTile, SponsorList, TwitterShowcaseCards, WhyQuasarCard },
   setup () {
     useMeta({
       title: 'Quasar Framework',
@@ -198,7 +187,7 @@ export default defineComponent({
 
     return {
       whyQuasar,
-      sponsorLogos,
+      sponsors,
       socialLinks,
       scrollSectionIntoView
     }
@@ -292,13 +281,6 @@ q {
   @media screen and (min-width: $breakpoint-md-max) {
     // 100vh - header height
     height: calc(100vh - 156px);
-  }
-
-  &__logos {
-    @media screen and (min-width: $breakpoint-md-min) {
-      // we want to have about 4 logos per row
-      width: calc(100vw/1.5);
-    }
   }
 }
 

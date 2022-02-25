@@ -1,16 +1,3 @@
-export const sponsorLogos = {
-  platinum: [{ src: 'dreamonkey.png', href: 'dreamonkey.com' }],
-  gold: [],
-  silver: [
-    { src: 'letsbutterfly.png', href: 'letsbutterfly.com' },
-    { src: 'kalisio.png', href: 'kalisio.com' },
-    { src: 'comcomservices.png', href: 'comcomservices.com' },
-    { src: 'digitalocean.png', href: 'www.digitalocean.com' },
-    { src: 'ibl.png', href: 'ib-langenthal.ch' },
-    { src: 'jugglest.png', href: 'www.jugglestreet.com.au' }
-  ]
-}
-
 export const whyQuasar = [
   {
     icon: 'img:homepage-icons/components.svg',

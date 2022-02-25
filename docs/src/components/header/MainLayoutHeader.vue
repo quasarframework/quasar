@@ -24,7 +24,7 @@
         <router-link
           v-if="!isSearchFieldActive"
           class="row justify-center items-center cursor-pointer"
-          :to="{ name: 'home' }"
+          :to="{ name: 'landing' }"
         >
           <img
             height="24"
@@ -59,7 +59,7 @@
       >
         <router-link
           class="row justify-center items-center cursor-pointer"
-          :to="{ name: 'home' }"
+          :to="{ name: 'landing' }"
         >
           <img
             :src="`https://cdn.quasar.dev/logo-v2/svg/logo${$q.screen.gt.sm ? '-horizontal' : ''}${dark? '-dark':''}.svg`"
@@ -86,7 +86,7 @@
             />
           </div>
           <div ref="searchForm">
-            <search-quasar-form
+            <search-form
               :dark="dark"
               :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
@@ -202,7 +202,7 @@
         class="dense-header q-pl-lg q-pr-md justify-between items-stretch"
       >
         <div class="row justify-center items-center cursor-pointer">
-          <router-link :to="{ name: 'home' }" class="row items-center">
+          <router-link :to="{ name: 'landing' }" class="row items-center">
             <img
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo${$q.screen.gt.sm ? '-horizontal' : ''}${dark? '-dark':''}.svg`"
               alt="Quasar Logo"
@@ -252,7 +252,7 @@
             />
           </div>
           <div ref="searchForm">
-            <search-quasar-form
+            <search-form
               :dark="dark"
               :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
@@ -272,10 +272,10 @@
 import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
 import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
-import HeaderNavLink from 'components/landing-page/HeaderNavLink'
-import NavDropdownMenu from 'components/landing-page/NavDropdownMenu'
-import SearchQuasarForm from 'components/landing-page/SearchQuasarForm'
+import HeaderNavLink from 'components/header/HeaderNavLink.vue'
+import NavDropdownMenu from 'components/header/NavDropdownMenu.vue'
 import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
+import SearchForm from 'components/search-results/SearchForm.vue'
 import { useQuasar } from 'quasar'
 import { denseHeaderNavItems, expandedHeaderMainToolbarNavItems, expandedHeaderMoreDropdownNavItems, expandedHeaderSecondaryToolbarNavItems, filterNavItems } from 'src/assets/landing-page/nav-items.js'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
@@ -341,6 +341,12 @@ const getVersionHistory = (quasarVersion) => [
 
 export default defineComponent({
   name: 'MainLayoutHeader',
+  components: {
+    HeaderNavLink,
+    SearchForm,
+    NavDropdownMenu,
+    ThemeSwitcher
+  },
   props: {
     modelValue: {
       type: Boolean,
@@ -354,12 +360,6 @@ export default defineComponent({
       type: Object,
       default: () => ({})
     }
-  },
-  components: {
-    HeaderNavLink,
-    SearchQuasarForm,
-    NavDropdownMenu,
-    ThemeSwitcher
   },
   setup (props) {
     const $q = useQuasar()

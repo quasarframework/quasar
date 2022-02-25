@@ -93,7 +93,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useQuasar } from 'quasar'
-import MainLayoutHeader from 'components/landing-page/MainLayoutHeader'
+import MainLayoutHeader from 'components/header/MainLayoutHeader.vue'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
 import menu from 'assets/menu.js'
