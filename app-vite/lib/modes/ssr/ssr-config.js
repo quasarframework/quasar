@@ -18,9 +18,9 @@ const external = [
 
 module.exports = {
   viteClient: quasarConf => {
-    const cfg = createViteConfig(quasarConf, 'ssr-client')
+    let cfg = createViteConfig(quasarConf, 'ssr-client')
 
-    return mergeConfig(cfg, {
+    cfg = mergeConfig(cfg, {
       define: {
         'process.env.CLIENT': true,
         'process.env.SERVER': false
@@ -29,14 +29,18 @@ module.exports = {
         middlewareMode: true
       },
       build: {
-        manifest: true,
         ssrManifest: true,
-        outDir: join(quasarConf.build.distDir, 'client'),
-        rollupOptions: {
-          input: appPaths.resolve.app('.quasar/client-entry.js')
-        }
+        outDir: join(quasarConf.build.distDir, 'client')
       }
     })
+
+    // dev has js entry-point, while prod has index.html
+    if (quasarConf.ctx.dev) {
+      cfg.build.rollupOptions = cfg.build.rollupOptions || {}
+      cfg.build.rollupOptions.input = appPaths.resolve.app('.quasar/client-entry.js')
+    }
+
+    return cfg
   },
 
   viteServer: quasarConf => {

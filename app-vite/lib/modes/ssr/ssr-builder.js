@@ -5,7 +5,7 @@ const AppBuilder = require('../../app-builder')
 const config = require('./ssr-config')
 const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')
-const getHtmlTemplateFn = require('../../helpers/get-html-template')
+const { getProdSsrTemplateFn } = require('../../helpers/html-template')
 
 class SsrBuilder extends AppBuilder {
   async build () {
@@ -21,7 +21,7 @@ class SsrBuilder extends AppBuilder {
       'quasar.manifest.json'
     )
 
-    await this.#writeHtmlTemplate(viteClientConfig.build.outDir)
+    await this.#writeRenderTemplate(viteClientConfig.build.outDir)
 
     const viteServerConfig = config.viteServer(this.quasarConf)
     await this.buildWithVite('Server', viteServerConfig)
@@ -46,6 +46,7 @@ class SsrBuilder extends AppBuilder {
 
   async #writePackageJson () {
     const appPkg = require(appPaths.resolve.app('package.json'))
+    const { dependencies: cliDeps } = require(appPaths.resolve.cli('package.json'))
 
     if (appPkg.dependencies !== void 0) {
       delete appPkg.dependencies['@quasar/extras']
@@ -64,7 +65,8 @@ class SsrBuilder extends AppBuilder {
       },
       dependencies: Object.assign(appDeps, {
         'compression': '^1.0.0',
-        'express': '^4.0.0'
+        'express': cliDeps.express,
+        'serialize-javascript': cliDeps['serialize-javascript']
       }),
       engines: appPkg.engines,
       browserslist: appPkg.browserslist,
@@ -78,21 +80,14 @@ class SsrBuilder extends AppBuilder {
     this.writeFile('package.json', JSON.stringify(pkg, null, 2))
   }
 
-  async #writeHtmlTemplate (clientDir) {
-    const htmlFile = appPaths.resolve.app(this.quasarConf.build.htmlFilename)
-    const manifestFile = join(clientDir, '/manifest.json')
-
+  async #writeRenderTemplate (clientDir) {
+    const htmlFile = join(clientDir, 'index.html')
     const html = this.readFile(htmlFile)
-    const manifest = require(manifestFile)
 
-    const templateFn = getHtmlTemplateFn(
-      html,
-      this.quasarConf,
-      manifest
-    )
+    const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
 
     this.writeFile('render-template.js', `module.exports=${templateFn.source}`)
-    this.removeFile(manifestFile)
+    this.removeFile(htmlFile)
   }
 }
 

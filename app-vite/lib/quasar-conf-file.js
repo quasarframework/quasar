@@ -846,20 +846,6 @@ class QuasarConfFile {
       productDescription: escapeHTMLAttribute(cfg.build.productDescription)
     }, cfg.htmlVariables)
 
-    cfg.metaConf.html = {
-      minifyOptions: cfg.build.minify
-        ? {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          collapseBooleanAttributes: true,
-          removeScriptTypeAttributes: true
-          // more options:
-          // https://github.com/kangax/html-minifier#options-quick-reference
-        }
-        : false
-    }
-
     if (this.ctx.mode.capacitor && cfg.metaConf.versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
       cfg.metaConf.needsAppMountHook = true
     }

@@ -125,7 +125,10 @@ module.exports = function (quasarConf, quasarRunMode) {
     'cssCodeSplit'
   ])
 
-  if (quasarRunMode !== 'ssr-server') {
+  if (
+    quasarRunMode !== 'ssr-server'
+    && (quasarRunMode !== 'ssr-client' || quasarConf.ctx.prod === true)
+  ) {
     viteConf.plugins.unshift(
       quasarVitePluginIndexHtmlTransform(quasarConf)
     )
@@ -138,7 +141,7 @@ module.exports = function (quasarConf, quasarRunMode) {
     viteConf.build.outDir = build.distDir
 
     const analyze = quasarConf.build.analyze
-    if (analyze) {
+    if (quasarRunMode !== 'ssr-server' && analyze) {
       viteConf.plugins.push(
         require('rollup-plugin-visualizer').visualizer({
           open: true,

@@ -6,6 +6,7 @@
 import { join, basename } from 'path'
 import express from 'express'
 import { renderToString } from 'vue/server-renderer'
+import serialize from 'serialize-javascript'
 
 import renderTemplate from './render-template.js'
 import clientManifest from './quasar.manifest.json'
@@ -101,8 +102,12 @@ function renderPreloadLink (file) {
 
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
 
-function renderVuexState (ssrContext, nonce) {
+function renderVuexState (ssrContext) {
   if (ssrContext.state !== void 0) {
+    const nonce = ssrContext.nonce !== void 0
+      ? ' nonce="' + ssrContext.nonce + '" '
+      : ''
+
     const state = serialize(ssrContext.state, { isJSON: true })
     return '<script' + nonce + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
   }
@@ -120,7 +125,7 @@ async function render (ssrContext) {
 
   try {
     const app = await serverEntry(ssrContext)
-    const resourceApp = await renderToString(app, ssrContext)
+    const runtimeApp = await renderToString(app, ssrContext)
 
     onRenderedList.forEach(fn => { fn() })
 
@@ -128,21 +133,13 @@ async function render (ssrContext) {
     // like @vue/apollo-ssr:
     typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-    const nonce = ssrContext.nonce !== void 0
-      ? ' nonce="' + ssrContext.nonce + '" '
-      : ''
+    ssrContext._meta.runtimeApp = runtimeApp
+    ssrContext._meta.runtimeScripts = renderVuexState(ssrContext)
 
-    Object.assign(ssrContext._meta, {
-      resourceApp,
-      resourceStyles: '', // TODO
-      resourceScripts: renderVuexState(ssrContext, nonce),
-
-      // @vitejs/plugin-vue injects code into a component's setup() that registers
-      // itself on ctx.modules. After the render, ctx.modules would contain all the
-      // components that have been instantiated during this render call.
-      endingHeadTags: ssrContext._meta.endingHeadTags
-        + renderPreloadLinks(ssrContext.modules)
-    })
+    // @vitejs/plugin-vue injects code into a component's setup() that registers
+    // itself on ctx.modules. After the render, ctx.modules would contain all the
+    // components that have been instantiated during this render call.
+    ssrContext._meta.endingHeadTags += renderPreloadLinks(ssrContext.modules)
 
     return renderTemplate(ssrContext)
   }

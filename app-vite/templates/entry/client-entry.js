@@ -70,10 +70,6 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 <% } %>
 
 const publicPath = `<%= build.publicPath %>`
-<% if (build.publicPath.length > 1) { %>
-const doubleSlashRE = /\/\//
-const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
-<% } %>
 
 async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
   <% if (ctx.mode.ssr && store && ssr.manualStoreHydration !== true) { %>
@@ -87,7 +83,7 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
   <% if (bootEntries.length > 0) { %>
   let hasRedirected = false
   const getRedirectUrl = url => {
-    try { return <%= build.publicPath.length <= 1 ? 'router.resolve(url).href' : 'addPublicPath(router.resolve(url).href)' %> }
+    try { return router.resolve(url).href }
     catch (err) {}
 
     return Object(url) === url

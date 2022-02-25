@@ -1,5 +1,5 @@
 
-const getHtmlTemplate = require('../helpers/get-html-template')
+const { transformHtml } = require('../helpers/html-template')
 
 module.exports = quasarConf => {
   return {
@@ -7,7 +7,7 @@ module.exports = quasarConf => {
     enforce: 'pre',
     transformIndexHtml: {
       enforce: 'pre',
-      transform: html => getHtmlTemplate(html, quasarConf)
+      transform: html => transformHtml(html, quasarConf)
     }
   }
 }
