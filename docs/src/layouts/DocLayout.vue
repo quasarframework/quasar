@@ -7,8 +7,9 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     v-model="leftDrawerState"
     show-if-above
     bordered
+    width="285"
   )
-    q-scroll-area(style="height: 100%;")
+    q-scroll-area(style="height: 100%")
       app-menu.q-mb-lg.q-mt-sm
 
   q-drawer(
@@ -142,6 +143,10 @@ export default {
 
 .doc-left-drawer
   overflow: inherit !important
+
+// Prevent drawer items due to words too long
+.q-scrollarea__content
+  width: 100%
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
