@@ -42,7 +42,7 @@
     "url": "https://donate.quasar.dev"
   },
   "dependencies": {
-    "@quasar/fastclick": "1.1.4",
+    "@quasar/fastclick": "1.1.5",
     "@quasar/vite-plugin": "^1.0.4",
     "@types/cordova": "0.0.34",
     "@types/express": "^4.17.13",

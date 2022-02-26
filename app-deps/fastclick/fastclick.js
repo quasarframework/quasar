@@ -633,11 +633,9 @@
     new FastClick(document.body)
   }
 
-  define(function() {
-    if (document.readyState !== 'loading') {
-      return init()
-    }
+  if (document.readyState !== 'loading') {
+    return init()
+  }
 
-    document.addEventListener('DOMContentLoaded', init, false)
-  })
+  document.addEventListener('DOMContentLoaded', init, false)
 }())
