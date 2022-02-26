@@ -6,14 +6,13 @@ const debounce = require('lodash.debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')
-const { log, warn, fatal, error } = require('./helpers/logger')
+const { log, warn } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 
 const urlRegex = /^http(s)?:\/\//i
-const ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
 const { findClosestOpenPort } = require('../lib/helpers/net')
 const isMinimalTerminal = require('./helpers/is-minimal-terminal')
 
@@ -200,19 +199,6 @@ class QuasarConfFile {
     else {
       return confErrors.CANNOT_READ
     }
-
-    // if (this.ctx.mode.ssr) {
-    //   try {
-    //     delete require.cache[ssrDirectivesFile]
-    //     devlandSsrDirectives = require(ssrDirectivesFile).default
-    //   }
-    //   catch (err) {
-    //     error('Could not load the compiled file of devland SSR directives:\n', 'FAIL')
-    //     console.log(err)
-    //     console.log()
-    //     process.exit(1)
-    //   }
-    // }
 
     let userCfg
 
@@ -528,14 +514,7 @@ class QuasarConfFile {
         manualPostHydrationTrigger: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
-      }, cfg.ssr, {
-        // not meant to be configurable directly by the user,
-        // which is why we're overriding it here
-        directiveTransforms: {
-          ...require('quasar/dist/ssr-directives/index.js'),
-          ...devlandSsrDirectives
-        }
-      })
+      }, cfg.ssr)
 
       if (cfg.ssr.manualPostHydrationTrigger !== true) {
         cfg.metaConf.needsAppMountHook = true
@@ -561,74 +540,12 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-    //   const originalSetup = cfg.vite.setupMiddlewares
-
-    //   delete cfg.vite.setupMiddlewares
-
-    //   if (this.ctx.mode.bex === true) {
-    //     cfg.vite.devMiddleware = cfg.vite.devMiddleware || {}
-    //     cfg.vite.devMiddleware.writeToDisk = true
-    //   }
-
-    //   cfg.vite = merge({
-    //     hot: true,
-    //     allowedHosts: 'all',
-    //     compress: true,
-    //     open: true,
-    //     client: {
-    //       overlay: {
-    //         warnings: false
-    //       }
-    //     },
-    //     server: {
-    //       type: 'http'
-    //     },
-    //     devMiddleware: {
-    //       publicPath: cfg.build.publicPath,
-    //       stats: false
-    //     }
-    //   },
-    //   this.ctx.mode.ssr === true
-    //     ? {
-    //         devMiddleware: { index: false },
-    //         static: {
-    //           serveIndex: false
-    //         }
-    //       }
-    //     : {
-    //         historyApiFallback: cfg.build.vueRouterMode === 'history'
-    //           ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
-    //           : false,
-    //         devMiddleware: {
-    //           index: cfg.build.htmlFilename
-    //         }
-    //       },
-    //   cfg.vite,
-    //   {
-    //     setupMiddlewares: (middlewares, opts) => {
-    //       const { app } = opts
-
-    //       if (!this.ctx.mode.ssr) {
-    //         const express = require('express')
-
-    //         if (cfg.build.ignorePublicFolder !== true) {
-    //           app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
-    //             maxAge: 0
-    //           }))
-    //         }
-
+    // TODO CORDOVA
     //         if (this.ctx.mode.cordova) {
     //           const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
     //           app.use('/', express.static(folder, { maxAge: 0 }))
     //         }
     //       }
-
-    //       return originalSetup
-    //         ? originalSetup(middlewares, opts)
-    //         : middlewares
-    //     }
-    //   })
-
 
       if (this.ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
         cfg.metaConf.needsAppMountHook = true

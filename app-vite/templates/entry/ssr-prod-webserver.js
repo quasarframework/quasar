@@ -72,32 +72,44 @@ function renderPreloadLinks (modules) {
   return links
 }
 
+const jsRE = /\.js$/
+const cssRE = /\.css$/
+const woffRE = /\.woff$/
+const woff2RE = /\.woff2$/
+const gifRE = /\.gif$/
+const jpgRE = /\.jpe?g$/
+const pngRE = /\.png$/
+
 function renderPreloadLink (file) {
-  if (file.endsWith('.js')) {
+  if (jsRE.test(file) === true) {
     return '<link rel="modulepreload" href="' + file + '" crossorigin>'
   }
-  else if (file.endsWith('.css')) {
+
+  if (cssRE.test(file) === true) {
     return '<link rel="stylesheet" href="' + file + '">'
   }
-  else if (file.endsWith('.woff')) {
+
+  if (woffRE.test(file) === true) {
     return '<link rel="preload" href="' + file + '" as="font" type="font/woff" crossorigin>'
   }
-  else if (file.endsWith('.woff2')) {
+
+  if (woff2RE.test(file) === true) {
     return '<link rel="preload" href="' + file + '" as="font" type="font/woff2" crossorigin>'
   }
-  else if (file.endsWith('.gif')) {
+
+  if (gifRE.test(file) === true) {
     return '<link rel="preload" href="' + file + '" as="image" type="image/gif">'
   }
-  else if (file.endsWith('.jpg') || file.endsWith('.jpeg')) {
+
+  if (jpgRE.test(file) === true) {
     return '<link rel="preload" href="' + file + '" as="image" type="image/jpeg">'
   }
-  else if (file.endsWith('.png')) {
+
+  if (pngRE.test(file) === true) {
     return '<link rel="preload" href="' + file + '" as="image" type="image/png">'
   }
-  else {
-    // TODO
-    return ''
-  }
+
+  return ''
 }
 
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'

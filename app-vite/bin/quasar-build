@@ -119,12 +119,6 @@ async function build () {
   const extensionRunner = require('../lib/app-extension/extensions-runner')
   await extensionRunner.registerExtensions(ctx)
 
-  // if (argv.mode === 'ssr') {
-  //   const SSRDirectives = require('../lib/ssr/ssr-directives')
-  //   const directivesBuilder = new SSRDirectives()
-  //   await directivesBuilder.build()
-  // }
-
   const QuasarConfFile = require('../lib/quasar-conf-file')
   const quasarConfFile = new QuasarConfFile({
     ctx,
