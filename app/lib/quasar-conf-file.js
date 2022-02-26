@@ -6,7 +6,7 @@ const debounce = require('lodash.debounce')
 const { green } = require('chalk')
 
 const appPaths = require('./app-paths')
-const { log, warn, fatal, error } = require('./helpers/logger')
+const { log, warn, fatal } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
@@ -16,7 +16,6 @@ const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
-const ssrDirectivesFile = appPaths.resolve.app('.quasar/ssr/compiled-directives.js')
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -157,19 +156,6 @@ class QuasarConfFile {
       fatal('Could not load quasar.conf.js config file', 'FAIL')
     }
 
-    if (this.ctx.mode.ssr) {
-      try {
-        delete require.cache[ssrDirectivesFile]
-        this.devlandSsrDirectives = require(ssrDirectivesFile).default
-      }
-      catch (err) {
-        error('Could not load the compiled file of devland SSR directives:\n', 'FAIL')
-        console.log(err)
-        console.log()
-        process.exit(1)
-      }
-    }
-
     const initialConf = await quasarConfigFunction(this.ctx)
 
     const cfg = merge({
@@ -183,7 +169,6 @@ class QuasarConfFile {
       build: {
         transpileDependencies: [],
         vueLoaderOptions: {
-          compilerOptions: {},
           transformAssetUrls: {}
         },
         sassLoaderOptions: {},
@@ -401,7 +386,6 @@ class QuasarConfFile {
 
     cfg.build = merge({
       vueLoaderOptions: {
-        compilerOptions: {},
         transformAssetUrls: clone(transformAssetUrls)
       },
 
@@ -568,14 +552,7 @@ class QuasarConfFile {
         manualPostHydrationTrigger: false,
         prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
-      }, cfg.ssr, {
-        // not meant to be configurable directly by the user,
-        // which is why we're overriding it here
-        directiveTransforms: {
-          ...require('quasar/dist/ssr-directives/index.js'),
-          ...this.devlandSsrDirectives
-        }
-      })
+      }, cfg.ssr)
 
       if (cfg.ssr.manualPostHydrationTrigger !== true) {
         cfg.__needsAppMountHook = true

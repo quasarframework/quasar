@@ -129,12 +129,7 @@ module.exports = function (cfg, configName) {
       merge(
         {},
         cfg.build.vueLoaderOptions,
-        {
-          isServerBuild: configName === webpackNames.ssr.serverSide,
-          compilerOptions: configName === webpackNames.ssr.serverSide
-            ? { directiveTransforms: cfg.ssr.directiveTransforms, ssr: true }
-            : {}
-        }
+        { isServerBuild: configName === webpackNames.ssr.serverSide }
       )
     )
 
