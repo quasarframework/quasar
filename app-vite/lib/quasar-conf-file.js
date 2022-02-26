@@ -540,13 +540,6 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-    // TODO CORDOVA
-    //         if (this.ctx.mode.cordova) {
-    //           const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
-    //           app.use('/', express.static(folder, { maxAge: 0 }))
-    //         }
-    //       }
-
       if (this.ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
         cfg.metaConf.needsAppMountHook = true
         cfg.metaConf.vueDevtools = {
