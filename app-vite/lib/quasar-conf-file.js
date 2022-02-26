@@ -184,7 +184,7 @@ class QuasarConfFile {
   }
 
   async read () {
-    let quasarConfigFunction, devlandSsrDirectives = {}
+    let quasarConfigFunction
 
     if (fs.existsSync(quasarConfFilename)) {
       try {
