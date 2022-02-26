@@ -6,6 +6,7 @@ const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
 
 const quasarVitePluginIndexHtmlTransform = require('./vite-plugins/index-html-transform')
+const { merge } = require('webpack-merge')
 
 function printInvalidSyntax (name) {
   console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified:', name)
@@ -70,6 +71,13 @@ function inject (target, source, propList) {
 module.exports = function (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
 
+  const vueVitePluginOptions = quasarRunMode !== 'ssr-server'
+    ? build.viteVuePluginOptions
+    : merge({
+        ssr: true,
+        template: { ssr: true }
+      }, build.viteVuePluginOptions)
+
   const viteConf = {
     configFile: false,
     root: appPaths.appDir,
@@ -88,6 +96,7 @@ module.exports = function (quasarConf, quasarRunMode) {
     define: parseEnv(build.env, build.rawDefine),
 
     build: {
+      polyfillModulePreload: false,
       emptyOutDir: false,
       sourcemap: build.sourcemap === true
         ? 'inline'
@@ -95,12 +104,9 @@ module.exports = function (quasarConf, quasarRunMode) {
     },
 
     plugins: [
-      vueVitePlugin({
-        ssr: quasarRunMode === 'ssr-server',
-        ...build.viteVuePluginOptions
-      }),
+      vueVitePlugin(vueVitePluginOptions),
       quasarVitePlugin({
-        runMode: quasarRunMode || void 0,
+        runMode: quasarRunMode || 'web-client',
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
         sassVariables: quasarConf.metaConf.css.variablesFile
       }),

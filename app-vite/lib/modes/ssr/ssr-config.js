@@ -47,11 +47,11 @@ module.exports = {
     const cfg = createViteConfig(quasarConf, 'ssr-server')
 
     return mergeConfig(cfg, {
+      target: 'node12',
       define: {
         'process.env.CLIENT': false,
         'process.env.SERVER': true
       },
-      publicDir: false, // let client config deal with it
       server: {
         hmr: false, // let client config deal with it
         middlewareMode: 'ssr'

@@ -103,16 +103,16 @@ function renderPreloadLink (file) {
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
 
 function renderVuexState (ssrContext) {
-  if (ssrContext.state !== void 0) {
-    const nonce = ssrContext.nonce !== void 0
-      ? ' nonce="' + ssrContext.nonce + '" '
-      : ''
-
-    const state = serialize(ssrContext.state, { isJSON: true })
-    return '<script' + nonce + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
+  if (ssrContext.state === void 0) {
+    return ''
   }
 
-  return ''
+  const nonce = ssrContext.nonce !== void 0
+    ? ' nonce="' + ssrContext.nonce + '" '
+    : ''
+
+  const state = serialize(ssrContext.state, { isJSON: true })
+  return '<script' + nonce + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
 }
 
 async function render (ssrContext) {

@@ -416,17 +416,8 @@ class QuasarConfFile {
       viteVuePluginOptions: {
         isProduction: this.ctx.prod === true,
         template: {
-          transformAssetUrls: merge({
-            base: null,
-            includeAbsolute: false,
-            tags: {
-              video: ['src', 'poster'],
-              source: ['src'],
-              img: ['src'],
-              image: ['xlink:href', 'href'],
-              use: ['xlink:href', 'href']
-            }
-          }, transformAssetUrls)
+          isProd: this.ctx.prod === true,
+          transformAssetUrls
         }
       },
 
