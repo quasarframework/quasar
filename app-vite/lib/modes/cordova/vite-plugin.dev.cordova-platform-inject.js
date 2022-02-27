@@ -2,6 +2,8 @@
 const { static: serveStatic } = require('express')
 const appPaths = require('../../app-paths')
 
+const { entryPointMarkup } = require('../../helpers/html-template')
+
 /**
  * It is applied for dev only!
  */
@@ -18,8 +20,8 @@ module.exports = quasarConf => {
     transformIndexHtml: {
       enforce: 'pre',
       transform: html => html.replace(
-        '<!-- quasar:entry-point -->',
-        '<script src="cordova.js"></script><!-- quasar:entry-point -->'
+        entryPointMarkup,
+        `<script src="cordova.js"></script>${ entryPointMarkup }`
       )
     }
   }

@@ -12,7 +12,7 @@ const getPackage = require('../../helpers/get-package')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./ssr-config')
 const { log, warn, info, success } = require('../../helpers/logger')
-const { getDevSsrTemplateFn } = require('../../helpers/html-template')
+const { entryPointMarkup, getDevSsrTemplateFn } = require('../../helpers/html-template')
 
 const { renderToString } = getPackage('vue/server-renderer')
 
@@ -183,7 +183,7 @@ class SsrDevServer extends AppDevserver {
         let html = renderTemplate(ssrContext)
         html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
         html = html.replace(
-          '<!-- quasar:entry-point -->',
+          entryPointMarkup,
           `<div id="q-app">${runtimePageContent}</div>`
         )
 

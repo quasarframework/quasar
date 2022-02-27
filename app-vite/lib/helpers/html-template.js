@@ -5,6 +5,7 @@ const { minify } = require('html-minifier')
 const absoluteUrlRE = /^(https?:\/\/|\/)/i
 const entryPointMarkup = '<!-- quasar:entry-point -->'
 const entryScript = '<script type="module" src="/.quasar/client-entry.js"></script>'
+const attachMarkup = '<div id="q-app"></div>'
 
 const minifyOptions = {
   removeComments: true,
@@ -72,6 +73,9 @@ function injectRuntimeInterpolation (html) {
   )
 }
 
+module.exports.entryPointMarkup = entryPointMarkup
+module.exports.attachMarkup = attachMarkup
+
 module.exports.transformHtml = function (template, quasarConf) {
   const { publicPath } = quasarConf.build
   const compiled = compileTemplate(template)
@@ -80,7 +84,7 @@ module.exports.transformHtml = function (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    (quasarConf.ctx.mode.ssr === true ? entryPointMarkup : '<div id="q-app"></div>')
+    (quasarConf.ctx.mode.ssr === true ? entryPointMarkup : attachMarkup)
       + entryScript
   )
 
