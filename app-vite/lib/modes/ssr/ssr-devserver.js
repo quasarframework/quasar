@@ -41,7 +41,7 @@ function logServerMessage (title, msg, additional) {
 function renderError ({ err, req, res }) {
   ouchInstance.handleException(err, req, res, () => {
     log()
-    warn(req.url, 'Render fail')
+    warn(req.url, 'Render failed')
   })
 }
 
@@ -155,10 +155,7 @@ class SsrDevServer extends AppDevserver {
 
     updateTemplate()
 
-    this.#htmlWatcher = chokidar.watch(templatePath).on('change', () => {
-      updateTemplate()
-      logServerMessage('Change detected', 'index.html template updated')
-    })
+    this.#htmlWatcher = chokidar.watch(templatePath).on('change', updateTemplate)
 
     this.#appOptions.render = async (ssrContext) => {
       const startTime = Date.now()

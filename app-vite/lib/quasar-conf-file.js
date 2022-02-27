@@ -512,8 +512,7 @@ class QuasarConfFile {
         pwa: false,
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
-        maxAge: 1000 * 60 * 60 * 24 * 30
+        prodPort: 3000 // gets superseeded in production by an eventual process.env.PORT
       }, cfg.ssr)
 
       if (cfg.ssr.manualPostHydrationTrigger !== true) {
