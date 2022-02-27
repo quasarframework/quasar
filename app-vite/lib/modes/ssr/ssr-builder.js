@@ -64,7 +64,7 @@ class SsrBuilder extends AppBuilder {
         start: 'node index.js'
       },
       dependencies: Object.assign(appDeps, {
-        'compression': '^1.0.0',
+        'compression': cliDeps.compression,
         'express': cliDeps.express,
         'serialize-javascript': cliDeps['serialize-javascript']
       }),

@@ -18,12 +18,9 @@ class EntryFilesGenerator {
       paths.push(
         'server-entry.js',
         'ssr-pwa.js',
-        'ssr-middlewares.js'
+        'ssr-middlewares.js',
+        `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )
-
-      if (ctx.prod) {
-        paths.push('ssr-prod-webserver.js')
-      }
     }
 
     this.files = paths.map(file => {

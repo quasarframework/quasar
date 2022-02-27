@@ -1,5 +1,4 @@
 const { createServer } = require('vite')
-const express = require('express')
 const { join } = require('path')
 const chokidar = require('chokidar')
 const { readFileSync } = require('fs')
@@ -20,8 +19,7 @@ const { renderToString } = getPackage('vue/server-renderer')
 const rootFolder = appPaths.appDir
 const publicFolder = appPaths.resolve.app('public')
 const templatePath = appPaths.resolve.app('index.html')
-const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
-
+const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')
 const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.js')
 
 function resolvePublicFolder () {
@@ -48,7 +46,7 @@ function renderError ({ err, req, res }) {
 }
 
 async function warmupServer (viteClient, viteServer) {
-  info('Warming up the server...', 'WAIT')
+  info('Warming up...', 'WAIT')
   const startTime = Date.now()
 
   try {
@@ -61,7 +59,7 @@ async function warmupServer (viteClient, viteServer) {
     return
   }
 
-  success(`Warmed up the server • ${Date.now() - startTime}ms`, 'DONE')
+  success(`Warmed up • ${Date.now() - startTime}ms`, 'DONE')
   log()
 }
 
@@ -79,7 +77,7 @@ function renderVuexState (ssrContext) {
 }
 
 class SsrDevServer extends AppDevserver {
-  #app
+  #closeWebserver
   #viteClient
   #viteServer
   #htmlWatcher
@@ -115,10 +113,10 @@ class SsrDevServer extends AppDevserver {
 
     const esbuildConfig = config.webserver(quasarConf)
     await this.buildWithEsbuild('Webserver', esbuildConfig, () => {
-      if (this.#app !== void 0) {
-        queue(() => new Promise(resolve => {
-          this.#app.close()
-          this.#bootApp().then(() => {
+      if (this.#closeWebserver !== void 0) {
+        queue(() => new Promise(async (resolve) => {
+          await this.#closeWebserver()
+          this.#bootWebserver().then(() => {
             resolve()
           })
         }))
@@ -129,11 +127,11 @@ class SsrDevServer extends AppDevserver {
   }
 
   async #runVite (quasarConf, urlDiffers) {
-    if (this.#app !== void 0) {
+    if (this.#closeWebserver !== void 0) {
       this.#htmlWatcher.close()
       this.#viteClient.close()
       this.#viteServer.close()
-      this.#app.close()
+      await this.#closeWebserver()
     }
 
     this.#appOptions.port = quasarConf.devServer.port
@@ -161,15 +159,6 @@ class SsrDevServer extends AppDevserver {
       updateTemplate()
       logServerMessage('Change detected', 'index.html template updated')
     })
-
-    this.#appOptions.serveStatic = (path, opts = {}) => {
-      return express.static(resolvePublicFolder(path), {
-        ...opts,
-        maxAge: opts.maxAge === void 0
-          ? quasarConf.ssr.maxAge // TODO diff with ssr.maxAge included
-          : opts.maxAge
-      })
-    }
 
     this.#appOptions.render = async (ssrContext) => {
       const startTime = Date.now()
@@ -213,7 +202,7 @@ class SsrDevServer extends AppDevserver {
 
     await warmupServer(viteClient, viteServer)
 
-    await this.#bootApp()
+    await this.#bootWebserver()
 
     if (urlDiffers === true && quasarConf.metaConf.openBrowser) {
       const { metaConf } = quasarConf
@@ -224,26 +213,14 @@ class SsrDevServer extends AppDevserver {
     }
   }
 
-  async #bootApp () {
-    info('Registering SSR middlewares...', 'WAIT')
+  async #bootWebserver () {
+    info(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`, 'WAIT')
 
-    const app = express()
+    delete require.cache[serverFile]
+    const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
 
-    // vite devmiddleware modifies req.url to account for publicPath
-    // but we'll break usage in the webserver if we do so
-    app.use((req, res, next) => {
-      const { url } = req
-      this.#viteClient.middlewares.handle(req, res, err => {
-        req.url = url
-        next(err)
-      })
-    })
-
-    delete require.cache[compiledMiddlewareFile]
-    const injectMiddleware = require(compiledMiddlewareFile)
-
-    await injectMiddleware.default({
-      app,
+    const middlewareParams = {
+      port: this.#appOptions.port,
       resolve: {
         urlPath: this.#appOptions.resolveUrlPath,
         root () { return join(rootFolder, ...arguments) },
@@ -256,60 +233,82 @@ class SsrDevServer extends AppDevserver {
       },
       render: this.#appOptions.render,
       serve: {
-        static: this.#appOptions.serveStatic,
+        static: (path, opts = {}) => serveStaticContent(resolvePublicFolder(path), opts),
         error: renderError
       }
+    }
+
+    const app = middlewareParams.app = create(middlewareParams)
+
+    // vite devmiddleware modifies req.url to account for publicPath
+    // but we'll break usage in the webserver if we do so
+    app.use((req, res, next) => {
+      const { url } = req
+      this.#viteClient.middlewares.handle(req, res, err => {
+        req.url = url
+        next(err)
+      })
     })
+
+    await injectMiddlewares(middlewareParams)
 
     const { publicPath } = this.#appOptions
 
-    if (publicPath.length !== '/') {
-      app.use((req, res, next) => {
-        const pathname = parseUrl(req.url).pathname || '/'
+    publicPath.length !== '/' && app.use((req, res, next) => {
+      const pathname = parseUrl(req.url).pathname || '/'
 
-        if (pathname.startsWith(publicPath) === true) {
-          next()
-          return
-        }
-
-        if (req.url === '/' || req.url === '/index.html') {
-          res.writeHead(302, { Location: publicPath })
-          res.end()
-          return
-        }
-        else if (req.headers.accept && req.headers.accept.includes('text/html')) {
-          const parsedPath = pathname.slice(1)
-          const redirectPaths = [ publicPath + parsedPath ]
-          const splitted = parsedPath.split('/')
-
-          if (splitted.length > 1) {
-            redirectPaths.push(publicPath + splitted.slice(1).join('/'))
-          }
-
-          if (redirectPaths[ redirectPaths.length - 1 ] !== publicPath) {
-            redirectPaths.push(publicPath)
-          }
-
-          const linkList = redirectPaths
-            .map(link => `<a href="${link}">${link}</a>`)
-            .join(' or ')
-
-          res.writeHead(404, { 'Content-Type': 'text/html' })
-          res.end(
-            `<div>The Quasar CLI devserver is configured with a publicPath of "${publicPath}"</div>`
-            + `<div> - Did you mean to visit ${linkList} instead?</div>`
-          )
-          return
-        }
-
+      if (pathname.startsWith(publicPath) === true) {
         next()
-      })
-    }
+        return
+      }
 
-    this.#app = app.listen(this.#appOptions.port)
-    await this.#app
+      if (req.url === '/' || req.url === '/index.html') {
+        res.writeHead(302, { Location: publicPath })
+        res.end()
+        return
+      }
+      else if (req.headers.accept && req.headers.accept.includes('text/html')) {
+        const parsedPath = pathname.slice(1)
+        const redirectPaths = [ publicPath + parsedPath ]
+        const splitted = parsedPath.split('/')
 
-    success('SSR middlewares were registered', 'DONE')
+        if (splitted.length > 1) {
+          redirectPaths.push(publicPath + splitted.slice(1).join('/'))
+        }
+
+        if (redirectPaths[ redirectPaths.length - 1 ] !== publicPath) {
+          redirectPaths.push(publicPath)
+        }
+
+        const linkList = redirectPaths
+          .map(link => `<a href="${link}">${link}</a>`)
+          .join(' or ')
+
+        res.writeHead(404, { 'Content-Type': 'text/html' })
+        res.end(
+          `<div>The Quasar CLI devserver is configured with a publicPath of "${publicPath}"</div>`
+          + `<div> - Did you mean to visit ${linkList} instead?</div>`
+        )
+        return
+      }
+
+      next()
+    })
+
+    const listenResult = await listen({
+      isReady: () => Promise.resolve(),
+      ssrHandler: (req, res, next) => {
+        return isReady().then(() => app(req, res, next))
+      },
+      ...middlewareParams
+    })
+
+    this.#closeWebserver = () => close({
+      ...middlewareParams,
+      listenResult
+    })
+
+    success('Webserver is ready', 'DONE')
     log()
   }
 }

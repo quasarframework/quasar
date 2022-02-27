@@ -535,7 +535,7 @@ class QuasarConfFile {
         cfg.build.rawDefine.__QUASAR_SSR_PWA__ = true
       }
 
-      cfg.metaConf.ssrProductionExportScript = appPaths.resolve.ssr('production-export.js')
+      cfg.metaConf.ssrServerScript = appPaths.resolve.ssr('server.js')
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
     }
 

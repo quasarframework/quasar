@@ -4,18 +4,16 @@
  **/
 
 import { join, basename } from 'path'
-import express from 'express'
 import { renderToString } from 'vue/server-renderer'
 import serialize from 'serialize-javascript'
 
 import renderTemplate from './render-template.js'
 import clientManifest from './quasar.manifest.json'
-import injectMiddlewares from './ssr-middlewares.js'
 import serverEntry from './server/server-entry.js'
 
-import productionExport from '<%= metaConf.ssrProductionExportScript %>'
+import { create, listen, renderPreloadTag, serveStaticContent } from '<%= metaConf.ssrServerScript %>'
+import injectMiddlewares from './ssr-middlewares.js'
 
-const app = express()
 const port = process.env.PORT || <%= ssr.prodPort %>
 
 const doubleSlashRE = /\/\//g
@@ -31,16 +29,7 @@ function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
 }
 
-function serveStatic (path, opts = {}) {
-  return express.static(resolvePublicFolder(path), {
-    ...opts,
-    maxAge: opts.maxAge === void 0
-      ? <%= ssr.maxAge %>
-      : opts.maxAge
-  })
-}
-
-function renderPreloadLinks (modules) {
+function renderModulesPreload (modules) {
   let links = ''
   const seen = new Set()
 
@@ -60,56 +49,16 @@ function renderPreloadLinks (modules) {
 
       if (clientManifest[filename] !== void 0) {
         for (const depFile of clientManifest[filename]) {
-          links += renderPreloadLink(depFile)
+          links += renderPreloadTag(depFile)
           seen.add(depFile)
         }
       }
 
-      links += renderPreloadLink(file)
+      links += renderPreloadTag(file)
     })
   })
 
   return links
-}
-
-const jsRE = /\.js$/
-const cssRE = /\.css$/
-const woffRE = /\.woff$/
-const woff2RE = /\.woff2$/
-const gifRE = /\.gif$/
-const jpgRE = /\.jpe?g$/
-const pngRE = /\.png$/
-
-function renderPreloadLink (file) {
-  if (jsRE.test(file) === true) {
-    return '<link rel="modulepreload" href="' + file + '" crossorigin>'
-  }
-
-  if (cssRE.test(file) === true) {
-    return '<link rel="stylesheet" href="' + file + '">'
-  }
-
-  if (woffRE.test(file) === true) {
-    return '<link rel="preload" href="' + file + '" as="font" type="font/woff" crossorigin>'
-  }
-
-  if (woff2RE.test(file) === true) {
-    return '<link rel="preload" href="' + file + '" as="font" type="font/woff2" crossorigin>'
-  }
-
-  if (gifRE.test(file) === true) {
-    return '<link rel="preload" href="' + file + '" as="image" type="image/gif">'
-  }
-
-  if (jpgRE.test(file) === true) {
-    return '<link rel="preload" href="' + file + '" as="image" type="image/jpeg">'
-  }
-
-  if (pngRE.test(file) === true) {
-    return '<link rel="preload" href="' + file + '" as="image" type="image/png">'
-  }
-
-  return ''
 }
 
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
@@ -136,8 +85,8 @@ async function render (ssrContext) {
   })
 
   try {
-    const app = await serverEntry(ssrContext)
-    const runtimeApp = await renderToString(app, ssrContext)
+    const renderFn = await serverEntry(ssrContext)
+    const runtimeApp = await renderToString(renderFn, ssrContext)
 
     onRenderedList.forEach(fn => { fn() })
 
@@ -151,7 +100,7 @@ async function render (ssrContext) {
     // @vitejs/plugin-vue injects code into a component's setup() that registers
     // itself on ctx.modules. After the render, ctx.modules would contain all the
     // components that have been instantiated during this render call.
-    ssrContext._meta.endingHeadTags += renderPreloadLinks(ssrContext.modules)
+    ssrContext._meta.endingHeadTags += renderModulesPreload(ssrContext.modules)
 
     return renderTemplate(ssrContext)
   }
@@ -160,16 +109,10 @@ async function render (ssrContext) {
   }
 }
 
-<% if (ssr.pwa) { %>
-// serve this with no cache, if built with PWA:
-app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', { maxAge: 0 }))
-<% } %>
-
-// serve "client" folder (includes the "public" folder)
-app.use(resolveUrlPath('/'), serveStatic('.'))
+const serveStatic = (path, opts = {}) => serveStaticContent(resolvePublicFolder(path), opts)
 
 const middlewareParams = {
-  app,
+  port,
   resolve: {
     urlPath: resolveUrlPath,
     root () { return join(rootFolder, ...arguments) },
@@ -186,16 +129,26 @@ const middlewareParams = {
   }
 }
 
-// inject custom middleware
-const appPromise = injectMiddlewares(middlewareParams)
+const app = create(middlewareParams)
 
-const isReady = () => appPromise
+// fill in "app" for next calls
+middlewareParams.app = app
+
+<% if (ssr.pwa) { %>
+// serve the service worker with no cache
+app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', { maxAge: 0 }))
+<% } %>
+
+// serve "client" folder (includes the "public" folder)
+app.use(resolveUrlPath('/'), serveStatic('.'))
+
+const isReady = () => injectMiddlewares(middlewareParams)
 
 const ssrHandler = (req, res, next) => {
   return isReady().then(() => app(req, res, next))
 }
 
-export default productionExport({
+export default listen({
   port,
   isReady,
   ssrHandler,

@@ -7,14 +7,9 @@ const createViteConfig = require('../../create-vite-config')
 const appPaths = require('../../app-paths')
 const parseEnv = require('../../parse-env')
 
-const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPaths.resolve.app('package.json'))
-const { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
-
-const external = [
-  ...Object.keys(cliDeps),
-  ...Object.keys(appDeps),
-  ...Object.keys(appDevDeps)
-]
+const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.json'))
+const appPkgFile = appPaths.resolve.app('package.json')
+const cliDeps = Object.keys(cliDepsObject)
 
 module.exports = {
   viteClient: quasarConf => {
@@ -73,6 +68,16 @@ module.exports = {
   },
 
   webserver: quasarConf => {
+    // fetch fresh copy; user might have installed something new
+    delete require.cache[appPkgFile]
+    const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPkgFile)
+
+    const external = [
+      ...cliDeps,
+      ...Object.keys(appDeps),
+      ...Object.keys(appDevDeps)
+    ]
+
     const cfg = {
       platform: 'node',
       target: 'node12',
@@ -88,8 +93,8 @@ module.exports = {
     cfg.define['process.env.SERVER'] = true
 
     if (quasarConf.ctx.dev) {
-      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-middlewares.js') ]
-      cfg.outfile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
+      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-dev-webserver.js') ]
+      cfg.outfile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')
     }
     else {
       cfg.external = [
@@ -98,9 +103,7 @@ module.exports = {
         'vue/compiler-sfc',
         './render-template.js',
         './quasar.manifest.json',
-        './server/server-entry.js',
-        'compression',
-        'express'
+        './server/server-entry.js'
       ]
 
       cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-prod-webserver.js') ]
