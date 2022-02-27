@@ -173,7 +173,7 @@ class SsrDevServer extends AppDevserver {
         const renderApp = await viteServer.ssrLoadModule(serverEntryFile)
 
         const app = await renderApp.default(ssrContext)
-        const runtimeApp = await renderToString(app, ssrContext)
+        const runtimePageContent = await renderToString(app, ssrContext)
 
         onRenderedList.forEach(fn => { fn() })
 
@@ -181,13 +181,13 @@ class SsrDevServer extends AppDevserver {
         // like @vue/apollo-ssr:
         typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-        ssrContext._meta.runtimeScripts = renderVuexState(ssrContext)
+        ssrContext._meta.headTags = renderVuexState(ssrContext) + ssrContext._meta.headTags
 
         let html = renderTemplate(ssrContext)
         html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
         html = html.replace(
           '<!-- quasar:entry-point -->',
-          `<div id="q-app">${runtimeApp}</div>`
+          `<div id="q-app">${runtimePageContent}</div>`
         )
 
         logServerMessage('Rendered', ssrContext.req.url, `${Date.now() - startTime}ms`)

@@ -119,7 +119,7 @@ module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `${entryPointMarkup}{{ _meta.runtimeScripts }}${entryScript}`
+    `${entryPointMarkup}${entryScript}`
   )
 
   return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
@@ -141,7 +141,7 @@ module.exports.getProdSsrTemplateFn = function (viteHtmlContent, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `<div id="q-app">{{ _meta.runtimeApp }}</div>{{ _meta.runtimeScripts }}`
+    `<div id="q-app">{{ _meta.runtimePageContent }}</div>`
   )
 
   if (quasarConf.build.minify) {

@@ -86,7 +86,7 @@ async function render (ssrContext) {
 
   try {
     const renderFn = await serverEntry(ssrContext)
-    const runtimeApp = await renderToString(renderFn, ssrContext)
+    const runtimePageContent = await renderToString(renderFn, ssrContext)
 
     onRenderedList.forEach(fn => { fn() })
 
@@ -94,8 +94,8 @@ async function render (ssrContext) {
     // like @vue/apollo-ssr:
     typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-    ssrContext._meta.runtimeApp = runtimeApp
-    ssrContext._meta.runtimeScripts = renderVuexState(ssrContext)
+    ssrContext._meta.runtimePageContent = runtimePageContent
+    ssrContext._meta.headTags = renderVuexState(ssrContext) + ssrContext._meta.headTags
 
     // @vitejs/plugin-vue injects code into a component's setup() that registers
     // itself on ctx.modules. After the render, ctx.modules would contain all the
