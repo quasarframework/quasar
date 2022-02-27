@@ -409,6 +409,8 @@ class QuasarConfFile {
       },
 
       vueOptionsAPI: true,
+      polyfillModulePreload: false,
+      distDir: path.join('dist', this.ctx.modeName),
 
       rawDefine: {
         // vue
@@ -436,8 +438,6 @@ class QuasarConfFile {
 
       productName: appPkg.productName,
       productDescription: appPkg.description,
-      distDir: path.join('dist', this.ctx.modeName),
-      htmlFilename: 'index.html',
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
                                           // will mess up SSR
       vueRouterMode: 'hash',
@@ -458,7 +458,6 @@ class QuasarConfFile {
     }
     else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron || this.ctx.mode.bex) {
       Object.assign(cfg.build, {
-        htmlFilename: 'index.html',
         vueRouterMode: 'hash'
       })
     }
@@ -617,11 +616,7 @@ class QuasarConfFile {
     }
 
     if (this.ctx.dev) {
-      const urlPath = cfg.build.vueRouterMode === 'hash'
-        ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
-        : ''
-
-      const getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      const getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}`
       const hostname = cfg.devServer.host === '0.0.0.0'
         ? 'localhost'
         : cfg.devServer.host

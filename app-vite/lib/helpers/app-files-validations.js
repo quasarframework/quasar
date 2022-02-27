@@ -9,18 +9,18 @@ module.exports = function (cfg) {
   let content
   let error = false
 
-  file = appPaths.resolve.app(cfg.build.htmlFilename)
+  file = appPaths.resolve.app('index.html')
   content = fs.readFileSync(file, 'utf-8')
 
   if (content.indexOf(attachMarkup) !== -1) {
     warn(`Please remove ${ attachMarkup } from
-    /${ cfg.build.htmlFilename } inside of <body>\n`)
+    /index.html inside of <body>\n`)
     error = true
   }
 
   if (content.indexOf(entryPointMarkup) === -1) {
     warn(`Please add ${ entryPointMarkup } to
-    /${ cfg.build.htmlFilename } inside of <body>\n`)
+    /index.html inside of <body>\n`)
     error = true
   }
 

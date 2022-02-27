@@ -88,10 +88,7 @@ module.exports = function (quasarConf, quasarRunMode) {
     clearScreen: false,
     logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
-    cacheDir: appPaths.resolve.app(
-      'node_modules/.cache/vite/'
-      + (quasarRunMode || quasarConf.ctx.modeName)
-    ),
+    cacheDir: `node_modules/.vite/${ quasarRunMode || quasarConf.ctx.modeName }`,
 
     resolve: build.resolve,
     define: parseEnv(build.env, build.rawDefine),
@@ -100,7 +97,7 @@ module.exports = function (quasarConf, quasarRunMode) {
       target: quasarRunMode === 'ssr-server'
         ? build.target.node
         : build.target.browser,
-      polyfillModulePreload: false,
+      polyfillModulePreload: build.polyfillModulePreload,
       emptyOutDir: false,
       sourcemap: build.sourcemap === true
         ? 'inline'
@@ -132,7 +129,8 @@ module.exports = function (quasarConf, quasarRunMode) {
     'reportCompressedSize',
     'chunkSizeWarningLimit',
     'assetsInlineLimit',
-    'cssCodeSplit'
+    'cssCodeSplit',
+    'assetsDir'
   ])
 
   if (
