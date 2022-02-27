@@ -49,7 +49,7 @@ console.error('TODO... Not yet available.')
 process.exit(1)
 
 require('../lib/helpers/ensure-argv')(argv, 'inspect')
-require('../lib/helpers/banner')(argv, argv.cmd)
+require('../lib/helpers/banner-global')(argv, argv.cmd)
 
 const { log, fatal } = require('../lib/helpers/logger')
 

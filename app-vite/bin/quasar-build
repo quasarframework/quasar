@@ -93,7 +93,7 @@ if (argv.help) {
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
-const banner = require('../lib/helpers/banner')
+const banner = require('../lib/helpers/banner-global')
 banner(argv, 'build')
 
 const { log, fatal } = require('../lib/helpers/logger')
@@ -161,7 +161,10 @@ async function build () {
       ? path.join(outputFolder, '..')
       : outputFolder
 
-    banner(argv, 'build', { outputFolder })
+    banner(argv, 'build', {
+      buildOutputFolder: outputFolder,
+      target: quasarConf.build.target
+    })
 
     if (typeof quasarConf.build.afterBuild === 'function') {
       await quasarConf.build.afterBuild({ quasarConf })

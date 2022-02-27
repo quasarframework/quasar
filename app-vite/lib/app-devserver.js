@@ -1,5 +1,6 @@
 
 const AppTool = require('./app-tool')
+const printDevBanner = require('./helpers/print-dev-banner')
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -106,6 +107,10 @@ class AppDevserver extends AppTool {
     }
 
     return false
+  }
+
+  printBanner (quasarConf) {
+    printDevBanner(quasarConf)
   }
 }
 

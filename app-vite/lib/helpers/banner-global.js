@@ -1,8 +1,5 @@
 const { green, grey, underline } = require('chalk')
 
-// TODO:
-// const { getBrowsersBanner } = require('./browsers-support')
-
 const getPackageJson = require('./get-package-json')
 const quasarVersion = getPackageJson('quasar').version
 const cliAppVersion = require('../../package.json').version
@@ -22,10 +19,18 @@ function getPackager (argv, cmd) {
     : 'gradle'
 }
 
-module.exports = function (argv, cmd, details) {
+function getCompilationTarget (target) {
+  return green(
+    Array.isArray(target) === true
+      ? target.join('|')
+      : target
+  )
+}
+
+module.exports = function (argv, cmd, details = {}) {
   let banner = ''
 
-  if (details) {
+  if (details.buildOutputFolder) {
     banner += ` ${underline('Build succeeded')}\n`
   }
 
@@ -40,7 +45,7 @@ module.exports = function (argv, cmd, details) {
     banner += `\n Publishing............. ${argv.publish !== void 0 ? green('yes') : grey('no')}`
   }
 
-  if (['cordova', 'capacitor'].includes(argv.mode)) {
+  if ([ 'cordova', 'capacitor' ].includes(argv.mode)) {
     const packaging = argv['skip-pkg']
       ? grey('skip')
       : green(getPackager(argv, cmd))
@@ -50,11 +55,18 @@ module.exports = function (argv, cmd, details) {
       : `\n Running mode........... ${packaging}`
   }
 
-  if (details) {
+  if (details.target) {
+    banner += `\n Browser target......... ${getCompilationTarget(details.target.browser)}`
+    if ([ 'electron', 'ssr' ].includes(argv.mode)) {
+      banner += `\n Node target............ ${getCompilationTarget(details.target.node)}`
+    }
+  }
+
+  if (details.buildOutputFolder) {
     if (argv['skip-pkg'] !== true) {
       banner += `
  =======================
- Output folder.......... ${green(details.outputFolder)}`
+ Output folder.......... ${green(details.buildOutputFolder)}`
     }
 
     if (argv.mode === 'ssr') {
@@ -108,12 +120,8 @@ module.exports = function (argv, cmd, details) {
   }
 
   console.log(banner + '\n')
-
-  // TODO
-  // if (!details) {
-  //   console.log(getBrowsersBanner())
-  // }
 }
 
 module.exports.quasarVersion = quasarVersion
 module.exports.cliAppVersion = cliAppVersion
+module.exports.getCompilationTarget = getCompilationTarget

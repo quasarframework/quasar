@@ -232,6 +232,7 @@ class QuasarConfFile {
       },
 
       build: {
+        target: {},
         viteVuePluginOptions: {},
         vitePlugins: [],
         env: {},
@@ -444,6 +445,14 @@ class QuasarConfFile {
       sourcemap: cfg.metaConf.debugging === true
     }, cfg.build)
 
+    if (!cfg.build.target.browser) {
+      cfg.build.target.browser = [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ]
+    }
+
+    if (!cfg.build.target.node) {
+      cfg.build.target.node = 'node16'
+    }
+
     if (this.ctx.mode.ssr) {
       cfg.build.vueRouterMode = 'history'
     }
@@ -612,11 +621,13 @@ class QuasarConfFile {
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
+      const getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
       const hostname = cfg.devServer.host === '0.0.0.0'
         ? 'localhost'
         : cfg.devServer.host
 
-      cfg.metaConf.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.metaConf.APP_URL = getUrl(hostname)
+      cfg.metaConf.getUrl = getUrl
     }
     else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'

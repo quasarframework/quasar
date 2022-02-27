@@ -17,7 +17,7 @@ const external = [
 function getCommonEsbuild (quasarConf) {
   return {
     platform: 'node',
-    target: 'node12',
+    target: quasarConf.build.target.node,
     format: 'cjs',
     bundle: true,
     sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,

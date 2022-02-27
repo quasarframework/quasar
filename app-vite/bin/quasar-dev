@@ -80,7 +80,7 @@ if (argv.help) {
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'dev')
 
-const banner = require('../lib/helpers/banner')
+const banner = require('../lib/helpers/banner-global')
 banner(argv, 'dev')
 
 function startVueDevtools () {

@@ -42,7 +42,7 @@ module.exports = {
     const cfg = createViteConfig(quasarConf, 'ssr-server')
 
     return mergeConfig(cfg, {
-      target: 'node12',
+      target: quasarConf.build.target.node,
       define: {
         'process.env.CLIENT': false,
         'process.env.SERVER': true
@@ -80,7 +80,7 @@ module.exports = {
 
     const cfg = {
       platform: 'node',
-      target: 'node12',
+      target: quasarConf.build.target.node,
       format: 'cjs',
       bundle: true,
       sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,

@@ -116,7 +116,7 @@ class SsrDevServer extends AppDevserver {
       if (this.#closeWebserver !== void 0) {
         queue(() => new Promise(async (resolve) => {
           await this.#closeWebserver()
-          this.#bootWebserver().then(() => {
+          this.#bootWebserver(quasarConf).then(() => {
             resolve()
           })
         }))
@@ -199,7 +199,7 @@ class SsrDevServer extends AppDevserver {
 
     await warmupServer(viteClient, viteServer)
 
-    await this.#bootWebserver()
+    await this.#bootWebserver(quasarConf)
 
     if (urlDiffers === true && quasarConf.metaConf.openBrowser) {
       const { metaConf } = quasarConf
@@ -210,7 +210,7 @@ class SsrDevServer extends AppDevserver {
     }
   }
 
-  async #bootWebserver () {
+  async #bootWebserver (quasarConf) {
     info(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`, 'WAIT')
 
     delete require.cache[serverFile]
@@ -307,6 +307,8 @@ class SsrDevServer extends AppDevserver {
 
     success('Webserver is ready', 'DONE')
     log()
+
+    this.printBanner(quasarConf)
   }
 }
 

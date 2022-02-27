@@ -1,12 +1,12 @@
 const { quasar: quasarVitePlugin } = require('@quasar/vite-plugin')
 const vueVitePlugin = require('@vitejs/plugin-vue')
 const getPackage = require('./helpers/get-package')
+const { merge } = require('webpack-merge')
 
 const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
 
 const quasarVitePluginIndexHtmlTransform = require('./vite-plugins/index-html-transform')
-const { merge } = require('webpack-merge')
 
 function printInvalidSyntax (name) {
   console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified:', name)
@@ -86,6 +86,7 @@ module.exports = function (quasarConf, quasarRunMode) {
       ? false
       : appPaths.publicDir,
     clearScreen: false,
+    logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
     cacheDir: appPaths.resolve.app(
       'node_modules/.cache/vite/'
@@ -96,6 +97,9 @@ module.exports = function (quasarConf, quasarRunMode) {
     define: parseEnv(build.env, build.rawDefine),
 
     build: {
+      target: quasarRunMode === 'ssr-server'
+        ? build.target.node
+        : build.target.browser,
       polyfillModulePreload: false,
       emptyOutDir: false,
       sourcemap: build.sourcemap === true
