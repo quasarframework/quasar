@@ -38,6 +38,8 @@ else {
   const localFile = root
     ? (
       getQuasarAppExecutable('@quasar/app/bin/quasar', root) ||
+      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) ||
+      getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) ||
       getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy <1.0
     )
     : void 0
