@@ -10,7 +10,7 @@ If you are a more advanced Vue developer, we invite you to start off with the [C
 :::
 
 ## Prerequisites
-Make sure that you have Node >=12.22.1 and NPM >=6.14.12 installed on your machine. Please do not use any odd versions of Node, as these are considered experimental.
+Make sure that you have Node >=12.22.1 and NPM >=6.14.12 or Yarn >= 1.21.1 installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/releases/#releases).
 
 ## Step 1 - Install the Quasar CLI 
 
