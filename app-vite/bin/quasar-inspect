@@ -116,8 +116,12 @@ async function inspect () {
   const util = require('util')
 
   cfgEntries.forEach(cfgEntry => {
+    const tool = cfgEntry.object.configFile !== void 0
+      ? 'Vite'
+      : 'esbuild'
+
     console.log()
-    log(`Showing "${cfgEntry.name}" config with depth of ${depth}`)
+    log(`Showing "${cfgEntry.name}" config (for ${tool}) with depth of ${depth}`)
     console.log()
     console.log(
       util.inspect(cfgEntry.object, {
