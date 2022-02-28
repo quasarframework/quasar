@@ -30,7 +30,9 @@ console.log(`
     clean, c      Clean all build artifacts
     new, n        Quickly scaffold page/layout/component/... vue file
     mode, m       Add/remove Quasar Modes for your App
-    inspect       Inspect generated Webpack config (TODO VITE)
+    inspect       Inspect Vite/esbuild configs used under the hood
+                    - keeps into account your quasar.config.js
+                      and your installed App Extensions
     ext, e        Manage Quasar App Extensions
     run, r        Run specific command provided by an installed
                     Quasar App Extension
