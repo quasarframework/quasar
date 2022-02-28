@@ -15,6 +15,10 @@ const gettingStartedNavItem = {
   name: 'getting-started',
   subMenu: [
     {
+      label: 'Quick Start',
+      path: 'quasar-cli/quick-start'
+    },
+    {
       label: 'Installation',
       subMenu: [
         {
