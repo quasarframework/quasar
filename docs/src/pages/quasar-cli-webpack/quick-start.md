@@ -29,7 +29,7 @@ Enter the following Quasar CLI command, with `<folder_name>` being the name of y
 $ quasar create <folder_name>
 ```
 
-As the CLI command runs, you'll be prompted to with some options. Depending on your needs, you can add things like TypeScript support or a different CSS preprocessor. If you are unsure about any of the options, just take the defaults (hit enter) and you'll be good to go. You can change the options later, if you wish.
+As the CLI command runs, you'll be prompted with some options. Depending on your needs, you can add things like TypeScript support or a different CSS preprocessor. If you are unsure about any of the options, just take the defaults (hit enter) and you'll be good to go. You can change the options later if you wish.
 
 
 ## Step 3 - Start developing
