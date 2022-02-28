@@ -5,6 +5,13 @@ const extensionJson = require('./extension-json')
 const getPackageJson = require('../helpers/get-package-json')
 const BaseAPI = require('./BaseAPI')
 
+// for backward compatibility
+function getPackageName (packageName) {
+  return packageName === '@quasar/app'
+    ? '@quasar/app-webpack'
+    : packageName
+}
+
 /**
  * API for extension's /uninstall.js script
  */
@@ -35,7 +42,8 @@ module.exports = class UninstallAPI extends BaseAPI {
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const name = getPackageName(packageName)
+    const json = getPackageJson(name)
 
     if (json === void 0) {
       return false
@@ -63,7 +71,9 @@ module.exports = class UninstallAPI extends BaseAPI {
    * @return {string|undefined} version of app's package
    */
   getPackageVersion (packageName) {
-    const json = getPackageJson(packageName)
+    const name = getPackageName(packageName)
+    const json = getPackageJson(name)
+
     return json !== void 0
       ? json.version
       : void 0

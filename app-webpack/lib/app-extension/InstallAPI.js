@@ -9,6 +9,13 @@ const getCallerPath = require('../helpers/get-caller-path')
 const extensionJson = require('./extension-json')
 const BaseAPI = require('./BaseAPI')
 
+// for backward compatibility
+function getPackageName (packageName) {
+  return packageName === '@quasar/app'
+    ? '@quasar/app-webpack'
+    : packageName
+}
+
 /**
  * API for extension's /install.js script
  */
@@ -68,14 +75,15 @@ module.exports = class InstallAPI extends BaseAPI {
    * @param {string} semverCondition
    */
   compatibleWith (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const name = getPackageName(packageName)
+    const json = getPackageJson(name)
 
     if (json === void 0) {
-      fatal(`Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
+      fatal(`Extension(${this.extId}): Dependency not found - ${name}. Please install it.`)
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
+      fatal(`Extension(${this.extId}): is not compatible with ${name} v${json.version}. Required version: ${semverCondition}`)
     }
   }
 
@@ -91,7 +99,8 @@ module.exports = class InstallAPI extends BaseAPI {
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const name = getPackageName(packageName)
+    const json = getPackageJson(name)
 
     if (json === void 0) {
       return false
@@ -120,7 +129,9 @@ module.exports = class InstallAPI extends BaseAPI {
    * @return {string|undefined} version of app's package
    */
   getPackageVersion (packageName) {
-    const json = getPackageJson(packageName)
+    const name = getPackageName(packageName)
+    const json = getPackageJson(name)
+
     return json !== void 0
       ? json.version
       : void 0
