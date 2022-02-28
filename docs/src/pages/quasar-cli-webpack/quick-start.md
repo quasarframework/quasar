@@ -3,7 +3,7 @@ title: Quick Start
 desc: Get up and developing a Quasar app in less than 3 minutes.
 ---
 
-It takes three steps and in a couple of minute, you are off a running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI. 
+It takes three steps and in a couple of minutes, you are off a running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI. 
 
 ::: tip
 If you are a more advanced Vue developer, we invite you to start off with the [CLI Installation instructions](/quasar-cli/installation) or [decide between other means of using Quasar](/start/pick-quasar-flavour). 
