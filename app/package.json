@@ -1,5 +1,5 @@
 {
-  "name": "@quasar/app",
+  "name": "@quasar/app-webpack",
   "version": "3.3.3",
   "description": "Quasar Framework local CLI",
   "bin": {

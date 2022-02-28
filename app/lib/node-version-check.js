@@ -21,7 +21,7 @@ if (
   console.error()
   console.error('--------------------------------------------------------')
   console.error(' INCOMPATIBLE NODE VERSION')
-  console.error(` @quasar/app requires Node ${min.major}.${min.minor}.${min.patch} or superior`)
+  console.error(` @quasar/app-webpack requires Node ${min.major}.${min.minor}.${min.patch} or superior`)
   console.error()
   console.error(' You are running Node ' + process.version)
   console.error(' Please install a compatible Node version and try again')

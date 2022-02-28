@@ -27,14 +27,14 @@ module.exports = function (argv, cmd, details) {
   }
 
   banner += `
- ${cmd === 'dev' ? 'Dev mode..........' : 'Build mode........'} ${green(argv.mode)}
- Pkg quasar........ ${green('v' + quasarVersion)}
- Pkg @quasar/app... ${green('v' + cliAppVersion)}
- Pkg webpack....... ${green('v5')}
- Debugging......... ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
+ ${cmd === 'dev' ? 'Dev mode..................' : 'Build mode................'} ${green(argv.mode)}
+ Pkg quasar................ ${green('v' + quasarVersion)}
+ Pkg @quasar/app-webpack... ${green('v' + cliAppVersion)}
+ Pkg webpack............... ${green('v5')}
+ Debugging................. ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
 
   if (cmd === 'build') {
-    banner += `\n Publishing........ ${argv.publish !== void 0 ? green('yes') : grey('no')}`
+    banner += `\n Publishing................ ${argv.publish !== void 0 ? green('yes') : grey('no')}`
   }
 
   if (['cordova', 'capacitor'].includes(argv.mode)) {
@@ -49,8 +49,8 @@ module.exports = function (argv, cmd, details) {
     banner += `\n Transpiled JS..... ${details.transpileBanner}`
     if (argv['skip-pkg'] !== true) {
       banner += `
- ==================
- Output folder..... ${green(details.outputFolder)}`
+ ==========================
+ Output folder............. ${green(details.outputFolder)}`
     }
 
     if (argv.mode === 'ssr') {

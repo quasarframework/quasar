@@ -11,7 +11,7 @@ console.log(
 if (process.env.QUASAR_CLI_VERSION) {
   console.log('  Running @quasar/cli v' + process.env.QUASAR_CLI_VERSION)
 }
-console.log('  Running @quasar/app v' + require('../package.json').version)
+console.log('  Running @quasar/app-webpack v' + require('../package.json').version)
 
 console.log(`
   Example usage

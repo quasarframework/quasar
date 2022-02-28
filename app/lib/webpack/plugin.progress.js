@@ -127,12 +127,12 @@ function printReadyBanner () {
 function getReadyBanner (cfg) {
   if (cfg.ctx.mode.bex === true) {
     return [
-      ` ${greenBanner} App dir........... ${chalk.green(appPaths.appDir)}`,
-      ` ${greenBanner} Dev mode.......... ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
-      ` ${greenBanner} Pkg quasar........ ${chalk.green('v' + quasarVersion)}`,
-      ` ${greenBanner} Pkg @quasar/app... ${chalk.green('v' + cliAppVersion)}`,
+      ` ${greenBanner} App dir................... ${chalk.green(appPaths.appDir)}`,
+      ` ${greenBanner} Dev mode.................. ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
+      ` ${greenBanner} Pkg quasar................ ${chalk.green('v' + quasarVersion)}`,
+      ` ${greenBanner} Pkg @quasar/app-webpack... ${chalk.green('v' + cliAppVersion)}`,
       ` ${greenBanner} Transpiled JS..... ${cfg.__transpileBanner}`,
-      ` --------------------`,
+      ` ----------------------------`,
       ` ${greenBanner} Load the dev extension from:`,
       `   · Chrome(ium): ${chalk.green(appPaths.bexDir)}`,
       `   · Firefox:     ${chalk.green(appPaths.resolve.bex('manifest.json'))}`
@@ -148,12 +148,12 @@ function getReadyBanner (cfg) {
     : chalk.green(cfg.build.APP_URL)
 
   return [
-    ` ${greenBanner} App dir........... ${chalk.green(appPaths.appDir)}`,
-    ` ${greenBanner} App URL........... ${urlList}`,
-    ` ${greenBanner} Dev mode.......... ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
-    ` ${greenBanner} Pkg quasar........ ${chalk.green('v' + quasarVersion)}`,
-    ` ${greenBanner} Pkg @quasar/app... ${chalk.green('v' + cliAppVersion)}`,
-    ` ${greenBanner} Transpiled JS..... ${cfg.__transpileBanner}`
+    ` ${greenBanner} App dir................... ${chalk.green(appPaths.appDir)}`,
+    ` ${greenBanner} App URL................... ${urlList}`,
+    ` ${greenBanner} Dev mode.................. ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
+    ` ${greenBanner} Pkg quasar................ ${chalk.green('v' + quasarVersion)}`,
+    ` ${greenBanner} Pkg @quasar/app-webpack... ${chalk.green('v' + cliAppVersion)}`,
+    ` ${greenBanner} Transpiled JS............. ${cfg.__transpileBanner}`
   ].join('\n') + '\n'
 }
 

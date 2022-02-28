@@ -19,7 +19,7 @@ module.exports = function () {
     const deps = `dep${ packagesToInstall.length > 1 ? 's' : '' }`
 
     log()
-    log(`Missing Vue ${ deps } (no longer auto supplied by @quasar/app). Installing...`)
+    log(`Missing Vue ${ deps } (no longer auto supplied by @quasar/app-webpack). Installing...`)
 
     spawnSync(
       nodePackager,
