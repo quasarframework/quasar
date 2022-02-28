@@ -19,6 +19,7 @@ function getAppDir () {
 
 const appDir = getAppDir()
 const cliDir = resolve(__dirname, '..')
+const publicDir = resolve(appDir, 'public')
 const srcDir = resolve(appDir, 'src')
 const pwaDir = resolve(appDir, 'src-pwa')
 const ssrDir = resolve(appDir, 'src-ssr')
@@ -31,6 +32,7 @@ module.exports = {
   cliDir,
   appDir,
   srcDir,
+  publicDir,
   pwaDir,
   ssrDir,
   cordovaDir,
