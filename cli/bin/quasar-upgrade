@@ -125,7 +125,7 @@ function upgradeQuasar () {
   let removeDeprecatedAppPkg = false
 
   for (const type of Object.keys(deps)) {
-    for (const packageName of Object.keys(pkg[type] || {})) {
+    for (let packageName of Object.keys(pkg[type] || {})) {
       // is it a Quasar package?
       if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
         continue
@@ -136,8 +136,8 @@ function upgradeQuasar () {
         ? json.version
         : null
 
-      // q/app has been renamed to q/app-webpack
-      if (packageName === '@quasar/app') {
+      // q/app v3 has been renamed to q/app-webpack
+      if (packageName === '@quasar/app' && curVersion && curVersion.startsWith('3.')) {
         removeDeprecatedAppPkg = true
         packageName = '@quasar/app-webpack'
       }
