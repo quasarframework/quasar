@@ -20,7 +20,7 @@ $ yarn global add @quasar/cli
 # or
 $ npm install -g @quasar/cli
 ```
-The installation of the CLI is pretty straight forward. Once it is installed with no errors, your ready for Step 2.    
+The installation of the CLI is pretty straightforward. Once it is installed with no errors, you are ready for Step 2.
 
 ## Step 2 - Create a Project
 
