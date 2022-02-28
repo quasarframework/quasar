@@ -122,6 +122,7 @@ function upgradeQuasar () {
   console.log()
 
   let updateAvailable = false
+  let removeDeprecatedAppPkg = false
 
   for (const type of Object.keys(deps)) {
     for (const packageName of Object.keys(pkg[type] || {})) {
@@ -134,6 +135,12 @@ function upgradeQuasar () {
       const curVersion = json !== null
         ? json.version
         : null
+
+      // q/app has been renamed to q/app-webpack
+      if (packageName === '@quasar/app') {
+        removeDeprecatedAppPkg = true
+        packageName = '@quasar/app-webpack'
+      }
 
       const latestVersion = getLatestVersion(packager, packageName, curVersion)
 
@@ -180,6 +187,19 @@ function upgradeQuasar () {
   const { removeSync } = require('fs-extra')
   const spawn = require('../lib/spawn')
 
+  if (removeDeprecatedAppPkg === true) {
+    const params = packager === 'yarn'
+      ? [ 'remove', '@quasar/app' ]
+      : [ 'uninstall', '--save--dev', '@quasar/app' ]
+
+    // need to delete tha package otherwise
+    // installing the new version might fail on Windows
+    removeSync(path.join(root, 'node_modules/@quasar/app'))
+
+    console.log()
+    spawn(packager, params, root)
+  }
+
   for (const type of Object.keys(deps)) {
     if (deps[type].length === 0) {
       continue
@@ -212,4 +232,3 @@ function upgradeQuasar () {
 }
 
 upgradeQuasar()
-
