@@ -245,7 +245,8 @@ class QuasarConfFile {
         rollupOptions: {},
         commonjsOptions: {},
         dynamicImportVarsOptions: {},
-        optimizeDeps: {}
+        optimizeDeps: {},
+        worker: {}
       },
 
       ssr: {

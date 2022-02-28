@@ -122,7 +122,8 @@ function createViteConfig (quasarConf, quasarRunMode) {
     'css',
     'json',
     'optimizeDeps',
-    'assetsInclude'
+    'assetsInclude',
+    'worker'
   ])
 
   inject(viteConf.build, build, [
@@ -156,7 +157,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
       viteConf.plugins.push(
         require('rollup-plugin-visualizer').visualizer({
           open: true,
-          filename: `stats-${ quasarRunMode }.html`,
+          filename: `.quasar/stats-${ quasarRunMode }.html`,
           ...(Object(analyze) === analyze ? analyze : {})
         })
       )
@@ -194,7 +195,7 @@ function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
 
   // example: quasarConf.ssr.extendSSRWebserverConf
   if (typeof quasarConfTarget[method] === 'function') {
-    quasarConf.build.extendViteConfig(esbuildConf)
+    quasarConfTarget[method](esbuildConf)
   }
 
   const promise = extensionRunner.runHook(method, async hook => {
