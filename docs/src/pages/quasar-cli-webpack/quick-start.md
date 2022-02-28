@@ -47,9 +47,9 @@ You'll see the dev server compiling your new application and once it is finished
 
 If you are new to Quasar and a...
 
-**(Beginner Vue) JavaScript Dev** - we highly recommend [learning Vue](/start/how-to-use-vue). 
+**(Beginner Vue) JavaScript Dev** - we highly recommend [learning Vue](/start/how-to-use-vue).
 
-**Intermediate Vue Dev** - we recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli/directory-structure) and it's different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) (the project you built is an SPA). 
+**Intermediate Vue Dev** - we recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli/directory-structure) and it's different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) (the project you built is an SPA).
 
-**Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).  
+**Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).
 
