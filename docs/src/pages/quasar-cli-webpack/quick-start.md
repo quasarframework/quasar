@@ -34,7 +34,7 @@ As the CLI command runs, you'll be prompted with some options. Depending on your
 
 ## Step 3 - Start developing
 
-Now the last step. Drop down into the newly created project folder and run the Quasar CLI command to start the dev server. 
+Now is the last step. Navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
 ```bash
 $ cd <folder_name>
 # then run 
