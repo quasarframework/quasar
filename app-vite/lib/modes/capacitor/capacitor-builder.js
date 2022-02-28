@@ -22,7 +22,7 @@ class CapacitorBuilder extends AppBuilder {
   }
 
   async #buildFiles () {
-    const viteConfig = config.vite(this.quasarConf)
+    const viteConfig = await config.vite(this.quasarConf)
     await this.buildWithVite('Capacitor UI', viteConfig)
   }
 

@@ -13,8 +13,8 @@ class SsrBuilder extends AppBuilder {
     await this.#copyWebserverFiles()
     await this.#writePackageJson()
 
-    const viteClientConfig = config.viteClient(this.quasarConf)
-    await this.buildWithVite('Client', viteClientConfig)
+    const viteClientConfig = await config.viteClient(this.quasarConf)
+    await this.buildWithVite('SSR Client', viteClientConfig)
 
     this.moveFile(
       viteClientConfig.build.outDir + '/ssr-manifest.json',
@@ -23,13 +23,13 @@ class SsrBuilder extends AppBuilder {
 
     await this.#writeRenderTemplate(viteClientConfig.build.outDir)
 
-    const viteServerConfig = config.viteServer(this.quasarConf)
-    await this.buildWithVite('Server', viteServerConfig)
+    const viteServerConfig = await config.viteServer(this.quasarConf)
+    await this.buildWithVite('SSR Server', viteServerConfig)
   }
 
   async #buildWebserver () {
-    const esbuildConfig = config.webserver(this.quasarConf)
-    await this.buildWithEsbuild('Webserver', esbuildConfig)
+    const esbuildConfig = await config.webserver(this.quasarConf)
+    await this.buildWithEsbuild('SSR Webserver', esbuildConfig)
   }
 
   async #copyWebserverFiles () {

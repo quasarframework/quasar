@@ -140,7 +140,7 @@ async function goLive () {
   const extensionRunner = require('../lib/app-extension/extensions-runner')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../lib/quasar-conf-file')
+  const QuasarConfFile = require('../lib/quasar-config-file')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,

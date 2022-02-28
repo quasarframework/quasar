@@ -1,8 +1,10 @@
 
 const { join } = require('path')
-const { mergeConfig } = require('vite')
 
-const createViteConfig = require('../../create-vite-config')
+const {
+  createViteConfig, extendViteConfig, mergeViteConfig,
+  extendEsbuildConfig
+} = require('../../config-tools')
 
 const appPaths = require('../../app-paths')
 const parseEnv = require('../../parse-env')
@@ -15,7 +17,7 @@ module.exports = {
   viteClient: quasarConf => {
     let cfg = createViteConfig(quasarConf, 'ssr-client')
 
-    cfg = mergeConfig(cfg, {
+    cfg = mergeViteConfig(cfg, {
       define: {
         'process.env.CLIENT': true,
         'process.env.SERVER': false
@@ -35,13 +37,13 @@ module.exports = {
       cfg.build.rollupOptions.input = appPaths.resolve.app('.quasar/client-entry.js')
     }
 
-    return cfg
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
   viteServer: quasarConf => {
-    const cfg = createViteConfig(quasarConf, 'ssr-server')
+    let cfg = createViteConfig(quasarConf, 'ssr-server')
 
-    return mergeConfig(cfg, {
+    cfg = mergeViteConfig(cfg, {
       target: quasarConf.build.target.node,
       define: {
         'process.env.CLIENT': false,
@@ -65,6 +67,8 @@ module.exports = {
         }
       }
     })
+
+    return extendViteConfig(cfg, quasarConf, { isServer: true })
   },
 
   webserver: quasarConf => {
@@ -110,6 +114,6 @@ module.exports = {
       cfg.outfile = join(quasarConf.build.distDir, 'index.js')
     }
 
-    return cfg
+    return extendEsbuildConfig(cfg, quasarConf.ssr, 'SSRWebserver')
   }
 }

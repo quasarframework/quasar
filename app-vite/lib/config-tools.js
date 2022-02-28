@@ -1,3 +1,5 @@
+
+const { mergeConfig } = require('vite')
 const { quasar: quasarVitePlugin } = require('@quasar/vite-plugin')
 const vueVitePlugin = require('@vitejs/plugin-vue')
 const getPackage = require('./helpers/get-package')
@@ -5,6 +7,7 @@ const { merge } = require('webpack-merge')
 
 const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
+const extensionRunner = require('./app-extension/extensions-runner')
 
 const quasarVitePluginIndexHtmlTransform = require('./vite-plugins/index-html-transform')
 
@@ -68,7 +71,7 @@ function inject (target, source, propList) {
   }
 }
 
-module.exports = function (quasarConf, quasarRunMode) {
+function createViteConfig (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
 
   const vueVitePluginOptions = quasarRunMode !== 'ssr-server'
@@ -88,7 +91,7 @@ module.exports = function (quasarConf, quasarRunMode) {
     clearScreen: false,
     logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
-    cacheDir: `node_modules/.vite/${ quasarRunMode || quasarConf.ctx.modeName }`,
+    cacheDir: `node_modules/.vite/${ quasarRunMode || ctx.modeName }`,
 
     resolve: build.resolve,
     define: parseEnv(build.env, build.rawDefine),
@@ -149,11 +152,11 @@ module.exports = function (quasarConf, quasarRunMode) {
     viteConf.build.outDir = build.distDir
 
     const analyze = quasarConf.build.analyze
-    if (quasarRunMode !== 'ssr-server' && analyze) {
+    if (analyze) {
       viteConf.plugins.push(
         require('rollup-plugin-visualizer').visualizer({
           open: true,
-          filename: 'stats-' + (quasarRunMode || quasarConf.ctx.modeName) + '.html',
+          filename: `stats-${ quasarRunMode }.html`,
           ...(Object(analyze) === analyze ? analyze : {})
         })
       )
@@ -166,3 +169,44 @@ module.exports = function (quasarConf, quasarRunMode) {
 
   return viteConf
 }
+
+function extendViteConfig (viteConf, quasarConf, invokeParams) {
+  const opts = {
+    isClient: false,
+    isServer: false,
+    ...invokeParams
+  }
+
+  if (typeof quasarConf.build.extendViteConfig === 'function') {
+    quasarConf.build.extendViteConfig(viteConf, opts)
+  }
+
+  const promise = extensionRunner.runHook('extendViteConfig', async hook => {
+    log(`Extension(${hook.api.extId}): Extending "${quasarRunMode}" Vite config`)
+    await hook.fn(viteConf, opts, hook.api)
+  })
+
+  return promise.then(() => viteConf)
+}
+
+function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
+  const method = `extend${threadName}Conf`
+
+  // example: quasarConf.ssr.extendSSRWebserverConf
+  if (typeof quasarConfTarget[method] === 'function') {
+    quasarConf.build.extendViteConfig(esbuildConf)
+  }
+
+  const promise = extensionRunner.runHook(method, async hook => {
+    log(`Extension(${hook.api.extId}): Extending "${threadName}" Esbuild config`)
+    await hook.fn(esbuildConf, hook.api)
+  })
+
+  return promise.then(() => esbuildConf)
+}
+
+module.exports.createViteConfig = createViteConfig
+module.exports.extendViteConfig = extendViteConfig
+module.exports.mergeViteConfig = mergeConfig
+
+module.exports.extendEsbuildConfig = extendEsbuildConfig

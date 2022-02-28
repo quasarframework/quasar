@@ -1,4 +1,4 @@
-const createViteConfig = require('../../create-vite-config')
+const { createViteConfig, extendViteConfig } = require('../../config-tools')
 const cordovaPlatformInject = require('./vite-plugin.dev.cordova-platform-inject')
 
 module.exports = {
@@ -11,6 +11,6 @@ module.exports = {
       )
     }
 
-    return cfg
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
   }
 }

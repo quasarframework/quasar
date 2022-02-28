@@ -53,7 +53,7 @@ class CordovaDevServer extends AppDevserver {
       this.#server.close()
     }
 
-    const viteConfig = config.vite(quasarConf)
+    const viteConfig = await config.vite(quasarConf)
 
     this.#server = await createServer(viteConfig)
     await this.#server.listen()

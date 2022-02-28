@@ -1,7 +1,7 @@
 const path = require('path')
 const appPaths = require('../../app-paths')
 
-const createViteConfig = require('../../create-vite-config')
+const { createViteConfig, extendViteConfig, extendEsbuildConfig } = require('../../config-tools')
 const parseEnv = require('../../parse-env')
 const { tempElectronDir } = require('./utils')
 
@@ -36,7 +36,10 @@ function getCommonEsbuild (quasarConf) {
 }
 
 module.exports = {
-  vite: quasarConf => createViteConfig(quasarConf),
+  vite: quasarConf => {
+    const cfg = createViteConfig(quasarConf)
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
+  },
 
   main: quasarConf => {
     const outfile = path.join(
@@ -54,7 +57,7 @@ module.exports = {
       quasarConf.electron.extendEsbuildOptionsMain(cfg)
     }
 
-    return cfg
+    return extendEsbuildConfig(cfg, quasarConf.electron, 'ElectronMain')
   },
 
   preload: quasarConf => {
@@ -73,6 +76,6 @@ module.exports = {
       quasarConf.electron.extendEsbuildOptionsPreload(cfg)
     }
 
-    return cfg
+    return extendEsbuildConfig(cfg, quasarConf.electron, 'ElectronPreload')
   }
 }

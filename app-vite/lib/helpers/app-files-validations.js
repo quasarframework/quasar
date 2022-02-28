@@ -7,7 +7,7 @@ const { entryPointMarkup, attachMarkup } = require('../helpers/html-template')
 module.exports = function (cfg) {
   let file
   let content
-  let error = false
+  let valid = true
 
   file = appPaths.resolve.app('index.html')
   content = fs.readFileSync(file, 'utf-8')
@@ -15,16 +15,14 @@ module.exports = function (cfg) {
   if (content.indexOf(attachMarkup) !== -1) {
     warn(`Please remove ${ attachMarkup } from
     /index.html inside of <body>\n`)
-    error = true
+    valid = false
   }
 
   if (content.indexOf(entryPointMarkup) === -1) {
     warn(`Please add ${ entryPointMarkup } to
     /index.html inside of <body>\n`)
-    error = true
+    valid = false
   }
 
-  if (error === true) {
-    process.exit(1)
-  }
+  return valid
 }

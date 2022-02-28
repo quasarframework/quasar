@@ -1,7 +1,7 @@
 const path = require('path')
 
 const appPaths = require('../../app-paths')
-const createViteConfig = require('../../create-vite-config')
+const { createViteConfig, extendViteConfig } = require('../../config-tools')
 
 const { dependencies } = require(appPaths.resolve.capacitor('package.json'))
 const target = appPaths.resolve.capacitor('node_modules')
@@ -19,6 +19,6 @@ module.exports = {
       cfg.resolve.alias[dep] = path.join(target, dep)
     })
 
-    return cfg
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
   }
 }

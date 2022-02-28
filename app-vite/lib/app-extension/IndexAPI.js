@@ -1,39 +1,38 @@
 const semver = require('semver')
 const { merge } = require('webpack-merge')
 
-const appPaths = require('../app-paths')
 const { fatal } = require('../helpers/logger')
 const getPackageJson = require('../helpers/get-package-json')
 const getCallerPath = require('../helpers/get-caller-path')
 const extensionJson = require('./extension-json')
+const BaseAPI = require('./BaseAPI')
 
 /**
  * API for extension's /index.js script
  */
-module.exports = class IndexAPI {
-  constructor ({ extId, prompts, ctx }) {
-    this.ctx = ctx
-    this.extId = extId
-    this.prompts = prompts
-    this.resolve = appPaths.resolve
-    this.appDir = appPaths.appDir
+module.exports = class IndexAPI extends BaseAPI {
+  ctx
 
-    this.__hooks = {
-      extendQuasarConf: [],
-      extendWebpack: [],
-      chainWebpackMainElectronProcess: [],
-      extendWebpackMainElectronProcess: [],
-      chainWebpackWebserver: [],
-      extendWebpackWebserver: [],
-      chainWebpack: [],
-      beforeDev: [],
-      afterDev: [],
-      beforeBuild: [],
-      afterBuild: [],
-      onPublish: [],
-      commands: {},
-      describeApi: {}
-    }
+  __hooks = {
+    extendQuasarConf: [],
+
+    extendViteConf: [],
+    extendSSRWebserverConf: [],
+    extendElectronMainConf: [],
+    extendElectronPreloadConf: [],
+
+    beforeDev: [],
+    afterDev: [],
+    beforeBuild: [],
+    afterBuild: [],
+    onPublish: [],
+    commands: {},
+    describeApi: {}
+  }
+
+  constructor ({ ctx, ...opts }) {
+    super(opts)
+    this.ctx = ctx
   }
 
   /**
@@ -152,63 +151,43 @@ module.exports = class IndexAPI {
   }
 
   /**
-   * Chain webpack config
+   * Extend Vite config
    *
    * @param {function} fn
-   *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
+   *   (cfg: Object, invoke: Object {isClient, isServer}, api) => undefined
    */
-  chainWebpack (fn) {
-    this.__addHook('chainWebpack', fn)
+  extendViteConf (fn) {
+    this.__addHook('extendViteConf', fn)
   }
 
   /**
-   * Extend webpack config
+   * Extend SSR Webserver esbuild config
    *
    * @param {function} fn
-   *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
+   *   (cfg: Object, api) => undefined
    */
-  extendWebpack (fn) {
-    this.__addHook('extendWebpack', fn)
+  extendSSRWebserverConf (fn) {
+    this.__addHook('extendSSRWebserverConf', fn)
   }
 
   /**
-   * Chain webpack config of main electron process
+   * Extend Electron Main thread esbuild config
    *
    * @param {function} fn
-   *   (cfg: ChainObject) => undefined
+   *   (cfg: Object, api) => undefined
    */
-  chainWebpackMainElectronProcess (fn) {
-    this.__addHook('chainWebpackMainElectronProcess', fn)
+  extendElectronMainConf (fn) {
+    this.__addHook('extendElectronMainConf', fn)
   }
 
   /**
-   * Extend webpack config of main electron process
+   * Extend Electron Preload thread esbuild config
    *
    * @param {function} fn
-   *   (cfg: Object) => undefined
+   *   (cfg: Object, api) => undefined
    */
-  extendWebpackMainElectronProcess (fn) {
-    this.__addHook('extendWebpackMainElectronProcess', fn)
-  }
-
-  /**
-   * Chain webpack config of SSR webserver
-   *
-   * @param {function} fn
-   *   (cfg: ChainObject) => undefined
-   */
-  chainWebpackWebserver (fn) {
-    this.__addHook('chainWebpackWebserver', fn)
-  }
-
-  /**
-   * Extend webpack config of SSR webserver
-   *
-   * @param {function} fn
-   *   (cfg: Object) => undefined
-   */
-  extendWebpackWebserver (fn) {
-    this.__addHook('extendWebpackWebserver', fn)
+  extendElectronPreloadConf (fn) {
+    this.__addHook('extendElectronPreloadConf', fn)
   }
 
   /**
@@ -297,17 +276,5 @@ module.exports = class IndexAPI {
    */
   onPublish (fn) {
     this.__addHook('onPublish', fn)
-  }
-
-  /**
-   * Private methods
-   */
-
-  __getHooks () {
-    return this.__hooks
-  }
-
-  __addHook (name, fn) {
-    this.__hooks[name].push({ fn, api: this })
   }
 }

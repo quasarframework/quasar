@@ -51,7 +51,7 @@ class ElectronDevServer extends AppDevserver {
       this.#server.close()
     }
 
-    const viteConfig = config.vite(quasarConf)
+    const viteConfig = await config.vite(quasarConf)
 
     this.#server = await createServer(viteConfig)
     await this.#server.listen()
@@ -71,11 +71,11 @@ class ElectronDevServer extends AppDevserver {
     let mainReady = false
     let preloadReady = false
 
-    const cfgMain = config.main(quasarConf)
-    const cfgPreload = config.preload(quasarConf)
+    const cfgMain = await config.main(quasarConf)
+    const cfgPreload = await config.preload(quasarConf)
 
     return Promise.all([
-      this.buildWithEsbuild('Main thread', cfgMain, () => {
+      this.buildWithEsbuild('Electron Main', cfgMain, () => {
         if (preloadReady === true) {
           this.#runElectron(quasarConf)
         }
@@ -84,7 +84,7 @@ class ElectronDevServer extends AppDevserver {
         this.#stopMain = result.stop
       }),
 
-      this.buildWithEsbuild('Preload thread', cfgPreload, () => {
+      this.buildWithEsbuild('Electron Preload', cfgPreload, () => {
         if (mainReady === true) {
           this.#runElectron(quasarConf)
         }

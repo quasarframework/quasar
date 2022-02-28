@@ -23,7 +23,8 @@ const confErrors = {
   CANNOT_READ: { error: 'Could not load quasar.config.js config file' },
   HAS_JS_ERRORS: { error: 'quasar.config.js has JS errors' },
   EXTENSIONS_FAILED: { error: 'One of your installed App Extensions failed to run' },
-  NETWORK_ERROR: { error: 'Network error encountered while following the quasar.conf host/port config' }
+  NETWORK_ERROR: { error: 'Network error encountered while following the quasar.conf host/port config' },
+  FILES_VALIDATION_ERROR: { error: 'Files validation not passed successfully' }
 }
 
 function escapeHTMLTagContent (str) {
@@ -498,7 +499,9 @@ class QuasarConfFile {
       electronPreload: 'src-electron/electron-preload'
     }, cfg.sourceFiles)
 
-    appFilesValidations(cfg)
+    if (appFilesValidations(cfg) === false) {
+      return confErrors.FILES_VALIDATION_ERROR
+    }
 
     // do we got vuex?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)

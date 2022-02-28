@@ -8,24 +8,19 @@ const { warn, fatal } = require('../helpers/logger')
 const getPackageJson = require('../helpers/get-package-json')
 const getCallerPath = require('../helpers/get-caller-path')
 const extensionJson = require('./extension-json')
+const BaseAPI = require('./BaseAPI')
 
 /**
  * API for extension's /install.js script
  */
-module.exports = class InstallAPI {
-  constructor ({ extId, prompts }) {
-    this.extId = extId
-    this.prompts = prompts
-    this.resolve = appPaths.resolve
-    this.appDir = appPaths.appDir
-
-    this.__needsNodeModulesUpdate = false
-    this.__hooks = {
-      renderFolders: [],
-      renderFiles: [],
-      exitLog: []
-    }
+module.exports = class InstallAPI extends BaseAPI {
+  __hooks = {
+    renderFolders: [],
+    renderFiles: [],
+    exitLog: []
   }
+
+  __needsNodeModulesUpdate = false
 
   /**
    * Get the internal persistent config of this extension.

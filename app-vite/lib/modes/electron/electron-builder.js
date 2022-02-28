@@ -21,15 +21,15 @@ class ElectronBuilder extends AppBuilder {
   }
 
   async #buildFiles () {
-    const viteConfig = config.vite(this.quasarConf)
-    await this.buildWithVite('Renderer', viteConfig)
+    const viteConfig = await config.vite(this.quasarConf)
+    await this.buildWithVite('Electron UI', viteConfig)
 
-    const mainConfig = config.main(this.quasarConf)
-    await this.buildWithEsbuild('Main thread', mainConfig)
+    const mainConfig = await config.main(this.quasarConf)
+    await this.buildWithEsbuild('Electron Main', mainConfig)
     this.#replaceAppUrl(mainConfig.outfile)
 
-    const preloadConfig = config.preload(this.quasarConf)
-    await this.buildWithEsbuild('Preload thread', preloadConfig)
+    const preloadConfig = await config.preload(this.quasarConf)
+    await this.buildWithEsbuild('Electron Preload', preloadConfig)
     this.#replaceAppUrl(preloadConfig.outfile)
   }
 

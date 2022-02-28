@@ -111,8 +111,8 @@ class SsrDevServer extends AppDevserver {
       await this.#webserverWatcher.close()
     }
 
-    const esbuildConfig = config.webserver(quasarConf)
-    await this.buildWithEsbuild('Webserver', esbuildConfig, () => {
+    const esbuildConfig = await config.webserver(quasarConf)
+    await this.buildWithEsbuild('SSR Webserver', esbuildConfig, () => {
       if (this.#closeWebserver !== void 0) {
         queue(() => new Promise(async (resolve) => {
           await this.#closeWebserver()
@@ -141,8 +141,8 @@ class SsrDevServer extends AppDevserver {
       ? url => url || '/'
       : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
-    const viteClient = this.#viteClient = await createServer(config.viteClient(quasarConf))
-    const viteServer = this.#viteServer = await createServer(config.viteServer(quasarConf))
+    const viteClient = this.#viteClient = await createServer(await config.viteClient(quasarConf))
+    const viteServer = this.#viteServer = await createServer(await config.viteServer(quasarConf))
 
     let renderTemplate
 

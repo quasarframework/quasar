@@ -20,12 +20,9 @@ class AppDevserver extends AppTool {
   #runQueue = Promise.resolve()
   #runId = 0
 
-  argv
-
   constructor ({ argv, entryFiles }) {
-    super()
+    super(argv)
 
-    this.argv = argv
     this.#entryFiles = entryFiles
 
     this.registerDiff('entryFiles', quasarConf => ([

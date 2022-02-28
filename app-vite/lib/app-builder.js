@@ -8,14 +8,12 @@ const AppTool = require('./app-tool')
 const appPaths = require('./app-paths')
 
 class AppBuilder extends AppTool {
-  argv
   quasarConf
   ctx
 
   constructor ({ argv, quasarConf }) {
-    super()
+    super(argv)
 
-    this.argv = argv
     this.quasarConf = quasarConf
     this.ctx = quasarConf.ctx
   }
