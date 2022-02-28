@@ -294,12 +294,4 @@ module.exports = class InstallAPI extends BaseAPI {
   onExitLog (msg) {
     this.__hooks.exitLog.push(msg)
   }
-
-  /**
-   * Private methods
-   */
-
-  __getHooks () {
-    return this.__hooks
-  }
 }

@@ -1,39 +1,40 @@
 const semver = require('semver')
 const { merge } = require('webpack-merge')
 
-const appPaths = require('../app-paths')
 const { fatal } = require('../helpers/logger')
 const getPackageJson = require('../helpers/get-package-json')
 const getCallerPath = require('../helpers/get-caller-path')
 const extensionJson = require('./extension-json')
+const BaseAPI = require('./BaseAPI')
 
 /**
  * API for extension's /index.js script
  */
-module.exports = class IndexAPI {
-  constructor ({ extId, prompts, ctx }) {
-    this.ctx = ctx
-    this.extId = extId
-    this.prompts = prompts
-    this.resolve = appPaths.resolve
-    this.appDir = appPaths.appDir
+module.exports = class IndexAPI extends BaseAPI {
+  ctx
 
-    this.__hooks = {
-      extendQuasarConf: [],
-      extendWebpack: [],
-      chainWebpackMainElectronProcess: [],
-      extendWebpackMainElectronProcess: [],
-      chainWebpackWebserver: [],
-      extendWebpackWebserver: [],
-      chainWebpack: [],
-      beforeDev: [],
-      afterDev: [],
-      beforeBuild: [],
-      afterBuild: [],
-      onPublish: [],
-      commands: {},
-      describeApi: {}
-    }
+  __hooks = {
+    extendQuasarConf: [],
+
+    extendWebpack: [],
+    chainWebpackMainElectronProcess: [],
+    extendWebpackMainElectronProcess: [],
+    chainWebpackWebserver: [],
+    extendWebpackWebserver: [],
+
+    chainWebpack: [],
+    beforeDev: [],
+    afterDev: [],
+    beforeBuild: [],
+    afterBuild: [],
+    onPublish: [],
+    commands: {},
+    describeApi: {}
+  }
+
+  constructor ({ ctx, ...opts }) {
+    super(opts)
+    this.ctx = ctx
   }
 
   /**
@@ -297,17 +298,5 @@ module.exports = class IndexAPI {
    */
   onPublish (fn) {
     this.__addHook('onPublish', fn)
-  }
-
-  /**
-   * Private methods
-   */
-
-  __getHooks () {
-    return this.__hooks
-  }
-
-  __addHook (name, fn) {
-    this.__hooks[name].push({ fn, api: this })
   }
 }

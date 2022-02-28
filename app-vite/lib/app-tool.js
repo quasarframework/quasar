@@ -5,7 +5,6 @@ const { bold, underline, green } = require('chalk')
 const debounce = require('lodash.debounce')
 
 const { log, info, success } = require('./helpers/logger')
-const extensionRunner = require('./app-extension/extensions-runner')
 
 function coloredName (name) {
   return bold(underline(green(name)))
