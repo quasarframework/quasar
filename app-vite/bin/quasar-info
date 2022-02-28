@@ -87,8 +87,7 @@ print({ key: 'Important local packages', section: true })
   'electron',
   'electron-packager',
   'electron-builder',
-  'register-service-worker',
-  'typescript'
+  'register-service-worker'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
 
 ;[
