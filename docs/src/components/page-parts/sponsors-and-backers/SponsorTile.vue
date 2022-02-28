@@ -1,24 +1,11 @@
 <template>
-  <a
-    v-if="href"
-    :href="href"
-    target='_blank'
-    class="cursor-pointer sponsor"
-  >
-    <q-img
-      :src="logoUrl"
-      :alt="name"
-      height="100%"
-      fit="contain"
-    />
-  </a>
+  <div v-if="href" class="cursor-pointer sponsor doc-img">
+    <a :href="href" target="_blank" class>
+      <q-img :src="logoUrl" :alt="name" height="98%" fit="contain" />
+    </a>
+  </div>
   <div v-else class="sponsor">
-    <q-img
-      :src="logoUrl"
-      :alt="name"
-      height="100%"
-      fit="contain"
-    />
+    <q-img :src="logoUrl" :alt="name" height="100%" fit="contain" />
   </div>
 </template>
 
@@ -60,7 +47,7 @@ export default defineComponent({
   box-sizing: content-box;
   max-height: 80px;
   max-width: 200px;
-  padding: map.get($space-md, 'x');
+  padding: map.get($space-md, "x");
   width: 100%;
 
   @media (min-width: $breakpoint-sm-min) {
