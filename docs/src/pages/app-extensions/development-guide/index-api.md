@@ -19,7 +19,7 @@ Same as the `ctx` from `/quasar.conf.js`. Helps you make decisions based on the 
 Example: You might want to use one of the api methods if running for electron mode only.
 
 ```js
-if (api.ctx.dev === true && api.ctx.mode === 'electron') {
+if (api.ctx.dev === true && api.ctx.mode.electron === true) {
   api.beforeDev((api) => {
     // do something when running quasar dev and
     // with Electron mode

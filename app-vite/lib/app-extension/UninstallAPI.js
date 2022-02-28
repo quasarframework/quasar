@@ -1,7 +1,6 @@
 const { removeSync } = require('fs-extra')
 const semver = require('semver')
 
-const appPaths = require('../app-paths')
 const extensionJson = require('./extension-json')
 const getPackageJson = require('../helpers/get-package-json')
 const BaseAPI = require('./BaseAPI')
@@ -83,7 +82,7 @@ module.exports = class UninstallAPI extends BaseAPI {
    * @param {string} __path
    */
   removePath (__path) {
-    removeSync(appPaths.resolve.app(__path))
+    removeSync(this.resolve.app(__path))
   }
 
   /**
