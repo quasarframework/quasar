@@ -111,7 +111,7 @@ jobs:
                       break;
                     }
                   case 'jsfiddle.net':
-                    if (/^\/.+\/.+$/.test(reproURL.pathname)) {
+                    if (/^\/.+\//.test(reproURL.pathname)) {
                       break;
                     }
                   case 'codesandbox.io':
