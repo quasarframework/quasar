@@ -1,7 +1,7 @@
 {
   "name": "@quasar/app-vite",
   "version": "1.0.0-alpha.0",
-  "description": "Quasar Framework local App CLI with Vite",
+  "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar"
   },
@@ -16,13 +16,14 @@
   ],
   "keywords": [
     "quasar",
+    "vue",
+    "vuejs",
+    "vite",
     "cli",
     "web",
     "spa",
     "pwa",
     "electron",
-    "vue",
-    "vuejs",
     "cordova"
   ],
   "author": {

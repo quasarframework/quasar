@@ -16,13 +16,14 @@
   ],
   "keywords": [
     "quasar",
+    "vue",
+    "vuejs",
+    "webpack",
     "cli",
     "web",
     "spa",
     "pwa",
     "electron",
-    "vue",
-    "vuejs",
     "cordova"
   ],
   "author": {
