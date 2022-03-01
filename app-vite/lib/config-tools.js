@@ -9,7 +9,13 @@ const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
 const extensionRunner = require('./app-extension/extensions-runner')
 
-const quasarVitePluginIndexHtmlTransform = require('./vite-plugins/index-html-transform')
+const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
+const quasarVitePluginLinter = require('./plugins/vite.linter')
+const quasarEsbuildPluginLinter = require('./plugins/esbuild.linter')
+
+const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.json'))
+const appPkgFile = appPaths.resolve.app('package.json')
+const cliDeps = Object.keys(cliDepsObject)
 
 function printInvalidSyntax (name) {
   console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified:', name)
@@ -24,6 +30,15 @@ function parseVitePlugins (entries) {
   const acc = []
 
   entries.forEach(entry => {
+    if (!entry) {
+      // example:
+      // [
+      //   ctx.dev ? [ ... ] : null,
+      //   // ...
+      // ]
+      return
+    }
+
     if (Array.isArray(entry) === false) {
       printInvalidSyntax(name)
       return
@@ -164,6 +179,15 @@ function createViteConfig (quasarConf, quasarRunMode) {
     }
   }
 
+  if (quasarRunMode !== 'ssr-server') {
+    const { ESLint, warnings, errors } = quasarConf.linter
+    if (ESLint && warnings === true && errors === true) {
+      viteConf.plugins.push(
+        quasarVitePluginLinter(quasarConf)
+      )
+    }
+  }
+
   if (build.minify === false) {
     viteConf.build.minify = false
   }
@@ -190,6 +214,36 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
   return promise.then(() => viteConf)
 }
 
+function createNodeEsbuildConfig (quasarConf) {
+  // fetch fresh copy; user might have installed something new
+  delete require.cache[appPkgFile]
+  const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPkgFile)
+
+  const cfg = {
+    platform: 'node',
+    target: quasarConf.build.target.node,
+    format: 'cjs',
+    bundle: true,
+    sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
+    external: [
+      ...cliDeps,
+      ...Object.keys(appDeps),
+      ...Object.keys(appDevDeps)
+    ],
+    minify: quasarConf.build.minify !== false,
+    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
+  }
+
+  const { ESLint, warnings, errors } = quasarConf.linter
+  if (ESLint && warnings === true && errors === true) {
+    cfg.plugins = [
+      quasarEsbuildPluginLinter(quasarConf)
+    ]
+  }
+
+  return cfg
+}
+
 function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
   const method = `extend${threadName}Conf`
 
@@ -210,4 +264,5 @@ module.exports.createViteConfig = createViteConfig
 module.exports.extendViteConfig = extendViteConfig
 module.exports.mergeViteConfig = mergeConfig
 
+module.exports.createNodeEsbuildConfig = createNodeEsbuildConfig
 module.exports.extendEsbuildConfig = extendEsbuildConfig

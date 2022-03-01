@@ -224,6 +224,8 @@ class QuasarConfFile {
         config: {}
       },
 
+      linter: {},
+
       sourceFiles: {},
       bin: {},
       htmlVariables: {},

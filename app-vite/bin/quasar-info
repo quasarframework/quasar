@@ -84,6 +84,7 @@ print({ key: 'Important local packages', section: true })
   'vue-router',
   'vuex',
   'vite',
+  'eslint',
   'electron',
   'electron-packager',
   'electron-builder',

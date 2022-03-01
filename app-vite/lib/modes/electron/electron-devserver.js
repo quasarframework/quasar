@@ -25,6 +25,7 @@ class ElectronDevServer extends AppDevserver {
     super(opts)
 
     this.registerDiff('electron', quasarConf => [
+      quasarConf.linter,
       quasarConf.devServer.host,
       quasarConf.devServer.port,
       quasarConf.devServer.https,

@@ -3,15 +3,10 @@ const { join } = require('path')
 
 const {
   createViteConfig, extendViteConfig, mergeViteConfig,
-  extendEsbuildConfig
+  createNodeEsbuildConfig, extendEsbuildConfig
 } = require('../../config-tools')
 
 const appPaths = require('../../app-paths')
-const parseEnv = require('../../parse-env')
-
-const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.json'))
-const appPkgFile = appPaths.resolve.app('package.json')
-const cliDeps = Object.keys(cliDepsObject)
 
 module.exports = {
   viteClient: quasarConf => {
@@ -72,26 +67,7 @@ module.exports = {
   },
 
   webserver: quasarConf => {
-    // fetch fresh copy; user might have installed something new
-    delete require.cache[appPkgFile]
-    const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPkgFile)
-
-    const external = [
-      ...cliDeps,
-      ...Object.keys(appDeps),
-      ...Object.keys(appDevDeps)
-    ]
-
-    const cfg = {
-      platform: 'node',
-      target: quasarConf.build.target.node,
-      format: 'cjs',
-      bundle: true,
-      sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
-      external,
-      minify: quasarConf.build.minify !== false,
-      define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
-    }
+    const cfg = createNodeEsbuildConfig(quasarConf)
 
     cfg.define['process.env.CLIENT'] = false
     cfg.define['process.env.SERVER'] = true
