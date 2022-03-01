@@ -1,10 +1,10 @@
 <template>
   <q-page class="column justify-center items-center text-center q-px-xl font-monserrat">
     <h1 class="page-title lp-heading lp-heading--large normal-line-height">All platforms in one go</h1>
-    <p class="letter-spacing-300 text-size-16 text-weight-bold text-center text-lp-deep-dark">
+    <p class="letter-spacing-300 text-size-16 text-weight-bold text-center">
       Focus only on your mission and forget about the spaceship.
     </p>
-    <p class="letter-spacing-40 text-size-16 text-lp-dark q-mb-xl">
+    <p class="letter-spacing-40 text-size-16 q-mb-xl">
       Combine the power of Quasar UI with Quasar CLI. One source code for all platforms<br v-if="$q.screen.gt.sm">
       simultaneously with all the latest and greatest best practices out of the box.
     </p>
