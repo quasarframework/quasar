@@ -1,0 +1,44 @@
+{
+  "name": "quasar-browser-extension",
+  "description": "A Quasar web extension",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "icons": {
+    "16": "icons/icon-16x16.png",
+    "48": "icons/icon-48x48.png",
+    "128": "icons/icon-128x128.png"
+  },
+  "browser_action": {
+    "default_title": "quasar-browser-extension"
+  },
+  "background": {
+    "scripts": [
+      "www/bex-background.js",
+      "js/background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": [
+      "www/bex-content-script.js",
+      "js/content-script.js"
+    ],
+    "css": [
+      "css/content-css.css"
+    ]
+  }],
+  "permissions": [
+    "<all_urls>",
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "web_accessible_resources": [
+    "www/*",
+    "js/*",
+    "css/*",
+    "<all_urls>"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';"
+}

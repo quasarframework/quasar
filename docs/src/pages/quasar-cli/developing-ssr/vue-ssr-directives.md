@@ -3,42 +3,40 @@ title: Vue SSR Directives
 desc: Managing the Vue directives for SSR in a Quasar app.
 ---
 
-A SSR app has the same code running on server and on client. Declaring a Vue directive (or directly importing it) in a .vue SFC file is usually enough for making it to work on non-SSR builds. But on SSR builds and due to the architecture of Vue 3 (when also using vue-loader to handle the .vue files, like Quasar does), it requires some extra leg work. This page will teach what you need to do.
+::: warning
+This guide refers to usage with Quasar v2.6+ and @quasar/app v3.4+
+:::
 
-When building the server-side of your app, Vue requires you to specify the SSR transformation for each of your custom Vue directives, otherwise it will error out saying that it doesn't know how to handle that specific directive when encountered in your SFC templates.
+A SSR app has the same code running on server and on client. Declaring a Vue directive (or directly importing it) in a .vue SFC file is usually enough for making it to work on non-SSR builds. But on SSR builds and due to the architecture of Vue 3  it requires some extra leg work.
+
+Server-side builds require all Vue directives to also specify a getSSRProps() method in their definition.
 
 ::: tip
-You will NOT need to do anything for the Quasar supplied Vue directives to work. The Quasar App CLI takes care of declaring the SSR transformations for it already.
+* You will NOT need to do anything for the Quasar supplied Vue directives to work.
+* However, if you are using a third-party supplied Vue directive and the CLI errors out on it then you will need to contact the owner of that package in order for them to make it compliant with Vue 3 SSR specs (which is to add the getSSRProps() method in the directive's definition).
 :::
 
 ## How to declare a directive
 
-When adding the SSR mode, Quasar CLI will create the `src-ssr/directives` folder. It will watch this folder for any .js (or .ts if TS is enabled) files and inject these transformations into the build.
+The following is taken from [Vue.js docs](https://vuejs.org/guide/scaling-up/ssr.html#custom-directives):
 
-Let's say that we have a custom Vue directive named `my-dir` that we are using in our app. We've declared or imported it into our app, but now in order to make SSR's server-side code running correctly, we now need to create a file for it. Since the directive is named `my-dir`, we'll create the `my-dir.js` file:
+> Since most custom directives involve direct DOM manipulation, they are ignored during SSR. However, if you want to specify how a custom directive should be rendered (i.e. what attributes it should add to the rendered element), you can use the getSSRProps directive hook:
 
-```
-// src-ssr/directives/my-dir.js
+```js
+const myDirective = {
+  mounted (el, binding) {
+    // client-side implementation:
+    // directly update the DOM
+    el.id = binding.value
+  },
 
-export default (dir) => {
-  return {
-    props: []
+  getSSRProps (binding) {
+    // server-side implementation:
+    // return the props to be rendered.
+    // getSSRProps only receives the directive binding.
+    return {
+      id: binding.value
+    }
   }
 }
 ```
-
-The above is essentially a noop SSR transformation for our directive. Based on what your Vue directive does on client-side, you should write the appropriate Vue SSR transformation. Then you should repeat the process for all your **non-Quasar** Vue directives.
-
-::: tip
-Please head to the Vue 3 documentation which should explain how to write a Vue SSR transformation for your directive. Please note that at the moment of writing these lines, the Vue 3 SSR documentation website is still incomplete.
-:::
-
-If unsure how to write the necessary transformation function, then simply use the noop transformation from the above code sample for all your directives.
-
-::: danger
-What you need to make sure is that the name of the files match with the **kebab-case** name of your directives.
-:::
-
-## Hot module reload
-
-Due to the fact that these transformations are supplied to vue-loader, whenever you add/remove/change any of the files directly under the `src-ssr/directives` folder, the dev server will automatically reboot. This means that changes are costly so you should keep this in mind.

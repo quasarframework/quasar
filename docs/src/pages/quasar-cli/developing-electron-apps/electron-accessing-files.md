@@ -34,7 +34,7 @@ import { app } from '@electron/remote'
 const filePath = path.join(app.getPath('userData'), '/some.file')
 ```
 
-## Accessing the Pubic Folder
+## Accessing the Public Folder
 
 If for some reason, you have important files that you are storing in the /public folder, you can access those too by following the code below. To understand why you need to access them this way, please read the "Using __dirname & __filename" section above.
 

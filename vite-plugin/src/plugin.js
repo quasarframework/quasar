@@ -14,7 +14,7 @@ export default function (userOpts = {}) {
     ...userOpts
   }
 
-  return {
+  const plugin = {
     name: 'vite:quasar',
 
     config (cfg) {
@@ -26,9 +26,11 @@ export default function (userOpts = {}) {
       }
 
       return getConfig(opts)
-    },
+    }
+  }
 
-    transform (src, id) {
+  if (opts.runMode !== 'ssr-server') {
+    plugin.transform = (src, id) => {
       if (vueTransformRegex.test(id) === true) {
         return {
           code: vueTransform(src, opts.autoImportComponentCase),
@@ -43,4 +45,6 @@ export default function (userOpts = {}) {
       }
     }
   }
+
+  return plugin
 }
