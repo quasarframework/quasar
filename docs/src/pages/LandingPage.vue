@@ -12,6 +12,7 @@
         color="lp-accent"
         label="Are you ready to lift off?"
         class="call-to-action-btn shadow-bottom-small"
+        :class="{'letter-spacing-100': $q.screen.xs}"
         @click="scrollSectionIntoView('why-quasar-section')"
       />
 
