@@ -6,7 +6,7 @@
     <!-- TODO: many components here should be extracted and reused into different header versions -->
     <!-- mobile header -->
     <q-header
-      v-if="$q.screen.xs"
+      v-if="showMobileHeader"
       ref="layoutHeader"
       :class="headerClasses"
     >
@@ -496,6 +496,12 @@ export default defineComponent({
       return 'xs md'
     })
 
+    const showMobileHeader = computed(() => {
+      const isInLandscapeMode = $q.screen.width > $q.screen.height
+      const isTooWide = $q.screen.width > 1000 // we consider only widths below this value
+      return $q.screen.xs || ($q.platform.is.mobile && isInLandscapeMode && !isTooWide)
+    })
+
     const headerClasses = computed(() => `${props.dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
 
     return {
@@ -518,6 +524,7 @@ export default defineComponent({
       searchForm,
 
       isExpanded,
+      showMobileHeader,
       preventHeaderSwapping,
 
       showNavItems
