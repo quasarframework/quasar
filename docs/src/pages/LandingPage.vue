@@ -78,45 +78,28 @@
       </q-no-ssr>
     </div>
 
-    <div class="support-quasar-section">
-      <div class="column items-center">
-        <div class="support-quasar-section__container">
-          <h2
-            class="text-uppercase lp-heading--large support-quasar-section__title"
-          >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
+    <div class="support-quasar-section q-px-lg">
+      <h2
+        class="text-uppercase lp-heading--large support-quasar-section__title"
+      >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
 
-          <div class="lp-heading--small text-left">
-            Working for a company? Are you a freelancer? You can contribute, even a bit,
-            <br> and even get something back in return.
-          </div>
-
-          <q
-            class="q-my-md lp-heading--quote primary-line-height lp-my--medium"
-          >So, um, we think we should discuss the bonus situation</q>
-
-          <q-btn
-            color="lp-accent"
-            label="Consult tiers"
-            class="call-to-action-btn shadow-bottom-small z-index-1"
-            href="https://github.com/sponsors/rstoenescu"
-            target="_blank"
-          />
-        </div>
+      <div class="lp-heading--small text-left">
+        Working for a company? Are you a freelancer? You can contribute, even a bit,
+        <br> and even get something back in return.
       </div>
 
-      <div class="astronaut-hand z-index-2">
-        <q-img
-          class="astronaut-hand--left"
-          width="50%"
-          src="~assets/landing-page/homepage-background-images/astronaut-left-hand.png"
-        />
-        <q-img
-          :img-style="{ width: '102%' }"
-          class="astronaut-hand--right"
-          width="50%"
-          src="~assets/landing-page/homepage-background-images/astronaut-right-hand.png"
-        />
-      </div>
+      <q
+        class="q-my-md lp-heading--quote primary-line-height lp-my--medium"
+      >So, um, we think we should discuss the bonus situation</q>
+
+      <q-btn
+        color="lp-accent"
+        label="Consult tiers"
+        class="call-to-action-btn shadow-bottom-small"
+        href="https://github.com/sponsors/rstoenescu"
+        target="_blank"
+      />
+
     </div>
 
     <div class="text-center sponsors-section" id="sponsors-section">
@@ -202,6 +185,7 @@ export default defineComponent({
 $undo-margin-from-qpage: 0 -24px 0 -24px;
 $why-quasar-card-side--large: 400px;
 $why-quasar-card-side--small: 280px;
+$support-quasar-background-padding: 35vw;
 
 .lp-btn-underline {
   border-bottom: 1px solid rgba($color: white, $alpha: 0.54);
@@ -240,25 +224,6 @@ q {
   }
 }
 
-.z-index-1 {
-  z-index: 1;
-}
-.z-index-2 {
-  z-index: 2;
-}
-
-.astronaut-hand {
-  margin: 0 -24px 0 -24px;
-
-  &--right {
-    margin-top: -150px;
-
-    @media screen and (min-width: $breakpoint-md-min) {
-      margin-top: -400px;
-    }
-  }
-}
-
 .advance-scaffolding {
   height: 100vh;
   margin-bottom: 256px;
@@ -277,14 +242,27 @@ q {
   margin-top: 258px;
 }
 
+// The pseudo-element expands to the full height and width of the container,
+// the container padding is needed to allow to display the hands without cropping
 .support-quasar-section {
-  &__container {
-    margin: 0 24px 0 24px;
-  }
-  &__title {
-    margin-top: 256px;
+  padding-top: 256px;
+  padding-bottom: $support-quasar-background-padding;
+  position: relative;
+
+  &:before {
+    background-image: url(~assets/landing-page/homepage-background-images/astronaut-left-hand.png), url(~assets/landing-page/homepage-background-images/astronaut-right-hand.png);
+    background-size: 47%, 47%;
+    background-position: left bottom, calc(100% + 25px) calc(100% - #{$support-quasar-background-padding / 3});
+    background-repeat: no-repeat, no-repeat;
+    bottom: 0px;
+    content: '';
+    left: -24px;
+    position: absolute;
+    right: -24px;
+    top: 0px;
   }
 }
+
 .sponsors-section {
   margin-top: 200px;
 
