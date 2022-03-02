@@ -118,7 +118,7 @@
           :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
           class="text-weight-bold version-dropdown"
           content-class="shadow-bottom-medium"
-          :QDropdownBtnProps="{
+          :dropdown-props="{
             outline: true,
             color: 'lp-primary',
             padding: 'sm'
@@ -143,7 +143,7 @@
             :items="moreDropdownNavItems"
             label="More"
             class="font-monserrat text-weight-bold text-size-12"
-            :QDropdownBtnProps="{
+            :dropdown-props="{
               menuOffset: [150, 5],
               color: dark? 'text-dark':'text-white',
               flat: true,
@@ -218,11 +218,11 @@
             :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
             class="text-weight-bold version-dropdown q-ml-lg"
             content-class="shadow-bottom-medium"
-            :QDropdownBtnProps="{
-            outline: true,
-            color: 'lp-primary',
-            padding: 'xs sm'
-          }"
+            :dropdown-props="{
+              outline: true,
+              color: 'lp-primary',
+              padding: 'xs sm'
+            }"
           >
             <template #label>
             <span
@@ -271,7 +271,7 @@ import HeaderNavLink from 'components/header/HeaderNavLink.vue'
 import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
 import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import SearchForm from 'components/search-results/SearchForm.vue'
-import { debounce, useQuasar } from 'quasar'
+import { useQuasar } from 'quasar'
 import { denseHeaderNavItems, expandedHeaderMainToolbarNavItems, expandedHeaderMoreDropdownNavItems, expandedHeaderSecondaryToolbarNavItems, filterNavItems } from 'src/assets/landing-page/nav-items.js'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -491,33 +491,12 @@ export default defineComponent({
       return 'xs md'
     })
 
+    const headerClasses = computed(() => `${props.dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
+
     const showMobileHeader = computed(() => {
       const isInLandscapeMode = $q.screen.width > $q.screen.height
       const isTooWide = $q.screen.width > 1000 // we consider only widths below this value
       return $q.screen.xs || ($q.platform.is.mobile && isInLandscapeMode && !isTooWide)
-    })
-
-    const headerClasses = computed(() => `${props.dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
-
-    const versionDropdownMenu = ref(false)
-
-    const menuOver = ref(false)
-    const listOver = ref(false)
-
-    function checkMenuOver () {
-      versionDropdownMenu.value = menuOver.value || listOver.value
-    }
-
-    const debounceMenu = debounce(checkMenuOver, 200)
-
-    watch(menuOver, () => {
-      console.log('menuOver', menuOver.value)
-      debounceMenu()
-    })
-
-    watch(listOver, () => {
-      console.log('menuOver', menuOver.value)
-      debounceMenu()
     })
 
     return {
@@ -540,14 +519,10 @@ export default defineComponent({
       searchForm,
 
       isExpanded,
-      showMobileHeader,
       preventHeaderSwapping,
+      showMobileHeader,
 
-      showNavItems,
-
-      versionDropdownMenu,
-      menuOver,
-      listOver
+      showNavItems
     }
   }
 })

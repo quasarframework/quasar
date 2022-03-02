@@ -1,7 +1,7 @@
 <template>
   <q-btn-dropdown
     v-model="dropdownMenuModel"
-    v-bind="QDropdownBtnProps"
+    v-bind="dropdownProps"
     :label="label"
     :content-class="contentClass"
     align="left"
@@ -16,6 +16,7 @@
     <nav-dropdown-menu
       :nav-items="items"
       @mouseover="isMouseOverList = true"
+      @mouseleave="isMouseOverList = false"
       @submenu-mouseover="isMouseOverList = true"
     />
   </q-btn-dropdown>
@@ -46,7 +47,7 @@ export default defineComponent({
       type: String,
       default: ''
     },
-    QDropdownBtnProps: {
+    dropdownProps: {
       type: Object,
       required: true,
       default: () => ({})
@@ -58,18 +59,18 @@ export default defineComponent({
     const isMouseOverMenu = ref(false)
     const isMouseOverList = ref(false)
 
-    function checkIfMouseOverMenu () {
+    function revealDropdownMenu () {
       dropdownMenuModel.value = isMouseOverMenu.value || isMouseOverList.value
     }
 
-    const debounceMenu = debounce(checkIfMouseOverMenu, 200)
+    const debounceRevealDropdownMenu = debounce(revealDropdownMenu, 200)
 
     watch(isMouseOverMenu, () => {
-      debounceMenu()
+      debounceRevealDropdownMenu()
     })
 
     watch(isMouseOverList, () => {
-      debounceMenu()
+      debounceRevealDropdownMenu()
     })
 
     return {

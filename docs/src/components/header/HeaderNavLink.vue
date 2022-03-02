@@ -1,7 +1,7 @@
 <template>
   <q-btn
     v-if="!navItem.subMenu"
-    :class="`text-weight-bold letter-spacing-225 ${navItemClass} ${dark? 'white-color-on-hover':''}`"
+    :class="`text-weight-bold letter-spacing-225 ${navItemClass} ${dark? 'white-color-on-hover':'text-black-54'}`"
     :color="setActivePrimaryNavColor($route.path, navItem.path)"
     :href="computeRouteNav(navItem, 'href')"
     :label="navItem.label"
@@ -17,7 +17,7 @@
     :label="navItem.label"
     class="text-weight-bold letter-spacing-225 text-size-12 wrap"
     content-class="shadow-bottom-medium"
-    :QDropdownBtnProps="{
+    :dropdown-props="{
       outline: true,
       color: !dark? 'black-54':'',
       padding: padding,

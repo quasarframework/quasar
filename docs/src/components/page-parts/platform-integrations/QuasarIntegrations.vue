@@ -140,7 +140,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .integration-options {
-  width: 90%;
+  width: 85%;
   @media screen and (min-width: $breakpoint-lg-max) {
     width: 50%;
   }

@@ -22,8 +22,8 @@
       <router-view />
     </q-page-container>
 
-    <q-footer class="bg-lp-grey text-size-12 main-layout-footer" ref="mainLayoutFooter">
-      <div class="lp-footer lp-ma--large">
+    <div class="bg-lp-grey text-size-12 main-layout-footer relative-position" ref="mainLayoutFooter">
+      <div class="lp-footer">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
           <q-item-label
             class="text-lp-dark text-weight-bold letter-spacing-225"
@@ -75,7 +75,7 @@
         />
       </div>
       <q-separator class="full-width" />
-      <div class="text-lp-dark text-center q-ma-lg letter-spacing-100">
+      <div class="text-lp-dark text-center q-pa-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
         <a
           href="https://www.dreamonkey.com/"
@@ -83,7 +83,7 @@
           class="q-ml-sm text-lp-accent text-weight-bold"
         >Dreamonkey Srl</a>
       </div>
-    </q-footer>
+    </div>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md" />
     </q-page-scroller>
@@ -166,7 +166,7 @@ export default defineComponent({
 
     function checkHeaderMetFooter () {
       const headerSize = mainLayoutHeader.value.$el.clientHeight
-      const positionFromTop = mainLayoutFooter.value.$el.getBoundingClientRect().top
+      const positionFromTop = mainLayoutFooter.value.getBoundingClientRect().top
       footerHasMetHeader.value = positionFromTop <= headerSize
       $q.dark.set(footerHasMetHeader.value)
     }
@@ -190,6 +190,9 @@ $footer-columns-sm-min: 3;
 $footer-columns-after-xs: 2;
 
 .lp-footer {
+  padding-top: 100px;
+  padding-bottom: 100px;
+
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 24px;
