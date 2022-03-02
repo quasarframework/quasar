@@ -201,7 +201,7 @@ export default defineComponent({
 <style scoped lang="scss">
 $undo-margin-from-qpage: 0 -24px 0 -24px;
 $why-quasar-card-side--large: 400px;
-$why-quasar-card-side--small: 300px;
+$why-quasar-card-side--small: 280px;
 
 .lp-btn-underline {
   border-bottom: 1px solid rgba($color: white, $alpha: 0.54);

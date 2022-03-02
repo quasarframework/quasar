@@ -54,7 +54,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 $card-side--large: 400px;
-$card-side--small: 300px;
+$card-side--small: 280px;
 
 .py-32 {
   padding-top: 32px;
