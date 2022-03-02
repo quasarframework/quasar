@@ -1,7 +1,7 @@
 <template>
   <q-page class="text-white q-mx-lg">
     <div class="column items-center intro-section letter-spacing-300">
-      <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" height="250px" />
+      <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" height="255px" />
 
       <h1
         :class="$q.screen.gt.md ? 'letter-spacing-375' : 'letter-spacing-300'"
