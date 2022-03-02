@@ -97,14 +97,14 @@
           <q-btn
             color="lp-accent"
             label="Consult tiers"
-            class="call-to-action-btn shadow-bottom-small"
+            class="call-to-action-btn shadow-bottom-small z-index-1"
             href="https://github.com/sponsors/rstoenescu"
             target="_blank"
           />
         </div>
       </div>
 
-      <div class="astronaut-hand">
+      <div class="astronaut-hand z-index-2">
         <q-img
           class="astronaut-hand--left"
           width="50%"
@@ -240,11 +240,18 @@ q {
   }
 }
 
+.z-index-1 {
+  z-index: 1;
+}
+.z-index-2 {
+  z-index: 2;
+}
+
 .astronaut-hand {
   margin: 0 -24px 0 -24px;
 
   &--right {
-    margin-top: -100px;
+    margin-top: -150px;
 
     @media screen and (min-width: $breakpoint-md-min) {
       margin-top: -400px;
