@@ -10,31 +10,31 @@
     :to="computeRouteNav(navItem)"
     flat
   />
-  <q-btn-dropdown
+  <nav-dropdown-btn
     v-else
+    :items="navItem.subMenu"
     :class="`${dark? 'white-color-on-hover':''} ${navItemClass}`"
-    :color="!dark? 'black-54':''"
     :label="navItem.label"
-    :menu-offset="[150, 0]"
-    :padding="padding"
-    align="left"
     class="text-weight-bold letter-spacing-225 text-size-12 wrap"
     content-class="shadow-bottom-medium"
-    dense
-    flat
-    no-caps
-  >
-    <nav-dropdown-menu :nav-items="navItem.subMenu"/>
-  </q-btn-dropdown>
+    :QDropdownBtnProps="{
+      outline: true,
+      color: !dark? 'black-54':'',
+      padding: padding,
+      flat: true
+    }"
+  />
 </template>
 <script>
-import NavDropdownMenu from 'components/header/NavDropdownMenu'
+import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
 import { computeRouteNav } from 'assets/landing-page/nav-items.js'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'HeaderNavLink',
-  components: { NavDropdownMenu },
+  components: {
+    NavDropdownBtn
+  },
   props: {
     dark: {
       type: Boolean,

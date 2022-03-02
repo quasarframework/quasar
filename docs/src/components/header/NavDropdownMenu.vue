@@ -26,7 +26,10 @@
           </q-item-section>
 
           <q-menu anchor="top end" self="top start" class="shadow-bottom-medium">
-            <nav-dropdown-menu :nav-items="navItem.subMenu" />
+            <nav-dropdown-menu
+              :nav-items="navItem.subMenu"
+              @mouseover="$emit('submenu-mouseover')"
+            />
           </q-menu>
         </q-item>
       </template>

@@ -113,17 +113,17 @@
           @click="$emit('update:modelValue', !modelValue)"
         />
 
-        <q-btn-dropdown
+        <nav-dropdown-btn
+          :items="versionHistory"
           :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
-          align="left"
-          auto-close
           class="text-weight-bold version-dropdown"
-          color="lp-primary"
           content-class="shadow-bottom-medium"
-          dense
-          no-caps
-          outline
-          padding="sm">
+          :QDropdownBtnProps="{
+            outline: true,
+            color: 'lp-primary',
+            padding: 'sm'
+          }"
+        >
           <template #label>
             <span
               :class="dark? 'text-white':'text-dark'"
@@ -131,8 +131,7 @@
             <!-- q-space for space before icon -->
             <q-space/>
           </template>
-          <nav-dropdown-menu :nav-items="versionHistory"/>
-        </q-btn-dropdown>
+        </nav-dropdown-btn>
 
         <template v-if="$q.screen.sm">
           <q-separator
@@ -140,17 +139,16 @@
             class="q-ml-md q-mr-sm"
             inset
             vertical/>
-          <q-btn-dropdown
-            :color="dark? 'text-dark':'text-white'"
-            :menu-offset="[150, 5]"
-            class="font-monserrat text-weight-bold text-size-12"
-            dense
-            flat
+          <nav-dropdown-btn
+            :items="moreDropdownNavItems"
             label="More"
-            menu-anchor="bottom right"
-            no-caps>
-            <nav-dropdown-menu :nav-items="moreDropdownNavItems"/>
-          </q-btn-dropdown>
+            class="font-monserrat text-weight-bold text-size-12"
+            :QDropdownBtnProps="{
+              menuOffset: [150, 5],
+              color: dark? 'text-dark':'text-white',
+              flat: true,
+            }"
+          />
         </template>
 
         <q-space/>
@@ -215,28 +213,25 @@
             class="q-ml-lg"
             vertical
           />
-          <q-btn-dropdown
-            v-if="$q.screen.width > 1170"
-            align="left"
-            auto-close
+          <nav-dropdown-btn
+            :items="versionHistory"
+            :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
             class="text-weight-bold version-dropdown q-ml-lg"
-            color="lp-primary"
             content-class="shadow-bottom-medium"
-            dense
-            no-caps
-            outline
-            padding="xs sm"
+            :QDropdownBtnProps="{
+            outline: true,
+            color: 'lp-primary',
+            padding: 'xs sm'
+          }"
           >
             <template #label>
-              <span
-                :class="dark ? 'text-white' : 'text-dark'"
-                class="text-size-12 letter-spacing-225"
-              >{{ `v${$q.version}` }}</span>
+            <span
+              :class="dark? 'text-white':'text-dark'"
+              class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
               <!-- q-space for space before icon -->
-              <q-space />
+              <q-space/>
             </template>
-            <nav-dropdown-menu :nav-items="versionHistory" />
-          </q-btn-dropdown>
+          </nav-dropdown-btn>
         </div>
         <div class="row items-center text-size-12">
           <div
@@ -273,10 +268,10 @@ import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
 import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
 import { socialLinks } from 'assets/landing-page/social-links.js'
 import HeaderNavLink from 'components/header/HeaderNavLink.vue'
-import NavDropdownMenu from 'components/header/NavDropdownMenu.vue'
+import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
 import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import SearchForm from 'components/search-results/SearchForm.vue'
-import { useQuasar } from 'quasar'
+import { debounce, useQuasar } from 'quasar'
 import { denseHeaderNavItems, expandedHeaderMainToolbarNavItems, expandedHeaderMoreDropdownNavItems, expandedHeaderSecondaryToolbarNavItems, filterNavItems } from 'src/assets/landing-page/nav-items.js'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -344,8 +339,8 @@ export default defineComponent({
   components: {
     HeaderNavLink,
     SearchForm,
-    NavDropdownMenu,
-    ThemeSwitcher
+    ThemeSwitcher,
+    NavDropdownBtn
   },
   props: {
     modelValue: {
@@ -504,6 +499,27 @@ export default defineComponent({
 
     const headerClasses = computed(() => `${props.dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
 
+    const versionDropdownMenu = ref(false)
+
+    const menuOver = ref(false)
+    const listOver = ref(false)
+
+    function checkMenuOver () {
+      versionDropdownMenu.value = menuOver.value || listOver.value
+    }
+
+    const debounceMenu = debounce(checkMenuOver, 200)
+
+    watch(menuOver, () => {
+      console.log('menuOver', menuOver.value)
+      debounceMenu()
+    })
+
+    watch(listOver, () => {
+      console.log('menuOver', menuOver.value)
+      debounceMenu()
+    })
+
     return {
       versionHistory,
       mdiGithub,
@@ -527,7 +543,11 @@ export default defineComponent({
       showMobileHeader,
       preventHeaderSwapping,
 
-      showNavItems
+      showNavItems,
+
+      versionDropdownMenu,
+      menuOver,
+      listOver
     }
   }
 })
