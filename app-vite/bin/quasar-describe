@@ -4,7 +4,7 @@ const parseArgs = require('minimist')
 const chalk = require('chalk')
 
 const getApi = require('../lib/helpers/get-api')
-const { fatal } = require('../lib/helpers/logger')
+const { fatal, dot } = require('../lib/helpers/logger')
 
 const partArgs = {
   p: 'props',
@@ -521,10 +521,10 @@ function listElements () {
     console.log(`\n The complete list of API elements:\n`)
   }
 
-  const dot = chalk.green('  • ')
+  const prefix = chalk.green(`  ${dot} `)
 
   api.forEach(entry => {
-    console.log(dot + entry)
+    console.log(prefix + entry)
   })
   console.log()
 }

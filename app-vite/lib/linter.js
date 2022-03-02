@@ -1,6 +1,7 @@
 
 const { createFilter } = require('@rollup/pluginutils')
 const { resolve } = require('path')
+const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const encodeForDiff = require('./helpers/encode-for-diff')
@@ -38,8 +39,12 @@ function extractStore ({
 
   if (eslintOptions.cache === true) {
     eslintOptions.cacheLocation = appPaths.resolve.app(
-      `node_modules/.cache-qlinter/${ cacheSuffix }`
+      `node_modules/.q-cache/linter/${ cacheSuffix }`
     )
+
+    if (quasarConf.build.rebuildCache === true) {
+      removeSync(eslintOptions.cacheLocation)
+    }
   }
 
   const eslint = new ESLint(eslintOptions)

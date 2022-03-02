@@ -4,6 +4,7 @@ const { quasar: quasarVitePlugin } = require('@quasar/vite-plugin')
 const vueVitePlugin = require('@vitejs/plugin-vue')
 const getPackage = require('./helpers/get-package')
 const { merge } = require('webpack-merge')
+const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
@@ -89,6 +90,11 @@ function inject (target, source, propList) {
 function createViteConfig (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
   const cacheSuffix = quasarRunMode || ctx.modeName
+  const cacheDir = appPaths.resolve.app(`node_modules/.q-cache/vite/${ cacheSuffix }`)
+
+  if (quasarConf.build.rebuildCache === true) {
+    removeSync(cacheDir)
+  }
 
   const vueVitePluginOptions = quasarRunMode !== 'ssr-server'
     ? build.viteVuePluginOptions
@@ -107,7 +113,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
     clearScreen: false,
     logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
-    cacheDir: `node_modules/.cache-qvite/${ cacheSuffix }`,
+    cacheDir,
 
     resolve: build.resolve,
     define: parseEnv(build.env, build.rawDefine),

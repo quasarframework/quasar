@@ -4,7 +4,7 @@ const { build: esBuild } = require('esbuild')
 const { bold, underline, green } = require('chalk')
 const debounce = require('lodash.debounce')
 
-const { log, info, success } = require('./helpers/logger')
+const { log, info, success, dot } = require('./helpers/logger')
 
 function coloredName (name) {
   return bold(underline(green(name)))
@@ -26,10 +26,8 @@ class AppTool {
     await viteBuild(viteConfig)
     log()
 
-    // error(`"${this.state.name}" compiled with errors • ${diffTime}ms`, 'DONE')
-    // warning(`"${this.state.name}" compiled, but with warnings • ${diffTime}ms`, 'DONE')
     const diffTime = +new Date() - startTime
-    success(`"${name}" compiled with success • ${diffTime}ms`, 'DONE')
+    success(`"${name}" compiled with success ${dot} ${diffTime}ms`, 'DONE')
     log()
   }
 
@@ -54,7 +52,7 @@ class AppTool {
     const result = await esBuild(cfg)
 
     const diffTime = +new Date() - startTime
-    success(`"${name}" compiled with success • ${diffTime}ms`, 'DONE')
+    success(`"${name}" compiled with success ${dot} ${diffTime}ms`, 'DONE')
     log()
 
     return result

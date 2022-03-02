@@ -11,7 +11,7 @@ const appPaths = require('../../app-paths')
 const getPackage = require('../../helpers/get-package')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./ssr-config')
-const { log, warn, info, success } = require('../../helpers/logger')
+const { log, warn, info, success, dot } = require('../../helpers/logger')
 const { entryPointMarkup, getDevSsrTemplateFn } = require('../../helpers/html-template')
 
 const { renderToString } = getPackage('vue/server-renderer')
@@ -35,7 +35,7 @@ const ouchInstance = (new Ouch()).pushHandler(
 
 function logServerMessage (title, msg, additional) {
   log()
-  info(`${msg}${additional !== void 0 ? ` • ${additional}` : ''}`, title)
+  info(`${msg}${additional !== void 0 ? ` ${dot} ${additional}` : ''}`, title)
 }
 
 function renderError ({ err, req, res }) {
@@ -59,7 +59,7 @@ async function warmupServer (viteClient, viteServer) {
     return
   }
 
-  success(`Warmed up • ${Date.now() - startTime}ms`, 'DONE')
+  success(`Warmed up ${dot} ${Date.now() - startTime}ms`, 'DONE')
   log()
 }
 

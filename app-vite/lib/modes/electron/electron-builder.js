@@ -2,7 +2,7 @@
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
 
-const { log, info, warn, fatal, success } = require('../../helpers/logger')
+const { log, info, warn, fatal, success, dot } = require('../../helpers/logger')
 const { spawn } = require('../../helpers/spawn')
 const appPaths = require('../../app-paths')
 const nodePackager = require('../../helpers/node-packager')
@@ -134,7 +134,7 @@ class ElectronBuilder extends AppBuilder {
           .then(() => {
             const diffTime = +new Date() - startTime
             log()
-            success(`${pkgName} built the app • ${diffTime}ms`, 'SUCCESS')
+            success(`${pkgName} built the app ${dot} ${diffTime}ms`, 'SUCCESS')
             log()
             resolve()
           })

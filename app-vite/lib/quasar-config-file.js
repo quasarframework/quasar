@@ -6,7 +6,7 @@ const debounce = require('lodash.debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')
-const { log, warn } = require('./helpers/logger')
+const { log, warn, tip } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
@@ -25,6 +25,16 @@ const confErrors = {
   EXTENSIONS_FAILED: { error: 'One of your installed App Extensions failed to run' },
   NETWORK_ERROR: { error: 'Network error encountered while following the quasar.conf host/port config' },
   FILES_VALIDATION_ERROR: { error: 'Files validation not passed successfully' }
+}
+
+const defaultPortMapping = {
+  spa: 9000,
+  ssr: 9100,
+  pwa: 9200,
+  electron: 9300,
+  cordova: 9400,
+  capacitor: 9500,
+  bex: 9600
 }
 
 function escapeHTMLTagContent (str) {
@@ -316,9 +326,13 @@ class QuasarConfFile {
 
       if (this.opts.port) {
         cfg.devServer.port = this.opts.port
+        tip('You are using the --port parameter. It is recommended to use a different devServer port for each Quasar mode to avoid browser cache issues')
       }
       else if (!cfg.devServer.port) {
-        cfg.devServer.port = 8080
+        cfg.devServer.port = defaultPortMapping[this.ctx.modeName]
+      }
+      else {
+        tip('You specified an explicit quasar.config.js > devServer > port. It is recommended to use a different devServer > port for each Quasar mode to avoid browser cache issues. Example: ctx.mode.ssr ? 9100 : ...')
       }
 
       if (

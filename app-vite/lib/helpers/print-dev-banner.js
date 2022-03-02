@@ -20,8 +20,7 @@ function getIPList () {
 function getBanner (quasarConf) {
   const { ctx } = quasarConf
   const banner = [
-    `   ${ dim(bold(new Date().toLocaleDateString())) } ${ dim(bold(new Date().toLocaleTimeString())) }`,
-    '',
+    ` ${greenBanner} Reported at............ ${ dim(bold(new Date().toLocaleDateString())) } ${ dim(bold(new Date().toLocaleTimeString())) }`,
     ` ${greenBanner} App dir................ ${green(appPaths.appDir)}`
   ]
 

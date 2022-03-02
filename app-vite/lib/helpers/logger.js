@@ -8,6 +8,15 @@ const {
 const readline = require('readline')
 
 /**
+ * Pills
+ */
+
+const successPill = msg => bgGreen.black('', msg, '')
+const infoPill = msg => inverse('', msg, '')
+const errorPill = msg => bgRed.white('', msg, '')
+const warningPill = msg => bgYellow.black('', msg, '')
+
+/**
  * Main approach - App CLI related
  */
 
@@ -16,6 +25,9 @@ const banner = 'App ' + dot
 const greenBanner = green(banner)
 const redBanner = red(banner)
 const yellowBanner = yellow(banner)
+const tipBanner = `${green('App')} ${dot} ${successPill('TIP')} ${dot} 🚀 `
+
+module.exports.dot = dot
 
 module.exports.clearConsole = process.stdout.isTTY
   ? () => {
@@ -26,6 +38,10 @@ module.exports.clearConsole = process.stdout.isTTY
       readline.clearScreenDown(process.stdout)
     }
   : () => {}
+
+module.exports.tip = function (msg) {
+  console.log(msg ? ` ${tipBanner} ${msg}` : '')
+}
 
 module.exports.log = function (msg) {
   console.log(msg ? ` ${greenBanner} ${msg}` : '')
@@ -62,11 +78,6 @@ module.exports.fatal = function (msg, pill) {
 /**
  * Extended approach - Compilation status & pills
  */
-
-const successPill = msg => bgGreen.black('', msg, '')
-const infoPill = msg => inverse('', msg, '')
-const errorPill = msg => bgRed.white('', msg, '')
-const warningPill = msg => bgYellow.black('', msg, '')
 
 module.exports.successPill = successPill
 module.exports.success = function (msg, title = 'SUCCESS') {
