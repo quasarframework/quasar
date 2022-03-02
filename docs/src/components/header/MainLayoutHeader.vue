@@ -118,11 +118,9 @@
           :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
           class="text-weight-bold version-dropdown"
           content-class="shadow-bottom-medium"
-          :dropdown-props="{
-            outline: true,
-            color: 'lp-primary',
-            padding: 'sm'
-          }"
+          outline
+          color="lp-primary"
+          padding="sm"
         >
           <template #label>
             <span
@@ -143,11 +141,9 @@
             :items="moreDropdownNavItems"
             label="More"
             class="font-monserrat text-weight-bold text-size-12"
-            :dropdown-props="{
-              menuOffset: [150, 5],
-              color: dark? 'text-dark':'text-white',
-              flat: true,
-            }"
+            flat
+            :menu-offset="[150, 5]"
+            :color="dark? 'text-dark':'text-white'"
           />
         </template>
 
@@ -218,11 +214,9 @@
             :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
             class="text-weight-bold version-dropdown q-ml-lg"
             content-class="shadow-bottom-medium"
-            :dropdown-props="{
-              outline: true,
-              color: 'lp-primary',
-              padding: 'xs sm'
-            }"
+            outline
+            color="lp-primary"
+            padding="xs sm"
           >
             <template #label>
             <span

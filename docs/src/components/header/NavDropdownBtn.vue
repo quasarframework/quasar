@@ -1,9 +1,6 @@
 <template>
   <q-btn-dropdown
     v-model="dropdownMenuModel"
-    v-bind="dropdownProps"
-    :label="label"
-    :content-class="contentClass"
     align="left"
     dense
     no-caps
@@ -38,19 +35,6 @@ export default defineComponent({
       type: Array,
       required: true,
       default: () => []
-    },
-    label: {
-      type: String,
-      default: ''
-    },
-    contentClass: {
-      type: String,
-      default: ''
-    },
-    dropdownProps: {
-      type: Object,
-      required: true,
-      default: () => ({})
     }
   },
   setup () {

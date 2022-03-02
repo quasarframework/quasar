@@ -17,12 +17,10 @@
     :label="navItem.label"
     class="text-weight-bold letter-spacing-225 text-size-12 wrap"
     content-class="shadow-bottom-medium"
-    :dropdown-props="{
-      outline: true,
-      color: !dark? 'black-54':'',
-      padding: padding,
-      flat: true
-    }"
+    outline
+    flat
+    :color="!dark? 'black-54':''"
+    :padding="padding"
   />
 </template>
 <script>
