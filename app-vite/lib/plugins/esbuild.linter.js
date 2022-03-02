@@ -1,6 +1,32 @@
 
 const { normalizePath } = require('vite')
 const getLinter = require('../linter')
+const { dim, underline, bold } = require('chalk')
+
+const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
+
+function parseIssue (path, reportEntry) {
+  const source = reportEntry.source.split('\n')
+
+  return reportEntry.messages.map(entry => {
+    const ruleLink = entry.ruleId
+      ? `\n\n    ⚠️  ${eslintUrl}${underline(bold(entry.ruleId))}`
+      : ''
+
+    return {
+      text: entry.message + ruleLink,
+      detail: void 0,
+      location: {
+        file: path,
+        length: 1,
+        line: entry.line,
+        column: entry.column - 1,
+        lineText: source[ entry.line - 1 ],
+        namespace: ''
+      }
+    }
+  })
+}
 
 module.exports = function eslintPlugin (quasarConf) {
   const {
@@ -9,11 +35,8 @@ module.exports = function eslintPlugin (quasarConf) {
     errors,
     warnings,
     fix,
-    outputFixes,
-    formatter
+    outputFixes
   } = getLinter(quasarConf)
-
-  const isProd = quasarConf.ctx.prod
 
   return {
     name: 'quasar:linter',
@@ -25,31 +48,33 @@ module.exports = function eslintPlugin (quasarConf) {
         const file = normalizePath(path)
 
         if (filter(file) === false || await eslint.isPathIgnored(file) === true) {
-          return
+          return {}
         }
 
         const report = await eslint.lintFiles(path)
 
-        if (report[0] === void 0) {
-          return
+        if (report.length === 0) {
+          return {}
         }
 
-        const { errorCount, fixableErrorCount, warningCount, fixableWarningCount } = report[0]
+        const {
+          errorCount, fixableErrorCount,
+          warningCount, fixableWarningCount
+        } = report[0]
 
         if (fix === true && (fixableErrorCount !== 0 || fixableWarningCount !== 0)) {
           outputFixes(report)
         }
 
-        if (warnings === true && warningCount !== 0) {
-          const { format } = await eslint.loadFormatter(formatter)
-          console.warn(format(report))
+        if (errors === true && errorCount !== 0) {
+          return { errors: parseIssue(path, report[0]) }
         }
 
-        if (errors === true && errorCount !== 0) {
-          const { format } = await eslint.loadFormatter(formatter)
-          console.error(format(report))
-          isProd === true && process.exit(1)
+        if (warnings === true && warningCount !== 0) {
+          return { warnings: parseIssue(path, report[0]) }
         }
+
+        return {}
       })
     }
   }

@@ -45,9 +45,6 @@ class AppTool {
             if (!error) {
               onRebuildSuccess()
             }
-            else {
-              console.error(error)
-            }
           }, 600)
         }
       }

@@ -398,6 +398,11 @@ class QuasarConfFile {
       hasMetaPlugin: cfg.framework.plugins.includes('Meta')
     })
 
+    cfg.linter = merge({
+      warnings: true,
+      errors: true
+    }, cfg.linter)
+
     cfg.build = merge({
       viteVuePluginOptions: {
         isProduction: this.ctx.prod === true,
