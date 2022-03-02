@@ -2,7 +2,7 @@
 const { normalizePath } = require('vite')
 const getLinter = require('../linter')
 
-module.exports = function eslintPlugin (quasarConf) {
+module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   const {
     eslint,
     filter,
@@ -11,7 +11,7 @@ module.exports = function eslintPlugin (quasarConf) {
     fix,
     outputFixes,
     formatter
-  } = getLinter(quasarConf)
+  } = getLinter(quasarConf, getLinterOpts)
 
   return {
     name: 'quasar:linter',

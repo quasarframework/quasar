@@ -19,7 +19,7 @@ import compression from 'compression'
  *
  * Should NOT be async!
  */
-export function create ({}) {
+export function create (/* { ... } */) {
   const app = express()
 
   // place here any middlewares that

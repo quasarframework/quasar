@@ -33,7 +33,7 @@ module.exports = {
   },
 
   main: quasarConf => {
-    const cfg = createNodeEsbuildConfig(quasarConf)
+    const cfg = createNodeEsbuildConfig(quasarConf, { cacheSuffix: 'electron-main' })
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronMain ]
     cfg.outfile = path.join(
@@ -57,7 +57,7 @@ module.exports = {
   },
 
   preload: quasarConf => {
-    const cfg = createNodeEsbuildConfig(quasarConf)
+    const cfg = createNodeEsbuildConfig(quasarConf, { cacheSuffix: 'electron-preload' })
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronPreload ]
     cfg.outfile = path.join(

@@ -1,7 +1,6 @@
 const { green, dim, bold } = require('chalk')
 
 const appPaths = require('../app-paths')
-const { clearConsole } = require('../helpers/logger')
 const { quasarVersion, cliAppVersion, getCompilationTarget } = require('../helpers/banner-global')
 
 const greenBanner = green('»')
@@ -58,7 +57,6 @@ function getBanner (quasarConf) {
 }
 
 module.exports = quasarConf => {
-  clearConsole()
   console.log()
   console.log(getBanner(quasarConf))
   console.log()

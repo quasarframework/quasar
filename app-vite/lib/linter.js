@@ -2,6 +2,7 @@
 const { createFilter } = require('@rollup/pluginutils')
 const { resolve } = require('path')
 
+const appPaths = require('./app-paths')
 const encodeForDiff = require('./helpers/encode-for-diff')
 
 let optionsCache = null
@@ -16,18 +17,32 @@ function mapIncludeExclude (entry) {
 function extractStore ({
   ESLint,
   formatter = 'stylish',
+  cache = false, // Note that cache is broken in ESLint
+                 // at the time of writing these lines
+                 // which is why we disable it by default
   fix = false,
   warnings = true,
   errors = true,
   include = [],
   exclude = [],
   rawOptions = {}
+}, { // getLinterOpts
+  cacheSuffix
 }) {
-  const eslint = new ESLint({
-    cache: false, // cache is broken in ESLint
+
+  const eslintOptions = {
+    cache,
     fix,
     ...rawOptions
-  })
+  }
+
+  if (eslintOptions.cache === true) {
+    eslintOptions.cacheLocation = appPaths.resolve.app(
+      `node_modules/.cache-qlinter/${ cacheSuffix }`
+    )
+  }
+
+  const eslint = new ESLint(eslintOptions)
 
   const includeOptions = [
     /\.([jt]sx?|vue)$/,
@@ -52,13 +67,13 @@ function extractStore ({
   }
 }
 
-module.exports = function getLinter (quasarConf) {
+module.exports = function getLinter (quasarConf, cacheSuffix) {
   const { linter } = quasarConf
   const cache = encodeForDiff(linter)
 
   if (cache !== optionsCache) {
     optionsCache = cache
-    store = extractStore(linter)
+    store = extractStore(linter, cacheSuffix)
   }
 
   return store

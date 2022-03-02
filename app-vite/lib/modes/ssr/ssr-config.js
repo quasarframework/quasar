@@ -67,7 +67,7 @@ module.exports = {
   },
 
   webserver: quasarConf => {
-    const cfg = createNodeEsbuildConfig(quasarConf)
+    const cfg = createNodeEsbuildConfig(quasarConf, { cacheSuffix: 'ssr-webserver' })
 
     cfg.define['process.env.CLIENT'] = false
     cfg.define['process.env.SERVER'] = true

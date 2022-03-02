@@ -28,7 +28,7 @@ function parseIssue (path, reportEntry) {
   })
 }
 
-module.exports = function eslintPlugin (quasarConf) {
+module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   const {
     eslint,
     filter,
@@ -36,7 +36,7 @@ module.exports = function eslintPlugin (quasarConf) {
     warnings,
     fix,
     outputFixes
-  } = getLinter(quasarConf)
+  } = getLinter(quasarConf, getLinterOpts)
 
   return {
     name: 'quasar:linter',

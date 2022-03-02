@@ -88,6 +88,7 @@ function inject (target, source, propList) {
 
 function createViteConfig (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
+  const cacheSuffix = quasarRunMode || ctx.modeName
 
   const vueVitePluginOptions = quasarRunMode !== 'ssr-server'
     ? build.viteVuePluginOptions
@@ -106,7 +107,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
     clearScreen: false,
     logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
-    cacheDir: `node_modules/.vite/${ quasarRunMode || ctx.modeName }`,
+    cacheDir: `node_modules/.cache-qvite/${ cacheSuffix }`,
 
     resolve: build.resolve,
     define: parseEnv(build.env, build.rawDefine),
@@ -183,7 +184,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
     const { ESLint, warnings, errors } = quasarConf.linter
     if (ESLint && warnings === true && errors === true) {
       viteConf.plugins.push(
-        quasarVitePluginLinter(quasarConf)
+        quasarVitePluginLinter(quasarConf, { cacheSuffix })
       )
     }
   }
@@ -214,7 +215,7 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
   return promise.then(() => viteConf)
 }
 
-function createNodeEsbuildConfig (quasarConf) {
+function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
   // fetch fresh copy; user might have installed something new
   delete require.cache[appPkgFile]
   const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPkgFile)
@@ -237,7 +238,7 @@ function createNodeEsbuildConfig (quasarConf) {
   const { ESLint, warnings, errors } = quasarConf.linter
   if (ESLint && warnings === true && errors === true) {
     cfg.plugins = [
-      quasarEsbuildPluginLinter(quasarConf)
+      quasarEsbuildPluginLinter(quasarConf, getLinterOpts)
     ]
   }
 
