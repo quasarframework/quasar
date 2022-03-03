@@ -5,7 +5,7 @@
 
       <h1
         :class="$q.screen.gt.md ? 'letter-spacing-375' : 'letter-spacing-300'"
-        class="landing-my-large text-center text-white-54 text-size-20 primary-line-height"
+        class="landing-my-large text-center text-white text-size-20 primary-line-height"
       >The enterprise-ready cross-platform VueJs framework</h1>
 
       <q-btn
