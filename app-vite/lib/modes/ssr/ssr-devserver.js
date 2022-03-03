@@ -88,7 +88,7 @@ class SsrDevServer extends AppDevserver {
     super(opts)
 
     this.registerDiff('webserver', quasarConf => [
-      quasarConf.linter,
+      quasarConf.eslint,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
       quasarConf.build.minify

@@ -23,7 +23,8 @@ class AppDevserver extends AppTool {
       quasarConf.css,
       quasarConf.extras,
       quasarConf.animations,
-      quasarConf.framework
+      quasarConf.framework,
+      quasarConf.sourceFiles
     ]))
 
     this.registerDiff('viteUrl', quasarConf => ([
@@ -33,11 +34,11 @@ class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('vite', quasarConf => ([
-      quasarConf.linter,
-      quasarConf.sourceFiles,
+      quasarConf.eslint,
       quasarConf.htmlVariables,
       quasarConf.devServer,
-      quasarConf.build
+      quasarConf.build,
+      quasarConf.sourceFiles
     ]))
   }
 
@@ -80,6 +81,11 @@ class AppDevserver extends AppTool {
   }
 
   #diff (name, quasarConf) {
+    if (Array.isArray(name) === true) {
+      const list = name.map(entry => this.#diff(entry, quasarConf))
+      return list.some(entry => entry === true)
+    }
+
     const target = this.#diffList[name]
     const { snapshot, extractFn } = target
 

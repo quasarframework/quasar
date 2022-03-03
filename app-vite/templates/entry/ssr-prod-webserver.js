@@ -137,7 +137,7 @@ middlewareParams.app = app
 
 <% if (ssr.pwa) { %>
 // serve the service worker with no cache
-app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', { maxAge: 0 }))
+app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilename %>', { maxAge: 0 }))
 <% } %>
 
 // serve "client" folder (includes the "public" folder)

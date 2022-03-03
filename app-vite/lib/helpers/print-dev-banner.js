@@ -1,4 +1,4 @@
-const { green, dim, bold } = require('chalk')
+const { green, dim } = require('chalk')
 
 const appPaths = require('../app-paths')
 const { quasarVersion, cliAppVersion, getCompilationTarget } = require('../helpers/banner-global')
@@ -20,7 +20,7 @@ function getIPList () {
 function getBanner (quasarConf) {
   const { ctx } = quasarConf
   const banner = [
-    ` ${greenBanner} Reported at............ ${ dim(bold(new Date().toLocaleDateString())) } ${ dim(bold(new Date().toLocaleTimeString())) }`,
+    ` ${greenBanner} Reported at............ ${ dim(new Date().toLocaleDateString()) } ${ dim(new Date().toLocaleTimeString()) }`,
     ` ${greenBanner} App dir................ ${green(appPaths.appDir)}`
   ]
 

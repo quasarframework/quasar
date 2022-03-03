@@ -25,13 +25,15 @@ class ElectronDevServer extends AppDevserver {
     super(opts)
 
     this.registerDiff('electron', quasarConf => [
-      quasarConf.linter,
+      quasarConf.eslint,
       quasarConf.devServer.host,
       quasarConf.devServer.port,
       quasarConf.devServer.https,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
-      quasarConf.electron
+      quasarConf.electron,
+      quasarConf.sourceFiles.electronMain,
+      quasarConf.sourceFiles.electronPreload
     ])
   }
 

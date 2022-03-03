@@ -1,6 +1,6 @@
 
 const { normalizePath } = require('vite')
-const getLinter = require('../linter')
+const getLinter = require('../eslint')
 const { dim, underline, bold } = require('chalk')
 
 const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
@@ -39,7 +39,7 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   } = getLinter(quasarConf, getLinterOpts)
 
   return {
-    name: 'quasar:linter',
+    name: 'quasar:eslint',
 
     setup (build) {
       build.onLoad({

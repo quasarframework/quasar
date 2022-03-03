@@ -5,6 +5,9 @@ const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const encodeForDiff = require('./helpers/encode-for-diff')
+const getPackage = require('./helpers/get-package')
+
+const { ESLint } = getPackage('eslint')
 
 let optionsCache = null
 let store = {}
@@ -16,7 +19,6 @@ function mapIncludeExclude (entry) {
 }
 
 function extractStore ({
-  ESLint,
   formatter = 'stylish',
   cache = false, // Note that cache is broken in ESLint
                  // at the time of writing these lines
@@ -30,7 +32,6 @@ function extractStore ({
 }, { // getLinterOpts
   cacheSuffix
 }) {
-
   const eslintOptions = {
     cache,
     fix,
@@ -39,7 +40,7 @@ function extractStore ({
 
   if (eslintOptions.cache === true) {
     eslintOptions.cacheLocation = appPaths.resolve.app(
-      `node_modules/.q-cache/linter/${ cacheSuffix }`
+      `node_modules/.q-cache/eslint/${ cacheSuffix }`
     )
 
     if (quasarConf.build.rebuildCache === true) {
@@ -73,12 +74,12 @@ function extractStore ({
 }
 
 module.exports = function getLinter (quasarConf, cacheSuffix) {
-  const { linter } = quasarConf
-  const cache = encodeForDiff(linter)
+  const { eslint } = quasarConf
+  const cache = encodeForDiff(eslint)
 
   if (cache !== optionsCache) {
     optionsCache = cache
-    store = extractStore(linter, cacheSuffix)
+    store = extractStore(eslint, cacheSuffix)
   }
 
   return store

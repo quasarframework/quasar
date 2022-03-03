@@ -11,8 +11,6 @@ const parseEnv = require('./parse-env')
 const extensionRunner = require('./app-extension/extensions-runner')
 
 const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
-const quasarVitePluginLinter = require('./plugins/vite.linter')
-const quasarEsbuildPluginLinter = require('./plugins/esbuild.linter')
 
 const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.json'))
 const appPkgFile = appPaths.resolve.app('package.json')
@@ -187,10 +185,12 @@ function createViteConfig (quasarConf, quasarRunMode) {
   }
 
   if (quasarRunMode !== 'ssr-server') {
-    const { ESLint, warnings, errors } = quasarConf.linter
-    if (ESLint && warnings === true && errors === true) {
+    const { warnings, errors } = quasarConf.eslint
+    if (warnings === true && errors === true) {
+      // require only if actually needed (as it imports app's eslint pkg)
+      const quasarVitePluginESLint = require('./plugins/vite.eslint')
       viteConf.plugins.push(
-        quasarVitePluginLinter(quasarConf, { cacheSuffix })
+        quasarVitePluginESLint(quasarConf, { cacheSuffix })
       )
     }
   }
@@ -241,10 +241,12 @@ function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
     define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
   }
 
-  const { ESLint, warnings, errors } = quasarConf.linter
-  if (ESLint && warnings === true && errors === true) {
+  const { warnings, errors } = quasarConf.eslint
+  if (warnings === true && errors === true) {
+    // require only if actually needed (as it imports app's eslint pkg)
+    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint')
     cfg.plugins = [
-      quasarEsbuildPluginLinter(quasarConf, getLinterOpts)
+      quasarEsbuildPluginESLint(quasarConf, getLinterOpts)
     ]
   }
 

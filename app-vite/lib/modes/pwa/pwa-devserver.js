@@ -1,76 +1,89 @@
-const webpack = require('webpack')
+const { createServer } = require('vite')
+const chokidar = require('chokidar')
+const debounce = require('lodash.debounce')
 
-class PwaRunner {
-  constructor () {
-    this.cswWatcher = null
+const AppDevserver = require('../../app-devserver')
+const openBrowser = require('../../helpers/open-browser')
+const config = require('./pwa-config')
+const { injectPwaManifest } = require('./utils')
+
+const getPackage = require('../../helpers/get-package')
+const workboxBuild = getPackage('workbox-build')
+
+class PwaDevServer extends AppDevserver {
+  #server
+  #manifestWatcher
+
+  constructor (opts) {
+    super(opts)
+
+    this.registerDiff('pwa', quasarConf => [
+      quasarConf.pwa
+    ])
   }
 
-  init () {}
+  run (quasarConf, __isRetry) {
+    const { diff, queue } = super.run(quasarConf, __isRetry)
 
-  shouldAbort (quasarConfFile) {
-    return (
-      quasarConfFile.quasarConf.pwa.workboxPluginMode !== 'InjectManifest'
-      || (quasarConfFile.quasarConf.ctx.mode.ssr === true && quasarConfFile.quasarConf.ctx.mode.pwa !== true)
-    )
+    if (diff([ 'vite', 'pwa' ], quasarConf) === true) {
+      return queue(() => {
+        this.#runPwaManifest(quasarConf)
+        return this.#runPwaServiceWorker(quasarConf)
+          .then(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
+      })
+    }
   }
 
-  async run (quasarConfFile) {
-    if (this.cswWatcher) {
-      await this.stop()
+  async #runVite (quasarConf, urlDiffers) {
+    if (this.#server !== void 0) {
+      this.#server.close()
     }
 
-    if (this.shouldAbort(quasarConfFile)) {
-      return
-    }
+    const viteConfig = await config.vite(quasarConf)
 
-    const cswCompiler = webpack(quasarConfFile.webpackConf.csw)
+    this.#server = await createServer(viteConfig)
+    await this.#server.listen()
 
-    return new Promise(resolve => {
-      this.cswWatcher = cswCompiler.watch({}, async (err, stats) => {
-        if (err) {
-          console.log(err)
-          return
-        }
+    this.printBanner(quasarConf)
 
-        if (stats.hasErrors() === false) {
-          resolve()
-        }
+    if (urlDiffers === true && quasarConf.metaConf.openBrowser) {
+      const { metaConf } = quasarConf
+      openBrowser({
+        url: metaConf.APP_URL,
+        opts: metaConf.openBrowser !== true ? metaConf.openBrowser : false
       })
-    })
+    }
   }
 
-  build (quasarConfFile) {
-    if (this.shouldAbort(quasarConfFile)) {
-      return
+  #runPwaManifest (quasarConf) {
+    if (this.#manifestWatcher !== void 0) {
+      this.#manifestWatcher.close()
     }
 
-    return new Promise(resolve => {
-      webpack(quasarConfFile.webpackConf.csw, async (err, stats) => {
-        if (err) {
-          console.error(err.stack || err)
+    this.#manifestWatcher = chokidar.watch(
+      quasarConf.metaConf.pwaManifestFile,
+      { watchers: { chokidar: { ignoreInitial: true } } }
+    ).on('change', debounce(() => {
+      injectPwaManifest(quasarConf)
 
-          if (err.details) {
-            console.error(err.details)
-          }
+      if (this.#server !== void 0) {
+        this.#server.ws.send({
+          type: 'full-reload',
+          path: '*'
+        })
+      }
+    }, 550))
 
-          process.exit(1)
-        }
-
-        if (stats.hasErrors() !== true) {
-          resolve()
-        }
-      })
-    })
+    injectPwaManifest(quasarConf)
   }
 
-  stop () {
-    if (this.cswWatcher) {
-      return new Promise(resolve => {
-        this.cswWatcher.close(resolve)
-        this.cswWatcher = null
-      })
+  async #runPwaServiceWorker (quasarConf) {
+    const workboxConfig = config.workbox(quasarConf)
+
+    if (quasarConf.pwa.workboxMode === 'GenerateSW') {
+      await workboxBuild.generateSW(workboxConfig)
     }
   }
 }
 
-module.exports = new PwaRunner()
+module.exports = PwaDevServer

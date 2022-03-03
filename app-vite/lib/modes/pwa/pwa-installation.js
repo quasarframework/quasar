@@ -7,8 +7,15 @@ const { log, warn, fatal } = require('../../helpers/logger')
 const { spawnSync } = require('../../helpers/spawn')
 const nodePackager = require('../../helpers/node-packager')
 
+const defaultVersion = '^6.5.0'
+
 const pwaDeps = {
-  'workbox-webpack-plugin': '^6.0.0'
+  'workbox-core': defaultVersion,
+  'workbox-routing': defaultVersion,
+  'workbox-strategies': defaultVersion,
+  'workbox-expiration': defaultVersion,
+  'workbox-precaching': defaultVersion,
+  'workbox-build': defaultVersion
 }
 
 function isInstalled () {

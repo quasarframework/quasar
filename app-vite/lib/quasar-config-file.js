@@ -1,5 +1,5 @@
 const path = require('path')
-const fs = require('fs')
+const { existsSync } = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
@@ -18,14 +18,6 @@ const isMinimalTerminal = require('./helpers/is-minimal-terminal')
 
 const quasarConfFilename = appPaths.resolve.app('quasar.config.js')
 const appPkg = require(appPaths.resolve.app('package.json'))
-
-const confErrors = {
-  CANNOT_READ: { error: 'Could not load quasar.config.js config file' },
-  HAS_JS_ERRORS: { error: 'quasar.config.js has JS errors' },
-  EXTENSIONS_FAILED: { error: 'One of your installed App Extensions failed to run' },
-  NETWORK_ERROR: { error: 'Network error encountered while following the quasar.conf host/port config' },
-  FILES_VALIDATION_ERROR: { error: 'Files validation not passed successfully' }
-}
 
 const defaultPortMapping = {
   spa: 9000,
@@ -149,11 +141,19 @@ async function onAddress ({ host, port }, mode) {
 }
 
 class QuasarConfFile {
-  constructor ({ ctx, host, port }) {
-    this.ctx = ctx
-    this.opts = { host, port }
+  #ctx
+  #opts
+  #initialVersions = {}
+  #address
 
-    if (this.ctx.mode.capacitor) {
+  constructor ({ ctx, host, port }) {
+    this.#ctx = ctx
+    this.#opts = { host, port }
+
+    if (this.#ctx.mode.pwa) {
+      this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
+    }
+    else if (this.#ctx.mode.capacitor) {
       const { capVersion } = require('./modes/capacitor/cap-cli')
       const getCapPluginVersion = capVersion <= 2
         ? () => true
@@ -164,11 +164,11 @@ class QuasarConfFile {
             : version || true
         }
 
-      this.initialVersions = {
+      Object.assign(this.#initialVersions, {
         capacitor: capVersion,
         capacitorPluginApp: getCapPluginVersion('@capacitor/app'),
         capacitorPluginSplashscreen: getCapPluginVersion('@capacitor/splash-screen')
-      }
+      })
     }
   }
 
@@ -186,7 +186,7 @@ class QuasarConfFile {
         warn(result.error)
       }
       else {
-        log(`Queuing quasar.config.js changes`)
+        log(`Applying quasar.config.js changes`)
         log()
 
         onChange(result)
@@ -197,32 +197,32 @@ class QuasarConfFile {
   async read () {
     let quasarConfigFunction
 
-    if (fs.existsSync(quasarConfFilename)) {
+    if (existsSync(quasarConfFilename)) {
       try {
         delete require.cache[quasarConfFilename]
         quasarConfigFunction = require(quasarConfFilename)
       }
       catch (e) {
         console.error(e)
-        return confErrors.HAS_JS_ERRORS
+        return { error: 'quasar.config.js has JS errors' }
       }
     }
     else {
-      return confErrors.CANNOT_READ
+      return { error: 'Could not load quasar.config.js config file' }
     }
 
     let userCfg
 
     try {
-      userCfg = await quasarConfigFunction(this.ctx)
+      userCfg = await quasarConfigFunction(this.#ctx)
     }
     catch (e) {
       console.error(e)
-      return confErrors.HAS_JS_ERRORS
+      return { error: 'quasar.config.js has JS errors' }
     }
 
     const rawQuasarConf = merge({
-      ctx: this.ctx,
+      ctx: this.#ctx,
       boot: [],
       css: [],
       extras: [],
@@ -234,7 +234,7 @@ class QuasarConfFile {
         config: {}
       },
 
-      linter: {},
+      eslint: {},
 
       sourceFiles: {},
       bin: {},
@@ -265,11 +265,9 @@ class QuasarConfFile {
         middlewares: []
       },
       pwa: {
-        workboxOptions: {},
-        manifest: {
-          icons: []
-        },
-        metaVariables: {}
+        workboxGenerateSWOptions: {},
+        workboxInjectManifestOptions: {},
+        includeAssets: []
       },
       electron: {
         unPackagedInstallParams: [],
@@ -289,10 +287,10 @@ class QuasarConfFile {
     }, userCfg)
 
     const metaConf = {
-      debugging: this.ctx.dev === true || this.ctx.debug === true,
+      debugging: this.#ctx.dev === true || this.#ctx.debug === true,
       needsAppMountHook: false,
       vueDevtools: false,
-      versions: { ...this.initialVersions }, // used by .quasar entry templates
+      versions: { ...this.#initialVersions }, // used by .quasar entry templates
       css: { ...cssVariables }
     }
 
@@ -308,7 +306,7 @@ class QuasarConfFile {
     }
     catch (e) {
       console.error(e)
-      return confErrors.EXTENSIONS_FAILED
+      return { error: 'One of your installed App Extensions failed to run' }
     }
 
     const cfg = {
@@ -316,49 +314,49 @@ class QuasarConfFile {
       metaConf
     }
 
-    if (this.ctx.dev) {
-      if (this.opts.host) {
-        cfg.devServer.host = this.opts.host
+    if (this.#ctx.dev) {
+      if (this.#opts.host) {
+        cfg.devServer.host = this.#opts.host
       }
       else if (!cfg.devServer.host) {
         cfg.devServer.host = '0.0.0.0'
       }
 
-      if (this.opts.port) {
-        cfg.devServer.port = this.opts.port
+      if (this.#opts.port) {
+        cfg.devServer.port = this.#opts.port
         tip('You are using the --port parameter. It is recommended to use a different devServer port for each Quasar mode to avoid browser cache issues')
       }
       else if (!cfg.devServer.port) {
-        cfg.devServer.port = defaultPortMapping[this.ctx.modeName]
+        cfg.devServer.port = defaultPortMapping[this.#ctx.modeName]
       }
       else {
         tip('You specified an explicit quasar.config.js > devServer > port. It is recommended to use a different devServer > port for each Quasar mode to avoid browser cache issues. Example: ctx.mode.ssr ? 9100 : ...')
       }
 
       if (
-        this.address &&
-        this.address.from.host === cfg.devServer.host &&
-        this.address.from.port === cfg.devServer.port
+        this.#address &&
+        this.#address.from.host === cfg.devServer.host &&
+        this.#address.from.port === cfg.devServer.port
       ) {
-        cfg.devServer.host = this.address.to.host
-        cfg.devServer.port = this.address.to.port
+        cfg.devServer.host = this.#address.to.host
+        cfg.devServer.port = this.#address.to.port
       }
       else {
         const addr = {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = this.ctx.dev === true
-          ? await onAddress(addr, this.ctx.modeName)
+        const to = this.#ctx.dev === true
+          ? await onAddress(addr, this.#ctx.modeName)
           : addr
 
         // if network error while running
         if (to === null) {
-          return confErrors.NETWORK_ERROR
+          return { error: 'Network error encountered while following the quasar.conf host/port config' }
         }
 
         cfg.devServer = merge({ open: true }, cfg.devServer, to)
-        this.address = {
+        this.#address = {
           from: addr,
           to: {
             host: cfg.devServer.host,
@@ -412,23 +410,22 @@ class QuasarConfFile {
       hasMetaPlugin: cfg.framework.plugins.includes('Meta')
     })
 
-    cfg.linter = merge({
-      warnings: true,
-      errors: true
-    }, cfg.linter)
+    cfg.eslint = cfg.eslint
+      ? merge({ warnings: true, errors: true }, cfg.eslint)
+      : {}
 
     cfg.build = merge({
       viteVuePluginOptions: {
-        isProduction: this.ctx.prod === true,
+        isProduction: this.#ctx.prod === true,
         template: {
-          isProd: this.ctx.prod === true,
+          isProd: this.#ctx.prod === true,
           transformAssetUrls
         }
       },
 
       vueOptionsAPI: true,
       polyfillModulePreload: false,
-      distDir: path.join('dist', this.ctx.modeName),
+      distDir: path.join('dist', this.#ctx.modeName),
 
       rawDefine: {
         // vue
@@ -454,12 +451,8 @@ class QuasarConfFile {
         }
       },
 
-      productName: appPkg.productName,
-      productDescription: appPkg.description,
-      ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
-                                          // will mess up SSR
       vueRouterMode: 'hash',
-      minify: !cfg.metaConf.debugging && this.ctx.mode.bex !== true,
+      minify: !cfg.metaConf.debugging && this.#ctx.mode.bex !== true,
       sourcemap: cfg.metaConf.debugging === true
     }, cfg.build)
 
@@ -471,10 +464,10 @@ class QuasarConfFile {
       cfg.build.target.node = 'node16'
     }
 
-    if (this.ctx.mode.ssr) {
+    if (this.#ctx.mode.ssr) {
       cfg.build.vueRouterMode = 'history'
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron || this.ctx.mode.bex) {
+    else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron || this.#ctx.mode.bex) {
       Object.assign(cfg.build, {
         vueRouterMode: 'hash'
       })
@@ -484,58 +477,63 @@ class QuasarConfFile {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
-      cfg.metaConf.packagedDistDir = path.join(cfg.build.distDir, this.ctx.targetName)
+    if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor) {
+      cfg.metaConf.packagedDistDir = path.join(cfg.build.distDir, this.#ctx.targetName)
     }
 
-    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
-      cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
+    if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor) {
+      cfg.build.distDir = appPaths.resolve[this.#ctx.modeName]('www')
     }
-    else if (this.ctx.mode.electron || this.ctx.mode.bex) {
+    else if (this.#ctx.mode.electron || this.#ctx.mode.bex) {
       cfg.metaConf.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
     cfg.build.publicPath =
-      cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.ctx.modeName)
+      cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.#ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
-        : (['capacitor', 'cordova', 'electron'].includes(this.ctx.modeName) ? '' : '/')
+        : (['capacitor', 'cordova', 'electron'].includes(this.#ctx.modeName) ? '' : '/')
 
     /* careful if you configure the following; make sure that you really know what you are doing */
     cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0
       ? cfg.build.vueRouterBase
       : formatRouterBase(cfg.build.publicPath)
 
+    // when adding new props here be sure to update
+    // all impacted devserver diffs (look for this.registerDiff() calls)
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
       store: 'src/store/index',
       registerServiceWorker: 'src-pwa/register-service-worker',
       serviceWorker: 'src-pwa/custom-service-worker',
+      pwaManifestFile: 'src-pwa/manifest.json',
       electronMain: 'src-electron/electron-main',
       electronPreload: 'src-electron/electron-preload'
     }, cfg.sourceFiles)
 
     if (appFilesValidations(cfg) === false) {
-      return confErrors.FILES_VALIDATION_ERROR
+      return { error: 'Files validation not passed successfully' }
     }
 
     // do we got vuex?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
     cfg.store = (
-      fs.existsSync(storePath) ||
-      fs.existsSync(storePath + '.js') ||
-      fs.existsSync(storePath + '.ts')
+      // TODO extract .[jt]sx? file exist check into function
+      // and use it for Esbuild config entry points too
+      existsSync(storePath) ||
+      existsSync(storePath + '.js') ||
+      existsSync(storePath + '.ts')
     )
 
     // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
 
-    if (this.ctx.mode.capacitor & cfg.capacitor.capacitorCliPreparationParams.length === 0) {
-      cfg.capacitor.capacitorCliPreparationParams = [ 'sync', this.ctx.targetName ]
+    if (this.#ctx.mode.capacitor & cfg.capacitor.capacitorCliPreparationParams.length === 0) {
+      cfg.capacitor.capacitorCliPreparationParams = [ 'sync', this.#ctx.targetName ]
     }
 
-    if (this.ctx.mode.ssr) {
+    if (this.#ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
         manualStoreHydration: false,
@@ -563,11 +561,11 @@ class QuasarConfFile {
       }
 
       cfg.metaConf.ssrServerScript = appPaths.resolve.ssr('server.js')
-      this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
+      this.#ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
     }
 
-    if (this.ctx.dev) {
-      if (this.ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
+    if (this.#ctx.dev) {
+      if (this.#ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
         cfg.metaConf.needsAppMountHook = true
         cfg.metaConf.vueDevtools = {
           host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
@@ -575,8 +573,8 @@ class QuasarConfFile {
         }
       }
 
-      if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
-        if (this.ctx.mode.electron) {
+      if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron) {
+        if (this.#ctx.mode.electron) {
           cfg.devServer.https = false
         }
       }
@@ -589,53 +587,32 @@ class QuasarConfFile {
       delete cfg.devServer.open
     }
 
-    if (this.ctx.mode.pwa) {
+    if (this.#ctx.mode.pwa) {
       cfg.pwa = merge({
-        workboxPluginMode: 'GenerateSW',
-        workboxOptions: {},
-        useCredentials: false,
-        manifest: {
-          name: appPkg.productName || appPkg.name || 'Quasar App',
-          short_name: appPkg.name || 'quasar-pwa',
-          description: appPkg.description,
-          display: 'standalone',
-          start_url: '.'
-        },
-        metaVariables: {
-          appleMobileWebAppCapable: 'yes',
-          appleMobileWebAppStatusBarStyle: 'default',
-          appleTouchIcon120: 'icons/apple-icon-120x120.png',
-          appleTouchIcon152: 'icons/apple-icon-152x152.png',
-          appleTouchIcon167: 'icons/apple-icon-167x167.png',
-          appleTouchIcon180: 'icons/apple-icon-180x180.png',
-          appleSafariPinnedTab: 'icons/safari-pinned-tab.svg',
-          msapplicationTileImage: 'icons/ms-icon-144x144.png',
-          msapplicationTileColor: '#000000'
-        }
+        workboxMode: 'GenerateSW',
+        injectPwaMetaTags: true,
+        swFilename: 'sw.js',
+        useCredentials: false
       }, cfg.pwa)
 
-      if (cfg.pwa.manifest.icons.length === 0) {
-        warn()
-        warn(`PWA manifest in quasar.config.js > pwa > manifest is missing "icons" prop.\n`)
-        process.exit(1)
-      }
+      const middlePath = this.#ctx.dev === true
+        ? '.quasar/pwa/'
+        : ''
 
-      if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxPluginMode)) {
-        warn()
-        warn(`Workbox webpack plugin mode "${cfg.pwa.workboxPluginMode}" is invalid.`)
-        warn(`Valid Workbox modes are: GenerateSW, InjectManifest\n`)
-        process.exit(1)
-      }
+      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}${cfg.pwa.swFilename}`
 
-      cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
-        if (urlRegex.test(icon.src) === false) {
-          icon.src = `${cfg.build.publicPath}${icon.src}`
+      cfg.metaConf.pwaServiceWorkerFile = appPaths.resolve.app(`${middlePath}${cfg.pwa.swFilename}`)
+      cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
+
+      if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxMode)) {
+        return {
+          error: `Workbox strategy "${cfg.pwa.workboxMode}" is invalid. `
+            + `Valid quasar.config.js > pwa > workboxMode options are: GenerateSW, InjectManifest\n`
         }
-        return icon
-      })
+      }
     }
 
-    if (this.ctx.dev) {
+    if (this.#ctx.dev) {
       const getUrl = hostname => `http${cfg.devServer.https ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}`
       const hostname = cfg.devServer.host === '0.0.0.0'
         ? 'localhost'
@@ -644,18 +621,18 @@ class QuasarConfFile {
       cfg.metaConf.APP_URL = getUrl(hostname)
       cfg.metaConf.getUrl = getUrl
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.bex) {
+    else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'
     }
 
     Object.assign(cfg.build.env, {
-      NODE_ENV: this.ctx.prod ? 'production' : 'development',
+      NODE_ENV: this.#ctx.prod ? 'production' : 'development',
       CLIENT: true,
       SERVER: false,
-      DEV: this.ctx.dev === true,
-      PROD: this.ctx.prod === true,
+      DEV: this.#ctx.dev === true,
+      PROD: this.#ctx.prod === true,
       DEBUGGING: cfg.metaConf.debugging === true,
-      MODE: this.ctx.modeName,
+      MODE: this.#ctx.modeName,
       VUE_ROUTER_MODE: cfg.build.vueRouterMode,
       VUE_ROUTER_BASE: cfg.build.vueRouterBase,
     })
@@ -664,10 +641,7 @@ class QuasarConfFile {
       cfg.build.env.APP_URL = cfg.metaConf.APP_URL
     }
 
-    if (this.ctx.mode.pwa) {
-      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
-    }
-    else if (this.ctx.mode.bex) {
+    if (this.#ctx.mode.bex) {
       cfg.bex = merge({}, cfg.bex, {
         builder: {
           directories: {
@@ -677,13 +651,13 @@ class QuasarConfFile {
         }
       })
     }
-    else if (this.ctx.mode.electron && this.ctx.prod) {
+    else if (this.#ctx.mode.electron && this.#ctx.prod) {
       const bundler = require('./modes/electron/bundler')
 
       const icon = appPaths.resolve.electron('icons/icon.png')
       const builderIcon = process.platform === 'linux'
         // backward compatible (linux-512x512.png)
-        ? (fs.existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
+        ? (existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
         : appPaths.resolve.electron('icons/icon')
 
       cfg.electron = merge({
@@ -721,9 +695,9 @@ class QuasarConfFile {
         cfg.electron.bundler = bundler.getDefaultName()
       }
 
-      if (this.opts.argv !== void 0) {
+      if (this.#opts.argv !== void 0) {
         const { ensureElectronArgv } = require('./helpers/ensure-argv')
-        ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
+        ensureElectronArgv(cfg.electron.bundler, this.#opts.argv)
       }
 
       if (cfg.electron.bundler === 'packager') {
@@ -765,14 +739,12 @@ class QuasarConfFile {
 
     cfg.htmlVariables = merge({
       ctx: cfg.ctx,
-      process: {
-        env: cfg.build.env
-      },
-      productName: escapeHTMLTagContent(cfg.build.productName),
-      productDescription: escapeHTMLAttribute(cfg.build.productDescription)
+      process: { env: cfg.build.env },
+      productName: escapeHTMLTagContent(appPkg.productName),
+      productDescription: escapeHTMLAttribute(appPkg.description)
     }, cfg.htmlVariables)
 
-    if (this.ctx.mode.capacitor && cfg.metaConf.versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
+    if (this.#ctx.mode.capacitor && cfg.metaConf.versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
       cfg.metaConf.needsAppMountHook = true
     }
 

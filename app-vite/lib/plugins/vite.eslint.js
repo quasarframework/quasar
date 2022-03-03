@@ -1,6 +1,6 @@
 
 const { normalizePath } = require('vite')
-const getLinter = require('../linter')
+const getLinter = require('../eslint')
 
 module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   const {
@@ -14,7 +14,7 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   } = getLinter(quasarConf, getLinterOpts)
 
   return {
-    name: 'quasar:linter',
+    name: 'quasar:eslint',
 
     async transform(_, id) {
       if (filter(id) === false || await eslint.isPathIgnored(normalizePath(id)) === true) {
