@@ -93,14 +93,10 @@ export default function useSearch (scope, $q, $route) {
   }
 
   function focusOnSearch (evt) {
-    if (
-      evt.target.tagName !== 'INPUT' &&
-      String.fromCharCode(evt.keyCode) === '/'
-    ) {
+    if (evt.ctrlKey && evt.code === 'KeyK') {
       evt.preventDefault()
-
       setTimeout(() => {
-        // focus is caused by /
+        // focus is caused by Ctrl K
         focusByKeyboard.value = !focusByKeyboard.value
         searchInputRef.value && searchInputRef.value.focus()
       })
@@ -109,6 +105,7 @@ export default function useSearch (scope, $q, $route) {
 
   function onSearchFocus () {
     searchHasFocus.value = true
+    searchInputRef.value.focus()
     if (searchTerms.value) {
       const el = searchInputRef.value.getNativeElement()
       el.setSelectionRange(0, searchTerms.value.length)
@@ -195,7 +192,7 @@ export default function useSearch (scope, $q, $route) {
       scope.leftDrawerState.value = true
     }
 
-    window.addEventListener('keypress', focusOnSearch)
+    window.addEventListener('keydown', focusOnSearch)
 
     if (searchQuery) {
       // Here we put search string from query into the input and open the search popup.
@@ -208,7 +205,7 @@ export default function useSearch (scope, $q, $route) {
   })
 
   onBeforeUnmount(() => {
-    window.removeEventListener('keypress', focusOnSearch)
+    window.removeEventListener('keydown', focusOnSearch)
   })
 
   Object.assign(scope, {

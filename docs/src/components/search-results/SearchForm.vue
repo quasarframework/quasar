@@ -27,11 +27,10 @@
         @focus="onSearchFocus"
       >
         <template #append>
-          <!-- justify-end: a tweak to center / in kbd, since the size of / depends on the font, flex flex-center does not quite place it at the center-->
           <kbd
             v-if="!searchHasFocus"
-            class="forward-slash-key flex justify-end items-center text-weight-bold no-pointer-events"
-          >/</kbd>
+            class="search-key text-weight-bold cursor-pointer letter-spacing-25"
+          >Crtl K</kbd>
           <q-icon
             v-else-if="!searchTerms"
             name="search"
@@ -134,8 +133,8 @@ $search-form-width-lg: 360px;
     width: $search-form-width-lg;
   }
 
-  .forward-slash-key {
-    font-size: .6em !important;
+  .search-key {
+    font-size: .5em !important;
     min-width: 1.6em;
     min-height: 1.5em;
   }
