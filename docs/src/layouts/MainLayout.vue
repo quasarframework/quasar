@@ -1,9 +1,9 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
     <!-- div for stars -->
-    <div id="stars-sm" />
-    <div id="stars-md" />
-    <div id="stars-lg" />
+    <div class="stars-sm" />
+    <div class="stars-md" />
+    <div class="stars-lg" />
 
     <main-layout-header v-model="showDrawer" :dark="!footerHasMetHeader" ref="mainLayoutHeader" />
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
@@ -22,8 +22,13 @@
       <router-view />
     </q-page-container>
 
-    <div class="bg-lp-grey text-size-12 main-layout-footer relative-position" ref="mainLayoutFooter">
-      <div class="lp-footer">
+    <!--
+      We're not using q-footer because it has a strange interaction
+      with the scroll position when navigating back after a link in it has been used:
+      the page scroll position will be set as right before the footer, instead of showing it as we left it
+    -->
+    <footer class="bg-lp-grey text-size-12 footer" ref="mainLayoutFooter">
+      <nav class="footer-nav">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
           <q-item-label
             class="text-lp-dark text-weight-bold letter-spacing-225"
@@ -52,7 +57,7 @@
             </q-item>
           </template>
         </q-list>
-      </div>
+      </nav>
       <q-separator color="lp-primary" class="lp-mx--large" />
       <div class="row justify-center q-my-md letter-spacing-225">
         <q-btn
@@ -83,7 +88,7 @@
           class="q-ml-sm text-lp-accent text-weight-bold"
         >Dreamonkey Srl</a>
       </div>
-    </div>
+    </footer>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
       <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md" />
     </q-page-scroller>
@@ -92,7 +97,6 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { useQuasar } from 'quasar'
 import MainLayoutHeader from 'components/header/MainLayoutHeader.vue'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
@@ -162,13 +166,11 @@ export default defineComponent({
     const footerHasMetHeader = ref(false)
     const mainLayoutFooter = ref()
     const mainLayoutHeader = ref()
-    const $q = useQuasar()
 
     function checkHeaderMetFooter () {
       const headerSize = mainLayoutHeader.value.$el.clientHeight
       const positionFromTop = mainLayoutFooter.value.getBoundingClientRect().top
       footerHasMetHeader.value = positionFromTop <= headerSize
-      $q.dark.set(footerHasMetHeader.value)
     }
 
     return {
@@ -185,35 +187,42 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.app-menu .q-item {
+  font-size: 14px;
+}
+
 $footer-columns-md-min: 5;
 $footer-columns-sm-min: 3;
 $footer-columns-after-xs: 2;
 
-.lp-footer {
-  padding-top: 100px;
-  padding-bottom: 100px;
+.footer {
+  position: relative;
+  z-index: 5; // lower than header, higher than stars background and components page filter section
+}
 
+.footer-nav {
   display: grid;
   grid-template-columns: 1fr;
   grid-column-gap: 24px;
   grid-row-gap: 100px;
+  padding: 100px 32px;
 
   @media screen and (min-width: $breakpoint-sm-min) {
-    margin-left: 30px;
-    margin-right: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
     grid-column-gap: 36px;
     grid-template-columns: repeat($footer-columns-sm-min, 1fr);
   }
 
   @media screen and (min-width: $breakpoint-md-min) {
-    margin-left: 100px;
-    margin-right: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
     grid-template-columns: repeat($footer-columns-md-min, 1fr);
   }
   // handle edge case, on devices just after $breakpoint-xs-max and into sm
   @media screen and (min-width: $breakpoint-xs-max) and (max-width: 807px) {
-    margin-left: 64px;
-    margin-right: 64px;
+    padding-left: 64px;
+    padding-right: 64px;
     grid-template-columns: repeat($footer-columns-after-xs, 1fr);
   }
 }
@@ -230,14 +239,6 @@ $footer-columns-after-xs: 2;
     #c3e0ff
   );
   background-size: 40px 40px;
-}
-
-.app-menu .q-item {
-  font-size: 14px;
-}
-
-.main-layout-footer {
-  z-index: 5; // ensures it's lower than header but higher than components page filter section
 }
 
 $max-viewport-height: 7000; // max height at which stars are spread
@@ -262,13 +263,15 @@ $shadows-lg: generateRandomStars(500, $max-viewport-height);
   width: #{$size}px;
 }
 
-#stars-sm {
+.stars-sm {
   @include createStar(1, $shadows-sm, 70s);
 }
-#stars-md {
+
+.stars-md {
   @include createStar(2, $shadows-md, 100s);
 }
-#stars-lg {
+
+.stars-lg {
   @include createStar(3, $shadows-lg, 150s);
 }
 

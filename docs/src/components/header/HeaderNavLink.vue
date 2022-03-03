@@ -12,15 +12,15 @@
   />
   <nav-dropdown-btn
     v-else
-    :items="navItem.subMenu"
     :class="`${dark? 'white-color-on-hover':''} ${navItemClass}`"
+    :color="!dark? 'black-54':''"
+    :items="navItem.subMenu"
     :label="navItem.label"
+    :padding="padding"
     class="text-weight-bold letter-spacing-225 text-size-12 wrap"
     content-class="shadow-bottom-medium"
-    outline
     flat
-    :color="!dark? 'black-54':''"
-    :padding="padding"
+    outline
   />
 </template>
 <script>
@@ -30,9 +30,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'HeaderNavLink',
-  components: {
-    NavDropdownBtn
-  },
+  components: { NavDropdownBtn },
   props: {
     dark: {
       type: Boolean,

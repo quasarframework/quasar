@@ -117,14 +117,14 @@
           :items="versionHistory"
           :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
           class="text-weight-bold version-dropdown"
+          color="lp-primary"
           content-class="shadow-bottom-medium"
           outline
-          color="lp-primary"
           padding="sm"
         >
           <template #label>
             <span
-              :class="dark? 'text-white':'text-dark'"
+              :class="dark ? 'text-white' : 'text-dark'"
               class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
             <!-- q-space for space before icon -->
             <q-space/>
@@ -133,17 +133,17 @@
 
         <template v-if="$q.screen.sm">
           <q-separator
-            :color="dark? 'lp-primary':'black-12'"
+            :color="dark ? 'lp-primary' : 'black-12'"
             class="q-ml-md q-mr-sm"
             inset
             vertical/>
           <nav-dropdown-btn
+            :color="dark ? 'text-dark' : 'text-white'"
             :items="moreDropdownNavItems"
-            label="More"
+            :menu-offset="[150, 5]"
             class="font-monserrat text-weight-bold text-size-12"
             flat
-            :menu-offset="[150, 5]"
-            :color="dark? 'text-dark':'text-white'"
+            label="More"
           />
         </template>
 
@@ -210,18 +210,21 @@
             vertical
           />
           <nav-dropdown-btn
-            :items="versionHistory"
             :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
+            :items="versionHistory"
             class="text-weight-bold version-dropdown q-ml-lg"
+            color="lp-primary"
             content-class="shadow-bottom-medium"
             outline
-            color="lp-primary"
             padding="xs sm"
           >
             <template #label>
-            <span
-              :class="dark? 'text-white':'text-dark'"
-              class="text-size-12 letter-spacing-225">{{ `v${$q.version}` }}</span>
+              <span
+                :class="dark ? 'text-white' : 'text-dark'"
+                class="text-size-12 letter-spacing-225"
+              >
+                {{ `v${$q.version}` }}
+              </span>
               <!-- q-space for space before icon -->
               <q-space/>
             </template>
