@@ -18,7 +18,7 @@ export const whyQuasar = [
     title: 'Great documentation',
     body: 'All the details you deserve to start working properly. Every star-pilot needs a good manual.',
     btnLabel: 'Get Started',
-    btnLink: 'start/pick-quasar-flavour'
+    btnLink: 'start/quick-start'
   }
 ]
 
