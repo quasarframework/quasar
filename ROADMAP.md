@@ -32,29 +32,13 @@ We are updating this section constantly in order to keep you up to date with our
 
 *The schedule may change based on unforeseen and/or out of the ordinary circumstances.*
 
-### Q2 2021
-* ✌️ (DONE) Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
-* ✌️ (DONE) Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
-
-### Q3 2021
-* ✌️ (DONE) Migration to Quasar v2 of official AEs ([reference](https://github.com/quasarframework/quasar/discussions/9560))
-* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
-* ✌️ (DONE) Quasar brand rework ([reference](https://dev.to/quasar/quasar-brand-refresh-and-new-partnership-ao1))
-* 🚫 (CANCELLED 😢) ~~Quasar.Conf 2021~~ ([reference](https://twitter.com/quasarframework/status/1435177368352698375))
-
-### Q4 2021
-* ✌️ (DONE) Volar support ([reference](https://github.com/quasarframework/quasar/discussions/10619))
-* ✌️ (DONE) Vite.js plugin for Quasar v2 ([reference](https://github.com/quasarframework/quasar/issues/7815))
-* ✌️ (DONE) Triaging enhancements ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
-* ✌️ (DONE) Support Cypress Component Testing into Quasar Cypress AE ([reference](https://github.com/quasarframework/quasar-testing/issues/163) [reference](https://github.com/quasarframework/quasar-testing/pull/185) [reference](https://github.com/quasarframework/quasar/discussions/11496))
-* ✌️ (DONE) Enhance Quasar types to be more precise, provide guidelines for community contributions ([#8642](https://github.com/quasarframework/quasar/issues/8642), [#8493](https://github.com/quasarframework/quasar/issues/8493), [#11090](https://github.com/quasarframework/quasar/issues/11090), [#11043](https://github.com/quasarframework/quasar/issues/11043))
-
 ### Q1 2022
 * ✌️ (DONE) First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
 * ✌️ (DONE) Fix intellisense problem for packages provided by `@quasar/app` ([#9235](https://github.com/quasarframework/quasar/issues/9235))
 * ✌️ (DONE) Add automatic tests to Quasar UI ([#12047](https://github.com/quasarframework/quasar/pull/12047))
 * 🚧 (WIP) Quasar website revamp 🔥
 * 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
+* 🚧 (WIP) First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
 * More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
 * Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
 * Creation of official Quasar Organizational chart
@@ -69,3 +53,22 @@ We are updating this section constantly in order to keep you up to date with our
 
 ### Q3 2022
 * Quasar.Conf 2022
+
+## Archive
+
+### Q4 2021
+* ✌️ (DONE) Volar support ([reference](https://github.com/quasarframework/quasar/discussions/10619))
+* ✌️ (DONE) Vite.js plugin for Quasar v2 ([reference](https://github.com/quasarframework/quasar/issues/7815))
+* ✌️ (DONE) Triaging enhancements ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
+* ✌️ (DONE) Support Cypress Component Testing into Quasar Cypress AE ([reference](https://github.com/quasarframework/quasar-testing/issues/163) [reference](https://github.com/quasarframework/quasar-testing/pull/185) [reference](https://github.com/quasarframework/quasar/discussions/11496))
+* ✌️ (DONE) Enhance Quasar types to be more precise, provide guidelines for community contributions ([#8642](https://github.com/quasarframework/quasar/issues/8642), [#8493](https://github.com/quasarframework/quasar/issues/8493), [#11090](https://github.com/quasarframework/quasar/issues/11090), [#11043](https://github.com/quasarframework/quasar/issues/11043))
+
+### Q3 2021
+* ✌️ (DONE) Migration to Quasar v2 of official AEs ([reference](https://github.com/quasarframework/quasar/discussions/9560))
+* ✌️ (DONE) Migration to Quasar v2 of most used testing AEs ([`@quasar/testing`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing), [`@quasar/testing-unit-jest`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/unit-jest), [`@quasar/testing-e2e-cypress`](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)) ([reference](https://github.com/quasarframework/quasar/discussions/10341))
+* ✌️ (DONE) Quasar brand rework ([reference](https://dev.to/quasar/quasar-brand-refresh-and-new-partnership-ao1))
+* 🚫 (CANCELLED 😢) ~~Quasar.Conf 2021~~ ([reference](https://twitter.com/quasarframework/status/1435177368352698375))
+
+### Q2 2021
+* ✌️ (DONE) Upgrade the App CLI for Quasar v2 to Webpack v5 ([reference](https://github.com/quasarframework/quasar/issues/8102))
+* ✌️ (DONE) Quasar v2 will become officially the "latest" version of Quasar. The documentation website (https://quasar.dev) will point to v2 and the v1 docs will live under https://v1.quasar.dev. The end of life for Quasar v1 will be March 2022 and we will keep on backporting fixes and new features from v2 to it until then.
