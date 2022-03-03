@@ -265,9 +265,7 @@ class QuasarConfFile {
         middlewares: []
       },
       pwa: {
-        workboxGenerateSWOptions: {},
-        workboxInjectManifestOptions: {},
-        includeAssets: []
+        precacheFromPublicFolder: []
       },
       electron: {
         unPackagedInstallParams: [],
@@ -588,21 +586,18 @@ class QuasarConfFile {
     }
 
     if (this.#ctx.mode.pwa) {
+      // TODO --- do not duplicate due to merge
+      if (cfg.pwa.precacheFromPublicFolder === void 0) {
+        cfg.pwa.precacheFromPublicFolder = [ '**/*' ]
+      }
+
       cfg.pwa = merge({
         workboxMode: 'GenerateSW',
         injectPwaMetaTags: true,
         swFilename: 'sw.js',
+        manifestFilename: 'manifest.json',
         useCredentials: false
       }, cfg.pwa)
-
-      const middlePath = this.#ctx.dev === true
-        ? '.quasar/pwa/'
-        : ''
-
-      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}${cfg.pwa.swFilename}`
-
-      cfg.metaConf.pwaServiceWorkerFile = appPaths.resolve.app(`${middlePath}${cfg.pwa.swFilename}`)
-      cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
 
       if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxMode)) {
         return {
@@ -610,6 +605,13 @@ class QuasarConfFile {
             + `Valid quasar.config.js > pwa > workboxMode options are: GenerateSW, InjectManifest\n`
         }
       }
+
+      const middlePath = this.#ctx.dev === true ? '.quasar/pwa/' : ''
+
+      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}${cfg.pwa.swFilename}`
+
+      cfg.metaConf.pwaServiceWorkerFile = appPaths.resolve.app(`${middlePath}${cfg.pwa.swFilename}`)
+      cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
     }
 
     if (this.#ctx.dev) {

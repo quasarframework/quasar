@@ -1,25 +1,70 @@
 
-const { log } = require('../../helpers/logger')
+const { createReadStream } = require('fs')
+const fg = require('fast-glob')
+const crypto = require('crypto')
+
 const appPaths = require('../../app-paths')
 const { createViteConfig, extendViteConfig } = require('../../config-tools')
+
 const quasarVitePluginPwaResources = require('./vite-plugin.pwa-resources')
 
 const appPkg = require(appPaths.resolve.app('package.json'))
 
-const runtimeCaching = [
-  {
-    urlPattern: /.*/i,
-    handler: 'NetworkFirst',
-    options: {
-      cacheName: 'others',
-      expiration: {
-        maxEntries: 32,
-        maxAgeSeconds: 24 * 60 * 60, // 24 hours
-      },
-      networkTimeoutSeconds: 10,
-    },
+const defaultRuntimeCache = [{
+  urlPattern: () => false,
+  handler: 'StaleWhileRevalidate',
+  options: {
+    cacheName: 'q-bogus',
+    expiration: {
+      maxEntries: 4,
+      maxAgeSeconds: 7 * 24 * 60 * 60
+    }
   }
-]
+}]
+
+function getManifestEntry (url) {
+  return new Promise((resolve, reject) => {
+    const cHash = crypto.createHash('MD5')
+    const stream = createReadStream(appPaths.resolve.publicDir(url))
+
+    stream.on('error', err => { reject(err) })
+    stream.on('data', data => { cHash.update(data) })
+    stream.on('end', () => resolve({
+      url,
+      revision: `${cHash.digest('hex')}`,
+    }))
+  })
+}
+
+async function getAdditionalManifestEntries (precacheFromPublicFolder, userAdditionalManifestEntries = []) {
+  if (precacheFromPublicFolder.length === 0) {
+    return userAdditionalManifestEntries
+  }
+
+  let list = await fg(precacheFromPublicFolder, {
+    cwd: appPaths.publicDir,
+    onlyFiles: true,
+    unique: true
+  })
+
+  const userList = userAdditionalManifestEntries.map(entry => (
+    typeof entry === 'string'
+      ? entry
+      : entry.url
+  ))
+
+  // do not duplicate user specified entries
+  list = list.filter(entry => userList.includes(entry) === false)
+
+  list = await Promise.all(
+    list.map(entry => getManifestEntry(entry))
+  )
+
+  return [
+    ...list,
+    ...userAdditionalManifestEntries
+  ]
+}
 
 module.exports = {
   vite: quasarConf => {
@@ -34,41 +79,54 @@ module.exports = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  workbox: quasarConf => {
+  workbox: async quasarConf => {
     const mode = quasarConf.pwa.workboxMode
-    let opts
+    const opts = {
+      sourcemap: quasarConf.metaConf.debugging === true,
+      mode: quasarConf.metaConf.debugging === true ? 'development' : 'production'
+    }
 
     if (mode === 'GenerateSW') {
-      opts = {
+      const { extendGenerateSWOptions, precacheFromPublicFolder } = quasarConf.pwa
+
+      Object.assign(opts, {
         cacheId: appPkg.name || 'quasar-pwa-app',
         cleanupOutdatedCaches: true,
-        ...(quasarConf.ctx.dev === true
-          ? {
-            runtimeCaching,
-            additionalManifestEntries: []
-          }
-          : {}),
-        ...quasarConf.pwa.workboxGenerateSWOptions,
-        swDest: quasarConf.metaConf.pwaServiceWorkerFile
+        clientsClaim: true,
+        skipWaiting: true
+      })
+
+      if (typeof extendGenerateSWOptions === 'function') {
+        extendGenerateSWOptions(opts)
       }
 
-      if (opts.navigateFallback === false) {
-        delete opts.navigateFallback
+      // runtimeCaching is required by Workbox
+      if (opts.runtimeCaching === void 0) {
+        opts.runtimeCaching = defaultRuntimeCache
       }
-      else if (opts.navigateFallback === void 0) {
-        opts.navigateFallback = `${quasarConf.build.publicPath}index.html`
-        opts.navigateFallbackDenylist = opts.navigateFallbackDenylist || []
 
-        // TODO escape and use quasarConf.pwa.swFilename:
-        opts.navigateFallbackDenylist.push(/sw\.js$/, /workbox-(.)*\.js$/)
-      }
+      Object.assign(opts, {
+        swDest: quasarConf.metaConf.pwaServiceWorkerFile,
+        additionalManifestEntries: await getAdditionalManifestEntries(
+          precacheFromPublicFolder,
+          opts.additionalManifestEntries
+        )
+      })
     }
-    else { // TODO
-      opts = {
-        // swSrc: quasarConf.metaConf.pwaServiceWorkerFile,
-        ...quasarConf.pwa.workboxInjectManifestOptions
-      }
-    }
+    // TODO
+    // else {
+    //   const { injectManifestOptions, precacheFromPublicFolder } = quasarConf.pwa
+
+    //   opts = {
+    //     // swSrc: quasarConf.metaConf.pwaServiceWorkerFile,
+    //     ...quasarConf.pwa.workboxInjectManifestOptions
+    //   }
+
+    //   opts.additionalManifestEntries = await getAdditionalManifestEntries(
+    //     precacheFromPublicFolder,
+    //     workboxInjectManifestOptions
+    //   )
+    // }
 
     if (quasarConf.ctx.dev === true) {
       // dev resources are not optimized (contain maps, unminified code)

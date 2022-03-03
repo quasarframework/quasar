@@ -35,7 +35,11 @@ module.exports.createHeadTags = function createHeadTags (quasarConf) {
   return headTags
 }
 
-module.exports.injectPwaManifest = function injectPwaManifest (quasarConf) {
+module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
+  if (ifNotAlreadyGenerated === true && quasarConf.metaConf.pwaManifest !== void 0) {
+    return
+  }
+
   const id = appPkg.name || 'quasar-pwa'
   const pwaManifest = {
     id,

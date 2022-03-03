@@ -58,7 +58,6 @@ import { addPreFetchHooks } from './client-prefetch.js'
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
-<% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
 <% if (ctx.mode.cordova && ctx.target.ios) { %>

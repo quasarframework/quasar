@@ -99,6 +99,12 @@ class AppDevserver extends AppTool {
     const len = newSnapshot.length
     for (let i = 0; i < len; i++) {
       if (newSnapshot[i] !== snapshot[i]) {
+        // Leave here for debugging when needed
+        // console.log(name, 'at index', i)
+        // console.log('NEW >>>', newSnapshot[i])
+        // console.log('OLD >>>', snapshot[i])
+        // console.log('---')
+
         return true
       }
     }
