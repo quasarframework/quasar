@@ -250,9 +250,9 @@ $max-viewport-height: 7000; // max height at which stars are spread
   @return unquote($value);
 }
 
-$shadows-sm: generateRandomStars(600, $max-viewport-height);
-$shadows-md: generateRandomStars(500, $max-viewport-height);
-$shadows-lg: generateRandomStars(400, $max-viewport-height);
+$shadows-sm: generateRandomStars(700, $max-viewport-height);
+$shadows-md: generateRandomStars(600, $max-viewport-height);
+$shadows-lg: generateRandomStars(500, $max-viewport-height);
 
 @mixin createStar($size, $box-shadow, $animation-duration) {
   animation: animateStar $animation-duration linear infinite;
@@ -260,23 +260,13 @@ $shadows-lg: generateRandomStars(400, $max-viewport-height);
   box-shadow: $box-shadow;
   height: #{$size}px;
   width: #{$size}px;
-
-  &:before {
-    content: '';
-    animation: animateStar $animation-duration linear infinite;
-    position: absolute;
-    top: -#{$max-viewport-height}px; // create some stars $max-viewport-height above the viewport
-    box-shadow: $box-shadow;
-    width: #{$size}px;
-    height: #{$size}px;
-  }
 }
 
 #stars-sm {
-  @include createStar(1, $shadows-sm, 80s);
+  @include createStar(1, $shadows-sm, 70s);
 }
 #stars-md {
-  @include createStar(2, $shadows-md, 110s);
+  @include createStar(2, $shadows-md, 100s);
 }
 #stars-lg {
   @include createStar(3, $shadows-lg, 150s);
@@ -288,7 +278,7 @@ $shadows-lg: generateRandomStars(400, $max-viewport-height);
   }
   to {
     // animate at half the spread distance of stars
-    transform: translateY(#{$max-viewport-height/2}px);
+    transform: translateY(-#{$max-viewport-height/2}px);
   }
 }
 </style>
