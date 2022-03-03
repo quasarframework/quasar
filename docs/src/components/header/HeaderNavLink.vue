@@ -1,19 +1,19 @@
 <template>
   <q-btn
     v-if="!navItem.subMenu"
-    :class="`text-weight-bold letter-spacing-225 ${navItemClass} ${dark? 'white-color-on-hover':'text-black-54'}`"
+    :class="`text-weight-bold letter-spacing-225 ${classes}`"
     :color="setActivePrimaryNavColor($route.path, navItem.path)"
     :href="computeRouteNav(navItem, 'href')"
     :label="navItem.label"
     :padding="padding"
-    :target="navItem.href? '_blank':'_self'"
+    :target="navItem.href ? '_blank' : '_self'"
     :to="computeRouteNav(navItem)"
     flat
   />
   <nav-dropdown-btn
     v-else
-    :class="`${dark? 'white-color-on-hover':''} ${navItemClass}`"
-    :color="!dark? 'black-54':''"
+    :class="`${classes}`"
+    :color="!dark ? 'black-54' : ''"
     :items="navItem.subMenu"
     :label="navItem.label"
     :padding="padding"
@@ -26,7 +26,7 @@
 <script>
 import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
 import { computeRouteNav } from 'assets/landing-page/nav-items.js'
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'HeaderNavLink',
@@ -56,10 +56,22 @@ export default defineComponent({
       }
     }
 
+    // For some reason CSS won't apply correctly "color: inherit" and display the wrong text-color
+    // Force the correct one depending on the provided dark prop
+    const classes = computed(() => `${props.navItemClass} ${props.dark ? 'white-color-on-hover text-white-54' : 'text-black-54'}`)
+
     return {
+      classes,
       computeRouteNav,
       setActivePrimaryNavColor
     }
   }
 })
 </script>
+
+<style lang="scss" scoped>
+// Increase specificity to match `text-xxx` one and override them
+.white-color-on-hover.white-color-on-hover:hover {
+  color: $white !important;
+}
+</style>

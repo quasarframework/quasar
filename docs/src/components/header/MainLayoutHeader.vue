@@ -541,11 +541,6 @@ export default defineComponent({
   height: 64px;
 }
 
-.white-color-on-hover:hover {
-  // some components may be using some other css to change the color, prevent with !important
-  color: $white !important;
-}
-
 .version-dropdown {
   width: 220px;
 }
