@@ -1,12 +1,10 @@
 <template>
   <!-- `doc-img` forces a background when in dark mode -->
-  <div v-if="href" class="cursor-pointer sponsor doc-img">
-    <a :href="href" target="_blank" class>
+  <div class="sponsor doc-img">
+    <a v-if="href" :href="href" target="_blank" class="cursor-pointer block full-height">
       <q-img :src="logoUrl" :alt="name" height="100%" fit="contain" />
     </a>
-  </div>
-  <div v-else class="sponsor doc-img">
-    <q-img :src="logoUrl" :alt="name" height="100%" fit="contain" />
+    <q-img v-else :src="logoUrl" :alt="name" height="100%" fit="contain" />
   </div>
 </template>
 
