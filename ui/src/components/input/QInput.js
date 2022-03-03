@@ -46,7 +46,10 @@ export default Vue.extend({
       if (this.hasMask === true) {
         if (this.stopValueWatcher === true) {
           this.stopValueWatcher = false
-          return
+
+          if (String(v) === this.emitCachedValue) {
+            return
+          }
         }
 
         this.__updateMaskValue(v)
