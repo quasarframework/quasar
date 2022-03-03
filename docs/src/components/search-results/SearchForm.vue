@@ -30,7 +30,7 @@
           <kbd
             v-if="!searchHasFocus"
             class="search-key text-weight-bold cursor-pointer letter-spacing-25"
-          >Crtl K</kbd>
+          >Ctrl K</kbd>
           <q-icon
             v-else-if="!searchTerms"
             name="search"
