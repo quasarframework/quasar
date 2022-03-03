@@ -19,9 +19,8 @@ Below is a list of official app-extensions created by members of the Quasar team
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/testing](https://github.com/quasarframework/quasar-testing) | Includes pre-configured sub-extensions for all of your testing needs |
-| [@quasar/typescript](https://github.com/quasarframework/app-extension-typescript) | Transform your project into typescript awesomeness |
-| [@quasar/wizard](https://github.com/quasarframework/app-extension-wizard) | Search and find all known App Extensions, Install Collections, keep everything up to date |
+| [@quasar/testing](https://github.com/quasarframework/quasar-testing) | Monorepo including extensions for automatic testing |
+| [@quasar/apollo](https://github.com/quasarframework/app-extension-apollo) | Ease Apollo GraphQL integration |
 
 ### Project Rigging
 
