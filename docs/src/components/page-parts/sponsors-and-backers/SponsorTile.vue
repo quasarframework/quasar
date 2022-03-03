@@ -1,10 +1,11 @@
 <template>
+  <!-- `doc-img` forces a background when in dark mode -->
   <div v-if="href" class="cursor-pointer sponsor doc-img">
     <a :href="href" target="_blank" class>
-      <q-img :src="logoUrl" :alt="name" height="98%" fit="contain" />
+      <q-img :src="logoUrl" :alt="name" height="100%" fit="contain" />
     </a>
   </div>
-  <div v-else class="sponsor">
+  <div v-else class="sponsor doc-img">
     <q-img :src="logoUrl" :alt="name" height="100%" fit="contain" />
   </div>
 </template>
@@ -43,11 +44,12 @@ export default defineComponent({
 <style lang="scss">
 @use 'sass:map';
 
-.sponsor {
+// Increases specificity to avoid 'doc-img' class to override the defined padding
+.sponsor.sponsor.sponsor {
   box-sizing: content-box;
   max-height: 80px;
   max-width: 200px;
-  padding: map.get($space-md, "x");
+  padding: map.get($space-md, 'x');
   width: 100%;
 
   @media (min-width: $breakpoint-sm-min) {

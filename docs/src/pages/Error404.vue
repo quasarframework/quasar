@@ -1,13 +1,12 @@
 <template lang="pug">
 q-page.err404.flex.flex-center.text-center
   div
-    .err404__hero.flex.flex-center.no-wrap.q-gutter-sm.text-brand-primary.no-bg
+    .err404__hero.flex.flex-center.no-wrap.q-gutter-sm.text-brand-primary
       div 4
-      img(v-if="$q.dark.isActive" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg")
-      img(v-else="!q.dark.isActive" src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
+      img(:src="`https://cdn.quasar.dev/logo-v2/svg/logo${ $q.dark.isActive ? '-dark' : '' }.svg`")
       div 4
-    .err404__punch-line.text-grey-8 You're not intentionally heading for a black hole, are you?
-    q-btn.q-mt-md(no-caps color="white" text-color="brand-primary" to="/" label="Take me home" push)
+    .err404__punch-line You're not intentionally heading for a black hole, are you?
+    q-btn.q-mt-md(no-caps color="white" text-color="primary" to="/" label="Take me home" push)
 </template>
 
 <script>
