@@ -2,10 +2,10 @@
   <q-card class="card py-32 q-px-lg text-center column justify-between items-center shadow-bottom-large">
     <q-card-section class="q-pa-none">
       <q-icon size="xl" :name="icon"/>
-      <div :class="{'letter-spacing-40': $q.screen.xs}" class="text-uppercase lp-heading--medium q-py-md">
+      <div :class="{'letter-spacing-40': $q.screen.xs}" class="text-uppercase landing-heading--medium q-py-md">
         {{ title }}
       </div>
-      <div class="text-lp-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height">
+      <div class="text-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height">
         {{ body }}
       </div>
     </q-card-section>
@@ -14,7 +14,7 @@
       <q-btn
         outline
         class="call-to-action-btn no-border-radius"
-        color="lp-accent"
+        color="brand-accent"
         :label="btnLabel"
         :to="`/${btnLink}`"
       />

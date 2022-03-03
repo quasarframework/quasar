@@ -14,7 +14,7 @@
       <q-btn
         size="xs"
         :icon="btnProps.icon"
-        :color="active ? 'lp-primary' : 'grey-8'"
+        :color="active ? 'brand-primary' : 'grey-8'"
         flat
         round
         dense
@@ -26,7 +26,7 @@
         <div v-for="(tweetId, cardIndex) in tweetGroup" :key="`twitter-card-${cardIndex}`" :id="`tweet-container-${tweetId}`" class="row justify-center">
           <q-spinner
             v-if="tweetGroupIsLoading"
-            color="lp-primary"
+            color="brand-primary"
             size="xl"
           />
         </div>
@@ -190,6 +190,6 @@ export default defineComponent({
 :deep(.twitter-tweet) {
   background-color: $white; // [1]
   border-radius: 20px; // [1]
-  box-shadow: $lp-box-shadow--large;
+  box-shadow: $box-shadow--large;
 }
 </style>

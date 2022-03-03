@@ -5,11 +5,11 @@
 
       <h1
         :class="$q.screen.gt.md ? 'letter-spacing-375' : 'letter-spacing-300'"
-        class="lp-my--medium text-center text-white-54 text-size-20 primary-line-height"
+        class="landing-my-large text-center text-white-54 text-size-20 primary-line-height"
       >The enterprise-ready cross-platform VueJs framework</h1>
 
       <q-btn
-        color="lp-accent"
+        color="brand-accent"
         label="Are you ready to lift off?"
         class="call-to-action-btn shadow-bottom-small"
         :class="{'letter-spacing-100': $q.screen.xs}"
@@ -26,7 +26,7 @@
         @click="scrollSectionIntoView('why-quasar-section')"
       />
 
-      <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-lp-primary text-size-16 text-capitalize">
+      <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-brand-primary text-size-16 text-capitalize">
         Our Platinum sponsors
       </div>
       <sponsor-tile
@@ -43,13 +43,13 @@
         text-color="white-54"
         no-caps
         label="Full sponsor's list"
-        class="lp-btn-underline text-size-16 letter-spacing-300"
+        class="btn-underline text-size-16 letter-spacing-300"
         @click="scrollSectionIntoView('sponsors-section')"
       />
     </div>
 
     <div class="q-my-xl" id="why-quasar-section">
-      <h2 class="lp-heading lp-heading--large">Why should you choose quasar?</h2>
+      <h2 class="landing-heading landing-heading--large">Why should you choose quasar?</h2>
 
       <div :class="$q.screen.gt.xs? 'why-quasar__grid--large':'why-quasar__grid--small'" class="why-quasar__grid justify-center">
         <why-quasar-card
@@ -67,8 +67,8 @@
     <div class="showcase-section">
       <div class="column items-center">
         <q-icon size="xl" name="img:homepage-icons/astronaut.svg" />
-        <h2 class="lp-heading lp-heading--large q-my-lg">What our community thinks of quasar</h2>
-        <q class="lp-heading lp-heading--small">
+        <h2 class="landing-heading landing-heading--large q-my-lg">What our community thinks of quasar</h2>
+        <q class="landing-heading landing-heading--small">
           You've never heard of Quasar? It's the framework that made a mobile app,
           <br />desktop app and browser extension altogether in less than 12 minutes.
         </q>
@@ -80,20 +80,20 @@
 
     <div class="support-quasar-section q-px-lg">
       <h2
-        class="text-uppercase lp-heading--large support-quasar-section__title"
+        class="text-uppercase landing-heading--large support-quasar-section__title"
       >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
 
-      <div class="lp-heading--small text-left">
+      <div class="landing-heading--small text-left">
         Working for a company? Are you a freelancer? You can contribute, even a bit,
         <br> and even get something back in return.
       </div>
 
       <q
-        class="q-my-md lp-heading--quote primary-line-height lp-my--medium"
+        class="q-my-md landing-heading--quote primary-line-height landing-my-large"
       >So, um, we think we should discuss the bonus situation</q>
 
       <q-btn
-        color="lp-accent"
+        color="brand-accent"
         label="Consult tiers"
         class="call-to-action-btn shadow-bottom-small"
         href="https://github.com/sponsors/rstoenescu"
@@ -104,8 +104,8 @@
 
     <div class="text-center sponsors-section" id="sponsors-section">
       <q-icon size="xl" name="img:homepage-icons/medal.svg" />
-      <h2 class="lp-heading lp-heading--large">Our Sponsors</h2>
-      <div class="lp-heading lp-heading--small">Every space odyssey has its patrons</div>
+      <h2 class="landing-heading landing-heading--large">Our Sponsors</h2>
+      <div class="landing-heading landing-heading--small">Every space odyssey has its patrons</div>
       <div class="q-pt-lg">
         <sponsor-list />
       </div>
@@ -118,15 +118,15 @@
       >
         <div class="bg-transparent absolute-bottom">
           <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
-          <div class="lp-heading lp-heading--large">Don't miss the news</div>
-          <div class="lp-heading lp-heading--small">Follow our social pages to stay up to date</div>
-          <div :class="$q.screen.gt.xs? 'lp-mb--large':'q-mb-md'" class="row reverse justify-center q-mt-md q-gutter-md">
+          <div class="landing-heading landing-heading--large">Don't miss the news</div>
+          <div class="landing-heading landing-heading--small">Follow our social pages to stay up to date</div>
+          <div :class="$q.screen.gt.xs? 'landing-mb--large':'q-mb-md'" class="row reverse justify-center q-mt-md q-gutter-md">
             <q-btn
               v-for="(socialLink, linkIndex) in socialLinks.slice(1)"
               :key="linkIndex"
               :label="socialLink.label"
               class="call-to-action-btn no-border-radius"
-              color="lp-accent"
+              color="brand-accent"
               outline
               type="a"
               :href="socialLink.href"
@@ -187,7 +187,7 @@ $why-quasar-card-side--large: 400px;
 $why-quasar-card-side--small: 280px;
 $support-quasar-background-padding: 35vw;
 
-.lp-btn-underline {
+.btn-underline {
   border-bottom: 1px solid rgba($color: white, $alpha: 0.54);
 }
 
@@ -292,7 +292,7 @@ h2 {
 // We need a thickness of 2px but the default is 1px, and there's no
 // prop to modify it from within quasar
 :deep(.q-btn--outline:before) {
-  border: 2px solid $lp-accent;
+  border: 2px solid $brand-accent;
   box-shadow: 0 1px 1px 0 rgba($black, 0.12);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh lpR fff" class="bg-lp-dark font-monserrat" @scroll="checkHeaderMetFooter">
+  <q-layout view="hHh lpR fff" class="bg-dark font-monserrat" @scroll="checkHeaderMetFooter">
     <!-- div for stars -->
     <div class="stars-sm" />
     <div class="stars-md" />
@@ -10,7 +10,7 @@
       <q-scroll-area class="full-height">
         <survey-countdown
           class="layout-countdown"
-          color="lp-primary"
+          color="brand-primary"
           align-class="justify-center"
           padding-class="q-py-md"
         />
@@ -27,13 +27,13 @@
       with the scroll position when navigating back after a link in it has been used:
       the page scroll position will be set as right before the footer, instead of showing it as we left it
     -->
-    <footer class="bg-lp-grey text-size-12 footer" ref="mainLayoutFooter">
+    <footer class="text-size-12 footer" ref="mainLayoutFooter">
       <nav class="footer-nav">
         <q-list v-for="footerItem in footerItems" :key="footerItem.name">
           <q-item-label
-            class="text-lp-dark text-weight-bold letter-spacing-225"
+            class="text-dark text-weight-bold letter-spacing-225"
           >{{ footerItem.name }}</q-item-label>
-          <q-separator spaced color="lp-primary" />
+          <q-separator spaced color="brand-primary" />
           <template v-for="(item, itemIndex) in footerItem.items" :key="itemIndex">
             <q-item
               v-if="item.external"
@@ -44,7 +44,7 @@
               :href="item.path"
               target="_blank"
             >
-              <q-item-section class="text-lp-dark letter-spacing-100">{{ item.name }}</q-item-section>
+              <q-item-section class="text-dark letter-spacing-100">{{ item.name }}</q-item-section>
             </q-item>
             <q-item
               v-else
@@ -53,12 +53,12 @@
               clickable
               :to="footerItem.areOrphans ? `/${item.path}` : `/${footerItem.path}/${item.path}`"
             >
-              <q-item-section class="text-lp-dark letter-spacing-100">{{ item.name }}</q-item-section>
+              <q-item-section class="text-dark letter-spacing-100">{{ item.name }}</q-item-section>
             </q-item>
           </template>
         </q-list>
       </nav>
-      <q-separator color="lp-primary" class="lp-mx--large" />
+      <q-separator color="brand-primary" class="landing-mx--large" />
       <div class="row justify-center q-my-md letter-spacing-225">
         <q-btn
           type="a"
@@ -80,17 +80,17 @@
         />
       </div>
       <q-separator class="full-width" />
-      <div class="text-lp-dark text-center q-pa-lg letter-spacing-100">
+      <div class="text-dark text-center q-pa-lg letter-spacing-100">
         Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu // This website has been designed in collaboration with
         <a
           href="https://www.dreamonkey.com/"
           target="_blank"
-          class="q-ml-sm text-lp-accent text-weight-bold"
+          class="q-ml-sm text-brand-accent text-weight-bold"
         >Dreamonkey Srl</a>
       </div>
     </footer>
     <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-      <q-btn round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md" />
+      <q-btn round icon="arrow_upward" color="brand-accent" class="shadow-bottom-small" size="md" />
     </q-page-scroller>
   </q-layout>
 </template>
@@ -196,6 +196,7 @@ $footer-columns-sm-min: 3;
 $footer-columns-after-xs: 2;
 
 .footer {
+  background-color: #d8e1e5;
   position: relative;
   z-index: 5; // lower than header, higher than stars background and components page filter section
 }
@@ -244,9 +245,9 @@ $footer-columns-after-xs: 2;
 $max-viewport-height: 7000; // max height at which stars are spread
 
 @function generateRandomStars($number-of-stars, $max-viewport-height) {
-  $value: "#{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}";
+  $value: "#{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$brand-primary}";
   @for $i from 1 through $number-of-stars {
-    $value: "#{$value}, #{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$lp-primary}";
+    $value: "#{$value}, #{random($max-viewport-height)}px #{random($max-viewport-height)}px #{$brand-primary}";
   }
   @return unquote($value);
 }

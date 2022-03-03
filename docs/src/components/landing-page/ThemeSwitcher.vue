@@ -4,7 +4,7 @@
     class="q-ml-xs"
     round
     flat
-    color="lp-primary"
+    color="brand-primary"
     :icon="mdiThemeLightDark"
   >
     <q-menu>
@@ -12,7 +12,7 @@
         <q-item
           v-for="theme in AVAILABLE_THEMES"
           :key="theme"
-          :class="theme === currentTheme ? 'text-lp-primary' : ''"
+          :class="theme === currentTheme ? 'text-brand-primary' : ''"
           class="text-capitalize"
           clickable
           @click="setTheme(theme)"

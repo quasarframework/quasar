@@ -41,7 +41,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     router-view
 
   q-page-scroller(:scroll-offset="150" :offset="[18, 18]")
-    q-btn(round icon="arrow_upward" color="lp-accent" class="shadow-bottom-small" size="md")
+    q-btn(round icon="arrow_upward" color="brand-accent" class="shadow-bottom-small" size="md")
 </template>
 
 <script>

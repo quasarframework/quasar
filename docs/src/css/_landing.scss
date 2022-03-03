@@ -1,0 +1,91 @@
+// Landing and branded pages global CSS
+
+.shadow-bottom {
+  &-small {
+    box-shadow: $box-shadow--small;
+  }
+
+  &-medium {
+    box-shadow: $box-shadow--medium;
+  }
+
+  &-large {
+    box-shadow: $box-shadow--large;
+  }
+}
+
+.landing-heading {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+
+  &--large {
+    color: $brand-primary;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 6.75px;
+    margin: 36px 0;
+
+    @media screen and (min-width: $breakpoint-sm-min) {
+      font-size: 36px;
+    }
+  }
+
+  &--medium {
+    color: $brand-primary;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 4.5px;
+  }
+
+  &--small {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 3.75px;
+    text-transform: initial;
+
+    @media screen and (min-width: $breakpoint-sm-min) {
+      font-size: 20px;
+    }
+  }
+
+  &--quote {
+    color: $brand-primary;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: initial;
+
+    @media screen and (min-width: $breakpoint-sm-min) {
+      font-size: 16px;
+    }
+  }
+}
+
+.landing-mb--large {
+  margin-bottom: 64px;
+  @media screen and (min-width: $breakpoint-sm-min) {
+    margin-bottom: 100px;
+  }
+}
+
+.landing-mx--large {
+  margin-left: 64px;
+  margin-right: 64px;
+  @media screen and (min-width: $breakpoint-sm-min) {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+}
+
+.landing-my-large {
+  margin: 36px 0;
+}
+
+.call-to-action-btn {
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 2.63px;
+  padding: 16px;
+}

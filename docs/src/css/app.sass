@@ -1,4 +1,14 @@
-@import './prism-theme.sass'
+@import 'prism-theme.scss'
+@import 'landing.scss'
+
+.font-monserrat
+  font-family: 'Montserrat', sans-serif
+
+.primary-line-height
+  line-height: 1.5
+
+.normal-line-height
+  line-height: normal
 
 body.body--dark
   color: $dark-text-color
@@ -10,10 +20,10 @@ body.body--dark
     border-radius: 4px
 
   .q-drawer-container
-    background: $darkest-background
+    background: $dark
 
   .q-drawer--right
-    background: $darkest-background !important
+    background: $dark !important
 
   .q-item--dark
     color: $dark-text-color !important
@@ -23,7 +33,7 @@ body.body--dark
 
   .doc-page-nav .q-link
     border: 1px solid $brand-primary
-    background: $darkest-background !important
+    background: $dark !important
     color: $brand-primary
 
   .app-menu .q-item.q-router-link--active
@@ -66,7 +76,7 @@ body.body--dark
 
   .doc-token
     border: 1px dotted $dark-text-color
-    background-color: $darkest-background
+    background-color: $dark
     color: $dark-text-color
 
   .doc-link
@@ -105,13 +115,8 @@ body.body--dark
   .q-badge--single-line
     background: #5b667c
 
-.text-brand-primary
-  color: #b8b8b8
-.bg-brand-primary
-  background-color: $brand-primary !important
-
 body
-  background-color: #fff
+  background-color: #fafafa
   font-family: $font-family
   -webkit-font-smoothing: auto
 

@@ -1,0 +1,71 @@
+$white: #fff;
+$black: #000;
+
+$additional-colors: (
+  'brand-primary' $brand-primary,
+  'brand-secondary' $brand-secondary,
+  'brand-accent' $brand-accent,
+);
+
+@each $color-name, $color in $additional-colors {
+  :root {
+    --q-#{$color-name}: #{$color};
+  }
+
+  .bg-#{$color-name} {
+    background-color: var(--q-#{$color-name}) !important;
+  }
+
+  .text-#{$color-name} {
+    color: var(--q-#{$color-name}) !important;
+  }
+}
+
+$alpha-map: (
+  '87' 0.87,
+  '54' 0.54,
+  '38' 0.38,
+  '28' 0.28,
+  'focused-dark' 0.24,
+  'focused-light' 0.12,
+  '12' 0.12,
+  'activated-dark' 0.24,
+  'activated-light' 0.12,
+  'selected' 0.08,
+  'hover' 0.04
+);
+
+$color-map: (
+  'brand-primary' $brand-primary,
+  'brand-secondary' $brand-secondary,
+  'brand-accent' $brand-accent,
+  'black' $black,
+  'white' $white,
+);
+
+@each $alpha-name, $alpha in $alpha-map {
+  @each $color-name, $color in $color-map {
+    .bg-#{$color-name}-#{$alpha-name}.bg-#{$color-name}-#{$alpha-name} {
+      background-color: rgba($color, $alpha) !important;
+    }
+    .text-#{$color-name}-#{$alpha-name}.text-#{$color-name}-#{$alpha-name} {
+      color: rgba($color, $alpha) !important;
+    }
+  }
+}
+
+$text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36;
+
+@each $text-size in $text-size-list {
+  .text-size-#{$text-size} {
+    font-size: $text-size + px;
+  }
+}
+
+$letter-spacing-list: 25, 40, 100, 225, 263, 300, 375, 450, 675;
+
+@each $letter-spacing in $letter-spacing-list {
+  .letter-spacing-#{$letter-spacing} {
+    letter-spacing: ($letter-spacing/100) + px;
+  }
+}

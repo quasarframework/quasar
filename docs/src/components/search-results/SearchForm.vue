@@ -35,12 +35,12 @@
             v-else-if="!searchTerms"
             name="search"
             size="sm"
-            color="lp-primary"
+            color="brand-primary"
           />
           <q-icon
             v-else
             name="close"
-            color="lp-primary"
+            color="brand-primary"
             class="cursor-pointer"
             @click.stop="resetSearch"
           />
@@ -69,7 +69,7 @@
     v-else
     flat
     round
-    color="lp-primary"
+    color="brand-primary"
     icon="search"
   />
 </template>

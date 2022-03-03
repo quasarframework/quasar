@@ -1,7 +1,7 @@
 <template>
   <q-page class="column justify-center q-px-xl font-monserrat">
     <h1
-      class="lp-heading lp-heading--large landing__title normal-line-height"
+      class="landing-heading landing-heading--large landing__title normal-line-height"
     >Welcome to quasar docs</h1>
     <p
       class="letter-spacing-300 text-size-16 text-weight-bold text-center"
@@ -12,7 +12,7 @@
       about
       <br v-if="$q.screen.gt.sm" />the Quasar galaxy. Don’t forget to check our page to
       <a
-        class="text-lp-accent"
+        class="text-brand-accent"
         href="https://github.com/sponsors/rstoenescu"
         target="_blank"
       >become a sponsor</a>!
@@ -24,9 +24,9 @@
       technical resources.
     </p>
     <h2
-      class="lp-heading lp-heading--medium q-mb-lg normal-line-height"
+      class="landing-heading landing-heading--medium q-mb-lg normal-line-height"
     >Have a look at Our most used pages</h2>
-    <div class="cards-grid lp-mb--large">
+    <div class="cards-grid landing-mb--large">
       <q-card
         v-for="({path, label, icon}, pageIndex) in mostUsedPages"
         :key="pageIndex"
@@ -38,10 +38,10 @@
         <q-icon
           :name="icon"
           class="card__icon q-mb-lg"
-          color="lp-primary"
+          color="brand-primary"
         />
 
-        <div class="q-pa-sm q-mb-md text-center text-lp-deep-dark text-size-16 text-weight-bold letter-spacing-300">
+        <div class="q-pa-sm q-mb-md text-center text-brand-secondary text-size-16 text-weight-bold letter-spacing-300">
           {{ label }}
         </div>
       </q-card>
@@ -160,7 +160,7 @@ export default defineComponent({
 
   &:hover {
     // !important needed when used with flat cards
-    box-shadow: 0 8px 8px 0 rgba($lp-dark, 0.2) !important;
+    box-shadow: 0 8px 8px 0 rgba($dark, 0.2) !important;
     transform: scale(1.03);
   }
 }

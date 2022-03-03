@@ -14,7 +14,7 @@
         class="primary-toolbar q-pl-lg q-pr-md justify-between text-size-16 letter-spacing-300 shadow-bottom-small"
       >
         <q-btn
-          color="lp-primary"
+          color="brand-primary"
           dense
           flat
           icon="menu"
@@ -68,7 +68,7 @@
             :width="$q.screen.gt.sm ? 236 : 48"
           >
           <q-separator
-            :color="dark? 'lp-primary':'black-12'"
+            :color="dark? 'brand-primary':'black-12'"
             class="q-ml-lg"
             vertical
           />
@@ -98,14 +98,14 @@
           <theme-switcher />
         </div>
       </q-toolbar>
-      <q-separator :color="dark? 'lp-primary':'black-12'"/>
+      <q-separator :color="dark? 'brand-primary':'black-12'"/>
       <q-toolbar
         :class="dark? 'add-bottom-glow':''"
         class="q-pl-none q-pr-md secondary-toolbar letter-spacing-225">
         <q-btn
           v-if="$q.screen.sm"
           class="q-pl-sm q-mx-md"
-          color="lp-primary"
+          color="brand-primary"
           dense
           flat
           icon="menu"
@@ -117,7 +117,7 @@
           :items="versionHistory"
           :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
           class="text-weight-bold version-dropdown"
-          color="lp-primary"
+          color="brand-primary"
           content-class="shadow-bottom-medium"
           outline
           padding="sm"
@@ -133,7 +133,7 @@
 
         <template v-if="$q.screen.sm">
           <q-separator
-            :color="dark ? 'lp-primary' : 'black-12'"
+            :color="dark ? 'brand-primary' : 'black-12'"
             class="q-ml-md q-mr-sm"
             inset
             vertical/>
@@ -163,7 +163,7 @@
           <q-btn
             v-for="(socialLink, socialLinkIndex) in socialLinks"
             :key="`social-${socialLinkIndex}`"
-            :color="dark ? 'lp-primary' : 'black-54'"
+            :color="dark ? 'brand-primary' : 'black-54'"
             :href="socialLink.href"
             :icon="socialLink.icon"
             flat
@@ -179,7 +179,7 @@
           </q-btn>
         </template>
       </q-toolbar>
-      <q-separator :color="dark? 'lp-primary':'black-12'"/>
+      <q-separator :color="dark? 'brand-primary':'black-12'"/>
     </q-header>
     <!-- dense header -->
     <q-header
@@ -205,7 +205,7 @@
             >
           </router-link>
           <q-separator
-            :color="dark? 'lp-primary':'black-12'"
+            :color="dark? 'brand-primary':'black-12'"
             class="q-ml-lg"
             vertical
           />
@@ -213,7 +213,7 @@
             :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
             :items="versionHistory"
             class="text-weight-bold version-dropdown q-ml-lg"
-            color="lp-primary"
+            color="brand-primary"
             content-class="shadow-bottom-medium"
             outline
             padding="xs sm"
@@ -256,7 +256,7 @@
           <theme-switcher />
         </div>
       </q-toolbar>
-      <q-separator :color="dark ? 'lp-primary' : 'black-12'" />
+      <q-separator :color="dark ? 'brand-primary' : 'black-12'" />
     </q-header>
   </transition>
 </template>
@@ -488,7 +488,7 @@ export default defineComponent({
       return 'xs md'
     })
 
-    const headerClasses = computed(() => `${props.dark ? 'bg-lp-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
+    const headerClasses = computed(() => `${props.dark ? 'bg-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
 
     const showMobileHeader = computed(() => {
       const isInLandscapeMode = $q.screen.width > $q.screen.height
@@ -556,10 +556,10 @@ export default defineComponent({
 
 @keyframes bottom-glow {
   0% {
-    box-shadow: 0 6px 6px 0 rgba($lp-primary, 0.48);
+    box-shadow: 0 6px 6px 0 rgba($brand-primary, 0.48);
   }
   to {
-    box-shadow: 0 4.5px 4.5px 0 rgba($lp-primary, 0.28);
+    box-shadow: 0 4.5px 4.5px 0 rgba($brand-primary, 0.28);
   }
 }
 </style>

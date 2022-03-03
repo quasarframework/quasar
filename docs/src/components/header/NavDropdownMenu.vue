@@ -3,7 +3,7 @@
     <template v-for="(navItem, navIndex) in navItems" :key="`navMenu-${navIndex}`">
       <q-separator v-if="navItem.isSeparator" class="q-mb-sm q-mt-md"/>
       <template v-else>
-        <q-item-label v-if="navItem.isHeader" header class="text-lp-accent text-size-12 q-pt-lg q-pb-sm letter-spacing-40">
+        <q-item-label v-if="navItem.isHeader" header class="text-brand-accent text-size-12 q-pt-lg q-pb-sm letter-spacing-40">
           {{ navItem.label }}
         </q-item-label>
         <q-item
@@ -16,7 +16,7 @@
           @mouseover="closeSubMenusAround(navIndex)"
         >
           <q-item-section avatar v-if="navItem.icon">
-            <q-icon :name="navItem.icon" color="lp-primary"/>
+            <q-icon :name="navItem.icon" color="brand-primary"/>
           </q-item-section>
           <q-item-section>{{ navItem.label }}</q-item-section>
         </q-item>
@@ -76,6 +76,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .add-shadow-on-hover:hover {
-  background-color: rgba($lp-primary, 0.08);
+  background-color: rgba($brand-primary, 0.08);
 }
 </style>

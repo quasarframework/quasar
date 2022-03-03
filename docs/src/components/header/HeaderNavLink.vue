@@ -52,7 +52,7 @@ export default defineComponent({
   setup (props) {
     function setActivePrimaryNavColor (routePath, navItemPath) {
       if (routePath === `/${navItemPath}`) {
-        return props.dark ? 'white' : 'lp-primary'
+        return props.dark ? 'white' : 'brand-primary'
       }
     }
 

@@ -1,6 +1,6 @@
 <template>
   <q-page class="column justify-center items-center text-center q-px-xl font-monserrat">
-    <h1 class="page-title lp-heading lp-heading--large normal-line-height">All platforms in one go</h1>
+    <h1 class="page-title landing-heading landing-heading--large normal-line-height">All platforms in one go</h1>
     <p class="letter-spacing-300 text-size-16 text-weight-bold text-center">
       Focus only on your mission and forget about the spaceship.
     </p>
@@ -12,25 +12,25 @@
       <q-icon
         v-for="(iconName, platformIndex) in platformIntegrationIcons"
         :key="`platform-${platformIndex}`"
-        color="lp-deep-dark"
+        color="brand-secondary"
         :name="iconName"
       />
     </div>
     <h2
-      class="lp-heading lp-heading--medium q-mb-lg normal-line-height"
+      class="landing-heading landing-heading--medium q-mb-lg normal-line-height"
     >We have an impressive gear</h2>
     <div class="integration-options row justify-center q-gutter-lg q-mb-xl">
       <q-card
         v-for="({path, label, icon, name}, cardIndex) in integrationOptions"
         :key="cardIndex"
-        class="card raise-on-hover column justify-center items-center cursor-pointer bg-lp-deep-dark"
+        class="card raise-on-hover column justify-center items-center cursor-pointer bg-brand-secondary"
         flat
         @click="$router.push(`/${path}`)"
       >
         <q-icon
           :name="icon"
           class="card__icon"
-          color="lp-accent"
+          color="brand-accent"
         />
 
         <q-card-section class="text-white text-size-16 text-weight-bold letter-spacing-300">
@@ -167,7 +167,7 @@ export default defineComponent({
 
   &:hover {
     // !important needed when used with flat cards
-    box-shadow: 0 8px 8px 0 rgba($lp-dark, .2) !important;
+    box-shadow: 0 8px 8px 0 rgba($dark, .2) !important;
     transform: scale(1.03)
   }
 }

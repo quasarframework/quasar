@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-mt-xl lp-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
+  <q-page class="q-mt-xl landing-mb--large text-white" :class="{'large-screen-margin': $q.screen.gt.md}">
     <div
       :class="$q.screen.xl? 'justify-between q-ml-lg margin-right-60' : 'justify-around padding-x-100'"
-      class="q-pa-lg q-pa-md row no-wrap items-center chips-container bg-lp-dark"
+      class="q-pa-lg q-pa-md row no-wrap items-center chips-container bg-dark"
     >
       <q-input
         v-model="search"
@@ -17,8 +17,8 @@
         class="relative-position search-field text-size-16"
       >
         <template #append>
-          <q-icon v-if="!search" name="search" size="sm" color="lp-primary" />
-          <q-icon v-else name="clear" color="lp-primary" class="cursor-pointer" @click.stop="search = ''" />
+          <q-icon v-if="!search" name="search" size="sm" color="brand-primary" />
+          <q-icon v-else name="clear" color="brand-primary" class="cursor-pointer" @click.stop="search = ''" />
         </template>
       </q-input>
       <div class="row justify-start q-ml-xl" v-if="$q.screen.gt.sm">
@@ -26,7 +26,7 @@
           v-for="({label, value}, chipIndex) in filterChips"
           :key="chipIndex"
           :label="label"
-          :color="value === filterTag ? 'lp-accent' : 'lp-primary'"
+          :color="value === filterTag ? 'brand-accent' : 'brand-primary'"
           clickable
           text-color="white"
           @click="setFilterTag(value)"
@@ -49,15 +49,15 @@
           class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
           @click="$router.push(componentPath({path, name}))"
         >
-          <!-- bg-lp-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
+          <!-- bg-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
           <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
-          <div class="thumbnail-container bg-lp-dark">
-            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" class="bg-lp-dark" />
+          <div class="thumbnail-container bg-dark">
+            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" class="bg-dark" />
           </div>
-          <q-card-section class="text-lp-primary text-weight-bold">
+          <q-card-section class="text-brand-primary text-weight-bold">
             {{ name }}
           </q-card-section>
-          <q-card-section class="text-lp-dark q-pt-none">
+          <q-card-section class="text-dark q-pt-none">
             {{ description }}
           </q-card-section>
         </q-card>
@@ -167,7 +167,7 @@ export default defineComponent({
     position: absolute;
     width: calc(100% + 16px);
     left: -8px;
-    border-bottom: 1px solid $lp-primary;
+    border-bottom: 1px solid $brand-primary;
     top: 40px;
     z-index: 3;
   }
