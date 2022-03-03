@@ -13,19 +13,20 @@
           :href="computeRouteNav(navItem, 'href')"
           :target="navItem.href? '_blank':'_self'"
           class="add-shadow-on-hover"
+          @mouseover="closeSubMenusAround(navIndex)"
         >
           <q-item-section avatar v-if="navItem.icon">
             <q-icon :name="navItem.icon" color="lp-primary"/>
           </q-item-section>
           <q-item-section>{{ navItem.label }}</q-item-section>
         </q-item>
-        <q-item v-else clickable class="add-shadow-on-hover">
+        <q-item v-else clickable class="add-shadow-on-hover" @mouseover="openSubMenu(navIndex)">
           <q-item-section>{{ navItem.label }}</q-item-section>
           <q-item-section side>
             <q-icon name="keyboard_arrow_right"/>
           </q-item-section>
 
-          <q-menu anchor="top end" self="top start" class="shadow-bottom-medium">
+          <q-menu v-model="subMenuModel[navIndex]" anchor="top end" self="top start" class="shadow-bottom-medium">
             <nav-dropdown-menu
               :nav-items="navItem.subMenu"
               @mouseover="$emit('submenu-mouseover')"
@@ -37,7 +38,7 @@
   </q-list>
 </template>
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { computeRouteNav } from 'assets/landing-page/nav-items.js'
 
 export default defineComponent({
@@ -49,8 +50,25 @@ export default defineComponent({
     }
   },
   setup () {
+    const subMenuModel = ref([])
+
+    function closeSubMenusAround (navIndex) {
+      subMenuModel.value[ navIndex + 1 ] = false // submenu after current menu
+      subMenuModel.value[ navIndex - 1 ] = false // submenu before current menu
+    }
+
+    function openSubMenu (navIndex) {
+      subMenuModel.value[ navIndex ] = true
+
+      closeSubMenusAround(navIndex)
+    }
+
     return {
-      computeRouteNav
+      computeRouteNav,
+
+      subMenuModel,
+      openSubMenu,
+      closeSubMenusAround
     }
   }
 })
