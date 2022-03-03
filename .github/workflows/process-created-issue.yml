@@ -123,6 +123,10 @@ jobs:
                       labelsToAdd.push('bug/1-hard-to-reproduce');
                       break;
                     }
+                  case 'quasar.dev':
+                    if (/^\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
                   default:
                     throw new Error();
                 }
