@@ -28,6 +28,7 @@ module.exports.add = function (entry) {
     content.folders.push(entry)
     save(content)
     log(`Added build artifact "${entry}"`)
+    log()
   }
 }
 

@@ -3,7 +3,8 @@ const {
   inverse,
   bgRed, red,
   bgYellow, yellow,
-  black, white
+  black, white,
+  underline
 } = require('kolorist')
 
 const readline = require('readline')
@@ -110,4 +111,24 @@ module.exports.warning = function (msg, title = 'WARNING') {
 }
 module.exports.getWarning = function (msg, title = 'WARNING') {
   return ` ${yellowBanner} ${warningPill(title)} ${yellow(dot + ' ' + msg)}`
+}
+
+/**
+ * Progress related
+ */
+
+module.exports.progress = function start (msg, token) {
+  const parseMsg = token !== void 0
+    ? text => text.replace('___', underline(green(token)))
+    : text => text
+
+  module.exports.info(parseMsg(msg), 'WAIT')
+
+  const startTime = Date.now()
+
+  return msg => {
+    const diffTime = +new Date() - startTime
+    module.exports.success(`${parseMsg(msg)} ${dot} ${diffTime}ms`, 'DONE')
+    module.exports.log()
+  }
 }

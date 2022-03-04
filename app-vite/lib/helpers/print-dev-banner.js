@@ -50,7 +50,7 @@ function getBanner (quasarConf) {
       `   · Chrome(ium): ${green(appPaths.bexDir)}`,
       `   · Firefox:     ${green(appPaths.resolve.bex('manifest.json'))}`,
       line,
-      ` ${greenBanner} You will need to manually refresh browser to see changes after recompilations.`
+      ` ${greenBanner} You will need to manually refresh the browser page to see changes after recompilations.`
     )
   }
 

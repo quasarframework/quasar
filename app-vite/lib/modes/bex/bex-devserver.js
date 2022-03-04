@@ -18,8 +18,7 @@ class BexDevServer extends AppDevserver {
     this.registerDiff('bex', quasarConf => [
       quasarConf.eslint,
       quasarConf.build.env,
-      quasarConf.build.rawDefine,
-      quasarConf.bex
+      quasarConf.build.rawDefine
     ])
   }
 

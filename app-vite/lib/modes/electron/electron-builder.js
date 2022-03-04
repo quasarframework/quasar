@@ -2,7 +2,7 @@
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
 
-const { log, info, warn, fatal, success, dot } = require('../../helpers/logger')
+const { log, warn, fatal, progress } = require('../../helpers/logger')
 const { spawn } = require('../../helpers/spawn')
 const appPaths = require('../../app-paths')
 const nodePackager = require('../../helpers/node-packager')
@@ -118,10 +118,7 @@ class ElectronBuilder extends AppBuilder {
       const pkgName = `electron-${bundlerName}`
 
       return new Promise((resolve, reject) => {
-        info(`Bundling app with electron-${bundlerName}...`, 'WAIT')
-        log()
-
-        const startTime = Date.now()
+        const done = progress('Bundling app with ___...', `electron-${bundlerName}`)
 
         const bundlePromise = bundlerName === 'packager'
           ? bundler({
@@ -132,9 +129,8 @@ class ElectronBuilder extends AppBuilder {
 
         bundlePromise
           .then(() => {
-            const diffTime = +new Date() - startTime
             log()
-            success(`${pkgName} built the app ${dot} ${diffTime}ms`, 'SUCCESS')
+            done(`${pkgName} built the app`)
             log()
             resolve()
           })

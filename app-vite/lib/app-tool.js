@@ -1,14 +1,9 @@
 
 const { build: viteBuild } = require('vite')
 const { build: esBuild } = require('esbuild')
-const { bold, underline, green } = require('kolorist')
 const debounce = require('lodash.debounce')
 
-const { log, info, success, dot } = require('./helpers/logger')
-
-function coloredName (name) {
-  return bold(underline(green(name)))
-}
+const { log, progress } = require('./helpers/logger')
 
 class AppTool {
   argv
@@ -18,23 +13,18 @@ class AppTool {
   }
 
   async buildWithVite (threadName, viteConfig) {
-    const name = coloredName(threadName)
-    const startTime = Date.now()
+    const done = progress(
+      'Compiling of ___ with Vite in progress...',
+      threadName
+    )
 
-    info(`Compiling of "${name}" with Vite in progress...`, 'WAIT')
-    log()
     await viteBuild(viteConfig)
     log()
 
-    const diffTime = +new Date() - startTime
-    success(`"${name}" compiled with success ${dot} ${diffTime}ms`, 'DONE')
-    log()
+    done('___ compiled with success')
   }
 
   async buildWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
-    const name = coloredName(threadName)
-    const startTime = Date.now()
-
     const cfg = onRebuildSuccess !== void 0
       ? {
         ...esbuildConfig,
@@ -48,13 +38,14 @@ class AppTool {
       }
       : esbuildConfig
 
-    info(`Compiling of "${name}" with Esbuild in progress...`, 'WAIT')
+    const done = progress(
+      'Compiling of ___ with Esbuild in progress...',
+      threadName
+    )
+
     const result = await esBuild(cfg)
 
-    const diffTime = +new Date() - startTime
-    success(`"${name}" compiled with success ${dot} ${diffTime}ms`, 'DONE')
-    log()
-
+    done('___ compiled with success')
     return result
   }
 }

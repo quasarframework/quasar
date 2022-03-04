@@ -2,7 +2,7 @@
 const { readFileSync } = require('fs')
 
 const appPaths = require('../../app-paths')
-const { info, success, log, dot } = require('../../helpers/logger')
+const { progress } = require('../../helpers/logger')
 const getPackage = require('../../helpers/get-package')
 
 const appPkg = require(appPaths.resolve.app('package.json'))
@@ -63,12 +63,7 @@ module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNot
 }
 
 module.exports.buildServiceWorker = async function buildServiceWorker (workboxMode, workboxConfig) {
-  const startTime = Date.now()
-  info(`Compiling of Service Worker with Workbox in progress...`, 'WAIT')
-
+  const done = progress('Compiling of the ___ with Workbox in progress...', 'Service Worker')
   await workboxBuild[ workboxMode ](workboxConfig)
-
-  const diffTime = +new Date() - startTime
-  success(`Service worker compiled with success ${dot} ${diffTime}ms`, 'DONE')
-  log()
+  done('The ___ compiled with success')
 }

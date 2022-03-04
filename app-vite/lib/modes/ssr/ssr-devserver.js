@@ -11,7 +11,7 @@ const appPaths = require('../../app-paths')
 const getPackage = require('../../helpers/get-package')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./ssr-config')
-const { log, warn, info, success, dot } = require('../../helpers/logger')
+const { log, warn, info, dot, progress } = require('../../helpers/logger')
 const { entryPointMarkup, getDevSsrTemplateFn } = require('../../helpers/html-template')
 
 const { renderToString } = getPackage('vue/server-renderer')
@@ -46,8 +46,7 @@ function renderError ({ err, req, res }) {
 }
 
 async function warmupServer (viteClient, viteServer) {
-  info('Warming up...', 'WAIT')
-  const startTime = Date.now()
+  const done = progress('Warming up...')
 
   try {
     await viteServer.ssrLoadModule(serverEntryFile)
@@ -59,8 +58,7 @@ async function warmupServer (viteClient, viteServer) {
     return
   }
 
-  success(`Warmed up ${dot} ${Date.now() - startTime}ms`, 'DONE')
-  log()
+  done('Warmed up')
 }
 
 function renderVuexState (ssrContext) {
@@ -213,7 +211,7 @@ class SsrDevServer extends AppDevserver {
   }
 
   async #bootWebserver (quasarConf) {
-    info(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`, 'WAIT')
+    const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
 
     delete require.cache[serverFile]
     const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
@@ -307,8 +305,7 @@ class SsrDevServer extends AppDevserver {
       listenResult
     })
 
-    success('Webserver is ready', 'DONE')
-    log()
+    done('Webserver is ready')
 
     this.printBanner(quasarConf)
   }

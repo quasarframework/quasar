@@ -633,12 +633,7 @@ class QuasarConfFile {
 
     if (this.#ctx.mode.bex) {
       cfg.bex = merge({}, cfg.bex, {
-        builder: {
-          directories: {
-            input: cfg.build.distDir,
-            output: path.join(cfg.metaConf.packagedDistDir, 'Packaged')
-          }
-        }
+        manifestFilename: 'manifest.json'
       })
     }
     else if (this.#ctx.mode.electron && this.#ctx.prod) {
