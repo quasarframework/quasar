@@ -1,7 +1,7 @@
 
 const { normalizePath } = require('vite')
 const getLinter = require('../eslint')
-const { dim, underline, bold } = require('chalk')
+const { dim, underline, bold } = require('kolorist')
 
 const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
 

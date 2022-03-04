@@ -2,8 +2,9 @@ const {
   bgGreen, green,
   inverse,
   bgRed, red,
-  bgYellow, yellow
-} = require('chalk')
+  bgYellow, yellow,
+  black, white
+} = require('kolorist')
 
 const readline = require('readline')
 
@@ -11,10 +12,10 @@ const readline = require('readline')
  * Pills
  */
 
-const successPill = msg => bgGreen.black('', msg, '')
-const infoPill = msg => inverse('', msg, '')
-const errorPill = msg => bgRed.white('', msg, '')
-const warningPill = msg => bgYellow.black('', msg, '')
+const successPill = msg => bgGreen(black(` ${msg} `))
+const infoPill = msg => inverse(` ${msg} `)
+const errorPill = msg => bgRed(white(` ${msg} `))
+const warningPill = msg => bgYellow(black(` ${msg} `))
 
 /**
  * Main approach - App CLI related
@@ -50,7 +51,7 @@ module.exports.log = function (msg) {
 module.exports.warn = function (msg, pill) {
   if (msg !== void 0) {
     const pillBanner = pill !== void 0
-      ? bgYellow.black('', pill, '') + ' '
+      ? bgYellow(black('', pill, '')) + ' '
       : ''
 
     console.warn(` ${yellowBanner} ⚠️  ${pillBanner}${msg}`)

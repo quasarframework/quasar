@@ -1,4 +1,4 @@
-const { green, dim } = require('chalk')
+const { green, dim } = require('kolorist')
 
 const appPaths = require('../app-paths')
 const { quasarVersion, cliAppVersion, getCompilationTarget } = require('../helpers/banner-global')
@@ -47,8 +47,8 @@ function getBanner (quasarConf) {
     banner.push(
       line,
       ` ${greenBanner} Load the dev extension from:`,
-      `   · Chrome(ium): ${chalk.green(appPaths.bexDir)}`,
-      `   · Firefox:     ${chalk.green(appPaths.resolve.bex('manifest.json'))}`
+      `   · Chrome(ium): ${green(appPaths.bexDir)}`,
+      `   · Firefox:     ${green(appPaths.resolve.bex('manifest.json'))}`
     )
   }
 

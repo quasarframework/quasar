@@ -1,7 +1,7 @@
 
 const { build: viteBuild } = require('vite')
 const { build: esBuild } = require('esbuild')
-const { bold, underline, green } = require('chalk')
+const { bold, underline, green } = require('kolorist')
 const debounce = require('lodash.debounce')
 
 const { log, info, success, dot } = require('./helpers/logger')

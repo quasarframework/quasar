@@ -1,4 +1,4 @@
-const { green, grey, underline } = require('chalk')
+const { green, gray, underline } = require('kolorist')
 
 const getPackageJson = require('./get-package-json')
 const quasarVersion = getPackageJson('quasar').version
@@ -39,15 +39,15 @@ module.exports = function (argv, cmd, details = {}) {
  Pkg quasar............. ${green('v' + quasarVersion)}
  Pkg @quasar/app-vite... ${green('v' + cliAppVersion)}
  Pkg vite............... ${green('v' + viteVersion)}
- Debugging.............. ${cmd === 'dev' || argv.debug ? green('enabled') : grey('no')}`
+ Debugging.............. ${cmd === 'dev' || argv.debug ? green('enabled') : gray('no')}`
 
   if (cmd === 'build') {
-    banner += `\n Publishing............. ${argv.publish !== void 0 ? green('yes') : grey('no')}`
+    banner += `\n Publishing............. ${argv.publish !== void 0 ? green('yes') : gray('no')}`
   }
 
   if ([ 'cordova', 'capacitor' ].includes(argv.mode)) {
     const packaging = argv['skip-pkg']
-      ? grey('skip')
+      ? gray('skip')
       : green(getPackager(argv, cmd))
 
     banner += cmd === 'build'
