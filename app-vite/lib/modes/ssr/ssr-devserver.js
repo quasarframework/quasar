@@ -91,7 +91,8 @@ class SsrDevServer extends AppDevserver {
       quasarConf.eslint,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
-      quasarConf.build.minify
+      quasarConf.build.minify,
+      quasarConf.ssr.extendSSRWebserverConf
     ])
   }
 

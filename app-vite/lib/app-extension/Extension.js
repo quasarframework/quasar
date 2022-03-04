@@ -29,7 +29,7 @@ async function promptOverwrite ({ targetPath, options }) {
 }
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
-  const isBinary = require('isbinaryfile').isBinaryFileSync
+  const { isBinaryFileSync: isBinary } = require('isbinaryfile')
   const compileTemplate = require('lodash.template')
 
   if (overwritePrompt === true && fs.existsSync(targetPath)) {
@@ -301,7 +301,7 @@ module.exports = class Extension {
   /**
    * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
    * searches it into the `dist` folder.
-   * 
+   *
    * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */

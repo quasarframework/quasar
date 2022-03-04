@@ -31,7 +31,9 @@ class ElectronDevServer extends AppDevserver {
       quasarConf.devServer.https,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
-      quasarConf.electron,
+      quasarConf.electron.extendElectronMainConf,
+      quasarConf.electron.extendElectronPreloadConf,
+      quasarConf.electron.inspectPort,
       quasarConf.sourceFiles.electronMain,
       quasarConf.sourceFiles.electronPreload
     ])

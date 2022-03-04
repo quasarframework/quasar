@@ -224,6 +224,7 @@ class QuasarConfFile {
 
     const rawQuasarConf = merge({
       ctx: this.#ctx,
+
       boot: [],
       css: [],
       extras: [],
@@ -265,16 +266,13 @@ class QuasarConfFile {
       ssr: {
         middlewares: []
       },
-      pwa: {
-        precacheFromPublicFolder: []
-      },
+      pwa: {},
       electron: {
         unPackagedInstallParams: [],
         packager: {},
         builder: {}
       },
-      cordova: {
-      },
+      cordova: {},
       capacitor: {
         capacitorCliPreparationParams: []
       },

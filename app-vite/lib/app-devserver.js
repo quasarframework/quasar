@@ -24,7 +24,10 @@ class AppDevserver extends AppTool {
       quasarConf.extras,
       quasarConf.animations,
       quasarConf.framework,
-      quasarConf.sourceFiles
+      quasarConf.sourceFiles,
+      quasarConf.ssr.middlewares,
+      quasarConf.ssr.manualStoreHydration,
+      quasarConf.ssr.manualPostHydrationTrigger
     ]))
 
     this.registerDiff('viteUrl', quasarConf => ([
