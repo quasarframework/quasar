@@ -31,7 +31,7 @@ if (processArgv.includes('--skip-trim') === false) {
   delete argv['skip-trim']
 }
 
-const { green } = require('chalk')
+const { green } = require('kolorist')
 
 if (argv.help) {
   const modes = Object.keys(require('../lib/modes')).join('|')

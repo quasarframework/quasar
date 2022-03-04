@@ -1,7 +1,7 @@
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 const elementTree = require('elementtree')
 const { relative } = require('path')
-const { red, green } = require('chalk')
+const { red, green } = require('kolorist')
 
 const { resolveDir } = require('../utils/app-paths')
 const { log, warn } = require('../utils/logger')

@@ -1,6 +1,6 @@
 const { existsSync } = require('fs')
 const { ensureFileSync } = require('fs-extra')
-const { green, grey } = require('chalk')
+const { green, grey } = require('kolorist')
 
 const { appDir, resolveDir } = require('../utils/app-paths')
 const { log, warn } = require('../utils/logger')
