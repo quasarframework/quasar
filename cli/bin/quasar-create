@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const parseArgs = require('minimist')
-const chalk = require('chalk')
+const { yellow } = require('kolorist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -96,7 +96,7 @@ if (isLocalPath(template) !== true) {
 const tmp = path.join(home, '.quasar-starter-kits', template.replace(/[\/:]/g, '-'))
 
 if (argv.offline) {
-  console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
+  console.log(`> Use cached template at ${yellow(tildify(tmp))}`)
   template = tmp
 }
 

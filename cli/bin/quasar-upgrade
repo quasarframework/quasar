@@ -51,7 +51,7 @@ if (argv.help) {
 const fs = require('fs')
 const path = require('path')
 const execSync = require('child_process').execSync
-const { green, red } = require('chalk')
+const { green, red } = require('kolorist')
 
 const root = require('../lib/get-project-root')()
 const { log, fatal } = require('../lib/logger')

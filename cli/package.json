@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "async": "3.2.3",
-    "chalk": "4.1.2",
+    "kolorist": "1.5.1",
     "ci-info": "3.3.0",
     "compression": "1.7.4",
     "connect-history-api-fallback": "1.6.0",
