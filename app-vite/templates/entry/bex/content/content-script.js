@@ -10,7 +10,7 @@
 /* global chrome */
 
 import Bridge from '../bridge'
-import attachContentHooks from 'src-bex/js/content-hooks'
+import attachContentHooks from '../../../src-bex/js/content-hooks'
 import { listenForWindowEvents } from './window-event-listener'
 
 const port = chrome.runtime.connect({

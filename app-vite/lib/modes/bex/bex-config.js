@@ -1,39 +1,39 @@
 
-// TODO.....
+const { join } = require('path')
 
-// const path = require('path')
-// const appPaths = require('../../app-paths')
+const {
+  createViteConfig, extendViteConfig,
+  createBrowserEsbuildConfig, extendEsbuildConfig
+} = require('../../config-tools')
 
-// const createViteConfig = require('../../create-vite-config')
-// const parseEnv = require('../../parse-env')
+const appPaths = require('../../app-paths')
 
-// module.exports = {
-//   vite: quasarConf => {
-//     const cfg = createViteConfig(quasarConf)
-//     const rootPath = quasarConf.ctx.dev ? appPaths.bexDir : quasarConf.build.distDir
+function createScript (quasarConf, scriptName, bexFolder) {
+  const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: `bex-${ scriptName }` })
 
-//     cfg.outDir = path.join(rootPath, 'www')
+  cfg.entryPoints = [
+    appPaths.resolve.app(`.quasar/bex/${ bexFolder }/${ scriptName }.js`)
+  ]
 
-//     return cfg
-//   },
+  cfg.outfile = join(
+    quasarConf.ctx.dev === true ? appPaths.bexDir : quasarConf.build.distDir,
+    `www/bex-${ scriptName }.js`
+  )
 
-//   main: quasarConf => {
-//     const outdir = path.join(
-//       quasarConf.ctx.dev ? appPaths.bexDir : quasarConf.build.distDir,
-//       'www'
-//     )
+  return extendEsbuildConfig(cfg, quasarConf.bex, 'Scripts')
+}
 
-//     return {
-//       entryPoints: [
-//         appPaths.resolve.app('.quasar/bex/background/background.js'),
-//         appPaths.resolve.app('.quasar/bex/content/content-script.js'),
-//         appPaths.resolve.app('.quasar/bex/content/dom-script.js')
-//       ],
-//       outdir,
-//       bundle: true,
-//       sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
-//       // minify: false,
-//       define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
-//     }
-//   }
-// }
+module.exports = {
+  vite: quasarConf => {
+    const cfg = createViteConfig(quasarConf)
+
+    const rootPath = quasarConf.ctx.dev === true ? appPaths.bexDir : quasarConf.build.distDir
+    cfg.build.outDir = join(rootPath, 'www')
+
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
+  },
+
+  backgroundScript: quasarConf => createScript(quasarConf, 'background', 'background'),
+  contentScript: quasarConf => createScript(quasarConf, 'content-script', 'content'),
+  domScript: quasarConf => createScript(quasarConf, 'dom-script', 'content')
+}

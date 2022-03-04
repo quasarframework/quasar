@@ -8,7 +8,7 @@
  **/
 
 import Bridge from '../bridge'
-import attachDomHooks from 'src-bex/js/dom-hooks'
+import attachDomHooks from '../../../src-bex/js/dom-hooks'
 import { listenForWindowEvents } from './window-event-listener'
 
 let bridge = new Bridge({

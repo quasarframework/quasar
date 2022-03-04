@@ -113,19 +113,17 @@ class PwaDevServer extends AppDevserver {
       await this.#serviceWorkerWatcher.close()
     }
 
+    const workboxConfig = await config.workbox(quasarConf)
+
     if (quasarConf.pwa.workboxMode === 'injectManifest') {
       const esbuildConfig = await config.customSw(quasarConf)
       await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
-        queue(async () => {
-          const workboxConfig = await config.workbox(quasarConf)
-          await buildServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
-        })
+        queue(() => buildServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
       }).then(result => {
         this.#serviceWorkerWatcher = result
       })
     }
 
-    const workboxConfig = await config.workbox(quasarConf)
     await buildServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
   }
 }

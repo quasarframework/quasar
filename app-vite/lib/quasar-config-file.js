@@ -489,7 +489,7 @@ class QuasarConfFile {
     cfg.build.publicPath =
       cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.#ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
-        : (['capacitor', 'cordova', 'electron'].includes(this.#ctx.modeName) ? '' : '/')
+        : (['capacitor', 'cordova', 'electron', 'bex'].includes(this.#ctx.modeName) ? '' : '/')
 
     /* careful if you configure the following; make sure that you really know what you are doing */
     cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0
