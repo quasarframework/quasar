@@ -3,7 +3,7 @@ title: Quick Start
 desc: Get up and developing a Quasar app in less than 3 minutes.
 ---
 
-It takes three steps and in a couple of minutes, you are off a running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI. 
+It takes three easy steps and in a couple of minutes, you are off and running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI and also ready with Quasar's own powerful UI library. 
 
 ::: tip
 If you are a more advanced Vue developer, we invite you to start off with the [CLI Installation instructions](/quasar-cli/installation) or [decide between other means of using Quasar](/start/pick-quasar-flavour). 
@@ -34,7 +34,7 @@ As the CLI command runs, you'll be prompted with some options. Depending on your
 
 ## Step 3 - Start developing
 
-Now is the last step. Navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
+For the last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
 ```bash
 $ cd <folder_name>
 # then run 
@@ -47,9 +47,9 @@ You'll see the dev server compiling your new application and once it is finished
 
 If you are new to Quasar and a...
 
-**(Beginner Vue) JavaScript Dev** - we highly recommend [learning Vue](/start/how-to-use-vue).
+**(Beginner Vue) JavaScript Dev** - We highly recommend [learning Vue](/start/how-to-use-vue).
 
-**Intermediate Vue Dev** - we recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli/directory-structure) and it's different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) (the project you built is an SPA).
+**Intermediate Vue Dev** - We recommend getting accustomed to [Quasar's Directory Structure](/quasar-cli/directory-structure) and it's different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) (the project you built is an SPA).
 
 **Advanced Vue Dev** - You might want to use Quasar in different scenarios outside of Quasar's own CLI, then check out the different [Quasar Flavours](/start/pick-quasar-flavour). Or, if you wish to stick with the Quasar CLI, check out the different build modes, [starting with SSR](/quasar-cli/developing-ssr/introduction) and please be sure not to miss out on [App Extensions](/app-extensions/introduction).
 
