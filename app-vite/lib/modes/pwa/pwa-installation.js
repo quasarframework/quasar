@@ -15,6 +15,7 @@ const pwaDeps = {
   'workbox-strategies': defaultVersion,
   'workbox-expiration': defaultVersion,
   'workbox-precaching': defaultVersion,
+  'workbox-cacheable-response': defaultVersion,
   'workbox-build': defaultVersion
 }
 

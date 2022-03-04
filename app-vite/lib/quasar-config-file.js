@@ -11,6 +11,7 @@ const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
+const resolveExtension = require('./helpers/resolve-extension')
 
 const urlRegex = /^http(s)?:\/\//i
 const { findClosestOpenPort } = require('../lib/helpers/net')
@@ -514,15 +515,9 @@ class QuasarConfFile {
       return { error: 'Files validation not passed successfully' }
     }
 
-    // do we got vuex?
+    // do we have vuex?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
-    cfg.store = (
-      // TODO extract .[jt]sx? file exist check into function
-      // and use it for Esbuild config entry points too
-      existsSync(storePath) ||
-      existsSync(storePath + '.js') ||
-      existsSync(storePath + '.ts')
-    )
+    cfg.store = resolveExtension(storePath) !== void 0
 
     // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
@@ -586,32 +581,27 @@ class QuasarConfFile {
     }
 
     if (this.#ctx.mode.pwa) {
-      // TODO --- do not duplicate due to merge
-      if (cfg.pwa.precacheFromPublicFolder === void 0) {
-        cfg.pwa.precacheFromPublicFolder = [ '**/*' ]
-      }
-
       cfg.pwa = merge({
-        workboxMode: 'GenerateSW',
+        workboxMode: 'generateSW',
         injectPwaMetaTags: true,
         swFilename: 'sw.js',
         manifestFilename: 'manifest.json',
-        useCredentials: false
+        useCredentialsForManifestTag: false
       }, cfg.pwa)
 
-      if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxMode)) {
+      if (!['generateSW', 'injectManifest'].includes(cfg.pwa.workboxMode)) {
         return {
           error: `Workbox strategy "${cfg.pwa.workboxMode}" is invalid. `
-            + `Valid quasar.config.js > pwa > workboxMode options are: GenerateSW, InjectManifest\n`
+            + `Valid quasar.config.js > pwa > workboxMode options are: generateSW or injectManifest\n`
         }
       }
 
-      const middlePath = this.#ctx.dev === true ? '.quasar/pwa/' : ''
-
       cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}${cfg.pwa.swFilename}`
-
-      cfg.metaConf.pwaServiceWorkerFile = appPaths.resolve.app(`${middlePath}${cfg.pwa.swFilename}`)
       cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
+
+      // resolve extension
+      const swPath = appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
+      cfg.sourceFiles.serviceWorker = resolveExtension(swPath) || cfg.sourceFiles.serviceWorker
     }
 
     if (this.#ctx.dev) {

@@ -20,6 +20,7 @@ module.exports = class IndexAPI extends BaseAPI {
     extendSSRWebserverConf: [],
     extendElectronMainConf: [],
     extendElectronPreloadConf: [],
+    extendPWACustomSWConf: [],
 
     beforeDev: [],
     afterDev: [],
@@ -188,6 +189,17 @@ module.exports = class IndexAPI extends BaseAPI {
    */
   extendElectronPreloadConf (fn) {
     this.__addHook('extendElectronPreloadConf', fn)
+  }
+
+  /**
+   * Extend PWA custom service worker esbuild config
+   * (when using Workbox injectManifest mode)
+   *
+   * @param {function} fn
+   *   (cfg: Object, api) => undefined
+   */
+  extendPWACustomSWConf (fn) {
+    this.__addHook('extendPWACustomSWConf', fn)
   }
 
   /**

@@ -231,12 +231,35 @@ function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
     target: quasarConf.build.target.node,
     format: 'cjs',
     bundle: true,
-    sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
+    sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     external: [
       ...cliDeps,
       ...Object.keys(appDeps),
       ...Object.keys(appDevDeps)
     ],
+    minify: quasarConf.build.minify !== false,
+    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
+  }
+
+  const { warnings, errors } = quasarConf.eslint
+  if (warnings === true && errors === true) {
+    // require only if actually needed (as it imports app's eslint pkg)
+    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint')
+    cfg.plugins = [
+      quasarEsbuildPluginESLint(quasarConf, getLinterOpts)
+    ]
+  }
+
+  return cfg
+}
+
+function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
+  const cfg = {
+    platform: 'browser',
+    target: quasarConf.build.target.browser,
+    format: 'iife',
+    bundle: true,
+    sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     minify: quasarConf.build.minify !== false,
     define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
   }
@@ -274,4 +297,5 @@ module.exports.extendViteConfig = extendViteConfig
 module.exports.mergeViteConfig = mergeConfig
 
 module.exports.createNodeEsbuildConfig = createNodeEsbuildConfig
+module.exports.createBrowserEsbuildConfig = createBrowserEsbuildConfig
 module.exports.extendEsbuildConfig = extendEsbuildConfig

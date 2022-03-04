@@ -2,15 +2,19 @@
 const { readFileSync } = require('fs')
 
 const appPaths = require('../../app-paths')
+const { info, success, log, dot } = require('../../helpers/logger')
+const getPackage = require('../../helpers/get-package')
+
 const appPkg = require(appPaths.resolve.app('package.json'))
+const workboxBuild = getPackage('workbox-build')
 
 module.exports.createHeadTags = function createHeadTags (quasarConf) {
   const { publicPath } = quasarConf.build
   const { pwaManifest } = quasarConf.metaConf
-  const { useCredentials, injectPwaMetaTags, manifestFilename } = quasarConf.pwa
+  const { useCredentialsForManifestTag, injectPwaMetaTags, manifestFilename } = quasarConf.pwa
 
   let headTags =
-    `<link rel="manifest" href="${publicPath}${manifestFilename}"${useCredentials === true ? ` crossorigin="use-credentials"` : ''}>`
+    `<link rel="manifest" href="${publicPath}${manifestFilename}"${useCredentialsForManifestTag === true ? ` crossorigin="use-credentials"` : ''}>`
 
   if (injectPwaMetaTags === true) {
     headTags +=
@@ -56,4 +60,15 @@ module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNot
   }
 
   quasarConf.metaConf.pwaManifest = pwaManifest
+}
+
+module.exports.buildServiceWorker = async function buildServiceWorker (workboxMode, workboxConfig) {
+  const startTime = Date.now()
+  info(`Compiling of Service Worker with Workbox in progress...`, 'WAIT')
+
+  await workboxBuild[ workboxMode ](workboxConfig)
+
+  const diffTime = +new Date() - startTime
+  success(`Service worker compiled with success ${dot} ${diffTime}ms`, 'DONE')
+  log()
 }
