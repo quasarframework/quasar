@@ -150,7 +150,6 @@ const ssrHandler = (req, res, next) => {
 }
 
 export default listen({
-  port,
   isReady,
   ssrHandler,
   ...middlewareParams
