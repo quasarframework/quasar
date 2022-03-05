@@ -32,9 +32,7 @@ class BexDevServer extends AppDevserver {
   run (quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
-    const diffDistDir = diff('distDir', quasarConf)
-
-    if (diffDistDir === true) {
+    if (diff('distDir', quasarConf)) {
       this.#uiWatchers.forEach(watcher => { watcher.close() })
       this.#uiWatchers = []
 
@@ -43,13 +41,22 @@ class BexDevServer extends AppDevserver {
 
       artifacts.clean(quasarConf.build.distDir)
       artifacts.add(quasarConf.build.distDir)
+
+      // execute diffs so we don't duplicate compilations
+      diff('bexScripts', quasarConf)
+      diff('vite', quasarConf)
+
+      return queue(() => {
+        return this.#compileScripts(quasarConf)
+          .then(() => this.#compileUI(quasarConf, queue))
+      })
     }
 
-    if (diff('bexScripts', quasarConf) || diffDistDir === true) {
+    if (diff('bexScripts', quasarConf)) {
       return queue(() => this.#compileScripts(quasarConf))
     }
 
-    if (diff('vite', quasarConf) || diffDistDir === true) {
+    if (diff('vite', quasarConf)) {
       return queue(() => this.#compileUI(quasarConf, queue))
     }
   }
