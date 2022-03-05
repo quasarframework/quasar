@@ -6,27 +6,27 @@
 //  but they are useful only for Quasar CLI projects
 // They are typed via module augmentation by `@quasar/app-webpack` / `@quasar/app-vite`
 
-module.exports.boot = function (callback) {
+export function boot (callback) {
   return callback
 }
 
-module.exports.ssrMiddleware = function (callback) {
+export function configure (callback) {
   return callback
 }
 
-module.exports.configure = function (callback) {
+export function preFetch (callback) {
   return callback
 }
 
-module.exports.preFetch = function (callback) {
+export function route (callback) {
   return callback
 }
 
-module.exports.route = function (callback) {
+export function store (callback) {
   return callback
 }
 
-module.exports.store = function (callback) {
+export function ssrMiddleware (callback) {
   return callback
 }
 
@@ -34,7 +34,7 @@ module.exports.store = function (callback) {
  * Below only for @quasar/app-webpack
  */
 
-module.exports.ssrProductionExport = function (callback) {
+export function ssrProductionExport (callback) {
   return callback
 }
 
@@ -42,22 +42,22 @@ module.exports.ssrProductionExport = function (callback) {
  * Below only for @quasar/app-vite
  */
 
-module.exports.ssrCreate = function (callback) {
+export function ssrCreate (callback) {
   return callback
 }
 
-module.exports.ssrListen = function (callback) {
+export function ssrListen (callback) {
   return callback
 }
 
-module.exports.ssrClose = function (callback) {
+export function ssrClose (callback) {
   return callback
 }
 
-module.exports.ssrServeStaticContent = function (callback) {
+export function ssrServeStaticContent (callback) {
   return callback
 }
 
-module.exports.ssrRenderPreloadTag = function (callback) {
+export function ssrRenderPreloadTag (callback) {
   return callback
 }
