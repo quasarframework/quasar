@@ -110,7 +110,7 @@ class QuasarConfFile {
     if (this.watch) {
       // Start watching for quasar.config.js changes
       chokidar
-      .watch(this.filename, { watchers: { chokidar: { ignoreInitial: true } } })
+      .watch(this.filename, { ignoreInitial: true })
       .on('change', debounce(async () => {
         console.log()
         log(`quasar.conf.js changed`)
