@@ -314,7 +314,7 @@ class QuasarConfFile {
     // make sure these exist
     cfg.__rootDefines = {
       // vue
-      __VUE_OPTIONS_API__: true,
+      __VUE_OPTIONS_API__: cfg.build.vueOptionsApi !== false,
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
       // quasar
