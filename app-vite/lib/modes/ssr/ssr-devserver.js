@@ -121,7 +121,7 @@ class SsrDevServer extends AppDevserver {
         }))
       }
     }).then(result => {
-      this.#webserverWatcher = result
+      this.#webserverWatcher = { close: result.stop }
     })
   }
 

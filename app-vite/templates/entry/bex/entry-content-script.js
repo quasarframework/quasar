@@ -9,9 +9,9 @@
 
 /* global chrome */
 
-import Bridge from '../bridge'
-import attachContentHooks from '../../../src-bex/js/content-hooks'
+import Bridge from './bridge'
 import { listenForWindowEvents } from './window-event-listener'
+import runDevlandContentScript from '../../src-bex/content-script'
 
 const port = chrome.runtime.connect({
   name: 'contentScript'
@@ -48,10 +48,10 @@ function injectScript (url) {
 }
 
 if (document instanceof HTMLDocument) {
-  injectScript(chrome.extension.getURL(process.env.DEV ? 'www/bex-dom.js' : 'www/js/bex-dom.js'))
+  injectScript(chrome.extension.getURL('dom.js'))
 }
 
 // Listen for event from the web page
 listenForWindowEvents(bridge, 'bex-dom')
 
-attachContentHooks(bridge)
+runDevlandContentScript(bridge)

@@ -1,9 +1,15 @@
-// Hooks added here have a bridge allowing communication between the BEX Background Script and the BEX Content Script.
-// Note: Events sent from this background script using `bridge.send` can be `listen`'d for by all client BEX bridges for this BEX
 
-// More info: https://quasar.dev/quasar-cli/developing-browser-extensions/background-hooks
+chrome.browserAction.onClicked.addListener((/* tab */) => {
+  // Opens our extension in a new browser window.
+  // Only if a popup isn't defined in the manifest.
+  chrome.tabs.create({
+    url: chrome.extension.getURL('www/index.html')
+  }, (/* newTab */) => {
+    // Tab opened.
+  })
+})
 
-export default function attachBackgroundHooks (bridge /* , allActiveConnections */) {
+export default function (bridge /* , allActiveConnections */) {
   bridge.on('storage.get', event => {
     const payload = event.data
     if (payload.key === null) {

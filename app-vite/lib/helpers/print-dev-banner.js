@@ -1,4 +1,5 @@
 const { green, dim } = require('kolorist')
+const { join } = require('path')
 
 const appPaths = require('../app-paths')
 const { quasarVersion, cliAppVersion, getCompilationTarget } = require('../helpers/banner-global')
@@ -47,8 +48,8 @@ function getBanner (quasarConf) {
     banner.push(
       line,
       ` ${greenBanner} Load the dev extension from:`,
-      `   · Chrome(ium): ${green(appPaths.bexDir)}`,
-      `   · Firefox:     ${green(appPaths.resolve.bex('manifest.json'))}`,
+      `   · Chrome(ium): ${green(quasarConf.build.distDir)}`,
+      `   · Firefox:     ${green(join(quasarConf.build.distDir, 'manifest.json'))}`,
       line,
       ` ${greenBanner} You will need to manually refresh the browser page to see changes after recompilations.`
     )

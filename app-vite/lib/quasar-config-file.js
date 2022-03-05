@@ -461,7 +461,7 @@ class QuasarConfFile {
     }
 
     if (cfg.build.optimizeDeps.entries.length === 0) {
-      cfg.build.optimizeDeps.entries = [ '/index.html' ]
+      cfg.build.optimizeDeps.entries = [ 'index.html' ]
     }
 
     if (this.#ctx.mode.ssr) {

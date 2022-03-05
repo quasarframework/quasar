@@ -120,7 +120,7 @@ class PwaDevServer extends AppDevserver {
       await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
         queue(() => buildServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
       }).then(result => {
-        this.#serviceWorkerWatcher = result
+        this.#serviceWorkerWatcher = { close: result.stop }
       })
     }
 
