@@ -18,7 +18,7 @@ class PwaBuilder extends AppBuilder {
       JSON.stringify(
         this.quasarConf.metaConf.pwaManifest,
         null,
-        this.quasarConf.build.minify === true ? void 0 : 2
+        this.quasarConf.build.minify !== false ? void 0 : 2
       ),
       'utf-8'
     )

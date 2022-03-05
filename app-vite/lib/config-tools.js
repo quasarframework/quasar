@@ -122,6 +122,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
         : build.target.browser,
       polyfillModulePreload: build.polyfillModulePreload,
       emptyOutDir: false,
+      minify: build.minify,
       sourcemap: build.sourcemap === true
         ? 'inline'
         : build.sourcemap || false
@@ -193,10 +194,6 @@ function createViteConfig (quasarConf, quasarRunMode) {
         quasarVitePluginESLint(quasarConf, { cacheSuffix })
       )
     }
-  }
-
-  if (build.minify === false) {
-    viteConf.build.minify = false
   }
 
   return viteConf

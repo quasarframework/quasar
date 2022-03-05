@@ -1,4 +1,6 @@
 
+const { join } = require('path')
+
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
 
@@ -55,11 +57,11 @@ class ElectronBuilder extends AppBuilder {
 
     pkg.main = './electron-main.js'
 
-    if (this.quasarConf.electron.extendPackageJson) {
+    if (typeof this.quasarConf.electron.extendPackageJson === 'function') {
       this.quasarConf.electron.extendPackageJson(pkg)
     }
 
-    this.writeFile('package.json', JSON.stringify(pkg))
+    this.writeFile('Unpackaged/package.json', JSON.stringify(pkg))
   }
 
   async #copyElectronFiles () {
@@ -70,12 +72,12 @@ class ElectronBuilder extends AppBuilder {
       'yarn.lock',
     ].map(filename => ({
       from: filename,
-      to: '.'
+      to: './Unpackaged'
     }))
 
     patterns.push({
       from: appPaths.resolve.electron('icons'),
-      to: './icons'
+      to: './Unpackaged/icons'
     })
 
     this.copyFiles(patterns)
@@ -86,7 +88,7 @@ class ElectronBuilder extends AppBuilder {
       spawn(
         nodePackager,
         [ 'install', '--production' ].concat(this.quasarConf.electron.unPackagedInstallParams),
-        { cwd: this.quasarConf.build.distDir },
+        { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
         code => {
           if (code) {
             fatal(`${nodePackager} failed installing dependencies`, 'FAIL')
@@ -101,7 +103,7 @@ class ElectronBuilder extends AppBuilder {
 
         const result = this.quasarConf.electron.beforePackaging({
           appPaths,
-          unpackagedDir: this.quasarConf.build.distDir
+          unpackagedDir: join(this.quasarConf.build.distDir, 'UnPackaged')
         })
 
         if (result && result.then) {

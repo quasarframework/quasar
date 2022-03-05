@@ -5,7 +5,6 @@ const appPaths = require('../../app-paths')
 const { log, warn, fatal } = require('../../helpers/logger')
 const { spawn } = require('../../helpers/spawn')
 const getPackage = require('../../helpers/get-package')
-const { tempElectronDir } = require('./utils')
 const config = require('./electron-config')
 
 function wait (time) {
@@ -119,7 +118,7 @@ class ElectronDevServer extends AppDevserver {
       getPackage('electron'),
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        appPaths.resolve.app(`${tempElectronDir}/electron-main.js`)
+        appPaths.resolve.app(`.quasar/electron/electron-main.js`)
       ].concat(this.argv._),
       { cwd: appPaths.appDir },
       code => {

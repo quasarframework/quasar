@@ -48,7 +48,7 @@ function getBanner (quasarConf) {
       line,
       ` ${greenBanner} Load the dev extension from:`,
       `   · Chrome(ium): ${green(appPaths.bexDir)}`,
-      `   · Firefox:     ${green(appPaths.resolve.bex('manifest.json'))}`,
+      `   · Firefox:     ${green(appPaths.resolve.bex('<manifest file>'))}`,
       line,
       ` ${greenBanner} You will need to manually refresh the browser page to see changes after recompilations.`
     )

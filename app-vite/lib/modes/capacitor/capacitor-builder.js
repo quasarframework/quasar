@@ -15,8 +15,11 @@ const { capBin } = require('./cap-cli')
 
 class CapacitorBuilder extends AppBuilder {
   #capacitorConfigFile = new CapacitorConfigFile()
+  #packagedDir
 
   async build () {
+    this.#packagedDir = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
+
     await this.#buildFiles()
     await this.#packageFiles()
   }
@@ -89,7 +92,7 @@ class CapacitorBuilder extends AppBuilder {
 
     await spawnSync(
       'xcrun',
-      args.split(' ').concat([ this.quasarConf.metaConf.packagedDistDir ]).concat(this.argv._),
+      args.split(' ').concat([ this.#packagedDir ]).concat(this.argv._),
       { cwd: appPaths.resolve.capacitor('ios/App') },
       () => {
         console.log()
@@ -98,9 +101,7 @@ class CapacitorBuilder extends AppBuilder {
         console.log()
 
         // cleanup build folder
-        fse.removeSync(
-          this.quasarConf.metaConf.packagedDistDir
-        )
+        fse.removeSync(this.#packagedDir)
       }
     )
   }
@@ -127,7 +128,7 @@ class CapacitorBuilder extends AppBuilder {
       }
     )
 
-    fse.copySync(buildPath, this.quasarConf.metaConf.packagedDistDir)
+    fse.copySync(buildPath, this.#packagedDir)
   }
 }
 

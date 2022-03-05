@@ -1,20 +1,15 @@
 
 const { join } = require('path')
 const { readFileSync, writeFileSync } = require('fs')
-const { existsSync, ensureDirSync, createWriteStream } = require('fs-extra')
+const { existsSync, ensureDirSync, createWriteStream, removeSync } = require('fs-extra')
 const archiver = require('archiver')
 
 const AppBuilder = require('../../app-builder')
 const appPaths = require('../../app-paths')
-const { progress } = require('../../helpers/logger')
+const { progress, fatal } = require('../../helpers/logger')
 const config = require('./bex-config')
 
 const { name } = require(appPaths.resolve.app('package.json'))
-
-function findAndReplaceInSection (sectionArray, find, replace) {
-  const index = sectionArray.indexOf(find)
-  sectionArray[index] = replace
-}
 
 class BexBuilder extends AppBuilder {
   async build () {
@@ -30,58 +25,26 @@ class BexBuilder extends AppBuilder {
     const domConfig = await config.domScript(this.quasarConf)
     await this.buildWithEsbuild('Dom Script', domConfig)
 
-    const folders = {
-      src: this.quasarConf.build.distDir,
-      dest: join(this.quasarConf.metaConf.packagedDistDir, 'Packaged')
-    }
+    const unpackagedDir = join(this.quasarConf.build.distDir, 'UnPackaged')
 
-    this.#fixManifest(folders)
-    this.#bundlePackages(folders)
+    this.copyFiles([{
+      from: appPaths.bexDir,
+      to: unpackagedDir
+    }])
+
+    removeSync(join(unpackagedDir, 'bex-flag.d.ts'))
+
+    this.#bundlePackage(
+      unpackagedDir,
+      join(this.quasarConf.build.distDir, 'Packaged')
+    )
   }
 
-  /**
-   * This will fix some of the paths in the manifest file which are different in the build version vs dev version.
-   */
-  #fixManifest (folders) {
-    const manifestFilePath = join(folders.src, this.quasarConf.bex.manifestFilename)
-
-    if (existsSync(manifestFilePath) === true) {
-      const manifestFileData = readFileSync(manifestFilePath)
-      let manifestData = JSON.parse(manifestFileData.toString())
-
-      findAndReplaceInSection(
-        manifestData.background.scripts,
-        'www/bex-background.js',
-        'www/js/bex-background.js'
-      )
-
-      findAndReplaceInSection(
-        manifestData.content_scripts[0].js,
-        'www/bex-content-script.js',
-        'www/js/bex-content-script.js'
-      )
-
-      const newValue = JSON.stringify(manifestData)
-      writeFileSync(manifestFilePath, newValue, 'utf-8')
-    }
-  }
-
-  #bundlePackages (folders) {
+  #bundlePackage (src, dest) {
     const done = progress('Bundling in progress...')
 
-    const chromeDir = join(folders.dest, 'chrome')
-    ensureDirSync(chromeDir)
-    this.#zipFolder(folders.src, chromeDir)
+    ensureDirSync(dest)
 
-
-    const firefoxDir = join(folders.dest, 'firefox')
-    ensureDirSync(firefoxDir)
-    this.#zipFolder(folders.src, firefoxDir)
-
-    done('Chrome and FF bundles have been generated')
-  }
-
-  #zipFolder (src, dest) {
     let output = createWriteStream(join(dest, `${ name }.zip`))
     let archive = archiver('zip', {
       zlib: { level: 9 } // Sets the compression level.
@@ -90,6 +53,8 @@ class BexBuilder extends AppBuilder {
     archive.pipe(output)
     archive.directory(src, false)
     archive.finalize()
+
+    done('Bundle has been generated')
   }
 }
 

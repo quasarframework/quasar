@@ -138,7 +138,7 @@ async function build () {
   const appBuilder = new AppProdBuilder({ argv, quasarConf })
 
   const artifacts = require('../lib/artifacts')
-  let outputFolder = quasarConf.metaConf.packagedDistDir || quasarConf.build.distDir
+  let outputFolder = quasarConf.build.distDir
   artifacts.clean(outputFolder)
 
   const entryFiles = require('../lib/entry-files-generator')(ctx)

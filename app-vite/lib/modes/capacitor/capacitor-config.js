@@ -19,6 +19,10 @@ module.exports = {
       cfg.resolve.alias[dep] = path.join(target, dep)
     })
 
+    if (quasarConf.ctx.prod === true) {
+      cfg.build.outDir = appPaths.resolve.capacitor('www')
+    }
+
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   }
 }

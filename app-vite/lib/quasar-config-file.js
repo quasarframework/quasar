@@ -176,7 +176,7 @@ class QuasarConfFile {
   watch (onChange) {
     // Watch for quasar.config.js changes
     chokidar
-    .watch(quasarConfFilename, { watchers: { chokidar: { ignoreInitial: true } } })
+    .watch(quasarConfFilename, { ignoreInitial: true })
     .on('change', debounce(async () => {
       console.log()
       log(`Reading quasar.config.js as it changed`)
@@ -276,11 +276,7 @@ class QuasarConfFile {
       capacitor: {
         capacitorCliPreparationParams: []
       },
-      bex: {
-        builder: {
-          directories: {}
-        }
-      }
+      bex: {}
     }, userCfg)
 
     const metaConf = {
@@ -449,7 +445,8 @@ class QuasarConfFile {
       },
 
       vueRouterMode: 'hash',
-      minify: !cfg.metaConf.debugging && this.#ctx.mode.bex !== true,
+      minify: cfg.metaConf.debugging !== true
+        && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
       sourcemap: cfg.metaConf.debugging === true
     }, cfg.build)
 
@@ -465,25 +462,11 @@ class QuasarConfFile {
       cfg.build.vueRouterMode = 'history'
     }
     else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron || this.#ctx.mode.bex) {
-      Object.assign(cfg.build, {
-        vueRouterMode: 'hash'
-      })
+      cfg.build.vueRouterMode = 'hash'
     }
 
     if (!path.isAbsolute(cfg.build.distDir)) {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
-    }
-
-    if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor) {
-      cfg.metaConf.packagedDistDir = path.join(cfg.build.distDir, this.#ctx.targetName)
-    }
-
-    if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor) {
-      cfg.build.distDir = appPaths.resolve[this.#ctx.modeName]('www')
-    }
-    else if (this.#ctx.mode.electron || this.#ctx.mode.bex) {
-      cfg.metaConf.packagedDistDir = cfg.build.distDir
-      cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
     cfg.build.publicPath =
@@ -631,12 +614,7 @@ class QuasarConfFile {
       cfg.build.env.APP_URL = cfg.metaConf.APP_URL
     }
 
-    if (this.#ctx.mode.bex) {
-      cfg.bex = merge({}, cfg.bex, {
-        manifestFilename: 'manifest.json'
-      })
-    }
-    else if (this.#ctx.mode.electron && this.#ctx.prod) {
+    if (this.#ctx.mode.electron && this.#ctx.prod) {
       const bundler = require('./modes/electron/bundler')
 
       const icon = appPaths.resolve.electron('icons/icon.png')
@@ -662,13 +640,13 @@ class QuasarConfFile {
         }
       }, cfg.electron, {
         packager: {
-          dir: cfg.build.distDir,
-          out: cfg.metaConf.packagedDistDir
+          dir: path.join(cfg.build.distDir, 'UnPackaged'),
+          out: path.join(cfg.build.distDir, 'Packaged')
         },
         builder: {
           directories: {
-            app: cfg.build.distDir,
-            output: path.join(cfg.metaConf.packagedDistDir, 'Packaged')
+            app: path.join(cfg.build.distDir, 'UnPackaged'),
+            output: path.join(cfg.build.distDir, 'Packaged')
           }
         }
       })

@@ -10,6 +10,9 @@ module.exports = {
         cordovaPlatformInject(quasarConf)
       )
     }
+    else {
+      cfg.build.outDir = appPaths.resolve.cordova('www')
+    }
 
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   }

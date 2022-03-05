@@ -80,7 +80,7 @@ class CapacitorBuilder extends AppBuilder {
         process.exit(0)
       }
 
-      fse.copySync(buildPath, this.quasarConf.metaConf.packagedDistDir)
+      fse.copySync(buildPath, join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName))
     }
   }
 

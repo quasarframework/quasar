@@ -15,10 +15,7 @@ function createScript (quasarConf, scriptName, bexFolder) {
     appPaths.resolve.app(`.quasar/bex/${ bexFolder }/${ scriptName }.js`)
   ]
 
-  cfg.outfile = join(
-    quasarConf.ctx.dev === true ? appPaths.bexDir : quasarConf.build.distDir,
-    `www/bex-${ scriptName }.js`
-  )
+  cfg.outfile = appPaths.resolve.bex(`www/bex-${ scriptName }.js`)
 
   return extendEsbuildConfig(cfg, quasarConf.bex, 'Scripts')
 }
@@ -27,8 +24,7 @@ module.exports = {
   vite: quasarConf => {
     const cfg = createViteConfig(quasarConf)
 
-    const rootPath = quasarConf.ctx.dev === true ? appPaths.bexDir : quasarConf.build.distDir
-    cfg.build.outDir = join(rootPath, 'www')
+    cfg.build.outDir = appPaths.resolve.bex('www')
 
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },

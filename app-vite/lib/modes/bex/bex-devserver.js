@@ -1,6 +1,7 @@
 
 const debounce = require('lodash.debounce')
 const chokidar = require('chokidar')
+const { copySync } = require('fs-extra')
 
 const AppDevserver = require('../../app-devserver')
 const appPaths = require('../../app-paths')
@@ -18,7 +19,8 @@ class BexDevServer extends AppDevserver {
     this.registerDiff('bex', quasarConf => [
       quasarConf.eslint,
       quasarConf.build.env,
-      quasarConf.build.rawDefine
+      quasarConf.build.rawDefine,
+      quasarConf.bex.extendScriptsConf
     ])
   }
 
@@ -41,24 +43,35 @@ class BexDevServer extends AppDevserver {
     this.printBanner(quasarConf)
 
     if (this.#uiWatcher === void 0) {
-      this.#uiWatcher = chokidar.watch(
-        [ 'src/**/*', 'public/**/*' ],
-        {
-          cwd: appPaths.appDir,
-          watchers: { chokidar: { ignoreInitial: true } }
-        }
-      )
+      this.#uiWatcher = true
 
-      const fn = debounce(() => {
+      const srcWatcher = chokidar.watch(appPaths.srcDir, {
+        ignoreInitial: true
+      })
+
+      const rebuild = debounce(() => {
         queue(() => {
           return this.buildWithVite('BEX UI', viteConfig)
             .then(() => { this.printBanner(quasarConf) })
         })
       }, 1000)
 
-      this.#uiWatcher.on('add', fn)
-      this.#uiWatcher.on('change', fn)
-      this.#uiWatcher.on('unlink', fn)
+      srcWatcher.on('add', rebuild)
+      srcWatcher.on('change', rebuild)
+      srcWatcher.on('unlink', rebuild)
+
+      const publicWatcher = chokidar.watch(appPaths.publicDir, {
+        ignoreInitial: true
+      })
+
+      const copyPublicDir = debounce(() => {
+        queue(() => {
+          copySync(appPaths.publicDir, viteConfig.build.outDir)
+        })
+      }, 1000)
+
+      publicWatcher.on('add', copyPublicDir)
+      publicWatcher.on('change', copyPublicDir)
     }
   }
 

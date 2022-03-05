@@ -93,7 +93,7 @@ class PwaDevServer extends AppDevserver {
 
     this.#manifestWatcher = chokidar.watch(
       quasarConf.metaConf.pwaManifestFile,
-      { watchers: { chokidar: { ignoreInitial: true } } }
+      { ignoreInitial: true }
     ).on('change', debounce(() => {
       inject()
 

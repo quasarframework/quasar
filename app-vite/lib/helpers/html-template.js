@@ -94,7 +94,7 @@ module.exports.transformHtml = function (template, quasarConf) {
     html = injectPublicPath(html, '/')
   }
 
-  if (quasarConf.ctx.mode.ssr !== true && quasarConf.build.minify) {
+  if (quasarConf.ctx.mode.ssr !== true && quasarConf.build.minify !== false) {
     html = minify(html, minifyOptions)
   }
 
@@ -148,7 +148,7 @@ module.exports.getProdSsrTemplateFn = function (viteHtmlContent, quasarConf) {
     `<div id="q-app">{{ _meta.runtimePageContent }}</div>`
   )
 
-  if (quasarConf.build.minify) {
+  if (quasarConf.build.minify !== false) {
     html = minify(html, {
       ...minifyOptions,
       ignoreCustomFragments: [ /{{([\s\S]+?)}}/ ]
