@@ -47,27 +47,12 @@ const appPrefetch = typeof App.preFetch === 'function'
     )
 <% } %>
 
-<%
-const bootNames = []
-if (boot.length > 0) {
-  function hash (str) {
-    const name = str.replace(/\W+/g, '')
-    return name.charAt(0).toUpperCase() + name.slice(1)
-  }
-  boot.filter(asset => asset.server !== false).forEach(asset => {
-    let importName = 'qboot_' + hash(asset.path)
-    bootNames.push(importName)
-%>
-import <%= importName %> from '<%= asset.path %>'
-<% }) } %>
-
 const publicPath = `<%= build.publicPath %>`
 <% if (build.publicPath !== '/') { %>
 const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-const bootFiles = [<%= bootNames.join(',') %>].filter(boot => typeof boot === 'function')
 const httpRE = /^https?:\/\//
 
 function getRedirectUrl (url, router) {
@@ -83,15 +68,29 @@ function getRedirectUrl (url, router) {
 
 const { components, directives, ...qUserOptions } = quasarUserOptions
 
+<%
+  const bootEntries = boot.filter(asset => asset.server !== false)
+  if (bootEntries.length !== 0) { %>
+const bootFiles = Promise.all([
+  <% bootEntries.forEach((asset, index) => { %>
+  import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+  <% }) %>
+]).then(bootFiles => bootFiles.filter(entry => typeof entry === 'function'))
+<% } %>
+
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
+    <% if (bootEntries.length !== 0) { %>
+    await bootFiles
+    <% } %>
+
     const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
-    <% if (bootNames.length > 0) { %>
+    <% if (bootEntries.length !== 0) { %>
     let hasRedirected = false
     const redirect = (url, httpStatusCode) => {
       hasRedirected = true

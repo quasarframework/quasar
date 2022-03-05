@@ -17,7 +17,7 @@ function createScript (quasarConf, scriptName) {
 
   cfg.outfile = join(quasarConf.build.distDir, `${ scriptName }.js`)
 
-  return extendEsbuildConfig(cfg, quasarConf.bex, 'Scripts')
+  return extendEsbuildConfig(cfg, quasarConf.bex, 'BexScripts')
 }
 
 module.exports = {

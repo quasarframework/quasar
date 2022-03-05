@@ -21,6 +21,7 @@ module.exports = class IndexAPI extends BaseAPI {
     extendElectronMainConf: [],
     extendElectronPreloadConf: [],
     extendPWACustomSWConf: [],
+    extendBexScriptsConf: [],
 
     beforeDev: [],
     afterDev: [],
@@ -200,6 +201,16 @@ module.exports = class IndexAPI extends BaseAPI {
    */
   extendPWACustomSWConf (fn) {
     this.__addHook('extendPWACustomSWConf', fn)
+  }
+
+  /**
+   * Extend Bex scripts (background/content/dom) esbuild config
+   *
+   * @param {function} fn
+   *   (cfg: Object, api) => undefined
+   */
+  extendBexScriptsConf (fn) {
+    this.__addHook('extendBexScriptsConf', fn)
   }
 
   /**

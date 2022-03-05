@@ -37,8 +37,8 @@ module.exports.createManifest = function createManifest (quasarConf) {
     }
   }
 
-  if (typeof quasarConf.bex.extendManifestJson === 'function') {
-    quasarConf.bex.extendManifestJson(json)
+  if (typeof quasarConf.bex.extendBexManifestJson === 'function') {
+    quasarConf.bex.extendBexManifestJson(json)
   }
 
   writeFileSync(

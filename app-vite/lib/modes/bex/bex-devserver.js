@@ -20,8 +20,8 @@ class BexDevServer extends AppDevserver {
       quasarConf.eslint,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
-      quasarConf.bex.extendScriptsConf,
-      quasarConf.bex.extendManifest
+      quasarConf.bex.extendBexScriptsConf,
+      quasarConf.bex.extendBexManifest
     ])
 
     this.registerDiff('distDir', quasarConf => [
