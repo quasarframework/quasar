@@ -278,7 +278,9 @@ class QuasarConfFile {
       capacitor: {
         capacitorCliPreparationParams: []
       },
-      bex: {}
+      bex: {
+        contentScripts: []
+      }
     }, userCfg)
 
     const metaConf = {

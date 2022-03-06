@@ -20,6 +20,7 @@ class BexDevServer extends AppDevserver {
       quasarConf.eslint,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
+      quasarConf.bex.contentScripts,
       quasarConf.bex.extendBexScriptsConf,
       quasarConf.bex.extendBexManifest
     ])
@@ -73,9 +74,12 @@ class BexDevServer extends AppDevserver {
     await this.buildWithEsbuild('Background Script', backgroundConfig, rebuilt)
       .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
 
-    const contentConfig = await config.contentScript(quasarConf)
-    await this.buildWithEsbuild('Content Script', contentConfig, rebuilt)
-      .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
+    for (const name of quasarConf.bex.contentScripts) {
+      const contentConfig = await config.contentScript(quasarConf, name)
+
+      await this.buildWithEsbuild(`Content Script (${name})`, contentConfig, rebuilt)
+        .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
+    }
 
     const domConfig = await config.domScript(quasarConf)
     await this.buildWithEsbuild('Dom Script', domConfig, rebuilt)

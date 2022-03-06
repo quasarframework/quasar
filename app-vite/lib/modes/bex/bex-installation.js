@@ -15,7 +15,7 @@ function isInstalled () {
   return fs.existsSync(appPaths.bexDir)
 }
 
-function add (silent) {
+async function add (silent) {
   if (isInstalled()) {
     if (silent !== true) {
       warn(`Browser Extension support detected already. Aborting.`)
@@ -37,23 +37,21 @@ function add (silent) {
     () => fatal('Failed to install BEX dependencies', 'FAIL')
   )
 
-  // TODO add more options
-  // const inquirer = require('inquirer')
+  const inquirer = require('inquirer')
 
-  // console.log()
-  // const answer = await inquirer.prompt([{
-  //   name: 'manifestVersion',
-  //   type: 'list',
-  //   choices: [
-  //     { name: 'Manifest v2 (works with both Chrome and FF)', value: 'manifest-v2.json' },
-  //     { name: 'Manifest v3 (works with Chrome only)', value: 'manifest-v3.json' }
-  //   ],
-  //   message: 'What version of manifest would you like?'
-  // }])
+  console.log()
+  const answer = await inquirer.prompt([{
+    name: 'manifestVersion',
+    type: 'list',
+    choices: [
+      { name: 'Manifest v2 (works with both Chrome and FF)', value: 'manifest-v2' },
+      { name: 'Manifest v3 (works with Chrome only currently)', value: 'manifest-v3' }
+    ],
+    message: 'What version of manifest would you like?'
+  }])
 
   log(`Creating Browser Extension source folder...`)
-  fse.copySync(appPaths.resolve.cli('templates/bex'), appPaths.bexDir)
-  // fse.copySync(appPaths.resolve.cli('templates/bex/' + answer.manifestVersion), appPaths.resolve.bex('manifest.json'))
+  fse.copySync(appPaths.resolve.cli('templates/bex/' + answer.manifestVersion), appPaths.bexDir)
   log(`Browser Extension support was added`)
 }
 

@@ -1,5 +1,6 @@
 
 const { join } = require('path')
+const { readFileSync, writeFileSync } = require('fs')
 
 const {
   createViteConfig, extendViteConfig,
@@ -7,12 +8,16 @@ const {
 } = require('../../config-tools')
 
 const appPaths = require('../../app-paths')
+const contentScriptTemplate = readFileSync(
+  appPaths.resolve.cli('templates/bex/entry-content-script.js'),
+  'utf-8'
+)
 
-function createScript (quasarConf, scriptName) {
+function createScript (quasarConf, scriptName, entry) {
   const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: `bex-${ scriptName }` })
 
   cfg.entryPoints = [
-    appPaths.resolve.app(`.quasar/bex/entry-${ scriptName }.js`)
+    entry || appPaths.resolve.app(`.quasar/bex/entry-${ scriptName }.js`)
   ]
 
   cfg.outfile = join(quasarConf.build.distDir, `${ scriptName }.js`)
@@ -30,6 +35,16 @@ module.exports = {
   },
 
   backgroundScript: quasarConf => createScript(quasarConf, 'background'),
-  contentScript: quasarConf => createScript(quasarConf, 'content-script'),
+  contentScript: (quasarConf, name) => {
+    const entry = appPaths.resolve.app(`.quasar/bex/entry-content-script-${name}.js`)
+
+    writeFileSync(
+      entry,
+      contentScriptTemplate.replace('__NAME__', name),
+      'utf-8'
+    )
+
+    return createScript(quasarConf, name, entry)
+  },
   domScript: quasarConf => createScript(quasarConf, 'dom')
 }

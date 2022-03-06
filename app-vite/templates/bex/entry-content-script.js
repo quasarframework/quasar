@@ -11,7 +11,7 @@
 
 import Bridge from './bridge'
 import { listenForWindowEvents } from './window-event-listener'
-import runDevlandContentScript from '../../src-bex/content-script'
+import runDevlandContentScript from '../../src-bex/__NAME__'
 
 const port = chrome.runtime.connect({
   name: 'contentScript'
@@ -48,7 +48,7 @@ function injectScript (url) {
 }
 
 if (document instanceof HTMLDocument) {
-  injectScript(chrome.extension.getURL('dom.js'))
+  injectScript(chrome.runtime.getURL('dom.js'))
 }
 
 // Listen for event from the web page
