@@ -535,11 +535,18 @@ class QuasarConfFile {
       }
 
       if (cfg.ssr.pwa) {
-        // install pwa mode if it's missing
-        const { add } = require(`../lib/modes/pwa/pwa-installation`)
-        await add()
+        if (this.#ctx.mode.ssr && cfg.devServer.https === true) {
+          // TODO SSR + PWA
+          warn('SSR + PWA is not currently supported, so disabling it.')
+          cfg.ssr.pwa = false
+        }
+        else {
+          // install pwa mode if it's missing
+          const { add } = require(`../lib/modes/pwa/pwa-installation`)
+          await add()
 
-        cfg.build.rawDefine.__QUASAR_SSR_PWA__ = true
+          cfg.build.rawDefine.__QUASAR_SSR_PWA__ = true
+        }
       }
 
       cfg.metaConf.ssrServerScript = appPaths.resolve.ssr('server.js')
@@ -553,6 +560,12 @@ class QuasarConfFile {
           host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
           port: 8098
         }
+      }
+
+      if (this.#ctx.mode.ssr && cfg.devServer.https === true) {
+        // TODO SSR + HTTPS
+        warn('SSR on HTTPS is not currently supported, so disabling it.')
+        cfg.devServer.https = false
       }
 
       if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron) {
