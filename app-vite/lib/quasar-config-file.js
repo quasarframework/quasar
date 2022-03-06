@@ -549,7 +549,7 @@ class QuasarConfFile {
         }
       }
 
-      cfg.metaConf.ssrServerScript = appPaths.resolve.ssr('server.js')
+      cfg.metaConf.ssrServerScript = resolveExtension(appPaths.resolve.ssr('server'))
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
     }
 
@@ -586,7 +586,7 @@ class QuasarConfFile {
       cfg.pwa = merge({
         workboxMode: 'generateSW',
         injectPwaMetaTags: true,
-        swFilename: 'sw.js',
+        swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
         useCredentialsForManifestTag: false
       }, cfg.pwa)
