@@ -50,5 +50,5 @@ module.exports = async function ({
   if (scope.preset.axios) utils.renderTemplate(utils.join(__dirname, 'axios'), dir, scope)
   if (scope.preset.i18n) utils.renderTemplate(utils.join(__dirname, 'i18n'), dir, scope)
   if (scope.preset.vuex) utils.renderTemplate(utils.join(__dirname, 'vuex'), dir, scope)
-  if (scope.lint) utils.renderTemplate(utils.join(__dirname, 'lint'), dir, scope)
+  if (scope.preset.lint) utils.renderTemplate(utils.join(__dirname, 'lint'), dir, scope)
 }

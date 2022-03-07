@@ -46,8 +46,8 @@
 </template>
 
 <script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+<% if (typescriptConfig === 'composition') { %>import { defineComponent, ref } from 'vue';
+import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
@@ -112,8 +112,8 @@ export default defineComponent({
       }
     }
   }
-})<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
+import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {
@@ -179,9 +179,9 @@ export default defineComponent({
       this.leftDrawerOpen = !this.leftDrawerOpen
     }
   }
-})<% } else if (typescriptConfig === 'class') { %>
-import { Vue, Options } from 'vue-class-component'
-import EssentialLink from 'components/EssentialLink.vue'
+});<% } else if (typescriptConfig === 'class') { %>
+import { Vue, Options } from 'vue-class-component';
+import EssentialLink from 'components/EssentialLink.vue';
 
 const linksList = [
   {

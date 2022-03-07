@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue'
+<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -45,7 +45,7 @@ export default defineComponent({
       default: ''
     }
   }
-})<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue'
+});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -70,7 +70,7 @@ export default defineComponent({
       default: ''
     }
   }
-})<% } else if (typescriptConfig === 'class') { %>
+});<% } else if (typescriptConfig === 'class') { %>
 import { Vue, prop, Options } from 'vue-class-component';
 
 class Props {

@@ -97,8 +97,8 @@ export default defineComponent({
       return this.todos.length;
     }
   }
-});<% } else if (typescriptConfig === 'class') { %>import { Vue, prop } from 'vue-class-component'
-import { Todo, Meta } from './models'
+});<% } else if (typescriptConfig === 'class') { %>import { Vue, prop } from 'vue-class-component';
+import { Todo, Meta } from './models';
 
 class Props {
   readonly title!: string;

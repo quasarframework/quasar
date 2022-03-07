@@ -7,11 +7,11 @@
 
 export default defineComponent({
   name: 'App'
-})<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
+});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'App'
-})<% } else if (typescriptConfig === 'class') { %>
+});<% } else if (typescriptConfig === 'class') { %>
 import { Vue } from 'vue-class-component'
 
 export default class App extends Vue {}<% } %>

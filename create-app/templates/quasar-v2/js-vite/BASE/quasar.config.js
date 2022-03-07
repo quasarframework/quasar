@@ -77,7 +77,7 @@ module.exports = configure(function (ctx) {
 
       // ignorePublicFolder,
 
-      // extendViteConfig (cfg) {},
+      // extendViteConf (cfg) {},
       // viteVuePluginOptions: {},
 
       // vitePlugins: [

@@ -11,8 +11,7 @@ export default defineComponent({
 
 export default defineComponent({
   name: 'App'
-})<% } else if (typescriptConfig === 'class') { %>
-import { Vue } from 'vue-class-component'
+})<% } else if (typescriptConfig === 'class') { %>import { Vue } from 'vue-class-component';
 
 export default class App extends Vue {}<% } %>
 </script>

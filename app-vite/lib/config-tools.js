@@ -8,6 +8,7 @@ const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
+const { log } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 
 const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
@@ -206,12 +207,12 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
     ...invokeParams
   }
 
-  if (typeof quasarConf.build.extendViteConfig === 'function') {
-    quasarConf.build.extendViteConfig(viteConf, opts)
+  if (typeof quasarConf.build.extendViteConf === 'function') {
+    quasarConf.build.extendViteConf(viteConf, opts)
   }
 
-  const promise = extensionRunner.runHook('extendViteConfig', async hook => {
-    log(`Extension(${hook.api.extId}): Extending "${quasarRunMode}" Vite config`)
+  const promise = extensionRunner.runHook('extendViteConf', async hook => {
+    log(`Extension(${hook.api.extId}): Extending Vite config`)
     await hook.fn(viteConf, opts, hook.api)
   })
 
