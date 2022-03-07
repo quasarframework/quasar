@@ -28,7 +28,7 @@ function read (string) {
   string = decode(string.replace(/\+/g, ' '))
 
   try {
-    const parsed = JSON.parse(string, reviverFn)
+    const parsed = JSON.parse(string)
 
     if (parsed === Object(parsed) || Array.isArray(parsed) === true) {
       string = parsed
