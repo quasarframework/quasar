@@ -28,13 +28,10 @@ function read (string) {
   string = decode(string.replace(/\+/g, ' '))
 
   try {
-    const value = JSON.parse(string);
-    if (typeof value === 'number') {
-      if (value < Number.MAX_SAFE_INTEGER) {
-        string = value;
-      }
-    } else {
-      string = value;
+    const parsed = JSON.parse(string, reviverFn)
+
+    if (parsed === Object(parsed) || Array.isArray(parsed) === true) {
+      string = parsed
     }
   }
   catch (e) {}
