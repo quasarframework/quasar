@@ -157,7 +157,7 @@
 </template>
 
 <script>
-import { fasGlobeAmericas, fasFlask } from '@quasar/extras/fontawesome-v5'
+import { fasEarthAmericas, fasFlask } from '@quasar/extras/fontawesome-v6'
 
 export default {
   name: 'GoogleNewsLayout',
@@ -181,7 +181,7 @@ export default {
       ],
       links2: [
         { icon: 'flag', text: 'Canada' },
-        { icon: fasGlobeAmericas, text: 'World' },
+        { icon: fasEarthAmericas, text: 'World' },
         { icon: 'place', text: 'Local' },
         { icon: 'domain', text: 'Business' },
         { icon: 'memory', text: 'Technology' },

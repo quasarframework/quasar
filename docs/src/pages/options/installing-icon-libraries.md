@@ -27,23 +27,23 @@ extras: [
 ]
 ```
 
-Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/v1/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set:
 ```js
 extras: [
   'material-icons',
   'mdi-v6',
-  'ionicons-v5',
+  'ionicons-v4', // last webfont was available in v4.6.3
   'eva-icons',
-  'fontawesome-v5',
+  'fontawesome-v6', // or, 'fontawesome-v5'
   'themify',
   'line-awesome',
   'bootstrap-icons'
 ]
 ```
 
-For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/v1/extras#webfonts) repository.
+For all available options, visit the [GitHub](https://github.com/quasarframework/quasar/tree/dev/extras#webfonts) repository.
 
 You're now ready to use the [QIcon](/vue-components/icon) component.
 
@@ -53,7 +53,7 @@ If you want to make use of a CDN (Content Delivery Network), all you need to do 
 In case you follow this path, do not also add the icon sets that you want in `/quasar.conf.js > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
 
 ## Using Fontawesome-Pro
-If you have a Fontawesome 5 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
+If you have a Fontawesome 5/6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
 
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file (file path same as package.json):
@@ -80,7 +80,9 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   ],
   framework: {
     // if you want Quasar to use Fontawesome for its icons
-    iconSet: 'fontawesome-v5-pro'
+    iconSet: 'fontawesome-v6-pro'
+    // or
+    // iconSet: 'fontawesome-v5-pro'
   }
   ```
 6. Edit `/src/boot/fontawesome-pro.js`:
@@ -92,6 +94,9 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   // import '@fortawesome/fontawesome-pro/css/brands.css'
   // import '@fortawesome/fontawesome-pro/css/solid.css'
   // import '@fortawesome/fontawesome-pro/css/regular.css'
+  // Fontawesome-pro v6
+  // import '@fortawesome/fontawesome-pro/css/thin.css'
+  // import '@fortawesome/fontawesome-pro/css/duotone.css'
   ```
 7. (Optional) Override default icons:
 
@@ -99,7 +104,7 @@ Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some ic
 
 For instance, to override the `fal` version of the close icon for chips, do this:
 
-_First_, find the icon used for chip close in Quasar Fontawesome v5 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v5-pro.js).
+_First_, find the icon used for chip close in Quasar Fontawesome v5 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v5-pro.js) or Fontawesome v6 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v6-pro.js).
 
 (Alternatively, you can check inside the render function of the component you are overriding.)
 

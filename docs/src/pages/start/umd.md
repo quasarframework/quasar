@@ -10,6 +10,10 @@ If you want to embed Quasar into your existing website project, integrating it i
 ## Installation
 UMD is all about adding Quasar style and javascript tags. Please select what you will be using and check out the output below it.
 
+::: warning
+You can use both Fontawesome v5 and v6 web fonts at the same time. Refer to their [Upgrade Guide](https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5) for more information.
+:::
+
 <umd-tags />
 
 ::: warning
@@ -124,7 +128,7 @@ Quasar.utils.openURL('https://quasar.dev')
 Assuming you have already included the CDN link to your favorite Quasar Icon Set (unless you're using Material Icons which is used by default), you can then tell Quasar to use it:
 
 ```js
-Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
+Quasar.iconSet.set(Quasar.iconSet.fontawesomeV6)
 ```
 
 The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/v1/ui/icon-set).

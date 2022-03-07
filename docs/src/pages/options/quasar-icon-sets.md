@@ -32,7 +32,7 @@ We edit `/quasar.conf.js` again:
 ```js
 framework: {
   // webfont-based example
-  iconSet: '6'
+  iconSet: 'mdi-v6'
 }
 ```
 
@@ -50,34 +50,33 @@ Full example of including MDI & Fontawesome and telling Quasar to use Fontawesom
 ```js
 extras: [
   'mdi-v6',
-  'fontawesome-v5'
+  'fontawesome-v6'
 ],
 framework: {
-  iconSet: 'fontawesome-v5'
+  iconSet: 'fontawesome-v6'
 }
 ```
 
-This will enable you to use both Ionicons & Fontawesome webfonts in your app, and all Quasar components will display Fontawesome icons.
+This will enable you to use both MDI & Fontawesome webfonts in your app, and all Quasar components will display Fontawesome icons.
 
 #### UMD Way
 Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to use it. Example:
 
 ```html
 <!-- include this after Quasar JS tag -->
-<script src="https://cdn.jsdelivr.net/npm/quasar@1/dist/icon-set/fontawesome-v5.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quasar@1/dist/icon-set/fontawesome-v6.umd.prod.js"></script>
 <script>
-  Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
+  Quasar.iconSet.set(Quasar.iconSet.fontawesomeV6)
 </script>
 ```
 
 Check what tags you need to include in your HTML files on [UMD / Standalone](/start/umd) page.
 
-
 #### Vue CLI Way
 We edit your `main.js`:
 
 ```js
-import iconSet from 'quasar/icon-set/fontawesome-v5'
+import iconSet from 'quasar/icon-set/fontawesome-v6'
 // ...
 import { Quasar } from 'quasar'
 // ...
@@ -101,7 +100,7 @@ export default async () => {
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v6|fontawesome-v5)\.js$/ */
+      /* webpackInclude: /(mdi-v6|fontawesome-v6)\.js$/ */
       'quasar/icon-set/' + iconSetName
       )
       .then(setDefinition => {
@@ -142,7 +141,7 @@ export default async ({ ssrContext }) => {
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v6|fontawesome-v5)\.js$/ */
+      /* webpackInclude: /(mdi-v6|fontawesome-v6)\.js$/ */
       'quasar/icon-set/' + iconSetName
       )
       .then(setDefinition => {
@@ -182,4 +181,3 @@ methods: {
   }
 }
 ```
-

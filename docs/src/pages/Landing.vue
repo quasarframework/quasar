@@ -112,7 +112,7 @@ q-page.landing
           q-icon(:name="fabFacebook")
 
         a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
-          q-icon(:name="fasMedkit")
+          q-icon(:name="fasSuitcaseMedical")
 
       div.q-mt-lg
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -127,10 +127,10 @@ import IntroductionVideo from 'components/page-parts/introduction-to-quasar/Intr
 // import SurveyCountdown from '../components/SurveyCountdown'
 
 import {
-  fabGithub, fabTwitter, fabFacebook, fasMedkit,
+  fabGithub, fabTwitter, fabFacebook, fasSuitcaseMedical,
   fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
   fabFirefox, fabEdge, fabSafari, fabGoogle
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
   mdiChevronDown, mdiLaunch, mdiPost,
@@ -163,7 +163,7 @@ export default {
     this.fabGithub = fabGithub
     this.fabTwitter = fabTwitter
     this.fabFacebook = fabFacebook
-    this.fasMedkit = fasMedkit
+    this.fasSuitcaseMedical = fasSuitcaseMedical
     this.fabApple = fabApple
     this.fabWindows = fabWindows
     this.fabLinux = fabLinux
