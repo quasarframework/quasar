@@ -11,9 +11,9 @@ module.exports = async function ({
       message: 'Pick a Vue component style:',
       initial: 0,
       choices: [
-        { title: 'Composition API (recommended) (https://github.com/vuejs/composition-api)', value: 'composition' },
+        { title: 'Composition API', value: 'composition', description: 'recommended' },
         { title: 'Options API', value: 'options' },
-        { title: 'Class-based [DEPRECATED, see https://github.com/quasarframework/quasar/discussions/11204] (https://github.com/vuejs/vue-class-component)', value: 'class', disabled: true }
+        { title: 'Class-based', value: 'class', description: 'DEPRECATED; see https://github.com/quasarframework/quasar/discussions/11204', disabled: true }
       ]
     },
     {
@@ -32,7 +32,7 @@ module.exports = async function ({
       name: 'preset',
       message: 'Check the features needed for your project:',
       choices: [
-        { title: 'ESLint (recommended)', value: 'lint' },
+        { title: 'ESLint', value: 'lint', description: 'recommended', selected: true },
         { title: 'Vuex', value: 'vuex' },
         { title: 'Axios', value: 'axios' },
         { title: 'Vue-i18n', value: 'i18n' }
@@ -44,9 +44,9 @@ module.exports = async function ({
       name: 'lintConfig',
       message: 'Pick an ESLint preset:',
       choices: [
-        { title: 'Prettier (https://github.com/prettier/prettier)', value: 'prettier' },
-        { title: 'Standard (https://github.com/standard/standard)', value: 'standard' },
-        { title: 'Airbnb (https://github.com/airbnb/javascript)', value: 'airbnb' }
+        { title: 'Prettier', value: 'prettier', description: 'https://github.com/prettier/prettier' },
+        { title: 'Standard', value: 'standard', description: 'https://github.com/standard/standard' },
+        { title: 'Airbnb', value: 'airbnb', description: 'https://github.com/airbnb/javascript' }
       ]
     }
   ])

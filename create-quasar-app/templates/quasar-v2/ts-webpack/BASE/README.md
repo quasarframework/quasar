@@ -1,34 +1,36 @@
-# {{ productName }} ({{ name }})
+# <%= productName %> (<%= name %>)
 
-{{ description }}
+<%= description %>
 
 ## Install the dependencies
 ```bash
-{{#if_eq autoInstall "npm"}}
-npm install
-{{else}}
 yarn
-{{/if_eq}}
+# or
+npm install
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
 quasar dev
 ```
-{{#preset.lint}}
+<% if (preset.lint) { %>
 
 ### Lint the files
 ```bash
-{{#if_eq autoInstall "npm"}}npm run{{else}}yarn{{/if_eq}} lint
+yarn lint
+# or
+npm run lint
 ```
-{{#if_eq lintConfig "prettier"}}
+<% if (lintConfig === 'prettier') { %>
 
 ### Format the files
 ```bash
-{{#if_eq autoInstall "npm"}}npm run{{else}}yarn{{/if_eq}} format
+yarn format
+# or
+npm run format
 ```
-{{/if_eq}}
-{{/preset.lint}}
+<% } %>
+<% } %>
 
 ### Build the app for production
 ```bash
@@ -36,4 +38,4 @@ quasar build
 ```
 
 ### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).

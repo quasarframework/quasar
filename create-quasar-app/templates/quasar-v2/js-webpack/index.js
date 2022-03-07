@@ -21,7 +21,7 @@ module.exports = async function ({
       name: 'preset',
       message: 'Check the features needed for your project:',
       choices: [
-        { title: 'ESLint (recommended)', value: 'lint' },
+        { title: 'ESLint', value: 'lint', description: 'recommended', selected: true },
         { title: 'Vuex', value: 'vuex' },
         { title: 'Axios', value: 'axios' },
         { title: 'Vue-i18n', value: 'i18n' }
@@ -33,9 +33,9 @@ module.exports = async function ({
       name: 'lintConfig',
       message: 'Pick an ESLint preset:',
       choices: [
-        { title: 'Prettier (https://github.com/prettier/prettier)', value: 'prettier' },
-        { title: 'Standard (https://github.com/standard/standard)', value: 'standard' },
-        { title: 'Airbnb (https://github.com/airbnb/javascript)', value: 'airbnb' }
+        { title: 'Prettier', value: 'prettier', description: 'https://github.com/prettier/prettier' },
+        { title: 'Standard', value: 'standard', description: 'https://github.com/standard/standard' },
+        { title: 'Airbnb', value: 'airbnb', description: 'https://github.com/airbnb/javascript' }
       ]
     }
   ])
