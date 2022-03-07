@@ -60,7 +60,7 @@ export default defineComponent({
   setup(props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
   },
-});<% else if (typescriptConfig === 'options') { %>import { defineComponent, PropType } from 'vue';
+});<% } else if (typescriptConfig === 'options') { %>import { defineComponent, PropType } from 'vue';
 import { Todo, Meta } from './models';
 
 export default defineComponent({
@@ -97,7 +97,7 @@ export default defineComponent({
       return this.todos.length;
     }
   }
-});<% else if (typescriptConfig === 'class') { %>import { Vue, prop } from 'vue-class-component'
+});<% } else if (typescriptConfig === 'class') { %>import { Vue, prop } from 'vue-class-component'
 import { Todo, Meta } from './models'
 
 class Props {
