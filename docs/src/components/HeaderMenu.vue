@@ -159,7 +159,7 @@ div
 import {
   fabGithub, fasFlask, fabCodepen, fabJsfiddle,
   fasCubes, fabTwitter, fabFacebook
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
   mdiPost, mdiForum, mdiChat, mdiBullhorn,

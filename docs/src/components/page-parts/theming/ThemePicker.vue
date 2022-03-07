@@ -108,7 +108,7 @@ import { colors, setCssVar } from 'quasar'
 
 import {
   fasSquare, fasCircle, fasPlay
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
   mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
