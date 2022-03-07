@@ -1,3 +1,5 @@
+const days = 'يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_پەيشەنبە_جۈمە_شەنبە_يەكشەنبە'.split('_')
+
 export default {
   isoName: 'ug',
   nativeName: 'ئۇيغۇرچە',
@@ -18,15 +20,13 @@ export default {
     refresh: 'يېڭىلاش'
   },
   date: {
-    days: 'يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_پەيشەنبە_جۈمە_شەنبە_يەكشەنبە'.split('_'),
+    days,
     daysShort: 'ي_د_س_چ_پ_ج_ش'.split('_'),
     months: 'يانۋار(1)_فېۋرال(2)_مارت(3)_ئاپرىل(4)_ماي(5)_ئىيۇن(6)_ئىيۇل(7)_ئاۋغۇست (8)_سېنتەبىر(9)_ئۆكتەبىر(10)_نويابىر(11)_دېكابىر(12)'.split('_'),
     monthsShort: '1-ئاي_2-ئاي_3-ئاي_4-ئاي_5-ئاي_6-ئاي_7-ئاي_8-ئاي_9-ئاي_10-ئاي_11-ئاي_12-ئاي'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    headerTitle: function(date, model){
-     return model.month + '-ئاينىڭ ' + model.day + '-كۈنى ، ' + this.days[ date.getDay() ]
-    },
+    headerTitle: (date, model) => model.month + '-ئاينىڭ ' + model.day + '-كۈنى ، ' + days[ date.getDay() ],
     pluralDay: 'كۈن'
   },
   table: {
