@@ -75,6 +75,8 @@ Available format tokens:
 | AM/PM | <ul><li>**A**: AM, PM</li><li>**a**: am, pm</li><li>**aa**: a.m, p.m</li></ul> |
 | Unix Timestamp | <ul><li>**X**: 1360013296</li><li>**x** (ms): 1360013296123</li></ul> |
 
+If you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
+
 ## Manipulate dates
 
 ### Create
