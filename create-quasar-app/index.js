@@ -122,14 +122,61 @@ async function run () {
   const scope = { ...initialAnswers, ...commonAnswers }
 
   const runTemplate = require(`./templates/quasar-${initialAnswers.quasarVersion}/${templateName}`)
-  await runTemplate({
-    answers: scope,
-    dir,
-    utils
-  })
+  await runTemplate({ scope, dir, utils })
 
   utils.sortPackageJson(dir)
-  utils.printFinalMessage(scope)
+
+  console.log()
+  utils.logger.success('The project has been scaffolded')
+  console.log()
+
+  const { packageManager } = await utils.prompts([
+    {
+      type: 'select',
+      name: 'packageManager',
+      message:
+        'Install project dependencies? (recommended)',
+      choices: () => (
+        utils.runningPackageManager
+          ? [
+            { title: `Yes, use ${utils.runningPackageManager}`, value: utils.runningPackageManager },
+            { title: 'No, I will handle that myself', value: false }
+          ]
+          : [
+            { title: 'Yes, use Yarn (recommended)', value: 'yarn' },
+            { title: 'Yes, use NPM', value: 'npm' },
+            { title: 'No, I will handle that myself', value: false }
+          ]
+      )
+    }
+  ], {
+    onCancel: () => {
+      utils.printFinalMessage({ scope, dir, packageManager: false })
+      process.exit(0)
+    }
+  })
+
+  if (packageManager !== false) {
+    try {
+      await utils.installDeps(dir, packageManager)
+    }
+    catch {
+      utils.logger.warn('Could not auto install dependencies. Probably a temporary npm registry issue?')
+      utils.printFinalMessage({ scope, dir, packageManager: false })
+      process.exit(0)
+    }
+
+    if (scope.lint) {
+      try {
+        await utils.lintFolder(dir, packageManager)
+      }
+      catch {
+        utils.logger.warn('Could not auto lint fix the project folder.')
+      }
+    }
+  }
+
+  utils.printFinalMessage({ scope, dir, packageManager })
 }
 
 run()

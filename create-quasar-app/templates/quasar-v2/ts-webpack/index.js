@@ -1,10 +1,10 @@
 
 module.exports = async function ({
-  answers,
+  scope,
   dir,
   utils
 }) {
-  const moreAnswers = await utils.prompts([
+  const answers = await utils.prompts([
     {
       type: 'select',
       name: 'typescriptConfig',
@@ -51,7 +51,8 @@ module.exports = async function ({
     }
   ])
 
-  const scope = { ...answers, ...moreAnswers }
+  console.log()
+  Object.assign(scope, answers)
 
   utils.createTargetDir(dir, scope)
   utils.renderTemplate(utils.join(__dirname, 'BASE'), dir, scope)

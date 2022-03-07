@@ -6,18 +6,22 @@ const { join, resolve } = require('path')
 const compileTemplate = require('lodash.template')
 const fglob = require('fast-glob')
 const exec = require('child_process').execSync
+const spawn = require('child_process').spawn
+const { yellow, green } = require('kolorist')
 
 const logger = require('./logger')
 
 module.exports.join = join
 module.exports.logger = logger
 
-module.exports.prompts = function (questions) {
-  return prompts(questions, {
+module.exports.prompts = function (questions, opts) {
+  const options = opts || {
     onCancel: () => {
       logger.fatal('Scaffolding cancelled')
     }
-  })
+  }
+
+  return prompts(questions, options)
 }
 
 module.exports.getGitUser = function () {
@@ -51,14 +55,12 @@ module.exports.convertArrayToObject = function (arr) {
   return acc
 }
 
-module.exports.packageManager = (() => {
+module.exports.runningPackageManager = (() => {
   const userAgent = process.env.npm_config_user_agent
 
-  if (!userAgent) {
-    return 'npm'
+  if (userAgent) {
+    return userAgent.split(' ')[0].split('/')[0]
   }
-
-  return userAgent.split(' ')[0].split('/')[0]
 })()
 
 module.exports.renderTemplate = function (templateDir, dir, scope) {
@@ -78,7 +80,8 @@ module.exports.renderTemplate = function (templateDir, dir, scope) {
 
     ensureFileSync(targetPath)
 
-    console.log(rawPath)
+    console.log(` ${green('-')} ${targetRelativePath}`)
+
     const rawContent = readFileSync(sourcePath, 'utf-8')
     const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
 
@@ -141,31 +144,70 @@ module.exports.sortPackageJson = function (dir) {
  *
  * @param {Object} scope Data from questionnaire.
  */
-module.exports.printFinalMessage = function (scope) {
-  logger.log()
-  logger.success('The project has been scaffolded')
-
+module.exports.printFinalMessage = function ({ scope, dir, packageManager }) {
   const message = `
 To get started:
-
-  cd ${scope.projectFolder}
-  yarn #or npm install
-  yarn lint --fix # or npm run lint -- --fix
-  quasar dev
-
+${yellow(`
+  cd ${dir}${ packageManager === false ? `
+  yarn #or: npm install
+  yarn lint --fix # or: npm run lint -- --fix` : '' }
+  quasar dev # or: yarn quasar dev # or: npx quasar dev
+`)}
 Documentation can be found at: https://${scope.quasarVersion}.quasar.dev
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
 read our manifest on "Why donations are important": https://${scope.quasarVersion}.quasar.dev/why-donate
 Donation campaign: https://${scope.quasarVersion}.donate.quasar.dev
 Any amount is very welcomed.
-If invoices are required, please first contact razvan@quasar.dev
+If invoices are required, please first contact Razvan Stoenescu.
 
 Please give us a star on Github if you appreciate our work:
-https://github.com/quasarframework/quasar
+  https://github.com/quasarframework/quasar
 
 Enjoy! - Quasar Team
 `
 
   console.log(message)
+}
+
+function runCommand (cmd, args, options) {
+  console.log()
+  return new Promise((resolve, reject) => {
+    const runner = spawn(
+      cmd,
+      args,
+      Object.assign({
+        cwd: process.cwd(),
+        stdio: 'inherit',
+        shell: true,
+      }, options)
+    )
+
+    runner.on('exit', code => {
+      console.log()
+
+      if (code) {
+        console.log(` ${cmd} FAILED...`)
+        console.log()
+        reject()
+      }
+      else {
+        resolve()
+      }
+    })
+  })
+}
+
+module.exports.installDeps = function (dir, packageManager) {
+  return runCommand(packageManager, [ 'install' ], { cwd: dir })
+}
+
+module.exports.lintFolder = function (dir, packageManager) {
+  return runCommand(
+    packageManager,
+    packageManager === 'npm'
+      ? ['run', 'lint', '--', '--fix']
+      : ['run', 'lint', '--fix'],
+    { cwd: dir }
+  )
 }
