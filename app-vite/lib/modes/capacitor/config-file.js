@@ -96,10 +96,10 @@ class CapacitorConfigFile {
   #getCapJsonPath (quasarConf) {
     let jsonPath
 
-    if (quasarConf.ctx.platformName === 'android') {
+    if (quasarConf.ctx.targetName === 'android') {
       jsonPath = './android/app/src/main/assets/capacitor.config.json'
     }
-    else if (quasarConf.ctx.platformName === 'ios') {
+    else if (quasarConf.ctx.targetName === 'ios') {
       jsonPath = './ios/App/App/capacitor.config.json'
     }
     else {
