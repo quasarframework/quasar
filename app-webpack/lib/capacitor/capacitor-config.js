@@ -90,10 +90,10 @@ class CapacitorConfig {
   __getCapJsonPath (cfg) {
     let jsonPath
 
-    if (cfg.ctx.platformName === 'android') {
+    if (cfg.ctx.targetName === 'android') {
       jsonPath = './android/app/src/main/assets/capacitor.config.json'
     }
-    else if (cfg.ctx.platformName === 'ios') {
+    else if (cfg.ctx.targetName === 'ios') {
       jsonPath = './ios/App/App/capacitor.config.json'
     }
     else {
