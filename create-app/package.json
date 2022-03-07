@@ -1,6 +1,6 @@
 {
-  "name": "create-quasar-app",
-  "version": "1.0.0",
+  "name": "@quasar/app",
+  "version": "4.0.0",
   "description": "Scaffolds Quasar apps for Quasar CLI consumption",
   "author": {
     "name": "Razvan Stoenescu",
@@ -33,5 +33,8 @@
     "lodash.template": "^4.5.0",
     "minimist": "^1.2.5",
     "prompts": "^2.4.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
