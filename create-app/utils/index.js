@@ -1,13 +1,13 @@
 
-const prompts = require('prompts')
-const { readFileSync, writeFileSync } = require('fs')
+const { readFileSync, writeFileSync, existsSync } = require('fs')
+const { sep, normalize, join, resolve, extname } = require('path')
 const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
-const { join, resolve, extname } = require('path')
+const prompts = require('prompts')
 const compileTemplate = require('lodash.template')
 const fglob = require('fast-glob')
+const { yellow, green } = require('kolorist')
 const exec = require('child_process').execSync
 const spawn = require('child_process').spawn
-const { yellow, green } = require('kolorist')
 
 const logger = require('./logger')
 
@@ -221,4 +221,19 @@ module.exports.lintFolder = function (dir, packageManager) {
       : ['run', 'lint', '--fix'],
     { cwd: dir }
   )
+}
+
+module.exports.ensureOutsideProject = function () {
+  let dir = process.cwd()
+
+  while (dir.length && dir[dir.length - 1] !== sep) {
+    if (
+      existsSync(join(dir, 'quasar.conf.js')) ||
+      existsSync(join(dir, 'quasar.config.js'))
+    ) {
+      logger.fatal(`Error. This command must NOT be executed inside of a Quasar project folder.`)
+    }
+
+    dir = normalize(join(dir, '..'))
+  }
 }

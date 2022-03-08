@@ -21,6 +21,10 @@ console.log(
 )
 
 const utils = require('./utils')
+
+// should error out if already inside of a Quasar project
+utils.ensureOutsideProject()
+
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     v: 'version',
