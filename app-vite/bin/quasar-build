@@ -93,6 +93,13 @@ if (argv.help) {
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
+console.log(
+  require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/logo.art'),
+    'utf8'
+  )
+)
+
 const banner = require('../lib/helpers/banner-global')
 banner(argv, 'build')
 

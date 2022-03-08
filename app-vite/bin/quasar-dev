@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const { log, warn, fatal } = require('../lib/helpers/logger')
+const { log, fatal } = require('../lib/helpers/logger')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -80,8 +80,12 @@ if (argv.help) {
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'dev')
 
-const banner = require('../lib/helpers/banner-global')
-banner(argv, 'dev')
+console.log(
+  require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/logo.art'),
+    'utf8'
+  )
+)
 
 function startVueDevtools () {
   const { spawn, spawnSync } = require('../lib/helpers/spawn')
