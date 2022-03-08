@@ -1,11 +1,11 @@
 export default {
-  isoName: 'es',
-  nativeName: 'Español',
+  isoName: 'eu',
+  nativeName: 'Euskara',
   label: {
-    clear: 'Borrar',
+    clear: 'Ezabatu',
     ok: 'OK',
-    cancel: 'Cancelar',
-    close: 'Cerrar',
+    cancel: 'Ezeztatu',
+    close: 'Itxi',
     set: 'Ezarri',
     select: 'Hautatu',
     reset: 'Berrezarri',
