@@ -51,7 +51,6 @@ module.exports = async function ({
     }
   ])
 
-  console.log()
   Object.assign(scope, answers)
 
   utils.createTargetDir(dir, scope)

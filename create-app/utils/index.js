@@ -1,8 +1,8 @@
 
 const prompts = require('prompts')
 const { readFileSync, writeFileSync } = require('fs')
-const { emptyDirSync, ensureDirSync, ensureFileSync } = require('fs-extra')
-const { join, resolve } = require('path')
+const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
+const { join, resolve, extname } = require('path')
 const compileTemplate = require('lodash.template')
 const fglob = require('fast-glob')
 const exec = require('child_process').execSync
@@ -10,6 +10,8 @@ const spawn = require('child_process').spawn
 const { yellow, green } = require('kolorist')
 
 const logger = require('./logger')
+
+const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html' ]
 
 module.exports.join = join
 module.exports.logger = logger
@@ -41,6 +43,10 @@ module.exports.getGitUser = function () {
 }
 
 module.exports.createTargetDir = function (dir, scope) {
+  console.log()
+  logger.log('Generating files...')
+  console.log()
+
   const fn = scope.overwrite ? emptyDirSync : ensureDirSync
   fn(
     join(process.cwd(), dir)
@@ -80,12 +86,17 @@ module.exports.renderTemplate = function (templateDir, dir, scope) {
 
     ensureFileSync(targetPath)
 
+    if (TEMPLATING_FILE_EXTENSIONS.includes(extname(targetRelativePath))) {
+      const rawContent = readFileSync(sourcePath, 'utf-8')
+      const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
+
+      writeFileSync(targetPath, template(scope), 'utf-8')
+    }
+    else {
+      copySync(sourcePath, targetPath)
+    }
+
     console.log(` ${green('-')} ${targetRelativePath}`)
-
-    const rawContent = readFileSync(sourcePath, 'utf-8')
-    const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
-
-    writeFileSync(targetPath, template(scope), 'utf-8')
   }
 }
 
