@@ -149,7 +149,7 @@ function getProp (h, prop, propName, level, onlyChildren) {
         h(
           'div',
           { class: 'api-row--indent api-row__value' },
-          h('div', { class: 'api-row__example' }, '' + prop.default)
+          [ h('div', { class: 'api-row__example' }, '' + prop.default) ]
         )
       )
     )
