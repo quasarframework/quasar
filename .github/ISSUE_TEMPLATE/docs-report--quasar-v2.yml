@@ -42,7 +42,8 @@ body:
       label: Flavour
       description: Choose the related Quasar flavour if applicable. _The names between parentheses indicate the package names if applicable._
       options:
-        - Quasar CLI (@quasar/cli | @quasar/app)
+        - Vite-based Quasar CLI (@quasar/cli | @quasar/app-vite)
+        - Webpack-based Quasar CLI (@quasar/cli | @quasar/app-webpack)
         - UMD
         - Vite Plugin (@quasar/vite-plugin)
         - Vue CLI Plugin (vue-cli-plugin-quasar)
@@ -53,7 +54,7 @@ body:
       description: Mark the areas in which you see the problem on. _The names between parentheses indicate the package names if applicable._
       multiple: true
       options:
-        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app)
+        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app-webpack | @quasar/app-vite)
 
         - Components (quasar)
         - Directives (quasar)
