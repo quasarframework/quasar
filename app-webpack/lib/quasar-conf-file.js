@@ -530,7 +530,7 @@ class QuasarConfFile {
 
     appFilesValidations(cfg)
 
-    // do we got vuex?
+    // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
     cfg.store = (
       fs.existsSync(storePath) ||

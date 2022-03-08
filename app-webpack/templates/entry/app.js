@@ -70,7 +70,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
     ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
     : createStore
 
-  // obtain Vuex injection key in case we use TypeScript
+  // obtain Vuex injection key in case we use TypeScript, not used for Pinia
   const { storeKey } = await import('app/<%= sourceFiles.store %>');
   <% } %>
   const router = typeof createRouter === 'function'
