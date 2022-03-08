@@ -17,7 +17,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'PageIndex',
   components: { ExampleComponent },
-  setup() {
+  setup () {
     const todos = ref<Todo[]>([
       {
         id: 1,
@@ -52,7 +52,7 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'PageIndex',
   components: { ExampleComponent },
-  data() {
+  data () {
     const todos: Todo[] = [
       {
         id: 1,

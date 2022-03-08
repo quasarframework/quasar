@@ -57,7 +57,7 @@ export default defineComponent({
       type: Boolean
     }
   },
-  setup(props) {
+  setup (props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
   },
 });<% } else if (typescriptConfig === 'options') { %>import { defineComponent, PropType } from 'vue';
@@ -88,12 +88,12 @@ export default defineComponent({
     };
   },
   methods: {
-    increment(): void {
+    increment (): void {
       this.clickCount += 1;
     }
   },
   computed: {
-    todoCount(): number {
+    todoCount (): number {
       return this.todos.length;
     }
   }

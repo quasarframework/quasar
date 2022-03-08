@@ -6,7 +6,8 @@ import {
   createWebHistory,
 } from 'vue-router';
 <% if (preset.vuex) { %>import { StateInterface } from '../store';
-<% } %>import routes from './routes';
+<% } %>
+import routes from './routes';
 
 /*
  * If not building with SSR mode, you can

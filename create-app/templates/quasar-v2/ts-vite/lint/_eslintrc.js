@@ -10,19 +10,14 @@ module.exports = {
   // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
-    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser#configuration
-    // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
-    // Needed to make the parser take into account 'vue' files
-    extraFileExtensions: ['.vue'],
-    parser: '@typescript-eslint/parser',
-    project: resolve(__dirname, './tsconfig.json'),
-    tsconfigRootDir: __dirname,
-    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-    sourceType: 'module' // Allows for the use of imports
+    parser: require.resolve('@typescript-eslint/parser'),
+    extraFileExtensions: [ '.vue' ]
   },
 
   env: {
-    browser: true
+    browser: true,
+    es2021: true,
+    node: true
   },
 
   // Rules order is important, please avoid shuffling them
@@ -33,8 +28,6 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin#usage
     // ESLint typescript rules
     'plugin:@typescript-eslint/recommended',
-    // consider disabling this class of rules if linting takes too long
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
     // Uncomment any of the lines below to choose desired strictness,
     // but leave only one uncommented!
@@ -52,7 +45,7 @@ module.exports = {
 
     // https://eslint.vuejs.org/user-guide/#why-doesn-t-it-work-on-vue-files
     // required to lint *.vue files
-    'vue',
+    'vue'
     <% if (lintConfig === 'prettier') { %>
     // https://github.com/typescript-eslint/typescript-eslint/issues/389#issuecomment-509292674
     // Prettier has not been included as plugin to avoid performance impact
@@ -85,13 +78,16 @@ module.exports = {
     'multiline-ternary': 'off',
 
     'import/first': 'off',
-    'import/named': 'error',
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
+
+    // The core 'import/named' rules
+    // does not work with type definitions
+    'import/named': 'off',
     <% } else if (lintConfig === 'airbnb') { %>
     'no-param-reassign': 'off',
     'no-void': 'off',
@@ -110,9 +106,17 @@ module.exports = {
     <% } %>
     'prefer-promise-reject-errors': 'off',
 
-    // TypeScript
     quotes: ['warn', 'single', { avoidEscape: true }],
+
+    // this rule, if on, would require explicit return type on the `render` function
     '@typescript-eslint/explicit-function-return-type': 'off',
+
+    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
+    '@typescript-eslint/no-var-requires': 'off',
+
+    // The core 'no-unused-vars' rules (in the eslint:recommeded ruleset)
+    // does not work with type definitions
+    'no-unused-vars': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

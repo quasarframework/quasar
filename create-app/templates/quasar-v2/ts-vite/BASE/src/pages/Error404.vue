@@ -23,16 +23,15 @@
 </template>
 
 <script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue'
+<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Error404'
-})<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue'
+});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'Error404'
-})<% } else if (typescriptConfig === 'class') { %>
-import { Vue } from 'vue-class-component'
+});<% } else if (typescriptConfig === 'class') { %>import { Vue } from 'vue-class-component';
 
 export default class Error404 extends Vue {}<% } %>
 </script>

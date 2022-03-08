@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Scaffolds Quasar apps for Quasar CLI consumption",
   "author": {
     "name": "Razvan Stoenescu",

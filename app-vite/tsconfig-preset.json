@@ -12,7 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es6",
+    "target": "esnext",
     // Quasar-defined webpack aliases
     "paths": {
       "src/*": ["src/*"],
@@ -23,6 +23,11 @@
       "assets/*": ["src/assets/*"],
       "boot/*": ["src/boot/*"]
     },
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "types": ["vite/client", "node"]
   },
   // Needed to avoid files copied into 'dist' folder (eg. a `.d.ts` file inside `src-ssr` folder)
   // to be evaluated by TS when their original files has been updated
