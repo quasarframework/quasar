@@ -23,7 +23,7 @@ module.exports = async function ({
       choices: [
         { title: 'ESLint', value: 'lint', description: 'recommended', selected: true },
         { title: 'State Management (Pinia)', value: 'pinia', description: 'https://pinia.vuejs.org' },
-        { title: 'State Management (Vuex) [DEPRECATED; see https://vuejs.org/guide/scaling-up/state-management.html#pinia]', value: 'vuex', disabled: true },
+        { title: 'State Management (Vuex) [DEPRECATED; see https://vuejs.org/guide/scaling-up/state-management.html#pinia]', value: 'vuex' },
         { title: 'Axios', value: 'axios' },
         { title: 'Vue-i18n', value: 'i18n' }
       ],
@@ -49,7 +49,8 @@ module.exports = async function ({
 
   if (scope.preset.axios) utils.renderTemplate(utils.join(__dirname, 'axios'), dir, scope)
   if (scope.preset.i18n) utils.renderTemplate(utils.join(__dirname, 'i18n'), dir, scope)
-  if (scope.preset.pinia) utils.renderTemplate(utils.join(__dirname, 'pinia'), dir, scope)
-  if (scope.preset.vuex) utils.renderTemplate(utils.join(__dirname, 'vuex'), dir, scope)
   if (scope.preset.lint) utils.renderTemplate(utils.join(__dirname, 'lint'), dir, scope)
+
+  if (scope.preset.pinia) utils.renderTemplate(utils.join(__dirname, 'pinia'), dir, scope)
+  else if (scope.preset.vuex) utils.renderTemplate(utils.join(__dirname, 'vuex'), dir, scope)
 }

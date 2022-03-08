@@ -27,18 +27,18 @@
 import { defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  name: 'Error404',
+  name: 'ErrorNotFound',
 });
 <% } else if (typescriptConfig === 'class') { %>
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component
-export default class Error404 extends Vue {}
+export default class ErrorNotFound extends Vue {}
 <% } else if (typescriptConfig === 'options') { %>
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'Error404'
+  name: 'ErrorNotFound'
 });
 <% } %>
 </script>

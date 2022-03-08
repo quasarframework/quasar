@@ -1,4 +1,4 @@
-/* eslint-env node */
+/* eslint-disable */
 
 module.exports = api => {
   return {
