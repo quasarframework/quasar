@@ -138,11 +138,9 @@ function createFile (asset, file) {
   fse.mkdirp(path.dirname(file))
   let templatePath = path.join('templates/app', format)
 
-  if (type === 'store') {
-    templatePath = path.join(templatePath, 'store', storeProvider)
-  } else {
-    templatePath = path.join(templatePath, type + (asset.ext || ''))
-  }
+  templatePath = type === 'store'
+    ? path.join(templatePath, 'store', storeProvider)
+    : path.join(templatePath, type + (asset.ext || ''))
 
   fse.copy(
     appPaths.resolve.cli(templatePath),
