@@ -3,29 +3,23 @@ const path = require('path')
 const { merge } = require('webpack-merge')
 const semver = require('semver')
 
-const appPaths = require('../app-paths')
 const { warn, fatal } = require('../helpers/logger')
 const getPackageJson = require('../helpers/get-package-json')
 const getCallerPath = require('../helpers/get-caller-path')
 const extensionJson = require('./extension-json')
+const BaseAPI = require('./BaseAPI')
 
 /**
  * API for extension's /install.js script
  */
-module.exports = class InstallAPI {
-  constructor ({ extId, prompts }) {
-    this.extId = extId
-    this.prompts = prompts
-    this.resolve = appPaths.resolve
-    this.appDir = appPaths.appDir
-
-    this.__needsNodeModulesUpdate = false
-    this.__hooks = {
-      renderFolders: [],
-      renderFiles: [],
-      exitLog: []
-    }
+module.exports = class InstallAPI extends BaseAPI {
+  __hooks = {
+    renderFolders: [],
+    renderFiles: [],
+    exitLog: []
   }
+
+  __needsNodeModulesUpdate = false
 
   /**
    * Get the internal persistent config of this extension.
@@ -174,7 +168,7 @@ module.exports = class InstallAPI {
       return
     }
 
-    const filePath = appPaths.resolve.app('package.json')
+    const filePath = this.resolve.app('package.json')
     const pkg = merge({}, require(filePath), extPkg)
 
     fs.writeFileSync(
@@ -203,7 +197,7 @@ module.exports = class InstallAPI {
    */
   extendJsonFile (file, newData) {
     if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
-      const filePath = appPaths.resolve.app(file)
+      const filePath = this.resolve.app(file)
 
       // Try to parse the JSON with Node native tools.
       // It will soft-fail and log a warning if the JSON isn't parseable
@@ -214,7 +208,7 @@ module.exports = class InstallAPI {
         const data = merge({}, fs.existsSync(filePath) ? require(filePath) : {}, newData)
 
         fs.writeFileSync(
-          appPaths.resolve.app(file),
+          this.resolve.app(file),
           JSON.stringify(data, null, 2),
           'utf-8'
         )
@@ -269,7 +263,7 @@ module.exports = class InstallAPI {
   renderFile (relativeSourcePath, relativeTargetPath, scope) {
     const dir = getCallerPath()
     const sourcePath = path.resolve(dir, relativeSourcePath)
-    const targetPath = appPaths.resolve.app(relativeTargetPath)
+    const targetPath = this.resolve.app(relativeTargetPath)
     const rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(sourcePath)) {
@@ -299,13 +293,5 @@ module.exports = class InstallAPI {
    */
   onExitLog (msg) {
     this.__hooks.exitLog.push(msg)
-  }
-
-  /**
-   * Private methods
-   */
-
-  __getHooks () {
-    return this.__hooks
   }
 }

@@ -1,23 +1,16 @@
 const { removeSync } = require('fs-extra')
 const semver = require('semver')
 
-const appPaths = require('../app-paths')
 const extensionJson = require('./extension-json')
 const getPackageJson = require('../helpers/get-package-json')
+const BaseAPI = require('./BaseAPI')
 
 /**
  * API for extension's /uninstall.js script
  */
-module.exports = class UninstallAPI {
-  constructor ({ extId, prompts }) {
-    this.extId = extId
-    this.prompts = prompts
-    this.resolve = appPaths.resolve
-    this.appDir = appPaths.appDir
-
-    this.__hooks = {
-      exitLog: []
-    }
+module.exports = class UninstallAPI extends BaseAPI {
+  __hooks = {
+    exitLog: []
   }
 
   /**
@@ -89,7 +82,7 @@ module.exports = class UninstallAPI {
    * @param {string} __path
    */
   removePath (__path) {
-    removeSync(appPaths.resolve.app(__path))
+    removeSync(this.resolve.app(__path))
   }
 
   /**
@@ -99,13 +92,5 @@ module.exports = class UninstallAPI {
    */
   onExitLog (msg) {
     this.__hooks.exitLog.push(msg)
-  }
-
-  /**
-   * Private methods
-   */
-
-  __getHooks () {
-    return this.__hooks
   }
 }

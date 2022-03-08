@@ -1,4 +1,6 @@
-const fs = require('fs')
+
+const { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } = require('fs')
+const { removeSync, copySync } = require('fs-extra')
 const path = require('path')
 const compileTemplate = require('lodash.template')
 
@@ -6,8 +8,12 @@ const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
 class EntryFilesGenerator {
+  #files
+  #folders
+
   constructor (ctx) {
-    const paths = [
+    const folderPaths = []
+    const filePaths = [
       'app.js',
       'client-entry.js',
       'client-prefetch.js',
@@ -15,19 +21,20 @@ class EntryFilesGenerator {
     ]
 
     if (ctx.mode.ssr) {
-      paths.push(
+      filePaths.push(
         'server-entry.js',
         'ssr-pwa.js',
-        'ssr-middlewares.js'
+        'ssr-middlewares.js',
+        `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )
-
-      if (ctx.prod) {
-        paths.push('ssr-prod-webserver.js')
-      }
     }
 
-    this.files = paths.map(file => {
-      const content = fs.readFileSync(
+    if (ctx.mode.bex) {
+      folderPaths.push('bex')
+    }
+
+    this.#files = filePaths.map(file => {
+      const content = readFileSync(
         appPaths.resolve.cli(`templates/entry/${file}`),
         'utf-8'
       )
@@ -40,21 +47,29 @@ class EntryFilesGenerator {
         template: compileTemplate(content)
       }
     })
+
+    this.#folders = folderPaths.map(folder => ({
+      src: appPaths.resolve.cli(`templates/entry/${folder}`),
+      dest: path.join(quasarFolder, folder)
+    }))
   }
 
   generate (quasarConf) {
     // ensure .quasar folder
-    if (!fs.existsSync(quasarFolder)) {
-      fs.mkdirSync(quasarFolder)
+    if (!existsSync(quasarFolder)) {
+      mkdirSync(quasarFolder)
     }
-    else if (!fs.lstatSync(quasarFolder).isDirectory()) {
-      const { removeSync } = require('fs-extra')
+    else if (!lstatSync(quasarFolder).isDirectory()) {
       removeSync(quasarFolder)
-      fs.mkdirSync(quasarFolder)
+      mkdirSync(quasarFolder)
     }
 
-    this.files.forEach(file => {
-      fs.writeFileSync(file.dest, file.template(quasarConf), 'utf-8')
+    this.#files.forEach(file => {
+      writeFileSync(file.dest, file.template(quasarConf), 'utf-8')
+    })
+
+    this.#folders.forEach(folder => {
+      copySync(folder.src, folder.dest)
     })
   }
 }

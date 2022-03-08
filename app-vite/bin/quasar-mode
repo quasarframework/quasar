@@ -43,7 +43,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const { green, grey } = require('chalk')
+const { green, gray } = require('kolorist')
 
 async function run () {
   let [ action, mode ] = argv._
@@ -91,7 +91,7 @@ function displayModes () {
     const { isInstalled } = require(`../lib/modes/${mode}/${mode}-installation`)
     info.push([
       `Mode ${mode.toUpperCase()}`,
-      isInstalled() ? green('yes') : grey('no')
+      isInstalled() ? green('yes') : gray('no')
     ])
   })
 

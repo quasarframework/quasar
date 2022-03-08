@@ -1,36 +1,50 @@
-const path = require('path')
-const appPaths = require('../../app-paths')
 
-const createViteConfig = require('../../create-vite-config')
-const parseEnv = require('../../parse-env')
+const { join } = require('path')
+const { readFileSync, writeFileSync } = require('fs')
+
+const {
+  createViteConfig, extendViteConfig,
+  createBrowserEsbuildConfig, extendEsbuildConfig
+} = require('../../config-tools')
+
+const appPaths = require('../../app-paths')
+const contentScriptTemplate = readFileSync(
+  appPaths.resolve.cli('templates/bex/entry-content-script.js'),
+  'utf-8'
+)
+
+function createScript (quasarConf, scriptName, entry) {
+  const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: `bex-${ scriptName }` })
+
+  cfg.entryPoints = [
+    entry || appPaths.resolve.app(`.quasar/bex/entry-${ scriptName }.js`)
+  ]
+
+  cfg.outfile = join(quasarConf.build.distDir, `${ scriptName }.js`)
+
+  return extendEsbuildConfig(cfg, quasarConf.bex, 'BexScripts')
+}
 
 module.exports = {
   vite: quasarConf => {
     const cfg = createViteConfig(quasarConf)
-    const rootPath = quasarConf.ctx.dev ? appPaths.bexDir : quasarConf.build.distDir
 
-    cfg.outDir = path.join(rootPath, 'www')
+    cfg.build.outDir = join(quasarConf.build.distDir, 'www')
 
-    return cfg
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  main: quasarConf => {
-    const outdir = path.join(
-      quasarConf.ctx.dev ? appPaths.bexDir : quasarConf.build.distDir,
-      'www'
+  backgroundScript: quasarConf => createScript(quasarConf, 'background'),
+  contentScript: (quasarConf, name) => {
+    const entry = appPaths.resolve.app(`.quasar/bex/entry-content-script-${name}.js`)
+
+    writeFileSync(
+      entry,
+      contentScriptTemplate.replace('__NAME__', name),
+      'utf-8'
     )
 
-    return {
-      entryPoints: [
-        appPaths.resolve.app('.quasar/bex/background/background.js'),
-        appPaths.resolve.app('.quasar/bex/content/content-script.js'),
-        appPaths.resolve.app('.quasar/bex/content/dom-script.js')
-      ],
-      outdir,
-      bundle: true,
-      sourcemap: quasarConf.metaConf.debugging ? 'inline' : false,
-      // minify: false,
-      define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
-    }
-  }
+    return createScript(quasarConf, name, entry)
+  },
+  domScript: quasarConf => createScript(quasarConf, 'dom')
 }

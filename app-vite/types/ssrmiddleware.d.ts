@@ -1,4 +1,4 @@
-import { Express, Request, RequestHandler, Response, Handler, NextFunction } from "express";
+import { Express, Request, RequestHandler, Response, NextFunction, Server } from "express";
 import { ServeStaticOptions } from "serve-static";
 
 interface RenderParams {
@@ -82,12 +82,28 @@ interface SsrHandlerParams {
   next: NextFunction;
 }
 
-interface SsrProductionExportParams extends SsrMiddlewareParams {
+interface SsrCreateParams {
   /**
    * Terminal PORT env var or the default configured port
    * for the SSR webserver
    */
   port: number;
+  resolve: SsrMiddlewareResolve;
+  publicPath: string;
+  folders: SsrMiddlewareFolders;
+  /**
+   * Uses Vue and Vue Router to render the requested URL path.
+   * @returns the rendered HTML string to return to the client
+   */
+  render: SsrMiddlewareRender;
+  serve: SsrMiddlewareServe;
+}
+
+export type SsrCreateCallback = (
+  params: SsrCreateParams
+) => Express | any;
+
+interface SsrListenParams extends SsrCreateParams {
   /**
    * Wait for app to be initialized (run all SSR middlewares)
    * before starting to listen for clients
@@ -98,6 +114,27 @@ interface SsrProductionExportParams extends SsrMiddlewareParams {
   ): Promise<void>;
 }
 
-export type SsrProductionExportCallback = (
-  params: SsrProductionExportParams
-) => any;
+export type SsrListenCallback = (
+  params: SsrCreateParams
+) => Promise<Server>;
+
+interface SsrCloseParams extends SsrListenParams {
+  listenResult: Server;
+}
+
+export type SsrCloseCallback = (
+  params: SsrCloseParams
+) => void;
+
+interface SsrServeStaticContent {
+  path: string;
+  opts?: ServeStaticOptions<Response>;
+}
+
+export type SsrServeStaticContentCallback = (
+  params: SsrServeStaticContent
+ ) => RequestHandler<Response>;
+
+export type SsrRenderPreloadTagCallback = (
+  file: string
+) => string;

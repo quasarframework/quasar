@@ -20,10 +20,12 @@ class SpaDevServer extends AppDevserver {
       this.#server.close()
     }
 
-    const viteConfig = config.vite(quasarConf)
+    const viteConfig = await config.vite(quasarConf)
 
     this.#server = await createServer(viteConfig)
     await this.#server.listen()
+
+    this.printBanner(quasarConf)
 
     if (urlDiffers === true && quasarConf.metaConf.openBrowser) {
       const { metaConf } = quasarConf

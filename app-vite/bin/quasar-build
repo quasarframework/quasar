@@ -93,7 +93,7 @@ if (argv.help) {
 const ensureArgv = require('../lib/helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
-const banner = require('../lib/helpers/banner')
+const banner = require('../lib/helpers/banner-global')
 banner(argv, 'build')
 
 const { log, fatal } = require('../lib/helpers/logger')
@@ -119,13 +119,7 @@ async function build () {
   const extensionRunner = require('../lib/app-extension/extensions-runner')
   await extensionRunner.registerExtensions(ctx)
 
-  // if (argv.mode === 'ssr') {
-  //   const SSRDirectives = require('../lib/ssr/ssr-directives')
-  //   const directivesBuilder = new SSRDirectives()
-  //   await directivesBuilder.build()
-  // }
-
-  const QuasarConfFile = require('../lib/quasar-conf-file')
+  const QuasarConfFile = require('../lib/quasar-config-file')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
@@ -144,7 +138,7 @@ async function build () {
   const appBuilder = new AppProdBuilder({ argv, quasarConf })
 
   const artifacts = require('../lib/artifacts')
-  let outputFolder = quasarConf.metaConf.packagedDistDir || quasarConf.build.distDir
+  let outputFolder = quasarConf.build.distDir
   artifacts.clean(outputFolder)
 
   const entryFiles = require('../lib/entry-files-generator')(ctx)
@@ -167,7 +161,10 @@ async function build () {
       ? path.join(outputFolder, '..')
       : outputFolder
 
-    banner(argv, 'build', { outputFolder })
+    banner(argv, 'build', {
+      buildOutputFolder: outputFolder,
+      target: quasarConf.build.target
+    })
 
     if (typeof quasarConf.build.afterBuild === 'function') {
       await quasarConf.build.afterBuild({ quasarConf })

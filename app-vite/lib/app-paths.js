@@ -14,11 +14,12 @@ function getAppDir () {
 
   const { fatal } = require('./helpers/logger')
 
-  fatal(`Error. This command must be executed inside a Quasar v1+ project folder.`)
+  fatal(`Error. This command must be executed inside a Quasar project folder.`)
 }
 
 const appDir = getAppDir()
 const cliDir = resolve(__dirname, '..')
+const publicDir = resolve(appDir, 'public')
 const srcDir = resolve(appDir, 'src')
 const pwaDir = resolve(appDir, 'src-pwa')
 const ssrDir = resolve(appDir, 'src-ssr')
@@ -31,6 +32,7 @@ module.exports = {
   cliDir,
   appDir,
   srcDir,
+  publicDir,
   pwaDir,
   ssrDir,
   cordovaDir,
@@ -42,6 +44,7 @@ module.exports = {
     cli: dir => join(cliDir, dir),
     app: dir => join(appDir, dir),
     src: dir => join(srcDir, dir),
+    public: dir => join(publicDir, dir),
     pwa: dir => join(pwaDir, dir),
     ssr: dir => join(ssrDir, dir),
     cordova: dir => join(cordovaDir, dir),

@@ -1,8 +1,10 @@
 
+const { join } = require('path')
+
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
 
-const { log, info, warn, fatal, success } = require('../../helpers/logger')
+const { log, warn, fatal, progress } = require('../../helpers/logger')
 const { spawn } = require('../../helpers/spawn')
 const appPaths = require('../../app-paths')
 const nodePackager = require('../../helpers/node-packager')
@@ -21,15 +23,15 @@ class ElectronBuilder extends AppBuilder {
   }
 
   async #buildFiles () {
-    const viteConfig = config.vite(this.quasarConf)
-    await this.buildWithVite('Renderer', viteConfig)
+    const viteConfig = await config.vite(this.quasarConf)
+    await this.buildWithVite('Electron UI', viteConfig)
 
-    const mainConfig = config.main(this.quasarConf)
-    await this.buildWithEsbuild('Main thread', mainConfig)
+    const mainConfig = await config.main(this.quasarConf)
+    await this.buildWithEsbuild('Electron Main', mainConfig)
     this.#replaceAppUrl(mainConfig.outfile)
 
-    const preloadConfig = config.preload(this.quasarConf)
-    await this.buildWithEsbuild('Preload thread', preloadConfig)
+    const preloadConfig = await config.preload(this.quasarConf)
+    await this.buildWithEsbuild('Electron Preload', preloadConfig)
     this.#replaceAppUrl(preloadConfig.outfile)
   }
 
@@ -55,11 +57,11 @@ class ElectronBuilder extends AppBuilder {
 
     pkg.main = './electron-main.js'
 
-    if (this.quasarConf.electron.extendPackageJson) {
+    if (typeof this.quasarConf.electron.extendPackageJson === 'function') {
       this.quasarConf.electron.extendPackageJson(pkg)
     }
 
-    this.writeFile('package.json', JSON.stringify(pkg))
+    this.writeFile('Unpackaged/package.json', JSON.stringify(pkg))
   }
 
   async #copyElectronFiles () {
@@ -70,12 +72,12 @@ class ElectronBuilder extends AppBuilder {
       'yarn.lock',
     ].map(filename => ({
       from: filename,
-      to: '.'
+      to: './Unpackaged'
     }))
 
     patterns.push({
       from: appPaths.resolve.electron('icons'),
-      to: './icons'
+      to: './Unpackaged/icons'
     })
 
     this.copyFiles(patterns)
@@ -86,7 +88,7 @@ class ElectronBuilder extends AppBuilder {
       spawn(
         nodePackager,
         [ 'install', '--production' ].concat(this.quasarConf.electron.unPackagedInstallParams),
-        { cwd: this.quasarConf.build.distDir },
+        { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
         code => {
           if (code) {
             fatal(`${nodePackager} failed installing dependencies`, 'FAIL')
@@ -101,7 +103,7 @@ class ElectronBuilder extends AppBuilder {
 
         const result = this.quasarConf.electron.beforePackaging({
           appPaths,
-          unpackagedDir: this.quasarConf.build.distDir
+          unpackagedDir: join(this.quasarConf.build.distDir, 'UnPackaged')
         })
 
         if (result && result.then) {
@@ -118,10 +120,7 @@ class ElectronBuilder extends AppBuilder {
       const pkgName = `electron-${bundlerName}`
 
       return new Promise((resolve, reject) => {
-        info(`Bundling app with electron-${bundlerName}...`, 'WAIT')
-        log()
-
-        const startTime = Date.now()
+        const done = progress('Bundling app with ___...', `electron-${bundlerName}`)
 
         const bundlePromise = bundlerName === 'packager'
           ? bundler({
@@ -132,9 +131,8 @@ class ElectronBuilder extends AppBuilder {
 
         bundlePromise
           .then(() => {
-            const diffTime = +new Date() - startTime
             log()
-            success(`${pkgName} built the app • ${diffTime}ms`, 'SUCCESS')
+            done(`${pkgName} built the app`)
             log()
             resolve()
           })

@@ -104,7 +104,7 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 <doc-example title="Simple mask" file="QDate/MaskSimple" overflow />
 
-If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
+If you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
 
 <doc-example title="Mask with escaped characters" file="QDate/MaskEscape" overflow />
 

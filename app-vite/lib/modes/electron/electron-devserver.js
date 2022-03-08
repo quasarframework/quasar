@@ -5,7 +5,6 @@ const appPaths = require('../../app-paths')
 const { log, warn, fatal } = require('../../helpers/logger')
 const { spawn } = require('../../helpers/spawn')
 const getPackage = require('../../helpers/get-package')
-const { tempElectronDir } = require('./utils')
 const config = require('./electron-config')
 
 function wait (time) {
@@ -25,12 +24,17 @@ class ElectronDevServer extends AppDevserver {
     super(opts)
 
     this.registerDiff('electron', quasarConf => [
+      quasarConf.eslint,
       quasarConf.devServer.host,
       quasarConf.devServer.port,
       quasarConf.devServer.https,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
-      quasarConf.electron
+      quasarConf.electron.extendElectronMainConf,
+      quasarConf.electron.extendElectronPreloadConf,
+      quasarConf.electron.inspectPort,
+      quasarConf.sourceFiles.electronMain,
+      quasarConf.sourceFiles.electronPreload
     ])
   }
 
@@ -51,7 +55,7 @@ class ElectronDevServer extends AppDevserver {
       this.#server.close()
     }
 
-    const viteConfig = config.vite(quasarConf)
+    const viteConfig = await config.vite(quasarConf)
 
     this.#server = await createServer(viteConfig)
     await this.#server.listen()
@@ -71,11 +75,11 @@ class ElectronDevServer extends AppDevserver {
     let mainReady = false
     let preloadReady = false
 
-    const cfgMain = config.main(quasarConf)
-    const cfgPreload = config.preload(quasarConf)
+    const cfgMain = await config.main(quasarConf)
+    const cfgPreload = await config.preload(quasarConf)
 
     return Promise.all([
-      this.buildWithEsbuild('Main thread', cfgMain, () => {
+      this.buildWithEsbuild('Electron Main', cfgMain, () => {
         if (preloadReady === true) {
           this.#runElectron(quasarConf)
         }
@@ -84,7 +88,7 @@ class ElectronDevServer extends AppDevserver {
         this.#stopMain = result.stop
       }),
 
-      this.buildWithEsbuild('Preload thread', cfgPreload, () => {
+      this.buildWithEsbuild('Electron Preload', cfgPreload, () => {
         if (mainReady === true) {
           this.#runElectron(quasarConf)
         }
@@ -114,7 +118,7 @@ class ElectronDevServer extends AppDevserver {
       getPackage('electron'),
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        appPaths.resolve.app(`${tempElectronDir}/electron-main.js`)
+        appPaths.resolve.app(`.quasar/electron/electron-main.js`)
       ].concat(this.argv._),
       { cwd: appPaths.appDir },
       code => {

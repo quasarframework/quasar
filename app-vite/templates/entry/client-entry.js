@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -57,7 +58,6 @@ import { addPreFetchHooks } from './client-prefetch.js'
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
-<% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
 <% if (ctx.mode.cordova && ctx.target.ios) { %>
@@ -65,15 +65,11 @@ import '@quasar/fastclick'
 <% } else if (ctx.mode.pwa) { %>
 // Needed only for iOS PWAs
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-  import(/* webpackChunkName: "fastclick"  */ '@quasar/fastclick')
+  import('@quasar/fastclick')
 }
 <% } %>
 
 const publicPath = `<%= build.publicPath %>`
-<% if (build.publicPath.length > 1) { %>
-const doubleSlashRE = /\/\//
-const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
-<% } %>
 
 async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
   <% if (ctx.mode.ssr && store && ssr.manualStoreHydration !== true) { %>
@@ -87,7 +83,7 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
   <% if (bootEntries.length > 0) { %>
   let hasRedirected = false
   const getRedirectUrl = url => {
-    try { return <%= build.publicPath.length <= 1 ? 'router.resolve(url).href' : 'addPublicPath(router.resolve(url).href)' %> }
+    try { return router.resolve(url).href }
     catch (err) {}
 
     return Object(url) === url
@@ -263,7 +259,7 @@ createQuasarApp(<%=
   .then(app => {
     return Promise.all([
       <% bootEntries.forEach((asset, index) => { %>
-      import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+      import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
       <% }) %>
     ]).then(bootFiles => {
       const boot = bootFiles

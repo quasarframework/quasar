@@ -98,9 +98,9 @@ Learn more about what you can do with the [Prompts API](/app-extensions/developm
 Inside the testing Quasar project folder, we manually add our App Extension. Notice that we are not specifying the npm package name (it's not published yet!) but a path to our App Extension folder where we develop it, since we want to test unpublished work:
 
 ```bash
-$ yarn add --dev file://path/to/our/app/ext/root
+$ yarn add --dev file://path/to/our/app/ext/app-extension
 # or
-$ yarn add --dev link://path/to/our/app/ext/root
+$ yarn add --dev link://path/to/our/app/ext/app-extension
 ```
 
 You will need to figure out which command works best for your environment.

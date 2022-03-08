@@ -1,36 +1,30 @@
 
 const { build: viteBuild } = require('vite')
 const { build: esBuild } = require('esbuild')
-const { bold, underline, green } = require('chalk')
 const debounce = require('lodash.debounce')
 
-const { log, info, success } = require('./helpers/logger')
-
-function coloredName (name) {
-  return bold(underline(green(name)))
-}
+const { log, progress } = require('./helpers/logger')
 
 class AppTool {
-  async buildWithVite (name, viteConfig) {
-    const thread = coloredName(name)
-    const startTime = Date.now()
+  argv
 
-    info(`Compiling of "${thread}" with Vite in progress...`, 'WAIT')
-    log()
+  constructor (argv) {
+    this.argv = argv
+  }
+
+  async buildWithVite (threadName, viteConfig) {
+    const done = progress(
+      'Compiling of ___ with Vite in progress...',
+      threadName
+    )
+
     await viteBuild(viteConfig)
     log()
 
-    // error(`"${this.state.name}" compiled with errors • ${diffTime}ms`, 'DONE')
-    // warning(`"${this.state.name}" compiled, but with warnings • ${diffTime}ms`, 'DONE')
-    const diffTime = +new Date() - startTime
-    success(`"${thread}" compiled with success • ${diffTime}ms`, 'DONE')
-    log()
+    done('___ compiled with success')
   }
 
-  async buildWithEsbuild (name, esbuildConfig, onRebuildSuccess) {
-    const thread = coloredName(name)
-    const startTime = Date.now()
-
+  async buildWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
     const cfg = onRebuildSuccess !== void 0
       ? {
         ...esbuildConfig,
@@ -44,13 +38,14 @@ class AppTool {
       }
       : esbuildConfig
 
-    info(`Compiling of "${thread}" with Esbuild in progress...`, 'WAIT')
+    const done = progress(
+      'Compiling of ___ with Esbuild in progress...',
+      threadName
+    )
+
     const result = await esBuild(cfg)
 
-    const diffTime = +new Date() - startTime
-    success(`"${thread}" compiled with success • ${diffTime}ms`, 'DONE')
-    log()
-
+    done('___ compiled with success')
     return result
   }
 }

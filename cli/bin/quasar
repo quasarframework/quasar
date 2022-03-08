@@ -38,6 +38,8 @@ else {
   const localFile = root
     ? (
       getQuasarAppExecutable('@quasar/app/bin/quasar', root) ||
+      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) ||
+      getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) ||
       getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy <1.0
     )
     : void 0
@@ -79,14 +81,14 @@ else {
           process.exit(0)
         }
 
-        const chalk = require('chalk')
+        const { red } = require('kolorist')
 
         require(`./quasar-help`)
 
-        console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+        console.log(`\n ${red(`Error`)} Unknown command "${ cmd }"`)
 
         if (cmd.indexOf('-') === 0) {
-          console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+          console.log(`\n ${red(`Error`)} Command must come before the options`)
         }
 
         console.log()

@@ -1,16 +1,10 @@
 
 const AppTool = require('./app-tool')
-
-function encode (obj) {
-  return JSON.stringify(obj, (_, value) => {
-    return typeof value === 'function'
-      ? `/fn(${value.toString()})`
-      : value
-  })
-}
+const printDevBanner = require('./helpers/print-dev-banner')
+const encodeForDiff = require('./helpers/encode-for-diff')
 
 function getConfSnapshot (extractFn, quasarConf) {
-  return extractFn(quasarConf).map(item => item ? encode(item) : '')
+  return extractFn(quasarConf).map(item => item ? encodeForDiff(item) : '')
 }
 
 class AppDevserver extends AppTool {
@@ -19,12 +13,9 @@ class AppDevserver extends AppTool {
   #runQueue = Promise.resolve()
   #runId = 0
 
-  argv
-
   constructor ({ argv, entryFiles }) {
-    super()
+    super(argv)
 
-    this.argv = argv
     this.#entryFiles = entryFiles
 
     this.registerDiff('entryFiles', quasarConf => ([
@@ -32,7 +23,11 @@ class AppDevserver extends AppTool {
       quasarConf.css,
       quasarConf.extras,
       quasarConf.animations,
-      quasarConf.framework
+      quasarConf.framework,
+      quasarConf.sourceFiles,
+      quasarConf.ssr.middlewares,
+      quasarConf.ssr.manualStoreHydration,
+      quasarConf.ssr.manualPostHydrationTrigger
     ]))
 
     this.registerDiff('viteUrl', quasarConf => ([
@@ -42,10 +37,11 @@ class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('vite', quasarConf => ([
-      quasarConf.sourceFiles,
+      quasarConf.eslint,
       quasarConf.htmlVariables,
       quasarConf.devServer,
-      quasarConf.build
+      quasarConf.build,
+      quasarConf.sourceFiles
     ]))
   }
 
@@ -88,6 +84,11 @@ class AppDevserver extends AppTool {
   }
 
   #diff (name, quasarConf) {
+    if (Array.isArray(name) === true) {
+      const list = name.map(entry => this.#diff(entry, quasarConf))
+      return list.some(entry => entry === true)
+    }
+
     const target = this.#diffList[name]
     const { snapshot, extractFn } = target
 
@@ -101,11 +102,21 @@ class AppDevserver extends AppTool {
     const len = newSnapshot.length
     for (let i = 0; i < len; i++) {
       if (newSnapshot[i] !== snapshot[i]) {
+        // Leave here for debugging when needed
+        // console.log(name, 'at index', i)
+        // console.log('NEW >>>', newSnapshot[i])
+        // console.log('OLD >>>', snapshot[i])
+        // console.log('---')
+
         return true
       }
     }
 
     return false
+  }
+
+  printBanner (quasarConf) {
+    printDevBanner(quasarConf)
   }
 }
 

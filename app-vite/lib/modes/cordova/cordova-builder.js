@@ -1,5 +1,6 @@
 
 const fse = require('fs-extra')
+const { join } = require('path')
 
 const AppBuilder = require('../../app-builder')
 const config = require('./cordova-config')
@@ -20,8 +21,26 @@ class CapacitorBuilder extends AppBuilder {
   }
 
   async #buildFiles () {
-    const viteConfig = config.vite(this.quasarConf)
+    const viteConfig = await config.vite(this.quasarConf)
     await this.buildWithVite('Cordova UI', viteConfig)
+
+    /**
+     * We inject the cordova.js external script after build
+     * so Vite won't warn about not being able to bundle script tag
+     * (it shouldn't bundle it anyway in this case)
+     *
+     * Vite's warning would be:
+     * <script src="cordova.js"> in "/index.html" can't be bundled without type="module" attribute
+     */
+    if (this.quasarConf.ctx.prod === true) {
+      const indexHtmlFile = join(viteConfig.build.outDir, 'index.html')
+      let html = this.readFile(indexHtmlFile)
+      html = html.replace(
+        /(<head[^>]*)(>)/i,
+        (_, start, end) => `${start}${end}<script src="cordova.js"></script>`
+      )
+      this.writeFile(indexHtmlFile, html)
+    }
   }
 
   async #packageFiles () {
@@ -61,7 +80,7 @@ class CapacitorBuilder extends AppBuilder {
         process.exit(0)
       }
 
-      fse.copySync(buildPath, this.quasarConf.metaConf.packagedDistDir)
+      fse.copySync(buildPath, join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName))
     }
   }
 

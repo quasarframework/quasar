@@ -1,10 +1,11 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  **/
 
 import { EventEmitter } from 'events'
-import { uid } from 'quasar'
+import uid from 'quasar/src/utils/uid'
 
 const
   typeSizes = {

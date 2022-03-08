@@ -8,14 +8,12 @@ const AppTool = require('./app-tool')
 const appPaths = require('./app-paths')
 
 class AppBuilder extends AppTool {
-  argv
   quasarConf
   ctx
 
   constructor ({ argv, quasarConf }) {
-    super()
+    super(argv)
 
-    this.argv = argv
     this.quasarConf = quasarConf
     this.ctx = quasarConf.ctx
   }
@@ -51,13 +49,10 @@ class AppBuilder extends AppTool {
         ? entry.to
         : join(targetFolder, entry.to)
 
-      const files = lstatSync(from).isDirectory() === true
-        ? fglob.sync(['**/*'], { cwd: from }).map(file => join(from, file))
-        : [ from ]
-
-      files.forEach(entry => {
-        copySync(entry, join(to, basename(entry)))
-      })
+      copySync(
+        from,
+        lstatSync(from).isDirectory() === true ? to : join(to, basename(from))
+      )
     })
   }
 

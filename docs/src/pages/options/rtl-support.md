@@ -36,7 +36,7 @@ Then create `/postcss.config.js` file if you don't have it already, and add this
 ``` js
 module.exports = {
   plugins: [
-    require('postcss-rtlcss', {}) // <<<< in "plugins"
+    require('postcss-rtlcss')({ /* opts */ }) // <<<< in "plugins"
   ]
 }
 ```

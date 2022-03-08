@@ -43,6 +43,8 @@ export default function (userOpts = {}) {
           map: null // provide source map if available
         }
       }
+
+      return null
     }
   }
 

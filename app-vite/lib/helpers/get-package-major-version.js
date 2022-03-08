@@ -1,13 +1,16 @@
 const appPaths = require('../app-paths')
+const { version } = require('../../package.json')
 
 function getMajorVersion (version) {
   const matches = version.match(/^(\d)\./)
   return parseInt(matches[1], 10)
 }
 
+const appMajorVersion = getMajorVersion(version)
+
 module.exports = function (pkgName, folder = appPaths.appDir) {
-  if (pkgName === '@quasar/app') {
-    return getMajorVersion(require('../../package.json').version)
+  if (pkgName === '@quasar/app-vite') {
+    return appMajorVersion
   }
 
   try {

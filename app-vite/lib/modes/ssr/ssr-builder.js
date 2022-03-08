@@ -5,7 +5,7 @@ const AppBuilder = require('../../app-builder')
 const config = require('./ssr-config')
 const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')
-const { getIndexHtml } = require('./html-template')
+const { getProdSsrTemplateFn } = require('../../helpers/html-template')
 
 class SsrBuilder extends AppBuilder {
   async build () {
@@ -13,20 +13,23 @@ class SsrBuilder extends AppBuilder {
     await this.#copyWebserverFiles()
     await this.#writePackageJson()
 
-    const viteClientConfig = config.viteClient(this.quasarConf)
-    await this.buildWithVite('Client', viteClientConfig)
+    const viteClientConfig = await config.viteClient(this.quasarConf)
+    await this.buildWithVite('SSR Client', viteClientConfig)
 
-    this.moveFile('client/ssr-manifest.json', 'ssr-manifest.json')
+    this.moveFile(
+      viteClientConfig.build.outDir + '/ssr-manifest.json',
+      'quasar.manifest.json'
+    )
 
-    await this.#writeHtmlTemplate()
+    await this.#writeRenderTemplate(viteClientConfig.build.outDir)
 
-    const viteServerConfig = config.viteServer(this.quasarConf)
-    await this.buildWithVite('Server', viteServerConfig)
+    const viteServerConfig = await config.viteServer(this.quasarConf)
+    await this.buildWithVite('SSR Server', viteServerConfig)
   }
 
   async #buildWebserver () {
-    const esbuildConfig = config.webserver(this.quasarConf)
-    await this.buildWithEsbuild('Webserver', esbuildConfig)
+    const esbuildConfig = await config.webserver(this.quasarConf)
+    await this.buildWithEsbuild('SSR Webserver', esbuildConfig)
   }
 
   async #copyWebserverFiles () {
@@ -43,6 +46,7 @@ class SsrBuilder extends AppBuilder {
 
   async #writePackageJson () {
     const appPkg = require(appPaths.resolve.app('package.json'))
+    const { dependencies: cliDeps } = require(appPaths.resolve.cli('package.json'))
 
     if (appPkg.dependencies !== void 0) {
       delete appPkg.dependencies['@quasar/extras']
@@ -60,8 +64,9 @@ class SsrBuilder extends AppBuilder {
         start: 'node index.js'
       },
       dependencies: Object.assign(appDeps, {
-        'compression': '^1.0.0',
-        'express': '^4.0.0'
+        'compression': cliDeps.compression,
+        'express': cliDeps.express,
+        'serialize-javascript': cliDeps['serialize-javascript']
       }),
       engines: appPkg.engines,
       browserslist: appPkg.browserslist,
@@ -75,14 +80,13 @@ class SsrBuilder extends AppBuilder {
     this.writeFile('package.json', JSON.stringify(pkg, null, 2))
   }
 
-  async #writeHtmlTemplate () {
-    const htmlFile = join(this.quasarConf.build.distDir, 'client', this.quasarConf.build.htmlFilename)
-    const renderTemplate = getIndexHtml(this.readFile(htmlFile), this.quasarConf)
+  async #writeRenderTemplate (clientDir) {
+    const htmlFile = join(clientDir, 'index.html')
+    const html = this.readFile(htmlFile)
 
-    this.writeFile('render-template.js', `module.exports=${renderTemplate.source}`)
+    const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
 
-    // remove the original; not needed and in the way
-    // when static serving the client folder
+    this.writeFile('render-template.js', `module.exports=${templateFn.source}`)
     this.removeFile(htmlFile)
   }
 }

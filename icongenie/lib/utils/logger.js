@@ -1,4 +1,4 @@
-const { green, red } = require('chalk')
+const { green, red } = require('kolorist')
 
 const banner = '*'
 
