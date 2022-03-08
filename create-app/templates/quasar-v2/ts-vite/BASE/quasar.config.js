@@ -8,13 +8,12 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
-<% if (preset.lint) { %>/* eslint-disable @typescript-eslint/no-var-requires */
-<% if (lintConfig === 'airbnb') { %>/* eslint func-names: 0 */
+<% if (preset.lint && lintConfig === 'airbnb') { %>/* eslint func-names: 0 */
 /* eslint global-require: 0 */
-<% } %><% } %>
+<% } %>
 const { configure } = require('quasar/wrappers');
 
-module.exports = configure(function (ctx) {
+module.exports = configure(function (/* ctx */) {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,

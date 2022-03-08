@@ -12,7 +12,7 @@
 /* eslint global-require: 0 */<% } %>
 const { configure } = require('quasar/wrappers');
 
-module.exports = configure(function (ctx) {
+module.exports = configure(function (/* ctx */) {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,
