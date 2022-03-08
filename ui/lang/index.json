@@ -116,6 +116,10 @@
     "nativeName": "کوردی سۆرانی"
   },
   {
+    "isoName": "kz",
+    "nativeName": "Қазақша"
+  },
+  {
     "isoName": "lt",
     "nativeName": "Lithuanian"
   },
@@ -165,7 +169,7 @@
   },
   {
     "isoName": "ru",
-    "nativeName": "Русский"
+    "nativeName": "русский"
   },
   {
     "isoName": "sk",

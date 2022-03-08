@@ -132,7 +132,7 @@ function upgradeQuasar () {
       }
 
       const json = getPackageJson(packageName)
-      const curVersion = json !== null
+      const curVersion = json
         ? json.version
         : null
 
@@ -192,12 +192,22 @@ function upgradeQuasar () {
       ? [ 'remove', '@quasar/app' ]
       : [ 'uninstall', '--save--dev', '@quasar/app' ]
 
-    // need to delete tha package otherwise
-    // installing the new version might fail on Windows
-    removeSync(path.join(root, 'node_modules/@quasar/app'))
-
     console.log()
     spawn(packager, params, root)
+
+    // need to delete the package otherwise
+    // installing the new version might fail on Windows;
+    removeSync(path.join(root, 'node_modules/@quasar/app'))
+
+    const tsConfigFile = path.join(root, 'tsconfig.json')
+    if (fs.existsSync(tsConfigFile) === true) {
+      const content = fs.readFileSync(tsConfigFile, 'utf-8')
+      fs.writeFileSync(
+        tsConfigFile,
+        content.replace('"@quasar/app/tsconfig-preset"', '"@quasar/app-webpack/tsconfig-preset"'),
+        'utf-8'
+      )
+    }
   }
 
   for (const type of Object.keys(deps)) {
