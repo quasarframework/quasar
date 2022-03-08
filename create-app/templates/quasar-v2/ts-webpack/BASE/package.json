@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     <% if (preset.lint) { %>
-    "@babel/eslint-parser": "^7.13.14",
+    "vue-tsc": "^0.29.8",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^7.14.0",

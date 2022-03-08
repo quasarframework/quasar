@@ -26,7 +26,11 @@ module.exports = {
     // 'plugin:vue/vue3-strongly-recommended', // Priority B: Strongly Recommended (Improving Readability)
     // 'plugin:vue/vue3-recommended', // Priority C: Recommended (Minimizing Arbitrary Choices and Cognitive Overhead)
 
-    '<%= lintConfig %>'
+    <% if (lintConfig === 'standard') { %>'standard'
+    <% } else if (lintConfig === 'airbnb') { %>'airbnb-base'
+    <% } else if (lintConfig === 'prettier') { %>// https://github.com/prettier/eslint-config-prettier#installation
+    // usage with Prettier, provided by 'eslint-config-prettier'.
+    'prettier'<% } %>
   ],
 
   plugins: [
