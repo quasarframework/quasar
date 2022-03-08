@@ -208,6 +208,16 @@ function upgradeQuasar () {
         'utf-8'
       )
     }
+
+    const quasarDTsFile = path.join(root, 'src/quasar.d.ts')
+    if (fs.existsSync(quasarDTsFile) === true) {
+      const content = fs.readFileSync(quasarDTsFile, 'utf-8')
+      fs.writeFileSync(
+        quasarDTsFile,
+        content.replace('"@quasar/app"', '"@quasar/app-webpack"'),
+        'utf-8'
+      )
+    }
   }
 
   for (const type of Object.keys(deps)) {
