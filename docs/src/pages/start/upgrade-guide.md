@@ -186,7 +186,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-promise": "^5.1.0",
   "eslint-plugin-quasar": "^1.0.0",
   "eslint-plugin-vue": "^7.0.0",
-  "eslint-webpack-plugin": "^2.4.0"
+  "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
 7) If you are using Vuex, you will need to manually install it:
   ```bash
@@ -282,13 +282,9 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 
 ### Vue 3
 
-::: tip
-For Quasar CLI projects, you don't need to manually install/upgrade the `vue` package as "@quasar/app" v3 is already supplying the correct version of Vue for you.
-:::
+Since you will also switch to [Vue 3](https://vuejs.org), it's best that you also take a look at its [migration guide](https://v3-migration.vuejs.org/) **after**  finishing reading this migration guide.
 
-Since you will also switch to [Vue 3](https://vuejs.org), it's best that you also take a look at its [migration guide](https://vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
-
-If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://vuejs.org/guide/composition-api-introduction.html)).
+If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://vuejs.org/api/sfc-spec.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://vuejs.org/guide/introduction.html#api-styles)).
 
 We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition, you can convert all your Vue components to Composition API, but in no way is this a requirement.
 
@@ -315,10 +311,6 @@ export default {
 ```
 
 ### Vue Router v4
-
-::: tip
-For Quasar CLI projects, you don't need to manually install/upgrade the `vue-router` package as "@quasar/app" v3 is already supplying the correct version of Vue Router for you.
-:::
 
 This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
 
@@ -407,7 +399,7 @@ export default function (/* { ssrContext } */) {
 
 This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
 
-Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@next`
+Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n`
 
 ```js
 // default src/boot/i18n.js content:
