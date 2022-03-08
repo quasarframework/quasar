@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const QUASAR_VERSIONS = [
-  { title: 'Quasar v2 (Vue 3)', value: 'v2' },
+  { title: 'Quasar v2 (Vue 3 | latest and greatest)', value: 'v2', description: 'recommended' },
   { title: 'Quasar v1 (Vue 2)', value: 'v1' }
 ]
 const SCRIPT_TYPES = [

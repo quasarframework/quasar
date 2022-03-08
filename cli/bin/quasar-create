@@ -18,20 +18,22 @@ const argv = parseArgs(process.argv.slice(2), {
 if (argv.help) {
   console.log(`
   Description
-    Creates a Quasar App or App Extension project folder
+    Creates a Quasar App or App Extension project folder.
+    For scaffolding a Quasar project please use this instead:
+       yarn create @quasar/app
+       or
+       npm init @quasar/app
 
   Usage
     $ quasar create <project-name> [--kit <kit-name>] [--branch <version-name>]
 
   App Examples
-    $ quasar create my-project
-      # installs an App project with the latest App starter kit
-    $ quasar create my-project --branch v1
-      # installs an App project from a specific older version (only major version)
     $ quasar create my-project --kit user/github-starter-kit
       # installs an App project with a custom starter kit from GitHub
     $ quasar create my-project --kit ./starter-kit-folder
       # installs an App project using a starter kit located at ./starter-kit-folder
+    $ quasar create my-project --branch v0.17
+      # installs an App project from a specific older version (only major version)
 
   App Extension Examples
     $ quasar create my-extension-project --kit app-extension
@@ -60,6 +62,20 @@ console.log(
     'utf8'
   )
 )
+
+if (!argv.kit && (!argv.branch || argv.branch === 'v1')) {
+  console.log(` This command is now reserved only for scaffolding
+ App Extensions, custom starter kits or legacy v0.x projects.
+
+ For scaffolding a Quasar project please use this instead:
+
+   yarn create @quasar/app
+   # or
+   npm init @quasar/app
+  `)
+
+  process.exit(0)
+}
 
 // Following is adapted from Vue CLI v2 "init" command
 
