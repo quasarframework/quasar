@@ -1,11 +1,18 @@
 const fs = require('fs')
 const { normalize, resolve, join, sep } = require('path')
 
+let quasarConfigFilename
+
 function getAppDir () {
   let dir = process.cwd()
 
   while (dir.length && dir[dir.length - 1] !== sep) {
+    if (fs.existsSync(join(dir, 'quasar.config.js'))) {
+      quasarConfigFilename = 'quasar.config.js'
+      return dir
+    }
     if (fs.existsSync(join(dir, 'quasar.conf.js'))) {
+      quasarConfigFilename = 'quasar.conf.js'
       return dir
     }
 
@@ -37,6 +44,7 @@ module.exports = {
   capacitorDir,
   electronDir,
   bexDir,
+  quasarConfigFilename: resolve(appDir, quasarConfigFilename),
 
   resolve: {
     cli: dir => join(cliDir, dir),

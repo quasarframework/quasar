@@ -17,7 +17,6 @@ const urlRegex = /^http(s)?:\/\//i
 const { findClosestOpenPort } = require('../lib/helpers/net')
 const isMinimalTerminal = require('./helpers/is-minimal-terminal')
 
-const quasarConfFilename = appPaths.resolve.app('quasar.config.js')
 const appPkg = require(appPaths.resolve.app('package.json'))
 
 const defaultPortMapping = {
@@ -174,9 +173,9 @@ class QuasarConfFile {
   }
 
   watch (onChange) {
-    // Watch for quasar.config.js changes
+    // Watch for quasar.conf(ig).js changes
     chokidar
-    .watch(quasarConfFilename, { ignoreInitial: true })
+    .watch(appPaths.quasarConfigFilename, { ignoreInitial: true })
     .on('change', debounce(async () => {
       console.log()
       log(`Reading quasar.config.js as it changed`)
@@ -198,18 +197,13 @@ class QuasarConfFile {
   async read () {
     let quasarConfigFunction
 
-    if (existsSync(quasarConfFilename)) {
-      try {
-        delete require.cache[quasarConfFilename]
-        quasarConfigFunction = require(quasarConfFilename)
-      }
-      catch (e) {
-        console.error(e)
-        return { error: 'quasar.config.js has JS errors' }
-      }
+    try {
+      delete require.cache[appPaths.quasarConfigFilename]
+      quasarConfigFunction = require(appPaths.quasarConfigFilename)
     }
-    else {
-      return { error: 'Could not load quasar.config.js config file' }
+    catch (e) {
+      console.error(e)
+      return { error: 'quasar.config.js has JS errors' }
     }
 
     let userCfg
@@ -297,7 +291,7 @@ class QuasarConfFile {
 
     try {
       await extensionRunner.runHook('extendQuasarConf', async hook => {
-        log(`Extension(${hook.api.extId}): Extending quasar.conf...`)
+        log(`Extension(${hook.api.extId}): Extending quasar.config.js...`)
         await hook.fn(rawQuasarConf, hook.api)
       })
     }
@@ -349,7 +343,7 @@ class QuasarConfFile {
 
         // if network error while running
         if (to === null) {
-          return { error: 'Network error encountered while following the quasar.conf host/port config' }
+          return { error: 'Network error encountered while following the quasar.config.js host/port config' }
         }
 
         cfg.devServer = merge({ open: true }, cfg.devServer, to)

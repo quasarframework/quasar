@@ -103,17 +103,17 @@ class QuasarConfFile {
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
-    this.filename = appPaths.resolve.app('quasar.conf.js')
+    this.filename = appPaths.quasarConfigFilename
     this.pkg = require(appPaths.resolve.app('package.json'))
     this.watch = opts.onBuildChange || opts.onAppChange
 
     if (this.watch) {
-      // Start watching for quasar.config.js changes
+      // Start watching for quasar.conf(ig).js changes
       chokidar
       .watch(this.filename, { ignoreInitial: true })
       .on('change', debounce(async () => {
         console.log()
-        log(`quasar.conf.js changed`)
+        log(`quasar.config.js changed`)
 
         const result = await this.reboot()
 
@@ -136,7 +136,7 @@ class QuasarConfFile {
     catch (e) {
       if (e.message !== 'NETWORK_ERROR') {
         console.error(e)
-        warn(`quasar.conf.js has JS errors. Please fix them then save file again.\n`)
+        warn(`quasar.config.js has JS errors. Please fix them then save file again.\n`)
       }
 
       return false
@@ -153,7 +153,7 @@ class QuasarConfFile {
       quasarConfigFunction = require(this.filename)
     }
     else {
-      fatal('Could not load quasar.conf.js config file', 'FAIL')
+      fatal('Could not load quasar.config.js config file', 'FAIL')
     }
 
     const initialConf = await quasarConfigFunction(this.ctx)
@@ -286,7 +286,7 @@ class QuasarConfFile {
     let cfg = this.sourceCfg
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
-      log(`Extension(${hook.api.extId}): Extending quasar.conf...`)
+      log(`Extension(${hook.api.extId}): Extending quasar.config.js...`)
       await hook.fn(cfg, hook.api)
     })
 
@@ -753,7 +753,7 @@ class QuasarConfFile {
 
       if (cfg.pwa.manifest.icons.length === 0) {
         warn()
-        warn(`PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.\n`)
+        warn(`PWA manifest in quasar.config.js > pwa > manifest is missing "icons" prop.\n`)
         process.exit(1)
       }
 

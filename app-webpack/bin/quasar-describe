@@ -400,7 +400,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
     : {}
   const keys = Object.keys(conf)
 
-  console.log('\n ' + chalk.underline('quasar.conf > framework > config'))
+  console.log('\n ' + chalk.underline('quasar.config.js > framework > config'))
 
   if (keys.length === 0) {
     console.log('\n   ' + chalk.italic('*No configuration options*'))

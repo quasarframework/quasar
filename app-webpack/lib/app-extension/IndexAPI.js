@@ -154,7 +154,7 @@ module.exports = class IndexAPI extends BaseAPI {
   }
 
   /**
-   * Extend quasar.conf
+   * Extend quasar.config.js
    *
    * @param {function} fn
    *   (cfg: Object, ctx: Object) => undefined
@@ -304,7 +304,7 @@ module.exports = class IndexAPI extends BaseAPI {
    * @param {function} fn
    *   ({ arg, ...}) => ?Promise
    *      * arg - argument supplied to "--publish"/"-P" parameter
-   *      * quasarConf - quasar.conf config object
+   *      * quasarConf - quasar.config.js config object
    *      * distDir - folder where distributables were built
    */
   onPublish (fn) {
