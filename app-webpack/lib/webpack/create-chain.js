@@ -110,7 +110,7 @@ module.exports = function (cfg, configName) {
     .merge(resolveModules)
 
   chain.module.noParse(
-    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar[\\/]dist)$/
+    /^(vue|vue-router|pinia|vuex|vuex-router-sync|@quasar[\\/]extras|quasar[\\/]dist)$/
   )
 
   const vueRule = chain.module.rule('vue')

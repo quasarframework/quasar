@@ -32,7 +32,7 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
       ? [
         quasarConf.store,
-        appPaths.resolve.cli('templates/store/ts/store-flag.d.ts'),
+        appPaths.resolve.cli('templates/store/store-flag.d.ts'),
         appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
       ]
       : [
