@@ -96,6 +96,13 @@ ensureArgv(argv, 'build')
 const ensureVueDeps = require('../lib/helpers/ensure-vue-deps')
 ensureVueDeps()
 
+console.log(
+  require('fs').readFileSync(
+    require('path').join(__dirname, '../assets/logo.art'),
+    'utf8'
+  )
+)
+
 const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
