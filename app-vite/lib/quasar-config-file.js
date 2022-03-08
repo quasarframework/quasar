@@ -500,7 +500,7 @@ class QuasarConfFile {
       return { error: 'Files validation not passed successfully' }
     }
 
-    // do we have vuex?
+    // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
     cfg.store = resolveExtension(storePath) !== void 0
 

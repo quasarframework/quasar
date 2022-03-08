@@ -82,6 +82,7 @@
   "devDependencies": {
     "electron-builder": "22.14.13",
     "electron-packager": "^15.3.0",
+    "pinia": "^2.0.0",
     "quasar": "^2.0.4",
     "ts-essentials": "^9.1.2",
     "vue": "^3.0.0",
