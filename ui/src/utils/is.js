@@ -120,8 +120,9 @@ export function isDeepEqual (a, b) {
   return a !== a && b !== b // eslint-disable-line no-self-compare
 }
 
+// see https://jsbench.me/tbl0iliyax/1
 export function isPlainObject (v) {
-  return Object.prototype.toString.call(v) === '[object Object]'
+  return v !== null && typeof v === 'object' && (v.constructor === Object || v.constructor === void 0)
 }
 
 export function isDate (v) {
