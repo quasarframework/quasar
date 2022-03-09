@@ -25,7 +25,7 @@ export default function (userOpts = {}) {
         process.exit(1)
       }
 
-      return getConfig(opts)
+      return getConfig(opts, cfg)
     }
   }
 

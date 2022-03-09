@@ -24,10 +24,10 @@ export interface QuasarPluginOpts {
   /**
    * How will Quasar be used? In a:
    *    "web-client" (default)
-   *    "ssr-server" (NOT YET AVAILABLE) SSR on server-side
-   *    "ssr-client" (NOT YET AVAILABLE) SSR on client-side
+   *    "ssr-server" (used by @quasar/app-vite)
+   *    "ssr-client" (used by @quasar/app-vite)
    */
-  // runMode?: "web-client" | "ssr-client" | "ssr-server";
+  runMode?: "web-client" | "ssr-client";
 }
 
 export function quasar(opts?: QuasarPluginOpts): Plugin;
