@@ -99,6 +99,11 @@ class SsrDevServer extends AppDevserver {
       quasarConf.ssr.extendSSRWebserverConf
     ])
 
+    this.registerDiff('pwaSsr', quasarConf => [
+      quasarConf.ssr.pwa,
+      quasarConf.ssr.pwa === true ? quasarConf.pwa.swFilename : ''
+    ])
+
     // also update pwa-devserver.js when changing here
     this.registerDiff('pwaManifest', quasarConf => [
       quasarConf.pwa.injectPwaMetaTags,
@@ -121,24 +126,21 @@ class SsrDevServer extends AppDevserver {
         ? [ quasarConf.build.env, quasarConf.build.rawDefine ]
         : ''
     ])
-
-    // also update pwa-devserver.js when changing here
-    this.registerDiff('pwaFilenames', quasarConf => [
-      quasarConf.pwa.swFilename
-    ])
   }
 
   run (quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
-    // also update pwa-devserver.js when changing here
-    if (diff('pwaManifest', quasarConf) === true) {
-      return queue(() => this.#compilePwaManifest(quasarConf))
-    }
+    if (quasarConf.ssr.pwa === true) {
+      // also update pwa-devserver.js when changing here
+      if (diff('pwaManifest', quasarConf) === true) {
+        return queue(() => this.#compilePwaManifest(quasarConf))
+      }
 
-    // also update pwa-devserver.js when changing here
-    if (diff('pwaServiceWorker', quasarConf) === true) {
-      return queue(() => this.#compilePwaServiceWorker(quasarConf, queue))
+      // also update pwa-devserver.js when changing here
+      if (diff('pwaServiceWorker', quasarConf) === true) {
+        return queue(() => this.#compilePwaServiceWorker(quasarConf, queue))
+      }
     }
 
     // also update pwa-devserver.js when changing here
@@ -147,7 +149,7 @@ class SsrDevServer extends AppDevserver {
     }
 
     // also update pwa-devserver.js when changing here
-    if (diff([ 'vite', 'pwaFilenames' ], quasarConf) === true) {
+    if (diff([ 'vite', 'pwaSsr' ], quasarConf) === true) {
       return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
     }
   }

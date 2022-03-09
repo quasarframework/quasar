@@ -525,12 +525,10 @@ class QuasarConfFile {
           .filter(uniquePathFilter)
       }
 
-      if (cfg.ssr.pwa) {
+      if (cfg.ssr.pwa === true) {
         // install pwa mode if it's missing
         const { add } = require(`../lib/modes/pwa/pwa-installation`)
         await add(true)
-
-        cfg.build.rawDefine.__QUASAR_SSR_PWA__ = true
       }
 
       cfg.metaConf.ssrServerScript = resolveExtension(appPaths.resolve.ssr('server'))

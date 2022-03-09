@@ -18,7 +18,8 @@ module.exports = {
     cfg = mergeViteConfig(cfg, {
       define: {
         'process.env.CLIENT': true,
-        'process.env.SERVER': false
+        'process.env.SERVER': false,
+        __QUASAR_SSR_PWA__: quasarConf.ssr.pwa === true
       },
       server: {
         middlewareMode: true
@@ -52,7 +53,8 @@ module.exports = {
       target: quasarConf.build.target.node,
       define: {
         'process.env.CLIENT': false,
-        'process.env.SERVER': true
+        'process.env.SERVER': true,
+        __QUASAR_SSR_PWA__: quasarConf.ssr.pwa === true
       },
       server: {
         hmr: false, // let client config deal with it

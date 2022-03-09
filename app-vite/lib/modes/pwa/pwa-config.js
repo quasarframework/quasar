@@ -81,6 +81,10 @@ module.exports = {
           /workbox-(.)*\.js$/
         ]
       }
+      else {
+        // no one to serve workbox files if they are externalized
+        opts.inlineWorkboxRuntime = true
+      }
 
       if (typeof extendGenerateSWOptions === 'function') {
         extendGenerateSWOptions(opts)
