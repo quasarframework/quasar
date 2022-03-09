@@ -430,11 +430,12 @@ class QuasarConfFile {
         alias: {
           src: appPaths.srcDir,
           app: appPaths.appDir,
-          components: appPaths.resolve.src(`components`),
-          layouts: appPaths.resolve.src(`layouts`),
-          pages: appPaths.resolve.src(`pages`),
-          assets: appPaths.resolve.src(`assets`),
-          boot: appPaths.resolve.src(`boot`)
+          components: appPaths.resolve.src('components'),
+          layouts: appPaths.resolve.src('layouts'),
+          pages: appPaths.resolve.src('pages'),
+          assets: appPaths.resolve.src('assets'),
+          boot: appPaths.resolve.src('boot'),
+          store: appPaths.resolve.src('store')
         }
       },
 
