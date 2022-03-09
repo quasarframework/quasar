@@ -366,14 +366,6 @@ export default function (state) {
       }, getControlContainer())
     )
 
-    slots.append !== void 0 && node.push(
-      h('div', {
-        class: 'q-field__append q-field__marginal row no-wrap items-center',
-        key: 'append',
-        onClick: prevent
-      }, slots.append())
-    )
-
     hasError.value === true && props.noErrorIcon === false && node.push(
       getInnerAppendNode('error', [
         h(QIcon, { name: $q.iconSet.field.error, color: 'negative' })
@@ -406,6 +398,14 @@ export default function (state) {
         ])
       )
     }
+
+    slots.append !== void 0 && node.push(
+      h('div', {
+        class: 'q-field__append q-field__marginal row no-wrap items-center',
+        key: 'append',
+        onClick: prevent
+      }, slots.append())
+    )
 
     state.getInnerAppend !== void 0 && node.push(
       getInnerAppendNode('inner-append', state.getInnerAppend())
@@ -511,8 +511,8 @@ export default function (state) {
 
       hasCounter === true
         ? h('div', {
-            class: 'q-field__counter'
-          }, slots.counter !== void 0 ? slots.counter() : state.computedCounter.value)
+          class: 'q-field__counter'
+        }, slots.counter !== void 0 ? slots.counter() : state.computedCounter.value)
         : null
     ])
   }
@@ -563,9 +563,9 @@ export default function (state) {
     }, [
       slots.before !== void 0
         ? h('div', {
-            class: 'q-field__before q-field__marginal row no-wrap items-center',
-            onClick: prevent
-          }, slots.before())
+          class: 'q-field__before q-field__marginal row no-wrap items-center',
+          onClick: prevent
+        }, slots.before())
         : null,
 
       h('div', {
@@ -585,9 +585,9 @@ export default function (state) {
 
       slots.after !== void 0
         ? h('div', {
-            class: 'q-field__after q-field__marginal row no-wrap items-center',
-            onClick: prevent
-          }, slots.after())
+          class: 'q-field__after q-field__marginal row no-wrap items-center',
+          onClick: prevent
+        }, slots.after())
         : null
     ])
   }
