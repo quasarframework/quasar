@@ -203,11 +203,14 @@ export default createComponent({
         angle = centerPosition.left < pos.left ? angle + 90 : 270 - angle
       }
 
-      if (props.angle) {
+      if ($q.lang.rtl === true) {
+        angle = normalizeToInterval(-angle - props.angle, 0, 360)
+      }
+      else if (props.angle) {
         angle = normalizeToInterval(angle - props.angle, 0, 360)
       }
 
-      if ($q.lang.rtl === true) {
+      if (props.reverse === true) {
         angle = 360 - angle
       }
 

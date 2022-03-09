@@ -51,6 +51,12 @@
       "category": "model"
     },
 
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverses the direction of progress",
+      "category": "behavior"
+    },
+
     "instant-feedback": {
       "type": "Boolean",
       "desc": "No animation when model changes",
