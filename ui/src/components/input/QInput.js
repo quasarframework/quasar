@@ -138,7 +138,10 @@ export default createComponent({
       if (hasMask.value === true) {
         if (stopValueWatcher === true) {
           stopValueWatcher = false
-          return
+
+          if (String(v) === emitCachedValue) {
+            return
+          }
         }
 
         updateMaskValue(v)
