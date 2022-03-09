@@ -119,7 +119,7 @@ if (ssrDetected === false) {
     process.env.FORCE_COLOR = '0'
   }
 
-  const { green, grey, red } = require('kolorist')
+  const { green, gray, red } = require('kolorist')
 
   const
     express = require('express'),
@@ -158,7 +158,7 @@ if (ssrDetected === false) {
   if (!argv.silent) {
     app.get('*', (req, _, next) => {
       console.log(
-        `GET ${green(req.url)} ${grey('[' + req.ip + ']')} ${new Date()}`
+        `GET ${green(req.url)} ${gray('[' + req.ip + ']')} ${new Date()}`
       )
       next()
     })
