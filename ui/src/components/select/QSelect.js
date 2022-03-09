@@ -975,6 +975,8 @@ export default createComponent({
     }
 
     function getInput (fromDialog, isTarget) {
+      const attrs = isTarget === true ? { ...comboboxAttrs.value, ...state.splitAttrs.attributes.value } : void 0
+
       const data = {
         ref: isTarget === true ? targetRef : void 0,
         key: 'i_t',
@@ -983,8 +985,7 @@ export default createComponent({
         value: inputValue.value !== void 0 ? inputValue.value : '',
         // required for Android in order to show ENTER key when in form
         type: 'search',
-        ...comboboxAttrs.value,
-        ...state.splitAttrs.attributes.value,
+        ...attrs,
         id: isTarget === true ? state.targetUid.value : void 0,
         maxlength: props.maxlength,
         autocomplete: props.autocomplete,
@@ -1464,13 +1465,16 @@ export default createComponent({
         }
         // there can be only one (when dialog is opened the control in dialog should be target)
         else if (state.editable.value === true) {
+          const attrs = isTarget === true ? comboboxAttrs.value : void 0
+
           child.push(
-            h('div', {
+            h('input', {
               ref: isTarget === true ? targetRef : void 0,
               key: 'd_t',
               class: 'q-select__focus-target',
               id: isTarget === true ? state.targetUid.value : void 0,
-              ...comboboxAttrs.value,
+              readonly: true,
+              ...attrs,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,
               onKeypress: onTargetKeypress
@@ -1500,9 +1504,11 @@ export default createComponent({
           )
         }
 
+        const attrs = props.useInput === true || isTarget !== true ? void 0 : state.splitAttrs.attributes.value
+
         return h('div', {
           class: 'q-field__native row items-center',
-          ...state.splitAttrs.attributes.value
+          ...attrs
         }, child)
       },
 
