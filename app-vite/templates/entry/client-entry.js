@@ -75,15 +75,18 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
   <% if (ctx.mode.ssr && store && ssr.manualStoreHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
-  if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
-    // Vuex
+  if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__ !== void 0) {
     if (typeof store.replaceState === 'function') {
+      // it means it's Vuex
       store.replaceState(window.__INITIAL_STATE__)
     }
-    // Pinia
     else {
+      // it means it's Pinia
       store.state.value = window.__INITIAL_STATE__
     }
+
+    // for security reasons, we'll delete this
+    delete window.__INITIAL_STATE__
   }
   <% } %>
 
