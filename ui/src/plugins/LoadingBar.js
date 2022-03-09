@@ -22,6 +22,15 @@ export default {
     const props = cfg.loadingBar !== void 0
       ? { ...cfg.loadingBar }
       : {}
+    const on = {
+      start: () => {
+        this.isActive = true
+      },
+
+      stop: () => {
+        this.isActive = false
+      }
+    }
 
     const bar = new Vue({
       name: 'LoadingBar',
@@ -36,7 +45,8 @@ export default {
 
       render: h => h(QAjaxBar, {
         ref: 'bar',
-        props
+        props,
+        on
       })
     }).$mount().$refs.bar
 
