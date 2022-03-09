@@ -18,7 +18,7 @@ cleanupOutdatedCaches()
 
 registerRoute(
   new NavigationRoute(
-    createHandlerBoundToURL('index.html'),
+    createHandlerBoundToURL(process.env.PWA_FALLBACK_HTML),
     { denylist: [/sw\.js$/, /workbox-(.)*\.js$/] }
   )
 )

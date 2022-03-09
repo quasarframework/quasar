@@ -120,6 +120,12 @@ module.exports = {
   customSw: quasarConf => {
     const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
 
+    cfg.define['process.env.PWA_FALLBACK_HTML'] = JSON.stringify(
+      quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
+        ? quasarConf.ssr.ssrPwaHtmlFilename
+        : 'index.html'
+    )
+
     cfg.entryPoints = [ quasarConf.sourceFiles.serviceWorker ]
     cfg.outfile = appPaths.resolve.app(`.quasar/pwa-sw/compiled-sw.js`)
 

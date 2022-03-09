@@ -104,5 +104,5 @@ module.exports = {
   },
 
   workbox: pwaConfig.workbox,
-  customSw: pwaConfig.workbox
+  customSw: pwaConfig.customSw
 }
