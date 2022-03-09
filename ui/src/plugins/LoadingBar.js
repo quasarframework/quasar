@@ -36,6 +36,16 @@ const Plugin = defineReactivePlugin({
         : {}
     )
 
+    const on = {
+      onStart () {
+        Plugin.isActive = true
+      },
+
+      onStop () {
+        Plugin.isActive = false
+      }
+    }
+
     const el = createGlobalNode('q-loading-bar')
 
     createChildApp({
@@ -44,7 +54,7 @@ const Plugin = defineReactivePlugin({
       // hide App from Vue devtools
       devtools: { hide: true },
 
-      setup: () => () => h(QAjaxBar, { ...props.value, ref: barRef })
+      setup: () => () => h(QAjaxBar, { ...props.value, ...on, ref: barRef })
     }, parentApp).mount(el)
 
     Object.assign(this, {
