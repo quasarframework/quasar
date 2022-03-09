@@ -58,6 +58,7 @@ export default createComponent({
     const {
       pickFiles,
       onDragover,
+      onDragleave,
       processFiles,
       getDndNode
     } = useFile({ editable: state.editable, dnd, getFileInput, addFilesToQueue })
@@ -263,7 +264,7 @@ export default createComponent({
         }
 
         if (state.editable.value === true) {
-          Object.assign(data, { onDragover, onKeydown, onKeyup })
+          Object.assign(data, { onDragover, onDragleave, onKeydown, onKeyup })
         }
 
         return h('div', data, [ getInput() ].concat(getSelection()))

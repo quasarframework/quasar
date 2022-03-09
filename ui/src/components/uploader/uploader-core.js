@@ -108,6 +108,7 @@ export function getRenderer (getPlugin) {
     pickFiles,
     addFiles,
     onDragover,
+    onDragleave,
     processFiles,
     getDndNode,
     maxFilesNumber,
@@ -477,7 +478,7 @@ export function getRenderer (getPlugin) {
     const data = { ref: rootRef, class: classes.value }
 
     if (canAddFiles.value === true) {
-      data.onDragover = onDragover
+      Object.assign(data, { onDragover, onDragleave })
     }
 
     return h('div', data, children)

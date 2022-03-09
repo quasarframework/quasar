@@ -1,4 +1,4 @@
-import { h, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import { stop, stopAndPrevent } from '../../utils/event.js'
 
@@ -41,6 +41,8 @@ export default function ({
   addFilesToQueue
 }) {
   const { props, emit, proxy } = getCurrentInstance()
+
+  const dndRef = ref(null)
 
   const extensions = computed(() => (
     props.accept !== void 0
@@ -183,7 +185,7 @@ export default function ({
 
   function onDragleave (e) {
     stopAndPrevent(e)
-    dnd.value = false
+    e.relatedTarget !== dndRef.value && (dnd.value = false)
   }
 
   function onDrop (e) {
@@ -200,6 +202,7 @@ export default function ({
   function getDndNode (type) {
     if (dnd.value === true) {
       return h('div', {
+        ref: dndRef,
         class: `q-${ type }__dnd absolute-full`,
         onDragenter: stopAndPreventDrag,
         onDragover: stopAndPreventDrag,
