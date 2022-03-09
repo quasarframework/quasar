@@ -120,7 +120,7 @@ export default createComponent({
         isWorking.value = false
         isFetching.value = false
         localScrollTarget.removeEventListener('scroll', poll, passive)
-        if(poll !== void 0 && poll.cancel) {
+        if (poll !== void 0 && poll.cancel !== void 0) {
           poll.cancel()
         }
       }
