@@ -185,7 +185,6 @@ export default function ({
 
   function onDragleave (e) {
     stopAndPrevent(e)
-    dnd.value = false
     e.relatedTarget !== dndRef.value && (dnd.value = false)
   }
 
