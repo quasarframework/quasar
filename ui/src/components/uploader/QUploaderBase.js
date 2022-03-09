@@ -441,7 +441,10 @@ export default Vue.extend({
         'disabled q-uploader--disable': this.disable
       },
       on: this.canAddFiles === true
-        ? cache(this, 'drag', { dragover: this.__onDragOver })
+        ? cache(this, 'drag', {
+          dragover: this.__onDragOver,
+          dragleave: this.__onDragLeave
+        })
         : null
     }, children)
   }

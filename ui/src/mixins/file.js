@@ -180,7 +180,7 @@ export default {
 
     __onDragLeave (e) {
       stopAndPrevent(e)
-      this.dnd = false
+      e.relatedTarget !== this.$refs.dnd && (this.dnd = false)
     },
 
     __onDrop (e) {
@@ -198,6 +198,7 @@ export default {
       if (this.dnd === true) {
         return h('div', {
           staticClass: `q-${type}__dnd absolute-full`,
+          ref: 'dnd',
           on: cache(this, 'dnd', {
             dragenter: stopAndPreventDrag,
             dragover: stopAndPreventDrag,
