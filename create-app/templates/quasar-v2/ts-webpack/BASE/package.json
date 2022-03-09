@@ -29,22 +29,18 @@
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^8.10.0",
     "eslint-plugin-vue": "^8.5.0",
-    <% if (!preset.typescript) { %>"eslint-webpack-plugin": "^2.4.0",<% } %>
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    <% } %>
-    <% if (lintConfig === 'airbnb') { %>
+    <% } else if (lintConfig === 'airbnb') { %>
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.20.1",
-    <% } %>
-    <% if (lintConfig === 'prettier') { %>
+    <% } else if (lintConfig === 'prettier') { %>
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
-    <% } %>
-    <% } %>
+    <% } } %>
     "@types/node": "^12.20.21",
     "@quasar/app-webpack": "^3.0.0"
   },
