@@ -1,17 +1,25 @@
 
 const { join } = require('path')
+const { writeFileSync } = require('fs')
 
 const AppBuilder = require('../../app-builder')
 const config = require('./ssr-config')
 const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')
-const { getProdSsrTemplateFn } = require('../../helpers/html-template')
+const { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } = require('../../helpers/html-template')
+
+const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils')
 
 class SsrBuilder extends AppBuilder {
   async build () {
     await this.#buildWebserver()
     await this.#copyWebserverFiles()
     await this.#writePackageJson()
+
+    if (this.quasarConf.ssr.pwa === true) {
+      // also update pwa-builder.js when changing here
+      injectPwaManifest(this.quasarConf)
+    }
 
     const viteClientConfig = await config.viteClient(this.quasarConf)
     await this.buildWithVite('SSR Client', viteClientConfig)
@@ -22,6 +30,36 @@ class SsrBuilder extends AppBuilder {
     )
 
     await this.#writeRenderTemplate(viteClientConfig.build.outDir)
+
+    if (this.quasarConf.ssr.pwa === true) {
+      // we need to detour the distDir temporarily
+      const originalDistDir = this.quasarConf.build.distDir
+      this.quasarConf.build.distDir = join(this.quasarConf.build.distDir, 'client')
+
+      // also update pwa-builder.js when changing here
+      writeFileSync(
+        join(this.quasarConf.build.distDir, this.quasarConf.pwa.manifestFilename),
+        JSON.stringify(
+          this.quasarConf.metaConf.pwaManifest,
+          null,
+          this.quasarConf.build.minify !== false ? void 0 : 2
+        ),
+        'utf-8'
+      )
+
+      // also update pwa-builder.js when changing here
+      if (this.quasarConf.pwa.workboxMode === 'injectManifest') {
+        const esbuildConfig = await config.customSw(this.quasarConf)
+        await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig)
+      }
+
+      // also update pwa-builder.js when changing here
+      const workboxConfig = await config.workbox(this.quasarConf)
+      await buildPwaServiceWorker(this.quasarConf.pwa.workboxMode, workboxConfig)
+
+      // restore distDir
+      this.quasarConf.build.distDir = originalDistDir
+    }
 
     const viteServerConfig = await config.viteServer(this.quasarConf)
     await this.buildWithVite('SSR Server', viteServerConfig)
@@ -87,6 +125,14 @@ class SsrBuilder extends AppBuilder {
     const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
 
     this.writeFile('render-template.js', `module.exports=${templateFn.source}`)
+
+    if (this.quasarConf.ssr.pwa === true) {
+      this.writeFile(
+        `client/${this.quasarConf.ssr.ssrPwaHtmlFilename}`,
+        transformProdSsrPwaOfflineHtml(html, this.quasarConf)
+      )
+    }
+
     this.removeFile(htmlFile)
   }
 }

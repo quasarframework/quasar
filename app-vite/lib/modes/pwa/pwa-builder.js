@@ -4,7 +4,7 @@ const { join } = require('path')
 
 const AppBuilder = require('../../app-builder')
 const config = require('./pwa-config')
-const { injectPwaManifest, buildServiceWorker } = require('./utils')
+const { injectPwaManifest, buildPwaServiceWorker } = require('./utils')
 
 class PwaBuilder extends AppBuilder {
   async build () {
@@ -13,6 +13,7 @@ class PwaBuilder extends AppBuilder {
     const viteConfig = await config.vite(this.quasarConf)
     await this.buildWithVite('PWA UI', viteConfig)
 
+    // also update ssr-builder.js when changing here
     writeFileSync(
       join(this.quasarConf.build.distDir, this.quasarConf.pwa.manifestFilename),
       JSON.stringify(
@@ -23,13 +24,15 @@ class PwaBuilder extends AppBuilder {
       'utf-8'
     )
 
+    // also update ssr-builder.js when changing here
     if (this.quasarConf.pwa.workboxMode === 'injectManifest') {
       const esbuildConfig = await config.customSw(this.quasarConf)
       await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig)
     }
 
+    // also update ssr-builder.js when changing here
     const workboxConfig = await config.workbox(this.quasarConf)
-    await buildServiceWorker(this.quasarConf.pwa.workboxMode, workboxConfig)
+    await buildPwaServiceWorker(this.quasarConf.pwa.workboxMode, workboxConfig)
   }
 }
 

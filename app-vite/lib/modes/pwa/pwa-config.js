@@ -15,6 +15,7 @@ module.exports = {
   vite: quasarConf => {
     const cfg = createViteConfig(quasarConf)
 
+    // also update ssr-config.js when changing here
     cfg.plugins.push(
       quasarVitePluginPwaResources(quasarConf)
     )
@@ -22,6 +23,7 @@ module.exports = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
+  // exported to ssr-config.js as well
   workbox: quasarConf => {
     const { workboxMode } = quasarConf.pwa
     const opts = {}
@@ -69,9 +71,11 @@ module.exports = {
         })
       }
 
-
       if (quasarConf.ctx.prod === true) {
-        opts.navigateFallback = 'index.html'
+        opts.navigateFallback = quasarConf.ctx.mode.ssr === true
+          ? quasarConf.ssr.ssrPwaHtmlFilename
+          : 'index.html'
+
         opts.navigateFallbackDenylist = [
           new RegExp(escapeRegexString(quasarConf.pwa.swFilename) + '$'),
           /workbox-(.)*\.js$/
@@ -112,6 +116,7 @@ module.exports = {
     return opts
   },
 
+  // exported to ssr-config.js as well
   customSw: quasarConf => {
     const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
 

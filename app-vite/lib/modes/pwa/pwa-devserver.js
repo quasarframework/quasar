@@ -5,17 +5,20 @@ const debounce = require('lodash.debounce')
 const AppDevserver = require('../../app-devserver')
 const openBrowser = require('../../helpers/open-browser')
 const config = require('./pwa-config')
-const { injectPwaManifest, buildServiceWorker } = require('./utils')
+const { injectPwaManifest, buildPwaServiceWorker } = require('./utils')
 const { log } = require('../../helpers/logger')
 
 class PwaDevServer extends AppDevserver {
   #server
-  #manifestWatcher
-  #serviceWorkerWatcher
+
+  // also update ssr-devserver.js when changing here
+  #pwaManifestWatcher
+  #pwaServiceWorkerWatcher
 
   constructor (opts) {
     super(opts)
 
+    // also update ssr-devserver.js when changing here
     this.registerDiff('pwaManifest', quasarConf => [
       quasarConf.pwa.injectPwaMetaTags,
       quasarConf.pwa.manifestFilename,
@@ -23,6 +26,7 @@ class PwaDevServer extends AppDevserver {
       quasarConf.pwa.useCredentialsForManifestTag
     ])
 
+    // also update ssr-devserver.js when changing here
     this.registerDiff('pwaServiceWorker', quasarConf => [
       quasarConf.pwa.workboxMode,
       quasarConf.pwa.precacheFromPublicFolder,
@@ -37,7 +41,8 @@ class PwaDevServer extends AppDevserver {
         : ''
     ])
 
-    this.registerDiff('viteFilenames', quasarConf => [
+    // also update ssr-devserver.js when changing here
+    this.registerDiff('pwaFilenames', quasarConf => [
       quasarConf.pwa.swFilename
     ])
   }
@@ -45,15 +50,18 @@ class PwaDevServer extends AppDevserver {
   run (quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    // also update ssr-devserver.js when changing here
     if (diff('pwaManifest', quasarConf) === true) {
-      return queue(() => this.#compileManifest(quasarConf))
+      return queue(() => this.#compilePwaManifest(quasarConf))
     }
 
+    // also update ssr-devserver.js when changing here
     if (diff('pwaServiceWorker', quasarConf) === true) {
-      return queue(() => this.#compileServiceWorker(quasarConf, queue))
+      return queue(() => this.#compilePwaServiceWorker(quasarConf, queue))
     }
 
-    if (diff([ 'vite', 'viteFilenames' ], quasarConf) === true) {
+    // also update ssr-devserver.js when changing here
+    if (diff([ 'vite', 'pwaFilenames' ], quasarConf) === true) {
       return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
     }
   }
@@ -81,9 +89,10 @@ class PwaDevServer extends AppDevserver {
     }
   }
 
-  #compileManifest (quasarConf) {
-    if (this.#manifestWatcher !== void 0) {
-      this.#manifestWatcher.close()
+  // also update ssr-devserver.js when changing here
+  #compilePwaManifest (quasarConf) {
+    if (this.#pwaManifestWatcher !== void 0) {
+      this.#pwaManifestWatcher.close()
     }
 
     function inject () {
@@ -91,7 +100,7 @@ class PwaDevServer extends AppDevserver {
       log(`Generated the PWA manifest file (${quasarConf.pwa.manifestFilename})`)
     }
 
-    this.#manifestWatcher = chokidar.watch(
+    this.#pwaManifestWatcher = chokidar.watch(
       quasarConf.metaConf.pwaManifestFile,
       { ignoreInitial: true }
     ).on('change', debounce(() => {
@@ -108,9 +117,10 @@ class PwaDevServer extends AppDevserver {
     inject()
   }
 
-  async #compileServiceWorker (quasarConf, queue) {
-    if (this.#serviceWorkerWatcher) {
-      await this.#serviceWorkerWatcher.close()
+  // also update ssr-devserver.js when changing here
+  async #compilePwaServiceWorker (quasarConf, queue) {
+    if (this.#pwaServiceWorkerWatcher) {
+      await this.#pwaServiceWorkerWatcher.close()
     }
 
     const workboxConfig = await config.workbox(quasarConf)
@@ -118,13 +128,13 @@ class PwaDevServer extends AppDevserver {
     if (quasarConf.pwa.workboxMode === 'injectManifest') {
       const esbuildConfig = await config.customSw(quasarConf)
       await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
-        queue(() => buildServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
+        queue(() => buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
       }).then(result => {
-        this.#serviceWorkerWatcher = { close: result.stop }
+        this.#pwaServiceWorkerWatcher = { close: result.stop }
       })
     }
 
-    await buildServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
+    await buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
   }
 }
 

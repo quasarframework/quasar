@@ -8,6 +8,9 @@ const {
 
 const appPaths = require('../../app-paths')
 
+const pwaConfig = require('../pwa/pwa-config')
+const quasarVitePluginPwaResources = require('../pwa/vite-plugin.pwa-resources')
+
 module.exports = {
   viteClient: quasarConf => {
     let cfg = createViteConfig(quasarConf, 'ssr-client')
@@ -25,6 +28,13 @@ module.exports = {
         outDir: join(quasarConf.build.distDir, 'client')
       }
     })
+
+    // also update pwa-config.js when changing here
+    if (quasarConf.ssr.pwa === true) {
+      cfg.plugins.push(
+        quasarVitePluginPwaResources(quasarConf)
+      )
+    }
 
     // dev has js entry-point, while prod has index.html
     if (quasarConf.ctx.dev) {
@@ -91,5 +101,8 @@ module.exports = {
     }
 
     return extendEsbuildConfig(cfg, quasarConf.ssr, 'SSRWebserver')
-  }
+  },
+
+  workbox: pwaConfig.workbox,
+  customSw: pwaConfig.workbox
 }

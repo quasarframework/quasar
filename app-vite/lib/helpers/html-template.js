@@ -102,6 +102,23 @@ module.exports.transformHtml = function (template, quasarConf) {
 }
 
 /**
+ * Used by production SSR only.
+ * Gets index.html generated content as param.
+ */
+module.exports.transformProdSsrPwaOfflineHtml = function (html, quasarConf) {
+  html = html.replace(
+    entryPointMarkup,
+    attachMarkup
+  )
+
+  if (quasarConf.build.minify !== false) {
+    html = minify(html, minifyOptions)
+  }
+
+  return html
+}
+
+/**
  * Used by dev SSR only
  *
  * const fn = getDevSsrTemplateFn(indexHtmlFileContent, quasarConf)

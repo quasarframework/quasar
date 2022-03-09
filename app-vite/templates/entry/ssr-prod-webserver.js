@@ -64,7 +64,7 @@ function renderModulesPreload (modules) {
 
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
 
-function renderVuexState (ssrContext) {
+function renderStoreState (ssrContext) {
   if (ssrContext.state === void 0) {
     return ''
   }
@@ -96,7 +96,7 @@ async function render (ssrContext) {
     typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
     ssrContext._meta.runtimePageContent = runtimePageContent
-    ssrContext._meta.headTags = renderVuexState(ssrContext) + ssrContext._meta.headTags
+    ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
 
     // @vitejs/plugin-vue injects code into a component's setup() that registers
     // itself on ctx.modules. After the render, ctx.modules would contain all the

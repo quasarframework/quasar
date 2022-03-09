@@ -1,5 +1,4 @@
 
-const fglob = require('fast-glob')
 const { lstatSync } = require('fs')
 const { readFileSync, writeFileSync, copySync, existsSync, ensureDirSync, moveSync, removeSync } = require('fs-extra')
 const { join, isAbsolute, basename, dirname } = require('path')

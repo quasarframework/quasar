@@ -1,7 +1,8 @@
-const { createServer } = require('vite')
-const { join } = require('path')
-const chokidar = require('chokidar')
 const { readFileSync } = require('fs')
+const { join } = require('path')
+const { createServer } = require('vite')
+const chokidar = require('chokidar')
+const debounce = require('lodash.debounce')
 const Ouch = require('ouch')
 const { parse: parseUrl } = require('url')
 const serialize = require('serialize-javascript')
@@ -21,6 +22,8 @@ const publicFolder = appPaths.resolve.app('public')
 const templatePath = appPaths.resolve.app('index.html')
 const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')
 const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.js')
+
+const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils')
 
 function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
@@ -61,7 +64,7 @@ async function warmupServer (viteClient, viteServer) {
   done('Warmed up')
 }
 
-function renderVuexState (ssrContext) {
+function renderStoreState (ssrContext) {
   if (ssrContext.state === void 0) {
     return ''
   }
@@ -82,6 +85,10 @@ class SsrDevServer extends AppDevserver {
   #webserverWatcher
   #appOptions = {}
 
+  // also update pwa-devserver.js when changing here
+  #pwaManifestWatcher
+  #pwaServiceWorkerWatcher
+
   constructor (opts) {
     super(opts)
 
@@ -91,16 +98,56 @@ class SsrDevServer extends AppDevserver {
       quasarConf.build.rawDefine,
       quasarConf.ssr.extendSSRWebserverConf
     ])
+
+    // also update pwa-devserver.js when changing here
+    this.registerDiff('pwaManifest', quasarConf => [
+      quasarConf.pwa.injectPwaMetaTags,
+      quasarConf.pwa.manifestFilename,
+      quasarConf.pwa.extendManifestJson,
+      quasarConf.pwa.useCredentialsForManifestTag
+    ])
+
+    // also update pwa-devserver.js when changing here
+    this.registerDiff('pwaServiceWorker', quasarConf => [
+      quasarConf.pwa.workboxMode,
+      quasarConf.pwa.precacheFromPublicFolder,
+      quasarConf.pwa.swFilename,
+      quasarConf.pwa[
+        quasarConf.pwa.workboxMode === 'generateSW'
+          ? 'extendGenerateSWOptions'
+          : 'extendInjectManifestOptions'
+      ],
+      quasarConf.pwa.workboxMode === 'injectManifest'
+        ? [ quasarConf.build.env, quasarConf.build.rawDefine ]
+        : ''
+    ])
+
+    // also update pwa-devserver.js when changing here
+    this.registerDiff('pwaFilenames', quasarConf => [
+      quasarConf.pwa.swFilename
+    ])
   }
 
   run (quasarConf, __isRetry) {
     const { diff, queue } = super.run(quasarConf, __isRetry)
 
+    // also update pwa-devserver.js when changing here
+    if (diff('pwaManifest', quasarConf) === true) {
+      return queue(() => this.#compilePwaManifest(quasarConf))
+    }
+
+    // also update pwa-devserver.js when changing here
+    if (diff('pwaServiceWorker', quasarConf) === true) {
+      return queue(() => this.#compilePwaServiceWorker(quasarConf, queue))
+    }
+
+    // also update pwa-devserver.js when changing here
     if (diff('webserver', quasarConf) === true) {
       return queue(() => this.#compileWebserver(quasarConf, queue))
     }
 
-    if (diff('vite', quasarConf) === true) {
+    // also update pwa-devserver.js when changing here
+    if (diff([ 'vite', 'pwaFilenames' ], quasarConf) === true) {
       return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
     }
   }
@@ -143,6 +190,10 @@ class SsrDevServer extends AppDevserver {
     const viteClient = this.#viteClient = await createServer(await config.viteClient(quasarConf))
     const viteServer = this.#viteServer = await createServer(await config.viteServer(quasarConf))
 
+    if (quasarConf.ssr.pwa === true) {
+      injectPwaManifest(quasarConf, true)
+    }
+
     let renderTemplate
 
     function updateTemplate () {
@@ -177,7 +228,7 @@ class SsrDevServer extends AppDevserver {
         // like @vue/apollo-ssr:
         typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-        ssrContext._meta.headTags = renderVuexState(ssrContext) + ssrContext._meta.headTags
+        ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
 
         let html = renderTemplate(ssrContext)
         html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
@@ -307,6 +358,54 @@ class SsrDevServer extends AppDevserver {
     done('Webserver is ready')
 
     this.printBanner(quasarConf)
+  }
+
+  // also update pwa-devserver.js when changing here
+  #compilePwaManifest (quasarConf) {
+    if (this.#pwaManifestWatcher !== void 0) {
+      this.#pwaManifestWatcher.close()
+    }
+
+    function inject () {
+      injectPwaManifest(quasarConf)
+      log(`Generated the PWA manifest file (${quasarConf.pwa.manifestFilename})`)
+    }
+
+    this.#pwaManifestWatcher = chokidar.watch(
+      quasarConf.metaConf.pwaManifestFile,
+      { ignoreInitial: true }
+    ).on('change', debounce(() => {
+      inject()
+
+      if (this.#viteClient !== void 0) {
+        this.#viteClient.ws.send({
+          type: 'full-reload',
+          path: '*'
+        })
+      }
+    }, 550))
+
+    inject()
+  }
+
+  // also update pwa-devserver.js when changing here
+  async #compilePwaServiceWorker (quasarConf, queue) {
+    if (this.#pwaServiceWorkerWatcher) {
+      await this.#pwaServiceWorkerWatcher.close()
+    }
+
+    const workboxConfig = await config.workbox(quasarConf)
+
+    if (quasarConf.pwa.workboxMode === 'injectManifest') {
+      const esbuildConfig = await config.customSw(quasarConf)
+      await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
+        queue(() => buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
+      }).then(result => {
+        this.#pwaServiceWorkerWatcher = { close: result.stop }
+      })
+    }
+
+    await buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
   }
 }
 

@@ -508,6 +508,7 @@ class QuasarConfFile {
     if (this.#ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
+        ssrPwaHtmlFilename: 'offline.html',
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
         prodPort: 3000 // gets superseeded in production by an eventual process.env.PORT
@@ -525,22 +526,15 @@ class QuasarConfFile {
       }
 
       if (cfg.ssr.pwa) {
-        if (this.#ctx.mode.ssr && cfg.devServer.https === true) {
-          // TODO SSR + PWA
-          warn('SSR + PWA is not currently supported, so disabling it.')
-          cfg.ssr.pwa = false
-        }
-        else {
-          // install pwa mode if it's missing
-          const { add } = require(`../lib/modes/pwa/pwa-installation`)
-          await add()
+        // install pwa mode if it's missing
+        const { add } = require(`../lib/modes/pwa/pwa-installation`)
+        await add(true)
 
-          cfg.build.rawDefine.__QUASAR_SSR_PWA__ = true
-        }
+        cfg.build.rawDefine.__QUASAR_SSR_PWA__ = true
       }
 
       cfg.metaConf.ssrServerScript = resolveExtension(appPaths.resolve.ssr('server'))
-      this.#ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
+      this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
     }
 
     if (this.#ctx.dev) {
