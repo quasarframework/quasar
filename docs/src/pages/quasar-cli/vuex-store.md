@@ -29,7 +29,7 @@ If Vuex Modules is too much for your website app, you can change `/src/store/ind
 Adding a Vuex Module is made easy by Quasar CLI through the `$ quasar new` command.
 
 ```bash
-$ quasar new store <store_name>
+$ quasar new store <store_name> [--format ts]
 ```
 
 It will create a folder in `/src/store` named by "store_name" from the command above. It will contain all the boilerplate that you need.
