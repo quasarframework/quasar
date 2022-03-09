@@ -126,6 +126,8 @@ export default Vue.extend({
 
       this.__unconfigureScrollTarget()
       cleanEvt(this, 'tooltipTemp')
+      cleanEvt(this, 'tooltipPreventMenu')
+      cleanEvt(this, 'anchorTemp')
     },
 
     updatePosition () {
@@ -153,14 +155,24 @@ export default Vue.extend({
 
     __delayShow (evt) {
       if (this.$q.platform.is.mobile === true) {
+        if (this.showing) {
+          return
+        }
+
         clearSelection()
         document.body.classList.add('non-selectable')
 
         const target = this.anchorEl
-        const evts = ['touchmove', 'touchcancel', 'touchend', 'click']
-          .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
+        const evts = [ 'touchcancel', 'touchend', 'click' ]
+          .map(e => ([ target, e, '__clearPreventContextMenu', 'passiveCapture' ]))
+          .concat([
+            [ document, 'touchstart', '__delayHide', 'passiveCapture' ]
+          ])
 
         addEvt(this, 'tooltipTemp', evts)
+        addEvt(this, 'tooltipPreventMenu', [
+          [ document, 'contextmenu', 'prevent', 'capture' ]
+        ])
       }
 
       this.__setTimeout(() => {
@@ -169,20 +181,49 @@ export default Vue.extend({
     },
 
     __delayHide (evt) {
+      const innerNode = this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
+
+      if (innerNode !== void 0 && evt) {
+        if (evt.type === 'mouseleave') {
+          if (innerNode.contains(evt.relatedTarget) === true) {
+            cleanEvt(this, 'anchorTemp')
+
+            addEvt(this, 'anchorTemp', [
+              [ innerNode, 'mouseleave', '__delayHide', 'passive' ]
+            ])
+
+            return
+          }
+        }
+        else if (innerNode.contains(evt.target) === true) {
+          return
+        }
+      }
+
       this.__clearTimeout()
 
       if (this.$q.platform.is.mobile === true) {
         cleanEvt(this, 'tooltipTemp')
+        cleanEvt(this, 'tooltipPreventMenu')
         clearSelection()
         // delay needed otherwise selection still occurs
         setTimeout(() => {
           document.body.classList.remove('non-selectable')
         }, 10)
       }
+      else {
+        cleanEvt(this, 'anchorTemp')
+      }
 
       this.__setTimeout(() => {
         this.hide(evt)
       }, this.hideDelay)
+    },
+
+    __clearPreventContextMenu () {
+      cleanEvt(this, 'tooltipPreventMenu')
     },
 
     __configureAnchorEl () {
@@ -223,6 +264,7 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
+          ref: 'inner',
           staticClass: 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
           class: this.contentClass,
           style: this.contentStyle,

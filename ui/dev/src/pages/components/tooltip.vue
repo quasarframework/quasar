@@ -54,7 +54,7 @@
       <div class="q-gutter-y-md">
         <q-card style="margin-top: 75px">
           <q-card-section class="bg-primary text-center">
-            <q-btn push color="orange" label="Mouse Hover">
+            <q-btn push color="orange" label="Mouse Hover" @click="log('click', $event)">
               <q-tooltip :anchor="anchor" :self="self">
                 <div>Quasar is <strong>great</strong>!</div>
                 <div class="text-center">
@@ -134,14 +134,38 @@
             </div>
           </q-card-section>
           <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
+            <div>Quasar Rulz!</div>
             <q-tooltip
               :delay="delay"
               :hide-delay="hdelay"
               anchor="center middle"
               self="center middle"
-              :content-class="color ? 'bg-red' : null"
+              :content-class="color ? 'bg-red q-pa-md' : null"
             >
-              Quasar Rulz!
+              <q-card flat>
+                <q-card-section horizontal>
+                  <q-img style="width: 200px; max-width: 30vw;" src="https://cdn.quasar.dev/img/parallax2.jpg">
+                    <div class="absolute-bottom text-subtitle2" style="padding: 8px">{{ text }}</div>
+                  </q-img>
+
+                  <div class="column justify-between">
+                    <q-card-section>
+                      <div
+                        class="no-wrap"
+                        :class="$q.screen.lt.md ? 'column q-gutter-y-md' : 'row items-center q-gutter-x-md'"
+                        style="width: 600px; max-width: 45vw;"
+                      >
+                        <q-toggle v-model="showText" label="Show input field" />
+                        <q-input v-if="showText" v-model="text" dense outlined label="Text" />
+                      </div>
+                    </q-card-section>
+
+                    <q-card-actions align="right">
+                      <q-btn color="primary" label="Button" @click="log('click', $event)" />
+                    </q-card-actions>
+                  </div>
+                </q-card-section>
+              </q-card>
             </q-tooltip>
           </q-img>
         </q-card>
@@ -224,7 +248,10 @@ export default {
       color: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'middle' },
       selfOrigin: { vertical: 'top', horizontal: 'middle' },
-      targetEl: '#target-img-1'
+      targetEl: '#target-img-1',
+
+      showText: false,
+      text: 'Quasar Rulz!'
     }
   },
   computed: {
@@ -241,6 +268,10 @@ export default {
       setTimeout(() => {
         this.loading = false
       }, 1000)
+    },
+
+    log (title, evt) {
+      console.log(title, evt)
     }
   }
 }
