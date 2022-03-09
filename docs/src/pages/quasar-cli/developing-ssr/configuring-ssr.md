@@ -80,7 +80,7 @@ If you want more information, please see this page that goes into more detail ab
 
 By default, Quasar CLI takes care of hydrating the Vuex store (if you use it) on client-side.
 
-However, should you wish to manually hydrate it yourself, you need to set quasar.conf.js > ssr > manualStoreHydration: true. Then you need to call `store.replaceState(window.__INITIAL_STATE__)` yourself. One good example is doing it from [a boot file](/quasar-cli/boot-files):
+However, should you wish to manually hydrate it yourself, you need to set quasar.conf.js > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli/boot-files):
 
 ```js
 // some_boot_file
@@ -88,6 +88,10 @@ However, should you wish to manually hydrate it yourself, you need to set quasar
 // TO RUN ONLY ON CLIENT-SIDE
 
 export default ({ store }) => {
+  // For Pinia
+  store.state.value = window.__INITIAL_STATE__
+
+  // For Vuex
   store.replaceState(window.__INITIAL_STATE__)
 }
 ```

@@ -80,7 +80,14 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
   if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
-    store.replaceState(window.__INITIAL_STATE__)
+    // Vuex
+    if (typeof store.replaceState === 'function') {
+      store.replaceState(window.__INITIAL_STATE__)
+    }
+    // Pinia
+    else {
+      store.state.value = window.__INITIAL_STATE__
+    }
   }
   <% } %>
 
