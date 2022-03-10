@@ -66,16 +66,21 @@ module.exports.renderTemplate = function (templateDir, scope) {
 
     const targetPath = resolve(scope.projectFolder, targetRelativePath)
     const sourcePath = resolve(templateDir, rawPath)
+    const extension = extname(targetRelativePath)
 
     ensureFileSync(targetPath)
 
     console.log(` ${green('-')} ${targetRelativePath}`)
 
-    if (TEMPLATING_FILE_EXTENSIONS.includes(extname(targetRelativePath))) {
+    if (TEMPLATING_FILE_EXTENSIONS.includes(extension)) {
       const rawContent = readFileSync(sourcePath, 'utf-8')
       const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
 
-      writeFileSync(targetPath, template(scope), 'utf-8')
+      const newContent = extension === '.json'
+        ? JSON.stringify(JSON.parse(template(scope)), null, 2)
+        : template(scope)
+
+      writeFileSync(targetPath, newContent, 'utf-8')
     }
     else {
       copySync(sourcePath, targetPath)
@@ -116,37 +121,6 @@ function getGitUser () {
   email = email && (' <' + email.toString().trim() + '>')
 
   return (name || '') + (email || '')
-}
-
-function sortObject (object) {
-  // Based on https://github.com/yarnpkg/yarn/blob/v1.3.2/src/config.js#L79-L85
-  const sortedObject = {}
-  Object.keys(object)
-    .sort()
-    .forEach(item => {
-      sortedObject[item] = object[item]
-    })
-  return sortedObject
-}
-
-/**
- * Sorts dependencies in package.json alphabetically.
- * They are unsorted because they were grouped for the templating
- *
- * @param {string} dir Target directory for scaffolding
- */
-module.exports.sortPackageJson = function (dir) {
-  const pkgFile = join(dir, 'package.json')
-  const pkg = JSON.parse(readFileSync(pkgFile))
-
-  if (pkg.dependencies) {
-    pkg.dependencies = sortObject(pkg.dependencies)
-  }
-  if (pkg.devDependencies) {
-    pkg.devDependencies = sortObject(pkg.devDependencies)
-  }
-
-  writeFileSync(pkgFile, JSON.stringify(pkg, null, 2) + '\n')
 }
 
 /**

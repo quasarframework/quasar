@@ -7,6 +7,4 @@ module.exports = async function ({ scope, utils }) {
 
   const script = require(`./quasar-${scope.quasarVersion}`)
   await script({ scope, utils })
-
-  utils.sortPackageJson(scope.projectFolder)
 }
