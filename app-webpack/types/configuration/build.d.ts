@@ -119,6 +119,10 @@ interface QuasarStaticBuildConfiguration {
    */
   distDir?: string;
   /**
+   * Ignores the public folder.
+   */
+  ignorePublicFolder?: boolean;
+  /**
    * Source map [strategy](https://webpack.js.org/configuration/devtool/) to use.
    */
   devtool?: WebpackConfiguration["devtool"];
