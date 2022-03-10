@@ -51,14 +51,8 @@ export default {
     }).$mount().$refs.bar
 
     Object.assign(this, {
-      start: speed => {
-        bar.start(speed)
-        this.isActive = bar.isActive = true
-      },
-      stop: () => {
-        const sessions = bar.stop()
-        this.isActive = bar.isActive = sessions > 0
-      },
+      start: bar.start,
+      stop: bar.stop,
       increment: bar.increment,
       setDefaults: opts => {
         isPlainObject(opts) === true && Object.assign(props, opts)
