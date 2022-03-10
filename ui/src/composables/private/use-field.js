@@ -552,6 +552,14 @@ export default function (state) {
   })
 
   return function renderField () {
+    const labelAttrs = state.getControl === void 0 && slots.control === void 0
+      ? {
+          ...state.splitAttrs.attributes.value,
+          'data-autofocus': props.autofocus,
+          ...attributes.value
+        }
+      : attributes.value
+
     return h('label', {
       ref: state.rootRef,
       class: [
@@ -559,7 +567,7 @@ export default function (state) {
         attrs.class
       ],
       style: attrs.style,
-      ...attributes.value
+      ...labelAttrs
     }, [
       slots.before !== void 0
         ? h('div', {
