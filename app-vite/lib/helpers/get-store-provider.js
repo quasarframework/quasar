@@ -6,6 +6,8 @@ module.exports = function getStoreProvider() {
 
   return {
     name,
-    pathKey: name === 'pinia' ? 'stores' : 'store'
+    pathKey: name === 'pinia' ? 'stores' : 'store',
+
+    isInstalled: getPackageJson(name) !== void 0
   }
 }
