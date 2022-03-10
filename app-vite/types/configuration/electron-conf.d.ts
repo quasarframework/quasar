@@ -1,9 +1,8 @@
 import * as ElectronBuilderUtil from "builder-util";
 import * as ElectronBuilder from "electron-builder";
 import * as ElectronPackager from "electron-packager";
-import { Configuration as WebpackConfiguration } from "webpack";
-import * as WebpackChain from "webpack-chain";
 import { LiteralUnion } from "quasar";
+import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
 export type QuasarElectronBundlersInternal = "builder" | "packager";
 
@@ -16,21 +15,15 @@ interface QuasarBaseElectronConfiguration {
    */
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
 
-  /** Webpack config object for the Main Process ONLY (`/src-electron/electron-main`) */
-  extendWebpackMain?: (config: WebpackConfiguration) => void;
   /**
-   * Equivalent to `extendWebpackMain()` but uses `webpack-chain` instead,
-   *  for the Main Process ONLY (`/src-electron/electron-main`)
+   * Extend the esbuild config that is used for the electron-main thread
    */
-  chainWebpackMain?: (chain: WebpackChain) => void;
+  extendElectronMainConf?: (config: EsbuildConfiguration) => void;
 
-  /** Webpack config object for the Preload Process ONLY (`/src-electron/electron-preload`) */
-  extendWebpackPreload?: (config: WebpackConfiguration) => void;
   /**
-   * Equivalent to `extendWebpackPreload()` but uses `webpack-chain` instead,
-   *  for the Preload Process ONLY (`/src-electron/electron-preload`)
+   * Extend the esbuild config that is used for the electron-preload thread
    */
-  chainWebpackPreload?: (chain: WebpackChain) => void;
+  extendElectronPreloadConf?: (config: EsbuildConfiguration) => void;
 
   /**
    * You have to choose to use either packager or builder.

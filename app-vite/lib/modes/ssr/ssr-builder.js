@@ -111,7 +111,7 @@ class SsrBuilder extends AppBuilder {
       quasar: { ssr: true }
     }
 
-    if (this.quasarConf.ssr.extendPackageJson) {
+    if (typeof this.quasarConf.ssr.extendPackageJson === 'function') {
       this.quasarConf.ssr.extendPackageJson(pkg)
     }
 

@@ -69,23 +69,6 @@ function parseVitePlugins (entries) {
   return acc
 }
 
-// Inject props only if explicitly specified
-// otherwise it might mess up with Vite's defaults
-function inject (target, source, propList) {
-  for (const prop of propList) {
-    const entry = source[prop]
-    if (
-      entry !== void 0
-      && (
-        isPlainObject(entry) === false
-        || Object.keys(entry).length > 0
-      )
-    ) {
-      target[prop] = entry
-    }
-  }
-}
-
 function createViteConfig (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
   const cacheSuffix = quasarRunMode || ctx.modeName
@@ -139,25 +122,6 @@ function createViteConfig (quasarConf, quasarRunMode) {
       ...parseVitePlugins(build.vitePlugins)
     ]
   }
-
-  inject(viteConf, build, [
-    'css',
-    'json',
-    'optimizeDeps',
-    'assetsInclude',
-    'worker'
-  ])
-
-  inject(viteConf.build, build, [
-    'rollupOptions',
-    'commonjsOptions',
-    'dynamicImportVarsOptions',
-    'reportCompressedSize',
-    'chunkSizeWarningLimit',
-    'assetsInlineLimit',
-    'cssCodeSplit',
-    'assetsDir'
-  ])
 
   if (
     quasarRunMode !== 'ssr-server'

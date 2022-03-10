@@ -1,15 +1,23 @@
-import { Configuration as WebpackConfiguration } from "webpack";
-import * as WebpackChain from "webpack-chain";
+import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.
-   * When used in object form, you can specify Workbox options
-   *  which will be applied on top of `pwa > workboxOptions`.
    *
    * @default false
    */
-  pwa?: boolean | object;
+  pwa?: boolean;
+
+  /**
+   * When using SSR+PWA, this is the name of the
+   * PWA index html file that the client-side fallbacks to.
+   * For production only.
+   *
+   * Do NOT use index.html as name as it will mess SSR up!
+   *
+   * @default offline.html
+   */
+  ssrPwaHtmlFilename?: string;
 
   /**
    * Manually handle the store hydration instead of letting Quasar CLI do it.
@@ -49,14 +57,8 @@ export interface QuasarSsrConfiguration {
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
 
   /**
-   * Webpack config object for the Webserver
-   * which includes the SSR middleware
+   * Extend the esbuild config that is used for the SSR webserver
+   * (which includes the SSR middlewares)
    */
-  extendWebpackWebserver?: (config: WebpackConfiguration) => void;
-
-  /**
-   * Equivalent to `extendWebpackWebserver()` but uses `webpack-chain` instead.
-   * Handles the Webserver webpack config ONLY which includes the SSR middleware
-   */
-  chainWebpackWebserver?: (chain: WebpackChain) => void;
+  extendSSRWebserverConf?: (config: EsbuildConfiguration) => void;
 }
