@@ -86,6 +86,8 @@ module.exports.renderTemplate = function (templateDir, dir, scope) {
 
     ensureFileSync(targetPath)
 
+    console.log(` ${green('-')} ${targetRelativePath}`)
+
     if (TEMPLATING_FILE_EXTENSIONS.includes(extname(targetRelativePath))) {
       const rawContent = readFileSync(sourcePath, 'utf-8')
       const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
@@ -95,8 +97,6 @@ module.exports.renderTemplate = function (templateDir, dir, scope) {
     else {
       copySync(sourcePath, targetPath)
     }
-
-    console.log(` ${green('-')} ${targetRelativePath}`)
   }
 }
 

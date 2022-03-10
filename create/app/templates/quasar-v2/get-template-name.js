@@ -7,8 +7,8 @@ module.exports = async function (initialAnswers, utils) {
       message: 'Pick Quasar App CLI variant:',
       initial: 0,
       choices: [
-        { title: 'Quasar App CLI with Webpack', value: 'webpack' },
-        { title: 'Quasar App CLI with Vite (currently in alpha/beta)', value: 'vite' }
+        { title: 'Quasar App CLI with Webpack (stable)', value: 'webpack' },
+        { title: 'Quasar App CLI with Vite (beta stage)', value: 'vite' }
       ]
     }
   ])

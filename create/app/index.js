@@ -95,8 +95,8 @@ async function run () {
       name: 'name',
       message: 'Package name:',
       initial: () => utils.inferPackageName(dir),
-      validate: (dir) =>
-      utils.isValidPackageName(dir) || 'Invalid package.json name'
+      validate: (val) =>
+        utils.isValidPackageName(val) || 'Invalid package.json name'
     },
     {
       type: 'text',
