@@ -61,7 +61,7 @@
     <div class="q-ma-md row items-center q-gutter-md">
       <q-btn label="xhr /server (trigger)" color="primary" @click="triggerXhr1" no-caps />
       <q-btn label="xhr /second-server (NO trigger)" color="primary" @click="triggerXhr2" no-caps />
-      <div>Status: {{ loadingState }}</div>
+      <div>Loading bar status: {{ loadingState }}</div>
     </div>
 
     <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" skip-hijack />

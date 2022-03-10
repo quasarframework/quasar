@@ -60,11 +60,9 @@ const Plugin = defineReactivePlugin({
     Object.assign(this, {
       start (speed) {
         barRef.value.start(speed)
-        Plugin.isActive = true
       },
       stop () {
-        const sessions = barRef.value.stop()
-        Plugin.isActive = sessions > 0
+        barRef.value.stop()
       },
       increment () {
         barRef.value.increment.apply(null, arguments)
