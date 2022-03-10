@@ -94,6 +94,10 @@ interface QuasarStaticBuildConfiguration {
    */
   vueRouterMode?: "hash" | "history";
   /**
+   * Should the Vue Options API be available?
+   */
+  vueOptionsAPI?: boolean;
+  /**
    * @default 'index.html'
    */
   htmlFilename?: string;

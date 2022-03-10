@@ -9,7 +9,7 @@ import {
 } from "./electron-conf";
 import { QuasarCordovaTargets } from "./cordova-conf";
 
-type QuasarModes = "spa" | "ssr" | "pwa" | "cordova" | "capacitor" | "electron";
+type QuasarModes = "spa" | "ssr" | "pwa" | "cordova" | "capacitor" | "electron" | "bex";
 
 interface BaseQuasarContext {
   /** True if we are in development mode */
@@ -132,8 +132,13 @@ interface PwaQuasarContext extends BaseQuasarContext {
 }
 
 interface SsrQuasarContext extends BaseQuasarContext {
-  mode: { ssr: true };
+  mode: { ssr: true, pwa?: true };
   modeName: "ssr";
+}
+
+interface BexQuasarContext extends BaseQuasarContext {
+  mode: { bex: true };
+  modeName: "bex";
 }
 
 export type QuasarContext =
@@ -142,4 +147,5 @@ export type QuasarContext =
   | SsrQuasarContext
   | CapacitorQuasarContext
   | CordovaQuasarContext
-  | ElectronQuasarContext;
+  | ElectronQuasarContext
+  | BexQuasarContext;
