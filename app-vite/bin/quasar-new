@@ -162,11 +162,12 @@ function createFile (asset, file) {
   )
 }
 
+const resolveWithExtension = (path) =>
+  path + (fs.existsSync(appPaths.resolve.app(path + '.ts')) ? '.ts' : '.js')
+
 const pathList = {
-  router: 'src/router/routes'
-    + (fs.existsSync(appPaths.resolve.src('router/routes.ts')) ? '.ts' : '.js'),
-  store: `src/${storeProvider.pathKey}/index`
-    + (fs.existsSync(appPaths.resolve.src(`${storeProvider.pathKey}/index.ts`)) ? '.ts' : '.js')
+  router: resolveWithExtension('src/router/routes'),
+  store: resolveWithExtension(`src/${storeProvider.pathKey}/index`)
 }
 
 const mapping = {
