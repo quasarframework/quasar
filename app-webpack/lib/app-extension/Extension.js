@@ -3,7 +3,6 @@ const path = require('path')
 
 const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
-const { spawnSync } = require('../helpers/spawn')
 const extensionJson = require('./extension-json')
 
 async function promptOverwrite ({ targetPath, options }) {
@@ -29,7 +28,7 @@ async function promptOverwrite ({ targetPath, options }) {
 }
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
-  const isBinary = require('isbinaryfile').isBinaryFileSync
+  const { isBinaryFileSync: isBinary } = require('isbinaryfile')
   const compileTemplate = require('lodash.template')
 
   if (overwritePrompt === true && fs.existsSync(targetPath)) {
@@ -270,38 +269,20 @@ module.exports = class Extension {
 
   __installPackage () {
     const nodePackager = require('../helpers/node-packager')
-    const cmdParam = nodePackager === 'npm'
-      ? ['install', '--save-dev']
-      : ['add', '--dev']
 
-    log(`Retrieving "${this.packageFullName}"...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(this.packageFullName),
-      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => fatal(`Failed to install ${this.packageFullName}`, 'FAIL')
-    )
+    nodePackager.installPackage(this.packageFullName, { isDev: true })
   }
 
   __uninstallPackage () {
     const nodePackager = require('../helpers/node-packager')
-    const cmdParam = nodePackager === 'npm'
-      ? ['uninstall', '--save-dev']
-      : ['remove']
 
-    log(`Uninstalling "${this.packageName}"...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(this.packageName),
-      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`Failed to uninstall "${this.packageName}"`)
-    )
+    nodePackager.uninstallPackage(this.packageFullName)
   }
 
   /**
    * Returns the file absolute path. If the file cannot be found into the default 'src' folder,
    * searches it into the `dist` folder.
-   * 
+   *
    * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
@@ -373,17 +354,8 @@ module.exports = class Extension {
 
     if (api.__needsNodeModulesUpdate) {
       const nodePackager = require('../helpers/node-packager')
-      const cmdParam = nodePackager === 'npm'
-        ? ['install']
-        : []
 
-      log(`Updating dependencies...`)
-      spawnSync(
-        nodePackager,
-        cmdParam,
-        { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-        () => warn(`Failed to update dependencies`)
-      )
+      nodePackager.install()
     }
 
     return hooks

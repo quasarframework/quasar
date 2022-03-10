@@ -86,12 +86,12 @@ class ElectronBuilder extends AppBuilder {
   #packageFiles () {
     return new Promise(resolve => {
       spawn(
-        nodePackager,
+        nodePackager.name,
         [ 'install', '--production' ].concat(this.quasarConf.electron.unPackagedInstallParams),
         { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
         code => {
           if (code) {
-            fatal(`${nodePackager} failed installing dependencies`, 'FAIL')
+            fatal(`${nodePackager.name} failed installing dependencies`, 'FAIL')
           }
           resolve()
         }

@@ -104,18 +104,8 @@ function startVueDevtools () {
   }
 
   const nodePackager = require('../lib/helpers/node-packager')
-  const appPaths = require('../lib/app-paths')
-  const cmdParam = nodePackager === 'npm' ?
-    ['install', '--save-dev'] :
-    ['add', '--dev']
 
-  log('Installing vue-devtools package...')
-  spawnSync(
-    nodePackager,
-    cmdParam.concat('@vue/devtools'),
-    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal('Failed to install vue-devtools', 'FAIL')
-  )
+  nodePackager.installPackage('@vue/devtools', { isDev: true })
 
   // a small delay is a must, otherwise require.resolve
   // after a yarn/npm install will fail

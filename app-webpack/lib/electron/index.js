@@ -91,12 +91,12 @@ class ElectronRunner {
 
     return new Promise(resolve => {
       spawn(
-        nodePackager,
+        nodePackager.name,
         [ 'install', '--production' ].concat(cfg.electron.unPackagedInstallParams),
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
-            fatal(`${nodePackager} failed installing dependencies`, 'FAIL')
+            fatal(`${nodePackager.name} failed installing dependencies`, 'FAIL')
           }
           resolve()
         }

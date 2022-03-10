@@ -3,7 +3,6 @@ const path = require('path')
 
 const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
-const { spawnSync } = require('../helpers/spawn')
 const extensionJson = require('./extension-json')
 
 async function promptOverwrite ({ targetPath, options }) {
@@ -270,32 +269,14 @@ module.exports = class Extension {
 
   __installPackage () {
     const nodePackager = require('../helpers/node-packager')
-    const cmdParam = nodePackager === 'npm'
-      ? ['install', '--save-dev']
-      : ['add', '--dev']
 
-    log(`Retrieving "${this.packageFullName}"...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(this.packageFullName),
-      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => fatal(`Failed to install ${this.packageFullName}`, 'FAIL')
-    )
+    nodePackager.installPackage(this.packageFullName, { isDev: true })
   }
 
   __uninstallPackage () {
     const nodePackager = require('../helpers/node-packager')
-    const cmdParam = nodePackager === 'npm'
-      ? ['uninstall', '--save-dev']
-      : ['remove']
 
-    log(`Uninstalling "${this.packageName}"...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(this.packageName),
-      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`Failed to uninstall "${this.packageName}"`)
-    )
+    nodePackager.uninstallPackage(this.packageFullName)
   }
 
   /**
@@ -373,17 +354,8 @@ module.exports = class Extension {
 
     if (api.__needsNodeModulesUpdate) {
       const nodePackager = require('../helpers/node-packager')
-      const cmdParam = nodePackager === 'npm'
-        ? ['install']
-        : []
 
-      log(`Updating dependencies...`)
-      spawnSync(
-        nodePackager,
-        cmdParam,
-        { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-        () => warn(`Failed to update dependencies`)
-      )
+      nodePackager.install()
     }
 
     return hooks

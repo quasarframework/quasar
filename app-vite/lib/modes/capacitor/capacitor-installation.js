@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 const compileTemplate = require('lodash.template')
 
 const appPaths = require('../../app-paths')
-const { log, warn, fatal } = require('../../helpers/logger')
+const { log, warn } = require('../../helpers/logger')
 const { spawnSync } = require('../../helpers/spawn')
 const nodePackager = require('../../helpers/node-packager')
 
@@ -57,7 +57,7 @@ async function add (silent, target) {
     appName,
     appId: answer.appId,
     pkg,
-    nodePackager
+    nodePackager: nodePackager.name
   }
 
   fglob.sync(['**/*'], {
@@ -123,16 +123,9 @@ function addPlatform (target) {
   const { capBin, capVersion } = require('./cap-cli')
 
   if (capVersion >= 3) {
-    const cmdParam = nodePackager === 'npm'
-      ? ['install']
-      : ['add']
-
-    log(`Installing Capacitor platform...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(`@capacitor/${target}@^${capVersion}.0.0-beta.0`),
-      { cwd: appPaths.capacitorDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => fatal('Failed to install Capacitor platform', 'FAIL')
+    nodePackager.installPackage(
+      `@capacitor/${target}@^${capVersion}.0.0-beta.0`,
+      { displayName: 'Capacitor platform', cwd: appPaths.capacitorDir }
     )
   }
 

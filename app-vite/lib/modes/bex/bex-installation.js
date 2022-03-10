@@ -4,7 +4,6 @@ const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
-const { spawnSync } = require('../../helpers/spawn')
 const nodePackager = require('../../helpers/node-packager')
 
 const bexDeps = {
@@ -23,18 +22,9 @@ async function add (silent) {
     return
   }
 
-  const cmdParam = nodePackager === 'npm'
-    ? ['install']
-    : ['add']
-
-  log(`Installing BEX dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam.concat(Object.keys(bexDeps).map(dep => {
-      return `${dep}@${bexDeps[dep]}`
-    })),
-    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal('Failed to install BEX dependencies', 'FAIL')
+  nodePackager.installPackage(
+    Object.entries(bexDeps).map(([name, version]) => `${name}@${version}`),
+    { displayName: 'BEX dependencies' }
   )
 
   const inquirer = require('inquirer')
@@ -57,28 +47,19 @@ async function add (silent) {
 
 function remove () {
   if (!isInstalled()) {
-    warn(`No Browser Extension support detected. Aborting.`)
+    warn('No Browser Extension support detected. Aborting.')
     return
   }
 
-  log(`Removing Browser Extension source folder`)
+  log('Removing Browser Extension source folder')
   fse.removeSync(appPaths.bexDir)
 
-  const cmdParam = nodePackager === 'npm'
-    ? ['uninstall', '--save']
-    : ['remove']
-
-  const deps = Object.keys(bexDeps)
-
-  log(`Uninstalling BEX dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam.concat(deps),
-    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal('Failed to uninstall BEX dependencies', 'FAIL')
+  nodePackager.uninstallPackage(
+    Object.keys(bexDeps),
+    { displayName: 'BEX dependencies' }
   )
 
-  log(`Browser Extension support was removed`)
+  log('Browser Extension support was removed')
 }
 
 module.exports = {
