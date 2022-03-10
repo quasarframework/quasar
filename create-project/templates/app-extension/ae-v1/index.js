@@ -80,6 +80,8 @@ module.exports = async function ({ scope, utils }) {
   if (scope.preset.install) utils.renderTemplate(utils.join(__dirname, 'install-script'), scope)
   if (scope.preset.uninstall) utils.renderTemplate(utils.join(__dirname, 'uninstall-script'), scope)
 
+  utils.sortPackageJson(scope.projectFolder)
+
   // nothing to install, so we'll skip it
   scope.skipDepsInstall = true
 }

@@ -164,11 +164,11 @@ ${yellow(`
   yarn lint --fix # or: npm run lint -- --fix` : '' }${ scope.skipDepsInstall !== true ? `
   quasar dev # or: yarn quasar dev # or: npx quasar dev` : '' }
 `)}
-Documentation can be found at: https://${verPrefix}.quasar.dev
+Documentation can be found at: https://${verPrefix}quasar.dev
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
-read our manifest on "Why donations are important": https://${verPrefix}.quasar.dev/why-donate
-Donation campaign: https://${verPrefix}.donate.quasar.dev
+read our manifest on "Why donations are important": https://${verPrefix}quasar.dev/why-donate
+Donation campaign: https://${verPrefix}donate.quasar.dev
 Any amount is very welcomed.
 If invoices are required, please first contact Razvan Stoenescu.
 
@@ -318,7 +318,7 @@ module.exports.commonPrompts = {
     message: 'Homepage URL:'
   },
   bugs: {
-    type: 'string',
+    type: 'text',
     name: 'bugs',
     message: 'Issue reporting URL: (eg https://github.com/quasarframework/quasar/issues)'
   }

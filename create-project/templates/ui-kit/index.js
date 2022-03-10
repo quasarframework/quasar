@@ -5,6 +5,7 @@ module.exports = async function ({ scope, utils }) {
 
     {
       type: 'text',
+      name: 'name',
       message: 'Project name (npm name, kebab-case, without "quasar-ui" prefix)',
       validate: (val) =>
         utils.isValidPackageName(val) || 'Invalid package.json name'
@@ -103,4 +104,7 @@ module.exports = async function ({ scope, utils }) {
 
   const script = require(`./quasar-${scope.quasarVersion}`)
   await script({ scope, utils })
+
+  // we don't want to install
+  scope.skipDepsInstall = true
 }

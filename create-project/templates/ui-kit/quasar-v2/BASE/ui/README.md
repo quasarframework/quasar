@@ -1,36 +1,36 @@
-# {{#features.component}}Component <%= componentName %>{{#features.directive}} and {{/features.directive}}{{/features.component}}{{#features.directive}}Directive v-<%= directiveName %>{{/features.directive}}
+# <% if (features.component) { %>Component <%= componentName %><% if (features.directive) { %> and <% } } %><% if (features.directive) { %>Directive v-<%= directiveName %><% } %>
 
 [![npm](https://img.shields.io/npm/v/quasar-ui-<%= name %>.svg?label=quasar-ui-<%= name %>)](https://www.npmjs.com/package/quasar-ui-<%= name %>)
 [![npm](https://img.shields.io/npm/dt/quasar-ui-<%= name %>.svg)](https://www.npmjs.com/package/quasar-ui-<%= name %>)
 
 **Compatible with Quasar UI v2 and Vue 3**.
 
-{{#features.component}}
+<% if (features.component) { %>
 # Component <%= componentName %>
 > Short description of the component
-{{/features.component}}
+<% } %>
 
-{{#features.directive}}
+<% if (features.directive) { %>
 # Directive v-<%= directiveName %>
 > Short description of the directive
-{{/features.directive}}
+<% } %>
 
 # Usage
 
 ## Quasar CLI project
-{{#features.ae}}
+<% if (features.ae) { %>
 
 Install the [App Extension](../app-extension).
 
 **OR**:
 
-{{/features.ae}}
+<% } %>
 Create and register a boot file:
 
 ```js
 import Vue from 'vue'
-import Plugin from 'quasar-ui-<%= name %>'{{#or componentCss directiveCss}}
-import 'quasar-ui-<%= name %>/dist/index.css'{{/or}}
+import Plugin from 'quasar-ui-<%= name %>'
+import 'quasar-ui-<%= name %>/dist/index.css'
 
 Vue.use(Plugin)
 ```
@@ -38,23 +38,22 @@ Vue.use(Plugin)
 **OR**:
 
 ```html
-{{#or componentCss directiveCss}}<style src="quasar-ui-<%= name %>/dist/index.css"></style>
+<style src="quasar-ui-<%= name %>/dist/index.css"></style>
 
-{{/or}}
 <script>
-import { {{#features.component}}Component as <%= componentName %>{{/features.component}}{{#features.directive}}, {{/features.directive}}{{#features.directive}}Directive{{/features.directive}} } from 'quasar-ui-<%= name %>'
+import { <% if (features.component) { %>Component as <%= componentName %><% if (features.directive) { %>, <% } %><% } %><% if (features.directive) { %>Directive<% } %> } from 'quasar-ui-<%= name %>'
 
 export default {
-  {{#features.component}}
+  <% if (features.component) { %>
   components: {
     <%= componentName %>
-  }{{#features.directive}},{{/features.directive}}
-  {{/features.component}}
-  {{#features.directive}}
+  }<% if (features.directive) { %>,<% } %>
+  <% } %>
+  <% if (features.directive) { %>
   directives: {
     Directive
   }
-  {{/features.directive}}
+  <% } %>
 }
 </script>
 ```
@@ -63,8 +62,8 @@ export default {
 
 ```js
 import Vue from 'vue'
-import Plugin from 'quasar-ui-<%= name %>'{{#or componentCss directiveCss}}
-import 'quasar-ui-<%= name %>/dist/index.css'{{/or}}
+import Plugin from 'quasar-ui-<%= name %>'
+import 'quasar-ui-<%= name %>/dist/index.css'
 
 Vue.use(Plugin)
 ```
@@ -72,23 +71,22 @@ Vue.use(Plugin)
 **OR**:
 
 ```html
-{{#or componentCss directiveCss}}<style src="quasar-ui-<%= name %>/dist/index.css"></style>
+<style src="quasar-ui-<%= name %>/dist/index.css"></style>
 
-{{/or}}
 <script>
-import { {{#features.component}}Component as <%= componentName %>{{/features.component}}{{#features.directive}}, {{/features.directive}}{{#features.directive}}Directive{{/features.directive}} } from 'quasar-ui-<%= name %>'
+import { <% if (features.component) { %>Component as <%= componentName %><% if (features.directive) { %>, <% } %><% } %><% if (features.directive) { %>Directive<% } %> } from 'quasar-ui-<%= name %>'
 
 export default {
-  {{#features.component}}
+  <% if (features.component) { %>
   components: {
     <%= componentName %>
-  }{{#features.directive}},{{/features.directive}}
-  {{/features.component}}
-  {{#features.directive}}
+  }<% if (features.directive) { %>,<% } %>
+  <% } %>
+  <% if (features.directive) { %>
   directives: {
     Directive
   }
-  {{/features.directive}}
+  <% } %>
 }
 </script>
 ```
@@ -100,23 +98,19 @@ Exports `window.<%= umdExportName %>`.
 Add the following tag(s) after the Quasar ones:
 
 ```html
-{{#or componentCss directiveCss}}
 <head>
   <!-- AFTER the Quasar stylesheet tags: -->
   <link href="https://cdn.jsdelivr.net/npm/quasar-ui-<%= name %>/dist/index.min.css" rel="stylesheet" type="text/css">
 </head>
-{{/or}}
 <body>
   <!-- at end of body, AFTER Quasar script(s): -->
   <script src="https://cdn.jsdelivr.net/npm/quasar-ui-<%= name %>/dist/index.umd.min.js"></script>
 </body>
 ```
-{{#or componentCss directiveCss}}
 If you need the RTL variant of the CSS, then go for the following (instead of the above stylesheet link):
 ```html
 <link href="https://cdn.jsdelivr.net/npm/quasar-ui-<%= name %>/dist/index.rtl.min.css" rel="stylesheet" type="text/css">
 ```
-{{/or}}
 
 # Setup
 ```bash

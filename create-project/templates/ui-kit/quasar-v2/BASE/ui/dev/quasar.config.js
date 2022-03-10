@@ -13,9 +13,7 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      {{#or componentCss directiveCss}}
       'app.sass'
-      {{/or}}
     ],
 
     extras: [

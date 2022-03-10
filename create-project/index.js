@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const { readFileSync, readdirSync, existsSync } = require('fs')
-const parseArgs = require('minimist')
 
 // display banner
 console.log(
@@ -16,15 +15,6 @@ const utils = require('./utils')
 // should error out if already inside of a Quasar project
 utils.ensureOutsideProject()
 
-const argv = parseArgs(process.argv.slice(2), {
-  alias: {
-    v: 'version',
-    t: 'type'
-  },
-  string: [ 'v', 't' ]
-})
-
-let dir = argv._[0]
 const defaultProjectFolder = 'quasar-project'
 
 async function run () {
@@ -77,8 +67,6 @@ async function run () {
 
   const projectScript = require(`./templates/${scope.projectType}`)
   await projectScript({ scope, utils })
-
-  utils.sortPackageJson(scope.projectFolder)
 
   console.log()
   utils.logger.success('The project has been scaffolded')

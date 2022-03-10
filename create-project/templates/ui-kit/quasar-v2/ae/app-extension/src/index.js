@@ -12,27 +12,31 @@ function extendConf (conf) {
 
   // make sure app extension files & ui package gets transpiled
   conf.build.transpileDependencies.push(/quasar-app-extension-<%= name %>[\\/]src/)
-{{#or componentCss directiveCss}}
 
   // make sure the stylesheet goes through webpack to avoid SSR issues
   conf.css.push('~quasar-ui-<%= name %>/src/index.sass')
-{{/or}}
 }
 
 module.exports = function (api) {
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
-  // package or a minimum version of "@quasar/app" CLI
+  // package or a minimum version of "@quasar/app-*" CLI
   api.compatibleWith('quasar', '^2.0.0')
-  api.compatibleWith('@quasar/app', '^3.0.0')
 
-{{#features.component}}
+  if (api.hasVite) {
+    api.compatibleWith('@quasar/app-vite', '^1.0.0-alpha.0')
+  }
+  else if (api.hasWebpack) {
+    api.compatibleWith('@quasar/app-webpack', '^3.4.0')
+  }
+
+<% if (features.component) { %>
   // Uncomment the line below if you provide a JSON API for your component
   // api.registerDescribeApi('<%= componentName %>', '~quasar-ui-<%= name %>/src/components/<%= componentName %>.json')
-{{/features.component}}{{#features.directive}}
+<% } %><% if (features.directive) { %>
   // Uncomment the line below if you provide a JSON API for your directive
   // api.registerDescribeApi('<%= directiveName %>', '~quasar-ui-<%= name %>/src/directives/<%= directiveName %>.json')
-{{/features.directive}}
+<% } %>
 
   // We extend /quasar.conf.js
   api.extendQuasarConf(extendConf)

@@ -11,7 +11,7 @@
           <q-icon name="pages" />
         </q-item-section>
         <q-item-section>
-          \{{ page.title }}
+          {{ page.title }}
         </q-item-section>
         <q-item-section side>
           <q-icon name="chevron_right" />
