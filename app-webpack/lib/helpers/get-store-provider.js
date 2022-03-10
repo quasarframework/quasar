@@ -1,4 +1,5 @@
-const getPackageJson = require("./get-package-json")
+const getPackageJson = require('./get-package-json')
+const nodePackager = require('./node-packager')
 
 module.exports = function getStoreProvider() {
   /** @type {'pinia' | 'vuex'} */
@@ -6,6 +7,11 @@ module.exports = function getStoreProvider() {
 
   return {
     name,
-    pathKey: name === 'pinia' ? 'stores' : 'store'
+    pathKey: name === 'pinia' ? 'stores' : 'store',
+
+    isInstalled: getPackageJson(name) !== void 0,
+    install () {
+      nodePackager.installPackage(name)
+    }
   }
 }

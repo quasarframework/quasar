@@ -210,8 +210,7 @@ if (asset.install) {
   const folder = appPaths.resolve.app(asset.folder)
 
   if (!storeProvider.isInstalled) {
-    // TODO: Automatically install the package for the user
-    warn(`Don't forget to install "${storeProvider.name}" package.`)
+    storeProvider.install()
   }
 
   if (!fs.existsSync(folder)) {
