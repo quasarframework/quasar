@@ -65,6 +65,7 @@ const fse = require('fs-extra')
 const { log, warn } = require('../lib/helpers/logger')
 const appPaths = require('../lib/app-paths')
 const getPackageJson = require('../lib/helpers/get-package-json')
+const getStoreProvider = require('../lib/helpers/get-store-provider')
 const defaultFilePath = 'default'
 
 if (argv._.length < 2) {
@@ -115,7 +116,7 @@ if (type.length === 1) {
   type = fullCmd[type]
 }
 
-const storeProvider = getPackageJson('vuex') !== void 0 ? 'vuex' : 'pinia'
+const storeProvider = getStoreProvider()
 
 function getPaths (asset, names) {
   return names.map(name => {
@@ -139,7 +140,7 @@ function createFile (asset, file) {
   let templatePath = path.join('templates/app', format)
 
   templatePath = type === 'store'
-    ? path.join(templatePath, 'store', storeProvider)
+    ? path.join(templatePath, 'store', storeProvider.name)
     : path.join(templatePath, type + (asset.ext || ''))
 
   fse.copy(
@@ -164,8 +165,8 @@ function createFile (asset, file) {
 const pathList = {
   router: 'src/router/routes'
     + (fs.existsSync(appPaths.resolve.src('router/routes.ts')) ? '.ts' : '.js'),
-  store: 'src/store/index'
-    + (fs.existsSync(appPaths.resolve.src('store/index.ts')) ? '.ts' : '.js')
+  store: `src/${storeProvider.pathKey}/index`
+    + (fs.existsSync(appPaths.resolve.src(`${storeProvider.pathKey}/index.ts`)) ? '.ts' : '.js')
 }
 
 const mapping = {
@@ -184,9 +185,10 @@ const mapping = {
     ext: '.vue'
   },
   store: {
-    folder: 'src/store',
+    folder: `src/${storeProvider.pathKey}`,
     install: true,
-    reference: pathList.store
+    // Created Vuex modules need to be referenced, but Pinia stores don't.
+    reference: storeProvider.name === 'vuex' ? pathList.store : void 0
   },
   boot: {
     folder: 'src/boot',
@@ -207,15 +209,15 @@ const filesToCreate = getPaths(asset, names)
 if (asset.install) {
   const folder = appPaths.resolve.app(asset.folder)
 
-  if (getPackageJson(storeProvider) === void 0) {
+  if (getPackageJson(storeProvider.name) === void 0) {
     // TODO: Automatically install the package for the user
-    warn(`Don't forget to install "${storeProvider}" package.`)
+    warn(`Don't forget to install "${storeProvider.name}" package.`)
   }
 
   if (!fs.existsSync(folder)) {
     fse.mkdirp(folder)
     fse.copy(
-      appPaths.resolve.cli(`templates/store/${storeProvider}/${format}`),
+      appPaths.resolve.cli(`templates/store/${storeProvider.name}/${format}`),
       folder,
       err => {
         if (err) {

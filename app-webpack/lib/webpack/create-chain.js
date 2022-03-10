@@ -81,12 +81,12 @@ module.exports = function (cfg, configName) {
     .merge({
       src: appPaths.srcDir,
       app: appPaths.appDir,
-      components: appPaths.resolve.src(`components`),
-      layouts: appPaths.resolve.src(`layouts`),
-      pages: appPaths.resolve.src(`pages`),
-      assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`),
-      store: appPaths.resolve.src(`store`),
+      components: appPaths.resolve.src('components'),
+      layouts: appPaths.resolve.src('layouts'),
+      pages: appPaths.resolve.src('pages'),
+      assets: appPaths.resolve.src('assets'),
+      boot: appPaths.resolve.src('boot'),
+      stores: appPaths.resolve.src('stores'),
 
       'src-bex': appPaths.bexDir // needed for app/templates
     })
