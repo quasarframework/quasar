@@ -602,7 +602,7 @@ export default createComponent({
 
       return typeof val === 'function'
         ? val
-        : opt => (Object(opt) === opt && val in opt ? opt[ val ] : opt)
+        : opt => (opt !== null && typeof opt === 'object' && val in opt ? opt[ val ] : opt)
     }
 
     function isOptionSelected (opt) {
