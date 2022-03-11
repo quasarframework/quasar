@@ -1,5 +1,5 @@
 <template>
-  <q-page class="column justify-center q-px-xl font-monserrat">
+  <q-page class="column justify-center q-px-xl font-monserrat landing-mb--large">
     <h1
       class="landing-heading landing-heading--large landing__title normal-line-height"
     >Welcome to quasar docs</h1>
@@ -23,28 +23,48 @@
       <br v-if="$q.screen.gt.sm" />to navigate through our most important
       technical resources.
     </p>
-    <h2
-      class="landing-heading landing-heading--medium q-mb-lg normal-line-height"
-    >Have a look at Our most used pages</h2>
-    <div class="cards-grid landing-mb--large">
-      <q-card
-        v-for="({path, label, icon}, pageIndex) in mostUsedPages"
-        :key="pageIndex"
-        class="raise-on-hover card column justify-end items-center cursor-pointer"
-        flat
-        background="grey-10"
-        @click="$router.push(`/${path}`)"
-      >
-        <q-icon
-          :name="icon"
-          class="card__icon q-mb-lg"
-          color="brand-primary"
-        />
-
-        <div class="q-pa-sm q-mb-md text-center text-brand-secondary text-size-16 text-weight-bold letter-spacing-300">
-          {{ label }}
+    <div :class="{'cards-grid': $q.screen.gt.sm}">
+      <div class="row cards-container-width justify-center q-gutter-sm q-py-lg justify-self-end">
+        <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
+          Most Used
         </div>
-      </q-card>
+        <q-card
+          v-for="({icon, img, label}, pageIndex) in importantPages.mostUsedPages"
+          :key="`page-${pageIndex}`"
+          class="raise-on-hover card column justify-center items-center cursor-pointer"
+          flat
+        >
+          <q-icon
+            :name="img? `img:${img}` : icon"
+            class="card__icon"
+            color="brand-primary"
+          />
+          <div class="text-brand-secondary text-size-12 text-weight-bold letter-spacing-100">
+            {{ label }}
+          </div>
+        </q-card>
+      </div>
+      <q-separator v-if="$q.screen.gt.sm" vertical class="bg-black-12 justify-self-center"/>
+      <div class="row cards-container-width justify-center q-gutter-sm q-py-lg justify-self-start">
+        <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
+          Discover Also
+        </div>
+        <q-card
+          v-for="({icon, label}, pageIndex) in importantPages.pagesToDiscover"
+          :key="`page-${pageIndex}`"
+          class="raise-on-hover card column justify-center items-center cursor-pointer"
+          flat
+        >
+          <q-icon
+            :name="icon"
+            class="card__icon"
+            color="brand-primary"
+          />
+          <div class="text-brand-secondary text-size-12 text-weight-bold letter-spacing-100">
+            {{ label }}
+          </div>
+        </q-card>
+      </div>
     </div>
   </q-page>
 </template>
@@ -54,6 +74,83 @@ import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 
 import { useDocStore } from 'assets/doc-store.js'
+import {
+  mdiAnimation,
+  mdiApplicationExport,
+  mdiCalendar,
+  mdiCardMultiple,
+  mdiFormDropdown,
+  mdiFormTextbox,
+  mdiImageSizeSelectSmall,
+  mdiTable
+} from '@quasar/extras/mdi-v6'
+
+const importantPages = {
+  mostUsedPages: [
+    {
+      label: 'QTable',
+      icon: mdiTable,
+      path: 'vue-components/table'
+    },
+    {
+      label: 'QInput',
+      icon: mdiFormTextbox,
+      path: 'vue-components/input'
+    },
+    {
+      label: 'QSelect',
+      icon: mdiFormDropdown,
+      path: 'vue-components/select'
+    },
+    {
+      label: 'QBtn',
+      icon: 'view_quilt',
+      path: 'vue-components/button'
+    },
+    {
+      label: 'QCard',
+      icon: mdiCardMultiple,
+      path: 'vue-components/card'
+    },
+    {
+      label: 'Flavour',
+      img: 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg',
+      path: 'start/pick-quasar-flavour'
+    }
+  ],
+  pagesToDiscover: [
+    {
+      label: 'quasar.conf.js',
+      icon: 'view_quilt',
+      path: 'vue-components/table'
+    },
+    {
+      label: 'Boot Files',
+      icon: mdiApplicationExport,
+      path: 'vue-components/input'
+    },
+    {
+      label: 'Date Utils',
+      icon: mdiCalendar,
+      path: 'vue-components/button'
+    },
+    {
+      label: 'Other Utils',
+      icon: 'healing',
+      path: 'vue-components/select'
+    },
+    {
+      label: 'Flexbox',
+      icon: mdiImageSizeSelectSmall,
+      path: 'vue-components/card'
+    },
+    {
+      label: 'Animations',
+      icon: mdiAnimation,
+      path: 'start/pick-quasar-flavour'
+    }
+  ]
+}
 
 const mostUsedPages = [
   {
@@ -114,7 +211,11 @@ export default defineComponent({
     const $store = useDocStore()
     $store.toc = []
 
-    return { mostUsedPages }
+    return {
+      mostUsedPages,
+      mdiTable,
+      importantPages
+    }
   }
 })
 
@@ -127,34 +228,6 @@ export default defineComponent({
   }
 }
 
-.cards-grid {
-  display: grid;
-  gap: 24px;
-  justify-content: center;
-  justify-items: center;
-  grid-template-columns: repeat(auto-fit, 240px);
-  grid-auto-rows: 240px;
-
-  @media screen and (min-width: $breakpoint-md-max) {
-    grid-template-columns: repeat(4, 240px);
-  }
-
-  &-title {
-    margin-top: 100px;
-  }
-}
-
-.card {
-  height: 240px;
-  width: 240px;
-  border-radius: 8px;
-  border: solid 1px rgba(0, 0, 0, 0.12);
-
-  &__icon {
-    font-size: 100px;
-  }
-}
-
 .raise-on-hover {
   transition: transform 0.3s, box-shadow 0.3s;
 
@@ -162,6 +235,37 @@ export default defineComponent({
     // !important needed when used with flat cards
     box-shadow: 0 8px 8px 0 rgba($dark, 0.2) !important;
     transform: scale(1.03);
+  }
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 50px 1fr;
+}
+.card {
+  width: 120px;
+  height: 120px;
+  border: solid 1px rgba(0, 0, 0, 0.12);
+
+  &__icon {
+    font-size: 36px;
+  }
+}
+.cards-container-width {
+  @media screen and (min-width: $breakpoint-md-max) {
+    width: 400px;
+  }
+}
+
+.justify-self {
+  &-start {
+    justify-self: start;
+  }
+  &-center {
+    justify-self: center;
+  }
+  &-end {
+    justify-self: end;
   }
 }
 </style>
