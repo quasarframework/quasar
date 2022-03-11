@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { isSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
-import { isPlainObject } from '../utils/is.js'
+import { isObject } from '../utils/is.js'
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
 export default {
@@ -55,7 +55,7 @@ export default {
       stop: bar.stop,
       increment: bar.increment,
       setDefaults: opts => {
-        isPlainObject(opts) === true && Object.assign(props, opts)
+        isObject(opts) === true && Object.assign(props, opts)
         bar.$parent.$forceUpdate()
       }
     })
