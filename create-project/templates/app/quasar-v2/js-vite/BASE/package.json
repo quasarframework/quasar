@@ -36,6 +36,7 @@
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
     <% } } %>
+    <% if (preset.i18n) { %>"@intlify/vite-plugin-vue-i18n": "^3.3.1",<% } %>
     "@quasar/app-vite": "^1.0.0-alpha.0",
     "autoprefixer": "^10.4.2"
   },

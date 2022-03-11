@@ -69,39 +69,21 @@ module.exports = configure(function (/* ctx */) {
       // rebuildCache: true // rebuilds Vite/linter/etc cache on startup
 
       // publicPath: '/',
-      // analyze: true, // analize: { template: 'network' },
+      // analyze: true,
       // env: {},
       // rawDefine: {}
-
+      // ignorePublicFolder: true,
       // minify: false,
-      // distDir
 
-      // ignorePublicFolder,
-
-      // extendViteConf (cfg) {},
+      // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
+      <% if (preset.i18n) { %>vitePlugins: [
+        [ '@intlify/vite-plugin-vue-i18n', { /* options */ } ]
+      ]<% } else { %>
       // vitePlugins: [
       //   [ 'package-name', { ..options.. } ]
-      // ],
-
-      // assetsInclude
-      // resolve: {}
-      // css: {}
-      // json: {}
-      // esbuild: {}
-      // worker
-      // assetsDir
-      // assetsInlineLimit
-      // polyfillModulePreload
-      // cssCodeSplit
-      // sourcemap
-      // rollupOptions
-      // commonjsOptions
-      // dynamicImportVarsOptions
-      // reportCompressedSize
-      // chunkSizeWarningLimit
-      // optimizeDeps
+      // ]<% } %>
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
