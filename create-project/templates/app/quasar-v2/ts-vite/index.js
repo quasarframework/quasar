@@ -30,11 +30,23 @@ module.exports = async function ({ scope, utils }) {
       choices: [
         { title: 'ESLint', value: 'lint', description: 'recommended', selected: true },
         { title: 'State Management (Pinia)', value: 'pinia', description: 'https://pinia.vuejs.org' },
-        { title: 'State Management (Vuex) [DEPRECATED; see https://vuejs.org/guide/scaling-up/state-management.html#pinia]', value: 'vuex' },
+        { title: 'State Management (Vuex) [DEPRECATED by Vue Team]', value: 'vuex', description: 'See https://vuejs.org/guide/scaling-up/state-management.html#pinia' },
         { title: 'Axios', value: 'axios' },
         { title: 'Vue-i18n', value: 'i18n' }
       ],
-      format: utils.convertArrayToObject
+      format: values => {
+        let result = values
+
+        if (values.includes('vuex') && values.includes('pinia')) {
+          console.log()
+          utils.logger.warn('Only one state management package can be used. Picking the recommended Pinia and dropping Vuex.')
+          console.log()
+
+          result = values.filter(entry => entry !== 'vuex')
+        }
+
+        return utils.convertArrayToObject(result)
+      }
     },
     {
       type: (_, { preset }) => preset.lint ? 'select' : null,
