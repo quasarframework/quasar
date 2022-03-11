@@ -152,7 +152,8 @@ class QuasarConfFile {
     this.#opts = { host, port }
 
     if (this.#ctx.mode.pwa) {
-      this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
+      // Enable this when workbox bumps version (as of writing these lines, we're handling v8)
+      // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {
       const { capVersion } = require('./modes/capacitor/cap-cli')
