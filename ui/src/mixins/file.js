@@ -116,7 +116,7 @@ export default {
       // Cordova/iOS allows selecting multiple files even when the
       // multiple attribute is not specified. We also normalize drag'n'dropped
       // files here:
-      if (this.multiple !== true) {
+      if (this.multiple !== true && files.length > 0) {
         files = [ files[0] ]
       }
 
