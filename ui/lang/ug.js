@@ -3,7 +3,7 @@ const days = 'يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_
 export default {
   isoName: 'ug',
   nativeName: 'ئۇيغۇرچە',
-   rtl: true,
+  rtl: true,
   label: {
     clear: 'تازىلاش',
     ok: 'ھەئە',
@@ -35,7 +35,7 @@ export default {
     noData: 'ئۇچۇر يوق',
     noResults: 'مۇناسىۋەتلىك ئۇچۇر تېپىلمىدى',
     loading: 'يۈكلىنىۋاتىدۇ ...',
-    selectedRecords:  function (rows) {
+    selectedRecords: function (rows) {
       return 'جەمئىي ' + rows + ' قۇر تاللاندى'
     },
     recordsPerPage: 'ھەربەتتىكى قۇر سانى:',
