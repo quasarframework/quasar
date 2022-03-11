@@ -28,7 +28,7 @@ Then create `/tsconfig.json` file at the root of you project with this content:
 
 ```json
 {
-  "extends": "@quasar/app/tsconfig-preset",
+  "extends": "@quasar/app-webpack/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": "."
   }
@@ -47,7 +47,7 @@ If you enable the `supportTS` flag but fail to add the `tsconfig.json` file, the
 
 ## Handling TS Webpack loaders
 
-Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `supportTS` property like so:
+Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `supportTS` property like so:
 
 ```js
 // quasar.config.js
@@ -155,7 +155,7 @@ As a last step, update your `yarn lint` command to also lint `.ts` files.
 TypeScript Linting is really slow due to type-checking overhead, we suggest you to disable Webpack lint extension into `quasar.config.js` for dev builds.
 :::
 
-If you setup TypeScript linting and want `fork-ts-checker-webpack-plugin` (provided by `@quasar/app` package) to take it into account then you should make use of `tsCheckerConfig` property:
+If you setup TypeScript linting and want `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to take it into account then you should make use of `tsCheckerConfig` property:
 
 ```js
 // quasar.config.js

@@ -5,9 +5,8 @@ desc: How to use Typescript with Electron in Quasar
 
 In order to support Electron with Typescript, you will need to:
 
-1. Make sure that you are using `@quasar/app` v3.0.0-beta.8+
-2. Edit quasar.config.js > supportTS. Set it to `true` or use the Object form.
-3. Rename the extension for your files in /src-electron from `.js` to `.ts` and make the necessary TS code changes.
+1. Edit quasar.config.js > supportTS. Set it to `true` or use the Object form.
+2. Rename the extension for your files in /src-electron from `.js` to `.ts` and make the necessary TS code changes.
 
 ::: tip
 `electron-packager` and `electron-builder` export their configuration types from their own packages.

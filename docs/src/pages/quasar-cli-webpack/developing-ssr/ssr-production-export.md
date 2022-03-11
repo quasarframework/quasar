@@ -4,7 +4,7 @@ desc: Configuring the Quasar SSR webserver for different platforms, including a 
 ---
 
 ::: danger
-* You will need to be running on "@quasar/app" v3.2+ to be able to use this feature.
+* You will need to be running on "@quasar/app-webpack" v3.2+ to be able to use this feature.
 * This file is used ONLY for your production build and NOT while developing.
 :::
 

@@ -4,7 +4,7 @@ desc: Managing the Vue directives for SSR in a Quasar app.
 ---
 
 ::: warning
-This guide refers to usage with Quasar v2.6+ and @quasar/app v3.4+
+This guide refers to usage with Quasar v2.6+
 :::
 
 A SSR app has the same code running on server and on client. Declaring a Vue directive (or directly importing it) in a .vue SFC file is usually enough for making it to work on non-SSR builds. But on SSR builds and due to the architecture of Vue 3  it requires some extra leg work.

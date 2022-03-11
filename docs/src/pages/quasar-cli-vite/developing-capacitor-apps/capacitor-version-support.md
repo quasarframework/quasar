@@ -18,10 +18,6 @@ It would also be wise to check the changelog of Capacitor itself to see what bre
 
 ## Capacitor v3
 
-::: tip
-You will need `quasar` v2.0.0-beta.8+ and `@quasar/app` v3.0.0-beta.8+.
-:::
-
 ::: warning Known issue
 HTTPS devserver (through quasar.config.js > devServer > https: true) is not **yet** supported. If you are using Capacitor plugins that depend on it, it's better to stay with Capacitor v2 for the moment.
 :::
