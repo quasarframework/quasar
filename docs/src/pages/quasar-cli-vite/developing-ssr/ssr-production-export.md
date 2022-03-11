@@ -115,7 +115,7 @@ export default ssrProductionExport(({ app, port, isReady }) => {
 
 ::: warning
 * If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
-* This is usually not the place to add middlewares (but you can do it). Add middlewares by using the [SSR Middlewares](/quasar-cli/developing-ssr/ssr-middleware) instead. You can configure SSR Middlewares to run only for dev or only for production too.
+* This is usually not the place to add middlewares (but you can do it). Add middlewares by using the [SSR Middlewares](/quasar-cli-vite/developing-ssr/ssr-middleware) instead. You can configure SSR Middlewares to run only for dev or only for production too.
 :::
 
 ### Listen on a port

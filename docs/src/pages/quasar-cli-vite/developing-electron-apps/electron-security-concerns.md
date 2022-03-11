@@ -13,7 +13,7 @@ Under no circumstances should you load and execute remote code. Instead, use onl
 ## Checklist: Security Recommendations
 The Electron team itself makes the following recommendations:
 
-1.  Make sure that you leave `webPreferences` > `contextIsolation` set to `true`. Use the [preload script](/quasar-cli/developing-electron-apps/electron-preload-script) to inject only must-have APIs to the renderer thread.
+1.  Make sure that you leave `webPreferences` > `contextIsolation` set to `true`. Use the [preload script](/quasar-cli-vite/developing-electron-apps/electron-preload-script) to inject only must-have APIs to the renderer thread.
 2.  If you must load remote content and cannot work around that, then [only load secure content](https://electronjs.org/docs/tutorial/security#1-only-load-secure-content)
 3.  [Use  `ses.setPermissionRequestHandler()`  in all sessions that load remote content](https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content)
 4.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)

@@ -3,7 +3,7 @@ title: Capacitor Build Commands
 desc: The Quasar CLI list of commands when developing or building a hybrid mobile app with Capacitor.
 ---
 
-[Quasar CLI](/quasar-cli/installation) makes it incredibly simple to develop or build the final distributables from your source code.
+[Quasar CLI](/quasar-cli-webpack/installation) makes it incredibly simple to develop or build the final distributables from your source code.
 
 ## Developing
 

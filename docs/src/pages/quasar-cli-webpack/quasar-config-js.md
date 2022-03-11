@@ -12,10 +12,10 @@ So what can you configure through `/quasar.config.js`?
 * Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
 * Development server port, HTTPS mode, hostname and so on
 * [CSS animations](/options/animations) that you wish to use
-* [Boot Files](/quasar-cli/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
+* [Boot Files](/quasar-cli-webpack/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
 * Global CSS/Sass/... files to be included in the bundle
-* PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#quasar.config.js)
-* [Electron Packager](/quasar-cli/developing-electron-apps/configuring-electron#quasar.config.js) and/or [Electron Builder](/quasar-cli/developing-electron-apps/configuring-electron#quasar.config.js)
+* PWA [manifest](/quasar-cli-webpack/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli-webpack/developing-pwa/configuring-pwa#quasar.config.js)
+* [Electron Packager](/quasar-cli-webpack/developing-electron-apps/configuring-electron#quasar.config.js) and/or [Electron Builder](/quasar-cli-webpack/developing-electron-apps/configuring-electron#quasar.config.js)
 * Extend Webpack config
 
 ::: tip
@@ -131,21 +131,21 @@ Let's take each option one by one:
 | Property | Type | Description |
 | --- | --- | --- |
 | css | Array | Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default. |
-| preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/prefetch-feature). |
+| preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli-webpack/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
-| supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli/supporting-ts) |
+| supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli-webpack/supporting-ts) |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
 | devServer | Object | Webpack devServer options. Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |
-| cordova | Object | Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). |
-| capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). |
-| pwa | Object | PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). |
-| ssr | Object | SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). |
-| electron | Object | Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). |
+| cordova | Object | Cordova specific [config](/quasar-cli-webpack/developing-cordova-apps/configuring-cordova). |
+| capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli-webpack/developing-capacitor-apps/configuring-capacitor). |
+| pwa | Object | PWA specific [config](/quasar-cli-webpack/developing-pwa/configuring-pwa). |
+| ssr | Object | SSR specific [config](/quasar-cli-webpack/developing-ssr/configuring-ssr). |
+| electron | Object | Electron specific [config](/quasar-cli-webpack/developing-electron-apps/configuring-electron). |
 
 ### Property: css
 Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default.
@@ -394,7 +394,7 @@ sourceFiles: {
 
 ### Example setting env for dev/build
 
-Please refer to [Adding to process.env](/quasar-cli/handling-process-env#adding-to-process-env) section in our docs.
+Please refer to [Adding to process.env](/quasar-cli-webpack/handling-process-env#adding-to-process-env) section in our docs.
 
 ### Handling Webpack configuration
-In depth analysis on [Handling Webpack](/quasar-cli/handling-webpack) documentation page.
+In depth analysis on [Handling Webpack](/quasar-cli-webpack/handling-webpack) documentation page.

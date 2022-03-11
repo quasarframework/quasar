@@ -2,7 +2,7 @@
 title: Handling Webpack
 desc: How to manage Webpack in a Quasar app.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-vite/quasar-config-js
 ---
 The build system uses Webpack to create your website/app. Don't worry if you aren't acquainted with Webpack. Out of the box, you won't need to configure it because it already has everything set up.
 

@@ -207,7 +207,7 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.config.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.config.js > [devServer config](/quasar-cli-webpack/quasar-config-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
 10) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
 11) Upgrade your other project dependencies (especially ESLint related ones).
 
@@ -253,7 +253,7 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | proxy | Object/Array | Same as before with webpack 4 |
 
 ::: tip
-If you've tampered with quasar.config.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
+If you've tampered with quasar.config.js > [devServer](/quasar-cli-webpack/quasar-config-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
 :::
 
 #### webpack-chain

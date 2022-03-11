@@ -145,12 +145,8 @@ const security = [
 
 const cliWebpack = [
   {
-    name: 'Installation',
-    path: 'installation'
-  },
-  {
     name: 'quasar.config.js',
-    path: 'quasar-conf-js'
+    path: 'quasar-config-js'
   },
   {
     name: 'Browser Compatibility',
@@ -209,8 +205,8 @@ const cliWebpack = [
     path: 'handling-process-env'
   },
   {
-    name: 'Vuex Store',
-    path: 'vuex-store'
+    name: 'State Management (Pinia/Vuex)',
+    path: 'state-management-pinia-vuex'
   },
   {
     name: 'Linter',
@@ -576,12 +572,8 @@ const cliWebpack = [
 
 const cliVite = [
   {
-    name: 'Installation',
-    path: 'installation'
-  },
-  {
     name: 'quasar.config.js',
-    path: 'quasar-conf-js'
+    path: 'quasar-config-js'
   },
   {
     name: 'Browser Compatibility',
@@ -632,16 +624,16 @@ const cliVite = [
     path: 'api-proxying'
   },
   {
-    name: 'Handling Webpack',
-    path: 'handling-webpack'
+    name: 'Handling Vite',
+    path: 'handling-vite'
   },
   {
     name: 'Handling process.env',
     path: 'handling-process-env'
   },
   {
-    name: 'Vuex Store',
-    path: 'vuex-store'
+    name: 'State Management (Pinia/Vuex)',
+    path: 'state-management-pinia-vuex'
   },
   {
     name: 'Linter',

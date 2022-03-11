@@ -5,7 +5,7 @@ desc: Quasar CLI list of commands for developing and building a Quasar app.
 We will be covering Development and Production build commands.
 
 ::: tip
-Full list of Quasar CLI commands: [Commands List](/quasar-cli/commands-list).
+Full list of Quasar CLI commands: [Commands List](/quasar-cli-webpack/commands-list).
 :::
 
 ### Development

@@ -5,7 +5,8 @@ keys: QAjaxBar
 related:
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar
-  - /quasar-cli/ajax-requests
+  - /quasar-cli-vite/ajax-requests
+  - /quasar-cli-webpack/ajax-requests
 ---
 
 In most mobile apps and even some desktop apps, you will most likely have some API communication to a server via an [Ajax call](https://en.wikipedia.org/wiki/Ajax_(programming)). Since these calls can take more than a second or two, it is good UX to offer the user feedback, when such an API call is being made. Which is where QAjaxBar comes into helping you out.

@@ -131,7 +131,9 @@ devServer: {
 }
 ```
 
-And you might want to to extend the Webpack config. Assuming you are using the [`chainWebpack`](/quasar-cli/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.config.js > build > chainWebpack` should look like this:
+#### @quasar/app-webpack
+
+You might want to extend the Webpack config. Assuming you are using the [`chainWebpack`](/quasar-cli-webpack/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.config.js > build > chainWebpack` should look like this:
 
 ```js
 chainWebpack (chain) {
@@ -140,6 +142,16 @@ chainWebpack (chain) {
       managedPaths: []
     }
   })
+},
+```
+
+#### @quasar/app-vite
+
+You might want to extend the Vite config. Assuming you are using the [`extendViteConf`](/quasar-cli-vite/handling-vite#usage-with-quasar-conf-js) method, your `quasar.config.js > build > extendViteConf` should look like this:
+
+```js
+extendViteConf (viteConf, { isClient, isServer }) {
+  // do stuff in-place with viteConf
 },
 ```
 

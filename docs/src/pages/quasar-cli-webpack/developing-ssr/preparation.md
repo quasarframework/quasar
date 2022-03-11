@@ -2,7 +2,7 @@
 title: Preparation for SSR
 desc: How to add SSR mode with Quasar CLI.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-webpack/quasar-config-js
 ---
 
 We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.
@@ -19,7 +19,7 @@ $ quasar dev -m ssr
 
 This will add SSR mode automatically, if it is missing.
 
-A new folder will appear in your project folder (which is explained in detail on the [Configuring SSR](/quasar-cli/developing-ssr/configuring-ssr) page):
+A new folder will appear in your project folder (which is explained in detail on the [Configuring SSR](/quasar-cli-webpack/developing-ssr/configuring-ssr) page):
 
 ```bash
 .

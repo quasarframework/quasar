@@ -20,7 +20,7 @@ $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 
 It opens up an Electron window with dev-tools included. You have HMR for the renderer process and changes to main process are also picked up (but the latter restarts the Electron window on each change).
 
-Check how you can tweak Webpack config Object for the Main Process and the Preload script on the [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
+Check how you can tweak Webpack config Object for the Main Process and the Preload script on the [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron) page.
 
 ### Chrome DevTools
 While in dev mode, hit the following combination (while your app window has focus):
@@ -43,7 +43,7 @@ $ quasar build -m electron
 $ quasar build --mode electron
 ```
 
-It builds your app for production and then uses electron-packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli/developing-electron-apps/configuring-electron) page.
+It builds your app for production and then uses electron-packager to pack it into an executable. Check how to configure this on [Configuring Electron](/quasar-cli-vite/developing-electron-apps/configuring-electron) page.
 
 If you want a production build with debugging enabled for the UI code:
 

@@ -2,7 +2,7 @@
 title: SSR Middleware
 desc: Managing the SSR middleware in a Quasar app.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-vite/quasar-config-js
 ---
 
 The SSR middleware files fulfill one special purpose: they prepare the Nodejs server that runs your SSR app with additional functionality (Expressjs compatible middleware).

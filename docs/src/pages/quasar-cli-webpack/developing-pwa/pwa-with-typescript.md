@@ -9,4 +9,4 @@ In order to support PWA with Typescript, you will need to:
 2. Edit quasar.config.js > supportTS. Set it to `true` or use the Object form.
 3. Rename the extension for your files in /src-pwa from `.js` to `.ts` and make the necessary TS code changes.
 
-More info: [Supporting TS](/quasar-cli/supporting-ts)
+More info: [Supporting TS](/quasar-cli-webpack/supporting-ts)

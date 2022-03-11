@@ -69,9 +69,9 @@ interface BaseQuasarConfiguration {
   framework?: QuasarFrameworkConfiguration;
   /**
    * What [CSS animations](/options/animations) to import.
-   * Example: _['bounceInLeft', 'bounceOutRight']_
-   * */
-  animations?: QuasarAnimationsConfiguration;
+   * @example: [ 'bounceInLeft', 'bounceOutRight' ]
+   */
+  animations?: QuasarAnimationsConfiguration | 'all';
   /**
    * Vite server [options](https://vitejs.dev/config/#server-options).
    * Some properties are overwritten based on the Quasar mode you're using in order

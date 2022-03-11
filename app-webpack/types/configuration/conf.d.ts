@@ -94,7 +94,7 @@ interface BaseQuasarConfiguration {
    * What [CSS animations](/options/animations) to import.
    * Example: _['bounceInLeft', 'bounceOutRight']_
    * */
-  animations?: QuasarAnimationsConfiguration;
+  animations?: QuasarAnimationsConfiguration | 'all';
   /**
    * Webpack dev server [options](https://webpack.js.org/configuration/dev-server/).
    * Some properties are overwritten based on the Quasar mode you're using in order

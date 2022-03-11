@@ -2,7 +2,7 @@
 title: Supporting TypeScript
 desc: How to enable support for TypeScript in a Quasar app.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-vite/quasar-config-js
 ---
 
 The Typescript support is not added by default to your project (unless you selected TS when you created your project folder), but it can be easily integrated by following the guide on this page.

@@ -2,7 +2,7 @@
 title: Configuring SSR
 desc: How to manage your server-side rendered apps with Quasar CLI.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-webpack/quasar-config-js
 ---
 
 ## quasar.config.js
@@ -63,7 +63,7 @@ return {
 }
 ```
 
-> If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSR with PWA](/quasar-cli/developing-ssr/ssr-with-pwa) page.
+> If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli-webpack/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSR with PWA](/quasar-cli-webpack/developing-ssr/ssr-with-pwa) page.
 
 When building, `extendWebpack()` and `chainWebpack()` will receive one more parameter (Object), currently containing `isServer` or `isClient` boolean props, because there will be two Webpack builds (one for the server-side and one for the client-side).
 
@@ -74,13 +74,13 @@ build: {
 }
 ```
 
-If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli/handling-webpack) in the `quasar.config.js` file.
+If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli-webpack/handling-webpack) in the `quasar.config.js` file.
 
 ### Manually triggering store hydration
 
 By default, Quasar CLI takes care of hydrating the Vuex store (if you use it) on client-side.
 
-However, should you wish to manually hydrate it yourself, you need to set quasar.config.js > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli/boot-files):
+However, should you wish to manually hydrate it yourself, you need to set quasar.config.js > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-webpack/boot-files):
 
 ```js
 // some_boot_file
@@ -175,7 +175,7 @@ return {
 }
 ```
 
-4. The `/src-ssr/production-export.js` file is detailed in [SSR Production Export](/quasar-cli/developing-ssr/ssr-production-export) page. Read it especially if you need to support serverless functions.
+4. The `/src-ssr/production-export.js` file is detailed in [SSR Production Export](/quasar-cli-webpack/developing-ssr/ssr-production-export) page. Read it especially if you need to support serverless functions.
 
 ## Helping SEO
 
@@ -183,7 +183,7 @@ One of the main reasons when you develop a SSR instead of a SPA is for taking ca
 
 ## Boot Files
 
-When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node context and in the browser. This applies to your [Boot Files](/quasar-cli/boot-files) too.
+When running on SSR mode, your application code needs to be isomorphic or "universal", which means that it must run both on a Node context and in the browser. This applies to your [Boot Files](/quasar-cli-webpack/boot-files) too.
 
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 
@@ -201,7 +201,7 @@ return {
 
 Just make sure that your app is consistent, though.
 
-When a boot file runs on the server, you will have access to one more parameter (called [ssrContext](/quasar-cli/developing-ssr/ssr-context)) on the default exported function:
+When a boot file runs on the server, you will have access to one more parameter (called [ssrContext](/quasar-cli-webpack/developing-ssr/ssr-context)) on the default exported function:
 
 ```js
 // some boot file

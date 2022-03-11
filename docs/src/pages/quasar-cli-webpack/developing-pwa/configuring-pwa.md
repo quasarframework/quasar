@@ -2,7 +2,7 @@
 title: Configuring PWA
 desc: How to manage your Progressive Web Apps with Quasar CLI.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-webpack/quasar-config-js
 ---
 
 ## Service Worker
@@ -23,7 +23,7 @@ You can freely edit these files. Notice a few things:
 3. It makes sense to run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) tests on production builds only.
 
 ::: tip
-Read more on `register-service-worker.[js|ts]` and how to interact with the Service Worker on [Handling Service Worker](/quasar-cli/developing-pwa/handling-service-worker) documentation page.
+Read more on `register-service-worker.[js|ts]` and how to interact with the Service Worker on [Handling Service Worker](/quasar-cli-webpack/developing-pwa/handling-service-worker) documentation page.
 :::
 
 ## quasar.config.js
@@ -236,7 +236,7 @@ If your PWA is behind basic auth or requires an Authorization header, set quasar
 More info: [PWA Checklist](https://web.dev/pwa-checklist/)
 
 ::: danger
-Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli/testing-and-auditing) section of these docs for more information.
+Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli-webpack/testing-and-auditing) section of these docs for more information.
 :::
 
 ## Reload & Update Automatically

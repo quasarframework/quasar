@@ -15,4 +15,4 @@ Since autocomplete into `quasar.config.js` relies on those types, properties `el
 You can force the installation of the selected bundler (depending on your `electron.bundler` option) by running a build command in Electron mode: `quasar build -m electron`
 :::
 
-More info: [Supporting TS](/quasar-cli/supporting-ts)
+More info: [Supporting TS](/quasar-cli-vite/supporting-ts)

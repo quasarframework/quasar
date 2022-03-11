@@ -14,7 +14,7 @@ $ quasar dev --mode pwa
 ```
 
 ::: warning
-Do not miss the [HMR for PWA](/quasar-cli/developing-pwa/hmr-for-dev) (Hot Module Reload) page.
+Do not miss the [HMR for PWA](/quasar-cli-webpack/developing-pwa/hmr-for-dev) (Hot Module Reload) page.
 :::
 
 ::: danger

@@ -8,7 +8,7 @@ By default, the SSR distributables use [Express](https://expressjs.com/), but yo
 
 ## Serverless <q-badge align="top" color="brand-primary" label="@quasar/app v3.2+" />
 
-If you are deploying to a Serverless service, then please read about [SSR Production Export](/quasar-cli/developing-ssr/ssr-production-export) on how to prepare for it.
+If you are deploying to a Serverless service, then please read about [SSR Production Export](/quasar-cli-vite/developing-ssr/ssr-production-export) on how to prepare for it.
 
 ## The Distributables Folder
 After building your app on SSR mode (`$ quasar build -m ssr`) the folder that gets generated contains a standalone webserver tweaked for serving with SSR.

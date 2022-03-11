@@ -2,7 +2,7 @@
 title: Configuring Cordova
 desc: How to manage your Cordova apps with Quasar CLI.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-webpack/quasar-config-js
 ---
 
 We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.

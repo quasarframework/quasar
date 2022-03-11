@@ -3,8 +3,6 @@ title: Sass/SCSS Variables
 desc: How to use the Sass/SCSS variables defined by Quasar.
 components:
   - style/SassVariables
-related:
-  - /quasar-cli/css-preprocessors
 ---
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.

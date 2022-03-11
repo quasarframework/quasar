@@ -2,7 +2,7 @@
 title: API Proxying for Dev
 desc: How to use an API proxy with the Quasar dev server.
 related:
-  - /quasar-cli/quasar-conf-js
+  - /quasar-cli-vite/quasar-config-js
 ---
 When integrating a project folder (created by Quasar CLI) with an existing backend, a common need is to access the backend API when using the dev server. To achieve this, we can run the dev server and the API backend side-by-side (or remotely), and let the dev server proxy all API requests to the actual backend.
 
