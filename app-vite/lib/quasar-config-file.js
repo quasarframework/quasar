@@ -307,7 +307,8 @@ class QuasarConfFile {
       metaConf
     }
 
-    if (this.#ctx.dev) {
+    // if DEV and not BEX mode (BEX does not use a regular devserver)
+    if (this.#ctx.dev && this.#ctx.mode.bex !== true) {
       if (this.#opts.host) {
         cfg.devServer.host = this.#opts.host
       }
