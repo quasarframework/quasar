@@ -33,6 +33,8 @@ class PwaBuilder extends AppBuilder {
     // also update ssr-builder.js when changing here
     const workboxConfig = await config.workbox(this.quasarConf)
     await buildPwaServiceWorker(this.quasarConf.pwa.workboxMode, workboxConfig)
+
+    this.printSummary(this.quasarConf.build.distDir, true)
   }
 }
 

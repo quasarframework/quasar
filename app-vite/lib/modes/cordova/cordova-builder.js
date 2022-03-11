@@ -41,6 +41,8 @@ class CapacitorBuilder extends AppBuilder {
       )
       this.writeFile(indexHtmlFile, html)
     }
+
+    this.printSummary(viteConfig.build.outDir)
   }
 
   async #packageFiles () {

@@ -1765,13 +1765,13 @@ module.exports = [
     children: security
   },
   {
-    name: 'Quasar CLI (Vite)',
+    name: 'Quasar CLI (with Vite)',
     icon: 'build',
     path: 'quasar-cli-vite',
     children: cliVite
   },
   {
-    name: 'Quasar CLI (Webpack)',
+    name: 'Quasar CLI (with Webpack)',
     icon: 'build',
     path: 'quasar-cli-webpack',
     children: cliWebpack

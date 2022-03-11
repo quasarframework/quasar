@@ -22,20 +22,23 @@ class BexBuilder extends AppBuilder {
     const backgroundConfig = await config.backgroundScript(this.quasarConf)
     await this.buildWithEsbuild('Background Script', backgroundConfig)
 
-    const contentConfig = await config.contentScript(this.quasarConf)
-    await this.buildWithEsbuild('Content Script', contentConfig)
+    for (const name of this.quasarConf.bex.contentScripts) {
+      const contentConfig = await config.contentScript(this.quasarConf, name)
+      await this.buildWithEsbuild('Content Script', contentConfig)
+    }
 
     const domConfig = await config.domScript(this.quasarConf)
     await this.buildWithEsbuild('Dom Script', domConfig)
 
     copyBexAssets(this.quasarConf)
 
+    this.printSummary(this.quasarConf.build.distDir)
     this.#bundlePackage(this.quasarConf.build.distDir)
   }
 
   #bundlePackage (folder) {
     const done = progress('Bundling in progress...')
-    const file = join(folder, `Packaged.${ name }.zip`)
+    const file = join(folder, `BEX.${ name }.zip`)
 
     let output = createWriteStream(file)
     let archive = archiver('zip', {

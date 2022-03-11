@@ -63,6 +63,8 @@ class SsrBuilder extends AppBuilder {
 
     const viteServerConfig = await config.viteServer(this.quasarConf)
     await this.buildWithVite('SSR Server', viteServerConfig)
+
+    this.printSummary(this.quasarConf.build.distDir, true)
   }
 
   async #buildWebserver () {

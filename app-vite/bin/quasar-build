@@ -201,15 +201,6 @@ async function build () {
       })
     }
   })
-  // // using quasarConfFile.ctx instead of argv.mode
-  // // because SSR might also have PWA enabled but we
-  // // can only know it after parsing the quasar.config.js file
-  // if (quasarConfFile.ctx.mode.pwa === true) {
-  //   // need to build the custom service worker before renderer
-  //   Runner = require('../lib/pwa')
-  //   Runner.init(ctx)
-  //   await Runner.build(quasarConfFile, argv)
-  // }
 }
 
 build()

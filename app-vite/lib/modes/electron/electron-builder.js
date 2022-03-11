@@ -17,6 +17,8 @@ class ElectronBuilder extends AppBuilder {
     await this.#writePackageJson()
     await this.#copyElectronFiles()
 
+    this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
+
     if (this.argv['skip-pkg'] !== true) {
       await this.#packageFiles()
     }

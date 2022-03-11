@@ -5,6 +5,7 @@ const { join, isAbsolute, basename, dirname } = require('path')
 
 const AppTool = require('./app-tool')
 const appPaths = require('./app-paths')
+const printBuildSummary = require('../lib/helpers/print-build-summary')
 
 class AppBuilder extends AppTool {
   quasarConf
@@ -73,6 +74,10 @@ class AppBuilder extends AppTool {
       : join(this.quasarConf.build.distDir, filename)
 
     removeSync(target)
+  }
+
+  printSummary (folder, showGzipped) {
+    printBuildSummary(folder, showGzipped)
   }
 }
 
