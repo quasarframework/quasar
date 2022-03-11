@@ -120,9 +120,11 @@ export function isDeepEqual (a, b) {
   return a !== a && b !== b // eslint-disable-line no-self-compare
 }
 
+// not perfect, but what we ARE interested is for Arrays not to slip in
+// as spread operator will mess things up in various areas
 // see https://jsbench.me/tbl0iliyax/1
-export function isPlainObject (v) {
-  return v !== null && typeof v === 'object' && (v.constructor === Object || v.constructor === void 0)
+export function isObject (v) {
+  return v !== null && typeof v === 'object' && Array.isArray(v) !== true
 }
 
 export function isDate (v) {

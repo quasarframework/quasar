@@ -1,5 +1,5 @@
 import { sortDate } from '../../utils/sort.js'
-import { isNumber, isDate, isPlainObject } from '../../utils/is.js'
+import { isNumber, isDate, isObject } from '../../utils/is.js'
 
 export default {
   props: {
@@ -71,7 +71,7 @@ export default {
     sort (col /* String(col name) or Object(col definition) */) {
       let sortOrder = this.columnSortOrder
 
-      if (isPlainObject(col) === true) {
+      if (isObject(col) === true) {
         if (col.sortOrder) {
           sortOrder = col.sortOrder
         }

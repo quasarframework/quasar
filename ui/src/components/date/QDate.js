@@ -8,7 +8,7 @@ import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 import cache from '../../utils/cache.js'
-import { isPlainObject } from '../../utils/is.js'
+import { isObject } from '../../utils/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -162,7 +162,7 @@ export default Vue.extend({
     rangeModel () {
       const fn = date => this.__decodeString(date, this.innerMask, this.innerLocale)
       return this.normalizedModel
-        .filter(date => isPlainObject(date) === true && date.from !== void 0 && date.to !== void 0)
+        .filter(date => isObject(date) === true && date.from !== void 0 && date.to !== void 0)
         .map(range => ({ from: fn(range.from), to: fn(range.to) }))
         .filter(range => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash)
     },
