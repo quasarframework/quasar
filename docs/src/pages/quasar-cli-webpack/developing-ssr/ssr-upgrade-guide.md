@@ -47,7 +47,7 @@ The old `index.js` and `extension.js` have been replaced by the superior SSR mid
 So here we go:
 1. We recommend that you save the content of your current `src-ssr` folder somewhere else.
 2. Remove and add back the Quasar SSR mode (`$ quasar mode remove ssr`, `$quasar mode add ssr`).
-3. Declare the middleware files under quasar.conf.js > ssr > middlewares: []. The array should look like this:
+3. Declare the middleware files under quasar.config.js > ssr > middlewares: []. The array should look like this:
   ```js
   middlewares: [
     ctx.prod ? 'compression' : '',
@@ -55,14 +55,14 @@ So here we go:
   ]
   ```
 4. You will then have to port the old logic by using the SSR middleware files, which should be really easy (since you'll end up copy-pasting most of the old code into the middleware files).
-5. Review quasar.conf.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli/developing-ssr/configuring-ssr#quasar-conf-js).
+5. Review quasar.config.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli/developing-ssr/configuring-ssr#quasar-conf-js).
 
-Also remember that the files that you create in the `src-ssr/middlewares` folder need to also be declared under quasar.conf.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too. You can use the `$ quasar new ssrmiddleware <name>` command to speed things up.
+Also remember that the files that you create in the `src-ssr/middlewares` folder need to also be declared under quasar.config.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too. You can use the `$ quasar new ssrmiddleware <name>` command to speed things up.
 
 Always keep the original `render` middleware as last one in the list.
 
 ### Tips
 
-* You might want to check out the [new configuration](/quasar-cli/developing-ssr/configuring-ssr) properties available through quasar.conf.js > ssr.
+* You might want to check out the [new configuration](/quasar-cli/developing-ssr/configuring-ssr) properties available through quasar.config.js > ssr.
 * You might want to check out the [ssrContext](/quasar-cli/developing-ssr/ssr-context) page which describes in detail what properties you can use from it.
 * You might want to check out the [SSR Production Export](/quasar-cli/developing-ssr/ssr-production-export) page which describes in detail what the production-export.js/ts can do for you.

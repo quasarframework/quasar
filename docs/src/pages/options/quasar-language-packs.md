@@ -26,7 +26,7 @@ Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack b
 If the default Quasar Language Pack is not dynamically determined (does not depend on cookies for example), then you can:
 
 #### Quasar CLI
-Edit `/quasar.conf.js`:
+Edit `/quasar.config.js`:
 
 ```js
 framework: {
@@ -102,7 +102,7 @@ export default async () => {
 }
 ```
 
-Then register this boot file into `/quasar.conf.js`:
+Then register this boot file into `/quasar.config.js`:
 
 ```js
 boot: [

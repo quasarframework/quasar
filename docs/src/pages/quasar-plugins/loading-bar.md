@@ -53,7 +53,7 @@ LoadingBar.increment(value)
 
 ### Setting Up Defaults
 
-Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf.js > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `$q.loadingBar.setDefaults({...})`. Supports all [QAjaxBar](/vue-components/ajax-bar) properties.
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config.js > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `$q.loadingBar.setDefaults({...})`. Supports all [QAjaxBar](/vue-components/ajax-bar) properties.
 
 Inside Vue components:
 

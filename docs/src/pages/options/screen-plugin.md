@@ -81,10 +81,10 @@ Or a sexy variant in Sass:
 
 ### How to enable body classes
 
-In order to enable the behavior above, edit your /quasar.conf.js file like below. Please note that this will increase a bit the time for First Meaningful Paint.
+In order to enable the behavior above, edit your /quasar.config.js file like below. Please note that this will increase a bit the time for First Meaningful Paint.
 
 ```js
-// file: /quasar.conf.js
+// file: /quasar.config.js
 
 framework: {
   config: {

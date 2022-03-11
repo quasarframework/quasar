@@ -5,7 +5,7 @@ desc: The structure of a Quasar app with explanations for each folder and file.
 This is the structure of a project with all modes installed. There's no reason to be intimidated though!
 
 ::: tip
-If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
+If you are a beginner, all you'll need to care about is `/quasar.config.js` (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
 :::
 
 ``` bash
@@ -39,7 +39,7 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 │   ├── ssr/                 # example when building SSR
 │   ├── electron/            # example when building Electron
 │   └── ....
-├── quasar.conf.js           # Quasar App Config file
+├── quasar.config.js           # Quasar App Config file
 ├── babel.config.js          # Babeljs config
 ├── .editorconfig            # editor config
 ├── .eslintignore            # ESlint ignore paths

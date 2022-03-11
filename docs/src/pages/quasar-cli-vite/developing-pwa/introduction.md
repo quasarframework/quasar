@@ -23,7 +23,7 @@ To be considered a Progressive Web App, your app must be:
 More information available on Addy Osmani's [article about PWA](https://addyosmani.com/blog/getting-started-with-progressive-web-apps/).
 
 ## Manifest File
-An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. Quasar CLI configures this for you, but you can override any property from within `/quasar.conf.js`. Learn how by visiting the [Configure PWA](/quasar-cli/developing-pwa/configuring-pwa) documentation page.
+An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. Quasar CLI configures this for you, but you can override any property from within `/quasar.config.js`. Learn how by visiting the [Configure PWA](/quasar-cli/developing-pwa/configuring-pwa) documentation page.
 
 More information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/Manifest).
 
@@ -31,5 +31,3 @@ More information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/M
 The Service worker provides a programmatic way to cache app resources (files). The programmatic API allows developers to decide how to handle caching and provides a much more flexible experience than other options.
 
 More information: [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API).
-
-

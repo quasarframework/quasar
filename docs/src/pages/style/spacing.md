@@ -46,7 +46,7 @@ S - size
 ```
 
 ## Flex Addons
-When enabled (through `quasar.conf.js > framework > cssAddon: true`) it provides breakpoint aware versions for all spacing related CSS classes.
+When enabled (through `quasar.config.js > framework > cssAddon: true`) it provides breakpoint aware versions for all spacing related CSS classes.
 
 > Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.
 

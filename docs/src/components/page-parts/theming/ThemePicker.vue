@@ -191,7 +191,7 @@ export default {
     })
 
     const quasarCliExport = computed(() => {
-      return `// quasar.conf.js
+      return `// quasar.config.js
 
 return {
   framework: {

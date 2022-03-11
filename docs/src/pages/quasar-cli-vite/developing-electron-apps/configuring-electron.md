@@ -8,8 +8,8 @@ We'll be using Quasar CLI to develop and build an Electron App. The difference b
 
 But first, let's learn how we can configure the Electron build.
 
-## Quasar.conf.js
-You may notice that `/quasar.conf.js` contains a property called `electron`.
+## quasar.config.js
+You may notice that `/quasar.config.js` contains a property called `electron`.
 
 ```js
 // should you wish to change default files

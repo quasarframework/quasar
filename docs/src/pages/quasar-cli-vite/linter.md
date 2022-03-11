@@ -26,7 +26,7 @@ extends: [
 ]
 ```
 
-If you chose ESLint when creating your project folder, you'll also notice that `/quasar.conf.js` adds the eslint-loader to Webpack configuration for you:
+If you chose ESLint when creating your project folder, you'll also notice that `/quasar.config.js` adds the eslint-loader to Webpack configuration for you:
 
 ```js
 build: {
@@ -77,7 +77,7 @@ Example of ESLint rules below:
 ```
 
 ## Disabling Linter
-In order for you to disable ESLint later, all you need to do is comment out (or remove) the following code from `/quasar.conf.js`:
+In order for you to disable ESLint later, all you need to do is comment out (or remove) the following code from `/quasar.config.js`:
 
 ```js
 build: {

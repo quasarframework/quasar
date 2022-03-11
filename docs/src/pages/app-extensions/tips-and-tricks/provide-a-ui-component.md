@@ -41,7 +41,7 @@ module.exports = function (api) {
   api.compatibleWith('quasar', '^2.0.0')
   api.compatibleWith('@quasar/app', '^3.0.0')
 
-  // Here we extend /quasar.conf.js, so we can add
+  // Here we extend /quasar.config.js, so we can add
   // a boot file which registers our new UI component;
   // "extendConf" will be defined below (keep reading the tutorial)
   api.extendQuasarConf(extendConf)

@@ -10,7 +10,7 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 > Please refer to [Vue](https://vuejs.org/api/built-in-components.html#transition) documentation for learning on how to use the Vue supplied `<transition>` component.
 
 ## Installation
-Edit `/quasar.conf.js`.
+Edit `/quasar.config.js`.
 ```js
 // embedding all animations
 animations: 'all'
@@ -22,7 +22,7 @@ animations: [
 ]
 ```
 
-If you are building a website, you can also skip configuring quasar.conf.js and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within quasar.conf.js.
+If you are building a website, you can also skip configuring quasar.config.js and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within quasar.config.js.
 
 ```html
 <!-- src/index.template.html -->

@@ -13,7 +13,7 @@ The following steps are only required when you **have not** selected TypeScript 
 
 ## Installation of TypeScript Support
 
-In order to support TypeScript, you'll need to edit `/quasar.conf.js`:
+In order to support TypeScript, you'll need to edit `/quasar.config.js`:
 
 ```js
 module.exports = function (ctx) {
@@ -50,7 +50,7 @@ If you enable the `supportTS` flag but fail to add the `tsconfig.json` file, the
 Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `supportTS` property like so:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 module.exports = function (ctx) {
   return {
     supportTS: {
@@ -152,13 +152,13 @@ If anything goes wrong, read the [typescript-eslint guide](https://github.com/ty
 As a last step, update your `yarn lint` command to also lint `.ts` files.
 
 ::: tip
-TypeScript Linting is really slow due to type-checking overhead, we suggest you to disable Webpack lint extension into `quasar.conf.js` for dev builds.
+TypeScript Linting is really slow due to type-checking overhead, we suggest you to disable Webpack lint extension into `quasar.config.js` for dev builds.
 :::
 
 If you setup TypeScript linting and want `fork-ts-checker-webpack-plugin` (provided by `@quasar/app` package) to take it into account then you should make use of `tsCheckerConfig` property:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 module.exports = function (ctx) {
   return {
     supportTS: {

@@ -26,9 +26,9 @@ export default function () {
     ),
     routes,
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
+    // Leave this as is and make changes in quasar.config.js instead!
+    // quasar.config.js -> build -> vueRouterMode
+    // quasar.config.js -> build -> publicPath
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 

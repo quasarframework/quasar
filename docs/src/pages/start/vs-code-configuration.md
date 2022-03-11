@@ -89,7 +89,7 @@ The first step to properly start debugging is enabling source maps. Quasar autom
 `eval-cheap-module-source-map` builds slow(_not the slowest_), rebuilds fast(_not the fastest_), and preserves the original lines(_not the best quality_). If you want faster builds while giving up on some accuracy, or more accuracy while giving up on speed, you can choose other values. The slowest but the most accurate(_the original_) value of the `devtool` is `source-map`. This makes debugging in VS Code work properly due to your full Vue source files being available in the built-in Chrome debugger. So, it will be easier to find your original source and locate the line that you want to set the breakpoint to. If you want to enable this, you need to update [`quasar.config.js > build > devtool`](https://quasar.dev/quasar-cli/quasar-conf-js#property-build) like this:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 build: {
   // ...
 

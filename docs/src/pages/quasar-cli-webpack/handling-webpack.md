@@ -6,13 +6,13 @@ related:
 ---
 The build system uses Webpack to create your website/app. Don't worry if you aren't acquainted with Webpack. Out of the box, you won't need to configure it because it already has everything set up.
 
-## Usage with quasar.conf.js
-For cases where you need to tweak the default Webpack config you can do so by editing `/quasar.conf.js` and configuring `build > extendWebpack (cfg)` method or `build > chainWebpack (chain)`.
+## Usage with quasar.config.js
+For cases where you need to tweak the default Webpack config you can do so by editing `/quasar.config.js` and configuring `build > extendWebpack (cfg)` method or `build > chainWebpack (chain)`.
 
 Example of adding ESLint loader to Webpack (assuming you've installed it):
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 build: {
   extendWebpack (cfg, { isServer, isClient }) {
     cfg.module.rules.push({
@@ -30,7 +30,7 @@ Notice that you don't need to return anything. The parameter of extendWebpack(cf
 Equivalent quasar.conf for chainWebpack():
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 build: {
   chainWebpack (chain, { isServer, isClient }) {
     chain.module.rule('eslint')
@@ -93,7 +93,7 @@ Quasar comes with a bunch of useful Webpack aliases preconfigured. You can use t
 | `assets` | /src/assets |
 | `boot` | /src/boot |
 
-Also if you configure to build with the Vue compiler version (quasar.conf.js > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
+Also if you configure to build with the Vue compiler version (quasar.config.js > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
 
 ### Adding Webpack aliases
 
@@ -101,7 +101,7 @@ To add your own alias you can extend the webpack config and merge it with the ex
 Use the `path.resolve` helper to resolve the path to your intended alias.
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 const path = require('path')
 
 module.exports = function (ctx) {
@@ -123,7 +123,7 @@ module.exports = function (ctx) {
 Equivalent with chainWebpack():
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 const path = require('path')
 
 module.exports = function (ctx) {
@@ -142,10 +142,10 @@ module.exports = function (ctx) {
 
 Quasar App CLI is using Webpack v5. If you are moving your existing project to Quasar from a Webpack v4 project, you might have some compatibility issues with 3rd party libraries. Webpack v5 removed the Node.js polyfills for the web client builds. If you are using packages for the web client that rely on Node.js API, you will get errors saying that some packages are missing. Examples: `Buffer`, `crypto`, `os`, `path`, `stream`, `assert`.
 
-These need to be addressed by the package owners. But if you prefer not to wait and just want to run your app/website (with a bit of risk), then you can manually install `node-polyfill-webpack-plugin` (`yarn add --dev node-polyfill-webpack-plugin`) and reference it in `quasar.conf.js > build > chainWebpack`. Example:
+These need to be addressed by the package owners. But if you prefer not to wait and just want to run your app/website (with a bit of risk), then you can manually install `node-polyfill-webpack-plugin` (`yarn add --dev node-polyfill-webpack-plugin`) and reference it in `quasar.config.js > build > chainWebpack`. Example:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 build: {
   chainWebpack (chain) {
     const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
@@ -166,7 +166,7 @@ So, you need a loader for it. You search Google to see what webpack loader you n
 $ yarn add --dev json-loader
 ```
 
-After installing your new loader, we want to tell Webpack to use it. So we edit `/quasar.conf.js` and change `build.extendWebpack()` to add entries to `module/rules` for this new loader:
+After installing your new loader, we want to tell Webpack to use it. So we edit `/quasar.config.js` and change `build.extendWebpack()` to add entries to `module/rules` for this new loader:
 
 ```js
 // quasar.conf
@@ -209,10 +209,10 @@ First, you need to install some dependencies:
 $ yarn add --dev pug pug-plain-loader
 ```
 
-Then you need to extend the webpack configuration through quasar.conf.js:
+Then you need to extend the webpack configuration through quasar.config.js:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 build: {
   extendWebpack (cfg) {
     cfg.module.rules.push({
@@ -226,7 +226,7 @@ build: {
 Equivalent with chainWebpack():
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 build: {
   chainWebpack (chain) {
     chain.module.rule('pug')

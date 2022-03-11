@@ -195,7 +195,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ npm install vuex@4
   ```
 
-8) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+8) Edit quasar.config.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -207,7 +207,7 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.config.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
 10) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
 11) Upgrade your other project dependencies (especially ESLint related ones).
 
@@ -229,10 +229,10 @@ In order to support Node 13+ (and for many other benefits) we have **upgraded We
 #### Nodejs polyfills
 Webpack v5 removed the Nodejs polyfills for the web client builds. If you are using packages for the web client that rely on Nodejs API (they shouldn't!), you will get errors saying that some packages are missing. Examples: `Buffer`, `crypto`, `os`, `path`.
 
-These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (`yarn add --dev node-polyfill-webpack-plugin`) then reference it in quasar.conf.js > build > chainWebpack. Example:
+These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (`yarn add --dev node-polyfill-webpack-plugin`) then reference it in quasar.config.js > build > chainWebpack. Example:
 
 ```
-// quasar.conf.js
+// quasar.config.js
 build: {
   chainWebpack (chain) {
     const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
@@ -242,7 +242,7 @@ build: {
 ```
 
 #### Webpack devserver
-As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.conf.js > devServer options. Below are some of the most used props:
+As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.config.js > devServer options. Below are some of the most used props:
 
 | Prop name | Type | Description |
 | --- | --- | --- |
@@ -253,13 +253,13 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | proxy | Object/Array | Same as before with webpack 4 |
 
 ::: tip
-If you've tampered with quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
+If you've tampered with quasar.config.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
 :::
 
 #### webpack-chain
 
 ::: warning
-At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.conf.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
+At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.config.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
 :::
 
 ### App.vue
@@ -329,9 +329,9 @@ export default function (/* { store, ssrContext } */) {
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
+    // Leave this as is and make changes in quasar.config.js instead!
+    // quasar.config.js -> build -> vueRouterMode
+    // quasar.config.js -> build -> publicPath
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 
@@ -455,7 +455,7 @@ If you've been using Composition API package for Vue 2, you'll need to change al
 
 If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
 
-Delete `src/boot/composition-api` boot file and the corresponding entry from `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
+Delete `src/boot/composition-api` boot file and the corresponding entry from `quasar.config.js`. Then uninstall the `@vue/composition-api` package:
 
 ```bash
 $ yarn remove @vue/composition-api
@@ -958,7 +958,7 @@ Full list of changes:
 | zh-hans | zh-CN |
 | zh-hant | zh-TW |
 
-If you have configured a default Quasar language pack in your quasar.conf.js, then you need to edit it:
+If you have configured a default Quasar language pack in your quasar.config.js, then you need to edit it:
 
 ```js
 // old way
@@ -999,10 +999,10 @@ For an in-depth look at the necessary UMD scripts and tags, please use our [gene
 This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar UI v2.
 
 * Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
-* New quasar.conf.js > build > vueLoaderOptions prop
-* Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
+* New quasar.config.js > build > vueLoaderOptions prop
+* Remove quasar.config.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
-* If you have been using quasar.conf.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
+* If you have been using quasar.config.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
 
 If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
 
@@ -1024,7 +1024,7 @@ Update `src/shims-vue.d.ts` to match [Vue3 version](https://github.com/quasarfra
 
 Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/quasar.d.ts).
 
-If you use ESLint, update the property into `quasar.conf.js`:
+If you use ESLint, update the property into `quasar.config.js`:
 
 ```js
 // old way
@@ -1077,7 +1077,7 @@ Due to the upgrade to Webpack 5, you will need to also upgrade `workbox-webpack-
 
 You can now enable ESLint for the custom service worker too. And it [supports TS](/quasar-cli/developing-pwa/pwa-with-typescript) out of the box (in which case, rename the extension to `.ts`).
 
-Enabling ESLint for the custom service worker is done by editing quasar.conf.js:
+Enabling ESLint for the custom service worker is done by editing quasar.config.js:
 
 ```js
 pwa: {

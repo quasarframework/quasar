@@ -149,7 +149,7 @@ const cliWebpack = [
     path: 'installation'
   },
   {
-    name: 'quasar.conf.js',
+    name: 'quasar.config.js',
     path: 'quasar-conf-js'
   },
   {
@@ -580,7 +580,7 @@ const cliVite = [
     path: 'installation'
   },
   {
-    name: 'quasar.conf.js',
+    name: 'quasar.config.js',
     path: 'quasar-conf-js'
   },
   {

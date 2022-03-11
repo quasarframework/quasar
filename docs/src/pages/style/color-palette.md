@@ -163,7 +163,7 @@ setCssVar('primary-darkened', lighten(newPrimaryColor, -10))
 This is how you can set up some brand colors without tampering with the Sass variables:
 
 ```js
-// Quasar CLI - quasar.conf.js
+// Quasar CLI - quasar.config.js
 return {
   framework: {
     config: {

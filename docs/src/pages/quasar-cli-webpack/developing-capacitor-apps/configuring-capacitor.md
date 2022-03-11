@@ -14,8 +14,8 @@ The most important config file for your mobile app is `/src-capacitor/capacitor.
 
 Some properties from this file will get overwritten as we'll see in next section.
 
-## quasar.conf.js
-There are two places in `/quasar.conf.js` where you can configure Quasar specific features for Capacitor.
+## quasar.config.js
+There are two places in `/quasar.config.js` where you can configure Quasar specific features for Capacitor.
 
 ```js
 return {

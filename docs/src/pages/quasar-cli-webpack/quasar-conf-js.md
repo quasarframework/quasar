@@ -1,10 +1,10 @@
 ---
-title: Configuring quasar.conf.js
+title: Configuring quasar.config.js
 desc: Where, how and what you can configure in a Quasar app.
 ---
 Quasar makes use of some awesome development tools under its hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
 
-So what can you configure through `/quasar.conf.js`?
+So what can you configure through `/quasar.config.js`?
 
 * Quasar components, directives and plugins that you'll be using in your website/app
 * Default [Quasar Language Pack](/options/quasar-language-packs)
@@ -14,8 +14,8 @@ So what can you configure through `/quasar.conf.js`?
 * [CSS animations](/options/animations) that you wish to use
 * [Boot Files](/quasar-cli/boot-files) list (that determines order of execution too) -- which are files in `/src/boot` that tell how your app is initialized before mounting the root Vue component
 * Global CSS/Sass/... files to be included in the bundle
-* PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#Quasar.conf.js)
-* [Electron Packager](/quasar-cli/developing-electron-apps/configuring-electron#Quasar.conf.js) and/or [Electron Builder](/quasar-cli/developing-electron-apps/configuring-electron#Quasar.conf.js)
+* PWA [manifest](/quasar-cli/developing-pwa/configuring-pwa#Configuring-Manifest-File) and [Workbox options](/quasar-cli/developing-pwa/configuring-pwa#quasar.config.js)
+* [Electron Packager](/quasar-cli/developing-electron-apps/configuring-electron#quasar.config.js) and/or [Electron Builder](/quasar-cli/developing-electron-apps/configuring-electron#quasar.config.js)
 * Extend Webpack config
 
 ::: tip
@@ -23,14 +23,14 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ::: warning
-`/quasar.conf.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack' and so on. Make sure the ES6 features that you want to write this file with are supported by the installed version of your Node (which should be >= 10).
+`/quasar.config.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack' and so on. Make sure the ES6 features that you want to write this file with are supported by the installed version of your Node (which should be >= 10).
 :::
 
 ## Structure
 
 ### The basics
 
-You'll notice that `/quasar.conf.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
+You'll notice that `/quasar.config.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
 module.exports = function (ctx) { // can be async too
@@ -151,7 +151,7 @@ Let's take each option one by one:
 Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default.
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 return {
   css: [
     'app.sass', // referring to /src/css/app.sass
@@ -164,7 +164,7 @@ return {
 By default, everything that comes from `node_modules` will be injected into the vendor chunk for performance & caching reasons. However, should you wish to add or remove something from this special chunk, you can do so:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 return {
   vendor: {
     /* optional;
@@ -182,7 +182,7 @@ Tells the CLI what Quasar components/directives/plugins to import, what Quasar I
 Filling "components" and "directives" is required only if "all" is set to `false`.
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 return {
   // a list with all options (all are optional)
   framework: {
@@ -229,10 +229,10 @@ Most used properties are:
 | onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
 | onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.conf.js > devSever > open with. Some examples:
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config.js > devSever > open with. Some examples:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 // (syntax below requires @quasar/app v3.3+)
 
 // opens Google Chrome
@@ -259,10 +259,10 @@ devServer: {
 }
 ```
 
-When you set `devServer > https: true` in your quasar.conf.js file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.conf.js > devServer > https` should look like this:
+When you set `devServer > https: true` in your quasar.config.js file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config.js > devServer > https` should look like this:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 
 devServer: {
   server: {
@@ -283,7 +283,7 @@ devServer: {
 You can also configure automatically opening remote Vue Devtools:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 
 devServer: {
   vueDevtools: true
@@ -296,7 +296,7 @@ A stop-gap solution can be achieved by using the polling mode to check for files
 This can be enabled with:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 
 build: {
   // ...
@@ -358,7 +358,7 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
-// quasar.conf.js
+// quasar.config.js
 module.exports = function (ctx) {
   return {
     htmlVariables: {

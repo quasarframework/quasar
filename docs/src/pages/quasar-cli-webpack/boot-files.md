@@ -13,7 +13,7 @@ In earlier Quasar versions, to run code before the root Vue instance was instant
 
 There is a major problem with this approach: with a growing project, your `main.js` file was very likely to get cluttered and challenging to maintain, which breaks with Quasar's concept of encouraging developers to write maintainable and elegant cross-platform applications.
 
-With boot files, it is possible to split each of your dependencies into self-contained, easy to maintain files. It is also trivial to disable any of the boot files or even contextually determine which of the boot files get into the build through `quasar.conf.js` configuration.
+With boot files, it is possible to split each of your dependencies into self-contained, easy to maintain files. It is also trivial to disable any of the boot files or even contextually determine which of the boot files get into the build through `quasar.config.js` configuration.
 
 ## Anatomy of a boot file
 
@@ -143,7 +143,7 @@ You can now add content to that file depending on the intended use of your boot 
 > Do not forget that your default export needs to be a function.
 > However, you can have as many named exports as you want, should the boot file expose something for later usage. In this case, you can import any of these named exports anywhere in your app.
 
-The last step is to tell Quasar to use your new boot file. For this to happen you need to add the file in `/quasar.conf.js`
+The last step is to tell Quasar to use your new boot file. For this to happen you need to add the file in `/quasar.config.js`
 
 ```js
 boot: [

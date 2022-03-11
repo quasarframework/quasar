@@ -24,13 +24,13 @@ The QLayout is a component designed to manage the entire window and wrap page co
 Scaffold your layout(s) by clicking on the button below.
 
 ::: warning
-The Layout Builder might use components not already inserted into quasar.conf.js.
+The Layout Builder might use components not already inserted into quasar.config.js.
 
 You are likely going to need the following components - QLayout, QHeader, QToolbar, QToolbarTitle, QBtn, QAvatar, QTabs, QRouteTab, QDrawer, QPageContainer, QFooter.
 :::
 
 ::: tip
-Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.conf.js file.
+Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.config.js file.
 :::
 
 <q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="layout-builder" target="_blank" rel="noopener noreferrer" />

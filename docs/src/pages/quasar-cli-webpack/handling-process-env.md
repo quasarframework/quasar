@@ -79,12 +79,12 @@ if (process.env.MODE === 'electron') {
 
 ## Adding to process.env
 
-You can add your own definitions to `process.env` through `/quasar.conf.js` file.
+You can add your own definitions to `process.env` through `/quasar.config.js` file.
 
-But first, there's two concepts that need to be understood here. The env variables from the terminal that are available in `/quasar.conf.js` file itself and the environment variables that you pass to your UI code.
+But first, there's two concepts that need to be understood here. The env variables from the terminal that are available in `/quasar.config.js` file itself and the environment variables that you pass to your UI code.
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 
 // Accessing terminal variables
 console.log(process.env)
@@ -94,7 +94,7 @@ module.exports = function (ctx) {
     // ...
 
     build: {
-      // passing down to UI code from quasar.conf.js
+      // passing down to UI code from quasar.config.js
       env: {
         API: ctx.dev
           ? 'https://dev.api.com'
@@ -115,7 +115,7 @@ $ MY_API=api.com quasar build
 ```
 
 ```js
-// then we pick it up in /quasar.conf.js
+// then we pick it up in /quasar.config.js
 build: {
   env: {
     API: ctx.dev
@@ -133,7 +133,7 @@ Should you wish to use `.env` file(s), you can even use [dotenv](https://www.npm
 $ yarn add --dev dotenv
 ```
 
-Then in your `/quasar.conf.js`:
+Then in your `/quasar.config.js`:
 
 ```
 build: {

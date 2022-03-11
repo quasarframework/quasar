@@ -146,7 +146,7 @@ export default () => {
 }
 ```
 
-Don't forget to call the boot script in `quasar.conf.js`
+Don't forget to call the boot script in `quasar.config.js`
 
 ```js
 boot: ['capacitor']

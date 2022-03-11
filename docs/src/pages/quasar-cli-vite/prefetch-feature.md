@@ -19,7 +19,7 @@ All the above will run before the actual route component is rendered.
 ## Installation
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 return {
   preFetch: true
 }

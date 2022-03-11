@@ -431,7 +431,7 @@ describe.quasarConfOptions = conf => {
   const entry = [
     h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
       h('div', { class: 'api-row__value' }, [
-        h('span', { class: 'api-row__type text-grey' }, 'quasar.conf.js > framework > config > '),
+        h('span', { class: 'api-row__type text-grey' }, 'quasar.config.js > framework > config > '),
         h(QBadge, {
           color: NAME_PROP_COLOR[ 0 ],
           label: conf.propName,

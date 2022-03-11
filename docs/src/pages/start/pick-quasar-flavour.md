@@ -34,7 +34,7 @@ Here's a quick comparison:
 | One codebase to create SPA, PWA, SSR, Mobile Apps, Electron Apps and Browser Extensions        | -      | **Yes**    | -                            | - |
 | Tree Shaking                                                                               | -          | **Yes**    | **Yes**                      | **Yes** |
 | SFC (Single File Component - for Vue) support                                              | -          | **Yes**    | **Yes**                      | **Yes** |
-| Advanced configuration through dynamic quasar.conf.js                                      | -          | **Yes**    | -                            | - |
+| Advanced configuration through dynamic quasar.config.js                                      | -          | **Yes**    | -                            | - |
 | Unit & end to end testing support                                                          | -          | **Yes**    | **Yes**                      | **Yes** |
 | TypeScript support                                                                         | -          | **Yes**    | **Yes**                      | **Yes** |
 | **Best and Most Popular Choice!**                                                          |            | **YES!** |                             | |
