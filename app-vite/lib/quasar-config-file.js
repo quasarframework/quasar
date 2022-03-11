@@ -22,12 +22,11 @@ const appPkg = require(appPaths.resolve.app('package.json'))
 
 const defaultPortMapping = {
   spa: 9000,
-  ssr: 9100,
+  ssr: 9100, // 9150 for SSR + PWA
   pwa: 9200,
   electron: 9300,
   cordova: 9400,
   capacitor: 9500,
-  bex: 9600
 }
 
 function escapeHTMLTagContent (str) {
@@ -307,6 +306,17 @@ class QuasarConfFile {
       metaConf
     }
 
+    // we need to know if using SSR + PWA immediately
+    if (this.#ctx.mode.ssr) {
+      cfg.ssr = merge({
+        pwa: false,
+        ssrPwaHtmlFilename: 'offline.html',
+        manualStoreHydration: false,
+        manualPostHydrationTrigger: false,
+        prodPort: 3000 // gets superseeded in production by an eventual process.env.PORT
+      }, cfg.ssr)
+    }
+
     // if DEV and not BEX mode (BEX does not use a regular devserver)
     if (this.#ctx.dev && this.#ctx.mode.bex !== true) {
       if (this.#opts.host) {
@@ -322,6 +332,7 @@ class QuasarConfFile {
       }
       else if (!cfg.devServer.port) {
         cfg.devServer.port = defaultPortMapping[this.#ctx.modeName]
+          + (this.#ctx.mode.ssr === true && cfg.ssr.pwa === true ? 50 : 0)
       }
       else {
         tip('You specified an explicit quasar.config.js > devServer > port. It is recommended to use a different devServer > port for each Quasar mode to avoid browser cache issues. Example: ctx.mode.ssr ? 9100 : ...')
@@ -512,14 +523,6 @@ class QuasarConfFile {
     }
 
     if (this.#ctx.mode.ssr) {
-      cfg.ssr = merge({
-        pwa: false,
-        ssrPwaHtmlFilename: 'offline.html',
-        manualStoreHydration: false,
-        manualPostHydrationTrigger: false,
-        prodPort: 3000 // gets superseeded in production by an eventual process.env.PORT
-      }, cfg.ssr)
-
       if (cfg.ssr.manualPostHydrationTrigger !== true) {
         cfg.metaConf.needsAppMountHook = true
       }
