@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     <% if (preset.lint) { %>
-    "vue-tsc": "^0.29.8",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
     "eslint": "^8.10.0",

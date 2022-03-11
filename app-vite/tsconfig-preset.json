@@ -13,17 +13,6 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    // Quasar-defined webpack aliases
-    "paths": {
-      "src/*": ["src/*"],
-      "app/*": ["*"],
-      "components/*": ["src/components/*"],
-      "layouts/*": ["src/layouts/*"],
-      "pages/*": ["src/pages/*"],
-      "assets/*": ["src/assets/*"],
-      "boot/*": ["src/boot/*"],
-      "stores/*": ["src/stores/*"]
-    },
     "isolatedModules": true,
     "useDefineForClassFields": true,
     "jsx": "preserve",
