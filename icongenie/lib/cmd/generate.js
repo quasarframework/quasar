@@ -1,6 +1,6 @@
 const { existsSync } = require('fs')
 const { ensureFileSync } = require('fs-extra')
-const { green, grey } = require('kolorist')
+const { green, gray } = require('kolorist')
 
 const { appDir, resolveDir } = require('../utils/app-paths')
 const { log, warn } = require('../utils/logger')
@@ -89,7 +89,7 @@ function generateFile (file, opts) {
       const size = `(${getFileSize(file.absoluteName)})`
       const type = (file.generator + ':').padEnd(13, ' ')
 
-      log(`Generated ${type} ${green(file.relativeName)} ${grey(size)}`)
+      log(`Generated ${type} ${green(file.relativeName)} ${gray(size)}`)
       resolve()
     })
   })
