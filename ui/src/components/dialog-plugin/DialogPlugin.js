@@ -17,7 +17,7 @@ import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/private/key-composition.js'
-import { isPlainObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/private/is.js'
 
 export default createComponent({
   name: 'DialogPlugin',
@@ -81,7 +81,7 @@ export default createComponent({
       props.progress === false
         ? null
         : (
-            isPlainObject(props.progress) === true
+            isObject(props.progress) === true
               ? {
                   component: props.progress.spinner || QSpinner,
                   props: { color: props.progress.color || vmColor.value }
@@ -110,7 +110,7 @@ export default createComponent({
     })
 
     const okLabel = computed(() => (
-      isPlainObject(props.ok) === true
+      isObject(props.ok) === true
         ? $q.lang.label.ok
         : (
             props.ok === true
@@ -120,7 +120,7 @@ export default createComponent({
     ))
 
     const cancelLabel = computed(() => (
-      isPlainObject(props.cancel) === true
+      isObject(props.cancel) === true
         ? $q.lang.label.cancel
         : (
             props.cancel === true
@@ -146,7 +146,7 @@ export default createComponent({
       label: okLabel.value,
       ripple: false,
       disable: okDisabled.value,
-      ...(isPlainObject(props.ok) === true ? props.ok : { flat: true }),
+      ...(isObject(props.ok) === true ? props.ok : { flat: true }),
       'data-autofocus': (props.focus === 'ok' && hasForm.value !== true) || void 0,
       onClick: onOk
     }))
@@ -155,7 +155,7 @@ export default createComponent({
       color: vmColor.value,
       label: cancelLabel.value,
       ripple: false,
-      ...(isPlainObject(props.cancel) === true ? props.cancel : { flat: true }),
+      ...(isObject(props.cancel) === true ? props.cancel : { flat: true }),
       'data-autofocus': (props.focus === 'cancel' && hasForm.value !== true) || void 0,
       onClick: onCancel
     }))

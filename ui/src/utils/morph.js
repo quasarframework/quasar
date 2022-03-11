@@ -1,4 +1,4 @@
-import { isPlainObject } from './private/is'
+import { isObject } from './private/is'
 
 let id = 0
 let offsetBase = void 0
@@ -445,7 +445,7 @@ export default function morph (_options) {
       if (typeof options.style === 'string') {
         elTo.style.cssText += ' ' + options.style
       }
-      else if (isPlainObject(options.style) === true) {
+      else if (isObject(options.style) === true) {
         for (const prop in options.style) {
           elTo.style[ prop ] = options.style[ prop ]
         }

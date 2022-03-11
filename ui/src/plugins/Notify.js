@@ -9,7 +9,7 @@ import { createComponent } from '../utils/private/create.js'
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
-import { isPlainObject } from '../utils/private/is.js'
+import { isObject } from '../utils/private/is.js'
 
 let uid = 0
 
@@ -73,7 +73,7 @@ function addNotification (config, $q, originalApi) {
     Object.assign(notif, defaults)
   }
 
-  if (isPlainObject(config) === false) {
+  if (isObject(config) === false) {
     if (notif.type) {
       Object.assign(notif, notifTypes[ notif.type ])
     }
@@ -491,12 +491,12 @@ function getComponent () {
 export default {
   setDefaults (opts) {
     if (__QUASAR_SSR_SERVER__ !== true) {
-      isPlainObject(opts) === true && Object.assign(defaults, opts)
+      isObject(opts) === true && Object.assign(defaults, opts)
     }
   },
 
   registerType (typeName, typeOpts) {
-    if (__QUASAR_SSR_SERVER__ !== true && isPlainObject(typeOpts) === true) {
+    if (__QUASAR_SSR_SERVER__ !== true && isObject(typeOpts) === true) {
       notifTypes[ typeName ] = typeOpts
     }
   },

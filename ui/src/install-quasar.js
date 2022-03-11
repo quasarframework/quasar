@@ -10,7 +10,7 @@ import IconSet from './icon-set.js'
 
 import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
-import { isPlainObject } from './utils/private/is.js'
+import { isObject } from './utils/private/is.js'
 
 const autoInstalledPlugins = [
   Platform,
@@ -47,13 +47,13 @@ function prepareApp (app, uiOpts, pluginOpts) {
   installPlugins(pluginOpts, autoInstalledPlugins)
 
   uiOpts.components !== void 0 && Object.values(uiOpts.components).forEach(c => {
-    if (isPlainObject(c) === true && c.name !== void 0) {
+    if (isObject(c) === true && c.name !== void 0) {
       app.component(c.name, c)
     }
   })
 
   uiOpts.directives !== void 0 && Object.values(uiOpts.directives).forEach(d => {
-    if (isPlainObject(d) === true && d.name !== void 0) {
+    if (isObject(d) === true && d.name !== void 0) {
       app.directive(d.name, d)
     }
   })

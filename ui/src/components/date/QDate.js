@@ -12,7 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
-import { isPlainObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/private/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -165,7 +165,7 @@ export default createComponent({
     const rangeModel = computed(() => {
       const fn = date => decodeString(date, innerMask.value, innerLocale.value)
       return normalizedModel.value
-        .filter(date => isPlainObject(date) === true && date.from !== void 0 && date.to !== void 0)
+        .filter(date => isObject(date) === true && date.from !== void 0 && date.to !== void 0)
         .map(range => ({ from: fn(range.from), to: fn(range.to) }))
         .filter(range => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash)
     })

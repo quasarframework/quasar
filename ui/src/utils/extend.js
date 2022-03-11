@@ -1,4 +1,4 @@
-import { isPlainObject } from './private/is'
+import { isObject } from './private/is'
 
 export default function extend () {
   let
@@ -33,13 +33,13 @@ export default function extend () {
           continue
         }
 
-        if (deep && copy && (isPlainObject(copy) === true || (copyIsArray = Array.isArray(copy) === true))) {
+        if (deep && copy && (isObject(copy) === true || (copyIsArray = Array.isArray(copy) === true))) {
           if (copyIsArray) {
             copyIsArray = false
             clone = src && Array.isArray(src) === true ? src : []
           }
           else {
-            clone = src && isPlainObject(src) === true ? src : {}
+            clone = src && isObject(src) === true ? src : {}
           }
 
           target[ name ] = extend(deep, clone, copy)
