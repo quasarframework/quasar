@@ -1,5 +1,5 @@
 {
-  "name": "@quasar/create-project",
+  "name": "create-quasar",
   "version": "1.0.0",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
   "author": {
@@ -10,8 +10,7 @@
   "license": "MIT",
   "main": "index.js",
   "bin": {
-    "create-quasar-project": "index.js",
-    "cqp": "index.js"
+    "create-quasar": "index.js"
   },
   "repository": {
     "type": "git",
@@ -32,8 +31,5 @@
     "kolorist": "^1.5.1",
     "lodash.template": "^4.5.0",
     "prompts": "^2.4.2"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

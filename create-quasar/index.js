@@ -3,6 +3,7 @@
 const { readFileSync, readdirSync, existsSync } = require('fs')
 
 // display banner
+console.log()
 console.log(
   readFileSync(
     require('path').join(__dirname, 'assets/logo.art'),

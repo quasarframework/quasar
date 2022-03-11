@@ -20,9 +20,9 @@ if (argv.help) {
   Description
     Creates a Quasar project (app, AppExtension or UI kit) from CUSTOM starter kits.
     For scaffolding an official Quasar project please use this instead:
-       yarn create @quasar/project
+       yarn create quasar
        or
-       npm init @quasar/project
+       npm init quasar
 
   Usage
     $ quasar create <project-name> [--kit <kit-name>] [--branch <version-name>]
@@ -67,9 +67,9 @@ if (!argv.kit && (!argv.branch || argv.branch === 'v1')) {
 
  For scaffolding an official Quasar project please use this instead:
 
-   yarn create @quasar/project
+   yarn create quasar
    # or
-   npm init @quasar/project
+   npm init quasar
   `)
 
   process.exit(0)
