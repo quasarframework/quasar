@@ -58,15 +58,13 @@ $ quasar [command name] --help
 
 ## Create
 
-Creates an App folder with initial project boilerplate.
+Creates an App folder with a CUSTOM starter kit.
+
+You might be looking for `yarn create quasar` or `npm init quasar` instead.
 
 ```bash
-$ quasar create <folder_name>
+$ quasar create <folder_name> --kit <address> [--branch <branch_name>]
 ```
-
-This command will use Quasar App Starter Kit by default, but you can specify a different one via `--kit` option.
-
-`quasar create --kit ui --branch v1` and `quasar create --kit app-extension` will generate for you App Extension boilerplate: the former when the extension is meant to provide UI Components, the latter in all other cases.
 
 You can use a starter kit stored on your machine by providing a **local path** to a folder (eg. `quasar create --kit ./my-custom-starter-kit`).
 
