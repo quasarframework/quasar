@@ -10,8 +10,29 @@ RTL is referring to "right to left" UI for languages that need it.
 
 ## Enabling RTL support
 
-### Quasar CLI
-To enable it, you need to edit `/quasar.conf.js`:
+### Quasar CLI with Vite
+* Edit `/postcss.config.js` file and uncomment the `require('postcss-rtlcss')` line.
+* Yarn/npm install the `postcss-rtlcss` package.
+* If you are already running "quasar dev" command, restart it.
+
+```
+module.exports = {
+  plugins: [
+    // https://github.com/postcss/autoprefixer
+    require('autoprefixer')(...)
+
+    // https://github.com/elchininet/postcss-rtlcss
+    // If you want to support RTL css, then
+    // 1. yarn/npm install postcss-rtlcss
+    // 2. optionally set quasar.config.js > framework > lang to an RTL language
+    // 3. uncomment the following line:
+    // require('postcss-rtlcss')
+  ]
+}
+```
+
+### Quasar CLI with Webpack
+To enable it, you need to edit `/quasar.config.js`:
 
 ```js
 build: {
@@ -41,6 +62,40 @@ module.exports = {
 }
 ```
 
+### Quasar UMD
+To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your Quasar version and also pack in a Quasar RTL language pack (like Hebrew or Farsi). Example:
+
+```html
+<html>
+  <head>
+    ...
+    <!-- Replace "2.0.0" (below) with your Quasar version. -->
+    <link href="https://cdn.jsdelivr.net/npm/quasar@2/dist/quasar.rtl.prod.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    ...
+
+    <!--
+      We also need an RTL Quasar language pack; let's take Hebrew as an example;
+      include this after Quasar JS tag;
+      Replace "2.0.0" (below) with your Quasar version.
+    -->
+    <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/he.umd.prod.js"></script>
+    <script>
+      Quasar.lang.set(Quasar.lang.he)
+    </script>
+  </body>
+</html>
+```
+
+Check what tags you need to include in your HTML files by using our [UMD tag generator](/start/umd) and making sure that you tick the "RTL CSS support" checkbox.
+Also notice the `<html dir="rtl">` tag at the beginning of the generated html file -- you'll need that too.
+
+::: warning CAVEAT
+Quasar CLI automatically adds equivalent RTL CSS rules for your website/app code, but this is not the case for UMD where Quasar CLI is not being used. You'll have to manage writing the RTL equivalent of your website/app CSS code by yourself. It's only Quasar components that will have this handled automatically.
+:::
+
 ## How it works
 RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check the "Enabling RTL support" section above), then the UI will dynamically transform Quasar & your website/app code for RTL.
 
@@ -54,12 +109,12 @@ Let's discuss about each of these requirements:
 
 3. Optional: *Treat devland source CSS as RTL*.
   By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to:
-    * (Quasar CLI) set quasar.conf.js > "build" > rtl > "source" to `rtl`
-    * (Quasar Vite plugin / Vue CLI plugin) set `require('postcss-rtlcss', { source: 'rtl' })` in /postcss.config.js
+    * (Quasar CLI with Webpack) set quasar.config.js > "build" > rtl > "source" to `rtl`
+    * (Quasar CLI with Vite / Quasar Vite plugin / Vue CLI plugin) set `require('postcss-rtlcss', { source: 'rtl' })` in /postcss.config.js
 
-## Configuration
-
-Quasar CLI makes use of [postcss-rtlcss](https://github.com/elchininet/postcss-rtlcss), so if you want to tweak the RTL settings through quasar.conf.js > build > rtl then it must match [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).
+::: tip
+Full list of [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).
+:::
 
 ## Things to keep in mind
 
@@ -131,37 +186,3 @@ Or, if you need your RTL UI to use left-to-right (ltr) mode for a DOM element / 
   -->
 </div>
 ```
-
-## Handling Quasar UMD
-To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your Quasar version and also pack in a Quasar RTL language pack (like Hebrew or Farsi). Example:
-
-```html
-<html>
-  <head>
-    ...
-    <!-- Replace "2.0.0" (below) with your Quasar version. -->
-    <link href="https://cdn.jsdelivr.net/npm/quasar@2/dist/quasar.rtl.prod.css" rel="stylesheet" type="text/css">
-  </head>
-
-  <body>
-    ...
-
-    <!--
-      We also need an RTL Quasar language pack; let's take Hebrew as an example;
-      include this after Quasar JS tag;
-      Replace "2.0.0" (below) with your Quasar version.
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/quasar@2/dist/lang/he.umd.prod.js"></script>
-    <script>
-      Quasar.lang.set(Quasar.lang.he)
-    </script>
-  </body>
-</html>
-```
-
-Check what tags you need to include in your HTML files by using our [UMD tag generator](/start/umd) and making sure that you tick the "RTL CSS support" checkbox.
-Also notice the `<html dir="rtl">` tag at the beginning of the generated html file -- you'll need that too.
-
-::: warning CAVEAT
-Quasar CLI automatically adds equivalent RTL CSS rules for your website/app code, but this is not the case for UMD where Quasar CLI is not being used. You'll have to manage writing the RTL equivalent of your website/app CSS code by yourself. It's only Quasar components that will have this handled automatically.
-:::

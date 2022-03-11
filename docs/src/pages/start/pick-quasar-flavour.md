@@ -8,13 +8,13 @@ desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI, Vue C
 There are four ways of using Quasar. Pick the one that suits you best:
 
 - [UMD/Standalone](/start/umd) (embed into an existing project through CDN, progressive integration)
-- [Quasar CLI](/start/quasar-cli) (**the premium developer experience and highly recommended**)
+- [Quasar CLI](/start/quasar-cli) (with Vite or Webpack under the hood) [**the premium developer experience and highly recommended**]
 - [Quasar Vite plugin](/start/vite-plugin)
 - [Vue CLI plugin](/start/vue-cli-plugin)
 
 Here's a quick comparison:
 
-| Feature                                                                                    | Quasar UMD | Quasar CLI | Quasar Vite plugin                  | Vue CLI Plugin |
+| Feature                                                                                    | Quasar UMD | Quasar CLI (with Vite or Webpack) | Quasar Vite Plugin                  | Vue CLI Plugin |
 | ------------------------------------------------------------------------------------------ | -------    | ---------- | ---------------------------- | -------------- |
 | Ability to embed into an existing project                                                  | **Yes**    | -          | **Yes, if it is Vite app**   | **Yes, if it is Vue CLI app** |
 | Progressive integration of Quasar                                                          | **Yes**    | -          | -                            | - |
@@ -38,13 +38,13 @@ Here's a quick comparison:
 | Unit & end to end testing support                                                          | -          | **Yes**    | **Yes**                      | **Yes** |
 | TypeScript support                                                                         | -          | **Yes**    | **Yes**                      | **Yes** |
 | **Best and Most Popular Choice!**                                                          |            | **YES!** |                             | |
-|                                                                                            | Quasar UMD | Quasar CLI | Quasar Vite plugin                  | Vue CLI Plugin |
+|                                                                                            | Quasar UMD | Quasar CLI (with Vite or Webpack) | Quasar Vite Plugin                  | Vue CLI Plugin |
 
 
 ::: tip (*)Important!
-Although you may get a similar multi-platform support via the Vue CLI and some Vue community built plugins, these 3rd party supported build paths aren't tightly integrated with Quasar's components. Thus, as you run into problems with these 3rd party plugins, you will have to depend on the support of each individual plugin developer. With Quasar, you have a one-stop-shop should anything go wrong. Also, the Quasar CLI ensures applications are built to the best possible standards in both performance, project size and best practices. You will find no such guarantees anywhere else!
+Although you may get a similar multi-platform support via Vite (directly) or the Vue CLI and some Vue community built plugins, these 3rd party supported build paths aren't tightly integrated with Quasar's components. Thus, as you run into problems with these 3rd party plugins, you will have to depend on the support of each individual plugin developer. With Quasar, you have a one-stop-shop should anything go wrong. Also, the Quasar CLI ensures applications are built to the best possible standards in both performance, project size and best practices. You will find no such guarantees anywhere else!
 :::
 
 So, let's get you going with **Quasar's CLI**! You'll be up and running with a new project in a matter of minutes.
 
-<q-btn push no-caps color="brand-primary" icon-right="launch" label="Install Quasar CLI" to="/quasar-cli/installation" class="q-mt-sm q-mb-lg" />
+<q-btn push no-caps color="brand-primary" icon-right="launch" label="Start with Quasar CLI" to="/start/quasar-cli" class="q-mt-sm q-mb-lg" />

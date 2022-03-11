@@ -143,7 +143,438 @@ const security = [
   // }
 ]
 
-const cli = [
+const cliWebpack = [
+  {
+    name: 'Installation',
+    path: 'installation'
+  },
+  {
+    name: 'quasar.conf.js',
+    path: 'quasar-conf-js'
+  },
+  {
+    name: 'Browser Compatibility',
+    path: 'browser-compatibility'
+  },
+  {
+    name: 'Supporting TypeScript',
+    path: 'supporting-ts'
+  },
+  {
+    name: 'Directory Structure',
+    path: 'directory-structure'
+  },
+  {
+    name: 'Build Commands',
+    path: 'build-commands'
+  },
+  {
+    name: 'Commands List',
+    path: 'commands-list'
+  },
+  {
+    name: 'CSS Preprocessors',
+    path: 'css-preprocessors'
+  },
+  {
+    name: 'Routing',
+    path: 'routing'
+  },
+  {
+    name: 'Lazy Loading - Code Splitting',
+    path: 'lazy-loading'
+  },
+  {
+    name: 'Handling Assets',
+    path: 'handling-assets'
+  },
+  {
+    name: 'Boot Files',
+    path: 'boot-files'
+  },
+  {
+    name: 'Prefetch Feature',
+    path: 'prefetch-feature'
+  },
+  {
+    name: 'API Proxying',
+    path: 'api-proxying'
+  },
+  {
+    name: 'Handling Webpack',
+    path: 'handling-webpack'
+  },
+  {
+    name: 'Handling process.env',
+    path: 'handling-process-env'
+  },
+  {
+    name: 'Vuex Store',
+    path: 'vuex-store'
+  },
+  {
+    name: 'Linter',
+    path: 'linter'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
+  },
+  {
+    name: 'Developing SPA',
+    path: 'developing-spa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'App Icons for SPA',
+        path: 'app-icons-spa'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
+      }
+    ]
+  },
+  {
+    name: 'Developing SSR',
+    path: 'developing-ssr',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Writing Universal Code',
+        path: 'writing-universal-code'
+      },
+      {
+        name: 'Upgrade guide',
+        badge: 'new',
+        path: 'ssr-upgrade-guide'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring SSR',
+        path: 'configuring-ssr'
+      },
+      {
+        name: 'ssrContext',
+        badge: 'update',
+        path: 'ssr-context'
+      },
+      {
+        name: 'SSR Middleware',
+        badge: 'new',
+        path: 'ssr-middleware'
+      },
+      {
+        name: 'SSR Production Export',
+        badge: 'new',
+        path: 'ssr-production-export'
+      },
+      {
+        name: 'Vue SSR Directives',
+        badge: 'new',
+        path: 'vue-ssr-directives'
+      },
+      {
+        name: 'App Icons for SSR',
+        path: 'app-icons-ssr'
+      },
+      {
+        name: 'SEO for SSR',
+        path: 'seo-for-ssr'
+      },
+      {
+        name: 'Client Side Hydration',
+        path: 'client-side-hydration'
+      },
+      {
+        name: 'Handling 404 and 500 Errors',
+        path: 'handling-404-and-500-errors'
+      },
+      {
+        name: 'SSR with PWA',
+        path: 'ssr-with-pwa'
+      },
+      {
+        name: 'SSR Frequently Asked Questions',
+        path: 'ssr-frequently-asked-questions'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'SSR with Typescript',
+        badge: 'new',
+        path: 'ssr-with-typescript'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
+      }
+    ]
+  },
+  {
+    name: 'Developing PWA',
+    path: 'developing-pwa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Configuring PWA',
+        path: 'configuring-pwa'
+      },
+      {
+        name: 'HMR for PWA',
+        path: 'hmr-for-dev'
+      },
+      {
+        name: 'App Icons for PWA',
+        path: 'app-icons-pwa'
+      },
+      {
+        name: 'Handling Service Worker',
+        path: 'handling-service-worker'
+      },
+      {
+        name: 'PWA with Typescript',
+        badge: 'new',
+        path: 'pwa-with-typescript'
+      }
+    ]
+  },
+  {
+    name: 'Developing Mobile Apps',
+    path: 'developing-mobile-apps'
+  },
+  {
+    name: 'Developing Capacitor Apps',
+    path: 'developing-capacitor-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Capacitor versions',
+        badge: 'new',
+        path: 'capacitor-version-support'
+      },
+      {
+        name: 'Configuring Capacitor',
+        path: 'configuring-capacitor'
+      },
+      {
+        name: 'App Icons for Capacitor',
+        path: 'app-icons-capacitor'
+      },
+      {
+        name: 'Capacitor API',
+        path: 'capacitor-api'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Cordova Apps',
+    path: 'developing-cordova-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Cordova',
+        path: 'configuring-cordova'
+      },
+      {
+        name: 'App Icons for Cordova',
+        path: 'app-icons-cordova'
+      },
+      {
+        name: 'Cordova Plugins',
+        path: 'cordova-plugins'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Electron Apps',
+    path: 'developing-electron-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Upgrade guide',
+        path: 'electron-upgrade-guide',
+        badge: 'new'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Electron',
+        path: 'configuring-electron'
+      },
+      {
+        name: 'App Icons for Electron',
+        path: 'app-icons-electron'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Preload Script',
+        path: 'electron-preload-script'
+      },
+      {
+        name: 'Electron Packages',
+        path: 'electron-packages'
+      },
+      {
+        name: 'Accessing files',
+        path: 'electron-accessing-files'
+      },
+      {
+        name: 'Frameless Electron Window',
+        path: 'frameless-electron-window'
+      },
+      {
+        name: 'Electron with Typescript',
+        badge: 'new',
+        path: 'electron-with-typescript'
+      },
+      {
+        name: 'Electron Security Concerns',
+        path: 'electron-security-concerns'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      }
+    ]
+  },
+  {
+    name: 'Developing Browser Extensions',
+    path: 'developing-browser-extensions',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring BEX',
+        path: 'configuring-bex'
+      },
+      {
+        name: 'App Icons for BEX',
+        path: 'app-icons-browser-extension'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Types of BEX',
+        path: 'types-of-bex'
+      },
+      {
+        name: 'BEX Communication / Events',
+        path: 'bex-communication'
+      },
+      {
+        name: 'Background Hooks',
+        path: 'background-hooks'
+      },
+      {
+        name: 'Content Hooks',
+        path: 'content-hooks'
+      },
+      {
+        name: 'DOM Hooks',
+        path: 'dom-hooks'
+      }
+    ]
+  },
+  {
+    name: 'Ajax Requests',
+    path: 'ajax-requests'
+  },
+  {
+    name: 'Opening Dev Server To Public',
+    path: 'opening-dev-server-to-public'
+  }
+]
+
+const cliVite = [
   {
     name: 'Installation',
     path: 'installation'
@@ -1342,10 +1773,16 @@ module.exports = [
     children: security
   },
   {
-    name: 'Quasar CLI',
+    name: 'Quasar CLI (Vite)',
     icon: 'build',
-    path: 'quasar-cli',
-    children: cli
+    path: 'quasar-cli-vite',
+    children: cliVite
+  },
+  {
+    name: 'Quasar CLI (Webpack)',
+    icon: 'build',
+    path: 'quasar-cli-webpack',
+    children: cliWebpack
   },
   {
     name: 'Icon Genie CLI',
