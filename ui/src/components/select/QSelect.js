@@ -17,7 +17,7 @@ import { useFormProps, useFormInputNameAttr } from '../../composables/private/us
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { isDeepEqual, isObject } from '../../utils/private/is.js'
+import { isDeepEqual } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
@@ -602,7 +602,7 @@ export default createComponent({
 
       return typeof val === 'function'
         ? val
-        : opt => (isObject(opt) === true && val in opt ? opt[ val ] : opt)
+        : opt => (Object(opt) === opt && val in opt ? opt[ val ] : opt)
     }
 
     function isOptionSelected (opt) {
