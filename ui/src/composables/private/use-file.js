@@ -47,15 +47,15 @@ export default function ({
   const extensions = computed(() => (
     props.accept !== void 0
       ? props.accept.split(',').map(ext => {
-          ext = ext.trim()
-          if (ext === '*') { // support "*"
-            return '*/'
-          }
-          else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext.toUpperCase()
-        })
+        ext = ext.trim()
+        if (ext === '*') { // support "*"
+          return '*/'
+        }
+        else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
+          ext = ext.slice(0, ext.length - 1)
+        }
+        return ext.toUpperCase()
+      })
       : null
   ))
 
@@ -120,7 +120,7 @@ export default function ({
     // Cordova/iOS allows selecting multiple files even when the
     // multiple attribute is not specified. We also normalize drag'n'dropped
     // files here:
-    if (props.multiple !== true) {
+    if (props.multiple !== true && files.length > 0) {
       files = [ files[ 0 ] ]
     }
 
