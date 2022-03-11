@@ -71,7 +71,7 @@ export default function (/* { ssrContext } */) {
 ```
 
 ::: tip
-If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli-webpack/developing-ssr/ssr-context) Object that gets supplied server-side.
+If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 :::
 
 Now we can use this Vuex Module in our Vue files. Here is a quick example. Assume we configured `drawerState` in the state and added `updateDrawerState` mutation.
@@ -259,7 +259,7 @@ export default boot(({store}) => {
 ```
 
 #### Using a typed store in Prefetch
-Similarly, you can also use a typed store when using the [Prefetch feature](https://quasar.dev/quasar-cli-webpack/prefetch-feature). Here is an example:
+Similarly, you can also use a typed store when using the [Prefetch feature](https://quasar.dev/quasar-cli-vite/prefetch-feature). Here is an example:
 
 ```html
 <script lang="ts">
@@ -279,7 +279,7 @@ export default defineComponent({
 ```
 
 ## Store Code Splitting
-You can take advantage of the [PreFetch Feature](/quasar-cli-webpack/prefetch-feature#store-code-splitting) to code-split Vuex modules.
+You can take advantage of the [PreFetch Feature](/quasar-cli-vite/prefetch-feature#store-code-splitting) to code-split Vuex modules.
 
 ### Code splitting Vuex Smart Module
 Code splitting with Vuex Smart Module works slightly different compared to regular Vuex.
@@ -328,7 +328,7 @@ export const useAdmin = createComposable(admin)
 
 We then want to only load this module, when a certain route component is visited. We can do that in (at least) two different ways.
 
-The first method is using the [PreFetch Feature](/quasar-cli-webpack/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli-webpack/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /admin route which is a child of our MainLayout:
+The first method is using the [PreFetch Feature](/quasar-cli-vite/prefetch-feature#store-code-splitting) that Quasar offers, similar to the example for regular Vuex, found [here](/quasar-cli-vite/prefetch-feature#store-code-splitting). To do this, we have a route defined in our `router/routes.ts` file. For this example, we have a /admin route which is a child of our MainLayout:
 
 ```
 { path: 'admin', component: () => import('pages/Admin.vue') }
@@ -392,7 +392,7 @@ export default defineComponent({
 
 The second method is by using a `router.beforeEach` hook to register/ungregister our dynamic store modules. This makes sense, if you have a section of you app, which is only used by a small percentage of visitors. For example an `/admin` section of your site under which you have multiple sub routes. You can then check if the route starts with `/admin` upon route navigation and load the store module based on that for every route that starts with `/admin/...`.
 
-To do this, you can use a [Boot File](/quasar-cli-webpack/boot-files) in Quasar that looks like this:
+To do this, you can use a [Boot File](/quasar-cli-vite/boot-files) in Quasar that looks like this:
 
 :::tip
 The example below is designed to work with both SSR and SPA. If you only use SPA, this can be simplified by removing the last argument of `registerModule` entirely.

@@ -205,8 +205,12 @@ const cliWebpack = [
     path: 'handling-process-env'
   },
   {
-    name: 'State Management (Pinia/Vuex)',
-    path: 'state-management-pinia-vuex'
+    name: 'State Management with Pinia',
+    path: 'state-management-with-pinia'
+  },
+  {
+    name: 'State Management with Vuex',
+    path: 'state-management-with-vuex'
   },
   {
     name: 'Linter',
@@ -632,8 +636,12 @@ const cliVite = [
     path: 'handling-process-env'
   },
   {
-    name: 'State Management (Pinia/Vuex)',
-    path: 'state-management-pinia-vuex'
+    name: 'State Management with Pinia',
+    path: 'state-management-with-pinia'
+  },
+  {
+    name: 'State Management with Vuex',
+    path: 'state-management-with-vuex'
   },
   {
     name: 'Linter',
