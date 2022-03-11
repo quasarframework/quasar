@@ -5,7 +5,7 @@ const nodePackager = require('../../node-packager')
 
 const depRE = /Can't resolve '(.*)' in/
 const relativeRE = /^(\.\/|\.\.\/)/
-const cmd = nodePackager === 'yarn'
+const cmd = nodePackager.name === 'yarn'
   ? 'yarn add'
   : 'npm install --save'
 

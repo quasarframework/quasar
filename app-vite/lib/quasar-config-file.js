@@ -12,6 +12,7 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const resolveExtension = require('./helpers/resolve-extension')
+const getStoreProvider = require('./helpers/get-store-provider')
 
 const urlRegex = /^http(s)?:\/\//i
 const { findClosestOpenPort } = require('../lib/helpers/net')
@@ -435,7 +436,7 @@ class QuasarConfFile {
           pages: appPaths.resolve.src('pages'),
           assets: appPaths.resolve.src('assets'),
           boot: appPaths.resolve.src('boot'),
-          store: appPaths.resolve.src('store')
+          stores: appPaths.resolve.src('stores')
         }
       },
 
@@ -478,12 +479,14 @@ class QuasarConfFile {
       ? cfg.build.vueRouterBase
       : formatRouterBase(cfg.build.publicPath)
 
+    const storeProvider = getStoreProvider()
+
     // when adding new props here be sure to update
     // all impacted devserver diffs (look for this.registerDiff() calls)
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
-      store: 'src/store/index',
+      store: `src/${storeProvider.pathKey}/index`,
       registerServiceWorker: 'src-pwa/register-service-worker',
       serviceWorker: 'src-pwa/custom-service-worker',
       pwaManifestFile: 'src-pwa/manifest.json',

@@ -1,8 +1,6 @@
-const fs = require('fs')
-
 const appPaths = require('../app-paths')
 const getPackage = require('../helpers/get-package')
-const { log, fatal } = require('../helpers/logger')
+const { fatal } = require('../helpers/logger')
 
 const versions = {
   packager: '15.2.0',
@@ -14,18 +12,11 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName) {
-  const { spawnSync } = require('../helpers/spawn')
   const nodePackager = require('../helpers/node-packager')
-  const cmdParam = nodePackager === 'npm'
-    ? ['install', '--save-dev']
-    : ['add', '--dev']
 
-  log(`Installing required Electron bundler (electron-${bundlerName})...`)
-  spawnSync(
-    nodePackager,
-    cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
-    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal(`Failed to install electron-${bundlerName}`, 'FAIL')
+  nodePackager.installPackage(
+    `electron-${bundlerName}@^${versions[bundlerName]}`,
+    { isDev: true, displayName: `electron-${bundlerName}` }
   )
 }
 

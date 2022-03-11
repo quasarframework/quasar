@@ -12,6 +12,7 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
+const getStoreProvider = require('./helpers/get-store-provider')
 const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
@@ -517,10 +518,12 @@ class QuasarConfFile {
       ? cfg.build.appBase
       : cfg.build.publicPath
 
+    const storeProvider = getStoreProvider()
+
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
-      store: 'src/store/index',
+      store: `src/${storeProvider.pathKey}/index`,
       indexHtmlTemplate: 'src/index.template.html',
       registerServiceWorker: 'src-pwa/register-service-worker',
       serviceWorker: 'src-pwa/custom-service-worker',

@@ -1,10 +1,8 @@
 const fs = require('fs')
 const fse = require('fs-extra')
 
-const nodePackager = require('../helpers/node-packager')
-const { spawnSync } = require('../helpers/spawn')
 const appPaths = require('../app-paths')
-const { log, fatal } = require('../helpers/logger')
+const nodePackager = require('../helpers/node-packager')
 
 function ensureWWW (forced) {
   const www = appPaths.resolve.capacitor('www')
@@ -24,17 +22,10 @@ function ensureDeps () {
     return
   }
 
-  const cmdParam = nodePackager === 'npm'
-    ? ['install']
-    : []
-
-  log(`Installing Capacitor dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam,
-    { cwd: appPaths.capacitorDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal('failed installing dependencies in /src-capacitor', 'FAIL')
-  )
+  nodePackager.install({
+    cwd: appPaths.capacitorDir,
+    displayName: 'Capacitor',
+  })
 }
 
 module.exports = function () {

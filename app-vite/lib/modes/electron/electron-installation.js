@@ -2,8 +2,7 @@ const fs = require('fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths')
-const { log, warn, fatal } = require('../../helpers/logger')
-const { spawnSync } = require('../../helpers/spawn')
+const { log, warn } = require('../../helpers/logger')
 const nodePackager = require('../../helpers/node-packager')
 const { bundlerIsInstalled } = require('./bundler')
 
@@ -18,46 +17,33 @@ function isInstalled () {
 function add (silent) {
   if (isInstalled()) {
     if (silent !== true) {
-      warn(`Electron support detected already. Aborting.`)
+      warn('Electron support detected already. Aborting.')
     }
     return
   }
 
-  const cmdParam = nodePackager === 'npm'
-    ? ['install', '--save-dev']
-    : ['add', '--dev']
-
-  log(`Installing Electron dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam.concat(Object.keys(electronDeps).map(dep => {
-      return `${dep}@${electronDeps[dep]}`
-    })),
-    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal('Failed to install Electron dependencies', 'FAIL')
+  nodePackager.installPackage(
+    Object.entries(electronDeps).map(([name, version]) => `${name}@${version}`),
+    { isDev: true, displayName: 'Electron dependencies' }
   )
 
-  log(`Creating Electron source folder...`)
+  log('Creating Electron source folder...')
   fse.copySync(
     appPaths.resolve.cli('templates/electron'),
     appPaths.electronDir
   )
 
-  log(`Electron support was added`)
+  log('Electron support was added')
 }
 
 function remove () {
   if (!isInstalled()) {
-    warn(`No Electron support detected. Aborting.`)
+    warn('No Electron support detected. Aborting.')
     return
   }
 
   log(`Removing Electron source folder`)
   fse.removeSync(appPaths.electronDir)
-
-  const cmdParam = nodePackager === 'npm'
-    ? ['uninstall', '--save-dev']
-    : ['remove']
 
   const deps = Object.keys(electronDeps)
 
@@ -67,15 +53,9 @@ function remove () {
     }
   })
 
-  log(`Uninstalling Electron dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam.concat(deps),
-    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => fatal('Failed to uninstall Electron dependencies', 'FAIL')
-  )
+  nodePackager.uninstallPackage(deps, { displayName: 'Electron dependencies' })
 
-  log(`Electron support was removed`)
+  log('Electron support was removed')
 }
 
 module.exports = {

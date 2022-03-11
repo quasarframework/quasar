@@ -21,7 +21,8 @@
       "layouts/*": ["src/layouts/*"],
       "pages/*": ["src/pages/*"],
       "assets/*": ["src/assets/*"],
-      "boot/*": ["src/boot/*"]
+      "boot/*": ["src/boot/*"],
+      "stores/*": ["src/stores/*"]
     },
     "isolatedModules": true,
     "useDefineForClassFields": true,
