@@ -108,10 +108,9 @@ const currentYear = (new Date()).getFullYear()
 /**
  * Loop through the menus and extract all menu items therein, including children to a flat array of menu items
  * @param menus menu items to extract from
- * @param exitCondition: (menuItem) => boolean - we may want to exit the loop early without reading all the elements
  * @return {*[]} An array of flattened menu items (no more children, they move up to the same level as others)
  */
-function createFooterNavsFromMenuItem (menus, exitCondition = () => false) {
+function createFooterNavsFromMenuItem (menus) {
   const footerItems = []
   for (const item of menus) {
     if (item.children) {
@@ -141,7 +140,7 @@ function extractFooterSectionsFromMenu (footerNavs, menu) {
     }
     const footerItems = {
       ...footerNav,
-      items: createFooterNavsFromMenuItem(menuItem.children, footerNav.menuExitCondition)
+      items: createFooterNavsFromMenuItem(menuItem.children)
     }
 
     if (footerNav.itemToUnshift) {

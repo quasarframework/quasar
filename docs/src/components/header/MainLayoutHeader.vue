@@ -23,7 +23,7 @@
         />
         <router-link
           v-if="!isSearchFieldActive"
-          class="row justify-center items-center cursor-pointer"
+          class="cursor-pointer"
           :to="{ name: 'landing' }"
         >
           <img
@@ -195,28 +195,28 @@
         }"
         class="dense-header q-pl-lg q-pr-md justify-between items-stretch"
       >
-        <div class="row justify-center items-center cursor-pointer">
-          <router-link :to="{ name: 'landing' }" class="row items-center">
+        <div class="row justify-start items-center cursor-pointer">
+          <router-link :to="{ name: 'landing' }" class="q-mr-sm">
             <img
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo${$q.screen.gt.sm ? '-horizontal' : ''}${dark? '-dark':''}.svg`"
               alt="Quasar Logo"
               height="36"
-              :width="$q.screen.gt.sm ? 236 : 48"
             >
           </router-link>
           <q-separator
+            v-if="showDenseSeparator"
             :color="dark? 'brand-primary':'black-12'"
-            class="q-ml-lg"
+            class="q-mx-md"
             vertical
           />
           <nav-dropdown-btn
-            :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
+            :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md version-dropdown-dense' : ''"
             :items="versionHistory"
-            class="text-weight-bold version-dropdown q-ml-lg"
+            class="text-weight-bold"
             color="brand-primary"
             content-class="shadow-bottom-medium"
             outline
-            padding="xs sm"
+            padding="xs xs"
           >
             <template #label>
               <span
@@ -269,7 +269,13 @@ import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
 import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
 import SearchForm from 'components/search-results/SearchForm.vue'
 import { useQuasar } from 'quasar'
-import { denseHeaderNavItems, expandedHeaderMainToolbarNavItems, expandedHeaderMoreDropdownNavItems, expandedHeaderSecondaryToolbarNavItems, filterNavItems } from 'src/assets/landing-page/nav-items.js'
+import {
+  denseHeaderNavItems,
+  expandedHeaderMainToolbarNavItems,
+  expandedHeaderMoreDropdownNavItems,
+  expandedHeaderSecondaryToolbarNavItems,
+  filterNavItems
+} from 'src/assets/landing-page/nav-items.js'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -481,11 +487,23 @@ export default defineComponent({
     // on these particular viewports, we reduce the padding on the dense header to prevent
     // icon or some items from collapsing.
     const denseHeaderNavItemPadding = computed(() => {
-      if ($q.screen.width >= $q.screen.sizes.lg && $q.screen.width < 1500) {
+      if ($q.screen.width >= $q.screen.sizes.md && $q.screen.width < 1500) {
+        return 'xs sm'
+      }
+
+      if ($q.screen.width >= 769 && $q.screen.width < 820) {
+        return 'xs sm'
+      }
+
+      if ($q.screen.width >= $q.screen.sizes.sm && $q.screen.width < 685) {
         return 'xs sm'
       }
 
       return 'xs md'
+    })
+    // hide separator on this specific viewport to prevent version dropdown from collapsing
+    const showDenseSeparator = computed(() => {
+      return !($q.screen.width >= $q.screen.sizes.sm && $q.screen.width < 641)
     })
 
     const headerClasses = computed(() => `${props.dark ? 'bg-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
@@ -511,6 +529,7 @@ export default defineComponent({
       headerClasses,
       expandedHeaderNavItemPadding,
       denseHeaderNavItemPadding,
+      showDenseSeparator,
 
       isSearchFieldActive,
       searchForm,
@@ -543,6 +562,10 @@ export default defineComponent({
 
 .version-dropdown {
   width: 220px;
+}
+
+.version-dropdown-dense {
+  width: 156px;
 }
 
 .header {
