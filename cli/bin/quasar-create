@@ -18,16 +18,16 @@ const argv = parseArgs(process.argv.slice(2), {
 if (argv.help) {
   console.log(`
   Description
-    Creates a Quasar App or App Extension project folder.
-    For scaffolding a Quasar project please use this instead:
-       yarn create @quasar/app
+    Creates a Quasar project (app, AppExtension or UI kit) from CUSTOM starter kits.
+    For scaffolding an official Quasar project please use this instead:
+       yarn create @quasar/project
        or
-       npm init @quasar/app
+       npm init @quasar/project
 
   Usage
     $ quasar create <project-name> [--kit <kit-name>] [--branch <version-name>]
 
-  App Examples
+  App Examples with custom starter kits
     $ quasar create my-project --kit user/github-starter-kit
       # installs an App project with a custom starter kit from GitHub
     $ quasar create my-project --kit ./starter-kit-folder
@@ -35,9 +35,7 @@ if (argv.help) {
     $ quasar create my-project --branch v0.17
       # installs an App project from a specific older version (only major version)
 
-  App Extension Examples
-    $ quasar create my-extension-project --kit app-extension
-      # installs an App Extension project with the latest Quasar App Extension starter kit
+  App Extension Examples with custom starter kits
     $ quasar create my-extension-project --kit user/github-extension-starter-kit
       # installs an App Extension project with a custom starter kit from GitHub
     $ quasar create my-extension-project --kit user/github-extension-starter-kit --branch dev
@@ -65,13 +63,13 @@ console.log(
 
 if (!argv.kit && (!argv.branch || argv.branch === 'v1')) {
   console.log(` This command is now reserved only for scaffolding
- App Extensions, custom starter kits or legacy v0.x projects.
+ with CUSTOM starter kits or legacy v0.x projects.
 
- For scaffolding a Quasar project please use this instead:
+ For scaffolding an official Quasar project please use this instead:
 
-   yarn create @quasar/app
+   yarn create @quasar/project
    # or
-   npm init @quasar/app
+   npm init @quasar/project
   `)
 
   process.exit(0)
