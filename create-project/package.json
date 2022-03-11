@@ -1,5 +1,5 @@
 {
-  "name": "@quasar/project",
+  "name": "@quasar/create-project",
   "version": "1.0.0",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
   "author": {
