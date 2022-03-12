@@ -1,6 +1,6 @@
 ---
 title: Preparation for Electron
-desc: How to add Electron mode into a Quasar app.
+desc: (@quasar/app-vite) How to add Electron mode into a Quasar app.
 ---
 Before we dive in to the actual development, we need to do some preparation work.
 

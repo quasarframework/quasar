@@ -1,6 +1,6 @@
 ---
 title: App Icons for Capacitor
-desc: How to manage the app icons for a Quasar hybrid mobile app with Capacitor.
+desc: (@quasar/app-vite) How to manage the app icons for a Quasar hybrid mobile app with Capacitor.
 ---
 
 

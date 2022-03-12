@@ -1,6 +1,6 @@
 ---
 title: SSR Middleware
-desc: Managing the SSR middleware in a Quasar app.
+desc: (@quasar/app-vite) Managing the SSR middleware in a Quasar app.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---

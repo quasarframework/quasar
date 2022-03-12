@@ -1,6 +1,6 @@
 ---
 title: Capacitor Build Commands
-desc: The Quasar CLI list of commands when developing or building a hybrid mobile app with Capacitor.
+desc: (@quasar/app-webpack) The Quasar CLI list of commands when developing or building a hybrid mobile app with Capacitor.
 ---
 
 ## Developing

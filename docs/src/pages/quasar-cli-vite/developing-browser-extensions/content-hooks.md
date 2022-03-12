@@ -1,6 +1,6 @@
 ---
 title: Content Hooks
-desc: How to communicate using your content script with your Quasar App and Background Script in Quasar Browser Extension mode.
+desc: (@quasar/app-vite) How to communicate using your content script with your Quasar App and Background Script in Quasar Browser Extension mode.
 ---
 
 `src-bex/js/content-hooks.js` is essentially a standard [content script](https://developer.chrome.com/extensions/content_scripts) and you are welcome to use it as such. Content scripts are able to access the DOM of the underlying webpage and thus you are able to manipulate the content of said page.

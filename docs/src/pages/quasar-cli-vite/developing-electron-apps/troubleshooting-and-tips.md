@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting and Tips
-desc: Tips and tricks for a Quasar desktop app with Electron.
+desc: (@quasar/app-vite) Tips and tricks for a Quasar desktop app with Electron.
 ---
 
 ## Browser Devtools

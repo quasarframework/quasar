@@ -1,6 +1,6 @@
 ---
 title: Configuring SSR
-desc: How to manage your server-side rendered apps with Quasar CLI.
+desc: (@quasar/app-vite) How to manage your server-side rendered apps with Quasar CLI.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---

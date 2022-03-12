@@ -1,6 +1,6 @@
 ---
 title: Electron Preload Script
-desc: How to handle Electron Node Integration with an Electron Preload script with Quasar CLI.
+desc: (@quasar/app-webpack) How to handle Electron Node Integration with an Electron Preload script with Quasar CLI.
 ---
 
 For security reasons, the renderer thread (your UI code from `/src`) does not have access to the Node.js stuff. However, you can run Node.js code and bridge it to the renderer thread through an Electron Preload script located at `/src-electron/electron-preload.[js|ts]`. Use `contextBridge` (from the `electron` package) to expose the stuff that you need for your UI.

@@ -1,6 +1,6 @@
 ---
 title: Supporting TypeScript
-desc: How to enable support for TypeScript in a Quasar app.
+desc: (@quasar/app-vite) How to enable support for TypeScript in a Quasar app.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---

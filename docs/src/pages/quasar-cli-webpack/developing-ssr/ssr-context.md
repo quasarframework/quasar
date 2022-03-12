@@ -1,6 +1,6 @@
 ---
 title: The ssrContext Object
-desc: The ssrContext Object in Quasar SSR
+desc: (@quasar/app-webpack) The ssrContext Object in Quasar SSR
 ---
 
 The `ssrContext` Object is the SSR context with which all the app's Vue components are rendered with.

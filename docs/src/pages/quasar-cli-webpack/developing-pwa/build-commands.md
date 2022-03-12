@@ -1,6 +1,6 @@
 ---
 title: PWA Build Commands
-desc: The Quasar CLI list of commands when developing or building a Progressive Web App.
+desc: (@quasar/app-webpack) The Quasar CLI list of commands when developing or building a Progressive Web App.
 ---
 
 ## Developing

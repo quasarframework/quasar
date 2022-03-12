@@ -1,6 +1,6 @@
 ---
 title: Hot Module Reload for PWA
-desc: How to manage HMR (Hot Module Reload) with Quasar PWA.
+desc: (@quasar/app-webpack) How to manage HMR (Hot Module Reload) with Quasar PWA.
 ---
 
 **When in develop mode** (not production), having a Service Worker installed and running will mess with the HMR (Hot Module Reload). However, the browser can be configured to bypass for network instead of using the Service Worker's cache.

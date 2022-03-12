@@ -1,6 +1,6 @@
 ---
 title: SEO for SSR
-desc: Managing the search engine optimizations in a Quasar server-side rendered app.
+desc: (@quasar/app-vite) Managing the search engine optimizations in a Quasar server-side rendered app.
 ---
 
 The term SEO refers to Search Engine Optimization. And Quasar covers this aspect too through the [Quasar Meta Plugin](/quasar-plugins/meta).

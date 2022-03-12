@@ -1,6 +1,6 @@
 ---
 title: Upgrade guide on SSR
-desc: Upgrading instructions from Quasar v1 to v2 when dealing with SSR.
+desc: (@quasar/app-webpack) Upgrading instructions from Quasar v1 to v2 when dealing with SSR.
 related:
   - /quasar-cli-webpack/developing-ssr/configuring-ssr
   - /quasar-cli-webpack/developing-ssr/ssr-context

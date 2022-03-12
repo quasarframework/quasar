@@ -1,6 +1,6 @@
 ---
 title: Capacitor Troubleshooting and Tips
-desc: Tips and tricks for a Quasar hybrid mobile app with Capacitor.
+desc: (@quasar/app-webpack) Tips and tricks for a Quasar hybrid mobile app with Capacitor.
 ---
 
 ## $q.capacitor

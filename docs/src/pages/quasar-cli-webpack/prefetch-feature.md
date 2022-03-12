@@ -1,6 +1,6 @@
 ---
 title: PreFetch Feature
-desc: How to prefetch data and initialize your Vuex store, validate the route and redirect to another page in a Quasar app.
+desc: (@quasar/app-webpack) How to prefetch data and initialize your Vuex store, validate the route and redirect to another page in a Quasar app.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

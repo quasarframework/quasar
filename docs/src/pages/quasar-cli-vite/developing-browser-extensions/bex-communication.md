@@ -1,6 +1,6 @@
 ---
 title: BEX Communication
-desc: How to communicate between different parts of your Browser Extension (BEX) in Quasar.
+desc: (@quasar/app-vite) How to communicate between different parts of your Browser Extension (BEX) in Quasar.
 ---
 Allowing a Quasar App to communicate with the various parts of the BEX is essential. Quasar closes this gap using a `bridge`.
 

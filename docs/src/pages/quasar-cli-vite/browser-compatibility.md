@@ -1,6 +1,6 @@
 ---
 title: Browser compatibility
-desc: How to handle the browser support with Quasar CLI.
+desc: (@quasar/app-vite) How to handle the browser support with Quasar CLI.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---

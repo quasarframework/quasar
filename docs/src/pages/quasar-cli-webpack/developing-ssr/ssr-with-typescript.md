@@ -1,6 +1,6 @@
 ---
 title: SSR with Typescript
-desc: How to use Typescript with SSR in Quasar
+desc: (@quasar/app-webpack) How to use Typescript with SSR in Quasar
 ---
 
 In order to support SSR with Typescript, you will need to:

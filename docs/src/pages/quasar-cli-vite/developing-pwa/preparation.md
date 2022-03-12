@@ -1,6 +1,6 @@
 ---
 title: Preparation for PWA
-desc: How to add PWA mode with Quasar CLI.
+desc: (@quasar/app-vite) How to add PWA mode with Quasar CLI.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---

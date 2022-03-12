@@ -1,6 +1,6 @@
 ---
 title: Configuring PWA
-desc: How to manage your Progressive Web Apps with Quasar CLI.
+desc: (@quasar/app-webpack) How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

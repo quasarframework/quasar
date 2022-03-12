@@ -1,6 +1,6 @@
 ---
 title: Types of BEX
-desc: How to configure each type of Browser Extensions in Quasar.
+desc: (@quasar/app-vite) How to configure each type of Browser Extensions in Quasar.
 ---
 
 As already discussed, Quasar can handle the various places where a browser extension can live, namely New Tab, Web Page, Dev Tools Options or Popup. You don't need a separate Quasar App for each of these. You can do some handy work with the router.

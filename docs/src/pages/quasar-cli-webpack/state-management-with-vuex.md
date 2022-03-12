@@ -1,6 +1,6 @@
 ---
 title: App Vuex Store
-desc: How to manage the Vuex Store in a Quasar App.
+desc: (@quasar/app-webpack) How to manage the Vuex Store in a Quasar App.
 ---
 
 ::: danger

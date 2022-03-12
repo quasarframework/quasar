@@ -1,6 +1,6 @@
 ---
 title: SPA Build Commands
-desc: The Quasar CLI list of commands when developing or building a single page application.
+desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a single page application.
 ---
 
 Developing:

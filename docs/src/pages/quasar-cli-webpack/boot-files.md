@@ -1,6 +1,6 @@
 ---
 title: Boot files
-desc: Managing your startup code in a Quasar app.
+desc: (@quasar/app-webpack) Managing your startup code in a Quasar app.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

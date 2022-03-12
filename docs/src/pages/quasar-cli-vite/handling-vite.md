@@ -1,6 +1,6 @@
 ---
 title: Handling Vite
-desc: How to manage Webpack in a Quasar app.
+desc: (@quasar/app-vite) How to manage Webpack in a Quasar app.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---

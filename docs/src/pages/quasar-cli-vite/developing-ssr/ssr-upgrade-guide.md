@@ -1,6 +1,6 @@
 ---
 title: Upgrade guide on SSR
-desc: Upgrading instructions from Quasar v1 to v2 when dealing with SSR.
+desc: (@quasar/app-vite) Upgrading instructions from Quasar v1 to v2 when dealing with SSR.
 related:
   - /quasar-cli-vite/developing-ssr/configuring-ssr
   - /quasar-cli-vite/developing-ssr/ssr-context

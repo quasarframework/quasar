@@ -1,6 +1,6 @@
 ---
 title: DOM Hooks
-desc: How to communicate to the underlying web page using dom hooks in Quasar Browser Extension mode.
+desc: (@quasar/app-webpack) How to communicate to the underlying web page using dom hooks in Quasar Browser Extension mode.
 ---
 
 `src-bex/js/dom-hooks.js` is a javascript file that is injected into the underlying web page automatically by Quasar but as with all the other hook files has access to the bridge via:

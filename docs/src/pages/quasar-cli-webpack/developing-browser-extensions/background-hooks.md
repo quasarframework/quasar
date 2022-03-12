@@ -1,6 +1,6 @@
 ---
 title: Background Hooks
-desc: How to communicate using your background script with other parts of your Browser Extension (BEX).
+desc: (@quasar/app-webpack) How to communicate using your background script with other parts of your Browser Extension (BEX).
 ---
 
 `src-bex/js/background-hooks.js` is essentially a standard [background script](https://developer.chrome.com/extensions/background_pages) and you are welcome to use it as such. Background scripts can communicate with **all** Web Pages, Dev Tools, Options and Popups running under your BEX.

@@ -1,6 +1,6 @@
 ---
 title: Preparation for BEX
-desc: How to add the Browser Extension (BEX) mode into a Quasar app.
+desc: (@quasar/app-webpack) How to add the Browser Extension (BEX) mode into a Quasar app.
 ---
 
 The difference between building a SPA, Mobile App, Electron App, BEX or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.

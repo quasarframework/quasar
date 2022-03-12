@@ -1,6 +1,6 @@
 ---
 title: App Icons for (BEX)
-desc: How to manage the app icons for a Quasar Browser Extension (BEX).
+desc: (@quasar/app-webpack) How to manage the app icons for a Quasar Browser Extension (BEX).
 ---
 
 This build target includes the icons required for browser extensions. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).

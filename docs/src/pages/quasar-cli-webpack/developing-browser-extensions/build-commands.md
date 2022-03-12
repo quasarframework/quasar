@@ -1,6 +1,6 @@
 ---
 title: BEX Build Commands
-desc: The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
+desc: (@quasar/app-webpack) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
 ---
 
 ## Developing

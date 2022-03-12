@@ -1,6 +1,6 @@
 ---
 title: SSR Production Export
-desc: Configuring the Quasar SSR webserver for different platforms, including a serverless architecture.
+desc: (@quasar/app-webpack) Configuring the Quasar SSR webserver for different platforms, including a serverless architecture.
 ---
 
 ::: danger

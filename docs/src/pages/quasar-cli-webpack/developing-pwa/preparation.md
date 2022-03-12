@@ -1,6 +1,6 @@
 ---
 title: Preparation for PWA
-desc: How to add PWA mode with Quasar CLI.
+desc: (@quasar/app-webpack) How to add PWA mode with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

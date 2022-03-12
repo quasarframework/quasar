@@ -1,6 +1,6 @@
 ---
 title: Configuring Electron
-desc: How to manage your Electron apps with Quasar CLI.
+desc: (@quasar/app-webpack) How to manage your Electron apps with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

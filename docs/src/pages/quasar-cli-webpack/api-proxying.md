@@ -1,6 +1,6 @@
 ---
 title: API Proxying for Dev
-desc: How to use an API proxy with the Quasar dev server.
+desc: (@quasar/app-webpack) How to use an API proxy with the Quasar dev server.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

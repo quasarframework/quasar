@@ -674,7 +674,6 @@ const cliVite = [
       },
       {
         name: 'Upgrade guide',
-        badge: 'new',
         path: 'ssr-upgrade-guide'
       },
       {
@@ -687,22 +686,18 @@ const cliVite = [
       },
       {
         name: 'ssrContext',
-        badge: 'update',
         path: 'ssr-context'
       },
       {
         name: 'SSR Middleware',
-        badge: 'new',
         path: 'ssr-middleware'
       },
       {
         name: 'SSR Production Export',
-        badge: 'new',
         path: 'ssr-production-export'
       },
       {
         name: 'Vue SSR Directives',
-        badge: 'new',
         path: 'vue-ssr-directives'
       },
       {
@@ -735,7 +730,6 @@ const cliVite = [
       },
       {
         name: 'SSR with Typescript',
-        badge: 'new',
         path: 'ssr-with-typescript'
       },
       {
@@ -778,7 +772,6 @@ const cliVite = [
       },
       {
         name: 'PWA with Typescript',
-        badge: 'new',
         path: 'pwa-with-typescript'
       }
     ]
@@ -885,8 +878,7 @@ const cliVite = [
       },
       {
         name: 'Upgrade guide',
-        path: 'electron-upgrade-guide',
-        badge: 'new'
+        path: 'electron-upgrade-guide'
       },
       {
         name: 'Preparation',

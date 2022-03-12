@@ -1,6 +1,6 @@
 ---
 title: Mobile App Build Commands
-desc: The Quasar CLI list of commands when developing or building a hybrid mobile app with Cordova.
+desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a hybrid mobile app with Cordova.
 ---
 
 Before we dive in, make sure you got the Cordova CLI installed.

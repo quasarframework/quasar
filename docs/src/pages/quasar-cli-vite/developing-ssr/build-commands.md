@@ -1,6 +1,6 @@
 ---
 title: SSR Build Commands
-desc: The Quasar CLI list of commands when developing or building a server-side rendered app.
+desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a server-side rendered app.
 ---
 
 ## Developing

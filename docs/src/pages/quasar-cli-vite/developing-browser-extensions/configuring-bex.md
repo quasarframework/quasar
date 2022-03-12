@@ -1,6 +1,6 @@
 ---
 title: Configuring BEX
-desc: How to manage your Browser Extensions with Quasar CLI.
+desc: (@quasar/app-vite) How to manage your Browser Extensions with Quasar CLI.
 ---
 
 Before we can configure anything, we need to understand how the BEX is structured. A BEX can be one (or more) of the following:

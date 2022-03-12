@@ -1,6 +1,6 @@
 ---
 title: Upgrade guide on Electron
-desc: Upgrading instructions when dealing with Electron in Quasar.
+desc: (@quasar/app-webpack) Upgrading instructions when dealing with Electron in Quasar.
 ---
 
 ## Upgrading Electron

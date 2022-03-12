@@ -1,6 +1,6 @@
 ---
 title: Preparation for SSR
-desc: How to add SSR mode with Quasar CLI.
+desc: (@quasar/app-webpack) How to add SSR mode with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

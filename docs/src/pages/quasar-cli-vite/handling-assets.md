@@ -1,6 +1,6 @@
 ---
 title: App Handling Assets
-desc: How to use regular app assets and static assets in a Quasar app.
+desc: (@quasar/app-vite) How to use regular app assets and static assets in a Quasar app.
 ---
 You will notice in the project structure we have two directories for assets: `/public/` and `/src/assets/`. What is the difference between them? Some are static assets while the others are processed and embedded by the build system.
 

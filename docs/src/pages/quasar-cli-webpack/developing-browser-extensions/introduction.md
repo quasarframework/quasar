@@ -1,6 +1,6 @@
 ---
 title: What is a Browser Extension
-desc: Introduction on what a Browser Extension (BEX) is.
+desc: (@quasar/app-webpack) Introduction on what a Browser Extension (BEX) is.
 ---
 
 A Browser Extension (BEX) is an application that runs in the browsers context and is used to customize the web browser in some way.

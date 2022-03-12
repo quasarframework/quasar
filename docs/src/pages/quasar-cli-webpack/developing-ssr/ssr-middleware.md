@@ -1,6 +1,6 @@
 ---
 title: SSR Middleware
-desc: Managing the SSR middleware in a Quasar app.
+desc: (@quasar/app-webpack) Managing the SSR middleware in a Quasar app.
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---

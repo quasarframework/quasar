@@ -1,6 +1,6 @@
 ---
 title: App Icons for SPA
-desc: How to manage the app icons for a Quasar Single Page Application.
+desc: (@quasar/app-webpack) How to manage the app icons for a Quasar Single Page Application.
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
@@ -40,4 +40,3 @@ The required HTML code that goes into `/src/index.template.html` to reference th
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
 ```
-

@@ -1,6 +1,6 @@
 ---
 title: Ajax Requests
-desc: Using Axios for fetching data in a Quasar app.
+desc: (@quasar/app-webpack) Using Axios for fetching data in a Quasar app.
 ---
 
 > We recommend selecting Axios during project initialization.

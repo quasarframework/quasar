@@ -67,6 +67,8 @@ const appPaths = require('../lib/app-paths')
 const getStoreProvider = require('../lib/helpers/get-store-provider')
 const defaultFilePath = 'default'
 
+console.log()
+
 if (argv._.length < 2) {
   console.log()
   warn(`Wrong number of parameters (${argv._.length}).`)
@@ -135,7 +137,7 @@ function createFile (asset, file) {
     return
   }
 
-  fse.mkdirp(path.dirname(file))
+  fse.ensureDir(path.dirname(file))
   let templatePath = path.join('templates/app', format)
 
   templatePath = type === 'store'
@@ -214,7 +216,7 @@ if (asset.install) {
   }
 
   if (!fs.existsSync(folder)) {
-    fse.mkdirp(folder)
+    fse.ensureDir(folder)
     fse.copy(
       appPaths.resolve.cli(`templates/store/${storeProvider.name}/${format}`),
       folder,

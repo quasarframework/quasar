@@ -1,6 +1,6 @@
 ---
 title: Electron Accessing Files
-desc: How to access files in a Quasar desktop app.
+desc: (@quasar/app-webpack) How to access files in a Quasar desktop app.
 ---
 
 ## Using __dirname & __filename

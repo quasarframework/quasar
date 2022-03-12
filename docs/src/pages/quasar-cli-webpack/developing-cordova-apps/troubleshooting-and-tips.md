@@ -1,6 +1,6 @@
 ---
 title: Cordova Troubleshooting and Tips
-desc: Tips and tricks for a Quasar hybrid mobile app with Cordova.
+desc: (@quasar/app-webpack) Tips and tricks for a Quasar hybrid mobile app with Cordova.
 ---
 
 ## $q.cordova

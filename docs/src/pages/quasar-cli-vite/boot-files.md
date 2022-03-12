@@ -1,6 +1,6 @@
 ---
 title: Boot files
-desc: Managing your startup code in a Quasar app.
+desc: (@quasar/app-vite) Managing your startup code in a Quasar app.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---
@@ -95,7 +95,7 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 * You want to add a global mixin using `app.mixin()`.
 * You want to add something to the Vue app globalProperties for convenient access - An example would be to conveniently use `this.$axios` (for Options API) inside your Vue files instead of importing Axios in each such file.
 * You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
-* You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
+* You want to interfere with Pinia or the Vuex store instance - An example would be to use `vuex-router-sync` package
 * Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
 
 ### Example of unneeded usage of boot files

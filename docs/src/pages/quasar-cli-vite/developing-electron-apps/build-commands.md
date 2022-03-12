@@ -1,6 +1,6 @@
 ---
 title: Electron Build Commands
-desc: The Quasar CLI list of commands when developing or building a desktop app.
+desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a desktop app.
 ---
 
 ## Developing

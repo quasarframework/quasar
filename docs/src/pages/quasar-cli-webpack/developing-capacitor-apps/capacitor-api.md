@@ -1,6 +1,6 @@
 ---
 title: Capacitor APIs
-desc: How to use the Capacitor plugins in a Quasar app.
+desc: (@quasar/app-webpack) How to use the Capacitor plugins in a Quasar app.
 ---
 You can hook into the native device APIs by using [Capacitor APIs](https://capacitor.ionicframework.com/docs/apis).
 

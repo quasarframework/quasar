@@ -1,6 +1,6 @@
 ---
 title: Opening Your Dev Server to the Public
-desc: How to offer temporary access to your development server to anyone on the Internet.
+desc: (@quasar/app-vite) How to offer temporary access to your development server to anyone on the Internet.
 ---
 At some point you may want to show someone else the project you've been working on. Fortunately, there are a couple of good tools to accomplish this, [localhost.run](https://localhost.run/) and [Ngrok](https://ngrok.com/). Both create a tunnel to your dev server and (by default) auto-generate an internet address on their respective servers to offer to your clients or anyone special you'd like to show your work to.
 

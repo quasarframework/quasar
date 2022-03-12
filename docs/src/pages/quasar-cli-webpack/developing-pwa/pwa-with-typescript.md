@@ -1,6 +1,6 @@
 ---
 title: PWA with Typescript
-desc: How to use Typescript with Quasar PWA
+desc: (@quasar/app-webpack) How to use Typescript with Quasar PWA
 ---
 
 In order to support PWA with Typescript, you will need to:

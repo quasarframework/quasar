@@ -1,6 +1,6 @@
 ---
 title: Handling Service Worker
-desc: How to configure the service worker in a Quasar Progressive Web App.
+desc: (@quasar/app-vite) How to configure the service worker in a Quasar Progressive Web App.
 ---
 Here you'll learn how to interact with the Service Worker from within your website/app space. Remember, **service workers MUST be served over HTTPS**.
 

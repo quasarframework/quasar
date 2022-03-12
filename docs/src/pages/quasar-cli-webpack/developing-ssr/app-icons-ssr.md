@@ -1,6 +1,6 @@
 ---
 title: App Icons for SSR
-desc: How to manage the app icons for a Quasar server-side rendered app.
+desc: (@quasar/app-webpack) How to manage the app icons for a Quasar server-side rendered app.
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
