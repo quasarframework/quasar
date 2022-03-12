@@ -25,16 +25,30 @@ const routes = [
 
 You could configure your `manifest.json` file with the following so the options page is loaded from that route:
 
+#### manifest v2
+
 ```json
 {
-  "name": "My extension",
-  ...
+  "manifest_version": 2,
+
   "options_page": "www/index.html#/options", // Options Page
-  ...
   "browser_action": {
     "default_popup": "www/index.html#/popup" // Popup Page
   },
-  ...
+  "devtools_page": "www/index.html#/devtools", // Dev Tools
+}
+```
+
+#### manifest v3
+
+```json
+{
+  "manifest_version": 3,
+
+  "action": {
+    "default_popup": "www/index.html#/popup" // Popup Page
+  },
+  "options_page": "www/index.html#/options", // Options Page
   "devtools_page": "www/index.html#/devtools", // Dev Tools
 }
 ```
@@ -45,15 +59,18 @@ This is where the real power comes in. With a little ingenuity we can inject our
 
 Here's a brief rundown of how you could achieve this:
 
-* `src-bex/js/content-hooks.js`
+* `src-bex/my-content-script.js`
 
 The idea here is to create an IFrame and add our Quasar app into it, then inject that into the page.
 
 Given our Quasar App might need to take the full height of the window (and thus stop any interaction with the underlying page) we have an event to handle setting the height of the IFrame. By default the IFrame height is just high enough to allow for the Quasar toolbar to show (and in turn allowing interaction with the rest of the page).
 
-We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.
-
 ```js
+// src-bex/my-content-script.js
+
+// Hooks added here have a bridge allowing communication between the BEX Content Script and the Quasar Application.
+// More info: https://quasar.dev/quasar-cli/developing-browser-extensions/content-hooks
+
 const
   iFrame = document.createElement('iframe'),
   defaultFrameHeight = '62px'
@@ -71,26 +88,6 @@ const setIFrameHeight = height => {
  */
 const resetIFrameHeight = () => {
   setIFrameHeight(defaultFrameHeight)
-}
-
-/**
- * Content hooks which listen for messages from the BEX in the iFrame
- * @param bridge
- */
-export default function attachContentHooks (bridge) {
-  /**
-   * When the drawer is toggled set the iFrame height to take the whole page.
-   * Reset when the drawer is closed.
-   */
-  bridge.on('wb.drawer.toggle', event => {
-    const payload = event.data
-    if (payload.open) {
-      setIFrameHeight('100%')
-    } else {
-      resetIFrameHeight()
-    }
-    bridge.send(event.eventResponseKey)
-  })
 }
 
 /**
@@ -118,9 +115,27 @@ Object.assign(iFrame.style, {
   iFrame.src = chrome.runtime.getURL(`www/index.html`)
   document.body.prepend(iFrame)
 })()
+
+export default function (bridge) {
+  /**
+   * When the drawer is toggled set the iFrame height to take the whole page.
+   * Reset when the drawer is closed.
+   */
+  bridge.on('wb.drawer.toggle', event => {
+    const payload = event.data
+    if (payload.open) {
+      setIFrameHeight('100%')
+    } else {
+      resetIFrameHeight()
+    }
+    bridge.send(event.eventResponseKey)
+  })
+}
 ```
 
-* `src-bex/css/content-css.css`
+We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.
+
+* `src-bex/assets/content.css`
 
 Add a margin to the top of our document so our Quasar toolbar doesn't overlap the actual page content.
 
@@ -130,7 +145,7 @@ Add a margin to the top of our document so our Quasar toolbar doesn't overlap th
 }
 ```
 
-* `Quasar App`
+* `Quasar App (/src)`
 
 Then in our Quasar app (/src), we have a function that toggles the drawer and sends an event to the content script telling it to
 resize the IFrame thus allowing our whole app to be visible:
@@ -166,3 +181,7 @@ setup () {
 
 Now you have a Quasar App running in a web page. You can now trigger other events from the Quasar App that the content
 script can listen to and interact with the underlying page.
+
+::: warning
+Be sure to check your manifest file, especially around the reference to `my-content-script.js`. Note that **you can have multiple content scripts**. Whenever you create a new one, you need to reference it in the manifest file.
+:::

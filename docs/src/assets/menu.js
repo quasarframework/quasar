@@ -500,7 +500,6 @@ const cliWebpack = [
       },
       {
         name: 'Electron with Typescript',
-        badge: 'new',
         path: 'electron-with-typescript'
       },
       {
@@ -914,7 +913,6 @@ const cliVite = [
       },
       {
         name: 'Electron with Typescript',
-        badge: 'new',
         path: 'electron-with-typescript'
       },
       {
@@ -960,16 +958,16 @@ const cliVite = [
         path: 'bex-communication'
       },
       {
-        name: 'Background Hooks',
-        path: 'background-hooks'
+        name: 'Background Script',
+        path: 'background-script'
       },
       {
-        name: 'Content Hooks',
-        path: 'content-hooks'
+        name: 'Content Scripts',
+        path: 'content-scripts'
       },
       {
-        name: 'DOM Hooks',
-        path: 'dom-hooks'
+        name: 'DOM Script',
+        path: 'dom-script'
       }
     ]
   },

@@ -32,14 +32,6 @@ export default [
       },
 
       {
-        name: 'Allan Gaunt',
-        role: 'Senior Developer',
-        avatar: 'allan_gaunt.png',
-        github: 'webnoob',
-        desc: 'BEX (browser extension App CLI mode), web products and security research'
-      },
-
-      {
         name: 'Scott Molinari',
         role: 'Media Manager',
         avatar: 'scott_molinari.jpg',

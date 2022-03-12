@@ -3,12 +3,13 @@ title: Background Hooks
 desc: (@quasar/app-vite) How to communicate using your background script with other parts of your Browser Extension (BEX).
 ---
 
-`src-bex/js/background-hooks.js` is essentially a standard [background script](https://developer.chrome.com/extensions/background_pages) and you are welcome to use it as such. Background scripts can communicate with **all** Web Pages, Dev Tools, Options and Popups running under your BEX.
+`src-bex/background-script.js` is essentially a standard background script and you are welcome to use it as such. Background scripts can communicate with **all** Web Pages, Dev Tools, Options and Popups running under your BEX.
 
 The added benefit of this file is this function:
 
 ```js
-export default function attachBackgroundHooks (bridge, activeConnections) {
+export default function (bridge, activeConnections) {
+  //
 }
 ```
 
@@ -54,4 +55,4 @@ export default {
 
 There are wide variety of events available to the browser extension background script - Google is your friend if you're trying to do something in this area.
 
-What if you want to modify the underlying web page content in some way? That's where we'd use `content-hooks.js`. Let's look at that in the next section.
+What if you want to modify the underlying web page content in some way? That's where we'd use content scripts (eg. `my-content-scripts.js`). Let's look at that in the next section.

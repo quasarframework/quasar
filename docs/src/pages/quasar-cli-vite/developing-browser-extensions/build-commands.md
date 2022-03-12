@@ -14,13 +14,16 @@ $ quasar dev -m bex
 $ quasar dev --mode bex
 ```
 
-You may or may not have already had a `src-bex` folder, but you will definitely have one now. You will also have a set of files under `src-bex/www`. These files are the output from the webpack development server. Normally, these files are kept in memory, which is why you wouldn't see them when creating an SPA, but for Browser Extension development, physical files are required in order for the process to work.
+You may or may not have already had a `src-bex` folder, but you will definitely have one now. Now that we've created a development environment, we need to load generated browser extension into your browser.
 
-::: warning
-Do not edit anything under the `src-bex/www` folder, as these changes are overridden via Hot Module Reloading (HMR). This folder is just the built output of your `src` folder, so make the changes there instead.
-:::
+While you develop your BEX, you will notice that Quasar CLI builds the actual extension in the dist folder (normally in `/dist/bex/`):
 
-Now that we've created a development environment, we need to load generated browser extension into your browser.
+```bash
+.
+└── dist/
+    ├── ...files  # Built code from /src-bex
+    └── www/      # Built code from /src
+```
 
 ### Chrome
 
@@ -54,7 +57,7 @@ More information about debugging Firefox temporary addons can be found in the [F
 
 ### Hot Module Reloading (HMR)
 
-HMR works with Browser Extension development but does work slightly differently depending on which browser you're developing on. In both cases, the Quasar application being built will reload when changes are made. The quasar application in this instance would refer to changes made to everything under the `src` folder.
+HMR works with Browser Extension development but does work slightly differently depending on which browser you're developing on. You will need to wait for the browser extension to be rebuilt on each change and then either manually refresh the browser tab page or use the browser to refresh the development browser extension.
 
 ::: tip
 **Chrome vs Firefox Nuances** - When developing your Browser Extension, you will often need to make changes to the files under the `src-bex` folder as well. This will be done when configuring hooks, setting up popups etc. Firefox will see these changes and automatically re-load the Browser Extension. Chrome on the other hand will not. When you have made these changes in Chrome, you will need to navigate to your Extension (see the Chrome section above) and click on the refresh icon in your Development Browser Extension.
@@ -85,24 +88,22 @@ If your code changes are not propagated to the browser you can try to:
 For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).
 
 ## Building for Production
+
 ```bash
 $ quasar build -m bex
 
 # ..or the longer form:
 $ quasar build --mode bex
 ```
-When building for production, multiple directories are generated:
 
-The new folder has the following structure:
+You will be instructed which is the output folder. Normally, it's `/dist/bex/`.
+
 ```bash
 .
 └── dist/
-    ├── UnPackaged/                       # Built code ready for testing in your development environment
-    └── Packaged/
-        ├── Chrome
-        |   └── your-project-name.zip     # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
-        └── Firefox
-            └── your-project-name.zip     # A zip file ready for submission to the Firefox Extension Store
+    ├── ...files                       # Built code from /src-bex
+		├── www/                           # Built code from /src
+    └── Packaged.your-project-name.zip  # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
 ```
 
 ::: tip

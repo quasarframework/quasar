@@ -38,7 +38,7 @@ class BexBuilder extends AppBuilder {
 
   #bundlePackage (folder) {
     const done = progress('Bundling in progress...')
-    const file = join(folder, `BEX.${ name }.zip`)
+    const file = join(folder, `Packaged.${ name }.zip`)
 
     let output = createWriteStream(file)
     let archive = archiver('zip', {

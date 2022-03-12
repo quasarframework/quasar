@@ -3,12 +3,16 @@ title: Content Hooks
 desc: (@quasar/app-vite) How to communicate using your content script with your Quasar App and Background Script in Quasar Browser Extension mode.
 ---
 
-`src-bex/js/content-hooks.js` is essentially a standard [content script](https://developer.chrome.com/extensions/content_scripts) and you are welcome to use it as such. Content scripts are able to access the DOM of the underlying webpage and thus you are able to manipulate the content of said page.
+`src-bex/my-content-script.js` is essentially a standard [content script](https://developer.chrome.com/extensions/content_scripts) and you are welcome to use it as such. Content scripts are able to access the DOM of the underlying webpage and thus you are able to manipulate the content of said page.
+
+::: tip
+You can have multiple content scripts with the name of your desire (that includes renaming the default `my-content-script.js`). Each time that you create a new one, please make sure that you reference it in `/src-bex/manifest.json`. Use the `.js` extension even if your filename ends in `.ts`.
+:::
 
 The added benefit of this file is this function:
 
 ```js
-export default function attachContentHooks (bridge) {
+export default function (bridge) {
 }
 ```
 
@@ -33,7 +37,7 @@ setup () {
 ```
 
 ```css
-/* src-bex/css/content-css.css */
+/* src-bex/assets/content.css */
 
 .bex-highlight {
     background-color: red;
@@ -41,9 +45,9 @@ setup () {
 ```
 
 ```js
-// src-bex/js/content-hooks.js:
+// src-bex/my-content-script.js:
 
-export default function attachContentHooks (bridge) {
+export default function (bridge) {
   bridge.on('highlight.content.event', event => {
     // Find a .some-class element and add our highlight CSS class.
     const el = document.querySelector('.some-class')
@@ -61,4 +65,4 @@ Content scripts live in an [isolated world](https://developer.chrome.com/extensi
 
 Isolated worlds do not allow for content scripts, the extension, and the web page to access any variables or functions created by the others. This also gives content scripts the ability to enable functionality that should not be accessible to the web page.
 
-This is where `dom-hooks` come in.
+This is where the `dom-script` come in.

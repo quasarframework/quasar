@@ -32,19 +32,23 @@ module.exports = function (ctx) {
 }
 ```
 
+The UI files will be injected and available as `www` folder when you build (or develop) the browser extension.
+
 ## Manifest.json
 
 The most important config file for your BEX is `/src-bex/manifest.json`. It is recommended that you [read up on this file](https://developer.chrome.com/extensions/manifest) before starting your project.
 
-When you create your Quasar BEX, the manifest file is already configured to add the basic properties you will need in order to run your BEX. This includes default background scripts, content scripts and a css file which is injected in the context of the web page the BEX is running on.
+When you first add the BEX mode, you will get asked which Browser Extension Manifest version you like:
 
-::: tip
-Be aware that the manifest.json file is modified on build so as to auto inject required javascript files.
-:::
+```
+? What version of manifest would you like? (Use arrow keys)
+❯ Manifest v2 (works with both Chrome and FF)
+  Manifest v3 (works with Chrome only currently)
+```
 
 ## Background And Content Scripts
 
-Behind every BEX is a [content script](https://developer.chrome.com/extensions/content_scripts) and a [background script](https://developer.chrome.com/extensions/background_pages). It's a good idea to understand what each of these are before writing your first BEX.
+Behind every BEX is a [content script](https://developer.chrome.com/extensions/content_scripts) and a background script / service-worker. It's a good idea to understand what each of these are before writing your first BEX.
 
 In summary:
 
@@ -57,12 +61,8 @@ Given content scripts run in the web page context, this means that only BEX's th
 
 ## CSS
 
-Any styles you want to be made available to your web page (not your Quasar App) should be included in `src-bex/css/content-css.css` as this file ia automatically injected into the `manifest.json` file.
+Any styles you want to be made available to your web page (not your Quasar App) should be included in `src-bex/assets/content.css` as this file ia automatically injected into the `manifest.json` file.
 
 ::: warning
 This must be native CSS as it's not preprocessed via Sass.
 :::
-
-## Hook Files
-
-In a Quasar BEX, you are provided with `background-hook.js`, `content-hook.js` and `dom-hook.js`. These files are designed to give you access to a bridge which closes the gap in communication with each layer of a BEX. We will explore them in more detail in the [next section](/quasar-cli-vite/developing-browser-extensions/bex-communication).
