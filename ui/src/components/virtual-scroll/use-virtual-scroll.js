@@ -622,17 +622,17 @@ export function useVirtualScroll ({
     return [
       tag === 'tbody'
         ? h(tag, {
-            class: 'q-virtual-scroll__padding',
-            key: 'before',
-            ref: beforeRef
-          }, [
-            h('tr', [
-              h('td', {
-                style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px`, ...style },
-                colspan: colspanAttr.value
-              })
-            ])
+          class: 'q-virtual-scroll__padding',
+          key: 'before',
+          ref: beforeRef
+        }, [
+          h('tr', [
+            h('td', {
+              style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px`, ...style },
+              colspan: colspanAttr.value
+            })
           ])
+        ])
         : h(tag, {
           class: 'q-virtual-scroll__padding',
           key: 'before',
@@ -650,17 +650,17 @@ export function useVirtualScroll ({
 
       tag === 'tbody'
         ? h(tag, {
-            class: 'q-virtual-scroll__padding',
-            key: 'after',
-            ref: afterRef
-          }, [
-            h('tr', [
-              h('td', {
-                style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px`, ...style },
-                colspan: colspanAttr.value
-              })
-            ])
+          class: 'q-virtual-scroll__padding',
+          key: 'after',
+          ref: afterRef
+        }, [
+          h('tr', [
+            h('td', {
+              style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px`, ...style },
+              colspan: colspanAttr.value
+            })
           ])
+        ])
         : h(tag, {
           class: 'q-virtual-scroll__padding',
           key: 'after',

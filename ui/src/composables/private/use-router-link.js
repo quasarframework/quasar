@@ -191,8 +191,8 @@ export default function (fallbackTag) {
       // avoid comparing the child with its parent
       && currentMatched[ currentMatched.length - 1 ].path !== parentRecordPath
         ? currentMatched.findIndex(
-            isSameRouteRecord.bind(null, matched[ length - 2 ])
-          )
+          isSameRouteRecord.bind(null, matched[ length - 2 ])
+        )
         : index
     )
   })

@@ -98,10 +98,10 @@ export default createComponent({
     function getContent () {
       return showing.value === true
         ? h('div', {
-            ref: rootRef,
-            class: 'q-page-scroller',
-            onClick
-          }, getStickyContent(slots))
+          ref: rootRef,
+          class: 'q-page-scroller',
+          onClick
+        }, getStickyContent(slots))
         : null
     }
 

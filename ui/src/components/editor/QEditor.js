@@ -180,17 +180,17 @@ export default createComponent({
       const userDef = props.definitions || {}
       const def = props.definitions || props.fonts
         ? extend(
-            true,
-            {},
-            buttonDef.value,
-            userDef,
-            getFonts(
-              defaultFont,
-              $q.lang.editor.defaultFont,
-              $q.iconSet.editor.font,
-              props.fonts
-            )
+          true,
+          {},
+          buttonDef.value,
+          userDef,
+          getFonts(
+            defaultFont,
+            $q.lang.editor.defaultFont,
+            $q.iconSet.editor.font,
+            props.fonts
           )
+        )
         : buttonDef.value
 
       return props.toolbar.map(

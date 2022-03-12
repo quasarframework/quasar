@@ -148,9 +148,9 @@ export default createComponent({
 
       return props.type === '__qtable'
         ? getTableMiddle(
-            { ref: rootRef, class: 'q-table__middle ' + classes.value },
-            __getVirtualChildren()
-          )
+          { ref: rootRef, class: 'q-table__middle ' + classes.value },
+          __getVirtualChildren()
+        )
         : h(comps[ props.type ], {
           ...attrs,
           ref: rootRef,

@@ -349,19 +349,19 @@ export default createComponent({
         () => (
           showing.value === true
             ? h('div', {
-                ...attrs,
-                ref: innerRef,
-                tabindex: -1,
-                class: [
-                  'q-menu q-position-engine scroll' + menuClass.value,
-                  attrs.class
-                ],
-                style: [
-                  attrs.style,
-                  transitionStyle.value
-                ],
-                ...onEvents.value
-              }, hSlot(slots.default))
+              ...attrs,
+              ref: innerRef,
+              tabindex: -1,
+              class: [
+                'q-menu q-position-engine scroll' + menuClass.value,
+                attrs.class
+              ],
+              style: [
+                attrs.style,
+                transitionStyle.value
+              ],
+              ...onEvents.value
+            }, hSlot(slots.default))
             : null
         )
       )

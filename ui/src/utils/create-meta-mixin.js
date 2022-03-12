@@ -5,10 +5,10 @@ export default metaOptions => {
     return {
       created: typeof metaOptions === 'function'
         ? function () {
-            this.ssrContext.__qMetaList.push(
-              metaOptions.call(this) || {}
-            )
-          }
+          this.ssrContext.__qMetaList.push(
+            metaOptions.call(this) || {}
+          )
+        }
         : function () {
           this.ssrContext.__qMetaList.push(metaOptions)
         }

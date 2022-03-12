@@ -280,18 +280,18 @@ export default createComponent({
     function getTooltipContent () {
       return showing.value === true
         ? h('div', {
-            ...attrs,
-            ref: innerRef,
-            class: [
-              'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-              attrs.class
-            ],
-            style: [
-              attrs.style,
-              transitionStyle.value
-            ],
-            role: 'complementary'
-          }, hSlot(slots.default))
+          ...attrs,
+          ref: innerRef,
+          class: [
+            'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
+            attrs.class
+          ],
+          style: [
+            attrs.style,
+            transitionStyle.value
+          ],
+          role: 'complementary'
+        }, hSlot(slots.default))
         : null
     }
 

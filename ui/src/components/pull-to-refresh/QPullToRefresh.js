@@ -76,7 +76,7 @@ export default createComponent({
       }
 
       if (event.isFirst === true) {
-        if (getVerticalScrollPosition(localScrollTarget) !== 0 || event.direction !== "down") {
+        if (getVerticalScrollPosition(localScrollTarget) !== 0 || event.direction !== 'down') {
           if (pulling.value === true) {
             pulling.value = false
             state.value = 'pull'
@@ -189,10 +189,10 @@ export default createComponent({
           }, [
             state.value !== 'refreshing'
               ? h(QIcon, {
-                  name: props.icon || $q.iconSet.pullToRefresh.icon,
-                  color: props.color,
-                  size: '32px'
-                })
+                name: props.icon || $q.iconSet.pullToRefresh.icon,
+                color: props.color,
+                size: '32px'
+              })
               : h(QSpinner, {
                 size: '24px',
                 color: props.color

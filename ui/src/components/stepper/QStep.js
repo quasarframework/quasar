@@ -75,14 +75,14 @@ export default createComponent({
         || $stepper.value.vertical !== true
         ? {}
         : {
-          onScroll (e) {
-            const { target } = e
-            if (target.scrollTop > 0) {
-              target.scrollTop = 0
+            onScroll (e) {
+              const { target } = e
+              if (target.scrollTop > 0) {
+                target.scrollTop = 0
+              }
+              attrs.onScroll !== void 0 && attrs.onScroll(e)
             }
-            attrs.onScroll !== void 0 && attrs.onScroll(e)
           }
-        }
     ))
 
     const contentKey = computed(() => (
