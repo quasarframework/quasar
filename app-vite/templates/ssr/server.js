@@ -1,6 +1,6 @@
 /**
  * More info about this file:
- * https://v2.quasar.dev/quasar-cli/developing-ssr/server-script
+ * https://v2.quasar.dev/quasar-cli-vite/developing-ssr/ssr-webserver
  *
  * Runs in Node context.
  */

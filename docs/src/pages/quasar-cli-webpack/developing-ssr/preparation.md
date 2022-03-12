@@ -8,11 +8,13 @@ related:
 We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.
 
 In order to develop or build a SSR website, we first need to add the SSR mode to our Quasar project:
+
 ```bash
 $ quasar mode add ssr
 ```
 
 If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
+
 ```bash
 $ quasar dev -m ssr
 ```
@@ -25,6 +27,5 @@ A new folder will appear in your project folder (which is explained in detail on
 .
 └── src-ssr/
     ├── middlewares/  # SSR middleware files
-    ├── directives/   # SSR transformations for Vue directives
     └── production-export.js # SSR webserver production export
 ```

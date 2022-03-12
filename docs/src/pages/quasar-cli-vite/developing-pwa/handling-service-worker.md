@@ -52,37 +52,19 @@ This file is automatically bundled into your website/app by Quasar CLI because i
 
 ## SSL certificate
 
-You may notice in some dev environments, that Workbox will not load your service workers during `quasar dev` if you are not using HTTPS to serve - even on localhost. You will see that there are two scripts that can't load. The Chrome browser console is relatively tight-lipped about this, but Firefox tells you what is going on. The three options you have are:
+You may notice in some dev environments, that Workbox will not load your service workers during `quasar dev` if you are not using HTTPS to serve - even on localhost. You may see that there are two scripts that can't load. The Chrome browser console is relatively tight-lipped about this, but Firefox tells you what is going on. The three options you have are:
  - set quasar.config.js > devServer > `https: true`
  - setup a loopback from localhost to 127.0.0.1 (but this is not without security implications)
  - serve your localhost over ngrok and use the https address that ngrok provides
 
-When you set `devServer > https: true` in your quasar.config.js file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config.js > devServer > https` should look like this:
+When you set `devServer > https: true` in your quasar.config.js file, Quasar will instruct Vite to auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config.js > devServer > https` should look like this:
 
-```js
-// quasar.config.js
-
-devServer: {
-  server: {
-    type: 'https', // NECESSARY
-
-    options: {
-      // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-      key: "/path/to/server.key",
-      pfx: "/path/to/server.pfx",
-      cert: "/path/to/server.crt",
-      ca: "/path/to/ca.pem",
-      passphrase: 'webpack-dev-server' // do you need it?
-    }
-  }
-}
-```
-
+More info on Vite and HTTPS [here](https://vitejs.dev/config/#server-https).
 ## Important Hosting Configuration
 
-It's important that you do not allow browsers to cache the `service-worker.js` file. Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the service-worker from cache.
+It's important that you do not allow browsers to cache the Service Worker file (by default: `sw.js`). Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the service-worker from cache.
 
-This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of `service-worker.js` file via your hosting service.
+This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of `sw.js` file via your hosting service.
 
 As an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:
 
@@ -90,7 +72,7 @@ As an example how this is done for Google Firebase, you would add the following 
 {
   "hosting": {
     "headers": [
-      { "source":"/service-worker.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}] }
+      { "source":"/sw.js", "headers": [{"key": "Cache-Control", "value": "no-cache"}] }
     ]
   }
 }

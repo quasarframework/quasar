@@ -49,7 +49,7 @@ import createQuasarApp from './app.js'
 import quasarUserOptions from './quasar-user-options.js'
 
 <% if (ctx.mode.pwa) { %>
-import 'app/<%= sourceFiles.registerServiceWorker %>'
+import 'app/<%= sourceFiles.pwaRegisterServiceWorker %>'
 <% } %>
 
 <% if (preFetch) { %>

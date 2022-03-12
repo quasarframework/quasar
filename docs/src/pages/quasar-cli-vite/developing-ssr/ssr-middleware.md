@@ -24,7 +24,7 @@ A SSR middleware file is a simple JavaScript file which exports a function. Quas
 ```js
 // import something here
 
-export default ({ app, resolve, publicPath, folders, render, serve }) => {
+export default ({ app, port, resolve, publicPath, folders, render, serve }) => {
   // something to do with the server "app"
 }
 ```
@@ -34,7 +34,7 @@ The SSR middleware files can also be async:
 ```js
 // import something here
 
-export default async ({ app, resolve, publicPath, folders, render, serve }) => {
+export default async ({ app, port, resolve, publicPath, folders, render, serve }) => {
   // something to do with the server "app"
   await something()
 }
@@ -45,7 +45,7 @@ You can wrap the returned function with `ssrMiddleware` helper to get a better I
 ```js
 import { ssrMiddleware } from 'quasar/wrappers'
 
-export default ssrMiddleware(async ({ app, resolve, publicPath, folders, render, serve }) => {
+export default ssrMiddleware(async ({ app, port, resolve, publicPath, folders, render, serve }) => {
   // something to do
   await something()
 })
@@ -58,14 +58,15 @@ Notice we are using the [ES6 destructuring assignment](https://developer.mozilla
 We are referring here to the Object received as parameter by the default exported function of the SSR middleware file.
 
 ```js
-export default ({ app, resolve, publicPath, folders, render, serve }) => {
+export default ({ app, port, resolve, publicPath, folders, render, serve }) => {
 ```
 
 Detailing the Object:
 
 ```js
 {
-  app, // Expressjs app instance
+  app, // Node.js app instance
+  port, // Nodej.js webserver configured port
   resolve: {
     urlPath(path)
     root(arg1, arg2),
@@ -86,7 +87,11 @@ Detailing the Object:
 
 #### app
 
-This is the Expressjs app instance. The "bread and butter" of any middleware since you'll be using it to configure the webserver.
+This is the Node.js app instance. The "bread and butter" of any middleware since you'll be using it to configure the webserver.
+
+#### port
+
+The configured port for the Node.js webserver.
 
 #### resolve
 
@@ -111,7 +116,7 @@ The `folders` is sometimes needed because the exact path to root folder and to t
 
 #### render
 
-* Syntax: `<Promise(String)> render.vue(ssrContext)`.
+* Syntax: `<Promise(String)> render(ssrContext)`.
 * Description: Uses Vue and Vue Router to render the requested URL path. Returns the rendered HTML string to return to the client.
 
 
@@ -137,7 +142,7 @@ serve.static():
 
 serve.error():
 
-* Syntax: `<void> render.error({ err, req, res })`
+* Syntax: `<void> serve.error({ err, req, res })`
 * Description: Displays a wealth of useful debug information (including the stack trace).
 * It's available only in development and **NOT in production**.
 
@@ -158,7 +163,7 @@ This command creates a new file: `/src-ssr/middlewares/<name>.js` with the follo
 
 // "async" is optional!
 // remove it if you don't need it
-export default async ({ app resolveUrlPath, publicPath, folders, render }) => {
+export default async ({ app, port, resolveUrlPath, publicPath, folders, render, serve }) => {
   // something to do with the server "app"
 }
 ```
@@ -168,7 +173,7 @@ You can also return a Promise:
 ```js
 // import something here
 
-export default ({ app, resolve, publicPath, folders, render, serve }) => {
+export default ({ app, port, resolve, publicPath, folders, render, serve }) => {
   return new Promise((resolve, reject) => {
     // something to do with the server "app"
   })
@@ -296,6 +301,7 @@ export default ({ app, resolve, render, serve }) => {
           // Render Error Page on production or
           // create a route (/src/routes) for an error page and redirect to it
           res.status(500).send('500 | Internal Server Error')
+          // console.error(err.stack)
         }
       })
   })
@@ -311,22 +317,8 @@ While developing, whenever you change anything in the SSR middlewares, Quasar Ap
 ## Examples of SSR middleware
 
 ::: tip
-You can use any Expressjs compatible middleware.
+You can use any connect API compatible middleware.
 :::
-
-### Compression
-
-This one makes sense to use it for production only.
-
-```js
-import compression from 'compression'
-
-export default ({ app }) => {
-  app.use(
-    compression({ threshold: 0 })
-  )
-}
-```
 
 ### Logger / Interceptor
 

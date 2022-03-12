@@ -130,7 +130,7 @@ module.exports = {
         : 'index.html'
     )
 
-    cfg.entryPoints = [ quasarConf.sourceFiles.serviceWorker ]
+    cfg.entryPoints = [ quasarConf.sourceFiles.pwaServiceWorker ]
     cfg.outfile = appPaths.resolve.app(`.quasar/pwa-sw/compiled-sw.js`)
 
     return extendEsbuildConfig(cfg, quasarConf.pwa, 'CustomSW')

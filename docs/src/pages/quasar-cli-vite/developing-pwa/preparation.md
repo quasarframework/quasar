@@ -26,12 +26,26 @@ A new folder will appear in your project folder (which is explained in detail on
 ```bash
 .
 └── src-pwa/
-    ├── register-service-worker.js  # (or .ts) App-code *managing* service worker
+    ├── register-service-worker.js  # (or .ts) UI code *managing* service worker
+    ├── manifest.json               # Your PWA manifest file
     └── custom-service-worker.js    # (or .ts) Optional custom service worker file
-                                    #               (InjectManifest mode ONLY)
+                                    #               (injectManifest mode ONLY)
 ```
 
-Both files are going to be detailed in the next pages, but the high overview is:
+All the files above are going to be detailed in the next pages, but the high overview is:
 
 * The `register-service-worker.[js|ts]` file is part of the UI code and communicates with the service worker.
+* The `manifest.json` is the PWA manifest file.
 * When using InjectManifest, you can write your own custom service worker (`custom-service-worker.[js|ts]`).
+
+Should you want to use different filenames, you can do so by editing `/quasar.config.js`:
+
+```js
+// quasar.config.js
+
+sourceFiles: {
+  pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
+  pwaServiceWorker: 'src-pwa/custom-service-worker',
+  pwaManifestFile: 'src-pwa/manifest.json',
+}
+```

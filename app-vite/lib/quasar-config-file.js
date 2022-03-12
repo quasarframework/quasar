@@ -500,8 +500,8 @@ class QuasarConfFile {
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
       store: `src/${storeProvider.pathKey}/index`,
-      registerServiceWorker: 'src-pwa/register-service-worker',
-      serviceWorker: 'src-pwa/custom-service-worker',
+      pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
+      pwaServiceWorker: 'src-pwa/custom-service-worker',
       pwaManifestFile: 'src-pwa/manifest.json',
       electronMain: 'src-electron/electron-main',
       electronPreload: 'src-electron/electron-preload'
@@ -593,8 +593,8 @@ class QuasarConfFile {
       cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
 
       // resolve extension
-      const swPath = appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
-      cfg.sourceFiles.serviceWorker = resolveExtension(swPath) || cfg.sourceFiles.serviceWorker
+      const swPath = appPaths.resolve.app(cfg.sourceFiles.pwaServiceWorker)
+      cfg.sourceFiles.pwaServiceWorker = resolveExtension(swPath) || cfg.sourceFiles.pwaServiceWorker
     }
 
     if (this.#ctx.dev) {

@@ -13,7 +13,7 @@ $ quasar dev --mode pwa
 ```
 
 ::: warning
-Do not miss the [HMR for PWA](/quasar-cli-vite/developing-pwa/hmr-for-dev) (Hot Module Reload) page.
+The development server uses a bare minimum Service Worker precaching only the public folder. Working offline will not be available.
 :::
 
 ::: danger

@@ -111,7 +111,7 @@ The `folders` is sometimes needed because the exact path to root folder and to t
 
 #### render
 
-* Syntax: `<Promise(String)> render.vue(ssrContext)`.
+* Syntax: `<Promise(String)> render(ssrContext)`.
 * Description: Uses Vue and Vue Router to render the requested URL path. Returns the rendered HTML string to return to the client.
 
 
@@ -137,7 +137,7 @@ serve.static():
 
 serve.error():
 
-* Syntax: `<void> render.error({ err, req, res })`
+* Syntax: `<void> serve.error({ err, req, res })`
 * Description: Displays a wealth of useful debug information (including the stack trace).
 * It's available only in development and **NOT in production**.
 

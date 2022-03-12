@@ -22,4 +22,4 @@ Before using SSR for your app, the first question you should ask is whether you 
 
 <q-separator class="q-mt-xl" />
 
-> Parts of this page are taken from the official [Vue.js SSR guide](https://ssr.vuejs.org/guide/universal.html#data-reactivity-on-the-server).
+> Parts of this page are taken from the official [Vue.js SSR guide](https://vuejs.org/guide/scaling-up/ssr.html).

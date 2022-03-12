@@ -693,8 +693,8 @@ const cliVite = [
         path: 'ssr-middleware'
       },
       {
-        name: 'SSR Production Export',
-        path: 'ssr-production-export'
+        name: 'SSR Webserver',
+        path: 'ssr-webserver'
       },
       {
         name: 'Vue SSR Directives',

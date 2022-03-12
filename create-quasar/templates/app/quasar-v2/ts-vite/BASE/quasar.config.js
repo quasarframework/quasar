@@ -134,6 +134,7 @@ module.exports = configure(function (/* ctx */) {
                                           // will mess up SSR
 
       // extendSSRWebserverConf (esbuildConf) {},
+      // extendPackageJson (json) {},
 
       pwa: false,
 

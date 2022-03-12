@@ -13,55 +13,34 @@ This is the place where you can configure some SSR options. Like if you want the
 return {
   // ...
   ssr: {
-    pwa: true/false, // should a PWA take over (default: false), or just a SPA?
+    ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
+                                        // will mess up SSR
 
-    manualStoreHydration: true/false,
-        // Manually hydrate the store.
-        // This is detailed in a subsection below
+    extendSSRWebserverConf (esbuildConf) {},
 
-    manualPostHydrationTrigger: true/false,
-        // Manually trigger the post-hydration logic on client-side.
-        // This is detailed in a subsection below
-
-    prodPort: 3000, // The default port that the production server should use
-                    // (gets superseded if process.env.PORT is specified at runtime)
-
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-        // Tell browser when a file from the server should expire from cache
-        // (the default value, in ms)
-        // Has effect only when server.static() is used
-
-    // List of SSR middleware files (src-ssr/middlewares/*). Order is important.
-    middlewares: [
-      // ...
-      'render' // Should not be missing, and should be last in the list.
-    ],
-
-    // optional; add/remove/change properties
+    // add/remove/change properties
     // of production generated package.json
     extendPackageJson (pkg) {
       // directly change props of pkg;
       // no need to return anything
     },
 
-    // optional;
-    // handles the Webserver webpack config ONLY
-    // which includes the SSR middleware
-    extendWebpackWebserver (cfg) {
-      // directly change props of cfg;
-      // no need to return anything
-    },
+    pwa: false,
 
-    // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
-    // handles the Webserver webpack config ONLY
-    // which includes the SSR middleware
-    chainWebpackWebserver (chain) {
-      // chain is a webpack-chain instance
-      // of the Webpack configuration
-    }
+    // manualStoreHydration: true,
+    // manualPostHydrationTrigger: true,
+
+    prodPort: 3000, // The default port that the production server should use
+                    // (gets superseded if process.env.PORT is specified at runtime)
+
+    middlewares: [
+      'render' // keep this as last one
+    ]
   }
 }
 ```
+
+> If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli-vite/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSR with PWA](/quasar-cli-vite/developing-ssr/ssr-with-pwa) page.
 
 Should you want to tamper with the Vite config for UI in /src:
 
@@ -79,19 +58,6 @@ module.exports = function (ctx) {
   }
 }
 ```
-
-> If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli-vite/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSR with PWA](/quasar-cli-vite/developing-ssr/ssr-with-pwa) page.
-
-When building, `extendWebpack()` and `chainWebpack()` will receive one more parameter (Object), currently containing `isServer` or `isClient` boolean props, because there will be two Webpack builds (one for the server-side and one for the client-side).
-
-```js
-// quasar.config.js
-build: {
-  extendViteConf (viteConf, { isServer, isClient }) { ... }
-}
-```
-
-If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli-vite/handling-vite) in the `quasar.config.js` file.
 
 ### Manually triggering store hydration
 
@@ -153,8 +119,7 @@ Adding SSR mode to a Quasar project means a new folder will be created: `/src-ss
 .
 └── src-ssr/
     ├── middlewares/  # SSR middleware files
-    ├── directives/   # SSR transformations for Vue directives
-    └── production-export.js # SSR webserver production export
+    └── server.js     # SSR webserver
 ```
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
@@ -165,34 +130,21 @@ Notice a few things:
 
 2. If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
 
-3. The `/src-ssr/middlewares` is built through a separate Webpack config. **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.config.js:
+3. The `/src-ssr/middlewares` is built through a separate Esbuild config. You can extend the Esbuild configuration of these files through quasar.config.js:
 
 ```js
 return {
   // ...
   ssr: {
     // ...
-
-    // optional; webpack config Object for
-    // the Webserver part ONLY (/src-ssr/)
-    // which is invoked for production (NOT for dev)
-    extendWebpackWebserver (cfg) {
-      // directly change props of cfg;
-      // no need to return anything
+    extendSSRWebserverConf (esbuildConf) {
+      // tamper with esbuildConf here
     },
-
-    // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
-    // the Webserver part ONLY (/src-ssr/)
-    // which is invoked for production (NOT for dev)
-    chainWebpackWebserver (chain) {
-      // chain is a webpack-chain instance
-      // of the Webpack configuration
-    }
   }
 }
 ```
 
-4. The `/src-ssr/production-export.js` file is detailed in [SSR Production Export](/quasar-cli-vite/developing-ssr/ssr-production-export) page. Read it especially if you need to support serverless functions.
+4. The `/src-ssr/server.js` file is detailed in [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver) page. Read it especially if you need to support serverless functions.
 
 ## Helping SEO
 
@@ -223,15 +175,15 @@ When a boot file runs on the server, you will have access to one more parameter 
 ```js
 // some boot file
 export default ({ app, ..., ssrContext }) => {
-  // You can add props to the ssrContext then use them in the src/index.template.html.
+  // You can add props to the ssrContext then use them in the /index.html.
   // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
   // {{ someProp }}
 }
 ```
 
-When you add such references (`someProp` surrounded by brackets in the example above) into your `src/index.template.html`, make sure you tell Quasar it’s only valid for SSR builds:
+When you add such references (`someProp` surrounded by brackets in the example above) into your `/index.html`, make sure you tell Quasar it’s only valid for SSR builds:
 
 ```html
-<!-- index.template.html -->
+<!-- /index.html -->
 <% if (ctx.mode.ssr) { %>{{ someProp }} <% } %>
 ```

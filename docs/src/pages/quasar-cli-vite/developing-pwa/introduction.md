@@ -23,8 +23,7 @@ To be considered a Progressive Web App, your app must be:
 More information available on Addy Osmani's [article about PWA](https://addyosmani.com/blog/getting-started-with-progressive-web-apps/).
 
 ## Manifest File
-An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. Quasar CLI configures this for you, but you can override any property from within `/quasar.config.js`. Learn how by visiting the [Configure PWA](/quasar-cli-vite/developing-pwa/configuring-pwa) documentation page.
-
+An app manifest file describes the resources your app will need. This includes your app’s displayed name, icons, as well as splash screen. You will see this as `/src-pwa/manifest.json`.
 More information: [Manifest file](https://developer.mozilla.org/en-US/docs/Web/Manifest).
 
 ## Service Worker
