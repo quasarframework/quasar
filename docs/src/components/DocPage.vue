@@ -1,6 +1,13 @@
 <template lang="pug">
 q-page.doc-page
 
+  q-badge.doc-page__overline(
+    v-if="overline"
+    :label="overline"
+    color="grey-4"
+    text-color="grey-10"
+  )
+
   .doc-h1.row.items-start.no-wrap
     .col.doc-heading#introduction(v-if="title" @click="copyIntroductionHeading")
       span {{ title }}
@@ -108,6 +115,7 @@ export default {
 
   props: {
     title: String,
+    overline: String,
     related: Array,
     nav: Array,
     noEdit: Boolean,
@@ -167,6 +175,14 @@ export default {
 
   > div, > pre
     margin-bottom: 22px
+
+  &__overline
+    border: 1px solid rgba(0,0,0,0.1)
+    margin-top: .4rem
+    margin-bottom: 0 !important
+
+    & + .doc-h1
+      padding-top: .4rem !important
 
   &__top-link
     color: inherit

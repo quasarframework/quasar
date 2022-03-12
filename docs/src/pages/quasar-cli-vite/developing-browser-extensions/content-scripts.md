@@ -1,5 +1,5 @@
 ---
-title: Content Hooks
+title: Content Scripts
 desc: (@quasar/app-vite) How to communicate using your content script with your Quasar App and Background Script in Quasar Browser Extension mode.
 ---
 
@@ -65,4 +65,4 @@ Content scripts live in an [isolated world](https://developer.chrome.com/extensi
 
 Isolated worlds do not allow for content scripts, the extension, and the web page to access any variables or functions created by the others. This also gives content scripts the ability to enable functionality that should not be accessible to the web page.
 
-This is where the `dom-script` come in.
+This is where the `dom-script` comes in.

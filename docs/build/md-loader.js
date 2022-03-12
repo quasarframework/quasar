@@ -1,8 +1,4 @@
 const
-  LRU = require('lru-cache'),
-  hash = require('hash-sum')
-
-const
   md = require('./md'),
   { convertToRelated, flatMenu } = require('./flat-menu')
 
@@ -11,16 +7,7 @@ const {
   parseFrontMatter
 } = require('./md-loader-utils')
 
-const cache = new LRU({ max: 1000 })
-
 module.exports = function (source) {
-  const key = hash(source)
-  const hit = cache.get(key)
-
-  if (hit) {
-    return hit
-  }
-
   const { data, content } = parseFrontMatter(source)
 
   data.title = data.title || 'Generic Page'
@@ -29,8 +16,17 @@ module.exports = function (source) {
     data.related = data.related.map(entry => convertToRelated(entry))
   }
 
-  if (flatMenu[this.resourcePath]) {
-    const { prev, next } = flatMenu[this.resourcePath]
+  if (data.overline === void 0) {
+    if (this.resourcePath.indexOf('quasar-cli-webpack') !== -1) {
+      data.overline = 'Quasar CLI with Webpack - @quasar/app-webpack'
+    }
+    else if (this.resourcePath.indexOf('quasar-cli-vite') !== -1) {
+      data.overline = 'Quasar CLI with Vite - @quasar/app-vite'
+    }
+  }
+
+  if (flatMenu[ this.resourcePath ]) {
+    const { prev, next } = flatMenu[ this.resourcePath ]
 
     if (prev !== void 0 || next !== void 0) {
       data.nav = []
@@ -55,13 +51,9 @@ module.exports = function (source) {
 
   md.$data = {}
 
-  const res = getVueComponent(
+  return getVueComponent(
     rendered,
     data,
     '[' + toc.join(',') + ']'
   )
-
-  cache.set(key, res)
-
-  return res
 }

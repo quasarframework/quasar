@@ -1,5 +1,5 @@
 ---
-title: Background Hooks
+title: Background Script
 desc: (@quasar/app-vite) How to communicate using your background script with other parts of your Browser Extension (BEX).
 ---
 

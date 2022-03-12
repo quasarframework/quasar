@@ -1,5 +1,5 @@
 ---
-title: DOM Hooks
+title: DOM Script
 desc: (@quasar/app-vite) How to communicate to the underlying web page using dom hooks in Quasar Browser Extension mode.
 ---
 
@@ -15,7 +15,8 @@ If you ever find yourself needing to inject a JS file into your underlying web p
 For example, lets say you wanted to write a BEX that detects whether or not a Quasar app is running on a page, the only way to do this is by running some javascript in the context of the web page.
 
 ```js
-// detect-quasar.js:
+// We create a new folder + file:
+// src-bex/dom/detect-quasar.js
 
 function initQuasar (bridge, quasarInstance) {
   bridge.send('quasar.detect', {
@@ -73,9 +74,9 @@ export default function detectQuasar (bridge) {
 ```
 
 ```js
-// dom-script.js:
+// src-bex/dom-script.js:
 
-import detectQuasar from './detect-quasar'
+import detectQuasar from './dom/detect-quasar'
 export default function (bridge) {
   detectQuasar(bridge)
 }
