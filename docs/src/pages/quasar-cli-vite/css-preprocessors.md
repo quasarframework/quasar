@@ -7,9 +7,25 @@ related:
 
 **Sass** or **SCSS** (recommending any of the two flavours) are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.
 
-You won't need to install any additional packages or extend the Webpack configuration.
+## Configuration
 
-## How to
+You can configure how your CSS is handled through `/postcss.config.js` and through extending the Vite config:
+
+```js
+// quasar.config.js
+
+build: {
+  extendViteConf (viteConf, { isClient, isServer }) {
+    viteConf.css.modules = ...
+    viteConf.css.postcss = ...
+    viteConf.css.preprocessorOptions
+  }
+}
+```
+
+More info: [css.modules](https://vitejs.dev/config/#css-modules), [css.postcss](https://vitejs.dev/config/#css-postcss), [css.preprocessorOptions](https://vitejs.dev/config/#css-preprocessoroptions).
+
+## Usage
 Your Vue files can contain Sass/SCSS code through the `<style>` tag.
 
 ```html

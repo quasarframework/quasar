@@ -92,6 +92,7 @@ Quasar comes with a bunch of useful Webpack aliases preconfigured. You can use t
 | `pages` | /src/pages |
 | `assets` | /src/assets |
 | `boot` | /src/boot |
+| `stores` | /src/stores (Pinia stores) |
 
 Also if you configure to build with the Vue compiler version (quasar.config.js > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
 

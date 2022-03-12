@@ -6,26 +6,47 @@ related:
 ---
 
 ## Configuring compatibility
-Your `/package.json` file should contain a `browserslist` field. This will tell Quasar App the range of browsers that the project is targeting. Babel and Autoprefixer will use this field to determine how to transpile JS code (if transpiling is left enabled) and what CSS vendor prefixes it needs to add your CSS code.
 
-Babel will look for exactly the JS features that need transpiling (based on the configured browsers) and apply them. Be mindful about it though, as it is sufficient to add one "bad apple" in the options list and that will dumb down your code back to ES5.
-
-The following is the default "browserslist" when you create a Quasar project:
+In order to configure the browser compatibility for your app, you will need to edit `/quasar.config.js`:
 
 ```js
-// package.json
-
-"browserslist": [
-  "last 10 Chrome versions",
-  "last 10 Firefox versions",
-  "last 4 Edge versions",
-  "last 7 Safari versions",
-  "last 8 Android versions",
-  "last 8 ChromeAndroid versions",
-  "last 8 FirefoxAndroid versions",
-  "last 10 iOS versions",
-  "last 5 Opera versions"
-]
+// quasar.config.js
+build: {
+  target: {
+    browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
+    node: 'node16'
+  },
+}
 ```
 
-More info on how to specify browser ranges: [browserslist](https://github.com/browserslist/browserslist).
+Based on the Quasar Mode that you will be using (SPA/SSR/PWA/Electron/... etc) you will have client-side files (that run in the browser) and possibly Node.js running files. This is what the two keys of `target` Object above are for.
+
+Also, independent of this configuration, you need to decide if you want the [module preload polyfill](https://guybedford.com/es-module-preloading-integrity#modulepreload-polyfill) since all the script tags will be injected as modules. By default, the polyfill is NOT included:
+
+```js
+// quasar.config.js
+build: {
+  polyfillModulePreload: false
+}
+```
+
+Furthermore, based on your `/postcss.config.js` file content, your CSS will also pass through `autoprefixer` for which you can configure the browser levels that you are interested in:
+
+```js
+// postcss.config.js
+
+require('autoprefixer')({
+  overrideBrowserslist: [
+    'last 4 Chrome versions',
+    'last 4 Firefox versions',
+    'last 4 Edge versions',
+    'last 4 Safari versions',
+    'last 4 Android versions',
+    'last 4 ChromeAndroid versions',
+    'last 4 FirefoxAndroid versions',
+    'last 4 iOS versions'
+  ]
+})
+```
+
+More info on how to specify `autoprefixer` browser ranges: [browserslist](https://github.com/browserslist/browserslist).

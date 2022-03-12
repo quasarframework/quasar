@@ -20,6 +20,10 @@ Accessing `process.env` can help you in many ways:
 | `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
 | `process.env.NODE_ENV` | String | Has two possible values: `production` or `development` |
 
+## Vite's own env
+
+More info [here](https://vitejs.dev/guide/env-and-mode.html)
+
 ## Example
 
 ```js

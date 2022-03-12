@@ -26,7 +26,7 @@ return {
 ```
 
 ::: warning
-When you use it to pre-fetch data, you are required to use a Vuex Store, so make sure that your project folder has the `/src/store` folder when you create your project, otherwise generate a new project and copy the store folder contents to your current project.
+When you use it to pre-fetch data, you may want to use Pinia or Vuex, so make sure that your project folder has the `/src/stores` (for Pinia) **OR** `/src/store` (for Vuex) folders when you create your project, otherwise generate a new project and copy the store folder contents to your current project (or use `quasar new store` command).
 :::
 
 ## How PreFetch Helps SSR Mode
@@ -87,6 +87,8 @@ Now, let's see how the hooks are called when the user visits these routes in the
 
 ## Usage
 The hook is defined as a custom static function called `preFetch` on our route components. Note that because this function will be called before the components are instantiated, it doesn't have access to `this`.
+
+Example below is when using Vuex:
 
 ```html
 <!-- some .vue component used as route -->

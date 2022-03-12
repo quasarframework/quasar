@@ -20,21 +20,7 @@ Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependen
 URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. Quasar provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
 
 ## Static Assets - /public
-Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed by Webpack at all. The content of the public folder is simply copied over to the distributable folder as-is.
-
-Quasar has some smart algorithms behind the curtains which ensure that no matter what you build (SPA, PWA, Cordova, Electron), your statics are correctly referenced *if and only if* they do not use a relative path.
-
-```html
-<!-- Good! -->
-<img src="logo.png">
-
-<!--
-  BAD! Works until you change vue router
-  mode (hash/history) or your public path.
-  Don't!
--->
-<img src="/logo.png">
-```
+Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed at all. The content of the public folder is simply copied over to the distributable folder as-is.
 
 ::: tip Assets vs Statics
 Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
@@ -46,7 +32,7 @@ When not building a SPA/PWA/SSR, then `/public/icons/*` and `/public/favicon.ico
 :::
 
 ## Vue Binding Requires Statics Only
-Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the public folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
+Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the public folder. The reason is simple: the URL is dynamic, so Vite's tools (which pack up assets at compile time) don't know which file you'll be referencing at runtime, so it won't process the URL.
 
 ```html
 <template>
@@ -71,16 +57,6 @@ export default {
 
 You can force serving static assets by binding `src` to a value with Vue. Instead of `src="path/to/image"` use `:src=" 'path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
 
-## Getting Asset Paths in JavaScript
+## More info with Vite
 
-In order for Webpack to return the correct asset paths, you need to use `require('./relative/path/to/file.jpg')`, which will get processed by `file-loader` and returns the resolved URL. For example:
-
-```js
-computed: {
-  background () {
-    return require('./bgs/' + this.id + '.jpg')
-  }
-}
-```
-
-Note the above example will include every image under `./bgs/` in the final build. This is because Webpack cannot guess which of them will be used at runtime, so it includes them all.
+Please read Vite's guide [here](https://vitejs.dev/guide/assets.html).

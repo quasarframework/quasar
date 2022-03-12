@@ -8,12 +8,6 @@ Familiarize yourself with the list of available commands inside a Quasar project
 ``` bash
 $ quasar
 
-  ___
- / _ \ _   _  __ _ ___  __ _ _ __
-| | | | | | |/ _` / __|/ _` | '__|
-| |_| | |_| | (_| \__ \ (_| | |
- \__\_\\__,_|\__,_|___/\__,_|_|
-
   Example usage
     $ quasar <command> <options>
 
@@ -52,35 +46,10 @@ $ quasar
 ```
 
 See help for any command:
+
 ``` bash
 $ quasar [command name] --help
 ```
-
-## Create
-
-Creates an App folder with initial project boilerplate.
-
-```bash
-## Quasar UI v2
-$ quasar create <folder_name>
-```
-
-This command will use Quasar App Starter Kit by default, but you can specify a different one via `--kit` option.
-
-`quasar create --kit ui` and `quasar create --kit app-extension` will generate for you App Extension boilerplate: the former when the extension is meant to provide UI Components, the latter in all other cases.
-
-You can use a starter kit stored on your machine by providing a **local path** to a folder (eg. `quasar create --kit ./my-custom-starter-kit`).
-
-You can use a starter kit stored into any publicly accessible Git repository by providing a reference which follows this schema:
-- GitHub - `github:owner/name` or simply `owner/name`
-- GitLab - `gitlab:owner/name`
-- Bitbucket - `bitbucket:owner/name`
-
-`master` branch will be checked out by default, but you can specify the one you prefer via `--branch <branch name>` (eg. `quasar create --kit owner/name --branch my-branch`).
-
-::: warning
-The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.
-:::
 
 ## Upgrade
 
@@ -112,7 +81,8 @@ If you're using a code editor terminal instead of the real one, you run `quasar 
 ## Info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.
 
-In order for you to see what versions of Node, NPM, Quasar CLI, Quasar, Vue, Webpack, Cordova, Babel and many more, issue this command in a Quasar project folder:
+In order for you to see what versions of Node, Quasar CLI, Quasar, Vue (and many others) you are using, issue this command in a Quasar project folder:
+
 ``` bash
 $ quasar info
 ```
@@ -197,6 +167,9 @@ $ quasar dev -m [android|ios]
 
 # Developing an Electron App
 $ quasar dev -m electron
+
+# Developing a Browser Extension (BEX)
+$ quasar dev -m bex
 
 # passing extra parameters and/or options to
 # underlying "cordova" or "electron" executables:
@@ -698,9 +671,9 @@ const { createProxyMiddleware } = require('http-proxy-middleware')
 
 // ...
 app.use('/api', createProxyMiddleware({
-    target: `http://my-api.com:5050`,
-    pathRewrite: {"^/api" : ""}
-  }))
+  target: `http://my-api.com:5050`,
+  pathRewrite: {"^/api" : ""}
+}))
 
 // then app.listen(...)
 ```
@@ -710,3 +683,24 @@ Finally, run one of these files:
 ```bash
 $ node my-server.js
 ```
+
+## Create
+
+Creates a Quasar project (app, AppExtension or UI kit) from CUSTOM starter kits.
+
+```bash
+$ quasar create <folder_name> --kit <address> [--branch <branch_name>]
+```
+
+You can use a starter kit stored on your machine by providing a **local path** to a folder (eg. `quasar create --kit ./my-custom-starter-kit`).
+
+You can use a starter kit stored into any publicly accessible Git repository by providing a reference which follows this schema:
+- GitHub - `github:owner/name` or simply `owner/name`
+- GitLab - `gitlab:owner/name`
+- Bitbucket - `bitbucket:owner/name`
+
+`master` branch will be checked out by default, but you can specify the one you prefer via `--branch <branch name>` (eg. `quasar create --kit owner/name --branch my-branch`).
+
+::: warning
+The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.
+:::

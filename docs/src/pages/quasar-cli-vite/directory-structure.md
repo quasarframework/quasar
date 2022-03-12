@@ -23,12 +23,16 @@ If you are a beginner, all you'll need to care about is `/quasar.config.js` (Qua
 │   ├── router/              # Vue Router
 |   |   ├── index.js         # Vue Router definition
 |   │   └── routes.js        # App Routes definitions
-│   ├── store/               # Vuex Store
+│   ├── stores/              # Pinia Stores (if not using Vuex)
+|   |   ├── index.js         # Pinia initialization
+|   │   ├── <store>          # Pinia stores...
+|   │   └── <store>...
+│   ├── store/               # Vuex Store (if not using Pinia)
 |   |   ├── index.js         # Vuex Store definition
 |   │   ├── <folder>         # Vuex Store Module...
 |   │   └── <folder>         # Vuex Store Module...
-│   ├── App.vue              # root Vue component of your App
-│   └── index.template.html  # Template for index.html
+│   └── App.vue              # root Vue component of your App
+├── index.html               # Template for index.html
 ├── src-ssr/                 # SSR specific code (like production Node webserver)
 ├── src-pwa/                 # PWA specific code (like Service Worker)
 ├── src-cordova/             # Cordova generated folder used to create Mobile Apps
@@ -39,13 +43,14 @@ If you are a beginner, all you'll need to care about is `/quasar.config.js` (Qua
 │   ├── ssr/                 # example when building SSR
 │   ├── electron/            # example when building Electron
 │   └── ....
-├── quasar.config.js           # Quasar App Config file
-├── babel.config.js          # Babeljs config
+├── quasar.config.js         # Quasar App Config file
+├── .gitignore               # GIT ignore paths
 ├── .editorconfig            # editor config
 ├── .eslintignore            # ESlint ignore paths
 ├── .eslintrc.js             # ESlint config
-├── .postcssrc.js            # PostCSS config
-├── .gitignore               # GIT ignore paths
+├── postcss.config.js        # PostCSS config
+├── jsconfig.json            # Editor config (if not using Typescript)
+├── tsconfig.json            # Typescript config
 ├── package.json             # npm scripts and dependencies
 └── README.md                # readme for your website/App
 ```

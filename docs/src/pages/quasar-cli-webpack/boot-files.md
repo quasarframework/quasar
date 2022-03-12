@@ -23,8 +23,8 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | --- | --- |
 | `app` | Vue app instance |
 | `router` | Instance of Vue Router from 'src/router/index.js' |
-| `store` | Instance of the app Vuex Store - **store only will be passed if your project uses Vuex (you have src/store)** |
-| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-webpack/developing-ssr/ssr-context) |
+| `store` | Instance of the Pinia or the Vuex store - **store only will be passed if your project uses Pinia (you have src/stores) or Vuex (you have src/store)** |
+| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-vite/developing-ssr/ssr-context) |
 | `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
 | `redirect` | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |
@@ -95,7 +95,7 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 * You want to add a global mixin using `app.mixin()`.
 * You want to add something to the Vue app globalProperties for convenient access - An example would be to conveniently use `this.$axios` (for Options API) inside your Vue files instead of importing Axios in each such file.
 * You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
-* You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
+* You want to interfere with Pinia or the Vuex store instance - An example would be to use `vuex-router-sync` package
 * Configure aspects of libraries - An example would be to create an instance of Axios with a base URL; you can then inject it into Vue prototype and/or export it (so you can import the instance from anywhere else in your app)
 
 ### Example of unneeded usage of boot files

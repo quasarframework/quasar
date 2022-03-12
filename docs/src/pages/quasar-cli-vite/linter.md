@@ -4,11 +4,11 @@ desc: How to configure a code linter in a Quasar app.
 ---
 Having a code linter (like [ESLint](https://eslint.org/) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
 
-When you create a Quasar project folder with Quasar CLI it will ask you if you want a linter and which setup you want for ESLint:
+When you scaffold a Quasar project folder it will ask you if you want a linter and which setup you want for ESLint:
 
+* [Prettier](https://github.com/prettier/prettier)
 * [Standard](https://github.com/standard/standard)
 * [Airbnb](https://github.com/airbnb/javascript)
-* [Prettier](https://github.com/prettier/prettier)
 * .. or you can configure one yourself
 
 Two dot files will be created:
@@ -16,7 +16,7 @@ Two dot files will be created:
 * .eslintrc.js -- ESLint configuration, including rules
 * .eslintignore -- what ESLint should ignore when linting
 
-Further extension of one of the Eslint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at `.eslintrc.js` and notice it:
+Further extension of one of the ESLint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at `/.eslintrc.js` and notice it:
 
 ```js
 extends: [
@@ -26,15 +26,19 @@ extends: [
 ]
 ```
 
-If you chose ESLint when creating your project folder, you'll also notice that `/quasar.config.js` adds the eslint-loader to Webpack configuration for you:
+If you chose ESLint when creating your project folder, you'll also notice that the `eslint` key is added to `/quasar.config.js`:
 
 ```js
-build: {
-  chainWebpack (chain) {
-    chain.plugin('eslint-webpack-plugin')
-      .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
-  }
-}
+// quasar.config.js
+
+eslint: {
+  // fix: true,
+  // include = [],
+  // exclude = [],
+  // rawOptions = {},
+  warnings: true,
+  errors: true
+},
 ```
 
 ## Lint Rules
@@ -46,6 +50,7 @@ The linting rules can be removed, changed, or added. Notice some things:
 You can add/remove/change rules by first visiting [https://eslint.org/docs/rules/](https://eslint.org/docs/rules/) or [https://eslint.vuejs.org/rules](https://eslint.vuejs.org/rules).
 
 Example of ESLint rules below:
+
 ```js
 // .eslintrc.js
 
@@ -77,17 +82,21 @@ Example of ESLint rules below:
 ```
 
 ## Disabling Linter
-In order for you to disable ESLint later, all you need to do is comment out (or remove) the following code from `/quasar.config.js`:
+In order for you to disable ESLint later, all you need to do is to:
 
-```js
-build: {
-  chainWebpack (chain) {
-    /*
-     * we comment out this block
-     *
-    chain.plugin('eslint-webpack-plugin')
-      .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
-    */
+1. Comment out (or remove) the key below:
+
+  ```js
+  // quasar.config.js
+  eslint: { /* ... */ }
+  ```
+
+2. Or, set `warnings` and `errors` to `false`:
+
+  ```js
+  // quasar.config.js
+  eslint: {
+    warnings: false,
+    errors: false
   }
-}
-```
+  ```

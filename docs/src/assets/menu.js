@@ -161,10 +161,6 @@ const cliWebpack = [
     path: 'directory-structure'
   },
   {
-    name: 'Build Commands',
-    path: 'build-commands'
-  },
-  {
     name: 'Commands List',
     path: 'commands-list'
   },
@@ -584,16 +580,8 @@ const cliVite = [
     path: 'browser-compatibility'
   },
   {
-    name: 'Supporting TypeScript',
-    path: 'supporting-ts'
-  },
-  {
     name: 'Directory Structure',
     path: 'directory-structure'
-  },
-  {
-    name: 'Build Commands',
-    path: 'build-commands'
   },
   {
     name: 'Commands List',
