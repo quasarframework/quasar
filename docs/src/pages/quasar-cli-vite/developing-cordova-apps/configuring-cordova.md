@@ -63,3 +63,20 @@ return {
   }
 }
 ```
+
+Should you want to tamper with the Vite config for UI in /src:
+
+```js
+// quasar.config.js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf) {
+        if (ctx.mode.cordova) {
+          // do something with ViteConf
+        }
+      }
+    }
+  }
+}
+```

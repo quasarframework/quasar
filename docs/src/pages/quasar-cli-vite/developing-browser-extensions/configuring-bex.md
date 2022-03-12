@@ -13,6 +13,25 @@ Before we can configure anything, we need to understand how the BEX is structure
 
 You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/quasar-cli-vite/developing-browser-extensions/types-of-bex).
 
+## UI in /src
+
+Should you want to tamper with the Vite config for UI in /src:
+
+```js
+// quasar.config.js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf) {
+        if (ctx.mode.cordova) {
+          // do something with ViteConf
+        }
+      }
+    }
+  }
+}
+```
+
 ## Manifest.json
 
 The most important config file for your BEX is `/src-bex/manifest.json`. It is recommended that you [read up on this file](https://developer.chrome.com/extensions/manifest) before starting your project.

@@ -379,7 +379,6 @@ const cliWebpack = [
       },
       {
         name: 'Capacitor versions',
-        badge: 'new',
         path: 'capacitor-version-support'
       },
       {
@@ -802,7 +801,6 @@ const cliVite = [
       },
       {
         name: 'Capacitor versions',
-        badge: 'new',
         path: 'capacitor-version-support'
       },
       {

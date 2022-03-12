@@ -63,6 +63,23 @@ return {
 }
 ```
 
+Should you want to tamper with the Vite config for UI in /src:
+
+```js
+// quasar.config.js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf, { isClient, isServer }) {
+        if (ctx.mode.ssr) {
+          // do something with ViteConf
+        }
+      }
+    }
+  }
+}
+```
+
 > If you decide to go with a PWA client takeover (**which is a killer combo**), the Quasar CLI PWA mode will be installed too. You may want to check out the [Quasar PWA](/quasar-cli-vite/developing-pwa/introduction) guide too. But most importantly, make sure you read [SSR with PWA](/quasar-cli-vite/developing-ssr/ssr-with-pwa) page.
 
 When building, `extendWebpack()` and `chainWebpack()` will receive one more parameter (Object), currently containing `isServer` or `isClient` boolean props, because there will be two Webpack builds (one for the server-side and one for the client-side).

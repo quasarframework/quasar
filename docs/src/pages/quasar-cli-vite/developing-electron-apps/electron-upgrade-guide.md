@@ -111,7 +111,7 @@ This is the default content of `electron-preload.js`:
  */
 ```
 
-### Quasar.conf changes
+### quasar.config.js changes
 
 ```js
 // OLD way
@@ -120,34 +120,29 @@ electron: {
   // replaced by a change in electron-main.js documented earlier
   nodeIntegration: true, // remove me!
 
-  // renamed to chainWebpackMain
+  // remove:
   chainWebpack (chain) { /* ... */ },
 
-  // renamed to extendWebpackMain
+  // remove:
   extendWebpack (cfg) { /* ... */ }
 }
 
 // NEW way
 electron: {
-  // was renamed from chainWebpack()
-  chainWebpackMain (chain) {
-    // example for its content (adds linting)
-    chain.plugin('eslint-webpack-plugin')
-      .use(ESLintPlugin, [{ extensions: ['js'] }])
+  // New!
+  inspectPort: 5858,
+
+  // New!
+  extendElectronMainConf (cfg) {
+    // do something with Esbuild config
+    // for the Electron Main thread
   },
 
-  // was renamed from extendWebpack()
-  extendWebpackMain (cfg) { /* ... */ },
-
   // New!
-  chainWebpackPreload (chain) {
-    // example (adds linting)
-    chain.plugin('eslint-webpack-plugin')
-      .use(ESLintPlugin, [{ extensions: ['js'] }])
+  extendElectronPreloadConf (cfg) {
+    // do something with Esbuild config
+    // for the Electron Preload thread
   }
-
-  // New!
-  extendWebpackPreload (cfg) { /* ... */ }
 }
 ```
 

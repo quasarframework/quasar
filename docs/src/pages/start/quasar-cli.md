@@ -14,6 +14,16 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 
 ...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
 
+## TLDR
+
+```bash
+$ yarn global add @quasar/cli # or: npm i -g @quasar/cli
+$ yarn create quasar # or: npm init quasar
+# pick `App with Quasar CLI` option then `Quasar v2`
+$ cd <folder>
+$ quasar dev
+```
+
 ## Installation / Project Scaffolding
 
 1. Let's create a Quasar app:
@@ -91,8 +101,8 @@ $ npx quasar dev
 
 So, you've probably made up your mind which Quasar CLI you want by this point. Let's learn how to configure your choice:
 
-<q-btn push no-caps color="brand-primary" icon-right="launch" label="Configure Quasar CLI with Vite" to="/quasar-cli-vite/quasar-config-js" class="q-mt-md" />
+<q-btn push no-caps color="brand-primary" icon-right="launch" label="Use @quasar/app-vite" to="/quasar-cli-vite/quasar-config-js" class="q-mt-md" />
 
 <br>
 
-<q-btn push no-caps color="brand-primary" icon-right="launch" label="Configure Quasar CLI with Webpack" to="/quasar-cli-webpack/quasar-config-js" class="q-mt-md" />
+<q-btn push no-caps color="brand-primary" icon-right="launch" label="Use @quasar/app-webpack" to="/quasar-cli-webpack/quasar-config-js" class="q-mt-md" />

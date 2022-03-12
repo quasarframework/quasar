@@ -3,8 +3,6 @@ title: BEX Build Commands
 desc: The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
 ---
 
-With the [Quasar CLI](/start/quasar-cli), it is incredibly easy to develop and build Browser Extension distributables. Below, we'll explain the two processes in detail.
-
 ## Developing
 
 Start developing a Browser Extension with just one command.

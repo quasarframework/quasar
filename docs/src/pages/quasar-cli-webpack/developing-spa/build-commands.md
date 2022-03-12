@@ -4,11 +4,13 @@ desc: The Quasar CLI list of commands when developing or building a single page 
 ---
 
 Developing:
+
 ```bash
 $ quasar dev
 ```
 
 Building for Production:
+
 ```bash
 $ quasar build
 ```

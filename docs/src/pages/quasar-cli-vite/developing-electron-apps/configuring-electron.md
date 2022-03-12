@@ -48,40 +48,16 @@ electron: {
     // no need to return anything
   },
 
-  // optional; webpack config Object for
-  // the Main Process ONLY (/src-electron/main-process/electron-main.js)
-  extendWebpackMain (cfg) {
-    // directly change props of cfg;
-    // no need to return anything
+  inspectPort: 5858,
+
+  extendElectronMainConf (cfg) {
+    // do something with Esbuild config
+    // for the Electron Main thread
   },
 
-  // optional; EQUIVALENT to extendWebpackMain() but uses webpack-chain;
-  // for the Main Process ONLY (/src-electron/main-process/electron-main.js)
-  chainWebpackMain (chain) {
-    // chain is a webpack-chain instance
-    // of the Webpack configuration
-
-    // example:
-    // chain.plugin('eslint-webpack-plugin')
-    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-  },
-
-  // optional; webpack config Object for
-  // the Preload Process ONLY (/src-electron/main-process/electron-preload.js)
-  extendWebpackPreload (cfg) {
-    // directly change props of cfg;
-    // no need to return anything
-  },
-
-  // optional; EQUIVALENT to extendWebpackPreload() but uses webpack-chain;
-  // for the Preload Process ONLY (/src-electron/main-process/electron-preload.js)
-  chainWebpackPreload (chain) {
-    // chain is a webpack-chain instance
-    // of the Webpack configuration
-
-    // example:
-    // chain.plugin('eslint-webpack-plugin')
-    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+  extendElectronPreloadConf (cfg) {
+    // do something with Esbuild config
+    // for the Electron Preload thread
   }
 }
 ```
@@ -89,6 +65,23 @@ electron: {
 The "packager" prop refers to [electron-packager options](https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options). The `dir` and `out` properties are overwritten by Quasar CLI to ensure the best results.
 
 The "builder" prop refers to [electron-builder options](https://www.electron.build/configuration/configuration).
+
+Should you want to tamper with the "Renderer" thread (UI in /src) Vite config:
+
+```js
+// quasar.config.js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf) {
+        if (ctx.mode.electron) {
+          // do something with ViteConf
+        }
+      }
+    }
+  }
+}
+```
 
 ## Packager vs. Builder
 You have to choose to use either packager or builder. They are both excellent open-source projects, however they serve slightly different needs. With packager you will be able to build unsigned projects for all major platforms from one machine (with restrictions). Although this is great, if you just want something quick and dirty, there is more platform granularity (and general polish) in builder. Cross-compiling your binaries from one computer doesn't really work with builder (or we haven't found the recipe yet...)

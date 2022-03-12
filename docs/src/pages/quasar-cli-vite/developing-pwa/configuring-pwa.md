@@ -37,73 +37,29 @@ pwa: {
     // ...
   },
 
-  // Use this OR metaVariablesFn, but not both;
-  // variables used to inject specific PWA
-  // meta tags (below are default values);
-  metaVariables: {
-    appleMobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: 'default',
-    appleTouchIcon120: 'icons/apple-icon-120x120.png',
-    appleTouchIcon180: 'icons/apple-icon-180x180.png',
-    appleTouchIcon152: 'icons/apple-icon-152x152.png',
-    appleTouchIcon167: 'icons/apple-icon-167x167.png',
-    appleSafariPinnedTab: 'icons/safari-pinned-tab.svg',
-    msapplicationTileImage: 'icons/ms-icon-144x144.png',
-    msapplicationTileColor: '#000000'
-  },
-
-  // Optional, overrides metaVariables above;
-  // Use this OR metaVariables, but not both;
-  metaVariablesFn (manifest) {
-    // ...
-    return [
-      {
-        // this entry will generate:
-        // <meta name="theme-color" content="ff0">
-
-        tagName: 'meta',
-        attributes: {
-          name: 'theme-color',
-          content: '#ff0'
-        }
-      },
-
-      {
-        // this entry will generate:
-        // <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
-        // references /public/icons/icon-180.png
-
-        tagName: 'link',
-        attributes: {
-          rel: 'apple-touch-icon',
-          sizes: '180x180',
-          href: 'icons/icon-180.png'
-        },
-        closeTag: false // this is optional;
-                        // specifies if tag also needs an explicit closing tag;
-                        // it's Boolean false by default
-      }
-    ]
-  },
-
   // optional; webpack config Object for
   // the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
   // if using workbox in InjectManifest mode
-  extendWebpackCustomSW (cfg) {
+  extendPwaCustomSW (cfg) {
     // directly change props of cfg;
     // no need to return anything
-  },
+  }
+}
+```
 
-  // optional; EQUIVALENT to extendWebpackCustomSW() but uses webpack-chain;
-  // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
-  // if using workbox in InjectManifest mode
-  chainWebpackCustomSW (chain) {
-    // chain is a webpack-chain instance
-    // of the Webpack configuration
+Should you want to tamper with the Vite config for UI in /src:
 
-    // example:
-    // chain.plugin('eslint-webpack-plugin')
-    //   .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
+```js
+// quasar.config.js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf) {
+        if (ctx.mode.pwa) {
+          // do something with ViteConf
+        }
+      }
+    }
   }
 }
 ```
