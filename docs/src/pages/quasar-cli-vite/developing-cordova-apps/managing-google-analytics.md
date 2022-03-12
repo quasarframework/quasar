@@ -11,7 +11,7 @@ You may also want to read these great tutorials:
 - [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/)
 
 ::: warning
-You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
+You'll need to include a `<script>` tag provided by Google in `/index.html`, which will make your App depend on an Internet connection!
 :::
 
 ## Prerequisites
