@@ -50,8 +50,8 @@ jobs:
 
             if (issueModel.flavour) {
               const flavourLabelMap = {
-                'Vite-based Quasar CLI': 'flavour/quasar-cli-vite',
-                'Webpack-based Quasar CLI': 'flavour/quasar-cli-webpack',
+                'Quasar CLI with Vite': 'flavour/quasar-cli-vite',
+                'Quasar CLI with Webpack': 'flavour/quasar-cli-webpack',
                 'UMD': 'flavour/umd',
                 'Vite Plugin': 'flavour/vite-plugin',
                 'Vue CLI Plugin': 'flavour/vue-cli-plugin',
