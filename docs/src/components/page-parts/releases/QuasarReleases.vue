@@ -25,7 +25,8 @@ const { extractDate } = date
 
 const versionRE = {
   quasar: /^2./,
-  '@quasar/app': /^3./
+  '@quasar/app-webpack': /^3./,
+  '@quasar/app-vite': /^1./
 }
 
 export default {
@@ -38,7 +39,8 @@ export default {
   setup () {
     const packagesDefinitions = {
       quasar: [],
-      '@quasar/app': [],
+      '@quasar/app-vite': [],
+      '@quasar/app-webpack': [],
       '@quasar/cli': [],
       '@quasar/extras': [],
       '@quasar/icongenie': [],
@@ -73,6 +75,11 @@ export default {
         let stopQuery = false
 
         for (const release of releases) {
+          // convert q/app to q/app-webpack
+          if (release.name.startsWith('@quasar/app-v') === true) {
+            release.name = release.name.replace('@quasar/app-v', '@quasar/app-webpack-v')
+          }
+
           if (skipRelease(release.name) === true) {
             continue
           }
