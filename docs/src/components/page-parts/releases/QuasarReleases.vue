@@ -29,6 +29,8 @@ const versionRE = {
   '@quasar/app-vite': /^1./
 }
 
+const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
+
 export default {
   name: 'QuasarReleases',
 
@@ -46,16 +48,12 @@ export default {
       '@quasar/icongenie': [],
       '@quasar/vite-plugin': []
     }
-    const packagePrefixes = Object.keys(packagesDefinitions)
+    const packageNameList = Object.keys(packagesDefinitions)
     const loading = ref(false)
     const error = ref(false)
     const packages = ref(packagesDefinitions)
     const currentPackage = ref('quasar')
     const versions = ref({})
-
-    function skipRelease (releaseName) {
-      return packagePrefixes.some(prefix => releaseName.startsWith(prefix) === true) === false
-    }
 
     function queryReleases (page = 1) {
       loading.value = true
@@ -75,18 +73,18 @@ export default {
         let stopQuery = false
 
         for (const release of releases) {
-          // convert q/app to q/app-webpack
-          if (release.name.startsWith('@quasar/app-v') === true) {
-            release.name = release.name.replace('@quasar/app-v', '@quasar/app-webpack-v')
-          }
+          const matchesList = release.name.split(' ')[ 0 ].match(versionMatchRE)
 
-          if (skipRelease(release.name) === true) {
+          if (!matchesList || matchesList.length < 2) {
             continue
           }
 
-          const [ packageName, version ] = release.name.split(' ')[ 0 ].split('-v')
+          let [ , packageName, version ] = matchesList
 
-          if (packagePrefixes.includes(packageName) === false) {
+          if (packageName === '@quasar/app') {
+            packageName = '@quasar/app-webpack'
+          }
+          else if (packageNameList.includes(packageName) === false) {
             continue
           }
 
