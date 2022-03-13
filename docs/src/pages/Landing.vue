@@ -43,10 +43,14 @@ q-page.landing
         p Combine the power of Quasar UI with Quasar CLI. One source code for all platforms simultaneously with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
       .col-12.row.justify-center
         q-card.bg-grey-1.q-px-lg.q-py-sm(bordered flat)
-          q-card-section.text-left
-            <div>$ yarn create quasar</div>
-            <div class="text-grey">or</div>
-            <div>$ npm init quasar</div>
+          q-card-section(horizontal)
+            q-card-section.text-left.column.items-center.q-gutter-sm
+              q-badge(label="$ yarn global add @quasar/cli" color="grey-8")
+              q-badge(label="$ yarn create quasar" color="grey-8")
+            q-separator(vertical)
+            q-card-section.text-left.column.items-center.q-gutter-sm
+              q-badge(label="$ npm i -g @quasar/cli" color="grey-8")
+              q-badge(label="$ npm init quasar" color="grey-8")
 
   section.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-lg

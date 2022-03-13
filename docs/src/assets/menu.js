@@ -17,7 +17,6 @@ const gettingStarted = [
       },
       {
         name: 'Vite Plugin',
-        badge: 'new',
         path: 'vite-plugin'
       },
       {

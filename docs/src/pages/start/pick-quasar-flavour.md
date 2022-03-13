@@ -3,16 +3,19 @@ title: Getting Started - Pick a Quasar Flavour
 desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI, Vue CLI or UMD'
 ---
 
-**If you'd like to learn more about why choosing Quasar** then read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.
-
 There are four ways of using Quasar. Pick the one that suits you best:
 
-- [UMD/Standalone](/start/umd) (embed into an existing project through CDN, progressive integration)
-- [Quasar CLI](/start/quasar-cli) (with Vite or Webpack under the hood) [**the premium developer experience and highly recommended**]
-- [Quasar Vite plugin](/start/vite-plugin)
-- [Vue CLI plugin](/start/vue-cli-plugin)
+<div class="q-mx-md row items-stretch q-gutter-xs">
+  <q-btn no-caps color="purple" push stack padding="sm lg" to="/start/quasar-cli">
+    <span class="text-bold">Quasar CLI (with Vite or Webpack)</span>
+    <span style="font-size:0.8em">Strongly recommended - the premium DX</span>
+  </q-btn>
+  <q-btn label="UMD/Standalone" color="teal-6" no-caps push to="/start/umd" />
+  <q-btn label="Vite plugin" color="teal-6" no-caps push to="/start/vite-plugin" />
+  <q-btn label="Vue CLI plugin" color="teal-6" no-caps push to="/start/vue-cli-plugin" />
+</div>
 
-Here's a quick comparison:
+### Comparison
 
 | Feature                                                                                    | Quasar UMD | Quasar CLI (with Vite or Webpack) | Quasar Vite Plugin                  | Vue CLI Plugin |
 | ------------------------------------------------------------------------------------------ | -------    | ---------- | ---------------------------- | -------------- |
@@ -45,6 +48,7 @@ Here's a quick comparison:
 Although you may get a similar multi-platform support via Vite (directly) or the Vue CLI and some Vue community built plugins, these 3rd party supported build paths aren't tightly integrated with Quasar's components. Thus, as you run into problems with these 3rd party plugins, you will have to depend on the support of each individual plugin developer. With Quasar, you have a one-stop-shop should anything go wrong. Also, the Quasar CLI ensures applications are built to the best possible standards in both performance, project size and best practices. You will find no such guarantees anywhere else!
 :::
 
-So, let's get you going with **Quasar's CLI**! You'll be up and running with a new project in a matter of minutes.
+### Recommendation
+Let's get you going with **Quasar's CLI**! You'll be up and running with a new project in no time.
 
 <q-btn push no-caps color="brand-primary" icon-right="launch" label="Start with Quasar CLI" to="/start/quasar-cli" class="q-mt-sm q-mb-lg" />
