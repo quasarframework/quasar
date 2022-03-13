@@ -4,7 +4,7 @@ q-page.doc-page
   q-badge.doc-page__overline(
     v-if="overline"
     :label="overline"
-    color="grey-4"
+    color="grey-3"
     text-color="grey-10"
   )
 

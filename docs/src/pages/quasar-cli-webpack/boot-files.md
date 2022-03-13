@@ -24,7 +24,7 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | `app` | Vue app instance |
 | `router` | Instance of Vue Router from 'src/router/index.js' |
 | `store` | Instance of the Pinia or the Vuex store - **store only will be passed if your project uses Pinia (you have src/stores) or Vuex (you have src/store)** |
-| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-vite/developing-ssr/ssr-context) |
+| `ssrContext` | Available only on server-side, if building for SSR. [More info](/quasar-cli-webpack/developing-ssr/ssr-context) |
 | `urlPath` | The pathname (path + search) part of the URL. It also contains the hash on client-side. |
 | `publicPath` | The configured public path. |
 | `redirect` | Function to call to redirect to another URL. Accepts String (full URL) or a Vue Router location String or Object. |

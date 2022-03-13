@@ -43,7 +43,7 @@ const gettingStarted = [
   },
   {
     name: 'Upgrade guide',
-    badge: 'new',
+    badge: 'update',
     path: 'upgrade-guide'
   },
   {
@@ -146,6 +146,10 @@ const cliWebpack = [
   {
     name: 'quasar.config.js',
     path: 'quasar-config-js'
+  },
+  {
+    name: 'Convert to CLI with Webpack',
+    path: 'convert-to-quasar-cli-with-webpack'
   },
   {
     name: 'Browser Compatibility',
@@ -571,6 +575,10 @@ const cliVite = [
   {
     name: 'quasar.config.js',
     path: 'quasar-config-js'
+  },
+  {
+    name: 'Convert project to CLI with Vite',
+    path: 'convert-to-quasar-cli-with-vite'
   },
   {
     name: 'Browser Compatibility',

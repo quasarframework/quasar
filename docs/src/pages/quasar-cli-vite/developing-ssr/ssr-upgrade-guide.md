@@ -36,8 +36,7 @@ Please note that currently the only Nodejs supported server is [Expressjs](https
 .
 └── src-ssr/
     ├── middlewares/  # SSR middleware files
-    ├── directives/   # SSR transformations for Vue directives
-    └── production-export.js # SSR webserver production export
+    └── server.js     # SSR webserver production export
 ```
 
 ### Performing the upgrade
@@ -50,12 +49,12 @@ So here we go:
 3. Declare the middleware files under quasar.config.js > ssr > middlewares: []. The array should look like this:
   ```js
   middlewares: [
-    ctx.prod ? 'compression' : '',
     'render' // should always keep this one as last one
   ]
   ```
 4. You will then have to port the old logic by using the SSR middleware files, which should be really easy (since you'll end up copy-pasting most of the old code into the middleware files).
-5. Review quasar.config.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli-vite/developing-ssr/configuring-ssr#quasar-conf-js).
+5. Review quasar.config.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli-vite/developing-ssr/configuring-ssr#quasar-config-js).
+6. Check the new `/src-ssr/server.js` file.
 
 Also remember that the files that you create in the `src-ssr/middlewares` folder need to also be declared under quasar.config.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too. You can use the `$ quasar new ssrmiddleware <name>` command to speed things up.
 
@@ -65,4 +64,4 @@ Always keep the original `render` middleware as last one in the list.
 
 * You might want to check out the [new configuration](/quasar-cli-vite/developing-ssr/configuring-ssr) properties available through quasar.config.js > ssr.
 * You might want to check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) page which describes in detail what properties you can use from it.
-* You might want to check out the [SSR Production Export](/quasar-cli-vite/developing-ssr/ssr-webserver) page which describes in detail what the production-export.js/ts can do for you.
+* You might want to check out the [SSR Webserver](/quasar-cli-vite/developing-ssr/ssr-webserver) page which describes in detail what server.js can do for you.

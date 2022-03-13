@@ -5,8 +5,6 @@ related:
   - /quasar-cli-vite/quasar-config-js
 ---
 
-## Configuring compatibility
-
 In order to configure the browser compatibility for your app, you will need to edit `/quasar.config.js`:
 
 ```js
@@ -15,7 +13,7 @@ build: {
   target: {
     browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
     node: 'node16'
-  },
+  }
 }
 ```
 

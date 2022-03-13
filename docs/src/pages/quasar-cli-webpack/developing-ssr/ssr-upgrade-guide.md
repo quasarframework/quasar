@@ -36,7 +36,6 @@ Please note that currently the only Nodejs supported server is [Expressjs](https
 .
 └── src-ssr/
     ├── middlewares/  # SSR middleware files
-    ├── directives/   # SSR transformations for Vue directives
     └── production-export.js # SSR webserver production export
 ```
 
@@ -55,7 +54,7 @@ So here we go:
   ]
   ```
 4. You will then have to port the old logic by using the SSR middleware files, which should be really easy (since you'll end up copy-pasting most of the old code into the middleware files).
-5. Review quasar.config.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli-webpack/developing-ssr/configuring-ssr#quasar-conf-js).
+5. Review quasar.config.js > ssr properties. Most of the old props have been removed and replaced by [new ones](/quasar-cli-webpack/developing-ssr/configuring-ssr#quasar-config-js).
 
 Also remember that the files that you create in the `src-ssr/middlewares` folder need to also be declared under quasar.config.js > ssr > middlewares. This is because their order matters, just like how the order of applying any Expressjs middleware matters too. You can use the `$ quasar new ssrmiddleware <name>` command to speed things up.
 
