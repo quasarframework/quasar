@@ -17,13 +17,13 @@
     "@quasar/extras": "^1.12.4",
     "core-js": "^3.20.3",
     "prismjs": "^1.26.0",
-    "quasar": "^2.4.12",
+    "quasar": "^2.6.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.0.0",
-    "@quasar/app": "^3.2.9",
+    "@quasar/app-webpack": "^3.4.0",
     "eslint": "^7.14.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.19.1",

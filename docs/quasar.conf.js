@@ -54,7 +54,7 @@ module.exports = function (ctx) {
           .options({
             ...(
               isServer === true
-                ? { ssr: true, directiveTransforms: require('quasar/dist/ssr-directives/index.js') }
+                ? { ssr: true, isServerBuild: isServer === true }
                 : {}
             ),
             transformAssetUrls: merge({
