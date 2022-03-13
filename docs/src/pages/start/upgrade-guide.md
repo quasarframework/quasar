@@ -5,14 +5,12 @@ components:
   - upgrade-guide/UpgradeVideoLink
 ---
 
-::: danger Quasar UI v2
-* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your installed webpack plugins accordingly.
-* There is no IE11 support because Vue 3 does NOT (and will not) support it either.
-* There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
+::: tip Quasar CLI with Vite or Webpack
+You now have the option to choose between Quasar CLI with Vite (currently in **BETA**) and Quasar CLI with Webpack.
 :::
 
 ::: tip Composition and Options API
-You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use the legacy Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
+You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use Vue Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
 :::
 
 ### Video guide <q-badge align="top" color="brand-primary" label="New" />
@@ -84,6 +82,11 @@ $ yarn add vue@3 @quasar/extras@latest
 
 **This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#add-vue-cli-quasar-plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
 
+::: danger
+* Quasar CLI for Quasar v1 only had the option to use Webpack. But now you can choose between Quasar CLI with Vite (currently in **BETA**) and Quasar CLI with Webpack. For upgrading purposes, you might want to upgrade to Quasar CLI with Webpack first, and then maybe try out Quasar CLI with Vite.
+* **The rest of this guide will focus on Quasar CLI with Webpack.**
+:::
+
 ### Intro
 
 We've put in a lot of work, so the transition from Quasar v1 to v2 is as painless as possible. Don't be afraid by the length of this page, as it doesn't reflect the effort that you need to put into upgrading your app to Quasar v2 (we just tried to make it as complete as possible). The API of Quasar components, directives and plugins has minor changes, but we kept the breaking changes to a bare minimum. We've also added some new cool features to some components.
@@ -96,8 +99,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
 * In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
-* Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
-* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us futher modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraints, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us futher modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -117,8 +119,6 @@ If you get stuck, check out the forums or visit our Discord server for help whic
 It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process, there are likely errors. If you find any, don't be afraid to make a PR and propose a change to make corrections.
 :::
 
-
-
 ### Initial Steps
 
 There are two paths you can follow. They are described below. Choose the path that fits your needs best. We do, however, recommend the first option.
@@ -126,17 +126,22 @@ There are two paths you can follow. They are described below. Choose the path th
 #### Option 1: Convert a project
 
 ::: danger Important!
-This guide assumes that you are currently using a `@quasar/app` v2 project.
+This guide assumes that you are currently using a `@quasar/app` v2 project. You will upgrade it to Quasar CLI with Webpack for Quasar v2 (the package is now named `@quasar/app-webpack` to better differentiate it from Quasar CLI with Vite).
 :::
 
 Before starting, it is highly suggested to make a copy of your current working project or create a new branch with git.
 
-1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
+1) **Ensure** you have latest `@quasar/cli`:
+  ```bash
+  $ yarn global add @quasar/cli@latest
+  # or: npm i -g @quasar/cli@latest
+  ```
+2) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
   ```bash
   # only if you still want to use Stylus (but without Quasar Stylus variables)
   $ yarn add --dev stylus stylus-loader
   ```
-2) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
   ```bash
   # if you are already using a lts/erbium version (eg. 12.14.0), take note of its version, it should be listed at "lts/erbium" row
   $ nvm list
@@ -149,14 +154,18 @@ Before starting, it is highly suggested to make a copy of your current working p
   # uninstall previous "lts/erbium" version, we suppose 12.14.0 was already installed in our case
   nvm uninstall 12.14.0
   ```
-3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-4) **Install**: `@quasar/app` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
+4) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
+5) **Uninstall**: `@quasar/app`
   ```bash
-  $ yarn add --dev @quasar/app@3
+  $ yarn remove @quasar/app
+  ```
+6) **Install**: `@quasar/app-webpack` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
+  ```bash
+  $ yarn add --dev @quasar/app-webpack@3
   $ yarn add quasar@2 vue@3 vue-router@4
   ```
-5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
-6) If you are using ESLint, then edit `/.eslintrc.js`:
+7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
+8) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
   parserOptions: {
@@ -188,14 +197,14 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
-7) If you are using Vuex, you will need to manually install it:
+9) If you are using Vuex, you will need to manually install it:
   ```bash
   $ yarn add vuex@4
   # or
   $ npm install vuex@4
   ```
 
-8) Edit quasar.config.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+10) Edit quasar.config.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -207,9 +216,9 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.config.js > [devServer config](/quasar-cli-webpack/quasar-config-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
-10) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-11) Upgrade your other project dependencies (especially ESLint related ones).
+11) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.config.js > [devServer config](/quasar-cli-webpack/quasar-config-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+12) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+13) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -218,8 +227,9 @@ Second option is to create a fresh project and port to it bit by bit. We see thi
 You can generate a new Quasar v2 project as shown below and then you can port your app to it.
 
 ```bash
-# Quasar UI v2 project
-$ quasar create <folder_name>
+$ yarn create quasar
+# pick "App with Quasar CLI" and "Quasar v2"
+# decide if you want "Quasar CLI with Vite" (beta) or "Quasar CLI with Webpack"
 ```
 
 ### Webpack v5
