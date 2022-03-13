@@ -61,8 +61,8 @@ body:
       label: Flavour
       description: Choose the Quasar flavour you are using. _The names between parentheses indicate the package names if applicable._
       options:
-        - Vite-based Quasar CLI (@quasar/cli | @quasar/app-vite)
-        - Webpack-based Quasar CLI (@quasar/cli | @quasar/app-webpack)
+        - Quasar CLI with Vite (@quasar/cli | @quasar/app-vite)
+        - Quasar CLI with Webpack (@quasar/cli | @quasar/app-webpack)
         - UMD
         - Vite Plugin (@quasar/vite-plugin)
         - Vue CLI Plugin (vue-cli-plugin-quasar)
