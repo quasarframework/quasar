@@ -28,7 +28,16 @@ From your original project folder, copy these as they are:
   * /src-ssr (with small caveat; see next steps)
   * ~~/src-bex~~ **Nope. Don't!**
 
-Also move `/index.html` to `/src/index.template.html`.
+Also move `/index.html` to `/src/index.template.html`. And make the following change:
+
+```
+<!-- quasar:entry-point -->
+
+// replace with:
+
+<!-- DO NOT touch the following DIV -->
+<div id="q-app"></div>
+```
 
 Also, edit `/src/router/index.js`. Change `history: createHistory(process.env.VUE_ROUTER_BASE)` to `history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)`.
 
