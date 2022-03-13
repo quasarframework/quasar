@@ -45,12 +45,13 @@ jobs:
 
             const issueModel = JSON.parse(process.env.ISSUE_MODEL);
             const labelsToAdd = [];
-            // Strip out the extra information like package names in between parantheses, e.g. 'Quasar CLI (@quasar/cli, @quasar/app)' -> 'Quasar CLI'
+            // Strip out the extra information like package names in between parantheses, e.g. 'Webpack-based Quasar CLI (@quasar/cli | @quasar/app-webpack)' -> 'Webpack-based Quasar CLI'
             const processValue = value => value.replace(/\s?\(.+\)$/, '');
 
             if (issueModel.flavour) {
               const flavourLabelMap = {
-                'Quasar CLI': 'flavour/quasar-cli',
+                'Quasar CLI with Vite': 'flavour/quasar-cli-vite',
+                'Quasar CLI with Webpack': 'flavour/quasar-cli-webpack',
                 'UMD': 'flavour/umd',
                 'Vite Plugin': 'flavour/vite-plugin',
                 'Vue CLI Plugin': 'flavour/vue-cli-plugin',

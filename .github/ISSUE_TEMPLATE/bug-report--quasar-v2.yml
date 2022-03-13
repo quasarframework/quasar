@@ -61,7 +61,8 @@ body:
       label: Flavour
       description: Choose the Quasar flavour you are using. _The names between parentheses indicate the package names if applicable._
       options:
-        - Quasar CLI (@quasar/cli | @quasar/app)
+        - Quasar CLI with Vite (@quasar/cli | @quasar/app-vite)
+        - Quasar CLI with Webpack (@quasar/cli | @quasar/app-webpack)
         - UMD
         - Vite Plugin (@quasar/vite-plugin)
         - Vue CLI Plugin (vue-cli-plugin-quasar)
@@ -74,7 +75,7 @@ body:
       description: Mark the areas in which you see the problem on. _The names between parentheses indicate the package names if applicable._
       multiple: true
       options:
-        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app)
+        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app-webpack | @quasar/app-vite)
 
         - Components (quasar)
         - Directives (quasar)
@@ -119,7 +120,7 @@ body:
       description: |
         Please run [`quasar info` command](https://quasar.dev/quasar-cli/commands-list#info), then copy and paste the output.
         _This will be automatically formatted into code, so no need for backticks._
-      render: shell
+      render: Shell
     # TODO: Validate the format by using GitHub Actions, Probot, etc.
     # TODO: Make this required if the flavour is Quasar CLI, by using GitHub Actions, Probot, etc.
     # Consider adding separate controls to select important versions such as quasar, @quasar/app, vite, etc. to also respect the other flavours
@@ -131,7 +132,7 @@ body:
       description: |
         Please copy and paste any relevant log output.
         _This will be automatically formatted into code, so no need for backticks._
-      render: shell
+      render: Shell
   - type: textarea
     id: additional-context
     attributes:
