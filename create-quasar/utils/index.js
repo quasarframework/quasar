@@ -142,7 +142,7 @@ Documentation can be found at: https://${verPrefix}quasar.dev
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
 read our manifest on "Why donations are important": https://${verPrefix}quasar.dev/why-donate
-Donation campaign: https://${verPrefix}donate.quasar.dev
+Donation campaign: https://donate.quasar.dev
 Any amount is very welcomed.
 If invoices are required, please first contact Razvan Stoenescu.
 
