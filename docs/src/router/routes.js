@@ -67,8 +67,9 @@ menu.forEach(node => {
 })
 
 const redirects = [
-  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
-  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' }
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli-webpack/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli-webpack/browser-compatibility' },
+  { from: '/quasar-cli/quasar-conf-js', to: '/quasar-cli-webpack/quasar-config-js' }
 ]
 
 const routes = [

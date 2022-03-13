@@ -30,6 +30,8 @@ From your original project folder, copy these as they are:
 
 Also move `/index.html` to `/src/index.template.html`.
 
+Also, edit `/src/router/index.js`. Change `history: createHistory(process.env.VUE_ROUTER_BASE)` to `history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)`.
+
 ### 3. Check the new quasar.config.js
 
 There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in [quasar.config.js](/quasar-cli-webpack/quasar-config-js) page. You will have to manually port your configuration to the Quasar CLI with Webpack architecture.

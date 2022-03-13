@@ -32,6 +32,19 @@ export default function () {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 
+  Router.beforeEach((to, _, next) => {
+    if (to.fullPath.startsWith('/quasar-cli/') === true) {
+      next({
+        path: to.fullPath.replace('/quasar-cli/', '/quasar-cli-webpack/'),
+        query: to.query,
+        hash: to.hash
+      })
+    }
+    else {
+      next()
+    }
+  })
+
   process.env.CLIENT === true && Router.afterEach(to => {
     gtag('config', 'UA-6317975-6', {
       page_path: to.path
