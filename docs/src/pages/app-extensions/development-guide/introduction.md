@@ -121,7 +121,9 @@ This will trigger the installation of our new App Extension. You need to redo th
 Additionally, if you would like to have HMR (hot module reload) capabilities in your test app while developing your App Extension, then your `quasar.config.js > devServer > watchFiles` would look like this:
 
 ```js
-// quasar.config.js
+// quasar.config.js for
+// Quasar CLI with Webpack (@quasar/app-webpack)
+
 devServer: {
   // be sure to change <myextid> below to
   // your App Extension name:

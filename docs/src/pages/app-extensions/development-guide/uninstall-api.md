@@ -14,13 +14,22 @@ module.exports = function (api) {
 }
 ```
 
-## api.extId
+### api.engine
+Contains the Quasar CLI engine (as String) being used. Examples: `@quasar/app-vite` or `@quasar/app-webpack`.
+
+### api.hasVite
+Boolean - is running on `@quasar/app-vite` or not.
+
+### api.hasWebpack
+Boolean - is running on `@quasar/app-webpack` or not.
+
+### api.extId
 Contains the `ext-id` (String) of this App Extension.
 
-## api.prompts
+### api.prompts
 Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
-## api.resolve
+### api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
 
 ```js
@@ -29,6 +38,10 @@ api.resolve.app('src/my-file.js')
 
 // resolves to root/src of app
 api.resolve.src('my-file.js')
+
+// resolves to root/public of app
+// (@quasar/app-webpack v3.4+ or @quasar/app-vite v1+)
+api.resolve.public('my-image.png')
 
 // resolves to root/src-pwa of app
 api.resolve.pwa('some-file.js')
@@ -43,10 +56,10 @@ api.resolve.cordova('config.xml')
 api.resolve.electron('some-file.js')
 ```
 
-## api.appDir
+### api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
-## api.hasPackage
+### api.hasPackage
 
 Determine if some package is installed in the host app through a semver condition.
 
@@ -66,7 +79,7 @@ if (api.hasPackage('quasar', '^1.0.0')) {
 }
 ```
 
-## api.hasExtension
+### api.hasExtension
 Check if another app extension is installed.
 
 ```js
@@ -81,7 +94,7 @@ if (api.hasExtension(extId)) {
 }
 ```
 
-## api.getPackageVersion
+### api.getPackageVersion
 
 Get the version of a host app package.
 
@@ -96,7 +109,7 @@ console.log( api.getPackageVersion(packageName) )
 //   undefined (when package not found)
 ```
 
-## api.removePath
+### api.removePath
 Removes a file or folder from the app project folder (which the App Extension has installed and is no longer needed).
 
 Be mindful about it and do not delete the files that would break developer's app.
@@ -112,7 +125,7 @@ api.removePath('my-folder')
 
 The above example deletes "my-folder" from the root of the app.
 
-## api.getPersistentConf
+### api.getPersistentConf
 
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
@@ -123,7 +136,7 @@ Get the internal persistent config of this extension. Returns empty object if it
 api.getPersistentConf()
 ```
 
-## api.onExitLog
+### api.onExitLog
 Adds a message to be printed after App CLI finishes up uninstalling the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js
