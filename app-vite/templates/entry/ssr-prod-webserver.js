@@ -12,7 +12,7 @@ import renderTemplate from './render-template.js'
 import clientManifest from './quasar.manifest.json'
 import serverEntry from './server/server-entry.js'
 
-import { create, listen, renderPreloadTag, serveStaticContent } from '<%= metaConf.ssrServerScript %>'
+import { create, listen, renderPreloadTag, serveStaticContent } from '../src-ssr/server'
 import injectMiddlewares from './ssr-middlewares.js'
 
 const port = process.env.PORT || <%= ssr.prodPort %>

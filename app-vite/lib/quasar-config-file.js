@@ -540,7 +540,6 @@ class QuasarConfFile {
         await add(true)
       }
 
-      cfg.metaConf.ssrServerScript = resolveExtension(appPaths.resolve.ssr('server'))
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
     }
 

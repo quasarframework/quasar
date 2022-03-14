@@ -22,10 +22,6 @@ function printInvalidSyntax (name) {
   console.error(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ]`)
 }
 
-function isPlainObject (v) {
-  return Object.prototype.toString.call(v) === '[object Object]'
-}
-
 function parseVitePlugins (entries) {
   const acc = []
 
