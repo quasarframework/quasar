@@ -15,9 +15,9 @@ import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
-  name: 'PageIndex',
+  name: 'IndexPage',
   components: { ExampleComponent },
-  setup () {
+  setup() {
     const todos = ref<Todo[]>([
       {
         id: 1,
@@ -50,9 +50,9 @@ import ExampleComponent from 'components/ExampleComponent.vue';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'PageIndex',
+  name: 'IndexPage',
   components: { ExampleComponent },
-  data () {
+  data() {
     const todos: Todo[] = [
       {
         id: 1,
@@ -88,7 +88,7 @@ import ExampleComponent from 'components/ExampleComponent.vue';
 @Options({
   components: { ExampleComponent }
 })
-export default class PageIndex extends Vue {
+export default class IndexPage extends Vue {
   todos: Todo[] = [
     {
       id: 1,
