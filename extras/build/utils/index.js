@@ -243,10 +243,8 @@ module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, sv
   else {
     const banner = getBanner(iconSetName, versionOrPackageName);
     const distIndex = `${distFolder}/index`
-    const jsContent = banner + svgExports.sort().join('\n')
 
-    writeFileSync(`${distIndex}.js`, jsContent, 'utf-8')
-    writeFileSync(`${distIndex}.mjs`, jsContent, 'utf-8')
+    writeFileSync(`${distIndex}.js`, banner + svgExports.sort().join('\n'), 'utf-8')
     writeFileSync(`${distIndex}.d.ts`, banner + typeExports.sort().join('\n'), 'utf-8')
 
     if (skipped.length > 0) {
