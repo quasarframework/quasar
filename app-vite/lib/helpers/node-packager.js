@@ -9,11 +9,11 @@ class PackageManager {
   name = 'unknown'
   lockFile = 'unknown'
 
-  isUsed() {
+  isUsed () {
     return fs.existsSync(appPaths.resolve.app(this.lockFile))
   }
 
-  isInstalled() {
+  isInstalled () {
     try {
       // spawnSync helper logs stuff and exits the app on error, so we don't use it here
       return spawn(this.name, ['--version']).status === 0
@@ -23,7 +23,7 @@ class PackageManager {
     }
   }
 
-  install({ cwd, displayName } = {}) {
+  install ({ cwd, displayName } = {}) {
     displayName = displayName ? displayName + ' ' : ''
 
     log(`Installing ${displayName}dependencies...`)
@@ -33,7 +33,7 @@ class PackageManager {
     })
   }
 
-  getInstallPackageParams(names, isDev) {
+  getInstallPackageParams (names, isDev) {
     return []
   }
 
@@ -47,7 +47,7 @@ class PackageManager {
     })
   }
 
-  getUninstallPackageParams(names) {
+  getUninstallPackageParams (names) {
     return []
   }
 
@@ -75,7 +75,7 @@ class Npm extends PackageManager {
   name = 'npm'
   lockFile = 'package-lock.json'
 
-  getInstallPackageParams(names, isDev) {
+  getInstallPackageParams (names, isDev) {
     return [
       'install',
       isDev ? '--save-dev' : '',
@@ -83,7 +83,7 @@ class Npm extends PackageManager {
     ]
   }
 
-  getUninstallPackageParams(names) {
+  getUninstallPackageParams (names) {
     return ['uninstall', ...names]
   }
 }
@@ -92,7 +92,7 @@ class Yarn extends PackageManager {
   name = 'yarn'
   lockFile = 'yarn.lock'
 
-  getInstallPackageParams(names, isDev) {
+  getInstallPackageParams (names, isDev) {
     return [
       'add',
       isDev ? '--dev' : '',
@@ -100,7 +100,7 @@ class Yarn extends PackageManager {
     ]
   }
 
-  getUninstallPackageParams(names) {
+  getUninstallPackageParams (names) {
     return ['remove', ...names]
   }
 }
@@ -112,19 +112,19 @@ function getPackager () {
   const yarn = new Yarn()
   const npm = new Npm()
 
-  if (yarn.isUsed) {
+  if (yarn.isUsed()) {
     return yarn
   }
 
-  if (npm.isUsed) {
+  if (npm.isUsed()) {
     return npm
   }
 
-  if (yarn.isInstalled) {
+  if (yarn.isInstalled()) {
     return yarn
   }
 
-  if (npm.isInstalled) {
+  if (npm.isInstalled()) {
     return npm
   }
 
