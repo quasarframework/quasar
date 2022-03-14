@@ -161,12 +161,10 @@ class SsrDevServer extends AppDevserver {
     const esbuildConfig = await config.webserver(quasarConf)
     await this.buildWithEsbuild('SSR Webserver', esbuildConfig, () => {
       if (this.#closeWebserver !== void 0) {
-        queue(() => new Promise(async (resolve) => {
+        queue(async () => {
           await this.#closeWebserver()
-          this.#bootWebserver(quasarConf).then(() => {
-            resolve()
-          })
-        }))
+          return this.#bootWebserver(quasarConf)
+        })
       }
     }).then(result => {
       this.#webserverWatcher = { close: result.stop }
@@ -343,8 +341,10 @@ class SsrDevServer extends AppDevserver {
       next()
     })
 
+    const isReady = () => Promise.resolve()
+
     const listenResult = await listen({
-      isReady: () => Promise.resolve(),
+      isReady,
       ssrHandler: (req, res, next) => {
         return isReady().then(() => app(req, res, next))
       },

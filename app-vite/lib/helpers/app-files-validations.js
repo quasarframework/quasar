@@ -4,7 +4,7 @@ const { warn } = require('./logger')
 const appPaths = require('../app-paths')
 const { entryPointMarkup, attachMarkup } = require('../helpers/html-template')
 
-module.exports = function (cfg) {
+module.exports = function (_cfg) {
   let file
   let content
   let valid = true

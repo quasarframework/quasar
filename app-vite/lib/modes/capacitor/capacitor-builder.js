@@ -1,4 +1,4 @@
-
+const { join } = require('path')
 const fse = require('fs-extra')
 
 const AppBuilder = require('../../app-builder')

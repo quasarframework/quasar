@@ -1,3 +1,4 @@
+const appPaths = require('../../app-paths')
 const { createViteConfig, extendViteConfig } = require('../../config-tools')
 const cordovaPlatformInject = require('./vite-plugin.dev.cordova-platform-inject')
 
