@@ -27,7 +27,7 @@ const gettingStartedNavItem = {
         },
         {
           label: 'Quasar CLI',
-          path: 'quasar-cli'
+          path: 'start/quasar-cli'
         },
         {
           label: 'UMD / Standalone',

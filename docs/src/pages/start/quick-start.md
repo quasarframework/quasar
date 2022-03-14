@@ -3,7 +3,7 @@ title: Quick Start
 desc: Get up and developing a Quasar app in less than 3 minutes.
 ---
 
-It takes three easy steps and in a couple of minutes, you are off and running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI and also ready with Quasar's own powerful UI library. 
+It takes two easy steps and in a couple of minutes, you are off and running with a full-fledged Vue app, built with state-of-the-art best practices via Quasar's CLI and also ready with Quasar's own powerful UI library. 
 
 ::: tip
 If you are a more advanced Vue developer, we invite you to start off with the [CLI Installation instructions](/quasar-cli/installation) or [decide between other means of using Quasar](/start/pick-quasar-flavour). 
@@ -12,36 +12,38 @@ If you are a more advanced Vue developer, we invite you to start off with the [C
 ## Prerequisites
 Make sure that you have Node >=12.22.1 and NPM >=6.14.12 or Yarn >= 1.21.1 installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/releases/#releases).
 
-## Step 1 - Install the Quasar CLI 
+## Step 1 - Create a Project  
 
 Enter the following command:
+
+```bash
+$ yarn create quasar
+# or:
+$ npm init quasar
+```
+
+As the `create` or `init` command runs, you'll be prompted with some options. Depending on your needs, you can select the CLI type (Vite or Webpack) and you can add things like TypeScript support or a different CSS preprocessor. If you are unsure about any of the options, just take the defaults (hit enter) and you'll be good to go. You can change the options, except for the CLI type, later if you wish.
+
+
+## Step 2 - Start developing
+
+For the second and last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
+```bash
+$ cd <project_folder_name>
+# then run 
+$ quasar dev
+```
+You'll see the dev server compiling your new application and once it is finished, your new app should open up in your browser. That's it! You can now develop your app with your favorite IDE/ Code Editor.
+
+## Bonus Step 3 - Install the Global CLI
+For doing more with Quasar, you should also install the global CLI. With it you can run a local http server for testing, do upgrades on your project or get general info from your project.
+
+To install the global CLI, enter the following command:
 ```bash
 $ yarn global add @quasar/cli
 # or
 $ npm install -g @quasar/cli
 ```
-The installation of the CLI is pretty straightforward. Once it is installed with no errors, you are ready for Step 2.
-
-## Step 2 - Create a Project
-
-Enter the following Quasar CLI command, with `<folder_name>` being the name of your new project's folder.
-```bash
-$ quasar create <folder_name>
-```
-
-As the CLI command runs, you'll be prompted with some options. Depending on your needs, you can add things like TypeScript support or a different CSS preprocessor. If you are unsure about any of the options, just take the defaults (hit enter) and you'll be good to go. You can change the options later if you wish.
-
-
-## Step 3 - Start developing
-
-For the last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
-```bash
-$ cd <folder_name>
-# then run 
-$ quasar dev
-```
-
-You'll see the dev server compiling your new application and once it is finished, your new app should open up in your browser. That's it! You can now develop your app with your favorite IDE/ Code Editor.
 
 ## Now What?
 
