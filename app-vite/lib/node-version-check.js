@@ -6,9 +6,9 @@ const minor = parseInt(version[1].replace(/\D/g,''), 10)
 const patch = parseInt(version[2].replace(/\D/g,''), 10)
 
 const min = {
-  major: 12,
-  minor: 22,
-  patch: 1
+  major: 14,
+  minor: 19,
+  patch: 0
 }
 
 if (
