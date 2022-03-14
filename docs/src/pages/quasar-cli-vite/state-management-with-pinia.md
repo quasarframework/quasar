@@ -87,4 +87,4 @@ export default {
 </script>
 ```
 
-More info on defining a Pinia store [here](https://pinia.vuejs.org/core-concepts/).
+[More info on defining a Pinia store](https://pinia.vuejs.org/core-concepts/).
