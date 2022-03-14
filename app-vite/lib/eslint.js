@@ -30,6 +30,7 @@ function extractStore ({
   exclude = [],
   rawOptions = {}
 }, { // getLinterOpts
+  quasarConf,
   cacheSuffix
 }) {
   const eslintOptions = {
@@ -79,7 +80,7 @@ module.exports = function getLinter (quasarConf, cacheSuffix) {
 
   if (cache !== optionsCache) {
     optionsCache = cache
-    store = extractStore(eslint, cacheSuffix)
+    store = extractStore(eslint, { quasarConf, cacheSuffix })
   }
 
   return store

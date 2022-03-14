@@ -4,7 +4,6 @@ const { createServer } = require('vite')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
 const Ouch = require('ouch')
-const { parse: parseUrl } = require('url')
 const serialize = require('serialize-javascript')
 
 const AppDevserver = require('../../app-devserver')
@@ -162,12 +161,10 @@ class SsrDevServer extends AppDevserver {
     const esbuildConfig = await config.webserver(quasarConf)
     await this.buildWithEsbuild('SSR Webserver', esbuildConfig, () => {
       if (this.#closeWebserver !== void 0) {
-        queue(() => new Promise(async (resolve) => {
+        queue(async () => {
           await this.#closeWebserver()
-          this.#bootWebserver(quasarConf).then(() => {
-            resolve()
-          })
-        }))
+          return this.#bootWebserver(quasarConf)
+        })
       }
     }).then(result => {
       this.#webserverWatcher = { close: result.stop }
@@ -304,7 +301,7 @@ class SsrDevServer extends AppDevserver {
     const { publicPath } = this.#appOptions
 
     publicPath.length !== '/' && app.use((req, res, next) => {
-      const pathname = parseUrl(req.url).pathname || '/'
+      const pathname = new URL(req.url).pathname || '/'
 
       if (pathname.startsWith(publicPath) === true) {
         next()
@@ -344,8 +341,10 @@ class SsrDevServer extends AppDevserver {
       next()
     })
 
+    const isReady = () => Promise.resolve()
+
     const listenResult = await listen({
-      isReady: () => Promise.resolve(),
+      isReady,
       ssrHandler: (req, res, next) => {
         return isReady().then(() => app(req, res, next))
       },
