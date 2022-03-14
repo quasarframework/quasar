@@ -15,7 +15,7 @@ async function generate () {
       child.on('exit', (code, signal) => {
         resolve()
       })
-      
+
       if (child.stdout) {
         child.stdout.on('data', (data) => {
           const str = data.toString()
@@ -24,7 +24,7 @@ async function generate () {
           }
         })
       }
-        
+
       if (child.stderr) {
         child.stderr.on('data', (data) => {
           const str = data.toString()
