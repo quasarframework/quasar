@@ -204,12 +204,12 @@
             >
           </router-link>
           <q-separator
-            v-if="showDenseSeparator"
             :color="dark? 'brand-primary':'black-12'"
             class="q-mx-md"
             vertical
           />
           <nav-dropdown-btn
+            v-if="$q.screen.gt.sm"
             :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md version-dropdown-dense' : ''"
             :items="versionHistory"
             class="text-weight-bold"
@@ -491,19 +491,7 @@ export default defineComponent({
         return 'xs sm'
       }
 
-      if ($q.screen.width >= 769 && $q.screen.width < 820) {
-        return 'xs sm'
-      }
-
-      if ($q.screen.width >= $q.screen.sizes.sm && $q.screen.width < 685) {
-        return 'xs sm'
-      }
-
       return 'xs md'
-    })
-    // hide separator on this specific viewport to prevent version dropdown from collapsing
-    const showDenseSeparator = computed(() => {
-      return !($q.screen.width >= $q.screen.sizes.sm && $q.screen.width < 641)
     })
 
     const headerClasses = computed(() => `${props.dark ? 'bg-dark text-white-54' : 'bg-white text-black-54'} font-monserrat header`)
@@ -529,7 +517,6 @@ export default defineComponent({
       headerClasses,
       expandedHeaderNavItemPadding,
       denseHeaderNavItemPadding,
-      showDenseSeparator,
 
       isSearchFieldActive,
       searchForm,

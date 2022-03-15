@@ -4,10 +4,12 @@
   </a>
   <router-link
     v-else
+    v-bind="$props"
     custom
     v-slot="{ href, navigate }"
   >
     <a
+      v-bind="$attrs"
       :href="href"
       @click="navigate"
     >
