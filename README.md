@@ -36,7 +36,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
     <tr></tr>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.hapag-lloyd.com/en/company/press/photos-videos/hapag-lloyd-logo.html" target="_blank">
+        <a href="https://www.hapag-lloyd.com/en/landingpage/quasar.html" target="_blank">
           <img width="300px" src="https://cdn.quasar.dev/sponsors/hapag-lloyd.png">
         </a>
       </td>
