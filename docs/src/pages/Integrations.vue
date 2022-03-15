@@ -18,7 +18,7 @@
     </div>
     <h2
       class="landing-heading landing-heading--medium q-mb-lg normal-line-height"
-    >We have an impressive gear</h2>
+    >With an awesome set of build tools</h2>
     <div class="row justify-center q-gutter-md q-mb-xl">
       <card-link
         v-for="({path, label, icon, name}, cardIndex) in buildTargets"
@@ -42,7 +42,7 @@
         </q-card>
       </card-link>
     </div>
-    <h2 class="landing-heading landing-heading--medium q-mb-lg normal-line-height">Discover Quasar Ecosystem</h2>
+    <h2 class="landing-heading landing-heading--medium q-mb-lg normal-line-height">Discover Quasar's Ecosystem</h2>
     <template v-for="({about, options}, partIndex) in ecosystemParts" :key="`part-${partIndex}`">
       <p class="text-size-16 letter-spacing-40 primary-line-height text-brand-secondary">{{ about }}</p>
       <div class="row justify-center q-gutter-md margin-bottom-36">
