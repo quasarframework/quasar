@@ -15,6 +15,8 @@ Quasar CLI with Vite (`@quasar/app-vite`) is currently in **BETA**. Specificatio
 $ yarn create quasar
 # or:
 $ npm init quasar
+# or:
+$ pnpm dx create-quasar
 
 # pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
 ```
