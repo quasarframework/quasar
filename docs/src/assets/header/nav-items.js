@@ -144,7 +144,7 @@ const toolsNavItem = {
       path: 'style/dark-mode'
     },
     {
-      label: 'Layout Build',
+      label: 'Layout Builder',
       icon: mdiViewDashboard,
       href: 'layout-builder'
     },
