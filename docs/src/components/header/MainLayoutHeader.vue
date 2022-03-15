@@ -23,7 +23,7 @@
         />
         <router-link
           v-if="!isSearchFieldActive"
-          class="cursor-pointer"
+          class="row items-center cursor-pointer"
           :to="{ name: 'landing' }"
         >
           <img
