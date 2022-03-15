@@ -39,7 +39,7 @@
 </template>
 <script>
 import { defineComponent, ref } from 'vue'
-import { computeRouteNav } from 'assets/landing-page/nav-items.js'
+import { computeRouteNav } from 'assets/header/nav-items.js'
 
 export default defineComponent({
   name: 'NavDropdownMenu',

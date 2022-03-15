@@ -12,7 +12,7 @@ import { mdiMenuDown } from '@quasar/extras/mdi-v6'
 import { h, ref, watch, onBeforeUpdate, withDirectives, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Screen } from 'quasar'
-import { expandedHeaderMainToolbarNavItems, expandedHeaderSecondaryToolbarNavItems } from 'assets/landing-page/nav-items.js'
+import { expandedHeaderMainToolbarNavItems, expandedHeaderSecondaryToolbarNavItems } from 'assets/header/nav-items.js'
 
 import Menu from 'assets/menu.json'
 import './AppMenu.sass'

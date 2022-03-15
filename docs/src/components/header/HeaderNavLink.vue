@@ -25,7 +25,7 @@
 </template>
 <script>
 import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
-import { computeRouteNav } from 'assets/landing-page/nav-items.js'
+import { computeRouteNav } from 'assets/header/nav-items.js'
 import { computed, defineComponent } from 'vue'
 
 export default defineComponent({

@@ -31,7 +31,7 @@
         <card-link
           v-for="({icon, img, path, label}, pageIndex) in mostUsedPages"
           :key="`page-${pageIndex}`"
-          :to="`/${path}`"
+          :to="path"
         >
           <q-card
             class="raise-on-hover card column justify-center items-center cursor-pointer"
@@ -82,83 +82,8 @@ import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 
 import { useDocStore } from 'assets/doc-store.js'
-import CardLink from 'components/landing-page/CardLink.vue'
-import {
-  mdiAnimation,
-  mdiApplicationExport,
-  mdiCalendar,
-  mdiCardMultiple,
-  mdiFormDropdown,
-  mdiFormTextbox,
-  mdiImageSizeSelectSmall,
-  mdiTable,
-  mdiHumanMaleBoard
-} from '@quasar/extras/mdi-v6'
-
-const mostUsedPages = [
-  {
-    label: 'QTable',
-    icon: mdiTable,
-    path: 'vue-components/table'
-  },
-  {
-    label: 'QInput',
-    icon: mdiFormTextbox,
-    path: 'vue-components/input'
-  },
-  {
-    label: 'QSelect',
-    icon: mdiFormDropdown,
-    path: 'vue-components/select'
-  },
-  {
-    label: 'QBtn',
-    img: '/homepage-icons/button-click.svg',
-    path: 'vue-components/button'
-  },
-  {
-    label: 'QCard',
-    icon: mdiCardMultiple,
-    path: 'vue-components/card'
-  },
-  {
-    label: 'Flavour',
-    img: 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg',
-    path: 'start/pick-quasar-flavour'
-  }
-]
-const pagesToDiscover = [
-  {
-    label: 'quasar.conf',
-    icon: mdiHumanMaleBoard,
-    path: 'vue-components/table'
-  },
-  {
-    label: 'Boot Files',
-    icon: mdiApplicationExport,
-    path: 'vue-components/input'
-  },
-  {
-    label: 'Date Utils',
-    icon: mdiCalendar,
-    path: 'vue-components/button'
-  },
-  {
-    label: 'Other Utils',
-    icon: 'healing',
-    path: 'vue-components/select'
-  },
-  {
-    label: 'Flexbox',
-    icon: mdiImageSizeSelectSmall,
-    path: 'vue-components/card'
-  },
-  {
-    label: 'Animations',
-    icon: mdiAnimation,
-    path: 'start/pick-quasar-flavour'
-  }
-]
+import CardLink from 'components/CardLink.vue'
+import { mostUsedPages, pagesToDiscover } from 'assets/homepage.js'
 
 export default defineComponent({
   name: 'Homepage',

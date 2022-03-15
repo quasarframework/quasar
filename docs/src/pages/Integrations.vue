@@ -10,7 +10,7 @@
     </p>
     <div class="platform-icons q-gutter-lg">
       <q-icon
-        v-for="(iconName, platformIndex) in platformIntegrationIcons"
+        v-for="(iconName, platformIndex) in platformIcons"
         :key="`platform-${platformIndex}`"
         color="brand-secondary"
         :name="iconName"
@@ -21,9 +21,9 @@
     >We have an impressive gear</h2>
     <div class="row justify-center q-gutter-md q-mb-xl">
       <card-link
-        v-for="({path, label, icon, name}, cardIndex) in integrationOptions"
+        v-for="({path, label, icon, name}, cardIndex) in buildTargets"
         :key="cardIndex"
-        :to="`/${path}`"
+        :to="path"
       >
         <q-card
           class="card raise-on-hover column justify-center items-center cursor-pointer border-color-brand-secondary"
@@ -75,29 +75,8 @@
 import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 import { useDocStore } from 'assets/doc-store.js'
-import CardLink from 'components/landing-page/CardLink.vue'
-import { ecosystemParts } from 'assets/landing-page/integration-links'
-import { integrationOptions } from 'assets/landing-page/integration-links'
-import {
-  mdiAndroid,
-  mdiApple,
-  mdiAppleSafari,
-  mdiFirefox,
-  mdiLinux,
-  mdiMicrosoftEdge,
-  mdiMicrosoftWindows
-} from '@quasar/extras/mdi-v6'
-
-const platformIntegrationIcons = [
-  'img:/homepage-icons/chrome.svg',
-  mdiAppleSafari,
-  mdiFirefox,
-  mdiMicrosoftEdge,
-  mdiLinux,
-  mdiMicrosoftWindows,
-  mdiApple,
-  mdiAndroid
-]
+import CardLink from 'components/CardLink.vue'
+import { platformIcons, buildTargets, ecosystemParts } from 'assets/integration'
 
 export default defineComponent({
   name: 'QuasarIntegrations',
@@ -112,8 +91,8 @@ export default defineComponent({
     $store.toc = []
 
     return {
-      integrationOptions,
-      platformIntegrationIcons,
+      platformIcons,
+      buildTargets,
       ecosystemParts
     }
   }

@@ -101,7 +101,7 @@ import MainLayoutHeader from 'components/header/MainLayoutHeader.vue'
 import AppMenu from 'components/AppMenu.js'
 import SurveyCountdown from 'components/SurveyCountdown.vue'
 import menu from 'assets/menu.js'
-import { footerNavs } from 'assets/landing-page/landing-page-footer.js'
+import { footerNavs } from 'assets/landing-page/footer.js'
 
 const currentYear = (new Date()).getFullYear()
 

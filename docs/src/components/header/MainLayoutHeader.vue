@@ -195,8 +195,8 @@
         }"
         class="dense-header q-pl-lg q-pr-md justify-between items-stretch"
       >
-        <div class="row justify-start items-center cursor-pointer">
-          <router-link :to="{ name: 'landing' }" class="q-mr-sm">
+        <div class="row items-center cursor-pointer">
+          <router-link :to="{ name: 'landing' }" class="row items-center">
             <img
               :src="`https://cdn.quasar.dev/logo-v2/svg/logo${$q.screen.gt.sm ? '-horizontal' : ''}${dark? '-dark':''}.svg`"
               alt="Quasar Logo"
@@ -205,18 +205,18 @@
           </router-link>
           <q-separator
             :color="dark? 'brand-primary':'black-12'"
-            class="q-mx-md"
+            class="q-ml-lg"
             vertical
           />
           <nav-dropdown-btn
             v-if="$q.screen.gt.sm"
-            :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md version-dropdown-dense' : ''"
+            :class="$q.screen.gt.sm ? 'q-ml-lg q-mr-md' : ''"
             :items="versionHistory"
-            class="text-weight-bold"
+            class="text-weight-bold version-dropdown--dense q-ml-lg"
             color="brand-primary"
             content-class="shadow-bottom-medium"
             outline
-            padding="xs xs"
+            padding="xs sm"
           >
             <template #label>
               <span
@@ -262,11 +262,11 @@
 </template>
 <script>
 import { mdiBug, mdiClipboardText, mdiGithub } from '@quasar/extras/mdi-v6'
-import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/landing-page/constants.js'
-import { socialLinks } from 'assets/landing-page/social-links.js'
+import { HEADER_SCROLL_OFFSET as SWAP_HEADER_OFFSET_DOWN } from 'assets/header/constants.js'
+import { socialLinks } from 'assets/social-links.js'
 import HeaderNavLink from 'components/header/HeaderNavLink.vue'
 import NavDropdownBtn from 'components/header/NavDropdownBtn.vue'
-import ThemeSwitcher from 'components/landing-page/ThemeSwitcher.vue'
+import ThemeSwitcher from 'components/header/ThemeSwitcher.vue'
 import SearchForm from 'components/search-results/SearchForm.vue'
 import { useQuasar } from 'quasar'
 import {
@@ -274,8 +274,9 @@ import {
   expandedHeaderMainToolbarNavItems,
   expandedHeaderMoreDropdownNavItems,
   expandedHeaderSecondaryToolbarNavItems,
-  filterNavItems
-} from 'src/assets/landing-page/nav-items.js'
+  filterNavItems,
+  getVersionHistory
+} from 'src/assets/header/nav-items.js'
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -283,59 +284,6 @@ const SWAP_HEADER_OFFSET_UP = 200
 const HIDE_COMPONENT_NAV_ITEM_VIEWPORT = 880
 const HIDE_COMPONENT_DENSE_NAV_ITEM_VIEWPORT = 770
 const HIDE_ANNOUNCEMENTS_NAV_ITEM_VIEWPORT = 1300
-
-const getVersionHistory = (quasarVersion) => [
-  {
-    label: `Latest (v${quasarVersion})`,
-    isHeader: true
-  },
-  {
-    label: 'Release notes',
-    icon: mdiClipboardText,
-    path: 'start/release-notes'
-  },
-  {
-    label: 'Report a bug',
-    icon: mdiBug,
-    href: 'https://github.com/quasarframework/quasar/issues'
-  },
-  {
-    label: 'Repository',
-    icon: mdiGithub,
-    href: 'https://github.com/quasarframework'
-  },
-  {
-    isSeparator: true
-  },
-  {
-    label: 'Older Releases',
-    isHeader: true
-  },
-  {
-    label: 'v1 docs',
-    href: 'https://v1.quasar.dev/'
-  },
-  {
-    label: 'v0.17 docs',
-    href: 'https://v0-17.quasar-framework.org/'
-  },
-  {
-    label: 'v0.16 docs',
-    href: 'https://v0-16.quasar-framework.org/'
-  },
-  {
-    label: 'v0.15 docs',
-    href: 'https://v0-15.quasar-framework.org/'
-  },
-  {
-    label: 'v0.14 docs',
-    href: 'https://v0-14.quasar-framework.org/'
-  },
-  {
-    label: 'v0.13 docs',
-    href: 'https://v0-13.quasar-framework.org/'
-  }
-]
 
 export default defineComponent({
   name: 'MainLayoutHeader',
@@ -473,11 +421,10 @@ export default defineComponent({
         return 'xs sm'
       }
 
-      if ($q.screen.width >= 630 && $q.screen.width < 700) {
-        return 'xs md'
-      }
-
-      if ($q.screen.width >= 1020 && $q.screen.width < 1070) {
+      if (
+        ($q.screen.width >= 630 && $q.screen.width < 700) ||
+        ($q.screen.width >= 1020 && $q.screen.width < 1070)
+      ) {
         return 'xs md'
       }
 
@@ -487,7 +434,10 @@ export default defineComponent({
     // on these particular viewports, we reduce the padding on the dense header to prevent
     // icon or some items from collapsing.
     const denseHeaderNavItemPadding = computed(() => {
-      if ($q.screen.width >= $q.screen.sizes.md && $q.screen.width < 1500) {
+      if (
+        ($q.screen.width >= $q.screen.sizes.md && $q.screen.width < 1055) ||
+        ($q.screen.width >= $q.screen.sizes.lg && $q.screen.width < 1500)
+      ) {
         return 'xs sm'
       }
 
@@ -549,10 +499,10 @@ export default defineComponent({
 
 .version-dropdown {
   width: 220px;
-}
 
-.version-dropdown-dense {
-  width: 156px;
+  &--dense {
+    width: 156px;
+  }
 }
 
 .header {

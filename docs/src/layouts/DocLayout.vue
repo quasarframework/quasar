@@ -61,7 +61,7 @@ import MainLayoutHeader from 'components/header/MainLayoutHeader'
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
-import { HEADER_SCROLL_OFFSET } from 'assets/landing-page/constants.js'
+import { HEADER_SCROLL_OFFSET } from 'assets/header/constants.js'
 import { useTheme } from 'components/landing-page/use-theme'
 
 export default {

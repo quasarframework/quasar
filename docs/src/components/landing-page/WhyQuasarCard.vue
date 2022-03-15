@@ -16,7 +16,7 @@
         class="call-to-action-btn no-border-radius"
         color="brand-accent"
         :label="btnLabel"
-        :to="`/${btnLink}`"
+        :to="btnLink"
       />
     </q-card-section>
   </q-card>

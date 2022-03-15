@@ -1,24 +1,24 @@
 export const whyQuasar = [
   {
-    icon: 'img:homepage-icons/components.svg',
+    icon: 'img:custom-svg-icons/components.svg',
     title: 'Top Class Components',
     body: 'A library of more than 70 high performance customizable Material Design web components for all your needs',
     btnLabel: 'Browse components',
-    btnLink: 'components'
+    btnLink: '/components'
   },
   {
-    icon: 'img:homepage-icons/source.svg',
+    icon: 'img:custom-svg-icons/source.svg',
     title: 'One codebase many integrations',
     body: 'Keep your favorite technology, we provide all the needed integrations out of the box.',
     btnLabel: 'Discover Integrations',
-    btnLink: 'docs/integrations'
+    btnLink: '/docs/integrations'
   },
   {
-    icon: 'img:homepage-icons/documentation.svg',
+    icon: 'img:custom-svg-icons/documentation.svg',
     title: 'Great documentation',
     body: 'All the details you deserve to start working properly. Every star-pilot needs a good manual.',
     btnLabel: 'Get Started',
-    btnLink: 'start/quick-start'
+    btnLink: '/start/quick-start'
   }
 ]
 

@@ -1,7 +1,7 @@
 <template>
   <q-page class="text-white q-mx-lg">
     <div class="column items-center intro-section letter-spacing-300">
-      <q-img src="~assets/landing-page/quasar-logo/logo-with-payoff.svg" width="250px" height="255px" />
+      <q-img src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical-dark.svg" width="250px" height="255px" />
 
       <h1
         :class="$q.screen.gt.md ? 'letter-spacing-375' : 'letter-spacing-300'"
@@ -66,7 +66,7 @@
 
     <div class="showcase-section">
       <div class="column items-center">
-        <q-icon size="xl" name="img:homepage-icons/astronaut.svg" />
+        <q-icon size="xl" name="img:custom-svg-icons/astronaut.svg" />
         <h2 class="landing-heading landing-heading--large q-my-lg">What our community thinks of quasar</h2>
         <q class="landing-heading landing-heading--small">
           You've never heard of Quasar? It's the framework that made a mobile app,
@@ -103,7 +103,7 @@
     </div>
 
     <div class="text-center sponsors-section" id="sponsors-section">
-      <q-icon size="xl" name="img:homepage-icons/medal.svg" />
+      <q-icon size="xl" name="img:custom-svg-icons/medal.svg" />
       <h2 class="landing-heading landing-heading--large">Our Sponsors</h2>
       <div class="landing-heading landing-heading--small">Every space odyssey has its patrons</div>
       <div class="q-pt-lg">
@@ -113,11 +113,11 @@
 
     <div class="text-center social-channels-call-to-action">
       <q-img
-        src="~assets/landing-page/homepage-background-images/planet.png"
+        src="~assets/landing-page/background-images/planet.png"
         height="600px"
       >
         <div class="bg-transparent absolute-bottom">
-          <q-icon size="xl" name="img:homepage-icons/satellite.svg" />
+          <q-icon size="xl" name="img:custom-svg-icons/satellite.svg" />
           <div class="landing-heading landing-heading--large">Don't miss the news</div>
           <div class="landing-heading landing-heading--small">Follow our social pages to stay up to date</div>
           <div :class="$q.screen.gt.xs? 'landing-mb--large':'q-mb-md'" class="row reverse justify-center q-mt-md q-gutter-md">
@@ -140,9 +140,9 @@
 </template>
 
 <script>
-import { socialLinks } from 'assets/landing-page/social-links.js'
-import SponsorTile from 'components/page-parts/sponsors-and-backers/SponsorTile.vue'
+import { socialLinks } from 'assets/social-links.js'
 import SponsorList from 'components/landing-page/SponsorList.vue'
+import SponsorTile from 'components/page-parts/sponsors-and-backers/SponsorTile.vue'
 import { scroll, useMeta } from 'quasar'
 import { whyQuasar } from 'src/assets/landing-page/image-links.js'
 import { sponsors } from 'src/assets/sponsors.js'
@@ -250,7 +250,7 @@ q {
   position: relative;
 
   &:before {
-    background-image: url(~assets/landing-page/homepage-background-images/astronaut-left-hand.png), url(~assets/landing-page/homepage-background-images/astronaut-right-hand.png);
+    background-image: url(~assets/landing-page/background-images/astronaut-left-hand.png), url(~assets/landing-page/background-images/astronaut-right-hand.png);
     background-size: 47%, 47%;
     background-position: left bottom, calc(100% + 25px) calc(100% - #{$support-quasar-background-padding / 3});
     background-repeat: no-repeat, no-repeat;

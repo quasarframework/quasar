@@ -1,14 +1,62 @@
-import {
-  mdiPuzzle,
-  mdiFlare, mdiThemeLightDark,
-  mdiPaletteSwatch,
-  mdiShoppingMusic,
-  mdiStarCircle,
-  mdiViewDashboard,
-  mdiFlask, mdiJsfiddle, mdiCodepen
-} from '@quasar/extras/mdi-v6'
 import { fasCubes } from '@quasar/extras/fontawesome-v5'
-import { socialLinks } from './social-links'
+import {
+  mdiBug, mdiClipboardText, mdiCodepen, mdiFlare, mdiFlask, mdiGithub, mdiJsfiddle, mdiPaletteSwatch, mdiPuzzle, mdiShoppingMusic,
+  mdiStarCircle, mdiThemeLightDark, mdiViewDashboard
+} from '@quasar/extras/mdi-v6'
+import { socialLinks } from '../social-links'
+
+export const getVersionHistory = (quasarVersion) => [
+  {
+    label: `Latest (v${quasarVersion})`,
+    isHeader: true
+  },
+  {
+    label: 'Release notes',
+    icon: mdiClipboardText,
+    path: '/start/release-notes'
+  },
+  {
+    label: 'Report a bug',
+    icon: mdiBug,
+    href: 'https://github.com/quasarframework/quasar/issues'
+  },
+  {
+    label: 'Repository',
+    icon: mdiGithub,
+    href: 'https://github.com/quasarframework'
+  },
+  {
+    isSeparator: true
+  },
+  {
+    label: 'Older Releases',
+    isHeader: true
+  },
+  {
+    label: 'v1 docs',
+    href: 'https://v1.quasar.dev/'
+  },
+  {
+    label: 'v0.17 docs',
+    href: 'https://v0-17.quasar-framework.org/'
+  },
+  {
+    label: 'v0.16 docs',
+    href: 'https://v0-16.quasar-framework.org/'
+  },
+  {
+    label: 'v0.15 docs',
+    href: 'https://v0-15.quasar-framework.org/'
+  },
+  {
+    label: 'v0.14 docs',
+    href: 'https://v0-14.quasar-framework.org/'
+  },
+  {
+    label: 'v0.13 docs',
+    href: 'https://v0-13.quasar-framework.org/'
+  }
+]
 
 const gettingStartedNavItem = {
   label: 'Getting Started',
