@@ -19,37 +19,38 @@
     <h2
       class="landing-heading landing-heading--medium q-mb-lg normal-line-height"
     >We have an impressive gear</h2>
-    <div class="row justify-center q-gutter-sm q-mb-xl">
-      <q-card
+    <div class="row justify-center q-gutter-md q-mb-xl">
+      <card-link
         v-for="({path, label, icon, name}, cardIndex) in integrationOptions"
         :key="cardIndex"
-        class="card raise-on-hover column justify-center items-center cursor-pointer"
-        flat
-        @click="$router.push(`/${path}`)"
+        :to="`/${path}`"
       >
-        <q-icon
-          :name="icon"
-          class="text-size-24 q-my-sm"
-          color="brand-accent"
-        />
-        <div class="text-size-14 text-weight-bold letter-spacing-263 text-brand-secondary">
-          {{ label }}
-        </div>
-        <div class="text-size-12 q-px-sm letter-spacing-100 text-brand-secondary">
-          {{ name }}
-        </div>
-      </q-card>
+        <q-card
+          class="card raise-on-hover column justify-center items-center cursor-pointer border-color-brand-secondary"
+        >
+          <q-icon
+            :name="icon"
+            class="text-size-24 q-my-sm"
+            color="brand-accent"
+          />
+          <div class="text-size-14 text-weight-bold letter-spacing-263 text-brand-secondary">
+            {{ label }}
+          </div>
+          <div class="text-size-12 q-px-sm letter-spacing-100 text-brand-secondary">
+            {{ name }}
+          </div>
+        </q-card>
+      </card-link>
     </div>
     <h2 class="landing-heading landing-heading--medium q-mb-lg normal-line-height">Discover Quasar Ecosystem</h2>
     <template v-for="({about, options}, partIndex) in ecosystemParts" :key="`part-${partIndex}`">
       <p class="text-size-16 letter-spacing-40 primary-line-height text-brand-secondary">{{ about }}</p>
-      <div class="row justify-center q-gutter-sm margin-bottom-36">
-        <router-link
+      <div class="row justify-center q-gutter-md margin-bottom-36">
+        <card-link
           v-for="({icon, label, path, isInternal, iconColor}, cardIndex) in options"
           :key="cardIndex"
-          :target="isInternal? '_self' : '_blank'"
-          :to="isInternal? `/${path}` : `//${path}`"
-          class="remove-a-tag-styles"
+          :to="path"
+          :isExternalLink="!isInternal"
         >
           <q-card
             class="card card--bordered raise-on-hover column justify-center items-center cursor-pointer"
@@ -64,7 +65,7 @@
               {{ label }}
             </div>
           </q-card>
-        </router-link>
+        </card-link>
       </div>
     </template>
   </q-page>
@@ -74,29 +75,21 @@
 import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 import { useDocStore } from 'assets/doc-store.js'
+import CardLink from 'components/landing-page/CardLink.vue'
+import { ecosystemParts } from 'assets/landing-page/integration-links'
+import { integrationOptions } from 'assets/landing-page/integration-links'
 import {
   mdiAndroid,
   mdiApple,
   mdiAppleSafari,
-  mdiApplicationOutline,
-  mdiCalendar,
-  mdiDevices,
-  mdiFileDownload,
   mdiFirefox,
-  mdiGoogleChrome,
-  mdiGraphql,
-  mdiLanguageMarkdown,
   mdiLinux,
   mdiMicrosoftEdge,
-  mdiMicrosoftWindows,
-  mdiPuzzle,
-  mdiServer,
-  mdiSvg,
-  mdiTestTube
+  mdiMicrosoftWindows
 } from '@quasar/extras/mdi-v6'
 
 const platformIntegrationIcons = [
-  mdiGoogleChrome,
+  'img:/homepage-icons/chrome.svg',
   mdiAppleSafari,
   mdiFirefox,
   mdiMicrosoftEdge,
@@ -106,123 +99,9 @@ const platformIntegrationIcons = [
   mdiAndroid
 ]
 
-const ecosystemParts = [
-  {
-    about: 'App Extensions that help you design your UI',
-    options: [
-      {
-        label: 'QCalendar',
-        icon: mdiCalendar,
-        path: 'github.com/quasarframework/quasar-ui-qcalendar'
-      },
-      {
-        label: 'QMarkdown',
-        icon: mdiLanguageMarkdown,
-        path: 'github.com/quasarframework/app-extension-qmarkdown'
-      },
-      {
-        label: 'QMediaPlayer',
-        icon: 'ondemand_video',
-        path: 'github.com/quasarframework/app-extension-qmediaplayer'
-      },
-      {
-        label: 'All AEs',
-        icon: 'extension',
-        path: 'quasar.dev/app-extensions/discover',
-        iconColor: 'brand-accent'
-      }
-    ]
-  },
-  {
-    about: 'App Extensions for your app low tech integrations',
-    options: [
-      {
-        label: 'Testing',
-        icon: mdiTestTube,
-        path: 'github.com/quasarframework/quasar-testing'
-      },
-      {
-        label: 'Apollo GraphQL',
-        icon: mdiGraphql,
-        path: 'github.com/quasarframework/app-extension-apollo'
-      },
-      {
-        label: 'SSG Mode',
-        icon: mdiFileDownload,
-        path: 'github.com/freddy38510/quasar-app-extension-ssg'
-      },
-      {
-        label: 'All AEs',
-        icon: 'extension',
-        path: 'quasar.dev/app-extensions/discover',
-        iconColor: 'brand-accent'
-      }
-    ]
-  },
-  {
-    about: 'Our tools and resources that help you manage icons in your projects',
-    options: [
-      {
-        label: 'Icon Genie',
-        icon: 'stars',
-        path: 'icongenie/installation',
-        isInternal: true
-      },
-      {
-        label: 'Icon Explorer',
-        icon: 'search',
-        path: 'iconexplorer.app'
-      },
-      {
-        label: 'Extra SVG Icons',
-        icon: mdiSvg,
-        path: 'github.com/quasarframework/extra-svg-icons'
-      }
-    ]
-  }
-]
-
-const integrationOptions = [
-  {
-    label: 'SPA',
-    name: 'Single Page Application',
-    icon: mdiApplicationOutline,
-    path: 'quasar-cli/developing-spa/introduction'
-  },
-  {
-    label: 'SSR',
-    name: 'Server Side Rendering',
-    icon: mdiServer,
-    path: 'quasar-cli/developing-ssr/introduction'
-  },
-  {
-    label: 'PWA',
-    name: 'Progressive Web App',
-    icon: 'web',
-    path: 'quasar-cli/developing-pwa/introduction'
-  },
-  {
-    label: 'HMA',
-    name: 'Hybrid Mobile App',
-    icon: 'phone_iphone',
-    path: 'quasar-cli/developing-mobile-apps'
-  },
-  {
-    label: 'BEX',
-    name: 'Browser Extension',
-    icon: mdiPuzzle,
-    path: 'quasar-cli/developing-browser-extensions/introduction'
-  },
-  {
-    label: 'MPDA',
-    name: 'Multi Platform Desktop App',
-    icon: mdiDevices,
-    path: 'quasar-cli/developing-electron-apps/introduction'
-  }
-]
-
 export default defineComponent({
   name: 'QuasarIntegrations',
+  components: { CardLink },
 
   setup () {
     useMeta({
@@ -259,7 +138,7 @@ export default defineComponent({
 
   &:hover {
     // !important needed when used with flat cards
-    box-shadow: 0 8px 8px 0 rgba($dark, .2) !important;
+    box-shadow: 0 8px 8px 0 rgba($dark, .2);
     transform: scale(1.03)
   }
 }
@@ -273,11 +152,11 @@ export default defineComponent({
   margin-top: 72px;
 }
 
-.remove-a-tag-styles {
-  text-decoration: none;
-}
-
 .margin-bottom-36 {
   margin-bottom: 36px;
+}
+
+.border-color-brand-secondary {
+  border-color: $brand-secondary;
 }
 </style>
