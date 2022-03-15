@@ -6,8 +6,9 @@
   "author": "<%= author %>",
   "private": true,
   "scripts": {
-    <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",<% } %>
-    <% if (preset.lint && lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,vue<% if (css !== 'sass') { %>,<%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
+    <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",
+    <% if (lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,vue<% if (css !== 'sass') { %>,<%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
+    <% } %>
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
