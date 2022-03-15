@@ -28,42 +28,50 @@
         <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
           Most Used
         </div>
-        <q-card
-          v-for="({icon, img, label}, pageIndex) in importantPages.mostUsedPages"
+        <card-link
+          v-for="({icon, img, path, label}, pageIndex) in mostUsedPages"
           :key="`page-${pageIndex}`"
-          class="raise-on-hover card column justify-center items-center cursor-pointer"
-          flat
+          :to="`/${path}`"
         >
-          <q-icon
-            :name="img? `img:${img}` : icon"
-            class="card__icon"
-            color="brand-primary"
-          />
-          <div class="text-brand-secondary text-size-12 text-weight-bold letter-spacing-100">
-            {{ label }}
-          </div>
-        </q-card>
+          <q-card
+            class="raise-on-hover card column justify-center items-center cursor-pointer"
+            flat
+          >
+            <q-icon
+              :name="img? `img:${img}` : icon"
+              class="card__icon"
+              color="brand-primary"
+            />
+            <div class="text-brand-secondary text-size-12 text-weight-bold letter-spacing-100">
+              {{ label }}
+            </div>
+          </q-card>
+        </card-link>
       </div>
       <q-separator v-if="$q.screen.gt.sm" vertical class="bg-black-12 justify-self-center"/>
       <div class="row cards-container-width justify-center q-gutter-sm q-py-lg justify-self-start">
         <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
           Discover Also
         </div>
-        <q-card
-          v-for="({icon, label}, pageIndex) in importantPages.pagesToDiscover"
+        <card-link
+          v-for="({icon, label, path}, pageIndex) in pagesToDiscover"
           :key="`page-${pageIndex}`"
-          class="raise-on-hover card column justify-center items-center cursor-pointer"
-          flat
+          :to="path"
         >
-          <q-icon
-            :name="icon"
-            class="card__icon"
-            color="brand-primary"
-          />
-          <div class="text-brand-secondary text-size-12 text-weight-bold letter-spacing-100">
-            {{ label }}
-          </div>
-        </q-card>
+          <q-card
+            class="raise-on-hover card column justify-center items-center cursor-pointer"
+            flat
+          >
+            <q-icon
+              :name="icon"
+              class="card__icon"
+              color="brand-primary"
+            />
+            <div class="text-brand-secondary text-size-12 text-weight-bold letter-spacing-100">
+              {{ label }}
+            </div>
+          </q-card>
+        </card-link>
       </div>
     </div>
   </q-page>
@@ -74,6 +82,7 @@ import { defineComponent } from 'vue'
 import { useMeta } from 'quasar'
 
 import { useDocStore } from 'assets/doc-store.js'
+import CardLink from 'components/landing-page/CardLink.vue'
 import {
   mdiAnimation,
   mdiApplicationExport,
@@ -82,126 +91,78 @@ import {
   mdiFormDropdown,
   mdiFormTextbox,
   mdiImageSizeSelectSmall,
-  mdiTable
+  mdiTable,
+  mdiHumanMaleBoard
 } from '@quasar/extras/mdi-v6'
-
-const importantPages = {
-  mostUsedPages: [
-    {
-      label: 'QTable',
-      icon: mdiTable,
-      path: 'vue-components/table'
-    },
-    {
-      label: 'QInput',
-      icon: mdiFormTextbox,
-      path: 'vue-components/input'
-    },
-    {
-      label: 'QSelect',
-      icon: mdiFormDropdown,
-      path: 'vue-components/select'
-    },
-    {
-      label: 'QBtn',
-      icon: 'view_quilt',
-      path: 'vue-components/button'
-    },
-    {
-      label: 'QCard',
-      icon: mdiCardMultiple,
-      path: 'vue-components/card'
-    },
-    {
-      label: 'Flavour',
-      img: 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg',
-      path: 'start/pick-quasar-flavour'
-    }
-  ],
-  pagesToDiscover: [
-    {
-      label: 'quasar.conf.js',
-      icon: 'view_quilt',
-      path: 'vue-components/table'
-    },
-    {
-      label: 'Boot Files',
-      icon: mdiApplicationExport,
-      path: 'vue-components/input'
-    },
-    {
-      label: 'Date Utils',
-      icon: mdiCalendar,
-      path: 'vue-components/button'
-    },
-    {
-      label: 'Other Utils',
-      icon: 'healing',
-      path: 'vue-components/select'
-    },
-    {
-      label: 'Flexbox',
-      icon: mdiImageSizeSelectSmall,
-      path: 'vue-components/card'
-    },
-    {
-      label: 'Animations',
-      icon: mdiAnimation,
-      path: 'start/pick-quasar-flavour'
-    }
-  ]
-}
 
 const mostUsedPages = [
   {
     label: 'QTable',
-    icon: 'view_quilt',
+    icon: mdiTable,
     path: 'vue-components/table'
   },
   {
     label: 'QInput',
-    icon: 'view_quilt',
+    icon: mdiFormTextbox,
     path: 'vue-components/input'
   },
   {
     label: 'QSelect',
-    icon: 'view_quilt',
+    icon: mdiFormDropdown,
     path: 'vue-components/select'
   },
   {
     label: 'QBtn',
-    icon: 'view_quilt',
+    img: '/homepage-icons/button-click.svg',
     path: 'vue-components/button'
   },
   {
     label: 'QCard',
-    icon: 'view_quilt',
+    icon: mdiCardMultiple,
     path: 'vue-components/card'
   },
   {
-    label: 'Pick Quasar Flavour',
-    icon: 'view_quilt',
+    label: 'Flavour',
+    img: 'https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg',
     path: 'start/pick-quasar-flavour'
+  }
+]
+const pagesToDiscover = [
+  {
+    label: 'quasar.conf',
+    icon: mdiHumanMaleBoard,
+    path: 'vue-components/table'
   },
   {
-    label: 'QIcon',
-    icon: 'view_quilt',
-    path: 'vue-components/icon'
+    label: 'Boot Files',
+    icon: mdiApplicationExport,
+    path: 'vue-components/input'
   },
   {
-    label: 'QList and QItem',
-    icon: 'view_quilt',
-    path: 'vue-components/list-and-list-items'
+    label: 'Date Utils',
+    icon: mdiCalendar,
+    path: 'vue-components/button'
   },
   {
-    label: 'QDialog',
-    icon: 'view_quilt',
-    path: 'vue-components/dialog'
+    label: 'Other Utils',
+    icon: 'healing',
+    path: 'vue-components/select'
+  },
+  {
+    label: 'Flexbox',
+    icon: mdiImageSizeSelectSmall,
+    path: 'vue-components/card'
+  },
+  {
+    label: 'Animations',
+    icon: mdiAnimation,
+    path: 'start/pick-quasar-flavour'
   }
 ]
 
 export default defineComponent({
   name: 'Homepage',
+  components: { CardLink },
 
   setup () {
     useMeta({
@@ -213,8 +174,7 @@ export default defineComponent({
 
     return {
       mostUsedPages,
-      mdiTable,
-      importantPages
+      pagesToDiscover
     }
   }
 })
@@ -268,4 +228,5 @@ export default defineComponent({
     justify-self: end;
   }
 }
+
 </style>
