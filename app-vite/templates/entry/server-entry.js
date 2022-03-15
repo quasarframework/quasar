@@ -75,7 +75,7 @@ const bootFiles = Promise.all([
   <% bootEntries.forEach((asset, index) => { %>
   import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
   <% }) %>
-]).then(bootFiles => bootFiles.filter(entry => typeof entry === 'function'))
+]).then(bootFiles => bootFiles.map(entry => entry.default).filter(entry => typeof entry === 'function'))
 <% } %>
 
 // This is where we perform data-prefetching to determine the
@@ -85,7 +85,7 @@ const bootFiles = Promise.all([
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
     <% if (bootEntries.length !== 0) { %>
-    await bootFiles
+    const bootFunctions = await bootFiles
     <% } %>
 
     const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, qUserOptions, ssrContext)
@@ -97,9 +97,9 @@ export default ssrContext => {
       reject({ url: getRedirectUrl(url, router), code: httpStatusCode })
     }
 
-    for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
+    for (let i = 0; hasRedirected === false && i < bootFunctions.length; i++) {
       try {
-        await bootFiles[i]({
+        await bootFunctions[i]({
           app,
           router,
           <%= store ? 'store,' : '' %>
