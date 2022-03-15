@@ -46,31 +46,31 @@ export const pagesToDiscover = [
   {
     label: 'quasar.config',
     icon: mdiHumanMaleBoard,
-    path: '/vue-components/table'
+    path: '/quasar-cli-webpack/quasar-config-js'
   },
   {
     label: 'Boot Files',
     icon: mdiApplicationExport,
-    path: '/vue-components/input'
+    path: '/quasar-cli-vite/boot-files'
   },
   {
     label: 'Date Utils',
     icon: mdiCalendar,
-    path: '/vue-components/button'
+    path: '/quasar-utils/date-utils'
   },
   {
     label: 'Other Utils',
     icon: 'healing',
-    path: '/vue-components/select'
+    path: '/quasar-utils/other-utils'
   },
   {
     label: 'Flexbox',
     icon: mdiImageSizeSelectSmall,
-    path: '/vue-components/card'
+    path: '/layout/grid/introduction-to-flexbox'
   },
   {
     label: 'Animations',
     icon: mdiAnimation,
-    path: '/start/pick-quasar-flavour'
+    path: '/options/animations'
   }
 ]
