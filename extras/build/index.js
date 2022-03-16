@@ -3,19 +3,19 @@ const cpus = require('os').cpus().length
 const parallel = cpus > 1
 const maxJobCount = cpus - 1 || 1
 const run = parallel ? require('child_process').fork : require
-const { resolve, join } = require('path')
+const { join } = require('path')
 const { Queue, sleep, retry } = require('./utils')
 
 const materialFontVersions = {}
 
 async function generate () {
   function handleChild (child) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       // watch for exit event
-      child.on('exit', (code, signal) => {
+      child.on('exit', (_code, _signal) => {
         resolve()
       })
-      
+
       if (child.stdout) {
         child.stdout.on('data', (data) => {
           const str = data.toString()
@@ -24,7 +24,7 @@ async function generate () {
           }
         })
       }
-        
+
       if (child.stderr) {
         child.stderr.on('data', (data) => {
           const str = data.toString()
