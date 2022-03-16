@@ -93,7 +93,9 @@ function createViteConfig (quasarConf, quasarRunMode) {
     mode: ctx.dev === true ? 'development' : 'production',
     cacheDir,
 
-    resolve: build.resolve,
+    resolve: {
+      alias: build.alias
+    },
     define: parseEnv(build.env, build.rawDefine),
 
     build: {

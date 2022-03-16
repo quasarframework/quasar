@@ -430,17 +430,15 @@ class QuasarConfFile {
         __INTLIFY_PROD_DEVTOOLS__: cfg.metaConf.debugging
       },
 
-      resolve: {
-        alias: {
-          src: appPaths.srcDir,
-          app: appPaths.appDir,
-          components: appPaths.resolve.src('components'),
-          layouts: appPaths.resolve.src('layouts'),
-          pages: appPaths.resolve.src('pages'),
-          assets: appPaths.resolve.src('assets'),
-          boot: appPaths.resolve.src('boot'),
-          stores: appPaths.resolve.src('stores')
-        }
+      alias: {
+        src: appPaths.srcDir,
+        app: appPaths.appDir,
+        components: appPaths.resolve.src('components'),
+        layouts: appPaths.resolve.src('layouts'),
+        pages: appPaths.resolve.src('pages'),
+        assets: appPaths.resolve.src('assets'),
+        boot: appPaths.resolve.src('boot'),
+        stores: appPaths.resolve.src('stores')
       },
 
       vueRouterMode: 'hash',
