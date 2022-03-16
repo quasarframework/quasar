@@ -290,7 +290,7 @@ export default createComponent({
         parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
 
-        inp.style.height = inp.scrollHeight + 'px'
+        inp.style.height = (inp.scrollHeight + 1) + 'px'
         parentStyle.marginBottom = ''
       }
     }
