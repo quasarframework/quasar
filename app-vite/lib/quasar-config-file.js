@@ -247,17 +247,7 @@ class QuasarConfFile {
         vitePlugins: [],
         env: {},
         rawDefine: {},
-        resolve: {},
-        css: {},
-        json: {},
-        esbuild: {},
-        rollupOptions: {},
-        commonjsOptions: {},
-        dynamicImportVarsOptions: {},
-        optimizeDeps: {
-          entries: []
-        },
-        worker: {}
+        resolve: {}
       },
 
       ssr: {
@@ -465,10 +455,6 @@ class QuasarConfFile {
 
     if (!cfg.build.target.node) {
       cfg.build.target.node = 'node16'
-    }
-
-    if (cfg.build.optimizeDeps.entries.length === 0) {
-      cfg.build.optimizeDeps.entries = [ 'index.html' ]
     }
 
     if (this.#ctx.mode.ssr) {
