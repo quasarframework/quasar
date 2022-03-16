@@ -12,7 +12,7 @@ $ yarn create quasar
 # or:
 $ npm init quasar
 # or:
-$ pnpm dx create-quasar
+$ pnpm create quasar
 
 # pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
 ```

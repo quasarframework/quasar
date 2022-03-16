@@ -27,8 +27,8 @@ $ npm init quasar
 
 # or:
 
-$ pnpm global add @quasar/cli
-$ pnpm dx create-quasar
+$ pnpm add -g @quasar/cli
+$ pnpm create quasar
 ```
 
 <q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
@@ -42,7 +42,7 @@ $ pnpm dx create-quasar
     # or:
     $ npm init quasar
     # or:
-    $ pnpm dx create-quasar
+    $ pnpm create quasar
     ```
     <br>
 
@@ -61,7 +61,7 @@ $ pnpm dx create-quasar
     # or
     $ npm install -g @quasar/cli
     # or
-    $ pnpm global add @quasar/cli
+    $ pnpm add -g @quasar/cli
     ```
 
     ::: tip
