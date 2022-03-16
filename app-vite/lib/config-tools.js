@@ -108,6 +108,10 @@ function createViteConfig (quasarConf, quasarRunMode) {
         : build.sourcemap || false
     },
 
+    optimizeDeps: {
+      entries: [ 'index.html' ]
+    },
+
     plugins: [
       vueVitePlugin(vueVitePluginOptions),
       quasarVitePlugin({
