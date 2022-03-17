@@ -97,7 +97,7 @@ module.exports = {
     'no-nested-ternary': 'off',
     'max-classes-per-file': 'off',
 
-    'import/first': 'off'
+    'import/first': 'off',
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
