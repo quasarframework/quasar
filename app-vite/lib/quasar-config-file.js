@@ -12,7 +12,7 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const resolveExtension = require('./helpers/resolve-extension')
-const getStoreProvider = require('./helpers/get-store-provider')
+const storeProvider = require('./helpers/store-provider')
 
 const urlRegex = /^http(s)?:\/\//i
 const { findClosestOpenPort } = require('../lib/helpers/net')
@@ -402,7 +402,8 @@ class QuasarConfFile {
 
     Object.assign(cfg.metaConf, {
       hasLoadingBarPlugin: cfg.framework.plugins.includes('LoadingBar'),
-      hasMetaPlugin: cfg.framework.plugins.includes('Meta')
+      hasMetaPlugin: cfg.framework.plugins.includes('Meta'),
+      storePackage: storeProvider.name
     })
 
     cfg.build = merge({
@@ -475,8 +476,6 @@ class QuasarConfFile {
     cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0
       ? cfg.build.vueRouterBase
       : formatRouterBase(cfg.build.publicPath)
-
-    const storeProvider = getStoreProvider()
 
     // when adding new props here be sure to update
     // all impacted devserver diffs (look for this.registerDiff() calls)

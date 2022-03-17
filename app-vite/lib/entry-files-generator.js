@@ -23,7 +23,6 @@ class EntryFilesGenerator {
     if (ctx.mode.ssr) {
       filePaths.push(
         'server-entry.js',
-        'ssr-pwa.js',
         'ssr-middlewares.js',
         `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )
