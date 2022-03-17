@@ -12,7 +12,7 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
-const getStoreProvider = require('./helpers/get-store-provider')
+const storeProvider = require('./helpers/store-provider')
 const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
@@ -518,8 +518,6 @@ class QuasarConfFile {
       ? cfg.build.appBase
       : cfg.build.publicPath
 
-    const storeProvider = getStoreProvider()
-
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
@@ -532,6 +530,8 @@ class QuasarConfFile {
     }, cfg.sourceFiles)
 
     appFilesValidations(cfg)
+
+    cfg.__storePackage = storeProvider.name
 
     // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)

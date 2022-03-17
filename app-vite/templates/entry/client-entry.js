@@ -76,13 +76,13 @@ async function start ({
   <%= store ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
 }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
   <% if (ctx.mode.ssr && store && metaConf.storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
-  // prime the store with server-initialized state.
-  // the state is determined during SSR and inlined in the page markup.
-  if (<%= ctx.mode.pwa ? 'ssrIsRunningOnClientPWA !== true &&' : '' %>window.__INITIAL_STATE__ !== void 0) {
-    store.replaceState(window.__INITIAL_STATE__)
-    // for security reasons, we'll delete this
-    delete window.__INITIAL_STATE__
-  }
+    // prime the store with server-initialized state.
+    // the state is determined during SSR and inlined in the page markup.
+    if (<%= ctx.mode.pwa ? 'ssrIsRunningOnClientPWA !== true &&' : '' %>window.__INITIAL_STATE__ !== void 0) {
+      store.replaceState(window.__INITIAL_STATE__)
+      // for security reasons, we'll delete this
+      delete window.__INITIAL_STATE__
+    }
   <% } %>
 
   <% if (bootEntries.length > 0) { %>

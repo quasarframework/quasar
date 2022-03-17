@@ -1,7 +1,7 @@
 const getPackageJson = require('./get-package-json')
 const nodePackager = require('./node-packager')
 
-module.exports = function getStoreProvider() {
+function getStoreProvider() {
   /** @type {'pinia' | 'vuex'} */
   const name = getPackageJson('vuex') !== void 0 ? 'vuex' : 'pinia'
 
@@ -15,3 +15,5 @@ module.exports = function getStoreProvider() {
     }
   }
 }
+
+module.exports = getStoreProvider()

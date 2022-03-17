@@ -23,7 +23,6 @@ class Generator {
     if (ctx.mode.ssr) {
       paths.push(
         'server-entry.js',
-        'ssr-pwa.js',
         'ssr-middlewares.js'
       )
 

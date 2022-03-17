@@ -84,7 +84,6 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   app.config.globalProperties.$q.capacitor = window.Capacitor
   <% } %>
 
-  // create store and router instances
   <% if (store) { %>
     const store = typeof createStore === 'function'
       ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
@@ -92,7 +91,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
 
     <% if (metaConf.storePackage === 'vuex') { %>
       // obtain Vuex injection key in case we use TypeScript
-      const { storeKey } = await import('app/<%= sourceFiles.store %>');
+      const { storeKey } = await import('app/<%= sourceFiles.store %>')
     <% } else if (metaConf.storePackage === 'pinia') { %>
       app.use(store)
 

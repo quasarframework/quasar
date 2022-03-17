@@ -88,7 +88,9 @@ const { components, directives, ...qUserOptions } = quasarUserOptions
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, qUserOptions, ssrContext)
+    const {
+      app, router<%= store ? ', store' + (__storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+    } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
@@ -121,7 +123,7 @@ export default ssrContext => {
     <% } %>
 
     app.use(router)
-    <% if (store) { %>app.use(store, storeKey)<% } %>
+    <% if (store && __storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
     const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)

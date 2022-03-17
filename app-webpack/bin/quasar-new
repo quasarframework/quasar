@@ -64,7 +64,7 @@ const fse = require('fs-extra')
 
 const { log, warn } = require('../lib/helpers/logger')
 const appPaths = require('../lib/app-paths')
-const getStoreProvider = require('../lib/helpers/get-store-provider')
+const storeProvider = require('../lib/helpers/store-provider')
 const defaultFilePath = 'default'
 
 if (argv._.length < 2) {
@@ -114,8 +114,6 @@ if (type.length === 1) {
   }
   type = fullCmd[type]
 }
-
-const storeProvider = getStoreProvider()
 
 function getPaths (asset, names) {
   return names.map(name => {
