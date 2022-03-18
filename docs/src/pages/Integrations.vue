@@ -33,7 +33,7 @@
             class="text-size-24 q-my-sm"
             color="brand-accent"
           />
-          <div class="text-size-14 text-weight-bold letter-spacing-263 text-brand-secondary">
+          <div class="text-size-14 text-weight-bold letter-spacing-263 text-brand-primary">
             {{ label }}
           </div>
           <div class="text-size-12 q-px-sm letter-spacing-100 text-brand-secondary">
@@ -108,7 +108,7 @@ export default defineComponent({
 
   &--bordered {
     border-radius: 8px;
-    border: solid 1px rgba(0, 0, 0, 0.12);
+    border: solid 1px rgba($black, 0.12);
   }
 }
 
