@@ -62,14 +62,14 @@ More info: [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr)
 
 ### 6. PWA related
 
-* The `/src-pwa/manifest.json` has no meaning for a Quasar CLI with Webpack project. You will need to use `quasar.config.js > manifest` to declare it there. After declaring the manifest in quasar.config.js then delete the `/src-pwa/manifest.json` file.
+* Quasar CLI with Webpack relies on `quasar.config.js > manifest` to specify the manifest, but you will need to use `/src-pwa/manifest.json` to declare it for Quasar CLI with Vite. After declaring the manifest in `/src-pwa/manifest.json`, delete `quasar.config.js > manifest` section.
 * There were also some props in `quasar.config.js` that are no longer available. Most notably: `metaVariables`, `metaVariablesFn`. Simply edit `/index.html` and add those tags directly there.
 
 ```html
 <!-- index.html -->
 <head>
   <% if (ctx.mode.pwa) { %>
-  ...pwa.tags..
+    <!-- Define your custom PWA-related meta/link tags here. -->
   <% } %>
 </head>
 ```
