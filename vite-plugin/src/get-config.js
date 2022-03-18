@@ -34,19 +34,19 @@ export default ({ runMode, sassVariables }, externalViteCfg) => {
         __QUASAR_SSR_CLIENT__: true
       })
     }
+  }
 
-    if (sassVariables) {
-      const sassImportCode = [ `@import 'quasar/src/css/variables.sass'`, '' ]
+  if (sassVariables) {
+    const sassImportCode = [ `@import 'quasar/src/css/variables.sass'`, '' ]
 
-      if (typeof sassVariables === 'string') {
-        sassImportCode.unshift(`@import '${ normalizePath(sassVariables) }'`)
-      }
+    if (typeof sassVariables === 'string') {
+      sassImportCode.unshift(`@import '${ normalizePath(sassVariables) }'`)
+    }
 
-      viteCfg.css = {
-        preprocessorOptions: {
-          sass: { additionalData: sassImportCode.join('\n') },
-          scss: { additionalData: sassImportCode.join(';\n') }
-        }
+    viteCfg.css = {
+      preprocessorOptions: {
+        sass: { additionalData: sassImportCode.join('\n') },
+        scss: { additionalData: sassImportCode.join(';\n') }
       }
     }
   }
