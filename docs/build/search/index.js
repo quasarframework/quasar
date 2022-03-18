@@ -248,7 +248,14 @@ const processChildren = (parent, entry, entries) => {
           processChildren(menuItem, entryChild, entries)
         }
         else {
-          processPage(intro + entryChild.url + '.md', entryChild, entries)
+          // roadmap is loaded from /ROADME.md unlike the others
+          // which are all loaded in /docs/src/pages
+          if (entryChild.url === '/start/roadmap') {
+            processPage('../../ROADMAP.md', entryChild, entries)
+          }
+          else {
+            processPage(intro + entryChild.url + '.md', entryChild, entries)
+          }
         }
       }
     })
