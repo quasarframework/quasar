@@ -8,7 +8,7 @@ const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const parseEnv = require('./parse-env')
-const { log } = require('./helpers/logger')
+const { log, warn, tip } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 
 const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
@@ -17,13 +17,9 @@ const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.jso
 const appPkgFile = appPaths.resolve.app('package.json')
 const cliDeps = Object.keys(cliDepsObject)
 
-function printInvalidSyntax (name) {
-  console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified:', name)
-  console.error(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ]`)
-}
-
 function parseVitePlugins (entries) {
   const acc = []
+  let showTip = false
 
   entries.forEach(entry => {
     if (!entry) {
@@ -36,7 +32,11 @@ function parseVitePlugins (entries) {
     }
 
     if (Array.isArray(entry) === false) {
-      printInvalidSyntax(name)
+      if (typeof entry === 'function') {
+        showTip = true
+      }
+
+      acc.push(entry)
       return
     }
 
@@ -47,20 +47,31 @@ function parseVitePlugins (entries) {
       return
     }
 
+    if (Object(name) === name) {
+      acc.push(name)
+      return
+    }
+
     if (typeof name !== 'string') {
-      printInvalidSyntax(name)
+      console.log(name)
+      warn('quasar.config.js > invalid Vite plugin specified: ' + name)
+      warn(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]`)
       return
     }
 
     const plugin = getPackage(name)
 
     if (!plugin) {
-      console.error('[Quasar CLI] quasar.config.js > invalid Vite plugin specified (cannot find it):', name)
+      warn('quasar.config.js > invalid Vite plugin specified (cannot find it): ' + name)
       return
     }
 
     acc.push((plugin.default || plugin)(opts))
   })
+
+  if (showTip === true) {
+    tip(`If you want changes to quasar.config.js > build > vitePlugins to be picked up, specify them in this form: [ [ 'plugin-name', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]`)
+  }
 
   return acc
 }

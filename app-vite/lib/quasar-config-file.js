@@ -185,6 +185,7 @@ class QuasarConfFile {
 
       if (result.error !== void 0) {
         warn(result.error)
+        warn('Changes to quasar.config.js have NOT been applied due to error above')
       }
       else {
         log(`Applying quasar.config.js changes`)
