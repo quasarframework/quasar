@@ -17,7 +17,7 @@ class PwaBuilder extends AppBuilder {
     writeFileSync(
       join(this.quasarConf.build.distDir, this.quasarConf.pwa.manifestFilename),
       JSON.stringify(
-        this.quasarConf.metaConf.pwaManifest,
+        this.quasarConf.htmlVariables.pwaManifest,
         null,
         this.quasarConf.build.minify !== false ? void 0 : 2
       ),
