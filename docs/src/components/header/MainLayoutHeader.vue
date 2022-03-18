@@ -249,7 +249,7 @@
               :is-open-by-default="$q.screen.gt.md"
               :show-search-input-field="isSearchFieldActive"
               :class="$q.screen.gt.md ? 'q-ml-md' : ''"
-              @focus-by-kbd="isSearchFieldActive = true"
+              @focus-by-keyboard="isSearchFieldActive = true"
               @search-result-change="preventHeaderSwapping"
             />
           </div>
