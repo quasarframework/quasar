@@ -1,8 +1,5 @@
 <template>
-  <q-page
-    :class="{'text-dark': currentTheme !== 'dark'}"
-    class="column justify-center q-px-xl font-monserrat landing-mb--large"
-  >
+  <q-page class="column justify-center q-px-xl font-monserrat landing-mb--large">
     <h1
       class="landing-heading landing-heading--large landing__title normal-line-height"
     >Welcome to quasar docs</h1>
@@ -45,10 +42,7 @@
               class="card__icon q-mb-sm"
               color="brand-primary"
             />
-            <div
-              :class="{'text-dark': currentTheme !== 'dark'}"
-              class="text-size-12 letter-spacing-100"
-            >
+            <div class="text-size-12 letter-spacing-100">
               {{ label }}
             </div>
           </q-card>
@@ -73,10 +67,7 @@
               class="card__icon q-mb-sm"
               color="brand-primary"
             />
-            <div
-              :class="{'text-dark': currentTheme !== 'dark'}"
-              class="text-size-12 letter-spacing-100"
-            >
+            <div class="text-size-12 letter-spacing-100">
               {{ label }}
             </div>
           </q-card>
@@ -93,7 +84,6 @@ import { useMeta } from 'quasar'
 import { useDocStore } from 'assets/doc-store.js'
 import CardLink from 'components/CardLink.vue'
 import { mostUsedPages, pagesToDiscover } from 'assets/homepage.js'
-import { useTheme } from 'src/components/landing-page/use-theme'
 
 export default defineComponent({
   name: 'Homepage',
@@ -107,13 +97,9 @@ export default defineComponent({
     const $store = useDocStore()
     $store.toc = []
 
-    const { currentTheme } = useTheme()
-
     return {
       mostUsedPages,
-      pagesToDiscover,
-
-      currentTheme
+      pagesToDiscover
     }
   }
 })
@@ -144,7 +130,7 @@ export default defineComponent({
 .card {
   width: 120px;
   height: 120px;
-  border: solid 1px rgba($black, 0.12);
+  border: solid 1px rgba($brand-secondary, 0.54);
   border-radius: 8px;
 
   &__icon {

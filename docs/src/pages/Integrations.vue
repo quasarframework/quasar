@@ -108,7 +108,7 @@ export default defineComponent({
 
   &--bordered {
     border-radius: 8px;
-    border: solid 1px rgba($black, 0.12);
+    border: solid 1px rgba($brand-secondary, 0.54);
   }
 }
 

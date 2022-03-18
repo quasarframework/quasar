@@ -249,7 +249,7 @@ const processChildren = (parent, entry, entries) => {
         }
         else {
           // roadmap is loaded from /ROADME.md unlike the others
-          // which are all loaded in /docs/src/pages
+          // which are all loaded from /docs/src/pages
           if (entryChild.url === '/start/roadmap') {
             processPage('../../ROADMAP.md', entryChild, entries)
           }

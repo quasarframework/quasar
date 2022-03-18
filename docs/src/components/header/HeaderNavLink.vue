@@ -56,7 +56,9 @@ export default defineComponent({
       }
     }
 
-    const classes = computed(() => `${props.navItemClass} ${props.dark ? 'white-color-on-hover' : ''}`)
+    // For some reason CSS won't apply correctly "color: inherit" and display the wrong text-color
+    // when changing the theme in docs. Force the correct one depending on the provided dark prop
+    const classes = computed(() => `${props.navItemClass} ${props.dark ? 'white-color-on-hover text-white-54' : 'text-black-54'}`)
 
     return {
       classes,
