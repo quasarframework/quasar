@@ -103,11 +103,11 @@ function createViteConfig (quasarConf, quasarRunMode) {
     logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
     cacheDir,
+    define: parseEnv(build.env, build.rawDefine),
 
     resolve: {
       alias: build.alias
     },
-    define: parseEnv(build.env, build.rawDefine),
 
     build: {
       target: quasarRunMode === 'ssr-server'

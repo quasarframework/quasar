@@ -19,10 +19,10 @@ const minifyOptions = {
 
 function injectPublicPath (html, publicPath) {
   return html.replace(
-    /(href|src)\s*=\s*['"](.+)['"]/ig,
-    (_, att, val) => absoluteUrlRE.test(val.trim()) === true
-      ? `${att}=${val}`
-      : `${att}=${publicPath + val}`
+    /(href|src)\s*=\s*(['"])(.+)(['"])/ig,
+    (_, att, pre, val, post) => absoluteUrlRE.test(val.trim()) === true
+      ? `${att}=${pre}${val}${post}`
+      : `${att}=${pre}${publicPath + val}${post}`
   )
 }
 
