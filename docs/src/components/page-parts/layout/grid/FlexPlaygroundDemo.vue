@@ -87,9 +87,9 @@ import { useQuasar, copyToClipboard } from 'quasar'
 import { fabCodepen } from '@quasar/extras/fontawesome-v6'
 import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v6'
 
-import Child from './FlexChild'
-import DocCodepen from '../../../DocCodepen'
-import CopyButton from '../../../CopyButton'
+import Child from './FlexChild.vue'
+import DocCodepen from '../../../DocCodepen.vue'
+import CopyButton from '../../../CopyButton.vue'
 
 const queryParams = {
   containerGroup: 'string',

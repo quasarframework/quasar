@@ -43,7 +43,14 @@ Move `/src/index.template.html` to `/index.html`. And make the following change:
 <!-- quasar:entry-point -->
 ```
 
-Also, edit `/src/router/index.js`. Change `history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)` to `history: createHistory(process.env.VUE_ROUTER_BASE)`.
+Also, edit `/src/router/index.js`:
+
+```js
+// Change:
+history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+// Into:
+history: createHistory(process.env.VUE_ROUTER_BASE)
+```
 
 ### 3. Check the new quasar.config.js
 

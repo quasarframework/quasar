@@ -1,12 +1,15 @@
 import DocLayout from 'layouts/DocLayout.vue'
 import getListingComponent from 'components/getListingComponent.js'
-import menu from 'assets/menu.js'
+import menu from 'assets/menu.json'
 import layoutGallery from 'assets/layout-gallery.js'
+
+const mdPageList = import.meta.glob('../pages/**/*.md')
+const mdGalleryPageList = import.meta.glob('../layouts/gallery/*.vue')
 
 const docsPages = [
   {
     path: '',
-    component: () => import('pages/Landing.vue')
+    component: () => import('../pages/Landing.vue')
   }
 ]
 
@@ -57,7 +60,7 @@ function parseMenuNode (node, __path) {
   else if (node.external !== true) {
     docsPages.push({
       path: prefix,
-      component: () => import('pages/' + prefix.substring(1) + '.md')
+      component: mdPageList[ `../pages${ prefix }.md` ]
     })
   }
 }
@@ -91,16 +94,16 @@ const routes = [
   // externals
   {
     path: '/layout-builder',
-    component: () => import('layouts/LayoutBuilder.vue')
+    component: () => import('../layouts/LayoutBuilder.vue')
   },
 
   ...layoutGallery.map(layout => ({
     path: layout.demoLink,
-    component: () => import('layouts/gallery/' + layout.path + '.vue'),
+    component: mdGalleryPageList[ `../layouts/gallery/${ layout.path }.vue` ],
     children: [
       {
         path: '',
-        component: () => import('components/page-parts/layout/LayoutGalleryPage.vue'),
+        component: () => import('../components/page-parts/layout/LayoutGalleryPage.vue'),
         meta: {
           title: layout.name,
           screenshot: layout.screenshot,
@@ -116,7 +119,7 @@ const routes = [
     component: DocLayout,
     children: [{
       path: '',
-      component: () => import('pages/Error404.vue')
+      component: () => import('../pages/Error404.vue')
     }]
   }
 ]

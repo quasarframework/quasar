@@ -21,7 +21,7 @@ q-intersection(once)
 </template>
 
 <script>
-import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor.vue'
 
 export default {
   name: 'SponsorList',

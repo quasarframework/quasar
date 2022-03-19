@@ -8,52 +8,37 @@
   "scripts": {
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
-    "build": "quasar build -m ssr",
-    "build:search": "node build/search.js",
+    "build": "cp node_modules/quasar/dist/api/* public/quasar-api/ && quasar build -m ssr",
+    "build:search": "node build/search/index.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.12.4",
-    "core-js": "^3.20.3",
     "prismjs": "^1.26.0",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.0.0",
-    "@quasar/app-webpack": "^3.4.0",
-    "eslint": "^7.14.0",
+    "@quasar/app-vite": "^1.0.0-beta.5",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-quasar": "^1.1.0",
-    "eslint-plugin-vue": "^7.0.0",
-    "eslint-webpack-plugin": "^2.4.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^8.5.0",
     "gray-matter": "^4.0.2",
     "markdown-ast": "^0.2.1",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
     "pug": "^3.0.2",
-    "pug-plain-loader": "^1.0.0",
-    "raw-loader": "^4.0.0",
     "toml": "^3.0.0",
-    "workbox-webpack-plugin": "^6.0.0"
+    "workbox-build": "^6.5.1"
   },
-  "browserslist": [
-    "last 4 Chrome versions",
-    "last 4 Firefox versions",
-    "last 2 Edge versions",
-    "last 4 Safari versions",
-    "last 4 Android versions",
-    "last 4 ChromeAndroid versions",
-    "last 4 FirefoxAndroid versions",
-    "last 4 iOS versions"
-  ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": ">= 14.19.0",
     "npm": ">= 6.14.12",
     "yarn": ">= 1.17.3"
   }

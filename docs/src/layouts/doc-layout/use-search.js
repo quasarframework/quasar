@@ -1,9 +1,9 @@
 import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { apiTypeToComponentMap } from 'components/AppSearchResults'
-import ResultEmpty from 'components/search-results/ResultEmpty'
-import ResultError from 'components/search-results/ResultError'
+import { apiTypeToComponentMap } from 'components/AppSearchResults.vue'
+import ResultEmpty from 'components/search-results/ResultEmpty.vue'
+import ResultError from 'components/search-results/ResultError.vue'
 
 let requestId = 0
 

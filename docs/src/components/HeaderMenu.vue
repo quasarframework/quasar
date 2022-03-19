@@ -71,7 +71,7 @@ div
           q-icon(:name="mdiInvertColors")
         q-item-section.text-no-wrap Dark Mode
 
-      q-item(clickable, href="layout-builder", target="_blank")
+      q-item(clickable, href="/layout-builder", target="_blank")
         q-item-section.text-brand-primary(avatar)
           q-icon(:name="mdiViewDashboard")
         q-item-section.text-no-wrap Layout Builder

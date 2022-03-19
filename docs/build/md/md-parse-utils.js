@@ -1,20 +1,11 @@
 const matter = require('gray-matter')
 const toml = require('toml')
 
-function getComponentsImport (comp) {
-  return comp.map(c => {
+function getComponentsImport (componentList) {
+  return componentList.map(c => {
     const parts = c.split('/')
     return `import ${parts[ parts.length - 1 ]} from 'components/page-parts/${c}.vue'\n`
   }).join('')
-}
-
-function getComponentsDeclaration (comp) {
-  const list = comp.map(c => {
-    const parts = c.split('/')
-    return parts[ parts.length - 1 ]
-  }).join(',')
-
-  return `components: { ${list} },`
 }
 
 module.exports.getVueComponent = function (rendered, data, toc) {
@@ -30,21 +21,12 @@ module.exports.getVueComponent = function (rendered, data, toc) {
     ${data.related !== void 0 || data.nav !== void 0 ? ':toc="toc"' : ''}
     ${data.desc !== void 0 ? `meta-desc="${data.desc}"` : ''}>${rendered}</doc-page>
 </template>
-<script>
+<script setup>
 import { copyHeading } from 'assets/page-utils'
-${data.components !== void 0 ? getComponentsImport(data.components) : ''}
-export default {
-  name: 'DocMarkdownPage',
-  ${data.components !== void 0 ? getComponentsDeclaration(data.components) : ''}
-  setup () {
-    return {
-      ${data.related !== void 0 ? `related: ${JSON.stringify(data.related)},` : ''}
-      ${data.nav !== void 0 ? `nav: ${JSON.stringify(data.nav)},` : ''}
-      ${data.related !== void 0 || data.nav !== void 0 ? `toc: ${toc},` : ''}
-      copyHeading
-    }
-  }
-}
+${data.components.length !== 0 ? getComponentsImport(data.components) : ''}
+${data.related !== void 0 ? `const related = ${JSON.stringify(data.related)}` : ''}
+${data.nav !== void 0 ? `const nav = ${JSON.stringify(data.nav)}` : ''}
+${data.related !== void 0 || data.nav !== void 0 ? `const toc = ${toc}` : ''}
 </script>`
 }
 

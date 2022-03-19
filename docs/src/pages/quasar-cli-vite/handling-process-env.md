@@ -10,15 +10,15 @@ Accessing `process.env` can help you in many ways:
 
 ## Values supplied by Quasar CLI
 
-| Name | Type | Meaning |
+| `process.env.<name>` | Type | Meaning |
 | --- | --- | --- |
-| `process.env.DEV` | Boolean | Code runs in development mode |
-| `process.env.PROD` | Boolean | Code runs in production mode |
-| `process.env.DEBUGGING` | Boolean | Code runs in development mode or `--debug` flag was set for production mode |
-| `process.env.CLIENT` | Boolean | Code runs on client (not on server) |
-| `process.env.SERVER` | Boolean | Code runs on server (not on client) |
-| `process.env.MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
-| `process.env.NODE_ENV` | String | Has two possible values: `production` or `development` |
+| `DEV` | Boolean | Code runs in development mode |
+| `PROD` | Boolean | Code runs in production mode |
+| `DEBUGGING` | Boolean | Code runs in development mode or `--debug` flag was set for production mode |
+| `CLIENT` | Boolean | Code runs on client (not on server) |
+| `SERVER` | Boolean | Code runs on server (not on client) |
+| `MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
+| `NODE_ENV` | String | Has two possible values: `production` or `development` |
 
 ## Vite's own env
 
@@ -31,9 +31,10 @@ if (process.env.DEV) {
   console.log(`I'm on a development build`)
 }
 
-// process.env.MODE is the <mode> in
+// process.env. MODE is the <mode> in
 // "quasar dev/build -m <mode>"
 // (defaults to 'spa' if -m parameter is not specified)
+
 if (process.env.MODE === 'electron') {
   const { BrowserWindow } = require('@electron/remote')
   const win = BrowserWindow.getFocusedWindow()
@@ -109,7 +110,7 @@ module.exports = function (ctx) {
 }
 ```
 
-Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
+Then in your website/app you can access `process.env. API` and it's gonna point to one of those two links above, based on dev or production build type.
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
 
@@ -158,4 +159,4 @@ Be sure to read the [dotenv documentation](https://www.npmjs.com/package/dotenv)
     }
     ```
 
-    ..then `console.log(process.env.my)` will also error out. Only the "full path" of your definition (`process.env.my.prop`) will get replaced in your code.
+    ..then `console.log(process.env. my)` will also error out. Only the "full path" of your definition (`process.env. my.prop`) will get replaced in your code.

@@ -39,8 +39,8 @@
 import { computed } from 'vue'
 import { mdiArrowUpBold, mdiArrowDownBold, mdiKeyboardReturn, mdiKeyboardEsc } from '@quasar/extras/mdi-v6'
 
-import ResultPageContent from 'components/search-results/ResultPageContent'
-import ResultPageLink from 'components/search-results/ResultPageLink'
+import ResultPageContent from 'components/search-results/ResultPageContent.vue'
+import ResultPageLink from 'components/search-results/ResultPageLink.vue'
 
 export const apiTypeToComponentMap = {
   'page-content': ResultPageContent,
