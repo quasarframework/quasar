@@ -162,6 +162,18 @@ export default Vue.extend({
 
     menu (show) {
       this.__updateMenu(show)
+    },
+
+    virtualScrollLength () {
+      if (this.menu === true && this.innerLoading === false) {
+        this.reset()
+
+        this.$nextTick(() => {
+          if (this.menu === true && this.innerLoading === false) {
+            this.__updateMenu(true)
+          }
+        })
+      }
     }
   },
 
