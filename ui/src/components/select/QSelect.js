@@ -175,6 +175,7 @@ export default createComponent({
       localResetVirtualScroll,
       padVirtualScroll,
       onVirtualScrollEvt,
+      reset,
       scrollTo,
       setVirtualScrollSize
     } = useVirtualScroll({
@@ -431,6 +432,8 @@ export default createComponent({
     watch(() => props.fillInput, resetInputValue)
 
     watch(menu, updateMenu)
+
+    watch(virtualScrollLength, rerenderMenu)
 
     function getEmittingOptionValue (opt) {
       return props.emitValue === true
@@ -1337,6 +1340,18 @@ export default createComponent({
       }
 
       setOptionIndex(optionIndex)
+    }
+
+    function rerenderMenu () {
+      if (menu.value === true && state.innerLoading.value === false) {
+        reset()
+
+        nextTick(() => {
+          if (menu.value === true && state.innerLoading.value === false) {
+            updateMenu(true)
+          }
+        })
+      }
     }
 
     function updateMenuPosition () {
