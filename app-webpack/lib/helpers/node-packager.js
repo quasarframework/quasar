@@ -112,19 +112,19 @@ function getPackager () {
   const yarn = new Yarn()
   const npm = new Npm()
 
-  if (yarn.isUsed) {
+  if (yarn.isUsed()) {
     return yarn
   }
 
-  if (npm.isUsed) {
+  if (npm.isUsed()) {
     return npm
   }
 
-  if (yarn.isInstalled) {
+  if (yarn.isInstalled()) {
     return yarn
   }
 
-  if (npm.isInstalled) {
+  if (npm.isInstalled()) {
     return npm
   }
 
