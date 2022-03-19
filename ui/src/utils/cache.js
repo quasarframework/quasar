@@ -4,9 +4,8 @@ export default function cache (vm, key, obj) {
   if (isSSR === true) return obj
 
   const k = `__qcache_${key}`
-  return vm[k] === void 0
-    ? (vm[k] = obj)
-    : vm[k]
+  vm[k] === void 0 && (vm[k] = Array.isArray(obj) === true ? () => ([ ...obj ]) : () => ({ ...obj }))
+  return vm[k]()
 }
 
 export function cacheWithFn (vm, key, fn) {
@@ -14,8 +13,8 @@ export function cacheWithFn (vm, key, fn) {
 
   const k = `__qcache_${key}`
   return vm[k] === void 0
-    ? (vm[k] = fn())
-    : vm[k]
+    ? cache(vm, key, fn())
+    : vm[k]()
 }
 
 export function getPropCacheMixin (propName, proxyPropName) {
