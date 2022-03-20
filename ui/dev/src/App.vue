@@ -46,6 +46,9 @@ import { Quasar, Dark, useQuasar, useMeta } from 'quasar'
 import { ref, watch, onMounted } from 'vue'
 import languages from 'quasar/lang/index.json'
 
+const langList = import.meta.glob('../../lang/*.mjs')
+const iconSetList = import.meta.glob('../../icon-set/*.mjs')
+
 export default {
   setup () {
     const $q = useQuasar()
@@ -56,13 +59,13 @@ export default {
     const showSelector = ref(false)
 
     watch(lang, lang => {
-      import('quasar/lang/' + lang).then(lang => {
+      langList[ `../../lang/${ lang }.mjs` ]().then(lang => {
         $q.lang.set(lang.default)
       })
     })
 
     watch(iconSet, set => {
-      import('quasar/icon-set/' + set).then(iconSet => {
+      iconSetList[ `../../icon-set/${ set }.mjs` ]().then(iconSet => {
         $q.iconSet.set(iconSet.default)
       })
     })

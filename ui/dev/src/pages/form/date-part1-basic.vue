@@ -338,12 +338,7 @@
 </template>
 
 <script>
-import languages from 'quasar/lang/index.json'
-
-const localeOptions = languages.map(lang => ({
-  label: lang.nativeName,
-  value: require(`quasar/lang/${ lang.isoName }.js`)
-}))
+const langList = import.meta.glob('../../../../lang/*.mjs')
 
 export default {
   data () {
@@ -374,8 +369,23 @@ export default {
       inputFull: null,
 
       locale: null,
-      localeOptions
+      localeOptions: []
     }
+  },
+
+  created () {
+    const promises = []
+    for (const key in langList) {
+      promises.push(langList[ key ]())
+    }
+
+    Promise.all(promises)
+      .then(languages => {
+        this.localeOptions = languages.map(lang => ({
+          label: lang.nativeName,
+          value: lang
+        }))
+      })
   },
 
   computed: {

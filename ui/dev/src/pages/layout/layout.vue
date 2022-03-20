@@ -470,10 +470,10 @@
 </template>
 
 <style lang="sass">
-  .fit-min
-    min-width: 100%
-    min-height: 100%
-    height: 0px
+.fit-min
+  min-width: 100%
+  min-height: 100%
+  height: 0px
 </style>
 
 <script>

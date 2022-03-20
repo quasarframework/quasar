@@ -1,10 +1,14 @@
-const path = require('path')
-const ESLintPlugin = require('eslint-webpack-plugin')
+const { join } = require('path')
 
 module.exports = function (ctx) {
   return {
+    eslint: {
+      fix: true,
+      warnings: true,
+      errors: true
+    },
+
     boot: [
-      { path: 'force-hmr', server: false },
       ctx.mode.ssr ? { path: 'ssr-client', server: false } : ''
     ],
 
@@ -55,97 +59,36 @@ module.exports = function (ctx) {
     },
 
     build: {
-      rtl: false,
       vueRouterMode: 'history',
-      // showProgress: false,
 
-      chainWebpack (chain) {
-        chain.resolve.alias
-          .set('quasar$', path.join(__dirname, '../src/index.all.js'))
-          .set('quasar/dist/quasar.sass', path.join(__dirname, '../src/css/index.sass'))
-          .set('quasar/icon-set', path.join(__dirname, '../icon-set'))
-          .set('quasar/lang', path.join(__dirname, '../lang'))
-          .set('quasar/src', path.join(__dirname, '../src/'))
+      alias: {
+        'quasar/dist/quasar.sass': join(__dirname, '../src/css/index.sass'),
+        'quasar/icon-set': join(__dirname, '../icon-set'),
+        'quasar/lang': join(__dirname, '../lang'),
+        'quasar/src': join(__dirname, '../src')
+      },
 
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [ {
-            extensions: [ 'js', 'vue' ],
-            exclude: 'node_modules'
-          } ])
+      extendViteConf (viteConf, { isServer }) {
+        viteConf.server = viteConf.server || {}
+        viteConf.server.fs = viteConf.server.fs || {}
+        viteConf.server.fs.allow = [ '..' ]
+
+        if (isServer) {
+          viteConf.resolve.alias.quasar = join(__dirname, '../src/index.all.js')
+        }
       }
     },
-
-    // supportTS: true,
 
     devServer: {
       https: false,
-      port: 8080,
+      // port: 8080,
       open: true // opens browser window automatically
     },
 
-    animations: [],
-
     ssr: {
-      pwa: false,
-
       middlewares: [
-        ctx.prod ? 'compression' : '',
         'render' // keep this as last one
       ]
-    },
-
-    pwa: {
-      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
-      manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar App',
-        description: 'A Quasar Framework app',
-        display: 'standalone',
-        orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
-        icons: [
-          {
-            src: 'statics/icons/icon-128x128.png',
-            sizes: '128x128',
-            type: 'image/png'
-          },
-          {
-            src: 'statics/icons/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'statics/icons/icon-256x256.png',
-            sizes: '256x256',
-            type: 'image/png'
-          },
-          {
-            src: 'statics/icons/icon-384x384.png',
-            sizes: '384x384',
-            type: 'image/png'
-          },
-          {
-            src: 'statics/icons/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
-    },
-
-    cordova: {
-      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
-    },
-
-    capacitor: {
-      hideSplashscreen: true
-    },
-
-    electron: {
-      bundler: 'packager', // 'packager' or 'builder'
-      nodeIntegration: true
     }
   }
 }
