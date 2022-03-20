@@ -88,10 +88,6 @@ class SsrBuilder extends AppBuilder {
     const appPkg = require(appPaths.resolve.app('package.json'))
     const { dependencies: cliDeps } = require(appPaths.resolve.cli('package.json'))
 
-    if (appPkg.dependencies !== void 0) {
-      delete appPkg.dependencies['@quasar/extras']
-    }
-
     const appDeps = getFixedDeps(appPkg.dependencies || {})
 
     const pkg = {
