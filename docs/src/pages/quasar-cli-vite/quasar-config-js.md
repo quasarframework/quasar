@@ -405,42 +405,12 @@ interface QuasarStaticBuildConfiguration {
   vitePlugins?: object[];
 
   /**
-   * Prepare external services before `$ quasar dev` command runs
-   * like starting some backend or any other service that the app relies on.
-   * Can use async/await or directly return a Promise.
+   * @example setting an alias for a custom folder
+   *    {
+   *       locales: path.join(__dirname, 'src/locales')
+   *    }
    */
-  beforeDev?: (params: QuasarHookParams) => void;
-
-  /**
-   * Run hook after Quasar dev server is started (`$ quasar dev`).
-   * At this point, the dev server has been started and is available should you wish to do something with it.
-   * Can use async/await or directly return a Promise.
-   */
-  afterDev?: (params: QuasarHookParams) => void;
-
-  /**
-   * Run hook before Quasar builds app for production (`$ quasar build`).
-   * At this point, the distributables folder hasn’t been created yet.
-   * Can use async/await or directly return a Promise.
-   */
-  beforeBuild?: (params: QuasarHookParams) => void;
-
-  /**
-   * Run hook after Quasar built app for production (`$ quasar build`).
-   * At this point, the distributables folder has been created and is available
-   *  should you wish to do something with it.
-   * Can use async/await or directly return a Promise.
-   */
-  afterBuild?: (params: QuasarHookParams) => void;
-
-  /**
-   * Run hook if publishing was requested (`$ quasar build -P`),
-   *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
-   * Can use async/await or directly return a Promise.
-   * `opts` is Object of form `{arg, distDir}`,
-   * where “arg” is the argument supplied (if any) to -P parameter.
-   */
-  onPublish?: (ops: { arg: string; distDir: string }) => void;
+  alias?: object[];
 
   /**
    * Public path of your app.
@@ -537,6 +507,44 @@ interface QuasarStaticBuildConfiguration {
    * @default false
    */
   sourcemap?: boolean | 'inline' | 'hidden';
+
+  /**
+   * Prepare external services before `$ quasar dev` command runs
+   * like starting some backend or any other service that the app relies on.
+   * Can use async/await or directly return a Promise.
+   */
+  beforeDev?: (params: QuasarHookParams) => void;
+
+  /**
+   * Run hook after Quasar dev server is started (`$ quasar dev`).
+   * At this point, the dev server has been started and is available should you wish to do something with it.
+   * Can use async/await or directly return a Promise.
+   */
+  afterDev?: (params: QuasarHookParams) => void;
+
+  /**
+   * Run hook before Quasar builds app for production (`$ quasar build`).
+   * At this point, the distributables folder hasn’t been created yet.
+   * Can use async/await or directly return a Promise.
+   */
+  beforeBuild?: (params: QuasarHookParams) => void;
+
+  /**
+   * Run hook after Quasar built app for production (`$ quasar build`).
+   * At this point, the distributables folder has been created and is available
+   *  should you wish to do something with it.
+   * Can use async/await or directly return a Promise.
+   */
+  afterBuild?: (params: QuasarHookParams) => void;
+
+  /**
+   * Run hook if publishing was requested (`$ quasar build -P`),
+   *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
+   * Can use async/await or directly return a Promise.
+   * `opts` is Object of form `{arg, distDir}`,
+   * where “arg” is the argument supplied (if any) to -P parameter.
+   */
+  onPublish?: (ops: { arg: string; distDir: string }) => void;
 }
 ```
 
@@ -627,6 +635,96 @@ Then (just an example showing you how to reference a variable defined above, in 
 | bex | Object | BEX specific [config](/quasar-cli-vite/developing-browser-extensions/configuring-bex). |
 
 
-## Example setting env for dev/build
+## Examples
+
+### Setting env for dev/build
 
 Please refer to [Adding to process.env](/quasar-cli-vite/handling-process-env#adding-to-process-env) section in our docs.
+
+### Adding Vite plugins
+
+Make sure to yarn/npm install the vite plugin package that you want to use, then edit `/quasar.config.js`:
+
+```js
+build: {
+  vitePlugins: [
+    [ '<plugin-name>', { /* plugin options */ } ]
+  ]
+}
+```
+
+There are multiple syntaxes supported:
+
+```js
+vitePlugins: [
+  [ '<plugin1-name>', { /* plugin1 options */ } ],
+  [ '<plugin2-name>', { /* plugin2 options */ } ],
+  // ...
+]
+
+// or:
+
+vitePlugins: [
+  [ require('<plugin1-name>'), { /* plugin1 options */ } ],
+  [ require('<plugin2-name>'), { /* plugin2 options */ } ],
+  // ...
+]
+
+// finally, you can specify using the form below,
+// but this one has a drawback in that Quasar CLI cannot pick up
+// when you change the options param so you'll have to manually
+// restart the dev server
+
+vitePlugins: [
+  require('<plugin1-name>')({ /* plugin1 options */ }),
+  require('<plugin2-name>')({ /* plugin2 options */ })
+  // ...
+]
+```
+
+::: tip
+You might actually bump into Vite plugins that need to be used as `require('<package-name>').default` instead of `require('<package-name>')`. So:
+
+<br>
+
+```js
+vitePlugins: [
+  [ require('<plugin1-name>').default, { /* plugin1 options */ } ],
+  // ...
+]
+```
+:::
+
+And, should you want, you can also add Vite plugins through `extendViteConf()` in `/quasar.config.js`. This is especially useful for (but not limited to) SSR mode where you'd want a Vite plugin to be applied only on the server-side or the client-side:
+
+```js
+build: {
+  extendViteConf (viteConf, { isClient, isServer }) {
+    viteConf.plugins.push(
+      require('<plugin1-name>')({ /* plugin1 options */ }),
+      require('<plugin2-name>')({ /* plugin2 options */ })
+      // ...
+    )
+  }
+}
+```
+
+Moreover, don't forget that your `/quasar.config.js` exports a function that receives `ctx` as parameter. You can use it throughout the whole config file to apply settings only to certain Quasar modes or only to dev or prod:
+
+```js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf, { isClient, isServer }) {
+        if (ctx.mode.pwa) {
+          viteConf.plugins.push(/* ... */)
+        }
+
+        if (ctx.dev) {
+          viteConf.plugins.push(/* ... */)
+        }
+      }
+    }
+  }
+}
+```
