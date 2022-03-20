@@ -65,7 +65,7 @@
   "homepage": "https://quasar.dev",
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@quasar/app": "^3.0.0",
+    "@quasar/app-webpack": "^3.0.0",
     "@quasar/extras": "^1.12.0",
     "@quasar/quasar-app-extension-testing-e2e-cypress": "^4.0.1",
     "@rollup/plugin-node-resolve": "^11.2.1",
