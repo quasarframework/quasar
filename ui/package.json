@@ -17,7 +17,9 @@
   "scripts": {
     "clean": "node build/script.clean.js",
     "dev": "cd ./dev && node ./script.dev.js dev && cd ..",
+    "dev:build": "cd ./dev && node ./script.build.js dev && cd ..",
     "dev:ssr": "cd ./dev && node ./script.dev.js dev -m ssr && cd ..",
+    "dev:build:ssr": "cd ./dev && node ./script.build.js dev -m ssr && cd ..",
     "dev:cordova:ios": "cd ./dev && node ./script.dev.js dev -m cordova -T ios && cd ..",
     "dev:cordova:android": "cd ./dev && node ./script.dev.js dev -m cordova -T android && cd ..",
     "dev:capacitor:ios": "cd ./dev && node ./script.dev.js dev -m capacitor -T ios && cd ..",
