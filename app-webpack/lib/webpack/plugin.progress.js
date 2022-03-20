@@ -144,7 +144,7 @@ function getReadyBanner (cfg) {
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                      `)
+    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                              `)
     : chalk.green(cfg.build.APP_URL)
 
   return [
