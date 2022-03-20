@@ -4,7 +4,7 @@ desc: (@quasar/app-vite) How to access files in a Quasar desktop app.
 ---
 
 ## Using __dirname & __filename
-Since the main process is bundled using webpack, the use of `__dirname` and `__filename` will not provide an expected value in production. Referring to the File Tree, you'll notice that in production the electron-main.js and electron-preload.js files are placed inside the `dist/electron-*` folder. Based on this knowledge, use `__dirname` & `__filename` accordingly.
+Since the main process is bundled using Esbuild, the use of `__dirname` and `__filename` will not provide an expected value in production. Referring to the File Tree, you'll notice that in production the electron-main.js and electron-preload.js files are placed inside the `dist/electron-*` folder. Based on this knowledge, use `__dirname` & `__filename` accordingly.
 
 ```bash
 app.asar

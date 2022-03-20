@@ -176,7 +176,7 @@ return {
 }
 ```
 
-Or with a [boot file](/quasar-cli/boot-files):
+Or with a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files):
 
 ```js
 // For Quasar CLI

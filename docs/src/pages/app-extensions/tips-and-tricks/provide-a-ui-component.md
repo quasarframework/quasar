@@ -79,7 +79,7 @@ function extendConf (conf, api) {
 }
 ```
 
-Finally, let's see how the boot file would look like. Make sure that you read the [Boot files](/quasar-cli/boot-files) documentation and understand what a Boot file is first.
+Finally, let's see how the boot file would look like. Make sure that you read the [@quasar/app-vite Boot files](/quasar-cli-vite/boot-files) / [@quasar/app-webpack Boot files](/quasar-cli-webpack/boot-files) documentation and understand what a Boot file is first.
 
 ```js
 // file: /src/boot/register-my-component.js

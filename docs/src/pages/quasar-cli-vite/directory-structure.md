@@ -12,7 +12,7 @@ If you are a beginner, all you'll need to care about is `/quasar.config.js` (Qua
 .
 ├── public/                  # pure static assets (directly copied)
 ├── src/
-│   ├── assets/              # dynamic assets (processed by webpack)
+│   ├── assets/              # dynamic assets (processed by Vite)
 │   ├── components/          # .vue components used in pages & layouts
 │   ├── css/                 # CSS/Sass/... files for your app
 |   |   ├── app.sass
