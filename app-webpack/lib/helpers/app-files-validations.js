@@ -18,7 +18,7 @@ module.exports = function (cfg) {
     error = true
   }
 
-  if (content.indexOf('<div id="q-app') === -1) {
+  if (!/<div id=['"]q-app/.test(content)) {
     warn(`Please add back <div id="q-app"></div> to
     /src/index.template.html inside of <body>\n`)
     error = true
