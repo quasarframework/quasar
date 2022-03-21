@@ -30,7 +30,7 @@ div
 import { ref } from 'vue'
 import apiList from 'quasar/dist/transforms/api-list.json'
 
-import DocApi from 'components/DocApi'
+import DocApi from 'components/DocApi.vue'
 
 export default {
   name: 'DocApiExplorer',

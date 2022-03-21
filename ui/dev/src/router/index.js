@@ -10,7 +10,7 @@ export default function (/* { store, ssrContext } */) {
   const Router = createRouter({
     scrollBehavior: to => (to.meta && to.meta.skipScroll === true ? false : { x: 0, y: 0 }),
     routes,
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   return Router

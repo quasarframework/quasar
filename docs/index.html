@@ -20,6 +20,20 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.quasar.dev/logo-v2/favicon/favicon-16x16.png">
     <link rel="icon" type="image/ico" href="https://cdn.quasar.dev/logo-v2/favicon/favicon.ico">
 
+    <% if (ctx.mode.pwa) { %>
+    <meta name="theme-color" content="<%= pwaManifest.theme_color %>">
+    <link rel="mask-icon" href="https://cdn.quasar.dev/logo-v2/favicon/safari-pinned-tab.svg" color="<%= pwaManifest.theme_color %>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileImage" content="https://cdn.quasar.dev/logo-v2/favicon/ms-icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="apple-mobile-web-app-title" content="<%= pwaManifest.name %>">
+    <link rel="apple-touch-icon" href="https://cdn.quasar.dev/logo-v2/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://cdn.quasar.dev/logo-v2/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="https://cdn.quasar.dev/logo-v2/favicon/apple-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.quasar.dev/logo-v2/favicon/apple-icon-180x180.png">
+    <% } %>
+
     <link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)" href="https://cdn.quasar.dev/logo-v2/favicon/apple-launch-1284x2778.png">
     <link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="https://cdn.quasar.dev/logo-v2/favicon/apple-launch-1170x2532.png">
     <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" href="https://cdn.quasar.dev/logo-v2/favicon/apple-launch-828x1792.png">
@@ -42,7 +56,6 @@
     </script>
   </head>
   <body>
-    <!-- DO NOT touch the following DIV -->
-    <div id="q-app"></div>
+    <!-- quasar:entry-point -->
   </body>
 </html>

@@ -146,7 +146,7 @@ async function parseAddress ({ host, port }) {
 }
 
 function startVueDevtools () {
-  const { spawn, spawnSync } = require('../lib/helpers/spawn')
+  const { spawn } = require('../lib/helpers/spawn')
   const getPackagePath = require('../lib/helpers/get-package-path')
 
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')

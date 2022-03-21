@@ -10,7 +10,7 @@
 import { computed } from 'vue'
 
 import CodePrism from './CodePrism.js'
-import CopyButton from './CopyButton'
+import CopyButton from './CopyButton.vue'
 
 export default {
   name: 'DocCode',

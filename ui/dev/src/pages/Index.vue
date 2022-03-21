@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import pages from 'src/router/pages-list'
+import { pagesRoutes } from 'src/router/pages'
 
 const STORAGE_KEY = 'index-filter'
-
 const list = {}
-pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
+
+pagesRoutes.map(page => page.slice(1, page.length - 4)).forEach(page => {
   const [ folder, file ] = page.split('/')
   if (!list[ folder ]) {
     list[ folder ] = []

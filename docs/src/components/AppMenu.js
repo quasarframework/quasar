@@ -12,7 +12,7 @@ import { mdiArrowDownThinCircleOutline } from '@quasar/extras/mdi-v6'
 import { h, ref, watch, onBeforeUpdate, withDirectives } from 'vue'
 import { useRoute } from 'vue-router'
 
-import Menu from 'assets/menu.js'
+import Menu from 'assets/menu.json'
 import './AppMenu.sass'
 
 function getParentVm (vm) {

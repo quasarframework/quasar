@@ -123,10 +123,10 @@ q-page.landing
 <script>
 import { useMeta } from 'quasar'
 
-import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
-import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
-import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
-// import SurveyCountdown from '../components/SurveyCountdown'
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor.vue'
+import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList.vue'
+import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo.vue'
+// import SurveyCountdown from '../components/SurveyCountdown.vue'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,

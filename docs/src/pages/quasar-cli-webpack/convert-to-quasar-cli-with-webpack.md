@@ -39,7 +39,14 @@ Also move `/index.html` to `/src/index.template.html`. And make the following ch
 <div id="q-app"></div>
 ```
 
-Also, edit `/src/router/index.js`. Change `history: createHistory(process.env.VUE_ROUTER_BASE)` to `history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)`.
+Also, edit `/src/router/index.js`:
+
+```js
+// Change:
+history: createHistory(process.env.VUE_ROUTER_BASE)
+// Into:
+history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+```
 
 ### 3. Check the new quasar.config.js
 

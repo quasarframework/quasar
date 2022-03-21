@@ -2,7 +2,7 @@
  * Manages headings
  */
 
-const { slugify } = require('./utils')
+const { slugify } = require('../utils')
 
 const titleRE = /<\/?[^>]+(>|$)/g
 

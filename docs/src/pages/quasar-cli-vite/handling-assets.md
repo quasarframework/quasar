@@ -7,17 +7,15 @@ You will notice in the project structure we have two directories for assets: `/p
 So let's try to answer the question above. We'll first talk about using regular assets then we'll see what the difference is for static assets.
 
 ## Regular assets - /src/assets
-In `*.vue` components, all your templates and CSS are parsed by `vue-html-loader` and `css-loader` to look for asset URLs. For example, in `<img src="./logo.png">` and `background: url(./logo.png)`, `"./logo.png"` is a relative asset path and will be resolved by Webpack as a module dependency.
+In `*.vue` components, all your templates and CSS are parsed by `vue-html-loader` and `css-loader` to look for asset URLs. For example, in `<img src="./logo.png">` and `background: url(./logo.png)`, `"./logo.png"` is a relative asset path and will be resolved by Vite as a module dependency.
 
-Because `logo.png` is not JavaScript, when treated as a module dependency, we need to use `url-loader` and `file-loader` to process it. Quasar CLI has already configured these webpack loaders for you, so you basically get features such as filename fingerprinting and conditional base64 inlining for free, while being able to use relative/module paths without worrying about deployment.
-
-Since these assets may be inlined/copied/renamed during build, they are essentially part of your source code. This is why it is recommended to place Webpack-processed assets inside `/src/assets`, along side other source files. In fact, you don't even have to put them all in `/src/assets`: you can organize them based on the module/component using them. For example, you can put each component in its own directory, with its static assets right next to it.
+Since these assets may be inlined/copied/renamed during build, they are essentially part of your source code. This is why it is recommended to place Vite-processed assets inside `/src/assets`, along side other source files. In fact, you don't even have to put them all in `/src/assets`: you can organize them based on the module/component using them. For example, you can put each component in its own directory, with its static assets right next to it.
 
 ### Asset Resolving Rules
 
-Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependency. They will be replaced with an auto-generated URL based on your Webpack output configuration.
+Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependency. They will be replaced with an auto-generated URL based on your Vite output configuration.
 
-URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. Quasar provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
+URLs prefixed with `~` are treated as a module request, similar to `import 'some-module/image.png'`. You need to use this prefix if you want to leverage Vite's module resolving configurations. Quasar provides the `assets` alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
 
 ## Static Assets - /public
 Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed at all. The content of the public folder is simply copied over to the distributable folder as-is.

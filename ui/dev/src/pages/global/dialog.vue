@@ -514,7 +514,7 @@
 
     <q-dialog v-model="complexCard">
       <q-card>
-        <q-img :src="require('assets/donuts.png')" />
+        <q-img src="~assets/donuts.png" />
 
         <q-card-section>
           <q-btn

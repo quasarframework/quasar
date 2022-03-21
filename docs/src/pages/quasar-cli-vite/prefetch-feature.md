@@ -176,11 +176,28 @@ If `redirect(false)` is called (supported only on client-side!), it aborts the c
 
 The `redirect()` method requires a Vue Router location Object.
 
-### Using preFetch to Initialize the Store
-The `preFetch` hook runs only once, when the app boots up, so you can use this opportunity to initialize the Vuex Store here.
+### Using preFetch to Initialize Pinia or Vuex Store(s)
+The `preFetch` hook runs only once, when the app boots up, so you can use this opportunity to initialize the Pinia store(s) or the Vuex Store here.
 
 ```js
-// App.vue
+// App.vue - handling Pinia stores
+// example with a store named "myStore"
+// placed in /src/stores/myStore.js|ts
+
+import { useMyStore } from 'stores/myStore'
+
+export default {
+  // ...
+  preFetch () {
+    const myStore = useMyStore()
+    // do something with myStore
+  }
+}
+```
+
+```js
+// App.vue - handling Vuex store
+
 export default {
   // ...
   preFetch ({ store }) {
@@ -189,7 +206,7 @@ export default {
 }
 ```
 
-### Store Code Splitting
+### Vuex Store Code Splitting
 In a large application, your Vuex store will likely be split into multiple modules. Of course, it is also possible to code-split these modules into corresponding route component chunks. Suppose we have the following store module:
 
 ```js
@@ -262,13 +279,13 @@ export default {
 </script>
 ```
 
-Also note that because the module is now a dependency of the route component, it will be moved into the route component's async chunk by Webpack.
+Also note that because the module is now a dependency of the route component, it will be moved into the route component's async chunk by Vite.
 
 ::: warning
 Don't forget to use the `preserveState: true` option for `registerModule` so we keep the state injected by the server.
 :::
 
-### Usage with TypeScript
+### Usage with Vuex and TypeScript
 
 You can use `preFetch` helper to type-hint the store parameter (which will otherwise have an `any` type):
 

@@ -1,10 +1,10 @@
-const join = require('path').join
+const { join } = require('path')
 
-const menu = require('../src/assets/menu')
+const menu = require('../../src/assets/menu.json')
+const prefix = join(__dirname, '../../src/pages')
+
+let prev = null
 const flatMenu = {}
-const prefix = join(__dirname, '../src/pages')
-
-let prev
 
 function menuWalk (node, path, parentName) {
   const newPath = path + (node.path ? `/${node.path}` : '')
@@ -21,7 +21,7 @@ function menuWalk (node, path, parentName) {
       path: newPath
     }
 
-    if (prev !== void 0) {
+    if (prev !== null) {
       prev.next = {
         name: current.name,
         category: current.category,
@@ -34,7 +34,7 @@ function menuWalk (node, path, parentName) {
       }
     }
 
-    flatMenu[join(prefix, newPath + '.md')] = current
+    flatMenu[ join(prefix, newPath + '.md') ] = current
     prev = current
   }
 }
@@ -44,11 +44,12 @@ menu.forEach(n => {
 })
 
 module.exports.flatMenu = flatMenu
-module.exports.convertToRelated = function (entry) {
-  const menu = flatMenu[join(prefix, entry + '.md')]
+
+module.exports.convertToRelated = function (entry, id) {
+  const menu = flatMenu[ join(prefix, entry + '.md') ]
 
   if (!menu) {
-    console.error('Erroneous related link: ' + entry)
+    console.error('[flat-menu] ERROR - wrong related link:', entry, '@id', id)
     return {}
   }
 

@@ -1,17 +1,17 @@
 const fs = require('fs')
 const path = require('path')
 const md = require('markdown-ast')
-const { parseFrontMatter } = require('./md-loader-utils.js')
+const { parseFrontMatter } = require('../md/md-parse-utils.js')
 
-const { slugify } = require('./utils')
+const { slugify } = require('../utils')
 
 const levelName = 'l'
 
 // get the menu from assets folder
-const menu = require('../src/assets/menu.js')
+const menu = require('../../src/assets/menu.json')
 
 // where the markdown lives
-const intro = '../src/pages'
+const intro = '../../src/pages'
 
 let objectID = 1
 const getObjectID = () => objectID++
@@ -24,7 +24,7 @@ function parseRank (rank) {
 }
 
 const createFolder = (folder) => {
-  const dir = path.join(__dirname, '..', folder)
+  const dir = path.join(__dirname, '../..', folder)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir)
   }
@@ -286,7 +286,7 @@ const run = () => {
 
   createFolder('dist')
 
-  const fileName = path.resolve(__dirname, '../dist/indices.json')
+  const fileName = path.resolve(__dirname, '../../dist/indices.json')
   const entries = []
 
   menu.forEach(item => {
