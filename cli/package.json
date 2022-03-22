@@ -59,7 +59,7 @@
     "inquirer": "8.1.0",
     "metalsmith": "2.3.0",
     "minimatch": "3.0.4",
-    "minimist": "1.2.5",
+    "minimist": "1.2.6",
     "multimatch": "5.0.0",
     "open": "7.0.4",
     "ora": "5.4.0",
