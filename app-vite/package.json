@@ -69,7 +69,7 @@
     "kolorist": "1.5.1",
     "lodash.debounce": "4.0.8",
     "lodash.template": "4.5.0",
-    "minimist": "1.2.5",
+    "minimist": "1.2.6",
     "open": "8.4.0",
     "ouch": "2.0.0",
     "postcss": "^8.4.4",
