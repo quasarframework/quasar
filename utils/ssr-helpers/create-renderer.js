@@ -142,7 +142,7 @@ module.exports = function createRenderer (opts) {
       return app
     }
     catch (err) {
-      rewriteErrorTrace(err)
+      await rewriteErrorTrace(err)
       throw err
     }
   }

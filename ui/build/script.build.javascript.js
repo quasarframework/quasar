@@ -277,7 +277,7 @@ const runBuild = {
     addUmdAssets(builds, 'lang', 'lang')
     addUmdAssets(builds, 'icon-set', 'iconSet')
 
-    build(builds)
+    await build(builds)
   },
 
   async types () {
