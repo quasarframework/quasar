@@ -9,11 +9,11 @@ If you want to embed Quasar into your existing [Vite](https://vitejs.dev) projec
 What our Vite plugin offers out of the box is tree-shaking for Quasar and also Quasar Sass variables integration.
 
 ::: warning Warning! Limitation ahead:
-* Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/quasar-cli-vite/installation) under the hood.
+* Are you sure that you've landed correctly? This page will teach you to use our Vite plugin, but it's not the same as our full-fledged [Quasar CLI with Vite](/quasar-cli-vite) under the hood.
 * SSR builds with our Vite plugin are not supported (only through our Quasar CLI with Vite).
 :::
 
-> Cross-platform support with Vite is handled by community plugins. These are not tightly integrated with Quasar as with Quasar CLI and may have issues. This is why for the best developer experience we recommend to use [Quasar CLI with Vite](/quasar-cli-vite/installation) instead.
+> Cross-platform support with Vite is handled by community plugins. These are not tightly integrated with Quasar as with Quasar CLI and may have issues. This is why for the best developer experience we recommend to use [Quasar CLI with Vite](/quasar-cli-vite) instead.
 
 ## Creating a Vite project
 
