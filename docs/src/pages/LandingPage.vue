@@ -250,7 +250,7 @@ q {
   position: relative;
 
   &:before {
-    background-image: url(~assets/landing-page/background-images/astronaut-left-hand.png), url(~assets/landing-page/background-images/astronaut-right-hand.png);
+    background-image: url(../assets/landing-page/background-images/astronaut-left-hand.png), url(../assets/landing-page/background-images/astronaut-right-hand.png);
     background-size: 47%, 47%;
     background-position: left bottom, calc(100% + 25px) calc(100% - #{$support-quasar-background-padding / 3});
     background-repeat: no-repeat, no-repeat;

@@ -229,7 +229,7 @@ const processPage = (page, entry, entries) => {
   processMarkdown(ast, entries, entryItem)
 }
 
-// process child entries from menu.js
+// process child entries from menu.json
 const processChildren = (parent, entry, entries) => {
   if (parent.children) {
     parent.children.forEach(menuItem => {

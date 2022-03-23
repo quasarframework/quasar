@@ -13,7 +13,7 @@ export const getVersionHistory = (quasarVersion) => [
   {
     label: 'Release notes',
     icon: mdiClipboardText,
-    path: '/start/release-notes'
+    path: 'start/release-notes'
   },
   {
     label: 'Report a bug',

@@ -40,14 +40,12 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@use 'sass:map';
-
 // Increases specificity to avoid 'doc-img' class to override the defined padding
 .sponsor.sponsor.sponsor {
   box-sizing: content-box;
   max-height: 80px;
   max-width: 200px;
-  padding: map.get($space-md, 'x');
+  padding: map-get($space-md, 'x');
   width: 100%;
 
   @media (min-width: $breakpoint-sm-min) {

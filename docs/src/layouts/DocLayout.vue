@@ -56,7 +56,7 @@ import {
 import AppMenu from 'components/AppMenu.js'
 // import SurveyCountdown from 'components/SurveyCountdown.vue'
 import HeaderMenu from 'components/HeaderMenu.vue'
-import MainLayoutHeader from 'components/header/MainLayoutHeader'
+import MainLayoutHeader from 'components/header/MainLayoutHeader.vue'
 
 import useToc from './doc-layout/use-toc'
 import useDrawers from './doc-layout/use-drawers'
