@@ -26,7 +26,7 @@
     "node": ">=12"
   },
   "scripts": {
-    "lint": "eslint --no-eslintrc --config .eslintrc.js --ext .js,.ts ./ --fix"
+    "lint": "eslint --ext .js,.ts ./ --fix"
   },
   "dependencies": {
     "fast-glob": "^3.2.11",
