@@ -58,7 +58,7 @@ const builds = [
         input: pathResolve('entry/index.umd.js')
       },
       output: {
-        name: '{{umdExportName}}',
+        name: '<%= umdExportName %>',
         file: pathResolve('../dist/index.umd.js'),
         format: 'umd'
       }
@@ -107,7 +107,7 @@ function addAssets (builds, type, injectName) {
           output: {
             file: addExtension(pathResolve(`../dist/${type}/${file}`), 'umd'),
             format: 'umd',
-            name: `{{umdExportName}}.${injectName}.${name}`
+            name: `<%= umdExportName %>.${injectName}.${name}`
           }
         },
         build: {
