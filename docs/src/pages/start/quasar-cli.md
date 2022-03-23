@@ -16,6 +16,11 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 
 ## TL;DR
 
+::: tip Requirements:
+* Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
+* Yarn v1 (strongly recommended) or NPM.
+:::
+
 ```bash
 $ yarn global add @quasar/cli
 $ yarn create quasar
@@ -35,6 +40,11 @@ Pick `Quasar CLI with Vite` if you want:
 <q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
 
 ## Installation / Project Scaffolding
+
+::: tip Requirements:
+* Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
+* Yarn v1 (strongly recommended) or NPM.
+:::
 
 1. Let's create a Quasar app:
 
