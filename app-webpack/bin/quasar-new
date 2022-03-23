@@ -137,7 +137,9 @@ function createFile (asset, file) {
   let templatePath = path.join('templates/app', format)
 
   templatePath = type === 'store'
-    ? path.join(templatePath, 'store', storeProvider.name)
+    ? storeProvider.name === 'pinia'
+      ? path.join(templatePath, 'store', 'pinia' + (asset.ext || ''))
+      : path.join(templatePath, 'store', storeProvider.name)
     : path.join(templatePath, type + (asset.ext || ''))
 
   fse.copy(
@@ -185,6 +187,8 @@ const mapping = {
   store: {
     folder: `src/${storeProvider.pathKey}`,
     install: true,
+    // Vuex module template is a folder, Pinia's is a single file
+    ext: storeProvider.name === 'vuex' ? '' : isTypeScript ? '.ts' : '.js',
     // Created Vuex modules need to be referenced, but Pinia stores don't.
     reference: storeProvider.name === 'vuex' ? pathList.store : void 0
   },
