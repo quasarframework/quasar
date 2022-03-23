@@ -58,9 +58,11 @@ module.exports.renderTemplate = function (templateDir, scope) {
   for (const rawPath of files) {
     const targetRelativePath = rawPath.split('/').map(name => {
       // dotfiles are ignored when published to npm, therefore in templates
-      // we need to use underscore instead (e.g. "_gitignore")
-      return name.charAt(0) === '_'
-        ? `.${name.slice(1)}`
+      // we need to prefix them with an underscore (e.g. "_.gitignore")
+      // Also, some tools like ESLint excepts valid config files, therefore
+      // we also prefix files like "package.json" too. (e.g. "_.package.json")
+      return name.startsWith('_')
+        ? name.slice(1)
         : name
     }).join('/')
 
