@@ -734,7 +734,7 @@ function getOrdinal (n) {
 
 const formatter = {
   // Year: 00, 01, ..., 99
-  YY (date, _, forcedYear) {
+  YY (date, _dateLocale, forcedYear) {
     // workaround for < 1900 with new Date()
     const y = this.YYYY(date, _, forcedYear) % 100
     return y > 0
@@ -743,7 +743,7 @@ const formatter = {
   },
 
   // Year: 1900, 1901, ..., 2099
-  YYYY (date, _, forcedYear) {
+  YYYY (date, _dateLocale, forcedYear) {
     // workaround for < 1900 with new Date()
     return forcedYear !== void 0 && forcedYear !== null
       ? forcedYear
@@ -853,13 +853,9 @@ const formatter = {
   // Hour: 1, 2, ..., 12
   h (date) {
     const hours = date.getHours()
-    if (hours === 0) {
-      return 12
-    }
-    if (hours > 12) {
-      return hours % 12
-    }
-    return hours
+    return hours === 0
+      ? 12
+      : (hours > 12 ? hours % 12 : hours)
   },
 
   // Hour: 01, 02, ..., 12
@@ -918,7 +914,7 @@ const formatter = {
   },
 
   // Timezone: -01:00, +00:00, ... +12:00
-  Z (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+  Z (date, _dateLocale, _forcedYear, forcedTimezoneOffset) {
     const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
       ? date.getTimezoneOffset()
       : forcedTimezoneOffset
@@ -927,7 +923,7 @@ const formatter = {
   },
 
   // Timezone: -0100, +0000, ... +1200
-  ZZ (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+  ZZ (date, _dateLocale, _forcedYear, forcedTimezoneOffset) {
     const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
       ? date.getTimezoneOffset()
       : forcedTimezoneOffset
