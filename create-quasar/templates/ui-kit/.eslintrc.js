@@ -1,4 +1,29 @@
 module.exports = {
+  settings: {
+    'lodash-template/globals': [
+      // Base
+      'name',
+      'description',
+      'author',
+
+      'features',
+      'preset',
+
+      'packageDescription',
+      'aeDescription',
+
+      'umdExportName',
+      'componentName',
+      'directiveName',
+
+      'license',
+      'repositoryType',
+      'repositoryURL',
+      'homepage',
+      'bugs'
+    ]
+  },
+
   overrides: [
     {
       files: [

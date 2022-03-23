@@ -1,8 +1,4 @@
 module.exports = {
-  settings: {
-    'lodash-template/ignoreRules': ['no-undef']
-  },
-
   overrides: [
     {
       files: './*/*/*/**/*.ts',
