@@ -115,15 +115,6 @@ if (type.length === 1) {
   type = fullCmd[type]
 }
 
-function getPaths (asset, names) {
-  return names.map(name => {
-    const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
-    const ext = hasExtension ? '' : asset.ext
-
-    return appPaths.resolve.app(path.join(asset.folder, name + ext))
-  })
-}
-
 function createFile (asset, file) {
   const relativePath = path.relative(appPaths.appDir, file)
 
@@ -206,8 +197,6 @@ const mapping = {
 
 const asset = mapping[type]
 
-const filesToCreate = getPaths(asset, names)
-
 if (asset.install) {
   const folder = appPaths.resolve.app(asset.folder)
 
@@ -234,6 +223,11 @@ if (asset.install) {
   }
 }
 
-filesToCreate.forEach(file => {
+names.forEach(name => {
+  const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
+  const ext = hasExtension ? '' : asset.ext
+
+  const file = appPaths.resolve.app(path.join(asset.folder, name + ext))
+
   createFile(asset, file)
 })
