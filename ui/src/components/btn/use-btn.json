@@ -16,7 +16,7 @@
 
     "to": {
       "type": [ "String", "Object" ],
-      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseeded by 'href' prop if used",
+      "desc": "Equivalent to Vue Router <router-link> 'to' property; Superseded by 'href' prop if used",
       "examples": [
         "/home/dashboard",
         ":to=\"{ name: 'my-route-name' }\""
@@ -26,7 +26,7 @@
 
     "replace": {
       "type": "Boolean",
-      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseeded by 'href' prop if used",
+      "desc": "Equivalent to Vue Router <router-link> 'replace' property; Superseded by 'href' prop if used",
       "category": "navigation"
     },
 
