@@ -25,11 +25,21 @@
   "engines": {
     "node": ">=12"
   },
+  "scripts": {
+    "lint": "eslint --no-eslintrc --config .eslintrc.js --ext .js,.ts ./ --fix"
+  },
   "dependencies": {
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.0.1",
     "kolorist": "^1.5.1",
     "lodash.template": "^4.5.0",
     "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint": "^8.11.0",
+    "eslint-plugin-lodash-template": "^0.20.0",
+    "typescript": "^4.6.2"
   }
 }
