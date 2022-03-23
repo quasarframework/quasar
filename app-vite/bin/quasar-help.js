@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 console.log(
   require('fs').readFileSync(
     require('path').join(__dirname, '../assets/logo.art'),

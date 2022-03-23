@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const parseArgs = require('minimist')
 const { green, red, italic, underline } = require('kolorist')
 
@@ -251,7 +249,7 @@ function printSlots ({ slots }) {
   }
 }
 
-function printEvents ({ events, behavior = {} }) {
+function printEvents ({ events }) {
   const keys = Object.keys(events || {})
 
   console.log('\n ' + underline('Events'))
@@ -499,7 +497,6 @@ function listElements () {
   let api = getDevlandFile('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {
-    console.log(e)
     fatal(` Could not retrieve list...`)
   }
 
