@@ -99,6 +99,9 @@ module.exports = {
     'no-nested-ternary': 'off',
     'max-classes-per-file': 'off',
 
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
+
     'import/first': 'off',
     'import/named': 'error',
     'import/namespace': 'error',

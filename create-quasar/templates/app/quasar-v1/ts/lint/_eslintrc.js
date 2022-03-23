@@ -110,6 +110,10 @@ module.exports = {
     quotes: ['warn', 'single', { avoidEscape: true }],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    <% if (lintConfig === 'airbnb') { %>
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
+    <% } %>
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
