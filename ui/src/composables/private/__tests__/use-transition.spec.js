@@ -13,7 +13,7 @@ describe('use-transition API', () => {
             .should('have.class', 'q-transition--fade-enter-active')
         })
 
-        it('should use a different show transtion if defined', () => {
+        it('should use a different show transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
             attrs: {
@@ -40,7 +40,7 @@ describe('use-transition API', () => {
             .should('have.class', 'q-transition--fade-leave-active')
         })
 
-        it('should use a different hide transtion if defined', () => {
+        it('should use a different hide transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
             attrs: {
