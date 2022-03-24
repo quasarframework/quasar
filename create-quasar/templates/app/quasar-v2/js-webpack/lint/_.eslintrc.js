@@ -11,7 +11,8 @@ module.exports = {
   },
 
   env: {
-    browser: true
+    browser: true,
+    'vue/setup-compiler-macros': true
   },
 
   // Rules order is important, please avoid shuffling them
@@ -54,10 +55,7 @@ module.exports = {
     __QUASAR_SSR_PWA__: 'readonly',
     process: 'readonly',
     Capacitor: 'readonly',
-    chrome: 'readonly',
-    defineProps: 'readonly', // Vue SFC setup compiler macro
-    defineEmits: 'readonly', // Vue SFC setup compiler macro
-    defineExpose: 'readonly' // Vue SFC setup compiler macro
+    chrome: 'readonly'
   },
 
   // add your custom rules here
