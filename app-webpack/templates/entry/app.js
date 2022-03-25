@@ -117,11 +117,11 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
     // make router instance available in store
     <% if (__storePackage === 'vuex') { %>
       store.$router = router
-      <% } else if (__storePackage === 'pinia') { %>
-        store.use(({ store }) => {
-          store.router = markRaw(router)
-        })
-      <% } %>
+    <% } else if (__storePackage === 'pinia') { %>
+      store.use(({ store }) => {
+        store.router = markRaw(router)
+      })
+    <% } %>
   <% } %>
 
   // Expose the app, the router and the store.
