@@ -19,6 +19,9 @@ import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> fr
 
 <% if (store) { %>
 import createStore from 'app/<%= sourceFiles.store %>'
+  <% if (__storePackage === 'pinia') { %>
+  import { markRaw } from 'vue'
+  <% } %>
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
@@ -36,10 +39,6 @@ import createRouter from 'app/<%= sourceFiles.router %>'
     import { SplashScreen } from '@capacitor/splash-screen'
     <% } %>
   <% } %>
-<% } %>
-
-<% if (__storePackage === 'pinia') { %>
-  import { markRaw } from 'vue'
 <% } %>
 
 <% if (__needsAppMountHook === true) { %>
