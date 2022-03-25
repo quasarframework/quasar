@@ -112,7 +112,7 @@ async function run () {
         process.exit(0)
       }
 
-      if (scope.lint) {
+      if (scope.preset.lint) {
         try {
           await utils.lintFolder(scope)
         }
