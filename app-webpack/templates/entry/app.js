@@ -38,6 +38,10 @@ import createRouter from 'app/<%= sourceFiles.router %>'
   <% } %>
 <% } %>
 
+<% if (__storePackage === 'pinia') { %>
+  import { markRaw } from 'vue'
+<% } %>
+
 <% if (__needsAppMountHook === true) { %>
 import { defineComponent, h, onMounted<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
 const RootComponent = defineComponent({
@@ -114,9 +118,11 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
     // make router instance available in store
     <% if (__storePackage === 'vuex') { %>
       store.$router = router
-    <% } else if (__storePackage === 'pinia') { %>
-      store.use(() => ({ router }))
-    <% } %>
+      <% } else if (__storePackage === 'pinia') { %>
+        store.use(({ store }) => {
+          store.router = markRaw(router)
+        })
+      <% } %>
   <% } %>
 
   // Expose the app, the router and the store.
