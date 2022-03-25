@@ -1,3 +1,4 @@
+// TODO: eslint isn't really working with Vite CLI right now
 module.exports = {
   root: true,
 
