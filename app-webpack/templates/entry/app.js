@@ -19,6 +19,9 @@ import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> fr
 
 <% if (store) { %>
 import createStore from 'app/<%= sourceFiles.store %>'
+  <% if (__storePackage === 'pinia') { %>
+  import { markRaw } from 'vue'
+  <% } %>
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
@@ -115,7 +118,9 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
     <% if (__storePackage === 'vuex') { %>
       store.$router = router
     <% } else if (__storePackage === 'pinia') { %>
-      store.use(() => ({ router }))
+      store.use(({ store }) => {
+        store.router = markRaw(router)
+      })
     <% } %>
   <% } %>
 
