@@ -5,7 +5,7 @@ import FormMixin from '../../mixins/form.js'
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
-import { isNumber, isPlainObject } from '../../utils/is.js'
+import { isNumber, isObject } from '../../utils/is.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'
 const defaultMarkerConvertFn = v => ({ value: v })
@@ -414,7 +414,7 @@ export const SliderMixin = {
       if (typeof def === 'function') {
         return this.markerTicks.map(value => {
           const item = def(value)
-          return isPlainObject(item) === true ? { ...item, value } : { value, label: item }
+          return isObject(item) === true ? { ...item, value } : { value, label: item }
         })
       }
 
@@ -422,14 +422,14 @@ export const SliderMixin = {
 
       if (Array.isArray(def) === true) {
         return def
-          .map(item => (isPlainObject(item) === true ? item : { value: item }))
+          .map(item => (isObject(item) === true ? item : { value: item }))
           .filter(filterFn)
       }
 
       return Object.keys(def).map(key => {
         const item = def[ key ]
         const value = Number(key)
-        return isPlainObject(item) === true ? { ...item, value } : { value, label: item }
+        return isObject(item) === true ? { ...item, value } : { value, label: item }
       }).filter(filterFn)
     },
 

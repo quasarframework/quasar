@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
 import cache from '../utils/cache.js'
-import { isPlainObject } from '../utils/is.js'
+import { isObject } from '../utils/is.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
@@ -30,7 +30,7 @@ const Loading = {
   show (opts) {
     if (isSSR === true) { return }
 
-    props = isPlainObject(opts) === true && opts.ignoreDefaults === true
+    props = isObject(opts) === true && opts.ignoreDefaults === true
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
@@ -126,7 +126,7 @@ const Loading = {
   },
 
   setDefaults (opts) {
-    isPlainObject(opts) === true && Object.assign(defaults, opts)
+    isObject(opts) === true && Object.assign(defaults, opts)
   },
 
   install ({ $q, cfg: { loading } }) {

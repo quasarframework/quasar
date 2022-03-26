@@ -167,6 +167,7 @@ export default Vue.extend({
       if (this.editable === true) {
         data.on = cache(this, 'native', {
           dragover: this.__onDragOver,
+          dragleave: this.__onDragLeave,
           keydown: this.__onKeydown,
           keyup: this.__onKeyup
         })

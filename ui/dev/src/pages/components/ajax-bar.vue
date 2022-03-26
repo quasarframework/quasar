@@ -58,9 +58,10 @@
       </q-card>
     </div>
 
-    <div class="q-ma-md">
+    <div class="q-ma-md row items-center q-gutter-md">
       <q-btn label="xhr /server (trigger)" color="primary" @click="triggerXhr1" no-caps />
-      <q-btn label="xhr /second-server (NO trigger)" color="primary" @click="triggerXhr2" no-caps class="q-ml-sm" />
+      <q-btn label="xhr /second-server (NO trigger)" color="primary" @click="triggerXhr2" no-caps />
+      <div>Loading bar status: {{ loadingState }}</div>
     </div>
 
     <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" skip-hijack />
@@ -107,6 +108,10 @@ export default {
   computed: {
     computedSize () {
       return this.size + 'px'
+    },
+
+    loadingState () {
+      return LoadingBar.isActive === true ? 'active' : 'idle'
     }
   },
   methods: {
@@ -133,10 +138,10 @@ export default {
     },
 
     triggerXhr1 () {
-      sendXhr('/server')
+      sendXhr('https://deelay.me/5000/server')
     },
     triggerXhr2 () {
-      sendXhr('/second-server')
+      sendXhr('https://deelay.me/2000/second-server')
     }
   }
 }

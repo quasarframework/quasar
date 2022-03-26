@@ -222,11 +222,14 @@ export default Vue.extend({
         angle = center.left < pos.left ? angle + 90 : 270 - angle
       }
 
-      if (this.angle) {
+      if (this.$q.lang.rtl === true) {
+        angle = normalizeToInterval(-angle - this.angle, 0, 360)
+      }
+      else if (this.angle) {
         angle = normalizeToInterval(angle - this.angle, 0, 360)
       }
 
-      if (this.$q.lang.rtl === true) {
+      if (this.reverse === true) {
         angle = 360 - angle
       }
 

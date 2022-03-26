@@ -148,8 +148,8 @@ function getProp (h, prop, propName, level, onlyChildren) {
         void 0,
         h(
           'div',
-          { staticClass: 'api-row--indent api-row__value' },
-          h('div', { staticClass: 'api-row__example' }, '' + prop.default)
+          { class: 'api-row--indent api-row__value' },
+          [ h('div', { class: 'api-row__example' }, '' + prop.default) ]
         )
       )
     )

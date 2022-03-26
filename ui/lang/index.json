@@ -52,6 +52,10 @@
     "nativeName": "Eesti"
   },
   {
+    "isoName": "eu",
+    "nativeName": "Euskara"
+  },
+  {
     "isoName": "fa-ir",
     "nativeName": "فارسی"
   },
@@ -110,6 +114,10 @@
   {
     "isoName": "kur-ckb",
     "nativeName": "کوردی سۆرانی"
+  },
+  {
+    "isoName": "kz",
+    "nativeName": "Қазақша"
   },
   {
     "isoName": "lu",

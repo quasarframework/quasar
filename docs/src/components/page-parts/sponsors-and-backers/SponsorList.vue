@@ -3,6 +3,7 @@ q-intersection(once)
   .row.items-center.justify-center
     sponsor(img="mio-ab.svg" name="Mio AB" url="https://mio.se/")
     sponsor(img="dreamonkey.png" name="Dreamonkey" url="https://dreamonkey.com/")
+    sponsor(img="hapag-lloyd.png" name="Hapag-LLoyd" url="https://www.hapag-lloyd.com/en/landingpage/quasar.html")
     sponsor(img="campus-cloud-services.png" name="Campus Cloud Services" url="http://campuscloudservices.com/")
     sponsor(img="platform-purple.png" name="Platform Purple" url="https://platformpurple.com/")
     sponsor(img="irewind.png" name="iRewind" url="https://irewind.com/")
