@@ -37,7 +37,7 @@ const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
 const faLaRE = /^[lf]a[srlbdk]?/
-const fa6RE = /^fa-(brand|regular|solid)/
+const fa6RE = /^fa-(solid|regular|light|brands|duotone|thin)/
 
 export default Vue.extend({
   name: 'QIcon',
