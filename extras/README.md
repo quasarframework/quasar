@@ -27,7 +27,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v101 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v100 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v101 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
-| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.5.95 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
+| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.6.95 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
