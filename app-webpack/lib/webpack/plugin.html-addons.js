@@ -8,13 +8,13 @@ function makeTag (tagName, attributes, closeTag = false) {
   }
 }
 
-function makeScriptTag (innerHTML) {
-  return {
-    tagName: 'script',
-    closeTag: true,
-    innerHTML
-  }
-}
+// function makeScriptTag (innerHTML) {
+//   return {
+//     tagName: 'script',
+//     closeTag: true,
+//     innerHTML
+//   }
+// }
 
 function fillBaseTag (html, base) {
   return html.replace(

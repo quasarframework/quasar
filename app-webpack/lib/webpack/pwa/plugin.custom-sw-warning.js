@@ -1,4 +1,3 @@
-const { stat } = require("fs-extra")
 
 const msgRE = /^InjectManifest has been called multiple times/
 
