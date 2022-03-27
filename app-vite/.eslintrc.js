@@ -11,7 +11,7 @@ module.exports = {
 
   extends: [
     'eslint:recommended',
-    'plugin:node/recommended'
+    'plugin:n/recommended'
   ],
 
   rules: {
@@ -19,6 +19,6 @@ module.exports = {
     'no-useless-escape': 'off',
     'no-unused-vars': ['error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' }],
 
-    'no-process-exit': 'off',
+    'n/no-process-exit': 'off',
   }
 }

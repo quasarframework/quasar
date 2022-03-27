@@ -116,7 +116,7 @@
     "electron-builder": "22.14.13",
     "electron-packager": "^15.3.0",
     "eslint": "^8.11.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-n": "^14.0.0",
     "pinia": "^2.0.0",
     "quasar": "^2.0.4",
     "ts-essentials": "^9.1.2",
