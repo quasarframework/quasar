@@ -101,7 +101,7 @@ export default Vue.extend({
       const staticClass = `q-fab__${kebab} absolute-full`
 
       return slotFn === void 0
-        ? h(QIcon, { staticClass, props: { name: this[kebab] || this.$q.iconSet.fab[camel] } })
+        ? h(QIcon, { staticClass, props: { name: this[camel] || this.$q.iconSet.fab[camel] } })
         : h('div', { staticClass }, slotFn(this.slotScope))
     }
   },
