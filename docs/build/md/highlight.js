@@ -16,7 +16,7 @@ module.exports = function (str, lang) {
 
     return `<pre v-pre class="doc-code language-${lang}">` +
       `<code class="doc-code__inner doc-code__inner--prerendered language-${lang}">${code}</code>` +
-      `</pre>`
+      '</pre>'
   }
 
   return ''

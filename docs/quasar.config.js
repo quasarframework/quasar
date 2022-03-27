@@ -27,7 +27,7 @@ module.exports = ctx => ({
     // rebuildCache: true,
 
     viteVuePluginOptions: {
-      include: [ /\.(vue|md)$/ ]
+      include: [/\.(vue|md)$/]
     },
 
     vitePlugins: [
