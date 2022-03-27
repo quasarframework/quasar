@@ -302,7 +302,7 @@ export default {
       this.$refs.codepen.open({ template })
     },
     toggleFullscreen (e) {
-      const target = e.target.parentNode.parentNode.parentNode.parentNode.parentNode
+      const target = document.getElementById('flex-playground')
       this.$q.fullscreen.toggle(target)
     }
   }
