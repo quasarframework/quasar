@@ -14,18 +14,13 @@
 const useStatement = [ `config: ${JSON.stringify(framework.config)}` ]
 
 if (framework.lang) { %>
-import lang from 'quasar/lang/<%= framework.lang %>'
+import lang from '<%= framework.lang.includes('/') ? '' : 'quasar/lang/' %><%= framework.lang %>'
 <%
   useStatement.push('lang')
 }
 
-if (framework.iconSet && framework.iconSet.includes('/')) { %>
-import iconSet from '<%= framework.iconSet %>'
-<%
-  useStatement.push('iconSet')
-}
-if (framework.iconSet && !framework.iconSet.includes('/')) { %>
-import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
+if (framework.iconSet) { %>
+import iconSet from '<%= framework.iconSet.includes('/') ? '' : 'quasar/icon-set/' %><%= framework.iconSet %>'
 <%
   useStatement.push('iconSet')
 }
