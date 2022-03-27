@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -117,15 +115,6 @@ if (type.length === 1) {
   type = fullCmd[type]
 }
 
-function getPaths (asset, names) {
-  return names.map(name => {
-    const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
-    const ext = hasExtension ? '' : asset.ext
-
-    return appPaths.resolve.app(path.join(asset.folder, name + ext))
-  })
-}
-
 function createFile (asset, file) {
   const relativePath = path.relative(appPaths.appDir, file)
 
@@ -139,7 +128,9 @@ function createFile (asset, file) {
   let templatePath = path.join('templates/app', format)
 
   templatePath = type === 'store'
-    ? path.join(templatePath, 'store', storeProvider.name)
+    ? storeProvider.name === 'pinia'
+      ? path.join(templatePath, 'store', 'pinia' + (asset.ext || ''))
+      : path.join(templatePath, 'store', storeProvider.name)
     : path.join(templatePath, type + (asset.ext || ''))
 
   fse.copy(
@@ -187,6 +178,8 @@ const mapping = {
   store: {
     folder: `src/${storeProvider.pathKey}`,
     install: true,
+    // Vuex module template is a folder, Pinia's is a single file
+    ext: storeProvider.name === 'vuex' ? '' : isTypeScript ? '.ts' : '.js',
     // Created Vuex modules need to be referenced, but Pinia stores don't.
     reference: storeProvider.name === 'vuex' ? pathList.store : void 0
   },
@@ -203,8 +196,6 @@ const mapping = {
 }
 
 const asset = mapping[type]
-
-const filesToCreate = getPaths(asset, names)
 
 if (asset.install) {
   const folder = appPaths.resolve.app(asset.folder)
@@ -232,6 +223,11 @@ if (asset.install) {
   }
 }
 
-filesToCreate.forEach(file => {
+names.forEach(name => {
+  const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
+  const ext = hasExtension ? '' : asset.ext
+
+  const file = appPaths.resolve.app(path.join(asset.folder, name + ext))
+
   createFile(asset, file)
 })

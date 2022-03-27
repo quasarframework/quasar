@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const parseArgs = require('minimist')
 
 const { log, warn, fatal } = require('../lib/helpers/logger')

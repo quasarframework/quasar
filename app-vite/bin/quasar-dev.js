@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 if (process.env.NODE_ENV === void 0) {
   process.env.NODE_ENV = 'development'
 }
@@ -88,7 +86,7 @@ console.log(
 )
 
 function startVueDevtools () {
-  const { spawn, spawnSync } = require('../lib/helpers/spawn')
+  const { spawn } = require('../lib/helpers/spawn')
   const getPackagePath = require('../lib/helpers/get-package-path')
 
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')

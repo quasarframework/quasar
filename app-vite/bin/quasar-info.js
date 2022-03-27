@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const parseArgs = require('minimist')
 const { green, gray } = require('kolorist')
 

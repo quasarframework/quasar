@@ -43,7 +43,7 @@
     "url": "https://donate.quasar.dev"
   },
   "scripts": {
-    "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
+    "lint": "eslint --ext .js ./ ./bin/quasar --fix --report-unused-disable-directives"
   },
   "dependencies": {
     "@quasar/fastclick": "1.1.5",
