@@ -1,8 +1,8 @@
 const parseArgs = require('minimist')
 const { green, red, italic, underline } = require('kolorist')
 
-const getApi = require('../lib/helpers/get-api')
-const { fatal, dot } = require('../lib/helpers/logger')
+const getApi = require('../helpers/get-api')
+const { fatal, dot } = require('../helpers/logger')
 
 const partArgs = {
   p: 'props',
@@ -464,7 +464,7 @@ async function run () {
 
     if (apiParts.docs) {
       if (api.meta && api.meta.docsUrl) {
-        const openBrowser = require('../lib/helpers/open-browser')
+        const openBrowser = require('../helpers/open-browser')
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
@@ -493,7 +493,7 @@ async function run () {
 }
 
 function listElements () {
-  const getDevlandFile = require('../lib/helpers/get-devland-file')
+  const getDevlandFile = require('../helpers/get-devland-file')
   let api = getDevlandFile('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {

@@ -45,11 +45,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'inspect')
-require('../lib/helpers/banner-global')(argv, argv.cmd)
+require('../helpers/ensure-argv')(argv, 'inspect')
+require('../helpers/banner-global')(argv, argv.cmd)
 
-const { log, fatal } = require('../lib/helpers/logger')
-const { isInstalled } = require(`../lib/modes/${argv.mode}/${argv.mode}-installation`)
+const { log, fatal } = require('../helpers/logger')
+const { isInstalled } = require(`../modes/${argv.mode}/${argv.mode}-installation`)
 
 if (isInstalled() !== true) {
   fatal('Requested mode for inspection is NOT installed.')
@@ -58,7 +58,7 @@ if (isInstalled() !== true) {
 const depth = parseInt(argv.depth, 10) || Infinity
 
 async function inspect () {
-  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const getQuasarCtx = require('../helpers/get-quasar-ctx')
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.mode === 'cordova' || argv.mode === 'capacitor'
@@ -69,10 +69,10 @@ async function inspect () {
     prod: argv.cmd === 'build'
   })
 
-  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const extensionRunner = require('../app-extension/extensions-runner')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../lib/quasar-config-file')
+  const QuasarConfFile = require('../quasar-config-file')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
@@ -84,7 +84,7 @@ async function inspect () {
     fatal(quasarConf.error, 'FAIL')
   }
 
-  const generateConfig = require(`../lib/modes/${argv.mode}/${argv.mode}-config`)
+  const generateConfig = require(`../modes/${argv.mode}/${argv.mode}-config`)
 
   const cfgEntries = []
   let threadList = Object.keys(generateConfig)

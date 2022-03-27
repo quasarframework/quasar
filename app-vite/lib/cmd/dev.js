@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const { log, fatal } = require('../lib/helpers/logger')
+const { log, fatal } = require('../helpers/logger')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -75,19 +75,19 @@ if (argv.help) {
   process.exit(0)
 }
 
-const ensureArgv = require('../lib/helpers/ensure-argv')
+const ensureArgv = require('../helpers/ensure-argv')
 ensureArgv(argv, 'dev')
 
 console.log(
   require('fs').readFileSync(
-    require('path').join(__dirname, '../assets/logo.art'),
+    require('path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )
 
 function startVueDevtools () {
-  const { spawn } = require('../lib/helpers/spawn')
-  const getPackagePath = require('../lib/helpers/get-package-path')
+  const { spawn } = require('../helpers/spawn')
+  const getPackagePath = require('../helpers/get-package-path')
 
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
 
@@ -101,7 +101,7 @@ function startVueDevtools () {
     return
   }
 
-  const nodePackager = require('../lib/helpers/node-packager')
+  const nodePackager = require('../helpers/node-packager')
 
   nodePackager.installPackage('@vue/devtools', { isDev: true })
 
@@ -116,10 +116,10 @@ function startVueDevtools () {
 
 async function goLive () {
   // install mode if it's missing
-  const { add } = require(`../lib/modes/${argv.mode}/${argv.mode}-installation`)
+  const { add } = require(`../modes/${argv.mode}/${argv.mode}-installation`)
   await add(true, argv.target)
 
-  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const getQuasarCtx = require('../helpers/get-quasar-ctx')
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
@@ -129,10 +129,10 @@ async function goLive () {
   })
 
   // register app extensions
-  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const extensionRunner = require('../app-extension/extensions-runner')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../lib/quasar-config-file')
+  const QuasarConfFile = require('../quasar-config-file')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
@@ -144,17 +144,17 @@ async function goLive () {
     fatal(quasarConf.error, 'FAIL')
   }
 
-  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
+  const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags')
   regenerateTypesFeatureFlags(quasarConf)
 
   if (quasarConf.metaConf.vueDevtools !== false) {
     await startVueDevtools()
   }
 
-  const entryFiles = require('../lib/entry-files-generator')(ctx)
+  const entryFiles = require('../entry-files-generator')(ctx)
   entryFiles.generate(quasarConf)
 
-  const AppDevServer = require(`../lib/modes/${argv.mode}/${argv.mode}-devserver`)
+  const AppDevServer = require(`../modes/${argv.mode}/${argv.mode}-devserver`)
   const devServer = new AppDevServer({ argv, entryFiles, quasarConf })
 
   if (typeof quasarConf.build.beforeDev === 'function') {

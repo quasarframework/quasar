@@ -88,28 +88,28 @@ if (argv.help) {
   process.exit(0)
 }
 
-const ensureArgv = require('../lib/helpers/ensure-argv')
+const ensureArgv = require('../helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
 console.log(
   require('fs').readFileSync(
-    require('path').join(__dirname, '../assets/logo.art'),
+    require('path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )
 
-const banner = require('../lib/helpers/banner-global')
+const banner = require('../helpers/banner-global')
 banner(argv, 'build')
 
-const { log, fatal } = require('../lib/helpers/logger')
+const { log, fatal } = require('../helpers/logger')
 const path = require('path')
 
 async function build () {
   // install mode if it's missing
-  const { add } = require(`../lib/modes/${argv.mode}/${argv.mode}-installation`)
+  const { add } = require(`../modes/${argv.mode}/${argv.mode}-installation`)
   await add(true, argv.target)
 
-  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const getQuasarCtx = require('../helpers/get-quasar-ctx')
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
@@ -121,10 +121,10 @@ async function build () {
   })
 
   // register app extensions
-  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const extensionRunner = require('../app-extension/extensions-runner')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../lib/quasar-config-file')
+  const QuasarConfFile = require('../quasar-config-file')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
@@ -136,17 +136,17 @@ async function build () {
     fatal(quasarConf.error, 'FAIL')
   }
 
-  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
+  const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags')
   regenerateTypesFeatureFlags(quasarConf)
 
-  const AppProdBuilder = require(`../lib/modes/${argv.mode}/${argv.mode}-builder`)
+  const AppProdBuilder = require(`../modes/${argv.mode}/${argv.mode}-builder`)
   const appBuilder = new AppProdBuilder({ argv, quasarConf })
 
-  const artifacts = require('../lib/artifacts')
+  const artifacts = require('../artifacts')
   let outputFolder = quasarConf.build.distDir
   artifacts.clean(outputFolder)
 
-  const entryFiles = require('../lib/entry-files-generator')(ctx)
+  const entryFiles = require('../entry-files-generator')(ctx)
   entryFiles.generate(quasarConf)
 
   if (typeof quasarConf.build.beforeBuild === 'function') {
