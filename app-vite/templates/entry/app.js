@@ -20,9 +20,7 @@ import <%= metaConf.needsAppMountHook === true ? 'AppComponent' : 'RootComponent
 
 <% if (store) { %>
 import createStore from 'app/<%= sourceFiles.store %>'
-  <% if (metaConf.storePackage === 'pinia') { %>
-  import { markRaw } from 'vue'
-  <% } %>
+import { markRaw } from 'vue'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
@@ -110,18 +108,18 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
     <% } %>
   <% } %>
 
-  const router = typeof createRouter === 'function'
-    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
-    : createRouter
+  const router = markRaw(
+    typeof createRouter === 'function'
+      ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
+      : createRouter
+  )
 
   <% if (store) { %>
     // make router instance available in store
     <% if (metaConf.storePackage === 'vuex') { %>
       store.$router = router
     <% } else if (metaConf.storePackage === 'pinia') { %>
-      store.use(({ store }) => {
-        store.router = markRaw(router)
-      })
+      store.use(({ store }) => { store.router = router })
     <% } %>
   <% } %>
 
