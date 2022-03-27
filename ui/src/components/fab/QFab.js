@@ -83,7 +83,7 @@ export default createComponent({
       const classes = `q-fab__${ kebab } absolute-full`
 
       return slotFn === void 0
-        ? h(QIcon, { class: classes, name: props[ kebab ] || $q.iconSet.fab[ camel ] })
+        ? h(QIcon, { class: classes, name: props[ camel ] || $q.iconSet.fab[ camel ] })
         : h('div', { class: classes }, slotFn(slotScope.value))
     }
 
