@@ -46,6 +46,7 @@ export async function listen ({ app, port, isReady }) {
   await isReady()
   return await app.listen(port, () => {
     if (process.env.PROD) {
+      // eslint-disable-next-line no-console
       console.log('Server listening at port ' + port)
     }
   })
