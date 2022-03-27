@@ -2,6 +2,11 @@
 const mdPlugin = require('./build/md')
 
 module.exports = ctx => ({
+  eslint: {
+    warnings: true,
+    errors: true
+  },
+
   boot: [
     { path: 'gdpr', server: false },
     'components'
