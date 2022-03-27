@@ -2,7 +2,6 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 
 const path = require('path')
-const webpack = require('webpack')
 
 module.exports = function (ctx) {
   return {

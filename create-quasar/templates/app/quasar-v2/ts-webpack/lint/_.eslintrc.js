@@ -16,7 +16,8 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
+    'vue/setup-compiler-macros': true
   },
 
   // Rules order is important, please avoid shuffling them
@@ -67,9 +68,6 @@ module.exports = {
     process: 'readonly',
     Capacitor: 'readonly',
     chrome: 'readonly',
-    defineProps: 'readonly', // Vue SFC setup compiler macro
-    defineEmits: 'readonly', // Vue SFC setup compiler macro
-    defineExpose: 'readonly' // Vue SFC setup compiler macro
   },
 
   // add your custom rules here
@@ -99,6 +97,9 @@ module.exports = {
     'no-void': 'off',
     'no-nested-ternary': 'off',
     'max-classes-per-file': 'off',
+
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
 
     'import/first': 'off',
     'import/namespace': 'error',
