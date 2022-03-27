@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
@@ -43,7 +42,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { warn } = require('../lib/helpers/logger')
+const { warn } = require('../helpers/logger')
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
@@ -53,7 +52,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
 }
 
 async function run (action, name) {
-  const Extension = require('../lib/app-extension/Extension')
+  const Extension = require('../app-extension/Extension')
   const extension = new Extension(name)
 
   await extension[
@@ -64,7 +63,7 @@ async function run (action, name) {
 }
 
 if (argv._.length === 0) {
-  const extensionJson = require('../lib/app-extension/extension-json')
+  const extensionJson = require('../app-extension/extension-json')
   extensionJson.list()
 }
 else {

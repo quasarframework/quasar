@@ -14,7 +14,7 @@ function cleanMessage (message) {
     .replace(/^Syntax Error: ModuleBuildError:.*:\s/, '')
     // remove babel extra wording and path
     .replace(/^Syntax Error: SyntaxError: (([A-Z]:)?\/.*:\s)?/, 'Syntax Error: ')
-    .replace(/^Syntax Error:   /, '')
+    .replace(/^Syntax Error: {3}/, '')
 
   const stackIndex = cleanMessage.indexOf(stackStart)
   return stackIndex > -1

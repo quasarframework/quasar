@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 const chalk = require('chalk')
 
-const getApi = require('../lib/helpers/get-api')
-const { fatal } = require('../lib/helpers/logger')
+const getApi = require('../helpers/get-api')
+const { fatal } = require('../helpers/logger')
 
 const partArgs = {
   p: 'props',
@@ -251,7 +250,7 @@ function printSlots ({ slots }) {
   }
 }
 
-function printEvents ({ events, behavior = {} }) {
+function printEvents ({ events }) {
   const keys = Object.keys(events || {})
 
   console.log('\n ' + chalk.underline('Events'))
@@ -466,7 +465,7 @@ async function run () {
 
     if (apiParts.docs) {
       if (api.meta && api.meta.docsUrl) {
-        const openBrowser = require('../lib/helpers/open-browser')
+        const openBrowser = require('../helpers/open-browser')
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
@@ -495,11 +494,10 @@ async function run () {
 }
 
 function listElements () {
-  const getDevlandFile = require('../lib/helpers/get-devland-file')
+  const getDevlandFile = require('../helpers/get-devland-file')
   let api = getDevlandFile('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {
-    console.log(e)
     fatal(` Could not retrieve list...`)
   }
 

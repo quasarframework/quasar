@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
@@ -62,9 +61,9 @@ const path = require('path')
 const fs = require('fs')
 const fse = require('fs-extra')
 
-const { log, warn } = require('../lib/helpers/logger')
-const appPaths = require('../lib/app-paths')
-const storeProvider = require('../lib/helpers/store-provider')
+const { log, warn } = require('../helpers/logger')
+const appPaths = require('../app-paths')
+const storeProvider = require('../helpers/store-provider')
 const defaultFilePath = 'default'
 
 if (argv._.length < 2) {

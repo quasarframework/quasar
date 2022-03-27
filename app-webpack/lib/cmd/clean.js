@@ -1,8 +1,7 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
-const { log } = require('../lib/helpers/logger')
+const { log } = require('../helpers/logger')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -23,7 +22,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-const Artifacts = require('../lib/artifacts')
+const Artifacts = require('../artifacts')
 Artifacts.cleanAll()
 
 console.log()

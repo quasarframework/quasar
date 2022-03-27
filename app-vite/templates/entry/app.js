@@ -16,12 +16,10 @@ import vueDevtools from '@vue/devtools'
 <% } %>
 
 import { Quasar } from 'quasar'
+import { markRaw } from 'vue'
 import <%= metaConf.needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
-<% if (store) { %>
-import createStore from 'app/<%= sourceFiles.store %>'
-import { markRaw } from 'vue'
-<% } %>
+<% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
 <% if (ctx.mode.capacitor) { %>

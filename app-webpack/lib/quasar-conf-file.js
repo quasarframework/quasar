@@ -677,7 +677,7 @@ class QuasarConfFile {
       }
 
       // make sure the prop is not supplied to webpack dev server
-      if (cfg.devServer.hasOwnProperty('vueDevtools')) {
+      if (cfg.devServer.vueDevtools !== void 0) {
         delete cfg.devServer.vueDevtools
       }
 

@@ -8,7 +8,7 @@ console.log(
 if (process.env.QUASAR_CLI_VERSION) {
   console.log('  Running @quasar/cli v' + process.env.QUASAR_CLI_VERSION)
 }
-console.log('  Running @quasar/app-vite v' + require('../package.json').version)
+console.log('  Running @quasar/app-vite v' + require('../../package.json').version)
 
 console.log(`
   Example usage

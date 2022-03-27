@@ -33,7 +33,7 @@ class PackageManager {
     })
   }
 
-  getInstallPackageParams(names, isDev) {
+  getInstallPackageParams(_names, _isDev) {
     return []
   }
 
@@ -47,7 +47,7 @@ class PackageManager {
     })
   }
 
-  getUninstallPackageParams(names) {
+  getUninstallPackageParams(_names) {
     return []
   }
 

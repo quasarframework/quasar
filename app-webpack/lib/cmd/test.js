@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
@@ -31,7 +30,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { log, warn } = require('../lib/helpers/logger')
+const { log, warn } = require('../helpers/logger')
 
 function getArgv (argv) {
   const { _, ...allParams } = argv
@@ -44,7 +43,7 @@ function getArgv (argv) {
 }
 
 async function run () {
-  const Extension = require('../lib/app-extension/Extension')
+  const Extension = require('../app-extension/Extension')
   const extension = new Extension('@quasar/testing')
 
   const hooks = await extension.run()

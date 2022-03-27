@@ -1,9 +1,8 @@
-#!/usr/bin/env node
 
 console.log()
 console.log(
   require('fs').readFileSync(
-    require('path').join(__dirname, '../assets/logo.art'),
+    require('path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )
@@ -11,7 +10,7 @@ console.log(
 if (process.env.QUASAR_CLI_VERSION) {
   console.log('  Running @quasar/cli v' + process.env.QUASAR_CLI_VERSION)
 }
-console.log('  Running @quasar/app-webpack v' + require('../package.json').version)
+console.log('  Running @quasar/app-webpack v' + require('../../package.json').version)
 
 console.log(`
   Example usage

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 if (process.env.NODE_ENV === void 0) {
   process.env.NODE_ENV = 'production'
@@ -90,25 +89,25 @@ if (argv.help) {
   process.exit(0)
 }
 
-const ensureArgv = require('../lib/helpers/ensure-argv')
+const ensureArgv = require('../helpers/ensure-argv')
 ensureArgv(argv, 'build')
 
-const ensureVueDeps = require('../lib/helpers/ensure-vue-deps')
+const ensureVueDeps = require('../helpers/ensure-vue-deps')
 ensureVueDeps()
 
 console.log(
   require('fs').readFileSync(
-    require('path').join(__dirname, '../assets/logo.art'),
+    require('path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )
 
-const banner = require('../lib/helpers/banner')
+const banner = require('../helpers/banner')
 banner(argv, 'build')
 
-const { log, fatal } = require('../lib/helpers/logger')
-const { printWebpackErrors } = require('../lib/helpers/print-webpack-issue')
-const { webpackNames, splitWebpackConfig } = require('../lib/webpack/symbols')
+const { log, fatal } = require('../helpers/logger')
+const { printWebpackErrors } = require('../helpers/print-webpack-issue')
+const { webpackNames, splitWebpackConfig } = require('../webpack/symbols')
 
 const path = require('path')
 const webpack = require('webpack')
@@ -132,10 +131,10 @@ function finalizeBuild (mode, ctx, quasarConfFile) {
   let Runner
 
   if (['cordova', 'capacitor'].includes(mode)) {
-    Runner = require('../lib/' + mode)
+    Runner = require('../' + mode)
   }
   else if (argv['skip-pkg'] !== true && mode === 'electron') {
-    Runner = require('../lib/electron')
+    Runner = require('../electron')
   }
 
   if (Runner !== void 0) {
@@ -148,16 +147,16 @@ function finalizeBuild (mode, ctx, quasarConfFile) {
 
 async function build () {
   if (argv.mode !== 'spa') {
-    const installMissing = require('../lib/mode/install-missing')
+    const installMissing = require('../mode/install-missing')
     await installMissing(argv.mode, argv.target)
   }
 
-  const QuasarConfFile = require('../lib/quasar-conf-file')
-  const Generator = require('../lib/generator')
-  const artifacts = require('../lib/artifacts')
-  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
-  const extensionRunner = require('../lib/app-extension/extensions-runner')
-  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
+  const QuasarConfFile = require('../quasar-conf-file')
+  const Generator = require('../generator')
+  const artifacts = require('../artifacts')
+  const getQuasarCtx = require('../helpers/get-quasar-ctx')
+  const extensionRunner = require('../app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
@@ -210,7 +209,7 @@ async function build () {
   // can only know it after parsing the quasar.config.js file
   if (quasarConfFile.ctx.mode.pwa === true) {
     // need to build the custom service worker before renderer
-    Runner = require('../lib/pwa')
+    const Runner = require('../pwa')
     Runner.init(ctx)
     await Runner.build(quasarConfFile, argv)
   }
@@ -242,7 +241,7 @@ async function build () {
       fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.`, 'COMPILATION FAILED')
     })
 
-    const printWebpackStats = require('../lib/helpers/print-webpack-stats')
+    const printWebpackStats = require('../helpers/print-webpack-stats')
 
     console.log()
     statsArray.forEach((stats, index) => {

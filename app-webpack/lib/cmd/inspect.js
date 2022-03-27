@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
@@ -44,26 +43,26 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'inspect')
-require('../lib/helpers/banner')(argv, argv.cmd)
+require('../helpers/ensure-argv')(argv, 'inspect')
+require('../helpers/banner')(argv, argv.cmd)
 
-const { log, fatal } = require('../lib/helpers/logger')
+const { log, fatal } = require('../helpers/logger')
 
 if (argv.mode !== 'spa') {
-  const getMode = require('../lib/mode/index')
+  const getMode = require('../mode/index')
   if (getMode(argv.mode).isInstalled !== true) {
     fatal('Requested mode for inspection is NOT installed.')
   }
 }
 
-const QuasarConfFile = require('../lib/quasar-conf-file')
-const { splitWebpackConfig } = require('../lib/webpack/symbols')
+const QuasarConfFile = require('../quasar-conf-file')
+const { splitWebpackConfig } = require('../webpack/symbols')
 
 const depth = parseInt(argv.depth, 10) || Infinity
 
 async function inspect () {
-  const extensionRunner = require('../lib/app-extension/extensions-runner')
-  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const extensionRunner = require('../app-extension/extensions-runner')
+  const getQuasarCtx = require('../helpers/get-quasar-ctx')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
