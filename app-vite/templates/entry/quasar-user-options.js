@@ -19,7 +19,12 @@ import lang from 'quasar/lang/<%= framework.lang %>'
   useStatement.push('lang')
 }
 
-if (framework.iconSet) { %>
+if (framework.iconSet && framework.iconSet.includes('/')) { %>
+import iconSet from '<%= framework.iconSet %>'
+<%
+  useStatement.push('iconSet')
+}
+if (framework.iconSet && !framework.iconSet.includes('/')) { %>
 import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 <%
   useStatement.push('iconSet')
