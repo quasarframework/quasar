@@ -3,4 +3,4 @@ const moduleAlias = require('module-alias')
 
 moduleAlias.addAlias('quasar', path.join(__dirname, '..'))
 
-require('@quasar/app-vite/bin/quasar-dev')
+require('@quasar/app-vite/lib/cmd/dev')
