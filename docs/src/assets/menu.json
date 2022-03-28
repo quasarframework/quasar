@@ -330,7 +330,7 @@
       },
       {
         "name": "Buttons",
-        "listpath": "buttons",
+        "listPath": "buttons",
         "children": [
           {
             "name": "Button",
@@ -389,7 +389,7 @@
       {
         "name": "Form Components",
         "opened": true,
-        "listpath": "form-components",
+        "listPath": "form-components",
         "children": [
           {
             "name": "Input Textfield",
@@ -495,7 +495,7 @@
       },
       {
         "name": "Observers",
-        "listpath": "observers",
+        "listPath": "observers",
         "children": [
           {
             "name": "Resize Observer (for Element)",
