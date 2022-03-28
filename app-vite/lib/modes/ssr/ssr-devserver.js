@@ -82,6 +82,14 @@ class SsrDevServer extends AppDevserver {
   #viteServer
   #htmlWatcher
   #webserverWatcher
+  /**
+   * @type {{
+   *  port: number;
+   *  publicPath: string;
+   *  resolveUrlPath: import('../../../types').SsrMiddlewareResolve['urlPath'];
+   *  render: (ssrContext: import('../../../types').QSsrContext) => Promise<string>;
+   * }}
+   */
   #appOptions = {}
 
   // also update pwa-devserver.js when changing here
