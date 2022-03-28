@@ -307,7 +307,7 @@ class SsrDevServer extends AppDevserver {
     const { publicPath } = this.#appOptions
 
     publicPath !== '/' && app.use((req, res, next) => {
-      const pathname = new URL(req.url).pathname || '/'
+      const pathname = new URL(req.url, `http://${request.headers.host}`).pathname || '/'
 
       if (pathname.startsWith(publicPath) === true) {
         next()
