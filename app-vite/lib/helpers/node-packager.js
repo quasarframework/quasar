@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { normalize, join, sep } = require('path')
 
 const appPaths = require('../app-paths')
 const spawn = require('cross-spawn').sync
@@ -9,8 +10,22 @@ class PackageManager {
   name = 'unknown'
   lockFile = 'unknown'
 
+  /**
+   * Recursively checks for presence of the lock file by traversing
+   * the directory tree up to the root
+   */
   isUsed () {
-    return fs.existsSync(appPaths.resolve.app(this.lockFile))
+    let directory = process.cwd()
+
+    while (directory.length && directory[directory.length - 1] !== sep) {
+      if (fs.existsSync(join(directory, this.lockFile))) {
+        return true
+      }
+
+      directory = normalize(join(directory, '..'))
+    }
+
+    return false
   }
 
   isInstalled () {
