@@ -304,8 +304,6 @@ class SsrDevServer extends AppDevserver {
       })
     })
 
-    await injectMiddlewares(middlewareParams)
-
     const { publicPath } = this.#appOptions
 
     publicPath !== '/' && app.use((req, res, next) => {
@@ -348,6 +346,8 @@ class SsrDevServer extends AppDevserver {
 
       next()
     })
+
+    await injectMiddlewares(middlewareParams)
 
     const isReady = () => Promise.resolve()
 
