@@ -29,7 +29,7 @@ let appPrefetch = typeof App.preFetch === 'function'
 function getMatchedComponents (to, router) {
   const route = to
     ? (to.matched ? to : router.resolve(to).route)
-    : router.currentRoute
+    : router.currentRoute.value
 
   if (!route) { return [] }
 
