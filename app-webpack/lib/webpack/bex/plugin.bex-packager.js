@@ -42,8 +42,8 @@ class BexPackager {
   }
 
   setupDirectories () {
-    fse.mkdirp.sync(this.chromeDir)
-    fse.mkdirp.sync(this.firefoxDir)
+    fse.ensureDirSync(this.chromeDir)
+    fse.ensureDirSync(this.firefoxDir)
   }
 
   bundleChrome () {
