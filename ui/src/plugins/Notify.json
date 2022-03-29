@@ -64,7 +64,7 @@
       },
 
       "spinner": {
-        "type": [ "Boolean", "Component" ],
+        "type": "Boolean",
         "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
         "examples": [ true, "QSpinnerBars" ]
       },
@@ -167,24 +167,6 @@
         "desc": "Amount of time to display (in milliseconds)",
         "default": 5000,
         "examples": [ 2500 ]
-      },
-
-      "actions": {
-        "type": "Array",
-        "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
-        "examples": [
-          "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
-        ]
-      },
-
-      "onDismiss": {
-        "type": "Function",
-        "desc": "Function to call when notification gets dismissed",
-        "params": null,
-        "returns": null,
-        "examples": [
-          "() => { console.log('Dismissed') }"
-        ]
       },
 
       "closeBtn": {
