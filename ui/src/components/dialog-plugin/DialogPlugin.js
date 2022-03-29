@@ -239,12 +239,12 @@ export default createComponent({
     function getButtons () {
       const child = []
 
-      props.cancel && child.push(
-        h(QBtn, cancelProps.value)
-      )
-
       props.ok && child.push(
         h(QBtn, okProps.value)
+      )
+
+      props.cancel && child.push(
+        h(QBtn, cancelProps.value)
       )
 
       return h(QCardActions, {
