@@ -376,9 +376,29 @@
             "actions": {
               "type": "Array",
               "tsType": "QNotifyActions",
-              "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
+              "desc": "Notification actions (buttons); Unless 'noDismiss' is true, clicking/tapping on the button will close the notification; Also check 'closeBtn' convenience prop",
+              "definition": {
+                "handler": {
+                  "type": "Function",
+                  "desc": "Function to be executed when the button is clicked/tapped",
+                  "params": null,
+                  "returns": null,
+                  "examples": [
+                    "() => console.log('button clicked')"
+                  ]
+                },
+                "noDismiss": {
+                  "type": "Boolean",
+                  "desc": "Do not dismiss the notification when the button is clicked/tapped"
+                },
+                "...": {
+                  "type": "Any",
+                  "desc": "Any other QBtn prop expect 'onClick'(use 'handler' instead)",
+                  "examples": [ "label: 'Learn more'", "color: 'primary'" ]
+                }
+              },
               "examples": [
-                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
+                "[ { label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} } ]"
               ]
             },
 
