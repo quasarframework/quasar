@@ -85,6 +85,14 @@ export default [
     name: 'Honorable mentions',
     members: [
       {
+        name: 'Allan Gaunt',
+        role: 'Senior Developer',
+        avatar: 'allan_gaunt.png',
+        github: 'webnoob',
+        desc: 'Wrote the initial BEX mode and much more'
+      },
+
+      {
         name: 'Tobias Mesquita',
         role: 'Senior Developer',
         avatar: 'tobias_mesquita.jpg',
@@ -105,7 +113,7 @@ export default [
         role: 'Developer / Community Staff',
         avatar: 'noah_klayman.jpeg',
         github: 'nklayman',
-        desc: 'Capacitor App CLI mode'
+        desc: 'Wrote the initial Capacitor mode'
       },
 
       {
