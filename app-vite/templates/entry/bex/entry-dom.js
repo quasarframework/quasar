@@ -12,7 +12,7 @@ import { listenForWindowEvents } from './window-event-listener'
 import runDevlandDom from '../../src-bex/dom'
 
 let bridge = new Bridge({
-  listen (fn) { },
+  listen (_fn) { },
   send (data) {
     const payload = {
       ...data,

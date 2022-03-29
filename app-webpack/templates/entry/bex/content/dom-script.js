@@ -11,7 +11,7 @@ import attachDomHooks from 'src-bex/js/dom-hooks'
 import { listenForWindowEvents } from './window-event-listener'
 
 let bridge = new Bridge({
-  listen (fn) { },
+  listen (_fn) { },
   send (data) {
     const payload = {
       ...data,
