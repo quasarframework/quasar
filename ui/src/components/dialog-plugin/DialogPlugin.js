@@ -210,16 +210,16 @@ export default Vue.extend({
     getButtons (h) {
       const child = []
 
-      this.cancel && child.push(h(QBtn, {
-        props: this.cancelProps,
-        attrs: { 'data-autofocus': this.focus === 'cancel' && this.hasForm !== true },
-        on: cache(this, 'cancel', { click: this.onCancel })
-      }))
-
       this.ok && child.push(h(QBtn, {
         props: this.okProps,
         attrs: { 'data-autofocus': this.focus === 'ok' && this.hasForm !== true },
         on: cache(this, 'ok', { click: this.onOk })
+      }))
+
+      this.cancel && child.push(h(QBtn, {
+        props: this.cancelProps,
+        attrs: { 'data-autofocus': this.focus === 'cancel' && this.hasForm !== true },
+        on: cache(this, 'cancel', { click: this.onCancel })
       }))
 
       if (child.length > 0) {
