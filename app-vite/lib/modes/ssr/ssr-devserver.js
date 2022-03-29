@@ -82,6 +82,14 @@ class SsrDevServer extends AppDevserver {
   #viteServer
   #htmlWatcher
   #webserverWatcher
+  /**
+   * @type {{
+   *  port: number;
+   *  publicPath: string;
+   *  resolveUrlPath: import('../../../types').SsrMiddlewareResolve['urlPath'];
+   *  render: (ssrContext: import('../../../types').QSsrContext) => Promise<string>;
+   * }}
+   */
   #appOptions = {}
 
   // also update pwa-devserver.js when changing here
@@ -296,12 +304,10 @@ class SsrDevServer extends AppDevserver {
       })
     })
 
-    await injectMiddlewares(middlewareParams)
-
     const { publicPath } = this.#appOptions
 
-    publicPath.length !== '/' && app.use((req, res, next) => {
-      const pathname = new URL(req.url).pathname || '/'
+    publicPath !== '/' && app.use((req, res, next) => {
+      const pathname = new URL(req.url, `http://${request.headers.host}`).pathname || '/'
 
       if (pathname.startsWith(publicPath) === true) {
         next()
@@ -340,6 +346,8 @@ class SsrDevServer extends AppDevserver {
 
       next()
     })
+
+    await injectMiddlewares(middlewareParams)
 
     const isReady = () => Promise.resolve()
 
