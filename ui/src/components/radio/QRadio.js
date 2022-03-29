@@ -142,7 +142,7 @@ export default createComponent({
         ? [
             h('div', {
               key: 'icon',
-              class: 'q-radio__icon-container absolute flex flex-center no-wrap'
+              class: 'q-radio__icon-container absolute-full flex flex-center no-wrap'
             }, [
               h(QIcon, {
                 class: 'q-radio__icon',
