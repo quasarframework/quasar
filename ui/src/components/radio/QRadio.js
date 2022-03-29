@@ -123,7 +123,7 @@ export default Vue.extend({
       ? [
         h('div', {
           key: 'icon',
-          staticClass: 'q-radio__icon-container absolute flex flex-center no-wrap'
+          staticClass: 'q-radio__icon-container absolute-full flex flex-center no-wrap'
         }, [
           h(QIcon, {
             staticClass: 'q-radio__icon',

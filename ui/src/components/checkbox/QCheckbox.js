@@ -26,7 +26,7 @@ export default Vue.extend({
         ? [
           h('div', {
             key: 'icon',
-            staticClass: 'q-checkbox__icon-container absolute flex flex-center no-wrap'
+            staticClass: 'q-checkbox__icon-container absolute-full flex flex-center no-wrap'
           }, [
             h(QIcon, {
               staticClass: 'q-checkbox__icon',
