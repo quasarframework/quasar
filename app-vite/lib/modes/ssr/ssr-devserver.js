@@ -273,6 +273,8 @@ class SsrDevServer extends AppDevserver {
     delete require.cache[serverFile]
     const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
 
+    const { publicPath } = this.#appOptions
+
     const middlewareParams = {
       port: this.#appOptions.port,
       resolve: {
@@ -280,7 +282,7 @@ class SsrDevServer extends AppDevserver {
         root () { return join(rootFolder, ...arguments) },
         public: resolvePublicFolder
       },
-      publicPath: this.#appOptions.publicPath,
+      publicPath,
       folders: {
         root: rootFolder,
         public: publicFolder
@@ -304,7 +306,7 @@ class SsrDevServer extends AppDevserver {
       })
     })
 
-    const { publicPath } = this.#appOptions
+    await injectMiddlewares(middlewareParams)
 
     publicPath !== '/' && app.use((req, res, next) => {
       const pathname = new URL(req.url, `http://${req.headers.host}`).pathname || '/'
@@ -346,8 +348,6 @@ class SsrDevServer extends AppDevserver {
 
       next()
     })
-
-    await injectMiddlewares(middlewareParams)
 
     const isReady = () => Promise.resolve()
 
