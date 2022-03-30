@@ -110,7 +110,7 @@ const gettingStartedNavItem = {
   ]
 }
 
-const toolsNavItem = {
+export const toolsNavItem = {
   label: 'Tools',
   name: 'tools',
   subMenu: [

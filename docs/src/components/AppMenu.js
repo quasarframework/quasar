@@ -17,6 +17,8 @@ import { expandedHeaderMainToolbarNavItems, expandedHeaderSecondaryToolbarNavIte
 import Menu from 'assets/menu.json'
 import './AppMenu.sass'
 
+import { toolsNavItem } from 'assets/header/nav-items.js'
+import { mdiTools } from '@quasar/extras/mdi-v6'
 
 /**
  * Creates an array with all paths, labels and hrefs from navItems (and immediate subMenus nav items) which can then be filtered easily
@@ -53,6 +55,22 @@ function getParentVm (vm) {
     vm = vm.parent
   }
 }
+
+// filter tool menus which are already present in the menu
+const toolMenus = () => ({
+  name: 'Tools',
+  icon: mdiTools,
+  children: toolsNavItem.subMenu.flatMap(tool => (
+    tool.isHeader || tool.path ?
+    [] : {
+      name: tool.label,
+      external: true,
+      path: tool.href
+    }
+  ))
+})
+
+Menu.push(toolMenus())
 
 export default {
   name: 'AppMenu',
