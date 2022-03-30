@@ -50,7 +50,7 @@
           v-for="({icon, label, path, isInternal, iconColor}, cardIndex) in options"
           :key="cardIndex"
           :to="path"
-          :isExternalLink="!isInternal"
+          :external="!isInternal"
         >
           <q-card
             class="card card--bordered raise-on-hover column justify-center items-center cursor-pointer"
