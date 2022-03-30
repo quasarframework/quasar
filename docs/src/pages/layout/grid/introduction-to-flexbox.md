@@ -243,7 +243,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .content-<bp>-(start|end|center|between|around)
 .self-<bp>-(start|end|center|baseline|stretch)
 .flex-<bp>-center
-.gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
+.q-gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
 .(col|offset)-<bp>-(|0..12)
 ```
 
