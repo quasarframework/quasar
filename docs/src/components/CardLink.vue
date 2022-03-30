@@ -1,5 +1,5 @@
 <template>
-  <a v-if="isExternalLink" :href="to" target="_blank">
+  <a v-if="external" :href="to" target="_blank">
     <slot />
   </a>
   <router-link v-else :to="to">
@@ -16,7 +16,7 @@ export default defineComponent({
       type: String,
       required: true
     },
-    isExternalLink: {
+    external: {
       type: Boolean,
       default: false
     }

@@ -42,7 +42,7 @@
               class="card__icon q-mb-sm"
               color="brand-primary"
             />
-            <div class="text-size-12 letter-spacing-100">
+            <div class="text-size-12 letter-spacing-100 text-brand-secondary">
               {{ label }}
             </div>
           </q-card>
@@ -67,7 +67,7 @@
               class="card__icon q-mb-sm"
               color="brand-primary"
             />
-            <div class="text-size-12 letter-spacing-100">
+            <div class="text-size-12 letter-spacing-100 text-brand-secondary">
               {{ label }}
             </div>
           </q-card>
