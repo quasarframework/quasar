@@ -234,7 +234,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 
 ```
 .flex-<bp>-(block|inline)
-.(row|column|flex)-<bp>(|-inline)
+.(row|column|flex)-<bp>(|-inline-<bp>)
 .reverse-<bp>
 .(wrap|no-wrap|reverse-wrap)-<bp>
 .order-<bp>-(first|last|none)
@@ -251,7 +251,6 @@ There are also responsive classes for spacing, both for padding and for margin:
 
 ```
 .q-(p|m)(t|r|b|l|a|x|y)-<bp>-(none|auto|xs|sm|md|lg|xl)
-.q-my-<bp>-form
 ```
 
 Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
