@@ -10,6 +10,22 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     :width="285"
   )
     q-scroll-area(style="height: 100%")
+      drawer-banner(
+        v-if="true"
+        title="The 2022 Survey is out"
+        body="Take some minutes, you will help us make Quasar a better framework."
+        buttonLabel="Get Started"
+        to="#"
+      )
+      //- TODO: Replace icon with the right one and possibly adjust the dimensions
+      drawer-banner(
+        v-if="false"
+        title="Call for papers is now"
+        body="June ??th 2022, Become a speaker, we look forward to hear your voice."
+        buttonLabel="Get Started"
+        to="#"
+        icon="https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg"
+      )
       app-menu.q-mb-lg.q-mt-sm
 
   q-drawer(
@@ -63,6 +79,7 @@ import useDrawers from './doc-layout/use-drawers'
 import useScroll from './doc-layout/use-scroll'
 import { HEADER_SCROLL_OFFSET } from 'assets/header/constants.js'
 import { useTheme } from 'components/landing-page/use-theme'
+import DrawerBanner from 'src/components/DrawerBanner.vue'
 
 export default {
   name: 'DocLayout',
@@ -70,7 +87,8 @@ export default {
   components: {
     AppMenu,
     HeaderMenu,
-    MainLayoutHeader
+    MainLayoutHeader,
+    DrawerBanner
   },
 
   setup () {
