@@ -1,5 +1,33 @@
 [
   {
+    "name": "Docs",
+    "icon": "description",
+    "path": "docs"
+  },
+  {
+    "name": "Announcements",
+    "icon": "info",
+    "path": "https://github.com/quasarframework/quasar/discussions/categories/announcements",
+    "external": true
+  },
+  {
+    "name": "Brand resources",
+    "icon": "branding_watermark",
+    "path": "https://github.com/quasarframework/quasar-art",
+    "external": true
+  },
+  {
+    "name": "Blog",
+    "icon": "rss_feed",
+    "path": "https://dev.to/quasar",
+    "external": true
+  },
+  {
+    "name": "Components",
+    "icon": "widgets",
+    "path": "components"
+  },
+  {
     "name": "Why Quasar?",
     "icon": "room",
     "path": "introduction-to-quasar"
