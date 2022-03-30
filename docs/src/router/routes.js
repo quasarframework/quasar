@@ -119,7 +119,8 @@ const routes = [
         component: () => import('../pages/LandingPage.vue')
       },
       {
-        path: 'components',
+        // TODO: components won't open without the trailing slash at the end of components, and it happens only when using the string 'components'
+        path: 'components/',
         name: 'components',
         component: () => import('../pages/ComponentsPage.vue')
       }
