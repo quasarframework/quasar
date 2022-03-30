@@ -1,9 +1,13 @@
 ---
 title: Testing & Auditing
 desc: (@quasar/app-webpack) How to unit and end to end test a Quasar app and also how to audit for quality and security.
+components:
+  - ../VueMasteryCard
 ---
 
 Your Quasar projects have the ability to add unit and e2e testing harnesses. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing/tree/dev). If you are a beginner, consider reading one of the books in the "Further Reading" section.
+
+<vue-mastery-card to="https://www.vuemastery.com/courses/unit-testing-vue-3/what-to-test-vue-3/" subject="Unite Testing"/>
 
 ## High level overview
 

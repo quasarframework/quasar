@@ -5,6 +5,7 @@ keys: Video Tutorials
 components:
   - video-tutorials/TutorialListing
   - introduction-to-quasar/IntroductionVideo
+  - ../VueMasteryCard
 ---
 
 <introduction-video />
@@ -19,9 +20,13 @@ If you want to have your own video tutorial listed here, please email `razvan.st
 
 <tutorial-listing which="quasar-v2" />
 
+<vue-mastery-card to="https://www.vuemastery.com/courses/vue3-deep-dive-with-evan-you/vue3-overview/" subject="Vue from its creator" />
+
 ## Quasar v1 (legacy) video tutorials
 
 <tutorial-listing which="quasar-v1" />
+
+<vue-mastery-card to="https://www.vuemastery.com/courses/vue-3-essentials/why-the-composition-api/" subject="the Composition Api" />
 
 ## Vue 2 (legacy) video tutorials
 

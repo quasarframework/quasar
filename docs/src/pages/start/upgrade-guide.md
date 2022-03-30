@@ -3,6 +3,7 @@ title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
 components:
   - upgrade-guide/UpgradeVideoLink
+  - ../VueMasteryCard
 ---
 
 ::: tip Quasar CLI with Vite or Webpack
@@ -291,6 +292,8 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 ```
 
 ### Vue 3
+
+<vue-mastery-card to="https://www.vuemastery.com/courses/from-vue2-to-vue3/from-vue-2-to-vue-3/" subject="upgrading to vue 3"/>
 
 Since you will also switch to [Vue 3](https://vuejs.org), it's best that you also take a look at its [migration guide](https://v3-migration.vuejs.org/) **after**  finishing reading this migration guide.
 

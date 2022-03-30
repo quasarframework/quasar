@@ -1,7 +1,12 @@
 ---
 title: How To Use Vue
 desc: Quick tutorial about Vue principles and how to use it with Quasar.
+components:
+  - ../VueMasteryCard
 ---
+
+<vue-mastery-card to="https://www.vuemastery.com/courses/intro-to-vue-3/intro-to-vue3/" subject="using Vue" />
+
 Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue 3 works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue 3 documentation](https://vuejs.org/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
 ::: tip
@@ -74,6 +79,8 @@ Example of a Quasar directive:
 ```
 
 ## Using Quasar Components
+<vue-mastery-card to="https://www.vuemastery.com/courses/component-design-Patterns/introduction/" subject="Component Design Pattern" />
+
 Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in `/quasar.config.js`.
 
 Let's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:

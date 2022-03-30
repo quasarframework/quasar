@@ -3,7 +3,11 @@ title: Supporting TypeScript
 desc: (@quasar/app-webpack) How to enable support for TypeScript in a Quasar app.
 related:
   - /quasar-cli-webpack/quasar-config-js
+components:
+- ../VueMasteryCard
 ---
+
+<vue-mastery-card to="https://www.vuemastery.com/courses/vue3-typescript/why-vue-&-typescript/" subject="using Vue with Typescript"/>
 
 The Typescript support is not added by default to your project (unless you selected TS when you created your project folder), but it can be easily integrated by following the guide on this page.
 
