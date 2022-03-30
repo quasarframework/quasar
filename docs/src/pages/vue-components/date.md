@@ -169,6 +169,10 @@ More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/t
 
 <doc-example title="With QInput" file="QDate/Input" />
 
+Without a button, closes when day is selected:
+
+<doc-example title="QInput without a button" file="QDate/InputSimple" overflow />
+
 Connecting a QDate and QTime with same model on a QInput:
 
 <doc-example title="QDate and QTime with QInput" file="QDate/InputFull" overflow />
