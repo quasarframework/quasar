@@ -117,6 +117,14 @@ export default Vue.extend({
     this.__configureScrollTarget()
   },
 
+  activated () {
+    this.__configureScrollTarget()
+  },
+
+  deactivated () {
+    this.__unconfigureScrollTarget()
+  },
+
   beforeDestroy () {
     this.__unconfigureScrollTarget()
   },
