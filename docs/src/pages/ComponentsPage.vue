@@ -43,24 +43,25 @@
         appear
         name="slide-fade"
       >
-        <q-card
+        <card-link
           v-for="({name, description, path}, i) in filteredComponents"
           :key="name + i"
-          class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300"
-          @click="$router.push(componentPath({path, name}))"
+          :to="componentPath({path, name})"
         >
-          <!-- bg-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
-          <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
-          <div class="thumbnail-container bg-dark">
-            <q-img :src="`components-thumbnails/${componentNameToKebabCase(name)}.jpg`" class="bg-dark" />
-          </div>
-          <q-card-section class="text-brand-primary text-weight-bold">
-            {{ name }}
-          </q-card-section>
-          <q-card-section class="text-dark q-pt-none">
-            {{ description }}
-          </q-card-section>
-        </q-card>
+          <q-card class="raise-on-hover text-size-16 shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300">
+            <!-- bg-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
+            <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
+            <div class="thumbnail-container bg-dark">
+              <q-img :src="`/components-thumbnails/${componentNameToKebabCase(name)}.jpg`" class="bg-dark" />
+            </div>
+            <q-card-section class="text-brand-primary text-weight-bold">
+              {{ name }}
+            </q-card-section>
+            <q-card-section class="text-dark q-pt-none">
+              {{ description }}
+            </q-card-section>
+          </q-card>
+        </card-link>
       </transition-group>
     </div>
   </q-page>
@@ -70,6 +71,7 @@
 import { useMeta } from 'quasar'
 import { components } from 'src/assets/landing-page/image-links.js'
 import { computed, defineComponent, ref } from 'vue'
+import CardLink from "src/components/CardLink.vue"
 
 const FILTER_CHIPS = [
   { label: 'Buttons', value: 'button' },
@@ -89,6 +91,7 @@ const componentPath = ({ path, name }) => `/vue-components/${path || componentNa
 
 export default defineComponent({
   name: 'ComponentsPage',
+  components: { CardLink },
   setup () {
     useMeta({
       title: 'Components'
