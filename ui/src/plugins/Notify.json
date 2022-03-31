@@ -357,7 +357,7 @@
 
             "actions": {
               "type": "Array",
-              "tsType": "QNotifyActions",
+              "tsType": "QNotifyAction",
               "desc": "Notification actions (buttons); Unless 'noDismiss' is true, clicking/tapping on the button will close the notification; Also check 'closeBtn' convenience prop",
               "definition": {
                 "handler": {
