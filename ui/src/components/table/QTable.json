@@ -39,6 +39,10 @@
       "category": "virtual-scroll"
     },
 
+    "virtual-scroll-target": {
+      "extends": "scroll-target"
+    },
+
     "virtual-scroll-slice-size": {
       "type": [ "Number", "String" ],
       "desc": "Minimum number of rows to render in the virtual list",

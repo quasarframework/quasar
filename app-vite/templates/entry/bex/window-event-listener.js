@@ -19,11 +19,13 @@ export const listenForWindowEvents = (bridge, type) => {
     }
 
     if (payload.data.from !== void 0 && payload.data.from === type) {
-      const bridgeEvents = bridge.getEvents()
+      const
+        eventData = payload.data[0],
+        bridgeEvents = bridge.getEvents()
 
       for (let event in bridgeEvents) {
-        if (event === payload.data.event) {
-          bridgeEvents[event](payload.data.payload)
+        if (event === eventData.event) {
+          bridgeEvents[event](eventData.payload)
         }
       }
     }
