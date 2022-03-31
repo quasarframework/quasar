@@ -71,6 +71,7 @@ export default createComponent({
     wrapCells: Boolean,
 
     virtualScroll: Boolean,
+    virtualScrollTarget: String,
     ...commonVirtPropsObj,
 
     noDataLabel: String,
@@ -313,6 +314,7 @@ export default createComponent({
           class: props.tableClass,
           style: props.tableStyle,
           ...virtProps.value,
+          scrollTarget: props.virtualScrollTarget,
           items: computedRows.value,
           type: '__qtable',
           tableColspan: computedColspan.value,
