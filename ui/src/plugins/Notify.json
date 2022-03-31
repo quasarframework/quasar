@@ -375,7 +375,7 @@
                 },
                 "...": {
                   "type": "Any",
-                  "desc": "Any other QBtn prop expect 'onClick'(use 'handler' instead)",
+                  "desc": "Any other QBtn prop expect 'onClick' (use 'handler' instead)",
                   "examples": [ "label: 'Learn more'", "color: 'primary'" ]
                 }
               },
