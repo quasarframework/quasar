@@ -7,4 +7,3 @@ export type QNotifyUpdateOptions = Omit<QNotifyCreateOptions, 'group' | 'positio
 export type QNotifyOptions = Omit<QNotifyCreateOptions, 'ignoreDefaults'>;
 
 export type QNotifyAction = Omit<QBtnProps, 'onClick'> & ButtonHTMLAttributes & { noDismiss?: boolean; handler?: () => void };
-export type QNotifyActions = QNotifyAction[];
