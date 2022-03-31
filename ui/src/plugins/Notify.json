@@ -366,7 +366,7 @@
                   "params": null,
                   "returns": null,
                   "examples": [
-                    "() => console.log('button clicked')"
+                    "() => { console.log('button clicked') }"
                   ]
                 },
                 "noDismiss": {
