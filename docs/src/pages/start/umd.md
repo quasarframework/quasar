@@ -131,7 +131,7 @@ Quasar.openURL('https://quasar.dev')
 Assuming you have already included the CDN link to your favorite Quasar Icon Set (unless you're using Material Icons which is used by default), you can then tell Quasar to use it:
 
 ```js
-Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
+Quasar.iconSet.set(Quasar.iconSet.fontawesomeV6)
 ```
 
 The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).

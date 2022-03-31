@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import { QIcon } from 'quasar'
 
-import { farFile, fasFolderOpen } from '@quasar/extras/fontawesome-v5'
+import { farFile, fasFolderOpen } from '@quasar/extras/fontawesome-v6'
 
 import DocPage from './DocPage.vue'
 import DocLink from './DocLink.vue'

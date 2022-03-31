@@ -72,7 +72,7 @@ const cssMap = {
   'mdi-v6': 'cdn.jsdelivr.net/npm/@mdi/font@^6.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.15.4/css/all.css',
   // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
-  'fontawesome-v6': 'use.fontawesome.com/releases/v6.0.0/css/all.css',
+  'fontawesome-v6': 'use.fontawesome.com/releases/v6.1.1/css/all.css',
   'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
   themify: 'themify.me/wp-content/themes/themify-v32/themify-icons/themify-icons.css',
