@@ -11,13 +11,13 @@ const sameFn = i => i
 const ionFn = i => `ionicons ${ i }`
 
 const libMap = {
+  'mdi-': i => `mdi ${ i }`,
   'icon-': sameFn, // fontawesome equiv
   'bt-': i => `bt ${ i }`,
   'eva-': i => `eva ${ i }`,
   'ion-md': ionFn,
   'ion-ios': ionFn,
   'ion-logo': ionFn,
-  'mdi-': i => `mdi ${ i }`,
   'iconfont ': sameFn,
   'ti-': i => `themify-icon ${ i }`,
   'bi-': i => `bootstrap-icons ${ i }`
@@ -35,8 +35,7 @@ const mRE = /^[Mm]\s?[-+]?\.?\d/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
-const faLaRE = /^[lf]a[srlbdk]? /
-const fa6RE = /^fa-(solid|regular|light|brands|duotone|thin)/
+const faRE = /^(fa-(solid|regular|light|brands|duotone|thin)|[lf]a[srlbdk]?) /
 
 export default createComponent({
   name: 'QIcon',
@@ -130,7 +129,7 @@ export default createComponent({
       if (matches !== null) {
         cls = libMap[ matches[ 1 ] ](icon)
       }
-      else if (faLaRE.test(icon) === true || fa6RE.test(icon) === true) {
+      else if (faRE.test(icon) === true) {
         cls = icon
       }
       else if (ionRE.test(icon) === true) {

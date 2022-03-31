@@ -89,6 +89,11 @@ function convertTypeVal (type, def) {
 }
 
 function getTypeVal (def) {
+  // Special check to avoid huge changes
+  if (def.tsType === 'QNotifyCreateOptions') {
+    return 'QNotifyCreateOptions | string'
+  }
+
   return Array.isArray(def.type)
     ? def.tsType || def.type.map(type => convertTypeVal(type, def)).join(' | ')
     : convertTypeVal(def.type, def)
