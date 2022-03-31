@@ -16,41 +16,18 @@
       v-model:expanded="expanded"
     >
 
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th auto-width />
-
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.label }}
-          </q-th>
-        </q-tr>
+      <template v-slot:body-cell-before="props">
+        <q-td auto-width>
+          <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" :label="`Index: ${props.row.index}`" />
+        </q-td>
       </template>
-
-      <template v-slot:body="props">
-        <q-tr :props="props" :key="`m_${props.row.index}`">
-          <q-td auto-width>
-            <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" :label="`Index: ${props.row.index}`" />
-          </q-td>
-
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.value }}
-          </q-td>
-        </q-tr>
-        <q-tr v-show="props.expand" :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
+      <template v-slot:row-expand="props">
+        <q-tr v-show="props.expand" :props="props" class="q-virtual-scroll--with-prev" :key="props.row.index">
           <q-td colspan="100%">
             <div class="text-left">This is expand slot for row above: {{ props.row.name }} (Index: {{ props.row.index }}).</div>
           </q-td>
         </q-tr>
       </template>
-
     </q-table>
   </div>
 </template>
@@ -59,6 +36,12 @@
 import { ref, onMounted } from 'vue'
 
 const columns = [
+  {
+    name: 'before',
+    label: () => '',
+    field: () => '',
+    format: () => ''
+  },
   {
     name: 'desc',
     required: true,

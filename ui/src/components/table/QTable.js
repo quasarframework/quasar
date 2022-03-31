@@ -381,7 +381,8 @@ export default createComponent({
     function getTBodyTR (row, bodySlot, pageIndex) {
       const
         key = getRowKey.value(row),
-        selected = isRowSelected(key)
+        selected = isRowSelected(key),
+        expandedSlot = slots[ 'row-expand' ]
 
       if (bodySlot !== void 0) {
         return bodySlot(
@@ -453,6 +454,25 @@ export default createComponent({
         }
       }
 
+      if (expandedSlot !== void 0) {
+        const expandedKey = `e_${ key }`
+        const expandedData = {
+          key,
+          row,
+          pageIndex,
+          __trClass: selected ? 'selected' : ''
+        }
+        injectBodyCommonScope(expandedData)
+        const expanded = expandedSlot({
+          ...expandedData,
+          key: expandedKey
+        })
+        return [
+          h('tr', data, child),
+          expanded
+        ]
+      }
+
       return h('tr', data, child)
     }
 
@@ -462,7 +482,7 @@ export default createComponent({
         topRow = slots[ 'top-row' ],
         bottomRow = slots[ 'bottom-row' ]
 
-      let child = computedRows.value.map(
+      let child = computedRows.value.flatMap(
         (row, pageIndex) => getTBodyTR(row, body, pageIndex)
       )
 
