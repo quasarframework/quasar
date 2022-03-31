@@ -71,7 +71,9 @@ export default createComponent({
     wrapCells: Boolean,
 
     virtualScroll: Boolean,
-    virtualScrollTarget: String,
+    virtualScrollTarget: {
+      default: void 0
+    },
     ...commonVirtPropsObj,
 
     noDataLabel: String,
