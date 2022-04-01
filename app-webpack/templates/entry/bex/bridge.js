@@ -161,7 +161,7 @@ export default class Bridge extends EventEmitter {
       }
 
       this._sending = false
-      requestAnimationFrame(() => { return this._nextSend() })
+      setTimeout(() => { return this._nextSend() }, 16)
     })
   }
 }
