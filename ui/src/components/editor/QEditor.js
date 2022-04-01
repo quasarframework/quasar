@@ -368,11 +368,14 @@ export default createComponent({
     }
 
     function onFocusin (e) {
+      const root = rootRef.value
+
       if (
-        rootRef.value.contains(e.target) === true
+        root !== null 
+        && root.contains(e.target) === true
         && (
           e.relatedTarget === null
-          || rootRef.value.contains(e.relatedTarget) !== true
+          || root.contains(e.relatedTarget) !== true
         )
       ) {
         const prop = `inner${ isViewingSource.value === true ? 'Text' : 'HTML' }`
@@ -382,11 +385,14 @@ export default createComponent({
     }
 
     function onFocusout (e) {
+      const root = rootRef.value
+
       if (
-        rootRef.value.contains(e.target) === true
+        root !== null
+        && root.contains(e.target) === true
         && (
           e.relatedTarget === null
-          || rootRef.value.contains(e.relatedTarget) !== true
+          || root.contains(e.relatedTarget) !== true
         )
       ) {
         eVm.caret.savePosition()
