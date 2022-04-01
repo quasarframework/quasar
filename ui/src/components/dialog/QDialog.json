@@ -114,7 +114,7 @@
           "required": false,
           "desc": "Optional CSS selector to override default focusable element",
           "examples": [ "[tabindex]:not([tabindex=\"-1\"])" ],
-          "addedIn": "v2.6.4"
+          "addedIn": "v2.6.5"
         }
       }
     },
