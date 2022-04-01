@@ -151,7 +151,7 @@ export default Vue.extend({
   },
 
   methods: {
-    focus () {
+    focus (selector) {
       addFocusFn(() => {
         let node = this.__getInnerNode()
 
@@ -159,7 +159,7 @@ export default Vue.extend({
           return
         }
 
-        node = node.querySelector('[autofocus], [data-autofocus]') || node
+        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
         node.focus({ preventScroll: true })
       })
     },
@@ -331,7 +331,7 @@ export default Vue.extend({
         this.__portal !== void 0 &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
-        this.focus()
+        this.focus('[tabindex]:not([tabindex="-1"])')
       }
     },
 
