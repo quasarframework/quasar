@@ -107,7 +107,16 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it"
+      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it",
+      "params": {
+        "selector": {
+          "type": "String",
+          "required": false,
+          "desc": "Optional CSS selector to override default focusable element",
+          "examples": [ "[tabindex]:not([tabindex=\"-1\"])" ],
+          "addedIn": "v2.6.4"
+        }
+      }
     },
 
     "shake": {

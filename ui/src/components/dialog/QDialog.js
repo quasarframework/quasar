@@ -248,7 +248,7 @@ export default createComponent({
       }, props.transitionDuration)
     }
 
-    function focus () {
+    function focus (selector) {
       addFocusFn(() => {
         let node = innerRef.value
 
@@ -256,7 +256,7 @@ export default createComponent({
           return
         }
 
-        node = node.querySelector('[autofocus], [data-autofocus]') || node
+        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
         node.focus({ preventScroll: true })
       })
     }
@@ -354,7 +354,7 @@ export default createComponent({
         && portalIsActive.value === true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
-        focus()
+        focus('[tabindex]:not([tabindex="-1"])')
       }
     }
 
