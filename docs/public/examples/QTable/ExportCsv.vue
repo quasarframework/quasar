@@ -145,9 +145,9 @@ const rows = [
   }
 ]
 
-function wrapCsvValue (val, formatFn) {
+function wrapCsvValue (val, formatFn, row) {
   let formatted = formatFn !== void 0
-    ? formatFn(val)
+    ? formatFn(val, row)
     : val
 
   formatted = formatted === void 0 || formatted === null
@@ -180,7 +180,8 @@ export default {
             typeof col.field === 'function'
               ? col.field(row)
               : row[ col.field === void 0 ? col.name : col.field ],
-            col.format
+            col.format,
+            row
           )).join(','))
         ).join('\r\n')
 
