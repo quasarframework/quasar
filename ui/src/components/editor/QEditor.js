@@ -371,7 +371,7 @@ export default createComponent({
       const root = rootRef.value
 
       if (
-        root !== null 
+        root !== null
         && root.contains(e.target) === true
         && (
           e.relatedTarget === null
