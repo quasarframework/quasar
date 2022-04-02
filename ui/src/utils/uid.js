@@ -9,7 +9,7 @@ const hexBytes = new Array(256)
 
 // Pre-calculate toString(16) for speed
 for (let i = 0; i < 256; i++) {
-  hexBytes[ i ] = (i + 0x100).toString(16).substr(1)
+  hexBytes[ i ] = (i + 0x100).toString(16).substring(1)
 }
 
 // Use best available PRNG
