@@ -31,11 +31,11 @@ if (process.env.DEV) {
   console.log(`I'm on a development build`)
 }
 
-// process.env.MODE is the <mode> in
+// process.env. MODE is the <mode> in
 // "quasar dev/build -m <mode>"
 // (defaults to 'spa' if -m parameter is not specified)
 
-if (process.env. MODE === 'electron') {
+if (process.env.MODE === 'electron') {
   const { BrowserWindow } = require('@electron/remote')
   const win = BrowserWindow.getFocusedWindow()
 
