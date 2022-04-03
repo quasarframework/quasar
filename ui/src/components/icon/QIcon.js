@@ -133,7 +133,7 @@ export default createComponent({
         cls = icon
       }
       else if (ionRE.test(icon) === true) {
-        cls = `ionicons ion-${ $q.platform.is.ios === true ? 'ios' : 'md' }${ icon.substr(3) }`
+        cls = `ionicons ion-${ $q.platform.is.ios === true ? 'ios' : 'md' }${ icon.substring(3) }`
       }
       else {
         // "notranslate" class is for Google Translate
