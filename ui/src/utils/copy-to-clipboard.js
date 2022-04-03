@@ -1,7 +1,7 @@
 function fallback (text) {
   const area = document.createElement('textarea')
   area.value = text
-  area.contentEditable = true
+  area.contentEditable = 'true'
   area.style.position = 'fixed' // avoid scrolling to bottom
 
   document.body.appendChild(area)
