@@ -125,9 +125,17 @@ function injectPlugin ({ props, emit, helpers }) {
   }
 
   function performUpload (files, factory) {
-    const
-      form = new FormData(),
+    const form = new FormData()
+
+    let xhr
+    if (window.XMLHttpRequest) {
+      // Firefox, Opera, IE7, and other browsers will use the native object
       xhr = new XMLHttpRequest()
+    }
+    else {
+      // IE 5 and 6 will use the ActiveX control
+      xhr = new ActiveXObject('Microsoft.XMLHTTP') // eslint-disable-line no-undef
+    }
 
     const getProp = (name, arg) => {
       return factory[ name ] !== void 0

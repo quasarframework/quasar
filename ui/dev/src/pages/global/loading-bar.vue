@@ -23,7 +23,15 @@
 import { LoadingBar } from 'quasar'
 
 function sendXhr (url) {
-  const xhr = new XMLHttpRequest()
+  let xhr
+  if (window.XMLHttpRequest) {
+    // Firefox, Opera, IE7, and other browsers will use the native object
+    xhr = new XMLHttpRequest()
+  }
+  else {
+    // IE 5 and 6 will use the ActiveX control
+    xhr = new ActiveXObject('Microsoft.XMLHTTP') // eslint-disable-line no-undef
+  }
   xhr.open('GET', url, true)
   xhr.send(null)
 }
