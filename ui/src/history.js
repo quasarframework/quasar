@@ -11,9 +11,9 @@ function filterInvalidPath (path) {
 }
 
 function normalizeExitPath (path) {
-  path.startsWith('#') === true && (path = path.substr(1))
+  path.startsWith('#') === true && (path = path.substring(1))
   path.startsWith('/') === false && (path = '/' + path)
-  path.endsWith('/') === true && (path = path.substr(0, path.length - 1))
+  path.endsWith('/') === true && (path = path.substring(0, path.length - 1))
   return '#' + path
 }
 

@@ -145,7 +145,7 @@ function addUmdAssets (builds, type, injectName) {
     .filter(file => file.endsWith('.mjs'))
     .forEach(file => {
       const name = file
-        .substr(0, file.length - 4)
+        .substring(0, file.length - 4)
         .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
 
       builds.push({

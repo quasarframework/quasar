@@ -26,7 +26,7 @@ const svgIconSetBanner = setName => `
 const convert = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
 const materialConvert = (str, old, prefix) => {
   if (old !== '') {
-    str = str.substr(old.length)
+    str = str.substring(old.length)
   }
   return (prefix + str).replace(/(_\w)/g, m => m[ 1 ].toUpperCase())
 }

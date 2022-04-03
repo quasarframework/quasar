@@ -18,7 +18,7 @@ function cleanMessage (message) {
 
   const stackIndex = cleanMessage.indexOf(stackStart)
   return stackIndex > -1
-    ? cleanMessage.substr(0, stackIndex)
+    ? cleanMessage.substring(0, stackIndex)
     : cleanMessage
 }
 
