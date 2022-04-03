@@ -40,7 +40,8 @@
       "desc": "Provides a hint of the relative priority to use when fetching the iframe document",
       "default": "auto",
       "values": [ "high", "low", "auto" ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.18.10"
     },
 
     "loading": {
@@ -48,7 +49,8 @@
       "desc": "Indicates how the browser should load the iframe",
       "default": "eager",
       "values": [ "eager", "lazy" ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.18.10"
     },
 
     "referrerpolicy": {
@@ -65,7 +67,8 @@
         "strict-origin-when-cross-origin",
         "unsafe-url"
       ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.18.10"
     }
   }
 }
