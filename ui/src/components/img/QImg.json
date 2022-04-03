@@ -116,8 +116,17 @@
     "referrerpolicy": {
       "type": "String",
       "desc": "Same syntax as <img> referrerpolicy attribute",
-      "category": "behavior",
-      "__exemption": [ "examples" ]
+      "values": [
+        "no-referrer",
+        "no-referrer-when-downgrade",
+        "origin",
+        "origin-when-cross-origin",
+        "same-origin",
+        "strict-origin",
+        "strict-origin-when-cross-origin",
+        "unsafe-url"
+      ],
+      "category": "behavior"
     },
 
     "fit": {
