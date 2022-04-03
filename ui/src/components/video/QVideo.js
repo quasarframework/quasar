@@ -14,7 +14,20 @@ export default Vue.extend({
       required: true
     },
 
-    title: String
+    title: String,
+
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
+    loading: {
+      type: String,
+      default: 'eager'
+    },
+    referrerpolicy: {
+      type: String,
+      default: 'strict-origin-when-cross-origin'
+    }
   },
 
   computed: {
@@ -24,7 +37,10 @@ export default Vue.extend({
           src: this.src,
           frameborder: '0',
           title: this.title,
-          allowfullscreen: true
+          allowfullscreen: true,
+          fetchpriority: this.fetchpriority,
+          loading: this.loading,
+          referrerpolicy: this.referrerpolicy
         }
       }
     },
