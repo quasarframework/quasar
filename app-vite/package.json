@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-beta.13",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar"
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@quasar/fastclick": "1.1.5",
-    "@quasar/vite-plugin": "^1.0.6",
+    "@quasar/vite-plugin": "^1.0.9",
     "@rollup/pluginutils": "^4.1.2",
     "@types/cordova": "0.0.34",
     "@types/express": "^4.17.13",
