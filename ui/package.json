@@ -86,7 +86,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-vue": "^7.0.0",
     "fast-glob": "^3.2.7",
-    "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
     "postcss-rtlcss": "^3.5.3",
     "prettier": "^2.4.1",
