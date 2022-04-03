@@ -27,7 +27,6 @@ const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.bod
 
     if (styleSheet === null) {
       styleSheet = document.createElement('style')
-      styleSheet.type = 'text/css'
       styleSheet.id = ssId
       document.head.appendChild(styleSheet)
     }
