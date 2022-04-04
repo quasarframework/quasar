@@ -15,26 +15,30 @@ const scrollToEdges = [
   'end-force'
 ]
 
-let id = 1
 const filterProto = Array.prototype.filter
 
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
   ? noop
-  : function (id, index) {
-    const ssId = id + '_ss'
+  : function (contentEl, index) {
+    requestAnimationFrame(() => {
+      if (contentEl === void 0) {
+        return
+      }
 
-    let styleSheet = document.getElementById(ssId)
+      const children = contentEl.children || []
 
-    if (styleSheet === null) {
-      styleSheet = document.createElement('style')
-      styleSheet.id = ssId
-      document.head.appendChild(styleSheet)
-    }
+      filterProto
+        .call(children, el => el.dataset && el.dataset.qVsAnchor !== void 0)
+        .forEach(el => {
+          delete el.dataset.qVsAnchor
+        })
 
-    if (styleSheet.qChildIndex !== index) {
-      styleSheet.qChildIndex = index
-      styleSheet.innerHTML = `#${ id } > *:nth-child(${ index }) { overflow-anchor: auto }`
-    }
+      const el = children[ index ]
+
+      if (el && el.dataset) {
+        el.dataset.qVsAnchor = ''
+      }
+    })
   }
 
 function sumFn (acc, h) {
@@ -230,8 +234,6 @@ export function useVirtualScroll ({
 
   let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
 
-  const vsId = 'qvs_' + id++
-
   const virtualScrollPaddingBefore = ref(0)
   const virtualScrollPaddingAfter = ref(0)
   const virtualScrollSliceSizeComputed = ref({})
@@ -417,7 +419,7 @@ export function useVirtualScroll ({
       })
     }
 
-    setOverflowAnchor(vsId, toIndex - from + 1)
+    setOverflowAnchor(contentEl, toIndex - from)
 
     const sizeBefore = alignEnd !== void 0 ? virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
@@ -643,7 +645,6 @@ export function useVirtualScroll ({
         class: 'q-virtual-scroll__content',
         key: 'content',
         ref: contentRef,
-        id: vsId,
         tabindex: -1
       }, content.flat()),
 
@@ -717,9 +718,7 @@ export function useVirtualScroll ({
     }
   })
 
-  setOverflowAnchor !== noop && onBeforeUnmount(() => {
-    const styleSheet = document.getElementById(vsId + '_ss')
-    styleSheet !== null && styleSheet.remove()
+  __QUASAR_SSR__ || onBeforeUnmount(() => {
     onVirtualScrollEvt.cancel()
   })
 
