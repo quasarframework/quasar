@@ -185,9 +185,7 @@ const commonVirtScrollProps = {
   tableColspan: [ Number, String ]
 }
 
-let id = 1
-
-function setOverflowAnchor (id, index) {
+function setOverflowAnchor (contentEl, index) {
   if (setOverflowAnchor.isSupported === void 0) {
     setOverflowAnchor.isSupported = window.getComputedStyle(document.body).overflowAnchor !== void 0
   }
@@ -196,21 +194,25 @@ function setOverflowAnchor (id, index) {
     return
   }
 
-  const ssId = id + '_ss'
+  requestAnimationFrame(() => {
+    if (contentEl === void 0) {
+      return
+    }
 
-  let styleSheet = document.getElementById(ssId)
+    const children = contentEl.children || []
 
-  if (styleSheet === null) {
-    styleSheet = document.createElement('style')
-    styleSheet.type = 'text/css'
-    styleSheet.id = ssId
-    document.head.appendChild(styleSheet)
-  }
+    filterProto
+      .call(children, el => el.dataset && el.dataset.qVsAnchor !== void 0)
+      .forEach(el => {
+        delete el.dataset.qVsAnchor
+      })
 
-  if (styleSheet.qChildIndex !== index) {
-    styleSheet.qChildIndex = index
-    styleSheet.innerHTML = `#${id} > *:nth-child(${index}) { overflow-anchor: auto }`
-  }
+    const el = children[index]
+
+    if (el && el.dataset) {
+      el.dataset.qVsAnchor = ''
+    }
+  })
 }
 
 export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
@@ -223,8 +225,7 @@ export default {
 
   data () {
     return {
-      virtualScrollSliceRange: { from: 0, to: 0 },
-      id: 'qvs_' + id++
+      virtualScrollSliceRange: { from: 0, to: 0 }
     }
   },
 
@@ -423,7 +424,7 @@ export default {
         })
       }
 
-      setOverflowAnchor(this.id, toIndex - from + 1)
+      setOverflowAnchor(contentEl, toIndex - from)
 
       const sizeBefore = alignEnd !== void 0 ? this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
@@ -643,7 +644,7 @@ export default {
           staticClass: 'q-virtual-scroll__content',
           key: 'content',
           ref: 'content',
-          attrs: { id: this.id, tabindex: -1 }
+          attrs: { tabindex: -1 }
         }, content),
 
         tag === 'tbody'
@@ -720,7 +721,5 @@ export default {
 
   beforeDestroy () {
     this.__onVirtualScrollEvt.cancel()
-    const styleSheet = document.getElementById(this.id + '_ss')
-    styleSheet !== null && styleSheet.remove()
   }
 }
