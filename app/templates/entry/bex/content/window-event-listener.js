@@ -13,7 +13,7 @@ export const listenForWindowEvents = (bridge, type) => {
   // Listen for any events from the web page and transmit to the BEX bridge.
   window.addEventListener('message', payload => {
     // We only accept messages from this window to itself [i.e. not from any iframes]
-    if (payload.source != window) {
+    if (payload.source !== window) {
       return
     }
 
