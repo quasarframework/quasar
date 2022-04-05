@@ -429,7 +429,7 @@ class QuasarConfFile {
           toplevel: false,
           typeofs: false,
 
-          // a few flags with noticable gains/speed ratio
+          // a few flags with noticeable gains/speed ratio
           // numbers based on out of the box vendor bundle
           booleans: true, // 0.7kb
           if_return: true, // 0.4kb
@@ -553,7 +553,7 @@ class QuasarConfFile {
         pwa: false,
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
+        prodPort: 3000, // gets superseded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr)
 
