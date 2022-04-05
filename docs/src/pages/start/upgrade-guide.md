@@ -431,25 +431,6 @@ export default ({ app }) => {
 ```
 
 If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
-If you use TypeScript and ESLint, due to an [upstream types generation problem](https://github.com/intlify/vue-i18n-next/issues/324), `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
-Until the problem is solved upstream, we recommended to create your own `useI18n` helper into the boot file
-
-```js
-export function useI18n() {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { t, te, tm, rt, d, n, ...globalApi } = i18n.global;
-
-  return {
-    t: t.bind(i18n),
-    te: te.bind(i18n),
-    tm: tm.bind(i18n),
-    rt: rt.bind(i18n),
-    d: d.bind(i18n),
-    n: n.bind(i18n),
-    ...globalApi,
-  };
-}
-```
 
 ### @vue/composition-api
 
@@ -1032,7 +1013,7 @@ Nothing changed in regards to how App Extensions work. Please note that not all 
 
 Update `src/shims-vue.d.ts` to match [Vue3 version](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/shims-vue.d.ts).
 
-Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/quasar.d.ts).
+Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar/blob/71143c4417d6bf3fd7a5dc88dd0e577d822ddc92/create-quasar/templates/app/quasar-v2/ts-webpack/BASE/src/quasar.d.ts).
 
 If you use ESLint, update the property into `quasar.config.js`:
 
