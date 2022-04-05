@@ -4,7 +4,7 @@ const prefix = 'mat_'
 
 // ------------
 
-const { resolve, join } = require('path')
+const { resolve } = require('path')
 const fetch = require('cross-fetch')
 const { writeFileSync } = require('fs')
 
