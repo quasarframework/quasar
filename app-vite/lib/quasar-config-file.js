@@ -304,7 +304,7 @@ class QuasarConfFile {
         ssrPwaHtmlFilename: 'offline.html',
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000 // gets superseeded in production by an eventual process.env.PORT
+        prodPort: 3000 // gets superseded in production by an eventual process.env.PORT
       }, cfg.ssr)
     }
 
