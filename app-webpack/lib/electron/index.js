@@ -197,7 +197,6 @@ class ElectronRunner {
       code => {
         if (this.__justKilledIt === true) {
           this.__justKilledIt = false
-          return
         }
         else if (code) {
           warn()
