@@ -1,4 +1,3 @@
-const { writeFileSync } = require('fs')
 const cpus = require('os').cpus().length
 const parallel = cpus > 1
 const maxJobCount = cpus - 1 || 1
