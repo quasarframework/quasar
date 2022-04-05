@@ -2,7 +2,7 @@ const
   recast = require('recast'),
   parser = require('recast/parsers/babel')
 
-// Analize component JS file
+// Analyze component JS file
 module.exports.evaluate = (source, lookup, callback) => {
   const ast = recast.parse(source, { parser })
   for (const node of ast.program.body) {
