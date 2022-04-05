@@ -55,7 +55,7 @@ const uglifyJsOptions = {
     toplevel: false,
     typeofs: false,
 
-    // a few flags with noticable gains/speed ratio
+    // a few flags with noticeable gains/speed ratio
     booleans: true,
     if_return: true,
     sequences: true,
