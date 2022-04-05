@@ -392,7 +392,7 @@ function handleAddedIn (api, banner) {
   }
 
   if (isValidVersion(addedIn.slice(1)) !== true) {
-    logError(`${ banner } "addedIn" value (${ addedIn }) must follow sematic versioning`)
+    logError(`${ banner } "addedIn" value (${ addedIn }) must follow semantic versioning`)
     console.log()
     process.exit(1)
   }
