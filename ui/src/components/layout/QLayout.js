@@ -69,7 +69,7 @@ export default createComponent({
     ))
 
     function onPageScroll (data) {
-      if (props.container === true || document.qScrollPrevented !== true) {
+      if (props.container === true) {
         const info = {
           position: data.position.top,
           direction: data.direction,
