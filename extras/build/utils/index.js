@@ -29,10 +29,6 @@ function getAttributes (el, list) {
   return att
 }
 
-function getCurvePath (x, y, rx, ry) {
-  return `A${rx},${ry},0,0,1,${x},${y}`
-}
-
 const decoders = {
   path (el) {
     const points = el.getAttribute('d')
