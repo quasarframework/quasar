@@ -1,7 +1,7 @@
 module.exports = function mergeObjects () {
   const base = {}
 
-  for (var i = 0; i < arguments.length; i++) {
+  for (let i = 0; i < arguments.length; i++) {
     const obj = arguments[i]
 
     Object.keys(obj).forEach(key => {
