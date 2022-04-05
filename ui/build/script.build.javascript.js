@@ -305,13 +305,6 @@ const runBuild = {
     require('./build.vetur').generate(data)
   },
 
-  async webtypes () {
-    await prepareDiff('dist/web-types')
-
-    const data = await require('./build.api').generate()
-    require('./build.web-types').generate(data)
-  },
-
   async transforms () {
     await prepareDiff('dist/transforms')
     require('./build.transforms').generate()
