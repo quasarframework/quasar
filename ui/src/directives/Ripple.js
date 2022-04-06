@@ -46,12 +46,12 @@ function showRipple (evt, el, ctx, forceCenter) {
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
     innerNode.style.transform = `translate3d(${ centerX },${ centerY },0) scale3d(1,1,1)`
-    innerNode.style.opacity = 0.2
+    innerNode.style.opacity = '0.2'
 
     timer = setTimeout(() => {
       innerNode.classList.remove('q-ripple__inner--enter')
       innerNode.classList.add('q-ripple__inner--leave')
-      innerNode.style.opacity = 0
+      innerNode.style.opacity = '0'
 
       timer = setTimeout(() => {
         node.remove()
