@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { useQuasar, QIcon as Weee } from 'quasar'
+import { useQuasar } from 'quasar'
 
 export default {
   props: {
