@@ -187,7 +187,7 @@ const docsNavItem = {
 
 const componentsNavItem = {
   label: 'Components',
-  path: 'components'
+  path: 'vue-components/grid'
 }
 
 const socialsNavItem = {

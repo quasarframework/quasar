@@ -87,6 +87,13 @@ menu.forEach(node => {
   parseMenuNode(node, '')
 })
 
+// remove components grid from DocPages (and avoid using DocLayout), use layout from MainLayout
+docsPages.forEach((doc, index) => {
+  if (doc.path === '/vue-components/grid') {
+    docsPages.splice(index, 1)
+  }
+})
+
 const redirects = [
   { from: '/quasar-cli/supporting-ie', to: '/quasar-cli-webpack/browser-compatibility' },
   { from: '/quasar-cli/modern-build', to: '/quasar-cli-webpack/browser-compatibility' },
@@ -119,9 +126,8 @@ const routes = [
         component: () => import('../pages/LandingPage.vue')
       },
       {
-        // TODO: components won't open without the trailing slash at the end of components, and it happens only when using the string 'components'
-        path: 'components/',
-        name: 'components',
+        path: 'vue-components/grid',
+        name: 'components-grid',
         component: () => import('../pages/ComponentsPage.vue')
       }
     ]

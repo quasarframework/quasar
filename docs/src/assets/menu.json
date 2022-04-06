@@ -18,14 +18,9 @@
   },
   {
     "name": "Blog",
-    "icon": "rss_feed",
+    "icon": "newspaper",
     "path": "https://dev.to/quasar",
     "external": true
-  },
-  {
-    "name": "Components",
-    "icon": "widgets",
-    "path": "components"
   },
   {
     "name": "Why Quasar?",
@@ -336,6 +331,10 @@
     "icon": "widgets",
     "path": "vue-components",
     "children": [
+      {
+        "name": "Components Grid",
+        "path": "grid"
+      },
       {
         "name": "Ajax Bar",
         "path": "ajax-bar"
