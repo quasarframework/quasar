@@ -8,6 +8,9 @@ function encode (value) {
   if (isRegexp(value) === true) {
     return '__q_expr|' + value.source
   }
+  if (typeof value === 'undefined') {
+    return '__q_undf|'
+  }
   if (typeof value === 'number') {
     return '__q_numb|' + value
   }
@@ -45,6 +48,9 @@ function decode (value) {
 
     case '__q_expr':
       return new RegExp(source)
+
+    case '__q_undf':
+      return undefined
 
     case '__q_numb':
       return Number(source)
