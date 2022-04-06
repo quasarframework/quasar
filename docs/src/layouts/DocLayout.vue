@@ -17,14 +17,13 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
         buttonLabel="Get Started"
         to="#"
       )
-      //- TODO: Replace icon with the right one and possibly adjust the dimensions
       drawer-banner(
-        v-if="false"
+        v-if="true"
         title="Call for papers is now"
         body="June ??th 2022, Become a speaker, we look forward to hear your voice."
         buttonLabel="Get Started"
         to="#"
-        icon="https://cdn.quasar.dev/logo-v2/svg/logo-mono-cyan.svg"
+        icon="/custom-svg-icons/quasar-conf-logo.svg"
       )
       app-menu.q-mb-lg.q-mt-sm
 
