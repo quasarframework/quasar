@@ -97,7 +97,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
-    renderFile({ sourcePath, targetPath, rawCopy, scope })
+    await renderFile({ sourcePath, targetPath, rawCopy, scope })
   }
 }
 
