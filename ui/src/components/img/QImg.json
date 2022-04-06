@@ -129,6 +129,15 @@
       "category": "behavior"
     },
 
+    "fetchpriority": {
+      "type": "String",
+      "desc": "Provides a hint of the relative priority to use when fetching the image",
+      "default": "auto",
+      "values": [ "high", "low", "auto" ],
+      "category": "behavior",
+      "addedIn": "v2.6.6"
+    },
+
     "fit": {
       "type": "String",
       "desc": "How the image will fit into the container; Equivalent of the object-fit prop; Can be coordinated with 'position' prop",
