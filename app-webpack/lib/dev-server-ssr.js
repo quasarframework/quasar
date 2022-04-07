@@ -104,7 +104,8 @@ module.exports = class DevServer {
 
     const renderOptions = {
       vueRenderToString: renderToString,
-      basedir: appPaths.resolve.app('.')
+      basedir: appPaths.resolve.app('.'),
+      manualStoreSerialization: cfg.ssr.manualStoreSerialization === true
     }
 
     const update = () => {

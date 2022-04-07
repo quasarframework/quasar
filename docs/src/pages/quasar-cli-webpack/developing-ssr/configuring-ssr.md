@@ -15,13 +15,31 @@ return {
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
 
-    manualStoreHydration: true/false,
-        // Manually hydrate the store.
-        // This is detailed in a subsection below
+    /**
+     * Manually serialize the store state and provide it yourself
+     * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
+     * (Requires @quasar/app-webpack v3.5+)
+     */
+    manualStoreSerialization: false,
 
-    manualPostHydrationTrigger: true/false,
-        // Manually trigger the post-hydration logic on client-side.
-        // This is detailed in a subsection below
+    /**
+     * Manually inject the store state into ssrContext.state
+     * (Requires @quasar/app-webpack v3.5+)
+     */
+    manualStoreSsrContextInjection: false,
+
+    /**
+     * Manually handle the store hydration instead of letting Quasar CLI do it.
+     * For Pinia: store.state.value = window.__INITIAL_STATE__
+     * For Vuex: store.replaceState(window.__INITIAL_STATE__)
+     */
+    manualStoreHydration: false,
+
+    /**
+     * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
+     * This announces that client-side code should takeover.
+     */
+    manualPostHydrationTrigger: false,
 
     prodPort: 3000, // The default port that the production server should use
                     // (gets superseded if process.env.PORT is specified at runtime)
