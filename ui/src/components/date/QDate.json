@@ -63,7 +63,7 @@
 
     "only-month-view": {
       "type": "Boolean",
-      "desc": "Forces calendar to render only month selection, sets mask to 'MM' and hides header; Superseded by 'only-year-view' prop if used",
+      "desc": "Forces calendar to render only month selection, sets mask to 'MM' and hides header; Suppressed by 'only-year-view' prop if used",
       "default": "false",
       "values": [ "true", "false" ],
       "category": "model",
