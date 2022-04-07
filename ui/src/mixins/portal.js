@@ -79,8 +79,11 @@ const Portal = {
     __showPortal (isReady) {
       if (isReady === true) {
         removeFocusWaitFlag(this.focusObj)
+        this.__portalIsAccessible = true
         return
       }
+
+      this.__portalIsAccessible = false
 
       if (this.__portalIsActive === true) { return }
       this.__portalIsActive = true
@@ -118,7 +121,11 @@ const Portal = {
       }
     },
 
-    __hidePortal () {
+    __hidePortal (isReady) {
+      this.__portalIsAccessible = false
+
+      if (isReady !== true) { return }
+
       this.__portalIsActive = false
       removeFocusWaitFlag(this.focusObj)
 
@@ -170,7 +177,7 @@ const Portal = {
   },
 
   beforeDestroy () {
-    this.__hidePortal()
+    this.__hidePortal(true)
   }
 }
 

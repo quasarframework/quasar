@@ -106,9 +106,10 @@ export default Vue.extend({
 
     __hide (evt) {
       this.__anchorCleanup()
+      this.__hidePortal()
 
       this.__setTimeout(() => {
-        this.__hidePortal()
+        this.__hidePortal(true) // done hiding, now destroy
         this.$emit('hide', evt)
       }, 300)
     },

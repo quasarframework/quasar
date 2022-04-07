@@ -245,7 +245,7 @@ export default Vue.extend({
         }
 
         this.animating = false
-        this.__showPortal(true)
+        this.__showPortal(true) // done showing
         this.$emit('show', evt)
       }, 300)
     },
@@ -253,6 +253,7 @@ export default Vue.extend({
     __hide (evt) {
       this.__removeHistory()
       this.__cleanup(true)
+      this.__hidePortal()
       this.animating = true
 
       // check null for IE
@@ -264,7 +265,7 @@ export default Vue.extend({
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
       this.__setTimeout(() => {
-        this.__hidePortal()
+        this.__hidePortal(true) // done hiding, now destroy
         this.animating = false
         this.$emit('hide', evt)
       }, 300)
@@ -327,8 +328,7 @@ export default Vue.extend({
     __onFocusChange (e) {
       // the focus is not in a vue child component
       if (
-        this.showing === true &&
-        this.__portal !== void 0 &&
+        this.__portalIsAccessible === true &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
         this.focus('[tabindex]:not([tabindex="-1"])')

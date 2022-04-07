@@ -199,13 +199,14 @@ export default Vue.extend({
         }
 
         this.updatePosition()
-        this.__showPortal(true)
+        this.__showPortal(true) // done showing
         this.$emit('show', evt)
       }, 300)
     },
 
     __hide (evt) {
       this.__anchorCleanup(true)
+      this.__hidePortal()
 
       // check null for IE
       if (
@@ -225,7 +226,7 @@ export default Vue.extend({
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
       this.__setTimeout(() => {
-        this.__hidePortal()
+        this.__hidePortal(true) // done hiding, now destroy
         this.$emit('hide', evt)
       }, 300)
     },
