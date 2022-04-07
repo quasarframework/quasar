@@ -188,8 +188,8 @@ import { useMyStore } from 'stores/myStore'
 
 export default {
   // ...
-  preFetch () {
-    const myStore = useMyStore()
+  preFetch ({ store }) {
+    const myStore = useMyStore(store)
     // do something with myStore
   }
 }
