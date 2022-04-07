@@ -13,8 +13,16 @@ return {
   // ...
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
-    manualHydration: true/false, // (@quasar/app v1.4.2+) Manually hydrate the store
     componentCache: {...} // lru-cache package options,
+
+    // -- @quasar/app v2.3+ --
+    // Manually inject the store state into ssrContext.state
+    manualStoreSsrContextInjection: true/false
+
+    // -- @quasar/app v1.4.2+ --
+    // Manually handle the store hydration instead of letting Quasar CLI do it.
+    //   store.replaceState(window.__INITIAL_STATE__)
+    manualHydration: true/false,
 
     // -- @quasar/app v1.9.5+ --
     // optional; add/remove/change properties

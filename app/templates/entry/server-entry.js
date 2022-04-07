@@ -160,7 +160,7 @@ export default context => {
       .then(() => {
         if (hasRedirected === true) { return }
 
-        <% if (store) { %>context.state = store.state<% } %>
+        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>context.state = store.state<% } %>
 
         <% if (__meta) { %>
         const App = new Vue(app)
@@ -174,7 +174,7 @@ export default context => {
 
       <% } else { %>
 
-      <% if (store) { %>context.state = store.state<% } %>
+      <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>context.state = store.state<% } %>
 
       <% if (__meta) { %>
       const App = new Vue(app)

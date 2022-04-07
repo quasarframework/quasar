@@ -9,7 +9,20 @@ export interface QuasarSsrConfiguration {
    * @default false
    */
   pwa?: boolean | object;
+
   componentCache?: LruCacheOptions<any, any>;
+
+  /**
+    * Manually inject the store state into ssrContext.state
+    * (Requires @quasar/app v2.3+)
+    */
+  manualStoreSsrContextInjection?: boolean;
+
+  /**
+   * Manually handle the store hydration instead of letting Quasar CLI do it.
+   *   store.replaceState(window.__INITIAL_STATE__)
+   */
+  manualHydration?: boolean;
 
   /**
    * @version `@quasar/app` 1.9.6+
