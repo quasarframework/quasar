@@ -77,6 +77,14 @@ export default createComponent({
       type: String,
       default: 'Calendar',
       validator: viewIsValid
+    },
+    onlyYearView: {
+      type: Boolean,
+      default: false
+    },
+    onlyMonthView: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -110,7 +118,7 @@ export default createComponent({
     // model of current calendar view:
     const viewModel = ref(getViewModel(innerMask.value, innerLocale.value))
 
-    const view = ref(props.defaultView)
+    const view = ref(props.onlyYearView ? 'Years' : (props.onlyMonthView ? 'Months' : props.defaultView))
 
     const direction = $q.lang.rtl === true ? 'right' : 'left'
     const monthDirection = ref(direction.value)
@@ -780,7 +788,7 @@ export default createComponent({
     }
 
     function getMask () {
-      return props.calendar === 'persian' ? 'YYYY/MM/DD' : props.mask
+      return props.calendar === 'persian' ? 'YYYY/MM/DD' : props.onlyYearView ? 'YYYY' : (props.onlyMonthView ? 'MM' : props.mask)
     }
 
     function decodeString (date, mask, locale) {
@@ -875,13 +883,13 @@ export default createComponent({
 
     function setYear (year) {
       updateViewModel(year, viewModel.value.month)
-      view.value = props.defaultView === 'Years' ? 'Months' : 'Calendar'
+      view.value = props.onlyYearView ? 'Years' : (props.defaultView === 'Years' ? 'Months' : 'Calendar')
       isImmediate.value === true && emitImmediately('year')
     }
 
     function setMonth (month) {
       updateViewModel(viewModel.value.year, month)
-      view.value = 'Calendar'
+      view.value = props.onlyMonthView && !props.onlyYearView ? 'Months' : 'Calendar'
       isImmediate.value === true && emitImmediately('month')
     }
 
@@ -1071,7 +1079,7 @@ export default createComponent({
     })
 
     function getHeader () {
-      if (props.minimal === true) { return }
+      if (props.minimal === true || props.onlyYearView || props.onlyMonthView) { return }
 
       return h('div', {
         class: 'q-date__header ' + headerClass.value

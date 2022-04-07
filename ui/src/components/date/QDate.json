@@ -52,6 +52,24 @@
       "category": "model"
     },
 
+    "only-year-view": {
+      "type": "Boolean",
+      "desc": "Forces calendar to render only year selection, sets mask to 'YYYY' and hides header",
+      "default": "false",
+      "values": [ "true", "false" ],
+      "category": "model",
+      "addedIn": "2.6.6"
+    },
+
+    "only-month-view": {
+      "type": "Boolean",
+      "desc": "Forces calendar to render only month selection, sets mask to 'MM' and hides header; Superseded by 'only-year-view' prop if used",
+      "default": "false",
+      "values": [ "true", "false" ],
+      "category": "model",
+      "addedIn": "2.6.6"
+    },
+
     "years-in-month-view": {
       "type": "Boolean",
       "desc": "Show the years selector in months view",

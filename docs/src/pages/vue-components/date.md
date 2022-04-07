@@ -78,6 +78,10 @@ The default view can be changed.
 
 <doc-example title="Default view" file="QDate/DefaultView" overflow />
 
+Limiting view to only years or months.
+
+<doc-example title="Limiting view" file="QDate/LimitingView" overflow />
+
 The first day of the week is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
 
 <doc-example title="First day of week" file="QDate/FirstDayOfWeek" overflow />
