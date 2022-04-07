@@ -244,6 +244,7 @@ export default createComponent({
     function handleHide (evt) {
       removeTick()
       removeTimeout()
+      hidePortal()
 
       anchorCleanup(true)
 
@@ -261,7 +262,7 @@ export default createComponent({
       }
 
       registerTimeout(() => {
-        hidePortal()
+        hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
       }, props.transitionDuration)
     }
