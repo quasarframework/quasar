@@ -1,19 +1,11 @@
 <template>
-  <div class="q-layout-padding">
-    <!--
-      This is for fast tests.
-      Use this page but don't add it into your commits (leave it outside
-      of your commit).
-
-      For some test that you think it should be persistent,
-      make a new *.vue file here or in another folder under /dev/components.
-    -->
+  <div class="q-pa-md">
     <div class="q-mb-md">Should focus on the dialog input after showing</div>
 
     <q-btn label="DIALOG" color="primary" @click="icon = true" />
 
     <q-btn color="primary" label="MENU" class="q-ml-md">
-      <q-menu no-refocus>
+      <q-menu>
         <q-list dense style="min-width: 100px">
           <q-item clickable v-close-popup @click="icon = true">
             <q-item-section>DIALOG</q-item-section>
