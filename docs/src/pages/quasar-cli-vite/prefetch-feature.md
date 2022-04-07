@@ -186,10 +186,22 @@ The `preFetch` hook runs only once, when the app boots up, so you can use this o
 
 import { useMyStore } from 'stores/myStore'
 
+// Non-SSR usage
+
 export default {
   // ...
   preFetch () {
     const myStore = useMyStore()
+    // do something with myStore
+  }
+}
+
+// SSR usage
+
+export default {
+  // ...
+  preFetch ({ store }) {
+    const myStore = useMyStore(store)
     // do something with myStore
   }
 }
