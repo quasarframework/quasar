@@ -205,7 +205,6 @@ export default {
     // do something with myStore
   }
 }
-
 ```
 
 ```js
