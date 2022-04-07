@@ -163,6 +163,42 @@
       "desc": "Enable the native context menu of the image",
       "category": "behavior",
       "addedIn": "v1.8.4"
+    },
+
+    "fetchpriority": {
+      "type": "String",
+      "desc": "Provides a hint of the relative priority to use when fetching the image",
+      "default": "auto",
+      "values": [ "high", "low", "auto" ],
+      "category": "behavior",
+      "addedIn": "v1.18.10"
+    },
+
+    "loading": {
+      "type": "String",
+      "desc": "Indicates how the browser should load the image",
+      "default": "eager",
+      "values": [ "eager", "lazy" ],
+      "category": "behavior",
+      "addedIn": "v1.18.10"
+    },
+
+    "referrerpolicy": {
+      "type": "String",
+      "desc": "Indicates which referrer to send when fetching the resource",
+      "default": "strict-origin-when-cross-origin",
+      "values": [
+        "no-referrer",
+        "no-referrer-when-downgrade",
+        "origin",
+        "origin-when-cross-origin",
+        "same-origin",
+        "strict-origin",
+        "strict-origin-when-cross-origin",
+        "unsafe-url"
+      ],
+      "category": "behavior",
+      "addedIn": "v1.18.10"
     }
   },
 

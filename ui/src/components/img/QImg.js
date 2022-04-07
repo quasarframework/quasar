@@ -41,7 +41,20 @@ export default Vue.extend({
 
     noDefaultSpinner: Boolean,
     spinnerColor: String,
-    spinnerSize: String
+    spinnerSize: String,
+
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
+    loading: {
+      type: String,
+      default: 'eager'
+    },
+    referrerpolicy: {
+      type: String,
+      default: 'strict-origin-when-cross-origin'
+    }
   },
 
   data () {
@@ -189,6 +202,9 @@ export default Vue.extend({
         }
       }
 
+      img.fetchpriority = this.fetchpriority
+      img.loading = this.loading
+      img.referrerPolicy = this.referrerpolicy
       img.src = this.src
 
       if (this.srcset) {
@@ -228,7 +244,13 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: { src: this.url, 'aria-hidden': 'true' }
+            attrs: {
+              src: this.url,
+              'aria-hidden': 'true',
+              fetchpriority: this.fetchpriority,
+              loading: this.loading,
+              referrerpolicy: this.referrerpolicy
+            }
           })
         ]
         : void 0
@@ -305,6 +327,9 @@ export default Vue.extend({
   beforeMount () {
     if (this.placeholderSrc !== void 0 && this.ratio === void 0) {
       const img = new Image()
+      img.fetchpriority = this.fetchpriority
+      img.loading = this.loading
+      img.referrerPolicy = this.referrerpolicy
       img.src = this.placeholderSrc
       this.__computeRatio(img)
     }
