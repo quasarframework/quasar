@@ -27,8 +27,25 @@ return {
 
     pwa: false,
 
-    // manualStoreHydration: true,
-    // manualPostHydrationTrigger: true,
+    /**
+     * Manually serialize the store state and provide it as
+     * window.__INITIAL_STATE__ to the client-side
+     * (Requires @quasar/app-vite v1.0.0-beta.14+)
+     */
+    manualStoreStateSerialization: false,
+
+    /**
+     * Manually handle the store hydration instead of letting Quasar CLI do it.
+     * For Pinia: store.state.value = window.__INITIAL_STATE__
+     * For Vuex: store.replaceState(window.__INITIAL_STATE__)
+     */
+    manualStoreHydration: false,
+
+    /**
+     * Manually call $q.onSSRHydrated() instead of letting Quasar CLI do it.
+     * This announces that client-side code should takeover.
+     */
+    manualPostHydrationTrigger: false,
 
     prodPort: 3000, // The default port that the production server should use
                     // (gets superseded if process.env.PORT is specified at runtime)

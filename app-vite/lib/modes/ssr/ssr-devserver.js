@@ -235,7 +235,9 @@ class SsrDevServer extends AppDevserver {
         // like @vue/apollo-ssr:
         typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-        ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+        if (quasarConf.ssr.manualStoreStateSerialization !== true) {
+          ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+        }
 
         let html = renderTemplate(ssrContext)
         html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
