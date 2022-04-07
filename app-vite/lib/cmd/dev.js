@@ -151,11 +151,8 @@ async function goLive () {
     await startVueDevtools()
   }
 
-  const entryFiles = require('../entry-files-generator')(ctx)
-  entryFiles.generate(quasarConf)
-
   const AppDevServer = require(`../modes/${argv.mode}/${argv.mode}-devserver`)
-  const devServer = new AppDevServer({ argv, entryFiles, quasarConf })
+  const devServer = new AppDevServer({ argv, ctx, quasarConf })
 
   if (typeof quasarConf.build.beforeDev === 'function') {
     await quasarConf.build.beforeDev({ quasarConf })
