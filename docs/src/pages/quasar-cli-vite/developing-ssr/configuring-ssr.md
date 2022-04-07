@@ -28,11 +28,17 @@ return {
     pwa: false,
 
     /**
-     * Manually serialize the store state and provide it as
-     * window.__INITIAL_STATE__ to the client-side
+     * Manually serialize the store state and provide it yourself
+     * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
      * (Requires @quasar/app-vite v1.0.0-beta.14+)
      */
-    manualStoreStateSerialization: false,
+    manualStoreSerialization: false,
+
+    /**
+     * Manually inject the store state into ssrContext.state
+     * (Requires @quasar/app-vite v1.0.0-beta.14+)
+     */
+    manualStoreSsrContextInjection: false,
 
     /**
      * Manually handle the store hydration instead of letting Quasar CLI do it.
