@@ -90,7 +90,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
     }
   }
 
-  onUnmounted(hidePortal)
+  onUnmounted(() => { hidePortal(true) })
 
   // expose publicly needed stuff for portal utils
   Object.assign(vm.proxy, { __qPortalInnerRef: innerRef })
