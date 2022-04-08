@@ -788,7 +788,10 @@ export default createComponent({
     }
 
     function getMask () {
-      return props.calendar === 'persian' ? 'YYYY/MM/DD' : props.onlyYearView ? 'YYYY' : (props.onlyMonthView ? 'MM' : props.mask)
+      return props.calendar === 'persian'
+        ? 'YYYY/MM/DD'
+        : props.onlyYearView ? 'YYYY'
+          : (props.onlyMonthView ? (props.yearsInMonthView ? 'YYYY/MM' : 'MM') : props.mask)
     }
 
     function decodeString (date, mask, locale) {
@@ -883,7 +886,7 @@ export default createComponent({
 
     function setYear (year) {
       updateViewModel(year, viewModel.value.month)
-      view.value = props.onlyYearView ? 'Years' : (props.defaultView === 'Years' ? 'Months' : 'Calendar')
+      view.value = props.onlyYearView ? 'Years' : (props.defaultView === 'Years' || props.yearsInMonthView ? 'Months' : 'Calendar')
       isImmediate.value === true && emitImmediately('year')
     }
 
