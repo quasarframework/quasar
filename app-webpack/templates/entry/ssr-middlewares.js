@@ -11,7 +11,6 @@ export default (opts) => {
   ]).then(async rawMiddlewares => {
     const middlewares = rawMiddlewares
       .map(entry => entry.default)
-      // .filter(entry => typeof entry === 'function')
 
     for (let i = 0; i < middlewares.length; i++) {
       try {
