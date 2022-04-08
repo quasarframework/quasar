@@ -49,9 +49,32 @@ module.exports = class DevServer {
 
     const webserverCompiler = webpack(webpackConf.webserver)
     const serverCompiler = webpack(webpackConf.serverSide)
-    const clientCompiler = webpack(webpackConf.clientSide)
 
-    let serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
+    let clientCompiler, serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
+
+    async function startClient () {
+      if (clientCompiler) {
+        clientManifest = void 0
+        await new Promise(resolve => {
+          clientCompiler.close(resolve)
+        })
+      }
+
+      clientCompiler = webpack(webpackConf.clientSide)
+      clientCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
+        compilation.hooks.processAssets.tapAsync(
+          { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
+          (_, callback) => {
+            if (compilation.errors.length === 0) {
+              clientManifest = getClientManifest(compilation)
+              update()
+            }
+
+            callback()
+          }
+        )
+      })
+    }
 
     let tryToFinalize = () => {
       if (serverManifest && clientManifest && webpackServerListening === true) {
@@ -187,25 +210,9 @@ module.exports = class DevServer {
       )
     })
 
-    clientCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
-      compilation.hooks.processAssets.tapAsync(
-        { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
-        (_, callback) => {
-          if (compilation.errors.length === 0) {
-            clientManifest = getClientManifest(compilation)
-            update()
-          }
-
-          callback()
-        }
-      )
-    })
-
     this.handlers.push(
       serverCompiler.watch({}, () => {})
     )
-
-    const originalSetup = cfg.devServer.setupMiddlewares
 
     const startWebpackServer = async () => {
       if (this.destroyed === true) { return }
@@ -217,6 +224,10 @@ module.exports = class DevServer {
 
         await server.stop()
       }
+
+      if (this.destroyed === true) { return }
+
+      await startClient()
 
       if (this.destroyed === true) { return }
 
@@ -236,9 +247,7 @@ module.exports = class DevServer {
               app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
             }
 
-            const newMiddlewares = originalSetup
-              ? originalSetup(middlewares, opts)
-              : middlewares
+            const newMiddlewares = cfg.devServer.setupMiddlewares(middlewares, opts)
 
             if (this.destroyed !== true) {
               resolve(app)
