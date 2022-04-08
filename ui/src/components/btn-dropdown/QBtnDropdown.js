@@ -1,6 +1,8 @@
 import { h, ref, computed, watch, onMounted, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+import QSpinner from '../spinner/QSpinner.js'
+
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
@@ -173,7 +175,10 @@ export default createComponent({
           round: false,
           ...attributes.value,
           onClick
-        }, () => hSlot(slots.label, []).concat(Arrow))
+        }, {
+          default: () => hSlot(slots.label, []).concat(Arrow),
+          loading: () => slots.loading !== void 0 ? slots.loading() : [ h(QSpinner) ],
+        })
       }
 
       return h(QBtnGroup, {
