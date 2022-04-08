@@ -72,7 +72,7 @@
 
     "years-in-month-view": {
       "type": "Boolean",
-      "desc": "Show the years selector in months view",
+      "desc": "Show the years selector in months view; Combined with `only-months-view` will give year/month picker.",
       "category": "behavior"
     },
 
