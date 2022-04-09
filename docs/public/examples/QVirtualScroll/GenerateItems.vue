@@ -5,10 +5,9 @@
     :items-fn="getItems"
     :virtual-scroll-item-size="78"
     separator
+    v-slot="{ item, index }"
   >
-    <template v-slot="{ item, index }">
-      <async-component :key="index" :index="item.index" :sent="item.sent"></async-component>
-    </template>
+    <async-component :key="index" :index="item.index" :sent="item.sent"></async-component>
   </q-virtual-scroll>
 </template>
 

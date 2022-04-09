@@ -7,15 +7,14 @@
       :virtual-scroll-sticky-size-start="48"
       :virtual-scroll-sticky-size-end="32"
       :items="heavyList"
+      v-slot="{ item: row, index }"
     >
-      <template v-slot="{ item: row, index }">
-        <tr :key="index">
-          <td>#{{ index }}</td>
-          <td v-for="col in columns" :key="index + '-' + col">
-            {{ row[col] }}
-          </td>
-        </tr>
-      </template>
+      <tr :key="index">
+        <td>#{{ index }}</td>
+        <td v-for="col in columns" :key="index + '-' + col">
+          {{ row[col] }}
+        </td>
+      </tr>
     </q-virtual-scroll>
   </div>
 </template>
