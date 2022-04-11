@@ -71,7 +71,7 @@
 import { useMeta } from 'quasar'
 import { components } from 'src/assets/landing-page/image-links.js'
 import { computed, defineComponent, ref } from 'vue'
-import CardLink from "src/components/CardLink.vue"
+import CardLink from 'src/components/CardLink.vue'
 
 const FILTER_CHIPS = [
   { label: 'Buttons', value: 'button' },

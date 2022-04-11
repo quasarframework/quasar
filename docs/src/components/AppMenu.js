@@ -61,12 +61,12 @@ const toolMenus = () => ({
   name: 'Tools',
   icon: mdiHammerWrench,
   children: toolsNavItem.subMenu.flatMap(tool => (
-    tool.isHeader || tool.path ?
-    [] : {
-      name: tool.label,
-      external: true,
-      path: tool.href
-    }
+    tool.isHeader || tool.path
+      ? [] : {
+          name: tool.label,
+          external: true,
+          path: tool.href
+        }
   ))
 })
 
