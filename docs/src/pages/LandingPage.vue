@@ -96,7 +96,7 @@
         color="brand-accent"
         label="Consult tiers"
         class="call-to-action-btn shadow-bottom-small"
-        href="https://github.com/sponsors/rstoenescu"
+        href="https://donate.quasar.dev"
         target="_blank"
       />
 

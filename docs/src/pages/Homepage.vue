@@ -13,7 +13,7 @@
       <br v-if="$q.screen.gt.sm" />the Quasar galaxy. Don’t forget to check our page to
       <a
         class="text-brand-accent"
-        href="https://github.com/sponsors/rstoenescu"
+        href="https://donate.quasar.dev"
         target="_blank"
       >become a sponsor</a>!
     </p>
