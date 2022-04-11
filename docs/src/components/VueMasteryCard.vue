@@ -15,10 +15,10 @@
           Do you want to know more about {{ subject }}?
         </p>
         <p class="q-mb-sm letter-spacing-25 text-white">
-          Learn it faster with out partner Vue Mastery and get into quasar at light-speed
+          Learn it faster with out partner Vue Mastery and get into Quasar at light-speed
         </p>
         <p class="q-mb-none text-size-12 text-brand-accent letter-spacing-40">
-          By attending this course, you will even support our beloved open source framework
+          By attending this course, you will even support our beloved open source framework!
         </p>
       </q-card-section>
     </q-card-section>

@@ -7,7 +7,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     v-model="leftDrawerState"
     show-if-above
     bordered
-    :width="285"
+    :width="300"
   )
     q-scroll-area(style="height: 100%")
       drawer-banner(
@@ -19,7 +19,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
       drawer-banner(
         v-if="true"
         title="Call for papers is now"
-        buttonLabel="Get Started"
+        buttonLabel="Submit paper"
         to="#"
         icon="/custom-svg-icons/quasar-conf-logo.svg"
       ) June ??th 2022. Become a speaker, we look forward to hear your voice.

@@ -1,7 +1,7 @@
 <template>
   <q-banner class="bg-dark text-size-14 font-monserrat q-py-md">
-    <div class="row justify-center q-mb-md">
-      <img v-if="icon" :src="icon" width="200" height="24" />
+    <div v-if="icon" class="row justify-center q-mb-md">
+      <img :src="icon" width="200" height="24" />
     </div>
     <p class="text-uppercase q-mb-xs text-brand-primary text-weight-bold letter-spacing-225 primary-line-height">
       {{ title }}
