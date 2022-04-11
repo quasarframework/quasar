@@ -6,4 +6,13 @@
 // TS doesn't allow re-exports into module augmentation, so we were forced to
 //  manually declare every file as a `quasar` augmentation
 
-export * from "@quasar/app-shared";
+import "./globals";
+export * from "./ssr";
+export * from "./store";
+export * from "./prefetch";
+export * from "./boot";
+export * from "./configuration";
+export * from "./route";
+export * from "./ssrmiddleware";
+export * from "./app-extension";
+import "./wrappers";

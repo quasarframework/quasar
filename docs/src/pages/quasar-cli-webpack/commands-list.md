@@ -688,6 +688,7 @@ $ node my-server.js
 
 Creates a Quasar project (app, AppExtension or UI kit) from CUSTOM starter kits.
 
+<!-- TODO: update this one -->
 ```bash
 $ quasar create <folder_name> --kit <address> [--branch <branch_name>]
 ```

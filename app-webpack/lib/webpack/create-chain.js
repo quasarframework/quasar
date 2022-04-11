@@ -193,6 +193,7 @@ module.exports = function (cfg, configName) {
           transpileOnly: true
         })
 
+    // TODO: doesn't seem to work
     const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
     chain
       .plugin('ts-checker')

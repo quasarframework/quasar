@@ -11,6 +11,7 @@ type ExtractQuasarConfParameters<
   ? Parameters<MaybeFunction>
   : never;
 
+// TODO: adapt for Vite
 type chainWebpack = (
   fn: (
     ...args: [...ExtractQuasarConfParameters<"build", "chainWebpack">, IndexAPI]
@@ -33,6 +34,8 @@ interface SharedAPI {
   prompts: Record<string, unknown>;
   resolve: IResolve;
   appDir: string;
+  hasVite: boolean;
+  hasWebpack: boolean;
   getPersistentConf: getPersistentConf;
   setPersistentConf: (cfg: Record<string, unknown>) => void;
   mergePersistentConf: (cfg: Record<string, unknown>) => void;
