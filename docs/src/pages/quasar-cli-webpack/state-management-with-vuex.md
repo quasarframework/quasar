@@ -11,7 +11,7 @@ The Vue Team deprecated Vuex in favor of [Pinia](/quasar-cli-webpack/state-manag
 
 In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.
 
-<vue-mastery-card to="https://www.vuemastery.com/courses/vuex-fundamentals/vuex4-intro-to-vuex/" subject="Vue Router"/>
+<vue-mastery-card to="https://www.vuemastery.com/courses/vuex-fundamentals/vuex4-intro-to-vuex/" subject="Vuex"/>
 
 The recommended way to go if you want components sharing state is Vuex. Take a look at its [documentation](https://vuex.vuejs.org/) before diving in. It has a great feature when used along the [Vue dev-tools](https://github.com/vuejs/vue-devtools) browser extension like Time Travel debugging.
 

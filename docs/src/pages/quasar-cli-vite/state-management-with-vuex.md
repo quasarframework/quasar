@@ -32,7 +32,7 @@ If you don't choose the Vuex option during project creation but would like to ad
 If Vuex Modules is too much for your website app, you can change `/src/store/index.js` and avoid importing any module.
 :::
 
-<vue-mastery-card to="https://www.vuemastery.com/courses/vuex-fundamentals/vuex4-intro-to-vuex/" subject="Vue Router"/>
+<vue-mastery-card to="https://www.vuemastery.com/courses/vuex-fundamentals/vuex4-intro-to-vuex/" subject="Vuex"/>
 
 ## Adding a Vuex Module.
 Adding a Vuex Module is made easy by Quasar CLI through the `$ quasar new` command.
