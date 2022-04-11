@@ -1,5 +1,5 @@
 const path = require('path')
-const fse = require('fs')
+const fse = require('fs-extra')
 const archiver = require('archiver')
 
 function findAndReplaceInSection (sectionArray, find, replace) {
