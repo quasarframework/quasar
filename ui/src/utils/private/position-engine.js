@@ -48,11 +48,6 @@ export function parsePosition (pos, rtl) {
   }
 }
 
-export function validateCover (val) {
-  if (val === true || val === false) { return true }
-  return validatePosition(val)
-}
-
 export function getAnchorProps (el, offset) {
   let { top, left, right, bottom, width, height } = el.getBoundingClientRect()
 

@@ -10,7 +10,7 @@ related:
 **This page refers to using [webfont icons](/vue-components/icon#webfont-icons) only.** Svg icons do not need any installation step.
 :::
 
-You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/). But you can [add support for others](/vue-components/icon#custom-mapping) by yourself.
+You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](https://fontawesome.com/icons), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/). But you can [add support for others](/vue-components/icon#custom-mapping) by yourself.
 
 ::: tip
 In regards to webfont icons, you can choose to install one or more of these icon libraries.
@@ -36,7 +36,7 @@ extras: [
   'mdi-v6',
   'ionicons-v4', // last webfont was available in v4.6.3
   'eva-icons',
-  'fontawesome-v5',
+  'fontawesome-v6',
   'themify',
   'line-awesome',
   'bootstrap-icons'
@@ -53,7 +53,7 @@ If you want to make use of a CDN (Content Delivery Network), all you need to do 
 In case you follow this path, do not also add the icon sets that you want in `/quasar.config.js > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
 
 ## Using Fontawesome-Pro
-If you have a Fontawesome 5 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
+If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
 
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file (file path same as package.json):
@@ -76,11 +76,11 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
     'fontawesome-pro' // Add boot file
   ],
   extras: [
-    // 'fontawesome' // Disable free version!
+    // 'fontawesome-v6' // Disable free version!
   ],
   framework: {
     // if you want Quasar to use Fontawesome for its icons
-    iconSet: 'fontawesome-v5-pro'
+    iconSet: 'fontawesome-v6-pro'
   }
   ```
 6. Edit `/src/boot/fontawesome-pro.js`:
@@ -89,6 +89,8 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   import '@fortawesome/fontawesome-pro/css/fontawesome.css'
   import '@fortawesome/fontawesome-pro/css/light.css'
   // do you want these too?
+  // import '@fortawesome/fontawesome-pro/css/thin.css'
+  // import '@fortawesome/fontawesome-pro/css/duotone.css'
   // import '@fortawesome/fontawesome-pro/css/brands.css'
   // import '@fortawesome/fontawesome-pro/css/solid.css'
   // import '@fortawesome/fontawesome-pro/css/regular.css'
@@ -99,7 +101,7 @@ Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some ic
 
 For instance, to override the `fal` version of the close icon for chips, do this:
 
-_First_, find the icon used for chip close in Quasar Fontawesome v5 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v5-pro.js).
+_First_, find the icon used for chip close in Quasar Fontawesome v6 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v6-pro.js).
 
 (Alternatively, you can check inside the render function of the component you are overriding.)
 

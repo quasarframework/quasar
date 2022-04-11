@@ -4,8 +4,6 @@ import { useQuasar, useDialogPluginComponent, QDialog, QCard, QCardSection, QCar
 
 const options = [ 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5' ]
 
-console.log(useDialogPluginComponent.emits)
-
 export default defineComponent({
   name: 'CustomDialogComponent',
 

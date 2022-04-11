@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount } from 'vue'
+import { h, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
 
 import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
@@ -134,6 +134,14 @@ export default createComponent({
 
     onMounted(() => {
       configureScrollTarget()
+    })
+
+    onActivated(() => {
+      configureScrollTarget()
+    })
+
+    onDeactivated(() => {
+      unconfigureScrollTarget()
     })
 
     onBeforeUnmount(() => {

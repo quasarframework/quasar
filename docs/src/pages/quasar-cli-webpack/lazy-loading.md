@@ -85,6 +85,32 @@ One advantage of using dynamic imports as opposed to regular imports is that the
 import('pages/' + pageName + '/' + 'id')
 ```
 
+## Caveat with vendor imports
+
+By default, Quasar includes packages from `node_modules` in a vendor chunk even if your code imports them dynamically. This increases the vendor chunk size, but since you don't usually change your dependencies, browsers will use the cached version of this chunk and actually speed up loading your app on subsequent visits.
+
+For example, if you have installed a package (let's call it `my-package`) you can import it dynamically like this:
+
+````js
+import('my-package')
+  .then(myPackage => {
+    // use the package
+  })
+````
+
+However, should you want to make Quasar CLI put `my-package` in its own chunk you'll have to edit `quasar.config.js`:
+
+````js
+// quasar.config.js
+return {
+  vendor: {
+    remove: [ 'my-package' ]
+  }
+}
+````
+
+For more details, see the [vendors section](/quasar-cli-webpack/quasar-config-js#property-vendor) of `quasar.config.js`.
+
 ## Caveat for dynamic imports
 There's one caveat when using dynamic imports with variable parts like in the previous example. When the website/app is bundled, so at compile time, we have no way of telling what the exact import path will be at runtime. As a result, chunks will be created for each file that could match the variable path. You might see un-necessary files in the build log.
 

@@ -58,7 +58,7 @@ const builds = [
         input: pathResolve('entry/index.umd.js')
       },
       output: {
-        name: '{{umdExportName}}',
+        name: '<%= umdExportName %>',
         file: pathResolve('../dist/index.umd.js'),
         format: 'umd'
       }
@@ -89,7 +89,7 @@ function pathResolve (_path) {
 function addAssets (builds, type, injectName) {
   const
     files = fs.readdirSync(pathResolve('../../ui/src/components/' + type)),
-    plugins = [ buble(bubleConfig) ],
+    plugins = [ buble(/* bubleConfig */) ],
     outputDir = pathResolve(`../dist/${type}`)
 
     fse.mkdirp(outputDir)
@@ -107,7 +107,7 @@ function addAssets (builds, type, injectName) {
           output: {
             file: addExtension(pathResolve(`../dist/${type}/${file}`), 'umd'),
             format: 'umd',
-            name: `{{umdExportName}}.${injectName}.${name}`
+            name: `<%= umdExportName %>.${injectName}.${name}`
           }
         },
         build: {

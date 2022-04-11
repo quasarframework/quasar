@@ -33,7 +33,7 @@
     "href": {
       "type": "String",
       "desc": "Native <a> link href attribute; Has priority over the 'to' and 'replace' props",
-      "examples": [ "http://quasar.dev", "href=\"https://quasar.dev\" target=\"_blank\"" ],
+      "examples": [ "https://quasar.dev", "href=\"https://quasar.dev\" target=\"_blank\"" ],
       "category": "navigation",
       "addedIn": "v2.4"
     },

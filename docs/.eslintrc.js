@@ -2,11 +2,13 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    parser: '@babel/eslint-parser'
+    ecmaVersion: '2021', // Allows for the parsing of modern ECMAScript features
   },
 
   env: {
-    browser: true
+    node: true,
+    browser: true,
+    'vue/setup-compiler-macros': true
   },
 
   extends: [
@@ -46,6 +48,7 @@ module.exports = {
     'no-void': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'template-curly-spacing': 'off',
 
     'import/export': 'off',
     'import/first': 'off',
@@ -59,6 +62,7 @@ module.exports = {
     'quasar/check-valid-props': 'warn',
 
     'vue/no-mutating-props': 'off',
-    'vue/no-v-model-argument': 'off'
+    'vue/no-v-model-argument': 'off',
+    'vue/multi-word-component-names': 'off'
   }
 }

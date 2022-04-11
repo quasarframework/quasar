@@ -16,11 +16,10 @@ import vueDevtools from '@vue/devtools'
 <% } %>
 
 import { Quasar } from 'quasar'
+import { markRaw } from 'vue'
 import <%= metaConf.needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
-<% if (store) { %>
-import createStore from 'app/<%= sourceFiles.store %>'
-<% } %>
+<% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
 <% if (ctx.mode.capacitor) { %>
@@ -107,16 +106,18 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
     <% } %>
   <% } %>
 
-  const router = typeof createRouter === 'function'
-    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
-    : createRouter
+  const router = markRaw(
+    typeof createRouter === 'function'
+      ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
+      : createRouter
+  )
 
   <% if (store) { %>
     // make router instance available in store
     <% if (metaConf.storePackage === 'vuex') { %>
       store.$router = router
     <% } else if (metaConf.storePackage === 'pinia') { %>
-      store.use(() => ({ router }))
+      store.use(({ store }) => { store.router = router })
     <% } %>
   <% } %>
 

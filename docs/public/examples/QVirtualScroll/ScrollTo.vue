@@ -29,20 +29,19 @@
       :items="heavyList"
       separator
       @virtual-scroll="onVirtualScroll"
+      v-slot="{ item, index }"
     >
-      <template v-slot="{ item, index }">
-        <q-item
-          :key="index"
-          dense
-          :class="{ 'bg-black text-white': index === virtualListIndex }"
-        >
-          <q-item-section>
-            <q-item-label>
-              #{{ index }} - {{ item.label }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </template>
+      <q-item
+        :key="index"
+        dense
+        :class="{ 'bg-black text-white': index === virtualListIndex }"
+      >
+        <q-item-section>
+          <q-item-label>
+            #{{ index }} - {{ item.label }}
+          </q-item-label>
+        </q-item-section>
+      </q-item>
     </q-virtual-scroll>
   </div>
 </template>

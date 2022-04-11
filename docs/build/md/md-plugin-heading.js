@@ -19,9 +19,9 @@ function parseContent (str) {
 
 module.exports = function (md) {
   md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
-    const token = tokens[idx]
+    const token = tokens[ idx ]
 
-    const content = tokens[idx + 1]
+    const content = tokens[ idx + 1 ]
       .children
       .reduce((acc, t) => acc + t.content, '')
 

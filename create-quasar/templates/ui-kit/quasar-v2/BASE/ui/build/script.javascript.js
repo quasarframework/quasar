@@ -98,7 +98,7 @@ function pathResolve (_path) {
 function addAssets (builds, type, injectName) {
   const
     files = fs.readdirSync(pathResolve('../../ui/src/components/' + type)),
-    plugins = [ buble(bubleConfig) ],
+    plugins = [ buble(/* bubleConfig */) ],
     outputDir = pathResolve(`../dist/${type}`)
 
     fse.mkdirp(outputDir)

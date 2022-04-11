@@ -19,10 +19,13 @@ export default createComponent({
     const vm = getCurrentInstance()
     const { proxy: { $q } } = vm
 
+    const onClick = evt => { emit('click', evt) }
+
     return () => {
       if (props.props === void 0) {
         return h('th', {
-          class: props.autoWidth === true ? 'q-table--col-auto-width' : ''
+          class: props.autoWidth === true ? 'q-table--col-auto-width' : '',
+          onClick
         }, hSlot(slots.default))
       }
 
@@ -60,7 +63,7 @@ export default createComponent({
         style: col.headerStyle,
         onClick: evt => {
           col.sortable === true && props.props.sort(col) // eslint-disable-line
-          emit('click', evt)
+          onClick(evt)
         }
       }
 

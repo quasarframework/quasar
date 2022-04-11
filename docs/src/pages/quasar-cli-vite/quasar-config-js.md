@@ -22,7 +22,7 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ::: warning
-`/quasar.config.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', Vite plugins and so on. Make sure the ES6 features that you want to write this file with are supported by the installed version of your Node (which should be >= 12).
+`/quasar.config.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', Vite plugins, and so on. Make sure the ES features that you want to use in this file are [supported by your Node version](https://node.green/) (which should be >= 14.19.0).
 :::
 
 ## Structure

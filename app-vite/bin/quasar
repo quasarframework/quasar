@@ -60,7 +60,7 @@ if (cmd) {
       const exit = process.exit
       process.exit = (code, reason) => {
         if (reason === 'ext-missing') {
-          require('./quasar-help')
+          require('../lib/cmd/help')
           exit(0)
         }
         else {
@@ -76,4 +76,4 @@ else {
   cmd = 'help'
 }
 
-require(`./quasar-${cmd}`)
+require(`../lib/cmd/${cmd}`)

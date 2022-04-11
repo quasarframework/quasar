@@ -1,0 +1,232 @@
+
+const parseArgs = require('minimist')
+
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    h: 'help',
+    f: 'format'
+  },
+  boolean: ['h'],
+  string: ['f']
+})
+
+function showHelp () {
+  console.log(`
+  Description
+    Quickly scaffold a page/layout/component/store module.
+
+  Usage
+    $ quasar new <p|page> [-f <option>] <page_file_name>
+    $ quasar new <l|layout> [-f <option>] <layout_file_name>
+    $ quasar new <c|component> [-f <option>] <component_file_name>
+    $ quasar new <b|boot> [-f ts] <boot_name>
+    $ quasar new <s|store> [-f ts] <store_module_name>
+    $ quasar new ssrmiddleware <middleware_name>
+
+    # Examples:
+
+    # Create src/pages/MyNewPage.vue:
+    $ quasar new p MyNewPage
+
+    # Create src/pages/MyNewPage.vue and src/pages/OtherPage.vue:
+    $ quasar new p MyNewPage OtherPage
+
+    # Create src/layouts/shop/Checkout.vue
+    $ quasar new layout shop/Checkout.vue
+
+    # Create src/layouts/shop/Checkout.vue with TypeScript options API
+    $ quasar new layout -f ts-options shop/Checkout.vue
+
+    # Create a store with TypeScript support
+    $ quasar new store -f ts myStore
+
+  Options
+    --help, -h            Displays this message
+
+    --format -f <option>  (optional) Use a supported format for the template
+                          Option can be:
+                             * ts-options - TS options API
+                             * ts-composition - TS composition API
+                             * ts-class - [DEPRECATED] TS class style syntax
+                             * ts - use for TS boot file and store modules only
+  `)
+  process.exit(0)
+}
+
+if (argv.help) {
+  showHelp()
+}
+
+const path = require('path')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const { log, warn } = require('../helpers/logger')
+const appPaths = require('../app-paths')
+const storeProvider = require('../helpers/store-provider')
+const defaultFilePath = 'default'
+
+if (argv._.length < 2) {
+  console.log()
+  warn(`Wrong number of parameters (${argv._.length}).`)
+  showHelp()
+  process.exit(1)
+}
+
+let [ type, ...names ] = argv._
+let format = argv.format || defaultFilePath
+
+function showError (message, param) {
+  console.log()
+  warn(`${message}: ${param}`)
+  showHelp()
+}
+
+if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'b', 'boot', 'ssrmiddleware'].includes(type)) {
+  showError('Invalid asset type', type)
+}
+
+if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts'].includes(format)) {
+  showError('Invalid asset format', format)
+}
+
+if (format === 'ts' && !['b', 'boot', 's', 'store'].includes(type)) {
+  showError('Please select a TypeScript variation for *.vue files, i.e ts-class. Current', format)
+}
+
+const isTypeScript = format === 'ts' || format.indexOf('ts-') > -1
+
+// If they've supplied a TS format i.e ts-options and
+// are creating a boot file / store then set format
+// to TS as they're the same for all formats.
+if (isTypeScript && ['b', 'boot', 's', 'store'].includes(type)) {
+  format = 'ts'
+}
+
+if (type.length === 1) {
+  const fullCmd = {
+    p: 'page',
+    l: 'layout',
+    c: 'component',
+    s: 'store',
+    b: 'boot'
+  }
+  type = fullCmd[type]
+}
+
+function createFile (asset, file) {
+  const relativePath = path.relative(appPaths.appDir, file)
+
+  if (fs.existsSync(file)) {
+    warn(`${relativePath} already exists.`, 'SKIPPED')
+    console.log()
+    return
+  }
+
+  fse.mkdirp(path.dirname(file))
+  let templatePath = path.join('templates/app', format)
+
+  templatePath = type === 'store'
+    ? storeProvider.name === 'pinia'
+      ? path.join(templatePath, 'store', 'pinia' + (asset.ext || ''))
+      : path.join(templatePath, 'store', storeProvider.name)
+    : path.join(templatePath, type + (asset.ext || ''))
+
+  fse.copy(
+    appPaths.resolve.cli(templatePath),
+    file,
+    err => {
+      if (err) {
+        console.warn(err)
+        warn(`Could not generate ${relativePath}.`, 'FAIL')
+        return
+      }
+
+      log(`Generated ${type}: ${relativePath}`)
+      if (asset.reference) {
+        log(`Make sure to reference it in ${asset.reference}`)
+      }
+      log()
+    }
+  )
+}
+
+const resolveWithExtension = (path) =>
+  path + (fs.existsSync(appPaths.resolve.app(path + '.ts')) ? '.ts' : '.js')
+
+const pathList = {
+  router: resolveWithExtension('src/router/routes'),
+  store: resolveWithExtension(`src/${storeProvider.pathKey}/index`)
+}
+
+const mapping = {
+  page: {
+    folder: 'src/pages',
+    ext: '.vue',
+    reference: pathList.router
+  },
+  layout: {
+    folder: 'src/layouts',
+    ext: '.vue',
+    reference: pathList.router
+  },
+  component: {
+    folder: 'src/components',
+    ext: '.vue'
+  },
+  store: {
+    folder: `src/${storeProvider.pathKey}`,
+    install: true,
+    // Vuex module template is a folder, Pinia's is a single file
+    ext: storeProvider.name === 'vuex' ? '' : isTypeScript ? '.ts' : '.js',
+    // Created Vuex modules need to be referenced, but Pinia stores don't.
+    reference: storeProvider.name === 'vuex' ? pathList.store : void 0
+  },
+  boot: {
+    folder: 'src/boot',
+    ext: isTypeScript ? '.ts' : '.js',
+    reference: 'quasar.config.js > boot'
+  },
+  ssrmiddleware: {
+    folder: 'src-ssr/middlewares',
+    ext: '.js',
+    reference: 'quasar.config.js > ssr > middlewares'
+  }
+}
+
+const asset = mapping[type]
+
+if (asset.install) {
+  const folder = appPaths.resolve.app(asset.folder)
+
+  if (!storeProvider.isInstalled) {
+    storeProvider.install()
+  }
+
+  if (!fs.existsSync(folder)) {
+    fse.mkdirp(folder)
+    fse.copy(
+      appPaths.resolve.cli(`templates/store/${storeProvider.name}/${format}`),
+      folder,
+      err => {
+        if (err) {
+          console.warn(err)
+          warn(`Could not generate ${asset.folder}.`, 'FAIL')
+          return
+        }
+
+        log(`Generated ${asset.folder}`)
+        log()
+      }
+    )
+  }
+}
+
+names.forEach(name => {
+  const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
+  const ext = hasExtension ? '' : asset.ext
+
+  const file = appPaths.resolve.app(path.join(asset.folder, name + ext))
+
+  createFile(asset, file)
+})

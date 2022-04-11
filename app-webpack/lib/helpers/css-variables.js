@@ -17,7 +17,7 @@ const cssVariables = {
   }
 }
 
-for (ext of Object.keys(cssVariables.appFile)) {
+for (const ext of Object.keys(cssVariables.appFile)) {
   if (cssVariables.appFile[ext]) {
     cssVariables.quasarSrcExt = ext === 'scss' ? 'sass' : ext
     break

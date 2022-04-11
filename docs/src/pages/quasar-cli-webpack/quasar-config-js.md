@@ -23,7 +23,7 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ::: warning
-`/quasar.config.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack' and so on. Make sure the ES6 features that you want to write this file with are supported by the installed version of your Node (which should be >= 10).
+`/quasar.config.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack', and so on. Make sure the ES features that you want to use in this file are [supported by your Node version](https://node.green/) (which should be >= 12).
 :::
 
 ## Structure
@@ -203,7 +203,7 @@ return {
     // You'll see this mentioned for components/directives/plugins which use it
     config: { /* ... */ },
 
-    iconSet: 'fontawesome-v5', // requires icon library to be specified in "extras" section too,
+    iconSet: 'fontawesome-v6', // requires icon library to be specified in "extras" section too,
     lang: 'de', // Tell Quasar which language pack to use for its own components
 
     cssAddon: true // Adds the flex responsive++ CSS classes (noticeable bump in footprint)

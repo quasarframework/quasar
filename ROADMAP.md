@@ -22,7 +22,7 @@ LTS support ends 12 months after the release of a new major version.
 | Version | Status | Released   | Active support ends | LTS support ends |
 | ------- | ------ | ---------- | ------------------- | ---------------- |
 | 2.x     | Active | 2021-06-21 | After 2022-04-01    | After 2023-04-01 |
-| 1.x     | Active | 2019-03-07 | 2021-04-01          | 2022-04-01       |
+| 1.x     | Active | 2019-03-07 | 2021-04-01          | 2022-12-31       |
 
 Quasar v0.x versions are no longer supported.
 
@@ -32,29 +32,31 @@ We are updating this section constantly in order to keep you up to date with our
 
 *The schedule may change based on unforeseen and/or out of the ordinary circumstances.*
 
-### Q1 2022
-* ✌️ (DONE) First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
-* ✌️ (DONE) Fix intellisense problem for packages provided by `@quasar/app` ([#9235](https://github.com/quasarframework/quasar/issues/9235))
-* ✌️ (DONE) Add automatic tests to Quasar UI ([#12047](https://github.com/quasarframework/quasar/pull/12047))
-* 🚧 (WIP) Quasar website revamp 🔥
+### Q2 2022
+* 🚧 (WIP) Quasar website update 🔥
 * 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
-* 🚧 (WIP) First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
-* More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
 * Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
+* More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
+* Add more automatic tests to Quasar UI (contributions welcome)
 * Creation of official Quasar Organizational chart
 * Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
-
-### Q2 2022
-* April 1st 2022 marks the end of life for Quasar v1. It will no longer receive updates.
-* Work starting on Quasar v3
 * Stable release of the new CLI based on Vite.js
 * Quasar Scaffolding (official name TBD) (this will be a paid service) ([reference](https://github.com/quasarframework/quasar/discussions/10053))
 * 2022 Quasar Survey
 
 ### Q3 2022
+* Work starting on Quasar v3
 * Quasar.Conf 2022
 
+### Q4 2022
+* December 31th 2022 marks the end of life for Quasar v1. It will no longer receive updates. (postponed, originally EOL was 1st of April)
+
 ## Archive
+
+### Q1 2022
+* ✌️ (DONE) First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)
+* ✌️ (DONE) Fix intellisense problem for packages provided by `@quasar/app` ([#9235](https://github.com/quasarframework/quasar/issues/9235))
+* ✌️ (DONE) Add automatic tests to Quasar UI ([#12047](https://github.com/quasarframework/quasar/pull/12047))
 
 ### Q4 2021
 * ✌️ (DONE) Volar support ([reference](https://github.com/quasarframework/quasar/discussions/10619))

@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.1.0 */
+/* Fontawesome Free v6.1.1 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -900,6 +900,8 @@ export declare const fasChevronLeft: string;
 export declare const fasChevronRight: string;
 export declare const fasChevronUp: string;
 export declare const fasChild: string;
+export declare const fasChildDress: string;
+export declare const fasChildReaching: string;
 export declare const fasChildRifle: string;
 export declare const fasChildren: string;
 export declare const fasChurch: string;

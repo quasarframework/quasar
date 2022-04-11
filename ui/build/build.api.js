@@ -166,7 +166,14 @@ function isClassStyleType (type) {
   return hits === 3
 }
 
-function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
+const serializableTypes = [ 'Boolean', 'Number', 'String', 'Array', 'Object' ]
+function isSerializable (value) {
+  const types = Array.isArray(value.type) ? value.type : [ value.type ]
+
+  return types.every(type => serializableTypes.includes(type))
+}
+
+function parseObject ({ banner, api, itemName, masterType, verifyCategory, verifySerializable }) {
   let obj = api[ itemName ]
 
   if (obj.extends !== void 0 && extendApi[ masterType ] !== void 0) {
@@ -328,6 +335,13 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         process.exit(1)
       }
     }
+
+    if (verifySerializable && isSerializable(obj) === false) {
+      logError(`${ banner } object's type is non-serializable but props in "quasarConfOptions" can only consist of ${ serializableTypes.join('/') }:`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
+    }
   }
 
   if (obj.returns) {
@@ -347,7 +361,8 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         banner: `${ banner }/"${ prop }"/"${ item }"`,
         api: api[ itemName ][ prop ],
         itemName: item,
-        masterType: 'props'
+        masterType: 'props',
+        verifySerializable
       })
     }
   })
@@ -377,7 +392,7 @@ function handleAddedIn (api, banner) {
   }
 
   if (isValidVersion(addedIn.slice(1)) !== true) {
-    logError(`${ banner } "addedIn" value (${ addedIn }) must follow sematic versioning`)
+    logError(`${ banner } "addedIn" value (${ addedIn }) must follow semantic versioning`)
     console.log()
     process.exit(1)
   }
@@ -429,7 +444,8 @@ function parseAPI (file, apiType) {
         banner: `${ banner } "${ type }"`,
         api,
         itemName: type,
-        masterType: type
+        masterType: type,
+        verifySerializable: type === 'quasarConfOptions'
       })
       continue
     }

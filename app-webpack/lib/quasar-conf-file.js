@@ -429,7 +429,7 @@ class QuasarConfFile {
           toplevel: false,
           typeofs: false,
 
-          // a few flags with noticable gains/speed ratio
+          // a few flags with noticeable gains/speed ratio
           // numbers based on out of the box vendor bundle
           booleans: true, // 0.7kb
           if_return: true, // 0.4kb
@@ -553,7 +553,7 @@ class QuasarConfFile {
         pwa: false,
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
+        prodPort: 3000, // gets superseded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr)
 
@@ -579,8 +579,6 @@ class QuasarConfFile {
     if (this.ctx.dev) {
       const originalSetup = cfg.devServer.setupMiddlewares
       const openInEditor = require('launch-editor-middleware')
-
-      delete cfg.devServer.setupMiddlewares
 
       if (this.ctx.mode.bex === true) {
         cfg.devServer.devMiddleware = cfg.devServer.devMiddleware || {}
@@ -677,7 +675,7 @@ class QuasarConfFile {
       }
 
       // make sure the prop is not supplied to webpack dev server
-      if (cfg.devServer.hasOwnProperty('vueDevtools')) {
+      if (cfg.devServer.vueDevtools !== void 0) {
         delete cfg.devServer.vueDevtools
       }
 

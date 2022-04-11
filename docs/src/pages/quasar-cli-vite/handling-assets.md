@@ -29,32 +29,6 @@ Every file and folder from the "public" folder are copied into your production b
 When not building a SPA/PWA/SSR, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
 :::
 
-## Vue Binding Requires Statics Only
-Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the public folder. The reason is simple: the URL is dynamic, so Vite's tools (which pack up assets at compile time) don't know which file you'll be referencing at runtime, so it won't process the URL.
-
-```html
-<template>
-  <!-- imageSrc MUST reference a file from /public -->
-  <img :src="imageSrc">
-</template>
-
-<script>
-export default {
-  setup () {
-    return {
-      /*
-        Referencing /public.
-        Notice string doesn't start with a slash. (/)
-      */
-      imageSrc: 'logo.png'
-    }
-  }
-}
-</script>
-```
-
-You can force serving static assets by binding `src` to a value with Vue. Instead of `src="path/to/image"` use `:src=" 'path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
-
 ## More info with Vite
 
 Please read Vite's guide [here](https://vitejs.dev/guide/assets.html).

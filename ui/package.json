@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "2.6.1",
+  "version": "2.6.6",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "main": "dist/quasar.cjs.prod.js",
   "module": "dist/quasar.esm.prod.js",
@@ -86,7 +86,6 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-vue": "^7.0.0",
     "fast-glob": "^3.2.7",
-    "json-beautify": "^1.1.1",
     "module-alias": "^2.2.2",
     "postcss-rtlcss": "^3.5.3",
     "prettier": "^2.4.1",
@@ -95,7 +94,6 @@
     "rimraf": "^3.0.1",
     "rollup": "^2.34.0",
     "table": "^6.0.4",
-    "tslib": "^2.0.3",
     "uglify-es": "^3.3.9",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",

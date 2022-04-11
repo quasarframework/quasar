@@ -1,11 +1,14 @@
 
-const { writeFileSync, copySync } = require('fs-extra')
+const { writeFileSync, copySync, existsSync } = require('fs-extra')
 const { join } = require('path')
 
 const appPaths = require('../../app-paths')
 const { warn } = require('../../helpers/logger')
 
 const { name, productName, description, version } = require(appPaths.resolve.app('package.json'))
+const assetsFolder = appPaths.resolve.bex('assets')
+const iconsFolder = appPaths.resolve.bex('icons')
+const localesFolder = appPaths.resolve.bex('_locales')
 
 module.exports.createManifest = function createManifest (quasarConf) {
   let json
@@ -57,11 +60,15 @@ module.exports.createManifest = function createManifest (quasarConf) {
 }
 
 module.exports.copyBexAssets = function copyBexAssets (quasarConf) {
-  const assets = appPaths.resolve.bex('assets')
-  copySync(assets, join(quasarConf.build.distDir, 'assets'))
+  const folders = [ assetsFolder, iconsFolder ]
 
-  const icons = appPaths.resolve.bex('icons')
-  copySync(icons, join(quasarConf.build.distDir, 'icons'))
+  copySync(assetsFolder, join(quasarConf.build.distDir, 'assets'))
+  copySync(iconsFolder, join(quasarConf.build.distDir, 'icons'))
 
-  return [ assets, icons ]
+  if (existsSync(localesFolder) === true) {
+    folders.push(localesFolder)
+    copySync(localesFolder, join(quasarConf.build.distDir, '_locales'))
+  }
+
+  return folders
 }

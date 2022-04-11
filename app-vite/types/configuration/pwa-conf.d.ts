@@ -112,10 +112,10 @@ export interface QuasarPwaConfiguration {
   /**
    * Extend/configure the Workbox generateSW options
    */
-  extendGenerateSWOptions? (config: GenerateSWOptions) => void;
+  extendGenerateSWOptions?: (config: GenerateSWOptions) => void;
 
   /**
    * Extend/configure the Workbox injectManifest options
    */
-  extendInjectManifestOptions? (config: InjectManifestOptions) => void;
+  extendInjectManifestOptions?: (config: InjectManifestOptions) => void;
 }

@@ -1,14 +1,13 @@
 const packageName = 'line-awesome'
 const distName = 'line-awesome'
 const iconSetName = 'Line Awesome'
-const prefix = 'la'
 
 // ------------
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { readFileSync, writeFileSync } = require('fs')
-const { resolve, basename, join } = require('path')
+const { writeFileSync } = require('fs')
+const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../line-awesome`)

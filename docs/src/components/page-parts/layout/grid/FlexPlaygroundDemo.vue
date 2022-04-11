@@ -413,8 +413,8 @@ export default {
     })
 
     function toggleFullscreen (e) {
-      const target = e.target.parentNode.parentNode.parentNode.parentNode
-      $q.fullscreen.toggle(target)
+      const target = document.getElementById('flex-playground')
+      target && $q.fullscreen.toggle(target)
     }
 
     return {

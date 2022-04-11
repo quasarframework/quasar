@@ -64,10 +64,6 @@ async function warmupServer (viteClient, viteServer) {
 }
 
 function renderStoreState (ssrContext) {
-  if (ssrContext.state === void 0) {
-    return ''
-  }
-
   const nonce = ssrContext.nonce !== void 0
     ? ` nonce="${ ssrContext.nonce }" `
     : ''
@@ -82,6 +78,14 @@ class SsrDevServer extends AppDevserver {
   #viteServer
   #htmlWatcher
   #webserverWatcher
+  /**
+   * @type {{
+   *  port: number;
+   *  publicPath: string;
+   *  resolveUrlPath: import('../../../types').SsrMiddlewareResolve['urlPath'];
+   *  render: (ssrContext: import('../../../types').QSsrContext) => Promise<string>;
+   * }}
+   */
   #appOptions = {}
 
   // also update pwa-devserver.js when changing here
@@ -227,7 +231,9 @@ class SsrDevServer extends AppDevserver {
         // like @vue/apollo-ssr:
         typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-        ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+        if (ssrContext.state !== void 0 && quasarConf.ssr.manualStoreSerialization !== true) {
+          ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+        }
 
         let html = renderTemplate(ssrContext)
         html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
@@ -265,6 +271,8 @@ class SsrDevServer extends AppDevserver {
     delete require.cache[serverFile]
     const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
 
+    const { publicPath } = this.#appOptions
+
     const middlewareParams = {
       port: this.#appOptions.port,
       resolve: {
@@ -272,7 +280,7 @@ class SsrDevServer extends AppDevserver {
         root () { return join(rootFolder, ...arguments) },
         public: resolvePublicFolder
       },
-      publicPath: this.#appOptions.publicPath,
+      publicPath,
       folders: {
         root: rootFolder,
         public: publicFolder
@@ -298,10 +306,8 @@ class SsrDevServer extends AppDevserver {
 
     await injectMiddlewares(middlewareParams)
 
-    const { publicPath } = this.#appOptions
-
-    publicPath.length !== '/' && app.use((req, res, next) => {
-      const pathname = new URL(req.url).pathname || '/'
+    publicPath !== '/' && app.use((req, res, next) => {
+      const pathname = new URL(req.url, `http://${req.headers.host}`).pathname || '/'
 
       if (pathname.startsWith(publicPath) === true) {
         next()

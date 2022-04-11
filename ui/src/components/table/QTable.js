@@ -71,6 +71,9 @@ export default createComponent({
     wrapCells: Boolean,
 
     virtualScroll: Boolean,
+    virtualScrollTarget: {
+      default: void 0
+    },
     ...commonVirtPropsObj,
 
     noDataLabel: String,
@@ -313,6 +316,7 @@ export default createComponent({
           class: props.tableClass,
           style: props.tableStyle,
           ...virtProps.value,
+          scrollTarget: props.virtualScrollTarget,
           items: computedRows.value,
           type: '__qtable',
           tableColspan: computedColspan.value,
@@ -974,7 +978,7 @@ export default createComponent({
 
           return h('div', {
             class: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3'
-              + (scope.selected === true ? 'q-table__grid-item--selected' : '')
+              + (scope.selected === true ? ' q-table__grid-item--selected' : '')
           }, [
             h('div', data, child)
           ])

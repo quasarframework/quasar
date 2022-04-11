@@ -36,7 +36,7 @@ function decode (value) {
     return value
   }
 
-  const type = value.substr(0, 8)
+  const type = value.substring(0, 8)
   const source = value.substring(9)
 
   switch (type) {

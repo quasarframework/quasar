@@ -39,7 +39,7 @@
     "href": {
       "type": "String",
       "desc": "Native <a> link href attribute; Has priority over the 'to'/'exact'/'replace'/'active-class'/'exact-active-class' props",
-      "examples": [ "http://quasar.dev" ],
+      "examples": [ "https://quasar.dev" ],
       "category": "navigation",
       "addedIn": "v2.4"
     },

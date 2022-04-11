@@ -1,7 +1,6 @@
 const path = require('path')
 const fse = require('fs')
 const archiver = require('archiver')
-const mkdirp = require('mkdirp')
 
 function findAndReplaceInSection (sectionArray, find, replace) {
   const index = sectionArray.indexOf(find)
@@ -43,8 +42,8 @@ class BexPackager {
   }
 
   setupDirectories () {
-    mkdirp.sync(this.chromeDir)
-    mkdirp.sync(this.firefoxDir)
+    fse.ensureDirSync(this.chromeDir)
+    fse.ensureDirSync(this.firefoxDir)
   }
 
   bundleChrome () {

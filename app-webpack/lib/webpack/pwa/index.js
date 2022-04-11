@@ -1,6 +1,8 @@
 const appPaths = require('../../app-paths')
 const PwaManifestPlugin = require('./plugin.pwa-manifest')
 const HtmlPwaPlugin = require('./plugin.html-pwa').plugin
+const getPackage = require('../../helpers/get-package')
+const WorkboxPlugin = getPackage('workbox-webpack-plugin')
 
 module.exports = function (chain, cfg) {
   // write manifest.json file
@@ -8,7 +10,6 @@ module.exports = function (chain, cfg) {
     .use(PwaManifestPlugin, [ cfg ])
 
   let defaultOptions
-  const WorkboxPlugin = require('workbox-webpack-plugin')
   const pluginMode = cfg.pwa.workboxPluginMode
   const { log } = require('../../helpers/logger')
 
