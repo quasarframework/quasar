@@ -12,19 +12,18 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     q-scroll-area(style="height: 100%")
       drawer-banner(
         v-if="true"
-        title="The 2022 Survey is out"
-        body="Take some minutes, you will help us make Quasar a better framework."
-        buttonLabel="Get Started"
+        title="The 2022 Survey is out!"
+        buttonLabel="Go to the survey"
         to="#"
-      )
+      ) Take some minutes, you will help us make Quasar a better framework.
       drawer-banner(
         v-if="true"
         title="Call for papers is now"
-        body="June ??th 2022, Become a speaker, we look forward to hear your voice."
         buttonLabel="Get Started"
         to="#"
         icon="/custom-svg-icons/quasar-conf-logo.svg"
-      )
+      ) June ??th 2022. Become a speaker, we look forward to hear your voice.
+
       app-menu.q-mb-lg.q-mt-sm
 
   q-drawer(
