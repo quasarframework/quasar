@@ -1,6 +1,6 @@
 [
   {
-    "name": "Docs",
+    "name": "Docs homepage",
     "icon": "description",
     "path": "docs"
   },
@@ -8,12 +8,6 @@
     "name": "Announcements",
     "icon": "info",
     "path": "https://github.com/quasarframework/quasar/discussions/categories/announcements",
-    "external": true
-  },
-  {
-    "name": "Brand resources",
-    "icon": "branding_watermark",
-    "path": "https://github.com/quasarframework/quasar-art",
     "external": true
   },
   {
@@ -1776,5 +1770,11 @@
         "path": "other-utils"
       }
     ]
+  },
+  {
+    "name": "Brand resources",
+    "icon": "branding_watermark",
+    "path": "https://github.com/quasarframework/quasar-art",
+    "external": true
   }
 ]
