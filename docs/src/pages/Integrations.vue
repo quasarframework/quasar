@@ -4,10 +4,12 @@
     <p class="letter-spacing-300 text-size-16 text-weight-bold text-center">
       Focus only on your mission and forget about the spaceship.
     </p>
-    <p class="letter-spacing-40 text-size-16 q-mb-xl">
-      Combine the power of Quasar UI with Quasar CLI. One source code for all platforms<br v-if="$q.screen.gt.sm">
-      simultaneously with all the latest and greatest best practices out of the box.
-    </p>
+    <div class="row justify-center">
+      <p :class="{'width-55': $q.screen.gt.sm}" class="letter-spacing-40 text-size-16 q-mb-xl">
+        Combine the power of Quasar UI with Quasar CLI. One source code for all platforms
+        simultaneously with all the latest and greatest best practices out of the box.
+      </p>
+    </div>
     <div class="platform-icons q-gutter-lg">
       <q-icon
         v-for="(iconName, platformIndex) in platformIcons"
@@ -137,5 +139,9 @@ export default defineComponent({
 
 .border-color-brand-secondary {
   border-color: $brand-secondary;
+}
+
+.width-55 {
+  width: 55%;
 }
 </style>

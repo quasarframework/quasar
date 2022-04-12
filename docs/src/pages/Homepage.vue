@@ -6,23 +6,22 @@
     <p
       class="letter-spacing-300 text-size-16 text-weight-bold text-center"
     >Here you can find everything you need to start working with Quasar.</p>
-    <p class="letter-spacing-40 text-size-16 text-center">
-      In the top navigation bar there is a search function that helps you find what you need and also
-      <br v-if="$q.screen.gt.sm" />many other pages that you can explore, like beginner resources and other cool content
-      about
-      <br v-if="$q.screen.gt.sm" />the Quasar galaxy. Don’t forget to check our page to
-      <a
-        class="text-brand-accent"
-        href="https://donate.quasar.dev"
-        target="_blank"
-      >become a sponsor</a>!
-    </p>
-    <p class="letter-spacing-40 text-size-16 text-center">
-      If you are an experienced explorer get right into
-      action: use the navigation drawer on the left
-      <br v-if="$q.screen.gt.sm" />to navigate through our most important
-      technical resources.
-    </p>
+    <div class="row justify-center">
+      <p :class="{'width-55': $q.screen.gt.sm}" class="letter-spacing-40 text-size-16 text-center">
+        In the top navigation bar there is a search function that helps you find what you need and also many other pages that you can explore, like beginner resources and other cool content
+        about the Quasar galaxy. Don’t forget to check our page to
+        <a
+          class="text-brand-accent"
+          href="https://donate.quasar.dev"
+          target="_blank"
+        >become a sponsor</a>!
+      </p>
+      <p :class="{'width-55': $q.screen.gt.sm}" class="letter-spacing-40 text-size-16 text-center">
+        If you are an experienced explorer get right into
+        action: use the navigation drawer on the left to navigate through our most important
+        technical resources.
+      </p>
+    </div>
     <div :class="{'cards-grid': $q.screen.gt.sm}">
       <div class="row cards-container-width justify-center q-gutter-sm q-py-lg justify-self-end">
         <div class="text-center full-width text-size-24 text-weight-bolder letter-spacing-450 text-brand-primary text-uppercase">
@@ -153,6 +152,10 @@ export default defineComponent({
   &-end {
     justify-self: end;
   }
+}
+
+.width-55 {
+  width: 55%;
 }
 
 </style>
