@@ -370,7 +370,7 @@ export default defineComponent({
       const pagesToHide = []
 
       if ($q.screen.width < HIDE_COMPONENT_NAV_ITEM_VIEWPORT) {
-        pagesToHide.push('components')
+        pagesToHide.push('vue-components/grid')
       }
 
       return filterNavItems(expandedHeaderMainToolbarNavItems, pagesToHide)
@@ -398,7 +398,7 @@ export default defineComponent({
       const pagesToHide = []
 
       if ($q.screen.width >= HIDE_COMPONENT_NAV_ITEM_VIEWPORT) {
-        pagesToHide.push('components')
+        pagesToHide.push('vue-components/grid')
       }
 
       return filterNavItems(expandedHeaderMoreDropdownNavItems, pagesToHide)
@@ -408,7 +408,7 @@ export default defineComponent({
       const pagesToHide = []
 
       if ($q.screen.width < HIDE_COMPONENT_DENSE_NAV_ITEM_VIEWPORT) {
-        pagesToHide.push('components')
+        pagesToHide.push('vue-components/grid')
       }
 
       return filterNavItems(denseHeaderNavItems, pagesToHide)
