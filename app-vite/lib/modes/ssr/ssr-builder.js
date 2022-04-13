@@ -101,12 +101,15 @@ class SsrBuilder extends AppBuilder {
       },
       dependencies: Object.assign(appDeps, {
         'compression': cliDeps.compression,
-        'express': cliDeps.express,
-        'serialize-javascript': cliDeps['serialize-javascript']
+        'express': cliDeps.express
       }),
       engines: appPkg.engines,
       browserslist: appPkg.browserslist,
       quasar: { ssr: true }
+    }
+
+    if (this.quasarConf.ssr.manualStoreSerialization !== true) {
+      pkg.dependencies['serialize-javascript'] = cliDeps['serialize-javascript']
     }
 
     if (typeof this.quasarConf.ssr.extendPackageJson === 'function') {

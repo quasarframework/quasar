@@ -64,10 +64,6 @@ async function warmupServer (viteClient, viteServer) {
 }
 
 function renderStoreState (ssrContext) {
-  if (ssrContext.state === void 0) {
-    return ''
-  }
-
   const nonce = ssrContext.nonce !== void 0
     ? ` nonce="${ ssrContext.nonce }" `
     : ''
@@ -235,7 +231,7 @@ class SsrDevServer extends AppDevserver {
         // like @vue/apollo-ssr:
         typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-        if (quasarConf.ssr.manualStoreStateSerialization !== true) {
+        if (ssrContext.state !== void 0 && quasarConf.ssr.manualStoreSerialization !== true) {
           ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
         }
 

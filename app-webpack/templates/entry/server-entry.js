@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-import { createApp<%= store ? ', unref' : '' %> } from 'vue'
+import { createApp<%= store && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
 
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -184,7 +184,7 @@ export default ssrContext => {
       .then(() => {
         if (hasRedirected === true) { return }
 
-        <% if (store) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
         resolve(app)
       })
@@ -192,9 +192,9 @@ export default ssrContext => {
 
       <% } else { %>
 
-      <% if (store) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
-      resolve(app)
+        resolve(app)
 
       <% } %>
     }).catch(reject)

@@ -15,6 +15,7 @@
     "target": "esnext",
     "isolatedModules": true,
     "useDefineForClassFields": true,
+    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
     "types": ["vite/client", "node"]

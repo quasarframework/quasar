@@ -8,19 +8,18 @@
       :scroll-target="scrollTarget"
       :items="heavyList"
       separator
+      v-slot="{ item, index }"
     >
-      <template v-slot="{ item, index }">
-        <q-item
-          :key="index"
-          dense
-        >
-          <q-item-section>
-            <q-item-label>
-              #{{ index }} - {{ item.label }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </template>
+      <q-item
+        :key="index"
+        dense
+      >
+        <q-item-section>
+          <q-item-label>
+            #{{ index }} - {{ item.label }}
+          </q-item-label>
+        </q-item-section>
+      </q-item>
     </q-virtual-scroll>
 
     <div class="q-pa-md bg-yellow">

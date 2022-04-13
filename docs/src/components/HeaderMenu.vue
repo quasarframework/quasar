@@ -88,6 +88,13 @@ div
           .row.no-wrap.items-center
             span Flex Playground
 
+      q-item(clickable href="https://quasarcast.com" target="_blank")
+        q-item-section.text-red(avatar)
+          q-icon(:name="mdiPlayBox")
+        q-item-section.text-no-wrap
+          .row.no-wrap.items-center
+            span QuasarCast.com
+
       q-item-label.q-mt-md(header) Playground
 
       q-item(clickable, href="https://codepen.quasar.dev", target="_blank", rel="noopener")
@@ -165,7 +172,8 @@ import {
   mdiPost, mdiForum, mdiChat, mdiBullhorn,
   mdiViewDashboard, mdiShoppingMusic, mdiClipboardText,
   mdiBugCheck, mdiFlare, mdiFilePlus, mdiPaletteSwatch,
-  mdiInvertColors, mdiCharity, mdiStarCircle
+  mdiInvertColors, mdiCharity, mdiStarCircle,
+  mdiPlayBox
 } from '@quasar/extras/mdi-v6'
 
 export default {
@@ -198,7 +206,8 @@ export default {
       mdiPaletteSwatch,
       mdiInvertColors,
       mdiCharity,
-      mdiStarCircle
+      mdiStarCircle,
+      mdiPlayBox
     }
   }
 }

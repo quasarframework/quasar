@@ -177,9 +177,12 @@ If `redirect(false)` is called (supported only on client-side!), it aborts the c
 The `redirect()` method requires a Vue Router location Object.
 
 ### Using preFetch to Initialize Pinia or Vuex Store(s)
+
 The `preFetch` hook runs only once, when the app boots up, so you can use this opportunity to initialize the Pinia store(s) or the Vuex Store here.
 
 ```js
+// -- Pinia on Non SSR --
+
 // App.vue - handling Pinia stores
 // example with a store named "myStore"
 // placed in /src/stores/myStore.js|ts
@@ -190,6 +193,24 @@ export default {
   // ...
   preFetch () {
     const myStore = useMyStore()
+    // do something with myStore
+  }
+}
+```
+
+```js
+// -- Pinia on SSR --
+
+// App.vue - handling Pinia stores
+// example with a store named "myStore"
+// placed in /src/stores/myStore.js|ts
+
+import { useMyStore } from 'stores/myStore'
+
+export default {
+  // ...
+  preFetch ({ store }) {
+    const myStore = useMyStore(store)
     // do something with myStore
   }
 }

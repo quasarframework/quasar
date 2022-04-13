@@ -580,8 +580,6 @@ class QuasarConfFile {
       const originalSetup = cfg.devServer.setupMiddlewares
       const openInEditor = require('launch-editor-middleware')
 
-      delete cfg.devServer.setupMiddlewares
-
       if (this.ctx.mode.bex === true) {
         cfg.devServer.devMiddleware = cfg.devServer.devMiddleware || {}
         cfg.devServer.devMiddleware.writeToDisk = true
