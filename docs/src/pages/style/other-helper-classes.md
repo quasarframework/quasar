@@ -34,7 +34,7 @@ The list below is not complete. Also check the other CSS documentation pages lik
 | --- | --- |
 | `fit` | Width and Height is set to 100% |
 | `full-height` | Height is set to 100% |
-| `full-width` | Width is set to 100% |
+| `full-width` | Width is set to 100% with left and right margins 0 |
 | `window-height` | Height is set to 100vh with top and bottom margins 0 |
 | `window-width` | Width is set to 100vw with left and right margins 0 |
 | `block` | Sets `display` property set to `block` |
