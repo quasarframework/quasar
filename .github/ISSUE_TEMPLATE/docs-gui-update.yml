@@ -1,0 +1,56 @@
+name: Docs GUI update preview
+description: Share issues and feedback related to the docs GUI preview, upvote existing problems to make their priority rise
+labels: ['kind/docs-gui-update']
+
+# Note: Do NOT use commas(,) in options with 'multiple: true', the issue processing workflow won't be able to label it
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        Search for your issue in the repo to be sure it doesn't exist already.
+        Try to be as clear as possible and provide as many details as possible (including screenshots/videos), to help our team better understand the issue.
+        Issues with an unclear description or lacking information will have a lower priority. They may even get closed without taking action.
+        
+        Since personal taste is subjective, but branding and UX mostly aren't, in this phase we'll focus on fixing issues in the latter areas.
+
+        Lastly, read the [Reporting an Issue | Contribution Guide](https://quasar.dev/contribution-guide/contribution-guide#reporting-an-issue) section of our docs for a more detailed explanation.
+
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
+- type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: |
+        Clearly and concisely explain the problem.
+        You can mention unclear or missing information, typos, grammatical mistakes, etc.
+        Any contributions and suggestions are welcome!
+    validations:
+      required: true
+  - type: input
+    id: docs-page-url
+    attributes:
+      label: Documentation Section URL
+      description: If the problem is related to an existing docs page/section, click the related section's title and paste the URL here.
+      placeholder: https://quasar.dev
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Platforms/Browsers
+      description: Mark the platforms/browsers in which you see the problem on. _If you select `Other`, please explain it in `Additional context` section._
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - iOS
+        - Android
+        - Electron
+        - Other
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
