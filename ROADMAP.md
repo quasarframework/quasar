@@ -45,11 +45,11 @@ We are updating this section constantly in order to keep you up to date with our
 * 2022 Quasar Survey
 
 ### Q3 2022
-* Work starting on Quasar v3
+* Start working on Quasar v3
 * Quasar.Conf 2022
 
 ### Q4 2022
-* December 31th 2022 marks the end of life for Quasar v1. It will no longer receive updates. (postponed, originally EOL was 1st of April)
+* December 31th 2022 marks the end of life for Quasar v1. It will no longer receive updates. (postponed, originally EOL was 1st of April 2022)
 
 ## Archive
 

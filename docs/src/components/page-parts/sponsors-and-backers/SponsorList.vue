@@ -1,6 +1,6 @@
 <template lang="pug">
-//- TODO: must align to use sponsors list into assets folder, check out landing SponsorList
-//- we would need a light and dark version of every logo
+//- TODO: must align to use the sponsors list into assets folder as the single source of truth, check out landing SponsorList
+//- to do so, we would need a light and dark version of every logo, and uplad them all into the CDN
 q-intersection(once)
   .row.q-gutter-sm.justify-center
     sponsor-tile(src="mio-ab.svg" name="Mio AB" href="https://mio.se/")

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fff" class="bg-dark font-monserrat" @scroll="checkHeaderMetFooter">
-    <!-- div for stars -->
+    <!-- div for stars background -->
     <div class="stars-sm" />
     <div class="stars-md" />
     <div class="stars-lg" />
@@ -8,12 +8,6 @@
     <main-layout-header v-model="showDrawer" :dark="!footerHasMetHeader" ref="mainLayoutHeader" />
     <q-drawer class="doc-left-drawer" side="left" v-model="showDrawer" bordered>
       <q-scroll-area class="full-height">
-        <survey-countdown
-          class="layout-countdown"
-          color="brand-primary"
-          align-class="justify-center"
-          padding-class="q-py-md"
-        />
         <app-menu class="q-mb-lg" />
       </q-scroll-area>
     </q-drawer>
@@ -225,20 +219,6 @@ $footer-columns-after-xs: 2;
     padding-right: 64px;
     grid-template-columns: repeat($footer-columns-after-xs, 1fr);
   }
-}
-
-.layout-countdown {
-  background: linear-gradient(
-    45deg,
-    #e6f1fc 25%,
-    #c3e0ff 25%,
-    #c3e0ff 50%,
-    #e6f1fc 50%,
-    #e6f1fc 75%,
-    #c3e0ff 75%,
-    #c3e0ff
-  );
-  background-size: 40px 40px;
 }
 
 $max-viewport-height: 7000; // max height at which stars are spread

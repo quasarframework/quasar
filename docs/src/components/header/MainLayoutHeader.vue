@@ -3,7 +3,7 @@
     enter-active-class="animated slideInDown"
     leave-active-class="animated fadeOut"
   >
-    <!-- TODO: many components here should be extracted and reused into different header versions -->
+    <!-- TODO: many components here could be extracted to reduce redundancy between different header versions -->
     <!-- mobile header -->
     <q-header
       v-if="showMobileHeader"

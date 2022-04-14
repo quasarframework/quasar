@@ -1,5 +1,6 @@
 <template>
-  <q-card class="font-monserrat bg-dark full-width">
+  <!-- TODO: we're waiting for answers from VueMastery about some details of theirs affiliate program, enable to see the GUI -->
+  <q-card v-if="false" class="font-monserrat bg-dark full-width">
     <q-card-section :horizontal="$q.screen.gt.xs">
       <q-card-section :class="$q.screen.xs? 'row justify-between' : 'column justify-center items-center'">
         <a href="https://www.vuemastery.com/">

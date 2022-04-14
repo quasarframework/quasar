@@ -49,6 +49,9 @@ const NUMBER_OF_TWEETS_PER_CAROUSEL = {
   xl: 3
 }
 
+// We got approval of all authors of these tweets to display them here
+// Remember to ask for approval if you want to add more tweets
+// Order of the tweets as been carefully chosen, keep it in mind when updating the list
 const SHOW_CASE_TWEETS = [
   '1317128110509379585',
   '1258436297087086594',

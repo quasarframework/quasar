@@ -10,19 +10,17 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="handleScroll")
     :width="300"
   )
     q-scroll-area(style="height: 100%")
-      drawer-banner(
-        v-if="true"
-        title="The 2022 Survey is out!"
-        buttonLabel="Go to the survey"
-        to="#"
-      ) Take some minutes, you will help us make Quasar a better framework.
-      drawer-banner(
-        v-if="true"
-        title="Call for papers is now"
-        buttonLabel="Submit paper"
-        to="#"
-        icon="/custom-svg-icons/quasar-conf-logo.svg"
-      ) June ??th 2022. Become a speaker, we look forward to hear your voice.
+      //- drawer-banner(
+      //-   title="The 2022 Survey is out!"
+      //-   buttonLabel="Go to the survey"
+      //-   to="#"
+      //- ) Take some minutes, you will help us make Quasar a better framework.
+      //- drawer-banner(
+      //-   title="Call for papers is now"
+      //-   buttonLabel="Submit paper"
+      //-   to="#"
+      //-   icon="/custom-svg-icons/quasar-conf-logo.svg"
+      //- ) June ??th 2022. Become a speaker, we look forward to hear your voice.
 
       app-menu.q-mb-lg.q-mt-sm
 
@@ -158,7 +156,7 @@ export default {
 .doc-left-drawer
   overflow: inherit !important
 
-// Prevent drawer items due to words too long
+// Prevent drawer items to force a drawer expansion due to words too long
 .q-scrollarea__content
   width: 100%
 
@@ -178,8 +176,4 @@ export default {
 
 body.mobile .app-search-input kbd
   display: none
-
-.layout-countdown
-  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
-  background-size: 40px 40px
 </style>

@@ -224,11 +224,6 @@ q {
   }
 }
 
-.advance-scaffolding {
-  height: 100vh;
-  margin-bottom: 256px;
-}
-
 .sponsors {
   margin-top: 80px;
   margin-bottom: 208px;

@@ -1,4 +1,5 @@
 <template lang="pug">
+//- TODO: refactor to base it on `DrawerBanner` component
 q-banner(v-if="!hasEnded").survey-countdown
   .q-gutter-sm.row(:class="[paddingClass, alignClass]")
     | Quasar Scaffolding Survey closes in...

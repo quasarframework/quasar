@@ -114,13 +114,13 @@ export default function useSearch (scope, $q, $route) {
 
   function onSearchBlur () {
     searchHasFocus.value = false
-    searchActiveId.value = undefined
+    searchActiveId.value = void 0
   }
 
   function resetSearch () {
     searchTerms.value = ''
-    searchResults.value = undefined
-    searchActiveId.value = undefined
+    searchResults.value = void 0
+    searchActiveId.value = void 0
   }
 
   function onSearchClear () {
