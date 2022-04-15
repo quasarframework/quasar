@@ -58,7 +58,7 @@ function showHelp () {
                              * ts-composition - TS composition API (default if using TS)
                              * ts-options - TS options API
                              * ts-class - [DEPRECATED] TS class style syntax
-                             * ts - Plain TS template (for boot and store files)
+                             * ts - Plain TS template (for boot, store, and ssrmiddleware files)
   `)
   process.exit(0)
 }
@@ -108,10 +108,9 @@ if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts'].includes(form
 
 const isTypeScript = format === 'ts' || format.startsWith('ts-')
 
-// If they've supplied a TS format i.e ts-options and
-// are creating a boot file / store then set format
-// to TS as they're the same for all formats.
-if (isTypeScript && (type === 'boot' || type === 'store')) {
+// If using a TS sub-format(e.g. ts-options) and the type is a plain file (e.g. boot) then
+// set format to just TS as sub-formats(e.g. Composition API) doesn't matter for plain files.
+if (isTypeScript && (type === 'boot' || type === 'store' || type === 'ssrmiddleware')) {
   format = 'ts'
 }
 
@@ -190,7 +189,7 @@ const mapping = {
   },
   ssrmiddleware: {
     folder: 'src-ssr/middlewares',
-    ext: '.js',
+    ext: isTypeScript ? '.ts' : '.js',
     reference: 'quasar.config.js > ssr > middlewares'
   }
 }
