@@ -16,6 +16,7 @@ UMD is all about adding Quasar style and javascript tags. Please select what you
 * Please notice the `<!DOCTYPE html>` at the beginning of the document. Do not forget to add it, or else some browsers (notably Safari) will use some compatibility mode that breaks flex.
 * If you are using an RTL Quasar language pack (eg. Hebrew) then toggle the "RTL CSS support" above too!
 * Do NOT use self-closing tags, like `<q-icon ... />`. Instead, go with `<q-icon ...></q-icon>`.
+* Do NOT use the latest version of Vue in production. Instaed, use a specific version that you have tested during development. Example: `<script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.prod.js"></script>`.
 :::
 
 ::: tip
