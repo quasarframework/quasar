@@ -1,4 +1,3 @@
-
 const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -7,7 +6,10 @@ const argv = parseArgs(process.argv.slice(2), {
     f: 'format'
   },
   boolean: ['h'],
-  string: ['f']
+  string: ['f'],
+  default: {
+    f: 'default'
+  }
 })
 
 function showHelp () {
@@ -53,6 +55,12 @@ function showHelp () {
   process.exit(0)
 }
 
+function showError (message, param) {
+  console.log()
+  warn(`${message}: ${param}`)
+  showHelp()
+}
+
 if (argv.help) {
   showHelp()
 }
@@ -64,7 +72,8 @@ const fse = require('fs-extra')
 const { log, warn } = require('../helpers/logger')
 const appPaths = require('../app-paths')
 const storeProvider = require('../helpers/store-provider')
-const defaultFilePath = 'default'
+
+console.log()
 
 if (argv._.length < 2) {
   console.log()
@@ -73,45 +82,41 @@ if (argv._.length < 2) {
   process.exit(1)
 }
 
-let [ type, ...names ] = argv._
-let format = argv.format || defaultFilePath
+/** @type {string[]} */
+const [ rawType, ...names ] = argv._
+/** @type {{ format: 'default'|'ts'|'ts-options'|'ts-class'|'ts-composition'}} */
+let { format } = argv
 
-function showError (message, param) {
-  console.log()
-  warn(`${message}: ${param}`)
-  showHelp()
+const typeAliasMap = {
+  p: 'page',
+  l: 'layout',
+  c: 'component',
+  s: 'store',
+  b: 'boot'
 }
 
-if (!['p', 'page', 'l', 'layout', 'c', 'component', 's', 'store', 'b', 'boot', 'ssrmiddleware'].includes(type)) {
-  showError('Invalid asset type', type)
+if (![...Object.entries(typeAliasMap).flat(), 'ssrmiddleware'].includes(rawType)) {
+  showError('Invalid asset type', rawType)
 }
+
+/** @type {'page'|'layout'|'component'|'store'|'boot'|'ssrmiddleware'} */
+const type = typeAliasMap[rawType] || rawType
 
 if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts'].includes(format)) {
   showError('Invalid asset format', format)
 }
 
-if (format === 'ts' && !['b', 'boot', 's', 'store'].includes(type)) {
+if (format === 'ts' && type !== 'store' && type !== 'boot') {
   showError('Please select a TypeScript variation for *.vue files, i.e ts-class. Current', format)
 }
 
-const isTypeScript = format === 'ts' || format.indexOf('ts-') > -1
+const isTypeScript = format === 'ts' || format.startsWith('ts-')
 
 // If they've supplied a TS format i.e ts-options and
 // are creating a boot file / store then set format
 // to TS as they're the same for all formats.
-if (isTypeScript && ['b', 'boot', 's', 'store'].includes(type)) {
+if (isTypeScript && (type === 'boot' || type === 'store')) {
   format = 'ts'
-}
-
-if (type.length === 1) {
-  const fullCmd = {
-    p: 'page',
-    l: 'layout',
-    c: 'component',
-    s: 'store',
-    b: 'boot'
-  }
-  type = fullCmd[type]
 }
 
 function createFile (asset, file) {
@@ -123,7 +128,7 @@ function createFile (asset, file) {
     return
   }
 
-  fse.mkdirp(path.dirname(file))
+  fse.ensureDir(path.dirname(file))
   let templatePath = path.join('templates/app', format)
 
   templatePath = type === 'store'
@@ -204,7 +209,7 @@ if (asset.install) {
   }
 
   if (!fs.existsSync(folder)) {
-    fse.mkdirp(folder)
+    fse.ensureDir(folder)
     fse.copy(
       appPaths.resolve.cli(`templates/store/${storeProvider.name}/${format}`),
       folder,
