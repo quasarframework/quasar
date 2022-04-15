@@ -1,5 +1,13 @@
 const parseArgs = require('minimist')
 
+const path = require('path')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const { log, warn } = require('../helpers/logger')
+const appPaths = require('../app-paths')
+const storeProvider = require('../helpers/store-provider')
+
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help',
@@ -8,7 +16,7 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: ['h'],
   string: ['f'],
   default: {
-    f: 'default'
+    f: fs.existsSync(appPaths.resolve.app('tsconfig.json')) ? 'ts-composition' : 'default'
   }
 })
 
@@ -65,14 +73,6 @@ if (argv.help) {
   showHelp()
 }
 
-const path = require('path')
-const fs = require('fs')
-const fse = require('fs-extra')
-
-const { log, warn } = require('../helpers/logger')
-const appPaths = require('../app-paths')
-const storeProvider = require('../helpers/store-provider')
-
 console.log()
 
 if (argv._.length < 2) {
@@ -104,10 +104,6 @@ const type = typeAliasMap[rawType] || rawType
 
 if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts'].includes(format)) {
   showError('Invalid asset format', format)
-}
-
-if (format === 'ts' && type !== 'store' && type !== 'boot') {
-  showError('Please select a TypeScript variation for *.vue files, i.e ts-class. Current', format)
 }
 
 const isTypeScript = format === 'ts' || format.startsWith('ts-')
