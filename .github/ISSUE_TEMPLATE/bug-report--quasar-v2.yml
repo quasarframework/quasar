@@ -83,6 +83,7 @@ body:
         - Composables (quasar)
         - Style & Identity (quasar)
 
+        - Project Creation (create-quasar)
         - Quasar Extras (@quasar/extras)
         - TypeScript Support
         - App Extension API
