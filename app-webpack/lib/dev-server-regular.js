@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
 const openBrowser = require('./helpers/open-browser')
+const { log } = require('./helpers/logger')
 
 let openedBrowser = false
 
@@ -33,8 +34,12 @@ module.exports = class DevServer {
         if (openedBrowser === false) {
           openedBrowser = true
 
-          if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-            openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+          if (['spa', 'pwa'].includes(cfg.ctx.modeName)) {
+            const url = cfg.build.APP_URL
+
+            cfg.__devServer.open
+              ? openBrowser({ url, opts: cfg.__devServer.openOptions })
+              : log('Running at ' + url + '\n')
           }
         }
       })

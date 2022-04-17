@@ -16,6 +16,7 @@ const getPackage = require('./helpers/get-package')
 const { renderToString } = getPackage('@vue/server-renderer')
 const openBrowser = require('./helpers/open-browser')
 const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+const { log } = require('./helpers/logger')
 
 const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
@@ -83,9 +84,10 @@ module.exports = class DevServer {
         if (openedBrowser === false) {
           openedBrowser = true
 
-          if (cfg.__devServer.open) {
-            openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
-          }
+          const url = cfg.build.APP_URL
+          cfg.__devServer.open
+            ? openBrowser({ url, opts: cfg.__devServer.openOptions })
+            : log('Running at ' + url + '\n')
         }
       }
     }
