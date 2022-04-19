@@ -26,7 +26,7 @@ If the QCarouselSlide content also has images and you want to use swipe actions 
 
 ::: danger Keep Alive
 * Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
-* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
+* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QCarouselSlide `names` must be valid Vue component names (no spaces allowed, don't start with a number etc).
 :::
 
 ### Basic
