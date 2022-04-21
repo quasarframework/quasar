@@ -253,6 +253,8 @@ export default createComponent({
         }
 
         if (props.modelValue !== val && emitCachedValue !== val) {
+          emitCachedValue = val
+
           stopWatcher === true && (stopValueWatcher = true)
           emit('update:modelValue', val)
 
