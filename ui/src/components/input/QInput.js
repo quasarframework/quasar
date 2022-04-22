@@ -286,13 +286,16 @@ export default createComponent({
       const inp = inputRef.value
       if (inp !== null) {
         const parentStyle = inp.parentNode.style
+        const { overflow } = inp.style
 
         // reset height of textarea to a small size to detect the real height
         // but keep the total control size the same
         parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
+        inp.style.overflow = 'hidden'
 
         inp.style.height = inp.scrollHeight + 'px'
+        inp.style.overflow = overflow
         parentStyle.marginBottom = ''
       }
     }
