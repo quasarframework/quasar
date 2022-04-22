@@ -73,6 +73,8 @@ jobs:
                 'Plugins': 'area/plugins',
                 'Composables': 'area/composables',
                 'Style & Identity': 'area/style',
+
+                'Project Creation': 'area/project-creation',
                 'Quasar Extras': 'area/extras',
                 'TypeScript Support': 'area/typescript',
                 'App Extension API': 'area/app-ext',
