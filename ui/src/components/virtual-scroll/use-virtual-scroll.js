@@ -21,7 +21,7 @@ const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.bod
   ? noop
   : function (contentEl, index) {
     requestAnimationFrame(() => {
-      if (contentEl === void 0) {
+      if (contentEl === null) {
         return
       }
 
@@ -415,7 +415,7 @@ export function useVirtualScroll ({
       contentEl.addEventListener('focusout', onBlurRefocusFn)
 
       setTimeout(() => {
-        contentEl !== void 0 && contentEl.removeEventListener('focusout', onBlurRefocusFn)
+        contentEl !== null && contentEl.removeEventListener('focusout', onBlurRefocusFn)
       })
     }
 
@@ -528,7 +528,7 @@ export function useVirtualScroll ({
   }
 
   function onBlurRefocusFn () {
-    contentRef.value !== void 0 && contentRef.value.focus()
+    contentRef.value !== null && contentRef.value !== void 0 && contentRef.value.focus()
   }
 
   function localResetVirtualScroll (toIndex, fullReset) {
