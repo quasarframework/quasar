@@ -316,28 +316,32 @@ export default Vue.extend({
 
       return [
         h('div', {
-          staticClass: 'q-uploader__header-content flex flex-center no-wrap q-gutter-xs'
+          staticClass: 'q-uploader__header-content column'
         }, [
-          this.__getBtn(h, this.queuedFiles.length > 0, 'removeQueue', this.removeQueuedFiles),
-          this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
+          h('div', {
+            staticClass: 'flex flex-center no-wrap q-gutter-xs'
+          }, [
+            this.__getBtn(h, this.queuedFiles.length > 0, 'removeQueue', this.removeQueuedFiles),
+            this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
 
-          this.isUploading === true
-            ? h(QSpinner, { staticClass: 'q-uploader__spinner' })
-            : null,
-
-          h('div', { staticClass: 'col column justify-center' }, [
-            this.label !== void 0
-              ? h('div', { staticClass: 'q-uploader__title' }, [ this.label ])
+            this.isUploading === true
+              ? h(QSpinner, { staticClass: 'q-uploader__spinner' })
               : null,
 
-            h('div', { staticClass: 'q-uploader__subtitle' }, [
-              this.uploadSizeLabel + ' / ' + this.uploadProgressLabel
-            ])
-          ]),
+            h('div', { staticClass: 'col column justify-center' }, [
+              this.label !== void 0
+                ? h('div', { staticClass: 'q-uploader__title' }, [ this.label ])
+                : null,
 
-          this.__getBtn(h, this.canAddFiles, 'add', this.pickFiles),
-          this.__getBtn(h, this.hideUploadBtn === false && this.canUpload === true, 'upload', this.upload),
-          this.__getBtn(h, this.isUploading, 'clear', this.abort)
+              h('div', { staticClass: 'q-uploader__subtitle' }, [
+                this.uploadSizeLabel + ' / ' + this.uploadProgressLabel
+              ])
+            ]),
+
+            this.__getBtn(h, this.canAddFiles, 'add', this.pickFiles),
+            this.__getBtn(h, this.hideUploadBtn === false && this.canUpload === true, 'upload', this.upload),
+            this.__getBtn(h, this.isUploading, 'clear', this.abort)
+          ])
         ])
       ]
     },
