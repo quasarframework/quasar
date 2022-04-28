@@ -229,6 +229,10 @@ const processPage = (page, entry, entries) => {
   processMarkdown(ast, entries, entryItem)
 }
 
+// The corresponding files for these paths are in locations which do
+// not follow the usual folder/file pattern and are not .md files like the others
+const CUSTOM_PATHS = [ '/vue-components/grid', 'docs' ]
+
 // process child entries from menu.json
 const processChildren = (parent, entry, entries) => {
   if (parent.children) {
@@ -247,15 +251,8 @@ const processChildren = (parent, entry, entries) => {
         if (menuItem.children) {
           processChildren(menuItem, entryChild, entries)
         }
-        else {
-          // roadmap is loaded from /ROADME.md unlike the others
-          // which are all loaded from /docs/src/pages
-          if (entryChild.url === '/start/roadmap') {
-            processPage('../../ROADMAP.md', entryChild, entries)
-          }
-          else {
-            processPage(intro + entryChild.url + '.md', entryChild, entries)
-          }
+        else if (!CUSTOM_PATHS.includes(entryChild.url)) {
+          processPage(intro + entryChild.url + '.md', entryChild, entries)
         }
       }
     })
@@ -268,7 +265,7 @@ const processMenuItem = (menuItem, entries) => {
     url: '/' + menuItem.path
   })
 
-  if (menuItem.external !== true) {
+  if (menuItem.external !== true && !CUSTOM_PATHS.includes(menuItem.path)) {
     if (menuItem.children) {
       const entryChild = {
         ...entryItem,

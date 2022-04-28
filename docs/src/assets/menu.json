@@ -95,7 +95,8 @@
       },
       {
         "name": "Roadmap",
-        "path": "roadmap"
+        "path": "https://roadmap.quasar.dev/",
+        "external": true
       },
       {
         "name": "Upgrade guide",

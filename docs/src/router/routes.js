@@ -17,17 +17,6 @@ const docsPages = [
     path: 'integrations',
     name: 'integrations',
     component: () => import('../pages/Integrations.vue')
-  },
-  {
-    // construct route for roadmap, it doesn't look like the other .mds, e.g: has no title
-    path: '/start/roadmap',
-    props: {
-      title: 'What\'s next?',
-      metaDesc: 'What\'s next for the Quasar Framework?',
-      editPagePath: 'ROADMAP.md',
-      metaTitle: 'Quasar Roadmap'
-    },
-    component: () => import('../../../ROADMAP.md')
   }
 ]
 

@@ -227,7 +227,7 @@ export const expandedHeaderSecondaryToolbarNavItems = [
   },
   {
     label: 'Roadmap',
-    path: 'start/roadmap'
+    href: 'https://roadmap.quasar.dev/'
   },
   {
     label: 'Video Tutorials',
