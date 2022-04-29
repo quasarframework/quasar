@@ -1,6 +1,6 @@
 import { mount } from '@cypress/vue'
 import FieldWrapper from './FieldWrapper.vue'
-import Icons from './../../../../icon-set/material-icons'
+import Icons from './../../../../icon-set/material-icons.js'
 
 // const snapshotOptions = { customSnapshotsDir: '../__tests__' }
 

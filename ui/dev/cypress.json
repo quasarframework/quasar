@@ -1,13 +1,14 @@
 {
   "fixturesFolder": "../test/cypress/fixtures",
   "screenshotsFolder": "../test/cypress/screenshots",
+  "pluginsFile": "../test/cypress/plugins/index.js",
+  "video": false,
   "videosFolder": "../test/cypress/videos",
   "videoCompression": false,
-  "videoUploadOnPasses": false, 
+  "videoUploadOnPasses": false,
   "component": {
     "componentFolder": "../src",
     "testFiles": "**/*.spec.js",
-    "pluginsFile": "../test/cypress/plugins/unit.js",
-    "supportFile": "../test/cypress/support/unit.js"
+    "supportFile": "../test/cypress/support/component.js"
   }
 }

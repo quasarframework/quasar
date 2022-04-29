@@ -27,11 +27,10 @@
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
-    "test": "yarn lint && yarn build",
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix",
-    "test:unit": "cd ./dev && cypress open-ct && cd ..",
-    "test:unit:ci": "cd ./dev && cypress run-ct && cd ..",
+    "test:component": "cd ./dev && cypress open-ct && cd ..",
+    "test:component:ci": "cd ./dev && cypress run-ct && cd ..",
     "test:create": "node ./test/cypress/helpers/create-spec.js -c"
   },
   "repository": {
@@ -68,7 +67,7 @@
   "devDependencies": {
     "@quasar/app-vite": "^1.0.0-beta.5",
     "@quasar/extras": "^1.12.0",
-    "@quasar/quasar-app-extension-testing-e2e-cypress": "^4.0.1",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^4.1.2",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.3.3",
     "autoprefixer": "^10.4.4",
