@@ -3,7 +3,7 @@
     <q-list bordered padding class="rounded-borders" style="max-width: 350px">
       <q-item-label header>Folders</q-item-label>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar top>
           <q-avatar icon="folder" color="primary" text-color="white" />
         </q-item-section>
@@ -18,7 +18,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar top>
           <q-avatar icon="folder" color="orange" text-color="white" />
         </q-item-section>
@@ -33,7 +33,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar top>
           <q-avatar icon="folder" color="teal" text-color="white" />
         </q-item-section>
@@ -51,7 +51,7 @@
       <q-separator spaced />
       <q-item-label header>Files</q-item-label>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar top>
           <q-avatar icon="assignment" color="grey" text-color="white" />
         </q-item-section>
@@ -66,7 +66,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar top>
           <q-avatar icon="place" color="grey" text-color="white" />
         </q-item-section>
@@ -81,7 +81,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar top>
           <q-avatar icon="library_music" color="grey" text-color="white" />
         </q-item-section>

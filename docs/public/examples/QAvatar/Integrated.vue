@@ -31,7 +31,7 @@
       </q-btn>
     </div>
 
-    <q-item clickable v-ripple>
+    <q-item clickable>
       <q-item-section side>
         <q-avatar rounded size="48px">
           <img src="https://cdn.quasar.dev/img/avatar.png" />

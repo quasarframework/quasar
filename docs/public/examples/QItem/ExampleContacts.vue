@@ -5,7 +5,7 @@
     </q-toolbar>
 
     <q-list bordered>
-      <q-item v-for="contact in contacts" :key="contact.id" class="q-my-sm" clickable v-ripple>
+      <q-item v-for="contact in contacts" :key="contact.id" class="q-my-sm" clickable>
         <q-item-section avatar>
           <q-avatar color="primary" text-color="white">
             {{ contact.letter }}
@@ -25,7 +25,7 @@
       <q-separator />
       <q-item-label header>Offline</q-item-label>
 
-      <q-item v-for="contact in offline" :key="contact.id" class="q-mb-sm" clickable v-ripple>
+      <q-item v-for="contact in offline" :key="contact.id" class="q-mb-sm" clickable>
         <q-item-section avatar>
           <q-avatar>
             <img :src="`https://cdn.quasar.dev/img/${contact.avatar}`">

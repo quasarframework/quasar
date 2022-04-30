@@ -7,7 +7,7 @@
         change Toggle state.
       -->
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section avatar>
           <q-radio v-model="color" val="teal" color="teal" />
         </q-item-section>
@@ -16,7 +16,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section avatar>
           <q-radio v-model="color" val="orange" color="orange" />
         </q-item-section>
@@ -26,7 +26,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section avatar top>
           <q-radio v-model="color" val="cyan" color="cyan" />
         </q-item-section>

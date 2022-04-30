@@ -3,7 +3,7 @@
     <q-list bordered padding>
       <q-item-label header>User Controls</q-item-label>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section>
           <q-item-label>Content filtering</q-item-label>
           <q-item-label caption>
@@ -13,7 +13,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section>
           <q-item-label>Password</q-item-label>
           <q-item-label caption>
@@ -26,7 +26,7 @@
       <q-separator spaced />
       <q-item-label header>General</q-item-label>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section side top>
           <q-checkbox v-model="check1" />
         </q-item-section>
@@ -39,7 +39,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section side top>
           <q-checkbox v-model="check2" />
         </q-item-section>
@@ -52,7 +52,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section side top>
           <q-checkbox v-model="check3" />
         </q-item-section>
@@ -68,7 +68,7 @@
       <q-separator spaced />
       <q-item-label header>Notifications</q-item-label>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section>
           <q-item-label>Battery too low</q-item-label>
         </q-item-section>
@@ -77,7 +77,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section>
           <q-item-label>Friend request</q-item-label>
           <q-item-label caption>Allow notification</q-item-label>
@@ -87,7 +87,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item tag="label" v-ripple>
+      <q-item tag="label">
         <q-item-section>
           <q-item-label>Picture uploaded</q-item-label>
           <q-item-label caption>Allow notification when uploading images</q-item-label>

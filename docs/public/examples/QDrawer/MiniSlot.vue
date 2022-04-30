@@ -35,25 +35,25 @@
 
         <q-scroll-area class="fit">
           <q-list padding>
-            <q-item clickable v-ripple>
+            <q-item clickable>
               <q-item-section>
                 Inbox
               </q-item-section>
             </q-item>
 
-            <q-item active clickable v-ripple>
+            <q-item active clickable>
               <q-item-section>
                 Star
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item clickable>
               <q-item-section>
                 Send
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple>
+            <q-item clickable>
               <q-item-section>
                 Drafts
               </q-item-section>

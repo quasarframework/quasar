@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-y-md" style="max-width: 600px">
       <q-list>
-        <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
+        <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense>
           <q-item-section side>
             <q-checkbox :model-value="item.selected" @update:model-value="status => { setTabSelected(item.tab, status) }" />
           </q-item-section>

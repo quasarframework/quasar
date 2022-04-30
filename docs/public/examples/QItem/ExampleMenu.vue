@@ -3,7 +3,6 @@
     <q-list bordered padding class="rounded-borders text-primary">
       <q-item
         clickable
-        v-ripple
         :active="link === 'inbox'"
         @click="link = 'inbox'"
         active-class="my-menu-link"
@@ -17,7 +16,6 @@
 
       <q-item
         clickable
-        v-ripple
         :active="link === 'outbox'"
         @click="link = 'outbox'"
         active-class="my-menu-link"
@@ -31,7 +29,6 @@
 
       <q-item
         clickable
-        v-ripple
         :active="link === 'trash'"
         @click="link = 'trash'"
         active-class="my-menu-link"
@@ -47,7 +44,6 @@
 
       <q-item
         clickable
-        v-ripple
         :active="link === 'settings'"
         @click="link = 'settings'"
         active-class="my-menu-link"
@@ -61,7 +57,6 @@
 
       <q-item
         clickable
-        v-ripple
         :active="link === 'help'"
         @click="link = 'help'"
         active-class="my-menu-link"

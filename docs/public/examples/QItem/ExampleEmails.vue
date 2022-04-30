@@ -3,7 +3,7 @@
     <q-list bordered class="rounded-borders" style="max-width: 350px">
       <q-item-label header>Friends</q-item-label>
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/avatar2.jpg">
@@ -26,7 +26,7 @@
 
       <q-separator inset="item" />
 
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section avatar>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/avatar4.jpg">
