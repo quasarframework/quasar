@@ -77,7 +77,9 @@ function convertTypeVal (type, def) {
       }
     }
 
-    return fallbackComplexTypeMap.get(type)
+    const prefix = type === 'Array' && def.syncable !== true ? 'readonly ' : ''
+
+    return prefix + fallbackComplexTypeMap.get(type)
   }
 
   if (type === 'Function') {
