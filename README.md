@@ -141,7 +141,7 @@ Head on to the Quasar Framework official website: [https://quasar.dev](https://q
 
 ## Stay in Touch
 
-For latest releases and announcements, follow on Twitter: [@quasarframework](https://twitter.com/quasarframework)
+For latest releases and announcements, follow us on our Twitter account: [@quasarframework](https://twitter.com/quasarframework)
 
 ## Chat Support
 
