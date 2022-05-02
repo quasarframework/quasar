@@ -38,6 +38,10 @@ import compression from 'compression'
 export function create (/* { ... } */) {
   const app = express()
 
+  // attackers can use this header to detect apps running Express
+  // and then launch specifically-targeted attacks
+  app.disable('x-powered-by')
+
   // place here any middlewares that
   // absolutely need to run before anything else
   if (process.env.PROD) {
