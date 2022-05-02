@@ -43,7 +43,7 @@
     "yarn": ">= 1.6.0"
   },
   "dependencies": {
-    "async": "3.2.0",
+    "async": "3.2.2",
     "chalk": "4.1.1",
     "ci-info": "3.2.0",
     "compression": "1.7.4",
