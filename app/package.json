@@ -52,7 +52,7 @@
     "@types/webpack": "4.41.27",
     "@types/webpack-bundle-analyzer": "3.9.2",
     "@types/webpack-dev-server": "3.11.3",
-    "archiver": "5.3.0",
+    "archiver": "5.3.1",
     "autoprefixer": "9.8.6",
     "browserslist": "^4.20.2",
     "chalk": "4.1.1",
