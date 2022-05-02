@@ -40,7 +40,7 @@ pwa: {
   extendGenerateSWOptions (cfg) {},
   extendInjectManifestOptions (cfg) {},
   extendManifestJson (json) {},
-  extendPWACustomSWConf (esbuildConf) {},
+  extendPWACustomSWConf (esbuildConf) {}
 }
 
 sourceFiles: {
