@@ -58,7 +58,7 @@ export default createComponent({
       + (props.dense === true ? ' q-item--dense' : '')
       + (isDark.value === true ? ' q-item--dark' : '')
       + (
-        hasLink.value === true
+        hasLink.value === true && props.active === undefined
           ? linkClass.value
           : (
               props.active === true
