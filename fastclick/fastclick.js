@@ -313,7 +313,7 @@
 
 
   /**
-   * @param {EventTarget} targetElement
+   * @param {EventTarget} eventTarget
    * @returns {Element|EventTarget}
    */
   FastClick.prototype.getTargetElementFromEventTarget = function(eventTarget) {
