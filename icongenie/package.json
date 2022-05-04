@@ -44,7 +44,6 @@
     "imagemin": "^7.0.1",
     "imagemin-pngquant": "^9.0.2",
     "is-png": "^2.0.0",
-    "is-svg": "^4.3.2",
     "kolorist": "^1.5.1",
     "minimist": "^1.2.6",
     "png2icons": "^2.0.1",
