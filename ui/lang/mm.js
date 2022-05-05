@@ -41,7 +41,7 @@
     ),
     recordsPerPage: 'တစ်မျက်နှာ အကြောင်းရေတွက်',
     allRows: 'အားလုံး',
-    pagination: (start, end, total) => start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total +​ 'ရှိ',
+    pagination: (start, end, total) => start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
     columns: 'ကော်လံ'
   },
   editor: {
