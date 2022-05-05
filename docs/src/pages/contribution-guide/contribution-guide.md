@@ -186,14 +186,20 @@ It's pretty likely that other changes to master have happened while you were wor
 $ git remote add upstream https://github.com/quasarframework/quasar.git
 ```
 
-2. Check out your fork's local `dev` branch.
+2. Fetch all remote branches
+
+```bash
+$ git fetch upstream
+```
+
+3. Check out your fork's local `dev` branch.
 
 ```bash
 $ git checkout dev
 > Switched to branch 'dev'
 ```
 
-3. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
+4. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
 
 ```bash
 $ git merge upstream/dev
