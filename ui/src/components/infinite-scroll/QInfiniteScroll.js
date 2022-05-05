@@ -150,6 +150,16 @@ export default Vue.extend({
 
       if (this.isWorking === true) {
         this.__scrollTarget.addEventListener('scroll', this.poll, passive)
+
+        if (this.reverse === true) {
+          const
+            scrollHeight = getScrollHeight(this.__scrollTarget),
+            containerHeight = height(this.__scrollTarget)
+
+          setScrollPosition(this.__scrollTarget, scrollHeight - containerHeight)
+        }
+
+        this.immediatePoll()
       }
     },
 
@@ -181,16 +191,6 @@ export default Vue.extend({
     this.__setDebounce(this.debounce)
 
     this.updateScrollTarget()
-
-    if (this.reverse === true) {
-      const
-        scrollHeight = getScrollHeight(this.__scrollTarget),
-        containerHeight = height(this.__scrollTarget)
-
-      setScrollPosition(this.__scrollTarget, scrollHeight - containerHeight)
-    }
-
-    this.immediatePoll()
   },
 
   activated () {
