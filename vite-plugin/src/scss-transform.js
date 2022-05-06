@@ -23,7 +23,11 @@ export function createScssTransform (fileExtension, sassVariables) {
       return prefix + content
     }
 
-    const newLineIndex = content.indexOf('\n', useIndex) + 1
-    return content.substring(0, newLineIndex) + prefix + content.substring(newLineIndex)
+    const newLineIndex = content.indexOf('\n', useIndex);
+    if (newLineIndex === -1) {
+      return content + '\n' + prefix
+    } else {
+      return content.substring(0, newLineIndex + 1) + prefix + content.substring(newLineIndex + 1)
+    }
   }
 }
