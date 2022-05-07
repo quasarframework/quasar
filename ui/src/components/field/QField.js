@@ -365,6 +365,7 @@ export default Vue.extend({
             ref: 'target',
             staticClass: 'q-field__native row',
             attrs: {
+              tabindex: -1,
               ...this.qAttrs,
               'data-autofocus': this.autofocus
             }
