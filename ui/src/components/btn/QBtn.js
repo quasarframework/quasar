@@ -320,11 +320,11 @@ export default Vue.extend({
     if (this.loading === true && this.percentage !== void 0) {
       child.push(
         h('span', {
-          staticClass: 'q-btn__progress absolute-full overflow-hidden'
+          staticClass: 'q-btn__progress absolute-full overflow-hidden',
+          class: this.darkPercentage === true ? 'q-btn__progress--dark' : ''
         }, [
           h('span', {
             staticClass: 'q-btn__progress-indicator fit block',
-            class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
             style: this.percentageStyle
           })
         ])
