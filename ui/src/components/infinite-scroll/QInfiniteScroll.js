@@ -135,6 +135,16 @@ export default createComponent({
 
       if (isWorking.value === true) {
         localScrollTarget.addEventListener('scroll', poll, passive)
+
+        if (props.reverse === true) {
+          const
+            scrollHeight = getScrollHeight(localScrollTarget),
+            containerHeight = height(localScrollTarget)
+
+          setVerticalScrollPosition(localScrollTarget, scrollHeight - containerHeight)
+        }
+
+        immediatePoll()
       }
     }
 
@@ -205,16 +215,6 @@ export default createComponent({
       setDebounce(props.debounce)
 
       updateScrollTarget()
-
-      if (props.reverse === true) {
-        const
-          scrollHeight = getScrollHeight(localScrollTarget),
-          containerHeight = height(localScrollTarget)
-
-        setVerticalScrollPosition(localScrollTarget, scrollHeight - containerHeight)
-      }
-
-      immediatePoll()
     })
 
     return () => {
