@@ -329,10 +329,10 @@ export default createComponent({
       if (props.loading === true && props.percentage !== void 0) {
         child.push(
           h('span', {
-            class: 'q-btn__progress absolute-full overflow-hidden'
+            class: 'q-btn__progress absolute-full overflow-hidden' + (props.darkPercentage === true ? ' q-btn__progress--dark' : '')
           }, [
             h('span', {
-              class: 'q-btn__progress-indicator fit block' + (props.darkPercentage === true ? ' q-btn__progress--dark' : ''),
+              class: 'q-btn__progress-indicator fit block',
               style: percentageStyle.value
             })
           ])
