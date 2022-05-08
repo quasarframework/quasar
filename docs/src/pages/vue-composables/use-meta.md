@@ -6,7 +6,7 @@ related:
   - /quasar-plugins/meta
 ---
 
-The useMeta composable is part of [Quasar Meta Plugin](/quasar-plugins/meta). If you haven't digged into it by now, please have a first read there.
+The useMeta composable is part of [Quasar Meta Plugin](/quasar-plugins/meta). If you haven't dug into it by now, please have a first read there.
 
 ## Syntax
 
