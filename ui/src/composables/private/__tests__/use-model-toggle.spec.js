@@ -255,7 +255,7 @@ describe('use-model-toggle API', () => {
 
   describe('Methods', () => {
     describe('(method): show', () => {
-      it('should tigger the menu to show', () => {
+      it('should trigger the menu to show', () => {
         mount(WrapperOne)
 
         cy.dataCy('wrapper')
@@ -267,7 +267,7 @@ describe('use-model-toggle API', () => {
     })
 
     describe('(method): hide', () => {
-      it('should tigger the menu to hide', () => {
+      it('should trigger the menu to hide', () => {
         mount(WrapperOne)
 
         cy.dataCy('wrapper')
