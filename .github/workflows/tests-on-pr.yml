@@ -4,7 +4,7 @@ on:
     types:
       - opened
     branches:    
-      - 'dev'
+      - 'AutomatingTests'
     paths:
       - '../ui/**'
 jobs:
