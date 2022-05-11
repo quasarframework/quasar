@@ -8,7 +8,10 @@ on:
     paths:
       - '../ui/**'
 jobs:
+  UI Tests
+  
     runs-on: ubuntu-latest
+
     steps:
       - name: Running action only when something in /ui folder changes
         run: echo "Success"
