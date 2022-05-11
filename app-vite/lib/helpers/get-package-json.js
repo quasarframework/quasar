@@ -8,7 +8,7 @@ module.exports = function (pkgName, folder = appPaths.appDir) {
   try {
     return require(
       require.resolve(`${pkgName}/package.json`, {
-        paths: [ folder ]
+        paths: [ folder ].concat(module.paths)
       })
     )
   }
