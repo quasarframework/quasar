@@ -11,6 +11,7 @@ export default createComponent({
   name: 'QAvatar',
 
   props: {
+
     ...useSizeProps,
 
     fontSize: String,
