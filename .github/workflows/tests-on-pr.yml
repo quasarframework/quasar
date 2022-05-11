@@ -1,4 +1,5 @@
-name: Run tests on created Pull Request
+name: UI Tests
+
 on:
   pull_request:
     types:
@@ -7,9 +8,12 @@ on:
       - 'AutomatingTests'
     paths:
       - '../ui/**'
+
 jobs:
-  UI Tests
+  UI Tests:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Running action only when something in /ui folder changes
+      - name: Run sample code
         run: echo "Success"
