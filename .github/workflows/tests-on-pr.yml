@@ -1,0 +1,14 @@
+name: Run tests on created Pull Request
+on:
+  pull_request:
+    types:
+      - opened
+    branches:    
+      - 'dev'
+    paths:
+      - '../ui/**'
+jobs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running action only when something in /ui folder changes
+        run: echo "Success"
