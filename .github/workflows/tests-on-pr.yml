@@ -5,28 +5,23 @@ on:
     types:
       - opened
     branches:    
-      - 'AutomatingTests'
+      - 'dev'
     paths:
       - 'ui/**'
 
 jobs:
   Tests:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node_version: [14, 16]
-      fail-fast: true
+    runs-on: ubuntu-latest
 
-    name: 'Running Cypress tests on Node v${{ matrix.node_version }}'
+    name: 'Running Cypress tests'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set Node to v${{ matrix.node_version }}
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node_version }}
+          node-version: 16
       
       - name: Install dependencies
         run: cd ./ui && npm i
