@@ -10,7 +10,7 @@ on:
       - 'ui/**'
 
 jobs:
-  UI Tests:
+  Tests:
 
     runs-on: ubuntu-latest
 
