@@ -16,7 +16,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         node_version: [14, 16]
-      fail-fast: false
+      fail-fast: true
 
     name: 'Running Cypress tests on Node v${{ matrix.node_version }}'
     steps:
