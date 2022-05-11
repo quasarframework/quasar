@@ -135,7 +135,7 @@ const metaData = {
 
   // <html> attributes
   htmlAttr: {
-    'xmlns:cc': 'http://creativecommons.org/ns#' // generates <html xmlns:cc="http://creativecommons.org/ns#">,
+    'xmlns:cc': 'http://creativecommons.org/ns#', // generates <html xmlns:cc="http://creativecommons.org/ns#">
     empty: undefined // generates <html empty>
   },
 

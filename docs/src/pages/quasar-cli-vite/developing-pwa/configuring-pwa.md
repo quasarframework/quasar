@@ -37,9 +37,9 @@ pwa: {
   swFilename: 'sw.js',
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
-  extendGenerateSWOptions (cfg) {}
+  extendGenerateSWOptions (cfg) {},
   extendInjectManifestOptions (cfg) {},
-  extendManifestJson (json) {}
+  extendManifestJson (json) {},
   extendPWACustomSWConf (esbuildConf) {}
 }
 

@@ -134,8 +134,7 @@ module.exports = function createRenderer (opts) {
   async function runApp(ssrContext) {
     try {
       const entry = await evaluateEntry()
-      const app = await entry(ssrContext)
-      return app
+      return await entry(ssrContext)
     }
     catch (err) {
       await rewriteErrorTrace(err)

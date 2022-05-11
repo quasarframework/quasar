@@ -676,6 +676,7 @@
           "examples": [ 100, 200 ]
         }
       },
+      "syncable": true,
       "examples": [
         ":pagination=\"myInitialPagination\"",
         "v-model:pagination=\"myPagination\""
@@ -706,6 +707,7 @@
       "type": "Array",
       "desc": "Keeps the user selection array",
       "default": "[]",
+      "syncable": true,
       "examples": [
         "v-model:selected=\"selection\""
       ],
@@ -716,6 +718,7 @@
       "type": "Array",
       "desc": "Keeps the array with expanded rows keys",
       "default": "[]",
+      "syncable": true,
       "examples": [
         "v-model:expanded=\"expanded\""
       ],

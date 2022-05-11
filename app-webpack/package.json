@@ -53,7 +53,7 @@
     "@types/cordova": "0.0.34",
     "@types/express": "4.17.13",
     "@types/webpack-bundle-analyzer": "4.4.1",
-    "archiver": "5.3.0",
+    "archiver": "5.3.1",
     "autoprefixer": "10.4.4",
     "browserslist": "^4.12.0",
     "chalk": "4.1.2",

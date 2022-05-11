@@ -95,7 +95,7 @@ module.exports = class InstallAPI extends BaseAPI {
    *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    *
    * @param {string} packageName
-   * @param {string} (optional) semverCondition
+   * @param {string} [semverCondition]
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {

@@ -129,7 +129,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
     && innerMin.value < innerMax.value
   ))
 
-  const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
+  const decimals = computed(() => (String(props.step).trim().split('.')[ 1 ] || '').length)
   const step = computed(() => (props.step === 0 ? 1 : props.step))
   const tabindex = computed(() => (editable.value === true ? props.tabindex || 0 : -1))
 

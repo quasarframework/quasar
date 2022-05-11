@@ -32,7 +32,7 @@
     "quasar": "^2.0.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.0.0",
-    "@quasar/app-wepback": "^3.0.0",
+    "@quasar/app-webpack": "^3.0.0",
     "open": "^7.3.0",
     "fs-extra": "^8.1.0",
     "chalk": "^4.1.0",
