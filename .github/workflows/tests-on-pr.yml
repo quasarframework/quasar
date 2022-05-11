@@ -7,7 +7,7 @@ on:
     branches:    
       - 'AutomatingTests'
     paths:
-      - './ui/**'
+      - 'ui/**'
 
 jobs:
   UI Tests:
