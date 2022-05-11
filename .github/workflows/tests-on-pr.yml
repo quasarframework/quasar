@@ -11,9 +11,25 @@ on:
 
 jobs:
   Tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node_version: [12, 14, 16]
+      fail-fast: false
 
-    runs-on: ubuntu-latest
-
+    name: 'Running Cypress tests on Node v${{ matrix.node_version }}'
     steps:
-      - name: Run sample code
-        run: echo "Success"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set Node to v${{ matrix.node_version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node_version }}
+      
+      - name: Install dependencies
+        run: cd ./ui && npm i
+      
+      - name: Run tests
+        run: cd ./ui && npm run test:component:ci
