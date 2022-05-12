@@ -12,6 +12,8 @@ on:
 jobs:
   Tests:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
 
     name: 'Running Cypress tests'
     steps:
