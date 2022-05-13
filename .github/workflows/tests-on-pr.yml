@@ -29,11 +29,5 @@ jobs:
       - name: Install dependencies
         run: cd ./ui && npm i
       
-      # - name: Run tests
-      #   run: cd ./ui && npm run test:component:ci
-      
-      - name: Output testing summary
-        run: |           
-            '### Hello world! :rocket:\\'
-            'Testing ${{ github.event.issue.user.login }}'
-            >> $GITHUB_STEP_SUMMARY 
+      - name: Run tests
+        run: cd ./ui && npm run test:component:ci
