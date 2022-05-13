@@ -24,7 +24,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
       
       - name: Install dependencies
         run: cd ./ui && npm i
