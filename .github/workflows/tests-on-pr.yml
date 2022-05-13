@@ -32,4 +32,4 @@ jobs:
       - name: Run tests
         uses: cypress-io/github-action@v2
         with:
-          command: cd ./ui && npm run test:component:ci
+          command: npm run test:component:ci
