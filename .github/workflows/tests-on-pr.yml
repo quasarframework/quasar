@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: cd ./ui && npm i
       
-      - name: Run tests
-        run: cd ./ui && npm run test:component:ci
+      # - name: Run tests
+      #   run: cd ./ui && npm run test:component:ci
       
       - name: Output testing summary
         run: |           
