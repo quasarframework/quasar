@@ -30,7 +30,7 @@
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix",
     "test:component": "cd ./dev && cypress open-ct && cd ..",
-    "test:component:ci": "cd ./dev && cypress run-ct && cd ..",
+    "test:component:ci": "cd ./dev && DEBUG=cypress:* cypress run-ct --spec ../src/components/select/__tests__/** && cd ..",
     "test:create": "node ./test/cypress/helpers/create-spec.js -c"
   },
   "repository": {
