@@ -31,3 +31,10 @@ jobs:
       
       - name: Run tests
         run: cd ./ui && npm run test:component:ci
+      
+      - name: Upload screenshots
+        uses: actions/upload-artifact@latest
+        if: failure()
+        with:
+            name: cypress-snapshots
+            path: cypress/snapshots
