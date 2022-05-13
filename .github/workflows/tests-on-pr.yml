@@ -24,12 +24,10 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 14
       
       - name: Install dependencies
         run: cd ./ui && npm i
       
       - name: Run tests
-        uses: cypress-io/github-action@v2
-        with:
-          command: npm run test:component:ci
+        run: cd ./ui && npm run test:component:ci
