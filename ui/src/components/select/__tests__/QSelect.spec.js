@@ -255,12 +255,14 @@ describe('QSelect API', () => {
             .contains('Option 1')
             .click()
             .then(() => {
+              cy.log(model, model.value)
               expect(model.value).to.equal(options[ 0 ])
             })
           cy.get('.q-menu')
             .contains('Option 2')
             .click()
             .then(() => {
+              cy.log(model, model.value)
               expect(model.value).to.equal(options[ 1 ])
             })
         })
