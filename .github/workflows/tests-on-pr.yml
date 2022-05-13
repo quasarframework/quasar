@@ -30,4 +30,6 @@ jobs:
         run: cd ./ui && npm i
       
       - name: Run tests
-        run: cd ./ui && npm run test:component:ci
+        uses: cypress-io/github-action@v2
+        with:
+          command: cd ./ui && npm run test:component:ci
