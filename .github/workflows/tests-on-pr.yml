@@ -34,6 +34,7 @@ jobs:
       
       - name: Upload screenshots
         uses: actions/upload-artifact@v3
+        if: failure()
         with:
             name: cypress-snapshots
             path: ./ui/test/cypress/screenshots
