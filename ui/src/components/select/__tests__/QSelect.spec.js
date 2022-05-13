@@ -72,11 +72,17 @@ describe('QSelect API', () => {
             .should('exist')
         })
 
-        it('should not render an input by default', () => {
+        it('should render an input, but it shouldn\'t be visible', () => {
           mount(WrapperOne)
+
           cy.get('.select-root')
             .get('input')
-            .should('not.exist')
+            .should('not.be.visible')
+        })
+
+        it.skip('should not render an input by default', () => {
+          // Native input is now always rendered, due to having a target for autocomplete
+          // Refer to commit: https://github.com/quasarframework/quasar/commit/21a3af0dfe01bac0da617737562b599edee397a2
         })
       })
 
