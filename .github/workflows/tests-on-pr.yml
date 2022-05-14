@@ -3,7 +3,8 @@ name: UI Tests
 on:
   pull_request:
     types:
-      - opened, edited
+      - opened
+      - edited
     branches:    
       - 'dev'
       - 'AutomatingTests'
