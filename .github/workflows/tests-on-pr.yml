@@ -1,0 +1,63 @@
+name: UI Tests
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize ]
+    branches:    
+      - 'dev'
+    paths:
+      - 'ui/**'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    env:
+      SUMMARY: |
+        Hi @${{ github.event.pull_request.user.login }}! 👋
+
+        It looks like you've opened a pull request [#${{github.event.pull_request.number}}](https://github.com/quasarframework/quasar/pull/${{github.event.pull_request.number}}). Thanks for the contribution! 👏
+
+        We've detected file changes inside the `ui` folder, so that triggered our Cypress component tests.
+
+      SUCCESS: |
+        :white_check_mark: Seems like all the tests passed successfully, so your PR is ready to be reviewed!
+
+      FAILURE: |
+        :bangbang: Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it.
+
+    strategy:
+      fail-fast: false
+
+    name: 'UI tests'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: Install dependencies
+        run: cd ./ui && npm i
+      
+      - name: Run tests
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+          command: npm run test:component:ci
+          working-directory: ui
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # To allow accurately detecting a build vs a re-run build
+
+      - name: Add workflow summary
+        run: echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+        if: always()
+          
+      - 
+        run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
+        if: failure() || cancelled()
+
+      - run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
+        if: success()

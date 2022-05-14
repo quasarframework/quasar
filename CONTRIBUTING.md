@@ -50,6 +50,8 @@ Hi! We are really excited that you are interested in contributing to Quasar 👏
   - If you are resolving a special issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
   - Provide detailed description of the bug in the PR. A live demo is preferred.
 
+- Cypress e2e tests will run every time there is a code change in any file of the `ui` folder.
+
 ## Development Setup
 
 You will need [Node.js](http://nodejs.org) **version 12.22.1+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
