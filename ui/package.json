@@ -74,7 +74,6 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "cli-highlight": "^2.1.11",
     "cssnano": "^5.1.4",
-    "cypress-json-results": "^1.2.1",
     "diff": "^5.0.0",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^16.0.2",

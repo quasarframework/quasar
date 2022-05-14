@@ -17,11 +17,11 @@ jobs:
       SUMMARY: |
         Hi @${{ github.event.pull_request.user.login }}! 👋
 
-        It looks like you've opened a pull request #[${{github.event.pull_request.number}}](https://github.com/quasarframework/quasar/pull/${{github.event.pull_request.number}}).
+        It looks like you've opened a pull request [#${{github.event.pull_request.number}}](https://github.com/quasarframework/quasar/pull/${{github.event.pull_request.number}}).
 
-        We've detected file changes inside the `UI` folder, so that triggered our Cypress component tests. Results could be seen below.
+        We've detected file changes inside the `UI` folder, so that triggered our Cypress component tests.
 
-      THANKS: Thank you for your contribution. 👏
+        Thank you for your contribution. 👏
 
     strategy:
       fail-fast: false
@@ -46,5 +46,3 @@ jobs:
         if: ${{ failure() }}
         run: |
           echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
-          echo "$(cat ./ui/test/cypress/results/output.md)" >> $GITHUB_STEP_SUMMARY
-          echo "$THANKS" >> $GITHUB_STEP_SUMMARY

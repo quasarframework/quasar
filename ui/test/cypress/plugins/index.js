@@ -29,11 +29,5 @@ module.exports = async (on, config) => {
     await injectDevServer(on, config)
   }
 
-  require('cypress-json-results')({
-    on,
-    filename: 'output.json',
-    updateMarkdownFile: 'output.md'
-  })
-
   return config
 }
