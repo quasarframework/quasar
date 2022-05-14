@@ -13,10 +13,20 @@ on:
 jobs:
   Tests:
     runs-on: ubuntu-latest
+    env:
+      SUMMARY: |
+        Hi @${{ github.event.pull_request.user.login }}! 👋
+
+        It looks like you've opened a pull request #[${{github.event.pull_request.number}}](https://github.com/quasarframework/quasar/pull/${{github.event.pull_request.number}}).
+
+        We've detected file changes inside the `UI` folder, so that triggered our Cypress component tests. Results could be seen below.
+
+      THANKS: Thank you for your contribution. 👏
+
     strategy:
       fail-fast: false
 
-    name: 'Running Cypress tests'
+    name: 'UI tests'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,3 +41,10 @@ jobs:
       
       - name: Run tests
         run: cd ./ui && npm run test:component:ci
+      
+      - name: Adding markdown
+        if: ${{ failure() }}
+        run: |
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+          echo "$(cat .ui/test/cypress/results/output.md)" >> $GITHUB_STEP_SUMMARY
+          echo "$THANKS" >> $GITHUB_STEP_SUMMARY
