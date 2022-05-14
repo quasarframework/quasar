@@ -87,7 +87,7 @@
     "node-loader": "1.0.2",
     "open": "7.1.0",
     "optimize-css-assets-webpack-plugin": "5.0.4",
-    "ouch": "2.0.0",
+    "ouch": "2.0.1",
     "postcss-loader": "3.0.0",
     "postcss-rtl": "1.7.3",
     "postcss-safe-parser": "4.0.2",
