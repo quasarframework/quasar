@@ -46,8 +46,16 @@ jobs:
       - name: Run tests
         run: cd ./ui && npm run test:component:ci
       
-      - name: Adding markdown
+      - name: Adding failure markdown
+        if: failure()
         run: |
           echo "$INTRO" >> $GITHUB_STEP_SUMMARY
-          if [[ ${{ failure() }}]]; then echo "$FAILURE" >> $GITHUB_STEP_SUMMARY; else echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY1; fi
+          echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
+          echo "$THANKS" >> $GITHUB_STEP_SUMMARY
+
+      - name: Adding success markdown
+        if: success()
+        run: |
+          echo "$INTRO" >> $GITHUB_STEP_SUMMARY
+          echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
           echo "$THANKS" >> $GITHUB_STEP_SUMMARY
