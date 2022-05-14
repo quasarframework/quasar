@@ -44,10 +44,11 @@ jobs:
         run: cd ./ui && npm i
       
       - name: Run tests
-        run: cd ./ui/dev && cypress run-ct --record --key ${{ secrets.CYPRESS_RECORD_KEY }} && cd ..
+        run: cd ./dev && cypress run-ct --record --key ${{ secrets.CYPRESS_RECORD_KEY }} && cd ..
       
       - name: Add workflow summary
         run: echo "$INTRO" >> $GITHUB_STEP_SUMMARY
+        if: always()
           
       - run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
         if: failure()
