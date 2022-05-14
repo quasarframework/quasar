@@ -236,8 +236,7 @@ describe('QSelect API', () => {
 
     describe('Category: model|selection', () => {
       describe('(prop): multiple', () => {
-        // eslint-disable-next-line no-only-tests/no-only-tests
-        it.only('should select only one option by default', () => {
+        it('should select only one option by default', () => {
           const options = [ 'Option 1', 'Option 2' ]
           const model = ref(null)
           mount(WrapperOne, {
