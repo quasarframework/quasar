@@ -21,10 +21,12 @@ jobs:
 
         We've detected file changes inside the `UI` folder, so that triggered our Cypress component tests.
 
-      SUCCESS: Seems like all the tests passed successfully, so your PR is ready to be reviewed!
-      
-      FAILURE: Seems like some of the tests are failing. Please amend 'em and
-      
+      SUCCESS: |
+        Seems like all the tests passed successfully, so your PR is ready to be reviewed!
+
+      FAILURE: |
+        Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it.
+
       THANKS: Thank you for your contribution. 👏
 
     strategy:
@@ -47,15 +49,10 @@ jobs:
         run: cd ./ui && npm run test:component:ci
       
       - name: Adding failure markdown
+          run: echo "$INTRO" >> $GITHUB_STEP_SUMMARY
         if: failure()
-        run: |
-          echo "$INTRO" >> $GITHUB_STEP_SUMMARY
-          echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
-          echo "$THANKS" >> $GITHUB_STEP_SUMMARY
-
-      - name: Adding success markdown
+        run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
         if: success()
-        run: |
-          echo "$INTRO" >> $GITHUB_STEP_SUMMARY
-          echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
+        run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
+        run:
           echo "$THANKS" >> $GITHUB_STEP_SUMMARY
