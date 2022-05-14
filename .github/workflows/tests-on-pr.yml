@@ -50,9 +50,9 @@ jobs:
       
       - name: Adding failure markdown
           run: echo "$INTRO" >> $GITHUB_STEP_SUMMARY
-        if: failure()
-        run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
-        if: success()
-        run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
-        run:
-          echo "$THANKS" >> $GITHUB_STEP_SUMMARY
+          if: failure()
+          run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
+          if: success()
+          run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
+          run:
+            echo "$THANKS" >> $GITHUB_STEP_SUMMARY
