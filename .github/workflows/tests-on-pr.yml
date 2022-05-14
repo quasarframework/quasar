@@ -17,13 +17,13 @@ jobs:
 
         It looks like you've opened a pull request [#${{github.event.pull_request.number}}](https://github.com/quasarframework/quasar/pull/${{github.event.pull_request.number}}).
 
-        We've detected file changes inside the `UI` folder, so that triggered our Cypress component tests.
+        We've detected file changes inside the `ui` folder, so that triggered our Cypress component tests.
 
       SUCCESS: |
-        Seems like all the tests passed successfully, so your PR is ready to be reviewed!
+        :white_check_mark: Seems like all the tests passed successfully, so your PR is ready to be reviewed!
 
       FAILURE: |
-        Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it.
+        :bangbang: Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it.
 
       THANKS: Thank you for your contribution. 👏
 
@@ -44,7 +44,7 @@ jobs:
         run: cd ./ui && npm i
       
       - name: Run tests
-        run: cd ./dev && cypress run-ct --record --key ${{ secrets.CYPRESS_RECORD_KEY }} && cd ..
+        run: echo ls -ls && cd ./dev && cypress run-ct --record --key ${{ secrets.CYPRESS_RECORD_KEY }} && cd ..
       
       - name: Add workflow summary
         run: echo "$INTRO" >> $GITHUB_STEP_SUMMARY
