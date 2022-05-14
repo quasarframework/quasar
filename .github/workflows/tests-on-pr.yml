@@ -55,9 +55,10 @@ jobs:
         run: echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
         if: always()
           
-      - 
+      - name: Output failure message
         run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
         if: failure() || cancelled()
 
-      - run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
+      - name: Output success message
+        run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
         if: success()
