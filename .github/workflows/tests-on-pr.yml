@@ -46,5 +46,5 @@ jobs:
         if: ${{ failure() }}
         run: |
           echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
-          echo "$(cat .ui/test/cypress/results/output.md)" >> $GITHUB_STEP_SUMMARY
+          echo "$(cat ./ui/test/cypress/results/output.md)" >> $GITHUB_STEP_SUMMARY
           echo "$THANKS" >> $GITHUB_STEP_SUMMARY
