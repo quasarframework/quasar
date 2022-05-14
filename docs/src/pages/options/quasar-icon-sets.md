@@ -80,7 +80,7 @@ We edit your `main.js`:
 import { Quasar } from 'quasar'
 // ...
 import iconSet from 'quasar/icon-set/fontawesome-v6'
-import '@quasar/extras/fontawesome-v5/fontawesome-v6.css'
+import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 // ...
 app.use(Quasar, {
   // ...,
