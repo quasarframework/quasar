@@ -96,6 +96,9 @@ import matSet from 'quasar/icon-set/material-icons'
 import matOutlinedSet from 'quasar/icon-set/material-icons-outlined'
 import matRoundSet from 'quasar/icon-set/material-icons-round'
 import matSharpSet from 'quasar/icon-set/material-icons-sharp'
+import symOutlinedSet from 'quasar/icon-set/material-symbols-outlined'
+import symRoundedSet from 'quasar/icon-set/material-symbols-rounded'
+import symSharpSet from 'quasar/icon-set/material-symbols-sharp'
 import mdiSet from 'quasar/icon-set/mdi-v6'
 import fontawesomeSet from 'quasar/icon-set/fontawesome-v6'
 import ioniconsV4Set from 'quasar/icon-set/ionicons-v4'
@@ -108,6 +111,9 @@ import svgMatSet from 'quasar/icon-set/svg-material-icons'
 import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined'
 import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round'
 import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp'
+import svgSymOutlinedSet from 'quasar/icon-set/svg-material-symbols-outlined'
+import svgSymRoundedSet from 'quasar/icon-set/svg-material-symbols-rounded'
+import svgSymSharpSet from 'quasar/icon-set/svg-material-symbols-sharp'
 import svgMdiSet from 'quasar/icon-set/svg-mdi-v6'
 import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4'
 import svgIoniconsV5Set from 'quasar/icon-set/svg-ionicons-v5'
@@ -243,6 +249,9 @@ export default {
         { value: 'o_add_box', label: 'A Material Outlined icon' },
         { value: 'r_add_box', label: 'A Material Round icon' },
         { value: 's_add_box', label: 'A Material Sharp icon' },
+        { value: 'sym_o_search', label: 'A Material Symbols Outlined icon' },
+        { value: 'sym_r_search', label: 'A Material Symbols Rounded icon' },
+        { value: 'sym_s_search', label: 'A Material Symbols Sharp icon' },
         { value: 'mdi-airballoon', label: 'A MDI v6 icon' },
         { value: mdiAirballoon, label: 'A MDI v6 SVG icon' },
         { value: 'fab fa-github', label: 'A Fontawesome v6 icon' },
@@ -267,9 +276,11 @@ export default {
 
       sets: [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
+        symOutlinedSet, symRoundedSet, symSharpSet,
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
+        svgSymOutlinedSet, svgSymRoundedSet, svgSymSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set,
         svgFontawesomeV5Set, svgFontawesomeV6Set,
         svgEvaSet, svgThemifySet, svgLineawesomeSet, svgBootstrapiconsSet
