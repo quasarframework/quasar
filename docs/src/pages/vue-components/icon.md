@@ -219,7 +219,7 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 * Icon names are in camel-case and always begin with "symRounded" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symRounded" and camel-case the result (eg. "symRoundedAllInbox").
-* Import statement example: `import { symRoundedAllInbox } from '@quasar/extras/material-symbols-round'`.
+* Import statement example: `import { symRoundedAllInbox } from '@quasar/extras/material-symbols-rounded'`.
 
 #### SVG MDI (Material Design Icons)
 
