@@ -207,7 +207,7 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 * Icon names are in camel-case and always begin with "symOutlined" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symOutlined" and camel-case the result (eg. "symOutlinedAllInbox").
-* Import statement example: `import { symOoutlinedAllInbox } from '@quasar/extras/material-symbols-outlined'`.
+* Import statement example: `import { symOutlinedAllInbox } from '@quasar/extras/material-symbols-outlined'`.
 
 #### SVG Material Symbols Sharp (Google)
 
