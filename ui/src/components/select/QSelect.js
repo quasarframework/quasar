@@ -165,7 +165,7 @@ export default createComponent({
 
     const virtualScrollItemSizeComputed = computed(() => (
       props.virtualScrollItemSize === void 0
-        ? (props.dense === true ? 24 : 48)
+        ? (props.optionsDense === true ? 24 : 48)
         : props.virtualScrollItemSize
     ))
 
