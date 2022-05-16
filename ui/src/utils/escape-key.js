@@ -7,7 +7,7 @@ export default {
   __install () {
     this.__installed = true
     window.addEventListener('keydown', evt => {
-      escDown = evt.keyCode === 27
+      escDown = evt.key === 'Escape'
     })
     window.addEventListener('blur', () => {
       escDown === true && (escDown = false)
