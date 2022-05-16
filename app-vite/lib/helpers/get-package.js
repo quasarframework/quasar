@@ -4,7 +4,7 @@ module.exports = function (pkgName) {
   try {
     return require(
       require.resolve(pkgName, {
-        paths: [ appPaths.appDir ]
+        paths: [ appPaths.appDir ].concat(module.paths)
       })
     )
   }

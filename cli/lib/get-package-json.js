@@ -3,7 +3,7 @@ module.exports = function (root) {
     try {
       return require(
         require.resolve(`${pkgName}/package.json`, {
-          paths: [ root ]
+          paths: [ root ].concat(module.paths)
         })
       )
     }
