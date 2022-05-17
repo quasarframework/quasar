@@ -408,7 +408,7 @@ export default Vue.extend({
 
     virtualScrollItemSizeComputed () {
       return this.virtualScrollItemSize === void 0
-        ? (this.dense === true ? 24 : 48)
+        ? (this.optionsDense === true ? 24 : 48)
         : this.virtualScrollItemSize
     },
 
