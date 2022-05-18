@@ -89,7 +89,7 @@
     "node-loader": "2.0.0",
     "null-loader": "4.0.1",
     "open": "8.4.0",
-    "ouch": "2.0.1",
+    "ouch": "^2.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "6.2.1",
     "postcss-rtlcss": "3.5.4",
