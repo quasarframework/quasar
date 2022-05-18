@@ -30,8 +30,15 @@ const matMap = {
   s_: '-sharp'
 }
 
+const symMap = {
+  sym_o_: '-outlined',
+  sym_r_: '-rounded',
+  sym_s_: '-sharp'
+}
+
 const libRE = new RegExp('^(' + Object.keys(libMap).join('|') + ')')
 const matRE = new RegExp('^(' + Object.keys(matMap).join('|') + ')')
+const symRE = new RegExp('^(' + Object.keys(symMap).join('|') + ')')
 const mRE = /^[Mm]\s?[-+]?\.?\d/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
@@ -136,6 +143,22 @@ export default Vue.extend({
       else if (ionRE.test(icon) === true) {
         cls = `ionicons ion-${this.$q.platform.is.ios === true ? 'ios' : 'md'}${icon.substr(3)}`
       }
+      else if (symRE.test(icon) === true) {
+        // "notranslate" class is for Google Translate
+        // to avoid tampering with Material Symbols ligature font
+        //
+        // Caution: To be able to add suffix to the class name,
+        // keep the 'material-symbols' at the end of the string.
+        cls = 'notranslate material-symbols'
+
+        const matches = icon.match(symRE)
+        if (matches !== null) {
+          icon = icon.substring(6)
+          cls += symMap[ matches[ 1 ] ]
+        }
+
+        content = icon
+      }
       else {
         // "notranslate" class is for Google Translate
         // to avoid tampering with Material Icons ligature font
@@ -187,7 +210,7 @@ export default Vue.extend({
       return h('span', data, mergeSlot([
         h('svg', {
           attrs: {
-            viewBox: this.type.viewBox,
+            viewBox: this.type.viewBox || '0 0 24 24',
             focusable: 'false' /* needed for IE11 */
           }
         }, this.type.nodes)

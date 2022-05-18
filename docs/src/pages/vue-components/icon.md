@@ -6,7 +6,7 @@ related:
   - /options/quasar-icon-sets
 ---
 
-Quasar supports out of the box: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/).
+Quasar supports out of the box: [Material Icons](fonts.google.com/icons?icon.set=Material+Icons) , [Material Symbols](fonts.google.com/icons?icon.set=Material+Symbols) , [Font Awesome](http://fontawesome.com/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons), [Line Awesome](https://icons8.com/line-awesome) and [Bootstrap Icons](https://icons.getbootstrap.com/).
 
 Furthermore you can [add support by yourself](/vue-components/icon#custom-mapping) for any icon lib.
 
@@ -52,6 +52,9 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
 | material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
+| material-symbols-outlined | sym_o_ | sym_o_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
+| material-symbols-round | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
+| material-symbols-sharp | sym_s_ | sym_s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | ionicons-v5 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component |
 | fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
@@ -65,7 +68,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 
 ### Naming convention
 
-#### Material Icons (Google)
+#### Material Icons and Symbols (Google)
 
 * Icon names are always in snake_case.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon. Remember its name (eg. "all_inbox") and use it.
@@ -153,6 +156,9 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Icons Outlined (Google) | svg-material-icons-outlined | @quasar/extras/material-icons-outlined | @quasar/extras v1.9+; Quasar v1.13+ |
 | Material Icons Sharp (Google) | svg-material-icons-sharp | @quasar/extras/material-icons-sharp | @quasar/extras v1.9+; Quasar v1.13+ |
 | Material Icons Round (Google) | svg-material-icons-round | @quasar/extras/material-icons-round | @quasar/extras v1.9+; Quasar v1.13+ |
+| Material Symbols Outlined (Google) | svg-material-symbols-outlined | @quasar/extras/material-symbols-outlined | @quasar/extras v1.14+; Quasar v1.19+ |
+| Material Symbols Sharp (Google) | svg-material-symbols-sharp | @quasar/extras/material-symbols-sharp | @quasar/extras v1.14+; Quasar v1.19+ |
+| Material Symbols Round (Google) | svg-material-symbols-rounded | @quasar/extras/material-symbols-rounded | @quasar/extras v1.14+; Quasar v1.19+ |
 | MDI (Material Design Icons) v3/v4/v5 | svg-mdi-v5 | @quasar/extras/mdi-v6 | |
 | MDI (Material Design Icons) v6 | svg-mdi-v6 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+; Quasar v1.16+ |
 | Font Awesome v6 | svg-fontawesome-v6 | @quasar/extras/fontawesome-v6 | @quasar/extras v1.13+ |
@@ -191,6 +197,24 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Icon names are in camel-case and always begin with "round" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "round" and camel-case the result (eg. "roundAllInbox").
 * Import statement example: `import { roundAllInbox } from '@quasar/extras/material-icons-round'`.
+
+#### SVG Material Symbols Outlined (Google)
+
+* Icon names are in camel-case and always begin with "symOutlined" prefix.
+* Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symOutlined" and camel-case the result (eg. "symOutlinedAllInbox").
+* Import statement example: `import { symOutlinedAllInbox } from '@quasar/extras/material-symbols-outlined'`.
+
+#### SVG Material Symbols Sharp (Google)
+
+* Icon names are in camel-case and always begin with "symSharp" prefix.
+* Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symSharp" and camel-case the result (eg. "symSharpAllInbox").
+* Import statement example: `import { symSharpAllInbox } from '@quasar/extras/material-symbols-sharp'`.
+
+#### SVG Material Symbols Rounded (Google)
+
+* Icon names are in camel-case and always begin with "symRounded" prefix.
+* Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "symRounded" and camel-case the result (eg. "symRoundedAllInbox").
+* Import statement example: `import { symRoundedAllInbox } from '@quasar/extras/material-symbols-rounded'`.
 
 #### SVG MDI (Material Design Icons)
 

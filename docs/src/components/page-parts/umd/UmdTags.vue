@@ -12,6 +12,10 @@
       q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
       q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
+      q-toggle(v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)")
+      q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
+      q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
+
       q-toggle(v-model="css['mdi-v6']" label="MDI v6")
       q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
       q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
@@ -88,6 +92,12 @@ const googleMap = {
   'material-icons-sharp': 'Material+Icons+Sharp'
 }
 
+const googleSymbolsMap = {
+  'material-symbols-outlined': 'Material+Symbols+Outlined',
+  'material-symbols-rounded': 'Material+Symbols+Rounded',
+  'material-symbols-sharp': 'Material+Symbols+Sharp'
+}
+
 const camelize = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 export default {
@@ -102,6 +112,10 @@ export default {
         'material-icons-outlined': false,
         'material-icons-round': false,
         'material-icons-sharp': false,
+
+        'material-symbols-outlined': false,
+        'material-symbols-rounded': false,
+        'material-symbols-sharp': false,
 
         'mdi-v6': false,
         'fontawesome-v6': false,
@@ -160,11 +174,22 @@ export default {
         : `fonts.googleapis.com/css?family=${css.join('|')}`
     },
 
+    googleSymbolsFonts () {
+      const cssAcc = Object.keys(googleSymbolsMap)
+        .filter(key => this.css[key] === true)
+        .map(key => googleSymbolsMap[key])
+
+      return cssAcc.length === 0
+        ? ''
+        : `fonts.googleapis.com/css2?family=${cssAcc.join('|')}`
+    },
+
     head () {
       const css = Object.keys(cssMap)
         .filter(key => this.css[key] === true)
         .map(key => cssMap[key])
 
+      css.unshift(this.googleSymbolsFonts)
       css.unshift(this.googleFonts)
       css.push(`cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.rtl.min.css`)
 
