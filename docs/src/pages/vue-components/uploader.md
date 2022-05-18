@@ -134,6 +134,10 @@ if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder)
 }
 
+// attackers can use this header to detect apps running Express
+// and then launch specifically-targeted attacks
+app.disable('x-powered-by')
+
 app.set('port', port)
 app.use(throttle(1024 * 128)) // throttling bandwidth
 
