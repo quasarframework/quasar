@@ -1,6 +1,6 @@
 export default {
   isoName: 'mm',
-  nativeName: 'Myanmar (Burma)',
+  nativeName: 'မြန်မာ(ဗမာ)',
   label: {
     clear: 'ရှင်းလင်းမည်',
     ok: 'အဆင်ပြေသည်',
