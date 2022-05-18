@@ -66,9 +66,6 @@ async function generate () {
   }
 
   // run the material svg icon jobs
-  runJob('./material-icons.js')
-  runJob('./material-symbols.js')
-
   runJob('./webfonts.js')
   runJob('./animate.js')
 
@@ -79,6 +76,13 @@ async function generate () {
   runJob('./themify.js')
   runJob('./line-awesome.js')
   runJob('./bootstrap-icons.js')
+
+  // don't exit before everything is done
+  await queue.wait({ empty: true })
+
+  // run the material svg icon jobs
+  runJob('./material-icons.js')
+  runJob('./material-symbols.js')
 
   // don't exit before everything is done
   await queue.wait({ empty: true })
