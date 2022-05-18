@@ -30,7 +30,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v7 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
 | [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v7 | `material-symbols-round` | Material symbols round font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
 | [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v7 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
-| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.6.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
+| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.7.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
@@ -40,7 +40,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `line-awesome` | Line Awesome font | Requires: @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
-| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8.1 | `bootstrap-icons` | Bootstrap Icons font | Requires: @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
+| [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.8.2 | `bootstrap-icons` | Bootstrap Icons font | Requires: @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
 | [Animate.css](https://animate.style/) | 4.1.1 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
 
 > Install one of MDI v5, MDI v4 or MDI v3, but never together at the same time.
