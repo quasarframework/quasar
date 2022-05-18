@@ -240,10 +240,8 @@ describe('QSelect API', () => {
       })
     })
 
-    // eslint-disable-next-line no-only-tests/no-only-tests
-    describe.only('Category: model|selection', () => {
-      // eslint-disable-next-line no-only-tests/no-only-tests
-      describe.only('(prop): multiple', () => {
+    describe('Category: model|selection', () => {
+      describe('(prop): multiple', () => {
         it('should select only one option by default', () => {
           const options = [ 'Option 1', 'Option 2' ]
           const model = ref(null)
