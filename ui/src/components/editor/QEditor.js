@@ -379,33 +379,14 @@ export default Vue.extend({
       }
     },
 
-    __onMousedown () {
+    // mousedown, touchstart
+    __onPointerStart (e) {
       this.__offsetBottom = void 0
+      this.qListeners[e.type] !== void 0 && this.$emit(e.type, e)
     },
 
-    __onMouseup (e) {
+    __onSelectionchange () {
       this.caret.save()
-      if (this.qListeners.mouseup !== void 0) {
-        this.$emit('mouseup', e)
-      }
-    },
-
-    __onKeyup (e) {
-      this.caret.save()
-      if (this.qListeners.keyup !== void 0) {
-        this.$emit('keyup', e)
-      }
-    },
-
-    __onTouchstart () {
-      this.__offsetBottom = void 0
-    },
-
-    __onTouchend (e) {
-      this.caret.save()
-      if (this.qListeners.touchend !== void 0) {
-        this.$emit('touchend', e)
-      }
     },
 
     runCmd (cmd, param, update = true) {
@@ -468,6 +449,12 @@ export default Vue.extend({
     this.caret = new Caret(this.$refs.content, this)
     this.__setContent(this.value)
     this.refreshToolbar()
+
+    document.addEventListener('selectionchange', this.__onSelectionchange)
+  },
+
+  beforeDestroy () {
+    document.removeEventListener('selectionchange', this.__onSelectionchange)
   },
 
   render (h) {
@@ -505,13 +492,8 @@ export default Vue.extend({
       focus: this.__onFocus,
 
       // clean saved scroll position
-      mousedown: this.__onMousedown,
-      touchstart: this.__onTouchstart,
-
-      // save caret
-      mouseup: this.__onMouseup,
-      keyup: this.__onKeyup,
-      touchend: this.__onTouchend
+      mousedown: this.__onPointerStart,
+      touchstart: this.__onPointerStart
     }
 
     return h('div', {
