@@ -1,7 +1,13 @@
 /* eslint-disable no-unused-expressions */
 import { mount } from '@cypress/vue'
-import { ref, h } from 'vue'
+import { h, ref } from 'vue'
+import { vModelAdapter } from '../../../../test/cypress/helpers/v-model-adapter.js'
+import QSelect from '../QSelect.js'
 import WrapperOne from './WrapperOne.vue'
+
+function getHostElement () {
+  return cy.get('.q-select')
+}
 
 // QSelect does not set the `data-cy` attribute on the root element, but on the `.q-field__native` element
 // This means we cannot use data-cy everywhere, but instead use a custom class `select-root` for this purpose
@@ -234,66 +240,67 @@ describe('QSelect API', () => {
       })
     })
 
-    describe('Category: model|selection', () => {
-      describe('(prop): multiple', () => {
+    // eslint-disable-next-line no-only-tests/no-only-tests
+    describe.only('Category: model|selection', () => {
+      // eslint-disable-next-line no-only-tests/no-only-tests
+      describe.only('(prop): multiple', () => {
         it('should select only one option by default', () => {
           const options = [ 'Option 1', 'Option 2' ]
           const model = ref(null)
-          mount(WrapperOne, {
-            attrs: {
-              modelValue: model,
-              'onUpdate:modelValue': (val) => {
-                model.value = val
-              },
+          mount(QSelect, {
+            props: {
+              ...vModelAdapter(model),
               options
             }
           })
-          cy.get('.select-root')
-            .click()
-          cy.get('.q-menu')
-            .contains('Option 1')
-            .click()
-            .then(() => {
-              expect(model.value).to.equal(options[ 0 ])
-            })
 
-          cy.get('.select-root')
-            .click()
-          cy.get('.q-menu')
-            .contains('Option 2')
-            .click()
-            .then(() => {
-              expect(model.value).to.equal(options[ 1 ])
-            })
+          getHostElement().click()
+          cy.withinSelectMenu(() => {
+            cy.contains('Option 1')
+              .click()
+              .then(() => {
+                expect(model.value).to.equal(options[ 0 ])
+              })
+          })
+
+          getHostElement().click()
+          cy.withinSelectMenu(() => {
+            cy.contains('Option 2')
+              .click()
+              .then(() => {
+                expect(model.value).to.equal(options[ 1 ])
+              })
+          })
         })
 
         it('should select multiple options if multiple is true', () => {
           const options = [ 'Option 1', 'Option 2' ]
           const model = ref([])
-          mount(WrapperOne, {
-            attrs: {
+          mount(QSelect, {
+            props: {
+              ...vModelAdapter(model),
               multiple: true,
-              modelValue: model,
-              'onUpdate:modelValue': (val) => {
-                model.value = val
-              },
               options
             }
           })
-          cy.get('.select-root')
-            .click()
-          cy.get('.q-menu')
-            .contains('Option 1')
-            .click()
-            .then(() => {
-              expect(model.value).to.eql([ options[ 0 ] ])
-            })
-          cy.get('.q-menu')
-            .contains('Option 2')
-            .click()
-            .then(() => {
-              expect(model.value).to.eql(options)
-            })
+
+          getHostElement().click()
+          cy.withinSelectMenu({
+            persistent: true,
+            fn: () => {
+              cy.contains('Option 1')
+                .click()
+                .then(() => {
+                  expect(model.value).to.eql([ options[ 0 ] ])
+                })
+
+              cy.contains('Option 2')
+                .click()
+                .then(() => {
+                  expect(model.value).to.eql(options)
+                })
+            }
+          })
         })
       })
     })
