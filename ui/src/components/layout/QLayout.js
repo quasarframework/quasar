@@ -137,6 +137,7 @@ export default Vue.extend({
     const layout = h('div', {
       class: this.classes,
       style: this.style,
+      attrs: { tabindex: -1 },
       on: { ...this.qListeners }
     }, mergeSlot([
       h(QScrollObserver, {
