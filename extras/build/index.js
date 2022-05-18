@@ -65,23 +65,20 @@ async function generate () {
     return run(join(__dirname, scriptFile))
   }
 
-  // runJob('./webfonts.js')
-  // runJob('./animate.js')
-
-  // runJob('./mdi-v6.js')
-  // runJob('./fontawesome-v6.js')
-  // runJob('./ionicons-v6.js')
-  // runJob('./eva-icons.js')
-  // runJob('./themify.js')
-  // runJob('./line-awesome.js')
-  // runJob('./bootstrap-icons.js')
-
-  // // don't exit before everything is done
-  // await queue.wait({ empty: true })
-
-  // // run the material svg icon jobs
-  // runJob('./material-icons.js')
+  // run the material svg icon jobs
+  runJob('./material-icons.js')
   runJob('./material-symbols.js')
+
+  runJob('./webfonts.js')
+  runJob('./animate.js')
+
+  runJob('./mdi-v6.js')
+  runJob('./fontawesome-v6.js')
+  runJob('./ionicons-v6.js')
+  runJob('./eva-icons.js')
+  runJob('./themify.js')
+  runJob('./line-awesome.js')
+  runJob('./bootstrap-icons.js')
 
   // don't exit before everything is done
   await queue.wait({ empty: true })
