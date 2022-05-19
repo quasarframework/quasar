@@ -1013,7 +1013,7 @@ export default createComponent({
     function onInput (e) {
       clearTimeout(inputTimer)
 
-      if (e && e.target && e.target.composing === true) {
+      if (e && e.target && e.target.qComposing === true) {
         return
       }
 
