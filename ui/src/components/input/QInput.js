@@ -207,7 +207,7 @@ export default Vue.extend({
     },
 
     __onInput (e) {
-      if (!e || !e.target || e.target.composing === true) {
+      if (!e || !e.target || e.target.qComposing === true) {
         return
       }
 
