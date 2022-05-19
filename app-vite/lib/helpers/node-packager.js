@@ -120,12 +120,34 @@ class Yarn extends PackageManager {
   }
 }
 
+class Pnpm extends PackageManager {
+  name = 'pnpm'
+  lockFile = 'pnpm-lock.yaml'
+
+  getInstallPackageParams (names, isDev) {
+    return [
+      'install',
+      isDev ? '--save-dev' : '',
+      ...names,
+    ]
+  }
+
+  getUninstallPackageParams (names) {
+    return ['uninstall', ...names]
+  }
+}
+
 /**
  * @returns {PackageManager}
  */
 function getPackager () {
   const yarn = new Yarn()
   const npm = new Npm()
+  const pnpm = new Pnpm()
+
+  if (pnpm.isUsed()) {
+    return pnpm
+  }
 
   if (yarn.isUsed()) {
     return yarn
@@ -133,6 +155,10 @@ function getPackager () {
 
   if (npm.isUsed()) {
     return npm
+  }
+
+  if (pnpm.isInstalled()) {
+    return pnpm
   }
 
   if (yarn.isInstalled()) {
