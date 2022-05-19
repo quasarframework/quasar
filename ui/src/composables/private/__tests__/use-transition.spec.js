@@ -16,7 +16,7 @@ describe('use-transition API', () => {
         it('should use a different show transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionShow: transition
             }
           })
@@ -43,7 +43,7 @@ describe('use-transition API', () => {
         it('should use a different hide transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionHide: transition
             }
           })
@@ -79,7 +79,7 @@ describe('use-transition API', () => {
 
         it('should be done after a custom 1000ms passed', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionDuration: 1000
             }
           })
@@ -92,7 +92,7 @@ describe('use-transition API', () => {
 
         it('should not be done before a custom 1000ms passed', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionDuration: 1000
             }
           })
