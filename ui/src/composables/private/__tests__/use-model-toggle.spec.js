@@ -3,40 +3,41 @@ import { mount } from '@cypress/vue'
 import WrapperOne from './../../../components/menu/__tests__/WrapperOne.vue'
 import WrapperTwo from './../../../components/menu/__tests__/WrapperTwo.vue'
 import { ref } from 'vue'
+import { vModelAdapter } from '../../../../test/cypress/helpers/v-model-adapter'
 
 describe('use-model-toggle API', () => {
   describe('Props', () => {
     describe('Category: model', () => {
       describe('(prop): model-value', () => {
         it('should open the dialog when modifying the model-value', () => {
-          const modelValue = ref(false)
+          const model = ref(false)
           mount(WrapperOne, {
             attrs: {
-              modelValue
+              ...vModelAdapter(model)
             }
           })
           cy.dataCy('wrapper')
           cy.dataCy('menu')
             .should('not.exist')
             .then(() => {
-              modelValue.value = true
+              model.value = true
               cy.dataCy('menu')
                 .should('exist')
             })
         })
 
         it('should close the dialog when modifying the model-value', () => {
-          const modelValue = ref(true)
+          const model = ref(true)
           mount(WrapperOne, {
             attrs: {
-              modelValue
+              ...vModelAdapter(model)
             }
           })
           cy.dataCy('wrapper')
           cy.dataCy('menu')
             .should('exist')
             .then(() => {
-              modelValue.value = false
+              model.value = false
               cy.dataCy('menu')
                 .should('not.exist')
             })
