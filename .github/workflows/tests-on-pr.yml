@@ -52,7 +52,8 @@ jobs:
           working-directory: ui
           record: true
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable
+          CYPRESS_PROJECT_ID: "5zr217" # Cypress dashboard project ID
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable        
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # To allow accurately detecting a build vs a re-run build
 
       - name: Add workflow summary
