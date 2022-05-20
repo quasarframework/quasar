@@ -64,7 +64,7 @@ describe('use-transition API', () => {
           cy.dataCy('wrapper')
             .click()
             .wait(300)
-          cy.dataCy('menu', { timeout: 300 })
+          cy.dataCy('menu', { timeout: 350 })
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
 
