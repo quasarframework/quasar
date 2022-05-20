@@ -15,6 +15,5 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": true<% } %>
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"<% if (ctx.mode.ssr) { %>,
-    "src-ssr/*.d.ts"<% } %>"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src-ssr/*.d.ts"]
 }
