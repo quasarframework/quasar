@@ -13,9 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SUMMARY: |
-        Hi @${{ github.event.pull_request.user.login }}! 👋
-
-        It looks like you've opened a pull request [#${{github.event.pull_request.number}}](https://github.com/quasarframework/quasar/pull/${{github.event.pull_request.number}}). Thanks for the contribution! 👏
+        Hi @${{ github.event.pull_request.user.login }} and thanks for the contribution! 👏
 
         We've detected file changes inside the `ui` folder, so that triggered our Cypress component tests.
 
@@ -30,7 +28,7 @@ jobs:
       matrix:
         browser: [chrome, firefox]
 
-    name: ${{ matrix.browser }}
+    name: Tests on ${{ matrix.browser }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
