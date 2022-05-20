@@ -10,6 +10,9 @@ on:
 
 jobs:
   tests:
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
     runs-on: ubuntu-latest
     env:
       SUMMARY: |
@@ -41,12 +44,13 @@ jobs:
       - name: Install dependencies
         run: cd ./ui && npm i
       
-      - name: Run tests
+      - name: Run tests in ${{ matrix.browser }}
         uses: cypress-io/github-action@v2
         with:
-          record: true
+          browser: ${{ matrix.browser }}
           command: npm run test:component:ci
           working-directory: ui
+          record: true
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # To allow accurately detecting a build vs a re-run build
