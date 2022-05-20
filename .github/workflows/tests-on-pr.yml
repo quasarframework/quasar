@@ -9,10 +9,7 @@ on:
       - 'ui/**'
 
 jobs:
-  tests:
-    strategy:
-      matrix:
-        browser: [chrome, firefox]
+  tests:      
     runs-on: ubuntu-latest
     env:
       SUMMARY: |
@@ -30,6 +27,8 @@ jobs:
 
     strategy:
       fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
 
     name: 'UI tests'
     steps:
