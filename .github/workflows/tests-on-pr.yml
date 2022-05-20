@@ -30,7 +30,7 @@ jobs:
       matrix:
         browser: [chrome, firefox]
 
-    name: 'UI tests'
+    name: ${{ matrix.browser }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: cd ./ui && npm i
       
-      - name: Run tests in ${{ matrix.browser }}
+      - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v2
         with:
           browser: ${{ matrix.browser }}
