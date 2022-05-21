@@ -14,5 +14,13 @@ export default [
     lang: 'Brazilian-portuguese',
     link: 'https://youtube.com/playlist?list=PLBjvYfV_TvwIfgvouZCaLtgjYdrWQL02d',
     imgUrl: 'https://github.com/patrickmonteiro/patrickmonteiro/raw/main/assets/capa2.png'
+  },
+  {
+    name: 'CRUD with Vue 3, Quasar and Axios',
+    desc: 'Quick course to learn how to make requests with Vue 3, Quasar and Axios.',
+    author: 'Patrick Monteiro',
+    lang: 'Brazilian-portuguese',
+    link: 'https://www.youtube.com/watch?v=8Qz1ONUlZDM&list=PLBjvYfV_TvwKsZMouKKzBdyjiZnA-XHrn&index=1',
+    imgUrl: 'https://github.com/patrickmonteiro/patrickmonteiro/raw/main/assets/capa-crud.png'
   }
 ]
