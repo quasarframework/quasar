@@ -20,7 +20,7 @@ const metaChildren = [
 ]
 
 const routes = [
-  { path: '/', component: load('Index') },
+  { path: '/', component: load('IndexPage') },
   {
     path: '/tabs-router',
     redirect: { name: 'one' },

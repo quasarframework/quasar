@@ -7,7 +7,8 @@ module.exports = {
 
   env: {
     browser: true,
-    mocha: true
+    mocha: true,
+    'vue/setup-compiler-macros': true
   },
 
   extends: [
@@ -86,6 +87,7 @@ module.exports = {
     'vue/script-indent': 'off',
     'vue/no-v-model-argument': 'off',
     'vue/require-explicit-emits': 'off',
+    'vue/multi-word-component-names': 'off',
 
     // Testing
     'cypress/no-unnecessary-waiting': 'off',
