@@ -37,8 +37,6 @@ jobs:
           command: npm run test:component:ci
           working-directory: ui
           tag: ${{ github.event_name }} # Tag will be either "push" or "pull_request"
-          record: "true"
-          parallel: "true"
           group: Tests in ${{ matrix.browser }} browser
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable        
