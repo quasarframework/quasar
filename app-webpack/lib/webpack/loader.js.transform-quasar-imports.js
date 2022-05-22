@@ -1,7 +1,7 @@
 const getDevlandFile = require('../helpers/get-devland-file')
 const importTransformation = getDevlandFile('quasar/dist/transforms/import-transformation.js')
 
-const regex = /import\s*\{([\w,\s]+)\}\s*from\s*['"]{1}quasar['"]{1}/g
+const regex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
 
 module.exports = function (content, map) {
   const newContent = content.replace(
