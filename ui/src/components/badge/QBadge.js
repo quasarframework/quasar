@@ -1,7 +1,7 @@
 import { h, computed } from 'vue'
 
 import { createComponent } from '../../utils/private/create.js'
-import { hSlot } from '../../utils/private/render.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 
@@ -55,6 +55,6 @@ export default createComponent({
       style: style.value,
       role: 'alert',
       'aria-label': props.label
-    }, props.label !== void 0 ? props.label : hSlot(slots.default))
+    }, hMergeSlot(slots.default, props.label !== void 0 ? [ props.label ] : [])))
   }
 })
