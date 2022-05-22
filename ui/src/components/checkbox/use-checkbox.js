@@ -61,11 +61,12 @@ export default function (type, getInner) {
     props.val !== void 0 && Array.isArray(props.modelValue)
   )
 
-  const index = computed(() => (
-    modelIsArray.value === true
-      ? props.modelValue.findIndex(opt => toRaw(opt) === toRaw(props.val))
+  const index = computed(() => {
+    const val = toRaw(props.val)
+    return modelIsArray.value === true
+      ? props.modelValue.findIndex(opt => toRaw(opt) === val)
       : -1
-  ))
+  })
 
   const isTrue = computed(() => (
     modelIsArray.value === true
