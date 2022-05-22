@@ -55,6 +55,6 @@ export default createComponent({
       style: style.value,
       role: 'alert',
       'aria-label': props.label
-    }, hMergeSlot(slots.default, props.label !== void 0 ? [ props.label ] : [])))
+    }, hMergeSlot(slots.default, props.label !== void 0 ? [ props.label ] : []))
   }
 })
