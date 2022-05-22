@@ -658,6 +658,10 @@ const
 
 const app = express()
 
+// attackers can use this header to detect apps running Express
+// and then launch specifically-targeted attacks
+app.disable('x-powered-by')
+
 app.use(serveStatic(...path-to-dist...))
 app.listen(port)
 ```
@@ -671,6 +675,10 @@ const
   port = process.env.PORT || 5000
 
 const app = express()
+
+// attackers can use this header to detect apps running Express
+// and then launch specifically-targeted attacks
+app.disable('x-powered-by')
 
 app.use(history())
 app.use(serveStatic(...path-to-dist...))

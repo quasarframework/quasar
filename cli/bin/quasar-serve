@@ -156,6 +156,10 @@ if (ssrDetected === false) {
 
   const app = express()
 
+  // attackers can use this header to detect apps running Express
+  // and then launch specifically-targeted attacks
+  app.disable('x-powered-by')
+
   if (argv.cors) {
     const cors = require('cors')
     app.use(cors())

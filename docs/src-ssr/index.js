@@ -25,6 +25,10 @@ const serve = (path, cache) => express.static(ssr.resolveWWW(path), {
   maxAge: cache ? 1000 * 60 * 60 * 24 * 30 : 0
 })
 
+// attackers can use this header to detect apps running Express
+// and then launch specifically-targeted attacks
+app.disable('x-powered-by')
+
 // gzip
 app.use(compression({ threshold: 0 }))
 

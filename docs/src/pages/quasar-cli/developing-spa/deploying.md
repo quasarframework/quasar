@@ -111,7 +111,7 @@ The Vercel CLI should now display information regarding your deployment, like th
 ### Vercel configuration tips
 You should consider adding some additional configurations to your project.
 
-* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts: 
+* Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
 ```json
   {
     ..
@@ -164,6 +164,10 @@ const
   port = process.env.PORT || 5000
 
 const app = express()
+
+// attackers can use this header to detect apps running Express
+// and then launch specifically-targeted attacks
+app.disable('x-powered-by')
 
 app.use(history())
 app.use(serveStatic(__dirname + '/dist/spa'))
