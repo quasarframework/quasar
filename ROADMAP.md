@@ -36,14 +36,14 @@ We are updating this section constantly in order to keep you up to date with our
 * ✌️ (DONE) Stable release of the new CLI based on Vite.js
 * ✌️ (DONE) Support Google Material Symbols ([#13437](https://github.com/quasarframework/quasar/pull/13437))
 * ✌️ (DONE) Run automatic tests on Quasar UI via GitHub Actions for every PR [#13432](https://github.com/quasarframework/quasar/pull/13432)
-* 🚧 (WIP) Video tutorials about all Quasar components (~~pre-access will be a paid service, will be later released for free~~ will be released for free, but register to https://quasarcast.com/course for future paid advanced Quasar courses 🙂) ([reference](https://quasarcomponents.com/))
-* 🚧 (WIP) Release Quasar website update preview 🔥
+* ✌️ (DONE) [Video tutorials for all Quasar components](https://youtube.com/playlist?list=PLFZAa7EupbB7xC-C0YwYk7aXIAbHYX1Xl). Subscribe at [QuasarCast](https://quasarcast.com/course) to be notified when first-party advanced Quasar paid courses will be available
+* 🚧 (WIP) New Quasar website preview 🔥
 
 ### Q3 2022
-* 🚧 (WIP) Quasar.Conf 2022 - 9th of July - [Call for Proposals](https://dev.to/quasar/its-back-quasarconf-2022-call-for-proposals-13mn)
-* Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([reference](https://github.com/quasarframework/quasar/issues/8572))
-* Add more automatic tests to Quasar UI. [Contributions welcome!](https://github.com/quasarframework/quasar/blob/dev/ui/test/cypress/README.md) Get in touch with the team if want to help
-* Allow to save starter kit options as JSON profiles ([reference](https://github.com/quasarframework/quasar/issues/5537))
+* 🚧 (WIP) Quasar.Conf 2022 - 9th of July - [Call for Proposals](https://bit.ly/3wMHK2s)
+* Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (currently there are Quasar modes that have only templates in .js form) ([#8572](https://github.com/quasarframework/quasar/issues/8572))
+* Gradually add more automatic tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our Discord server if you're willing to help!
+* Allow to save starter kit options as JSON profiles ([#5537](https://github.com/quasarframework/quasar/issues/5537))
 
 ### Q4 2022
 * Publish official Quasar Organizational chart
