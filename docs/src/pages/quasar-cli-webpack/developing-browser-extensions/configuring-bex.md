@@ -29,7 +29,7 @@ Behind every BEX is a [content script](https://developer.chrome.com/extensions/c
 
 In summary:
 
-* **Background Script** - runs in the context of the BEX itself and can listen to all available browser extension events. There will only ever be one instance of each background script *per BEX*.
+* **Service Worker** - runs as a proxy between browsers and web servers. It aim to provide reliablity by providing offline access, as well as boost page performance.
 * **Content Script** - runs in the context of the web page. There will be a new content script instance per tab running the extension.
 
 ::: tip
