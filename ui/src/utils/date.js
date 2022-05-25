@@ -308,7 +308,7 @@ export function extractDate (str, mask, dateLocale) {
   const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
-    d.day,
+    d.day === null ? 1 : d.day,
     d.hour,
     d.minute,
     d.second,
