@@ -25,7 +25,7 @@ Be aware that the manifest.json file is modified on build so as to auto inject r
 
 ## Background And Content Scripts
 
-Behind every BEX is a [content script](https://developer.chrome.com/extensions/content_scripts) and a [background script](https://developer.chrome.com/extensions/background_pages). It's a good idea to understand what each of these are before writing your first BEX.
+Behind every BEX is a [content script](https://developer.chrome.com/extensions/content_scripts) and a [service worker](https://developer.chrome.com/docs/workbox/service-worker-overview/). It's a good idea to understand what each of these are before writing your first BEX.
 
 In summary:
 
