@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 500px">
-      <router-link tag="a" to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
+      <router-link to="/layout-quick/a" class="cursor-pointer row justify-center" style="margin-bottom: 25px">
         <img style="height:128px;width:128px" src="https://cdn.quasar.dev/logo-v2/128/logo.png">
       </router-link>
       <div class="text-caption text-center">

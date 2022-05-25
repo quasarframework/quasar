@@ -16,7 +16,7 @@ describe('use-transition API', () => {
         it('should use a different show transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionShow: transition
             }
           })
@@ -43,7 +43,7 @@ describe('use-transition API', () => {
         it('should use a different hide transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionHide: transition
             }
           })
@@ -64,7 +64,7 @@ describe('use-transition API', () => {
           cy.dataCy('wrapper')
             .click()
             .wait(300)
-          cy.dataCy('menu', { timeout: 0 }) // Disable retry
+          cy.dataCy('menu', { timeout: 350 })
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
 
@@ -79,7 +79,7 @@ describe('use-transition API', () => {
 
         it('should be done after a custom 1000ms passed', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionDuration: 1000
             }
           })
@@ -92,7 +92,7 @@ describe('use-transition API', () => {
 
         it('should not be done before a custom 1000ms passed', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionDuration: 1000
             }
           })

@@ -172,6 +172,13 @@ preFetch ({ store, redirect }) {
 }
 ```
 
+
+By default, redirect occurs with a status response code of 302, but we can pass this status code as the second optional parameter when calling the function, like this:
+
+```js
+redirect({ path: '/moved-permanently' }, 301)
+```
+
 If `redirect(false)` is called (supported only on client-side!), it aborts the current route navigation. Note that if you use it like this in `src/App.vue` it will halt the app bootup, which is undesirable.
 
 The `redirect()` method requires a Vue Router location Object.

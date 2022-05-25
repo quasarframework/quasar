@@ -127,7 +127,7 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'add', 'remove', 'input-value',
+    'add', 'remove', 'input-value', 'new-value',
     'keyup', 'keypress', 'keydown',
     'filter-abort'
   ],
@@ -165,7 +165,7 @@ export default createComponent({
 
     const virtualScrollItemSizeComputed = computed(() => (
       props.virtualScrollItemSize === void 0
-        ? (props.dense === true ? 24 : 48)
+        ? (props.optionsDense === true ? 24 : 48)
         : props.virtualScrollItemSize
     ))
 
@@ -1013,7 +1013,7 @@ export default createComponent({
     function onInput (e) {
       clearTimeout(inputTimer)
 
-      if (e && e.target && e.target.composing === true) {
+      if (e && e.target && e.target.qComposing === true) {
         return
       }
 

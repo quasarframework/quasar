@@ -166,7 +166,7 @@ function parseDom (el, pathsDefinitions) {
 function parseSvgContent(name, content) {
   const dom = Parser.parseFromString(content, 'text/xml')
 
-  const viewBox = dom.documentElement.getAttribute('viewBox')
+  const viewBox = dom.documentElement.getAttribute('viewBox') || '0 0 24 24'
   const pathsDefinitions = []
 
   try {

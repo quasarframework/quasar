@@ -63,7 +63,7 @@ class ElectronBuilder extends AppBuilder {
       this.quasarConf.electron.extendPackageJson(pkg)
     }
 
-    this.writeFile('Unpackaged/package.json', JSON.stringify(pkg))
+    this.writeFile('UnPackaged/package.json', JSON.stringify(pkg))
   }
 
   async #copyElectronFiles () {
@@ -74,12 +74,12 @@ class ElectronBuilder extends AppBuilder {
       'yarn.lock',
     ].map(filename => ({
       from: filename,
-      to: './Unpackaged'
+      to: './UnPackaged'
     }))
 
     patterns.push({
       from: appPaths.resolve.electron('icons'),
-      to: './Unpackaged/icons'
+      to: './UnPackaged/icons'
     })
 
     this.copyFiles(patterns)

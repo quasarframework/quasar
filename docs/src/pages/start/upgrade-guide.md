@@ -6,7 +6,7 @@ components:
 ---
 
 ::: tip Quasar CLI with Vite or Webpack
-You now have the option to choose between Quasar CLI with Vite (currently in **BETA**) and Quasar CLI with Webpack.
+You now have the option to choose between Quasar CLI with Vite and Quasar CLI with Webpack.
 :::
 
 ::: tip Composition and Options API

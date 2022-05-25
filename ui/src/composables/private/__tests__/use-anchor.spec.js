@@ -7,7 +7,7 @@ describe('use-anchor API', () => {
       describe('(prop): target', () => {
         it('should use another target using a CSS selector', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               target: '.other-target'
             }
           })
@@ -27,7 +27,7 @@ describe('use-anchor API', () => {
 
         it('should not show when target is false', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               target: false
             }
           })
@@ -42,7 +42,7 @@ describe('use-anchor API', () => {
       describe('(prop): no-parent-event', () => {
         it('should not show when clicking parent with no-parent-event true', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'no-parent-event': true
             }
           })
@@ -55,7 +55,7 @@ describe('use-anchor API', () => {
 
         it('should show when clicking parent with no-parent-event false', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'no-parent-event': false
             }
           })
@@ -70,7 +70,7 @@ describe('use-anchor API', () => {
       describe('(prop): context-menu', () => {
         it('should not show when left clicking parent', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'context-menu': true
             }
           })
@@ -83,7 +83,7 @@ describe('use-anchor API', () => {
 
         it('should show when right clicking parent', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'context-menu': true
             }
           })

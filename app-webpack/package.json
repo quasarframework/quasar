@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-webpack",
-  "version": "3.5.1",
+  "version": "3.5.3",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
     "quasar": "./bin/quasar"
@@ -89,7 +89,7 @@
     "node-loader": "2.0.0",
     "null-loader": "4.0.1",
     "open": "8.4.0",
-    "ouch": "2.0.0",
+    "ouch": "^2.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "6.2.1",
     "postcss-rtlcss": "3.5.4",
@@ -116,7 +116,7 @@
     "electron-builder": "22.14.13",
     "electron-packager": "^15.3.0",
     "eslint": "^8.11.0",
-    "eslint-plugin-n": "^14.0.0",
+    "eslint-plugin-n": "^15.0.0",
     "pinia": "^2.0.0",
     "quasar": "^2.0.4",
     "ts-essentials": "^9.1.2",

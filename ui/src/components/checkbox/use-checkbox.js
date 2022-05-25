@@ -1,4 +1,4 @@
-import { h, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance, toRaw } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
@@ -61,22 +61,23 @@ export default function (type, getInner) {
     props.val !== void 0 && Array.isArray(props.modelValue)
   )
 
-  const index = computed(() => (
-    modelIsArray.value === true
-      ? props.modelValue.indexOf(props.val)
+  const index = computed(() => {
+    const val = toRaw(props.val)
+    return modelIsArray.value === true
+      ? props.modelValue.findIndex(opt => toRaw(opt) === val)
       : -1
-  ))
+  })
 
   const isTrue = computed(() => (
     modelIsArray.value === true
       ? index.value > -1
-      : props.modelValue === props.trueValue
+      : toRaw(props.modelValue) === toRaw(props.trueValue)
   ))
 
   const isFalse = computed(() => (
     modelIsArray.value === true
       ? index.value === -1
-      : props.modelValue === props.falseValue
+      : toRaw(props.modelValue) === toRaw(props.falseValue)
   ))
 
   const isIndeterminate = computed(() =>

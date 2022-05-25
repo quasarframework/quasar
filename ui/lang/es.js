@@ -32,7 +32,7 @@ module.exports = {
   },
   table: {
     noData: 'Sin datos disponibles',
-    noResults: 'No se han encontrado resultado',
+    noResults: 'No se han encontrado resultados',
     loading: 'Cargando...',
     selectedRecords: rows => (
       rows > 1
