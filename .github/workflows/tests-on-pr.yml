@@ -2,11 +2,12 @@ name: UI Tests
 
 on:
   pull_request_target:
-    types: [opened, edited, synchronize ]
+    types: [opened, synchronize ]
     branches:    
       - 'dev'
     paths:
-      - 'ui/**'
+      - 'ui/**.js'
+      - '!.github/**'
 
 jobs:
   tests:      
