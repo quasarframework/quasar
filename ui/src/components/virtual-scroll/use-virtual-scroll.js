@@ -20,7 +20,12 @@ const filterProto = Array.prototype.filter
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
   ? noop
   : function (contentEl, index) {
-    requestAnimationFrame(() => {
+    if (contentEl === null) {
+      return
+    }
+
+    cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
       if (contentEl === null) {
         return
       }
