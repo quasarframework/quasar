@@ -190,11 +190,12 @@ function setOverflowAnchor (contentEl, index) {
     setOverflowAnchor.isSupported = window.getComputedStyle(document.body).overflowAnchor !== void 0
   }
 
-  if (setOverflowAnchor.isSupported === false) {
+  if (setOverflowAnchor.isSupported === false || contentEl === void 0) {
     return
   }
 
-  requestAnimationFrame(() => {
+  cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+  contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
     if (contentEl === void 0) {
       return
     }
