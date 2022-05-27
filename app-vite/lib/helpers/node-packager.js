@@ -169,7 +169,7 @@ function getPackager () {
     return npm
   }
 
-  warn('Please install Yarn or NPM before running this command.\n')
+  warn('Please install Yarn, NPM or PNPM before running this command.\n')
 }
 
 module.exports = getPackager()
