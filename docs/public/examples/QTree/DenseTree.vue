@@ -33,6 +33,7 @@ export default {
             {
               label: 'Good service (disabled node with icon)',
               icon: 'room_service',
+              disabled: true,
               children: [
                 { label: 'Prompt attention' },
                 { label: 'Professional waiter' }
