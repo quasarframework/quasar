@@ -37,12 +37,14 @@ jobs:
           browser: ${{ matrix.browser }}
           command: npm run test:component:ci
           working-directory: ui
-          tag: ${{ github.event_name }} # Tag will be either "push" or "pull_request"
+          tag: ${{ github.event.name }} # Tag will be either "opened" or "synchronize"
           group: Tests in ${{ matrix.browser }} browser
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable        
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # To allow accurately detecting a build vs a re-run build
-          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }} # Either PR title or default information
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+          COMMIT_INFO_AUTHOR: ${{ github.event.pull_request.user.login }}
+          COMMIT_INFO_TIMESTAMP: ${{ github.event.pull_request.created_at }}
 
       - name: Add workflow summary
         env:
