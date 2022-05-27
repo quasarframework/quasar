@@ -73,7 +73,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   const app = createAppFn(RootComponent)
 
   <% if (ctx.dev || ctx.debug) { %>
-  app.config.devtools = true
+  app.config.performance = true
   <% } %>
 
   app.use(Quasar, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>)

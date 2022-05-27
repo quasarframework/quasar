@@ -1,0 +1,66 @@
+name: UI Tests
+
+on:
+  pull_request_target:
+    types: [opened, synchronize ]
+    branches:    
+      - 'dev'
+    paths:
+      - 'ui/**.js'
+      - '!.github/**'
+
+jobs:
+  tests:      
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+
+    name: Tests on ${{ matrix.browser }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+      
+      - name: Install dependencies
+        run: cd ./ui && npm i
+      
+      - name: Run tests in ${{ matrix.browser }} browser
+        uses: cypress-io/github-action@v2
+        with:
+          browser: ${{ matrix.browser }}
+          command: npm run test:component:ci
+          working-directory: ui
+          tag: ${{ github.event_name }} # Tag will be either "push" or "pull_request"
+          group: Tests in ${{ matrix.browser }} browser
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # To allow accurately detecting a build vs a re-run build
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }} # Either PR title or default information
+
+      - name: Add workflow summary
+        env:
+          SUMMARY: |
+            Hi @${{ github.event.pull_request.user.login }} and thanks for the contribution! 👏
+
+            We've detected file changes inside the `ui` folder, so that triggered our Cypress component tests.
+        run: echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+        if: always()
+          
+      - name: Output failure message
+        env: 
+          FAILURE: ":bangbang: Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it."
+        run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
+        if: failure() || cancelled()
+
+      - name: Output success message
+        env: 
+          SUCCESS: ":white_check_mark: Seems like all the tests passed successfully, so your PR is ready to be reviewed!"
+        run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
+        if: success()

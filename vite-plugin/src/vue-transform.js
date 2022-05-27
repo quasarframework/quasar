@@ -1,7 +1,7 @@
 import autoImportData from 'quasar/dist/transforms/auto-import.json'
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-import { importQuasarRegex } from './js-transform.js'
+import { jsTransform } from './js-transform.js'
 
 export const vueTransformRegex = /\.vue(\?vue&type=template&lang.js)?$/
 
@@ -23,22 +23,7 @@ export function vueTransform (content, autoImportComponentCase) {
 
   const reverseMap = {}
 
-  let code = content
-    .replace(
-      importQuasarRegex,
-      (_, match) => match.split(',')
-        .map(identifier => {
-          const data = identifier.split(' as ')
-          const importName = data[0].trim()
-          const importAs = data[1] !== void 0
-            ? data[1].trim()
-            : importName
-
-          importMap[importName] = importAs
-          return `import ${importAs} from '${importTransformation(importName)}';`
-        })
-        .join('')
-    )
+  let code = jsTransform(content, importMap)
     .replace(compRegex[autoImportComponentCase], (_, match) => {
       const name = autoImportData.importName[match]
       const reverseName = match.replace(/-/g, '_')

@@ -37,7 +37,7 @@ describe('use-validate API', () => {
         it('should show an error-message when error is true', () => {
           const message = 'Please select something'
           mount(FieldWrapper, {
-            attrs: {
+            props: {
               error: true,
               errorMessage: message
             }
@@ -49,7 +49,7 @@ describe('use-validate API', () => {
         it('should not show an error-message when error is false', () => {
           const message = 'Please select something'
           mount(FieldWrapper, {
-            attrs: {
+            props: {
               error: false,
               errorMessage: message
             }
@@ -62,7 +62,7 @@ describe('use-validate API', () => {
       describe('(prop): no-error-icon', () => {
         it('should not show an error icon when error is true', () => {
           mount(FieldWrapper, {
-            attrs: {
+            props: {
               error: true,
               noErrorIcon: true
             }
@@ -74,7 +74,7 @@ describe('use-validate API', () => {
 
         it('should show an error icon when error is true an no-error-icon is false', () => {
           mount(FieldWrapper, {
-            attrs: {
+            props: {
               error: true,
               noErrorIcon: false
             }

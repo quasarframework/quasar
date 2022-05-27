@@ -1,6 +1,6 @@
 {
   "name": "create-quasar",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
   "author": {
     "name": "Razvan Stoenescu",
