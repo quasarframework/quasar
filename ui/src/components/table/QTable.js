@@ -152,7 +152,6 @@ export default createComponent({
 
     const __containerClass = computed(() =>
       `q-table__container q-table--${ props.separator }-separator column no-wrap`
-      + (props.loading === true ? ' q-table--loading' : '')
       + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
       + (isDark.value === true ? ' q-table--dark' : '')
       + (props.dense === true ? ' q-table--dense' : '')
