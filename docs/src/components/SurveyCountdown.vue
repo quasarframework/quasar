@@ -1,7 +1,7 @@
 <template lang="pug">
 q-banner(v-if="!hasEnded").survey-countdown
   .q-gutter-sm.row(:class="[paddingClass, alignClass]")
-    | Quasar Conf 2022 Call for Proposals closes in...
+    .text-center Quasar Conf 2022 Call for Proposals closes in...
 
     q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
     q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
