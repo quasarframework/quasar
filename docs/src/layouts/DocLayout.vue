@@ -42,12 +42,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         )
 
       template(v-else)
-        //- survey-countdown.layout-countdown(
-        //-   color="primary"
-        //-   align-class="justify-center"
-        //-   padding-class="q-py-md"
-        //- )
-        //- q-separator.q-mb-lg
+        survey-countdown.layout-countdown(
+          color="primary"
+          align-class="justify-center"
+          padding-class="q-py-md"
+        )
+        q-separator.q-mb-lg
 
         .row.justify-center.q-my-md
           q-btn.doc-layout__main-btn(
@@ -135,7 +135,7 @@ import {
 
 import AppMenu from 'components/AppMenu.js'
 import AppSearchResults from 'components/AppSearchResults.vue'
-// import SurveyCountdown from 'components/SurveyCountdown.vue'
+import SurveyCountdown from 'components/SurveyCountdown.vue'
 import HeaderMenu from 'components/HeaderMenu.vue'
 
 import useToc from './doc-layout/use-toc'
@@ -149,7 +149,7 @@ export default {
   components: {
     AppMenu,
     AppSearchResults,
-    // SurveyCountdown,
+    SurveyCountdown,
     HeaderMenu
   },
 
