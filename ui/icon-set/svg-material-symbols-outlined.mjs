@@ -6,196 +6,196 @@
  */
 
 import {
-  symRoundedCheckCircle,
-  symRoundedWarning,
-  symRoundedInfo,
-  symRoundedPriorityHigh,
-  symRoundedArrowUpward,
-  symRoundedArrowForward,
-  symRoundedArrowDownward,
-  symRoundedArrowBack,
-  symRoundedArrowDropDown,
-  symRoundedChevronLeft,
-  symRoundedChevronRight,
-  symRoundedGradient,
-  symRoundedTune,
-  symRoundedStyle,
-  symRoundedRefresh,
-  symRoundedKeyboardArrowUp,
-  symRoundedKeyboardArrowDown,
-  symRoundedLens,
-  symRoundedCancel,
-  symRoundedCheck,
-  symRoundedSchedule,
-  symRoundedToday,
-  symRoundedFormatBold,
-  symRoundedFormatItalic,
-  symRoundedStrikethroughS,
-  symRoundedFormatUnderlined,
-  symRoundedFormatListBulleted,
-  symRoundedFormatListNumbered,
-  symRoundedVerticalAlignBottom,
-  symRoundedVerticalAlignTop,
-  symRoundedLink,
-  symRoundedFullscreen,
-  symRoundedFormatQuote,
-  symRoundedFormatAlignLeft,
-  symRoundedFormatAlignCenter,
-  symRoundedFormatAlignRight,
-  symRoundedFormatAlignJustify,
-  symRoundedPrint,
-  symRoundedFormatIndentDecrease,
-  symRoundedFormatIndentIncrease,
-  symRoundedFormatClear,
-  symRoundedTextFormat,
-  symRoundedFormatSize,
-  symRoundedRemove,
-  symRoundedUndo,
-  symRoundedRedo,
-  symRoundedCode,
-  symRoundedFontDownload,
-  symRoundedAdd,
-  symRoundedClose,
-  symRoundedError,
-  symRoundedFirstPage,
-  symRoundedKeyboardArrowLeft,
-  symRoundedKeyboardArrowRight,
-  symRoundedLastPage,
-  symRoundedGrade,
-  symRoundedEdit,
-  symRoundedPlayArrow,
-  symRoundedDone,
-  symRoundedAddBox,
-  symRoundedCloudUpload,
-  symRoundedClearAll,
-  symRoundedDoneAll
-} from '@quasar/extras/material-symbols-rounded'
+  symOutlinedCheckCircle,
+  symOutlinedWarning,
+  symOutlinedInfo,
+  symOutlinedPriorityHigh,
+  symOutlinedArrowUpward,
+  symOutlinedArrowForward,
+  symOutlinedArrowDownward,
+  symOutlinedArrowBack,
+  symOutlinedArrowDropDown,
+  symOutlinedChevronLeft,
+  symOutlinedChevronRight,
+  symOutlinedGradient,
+  symOutlinedTune,
+  symOutlinedStyle,
+  symOutlinedRefresh,
+  symOutlinedKeyboardArrowUp,
+  symOutlinedKeyboardArrowDown,
+  symOutlinedLens,
+  symOutlinedCancel,
+  symOutlinedCheck,
+  symOutlinedSchedule,
+  symOutlinedToday,
+  symOutlinedFormatBold,
+  symOutlinedFormatItalic,
+  symOutlinedStrikethroughS,
+  symOutlinedFormatUnderlined,
+  symOutlinedFormatListBulleted,
+  symOutlinedFormatListNumbered,
+  symOutlinedVerticalAlignBottom,
+  symOutlinedVerticalAlignTop,
+  symOutlinedLink,
+  symOutlinedFullscreen,
+  symOutlinedFormatQuote,
+  symOutlinedFormatAlignLeft,
+  symOutlinedFormatAlignCenter,
+  symOutlinedFormatAlignRight,
+  symOutlinedFormatAlignJustify,
+  symOutlinedPrint,
+  symOutlinedFormatIndentDecrease,
+  symOutlinedFormatIndentIncrease,
+  symOutlinedFormatClear,
+  symOutlinedTextFormat,
+  symOutlinedFormatSize,
+  symOutlinedRemove,
+  symOutlinedUndo,
+  symOutlinedRedo,
+  symOutlinedCode,
+  symOutlinedFontDownload,
+  symOutlinedAdd,
+  symOutlinedClose,
+  symOutlinedError,
+  symOutlinedFirstPage,
+  symOutlinedKeyboardArrowLeft,
+  symOutlinedKeyboardArrowRight,
+  symOutlinedLastPage,
+  symOutlinedGrade,
+  symOutlinedEdit,
+  symOutlinedPlayArrow,
+  symOutlinedDone,
+  symOutlinedAddBox,
+  symOutlinedCloudUpload,
+  symOutlinedClearAll,
+  symOutlinedDoneAll
+} from '@quasar/extras/material-symbols-outlined'
 
 export default {
   name: 'svg-material-symbols-outlined',
   type: {
-    positive: symRoundedCheckCircle,
-    negative: symRoundedWarning,
-    info: symRoundedInfo,
-    warning: symRoundedPriorityHigh
+    positive: symOutlinedCheckCircle,
+    negative: symOutlinedWarning,
+    info: symOutlinedInfo,
+    warning: symOutlinedPriorityHigh
   },
   arrow: {
-    up: symRoundedArrowUpward,
-    right: symRoundedArrowForward,
-    down: symRoundedArrowDownward,
-    left: symRoundedArrowBack,
-    dropdown: symRoundedArrowDropDown
+    up: symOutlinedArrowUpward,
+    right: symOutlinedArrowForward,
+    down: symOutlinedArrowDownward,
+    left: symOutlinedArrowBack,
+    dropdown: symOutlinedArrowDropDown
   },
   chevron: {
-    left: symRoundedChevronLeft,
-    right: symRoundedChevronRight
+    left: symOutlinedChevronLeft,
+    right: symOutlinedChevronRight
   },
   colorPicker: {
-    spectrum: symRoundedGradient,
-    tune: symRoundedTune,
-    palette: symRoundedStyle
+    spectrum: symOutlinedGradient,
+    tune: symOutlinedTune,
+    palette: symOutlinedStyle
   },
   pullToRefresh: {
-    icon: symRoundedRefresh
+    icon: symOutlinedRefresh
   },
   carousel: {
-    left: symRoundedChevronLeft,
-    right: symRoundedChevronRight,
-    up: symRoundedKeyboardArrowUp,
-    down: symRoundedKeyboardArrowDown,
-    navigationIcon: symRoundedLens
+    left: symOutlinedChevronLeft,
+    right: symOutlinedChevronRight,
+    up: symOutlinedKeyboardArrowUp,
+    down: symOutlinedKeyboardArrowDown,
+    navigationIcon: symOutlinedLens
   },
   chip: {
-    remove: symRoundedCancel,
-    selected: symRoundedCheck
+    remove: symOutlinedCancel,
+    selected: symOutlinedCheck
   },
   datetime: {
-    arrowLeft: symRoundedChevronLeft,
-    arrowRight: symRoundedChevronRight,
-    now: symRoundedSchedule,
-    today: symRoundedToday
+    arrowLeft: symOutlinedChevronLeft,
+    arrowRight: symOutlinedChevronRight,
+    now: symOutlinedSchedule,
+    today: symOutlinedToday
   },
   editor: {
-    bold: symRoundedFormatBold,
-    italic: symRoundedFormatItalic,
-    strikethrough: symRoundedStrikethroughS,
-    underline: symRoundedFormatUnderlined,
-    unorderedList: symRoundedFormatListBulleted,
-    orderedList: symRoundedFormatListNumbered,
-    subscript: symRoundedVerticalAlignBottom,
-    superscript: symRoundedVerticalAlignTop,
-    hyperlink: symRoundedLink,
-    toggleFullscreen: symRoundedFullscreen,
-    quote: symRoundedFormatQuote,
-    left: symRoundedFormatAlignLeft,
-    center: symRoundedFormatAlignCenter,
-    right: symRoundedFormatAlignRight,
-    justify: symRoundedFormatAlignJustify,
-    print: symRoundedPrint,
-    outdent: symRoundedFormatIndentDecrease,
-    indent: symRoundedFormatIndentIncrease,
-    removeFormat: symRoundedFormatClear,
-    formatting: symRoundedTextFormat,
-    fontSize: symRoundedFormatSize,
-    align: symRoundedFormatAlignLeft,
-    hr: symRoundedRemove,
-    undo: symRoundedUndo,
-    redo: symRoundedRedo,
-    heading: symRoundedFormatSize,
-    code: symRoundedCode,
-    size: symRoundedFormatSize,
-    font: symRoundedFontDownload,
-    viewSource: symRoundedCode
+    bold: symOutlinedFormatBold,
+    italic: symOutlinedFormatItalic,
+    strikethrough: symOutlinedStrikethroughS,
+    underline: symOutlinedFormatUnderlined,
+    unorderedList: symOutlinedFormatListBulleted,
+    orderedList: symOutlinedFormatListNumbered,
+    subscript: symOutlinedVerticalAlignBottom,
+    superscript: symOutlinedVerticalAlignTop,
+    hyperlink: symOutlinedLink,
+    toggleFullscreen: symOutlinedFullscreen,
+    quote: symOutlinedFormatQuote,
+    left: symOutlinedFormatAlignLeft,
+    center: symOutlinedFormatAlignCenter,
+    right: symOutlinedFormatAlignRight,
+    justify: symOutlinedFormatAlignJustify,
+    print: symOutlinedPrint,
+    outdent: symOutlinedFormatIndentDecrease,
+    indent: symOutlinedFormatIndentIncrease,
+    removeFormat: symOutlinedFormatClear,
+    formatting: symOutlinedTextFormat,
+    fontSize: symOutlinedFormatSize,
+    align: symOutlinedFormatAlignLeft,
+    hr: symOutlinedRemove,
+    undo: symOutlinedUndo,
+    redo: symOutlinedRedo,
+    heading: symOutlinedFormatSize,
+    code: symOutlinedCode,
+    size: symOutlinedFormatSize,
+    font: symOutlinedFontDownload,
+    viewSource: symOutlinedCode
   },
   expansionItem: {
-    icon: symRoundedKeyboardArrowDown,
-    denseIcon: symRoundedArrowDropDown
+    icon: symOutlinedKeyboardArrowDown,
+    denseIcon: symOutlinedArrowDropDown
   },
   fab: {
-    icon: symRoundedAdd,
-    activeIcon: symRoundedClose
+    icon: symOutlinedAdd,
+    activeIcon: symOutlinedClose
   },
   field: {
-    clear: symRoundedCancel,
-    error: symRoundedError
+    clear: symOutlinedCancel,
+    error: symOutlinedError
   },
   pagination: {
-    first: symRoundedFirstPage,
-    prev: symRoundedKeyboardArrowLeft,
-    next: symRoundedKeyboardArrowRight,
-    last: symRoundedLastPage
+    first: symOutlinedFirstPage,
+    prev: symOutlinedKeyboardArrowLeft,
+    next: symOutlinedKeyboardArrowRight,
+    last: symOutlinedLastPage
   },
   rating: {
-    icon: symRoundedGrade
+    icon: symOutlinedGrade
   },
   stepper: {
-    done: symRoundedCheck,
-    active: symRoundedEdit,
-    error: symRoundedWarning
+    done: symOutlinedCheck,
+    active: symOutlinedEdit,
+    error: symOutlinedWarning
   },
   tabs: {
-    left: symRoundedChevronLeft,
-    right: symRoundedChevronRight,
-    up: symRoundedKeyboardArrowUp,
-    down: symRoundedKeyboardArrowDown
+    left: symOutlinedChevronLeft,
+    right: symOutlinedChevronRight,
+    up: symOutlinedKeyboardArrowUp,
+    down: symOutlinedKeyboardArrowDown
   },
   table: {
-    arrowUp: symRoundedArrowUpward,
-    warning: symRoundedWarning,
-    firstPage: symRoundedFirstPage,
-    prevPage: symRoundedChevronLeft,
-    nextPage: symRoundedChevronRight,
-    lastPage: symRoundedLastPage
+    arrowUp: symOutlinedArrowUpward,
+    warning: symOutlinedWarning,
+    firstPage: symOutlinedFirstPage,
+    prevPage: symOutlinedChevronLeft,
+    nextPage: symOutlinedChevronRight,
+    lastPage: symOutlinedLastPage
   },
   tree: {
-    icon: symRoundedPlayArrow
+    icon: symOutlinedPlayArrow
   },
   uploader: {
-    done: symRoundedDone,
-    clear: symRoundedClose,
-    add: symRoundedAddBox,
-    upload: symRoundedCloudUpload,
-    removeQueue: symRoundedClearAll,
-    removeUploaded: symRoundedDoneAll
+    done: symOutlinedDone,
+    clear: symOutlinedClose,
+    add: symOutlinedAddBox,
+    upload: symOutlinedCloudUpload,
+    removeQueue: symOutlinedClearAll,
+    removeUploaded: symOutlinedDoneAll
   }
 }
