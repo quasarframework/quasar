@@ -1,12 +1,12 @@
 const appPaths = require('../app-paths')
+const getPackagePath = require('./get-package-path')
 
-module.exports = function (pkgName) {
+/**
+ * Import a host package.
+ */
+module.exports = function getPackage(pkgName, folder = appPaths.appDir) {
   try {
-    return require(
-      require.resolve(pkgName, {
-        paths: [ appPaths.appDir ]
-      })
-    )
+    return require(getPackagePath(pkgName, folder))
   }
   catch (e) {}
 }
