@@ -10,12 +10,12 @@ const { log, warn, fatal } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
-const getDevlandFile = require('./helpers/get-devland-file')
+const getPackage = require('./helpers/get-package')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const storeProvider = require('./helpers/store-provider')
 const { quasarVersion } = require('./helpers/banner')
 
-const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
+const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
 
 function encode (obj) {
