@@ -113,6 +113,13 @@
     "npm": ">= 6.14.12",
     "yarn": ">= 1.17.3"
   },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "rollup"
+      ]
+    }
+  },
   "volta": {
     "node": "lts"
   },
