@@ -122,7 +122,7 @@ body:
       description: |
         Please run [`quasar info` command](https://quasar.dev/quasar-cli/commands-list#info), then copy and paste the output.
         _This will be automatically formatted into code, so no need for backticks._
-      render: shell
+      render: Shell
     # TODO: Validate the format by using GitHub Actions, Probot, etc.
     # TODO: Make this required if the flavour is Quasar CLI, by using GitHub Actions, Probot, etc.
     # Consider adding separate controls to select important versions such as quasar, @quasar/app, vite, etc. to also respect the other flavours
@@ -134,7 +134,7 @@ body:
       description: |
         Please copy and paste any relevant log output.
         _This will be automatically formatted into code, so no need for backticks._
-      render: shell
+      render: Shell
   - type: textarea
     id: additional-context
     attributes:
