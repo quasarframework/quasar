@@ -90,6 +90,7 @@
     "pinia": "^2.0.0",
     "quasar": "^2.0.4",
     "ts-essentials": "^9.1.2",
+    "typescript": "~4.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0",
     "vuex": "^4.0.0"
