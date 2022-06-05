@@ -30,7 +30,7 @@ jobs:
             Hi @${{ github.event.issue.user.login }}! 👋
 
             It looks like you provided an invalid or unsupported reproduction URL.
-            Do not use any service other than [Codepen](https://codepen.io), [jsFiddle](https://jsfiddle.net), [Codesandbox](https://codesandbox.io), and [GitHub](https://github.com).
+            Do not use any service other than [Codepen](https://codepen.io), [jsFiddle](https://jsfiddle.net), [StackBlitz](https://stackblitz.com), [Codesandbox](https://codesandbox.io), and [GitHub](https://github.com).
             Make sure the URL you provided is correct and reachable. You can test it by visiting it in a private tab, another device, etc.
             Please **edit your original post above** and provide a valid reproduction URL as explained.
 
@@ -115,6 +115,10 @@ jobs:
                     }
                   case 'jsfiddle.net':
                     if (/^\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'stackblitz.com':
+                    if (/^\/edit\/.+$/.test(reproURL.pathname)) {
                       break;
                     }
                   case 'codesandbox.io':
