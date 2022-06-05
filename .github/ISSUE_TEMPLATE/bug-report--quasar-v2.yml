@@ -38,9 +38,13 @@ body:
     attributes:
       label: Reproduction URL
       description: |
-        Fork a [Codepen](https://codepen.quasar.dev) or a [jsFiddle](https://jsfiddle.quasar.dev) or a [Codesandbox](https://codesandbox.quasar.dev) and hit save then copy-paste the URL here.
+        A [reproduction](https://stackoverflow.com/help/minimal-reproducible-example) URL is **REQUIRED**, even if you think the error is obvious.
+        Fork one of the following, hit save then copy-paste the URL here:
+          - [Codepen](https://codepen.quasar.dev)
+          - [jsFiddle](https://jsfiddle.quasar.dev)
+          - [Codesandbox](https://codesandbox.quasar.dev)
         _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
-      placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR
+      placeholder: https://codepen.io/rstoenescu/pen/xxEvBLR - DO NOT use this example value or a random URL
     validations:
       required: true
   - type: textarea

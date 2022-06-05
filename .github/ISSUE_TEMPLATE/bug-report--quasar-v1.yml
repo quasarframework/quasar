@@ -14,7 +14,7 @@ body:
 
         Also, search for your issue in the repo to be sure it doesn't exist already.
 
-         To enter your issue, fill out the form correctly and according to the instructions. Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
+        To enter your issue, fill out the form correctly and according to the instructions. Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
         Issues with an unclear description or lacking information will have a lower priority. They may even get closed without taking action.
 
         Lastly, read the [Reporting an Issue | Contribution Guide](https://quasar.dev/contribution-guide/contribution-guide#reporting-an-issue) section of our docs for a more detailed explanation.
@@ -38,9 +38,13 @@ body:
     attributes:
       label: Reproduction URL
       description: |
-        Fork a [Codepen](https://codepen.io/rstoenescu/pen/VgQbdx) or a [jsFiddle](https://jsfiddle.net/rstoenescu/rmaodk0f) or a [Codesandbox](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1) and hit save then copy-paste the URL here.
+        A [reproduction](https://stackoverflow.com/help/minimal-reproducible-example) URL is **REQUIRED**, even if you think the error is obvious.
+        Fork one of the following, hit save then copy-paste the URL here:
+         - [Codepen](https://codepen.io/rstoenescu/pen/VgQbdx)
+         - [jsFiddle](https://jsfiddle.net/rstoenescu/rmaodk0f)
+         - [Codesandbox](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1).
         _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
-      placeholder: https://codepen.io/rstoenescu/pen/VgQbdx
+      placeholder: https://codepen.io/rstoenescu/pen/VgQbdx - DO NOT use this example value or a random URL
     validations:
       required: true
   - type: textarea
