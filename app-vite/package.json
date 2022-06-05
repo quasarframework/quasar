@@ -72,7 +72,6 @@
     "minimist": "^1.2.6",
     "open": "^8.4.0",
     "ouch": "^2.0.0",
-    "postcss": "^8.4.4",
     "register-service-worker": "^1.7.2",
     "rollup-plugin-visualizer": "^5.5.4",
     "sass": "1.32.12",
