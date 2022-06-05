@@ -107,6 +107,16 @@ div
           q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
 
+      q-item(clickable, href="https://stackblitz.com/fork/quasarframework", target="_blank", rel="noopener")
+        q-item-section.text-black(avatar)
+          q-icon(:name="fasBolt")
+        q-item-section StackBlitz (Vite)
+
+      q-item(clickable, href="https://stackblitz.com/fork/quasarframework-webpack", target="_blank", rel="noopener")
+        q-item-section.text-black(avatar)
+          q-icon(:name="fasBolt")
+        q-item-section StackBlitz (Webpack)
+
       q-item(clickable, href="https://codesandbox.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-black(avatar)
           q-icon(:name="fasCubes")
@@ -165,7 +175,7 @@ div
 <script>
 import {
   fabGithub, fasFlask, fabCodepen, fabJsfiddle,
-  fasCubes, fabTwitter, fabFacebook
+  fasBolt, fasCubes, fabTwitter, fabFacebook
 } from '@quasar/extras/fontawesome-v6'
 
 import {
