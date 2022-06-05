@@ -130,7 +130,8 @@
     "pinia": "^2.0.0",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "workbox-webpack-plugin": "^6.0.0"
   },
   "peerDependenciesMeta": {
     "electron-builder": {
@@ -143,6 +144,9 @@
       "optional": true
     },
     "vuex": {
+      "optional": true
+    },
+    "workbox-webpack-plugin": {
       "optional": true
     }
   },
