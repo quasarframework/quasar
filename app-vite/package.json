@@ -98,15 +98,27 @@
   "peerDependencies": {
     "electron-builder": "^22.0.0",
     "electron-packager": "^15.0.0",
+    "eslint": "^8.11.0",
+    "pinia": "^2.0.0",
     "quasar": "^2.6.0",
     "vue": "^3.2.29",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.0"
   },
   "peerDependenciesMeta": {
     "electron-builder": {
       "optional": true
     },
     "electron-packager": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": true
+    },
+    "pinia": {
+      "optional": true
+    },
+    "vuex": {
       "optional": true
     }
   },
