@@ -5,6 +5,7 @@ const fse = require('fs-extra')
 const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
 const nodePackager = require('../../helpers/node-packager')
+const hasTypescript = require('../../helpers/has-typescript')
 
 const defaultVersion = '^6.5.0'
 
@@ -36,7 +37,8 @@ function add (silent) {
   )
 
   log('Creating PWA source folder...')
-  fse.copySync(appPaths.resolve.cli('templates/pwa'), appPaths.pwaDir)
+  const format = hasTypescript ? 'ts' : 'default'
+  fse.copySync(appPaths.resolve.cli(`templates/pwa/${format}`), appPaths.pwaDir)
 
   log('Copying PWA icons to /public/icons/ (if they are not already there)...')
   fse.copySync(
