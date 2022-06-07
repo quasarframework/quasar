@@ -269,15 +269,23 @@ export default createComponent({
 
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
-    const comboboxAttrs = computed(() => ({
-      tabindex: props.tabindex,
-      role: 'combobox',
-      'aria-label': props.label,
-      'aria-autocomplete': props.useInput === true ? 'list' : 'none',
-      'aria-expanded': menu.value === true ? 'true' : 'false',
-      'aria-owns': `${ state.targetUid.value }_lb`,
-      'aria-controls': `${ state.targetUid.value }_lb`
-    }))
+    const comboboxAttrs = computed(() => {
+      const attrs = {
+        tabindex: props.tabindex,
+        role: 'combobox',
+        'aria-label': props.label,
+        'aria-autocomplete': props.useInput === true ? 'list' : 'none',
+        'aria-expanded': menu.value === true ? 'true' : 'false',
+        'aria-owns': `${ state.targetUid.value }_lb`,
+        'aria-controls': `${ state.targetUid.value }_lb`
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
 
     const listboxAttrs = computed(() => {
       const attrs = {
