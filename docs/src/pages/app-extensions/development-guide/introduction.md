@@ -75,7 +75,7 @@ When using the `UI` kit, you will have two npm packages; one for the App Extensi
 
 If your App Extension has its own dependencies over some packages in order for it to be able to run (except for packages supplied by Quasar CLI, like "quasar", "@quasar/extras", "@quasar/app" -- you should use "api.compatibleWith()" for those in your /install.js and /index.js scripts -- check [Install API](/app-extensions/development-guide/install-api) and [Index API](/app-extensions/development-guide/index-api)), then yarn/npm installing them into your App Extension folder will supply them into the hosting app.
 
-Example: You are creating a UI component that depends on "my-table" npm package (name is bogus, just for making a point here), then you should yarn/npm install "my-table" in your App Extension folder.
+Example: You are creating a UI component that depends on "my-table" npm package (name is bogus, just for making a point here), then you should yarn/npm install `my-table` in your App Extension folder.
 
 ::: warning
 Never yarn/npm install packages that are supplied by the Quasar CLI, because App Extensions should not be so intrusive and force the user to use a certain Quasar version. Instead, make use of "api.compatibleWith()" for those, which is equivalent to softly saying "Sorry, you need to install this version of Quasar if you want to take advantage of my App Extension".

@@ -11,6 +11,8 @@ This page will guide you on how to convert a Quasar CLI with Vite (`@quasar/app-
 $ yarn create quasar
 # or:
 $ npm init quasar
+# or:
+$ pnpm create quasar
 
 # pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
 ```

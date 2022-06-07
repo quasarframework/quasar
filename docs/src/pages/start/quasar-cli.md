@@ -29,6 +29,11 @@ $ yarn create quasar
 
 $ npm i -g @quasar/cli
 $ npm init quasar
+
+# or:
+
+$ pnpm i -g @quasar/cli
+$ pnpm create quasar
 ```
 
 Pick `Quasar CLI with Vite` if you want:
@@ -52,6 +57,8 @@ Pick `Quasar CLI with Vite` if you want:
     $ yarn create quasar
     # or:
     $ npm init quasar
+    # or:
+    $ pnpm create quasar
     ```
     <br>
 
@@ -76,6 +83,8 @@ Pick `Quasar CLI with Vite` if you want:
     $ yarn global add @quasar/cli
     # or
     $ npm install -g @quasar/cli
+    # or
+    $ pnpm install -g @quasar/cli
     ```
 
     ::: tip
