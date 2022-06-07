@@ -1,9 +1,9 @@
 export default {
   isoName: "sm",
-  nativeName: "Fa'asamoa",
+  nativeName: "Fa'asāmoa",
   label: {
     clear: "Kilia",
-    ok: "'Ua lelei",
+    ok: "'Okei",
     cancel: "Fa'alēaogaina",
     close: "Tapuni",
     set: "Seti",
