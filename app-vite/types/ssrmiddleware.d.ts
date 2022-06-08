@@ -1,4 +1,5 @@
-import { Express, Request, RequestHandler, Response, NextFunction, Server } from "express";
+import { Express, Request, RequestHandler, Response, NextFunction } from "express";
+import { Server } from "http";
 import { ServeStaticOptions } from "serve-static";
 
 interface RenderParams {
@@ -59,29 +60,6 @@ interface SsrMiddlewareResolve {
   public(...paths: string[]): string;
 }
 
-interface SsrMiddlewareParams {
-  app: Express;
-  resolve: SsrMiddlewareResolve;
-  publicPath: string;
-  folders: SsrMiddlewareFolders;
-  /**
-   * Uses Vue and Vue Router to render the requested URL path.
-   * @returns the rendered HTML string to return to the client
-   */
-  render: SsrMiddlewareRender;
-  serve: SsrMiddlewareServe;
-}
-
-export type SsrMiddlewareCallback = (
-  params: SsrMiddlewareParams
-) => void | Promise<void>;
-
-interface SsrHandlerParams {
-  req: Request;
-  res: Response;
-  next: NextFunction;
-}
-
 interface SsrCreateParams {
   /**
    * Terminal PORT env var or the default configured port
@@ -103,7 +81,21 @@ export type SsrCreateCallback = (
   params: SsrCreateParams
 ) => Express | any;
 
-interface SsrListenParams extends SsrCreateParams {
+interface SsrMiddlewareParams extends SsrCreateParams {
+  app: Express;
+}
+
+export type SsrMiddlewareCallback = (
+  params: SsrMiddlewareParams
+) => void | Promise<void>;
+
+interface SsrHandlerParams {
+  req: Request;
+  res: Response;
+  next: NextFunction;
+}
+
+interface SsrListenParams extends SsrMiddlewareParams {
   /**
    * Wait for app to be initialized (run all SSR middlewares)
    * before starting to listen for clients
@@ -115,7 +107,7 @@ interface SsrListenParams extends SsrCreateParams {
 }
 
 export type SsrListenCallback = (
-  params: SsrCreateParams
+  params: SsrListenParams
 ) => Promise<Server>;
 
 interface SsrCloseParams extends SsrListenParams {
@@ -126,14 +118,10 @@ export type SsrCloseCallback = (
   params: SsrCloseParams
 ) => void;
 
-interface SsrServeStaticContent {
-  path: string;
-  opts?: ServeStaticOptions<Response>;
-}
-
 export type SsrServeStaticContentCallback = (
-  params: SsrServeStaticContent
- ) => RequestHandler<Response>;
+  path: string,
+  opts?: ServeStaticOptions<Response>
+) => RequestHandler<Response>;
 
 export type SsrRenderPreloadTagCallback = (
   file: string
