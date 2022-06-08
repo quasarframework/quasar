@@ -95,6 +95,10 @@ export default Vue.extend({
 
     isAppending () {
       return this.multiple === true && this.append === true
+    },
+
+    fieldClass () {
+      return 'q-file q-field--auto-height' + (this.dnd === true ? ' q-file--dnd' : '')
     }
   },
 
@@ -261,8 +265,6 @@ export default Vue.extend({
   },
 
   created () {
-    this.fieldClass = 'q-file q-field--auto-height'
-
     // necessary for QField's clearable
     // and FileValueMixin
     this.type = 'file'
