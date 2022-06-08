@@ -103,6 +103,8 @@ export default createComponent({
       disabled: state.editable.value !== true
     }))
 
+    const fieldClass = computed(() => 'q-file q-field--auto-height' + (dnd.value === true ? ' q-file--dnd' : ''))
+
     const isAppending = computed(() =>
       props.multiple === true && props.append === true
     )
@@ -235,7 +237,7 @@ export default createComponent({
     }
 
     Object.assign(state, {
-      fieldClass: { value: 'q-file q-field--auto-height' },
+      fieldClass,
       emitValue,
       hasValue,
       inputRef,
