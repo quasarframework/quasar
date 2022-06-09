@@ -151,7 +151,7 @@ class QuasarConfFile {
     this.#opts = { host, port }
 
     if (this.#ctx.mode.pwa) {
-      // Enable this when workbox bumps version (as of writing these lines, we're handling v8)
+      // Enable this when workbox bumps version (as of writing these lines, we're handling v6)
       // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {
