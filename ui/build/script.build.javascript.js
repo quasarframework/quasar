@@ -78,7 +78,7 @@ const builds = [
         input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve('dist/quasar.esm.js'),
+        file: resolve('dist/quasar.esm.mjs'),
         format: 'es'
       }
     },

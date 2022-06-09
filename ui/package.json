@@ -3,6 +3,15 @@
   "version": "2.7.1",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "main": "dist/quasar.cjs.prod.js",
+  "exports": {
+    ".": {
+      "import": "./dist/quasar.esm.prod.mjs",
+      "require": "./dist/quasar.cjs.prod.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./*": "./*",
+    "./quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs"
+  },
   "module": "dist/quasar.esm.prod.js",
   "unpkg": "dist/quasar.umd.prod.js",
   "jsdelivr": "dist/quasar.umd.prod.js",
