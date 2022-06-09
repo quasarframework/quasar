@@ -12,7 +12,7 @@
     "./*": "./*",
     "./quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs"
   },
-  "module": "dist/quasar.esm.prod.js",
+  "module": "dist/quasar.esm.prod.mjs",
   "unpkg": "dist/quasar.umd.prod.js",
   "jsdelivr": "dist/quasar.umd.prod.js",
   "typings": "dist/types/index.d.ts",
