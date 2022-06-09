@@ -28,7 +28,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v102 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2+ | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v103 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2+ | [License](material-icons-sharp/LICENSE) |
 | [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v7 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
-| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v7 | `material-symbols-round` | Material symbols round font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
+| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v7 | `material-symbols-rounded` | Material symbols rounded font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
 | [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v7 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
 | [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.7.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
