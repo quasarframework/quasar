@@ -1,3 +1,4 @@
+import { RenderError } from '@quasar/app-vite';
 import { ssrMiddleware } from 'quasar/wrappers';
 
 // This middleware should execute as last one
@@ -15,7 +16,7 @@ export default ssrMiddleware(({ app, resolve, render, serve }) => {
         // now let's send the rendered html to the client
         res.send(html);
       })
-      .catch((err) => {
+      .catch((err: RenderError) => {
         // oops, we had an error while rendering the page
 
         // we were told to redirect to another URL

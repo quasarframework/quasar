@@ -1,3 +1,4 @@
+import { RenderError } from '@quasar/app-vite';
 import { ssrMiddleware } from 'quasar/wrappers';
 
 // This middleware should execute as last one
@@ -11,11 +12,11 @@ export default ssrMiddleware(({ app, resolve, render, serve }) => {
     res.setHeader('Content-Type', 'text/html');
 
     render(/* the ssrContext: */ { req, res })
-      .then(html => {
+      .then((html) => {
         // now let's send the rendered html to the client
         res.send(html);
       })
-      .catch(err => {
+      .catch((err: RenderError) => {
         // oops, we had an error while rendering the page
 
         // we were told to redirect to another URL
@@ -48,6 +49,7 @@ export default ssrMiddleware(({ app, resolve, render, serve }) => {
           // Render Error Page on production or
           // create a route (/src/routes) for an error page and redirect to it
           res.status(500).send('500 | Internal Server Error');
+          // console.error(err.stack)
         }
       });
   });
