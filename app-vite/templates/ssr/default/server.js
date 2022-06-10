@@ -11,6 +11,13 @@
  */
 import express from 'express'
 import compression from 'compression'
+import {
+  ssrClose,
+  ssrCreate,
+  ssrListen,
+  ssrRenderPreloadTag,
+  ssrServeStaticContent
+} from 'quasar/wrappers'
 
 /**
  * Create your webserver and return its instance.
@@ -19,7 +26,7 @@ import compression from 'compression'
  *
  * Should NOT be async!
  */
-export function create (/* { ... } */) {
+export const create = ssrCreate((/* { ... } */) => {
   const app = express()
 
   // attackers can use this header to detect apps running Express
@@ -33,7 +40,7 @@ export function create (/* { ... } */) {
   }
 
   return app
-}
+})
 
 /**
  * You need to make the server listen to the indicated port
@@ -46,14 +53,14 @@ export function create (/* { ... } */) {
  * For production, you can instead export your
  * handler for serverless use or whatever else fits your needs.
  */
-export async function listen ({ app, port, isReady }) {
+export const listen = ssrListen(async ({ app, port, isReady }) => {
   await isReady()
-  return await app.listen(port, () => {
+  return app.listen(port, () => {
     if (process.env.PROD) {
       console.log('Server listening at port ' + port)
     }
   })
-}
+})
 
 /**
  * Should close the server and free up any resources.
@@ -65,9 +72,9 @@ export async function listen ({ app, port, isReady }) {
  *
  * Can be async.
  */
-export function close ({ listenResult }) {
+export const close = ssrClose(({ listenResult }) => {
   return listenResult.close()
-}
+})
 
 const maxAge = process.env.DEV
   ? 0
@@ -77,12 +84,12 @@ const maxAge = process.env.DEV
  * Should return middleware that serves the indicated path
  * with static content.
  */
-export function serveStaticContent (path, opts) {
+export const serveStaticContent = ssrServeStaticContent((path, opts) => {
   return express.static(path, {
     maxAge,
     ...opts
   })
-}
+})
 
 const jsRE = /\.js$/
 const cssRE = /\.css$/
@@ -96,7 +103,7 @@ const pngRE = /\.png$/
  * Should return a String with HTML output
  * (if any) for preloading indicated file
  */
-export function renderPreloadTag (file) {
+export const renderPreloadTag = ssrRenderPreloadTag((file) => {
   if (jsRE.test(file) === true) {
     return `<link rel="modulepreload" href="${file}" crossorigin>`
   }
@@ -126,4 +133,4 @@ export function renderPreloadTag (file) {
   }
 
   return ''
-}
+})

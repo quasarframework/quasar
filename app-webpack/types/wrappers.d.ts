@@ -8,13 +8,15 @@
 // This is a precaution measure to avoid future hard-to-backtrack bugs.
 
 declare module "quasar/wrappers" {
-  import { BootCallback } from "@quasar/app-webpack";
-  import { ConfigureCallback } from "@quasar/app-webpack";
-  import { PrefetchCallback } from "@quasar/app-webpack";
-  import { RouteCallback } from "@quasar/app-webpack";
-  import { StoreCallback } from "@quasar/app-webpack";
-  import { SsrMiddlewareCallback } from "@quasar/app-webpack";
-  import { SsrProductionExportCallback } from "@quasar/app-webpack";
+  import type {
+    BootCallback,
+    ConfigureCallback,
+    PrefetchCallback,
+    RouteCallback,
+    StoreCallback,
+    SsrMiddlewareCallback,
+    SsrProductionExportCallback,
+  } from "@quasar/app-webpack";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
   function boot<TState = any>(

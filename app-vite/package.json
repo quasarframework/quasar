@@ -49,6 +49,7 @@
     "@quasar/fastclick": "1.1.5",
     "@quasar/vite-plugin": "^1.0.9",
     "@rollup/pluginutils": "^4.1.2",
+    "@types/compression": "^1.7.2",
     "@types/cordova": "0.0.34",
     "@types/express": "^4.17.13",
     "@vitejs/plugin-vue": "^2.2.0",
