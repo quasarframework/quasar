@@ -108,12 +108,12 @@ div
         q-item-section jsFiddle
 
       q-item(clickable, href="https://stackblitz.com/fork/quasarframework", target="_blank", rel="noopener")
-        q-item-section.text-black(avatar)
+        q-item-section.text-light-blue-14(avatar)
           q-icon(:name="fasBolt")
         q-item-section StackBlitz (Vite)
 
       q-item(clickable, href="https://stackblitz.com/fork/quasarframework-webpack", target="_blank", rel="noopener")
-        q-item-section.text-black(avatar)
+        q-item-section.text-light-blue-14(avatar)
           q-icon(:name="fasBolt")
         q-item-section StackBlitz (Webpack)
 
