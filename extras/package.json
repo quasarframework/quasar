@@ -8,7 +8,6 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
-    "./*": "./*",
     "./bootstrap-icons": {
       "import": "./bootstrap-icons/index.mjs",
       "require": "./bootstrap-icons/index.js",
@@ -108,7 +107,8 @@
       "import": "./themify/index.mjs",
       "require": "./themify/index.js",
       "types": "./themify/index.d.ts"
-    }
+    },
+    "./*": "./*"
   },
   "repository": {
     "type": "git",
