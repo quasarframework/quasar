@@ -1,4 +1,4 @@
-import { RenderError } from '@quasar/app-vite';
+import { RenderError } from '@quasar/app-webpack';
 import { ssrMiddleware } from 'quasar/wrappers';
 
 // This middleware should execute as last one
