@@ -9,8 +9,8 @@
       "require": "./dist/quasar.cjs.prod.js",
       "types": "./dist/types/index.d.ts"
     },
-    "./*": "./*",
-    "./quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs"
+    "./quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs",
+    "./*": "./*"
   },
   "module": "dist/quasar.esm.prod.mjs",
   "unpkg": "dist/quasar.umd.prod.js",
