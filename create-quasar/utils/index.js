@@ -11,7 +11,7 @@ const spawn = require('child_process').spawn
 
 const logger = require('./logger')
 
-const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html' ]
+const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html', '.css', '.scss', '.sass' ]
 
 module.exports.join = join
 module.exports.logger = logger
