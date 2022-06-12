@@ -5,9 +5,9 @@
   "main": "dist/quasar.cjs.prod.js",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/quasar.esm.prod.mjs",
-      "require": "./dist/quasar.cjs.prod.js",
-      "types": "./dist/types/index.d.ts"
+      "require": "./dist/quasar.cjs.prod.js"
     },
     "./quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs",
     "./*": "./*"
