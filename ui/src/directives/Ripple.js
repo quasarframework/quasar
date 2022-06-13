@@ -62,7 +62,8 @@ function showRipple (evt, el, ctx, forceCenter) {
 }
 
 function updateModifiers (ctx, { modifiers, value, arg, instance }) {
-  const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
+  const qConfig = instance.$q?.config ? instance.$q.config.ripple : {}
+  const cfg = Object.assign({}, qConfig, modifiers, value)
   ctx.modifiers = {
     early: cfg.early === true,
     stop: cfg.stop === true,
