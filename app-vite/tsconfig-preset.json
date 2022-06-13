@@ -18,9 +18,19 @@
     // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node"],
+    "paths": {
+      "src/*": ["src/*"],
+      "app/*": ["*"],
+      "components/*": ["src/components/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["src/assets/*"],
+      "boot/*": ["src/boot/*"],
+      "stores/*": ["src/stores/*"]
+    }
   },
-  // Needed to avoid files copied into 'dist' folder (eg. a `.d.ts` file inside `src-ssr` folder)
+  // Needed to avoid files copied into 'dist' folder (e.g. a `.d.ts` file inside `src-ssr` folder)
   // to be evaluated by TS when their original files has been updated
   "exclude": ["/dist", ".quasar", "node_modules"]
 }
