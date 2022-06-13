@@ -18,7 +18,6 @@
     // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "types": ["vite/client", "node"],
     "paths": {
       "src/*": ["src/*"],
       "app/*": ["*"],
