@@ -111,10 +111,10 @@ setCssVar('primary', '#33F')
 setCssVar('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
-Example of setting brand colors using the helper:
+Example of setting brand colors using vanilla JavaScript:
 
 ```js
-// equivalent of setCssVar('primary') in raw Javascript:
+// equivalent of setCssVar('primary') in raw JavaScript:
 document.body.style.setProperty('--q-primary', '#0273d4')
 ```
 
@@ -136,10 +136,10 @@ getCssVar('primary') // '#33F'
 getCssVar('primary', document.getElementById('rebranded-section-id'))
 ```
 
-What this helper does is wrap the raw Javascript `getPropertyValue()` and it's available for convenience. Here is an example of equivalent vanilla Javascript:
+What this helper does is wrap the raw JavaScript `getPropertyValue()` and it's available for convenience. Here is an example of equivalent vanilla JavaScript:
 
 ```js
-// equivalent of getCssVar('primary') in raw Javascript:
+// equivalent of getCssVar('primary') in raw JavaScript:
 getComputedStyle(document.documentElement)
   .getPropertyValue('--q-primary') // #0273d4
 ```
