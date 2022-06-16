@@ -442,7 +442,8 @@ export default Vue.extend({
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,
-        'disabled q-uploader--disable': this.disable
+        'disabled q-uploader--disable': this.disable,
+        'q-uploader--dnd': this.dnd
       },
       on: this.canAddFiles === true
         ? cache(this, 'drag', {
