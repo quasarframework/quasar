@@ -540,11 +540,11 @@ export default {
 
       this.virtualScrollSizes.length = this.virtualScrollLength
 
-      for (let i = this.virtualScrollLength - 1; i >= oldVirtualScrollSizesLength; i--) {
+      for (let i = this.virtualScrollLength; i >= oldVirtualScrollSizesLength; i--) {
         this.virtualScrollSizes[i] = defaultSize
       }
 
-      const jMax = Math.floor((this.virtualScrollLength - 1) / aggBucketSize)
+      const jMax = Math.floor((this.virtualScrollLength) / aggBucketSize)
       this.virtualScrollSizesAgg = []
       for (let j = 0; j <= jMax; j++) {
         let size = 0
