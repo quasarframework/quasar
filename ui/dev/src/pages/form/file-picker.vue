@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding">
     <form action="http://localhost:4444/upload" method="post" enctype="multipart/form-data" target="wind1" style="max-width: 600px;" class="q-gutter-y-md">
-      <q-file name="file1" filled v-model="fileS" label="Single" clearable @rejected="onRejected" />
+      <q-file class="q-file--dnd-test" name="file1" filled v-model="fileS" label="Single (DnD test)" clearable @rejected="onRejected" />
       <q-file name="file2" color="yellow" filled v-model="fileM" multiple label="Multiple" clearable @rejected="onRejected" />
 
       <q-file name="file3" color="accent" filled v-model="fileS" use-chips label="Single chips" clearable @rejected="onRejected" />
@@ -24,6 +24,12 @@
     </div>
   </div>
 </template>
+
+<style lang="sass" scoped>
+.q-file--dnd-test.q-file--dnd
+  background: #FFCC
+  outline: 2px solid
+</style>
 
 <script>
 export default {

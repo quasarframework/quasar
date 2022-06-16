@@ -149,6 +149,7 @@ export function getRenderer (getPlugin) {
     + (props.square === true ? ' q-uploader--square no-border-radius' : '')
     + (props.flat === true ? ' q-uploader--flat no-shadow' : '')
     + (props.disable === true ? ' disabled q-uploader--disable' : '')
+    + (dnd.value === true ? ' q-uploader--dnd' : '')
   )
 
   const colorClass = computed(() =>
