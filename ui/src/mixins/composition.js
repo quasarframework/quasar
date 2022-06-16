@@ -13,22 +13,18 @@ export default {
         e.target.qComposing = false
         this.__onInput(e)
       }
-      else if (e.type === 'compositionupdate') {
-        if (
-          e.target.qComposing !== true &&
-          typeof e.data === 'string'
-        ) {
-          const isComposing = client.is.firefox === true
-            ? isPlainText.test(e.data) === false
-            : isJapanese.test(e.data) === true && isChinese.test(e.data) === true && isKorean.test(e.data) === true
+      else if (
+        e.type === 'compositionupdate' &&
+        e.target.qComposing !== true &&
+        typeof e.data === 'string'
+      ) {
+        const isComposing = client.is.firefox === true
+          ? isPlainText.test(e.data) === false
+          : isJapanese.test(e.data) === true || isChinese.test(e.data) === true || isKorean.test(e.data) === true
 
-          if (isComposing === true) {
-            e.target.qComposing = true
-          }
+        if (isComposing === true) {
+          e.target.qComposing = true
         }
-      }
-      else {
-        e.target.qComposing = true
       }
     }
   }
