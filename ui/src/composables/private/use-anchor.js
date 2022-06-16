@@ -140,7 +140,7 @@ export default function ({
     if (props.target === false || props.target === '') {
       anchorEl.value = null
     }
-    else if (props.target === true) {
+    else if (props.target === true && proxy.$el.parentNode != null) {
       setAnchorEl(proxy.$el.parentNode)
     }
     else {
