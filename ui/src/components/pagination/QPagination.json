@@ -223,7 +223,7 @@
       "extends": "update:model-value",
       "params": {
         "value": {
-          "type": "String"
+          "type": "Number"
         }
       }
     }
