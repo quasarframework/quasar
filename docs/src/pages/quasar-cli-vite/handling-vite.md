@@ -136,10 +136,7 @@ module.exports = function (ctx) {
 }
 ```
 
-## Using a Vite Plugin
-Let's learn by taking some examples, assuming you've added `@quasar/app-vite` to your Quasar project already or check [Convert to Quasar CLI with Vite](https://quasar.dev/quasar-cli-vite/convert-to-quasar-cli-with-vite).
-
-### Example: Using rollup-plugin-copy
+### Example: rollup-plugin-copy
 It is likely that you will need to copy static or external files to your Quasar project during the build to production process, rollup-plugin-copy allows you to copy files and folders when building your app.
 
 ```js
