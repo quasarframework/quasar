@@ -41,6 +41,16 @@ If you are building a website, you can also skip configuring quasar.config.js an
 It should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import the [compat version](https://animate.style/#migration). However, if you're using the **Quasar CLI**, no additional changes are needed.
 :::
 
+::: info
+**Windows Developers**
+If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame. 
+Try changing **Visual Effects** to **Adjust for Best Appearance**.
+1. Right click `My Computer` and select `Properties`
+2. Click `Advanced System Settings` 
+3. Click the `Settings` button under `Performance`
+4. Under the `Visual Effects` tab, change the radio option to: `Adjust for Best Appearance`
+:::
+
 ## Usage
 Notice the string "animated" in front of the actual animation name.
 
