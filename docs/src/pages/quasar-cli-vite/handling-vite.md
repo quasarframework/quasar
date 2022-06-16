@@ -136,6 +136,34 @@ module.exports = function (ctx) {
 }
 ```
 
+### Example: rollup-plugin-copy
+It is likely that you will need to copy static or external files to your Quasar project during the build to production process, rollup-plugin-copy allows you to copy files and folders when building your app.
+
+```js
+// quasar.config.js
+...
+  build: {
+  ...
+    vitePlugins: [
+      [ 
+        'rollup-plugin-copy', {
+          targets: [
+            { // Syntax code, check doc in https://www.npmjs.com/package/rollup-plugin-copy
+              src: '[ORIGIN_PATH]',
+              dest: '[DEST_PATH]'
+            },
+            { // Copying firebase-messaging-sw.js to SPA/PWA/SSR dest build folder
+              src: 'config/firebase/firebase-messaging-sw.js',
+              dest: 'dest/spa'    // example when building SPA
+            }
+        } 
+       ],
+       // other vite/rollup plugins
+    ]
+  }
+...
+```
+
 ## Folder aliases
 Quasar comes with a bunch of useful folder aliases preconfigured. You can use them anywhere in your project and Vite will resolve the correct path.
 
