@@ -139,7 +139,7 @@ export default {
     },
 
     __pickAnchorEl () {
-      if (this.target === false || this.target === '') {
+      if (this.target === false || this.target === '' || this.parentEl === null) {
         this.anchorEl = void 0
       }
       else if (this.target === true) {
