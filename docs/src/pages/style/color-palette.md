@@ -63,10 +63,10 @@ If you want to use your own colors for your components (let's say we are adding 
 
 ```css
 .text-brand {
-  color: #a2aa33 !important;
+  color: #a2aa33;
 }
 .bg-brand {
-  background: #a2aa33 !important;
+  background: #a2aa33;
 }
 ```
 
