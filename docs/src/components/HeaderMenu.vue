@@ -199,6 +199,7 @@ export default {
       fasFlask,
       fabCodepen,
       fabJsfiddle,
+      fasBolt,
       fasCubes,
       fabTwitter,
       fabFacebook,
