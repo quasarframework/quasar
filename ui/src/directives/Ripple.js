@@ -62,13 +62,15 @@ function showRipple (evt, el, ctx, forceCenter) {
 }
 
 function updateModifiers (ctx, { modifiers, value, arg, instance }) {
-  const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
-  ctx.modifiers = {
-    early: cfg.early === true,
-    stop: cfg.stop === true,
-    center: cfg.center === true,
-    color: cfg.color || arg,
-    keyCodes: [].concat(cfg.keyCodes || 13)
+  if (instance && instance.$q && instance.$q.config) {
+    const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
+    ctx.modifiers = {
+      early: cfg.early === true,
+      stop: cfg.stop === true,
+      center: cfg.center === true,
+      color: cfg.color || arg,
+      keyCodes: [].concat(cfg.keyCodes || 13)
+    }
   }
 }
 
