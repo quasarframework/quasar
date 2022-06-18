@@ -154,7 +154,7 @@ export default Vue.extend({
     inputAttrs () {
       const attrs = {
         tabindex: 0,
-        'data-autofocus': this.autofocus,
+        'data-autofocus': this.autofocus || void 0,
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         name: this.nameProp,

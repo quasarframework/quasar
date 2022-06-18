@@ -1093,7 +1093,7 @@ export default Vue.extend({
           maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           autocomplete: this.autocomplete,
-          'data-autofocus': fromDialog === true ? false : this.autofocus,
+          'data-autofocus': (fromDialog !== true && this.autofocus) || void 0,
           disabled: this.disable === true,
           readonly: this.readonly === true
         },

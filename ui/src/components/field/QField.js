@@ -367,7 +367,7 @@ export default Vue.extend({
             attrs: {
               tabindex: -1,
               ...this.qAttrs,
-              'data-autofocus': this.autofocus
+              'data-autofocus': this.autofocus || void 0
             }
           }, this.$scopedSlots.control(this.controlSlotScope))
         )
@@ -543,7 +543,7 @@ export default Vue.extend({
     const attrs = this.__getControl === void 0 && this.$scopedSlots.control === void 0
       ? {
         ...this.qAttrs,
-        'data-autofocus': this.autofocus,
+        'data-autofocus': this.autofocus || void 0,
         ...this.attrs
       }
       : this.attrs
