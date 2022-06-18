@@ -164,13 +164,18 @@ export default Vue.extend({
       this.__updateMenu(show)
     },
 
-    virtualScrollLength () {
+    virtualScrollLength (newLength, oldLength) {
       if (this.menu === true && this.innerLoading === false) {
-        this.reset()
+        this.__resetVirtualScroll(-1, true)
 
         this.$nextTick(() => {
           if (this.menu === true && this.innerLoading === false) {
-            this.__updateMenu(true)
+            if (newLength > oldLength) {
+              this.__resetVirtualScroll()
+            }
+            else {
+              this.__updateMenu(true)
+            }
           }
         })
       }
