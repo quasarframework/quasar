@@ -19,8 +19,8 @@
           q-color(v-model="colors[color]")
 
     .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
-      .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden
-        div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
+      .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden(:class="pageClass")
+        div(:class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`")
           q-bar(dense, :dark="dark.primary")
             q-space
             q-icon.q-mr-xs(:name="fasSquare", size="12px", style="opacity: 0.5")
@@ -37,7 +37,7 @@
           q-toolbar(inset)
             q-toolbar-title Quasar
 
-        .q-px-md.q-py-lg(:class="pageClass")
+        .q-px-md.q-py-lg
           .row.q-col-gutter-md
             .col-12.col-sm-6.col-md-4.col-lg-3(
               v-for="color in sideColors"
@@ -126,6 +126,7 @@ export default {
       accent: '#9C27B0',
 
       dark: '#1d1d1d',
+      'dark-page': '#121212',
 
       positive: '#21BA45',
       negative: '#C10015',
@@ -138,6 +139,7 @@ export default {
       secondary: true,
       accent: true,
       dark: true,
+      'dark-page': true,
 
       positive: true,
       negative: true,
@@ -154,7 +156,7 @@ export default {
       dark[ color ] = luminosity(val) <= 0.4
     }
 
-    const list = [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ]
+    const list = [ 'primary', 'secondary', 'accent', 'dark', 'dark-page', 'positive', 'negative', 'info', 'warning' ]
 
     list.forEach(entry => {
       watch(() => colors[ entry ], val => { update(entry, val) })
@@ -162,7 +164,7 @@ export default {
 
     const pageClass = computed(() => {
       return darkMode.value === true
-        ? 'bg-grey-10 text-white'
+        ? 'bg-dark-page text-white'
         : 'bg-white text-black'
     })
 
@@ -171,7 +173,8 @@ export default {
         `$primary   : ${colors.primary}\n` +
         `$secondary : ${colors.secondary}\n` +
         `$accent    : ${colors.accent}\n\n` +
-        `$dark      : ${colors.dark}\n\n` +
+        `$dark      : ${colors.dark}\n` +
+        `$dark-page : ${colors[ 'dark-page' ]}\n\n` +
         `$positive  : ${colors.positive}\n` +
         `$negative  : ${colors.negative}\n` +
         `$info      : ${colors.info}\n` +
@@ -183,7 +186,8 @@ export default {
         `$primary   : ${colors.primary};\n` +
         `$secondary : ${colors.secondary};\n` +
         `$accent    : ${colors.accent};\n\n` +
-        `$dark      : ${colors.dark};\n\n` +
+        `$dark      : ${colors.dark};\n` +
+        `$dark-page : ${colors[ 'dark-page' ]};\n\n` +
         `$positive  : ${colors.positive};\n` +
         `$negative  : ${colors.negative};\n` +
         `$info      : ${colors.info};\n` +
@@ -202,6 +206,7 @@ return {
         accent: '${colors.accent}',
 
         dark: '${colors.dark}',
+        'dark-page': '${colors[ 'dark-page' ]}',
 
         positive: '${colors.positive}',
         negative: '${colors.negative}',
@@ -222,6 +227,7 @@ return {
       accent: '${colors.accent}',
 
       dark: '${colors.dark}',
+      'dark-page': '${colors[ 'dark-page' ]}',
 
       positive: '${colors.positive}',
       negative: '${colors.negative}',
@@ -260,3 +266,9 @@ return {
   }
 }
 </script>
+
+<style lang="sass">
+#theme-picker
+  .bg-dark-page
+    background-color: var(--q-dark-page) !important
+</style>
