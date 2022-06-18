@@ -87,11 +87,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
             if (
               ctx.enabled === true
               && evt.qSkipRipple !== true
-              && (
-                ctx.modifiers.early === true
-                  ? [ 'mousedown', 'touchstart' ].includes(evt.type) === true
-                  : evt.type === 'click'
-              )
+              && evt.type === (ctx.modifiers.early === true ? 'pointerdown' : 'click')
             ) {
               showRipple(evt, el, ctx, evt.qKeyEvent === true)
             }
@@ -114,8 +110,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
         el.__qripple = ctx
 
         addEvt(ctx, 'main', [
-          [ el, 'mousedown', 'start', 'passive' ],
-          [ el, 'touchstart', 'start', 'passive' ],
+          [ el, 'pointerdown', 'start', 'passive' ],
           [ el, 'click', 'start', 'passive' ],
           [ el, 'keydown', 'keystart', 'passive' ],
           [ el, 'keyup', 'keystart', 'passive' ]
