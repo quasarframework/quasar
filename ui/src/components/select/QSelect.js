@@ -175,7 +175,6 @@ export default createComponent({
       localResetVirtualScroll,
       padVirtualScroll,
       onVirtualScrollEvt,
-      reset,
       scrollTo,
       setVirtualScrollSize
     } = useVirtualScroll({
@@ -1350,13 +1349,18 @@ export default createComponent({
       setOptionIndex(optionIndex)
     }
 
-    function rerenderMenu () {
+    function rerenderMenu (newLength, oldLength) {
       if (menu.value === true && state.innerLoading.value === false) {
-        reset()
+        localResetVirtualScroll(-1, true)
 
         nextTick(() => {
           if (menu.value === true && state.innerLoading.value === false) {
-            updateMenu(true)
+            if (newLength > oldLength) {
+              localResetVirtualScroll()
+            }
+            else {
+              updateMenu(true)
+            }
           }
         })
       }
