@@ -19,8 +19,8 @@
             q-color(v-model="colors[color]")
 
       .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
-        .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden
-          div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
+        .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden(:class="pageClass")
+          div(:class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`")
             q-bar(dense, :dark="dark.primary")
               q-space
               q-icon.q-mr-xs(:name="fasSquare", size="12px", style="opacity: 0.5")
@@ -37,7 +37,7 @@
             q-toolbar(inset)
               q-toolbar-title Quasar
 
-          .q-px-md.q-py-lg(:class="pageClass")
+          .q-px-md.q-py-lg
             .row.q-col-gutter-md
               .col-12.col-sm-6.col-md-4.col-lg-3(
                 v-for="color in sideColors"
@@ -130,6 +130,24 @@ export default {
     this.mdiMagnify = mdiMagnify
     this.mdiMenu = mdiMenu
     this.mdiMapMarkerRadius = mdiMapMarkerRadius
+
+    this.watcherList = []
+
+    this.list.forEach(entry => {
+      this.watcherList.push(
+        this.$watch(
+          () => this.colors[entry],
+          val => {
+            this.update(entry, val)
+          })
+      )
+    })
+  },
+
+  beforeDestroy () {
+    this.watcherList.forEach(entry => {
+      entry()
+    })
   },
 
   data () {
@@ -140,6 +158,7 @@ export default {
         accent: '#9C27B0',
 
         dark: '#1d1d1d',
+        'dark-page': '#121212',
 
         positive: '#21BA45',
         negative: '#C10015',
@@ -152,6 +171,7 @@ export default {
         secondary: true,
         accent: true,
         dark: true,
+        'dark-page': true,
 
         positive: true,
         negative: true,
@@ -162,49 +182,15 @@ export default {
       darkMode: false,
       exportDialog: false,
       exportTab: 'sass',
-      list: [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ],
+      list: [ 'primary', 'secondary', 'accent', 'dark', 'dark-page', 'positive', 'negative', 'info', 'warning' ],
       sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
-    }
-  },
-
-  watch: {
-    'colors.primary' (val) {
-      this.update('primary', val)
-    },
-
-    'colors.secondary' (val) {
-      this.update('secondary', val)
-    },
-
-    'colors.accent' (val) {
-      this.update('accent', val)
-    },
-
-    'colors.dark' (val) {
-      this.update('dark', val)
-    },
-
-    'colors.positive' (val) {
-      this.update('positive', val)
-    },
-
-    'colors.negative' (val) {
-      this.update('negative', val)
-    },
-
-    'colors.info' (val) {
-      this.update('info', val)
-    },
-
-    'colors.warning' (val) {
-      this.update('warning', val)
     }
   },
 
   computed: {
     pageClass () {
       return this.darkMode === true
-        ? 'bg-grey-10 text-white'
+        ? 'bg-dark-page text-white'
         : 'bg-white text-black'
     },
 
@@ -213,7 +199,8 @@ export default {
         `$primary   : ${this.colors.primary}\n` +
         `$secondary : ${this.colors.secondary}\n` +
         `$accent    : ${this.colors.accent}\n\n` +
-        `$dark      : ${this.colors.dark}\n\n` +
+        `$dark      : ${this.colors.dark}\n` +
+        `$dark-page : ${this.colors['dark-page']}\n\n` +
         `$positive  : ${this.colors.positive}\n` +
         `$negative  : ${this.colors.negative}\n` +
         `$info      : ${this.colors.info}\n` +
@@ -225,7 +212,8 @@ export default {
         `$primary   : ${this.colors.primary};\n` +
         `$secondary : ${this.colors.secondary};\n` +
         `$accent    : ${this.colors.accent};\n\n` +
-        `$dark      : ${this.colors.dark};\n\n` +
+        `$dark      : ${this.colors.dark};\n` +
+        `$dark-page : ${this.colors['dark-page']};\n\n` +
         `$positive  : ${this.colors.positive};\n` +
         `$negative  : ${this.colors.negative};\n` +
         `$info      : ${this.colors.info};\n` +
@@ -237,7 +225,8 @@ export default {
         `$primary   = ${this.colors.primary}\n` +
         `$secondary = ${this.colors.secondary}\n` +
         `$accent    = ${this.colors.accent}\n\n` +
-        `$dark      = ${this.colors.dark}\n\n` +
+        `$dark      = ${this.colors.dark}\n` +
+        `$dark-page = ${this.colors['dark-page']}\n\n` +
         `$positive  = ${this.colors.positive}\n` +
         `$negative  = ${this.colors.negative}\n` +
         `$info      = ${this.colors.info}\n` +
@@ -257,6 +246,7 @@ return {
         accent: '${this.colors.accent}',
 
         dark: '${this.colors.dark}',
+        'dark-page': '${this.colors['dark-page']}',
 
         positive: '${this.colors.positive}',
         negative: '${this.colors.negative}',
@@ -279,6 +269,7 @@ window.quasarConfig = {
     accent: '${this.colors.accent}',
 
     dark: '${this.colors.dark}',
+    'dark-page': '${this.colors['dark-page']}',
 
     positive: '${this.colors.positive}',
     negative: '${this.colors.negative}',
@@ -300,6 +291,7 @@ Vue.use(Quasar, {
       accent: '${this.colors.accent}',
 
       dark: '${this.colors.dark}',
+      'dark-page': '${this.colors['dark-page']}',
 
       positive: '${this.colors.positive}',
       negative: '${this.colors.negative}',
@@ -319,3 +311,9 @@ Vue.use(Quasar, {
   }
 }
 </script>
+
+<style lang="sass">
+#theme-picker
+  .bg-dark-page
+    background-color: var(--q-color-dark-page) !important
+</style>
