@@ -1,21 +1,23 @@
 ---
 title: Layout Page
 desc: How to use QPageContainer and QPage components. They define the contents of your Quasar app pages.
+keys: QPage
 related:
   - /layout/layout
 ---
 
 We will be talking about encapsulating pages within a QLayout. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
-## Installation
-Pick only what you are using from the list below.
+## QPageContainer API
+<doc-api file="QPageContainer" />
 
-<doc-installation :components="['QPageContainer', 'QPage']" />
+## QPage API
+<doc-api file="QPage" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 
@@ -84,9 +86,3 @@ export default {
 }
 </script>
 ```
-
-## QPageContainer API
-<doc-api file="QPageContainer" />
-
-## QPage API
-<doc-api file="QPage" />

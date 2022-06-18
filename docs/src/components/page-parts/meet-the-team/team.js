@@ -1,150 +1,145 @@
 export default [
   {
-    name: 'Razvan Stoenescu',
-    role: 'Creator, Lead Dev & Architect',
-    avatar: 'razvan_stoenescu.jpeg',
-    email: 'razvan@quasar.dev',
-    twitter: 'quasarframework',
-    github: 'rstoenescu',
-    desc: 'Architecture and development of Quasar on all fronts.'
+    name: 'Core Team',
+    members: [
+      {
+        name: 'Razvan Stoenescu',
+        role: 'Creator, Lead Dev & Architect',
+        avatar: 'razvan_stoenescu.jpeg',
+        email: 'razvan@quasar.dev',
+        twitter: 'rstoenescu1',
+        github: 'rstoenescu',
+        desc: 'Architecture and development of Quasar on all fronts'
+      },
+
+      {
+        name: 'Dan Popescu',
+        role: 'Senior Core Developer',
+        avatar: 'dan_popescu.jpg',
+        email: 'dan@quasar.dev',
+        github: 'pdanpdan',
+        desc: 'Focuses on Quasar UI components, directives and plugins'
+      },
+
+      {
+        name: 'Jeff Galbraith',
+        role: 'Senior Developer',
+        avatar: 'jeff_galbraith.jpg',
+        email: 'jeff@quasar.dev',
+        twitter: 'jgalbraith64',
+        github: 'hawkeye64',
+        desc: 'UI components, App Extensions and community outreach'
+      },
+
+      {
+        name: 'Scott Molinari',
+        role: 'Media Manager',
+        avatar: 'scott_molinari.jpg',
+        github: 'smolinari',
+        desc: 'Manages our Facebook page, blog and forum. Helps with docs, bug reports, external systems, writes and manages articles and offers community support.'
+      },
+
+      {
+        name: 'Paolo Caleffi',
+        role: 'Senior Developer',
+        avatar: 'paolo_caleffi.jpg',
+        github: 'IlCallo',
+        desc: 'Typescript support'
+      },
+
+      {
+        name: 'Yusuf Kandemir',
+        role: 'Senior Developer',
+        avatar: 'yusuf_kandemir.jpg',
+        github: 'yusufkandemir',
+        desc: 'Wizard developer on multiple areas of Quasar'
+      },
+
+      {
+        name: 'Aldrin Marquez',
+        role: 'Community Staff',
+        avatar: 'aldrin_marquez.jpg',
+        github: 'metalsadman',
+        desc: 'Help desk'
+      },
+
+      {
+        name: 'Luke Diebold',
+        role: 'Senior developer',
+        avatar: 'luke_diebold.png',
+        github: 'ldiebold',
+        desc: 'Creates video tutorials, podcasts and shows for Quasar Framework.'
+      },
+
+      {
+        name: 'Niccolò Menozzi',
+        role: 'Senior designer',
+        avatar: 'niccolo_menozzi.jpg',
+        github: 'NiccoloMenozzi',
+        desc: 'UX manager, brand management, communication, business strategy.'
+      }
+    ]
   },
 
   {
-    name: 'Dan Popescu',
-    role: 'Senior Core Developer',
-    avatar: 'dan_popescu.jpg',
-    email: 'dan@quasar.dev',
-    github: 'pdanpdan',
-    desc: 'Focuses on Quasar UI components, directives and plugins.'
-  },
+    name: 'Honorable mentions',
+    members: [
+      {
+        name: 'Allan Gaunt',
+        role: 'Senior Developer',
+        avatar: 'allan_gaunt.png',
+        github: 'webnoob',
+        desc: 'Wrote the initial BEX mode and much more'
+      },
 
-  {
-    name: 'Jeff Galbraith',
-    role: 'Senior Developer',
-    avatar: 'jeff_galbraith.jpg',
-    email: 'jeff@quasar.dev',
-    twitter: 'jgalbraith64',
-    github: 'hawkeye64',
-    desc: 'UI app extensions, the Quasar Radio Show and community outreach.'
-  },
+      {
+        name: 'Tobias Mesquita',
+        role: 'Senior Developer',
+        avatar: 'tobias_mesquita.jpg',
+        github: 'TobyMosque',
+        desc: 'Help desk'
+      },
 
-  {
-    name: 'Lucas Nogueira',
-    role: 'Senior Developer',
-    avatar: 'lucas_nogueira.jpg',
-    github: 'lucasfernog',
-    desc: 'Quasar CLI development, Webview Quasar mode.'
-  },
+      {
+        name: 'Kerry Huguet',
+        role: 'Senior Developer',
+        avatar: 'kerry_huguet.jpeg',
+        github: 'outofmemoryagain',
+        desc: 'Typescript support'
+      },
 
-  {
-    name: 'Allan Gaunt',
-    role: 'Senior Developer',
-    avatar: 'allan_gaunt.png',
-    github: 'webnoob',
-    desc: 'Web products and security research.'
-  },
+      {
+        name: 'Noah Klayman',
+        role: 'Developer / Community Staff',
+        avatar: 'noah_klayman.jpeg',
+        github: 'nklayman',
+        desc: 'Wrote the initial Capacitor mode'
+      },
 
-  {
-    name: 'Scott Molinari',
-    role: 'DevOps / Senior Developer',
-    avatar: 'scott_molinari.jpg',
-    github: 'smolinari',
-    desc: 'Helps with docs, bug reports, external systems, writes articles and offers community support.'
-  },
+      {
+        name: 'Heitor Ribeiro',
+        role: 'Community Staff',
+        avatar: 'heitor_ribeiro.jpg',
+        github: 'bloodf',
+        desc: 'Writes articles and offers community support.'
+      },
 
-  {
-    name: 'Tobias Mesquita',
-    role: 'Senior Developer',
-    avatar: 'tobias_mesquita.jpg',
-    github: 'TobyMosque',
-    desc: 'Help desk'
-  },
+      {
+        name: 'Jesús Villanueva',
+        role: 'Senior Developer',
+        avatar: 'jesus_villanueva.jpg',
+        github: 'jesusvilla',
+        desc: 'Help desk'
+      },
 
-  {
-    name: 'Kerry Huguet',
-    role: 'Senior Developer',
-    avatar: 'kerry_huguet.jpeg',
-    github: 'outofmemoryagain',
-    desc: 'Typescript support'
-  },
-
-  {
-    name: 'Noah Klayman',
-    role: 'DevOps / Community Staff',
-    avatar: 'noah_klayman.jpeg',
-    github: 'nklayman',
-    desc: 'GraphQL, App Extensions'
-  },
-
-  {
-    name: 'Aldrin Marquez',
-    role: 'Community Staff',
-    avatar: 'aldrin_marquez.jpg',
-    github: 'metalsadman',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'Matyáš Racek',
-    role: 'Community Staff',
-    avatar: 'matyas_panstromek.jpeg',
-    github: 'panstromek',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'James Harrington',
-    role: 'Community Staff',
-    avatar: 'james_harrington.jpeg',
-    github: 'codenamezjames',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'Ross Ball',
-    role: 'Designer / Community Staff',
-    avatar: 'ross_ball.jpeg',
-    github: 'rossity',
-    desc: 'Quasar Themes'
-  },
-
-  {
-    name: 'James Gilchrist',
-    role: 'Community Staff',
-    avatar: 'james_gilchrist.png',
-    github: 'jpgilchrist',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'Ben Coughenour',
-    role: 'Community Staff',
-    avatar: 'ben_coughenour.jpg',
-    github: 'sskwrl',
-    desc: 'Help desk'
-  },
-
-  {
-    name: 'Heitor Ribeiro',
-    role: 'Community Staff',
-    avatar: 'heitor_ribeiro.jpg',
-    github: 'bloodf',
-    desc: 'Writes articles and offers community support.'
-  },
-
-  {
-    name: 'David Watson',
-    role: 'Community Staff',
-    avatar: 'david_watson.jpg',
-    github: 'realtimeappsolutions',
-    desc: 'Marketing and PR.'
-  },
-
-  {
-    name: 'Stanislav Valasek',
-    role: 'Community Staff',
-    avatar: 'stanislav_valasek.jpg',
-    github: 'valasek',
-    desc: 'Marketing, Open Source Compliance, Community experience.'
+      {
+        name: 'Dmitrij Polianin',
+        role: 'Trainer / Community Staff',
+        avatar: 'dmitrij_polianin.jpg',
+        email: 'dmitrij.polyanin@gmail.com',
+        github: 'DmitrijOkeanij',
+        desc: 'Russian Community maintainer and Quasar Trainer.'
+      }
+    ]
   }
 ]

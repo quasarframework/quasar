@@ -1,0 +1,8 @@
+{
+  "extends": "@quasar/app/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": "."<% if (typescriptConfig === 'class') { %>,
+    "experimentalDecorators": true<% } %><% if (preset.ie) { %>,
+    "target": "es5"<% } %>
+  }
+}

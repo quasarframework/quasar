@@ -1,119 +1,152 @@
-import Vue from 'vue'
+import { h, createApp, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
-import { isSSR } from './Platform.js'
-import uid from '../utils/uid.js'
+
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
+import preventScroll from '../utils/prevent-scroll.js'
+import { isObject } from '../utils/private/is.js'
 
 let
-  vm = null,
+  app,
+  vm,
+  uid = 0,
   timeout,
-  props = {},
-  originalDefaults = {
-    delay: 0,
-    message: false,
-    spinnerSize: 80,
-    spinnerColor: 'white',
-    messageColor: 'white',
-    backgroundColor: 'black',
-    spinner: QSpinner,
-    customClass: ''
-  },
-  defaults = { ...originalDefaults }
+  props = {}
 
-export default {
-  isActive: false,
+const originalDefaults = {
+  delay: 0,
+  message: false,
+  html: false,
+  spinnerSize: 80,
+  spinnerColor: '',
+  messageColor: '',
+  backgroundColor: '',
+  boxClass: '',
+  spinner: QSpinner,
+  customClass: ''
+}
 
+const defaults = { ...originalDefaults }
+
+const Plugin = defineReactivePlugin({
+  isActive: false
+}, {
   show (opts) {
-    if (isSSR === true) { return }
+    if (__QUASAR_SSR_SERVER__) { return }
 
-    props = opts === Object(opts) && opts.ignoreDefaults === true
+    props = isObject(opts) === true && opts.ignoreDefaults === true
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
-    props.customClass += ` text-${props.backgroundColor}`
+    Plugin.isActive = true
 
-    this.isActive = true
-
-    if (vm) {
+    if (app !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
       return
     }
 
+    props.uid = ++uid
     clearTimeout(timeout)
+
     timeout = setTimeout(() => {
-      timeout = null
+      timeout = void 0
 
-      const node = document.createElement('div')
-      document.body.appendChild(node)
-      document.body.classList.add('q-body--loading')
+      const el = createGlobalNode('q-loading')
 
-      vm = new Vue({
+      app = createApp({
         name: 'QLoading',
 
-        el: node,
+        setup () {
+          onMounted(() => {
+            preventScroll(true)
+          })
 
-        render: (h) => {
-          return h('transition', {
-            props: {
-              name: 'q-transition--fade',
-              appear: true
-            },
-            on: {
-              'after-leave': () => {
-                // might be called to finalize
-                // previous leave, even if it was cancelled
-                if (!this.isActive && vm) {
-                  vm.$destroy()
-                  document.body.classList.remove('q-body--loading')
-                  vm.$el.remove()
-                  vm = null
-                }
-              }
+          function onAfterLeave () {
+            // might be called to finalize
+            // previous leave, even if it was cancelled
+            if (Plugin.isActive !== true && app !== void 0) {
+              preventScroll(false)
+              app.unmount(el)
+              removeGlobalNode(el)
+              app = void 0
+              vm = void 0
             }
-          }, [
-            this.isActive ? h('div', {
-              staticClass: 'q-loading fullscreen column flex-center z-max',
-              key: uid(),
-              class: props.customClass.trim()
-            }, [
+          }
+
+          function getContent () {
+            if (Plugin.isActive !== true) {
+              return null
+            }
+
+            const content = [
               h(props.spinner, {
-                props: {
-                  color: props.spinnerColor,
-                  size: props.spinnerSize
-                }
+                class: 'q-loading__spinner',
+                color: props.spinnerColor,
+                size: props.spinnerSize
+              })
+            ]
+
+            props.message && content.push(
+              h('div', {
+                class: 'q-loading__message'
+                  + (props.messageColor ? ` text-${ props.messageColor }` : ''),
+                [ props.html === true ? 'innerHTML' : 'textContent' ]: props.message
+              })
+            )
+
+            return h('div', {
+              class: 'q-loading fullscreen flex flex-center z-max ' + props.customClass.trim(),
+              key: props.uid
+            }, [
+              h('div', {
+                class: 'q-loading__backdrop'
+                  + (props.backgroundColor ? ` bg-${ props.backgroundColor }` : '')
               }),
-              (props.message && h('div', {
-                class: `text-${props.messageColor}`,
-                domProps: {
-                  [props.sanitize === true ? 'textContent' : 'innerHTML']: props.message
-                }
-              })) || void 0
-            ]) : null
-          ])
+
+              h('div', {
+                class: 'q-loading__box column items-center ' + props.boxClass
+              }, content)
+            ])
+          }
+
+          return () => h(Transition, {
+            name: 'q-transition--fade',
+            appear: true,
+            onAfterLeave
+          }, getContent)
         }
       })
+
+      vm = app.mount(el)
     }, props.delay)
   },
 
   hide () {
-    if (this.isActive) {
-      if (timeout) {
+    if (__QUASAR_SSR_SERVER__ !== true && Plugin.isActive === true) {
+      if (timeout !== void 0) {
         clearTimeout(timeout)
-        timeout = null
+        timeout = void 0
       }
 
-      this.isActive = false
+      Plugin.isActive = false
     }
   },
 
   setDefaults (opts) {
-    Object.assign(defaults, opts)
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      isObject(opts) === true && Object.assign(defaults, opts)
+    }
   },
 
-  install ({ $q, cfg: { loading } }) {
-    loading !== void 0 && this.setDefaults(loading)
-
+  install ({ $q }) {
     $q.loading = this
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
+
+    if (__QUASAR_SSR_SERVER__ !== true && $q.config.loading !== void 0) {
+      this.setDefaults($q.config.loading)
+    }
   }
-}
+})
+
+export default Plugin

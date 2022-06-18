@@ -1,38 +1,50 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeUpdate, onUpdated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
 import QChip from '../chip/QChip.js'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
-import QItemLabel from '../list/QItemLabel.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
+import QItemLabel from '../item/QItemLabel.js'
 
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
 
-import { isDeepEqual } from '../../utils/is.js'
+import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
+import { useVirtualScroll, useVirtualScrollProps } from '../virtual-scroll/use-virtual-scroll.js'
+import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
+import useKeyComposition from '../../composables/private/use-key-composition.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import { isDeepEqual } from '../../utils/private/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/private/key-composition.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
-import VirtualScroll from '../../mixins/virtual-scroll.js'
+const validateNewValueMode = v => [ 'add', 'add-unique', 'toggle' ].includes(v)
+const reEscapeList = '.*+?^${}()|[]\\'
+const fieldPropsList = Object.keys(useFieldProps)
 
-const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
-
-export default Vue.extend({
+export default createComponent({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualScroll ],
+  inheritAttrs: false,
 
   props: {
-    value: {
+    ...useVirtualScrollProps,
+    ...useFormProps,
+    ...useFieldProps,
+
+    modelValue: {
       required: true
     },
 
     multiple: Boolean,
 
-    displayValue: [String, Number],
-    displayValueSanitize: Boolean,
+    displayValue: [ String, Number ],
+    displayValueHtml: Boolean,
     dropdownIcon: String,
 
     options: {
@@ -40,24 +52,33 @@ export default Vue.extend({
       default: () => []
     },
 
-    optionValue: [Function, String],
-    optionLabel: [Function, String],
-    optionDisable: [Function, String],
+    optionValue: [ Function, String ],
+    optionLabel: [ Function, String ],
+    optionDisable: [ Function, String ],
 
     hideSelected: Boolean,
     hideDropdownIcon: Boolean,
     fillInput: Boolean,
 
-    maxValues: [Number, String],
+    maxValues: [ Number, String ],
 
     optionsDense: Boolean,
-    optionsDark: Boolean,
+    optionsDark: {
+      type: Boolean,
+      default: null
+    },
     optionsSelectedClass: String,
+    optionsHtml: Boolean,
+
     optionsCover: Boolean,
-    optionsSanitize: Boolean,
+
+    menuShrink: Boolean,
+    menuAnchor: String,
+    menuSelf: String,
+    menuOffset: Array,
 
     popupContentClass: String,
-    popupContentStyle: [String, Array, Object],
+    popupContentStyle: [ String, Array, Object ],
 
     useInput: Boolean,
     useChips: Boolean,
@@ -71,1064 +92,1465 @@ export default Vue.extend({
     emitValue: Boolean,
 
     inputDebounce: {
-      type: [Number, String],
+      type: [ Number, String ],
       default: 500
     },
 
-    inputClass: [Array, String, Object],
-    inputStyle: [Array, String, Object],
+    inputClass: [ Array, String, Object ],
+    inputStyle: [ Array, String, Object ],
+
+    tabindex: {
+      type: [ String, Number ],
+      default: 0
+    },
+
+    autocomplete: String,
 
     transitionShow: String,
     transitionHide: String,
+    transitionDuration: [ String, Number ],
 
     behavior: {
       type: String,
-      validator: v => ['default', 'menu', 'dialog'].includes(v),
+      validator: v => [ 'default', 'menu', 'dialog' ].includes(v),
       default: 'default'
-    }
-  },
-
-  data () {
-    return {
-      menu: false,
-      dialog: false,
-      optionIndex: -1,
-      inputValue: '',
-      dialogFieldFocused: false
-    }
-  },
-
-  watch: {
-    innerValue: {
-      handler () {
-        if (
-          this.useInput === true &&
-          this.fillInput === true &&
-          this.multiple !== true &&
-          // Prevent re-entering in filter while filtering
-          // Also prevent clearing inputValue while filtering
-          this.innerLoading !== true &&
-          ((this.dialog !== true && this.menu !== true) || this.hasValue !== true)
-        ) {
-          this.__resetInputValue()
-          if (this.dialog === true || this.menu === true) {
-            this.filter('')
-          }
-        }
-      },
-      immediate: true
     },
 
-    menu (show) {
-      this.__updateMenu(show)
-    }
+    virtualScrollItemSize: {
+      type: [ Number, String ],
+      default: void 0
+    },
+
+    onNewValue: Function,
+    onFilter: Function
   },
 
-  computed: {
-    virtualScrollLength () {
-      return Array.isArray(this.options)
-        ? this.options.length
+  emits: [
+    ...useFieldEmits,
+    'add', 'remove', 'input-value', 'new-value',
+    'keyup', 'keypress', 'keydown',
+    'filter-abort'
+  ],
+
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
+    const menu = ref(false)
+    const dialog = ref(false)
+    const optionIndex = ref(-1)
+    const inputValue = ref('')
+    const dialogFieldFocused = ref(false)
+    const innerLoadingIndicator = ref(false)
+
+    let inputTimer, innerValueCache,
+      hasDialog, userInputValue, filterId, defaultInputValue,
+      transitionShowComputed, searchBuffer, searchBufferExp
+
+    const inputRef = ref(null)
+    const targetRef = ref(null)
+    const menuRef = ref(null)
+    const dialogRef = ref(null)
+    const menuContentRef = ref(null)
+
+    const nameProp = useFormInputNameAttr(props)
+
+    const onComposition = useKeyComposition(onInput)
+
+    const virtualScrollLength = computed(() => (
+      Array.isArray(props.options)
+        ? props.options.length
         : 0
-    },
+    ))
 
-    fieldClass () {
-      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
-    },
+    const virtualScrollItemSizeComputed = computed(() => (
+      props.virtualScrollItemSize === void 0
+        ? (props.optionsDense === true ? 24 : 48)
+        : props.virtualScrollItemSize
+    ))
 
-    computedInputClass () {
-      if (this.hideSelected === true || this.innerValue.length === 0) {
-        return this.inputClass
-      }
+    const {
+      virtualScrollSliceRange,
+      virtualScrollSliceSizeComputed,
+      localResetVirtualScroll,
+      padVirtualScroll,
+      onVirtualScrollEvt,
+      scrollTo,
+      setVirtualScrollSize
+    } = useVirtualScroll({
+      virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl,
+      virtualScrollItemSizeComputed
+    })
 
-      return this.inputClass === void 0
-        ? 'q-select__input--padding'
-        : [this.inputClass, 'q-select__input--padding']
-    },
+    const state = useFieldState()
 
-    menuContentClass () {
-      return (this.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '') +
-        (this.popupContentClass ? ' ' + this.popupContentClass : '')
-    },
-
-    menuClass () {
-      return this.menuContentClass + (this.optionsDark === true ? ' q-select__menu--dark' : '')
-    },
-
-    innerValue () {
+    const innerValue = computed(() => {
       const
-        mapNull = this.mapOptions === true && this.multiple !== true,
-        val = this.value !== void 0 && (this.value !== null || mapNull === true)
-          ? (this.multiple === true && Array.isArray(this.value) ? this.value : [ this.value ])
+        mapNull = props.mapOptions === true && props.multiple !== true,
+        val = props.modelValue !== void 0 && (props.modelValue !== null || mapNull === true)
+          ? (props.multiple === true && Array.isArray(props.modelValue) ? props.modelValue : [ props.modelValue ])
           : []
 
-      return this.mapOptions === true && Array.isArray(this.options) === true
-        ? (
-          this.value === null && mapNull === true
-            ? val.map(v => this.__getOption(v)).filter(v => v !== null)
-            : val.map(v => this.__getOption(v))
-        )
-        : val
-    },
+      if (props.mapOptions === true && Array.isArray(props.options) === true) {
+        const cache = props.mapOptions === true && innerValueCache !== void 0
+          ? innerValueCache
+          : []
+        const values = val.map(v => getOption(v, cache))
 
-    noOptions () {
-      return this.virtualScrollLength === 0
-    },
+        return props.modelValue === null && mapNull === true
+          ? values.filter(v => v !== null)
+          : values
+      }
 
-    selectedString () {
-      return this.innerValue
-        .map(opt => this.__getOptionLabel(opt))
+      return val
+    })
+
+    const innerFieldProps = computed(() => {
+      const acc = {}
+      fieldPropsList.forEach(key => {
+        const val = props[ key ]
+        if (val !== void 0) {
+          acc[ key ] = val
+        }
+      })
+      return acc
+    })
+
+    const isOptionsDark = computed(() => (
+      props.optionsDark === null
+        ? state.isDark.value
+        : props.optionsDark
+    ))
+
+    const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
+
+    const computedInputClass = computed(() => {
+      let cls = 'q-field__input q-placeholder col'
+
+      if (props.hideSelected === true || innerValue.value.length === 0) {
+        return [ cls, props.inputClass ]
+      }
+
+      cls += ' q-field__input--padding'
+
+      return props.inputClass === void 0
+        ? cls
+        : [ cls, props.inputClass ]
+    })
+
+    const menuContentClass = computed(() =>
+      (props.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '')
+      + (props.popupContentClass ? ' ' + props.popupContentClass : '')
+    )
+
+    const noOptions = computed(() => virtualScrollLength.value === 0)
+
+    const selectedString = computed(() =>
+      innerValue.value
+        .map(opt => getOptionLabel.value(opt))
         .join(', ')
-    },
+    )
 
-    displayAsText () {
-      return this.displayValueSanitize === true || (
-        this.displayValue === void 0 && (
-          this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
+    const needsHtmlFn = computed(() => (
+      props.optionsHtml === true
+        ? () => true
+        : opt => opt !== void 0 && opt !== null && opt.html === true
+    ))
+
+    const valueAsHtml = computed(() => (
+      props.displayValueHtml === true || (
+        props.displayValue === void 0 && (
+          props.optionsHtml === true
+          || innerValue.value.some(needsHtmlFn.value)
         )
       )
-    },
+    ))
 
-    selectedScope () {
-      const tabindex = this.focused === true ? 0 : -1
+    const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
-      return this.innerValue.map((opt, i) => ({
+    const comboboxAttrs = computed(() => {
+      const attrs = {
+        tabindex: props.tabindex,
+        role: 'combobox',
+        'aria-label': props.label,
+        'aria-autocomplete': props.useInput === true ? 'list' : 'none',
+        'aria-expanded': menu.value === true ? 'true' : 'false',
+        'aria-owns': `${ state.targetUid.value }_lb`,
+        'aria-controls': `${ state.targetUid.value }_lb`
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
+
+    const listboxAttrs = computed(() => {
+      const attrs = {
+        id: `${ state.targetUid.value }_lb`,
+        role: 'listbox',
+        'aria-multiselectable': props.multiple === true ? 'true' : 'false'
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
+
+    const selectedScope = computed(() => {
+      return innerValue.value.map((opt, i) => ({
         index: i,
         opt,
-        sanitize: this.optionsSanitize === true || opt.sanitize === true,
+        html: needsHtmlFn.value(opt),
         selected: true,
-        removeAtIndex: this.__removeAtIndexAndFocus,
-        toggleOption: this.toggleOption,
-        tabindex
+        removeAtIndex: removeAtIndexAndFocus,
+        toggleOption,
+        tabindex: tabindex.value
       }))
-    },
+    })
 
-    optionScope () {
-      if (this.virtualScrollLength === 0) {
+    const optionScope = computed(() => {
+      if (virtualScrollLength.value === 0) {
         return []
       }
 
-      const { from, to } = this.virtualScrollSliceRange
+      const { from, to } = virtualScrollSliceRange.value
 
-      return this.options.slice(from, to).map((opt, i) => {
-        const disable = this.__isDisabled(opt)
+      return props.options.slice(from, to).map((opt, i) => {
+        const disable = isOptionDisabled.value(opt) === true
         const index = from + i
 
         const itemProps = {
           clickable: true,
           active: false,
-          activeClass: this.optionsSelectedClass,
+          activeClass: computedOptionsSelectedClass.value,
           manualFocus: true,
           focused: false,
           disable,
           tabindex: -1,
-          dense: this.optionsDense,
-          dark: this.optionsDark
+          dense: props.optionsDense,
+          dark: isOptionsDark.value,
+          role: 'option',
+          id: `${ state.targetUid.value }_${ index }`,
+          onClick: () => { toggleOption(opt) }
         }
 
         if (disable !== true) {
-          this.__isSelected(opt) === true && (itemProps.active = true)
-          this.optionIndex === index && (itemProps.focused = true)
-        }
+          isOptionSelected(opt) === true && (itemProps.active = true)
+          optionIndex.value === index && (itemProps.focused = true)
 
-        const itemEvents = {
-          click: () => { this.toggleOption(opt) }
-        }
+          itemProps[ 'aria-selected' ] = itemProps.active === true ? 'true' : 'false'
 
-        if (this.$q.platform.is.desktop === true) {
-          itemEvents.mousemove = () => { this.setOptionIndex(index) }
+          if ($q.platform.is.desktop === true) {
+            itemProps.onMousemove = () => { menu.value === true && setOptionIndex(index) }
+          }
         }
 
         return {
           index,
           opt,
-          sanitize: this.optionsSanitize === true || opt.sanitize === true,
+          html: needsHtmlFn.value(opt),
+          label: getOptionLabel.value(opt),
           selected: itemProps.active,
           focused: itemProps.focused,
-          toggleOption: this.toggleOption,
-          setOptionIndex: this.setOptionIndex,
-          itemProps,
-          itemEvents
+          toggleOption,
+          setOptionIndex,
+          itemProps
         }
       })
-    },
-
-    dropdownArrowIcon () {
-      return this.dropdownIcon !== void 0
-        ? this.dropdownIcon
-        : this.$q.iconSet.arrow.dropdown
-    },
-
-    squaredMenu () {
-      return this.optionsCover === false &&
-        this.outlined !== true &&
-        this.standout !== true &&
-        this.borderless !== true &&
-        this.rounded !== true
-    }
-  },
-
-  methods: {
-    removeAtIndex (index) {
-      if (index > -1 && index < this.innerValue.length) {
-        if (this.multiple === true) {
-          const model = [].concat(this.value)
-          this.$emit('remove', { index, value: model.splice(index, 1) })
-          this.$emit('input', model)
-        }
-        else {
-          this.$emit('input', null)
-        }
-      }
-    },
-
-    __removeAtIndexAndFocus (index) {
-      this.removeAtIndex(index)
-      this.__focus()
-    },
-
-    add (opt, unique) {
-      const val = this.emitValue === true
-        ? this.__getOptionValue(opt)
-        : opt
-
-      if (this.multiple !== true) {
-        this.$emit('input', val)
-        return
-      }
-
-      if (this.innerValue.length === 0) {
-        this.$emit('add', { index: 0, value: val })
-        this.$emit('input', this.multiple === true ? [ val ] : val)
-        return
-      }
-
-      if (unique === true && this.__isSelected(opt) === true) {
-        return
-      }
-
-      const model = [].concat(this.value)
-
-      if (this.maxValues !== void 0 && model.length >= this.maxValues) {
-        return
-      }
-
-      this.$emit('add', { index: model.length, value: val })
-      model.push(val)
-      this.$emit('input', model)
-    },
-
-    toggleOption (opt) {
-      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) {
-        return
-      }
-
-      const optValue = this.__getOptionValue(opt)
-
-      if (this.multiple !== true) {
-        this.updateInputValue(
-          this.fillInput === true ? this.__getOptionLabel(opt) : '',
-          true,
-          true
-        )
-
-        this.hidePopup()
-
-        if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
-          this.$emit('input', this.emitValue === true ? optValue : opt)
-        }
-        return
-      }
-
-      (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
-
-      if (this.innerValue.length === 0) {
-        const val = this.emitValue === true ? optValue : opt
-        this.$emit('add', { index: 0, value: val })
-        this.$emit('input', this.multiple === true ? [ val ] : val)
-        return
-      }
-
-      const
-        model = [].concat(this.value),
-        index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
-
-      if (index > -1) {
-        this.$emit('remove', { index, value: model.splice(index, 1) })
-      }
-      else {
-        if (this.maxValues !== void 0 && model.length >= this.maxValues) {
-          return
-        }
-
-        const val = this.emitValue === true ? optValue : opt
-
-        this.$emit('add', { index: model.length, value: val })
-        model.push(val)
-      }
-
-      this.$emit('input', model)
-    },
-
-    setOptionIndex (index) {
-      if (this.$q.platform.is.desktop !== true) { return }
-
-      const val = index > -1 && index < this.virtualScrollLength
-        ? index
-        : -1
-
-      if (this.optionIndex !== val) {
-        this.optionIndex = val
-      }
-    },
-
-    __getOption (value) {
-      return this.options.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) || value
-    },
-
-    __getOptionValue (opt) {
-      if (typeof this.optionValue === 'function') {
-        return this.optionValue(opt)
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionValue === 'string'
-          ? opt[this.optionValue]
-          : opt.value
-      }
-      return opt
-    },
-
-    __getOptionLabel (opt) {
-      if (typeof this.optionLabel === 'function') {
-        return this.optionLabel(opt)
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionLabel === 'string'
-          ? opt[this.optionLabel]
-          : opt.label
-      }
-      return opt
-    },
-
-    __isDisabled (opt) {
-      if (typeof this.optionDisable === 'function') {
-        return this.optionDisable(opt) === true
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionDisable === 'string'
-          ? opt[this.optionDisable] === true
-          : opt.disable === true
-      }
-      return false
-    },
-
-    __isSelected (opt) {
-      const val = this.__getOptionValue(opt)
-      return this.innerValue
-        .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
-    },
-
-    __onTargetKeyup (e) {
-      // if ESC and we have an opened menu
-      // then stop propagation (might be caught by a QDialog
-      // and so it will also close the QDialog, which is wrong)
-      if (e.keyCode === 27 && this.menu === true) {
-        stop(e)
-        this.__closeMenu()
-      }
-      this.$emit('keyup', e)
-    },
-
-    __onTargetKeypress (e) {
-      this.$emit('keypress', e)
-    },
-
-    __onTargetKeydown (e) {
-      this.$emit('keydown', e)
-
-      // escape
-      if (e.keyCode === 27) {
-        return
-      }
-
-      // tab
-      if (e.keyCode === 9) {
-        this.__closeMenu()
-        return
-      }
-
-      if (e.target !== this.$refs.target) { return }
-
-      // down
-      if (
-        e.keyCode === 40 &&
-        this.innerLoading !== true &&
-        this.menu === false
-      ) {
-        stopAndPrevent(e)
-        this.showPopup()
-        return
-      }
-
-      // delete
-      if (
-        e.keyCode === 8 &&
-        this.multiple === true &&
-        this.inputValue.length === 0 &&
-        Array.isArray(this.value)
-      ) {
-        this.removeAtIndex(this.value.length - 1)
-        return
-      }
-
-      // up, down
-      const optionsLength = this.virtualScrollLength
-
-      if (e.keyCode === 38 || e.keyCode === 40) {
-        stopAndPrevent(e)
-
-        if (this.menu === true) {
-          let index = this.optionIndex
-          do {
-            index = normalizeToInterval(
-              index + (e.keyCode === 38 ? -1 : 1),
-              -1,
-              optionsLength - 1
-            )
-          }
-          while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
-
-          if (this.optionIndex !== index) {
-            this.setOptionIndex(index)
-            this.scrollTo(index)
-
-            if (index >= 0 && this.useInput === true && this.fillInput === true) {
-              const inputValue = this.__getOptionLabel(this.options[index])
-              if (this.inputValue !== inputValue) {
-                this.inputValue = inputValue
-              }
-            }
-          }
-        }
-      }
-
-      // enter
-      if (e.target !== this.$refs.target || e.keyCode !== 13) { return }
-
-      stopAndPrevent(e)
-
-      if (this.optionIndex > -1 && this.optionIndex < optionsLength) {
-        this.toggleOption(this.options[this.optionIndex])
-        return
-      }
-
-      if (
-        this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
-      ) {
-        const done = (val, mode) => {
-          if (mode) {
-            if (validateNewValueMode(mode) !== true) {
-              console.error('QSelect: invalid new value mode - ' + mode)
-              return
-            }
-          }
-          else {
-            mode = this.newValueMode
-          }
-
-          if (val !== void 0 && val !== null) {
-            this[mode === 'toggle' ? 'toggleOption' : 'add'](
-              val,
-              mode === 'add-unique'
-            )
-          }
-
-          this.updateInputValue('', this.multiple !== true, true)
-        }
-
-        if (this.$listeners['new-value'] !== void 0) {
-          this.$emit('new-value', this.inputValue, done)
-
-          if (this.multiple !== true) {
-            return
-          }
-        }
-        else {
-          done(this.inputValue)
-        }
-      }
-
-      if (this.menu === true) {
-        this.__closeMenu()
-      }
-      else if (this.innerLoading !== true) {
-        this.showPopup()
-      }
-    },
-
-    __getVirtualScrollEl () {
-      return this.hasDialog === true
-        ? this.$refs.menuContent
-        : (
-          this.$refs.menu !== void 0 && this.$refs.menu.__portal !== void 0
-            ? this.$refs.menu.__portal.$el
-            : void 0
-        )
-    },
-
-    __getVirtualScrollTarget () {
-      return this.__getVirtualScrollEl()
-    },
-
-    __getSelection (h, fromDialog) {
-      if (this.hideSelected === true) {
-        return fromDialog !== true && this.hasDialog === true
-          ? [
-            h('span', {
-              domProps: {
-                'textContent': this.inputValue
-              }
-            })
-          ]
-          : []
-      }
-
-      if (this.$scopedSlots['selected-item'] !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope))
-      }
-
-      if (this.$scopedSlots.selected !== void 0) {
-        return this.$scopedSlots.selected()
-      }
-
-      if (this.useChips === true) {
-        const tabindex = this.focused === true ? 0 : -1
-
-        return this.selectedScope.map((scope, i) => h(QChip, {
-          key: 'option-' + i,
-          props: {
-            removable: this.__isDisabled(scope.opt) !== true,
-            dense: true,
-            textColor: this.color,
-            tabindex
-          },
-          on: {
-            remove () { scope.removeAtIndex(i) }
-          }
-        }, [
-          h('span', {
-            domProps: {
-              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
-            }
-          })
-        ]))
-      }
-
-      return [
-        h('span', {
-          domProps: {
-            [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
-              ? this.displayValue
-              : this.selectedString
-          }
-        })
-      ]
-    },
-
-    __getControl (h, fromDialog) {
-      let data = { attrs: {} }
-      const child = this.__getSelection(h, fromDialog)
-
-      if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
-        child.push(this.__getInput(h, fromDialog))
-      }
-      else if (this.editable === true) {
-        data = {
-          ref: 'target',
-          attrs: {
-            tabindex: 0,
-            autofocus: this.autofocus
-          },
-          on: {
-            keydown: this.__onTargetKeydown,
-            keyup: this.__onTargetKeyup,
-            keypress: this.__onTargetKeypress
-          }
-        }
-      }
-
-      Object.assign(data.attrs, this.$attrs)
-      data.staticClass = 'q-field__native row items-center'
-
-      return h('div', data, child)
-    },
-
-    __getOptions (h) {
-      if (this.menu !== true) {
-        return void 0
-      }
-
-      const fn = this.$scopedSlots.option !== void 0
-        ? this.$scopedSlots.option
-        : scope => h(QItem, {
-          key: scope.index,
-          props: scope.itemProps,
-          on: scope.itemEvents
-        }, [
-          h(QItemSection, [
-            h(QItemLabel, {
-              domProps: {
-                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
-              }
-            })
-          ])
-        ])
-
-      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
-
-      if (this.$scopedSlots['before-options'] !== void 0) {
-        options = this.$scopedSlots['before-options']().concat(options)
-      }
-      if (this.$scopedSlots['after-options'] !== void 0) {
-        options = options.concat(this.$scopedSlots['after-options']())
-      }
-
-      return options
-    },
-
-    __getInnerAppend (h) {
-      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
-        ? [
-          h(QIcon, {
-            staticClass: 'q-select__dropdown-icon',
-            props: { name: this.dropdownArrowIcon }
-          })
-        ]
-        : null
-    },
-
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
-
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
-
-      this.__onInputValue(e)
-    },
-
-    __getInput (h, fromDialog) {
-      const on = {
-        input: this.__onInputValue,
+    })
+
+    const dropdownArrowIcon = computed(() => (
+      props.dropdownIcon !== void 0
+        ? props.dropdownIcon
+        : $q.iconSet.arrow.dropdown
+    ))
+
+    const squaredMenu = computed(() =>
+      props.optionsCover === false
+      && props.outlined !== true
+      && props.standout !== true
+      && props.borderless !== true
+      && props.rounded !== true
+    )
+
+    const computedOptionsSelectedClass = computed(() => (
+      props.optionsSelectedClass !== void 0
+        ? props.optionsSelectedClass
+        : (props.color !== void 0 ? `text-${ props.color }` : '')
+    ))
+
+    // returns method to get value of an option;
+    // takes into account 'option-value' prop
+    const getOptionValue = computed(() => getPropValueFn(props.optionValue, 'value'))
+
+    // returns method to get label of an option;
+    // takes into account 'option-label' prop
+    const getOptionLabel = computed(() => getPropValueFn(props.optionLabel, 'label'))
+
+    // returns method to tell if an option is disabled;
+    // takes into account 'option-disable' prop
+    const isOptionDisabled = computed(() => getPropValueFn(props.optionDisable, 'disable'))
+
+    const innerOptionsValue = computed(() => innerValue.value.map(opt => getOptionValue.value(opt)))
+
+    const inputControlEvents = computed(() => {
+      const evt = {
+        onInput,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
-        change: this.__onCompositionEnd,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
-        keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetKeyup,
-        keypress: this.__onTargetKeypress
+        onChange: onComposition,
+        onKeydown: onTargetKeydown,
+        onKeyup: onTargetAutocomplete,
+        onKeypress: onTargetKeypress,
+        onFocus: selectInputText,
+        onClick (e) { hasDialog === true && stop(e) }
       }
 
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
+      evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = onComposition
+
+      return evt
+    })
+
+    watch(innerValue, val => {
+      innerValueCache = val
+
+      if (
+        props.useInput === true
+        && props.fillInput === true
+        && props.multiple !== true
+        // Prevent re-entering in filter while filtering
+        // Also prevent clearing inputValue while filtering
+        && state.innerLoading.value !== true
+        && ((dialog.value !== true && menu.value !== true) || hasValue.value !== true)
+      ) {
+        userInputValue !== true && resetInputValue()
+        if (dialog.value === true || menu.value === true) {
+          filter('')
+        }
       }
+    }, { immediate: true })
 
-      if (this.hasDialog === true) {
-        on.click = stop
+    watch(() => props.fillInput, resetInputValue)
+
+    watch(menu, updateMenu)
+
+    watch(virtualScrollLength, rerenderMenu)
+
+    function getEmittingOptionValue (opt) {
+      return props.emitValue === true
+        ? getOptionValue.value(opt)
+        : opt
+    }
+
+    function removeAtIndex (index) {
+      if (index > -1 && index < innerValue.value.length) {
+        if (props.multiple === true) {
+          const model = props.modelValue.slice()
+          emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
+          emit('update:modelValue', model)
+        }
+        else {
+          emit('update:modelValue', null)
+        }
       }
+    }
 
-      return h('input', {
-        ref: 'target',
-        staticClass: 'q-select__input q-placeholder col',
-        style: this.inputStyle,
-        class: this.computedInputClass,
-        domProps: { value: this.inputValue },
-        attrs: {
-          // required for Android in order to show ENTER key when in form
-          type: 'search',
-          ...this.$attrs,
-          tabindex: 0,
-          autofocus: fromDialog === true ? false : this.autofocus,
-          id: this.targetUid,
-          disabled: this.disable === true,
-          readonly: this.readonly === true
-        },
-        on
-      })
-    },
+    function removeAtIndexAndFocus (index) {
+      removeAtIndex(index)
+      state.focus()
+    }
 
-    __onInputValue (e) {
-      clearTimeout(this.inputTimer)
+    function add (opt, unique) {
+      const val = getEmittingOptionValue(opt)
 
-      if (e && e.target && e.target.composing === true) {
+      if (props.multiple !== true) {
+        props.fillInput === true && updateInputValue(
+          getOptionLabel.value(opt),
+          true,
+          true
+        )
+
+        emit('update:modelValue', val)
         return
       }
 
-      this.inputValue = e.target.value || ''
-      // mark it here as user input so that if updateInputValue is called
-      // before filter is called the indicator is reset
-      this.userInputValue = true
-
-      if (this.$listeners.filter !== void 0) {
-        this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue)
-        }, this.inputDebounce)
+      if (innerValue.value.length === 0) {
+        emit('add', { index: 0, value: val })
+        emit('update:modelValue', props.multiple === true ? [ val ] : val)
+        return
       }
-    },
 
-    updateInputValue (val, noFiltering, internal) {
-      this.userInputValue = internal !== true
+      if (unique === true && isOptionSelected(opt) === true) {
+        return
+      }
 
-      if (this.useInput === true) {
-        if (this.inputValue !== val) {
-          this.inputValue = val
+      if (props.maxValues !== void 0 && props.modelValue.length >= props.maxValues) {
+        return
+      }
+
+      const model = props.modelValue.slice()
+
+      emit('add', { index: model.length, value: val })
+      model.push(val)
+      emit('update:modelValue', model)
+    }
+
+    function toggleOption (opt, keepOpen) {
+      if (state.editable.value !== true || opt === void 0 || isOptionDisabled.value(opt) === true) {
+        return
+      }
+
+      const optValue = getOptionValue.value(opt)
+
+      if (props.multiple !== true) {
+        if (keepOpen !== true) {
+          updateInputValue(
+            props.fillInput === true ? getOptionLabel.value(opt) : '',
+            true,
+            true
+          )
+
+          hidePopup()
         }
 
-        noFiltering !== true && this.filter(val)
-      }
-    },
+        targetRef.value !== null && targetRef.value.focus()
 
-    filter (val) {
-      if (this.$listeners.filter === void 0 || this.focused !== true) {
+        if (
+          innerValue.value.length === 0
+          || isDeepEqual(getOptionValue.value(innerValue.value[ 0 ]), optValue) !== true
+        ) {
+          emit('update:modelValue', props.emitValue === true ? optValue : opt)
+        }
         return
       }
 
-      if (this.innerLoading === true) {
-        this.$emit('filter-abort')
+      (hasDialog !== true || dialogFieldFocused.value === true) && state.focus()
+
+      selectInputText()
+
+      if (innerValue.value.length === 0) {
+        const val = props.emitValue === true ? optValue : opt
+        emit('add', { index: 0, value: val })
+        emit('update:modelValue', props.multiple === true ? [ val ] : val)
+        return
+      }
+
+      const
+        model = props.modelValue.slice(),
+        index = innerOptionsValue.value.findIndex(v => isDeepEqual(v, optValue))
+
+      if (index > -1) {
+        emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
       }
       else {
-        this.innerLoading = true
+        if (props.maxValues !== void 0 && model.length >= props.maxValues) {
+          return
+        }
+
+        const val = props.emitValue === true ? optValue : opt
+
+        emit('add', { index: model.length, value: val })
+        model.push(val)
+      }
+
+      emit('update:modelValue', model)
+    }
+
+    function setOptionIndex (index) {
+      if ($q.platform.is.desktop !== true) { return }
+
+      const val = index > -1 && index < virtualScrollLength.value
+        ? index
+        : -1
+
+      if (optionIndex.value !== val) {
+        optionIndex.value = val
+      }
+    }
+
+    function moveOptionSelection (offset = 1, skipInputValue) {
+      if (menu.value === true) {
+        let index = optionIndex.value
+        do {
+          index = normalizeToInterval(
+            index + offset,
+            -1,
+            virtualScrollLength.value - 1
+          )
+        }
+        while (index !== -1 && index !== optionIndex.value && isOptionDisabled.value(props.options[ index ]) === true)
+
+        if (optionIndex.value !== index) {
+          setOptionIndex(index)
+          scrollTo(index)
+
+          if (skipInputValue !== true && props.useInput === true && props.fillInput === true) {
+            setInputValue(index >= 0
+              ? getOptionLabel.value(props.options[ index ])
+              : defaultInputValue
+            )
+          }
+        }
+      }
+    }
+
+    function getOption (value, valueCache) {
+      const fn = opt => isDeepEqual(getOptionValue.value(opt), value)
+      return props.options.find(fn) || valueCache.find(fn) || value
+    }
+
+    function getPropValueFn (propValue, defaultVal) {
+      const val = propValue !== void 0
+        ? propValue
+        : defaultVal
+
+      return typeof val === 'function'
+        ? val
+        : opt => (opt !== null && typeof opt === 'object' && val in opt ? opt[ val ] : opt)
+    }
+
+    function isOptionSelected (opt) {
+      const val = getOptionValue.value(opt)
+      return innerOptionsValue.value.find(v => isDeepEqual(v, val)) !== void 0
+    }
+
+    function selectInputText (e) {
+      if (
+        props.useInput === true
+        && targetRef.value !== null
+        && (e === void 0 || (targetRef.value === e.target && e.target.value === selectedString.value))
+      ) {
+        targetRef.value.select()
+      }
+    }
+
+    function onTargetKeyup (e) {
+      // if ESC and we have an opened menu
+      // then stop propagation (might be caught by a QDialog
+      // and so it will also close the QDialog, which is wrong)
+      if (isKeyCode(e, 27) === true && menu.value === true) {
+        stop(e)
+        // on ESC we need to close the dialog also
+        hidePopup()
+        resetInputValue()
+      }
+
+      emit('keyup', e)
+    }
+
+    function onTargetAutocomplete (e) {
+      const { value } = e.target
+
+      if (e.keyCode !== void 0) {
+        onTargetKeyup(e)
+        return
+      }
+
+      e.target.value = ''
+      clearTimeout(inputTimer)
+      resetInputValue()
+
+      if (typeof value === 'string' && value.length > 0) {
+        const needle = value.toLocaleLowerCase()
+        const findFn = extractFn => {
+          const option = props.options.find(opt => extractFn.value(opt).toLocaleLowerCase() === needle)
+
+          if (option === void 0) {
+            return false
+          }
+
+          if (innerValue.value.indexOf(option) === -1) {
+            toggleOption(option)
+          }
+          else {
+            hidePopup()
+          }
+
+          return true
+        }
+        const fillFn = afterFilter => {
+          if (findFn(getOptionValue) === true) {
+            return
+          }
+          if (findFn(getOptionLabel) === true || afterFilter === true) {
+            return
+          }
+
+          filter(value, true, () => fillFn(true))
+        }
+
+        fillFn()
+      }
+      else {
+        state.clearValue(e)
+      }
+    }
+
+    function onTargetKeypress (e) {
+      emit('keypress', e)
+    }
+
+    function onTargetKeydown (e) {
+      emit('keydown', e)
+
+      if (shouldIgnoreKey(e) === true) {
+        return
+      }
+
+      const newValueModeValid = inputValue.value.length > 0
+        && (props.newValueMode !== void 0 || props.onNewValue !== void 0)
+
+      const tabShouldSelect = e.shiftKey !== true
+        && props.multiple !== true
+        && (optionIndex.value > -1 || newValueModeValid === true)
+
+      // escape
+      if (e.keyCode === 27) {
+        prevent(e) // prevent clearing the inputValue
+        return
+      }
+
+      // tab
+      if (e.keyCode === 9 && tabShouldSelect === false) {
+        closeMenu()
+        return
+      }
+
+      if (e.target === void 0 || e.target.id !== state.targetUid.value) { return }
+
+      // down
+      if (
+        e.keyCode === 40
+        && state.innerLoading.value !== true
+        && menu.value === false
+      ) {
+        stopAndPrevent(e)
+        showPopup()
+        return
+      }
+
+      // backspace
+      if (
+        e.keyCode === 8
+        && props.hideSelected !== true
+        && inputValue.value.length === 0
+      ) {
+        if (props.multiple === true && Array.isArray(props.modelValue) === true) {
+          removeAtIndex(props.modelValue.length - 1)
+        }
+        else if (props.multiple !== true && props.modelValue !== null) {
+          emit('update:modelValue', null)
+        }
+        return
+      }
+
+      // home, end - 36, 35
+      if (
+        (e.keyCode === 35 || e.keyCode === 36)
+        && (typeof inputValue.value !== 'string' || inputValue.value.length === 0)
+      ) {
+        stopAndPrevent(e)
+        optionIndex.value = -1
+        moveOptionSelection(e.keyCode === 36 ? 1 : -1, props.multiple)
+      }
+
+      // pg up, pg down - 33, 34
+      if (
+        (e.keyCode === 33 || e.keyCode === 34)
+        && virtualScrollSliceSizeComputed.value !== void 0
+      ) {
+        stopAndPrevent(e)
+        optionIndex.value = Math.max(
+          -1,
+          Math.min(
+            virtualScrollLength.value,
+            optionIndex.value + (e.keyCode === 33 ? -1 : 1) * virtualScrollSliceSizeComputed.value.view
+          )
+        )
+        moveOptionSelection(e.keyCode === 33 ? 1 : -1, props.multiple)
+      }
+
+      // up, down
+      if (e.keyCode === 38 || e.keyCode === 40) {
+        stopAndPrevent(e)
+        moveOptionSelection(e.keyCode === 38 ? -1 : 1, props.multiple)
+      }
+
+      const optionsLength = virtualScrollLength.value
+
+      // clear search buffer if expired
+      if (searchBuffer === void 0 || searchBufferExp < Date.now()) {
+        searchBuffer = ''
+      }
+
+      // keyboard search when not having use-input
+      if (
+        optionsLength > 0
+        && props.useInput !== true
+        && e.key !== void 0
+        && e.key.length === 1 // printable char
+        && e.altKey === e.ctrlKey // not kbd shortcut
+        && (e.keyCode !== 32 || searchBuffer.length > 0) // space in middle of search
+      ) {
+        menu.value !== true && showPopup(e)
+
+        const
+          char = e.key.toLocaleLowerCase(),
+          keyRepeat = searchBuffer.length === 1 && searchBuffer[ 0 ] === char
+
+        searchBufferExp = Date.now() + 1500
+        if (keyRepeat === false) {
+          stopAndPrevent(e)
+          searchBuffer += char
+        }
+
+        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => (reEscapeList.indexOf(l) > -1 ? '\\' + l : l)).join('.*'), 'i')
+
+        let index = optionIndex.value
+
+        if (keyRepeat === true || index < 0 || searchRe.test(getOptionLabel.value(props.options[ index ])) !== true) {
+          do {
+            index = normalizeToInterval(index + 1, -1, optionsLength - 1)
+          }
+          while (index !== optionIndex.value && (
+            isOptionDisabled.value(props.options[ index ]) === true
+            || searchRe.test(getOptionLabel.value(props.options[ index ])) !== true
+          ))
+        }
+
+        if (optionIndex.value !== index) {
+          nextTick(() => {
+            setOptionIndex(index)
+            scrollTo(index)
+
+            if (index >= 0 && props.useInput === true && props.fillInput === true) {
+              setInputValue(getOptionLabel.value(props.options[ index ]))
+            }
+          })
+        }
+
+        return
+      }
+
+      // enter, space (when not using use-input and not in search), or tab (when not using multiple and option selected)
+      // same target is checked above
+      if (
+        e.keyCode !== 13
+        && (e.keyCode !== 32 || props.useInput === true || searchBuffer !== '')
+        && (e.keyCode !== 9 || tabShouldSelect === false)
+      ) { return }
+
+      e.keyCode !== 9 && stopAndPrevent(e)
+
+      if (optionIndex.value > -1 && optionIndex.value < optionsLength) {
+        toggleOption(props.options[ optionIndex.value ])
+        return
+      }
+
+      if (newValueModeValid === true) {
+        const done = (val, mode) => {
+          if (mode) {
+            if (validateNewValueMode(mode) !== true) {
+              return
+            }
+          }
+          else {
+            mode = props.newValueMode
+          }
+
+          if (val === void 0 || val === null) {
+            return
+          }
+
+          updateInputValue('', props.multiple !== true, true)
+
+          const fn = mode === 'toggle' ? toggleOption : add
+          fn(val, mode === 'add-unique')
+
+          if (props.multiple !== true) {
+            targetRef.value !== null && targetRef.value.focus()
+            hidePopup()
+          }
+        }
+
+        if (props.onNewValue !== void 0) {
+          emit('new-value', inputValue.value, done)
+        }
+        else {
+          done(inputValue.value)
+        }
+
+        if (props.multiple !== true) {
+          return
+        }
+      }
+
+      if (menu.value === true) {
+        closeMenu()
+      }
+      else if (state.innerLoading.value !== true) {
+        showPopup()
+      }
+    }
+
+    function getVirtualScrollEl () {
+      return hasDialog === true
+        ? menuContentRef.value
+        : (
+            menuRef.value !== null && menuRef.value.__qPortalInnerRef.value !== null
+              ? menuRef.value.__qPortalInnerRef.value
+              : void 0
+          )
+    }
+
+    function getVirtualScrollTarget () {
+      return getVirtualScrollEl()
+    }
+
+    function getSelection () {
+      if (props.hideSelected === true) {
+        return []
+      }
+
+      if (slots[ 'selected-item' ] !== void 0) {
+        return selectedScope.value.map(scope => slots[ 'selected-item' ](scope)).slice()
+      }
+
+      if (slots.selected !== void 0) {
+        return [].concat(slots.selected())
+      }
+
+      if (props.useChips === true) {
+        return selectedScope.value.map((scope, i) => h(QChip, {
+          key: 'option-' + i,
+          removable: state.editable.value === true && isOptionDisabled.value(scope.opt) !== true,
+          dense: true,
+          textColor: props.color,
+          tabindex: tabindex.value,
+          onRemove () { scope.removeAtIndex(i) }
+        }, () => h('span', {
+          class: 'ellipsis',
+          [ scope.html === true ? 'innerHTML' : 'textContent' ]: getOptionLabel.value(scope.opt)
+        })))
+      }
+
+      return [
+        h('span', {
+          [ valueAsHtml.value === true ? 'innerHTML' : 'textContent' ]: props.displayValue !== void 0
+            ? props.displayValue
+            : selectedString.value
+        })
+      ]
+    }
+
+    function getAllOptions () {
+      if (noOptions.value === true) {
+        return slots[ 'no-option' ] !== void 0
+          ? slots[ 'no-option' ]({ inputValue: inputValue.value })
+          : void 0
+      }
+
+      const fn = slots.option !== void 0
+        ? slots.option
+        : scope => {
+          return h(QItem, {
+            key: scope.index,
+            ...scope.itemProps
+          }, () => {
+            return h(
+              QItemSection,
+              () => h(
+                QItemLabel,
+                () => h('span', {
+                  [ scope.html === true ? 'innerHTML' : 'textContent' ]: scope.label
+                })
+              )
+            )
+          })
+        }
+
+      let options = padVirtualScroll('div', optionScope.value.map(fn))
+
+      if (slots[ 'before-options' ] !== void 0) {
+        options = slots[ 'before-options' ]().concat(options)
+      }
+
+      return hMergeSlot(slots[ 'after-options' ], options)
+    }
+
+    function getInput (fromDialog, isTarget) {
+      const attrs = isTarget === true ? { ...comboboxAttrs.value, ...state.splitAttrs.attributes.value } : void 0
+
+      const data = {
+        ref: isTarget === true ? targetRef : void 0,
+        key: 'i_t',
+        class: computedInputClass.value,
+        style: props.inputStyle,
+        value: inputValue.value !== void 0 ? inputValue.value : '',
+        // required for Android in order to show ENTER key when in form
+        type: 'search',
+        ...attrs,
+        id: isTarget === true ? state.targetUid.value : void 0,
+        maxlength: props.maxlength,
+        autocomplete: props.autocomplete,
+        'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
+        disabled: props.disable === true,
+        readonly: props.readonly === true,
+        ...inputControlEvents.value
+      }
+
+      if (fromDialog !== true && hasDialog === true) {
+        if (Array.isArray(data.class) === true) {
+          data.class = [ ...data.class, 'no-pointer-events' ]
+        }
+        else {
+          data.class += ' no-pointer-events'
+        }
+      }
+
+      return h('input', data)
+    }
+
+    function onInput (e) {
+      clearTimeout(inputTimer)
+
+      if (e && e.target && e.target.qComposing === true) {
+        return
+      }
+
+      setInputValue(e.target.value || '')
+      // mark it here as user input so that if updateInputValue is called
+      // before filter is called the indicator is reset
+      userInputValue = true
+      defaultInputValue = inputValue.value
+
+      if (
+        state.focused.value !== true
+        && (hasDialog !== true || dialogFieldFocused.value === true)
+      ) {
+        state.focus()
+      }
+
+      if (props.onFilter !== void 0) {
+        inputTimer = setTimeout(() => {
+          filter(inputValue.value)
+        }, props.inputDebounce)
+      }
+    }
+
+    function setInputValue (val) {
+      if (inputValue.value !== val) {
+        inputValue.value = val
+        emit('input-value', val)
+      }
+    }
+
+    function updateInputValue (val, noFiltering, internal) {
+      userInputValue = internal !== true
+
+      if (props.useInput === true) {
+        setInputValue(val)
+
+        if (noFiltering === true || internal !== true) {
+          defaultInputValue = val
+        }
+
+        noFiltering !== true && filter(val)
+      }
+    }
+
+    function filter (val, keepClosed, afterUpdateFn) {
+      if (props.onFilter === void 0 || (keepClosed !== true && state.focused.value !== true)) {
+        return
+      }
+
+      if (state.innerLoading.value === true) {
+        emit('filter-abort')
+      }
+      else {
+        state.innerLoading.value = true
+        innerLoadingIndicator.value = true
       }
 
       if (
-        val !== '' &&
-        this.multiple !== true &&
-        this.innerValue.length > 0 &&
-        this.userInputValue !== true &&
-        val === this.__getOptionLabel(this.innerValue[0])
+        val !== ''
+        && props.multiple !== true
+        && innerValue.value.length > 0
+        && userInputValue !== true
+        && val === getOptionLabel.value(innerValue.value[ 0 ])
       ) {
         val = ''
       }
 
-      const filterId = setTimeout(() => {
-        this.menu === true && (this.menu = false)
+      const localFilterId = setTimeout(() => {
+        menu.value === true && (menu.value = false)
       }, 10)
-      clearTimeout(this.filterId)
-      this.filterId = filterId
 
-      this.$emit(
+      clearTimeout(filterId)
+      filterId = localFilterId
+
+      emit(
         'filter',
         val,
-        fn => {
-          if (this.focused === true && this.filterId === filterId) {
-            clearTimeout(this.filterId)
+        (fn, afterFn) => {
+          if ((keepClosed === true || state.focused.value === true) && filterId === localFilterId) {
+            clearTimeout(filterId)
+
             typeof fn === 'function' && fn()
-            this.$nextTick(() => {
-              this.innerLoading = false
-              if (this.menu === true) {
-                this.__updateMenu(true)
+
+            // hide indicator to allow arrow to animate
+            innerLoadingIndicator.value = false
+
+            nextTick(() => {
+              state.innerLoading.value = false
+
+              if (state.editable.value === true) {
+                if (keepClosed === true) {
+                  menu.value === true && hidePopup()
+                }
+                else if (menu.value === true) {
+                  updateMenu(true)
+                }
+                else {
+                  menu.value = true
+                }
               }
-              else {
-                this.menu = true
-              }
+
+              typeof afterFn === 'function' && nextTick(() => { afterFn(proxy) })
+              typeof afterUpdateFn === 'function' && nextTick(() => { afterUpdateFn(proxy) })
             })
           }
         },
         () => {
-          if (this.focused === true && this.filterId === filterId) {
-            clearTimeout(this.filterId)
-            this.innerLoading = false
+          if (state.focused.value === true && filterId === localFilterId) {
+            clearTimeout(filterId)
+            state.innerLoading.value = false
+            innerLoadingIndicator.value = false
           }
-          this.menu === true && (this.menu = false)
+          menu.value === true && (menu.value = false)
         }
       )
-    },
+    }
 
-    __getControlEvents () {
-      const focusout = e => {
-        this.__onControlFocusout(e, () => {
-          this.__resetInputValue()
-          this.__closeMenu()
-        })
-      }
-
-      return {
-        focusin: this.__onControlFocusin,
-        focusout,
-        'popup-show': this.__onControlPopupShow,
-        'popup-hide': e => {
-          e !== void 0 && stop(e)
-          this.$emit('popup-hide', e)
-          this.hasDialog !== true && this.__focus()
-          this.hasPopupOpen = false
-          focusout(e)
-        },
-        click: e => {
-          // label from QField will propagate click on the input (except IE)
-          if (
-            this.hasDialog !== true &&
-            this.useInput === true &&
-            e.target.classList.contains('q-select__input') !== true
-          ) {
-            return
-          }
-          if (this.hasDialog !== true && this.menu === true) {
-            this.__closeMenu()
-          }
-          else {
-            this.showPopup(e)
-          }
-        }
-      }
-    },
-
-    __getPopup (h) {
-      if (
-        this.editable !== false && (
-          this.dialog === true || // dialog always has menu displayed, so need to render it
-          this.noOptions !== true ||
-          this.$scopedSlots['no-option'] !== void 0
-        )
-      ) {
-        return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`](h)
-      }
-    },
-
-    __getMenu (h) {
-      const child = this.noOptions === true
-        ? (
-          this.$scopedSlots['no-option'] !== void 0
-            ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
-            : null
-        )
-        : this.__getOptions(h)
-
+    function getMenu () {
       return h(QMenu, {
-        ref: 'menu',
-        props: {
-          value: this.menu,
-          fit: true,
-          cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          contentClass: this.menuClass,
-          contentStyle: this.popupContentStyle,
-          noParentEvent: true,
-          noRefocus: true,
-          noFocus: true,
-          square: this.squaredMenu,
-          transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide,
-          separateClosePopup: true
-        },
-        on: {
-          '&scroll': this.__onVirtualScrollEvt,
-          'before-hide': this.__closeMenu
-        }
-      }, child)
-    },
+        ref: menuRef,
+        class: menuContentClass.value,
+        style: props.popupContentStyle,
+        modelValue: menu.value,
+        fit: props.menuShrink !== true,
+        cover: props.optionsCover === true && noOptions.value !== true && props.useInput !== true,
+        anchor: props.menuAnchor,
+        self: props.menuSelf,
+        offset: props.menuOffset,
+        dark: isOptionsDark.value,
+        noParentEvent: true,
+        noRefocus: true,
+        noFocus: true,
+        square: squaredMenu.value,
+        transitionShow: props.transitionShow,
+        transitionHide: props.transitionHide,
+        transitionDuration: props.transitionDuration,
+        separateClosePopup: true,
+        ...listboxAttrs.value,
+        onScrollPassive: onVirtualScrollEvt,
+        onBeforeShow: onControlPopupShow,
+        onBeforeHide: onMenuBeforeHide,
+        onShow: onMenuShow
+      }, getAllOptions)
+    }
 
-    __onDialogFieldFocus (e) {
+    function onMenuBeforeHide (e) {
+      onControlPopupHide(e)
+      closeMenu()
+    }
+
+    function onMenuShow () {
+      setVirtualScrollSize()
+    }
+
+    function onDialogFieldFocus (e) {
       stop(e)
-      this.dialogFieldFocused = true
+      targetRef.value !== null && targetRef.value.focus()
+      dialogFieldFocused.value = true
       window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, 0)
-    },
+    }
 
-    __onDialogFieldBlur (e) {
+    function onDialogFieldBlur (e) {
       stop(e)
-      this.$nextTick(() => {
-        this.dialogFieldFocused = false
+      nextTick(() => {
+        dialogFieldFocused.value = false
       })
-    },
+    }
 
-    __getDialog (h) {
+    function getDialog () {
       const content = [
         h(QField, {
-          staticClass: `col-auto ${this.fieldClass}`,
-          attrs: {
-            for: this.targetUid
-          },
-          props: {
-            ...this.$props,
-            dark: this.optionsDark,
-            square: true,
-            loading: this.innerLoading,
-            filled: true,
-            stackLabel: this.inputValue.length > 0
-          },
-          on: {
-            ...this.$listeners,
-            focus: this.__onDialogFieldFocus,
-            blur: this.__onDialogFieldBlur
-          },
-          scopedSlots: {
-            ...this.$scopedSlots,
-            rawControl: () => this.__getControl(h, true),
-            before: void 0,
-            after: void 0
-          }
+          class: `col-auto ${ state.fieldClass.value }`,
+          ...innerFieldProps.value,
+          for: state.targetUid.value,
+          dark: isOptionsDark.value,
+          square: true,
+          loading: innerLoadingIndicator.value,
+          itemAligned: false,
+          filled: true,
+          stackLabel: inputValue.value.length > 0,
+          ...state.splitAttrs.listeners.value,
+          onFocus: onDialogFieldFocus,
+          onBlur: onDialogFieldBlur
+        }, {
+          ...slots,
+          rawControl: () => state.getControl(true),
+          before: void 0,
+          after: void 0
         })
       ]
 
-      this.menu === true && content.push(
+      menu.value === true && content.push(
         h('div', {
-          ref: 'menuContent',
-          staticClass: 'scroll',
-          class: this.menuContentClass,
-          style: this.popupContentStyle,
-          on: {
-            click: prevent,
-            '&scroll': this.__onVirtualScrollEvt
-          }
-        }, (
-          this.noOptions === true
-            ? (
-              this.$scopedSlots['no-option'] !== void 0
-                ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
-                : null
-            )
-            : this.__getOptions(h)
-        ))
+          ref: menuContentRef,
+          class: menuContentClass.value + ' scroll',
+          style: props.popupContentStyle,
+          ...listboxAttrs.value,
+          onClick: prevent,
+          onScrollPassive: onVirtualScrollEvt
+        }, getAllOptions())
       )
 
       return h(QDialog, {
-        props: {
-          value: this.dialog,
-          noRefocus: true,
-          noFocus: true,
-          position: this.useInput === true ? 'top' : void 0,
-          transitionShow: this.transitionShowComputed,
-          transitionHide: this.transitionHide
-        },
-        on: {
-          'before-hide': () => {
-            this.focused = false
-          },
-          hide: e => {
-            this.hidePopup()
-            this.$emit('blur', e)
-            this.__resetInputValue()
-          },
-          show: () => {
-            const el = document.activeElement
-            // IE can have null document.activeElement
-            if (
-              (el === null || el.id !== this.targetUid) &&
-              this.$refs.target !== el
-            ) {
-              this.$refs.target.focus()
-            }
-          }
-        }
-      }, [
-        h('div', {
-          staticClass: 'q-select__dialog' +
-            (this.optionsDark === true ? ' q-select__menu--dark' : '') +
-            (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
-        }, content)
-      ])
-    },
+        ref: dialogRef,
+        modelValue: dialog.value,
+        position: props.useInput === true ? 'top' : void 0,
+        transitionShow: transitionShowComputed,
+        transitionHide: props.transitionHide,
+        transitionDuration: props.transitionDuration,
+        onBeforeShow: onControlPopupShow,
+        onBeforeHide: onDialogBeforeHide,
+        onHide: onDialogHide,
+        onShow: onDialogShow
+      }, () => h('div', {
+        class: 'q-select__dialog'
+          + (isOptionsDark.value === true ? ' q-select__dialog--dark q-dark' : '')
+          + (dialogFieldFocused.value === true ? ' q-select__dialog--focused' : '')
+      }, content))
+    }
 
-    __closeMenu () {
-      if (this.dialog === true) {
+    function onDialogBeforeHide (e) {
+      onControlPopupHide(e)
+
+      if (dialogRef.value !== null) {
+        dialogRef.value.__updateRefocusTarget(
+          state.rootRef.value.querySelector('.q-field__native > [tabindex]:last-child')
+        )
+      }
+
+      state.focused.value = false
+    }
+
+    function onDialogHide (e) {
+      hidePopup()
+      state.focused.value === false && emit('blur', e)
+      resetInputValue()
+    }
+
+    function onDialogShow () {
+      const el = document.activeElement
+      if (
+        (el === null || el.id !== state.targetUid.value)
+        && targetRef.value !== null
+        && targetRef.value !== el
+      ) {
+        targetRef.value.focus()
+      }
+
+      setVirtualScrollSize()
+    }
+
+    function closeMenu () {
+      if (dialog.value === true) {
         return
       }
 
-      this.menu = false
+      optionIndex.value = -1
 
-      if (this.focused === false) {
-        clearTimeout(this.filterId)
-        this.filterId = void 0
+      if (menu.value === true) {
+        menu.value = false
+      }
 
-        if (this.innerLoading === true) {
-          this.$emit('filter-abort')
-          this.innerLoading = false
+      if (state.focused.value === false) {
+        clearTimeout(filterId)
+        filterId = void 0
+
+        if (state.innerLoading.value === true) {
+          emit('filter-abort')
+          state.innerLoading.value = false
+          innerLoadingIndicator.value = false
         }
       }
-    },
+    }
 
-    showPopup (e) {
-      if (this.hasDialog === true) {
-        this.__onControlFocusin(e)
-        this.dialog = true
+    function showPopup (e) {
+      if (state.editable.value !== true) {
+        return
+      }
+
+      if (hasDialog === true) {
+        state.onControlFocusin(e)
+        dialog.value = true
+        nextTick(() => {
+          state.focus()
+        })
       }
       else {
-        this.__focus()
+        state.focus()
       }
 
-      if (this.$listeners.filter !== void 0) {
-        this.filter(this.inputValue)
+      if (props.onFilter !== void 0) {
+        filter(inputValue.value)
       }
-      else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
-        this.menu = true
+      else if (noOptions.value !== true || slots[ 'no-option' ] !== void 0) {
+        menu.value = true
       }
-    },
+    }
 
-    hidePopup () {
-      this.dialog = false
-      this.__closeMenu()
-    },
+    function hidePopup () {
+      dialog.value = false
+      closeMenu()
+    }
 
-    __resetInputValue () {
-      this.useInput === true && this.updateInputValue(
-        this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
-          ? this.__getOptionLabel(this.innerValue[0]) || ''
+    function resetInputValue () {
+      props.useInput === true && updateInputValue(
+        props.multiple !== true && props.fillInput === true && innerValue.value.length > 0
+          ? getOptionLabel.value(innerValue.value[ 0 ]) || ''
           : '',
         true,
         true
       )
-    },
+    }
 
-    __updateMenu (show) {
+    function updateMenu (show) {
       let optionIndex = -1
 
       if (show === true) {
-        if (this.innerValue.length > 0) {
-          const val = this.__getOptionValue(this.innerValue[0])
-          optionIndex = this.options.findIndex(v => isDeepEqual(this.__getOptionValue(v), val))
+        if (innerValue.value.length > 0) {
+          const val = getOptionValue.value(innerValue.value[ 0 ])
+          optionIndex = props.options.findIndex(v => isDeepEqual(getOptionValue.value(v), val))
         }
 
-        this.__resetVirtualScroll(optionIndex)
+        localResetVirtualScroll(optionIndex)
       }
 
-      this.setOptionIndex(optionIndex)
-    },
+      setOptionIndex(optionIndex)
+    }
 
-    __onPreRender () {
-      this.hasDialog = this.$q.platform.is.mobile !== true && this.behavior !== 'dialog'
+    function rerenderMenu (newLength, oldLength) {
+      if (menu.value === true && state.innerLoading.value === false) {
+        localResetVirtualScroll(-1, true)
+
+        nextTick(() => {
+          if (menu.value === true && state.innerLoading.value === false) {
+            if (newLength > oldLength) {
+              localResetVirtualScroll()
+            }
+            else {
+              updateMenu(true)
+            }
+          }
+        })
+      }
+    }
+
+    function updateMenuPosition () {
+      if (dialog.value === false && menuRef.value !== null) {
+        menuRef.value.updatePosition()
+      }
+    }
+
+    function onControlPopupShow (e) {
+      e !== void 0 && stop(e)
+      emit('popup-show', e)
+      state.hasPopupOpen = true
+      state.onControlFocusin(e)
+    }
+
+    function onControlPopupHide (e) {
+      e !== void 0 && stop(e)
+      emit('popup-hide', e)
+      state.hasPopupOpen = false
+      state.onControlFocusout(e)
+    }
+
+    function updatePreState () {
+      hasDialog = $q.platform.is.mobile !== true && props.behavior !== 'dialog'
         ? false
-        : this.behavior !== 'menu' && (
-          this.useInput === true
-            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
+        : props.behavior !== 'menu' && (
+          props.useInput === true
+            ? slots[ 'no-option' ] !== void 0 || props.onFilter !== void 0 || noOptions.value === false
             : true
         )
 
-      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
+      transitionShowComputed = $q.platform.is.ios === true && hasDialog === true && props.useInput === true
         ? 'fade'
-        : this.transitionShow
-    },
-
-    __onPostRender () {
-      if (this.dialog === false && this.$refs.menu !== void 0) {
-        this.$refs.menu.updatePosition()
-      }
-    },
-
-    updateMenuPosition () {
-      this.__onPostRender()
+        : props.transitionShow
     }
-  },
 
-  beforeDestroy () {
-    clearTimeout(this.inputTimer)
+    onBeforeUpdate(updatePreState)
+    onUpdated(updateMenuPosition)
+
+    updatePreState()
+
+    onBeforeUnmount(() => {
+      clearTimeout(inputTimer)
+    })
+
+    // expose public methods
+    Object.assign(proxy, {
+      showPopup, hidePopup,
+      removeAtIndex, add, toggleOption,
+      getOptionIndex: () => optionIndex.value,
+      setOptionIndex, moveOptionSelection,
+      filter, updateMenuPosition, updateInputValue,
+      isOptionSelected,
+      getEmittingOptionValue,
+      isOptionDisabled: (...args) => isOptionDisabled.value.apply(null, args) === true,
+      getOptionValue: (...args) => getOptionValue.value.apply(null, args),
+      getOptionLabel: (...args) => getOptionLabel.value.apply(null, args)
+    })
+
+    Object.assign(state, {
+      innerValue,
+
+      fieldClass: computed(() =>
+        `q-select q-field--auto-height q-select--with${ props.useInput !== true ? 'out' : '' }-input`
+        + ` q-select--with${ props.useChips !== true ? 'out' : '' }-chips`
+        + ` q-select--${ props.multiple === true ? 'multiple' : 'single' }`
+      ),
+
+      inputRef,
+      targetRef,
+      hasValue,
+      showPopup,
+
+      floatingLabel: computed(() =>
+        (props.hideSelected === true
+          ? inputValue.value.length > 0
+          : hasValue.value === true
+        )
+        || fieldValueIsFilled(props.displayValue)
+      ),
+
+      getControlChild: () => {
+        if (
+          state.editable.value !== false && (
+            dialog.value === true // dialog always has menu displayed, so need to render it
+            || noOptions.value !== true
+            || slots[ 'no-option' ] !== void 0
+          )
+        ) {
+          return hasDialog === true ? getDialog() : getMenu()
+        }
+        else if (state.hasPopupOpen === true) {
+          // explicitly set it otherwise TAB will not blur component
+          state.hasPopupOpen = false
+        }
+      },
+
+      controlEvents: {
+        onFocusin (e) { state.onControlFocusin(e) },
+        onFocusout (e) {
+          state.onControlFocusout(e, () => {
+            resetInputValue()
+            closeMenu()
+          })
+        },
+        onClick (e) {
+          // label from QField will propagate click on the input
+          prevent(e)
+
+          if (hasDialog !== true && menu.value === true) {
+            closeMenu()
+            targetRef.value !== null && targetRef.value.focus()
+            return
+          }
+
+          showPopup(e)
+        }
+      },
+
+      getControl: fromDialog => {
+        const child = getSelection()
+        const isTarget = fromDialog === true || dialog.value !== true || hasDialog !== true
+
+        if (props.useInput === true) {
+          child.push(getInput(fromDialog, isTarget))
+        }
+        // there can be only one (when dialog is opened the control in dialog should be target)
+        else if (state.editable.value === true) {
+          const attrs = isTarget === true ? comboboxAttrs.value : void 0
+
+          child.push(
+            h('input', {
+              ref: isTarget === true ? targetRef : void 0,
+              key: 'd_t',
+              class: 'q-select__focus-target',
+              id: isTarget === true ? state.targetUid.value : void 0,
+              readonly: true,
+              ...attrs,
+              onKeydown: onTargetKeydown,
+              onKeyup: onTargetKeyup,
+              onKeypress: onTargetKeypress
+            })
+          )
+
+          if (isTarget === true && typeof props.autocomplete === 'string' && props.autocomplete.length > 0) {
+            child.push(
+              h('input', {
+                class: 'q-select__autocomplete-input',
+                autocomplete: props.autocomplete,
+                onKeyup: onTargetAutocomplete
+              })
+            )
+          }
+        }
+
+        if (nameProp.value !== void 0 && props.disable !== true && innerOptionsValue.value.length > 0) {
+          const opts = innerOptionsValue.value.map(value => h('option', { value, selected: true }))
+
+          child.push(
+            h('select', {
+              class: 'hidden',
+              name: nameProp.value,
+              multiple: props.multiple
+            }, opts)
+          )
+        }
+
+        const attrs = props.useInput === true || isTarget !== true ? void 0 : state.splitAttrs.attributes.value
+
+        return h('div', {
+          class: 'q-field__native row items-center',
+          ...attrs
+        }, child)
+      },
+
+      getInnerAppend: () => (
+        props.loading !== true && innerLoadingIndicator.value !== true && props.hideDropdownIcon !== true
+          ? [
+              h(QIcon, {
+                class: 'q-select__dropdown-icon' + (menu.value === true ? ' rotate-180' : ''),
+                name: dropdownArrowIcon.value
+              })
+            ]
+          : null
+      )
+    })
+
+    return useField(state)
   }
 })

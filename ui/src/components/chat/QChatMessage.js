@@ -1,6 +1,9 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { getNormalizedVNodes } from '../../utils/private/vm.js'
+
+export default createComponent({
   name: 'QChatMessage',
 
   props: {
@@ -13,123 +16,141 @@ export default Vue.extend({
     text: Array,
     stamp: String,
     size: String,
-    labelSanitize: Boolean,
-    nameSanitize: Boolean,
-    textSanitize: Boolean,
-    stampSanitize: Boolean
+    labelHtml: Boolean,
+    nameHtml: Boolean,
+    textHtml: Boolean,
+    stampHtml: Boolean
   },
 
-  computed: {
-    textClass () {
-      if (this.textColor) {
-        return `text-${this.textColor}`
-      }
-    },
+  setup (props, { slots }) {
+    const op = computed(() => (props.sent === true ? 'sent' : 'received'))
 
-    messageClass () {
-      if (this.bgColor) {
-        return `text-${this.bgColor}`
-      }
-    },
+    const textClass = computed(() =>
+      `q-message-text-content q-message-text-content--${ op.value }`
+      + (props.textColor !== void 0 ? ` text-${ props.textColor }` : '')
+    )
 
-    sizeClass () {
-      if (this.size) {
-        return `col-${this.size}`
-      }
-    },
+    const messageClass = computed(() =>
+      `q-message-text q-message-text--${ op.value }`
+      + (props.bgColor !== void 0 ? ` text-${ props.bgColor }` : '')
+    )
 
-    classes () {
-      return {
-        'q-message-sent': this.sent,
-        'q-message-received': !this.sent
+    const containerClass = computed(() =>
+      'q-message-container row items-end no-wrap'
+      + (props.sent === true ? ' reverse' : '')
+    )
+
+    const sizeClass = computed(() => (props.size !== void 0 ? `col-${ props.size }` : ''))
+
+    const domProps = computed(() => ({
+      msg: props.textHtml === true ? 'innerHTML' : 'textContent',
+      stamp: props.stampHtml === true ? 'innerHTML' : 'textContent',
+      name: props.nameHtml === true ? 'innerHTML' : 'textContent',
+      label: props.labelHtml === true ? 'innerHTML' : 'textContent'
+    }))
+
+    function wrapStamp (node) {
+      if (slots.stamp !== void 0) {
+        return [ node, h('div', { class: 'q-message-stamp' }, slots.stamp()) ]
       }
+
+      if (props.stamp) {
+        return [
+          node,
+          h('div', {
+            class: 'q-message-stamp',
+            [ domProps.value.stamp ]: props.stamp
+          })
+        ]
+      }
+
+      return [ node ]
     }
-  },
 
-  methods: {
-    __getText (h) {
-      const
-        domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
-        domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+    function getText (contentList, withSlots) {
+      const content = withSlots === true
+        ? (contentList.length > 1 ? text => text : text => h('div', [ text ]))
+        : text => h('div', { [ domProps.value.msg ]: text })
 
-      return this.text.map((msg, index) => h('div', {
+      return contentList.map((msg, index) => h('div', {
         key: index,
-        staticClass: 'q-message-text',
-        class: this.messageClass
+        class: messageClass.value
       }, [
-        h('span', {
-          staticClass: 'q-message-text-content',
-          class: this.textClass
-        }, [
-          h('div', { domProps: { [domPropText]: msg } }),
-          this.stamp
-            ? h('div', {
-              staticClass: 'q-message-stamp',
-              domProps: { [domPropStamp]: this.stamp }
-            })
-            : null
-        ])
+        h('div', { class: textClass.value }, wrapStamp(content(msg)))
       ]))
-    },
-
-    __getMessage (h) {
-      return h('div', {
-        staticClass: 'q-message-text',
-        class: this.messageClass
-      }, [
-        h('span', {
-          staticClass: 'q-message-text-content',
-          class: this.textClass
-        }, this.$scopedSlots.default().concat([
-          this.stamp !== void 0
-            ? h('div', {
-              staticClass: 'q-message-stamp',
-              domProps: { [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp }
-            })
-            : null
-        ]))
-      ])
     }
-  },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-message',
-      class: this.classes
-    }, [
-      this.label
-        ? h('div', {
-          staticClass: 'q-message-label text-center',
-          domProps: { [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label }
-        })
-        : null,
+    return () => {
+      const container = []
 
-      h('div', {
-        staticClass: 'q-message-container row items-end no-wrap'
-      }, [
-        this.$scopedSlots.avatar !== void 0
-          ? this.$scopedSlots.avatar()
-          : (
-            this.avatar !== void 0
-              ? h('img', {
-                staticClass: 'q-message-avatar',
-                attrs: { src: this.avatar }
-              })
-              : null
-          ),
+      if (slots.avatar !== void 0) {
+        container.push(slots.avatar())
+      }
+      else if (props.avatar !== void 0) {
+        container.push(
+          h('img', {
+            class: `q-message-avatar q-message-avatar--${ op.value }`,
+            src: props.avatar,
+            'aria-hidden': 'true'
+          })
+        )
+      }
 
-        h('div', { class: this.sizeClass }, [
-          this.name !== void 0
-            ? h('div', {
-              staticClass: 'q-message-name',
-              domProps: { [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name }
-            })
-            : null,
+      const msg = []
 
-          this.text !== void 0 ? this.__getText(h) : null,
-          this.$scopedSlots.default !== void 0 ? this.__getMessage(h) : null
-        ])
-      ])
-    ])
+      if (slots.name !== void 0) {
+        msg.push(
+          h('div', { class: `q-message-name q-message-name--${ op.value }` }, slots.name())
+        )
+      }
+      else if (props.name !== void 0) {
+        msg.push(
+          h('div', {
+            class: `q-message-name q-message-name--${ op.value }`,
+            [ domProps.value.name ]: props.name
+          })
+        )
+      }
+
+      if (slots.default !== void 0) {
+        msg.push(
+          getText(
+            getNormalizedVNodes(slots.default()),
+            true
+          )
+        )
+      }
+      else if (props.text !== void 0) {
+        msg.push(getText(props.text))
+      }
+
+      container.push(
+        h('div', { class: sizeClass.value }, msg)
+      )
+
+      const child = []
+
+      if (slots.label !== void 0) {
+        child.push(
+          h('div', { class: 'q-message-label' }, slots.label())
+        )
+      }
+      else if (props.label !== void 0) {
+        child.push(
+          h('div', {
+            class: 'q-message-label',
+            [ domProps.value.label ]: props.label
+          })
+        )
+      }
+
+      child.push(
+        h('div', { class: containerClass.value }, container)
+      )
+
+      return h('div', {
+        class: `q-message q-message-${ op.value }`
+      }, child)
+    }
   }
 })

@@ -1,12 +1,14 @@
-const
-  { existsSync } = require('fs'),
-  { sep, normalize, join } = require('path')
+const { existsSync } = require('fs')
+const { sep, normalize, join } = require('path')
 
 module.exports = function () {
   let dir = process.cwd()
 
   while (dir.length && dir[dir.length - 1] !== sep) {
-    if (existsSync(join(dir, 'quasar.conf.js'))) {
+    if (
+      existsSync(join(dir, 'quasar.conf.js')) ||
+      existsSync(join(dir, 'quasar.config.js'))
+    ) {
       return dir
     }
 

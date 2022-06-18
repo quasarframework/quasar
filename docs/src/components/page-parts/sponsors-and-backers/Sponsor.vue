@@ -1,12 +1,10 @@
 <template lang="pug">
-  q-card.quasar-sponsor(flat, bordered, @click.native="openWebsite", :style="style")
-    q-card-section.quasar-sponsor__title {{ name }}
-    q-separator
-    q-card-section.quasar-sponsor__logo.flex.flex-center(v-if="img")
-      q-img(alt="name", :src="`https://cdn.quasar.dev/sponsors/${img}`")
+.quasar-sponsor(@click="openWebsite" :style="style")
+  q-img(:alt="name" height="100%" fit="contain" :src="logoUrl")
 </template>
 
 <script>
+import { computed } from 'vue'
 import { openURL } from 'quasar'
 
 export default {
@@ -18,17 +16,17 @@ export default {
     url: String
   },
 
-  computed: {
-    style () {
-      return {
-        cursor: this.url ? 'pointer' : 'default'
-      }
-    }
-  },
+  setup (props) {
+    return {
+      style: computed(() => ({
+        cursor: props.url ? 'pointer' : 'default'
+      })),
 
-  methods: {
-    openWebsite () {
-      this.url && openURL(this.url)
+      logoUrl: computed(() => `https://cdn.quasar.dev/sponsors/${props.img}`),
+
+      openWebsite () {
+        props.url && openURL(props.url)
+      }
     }
   }
 }
@@ -37,14 +35,11 @@ export default {
 <style lang="sass">
 .quasar-sponsor
   width: 100%
-  max-width: 14rem
-  height: 265px
+  max-width: 11rem
+  height: 120px
+  padding: 8px
 
-  &__logo
-    height: 200px
-  &__title
-    transition: background .28s
-
-  &:hover .quasar-sponsor__title
-    background: #eee
+@media (max-width: 720px)
+  .quasar-sponsor
+    height: 80px
 </style>

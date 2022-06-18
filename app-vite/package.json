@@ -1,0 +1,142 @@
+{
+  "name": "@quasar/app-vite",
+  "version": "1.0.2",
+  "description": "Quasar Framework App CLI with Vite",
+  "bin": {
+    "quasar": "./bin/quasar"
+  },
+  "typings": "types/index.d.ts",
+  "files": [
+    "assets",
+    "bin",
+    "lib",
+    "templates",
+    "types",
+    "tsconfig-preset.json"
+  ],
+  "keywords": [
+    "quasar",
+    "vue",
+    "vuejs",
+    "vite",
+    "cli",
+    "web",
+    "spa",
+    "pwa",
+    "electron",
+    "cordova"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js ./ ./bin/quasar --fix --report-unused-disable-directives"
+  },
+  "dependencies": {
+    "@quasar/fastclick": "1.1.5",
+    "@quasar/vite-plugin": "^1.0.9",
+    "@rollup/pluginutils": "^4.1.2",
+    "@types/compression": "^1.7.2",
+    "@types/cordova": "0.0.34",
+    "@types/express": "^4.17.13",
+    "@vitejs/plugin-vue": "^2.2.0",
+    "archiver": "^5.3.0",
+    "chokidar": "^3.5.3",
+    "ci-info": "^3.3.0",
+    "compression": "^1.7.4",
+    "cross-spawn": "^7.0.3",
+    "dot-prop": "6.0.1",
+    "elementtree": "0.1.7",
+    "esbuild": "0.14.29",
+    "express": "^4.17.3",
+    "fast-glob": "3.2.11",
+    "fs-extra": "^10.0.1",
+    "html-minifier": "^4.0.0",
+    "inquirer": "^8.2.1",
+    "isbinaryfile": "^4.0.8",
+    "kolorist": "^1.5.1",
+    "lodash.debounce": "^4.0.8",
+    "lodash.template": "^4.5.0",
+    "minimist": "^1.2.6",
+    "open": "^8.4.0",
+    "ouch": "^2.0.0",
+    "postcss": "^8.4.4",
+    "register-service-worker": "^1.7.2",
+    "rollup-plugin-visualizer": "^5.5.4",
+    "sass": "1.32.12",
+    "semver": "^7.3.5",
+    "serialize-javascript": "^6.0.0",
+    "table": "^6.8.0",
+    "vite": "2.9.1",
+    "webpack-merge": "^5.8.0"
+  },
+  "devDependencies": {
+    "electron-builder": "22.14.13",
+    "electron-packager": "^15.3.0",
+    "eslint": "^8.11.0",
+    "eslint-plugin-n": "^15.0.0",
+    "pinia": "^2.0.0",
+    "quasar": "^2.6.0",
+    "ts-essentials": "^9.1.2",
+    "typescript": "~4.5",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
+    "vuex": "^4.0.0",
+    "workbox-build": "^6.5.3"
+  },
+  "peerDependencies": {
+    "electron-builder": "^22.0.0",
+    "electron-packager": "^15.0.0",
+    "eslint": "^8.11.0",
+    "pinia": "^2.0.0",
+    "quasar": "^2.6.0",
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.0",
+    "workbox-build": "^6.5.0"
+  },
+  "peerDependenciesMeta": {
+    "electron-builder": {
+      "optional": true
+    },
+    "electron-packager": {
+      "optional": true
+    },
+    "eslint": {
+      "optional": true
+    },
+    "pinia": {
+      "optional": true
+    },
+    "vuex": {
+      "optional": true
+    },
+    "workbox-build": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.14.12",
+    "yarn": ">= 1.17.3"
+  },
+  "volta": {
+    "node": "lts"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

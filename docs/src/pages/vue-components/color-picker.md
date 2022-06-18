@@ -1,6 +1,7 @@
 ---
 title: Color Picker
 desc: The QColorPicker Vue component provides a way for the user to input colors.
+keys: QColorPicker
 related:
   - /quasar-utils/color-utils
 ---
@@ -11,8 +12,10 @@ The QColor component provides a method to input colors.
 For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-utils).
 :::
 
-## Installation
-<doc-installation components="QColor" />
+
+## QColor API
+
+<doc-api file="QColor" />
 
 ## Usage
 
@@ -24,7 +27,7 @@ For handling colors, also check out [Quasar Color Utils](/quasar-utils/color-uti
 
 <doc-example title="Input" file="QColor/Input" />
 
-There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js). You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#Internal-validation).
+There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js). You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#internal-validation).
 
 Examples: "hexColor", "rgbOrRgbaColor", "anyColor".
 
@@ -62,5 +65,8 @@ You can also pick the default view, like in example below, where we also specify
 
 <doc-example title="Disable and readonly" file="QColor/DisableReadonly" />
 
-## QColor API
-<doc-api file="QColor" />
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QColor, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QColor/NativeForm" />

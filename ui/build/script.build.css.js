@@ -1,161 +1,32 @@
-const
-  path = require('path'),
-  stylus = require('stylus'),
-  sass = require('node-sass'),
-  rtl = require('postcss-rtl'),
-  postcss = require('postcss'),
-  cssnano = require('cssnano'),
-  autoprefixer = require('autoprefixer'),
-  buildConf = require('./build.conf'),
-  buildUtils = require('./build.utils'),
-  pathList = [ path.join(__dirname, '../src/css/') ]
+const path = require('path')
+const sass = require('sass')
+const rtl = require('postcss-rtlcss')
+const postcss = require('postcss')
+const cssnano = require('cssnano')
+const autoprefixer = require('autoprefixer')
+
+const buildConf = require('./build.conf')
+const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
 
 const nano = postcss([
   cssnano({
-    preset: ['default', {
+    preset: [ 'default', {
       mergeLonghand: false,
       convertValues: false,
       cssDeclarationSorter: false,
       reduceTransforms: false
-    }]
+    } ]
   })
 ])
 
-Promise
-  .all([
-    generateStylusBase('src/css/index.styl'),
-    generateStylusAddon(),
-
-    generateSassFile('src/css/index.sass', 'dist/quasar.sass'),
-    validateSassFile('src/css/flex-addon.sass')
-  ])
-  .catch(e => {
-    console.error(e)
-    process.exit(1)
-  })
-
-function generateSassFile (source, destination) {
-  const src = path.join(__dirname, '..', source)
-  const dest = path.join(__dirname, '..', destination)
-
-  return new Promise((resolve, reject) => {
-    /*
-     * Cannot use result.stats.includedFiles
-     * because it does not contain variable only files
-     */
-    const deps = [ src ]
-
-    // We do 2 things here: validate and build import graph
-    sass.render({
-      file: src,
-      importer: [
-        (url, prev, done) => {
-          // needed for Windows as "prev"
-          // comes with backward slashes
-          prev = path.normalize(prev)
-
-          const file = path.normalize(path.join(
-            prev ? path.dirname(prev) : pathList[0],
-            url
-          ))
-
-          // avoid duplicates
-          if (deps.indexOf(file) === -1) {
-            // insert in the right order
-            if (prev) {
-              deps.splice(deps.indexOf(prev), 0, file)
-            }
-            else {
-              deps.push(file)
-            }
-          }
-
-          done({ file })
-        }
-      ]
-    }, (err) => {
-      if (err) {
-        reject(err)
-        return
-      }
-
-      resolve(deps)
-    })
-  }).then(deps => getConcatenatedContent(deps))
-    .then(code => buildUtils.writeFile(dest, code))
-    .then(() => validateSassFile(destination))
-}
-
-function validateSassFile (src) {
-  const file = path.join(__dirname, '..', src)
-
-  return new Promise((resolve, reject) => {
-    sass.render({ file }, (err) => {
-      if (err) {
-        reject(err)
-        return
-      }
-
-      resolve(true)
-    })
-  })
-}
-
-function generateStylusBase (src) {
-  // We do 2 things here: validate and get import graph
-  const deps = stylus(buildUtils.readFile(src))
-    .set('paths', pathList)
-    .deps()
-
-  return generateStylusFiles({
-    sources: [src].concat(deps),
-    styl: true
-  })
-}
-
-function generateStylusAddon () {
-  return generateStylusFiles({
-    sources: [
-      'src/css/variables.styl',
-      'src/css/flex-addon.styl'
-    ],
-    name: '.addon'
-  })
-}
-
-function generateStylusFiles ({ sources, name = '', styl }) {
-  return getConcatenatedContent(sources)
-    .then(code => {
-      if (styl) { return buildUtils.writeFile(`dist/quasar${name}.styl`, code) }
-      else { return code }
-    })
-    .then(code => compileStylus(code))
-    .then(code => postcss([ autoprefixer ]).process(code, { from: void 0 }))
-    .then(code => {
-      code.warnings().forEach(warn => {
-        console.warn(warn.toString())
-      })
-      return code.css
-    })
-    .then(code => Promise.all([
-      generateUMD(name, code),
-      postcss([ rtl({}) ]).process(code, { from: void 0 }).then(code => generateUMD(name, code.css, '.rtl'))
-    ]))
-}
-
-function generateUMD (name, code, ext = '') {
-  return buildUtils.writeFile(`dist/quasar${name}${ext}.css`, code, true)
-    .then(code => nano.process(code, { from: void 0 }))
-    .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.min.css`, code.css, true))
-}
-
 function getConcatenatedContent (src, noBanner) {
-  return new Promise((resolve, reject) => {
+  return new Promise(resolve => {
     let code = noBanner !== true
       ? buildConf.banner
       : ''
 
-    src.forEach(function (file) {
+    src.forEach(file => {
       code += buildUtils.readFile(file) + '\n'
     })
 
@@ -171,18 +42,66 @@ function getConcatenatedContent (src, noBanner) {
   })
 }
 
-function compileStylus (code) {
-  return new Promise((resolve, reject) => {
-    stylus(code)
-      .set('paths', pathList)
-      .render((err, code) => {
-        if (err) {
-          console.log()
-          reject(err)
-        }
-        else {
-          resolve(code)
-        }
+function generateUMD (code, middleName, ext = '') {
+  return buildUtils.writeFile(`dist/quasar${ middleName }${ ext }.css`, code, true)
+    .then(code => nano.process(code, { from: void 0 }))
+    .then(code => buildUtils.writeFile(`dist/quasar${ middleName }${ ext }.prod.css`, code.css, true))
+}
+
+function renderAsset (cssCode, middleName = '') {
+  return postcss([ autoprefixer ]).process(cssCode, { from: void 0 })
+    .then(code => {
+      code.warnings().forEach(warn => {
+        console.warn(warn.toString())
       })
-  })
+      return code.css
+    })
+    .then(code => Promise.all([
+      generateUMD(code, middleName),
+      postcss([ rtl({}) ]).process(code, { from: void 0 })
+        .then(code => generateUMD(code.css, middleName, '.rtl'))
+    ]))
+}
+
+function generateBase (source) {
+  const src = path.join(__dirname, '..', source)
+  const sassDistDest = path.join(__dirname, '../dist/quasar.sass')
+
+  const result = sass.renderSync({ file: src })
+
+  // remove @charset declaration -- breaks Vite usage
+  const cssCode = result.css.toString().replace('@charset "UTF-8";', '')
+  const depsList = result.stats.includedFiles
+
+  return Promise.all([
+    renderAsset(cssCode),
+
+    getConcatenatedContent(depsList)
+      .then(code => buildUtils.writeFile(sassDistDest, code))
+  ])
+}
+
+function generateAddon (source) {
+  const src = path.join(__dirname, '..', source)
+
+  const result = sass.renderSync({ file: src })
+  const cssCode = result.css.toString()
+
+  return renderAsset(cssCode, '.addon')
+}
+
+module.exports = function (withDiff) {
+  if (withDiff === true) {
+    prepareDiff('dist/quasar.sass')
+  }
+
+  Promise
+    .all([
+      generateBase('src/css/index.sass'),
+      generateAddon('src/css/flex-addon.sass')
+    ])
+    .catch(e => {
+      console.error(e)
+      process.exit(1)
+    })
 }

@@ -1,15 +1,20 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/icon"
   },
 
   "props": {
+    "tag": {
+      "extends": "tag",
+      "desc": "HTML tag to render, unless no icon is supplied or it's an svg icon",
+      "default": "i",
+      "examples": [ "div", "i" ]
+    },
+
     "name": {
-      "type": "String",
-      "desc": "Name of the icon, following Quasar convention",
-      "examples": [ "map", "ion-add" ],
+      "extends": "icon",
       "category": "model"
     },
 

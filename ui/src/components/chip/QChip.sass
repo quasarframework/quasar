@@ -1,4 +1,4 @@
-$chip-height: 32px
+$chip-height: 2em
 
 .q-chip
   vertical-align: middle
@@ -7,49 +7,47 @@ $chip-height: 32px
   position: relative
 
   height: $chip-height
+  max-width: 100%
   margin: 4px
 
   background: #e0e0e0
   color: rgba(0,0,0,.87)
 
   font-size: 14px
+  padding: .5em .9em
 
-  padding: 7px 12px
-  transition: .3s
-
-  &--colored
+  &--colored, &--dark
     .q-chip__icon
       color: inherit
 
   &--outline
-    background: transparent
+    background: transparent !important
     border: 1px solid currentColor
-
-  &--selected
-    .q-avatar
-      visibility: hidden !important
-      width: 10px
 
   .q-avatar
     font-size: $chip-height
-    margin-left: -12px
-    margin-right: 6px
+    margin-left: -.45em
+    margin-right: .2em
+    border-radius: 16px
+
+  &--selected
+    .q-avatar
+      display: none
 
   &__icon
     color: rgba(0,0,0,.54)
-    font-size: 20px
-    margin: -4px
+    font-size: 1.5em
+    margin: -.2em
 
     &--left
-      margin-right: 6px
+      margin-right: .2em
     &--right
-      margin-left: 6px
+      margin-left: .2em
     &--remove
-      margin-left: 6px
-      margin-right: -6px
+      margin-left: .1em
+      margin-right: -.5em
       opacity: .6
-      transition: .3s
-      outline: none
+      outline: 0
 
       &:hover,
       &:focus
@@ -60,29 +58,21 @@ $chip-height: 32px
 
   &--dense
     border-radius: 12px
-    height: 24px
-    font-size: 12px
-    padding: 0 6px
+    padding: 0 .4em
+    height: 1.5em
 
     .q-avatar
-      font-size: 24px
-      margin-left: -6px
-      margin-right: 4px
+      font-size: 1.5em
+      margin-left: -.27em
+      margin-right: .1em
+      border-radius: 12px
 
     .q-chip__icon
-      font-size: 14px
-      margin: 0
+      font-size: 1.25em
       &--left
-        margin-right: 5px
-      &--right
-        margin-left: 5px
+        margin-right: .195em
       &--remove
-        margin-left: 5px
-        margin-right: -2px
-
-    &.q-chip--selected
-      .q-avatar
-        width: 5px
+        margin-right: -.25em
 
   &--square
     border-radius: $generic-border-radius

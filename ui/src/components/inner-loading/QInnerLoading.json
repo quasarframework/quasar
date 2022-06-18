@@ -1,8 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-transition" ],
 
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/inner-loading"
   },
 
   "props": {
@@ -13,7 +13,8 @@
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "desc": "Color name for component from the Quasar Color Palette for the inner Spinner (unless using the default slot)"
     },
 
     "size": {
@@ -21,14 +22,34 @@
       "default": "42px"
     },
 
-    "transition-show": {
-      "extends": "transition",
-      "default": "fade"
+    "label": {
+      "type": "String",
+      "desc": "Add a label; Gets overriden when using the default slot",
+      "examples": [ "Please wait..." ],
+      "category": "label",
+      "addedIn": "v2.2"
     },
 
-    "transition-hide": {
-      "extends": "transition",
-      "default": "fade"
+    "label-class": {
+      "type": "String",
+      "desc": "Add CSS class(es) to the label; Works along the 'label' prop only",
+      "examples": [
+        "text-red q-mt-xl"
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
+    },
+
+    "label-style": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
+      "desc": "Apply custom style to the label; Works along the 'label' prop only",
+      "examples": [
+        "font-size: 28px",
+        ":label-style=\"{ color: '#ff0000' }\""
+      ],
+      "category": "label",
+      "addedIn": "v2.2"
     },
 
     "dark": {

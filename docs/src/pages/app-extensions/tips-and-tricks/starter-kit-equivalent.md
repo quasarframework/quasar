@@ -3,20 +3,21 @@ title: Starter kit equivalent
 desc: Tips and tricks on how to use a Quasar App Extension to create the equivalent of a starter kit.
 ---
 
-This guide is for when you want to create what essentially is a "starter kit" that adds stuff (/quasar.conf.js configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.
+This guide is for when you want to create what essentially is a "starter kit" that adds stuff (/quasar.config.js configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.
 
 ::: tip
 In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/master/my-starter-kit), which is a github repo with this App Extension.
+To see an example of what we will build, head over to [MyStarterKit full example](https://github.com/quasarframework/app-extension-examples/tree/v2/my-starter-kit), which is a github repo with this App Extension.
 :::
 
 We'll be creating an example App Extension which does the following:
+
 * it prompts the user what features it wants this App Extension to install
 * renders (copies) files into the hosting folder, according to the answers he gave
-* it extends /quasar.conf.js
+* it extends /quasar.config.js
 * it extends the Webpack configuration
 * it uses an App Extension hook (onPublish)
 * it removes the added files when the App Extension gets uninstalled
@@ -63,9 +64,15 @@ module.exports = function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
-  // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  // package or a minimum version of Quasar App CLI
+  api.compatibleWith('quasar', '^2.0.0')
+
+  if (api.hasVite === true) {
+    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+  }
+  else { // api.hasWebpack === true
+    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+  }
 
   // We render some files into the hosting project
 
@@ -90,7 +97,7 @@ Notice that we use the prompts to decide what to render into the hosting project
 
 ## The index script
 
-We do a few things in the index script, like extending /quasar.conf.js, hooking into one of the many Index API hooks (onPublish in this case), and chaining the Webpack configuration:
+We do a few things in the index script, like extending /quasar.config.js, hooking into one of the many Index API hooks (onPublish in this case), and chaining the Webpack configuration:
 
 ```js
 // src/index.js
@@ -99,11 +106,17 @@ module.exports = function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
-  // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  // package or a minimum version of Quasar App CLI
+  api.compatibleWith('quasar', '^2.0.0')
 
-  // Here we extend /quasar.conf.js;
+  if (api.hasVite === true) {
+    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+  }
+  else { // api.hasWebpack === true
+    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+  }
+
+  // Here we extend /quasar.config.js;
   // (extendQuasarConf() will be defined later in this tutorial, continue reading)
   api.extendQuasarConf(extendQuasarConf)
 
@@ -114,9 +127,14 @@ module.exports = function (api) {
     api.onPublish(onPublish)
   }
 
-  // we add/change/remove something in the Webpack configuration
-  // (chainWebpack() will be defined later in this tutorial, continue reading)
-  api.chainWebpack(chainWebpack)
+  if (api.hasVite === true) {
+    api.extendViteConf(extendVite)
+  }
+  else { // api.hasWebpack === true
+    // we add/change/remove something in the Webpack configuration
+    // (chainWebpack() will be defined later in this tutorial, continue reading)
+    api.chainWebpack(chainWebpack)
+  }
 
   // there's lots more hooks that you can use...
 }
@@ -125,16 +143,8 @@ module.exports = function (api) {
 Here's an example of `extendQuasarConf` definition:
 
 ```js
-function extendQuasarConf (conf) {
-  conf.supportIE = true
-
+function extendQuasarConf (conf, api) {
   conf.extras.push('ionicons-v4')
-
-  conf.framework.components.push(
-    'QDate',
-    'QTime'
-  )
-
   conf.framework.iconSet = 'ionicons-v4'
 
   //
@@ -145,8 +155,11 @@ function extendQuasarConf (conf) {
   // make sure my-ext boot file is registered
   conf.boot.push('~quasar-app-extension-my-starter-kit/src/boot/my-starter-kit-boot.js')
 
-  // make sure boot file get transpiled
-  conf.build.transpileDependencies.push(/quasar-app-extension-my-starter-kit[\\/]src/)
+  // @quasar/app-vite does not need this
+  if (api.hasVite !== true) {
+    // make sure boot file get transpiled
+    conf.build.transpileDependencies.push(/quasar-app-extension-my-starter-kit[\\/]src/)
+  }
 }
 ```
 
@@ -163,6 +176,14 @@ function onPublish (api, { arg, distDir }) {
   if (api.ctx.modeName === 'cordova') {
     // do something
   }
+}
+```
+
+The `extendVite` function:
+
+```js
+function extendVite (viteConf, { isClient, isServer }, api) {
+  // viteConf is a Vite config object generated by Quasar CLI
 }
 ```
 
@@ -188,7 +209,6 @@ module.exports = function (api) {
   // Careful when you remove folders!
   // You don't want to delete files that are still needed by the Project,
   // or files that are not owned by this app extension.
-
 
   // Here, we could also remove the /src/services folder altogether,
   // but what if the user has added other files into this folder?

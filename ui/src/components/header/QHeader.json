@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/layout/header-and-footer"
+  },
+
+  "props": {
+    "model-value": {
+      "extends": "model-value",
+      "type": "Boolean",
+      "desc": "Model of the component defining if it is shown or hidden to the user; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "default": true,
+      "required": false,
+      "examples": [
+        "v-model=\"headerState\""
+      ]
+    },
+
+    "reveal": {
+      "type": "Boolean",
+      "desc": "Enable 'reveal' mode; Takes into account user scroll to temporarily show/hide header",
+      "category": "behavior"
+    },
+
+    "reveal-offset": {
+      "type": "Number",
+      "desc": "Amount of scroll (in pixels) that should trigger a 'reveal' state change",
+      "default": 250,
+      "examples": [
+        ":reveal-offset=\"500\""
+      ],
+      "category": "behavior"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "elevated": {
+      "type": "Boolean",
+      "desc": "Adds a default shadow to the header",
+      "category": "style"
+    },
+
+    "height-hint": {
+      "type": [ "Number", "String" ],
+      "desc": "When using SSR, you can optionally hint of the height (in pixels) of the QHeader",
+      "default": 50,
+      "examples": [ "150" ],
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component; Suggestion: QToolbar"
+    }
+  },
+
+  "events": {
+    "reveal": {
+      "desc": "Emitted when 'reveal' state gets changed",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "New 'reveal' state"
+        }
+      }
+    }
+  }
+}

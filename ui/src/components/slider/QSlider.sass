@@ -1,146 +1,290 @@
 .q-slider
-
   position: relative
-  width: 100%
-  height: 40px
-  color: $primary
-  color: var(--q-color-primary)
-  outline: 0
+
+  &--h
+    width: 100%
+  &--v
+    height: 200px
+
+  &--editable .q-slider__track-container
+    cursor: grab
 
   &__track-container
-    top: 50%
-    width: 100%
-    height: 2px
-    background: rgba(0, 0, 0, .26)
+    outline: 0
+
+    &--h
+      width: 100%
+      padding: 12px 0
+      .q-slider__selection
+        will-change: width, left
+    &--v
+      height: 100%
+      padding: 0 12px
+      .q-slider__selection
+        will-change: height, top
 
   &__track
-    will-change: width, left
-    background: currentColor
+    color: var(--q-primary)
+    background: rgba(0,0,0,.1)
+    border-radius: $generic-border-radius
+    width: inherit
+    height: inherit
 
-  &__track-markers
-    color: #000
-    background-image: repeating-linear-gradient(to right, currentColor, currentColor 2px, transparent 0, transparent)
+  &__inner
+    background: rgba(0,0,0,.1)
+    border-radius: inherit
+    width: 100%
+    height: 100%
+
+  &__selection
+    background: currentColor
+    border-radius: inherit
+    width: 100%
+    height: 100%
+
+  &__markers
+    color: rgba(0,0,0,.3)
+    border-radius: inherit
+    width: 100%
+    height: 100%
 
     &:after
       content: ''
       position: absolute
-      right: 0
-      top: 0
-      bottom: 0
-      height: 2px
-      width: 2px
       background: currentColor
 
-  &__thumb-container
-    top: 11px
-    width: 21px
-    transform: translate3d(-10px, 0, 0)
-    will-change: left
-    outline: 0
+    &--h
+      background-image: repeating-linear-gradient(to right, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
+      &:after
+        height: 100%
+        width: 2px
+        top: 0
+        right: 0
+
+    &--v
+      background-image: repeating-linear-gradient(to bottom, currentColor, currentColor 2px, rgba(255,255,255,0) 0, rgba(255,255,255,0))
+      &:after
+        width: 100%
+        height: 2px
+        left: 0
+        bottom: 0
+
+  &__marker-labels-container
+    position: relative
+    width: 100%
+    height: 100%
+    min-height: 24px
+    min-width: 24px
+
+  &__marker-labels
+    position: absolute
+
+    &--h
+      &-standard
+        top: 0
+      &-switched
+        bottom: 0
+
+      &-ltr
+        transform: translateX(-50%) #{"/* rtl:ignore */"}
+      &-rtl
+        transform: translateX(50%) #{"/* rtl:ignore */"}
+
+    &--v
+      &-standard
+        left: 4px
+      &-switched
+        right: 4px
+
+      &-ltr
+        transform: translateY(-50%) #{"/* rtl:ignore */"}
+      &-rtl
+        transform: translateY(50%) #{"/* rtl:ignore */"}
 
   &__thumb
+    z-index: 1
+    outline: 0
+    color: var(--q-primary)
+    transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
+
+    &.q-slider--focus
+      opacity: 1 !important
+
+    &--h
+      top: 50%
+      will-change: left
+      &-ltr
+        transform: scale(1) translate(-50%,-50%) #{"/* rtl:ignore */"}
+      &-rtl
+        transform: scale(1) translate(50%,-50%) #{"/* rtl:ignore */"}
+
+    &--v
+      left: 50% #{"/* rtl:ignore */"}
+      will-change: top
+      &-ltr
+        transform: scale(1) translate(-50%,-50%) #{"/* rtl:ignore */"}
+      &-rtl
+        transform: scale(1) translate(-50%,50%) #{"/* rtl:ignore */"}
+
+  &__thumb-shape
     top: 0
     left: 0
-    transform: scale3d(.571, .571, .571)
-    transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
     stroke-width: 3.5
     stroke: currentColor
+    transition: transform .28s
 
-    circle
+    path
       stroke: currentColor
       fill: currentColor
 
   &__focus-ring
-    width: 21px
-    height: 21px
-    transition: transform 266.67ms ease-out, opacity 266.67ms ease-out, background-color 266.67ms ease-out
     border-radius: 50%
     opacity: 0
+    transition: transform 266.67ms ease-out, opacity 266.67ms ease-out, background-color 266.67ms ease-out
     transition-delay: .14s
 
   &__pin
-    top: 0
-    width: 26px
-    height: 26px
-    margin-top: -2px
-    margin-left: -2px
-    background: currentColor
-    transform: rotate(-45deg) scale3d(0, 0, 0) translate3d(0, 0, 0)
-    transition: transform 100ms ease-out
-    will-change: left
-    border-radius: 50% 50% 50% 0%
-    z-index: 1
+    opacity: 0
+    white-space: nowrap
+    transition: opacity .28s ease-out
+    transition-delay: .14s
 
-  &__pin-value-marker
-    transform: rotate(45deg)
-
-    &-text
-      position: relative
-      color: #fff
-      font-size: 12px
-      white-space: nowrap
-
-    &-bg
+    &:before
+      content: ''
+      width: 0
+      height: 0
       position: absolute
-      min-width: 27px
-      width: 130%
-      height: 27px
-      left: 50%
-      top: 50%
-      transform: translate3d(-50%, -50%, 0)
-      background-color: currentColor
-      border-radius: $generic-border-radius
 
-  &--editable
-    cursor: grab
+    &--h
+      &:before
+        border-left: 6px solid transparent
+        border-right: 6px solid transparent
+        left: 50%
+        transform: translateX(-50%)
+      &-standard
+        bottom: 100%
+        &:before
+          bottom: 2px
+          border-top: 6px solid currentColor
+      &-switched
+        top: 100%
+        &:before
+          top: 2px
+          border-bottom: 6px solid currentColor
+
+    &--v
+      top: 0
+      &:before
+        top: 50%
+        transform: translateY(-50%)
+        border-top: 6px solid transparent
+        border-bottom: 6px solid transparent
+      &-standard
+        left: 100%
+        &:before
+          left: 2px
+          border-right: 6px solid currentColor
+      &-switched
+        right: 100%
+        &:before
+          right: 2px
+          border-left: 6px solid currentColor
+
+  &__label
+    z-index: 1
+    white-space: nowrap
+    position: absolute
+
+    &--h
+      left: 50%
+      transform: translateX(-50%)
+      &-standard
+        bottom: 7px
+      &-switched
+        top: 7px
+
+    &--v
+      top: 50%
+      transform: translateY(-50%)
+      &-standard
+        left: 7px
+      &-switched
+        right: 7px
+
+  &__text-container
+    min-height: 25px
+    padding: 2px 8px
+    border-radius: $generic-border-radius
+    background: currentColor
+    position: relative
+    text-align: center
+
+  &__text
+    color: #fff
+    font-size: 12px
 
   &--no-value
-    .q-slider__thumb, .q-slider__track
-      visibility: hidden
+    .q-slider__thumb,
+    .q-slider__inner,
+    .q-slider__selection
+      opacity: 0
 
-  &--focus
-    .q-slider__thumb
-      transform: scale3d(.571, .571, .571)
-
-  &--focus, body.desktop &.q-slider--editable:hover
+  &--focus,
+  body.desktop &.q-slider--editable .q-slider__track-container:hover
     .q-slider__focus-ring
       background: currentColor
-      transform: scale3d(1.55, 1.55, 1.55)
+      transform: scale3d(1.55, 1.55, 1)
       opacity: .25
-    .q-slider__thumb, .q-slider__track
-      visibility: visible
+    .q-slider__thumb,
+    .q-slider__inner,
+    .q-slider__selection
+      opacity: 1
 
   &--inactive
-    .q-slider__thumb-container
-      transition: left .28s
-    .q-slider__track
-      transition: width .28s, left .28s
+    .q-slider__thumb
+      &--h
+        transition: left .28s, right .28s
+      &--v
+        transition: top .28s, bottom .28s
+
+    .q-slider__selection
+      transition: width .28s, left .28s, right .28s, height .28s, top .28s, bottom .28s
+
+    .q-slider__text-container
+      transition: transform .28s
 
   &--active
     cursor: grabbing
 
-    .q-slider__thumb
-      transform: scale3d(1, 1, 1)
+    .q-slider__thumb-shape
+      transform: scale(1.5)
 
-    .q-slider__focus-ring, &.q-slider--label .q-slider__thumb
-      transform: scale3d(0, 0, 0) !important
+    .q-slider__focus-ring,
+    &.q-slider--label .q-slider__thumb-shape
+      transform: scale(0) !important
 
-  body.desktop &.q-slider--editable:hover .q-slider__pin
-    transform: rotate(-45deg) scale3d(1, 1, 1) translate3d(19px, -20px, 0)
+  body.desktop &.q-slider--enabled .q-slider__track-container:hover
+    .q-slider__pin
+      opacity: 1
 
   &--label
-    &.q-slider--active, .q-slider--focus, &.q-slider--label-always
+    &.q-slider--active,
+    .q-slider--focus,
+    &.q-slider--label-always
       .q-slider__pin
-        transform: rotate(-45deg) scale3d(1, 1, 1) translate3d(19px, -20px, 0)
+        opacity: 1
 
   &--dark
-    .q-slider__track-container
-      background: rgba(#fff, .3)
-    .q-slider__track-markers
-      color: #fff
+    .q-slider__track
+      background: rgba(#fff,.1)
+    .q-slider__inner
+      background: rgba(#fff,.1)
+    .q-slider__markers
+      color: rgba(#fff,.3)
 
   &--dense
-    height: 20px
-
-    .q-slider__thumb-container
-      top: 0
+    .q-slider__track-container
+      &--h
+        padding: 6px 0
+      &--v
+        padding: 0 6px

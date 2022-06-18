@@ -1,6 +1,6 @@
 ---
 title: The Role of the Project Maintainer
-desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
+desc: The role of a Quasar project manager
 ---
 
 ## Your Profile
@@ -21,7 +21,7 @@ desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 - You focus on high usability for the end users - demos, documentation, community requests via forum and Discord
 - You provide inputs for Marketing and Media departments for articles on your Quasar Project
   - you don’t have to be the one writing the articles, although preferred, but at least find someone willing
--  You provides a code review for other Quasar maintainers and request a code review of your contributions
+-  You provide a code review for other Quasar maintainers and request a code review of your contributions
 - You keep track of the ongoing work and reported issues to make sure that it gets reviewed and merged in a timely manner.
   - You acknowledge every important contributor and give credit for their work (also in written form on the repo README, on every presentation material, on documentation).
 - You have also the final responsibility

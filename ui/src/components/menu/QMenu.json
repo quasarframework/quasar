@@ -1,11 +1,15 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-anchor", "composables/private/use-transition" ],
 
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/menu"
   },
 
   "props": {
+    "dark": {
+      "extends": "dark"
+    },
+
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
@@ -22,9 +26,9 @@
       "type": "String",
       "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
       "category": "position"
@@ -34,9 +38,9 @@
       "type": "String",
       "desc": "Two values setting the menu's own position relative to its target",
       "values": [
-        "top left", "top middle", "top right",
-        "center left", "center middle", "center right",
-        "bottom left", "bottom middle", "bottom right"
+        "top left", "top middle", "top right", "top start", "top end",
+        "center left", "center middle", "center right", "center start", "center end",
+        "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "examples": [ "top left", "bottom right" ],
       "category": "position"
@@ -47,6 +51,10 @@
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[8, 8]", "[5, 10]" ],
       "category": "position"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
     },
 
     "touch-position": {
@@ -61,6 +69,12 @@
       "category": "behavior"
     },
 
+    "no-route-dismiss": {
+      "type": "Boolean",
+      "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
+      "category": "behavior"
+    },
+
     "auto-close": {
       "type": "Boolean",
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
@@ -70,8 +84,7 @@
     "separate-close-popup": {
       "type": "Boolean",
       "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
-      "category": "behavior",
-      "addedIn": "v1.1.0"
+      "category": "behavior"
     },
 
     "square": {
@@ -94,26 +107,14 @@
 
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum height of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
-    },
-
-    "transition-show": {
-      "extends": "transition",
-      "default": "fade",
-      "category": "behavior"
-    },
-
-    "transition-hide": {
-      "extends": "transition",
-      "default": "fade",
-      "category": "behavior"
     }
   },
 
@@ -125,7 +126,7 @@
 
   "events": {
     "escape-key": {
-      "desc": "Emitted when ESC key is pressed; Does not gets emitted if Menu is 'persistent'"
+      "desc": "Emitted when ESC key is pressed; Does not get emitted if Menu is 'persistent'"
     }
   },
 

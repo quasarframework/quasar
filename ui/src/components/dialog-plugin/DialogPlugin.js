@@ -1,261 +1,325 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, toRaw, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
-import clone from '../../utils/clone.js'
-
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
 import QCardActions from '../card/QCardActions.js'
+import QSeparator from '../separator/QSeparator.js'
 
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
-export default Vue.extend({
+import QSpinner from '../spinner/QSpinner.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+
+import { isKeyCode } from '../../utils/private/key-composition.js'
+import { isObject } from '../../utils/private/is.js'
+
+export default createComponent({
   name: 'DialogPlugin',
 
-  inheritAttrs: false,
-
   props: {
+    ...useDarkProps,
+
     title: String,
     message: String,
     prompt: Object,
     options: Object,
+    progress: [ Boolean, Object ],
 
     html: Boolean,
 
     ok: {
-      type: [String, Object, Boolean],
+      type: [ String, Object, Boolean ],
       default: true
     },
-    cancel: [String, Object, Boolean],
+    cancel: [ String, Object, Boolean ],
+    focus: {
+      type: String,
+      default: 'ok',
+      validator: v => [ 'ok', 'cancel', 'none' ].includes(v)
+    },
 
     stackButtons: Boolean,
     color: String,
 
-    cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-
-    dark: Boolean
+    cardClass: [ String, Array, Object ],
+    cardStyle: [ String, Array, Object ]
   },
 
-  computed: {
-    hasForm () {
-      return this.prompt || this.options
-    },
+  emits: [ 'ok', 'hide' ],
 
-    okLabel () {
-      return this.ok === true
-        ? this.$q.lang.label.ok
-        : this.ok
-    },
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
-    cancelLabel () {
-      return this.cancel === true
-        ? this.$q.lang.label.cancel
-        : this.cancel
-    },
+    const isDark = useDark(props, $q)
 
-    vmColor () {
-      return this.color || (this.dark === true ? 'amber' : 'primary')
-    },
+    const dialogRef = ref(null)
 
-    okProps () {
-      return Object(this.ok) === this.ok
-        ? {
-          color: this.vmColor,
-          label: this.$q.lang.label.ok,
-          ripple: false,
-          ...this.ok
-        }
-        : {
-          color: this.vmColor,
-          flat: true,
-          label: this.okLabel,
-          ripple: false
-        }
-    },
+    const model = ref(
+      props.prompt !== void 0
+        ? props.prompt.model
+        : (props.options !== void 0 ? props.options.model : void 0)
+    )
 
-    cancelProps () {
-      return Object(this.cancel) === this.cancel
-        ? {
-          color: this.vmColor,
-          label: this.$q.lang.label.cancel,
-          ripple: false,
-          ...this.cancel
-        }
-        : {
-          color: this.vmColor,
-          flat: true,
-          label: this.cancelLabel,
-          ripple: false
-        }
+    const classes = computed(() =>
+      'q-dialog-plugin'
+      + (isDark.value === true ? ' q-dialog-plugin--dark q-dark' : '')
+      + (props.progress !== false ? ' q-dialog-plugin--progress' : '')
+    )
+
+    const vmColor = computed(() =>
+      props.color || (isDark.value === true ? 'amber' : 'primary')
+    )
+
+    const spinner = computed(() => (
+      props.progress === false
+        ? null
+        : (
+            isObject(props.progress) === true
+              ? {
+                  component: props.progress.spinner || QSpinner,
+                  props: { color: props.progress.color || vmColor.value }
+                }
+              : {
+                  component: QSpinner,
+                  props: { color: vmColor.value }
+                }
+          )
+    ))
+
+    const hasForm = computed(() =>
+      props.prompt !== void 0 || props.options !== void 0
+    )
+
+    const formProps = computed(() => {
+      if (hasForm.value !== true) {
+        return {}
+      }
+
+      const { model, isValid, items, ...formProps } = props.prompt !== void 0
+        ? props.prompt
+        : props.options
+
+      return formProps
+    })
+
+    const okLabel = computed(() => (
+      isObject(props.ok) === true
+        ? $q.lang.label.ok
+        : (
+            props.ok === true
+              ? $q.lang.label.ok
+              : props.ok
+          )
+    ))
+
+    const cancelLabel = computed(() => (
+      isObject(props.cancel) === true
+        ? $q.lang.label.cancel
+        : (
+            props.cancel === true
+              ? $q.lang.label.cancel
+              : props.cancel
+          )
+    ))
+
+    const okDisabled = computed(() => {
+      if (props.prompt !== void 0) {
+        return props.prompt.isValid !== void 0
+          && props.prompt.isValid(model.value) !== true
+      }
+      if (props.options !== void 0) {
+        return props.options.isValid !== void 0
+          && props.options.isValid(model.value) !== true
+      }
+      return false
+    })
+
+    const okProps = computed(() => ({
+      color: vmColor.value,
+      label: okLabel.value,
+      ripple: false,
+      disable: okDisabled.value,
+      ...(isObject(props.ok) === true ? props.ok : { flat: true }),
+      'data-autofocus': (props.focus === 'ok' && hasForm.value !== true) || void 0,
+      onClick: onOk
+    }))
+
+    const cancelProps = computed(() => ({
+      color: vmColor.value,
+      label: cancelLabel.value,
+      ripple: false,
+      ...(isObject(props.cancel) === true ? props.cancel : { flat: true }),
+      'data-autofocus': (props.focus === 'cancel' && hasForm.value !== true) || void 0,
+      onClick: onCancel
+    }))
+
+    watch(() => props.prompt && props.prompt.model, onUpdateModel)
+    watch(() => props.options && props.options.model, onUpdateModel)
+
+    function show () {
+      dialogRef.value.show()
     }
-  },
 
-  methods: {
-    show () {
-      this.$refs.dialog.show()
-    },
+    function hide () {
+      dialogRef.value.hide()
+    }
 
-    hide () {
-      this.$refs.dialog.hide()
-    },
+    function onOk () {
+      emit('ok', toRaw(model.value))
+      hide()
+    }
 
-    getPrompt (h) {
+    function onCancel () {
+      hide()
+    }
+
+    function onDialogHide () {
+      emit('hide')
+    }
+
+    function onUpdateModel (val) {
+      model.value = val
+    }
+
+    function onInputKeyup (evt) {
+      // if ENTER key
+      if (
+        okDisabled.value !== true
+        && props.prompt.type !== 'textarea'
+        && isKeyCode(evt, 13) === true
+      ) {
+        onOk()
+      }
+    }
+
+    function getSection (classes, text) {
+      return props.html === true
+        ? h(QCardSection, {
+          class: classes,
+          innerHTML: text
+        })
+        : h(QCardSection, { class: classes }, () => text)
+    }
+
+    function getPrompt () {
       return [
         h(QInput, {
-          props: {
-            value: this.prompt.model,
-            type: this.prompt.type || 'text',
-            color: this.vmColor,
-            dense: true,
-            autofocus: true,
-            dark: this.dark
-          },
-          on: {
-            input: v => { this.prompt.model = v },
-            keyup: evt => {
-              // if ENTER key
-              if (this.prompt.type !== 'textarea' && evt.keyCode === 13) {
-                this.onOk()
-              }
-            }
-          }
+          modelValue: model.value,
+          ...formProps.value,
+          color: vmColor.value,
+          dense: true,
+          autofocus: true,
+          dark: isDark.value,
+          'onUpdate:modelValue': onUpdateModel,
+          onKeyup: onInputKeyup
         })
       ]
-    },
+    }
 
-    getOptions (h) {
+    function getOptions () {
       return [
         h(QOptionGroup, {
-          props: {
-            value: this.options.model,
-            type: this.options.type,
-            color: this.vmColor,
-            inline: this.options.inline,
-            options: this.options.items,
-            dark: this.dark
-          },
-          on: {
-            input: v => { this.options.model = v }
-          }
+          modelValue: model.value,
+          ...formProps.value,
+          color: vmColor.value,
+          options: props.options.items,
+          dark: isDark.value,
+          'onUpdate:modelValue': onUpdateModel
         })
       ]
-    },
+    }
 
-    getButtons (h) {
+    function getButtons () {
       const child = []
 
-      if (this.cancel) {
-        child.push(h(QBtn, {
-          props: this.cancelProps,
-          attrs: { autofocus: !this.prompt && !this.ok },
-          on: { click: this.onCancel }
-        }))
-      }
-      if (this.ok) {
-        child.push(h(QBtn, {
-          props: this.okProps,
-          attrs: { autofocus: !this.prompt },
-          on: { click: this.onOk }
-        }))
-      }
-
-      if (child.length > 0) {
-        return h(QCardActions, {
-          staticClass: this.stackButtons === true ? 'items-end' : null,
-          props: {
-            vertical: this.stackButtons,
-            align: 'right'
-          }
-        }, child)
-      }
-    },
-
-    onOk () {
-      this.$emit('ok', clone(this.getData()))
-      this.hide()
-    },
-
-    onCancel () {
-      this.hide()
-    },
-
-    getData () {
-      if (this.prompt) {
-        return this.prompt.model
-      }
-      if (this.options) {
-        return this.options.model
-      }
-    },
-
-    getSection (h, staticClass, text) {
-      return this.html === true
-        ? h(QCardSection, {
-          staticClass,
-          domProps: {
-            innerHTML: text
-          }
-        })
-        : h(QCardSection, { staticClass }, [ text ])
-    }
-  },
-
-  render (h) {
-    const child = []
-
-    if (this.title) {
-      child.push(
-        this.getSection(h, 'q-dialog__title', this.title)
+      props.cancel && child.push(
+        h(QBtn, cancelProps.value)
       )
-    }
 
-    if (this.message) {
-      child.push(
-        this.getSection(h, 'q-dialog__message scroll', this.message)
+      props.ok && child.push(
+        h(QBtn, okProps.value)
       )
+
+      return h(QCardActions, {
+        class: props.stackButtons === true ? 'items-end' : '',
+        vertical: props.stackButtons,
+        align: 'right'
+      }, () => child)
     }
 
-    if (this.hasForm) {
-      child.push(
+    function getCardContent () {
+      const child = []
+
+      props.title && child.push(
+        getSection('q-dialog__title', props.title)
+      )
+
+      props.progress !== false && child.push(
         h(
           QCardSection,
-          { staticClass: 'scroll' },
-          this.prompt ? this.getPrompt(h) : this.getOptions(h)
+          { class: 'q-dialog__progress' },
+          () => h(spinner.value.component, spinner.value.props)
         )
       )
-    }
 
-    if (this.ok || this.cancel) {
-      child.push(this.getButtons(h))
-    }
+      props.message && child.push(
+        getSection('q-dialog__message', props.message)
+      )
 
-    return h(QDialog, {
-      ref: 'dialog',
-
-      props: {
-        ...this.$attrs,
-        value: this.value
-      },
-
-      on: {
-        hide: () => {
-          this.$emit('hide')
-        }
+      if (props.prompt !== void 0) {
+        child.push(
+          h(
+            QCardSection,
+            { class: 'scroll q-dialog-plugin__form' },
+            getPrompt
+          )
+        )
       }
-    }, [
-      h(QCard, {
-        staticClass: 'q-dialog-plugin' +
-          (this.dark === true ? ' q-dialog-plugin--dark' : ''),
-        style: this.cardStyle,
-        class: this.cardClass,
-        props: {
-          dark: this.dark
-        }
-      }, child)
-    ])
+      else if (props.options !== void 0) {
+        child.push(
+          h(QSeparator, { dark: isDark.value }),
+          h(
+            QCardSection,
+            { class: 'scroll q-dialog-plugin__form' },
+            getOptions
+          ),
+          h(QSeparator, { dark: isDark.value })
+        )
+      }
+
+      if (props.ok || props.cancel) {
+        child.push(getButtons())
+      }
+
+      return child
+    }
+
+    function getContent () {
+      return [
+        h(QCard, {
+          class: [
+            classes.value,
+            props.cardClass
+          ],
+          style: props.cardStyle,
+          dark: isDark.value
+        }, getCardContent)
+      ]
+    }
+
+    // expose public methods
+    Object.assign(proxy, { show, hide })
+
+    return () => h(QDialog, {
+      ref: dialogRef,
+      onHide: onDialogHide
+    }, getContent)
   }
 })

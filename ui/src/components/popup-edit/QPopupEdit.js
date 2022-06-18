@@ -1,15 +1,18 @@
-import Vue from 'vue'
+import { h, ref, computed, nextTick, getCurrentInstance } from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
-import clone from '../../utils/clone.js'
-import { isDeepEqual } from '../../utils/is.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import clone from '../../utils/clone.js'
+import { isDeepEqual } from '../../utils/private/is.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
+
+export default createComponent({
   name: 'QPopupEdit',
 
   props: {
-    value: {
+    modelValue: {
       required: true
     },
     title: String,
@@ -26,154 +29,163 @@ export default Vue.extend({
       default: () => true
     },
 
+    autoSave: Boolean,
+
     /* menu props overrides */
     cover: {
       type: Boolean,
       default: true
     },
-    contentClass: String,
     /* end of menu props */
 
     disable: Boolean
   },
 
-  data () {
-    return {
-      initialValue: ''
-    }
-  },
+  emits: [
+    'update:modelValue', 'save', 'cancel',
+    'before-show', 'show', 'before-hide', 'hide'
+  ],
 
-  computed: {
-    classes () {
-      return 'q-popup-edit' +
-        (this.contentClass ? ' ' + this.contentClass : '')
-    },
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
-    defaultSlotScope () {
-      return {
-        initialValue: this.initialValue,
-        value: this.value,
-        emitValue: this.__emitValue,
-        validate: this.validate,
-        set: this.set,
-        cancel: this.cancel
+    const menuRef = ref(null)
+
+    const initialValue = ref('')
+    const currentModel = ref('')
+
+    let validated = false
+
+    const scope = computed(() => {
+      const acc = {
+        initialValue: initialValue.value,
+        validate: props.validate,
+        set,
+        cancel,
+        updatePosition
       }
-    }
-  },
 
-  methods: {
-    set () {
-      if (this.__hasChanged()) {
-        if (this.validate(this.value) === false) {
-          return
-        }
-        this.$emit('save', this.value, this.initialValue)
-      }
-      this.__close()
-    },
+      injectProp(acc, 'value', () => currentModel.value, val => { currentModel.value = val })
+      return acc
+    })
 
-    cancel () {
-      if (this.__hasChanged()) {
-        this.$emit('cancel', this.value, this.initialValue)
-        this.$emit('input', this.initialValue)
-      }
-      this.__close()
-    },
-
-    __hasChanged () {
-      return !isDeepEqual(this.value, this.initialValue)
-    },
-
-    __emitValue (val) {
-      if (this.disable === true) {
+    function set () {
+      if (props.validate(currentModel.value) === false) {
         return
       }
-      this.$emit('input', val)
-    },
 
-    __close () {
-      this.validated = true
-      this.$refs.menu.hide()
-    },
+      if (hasModelChanged() === true) {
+        emit('save', currentModel.value, initialValue.value)
+        emit('update:modelValue', currentModel.value)
+      }
 
-    __reposition () {
-      this.$nextTick(() => {
-        this.$refs.menu.updatePosition()
+      closeMenu()
+    }
+
+    function cancel () {
+      if (hasModelChanged() === true) {
+        emit('cancel', currentModel.value, initialValue.value)
+      }
+
+      closeMenu()
+    }
+
+    function updatePosition () {
+      nextTick(() => {
+        menuRef.value.updatePosition()
       })
-    },
+    }
 
-    __getContent (h) {
-      const
-        child = this.$scopedSlots.default === void 0 ? [] : [ this.$scopedSlots.default(this.defaultSlotScope) ],
-        title = this.$scopedSlots.title !== void 0
-          ? this.$scopedSlots.title()
-          : this.title
+    function hasModelChanged () {
+      return isDeepEqual(currentModel.value, initialValue.value) === false
+    }
 
-      title && child.unshift(
-        h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
+    function closeMenu () {
+      validated = true
+      menuRef.value.hide()
+    }
+
+    function onBeforeShow () {
+      validated = false
+      initialValue.value = clone(props.modelValue)
+      currentModel.value = clone(props.modelValue)
+      emit('before-show')
+    }
+
+    function onShow () {
+      emit('show')
+    }
+
+    function onBeforeHide () {
+      if (validated === false && hasModelChanged() === true) {
+        if (props.autoSave === true && props.validate(currentModel.value) === true) {
+          emit('save', currentModel.value, initialValue.value)
+          emit('update:modelValue', currentModel.value)
+        }
+        else {
+          emit('cancel', currentModel.value, initialValue.value)
+        }
+      }
+
+      emit('before-hide')
+    }
+
+    function onHide () {
+      emit('hide')
+    }
+
+    // expose public methods
+    Object.assign(proxy, {
+      set,
+      cancel,
+      show (e) { menuRef.value !== null && menuRef.value.show(e) },
+      hide (e) { menuRef.value !== null && menuRef.value.hide(e) },
+      updatePosition
+    })
+
+    function getContent () {
+      const child = slots.default !== void 0
+        ? [].concat(slots.default(scope.value))
+        : []
+
+      props.title && child.unshift(
+        h('div', { class: 'q-dialog__title q-mt-sm q-mb-sm' }, props.title)
       )
 
-      this.buttons === true && child.push(
-        h('div', { staticClass: 'q-popup-edit__buttons row justify-center no-wrap' }, [
+      props.buttons === true && child.push(
+        h('div', { class: 'q-popup-edit__buttons row justify-center no-wrap' }, [
           h(QBtn, {
-            props: {
-              flat: true,
-              color: this.color,
-              label: this.labelCancel || this.$q.lang.label.cancel
-            },
-            on: { click: this.cancel }
+            flat: true,
+            color: props.color,
+            label: props.labelCancel || $q.lang.label.cancel,
+            onClick: cancel
           }),
           h(QBtn, {
-            props: {
-              flat: true,
-              color: this.color,
-              label: this.labelSet || this.$q.lang.label.set
-            },
-            on: { click: this.set }
+            flat: true,
+            color: props.color,
+            label: props.labelSet || $q.lang.label.set,
+            onClick: set
           })
         ])
       )
 
       return child
     }
-  },
 
-  render (h) {
-    if (this.disable === true) { return }
+    return () => {
+      if (props.disable === true) { return }
 
-    return h(QMenu, {
-      ref: 'menu',
-      props: {
-        ...this.$attrs,
-        cover: this.cover,
-        contentClass: this.classes
-      },
-      on: {
-        'before-show': () => {
-          this.validated = false
-          this.initialValue = clone(this.value)
-          this.watcher = this.$watch('value', this.__reposition)
-          this.$emit('before-show')
-        },
-        show: () => {
-          this.$emit('show')
-        },
-        'before-hide': () => {
-          this.watcher()
-
-          if (this.validated === false && this.__hasChanged()) {
-            this.$emit('cancel', this.value, this.initialValue)
-            this.$emit('input', this.initialValue)
-          }
-          this.$emit('before-hide')
-        },
-        hide: () => {
-          this.$emit('hide')
-        },
-        keyup: e => {
-          e.keyCode === 13 && this.set()
-        }
-      }
-    }, this.__getContent(h))
+      return h(QMenu, {
+        ref: menuRef,
+        class: 'q-popup-edit',
+        cover: props.cover,
+        onBeforeShow,
+        onShow,
+        onBeforeHide,
+        onHide,
+        onEscapeKey: cancel
+      }, getContent)
+    }
   }
 })

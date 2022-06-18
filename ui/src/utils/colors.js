@@ -1,3 +1,5 @@
+const reRGBA = /^rgb(a)?\((\d{1,3}),(\d{1,3}),(\d{1,3}),?([01]?\.?\d*?)?\)$/
+
 export function rgbToHex ({ r, g, b, a }) {
   const alpha = a !== void 0
 
@@ -6,10 +8,10 @@ export function rgbToHex ({ r, g, b, a }) {
   b = Math.round(b)
 
   if (
-    r > 255 ||
-    g > 255 ||
-    b > 255 ||
-    (alpha && a > 100)
+    r > 255
+    || g > 255
+    || b > 255
+    || (alpha && a > 100)
   ) {
     throw new TypeError('Expected 3 numbers below 256 (and optionally one below 100)')
   }
@@ -22,28 +24,7 @@ export function rgbToHex ({ r, g, b, a }) {
 }
 
 export function rgbToString ({ r, g, b, a }) {
-  return `rgb${a !== void 0 ? 'a' : ''}(${r},${g},${b}${a !== void 0 ? ',' + (a / 100) : ''})`
-}
-
-export function stringToRgb (str) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string')
-  }
-
-  str = str.replace(/ /g, '')
-
-  if (str.startsWith('#')) {
-    return hexToRgb(str)
-  }
-
-  const model = str.substring(str.indexOf('(') + 1, str.length - 1).split(',')
-
-  return {
-    r: parseInt(model[0], 10),
-    g: parseInt(model[1], 10),
-    b: parseInt(model[2], 10),
-    a: model[3] !== void 0 ? parseFloat(model[3]) * 100 : void 0
-  }
+  return `rgb${ a !== void 0 ? 'a' : '' }(${ r },${ g },${ b }${ a !== void 0 ? ',' + (a / 100) : '' })`
 }
 
 export function hexToRgb (hex) {
@@ -54,13 +35,13 @@ export function hexToRgb (hex) {
   hex = hex.replace(/^#/, '')
 
   if (hex.length === 3) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ]
   }
   else if (hex.length === 4) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ] + hex[ 3 ] + hex[ 3 ]
   }
 
-  let num = parseInt(hex, 16)
+  const num = parseInt(hex, 16)
 
   return hex.length > 6
     ? { r: num >> 24 & 255, g: num >> 16 & 255, b: num >> 8 & 255, a: Math.round((num & 255) / 2.55) }
@@ -68,16 +49,17 @@ export function hexToRgb (hex) {
 }
 
 export function hsvToRgb ({ h, s, v, a }) {
-  let r, g, b, i, f, p, q, t
+  let r, g, b
   s = s / 100
   v = v / 100
 
   h = h / 360
-  i = Math.floor(h * 6)
-  f = h * 6 - i
-  p = v * (1 - s)
-  q = v * (1 - f * s)
-  t = v * (1 - (1 - f) * s)
+  const
+    i = Math.floor(h * 6),
+    f = h * 6 - i,
+    p = v * (1 - s),
+    q = v * (1 - f * s),
+    t = v * (1 - (1 - f) * s)
 
   switch (i % 6) {
     case 0:
@@ -121,12 +103,13 @@ export function hsvToRgb ({ h, s, v, a }) {
 }
 
 export function rgbToHsv ({ r, g, b, a }) {
-  let
-    max = Math.max(r, g, b), min = Math.min(r, g, b),
+  const
+    max = Math.max(r, g, b),
+    min = Math.min(r, g, b),
     d = max - min,
-    h,
     s = (max === 0 ? 0 : d / max),
     v = max / 255
+  let h
 
   switch (max) {
     case min:
@@ -154,26 +137,31 @@ export function rgbToHsv ({ r, g, b, a }) {
   }
 }
 
-const reRGBA = /^\s*rgb(a)?\s*\((\s*(\d+)\s*,\s*?){2}(\d+)\s*,?\s*([01]?\.?\d*?)?\s*\)\s*$/
-
-export function textToRgb (color) {
-  if (typeof color !== 'string') {
+export function textToRgb (str) {
+  if (typeof str !== 'string') {
     throw new TypeError('Expected a string')
   }
 
+  const color = str.replace(/ /g, '')
+
   const m = reRGBA.exec(color)
-  if (m) {
-    const rgb = {
-      r: Math.min(255, parseInt(m[2], 10)),
-      g: Math.min(255, parseInt(m[3], 10)),
-      b: Math.min(255, parseInt(m[4], 10))
-    }
-    if (m[1]) {
-      rgb.a = Math.min(1, parseFloat(m[5]))
-    }
-    return rgb
+
+  if (m === null) {
+    return hexToRgb(color)
   }
-  return hexToRgb(color)
+
+  const rgb = {
+    r: Math.min(255, parseInt(m[ 2 ], 10)),
+    g: Math.min(255, parseInt(m[ 3 ], 10)),
+    b: Math.min(255, parseInt(m[ 4 ], 10))
+  }
+
+  if (m[ 1 ]) {
+    const alpha = parseFloat(m[ 5 ])
+    rgb.a = Math.min(1, isNaN(alpha) === true ? 1 : alpha) * 100
+  }
+
+  return rgb
 }
 
 /* works as darken if percent < 0 */
@@ -193,9 +181,9 @@ export function lighten (color, percent) {
     B = rgb.b
 
   return '#' + (
-    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
-    (Math.round((t - G) * p) + G) * 0x100 +
-    (Math.round((t - B) * p) + B)
+    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000
+    + (Math.round((t - G) * p) + G) * 0x100
+    + (Math.round((t - B) * p) + B)
   ).toString(16).slice(1)
 }
 
@@ -215,37 +203,81 @@ export function luminosity (color) {
   return 0.2126 * R + 0.7152 * G + 0.0722 * B
 }
 
-export function setBrand (color, value, element = document.body) {
-  if (typeof color !== 'string') {
-    throw new TypeError('Expected a string as color')
-  }
-  if (typeof value !== 'string') {
-    throw new TypeError('Expected a string as value')
-  }
-  if (!(element instanceof Element)) {
-    throw new TypeError('Expected a DOM element')
+export function brightness (color) {
+  if (typeof color !== 'string' && (!color || color.r === void 0)) {
+    throw new TypeError('Expected a string or a {r, g, b} object as color')
   }
 
-  element.style.setProperty(`--q-color-${color}`, value)
-  switch (color) {
-    case 'negative':
-    case 'warning':
-      element.style.setProperty(`--q-color-${color}-l`, lighten(value, 46))
-      break
-    case 'light':
-      element.style.setProperty(`--q-color-${color}-d`, lighten(value, -10))
-  }
+  const rgb = typeof color === 'string'
+    ? textToRgb(color)
+    : color
+
+  return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000
 }
 
-export function getBrand (color, element = document.body) {
+export function blend (fgColor, bgColor) {
+  if (typeof fgColor !== 'string' && (!fgColor || fgColor.r === void 0)) {
+    throw new TypeError('Expected a string or a {r, g, b[, a]} object as fgColor')
+  }
+
+  if (typeof bgColor !== 'string' && (!bgColor || bgColor.r === void 0)) {
+    throw new TypeError('Expected a string or a {r, g, b[, a]} object as bgColor')
+  }
+
+  const
+    rgb1 = typeof fgColor === 'string' ? textToRgb(fgColor) : fgColor,
+    r1 = rgb1.r / 255,
+    g1 = rgb1.g / 255,
+    b1 = rgb1.b / 255,
+    a1 = rgb1.a !== void 0 ? rgb1.a / 100 : 1,
+    rgb2 = typeof bgColor === 'string' ? textToRgb(bgColor) : bgColor,
+    r2 = rgb2.r / 255,
+    g2 = rgb2.g / 255,
+    b2 = rgb2.b / 255,
+    a2 = rgb2.a !== void 0 ? rgb2.a / 100 : 1,
+    a = a1 + a2 * (1 - a1),
+    r = Math.round(((r1 * a1 + r2 * a2 * (1 - a1)) / a) * 255),
+    g = Math.round(((g1 * a1 + g2 * a2 * (1 - a1)) / a) * 255),
+    b = Math.round(((b1 * a1 + b2 * a2 * (1 - a1)) / a) * 255)
+
+  const ret = { r, g, b, a: Math.round(a * 100) }
+  return typeof fgColor === 'string'
+    ? rgbToHex(ret)
+    : ret
+}
+
+export function changeAlpha (color, offset) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string as color')
   }
-  if (!(element instanceof Element)) {
-    throw new TypeError('Expected a DOM element')
+
+  if (offset === void 0 || offset < -1 || offset > 1) {
+    throw new TypeError('Expected offset to be between -1 and 1')
   }
 
-  return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
+  const { r, g, b, a } = textToRgb(color)
+  const alpha = a !== void 0 ? a / 100 : 0
+
+  return rgbToHex({
+    r, g, b, a: Math.round(Math.min(1, Math.max(0, alpha + offset)) * 100)
+  })
+}
+
+export function getPaletteColor (colorName) {
+  if (typeof colorName !== 'string') {
+    throw new TypeError('Expected a string as color')
+  }
+
+  const el = document.createElement('div')
+
+  el.className = `text-${ colorName } invisible fixed no-pointer-events`
+  document.body.appendChild(el)
+
+  const result = getComputedStyle(el).getPropertyValue('color')
+
+  el.remove()
+
+  return rgbToHex(textToRgb(result))
 }
 
 export default {
@@ -256,6 +288,8 @@ export default {
   textToRgb,
   lighten,
   luminosity,
-  setBrand,
-  getBrand
+  brightness,
+  blend,
+  changeAlpha,
+  getPaletteColor
 }

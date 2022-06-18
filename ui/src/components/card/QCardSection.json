@@ -1,6 +1,20 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/card"
+  },
+
+  "props": {
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Display a horizontal section (will have no padding and can contain other QCardSection)",
+      "category": "content"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "form" ]
+    }
   },
 
   "slots": {

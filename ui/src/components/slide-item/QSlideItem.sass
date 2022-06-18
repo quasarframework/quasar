@@ -1,0 +1,41 @@
+.q-slide-item
+  position: relative
+  background: white
+
+  &__left, &__right, &__top, &__bottom
+    visibility: hidden
+    font-size: 14px
+    color: #fff
+
+    .q-icon
+      font-size: 1.714em
+
+  &__left
+    background: $green
+    padding: 8px 16px
+    > div
+      transform-origin: left center
+
+  &__right
+    background: $orange
+    padding: 8px 16px
+    > div
+      transform-origin: right center
+
+  &__top
+    background: $blue
+    padding: 16px 8px
+    > div
+      transform-origin: top center
+
+  &__bottom
+    background: $purple
+    padding: 16px 8px
+    > div
+      transform-origin: bottom center
+
+  &__content
+    background: inherit
+    transition: transform .2s ease-in
+    user-select: none
+    cursor: pointer

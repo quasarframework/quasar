@@ -1,6 +1,6 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/card"
   },
 
   "props": {
@@ -18,6 +18,12 @@
 
     "bordered": {
       "extends": "bordered"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "form" ]
     }
   },
 

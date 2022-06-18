@@ -21,7 +21,7 @@
 
     "text-color": {
       "type": "String",
-      "desc": "Overrides text color (if needed); color name from the Quasar Color Palette",
+      "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
       "examples": [ "primary", "teal-10" ],
       "category": "style"
     },
@@ -47,12 +47,12 @@
 
     "icon": {
       "type": "String",
-      "desc": "Icon name following Quasar convention; make sure you have the icon library installed unless you are using 'img:' prefix",
+      "desc": "Icon name following Quasar convention; Make sure you have the icon library installed unless you are using 'img:' prefix; If 'none' (String) is used as value then no icon is rendered (but screen real estate will still be used for it)",
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },
@@ -92,19 +92,59 @@
       "type": "String",
       "desc": "One of Quasar's embedded transitions",
       "examples": [ "fade", "slide-down" ],
-      "category": "behavior"
+      "category": "transition"
     },
 
-    "value": {
-      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+    "animation-speed": {
+      "type": [ "String", "Number" ],
+      "desc": "Animation speed (in milliseconds, without unit)",
+      "examples": [ 500, "1200" ],
+      "category": "style"
+    },
+
+    "model-value": {
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
+      "required": true,
+      "syncable": true,
       "category": "model"
     },
 
-    "sanitize": {
+    "html": {
       "type": "Boolean",
-      "default": "false",
       "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
       "category": "behavior"
+    },
+
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to use",
+      "examples": [ "div", "span" ],
+      "category": "content"
+    },
+
+    "scroll-target": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\".scroll-target-class\"",
+        "scroll-target=\"#scroll-target-id\"",
+        "scroll-target=\"body\""
+      ],
+      "category": "behavior"
+    },
+
+    "ripple": {
+      "type": [ "Boolean", "Object" ],
+      "desc": "Configure material ripple (disable it by setting it to 'false' or supply a config object)",
+      "default": true,
+      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+      "category": "style"
+    },
+
+    "evt": {
+      "type": "Event",
+      "desc": "JS event object"
     }
   },
 
@@ -114,14 +154,8 @@
     }
   },
 
-  "scopedSlots": {
-    "default": {
-      "desc": "Default scoped slot in the devland content of the component"
-    }
-  },
-
   "events": {
-    "input": {
+    "update:model-value": {
       "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {
@@ -137,10 +171,8 @@
       "desc": "Emitted after component has triggered show()",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     },
@@ -149,22 +181,22 @@
       "desc": "Emitted when component triggers show() but before it finishes doing it",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
+    },
+
+    "after-show": {
+      "desc": "Emitted when component show animation is finished"
     },
 
     "hide": {
       "desc": "Emitted after component has triggered hide()",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     },
@@ -173,22 +205,22 @@
       "desc": "Emitted when component triggers hide() but before it finishes doing it",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
+    },
+
+    "after-hide": {
+      "desc": "Emitted when component hide animation is finished"
     },
 
     "click": {
       "desc": "Emitted when user clicks/taps on the component",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     }
@@ -199,10 +231,8 @@
       "desc": "Triggers component to show",
       "params": {
         "evt": {
-          "type": "Object",
-          "required": false,
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": false
         }
       }
     },
@@ -211,10 +241,8 @@
       "desc": "Triggers component to hide",
       "params": {
         "evt": {
-          "type": "Object",
-          "required": false,
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": false
         }
       }
     },
@@ -222,10 +250,8 @@
     "toggle": {
       "params": {
         "evt": {
-          "type": "Object",
-          "required": false,
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": false
         }
       },
       "desc": "Triggers component to toggle between show/hide"

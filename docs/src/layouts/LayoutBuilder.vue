@@ -9,16 +9,16 @@
       height-hint="98"
     >
       <q-toolbar>
-        <q-btn v-if="pick.left" dense flat round icon="menu" @click="play.left = !play.left" />
+        <q-btn v-if="pick.left" dense flat round :icon="mdiMenu" @click="play.left = !play.left" />
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
 
-        <q-btn v-if="pick.right" dense flat round icon="menu" @click="play.right = !play.right" />
+        <q-btn v-if="pick.right" dense flat round :icon="mdiMenu" @click="play.right = !play.right" />
       </q-toolbar>
 
       <q-tabs v-if="pick.navtabs" v-model="navTabModel" align="left">
@@ -42,7 +42,7 @@
           ref="stepper"
           style="max-width: 600px"
         >
-          <q-step name="pick" title="Pick Layout Parts" icon="dashboard">
+          <q-step name="pick" title="Pick Layout Parts" :icon="mdiViewDashboard">
             <div class="column">
               <q-toggle v-model="pick.header" label="I want a QHeader" />
               <q-toggle v-model="pick.footer" label="I want a QFooter" />
@@ -52,7 +52,7 @@
             </div>
           </q-step>
 
-          <q-step name="cfg" title="Configure Layout Parts" icon="settings" class="q-pb-lg">
+          <q-step name="cfg" title="Configure Layout Parts" :icon="mdiCog" class="q-pb-lg">
             <div class="q-mb-md text-grey-8">Layout "View"</div>
 
             <div class="q-mb-lg rounded-borders overflow-hidden shadow-2">
@@ -150,161 +150,117 @@
             </div>
 
             <template v-if="pick.header">
-              <div class="q-my-md text-grey-8">Header</div>
+              <div class="q-pt-lg q-pb-sm text-grey-8">Header</div>
 
-              <q-list dense>
-                <q-item>
-                  <q-item-section>Header Reveal</q-item-section>
-                  <q-item-section side>
-                    <q-toggle v-model="cfg.headerReveal" />
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>Separator type</q-item-section>
-                  <q-item-section side>
-                    <q-select
-                      v-model="cfg.headerSep"
-                      borderless
-                      dense
-                      options-dense
-                      map-options
-                      emit-value
-                      :options="sepOptions"
-                      options-cover
-                      style="width: 100px"
-                    />
-                  </q-item-section>
-                </q-item>
-              </q-list>
+              <div class="q-pl-lg q-gutter-y-sm">
+                <q-toggle v-model="cfg.headerReveal" label="Header Reveal" />
+                <q-select
+                  v-model="cfg.headerSep"
+                  label="Separator type"
+                  outlined
+                  dense
+                  options-dense
+                  map-options
+                  emit-value
+                  :options="sepOptions"
+                  options-cover
+                  style="max-width: 200px"
+                />
+              </div>
             </template>
 
             <template v-if="pick.footer">
-              <div class="q-my-md text-grey-8">Footer</div>
+              <div class="q-pt-lg q-pb-sm text-grey-8">Footer</div>
 
-              <q-list dense>
-                <q-item>
-                  <q-item-section>Footer Reveal</q-item-section>
-                  <q-item-section side>
-                    <q-toggle v-model="cfg.footerReveal" />
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>Separator type</q-item-section>
-                  <q-item-section side>
-                    <q-select
-                      v-model="cfg.footerSep"
-                      borderless
-                      dense
-                      options-dense
-                      map-options
-                      emit-value
-                      :options="sepOptions"
-                      options-cover
-                      style="width: 100px"
-                    />
-                  </q-item-section>
-                </q-item>
-              </q-list>
+              <div class="q-pl-lg q-gutter-y-sm">
+                <q-toggle v-model="cfg.footerReveal" label="Footer Reveal" />
+                <q-select
+                  v-model="cfg.footerSep"
+                  label="Separator type"
+                  outlined
+                  dense
+                  options-dense
+                  map-options
+                  emit-value
+                  :options="sepOptions"
+                  options-cover
+                  style="max-width: 200px"
+                />
+              </div>
             </template>
 
             <template v-if="pick.left">
-              <div class="q-my-md text-grey-8">Left-side Drawer</div>
+              <div class="q-pt-lg q-pb-sm text-grey-8">Left-side Drawer</div>
 
-              <q-list dense>
-                <q-item>
-                  <q-item-section>Overlay mode</q-item-section>
-                  <q-item-section side>
-                    <q-toggle v-model="cfg.leftOverlay" />
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>Behavior</q-item-section>
-                  <q-item-section side>
-                    <q-select
-                      v-model="cfg.leftBehavior"
-                      borderless
-                      dense
-                      options-dense
-                      map-options
-                      emit-value
-                      :options="drawerBehaviorOptions"
-                      options-cover
-                      style="width: 145px"
-                    />
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>Separator type</q-item-section>
-                  <q-item-section side>
-                    <q-select
-                      v-model="cfg.leftSep"
-                      borderless
-                      dense
-                      options-dense
-                      map-options
-                      emit-value
-                      :options="sepOptions"
-                      options-cover
-                      style="width: 100px"
-                    />
-                  </q-item-section>
-                </q-item>
-              </q-list>
+              <div class="q-pl-lg q-gutter-y-sm">
+                <q-toggle v-model="cfg.leftOverlay" label="Overlay mode" />
+                <q-select
+                  v-model="cfg.leftBehavior"
+                  label="Behavior"
+                  outlined
+                  dense
+                  options-dense
+                  map-options
+                  emit-value
+                  :options="drawerBehaviorOptions"
+                  options-cover
+                  style="max-width: 200px"
+                />
+                <q-select
+                  v-model="cfg.leftSep"
+                  label="Separator type"
+                  outlined
+                  dense
+                  options-dense
+                  map-options
+                  emit-value
+                  :options="sepOptions"
+                  options-cover
+                  style="max-width: 200px"
+                />
+              </div>
             </template>
 
             <template v-if="pick.right">
-              <div class="q-my-md text-grey-8">Right-side Drawer</div>
+              <div class="q-pt-lg q-pb-sm text-grey-8">Right-side Drawer</div>
 
-              <q-list dense>
-                <q-item>
-                  <q-item-section>Overlay mode</q-item-section>
-                  <q-item-section side>
-                    <q-toggle v-model="cfg.rightOverlay" />
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>Behavior</q-item-section>
-                  <q-item-section side>
-                    <q-select
-                      v-model="cfg.rightBehavior"
-                      borderless
-                      dense
-                      options-dense
-                      map-options
-                      emit-value
-                      :options="drawerBehaviorOptions"
-                      options-cover
-                      style="width: 145px"
-                    />
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>Separator type</q-item-section>
-                  <q-item-section side>
-                    <q-select
-                      v-model="cfg.rightSep"
-                      borderless
-                      dense
-                      options-dense
-                      map-options
-                      emit-value
-                      :options="sepOptions"
-                      options-cover
-                      style="width: 100px"
-                    />
-                  </q-item-section>
-                </q-item>
-              </q-list>
+              <div class="q-pl-lg q-gutter-y-sm">
+                <q-toggle v-model="cfg.rightOverlay" label="Overlay mode" />
+                <q-select
+                  v-model="cfg.rightBehavior"
+                  label="Behavior"
+                  outlined
+                  dense
+                  options-dense
+                  map-options
+                  emit-value
+                  :options="drawerBehaviorOptions"
+                  options-cover
+                  style="max-width: 200px"
+                />
+                <q-select
+                  v-model="cfg.rightSep"
+                  label="Separator type"
+                  outlined
+                  dense
+                  options-dense
+                  map-options
+                  emit-value
+                  :options="sepOptions"
+                  options-cover
+                  style="max-width: 200px"
+                />
+              </div>
             </template>
           </q-step>
 
-          <q-step name="play" title="Play with Layout" icon="play_circle_outline">
+          <q-step name="play" title="Play with Layout" :icon="mdiPlayCircleOutline">
             <div class="column">
-              <q-toggle v-model="play.header" label="Visible Header" />
-              <q-toggle v-model="play.footer" label="Visible Footer" />
-              <q-toggle v-model="play.left" label="Visible left-side Drawer" />
-              <q-toggle v-model="play.right" label="Visible right-side Drawer" />
-              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" />
+              <q-toggle v-model="play.header" label="Visible Header" :disable="pick.header !== true" />
+              <q-toggle v-model="play.footer" label="Visible Footer" :disable="pick.footer !== true" />
+              <q-toggle v-model="play.left" label="Visible left-side Drawer" :disable="pick.left !== true" />
+              <q-toggle v-model="play.right" label="Visible right-side Drawer" :disable="pick.right !== true" />
+              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" :disable="pick.left !== true && pick.right !== true" />
             </div>
           </q-step>
 
@@ -313,7 +269,7 @@
               <q-separator spaced />
               <div class="row q-col-gutter-sm">
                 <div v-if="step !== 'play'" class="col-12 col-sm-auto">
-                  <q-btn class="full-width" color="primary" @click="$refs.stepper.next()" label="Continue" />
+                  <q-btn class="full-width" color="brand-primary" @click="$refs.stepper.next()" label="Continue" />
                 </div>
                 <div class="col-12 col-sm-auto">
                   <q-btn class="full-width" color="black" label="Export Layout" @click="exportDialog = true" />
@@ -324,15 +280,15 @@
         </q-stepper>
 
         <q-dialog v-model="exportDialog">
-          <q-card>
-            <div class="bg-code export-code">
-              <doc-code lang="html">{{ layoutExport }}</doc-code>
+          <q-card class="layout-builder__export-card">
+            <div class="export-code">
+              <doc-code lang="html" :code="layoutExport" />
             </div>
 
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn color="primary" flat label="Close" v-close-popup />
+              <q-btn color="brand-primary" flat label="Close" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -399,149 +355,160 @@
       :bordered="cfg.footerSep === 'bordered'"
     >
       <q-toolbar>
-        <q-btn v-if="pick.left" dense flat round icon="menu" @click="play.left = !play.left" />
+        <q-btn v-if="pick.left" dense flat round :icon="mdiMenu" @click="play.left = !play.left" />
 
         <q-toolbar-title>Quasar</q-toolbar-title>
 
-        <q-btn v-if="pick.right" dense flat round icon="menu" @click="play.right = !play.right" />
+        <q-btn v-if="pick.right" dense flat round :icon="mdiMenu" @click="play.right = !play.right" />
       </q-toolbar>
     </q-footer>
   </q-layout>
 </template>
 
 <script>
+import { useMeta, useQuasar } from 'quasar'
+import { ref, reactive, computed } from 'vue'
+
+import {
+  mdiMenu, mdiViewDashboard, mdiCog, mdiPlayCircleOutline
+} from '@quasar/extras/mdi-v6'
+
 import getMeta from 'assets/get-meta.js'
 
+const drawerBehaviorOptions = [
+  { label: 'Behave Normal', value: 'default' },
+  { label: 'Behave Mobile', value: 'mobile' },
+  { label: 'Behave Desktop', value: 'desktop' }
+]
+
+const sepOptions = [
+  { label: 'None', value: 'none' },
+  { label: 'Elevated', value: 'elevated' },
+  { label: 'Bordered', value: 'bordered' }
+]
+
 export default {
-  created () {
-    this.drawerBehaviorOptions = [
-      { label: 'Behave Normal', value: 'default' },
-      { label: 'Behave Mobile', value: 'mobile' },
-      { label: 'Behave Desktop', value: 'desktop' }
-    ]
+  setup () {
+    useMeta({
+      title: 'Layout Builder',
 
-    this.sepOptions = [
-      { label: 'None', value: 'none' },
-      { label: 'Elevated', value: 'elevated' },
-      { label: 'Bordered', value: 'bordered' }
-    ]
-  },
-
-  meta: {
-    title: 'Layout Builder',
-
-    meta: getMeta(
-      'Layout Builder | Quasar Framework',
-      'Tool to build Quasar layouts. Configure the layout parts then export the code.'
-    )
-  },
-
-  data () {
-    return {
-      topL: 'h',
-      topC: 'H',
-      topR: 'h',
-      middleL: 'l',
-      middleR: 'R',
-      bottomL: 'f',
-      bottomC: 'F',
-      bottomR: 'f',
-
-      navTabModel: 'tab1',
-      step: 'pick',
-      exportDialog: false,
-
-      pick: {
-        header: true,
-        footer: true,
-        left: true,
-        right: true,
-        navtabs: true
-      },
-
-      cfg: {
-        headerReveal: false,
-        headerSep: 'elevated',
-
-        footerReveal: false,
-        footerSep: 'elevated',
-
-        leftBehavior: 'default',
-        leftOverlay: false,
-        leftSep: 'bordered',
-
-        rightBehavior: 'default',
-        rightOverlay: false,
-        rightSep: 'bordered'
-      },
-
-      play: {
-        header: true,
-        footer: true,
-        left: false,
-        right: false,
-
-        scroll: true
-      }
-    }
-  },
-
-  computed: {
-    isContracted () {
-      return this.$q.screen.lt.sm === true || (
-        this.$q.screen.md === true &&
-        this.play.left === true &&
-        this.cfg.leftOverlay === false &&
-        this.play.right === true &&
-        this.cfg.rightOverlay === false
+      meta: getMeta(
+        'Layout Builder | Quasar Framework',
+        'Tool to build Quasar layouts. Configure the layout parts then export the code.'
       )
-    },
+    })
 
-    bgTopL () {
-      return this.topL === 'h' ? 'bg-primary' : 'bg-orange'
-    },
+    const $q = useQuasar()
 
-    bgTopR () {
-      return this.topR === 'h' ? 'bg-primary' : 'bg-orange'
-    },
+    const topL = ref('h')
+    const topC = ref('H')
+    const topR = ref('h')
+    const middleL = ref('l')
+    const middleR = ref('R')
+    const bottomL = ref('f')
+    const bottomC = ref('F')
+    const bottomR = ref('f')
 
-    bgBottomL () {
-      return this.bottomL === 'f' ? 'bg-grey-8' : 'bg-orange'
-    },
+    const pick = reactive({
+      header: true,
+      footer: true,
+      left: true,
+      right: true,
+      navtabs: true
+    })
 
-    bgBottomR () {
-      return this.bottomR === 'f' ? 'bg-grey-8' : 'bg-orange'
-    },
+    const cfg = reactive({
+      headerReveal: false,
+      headerSep: 'elevated',
 
-    view () {
+      footerReveal: false,
+      footerSep: 'elevated',
+
+      leftBehavior: 'default',
+      leftOverlay: false,
+      leftSep: 'bordered',
+
+      rightBehavior: 'default',
+      rightOverlay: false,
+      rightSep: 'bordered'
+    })
+
+    const play = reactive({
+      header: true,
+      footer: true,
+      left: false,
+      right: false,
+
+      scroll: true
+    })
+
+    const view = computed(() => {
       const
-        top = `${this.topL}${this.topC}${this.topR}`,
-        middle = `${this.middleL}p${this.middleR}`,
-        bottom = `${this.bottomL}${this.bottomC}${this.bottomR}`
+        top = `${topL.value}${topC.value}${topR.value}`,
+        middle = `${middleL.value}p${middleR.value}`,
+        bottom = `${bottomL.value}${bottomC.value}${bottomR.value}`
 
       return `${top} ${middle} ${bottom}`
-    },
+    })
 
-    layoutExport () {
-      let code = `<${'template'}>
-  <q-layout view="${this.view}">
+    return {
+      topL,
+      topC,
+      topR,
+      middleL,
+      middleR,
+      bottomL,
+      bottomC,
+      bottomR,
+
+      navTabModel: ref('tab1'),
+      step: ref('pick'),
+      exportDialog: ref(false),
+
+      pick,
+      cfg,
+      play,
+
+      view,
+
+      drawerBehaviorOptions,
+      sepOptions,
+
+      mdiMenu,
+      mdiViewDashboard,
+      mdiCog,
+      mdiPlayCircleOutline,
+
+      isContracted: computed(() => {
+        return $q.screen.lt.sm === true || (
+          $q.screen.md === true &&
+          play.left === true &&
+          cfg.leftOverlay === false &&
+          play.right === true &&
+          cfg.rightOverlay === false
+        )
+      }),
+
+      layoutExport: computed(() => {
+        let code = `<${'template'}>
+  <q-layout view="${view.value}">
 `
 
-      if (this.pick.header) {
-        code += `
-    <q-header ${this.cfg.headerReveal ? 'reveal ' : ''}${this.cfg.headerSep !== 'none' ? this.cfg.headerSep + ' ' : ''}class="bg-primary text-white"${this.pick.navtabs ? ' height-hint="98"' : ''}>
-      <q-toolbar>${this.pick.left ? `
-        <q-btn dense flat round icon="menu" @click="left = !left" />
+        if (pick.header) {
+          code += `
+    <q-header ${cfg.headerReveal ? 'reveal ' : ''}${cfg.headerSep !== 'none' ? cfg.headerSep + ' ' : ''}class="bg-primary text-white"${pick.navtabs ? ' height-hint="98"' : ''}>
+      <q-toolbar>${pick.left ? `
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
 ` : ''}
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           Title
-        </q-toolbar-title>${this.pick.right ? `
+        </q-toolbar-title>${pick.right ? `
 
-        <q-btn dense flat round icon="menu" @click="right = !right" />` : ''}
-      </q-toolbar>${this.pick.navtabs ? `
+        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />` : ''}
+      </q-toolbar>${pick.navtabs ? `
 
       <q-tabs align="left">
         <q-route-tab to="/page1" label="Page One" />
@@ -550,61 +517,73 @@ export default {
       </q-tabs>` : ''}
     </q-header>
 `
-      }
+        }
 
-      if (this.pick.left) {
-        code += `
-    <q-drawer ${this.cfg.leftBehavior !== 'mobile' && !this.cfg.leftOverlay ? 'show-if-above ' : ''}v-model="left" side="left"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.leftBehavior !== 'default' ? ` behavior="${this.cfg.leftBehavior}"` : ''}${this.cfg.leftSep !== 'none' ? ' ' + this.cfg.leftSep : ''}>
+        if (pick.left) {
+          code += `
+    <q-drawer ${cfg.leftBehavior !== 'mobile' && !cfg.leftOverlay ? 'show-if-above ' : ''}v-model="leftDrawerOpen" side="left"${cfg.leftOverlay ? ' overlay' : ''}${cfg.leftBehavior !== 'default' ? ` behavior="${cfg.leftBehavior}"` : ''}${cfg.leftSep !== 'none' ? ' ' + cfg.leftSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
-      }
+        }
 
-      if (this.pick.right) {
-        code += `
-    <q-drawer ${this.cfg.rightBehavior !== 'mobile' && !this.cfg.rightOverlay ? 'show-if-above ' : ''}v-model="right" side="right"${this.cfg.rightOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
+        if (pick.right) {
+          code += `
+    <q-drawer ${cfg.rightBehavior !== 'mobile' && !cfg.rightOverlay ? 'show-if-above ' : ''}v-model="rightDrawerOpen" side="right"${cfg.rightOverlay ? ' overlay' : ''}${cfg.rightBehavior !== 'default' ? ` behavior="${cfg.rightBehavior}"` : ''}${cfg.rightSep !== 'none' ? ' ' + cfg.rightSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
-      }
+        }
 
-      code += `
+        code += `
     <q-page-container>
       <router-view />
     </q-page-container>
 `
 
-      if (this.pick.footer) {
-        code += `
-    <q-footer ${this.cfg.footerReveal ? 'reveal ' : ''}${this.cfg.footerSep !== 'none' ? this.cfg.footerSep + ' ' : ''}class="bg-grey-8 text-white">
+        if (pick.footer) {
+          code += `
+    <q-footer ${cfg.footerReveal ? 'reveal ' : ''}${cfg.footerSep !== 'none' ? cfg.footerSep + ' ' : ''}class="bg-grey-8 text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
-          Title
+          <div>Title</div>
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
 `
-      }
+        }
 
-      code += `
+        code += `
   </q-layout>
-</${'template'}>
+</${'template'}>${pick.left || pick.right ? `
 
 <${'script'}>
+import { ref } from 'vue'
+
 export default {
-  data () {
-    return {${this.pick.left ? `
-      left: false${this.pick.right ? ',' : ''}` : ''}${this.pick.right ? `
-      right: false` : ''}
+  setup () {${pick.left ? `
+    const leftDrawerOpen = ref(false)` : ''}${pick.right ? `
+    const rightDrawerOpen = ref(false)` : ''}
+
+    return {${pick.left ? `
+      leftDrawerOpen,
+      toggleLeftDrawer () {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      }${pick.right ? ',\n' : ''}` : ''}${pick.right ? `
+      rightDrawerOpen,
+      toggleRightDrawer () {
+        rightDrawerOpen.value = !rightDrawerOpen.value
+      }` : ''}
     }
   }
 }
-</${'script'}>`
+</${'script'}>` : ''}`
 
-      return code
+        return code
+      })
     }
   }
 }
@@ -613,6 +592,11 @@ export default {
 <style lang="sass">
 body
   background: $grey-1
+
+.layout-builder
+  &__export-card
+    width: 700px
+    max-width: 95vw !important
 
 .export-code
   .doc-code__inner

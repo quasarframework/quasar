@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/slide-item"
+  },
+
+  "props": {
+    "left-color": {
+      "extends": "color",
+      "desc": "Color name for left-side background from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "right-color": {
+      "extends": "color",
+      "desc": "Color name for right-side background from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "top-color": {
+      "extends": "color",
+      "desc": "Color name for top-side background from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "bottom-color": {
+      "extends": "color",
+      "desc": "Color name for bottom-side background from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where item's sections go; Suggestion: QItemSection"
+    },
+
+    "left": {
+      "desc": "Left side content when sliding"
+    },
+
+    "right": {
+      "desc": "Right side content when sliding"
+    },
+
+    "top": {
+      "desc": "Top side content when sliding"
+    },
+
+    "bottom": {
+      "desc": "Bottom side content when sliding"
+    }
+  },
+
+  "events": {
+    "left": {
+      "desc": "Emitted when user finished sliding the item to the left",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "required": true,
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "right": {
+      "desc": "Emitted when user finished sliding the item to the right",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "required": true,
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "top": {
+      "desc": "Emitted when user finished sliding the item up",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "required": true,
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "bottom": {
+      "desc": "Emitted when user finished sliding the item down",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "required": true,
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "slide": {
+      "desc": "Emitted while user is sliding the item to one of the available sides",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "side": {
+              "type": "String",
+              "required": true,
+              "desc": "Side to which sliding is taking effect",
+              "values": [ "left", "right", "top", "bottom" ]
+            },
+            "ratio": {
+              "type": "Number",
+              "required": true,
+              "desc": "Ratio of how much of the required slide was performed (0..1)",
+              "examples": [ 0, 0.5, 1 ]
+            },
+            "isReset": {
+              "type": "Boolean",
+              "required": true,
+              "desc": "Ratio has been reset"
+            }
+          }
+        }
+      }
+    },
+
+    "action": {
+      "desc": "Emitted when user finished sliding the item to either sides",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "side": {
+              "type": "String",
+              "required": true,
+              "desc": "Side to which sliding has taken effect",
+              "values": [ "left", "right", "top", "bottom" ]
+            },
+            "reset": {
+              "type": "Function",
+              "required": true,
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "reset": {
+      "desc": "Reset to initial state (not swiped to any side)"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 ---
 title: Markup Table
 desc: The QMarkupTable Vue component is a helper wrapper which styles a native table.
+keys: QMarkupTable
 related:
   - /vue-components/table
 ---
@@ -11,8 +12,9 @@ The QMarkupTable is a way for you to simply wrap a native `<table>` in order to 
 For advanced functionality like pagination, sorting, filtering, and many more, you may want to check out [QTable](/vue-components/table) component instead.
 :::
 
-## Installation
-<doc-installation components="QMarkupTable" />
+## QMarkupTable API
+
+<doc-api file="QMarkupTable" />
 
 ## Usage
 
@@ -32,5 +34,6 @@ This component will *NOT* work as-is within the UMD version of Quasar. Browsers 
 
 <doc-example title="Customization" file="QMarkupTable/Customization" no-edit />
 
-## QMarkupTable API
-<doc-api file="QMarkupTable" />
+::: tip
+If you want to remove the hover effect on some rows or some cells add a `q-tr--no-hover` or `q-td--no-hover` class to them.
+:::

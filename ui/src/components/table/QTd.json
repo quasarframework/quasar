@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/table"
+  },
+
   "props": {
     "props": {
       "type": "Object",
@@ -11,6 +15,12 @@
       "type": "Boolean",
       "desc": "Tries to shrink column width size; Useful for columns with a checkbox/radio/toggle",
       "category": "content"
+    },
+
+    "no-hover": {
+      "type": "Boolean",
+      "desc": "Disable hover effect",
+      "category": "style"
     }
   },
 

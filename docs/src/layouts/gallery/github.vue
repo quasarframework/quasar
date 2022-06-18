@@ -2,7 +2,7 @@
   <q-layout class="bg-grey-1">
     <q-header elevated class="text-white" style="background: #24292e" height-hint="61.59">
       <q-toolbar class="q-py-sm q-px-md">
-        <q-btn round dense flat :ripple="false" icon="fab fa-github" size="19px" color="white" class="q-mr-sm" no-caps />
+        <q-btn round dense flat :ripple="false" :icon="fabGithub" size="19px" color="white" class="q-mr-sm" no-caps />
 
         <q-select
           ref="search" dark dense standout use-input hide-selected
@@ -32,7 +32,6 @@
           <template v-slot:option="scope">
             <q-item
               v-bind="scope.itemProps"
-              v-on="scope.itemEvents"
               class="GL__select-GL__menu-link"
             >
               <q-item-section side>
@@ -160,6 +159,9 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { fabGithub } from '@quasar/extras/fontawesome-v6'
+
 const stringOptions = [
   'quasarframework/quasar',
   'quasarframework/quasar-awesome'
@@ -168,21 +170,18 @@ const stringOptions = [
 export default {
   name: 'MyLayout',
 
-  data () {
-    return {
-      text: '',
-      options: null,
-      filteredOptions: []
-    }
-  },
+  setup () {
+    const text = ref('')
+    const options = ref(null)
+    const filteredOptions = ref([])
+    const search = ref(null) // $refs.search
 
-  methods: {
-    filter (val, update) {
-      if (this.options === null) {
+    function filter (val, update) {
+      if (options.value === null) {
         // load data
         setTimeout(() => {
-          this.options = stringOptions
-          this.$refs.search.filter('')
+          options.value = stringOptions
+          search.value.filter('')
         }, 2000)
         update()
         return
@@ -190,13 +189,13 @@ export default {
 
       if (val === '') {
         update(() => {
-          this.filteredOptions = this.options.map(op => ({ label: op }))
+          filteredOptions.value = options.value.map(op => ({ label: op }))
         })
         return
       }
 
       update(() => {
-        this.filteredOptions = [
+        filteredOptions.value = [
           {
             label: val,
             type: 'In this repository'
@@ -205,11 +204,22 @@ export default {
             label: val,
             type: 'All GitHub'
           },
-          ...this.options
+          ...options.value
             .filter(op => op.toLowerCase().includes(val.toLowerCase()))
             .map(op => ({ label: op }))
         ]
       })
+    }
+
+    return {
+      fabGithub,
+
+      text,
+      options,
+      filteredOptions,
+      search,
+
+      filter
     }
   }
 }
@@ -240,7 +250,7 @@ export default {
     background: #0366d6
     color: white
 
-  &__menu-link-signed-in
+  &__menu-link-signed-in,
   &__menu-link-status
     &:hover
       & > div

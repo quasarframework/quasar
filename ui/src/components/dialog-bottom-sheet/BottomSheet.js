@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, ref, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 
@@ -8,165 +8,171 @@ import QSeparator from '../separator/QSeparator.js'
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+
+export default createComponent({
   name: 'BottomSheetPlugin',
 
-  inheritAttrs: false,
-
   props: {
+    ...useDarkProps,
+
     title: String,
     message: String,
     actions: Array,
 
     grid: Boolean,
 
-    cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-
-    dark: Boolean
+    cardClass: [ String, Array, Object ],
+    cardStyle: [ String, Array, Object ]
   },
 
-  methods: {
-    show () {
-      this.$refs.dialog.show()
-    },
+  emits: [ 'ok', 'hide' ],
 
-    hide () {
-      this.$refs.dialog.hide()
-    },
+  setup (props, { emit }) {
+    const { proxy } = getCurrentInstance()
+    const isDark = useDark(props, proxy.$q)
 
-    onOk (action) {
-      this.$emit('ok', action)
-      this.hide()
-    },
+    const dialogRef = ref(null)
 
-    __getGrid (h) {
-      return this.actions.map(action => {
+    function show () {
+      dialogRef.value.show()
+    }
+
+    function hide () {
+      dialogRef.value.hide()
+    }
+
+    function onOk (action) {
+      emit('ok', action)
+      hide()
+    }
+
+    function onHide () {
+      emit('hide')
+    }
+
+    function getGrid () {
+      return props.actions.map(action => {
         const img = action.avatar || action.img
 
         return action.label === void 0
           ? h(QSeparator, {
-            staticClass: 'col-all',
-            props: { dark: this.dark }
+            class: 'col-all',
+            dark: isDark.value
           })
           : h('div', {
-            staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
-            class: action.classes,
-            attrs: { tabindex: 0 },
-            on: {
-              click: () => this.onOk(action),
-              keyup: e => {
-                e.keyCode === 13 && this.onOk(action)
-              }
-            }
+            class: [
+              'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
+              action.class
+            ],
+            tabindex: 0,
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, [
-            h('div', { staticClass: 'q-focus-helper' }),
+            h('div', { class: 'q-focus-helper' }),
 
             action.icon
-              ? h(QIcon, { props: { name: action.icon, color: action.color } })
+              ? h(QIcon, { name: action.icon, color: action.color })
               : (
-                img
-                  ? h('img', {
-                    attrs: { src: img },
-                    staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
-                  })
-                  : h('div', { staticClass: 'q-bottom-sheet__empty-icon' })
-              ),
+                  img
+                    ? h('img', {
+                      class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                      src: img
+                    })
+                    : h('div', { class: 'q-bottom-sheet__empty-icon' })
+                ),
 
-            h('div', [ action.label ])
+            h('div', action.label)
           ])
       })
-    },
+    }
 
-    __getList (h) {
-      return this.actions.map(action => {
+    function getList () {
+      return props.actions.map(action => {
         const img = action.avatar || action.img
 
         return action.label === void 0
-          ? h(QSeparator, { props: { spaced: true, dark: this.dark } })
+          ? h(QSeparator, { spaced: true, dark: isDark.value })
           : h(QItem, {
-            staticClass: 'q-bottom-sheet__item',
-            class: action.classes,
-            props: {
-              tabindex: 0,
-              clickable: true,
-              dark: this.dark
-            },
-            on: {
-              click: () => this.onOk(action),
-              keyup: e => {
-                e.keyCode === 13 && this.onOk(action)
-              }
-            }
-          }, [
-            h(QItemSection, { props: { avatar: true } }, [
-              action.icon
-                ? h(QIcon, { props: { name: action.icon, color: action.color } })
-                : (
-                  img
-                    ? h('img', {
-                      attrs: { src: img },
-                      staticClass: action.avatar ? 'q-bottom-sheet__avatar' : null
-                    })
-                    : null
-                )
-            ]),
-            h(QItemSection, [ action.label ])
+            class: [ 'q-bottom-sheet__item', action.classes ],
+            tabindex: 0,
+            clickable: true,
+            dark: isDark.value,
+            onClick () { onOk(action) },
+            onKeyup (e) { e.keyCode === 13 && onOk(action) }
+          }, () => [
+            h(
+              QItemSection,
+              { avatar: true },
+              () => (
+                action.icon
+                  ? h(QIcon, { name: action.icon, color: action.color })
+                  : (
+                      img
+                        ? h('img', {
+                          class: action.avatar ? 'q-bottom-sheet__avatar' : '',
+                          src: img
+                        })
+                        : null
+                    )
+              )
+            ),
+
+            h(QItemSection, () => action.label)
           ])
       })
     }
-  },
 
-  render (h) {
-    let child = []
+    function getCardContent () {
+      const child = []
 
-    if (this.title) {
-      child.push(
+      props.title && child.push(
         h(QCardSection, {
-          staticClass: 'q-dialog__title'
-        }, [ this.title ])
+          class: 'q-dialog__title'
+        }, () => props.title)
       )
+
+      props.message && child.push(
+        h(QCardSection, {
+          class: 'q-dialog__message'
+        }, () => props.message)
+      )
+
+      child.push(
+        props.grid === true
+          ? h('div', {
+            class: 'row items-stretch justify-start'
+          }, getGrid())
+          : h('div', getList())
+      )
+
+      return child
     }
 
-    if (this.message) {
-      child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__message scroll'
-        }, [ this.message ])
-      )
+    function getContent () {
+      return [
+        h(QCard, {
+          class: [
+            `q-bottom-sheet q-bottom-sheet--${ props.grid === true ? 'grid' : 'list' }`
+            + (isDark.value === true ? ' q-bottom-sheet--dark q-dark' : ''),
+            props.cardClass
+          ],
+          style: props.cardStyle
+        }, getCardContent)
+      ]
     }
 
-    child.push(
-      this.grid === true
-        ? h('div', {
-          staticClass: 'scroll row items-stretch justify-start'
-        }, this.__getGrid(h))
-        : h('div', { staticClass: 'scroll' }, this.__getList(h))
-    )
+    // expose public methods
+    Object.assign(proxy, { show, hide })
 
-    return h(QDialog, {
-      ref: 'dialog',
-
-      props: {
-        ...this.$attrs,
-        position: 'bottom'
-      },
-
-      on: {
-        hide: () => {
-          this.$emit('hide')
-        }
-      }
-    }, [
-      h(QCard, {
-        staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
-          (this.dark === true ? ' q-bottom-sheet--dark' : ''),
-        style: this.cardStyle,
-        class: this.cardClass
-      }, child)
-    ])
+    return () => h(QDialog, {
+      ref: dialogRef,
+      position: 'bottom',
+      onHide
+    }, getContent)
   }
 })

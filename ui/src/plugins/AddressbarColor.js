@@ -1,24 +1,24 @@
-import Platform, { isSSR } from './Platform.js'
-import { getBrand } from '../utils/colors.js'
+import { client } from './Platform.js'
+import { noop } from '../utils/event.js'
+import getCssVar from '../utils/get-css-var.js'
 
 let metaValue
 
 function getProp () {
-  if (Platform.is.winphone) {
-    return 'msapplication-navbutton-color'
-  }
-  if (Platform.is.safari) {
-    return 'apple-mobile-web-app-status-bar-style'
-  }
-  // Chrome, Firefox OS, Opera, Vivaldi
-  return 'theme-color'
+  return client.is.winphone
+    ? 'msapplication-navbutton-color'
+    : (
+        client.is.safari
+          ? 'apple-mobile-web-app-status-bar-style'
+          : 'theme-color' // Chrome, Firefox OS, Opera, Vivaldi, ...
+      )
 }
 
 function getMetaTag (v) {
   const els = document.getElementsByTagName('META')
-  for (let i in els) {
-    if (els[i].name === v) {
-      return els[i]
+  for (const i in els) {
+    if (els[ i ].name === v) {
+      return els[ i ]
     }
   }
 }
@@ -45,26 +45,25 @@ function setColor (hexColor) {
 }
 
 export default {
-  install ({ $q, cfg }) {
-    this.set = isSSR === false && Platform.is.mobile === true && (
-      Platform.is.cordova === true ||
-      Platform.is.winphone === true || Platform.is.safari === true ||
-      Platform.is.webkit === true || Platform.is.vivaldi === true
-    )
-      ? hexColor => {
-        const val = hexColor || getBrand('primary')
+  set: __QUASAR_SSR_SERVER__ !== true && client.is.mobile === true && (
+    client.is.nativeMobile === true
+    || client.is.winphone === true || client.is.safari === true
+    || client.is.webkit === true || client.is.vivaldi === true
+  )
+    ? hexColor => {
+      const val = hexColor || getCssVar('primary')
 
-        if (Platform.is.cordova === true && window.StatusBar) {
-          window.StatusBar.backgroundColorByHexString(val)
-        }
-        else {
-          setColor(val)
-        }
+      if (client.is.nativeMobile === true && window.StatusBar) {
+        window.StatusBar.backgroundColorByHexString(val)
       }
-      : () => {}
+      else {
+        setColor(val)
+      }
+    }
+    : noop,
 
+  install ({ $q }) {
     $q.addressbarColor = this
-
-    cfg.addressbarColor && this.set(cfg.addressbarColor)
+    $q.config.addressbarColor && this.set($q.config.addressbarColor)
   }
 }

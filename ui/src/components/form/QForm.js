@@ -1,141 +1,197 @@
-import Vue from 'vue'
+import { h, ref, onActivated, onDeactivated, onMounted, getCurrentInstance, nextTick, provide } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
-import { getAllChildren } from '../../utils/vm.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { hSlot } from '../../utils/private/render.js'
+import { formKey } from '../../utils/private/symbols.js'
 
-export default Vue.extend({
+export default createComponent({
   name: 'QForm',
 
   props: {
     autofocus: Boolean,
     noErrorFocus: Boolean,
     noResetFocus: Boolean,
-    greedy: Boolean
+    greedy: Boolean,
+
+    onSubmit: Function
   },
 
-  mounted () {
-    this.validateIndex = 0
-    this.autofocus === true && this.focus()
-  },
+  emits: [ 'reset', 'validation-success', 'validation-error' ],
 
-  methods: {
-    validate (shouldFocus) {
+  setup (props, { slots, emit }) {
+    const vm = getCurrentInstance()
+    const rootRef = ref(null)
+
+    let validateIndex = 0
+    const registeredComponents = []
+
+    function validate (shouldFocus) {
       const promises = []
       const focus = typeof shouldFocus === 'boolean'
         ? shouldFocus
-        : this.noErrorFocus !== true
+        : props.noErrorFocus !== true
 
-      this.validateIndex++
+      const index = ++validateIndex
 
-      const components = getAllChildren(this)
-      const emit = res => {
-        this.$emit('validation-' + (res === true ? 'success' : 'error'))
+      const emitEvent = (res, ref) => {
+        emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
-      for (let i = 0; i < components.length; i++) {
-        const comp = components[i]
+      for (let i = 0; i < registeredComponents.length; i++) {
+        const comp = registeredComponents[ i ]
+        const valid = comp.validate()
 
-        if (typeof comp.validate === 'function') {
-          const valid = comp.validate()
-
-          if (typeof valid.then === 'function') {
-            promises.push(
-              valid.then(
-                v => ({ valid: v, comp }),
-                error => ({ valid: false, comp, error })
-              )
+        if (typeof valid.then === 'function') {
+          promises.push(
+            valid.then(
+              valid => ({ valid, comp }),
+              err => ({ valid: false, comp, err })
             )
-          }
-          else if (valid !== true) {
-            if (this.greedy === false) {
-              emit(false)
+          )
+        }
+        else if (valid !== true) {
+          if (props.greedy === false) {
+            emitEvent(false, comp)
 
-              if (focus === true && typeof comp.focus === 'function') {
-                comp.focus()
-              }
-
-              return Promise.resolve(false)
+            if (focus === true && typeof comp.focus === 'function') {
+              comp.focus()
             }
 
-            promises.push({ valid: false, comp })
+            return Promise.resolve(false)
           }
+
+          promises.push({ valid: false, comp })
         }
       }
 
       if (promises.length === 0) {
-        emit(true)
+        emitEvent(true)
         return Promise.resolve(true)
       }
 
-      const index = this.validateIndex
+      return Promise.all(promises).then(res => {
+        const errors = res.filter(r => r.valid !== true)
 
-      return Promise.all(promises).then(
-        res => {
-          if (index === this.validateIndex) {
-            const { valid, comp } = res[0]
+        if (errors.length === 0) {
+          index === validateIndex && emitEvent(true)
+          return true
+        }
 
-            emit(valid)
+        const { valid, comp, err } = errors[ 0 ]
 
-            if (
-              focus === true &&
-              valid !== true &&
-              typeof comp.focus === 'function'
-            ) {
-              comp.focus()
-            }
+        // if not outdated already
+        if (index === validateIndex) {
+          err !== void 0 && console.error(err)
 
-            return valid
+          emitEvent(false, comp)
+
+          if (
+            focus === true
+            && valid !== true
+            && typeof comp.focus === 'function'
+          ) {
+            comp.focus()
           }
         }
-      )
-    },
 
-    resetValidation () {
-      this.validateIndex++
-
-      getAllChildren(this).forEach(comp => {
-        if (typeof comp.resetValidation === 'function') {
-          comp.resetValidation()
-        }
+        return false
       })
-    },
-
-    submit (evt) {
-      evt !== void 0 && stopAndPrevent(evt)
-
-      this.validate().then(val => {
-        val === true && this.$emit('submit', evt)
-      })
-    },
-
-    reset (evt) {
-      evt !== void 0 && stopAndPrevent(evt)
-
-      this.$emit('reset')
-
-      this.$nextTick(() => { // allow userland to reset values before
-        this.resetValidation()
-        if (this.autofocus === true && this.noResetFocus !== true) {
-          this.focus()
-        }
-      })
-    },
-
-    focus () {
-      const target = this.$el.querySelector('[autofocus]') || this.$el.querySelector('[tabindex]')
-      target !== null && target.focus()
     }
-  },
 
-  render (h) {
-    return h('form', {
-      staticClass: 'q-form',
-      on: {
-        ...this.$listeners,
-        submit: this.submit,
-        reset: this.reset
+    function resetValidation () {
+      validateIndex++
+
+      registeredComponents.forEach(comp => {
+        typeof comp.resetValidation === 'function' && comp.resetValidation()
+      })
+    }
+
+    function submit (evt) {
+      evt !== void 0 && stopAndPrevent(evt)
+
+      const index = validateIndex + 1
+
+      validate().then(val => {
+        // if not outdated && validation succeeded
+        if (index === validateIndex && val === true) {
+          if (props.onSubmit !== void 0) {
+            emit('submit', evt)
+          }
+          else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {
+            evt.target.submit()
+          }
+        }
+      })
+    }
+
+    function reset (evt) {
+      evt !== void 0 && stopAndPrevent(evt)
+
+      emit('reset')
+
+      nextTick(() => { // allow userland to reset values before
+        resetValidation()
+        if (props.autofocus === true && props.noResetFocus !== true) {
+          focus()
+        }
+      })
+    }
+
+    function focus () {
+      addFocusFn(() => {
+        if (rootRef.value === null) { return }
+
+        const target = rootRef.value.querySelector('[autofocus], [data-autofocus]')
+          || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+
+        target !== null && target !== void 0 && target.focus({ preventScroll: true })
+      })
+    }
+
+    provide(formKey, {
+      bindComponent (vmProxy) {
+        registeredComponents.push(vmProxy)
+      },
+
+      unbindComponent (vmProxy) {
+        const index = registeredComponents.indexOf(vmProxy)
+        if (index > -1) {
+          registeredComponents.splice(index, 1)
+        }
       }
-    }, slot(this, 'default'))
+    })
+
+    let shouldActivate = false
+
+    onDeactivated(() => {
+      shouldActivate = true
+    })
+
+    onActivated(() => {
+      shouldActivate === true && props.autofocus === true && focus()
+    })
+
+    onMounted(() => {
+      props.autofocus === true && focus()
+    })
+
+    // expose public methods
+    Object.assign(vm.proxy, {
+      validate,
+      resetValidation,
+      submit,
+      reset,
+      focus,
+      getValidationComponents: () => registeredComponents
+    })
+
+    return () => h('form', {
+      class: 'q-form',
+      ref: rootRef,
+      onSubmit: submit,
+      onReset: reset
+    }, hSlot(slots.default))
   }
 })

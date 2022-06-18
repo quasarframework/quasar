@@ -1,34 +1,86 @@
-import Vue from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
-export default Vue.extend({
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+
+import { createComponent } from '../../utils/private/create.js'
+
+const insetMap = {
+  true: 'inset',
+  item: 'item-inset',
+  'item-thumbnail': 'item-thumbnail-inset'
+}
+
+export const margins = {
+  xs: 2,
+  sm: 4,
+  md: 8,
+  lg: 16,
+  xl: 24
+}
+
+export default createComponent({
   name: 'QSeparator',
 
   props: {
-    dark: Boolean,
-    spaced: Boolean,
-    inset: [Boolean, String],
+    ...useDarkProps,
+
+    spaced: [ Boolean, String ],
+    inset: [ Boolean, String ],
     vertical: Boolean,
-    color: String
+    color: String,
+    size: String
   },
 
-  computed: {
-    classes () {
-      return {
-        [`bg-${this.color}`]: this.color,
-        'q-separator--dark': this.dark,
-        'q-separator--spaced': this.spaced,
-        'q-separator--inset': this.inset === true,
-        'q-separator--item-inset': this.inset === 'item',
-        'q-separator--item-thumbnail-inset': this.inset === 'item-thumbnail',
-        [`q-separator--${this.vertical ? 'vertical self-stretch' : 'horizontal col-grow'}`]: true
+  setup (props) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    const orientation = computed(() => (
+      props.vertical === true
+        ? 'vertical'
+        : 'horizontal'
+    ))
+
+    const orientClass = computed(() => ` q-separator--${ orientation.value }`)
+
+    const insetClass = computed(() => (
+      props.inset !== false
+        ? `${ orientClass.value }-${ insetMap[ props.inset ] }`
+        : ''
+    ))
+
+    const classes = computed(() =>
+      `q-separator${ orientClass.value }${ insetClass.value }`
+      + (props.color !== void 0 ? ` bg-${ props.color }` : '')
+      + (isDark.value === true ? ' q-separator--dark' : '')
+    )
+
+    const style = computed(() => {
+      const acc = {}
+
+      if (props.size !== void 0) {
+        acc[ props.vertical === true ? 'width' : 'height' ] = props.size
       }
-    }
-  },
 
-  render (h) {
-    return h('hr', {
-      staticClass: 'q-separator',
-      class: this.classes
+      if (props.spaced !== false) {
+        const size = props.spaced === true
+          ? `${ margins.md }px`
+          : props.spaced in margins ? `${ margins[ props.spaced ] }px` : props.spaced
+
+        const dir = props.vertical === true
+          ? [ 'Left', 'Right' ]
+          : [ 'Top', 'Bottom' ]
+
+        acc[ `margin${ dir[ 0 ] }` ] = acc[ `margin${ dir[ 1 ] }` ] = size
+      }
+
+      return acc
+    })
+
+    return () => h('hr', {
+      class: classes.value,
+      style: style.value,
+      'aria-orientation': orientation.value
     })
   }
 })

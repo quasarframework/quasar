@@ -1,16 +1,18 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/parallax"
   },
 
   "props": {
     "src": {
       "type": "String",
       "desc": "Path to image (unless a 'media' slot is used)",
+      "transformAssetUrls": true,
       "examples": [
-        "(statics folder) statics/img/something.png",
+        "(public folder) src=\"img/something.png\"",
+        "(assets folder) src=\"~assets/my-img.png\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) https://some-site.net/some-img.jpg"
+        "(URL) src=\"https://some-site.net/some-img.jpg\""
       ],
       "category": "model"
     },
@@ -28,6 +30,10 @@
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
       "examples": [ ":speed=\"0.24\"" ],
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
     }
   },
 
@@ -38,10 +44,8 @@
 
     "media": {
       "desc": "Slot for describing <img> or <video> tags"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "content": {
       "desc": "Scoped slot for describing content that gets displayed on top of the component; If specified, it overrides the default slot",
       "scope": {

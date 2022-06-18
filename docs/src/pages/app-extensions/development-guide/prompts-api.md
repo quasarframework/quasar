@@ -22,7 +22,7 @@ You will have access to `api.prompts` (which holds your App Extension's answers)
 Let's now focus on the structure of the returned Array which defines the questions. The sections below offer examples for the most used types of questions.
 
 ::: warning
-The following is not an exhaustive list of possible types of questions and by no means it describes the full API available. Check out [Inquirer.js](https://github.com/SBoudrias/Inquirer.js#readme) for that (which is used by Quasar CLI under the covers).
+The following is not an exhaustive list of possible types of questions and by no means it describes the full API available. Check out [Inquirer.js](https://github.com/SBoudrias/Inquirer.js#readme) for that (which is used by Quasar CLI under the hood).
 :::
 
 ## String
@@ -81,9 +81,9 @@ The following is not an exhaustive list of possible types of questions and by no
       short: 'Material Icons' // Short name displayed after user picks this
     },
     {
-      name: 'Fontawesome',
-      value: 'fontawesome', // value of the answer variable
-      short: 'Fontawesome' // Short name displayed after user picks this
+      name: 'Fontawesome v6',
+      value: 'fontawesome-v6', // value of the answer variable
+      short: 'Fontawesome v6' // Short name displayed after user picks this
     }
     // ... all other choices
   ]

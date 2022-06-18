@@ -1,189 +1,214 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { createComponent } from '../../utils/private/create.js'
+import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { hSlot, hDir } from '../../utils/private/render.js'
 
 const
   PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
 
-export default Vue.extend({
+export default createComponent({
   name: 'QPullToRefresh',
-
-  directives: {
-    TouchPan
-  },
 
   props: {
     color: String,
+    bgColor: String,
     icon: String,
     noMouse: Boolean,
-    disable: Boolean
-  },
+    disable: Boolean,
 
-  data () {
-    return {
-      state: 'pull',
-      pullRatio: 0,
-      pulling: false,
-      pullPosition: -PULLER_HEIGHT,
-      animating: false,
-      positionCSS: {}
+    scrollTarget: {
+      default: void 0
     }
   },
 
-  computed: {
-    style () {
-      return {
-        opacity: this.pullRatio,
-        transform: `translateY(${this.pullPosition}px) rotate(${this.pullRatio * 360}deg)`
-      }
-    }
-  },
+  emits: [ 'refresh' ],
 
-  methods: {
-    trigger () {
-      this.$emit('refresh', () => {
-        this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 }, () => {
-          this.state = 'pull'
-        })
-      })
-    },
+  setup (props, { slots, emit }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
-    updateScrollTarget () {
-      this.scrollContainer = getScrollTarget(this.$el)
-    },
+    const state = ref('pull')
+    const pullRatio = ref(0)
+    const pulling = ref(false)
+    const pullPosition = ref(-PULLER_HEIGHT)
+    const animating = ref(false)
+    const positionCSS = ref({})
 
-    __pull (event) {
-      if (event.isFinal) {
-        if (this.pulling) {
-          this.pulling = false
+    const style = computed(() => ({
+      opacity: pullRatio.value,
+      transform: `translateY(${ pullPosition.value }px) rotate(${ pullRatio.value * 360 }deg)`
+    }))
 
-          if (this.state === 'pulled') {
-            this.state = 'refreshing'
-            this.__animateTo({ pos: OFFSET_TOP })
-            this.trigger()
+    const classes = computed(() =>
+      'q-pull-to-refresh__puller row flex-center'
+      + (animating.value === true ? ' q-pull-to-refresh__puller--animating' : '')
+      + (props.bgColor !== void 0 ? ` bg-${ props.bgColor }` : '')
+    )
+
+    function pull (event) {
+      if (event.isFinal === true) {
+        if (pulling.value === true) {
+          pulling.value = false
+
+          if (state.value === 'pulled') {
+            state.value = 'refreshing'
+            animateTo({ pos: OFFSET_TOP })
+            trigger()
           }
-          else if (this.state === 'pull') {
-            this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
+          else if (state.value === 'pull') {
+            animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
           }
         }
 
         return
       }
 
-      if (this.animating || this.state === 'refreshing') {
+      if (animating.value === true || state.value === 'refreshing') {
         return false
       }
 
-      if (event.isFirst) {
-        if (getScrollPosition(this.scrollContainer) !== 0) {
-          if (this.pulling) {
-            this.pulling = false
-            this.state = 'pull'
-            this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
+      if (event.isFirst === true) {
+        if (getVerticalScrollPosition(localScrollTarget) !== 0 || event.direction !== 'down') {
+          if (pulling.value === true) {
+            pulling.value = false
+            state.value = 'pull'
+            animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
           }
 
           return false
         }
 
-        this.pulling = true
+        pulling.value = true
 
-        const { top, left } = this.$el.getBoundingClientRect()
-        this.positionCSS = {
+        const { top, left } = $el.getBoundingClientRect()
+        positionCSS.value = {
           top: top + 'px',
           left: left + 'px',
-          width: window.getComputedStyle(this.$el).getPropertyValue('width')
+          width: window.getComputedStyle($el).getPropertyValue('width')
         }
       }
 
       prevent(event.evt)
 
       const distance = Math.min(140, Math.max(0, event.distance.y))
-      this.pullPosition = distance - PULLER_HEIGHT
-      this.pullRatio = between(distance / (OFFSET_TOP + PULLER_HEIGHT), 0, 1)
+      pullPosition.value = distance - PULLER_HEIGHT
+      pullRatio.value = between(distance / (OFFSET_TOP + PULLER_HEIGHT), 0, 1)
 
-      const state = this.pullPosition > OFFSET_TOP ? 'pulled' : 'pull'
-      if (this.state !== state) {
-        this.state = state
+      const newState = pullPosition.value > OFFSET_TOP ? 'pulled' : 'pull'
+
+      if (state.value !== newState) {
+        state.value = newState
       }
-    },
+    }
 
-    __animateTo ({ pos, ratio }, done) {
-      this.animating = true
-      this.pullPosition = pos
+    const directives = computed(() => {
+      // if props.disable === false
+      const modifiers = {
+        down: true,
+        mightPrevent: true
+      }
+
+      if (props.noMouse !== true) {
+        modifiers.mouse = true
+      }
+
+      return [ [
+        TouchPan,
+        pull,
+        void 0,
+        modifiers
+      ] ]
+    })
+
+    const contentClass = computed(() =>
+      `q-pull-to-refresh__content${ pulling.value === true ? ' no-pointer-events' : '' }`
+    )
+
+    function trigger () {
+      emit('refresh', () => {
+        animateTo({ pos: -PULLER_HEIGHT, ratio: 0 }, () => {
+          state.value = 'pull'
+        })
+      })
+    }
+
+    function animateTo ({ pos, ratio }, done) {
+      animating.value = true
+      pullPosition.value = pos
 
       if (ratio !== void 0) {
-        this.pullRatio = ratio
+        pullRatio.value = ratio
       }
 
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.animating = false
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        animating.value = false
         done && done()
       }, 300)
     }
-  },
 
-  mounted () {
-    this.updateScrollTarget()
-  },
+    // expose public methods
+    Object.assign(proxy, { trigger, updateScrollTarget })
 
-  beforeDestroy () {
-    clearTimeout(this.timer)
-  },
+    let $el, localScrollTarget, timer
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-pull-to-refresh overflow-hidden',
-      directives: this.disable === true
-        ? null
-        : [{
-          name: 'touch-pan',
-          modifiers: {
-            down: true,
-            mightPrevent: true,
-            mouse: !this.noMouse
-          },
-          value: this.__pull
-        }]
-    }, [
-      h('div', {
-        staticClass: 'q-pull-to-refresh__content',
-        class: this.pulling ? 'no-pointer-events' : null
-      }, slot(this, 'default')),
+    function updateScrollTarget () {
+      localScrollTarget = getScrollTarget($el, props.scrollTarget)
+    }
 
-      h('div', {
-        staticClass: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',
-        style: this.positionCSS
-      }, [
+    watch(() => props.scrollTarget, updateScrollTarget)
+
+    onMounted(() => {
+      $el = proxy.$el
+      updateScrollTarget()
+    })
+
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    return () => {
+      const child = [
+        h('div', { class: contentClass.value }, hSlot(slots.default)),
+
         h('div', {
-          staticClass: 'q-pull-to-refresh__puller row flex-center',
-          style: this.style,
-          class: this.animating ? 'q-pull-to-refresh__puller--animating' : null
+          class: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',
+          style: positionCSS.value
         }, [
-          this.state !== 'refreshing'
-            ? h(QIcon, {
-              props: {
-                name: this.icon || this.$q.iconSet.pullToRefresh.icon,
-                color: this.color,
+          h('div', {
+            class: classes.value,
+            style: style.value
+          }, [
+            state.value !== 'refreshing'
+              ? h(QIcon, {
+                name: props.icon || $q.iconSet.pullToRefresh.icon,
+                color: props.color,
                 size: '32px'
-              }
-            })
-            : h(QSpinner, {
-              props: {
+              })
+              : h(QSpinner, {
                 size: '24px',
-                color: this.color
-              }
-            })
+                color: props.color
+              })
+          ])
         ])
-      ])
-    ])
+      ]
+
+      return hDir(
+        'div',
+        { class: 'q-pull-to-refresh' },
+        child,
+        'main',
+        props.disable === false,
+        () => directives.value
+      )
+    }
   }
 })

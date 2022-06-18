@@ -6,31 +6,30 @@
     .q-field__control
       cursor: text
 
-  &__input
-    border: 0
-    outline: 0 !important // needed for FF
-    background: transparent
+  .q-field__input
     min-width: 50px !important
-    padding: 0
-    height: 0
-    min-height: 24px
-    line-height: 24px
+    cursor: text
 
     &--padding
       padding-left: 4px
 
+  &__focus-target,
+  &__autocomplete-input
+    position: absolute
+    outline: 0 !important
+    width: 0
+    height: 0
+    padding: 0
+    border: 0
+    opacity: 0
+
   &__dropdown-icon
     cursor: pointer
+    transition: transform .28s
 
   &.q-field--readonly
     .q-field__control, .q-select__dropdown-icon
       cursor: default
-    &.q-field--labeled
-      .q-select__input
-        cursor: default
-    &.q-field--float
-      .q-select__input
-        cursor: text
 
   &__dialog
     width: 90vw !important
@@ -44,30 +43,26 @@
       position: relative
       background: inherit
 
-  &__menu--dark
-    color: #fff
-    background: $grey-9
-
 // addressbar always gets shown, so need to slim this down
-body.mobile:not(.cordova) .q-select__dialog
+body.mobile:not(.native-mobile) .q-select__dialog
   max-height: calc(100vh - 108px) !important
 
 body.platform-android
 
-  &.cordova .q-dialog__inner--top .q-select__dialog
+  &.native-mobile .q-dialog__inner--top .q-select__dialog
     max-height: calc(100vh - 24px) !important
 
-  &:not(.cordova) .q-dialog__inner--top .q-select__dialog
+  &:not(.native-mobile) .q-dialog__inner--top .q-select__dialog
     max-height: calc(100vh - 80px) !important
 
 body.platform-ios
 
-  &.cordova .q-dialog__inner--top
+  &.native-mobile .q-dialog__inner--top
     > div
       border-radius: $generic-border-radius
 
     .q-select__dialog--focused
       max-height: 47vh !important
 
-  &:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused
+  &:not(.native-mobile) .q-dialog__inner--top .q-select__dialog--focused
     max-height: 50vh !important

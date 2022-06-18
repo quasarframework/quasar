@@ -1,12 +1,15 @@
-import Vue from 'vue'
+import { h, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
+import { hSlot } from '../../utils/private/render.js'
 import { listenOpts } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
 
-export default Vue.extend({
+const { passive } = listenOpts
+
+export default createComponent({
   name: 'QParallax',
 
   props: {
@@ -19,118 +22,148 @@ export default Vue.extend({
       type: Number,
       default: 1,
       validator: v => v >= 0 && v <= 1
-    }
-  },
-
-  data () {
-    return {
-      scrolling: false,
-      percentScrolled: 0
-    }
-  },
-
-  watch: {
-    height () {
-      this.__updatePos()
-    }
-  },
-
-  methods: {
-    __update (percentage) {
-      this.percentScrolled = percentage
-      this.$listeners.scroll !== void 0 && this.$emit('scroll', percentage)
     },
 
-    __onResize () {
-      if (this.scrollTarget) {
-        this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
-        this.__updatePos()
+    scrollTarget: {
+      default: void 0
+    },
+
+    onScroll: Function
+  },
+
+  setup (props, { slots, emit }) {
+    const percentScrolled = ref(0)
+    const rootRef = ref(null)
+    const mediaParentRef = ref(null)
+    const mediaRef = ref(null)
+
+    let isWorking, mediaEl, mediaHeight, resizeHandler, observer, localScrollTarget
+
+    watch(() => props.height, () => {
+      isWorking === true && updatePos()
+    })
+
+    watch(() => props.scrollTarget, () => {
+      if (isWorking === true) {
+        stop()
+        start()
       }
-    },
+    })
 
-    __updatePos () {
-      let containerTop, containerHeight, containerBottom, top, bottom
+    let update = percentage => {
+      percentScrolled.value = percentage
+      props.onScroll !== void 0 && emit('scroll', percentage)
+    }
 
-      if (this.scrollTarget === window) {
+    function updatePos () {
+      let containerTop, containerHeight, containerBottom
+
+      if (localScrollTarget === window) {
         containerTop = 0
-        containerHeight = window.innerHeight
-        containerBottom = containerHeight
+        containerBottom = containerHeight = window.innerHeight
       }
       else {
-        containerTop = offset(this.scrollTarget).top
-        containerHeight = height(this.scrollTarget)
+        containerTop = offset(localScrollTarget).top
+        containerHeight = height(localScrollTarget)
         containerBottom = containerTop + containerHeight
       }
 
-      top = offset(this.$el).top
-      bottom = top + this.height
+      const top = offset(rootRef.value).top
+      const bottom = top + props.height
 
-      if (bottom > containerTop && top < containerBottom) {
-        const percent = (containerBottom - top) / (this.height + containerHeight)
-        this.__setPos((this.mediaHeight - this.height) * percent * this.speed)
-        this.__update(percent)
+      if (observer !== void 0 || (bottom > containerTop && top < containerBottom)) {
+        const percent = (containerBottom - top) / (props.height + containerHeight)
+        setPos((mediaHeight - props.height) * percent * props.speed)
+        update(percent)
       }
-    },
-
-    __setPos (offset) {
-      // apply it immediately without any delay
-      this.media.style.transform = `translate3D(-50%,${Math.round(offset)}px, 0)`
     }
-  },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-parallax',
-      style: { height: `${this.height}px` },
-      on: this.$listeners
-    }, [
-      h('div', {
-        ref: 'mediaParent',
-        staticClass: 'q-parallax__media absolute-full'
-      }, this.$scopedSlots.media !== void 0 ? this.$scopedSlots.media() : [
-        h('img', {
-          ref: 'media',
-          attrs: {
-            src: this.src
-          }
+    let setPos = offset => {
+      // apply it immediately without any delay
+      mediaEl.style.transform = `translate3d(-50%,${ Math.round(offset) }px,0)`
+    }
+
+    function onResize () {
+      mediaHeight = mediaEl.naturalHeight || mediaEl.videoHeight || height(mediaEl)
+      isWorking === true && updatePos()
+    }
+
+    function start () {
+      isWorking = true
+      localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
+      localScrollTarget.addEventListener('scroll', updatePos, passive)
+      window.addEventListener('resize', resizeHandler, passive)
+      updatePos()
+    }
+
+    function stop () {
+      if (isWorking === true) {
+        isWorking = false
+        localScrollTarget.removeEventListener('scroll', updatePos, passive)
+        window.removeEventListener('resize', resizeHandler, passive)
+        localScrollTarget = void 0
+        setPos.cancel()
+        update.cancel()
+        resizeHandler.cancel()
+      }
+    }
+
+    onMounted(() => {
+      setPos = frameDebounce(setPos)
+      update = frameDebounce(update)
+      resizeHandler = frameDebounce(onResize)
+
+      mediaEl = slots.media !== void 0
+        ? mediaParentRef.value.children[ 0 ]
+        : mediaRef.value
+
+      mediaEl.onload = mediaEl.onloadstart = mediaEl.loadedmetadata = onResize
+      onResize()
+      mediaEl.style.display = 'initial'
+
+      if (window.IntersectionObserver !== void 0) {
+        observer = new IntersectionObserver(entries => {
+          const fn = entries[ 0 ].isIntersecting === true ? start : stop
+          fn()
         })
-      ]),
 
-      h(
-        'div',
-        { staticClass: 'q-parallax__content absolute-full column flex-center' },
-        this.$scopedSlots.content !== void 0
-          ? this.$scopedSlots.content({ percentScrolled: this.percentScrolled })
-          : slot(this, 'default')
-      )
-    ])
-  },
+        observer.observe(rootRef.value)
+      }
+      else {
+        start()
+      }
+    })
 
-  beforeMount () {
-    this.__setPos = frameDebounce(this.__setPos)
-  },
+    onBeforeUnmount(() => {
+      stop()
+      observer !== void 0 && observer.disconnect()
+      mediaEl.onload = mediaEl.onloadstart = mediaEl.loadedmetadata = null
+    })
 
-  mounted () {
-    this.__update = frameDebounce(this.__update)
-    this.resizeHandler = frameDebounce(this.__onResize)
+    return () => {
+      return h('div', {
+        ref: rootRef,
+        class: 'q-parallax',
+        style: { height: `${ props.height }px` }
+      }, [
+        h('div', {
+          ref: mediaParentRef,
+          class: 'q-parallax__media absolute-full'
+        }, slots.media !== void 0 ? slots.media() : [
+          h('img', {
+            ref: mediaRef,
+            src: props.src
+          })
+        ]),
 
-    this.media = this.$scopedSlots.media !== void 0
-      ? this.$refs.mediaParent.children[0]
-      : this.$refs.media
-
-    this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
-
-    this.scrollTarget = getScrollTarget(this.$el)
-
-    window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
-    this.scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
-
-    this.__onResize()
-  },
-
-  beforeDestroy () {
-    window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
-    this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
-    this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null
+        h(
+          'div',
+          { class: 'q-parallax__content absolute-full column flex-center' },
+          slots.content !== void 0
+            ? slots.content({ percentScrolled: percentScrolled.value })
+            : hSlot(slots.default)
+        )
+      ])
+    }
   }
 })

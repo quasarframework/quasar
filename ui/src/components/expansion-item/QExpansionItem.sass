@@ -1,0 +1,72 @@
+.q-expansion-item
+
+  &__border
+    opacity: 0
+
+
+  &__toggle-icon
+    position: relative
+    transition: transform .3s
+
+    &--rotated
+      transform: rotate(180deg)
+
+  &__toggle-focus
+    width: 1em !important
+    height: 1em !important
+    position: relative !important
+
+    & + .q-expansion-item__toggle-icon
+      margin-top: -1em
+
+  &--standard
+    &.q-expansion-item--expanded
+      > div > .q-expansion-item__border
+        opacity: 1
+
+  &--popup
+    transition: padding .5s
+
+    > .q-expansion-item__container
+      border: 1px solid $separator-color
+      > .q-separator
+        display: none
+
+    &.q-expansion-item
+
+      &--collapsed
+        padding: 0 15px
+      &--expanded
+        padding: 15px 0
+
+        & + &
+          padding-top: 0
+
+    &.q-expansion-item--collapsed:not(:first-child)
+      > .q-expansion-item__container
+        border-top-width: 0
+
+    &.q-expansion-item--expanded + &.q-expansion-item--collapsed
+      > .q-expansion-item__container
+        border-top-width: 1px
+
+  &__content > .q-card
+    box-shadow: none
+    border-radius: 0
+
+  &:first-child > div > .q-expansion-item__border--top
+    opacity: 0
+  &:last-child > div > .q-expansion-item__border--bottom
+    opacity: 0
+
+  &--expanded + &--expanded
+    > div > .q-expansion-item__border--top
+      opacity: 0
+
+  &--expanded .q-textarea--autogrow textarea
+    animation: q-expansion-done 0s
+
+/* needed for compilation */
+@keyframes q-expansion-done
+  0%
+    --q-exp-done: 1

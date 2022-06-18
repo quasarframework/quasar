@@ -49,6 +49,10 @@ Use flexbox alignment utilities to vertically and horizontally align columns.
 
 <doc-example title="Vertical alignment" file="grid/ColumnVerticalAlignment" />
 
+::: tip
+There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
+:::
+
 ### Wrapping
 If more than 12 columns are placed within a single row, each group of extra columns will, as one unit, wrap onto a new line.
 
@@ -68,4 +72,4 @@ To nest your content with the default grid, add a new `.row` and set of `.col-sm
 ## Flex Grid Playground
 To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
-<q-btn push color="primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
+<q-btn push color="brand-primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

@@ -1,6 +1,6 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/badge"
   },
 
   "props": {
@@ -20,8 +20,8 @@
 
     "transparent": {
       "type": "Boolean",
-      "desc": "Applies a 0.8 opacity; Useful especially for floating QBagde",
-      "category": "content"
+      "desc": "Applies a 0.8 opacity; Useful especially for floating QBadge",
+      "category": "style"
     },
 
     "multi-line": {
@@ -42,6 +42,18 @@
       "desc": "Sets vertical-align CSS prop",
       "values": [ "top", "middle", "bottom" ],
       "category": "content"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design (colored text and borders only)",
+      "category": "style"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Makes a rounded shaped badge",
+      "category": "style"
     }
   },
 

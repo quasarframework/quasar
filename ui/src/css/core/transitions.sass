@@ -1,7 +1,8 @@
-$transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
+// should not need this, but it's good as fallback
+\:root
+  --q-transition-duration: .3s
 
 .q-transition
-
   &--slide-right,
   &--slide-left,
   &--slide-up,
@@ -14,98 +15,106 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--scale,
   &--rotate,
   &--flip
-
+    &-enter-active,
+    &-leave-active
+      --q-transition-duration: .3s
+      --q-transition-easing: cubic-bezier(0.215,0.61,0.355,1)
     &-leave-active
       position: absolute
-
 
   &--slide-right,
   &--slide-left,
   &--slide-up,
   &--slide-down
-
-    &-enter-active, &-leave-active
-      transition: transform .3s $transition-easing
+    &-enter-active,
+    &-leave-active
+      transition: transform var(--q-transition-duration) var(--q-transition-easing)
 
   &--slide-right
-    &-enter
+    &-enter-from
       transform: translate3d(-100%, 0, 0)
     &-leave-to
       transform: translate3d(100%, 0, 0)
 
   &--slide-left
-    &-enter
+    &-enter-from
       transform: translate3d(100%, 0, 0)
     &-leave-to
       transform: translate3d(-100%, 0, 0)
 
   &--slide-up
-    &-enter
+    &-enter-from
       transform: translate3d(0, 100%, 0)
     &-leave-to
       transform: translate3d(0, -100%, 0)
 
   &--slide-down
-    &-enter
+    &-enter-from
       transform: translate3d(0, -100%, 0)
     &-leave-to
       transform: translate3d(0, 100%, 0)
-
 
   &--jump-right,
   &--jump-left,
   &--jump-up,
   &--jump-down
-
-    &-enter-active, &-leave-active
-      transition: opacity .3s, transform .3s
-    &-enter, &-leave-to
+    &-enter-active,
+    &-leave-active
+      transition: opacity var(--q-transition-duration), transform var(--q-transition-duration)
+    &-enter-from,
+    &-leave-to
       opacity: 0
 
   &--jump-right
-    &-enter
+    &-enter-from
       transform: translate3d(-15px, 0, 0)
     &-leave-to
       transform: translate3d(15px, 0, 0)
 
   &--jump-left
-    &-enter
+    &-enter-from
       transform: translate3d(15px, 0, 0)
     &-leave-to
       transform: translateX(-15px)
 
   &--jump-up
-    &-enter
+    &-enter-from
       transform: translate3d(0, 15px, 0)
     &-leave-to
       transform: translate3d(0, -15px, 0)
 
   &--jump-down
-    &-enter
+    &-enter-from
       transform: translate3d(0, -15px, 0)
     &-leave-to
       transform: translate3d(0, 15px, 0)
 
 
   &--fade
-    &-enter-active, &-leave-active
-      transition: opacity .3s ease-out
-    &-enter, &-leave, &-leave-to
+    &-enter-active,
+    &-leave-active
+      transition: opacity var(--q-transition-duration) ease-out
+    &-enter-from,
+    &-leave-to
       opacity: 0
 
 
   &--scale
-    &-enter-active, &-leave-active
-      transition: opacity .3s, transform .3s $transition-easing
-    &-enter, &-leave, &-leave-to
+    &-enter-active,
+    &-leave-active
+      transition: opacity var(--q-transition-duration), transform var(--q-transition-duration) var(--q-transition-easing)
+    &-enter-from,
+    &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1)
 
   &--rotate
-    &-enter-active, &-leave-active
-      transition: opacity .3s, transform .3s $transition-easing
+    &-enter-active,
+    &-leave-active
+      transition: opacity var(--q-transition-duration), transform var(--q-transition-duration) var(--q-transition-easing)
       transform-style: preserve-3d
-    &-enter, &-leave, &-leave-to
+    &-enter-from,
+    &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1) rotate3d(0, 0, 1, 90deg)
 
@@ -113,33 +122,34 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--flip-left,
   &--flip-up,
   &--flip-down
-
-    &-enter-active, &-leave-active
-      transition: transform .3s
+    &-enter-active,
+    &-leave-active
+      transition: transform var(--q-transition-duration)
       backface-visibility: hidden
-    &-enter-to, &-leave
+    &-enter-to,
+    &-leave-from
       transform: perspective(400px) rotate3d(1, 1, 0, 0deg)
 
   &--flip-right
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(0, 1, 0, -180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(0, 1, 0, 180deg)
 
   &--flip-left
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(0, 1, 0, 180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(0, 1, 0, -180deg)
 
   &--flip-up
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(1, 0, 0, -180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(1, 0, 0, 180deg)
 
   &--flip-down
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(1, 0, 0, 180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(1, 0, 0, -180deg)

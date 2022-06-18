@@ -1,81 +1,51 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import CheckboxMixin from '../../mixins/checkbox.js'
 import QIcon from '../icon/QIcon.js'
-import slot from '../../utils/slot.js'
 
-export default Vue.extend({
+import useCheckbox, { useCheckboxProps, useCheckboxEmits } from '../checkbox/use-checkbox.js'
+
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QToggle',
 
-  mixins: [ CheckboxMixin ],
-
   props: {
+    ...useCheckboxProps,
+
     icon: String,
-    checkedIcon: String,
-    uncheckedIcon: String
+    iconColor: String
   },
 
-  computed: {
-    classes () {
-      return {
-        'disabled': this.disable,
-        'q-toggle--dark': this.dark,
-        'q-toggle--dense': this.dense,
-        'reverse': this.leftLabel
-      }
-    },
+  emits: useCheckboxEmits,
 
-    innerClass () {
-      if (this.isTrue === true) {
-        return 'q-toggle__inner--active' +
-          (this.color !== void 0 ? ' text-' + this.color : '')
-      }
-      else if (this.keepColor === true && this.color !== void 0) {
-        return 'text-' + this.color
-      }
-    },
+  setup (props) {
+    function getInner (isTrue, isIndeterminate) {
+      const icon = computed(() =>
+        (isTrue.value === true
+          ? props.checkedIcon
+          : (isIndeterminate.value === true ? props.indeterminateIcon : props.uncheckedIcon)
+        ) || props.icon
+      )
 
-    computedIcon () {
-      return (this.isTrue === true ? this.checkedIcon : this.uncheckedIcon) || this.icon
+      const color = computed(() => (isTrue.value === true ? props.iconColor : null))
+
+      return () => [
+        h('div', { class: 'q-toggle__track' }),
+
+        h('div', {
+          class: 'q-toggle__thumb absolute flex flex-center no-wrap'
+        }, icon.value !== void 0
+          ? [
+              h(QIcon, {
+                name: icon.value,
+                color: color.value
+              })
+            ]
+          : void 0
+        )
+      ]
     }
-  },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
-      class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
-      on: {
-        click: this.toggle,
-        keydown: this.__keyDown
-      }
-    }, [
-      h('div', {
-        staticClass: 'q-toggle__inner relative-position',
-        class: this.innerClass
-      }, [
-        this.disable !== true
-          ? h('input', {
-            staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
-            attrs: { type: 'toggle' },
-            on: { change: this.toggle }
-          })
-          : null,
-
-        h('div', { staticClass: 'q-toggle__track' }),
-        h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [
-          h('div', {
-            staticClass: 'q-toggle__thumb row flex-center'
-          }, this.computedIcon !== void 0
-            ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
-            : null
-          )
-        ])
-      ]),
-
-      h('div', {
-        staticClass: 'q-toggle__label q-anchor--skip'
-      }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
-    ])
+    return useCheckbox('toggle', getInner)
   }
 })

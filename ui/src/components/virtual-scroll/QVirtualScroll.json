@@ -1,5 +1,9 @@
 {
-  "mixins": [ "mixins/virtual-scroll" ],
+  "mixins": [ "components/virtual-scroll/use-virtual-scroll" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/virtual-scroll"
+  },
 
   "props": {
     "type": {
@@ -22,11 +26,11 @@
     },
 
     "items-size": {
-      "type": [ "String", "Number"],
+      "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
       "default": "void 0",
       "examples": [
-        "items-size=\"100000\"",
+        ":items-size=\"100000\"",
         ":items-size=\"500\""
       ],
       "category": "content"
@@ -34,7 +38,7 @@
 
     "items-fn": {
       "type": "Function",
-      "desc": "Function to return the scope for the items to be displayed; Should return an array for items starting from 'from' index for size length",
+      "desc": "Function to return the scope for the items to be displayed; Should return an array for items starting from 'from' index for size length; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "from": {
           "type": "Number",
@@ -59,13 +63,22 @@
     },
 
     "scroll-target": {
-      "type": [ "Element", "String" ],
-      "desc": "CSS selector or DOM element to be used as scroll container instead of the component's own container",
-      "examples": [
-        ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\"body\""
-      ],
-      "category": "behavior"
+      "extends": "scroll-target"
+    }
+  },
+
+  "events": {
+    "virtual-scroll": {
+      "params": {
+        "details": {
+          "definition": {
+            "ref": {
+              "tsType": "QVirtualScroll",
+              "desc": "Vue reference to the QVirtualScroll"
+            }
+          }
+        }
+      }
     }
   },
 
@@ -76,10 +89,8 @@
 
     "after": {
       "desc": "Template slot for the elements that should be rendered after the list; Suggestion: tfoot after a table"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "default": {
       "desc": "Template slot for defining the list item; Suggestion: QItem",
       "scope": {

@@ -1,44 +1,47 @@
-import Vue from 'vue'
+import { h } from 'vue'
 
-import CanRenderMixin from '../../mixins/can-render.js'
-import slot from '../../utils/slot.js'
+import useCanRender from '../../composables/private/use-can-render.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
+
+export default createComponent({
   name: 'QNoSsr',
-
-  mixins: [ CanRenderMixin ],
 
   props: {
     tag: {
       type: String,
       default: 'div'
     },
+
     placeholder: String
   },
 
-  render (h) {
-    if (this.canRender === true) {
-      const node = slot(this, 'default')
-      return node === void 0
-        ? node
-        : (node.length > 1 ? h(this.tag, node) : node[0])
-    }
+  setup (props, { slots }) {
+    const canRender = useCanRender()
 
-    if (this.$scopedSlots.placeholder !== void 0) {
-      const node = slot(this, 'placeholder')
-      return node === void 0
-        ? node
-        : (
-          node.length > 1
-            ? h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, node)
-            : node[0]
-        )
-    }
+    return () => {
+      const data = {}
 
-    if (this.placeholder !== void 0) {
-      return h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, [
-        this.placeholder
-      ])
+      if (canRender.value === true) {
+        const node = hSlot(slots.default)
+        return node === void 0
+          ? node
+          : (node.length > 1 ? h(props.tag, data, node) : node[ 0 ])
+      }
+
+      data.class = 'q-no-ssr-placeholder'
+
+      const node = hSlot(slots.placeholder)
+      if (node !== void 0) {
+        return node.length > 1
+          ? h(props.tag, data, node)
+          : node[ 0 ]
+      }
+
+      if (props.placeholder !== void 0) {
+        return h(props.tag, data, props.placeholder)
+      }
     }
   }
 })

@@ -1,10 +1,8 @@
-const
-  fs = require('fs'),
-  { join } = require('path'),
-  spawn = require('cross-spawn').sync
+const fs = require('fs')
+const { join } = require('path')
+const spawn = require('cross-spawn').sync
 
-const
-  { fatal } = require('./logger')
+const { fatal } = require('./logger')
 
 function isInstalled (cmd) {
   try {

@@ -1,5 +1,9 @@
 {
-  "mixins": [ "utils/global-dialog" ],
+  "mixins": [ "utils/private/global-dialog" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/bottom-sheet"
+  },
 
   "injection": "$q.bottomSheet",
 
@@ -29,6 +33,7 @@
               "definition": {
                 "classes": {
                   "type": [ "String", "Array", "Object" ],
+                  "tsType": "VueClassProp",
                   "desc": "CSS classes for this action",
                   "examples": [ "my-class" ]
                 },
@@ -41,7 +46,7 @@
                   "type": "String",
                   "desc": "Path to an image for this action",
                   "examples": [
-                    "(statics folder) statics/img/something.png",
+                    "(public folder) img/something.png",
                     "(relative path format) :src=\"require('./my_img.jpg')\"",
                     "(URL) https://some-site.net/some-img.gif"
                   ]
@@ -56,6 +61,12 @@
                   "type": [ "String", "Number" ],
                   "desc": "Action label",
                   "examples": [ "Facebook" ]
+                },
+
+                "...": {
+                  "type": "Any",
+                  "desc": "Any other custom props",
+                  "__exemption": [ "examples" ]
                 }
               }
             },

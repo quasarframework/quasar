@@ -16,11 +16,13 @@ export namespace colors {
   function rgbToHex(rgb: colorsRgba): string;
   // function rgbToString (color: colorsRgba): string;
   function hexToRgb(hex: string): colorsRgba;
-  function hsvToRgb(hsv: colorsHsva) : colorsRgba;
-  function rgbToHsv(rgb: colorsRgba) : colorsHsva;
-  function textToRgb(color: string) : colorsRgba;
-  function lighten(color: string, percent: number) : string;
-  function luminosity(color: string | colorsRgba) : number;
-  function setBrand(color: string, value: string, element?: Element) : void;
-  function getBrand(color: string, element?: Element) : string;
+  function hsvToRgb(hsv: colorsHsva): colorsRgba;
+  function rgbToHsv(rgb: colorsRgba): colorsHsva;
+  function textToRgb(color: string): colorsRgba;
+  function lighten(color: string, percent: number): string;
+  function luminosity(color: string | colorsRgba): number;
+  function brightness(color: string | colorsRgba): number;
+  function blend(fgColor: string | colorsRgba, bColor: string | colorsRgba): string;
+  function changeAlpha(color: string, offset: number): string;
+  function getPaletteColor(colorName: string): string;
 }

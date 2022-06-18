@@ -1,296 +1,412 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
 
-import QField from '../field/QField.js'
+import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
+import useMask, { useMaskProps } from './use-mask.js'
+import { useFormProps, useFormInputNameAttr } from '../../composables/private/use-form.js'
+import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
+import useKeyComposition from '../../composables/private/use-key-composition.js'
 
-import MaskMixin from '../../mixins/mask.js'
-import debounce from '../../utils/debounce.js'
+import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default Vue.extend({
+export default createComponent({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin ],
+  inheritAttrs: false,
 
   props: {
-    value: { required: false },
+    ...useFieldProps,
+    ...useMaskProps,
+    ...useFormProps,
+
+    modelValue: { required: false },
+
+    shadowText: String,
 
     type: {
       type: String,
       default: 'text'
     },
 
-    debounce: [String, Number],
+    debounce: [ String, Number ],
 
-    maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
 
-    inputClass: [Array, String, Object],
-    inputStyle: [Array, String, Object]
+    inputClass: [ Array, String, Object ],
+    inputStyle: [ Array, String, Object ]
   },
 
-  watch: {
-    value (v) {
-      if (this.hasMask === true) {
-        if (this.stopValueWatcher === true) {
-          this.stopValueWatcher = false
-          return
+  emits: [
+    ...useFieldEmits,
+    'paste', 'change'
+  ],
+
+  setup (props, { emit, attrs }) {
+    const temp = {}
+    let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer, emitValueFn
+
+    const inputRef = ref(null)
+    const nameProp = useFormInputNameAttr(props)
+
+    const {
+      innerValue,
+      hasMask,
+      moveCursorForPaste,
+      updateMaskValue,
+      onMaskedKeydown
+    } = useMask(props, emit, emitValue, inputRef)
+
+    const formDomProps = useFileFormDomProps(props, /* type guard */ true)
+    const hasValue = computed(() => fieldValueIsFilled(innerValue.value))
+
+    const onComposition = useKeyComposition(onInput)
+
+    const state = useFieldState()
+
+    const isTextarea = computed(() =>
+      props.type === 'textarea' || props.autogrow === true
+    )
+
+    const isTypeText = computed(() =>
+      isTextarea.value === true
+      || [ 'text', 'search', 'url', 'tel', 'password' ].includes(props.type)
+    )
+
+    const onEvents = computed(() => {
+      const evt = {
+        ...state.splitAttrs.listeners.value,
+        onInput,
+        onPaste,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        onChange,
+        onBlur: onFinishEditing,
+        onFocus: stop
+      }
+
+      evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = onComposition
+
+      if (hasMask.value === true) {
+        evt.onKeydown = onMaskedKeydown
+      }
+
+      if (props.autogrow === true) {
+        evt.onAnimationend = adjustHeight
+      }
+
+      return evt
+    })
+
+    const inputAttrs = computed(() => {
+      const attrs = {
+        tabindex: 0,
+        'data-autofocus': props.autofocus === true || void 0,
+        rows: props.type === 'textarea' ? 6 : void 0,
+        'aria-label': props.label,
+        name: nameProp.value,
+        ...state.splitAttrs.attributes.value,
+        id: state.targetUid.value,
+        maxlength: props.maxlength,
+        disabled: props.disable === true,
+        readonly: props.readonly === true
+      }
+
+      if (isTextarea.value === false) {
+        attrs.type = props.type
+      }
+
+      if (props.autogrow === true) {
+        attrs.rows = 1
+      }
+
+      return attrs
+    })
+
+    // some browsers lose the native input value
+    // so we need to reattach it dynamically
+    // (like type="password" <-> type="text"; see #12078)
+    watch(() => props.type, () => {
+      if (inputRef.value) {
+        inputRef.value.value = props.modelValue
+      }
+    })
+
+    watch(() => props.modelValue, v => {
+      if (hasMask.value === true) {
+        if (stopValueWatcher === true) {
+          stopValueWatcher = false
+
+          if (String(v) === emitCachedValue) {
+            return
+          }
         }
 
-        this.__updateMaskValue(v)
+        updateMaskValue(v)
       }
-      else if (this.innerValue !== v) {
-        this.innerValue = v
+      else if (innerValue.value !== v) {
+        innerValue.value = v
 
         if (
-          this.type === 'number' &&
-          this.hasOwnProperty('tempValue') === true
+          props.type === 'number'
+          && temp.hasOwnProperty('value') === true
         ) {
-          if (this.typedNumber === true) {
-            this.typedNumber = false
+          if (typedNumber === true) {
+            typedNumber = false
           }
           else {
-            delete this.tempValue
+            delete temp.value
           }
         }
       }
 
       // textarea only
-      this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
-    },
+      props.autogrow === true && nextTick(adjustHeight)
+    })
 
-    autogrow (autogrow) {
+    watch(() => props.autogrow, val => {
       // textarea only
-      if (autogrow === true) {
-        this.$nextTick(this.__adjustHeightDebounce)
+      if (val === true) {
+        nextTick(adjustHeight)
       }
       // if it has a number of rows set respect it
-      else if (this.$attrs.rows > 0 && this.$refs.input !== void 0) {
-        const inp = this.$refs.input
-        inp.style.height = 'auto'
+      else if (inputRef.value !== null && attrs.rows > 0) {
+        inputRef.value.style.height = 'auto'
       }
-    },
+    })
 
-    dense () {
-      this.autogrow === true && this.$nextTick(this.__adjustHeight)
+    watch(() => props.dense, () => {
+      props.autogrow === true && nextTick(adjustHeight)
+    })
+
+    function focus () {
+      addFocusFn(() => {
+        const el = document.activeElement
+        if (
+          inputRef.value !== null
+          && inputRef.value !== el
+          && (el === null || el.id !== state.targetUid.value)
+        ) {
+          inputRef.value.focus({ preventScroll: true })
+        }
+      })
     }
-  },
 
-  data () {
-    return { innerValue: this.__getInitialMaskedValue() }
-  },
-
-  computed: {
-    isTextarea () {
-      return this.type === 'textarea' || this.autogrow === true
-    },
-
-    fieldClass () {
-      return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
-        (this.autogrow === true ? ' q-textarea--autogrow' : '')
+    function select () {
+      inputRef.value !== null && inputRef.value.select()
     }
-  },
 
-  methods: {
-    focus () {
-      const el = document.activeElement
-      if (
-        this.$refs.input !== void 0 &&
-        this.$refs.input !== el &&
-        // IE can have null document.activeElement
-        (el === null || el.id !== this.targetUid)
-      ) {
-        this.$refs.input.focus()
+    function onPaste (e) {
+      if (hasMask.value === true && props.reverseFillMask !== true) {
+        const inp = e.target
+        moveCursorForPaste(inp, inp.selectionStart, inp.selectionEnd)
       }
-    },
 
-    select () {
-      this.$refs.input !== void 0 && this.$refs.input.select()
-    },
+      emit('paste', e)
+    }
 
-    __onInput (e) {
-      if (e && e.target && e.target.composing === true) {
+    function onInput (e) {
+      if (!e || !e.target || e.target.qComposing === true) {
         return
       }
 
-      if (this.type === 'file') {
-        this.$emit('input', e.target.files)
+      if (props.type === 'file') {
+        emit('update:modelValue', e.target.files)
         return
       }
 
       const val = e.target.value
 
-      if (this.hasMask === true) {
-        this.__updateMaskValue(val)
+      if (hasMask.value === true) {
+        updateMaskValue(val, false, e.inputType)
       }
       else {
-        this.__emitValue(val)
+        emitValue(val)
+
+        if (isTypeText.value === true && e.target === document.activeElement) {
+          const { selectionStart, selectionEnd } = e.target
+
+          if (selectionStart !== void 0 && selectionEnd !== void 0) {
+            nextTick(() => {
+              if (e.target === document.activeElement && val.indexOf(e.target.value) === 0) {
+                e.target.setSelectionRange(selectionStart, selectionEnd)
+              }
+            })
+          }
+        }
       }
 
       // we need to trigger it immediately too,
       // to avoid "flickering"
-      this.autogrow === true && this.__adjustHeight()
-    },
+      props.autogrow === true && adjustHeight()
+    }
 
-    __emitValue (val, stopWatcher) {
-      this.emitValueFn = () => {
+    function emitValue (val, stopWatcher) {
+      emitValueFn = () => {
         if (
-          this.type !== 'number' &&
-          this.hasOwnProperty('tempValue') === true
+          props.type !== 'number'
+          && temp.hasOwnProperty('value') === true
         ) {
-          delete this.tempValue
+          delete temp.value
         }
 
-        if (this.value !== val) {
-          stopWatcher === true && (this.stopValueWatcher = true)
-          this.$emit('input', val)
+        if (props.modelValue !== val && emitCachedValue !== val) {
+          emitCachedValue = val
+
+          stopWatcher === true && (stopValueWatcher = true)
+          emit('update:modelValue', val)
+
+          nextTick(() => {
+            emitCachedValue === val && (emitCachedValue = NaN)
+          })
         }
 
-        this.emitValueFn = void 0
+        emitValueFn = void 0
       }
 
-      if (this.type === 'number') {
-        this.typedNumber = true
-        this.tempValue = val
+      if (props.type === 'number') {
+        typedNumber = true
+        temp.value = val
       }
 
-      if (this.debounce !== void 0) {
-        clearTimeout(this.emitTimer)
-        this.tempValue = val
-        this.emitTimer = setTimeout(this.emitValueFn, this.debounce)
+      if (props.debounce !== void 0) {
+        clearTimeout(emitTimer)
+        temp.value = val
+        emitTimer = setTimeout(emitValueFn, props.debounce)
       }
       else {
-        this.emitValueFn()
+        emitValueFn()
       }
-    },
+    }
 
     // textarea only
-    __adjustHeight () {
-      const inp = this.$refs.input
-      if (inp !== void 0) {
+    function adjustHeight () {
+      const inp = inputRef.value
+      if (inp !== null) {
         const parentStyle = inp.parentNode.style
+        const { overflow } = inp.style
 
         // reset height of textarea to a small size to detect the real height
         // but keep the total control size the same
         parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
+        inp.style.overflow = 'hidden'
 
         inp.style.height = inp.scrollHeight + 'px'
+        inp.style.overflow = overflow
         parentStyle.marginBottom = ''
       }
-    },
+    }
 
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
+    function onChange (e) {
+      onComposition(e)
 
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
+      clearTimeout(emitTimer)
+      emitValueFn !== void 0 && emitValueFn()
 
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
+      emit('change', e.target.value)
+    }
 
-      this.__onInput(e)
-    },
-
-    __onChange (e) {
-      this.__onCompositionEnd(e)
-
-      clearTimeout(this.emitTimer)
-      this.emitValueFn !== void 0 && this.emitValueFn()
-
-      this.$emit('change', e)
-    },
-
-    __onFinishEditing (e) {
+    function onFinishEditing (e) {
       e !== void 0 && stop(e)
 
-      clearTimeout(this.emitTimer)
-      this.emitValueFn !== void 0 && this.emitValueFn()
+      clearTimeout(emitTimer)
+      emitValueFn !== void 0 && emitValueFn()
 
-      this.typedNumber = false
-      this.stopValueWatcher = false
-      delete this.tempValue
+      typedNumber = false
+      stopValueWatcher = false
+      delete temp.value
 
-      this.type !== 'file' && this.$nextTick(() => {
-        if (this.$refs.input !== void 0) {
-          this.$refs.input.value = this.innerValue
+      // we need to use setTimeout instead of this.$nextTick
+      // to avoid a bug where focusout is not emitted for type date/time/week/...
+      props.type !== 'file' && setTimeout(() => {
+        if (inputRef.value !== null) {
+          inputRef.value.value = innerValue.value !== void 0 ? innerValue.value : ''
         }
       })
-    },
-
-    __getControl (h) {
-      const on = {
-        ...this.$listeners,
-        input: this.__onInput,
-        // Safari < 10.2 & UIWebView doesn't fire compositionend when
-        // switching focus before confirming composition choice
-        // this also fixes the issue where some browsers e.g. iOS Chrome
-        // fires "change" instead of "input" on autocomplete.
-        change: this.__onChange,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
-        blur: this.__onFinishEditing,
-        focus: stop
-      }
-
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
-      }
-
-      if (this.hasMask === true) {
-        on.keydown = this.__onMaskedKeydown
-      }
-
-      const attrs = {
-        tabindex: 0,
-        autofocus: this.autofocus,
-        rows: this.type === 'textarea' ? 6 : void 0,
-        'aria-label': this.label,
-        ...this.$attrs,
-        id: this.targetUid,
-        type: this.type,
-        maxlength: this.maxlength,
-        disabled: this.disable === true,
-        readonly: this.readonly === true
-      }
-
-      if (this.autogrow === true) {
-        attrs.rows = 1
-      }
-
-      return h(this.isTextarea === true ? 'textarea' : 'input', {
-        ref: 'input',
-        staticClass: 'q-field__native q-placeholder',
-        style: this.inputStyle,
-        class: this.inputClass,
-        attrs,
-        on,
-        domProps: this.type !== 'file'
-          ? {
-            value: this.hasOwnProperty('tempValue') === true
-              ? this.tempValue
-              : this.innerValue
-          }
-          : null
-      })
     }
-  },
 
-  created () {
-    // textarea only
-    this.__adjustHeightDebounce = debounce(this.__adjustHeight, 100)
-  },
+    function getCurValue () {
+      return temp.hasOwnProperty('value') === true
+        ? temp.value
+        : (innerValue.value !== void 0 ? innerValue.value : '')
+    }
 
-  mounted () {
-    // textarea only
-    this.autogrow === true && this.__adjustHeight()
-  },
+    onBeforeUnmount(() => {
+      onFinishEditing()
+    })
 
-  beforeDestroy () {
-    this.__onFinishEditing()
+    onMounted(() => {
+      // textarea only
+      props.autogrow === true && adjustHeight()
+    })
+
+    Object.assign(state, {
+      innerValue,
+
+      fieldClass: computed(() =>
+        `q-${ isTextarea.value === true ? 'textarea' : 'input' }`
+        + (props.autogrow === true ? ' q-textarea--autogrow' : '')
+      ),
+
+      hasShadow: computed(() =>
+        props.type !== 'file'
+        && typeof props.shadowText === 'string'
+        && props.shadowText.length > 0
+      ),
+
+      inputRef,
+
+      emitValue,
+
+      hasValue,
+
+      floatingLabel: computed(() =>
+        hasValue.value === true
+        || fieldValueIsFilled(props.displayValue)
+      ),
+
+      getControl: () => {
+        return h(isTextarea.value === true ? 'textarea' : 'input', {
+          ref: inputRef,
+          class: [
+            'q-field__native q-placeholder',
+            props.inputClass
+          ],
+          style: props.inputStyle,
+          ...inputAttrs.value,
+          ...onEvents.value,
+          ...(
+            props.type !== 'file'
+              ? { value: getCurValue() }
+              : formDomProps.value
+          )
+        })
+      },
+
+      getShadowControl: () => {
+        return h('div', {
+          class: 'q-field__native q-field__shadow absolute-bottom no-pointer-events'
+            + (isTextarea.value === true ? '' : ' text-no-wrap')
+        }, [
+          h('span', { class: 'invisible' }, getCurValue()),
+          h('span', props.shadowText)
+        ])
+      }
+    })
+
+    const renderFn = useField(state)
+
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, {
+      focus,
+      select,
+      getNativeElement: () => inputRef.value
+    })
+
+    return renderFn
   }
 })

@@ -1,15 +1,18 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/scroll-fire"
+  },
+
   "value": {
     "type": "Function",
-    "desc": "Function to call when scrolling and element comes into the viewport",
+    "desc": "Function to call when scrolling and element comes into the viewport (use a non-function to disable)",
     "params": {
       "el": {
-        "type": "Object",
-        "desc": "DOM element that scroll-fire is applied to",
-        "__exemption": [ "examples" ]
+        "type": "Element",
+        "desc": "DOM element that scroll-fire is applied to"
       }
     },
     "returns": null,
-    "examples": [ "v-scroll-fire=\"fnToCall\"" ]
+    "examples": [ "v-scroll-fire=\"fnToCall\"", "v-scroll-fire=\"void 0\"" ]
   }
 }

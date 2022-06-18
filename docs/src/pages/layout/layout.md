@@ -1,13 +1,14 @@
 ---
 title: Layout
 desc: How to use the QLayout component. Manages the whole window of your Quasar app.
+keys: QLayout
 related:
   - /layout/header-and-footer
   - /layout/drawer
   - /layout/page
   - /layout/page-sticky
   - /layout/page-scroller
-  - /layout/floating-action-button
+  - /vue-components/floating-action-button
 components:
   - layout/ViewProp
   - layout/ViewPlay
@@ -16,25 +17,23 @@ The QLayout is a component designed to manage the entire window and wrap page co
 
 **QLayout is NOT mandatory**, but it does help you to better structure your website/app. It has a number of features which offer you major benefits in simplifying your website/app's layout design, right out of the box.
 
-## Installation
-In the card below we're installing all Quasar components related to a QLayout, but **you should cherry-pick** only what you are using from this list. Only QLayout is required.
-
-<doc-installation :components="[ 'QLayout', 'QPageContainer', 'QPage', 'QHeader', 'QFooter',    'QDrawer', 'QPageSticky', 'QPageScroller' ]" />
+## QLayout API
+<doc-api file="QLayout" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
 ::: warning
-The Layout Builder might use components not already inserted into quasar.conf.js.
+The Layout Builder might use components not already inserted into quasar.config.js.
 
 You are likely going to need the following components - QLayout, QHeader, QToolbar, QToolbarTitle, QBtn, QAvatar, QTabs, QRouteTab, QDrawer, QPageContainer, QFooter.
 :::
 
 ::: tip
-Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.conf.js file.
+Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.config.js file.
 :::
 
-<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 
@@ -65,22 +64,19 @@ The letters shown above are also case sensitive. For example, using at least one
 
 <view-play />
 
-For example, if you want your layout's right side / drawer to be placed on the right of the header, page and footer, you'd use `hhr lpr ffr`. If you'd like to also make it fixed, just transform one `r` character to uppercase, like this: `hhr lpR ffr`, or `hhr lpR ffr` or `hhr lpR ffr`.
+For example, if you want your layout's right side / drawer to be placed on the right of the header, page and footer, you'd use `hhr lpr ffr`. If you'd like to also make it fixed, just transform one `r` character to uppercase, like this: `hhr lpR ffr`, or `hhR lpr ffr` or `hhr lpr ffR`.
 
 These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
 
-<q-btn push color="red" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="red" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ::: warning
-It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+* It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+* When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with  "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
 :::
 
 ### Containerized QLayout
 By default, QLayout is managing the entire window. However, you can also use QLayout as a container (with specific height and width) to isolate it somewhere in your pages.
-
-::: danger
-Not supported in IE11.
-:::
 
 ::: warning
 Please note that it **requires a CSS height (or min-height) being set explicitly**, otherwise it can't and it won't work.
@@ -91,6 +87,3 @@ In the example below, there is a containerized QLayout with drawers on each side
 <doc-example title="Containerized QLayout" file="QLayout/Container" />
 
 <doc-example title="In a QDialog" file="QLayout/ContainerDialog" />
-
-## QLayout API
-<doc-api file="QLayout" />

@@ -1,44 +1,58 @@
-import Vue from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
-import slot from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-export default Vue.extend({
+import { hSlot } from '../../utils/private/render.js'
+
+export default createComponent({
   name: 'QBanner',
 
   props: {
+    ...useDarkProps,
+
     inlineActions: Boolean,
     dense: Boolean,
     rounded: Boolean
   },
 
-  render (h) {
-    const actions = slot(this, 'action')
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-    return h('div', {
-      staticClass: 'q-banner row items-center',
-      class: {
-        'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
-        'q-banner--dense': this.dense,
-        'rounded-borders': this.rounded
-      },
-      on: this.$listeners
-    }, [
+    const classes = computed(() =>
+      'q-banner row items-center'
+      + (props.dense === true ? ' q-banner--dense' : '')
+      + (isDark.value === true ? ' q-banner--dark q-dark' : '')
+      + (props.rounded === true ? ' rounded-borders' : '')
+    )
 
-      h('div', {
-        staticClass: 'q-banner__avatar col-auto row items-center'
-      }, slot(this, 'avatar')),
+    const actionClass = computed(() =>
+      'q-banner__actions row items-center justify-end'
+      + ` col-${ props.inlineActions === true ? 'auto' : 'all' }`
+    )
 
-      h('div', {
-        staticClass: 'q-banner__content col text-body2'
-      }, slot(this, 'default')),
+    return () => {
+      const child = [
+        h('div', {
+          class: 'q-banner__avatar col-auto row items-center self-start'
+        }, hSlot(slots.avatar)),
 
-      actions !== void 0
-        ? h('div', {
-          staticClass: 'q-banner__actions row items-center justify-end',
-          class: this.inlineActions ? 'col-auto' : 'col-all'
-        }, actions)
-        : null
+        h('div', {
+          class: 'q-banner__content col text-body2'
+        }, hSlot(slots.default))
+      ]
 
-    ])
+      const actions = hSlot(slots.action)
+      actions !== void 0 && child.push(
+        h('div', { class: actionClass.value }, actions)
+      )
+
+      return h('div', {
+        class: classes.value
+          + (props.inlineActions === false && actions !== void 0 ? ' q-banner--top-padding' : ''),
+        role: 'alert'
+      }, child)
+    }
   }
 })

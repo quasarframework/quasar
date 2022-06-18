@@ -1,12 +1,11 @@
-import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { createDirective } from '../utils/private/create.js'
+import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
-function updateBinding (el, { value, oldValue }) {
-  const ctx = el.__qscroll
-
+function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    console.error('v-scroll requires a function as parameter', el)
     return
   }
 
@@ -16,43 +15,37 @@ function updateBinding (el, { value, oldValue }) {
   }
 }
 
-export default {
-  name: 'scroll',
+export default createDirective(__QUASAR_SSR_SERVER__
+  ? { name: 'scroll', getSSRProps }
+  : {
+      name: 'scroll',
 
-  bind (el) {
-    let ctx = {
-      scroll () {
-        ctx.handler(
-          getScrollPosition(ctx.scrollTarget),
-          getHorizontalScrollPosition(ctx.scrollTarget)
-        )
+      mounted (el, binding) {
+        const ctx = {
+          scrollTarget: getScrollTarget(el),
+          scroll () {
+            ctx.handler(
+              getVerticalScrollPosition(ctx.scrollTarget),
+              getHorizontalScrollPosition(ctx.scrollTarget)
+            )
+          }
+        }
+
+        update(ctx, binding)
+
+        el.__qscroll = ctx
+      },
+
+      updated (el, binding) {
+        if (el.__qscroll !== void 0 && binding.oldValue !== binding.value) {
+          update(el.__qscroll, binding)
+        }
+      },
+
+      beforeUnmount (el) {
+        const ctx = el.__qscroll
+        ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+        delete el.__qscroll
       }
     }
-
-    if (el.__qscroll) {
-      el.__qscroll_old = el.__qscroll
-    }
-
-    el.__qscroll = ctx
-  },
-
-  inserted (el, binding) {
-    let ctx = el.__qscroll
-    ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(el, binding)
-  },
-
-  update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding)
-    }
-  },
-
-  unbind (el) {
-    let ctx = el.__qscroll_old || el.__qscroll
-    if (ctx !== void 0) {
-      ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-      delete el[el.__qscroll_old ? '__qscroll_old' : '__qscroll']
-    }
-  }
-}
+)

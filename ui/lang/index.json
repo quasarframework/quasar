@@ -1,11 +1,23 @@
 [
   {
+    "isoName": "ar-TN",
+    "nativeName": "العربية (تونس)"
+  },
+  {
     "isoName": "ar",
     "nativeName": "العربية"
   },
   {
+    "isoName": "az-Latn",
+    "nativeName": "Azerbaijani (latin)"
+  },
+  {
     "isoName": "bg",
     "nativeName": "български език"
+  },
+  {
+    "isoName": "bn",
+    "nativeName": "বাংলা"
   },
   {
     "isoName": "ca",
@@ -28,11 +40,11 @@
     "nativeName": "ελληνικά"
   },
   {
-    "isoName": "en-gb",
+    "isoName": "en-GB",
     "nativeName": "English (UK)"
   },
   {
-    "isoName": "en-us",
+    "isoName": "en-US",
     "nativeName": "English (US)"
   },
   {
@@ -44,7 +56,19 @@
     "nativeName": "Español"
   },
   {
-    "isoName": "fa-ir",
+    "isoName": "et",
+    "nativeName": "Eesti"
+  },
+  {
+    "isoName": "eu",
+    "nativeName": "Euskara"
+  },
+  {
+    "isoName": "fa-IR",
+    "nativeName": "فارسی"
+  },
+  {
+    "isoName": "fa",
     "nativeName": "فارسی"
   },
   {
@@ -76,6 +100,10 @@
     "nativeName": "Bahasa Indonesia"
   },
   {
+    "isoName": "is",
+    "nativeName": "Íslenska"
+  },
+  {
     "isoName": "it",
     "nativeName": "Italiano"
   },
@@ -88,8 +116,20 @@
     "nativeName": "ខ្មែរ"
   },
   {
-    "isoName": "ko-kr",
+    "isoName": "ko-KR",
     "nativeName": "한국어"
+  },
+  {
+    "isoName": "kur-CKB",
+    "nativeName": "کوردی سۆرانی"
+  },
+  {
+    "isoName": "kz",
+    "nativeName": "Қазақша"
+  },
+  {
+    "isoName": "lt",
+    "nativeName": "Lithuanian"
   },
   {
     "isoName": "lu",
@@ -104,11 +144,19 @@
     "nativeName": "മലയാളം"
   },
   {
+    "isoName": "mm",
+    "nativeName": "မြန်မာ(ဗမာ)"
+  },
+  {
     "isoName": "ms",
     "nativeName": "Bahasa Melayu"
   },
   {
-    "isoName": "nb-no",
+    "isoName": "my",
+    "nativeName": "Malaysia"
+  },
+  {
+    "isoName": "nb-NO",
     "nativeName": "Norsk"
   },
   {
@@ -120,7 +168,7 @@
     "nativeName": "Polski"
   },
   {
-    "isoName": "pt-br",
+    "isoName": "pt-BR",
     "nativeName": "Português (BR)"
   },
   {
@@ -144,12 +192,24 @@
     "nativeName": "Slovenski Jezik"
   },
   {
-    "isoName": "sr",
+    "isoName": "sm",
+    "nativeName": "Fa'asāmoa"
+  },
+  {
+    "isoName": "sr-CYR",
     "nativeName": "српски језик"
+  },
+  {
+    "isoName": "sr",
+    "nativeName": "srpski jezik"
   },
   {
     "isoName": "sv",
     "nativeName": "Svenska"
+  },
+  {
+    "isoName": "ta",
+    "nativeName": "தமிழ்"
   },
   {
     "isoName": "th",
@@ -160,6 +220,10 @@
     "nativeName": "Türkçe"
   },
   {
+    "isoName": "ug",
+    "nativeName": "ئۇيغۇرچە"
+  },
+  {
     "isoName": "uk",
     "nativeName": "Українська"
   },
@@ -168,11 +232,11 @@
     "nativeName": "Tiếng Việt"
   },
   {
-    "isoName": "zh-hans",
+    "isoName": "zh-CN",
     "nativeName": "中文(简体)"
   },
   {
-    "isoName": "zh-hant",
-    "nativeName": "中文(繁體)"
+    "isoName": "zh-TW",
+    "nativeName": "中文（繁體）"
   }
 ]

@@ -1,10 +1,20 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/table"
+  },
+
   "props": {
     "props": {
       "type": "Object",
       "desc": "QTable's row scoped slot property",
       "examples": [ ":props=\"props\"" ],
       "category": "general"
+    },
+
+    "no-hover": {
+      "type": "Boolean",
+      "desc": "Disable hover effect",
+      "category": "style"
     }
   },
 

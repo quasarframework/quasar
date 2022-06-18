@@ -1,15 +1,18 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import SizeMixin from '../../mixins/size.js'
 import QIcon from '../icon/QIcon.js'
-import slot from '../../utils/slot.js'
 
-export default Vue.extend({
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import { hMergeSlotSafely } from '../../utils/private/render.js'
+
+export default createComponent({
   name: 'QAvatar',
 
-  mixins: [ SizeMixin ],
-
   props: {
+    ...useSizeProps,
+
     fontSize: String,
 
     color: String,
@@ -20,44 +23,40 @@ export default Vue.extend({
     rounded: Boolean
   },
 
-  computed: {
-    contentClass () {
-      return {
-        [`bg-${this.color}`]: this.color,
-        [`text-${this.textColor} q-chip--colored`]: this.textColor,
-        'q-avatar__content--square': this.square,
-        'rounded-borders': this.rounded
-      }
-    },
+  setup (props, { slots }) {
+    const sizeStyle = useSize(props)
 
-    contentStyle () {
-      if (this.fontSize) {
-        return { fontSize: this.fontSize }
-      }
-    }
-  },
+    const classes = computed(() =>
+      'q-avatar'
+      + (props.color ? ` bg-${ props.color }` : '')
+      + (props.textColor ? ` text-${ props.textColor } q-chip--colored` : '')
+      + (
+        props.square === true
+          ? ' q-avatar--square'
+          : (props.rounded === true ? ' rounded-borders' : '')
+      )
+    )
 
-  methods: {
-    __getContent (h) {
-      return this.icon !== void 0
-        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(slot(this, 'default'))
-        : slot(this, 'default')
-    }
-  },
+    const contentStyle = computed(() => (
+      props.fontSize
+        ? { fontSize: props.fontSize }
+        : null
+    ))
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-avatar',
-      style: this.sizeStyle,
-      on: this.$listeners
-    }, [
-      h('div', {
-        staticClass: 'q-avatar__content row flex-center overflow-hidden',
-        class: this.contentClass,
-        style: this.contentStyle
+    return () => {
+      const icon = props.icon !== void 0
+        ? [ h(QIcon, { name: props.icon }) ]
+        : void 0
+
+      return h('div', {
+        class: classes.value,
+        style: sizeStyle.value
       }, [
-        this.__getContent(h)
+        h('div', {
+          class: 'q-avatar__content row flex-center overflow-hidden',
+          style: contentStyle.value
+        }, hMergeSlotSafely(slots.default, icon))
       ])
-    ])
+    }
   }
 })

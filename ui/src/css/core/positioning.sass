@@ -69,6 +69,11 @@
   max-width: 100vw
   max-height: 100vh
 
+body.q-ios-padding .fullscreen
+  padding-top: $ios-statusbar-height !important
+  padding-top: env(safe-area-inset-top) !important
+  padding-bottom: env(safe-area-inset-bottom) !important
+
 .absolute-full, .fullscreen, .fixed-full
   top: 0
   right: 0
@@ -92,3 +97,10 @@
   margin-right: 12px
 .on-right
   margin-left: 12px
+
+/* internal: */
+.q-position-engine
+  margin-top: var(--q-pe-top, 0) !important
+  margin-left: var(--q-pe-left, 0) !important
+  will-change: auto
+  visibility: collapse // needed for animation - is removed on first positioning

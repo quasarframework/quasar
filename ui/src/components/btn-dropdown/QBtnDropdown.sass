@@ -1,0 +1,15 @@
+.q-btn-dropdown
+  &--split .q-btn-dropdown__arrow-container
+    padding: 0 4px
+    &.q-btn--outline
+      border-left: 1px solid currentColor
+    &:not(.q-btn--outline)
+      border-left: 1px solid rgba(255,255,255,.3)
+
+  &--simple * + .q-btn-dropdown__arrow
+    margin-left: 8px
+  &__arrow
+    transition: transform .28s
+
+  &--current
+    flex-grow: 1

@@ -1,0 +1,164 @@
+{
+  "mixins": [ "composables/private/use-model-toggle" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/layout/drawer"
+  },
+
+  "props": {
+    "side": {
+      "type": "String",
+      "desc": "Side to attach to",
+      "values": [ "left", "right" ],
+      "default": "left",
+      "examples": [ "right" ],
+      "category": "behavior"
+    },
+
+    "overlay": {
+      "type": "Boolean",
+      "desc": "Puts drawer into overlay mode (does not occupy space on screen, narrowing the page)",
+      "category": "behavior"
+    },
+
+    "width": {
+      "type": "Number",
+      "desc": "Width of drawer (in pixels)",
+      "default": 300,
+      "examples": [ ":width=\"350\"" ],
+      "category": "style"
+    },
+
+    "mini": {
+      "type": "Boolean",
+      "desc": "Puts drawer into mini mode",
+      "category": "behavior"
+    },
+
+    "mini-width": {
+      "type": "Number",
+      "desc": "Width of drawer (in pixels) when in mini mode",
+      "default": 60,
+      "examples": [ ":mini-width=\"100\"" ],
+      "category": "style"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "mini-to-overlay": {
+      "type": "Boolean",
+      "desc": "Mini mode will expand as an overlay",
+      "category": "behavior"
+    },
+
+    "breakpoint": {
+      "type": "Number",
+      "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",
+      "default": 1023,
+      "examples": [ 1200, ":breakpoint=\"1400\"" ],
+      "category": "behavior"
+    },
+
+    "behavior": {
+      "type": "String",
+      "desc": "Overrides the default dynamic mode into which the drawer is put on",
+      "values": [
+        "default", "desktop", "mobile"
+      ],
+      "default": "default",
+      "examples": [
+        "mobile"
+      ],
+      "category": "behavior"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "elevated": {
+      "type": "Boolean",
+      "desc": "Adds a default shadow to the header",
+      "category": "style"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Prevents drawer from auto-closing when app's route changes",
+      "category": "behavior"
+    },
+
+    "show-if-above": {
+      "type": "Boolean",
+      "desc": "Forces drawer to be shown on screen on initial render if the layout width is above breakpoint, regardless of v-model; This is the default behavior when SSR is taken over by client on initial render",
+      "category": "behavior"
+    },
+
+    "no-swipe-open": {
+      "type": "Boolean",
+      "desc": "Disables the default behavior where drawer can be swiped into view; Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
+      "category": "behavior"
+    },
+
+    "no-swipe-close": {
+      "type": "Boolean",
+      "desc": "Disables the default behavior where drawer can be swiped out of view (applies to drawer content only); Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
+      "category": "behavior"
+    },
+
+    "no-swipe-backdrop": {
+      "type": "Boolean",
+      "desc": "Disables the default behavior where drawer backdrop can be swiped",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component (overridden by 'mini' slot if used and drawer is in mini mode)"
+    },
+
+    "mini": {
+      "desc": "Content to show when in mini mode (overrides 'default' slot)"
+    }
+  },
+
+  "events": {
+    "on-layout": {
+      "desc": "Emitted when drawer toggles between occupying space on page or not",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "New state"
+        }
+      }
+    },
+
+    "click": {
+      "extends": "click",
+      "desc": "Emitted when user clicks/taps on the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+    },
+
+    "mouseover": {
+      "extends": "click",
+      "desc": "Emitted when user moves mouse cursor over the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+    },
+
+    "mouseout": {
+      "extends": "click",
+      "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+    },
+
+    "mini-state": {
+      "desc": "Emitted when drawer changes the mini-mode state (sometimes it is forced to do so)",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "New state"
+        }
+      }
+    }
+  }
+}

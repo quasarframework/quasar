@@ -1,31 +1,33 @@
-import { setBrand } from './utils/colors.js'
-import { isSSR } from './plugins/Platform.js'
+import setCssVar from './utils/set-css-var.js'
+import { noop } from './utils/event.js'
+import { onKeyDownComposition } from './utils/private/key-composition.js'
+import { isRuntimeSsrPreHydration, client, iosCorrection } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {
   if (is.ios === true) return 'ios'
   if (is.android === true) return 'android'
-  if (is.winphone === true) return 'winphone'
 }
 
 function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
-    is.desktop ? 'desktop' : 'mobile',
-    has.touch ? 'touch' : 'no-touch'
+    is.desktop === true ? 'desktop' : 'mobile',
+    `${ has.touch === false ? 'no-' : '' }touch`
   ]
 
   if (is.mobile === true) {
     const mobile = getMobilePlatform(is)
-    if (mobile !== void 0) {
-      cls.push('platform-' + mobile)
-    }
+    mobile !== void 0 && cls.push('platform-' + mobile)
   }
 
-  if (is.cordova === true) {
-    cls.push('cordova')
+  if (is.nativeMobile === true) {
+    const type = is.nativeMobileWrapper
+
+    cls.push(type)
+    cls.push('native-mobile')
 
     if (
-      is.ios === true &&
-      (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)
+      is.ios === true
+      && (cfg[ type ] === void 0 || cfg[ type ].iosStatusBarPadding !== false)
     ) {
       cls.push('q-ios-padding')
     }
@@ -33,53 +35,85 @@ function getBodyClasses ({ is, has, within }, cfg) {
   else if (is.electron === true) {
     cls.push('electron')
   }
+  else if (is.bex === true) {
+    cls.push('bex')
+  }
 
   within.iframe === true && cls.push('within-iframe')
 
   return cls
 }
 
-function bodyInit (Platform, cfg) {
-  const cls = getBodyClasses(Platform, cfg)
+function applyClientSsrCorrections () {
+  const classes = document.body.className
+  let newCls = classes
 
-  if (Platform.is.ie === true && Platform.is.versionNumber === 11) {
-    cls.forEach(c => document.body.classList.add(c))
-  }
-  else {
-    document.body.classList.add.apply(document.body.classList, cls)
+  if (iosCorrection !== void 0) {
+    newCls = newCls.replace('desktop', 'platform-ios mobile')
   }
 
-  if (Platform.is.ios === true) {
-    // needed for iOS button active state
-    document.body.addEventListener('touchstart', () => {})
+  if (client.has.touch === true) {
+    newCls = newCls.replace('no-touch', 'touch')
+  }
+
+  if (client.within.iframe === true) {
+    newCls += ' within-iframe'
+  }
+
+  if (classes !== newCls) {
+    document.body.className = newCls
   }
 }
 
 function setColors (brand) {
-  for (let color in brand) {
-    setBrand(color, brand[color])
+  for (const color in brand) {
+    setCssVar(color, brand[ color ])
   }
 }
 
 export default {
-  install ($q, queues, cfg) {
-    if (isSSR === true) {
-      queues.server.push((q, ctx) => {
-        const
-          cls = getBodyClasses(q.platform, cfg),
-          fn = ctx.ssr.setBodyClasses
+  install (opts) {
+    if (__QUASAR_SSR_SERVER__) {
+      const { $q, ssrContext } = opts
+      const cls = getBodyClasses($q.platform, $q.config)
 
-        if (typeof fn === 'function') {
-          fn(cls)
-        }
-        else {
-          ctx.ssr.Q_BODY_CLASSES = cls.join(' ')
-        }
-      })
+      if ($q.config.screen !== void 0 && $q.config.screen.bodyClass === true) {
+        cls.push('screen--xs')
+      }
+
+      ssrContext._meta.bodyClasses += cls.join(' ')
+
+      const brand = $q.config.brand
+      if (brand !== void 0) {
+        const vars = Object.keys(brand)
+          .map(key => `--q-${ key }:${ brand[ key ] };`)
+          .join('')
+
+        ssrContext._meta.endingHeadTags += `<style>:root{${ vars }}</style>`
+      }
+
       return
     }
 
-    cfg.brand && setColors(cfg.brand)
-    bodyInit($q.platform, cfg)
+    if (this.__installed === true) { return }
+
+    if (isRuntimeSsrPreHydration.value === true) {
+      applyClientSsrCorrections()
+    }
+    else {
+      const { $q } = opts
+
+      $q.config.brand !== void 0 && setColors($q.config.brand)
+
+      const cls = getBodyClasses(client, $q.config)
+      document.body.classList.add.apply(document.body.classList, cls)
+    }
+
+    if (client.is.ios === true) {
+      // needed for iOS button active state
+      document.body.addEventListener('touchstart', noop)
+    }
+
+    window.addEventListener('keydown', onKeyDownComposition, true)
   }
 }

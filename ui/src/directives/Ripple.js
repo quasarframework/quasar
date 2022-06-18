@@ -1,11 +1,15 @@
+import { createDirective } from '../utils/private/create.js'
 import { css } from '../utils/dom.js'
-import { position, stop, listenOpts } from '../utils/event.js'
-import Platform from '../plugins/Platform.js'
+import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
+import throttle from '../utils/throttle.js'
+import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
 
-  let { center, color } = ctx.modifiers
+  const color = ctx.modifiers.color
+  let center = ctx.modifiers.center
   center = center === true || forceCenter === true
 
   const
@@ -15,20 +19,20 @@ function showRipple (evt, el, ctx, forceCenter) {
     { left, top, width, height } = el.getBoundingClientRect(),
     diameter = Math.sqrt(width * width + height * height),
     radius = diameter / 2,
-    centerX = `${(width - diameter) / 2}px`,
-    x = center ? centerX : `${pos.left - left - radius}px`,
-    centerY = `${(height - diameter) / 2}px`,
-    y = center ? centerY : `${pos.top - top - radius}px`
+    centerX = `${ (width - diameter) / 2 }px`,
+    x = center ? centerX : `${ pos.left - left - radius }px`,
+    centerY = `${ (height - diameter) / 2 }px`,
+    y = center ? centerY : `${ pos.top - top - radius }px`
 
   innerNode.className = 'q-ripple__inner'
   css(innerNode, {
-    height: `${diameter}px`,
-    width: `${diameter}px`,
-    transform: `translate3d(${x}, ${y}, 0) scale3d(0.2, 0.2, 1)`,
+    height: `${ diameter }px`,
+    width: `${ diameter }px`,
+    transform: `translate3d(${ x },${ y },0) scale3d(.2,.2,1)`,
     opacity: 0
   })
 
-  node.className = `q-ripple${color ? ' text-' + color : ''}`
+  node.className = `q-ripple${ color ? ' text-' + color : '' }`
   node.setAttribute('dir', 'ltr')
   node.appendChild(innerNode)
   el.appendChild(node)
@@ -41,7 +45,7 @@ function showRipple (evt, el, ctx, forceCenter) {
 
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
-    innerNode.style.transform = `translate3d(${centerX}, ${centerY}, 0) scale3d(1, 1, 1)`
+    innerNode.style.transform = `translate3d(${ centerX },${ centerY },0) scale3d(1,1,1)`
     innerNode.style.opacity = 0.2
 
     timer = setTimeout(() => {
@@ -57,68 +61,78 @@ function showRipple (evt, el, ctx, forceCenter) {
   }, 50)
 }
 
-function updateCtx (ctx, { value, modifiers, arg }) {
-  ctx.enabled = value !== false
-
-  if (ctx.enabled === true) {
-    ctx.modifiers = Object(value) === value
-      ? {
-        stop: value.stop === true || modifiers.stop === true,
-        center: value.center === true || modifiers.center === true,
-        color: value.color || arg
-      }
-      : {
-        stop: modifiers.stop,
-        center: modifiers.center,
-        color: arg
-      }
+function updateModifiers (ctx, { modifiers, value, arg, instance }) {
+  const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
+  ctx.modifiers = {
+    early: cfg.early === true,
+    stop: cfg.stop === true,
+    center: cfg.center === true,
+    color: cfg.color || arg,
+    keyCodes: [].concat(cfg.keyCodes || 13)
   }
 }
 
-export default {
-  name: 'ripple',
+export default createDirective(__QUASAR_SSR_SERVER__
+  ? { name: 'ripple', getSSRProps }
+  : {
+      name: 'ripple',
 
-  inserted (el, binding) {
-    const ctx = {
-      modifiers: {},
-      abort: [],
+      beforeMount (el, binding) {
+        const ctx = {
+          enabled: binding.value !== false,
+          modifiers: {},
+          abort: [],
 
-      click (evt) {
-        // on ENTER in form IE emits a PointerEvent with negative client cordinates
-        if (ctx.enabled === true && (Platform.is.ie !== true || evt.clientX >= 0)) {
-          showRipple(evt, el, ctx, evt.qKeyEvent === true)
+          start (evt) {
+            if (
+              ctx.enabled === true
+              && evt.qSkipRipple !== true
+              && evt.type === (ctx.modifiers.early === true ? 'pointerdown' : 'click')
+            ) {
+              showRipple(evt, el, ctx, evt.qKeyEvent === true)
+            }
+          },
+
+          keystart: throttle(evt => {
+            if (
+              ctx.enabled === true
+              && evt.qSkipRipple !== true
+              && isKeyCode(evt, ctx.modifiers.keyCodes) === true
+              && evt.type === `key${ ctx.modifiers.early === true ? 'down' : 'up' }`
+            ) {
+              showRipple(evt, el, ctx, true)
+            }
+          }, 300)
+        }
+
+        updateModifiers(ctx, binding)
+
+        el.__qripple = ctx
+
+        addEvt(ctx, 'main', [
+          [ el, 'pointerdown', 'start', 'passive' ],
+          [ el, 'click', 'start', 'passive' ],
+          [ el, 'keydown', 'keystart', 'passive' ],
+          [ el, 'keyup', 'keystart', 'passive' ]
+        ])
+      },
+
+      updated (el, binding) {
+        if (binding.oldValue !== binding.value) {
+          const ctx = el.__qripple
+          ctx.enabled = binding.value !== false
+
+          if (ctx.enabled === true && Object(binding.value) === binding.value) {
+            updateModifiers(ctx, binding)
+          }
         }
       },
 
-      keyup (evt) {
-        if (ctx.enabled === true && evt.keyCode === 13 && evt.qKeyEvent !== true) {
-          showRipple(evt, el, ctx, true)
-        }
+      beforeUnmount (el) {
+        const ctx = el.__qripple
+        ctx.abort.forEach(fn => { fn() })
+        cleanEvt(ctx, 'main')
+        delete el._qripple
       }
     }
-
-    updateCtx(ctx, binding)
-
-    if (el.__qripple) {
-      el.__qripple_old = el.__qripple
-    }
-
-    el.__qripple = ctx
-    el.addEventListener('click', ctx.click, listenOpts.passive)
-    el.addEventListener('keyup', ctx.keyup, listenOpts.passive)
-  },
-
-  update (el, binding) {
-    el.__qripple !== void 0 && updateCtx(el.__qripple, binding)
-  },
-
-  unbind (el) {
-    const ctx = el.__qripple_old || el.__qripple
-    if (ctx !== void 0) {
-      ctx.abort.forEach(fn => { fn() })
-      el.removeEventListener('click', ctx.click, listenOpts.passive)
-      el.removeEventListener('keyup', ctx.keyup, listenOpts.passive)
-      delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
-    }
-  }
-}
+)

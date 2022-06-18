@@ -6,13 +6,13 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
         />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
-          <q-icon name="fab fa-youtube" color="red" size="28px" />
+          <q-icon :name="fabYoutube" color="red" size="28px" />
           <q-toolbar-title shrink class="text-weight-bold">
             YouTube
           </q-toolbar-title>
@@ -57,7 +57,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-2"
+      class="bg-grey-2"
       :width="240"
     >
       <q-scroll-area class="fit">
@@ -145,13 +145,28 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { fabYoutube } from '@quasar/extras/fontawesome-v6'
+
 export default {
   name: 'MyLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
+      fabYoutube,
+
+      leftDrawerOpen,
+      search,
+
+      toggleLeftDrawer,
+
       links1: [
         { icon: 'home', text: 'Home' },
         { icon: 'whatshot', text: 'Trending' },
@@ -164,7 +179,7 @@ export default {
         { icon: 'thumb_up_alt', text: 'Liked videos' }
       ],
       links3: [
-        { icon: 'fab fa-youtube', text: 'YouTube Premium' },
+        { icon: fabYoutube, text: 'YouTube Premium' },
         { icon: 'local_movies', text: 'Movies & Shows' },
         { icon: 'videogame_asset', text: 'Gaming' },
         { icon: 'live_tv', text: 'Live' }

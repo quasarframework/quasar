@@ -2,6 +2,11 @@
 
 require('../lib/node-version-check')
 
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
+
+updateNotifier({ pkg }).notify()
+
 function getQuasarAppExecutable (which, root) {
   try {
     return require.resolve(which, {
@@ -33,6 +38,8 @@ else {
   const localFile = root
     ? (
       getQuasarAppExecutable('@quasar/app/bin/quasar', root) ||
+      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) ||
+      getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) ||
       getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy <1.0
     )
     : void 0
@@ -58,38 +65,40 @@ else {
     ]
 
     if (cmd) {
-      if (cmd.length === 1) {
-        const mapToCmd = {
-          i: 'info',
-          h: 'help'
-        }
-        cmd = mapToCmd[cmd]
+      if (cmd === '-h') {
+        cmd = 'help'
+      }
+      else if (cmd === 'i') {
+        cmd = 'info'
       }
 
       if (commands.includes(cmd)) {
         process.argv.splice(2, 1)
       }
       else {
-        if (cmd === '-v' || cmd === '--version') {
+        if (cmd === '-v' || cmd === '--version' || cmd === '-V') {
           console.log(require('../package.json').version)
           process.exit(0)
         }
 
-        const chalk = require('chalk')
+        const { red } = require('kolorist')
 
-        console.log(`\n ${chalk.red(`Error`)} Unknown command "${ cmd }"`)
+        require(`./quasar-help`)
+
+        console.log(`\n ${red(`Error`)} Unknown command "${ cmd }"`)
 
         if (cmd.indexOf('-') === 0) {
-          console.log(`\n ${chalk.red(`Error`)} Command must come before the options`)
+          console.log(`\n ${red(`Error`)} Command must come before the options`)
         }
 
         console.log()
-        cmd = 'help'
+        process.exit(1)
       }
     }
     else {
       cmd = 'help'
     }
+
     require(`./quasar-${cmd}`)
   }
 }

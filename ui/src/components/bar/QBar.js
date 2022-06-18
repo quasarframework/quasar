@@ -1,26 +1,31 @@
-import Vue from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
-import slot from '../../utils/slot.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
+
+export default createComponent({
   name: 'QBar',
 
   props: {
-    dense: Boolean,
-    dark: Boolean
+    ...useDarkProps,
+    dense: Boolean
   },
 
-  computed: {
-    classes () {
-      return `q-bar--${this.dense ? 'dense' : 'standard'} q-bar--${this.dark ? 'dark' : 'light'}`
-    }
-  },
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-bar row no-wrap items-center',
-      class: this.classes,
-      on: this.$listeners
-    }, slot(this, 'default'))
+    const classes = computed(() =>
+      'q-bar row no-wrap items-center'
+      + ` q-bar--${ props.dense === true ? 'dense' : 'standard' } `
+      + ` q-bar--${ isDark.value === true ? 'dark' : 'light' }`
+    )
+
+    return () => h('div', {
+      class: classes.value,
+      role: 'toolbar'
+    }, hSlot(slots.default))
   }
 })

@@ -1,6 +1,7 @@
 ---
 title: List and List Items
 desc: How to use the QList, QItem, QItemSection and QItemLabel Vue components.
+keys: QList,QItem,QItemSection,QItemLabel
 related:
   - /vue-components/expansion-item
   - /vue-components/slide-item
@@ -12,12 +13,21 @@ The QList and QItem are a group of components which can work together to present
 Lists can encapsulate Items or Item-like components, for example [QExpansionItem](/vue-components/expansion-item) or [QSlideItem](/vue-components/slide-item). Also [QSeparator](/vue-components/separator) can be used to split up sections, where needed.
 
 List Items have the following pre-built child components:
-* **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
 
+* **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
 * **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
-## Installation
-<doc-installation :components="['QList', 'QItem', 'QItemSection', 'QItemLabel']" />
+## QList API
+<doc-api file="QList" />
+
+## QItem API
+<doc-api file="QItem" />
+
+## QItemSection API
+<doc-api file="QItemSection" />
+
+## QItemLabel API
+<doc-api file="QItemLabel" />
 
 ## Usage
 
@@ -31,7 +41,7 @@ List Items have the following pre-built child components:
 
 ### QItemSection
 
-<doc-example title="Left avatar/thumbnai QItemSection" file="QItem/AvatarLeft" />
+<doc-example title="Left avatar/thumbnail QItemSection" file="QItem/AvatarLeft" />
 
 <doc-example title="Right avatar/thumbnail QItemSection" file="QItem/AvatarRight" />
 
@@ -74,7 +84,7 @@ For more complex menus, consider also using [QExpansionItem](/vue-components/exp
 ### Connecting to Vue Router
 You can use QItems together with Vue Router through `<router-link>` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
 
-```vue
+```html
 <q-item to="/inbox" exact>
   <q-item-section avatar>
     <q-icon name="inbox" />
@@ -85,15 +95,3 @@ You can use QItems together with Vue Router through `<router-link>` properties b
   </q-item-section>
 </q-item>
 ```
-
-## QList API
-<doc-api file="QList" />
-
-## QItem API
-<doc-api file="QItem" />
-
-## QItemSection API
-<doc-api file="QItemSection" />
-
-## QItemLabel API
-<doc-api file="QItemLabel" />

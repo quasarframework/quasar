@@ -1,11 +1,20 @@
 .q-virtual-scroll
   &:focus
+    outline: 0
+
+  &__content
     outline: none
+    contain: content
+
+    > *
+      overflow-anchor: none
+
+    > [data-q-vs-anchor]
+      overflow-anchor: auto
 
   &__padding
-    // sorry for long line; we need .sass and it doesn't support multi-line list
-    background: linear-gradient(transparent, transparent 20%, rgba(128, 128, 128, .03) 20%, rgba(128, 128, 128, .08) 50%, rgba(128, 128, 128, .03) 80%, transparent 80%, transparent)
-    background-size: 100% 50px
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,0) 20%, rgba(128, 128, 128, .03) 20%, rgba(128, 128, 128, .08) 50%, rgba(128, 128, 128, .03) 80%, rgba(255,255,255,0) 80%, rgba(255,255,255,0)) #{"/* rtl:ignore */"}
+    background-size: var(--q-virtual-scroll-item-width, 100%) var(--q-virtual-scroll-item-height, 50px) #{"/* rtl:ignore */"}
 
     .q-table &
       tr
@@ -31,6 +40,5 @@
         flex: 0 0 auto
 
       &__padding
-        // sorry for long line; we need .sass and it doesn't support multi-line list
-        background: linear-gradient(to left, transparent, transparent 20%, rgba(128, 128, 128, .03) 20%, rgba(128, 128, 128, .08) 50%, rgba(128, 128, 128, .03) 80%, transparent 80%, transparent)
-        background-size: 50px 100%
+        background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,0) 20%, rgba(128, 128, 128, .03) 20%, rgba(128, 128, 128, .08) 50%, rgba(128, 128, 128, .03) 80%, rgba(255,255,255,0) 80%, rgba(255,255,255,0)) #{"/* rtl:ignore */"}
+        background-size: var(--q-virtual-scroll-item-width, 50px) var(--q-virtual-scroll-item-height, 100%) #{"/* rtl:ignore */"}

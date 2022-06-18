@@ -1,3 +1,5 @@
+import { isRef } from 'vue'
+
 export function offset (el) {
   if (el === window) {
     return { top: 0, left: 0 }
@@ -23,11 +25,11 @@ export function width (el) {
 }
 
 export function css (element, css) {
-  let style = element.style
+  const style = element.style
 
-  Object.keys(css).forEach(prop => {
-    style[prop] = css[prop]
-  })
+  for (const prop in css) {
+    style[ prop ] = css[ prop ]
+  }
 }
 
 export function cssBatch (elements, style) {
@@ -46,8 +48,33 @@ export function ready (fn) {
   document.addEventListener('DOMContentLoaded', fn, false)
 }
 
+// internal
+export function getElement (el) {
+  if (el === void 0 || el === null) {
+    return void 0
+  }
+
+  if (typeof el === 'string') {
+    try {
+      return document.querySelector(el) || void 0
+    }
+    catch (err) {
+      return void 0
+    }
+  }
+
+  const target = isRef(el) === true
+    ? el.value
+    : el
+
+  if (target) {
+    return target.$el || target
+  }
+}
+
+// internal
 export function childHasFocus (el, focusedEl) {
-  if (el === void 0 || el.contains(focusedEl) === true) {
+  if (el === void 0 || el === null || el.contains(focusedEl) === true) {
     return true
   }
 

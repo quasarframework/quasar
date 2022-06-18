@@ -5,7 +5,7 @@ export const listenOpts = {
 }
 
 try {
-  var opts = Object.defineProperty({}, 'passive', {
+  const opts = Object.defineProperty({}, 'passive', {
     get () {
       Object.assign(listenOpts, {
         hasPassive: true,
@@ -21,6 +21,8 @@ try {
 }
 catch (e) {}
 
+export function noop () {}
+
 export function leftClick (e) {
   return e.button === 0
 }
@@ -34,11 +36,14 @@ export function rightClick (e) {
 }
 
 export function position (e) {
-  if (e.touches && e.touches[0]) {
-    e = e.touches[0]
+  if (e.touches && e.touches[ 0 ]) {
+    e = e.touches[ 0 ]
   }
-  else if (e.changedTouches && e.changedTouches[0]) {
-    e = e.changedTouches[0]
+  else if (e.changedTouches && e.changedTouches[ 0 ]) {
+    e = e.changedTouches[ 0 ]
+  }
+  else if (e.targetTouches && e.targetTouches[ 0 ]) {
+    e = e.targetTouches[ 0 ]
   }
 
   return {
@@ -86,7 +91,7 @@ export function getMouseWheelDistance (e) {
   }
 
   if (e.shiftKey && !x) {
-    [y, x] = [x, y]
+    [ y, x ] = [ x, y ]
   }
 
   return { x, y }
@@ -123,17 +128,32 @@ export function preventDraggable (el, status) {
   el.querySelectorAll('a, img').forEach(fn)
 }
 
-export function create (name, { bubbles = false, cancelable = false } = {}) {
-  try {
-    return new Event(name, { bubbles, cancelable })
-  }
-  catch (e) {
-    // IE doesn't support `new Event()`, so...`
-    const evt = document.createEvent('Event')
-    evt.initEvent(name, bubbles, cancelable)
-    return evt
+export function addEvt (ctx, targetName, events) {
+  const name = `__q_${ targetName }_evt`
+
+  ctx[ name ] = ctx[ name ] !== void 0
+    ? ctx[ name ].concat(events)
+    : events
+
+  events.forEach(evt => {
+    evt[ 0 ].addEventListener(evt[ 1 ], ctx[ evt[ 2 ] ], listenOpts[ evt[ 3 ] ])
+  })
+}
+
+export function cleanEvt (ctx, targetName) {
+  const name = `__q_${ targetName }_evt`
+
+  if (ctx[ name ] !== void 0) {
+    ctx[ name ].forEach(evt => {
+      evt[ 0 ].removeEventListener(evt[ 1 ], ctx[ evt[ 2 ] ], listenOpts[ evt[ 3 ] ])
+    })
+    ctx[ name ] = void 0
   }
 }
+
+/*
+ * also update /types/utils/event.d.ts
+ */
 
 export default {
   listenOpts,
@@ -146,6 +166,5 @@ export default {
   stop,
   prevent,
   stopAndPrevent,
-  preventDraggable,
-  create
+  preventDraggable
 }

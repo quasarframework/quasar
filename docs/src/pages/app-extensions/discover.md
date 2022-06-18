@@ -3,7 +3,7 @@ title: Discover App Extensions
 desc: Look up official and community Quasar App Extensions.
 ---
 
-<app-extension-discover />
+<q-btn push class="q-py-xs" no-caps color="brand-primary" icon-right="search" label="Look up extensions" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener" />
 
 ## Community App Extensions
 
@@ -27,9 +27,6 @@ Below is a list of official app-extensions created by members of the Quasar team
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
-| [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
-| [@quasar/icon-genie](https://github.com/quasarframework/app-extension-icon-genie) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
 | [@quasar/obyte](https://github.com/quasarframework/app-extension-obyte) | Work with the Obyte Blockchain |
 
 ### Components
@@ -42,10 +39,10 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) | Create activity timelines |
 | [@quasar/qmarkdown](https://github.com/quasarframework/app-extension-qmarkdown) | Markdown for your pages |
 | [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer) | View PDF documents in your Quasar app |
-| [@quasar/qcalendar](https://github.com/quasarframework/app-extension-qcalendar) | Calendar for Quasar |
+| [@quasar/qcalendar](https://github.com/quasarframework/quasar-ui-qcalendar) | Calendar for Quasar |
 | [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
 | [@quasar/qwindow](https://github.com/quasarframework/app-extension-qwindow) | Floating, movable, resizable interactive windows for Quasar |
 | [@quasar/qplaceholder](https://github.com/quasarframework/app-extension-qplaceholder) | Display a placeholder before your data arrives |
-| [@quasar/qiconpicker](https://github.com/quasarframework/app-extension-qiconpicker) | Icon Picker for your Quasar apps |
+| [@quasar/qiconpicker](https://github.com/quasarframework/quasar-ui-qiconpicker) | Icon Picker for your Quasar apps |
 | [@quasar/qribbon](https://github.com/quasarframework/app-extension-qribbon) | QRibbon UI component for your Quasar apps |
 | [@quasar/qzoom](https://github.com/quasarframework/app-extension-qzoom) | Zoom any content (image, video, text, components, ...) |

@@ -1,15 +1,14 @@
 // Adapted from Vue CLI v2 "init" command
 
-const
-  chalk = require('chalk'),
-  format = require('util').format
+const { gray, white, red } = require('kolorist')
+const format = require('util').format
 
 /**
  * Prefix.
  */
 
 const prefix = '  Quasar CLI'
-const sep = chalk.gray('·')
+const sep = gray('·')
 
 /**
  * Log a `message` to the console.
@@ -19,7 +18,7 @@ const sep = chalk.gray('·')
 
 exports.log = function (...args) {
   const msg = format.apply(format, args)
-  console.log(chalk.white(prefix), sep, msg)
+  console.log(white(prefix), sep, msg)
 }
 
 /**
@@ -31,7 +30,7 @@ exports.log = function (...args) {
 module.exports.fatal = function (...args) {
   if (args[0] instanceof Error) args[0] = args[0].message.trim()
   const msg = format.apply(format, args)
-  console.error(chalk.red(prefix), sep, msg)
+  console.error(red(prefix), sep, msg)
   process.exit(1)
 }
 
@@ -43,5 +42,5 @@ module.exports.fatal = function (...args) {
 
 module.exports.success = function (...args) {
   const msg = format.apply(format, args)
-  console.log(chalk.white(prefix), sep, msg)
+  console.log(white(prefix), sep, msg)
 }

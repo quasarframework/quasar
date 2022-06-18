@@ -47,12 +47,6 @@
 
     "icon": {
       "desc": "Slot for replacing the default dropdown icon"
-    }
-  },
-
-  "scopedSlots": {
-    "default": {
-      "extends": "default"
     },
 
     "item": {
@@ -61,15 +55,15 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     },
 
     "click": {
       "desc": "Emitted on QChip click if 'clickable' property is set",
       "params": {
         "evt": {
-          "type": "Object",
+          "type": "Event",
           "desc": "JS event object"
         }
       }
@@ -78,7 +72,7 @@
 
   "methods": {
     "show": {
-     "extends": "show"
+      "extends": "show"
     },
 
     "showNow": {
@@ -89,7 +83,7 @@
     "hide": {
       "params": {
         "evt": {
-          "type": "Object",
+          "type": "Event",
           "required": false,
           "desc": "JS event object"
         }

@@ -1,9 +1,11 @@
 ---
 title: Touch Hold Directive
 desc: Vue directive which triggers an event when the user touches and holds on a component or element for a specified amount of time.
+keys: touch-hold
 related:
-  - /vue-directives/touch-pan
   - /vue-directives/touch-swipe
+  - /vue-directives/touch-repeat
+  - /vue-directives/touch-pan
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 
@@ -11,10 +13,12 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-hold` directive on the lines below.
 
-## Installation
-<doc-installation directives="TouchHold" />
+## TouchHold API
+
+<doc-api file="TouchHold" />
 
 ## Usage
+
 <doc-example title="Basic" file="TouchHold/Basic" />
 
 The default wait time is 600ms, but you can change it:
@@ -32,14 +36,14 @@ However, you can change this sensitivity too (notice the directive argument belo
 ### Handling Mouse Events
 When you want to also handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <div v-touch-hold.mouse="userHasHold">...</div>
 ```
 
 ### Inhibiting TouchHold
 When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
 
-``` html
+```html
 <div v-touch-hold.mouse="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop>
@@ -55,8 +59,5 @@ When you want to inhibit TouchHold, you can do so by stopping propagation of the
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchHold will still trigger.
 
-### Note on HMR
-Due to performance reasons, when doing HMR updates, the modifiers are NOT updated, so you will require a window refresh.
-
-## API
-<doc-api file="TouchHold" />
+## Note on HMR
+Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

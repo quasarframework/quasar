@@ -1,13 +1,15 @@
 ---
 title: Scroll Observer
 desc: The QScrollObserver Vue component emits an event whenever the user scrolls the page or the parent scrollable container.
+keys: QScrollObserver
 related:
   - /vue-components/resize-observer
 ---
 QScrollObserver is a Quasar component that emits a `scroll` event whenever the user scrolls the page or overflowed container with `.scroll` CSS class applied to it.
 
-## Installation
-<doc-installation components="QScrollObserver" />
+## QScrollObserver API
+
+<doc-api file="QScrollObserver" />
 
 ## Usage
 Scroll this page to see the example below in action.
@@ -15,13 +17,17 @@ Scroll this page to see the example below in action.
 <doc-example title="Basic" file="QScrollObserver/Basic" />
 
 ## Determining Scrolling Container
-All components or directives in Quasar have a simple algorithm to determine the container that supports the scroll: it searches for a parent DOM element which has the `scroll` Quasar CSS Helper class attached to it. If none is found, then it considers that the scrolling takes place on the document itself.
+All components or directives in Quasar have a simple algorithm to determine the container that supports the scroll:
+- if a `scroll-target` property is available on the component then it tries to use it as scroll container
+- then it searches for a parent DOM element which has the `scroll`, `scroll-y` or `overflow-auto` Quasar CSS helper classes attached to it,
+- if none is found, then it considers that the scrolling takes place on the document itself.
 
 Components like [QScrollArea](/vue-components/scroll-area), for example, respect this design and have the `scroll` class embedded into it, so that QScrollObservable (or any other scrolling component or directive) can successfully detect it and attach the necessary event handlers to it.
 
 Please note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example, with: CSS `overflow: hidden` and a height smaller than its inner content height).
 
 Example of good container:
+
 ```html
 <!--
   Quasar CSS helper 'overflow-hidden' is
@@ -37,6 +43,7 @@ Example of good container:
 ```
 
 One more example with QScrollArea:
+
 ```html
 <q-scroll-area style="width: 400px; height: 500px;" class="bg-yellow">
   ...content expanding over the 500px height from container...
@@ -45,10 +52,10 @@ One more example with QScrollArea:
 ```
 
 ## Horizontal
-For capturing horizontal scrolling, use the `horizontal` Boolean prop:
+For capturing horizontal scrolling, use the `axis="horizontal"` prop :
 
 ```html
-<q-scroll-observer horizontal @scroll="scrollHandler" />
+<q-scroll-observer axis="horizontal" @scroll="scrollHandler" />
 ```
 
 ## Layout Scrolling
@@ -57,6 +64,3 @@ When scrolling on a Layout with a Page, rather than injecting a QScrollObservabl
 ```html
 <q-layout @scroll="scrollHandler">...</q-layout>
 ```
-
-## QScrollObserver API
-<doc-api file="QScrollObserver" />

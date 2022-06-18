@@ -1,6 +1,6 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
 
   "props": {
@@ -23,8 +23,8 @@
       "type": "String",
       "desc": "The gutter value allows you control over the space between the breadcrumb elements.",
       "default": "sm",
-      "values": ["none", "xs", "sm", "md", "lg", "xl"],
-      "examples": ["md", "lg"],
+      "values": [ "none", "xs", "sm", "md", "lg", "xl" ],
+      "examples": [ "md", "lg" ],
       "category": "content"
     },
 
@@ -38,7 +38,7 @@
       "type": "String",
       "default": "left",
       "desc": "Specify how to align the breadcrumbs horizontally",
-      "values": [ "left", "center", "right", "between", "around" ],
+      "values": [ "left", "center", "right", "between", "around", "evenly" ],
       "examples": [ "left", "center" ],
       "category": "content"
     }
@@ -47,13 +47,10 @@
   "slots": {
     "default": {
       "extends": "default"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "separator": {
-      "desc": "HTML or component you can slot in to separate the breadcrumbs",
-      "scope": {}
+      "desc": "HTML or component you can slot in to separate the breadcrumbs"
     }
   }
 }

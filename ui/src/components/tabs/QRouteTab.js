@@ -1,74 +1,37 @@
-import Vue from 'vue'
+import { computed, watch } from 'vue'
 
-import QTab from './QTab.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
-import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useTab, { useTabProps, useTabEmits } from './use-tab.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QRouteTab',
 
-  mixins: [ QTab, RouterLinkMixin ],
-
   props: {
-    to: { required: true }
+    ...useRouterLinkProps,
+    ...useTabProps
   },
 
-  inject: {
-    __activateRoute: {}
-  },
+  emits: useTabEmits,
 
-  watch: {
-    $route () {
-      this.__checkActivation()
-    }
-  },
+  setup (props, { slots, emit }) {
+    const rData = useRouterLink()
 
-  methods: {
-    __activate (e, keyboard) {
-      if (this.disable !== true) {
-        this.__checkActivation(true)
+    const { renderTab, $tabs } = useTab(
+      props,
+      slots,
+      emit,
+      {
+        exact: computed(() => props.exact),
+        ...rData
       }
+    )
 
-      if (keyboard === true) {
-        this.$el.focus(e)
-      }
-      else {
-        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus(e)
-      }
-    },
+    watch(() => props.name + props.exact + (rData.linkRoute.value || {}).href, () => {
+      $tabs.verifyRouteModel()
+    })
 
-    __checkActivation (selected = false) {
-      const
-        current = this.$route,
-        { href, location, route } = this.$router.resolve(this.to, current, this.append),
-        redirected = route.redirectedFrom !== void 0,
-        checkFunction = this.exact === true ? isSameRoute : isIncludedRoute,
-        params = {
-          name: this.name,
-          selected,
-          exact: this.exact,
-          priorityMatched: route.matched.length,
-          priorityHref: href.length
-        }
-
-      checkFunction(current, route) && this.__activateRoute({ ...params, redirected })
-      redirected === true && checkFunction(current, {
-        path: route.redirectedFrom,
-        ...location
-      }) && this.__activateRoute(params)
-      this.isActive && this.__activateRoute()
-    }
-  },
-
-  mounted () {
-    this.$router !== void 0 && this.__checkActivation()
-  },
-
-  beforeDestroy () {
-    this.__activateRoute({ remove: true, name: this.name })
-  },
-
-  render (h) {
-    return this.__renderTab(h, 'router-link', this.routerLinkProps)
+    return () => renderTab(rData.linkTag.value, rData.linkProps.value)
   }
 })

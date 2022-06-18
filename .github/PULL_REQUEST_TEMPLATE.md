@@ -1,12 +1,12 @@
 <!--
-Please make sure to read the Pull Request Guidelines:
-https://github.com/quasarframework/quasar/blob/dev/.github/CONTRIBUTING.md#pull-request-guidelines
+  Please make sure to read the Pull Request Guidelines:
+  https://github.com/quasarframework/quasar/blob/dev/CONTRIBUTING.md#pull-request-guidelines
 -->
 
 <!-- PULL REQUEST TEMPLATE -->
-<!-- (Update "[ ]" to "[x]" to check a box) -->
+<!-- Update "[ ]" to "[x]" to check a box (space sensitive) -->
 
-**What kind of change does this PR introduce?** (check at least one)
+**What kind of change does this PR introduce?** <!-- Check at least one -->
 
 - [ ] Bugfix
 - [ ] Feature
@@ -16,22 +16,22 @@ https://github.com/quasarframework/quasar/blob/dev/.github/CONTRIBUTING.md#pull-
 - [ ] Build-related changes
 - [ ] Other, please describe:
 
-**Does this PR introduce a breaking change?** (check one)
+**Does this PR introduce a breaking change?** <!-- Check one -->
 
 - [ ] Yes
 - [ ] No
 
-If yes, please describe the impact and migration path for existing applications:
+<!-- If yes, please describe the impact and migration path for existing applications: -->
 
 **The PR fulfills these requirements:**
 
-- [ ] It's submitted to the `dev` branch and _not_ the `master` branch
+- [ ] It's submitted to the `dev` branch (or `v[X]` branch)
 - [ ] When resolving a specific issue, it's referenced in the PR's title (e.g. `fix: #xxx[,#xxx]`, where "xxx" is the issue number)
 - [ ] It's been tested on a Cordova (iOS, Android) app
-- [ ] It's been tested on a Electron app
-- [ ] Any necessary documentation has been added or updated [in the docs](https://github.com/quasarframework/quasar/tree/dev/docs) (for faster update click on "Suggest an edit on GitHub" at bottom of page) or explained in the PR's description.
+- [ ] It's been tested on an Electron app
+- [ ] Any necessary documentation has been added or updated [in the docs](https://github.com/quasarframework/quasar/tree/dev/docs) <!-- for faster update click on "Suggest an edit on GitHub" at bottom of page --> or explained in the PR's description.
 
 If adding a **new feature**, the PR's description includes:
-- [ ] A convincing reason for adding this feature (to avoid wasting your time, it's best to open a suggestion issue first and wait for approval before working on it)
+- [ ] A convincing reason for adding this feature (to avoid wasting your time, it's best to [start a new feature discussion](https://github.com/quasarframework/quasar/discussions/new?category=ideas-proposals) first and wait for approval before working on it)
 
 **Other information:**

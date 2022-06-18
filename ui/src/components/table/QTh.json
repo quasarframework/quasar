@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/table"
+  },
+
   "props": {
     "props": {
       "type": "Object",

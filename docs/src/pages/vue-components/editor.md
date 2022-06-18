@@ -1,6 +1,7 @@
 ---
 title: Editor (WYSIWYG)
 desc: The QEditor Vue component is a WYSIWYG editor that enables writing and pasting HTML.
+keys: QEditor
 ---
 
 The QEditor component is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
@@ -10,8 +11,9 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 - [execCommand() reference](https://developer.mozilla.org/en-US/docs/Web/API/document/execCommand)
 - [contentEditable spec](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
 
-## Installation
-<doc-installation components="QEditor" />
+## QEditor API
+
+<doc-api file="QEditor" />
 
 ## Examples
 <doc-example title="Default editor" file="QEditor/Basic" />
@@ -122,7 +124,7 @@ User can pick only one option from each dropdown.
 ## Caveats
 
 ### Autocorrect & spellcheck
-There may be occassions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
+There may be occasions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html
 <form
@@ -156,6 +158,3 @@ If you don't set a font (or the user doesn't choose one), the print dialogue wil
 
 ### Internationalization
 The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.
-
-## QEditor API
-<doc-api file="QEditor" />

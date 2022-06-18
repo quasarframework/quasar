@@ -1,6 +1,7 @@
 ---
 title: Popup Proxy
 desc: The QPopupProxy is a Vue component that should be used when you need either a QMenu or a QDialog (on smaller screens) to be displayed.
+keys: QPopupProxy
 related:
   - /vue-components/menu
   - /vue-components/dialog
@@ -9,17 +10,24 @@ related:
 
 QPopupProxy should be used when you need either a [QMenu](/vue-components/menu) (on bigger screens) or a [QDialog](/vue-components/dialog) (on smaller screens) to be displayed. It acts as a proxy which picks either of the two components to use. QPopupProxy also handles context-menus.
 
-## Installation
-<doc-installation components="QPopupProxy" directives="ClosePopup" />
+## QPopupProxy API
+
+<doc-api file="QPopupProxy" />
 
 ## Usage
 ::: tip
 Use your browsers development tools to toggle the device between mobile or desktop (with browser refresh after each change) or, physically resize your browser's window to watch the QPopupProxy component switch between either a QMenu or a QDialog before clicking/tapping on its container. The default breakpoint is set at 450px.
 :::
 
+### Standard
+
 <doc-example title="Standard" file="QPopupProxy/Standard" />
 
+### Context menu
+
 <doc-example title="Context menu (right click / long tap)" file="QPopupProxy/ContextMenu" />
+
+### Breakpoint
 
 On the example below, click on the icon in the input.
 
@@ -33,6 +41,3 @@ Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog
 ::: warning
 QPopupProxy treats some components ([QDate](/vue-components/date), [QTime](/vue-components/time), [QCarousel](/vue-components/carousel) and [QColor](/vue-components/color-picker)) as special ones and forces `cover: true` and `maxHeight: '99vh'` on them. If you don't want this behavior just place a `div` as the first level child of QPopupProxy.
 :::
-
-## QPopupProxy API
-<doc-api file="QPopupProxy" />

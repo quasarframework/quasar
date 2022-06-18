@@ -1,0 +1,197 @@
+{
+  "mixins": [ "composables/private/use-form" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-toggle"
+  },
+
+  "props": {
+    "model-value": {
+      "extends": "model-value",
+      "type": "Any",
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "examples": [ "v-model=\"selected\"" ]
+    },
+
+    "options": {
+      "type": "Array",
+      "desc": "Array of Objects defining each option",
+      "required": true,
+      "definition": {
+        "attrs": {
+          "type": "Object",
+          "desc": "Key-value for attributes to be set on the button",
+          "examples": [ "{ 'aria-label': 'Button label' }" ],
+          "__exemption": [ "definition" ]
+        },
+        "label": {
+          "type": "String",
+          "desc": "Label of option button; Use this prop and/or 'icon', but at least one is required",
+          "examples": [ "Option 1" ]
+        },
+        "icon": {
+          "extends": "icon",
+          "desc": "Icon of option button; Use this prop and/or 'label', but at least one is required"
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Value of the option that will be used by component model",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+        "slot": {
+          "type": "String",
+          "desc": "Slot name to use for this button content; Useful for customizing content or even add tooltips",
+          "examples": [ "mySlot" ]
+        },
+        "...props": {
+          "type": "Any",
+          "desc": "Any other QBtn props (including class and style)",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "examples": [
+        "[ {label: 'One', value: 'one'}, {label: 'Two', value: 'two'} ]"
+      ],
+      "category": "model"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "toggle-color": {
+      "extends": "color",
+      "default": "primary"
+    },
+
+    "toggle-text-color": {
+      "extends": "text-color"
+    },
+
+    "spread": {
+      "type": "Boolean",
+      "desc": "Spread horizontally to all available space",
+      "category": "content"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design",
+      "category": "style"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design",
+      "category": "style"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow",
+      "category": "style"
+    },
+
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Applies a more prominent border-radius for a squared shape button",
+      "category": "style"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design",
+      "category": "style"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Applies a glossy effect",
+      "category": "style"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "Button size name or a CSS unit including unit name",
+      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
+      "category": "style"
+    },
+
+    "padding": {
+      "type": "String",
+      "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
+      "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg", "2px 2px 5px 7px" ],
+      "category": "style"
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Avoid turning label text into caps (which happens by default)",
+      "category": "content"
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Avoid label text wrapping",
+      "category": "content"
+    },
+
+    "ripple": {
+      "extends": "ripple"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "stack": {
+      "type": "Boolean",
+      "desc": "Stack icon and label vertically instead of on same line (like it is by default)",
+      "category": "content"
+    },
+
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, button will stretch to parent's height",
+      "category": "content"
+    },
+
+    "clearable": {
+      "type": "Boolean",
+      "desc": "Clears model on click of the already selected button",
+      "category": "model"
+    }
+  },
+
+  "events": {
+    "update:model-value": {
+      "extends": "update:model-value"
+    },
+
+    "clear": {
+      "desc": "When using the 'clearable' property, this event is emitted when the already selected button is clicked"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestions: QTooltip, QBadge"
+    },
+    "...": {
+      "desc": "Any other dynamic slots to be used with 'slot' property of the 'options' prop"
+    }
+  }
+}

@@ -1,47 +1,45 @@
 {
   "name": "quasar.dev",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Official Quasar Docs Website",
   "productName": "quasar-docs",
-  "cordovaId": "org.cordova.quasar.app",
   "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
-    "build": "quasar build -m ssr",
-    "deploy": "yarn build && cd dist/ssr && now --public --target production && now alias `pbpaste` quasar.dev",
-    "lint": "eslint --ext .js,.vue src",
+    "build": "node build/search/index.js && cp node_modules/quasar/dist/api/* public/quasar-api/ && quasar build -m ssr",
+    "lint": "eslint --ext .js,.vue ./ --fix",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.1.2",
-    "docsearch.js": "^2.6.2",
-    "prismjs": "^1.15.0",
-    "quasar": "^1.0.0",
-    "vuex": "^3.0.1"
+    "@quasar/extras": "^1.12.4",
+    "prismjs": "^1.26.0",
+    "quasar": "^2.6.2",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.10.0",
-    "eslint-loader": "^2.1.1",
-    "eslint-plugin-vue": "^5.0.0",
+    "@quasar/app-vite": "^1.0.0-beta.9",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-quasar": "^1.1.0",
+    "eslint-plugin-vue": "^8.5.0",
     "gray-matter": "^4.0.2",
-    "markdown-it": "^8.4.2",
-    "markdown-it-container": "^2.0.0",
-    "pug": "^2.0.3",
-    "pug-plain-loader": "^1.0.0",
-    "raw-loader": "^1.0.0",
-    "toml": "^2.3.5"
+    "markdown-ast": "^0.2.1",
+    "markdown-it": "^12.3.2",
+    "markdown-it-container": "^3.0.0",
+    "pug": "^3.0.2",
+    "toml": "^3.0.0",
+    "workbox-build": "^6.5.1"
   },
   "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
-  },
-  "browserslist": [
-    "last 1 version, not dead, ie >= 11"
-  ]
+    "node": ">= 14.19.0",
+    "npm": ">= 6.14.12",
+    "yarn": ">= 1.17.3"
+  }
 }

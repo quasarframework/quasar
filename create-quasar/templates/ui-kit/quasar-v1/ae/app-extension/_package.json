@@ -1,0 +1,22 @@
+{
+  "name": "quasar-app-extension-<%= name %>",
+  "version": "0.0.1",
+  "description": "<%= aeDescription %>",
+  "author": "<%= author %>",
+  "license": "<%= license %>",
+  "main": "src/index.js",
+  "repository": {
+    "type": "<%= repositoryType %>",
+    "url": "<%= repositoryURL %>"
+  },
+  "bugs": "<%= bugs %>",
+  "homepage": "<%= homepage %>",
+  "dependencies": {
+    "quasar-ui-<%= name %>": "latest"
+  },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  }
+}

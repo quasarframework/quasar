@@ -1,6 +1,6 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/banner"
   },
 
   "props": {
@@ -16,6 +16,10 @@
 
     "rounded": {
       "extends": "rounded"
+    },
+
+    "dark": {
+      "extends": "dark"
     }
   },
 

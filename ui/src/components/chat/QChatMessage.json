@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/chat"
+  },
+
   "props": {
     "sent": {
       "type": "Boolean",
@@ -34,13 +38,19 @@
 
     "avatar": {
       "type": "String",
-      "desc": "URL to the avatar image of the author; Suggestion: use a static resource",
-      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "desc": "URL to the avatar image of the author",
+      "transformAssetUrls": true,
+      "examples": [
+        "(public folder) src=\"boy-avatar.png\"",
+        "(assets folder) src=\"~assets/boy-avatar.png\"",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
+      ],
       "category": "content"
     },
 
     "text": {
-      "type": "String",
+      "type": "Array",
       "desc": "Array of strings that are the message body. Strings are not sanitized (see details in docs)",
       "examples": [ ":text=\"['How are you?']\"", ":text=\"['I\\'m good, thank you!', 'And you?']\"" ],
       "category": "content"
@@ -60,24 +70,24 @@
       "category": "style"
     },
 
-    "label-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render label; Use it when the label might be unsafe (from user input)"
+    "label-html": {
+      "extends": "html",
+      "desc": "Render the label as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     },
 
-    "name-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render name; Use it when the name might be unsafe (from user input)"
+    "name-html": {
+      "extends": "html",
+      "desc": "Render the name as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     },
 
-    "text-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)"
+    "text-html": {
+      "extends": "html",
+      "desc": "Render the text as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     },
 
-    "stamp-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render stamp; Use it when the stamp might be unsafe (from user input)"
+    "stamp-html": {
+      "extends": "html",
+      "desc": "Render the stamp as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
     }
   },
 
@@ -88,6 +98,18 @@
 
     "avatar": {
       "desc": "Slot for avatar; Suggestion: QAvatar, img"
+    },
+
+    "name": {
+      "desc": "Slot for name; Overrides the 'name' prop"
+    },
+
+    "stamp": {
+      "desc": "Slot for stamp; Overrides the 'stamp' prop"
+    },
+
+    "label": {
+      "desc": "Slot for label; Overrides the 'label' prop"
     }
   }
 }

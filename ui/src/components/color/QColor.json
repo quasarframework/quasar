@@ -1,8 +1,14 @@
 {
+  "mixins": [ "composables/private/use-form" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/color-picker"
+  },
+
   "props": {
-    "value": {
-      "extends": "value",
-      "type": "String",
+    "model-value": {
+      "extends": "model-value",
+      "type": [ "String", "null", "undefined" ],
       "examples": [ "v-model=\"myColor\"" ]
     },
 
@@ -40,10 +46,29 @@
       "category": "content"
     },
 
+    "square": {
+      "extends": "square"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
     "no-header": {
       "type": "Boolean",
       "desc": "Do not render header",
       "category": "content"
+    },
+
+    "no-header-tabs": {
+      "type": "Boolean",
+      "desc": "Do not render header tabs (only the input)",
+      "category": "content",
+      "addedIn": "v2.2"
     },
 
     "no-footer": {
@@ -66,12 +91,17 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value",
+      "params": {
+        "value": {
+          "type": [ "String", "null" ]
+        }
+      }
     },
 
     "change": {
-      "extends": "input",
+      "extends": "update:model-value",
       "desc": "Emitted on lazy model value change (after user finishes selecting a color)"
     }
   }

@@ -1,6 +1,6 @@
 // Following is adapted from Vue CLI v2 "init" command
 
-const chalk = require('chalk')
+const { red } = require('kolorist')
 
 /**
  * Evaluate an expression in meta.json in the context of
@@ -10,9 +10,11 @@ const chalk = require('chalk')
 module.exports = function evaluate (exp, data) {
   /* eslint-disable no-new-func */
   const fn = new Function('data', 'with (data) { return ' + exp + '}')
+
   try {
     return fn(data)
-  } catch (e) {
-    console.error(chalk.red('Error when evaluating filter condition: ' + exp))
+  }
+  catch (e) {
+    console.error(red('Error when evaluating filter condition: ' + exp))
   }
 }

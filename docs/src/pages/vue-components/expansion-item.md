@@ -1,6 +1,7 @@
 ---
 title: Expansion Item
 desc: The QExpansionItem Vue component allows visibility toggling like an accordion.
+keys: QExpansionItem
 related:
   - /vue-components/list-and-list-items
   - /vue-components/slide-item
@@ -11,12 +12,17 @@ The QExpansionItem component allows the hiding of content that is not immediatel
 
 They are basically [QItem](/vue-components/list-and-list-items) components wrapped with additional functionality. So they can be included in QLists and inherit QItem component properties.
 
-## Installation
-<doc-installation components="QExpansionItem" />
+## QExpansionItem API
+
+<doc-api file="QExpansionItem" />
 
 ## Usage
 
+### Basic
+
 <doc-example title="Basic" file="QExpansionItem/Basic" />
+
+### Controlling expansion state
 
 <doc-example title="Controlling expansion state" file="QExpansionItem/ControlExpansionState" />
 
@@ -49,6 +55,3 @@ The behavior below of toggling by expand icon only is especially useful when hav
 <doc-example title="Accordion mode" file="QExpansionItem/Accordion" />
 
 <doc-example title="Popup mode" file="QExpansionItem/Popup" />
-
-## QExpansionItem API
-<doc-api file="QExpansionItem" />

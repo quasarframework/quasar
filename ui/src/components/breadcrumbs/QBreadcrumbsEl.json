@@ -1,20 +1,30 @@
 {
-  "mixins": [ "mixins/router-link" ],
-
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/breadcrumbs"
   },
+
+  "mixins": [ "composables/private/use-router-link" ],
 
   "props": {
     "label": {
       "type": "String",
       "desc": "The label text for the breadcrumb",
-      "examples": ["Home", "Index"],
+      "examples": [ "Home", "Index" ],
       "category": "content"
     },
 
     "icon": {
       "extends": "icon"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "span",
+      "examples": [ "div", "span" ]
+    },
+
+    "ripple": {
+      "extends": "ripple"
     }
   },
 

@@ -1,0 +1,85 @@
+.q-btn-group
+  border-radius: $button-border-radius
+  box-shadow: $button-shadow
+  vertical-align: middle
+
+  > .q-btn-item
+    border-radius: inherit
+    align-self: stretch
+
+    &:before
+      box-shadow: none
+
+    .q-badge--floating
+      right: 0
+
+  > .q-btn-group
+    box-shadow: none
+
+    &:first-child
+      > .q-btn:first-child
+        border-top-left-radius: inherit
+        border-bottom-left-radius: inherit
+    &:last-child
+      > .q-btn:last-child
+        border-top-right-radius: inherit
+        border-bottom-right-radius: inherit
+  > .q-btn-group:not(:first-child) > .q-btn:first-child:before
+    border-left: 0
+  > .q-btn-group:not(:last-child) > .q-btn:last-child:before
+    border-right: 0
+  > .q-btn-item:not(:last-child)
+    border-top-right-radius: 0
+    border-bottom-right-radius: 0
+  > .q-btn-item:not(:first-child)
+    border-top-left-radius: 0
+    border-bottom-left-radius: 0
+  > .q-btn-item.q-btn--standard:before
+    z-index: -1
+
+  &--push
+    border-radius: $button-push-border-radius
+
+    > .q-btn--push
+      &.q-btn--actionable
+        transform: none
+
+        .q-btn__content
+          transition: margin-top $button-transition, margin-bottom $button-transition
+
+        &:active,
+        &.q-btn--active
+          .q-btn__content
+            margin-top: 2px
+            margin-bottom: -2px
+
+  &--rounded
+    border-radius: $button-rounded-border-radius
+
+  &--flat, &--outline, &--unelevated
+    box-shadow: none
+
+  &--outline
+    > .q-separator
+      display: none
+    > .q-btn-item + .q-btn-item:before
+      border-left: 0
+    > .q-btn-item:not(:last-child):before
+      border-right: 0
+
+  &--stretch
+    align-self: stretch
+    border-radius: 0
+
+  &--glossy
+    > .q-btn-item
+      background-image: linear-gradient(to bottom, rgba(#fff, .3), rgba(#fff, 0) 50%, rgba(#000, .12) 51%, rgba(#000, .04)) !important
+
+  &--spread
+    > .q-btn-group
+      display: flex !important
+    > .q-btn-item, > .q-btn-group > .q-btn-item:not(.q-btn-dropdown__arrow-container)
+      width: auto
+      min-width: 0
+      max-width: 100%
+      flex: 10000 1 0%

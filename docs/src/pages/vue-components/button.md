@@ -1,6 +1,7 @@
 ---
 title: Button
 desc: The QBtn Vue component is a button with features like shaping, loading state, ripple and more.
+keys: QBtn
 related:
   - /vue-components/button-group
   - /vue-components/button-dropdown
@@ -12,27 +13,51 @@ The button component also comes with a spinner or loading effect. You would use 
 
 When not disabled or spinning, QBtn emits a `@click` event, as soon as it is clicked or tapped.
 
-## Installation
-<doc-installation components="QBtn" />
+## QBtn API
+
+<doc-api file="QBtn" />
 
 ## Usage
+
+### Standard
+
 <doc-example title="Standard buttons" file="QBtn/Standard" />
+
+### Custom colors
 
 <doc-example title="Custom colors" file="QBtn/CustomColor" />
 
-<doc-example title="With icons" file="QBtn/WithIcons" />
+### With icon
+
+<doc-example title="With icon" file="QBtn/WithIcons" />
+
+### Round
 
 <doc-example title="Round buttons" file="QBtn/Round" />
 
+### Custom content
+
 <doc-example title="Custom content" file="QBtn/CustomContent" />
+
+<doc-example title="Truncate label" file="QBtn/TruncateLabel" />
 
 ### Design
 
 <doc-example title="Button design" file="QBtn/ButtonDesign" />
 
+### Alignment
+
 <doc-example title="Button alignment" file="QBtn/ButtonAlignment" />
 
+### Size
+
 <doc-example title="Button size" file="QBtn/ButtonSize" />
+
+### Padding
+
+The default padding is "xs md". However, you can use `padding` prop to customize it:
+
+<doc-example title="Button padding" file="QBtn/ButtonPadding" />
 
 ### Progress related
 
@@ -44,22 +69,40 @@ Should you wish, you can also display a deterministic progress within the button
 
 <doc-example title="Deterministic progress" file="QBtn/DeterministicProgress" />
 
-### More options
+### Custom ripple
 
 <doc-example title="Custom ripple" file="QBtn/CustomRipple" />
 
-The example below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+### Handling navigation <q-badge align="top" color="brand-primary" label="updated for v2.4+" />
 
-<doc-example title="Links" file="QBtn/Links" />
+::: warning UMD usage
+* If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project. Otherwise use the alternative `href` prop.
+* Due to the above, some of the QBtn below won't work in Codepen/jsFiddle too.
+:::
+
+::: tip
+Prefer the Vue Router props over `href` when you can, because with `href` you will trigger a window navigation instead of an in-page Vue Router navigation.
+:::
+
+<doc-example title="Links" file="QBtn/Links" no-edit />
+
+For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
+
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLinkExample" no-edit />
+
+### Other options
 
 <doc-example title="Other options" file="QBtn/OtherOptions" />
+
+### Disable
 
 <doc-example title="Disable" file="QBtn/Disabled" />
 
 ### Controlling the button for form submission
 When you have a button to submit a form's input to the server, like a "Save" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.
 
-<doc-example title="Form Submission" file="QBtn/FormSubmission" />
+::: warning
+When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
+:::
 
-## QBtn API
-<doc-api file="QBtn" />
+<doc-example title="Form Submission" file="QBtn/FormSubmission" />

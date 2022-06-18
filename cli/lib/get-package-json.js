@@ -7,8 +7,6 @@ module.exports = function (root) {
         })
       )
     }
-    catch (e) {
-      return null
-    }
+    catch (e) {}
   }
 }

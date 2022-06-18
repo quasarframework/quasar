@@ -1,9 +1,4 @@
-import Vue from 'vue'
+import createUploaderComponent from '../../utils/create-uploader-component.js'
+import xhrUploaderPlugin from './xhr-uploader-plugin.js'
 
-import QUploaderBase from './QUploaderBase.js'
-import UploaderXHRMixin from './uploader-xhr-mixin.js'
-
-export default Vue.extend({
-  name: 'QUploader',
-  mixins: [ QUploaderBase, UploaderXHRMixin ]
-})
+export default createUploaderComponent(xhrUploaderPlugin)

@@ -1,45 +1,82 @@
-import Vue from 'vue'
+import { h, computed, Transition, getCurrentInstance } from 'vue'
 
-import TransitionMixin from '../../mixins/transition.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
+
+export default createComponent({
   name: 'QInnerLoading',
 
-  mixins: [ TransitionMixin ],
-
   props: {
+    ...useDarkProps,
+    ...useTransitionProps,
+
     showing: Boolean,
     color: String,
 
     size: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 42
     },
 
-    dark: Boolean
+    label: String,
+    labelClass: String,
+    labelStyle: [ String, Array, Object ]
   },
 
-  render (h) {
-    const content = this.$scopedSlots.default !== void 0
-      ? this.$scopedSlots.default()
-      : [
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    const { transition, transitionStyle } = useTransition(props, computed(() => props.showing))
+
+    const classes = computed(() =>
+      'q-inner-loading absolute-full column flex-center'
+      + (isDark.value === true ? ' q-inner-loading--dark' : '')
+    )
+
+    const labelClass = computed(() =>
+      'q-inner-loading__label'
+      + (props.labelClass !== void 0 ? ` ${ props.labelClass }` : '')
+    )
+
+    function getInner () {
+      const child = [
         h(QSpinner, {
-          props: {
-            size: this.size,
-            color: this.color
-          }
+          size: props.size,
+          color: props.color
         })
       ]
 
-    return h('transition', {
-      props: { name: this.transition }
-    }, [
-      this.showing === true ? h('div', {
-        staticClass: 'q-inner-loading absolute-full column flex-center',
-        class: this.dark ? 'q-inner-loading--dark' : null,
-        on: this.$listeners
-      }, content) : null
-    ])
+      if (props.label !== void 0) {
+        child.push(
+          h('div', {
+            class: labelClass.value,
+            style: props.labelStyle
+          }, [ props.label ])
+        )
+      }
+
+      return child
+    }
+
+    function getContent () {
+      return props.showing === true
+        ? h(
+          'div',
+          { class: classes.value, style: transitionStyle.value },
+          slots.default !== void 0
+            ? slots.default()
+            : getInner()
+        )
+        : null
+    }
+
+    return () => h(Transition, {
+      name: transition.value,
+      appear: true
+    }, getContent)
   }
 })

@@ -1,21 +1,33 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeMount, onMounted, onBeforeUnmount, onActivated, onDeactivated } from 'vue'
 
-import QList from '../list/QList.js'
-import QMarkupTable from '../table/QMarkupTable.js'
-import VirtualScroll from '../../mixins/virtual-scroll.js'
+import QList from '../item/QList.js'
+import QMarkupTable from '../markup-table/QMarkupTable.js'
+import getTableMiddle from '../table/get-table-middle.js'
 
+import { useVirtualScroll, useVirtualScrollProps } from './use-virtual-scroll.js'
+
+import { createComponent } from '../../utils/private/create.js'
+import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+const comps = {
+  list: QList,
+  table: QMarkupTable
+}
+
+const typeOptions = [ 'list', 'table', '__qtable' ]
+
+export default createComponent({
   name: 'QVirtualScroll',
 
-  mixins: [ VirtualScroll ],
-
   props: {
+    ...useVirtualScrollProps,
+
     type: {
       type: String,
       default: 'list',
-      validator: v => ['list', 'table'].includes(v)
+      validator: v => typeOptions.includes(v)
     },
 
     items: {
@@ -23,137 +35,136 @@ export default Vue.extend({
       default: () => []
     },
 
-    itemsFn: {
-      type: Function
-    },
-
-    itemsSize: {
-      type: Number
-    },
+    itemsFn: Function,
+    itemsSize: Number,
 
     scrollTarget: {
       default: void 0
     }
   },
 
-  computed: {
-    virtualScrollLength () {
-      return this.itemsSize >= 0 && this.itemsFn !== void 0
-        ? parseInt(this.itemsSize, 10)
-        : (Array.isArray(this.items) ? this.items.length : 0)
-    },
+  setup (props, { slots, attrs }) {
+    let localScrollTarget
+    const rootRef = ref(null)
 
-    virtualScrollScope () {
-      if (this.virtualScrollLength === 0) {
+    const virtualScrollLength = computed(() => (
+      props.itemsSize >= 0 && props.itemsFn !== void 0
+        ? parseInt(props.itemsSize, 10)
+        : (Array.isArray(props.items) ? props.items.length : 0)
+    ))
+
+    const {
+      virtualScrollSliceRange,
+      localResetVirtualScroll,
+      padVirtualScroll,
+      onVirtualScrollEvt
+    } = useVirtualScroll({
+      virtualScrollLength, getVirtualScrollTarget, getVirtualScrollEl
+    })
+
+    const virtualScrollScope = computed(() => {
+      if (virtualScrollLength.value === 0) {
         return []
       }
 
       const mapFn = (item, i) => ({
-        index: this.virtualScrollSliceRange.from + i,
+        index: virtualScrollSliceRange.value.from + i,
         item
       })
 
-      if (this.itemsFn === void 0) {
-        return this.items.slice(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to).map(mapFn)
-      }
+      return props.itemsFn === void 0
+        ? props.items.slice(virtualScrollSliceRange.value.from, virtualScrollSliceRange.value.to).map(mapFn)
+        : props.itemsFn(virtualScrollSliceRange.value.from, virtualScrollSliceRange.value.to - virtualScrollSliceRange.value.from).map(mapFn)
+    })
 
-      return this.itemsFn(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to - this.virtualScrollSliceRange.from).map(mapFn)
-    },
-
-    classes () {
-      return 'q-virtual-scroll q-virtual-scroll' + (this.virtualScrollHorizontal === true ? '--horizontal' : '--vertical') +
-        (this.scrollTarget !== void 0 ? '' : ' scroll')
-    },
-
-    attrs () {
-      return this.scrollTarget !== void 0 ? void 0 : { tabindex: 0 }
-    }
-  },
-
-  watch: {
-    virtualScrollLength () {
-      this.__resetVirtualScroll()
-    },
-
-    scrollTarget () {
-      this.__unconfigureScrollTarget()
-      this.__configureScrollTarget()
-    }
-  },
-
-  methods: {
-    __getVirtualScrollEl () {
-      return this.$el
-    },
-
-    __getVirtualScrollTarget () {
-      return this.__scrollTarget
-    },
-
-    __configureScrollTarget () {
-      let __scrollTarget = typeof this.scrollTarget === 'string' ? document.querySelector(this.scrollTarget) : this.scrollTarget
-
-      if (__scrollTarget === void 0) {
-        __scrollTarget = this.$el
-      }
-      else if (
-        __scrollTarget === document ||
-        __scrollTarget === document.body ||
-        __scrollTarget === document.scrollingElement ||
-        __scrollTarget === document.documentElement
-      ) {
-        __scrollTarget = window
-      }
-
-      this.__scrollTarget = __scrollTarget
-
-      __scrollTarget.addEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
-    },
-
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
-        this.__scrollTarget = void 0
-      }
-    }
-  },
-
-  beforeMount () {
-    this.__resetVirtualScroll()
-  },
-
-  mounted () {
-    this.__configureScrollTarget()
-  },
-
-  beforeDestroy () {
-    this.__unconfigureScrollTarget()
-  },
-
-  render (h) {
-    if (this.$scopedSlots.default === void 0) {
-      console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
-      return
-    }
-
-    let child = this.__padVirtualScroll(
-      h,
-      this.type === 'list' ? 'div' : 'tbody',
-      this.virtualScrollScope.map(this.$scopedSlots.default)
+    const classes = computed(() =>
+      'q-virtual-scroll q-virtual-scroll' + (props.virtualScrollHorizontal === true ? '--horizontal' : '--vertical')
+      + (props.scrollTarget !== void 0 ? '' : ' scroll')
     )
 
-    if (this.$scopedSlots.before !== void 0) {
-      child = this.$scopedSlots.before().concat(child)
-    }
-    if (this.$scopedSlots.after !== void 0) {
-      child = child.concat(this.$scopedSlots.after())
+    const attributes = computed(() => (
+      props.scrollTarget !== void 0 ? {} : { tabindex: 0 }
+    ))
+
+    watch(virtualScrollLength, () => {
+      localResetVirtualScroll()
+    })
+
+    watch(() => props.scrollTarget, () => {
+      unconfigureScrollTarget()
+      configureScrollTarget()
+    })
+
+    function getVirtualScrollEl () {
+      return rootRef.value.$el || rootRef.value
     }
 
-    return h(this.type === 'list' ? QList : QMarkupTable, {
-      class: this.classes,
-      attrs: this.attrs,
-      props: this.$attrs,
-      on: this.$listeners
-    }, child)
+    function getVirtualScrollTarget () {
+      return localScrollTarget
+    }
+
+    function configureScrollTarget () {
+      localScrollTarget = getScrollTarget(getVirtualScrollEl(), props.scrollTarget)
+      localScrollTarget.addEventListener('scroll', onVirtualScrollEvt, listenOpts.passive)
+    }
+
+    function unconfigureScrollTarget () {
+      if (localScrollTarget !== void 0) {
+        localScrollTarget.removeEventListener('scroll', onVirtualScrollEvt, listenOpts.passive)
+        localScrollTarget = void 0
+      }
+    }
+
+    function __getVirtualChildren () {
+      let child = padVirtualScroll(
+        props.type === 'list' ? 'div' : 'tbody',
+        virtualScrollScope.value.map(slots.default)
+      )
+
+      if (slots.before !== void 0) {
+        child = slots.before().concat(child)
+      }
+
+      return hMergeSlot(slots.after, child)
+    }
+
+    onBeforeMount(() => {
+      localResetVirtualScroll()
+    })
+
+    onMounted(() => {
+      configureScrollTarget()
+    })
+
+    onActivated(() => {
+      configureScrollTarget()
+    })
+
+    onDeactivated(() => {
+      unconfigureScrollTarget()
+    })
+
+    onBeforeUnmount(() => {
+      unconfigureScrollTarget()
+    })
+
+    return () => {
+      if (slots.default === void 0) {
+        console.error('QVirtualScroll: default scoped slot is required for rendering')
+        return
+      }
+
+      return props.type === '__qtable'
+        ? getTableMiddle(
+          { ref: rootRef, class: 'q-table__middle ' + classes.value },
+          __getVirtualChildren()
+        )
+        : h(comps[ props.type ], {
+          ...attrs,
+          ref: rootRef,
+          class: [ attrs.class, classes.value ],
+          ...attributes.value
+        }, __getVirtualChildren)
+    }
   }
 })

@@ -1,19 +1,24 @@
 {
-  "mixins": [ "mixins/checkbox" ],
+  "mixins": [ "components/checkbox/use-checkbox" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/checkbox"
+  },
 
   "props": {
-    "indeterminate-value": {
-      "type": "Any",
-      "desc": "What model value should be considered as 'indeterminate'?",
-      "default": null,
-      "examples": [ 0, "not_answered" ],
-      "category": "behavior"
+    "checked-icon": {
+      "desc": "The icon to be used when the model is truthy (instead of the default design)",
+      "addedIn": "v2.5"
     },
 
-    "toggle-indeterminate": {
-      "type": "Boolean",
-      "desc": "When user clicks/taps on the component, should we toggle through the indeterminate state too?",
-      "category": "behavior"
+    "unchecked-icon": {
+      "desc": "The icon to be used when the toggle is falsy (instead of the default design)",
+      "addedIn": "v2.5"
+    },
+
+    "indeterminate-icon": {
+      "desc": "The icon to be used when the model is indeterminate (instead of the default design)",
+      "addedIn": "v2.5"
     }
   }
 }

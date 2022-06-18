@@ -1,8 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/linear-progress"
   },
 
   "props": {
@@ -60,6 +60,18 @@
 
     "rounded": {
       "extends": "rounded"
+    },
+
+    "instant-feedback": {
+      "type": "Boolean",
+      "desc": "No transition when model changes",
+      "category": "behavior"
+    },
+
+    "animation-speed": {
+      "extends": "animation-speed",
+      "default": 2100,
+      "addedIn": "v2.3"
     }
   },
 

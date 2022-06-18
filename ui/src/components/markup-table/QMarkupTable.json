@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/markup-table"
+  },
+
+  "props": {
+    "dense": {
+      "extends": "dense"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "separator": {
+      "type": "String",
+      "desc": "Use a separator/border between rows, columns or all cells",
+      "default": "horizontal",
+      "values": [ "horizontal", "vertical", "cell", "none" ],
+      "examples": [ "cell" ],
+      "category": "content"
+    },
+
+    "wrap-cells": {
+      "type": "Boolean",
+      "desc": "Wrap text within table cells",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

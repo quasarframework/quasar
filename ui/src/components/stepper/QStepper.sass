@@ -13,12 +13,15 @@
     line-height: 14px
 
   &__dot
+    contain: layout
     margin-right: 8px
     font-size: 14px
     width: 24px
+    min-width: 24px
     height: 24px
     border-radius: 50%
     background: currentColor
+
     span
       color: #fff
 
@@ -38,19 +41,18 @@
       cursor: pointer
 
     &--active, &--done
-      color: $primary
-      color: var(--q-color-primary)
+      color: var(--q-primary)
       .q-stepper__dot, .q-stepper__label
         text-shadow: 0 0 0 currentColor
     &--disabled
       .q-stepper__dot
-        background: rgba(0, 0, 0, .22)
+        background: rgba(0,0,0,.22)
       .q-stepper__label
-        color: rgba(0, 0, 0, .32)
+        color: rgba(0,0,0,.32)
     &--error
-      color: $negative
-      color: var(--q-color-negative)
+      color: var(--q-negative)
 
+    &--error-with-icon
       .q-stepper__dot
         background: transparent !important
         span
@@ -71,6 +73,8 @@
           justify-content: flex-start
         &:last-child
           justify-content: flex-end
+        &:only-child
+          justify-content: center
       .q-stepper__dot:after
         display: none
     &--alternative-labels
@@ -86,6 +90,30 @@
         text-align: center
         &:before, &:after
           display: none
+    &--contracted
+      min-height: 72px
+      &.q-stepper__header--alternative-labels
+        .q-stepper__tab
+          min-height: 72px
+          &:first-child
+            align-items: flex-start
+          &:last-child
+            align-items: flex-end
+      .q-stepper__tab
+        padding: 24px 0
+        &:first-child
+          .q-stepper__dot
+            transform: translateX(24px)
+        &:last-child
+          .q-stepper__dot
+            transform: translateX(-24px)
+      .q-stepper__tab:not(:last-child)
+        .q-stepper__dot:after
+          display: block !important
+      .q-stepper__dot
+        margin: 0
+      .q-stepper__label
+        display: none
 
   &__nav
     padding-top: 24px
@@ -108,6 +136,7 @@
     .q-stepper__tab
       overflow: hidden
     .q-stepper__line
+      contain: layout
       &:before, &:after
         position: absolute
         top: 50%
@@ -162,7 +191,6 @@
       padding-bottom: 8px
 
   &--dark
-    color: #fff
 
     &.q-stepper--bordered,
     .q-stepper__header--border
@@ -181,30 +209,4 @@
         .q-stepper__dot
           background: $separator-dark-color
         .q-stepper__label
-          color: rgba(255, 255, 255, .54)
-
-  &--contracted
-    .q-stepper__header
-      min-height: 72px
-      &--alternative-labels
-        .q-stepper__tab
-          min-height: 72px
-          &:first-child
-            align-items: flex-start
-          &:last-child
-            align-items: flex-end
-      .q-stepper__tab
-        padding: 24px 0
-        &:first-child
-          .q-stepper__dot
-            transform: translateX(24px)
-        &:last-child
-          .q-stepper__dot
-            transform: translateX(-24px)
-    .q-stepper__tab:not(:last-child)
-      .q-stepper__dot:after
-        display: block !important
-    .q-stepper__dot
-      margin: 0
-    .q-stepper__label
-      display: none
+          color: rgba(255,255,255,.54)

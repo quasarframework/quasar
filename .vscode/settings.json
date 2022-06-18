@@ -1,0 +1,16 @@
+{
+  "eslint.format.enable": false,
+  "editor.formatOnSave": false,
+  "eslint.workingDirectories": ["./docs", "./ui"],
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "vue"],
+  "json.schemas": [
+    {
+      "fileMatch": ["cypress.json"],
+      "url": "https://on.cypress.io/cypress.schema.json",
+    },
+  ],
+}

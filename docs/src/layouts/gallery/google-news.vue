@@ -6,7 +6,7 @@
           flat
           dense
           round
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleLeftDrawer"
           aria-label="Menu"
           icon="menu"
           class="q-mr-sm"
@@ -32,7 +32,7 @@
               aria-label="Menu"
               icon="arrow_drop_down"
             >
-              <q-menu anchor="bottom right" self="top right">
+              <q-menu anchor="bottom end" self="top end">
                 <div class="q-pa-md" style="width: 400px">
                   <div class="text-body2 text-grey q-mb-md">
                     Narrow your search results
@@ -104,7 +104,7 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-white"
+      class="bg-white"
       :width="280"
     >
       <q-scroll-area class="fit">
@@ -157,20 +157,51 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import { fasEarthAmericas, fasFlask } from '@quasar/extras/fontawesome-v6'
+
 export default {
   name: 'GoogleNewsLayout',
 
-  data () {
+  setup () {
+    const leftDrawerOpen = ref(false)
+    const search = ref('')
+    const showAdvanced = ref(false)
+    const showDateOptions = ref(false)
+    const exactPhrase = ref('')
+    const hasWords = ref('')
+    const excludeWords = ref('')
+    const byWebsite = ref('')
+    const byDate = ref('Any time')
+
+    function onClear () {
+      exactPhrase.value = ''
+      hasWords.value = ''
+      excludeWords.value = ''
+      byWebsite.value = ''
+      byDate.value = 'Any time'
+    }
+
+    function changeDate (option) {
+      byDate.value = option
+      showDateOptions.value = false
+    }
+
+    function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+    }
+
     return {
-      leftDrawerOpen: false,
-      search: '',
-      showAdvanced: false,
-      showDateOptions: false,
-      exactPhrase: '',
-      hasWords: '',
-      excludeWords: '',
-      byWebsite: '',
-      byDate: 'Any time',
+      leftDrawerOpen,
+      search,
+      showAdvanced,
+      showDateOptions,
+      exactPhrase,
+      hasWords,
+      excludeWords,
+      byWebsite,
+      byDate,
+
       links1: [
         { icon: 'web', text: 'Top stories' },
         { icon: 'person', text: 'For you' },
@@ -179,13 +210,13 @@ export default {
       ],
       links2: [
         { icon: 'flag', text: 'Canada' },
-        { icon: 'fas fa-globe-americas', text: 'World' },
+        { icon: fasEarthAmericas, text: 'World' },
         { icon: 'place', text: 'Local' },
         { icon: 'domain', text: 'Business' },
         { icon: 'memory', text: 'Technology' },
         { icon: 'local_movies', text: 'Entertainment' },
         { icon: 'directions_bike', text: 'Sports' },
-        { icon: 'fas fa-flask', text: 'Science' },
+        { icon: fasFlask, text: 'Science' },
         { icon: 'fitness_center', text: 'Health ' }
       ],
       links3: [
@@ -195,22 +226,11 @@ export default {
         { icon: 'open_in_new', text: 'Get the iOS app' },
         { icon: '', text: 'Send feedback' },
         { icon: 'open_in_new', text: 'Help' }
-      ]
-    }
-  },
+      ],
 
-  methods: {
-    onClear () {
-      this.exactPhrase = ''
-      this.hasWords = ''
-      this.excludeWords = ''
-      this.byWebsite = ''
-      this.byDate = 'Any time'
-    },
-
-    changeDate (option) {
-      this.byDate = option
-      this.showDateOptions = false
+      onClear,
+      changeDate,
+      toggleLeftDrawer
     }
   }
 }

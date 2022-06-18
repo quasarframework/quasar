@@ -1,7 +1,23 @@
-import { css } from './dom.js'
+import { css, getElement } from './dom.js'
 
-export function getScrollTarget (el) {
-  return el.closest('.scroll,.scroll-y,.overflow-auto') || window
+const scrollTargets = __QUASAR_SSR_SERVER__
+  ? []
+  : [ null, document, document.body, document.scrollingElement, document.documentElement ]
+
+export function getScrollTarget (el, targetEl) {
+  let target = getElement(targetEl)
+
+  if (target === void 0) {
+    if (el === void 0 || el === null) {
+      return window
+    }
+
+    target = el.closest('.scroll,.scroll-y,.overflow-auto')
+  }
+
+  return scrollTargets.includes(target)
+    ? window
+    : target
 }
 
 export function getScrollHeight (el) {
@@ -12,22 +28,21 @@ export function getScrollWidth (el) {
   return (el === window ? document.body : el).scrollWidth
 }
 
-export function getScrollPosition (scrollTarget) {
-  if (scrollTarget === window) {
-    return window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-  }
-  return scrollTarget.scrollTop
+export function getVerticalScrollPosition (scrollTarget) {
+  return scrollTarget === window
+    ? window.pageYOffset || window.scrollY || document.body.scrollTop || 0
+    : scrollTarget.scrollTop
 }
 
 export function getHorizontalScrollPosition (scrollTarget) {
-  if (scrollTarget === window) {
-    return window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-  }
-  return scrollTarget.scrollLeft
+  return scrollTarget === window
+    ? window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+    : scrollTarget.scrollLeft
 }
 
-export function animScrollTo (el, to, duration) {
-  const pos = getScrollPosition(el)
+export function animVerticalScrollTo (el, to, duration = 0 /* , prevTime */) {
+  const prevTime = arguments[ 3 ] === void 0 ? performance.now() : arguments[ 3 ]
+  const pos = getVerticalScrollPosition(el)
 
   if (duration <= 0) {
     if (pos !== to) {
@@ -36,16 +51,18 @@ export function animScrollTo (el, to, duration) {
     return
   }
 
-  requestAnimationFrame(() => {
-    const newPos = pos + (to - pos) / Math.max(16, duration) * 16
+  requestAnimationFrame(nowTime => {
+    const frameTime = nowTime - prevTime
+    const newPos = pos + (to - pos) / Math.max(frameTime, duration) * frameTime
     setScroll(el, newPos)
     if (newPos !== to) {
-      animScrollTo(el, to, duration - 16)
+      animVerticalScrollTo(el, to, duration - frameTime, nowTime)
     }
   })
 }
 
-export function animHorizontalScrollTo (el, to, duration) {
+export function animHorizontalScrollTo (el, to, duration = 0 /* , prevTime */) {
+  const prevTime = arguments[ 3 ] === void 0 ? performance.now() : arguments[ 3 ]
   const pos = getHorizontalScrollPosition(el)
 
   if (duration <= 0) {
@@ -55,18 +72,19 @@ export function animHorizontalScrollTo (el, to, duration) {
     return
   }
 
-  requestAnimationFrame(() => {
-    const newPos = pos + (to - pos) / Math.max(16, duration) * 16
+  requestAnimationFrame(nowTime => {
+    const frameTime = nowTime - prevTime
+    const newPos = pos + (to - pos) / Math.max(frameTime, duration) * frameTime
     setHorizontalScroll(el, newPos)
     if (newPos !== to) {
-      animHorizontalScrollTo(el, to, duration - 16)
+      animHorizontalScrollTo(el, to, duration - frameTime, nowTime)
     }
   })
 }
 
 function setScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(0, offset)
+    window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, offset)
     return
   }
   scrollTarget.scrollTop = offset
@@ -74,15 +92,15 @@ function setScroll (scrollTarget, offset) {
 
 function setHorizontalScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(offset, 0)
+    window.scrollTo(offset, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     return
   }
   scrollTarget.scrollLeft = offset
 }
 
-export function setScrollPosition (scrollTarget, offset, duration) {
+export function setVerticalScrollPosition (scrollTarget, offset, duration) {
   if (duration) {
-    animScrollTo(scrollTarget, offset, duration)
+    animVerticalScrollTo(scrollTarget, offset, duration)
     return
   }
   setScroll(scrollTarget, offset)
@@ -124,7 +142,7 @@ export function getScrollbarWidth () {
 
   document.body.appendChild(outer)
 
-  let w1 = inner.offsetWidth
+  const w1 = inner.offsetWidth
   outer.style.overflow = 'scroll'
   let w2 = inner.offsetWidth
 
@@ -145,19 +163,19 @@ export function hasScrollbar (el, onY = true) {
 
   return onY
     ? (
-      el.scrollHeight > el.clientHeight && (
-        el.classList.contains('scroll') ||
-        el.classList.contains('overflow-auto') ||
-        ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-y'])
+        el.scrollHeight > el.clientHeight && (
+          el.classList.contains('scroll')
+          || el.classList.contains('overflow-auto')
+          || [ 'auto', 'scroll' ].includes(window.getComputedStyle(el)[ 'overflow-y' ])
+        )
       )
-    )
     : (
-      el.scrollWidth > el.clientWidth && (
-        el.classList.contains('scroll') ||
-        el.classList.contains('overflow-auto') ||
-        ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-x'])
+        el.scrollWidth > el.clientWidth && (
+          el.classList.contains('scroll')
+          || el.classList.contains('overflow-auto')
+          || [ 'auto', 'scroll' ].includes(window.getComputedStyle(el)[ 'overflow-x' ])
+        )
       )
-    )
 }
 
 export default {
@@ -166,13 +184,13 @@ export default {
   getScrollHeight,
   getScrollWidth,
 
-  getScrollPosition,
+  getVerticalScrollPosition,
   getHorizontalScrollPosition,
 
-  animScrollTo,
+  animVerticalScrollTo,
   animHorizontalScrollTo,
 
-  setScrollPosition,
+  setVerticalScrollPosition,
   setHorizontalScrollPosition,
 
   getScrollbarWidth,

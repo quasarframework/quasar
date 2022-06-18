@@ -1,11 +1,13 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/no-ssr"
+  },
+
   "props": {
     "tag": {
-      "type": "String",
-      "desc": "HTML tag to render",
+      "extends": "tag",
       "default": "div",
-      "examples": [ "span", "blockquote" ],
-      "category": "content"
+      "examples": [ "div", "span", "blockquote" ]
     },
 
     "placeholder": {

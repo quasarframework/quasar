@@ -3,16 +3,12 @@ title: Sass/SCSS Variables
 desc: How to use the Sass/SCSS variables defined by Quasar.
 components:
   - style/SassVariables
-related:
-  - /quasar-cli/cli-documentation/css-preprocessors
-  - /style/stylus-variables
 ---
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
 
 ::: warning
-* This applies to Quasar CLI managed apps only.
-* **The minimum required version of `@quasar/app` is v1.1. You will also need `quasar` v1.1.1+.**
+This applies to Quasar CLI managed apps only.
 :::
 
 ## Usage
@@ -40,7 +36,7 @@ You don't need to necessarily have the `src/css/quasar.variables.sass` or `src/c
 :::
 
 ::: danger
-When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your devserver in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
+When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your dev server in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
 :::
 
 ## Caveat
@@ -55,15 +51,15 @@ If, however, you have a nested importing statement and the file from which you a
 
 @import 'some-file.sass'
 // now some-file.sass can benefit
-// from Quasar stylus variables too
+// from Quasar Sass variables too
 // due to comment above
 </style>
 ```
 
-Same is required for .sass/.scss files that are included from quasar.conf.js > css.
+Same is required for .sass/.scss files that are included from quasar.config.js > css.
 
 ## Customizing
-If you want to customize the variables (or add your own) and your project does not yet has `src/css/quasar.variables.sass` (or `src/css/quasar.variables.scss`), create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**
+If you want to customize the variables (or add your own) and your project does not yet have a `src/css/quasar.variables.sass` (or `src/css/quasar.variables.scss`) file, create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 
@@ -72,10 +68,9 @@ Quasar is very easy to customize without the need of tampering with the Sass/SCS
 :::
 
 ## Quasar's CSS
-Quasar's own CSS is compiled using the variables file (if it exists), but you can also use [Stylus variables](/style/stylus-variables). So there has to be a priority list for Quasar CLI:
+Quasar's own CSS is compiled using the variables file (if it exists), but there are multiple forms (sass, scss). So there has to be a priority list for Quasar CLI:
 
-* Does `src/css/quasar.variables.styl` exists? Use that.
-* If not, then does `src/css/quasar.variables.scss` exists? Use that.
+* Does `src/css/quasar.variables.scss` exists? Use that.
 * If not, then does `src/css/quasar.variables.sass` exists? Use that.
 * If not, then use pre-compiled Quasar CSS.
 

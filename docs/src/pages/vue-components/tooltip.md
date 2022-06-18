@@ -1,6 +1,7 @@
 ---
 title: Tooltip
 desc: The QTooltip Vue component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or briefly touching and holding on mobile platforms), the tooltip will appear.
+keys: QTooltip
 related:
   - /vue-components/menu
 components:
@@ -8,8 +9,9 @@ components:
 ---
 The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or quickly tapping on mobile platforms), the tooltip will appear.
 
-## Installation
-<doc-installation components="QTooltip" />
+## QTooltip API
+
+<doc-api file="QTooltip" />
 
 ## Usage
 The idea with QTooltip is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QTooltip content inheriting CSS from the container as the QTooltip will be injected as a direct child of `<body>` through a Quasar Portal.
@@ -42,7 +44,6 @@ The example below shows how to create a re-usable menu that can be shared with d
 The position of QTooltip can be customized. It keeps account of the `anchor` and `self` optional props.
 The final position of QTooltip popup is calculated so that it will be displayed on the available screen real estate, switching to the right-side and/or top-side when necessary.
 
-<tooltip-positioning />
+For horizontal positioning you can use `start` and `end` when you want to automatically take into account if on RTL or non-RTL. `start` and `end` mean "left" for non-RTL and "right" for RTL.
 
-## QTooltip API
-<doc-api file="QTooltip" />
+<tooltip-positioning />

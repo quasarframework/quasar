@@ -1,6 +1,10 @@
 ---
 title: CSS Visibility
 desc: The list of CSS classes supplied by Quasar to manage responsiveness and visibility of components and DOM elements.
+related:
+  - /style/typography
+  - /style/positioning
+  - /style/spacing
 ---
 There are some CSS classes that you can use out of the box for common functionality.
 
@@ -21,13 +25,13 @@ There are some CSS classes that you can use out of the box for common functional
 ## Window Width Related
 First of all, let's define what the breakpoints are:
 
-| Window Size | Prefix | Width threshold in pixels |
+| Window Size | Prefix | Breakpointspace in pixels |
 | --- | --- | --- |
 | Extra Small | xs | Up to 599px |
-| Small | sm | Up to 1023px |
-| Medium | md | Up to 1439px |
-| Large | lg | Up to 1919px |
-| Extra Large | xl | Bigger than 1920px |
+| Small | sm | 600px to 1023px |
+| Medium | md | 1024px to 1439px |
+| Large | lg | 1440px to 1919px |
+| Extra Large | xl | 1920px and up |
 
 Now on to the window width related CSS classes.
 
@@ -47,6 +51,10 @@ You can combine the visibility classes with the `inline` class for inline-blocks
 Example: `<span class="gt-sm inline">...</span>`
 :::
 
+::: tip
+If you want to e.g. show hide based on JavaScript properties, you can use the [Screen Plugin](/options/screen-plugin).
+:::
+
 ## Platform Related
 Visible only on:
 
@@ -54,7 +62,9 @@ Visible only on:
 | --- | --- |
 | `desktop-only` | Visible only on desktop |
 | `mobile-only` | Visible only on mobile |
+| `native-mobile-only` | Visible only on Cordova/Capacitor |
 | `cordova-only` | Visible only on Cordova wrapped Apps |
+| `capacitor-only` | Visible only on Capacitor wrapped Apps |
 | `electron-only` | Visible only on Electron wrapped Apps |
 | `touch-only` | Visible only on touch capable platforms |
 | `platform-ios-only` | Visible only on an iOS platform |
@@ -67,7 +77,9 @@ Hide on:
 | --- | --- |
 | `desktop-hide` | Hide on desktop |
 | `mobile-hide` | Hide on mobile |
+| `native-mobile-hide` | Hide on Cordova/Capacitor |
 | `cordova-hide` | Hide on Cordova wrapped Apps |
+| `capacitor-hide` | Hide on Capacitor wrapped Apps |
 | `electron-hide` | Hide on Electron wrapped Apps |
 | `touch-hide` | Hide on touch capable platforms |
 | `platform-ios-hide` | Hide on iOS platform |

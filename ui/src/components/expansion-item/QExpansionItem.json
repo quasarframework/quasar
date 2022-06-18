@@ -1,0 +1,179 @@
+{
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-router-link" ],
+
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/expansion-item"
+  },
+
+  "props": {
+    "model-value": {
+      "extends": "model-value",
+      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": false
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "expand-icon": {
+      "extends": "icon"
+    },
+
+    "expanded-icon": {
+      "extends": "icon",
+      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix"
+    },
+
+    "expand-icon-class": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
+      "desc": "Apply custom class(es) to the expand icon item section",
+      "examples": [ "text-purple" ],
+      "category": "style"
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "Header label (unless using 'header' slot)",
+      "examples": [ "My expansion item" ],
+      "category": "content"
+    },
+
+    "label-lines": {
+      "type": [ "Number", "String" ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "examples": [ "1", "3", ":label-lines=\"2\"" ],
+      "category": "content"
+    },
+
+    "caption": {
+      "type": "String",
+      "desc": "Header sub-label (unless using 'header' slot)",
+      "examples": [ "Unread message: 5" ],
+      "category": "content"
+    },
+
+    "caption-lines": {
+      "type": [ "Number", "String" ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines; If more than one line specified, then it will only work on webkit browsers because it uses the '-webkit-line-clamp' CSS property!",
+      "examples": [ "1", "3", ":caption-lines=\"2\"" ],
+      "category": "content"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "duration": {
+      "type": "Number",
+      "desc": "Animation duration (in milliseconds)",
+      "default": 300,
+      "examples": [ ":duration=\"1000\"" ],
+      "category": "behavior"
+    },
+
+    "header-inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset to header (unless using 'header' slot); Useful when header avatar/left side is missing but you want to align content with other items that do have a left side, or when you're building a menu",
+      "examples": [ ":header-inset-level=\"1\"" ],
+      "category": "content"
+    },
+
+    "content-inset-level": {
+      "type": "Number",
+      "desc": "Apply an inset to content (changes content padding)",
+      "examples": [ ":content-inset-level=\"1\"" ],
+      "category": "content"
+    },
+
+    "expand-separator": {
+      "type": "Boolean",
+      "desc":  "Apply a top and bottom separator when expansion item is opened",
+      "category": "content"
+    },
+
+    "default-opened": {
+      "type": "Boolean",
+      "desc": "Puts expansion item into open state on initial render; Overridden by v-model if used",
+      "category": "behavior"
+    },
+
+    "expand-icon-toggle": {
+      "type": "Boolean",
+      "desc": "Applies the expansion events to the expand icon only and not to the whole header",
+      "category": "behavior"
+    },
+
+    "switch-toggle-side": {
+      "type": "Boolean",
+      "desc": "Switch expand icon side (from default 'right' to 'left')",
+      "category": "content"
+    },
+
+    "dense-toggle": {
+      "type": "Boolean",
+      "desc": "Use dense mode for expand icon",
+      "category": "style"
+    },
+
+    "group": {
+      "type": "String",
+      "desc": "Register expansion item into a group (unique name that must be applied to all expansion items in that group) for coordinated open/close state within the group a.k.a. 'accordion mode'",
+      "examples": [ "my-emails" ],
+      "category": "content|behavior"
+    },
+
+    "popup": {
+      "type": "Boolean",
+      "desc": "Put expansion list into 'popup' mode",
+      "category": "behavior"
+    },
+
+    "header-style": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
+      "desc": "Apply custom style to the header",
+      "examples": [
+        "background: '#ff0000'",
+        ":header-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "header-class": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
+      "desc": "Apply custom class(es) to the header",
+      "examples": [
+        "my-custom-class",
+        ":header-class=\"{ 'my-custom-class': someCondition }\""
+      ],
+      "category": "style"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Slot used for expansion item's content"
+    },
+
+    "header": {
+      "desc": "Slot used for overriding default header"
+    }
+  },
+
+  "events": {
+    "after-show": {
+      "extends": "after-show"
+    },
+
+    "after-hide": {
+      "extends": "after-hide"
+    }
+  }
+}

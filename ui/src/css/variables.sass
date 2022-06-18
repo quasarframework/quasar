@@ -12,6 +12,10 @@ $space-xl   : (x: ($space-x-base * 3), y: ($space-y-base * 3)) !default
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $spaces: ('none': $space-none, 'xs': $space-xs, 'sm': $space-sm, 'md': $space-md, 'lg': $space-lg, 'xl': $space-xl) !default
 
+$animate-duration : .3s !default
+$animate-delay    : .3s !default
+$animate-repeat   : 1 !default
+
 // Max width at which point
 // current size ends
 $breakpoint-xs: 599px !default
@@ -35,20 +39,18 @@ $flex-gutter: ('none': 0, 'xs': $flex-gutter-xs, 'sm': $flex-gutter-sm, 'md': $f
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $sizes: ('xs': 0, 'sm': ($breakpoint-xs + 1), 'md': ($breakpoint-sm + 1), 'lg': ($breakpoint-md + 1), 'xl': ($breakpoint-lg + 1)) !default
 
-$breakpoint-xs-min: 0 !default
-$breakpoint-xs-max: $breakpoint-xs !default
+$breakpoint-xs-max: (map-get($sizes, "sm") - 0.02) !default
 
 $breakpoint-sm-min: map-get($sizes, "sm") !default
-$breakpoint-sm-max: $breakpoint-sm !default
+$breakpoint-sm-max: (map-get($sizes, "md") - 0.02) !default
 
 $breakpoint-md-min: map-get($sizes, "md") !default
-$breakpoint-md-max: $breakpoint-md !default
+$breakpoint-md-max: (map-get($sizes, "lg") - 0.02) !default
 
 $breakpoint-lg-min: map-get($sizes, "lg") !default
-$breakpoint-lg-max: $breakpoint-lg !default
+$breakpoint-lg-max: (map-get($sizes, "xl") - 0.02) !default
 
 $breakpoint-xl-min: map-get($sizes, "xl") !default
-$breakpoint-xl-max: 9999px !default
 
 $h1:        (size: 6rem,     line-height: 6rem,     letter-spacing: -.01562em, weight: 300) !default
 $h2:        (size: 3.75rem,  line-height: 3.75rem,  letter-spacing: -.00833em, weight: 300) !default
@@ -72,24 +74,24 @@ $h-tags: (h1: map-get($headings, "h1"), h2: map-get($headings, "h2"), h3: map-ge
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $text-weights: (thin: 100, light: 300, regular: 400, medium: 500, bold: 700, bolder: 900) !default
 
-$primary   : #027BE3 !default
+$primary   : #1976D2 !default
 $secondary : #26A69A !default
 $accent    : #9C27B0 !default
+
+// used by dark mode
+$dark-page : #121212 !default
+$dark      : #1d1d1d !default
 
 $positive  : #21BA45 !default
 $negative  : #C10015 !default
 $info      : #31CCEC !default
 $warning   : #F2C037 !default
 
-$light     : #bdbdbd !default
-$dark      : #424242 !default
-$faded     : #777 !default
-
 $dimmed-background       : rgba(0, 0, 0, .4) !default
 $light-dimmed-background : rgba(255, 255, 255, .6) !default
 
 $separator-color         : rgba(0, 0, 0, .12) !default
-$separator-dark-color    : rgba(255, 255, 255, .48) !default
+$separator-dark-color    : rgba(255, 255, 255, .28) !default
 
 $red : #f44336 !default
 $red-1 : #ffebee !default
@@ -393,6 +395,7 @@ $z-max                : 9998 !default
 $shadow-color         : #000 !default
 $shadow-transition    : box-shadow .28s cubic-bezier(.4, 0, .2, 1) !default
 $inset-shadow         : 0 7px 9px -7px rgba($shadow-color, .7) inset !default
+$inset-shadow-down    : 0 -7px 9px -7px rgba($shadow-color, .7) inset !default
 
 $elevation-umbra      : rgba($shadow-color, .2) !default
 $elevation-penumbra   : rgba($shadow-color, .14) !default
@@ -466,7 +469,7 @@ $button-padding                 : 4px 16px !default
 $button-dense-padding           : .285em !default
 $button-transition              : $generic-hover-transition !default
 $button-font-size               : 14px !default
-$button-line-height             : 1.718em !default
+$button-line-height             : 1.715em !default
 $button-font-weight             : 500 !default
 $button-shadow                  : $shadow-2 !default
 $button-shadow-active           : $shadow-5 !default
@@ -485,13 +488,13 @@ $chat-message-text-padding      : 8px !default
 $item-base-color                : $grey-5 !default
 
 $editor-border-color            : $separator-color !default
+$editor-border-dark-color       : $separator-dark-color !default
 $editor-content-padding         : 10px !default
 $editor-content-min-height      : 10em !default
 $editor-toolbar-padding         : 4px !default
 $editor-hr-color                : $editor-border-color !default
+$editor-hr-dark-color           : $editor-border-dark-color !default
 $editor-button-gutter           : 4px !default
-
-$fab-margin                     : 5px !default
 
 $table-transition               : $generic-hover-transition !default
 $table-border-radius            : $generic-border-radius !default
@@ -538,8 +541,6 @@ $input-text-color               : rgba(0,0,0,.87) !default
 $input-label-color              : rgba(0,0,0,.6) !default
 $input-autofill-color           : inherit !default
 
-$img-width                      : 100% !default
-$img-background-repeat          : no-repeat !default
 $img-loading-font-size          : 50px !default
 $img-content-position           : absolute !default
 $img-content-padding            : 16px !default

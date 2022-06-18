@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
+  },
+
+  "props": {
+    "overline": {
+      "type": "Boolean",
+      "desc": "Renders an overline label",
+      "category": "content"
+    },
+
+    "caption": {
+      "type": "Boolean",
+      "desc": "Renders a caption label",
+      "category": "content"
+    },
+
+    "header": {
+      "type": "Boolean",
+      "desc": "Renders a header label",
+      "category": "content"
+    },
+
+    "lines": {
+      "type": [ "Number", "String" ],
+      "desc": "Apply ellipsis when there's not enough space to render on the specified number of lines;",
+      "examples": [ "1", "3", ":lines=\"2\"" ],
+      "category": "content|behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "The content of the label; Suggestion: text"
+    }
+  }
+}

@@ -1,9 +1,8 @@
-import Vue from 'vue'
-
-import { isSSR, fromSSR } from './Platform.js'
+import { isRuntimeSsrPreHydration } from './Platform.js'
 import extend from '../utils/extend.js'
 
-let updateId, ssrTakeover
+let updateId, currentClientMeta
+export const clientList = []
 
 function normalize (meta) {
   if (meta.title) {
@@ -13,20 +12,20 @@ function normalize (meta) {
     delete meta.titleTemplate
   }
 
-  ;[['meta', 'content'], ['link', 'href']].forEach(type => {
+  ;[ [ 'meta', 'content' ], [ 'link', 'href' ] ].forEach(type => {
     const
-      metaType = meta[type[0]],
-      metaProp = type[1]
+      metaType = meta[ type[ 0 ] ],
+      metaProp = type[ 1 ]
 
-    for (let name in metaType) {
-      const metaLink = metaType[name]
+    for (const name in metaType) {
+      const metaLink = metaType[ name ]
 
       if (metaLink.template) {
         if (Object.keys(metaLink).length === 1) {
-          delete metaType[name]
+          delete metaType[ name ]
         }
         else {
-          metaLink[metaProp] = metaLink.template(metaLink[metaProp] || '')
+          metaLink[ metaProp ] = metaLink.template(metaLink[ metaProp ] || '')
           delete metaLink.template
         }
       }
@@ -38,23 +37,23 @@ function changed (old, def) {
   if (Object.keys(old).length !== Object.keys(def).length) {
     return true
   }
-  for (let key in old) {
-    if (old[key] !== def[key]) {
+  for (const key in old) {
+    if (old[ key ] !== def[ key ]) {
       return true
     }
   }
 }
 
 function bodyFilter (name) {
-  return ['class', 'style'].includes(name) === false
+  return [ 'class', 'style' ].includes(name) === false
 }
 
 function htmlFilter (name) {
-  return ['lang', 'dir'].includes(name) === false
+  return [ 'lang', 'dir' ].includes(name) === false
 }
 
 function diff (meta, other) {
-  let add = {}, remove = {}
+  const add = {}, remove = {}
 
   if (meta === void 0) {
     return { add: other, remove }
@@ -64,29 +63,29 @@ function diff (meta, other) {
     add.title = other.title
   }
 
-  ;['meta', 'link', 'script', 'htmlAttr', 'bodyAttr'].forEach(type => {
-    const old = meta[type], cur = other[type]
-    remove[type] = []
+  ;[ 'meta', 'link', 'script', 'htmlAttr', 'bodyAttr' ].forEach(type => {
+    const old = meta[ type ], cur = other[ type ]
+    remove[ type ] = []
 
     if (old === void 0 || old === null) {
-      add[type] = cur
+      add[ type ] = cur
       return
     }
 
-    add[type] = {}
+    add[ type ] = {}
 
-    for (let key in old) {
+    for (const key in old) {
       if (cur.hasOwnProperty(key) === false) {
-        remove[type].push(key)
+        remove[ type ].push(key)
       }
     }
-    for (let key in cur) {
+    for (const key in cur) {
       if (old.hasOwnProperty(key) === false) {
-        add[type][key] = cur[key]
+        add[ type ][ key ] = cur[ key ]
       }
-      else if (changed(old[key], cur[key]) === true) {
-        remove[type].push(key)
-        add[type][key] = cur[key]
+      else if (changed(old[ key ], cur[ key ]) === true) {
+        remove[ type ].push(key)
+        add[ type ][ key ] = cur[ key ]
       }
     }
   })
@@ -100,9 +99,9 @@ function apply ({ add, remove }) {
   }
 
   if (Object.keys(remove).length > 0) {
-    ['meta', 'link', 'script'].forEach(type => {
-      remove[type].forEach(name => {
-        document.head.querySelector(`${type}[data-qmeta="${name}"]`).remove()
+    [ 'meta', 'link', 'script' ].forEach(type => {
+      remove[ type ].forEach(name => {
+        document.head.querySelector(`${ type }[data-qmeta="${ name }"]`).remove()
       })
     })
     remove.htmlAttr.filter(htmlFilter).forEach(name => {
@@ -113,102 +112,62 @@ function apply ({ add, remove }) {
     })
   }
 
-  ;['meta', 'link', 'script'].forEach(type => {
-    const metaType = add[type]
+  ;[ 'meta', 'link', 'script' ].forEach(type => {
+    const metaType = add[ type ]
 
-    for (let name in metaType) {
+    for (const name in metaType) {
       const tag = document.createElement(type)
-      for (let att in metaType[name]) {
+      for (const att in metaType[ name ]) {
         if (att !== 'innerHTML') {
-          tag.setAttribute(att, metaType[name][att])
+          tag.setAttribute(att, metaType[ name ][ att ])
         }
       }
       tag.setAttribute('data-qmeta', name)
       if (type === 'script') {
-        tag.innerHTML = metaType[name].innerHTML || ''
+        tag.innerHTML = metaType[ name ].innerHTML || ''
       }
       document.head.appendChild(tag)
     }
   })
   Object.keys(add.htmlAttr).filter(htmlFilter).forEach(name => {
-    document.documentElement.setAttribute(name, add.htmlAttr[name] || '')
+    document.documentElement.setAttribute(name, add.htmlAttr[ name ] || '')
   })
   Object.keys(add.bodyAttr).filter(bodyFilter).forEach(name => {
-    document.body.setAttribute(name, add.bodyAttr[name] || '')
+    document.body.setAttribute(name, add.bodyAttr[ name ] || '')
   })
-}
-
-function parseMeta (component, meta) {
-  if (component._inactive === true) { return }
-
-  // if it has meta
-  if (component.__qMeta !== void 0) {
-    extend(true, meta, component.__qMeta)
-    if (component.$options.meta.stopPropagation === true) {
-      return
-    }
-  }
-
-  component.$children.forEach(child => {
-    parseMeta(child, meta)
-  })
-}
-
-function updateClient () {
-  if (ssrTakeover === true) {
-    ssrTakeover = false
-    this.$root.__currentMeta = window.__Q_META__
-    document.body.querySelector('script[data-qmeta-init]').remove()
-    return
-  }
-
-  const meta = {
-    title: '',
-    titleTemplate: null,
-    meta: {},
-    link: {},
-    script: {},
-    htmlAttr: {},
-    bodyAttr: {}
-  }
-  parseMeta(this.$root, meta)
-  normalize(meta)
-
-  apply(diff(this.$root.__currentMeta, meta))
-  this.$root.__currentMeta = meta
 }
 
 function getAttr (seed) {
   return att => {
-    const val = seed[att]
-    return att + (val !== void 0 ? `="${val}"` : '')
+    const val = seed[ att ]
+    return att + (val !== true && val !== void 0 ? `="${ val }"` : '')
   }
 }
 
 function getHead (meta) {
   let output = ''
   if (meta.title) {
-    output += `<title>${meta.title}</title>`
+    output += `<title>${ meta.title }</title>`
   }
-  ;['meta', 'link', 'script'].forEach(type => {
-    const metaType = meta[type]
+  ;[ 'meta', 'link', 'script' ].forEach(type => {
+    const metaType = meta[ type ]
 
-    for (let att in metaType) {
-      const attrs = Object.keys(metaType[att])
+    for (const att in metaType) {
+      const attrs = Object.keys(metaType[ att ])
         .filter(att => att !== 'innerHTML')
-        .map(getAttr(metaType[att]))
+        .map(getAttr(metaType[ att ]))
 
-      output += `<${type} ${attrs.join(' ')} data-qmeta="${att}">`
+      output += `<${ type } ${ attrs.join(' ') } data-qmeta="${ att }">`
       if (type === 'script') {
-        output += (metaType[att].innerHTML || '') + `</script>`
+        output += (metaType[ att ].innerHTML || '') + '</script>'
       }
     }
   })
   return output
 }
 
-function getServerMeta (app, html) {
-  const meta = {
+function injectServerMeta (ssrContext) {
+  const data = {
     title: '',
     titleTemplate: null,
     meta: {},
@@ -218,95 +177,89 @@ function getServerMeta (app, html) {
     noscript: {}
   }
 
-  parseMeta(app, meta)
-  normalize(meta)
+  const list = ssrContext.__qMetaList
 
-  const tokens = {
-    '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttr)
-      .filter(htmlFilter)
-      .map(getAttr(meta.htmlAttr))
-      .join(' '),
-    '%%Q_HEAD_TAGS%%': getHead(meta),
-    '%%Q_BODY_ATTRS%%': Object.keys(meta.bodyAttr)
-      .filter(bodyFilter)
-      .map(getAttr(meta.bodyAttr))
-      .join(' '),
-    '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)
-      .map(name => `<noscript data-qmeta="${name}">${meta.noscript[name]}</noscript>`)
-      .join('') +
-      `<script data-qmeta-init>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
+  for (let i = 0; i < list.length; i++) {
+    extend(true, data, list[ i ])
   }
 
-  Object.keys(tokens).forEach(key => {
-    html = html.replace(key, tokens[key])
-  })
+  normalize(data)
 
-  return html
+  const nonce = ssrContext.nonce !== void 0
+    ? ` nonce="${ ssrContext.nonce }"`
+    : ''
+
+  const ctx = ssrContext._meta
+
+  const htmlAttr = Object.keys(data.htmlAttr).filter(htmlFilter)
+
+  if (htmlAttr.length > 0) {
+    ctx.htmlAttrs += (
+      (ctx.htmlAttrs.length > 0 ? ' ' : '')
+      + htmlAttr.map(getAttr(data.htmlAttr)).join(' ')
+    )
+  }
+
+  ctx.headTags += getHead(data)
+
+  const bodyAttr = Object.keys(data.bodyAttr).filter(bodyFilter)
+
+  if (bodyAttr.length > 0) {
+    ctx.bodyAttrs += (
+      (ctx.bodyAttrs.length > 0 ? ' ' : '')
+      + bodyAttr.map(getAttr(data.bodyAttr)).join(' ')
+    )
+  }
+
+  ctx.bodyTags += Object.keys(data.noscript)
+    .map(name => `<noscript data-qmeta="${ name }">${ data.noscript[ name ] }</noscript>`)
+    .join('')
+    + `<script${ nonce } id="qmeta-init">window.__Q_META__=${ delete data.noscript && JSON.stringify(data) }</script>`
 }
 
-function beforeCreate () {
-  if (typeof this.$options.meta === 'function') {
-    if (this.$options.computed === void 0) {
-      this.$options.computed = {}
+function updateClientMeta () {
+  const data = {
+    title: '',
+    titleTemplate: null,
+    meta: {},
+    link: {},
+    script: {},
+    htmlAttr: {},
+    bodyAttr: {}
+  }
+
+  for (let i = 0; i < clientList.length; i++) {
+    const { active, val } = clientList[ i ]
+
+    if (active === true) {
+      extend(true, data, val)
     }
-    this.$options.computed.__qMeta = this.$options.meta
   }
-  else if (hasMeta(this) === true) {
-    this.__qMeta = this.$options.meta
-  }
+
+  normalize(data)
+
+  apply(diff(currentClientMeta, data))
+  currentClientMeta = data
 }
 
-// needs to be really fast
-function hasMeta (vm) {
-  return vm.$options.meta !== void 0 &&
-    vm.$options.meta !== null
-}
-
-function triggerMeta () {
-  hasMeta(this) === true && this.__qMetaUpdate()
+export function planClientUpdate () {
+  clearTimeout(updateId)
+  updateId = setTimeout(updateClientMeta, 50)
 }
 
 export default {
-  install ({ queues }) {
-    if (isSSR === true) {
-      Vue.prototype.$getMetaHTML = app => html => getServerMeta(app, html)
-      Vue.mixin({ beforeCreate })
+  install (opts) {
+    if (__QUASAR_SSR_SERVER__) {
+      const { ssrContext } = opts
 
-      queues.server.push((_, ctx) => {
-        ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
-        Object.assign(ctx.ssr, {
-          Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
-          Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
-          Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
-        })
+      ssrContext.__qMetaList = []
+      ssrContext.onRendered(() => {
+        injectServerMeta(ssrContext)
       })
     }
-    else {
-      ssrTakeover = fromSSR
-
-      Vue.mixin({
-        beforeCreate,
-        created () {
-          if (hasMeta(this) === true) {
-            this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
-          }
-        },
-        activated: triggerMeta,
-        deactivated: triggerMeta,
-        beforeMount: triggerMeta,
-        destroyed () {
-          if (hasMeta(this) === true) {
-            this.__qMetaUnwatch()
-            this.__qMetaUpdate()
-          }
-        },
-        methods: {
-          __qMetaUpdate () {
-            clearTimeout(updateId)
-            updateId = setTimeout(updateClient.bind(this), 50)
-          }
-        }
-      })
+    else if (this.__installed !== true && isRuntimeSsrPreHydration.value === true) {
+      currentClientMeta = window.__Q_META__
+      document.getElementById('qmeta-init').remove()
     }
   }
 }

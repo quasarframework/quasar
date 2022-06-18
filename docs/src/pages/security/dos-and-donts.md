@@ -12,10 +12,10 @@ We have collected some best practices for those of you new to the security theat
 
 ### User Input and the Dangers of v-html
 
-The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://vuejs.org/v2/guide/syntax.html#Raw-HTML):
+The `v-html` directive is a wonderful way to programmatically render markup, but even the Vue docs come with [this warning](https://vuejs.org/api/built-in-directives.html#v-html):
 > "Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to XSS vulnerabilities. Only use HTML interpolation on trusted content and never on user-provided content."
 
-If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)).
+If you don't know what that means, take a quick look at what OWASP has to say about [XSS (aka cross-site scripting)](https://owasp.org/www-community/attacks/xss/).
 
 To be fair, this *is* good advice, but **DON'T** be all hand-wavy. **DO** think like an attacker who will innovate, social engineer, lie, phish and steal their way into your systems. What if a webpack loader exploit arises and changes your page in an evil way? What if someone makes a dastardly and ill-intentioned PR? What if suddenly a third party API changes and instead of plaintext starts sending the same structure but with different content? What if the systems you thought were safe turn out to actually have been backdoored? What if a junior dev makes an accidental and fundamentally threatening change to the code that isn't reviewed properly? (Yes, idiocy is sometimes as dangerous as bad intentions!) The point is, **DO** anticipate the unexpected by preparing for the absolute worst case scenario and hardening all of your systems.
 
@@ -30,13 +30,13 @@ Although you may be tempted to use `eval()`, even if you know what you are doing
 ![Don't be eval()](https://cdn.quasar.dev/img/dont-be-eval.png "Don't be eval()")
 
 ## Quasar Components
-Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
+Some Quasar components and Plugins can be configured to allow rendering of "insecure content". This is an opt-in feature that is performed by using `*-html` type boolean props. These components are discussed below.
 
 ### QSelect
-If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML in the labels and sublabels with one or more of the `sanitize` properties. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.
+If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML (by not enabling it through the component props) in the labels and sublabels. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.
 
 ### QChat & Emoji
-The `QChatMessage` component can similarly be prevented from passing html to the browser by using the `sanitize` property.
+The `QChatMessage` component does not display content as HTML by default. But you can enable it (through the `*-html` props) in which case you should sanitize the content.
 
 ::: tip
 There have been a number of recent exploits (especially for older Android and iOS devices) where certain emoji and non-standard UTF-8 actually triggered mobile device restarts and boot-screen loops. **DO** consider a devland integration of markdown parsing in a plain-text type of input field and render it to HTML on the server side before you pass it to the chat recipients.
@@ -46,16 +46,16 @@ There have been a number of recent exploits (especially for older Android and iO
 Many developers have asked that the Loading plugin be able to display HTML, so this was enabled by default, but if you are worried, **DO** add `sanitize: true` and you removed the vector.
 
 ### Notify
-Being able to style the Notify plugin with HTML is not enabled by default (because it is not Spec compliant with Material Design), but if you do set the boolean prop `html: true` then you are responsible for sanitizing it.
+Being able to style the Notify plugin with HTML is not enabled by default, but if you do set the boolean prop `html: true` then you are responsible for sanitizing it.
 
 ### Dialog
-Being able to style the Dialog plugin with HTML is not enabled by default (because it is not Spec compliant with Material Design), but if you do set the boolean prop `html: true` then you are responsible for sanitizing the title and message.
+Being able to style the Dialog plugin with HTML is not enabled by default, but if you do set the boolean prop `html: true` then you are responsible for sanitizing the title and message.
 
 ### QInput
 Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!
 
 ### QEditor
-This component allows the users to actually create HTML (and even paste it). If you are going to be saving this and showing it to other users, care will be needed on the server-side to validate it. In that case **DO** strip out `<script></script>` and `<iframe></iframe>`. You can visit the [v-html vs. double-moustache](/vue-components/editor#Example--Default-editor) example in the docs to play around with the QEditor component and see what the two rendering methods will provide. There is NO `sanitize` tag for QEditor. Further, if you create custom buttons, it is your responsibility to make them safe. You have been warned.
+This component allows the users to actually create HTML (and even paste it). If you are going to be saving this and showing it to other users, care will be needed on the server-side to validate it. In that case **DO** strip out `<script></script>` and `<iframe></iframe>`. You can visit the [v-html vs. double-moustache](/vue-components/editor#example--default-editor) example in the docs to play around with the QEditor component and see what the two rendering methods will provide. There is NO `sanitize` tag for QEditor. Further, if you create custom buttons, it is your responsibility to make them safe. You have been warned.
 
 ## Dealing with Files
 So how do you validate and sanitize a file? Well, although this is a bit out of scope for a "front-end-framework", we know that many of you reading this will also be storing user-created files on servers. If you are just storing them (and not processing them in any way), **DO** validate that the file is of the appropriate type by detecting the [magic numbers](https://en.wikipedia.org/wiki/List_of_file_signatures). **DO** consider using ClamAV to check files for known viral signatures.
@@ -67,7 +67,7 @@ If you are allowing users to upload images to your server, you should know that 
 Archive decompression attacks for directory traversal are a real security issue and are virtually impossible to detect without decompressing the file. If you can get away with NOT accepting this type of media, then do it. Otherwise, on linux **DO** use the humble `less` / `lesspipe` and `.lessfilter` for preprocessing these files with your custom workflows.
 
 ## Passwords
-**DON'T** save passwords in plaintext, in fact - **DON'T** save them at all. **DO** save secure hashes and compute them in memory according to a scheme using secure salt and proper algorithms. **DON'T** limit the length of passwords. **DO** consider a highly secure application flow for password resetting and enable the user to configure it according to their preferences. This is a process unique to every project, so we can't tell you how to solve the problem. Nevertheless here are a few good links:
+**DON'T** save passwords in plaintext, in fact - **DON'T** save them at all. **DO** save secure hashes and compute them in memory according to a scheme using secure salt and proper algorithms. **DO** limit the length of passwords (both minimum and maximum number of characters) BUT make the upper limit high enough that no legitimate user will ever hit. **DO** consider a highly secure application flow for password resetting and enable the user to configure it according to their preferences. This is a process unique to every project, so we can't tell you how to solve the problem. Nevertheless here are a few good links:
 
 - [OWASP cheatsheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Choosing_and_Using_Security_Questions_Cheat_Sheet.md)
 - [FIDO Guidelines](https://fidoalliance.org/recommended-account-recovery-practices/)
@@ -75,9 +75,9 @@ Archive decompression attacks for directory traversal are a real security issue 
 ## Cryptography
  - **DON'T** create your own cryptographic solution
  - **DON'T** store personal information in plaintext
- - **DON'T** create your own cryptographic solution
+ - **DON'T** create your own cryptographic solution *(intentionally repeating it)*
  - **DON'T** ignore any aspect of implementation details
- - **DON'T** create your own cryptographic solution
+ - **DON'T** create your own cryptographic solution *(intentionally repeating it)*
  - **DON'T** use MD5 or SHA1
  - **DON’T** create your [own cryptographic solution](https://about.unimelb.edu.au/newsroom/news/2019/march/researchers-find-trapdoor-in-swissvote-election-system)
 
@@ -100,7 +100,7 @@ If someone wants to change something in your database or add some file to the se
 - **DO** use JWE instead of JWT and use AES256 CBC + HMAC SHA512
 - **DO** double-down and perform the complete OWASP web audit
 
-### Cordova
+### Cordova / Capacitor
 - **DON'T** use iframes
 - **DON'T** package for Android Gingerbread
 - **DO** sign all your builds
@@ -166,8 +166,5 @@ This is something that every team should have on their radar and put some though
  - **DO** commit package lock files
  - **DO** Add `.env` files to your `.gitignore`
 
-## Get Help!
-Please [read more](/security/get-help) on how our team of experts can help you.
-
 ## Final Note
-Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/security/dos-and-donts#User-Input-and-the-Dangers-of-v-html). We won't tell anybody.
+Security is not peace of mind, it is a practical application of knowledge that requires vigilance and awareness. **DON'T** stop being concerned about security and **DON'T** think you are doing enough. There is always more you can undertake, there are constantly new vulnerabilities to be aware of. But the biggest security threat of them all is laziness, so put your outside shoes on, scroll back up the page and **DO** read the [OWASP link about XSS](/security/dos-and-donts#user-input-and-the-dangers-of-v-html). We won't tell anybody.

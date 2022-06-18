@@ -1,7 +1,6 @@
-const
-  path = require('path'),
-  fs = require('fs'),
-  { logError, writeFile, kebabCase } = require('./build.utils')
+const path = require('path')
+const fs = require('fs')
+const { logError, writeFile, kebabCase } = require('./build.utils')
 
 function resolveType ({ type, values }) {
   // TODO transform Object with "values" and arrays Objects with values
@@ -9,9 +8,9 @@ function resolveType ({ type, values }) {
     return type.map(type => resolveType({ type })).join('|')
   }
   if (type === 'String' && values) {
-    return values.map(v => v === null ? 'null' : `'${v}'`).join('|')
+    return values.map(v => (v === null ? 'null' : `'${ v }'`)).join('|')
   }
-  if (['Any', 'String', 'Boolean', 'Number', 'Object'].includes(type)) {
+  if ([ 'Any', 'String', 'Boolean', 'Number', 'Object' ].includes(type)) {
     return type.toLowerCase()
   }
   if (type === 'Array') {
@@ -36,22 +35,49 @@ module.exports.generate = function (data) {
       contributions: {
         html: {
           'types-syntax': 'typescript',
-          tags: data.components.map(({ api: { events, props, scopedSlots, slots }, name }) => {
-            let result = {
+          tags: data.components.map(({ api: { events, props, scopedSlots, slots, meta }, name }) => {
+            const slotTypes = []
+            if (slots) {
+              Object.entries(slots).forEach(([ name, slotApi ]) => {
+                slotTypes.push({
+                  name,
+                  description: getDescription(slotApi),
+                  'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
+                })
+              })
+            }
+
+            if (scopedSlots) {
+              Object.entries(scopedSlots).forEach(([ name, slotApi ]) => {
+                slotTypes.push({
+                  name,
+                  'vue-properties': slotApi.scope && Object.entries(slotApi.scope).map(([ name, api ]) => ({
+                    name,
+                    type: resolveType(api),
+                    description: getDescription(api),
+                    'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
+                  })),
+                  description: getDescription(slotApi),
+                  'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
+                })
+              })
+            }
+
+            const result = {
               name,
               source: {
                 module: 'quasar',
                 symbol: name
               },
-              attributes: props && Object.entries(props).map(([name, propApi]) => {
-                let result = {
+              attributes: props && Object.entries(props).map(([ name, propApi ]) => {
+                const result = {
                   name,
                   value: {
                     kind: 'expression',
                     type: resolveType(propApi)
                   },
                   description: getDescription(propApi),
-                  'doc-url': 'https://quasar.dev'
+                  'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
                 }
                 if (propApi.required) {
                   result.required = true
@@ -65,67 +91,52 @@ module.exports.generate = function (data) {
                 }
                 return result
               }),
-              events: events && Object.entries(events).map(([name, eventApi]) => ({
+              events: events && Object.entries(events).map(([ name, eventApi ]) => ({
                 name,
-                arguments: eventApi.params && Object.entries(eventApi.params).map(([paramName, paramApi]) => ({
+                arguments: eventApi.params && Object.entries(eventApi.params).map(([ paramName, paramApi ]) => ({
                   name: paramName,
                   type: resolveType(paramApi),
                   description: getDescription(paramApi),
-                  'doc-url': 'https://quasar.dev'
+                  'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
                 })),
                 description: getDescription(eventApi),
-                'doc-url': 'https://quasar.dev'
+                'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
               })),
-              slots: slots && Object.entries(slots).map(([name, slotApi]) => ({
-                name,
-                description: getDescription(slotApi),
-                'doc-url': 'https://quasar.dev'
-              })),
-              'vue-scoped-slots': scopedSlots && Object.entries(scopedSlots).map(([name, slotApi]) => ({
-                name,
-                properties: slotApi.scope && Object.entries(slotApi.scope).map(([name, api]) => ({
-                  name,
-                  type: resolveType(api),
-                  description: getDescription(api),
-                  'doc-url': 'https://quasar.dev'
-                })),
-                description: getDescription(slotApi),
-                'doc-url': 'https://quasar.dev'
-              })),
-              description: `${name} - Quasar component`,
-              'doc-url': 'https://quasar.dev'
+              slots: slotTypes,
+              description: `${ name } - Quasar component`,
+              'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
             }
             if (props && props.value && ((events && events.input) || props.value.category === 'model')) {
-              result['vue-model'] = {
+              result[ 'vue-model' ] = {
                 prop: 'value',
                 event: 'input'
               }
             }
-            Object.entries(result).forEach(([key, v]) => {
+            Object.entries(result).forEach(([ key, v ]) => {
               if (!v) {
-                delete result[key]
+                delete result[ key ]
               }
             })
 
             return result
           }),
-          attributes: data.directives.map(({ name, api: { modifiers, value } }) => {
-            let valueType = value.type
-            let result = {
+          attributes: data.directives.map(({ name, api: { modifiers, value, meta } }) => {
+            const valueType = value.type
+            const result = {
               name: 'v-' + kebabCase(name),
               source: {
                 module: 'quasar',
                 symbol: name
               },
               required: false, // Directive is never required
-              description: `${name} - Quasar directive`,
-              'doc-url': 'https://quasar.dev'
+              description: `${ name } - Quasar directive`,
+              'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
             }
             if (modifiers) {
-              result['vue-modifiers'] = Object.entries(modifiers).map(([name, api]) => ({
+              result[ 'vue-modifiers' ] = Object.entries(modifiers).map(([ name, api ]) => ({
                 name,
                 description: getDescription(api),
-                'doc-url': 'https://quasar.dev'
+                'doc-url': meta.docsUrl || 'https://v1.quasar.dev'
               }))
             }
             if (valueType !== 'Boolean') {
@@ -139,7 +150,7 @@ module.exports.generate = function (data) {
         }
       }
     }, null, 2)
-    let webTypesPath = path.resolve(__dirname, '../dist/web-types')
+    const webTypesPath = path.resolve(__dirname, '../dist/web-types')
 
     if (!fs.existsSync(webTypesPath)) {
       fs.mkdirSync(webTypesPath)
@@ -147,7 +158,7 @@ module.exports.generate = function (data) {
     writeFile(path.resolve(webTypesPath, 'web-types.json'), webtypes)
   }
   catch (err) {
-    logError(`build.web-types.js: something went wrong...`)
+    logError('build.web-types.js: something went wrong...')
     console.log()
     console.error(err)
     console.log()

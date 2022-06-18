@@ -26,8 +26,7 @@
     box-shadow: $layout-shadow
 
 .q-layout__section--marginal
-  background-color: $primary
-  background-color: var(--q-color-primary)
+  background-color: var(--q-primary)
   color: #fff
 
 .q-header
@@ -101,7 +100,7 @@
     .q-mini-drawer-hide, .q-expansion-item__content
       display: none
   &--mini-animate &__content
-    overflow-x: hidden
+    overflow-x: hidden !important
     white-space: nowrap
   &--standard
     .q-mini-drawer-only
@@ -130,8 +129,8 @@
     pointer-events: auto
 
 body.q-ios-padding
-  .q-layout--standard .q-header > .q-toolbar:nth-child(2),
-  .q-layout--standard .q-header > .q-tabs:nth-child(2) .q-tabs-head,
+  .q-layout--standard .q-header > .q-toolbar:nth-child(1),
+  .q-layout--standard .q-header > .q-tabs:nth-child(1) .q-tabs-head,
   .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-top: $ios-statusbar-height
     min-height: ($toolbar-min-height + $ios-statusbar-height)
@@ -155,6 +154,10 @@ body.q-ios-padding
   .q-page-sticky
     transition: transform .12s, left .12s, right .12s, top .12s, bottom .12s !important
 
+body:not(.q-body--layout-animate)
+  .q-layout--prevent-focus
+    visibility: hidden
+
 .q-body--drawer-toggle
   overflow-x: hidden !important
 
@@ -165,3 +168,14 @@ body.q-ios-padding
     padding: 16px
   @media (min-width: $breakpoint-lg-min)
     padding: 24px
+
+body.body--dark
+  .q-header, .q-footer, .q-drawer
+    border-color: $separator-dark-color
+
+body.platform-ios
+  .q-layout--containerized
+    // https://github.com/quasarframework/quasar/issues/4127
+    // Fixes scroll issues with containerized Layout inside Dialog on iOS;
+    // QDrawer needs to be forced into fixed position
+    position: unset !important

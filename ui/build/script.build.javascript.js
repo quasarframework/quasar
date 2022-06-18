@@ -4,135 +4,159 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
-const buble = require('rollup-plugin-buble')
-const json = require('rollup-plugin-json')
-const nodeResolve = require('rollup-plugin-node-resolve')
+
+const { nodeResolve } = require('@rollup/plugin-node-resolve')
+// const typescript = require('rollup-plugin-typescript2')
+const replace = require('@rollup/plugin-replace')
+
+const { version } = require('../package.json')
+
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
 
-const bubleConfig = {
-  objectAssign: 'Object.assign'
+const rootFolder = path.resolve(__dirname, '..')
+
+function resolve (_path) {
+  return path.resolve(rootFolder, _path)
 }
 
-const defaultRollupPlugins = [
-  nodeResolve({
-    extensions: ['.js'],
-    preferBuiltins: false
-  }),
-  json(),
-  buble(bubleConfig)
+// const tsConfig = {
+//   tsconfigOverride: {
+//     compilerOptions: {
+//       sourceMap: true
+//     },
+//     include: ['./src/**/*.ts']
+//   }
+// }
+
+const commonRollupPlugins = [
+  // typescript(tsConfig),
+  nodeResolve()
 ]
 
+const uglifyJsOptions = {
+  compress: {
+    // turn off flags with small gains to speed up minification
+    arrows: false,
+    collapse_vars: false,
+    comparisons: false,
+    computed_props: false,
+    hoist_funs: false,
+    hoist_props: false,
+    hoist_vars: false,
+    inline: false,
+    loops: false,
+    negate_iife: false,
+    properties: false,
+    reduce_funcs: false,
+    reduce_vars: false,
+    switches: false,
+    toplevel: false,
+    typeofs: false,
+
+    // a few flags with noticeable gains/speed ratio
+    booleans: true,
+    if_return: true,
+    sequences: true,
+    unused: true,
+
+    // required features to drop conditional branches
+    conditionals: true,
+    dead_code: true,
+    evaluate: true
+  },
+  mangle: {
+    safari10: true
+  }
+}
+
 const builds = [
-  {
+  { // Generic prod entry (client-side only; NOT used by Quasar CLI)
     rollup: {
       input: {
-        input: resolve(`src/index.esm.js`)
+        input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve(`dist/quasar.esm.js`),
+        file: resolve('dist/quasar.esm.js'),
         format: 'es'
       }
     },
-    build: { minified: true, minExt: false }
+    build: {
+      minified: true,
+      replace: {
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
+      }
+    }
   },
-  {
+  { // SSR server prod entry
     rollup: {
       input: {
-        input: resolve(`src/index.common.js`)
+        input: resolve('src/index.all.js')
       },
       output: {
-        file: resolve(`dist/quasar.common.js`),
+        file: resolve('dist/quasar.cjs.js'),
         format: 'cjs'
       }
     },
     build: {
       minified: true,
-      minExt: false
+      replace: {
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR__: true,
+        __QUASAR_SSR_SERVER__: true,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
+      }
     }
   },
-  {
+  { // UMD entry
     rollup: {
       input: {
-        input: resolve('src/ie-compat/ie.js')
+        input: resolve('src/index.umd.js')
       },
       output: {
-        file: resolve('dist/quasar.ie.polyfills.js'),
-        format: 'es'
-      }
-    },
-    build: { minified: true, minExt: false }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve('src/ie-compat/ie.js')
-      },
-      output: {
-        file: resolve('dist/quasar.ie.polyfills.umd.js'),
-        format: 'umd'
-      }
-    },
-    build: { minified: true }
-  },
-  {
-    rollup: {
-      input: {
-        input: resolve(`src/index.umd.js`)
-      },
-      output: {
-        file: resolve(`dist/quasar.umd.js`),
+        file: resolve('dist/quasar.umd.js'),
         format: 'umd'
       }
     },
     build: {
       unminified: true,
-      minified: true
+      minified: true,
+      replace: {
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
+      }
     }
   }
 ]
 
-addAssets(builds, 'lang', 'lang')
-addAssets(builds, 'icon-set', 'iconSet')
-
-build(builds)
-
-require('./build.api').generate()
-  .then(data => {
-    require('./build.transforms').generate()
-    require('./build.vetur').generate(data)
-    require('./build.lang-index').generate()
-    require('./build.types').generate(data)
-    require('./build.web-types').generate(data)
-  })
-
-/**
- * Helpers
- */
-
-function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
-}
-
-function addAssets (builds, type, injectName) {
-  const
-    files = fs.readdirSync(resolve(type)),
-    plugins = [ buble(bubleConfig) ]
+function addUmdAssets (builds, type, injectName) {
+  const files = fs.readdirSync(resolve(type))
 
   files
-    .filter(file => file.endsWith('.js'))
+    .filter(file => file.endsWith('.mjs'))
     .forEach(file => {
-      const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
+      const name = file
+        .substring(0, file.length - 4)
+        .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
+
       builds.push({
         rollup: {
           input: {
-            input: resolve(`${type}/${file}`),
-            plugins
+            input: resolve(`${ type }/${ file }`)
           },
           output: {
-            file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
+            file: addExtension(resolve(`dist/${ type }/${ file }`), 'umd'),
             format: 'umd',
-            name: `Quasar.${injectName}.${name}`
+            name: `Quasar.${ injectName }.${ name }`
           }
         },
         build: {
@@ -149,15 +173,28 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  if (opts.rollup.input.plugins === void 0) {
-    opts.rollup.input.plugins = defaultRollupPlugins
+  opts.rollup.input.plugins = [ ...commonRollupPlugins ]
+
+  if (opts.build.replace !== void 0) {
+    opts.rollup.input.plugins.unshift(
+      replace({
+        preventAssignment: true,
+        values: opts.build.replace
+      })
+    )
   }
 
   opts.rollup.input.external = opts.rollup.input.external || []
-  opts.rollup.input.external.push('vue')
+  opts.rollup.input.external.push('vue', '@vue/compiler-dom')
 
   opts.rollup.output.banner = buildConf.banner
-  opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+
+  if (opts.rollup.output.name !== false) {
+    opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+  }
+  else {
+    delete opts.rollup.output.name
+  }
 
   opts.rollup.output.globals = opts.rollup.output.globals || {}
   opts.rollup.output.globals.vue = 'Vue'
@@ -165,13 +202,14 @@ function genConfig (opts) {
   return opts
 }
 
-function addExtension (filename, ext = 'min') {
+function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
-  return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
+  const suffix = filename.slice(insertionPoint)
+  return `${ filename.slice(0, insertionPoint) }.${ ext }${ suffix === '.mjs' ? '.js' : suffix }`
 }
 
 function injectVueRequirement (code) {
-  const index = code.indexOf(`Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue`)
+  const index = code.indexOf('Vue = Vue && Vue.hasOwnProperty(\'default\') ? Vue[\'default\'] : Vue')
 
   if (index === -1) {
     return code
@@ -183,9 +221,9 @@ function injectVueRequirement (code) {
   }
   `
 
-  return code.substring(0, index - 1) +
-    checkMe +
-    code.substring(index)
+  return code.substring(0, index - 1)
+    + checkMe
+    + code.substring(index)
 }
 
 function buildEntry (config) {
@@ -194,8 +232,8 @@ function buildEntry (config) {
     .then(bundle => bundle.generate(config.rollup.output))
     .then(({ output }) => {
       const code = config.rollup.output.format === 'umd'
-        ? injectVueRequirement(output[0].code)
-        : output[0].code
+        ? injectVueRequirement(output[ 0 ].code)
+        : output[ 0 ].code
 
       return config.build.unminified
         ? buildUtils.writeFile(config.rollup.output.file, code)
@@ -206,20 +244,14 @@ function buildEntry (config) {
         return code
       }
 
-      const minified = uglify.minify(code, {
-        compress: {
-          pure_funcs: ['makeMap']
-        }
-      })
+      const minified = uglify.minify(code, uglifyJsOptions)
 
       if (minified.error) {
         return Promise.reject(minified.error)
       }
 
       return buildUtils.writeFile(
-        config.build.minExt !== false
-          ? addExtension(config.rollup.output.file)
-          : config.rollup.output.file,
+        addExtension(config.rollup.output.file),
         buildConf.banner + minified.code,
         true
       )
@@ -228,4 +260,70 @@ function buildEntry (config) {
       console.error(err)
       process.exit(1)
     })
+}
+
+const runBuild = {
+  async full () {
+    await require('./build.lang').generate()
+    await require('./build.icon-sets').generate()
+
+    const data = await require('./build.api').generate()
+
+    require('./build.transforms').generate()
+    require('./build.vetur').generate(data)
+    require('./build.types').generate(data)
+    require('./build.web-types').generate(data)
+
+    addUmdAssets(builds, 'lang', 'lang')
+    addUmdAssets(builds, 'icon-set', 'iconSet')
+
+    await build(builds)
+  },
+
+  async types () {
+    prepareDiff('dist/types/index.d.ts')
+
+    const data = await require('./build.api').generate()
+
+    require('./build.vetur').generate(data)
+    require('./build.web-types').generate(data)
+
+    // 'types' depends on 'lang-index'
+    await require('./build.lang').generate()
+    require('./build.types').generate(data)
+  },
+
+  async api () {
+    await prepareDiff('dist/api')
+    await require('./build.api').generate()
+  },
+
+  async vetur () {
+    await prepareDiff('dist/vetur')
+
+    const data = await require('./build.api').generate()
+    require('./build.vetur').generate(data)
+  },
+
+  async webtypes () {
+    await prepareDiff('dist/web-types')
+
+    const data = await require('./build.api').generate()
+    require('./build.web-types').generate(data)
+  },
+
+  async transforms () {
+    await prepareDiff('dist/transforms')
+    require('./build.transforms').generate()
+  }
+}
+
+module.exports = function (subtype) {
+  if (runBuild[ subtype ] === void 0) {
+    console.log(` Unrecognized subtype specified: "${ subtype }".`)
+    console.log(` Available: ${ Object.keys(runBuild).join(' | ') }\n`)
+    process.exit(1)
+  }
+
+  runBuild[ subtype ]()
 }

@@ -1,8 +1,10 @@
 ---
 title: Touch Pan Directive
 desc: Vue directive which triggers an event when the user drags the finger or mouse on a component or element.
+keys: touch-pan
 related:
   - /vue-directives/touch-swipe
+  - /vue-directives/touch-repeat
   - /vue-directives/touch-hold
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
@@ -11,12 +13,17 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-pan` on the lines below.
 
-## Installation
-<doc-installation directives="TouchPan" />
+## TouchPan API
+
+<doc-api file="TouchPan" />
 
 ## Usage
 Click then pan in a direction with your mouse on the area below to see it in action.
 Page scrolling is prevented, but you can opt out if you wish.
+
+::: tip
+If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
 
 <doc-example title="All directions" file="TouchPan/Basic" />
 
@@ -39,7 +46,7 @@ Example on capturing panning on custom directions. For this, use modifiers: `up`
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
 
-``` html
+```html
 <!--
   directive will also be triggered by mouse actions
 -->
@@ -49,14 +56,14 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ### Preventing Scroll (on touch capable devices)
 By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
 
-``` html
+```html
 <div v-touch-pan.prevent="userHasPanned">...</div>
 ```
 
 ### Inhibiting TouchPan
 When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
 
-``` html
+```html
 <div v-touch-pan.mouse="userHasHold">
   <!-- ...content -->
   <div @touchstart.stop @mousedown.stop>
@@ -72,8 +79,11 @@ When you want to inhibit TouchPan, you can do so by stopping propagation of the 
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchPan directive then the inner content, so TouchPan will still trigger.
 
-### Note on HMR
-Due to performance reasons, when doing HMR updates, all modifiers EXCEPT for direction ones (`left`, `right`, `up`, `down`, `horizontal`, `vertical`) are NOT updated, so you will require a window refresh.
+## Example with FAB
 
-## API
-<doc-api file="TouchPan" />
+Below is a nice example on using TouchPan on a QFab. You can drag it across the screen.
+
+<doc-example title="Draggable" file="QFab/Draggable" />
+
+## Note on HMR
+Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.

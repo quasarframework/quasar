@@ -1,18 +1,22 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, getCurrentInstance, Transition } from 'vue'
 
-import QPageSticky from '../layout/QPageSticky.js'
-import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
+import usePageSticky, { usePageStickyProps } from '../page-sticky/use-page-sticky.js'
+import { getScrollTarget, setVerticalScrollPosition } from '../../utils/scroll.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QPageScroller',
 
-  mixins: [ QPageSticky ],
-
   props: {
+    ...usePageStickyProps,
+
     scrollOffset: {
       type: Number,
       default: 1000
     },
+
+    reverse: Boolean,
 
     duration: {
       type: Number,
@@ -20,65 +24,95 @@ export default Vue.extend({
     },
 
     offset: {
-      default: () => [18, 18]
+      default: () => [ 18, 18 ]
     }
   },
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QPageScroller needs to be used within a QLayout')
+  emits: [ 'click' ],
+
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+    const { $layout, getStickyContent } = usePageSticky()
+    const rootRef = ref(null)
+
+    let heightWatcher
+
+    const scrollHeight = computed(() => $layout.height.value - (
+      $layout.isContainer.value === true
+        ? $layout.containerHeight.value
+        : $q.screen.height
+    ))
+
+    function isVisible () {
+      return props.reverse === true
+        ? scrollHeight.value - $layout.scroll.value.position > props.scrollOffset
+        : $layout.scroll.value.position > props.scrollOffset
+    }
+
+    const showing = ref(isVisible())
+
+    function updateVisibility () {
+      const newVal = isVisible()
+      if (showing.value !== newVal) {
+        showing.value = newVal
       }
     }
-  },
 
-  data () {
-    return {
-      showing: this.__isVisible(this.layout.scroll.position)
-    }
-  },
-
-  watch: {
-    'layout.scroll.position' (val) {
-      const newVal = this.__isVisible(val)
-      if (this.showing !== newVal) {
-        this.showing = newVal
+    function updateReverse () {
+      if (props.reverse === true) {
+        if (heightWatcher === void 0) {
+          heightWatcher = watch(scrollHeight, updateVisibility)
+        }
+      }
+      else {
+        cleanup()
       }
     }
-  },
 
-  methods: {
-    __isVisible (val) {
-      return val > this.scrollOffset
-    },
+    watch($layout.scroll, updateVisibility)
+    watch(() => props.reverse, updateReverse)
 
-    __onClick (e) {
-      const target = this.layout.container === true
-        ? getScrollTarget(this.$el)
-        : getScrollTarget(this.layout.$el)
-
-      setScrollPosition(target, 0, this.duration)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+    function cleanup () {
+      if (heightWatcher !== void 0) {
+        heightWatcher()
+        heightWatcher = void 0
+      }
     }
-  },
 
-  render (h) {
-    return h('transition', {
-      props: { name: 'q-transition--fade' }
-    },
-    this.showing === true
-      ? [
-        h('div', {
-          staticClass: 'q-page-scroller',
-          on: {
-            ...this.$listeners,
-            click: this.__onClick
-          }
-        }, [
-          QPageSticky.options.render.call(this, h)
-        ])
-      ]
-      : null
+    function onClick (e) {
+      const target = getScrollTarget(
+        $layout.isContainer.value === true
+          ? rootRef.value
+          : $layout.rootRef.value
+      )
+
+      setVerticalScrollPosition(
+        target,
+        props.reverse === true ? $layout.height.value : 0,
+        props.duration
+      )
+
+      emit('click', e)
+    }
+
+    function getContent () {
+      return showing.value === true
+        ? h('div', {
+          ref: rootRef,
+          class: 'q-page-scroller',
+          onClick
+        }, getStickyContent(slots))
+        : null
+    }
+
+    updateReverse()
+
+    onBeforeUnmount(cleanup)
+
+    return () => h(
+      Transition,
+      { name: 'q-transition--fade' },
+      getContent
     )
   }
 })

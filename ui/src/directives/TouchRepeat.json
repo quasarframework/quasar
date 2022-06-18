@@ -1,16 +1,19 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-repeat"
+  },
+
   "value": {
     "type": "Function",
-    "desc": "Handler for touch-repeat",
+    "desc": "Handler for touch-repeat (use a non-function to disable)",
     "params": {
       "details": {
         "type": "Object",
         "desc": "Event details",
         "definition": {
           "evt": {
-            "type": "Object",
-            "desc": "Original JS event Object",
-            "__exemption": [ "examples" ]
+            "extends": "evt",
+            "desc": "Original JS event Object"
           },
           "touch": {
             "type": "Boolean",
@@ -57,14 +60,14 @@
           },
           "startTime": {
             "type": "Number",
-            "desc": "Unix timestamp of the moment when event started; Equivalent to new Date().getTime()",
+            "desc": "Unix timestamp of the moment when event started; Equivalent to Date.now()",
             "examples": [ 1558603256472 ]
           }
         }
       }
     },
     "returns": null,
-    "examples": [ "v-touch-repeat=\"fnToCall\"" ]
+    "examples": [ "v-touch-repeat=\"fnToCall\"", "v-touch-repeat=\"void 0\"" ]
   },
 
   "arg": {

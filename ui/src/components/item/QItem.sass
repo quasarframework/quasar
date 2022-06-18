@@ -1,0 +1,119 @@
+.q-item
+  min-height: 48px
+  padding: 8px 16px
+  color: inherit
+  transition: color .3s, background-color .3s
+
+  &__section
+
+    &--side
+      color: $grey-7
+      align-items: flex-start
+      padding-right: 16px
+      width: auto
+      min-width: 0
+      max-width: 100%
+
+      > .q-icon
+        font-size: 24px
+
+      > .q-avatar
+        font-size: 40px
+
+    &--avatar
+      color: inherit
+      min-width: 56px
+
+    &--thumbnail
+      img
+        width: 100px
+        height: 56px
+
+    &--nowrap
+      white-space: nowrap
+
+  > .q-item__section--thumbnail:first-child,
+  > .q-focus-helper + .q-item__section--thumbnail
+    margin-left: -16px
+
+  > .q-item__section--thumbnail:last-of-type
+    margin-right: -16px
+
+  &__label
+    line-height: 1.2em !important
+    max-width: 100%
+
+    &--overline
+      color: rgba(0,0,0,.7)
+
+    &--caption
+      color: rgba(0,0,0,.54)
+
+    &--header
+      color: $grey-7
+      padding: 16px
+      font-size: .875rem
+      line-height: 1.25rem
+      letter-spacing: .01786em
+
+      .q-separator--spaced + &, .q-list--padding &
+        padding-top: 8px
+
+    & + .q-item__label
+      margin-top: 4px
+
+.q-item__section--main
+  width: auto
+  min-width: 0
+  max-width: 100%
+  flex: 10000 1 0%
+
+  & + &
+    margin-left: 8px
+
+  ~ .q-item__section--side
+    align-items: flex-end
+    padding-right: 0
+    padding-left: 16px
+
+  &.q-item__section--thumbnail
+    margin-left: 0
+    margin-right: -16px
+
+.q-list
+  &--bordered
+    border: 1px solid $separator-color
+  &--separator
+    > .q-item-type + .q-item-type,
+    > .q-virtual-scroll__content > .q-item-type + .q-item-type
+      border-top: 1px solid $separator-color
+  &--padding
+    padding: 8px 0
+
+.q-list--dense > .q-item, .q-item--dense
+  min-height: 32px
+  padding: 2px 16px
+
+.q-list--dark.q-list--separator
+  > .q-item-type + .q-item-type,
+  > .q-virtual-scroll__content > .q-item-type + .q-item-type
+    border-top-color: $separator-dark-color
+
+.q-list--dark, .q-item--dark
+  color: #fff
+  border-color: $separator-dark-color
+
+  .q-item__section--side:not(.q-item__section--avatar)
+    color: rgba(255,255,255,.7)
+
+  .q-item__label
+    &--header
+      color: rgba(255,255,255,.64)
+    &--overline, &--caption
+      color: rgba(255,255,255,.8)
+
+.q-item
+  position: relative
+
+  &.q-router-link--active, &--active
+    color: var(--q-primary)

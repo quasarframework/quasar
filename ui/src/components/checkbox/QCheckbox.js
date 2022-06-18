@@ -1,94 +1,67 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import CheckboxMixin from '../../mixins/checkbox.js'
+import QIcon from '../icon/QIcon.js'
 
-import slot from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
-export default Vue.extend({
+const bgNode = h('div', {
+  key: 'svg',
+  class: 'q-checkbox__bg absolute'
+}, [
+  h('svg', {
+    class: 'q-checkbox__svg fit absolute-full',
+    viewBox: '0 0 24 24',
+    'aria-hidden': 'true'
+  }, [
+    h('path', {
+      class: 'q-checkbox__truthy',
+      fill: 'none',
+      d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
+    }),
+
+    h('path', {
+      class: 'q-checkbox__indet',
+      d: 'M4,14H20V10H4'
+    })
+  ])
+])
+
+export default createComponent({
   name: 'QCheckbox',
 
-  mixins: [ CheckboxMixin ],
+  props: useCheckboxProps,
+  emits: useCheckboxEmits,
 
-  props: {
-    toggleIndeterminate: Boolean,
-    indeterminateValue: { default: null }
-  },
+  setup (props) {
+    function getInner (isTrue, isIndeterminate) {
+      const icon = computed(() =>
+        (isTrue.value === true
+          ? props.checkedIcon
+          : (isIndeterminate.value === true
+              ? props.indeterminateIcon
+              : props.uncheckedIcon
+            )
+        ) || null
+      )
 
-  computed: {
-    isIndeterminate () {
-      return this.value === void 0 || this.value === this.indeterminateValue
-    },
-
-    classes () {
-      return {
-        'disabled': this.disable,
-        'q-checkbox--dark': this.dark,
-        'q-checkbox--dense': this.dense,
-        'reverse': this.leftLabel
-      }
-    },
-
-    innerClass () {
-      if (this.isTrue === true) {
-        return 'q-checkbox__inner--active' +
-          (this.color !== void 0 ? ' text-' + this.color : '')
-      }
-      else if (this.isIndeterminate === true) {
-        return 'q-checkbox__inner--indeterminate' +
-          (this.color !== void 0 ? ' text-' + this.color : '')
-      }
-      else if (this.keepColor === true && this.color !== void 0) {
-        return 'text-' + this.color
-      }
+      return () => (
+        icon.value !== null
+          ? [
+              h('div', {
+                key: 'icon',
+                class: 'q-checkbox__icon-container absolute-full flex flex-center no-wrap'
+              }, [
+                h(QIcon, {
+                  class: 'q-checkbox__icon',
+                  name: icon.value
+                })
+              ])
+            ]
+          : [ bgNode ]
+      )
     }
-  },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-checkbox cursor-pointer no-outline row inline no-wrap items-center',
-      class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
-      on: {
-        click: this.toggle,
-        keydown: this.__keyDown
-      }
-    }, [
-      h('div', {
-        staticClass: 'q-checkbox__inner relative-position',
-        class: this.innerClass
-      }, [
-        this.disable !== true
-          ? h('input', {
-            staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
-            attrs: { type: 'checkbox' },
-            on: { change: this.toggle }
-          })
-          : null,
-
-        h('div', {
-          staticClass: 'q-checkbox__bg absolute'
-        }, [
-          h('svg', {
-            staticClass: 'q-checkbox__check fit absolute-full',
-            attrs: { viewBox: '0 0 24 24' }
-          }, [
-            h('path', {
-              attrs: {
-                fill: 'none',
-                d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
-              }
-            })
-          ]),
-
-          h('div', { staticClass: 'q-checkbox__check-indet absolute' })
-        ])
-      ]),
-
-      this.label !== void 0 || this.$scopedSlots.default !== void 0
-        ? h('div', {
-          staticClass: 'q-checkbox__label q-anchor--skip'
-        }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
-        : null
-    ])
+    return useCheckbox('checkbox', getInner)
   }
 })

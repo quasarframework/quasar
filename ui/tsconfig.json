@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "target": "esnext",
+    "module": "esnext",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "outDir": "./dist"
+  },
+  "include": ["./src/**/*", "./test/cypress/**/*.d.ts", "./test/cypress/support/commands.js"]
+}

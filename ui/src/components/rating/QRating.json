@@ -1,15 +1,15 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/rating"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
-      "examples": [ ":value=\"2\"" ]
+      "examples": [ "v-model=\"rating\"", ":model-value=\"rating\"", ":model-value=\"2\"" ]
     },
 
     "max": {
@@ -26,8 +26,8 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },
@@ -38,15 +38,47 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.1.0"
+      "category": "content"
+    },
+
+    "icon-half": {
+      "type": [ "String", "Array" ],
+      "desc": "Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
+      "examples": [
+        "map",
+        "ion-add",
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
+      ],
+      "category": "content"
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)",
+      "examples": [ "primary", "teal-10", "[\"accent\", \"grey-7\"] "]
+    },
+
+    "color-selected": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name from the Quasar Palette for selected icons"
+    },
+
+    "color-half": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name from the Quasar Palette for half selected icons"
+    },
+
+    "no-dimming": {
+      "type": "Boolean",
+      "desc": "Does not lower opacity for unselected icons",
+      "category": "style"
     },
 
     "no-reset": {
@@ -65,8 +97,14 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
+    }
+  },
+
+  "slots": {
+    "tip-[name]": {
+      "desc": "Slot to define the tooltip of icon at '[name]' where name is a 1-based index; Suggestion: QTooltip"
     }
   }
 }

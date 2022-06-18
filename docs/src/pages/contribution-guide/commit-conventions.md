@@ -1,13 +1,13 @@
 ---
 title: Commit Conventions
-desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
+desc: Quasar commit conventions
 ---
 
 ## Goals
 - Allow ignoring commits by git bisect (not important commits like formatting)
 - Provide better information when browsing the history
 
-:::warning
+::: warning
 This rule applies to ALL [Quasar repositories](https://github.com/quasarframework).
 :::
 

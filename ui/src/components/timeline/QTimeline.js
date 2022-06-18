@@ -1,17 +1,17 @@
-import Vue from 'vue'
+import { h, computed, provide, getCurrentInstance } from 'vue'
 
-import slot from '../../utils/slot.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
+import { timelineKey } from '../../utils/private/symbols.js'
+
+export default createComponent({
   name: 'QTimeline',
 
-  provide () {
-    return {
-      __timeline: this
-    }
-  },
-
   props: {
+    ...useDarkProps,
+
     color: {
       type: String,
       default: 'primary'
@@ -19,31 +19,26 @@ export default Vue.extend({
     side: {
       type: String,
       default: 'right',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
     layout: {
       type: String,
       default: 'dense',
-      validator: v => ['dense', 'comfortable', 'loose'].includes(v)
-    },
-    dark: Boolean
-  },
-
-  computed: {
-    classes () {
-      return {
-        'q-timeline--dark': this.dark,
-        [`q-timeline--${this.layout}`]: true,
-        [`q-timeline--${this.layout}--${this.side}`]: true
-      }
+      validator: v => [ 'dense', 'comfortable', 'loose' ].includes(v)
     }
   },
 
-  render (h) {
-    return h('ul', {
-      staticClass: 'q-timeline',
-      class: this.classes,
-      on: this.$listeners
-    }, slot(this, 'default'))
+  setup (props, { slots }) {
+    const vm = getCurrentInstance()
+    const isDark = useDark(props, vm.proxy.$q)
+
+    provide(timelineKey, props)
+
+    const classes = computed(() =>
+      `q-timeline q-timeline--${ props.layout } q-timeline--${ props.layout }--${ props.side }`
+      + (isDark.value === true ? ' q-timeline--dark' : '')
+    )
+
+    return () => h('ul', { class: classes.value }, hSlot(slots.default))
   }
 })

@@ -1,77 +1,87 @@
-export default {
-  props: {
-    selection: {
-      type: String,
-      default: 'none',
-      validator: v => ['single', 'multiple', 'none'].includes(v)
-    },
-    selected: {
-      type: Array,
-      default: () => []
-    }
+import { computed } from 'vue'
+
+export const useTableRowSelectionProps = {
+  selection: {
+    type: String,
+    default: 'none',
+    validator: v => [ 'single', 'multiple', 'none' ].includes(v)
   },
+  selected: {
+    type: Array,
+    default: () => []
+  }
+}
 
-  computed: {
-    selectedKeys () {
-      const keys = {}
-      this.selected.map(row => row[this.rowKey]).forEach(key => {
-        keys[key] = true
-      })
-      return keys
-    },
+export const useTableRowSelectionEmits = [ 'update:selected', 'selection' ]
 
-    hasSelectionMode () {
-      return this.selection !== 'none'
-    },
+export function useTableRowSelection (props, emit, computedRows, getRowKey) {
+  const selectedKeys = computed(() => {
+    const keys = {}
+    props.selected.map(getRowKey.value).forEach(key => {
+      keys[ key ] = true
+    })
+    return keys
+  })
 
-    singleSelection () {
-      return this.selection === 'single'
-    },
+  const hasSelectionMode = computed(() => {
+    return props.selection !== 'none'
+  })
 
-    multipleSelection () {
-      return this.selection === 'multiple'
-    },
+  const singleSelection = computed(() => {
+    return props.selection === 'single'
+  })
 
-    allRowsSelected () {
-      if (this.multipleSelection === true) {
-        return this.computedRows.length > 0 && this.computedRows.every(row => this.selectedKeys[row[this.rowKey]] === true)
-      }
-    },
+  const multipleSelection = computed(() => {
+    return props.selection === 'multiple'
+  })
 
-    someRowsSelected () {
-      if (this.multipleSelection === true) {
-        return !this.allRowsSelected && this.computedRows.some(row => this.selectedKeys[row[this.rowKey]] === true)
-      }
-    },
+  const allRowsSelected = computed(() =>
+    computedRows.value.length > 0 && computedRows.value.every(
+      row => selectedKeys.value[ getRowKey.value(row) ] === true
+    )
+  )
 
-    rowsSelectedNumber () {
-      return this.selected.length
-    }
-  },
+  const someRowsSelected = computed(() =>
+    allRowsSelected.value !== true
+    && computedRows.value.some(row => selectedKeys.value[ getRowKey.value(row) ] === true)
+  )
 
-  methods: {
-    isRowSelected (key) {
-      return this.selectedKeys[key] === true
-    },
+  const rowsSelectedNumber = computed(() => props.selected.length)
 
-    clearSelection () {
-      this.$emit('update:selected', [])
-    },
+  function isRowSelected (key) {
+    return selectedKeys.value[ key ] === true
+  }
 
-    __updateSelection (keys, rows, added) {
-      this.$emit('selection', { rows, added, keys })
+  function clearSelection () {
+    emit('update:selected', [])
+  }
 
-      const payload = this.singleSelection === true
-        ? (added === true ? rows : [])
-        : (
+  function updateSelection (keys, rows, added, evt) {
+    emit('selection', { rows, added, keys, evt })
+
+    const payload = singleSelection.value === true
+      ? (added === true ? rows : [])
+      : (
           added === true
-            ? this.selected.concat(rows)
-            : this.selected.filter(
-              row => keys.includes(row[this.rowKey]) === false
+            ? props.selected.concat(rows)
+            : props.selected.filter(
+              row => keys.includes(getRowKey.value(row)) === false
             )
         )
 
-      this.$emit('update:selected', payload)
-    }
+    emit('update:selected', payload)
+  }
+
+  return {
+    hasSelectionMode,
+    singleSelection,
+    multipleSelection,
+    allRowsSelected,
+    someRowsSelected,
+    rowsSelectedNumber,
+
+    isRowSelected,
+    clearSelection,
+    updateSelection
   }
 }

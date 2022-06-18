@@ -1,0 +1,126 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/scroll-observer"
+  },
+
+  "props": {
+    "debounce": {
+      "type": [ "String", "Number" ],
+      "desc": "Debounce amount (in milliseconds)",
+      "examples": [ "0", "530" ],
+      "category": "behavior"
+    },
+
+    "axis": {
+      "type": "String",
+      "desc": "Axis on which to detect changes",
+      "values": [ "both", "vertical", "horizontal" ],
+      "default": "vertical",
+      "category": "behavior"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
+    }
+  },
+
+  "events": {
+    "scroll": {
+      "desc": "Emitted when scroll position changes",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Scroll details",
+          "definition": {
+            "position": {
+              "type": "Object",
+              "required": true,
+              "desc": "Scroll offset (from top and left)",
+              "definition": {
+                "top": {
+                  "type": "Number",
+                  "required": true,
+                  "desc": "Scroll offset from top (vertical)",
+                  "examples": [ 120 ]
+                },
+                "left": {
+                  "type": "Number",
+                  "required": true,
+                  "desc": "Scroll offset from left (horizontal)",
+                  "examples": [ 10 ]
+                }
+              }
+            },
+
+            "direction": {
+              "type": "String",
+              "required": true,
+              "desc": "Direction of scroll",
+              "values": [ "up", "down", "left", "right" ]
+            },
+            "directionChanged": {
+              "type": "Boolean",
+              "required": true,
+              "desc": "Has scroll direction changed since event was last emitted?"
+            },
+            "delta": {
+              "type": "Object",
+              "required": true,
+              "desc": "Delta of distance (in pixels) since event was last emitted",
+              "definition": {
+                "top": {
+                  "type": "Number",
+                  "required": true,
+                  "desc": "Vertical delta distance since event was last emitted",
+                  "examples": [ 120 ]
+                },
+                "left": {
+                  "type": "Number",
+                  "required": true,
+                  "desc": "Horizontal delta distance since event was last emitted",
+                  "examples": [ 10 ]
+                }
+              }
+            },
+
+            "inflectionPoint": {
+              "type": "Object",
+              "required": true,
+              "desc": "Last scroll offset where scroll direction has changed",
+              "definition": {
+                "top": {
+                  "type": "Number",
+                  "required": true,
+                  "desc": "Scroll offset from top (vertical)",
+                  "examples": [ 120 ]
+                },
+                "left": {
+                  "type": "Number",
+                  "required": true,
+                  "desc": "Scroll offset from left (horizontal)",
+                  "examples": [ 10 ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "trigger": {
+      "desc": "Emit a 'scroll' event",
+      "params": {
+        "immediately": {
+          "type": "Boolean",
+          "desc": "Skip over the debounce amount"
+        }
+      }
+    },
+
+    "getPosition": {
+      "desc": "Get current scroll details under the form of an Object: { position, direction, directionChanged, inflectionPoint }"
+    }
+  }
+}

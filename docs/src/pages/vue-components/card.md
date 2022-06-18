@@ -1,6 +1,7 @@
 ---
 title: Card
 desc: The QCard Vue component is a great way to display important pieces of grouped content. It assists the viewer by containing and organizing information, while also setting up predictable expectations.
+keys: QCard
 related:
   - /vue-components/separator
 ---
@@ -11,10 +12,22 @@ With so much content to display at once, and often so little screen real-estate,
 
 The QCard component is intentionally lightweight and essentially a containing element that is capable of "hosting" any other component that is appropriate.
 
-## Installation
-<doc-installation :components="['QCard', 'QCardSection', 'QCardActions']" />
+## QCard API
+<doc-api file="QCard" />
+
+## QCardSection API
+<doc-api file="QCardSection" />
+
+## QCardActions API
+<doc-api file="QCardActions" />
 
 ## Usage
+
+::: tip
+You can play with the typography within your cards to create beautiful cards.
+:::
+
+### Basic
 <doc-example title="Basic cards" file="QCard/Basic" />
 
 ### With actions
@@ -31,6 +44,16 @@ Below are some of the custom alignments that you can use for the actions through
 
 <doc-example title="Card with parallax" file="QCard/Parallax" />
 
+### Horizontal
+
+On the examples below, notice the QCardSection with `horizontal` prop on it that wraps other QCardSections. Also note that you can directly use `col-*` classes on children of horizontal QCardSection in order to control the size.
+
+It's recommended that you use QImg component instead of native `<img>` when dealing with horizontal QCardSections.
+
+<doc-example title="Basic horizontal" file="QCard/HorizontalBasic" />
+
+<doc-example title="More involved examples" file="QCard/HorizontalMoreInvolved" />
+
 ### Various content
 <doc-example title="Various content" file="QCard/VariousContent" />
 
@@ -38,12 +61,8 @@ Below are some of the custom alignments that you can use for the actions through
 
 <doc-example title="Tabs" file="QCard/Tabs" />
 
-## QCard API
-<doc-api file="QCard" />
+### Expandable
 
-## QCardSection API
-<doc-api file="QCardSection" />
+On the example below, click on the round button on the bottom right to see the expansion in action.
 
-## QCardActions API
-<doc-api file="QCardActions" />
-
+<doc-example title="Expandable" file="QCard/Expandable" />

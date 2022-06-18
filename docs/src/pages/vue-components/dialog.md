@@ -1,6 +1,7 @@
 ---
 title: Dialog
 desc: The QDialog component provides a UI for modals with functionalities like positioning, styling, maximizing and more.
+keys: QDialog
 related:
   - /quasar-plugins/dialog
   - /vue-directives/close-popup
@@ -16,15 +17,25 @@ From a UI perspective, you can think of Dialogs as a type of floating modal, whi
 Dialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behaviour, go to [Dialog Plugin](/quasar-plugins/dialog) page.
 :::
 
-::: tip
-When the user hits the phone/tablet back button (only for Cordova apps), the Dialog will be closed automatically. Also, when on a desktop browser, hitting the `ESCAPE` key will also close the Dialog, as does clicking or touching outside of the Dialog, unless configured otherwise.
+::: warning Masterclass TIP
+Rather than cluttering your .vue templates with QDialogs, it's best if you write a component for your dialog and use the [Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) to invoke it from anywhere in your app.
 :::
 
-## Installation
-<doc-installation components="QDialog" directives="ClosePopup" />
+## QDialog API
+
+<doc-api file="QDialog" />
 
 ## Usage
+
+::: warning Note
+It's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).
+:::
+
+### Basic
+
 <doc-example title="Basic" file="QDialog/Basic" />
+
+### Styling
 
 <doc-example title="Styling" file="QDialog/Style" />
 
@@ -70,5 +81,43 @@ You are able to customize the size of the Dialogs. Notice we either tamper with 
 
 <doc-example title="Sizing examples" file="QDialog/Sizing" />
 
-## QDialog API
-<doc-api file="QDialog" />
+## Cordova/Capacitor back button
+Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
+
+However, should you wish to disable this behavior, edit your /quasar.config.js file:
+
+```js
+// quasar.config.js;
+// for Cordova (only!):
+return {
+  framework: {
+    config: {
+      cordova: {
+        // Quasar handles app exit on mobile phone back button.
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        backButton: true/false
+      }
+    }
+  }
+}
+
+// quasar.config.js;
+// for Capacitor (only!)
+return {
+  framework: {
+    config: {
+      capacitor: {
+        // Quasar handles app exit on mobile phone back button.
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
+
+        // On the other hand, the following completely
+        // disables Quasar's back button management.
+        backButton: true/false
+      }
+    }
+  }
+}
+```

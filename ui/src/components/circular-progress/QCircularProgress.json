@@ -1,8 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/circular-progress"
   },
 
   "props": {
@@ -85,12 +85,29 @@
       "type": "Boolean",
       "desc": "Reverses the direction of progress; Only for determined state",
       "category": "behavior"
+    },
+
+    "instant-feedback": {
+      "type": "Boolean",
+      "desc": "No animation when model changes",
+      "category": "behavior"
+    },
+
+    "animation-speed": {
+      "extends": "animation-speed",
+      "default": 600,
+      "addedIn": "v2.3"
     }
   },
 
   "slots": {
     "default": {
       "desc": "Used for component content only if 'show-value' prop is set; Make sure the content has enough space to be displayed inside the component"
+    },
+
+    "internal": {
+      "desc": "Used by QKnob internally",
+      "internal": true
     }
   }
 }

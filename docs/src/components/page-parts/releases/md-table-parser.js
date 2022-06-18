@@ -1,5 +1,5 @@
 function getTable (rows) {
-  const header = rows[0].split('|')
+  const header = rows[ 0 ].split('|')
     .filter(col => col)
     .map(col => `<th class="text-left">${col.trim()}</th>`)
     .join('')
@@ -12,9 +12,9 @@ function getTable (rows) {
     '</tr>'
   ).join('')
 
-  return `<div class="q-markup-table q-table__container q-table__card ` +
-    `q-table--horizontal-separator q-table--flat q-table--bordered ` +
-    `q-table--no-wrap q-table--dense">` +
+  return '<div class="q-markup-table q-table__container q-table__card ' +
+    'q-table--horizontal-separator q-table--flat q-table--bordered ' +
+    'q-table--no-wrap q-table--dense">' +
     `<table class="q-table"><thead>${header}</thead>` +
     `<tbody>${body}</tbody></table></div>`
 }

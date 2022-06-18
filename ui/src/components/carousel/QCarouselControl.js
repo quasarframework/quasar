@@ -1,39 +1,37 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import slot from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default createComponent({
   name: 'QCarouselControl',
 
   props: {
     position: {
       type: String,
-      default: 'bottom-right'
+      default: 'bottom-right',
+      validator: v => [
+        'top-right', 'top-left',
+        'bottom-right', 'bottom-left',
+        'top', 'right', 'bottom', 'left'
+      ].includes(v)
     },
     offset: {
       type: Array,
-      default: () => [18, 18]
+      default: () => [ 18, 18 ],
+      validator: v => v.length === 2
     }
   },
 
-  computed: {
-    classes () {
-      return `absolute-${this.position}`
-    },
+  setup (props, { slots }) {
+    const classes = computed(() => `q-carousel__control absolute absolute-${ props.position }`)
+    const style = computed(() => ({
+      margin: `${ props.offset[ 1 ] }px ${ props.offset[ 0 ] }px`
+    }))
 
-    style () {
-      return {
-        margin: `${this.offset[1]}px ${this.offset[0]}px`
-      }
-    }
-  },
-
-  render (h) {
-    return h('div', {
-      staticClass: 'q-carousel__control absolute',
-      style: this.style,
-      class: this.classes,
-      on: this.$listeners
-    }, slot(this, 'default'))
+    return () => h('div', {
+      class: classes.value,
+      style: style.value
+    }, hSlot(slots.default))
   }
 })

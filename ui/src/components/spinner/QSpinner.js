@@ -1,41 +1,39 @@
-import Vue from 'vue'
+import { h } from 'vue'
 
-import mixin from './spinner-mixin.js'
+import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QSpinner',
 
-  mixins: [ mixin ],
-
   props: {
+    ...useSpinnerProps,
+
     thickness: {
       type: Number,
       default: 5
     }
   },
 
-  render (h) {
-    return h('svg', {
-      staticClass: 'q-spinner q-spinner-mat',
-      class: this.classes,
-      on: this.$listeners,
-      attrs: {
-        'width': this.cSize,
-        'height': this.cSize,
-        'viewBox': '25 25 50 50'
-      }
+  setup (props) {
+    const { cSize, classes } = useSpinner(props)
+
+    return () => h('svg', {
+      class: classes.value + ' q-spinner-mat',
+      width: cSize.value,
+      height: cSize.value,
+      viewBox: '25 25 50 50'
     }, [
       h('circle', {
-        staticClass: 'path',
-        attrs: {
-          'cx': '50',
-          'cy': '50',
-          'r': '20',
-          'fill': 'none',
-          'stroke': 'currentColor',
-          'stroke-width': this.thickness,
-          'stroke-miterlimit': '10'
-        }
+        class: 'path',
+        cx: '50',
+        cy: '50',
+        r: '20',
+        fill: 'none',
+        stroke: 'currentColor',
+        'stroke-width': props.thickness,
+        'stroke-miterlimit': '10'
       })
     ])
   }

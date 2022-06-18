@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/layout/layout"
+  },
+
   "props": {
     "view": {
       "type": "String",
@@ -33,11 +37,13 @@
           "definition": {
             "height": {
               "type": "Number",
+              "required": true,
               "desc": "Layout height",
               "examples": [ 575 ]
             },
             "width": {
               "type": "Number",
+              "required": true,
               "desc": "Layout height",
               "examples": [ 575 ]
             }
@@ -55,22 +61,34 @@
           "definition": {
             "position": {
               "type": "Number",
-              "desc": "Scroll offset (from top)",
-              "examples": [ 575 ]
+              "required": true,
+              "desc": "Scroll offset from top (vertical)",
+              "examples": [ 120 ]
             },
+
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of scroll",
               "values": [ "up", "down" ]
             },
             "directionChanged": {
               "type": "Boolean",
+              "required": true,
               "desc": "Has scroll direction changed since event was last emitted?"
             },
-            "inflexionPosition": {
+            "delta": {
               "type": "Number",
-              "desc": "Last scroll offset where scroll direction has changed",
-              "examples": [ 575 ]
+              "required": true,
+              "desc": "Vertical delta distance since event was last emitted",
+              "examples": [ 120 ]
+            },
+
+            "inflectionPoint": {
+              "type": "Number",
+              "required": true,
+              "desc": "Scroll offset from top (vertical)",
+              "examples": [ 120 ]
             }
           }
         }

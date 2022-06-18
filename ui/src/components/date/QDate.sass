@@ -1,0 +1,251 @@
+.q-date
+  display: inline-flex
+  box-shadow: $shadow-2
+  border-radius: $generic-border-radius
+  background: #fff
+  width: 290px
+  min-width: 290px
+  max-width: 100%
+
+  &--bordered
+    border: 1px solid $separator-color
+
+  &__header
+    border-top-left-radius: inherit
+    color: #fff
+    background-color: var(--q-primary)
+    padding: 16px
+
+  &__actions
+    padding: 0 16px 16px
+
+  &__content, &__main
+    outline: 0
+
+  &__content .q-btn
+    font-weight: normal
+
+  &__header-link
+    opacity: .64
+    outline: 0
+    transition: opacity .3s ease-out
+    &--active, &:hover, &:focus
+      opacity: 1
+
+  &__header-subtitle
+    font-size: 14px
+    line-height: 1.75
+    letter-spacing: .00938em
+
+  &__header-title-label
+    font-size: 24px
+    line-height: 1.2
+    letter-spacing: .00735em
+
+  &__view
+    height: 100%
+    width: 100%
+    min-height: 290px
+    padding: 16px
+
+  &__navigation
+    height: 12.5%
+
+    > div:first-child
+      width: 8%
+      min-width: 24px
+      justify-content: flex-end
+    > div:last-child
+      width: 8%
+      min-width: 24px
+      justify-content: flex-start
+
+  &__calendar-weekdays
+    height: 12.5%
+    > div
+      opacity: .38
+      font-size: 12px
+
+  &__calendar-item
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    vertical-align: middle
+    width: 14.285% !important
+    height: 12.5% !important
+    position: relative
+    padding: 1px
+
+    &:after
+      content: ''
+      position: absolute
+      pointer-events: none
+      top: 1px
+      right: 0
+      bottom: 1px
+      left: 0
+      border-style: dashed
+      border-color: transparent
+      border-width: 1px
+
+    > div, button
+      width: 30px
+      height: 30px
+      border-radius: 50%
+    > div
+      line-height: 30px
+      text-align: center
+    > button
+      line-height: 22px
+
+    &--out
+      opacity: .18
+
+    &--fill
+      visibility: hidden
+
+  &__range, &__range-from, &__range-to
+
+    &:before
+      content: ''
+      background-color: currentColor
+      position: absolute
+      top: 1px
+      bottom: 1px
+      left: 0
+      right: 0
+      opacity: .3
+
+    &:nth-child(7n-6)
+      &:before
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+
+    &:nth-child(7n)
+      &:before
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+  &__range-from
+    &:before
+      left: 50%
+  &__range-to
+    &:before
+      right: 50%
+
+  &__edit-range
+    &:after
+      border-color: currentColor transparent
+
+    &:nth-child(7n-6)
+      &:after
+        border-top-left-radius: 0
+        border-bottom-left-radius: 0
+    &:nth-child(7n)
+      &:after
+        border-top-right-radius: 0
+        border-bottom-right-radius: 0
+
+    &-from, &-from-to
+      &:after
+        left: 4px
+        border-left-color: currentColor
+        border-top-color: currentColor
+        border-bottom-color: currentColor
+        border-top-left-radius: $button-rounded-border-radius
+        border-bottom-left-radius: $button-rounded-border-radius
+
+    &-to, &-from-to
+      &:after
+        right: 4px
+        border-right-color: currentColor
+        border-top-color: currentColor
+        border-bottom-color: currentColor
+        border-top-right-radius: $button-rounded-border-radius
+        border-bottom-right-radius: $button-rounded-border-radius
+
+  &__calendar-days-container
+    height: 75%
+    min-height: 192px
+
+  &__calendar-days > div
+    height: 16.66% !important
+
+  &__event
+    position: absolute
+    bottom: 2px
+    left: 50%
+    height: 5px
+    width: 8px
+    border-radius: 5px
+    background-color: var(--q-secondary)
+    transform: translate3d(-50%, 0, 0)
+
+  &__today
+    box-shadow: 0 0 1px 0 currentColor
+
+  &__years-content
+    padding: 0 8px
+
+  &__years-item, &__months-item
+    flex: 0 0 33.3333%
+
+  &.disabled, &--readonly
+    .q-date__header, .q-date__content
+      pointer-events: none
+
+  &--readonly .q-date__navigation
+    display: none
+
+  &--portrait
+    flex-direction: column
+
+  &--portrait-standard
+
+    .q-date__content
+      height: calc(100% - 86px) // workaround for iOS -- 86px is header height
+
+    .q-date__header
+      border-top-right-radius: inherit
+      height: 86px
+
+    .q-date__header-title
+      align-items: center
+      height: 30px
+
+  &--portrait-minimal
+
+    .q-date__content
+      height: 100% // workaround for iOS -- 86px is header height
+
+  &--landscape
+    flex-direction: row
+    align-items: stretch
+    min-width: 420px
+
+    > div
+      display: flex
+      flex-direction: column
+
+    .q-date__content
+      height: 100%
+
+  &--landscape-standard
+    min-width: 420px
+
+    .q-date__header
+      border-bottom-left-radius: inherit
+      min-width: 110px
+      width: 110px
+
+    .q-date__header-title
+      flex-direction: column
+    .q-date__header-today
+      margin-top: 12px
+      margin-left: -8px
+
+  &--landscape-minimal
+    width: 310px
+
+  &--dark
+    border-color: $separator-dark-color

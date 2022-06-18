@@ -13,12 +13,13 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       brandColors: [
         'primary',
         'secondary',
         'accent',
+        'dark',
         'positive',
         'negative',
         'info',

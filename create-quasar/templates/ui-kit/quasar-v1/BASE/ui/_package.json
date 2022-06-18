@@ -1,0 +1,47 @@
+{
+  "name": "quasar-ui-<%= name %>",
+  "version": "0.0.1",
+  "author": "<%= author %>",
+  "description": "<%= packageDescription %>",
+  "license": "<%= license %>",
+  "module": "dist/index.esm.js",
+  "main": "dist/index.common.js",
+  "scripts": {
+    "dev": "cd dev && yarn dev && cd ..",
+    "dev:umd": "yarn build && node build/script.open-umd.js",
+    "dev:ssr": "cd dev && yarn 'dev:ssr' && cd ..",
+    "dev:ios": "cd dev && yarn 'dev:ios' && cd ..",
+    "dev:android": "cd dev && yarn 'dev:android' && cd ..",
+    "dev:electron": "cd dev && yarn 'dev:electron' && cd ..",
+    "build": "node build/index.js",
+    "build:js": "node build/script.javascript.js",
+    "build:css": "node build/script.css.js"
+  },
+  "repository": {
+    "type": "<%= repositoryType %>",
+    "url": "<%= repositoryURL %>"
+  },
+  "bugs": "<%= bugs %>",
+  "homepage": "<%= homepage %>",
+  "devDependencies": {
+    "autoprefixer": "^10.0.2",
+    "cssnano": "^4.1.10",
+    "postcss": "^8.1.9",
+    "rtlcss": "^2.6.1",
+    "sass": "1.32.0",
+    "quasar": "^1.0.0",
+    "open": "^7.3.0",
+    "fs-extra": "^8.1.0",
+    "chalk": "^4.1.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^2.33.3",
+    "@rollup/plugin-buble": "^0.20.0",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "uglify-es": "^3.3.9",
+    "zlib": "^1.0.5"
+  },
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ]
+}

@@ -1,0 +1,142 @@
+name: Bug report (Quasar v1)
+description: Create a bug report to help us improve
+labels: ['kind/bug 🐞', 'Qv1']
+
+# Note: Do NOT use commas(,) in options with 'multiple: true', the issue processing workflow won't be able to label it
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Read Before Proceeding Further
+
+        This form is for submitting a **bug report** for Quasar Framework(**v1**).
+        If you are using another version, just seeking help, or you would like to submit a feature request, go back and choose a more suitable option from the list.
+
+        Also, search for your issue in the repo to be sure it doesn't exist already.
+
+        To enter your issue, fill out the form correctly and according to the instructions. Try to be as clear as possible and provide as many details as possible, to help our team better understand the issue and to resolve it faster.
+        Issues with an unclear description or lacking information will have a lower priority. They may even get closed without taking action.
+
+        Lastly, read the [Reporting an Issue | Contribution Guide](https://quasar.dev/contribution-guide/contribution-guide#reporting-an-issue) section of our docs for a more detailed explanation.
+
+        Thanks for your understanding. We truly appreciate your effort to fill out this form!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Clearly and concisely explain the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+  - type: input
+    id: repro-url
+    attributes:
+      label: Reproduction URL
+      description: |
+        A [reproduction](https://stackoverflow.com/help/minimal-reproducible-example) URL is **REQUIRED**, even if you think the error is obvious.
+        Fork one of the following, hit save then copy-paste the URL here:
+         - [Codepen](https://codepen.io/rstoenescu/pen/VgQbdx)
+         - [jsFiddle](https://jsfiddle.net/rstoenescu/rmaodk0f)
+         - [Codesandbox](https://codesandbox.io/s/github/quasarframework/quasar-codesandbox/tree/legacy-v1).
+        _You can provide a GitHub repo only as a last resort. Keep in mind that it will be prioritized less as it makes the reproduction process slower._
+      placeholder: https://codepen.io/rstoenescu/pen/VgQbdx - DO NOT use this example value or a random URL
+    validations:
+      required: true
+  - type: textarea
+    id: repro-description
+    attributes:
+      label: How to reproduce?
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to the provided reproduction link
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See the error
+    validations:
+      required: true
+  - type: dropdown
+    id: flavour
+    attributes:
+      label: Flavour
+      description: Choose the Quasar flavour you are using. _The names between parentheses indicate the package names if applicable._
+      options:
+        - Quasar CLI (@quasar/cli | @quasar/app)
+        - UMD
+        - Vue CLI Plugin (vue-cli-plugin-quasar)
+    validations:
+      required: true
+  - type: dropdown
+    id: areas
+    attributes:
+      label: Areas
+      description: Mark the areas in which you see the problem on. _The names between parentheses indicate the package names if applicable._
+      multiple: true
+      options:
+        - Quasar CLI Commands/Configuration (@quasar/cli | @quasar/app)
+
+        - Components (quasar)
+        - Directives (quasar)
+        - Plugins (quasar)
+        - Style & Identity (quasar)
+
+        - Quasar Extras (@quasar/extras)
+        - TypeScript Support
+        - App Extension API
+        # TODO: Consider creating a separate issue template for Icon Genie CLI as most of the info requested may not be relevant
+        - Icon Genie CLI (@quasar/icongenie)
+
+        - SPA Mode
+        - SSR Mode
+        - PWA Mode
+        - Electron Mode
+        - Cordova Mode
+        - Capacitor Mode
+        - BEX Mode
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Platforms/Browsers
+      description: Mark the platforms/browsers in which you see the problem on. _If you select `Other`, please explain it in `Additional context` section._
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
+        - Internet Explorer 11
+        - iOS
+        - Android
+        - Electron
+        - Other
+  - type: textarea
+    id: q-info
+    attributes:
+      label: Quasar info output
+      description: |
+        Please run [`quasar info` command](https://quasar.dev/quasar-cli/commands-list#info), then copy and paste the output.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+    # TODO: Validate the format by using GitHub Actions, Probot, etc.
+    # TODO: Make this required if the flavour is Quasar CLI, by using GitHub Actions, Probot, etc.
+    # Consider adding separate controls to select important versions such as quasar, @quasar/app, vite, etc. to also respect the other flavours
+    # or add just the 'quasar' version(to cover UMD), then evolve `quasar info` command to cover most/all cases, and make people use `npx quasar info` for the environment and package information
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: |
+        Please copy and paste any relevant log output.
+        _This will be automatically formatted into code, so no need for backticks._
+      render: Shell
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.

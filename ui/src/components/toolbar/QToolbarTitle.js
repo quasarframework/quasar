@@ -1,19 +1,21 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import slot from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+export default createComponent({
   name: 'QToolbarTitle',
 
   props: {
     shrink: Boolean
   },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-toolbar__title ellipsis',
-      class: this.shrink === true ? 'col-shrink' : null,
-      on: this.$listeners
-    }, slot(this, 'default'))
+  setup (props, { slots }) {
+    const classes = computed(() =>
+      'q-toolbar__title ellipsis'
+      + (props.shrink === true ? ' col-shrink' : '')
+    )
+
+    return () => h('div', { class: classes.value }, hSlot(slots.default))
   }
 })
