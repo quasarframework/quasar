@@ -556,7 +556,7 @@ export default function (state) {
     const labelAttrs = state.getControl === void 0 && slots.control === void 0
       ? {
           ...state.splitAttrs.attributes.value,
-          'data-autofocus': props.autofocus,
+          'data-autofocus': props.autofocus === true || void 0,
           ...attributes.value
         }
       : attributes.value
