@@ -101,11 +101,7 @@ export default {
           evt.qSkipRipple !== true &&
           // on ENTER in form IE emits a PointerEvent with negative client cordinates
           (client.is.ie !== true || evt.clientX >= 0) &&
-          (
-            ctx.modifiers.early === true
-              ? ['mousedown', 'touchstart'].includes(evt.type) === true
-              : evt.type === 'click'
-          )
+          evt.type === (ctx.modifiers.early === true ? 'pointerdown' : 'click')
         ) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
@@ -128,8 +124,7 @@ export default {
     el.__qripple = ctx
 
     addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'start', 'passive' ],
-      [ el, 'touchstart', 'start', 'passive' ],
+      [ el, 'pointerdown', 'start', 'passive' ],
       [ el, 'click', 'start', 'passive' ],
       [ el, 'keydown', 'keystart', 'passive' ],
       [ el, 'keyup', 'keystart', 'passive' ]
