@@ -62,7 +62,7 @@ function showRipple (evt, el, ctx, forceCenter) {
 }
 
 function updateModifiers (ctx, { modifiers, value, arg, instance }) {
-  const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
+  const cfg = Object.assign({}, ctx.cfg, modifiers, value)
   ctx.modifiers = {
     early: cfg.early === true,
     stop: cfg.stop === true,
@@ -79,6 +79,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
 
       beforeMount (el, binding) {
         const ctx = {
+          cfg: binding.instance.$.appContext.config.globalProperties.$q.config.ripple,
           enabled: binding.value !== false,
           modifiers: {},
           abort: [],
