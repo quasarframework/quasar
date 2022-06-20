@@ -5,7 +5,7 @@ export function getCssClassAsObject(cssClasses) {
 
   if (Array.isArray(cssClasses)) {
     return cssClasses
-      .map(toObject)
+      .map(getCssClassAsObject)
       .filter(Boolean)
       .reduce((acc, curr) => ({ ...acc, ...curr }), {});
   }
