@@ -25,6 +25,7 @@ import { useTableColumnSelection, useTableColumnSelectionProps } from './table-c
 
 import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 import { createComponent } from '../../utils/private/create.js'
+import { getCssClassAsObject } from '../../utils/private/css-class.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 
@@ -91,6 +92,8 @@ export default createComponent({
     titleClass: [ String, Array, Object ],
     tableStyle: [ String, Array, Object ],
     tableClass: [ String, Array, Object ],
+    tableRowStyle: [ String, Array, Object, Function ],
+    tableRowClass: [ String, Array, Object, Function ],
     tableHeaderStyle: [ String, Array, Object ],
     tableHeaderClass: [ String, Array, Object ],
     cardContainerClass: [ String, Array, Object ],
@@ -450,6 +453,30 @@ export default createComponent({
         data.class[ 'cursor-pointer' ] = true
         data.onContextmenu = evt => {
           emit('RowContextmenu', evt, row, pageIndex)
+        }
+      }
+
+      if (props.tableRowStyle !== void 0) {
+        if (typeof props.tableRowStyle === 'function') {
+          data.style = props.tableRowStyle(row)
+        }
+        else {
+          data.style = props.tableRowStyle
+        }
+      }
+
+      if (props.tableRowClass !== void 0) {
+        if (typeof props.tableRowClass === 'function') {
+          data.class = {
+            ...data.class,
+            ...getCssClassAsObject(props.tableRowClass(row)),
+          };
+        }
+        else {
+          data.class = {
+            ...data.class,
+            ...getCssClassAsObject(props.tableRowClass),
+          };
         }
       }
 
