@@ -13,7 +13,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.12.4",
+    "@quasar/extras": "^1.14.0",
     "prismjs": "^1.26.0",
     "quasar": "^2.6.2",
     "vue": "^3.0.0",

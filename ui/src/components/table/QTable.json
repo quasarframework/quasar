@@ -517,6 +517,30 @@
       "category": "style"
     },
 
+    "table-row-style": {
+      "type": [ "String", "Array", "Object", "Function" ],
+      "tsType": "VueStyleProp",
+      "desc": "CSS style to apply to native HTML <tr> element",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-row-style=\"{ backgroundColor: '#ff0000' }\"",
+        "row => (row.calories % 2 === 0 ? 'width: 10px' : 'font-size: 2em; font-weight: bold')"
+      ],
+      "category": "style"
+    },
+
+    "table-row-class": {
+      "type": [ "String", "Array", "Object", "Function" ],
+      "tsType": "VueClassProp",
+      "desc": "CSS class to apply to native HTML <tr> element",
+      "examples": [
+        "my-special-class",
+        ":table--row-class=\"{ 'my-special-class': [Boolean condition] }\"",
+        "row => (row.calories % 2 === 0 ? 'bg-green text-white' : 'bg-yellow')"
+      ],
+      "category": "style"
+    },
+
     "card-container-style": {
       "type": [ "String", "Array", "Object" ],
       "tsType": "VueStyleProp",
