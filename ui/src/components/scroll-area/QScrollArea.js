@@ -14,13 +14,7 @@ import debounce from '../../utils/debounce.js'
 import DarkMixin from '../../mixins/dark.js'
 import { ariaHidden } from '../../mixins/attrs'
 
-const getMinThumbSize = size => {
-  if (size >= 250) {
-    return 50
-  }
-
-  return Math.ceil(size / 5)
-}
+const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
 
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {
