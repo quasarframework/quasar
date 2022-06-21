@@ -23,7 +23,7 @@
     </div>
     <q-timeline :layout="layout" :side="side" color="secondary" style="padding: 0 24px;">
       <q-timeline-entry heading>
-        Novermber, 2017
+        November, 2017
       </q-timeline-entry>
 
       <q-timeline-entry
@@ -37,7 +37,7 @@
         </div>
       </q-timeline-entry>
 
-      <q-timeline-entry heading body="Novermber, 2017" />
+      <q-timeline-entry heading body="November, 2017" />
 
       <q-timeline-entry
         title="Event Title"
@@ -98,6 +98,7 @@
         title="Event Title"
         subtitle="February 22, 1986"
         side="right"
+        :icon="svgIcon"
       >
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -131,6 +132,7 @@
         title="Event Title Event Title Event Title Event Title Event Title Event Title Event Title Event Title "
         subtitle="February 22, 1986"
         side="right"
+        icon="img:https://www.gfbr.global/wp-content/uploads/2015/10/TwitterLogo_55acee-49x49.png"
       >
         <div>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -177,11 +179,14 @@
 </template>
 
 <script>
+import { ionAirplane } from '@quasar/extras/ionicons-v6'
+
 export default {
   data () {
     return {
       layout: 'dense',
-      side: 'right'
+      side: 'right',
+      svgIcon: ionAirplane
     }
   }
 }
