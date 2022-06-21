@@ -13,6 +13,14 @@ import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../ut
 import { hMergeSlot } from '../../utils/private/render.js'
 import debounce from '../../utils/debounce.js'
 
+const getMinThumbSize = size => {
+  if (size >= 250) {
+    return 50
+  }
+
+  return Math.ceil(size / 5)
+}
+
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {
   vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
@@ -115,7 +123,7 @@ export default createComponent({
       Math.round(
         between(
           container.vertical.value * container.vertical.value / scroll.vertical.size.value,
-          50,
+          getMinThumbSize(container.vertical.value),
           container.vertical.value
         )
       )
@@ -157,7 +165,7 @@ export default createComponent({
       Math.round(
         between(
           container.horizontal.value * container.horizontal.value / scroll.horizontal.size.value,
-          50,
+          getMinThumbSize(container.horizontal.value),
           container.horizontal.value
         )
       )
