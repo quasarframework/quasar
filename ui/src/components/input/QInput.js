@@ -208,7 +208,7 @@ export default createComponent({
     }
 
     function onInput (e) {
-      if (!e || !e.target || e.target.qComposing === true) {
+      if (!e || !e.target) {
         return
       }
 
@@ -218,6 +218,12 @@ export default createComponent({
       }
 
       const val = e.target.value
+
+      if (e.target.qComposing === true) {
+        temp.value = val
+
+        return
+      }
 
       if (hasMask.value === true) {
         updateMaskValue(val, false, e.inputType)
