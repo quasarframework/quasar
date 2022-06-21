@@ -13,14 +13,6 @@ import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../ut
 import { hMergeSlot } from '../../utils/private/render.js'
 import debounce from '../../utils/debounce.js'
 
-const getMinThumbSize = size => {
-  if (size >= 250) {
-    return 50
-  }
-
-  return Math.ceil(size / 5)
-}
-
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {
   vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
@@ -31,6 +23,8 @@ const panOpts = {
   mouse: true,
   mouseAllDir: true
 }
+
+const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
 
 export default createComponent({
   name: 'QScrollArea',
