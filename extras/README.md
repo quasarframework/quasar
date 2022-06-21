@@ -64,7 +64,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome v6](https://fontawesome.com/icons) | 6.1.1 | `svg-fontawesome-v6` | `@quasar/extras/fontawesome-v6` | Requires: @quasar/extras 1.13+ | [License](fontawesome-v5/LICENSE.txt) |
 | [Font Awesome v5](https://fontawesome.com/icons?d=gallery) | 5.15.4 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
-| [Ionicons v6](https://ionicons.com/) | 6.0.0 | `svg-ionicons-v6` | `@quasar/extras/ionicons-v6` | Requires: @quasar/extras 1.12+ | [Icon License](ionicons-v6/LICENSE) |
+| [Ionicons v6](https://ionicons.com/) | 6.0.2 | `svg-ionicons-v6` | `@quasar/extras/ionicons-v6` | Requires: @quasar/extras 1.12+ | [Icon License](ionicons-v6/LICENSE) |
 | [Ionicons v5](https://ionicons.com/) | 5.5.4 | `svg-ionicons-v5` | `@quasar/extras/ionicons-v5` | Requires: @quasar/extras 1.7+ | [Icon License](ionicons-v5/LICENSE) |
 | [Ionicons v4](https://ionicons.com/v4/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | No icon font (woof)  files for Ionicons since v4.6.3 | [Icon License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
