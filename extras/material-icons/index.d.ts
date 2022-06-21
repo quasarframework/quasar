@@ -785,7 +785,7 @@ export declare const matFlipCameraIos: string;
 export declare const matFlipToBack: string;
 export declare const matFlipToFront: string;
 export declare const matFlood: string;
-export declare const matFlourescent: string;
+export declare const matFluorescent: string;
 export declare const matFlutterDash: string;
 export declare const matFmdBad: string;
 export declare const matFmdGood: string;

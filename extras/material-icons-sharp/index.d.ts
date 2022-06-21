@@ -785,7 +785,7 @@ export declare const sharpFlipCameraIos: string;
 export declare const sharpFlipToBack: string;
 export declare const sharpFlipToFront: string;
 export declare const sharpFlood: string;
-export declare const sharpFlourescent: string;
+export declare const sharpFluorescent: string;
 export declare const sharpFlutterDash: string;
 export declare const sharpFmdBad: string;
 export declare const sharpFmdGood: string;

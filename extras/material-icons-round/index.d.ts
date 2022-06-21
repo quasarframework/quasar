@@ -785,7 +785,7 @@ export declare const roundFlipCameraIos: string;
 export declare const roundFlipToBack: string;
 export declare const roundFlipToFront: string;
 export declare const roundFlood: string;
-export declare const roundFlourescent: string;
+export declare const roundFluorescent: string;
 export declare const roundFlutterDash: string;
 export declare const roundFmdBad: string;
 export declare const roundFmdGood: string;
