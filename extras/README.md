@@ -59,7 +59,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) (Google) | CDN v7 | `svg-material-symbols-outlined` | `@quasar/extras/material-symbols-outlined` | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
 | [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) (Google) | CDN v7 | `svg-material-symbols-rounded` | `@quasar/extras/material-symbols-rounded` | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
 | [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) (Google) | CDN v7 | `svg-material-symbols-sharp` | `@quasar/extras/material-symbols-sharp` | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
-| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.6.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
+| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.7.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome v6](https://fontawesome.com/icons) | 6.1.1 | `svg-fontawesome-v6` | `@quasar/extras/fontawesome-v6` | Requires: @quasar/extras 1.13+ | [License](fontawesome-v5/LICENSE.txt) |
