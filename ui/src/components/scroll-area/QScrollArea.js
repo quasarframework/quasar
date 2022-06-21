@@ -14,6 +14,14 @@ import debounce from '../../utils/debounce.js'
 import DarkMixin from '../../mixins/dark.js'
 import { ariaHidden } from '../../mixins/attrs'
 
+const getMinThumbSize = size => {
+  if (size >= 250) {
+    return 50
+  }
+
+  return Math.ceil(size / 5)
+}
+
 const axisList = [ 'vertical', 'horizontal' ]
 const dirProps = {
   vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
@@ -131,7 +139,7 @@ export default Vue.extend({
       return Math.round(
         between(
           this.container.vertical * this.container.vertical / this.scroll.vertical.size,
-          50,
+          getMinThumbSize(this.container.vertical),
           this.container.vertical
         )
       )
@@ -141,7 +149,7 @@ export default Vue.extend({
       return Math.round(
         between(
           this.container.horizontal * this.container.horizontal / this.scroll.horizontal.size,
-          50,
+          getMinThumbSize(this.container.horizontal),
           this.container.horizontal
         )
       )
