@@ -35,6 +35,8 @@ Then create `/tsconfig.json` file at the root of you project with this content:
 }
 ```
 
+If you're using `@quasar/app` instead of `@quasar/app-webpack`, change `app-webpack` to `app`.
+
 Now you can start using TypeScript into your project.
 
 ::: tip
