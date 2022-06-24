@@ -110,9 +110,7 @@ function filterFiles (filters) {
 /**
  * Template in place plugin.
  *
- * @param {Object} files
- * @param {Metalsmith} metalsmith
- * @param {Function} done
+ * @param {String|Array} skipInterpolation
  */
 
 function renderTemplateFiles (skipInterpolation) {
