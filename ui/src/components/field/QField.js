@@ -120,11 +120,8 @@ export default Vue.extend({
     floatingLabel () {
       return this.stackLabel === true ||
         this.focused === true ||
-        (
-          this.inputValue !== void 0 && this.hideSelected === true
-            ? this.inputValue.length > 0
-            : this.hasValue === true
-        ) ||
+        (typeof this.inputValue === 'string' && this.inputValue.length > 0) ||
+        (this.hideSelected !== true && this.hasValue === true) ||
         (
           this.displayValue !== void 0 &&
           this.displayValue !== null &&
