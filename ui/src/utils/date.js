@@ -737,7 +737,7 @@ const formatter = {
   YY (date, _, forcedYear) {
     // workaround for < 1900 with new Date()
     const y = this.YYYY(date, _, forcedYear) % 100
-    return y > 0
+    return y >= 0
       ? pad(y)
       : '-' + pad(Math.abs(y))
   },
