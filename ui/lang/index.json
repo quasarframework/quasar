@@ -228,6 +228,14 @@
     "nativeName": "Українська"
   },
   {
+    "isoName": "uz-Cyrl",
+    "nativeName": "Ўзбекча (Кирил)"
+  },
+  {
+    "isoName": "uz-Latn",
+    "nativeName": "O'zbekcha (Lotin)"
+  },
+  {
     "isoName": "vi",
     "nativeName": "Tiếng Việt"
   },
