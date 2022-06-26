@@ -27,7 +27,6 @@ import {
   ionCodeSlash,
   ionAdd,
   ionClose,
-  ionCaretDownCircleOutline,
   ionPlaySkipBackCircle,
   ionPlaySkipForwardCircle,
   ionChevronBackCircle,
