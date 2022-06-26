@@ -68,9 +68,13 @@ const iconTypes = [
     convert
   },
   {
-    name: 'ionicons-v6',
+    name: 'ionicons-v4', // last web font version
     regex: /^ion-/,
-    convert
+    convert: str => convert(
+      /ion-(md|ios)-/.test(str) === true
+        ? str
+        : str.replace(/ion-/, 'ion-md-')
+    )
   },
   {
     name: 'fontawesome-v6',
