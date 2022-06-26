@@ -6,7 +6,11 @@ const {
   ionArrowForward,
   ionArrowDown,
   ionArrowBack,
-  ionCaretDownOutline,
+  ionCaretDown,
+  ionChevronBack,
+  ionChevronDown,
+  ionChevronForward,
+  ionChevronUp,
   ionAperture,
   ionOptions,
   ionApps,
@@ -20,18 +24,17 @@ const {
   ionPrint,
   ionArrowUndo,
   ionArrowRedo,
-  ionCode,
+  ionCodeSlash,
   ionAdd,
   ionClose,
-  ionPlaySkipBack,
-  ionPlaySkipForward,
+  ionCaretDownCircleOutline,
+  ionPlaySkipBackCircle,
+  ionPlaySkipForwardCircle,
+  ionChevronBackCircle,
+  ionChevronForwardCircle,
   ionStar,
   ionCreate,
   ionWarning,
-  ionPlaySkipBackOutline,
-  ionCaretBackOutline,
-  ionPlaySkipForwardOutline,
-  ionCaretForwardOutline,
   ionPlay,
   ionAddCircle,
   ionCloudUpload,
@@ -91,7 +94,7 @@ module.exports = {
     right: ionArrowForward,
     down: ionArrowDown,
     left: ionArrowBack,
-    dropdown: ionCaretDownOutline
+    dropdown: ionCaretDown
   },
   chevron: {
     left: ionArrowBack,
@@ -106,10 +109,10 @@ module.exports = {
     icon: ionRefresh
   },
   carousel: {
-    left: ionArrowBack,
-    right: ionArrowForward,
-    up: ionArrowUp,
-    down: ionArrowDown,
+    left: ionChevronBack,
+    right: ionChevronForward,
+    up: ionChevronUp,
+    down: ionChevronDown,
     navigationIcon: ionSquare
   },
   chip: {
@@ -117,8 +120,8 @@ module.exports = {
     selected: ionCheckmark
   },
   datetime: {
-    arrowLeft: ionArrowBack,
-    arrowRight: ionArrowForward,
+    arrowLeft: ionChevronBack,
+    arrowRight: ionChevronForward,
     now: ionTime,
     today: ionCalendar
   },
@@ -129,8 +132,8 @@ module.exports = {
     print: ionPrint,
     undo: ionArrowUndo,
     redo: ionArrowRedo,
-    code: ionCode,
-    viewSource: ionCode,
+    code: ionCodeSlash,
+    viewSource: ionCodeSlash,
 
     bold: mdiFormatBold,
     italic: mdiFormatItalic,
@@ -169,8 +172,8 @@ module.exports = {
     font: mdiFormatFont
   },
   expansionItem: {
-    icon: ionCaretDownOutline,
-    denseIcon: ionCaretDownOutline
+    icon: ionCaretDown,
+    denseIcon: ionCaretDown
   },
   fab: {
     icon: ionAdd,
@@ -181,10 +184,10 @@ module.exports = {
     error: ionAlert
   },
   pagination: {
-    first: ionPlaySkipBack,
-    prev: ionArrowBack,
-    next: ionArrowForward,
-    last: ionPlaySkipForward
+    first: ionPlaySkipBackCircle,
+    prev: ionChevronBackCircle,
+    next: ionChevronForwardCircle,
+    last: ionPlaySkipForwardCircle
   },
   rating: {
     icon: ionStar
@@ -195,18 +198,18 @@ module.exports = {
     error: ionWarning
   },
   tabs: {
-    left: ionArrowBack,
-    right: ionArrowForward,
-    up: ionArrowUp,
-    down: ionArrowDown
+    left: ionChevronBack,
+    right: ionChevronForward,
+    up: ionChevronUp,
+    down: ionChevronDown
   },
   table: {
     arrowUp: ionArrowUp,
     warning: ionWarning,
-    firstPage: ionPlaySkipBackOutline,
-    prevPage: ionCaretBackOutline,
-    nextPage: ionPlaySkipForwardOutline,
-    lastPage: ionCaretForwardOutline
+    firstPage: ionPlaySkipBackCircle,
+    prevPage: ionChevronBackCircle,
+    nextPage: ionChevronForwardCircle,
+    lastPage: ionPlaySkipForwardCircle
   },
   tree: {
     icon: ionPlay
