@@ -35,7 +35,7 @@ dependencies: {
 
 The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Quasar with some UI functionality if they are installed.
 
-More - https://capacitorjs.com/docs/updating/3-0#switch-to-automatic-android-plugin-loading
+More info for [Switch to automatic Android plugin loading](https://capacitorjs.com/docs/updating/3-0#switch-to-automatic-android-plugin-loading).
 
 ## Capacitor v2
 
