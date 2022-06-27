@@ -35,6 +35,8 @@ dependencies: {
 
 The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Quasar with some UI functionality if they are installed.
 
+More - https://capacitorjs.com/docs/updating/3-0#switch-to-automatic-android-plugin-loading
+
 ## Capacitor v2
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in /src-capacitor/package.json should look like:
