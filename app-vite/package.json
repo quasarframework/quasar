@@ -60,7 +60,7 @@
     "cross-spawn": "^7.0.3",
     "dot-prop": "6.0.1",
     "elementtree": "0.1.7",
-    "esbuild": "0.14.29",
+    "esbuild": "0.14.47",
     "express": "^4.17.3",
     "fast-glob": "3.2.11",
     "fs-extra": "^10.0.1",
@@ -80,7 +80,7 @@
     "semver": "^7.3.5",
     "serialize-javascript": "^6.0.0",
     "table": "^6.8.0",
-    "vite": "2.9.1",
+    "vite": "2.9.13",
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
