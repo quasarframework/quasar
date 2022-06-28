@@ -1,5 +1,6 @@
 import { h } from 'vue'
-import { QBadge } from 'quasar'
+import { QBadge, QChip } from 'quasar'
+import { copyPropName } from 'assets/page-utils'
 
 import './DocApiEntry.sass'
 
@@ -78,10 +79,15 @@ function getExtendedNameDiv (label, level, type, required, addedIn) {
   const suffix = `${type ? ` : ${type}` : ''}${required ? ' - required!' : ''}`
 
   const child = [
-    h(QBadge, {
-      color: NAME_PROP_COLOR[ level ],
+    h(QChip, {
+      onClick: () => { copyPropName(label) },
+      clickable: true,
       label,
-      style: 'font-size: 1em; line-height: 1.2em'
+      dense: true,
+      square: true,
+      textColor: 'white',
+      color: NAME_PROP_COLOR[ level ],
+      style: 'font-size: 1em; line-height: 1.2em; padding: 2px 6px;'
     }),
     suffix
   ]

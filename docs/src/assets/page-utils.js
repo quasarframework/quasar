@@ -43,6 +43,17 @@ export function copyHeading (id) {
   })
 }
 
+export function copyPropName (propName) {
+  copyToClipboard(propName)
+
+  Notify.create({
+    message: 'Prop name has been copied to clipboard.',
+    position: 'top',
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
+    timeout: 2000
+  })
+}
+
 // eslint-disable-next-line
 const specialRE = /[\s·/_\\,:;\.\(\)\[\]]+/g
 const andRE = /&/g
