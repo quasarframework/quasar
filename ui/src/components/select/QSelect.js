@@ -1438,10 +1438,8 @@ export default createComponent({
       showPopup,
 
       floatingLabel: computed(() =>
-        (props.hideSelected === true
-          ? inputValue.value.length > 0
-          : hasValue.value === true
-        )
+        (props.hideSelected !== true && hasValue.value === true)
+        || inputValue.value.length > 0
         || fieldValueIsFilled(props.displayValue)
       ),
 
