@@ -1,6 +1,5 @@
-#!/usr/bin/env node
 
-console.log('  Running @quasar/icongenie v' + require('../package.json').version)
+console.log('  Running @quasar/icongenie v' + require('../../package.json').version)
 
 console.log(`
   Example usage

@@ -1,5 +1,5 @@
 const { existsSync, lstatSync } = require('fs')
-const { resolve, normalize, join } = require('path')
+const { resolve, normalize, join, isAbsolute } = require('path')
 const untildify = require('untildify')
 
 const getPngSize = require('./get-png-size')
@@ -124,6 +124,27 @@ function padding (value, argv) {
     : sizes
 }
 
+function parseIconPath (value) {
+  const __path = untildify(value)
+
+  if (isAbsolute(__path)) {
+    return existsSync(__path) === true
+      ? __path
+      : null
+  }
+
+  let icon = resolve(process.cwd(), __path)
+
+  if (existsSync(icon)) {
+    return icon
+  }
+
+  const { appDir } = require('./app-paths')
+  icon = resolve(appDir, __path)
+
+  return existsSync(icon) ? icon : null
+}
+
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
@@ -131,12 +152,9 @@ function icon (value, argv) {
     return
   }
 
+  argv.icon = parseIconPath(value)
 
-  const { appDir } = require('./app-paths')
-
-  argv.icon = resolve(appDir, untildify(value))
-
-  if (!existsSync(argv.icon)) {
+  if (!argv.icon) {
     die(`Path to source icon file does not exists: "${value}"`)
   }
 

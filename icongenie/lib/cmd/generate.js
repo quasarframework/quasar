@@ -1,171 +1,188 @@
-const { existsSync } = require('fs')
-const { ensureFileSync } = require('fs-extra')
-const { green, gray } = require('kolorist')
 
-const { appDir, resolveDir } = require('../utils/app-paths')
-const { log, warn } = require('../utils/logger')
+const parseArgs = require('minimist')
+const processArgv = process.argv.slice(2)
 
-const modes = require('../modes')
-const generators = require('../generators')
-const { mount } = require('../mount')
+const argv = parseArgs(processArgv, {
+  alias: {
+    p: 'profile', // config file
+    i: 'icon',
+    b: 'background',
+    m: 'mode',
+    f: 'filter',
+    q: 'quality',
+    h: 'help'
+  },
+  boolean: [ 'h', 'skip-trim' ],
+  string: [
+    'p', 'i', 'b', 'm', 'f', 'q',
+    'padding',
+    'theme-color',
+    'png-color',
+    'splashscreen-color',
+    'svg-color',
+    'splashscreen-icon-ratio'
+  ]
+})
 
-const getAssetsFiles = require('../utils/get-assets-files')
-const getFilesOptions = require('../utils/get-files-options')
+// if user hasn't explicitly specified this, then
+// we shouldn't take it into account
+if (processArgv.includes('--skip-trim') === false) {
+  delete argv['skip-trim']
+}
+
+const { green } = require('kolorist')
+
+if (argv.help) {
+  const modes = Object.keys(require('../modes')).join('|')
+  const generators = Object.keys(require('../generators')).join('|')
+  const defaultParams = require('../utils/default-params')
+
+  console.log(`
+  Description
+    Generate App icons & splashscreens
+
+  Usage
+    $ icongenie generate [options]
+
+    # generate icons for all installed Quasar modes
+    $ icongenie generate -i /path/to/icon.png
+    $ icongenie g -i /path/to/icon.png
+
+    # generate for (as example) PWA mode only
+    $ icongenie generate -m pwa --icon /path/to/icon.png
+
+    # generate for (as example) Cordova & Capacitor mode only
+    $ icongenie g -m cordova,capacitor -i
+         /path/to/icon.png -b /path/to/background.png
+
+    # generate by using a profile file
+    $ icongenie generate -p ./icongenie-profile.json
+
+    # generate by using batch of profile files
+    $ icongenie generate -p ./folder-containing-profile-files
+
+  Options
+    --icon, -i            ${green('Required')};
+                          Path to source file for icon; must be:
+                            - a .png file
+                            - min resolution: 64x64 px (the higher the better!!)
+                            - with transparency
+                          Best results are with a square image (height = width)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+                          Recommended min size: 1024x1024 px
+
+    --background, -b      Path to optional background source file (for splashscreens);
+                          must be:
+                            - a .png file
+                            - min resolution: 128x128 px (the higher the better!!)
+                            - transparency is optional (but recommended if you
+                              combine with the splashscreen-color param)
+                          Path can be absolute, or relative to the root of the
+                            Quasar project folder
+                          Recommended min size: 1024x1024 px
+
+    --mode, -m            For which Quasar mode(s) to generate the assets;
+                          Default: all
+                            [all|${modes}]
+                          Multiple can be specified, separated by ",":
+                            spa,cordova
+
+    --filter, -f          Filter the available generators; when used, it can
+                          generate only one type of asset instead of all
+                            [${generators}]
+
+    --quality             Quality of the files [1 - 12] (default: ${defaultParams.quality})
+                            - higher quality --> bigger filesize & slower to create
+                            - lower quality  --> smaller filesize & faster to create
+
+    --skip-trim           Do not trim the icon source file
+
+    --padding             Apply fixed padding to the icon after trimming it;
+                          Syntax: <horiz: number>,<vert: number>
+                          Default: 0,0
+                          Example: "--padding 10,5" means apply 10px padding to top
+                            10px to bottom, 5px to left side and 5px to rightside
+
+    --theme-color         Theme color to use for all generators requiring a color;
+                          It gets overridden if any generator color is also specified;
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --svg-color           Color to use for the generated monochrome svgs
+                          Default (if no theme-color is specified): ${defaultParams.svgColor.slice(1)}
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --png-color           Background color to use for the png generator, when
+                          "background: true" in the asset definition (like for
+                          the cordova/capacitor iOS icons);
+                          Default (if no theme-color is specified): ${defaultParams.pngColor.slice(1)}
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --splashscreen-color  Background color to use for the splashscreen generator;
+                          Default (if no theme-color is specified): ${defaultParams.splashscreenColor.slice(1)}
+                          The color must be in hex format (NOT hexa) without the leading
+                          '#' character. Transparency not allowed.
+                          Examples: 1976D2, eee
+
+    --splashscreen-icon-ratio  Ratio of icon size in respect to the width or height
+                               (whichever is smaller) of the resulting splashscreen;
+                               Represents percentages; Valid values: 0 - 100
+                               If 0 then it doesn't add the icon of top of background
+                               Default: ${defaultParams.splashscreenIconRatio}
+
+    --profile, -p         Use JSON profile file(s):
+                            - path to folder (absolute or relative to current folder)
+                              that contains JSON profile files (icongenie-*.json)
+                            - path to a single *.json profile file (absolute or relative
+                              to current folder)
+                          Structure of a JSON profile file:
+                            {
+                              "params": {
+                                "include": [ ... ], /* optional */
+                                ...
+                              },
+                              "assets": [ /* list of custom assets */ ]
+                            }
+
+    --help, -h            Displays this message
+  `)
+  process.exit(0)
+}
+
 const parseArgv = require('../utils/parse-argv')
-const mergeObjects = require('../utils/merge-objects')
-const getProfileContent = require('../utils/get-profile-content')
-const getFileSize = require('../utils/get-file-size')
-const validateProfileObject = require('../utils/validate-profile-object')
+const generate = require('../runner/generate')
+const getProfileFiles = require('../utils/get-profile-files')
+const filterArgvParams = require('../utils/filter-argv-params')
+const { log } = require('../utils/logger')
 
-function printBanner (assetsOf, params) {
-  console.log(` Generating files with the following options:
- ==========================
- Quasar project folder..... ${green(appDir)}
- ${green(`Quality level............. ${params.quality}/12`)}
- Icon source file.......... ${green(params.icon)}
- Icon trimming............. ${params.skipTrim ? 'no' : green('yes')}
- Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
- Background source file.... ${params.background ? green(params.background) : 'none'}
- Assets of................. ${green(assetsOf)}
- Generator filter.......... ${params.filter ? green(params.filter) : 'none'}
- Svg color................. ${green(params.svgColor)}
- Png color................. ${green(params.pngColor)}
- Splashscreen color........ ${green(params.splashscreenColor)}
- Splashscreen icon ratio... ${green(params.splashscreenIconRatio)}%
- ==========================
-`)
-}
+async function runProfiles (params, profileFiles) {
+  for (let i = 0; i < profileFiles.length; i++) {
+    const profile = profileFiles[i]
 
-function parseAssets (assets, include) {
-  let files = []
-  let assetsOf = []
+    console.log(`\n`)
+    log(`---------------------`)
+    log(`Generating by profile: ${profile}`)
+    log(`---------------------`)
+    console.log(`\n`)
 
-  if (include) {
-    const embeddedModes = include.filter(
-      mode => existsSync(resolveDir(modes[mode].folder))
-    )
-
-    embeddedModes.forEach(mode => {
-      files = files.concat(
-        getAssetsFiles(modes[mode].assets)
-      )
-    })
-
-    assetsOf = assetsOf.concat(embeddedModes)
-  }
-
-  if (assets && assets.length > 0) {
-    files = files.concat(getAssetsFiles(assets))
-    assetsOf.push('profile')
-  }
-
-  return {
-    files,
-    assetsOf: assetsOf.join(' | ')
+    await generate({ ...params, profile })
   }
 }
 
-function getUniqueFiles (files) {
-  const filePaths = {}
-  const uniqueFiles = []
+const params = filterArgvParams(argv)
 
-  files.forEach(file => {
-    if (filePaths[file.absoluteName] === void 0) {
-      filePaths[file.absoluteName] = true
-      uniqueFiles.push(file)
-    }
-  })
-
-  return uniqueFiles
+if (params.profile) {
+  parseArgv(params, [ 'profile' ])
+  runProfiles(params, getProfileFiles(params.profile))
 }
-
-function generateFile (file, opts) {
-  // ensure that the file (and its folder) exists
-  ensureFileSync(file.absoluteName)
-
-  return new Promise(resolve => {
-    // use the appropriate generator to handle the file creation
-    generators[file.generator](file, opts, () => {
-      const size = `(${getFileSize(file.absoluteName)})`
-      const type = (file.generator + ':').padEnd(13, ' ')
-
-      log(`Generated ${type} ${green(file.relativeName)} ${gray(size)}`)
-      resolve()
-    })
-  })
-}
-
-async function generateFromProfile (profile) {
-  const params = profile.params
-  const { assetsOf, files } = parseAssets(profile.assets, params.include)
-
-  const fileOptions = await getFilesOptions(params)
-  let uniqueFiles = getUniqueFiles(files)
-
-  if (params.filter) {
-    uniqueFiles = uniqueFiles.filter(
-      file => file.generator === params.filter
-    )
-  }
-
-  if (uniqueFiles.length === 0) {
-    warn(`No assets to generate! No mode/include specified, filter too specific or the respective Quasar mode(s) are not installed`)
-    return Promise.resolve(0)
-  }
-
-  printBanner(assetsOf, params)
-
-  return Promise
-    .all(uniqueFiles.map(file => generateFile(file, fileOptions)))
-    .then(() => { mount(uniqueFiles) })
-    .then(() => uniqueFiles.length)
-}
-
-module.exports = function generate (argv) {
-  const profile = {
-    params: {},
-    assets: []
-  }
-
-  if (argv.profile) {
-    parseArgv(argv, [ 'profile' ])
-
-    const userProfile = getProfileContent(argv.profile)
-
-    if (userProfile.params) {
-      const { profile: _, ...params } = argv
-
-      profile.params = mergeObjects(userProfile.params, params)
-      parseArgv(profile.params, [ 'include' ])
-    }
-    if (userProfile.assets) {
-      profile.assets = userProfile.assets
-    }
-  }
-  else {
-    parseArgv(argv, [ 'mode' ])
-
-    const { mode, ...params } = argv
-
-    profile.params = params
-    profile.params.include = mode
-  }
-
-  profile.params = mergeObjects({}, profile.params)
-
-  parseArgv(profile.params, [
-    'quality', 'filter', 'padding',
-    'icon', 'background',
-    'splashscreenIconRatio',
-    // order matters:
-    'themeColor', 'pngColor', 'splashscreenColor', 'svgColor'
-  ])
-
-  // final thorough validation
-  validateProfileObject(profile)
-
-  return generateFromProfile(profile)
-    .then(numberOfFiles => {
-      console.log(`\n Task done - generated ${numberOfFiles} file(s)!\n`)
-    })
+else {
+  generate(params)
 }
