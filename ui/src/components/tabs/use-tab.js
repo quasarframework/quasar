@@ -138,7 +138,7 @@ export default function (props, slots, emit, routerProps) {
     if (isKeyCode(e, [ 13, 32 ])) {
       onClick(e, true)
     }
-    else if (shouldIgnoreKey(e) !== true && e.keyCode >= 35 && e.keyCode <= 40) {
+    else if (shouldIgnoreKey(e) !== true && e.keyCode >= 35 && e.keyCode <= 40 && (e.altKey !== true && e.metaKey !== true)) {
       $tabs.onKbdNavigate(e.keyCode, proxy.$el) === true && stopAndPrevent(e)
     }
     emit('keydown', e)
