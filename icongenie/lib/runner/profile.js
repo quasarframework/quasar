@@ -1,4 +1,4 @@
-const { resolve, dirname, basename } = require('path')
+const { resolve, dirname, basename, isAbsolute, relative } = require('path')
 const { writeFileSync } = require('fs')
 const { ensureDir } = require('fs-extra')
 
@@ -47,6 +47,13 @@ module.exports = function profile ({ output, assets, ...params }) {
   }
 
   validateProfileObject(profile, true)
+
+  if (profile.params.icon && isAbsolute(profile.params.icon) === false) {
+    // generate icon path relative to app root
+    // so it won't matter from where the profile file is run
+    const { appDir } = require('../utils/app-paths')
+    profile.params.icon = relative(appDir, profile.params.icon)
+  }
 
   const targetFile = getTargetFilepath(output)
   const folderName = dirname(targetFile)
