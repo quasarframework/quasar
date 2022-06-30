@@ -41,3 +41,5 @@ export type BexBackgroundCallback = (
 ) => void;
 
 export type BexContentCallback = (bridge: BexBridge) => void;
+
+export type BexDomCallback = (bridge: BexBridge) => void;
