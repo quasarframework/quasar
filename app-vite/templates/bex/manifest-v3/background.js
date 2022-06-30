@@ -1,3 +1,4 @@
+import { bexBackground } from 'quasar/wrappers'
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.action.onClicked.addListener((/* tab */) => {
@@ -11,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
   })
 })
 
-export default function (bridge /* , allActiveConnections */) {
+export default bexBackground((bridge /* , allActiveConnections */) => {
   bridge.on('storage.get', event => {
     const payload = event.data
     if (payload.key === null) {
@@ -64,4 +65,4 @@ export default function (bridge /* , allActiveConnections */) {
     }
   })
    */
-}
+})

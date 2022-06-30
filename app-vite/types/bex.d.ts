@@ -21,3 +21,21 @@ export interface BexBridge extends EventEmitter {
 }
 
 export type GlobalQuasarBex = BexBridge;
+
+interface BexConnection {
+  /** @see https://developer.chrome.com/docs/extensions/reference/runtime/#type-Port */
+  port: chrome.runtime.Port;
+
+  connected: boolean;
+  listening: boolean;
+}
+
+export type BexBackgroundCallback = (
+  bridge: BexBridge,
+  connections: {
+    [connectionId: string]: {
+      app?: BexConnection;
+      contentScript?: BexConnection;
+    };
+  },
+) => void;
