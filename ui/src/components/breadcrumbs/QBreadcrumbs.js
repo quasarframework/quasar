@@ -6,7 +6,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
-const disabledValues = [ void 0, true ]
+const disabledValues = [ '', true ]
 
 export default createComponent({
   name: 'QBreadcrumbs',
@@ -66,6 +66,7 @@ export default createComponent({
             + (disabled !== true && middle === true ? activeClass.value : '')
 
           els++
+          console.log(disabled, disabledValues, comp.props, comp.props !== null ? comp.props.disable : 'N/A')
 
           child.push(
             h('div', {
