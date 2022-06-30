@@ -66,7 +66,6 @@ export default createComponent({
             + (disabled !== true && middle === true ? activeClass.value : '')
 
           els++
-          console.log(disabled, disabledValues, comp.props, comp.props !== null ? comp.props.disable : 'N/A')
 
           child.push(
             h('div', {
