@@ -2,8 +2,9 @@
 // Note: Events sent from this background script using `bridge.send` can be `listen`'d for by all client BEX bridges for this BEX
 
 // More info: https://quasar.dev/quasar-cli/developing-browser-extensions/background-hooks
+import { bexBackground } from 'quasar/wrappers'
 
-export default function attachBackgroundHooks (bridge /* , allActiveConnections */) {
+export default bexBackground((bridge /* , allActiveConnections */) => {
   bridge.on('storage.get', event => {
     const payload = event.data
     if (payload.key === null) {
@@ -56,4 +57,4 @@ export default function attachBackgroundHooks (bridge /* , allActiveConnections 
     }
   })
    */
-}
+})
