@@ -1,11 +1,11 @@
-import type { EventEmitter } from 'events';
-import type { LiteralUnion } from 'quasar';
+import type { EventEmitter } from "events";
+import type { LiteralUnion } from "quasar";
 
 type BexObjectMessage = { event: string; payload: any };
 type BexMessage = string | BexObjectMessage;
 interface BexWall {
-  listen (callback: (messages: BexMessage | BexMessage[]) => void): void;
-  send (data: BexObjectMessage[]): void;
+  listen(callback: (messages: BexMessage | BexMessage[]) => void): void;
+  send(data: BexObjectMessage[]): void;
 }
 
 /**
@@ -92,7 +92,7 @@ export type BexBackgroundCallback = (
       app?: BexConnection;
       contentScript?: BexConnection;
     };
-  },
+  }
 ) => void;
 
 export type BexContentCallback = (bridge: BexBridge) => void;
