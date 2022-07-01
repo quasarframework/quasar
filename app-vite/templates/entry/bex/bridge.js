@@ -114,7 +114,12 @@ export default class Bridge extends EventEmitter {
             ...{
               payload: {
                 data: m.payload,
-                eventResponseKey
+                eventResponseKey,
+                // Convenient alternative to the manual usage of `eventResponseKey`
+                respond: async (payload /* optional */) => {
+                  // Not returning the value here as we don't want the respond to be "respondable"
+                  await this.send(eventResponseKey, payload)
+                }
               }
             }
           }
