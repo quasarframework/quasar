@@ -1,3 +1,4 @@
+import { bexBackground } from 'quasar/wrappers'
 
 chrome.browserAction.onClicked.addListener((/* tab */) => {
   // Opens our extension in a new browser window.
@@ -9,7 +10,7 @@ chrome.browserAction.onClicked.addListener((/* tab */) => {
   })
 })
 
-export default function (bridge /* , allActiveConnections */) {
+export default bexBackground((bridge /* , allActiveConnections */) => {
   bridge.on('storage.get', event => {
     const payload = event.data
     if (payload.key === null) {
@@ -62,4 +63,4 @@ export default function (bridge /* , allActiveConnections */) {
     }
   })
    */
-}
+})

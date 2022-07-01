@@ -30,6 +30,18 @@ module.exports.store = function (callback) {
   return callback
 }
 
+module.exports.bexBackground = function (callback) {
+  return callback
+}
+
+module.exports.bexContent = function (callback) {
+  return callback
+}
+
+module.exports.bexDom = function (callback) {
+  return callback
+}
+
 /**
  * Below only for @quasar/app-webpack
  */

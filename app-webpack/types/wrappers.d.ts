@@ -16,6 +16,9 @@ declare module "quasar/wrappers" {
     StoreCallback,
     SsrMiddlewareCallback,
     SsrProductionExportCallback,
+    BexBackgroundCallback,
+    BexContentCallback,
+    BexDomCallback,
   } from "@quasar/app-webpack";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
@@ -42,4 +45,14 @@ declare module "quasar/wrappers" {
   function ssrProductionExport(
     callback: SsrProductionExportCallback
   ): SsrProductionExportCallback;
+
+  function bexBackground(
+    callback: BexBackgroundCallback
+  ): BexBackgroundCallback;
+
+  function bexContent(
+    callback: BexContentCallback
+  ): BexContentCallback;
+
+  function bexDom(callback: BexDomCallback): BexDomCallback;
 }

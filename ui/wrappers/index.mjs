@@ -30,6 +30,18 @@ export function ssrMiddleware (callback) {
   return callback
 }
 
+export function bexBackground (callback) {
+  return callback
+}
+
+export function bexContent (callback) {
+  return callback
+}
+
+export function bexDom (callback) {
+  return callback
+}
+
 /**
  * Below only for @quasar/app-webpack
  */

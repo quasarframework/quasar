@@ -20,6 +20,9 @@ declare module "quasar/wrappers" {
     SsrCloseCallback,
     SsrServeStaticContentCallback,
     SsrRenderPreloadTagCallback,
+    BexBackgroundCallback,
+    BexContentCallback,
+    BexDomCallback,
   } from "@quasar/app-vite";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
@@ -62,4 +65,14 @@ declare module "quasar/wrappers" {
   function ssrRenderPreloadTag(
     callback: SsrRenderPreloadTagCallback
   ): SsrRenderPreloadTagCallback;
+
+  function bexBackground(
+    callback: BexBackgroundCallback
+  ): BexBackgroundCallback;
+
+  function bexContent(
+    callback: BexContentCallback
+  ): BexContentCallback;
+
+  function bexDom(callback: BexDomCallback): BexDomCallback;
 }
