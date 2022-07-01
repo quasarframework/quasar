@@ -1499,6 +1499,7 @@ export default createComponent({
               class: 'q-select__focus-target',
               id: isTarget === true ? state.targetUid.value : void 0,
               readonly: true,
+              'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
               ...attrs,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,
