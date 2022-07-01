@@ -59,6 +59,21 @@ export default class Bridge extends EventEmitter {
     return this._events
   }
 
+  on(eventName, listener) {
+    return super.on(eventName, (originalPayload) => {
+      listener({
+        ...originalPayload,
+        // Convenient alternative to the manual usage of `eventResponseKey`
+        // We can't send this in `_nextSend` which will then be sent using `port.postMessage()`, which can't serialize functions.
+        // So, we hook into the underlying listener and include the function there, which happens after the send operation.
+        respond: async (payload /* optional */) => {
+          // Not returning the value here as we don't want the respond to be "respondable"
+          await this.send(originalPayload.eventResponseKey, payload)
+        }
+      })
+    })
+  }
+
   _emit (message) {
     if (typeof message === 'string') {
       this.emit(message)
@@ -114,12 +129,7 @@ export default class Bridge extends EventEmitter {
             ...{
               payload: {
                 data: m.payload,
-                eventResponseKey,
-                // Convenient alternative to the manual usage of `eventResponseKey`
-                respond: async (payload /* optional */) => {
-                  // Not returning the value here as we don't want the respond to be "respondable"
-                  await this.send(eventResponseKey, payload)
-                }
+                eventResponseKey
               }
             }
           }
