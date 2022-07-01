@@ -4,7 +4,7 @@ export default function (props, rootRef) {
   const refocusRef = ref(null)
 
   const refocusTargetEl = computed(() => {
-    if (props.disable !== true) {
+    if (props.disable === true) {
       return null
     }
 
