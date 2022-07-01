@@ -2,7 +2,7 @@ const path = require('path')
 const { existsSync } = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')

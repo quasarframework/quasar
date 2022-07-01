@@ -2,7 +2,7 @@ const { readFileSync } = require('fs')
 const { join } = require('path')
 const { createServer } = require('vite')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const Ouch = require('ouch')
 const serialize = require('serialize-javascript')
 
