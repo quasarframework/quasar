@@ -8,13 +8,8 @@ export default bexBackground((bridge /* , allActiveConnections */) => {
   bridge.on('storage.get', ({ data, respond }) => {
     if (data.key === null) {
       chrome.storage.local.get(null, items => {
-        const result = []
-
-        // Group the items up into an array to take advantage of the bridge's chunk splitting.
-        for (const itemKey in items) {
-          result.push(items[itemKey])
-        }
-        respond(result)
+        // Group the values up into an array to take advantage of the bridge's chunk splitting.
+        respond(Object.values(items))
       })
     } else {
       chrome.storage.local.get([data.key], items => {
