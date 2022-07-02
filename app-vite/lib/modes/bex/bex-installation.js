@@ -41,6 +41,7 @@ async function add (silent) {
   }])
 
   log(`Creating Browser Extension source folder...`)
+  fse.copySync(appPaths.resolve.cli('templates/bex/common'), appPaths.bexDir)
   fse.copySync(appPaths.resolve.cli('templates/bex/' + answer.manifestVersion), appPaths.bexDir)
   log(`Browser Extension support was added`)
 }
