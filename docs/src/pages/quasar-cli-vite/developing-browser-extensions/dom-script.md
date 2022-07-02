@@ -3,7 +3,7 @@ title: DOM Script
 desc: (@quasar/app-vite) How to communicate to the underlying web page using dom hooks in Quasar Browser Extension mode.
 ---
 
-`src-bex/dom-script.js` is a file that is injected into the underlying web page automatically by Quasar but as with all the other hook files has access to the bridge via:
+`src-bex/dom.js` is a file that is injected into the underlying web page automatically by Quasar but as with all the other hook files has access to the bridge via:
 
 ```js
 export default function (bridge) {
@@ -74,7 +74,7 @@ export default function detectQuasar (bridge) {
 ```
 
 ```js
-// src-bex/dom-script.js:
+// src-bex/dom.js:
 
 import detectQuasar from './dom/detect-quasar'
 export default function (bridge) {
