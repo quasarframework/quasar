@@ -42,13 +42,16 @@ type BexEventEntry<
 type BexEventData<T extends BexEventName> = BexEventEntry<T>[0];
 type BexEventResponse<T extends BexEventName> = BexEventEntry<T>[1];
 
-type BexEventListener<T extends BexEventName> = (payload: {
-  data: BexEventData<T>;
+type BexPayload<TData, TResponse> = {
+  data: TData;
   eventResponseKey: string;
   respond: (
-    ...payload: BexEventResponse<T> extends never ? [] : [BexEventResponse<T>]
-  ) => Promise<void>;
-}) => void;
+    ...payload: TResponse extends never ? [] : [TResponse]
+  ) => Promise<BexPayload<TData, TResponse>>;
+};
+type BexEventListener<T extends BexEventName> = (
+  payload: BexPayload<BexEventData<T>, BexEventResponse<T>>
+) => void;
 
 export interface BexBridge extends EventEmitter {
   constructor(wall: BexWall): BexBridge;
@@ -62,7 +65,7 @@ export interface BexBridge extends EventEmitter {
   send<T extends BexEventName>(
     eventName: T,
     ...payload: BexEventData<T> extends never ? [] : [BexEventData<T>]
-  ): Promise<BexEventResponse<T>>;
+  ): Promise<BexPayload<BexEventResponse<T>, BexEventData<T>>>;
 
   on<T extends BexEventName>(eventName: T, listener: BexEventListener<T>): this;
   once<T extends BexEventName>(

@@ -66,10 +66,7 @@ export default class Bridge extends EventEmitter {
         // Convenient alternative to the manual usage of `eventResponseKey`
         // We can't send this in `_nextSend` which will then be sent using `port.postMessage()`, which can't serialize functions.
         // So, we hook into the underlying listener and include the function there, which happens after the send operation.
-        respond: async (payload /* optional */) => {
-          // Not returning the value here as we don't want the respond to be "respondable"
-          await this.send(originalPayload.eventResponseKey, payload)
-        }
+        respond: (payload /* optional */) => this.send(originalPayload.eventResponseKey, payload)
       })
     })
   }
