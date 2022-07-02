@@ -22,10 +22,9 @@ For example, let's say we want to react to a button being pressed on our Quasar 
 setup () {
   const $q = useQuasar()
 
-  function myButtonClickHandler () {
-    $q.bex.send('highlight.content.event', { someData: 'someValue '}).then(r => {
-      console.log('Text has been highlighted')
-    })
+  async function myButtonClickHandler () {
+    await $q.bex.send('highlight.content', { selector: '.some-class' })
+    $q.notify('Text has been highlighted')
   }
 
   return { myButtonClickHandler }
@@ -44,15 +43,14 @@ setup () {
 // src-bex/js/content-hooks.js:
 
 export default function attachContentHooks (bridge) {
-  bridge.on('highlight.content.event', event => {
-    // Find a .some-class element and add our highlight CSS class.
-    const el = document.querySelector('.some-class')
+  bridge.on('highlight.content', ({ data, respond }) => {
+    const el = document.querySelector(data.selector)
     if (el !== null) {
       el.classList.add('bex-highlight')
     }
 
-    // Not required but resolve our promise.
-    bridge.send(event.eventResponseKey)
+    // Let's resolve the `send()` call's promise, this way we can await it on the otherside then display a notification.
+    respond()
   })
 }
 ```
