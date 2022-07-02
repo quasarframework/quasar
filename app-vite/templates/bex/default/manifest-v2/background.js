@@ -12,7 +12,7 @@ chrome.browserAction.onClicked.addListener((/* tab */) => {
 
 export default bexBackground((bridge /* , allActiveConnections */) => {
   bridge.on('log', ({ data, respond }) => {
-    console.log(`[BEX] ${data.message}`, ...data.data)
+    console.log(`[BEX] ${data.message}`, ...(data.data || []))
     respond()
   })
 
@@ -21,14 +21,15 @@ export default bexBackground((bridge /* , allActiveConnections */) => {
   })
 
   bridge.on('storage.get', ({ data, respond }) => {
-    if (data.key === null) {
+    const { key } = data
+    if (key === null) {
       chrome.storage.local.get(null, items => {
         // Group the values up into an array to take advantage of the bridge's chunk splitting.
         respond(Object.values(items))
       })
     } else {
-      chrome.storage.local.get([data.key], items => {
-        respond(items[data.key])
+      chrome.storage.local.get([key], items => {
+        respond(items[key])
       })
     }
   })
