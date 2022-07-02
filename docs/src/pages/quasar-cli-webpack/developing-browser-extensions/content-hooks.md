@@ -52,7 +52,7 @@ export default function attachContentHooks (bridge) {
     }
 
     // Not required but resolve our promise.
-    bridge.send(event.responseKey)
+    bridge.send(event.eventResponseKey)
   })
 }
 ```
