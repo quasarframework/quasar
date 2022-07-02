@@ -11,6 +11,15 @@ chrome.browserAction.onClicked.addListener((/* tab */) => {
 })
 
 export default bexBackground((bridge /* , allActiveConnections */) => {
+  bridge.on('log', ({ data, respond }) => {
+    console.log(`[BEX] ${data.message}`, ...data.data)
+    respond()
+  })
+
+  bridge.on('getTime', ({ respond }) => {
+    respond(Date.now())
+  })
+
   bridge.on('storage.get', ({ data, respond }) => {
     if (data.key === null) {
       chrome.storage.local.get(null, items => {

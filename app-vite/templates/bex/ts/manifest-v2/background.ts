@@ -12,6 +12,9 @@ chrome.browserAction.onClicked.addListener((/* tab */) => {
 
 declare module '@quasar/app-vite' {
   interface BexEventMap {
+    'log': [{ message: string; data?: any[] }, never];
+    'getTime': [never, number];
+
     /* eslint-disable @typescript-eslint/no-explicit-any */
     'storage.get': [{ key: string | null; }, any];
     'storage.set': [{ key: string; value: any; }, any];
@@ -21,6 +24,15 @@ declare module '@quasar/app-vite' {
 }
 
 export default bexBackground((bridge /* , allActiveConnections */) => {
+  bridge.on('log', ({ data, respond }) => {
+    console.log(`[BEX] ${data.message}`, ...data.data)
+    respond()
+  })
+
+  bridge.on('getTime', ({ respond }) => {
+    respond(Date.now())
+  })
+
   bridge.on('storage.get', ({ data, respond }) => {
     if (data.key === null) {
       chrome.storage.local.get(null, items => {
