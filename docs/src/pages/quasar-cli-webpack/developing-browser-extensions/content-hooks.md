@@ -8,8 +8,11 @@ desc: (@quasar/app-webpack) How to communicate using your content script with yo
 The added benefit of this file is this function:
 
 ```js
-export default function attachContentHooks (bridge) {
-}
+import { bexContent } from 'quasar/wrappers'
+
+export default bexContent((bridge) => {
+  //
+})
 ```
 
 This function is called automatically via the Quasar BEX build chain and injects a bridge which is shared between your Quasar App instance and the background script of the BEX.
@@ -41,8 +44,9 @@ setup () {
 
 ```js
 // src-bex/js/content-hooks.js:
+import { bexContent } from 'quasar/wrappers'
 
-export default function attachContentHooks (bridge) {
+export default bexContent((bridge) => {
   bridge.on('highlight.content', ({ data, respond }) => {
     const el = document.querySelector(data.selector)
     if (el !== null) {
@@ -52,7 +56,7 @@ export default function attachContentHooks (bridge) {
     // Let's resolve the `send()` call's promise, this way we can await it on the otherside then display a notification.
     respond()
   })
-}
+})
 ```
 
 Content scripts live in an [isolated world](https://developer.chrome.com/extensions/content_scripts#isolated_world), allowing a content script to makes changes to its JavaScript environment without conflicting with the page or additional content scripts.

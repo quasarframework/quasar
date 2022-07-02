@@ -6,8 +6,11 @@ desc: (@quasar/app-vite) How to communicate to the underlying web page using dom
 `src-bex/dom.js` is a file that is injected into the underlying web page automatically by Quasar but as with all the other hook files has access to the bridge via:
 
 ```js
-export default function (bridge) {
-}
+import { bexDom } from 'quasar/wrappers'
+
+export default bexDom((bridge) => {
+  //
+})
 ```
 
 If you ever find yourself needing to inject a JS file into your underlying web page, you can use the dom script instead as it means you can maintain that chain of communication in the BEX.
@@ -65,7 +68,7 @@ export default function detectQuasar (bridge) {
 
         const quasar = isVue3 ? Vue.config.globalProperties.$q : Vue.prototype.$q
         if (quasar) {
-          initQuasar(bridge, quasar, Vue)
+          initQuasar(bridge, quasar)
         }
       }
     }, 100)
@@ -76,10 +79,12 @@ export default function detectQuasar (bridge) {
 ```js
 // src-bex/dom.js:
 
+import { bexDom } from 'quasar/wrappers'
 import detectQuasar from './dom/detect-quasar'
-export default function (bridge) {
+
+export default bexDom((bridge) => {
   detectQuasar(bridge)
-}
+})
 ```
 
 The bridge above will notify all listeners in the BEX that Quasar has been found and along with that send the instance information.

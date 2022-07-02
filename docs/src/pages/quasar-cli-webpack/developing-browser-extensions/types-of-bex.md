@@ -54,6 +54,8 @@ Given our Quasar App might need to take the full height of the window (and thus 
 We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.
 
 ```js
+import { bexContent } from 'quasar/wrappers'
+
 const
   iFrame = document.createElement('iframe'),
   defaultFrameHeight = '62px'
@@ -100,11 +102,7 @@ Object.assign(iFrame.style, {
   document.body.prepend(iFrame)
 })()
 
-/**
- * Content hooks which listen for messages from the BEX in the iFrame
- * @param bridge
- */
-export default function attachContentHooks (bridge) {
+export default bexContent((bridge) => {
   /**
    * When the drawer is toggled set the iFrame height to take the whole page.
    * Reset when the drawer is closed.
@@ -117,7 +115,7 @@ export default function attachContentHooks (bridge) {
     }
     respond()
   })
-}
+})
 ```
 
 * `src-bex/css/content-css.css`
