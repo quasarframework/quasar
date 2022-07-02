@@ -10,7 +10,7 @@ interface BexWall {
 
 /**
  * @example
- * declare module '@quasar/app-vite' {
+ * declare module '@quasar/app-webpack' {
  *   interface BexEventMap {
  *     'without-payload-and-response': never;
  *     'without-payload-with-response': [never, number];
