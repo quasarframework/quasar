@@ -5,6 +5,7 @@ const fse = require('fs-extra')
 const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
 const nodePackager = require('../../helpers/node-packager')
+const hasTypescript = require('../../helpers/has-typescript')
 
 const bexDeps = {
   'events': '^3.3.0'
@@ -42,7 +43,8 @@ async function add (silent) {
 
   log(`Creating Browser Extension source folder...`)
   fse.copySync(appPaths.resolve.cli('templates/bex/common'), appPaths.bexDir)
-  fse.copySync(appPaths.resolve.cli('templates/bex/' + answer.manifestVersion), appPaths.bexDir)
+  const format = hasTypescript ? 'ts' : 'default'
+  fse.copySync(appPaths.resolve.cli(`templates/bex/${format}/${answer.manifestVersion}`), appPaths.bexDir)
   log(`Browser Extension support was added`)
 }
 
