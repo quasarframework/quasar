@@ -19,10 +19,10 @@
 
       <q-file filled bottom-slots v-model="model" label="Label" counter>
         <template v-slot:prepend>
-          <q-icon name="cloud_upload" @click.stop />
+          <q-icon name="cloud_upload" @click.stop.prevent />
         </template>
         <template v-slot:append>
-          <q-icon name="close" @click.stop="model = null" class="cursor-pointer" />
+          <q-icon name="close" @click.stop.prevent="model = null" class="cursor-pointer" />
         </template>
 
         <template v-slot:hint>
@@ -36,8 +36,8 @@
         </template>
 
         <template v-slot:append>
-          <q-icon v-if="model !== null" name="close" @click.stop="model = null" class="cursor-pointer" />
-          <q-icon name="search" @click.stop />
+          <q-icon v-if="model !== null" name="close" @click.stop.prevent="model = null" class="cursor-pointer" />
+          <q-icon name="search" @click.stop.prevent />
         </template>
 
         <template v-slot:hint>
@@ -53,8 +53,8 @@
         </template>
 
         <template v-slot:append>
-          <q-icon v-if="model !== null" name="close" @click.stop="model = null" class="cursor-pointer" />
-          <q-icon name="create_new_folder" @click.stop />
+          <q-icon v-if="model !== null" name="close" @click.stop.prevent="model = null" class="cursor-pointer" />
+          <q-icon name="create_new_folder" @click.stop.prevent />
         </template>
 
         <template v-slot:hint>
@@ -76,7 +76,7 @@
         </template>
 
         <template v-slot:append>
-          <q-btn round dense flat icon="add" @click.stop />
+          <q-btn round dense flat icon="add" @click.stop.prevent />
         </template>
       </q-file>
     </div>

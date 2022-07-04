@@ -16,12 +16,12 @@
           <template v-slot:after>
             <q-btn
               flat dense color="negative" icon="cancel"
-              @click.stop="scope.cancel"
+              @click.stop.prevent="scope.cancel"
             />
 
             <q-btn
               flat dense color="positive" icon="check_circle"
-              @click.stop="scope.set"
+              @click.stop.prevent="scope.set"
               :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value"
             />
           </template>

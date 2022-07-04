@@ -13,8 +13,8 @@
             <div class="self-center no-outline" tabindex="0">Time is {{ value }}</div>
           </template>
           <template v-slot:append>
-            <q-btn color="white" flat round dense :disable="value < 10" icon="replay_10" @click.stop="value -= 10" />
-            <q-btn color="white" flat round dense :disable="value > 90" icon="forward_10" @click.stop="value += 10" />
+            <q-btn color="white" flat round dense :disable="value < 10" icon="replay_10" @click.stop.prevent="value -= 10" />
+            <q-btn color="white" flat round dense :disable="value > 90" icon="forward_10" @click.stop.prevent="value += 10" />
           </template>
         </q-field>
       </q-toolbar>
