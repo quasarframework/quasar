@@ -699,7 +699,7 @@ export default Vue.extend({
     child.push(
       h('aside', {
         ref: 'content',
-        staticClass: `q-drawer`,
+        staticClass: 'q-drawer',
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,

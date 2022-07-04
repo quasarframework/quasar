@@ -35,7 +35,7 @@ export default Vue.extend({
     },
 
     containerClass () {
-      return `q-message-container row items-end no-wrap` +
+      return 'q-message-container row items-end no-wrap' +
         (this.sent === true ? ' reverse' : '')
     },
 

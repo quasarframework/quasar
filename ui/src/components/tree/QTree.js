@@ -79,7 +79,7 @@ export default Vue.extend({
     classes () {
       return `q-tree q-tree--${this.dense === true ? 'dense' : 'standard'}` +
         (this.noConnectors === true ? ' q-tree--no-connectors' : '') +
-        (this.isDark === true ? ` q-tree--dark` : '') +
+        (this.isDark === true ? ' q-tree--dark' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
     },
 
@@ -385,7 +385,7 @@ export default Vue.extend({
       }
 
       if (emit === true) {
-        this.$emit(`update:expanded`, target)
+        this.$emit('update:expanded', target)
       }
       else {
         this.innerExpanded = target
@@ -415,7 +415,7 @@ export default Vue.extend({
       }
 
       if (emit === true) {
-        this.$emit(`update:ticked`, target)
+        this.$emit('update:ticked', target)
       }
     },
 
@@ -449,7 +449,7 @@ export default Vue.extend({
     __getNodeMedia (h, node) {
       if (node.icon !== void 0) {
         return h(QIcon, {
-          staticClass: `q-tree__icon q-mr-sm`,
+          staticClass: 'q-tree__icon q-mr-sm',
           props: { name: node.icon, color: node.iconColor }
         })
       }

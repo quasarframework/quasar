@@ -99,11 +99,11 @@ export default Vue.extend({
     },
 
     transitionPrevComputed () {
-      return this.transitionPrev || `fade`
+      return this.transitionPrev || 'fade'
     },
 
     transitionNextComputed () {
-      return this.transitionNext || `fade`
+      return this.transitionNext || 'fade'
     }
   },
 

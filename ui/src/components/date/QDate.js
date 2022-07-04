@@ -129,9 +129,9 @@ export default Vue.extend({
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
         (this.isDark === true ? ' q-date--dark q-dark' : '') +
-        (this.bordered === true ? ` q-date--bordered` : '') +
-        (this.square === true ? ` q-date--square no-border-radius` : '') +
-        (this.flat === true ? ` q-date--flat no-shadow` : '') +
+        (this.bordered === true ? ' q-date--bordered' : '') +
+        (this.square === true ? ' q-date--square no-border-radius' : '') +
+        (this.flat === true ? ' q-date--flat no-shadow' : '') +
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-date--readonly' : ''))
     },
 
@@ -663,7 +663,7 @@ export default Vue.extend({
       }
 
       res.forEach(day => {
-        let cls = `q-date__calendar-item `
+        let cls = 'q-date__calendar-item '
 
         if (day.fill === true) {
           cls += 'q-date__calendar-item--fill'

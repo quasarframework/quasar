@@ -510,7 +510,7 @@ export default Vue.extend({
         'div',
         {
           ref: 'content',
-          staticClass: `q-editor__content`,
+          staticClass: 'q-editor__content',
           style: this.innerStyle,
           class: this.innerClass,
           attrs: {

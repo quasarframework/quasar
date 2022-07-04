@@ -131,7 +131,7 @@ export default Vue.extend({
 
   render (h) {
     if (this.$scopedSlots.default === void 0) {
-      console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
+      console.error('QVirtualScroll: default scoped slot is required for rendering', this)
       return
     }
 
