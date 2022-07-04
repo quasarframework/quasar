@@ -1,70 +1,69 @@
 <template lang="pug">
-  q-card(flat bordered)
-    q-card-section.q-gutter-xs
-      q-toggle(v-model="css.roboto" label="Roboto font")
-      q-toggle(v-model="css.animate" label="Animate.css")
+q-card(flat bordered)
+  q-card-section.q-gutter-xs
+    q-toggle(v-model="css.roboto" label="Roboto font")
+    q-toggle(v-model="css.animate" label="Animate.css")
 
-    q-separator
+  q-separator
 
-    q-card-section.q-gutter-xs
-      q-toggle(v-model="css['material-icons']" label="Material Icons")
-      q-toggle(v-model="css['material-icons-outlined']" label="Material Icons (Outlined)")
-      q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
-      q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
+  q-card-section.q-gutter-xs
+    q-toggle(v-model="css['material-icons']" label="Material Icons")
+    q-toggle(v-model="css['material-icons-outlined']" label="Material Icons (Outlined)")
+    q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
+    q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
-      q-toggle(v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)")
-      q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
-      q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
+    q-toggle(v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)")
+    q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
+    q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
 
-      q-toggle(v-model="css['mdi-v6']" label="MDI v6")
-      q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
-      q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
-      q-toggle(v-model="css['ionicons-v5']" label="Ionicons v5")
-      q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
-      q-toggle(v-model="css['eva-icons']" label="Eva Icons")
-      q-toggle(v-model="css.themify" label="Themify")
-      q-toggle(v-model="css['line-awesome']" label="Line Awesome")
-      q-toggle(v-model="css['bootstrap-icons']" label="Bootstrap Icons")
+    q-toggle(v-model="css['mdi-v6']" label="MDI v6")
+    q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
+    q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
+    q-toggle(v-model="css['ionicons-v5']" label="Ionicons v5")
+    q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
+    q-toggle(v-model="css['eva-icons']" label="Eva Icons")
+    q-toggle(v-model="css.themify" label="Themify")
+    q-toggle(v-model="css['line-awesome']" label="Line Awesome")
+    q-toggle(v-model="css['bootstrap-icons']" label="Bootstrap Icons")
 
-    q-separator
+  q-separator
 
-    q-card-section.q-gutter-xs
-      q-toggle(v-model="modern" label="Modern (ES6+)")
-      q-toggle(v-model="cfgObject" label="Quasar Configure Object")
-      q-toggle(v-model="minified" label="Minified files")
-      q-toggle(v-model="rtl" label="RTL CSS support")
-      q-toggle(v-model="ie" label="IE11 support")
+  q-card-section.q-gutter-xs
+    q-toggle(v-model="modern" label="Modern (ES6+)")
+    q-toggle(v-model="cfgObject" label="Quasar Configure Object")
+    q-toggle(v-model="minified" label="Minified files")
+    q-toggle(v-model="rtl" label="RTL CSS support")
+    q-toggle(v-model="ie" label="IE11 support")
 
-    q-separator
+  q-separator
 
-    q-card-section.q-gutter-sm.column
-      q-select(
-        label="Quasar Language Pack"
-        dense
-        outlined
-        :options="langOptions"
-        emit-value
-        map-options
-        options-dense
-        v-model="lang"
-        style="width: 100%"
-      )
+  q-card-section.q-gutter-sm.column
+    q-select(
+      label="Quasar Language Pack"
+      dense
+      outlined
+      :options="langOptions"
+      emit-value
+      map-options
+      options-dense
+      v-model="lang"
+      style="width: 100%"
+    )
 
-      q-select(
-        label="Quasar Icon Set"
-        dense
-        outlined
-        :options="iconSetOptions"
-        options-dense
-        emit-value
-        map-options
-        v-model="iconSet"
-      )
+    q-select(
+      label="Quasar Icon Set"
+      dense
+      outlined
+      :options="iconSetOptions"
+      options-dense
+      emit-value
+      map-options
+      v-model="iconSet"
+    )
 
-    q-separator
+  q-separator
 
-    doc-code.relative-position(lang="html" :code="output")
-
+  doc-code.relative-position(lang="html" :code="output")
 </template>
 
 <script>

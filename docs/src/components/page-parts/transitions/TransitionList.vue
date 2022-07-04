@@ -1,21 +1,21 @@
 <template lang="pug">
-  div
-    q-btn.q-mb-lg(push, color="teal", label="Trigger", @click="trigger")
+div
+  q-btn.q-mb-lg(push, color="teal", label="Trigger", @click="trigger")
 
-    .q-gutter-md.row.items-start
+  .q-gutter-md.row.items-start
 
-      q-img(
-        v-for="transition in transitions"
-        :key="transition"
-        :transition="transition"
-        :src="url"
-        class="rounded-borders shadow-2"
-        style="width: 150px"
-        ratio="1"
-        spinner-color="white"
-      )
-        .absolute-bottom.text-center.text-body2
-          | {{ transition }}
+    q-img(
+      v-for="transition in transitions"
+      :key="transition"
+      :transition="transition"
+      :src="url"
+      class="rounded-borders shadow-2"
+      style="width: 150px"
+      ratio="1"
+      spinner-color="white"
+    )
+      .absolute-bottom.text-center.text-body2
+        | {{ transition }}
 
 </template>
 

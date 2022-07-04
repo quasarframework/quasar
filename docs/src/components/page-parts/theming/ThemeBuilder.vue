@@ -1,110 +1,110 @@
 <template lang="pug">
-  #theme-picker
-    .row.items-stretch
-      div(:class="$q.screen.gt.xs ? 'column q-gutter-md' : 'row q-gutter-sm q-mb-md'")
-        q-btn(
-          v-for="color in list"
-          :key="`picker-${color}`"
-          :color="color"
-          :text-color="dark[color] === true ? 'white' : 'black'"
-          no-caps
-          glossy
-          unelevated
-        )
-          .text-caption.text-weight-light
-            .text-capitalize {{ color }}
-            div {{ colors[color] }}
+#theme-picker
+  .row.items-stretch
+    div(:class="$q.screen.gt.xs ? 'column q-gutter-md' : 'row q-gutter-sm q-mb-md'")
+      q-btn(
+        v-for="color in list"
+        :key="`picker-${color}`"
+        :color="color"
+        :text-color="dark[color] === true ? 'white' : 'black'"
+        no-caps
+        glossy
+        unelevated
+      )
+        .text-caption.text-weight-light
+          .text-capitalize {{ color }}
+          div {{ colors[color] }}
 
-          q-menu(anchor="top start", self="top start")
-            q-color(v-model="colors[color]")
+        q-menu(anchor="top start", self="top start")
+          q-color(v-model="colors[color]")
 
-      .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
-        .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden(:class="pageClass")
-          div(:class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`")
-            q-bar(dense, :dark="dark.primary")
-              q-space
-              q-icon.q-mr-xs(:name="fasSquare", size="12px", style="opacity: 0.5")
-              q-icon.q-mr-xs(:name="fasCircle", size="12px", style="opacity: 0.5")
-              q-icon.q-mr-sm.rotate-90(:name="fasPlay", size="12px", style="opacity: 0.5")
+    .col(:class="$q.screen.gt.xs ? 'q-pl-md' : ''")
+      .relative-position.fit.rounded-borders.shadow-2.bg-white.overflow-hidden(:class="pageClass")
+        div(:class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`")
+          q-bar(dense, :dark="dark.primary")
+            q-space
+            q-icon.q-mr-xs(:name="fasSquare", size="12px", style="opacity: 0.5")
+            q-icon.q-mr-xs(:name="fasCircle", size="12px", style="opacity: 0.5")
+            q-icon.q-mr-sm.rotate-90(:name="fasPlay", size="12px", style="opacity: 0.5")
 
-            q-toolbar
-              q-btn(flat, dense, round, :icon="mdiArrowLeft")
-              q-space
-              q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark page")
-              q-btn(flat, dense, round, :icon="mdiMagnify")
-              q-btn(flat, dense, round, :icon="mdiMenu")
+          q-toolbar
+            q-btn(flat, dense, round, :icon="mdiArrowLeft")
+            q-space
+            q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark page")
+            q-btn(flat, dense, round, :icon="mdiMagnify")
+            q-btn(flat, dense, round, :icon="mdiMenu")
 
-            q-toolbar(inset)
-              q-toolbar-title Quasar
+          q-toolbar(inset)
+            q-toolbar-title Quasar
 
-          .q-px-md.q-py-lg
-            .row.q-col-gutter-md
-              .col-12.col-sm-6.col-md-4.col-lg-3(
-                v-for="color in sideColors"
-                :key="`card-${color}`"
-              )
-                q-card(flat, :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`")
-                  q-card-section
-                    .text-h6.row.no-wrap.items-center
-                      .ellipsis.text-capitalize {{ color }}
-                      q-space
-                      q-icon(
-                        v-if="color !== 'secondary' && color !== 'dark'"
-                        :name="$q.iconSet.type[color]"
-                        size="24px"
-                      )
-
-                  q-card-section Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-
-            q-btn(
-              fab
-              :icon="mdiMapMarkerRadius"
-              color="accent"
-              :text-color="dark.accent === true ? 'white' : 'black'"
-              class="absolute"
-              style="bottom: 16px; right: 16px"
+        .q-px-md.q-py-lg
+          .row.q-col-gutter-md
+            .col-12.col-sm-6.col-md-4.col-lg-3(
+              v-for="color in sideColors"
+              :key="`card-${color}`"
             )
+              q-card(flat, :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`")
+                q-card-section
+                  .text-h6.row.no-wrap.items-center
+                    .ellipsis.text-capitalize {{ color }}
+                    q-space
+                    q-icon(
+                      v-if="color !== 'secondary' && color !== 'dark'"
+                      :name="$q.iconSet.type[color]"
+                      size="24px"
+                    )
 
-    q-separator.q-mt-lg.q-mb-sm
+                q-card-section Lorem, ipsum dolor sit amet consectetur adipisicing elit.
 
-    .col-12.row.items-center.justify-end.q-gutter-md
-      q-btn(color="black", label="Export", @click="exportDialog = true")
+          q-btn(
+            fab
+            :icon="mdiMapMarkerRadius"
+            color="accent"
+            :text-color="dark.accent === true ? 'white' : 'black'"
+            class="absolute"
+            style="bottom: 16px; right: 16px"
+          )
 
-    q-dialog(v-model="exportDialog")
-      q-card
-        q-tabs.text-grey-7(v-model="exportTab", active-color="brand-primary" align="justify")
-          q-tab(name="sass", no-caps, label="Sass")
-          q-tab(name="scss", no-caps, label="SCSS")
-          q-tab(name="styl", no-caps, label="Stylus")
-          q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
-          q-tab(name="umd", no-caps, label="UMD")
-          q-tab(name="vue-cli", no-caps, label="Vue CLI")
+  q-separator.q-mt-lg.q-mb-sm
 
-        q-separator
+  .col-12.row.items-center.justify-end.q-gutter-md
+    q-btn(color="black", label="Export", @click="exportDialog = true")
 
-        q-tab-panels.bg-code(v-model="exportTab", animated)
-          q-tab-panel.q-pa-none(name="sass")
-            doc-code(copy :code="sassExport")
+  q-dialog(v-model="exportDialog")
+    q-card
+      q-tabs.text-grey-7(v-model="exportTab", active-color="brand-primary" align="justify")
+        q-tab(name="sass", no-caps, label="Sass")
+        q-tab(name="scss", no-caps, label="SCSS")
+        q-tab(name="styl", no-caps, label="Stylus")
+        q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
+        q-tab(name="umd", no-caps, label="UMD")
+        q-tab(name="vue-cli", no-caps, label="Vue CLI")
 
-          q-tab-panel.q-pa-none(name="scss")
-            doc-code(copy :code="scssExport")
+      q-separator
 
-          q-tab-panel.q-pa-none(name="styl")
-            doc-code(copy :code="stylusExport")
+      q-tab-panels.bg-code(v-model="exportTab", animated)
+        q-tab-panel.q-pa-none(name="sass")
+          doc-code(copy :code="sassExport")
 
-          q-tab-panel.q-pa-none(name="quasar-cli")
-            doc-code(copy :code="quasarCliExport")
+        q-tab-panel.q-pa-none(name="scss")
+          doc-code(copy :code="scssExport")
 
-          q-tab-panel.q-pa-none(name="umd")
-            doc-code(copy :code="umdExport")
+        q-tab-panel.q-pa-none(name="styl")
+          doc-code(copy :code="stylusExport")
 
-          q-tab-panel.q-pa-none(name="vue-cli")
-            doc-code(copy :code="vueCliExport")
+        q-tab-panel.q-pa-none(name="quasar-cli")
+          doc-code(copy :code="quasarCliExport")
 
-        q-separator
+        q-tab-panel.q-pa-none(name="umd")
+          doc-code(copy :code="umdExport")
 
-        q-card-actions(align="right")
-          q-btn(color="brand-primary", flat, label="Close", v-close-popup)
+        q-tab-panel.q-pa-none(name="vue-cli")
+          doc-code(copy :code="vueCliExport")
+
+      q-separator
+
+      q-card-actions(align="right")
+        q-btn(color="brand-primary", flat, label="Close", v-close-popup)
 </template>
 
 <script>

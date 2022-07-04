@@ -1,11 +1,11 @@
 <template lang="pug">
-  div
-    div.row.items-center.q-mb-lg(v-for="heading in headings", :key="heading.label")
-      div.col-sm-3.col-12
-        q-badge(color="brand-primary") {{ heading.cls }}
-        q-badge.q-ml-sm(color="secondary", v-if="heading.equivalent") {{ heading.equivalent }}
+div
+  div.row.items-center.q-mb-lg(v-for="heading in headings", :key="heading.label")
+    div.col-sm-3.col-12
+      q-badge(color="brand-primary") {{ heading.cls }}
+      q-badge.q-ml-sm(color="secondary", v-if="heading.equivalent") {{ heading.equivalent }}
 
-      .col-sm-9.col-12(:class="heading.cls") {{ heading.label }}
+    .col-sm-9.col-12(:class="heading.cls") {{ heading.label }}
 </template>
 
 <script>

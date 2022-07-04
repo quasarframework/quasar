@@ -1,16 +1,16 @@
 <template lang="pug">
-  q-page.flex.flex-center(padding)
-    q-btn(
-      :icon="mdiCodeTags"
-      label="Source code"
-      no-caps
-      push
-      color="white"
-      text-color="brand-primary"
-      :href="sourceLink"
-      target="_blank"
-      rel="noopener"
-    )
+q-page.flex.flex-center(padding)
+  q-btn(
+    :icon="mdiCodeTags"
+    label="Source code"
+    no-caps
+    push
+    color="white"
+    text-color="brand-primary"
+    :href="sourceLink"
+    target="_blank"
+    rel="noopener"
+  )
 </template>
 
 <script>

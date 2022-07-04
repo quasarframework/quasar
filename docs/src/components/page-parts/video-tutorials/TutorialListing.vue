@@ -1,7 +1,7 @@
 <template lang="pug">
-  .row.items-stretch.q-col-gutter-lg
-    .col-12.col-sm-6.row.items-stretch(v-for="(t, index) in tutorials", :key="index")
-      tutorial-link(v-bind="t")
+.row.items-stretch.q-col-gutter-lg
+  .col-12.col-sm-6.row.items-stretch(v-for="(t, index) in tutorials", :key="index")
+    tutorial-link(v-bind="t")
 </template>
 
 <script>
