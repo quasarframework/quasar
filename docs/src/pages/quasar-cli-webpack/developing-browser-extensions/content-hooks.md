@@ -53,7 +53,7 @@ export default bexContent((bridge) => {
       el.classList.add('bex-highlight')
     }
 
-    // Let's resolve the `send()` call's promise, this way we can await it on the otherside then display a notification.
+    // Let's resolve the `send()` call's promise, this way we can await it on the other side then display a notification.
     respond()
   })
 })
