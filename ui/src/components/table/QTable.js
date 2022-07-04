@@ -211,20 +211,20 @@ export default Vue.extend({
     },
 
     cardDefaultClass () {
-      return ` q-table__card` +
+      return ' q-table__card' +
         (this.isDark === true ? ' q-table__card--dark q-dark' : '') +
-        (this.square === true ? ` q-table--square` : '') +
-        (this.flat === true ? ` q-table--flat` : '') +
-        (this.bordered === true ? ` q-table--bordered` : '')
+        (this.square === true ? ' q-table--square' : '') +
+        (this.flat === true ? ' q-table--flat' : '') +
+        (this.bordered === true ? ' q-table--bordered' : '')
     },
 
     __containerClass () {
       return `q-table__container q-table--${this.separator}-separator column no-wrap` +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
-        (this.isDark === true ? ` q-table--dark` : '') +
-        (this.dense === true ? ` q-table--dense` : '') +
-        (this.wrapCells === false ? ` q-table--no-wrap` : '') +
-        (this.inFullscreen === true ? ` fullscreen scroll` : '')
+        (this.isDark === true ? ' q-table--dark' : '') +
+        (this.dense === true ? ' q-table--dense' : '') +
+        (this.wrapCells === false ? ' q-table--no-wrap' : '') +
+        (this.inFullscreen === true ? ' fullscreen scroll' : '')
     },
 
     containerClass () {

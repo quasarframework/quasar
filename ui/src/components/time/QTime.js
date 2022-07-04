@@ -113,9 +113,9 @@ export default Vue.extend({
       return `q-time q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
         (this.isDark === true ? ' q-time--dark q-dark' : '') +
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-time--readonly' : '')) +
-        (this.bordered === true ? ` q-time--bordered` : '') +
-        (this.square === true ? ` q-time--square no-border-radius` : '') +
-        (this.flat === true ? ` q-time--flat no-shadow` : '')
+        (this.bordered === true ? ' q-time--bordered' : '') +
+        (this.square === true ? ' q-time--square no-border-radius' : '') +
+        (this.flat === true ? ' q-time--flat no-shadow' : '')
     },
 
     stringModel () {

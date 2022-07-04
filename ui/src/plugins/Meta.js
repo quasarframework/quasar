@@ -199,7 +199,7 @@ function getHead (meta) {
 
       output += `<${type} ${attrs.join(' ')} data-qmeta="${att}">`
       if (type === 'script') {
-        output += (metaType[att].innerHTML || '') + `</script>`
+        output += `${metaType[att].innerHTML || ''}</script>`
       }
     }
   })
