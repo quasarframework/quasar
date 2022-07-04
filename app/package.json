@@ -68,7 +68,7 @@
     "express": "4.17.3",
     "fast-glob": "3.2.11",
     "file-loader": "6.2.0",
-    "fork-ts-checker-webpack-plugin": "4.1.6",
+    "fork-ts-checker-webpack-plugin": "^6.0.0",
     "friendly-errors-webpack-plugin": "1.7.0",
     "fs-extra": "9.0.1",
     "html-minifier": "4.0.0",
