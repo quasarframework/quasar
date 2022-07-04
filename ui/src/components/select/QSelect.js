@@ -973,6 +973,7 @@ export default Vue.extend({
             attrs: {
               id: isTarget === true ? this.targetUid : void 0,
               tabindex: this.tabindex,
+              'data-autofocus': (fromDialog !== true && this.autofocus) || void 0,
               ...attrs
             },
             on: cache(this, 'f-tget', {
