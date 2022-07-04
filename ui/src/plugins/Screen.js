@@ -159,7 +159,7 @@ export default {
 
       // due to optimizations, this would be left out otherwise
       classes === true && this.name === 'xs' &&
-        document.body.classList.add(`screen--xs`)
+        document.body.classList.add('screen--xs')
     }
 
     if (fromSSR === true) {

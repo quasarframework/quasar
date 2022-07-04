@@ -107,7 +107,7 @@ export default Vue.extend({
     },
 
     classes () {
-      return `q-stepper__tab col-grow flex items-center no-wrap relative-position` +
+      return 'q-stepper__tab col-grow flex items-center no-wrap relative-position' +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.isError === true
           ? ' q-stepper__tab--error q-stepper__tab--error-with-' + (this.hasPrefix === true ? 'prefix' : 'icon')

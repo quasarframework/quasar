@@ -62,7 +62,7 @@ export default {
         return {
           action: 'push',
           data: {
-            staticClass: `q-fab__label q-tooltip--style q-fab__label--external` +
+            staticClass: 'q-fab__label q-tooltip--style q-fab__label--external' +
               ` q-fab__label--external-${this.labelPosition}` +
               (hideLabel === true ? ' q-fab__label--external-hidden' : ''),
             style: this.labelStyle,
