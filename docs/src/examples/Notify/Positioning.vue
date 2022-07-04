@@ -87,13 +87,13 @@ export default {
         multiLine,
         actions: twoActions
           ? [
-            { label: 'Reply', color: buttonColor, handler: () => { /* console.log('wooow') */ } },
-            { label: 'Dismiss', color: 'yellow', handler: () => { /* console.log('wooow') */ } }
-          ]
+              { label: 'Reply', color: buttonColor, handler: () => { /* console.log('wooow') */ } },
+              { label: 'Dismiss', color: 'yellow', handler: () => { /* console.log('wooow') */ } }
+            ]
           : (random > 40
-            ? [ { label: 'Reply', color: buttonColor, handler: () => { /* console.log('wooow') */ } } ]
-            : null
-          ),
+              ? [ { label: 'Reply', color: buttonColor, handler: () => { /* console.log('wooow') */ } } ]
+              : null
+            ),
         timeout: Math.random() * 5000 + 3000
       })
     }

@@ -514,11 +514,11 @@ export default {
     const content = Object.keys(this.definition).length !== 0
       ? describe[this.type](h, this.definition)
       : [
-        h('div', { class: 'q-pa-md doc-api__nothing-to-show' }, [
-          h('div', 'No matching entries found on this tab.'),
-          h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
-        ])
-      ]
+          h('div', { class: 'q-pa-md doc-api__nothing-to-show' }, [
+            h('div', 'No matching entries found on this tab.'),
+            h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
+          ])
+        ]
 
     return h('div', { class: 'api-rows' }, content)
   }

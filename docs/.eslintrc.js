@@ -2,11 +2,12 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: '@babel/eslint-parser'
   },
 
   env: {
-    browser: true
+    browser: true,
+   'vue/setup-compiler-macros': true
   },
 
   extends: [
@@ -53,6 +54,11 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
 
     'quasar/check-valid-props': 'warn',
+    'vue/multi-word-component-names': 'off',
+    'multiline-ternary': 'off',
+    'vue/no-mutating-props': 'off',
+    'vue/no-v-text-v-html-on-component': 'off',
+    'no-var': 'off',
 
     // allow console.log during development only
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

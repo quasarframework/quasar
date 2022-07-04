@@ -212,13 +212,13 @@ export default {
     fullscreenAttrs () {
       return this.$q.fullscreen.isActive
         ? {
-          style: {
-            backgroundColor: '#fff'
-          },
-          class: [
-            'q-pa-md'
-          ]
-        }
+            style: {
+              backgroundColor: '#fff'
+            },
+            class: [
+              'q-pa-md'
+            ]
+          }
         : {}
     }
   },

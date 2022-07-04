@@ -1,5 +1,6 @@
 // Configuration for your app
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin')
 
 module.exports = function (ctx) {
   return {
@@ -28,11 +29,14 @@ module.exports = function (ctx) {
       // analyze: true,
 
       chainWebpack (chain) {
-        chain.module.rule('eslint')
-          .pre()
-          .exclude.add(/node_modules|\.md\.js$/).end()
-          .test(/\.(js|vue)$/)
-          .use('eslint-loader').loader('eslint-loader')
+        // chain.module.rule('eslint')
+        //   .pre()
+        //   .exclude.add(/node_modules|\.md\.js$/).end()
+        //   .test(/\.(js|vue)$/)
+        //   .use('eslint-loader').loader('eslint-loader')
+
+        chain.plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
 
         chain.resolve.alias
           .merge({

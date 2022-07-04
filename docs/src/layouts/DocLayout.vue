@@ -180,9 +180,9 @@ export default {
       const toc = this.$root.store.toc
       return toc.length > 0
         ? [
-          { id: 'introduction', title: 'Introduction' },
-          ...this.$root.store.toc
-        ]
+            { id: 'introduction', title: 'Introduction' },
+            ...this.$root.store.toc
+          ]
         : toc
     }
   },

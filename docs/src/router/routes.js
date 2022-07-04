@@ -22,12 +22,12 @@ function parseMenuNode (node, __path) {
           const to = node.external === true
             ? node.path
             : (
-              prefix + (
-                node.path !== void 0
-                  ? '/' + node.path
-                  : (node.listPath !== void 0 ? '/' + node.listPath : '')
+                prefix + (
+                  node.path !== void 0
+                    ? '/' + node.path
+                    : (node.listPath !== void 0 ? '/' + node.listPath : '')
+                )
               )
-            )
 
           if (node.external !== true && node.listPath !== void 0) {
             docsPages.push({
