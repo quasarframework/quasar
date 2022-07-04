@@ -6,11 +6,12 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    ecmaVersion: '2021' // Allows for the parsing of modern ECMAScript features
+    parser: '@babel/eslint-parser',
+    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module' // Allows for the use of imports
   },
 
   env: {
-    node: true,
     browser: true,
     'vue/setup-compiler-macros': true
   },

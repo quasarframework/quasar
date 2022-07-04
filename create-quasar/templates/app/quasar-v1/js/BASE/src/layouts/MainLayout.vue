@@ -92,7 +92,7 @@ const linksData = [
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
   }
-];
+]
 
 export default {
   name: 'MainLayout',
