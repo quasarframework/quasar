@@ -4,7 +4,7 @@ import { QTable } from "quasar";
 
 export type QTableColumn<
   Row extends Record<string, any> = any,
-  K = Row extends Record<string, any> ? keyof Row : string,
+  K = keyof Row extends string ? keyof Row : string,
   Field = K | ((row: Row) => any)
 > = Omit<NonNullable<QTable["columns"]>[0], "field" | "format"> & {
   field: Field;
