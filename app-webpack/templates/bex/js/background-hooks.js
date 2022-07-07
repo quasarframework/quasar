@@ -2,40 +2,44 @@
 // Note: Events sent from this background script using `bridge.send` can be `listen`'d for by all client BEX bridges for this BEX
 
 // More info: https://quasar.dev/quasar-cli/developing-browser-extensions/background-hooks
+import { bexBackground } from 'quasar/wrappers'
 
-export default function attachBackgroundHooks (bridge /* , allActiveConnections */) {
-  bridge.on('storage.get', event => {
-    const payload = event.data
-    if (payload.key === null) {
-      chrome.storage.local.get(null, r => {
+export default bexBackground((bridge /* , allActiveConnections */) => {
+  bridge.on('storage.get', ({ data, respond }) => {
+    if (data.key === null) {
+      chrome.storage.local.get(null, items => {
         const result = []
 
         // Group the items up into an array to take advantage of the bridge's chunk splitting.
-        for (const itemKey in r) {
-          result.push(r[itemKey])
+        for (const itemKey in items) {
+          result.push(items[itemKey])
         }
-        bridge.send(event.eventResponseKey, result)
+        respond(result)
       })
     } else {
-      chrome.storage.local.get([payload.key], r => {
-        bridge.send(event.eventResponseKey, r[payload.key])
+      chrome.storage.local.get([data.key], items => {
+        respond(items[data.key])
       })
     }
   })
+  // Usage:
+  // const { data } = await bridge.send('storage.get', { key: 'someKey' })
 
-  bridge.on('storage.set', event => {
-    const payload = event.data
-    chrome.storage.local.set({ [payload.key]: payload.data }, () => {
-      bridge.send(event.eventResponseKey, payload.data)
+  bridge.on('storage.set', ({ data, respond }) => {
+    chrome.storage.local.set({ [data.key]: data.value }, () => {
+      respond()
     })
   })
+  // Usage:
+  // await bridge.send('storage.set', { key: 'someKey', value: 'someValue' })
 
-  bridge.on('storage.remove', event => {
-    const payload = event.data
-    chrome.storage.local.remove(payload.key, () => {
-      bridge.send(event.eventResponseKey, payload.data)
+  bridge.on('storage.remove', ({ data, respond }) => {
+    chrome.storage.local.remove(data.key, () => {
+      respond()
     })
   })
+  // Usage:
+  // await bridge.send('storage.remove', { key: 'someKey' })
 
   /*
   // EXAMPLES
@@ -56,4 +60,4 @@ export default function attachBackgroundHooks (bridge /* , allActiveConnections 
     }
   })
    */
-}
+})

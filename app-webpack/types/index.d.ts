@@ -7,6 +7,7 @@
 //  manually declare every file as a `quasar` augmentation
 
 import "./globals";
+export * from "./bex";
 export * from "./ssr";
 export * from "./store";
 export * from "./prefetch";

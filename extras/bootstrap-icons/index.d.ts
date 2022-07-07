@@ -1,4 +1,4 @@
-/* Bootstrap v1.8.2 */
+/* Bootstrap v1.8.3 */
 
 export declare const bi123: string;
 export declare const biActivity: string;

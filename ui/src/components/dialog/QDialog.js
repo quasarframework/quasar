@@ -47,6 +47,7 @@ export default createComponent({
 
     persistent: Boolean,
     autoClose: Boolean,
+    allowFocusOutside: Boolean,
 
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
@@ -351,7 +352,8 @@ export default createComponent({
     function onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
-        portalIsAccessible.value === true
+        props.allowFocusOutside !== true
+        && portalIsAccessible.value === true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus('[tabindex]:not([tabindex="-1"])')

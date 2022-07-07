@@ -2,7 +2,7 @@ const path = require('path')
 const { existsSync } = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')
@@ -151,7 +151,7 @@ class QuasarConfFile {
     this.#opts = { host, port }
 
     if (this.#ctx.mode.pwa) {
-      // Enable this when workbox bumps version (as of writing these lines, we're handling v8)
+      // Enable this when workbox bumps version (as of writing these lines, we're handling v6)
       // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {
@@ -592,6 +592,7 @@ class QuasarConfFile {
     else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'
     }
+    // Electron is handled in lib/modes/electron/electron-builder.js -> #replaceAppUrl()
 
     Object.assign(cfg.build.env, {
       NODE_ENV: this.#ctx.prod ? 'production' : 'development',

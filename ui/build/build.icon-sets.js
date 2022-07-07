@@ -68,7 +68,7 @@ const iconTypes = [
     convert
   },
   {
-    name: 'ionicons-v4',
+    name: 'ionicons-v4', // last web font version
     regex: /^ion-/,
     convert: str => convert(
       /ion-(md|ios)-/.test(str) === true

@@ -7,6 +7,7 @@ const fse = require('fs-extra')
 const { log, warn } = require('../helpers/logger')
 const appPaths = require('../app-paths')
 const storeProvider = require('../helpers/store-provider')
+const hasTypescript = require('../helpers/has-typescript')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -16,7 +17,7 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: ['h'],
   string: ['f'],
   default: {
-    f: fs.existsSync(appPaths.resolve.app('tsconfig.json')) ? 'ts-composition' : 'default'
+    f: hasTypescript ? 'ts-composition' : 'default'
   }
 })
 

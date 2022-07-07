@@ -83,7 +83,7 @@ $ yarn add vue@3 @quasar/extras@latest
 **This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#add-vue-cli-quasar-plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
 
 ::: danger
-* Quasar CLI for Quasar v1 only had the option to use Webpack. But now you can choose between Quasar CLI with Vite (currently in **BETA**) and Quasar CLI with Webpack. For upgrading purposes, you might want to upgrade to Quasar CLI with Webpack first, and then maybe try out Quasar CLI with Vite.
+* Quasar CLI for Quasar v1 only had the option to use Webpack. But now you can choose between Quasar CLI with Vite and Quasar CLI with Webpack. If you want to use Quasar CLI with Vite, follow the instructions below to Quasar CLI with Webpack first, then [migrate to Quasar CLI with Vite](/quasar-cli-vite/convert-to-quasar-cli-with-vite).
 * **The rest of this guide will focus on Quasar CLI with Webpack.**
 :::
 

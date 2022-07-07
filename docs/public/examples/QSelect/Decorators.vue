@@ -24,10 +24,10 @@
 
       <q-select filled bottom-slots v-model="model" :options="options" label="Label" counter :dense="dense" :options-dense="denseOpts">
         <template v-slot:prepend>
-          <q-icon name="place" @click.stop />
+          <q-icon name="place" @click.stop.prevent />
         </template>
         <template v-slot:append>
-          <q-icon name="close" @click.stop="model = ''" class="cursor-pointer" />
+          <q-icon name="close" @click.stop.prevent="model = ''" class="cursor-pointer" />
         </template>
 
         <template v-slot:hint>
@@ -41,8 +41,8 @@
         </template>
 
         <template v-slot:append>
-          <q-icon v-if="model !== ''" name="close" @click.stop="model = ''" class="cursor-pointer" />
-          <q-icon name="search" @click.stop />
+          <q-icon v-if="model !== ''" name="close" @click.stop.prevent="model = ''" class="cursor-pointer" />
+          <q-icon name="search" @click.stop.prevent />
         </template>
 
         <template v-slot:hint>
@@ -58,8 +58,8 @@
         </template>
 
         <template v-slot:append>
-          <q-icon v-if="model !== ''" name="close" @click.stop="model = ''" class="cursor-pointer" />
-          <q-icon name="schedule" @click.stop />
+          <q-icon v-if="model !== ''" name="close" @click.stop.prevent="model = ''" class="cursor-pointer" />
+          <q-icon name="schedule" @click.stop.prevent />
         </template>
 
         <template v-slot:hint>
@@ -81,7 +81,7 @@
         </template>
 
         <template v-slot:append>
-          <q-btn round dense flat icon="add" @click.stop />
+          <q-btn round dense flat icon="add" @click.stop.prevent />
         </template>
       </q-select>
     </div>

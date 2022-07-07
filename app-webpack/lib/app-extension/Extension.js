@@ -28,7 +28,7 @@ async function promptOverwrite ({ targetPath, options }) {
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
   const { isBinaryFileSync: isBinary } = require('isbinaryfile')
-  const compileTemplate = require('lodash.template')
+  const compileTemplate = require('lodash/template')
 
   if (overwritePrompt === true && fs.existsSync(targetPath)) {
     const answer = await promptOverwrite({

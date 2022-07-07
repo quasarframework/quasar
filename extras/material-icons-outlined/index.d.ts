@@ -785,7 +785,7 @@ export declare const outlinedFlipCameraIos: string;
 export declare const outlinedFlipToBack: string;
 export declare const outlinedFlipToFront: string;
 export declare const outlinedFlood: string;
-export declare const outlinedFlourescent: string;
+export declare const outlinedFluorescent: string;
 export declare const outlinedFlutterDash: string;
 export declare const outlinedFmdBad: string;
 export declare const outlinedFmdGood: string;

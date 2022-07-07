@@ -402,5 +402,5 @@ const obj = date.extractDate('Month: Feb, Day: 11th, Year: 2018', '[Month: ]MMM[
   months: ['Ianuarie', 'Februarie', /* and all the rest of months */],
   monthsShort: ['Ian', 'Feb', /* and all the rest of months */]
 })
-// date is a new Date() object
+// obj is a new Date() object
 ```

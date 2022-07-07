@@ -165,7 +165,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 // onDialogHide   - Function to be used as handler for @hide on QDialog
 // onDialogOK     - Function to call to settle dialog with "ok" outcome
 //                    example: onDialogOK() - no payload
-//                    example: onDialogOK({ /*.../* }) - with payload
+//                    example: onDialogOK({ /*...*/ }) - with payload
 // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
 // this is part of our example (so not required)

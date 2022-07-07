@@ -59,6 +59,10 @@ In summary:
 Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a *content script* running behind them. They will all however have a *background script*.
 :::
 
+::: warning
+Service worker which is available in [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/), is implemented in Quasar CLI with Vite only. More details [here](https://github.com/quasarframework/quasar/discussions/8844).
+:::
+
 ## CSS
 
 Any styles you want to be made available to your web page (not your Quasar App) should be included in `src-bex/assets/content.css` as this file ia automatically injected into the `manifest.json` file.

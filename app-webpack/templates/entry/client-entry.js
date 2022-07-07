@@ -36,7 +36,7 @@ import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
-import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
+import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
 <% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>

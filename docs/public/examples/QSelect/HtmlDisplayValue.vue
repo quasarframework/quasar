@@ -21,7 +21,7 @@
             v-if="model !== null"
             class="cursor-pointer"
             name="clear"
-            @click.stop="model = null"
+            @click.stop.prevent="model = null"
           />
         </template>
       </q-select>

@@ -3,7 +3,7 @@ const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
 const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
 const prompts = require('prompts')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 const fglob = require('fast-glob')
 const { yellow, green } = require('kolorist')
 const exec = require('child_process').execSync
@@ -11,7 +11,7 @@ const spawn = require('child_process').spawn
 
 const logger = require('./logger')
 
-const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html' ]
+const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html', '.sass' ]
 
 module.exports.join = join
 module.exports.logger = logger

@@ -175,7 +175,6 @@ export default createComponent({
       localResetVirtualScroll,
       padVirtualScroll,
       onVirtualScrollEvt,
-      reset,
       scrollTo,
       setVirtualScrollSize
     } = useVirtualScroll({
@@ -269,15 +268,23 @@ export default createComponent({
 
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
-    const comboboxAttrs = computed(() => ({
-      tabindex: props.tabindex,
-      role: 'combobox',
-      'aria-label': props.label,
-      'aria-autocomplete': props.useInput === true ? 'list' : 'none',
-      'aria-expanded': menu.value === true ? 'true' : 'false',
-      'aria-owns': `${ state.targetUid.value }_lb`,
-      'aria-controls': `${ state.targetUid.value }_lb`
-    }))
+    const comboboxAttrs = computed(() => {
+      const attrs = {
+        tabindex: props.tabindex,
+        role: 'combobox',
+        'aria-label': props.label,
+        'aria-autocomplete': props.useInput === true ? 'list' : 'none',
+        'aria-expanded': menu.value === true ? 'true' : 'false',
+        'aria-owns': `${ state.targetUid.value }_lb`,
+        'aria-controls': `${ state.targetUid.value }_lb`
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
 
     const listboxAttrs = computed(() => {
       const attrs = {
@@ -1342,13 +1349,18 @@ export default createComponent({
       setOptionIndex(optionIndex)
     }
 
-    function rerenderMenu () {
+    function rerenderMenu (newLength, oldLength) {
       if (menu.value === true && state.innerLoading.value === false) {
-        reset()
+        localResetVirtualScroll(-1, true)
 
         nextTick(() => {
           if (menu.value === true && state.innerLoading.value === false) {
-            updateMenu(true)
+            if (newLength > oldLength) {
+              localResetVirtualScroll()
+            }
+            else {
+              updateMenu(true)
+            }
           }
         })
       }
@@ -1426,10 +1438,8 @@ export default createComponent({
       showPopup,
 
       floatingLabel: computed(() =>
-        (props.hideSelected === true
-          ? inputValue.value.length > 0
-          : hasValue.value === true
-        )
+        (props.hideSelected !== true && hasValue.value === true)
+        || inputValue.value.length > 0
         || fieldValueIsFilled(props.displayValue)
       ),
 
@@ -1489,6 +1499,7 @@ export default createComponent({
               class: 'q-select__focus-target',
               id: isTarget === true ? state.targetUid.value : void 0,
               readonly: true,
+              'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
               ...attrs,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,

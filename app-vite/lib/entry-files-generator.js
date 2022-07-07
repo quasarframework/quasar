@@ -2,7 +2,7 @@
 const { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } = require('fs')
 const { removeSync, copySync } = require('fs-extra')
 const path = require('path')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 
 const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')

@@ -308,7 +308,7 @@ export function extractDate (str, mask, dateLocale) {
   const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
-    d.day,
+    d.day === null ? 1 : d.day,
     d.hour,
     d.minute,
     d.second,
@@ -737,7 +737,7 @@ const formatter = {
   YY (date, dateLocale, forcedYear) {
     // workaround for < 1900 with new Date()
     const y = this.YYYY(date, dateLocale, forcedYear) % 100
-    return y > 0
+    return y >= 0
       ? pad(y)
       : '-' + pad(Math.abs(y))
   },
