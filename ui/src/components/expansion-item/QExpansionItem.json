@@ -163,7 +163,13 @@
     },
 
     "header": {
-      "desc": "Slot used for overriding default header"
+      "desc": "Slot used for overriding default header",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "QExpansionItem expanded status"
+        }
+      }
     }
   },
 
