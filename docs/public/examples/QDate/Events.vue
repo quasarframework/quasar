@@ -10,6 +10,13 @@
         v-model="date"
         :events="eventsFn"
       />
+
+      <q-date
+        v-model="date"
+        :events="eventsFn"
+        :options="options"
+        :highlight-all="true"
+      />
     </div>
   </div>
 </template>
@@ -25,7 +32,8 @@ export default {
       eventsFn (date) {
         const parts = date.split('/')
         return parts[ 2 ] % 2 === 0
-      }
+      },
+      options: [ '2019/02/06', '2019/02/09' ]
     }
   }
 }

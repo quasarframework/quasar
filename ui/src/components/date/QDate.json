@@ -101,6 +101,12 @@
       "category": "style"
     },
 
+    "highlight-all": {
+      "type": "Boolean",
+      "desc": "Highlight all events on the calendar, including on non-selectable days",
+      "category": "style"
+    },
+
     "options": {
       "type": [ "Array", "Function" ],
       "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline; Incompatible with 'range' prop",
