@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
-import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 const padding = {
   none: 0,
@@ -38,6 +38,7 @@ export const useBtnProps = {
   iconRight: String,
 
   round: Boolean,
+  square: Boolean,
   outline: Boolean,
   flat: Boolean,
   unelevated: Boolean,
@@ -180,6 +181,7 @@ export default function (props) {
       + (props.dense === true ? ' q-btn--dense' : '')
       + (props.stretch === true ? ' no-border-radius self-stretch' : '')
       + (props.glossy === true ? ' glossy' : '')
+      + (props.square ? ' q-btn--square' : '')
   })
 
   const innerClasses = computed(() =>

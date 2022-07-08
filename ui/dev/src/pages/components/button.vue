@@ -505,6 +505,13 @@
       </div>
 
       <div class="caption">
+        Square Buttons
+      </div>
+      <div class="q-gutter-sm">
+        <q-btn :type="tag" square color="secondary" icon="alarm" />
+      </div>
+
+      <div class="caption">
         Glossy Buttons
       </div>
       <div class="q-gutter-sm">
