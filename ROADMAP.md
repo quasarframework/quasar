@@ -40,7 +40,7 @@ We are updating this section constantly in order to keep you up to date with our
 * 🚧 (WIP) New Quasar website preview 🔥
 
 ### Q3 2022
-* 🚧 (WIP) Quasar.Conf 2022 - 9th of July - [Call for Proposals](https://bit.ly/3wMHK2s)
+* ✌️ (DONE) Quasar.Conf 2022 - 9th of July - [Watch](https://bit.ly/qconf2022yt)
 * ✌️ (DONE) Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (_modes had templates only in .js form by default_) ([#8572](https://github.com/quasarframework/quasar/issues/8572))
 * Gradually add more automatic tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our Discord server if you're willing to help!
 * Allow to save starter kit options as JSON profiles ([#5537](https://github.com/quasarframework/quasar/issues/5537))
