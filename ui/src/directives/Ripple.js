@@ -80,6 +80,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
       beforeMount (el, binding) {
         const ctx = {
           cfg: binding.instance.$.appContext.config.globalProperties.$q.config,
+          global: binding.instance.$.appContext.config.globalProperties.$q.config?.directives?.ripple ?? true,
           enabled: binding.value !== false,
           modifiers: {},
           abort: [],
@@ -87,6 +88,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
           start (evt) {
             if (
               ctx.enabled === true
+              && ctx.global
               && evt.qSkipRipple !== true
               && evt.type === (ctx.modifiers.early === true ? 'pointerdown' : 'click')
             ) {
@@ -97,6 +99,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
           keystart: throttle(evt => {
             if (
               ctx.enabled === true
+              && ctx.global
               && evt.qSkipRipple !== true
               && isKeyCode(evt, ctx.modifiers.keyCodes) === true
               && evt.type === `key${ ctx.modifiers.early === true ? 'down' : 'up' }`
