@@ -2005,6 +2005,7 @@ export declare const sharpVibration: string;
 export declare const sharpVideoCall: string;
 export declare const sharpVideoCameraBack: string;
 export declare const sharpVideoCameraFront: string;
+export declare const sharpVideoChat: string;
 export declare const sharpVideoFile: string;
 export declare const sharpVideoLabel: string;
 export declare const sharpVideoLibrary: string;
