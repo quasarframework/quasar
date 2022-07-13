@@ -17,16 +17,17 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chrome, firefox]
+        version: [14, 16]
 
     name: Tests on ${{ matrix.browser }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup node
+      - name: Setup node ${{ matrix.version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: ${{ matrix.version }}
       
       - name: Install dependencies
         run: cd ./ui && npm i
