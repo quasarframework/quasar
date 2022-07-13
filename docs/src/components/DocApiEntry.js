@@ -1,6 +1,6 @@
 import { h } from 'vue'
-import { QBadge, QChip } from 'quasar'
-import { copyPropName } from 'assets/page-utils'
+import { QBadge, Notify } from 'quasar'
+import { copyToClipboard } from 'assets/page-utils'
 
 import './DocApiEntry.sass'
 
@@ -79,15 +79,11 @@ function getExtendedNameDiv (label, level, type, required, addedIn) {
   const suffix = `${type ? ` : ${type}` : ''}${required ? ' - required!' : ''}`
 
   const child = [
-    h(QChip, {
+    h(QBadge, {
       onClick: () => { copyPropName(label) },
-      clickable: true,
       label,
-      dense: true,
-      square: true,
-      textColor: 'white',
       color: NAME_PROP_COLOR[ level ],
-      style: 'font-size: 1em; line-height: 1.2em; padding: 2px 6px;'
+      style: 'cursor: pointer; font-size: 1em; line-height: 1.2em'
     }),
     suffix
   ]
@@ -266,6 +262,17 @@ function getProp (prop, propName, level, onlyChildren) {
   return onlyChildren !== true
     ? h('div', { class: 'api-row row' }, child)
     : child
+}
+
+function copyPropName (propName) {
+  copyToClipboard(propName)
+
+  Notify.create({
+    message: 'Prop name has been copied to clipboard.',
+    position: 'top',
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
+    timeout: 2000
+  })
 }
 
 const describe = {}
