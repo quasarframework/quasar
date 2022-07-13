@@ -12,8 +12,41 @@
   </div>
 </template>
 
-<script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import {
+<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+import {
+  PropType,
+  computed,
+  ref,
+} from 'vue';
+import { Todo, Meta } from './models';
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
+  },
+  todos: {
+    type: Array as PropType<Todo[]>,
+    default: () => []
+  },
+  meta: {
+    type: Object as PropType<Meta>,
+    required: true
+  },
+  active: {
+    type: Boolean
+  }
+})
+
+const clickCount = ref(0);
+function increment() {
+  clickCount.value += 1
+  return clickCount.value;
+}
+
+const todoCount = computed(() => props.todos.length);
+<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+import {
   defineComponent,
   PropType,
   computed,
@@ -60,7 +93,8 @@ export default defineComponent({
   setup (props) {
     return { ...useClickCount(), ...useDisplayTodo(toRef(props, 'todos')) };
   },
-});<% } else if (typescriptConfig === 'options') { %>import { defineComponent, PropType } from 'vue';
+});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+import { defineComponent, PropType } from 'vue';
 import { Todo, Meta } from './models';
 
 export default defineComponent({
@@ -97,7 +131,8 @@ export default defineComponent({
       return this.todos.length;
     }
   }
-});<% } else if (typescriptConfig === 'class') { %>import { Vue, prop } from 'vue-class-component';
+});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
+import { Vue, prop } from 'vue-class-component';
 import { Todo, Meta } from './models';
 
 class Props {

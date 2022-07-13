@@ -19,8 +19,30 @@
   </q-item>
 </template>
 
-<script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue';
+<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
+  },
+
+  caption: {
+    type: String,
+    default: ''
+  },
+
+  link: {
+    type: String,
+    default: '#'
+  },
+
+  icon: {
+    type: String,
+    default: ''
+  }
+})<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -45,7 +67,8 @@ export default defineComponent({
       default: ''
     }
   }
-});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
+});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -70,7 +93,7 @@ export default defineComponent({
       default: ''
     }
   }
-});<% } else if (typescriptConfig === 'class') { %>
+});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
 import { Vue, prop, Options } from 'vue-class-component';
 
 class Props {
