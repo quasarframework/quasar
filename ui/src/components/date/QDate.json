@@ -105,6 +105,7 @@
       "type": "Boolean",
       "desc": "Highlight all events on the calendar, including on non-selectable days",
       "category": "style"
+      "addedIn": "v2.7.6"
     },
 
     "options": {
