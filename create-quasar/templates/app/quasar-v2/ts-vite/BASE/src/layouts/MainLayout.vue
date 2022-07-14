@@ -47,9 +47,9 @@
 
 <% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
 import { ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
+import EssentialLink, { EssentialLinkProps } from 'components/EssentialLink.vue';
 
-const essentialLinks = [
+const essentialLinks: EssentialLinkProps[] = [
   {
     title: 'Docs',
     caption: 'quasar.dev',
