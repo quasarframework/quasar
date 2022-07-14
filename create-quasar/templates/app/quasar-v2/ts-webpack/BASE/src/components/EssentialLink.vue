@@ -20,7 +20,6 @@
 </template>
 
 <% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
-
 const props = defineProps({
   title: {
     type: String,
