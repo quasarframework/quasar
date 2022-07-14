@@ -20,27 +20,15 @@
 </template>
 
 <% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
-const props = defineProps({
-  title: {
-    type: String,
-    required: true
-  },
-
-  caption: {
-    type: String,
-    default: ''
-  },
-
-  link: {
-    type: String,
-    default: '#'
-  },
-
-  icon: {
-    type: String,
-    default: ''
-  }
-})<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+export interface EssentialLinkProps {
+  title: string;
+  caption?: string;
+  link?: string;
+  icon?: string;
+}
+const props = withDefaults(defineProps<EssentialLinkProps>(), {
+  link: '#',
+});<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
