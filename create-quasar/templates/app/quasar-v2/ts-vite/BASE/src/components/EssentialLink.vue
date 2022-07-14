@@ -20,7 +20,6 @@
 </template>
 
 <% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
-
 export interface EssentialLinkProps {
   title: string;
   caption?: string;
