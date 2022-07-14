@@ -40,7 +40,7 @@ const props = defineProps({
 
 const clickCount = ref(0);
 function increment() {
-  clickCount.value += 1
+  clickCount.value += 1;
   return clickCount.value;
 }
 
