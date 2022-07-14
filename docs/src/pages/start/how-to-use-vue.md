@@ -35,7 +35,6 @@ Currently it is recommended to use `<script setup>` syntax. Check out [VueJS doc
 
 But you can still use syntax without `setup` if you wish. The only difference is within the `<script>` tag.
 
-
 ```html
 <template>
   <!-- you define your Vue template here -->
