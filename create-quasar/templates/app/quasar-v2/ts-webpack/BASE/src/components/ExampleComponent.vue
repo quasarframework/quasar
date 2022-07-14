@@ -13,30 +13,18 @@
 </template>
 
 <% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
-import {
-  PropType,
-  computed,
-  ref,
-} from 'vue';
+import { computed, ref } from 'vue';
 import { Todo, Meta } from './models';
 
-const props = defineProps({
-  title: {
-    type: String,
-    required: true
-  },
-  todos: {
-    type: Array as PropType<Todo[]>,
-    default: () => []
-  },
-  meta: {
-    type: Object as PropType<Meta>,
-    required: true
-  },
-  active: {
-    type: Boolean
-  }
-})
+interface Props {
+  title: string;
+  todos?: Todo[];
+  meta: Meta,
+  active: boolean;
+}
+const props = withDefaults(defineProps<Props>(), {
+  todos: () => [],
+});
 
 const clickCount = ref(0);
 function increment() {
