@@ -33,7 +33,7 @@ Currently it is recommended to use `<script setup>` syntax. Check out [VueJS doc
 </style>
 ```
 
-But you can still use syntax without `setup` if you wish. The only difference is within the `<script>` tag.
+But you can still use Composition API without `<script setup>` or Options API if you wish. The only difference is within the `<script>` tag.
 
 ```html
 <template>
