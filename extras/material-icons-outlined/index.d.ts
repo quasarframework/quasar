@@ -2005,6 +2005,7 @@ export declare const outlinedVibration: string;
 export declare const outlinedVideoCall: string;
 export declare const outlinedVideoCameraBack: string;
 export declare const outlinedVideoCameraFront: string;
+export declare const outlinedVideoChat: string;
 export declare const outlinedVideoFile: string;
 export declare const outlinedVideoLabel: string;
 export declare const outlinedVideoLibrary: string;

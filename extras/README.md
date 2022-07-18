@@ -23,14 +23,14 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | --- | --- | --- | --- | --- | --- |
 | Roboto Font | CDN v29 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
 | Roboto Font Latin Extended | CDN v29 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v130 | `material-icons` | Material icons font | Requires: @quasar/extras 1.2+ | [License](material-icons/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v134 | `material-icons` | Material icons font | Requires: @quasar/extras 1.2+ | [License](material-icons/LICENSE) |
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v106 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2+ | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v105 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2+ | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v106 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2+ | [License](material-icons-sharp/LICENSE) |
-| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v14 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
-| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v14 | `material-symbols-rounded` | Material symbols rounded font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
-| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v14 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
-| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.7.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
+| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v26 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
+| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v26 | `material-symbols-rounded` | Material symbols rounded font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
+| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v26 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
+| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.9.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
@@ -52,14 +52,14 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v130 | `svg-material-icons` | `@quasar/extras/material-icons` | | [License](material-icons/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v134 | `svg-material-icons` | `@quasar/extras/material-icons` | | [License](material-icons/LICENSE) |
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | CDN v106 | `svg-material-icons-outlined` | `@quasar/extras/material-icons-outlined` | Requires: @quasar/extras 1.9+ | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | CDN v105 | `svg-material-icons-round` | `@quasar/extras/material-icons-round` | Requires: @quasar/extras 1.9+ | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | CDN v106 | `svg-material-icons-sharp` | `@quasar/extras/material-icons-sharp` | Requires: @quasar/extras 1.9+ | [License](material-icons-sharp/LICENSE) |
-| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) (Google) | CDN v14 | `svg-material-symbols-outlined` | `@quasar/extras/material-symbols-outlined` | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
-| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) (Google) | CDN v14 | `svg-material-symbols-rounded` | `@quasar/extras/material-symbols-rounded` | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
-| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) (Google) | CDN v14 | `svg-material-symbols-sharp` | `@quasar/extras/material-symbols-sharp` | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
-| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.7.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
+| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) (Google) | CDN v26 | `svg-material-symbols-outlined` | `@quasar/extras/material-symbols-outlined` | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
+| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) (Google) | CDN v26 | `svg-material-symbols-rounded` | `@quasar/extras/material-symbols-rounded` | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
+| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) (Google) | CDN v26 | `svg-material-symbols-sharp` | `@quasar/extras/material-symbols-sharp` | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
+| [MDI v6](https://materialdesignicons.com/) (Material Design Icons) | 6.9.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.9.55 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome v6](https://fontawesome.com/icons) | 6.1.1 | `svg-fontawesome-v6` | `@quasar/extras/fontawesome-v6` | Requires: @quasar/extras 1.13+ | [License](fontawesome-v5/LICENSE.txt) |
