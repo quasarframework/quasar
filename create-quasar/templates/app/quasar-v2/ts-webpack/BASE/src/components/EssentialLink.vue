@@ -26,8 +26,10 @@ export interface EssentialLinkProps {
   link?: string;
   icon?: string;
 }
-const props = withDefaults(defineProps<EssentialLinkProps>(), {
+withDefaults(defineProps<EssentialLinkProps>(), {
+  caption: '',
   link: '#',
+  icon: '',
 });<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
 import { defineComponent } from 'vue';
 
