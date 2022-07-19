@@ -33,7 +33,7 @@
   },
   "peerDependencies": {
     "quasar": "^2.0.0",
-    "vite": "^2.0.0",
+    "vite": "^2.0.0 || ^3.0.0",
     "vue": "^3.0.0"
   },
   "license": "MIT",
