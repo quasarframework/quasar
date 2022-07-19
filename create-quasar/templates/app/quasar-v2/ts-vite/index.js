@@ -7,8 +7,8 @@ module.exports = async function ({ scope, utils }) {
       message: 'Pick a Vue component style:',
       initial: 0,
       choices: [
+        { title: 'Composition API', value: 'composition', description: 'recommended' },
         { title: 'Composition API with <script setup>', value: 'composition-setup', description: 'recommended' },
-        { title: 'Composition API', value: 'composition' },
         { title: 'Options API', value: 'options' },
         { title: 'Class-based', value: 'class', description: 'DEPRECATED; see https://github.com/quasarframework/quasar/discussions/11204', disabled: true }
       ]
