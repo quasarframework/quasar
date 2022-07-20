@@ -22,16 +22,19 @@
   </div>
 </template>
 
-<script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue';
+<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ErrorNotFound'
-});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
+});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ErrorNotFound'
-});<% } else if (typescriptConfig === 'class') { %>import { Vue } from 'vue-class-component';
+});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
+import { Vue } from 'vue-class-component';
 
 export default class ErrorNotFound extends Vue {}<% } %>
 </script>
