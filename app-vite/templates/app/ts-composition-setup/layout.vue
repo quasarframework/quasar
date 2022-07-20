@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const leftDrawer = ref(false)
+const leftDrawer = ref(false);
 </script>
