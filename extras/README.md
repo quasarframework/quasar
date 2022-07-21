@@ -21,8 +21,8 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | quasar.conf.js extras name | Description | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| Roboto Font | CDN v29 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
-| Roboto Font Latin Extended | CDN v29 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
+| Roboto Font | CDN v30 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
+| Roboto Font Latin Extended | CDN v30 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
 | [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v135 | `material-icons` | Material icons font | Requires: @quasar/extras 1.2+ | [License](material-icons/LICENSE) |
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v107 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2+ | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v106 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2+ | [License](material-icons-round/LICENSE) |
