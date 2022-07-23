@@ -75,7 +75,9 @@ The following properties are available to the Platform object. It's not an exhau
 | ---                    | ---     | ---                                                      |
 | `Platform.is.mobile`     | Boolean | Is the code running on a mobile device?                |
 | `Platform.is.cordova`    | Boolean | Is the code running within Cordova?                    |
-| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? |
+| `Platform.is.capacitor`  | Boolean | Is the code running within Capacitor? |
+| `Platform.is.nativeMobile`| Boolean | Is the code running within a native mobile wrapper(_Cordova/Capacitor_)? |
+| `Platform.is.nativeMobileWrapper`| String | Name of the native mobile wrapper(_`'cordova'`, `'capacitor'`, or `undefined`_) |
 | `Platform.is.electron`   | Boolean | Is the code running within Electron?                   |
 | `Platform.is.desktop`    | Boolean | Is the code running on a desktop browser?              |
 | `Platform.is.bex`        | Boolean | Is the code running in a browser extension? |
