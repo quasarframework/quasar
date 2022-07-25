@@ -197,6 +197,20 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
+  
+  In quasar.config.js, before the `module.exports = function (ctx)` add:
+  ```js
+  const ESLintPlugin = require('eslint-webpack-plugin')
+  ```
+  
+  In quasar.config.js -> build add:
+  ```js
+  chainWebpack (chain) {
+        chain
+          .plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+      }
+  ```
 9) If you are using Vuex, you will need to manually install it:
   ```bash
   $ yarn add vuex@4
