@@ -168,7 +168,7 @@
         "expanded": {
           "type": "Boolean",
           "desc": "QExpansionItem expanded status",
-          "addedIn": "2.7.6"
+          "addedIn": "v2.7.6"
         }
       }
     }
