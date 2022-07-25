@@ -64,7 +64,7 @@ A Quasar CLI with Webpack project relies on `/package.json > browserslist` to sp
 More info: [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr)
 
 ### 6. PWA related
-* **VERY important: BEFORE copying your files over, run command `quasar mode add pwa`. Otherwise all the needed packages will not be added, and your build will fail.**
+* **VERY important: BEFORE porting your files over, run command `quasar mode add pwa`. Otherwise all the needed packages will not be added, and your build will fail.**
 * Quasar CLI with Webpack relies on `quasar.config.js > manifest` to specify the manifest, but you will need to use `/src-pwa/manifest.json` to declare it for Quasar CLI with Vite. After declaring the manifest in `/src-pwa/manifest.json`, delete `quasar.config.js > manifest` section.
 * There were also some props in `quasar.config.js` that are no longer available. Most notably: `metaVariables`, `metaVariablesFn`. Simply edit `/index.html` and add those tags directly there.
 
