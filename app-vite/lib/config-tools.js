@@ -217,7 +217,7 @@ function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
   }
 
   const { warnings, errors } = quasarConf.eslint
-  if (warnings === true && errors === true) {
+  if (warnings === true || errors === true) {
     // require only if actually needed (as it imports app's eslint pkg)
     const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint')
     cfg.plugins = [
@@ -240,7 +240,7 @@ function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
   }
 
   const { warnings, errors } = quasarConf.eslint
-  if (warnings === true && errors === true) {
+  if (warnings === true || errors === true) {
     // require only if actually needed (as it imports app's eslint pkg)
     const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint')
     cfg.plugins = [
