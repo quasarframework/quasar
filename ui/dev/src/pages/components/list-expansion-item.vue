@@ -92,7 +92,7 @@
         </q-expansion-item>
 
         <q-expansion-item expand-separator>
-          <template slot="header">
+          <template #header="{ expanded }">
             <q-item-section avatar>
               <q-avatar icon="bluetooth" color="primary" text-color="white" />
             </q-item-section>
@@ -100,7 +100,7 @@
             <q-item-section>
               <div>
                 <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
-                  Using slot
+                  Using slot - {{ expanded ? 'Expanded' : 'Collapsed' }}
                 </q-chip>
                 <q-badge color="secondary">
                   Using slot

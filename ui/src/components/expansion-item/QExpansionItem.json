@@ -157,10 +157,19 @@
   "slots": {
     "default": {
       "desc": "Slot used for expansion item's content"
-    },
+    }
+  },
 
+  "scopedSlots": {
     "header": {
-      "desc": "Slot used for overriding default header"
+      "desc": "Slot used for overriding default header",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "QExpansionItem expanded status",
+          "addedIn": "v1.19.5"
+        }
+      }
     }
   },
 
