@@ -22,7 +22,6 @@ import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
 import ListenersMixin from '../../mixins/listeners.js'
-import { client } from '../../plugins/Platform.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -418,20 +417,35 @@ export default Vue.extend({
     },
 
     comboboxAttrs () {
-      return {
+      const attrs = {
+        tabindex: this.tabindex,
         role: 'combobox',
-        'aria-multiselectable': this.multiple === true ? 'true' : 'false',
+        'aria-label': this.label,
+        'aria-autocomplete': this.useInput === true ? 'list' : 'none',
         'aria-expanded': this.menu === true ? 'true' : 'false',
         'aria-owns': `${this.targetUid}_lb`,
-        'aria-activedescendant': `${this.targetUid}_${this.optionIndex}`
+        'aria-controls': `${this.targetUid}_lb`
       }
+
+      if (this.optionIndex >= 0) {
+        attrs['aria-activedescendant'] = `${this.targetUid}_${this.optionIndex}`
+      }
+
+      return attrs
     },
 
     listboxAttrs () {
-      return {
+      const attrs = {
+        id: `${this.targetUid}_lb`,
         role: 'listbox',
-        id: `${this.targetUid}_lb`
+        'aria-multiselectable': this.multiple === true ? 'true' : 'false'
       }
+
+      if (this.optionIndex >= 0) {
+        attrs['aria-activedescendant'] = `${this.targetUid}_${this.optionIndex}`
+      }
+
+      return attrs
     }
   },
 
@@ -510,6 +524,9 @@ export default Vue.extend({
             true
           )
 
+          this.dialogFieldFocused = false
+          document.activeElement.blur()
+
           this.hidePopup()
         }
 
@@ -581,15 +598,18 @@ export default Vue.extend({
         while (index !== -1 && index !== this.optionIndex && this.isOptionDisabled(this.options[index]) === true)
 
         if (this.optionIndex !== index) {
-          this.setOptionIndex(index)
-          this.scrollTo(index)
+          cancelAnimationFrame(this.moveAnimationFrame)
+          this.moveAnimationFrame = requestAnimationFrame(() => {
+            this.setOptionIndex(index)
+            this.scrollTo(index)
 
-          if (skipInputValue !== true && this.useInput === true && this.fillInput === true) {
-            this.__setInputValue(index >= 0
-              ? this.getOptionLabel(this.options[index])
-              : this.defaultInputValue
-            )
-          }
+            if (skipInputValue !== true && this.useInput === true && this.fillInput === true) {
+              this.__setInputValue(index >= 0
+                ? this.getOptionLabel(this.options[index])
+                : this.defaultInputValue
+              )
+            }
+          })
         }
       }
     },
@@ -923,7 +943,7 @@ export default Vue.extend({
 
       if (this.useChips === true) {
         return this.selectedScope.map((scope, i) => h(QChip, {
-          key: 'option-' + i,
+          key: 'rem#' + i,
           props: {
             removable: this.editable === true && this.isOptionDisabled(scope.opt) !== true,
             dense: true,
@@ -966,14 +986,14 @@ export default Vue.extend({
         const attrs = isTarget === true ? this.comboboxAttrs : void 0
 
         child.push(
-          h('div', {
+          h('input', {
             ref: isTarget === true ? 'target' : void 0,
             key: 'd_t',
             staticClass: 'q-select__focus-target',
             attrs: {
               id: isTarget === true ? this.targetUid : void 0,
-              tabindex: this.tabindex,
-              'data-autofocus': (fromDialog !== true && this.autofocus) || void 0,
+              readonly: true,
+              'data-autofocus': (fromDialog === true ? isTarget === true : this.autofocus) || void 0,
               ...attrs
             },
             on: cache(this, 'f-tget', {
@@ -987,6 +1007,7 @@ export default Vue.extend({
         if (isTarget === true && typeof this.autocomplete === 'string' && this.autocomplete.length > 0) {
           child.push(
             h('input', {
+              key: 'autoinp',
               staticClass: 'q-select__autocomplete-input',
               attrs: { autocomplete: this.autocomplete },
               on: cache(this, 'autoinp', {
@@ -1021,6 +1042,12 @@ export default Vue.extend({
     __getOptions (h) {
       if (this.menu !== true) {
         return void 0
+      }
+
+      if (this.noOptions === true) {
+        return this.$scopedSlots['no-option'] !== void 0
+          ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
+          : void 0
       }
 
       if (
@@ -1092,9 +1119,8 @@ export default Vue.extend({
           ...attrs,
           id: isTarget === true ? this.targetUid : void 0,
           maxlength: this.maxlength, // this is converted to prop by QField
-          tabindex: this.tabindex,
           autocomplete: this.autocomplete,
-          'data-autofocus': (fromDialog !== true && this.autofocus) || void 0,
+          'data-autofocus': (fromDialog === true ? isTarget === true : this.autofocus) || void 0,
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
@@ -1213,6 +1239,7 @@ export default Vue.extend({
                 }
                 else {
                   this.menu = true
+                  this.hasDialog === true && (this.dialog = true)
                 }
               }
 
@@ -1251,15 +1278,13 @@ export default Vue.extend({
           focusout(e)
         },
         click: e => {
-          if (this.hasDialog !== true) {
-            // label from QField will propagate click on the input (except IE)
-            prevent(e)
+          // label from QField will propagate click on the input (except IE)
+          prevent(e)
 
-            if (this.menu === true) {
-              this.__closeMenu()
-              this.$refs.target !== void 0 && this.$refs.target.focus()
-              return
-            }
+          if (this.hasDialog !== true && this.menu === true) {
+            this.__closeMenu()
+            this.$refs.target !== void 0 && this.$refs.target.focus()
+            return
           }
 
           this.showPopup(e)
@@ -1280,15 +1305,8 @@ export default Vue.extend({
     },
 
     __getMenu (h) {
-      const child = this.noOptions === true
-        ? (
-          this.$scopedSlots['no-option'] !== void 0
-            ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
-            : null
-        )
-        : this.__getOptions(h)
-
       return h(QMenu, {
+        key: 'menu',
         ref: 'menu',
         props: {
           value: this.menu,
@@ -1314,7 +1332,7 @@ export default Vue.extend({
           'before-hide': this.__closeMenu,
           show: this.__onMenuShow
         })
-      }, child)
+      }, this.__getOptions(h))
     },
 
     __onMenuShow () {
@@ -1365,8 +1383,9 @@ export default Vue.extend({
 
       this.menu === true && content.push(
         h('div', {
+          key: 'virtMenu',
           ref: 'menuContent',
-          staticClass: 'scroll',
+          staticClass: 'col scroll',
           class: this.menuContentClass,
           style: this.popupContentStyle,
           attrs: this.listboxAttrs,
@@ -1374,18 +1393,11 @@ export default Vue.extend({
             click: prevent,
             '&scroll': this.__onVirtualScrollEvt
           })
-        }, (
-          this.noOptions === true
-            ? (
-              this.$scopedSlots['no-option'] !== void 0
-                ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
-                : null
-            )
-            : this.__getOptions(h)
-        ))
+        }, this.__getOptions(h))
       )
 
       return h(QDialog, {
+        key: 'dialog',
         ref: 'dialog',
         props: {
           value: this.dialog,
@@ -1409,13 +1421,17 @@ export default Vue.extend({
     },
 
     __onDialogBeforeHide () {
-      if (client.is.mobile !== true) {
+      if (this.useInput !== true || this.$q.platform.is.desktop === true) {
         this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
       }
       this.focused = false
+      this.dialogFieldFocused = false
     },
 
     __onDialogHide (e) {
+      if (this.$q.platform.is.desktop !== true) {
+        document.activeElement.blur()
+      }
       this.hidePopup()
       this.focused === false && this.$emit('blur', e)
       this.__resetInputValue()
