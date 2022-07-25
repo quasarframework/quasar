@@ -167,7 +167,8 @@
       "scope": {
         "expanded": {
           "type": "Boolean",
-          "desc": "QExpansionItem expanded status"
+          "desc": "QExpansionItem expanded status",
+          "addedIn": "2.7.6"
         }
       }
     }
