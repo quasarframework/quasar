@@ -1439,6 +1439,7 @@ export default createComponent({
 
       floatingLabel: computed(() =>
         (props.hideSelected !== true && hasValue.value === true)
+        || typeof inputValue.value === 'number'
         || inputValue.value.length > 0
         || fieldValueIsFilled(props.displayValue)
       ),
