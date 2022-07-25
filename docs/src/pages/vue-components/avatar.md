@@ -24,3 +24,5 @@ The `size` property will determine the height and the width of the Avatar. The `
 <doc-example title="Rounded" file="QAvatar/Rounded" />
 
 <doc-example title="With other components" file="QAvatar/Integrated" />
+
+<doc-example title="Overlapping avatars" file="QAvatar/Overlapping" />
