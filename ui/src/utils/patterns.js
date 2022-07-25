@@ -14,7 +14,7 @@ export const testPattern = {
   timeOrFulltime: v => /^([0-1]?\d|2[0-3]):[0-5]\d(:[0-5]\d)?$/.test(v),
 
   // -- RFC 5322 --
-  // -- Added in v2.6.6 --
+  // -- Added in v1.18.10 --
   // This is a basic helper validation.
   // For something more complex (like RFC 822) you should write and use your own rule.
   // We won't be accepting PRs to enhance the one below because of the reason above.
