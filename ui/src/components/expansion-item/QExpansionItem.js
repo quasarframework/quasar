@@ -235,7 +235,7 @@ export default createComponent({
       let child
 
       if (slots.header !== void 0) {
-        child = [].concat(slots.header())
+        child = [].concat(slots.header({ expanded: showing.value === true }))
       }
       else {
         child = [
