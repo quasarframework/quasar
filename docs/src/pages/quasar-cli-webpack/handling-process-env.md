@@ -18,7 +18,7 @@ Accessing `process.env` can help you in many ways:
 | `CLIENT` | Boolean | Code runs on client (not on server) |
 | `SERVER` | Boolean | Code runs on server (not on client) |
 | `MODE` | String | Quasar CLI mode (`spa`, `pwa`, ...) |
-| `NODE_ENV` | String | Has two possible values: `production` or `development` |
+| `NODE_ENV` | String | Has three possible values: `production`, `development` or `test` |
 
 ## Example
 
