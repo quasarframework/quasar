@@ -539,9 +539,16 @@ export default {
 
     customComponentOptionsApi (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponentOptionsApi : defineAsyncComponent(() => import('./dialog-component-options-api.js')),
+        component: async !== true ? DialogComponentOptionsApi : defineAsyncComponent(() => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(import('./dialog-component-options-api.js'))
+          }, 500)
+        })),
         componentProps: {
-          text: 'Works'
+          text: 'Works',
+          onVnodeMounted (vm) {
+            console.log(`customComponentOptionsApi ${ async === true ? 'ASYNC ' : '' }mounted`, vm ? vm.el : null, vm)
+          }
         }
       }).onOk(payload => {
         console.log('OK', payload)
@@ -554,9 +561,16 @@ export default {
 
     customComponentCompositionApi (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponentCompositionApi : defineAsyncComponent(() => import('./dialog-component-composition-api.js')),
+        component: async !== true ? DialogComponentCompositionApi : defineAsyncComponent(() => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(import('./dialog-component-composition-api.js'))
+          }, 500)
+        })),
         componentProps: {
-          text: 'Works'
+          text: 'Works',
+          onVnodeMounted (vm) {
+            console.log(`customComponentCompositionApi ${ async === true ? 'ASYNC ' : '' }mounted`, vm ? vm.el : null, vm)
+          }
         }
       }).onOk(payload => {
         console.log('OK', payload)
