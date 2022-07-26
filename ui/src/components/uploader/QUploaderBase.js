@@ -248,13 +248,13 @@ export default Vue.extend({
 
     __addFiles (e, fileList) {
       const localFiles = this.__processFiles(e, fileList, this.files, true)
-
-      if (localFiles === void 0) { return }
-
       const fileInput = this.__getFileInput()
+
       if (fileInput !== void 0) {
         fileInput.value = ''
       }
+
+      if (localFiles === void 0) { return }
 
       localFiles.forEach(file => {
         this.__updateFile(file, 'idle')
