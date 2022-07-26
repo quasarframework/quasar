@@ -1,6 +1,6 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Vite plugin for Quasar Framework",
   "main": "dist/index.js",
   "types": "index.d.ts",
