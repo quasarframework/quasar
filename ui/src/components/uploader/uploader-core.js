@@ -264,13 +264,13 @@ export function getRenderer (getPlugin) {
 
   function addFilesToQueue (e, fileList) {
     const localFiles = processFiles(e, fileList, state.files.value, true)
-
-    if (localFiles === void 0) { return }
-
     const fileInput = getFileInput()
+
     if (fileInput !== void 0 && fileInput !== null) {
       fileInput.value = ''
     }
+
+    if (localFiles === void 0) { return }
 
     localFiles.forEach(file => {
       state.updateFileStatus(file, 'idle')
