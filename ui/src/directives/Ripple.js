@@ -78,8 +78,14 @@ export default createDirective(__QUASAR_SSR_SERVER__
       name: 'ripple',
 
       beforeMount (el, binding) {
+        const cfg = binding.instance.$.appContext.config.globalProperties.$q.config || {}
+
+        if (cfg.ripple === false) {
+          return
+        }
+
         const ctx = {
-          cfg: binding.instance.$.appContext.config.globalProperties.$q.config,
+          cfg,
           enabled: binding.value !== false,
           modifiers: {},
           abort: [],
@@ -121,19 +127,23 @@ export default createDirective(__QUASAR_SSR_SERVER__
       updated (el, binding) {
         if (binding.oldValue !== binding.value) {
           const ctx = el.__qripple
-          ctx.enabled = binding.value !== false
+          if (ctx !== void 0) {
+            ctx.enabled = binding.value !== false
 
-          if (ctx.enabled === true && Object(binding.value) === binding.value) {
-            updateModifiers(ctx, binding)
+            if (ctx.enabled === true && Object(binding.value) === binding.value) {
+              updateModifiers(ctx, binding)
+            }
           }
         }
       },
 
       beforeUnmount (el) {
         const ctx = el.__qripple
-        ctx.abort.forEach(fn => { fn() })
-        cleanEvt(ctx, 'main')
-        delete el._qripple
+        if (ctx !== void 0) {
+          ctx.abort.forEach(fn => { fn() })
+          cleanEvt(ctx, 'main')
+          delete el._qripple
+        }
       }
     }
 )
