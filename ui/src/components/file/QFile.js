@@ -138,6 +138,11 @@ export default Vue.extend({
 
     __addFiles (e, fileList) {
       const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
+      const fileInput = this.__getFileInput()
+
+      if (fileInput !== void 0) {
+        fileInput.value = ''
+      }
 
       // if nothing to do...
       if (files === void 0) { return }
