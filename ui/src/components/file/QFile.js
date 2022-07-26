@@ -147,6 +147,11 @@ export default createComponent({
 
     function addFilesToQueue (e, fileList) {
       const files = processFiles(e, fileList, innerValue.value, isAppending.value)
+      const fileInput = getFileInput()
+
+      if (fileInput !== void 0 && fileInput !== null) {
+        fileInput.value = ''
+      }
 
       // if nothing to do...
       if (files === void 0) { return }
