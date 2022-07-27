@@ -71,9 +71,9 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
     <div>{{ store.counter }}</div>
 
     <!-- Manipulate state directly -->
-    <button @click="store.counter--">-</button>
+    <q-btn @click="store.counter--">-</q-btn>
     <!-- Use an action -->
-    <button @click="store.increment()">+</button>
+    <q-btn @click="store.increment()">+</q-btn>
   </div>
 
   <div>
@@ -82,9 +82,9 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
     <div>{{ counter }}</div>
 
     <!-- Use the exposed function -->
-    <button @click="decrement()">-</button>
+    <q-btn @click="decrement()">-</q-btn>
     <!-- Use the exposed function -->
-    <button @click="increment()">+</button>
+    <q-btn @click="increment()">+</q-btn>
   </div>
 </template>
 
