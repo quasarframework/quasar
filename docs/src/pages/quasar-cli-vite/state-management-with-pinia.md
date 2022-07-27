@@ -65,26 +65,60 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
 
 ```html
 <template>
-  <div>
-    <q-toggle v-model="store.counter" />
+  <div class="example">
+    <div>Direct store</div>
+    <!-- Read the state value directly -->
+    <div>{{ store.counter }}</div>
+
+    <!-- Manipulate state directly -->
+    <button @click="store.counter--">-</button>
+    <!-- Use an action -->
+    <button @click="store.increment()">+</button>
+  </div>
+
+  <div class="example">
+    <div>Indirect store</div>
+    <!-- Use the computed value -->
+    <div>{{ counter }}</div>
+
+    <!-- Use the exposed function -->
+    <button @click="decrement()">-</button>
+    <!-- Use the exposed function -->
+    <button @click="increment()">+</button>
+
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useCounterStore } from 'stores/counter'
+import { computed } from "vue";
+import { useCounterStore } from "stores/counter";
 
 export default {
-  setup () {
-    const store = useCounterStore()
+  setup() {
+    const store = useCounterStore();
+
+    const counter = computed(() => store.counter);
+    const increment = () => store.increment();
+    const decrement = () => store.counter--;
 
     return {
-      // you can return the whole store instance to use it in the template
-      store
-    }
-  }
-}
+      // Either return the store directly and couple it in the template
+      store,
+
+      // Or use the store in functions and compute the state to use in the template
+      counter,
+      increment,
+      decrement,
+    };
+  },
+};
 </script>
+
+<style>
+.example {
+  margin: 1rem;
+}
+</style>
 ```
 
 [More info on defining a Pinia store](https://pinia.vuejs.org/core-concepts/).
