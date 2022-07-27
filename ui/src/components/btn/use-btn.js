@@ -172,8 +172,11 @@ export default function (props) {
       colors = `text-${ props.textColor }`
     }
 
-    return `q-btn--${ design.value } `
-      + `q-btn--${ props.round === true ? 'round' : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : '' }` }`
+    const shape = props.round === true
+      ? 'round'
+      : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : (props.square === true ? ' q-btn--square' : '') }`
+
+    return `q-btn--${ design.value } q-btn--${ shape }`
       + (colors !== void 0 ? ' ' + colors : '')
       + (isActionable.value === true ? ' q-btn--actionable q-focusable q-hoverable' : (props.disable === true ? ' disabled' : ''))
       + (props.fab === true ? ' q-btn--fab' : (props.fabMini === true ? ' q-btn--fab-mini' : ''))
