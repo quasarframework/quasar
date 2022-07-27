@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
-import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
 const padding = {
   none: 0,
