@@ -85,7 +85,6 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
     <button @click="decrement()">-</button>
     <!-- Use the exposed function -->
     <button @click="increment()">+</button>
-
   </div>
 </template>
 
