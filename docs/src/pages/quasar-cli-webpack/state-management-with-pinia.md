@@ -65,7 +65,7 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
 
 ```html
 <template>
-  <div class="example">
+  <div>
     <div>Direct store</div>
     <!-- Read the state value directly -->
     <div>{{ store.counter }}</div>
@@ -89,8 +89,8 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
 </template>
 
 <script>
-import { computed } from "vue";
-import { useCounterStore } from "stores/counter";
+import { computed } from 'vue';
+import { useCounterStore } from 'stores/counter';
 
 export default {
   setup() {
@@ -112,12 +112,6 @@ export default {
   },
 };
 </script>
-
-<style>
-.example {
-  margin: 1rem;
-}
-</style>
 ```
 
 More info on defining a Pinia store [here](https://pinia.vuejs.org/core-concepts/).
