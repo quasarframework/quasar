@@ -76,7 +76,7 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
     <button @click="store.increment()">+</button>
   </div>
 
-  <div class="example">
+  <div>
     <div>Indirect store</div>
     <!-- Use the computed value -->
     <div>{{ counter }}</div>
