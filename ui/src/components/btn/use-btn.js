@@ -38,6 +38,7 @@ export const useBtnProps = {
   iconRight: String,
 
   round: Boolean,
+  square: Boolean,
   outline: Boolean,
   flat: Boolean,
   unelevated: Boolean,
@@ -180,6 +181,7 @@ export default function (props) {
       + (props.dense === true ? ' q-btn--dense' : '')
       + (props.stretch === true ? ' no-border-radius self-stretch' : '')
       + (props.glossy === true ? ' glossy' : '')
+      + (props.square ? ' q-btn--square' : '')
   })
 
   const innerClasses = computed(() =>
