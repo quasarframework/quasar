@@ -83,7 +83,7 @@
       </q-list>
     </q-btn-dropdown>
 
-    <q-btn-dropdown split no-caps @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy style="margin: 15px">
+    <q-btn-dropdown square split no-caps @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy style="margin: 15px">
       <template v-slot:label>
         <div class="row items-center no-wrap">
           <q-icon left name="map" />

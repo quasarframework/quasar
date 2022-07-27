@@ -91,7 +91,7 @@
     "ouch": "^2.0.1",
     "postcss": "^8.4.4",
     "postcss-loader": "6.2.1",
-    "postcss-rtlcss": "3.6.3",
+    "postcss-rtlcss": "3.7.2",
     "pretty-error": "4.0.0",
     "register-service-worker": "1.7.2",
     "sass": "1.32.12",
@@ -107,7 +107,7 @@
     "webpack": "^5.58.1",
     "webpack-bundle-analyzer": "4.5.0",
     "webpack-chain": "6.5.1",
-    "webpack-dev-server": "4.9.2",
+    "webpack-dev-server": "4.9.3",
     "webpack-merge": "5.8.0",
     "webpack-node-externals": "3.0.0"
   },

@@ -3,7 +3,7 @@ const { green, gray, underline } = require('kolorist')
 const getPackageJson = require('./get-package-json')
 const quasarVersion = getPackageJson('quasar').version
 const cliAppVersion = require('../../package.json').version
-const viteVersion = getPackageJson('vite').version
+const viteVersion = require('vite/package.json').version
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {

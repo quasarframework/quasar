@@ -56,23 +56,24 @@ The first line cannot be longer than 70 characters, the second line is always bl
 - **feat** - new feature for the user, not a new feature for build script
 - **fix** - bug fix for the user, not a fix to a build script
 - **docs** - documentation only changes
-- **style** - changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- **style** - changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc.)
 - **refactor** - refactoring production code, a code change that neither fixes a bug nor adds a feature
-- **chore** - other changes that don't modify src or test files; no production code change
+- **chore** - other changes that don't modify src or test files (_no production code change_) and dependency updates
 - **perf** - change that improves performance
 - **revert** - reverts a previous commit
 - **test** - adding missing tests, refactoring tests; no production code change
-- **build** - changes that affect the build system or external dependencies (example scopes: gulp, npm)
-- **ci** - changes to our Continuous Integrations configuration files and scripts (example scopes: Travis, Circle CI)
+- **build** - changes that affect the build system or external dependencies (e.g. `ui/build/*`)
+- **ci** - changes to our Continuous Integrations configuration files and scripts (e.g. GitHub Actions)
 
 **Example `<scope>` values:**
 
-- ui, cli, api, touchswipe, qtime, etc.
+- Directory/package related: ui, cli, app-webpack, app-vite, etc.
+- Feature related: api, TouchSwipe, QTime, etc.
 
 ::: tip
-The `<scope>` can contain more values separated by comma. Example: `fix(ui,cli): Cordova mode added`.
+The `<scope>` can contain more values separated by ampersand(`&`). Example: `feat(app-vite&app-webpack): Add Capacitor mode`.
 
-The `<scope>` can be empty (e.g. if the change is a global), in which case the parentheses are omitted.
+The `<scope>` can be empty (e.g. if the change is global), in which case the parentheses are omitted. Example: `style: Use semicolons`
 :::
 
 ## Message Body

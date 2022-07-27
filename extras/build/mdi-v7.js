@@ -1,5 +1,5 @@
 const packageName = '@mdi/svg'
-const distName = 'mdi-v6'
+const distName = 'mdi-v7'
 const iconSetName = 'MDI'
 const prefix = 'mdi'
 
@@ -11,7 +11,7 @@ const { writeFileSync } = require('fs')
 const { resolve, join } = require('path')
 
 const skipped = []
-const distFolder = resolve(__dirname, `../mdi-v6`)
+const distFolder = resolve(__dirname, `../${distName}`)
 const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
@@ -64,17 +64,17 @@ const webfont = [
 webfont.forEach(file => {
   copySync(
     resolve(__dirname, `../node_modules/@mdi/font/fonts/${file}`),
-    resolve(__dirname, `../mdi-v6/${file}`)
+    resolve(__dirname, `../${distName}/${file}`)
   )
 })
 
 copySync(
   resolve(__dirname, `../node_modules/@mdi/font/LICENSE`),
-  resolve(__dirname, `../mdi-v6/license.md`)
+  resolve(__dirname, `../${distName}/license.md`)
 )
 copySync(
   resolve(__dirname, `../node_modules/@mdi/svg/LICENSE`),
-  resolve(__dirname, `../mdi-v6/LICENSE`)
+  resolve(__dirname, `../${distName}/LICENSE`)
 )
 
 // write the JSON file

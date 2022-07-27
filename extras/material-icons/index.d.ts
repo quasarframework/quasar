@@ -2005,6 +2005,7 @@ export declare const matVibration: string;
 export declare const matVideoCall: string;
 export declare const matVideoCameraBack: string;
 export declare const matVideoCameraFront: string;
+export declare const matVideoChat: string;
 export declare const matVideoFile: string;
 export declare const matVideoLabel: string;
 export declare const matVideoLibrary: string;

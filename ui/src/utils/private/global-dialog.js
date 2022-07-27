@@ -1,4 +1,4 @@
-import { h, ref, nextTick } from 'vue'
+import { h, ref } from 'vue'
 
 import { createChildApp } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
@@ -73,10 +73,10 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
         // account for "script setup" + async component way of declaring component
         if (
-          target.component.subTree &&
-          target.component.subTree.component &&
-          target.component.subTree.component.proxy &&
-          target.component.subTree.component.proxy[ cmd ]
+          target.component.subTree
+          && target.component.subTree.component
+          && target.component.subTree.component.proxy
+          && target.component.subTree.component.proxy[ cmd ]
         ) {
           target.component.subTree.component.proxy[ cmd ]()
           return
@@ -149,24 +149,18 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         ...props,
         ref: dialogRef,
         onOk,
-        onHide
+        onHide,
+        onVnodeMounted (...args) {
+          if (typeof props.onVnodeMounted === 'function') {
+            props.onVnodeMounted(...args)
+          }
+
+          applyState('show')
+        }
       })
     }, parentApp)
 
     vm = app.mount(el)
-
-    function show () {
-      applyState('show')
-    }
-
-    if (typeof DialogComponent.__asyncLoader === 'function') {
-      DialogComponent.__asyncLoader().then(() => {
-        nextTick(show)
-      })
-    }
-    else {
-      nextTick(show)
-    }
 
     return API
   }

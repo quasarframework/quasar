@@ -1,14 +1,12 @@
-/* https://icons.getbootstrap.com v1.7.1 */
+/* https://icons.getbootstrap.com v1.9.1 */
 @font-face {
   font-family: "bootstrap-icons";
   font-style: normal;
   font-weight: normal;
   font-display: block;
-  src: url("./bootstrap-icons.woff2") format("woff2"), url("./bootstrap-icons.woff") format("woff"); }
-/*   
-  src: url("./bootstrap-icons.woff2?8bd4575acf83c7696dc7a14a966660a3") format("woff2"),
-url("./bootstrap-icons.woff?8bd4575acf83c7696dc7a14a966660a3") format("woff");
-} */
+  src: url("./bootstrap-icons.woff2") format("woff2"), url("./bootstrap-icons.woff") format("woff");
+}
+
 
 .bi::before,
 [class^="bi-"]::before,
@@ -1709,3 +1707,174 @@ url("./bootstrap-icons.woff?8bd4575acf83c7696dc7a14a966660a3") format("woff");
 .bi-filetype-json::before { content: "\f791"; }
 .bi-filetype-pptx::before { content: "\f792"; }
 .bi-filetype-xlsx::before { content: "\f793"; }
+.bi-1-circle-1::before { content: "\f794"; }
+.bi-1-circle-fill-1::before { content: "\f795"; }
+.bi-1-circle-fill::before { content: "\f796"; }
+.bi-1-circle::before { content: "\f797"; }
+.bi-1-square-fill::before { content: "\f798"; }
+.bi-1-square::before { content: "\f799"; }
+.bi-2-circle-1::before { content: "\f79a"; }
+.bi-2-circle-fill-1::before { content: "\f79b"; }
+.bi-2-circle-fill::before { content: "\f79c"; }
+.bi-2-circle::before { content: "\f79d"; }
+.bi-2-square-fill::before { content: "\f79e"; }
+.bi-2-square::before { content: "\f79f"; }
+.bi-3-circle-1::before { content: "\f7a0"; }
+.bi-3-circle-fill-1::before { content: "\f7a1"; }
+.bi-3-circle-fill::before { content: "\f7a2"; }
+.bi-3-circle::before { content: "\f7a3"; }
+.bi-3-square-fill::before { content: "\f7a4"; }
+.bi-3-square::before { content: "\f7a5"; }
+.bi-4-circle-1::before { content: "\f7a6"; }
+.bi-4-circle-fill-1::before { content: "\f7a7"; }
+.bi-4-circle-fill::before { content: "\f7a8"; }
+.bi-4-circle::before { content: "\f7a9"; }
+.bi-4-square-fill::before { content: "\f7aa"; }
+.bi-4-square::before { content: "\f7ab"; }
+.bi-5-circle-1::before { content: "\f7ac"; }
+.bi-5-circle-fill-1::before { content: "\f7ad"; }
+.bi-5-circle-fill::before { content: "\f7ae"; }
+.bi-5-circle::before { content: "\f7af"; }
+.bi-5-square-fill::before { content: "\f7b0"; }
+.bi-5-square::before { content: "\f7b1"; }
+.bi-6-circle-1::before { content: "\f7b2"; }
+.bi-6-circle-fill-1::before { content: "\f7b3"; }
+.bi-6-circle-fill::before { content: "\f7b4"; }
+.bi-6-circle::before { content: "\f7b5"; }
+.bi-6-square-fill::before { content: "\f7b6"; }
+.bi-6-square::before { content: "\f7b7"; }
+.bi-7-circle-1::before { content: "\f7b8"; }
+.bi-7-circle-fill-1::before { content: "\f7b9"; }
+.bi-7-circle-fill::before { content: "\f7ba"; }
+.bi-7-circle::before { content: "\f7bb"; }
+.bi-7-square-fill::before { content: "\f7bc"; }
+.bi-7-square::before { content: "\f7bd"; }
+.bi-8-circle-1::before { content: "\f7be"; }
+.bi-8-circle-fill-1::before { content: "\f7bf"; }
+.bi-8-circle-fill::before { content: "\f7c0"; }
+.bi-8-circle::before { content: "\f7c1"; }
+.bi-8-square-fill::before { content: "\f7c2"; }
+.bi-8-square::before { content: "\f7c3"; }
+.bi-9-circle-1::before { content: "\f7c4"; }
+.bi-9-circle-fill-1::before { content: "\f7c5"; }
+.bi-9-circle-fill::before { content: "\f7c6"; }
+.bi-9-circle::before { content: "\f7c7"; }
+.bi-9-square-fill::before { content: "\f7c8"; }
+.bi-9-square::before { content: "\f7c9"; }
+.bi-airplane-engines-fill::before { content: "\f7ca"; }
+.bi-airplane-engines::before { content: "\f7cb"; }
+.bi-airplane-fill::before { content: "\f7cc"; }
+.bi-airplane::before { content: "\f7cd"; }
+.bi-alexa::before { content: "\f7ce"; }
+.bi-alipay::before { content: "\f7cf"; }
+.bi-android::before { content: "\f7d0"; }
+.bi-android2::before { content: "\f7d1"; }
+.bi-box-fill::before { content: "\f7d2"; }
+.bi-box-seam-fill::before { content: "\f7d3"; }
+.bi-browser-chrome::before { content: "\f7d4"; }
+.bi-browser-edge::before { content: "\f7d5"; }
+.bi-browser-firefox::before { content: "\f7d6"; }
+.bi-browser-safari::before { content: "\f7d7"; }
+.bi-c-circle-1::before { content: "\f7d8"; }
+.bi-c-circle-fill-1::before { content: "\f7d9"; }
+.bi-c-circle-fill::before { content: "\f7da"; }
+.bi-c-circle::before { content: "\f7db"; }
+.bi-c-square-fill::before { content: "\f7dc"; }
+.bi-c-square::before { content: "\f7dd"; }
+.bi-capsule-pill::before { content: "\f7de"; }
+.bi-capsule::before { content: "\f7df"; }
+.bi-car-front-fill::before { content: "\f7e0"; }
+.bi-car-front::before { content: "\f7e1"; }
+.bi-cassette-fill::before { content: "\f7e2"; }
+.bi-cassette::before { content: "\f7e3"; }
+.bi-cc-circle-1::before { content: "\f7e4"; }
+.bi-cc-circle-fill-1::before { content: "\f7e5"; }
+.bi-cc-circle-fill::before { content: "\f7e6"; }
+.bi-cc-circle::before { content: "\f7e7"; }
+.bi-cc-square-fill::before { content: "\f7e8"; }
+.bi-cc-square::before { content: "\f7e9"; }
+.bi-cup-hot-fill::before { content: "\f7ea"; }
+.bi-cup-hot::before { content: "\f7eb"; }
+.bi-currency-rupee::before { content: "\f7ec"; }
+.bi-dropbox::before { content: "\f7ed"; }
+.bi-escape::before { content: "\f7ee"; }
+.bi-fast-forward-btn-fill::before { content: "\f7ef"; }
+.bi-fast-forward-btn::before { content: "\f7f0"; }
+.bi-fast-forward-circle-fill::before { content: "\f7f1"; }
+.bi-fast-forward-circle::before { content: "\f7f2"; }
+.bi-fast-forward-fill::before { content: "\f7f3"; }
+.bi-fast-forward::before { content: "\f7f4"; }
+.bi-filetype-sql::before { content: "\f7f5"; }
+.bi-fire::before { content: "\f7f6"; }
+.bi-google-play::before { content: "\f7f7"; }
+.bi-h-circle-1::before { content: "\f7f8"; }
+.bi-h-circle-fill-1::before { content: "\f7f9"; }
+.bi-h-circle-fill::before { content: "\f7fa"; }
+.bi-h-circle::before { content: "\f7fb"; }
+.bi-h-square-fill::before { content: "\f7fc"; }
+.bi-h-square::before { content: "\f7fd"; }
+.bi-indent::before { content: "\f7fe"; }
+.bi-lungs-fill::before { content: "\f7ff"; }
+.bi-lungs::before { content: "\f800"; }
+.bi-microsoft-teams::before { content: "\f801"; }
+.bi-p-circle-1::before { content: "\f802"; }
+.bi-p-circle-fill-1::before { content: "\f803"; }
+.bi-p-circle-fill::before { content: "\f804"; }
+.bi-p-circle::before { content: "\f805"; }
+.bi-p-square-fill::before { content: "\f806"; }
+.bi-p-square::before { content: "\f807"; }
+.bi-pass-fill::before { content: "\f808"; }
+.bi-pass::before { content: "\f809"; }
+.bi-prescription::before { content: "\f80a"; }
+.bi-prescription2::before { content: "\f80b"; }
+.bi-r-circle-1::before { content: "\f80c"; }
+.bi-r-circle-fill-1::before { content: "\f80d"; }
+.bi-r-circle-fill::before { content: "\f80e"; }
+.bi-r-circle::before { content: "\f80f"; }
+.bi-r-square-fill::before { content: "\f810"; }
+.bi-r-square::before { content: "\f811"; }
+.bi-repeat-1::before { content: "\f812"; }
+.bi-repeat::before { content: "\f813"; }
+.bi-rewind-btn-fill::before { content: "\f814"; }
+.bi-rewind-btn::before { content: "\f815"; }
+.bi-rewind-circle-fill::before { content: "\f816"; }
+.bi-rewind-circle::before { content: "\f817"; }
+.bi-rewind-fill::before { content: "\f818"; }
+.bi-rewind::before { content: "\f819"; }
+.bi-train-freight-front-fill::before { content: "\f81a"; }
+.bi-train-freight-front::before { content: "\f81b"; }
+.bi-train-front-fill::before { content: "\f81c"; }
+.bi-train-front::before { content: "\f81d"; }
+.bi-train-lightrail-front-fill::before { content: "\f81e"; }
+.bi-train-lightrail-front::before { content: "\f81f"; }
+.bi-truck-front-fill::before { content: "\f820"; }
+.bi-truck-front::before { content: "\f821"; }
+.bi-ubuntu::before { content: "\f822"; }
+.bi-unindent::before { content: "\f823"; }
+.bi-unity::before { content: "\f824"; }
+.bi-universal-access-circle::before { content: "\f825"; }
+.bi-universal-access::before { content: "\f826"; }
+.bi-virus::before { content: "\f827"; }
+.bi-virus2::before { content: "\f828"; }
+.bi-wechat::before { content: "\f829"; }
+.bi-yelp::before { content: "\f82a"; }
+.bi-sign-stop-fill::before { content: "\f82b"; }
+.bi-sign-stop-lights-fill::before { content: "\f82c"; }
+.bi-sign-stop-lights::before { content: "\f82d"; }
+.bi-sign-stop::before { content: "\f82e"; }
+.bi-sign-turn-left-fill::before { content: "\f82f"; }
+.bi-sign-turn-left::before { content: "\f830"; }
+.bi-sign-turn-right-fill::before { content: "\f831"; }
+.bi-sign-turn-right::before { content: "\f832"; }
+.bi-sign-turn-slight-left-fill::before { content: "\f833"; }
+.bi-sign-turn-slight-left::before { content: "\f834"; }
+.bi-sign-turn-slight-right-fill::before { content: "\f835"; }
+.bi-sign-turn-slight-right::before { content: "\f836"; }
+.bi-sign-yield-fill::before { content: "\f837"; }
+.bi-sign-yield::before { content: "\f838"; }
+.bi-ev-station-fill::before { content: "\f839"; }
+.bi-ev-station::before { content: "\f83a"; }
+.bi-fuel-pump-diesel-fill::before { content: "\f83b"; }
+.bi-fuel-pump-diesel::before { content: "\f83c"; }
+.bi-fuel-pump-fill::before { content: "\f83d"; }
+.bi-fuel-pump::before { content: "\f83e"; }

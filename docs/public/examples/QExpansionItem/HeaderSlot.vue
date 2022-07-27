@@ -32,7 +32,7 @@
       <q-separator />
 
       <q-expansion-item>
-        <template v-slot:header>
+        <template v-slot:header="{ expanded }">
           <q-item-section avatar>
             <q-avatar>
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
@@ -40,7 +40,7 @@
           </q-item-section>
 
           <q-item-section>
-            John Doe
+            Item {{ expanded ? 'expanded' : 'collapsed' }}
           </q-item-section>
         </template>
 

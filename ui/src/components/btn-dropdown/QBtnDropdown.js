@@ -181,6 +181,7 @@ export default createComponent({
         outline: props.outline,
         flat: props.flat,
         rounded: props.rounded,
+        square: props.square,
         push: props.push,
         unelevated: props.unelevated,
         glossy: props.glossy,

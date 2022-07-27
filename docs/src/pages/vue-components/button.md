@@ -35,6 +35,10 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Round buttons" file="QBtn/Round" />
 
+### Square
+
+<doc-example title="Square buttons" file="QBtn/Square" />
+
 ### Custom content
 
 <doc-example title="Custom content" file="QBtn/CustomContent" />

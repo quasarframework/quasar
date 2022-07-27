@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.14.2",
+  "version": "1.15.0",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -38,10 +38,10 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "6.1.1",
-    "@mdi/font": "6.7.96",
-    "@mdi/svg": "6.7.96",
+    "@mdi/font": "7.0.96",
+    "@mdi/svg": "7.0.96",
     "animate.css": "4.1.1",
-    "bootstrap-icons": "^1.8.3",
+    "bootstrap-icons": "^1.9.1",
     "cross-fetch": "^3.1.5",
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",

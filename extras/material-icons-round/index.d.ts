@@ -2005,6 +2005,7 @@ export declare const roundVibration: string;
 export declare const roundVideoCall: string;
 export declare const roundVideoCameraBack: string;
 export declare const roundVideoCameraFront: string;
+export declare const roundVideoChat: string;
 export declare const roundVideoFile: string;
 export declare const roundVideoLabel: string;
 export declare const roundVideoLibrary: string;
