@@ -26,8 +26,8 @@ If your app extension does involve UI (i.e. does have components or directives) 
 
 If your objective is to install a 3rd-party library into Vue, then it depends upon the library...
 
-- If you also aim to provide some UI components or such that uses that Vue plugin, you should use the _UI Starter Kit_. This would be a good choice for including something like a Calendar extension.
-- If the only objective is to load it through a simple `app.use(SomeVuePlugin)` in a boot file, and maybe some config updates and such, the _AE Starter Kit_ may be a better choice. This is a good choice for example for something like including Axios.
+- If you also aim to provide some UI components or such that uses that Vue plugin, you should use the _UI Kit_. This would be a good choice for including something like a Calendar extension.
+- If the only objective is to load it through a simple `app.use(SomeVuePlugin)` in a boot file, and maybe some config updates and such, the _AE Kit_ may be a better choice. This is a good choice for example for something like including Axios.
 
 ### Creating the App Extension
 
