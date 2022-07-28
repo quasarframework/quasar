@@ -149,12 +149,9 @@ export default {
 
 More info on defining a Pinia store [here](https://pinia.vuejs.org/core-concepts/).
 
-## Accessing router in Pinia store
-Simply use `this.router` in Pinia stores to get access to the router.
+## Accessing the router in Pinia stores
 
-```js
-this.router.push('...')
-```
+Simply use `this.router` in Pinia stores to get access to the router.
 
 See an example of accessing router in Pinia store action:
 ```js
