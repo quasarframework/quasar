@@ -9,7 +9,7 @@ It is assumed you have already installed one of the official App Extensions. Hav
 
 ## Getting started
 
-An App Extension is an npm package. There are two official kits for creating App Extensions. 
+An App Extension is an npm package. There are two official kits for creating App Extensions:
 
 1. The official `App Extension` starter kit (_AE Starter Kit_)
 2. The second official kit is the `UI` kit (_UI Starter Kit_)
