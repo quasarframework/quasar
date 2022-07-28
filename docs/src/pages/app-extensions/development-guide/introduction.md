@@ -11,16 +11,16 @@ It is assumed you have already installed one of the official App Extensions. Hav
 
 An App Extension is an npm package. There are two official kits for creating App Extensions:
 
-1. The official `App Extension` starter kit (_AE Starter Kit_)
-2. The second official kit is the `UI` kit (_UI Starter Kit_)
+1. App Extension (AE) kit
+2. UI kit
 
-### AE Starter Kit
+### App Extension (AE) kit
 
-If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE Starter Kit. An example of this would be an extension that creates a boot file only. 
+If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE kit. An example of this would be an extension that creates a boot file only. 
 
-### UI Starter Kit
+### UI kit
 
-If your app extension does involve UI (i.e. does have components or directives) then use the UI Starter Kit. An example of this would be an extension that provides a UI element for use in your app. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
+If your app extension does involve UI (i.e. does have components or directives) then use the UI kit. An example of this would be an extension that provides a UI element for use in your app. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
 
 ### 3rd party integration
 
