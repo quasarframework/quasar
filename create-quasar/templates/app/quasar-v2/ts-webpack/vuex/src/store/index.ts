@@ -1,6 +1,6 @@
 import { store } from 'quasar/wrappers'
 import { InjectionKey } from 'vue'
-import { Router } from "vue-router"
+import { Router } from 'vue-router'
 import {
   createStore,
   Store as VuexStore,
