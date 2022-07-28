@@ -455,3 +455,17 @@ export default defineComponent({
 });
 </script>
 ```
+
+## Accessing router in Vuex store
+Simply use `this.$router` in Vuex stores to get access to the router.
+
+```js
+this.$router.push('...')
+```
+
+See an example of accessing router in Vuex store:
+```js
+export function whateverAction (state) {
+  this.$router.push('...')
+}
+```
