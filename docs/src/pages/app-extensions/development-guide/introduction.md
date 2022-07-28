@@ -9,7 +9,24 @@ It is assumed you have already installed one of the official App Extensions. Hav
 
 ## Getting started
 
-An App Extension is an npm package. There are two official kits for creating App Extensions. The official `App Extension` starter kit should be used to create App Extensions that do not provide a UI, like a component or directive, unless the objective is to install a 3rd-party library into Vue. The second official kit is the `UI` kit. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
+An App Extension is an npm package. There are two official kits for creating App Extensions. 
+
+1. The official `App Extension` starter kit (_AE Starter Kit_)
+2. The second official kit is the `UI` kit (_UI Starter Kit_)
+
+### AE Starter Kit
+If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE Starter Kit. An example of this would be an extension that creates a boot file only. 
+
+### UI Starter Kit
+If your app extension does involve UI (i.e. does have components or directives) then use the UI Starter Kit. An example of this would be an extension that provides a UI element for use in your app. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
+
+### 3rd party integration
+If your objective is to install a 3rd-party library into Vue, then it depends upon the library...
+
+- If you also aim to provide some UI components or such that uses that Vue plugin, you should use the _UI Starter Kit_. This would be a good choice for including something like a Calendar extension.
+- If the only objective is to load it through a simple `app.use(SomeVuePlugin)` in a boot file, and maybe some config updates and such, the _AE Starter Kit_ may be a better choice. This is a good choice for example for something like including Axios.
+
+### Creating the App Extension
 
 ```bash
 $ yarn create quasar
