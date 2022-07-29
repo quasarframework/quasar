@@ -283,7 +283,8 @@ export default function (props, emit, emitValue, inputRef) {
       }
       else {
         if (changed === true) {
-          const cursor = Math.max(0, maskMarked.indexOf(MARKER), Math.min(preMasked.length, end) - 1)
+          const cursor = Math.max(0, maskMarked.indexOf(MARKER), Math.min(preMasked ? preMasked.length : 0, end) - 1)
+          console.log(cursor)
           moveCursor.right(inp, cursor, cursor)
         }
         else {
@@ -452,7 +453,8 @@ export default function (props, emit, emitValue, inputRef) {
   }
 
   function maskValue (val) {
-    if (val === void 0 || val === null || val === '') { return '' }
+    if (val === void 0 || val === null) { return null }
+    if (val === '') { return "" }
 
     if (props.reverseFillMask === true) {
       return maskValueReverse(val)
@@ -524,7 +526,7 @@ export default function (props, emit, emitValue, inputRef) {
   }
 
   function fillWithMask (val) {
-    if (maskReplaced.length - val.length <= 0) {
+    if (!val || maskReplaced.length - val.length <= 0) {
       return val
     }
 
