@@ -464,7 +464,7 @@ Simply use `this.$router` in Vuex stores to get access to the router.
 this.$router.push('...')
 ```
 
-See an example of accessing router in Vuex store:
+Here is an example:
 ```js
 export function whateverAction (state) {
   this.$router.push('...')

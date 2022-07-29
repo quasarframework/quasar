@@ -153,7 +153,7 @@ export default {
 
 Simply use `this.router` in Pinia stores to get access to the router.
 
-See an example of accessing router in Pinia store action:
+Here is an example:
 ```js
 import { defineStore } from 'pinia'
 
