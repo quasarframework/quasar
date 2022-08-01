@@ -61,7 +61,7 @@
     "cross-spawn": "^7.0.3",
     "dot-prop": "6.0.1",
     "elementtree": "0.1.7",
-    "esbuild": "0.14.47",
+    "esbuild": "0.14.51",
     "express": "^4.17.3",
     "fast-glob": "3.2.11",
     "fs-extra": "^10.0.1",
