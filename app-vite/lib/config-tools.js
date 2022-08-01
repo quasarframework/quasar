@@ -116,9 +116,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
       polyfillModulePreload: build.polyfillModulePreload,
       emptyOutDir: false,
       minify: build.minify,
-      sourcemap: build.sourcemap === true
-        ? 'inline'
-        : build.sourcemap || false
+      sourcemap: build.sourcemap || false
     },
 
     optimizeDeps: {
