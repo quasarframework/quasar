@@ -170,7 +170,7 @@ Below are mask tokens:
 | `X` | Alphanumeric, transformed to uppercase for letters |
 | `x` | Alphanumeric, transformed to lowercase for letters |
 
-There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/input/use-mask.js#L6). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
+There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/v1/ui/src/mixins/mask.js). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
 
 <doc-example title="Basic" file="QInput/MaskBasic" />
 
