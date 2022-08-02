@@ -41,7 +41,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         ? parentApp.component(component)
         : component
 
-      props = componentProps
+      props = componentProps === Object(componentProps) ? componentProps : {}
     }
     else {
       const { class: klass, style, ...otherProps } = pluginProps
