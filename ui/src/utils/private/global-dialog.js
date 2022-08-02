@@ -151,6 +151,8 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         onOk,
         onHide,
         onVnodeMounted (...args) {
+          vm = args[ 0 ].component.root.proxy
+
           if (typeof props.onVnodeMounted === 'function') {
             props.onVnodeMounted(...args)
           }
