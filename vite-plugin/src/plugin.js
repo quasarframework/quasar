@@ -58,19 +58,26 @@ function getScssTransformsPlugin (opts) {
 }
 
 function getScriptTransformsPlugin (opts) {
+  let config
+
   return {
     name: 'vite:quasar:script',
+    configResolved(resolvedConfig) {
+      config = resolvedConfig
+    },
     transform (src, id) {
-      if (vueTransformRegex.test(id) === true) {
-        return {
-          code: vueTransform(src, opts.autoImportComponentCase),
-          map: null // provide source map if available
+      if (config.mode !== 'development') {
+        if (vueTransformRegex.test(id) === true) {
+          return {
+            code: vueTransform(src, opts.autoImportComponentCase),
+            map: null // provide source map if available
+          }
         }
-      }
-      else if (jsTransformRegex.test(id) === true) {
-        return {
-          code: jsTransform(src),
-          map: null // provide source map if available
+        else if (jsTransformRegex.test(id) === true) {
+          return {
+            code: jsTransform(src),
+            map: null // provide source map if available
+          }
         }
       }
 

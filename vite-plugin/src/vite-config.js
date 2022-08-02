@@ -23,8 +23,10 @@ export function getViteConfig (runMode, externalViteCfg) {
     })
   }
   else {
-    viteCfg.optimizeDeps = {
-      exclude: [ 'quasar' ]
+    if (externalViteCfg.mode !== 'development') {
+      viteCfg.optimizeDeps = {
+        exclude: [ 'quasar' ]
+      }
     }
 
     if (runMode === 'ssr-client') {
