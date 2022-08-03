@@ -1,4 +1,4 @@
-import { h, ref } from 'vue'
+import { h, ref, nextTick } from 'vue'
 
 import { createChildApp } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
@@ -151,11 +151,11 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         onOk,
         onHide,
         onVnodeMounted (...args) {
-          if (typeof props.onVnodeMounted === 'function') {
+          if (props && typeof props.onVnodeMounted === 'function') {
             props.onVnodeMounted(...args)
           }
 
-          applyState('show')
+          nextTick(() => applyState('show'))
         }
       })
     }, parentApp)
