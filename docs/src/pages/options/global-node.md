@@ -9,10 +9,10 @@ You don't need to do anything.
 
 ## Configuration
 
-In order to define custom class for global nodes, edit your /quasar.conf.js file like below.
+In order to define custom class for global nodes, edit your /quasar.config.js file like below.
 
 ```js
-// file: /quasar.conf.js
+// file: /quasar.config.js
 
 framework: {
   config: {

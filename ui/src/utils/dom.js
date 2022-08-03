@@ -27,9 +27,9 @@ export function width (el) {
 export function css (element, css) {
   const style = element.style
 
-  Object.keys(css).forEach(prop => {
+  for (const prop in css) {
     style[ prop ] = css[ prop ]
-  })
+  }
 }
 
 export function cssBatch (elements, style) {
@@ -74,7 +74,7 @@ export function getElement (el) {
 
 // internal
 export function childHasFocus (el, focusedEl) {
-  if (el === void 0 || el.contains(focusedEl) === true) {
+  if (el === void 0 || el === null || el.contains(focusedEl) === true) {
     return true
   }
 

@@ -2,27 +2,30 @@ import { ref, onBeforeUpdate } from 'vue'
 
 const listenerRE = /^on[A-Z]/
 
-export default function (attrs) {
+export default function (attrs, vnode) {
   const acc = {
     listeners: ref({}),
     attributes: ref({})
   }
 
   function update () {
-    const listeners = {}
     const attributes = {}
+    const listeners = {}
 
-    Object.keys(attrs).forEach(key => {
-      if (listenerRE.test(key) === true) {
-        listeners[ key ] = attrs[ key ]
-      }
-      else if (key !== 'class' && key !== 'style') {
+    for (const key in attrs) {
+      if (key !== 'class' && key !== 'style' && listenerRE.test(key) === false) {
         attributes[ key ] = attrs[ key ]
       }
-    })
+    }
 
-    acc.listeners.value = listeners
+    for (const key in vnode.props) {
+      if (listenerRE.test(key) === true) {
+        listeners[ key ] = vnode.props[ key ]
+      }
+    }
+
     acc.attributes.value = attributes
+    acc.listeners.value = listeners
   }
 
   onBeforeUpdate(update)

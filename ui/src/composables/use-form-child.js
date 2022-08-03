@@ -29,7 +29,7 @@ export default function ({ validate, resetValidation, requiresQForm }) {
       props.disable !== true && $form.unbindComponent(proxy)
     })
   }
-  else if (requiresQForm !== true) {
+  else if (requiresQForm === true) {
     console.error('Parent QForm not found on useFormChild()!')
   }
 }

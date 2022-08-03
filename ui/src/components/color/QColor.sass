@@ -16,7 +16,11 @@
     border: 1px solid $separator-color
 
   &__header
-    height: 68px
+
+    &-tabs
+      height: 32px
+    &-banner
+      height: 36px
 
     input
       line-height: 24px
@@ -93,46 +97,33 @@
     border-radius: 50%
     transform: translate(-5px, -5px)
 
-  &__hue .q-slider__track-container
+  &__hue .q-slider__track
     background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%) !important // @stylint ignore
     opacity: 1
 
-  &__alpha .q-slider__track-container
-    color: #fff
-    opacity: 1
-    height: 8px
-    background-color: #fff !important
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
-    &:after
+  &__alpha
+    .q-slider__track-container
+      padding-top: 0
+    .q-slider__track:before
       content: ''
       position: absolute
       top: 0
       right: 0
       bottom: 0
       left: 0
+      border-radius: inherit
       background: linear-gradient(90deg, rgba(255,255,255,0), $grey-7)
 
   &__sliders
-    padding: 4px 16px 16px
-
-    .q-slider__track-container
-      height: 10px
-      margin-top: -5px
-
-    .q-slider__track
-      display: none
+    padding: 0 16px
 
     .q-slider__thumb
+      color: $grey-9
       path
         stroke-width: 2px
         fill: transparent
     .q-slider--active path
       stroke-width: 3px
-
-    .q-slider
-      height: 16px
-      margin-top: 8px
-      color: $grey-9
 
   /* Tune Tab */
 
@@ -184,5 +175,5 @@
     .q-color-picker__tune-tab input
       border: 1px solid rgba(#fff, .3)
 
-    .q-slider
-      color: $grey-5
+    .q-slider__thumb
+      color: $grey-1

@@ -1,10 +1,11 @@
-import { h, defineComponent, ref, computed, withDirectives, onBeforeUnmount, onBeforeUpdate, getCurrentInstance } from 'vue'
+import { h, ref, computed, withDirectives, onBeforeUnmount, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
 const slotsDef = [
@@ -14,7 +15,7 @@ const slotsDef = [
   [ 'bottom', 'end', 'center', 'height' ]
 ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QSlideItem',
 
   props: {

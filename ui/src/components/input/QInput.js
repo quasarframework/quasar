@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, onMounted, nextTick, getCurrentInstance } from 'vue'
 
 import useField, { useFieldState, useFieldProps, useFieldEmits, fieldValueIsFilled } from '../../composables/private/use-field.js'
 import useMask, { useMaskProps } from './use-mask.js'
@@ -6,10 +6,11 @@ import { useFormProps, useFormInputNameAttr } from '../../composables/private/us
 import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 import useKeyComposition from '../../composables/private/use-key-composition.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QInput',
 
   inheritAttrs: false,
@@ -124,11 +125,23 @@ export default defineComponent({
       return attrs
     })
 
+    // some browsers lose the native input value
+    // so we need to reattach it dynamically
+    // (like type="password" <-> type="text"; see #12078)
+    watch(() => props.type, () => {
+      if (inputRef.value) {
+        inputRef.value.value = props.modelValue
+      }
+    })
+
     watch(() => props.modelValue, v => {
       if (hasMask.value === true) {
         if (stopValueWatcher === true) {
           stopValueWatcher = false
-          return
+
+          if (String(v) === emitCachedValue) {
+            return
+          }
         }
 
         updateMaskValue(v)
@@ -176,7 +189,7 @@ export default defineComponent({
           && inputRef.value !== el
           && (el === null || el.id !== state.targetUid.value)
         ) {
-          inputRef.value.focus()
+          inputRef.value.focus({ preventScroll: true })
         }
       })
     }
@@ -195,7 +208,7 @@ export default defineComponent({
     }
 
     function onInput (e) {
-      if (!e || !e.target || e.target.composing === true) {
+      if (!e || !e.target) {
         return
       }
 
@@ -205,6 +218,12 @@ export default defineComponent({
       }
 
       const val = e.target.value
+
+      if (e.target.qComposing === true) {
+        temp.value = val
+
+        return
+      }
 
       if (hasMask.value === true) {
         updateMaskValue(val, false, e.inputType)
@@ -240,6 +259,8 @@ export default defineComponent({
         }
 
         if (props.modelValue !== val && emitCachedValue !== val) {
+          emitCachedValue = val
+
           stopWatcher === true && (stopValueWatcher = true)
           emit('update:modelValue', val)
 
@@ -271,13 +292,16 @@ export default defineComponent({
       const inp = inputRef.value
       if (inp !== null) {
         const parentStyle = inp.parentNode.style
+        const { overflow } = inp.style
 
         // reset height of textarea to a small size to detect the real height
         // but keep the total control size the same
         parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
+        inp.style.overflow = 'hidden'
 
         inp.style.height = inp.scrollHeight + 'px'
+        inp.style.overflow = overflow
         parentStyle.marginBottom = ''
       }
     }

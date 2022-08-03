@@ -3,11 +3,9 @@ import globalDialog from '../utils/private/global-dialog.js'
 
 export default {
   install ({ $q, parentApp }) {
-    if (this.__installed === true) {
-      $q.dialog = globalDialog(DialogPlugin, true, parentApp)
-    }
-    else {
-      this.create = $q.dialog = globalDialog(DialogPlugin, true, parentApp)
+    $q.dialog = globalDialog(DialogPlugin, true, parentApp)
+    if (this.__installed !== true) {
+      this.create = $q.dialog
     }
   }
 }

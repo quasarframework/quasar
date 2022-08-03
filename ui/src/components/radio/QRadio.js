@@ -1,15 +1,19 @@
-import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance, toRaw } from 'vue'
+
+import QIcon from '../icon/QIcon.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRefocusTarget from '../../composables/private/use-refocus-target.js'
 import { useFormProps, useFormInject } from '../../composables/private/use-form.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import optionSizes from '../../utils/private/option-sizes.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 
 const svg = h('svg', {
+  key: 'svg',
   class: 'q-radio__bg absolute non-selectable',
   viewBox: '0 0 24 24',
   'aria-hidden': 'true'
@@ -24,7 +28,7 @@ const svg = h('svg', {
   })
 ])
 
-export default defineComponent({
+export default createComponent({
   name: 'QRadio',
 
   props: {
@@ -32,15 +36,14 @@ export default defineComponent({
     ...useSizeProps,
     ...useFormProps,
 
-    modelValue: {
-      required: true
-    },
-    val: {
-      required: true
-    },
+    modelValue: { required: true },
+    val: { required: true },
 
     label: String,
     leftLabel: Boolean,
+
+    checkedIcon: String,
+    uncheckedIcon: String,
 
     color: String,
     keepColor: Boolean,
@@ -61,7 +64,7 @@ export default defineComponent({
     const rootRef = ref(null)
     const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
-    const isTrue = computed(() => props.modelValue === props.val)
+    const isTrue = computed(() => toRaw(props.modelValue) === toRaw(props.val))
 
     const classes = computed(() =>
       'q-radio cursor-pointer no-outline row inline no-wrap items-center'
@@ -83,6 +86,13 @@ export default defineComponent({
         + `q-radio__inner--${ isTrue.value === true ? 'truthy' : 'falsy' }${ color }`
     })
 
+    const icon = computed(() =>
+      (isTrue.value === true
+        ? props.checkedIcon
+        : props.uncheckedIcon
+      ) || null
+    )
+
     const tabindex = computed(() => (
       props.disable === true ? -1 : props.tabindex || 0
     ))
@@ -91,6 +101,7 @@ export default defineComponent({
       const prop = { type: 'radio' }
 
       props.name !== void 0 && Object.assign(prop, {
+        '^checked': isTrue.value === true ? 'checked' : void 0,
         name: props.name,
         value: props.val
       })
@@ -98,13 +109,7 @@ export default defineComponent({
       return prop
     })
 
-    const formDomProps = computed(() => (
-      props.name !== void 0 && isTrue.value === true
-        ? { checked: true }
-        : {}
-    ))
-
-    const injectFormInput = useFormInject(formAttrs, formDomProps)
+    const injectFormInput = useFormInject(formAttrs)
 
     function onClick (e) {
       if (e !== void 0) {
@@ -133,7 +138,19 @@ export default defineComponent({
     Object.assign(proxy, { set: onClick })
 
     return () => {
-      const content = [ svg ]
+      const content = icon.value !== null
+        ? [
+            h('div', {
+              key: 'icon',
+              class: 'q-radio__icon-container absolute-full flex flex-center no-wrap'
+            }, [
+              h(QIcon, {
+                class: 'q-radio__icon',
+                name: icon.value
+              })
+            ])
+          ]
+        : [ svg ]
 
       props.disable !== true && injectFormInput(
         content,

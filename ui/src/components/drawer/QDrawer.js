@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
+import { h, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, inject, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
@@ -8,13 +8,14 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
 const duration = 150
 
-export default defineComponent({
+export default createComponent({
   name: 'QDrawer',
 
   inheritAttrs: false,
@@ -329,6 +330,13 @@ export default defineComponent({
       ] ]
     })
 
+    function updateBelowBreakpoint () {
+      updateLocal(belowBreakpoint, (
+        props.behavior === 'mobile'
+        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
+      ))
+    }
+
     watch(belowBreakpoint, val => {
       if (val === true) { // from lg to xs
         lastDesktopState = showing.value
@@ -350,13 +358,6 @@ export default defineComponent({
       }
     })
 
-    watch($layout.totalWidth, val => {
-      updateLocal(belowBreakpoint, (
-        props.behavior === 'mobile'
-        || (props.behavior !== 'desktop' && val <= props.breakpoint)
-      ))
-    })
-
     watch(() => props.side, (newSide, oldSide) => {
       if ($layout.instances[ oldSide ] === instance) {
         $layout.instances[ oldSide ] = void 0
@@ -370,10 +371,20 @@ export default defineComponent({
       $layout[ newSide ].offset = offset.value
     })
 
-    watch(() => props.behavior + props.breakpoint, updateBelowBreakpoint)
+    watch($layout.totalWidth, () => {
+      if ($layout.isContainer.value === true || document.qScrollPrevented !== true) {
+        updateBelowBreakpoint()
+      }
+    })
+
+    watch(
+      () => props.behavior + props.breakpoint,
+      updateBelowBreakpoint
+    )
 
     watch($layout.isContainer, val => {
       showing.value === true && preventBodyScroll(val !== true)
+      val === true && updateBelowBreakpoint()
     })
 
     watch($layout.scrollbarWidth, () => {
@@ -429,13 +440,6 @@ export default defineComponent({
       }
     }
 
-    function updateBelowBreakpoint () {
-      updateLocal(belowBreakpoint, (
-        props.behavior === 'mobile'
-        || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
-      ))
-    }
-
     function applyBackdrop (x) {
       flagBackdropBg.value = x
     }
@@ -460,6 +464,9 @@ export default defineComponent({
       flagMiniAnimate.value = true
       timerMini = setTimeout(() => {
         flagMiniAnimate.value = false
+        if (vm && vm.proxy && vm.proxy.$el) {
+          vm.proxy.$el.classList.remove('q-drawer--mini-animate')
+        }
       }, 150)
     }
 

@@ -256,11 +256,11 @@
 
           <q-step name="play" title="Play with Layout" :icon="mdiPlayCircleOutline">
             <div class="column">
-              <q-toggle v-model="play.header" label="Visible Header" />
-              <q-toggle v-model="play.footer" label="Visible Footer" />
-              <q-toggle v-model="play.left" label="Visible left-side Drawer" />
-              <q-toggle v-model="play.right" label="Visible right-side Drawer" />
-              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" />
+              <q-toggle v-model="play.header" label="Visible Header" :disable="pick.header !== true" />
+              <q-toggle v-model="play.footer" label="Visible Footer" :disable="pick.footer !== true" />
+              <q-toggle v-model="play.left" label="Visible left-side Drawer" :disable="pick.left !== true" />
+              <q-toggle v-model="play.right" label="Visible right-side Drawer" :disable="pick.right !== true" />
+              <q-toggle v-model="play.scroll" label="Inject Drawer content for scrolling" :disable="pick.left !== true && pick.right !== true" />
             </div>
           </q-step>
 
@@ -280,7 +280,7 @@
         </q-stepper>
 
         <q-dialog v-model="exportDialog">
-          <q-card>
+          <q-card class="layout-builder__export-card">
             <div class="export-code">
               <doc-code lang="html" :code="layoutExport" />
             </div>
@@ -371,7 +371,7 @@ import { ref, reactive, computed } from 'vue'
 
 import {
   mdiMenu, mdiViewDashboard, mdiCog, mdiPlayCircleOutline
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import getMeta from 'assets/get-meta.js'
 
@@ -592,6 +592,11 @@ export default {
 <style lang="sass">
 body
   background: $grey-1
+
+.layout-builder
+  &__export-card
+    width: 700px
+    max-width: 95vw !important
 
 .export-code
   .doc-code__inner

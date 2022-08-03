@@ -1,8 +1,12 @@
-import { h, defineComponent } from 'vue'
+import { h, computed } from 'vue'
 
+import QIcon from '../icon/QIcon.js'
+
+import { createComponent } from '../../utils/private/create.js'
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
 
 const bgNode = h('div', {
+  key: 'svg',
   class: 'q-checkbox__bg absolute'
 }, [
   h('svg', {
@@ -23,13 +27,41 @@ const bgNode = h('div', {
   ])
 ])
 
-export default defineComponent({
+export default createComponent({
   name: 'QCheckbox',
 
   props: useCheckboxProps,
   emits: useCheckboxEmits,
 
-  setup () {
-    return useCheckbox('checkbox', () => () => [ bgNode ])
+  setup (props) {
+    function getInner (isTrue, isIndeterminate) {
+      const icon = computed(() =>
+        (isTrue.value === true
+          ? props.checkedIcon
+          : (isIndeterminate.value === true
+              ? props.indeterminateIcon
+              : props.uncheckedIcon
+            )
+        ) || null
+      )
+
+      return () => (
+        icon.value !== null
+          ? [
+              h('div', {
+                key: 'icon',
+                class: 'q-checkbox__icon-container absolute-full flex flex-center no-wrap'
+              }, [
+                h(QIcon, {
+                  class: 'q-checkbox__icon',
+                  name: icon.value
+                })
+              ])
+            ]
+          : [ bgNode ]
+      )
+    }
+
+    return useCheckbox('checkbox', getInner)
   }
 })

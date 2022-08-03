@@ -9,12 +9,34 @@ It is assumed you have already installed one of the official App Extensions. Hav
 
 ## Getting started
 
-An App Extension is an npm package. There are two official kits for creating App Extensions. The official `App Extension` starter kit should be used to create App Extensions that do not provide a UI, like a component or directive, unless the objective is to install a 3rd-party library into Vue. The second official kit is the `UI` kit. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with Vue CLI or UMD.
+An App Extension is an npm package. There are two official kits for creating App Extensions:
+
+1. App Extension (AE) kit
+2. UI kit
+
+### App Extension (AE) kit
+
+If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE kit. An example of this would be an extension that creates a boot file only. 
+
+### UI kit
+
+If your app extension does involve UI (i.e. does have components or directives) then use the UI kit. An example of this would be an extension that provides a UI element for use in your app. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
+
+### 3rd party integration
+
+If your objective is to install a 3rd-party library into Vue, then it depends upon the library...
+
+- If you also aim to provide some UI components or such that uses that Vue plugin, you should use the _UI Kit_. This would be a good choice for including something like a Calendar extension.
+- If the only objective is to load it through a simple `app.use(SomeVuePlugin)` in a boot file, and maybe some config updates and such, the _AE Kit_ may be a better choice. This is a good choice for example for something like including Axios.
+
+### Creating the App Extension
 
 ```bash
-$ quasar create my-ext --kit app-extension
+$ yarn create quasar
 # or
-$ quasar create my-ui --kit ui
+$ npm init quasar
+
+# pick the AppExtension option
 ```
 
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.
@@ -86,7 +108,11 @@ Never yarn/npm install packages that are supplied by the Quasar CLI, because App
 We need to create a Quasar project folder to be able to test it while we develop the extension:
 
 ```bash
-$ quasar create test-app
+$ yarn create quasar
+# or
+$ npm init quasar
+
+# pick "App with Quasar CLI"
 ```
 
 ### Install and prompts scripts
@@ -98,9 +124,9 @@ Learn more about what you can do with the [Prompts API](/app-extensions/developm
 Inside the testing Quasar project folder, we manually add our App Extension. Notice that we are not specifying the npm package name (it's not published yet!) but a path to our App Extension folder where we develop it, since we want to test unpublished work:
 
 ```bash
-$ yarn add --dev file://path/to/our/app/ext/root
+$ yarn add --dev file://path/to/our/app/ext/app-extension
 # or
-$ yarn add --dev link://path/to/our/app/ext/root
+$ yarn add --dev link://path/to/our/app/ext/app-extension
 ```
 
 You will need to figure out which command works best for your environment.
@@ -118,10 +144,12 @@ $ quasar ext invoke my-ext
 
 This will trigger the installation of our new App Extension. You need to redo these two steps each time you make changes and you want to test them.
 
-Additionally, if you would like to have HMR (hot module reload) capabilities in your test app while developing your App Extension, then your `quasar.conf.js > devServer > watchFiles` would look like this:
+Additionally, if you would like to have HMR (hot module reload) capabilities in your test app while developing your App Extension, then your `quasar.config.js > devServer > watchFiles` would look like this:
 
 ```js
-// quasar.conf.js
+// quasar.config.js for
+// Quasar CLI with Webpack (@quasar/app-webpack)
+
 devServer: {
   // be sure to change <myextid> below to
   // your App Extension name:
@@ -131,7 +159,9 @@ devServer: {
 }
 ```
 
-And you might want to to extend the Webpack config. Assuming you are using the [`chainWebpack`](/quasar-cli/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.conf.js > build > chainWebpack` should look like this:
+#### @quasar/app-webpack
+
+You might want to extend the Webpack config. Assuming you are using the [`chainWebpack`](/quasar-cli-webpack/handling-webpack#usage-with-quasar-conf-js) method, your `quasar.config.js > build > chainWebpack` should look like this:
 
 ```js
 chainWebpack (chain) {
@@ -140,6 +170,16 @@ chainWebpack (chain) {
       managedPaths: []
     }
   })
+},
+```
+
+#### @quasar/app-vite
+
+You might want to extend the Vite config. Assuming you are using the [`extendViteConf`](/quasar-cli-vite/handling-vite#usage-with-quasar-conf-js) method, your `quasar.config.js > build > extendViteConf` should look like this:
+
+```js
+extendViteConf (viteConf, { isClient, isServer }) {
+  // do stuff in-place with viteConf
 },
 ```
 

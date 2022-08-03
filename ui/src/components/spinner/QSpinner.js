@@ -1,8 +1,10 @@
-import { h, defineComponent } from 'vue'
+import { h } from 'vue'
 
 import useSpinner, { useSpinnerProps } from './use-spinner.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QSpinner',
 
   props: {

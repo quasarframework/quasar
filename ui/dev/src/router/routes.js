@@ -1,13 +1,13 @@
-import pages from './pages-list'
+import { pagesList } from './pages'
 
 function load (component) {
-  return () => import('pages/' + component + '.vue')
+  return pagesList[ `../pages/${ component }.vue` ]
 }
 
 function component (path) {
   return {
-    path: '/' + path.slice(0, path.length - 4),
-    component: () => import('pages/' + path)
+    path: '/' + path.slice(9, path.length - 4),
+    component: pagesList[ path ]
   }
 }
 
@@ -20,7 +20,16 @@ const metaChildren = [
 ]
 
 const routes = [
-  { path: '/', component: load('Index') },
+  { path: '/', component: load('IndexPage') },
+  {
+    path: '/tabs-router',
+    redirect: { name: 'one' },
+    component: () => import('pages/web-tests/tabs-router/TabsLayout.vue'),
+    children: [
+      { path: 'one', name: 'one', component: () => import('pages/web-tests/tabs-router/One.vue') },
+      { path: 'two', name: 'two', component: () => import('pages/web-tests/tabs-router/Two.vue') }
+    ]
+  },
   {
     path: '/meta/layout_1',
     component: load('meta/layouts/layout_1'),
@@ -39,11 +48,23 @@ const routes = [
     path: '/components/tabs',
     component: load('components/tabs'),
     children: [
-      { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'a/a', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'a/b', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'b', component: placeholderComponent, meta: { skipScroll: true } },
-      { path: 'b/a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a/a', component: placeholderComponent, meta: { skipScroll: true } },
+      // { path: 'a/b', component: placeholderComponent, meta: { skipScroll: true } },
+      {
+        path: 'a', component: placeholderComponent, meta: { skipScroll: true },
+        children: [
+          { path: 'a', component: placeholderComponent, meta: { skipScroll: true } },
+          { path: 'b', component: placeholderComponent, meta: { skipScroll: true } }
+        ]
+      },
+
+      {
+        path: 'b', component: placeholderComponent, meta: { skipScroll: true },
+        children: [
+          { path: 'a', component: placeholderComponent, meta: { skipScroll: true } }
+        ]
+      },
       { path: 'c', component: placeholderComponent, meta: { skipScroll: true } },
       {
         path: 't',
@@ -100,11 +121,11 @@ const routes = [
   }
 ]
 
-pages.forEach(page => {
-  if (!page.startsWith('meta') && page !== 'components/tabs.vue') {
-    routes.push(component(page))
+for (const key in pagesList) {
+  if (!key.startsWith('../pages/meta') && key !== '../pages/components/tabs.vue') {
+    routes.push(component(key))
   }
-})
+}
 
 // Always leave this as last one
 routes.push({
@@ -113,10 +134,3 @@ routes.push({
 })
 
 export default routes
-
-// function load (component) {
-//   return () => import('pages/' + component + '.vue')
-// }
-// export default [
-//   { path: '/', component: load('Index') }
-// ]

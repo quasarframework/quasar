@@ -7,7 +7,7 @@ q-card(flat bordered)
     q-spinner.q-mr-sm(size="24px" color="brand-primary")
     div Loading release notes from GitHub...
   template(v-else)
-    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
+    q-tabs.text-grey-7(v-model="currentPackage" no-caps align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
     q-separator
     q-tab-panels.packages-container(v-model="currentPackage" animated)
@@ -19,9 +19,17 @@ q-card(flat bordered)
 import { ref, onMounted } from 'vue'
 import { date } from 'quasar'
 
-import PackageReleases from './PackageReleases'
+import PackageReleases from './PackageReleases.vue'
 
 const { extractDate } = date
+
+const versionRE = {
+  quasar: /^2./,
+  '@quasar/app-webpack': /^3./,
+  '@quasar/app-vite': /^1./
+}
+
+const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
 
 export default {
   name: 'QuasarReleases',
@@ -33,11 +41,14 @@ export default {
   setup () {
     const packagesDefinitions = {
       quasar: [],
-      '@quasar/app': [],
+      '@quasar/app-vite': [],
+      '@quasar/app-webpack': [],
       '@quasar/cli': [],
       '@quasar/extras': [],
-      '@quasar/icongenie': []
+      '@quasar/icongenie': [],
+      '@quasar/vite-plugin': []
     }
+    const packageNameList = Object.keys(packagesDefinitions)
     const loading = ref(false)
     const error = ref(false)
     const packages = ref(packagesDefinitions)
@@ -62,14 +73,27 @@ export default {
         let stopQuery = false
 
         for (const release of releases) {
-          if (release.name.indexOf('babel-preset-app') > -1) {
+          const matchesList = release.name.split(' ')[ 0 ].match(versionMatchRE)
+
+          if (!matchesList || matchesList.length < 2) {
             continue
           }
 
-          const [ packageName, version ] = release.name.split('-v')
+          let [ , packageName, version ] = matchesList
+
+          if (packageName === '@quasar/app') {
+            packageName = '@quasar/app-webpack'
+          }
+          else if (packageNameList.includes(packageName) === false) {
+            continue
+          }
 
           if (!version) {
             stopQuery = true
+            continue
+          }
+
+          if (versionRE[ packageName ] !== void 0 && versionRE[ packageName ].test(version) === false) {
             continue
           }
 

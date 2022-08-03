@@ -104,7 +104,7 @@
         <q-tab icon="location_on" />
       </q-tabs>
 
-      <q-tabs :dense="dense" inline-label>
+      <q-tabs :dense="dense" inline-label active-class="dev-tabs-active-class">
         <q-tab icon="map">
           <q-badge color="red" floating>
             2
@@ -217,58 +217,67 @@
 
       <div class="row q-col-gutter-xs justify-stretch">
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/a#123">
+          <router-link class="r-link" replace to="/components/tabs/a#123" active-class="r-link--active" exact-active-class="r-link--exact-active">
             /tabs/a#123 - select most specific tab
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/a/a#123">
+          <router-link class="r-link" replace to="/components/tabs/a/a#1" active-class="r-link--active" exact-active-class="r-link--exact-active">
+            /tabs/a/a#1 - select exact tab
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="r-link" replace to="/components/tabs/a/a#123" active-class="r-link--active" exact-active-class="r-link--exact-active">
             /tabs/a/a#123 - select most specific tab
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/a/a">
+          <router-link class="r-link" replace to="/components/tabs/a/a" active-class="r-link--active" exact-active-class="r-link--exact-active">
             /tabs/a/a - select exact tab
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/b#123">
-            /tabs/b#123 - select no tab
+          <router-link class="r-link" replace to="/components/tabs/b#123" active-class="r-link--active" exact-active-class="r-link--exact-active">
+            /tabs/b#123 - select most specific tab
+          </router-link>
+        </div>
+        <div class="col-12 col-sm-4 col-md">
+          <router-link class="r-link" replace to="/components/tabs/c" active-class="r-link--active" exact-active-class="r-link--exact-active">
+            /tabs/c - select nothing
           </router-link>
         </div>
       </div>
       <q-tabs :dense="dense" class="test q-mt-sm">
-        <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
-        <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
-        <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
-        <q-route-tab active-class="gigi" name="tabs/a#1" to="/components/tabs/a#1" exact label="/tabs/a#1" />
-        <q-route-tab name="tabs/a/a" to="/components/tabs/a/a" exact label="/tabs/a/a" />
-        <q-route-tab name="tabs/a/a *" to="/components/tabs/a/a" label="/tabs/a/a *" />
-        <q-route-tab name="tabs/a/a#1" to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" />
-        <q-route-tab name="tabs/a/b" to="/components/tabs/a/b" exact label="/tabs/a/b" />
-        <q-route-tab name="tabs/b" to="/components/tabs/b" exact label="/tabs/b" />
-        <q-route-tab name="tabs/b/a" to="/components/tabs/b/a" exact label="/tabs/b/a" />
-        <q-route-tab name="tabs/c" to="/components/tabs/c" exact label="/tabs/c" />
+        <q-route-tab name="tabs" replace to="/components/tabs" exact label="/tabs" no-caps />
+        <!-- <q-route-tab name="tabs/a" replace to="/components/tabs/a" exact label="/tabs/a" no-caps /> -->
+        <q-route-tab name="tabs/a*" replace to="/components/tabs/a" label="/tabs/a[...]" no-caps />
+        <q-route-tab name="tabs/a#1" replace to="/components/tabs/a#1" exact label="/tabs/a#1" no-caps />
+        <q-route-tab name="tabs/a/a" replace to="/components/tabs/a/a" exact label="/tabs/a/a" no-caps />
+        <q-route-tab name="tabs/a/a*" replace to="/components/tabs/a/a" label="/tabs/a/a[...]" no-caps />
+        <q-route-tab name="tabs/a/a#1" replace to="/components/tabs/a/a#1" exact label="/tabs/a/a#1" no-caps />
+        <q-route-tab name="tabs/a/b" replace to="/components/tabs/a/b" exact label="/tabs/a/b" no-caps />
+        <q-route-tab name="tabs/b" replace to="/components/tabs/b" exact label="/tabs/b" no-caps />
+        <q-route-tab name="tabs/b/a" replace to="/components/tabs/b/a" exact label="/tabs/b/a" no-caps />
       </q-tabs>
 
       <div class="row q-col-gutter-xs justify-stretch">
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'ta', params: { id: 1 }}">
+          <router-link class="r-link" replace :to="{ name: 'ta', params: { id: 1 }}" active-class="r-link--active" exact-active-class="r-link--exact-active">
             t/1/a
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'tb', params: { id: 1 }}">
+          <router-link class="r-link" replace :to="{ name: 'tb', params: { id: 1 }}" active-class="r-link--active" exact-active-class="r-link--exact-active">
             t/1/b
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'ta', params: { id: 2 }}">
+          <router-link class="r-link" replace :to="{ name: 'ta', params: { id: 2 }}" active-class="r-link--active" exact-active-class="r-link--exact-active">
             t/2/a
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'tb', params: { id: 2 }}">
+          <router-link class="r-link" replace :to="{ name: 'tb', params: { id: 2 }}" active-class="r-link--active" exact-active-class="r-link--exact-active">
             t/2/b
           </router-link>
         </div>
@@ -281,52 +290,52 @@
 
       <div class="row q-col-gutter-xs justify-stretch">
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r" replace>
+          <router-link class="r-link" to="/components/tabs/r" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r => r.1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r?q=2" replace>
+          <router-link class="r-link" to="/components/tabs/r?q=2" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r q=2 => r.1 q=2
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/1?a=1" replace>
+          <router-link class="r-link" to="/components/tabs/r/1?a=1" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.1 a=1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/1/1" replace>
+          <router-link class="r-link" to="/components/tabs/r/1/1" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.1.1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/1?q=1" replace>
+          <router-link class="r-link" to="/components/tabs/r/1?q=1" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.1 q=1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/1/1?a=1" replace>
+          <router-link class="r-link" to="/components/tabs/r/1/1?a=1" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.1.1 a=1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/1/2" replace>
+          <router-link class="r-link" to="/components/tabs/r/1/2" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.1.2 => r => r.1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/1/3" replace>
+          <router-link class="r-link" to="/components/tabs/r/1/3" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.1.3 => r.1.1
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/2" replace>
+          <router-link class="r-link" to="/components/tabs/r/2" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.2
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" to="/components/tabs/r/3" replace>
+          <router-link class="r-link" to="/components/tabs/r/3" replace active-class="r-link--active" exact-active-class="r-link--exact-active">
             r.3
           </router-link>
         </div>
@@ -359,6 +368,13 @@
         <q-route-tab key="4" :to="{ name: 'r.2' }" label="r.2 - delay 2sec" @click="routeNavDelay" />
         <q-route-tab key="5" :to="{ name: 'r.2' }" label="r.2 - cancel" @click="routeNavCancel" />
         <q-route-tab key="6" :to="{ name: 'r.3' }" label="r.3 - redirect to r.1.1" @click="routeNavChange" />
+      </q-tabs>
+
+      <h4>Href</h4>
+      <q-tabs :dense="dense" class="test q-mt-sm">
+        <q-route-tab name="tabs" href="/components/tabs" label="/components/tabs" no-caps />
+        <q-route-tab name="blank+/" href="/" target="_blank" label="/ + _blank" no-caps />
+        <q-route-tab name="/+disable" disable href="/" target="_blank" label="/ + _blank" no-caps />
       </q-tabs>
 
       <h4>Tabs model (respect model): {{ tabModel }}</h4>
@@ -624,7 +640,7 @@ export default {
 .tabs-demo .q-toolbar .q-tabs
   margin-bottom: 0
 
-.router-link
+.r-link
   display: block
   text-align: center
   text-decoration: none
@@ -632,9 +648,9 @@ export default {
   padding: 2px
   border: 1px solid black
 
-  &-active
+  &--active
     background-color: #ee9
 
-  &-exact-active
+  &--exact-active
     background-color: #9e9
 </style>

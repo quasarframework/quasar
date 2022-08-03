@@ -1,9 +1,9 @@
 import { ref, watch, onMounted, onBeforeUnmount, markRaw } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { apiTypeToComponentMap } from 'components/AppSearchResults'
-import ResultEmpty from 'components/search-results/ResultEmpty'
-import ResultError from 'components/search-results/ResultError'
+import { apiTypeToComponentMap } from 'components/AppSearchResults.vue'
+import ResultEmpty from 'components/search-results/ResultEmpty.vue'
+import ResultError from 'components/search-results/ResultError.vue'
 
 let requestId = 0
 
@@ -76,8 +76,6 @@ export default function useSearch (scope, $q, $route) {
         },
         onClick () {
           $router.push(hit.url).catch(() => {})
-          searchTerms.value = ''
-          searchInputRef.value.blur()
         }
       }
 
@@ -117,6 +115,10 @@ export default function useSearch (scope, $q, $route) {
 
   function onSearchFocus () {
     searchHasFocus.value = true
+    if (searchTerms.value) {
+      const el = searchInputRef.value.getNativeElement()
+      el.setSelectionRange(0, searchTerms.value.length)
+    }
   }
 
   function onSearchBlur () {
@@ -135,45 +137,43 @@ export default function useSearch (scope, $q, $route) {
     searchInputRef.value.focus()
   }
 
-  const onSearchKeydown = $q.platform.is.desktop === true
-    ? evt => {
-      switch (evt.keyCode) {
-        case 27: // escape
-          evt.preventDefault()
-          resetSearch()
-          break
-        case 38: // up
-        case 40: // down
-          evt.preventDefault()
-          if (searchResults.value !== null) {
-            if (searchActiveId.value === null) {
-              searchActiveId.value = searchResults.value.ids[ 0 ]
-            }
-            else {
-              const ids = searchResults.value.ids
-              const index = ids.indexOf(searchActiveId.value)
-              searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
-            }
+  function onSearchKeydown (evt) {
+    switch (evt.keyCode) {
+      case 27: // escape
+        evt.preventDefault()
+        resetSearch()
+        break
+      case 38: // up
+      case 40: // down
+        evt.preventDefault()
+        if (searchResults.value !== null && searchResults.value.ids !== void 0) {
+          if (searchActiveId.value === null) {
+            searchActiveId.value = searchResults.value.ids[ 0 ]
+          }
+          else {
+            const ids = searchResults.value.ids
+            const index = ids.indexOf(searchActiveId.value)
+            searchActiveId.value = ids[ (ids.length + index + (evt.keyCode === 38 ? -1 : 1)) % ids.length ]
+          }
 
-            const target = document.getElementById(searchActiveId.value)
-            if (target.scrollIntoViewIfNeeded) {
-              target.scrollIntoViewIfNeeded()
-            }
-            else {
-              target.scrollIntoView({ block: 'center' })
-            }
+          const target = document.getElementById(searchActiveId.value)
+          if (target.scrollIntoViewIfNeeded) {
+            target.scrollIntoViewIfNeeded()
           }
-          break
-        case 13: // enter
-          evt.preventDefault()
-          evt.stopPropagation()
-          if (searchResults.value !== null && searchActiveId.value !== null) {
-            document.getElementById(searchActiveId.value).click(evt)
+          else {
+            target.scrollIntoView({ block: 'center' })
           }
-          break
-      }
+        }
+        break
+      case 13: // enter
+        evt.preventDefault()
+        evt.stopPropagation()
+        if (searchResults.value !== null && searchActiveId.value !== null) {
+          document.getElementById(searchActiveId.value).click(evt)
+        }
+        break
     }
-    : () => {}
+  }
 
   function onResultSuccess (response) {
     searchResults.value = parseResults(response.hits)
@@ -201,9 +201,7 @@ export default function useSearch (scope, $q, $route) {
       scope.leftDrawerState.value = true
     }
 
-    if ($q.platform.is.desktop === true) {
-      window.addEventListener('keypress', focusOnSearch)
-    }
+    window.addEventListener('keypress', focusOnSearch)
 
     if (searchQuery) {
       // Here we put search string from query into the input and open the search popup.
@@ -215,7 +213,7 @@ export default function useSearch (scope, $q, $route) {
     }
   })
 
-  $q.platform.is.desktop === true && onBeforeUnmount(() => {
+  onBeforeUnmount(() => {
     window.removeEventListener('keypress', focusOnSearch)
   })
 

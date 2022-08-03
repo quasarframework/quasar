@@ -1,6 +1,13 @@
 <template lang="pug">
 q-page.doc-page
 
+  q-badge.doc-page__overline(
+    v-if="overline"
+    :label="overline"
+    color="grey-3"
+    text-color="grey-10"
+  )
+
   .doc-h1.row.items-start.no-wrap
     .col.doc-heading#introduction(v-if="title" @click="copyIntroductionHeading")
       span {{ title }}
@@ -58,7 +65,7 @@ q-page.doc-page
         q-icon(:name="fabGithub")
 
       a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-        q-icon(:name="mdiBlogger")
+        q-icon(:name="mdiPost")
 
       a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-icon(:name="mdiChat")
@@ -88,14 +95,14 @@ import { useRoute } from 'vue-router'
 
 import {
   fabGithub, fabTwitter, fabFacebook
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
-  mdiBlogger, mdiForum, mdiChat, mdiCharity,
+  mdiPost, mdiForum, mdiChat, mdiCharity,
   mdiPencil, mdiLaunch,
   mdiChevronLeft, mdiChevronRight,
   mdiFlash
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import { copyHeading } from 'assets/page-utils'
 import getMeta from 'assets/get-meta'
@@ -108,6 +115,7 @@ export default {
 
   props: {
     title: String,
+    overline: String,
     related: Array,
     nav: Array,
     noEdit: Boolean,
@@ -144,7 +152,7 @@ export default {
       fabTwitter,
       fabFacebook,
 
-      mdiBlogger,
+      mdiPost,
       mdiForum,
       mdiChat,
       mdiCharity,
@@ -167,6 +175,14 @@ export default {
 
   > div, > pre
     margin-bottom: 22px
+
+  &__overline
+    border: 1px solid rgba(0,0,0,0.1)
+    margin-top: .4rem
+    margin-bottom: 0 !important
+
+    & + .doc-h1
+      padding-top: .4rem !important
 
   &__top-link
     color: inherit

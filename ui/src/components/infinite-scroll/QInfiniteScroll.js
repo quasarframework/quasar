@@ -1,12 +1,15 @@
-import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onActivated, onDeactivated, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getVerticalScrollPosition, setVerticalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+const { passive } = listenOpts
+
+export default createComponent({
   name: 'QInfiniteScroll',
 
   props: {
@@ -33,20 +36,20 @@ export default defineComponent({
   emits: [ 'load' ],
 
   setup (props, { slots, emit }) {
-    const fetching = ref(false)
+    const isFetching = ref(false)
+    const isWorking = ref(true)
     const rootRef = ref(null)
 
     let index = props.initialIndex || 0
-    let isWorking = true
     let localScrollTarget, poll
 
     const classes = computed(() =>
       'q-infinite-scroll__loading'
-      + (fetching.value === true ? '' : ' invisible')
+      + (isFetching.value === true ? '' : ' invisible')
     )
 
     function immediatePoll () {
-      if (props.disable === true || fetching.value === true || isWorking === false) {
+      if (props.disable === true || isFetching.value === true || isWorking.value === false) {
         return
       }
 
@@ -56,30 +59,28 @@ export default defineComponent({
         containerHeight = height(localScrollTarget)
 
       if (props.reverse === false) {
-        if (scrollPosition + containerHeight + props.offset >= scrollHeight) {
+        if (Math.round(scrollPosition + containerHeight + props.offset) >= Math.round(scrollHeight)) {
           trigger()
         }
       }
-      else {
-        if (scrollPosition < props.offset) {
-          trigger()
-        }
+      else if (Math.round(scrollPosition) <= props.offset) {
+        trigger()
       }
     }
 
     function trigger () {
-      if (props.disable === true || fetching.value === true || isWorking === false) {
+      if (props.disable === true || isFetching.value === true || isWorking.value === false) {
         return
       }
 
       index++
-      fetching.value = true
+      isFetching.value = true
 
       const heightBefore = getScrollHeight(localScrollTarget)
 
       emit('load', index, isDone => {
-        if (isWorking === true) {
-          fetching.value = false
+        if (isWorking.value === true) {
+          isFetching.value = false
           nextTick(() => {
             if (props.reverse === true) {
               const
@@ -106,31 +107,44 @@ export default defineComponent({
     }
 
     function resume () {
-      if (isWorking === false) {
-        isWorking = true
-        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
+      if (isWorking.value === false) {
+        isWorking.value = true
+        localScrollTarget.addEventListener('scroll', poll, passive)
       }
 
       immediatePoll()
     }
 
     function stop () {
-      if (isWorking === true) {
-        isWorking = false
-        fetching.value = false
-        localScrollTarget.removeEventListener('scroll', poll, listenOpts.passive)
+      if (isWorking.value === true) {
+        isWorking.value = false
+        isFetching.value = false
+        localScrollTarget.removeEventListener('scroll', poll, passive)
+        if (poll !== void 0 && poll.cancel !== void 0) {
+          poll.cancel()
+        }
       }
     }
 
     function updateScrollTarget () {
-      if (localScrollTarget && isWorking === true) {
-        localScrollTarget.removeEventListener('scroll', poll, listenOpts.passive)
+      if (localScrollTarget && isWorking.value === true) {
+        localScrollTarget.removeEventListener('scroll', poll, passive)
       }
 
       localScrollTarget = getScrollTarget(rootRef.value, props.scrollTarget)
 
-      if (isWorking === true) {
-        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
+      if (isWorking.value === true) {
+        localScrollTarget.addEventListener('scroll', poll, passive)
+
+        if (props.reverse === true) {
+          const
+            scrollHeight = getScrollHeight(localScrollTarget),
+            containerHeight = height(localScrollTarget)
+
+          setVerticalScrollPosition(localScrollTarget, scrollHeight - containerHeight)
+        }
+
+        immediatePoll()
       }
     }
 
@@ -154,30 +168,46 @@ export default defineComponent({
         ? immediatePoll
         : debounce(immediatePoll, isNaN(val) === true ? 100 : val)
 
-      if (localScrollTarget && isWorking === true) {
+      if (localScrollTarget && isWorking.value === true) {
         if (oldPoll !== void 0) {
-          localScrollTarget.removeEventListener('scroll', oldPoll, listenOpts.passive)
+          localScrollTarget.removeEventListener('scroll', oldPoll, passive)
         }
 
-        localScrollTarget.addEventListener('scroll', poll, listenOpts.passive)
+        localScrollTarget.addEventListener('scroll', poll, passive)
       }
     }
 
     watch(() => props.disable, val => {
-      if (val === true) {
-        stop()
-      }
-      else {
-        resume()
+      if (val === true) { stop() }
+      else { resume() }
+    })
+
+    watch(() => props.reverse, val => {
+      if (isFetching.value === false && isWorking.value === true) {
+        immediatePoll()
       }
     })
 
     watch(() => props.scrollTarget, updateScrollTarget)
     watch(() => props.debounce, setDebounce)
 
+    let scrollPos = false
+
+    onActivated(() => {
+      if (scrollPos !== false && localScrollTarget) {
+        setVerticalScrollPosition(localScrollTarget, scrollPos)
+      }
+    })
+
+    onDeactivated(() => {
+      scrollPos = localScrollTarget
+        ? getVerticalScrollPosition(localScrollTarget)
+        : false
+    })
+
     onBeforeUnmount(() => {
-      if (isWorking === true) {
-        localScrollTarget.removeEventListener('scroll', poll, listenOpts.passive)
+      if (isWorking.value === true) {
+        localScrollTarget.removeEventListener('scroll', poll, passive)
       }
     })
 
@@ -185,22 +215,12 @@ export default defineComponent({
       setDebounce(props.debounce)
 
       updateScrollTarget()
-
-      if (props.reverse === true) {
-        const
-          scrollHeight = getScrollHeight(localScrollTarget),
-          containerHeight = height(localScrollTarget)
-
-        setVerticalScrollPosition(localScrollTarget, scrollHeight - containerHeight)
-      }
-
-      immediatePoll()
     })
 
     return () => {
       const child = hUniqueSlot(slots.default, [])
 
-      if (props.disable !== true && isWorking === true) {
+      if (props.disable !== true && isWorking.value === true) {
         child[ props.reverse === false ? 'push' : 'unshift' ](
           h('div', { class: classes.value }, hSlot(slots.loading))
         )

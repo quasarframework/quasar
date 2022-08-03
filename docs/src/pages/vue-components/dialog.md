@@ -84,10 +84,10 @@ You are able to customize the size of the Dialogs. Notice we either tamper with 
 ## Cordova/Capacitor back button
 Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
 
-However, should you wish to disable this behavior, edit your /quasar.conf.js file:
+However, should you wish to disable this behavior, edit your /quasar.config.js file:
 
 ```js
-// quasar.conf.js;
+// quasar.config.js;
 // for Cordova (only!):
 return {
   framework: {
@@ -104,7 +104,7 @@ return {
   }
 }
 
-// quasar.conf.js;
+// quasar.config.js;
 // for Capacitor (only!)
 return {
   framework: {

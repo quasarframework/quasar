@@ -41,7 +41,7 @@
       "desc": "URL to the avatar image of the author",
       "transformAssetUrls": true,
       "examples": [
-        "(statics folder) src=\"statics/boy-avatar.png\"",
+        "(public folder) src=\"boy-avatar.png\"",
         "(assets folder) src=\"~assets/boy-avatar.png\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) src=\"https://placeimg.com/500/300/nature\""

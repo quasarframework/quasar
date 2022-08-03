@@ -25,7 +25,7 @@
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="secondary" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="accent" />
         <q-linear-progress :dark="dark" track-color="orange" class="q-my-sm" :value="progress" color="purple" />
-        <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="negative" />
+        <q-linear-progress animation-speed="5000" :dark="dark" class="q-my-sm" :value="progress" color="negative" />
       </div>
 
       <h5>Determinate State - Reverse</h5>

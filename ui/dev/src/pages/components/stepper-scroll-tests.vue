@@ -54,6 +54,7 @@
                 v-model="inputTextModel"
               />
             </q-step>
+
             <q-step
               :name="4"
               title="Step 4"
@@ -66,13 +67,34 @@
                 v-model="inputTextModel"
               />
             </q-step>
+
+            <q-step
+              :name="5"
+              title="Step 5"
+              caption="Editor"
+              icon="settings"
+            >
+              <q-editor
+                v-model="inputTextModel"
+                :toolbar="[['fullscreen']]"
+              />
+            </q-step>
+
+            <q-step
+              :name="6"
+              title="Step 6"
+              caption="Placeholder"
+              icon="settings"
+            >
+              Placeholder
+            </q-step>
           </q-stepper>
 
           <q-card-actions align="right">
             <q-btn
               color="primary"
-              :label="step1 === 4 ? 'Reset' : 'Next step'"
-              @click="step1 === 4 ? step1 = 0 : step1++"
+              :label="step1 === 6 ? 'Reset' : 'Next step'"
+              @click="step1 === 6 ? step1 = 1 : step1++"
             />
           </q-card-actions>
         </q-card>
@@ -131,6 +153,7 @@
                 v-model="inputEmptyModel"
               />
             </q-step>
+
             <q-step
               :name="4"
               title="Step 4"
@@ -143,13 +166,34 @@
                 v-model="inputEmptyModel"
               />
             </q-step>
+
+            <q-step
+              :name="5"
+              title="Step 5"
+              caption="Editor"
+              icon="settings"
+            >
+              <q-editor
+                v-model="inputTextModel"
+                :toolbar="[['fullscreen']]"
+              />
+            </q-step>
+
+            <q-step
+              :name="6"
+              title="Step 6"
+              caption="Placeholder"
+              icon="settings"
+            >
+              Placeholder
+            </q-step>
           </q-stepper>
 
           <q-card-actions align="right">
             <q-btn
               color="primary"
-              :label="step2 === 4 ? 'Reset' : 'Next step'"
-              @click="step2 === 4 ? step2 = 0 : step2++"
+              :label="step2 === 6 ? 'Reset' : 'Next step'"
+              @click="step2 === 6 ? step2 = 1 : step2++"
             />
           </q-card-actions>
         </q-card>
@@ -210,6 +254,7 @@
                 v-model="inputNumModel"
               />
             </q-step>
+
             <q-step
               :name="4"
               title="Step 4"
@@ -223,13 +268,34 @@
                 v-model="inputNumModel"
               />
             </q-step>
+
+            <q-step
+              :name="5"
+              title="Step 5"
+              caption="Editor"
+              icon="settings"
+            >
+              <q-editor
+                v-model="inputTextModel"
+                :toolbar="[['fullscreen']]"
+              />
+            </q-step>
+
+            <q-step
+              :name="6"
+              title="Step 6"
+              caption="Placeholder"
+              icon="settings"
+            >
+              Placeholder
+            </q-step>
           </q-stepper>
 
           <q-card-actions align="right">
             <q-btn
               color="primary"
-              :label="step3 === 4 ? 'Reset' : 'Next step'"
-              @click="step3 === 4 ? step3 = 0 : step3++"
+              :label="step3 === 6 ? 'Reset' : 'Next step'"
+              @click="step3 === 6 ? step3 = 1 : step3++"
             />
           </q-card-actions>
         </q-card>
@@ -300,6 +366,7 @@
                 </template>
               </q-field>
             </q-step>
+
             <q-step
               :name="4"
               title="Step 4"
@@ -318,13 +385,34 @@
                 </template>
               </q-field>
             </q-step>
+
+            <q-step
+              :name="5"
+              title="Step 5"
+              caption="Editor"
+              icon="settings"
+            >
+              <q-editor
+                v-model="inputTextModel"
+                :toolbar="[['fullscreen']]"
+              />
+            </q-step>
+
+            <q-step
+              :name="6"
+              title="Step 6"
+              caption="Placeholder"
+              icon="settings"
+            >
+              Placeholder
+            </q-step>
           </q-stepper>
 
           <q-card-actions align="right">
             <q-btn
               color="primary"
-              :label="step4 === 4 ? 'Reset' : 'Next step'"
-              @click="step4 === 4 ? step4 = 0 : step4++"
+              :label="step4 === 6 ? 'Reset' : 'Next step'"
+              @click="step4 === 6 ? step4 = 1 : step4++"
             />
           </q-card-actions>
         </q-card>

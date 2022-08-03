@@ -14,13 +14,22 @@ module.exports = function (api) {
 }
 ```
 
-## api.extId
+### api.engine
+Contains the Quasar CLI engine (as String) being used. Examples: `@quasar/app-vite` or `@quasar/app-webpack`.
+
+### api.hasVite
+Boolean - is running on `@quasar/app-vite` or not.
+
+### api.hasWebpack
+Boolean - is running on `@quasar/app-webpack` or not.
+
+### api.extId
 Contains the `ext-id` (String) of this App Extension.
 
-## api.prompts
+### api.prompts
 Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
-## api.resolve
+### api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
 
 ```js
@@ -29,6 +38,10 @@ api.resolve.app('src/my-file.js')
 
 // resolves to root/src of app
 api.resolve.src('my-file.js')
+
+// resolves to root/public of app
+// (@quasar/app-webpack v3.4+ or @quasar/app-vite v1+)
+api.resolve.public('my-image.png')
 
 // resolves to root/src-pwa of app
 api.resolve.pwa('some-file.js')
@@ -43,14 +56,14 @@ api.resolve.cordova('config.xml')
 api.resolve.electron('some-file.js')
 ```
 
-## api.appDir
+### api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
-## api.compatibleWith
+### api.compatibleWith
 
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
-If the semver condition is not met, then @quasar/app errors out and halts execution.
+If the semver condition is not met, then Quasar CLI errors out and halts execution.
 
 Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 
@@ -59,10 +72,20 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
  * @param {string} packageName
  * @param {string} semverCondition
  */
-api.compatibleWith('@quasar/app', '1.x')
+api.compatibleWith(packageName, '1.x')
 ```
 
-## api.hasPackage
+```js
+// a more complex example:
+if (api.hasVite === true) {
+  api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+}
+else {
+  api.compatbileWith('@quasar/app-webpack', '^3.4.0')
+}
+```
+
+### api.hasPackage
 
 Determine if some package is installed in the host app through a semver condition.
 
@@ -77,12 +100,12 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
-if (api.hasPackage('quasar', '^1.0.0')) {
+if (api.hasPackage('quasar', '^2.0.0')) {
   // hey, this app has v1 installed
 }
 ```
 
-## api.hasExtension
+### api.hasExtension
 Check if another app extension is npm installed and Quasar CLI has invoked it.
 
 ```js
@@ -97,7 +120,7 @@ if (api.hasExtension(extId)) {
 }
 ```
 
-## api.getPackageVersion
+### api.getPackageVersion
 
 Get the version of a host app package.
 
@@ -112,7 +135,7 @@ console.log( api.getPackageVersion(packageName) )
 //   undefined (when package not found)
 ```
 
-## api.extendPackageJson
+### api.extendPackageJson
 Helper method to extend package.json with new props. If specifying existing props, **it will override** them.
 
 ```js
@@ -128,7 +151,7 @@ api.extendPackageJson({
 
 The above example adds an npm script to the app's package.json, so you can then execute `yarn electron` (or the equivalent `npm run electron`).
 
-## api.extendJsonFile
+### api.extendJsonFile
 Extend a JSON file with new props (deep merge). If specifying existing props, it will override them.
 
 ```js
@@ -141,7 +164,7 @@ api.extendJsonFile('src/some.json', {
 })
 ```
 
-## api.render
+### api.render
 Renders (copies) a folder from your App Extension templates (any folder you specify) into root of the app. Maintains the same folder structure that the template folder has.
 
 If some of the files already exist in the app then it will ask the user if they should be overwritten or not.
@@ -159,7 +182,7 @@ Needs a relative path to the folder of the file calling render().
 api.render('./path/to/a/template/folder')
 ```
 
-### Filename edge cases
+#### Filename edge cases
 If you want to render a template file that either begins with a dot (i.e. .env) you will have to follow a specific naming convention, since dotfiles are ignored when publishing your plugin to npm:
 
 ```bash
@@ -185,8 +208,8 @@ some-folder/__my.css
 /_my.css
 ```
 
-### Using scope
-You can also inject some decision-making code into the files to be rendered by interpolating with [lodash.template](https://www.npmjs.com/package/lodash.template) syntax.
+#### Using scope
+You can also inject some decision-making code into the files to be rendered by interpolating with [lodash/template](https://lodash.com/docs/4.17.15#template) syntax.
 
 Example:
 
@@ -215,7 +238,7 @@ const message = 'This is content when we don\'t have "Feature X"'
 
 Possibilities are limited only by your imagination.
 
-## api.renderFile
+### api.renderFile
 
 Similar with api.render() with the difference that this method renders a single file.
 
@@ -235,7 +258,7 @@ api.renderFile('./path/to/a/template/filename', 'path/relative/to/app/root/filen
 api.renderFile('./my-file.json', 'src/my-file.json')
 ```
 
-## api.getPersistentConf
+### api.getPersistentConf
 
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
@@ -246,7 +269,7 @@ Get the internal persistent config of this extension. Returns empty object if it
 api.getPersistentConf()
 ```
 
-## api.setPersistentConf
+### api.setPersistentConf
 
 Set the internal persistent config of this extension. If it already exists, it is overwritten.
 
@@ -259,7 +282,7 @@ api.setPersistentConf({
 })
 ```
 
-## api.mergePersistentConf
+### api.mergePersistentConf
 
 Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
 
@@ -272,7 +295,7 @@ api.mergePersistentConf({
 })
 ```
 
-## api.onExitLog
+### api.onExitLog
 Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js

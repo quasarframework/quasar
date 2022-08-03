@@ -9,7 +9,8 @@
     "active": {
       "type": "Boolean",
       "desc": "Put item into 'active' state",
-      "category": "state"
+      "category": "state",
+      "default": null
     },
 
     "dark": {

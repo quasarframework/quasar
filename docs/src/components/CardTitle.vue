@@ -1,5 +1,5 @@
 <template lang="pug">
-section.q-my-xs.q-mr-md.cursor-pointer.text-subtitle1(:id="id", @click="onClick")
+section.q-my-xs.q-mr-sm.cursor-pointer.text-subtitle1(:id="id", @click="onClick")
   div.doc-card-title {{ title }}
 </template>
 

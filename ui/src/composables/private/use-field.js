@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, Transition, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
@@ -75,7 +75,7 @@ export const useFieldProps = {
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
 
 export function useFieldState () {
-  const { props, attrs, proxy } = getCurrentInstance()
+  const { props, attrs, proxy, vnode } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
 
@@ -88,9 +88,9 @@ export function useFieldState () {
 
     innerLoading: ref(false),
     focused: ref(false),
-    hasPopupOpen: ref(false),
+    hasPopupOpen: false,
 
-    splitAttrs: useSplitAttrs(attrs),
+    splitAttrs: useSplitAttrs(attrs, vnode),
     targetUid: ref(getTargetUid(props.for)),
 
     rootRef: ref(null),
@@ -168,7 +168,7 @@ export default function (state) {
     isDirtyModel,
     hasRules,
     hasError,
-    computedErrorMessage,
+    errorMessage,
     resetValidation
   } = useValidate(state.focused, state.innerLoading)
 
@@ -263,26 +263,24 @@ export default function (state) {
     state.targetUid.value = getTargetUid(val)
   })
 
-  let focusFn
+  function focusHandler () {
+    const el = document.activeElement
+    let target = state.targetRef !== void 0 && state.targetRef.value
+
+    if (target && (el === null || el.id !== state.targetUid.value)) {
+      target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
+      if (target && target !== el) {
+        target.focus({ preventScroll: true })
+      }
+    }
+  }
 
   function focus () {
-    focusFn !== void 0 && removeFocusFn(focusFn)
-    focusFn = addFocusFn(() => {
-      focusFn = void 0
-      const el = document.activeElement
-      let target = state.targetRef !== void 0 && state.targetRef.value
-
-      if (target && (el === null || el.id !== state.targetUid.value)) {
-        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
-        if (target && target !== el) {
-          target.focus()
-        }
-      }
-    })
+    addFocusFn(focusHandler)
   }
 
   function blur () {
-    focusFn !== void 0 && removeFocusFn(focusFn)
+    removeFocusFn(focusHandler)
     const el = document.activeElement
     if (el !== null && state.rootRef.value.contains(el)) {
       el.blur()
@@ -290,6 +288,7 @@ export default function (state) {
   }
 
   function onControlFocusin (e) {
+    clearTimeout(focusoutTimer)
     if (state.editable.value === true && state.focused.value === false) {
       state.focused.value = true
       emit('focus', e)
@@ -301,14 +300,10 @@ export default function (state) {
     focusoutTimer = setTimeout(() => {
       if (
         document.hasFocus() === true && (
-          state.hasPopupOpen.value === true
-          || (
-            state.controlRef !== void 0
-            && (
-              state.controlRef.value === null
-              || state.controlRef.value.contains(document.activeElement) !== false
-            )
-          )
+          state.hasPopupOpen === true
+          || state.controlRef === void 0
+          || state.controlRef.value === null
+          || state.controlRef.value.contains(document.activeElement) !== false
         )
       ) {
         return
@@ -348,7 +343,7 @@ export default function (state) {
     nextTick(() => {
       resetValidation()
 
-      if (props.lazyRules !== 'ondemand' && $q.platform.is.mobile !== true) {
+      if ($q.platform.is.mobile !== true) {
         isDirtyModel.value = false
       }
     })
@@ -369,14 +364,6 @@ export default function (state) {
       h('div', {
         class: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
       }, getControlContainer())
-    )
-
-    slots.append !== void 0 && node.push(
-      h('div', {
-        class: 'q-field__append q-field__marginal row no-wrap items-center',
-        key: 'append',
-        onClick: prevent
-      }, slots.append())
     )
 
     hasError.value === true && props.noErrorIcon === false && node.push(
@@ -404,11 +391,21 @@ export default function (state) {
             name: props.clearIcon || $q.iconSet.field.clear,
             tabindex: 0,
             type: 'button',
+            'aria-hidden': null,
+            role: null,
             onClick: clearValue
           })
         ])
       )
     }
+
+    slots.append !== void 0 && node.push(
+      h('div', {
+        class: 'q-field__append q-field__marginal row no-wrap items-center',
+        key: 'append',
+        onClick: prevent
+      }, slots.append())
+    )
 
     state.getInnerAppend !== void 0 && node.push(
       getInnerAppendNode('inner-append', state.getInnerAppend())
@@ -448,6 +445,7 @@ export default function (state) {
         h('div', {
           ref: state.targetRef,
           class: 'q-field__native row',
+          tabindex: -1,
           ...state.splitAttrs.attributes.value,
           'data-autofocus': props.autofocus === true || void 0
         }, slots.control(controlSlotScope.value))
@@ -473,9 +471,9 @@ export default function (state) {
     let msg, key
 
     if (hasError.value === true) {
-      if (computedErrorMessage.value !== null) {
-        msg = [ h('div', { role: 'alert' }, computedErrorMessage.value) ]
-        key = `q--slot-error-${ computedErrorMessage.value }`
+      if (errorMessage.value !== null) {
+        msg = [ h('div', { role: 'alert' }, errorMessage.value) ]
+        key = `q--slot-error-${ errorMessage.value }`
       }
       else {
         msg = hSlot(slots.error)
@@ -514,8 +512,8 @@ export default function (state) {
 
       hasCounter === true
         ? h('div', {
-            class: 'q-field__counter'
-          }, slots.counter !== void 0 ? slots.counter() : state.computedCounter.value)
+          class: 'q-field__counter'
+        }, slots.counter !== void 0 ? slots.counter() : state.computedCounter.value)
         : null
     ])
   }
@@ -532,6 +530,16 @@ export default function (state) {
   // expose public methods
   Object.assign(proxy, { focus, blur })
 
+  let shouldActivate = false
+
+  onDeactivated(() => {
+    shouldActivate = true
+  })
+
+  onActivated(() => {
+    shouldActivate === true && props.autofocus === true && proxy.focus()
+  })
+
   onMounted(() => {
     if (isRuntimeSsrPreHydration.value === true && props.for === void 0) {
       state.targetUid.value = getTargetUid()
@@ -545,22 +553,28 @@ export default function (state) {
   })
 
   return function renderField () {
+    const labelAttrs = state.getControl === void 0 && slots.control === void 0
+      ? {
+          ...state.splitAttrs.attributes.value,
+          'data-autofocus': props.autofocus === true || void 0,
+          ...attributes.value
+        }
+      : attributes.value
+
     return h('label', {
       ref: state.rootRef,
-      class: state.inheritAttrs !== true
-        ? [
-            classes.value,
-            attrs.class
-          ]
-        : classes.value,
+      class: [
+        classes.value,
+        attrs.class
+      ],
       style: attrs.style,
-      ...attributes.value
+      ...labelAttrs
     }, [
       slots.before !== void 0
         ? h('div', {
-            class: 'q-field__before q-field__marginal row no-wrap items-center',
-            onClick: prevent
-          }, slots.before())
+          class: 'q-field__before q-field__marginal row no-wrap items-center',
+          onClick: prevent
+        }, slots.before())
         : null,
 
       h('div', {
@@ -580,9 +594,9 @@ export default function (state) {
 
       slots.after !== void 0
         ? h('div', {
-            class: 'q-field__after q-field__marginal row no-wrap items-center',
-            onClick: prevent
-          }, slots.after())
+          class: 'q-field__after q-field__marginal row no-wrap items-center',
+          onClick: prevent
+        }, slots.after())
         : null
     ])
   }

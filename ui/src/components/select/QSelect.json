@@ -8,7 +8,7 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": [ "Number", "String", "Array" ],
+      "type": "Any",
       "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [ "v-model=\"myModel\"" ]
     },
@@ -47,6 +47,22 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "value",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'BMW'",
+            "'Samsung Phone'",
+            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Value of the current option",
+        "examples": [ "'car'", "34" ]
+      },
       "examples": [
         "option-value=\"modelNumber\"",
         ":option-value=\"(item) => item === null ? null : item.modelNumber\""
@@ -58,6 +74,22 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "label",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'BMW'",
+            "'Samsung Phone'",
+            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "Label of the current option",
+        "examples": [ "'BMW'", "'Samsung Phone'" ]
+      },
       "examples": [
         "option-label=\"itemName\"",
         ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
@@ -69,6 +101,21 @@
       "type": [ "Function", "String" ],
       "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "disable",
+      "params": {
+        "option": {
+          "type": [ "String", "Object" ],
+          "desc": "The current option being processed",
+          "examples": [
+            "'BMW'",
+            "'Samsung Phone'",
+            "{ label: 'BMW', value: 'car', cannotSelect: true }"
+          ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current option will be disabled"
+      },
       "examples": [
         "option-disable=\"cannotSelect\"",
         ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""
@@ -177,11 +224,12 @@
     },
 
     "popup-content-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the popup content",
       "examples": [
         "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+        ":popup-content-style=\"{ backgroundColor: '#ff0000' }\""
       ],
       "category": "style"
     },
@@ -232,7 +280,8 @@
     },
 
     "input-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the underlying input tag",
       "examples": [
         "my-special-class",
@@ -242,7 +291,8 @@
     },
 
     "input-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the underlying input tag",
       "examples": [
         "background-color: #ff0000",
@@ -259,8 +309,7 @@
       "type": "String",
       "desc": "Autocomplete attribute for field",
       "examples": [ "autocomplete=\"country\"" ],
-      "category": "behavior",
-      "addedIn": "v1.14.8"
+      "category": "behavior"
     },
 
     "transition-show": {
@@ -347,6 +396,7 @@
           "params": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index at which to remove selection",
               "examples": [ 0 ]
             }
@@ -359,6 +409,7 @@
           "params": {
             "opt": {
               "type": "Any",
+              "required": true,
               "desc": "Option to add to model",
               "__exemption": [ "examples" ]
             }
@@ -400,6 +451,7 @@
           "params": {
             "opt": {
               "type": "Any",
+              "required": true,
               "desc": "Option to add to model",
               "__exemption": [ "examples" ]
             }
@@ -412,6 +464,7 @@
           "params": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index of option from menu",
               "examples": [ 10 ]
             }
@@ -438,7 +491,6 @@
         "value": {
           "type": "String",
           "desc": "New text value",
-          "required": true,
           "__exemption": [ "examples" ]
         }
       }
@@ -453,11 +505,13 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Model index at which removal took place",
               "examples": [ 2 ]
             },
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "The actual value that was removed",
               "__exemption": [ "examples" ]
             }
@@ -475,11 +529,13 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Model index at which addition took place",
               "examples": [ 2 ]
             },
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "The actual value that was added",
               "__exemption": [ "examples" ]
             }
@@ -502,11 +558,13 @@
           "params": {
             "item": {
               "type": "Any",
+              "required": false,
               "desc": "Item to add",
               "__exemption": [ "examples" ]
             },
             "mode": {
               "type": "String",
+              "required": false,
               "desc": "Override 'new-value-mode' (prop) behavior should you wish to",
               "values": [ "add", "add-unique", "toggle" ],
               "default": "add"
@@ -531,18 +589,21 @@
           "params": {
             "callbackFn": {
               "type": "Function",
+              "required": true,
               "desc": "Callback to call to make the actual updates",
               "params": null,
               "returns": null
             },
             "afterFn": {
               "type": "Function",
+              "required": false,
               "desc": "Callback to call at the end after the update has been fully processed by QSelect",
               "params": {
                 "ref": {
-                  "type": "Object",
-                  "desc": "Vue reference to the QSelect which triggered the filtering",
-                  "__exemption": [ "examples" ]
+                  "type": "Component",
+                  "tsType": "QSelect",
+                  "required": true,
+                  "desc": "Vue reference to the QSelect which triggered the filtering"
                 }
               },
               "returns": null
@@ -567,9 +628,7 @@
       "desc": "Emitted when the select options menu or dialog is shown.",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -578,9 +637,20 @@
       "desc": "Emitted when the select options menu or dialog is hidden.",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
+        }
+      }
+    },
+
+    "virtual-scroll": {
+      "params": {
+        "details": {
+          "definition": {
+            "ref": {
+              "tsType": "QSelect",
+              "desc": "Vue reference to the QSelect"
+            }
+          }
         }
       }
     }
@@ -604,8 +674,8 @@
       "params": {
         "index": {
           "type": "Number",
-          "desc": "Index at which to remove selection",
           "required": true,
+          "desc": "Index at which to remove selection",
           "examples": [ 0 ]
         }
       }
@@ -616,8 +686,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option to add to model",
           "required": true,
+          "desc": "Option to add to model",
           "__exemption": [ "examples" ]
         },
         "unique": {
@@ -633,8 +703,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option to add to model",
           "required": true,
+          "desc": "Option to add to model",
           "__exemption": [ "examples" ]
         },
         "keepOpen": {
@@ -644,13 +714,23 @@
       }
     },
 
+    "getOptionIndex": {
+      "desc": "Gets current focused option index from menu; It's -1 if no option is focused",
+      "returns": {
+        "type": "Number",
+        "desc": "Index of option from menu; It's -1 if no option is focused",
+        "examples": [ -1, 0, 10 ]
+      },
+      "addedIn": "v2.5.4"
+    },
+
     "setOptionIndex": {
-      "desc": "Sets option from menu as 'focused'",
+      "desc": "Sets option from menu as 'focused'; -1 to focus none",
       "params": {
         "index": {
           "type": "Number",
-          "desc": "Index of option from menu",
           "required": true,
+          "desc": "Index of option from menu; -1 to focus none",
           "examples": [ 10 ]
         }
       }
@@ -677,8 +757,8 @@
       "params": {
         "value": {
           "type": "String",
-          "desc": "String to filter with",
           "required": true,
+          "desc": "String to filter with",
           "examples": [ "car" ]
         }
       }
@@ -693,6 +773,7 @@
       "params": {
         "value": {
           "type": "String",
+          "required": true,
           "desc": "String to set the input value to",
           "examples": [ "hotel" ]
         },
@@ -708,8 +789,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -724,8 +805,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -741,8 +822,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -758,8 +839,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },
@@ -775,8 +856,8 @@
       "params": {
         "opt": {
           "type": "Any",
-          "desc": "Option entry",
           "required": true,
+          "desc": "Option entry",
           "__exemption": [ "examples" ]
         }
       },

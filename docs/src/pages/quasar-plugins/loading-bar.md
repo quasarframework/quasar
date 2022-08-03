@@ -53,7 +53,7 @@ LoadingBar.increment(value)
 
 ### Setting Up Defaults
 
-Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf.js > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `$q.loadingBar.setDefaults({...})`. Supports all [QAjaxBar](/vue-components/ajax-bar) properties.
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config.js > framework > config > loadingBar: {...} or by calling `LoadingBar.setDefaults({...})` or `$q.loadingBar.setDefaults({...})`. Supports all [QAjaxBar](/vue-components/ajax-bar) properties.
 
 Inside Vue components:
 
@@ -71,7 +71,7 @@ setup () {
 }
 ```
 
-Outside of Vue components:
+Outside of Vue components (includes boot files):
 
 ```js
 import { LoadingBar } from 'quasar'
@@ -80,5 +80,22 @@ LoadingBar.setDefaults({
   color: 'purple',
   size: '15px',
   position: 'bottom'
+})
+```
+
+### Using an Ajax filter <q-badge align="top" color="brand-primary" label="v2.4.5+" />
+
+Should you want to trigger LoadingBar only for some URLs, then you can use the `setDefaults()` method (described above) to configure the `hijackFilter` property:
+
+```js
+import { LoadingBar } from 'quasar'
+
+LoadingBar.setDefaults({
+  // return a Boolean which has the meaning of
+  // "does this URL should trigger LoadingBar?"
+  hijackFilter (url) {
+    // example (only https://my-service.com/* should trigger)
+    return /^https:\/\/my-service\.com/.test(url)
+  }
 })
 ```

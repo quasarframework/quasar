@@ -26,6 +26,7 @@
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
         <q-btn label="Checkbox (validation)" flat color="primary" @click="checkboxValidation" />
+        <q-btn label="Disable button" flat color="primary" @click="disabledButtons" />
         <q-btn-dropdown color="accent" label="Open from dropdown" unelevated>
           <q-list flat>
             <q-item @click="alert" clickable v-close-popup>
@@ -340,6 +341,30 @@ export default {
       })
     },
 
+    disabledButtons () {
+      this.dialogHandler = this.$q.dialog({
+        title: 'Disabled buttons',
+        message: 'buttons should be disabled',
+        ok: {
+          label: 'resend',
+          unelevated: true,
+          disable: true
+        },
+        cancel: {
+          label: 'remove',
+          flat: true,
+          disable: true
+        },
+        dark: this.dark
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
     toggle () {
       this.dialogHandler = this.$q.dialog({
         title: 'Options',
@@ -514,9 +539,16 @@ export default {
 
     customComponentOptionsApi (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponentOptionsApi : defineAsyncComponent(() => import('./dialog-component-options-api.js')),
+        component: async !== true ? DialogComponentOptionsApi : defineAsyncComponent(() => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(import('./dialog-component-options-api.js'))
+          }, 500)
+        })),
         componentProps: {
-          text: 'Works'
+          text: 'Works',
+          onVnodeMounted (vm) {
+            console.log(`customComponentOptionsApi ${ async === true ? 'ASYNC ' : '' }mounted`, vm ? vm.el : null, vm)
+          }
         }
       }).onOk(payload => {
         console.log('OK', payload)
@@ -529,9 +561,16 @@ export default {
 
     customComponentCompositionApi (async) {
       this.dialogHandler = this.$q.dialog({
-        component: async !== true ? DialogComponentCompositionApi : defineAsyncComponent(() => import('./dialog-component-composition-api.js')),
+        component: async !== true ? DialogComponentCompositionApi : defineAsyncComponent(() => new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(import('./dialog-component-composition-api.js'))
+          }, 500)
+        })),
         componentProps: {
-          text: 'Works'
+          text: 'Works',
+          onVnodeMounted (vm) {
+            console.log(`customComponentCompositionApi ${ async === true ? 'ASYNC ' : '' }mounted`, vm ? vm.el : null, vm)
+          }
         }
       }).onOk(payload => {
         console.log('OK', payload)

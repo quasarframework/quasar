@@ -73,8 +73,8 @@
             },
             "sameSite": {
               "type": "String",
-              "desc": "SameSite cookie option (not supported by IE11)",
-              "examples": [ "Strict", "Lax" ]
+              "desc": "SameSite cookie option",
+              "values": [ "Lax", "Strict", "None" ]
             },
             "httpOnly": {
               "type": "Boolean",

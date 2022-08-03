@@ -98,7 +98,7 @@
             <q-btn label="Popup proxy" color="primary" class="q-ma-md">
               <q-popup-proxy>
                 <q-banner>
-                 <template v-slot:avatar>
+                  <template v-slot:avatar>
                     <q-icon name="signal_wifi_off" color="primary" />
                   </template>
 
@@ -167,7 +167,7 @@
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
+              <q-popup-proxy cover :breakpoint="600" @before-show="onBeforeShow1" @show="onShow1" @before-hide="onBeforeHide1" @hide="onHide1">
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
               </q-popup-proxy>
@@ -178,7 +178,7 @@
         <q-input filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-menu :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
+              <q-menu cover :breakpoint="600" @before-show="onBeforeShow2" @show="onShow2" @before-hide="onBeforeHide2" @hide="onHide2">
                 <q-date v-model="input" filled />
                 <q-btn label="Close" v-close-popup />
               </q-menu>

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, withDirectives, getCurrentInstance } from 'vue'
+import { h, ref, computed, withDirectives, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -7,6 +7,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
@@ -17,8 +18,15 @@ const dirProps = {
   vertical: { offset: 'offsetY', scroll: 'scrollTop', dir: 'down', dist: 'y' },
   horizontal: { offset: 'offsetX', scroll: 'scrollLeft', dir: 'right', dist: 'x' }
 }
+const panOpts = {
+  prevent: true,
+  mouse: true,
+  mouseAllDir: true
+}
 
-export default defineComponent({
+const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
+
+export default createComponent({
   name: 'QScrollArea',
 
   props: {
@@ -102,23 +110,24 @@ export default defineComponent({
         && panning.value === false
       ) || scroll.vertical.size.value <= container.vertical.value + 1
     )
+    scroll.vertical.thumbStart = computed(() =>
+      scroll.vertical.percentage.value * (container.vertical.value - scroll.vertical.thumbSize.value)
+    )
     scroll.vertical.thumbSize = computed(() =>
       Math.round(
         between(
           container.vertical.value * container.vertical.value / scroll.vertical.size.value,
-          50,
+          getMinThumbSize(container.vertical.value),
           container.vertical.value
         )
       )
     )
     scroll.vertical.style = computed(() => {
-      const thumbSize = scroll.vertical.thumbSize.value
-      const pos = scroll.vertical.percentage.value * (container.vertical.value - thumbSize)
       return {
         ...props.thumbStyle,
         ...props.verticalThumbStyle,
-        top: `${ pos }px`,
-        height: `${ thumbSize }px`
+        top: `${ scroll.vertical.thumbStart.value }px`,
+        height: `${ scroll.vertical.thumbSize.value }px`
       }
     })
     scroll.vertical.thumbClass = computed(() =>
@@ -143,23 +152,24 @@ export default defineComponent({
         && panning.value === false
       ) || scroll.horizontal.size.value <= container.horizontal.value + 1
     )
+    scroll.horizontal.thumbStart = computed(() =>
+      scroll.horizontal.percentage.value * (container.horizontal.value - scroll.horizontal.thumbSize.value)
+    )
     scroll.horizontal.thumbSize = computed(() =>
       Math.round(
         between(
           container.horizontal.value * container.horizontal.value / scroll.horizontal.size.value,
-          50,
+          getMinThumbSize(container.horizontal.value),
           container.horizontal.value
         )
       )
     )
     scroll.horizontal.style = computed(() => {
-      const thumbSize = scroll.horizontal.thumbSize.value
-      const pos = scroll.horizontal.percentage.value * (container.horizontal.value - thumbSize)
       return {
         ...props.thumbStyle,
         ...props.horizontalThumbStyle,
-        left: `${ pos }px`,
-        width: `${ thumbSize }px`
+        left: `${ scroll.horizontal.thumbStart.value }px`,
+        width: `${ scroll.horizontal.thumbSize.value }px`
       }
     })
     scroll.horizontal.thumbClass = computed(() =>
@@ -172,7 +182,7 @@ export default defineComponent({
     )
 
     const mainStyle = computed(() => (
-      scroll.vertical.thumbHidden.value === true || scroll.horizontal.thumbHidden.value === true
+      scroll.vertical.thumbHidden.value === true && scroll.horizontal.thumbHidden.value === true
         ? props.contentStyle
         : props.contentActiveStyle
     ))
@@ -181,24 +191,14 @@ export default defineComponent({
       TouchPan,
       e => { onPanThumb(e, 'vertical') },
       void 0,
-      {
-        vertical: true,
-        prevent: true,
-        mouse: true,
-        mouseAllDir: true
-      }
+      { vertical: true, ...panOpts }
     ] ]
 
     const thumbHorizDir = [ [
       TouchPan,
       e => { onPanThumb(e, 'horizontal') },
       void 0,
-      {
-        horizontal: true,
-        prevent: true,
-        mouse: true,
-        mouseAllDir: true
-      }
+      { horizontal: true, ...panOpts }
     ] ]
 
     function getScroll () {
@@ -315,8 +315,11 @@ export default defineComponent({
       const data = scroll[ axis ]
 
       if (data.thumbHidden.value !== true) {
-        const pos = evt[ dirProps[ axis ].offset ] - data.thumbSize.value / 2
-        setScroll(pos / container[ axis ].value * data.size.value, axis)
+        const offset = evt[ dirProps[ axis ].offset ]
+        if (offset < data.thumbStart.value || offset > data.thumbStart.value + data.thumbSize.value) {
+          const pos = offset - data.thumbSize.value / 2
+          setScroll(pos / container[ axis ].value * data.size.value, axis)
+        }
 
         // activate thumb pan
         if (data.ref.value !== null) {
@@ -379,6 +382,28 @@ export default defineComponent({
       }
     })
 
+    let scrollPosition = null
+
+    onDeactivated(() => {
+      scrollPosition = {
+        top: scroll.vertical.position.value,
+        left: scroll.horizontal.position.value
+      }
+    })
+
+    onActivated(() => {
+      if (scrollPosition === null) { return }
+
+      const scrollTarget = targetRef.value
+
+      if (scrollTarget !== null) {
+        setHorizontalScrollPosition(scrollTarget, scrollPosition.left)
+        setVerticalScrollPosition(scrollTarget, scrollPosition.top)
+      }
+    })
+
+    onBeforeUnmount(emitScroll.cancel)
+
     return () => {
       return h('div', {
         class: classes.value,
@@ -395,6 +420,7 @@ export default defineComponent({
             style: mainStyle.value
           }, hMergeSlot(slots.default, [
             h(QResizeObserver, {
+              debounce: 0,
               onResize: updateScrollSize
             })
           ])),
@@ -405,7 +431,10 @@ export default defineComponent({
           })
         ]),
 
-        h(QResizeObserver, { onResize: updateContainer }),
+        h(QResizeObserver, {
+          debounce: 0,
+          onResize: updateContainer
+        }),
 
         h('div', {
           class: scroll.vertical.barClass.value,

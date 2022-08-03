@@ -35,7 +35,7 @@ export default () => {
 
 We then have to tell quasar to use this boot file we just created. To do this we edit the boot section of the quasar config:
 ```js
-// file: /quasar.conf.js
+// file: /quasar.config.js
 return {
   boot: [
     'addressbar-color'

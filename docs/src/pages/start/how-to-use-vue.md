@@ -2,7 +2,7 @@
 title: How To Use Vue
 desc: Quick tutorial about Vue principles and how to use it with Quasar.
 ---
-Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue 3 works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue 3 documentation](https://v3.vuejs.org/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
+Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue 3 works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue 3 documentation](https://vuejs.org/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
 ::: tip
 If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at [Vue and Quasar video tutorials](/video-tutorials).
@@ -13,6 +13,27 @@ After reading the Vue documentation, let's clear up some of the most frequently 
 ## Vue Single File Components (SFC)
 
 You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/SASS/SCSS/Stylus/Less) all in the same file.
+
+Currently, it is recommended to use Composition API with `<script setup>`. Check out [Vue.js documentation](https://vuejs.org/api/sfc-script-setup.html) for more information.
+
+```html
+<template>
+  <!-- you define your Vue template here -->
+</template>
+
+<script setup>
+// This is where your Javascript goes
+// to define your Vue component, which
+// can be a Layout, a Page or your own
+// component used throughout the app.
+</script>
+
+<style>
+/* This is where your CSS goes */
+</style>
+```
+
+But you can still use Composition API without `<script setup>` or Options API if you wish. The only difference is within the `<script>` tag.
 
 ```html
 <template>
@@ -57,7 +78,7 @@ You can specify you want your chosen preprocessor to handle the CSS code that yo
 
 ## Using Quasar Directives
 
-Quasar comes with a few custom [Vue Directives](https://v3.vuejs.org/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
+Quasar comes with a few custom [Vue Directives](https://vuejs.org/guide/reusability/custom-directives.html). These directives can be applied on almost any DOM element or Component.
 
 Example of a Quasar directive:
 
@@ -74,7 +95,7 @@ Example of a Quasar directive:
 ```
 
 ## Using Quasar Components
-Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in `/quasar.conf.js`.
+Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in `/quasar.config.js`.
 
 Let's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:
 
@@ -91,7 +112,7 @@ Let's take the following example with a QBtn and QIcon and then we'll see how to
 Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
 ::: warning
-**Before using them in your app**, you need to add a reference to them in `/quasar.conf.js` (as shown below).
+**Before using them in your app**, you need to add a reference to them in `/quasar.config.js` (as shown below).
 :::
 
 ```js

@@ -8,7 +8,7 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": [ "String", "Number" ],
+      "type": [ "String", "Number", "null", "undefined" ],
       "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [ "v-model=\"myText\"" ]
     },
@@ -53,7 +53,8 @@
     },
 
     "input-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the underlying input tag",
       "examples": [
         "my-special-class",
@@ -63,7 +64,8 @@
     },
 
     "input-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the underlying input tag",
       "examples": [
         "background-color: #ff0000",
@@ -78,7 +80,7 @@
       "extends": "update:model-value",
       "params": {
         "value": {
-          "type": [ "String", "Number" ]
+          "type": [ "String", "Number", "null" ]
         }
       }
     },
@@ -87,9 +89,7 @@
       "desc": "Emitted when component gets focused",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -98,9 +98,7 @@
       "desc": "Emitted when component loses focus",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }

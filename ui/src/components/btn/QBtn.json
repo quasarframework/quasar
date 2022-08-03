@@ -41,9 +41,7 @@
       "desc": "Emulate click on QBtn",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }
@@ -54,9 +52,8 @@
       "desc": "Emitted when component is clicked (activated)",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false"
         },
         "navigateFn": {
           "type": "Function",

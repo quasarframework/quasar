@@ -19,8 +19,7 @@
       "desc": "Ratio of number of items in visible zone to render before it",
       "default": "1",
       "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.14.7"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-after": {
@@ -28,8 +27,7 @@
       "desc": "Ratio of number of items in visible zone to render after it",
       "default": "1",
       "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
-      "category": "virtual-scroll",
-      "addedIn": "v1.14.7"
+      "category": "virtual-scroll"
     },
 
     "virtual-scroll-item-size": {
@@ -74,30 +72,32 @@
           "definition": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index of the list item that was scrolled into view (0 based)",
               "examples": [ 30 ]
             },
             "from": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the first list item that is rendered (0 based)",
               "examples": [ 10 ]
             },
             "to": {
               "type": "Number",
+              "required": true,
               "desc": "The index of the last list item that is rendered (0 based)",
               "examples": [ 50 ]
             },
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of change",
               "values": [ "increase", "decrease" ]
             },
             "ref": {
-              "type": "Object",
-              "desc": "Vue reference to the QVirtualList which triggered the event",
-              "__exemption": [
-                "examples"
-              ]
+              "type": "Component",
+              "required": true,
+              "desc": "Vue reference to the component which triggered the event"
             }
           }
         }

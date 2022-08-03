@@ -3,12 +3,12 @@ title: App Extensions
 desc: What Quasar App Extensions are and how they can help both you and the community.
 ---
 
-App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend webpack, `quasar.conf.js`, tightly couple external UI components to core, and even register new commands with the Quasar CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).
+App Extensions are a way to painlessly inject complicated (or simple) libraries with a variety of dependencies, boot files, templates and custom logic. They can extend webpack, `quasar.config.js`, tightly couple external UI components to core, and even register new commands with the Quasar CLI. They can be run with `quasar dev` and have complete access to the current live `ctx` (context).
 
 The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there - now limited only by your imagination and innovation. This page will introduce you to the usage of App Extensions.
 
 ::: warning
-App Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them in Vue CLI or UMD environments.
+App Extensions are designed specifically **for Quasar CLI only**. This means that you will not be able to install them or run them with the Quasar Vite plugin or with Vue CLI or in UMD environments.
 :::
 
 ## What can an App Extension do?

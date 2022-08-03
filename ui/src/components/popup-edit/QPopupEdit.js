@@ -1,12 +1,14 @@
-import { h, defineComponent, ref, computed, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, nextTick, getCurrentInstance } from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/private/is.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QPopupEdit',
 
   props: {
@@ -64,11 +66,7 @@ export default defineComponent({
         updatePosition
       }
 
-      Object.defineProperty(acc, 'value', {
-        get: () => currentModel.value,
-        set: val => { currentModel.value = val }
-      })
-
+      injectProp(acc, 'value', () => currentModel.value, val => { currentModel.value = val })
       return acc
     })
 

@@ -34,15 +34,18 @@
           "definition": {
             "position": {
               "type": "Object",
+              "required": true,
               "desc": "Scroll offset (from top and left)",
               "definition": {
                 "top": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Scroll offset from top (vertical)",
                   "examples": [ 120 ]
                 },
                 "left": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Scroll offset from left (horizontal)",
                   "examples": [ 10 ]
                 }
@@ -51,24 +54,29 @@
 
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of scroll",
               "values": [ "up", "down", "left", "right" ]
             },
             "directionChanged": {
               "type": "Boolean",
+              "required": true,
               "desc": "Has scroll direction changed since event was last emitted?"
             },
             "delta": {
               "type": "Object",
+              "required": true,
               "desc": "Delta of distance (in pixels) since event was last emitted",
               "definition": {
                 "top": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Vertical delta distance since event was last emitted",
                   "examples": [ 120 ]
                 },
                 "left": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Horizontal delta distance since event was last emitted",
                   "examples": [ 10 ]
                 }
@@ -77,15 +85,18 @@
 
             "inflectionPoint": {
               "type": "Object",
+              "required": true,
               "desc": "Last scroll offset where scroll direction has changed",
               "definition": {
                 "top": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Scroll offset from top (vertical)",
                   "examples": [ 120 ]
                 },
                 "left": {
                   "type": "Number",
+                  "required": true,
                   "desc": "Scroll offset from left (horizontal)",
                   "examples": [ 10 ]
                 }

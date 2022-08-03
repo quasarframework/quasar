@@ -4,7 +4,7 @@ desc: How to connect the Vue Router with your Quasar layouts and pages.
 ---
 You can benefit from Vue Router's capabilities while structuring your routes with a Quasar Layout. The information below is just a recommendation and not mandatory to follow. Quasar allows you full freedom. Take the lines below only as an example.
 
-[QLayout](/layout/layout) is the component used to encapsulate pages, so that multiple pages will share the same header, drawers and so on. However, you can also configure per page header/footer/drawers, but they all must be children of the QLayout component. In order to understand how this works, you need a little bit of reading on [Vue Router nested routes](http://router.vuejs.org/en/essentials/nested-routes.html).
+[QLayout](/layout/layout) is the component used to encapsulate pages, so that multiple pages will share the same header, drawers and so on. However, you can also configure per page header/footer/drawers, but they all must be children of the QLayout component. In order to understand how this works, you need a little bit of reading on [Vue Router nested routes](https://router.vuejs.org/guide/essentials/nested-routes.html).
 
 To make it more clear, let's take an example. We have one layout ('user') and two pages ('user-feed' and 'user-profile'). We want to configure the website/app routes like this: `/user/feed` and `/user/profile`.
 
@@ -40,7 +40,7 @@ src/
 ## Defining Routes
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.
 
-Example of `routes.js`:
+Example of `routes.js` using lazy-loading:
 ```js
 // we define our routes in this file
 
@@ -56,7 +56,7 @@ const routes = [
 export default routes
 ```
 
-Example of `routes.js` using lazy-loading / on-demand loading:
+Example of `routes.js` using on-demand loading:
 
 ```js
 // we define our routes in this file
@@ -72,7 +72,7 @@ export default routes
 ```
 
 ::: tip
-More in-depth analysis of [Lazy loading / code-splitting](/quasar-cli/lazy-loading).
+More in-depth analysis of Lazy loading / code-splitting with [@quasar/app-vite](/quasar-cli-vite/lazy-loading) or [@quasar/app-webpack](/quasar-cli-webpack/lazy-loading).
 :::
 
 ::: tip
@@ -230,5 +230,5 @@ Please notice a few things:
 <q-separator class="q-mt-xl" />
 
 ::: tip
-Please check [Vue Router](http://router.vuejs.org/) documentation to fully understand the examples above and how to configure the router and its routes for your app.
+Please check [Vue Router](https://router.vuejs.org/) documentation to fully understand the examples above and how to configure the router and its routes for your app.
 :::

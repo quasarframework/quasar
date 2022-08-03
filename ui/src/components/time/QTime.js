@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, withDirectives, Transition, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, withDirectives, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -7,6 +7,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from '../date/use-datetime.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
@@ -36,7 +37,7 @@ function getCurrentTime () {
   }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QTime',
 
   props: {
@@ -85,12 +86,14 @@ export default defineComponent({
     const mask = computed(() => getMask())
     const locale = computed(() => getLocale())
 
+    const defaultDateModel = computed(() => getDefaultDateModel())
+
     const model = __splitDate(
       props.modelValue,
-      getMask(),
-      getLocale(),
+      mask.value, // initial mask
+      locale.value, // initial locale
       props.calendar,
-      getDefaultDateModel()
+      defaultDateModel.value
     )
 
     const view = ref(getViewByModel(model))
@@ -129,8 +132,6 @@ export default defineComponent({
           : pad(time.second)
       }
     })
-
-    const defaultDateModel = computed(() => getDefaultDateModel())
 
     const computedFormat24h = computed(() => (
       props.format24h !== null
@@ -310,10 +311,14 @@ export default defineComponent({
     })
 
     function setNow () {
-      updateValue({
+      const date = {
         ...getCurrentDate(),
         ...getCurrentTime()
-      })
+      }
+
+      updateValue(date)
+      Object.assign(innerModel.value, date) // reset any pending changes to innerModel
+
       view.value = 'hour'
     }
 
@@ -654,21 +659,22 @@ export default defineComponent({
     function setHour (hour) {
       if (innerModel.value.hour !== hour) {
         innerModel.value.hour = hour
-        innerModel.value.minute = null
-        innerModel.value.second = null
+        verifyAndUpdate()
       }
     }
 
     function setMinute (minute) {
       if (innerModel.value.minute !== minute) {
         innerModel.value.minute = minute
-        innerModel.value.second = null
-        props.withSeconds !== true && updateValue({ minute })
+        verifyAndUpdate()
       }
     }
 
     function setSecond (second) {
-      innerModel.value.second !== second && updateValue({ second })
+      if (innerModel.value.second !== second) {
+        innerModel.value.second = second
+        verifyAndUpdate()
+      }
     }
 
     const setModel = {

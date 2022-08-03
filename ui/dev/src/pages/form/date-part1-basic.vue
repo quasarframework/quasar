@@ -192,7 +192,7 @@
         <q-input :dark="dark" filled v-model="dateNeg">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-date
                   v-model="dateNeg"
                   v-bind="props"
@@ -230,7 +230,7 @@
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy>
+              <q-popup-proxy cover>
                 <q-date
                   v-model="input"
                   v-bind="props"
@@ -253,7 +253,7 @@
         <q-input :dark="dark" filled v-model="inputFull">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy1">
+              <q-popup-proxy cover ref="qDateProxy1">
                 <q-date
                   v-model="inputFull"
                   v-bind="props"
@@ -265,7 +265,7 @@
               </q-popup-proxy>
             </q-icon>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy2">
+              <q-popup-proxy cover ref="qDateProxy2">
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
@@ -279,7 +279,7 @@
         <q-input :dark="dark" filled v-model="inputFull">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy3">
+              <q-popup-proxy cover ref="qDateProxy3">
                 <q-date
                   v-model="inputFull"
                   v-bind="props"
@@ -293,7 +293,7 @@
           </template>
           <template v-slot:after>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy4">
+              <q-popup-proxy cover ref="qDateProxy4">
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
@@ -307,7 +307,7 @@
         <q-input :dark="dark" filled v-model="inputFull" label="Default view - Years">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy5">
+              <q-popup-proxy cover ref="qDateProxy5">
                 <q-date
                   v-model="inputFull"
                   v-bind="props"
@@ -322,7 +322,7 @@
           </template>
           <template v-slot:after>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy6">
+              <q-popup-proxy cover ref="qDateProxy6">
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
@@ -338,12 +338,7 @@
 </template>
 
 <script>
-import languages from 'quasar/lang/index.json'
-
-const localeOptions = languages.map(lang => ({
-  label: lang.nativeName,
-  value: require(`quasar/lang/${ lang.isoName }.js`)
-}))
+const langList = import.meta.glob('../../../../lang/*.mjs')
 
 export default {
   data () {
@@ -374,8 +369,23 @@ export default {
       inputFull: null,
 
       locale: null,
-      localeOptions
+      localeOptions: []
     }
+  },
+
+  created () {
+    const promises = []
+    for (const key in langList) {
+      promises.push(langList[ key ]())
+    }
+
+    Promise.all(promises)
+      .then(languages => {
+        this.localeOptions = languages.map(lang => ({
+          label: lang.nativeName,
+          value: lang
+        }))
+      })
   },
 
   computed: {

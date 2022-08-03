@@ -1,19 +1,18 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+
 import useCheckbox, { useCheckboxProps, useCheckboxEmits } from '../checkbox/use-checkbox.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QToggle',
 
   props: {
     ...useCheckboxProps,
 
     icon: String,
-    checkedIcon: String,
-    uncheckedIcon: String,
-    indeterminateIcon: String,
-
     iconColor: String
   },
 
@@ -21,29 +20,25 @@ export default defineComponent({
 
   setup (props) {
     function getInner (isTrue, isIndeterminate) {
-      const computedIcon = computed(() =>
+      const icon = computed(() =>
         (isTrue.value === true
           ? props.checkedIcon
           : (isIndeterminate.value === true ? props.indeterminateIcon : props.uncheckedIcon)
         ) || props.icon
       )
 
-      const computedIconColor = computed(() => {
-        if (isTrue.value === true) {
-          return props.iconColor
-        }
-      })
+      const color = computed(() => (isTrue.value === true ? props.iconColor : null))
 
       return () => [
         h('div', { class: 'q-toggle__track' }),
 
         h('div', {
           class: 'q-toggle__thumb absolute flex flex-center no-wrap'
-        }, computedIcon.value !== void 0
+        }, icon.value !== void 0
           ? [
               h(QIcon, {
-                name: computedIcon.value,
-                color: computedIconColor.value
+                name: icon.value,
+                color: color.value
               })
             ]
           : void 0

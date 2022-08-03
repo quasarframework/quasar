@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
 import QTh from './QTh.js'
 
@@ -23,12 +23,15 @@ import { useTableRowSelection, useTableRowSelectionProps, useTableRowSelectionEm
 import { useTableRowExpand, useTableRowExpandProps, useTableRowExpandEmits } from './table-row-expand.js'
 import { useTableColumnSelection, useTableColumnSelectionProps } from './table-column-selection.js'
 
+import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
+import { createComponent } from '../../utils/private/create.js'
+
 const bottomClass = 'q-table__bottom row items-center'
 
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[ p ] = {} })
 
-export default defineComponent({
+export default createComponent({
   name: 'QTable',
 
   props: {
@@ -68,6 +71,9 @@ export default defineComponent({
     wrapCells: Boolean,
 
     virtualScroll: Boolean,
+    virtualScrollTarget: {
+      default: void 0
+    },
     ...commonVirtPropsObj,
 
     noDataLabel: String,
@@ -146,7 +152,6 @@ export default defineComponent({
 
     const __containerClass = computed(() =>
       `q-table__container q-table--${ props.separator }-separator column no-wrap`
-      + (props.loading === true ? ' q-table--loading' : '')
       + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
       + (isDark.value === true ? ' q-table--dark' : '')
       + (props.dense === true ? ' q-table--dense' : '')
@@ -310,6 +315,7 @@ export default defineComponent({
           class: props.tableClass,
           style: props.tableStyle,
           ...virtProps.value,
+          scrollTarget: props.virtualScrollTarget,
           items: computedRows.value,
           type: '__qtable',
           tableColspan: computedColspan.value,
@@ -475,11 +481,7 @@ export default defineComponent({
 
       data.cols = data.cols.map(col => {
         const c = { ...col }
-        Object.defineProperty(c, 'value', {
-          get: () => getCellValue(col, data.row),
-          configurable: true,
-          enumerable: true
-        })
+        injectProp(c, 'value', () => getCellValue(col, data.row))
         return c
       })
 
@@ -488,13 +490,7 @@ export default defineComponent({
 
     function getBodyCellScope (data) {
       injectBodyCommonScope(data)
-
-      Object.defineProperty(data, 'value', {
-        get: () => getCellValue(data.col, data.row),
-        configurable: true,
-        enumerable: true
-      })
-
+      injectProp(data, 'value', () => getCellValue(data.col, data.row))
       return data
     }
 
@@ -514,23 +510,21 @@ export default defineComponent({
         dense: props.dense
       })
 
-      hasSelectionMode.value === true && Object.defineProperty(data, 'selected', {
-        get: () => isRowSelected(data.key),
-        set: (adding, evt) => {
+      hasSelectionMode.value === true && injectProp(
+        data,
+        'selected',
+        () => isRowSelected(data.key),
+        (adding, evt) => {
           updateSelection([ data.key ], [ data.row ], adding, evt)
-        },
-        configurable: true,
-        enumerable: true
-      })
+        }
+      )
 
-      Object.defineProperty(data, 'expand', {
-        get: () => isRowExpanded(data.key),
-        set: adding => {
-          updateExpanded(data.key, adding)
-        },
-        configurable: true,
-        enumerable: true
-      })
+      injectProp(
+        data,
+        'expand',
+        () => isRowExpanded(data.key),
+        adding => { updateExpanded(data.key, adding) }
+      )
     }
 
     function getCellValue (col, row) {
@@ -560,7 +554,7 @@ export default defineComponent({
         topSelection = slots[ 'top-selection' ],
         hasSelection = hasSelectionMode.value === true
           && topSelection !== void 0
-          && rowsSelectedNumber.vaue > 0,
+          && rowsSelectedNumber.value > 0,
         topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
@@ -702,12 +696,12 @@ export default defineComponent({
       })
 
       if (multipleSelection.value === true) {
-        Object.defineProperty(data, 'selected', {
-          get: () => headerSelectedValue.value,
-          set: onMultipleSelectionSet,
-          configurable: true,
-          enumerable: true
-        })
+        injectProp(
+          data,
+          'selected',
+          () => headerSelectedValue.value,
+          onMultipleSelectionSet
+        )
       }
 
       return data
@@ -983,7 +977,7 @@ export default defineComponent({
 
           return h('div', {
             class: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3'
-              + (scope.selected === true ? 'q-table__grid-item--selected' : '')
+              + (scope.selected === true ? ' q-table__grid-item--selected' : '')
           }, [
             h('div', data, child)
           ])
@@ -1022,19 +1016,10 @@ export default defineComponent({
       getCellValue
     })
 
-    Object.defineProperty(vm.proxy, 'filteredSortedRows', {
-      get: () => filteredSortedRows.value,
-      enumerable: true
-    })
-
-    Object.defineProperty(vm.proxy, 'computedRows', {
-      get: () => computedRows.value,
-      enumerable: true
-    })
-
-    Object.defineProperty(vm.proxy, 'computedRowsNumber', {
-      get: () => computedRowsNumber.value,
-      enumerable: true
+    injectMultipleProps(vm.proxy, {
+      filteredSortedRows: () => filteredSortedRows.value,
+      computedRows: () => computedRows.value,
+      computedRowsNumber: () => computedRowsNumber.value
     })
 
     return () => {

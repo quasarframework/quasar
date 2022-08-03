@@ -92,7 +92,7 @@
         </q-expansion-item>
 
         <q-expansion-item expand-separator>
-          <template v-slot:header>
+          <template v-slot:header="{ expanded }">
             <q-item-section avatar>
               <q-avatar icon="bluetooth" color="primary" text-color="white" />
             </q-item-section>
@@ -100,7 +100,7 @@
             <q-item-section>
               <div>
                 <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
-                  Using slot
+                  Using slot - {{ expanded ? 'Expanded' : 'Collapsed' }}
                 </q-chip>
                 <q-badge color="secondary">
                   Using slot
@@ -215,6 +215,30 @@
           icon="home"
           label="Customized active link"
         >
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator href="/" icon="home" label="Href">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator href="/" target="_blank" icon="home" label="Href + _blank">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator disable href="/" icon="home" label="Href + disable">
           <q-card>
             <q-card-section>
               {{ lorem }}

@@ -26,7 +26,7 @@ Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack b
 If the default Quasar Language Pack is not dynamically determined (does not depend on cookies for example), then you can:
 
 #### Quasar CLI
-Edit `/quasar.conf.js`:
+Edit `/quasar.config.js`:
 
 ```js
 framework: {
@@ -34,13 +34,29 @@ framework: {
 }
 ```
 
+#### Quasar Vite Plugin
+Edit your `main.js`:
+
+```js
+// ...
+import { Quasar } from 'quasar'
+// ...
+import langDe from 'quasar/lang/de'
+// ...
+app.use(Quasar, {
+  // ...,
+  lang: langDe
+})
+```
+
 #### Vue CLI
 Edit your `main.js`:
 
 ```js
+// ...
 import { Quasar } from 'quasar'
+// ...
 import langDe from 'quasar/lang/de'
-
 // ...
 app.use(Quasar, {
   // ...,
@@ -65,6 +81,34 @@ Check what tags you need to include in your HTML files on [UMD / Standalone](/st
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack [--format ts]`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
 ```js
+// -- With @quasar/app-vite --
+
+import { Quasar } from 'quasar'
+
+// relative path to your node_modules/quasar/..
+// change to YOUR path
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.mjs')
+// or just a select few (example below with only DE and FR):
+// import.meta.glob('../../node_modules/quasar/lang/(de|fr).mjs')
+
+export default async () => {
+  const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
+
+  try {
+    langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
+      Quasar.lang.set(lang.default)
+    })
+  }
+  catch (err) {
+    // Requested Quasar Language Pack does not exist,
+    // let's not break the app, so catching error
+  }
+}
+```
+
+```js
+// -- With @quasar/app-webpack --
+
 import { Quasar } from 'quasar'
 
 export default async () => {
@@ -74,10 +118,9 @@ export default async () => {
     await import(
       /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
-      )
-      .then(lang => {
-        Quasar.lang.set(lang.default)
-      })
+    ).then(lang => {
+      Quasar.lang.set(lang.default)
+    })
   }
   catch (err) {
     // Requested Quasar Language Pack does not exist,
@@ -86,7 +129,7 @@ export default async () => {
 }
 ```
 
-Then register this boot file into `/quasar.conf.js`:
+Then register this boot file into `/quasar.config.js`:
 
 ```js
 boot: [
@@ -102,6 +145,35 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
 ```js
+// -- With @quasar/app-vite --
+
+import { Quasar } from 'quasar'
+
+// relative path to your node_modules/quasar/..
+// change to YOUR path
+const langList = import.meta.glob('../../node_modules/quasar/lang/*.mjs')
+// or just a select few (example below with only DE and FR):
+// import.meta.glob('../../node_modules/quasar/lang/(de|fr).mjs')
+
+// ! NOTICE ssrContext param:
+export default async ({ ssrContext }) => {
+  const langIso = 'de' // ... some logic to determine it (use Cookies Plugin?)
+
+  try {
+    langList[ `../../node_modules/quasar/lang/${ langIso }.mjs` ]().then(lang => {
+      Quasar.lang.set(lang.default, ssrContext)
+    })
+  }
+  catch (err) {
+    // Requested Quasar Language Pack does not exist,
+    // let's not break the app, so catching error
+  }
+}
+```
+
+```js
+// -- With @quasar/app-webpack --
+
 import { Quasar } from 'quasar'
 
 // ! NOTICE ssrContext param:
@@ -112,11 +184,9 @@ export default async ({ ssrContext }) => {
     await import(
       /* webpackInclude: /(de|en-US)\.js$/ */
       'quasar/lang/' + langIso
-      )
-      .then(lang => {
-        // ! NOTICE ssrContext param:
-        Quasar.lang.set(lang.default, ssrContext)
-      })
+    ).then(lang => {
+      Quasar.lang.set(lang.default, ssrContext)
+    })
   }
   catch (err) {
     // Requested Quasar Language Pack does not exist,

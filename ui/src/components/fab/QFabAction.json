@@ -35,6 +35,16 @@
   "slots": {
     "default": {
       "desc": "Suggestion for this slot: QTooltip"
+    },
+
+    "icon": {
+      "desc": "Slot for icon; Suggestion: QIcon",
+      "addedIn": "v2.4"
+    },
+
+    "label": {
+      "desc": "Slot for label",
+      "addedIn": "v2.4"
     }
   },
 
@@ -49,9 +59,7 @@
       "desc": "Emulate click on QFabAction",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }

@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, provide, getCurrentInstance } from 'vue'
+import { h, ref, computed, provide, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
@@ -6,13 +6,14 @@ import QIcon from '../icon/QIcon.js'
 import useFab, { useFabProps } from './use-fab.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 import { fabKey } from '../../utils/private/symbols.js'
 
 const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QFab',
 
   props: {
@@ -58,6 +59,8 @@ export default defineComponent({
       hideOnRouteChange
     })
 
+    const slotScope = computed(() => ({ opened: showing.value }))
+
     const classes = computed(() =>
       'q-fab z-fab row inline justify-center'
       + ` q-fab--align-${ props.verticalActionsAlign } ${ formClass.value }`
@@ -75,26 +78,30 @@ export default defineComponent({
       + ` q-fab__icon-holder--${ showing.value === true ? 'opened' : 'closed' }`
     )
 
+    function getIcon (kebab, camel) {
+      const slotFn = slots[ kebab ]
+      const classes = `q-fab__${ kebab } absolute-full`
+
+      return slotFn === void 0
+        ? h(QIcon, { class: classes, name: props[ camel ] || $q.iconSet.fab[ camel ] })
+        : h('div', { class: classes }, slotFn(slotScope.value))
+    }
+
     function getTriggerContent () {
       const child = []
 
       props.hideIcon !== true && child.push(
         h('div', { class: iconHolderClass.value }, [
-          h(QIcon, {
-            class: 'q-fab__icon absolute-full',
-            name: props.icon || $q.iconSet.fab.icon
-          }),
-
-          h(QIcon, {
-            class: 'q-fab__active-icon absolute-full',
-            name: props.activeIcon || $q.iconSet.fab.activeIcon
-          })
+          getIcon('icon', 'icon'),
+          getIcon('active-icon', 'activeIcon')
         ])
       )
 
-      props.label !== '' && child[ labelProps.value.action ](
-        h('div', labelProps.value.data, [ props.label ])
-      )
+      if (props.label !== '' || slots.label !== void 0) {
+        child[ labelProps.value.action ](
+          h('div', labelProps.value.data, slots.label !== void 0 ? slots.label(slotScope.value) : [ props.label ])
+        )
+      }
 
       return hMergeSlot(slots.tooltip, child)
     }

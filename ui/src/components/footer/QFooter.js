@@ -1,13 +1,14 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QFooter',
 
   props: {
@@ -45,7 +46,7 @@ export default defineComponent({
     const fixed = computed(() =>
       props.reveal === true
       || $layout.view.value.indexOf('F') > -1
-      || $layout.isContainer.value === true
+      || ($q.platform.is.ios && $layout.isContainer.value === true)
     )
 
     const containerHeight = computed(() => (

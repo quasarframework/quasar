@@ -8,7 +8,7 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": "String",
+      "type": [ "String", "null", "undefined" ],
       "desc": "Time of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "examples": [
         "v-model=\"currentTime\""
@@ -47,12 +47,12 @@
           "examples": [ 15 ]
         },
         "min": {
-          "type": "Number",
+          "type": [ "Number", "null" ],
           "desc": "Minutes",
           "examples": [ 38 ]
         },
         "sec": {
-          "type": "Number",
+          "type": [ "Number", "null" ],
           "desc": "Seconds",
           "examples": [ 12 ]
         }
@@ -115,7 +115,7 @@
       "extends": "update:model-value",
       "params": {
         "value": {
-          "type": "String"
+          "type": [ "String", "null" ]
         },
         "details": {
           "type": "Object",
@@ -123,41 +123,49 @@
           "definition": {
             "year": {
               "type": "Number",
+              "required": true,
               "desc": "The year",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
+              "required": true,
               "desc": "The month",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
+              "required": true,
               "desc": "The day of the month",
               "__exemption": [ "examples" ]
             },
             "hour": {
               "type": "Number",
+              "required": true,
               "desc": "The hour",
               "__exemption": [ "examples" ]
             },
             "minute": {
               "type": "Number",
+              "required": true,
               "desc": "The minute",
               "__exemption": [ "examples" ]
             },
             "second": {
               "type": "Number",
+              "required": true,
               "desc": "The second",
               "__exemption": [ "examples" ]
             },
             "millisecond": {
               "type": "Number",
+              "required": true,
               "desc": "The millisecond",
               "__exemption": [ "examples" ]
             },
             "changed": {
               "type": "Boolean",
+              "required": true,
               "desc": "Did the model change?"
             }
           }

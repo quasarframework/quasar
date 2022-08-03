@@ -3,8 +3,9 @@ title: Touch Hold Directive
 desc: Vue directive which triggers an event when the user touches and holds on a component or element for a specified amount of time.
 keys: touch-hold
 related:
-  - /vue-directives/touch-pan
   - /vue-directives/touch-swipe
+  - /vue-directives/touch-repeat
+  - /vue-directives/touch-pan
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 

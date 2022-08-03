@@ -1,5 +1,5 @@
 import {
-  h, defineComponent, ref, computed, watch,
+  h, ref, computed, watch,
   withDirectives, vShow, nextTick, getCurrentInstance, onBeforeUpdate
 } from 'vue'
 
@@ -10,10 +10,14 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
-export default defineComponent({
+const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
+
+export default createComponent({
   name: 'QTree',
 
   props: {
@@ -36,6 +40,8 @@ export default defineComponent({
       default: 'children'
     },
 
+    dense: Boolean,
+
     color: String,
     controlColor: String,
     textColor: String,
@@ -46,11 +52,13 @@ export default defineComponent({
     tickStrategy: {
       type: String,
       default: 'none',
-      validator: v => [ 'none', 'strict', 'leaf', 'leaf-filtered' ].includes(v)
+      validator: v => tickStrategyOptions.includes(v)
     },
     ticked: Array, // v-model:ticked
     expanded: Array, // v-model:expanded
     selected: {}, // v-model:selected
+
+    noSelectionUnset: Boolean,
 
     defaultExpandAll: Boolean,
     accordion: Boolean,
@@ -91,7 +99,7 @@ export default defineComponent({
     })
 
     const classes = computed(() =>
-      'q-tree'
+      `q-tree q-tree--${ props.dense === true ? 'dense' : 'standard' }`
       + (props.noConnectors === true ? ' q-tree--no-connectors' : '')
       + (isDark.value === true ? ' q-tree--dark' : '')
       + (props.color !== void 0 ? ` text-${ props.color }` : '')
@@ -426,18 +434,19 @@ export default defineComponent({
     function getSlotScope (node, meta, key) {
       const scope = { tree: proxy, node, key, color: props.color, dark: isDark.value }
 
-      Object.defineProperty(scope, 'expanded', {
-        get: () => { return meta.expanded },
-        set: val => { val !== meta.expanded && setExpanded(key, val) },
-        configurable: true,
-        enumerable: true
-      })
-      Object.defineProperty(scope, 'ticked', {
-        get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && setTicked([ key ], val) },
-        configurable: true,
-        enumerable: true
-      })
+      injectProp(
+        scope,
+        'expanded',
+        () => { return meta.expanded },
+        val => { val !== meta.expanded && setExpanded(key, val) }
+      )
+
+      injectProp(
+        scope,
+        'ticked',
+        () => { return meta.ticked },
+        val => { val !== meta.ticked && setTicked([ key ], val) }
+      )
 
       return scope
     }
@@ -533,34 +542,34 @@ export default defineComponent({
 
           m.lazy === 'loading'
             ? h(QSpinner, {
-                class: 'q-tree__spinner q-mr-xs',
-                color: computedControlColor.value
-              })
+              class: 'q-tree__spinner',
+              color: computedControlColor.value
+            })
             : (
                 isParent === true
                   ? h(QIcon, {
-                      class: 'q-tree__arrow q-mr-xs'
+                    class: 'q-tree__arrow'
                     + (m.expanded === true ? ' q-tree__arrow--rotate' : ''),
-                      name: computedIcon.value,
-                      onClick (e) { onExpandClick(node, m, e) }
-                    })
+                    name: computedIcon.value,
+                    onClick (e) { onExpandClick(node, m, e) }
+                  })
                   : null
               ),
 
           m.hasTicking === true && m.noTick !== true
             ? h(QCheckbox, {
-                class: 'q-mr-xs',
-                modelValue: m.indeterminate === true ? null : m.ticked,
-                color: computedControlColor.value,
-                dark: isDark.value,
-                dense: true,
-                keepColor: true,
-                disable: m.tickable !== true,
-                onKeydown: stopAndPrevent,
-                'onUpdate:modelValue': v => {
-                  onTickedClick(m, v)
-                }
-              })
+              class: 'q-tree__tickbox',
+              modelValue: m.indeterminate === true ? null : m.ticked,
+              color: computedControlColor.value,
+              dark: isDark.value,
+              dense: true,
+              keepColor: true,
+              disable: m.tickable !== true,
+              onKeydown: stopAndPrevent,
+              'onUpdate:modelValue': v => {
+                onTickedClick(m, v)
+              }
+            })
             : null,
 
           h('div', {
@@ -578,22 +587,22 @@ export default defineComponent({
 
         isParent === true
           ? h(QSlideTransition, {
-              duration: props.duration,
-              onShow,
-              onHide
-            }, () => withDirectives(
+            duration: props.duration,
+            onShow,
+            onHide
+          }, () => withDirectives(
+            h('div', {
+              class: 'q-tree__node-collapsible' + textColorClass.value,
+              key: `${ key }__q`
+            }, [
+              body,
               h('div', {
-                class: 'q-tree__node-collapsible' + textColorClass.value,
-                key: `${ key }__q`
-              }, [
-                body,
-                h('div', {
-                  class: 'q-tree__children'
+                class: 'q-tree__children'
                   + (m.disabled === true ? ' q-tree__node--disabled' : '')
-                }, children)
-              ]),
-              [ [ vShow, m.expanded ] ]
-            ))
+              }, children)
+            ]),
+            [ [ vShow, m.expanded ] ]
+          ))
           : body
       ])
     }
@@ -606,9 +615,12 @@ export default defineComponent({
     function onClick (node, meta, e, keyboard) {
       keyboard !== true && blur(meta.key)
 
-      if (hasSelection.value) {
-        if (meta.selectable) {
+      if (hasSelection.value && meta.selectable) {
+        if (props.noSelectionUnset === false) {
           emit('update:selected', meta.key !== props.selected ? meta.key : null)
+        }
+        else if (meta.key !== props.selected) {
+          emit('update:selected', meta.key || null)
         }
       }
       else {

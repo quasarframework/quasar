@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, nextTick, getCurrentInstance } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -14,6 +14,7 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useCache from '../../composables/private/use-cache.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { stop } from '../../utils/event.js'
@@ -34,8 +35,9 @@ const palette = [
 ]
 
 const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
+const alphaTrackImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg=='
 
-export default defineComponent({
+export default createComponent({
   name: 'QColor',
 
   props: {
@@ -60,6 +62,7 @@ export default defineComponent({
     palette: Array,
 
     noHeader: Boolean,
+    noHeaderTabs: Boolean,
     noFooter: Boolean,
 
     square: Boolean,
@@ -145,7 +148,7 @@ export default defineComponent({
         ? true
         : luminosity(model.value) > 0.4
 
-      return 'q-color-picker__header-content absolute-full'
+      return 'q-color-picker__header-content'
         + ` q-color-picker__header-content--${ light ? 'light' : 'dark' }`
     })
 
@@ -496,6 +499,63 @@ export default defineComponent({
     }
 
     function getHeader () {
+      const child = []
+
+      props.noHeaderTabs !== true && child.push(
+        h(QTabs, {
+          class: 'q-color-picker__header-tabs',
+          modelValue: topView.value,
+          dense: true,
+          align: 'justify',
+          ...getCache('topVTab', {
+            'onUpdate:modelValue': val => { topView.value = val }
+          })
+        }, () => [
+          h(QTab, {
+            label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
+            name: 'hex',
+            ripple: false
+          }),
+
+          h(QTab, {
+            label: 'RGB' + (hasAlpha.value === true ? 'A' : ''),
+            name: 'rgb',
+            ripple: false
+          })
+        ])
+      )
+
+      child.push(
+        h('div', {
+          class: 'q-color-picker__header-banner row flex-center no-wrap'
+        }, [
+          h('input', {
+            class: 'fit',
+            value: model.value[ topView.value ],
+            ...(editable.value !== true
+              ? { readonly: true }
+              : {}
+            ),
+            ...getCache('topIn', {
+              onInput: evt => {
+                updateErrorIcon(onEditorChange(evt) === true)
+              },
+              onChange: stop,
+              onBlur: evt => {
+                onEditorChange(evt, true) === true && proxy.$forceUpdate()
+                updateErrorIcon(false)
+              }
+            })
+          }),
+
+          h(QIcon, {
+            ref: errorIconRef,
+            class: 'q-color-picker__error-icon absolute no-pointer-events',
+            name: $q.iconSet.type.negative
+          })
+        ])
+      )
+
       return h('div', {
         class: 'q-color-picker__header relative-position overflow-hidden'
       }, [
@@ -504,57 +564,7 @@ export default defineComponent({
         h('div', {
           class: headerClass.value,
           style: currentBgColor.value
-        }, [
-          h(QTabs, {
-            modelValue: topView.value,
-            dense: true,
-            align: 'justify',
-            ...getCache('topVTab', {
-              'onUpdate:modelValue': val => { topView.value = val }
-            })
-          }, () => [
-            h(QTab, {
-              label: 'HEX' + (hasAlpha.value === true ? 'A' : ''),
-              name: 'hex',
-              ripple: false
-            }),
-
-            h(QTab, {
-              label: 'RGB' + (hasAlpha.value === true ? 'A' : ''),
-              name: 'rgb',
-              ripple: false
-            })
-          ]),
-
-          h('div', {
-            class: 'q-color-picker__header-banner row flex-center no-wrap'
-          }, [
-            h('input', {
-              class: 'fit',
-              value: model.value[ topView.value ],
-              ...(editable.value !== true
-                ? { readonly: true }
-                : {}
-              ),
-              ...getCache('topIn', {
-                onInput: evt => {
-                  updateErrorIcon(onEditorChange(evt) === true)
-                },
-                onChange: stop,
-                onBlur: evt => {
-                  onEditorChange(evt, true) === true && proxy.$forceUpdate()
-                  updateErrorIcon(false)
-                }
-              })
-            }),
-
-            h(QIcon, {
-              ref: errorIconRef,
-              class: 'q-color-picker__error-icon absolute no-pointer-events',
-              name: $q.iconSet.type.negative
-            })
-          ])
-        ])
+        }, child)
       ])
     }
 
@@ -644,37 +654,42 @@ export default defineComponent({
       ]
 
       const sliders = [
-        h('div', { class: 'q-color-picker__hue non-selectable' }, [
-          h(QSlider, {
-            modelValue: model.value.h,
-            min: 0,
-            max: 360,
-            fillHandleAlways: true,
-            readonly: editable.value !== true,
-            thumbPath,
-            'onUpdate:modelValue': onHueChange,
-            ...getCache('lazyhue', {
-              onChange: val => onHueChange(val, true)
-            })
+        h(QSlider, {
+          class: 'q-color-picker__hue non-selectable',
+          modelValue: model.value.h,
+          min: 0,
+          max: 360,
+          trackSize: '8px',
+          innerTrackColor: 'transparent',
+          selectionColor: 'transparent',
+          readonly: editable.value !== true,
+          thumbPath,
+          'onUpdate:modelValue': onHueChange,
+          ...getCache('lazyhue', {
+            onChange: val => onHueChange(val, true)
           })
-        ])
+        })
       ]
 
       hasAlpha.value === true && sliders.push(
-        h('div', { class: 'q-color-picker__alpha non-selectable' }, [
-          h(QSlider, {
-            modelValue: model.value.a,
-            min: 0,
-            max: 100,
-            fillHandleAlways: true,
-            readonly: editable.value !== true,
-            thumbPath,
-            ...getCache('alphaSlide', {
-              'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
-              onChange: value => onNumericChange(value, 'a', 100, void 0, true)
-            })
+        h(QSlider, {
+          class: 'q-color-picker__alpha non-selectable',
+          modelValue: model.value.a,
+          min: 0,
+          max: 100,
+          trackSize: '8px',
+          trackColor: 'white',
+          innerTrackColor: 'transparent',
+          selectionColor: 'transparent',
+          trackImg: alphaTrackImg,
+          readonly: editable.value !== true,
+          hideSelection: true,
+          thumbPath,
+          ...getCache('alphaSlide', {
+            'onUpdate:modelValue': value => onNumericChange(value, 'a', 100),
+            onChange: value => onNumericChange(value, 'a', 100, void 0, true)
           })
-        ])
+        })
       )
 
       return [
@@ -790,19 +805,23 @@ export default defineComponent({
     }
 
     function getPaletteTab () {
+      const fn = color => h('div', {
+        class: 'q-color-picker__cube col-auto',
+        style: { backgroundColor: color },
+        ...(
+          editable.value === true
+            ? getCache('palette#' + color, {
+              onClick: () => { onPalettePick(color) }
+            })
+            : {}
+        )
+      })
+
       return [
         h('div', {
           class: 'row items-center q-color-picker__palette-rows'
             + (editable.value === true ? ' q-color-picker__palette-rows--editable' : '')
-        }, computedPalette.value.map(color => h('div', {
-          class: 'q-color-picker__cube col-auto',
-          style: { backgroundColor: color },
-          ...(editable.value === true ? getCache('palette#' + color, {
-            onClick: () => {
-              onPalettePick(color)
-            }
-          }) : {})
-        })))
+        }, computedPalette.value.map(fn))
       ]
     }
 

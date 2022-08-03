@@ -76,4 +76,4 @@ Loading.hide()
 <doc-example title="Show and Change" file="Loading/ShowAndChange" />
 
 ### Setting Up Defaults
-Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.conf.js > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config.js > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.

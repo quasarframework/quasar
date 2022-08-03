@@ -1,45 +1,91 @@
 <template>
-  <div class="q-layout-padding">
-    <div v-for="type in types" :key="type" :class="type">
-      {{ type }}
+  <div class="q-pa-md q-gutter-y-md">
+    <div v-for="bp in breakpoints" :key="bp" class="row q-col-gutter-sm">
+      <div class="col-4">
+        <div class="fit q-pa-sm bg-grey-4 text-center">
+          <template v-if="bp === 'xs'">
+            N/A
+          </template>
+          <strong v-else :class="`lt-${ bp }`">
+            lt-{{ bp }}
+          </strong>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="fit q-pa-sm bg-grey-4 text-center">
+          <strong :class="`${ bp }`">
+            {{ bp }}
+          </strong>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="fit q-pa-sm bg-grey-4 text-center">
+          <template v-if="bp === 'xl'">
+            N/A
+          </template>
+          <strong v-else :class="`gt-${ bp }`">
+            gt-{{ bp }}
+          </strong>
+        </div>
+      </div>
     </div>
-    <p class="caption" :class="`bg-${color}`">
-      {{ w }} - {{ $q.screen.sizes[w] }} - {{ $q.screen.width }}
-    </p>
+
+    <div class="q-pa-sm" :class="`bg-${ color }`">
+      Screen breakpoint: <strong>{{ w }}</strong>
+      <br/>
+      from <strong>{{ $q.screen.sizes[w] || 0 }}</strong> to <strong>{{ $q.screen.sizes[wNext] || 'Infinity' }}</strong>
+      <br/>
+      width: <strong>{{ $q.screen.width }}</strong>
+    </div>
   </div>
 </template>
 
 <script>
+const breakpoints = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
+const breakpointsLen = breakpoints.length
+
 export default {
   data () {
     return {
-      types: [ 'xs', 'gt-xs', 'lt-sm', 'sm', 'gt-sm', 'lt-md', 'md', 'gt-md', 'lt-lg', 'lg', 'gt-lg', 'lt-xl', 'xl' ]
+      breakpoints
     }
   },
 
   computed: {
     w () {
-      const screen = this.$q.screen
-      if (screen.xl) { return 'xl' }
-      if (screen.lg) { return 'lg' }
-      if (screen.md) { return 'md' }
-      if (screen.sm) { return 'sm' }
-      return 'xs'
+      const { screen } = this.$q
+
+      for (let i = 0; i < breakpointsLen; i++) {
+        const bp = breakpoints[ i ]
+
+        if (screen[ bp ] === true) {
+          return bp
+        }
+      }
+
+      return '???'
     },
+
+    wNext () {
+      const { screen } = this.$q
+
+      for (let i = 0; i < breakpointsLen; i++) {
+        const bp = breakpoints[ i ]
+
+        if (screen[ bp ] === true) {
+          return i < breakpointsLen - 1 ? breakpoints[ i + 1 ] : '???'
+        }
+      }
+
+      return '???'
+    },
+
     color () {
-      if (this.w === 'xs') {
-        return 'yellow-2'
-      }
-      if (this.w === 'sm') {
-        return 'yellow-4'
-      }
-      if (this.w === 'md') {
-        return 'yellow-6'
-      }
-      if (this.w === 'lg') {
-        return 'yellow-8'
-      }
-      return 'yellow-10'
+      const index = breakpoints.indexOf(this.w)
+
+      return index === -1
+        ? 'red-6'
+        : `yellow-${ 1 + 2 * index }`
     }
   }
 }

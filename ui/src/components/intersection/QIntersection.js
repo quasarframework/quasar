@@ -1,12 +1,13 @@
-import { h, defineComponent, ref, computed, Transition } from 'vue'
+import { h, ref, computed, Transition } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QIntersection',
 
   props: {
@@ -17,6 +18,10 @@ export default defineComponent({
 
     once: Boolean,
     transition: String,
+    transitionDuration: {
+      type: [ String, Number ],
+      default: 300
+    },
 
     ssrPrerender: Boolean,
 
@@ -62,6 +67,10 @@ export default defineComponent({
       ] ]
     })
 
+    const transitionStyle = computed(
+      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+    )
+
     function trigger (entry) {
       if (showing.value !== entry.isIntersecting) {
         showing.value = entry.isIntersecting
@@ -71,7 +80,7 @@ export default defineComponent({
 
     function getContent () {
       return showing.value === true
-        ? [ h('div', { key: 'content' }, hSlot(slots.default)) ]
+        ? [ h('div', { key: 'content', style: transitionStyle.value }, hSlot(slots.default)) ]
         : void 0
     }
 

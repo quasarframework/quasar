@@ -32,6 +32,12 @@
       "category": "style"
     },
 
+    "animation-speed": {
+      "extends": "animation-speed",
+      "default": 300,
+      "addedIn": "v2.2"
+    },
+
     "square": {
       "extends": "square"
     },

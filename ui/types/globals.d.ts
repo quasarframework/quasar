@@ -4,12 +4,12 @@ import { QuasarLanguage } from "./lang";
 
 // We cannot reference directly Capacitor/Cordova types
 //  or they would generate TS errors for Vue CLI users
-// We also cannot move feature-flags system into `@quasar/app`
+// We also cannot move feature-flags system into `@quasar/app-webpack`/`@quasar/app-vite`
 //  because `QVueGlobals` augmentations won't be transferred to
 //  the `vue/types/vue` augmentation for unknown reason (probably TS limitations)
 //  and the system will just stop working
 // To workaround these problems we define an empty holder interface
-//  and augment it into `@quasar/app` with current typings
+//  and augment it into `@quasar/app-webpack`/`@quasar/app-vite` with current typings
 export interface GlobalsTypesHolder {
   [index: string]: any;
 }

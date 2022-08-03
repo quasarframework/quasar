@@ -1,11 +1,11 @@
-import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
-import { hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private/create.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'StepHeader',
 
   props: {
@@ -47,23 +47,36 @@ export default defineComponent({
 
     const hasPrefix = computed(() => {
       return props.step.prefix
-        && isActive.value === false
-        && isError.value === false
-        && isDone.value === false
+        && (isActive.value === false || props.stepper.activeIcon === 'none')
+        && (isError.value === false || props.stepper.errorIcon === 'none')
+        && (isDone.value === false || props.stepper.doneIcon === 'none')
     })
 
     const icon = computed(() => {
+      const defaultIcon = props.step.icon || props.stepper.inactiveIcon
+
       if (isActive.value === true) {
-        return props.step.activeIcon || props.stepper.activeIcon || $q.iconSet.stepper.active
-      }
-      if (isError.value === true) {
-        return props.step.errorIcon || props.stepper.errorIcon || $q.iconSet.stepper.error
-      }
-      if (isDisable.value === false && isDone.value === true) {
-        return props.step.doneIcon || props.stepper.doneIcon || $q.iconSet.stepper.done
+        const icon = props.step.activeIcon || props.stepper.activeIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || $q.iconSet.stepper.active
       }
 
-      return props.step.icon || props.stepper.inactiveIcon
+      if (isError.value === true) {
+        const icon = props.step.errorIcon || props.stepper.errorIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || $q.iconSet.stepper.error
+      }
+
+      if (isDisable.value === false && isDone.value === true) {
+        const icon = props.step.doneIcon || props.stepper.doneIcon
+        return icon === 'none'
+          ? defaultIcon
+          : icon || $q.iconSet.stepper.done
+      }
+
+      return defaultIcon
     })
 
     const color = computed(() => {
@@ -90,12 +103,20 @@ export default defineComponent({
     const classes = computed(() => {
       return 'q-stepper__tab col-grow flex items-center no-wrap relative-position'
         + (color.value !== void 0 ? ` text-${ color.value }` : '')
-        + (isError.value === true ? ' q-stepper__tab--error' : '')
+        + (isError.value === true
+          ? ' q-stepper__tab--error q-stepper__tab--error-with-' + (hasPrefix.value === true ? 'prefix' : 'icon')
+          : '')
         + (isActive.value === true ? ' q-stepper__tab--active' : '')
         + (isDone.value === true ? ' q-stepper__tab--done' : '')
         + (headerNav.value === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '')
         + (isDisable.value === true ? ' q-stepper__tab--disabled' : '')
     })
+
+    const ripple = computed(() => (
+      props.stepper.headerNav !== true
+        ? false
+        : headerNav.value
+    ))
 
     function onActivate () {
       blurRef.value !== null && blurRef.value.focus()
@@ -152,13 +173,9 @@ export default defineComponent({
         )
       }
 
-      return hDir(
-        'div',
-        data,
-        child,
-        'head',
-        props.stepper.headerNav === true && headerNav.value !== false,
-        () => [ [ Ripple, headerNav.value ] ]
+      return withDirectives(
+        h('div', data, child),
+        [ [ Ripple, ripple.value ] ]
       )
     }
   }

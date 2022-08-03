@@ -1,11 +1,12 @@
-import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
+import { h, computed, provide, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { timelineKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QTimeline',
 
   props: {

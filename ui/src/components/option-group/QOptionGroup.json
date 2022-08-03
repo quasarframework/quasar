@@ -14,7 +14,30 @@
 
     "options": {
       "type": "Array",
-      "desc": "Array of objects with value and label props. The binary components will be created according to this array; Props from QToggle, QCheckbox or QRadio can also be added as key/value pairs to control the components singularly",
+      "desc": "Array of objects with value, label, and disable (optional) props. The binary components will be created according to this array; Props from QToggle, QCheckbox or QRadio can also be added as key/value pairs to control the components singularly",
+      "definition": {
+        "label": {
+          "type": "String",
+          "desc": "Label to display along the component",
+          "required": true,
+          "examples": [ "Option 1", "Option 2", "Option 3" ]
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Value of the option that will be used by the component model",
+          "required": true,
+          "examples": [ "op1", "op2", "op3" ]
+        },
+        "disable": {
+          "type": "Boolean",
+          "desc": "If true, the option will be disabled"
+        },
+        "...props": {
+          "type": "Any",
+          "desc": "Any other props from QToggle, QCheckbox, or QRadio",
+          "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+        }
+      },
       "examples": [
         ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3', disable: true } ]\""
       ],
@@ -69,6 +92,78 @@
 
     "disable": {
       "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "label": {
+      "desc": "Generic slot for all labels",
+      "scope": {
+        "...self": {
+          "type": "Object",
+          "desc": "The corresponding option entry from the 'options' prop",
+          "definition": {
+            "label": {
+              "type": "String",
+              "desc": "Label to display along the component",
+              "required": true,
+              "examples": [ "Option 1", "Option 2", "Option 3" ]
+            },
+            "value": {
+              "type": "Any",
+              "desc": "Value of the option that will be used by the component model",
+              "required": true,
+              "examples": [ "op1", "op2", "op3" ]
+            },
+            "disable": {
+              "type": "Boolean",
+              "desc": "If true, the option will be disabled"
+            },
+            "...props": {
+              "type": "Any",
+              "desc": "Any other props from QToggle, QCheckbox, or QRadio",
+              "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+            }
+          },
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v2.2"
+    },
+
+    "label-[name]": {
+      "desc": "Slot to define the specific label for the option at '[name]' where name is a 0-based index; Overrides the generic 'label' slot if used",
+      "scope": {
+        "...self": {
+          "type": "Object",
+          "desc": "The corresponding option entry from the 'options' prop",
+          "definition": {
+            "label": {
+              "type": "String",
+              "desc": "Label to display along the component",
+              "required": true,
+              "examples": [ "Option 1", "Option 2", "Option 3" ]
+            },
+            "value": {
+              "type": "Any",
+              "desc": "Value of the option that will be used by the component model",
+              "required": true,
+              "examples": [ "op1", "op2", "op3" ]
+            },
+            "disable": {
+              "type": "Boolean",
+              "desc": "If true, the option will be disabled"
+            },
+            "...props": {
+              "type": "Any",
+              "desc": "Any other props from QToggle, QCheckbox, or QRadio",
+              "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
+            }
+          },
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v2.2"
     }
   },
 

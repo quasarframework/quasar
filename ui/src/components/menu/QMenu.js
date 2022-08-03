@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
@@ -9,6 +9,7 @@ import useTransition, { useTransitionProps } from '../../composables/private/use
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { closePortalMenus } from '../../utils/private/portal.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { position, stopAndPrevent } from '../../utils/event.js'
@@ -17,13 +18,13 @@ import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js
 import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
 import { childHasFocus } from '../../utils/dom.js'
 import { addClickOutside, removeClickOutside } from '../../utils/private/click-outside.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
-import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QMenu',
 
   inheritAttrs: false,
@@ -97,7 +98,7 @@ export default defineComponent({
     )
 
     const isDark = useDark(props, $q)
-    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTick, removeTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
@@ -115,7 +116,6 @@ export default defineComponent({
     const clickOutsideProps = {
       anchorEl,
       innerRef,
-      getEl: () => proxy.$el,
       onClickOutside (e) {
         if (props.persistent !== true && showing.value === true) {
           hide(e)
@@ -181,7 +181,7 @@ export default defineComponent({
 
         if (node && node.contains(document.activeElement) !== true) {
           node = node.querySelector('[autofocus], [data-autofocus]') || node
-          node.focus()
+          node.focus({ preventScroll: true })
         }
       })
     }
@@ -225,7 +225,6 @@ export default defineComponent({
         updatePosition()
         props.noFocus !== true && focus()
       })
-      prepareTick()
 
       registerTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
@@ -245,6 +244,7 @@ export default defineComponent({
     function handleHide (evt) {
       removeTick()
       removeTimeout()
+      hidePortal()
 
       anchorCleanup(true)
 
@@ -258,10 +258,11 @@ export default defineComponent({
         )
       ) {
         refocusTarget.focus()
+        refocusTarget = null
       }
 
       registerTimeout(() => {
-        hidePortal()
+        hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
       }, props.transitionDuration)
     }
@@ -279,6 +280,10 @@ export default defineComponent({
         unconfigureScrollTarget()
         removeClickOutside(clickOutsideProps)
         removeEscapeKey(onEscapeKey)
+      }
+
+      if (hiding !== true) {
+        refocusTarget = null
       }
     }
 
@@ -305,6 +310,7 @@ export default defineComponent({
       // the focus is not in a vue child component
       if (
         handlesFocus.value === true
+        && props.noFocus !== true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus()
@@ -344,16 +350,19 @@ export default defineComponent({
         () => (
           showing.value === true
             ? h('div', {
-                ...attrs,
-                ref: innerRef,
-                tabindex: -1,
-                class: [
-                  'q-menu q-position-engine scroll' + menuClass.value,
-                  attrs.class
-                ],
-                style: [ attrs.style, transitionStyle.value ],
-                ...onEvents.value
-              }, hSlot(slots.default))
+              ...attrs,
+              ref: innerRef,
+              tabindex: -1,
+              class: [
+                'q-menu q-position-engine scroll' + menuClass.value,
+                attrs.class
+              ],
+              style: [
+                attrs.style,
+                transitionStyle.value
+              ],
+              ...onEvents.value
+            }, hSlot(slots.default))
             : null
         )
       )

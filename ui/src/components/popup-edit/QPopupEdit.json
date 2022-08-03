@@ -173,6 +173,7 @@
           "params": {
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "Value to be checked",
               "examples": [ 0, "Changed text" ]
             }

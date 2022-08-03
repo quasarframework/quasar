@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import QChip from '../chip/QChip.js'
 
@@ -7,10 +7,14 @@ import { useFormProps, useFormInputNameAttr } from '../../composables/private/us
 import useFile, { useFileProps, useFileEmits } from '../../composables/private/use-file.js'
 import useFileFormDomProps from '../../composables/private/use-file-dom-props.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { humanStorageSize } from '../../utils/format.js'
+import { prevent } from '../../utils/event.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QFile',
+
+  inheritAttrs: false,
 
   props: {
     ...useFieldProps,
@@ -54,6 +58,7 @@ export default defineComponent({
     const {
       pickFiles,
       onDragover,
+      onDragleave,
       processFiles,
       getDndNode
     } = useFile({ editable: state.editable, dnd, getFileInput, addFilesToQueue })
@@ -98,6 +103,11 @@ export default defineComponent({
       disabled: state.editable.value !== true
     }))
 
+    const fieldClass = computed(() =>
+      'q-file q-field--auto-height'
+      + (dnd.value === true ? ' q-file--dnd' : '')
+    )
+
     const isAppending = computed(() =>
       props.multiple === true && props.append === true
     )
@@ -119,9 +129,16 @@ export default defineComponent({
       emit('update:modelValue', props.multiple === true ? files : files[ 0 ])
     }
 
+    function onKeydown (e) {
+      // prevent form submit if ENTER is pressed
+      e.keyCode === 13 && prevent(e)
+    }
+
     function onKeyup (e) {
-      // only on ENTER
-      e.keyCode === 13 && pickFiles(e)
+      // only on ENTER and SPACE to match native input field
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        pickFiles(e)
+      }
     }
 
     function getFileInput () {
@@ -130,6 +147,11 @@ export default defineComponent({
 
     function addFilesToQueue (e, fileList) {
       const files = processFiles(e, fileList, innerValue.value, isAppending.value)
+      const fileInput = getFileInput()
+
+      if (fileInput !== void 0 && fileInput !== null) {
+        fileInput.value = ''
+      }
 
       // if nothing to do...
       if (files === void 0) { return }
@@ -155,8 +177,7 @@ export default defineComponent({
       return [
         h('input', {
           class: [ props.inputClass, 'q-file__filler' ],
-          style: props.inputStyle,
-          tabindex: -1
+          style: props.inputStyle
         })
       ]
     }
@@ -224,8 +245,7 @@ export default defineComponent({
     }
 
     Object.assign(state, {
-      inheritAttrs: true,
-      fieldClass: { value: 'q-file q-field--auto-height' },
+      fieldClass,
       emitValue,
       hasValue,
       inputRef,
@@ -254,7 +274,7 @@ export default defineComponent({
         }
 
         if (state.editable.value === true) {
-          Object.assign(data, { onDragover, onKeyup })
+          Object.assign(data, { onDragover, onDragleave, onKeydown, onKeyup })
         }
 
         return h('div', data, [ getInput() ].concat(getSelection()))

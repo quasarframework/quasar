@@ -1,8 +1,9 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QBtnGroup',
 
   props: {
@@ -10,6 +11,7 @@ export default defineComponent({
     outline: Boolean,
     flat: Boolean,
     rounded: Boolean,
+    square: Boolean,
     push: Boolean,
     stretch: Boolean,
     glossy: Boolean,
@@ -18,7 +20,7 @@ export default defineComponent({
 
   setup (props, { slots }) {
     const classes = computed(() => {
-      const cls = [ 'unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy' ]
+      const cls = [ 'unelevated', 'outline', 'flat', 'rounded', 'square', 'push', 'stretch', 'glossy' ]
         .filter(t => props[ t ] === true)
         .map(t => `q-btn-group--${ t }`).join(' ')
 

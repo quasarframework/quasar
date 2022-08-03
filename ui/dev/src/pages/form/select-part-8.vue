@@ -45,7 +45,7 @@
                   <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
                     <q-item v-bind="itemProps">
                       <q-item-section>
-                        <q-item-label v-html="opt.label" ></q-item-label>
+                        <q-item-label v-html="opt.label" />
                       </q-item-section>
                       <q-item-section side>
                         <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
@@ -295,6 +295,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-</style>

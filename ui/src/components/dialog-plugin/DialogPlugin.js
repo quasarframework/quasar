@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, toRaw, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, toRaw, getCurrentInstance } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
@@ -13,11 +13,13 @@ import QOptionGroup from '../option-group/QOptionGroup.js'
 
 import QSpinner from '../spinner/QSpinner.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/private/key-composition.js'
+import { isObject } from '../../utils/private/is.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'DialogPlugin',
 
   props: {
@@ -79,7 +81,7 @@ export default defineComponent({
       props.progress === false
         ? null
         : (
-            Object(props.progress) === props.progress
+            isObject(props.progress) === true
               ? {
                   component: props.progress.spinner || QSpinner,
                   props: { color: props.progress.color || vmColor.value }
@@ -108,7 +110,7 @@ export default defineComponent({
     })
 
     const okLabel = computed(() => (
-      Object(props.ok) === props.ok
+      isObject(props.ok) === true
         ? $q.lang.label.ok
         : (
             props.ok === true
@@ -118,7 +120,7 @@ export default defineComponent({
     ))
 
     const cancelLabel = computed(() => (
-      Object(props.cancel) === props.cancel
+      isObject(props.cancel) === true
         ? $q.lang.label.cancel
         : (
             props.cancel === true
@@ -143,8 +145,8 @@ export default defineComponent({
       color: vmColor.value,
       label: okLabel.value,
       ripple: false,
-      ...(Object(props.ok) === props.ok ? props.ok : { flat: true }),
       disable: okDisabled.value,
+      ...(isObject(props.ok) === true ? props.ok : { flat: true }),
       'data-autofocus': (props.focus === 'ok' && hasForm.value !== true) || void 0,
       onClick: onOk
     }))
@@ -153,7 +155,7 @@ export default defineComponent({
       color: vmColor.value,
       label: cancelLabel.value,
       ripple: false,
-      ...(Object(props.cancel) === props.cancel ? props.cancel : { flat: true }),
+      ...(isObject(props.cancel) === true ? props.cancel : { flat: true }),
       'data-autofocus': (props.focus === 'cancel' && hasForm.value !== true) || void 0,
       onClick: onCancel
     }))
@@ -200,9 +202,9 @@ export default defineComponent({
     function getSection (classes, text) {
       return props.html === true
         ? h(QCardSection, {
-            class: classes,
-            innerHTML: text
-          })
+          class: classes,
+          innerHTML: text
+        })
         : h(QCardSection, { class: classes }, () => text)
     }
 

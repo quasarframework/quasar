@@ -3,7 +3,8 @@ title: Bar
 desc: The QBar Vue component is used to create the top bar on different platforms.
 keys: QBar
 related:
-  - /quasar-cli/developing-electron-apps/frameless-electron-window
+  - /quasar-cli-vite/developing-electron-apps/frameless-electron-window
+  - /quasar-cli-webpack/developing-electron-apps/frameless-electron-window
 ---
 
 The QBar is a small component for creating the top bar on different types of mobile or desktop websites/apps. For instance, in desktop apps QBar will have things like the close, minimize or maximize buttons and other menu controls for your application.

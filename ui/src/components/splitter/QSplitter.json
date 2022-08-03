@@ -50,7 +50,8 @@
     },
 
     "before-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the 'before' panel",
       "examples": [
         "bg-deep-orange",
@@ -60,7 +61,8 @@
     },
 
     "after-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the 'after' panel",
       "examples": [
         "bg-deep-orange",
@@ -70,7 +72,8 @@
     },
 
     "separator-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the splitter separator",
       "examples": [
         "bg-deep-orange",
@@ -80,7 +83,8 @@
     },
 
     "separator-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the splitter separator",
       "examples": [
         "background-color: #ff0000",

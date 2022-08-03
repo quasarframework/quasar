@@ -8,6 +8,8 @@
         height="280px"
         style="height: 280px; max-width: 300px"
         :no-native-menu="noNativeMenu"
+        @click="onClick"
+        gigi
       >
         <div class="absolute-bottom text-body1 text-center">
           With srcset
@@ -197,6 +199,10 @@ export default {
   methods: {
     refresh () {
       this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+    },
+
+    onClick () {
+      console.log('@click')
     }
   }
 }

@@ -1,11 +1,12 @@
-import { h, ref, nextTick } from 'vue'
+import { h, ref } from 'vue'
 
 import { createChildApp } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
-  okCancel: () => ssrAPI,
+  onCancel: () => ssrAPI,
+  onDismiss: () => ssrAPI,
   hide: () => ssrAPI,
   update: () => ssrAPI
 }
@@ -51,6 +52,40 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       style !== void 0 && (otherProps.cardStyle = style)
     }
 
+    let vm, emittedOK = false
+    const dialogRef = ref(null)
+    const el = createGlobalNode()
+
+    const applyState = cmd => {
+      if (dialogRef.value !== null && dialogRef.value[ cmd ] !== void 0) {
+        dialogRef.value[ cmd ]()
+        return
+      }
+
+      const target = vm.$.subTree
+
+      if (target && target.component) {
+        // account for "script setup" way of declaring component
+        if (target.component.proxy && target.component.proxy[ cmd ]) {
+          target.component.proxy[ cmd ]()
+          return
+        }
+
+        // account for "script setup" + async component way of declaring component
+        if (
+          target.component.subTree
+          && target.component.subTree.component
+          && target.component.subTree.component.proxy
+          && target.component.subTree.component.proxy[ cmd ]
+        ) {
+          target.component.subTree.component.proxy[ cmd ]()
+          return
+        }
+      }
+
+      console.error('[Quasar] Incorrectly defined Dialog component')
+    }
+
     const
       okFns = [],
       cancelFns = [],
@@ -69,9 +104,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
           return API
         },
         hide () {
-          if (dialogRef.value !== null) {
-            dialogRef.value.hide()
-          }
+          applyState('hide')
           return API
         },
         update (componentProps) {
@@ -94,10 +127,6 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         }
       }
 
-    const el = createGlobalNode()
-
-    let emittedOK = false
-
     const onOk = data => {
       emittedOK = true
       okFns.forEach(fn => { fn(data) })
@@ -114,47 +143,24 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       }
     }
 
-    const dialogRef = ref(null)
-
     let app = createChildApp({
       name: 'QGlobalDialog',
-      setup () {
-        return () => h(DialogComponent, {
-          ref: dialogRef,
-          ...props,
-          onOk,
-          onHide
-        })
-      }
+      setup: () => () => h(DialogComponent, {
+        ...props,
+        ref: dialogRef,
+        onOk,
+        onHide,
+        onVnodeMounted (...args) {
+          if (typeof props.onVnodeMounted === 'function') {
+            props.onVnodeMounted(...args)
+          }
+
+          applyState('show')
+        }
+      })
     }, parentApp)
 
-    let vm = app.mount(el)
-
-    function show () {
-      if (dialogRef.value.show !== void 0) {
-        dialogRef.value.show()
-      }
-      else if ( // account for "script setup" way of declaring component
-        vm.$.subTree
-        && vm.$.subTree.component
-        && vm.$.subTree.component.proxy
-        && vm.$.subTree.component.proxy.show
-      ) {
-        vm.$.subTree.component.proxy.show()
-      }
-      else {
-        console.error('[Quasar] Incorrectly defined Dialog component')
-      }
-    }
-
-    if (dialogRef.value !== null) {
-      show()
-    }
-    else if (typeof DialogComponent.__asyncLoader === 'function') {
-      DialogComponent.__asyncLoader().then(() => {
-        nextTick(show)
-      })
-    }
+    vm = app.mount(el)
 
     return API
   }

@@ -39,7 +39,7 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 
 ## Reporting an Issue
 
-* [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for. Make sure that you specify that your bug is related to Quasar v2.
+* [GitHub](https://github.com/quasarframework/quasar/issues): If you want to create a bug report or a docs report, that’s what the GitHub issues are for. Make sure that you select the correct template and follow the given instructions while creating an issue.
 
 ::: danger Reporting a vulnerability
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](/security/report-a-vulnerability) steps for security issues.
@@ -47,11 +47,15 @@ Please do not report security vulnerabilities with public GitHub issue reports. 
 
 If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
 
-- The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
+- The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and docs reports. Non-conforming issues will be closed immediately.
 
   - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).
 
-  - For more complicated questions, you can use [the official forum](https://forum.quasar-framework.org/category/11/help). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
+  - For more complicated questions, you can use [the Discussions section](https://forum.quasar.dev). Make sure to provide enough information when asking your questions - this makes it easier for others to help you!
+
+  - For feature requests, you can [start a new feature discussion](https://github.com/quasarframework/quasar/discussions/new?category=ideas-proposals).
+
+- Try to search for your issue, it may have already been answered or even fixed in the development branch (`dev`).
 
 - Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.
 
@@ -59,7 +63,7 @@ If you've found a problem in Quasar which is not a security risk, do a search on
 
 - Use only the minimum amount of code necessary to reproduce the unexpected behavior. A good bug report should isolate specific methods that exhibit unexpected behavior and precisely define how expectations were violated. What did you expect the method or methods to do, and how did the observed behavior differ? The more precisely you isolate the issue, the faster we can investigate.
 
-- Issues with no clear reproduction steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
+- Issues with no clear reproduction steps will not be triaged. If an issue labeled "bug/0-needs-info" receives no further input from the issue author for more than 5 days, it will be closed.
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
@@ -122,7 +126,7 @@ Over time we consolidated a set of rules which we follow and following them will
 - Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
 - Use the present tense.
 - Be concise, avoid text / code duplication.
-- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://v3.vuejs.org/api/) rather than compiled tutorials which tend to be outdated soon.
+- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/api/) rather than compiled tutorials which tend to be outdated soon.
 - Do the proofreading before opening a PR
 - Do not repeat texts from other sources, but keep only things which are relevant and shows in a context Quasar specific features
 - Use official names. For example use `Firebase` instead of `firebase`
@@ -182,14 +186,20 @@ It's pretty likely that other changes to master have happened while you were wor
 $ git remote add upstream https://github.com/quasarframework/quasar.git
 ```
 
-2. Check out your fork's local `dev` branch.
+2. Fetch all remote branches
+
+```bash
+$ git fetch upstream
+```
+
+3. Check out your fork's local `dev` branch.
 
 ```bash
 $ git checkout dev
 > Switched to branch 'dev'
 ```
 
-3. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
+4. Merge the changes from `upstream/dev` into your local `dev` branch. This brings your fork's `dev` branch into sync with the upstream repository, without losing your local changes.
 
 ```bash
 $ git merge upstream/dev

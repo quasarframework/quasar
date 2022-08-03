@@ -82,12 +82,18 @@ export default {
       }
 
       ssrContext._meta.bodyClasses += cls.join(' ')
+
+      const brand = $q.config.brand
+      if (brand !== void 0) {
+        const vars = Object.keys(brand)
+          .map(key => `--q-${ key }:${ brand[ key ] };`)
+          .join('')
+
+        ssrContext._meta.endingHeadTags += `<style>:root{${ vars }}</style>`
+      }
+
       return
     }
-
-    const { $q } = opts
-
-    $q.config.brand !== void 0 && setColors($q.config.brand)
 
     if (this.__installed === true) { return }
 
@@ -95,6 +101,10 @@ export default {
       applyClientSsrCorrections()
     }
     else {
+      const { $q } = opts
+
+      $q.config.brand !== void 0 && setColors($q.config.brand)
+
       const cls = getBodyClasses(client, $q.config)
       document.body.classList.add.apply(document.body.classList, cls)
     }

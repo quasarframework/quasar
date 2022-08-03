@@ -1,5 +1,6 @@
 import { h } from 'vue'
-import { QBadge } from 'quasar'
+import { QBadge, Notify } from 'quasar'
+import { copyToClipboard } from 'assets/page-utils'
 
 import './DocApiEntry.sass'
 
@@ -74,18 +75,32 @@ function getNameDiv (label, level) {
   ])
 }
 
-function getExtendedNameDiv (label, level, type, required) {
+function getExtendedNameDiv (label, level, type, required, addedIn) {
   const suffix = `${type ? ` : ${type}` : ''}${required ? ' - required!' : ''}`
 
-  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
-    h('div', { class: 'api-row__value' }, [
+  const child = [
+    h(QBadge, {
+      onClick: () => { copyPropName(label) },
+      label,
+      color: NAME_PROP_COLOR[ level ],
+      style: 'cursor: pointer; font-size: 1em; line-height: 1.2em'
+    }),
+    suffix
+  ]
+
+  if (addedIn !== void 0) {
+    child.push(
       h(QBadge, {
-        color: NAME_PROP_COLOR[ level ],
-        label,
-        style: 'font-size: 1em; line-height: 1.2em'
-      }),
-      suffix
-    ])
+        class: 'q-ml-sm',
+        color: 'black',
+        textColor: 'white',
+        label: addedIn + '+'
+      })
+    )
+  }
+
+  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
+    h('div', { class: 'api-row__value' }, child)
   ])
 }
 
@@ -95,7 +110,7 @@ function getProp (prop, propName, level, onlyChildren) {
 
   if (propName !== void 0) {
     child.push(
-      getExtendedNameDiv(propName, level, type, type !== 'Function' && prop.required === true)
+      getExtendedNameDiv(propName, level, type, type !== 'Function' && prop.required === true, prop.addedIn)
     )
 
     if (prop.reactive === true) {
@@ -103,12 +118,6 @@ function getProp (prop, propName, level, onlyChildren) {
         getDiv(3, 'Reactive', 'yes')
       )
     }
-  }
-
-  if (prop.addedIn !== void 0) {
-    child.push(
-      getDiv(12, 'Added in', prop.addedIn)
-    )
   }
 
   child.push(
@@ -129,7 +138,16 @@ function getProp (prop, propName, level, onlyChildren) {
 
   if (prop.default !== void 0) {
     child.push(
-      getDiv(3, 'Default value', JSON.stringify(prop.default))
+      getDiv(
+        3,
+        'Default value',
+        void 0,
+        h(
+          'div',
+          { class: 'api-row--indent api-row__value' },
+          h('div', { class: 'api-row__example' }, '' + prop.default)
+        )
+      )
     )
   }
 
@@ -244,6 +262,17 @@ function getProp (prop, propName, level, onlyChildren) {
   return onlyChildren !== true
     ? h('div', { class: 'api-row row' }, child)
     : child
+}
+
+function copyPropName (propName) {
+  copyToClipboard(propName)
+
+  Notify.create({
+    message: 'Prop name has been copied to clipboard.',
+    position: 'top',
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
+    timeout: 2000
+  })
 }
 
 const describe = {}
@@ -415,7 +444,7 @@ describe.quasarConfOptions = conf => {
   const entry = [
     h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
       h('div', { class: 'api-row__value' }, [
-        h('span', { class: 'api-row__type text-grey' }, 'quasar.conf.js > framework > config > '),
+        h('span', { class: 'api-row__type text-grey' }, 'quasar.config.js > framework > config > '),
         h(QBadge, {
           color: NAME_PROP_COLOR[ 0 ],
           label: conf.propName,

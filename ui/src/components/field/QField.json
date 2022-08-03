@@ -30,9 +30,8 @@
           "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
         },
         "field": {
-          "type": "Object",
-          "desc": "DOM element of the field",
-          "__exemption": [ "examples" ]
+          "type": "Element",
+          "desc": "DOM element of the field"
         },
         "editable": {
           "type": "Boolean",
@@ -46,7 +45,7 @@
           "type": "Boolean",
           "desc": "Field's label is floating"
         },
-        "value": {
+        "modelValue": {
           "type": "Any",
           "desc": "Field's value",
           "examples": [ 0.241, "Text" ]
@@ -57,6 +56,7 @@
           "params": {
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }
@@ -81,9 +81,7 @@
       "desc": "Emitted when component gets focused",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -92,9 +90,7 @@
       "desc": "Emitted when component loses focus",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }

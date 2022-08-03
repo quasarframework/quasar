@@ -37,11 +37,13 @@
           "definition": {
             "height": {
               "type": "Number",
+              "required": true,
               "desc": "Layout height",
               "examples": [ 575 ]
             },
             "width": {
               "type": "Number",
+              "required": true,
               "desc": "Layout height",
               "examples": [ 575 ]
             }
@@ -59,27 +61,32 @@
           "definition": {
             "position": {
               "type": "Number",
+              "required": true,
               "desc": "Scroll offset from top (vertical)",
               "examples": [ 120 ]
             },
 
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of scroll",
               "values": [ "up", "down" ]
             },
             "directionChanged": {
               "type": "Boolean",
+              "required": true,
               "desc": "Has scroll direction changed since event was last emitted?"
             },
             "delta": {
               "type": "Number",
+              "required": true,
               "desc": "Vertical delta distance since event was last emitted",
               "examples": [ 120 ]
             },
 
             "inflectionPoint": {
               "type": "Number",
+              "required": true,
               "desc": "Scroll offset from top (vertical)",
               "examples": [ 120 ]
             }
@@ -94,7 +101,7 @@
         "height": {
           "type": "Number",
           "desc": "New scroll height of layout",
-          "examples": [1442]
+          "examples": [ 1442 ]
         }
       }
     }

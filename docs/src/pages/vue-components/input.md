@@ -74,6 +74,10 @@ Please check these resources for more information about native attributes (for i
 
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.
 
+::: warning
+Won't work with `v-model` managed input modifiers such as `.trim` because in that case Vue doesn't handle `null` values.
+:::
+
 <doc-example title="Clearable" file="QInput/Clearable" />
 
 ### Input types
@@ -214,8 +218,8 @@ You can use v-money directive:
   label="Price with v-money directive"
   hint="Mask: $ #,###.00 #"
 >
-  <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <input :id="id" class="q-field__input text-right" :model-value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+  <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
+    <input :id="id" class="q-field__input text-right" :value="modelValue" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
   </template>
 </q-field>
 ```
@@ -240,8 +244,8 @@ Or you can use money component:
   label="Price with v-money component"
   hint="Mask: $ #,###.00 #"
 >
-  <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <money :id="id" class="q-field__input text-right" :model-value="value" @update:model-value="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+  <template v-slot:control="{ id, floatingLabel, modelValue, emitValue }">
+    <money :id="id" class="q-field__input text-right" :model-value="modelValue" @update:model-value="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
   </template>
 </q-field>
 ```

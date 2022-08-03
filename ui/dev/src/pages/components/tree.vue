@@ -15,7 +15,9 @@
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
             <q-toggle v-model="dark" label="On dark background" :false-value="null" />
+            <q-toggle v-model="dense" label="Dense" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
+            <q-toggle v-model="noSelectionUnset" label="noSelectionUnset" />
             <q-toggle v-model="noConnectors" label="No connectors" />
           </div>
           <div class="col-xs-12 col-md-4">
@@ -48,10 +50,12 @@
           v-model:ticked="ticked"
           v-model:expanded="expanded"
           :dark="dark"
+          :dense="dense"
           :accordion="accordion"
           :color="color"
           :filter="filter"
           :no-connectors="noConnectors"
+          :no-selection-unset="noSelectionUnset"
           @lazy-load="onLazyLoad"
         >
           <!--
@@ -83,6 +87,10 @@
           </template>
 
           <template v-slot:body-2-1-2-1="prop">
+            Content for: {{ prop.key }}
+          </template>
+
+          <template v-slot:body-2-1-2-2-1="prop">
             Content for: {{ prop.key }}
           </template>
         </q-tree>
@@ -123,6 +131,7 @@ export default {
     return {
       noConnectors: false,
       selected: null,
+      noSelectionUnset: false,
       tickStrategy: 'leaf',
       ticked: [
         'KEY: Node 2.2',
@@ -143,10 +152,92 @@ export default {
       ],
       selectableNodes: true,
       dark: null,
+      dense: false,
       accordion: false,
       filter: '',
       defaultExpandAll: false,
       nodes: [
+        {
+          key: 'KEY: Node 01',
+          label: 'Node 01',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+        },
+        {
+          key: 'KEY: Node 02',
+          label: 'Node 02',
+          icon: 'alarm',
+          iconColor: 'red'
+        },
+        {
+          key: 'KEY: Node 03',
+          label: 'Node 03'
+        },
+        {
+          key: 'KEY: Node 04',
+          label: 'Node 04',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+          subnodes: [
+            {
+              key: 'KEY: Node 04.01',
+              label: 'Node 04.01',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+            },
+            {
+              key: 'KEY: Node 04.02',
+              label: 'Node 04.02',
+              icon: 'alarm',
+              iconColor: 'red'
+            },
+            {
+              key: 'KEY: Node 04.03',
+              label: 'Node 04.03'
+            }
+          ]
+        },
+        {
+          key: 'KEY: Node 05',
+          label: 'Node 05',
+          icon: 'alarm',
+          iconColor: 'red',
+          subnodes: [
+            {
+              key: 'KEY: Node 05.01',
+              label: 'Node 05.01',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+            },
+            {
+              key: 'KEY: Node 05.02',
+              label: 'Node 05.02',
+              icon: 'alarm',
+              iconColor: 'red'
+            },
+            {
+              key: 'KEY: Node 05.03',
+              label: 'Node 05.03'
+            }
+          ]
+        },
+        {
+          key: 'KEY: Node 06',
+          label: 'Node 06',
+          subnodes: [
+            {
+              key: 'KEY: Node 06.01',
+              label: 'Node 06.01',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+            },
+            {
+              key: 'KEY: Node 06.02',
+              label: 'Node 06.02',
+              icon: 'alarm',
+              iconColor: 'red'
+            },
+            {
+              key: 'KEY: Node 06.03',
+              label: 'Node 06.03'
+            }
+          ]
+        },
         {
           key: 'KEY: Node 1 - filter',
           label: 'Node 1 - filter',
@@ -261,6 +352,7 @@ export default {
                       subnodes: [
                         {
                           key: 'KEY: Node 2.1.2.2.1',
+                          body: '2-1-2-2-1',
                           label: 'Node 2.1.2.2.1'
                         },
                         {

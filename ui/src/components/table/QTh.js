@@ -1,10 +1,11 @@
-import { h, defineComponent, getCurrentInstance } from 'vue'
+import { h, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QTh',
 
   props: {
@@ -18,10 +19,13 @@ export default defineComponent({
     const vm = getCurrentInstance()
     const { proxy: { $q } } = vm
 
+    const onClick = evt => { emit('click', evt) }
+
     return () => {
       if (props.props === void 0) {
         return h('th', {
-          class: props.autoWidth === true ? 'q-table--col-auto-width' : ''
+          class: props.autoWidth === true ? 'q-table--col-auto-width' : '',
+          onClick
         }, hSlot(slots.default))
       }
 
@@ -59,7 +63,7 @@ export default defineComponent({
         style: col.headerStyle,
         onClick: evt => {
           col.sortable === true && props.props.sort(col) // eslint-disable-line
-          emit('click', evt)
+          onClick(evt)
         }
       }
 

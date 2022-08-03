@@ -51,6 +51,15 @@
       "category": "behavior"
     },
 
+    "transition-duration": {
+      "type": [ "String", "Number" ],
+      "desc": "Transition duration (in milliseconds, without unit)",
+      "default": 300,
+      "examples": [ 500, "1200" ],
+      "category": "behavior",
+      "addedIn": "v2.3.1"
+    },
+
     "disable": {
       "type": "Boolean",
       "desc": "Disable visibility observable (content will remain as it was, visible or hidden)",

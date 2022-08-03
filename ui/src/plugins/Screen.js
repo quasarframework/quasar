@@ -1,4 +1,4 @@
-import { isRuntimeSsrPreHydration } from './Platform.js'
+import { isRuntimeSsrPreHydration, client } from './Platform.js'
 
 import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { listenOpts, noop } from '../utils/event.js'
@@ -58,12 +58,23 @@ export default defineReactivePlugin({
       return
     }
 
+    const { visualViewport } = window
+    const target = visualViewport || window
+    const scrollingElement = document.scrollingElement || document.documentElement
+    const getSize = visualViewport === void 0 || client.is.mobile === true
+      ? () => [
+          Math.max(window.innerWidth, scrollingElement.clientWidth),
+          Math.max(window.innerHeight, scrollingElement.clientHeight)
+        ]
+      : () => [
+          visualViewport.width * visualViewport.scale + window.innerWidth - scrollingElement.clientWidth,
+          visualViewport.height * visualViewport.scale + window.innerHeight - scrollingElement.clientHeight
+        ]
+
     const classes = $q.config.screen !== void 0 && $q.config.screen.bodyClasses === true
 
     this.__update = force => {
-      const
-        w = window.innerWidth,
-        h = window.innerHeight
+      const [ w, h ] = getSize()
 
       if (h !== this.height) {
         this.height = h
@@ -121,11 +132,7 @@ export default defineReactivePlugin({
     }
 
     const start = () => {
-      const
-        style = getComputedStyle(document.body),
-        target = window.visualViewport !== void 0
-          ? window.visualViewport
-          : window
+      const style = getComputedStyle(document.body)
 
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {

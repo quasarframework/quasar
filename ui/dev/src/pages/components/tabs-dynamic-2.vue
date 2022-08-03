@@ -1,4 +1,4 @@
-<template lang="pug">
+<template>
   <div class="q-layout-padding">
     <q-btn color="primary" label="Export" @click="exportDialog = true" />
     <q-dialog v-model="exportDialog">

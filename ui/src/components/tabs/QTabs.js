@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, getCurrentInstance, provide } from 'vue'
+import { h, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, onDeactivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -6,9 +6,11 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
+import { rtlHasScrollBug } from '../../utils/private/rtl.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -19,8 +21,9 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
+const emptyFn = () => {}
 
-export default defineComponent({
+export default createComponent({
   name: 'QTabs',
 
   props: {
@@ -40,6 +43,7 @@ export default defineComponent({
     shrink: Boolean,
     stretch: Boolean,
 
+    activeClass: String,
     activeColor: String,
     activeBgColor: String,
     indicatorColor: String,
@@ -59,14 +63,15 @@ export default defineComponent({
 
     contentClass: String,
 
-    'onUpdate:modelValue': Function
+    'onUpdate:modelValue': [ Function, Array ]
   },
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
     const { proxy: { $q } } = vm
 
-    const { registerTick, prepareTick } = useTick()
+    const { registerTick: registerScrollTick } = useTick()
+    const { registerTimeout: registerFocusTimeout, removeTimeout: removeFocusTimeout } = useTimeout()
     const { registerTimeout } = useTimeout()
 
     const rootRef = ref(null)
@@ -83,6 +88,7 @@ export default defineComponent({
     )
 
     const tabList = []
+    const hasFocus = ref(false)
 
     let localFromRoute = false, animateTimer, scrollTimer, unwatchRoute
     let localUpdateArrows = arrowsEnabled.value === true
@@ -90,6 +96,7 @@ export default defineComponent({
       : noop
 
     const tabProps = computed(() => ({
+      activeClass: props.activeClass,
       activeColor: props.activeColor,
       activeBgColor: props.activeBgColor,
       indicatorClass: getIndicatorClass(
@@ -121,7 +128,7 @@ export default defineComponent({
     )
 
     const innerClass = computed(() =>
-      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar '
+      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar relative-position '
       + alignClass.value
       + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
       + ($q.platform.is.mobile === true ? ' scroll' : '')
@@ -132,6 +139,11 @@ export default defineComponent({
         ? { container: 'height', content: 'offsetHeight', scroll: 'scrollHeight' }
         : { container: 'width', content: 'offsetWidth', scroll: 'scrollWidth' }
     ))
+
+    const isRTL = computed(() => props.vertical !== true && $q.lang.rtl === true)
+    const rtlPosCorrection = computed(() => rtlHasScrollBug === false && isRTL.value === true)
+
+    watch(isRTL, localUpdateArrows)
 
     watch(() => props.modelValue, name => {
       updateModel({ name, setCurrent: true, skipEmit: true })
@@ -167,7 +179,7 @@ export default defineComponent({
     }
 
     function recalculateScroll () {
-      registerTick(() => {
+      registerScrollTick(() => {
         if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
           updateContainer({
             width: rootRef.value.offsetWidth,
@@ -175,8 +187,6 @@ export default defineComponent({
           })
         }
       })
-
-      prepareTick()
     }
 
     function updateContainer (domSize) {
@@ -191,7 +201,7 @@ export default defineComponent({
           contentRef.value[ domProps.value.scroll ],
           Array.prototype.reduce.call(
             contentRef.value.children,
-            (acc, el) => acc + el[ domProps.value.content ],
+            (acc, el) => acc + (el[ domProps.value.content ] || 0),
             0
           )
         ),
@@ -250,23 +260,27 @@ export default defineComponent({
       }
 
       if (newTab && scrollable.value === true) {
-        const
-          { left, width, top, height } = contentRef.value.getBoundingClientRect(),
-          newPos = newTab.rootRef.value.getBoundingClientRect()
+        scrollToTabEl(newTab.rootRef.value)
+      }
+    }
 
-        let offset = props.vertical === true ? newPos.top - top : newPos.left - left
+    function scrollToTabEl (el) {
+      const
+        { left, width, top, height } = contentRef.value.getBoundingClientRect(),
+        newPos = el.getBoundingClientRect()
 
-        if (offset < 0) {
-          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
-          localUpdateArrows()
-          return
-        }
+      let offset = props.vertical === true ? newPos.top - top : newPos.left - left
 
-        offset += props.vertical === true ? newPos.height - height : newPos.width - width
-        if (offset > 0) {
-          contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
-          localUpdateArrows()
-        }
+      if (offset < 0) {
+        contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
+        localUpdateArrows()
+        return
+      }
+
+      offset += props.vertical === true ? newPos.height - height : newPos.width - width
+      if (offset > 0) {
+        contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
+        localUpdateArrows()
       }
     }
 
@@ -275,12 +289,18 @@ export default defineComponent({
       if (content !== null) {
         const
           rect = content.getBoundingClientRect(),
-          pos = props.vertical === true ? content.scrollTop : content.scrollLeft
+          pos = props.vertical === true ? content.scrollTop : Math.abs(content.scrollLeft)
 
-        leftArrow.value = pos > 0
-        rightArrow.value = props.vertical === true
-          ? Math.ceil(pos + rect.height) < content.scrollHeight
-          : Math.ceil(pos + rect.width) < content.scrollWidth
+        if (isRTL.value === true) {
+          leftArrow.value = Math.ceil(pos + rect.width) < content.scrollWidth - 1
+          rightArrow.value = pos > 0
+        }
+        else {
+          leftArrow.value = pos > 0
+          rightArrow.value = props.vertical === true
+            ? Math.ceil(pos + rect.height) < content.scrollHeight
+            : Math.ceil(pos + rect.width) < content.scrollWidth
+        }
       }
     }
 
@@ -289,33 +309,86 @@ export default defineComponent({
       scrollTowards(value)
 
       scrollTimer = setInterval(() => {
-        if (scrollTowards(value)) {
+        if (scrollTowards(value) === true) {
           stopAnimScroll()
         }
       }, 5)
     }
 
     function scrollToStart () {
-      animScrollTo(0)
+      animScrollTo(rtlPosCorrection.value === true ? Number.MAX_SAFE_INTEGER : 0)
     }
 
     function scrollToEnd () {
-      animScrollTo(9999)
+      animScrollTo(rtlPosCorrection.value === true ? 0 : Number.MAX_SAFE_INTEGER)
     }
 
     function stopAnimScroll () {
       clearInterval(scrollTimer)
     }
 
+    function onKbdNavigate (keyCode, fromEl) {
+      const tabs = Array.prototype.filter.call(
+        contentRef.value.children,
+        el => el === fromEl || (el.matches && el.matches('.q-tab.q-focusable') === true)
+      )
+
+      const len = tabs.length
+      if (len === 0) { return }
+
+      if (keyCode === 36) { // Home
+        scrollToTabEl(tabs[ 0 ])
+        return true
+      }
+      if (keyCode === 35) { // End
+        scrollToTabEl(tabs[ len - 1 ])
+        return true
+      }
+
+      const dirPrev = keyCode === (props.vertical === true ? 38 /* ArrowUp */ : 37 /* ArrowLeft */)
+      const dirNext = keyCode === (props.vertical === true ? 40 /* ArrowDown */ : 39 /* ArrowRight */)
+
+      const dir = dirPrev === true ? -1 : (dirNext === true ? 1 : void 0)
+
+      if (dir !== void 0) {
+        const rtlDir = isRTL.value === true ? -1 : 1
+        const index = tabs.indexOf(fromEl) + dir * rtlDir
+
+        if (index >= 0 && index < len) {
+          scrollToTabEl(tabs[ index ])
+          tabs[ index ].focus({ preventScroll: true })
+        }
+
+        return true
+      }
+    }
+
+    // let's speed up execution of time-sensitive scrollTowards()
+    // with a computed variable by directly applying the minimal
+    // number of instructions on get/set functions
+    const posFn = computed(() => (
+      rtlPosCorrection.value === true
+        ? { get: content => Math.abs(content.scrollLeft), set: (content, pos) => { content.scrollLeft = -pos } }
+        : (
+            props.vertical === true
+              ? { get: content => content.scrollTop, set: (content, pos) => { content.scrollTop = pos } }
+              : { get: content => content.scrollLeft, set: (content, pos) => { content.scrollLeft = pos } }
+          )
+    ))
+
     function scrollTowards (value) {
-      const content = contentRef.value
+      const
+        content = contentRef.value,
+        { get, set } = posFn.value
+
       let
-        pos = props.vertical === true ? content.scrollTop : content.scrollLeft,
-        done = false
+        done = false,
+        pos = get(content)
 
       const direction = value < pos ? -1 : 1
 
       pos += direction * 5
+
       if (pos < 0) {
         done = true
         pos = 0
@@ -328,41 +401,112 @@ export default defineComponent({
         pos = value
       }
 
-      content[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] = pos
+      set(content, pos)
       localUpdateArrows()
 
       return done
     }
 
     function getRouteList () {
-      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasLink.value === true)
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasRouterLink.value === true)
     }
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let href = '', name = null, wasActive = localFromRoute
+      let name = null, wasActive = localFromRoute
 
-      getRouteList().forEach(tab => {
+      const
+        best = { matchedLen: 0, hrefLen: 0, exact: false, found: false },
+        { hash } = vm.proxy.$route,
+        model = currentModel.value
+
+      let wasItActive = wasActive === true
+        ? emptyFn
+        : tab => {
+          if (model === tab.name.value) {
+            wasActive = true
+            wasItActive = emptyFn
+          }
+        }
+
+      const tabList = getRouteList()
+
+      for (const tab of tabList) {
+        const exact = tab.routerProps.exact.value === true
+
         if (
-          tab.routerProps !== void 0
-          && tab.routerProps[ tab.routerProps.exact.value === true ? 'linkIsExactActive' : 'linkIsActive' ].value === true
-          && tab.routerProps.linkRoute.value.href.length > href.length
+          tab.routerProps[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ].value !== true
+          || (best.exact === true && exact !== true)
         ) {
-          href = tab.routerProps.linkRoute.value.href
+          wasItActive(tab)
+          continue
+        }
+
+        const
+          linkRoute = tab.routerProps.linkRoute.value,
+          tabHash = linkRoute.hash
+
+        // Vue Router does not match the hash too, even if link is set to "exact"
+        if (exact === true) {
+          if (hash === tabHash) {
+            name = tab.name.value
+            break
+          }
+          else if (hash !== '' && tabHash !== '') {
+            wasItActive(tab)
+            continue
+          }
+        }
+
+        const
+          matchedLen = linkRoute.matched.length,
+          hrefLen = linkRoute.href.length - tabHash.length
+
+        if (
+          matchedLen === best.matchedLen
+            ? hrefLen > best.hrefLen
+            : matchedLen > best.matchedLen
+        ) {
           name = tab.name.value
+          Object.assign(best, { matchedLen, hrefLen, exact })
+          continue
         }
-        else if (currentModel.value === tab.name.value) {
-          wasActive = true
-        }
-      })
+
+        wasItActive(tab)
+      }
 
       if (wasActive === true || name !== null) {
         updateModel({ name, setCurrent: true, fromRoute: true })
       }
     }
 
+    function onFocusin (e) {
+      removeFocusTimeout()
+
+      if (
+        hasFocus.value !== true
+        && rootRef.value !== null
+        && e.target
+        && typeof e.target.closest === 'function'
+      ) {
+        const tab = e.target.closest('.q-tab')
+
+        // if the target is contained by a QTab/QRouteTab
+        // (it might be other elements focused, like additional QBtn)
+        if (tab && rootRef.value.contains(tab) === true) {
+          hasFocus.value = true
+        }
+      }
+    }
+
+    function onFocusout () {
+      registerFocusTimeout(() => { hasFocus.value = false }, 30)
+    }
+
     function verifyRouteModel () {
-      registerTimeout(updateActiveRoute)
+      if ($tabs.avoidRouteWatcher !== true) {
+        registerTimeout(updateActiveRoute)
+      }
     }
 
     function registerTab (getTab) {
@@ -401,24 +545,38 @@ export default defineComponent({
       }
     }
 
-    provide(tabsKey, {
+    const $tabs = {
       currentModel,
       tabProps,
+      hasFocus,
 
       registerTab,
       unregisterTab,
 
       verifyRouteModel,
       updateModel,
-      recalculateScroll
-    })
+      recalculateScroll,
+      onKbdNavigate,
+
+      avoidRouteWatcher: false
+    }
+
+    provide(tabsKey, $tabs)
 
     onBeforeUnmount(() => {
       clearTimeout(animateTimer)
       unwatchRoute !== void 0 && unwatchRoute()
     })
 
-    onActivated(recalculateScroll)
+    let shouldActivate = false
+
+    onDeactivated(() => {
+      shouldActivate = true
+    })
+
+    onActivated(() => {
+      shouldActivate === true && recalculateScroll()
+    })
 
     return () => {
       const child = [
@@ -458,7 +616,9 @@ export default defineComponent({
       return h('div', {
         ref: rootRef,
         class: classes.value,
-        role: 'tablist'
+        role: 'tablist',
+        onFocusin,
+        onFocusout
       }, child)
     }
   }

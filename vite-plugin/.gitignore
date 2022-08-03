@@ -1,0 +1,13 @@
+.DS_Store
+.Thumbs.db
+dist/
+node_modules/
+example/dist
+example/node_modules
+npm-debug.log
+*.sublime*
+.idea/
+debug.log
+yarn.lock
+package-lock.json
+.vscode

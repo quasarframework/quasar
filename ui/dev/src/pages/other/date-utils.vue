@@ -1,5 +1,36 @@
 <template>
   <div class="q-layout-padding">
+    <div class="row no-wrap">
+      <div class="col-md-2 q-px-sm q-py-xs" />
+      <div class="col-md-5 q-px-sm q-py-xs bg-grey-10 text-grey-1 font-weight-bold">buildDate</div>
+      <div class="col-md-5 q-px-sm q-py-xs bg-grey-10 text-grey-1 font-weight-bold">buildDate UTC</div>
+    </div>
+    <div
+      v-for="(entry, index) in buildDateSeed"
+      :key="'build__' + index"
+      class="row no-wrap"
+    >
+      <div class="col-md-2 q-px-sm q-py-xs bg-grey-10 text-grey-1 font-weight-bold">{{entry.source}}</div>
+      <div class="col-md-5 q-px-sm q-py-xs" v-html="entry.build"/>
+      <div class="col-md-5 q-px-sm q-py-xs" v-html="entry.buildUTC"/>
+    </div>
+
+    <div class="q-mt-md row no-wrap">
+      <div class="col-md-2 q-px-sm q-py-xs" />
+      <div class="col-md-5 q-px-sm q-py-xs bg-grey-10 text-grey-1 font-weight-bold">adjustDate</div>
+      <div class="col-md-5 q-px-sm q-py-xs bg-grey-10 text-grey-1 font-weight-bold">source, change, build, result</div>
+    </div>
+    <div
+      v-for="(entry, index) in adjustDateSeed"
+      :key="'adjust__' + index"
+      class="row no-wrap"
+    >
+      <div class="col-md-2 q-px-sm q-py-xs bg-grey-10 text-grey-1 font-weight-bold">{{entry.source}}</div>
+      <div class="col-md-5 q-px-sm q-py-xs" v-html="entry.change"/>
+      <div class="col-md-5 q-px-sm q-py-xs" v-html="entry.build"/>
+      <div class="col-md-5 q-px-sm q-py-xs" v-html="entry.result"/>
+    </div>
+
     <div class="row justify-start">
       <q-input filled label="Date:" v-model="date" class="q-my-md" style="min-width: 18em" />
     </div>
@@ -39,11 +70,46 @@
 <script>
 import { date } from 'quasar'
 
-const { startOfDate, endOfDate, formatDate } = date
+const { startOfDate, endOfDate, formatDate, adjustDate, buildDate } = date
 const format = d => formatDate(d, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
 const formatUTC = d => d.toISOString().replace(/Z$/, '+00:00')
 
 export default {
+  created () {
+    const buildSeed = [
+      { year: 2021, date: 31, month: 7 },
+      { year: 2021, month: 7, date: 31 },
+      { month: 2, date: 29, year: 2020 },
+      { month: 2, date: 29, year: 2021 }
+    ]
+
+    this.buildDateSeed = buildSeed.map(entry => {
+      return {
+        source: JSON.stringify(entry),
+        build: format(buildDate(entry)),
+        buildUTC: formatUTC(buildDate(entry, true))
+      }
+    })
+
+    const adjustSeed = [
+      [ { month: 2, date: 28, year: 2020 }, { year: 2018 } ],
+      [ { month: 2, date: 29, year: 2020 }, { year: 2021 } ],
+      [ { month: 7, date: 31, year: 2020 }, { month: 5 } ],
+      [ { month: 7, date: 31, year: 2020 }, { month: 6 } ],
+      [ { month: 7, date: 31, year: 2020 }, { month: 2, date: 22, year: 1986 } ]
+    ]
+
+    this.adjustDateSeed = adjustSeed.map(entry => {
+      const build = buildDate(entry[ 0 ])
+      return {
+        source: JSON.stringify(entry[ 0 ]),
+        change: JSON.stringify(entry[ 1 ]),
+        build: format(build),
+        result: format(adjustDate(build, entry[ 1 ]))
+      }
+    })
+  },
+
   data () {
     return {
       date: format(new Date())
@@ -127,6 +193,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-</style>

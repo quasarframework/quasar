@@ -1,9 +1,11 @@
 import { client } from '../plugins/Platform.js'
+
+import { createDirective } from '../utils/private/create.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/private/selection.js'
 import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'touch-hold', getSSRProps }
   : {
       name: 'touch-hold',
@@ -157,3 +159,4 @@ export default __QUASAR_SSR_SERVER__
         }
       }
     }
+)

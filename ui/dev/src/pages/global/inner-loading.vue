@@ -5,8 +5,12 @@
         Click or tap below, to see the innerLoading component work with a div.
         It is simulating a delay from a server reply.
       </p>
-      <q-btn color="primary" @click="showTextLoading()">
-        Show Text Loading
+      <q-btn color="primary" @click="showTextLoading">
+        Show 1
+      </q-btn>
+
+      <q-btn color="primary" @click="showTextLoading2" class="q-ml-md">
+        Show 2
       </q-btn>
     </div>
     <div class="q-layout-padding relative-position q-mx-auto"
@@ -27,6 +31,8 @@
       <q-inner-loading :showing="showing" transition-duration="1000">
         <q-spinner-gears size="50px" color="primary" />
       </q-inner-loading>
+
+      <q-inner-loading :showing="showing2" label="My label" />
     </div>
   </div>
 </template>
@@ -37,6 +43,7 @@ export default {
   data () {
     return {
       showing: false,
+      showing2: false,
       showSimulatedReturnData: false
     }
   },
@@ -55,6 +62,9 @@ export default {
         this.showing = false
         this.showSimulatedReturnData = true
       }, 5000)
+    },
+    showTextLoading2 () {
+      this.showing2 = true
     }
   }
 }

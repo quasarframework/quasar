@@ -67,12 +67,24 @@
   "slots": {
     "header": {
       "desc": "Slot for custom header; Scope is the QUploader instance itself",
-      "__exemption": ["scope"]
+      "scope": {
+        "...self": {
+          "type": "Component",
+          "tsType": "QUploader",
+          "desc": "QUploader instance"
+        }
+      }
     },
 
     "list": {
       "desc": "Slot for custom list; Scope is the QUploader instance itself",
-      "__exemption": ["scope"]
+      "scope": {
+        "...self": {
+          "type": "Component",
+          "tsType": "QUploader",
+          "desc": "QUploader instance"
+        }
+      }
     }
   },
 

@@ -2,7 +2,7 @@
   <div>
     <div class="q-layout-padding">
       <div class="q-my-md">
-        Notify the user something is going on under the covers.
+        Notify the user something is going on behind the scenes.
       </div>
       <div>
         {{ stateInner }} | {{ stateOuter }}

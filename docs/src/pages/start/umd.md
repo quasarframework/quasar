@@ -16,6 +16,7 @@ UMD is all about adding Quasar style and javascript tags. Please select what you
 * Please notice the `<!DOCTYPE html>` at the beginning of the document. Do not forget to add it, or else some browsers (notably Safari) will use some compatibility mode that breaks flex.
 * If you are using an RTL Quasar language pack (eg. Hebrew) then toggle the "RTL CSS support" above too!
 * Do NOT use self-closing tags, like `<q-icon ... />`. Instead, go with `<q-icon ...></q-icon>`.
+* It might be wise to pin all the packages that you use to specific versions that you've already tested in development. Regressions can occur, like in Vue 3.2.32 and this can break your pages. Example of pinning Vue to a specific version (point the script tag to): https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.prod.js
 :::
 
 ::: tip
@@ -66,7 +67,7 @@ There are some configuration options for Quasar & Quasar plugins:
 ```js
 app.use(Quasar, {
   config: {
-    brand: { // this will NOT work on IE 11
+    brand: {
       primary: '#e46262',
       // ... or all other brand colors
     },
@@ -79,7 +80,7 @@ app.use(Quasar, {
 ```
 
 ## Usage
-So, after you figured out the CDN links that you need to embed into your webpages (hopefully you've inspected the project folder created by UMD demo kit), now it's time to use Quasar.
+So, after you figured out the CDN links that you need to embed into your webpages, now it's time to use Quasar.
 
 ::: tip
 You'll notice that all the Quasar Components, Quasar Directives and Quasar Plugins have an installation section at the top of their pages.
@@ -91,11 +92,11 @@ By using the UMD version, you'll have all of the components, directives and Quas
 You will notice that you won't be able to use the self-closing tag form of any of the components. You must close all components tags.
 
 ```html
-<!-- In docs, but for Quasar CLI usage -->
+<!-- Incorrect usage: In docs, but for Quasar CLI usage -->
 <q-btn label="My Button" />
 <!-- ^^^ can't use it like this on UMD -->
 
-<!-- Instead, include a self-closing tag too: -->
+<!-- Correct usage: Instead, include a self-closing tag too: -->
 <q-btn label="My Button"></q-btn>
 ```
 
@@ -131,7 +132,7 @@ Quasar.openURL('https://quasar.dev')
 Assuming you have already included the CDN link to your favorite Quasar Icon Set (unless you're using Material Icons which is used by default), you can then tell Quasar to use it:
 
 ```js
-Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
+Quasar.iconSet.set(Quasar.iconSet.fontawesomeV6)
 ```
 
 The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).

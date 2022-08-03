@@ -51,15 +51,15 @@ export default {
     || client.is.webkit === true || client.is.vivaldi === true
   )
     ? hexColor => {
-        const val = hexColor || getCssVar('primary')
+      const val = hexColor || getCssVar('primary')
 
-        if (client.is.nativeMobile === true && window.StatusBar) {
-          window.StatusBar.backgroundColorByHexString(val)
-        }
-        else {
-          setColor(val)
-        }
+      if (client.is.nativeMobile === true && window.StatusBar) {
+        window.StatusBar.backgroundColorByHexString(val)
       }
+      else {
+        setColor(val)
+      }
+    }
     : noop,
 
   install ({ $q }) {

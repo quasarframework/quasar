@@ -1,5 +1,4 @@
 const os = require('os')
-const net = require('net')
 
 module.exports.getExternalNetworkInterface = function () {
   const

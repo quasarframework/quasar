@@ -11,7 +11,7 @@
       "desc": "Path to image",
       "transformAssetUrls": true,
       "examples": [
-        "(statics folder) src=\"statics/img/something.png\"",
+        "(public folder) src=\"img/something.png\"",
         "(assets folder) src=\"~assets/my-img.gif\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) src=\"https://placeimg.com/500/300/nature\""
@@ -44,7 +44,7 @@
       "desc": "While waiting for your image to load, you can use a placeholder image",
       "transformAssetUrls": true,
       "examples": [
-        "(statics folder) src=\"statics/img/some-placeholder.png\"",
+        "(public folder) src=\"img/some-placeholder.png\"",
         "(assets folder) src=\"~assets/my-placeholder.gif\"",
         "(relative path format) :src=\"require('./placeholder.jpg')\"",
         "(URL) src=\"https://placeimg.com/500/300/nature\""
@@ -53,13 +53,11 @@
     },
 
     "ratio": {
-      "type": [ "String", "Number" ],
       "desc": "Force the component to maintain an aspect ratio",
       "examples": [
         "(Number format) :ratio=\"16/9\"",
         "(String format) ratio=\"1\""
-      ],
-      "category": "style"
+      ]
     },
 
     "initial-ratio": {
@@ -108,6 +106,38 @@
       "category": "behavior"
     },
 
+    "decoding": {
+      "type": "String",
+      "desc": "Same syntax as <img> decoding attribute",
+      "values": [ "sync", "async", "auto" ],
+      "category": "behavior"
+    },
+
+    "referrerpolicy": {
+      "type": "String",
+      "desc": "Same syntax as <img> referrerpolicy attribute",
+      "values": [
+        "no-referrer",
+        "no-referrer-when-downgrade",
+        "origin",
+        "origin-when-cross-origin",
+        "same-origin",
+        "strict-origin",
+        "strict-origin-when-cross-origin",
+        "unsafe-url"
+      ],
+      "category": "behavior"
+    },
+
+    "fetchpriority": {
+      "type": "String",
+      "desc": "Provides a hint of the relative priority to use when fetching the image",
+      "default": "auto",
+      "values": [ "high", "low", "auto" ],
+      "category": "behavior",
+      "addedIn": "v2.6.6"
+    },
+
     "fit": {
       "type": "String",
       "desc": "How the image will fit into the container; Equivalent of the object-fit prop; Can be coordinated with 'position' prop",
@@ -148,6 +178,7 @@
 
     "img-style": {
       "type": "Object",
+      "tsType": "VueStyleObjectProp",
       "desc": "Apply CSS to the native img element",
       "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
       "category": "style"

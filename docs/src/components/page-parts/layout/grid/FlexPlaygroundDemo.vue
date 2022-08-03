@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div v-bind="fullscreenAttrs">
+    <div class="q-pb-md">
+      <q-btn
+        color="secondary"
+        @click="toggleFullscreen"
+        :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
+        :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Try playground in Fullscreen'"
+      />
+    </div>
     <div class="text-subtitle2 q-pb-md">Parent Properties (container)</div>
     <div class="row wrap justify-start content-stretch">
       <div class="col-lg-2 col-xs-6">
@@ -75,13 +83,13 @@
 <script>
 import { ref, reactive, computed, onMounted, onBeforeUpdate } from 'vue'
 import { useRoute } from 'vue-router'
-import { copyToClipboard } from 'quasar'
-import { fabCodepen } from '@quasar/extras/fontawesome-v5'
-import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v5'
+import { useQuasar, copyToClipboard } from 'quasar'
+import { fabCodepen } from '@quasar/extras/fontawesome-v6'
+import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v6'
 
-import Child from './FlexChild'
-import DocCodepen from '../../../DocCodepen'
-import CopyButton from '../../../CopyButton'
+import Child from './FlexChild.vue'
+import DocCodepen from '../../../DocCodepen.vue'
+import CopyButton from '../../../CopyButton.vue'
 
 const queryParams = {
   containerGroup: 'string',
@@ -152,6 +160,7 @@ export default {
   },
 
   setup () {
+    const $q = useQuasar()
     const $route = useRoute()
 
     const childRef = ref([])
@@ -292,6 +301,24 @@ export default {
         .trim()
     })
 
+    const fullscreenAttrs = computed(() => {
+      return $q.fullscreen.isActive
+        ? {
+            style: {
+              backgroundColor: '#fff'
+            },
+            class: [
+              'q-pa-md'
+            ]
+          }
+        : {}
+    })
+
+    function toggleFullscreen (e) {
+      const target = document.getElementById('flex-playground')
+      target && $q.fullscreen.toggle(target)
+    }
+
     return {
       fabCodepen,
       mdiPlus,
@@ -314,12 +341,14 @@ export default {
       copied,
 
       classes,
+      fullscreenAttrs,
 
       addChild,
       onDelete,
       onChange,
       share,
-      editInCodepen
+      editInCodepen,
+      toggleFullscreen
     }
   }
 }

@@ -1,11 +1,14 @@
 const packageName = '@fortawesome/fontawesome-free'
+const distName = 'fontawesome-v5'
 const iconSetName = 'Fontawesome Free'
+const prefix = 'fa'
 
 // ------------
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { resolve } = require('path')
+const { writeFileSync } = require('fs')
+const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../fontawesome-v5`)
@@ -13,7 +16,7 @@ const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svgs/`)
 const iconTypes = ['brands', 'regular', 'solid']
-const iconNames = new Set()
+let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
@@ -22,7 +25,7 @@ iconTypes.forEach(type => {
   const svgFiles = glob.sync(svgFolder + `/${type}/*.svg`)
 
   svgFiles.forEach(file => {
-    const name = defaultNameMapper(file, 'fa' + type.charAt(0))
+    const name = defaultNameMapper(file, prefix + type.charAt(0))
   
     if (iconNames.has(name)) {
       return
@@ -40,6 +43,17 @@ iconTypes.forEach(type => {
       skipped.push(name)
     }
   })
+})
+
+iconNames = [...iconNames]
+svgExports.sort((a, b) => {
+  return ('' + a).localeCompare(b)
+})
+typeExports.sort((a, b) => {
+  return ('' + a).localeCompare(b)
+})
+iconNames.sort((a, b) => {
+  return ('' + a).localeCompare(b)
 })
 
 writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skipped)
@@ -66,3 +80,9 @@ copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE.txt`),
   resolve(__dirname, `../fontawesome-v5/LICENSE.txt`)
 )
+
+// write the JSON file
+const file = resolve(__dirname, join('..', distName, 'icons.json'))
+writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
+
+console.log(`${distName} done with ${iconNames.length} icons`)

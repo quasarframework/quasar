@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, Transition, nextTick, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -7,10 +7,12 @@ import useCache from '../../composables/private/use-cache.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 import useDatetime, { useDatetimeProps, useDatetimeEmits, getDayHash } from './use-datetime.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
+import { isObject } from '../../utils/private/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -22,7 +24,7 @@ function getMonthHash (date) {
   return date.year + '/' + pad(date.month)
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QDate',
 
   props: {
@@ -152,13 +154,18 @@ export default defineComponent({
       normalizedModel.value
         .filter(date => typeof date === 'string')
         .map(date => decodeString(date, innerMask.value, innerLocale.value))
-        .filter(date => date.dateHash !== null)
+        .filter(date =>
+          date.dateHash !== null
+          && date.day !== null
+          && date.month !== null
+          && date.year !== null
+        )
     )
 
     const rangeModel = computed(() => {
       const fn = date => decodeString(date, innerMask.value, innerLocale.value)
       return normalizedModel.value
-        .filter(date => Object(date) === date && date.from !== void 0 && date.to !== void 0)
+        .filter(date => isObject(date) === true && date.from !== void 0 && date.to !== void 0)
         .map(range => ({ from: fn(range.from), to: fn(range.to) }))
         .filter(range => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash)
     })
@@ -723,8 +730,14 @@ export default defineComponent({
     })
 
     function setToday () {
-      toggleDate(today.value, getMonthHash(today.value))
-      setCalendarTo(today.value.year, today.value.month)
+      const date = today.value
+      const month = daysMap.value[ getMonthHash(date) ]
+
+      if (month === void 0 || month.includes(date.day) === false) {
+        addToModel(date)
+      }
+
+      setCalendarTo(date.year, date.month)
     }
 
     function setView (viewMode) {
@@ -794,8 +807,9 @@ export default defineComponent({
         return getDefaultViewModel()
       }
 
+      const target = model[ model.length - 1 ]
       const decoded = decodeString(
-        model[ 0 ].from !== void 0 ? model[ 0 ].from : model[ 0 ],
+        target.from !== void 0 ? target.from : target,
         mask,
         locale
       )
@@ -1204,24 +1218,24 @@ export default defineComponent({
             }, days.value.map(day => h('div', { class: day.classes }, [
               day.in === true
                 ? h(
-                    QBtn, {
-                      class: day.today === true ? 'q-date__today' : '',
-                      dense: true,
-                      flat: day.flat,
-                      unelevated: day.unelevated,
-                      color: day.color,
-                      textColor: day.textColor,
-                      label: day.i,
-                      tabindex: tabindex.value,
-                      ...getCache('day#' + day.i, {
-                        onClick: () => { onDayClick(day.i) },
-                        onMouseover: () => { onDayMouseover(day.i) }
-                      })
-                    },
-                    day.event !== false
-                      ? () => h('div', { class: 'q-date__event bg-' + day.event })
-                      : null
-                  )
+                  QBtn, {
+                    class: day.today === true ? 'q-date__today' : '',
+                    dense: true,
+                    flat: day.flat,
+                    unelevated: day.unelevated,
+                    color: day.color,
+                    textColor: day.textColor,
+                    label: day.i,
+                    tabindex: tabindex.value,
+                    ...getCache('day#' + day.i, {
+                      onClick: () => { onDayClick(day.i) },
+                      onMouseover: () => { onDayMouseover(day.i) }
+                    })
+                  },
+                  day.event !== false
+                    ? () => h('div', { class: 'q-date__event bg-' + day.event })
+                    : null
+                )
                 : h('div', '' + day.i)
             ]))))
           ])
@@ -1363,7 +1377,7 @@ export default defineComponent({
       if (editRange.value === null) {
         const dayProps = days.value.find(day => day.fill !== true && day.i === dayIndex)
 
-        if (dayProps.range !== void 0) {
+        if (props.noUnset !== true && dayProps.range !== void 0) {
           removeFromModel({ target: day, from: dayProps.range.from, to: dayProps.range.to })
           return
         }

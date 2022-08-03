@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/private/use-timeout.js'
@@ -8,6 +8,7 @@ import { useTransitionProps } from '../../composables/private/use-transition.js'
 import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { childHasFocus } from '../../utils/dom.js'
 import { hSlot } from '../../utils/private/render.js'
 import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
@@ -32,7 +33,7 @@ const transitions = {
   left: [ 'slide-right', 'slide-left' ]
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QDialog',
 
   inheritAttrs: false,
@@ -46,12 +47,14 @@ export default defineComponent({
 
     persistent: Boolean,
     autoClose: Boolean,
+    allowFocusOutside: Boolean,
 
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
+    noShake: Boolean,
 
     seamless: Boolean,
 
@@ -92,9 +95,9 @@ export default defineComponent({
 
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
-    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTick, removeTick } = useTick()
 
-    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(
+    const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
       vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
     )
 
@@ -133,6 +136,10 @@ export default defineComponent({
         ? transitionHide.value
         : transitionShow.value
     ))
+
+    const transitionStyle = computed(
+      () => `--q-transition-duration: ${ props.transitionDuration }ms`
+    )
 
     const useBackdrop = computed(() => showing.value === true && props.seamless !== true)
 
@@ -187,7 +194,6 @@ export default defineComponent({
       if (props.noFocus !== true) {
         document.activeElement !== null && document.activeElement.blur()
         registerTick(focus)
-        prepareTick()
       }
 
       registerTimeout(() => {
@@ -230,19 +236,21 @@ export default defineComponent({
       removeFromHistory()
       cleanup(true)
       animating.value = true
+      hidePortal()
 
       if (refocusTarget !== null) {
         refocusTarget.focus()
+        refocusTarget = null
       }
 
       registerTimeout(() => {
-        hidePortal()
+        hidePortal(true) // done hiding, now destroy
         animating.value = false
         emit('hide', evt)
       }, props.transitionDuration)
     }
 
-    function focus () {
+    function focus (selector) {
       addFocusFn(() => {
         let node = innerRef.value
 
@@ -250,8 +258,8 @@ export default defineComponent({
           return
         }
 
-        node = node.querySelector('[autofocus], [data-autofocus]') || node
-        node.focus()
+        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
+        node.focus({ preventScroll: true })
       })
     }
 
@@ -279,7 +287,7 @@ export default defineComponent({
     function onEscapeKey () {
       if (props.seamless !== true) {
         if (props.persistent === true || props.noEscDismiss === true) {
-          props.maximized !== true && shake()
+          props.maximized !== true && props.noShake !== true && shake()
         }
         else {
           emit('escape-key')
@@ -299,6 +307,10 @@ export default defineComponent({
           removeFocusout(onFocusChange)
           removeEscapeKey(onEscapeKey)
         }
+      }
+
+      if (hiding !== true) {
+        refocusTarget = null
       }
     }
 
@@ -332,7 +344,7 @@ export default defineComponent({
       if (props.persistent !== true && props.noBackdropDismiss !== true) {
         hide(e)
       }
-      else {
+      else if (props.noShake !== true) {
         shake()
       }
     }
@@ -340,11 +352,11 @@ export default defineComponent({
     function onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
-        showing.value === true
-        && portalIsActive.value === true
+        props.allowFocusOutside !== true
+        && portalIsAccessible.value === true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
-        focus()
+        focus('[tabindex]:not([tabindex="-1"])')
       }
     }
 
@@ -358,9 +370,7 @@ export default defineComponent({
       }
     })
 
-    onBeforeUnmount(() => {
-      cleanup()
-    })
+    onBeforeUnmount(cleanup)
 
     function renderPortalContent () {
       return h('div', {
@@ -373,10 +383,11 @@ export default defineComponent({
         }, () => (
           useBackdrop.value === true
             ? h('div', {
-                class: 'q-dialog__backdrop fixed-full',
-                'aria-hidden': 'true',
-                onMousedown: onBackdropClick
-              })
+              class: 'q-dialog__backdrop fixed-full',
+              style: transitionStyle.value,
+              'aria-hidden': 'true',
+              onMousedown: onBackdropClick
+            })
             : null
         )),
 
@@ -386,11 +397,12 @@ export default defineComponent({
           () => (
             showing.value === true
               ? h('div', {
-                  ref: innerRef,
-                  class: classes.value,
-                  tabindex: -1,
-                  ...onEvents.value
-                }, hSlot(slots.default))
+                ref: innerRef,
+                class: classes.value,
+                style: transitionStyle.value,
+                tabindex: -1,
+                ...onEvents.value
+              }, hSlot(slots.default))
               : null
           )
         )

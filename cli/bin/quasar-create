@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const parseArgs = require('minimist')
-const chalk = require('chalk')
+const { yellow } = require('kolorist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -18,24 +18,24 @@ const argv = parseArgs(process.argv.slice(2), {
 if (argv.help) {
   console.log(`
   Description
-    Creates a Quasar App or App Extension project folder
+    Creates a Quasar project (app, AppExtension or UI kit) from CUSTOM starter kits.
+    For scaffolding an official Quasar project please use this instead:
+       yarn create quasar
+       or
+       npm init quasar
 
   Usage
     $ quasar create <project-name> [--kit <kit-name>] [--branch <version-name>]
 
-  App Examples
-    $ quasar create my-project
-      # installs an App project with the latest App starter kit
-    $ quasar create my-project --branch v1
-      # installs an App project from a specific older version (only major version)
+  App Examples with custom starter kits
     $ quasar create my-project --kit user/github-starter-kit
       # installs an App project with a custom starter kit from GitHub
     $ quasar create my-project --kit ./starter-kit-folder
       # installs an App project using a starter kit located at ./starter-kit-folder
+    $ quasar create my-project --branch v0.17
+      # installs an App project from a specific older version (only major version)
 
-  App Extension Examples
-    $ quasar create my-extension-project --kit app-extension
-      # installs an App Extension project with the latest Quasar App Extension starter kit
+  App Extension Examples with custom starter kits
     $ quasar create my-extension-project --kit user/github-extension-starter-kit
       # installs an App Extension project with a custom starter kit from GitHub
     $ quasar create my-extension-project --kit user/github-extension-starter-kit --branch dev
@@ -60,6 +60,20 @@ console.log(
     'utf8'
   )
 )
+
+if (!argv.kit && (!argv.branch || argv.branch === 'v1')) {
+  console.log(` This command is now reserved only for scaffolding
+ with CUSTOM starter kits or legacy v0.x projects.
+
+ For scaffolding an official Quasar project please use this instead:
+
+   yarn create quasar
+   # or
+   npm init quasar
+  `)
+
+  process.exit(0)
+}
 
 // Following is adapted from Vue CLI v2 "init" command
 
@@ -96,7 +110,7 @@ if (isLocalPath(template) !== true) {
 const tmp = path.join(home, '.quasar-starter-kits', template.replace(/[\/:]/g, '-'))
 
 if (argv.offline) {
-  console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
+  console.log(`> Use cached template at ${yellow(tildify(tmp))}`)
   template = tmp
 }
 

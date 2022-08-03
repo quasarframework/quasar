@@ -6,7 +6,7 @@
   "props": {
     "model-value":{
       "extends": "model-value",
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null", "undefined" ],
       "desc": "Model of the component defining current panel name; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
       "required": false,
       "examples": [ "v-model=\"selectedTab\"" ]
@@ -70,6 +70,14 @@
       "desc": "Class definitions to be attributed to the content wrapper",
       "examples": [ "my-special-class" ],
       "category": "style"
+    },
+
+    "active-class": {
+      "type": "String",
+      "desc": "The class to be set on the active tab",
+      "examples": [ "my-active-class" ],
+      "category": "style",
+      "addedIn": "2.1.4"
     },
 
     "left-icon": {

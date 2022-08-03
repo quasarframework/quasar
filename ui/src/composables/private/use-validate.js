@@ -2,6 +2,8 @@ import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
+import { debounce } from '../../utils.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
 
@@ -30,7 +32,7 @@ export default function (focused, innerLoading) {
   const innerErrorMessage = ref(null)
   const isDirtyModel = ref(null)
 
-  useFormChild({ validate, resetValidation, requiresQForm: true })
+  useFormChild({ validate, resetValidation })
 
   let validateIndex = 0, unwatchRules
 
@@ -40,11 +42,16 @@ export default function (focused, innerLoading) {
     && props.rules.length > 0
   )
 
+  const hasActiveRules = computed(() =>
+    props.disable !== true
+    && hasRules.value === true
+  )
+
   const hasError = computed(() =>
     props.error === true || innerError.value === true
   )
 
-  const computedErrorMessage = computed(() => (
+  const errorMessage = computed(() => (
     typeof props.errorMessage === 'string' && props.errorMessage.length > 0
       ? props.errorMessage
       : innerErrorMessage.value
@@ -69,15 +76,23 @@ export default function (focused, innerLoading) {
   }, { immediate: true })
 
   watch(focused, val => {
-    if (props.lazyRules !== 'ondemand') {
-      if (val === true) {
-        if (isDirtyModel.value === null) {
-          isDirtyModel.value = false
-        }
+    if (val === true) {
+      if (isDirtyModel.value === null) {
+        isDirtyModel.value = false
       }
-      else if (isDirtyModel.value === false && hasRules.value === true) {
-        isDirtyModel.value = true
-        validate()
+    }
+    else if (isDirtyModel.value === false) {
+      isDirtyModel.value = true
+
+      if (
+        hasActiveRules.value === true
+        && props.lazyRules !== 'ondemand'
+        // Don't re-trigger if it's already in progress;
+        // It might mean that focus switched to submit btn and
+        // QForm's submit() has been called already (ENTER key)
+        && innerLoading.value === false
+      ) {
+        debouncedValidate()
       }
     }
   })
@@ -88,6 +103,7 @@ export default function (focused, innerLoading) {
     isDirtyModel.value = null
     innerError.value = false
     innerErrorMessage.value = null
+    debouncedValidate.cancel()
   }
 
   /*
@@ -97,11 +113,11 @@ export default function (focused, innerLoading) {
    *   - Promise (pending async validation)
    */
   function validate (val = props.modelValue) {
-    if (hasRules.value !== true) {
+    if (hasActiveRules.value !== true) {
       return true
     }
 
-    validateIndex++
+    const index = ++validateIndex
 
     if (innerLoading.value !== true && props.lazyRules !== true) {
       isDirtyModel.value = true
@@ -118,9 +134,7 @@ export default function (focused, innerLoading) {
         innerErrorMessage.value = m
       }
 
-      if (innerLoading.value !== false) {
-        innerLoading.value = false
-      }
+      innerLoading.value = false
     }
 
     const promises = []
@@ -150,64 +164,56 @@ export default function (focused, innerLoading) {
       return true
     }
 
-    if (innerLoading.value !== true) {
-      innerLoading.value = true
-    }
-
-    const index = validateIndex
+    innerLoading.value = true
 
     return Promise.all(promises).then(
       res => {
-        if (index !== validateIndex) {
-          return true
-        }
-
         if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
-          update(false)
+          index === validateIndex && update(false)
           return true
         }
 
         const msg = res.find(r => r === false || typeof r === 'string')
-        update(msg !== void 0, msg)
+        index === validateIndex && update(msg !== void 0, msg)
         return msg === void 0
       },
       e => {
         if (index === validateIndex) {
           console.error(e)
           update(true)
-          return false
         }
 
-        return true
+        return false
       }
     )
   }
 
   function validateIfNeeded (changedRules) {
     if (
-      hasRules.value === true
+      hasActiveRules.value === true
       && props.lazyRules !== 'ondemand'
       && (isDirtyModel.value === true || (props.lazyRules !== true && changedRules !== true))
     ) {
-      validate()
+      debouncedValidate()
     }
   }
 
+  const debouncedValidate = debounce(validate, 0)
+
   onBeforeUnmount(() => {
     unwatchRules !== void 0 && unwatchRules()
+    debouncedValidate.cancel()
   })
 
   // expose public methods & props
   Object.assign(proxy, { resetValidation, validate })
-  Object.defineProperty(proxy, 'hasError', {
-    get: () => hasError.value
-  })
+  injectProp(proxy, 'hasError', () => hasError.value)
 
   return {
     isDirtyModel,
     hasRules,
     hasError,
-    computedErrorMessage,
+    errorMessage,
 
     validate,
     resetValidation

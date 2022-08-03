@@ -46,6 +46,9 @@ import { Quasar, Dark, useQuasar, useMeta } from 'quasar'
 import { ref, watch, onMounted } from 'vue'
 import languages from 'quasar/lang/index.json'
 
+const langList = import.meta.glob('../../lang/*.mjs')
+const iconSetList = import.meta.glob('../../icon-set/*.mjs')
+
 export default {
   setup () {
     const $q = useQuasar()
@@ -56,13 +59,13 @@ export default {
     const showSelector = ref(false)
 
     watch(lang, lang => {
-      import('quasar/lang/' + lang).then(lang => {
+      langList[ `../../lang/${ lang }.mjs` ]().then(lang => {
         $q.lang.set(lang.default)
       })
     })
 
     watch(iconSet, set => {
-      import('quasar/icon-set/' + set).then(iconSet => {
+      iconSetList[ `../../icon-set/${ set }.mjs` ]().then(iconSet => {
         $q.iconSet.set(iconSet.default)
       })
     })
@@ -108,13 +111,17 @@ export default {
         { label: 'Material Outlined', value: 'material-icons-outlined' },
         { label: 'Material Round', value: 'material-icons-round' },
         { label: 'Material Sharp', value: 'material-icons-sharp' },
-        { label: 'MDI v5', value: 'mdi-v5' },
-        { label: 'SVG MDI v5', value: 'svg-mdi-v5' },
+        { label: 'Material Symbols Outlined', value: 'material-symbols-outlined' },
+        { label: 'Material Symbols Rounded', value: 'material-symbols-rounded' },
+        { label: 'Material Symbols Sharp', value: 'material-symbols-sharp' },
+        { label: 'MDI v6', value: 'mdi-v6' },
+        { label: 'SVG MDI v6', value: 'svg-mdi-v6' },
+        { label: 'SVG Ionicons v6', value: 'svg-ionicons-v6' },
         { label: 'SVG Ionicons v5', value: 'svg-ionicons-v5' },
         { label: 'Ionicons v4', value: 'ionicons-v4' },
         { label: 'SVG Ionicons v4', value: 'svg-ionicons-v4' },
-        { label: 'Fontawesome v5', value: 'fontawesome-v5' },
-        { label: 'SVG Fontawesome v5', value: 'svg-fontawesome-v5' },
+        { label: 'Fontawesome v6', value: 'fontawesome-v6' },
+        { label: 'SVG Fontawesome v6', value: 'svg-fontawesome-v6' },
         { label: 'Eva Icons', value: 'eva-icons' },
         { label: 'SVG Eva Icons', value: 'svg-eva-icons' },
         { label: 'Themify', value: 'themify' },

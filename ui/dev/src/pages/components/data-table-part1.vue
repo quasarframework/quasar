@@ -176,7 +176,7 @@
               </div>
 
               <q-popup-edit v-model="props.row.calories" title="Update calories" buttons v-slot="scope">
-                <q-input type="number" v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
+                <q-input type="number" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
 
@@ -185,7 +185,7 @@
                 {{ props.row.fat }}
               </div>
 
-              <q-popup-edit v-model="props.row.fat" v-slot="scope">
+              <q-popup-edit v-model="props.row.fat" auto-save v-slot="scope">
                 <q-input type="textarea" v-model="scope.value" dense autofocus />
               </q-popup-edit>
             </q-td>
@@ -196,7 +196,7 @@
               </div>
 
               <q-popup-edit v-model="props.row.carbs" title="Update carbs" buttons persistent v-slot="scope">
-                <q-input type="number" v-model="scope.value" dense autofocus hint="Use buttons to close" @keyup.enter="scope.set" />
+                <q-input type="number" v-model="scope.value" dense autofocus hint="Use buttons to close" />
               </q-popup-edit>
             </q-td>
 
@@ -206,7 +206,7 @@
               </div>
 
               <q-popup-edit v-model="props.row.protein" v-slot="scope">
-                <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
+                <q-input v-model="scope.value" dense autofocus counter />
               </q-popup-edit>
             </q-td>
 
@@ -222,11 +222,10 @@
                   v-model="scope.value"
                   hint="Sodium level (>10)"
                   :rules="[ val => scope.validate(val) || 'Please enter more than 10' ]"
-                  @keyup.enter="scope.set"
                 >
                   <template v-slot:after>
-                    <q-btn flat dense color="negative" icon="cancel" @click="scope.cancel" />
-                    <q-btn flat dense color="positive" icon="save" @click="scope.set" :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" />
+                    <q-btn flat dense color="negative" icon="cancel" @click.stop="scope.cancel" />
+                    <q-btn flat dense color="positive" icon="save" @click.stop="scope.set" :disable="scope.validate(scope.value) === false || scope.initialValue === scope.value" />
                   </template>
                 </q-input>
               </q-popup-edit>
@@ -836,7 +835,7 @@ export default {
           format: val => `~${ val }`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true, sort: (a, b) => parseFloat(a) - parseFloat(b) },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, headerClasses: 'bg-primary text-white', classes: 'bg-primary text-white', style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },

@@ -67,6 +67,21 @@
     }
   },
 
+  "events": {
+    "virtual-scroll": {
+      "params": {
+        "details": {
+          "definition": {
+            "ref": {
+              "tsType": "QVirtualScroll",
+              "desc": "Vue reference to the QVirtualScroll"
+            }
+          }
+        }
+      }
+    }
+  },
+
   "slots" : {
     "before": {
       "desc": "Template slot for the elements that should be rendered before the list; Suggestion: thead before a table"

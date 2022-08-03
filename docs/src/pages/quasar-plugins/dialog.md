@@ -10,7 +10,7 @@ related:
 
 Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).
 
-From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions only.
+From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions.
 
 ::: tip
 Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
@@ -126,6 +126,71 @@ The equivalent of the above with Options API is by directly using `this.$q.dialo
 Your custom component however must follow the interface described below in order to perfectly hook into the Dialog plugin. **Notice the "REQUIRED" comments** and take it as is -- just a bare-bone example, nothing more.
 :::
 
+#### SFC with script setup (and Composition API) variant
+We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
+
+```html
+<template>
+  <q-dialog ref="dialogRef" @hide="onDialogHide">
+    <q-card class="q-dialog-plugin">
+      <!--
+        ...content
+        ... use q-card-section for it?
+      -->
+
+      <!-- buttons example -->
+      <q-card-actions align="right">
+        <q-btn color="primary" label="OK" @click="onOKClick" />
+        <q-btn color="primary" label="Cancel" @click="onDialogCancel" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script setup>
+import { useDialogPluginComponent } from 'quasar'
+
+const props = defineProps({
+  // ...your custom props
+})
+
+defineEmits([
+  // REQUIRED; need to specify some events that your
+  // component will emit through useDialogPluginComponent()
+  ...useDialogPluginComponent.emits
+])
+
+const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginComponent()
+// dialogRef      - Vue ref to be applied to QDialog
+// onDialogHide   - Function to be used as handler for @hide on QDialog
+// onDialogOK     - Function to call to settle dialog with "ok" outcome
+//                    example: onDialogOK() - no payload
+//                    example: onDialogOK({ /*...*/ }) - with payload
+// onDialogCancel - Function to call to settle dialog with "cancel" outcome
+
+// this is part of our example (so not required)
+function onOKClick () {
+  // on OK, it is REQUIRED to
+  // call onDialogOK (with optional payload)
+  onDialogOK()
+  // or with payload: onDialogOK({ ... })
+  // ...and it will also hide the dialog automatically
+}
+</script>
+```
+
+If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
+
+```
+defineEmits({
+  // REQUIRED; need to specify some events that your
+  // component will emit through useDialogPluginComponent()
+  ...useDialogPluginComponent.emitsObject,
+
+  // ...your own definitions
+})
+```
+
 #### Composition API variant
 
 We will be using the [useDialogPluginComponent](/vue-composables/use-dialog-plugin-component) composable.
@@ -196,6 +261,18 @@ export default {
   }
 }
 </script>
+```
+
+If you want to define `emits` in Object form, then (requires Quasar v2.2.5+):
+
+```
+emits: {
+  // REQUIRED; need to specify some events that your
+  // component will emit through useDialogPluginComponent()
+  ...useDialogPluginComponent.emitsObject,
+
+  // ...your own definitions
+]
 ```
 
 #### Options API variant
@@ -270,10 +347,10 @@ export default {
 ## Cordova/Capacitor back button
 Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
 
-However, should you wish to disable this behavior, edit your /quasar.conf.js file:
+However, should you wish to disable this behavior, edit your /quasar.config.js file:
 
 ```js
-// quasar.conf.js;
+// quasar.config.js;
 // for Cordova (only!):
 return {
   framework: {
@@ -290,7 +367,7 @@ return {
   }
 }
 
-// quasar.conf.js;
+// quasar.config.js;
 // for Capacitor (only!)
 return {
   framework: {

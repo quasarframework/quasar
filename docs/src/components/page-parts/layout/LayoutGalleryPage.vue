@@ -7,7 +7,6 @@ q-page.flex.flex-center(padding)
     push
     color="white"
     text-color="brand-primary"
-    type="a"
     :href="sourceLink"
     target="_blank"
     rel="noopener"
@@ -18,7 +17,7 @@ q-page.flex.flex-center(padding)
 import { useMeta } from 'quasar'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { mdiCodeTags } from '@quasar/extras/mdi-v5'
+import { mdiCodeTags } from '@quasar/extras/mdi-v6'
 
 import getMeta from 'assets/get-meta.js'
 

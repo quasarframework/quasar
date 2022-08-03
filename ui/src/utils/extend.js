@@ -25,7 +25,7 @@ function isPlainObject (obj) {
   let key
   for (key in obj) {} // eslint-disable-line
 
-  return key === undefined || hasOwn.call(obj, key)
+  return key === void 0 || hasOwn.call(obj, key)
 }
 
 export default function extend () {
@@ -72,7 +72,7 @@ export default function extend () {
 
           target[ name ] = extend(deep, clone, copy)
         }
-        else if (copy !== undefined) {
+        else if (copy !== void 0) {
           target[ name ] = copy
         }
       }

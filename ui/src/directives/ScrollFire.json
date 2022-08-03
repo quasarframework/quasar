@@ -8,9 +8,8 @@
     "desc": "Function to call when scrolling and element comes into the viewport (use a non-function to disable)",
     "params": {
       "el": {
-        "type": "Object",
-        "desc": "DOM element that scroll-fire is applied to",
-        "__exemption": [ "examples" ]
+        "type": "Element",
+        "desc": "DOM element that scroll-fire is applied to"
       }
     },
     "returns": null,

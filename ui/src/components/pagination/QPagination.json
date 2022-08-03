@@ -22,7 +22,6 @@
     "max": {
       "type": "Number",
       "desc": "Number of last page (must be higher than 'min')",
-      "default": 100,
       "required": true,
       "examples": [ 10 ],
       "category": "model"
@@ -52,7 +51,8 @@
     },
 
     "input-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the input (if using one)",
       "examples": [
         "background-color: #ff0000",
@@ -62,7 +62,8 @@
     },
 
     "input-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the input (if using one)",
       "examples": [
         "my-special-class",
@@ -222,7 +223,7 @@
       "extends": "update:model-value",
       "params": {
         "value": {
-          "type": "String"
+          "type": "Number"
         }
       }
     }

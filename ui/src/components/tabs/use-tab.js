@@ -1,16 +1,17 @@
-import { h, ref, computed, inject, onBeforeUnmount, onMounted } from 'vue'
+import { h, ref, computed, inject, onBeforeUnmount, onMounted, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
 import Ripple from '../../directives/Ripple.js'
 
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
-import { isKeyCode } from '../../utils/private/key-composition.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import { tabsKey } from '../../utils/private/symbols.js'
+import { stopAndPrevent } from '../../utils/event.js'
 
 let uid = 0
 
-export const useTabEmits = [ 'click', 'keyup' ]
+export const useTabEmits = [ 'click', 'keydown' ]
 
 export const useTabProps = {
   icon: String,
@@ -42,22 +43,34 @@ export default function (props, slots, emit, routerProps) {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
   })
 
+  const { proxy } = getCurrentInstance()
+
   const blurTargetRef = ref(null)
   const rootRef = ref(null)
   const tabIndicatorRef = ref(null)
+
+  const ripple = computed(() => (
+    props.disable === true || props.ripple === false
+      ? false
+      : Object.assign(
+        { keyCodes: [ 13, 32 ], early: true },
+        props.ripple === true ? {} : props.ripple
+      )
+  ))
 
   const isActive = computed(() => $tabs.currentModel.value === props.name)
 
   const classes = computed(() =>
     'q-tab relative-position self-stretch flex flex-center text-center'
-    + ` q-tab--${ isActive.value === true ? '' : 'in' }active`
     + (
       isActive.value === true
         ? (
-            ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
+            ' q-tab--active'
+            + ($tabs.tabProps.value.activeClass ? ' ' + $tabs.tabProps.value.activeClass : '')
+            + ($tabs.tabProps.value.activeColor ? ` text-${ $tabs.tabProps.value.activeColor }` : '')
             + ($tabs.tabProps.value.activeBgColor ? ` bg-${ $tabs.tabProps.value.activeBgColor }` : '')
           )
-        : ''
+        : ' q-tab--inactive'
     )
     + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
     + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
@@ -72,37 +85,70 @@ export default function (props, slots, emit, routerProps) {
   )
 
   const tabIndex = computed(() => (
-    props.disable === true || isActive.value === true ? -1 : props.tabindex || 0
+    props.disable === true || $tabs.hasFocus.value === true
+      ? -1
+      : props.tabindex || 0
   ))
 
   function onClick (e, keyboard) {
     keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
 
     if (props.disable !== true) {
-      if (routerProps !== void 0) {
-        if (routerProps.hasLink.value === true) {
-          const go = () => {
-            e.__qNavigate = true
-            routerProps.navigateToLink(e)
-          }
+      let go
 
-          emit('click', e, go)
-          e.defaultPrevented !== true && go()
+      if (routerProps !== void 0) {
+        if (routerProps.hasRouterLink.value === true) {
+          go = () => {
+            e.__qNavigate = true
+            $tabs.avoidRouteWatcher = true
+
+            const res = routerProps.navigateToRouterLink(e)
+
+            if (res === false) {
+              $tabs.avoidRouteWatcher = false
+            }
+            else {
+              res.then(err => {
+                $tabs.avoidRouteWatcher = false
+
+                if (err === void 0) {
+                  $tabs.updateModel({ name: props.name, fromRoute: true })
+                }
+              })
+            }
+          }
         }
         else {
           emit('click', e)
+          return
         }
       }
       else {
-        emit('click', e)
-        $tabs.updateModel({ name: props.name, fromRoute: false })
+        go = () => {
+          $tabs.updateModel({ name: props.name, fromRoute: false })
+        }
       }
+
+      emit('click', e, go)
+      e.defaultPrevented !== true && go()
     }
   }
 
-  function onKeyup (e) {
-    isKeyCode(e, 13) === true && onClick(e, true)
-    emit('keyup', e)
+  function onKeydown (e) {
+    if (isKeyCode(e, [ 13, 32 ])) {
+      onClick(e, true)
+    }
+    else if (
+      shouldIgnoreKey(e) !== true
+      && e.keyCode >= 35
+      && e.keyCode <= 40
+      && e.altKey !== true
+      && e.metaKey !== true
+    ) {
+      $tabs.onKbdNavigate(e.keyCode, proxy.$el) === true && stopAndPrevent(e)
+    }
+
+    emit('keydown', e)
   }
 
   function getContent () {
@@ -131,12 +177,12 @@ export default function (props, slots, emit, routerProps) {
     props.alert !== false && content.push(
       props.alertIcon !== void 0
         ? h(QIcon, {
-            class: 'q-tab__alert-icon',
-            color: props.alert !== true
-              ? props.alert
-              : void 0,
-            name: props.alertIcon
-          })
+          class: 'q-tab__alert-icon',
+          color: props.alert !== true
+            ? props.alert
+            : void 0,
+          name: props.alertIcon
+        })
         : h('div', {
           class: 'q-tab__alert'
             + (props.alert !== true ? ` text-${ props.alert }` : '')
@@ -178,20 +224,16 @@ export default function (props, slots, emit, routerProps) {
       class: classes.value,
       tabindex: tabIndex.value,
       role: 'tab',
-      'aria-selected': isActive.value,
+      'aria-selected': isActive.value === true ? 'true' : 'false',
       'aria-disabled': props.disable === true ? 'true' : void 0,
       onClick,
-      onKeyup,
+      onKeydown,
       ...customData
     }
 
-    return hDir(
-      tag,
-      data,
-      getContent(),
-      'main',
-      props.ripple !== false && props.disable === false,
-      () => [ [ Ripple, props.ripple ] ]
+    return withDirectives(
+      h(tag, data, getContent()),
+      [ [ Ripple, ripple.value ] ]
     )
   }
 

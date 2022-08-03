@@ -6,10 +6,11 @@ import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
 
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
+import { isObject } from '../utils/private/is.js'
 
-const reqProps = { ref: 'bar' }
+const barRef = ref(null)
 
-export default defineReactivePlugin({
+const Plugin = defineReactivePlugin({
   isActive: false
 }, {
   start: noop,
@@ -31,37 +32,46 @@ export default defineReactivePlugin({
 
     const props = ref(
       $q.config.loadingBar !== void 0
-        ? { ...$q.config.loadingBar, ...reqProps }
-        : { ...reqProps }
+        ? { ...$q.config.loadingBar }
+        : {}
     )
+
+    function onStart () {
+      Plugin.isActive = true
+    }
+
+    function onStop () {
+      Plugin.isActive = false
+    }
 
     const el = createGlobalNode('q-loading-bar')
 
-    const vm = createChildApp({
+    createChildApp({
       name: 'LoadingBar',
-      setup: () => () => h(QAjaxBar, props.value)
+
+      // hide App from Vue devtools
+      devtools: { hide: true },
+
+      setup: () => () => h(QAjaxBar, { ...props.value, onStart, onStop, ref: barRef })
     }, parentApp).mount(el)
 
     Object.assign(this, {
-      start: speed => {
-        const bar = vm.$refs.bar
-        bar.start(speed)
-        this.isActive = bar.calls > 0
+      start (speed) {
+        barRef.value.start(speed)
       },
-      stop: () => {
-        const bar = vm.$refs.bar
-        bar.stop()
-        this.isActive = bar.calls > 0
+      stop () {
+        barRef.value.stop()
       },
       increment () {
-        const bar = vm.$refs.bar
-        bar.increment.apply(null, arguments)
+        barRef.value.increment.apply(null, arguments)
       },
-      setDefaults: opts => {
-        if (opts === Object(opts)) {
-          props.value = { ...props.value, ...opts, ...reqProps }
+      setDefaults (opts) {
+        if (isObject(opts) === true) {
+          Object.assign(props.value, opts)
         }
       }
     })
   }
 })
+
+export default Plugin

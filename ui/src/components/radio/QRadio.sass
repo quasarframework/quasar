@@ -3,19 +3,26 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 .q-radio
   vertical-align: middle
 
+  &__native
+    width: 1px
+    height: 1px
+
+  &__bg,
+  &__icon-container
+    user-select: none
+
   &__bg
     top: 25%
     left: 25%
     width: 50%
     height: 50%
     -webkit-print-color-adjust: exact
-
     path
       fill: currentColor
 
-  &__native
-    width: 1px
-    height: 1px
+  &__icon
+    color: currentColor
+    font-size: .5em
 
   &__check
     transform-origin: 50% 50%

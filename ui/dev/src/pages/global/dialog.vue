@@ -186,7 +186,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="confirm" persistent>
+    <q-dialog v-model="confirm" persistent :transition-duration="2000">
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
@@ -514,7 +514,7 @@
 
     <q-dialog v-model="complexCard">
       <q-card>
-        <q-img :src="require('assets/donuts.png')" />
+        <q-img src="~assets/donuts.png" />
 
         <q-card-section>
           <q-btn
@@ -612,19 +612,19 @@
 
         <q-card-section class="q-gutter-md">
           <q-icon size="30px" name="event" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-date v-model="date" />
             </q-popup-proxy>
           </q-icon>
 
           <q-icon size="30px" name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-color v-model="color" />
             </q-popup-proxy>
           </q-icon>
 
           <q-icon size="30px" name="view_carousel" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-carousel
                 transition-prev="slide-right"
                 transition-next="slide-left"
@@ -741,6 +741,7 @@
           <q-toggle v-model="testDialog.seamless" label="Seamless" />
           <q-toggle v-model="testDialog.persistent" label="Persistent" />
           <q-toggle v-model="testDialog.noBackdropDismiss" label="No Backdrop Dismiss" />
+          <q-toggle v-model="testDialog.noShake" label="No Shake" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -850,7 +851,8 @@ export default {
       testDialog: {
         seamless: false,
         persistent: false,
-        noBackdropDismiss: false
+        noBackdropDismiss: false,
+        noShake: false
       },
 
       address: '',

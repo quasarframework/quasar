@@ -1,10 +1,11 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QCardActions',
 
   props: {

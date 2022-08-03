@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
 import { sortDate } from '../../utils/private/sort.js'
-import { isNumber, isDate } from '../../utils/private/is.js'
+import { isNumber, isDate, isObject } from '../../utils/private/is.js'
 
 export const useTableSortProps = {
   sortMethod: Function,
@@ -73,7 +73,7 @@ export function useTableSort (props, computedPagination, colList, setPagination)
   function sort (col /* String(col name) or Object(col definition) */) {
     let sortOrder = props.columnSortOrder
 
-    if (col === Object(col)) {
+    if (isObject(col) === true) {
       if (col.sortOrder) {
         sortOrder = col.sortOrder
       }

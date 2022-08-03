@@ -24,7 +24,7 @@
 <script>
 import { ref } from 'vue'
 import { copyToClipboard } from 'quasar'
-import { mdiContentCopy } from '@quasar/extras/mdi-v5'
+import { mdiContentCopy } from '@quasar/extras/mdi-v6'
 
 export default {
   props: {

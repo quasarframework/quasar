@@ -189,6 +189,9 @@
   "slots": {
     "default": {
       "desc": "Suggestions: QTooltip, QBadge"
+    },
+    "...": {
+      "desc": "Any other dynamic slots to be used with 'slot' property of the 'options' prop"
     }
   }
 }

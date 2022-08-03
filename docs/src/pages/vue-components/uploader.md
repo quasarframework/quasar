@@ -8,7 +8,7 @@ related:
 
 Quasar supplies a way for you to upload files through the QUploader component.
 
-:::tip
+::: tip
 If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
 :::
 
@@ -51,7 +51,7 @@ In the example above, we're using `accept` property. Its value must be a comma s
 :::
 
 ::: warning
-Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/png", "image/png". QUploader uses an `<input type="file">` under the covers and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
+Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/png", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
 :::
 
 You can also apply custom filters (which are executed after user picks files):
@@ -287,6 +287,43 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
+
+### Julia/Genie
+
+```
+# Julia Genie
+
+using Genie, Genie.Requests, Genie.Renderer
+
+Genie.config.cors_headers["Access-Control-Allow-Origin"]  =  "*"
+Genie.config.cors_headers["Access-Control-Allow-Headers"] = "Content-Type"
+Genie.config.cors_headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
+Genie.config.cors_allowed_origins = ["*"]
+
+#== server ==#
+
+route("/") do
+  "File Upload"
+end
+
+route("/upload", method = POST) do
+  if infilespayload(:img)                 # :img is file-name 
+    @info filename(filespayload(:img))    # file-name="img"
+    @info filespayload(:img).data
+
+    open("upload/file.jpg", "w") do io
+      write(io, filespayload(:img).data)
+    end
+  else
+    @info "No image uploaded"
+  end
+
+  Genie.Renderer.redirect(:get)
+end
+
+isrunning(:webserver) || up()
+```
+
 ## Supporting other services
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
@@ -379,6 +416,29 @@ export default {
   components: {
     // ...
     MyUploader
+  }
+}
+```
+
+If you're using TypeScript, you'd need to register the new component types to allow Volar to autocomplete props and slots for you.
+
+```js
+import {
+  GlobalComponentConstructor,
+  QUploaderProps,
+  QUploaderSlots,
+} from 'quasar';
+
+interface MyUploaderProps extends QUploaderProps {
+  // .. add custom props
+  freeze: boolean;
+  // .. add custom events
+  onFreeze: boolean;
+}
+
+declare module '@vue/runtime-core' {
+  interface GlobalComponents {
+    MyUploader: GlobalComponentConstructor<MyUploaderProps, QUploaderSlots>;
   }
 }
 ```

@@ -17,7 +17,7 @@ a.doc-link(
 
 <script>
 import { computed } from 'vue'
-import { mdiLaunch } from '@quasar/extras/mdi-v5'
+import { mdiLaunch } from '@quasar/extras/mdi-v6'
 
 export default {
   name: 'DocLink',
@@ -42,7 +42,6 @@ export default {
   text-decoration: none
   outline: 0
   border-bottom: 1px dotted currentColor
-  vertical-align: center
   transition: opacity .2s
   white-space: nowrap
 

@@ -26,7 +26,11 @@ function read (string) {
   string = decode(string.replace(/\+/g, ' '))
 
   try {
-    string = JSON.parse(string)
+    const parsed = JSON.parse(string)
+
+    if (parsed === Object(parsed) || Array.isArray(parsed) === true) {
+      string = parsed
+    }
   }
   catch (e) {}
 

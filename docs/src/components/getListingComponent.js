@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import { QIcon } from 'quasar'
 
-import { farFileAlt, fasFolderOpen } from '@quasar/extras/fontawesome-v5'
+import { farFile, fasFolderOpen } from '@quasar/extras/fontawesome-v6'
 
 import DocPage from './DocPage.vue'
 import DocLink from './DocLink.vue'
@@ -11,7 +11,7 @@ export default function (title, links) {
     return links.map(link => {
       return h('div', { class: 'doc-page-listing' }, [
         h(QIcon, {
-          name: link.page === true ? farFileAlt : fasFolderOpen
+          name: link.page === true ? farFile : fasFolderOpen
         }),
 
         h(DocLink, { to: link.to }, () => link.title)

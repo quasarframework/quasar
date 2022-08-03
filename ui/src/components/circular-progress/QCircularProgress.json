@@ -91,6 +91,12 @@
       "type": "Boolean",
       "desc": "No animation when model changes",
       "category": "behavior"
+    },
+
+    "animation-speed": {
+      "extends": "animation-speed",
+      "default": 600,
+      "addedIn": "v2.3"
     }
   },
 

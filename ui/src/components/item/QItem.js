@@ -1,13 +1,14 @@
-import { h, defineComponent, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hUniqueSlot } from '../../utils/private/render.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QItem',
 
   props: {
@@ -19,7 +20,10 @@ export default defineComponent({
       default: 'div'
     },
 
-    active: Boolean,
+    active: {
+      type: Boolean,
+      default: null
+    },
 
     clickable: Boolean,
     dense: Boolean,
@@ -37,7 +41,7 @@ export default defineComponent({
     const { proxy: { $q } } = getCurrentInstance()
 
     const isDark = useDark(props, $q)
-    const { hasLink, linkProps, linkClass, linkTag, navigateToLink } = useRouterLink()
+    const { hasRouterLink, hasLink, linkProps, linkClass, linkTag, navigateToRouterLink } = useRouterLink()
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
@@ -45,7 +49,6 @@ export default defineComponent({
     const isActionable = computed(() =>
       props.clickable === true
         || hasLink.value === true
-        || props.tag === 'a'
         || props.tag === 'label'
     )
 
@@ -58,7 +61,7 @@ export default defineComponent({
       + (props.dense === true ? ' q-item--dense' : '')
       + (isDark.value === true ? ' q-item--dark' : '')
       + (
-        hasLink.value === true
+        hasLink.value === true && props.active === null
           ? linkClass.value
           : (
               props.active === true
@@ -98,7 +101,7 @@ export default defineComponent({
           }
         }
 
-        hasLink.value === true && navigateToLink(e)
+        hasRouterLink.value === true && navigateToRouterLink(e)
         emit('click', e)
       }
     }

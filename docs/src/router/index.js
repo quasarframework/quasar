@@ -25,11 +25,20 @@ export default function () {
         : (savedPosition || { left: 0, top: 0 })
     ),
     routes,
+    history: createHistory(process.env.VUE_ROUTER_BASE)
+  })
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+  Router.beforeEach((to, _, next) => {
+    if (to.fullPath.startsWith('/quasar-cli/') === true) {
+      next({
+        path: to.fullPath.replace('/quasar-cli/', '/quasar-cli-webpack/'),
+        query: to.query,
+        hash: to.hash
+      })
+    }
+    else {
+      next()
+    }
   })
 
   process.env.CLIENT === true && Router.afterEach(to => {

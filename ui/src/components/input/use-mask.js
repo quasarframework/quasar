@@ -1,4 +1,4 @@
-import { ref, computed, watch, nextTick } from 'vue'
+import { ref, watch, nextTick } from 'vue'
 
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
@@ -297,7 +297,7 @@ export default function (props, emit, emitValue, inputRef) {
       ? unmaskValue(masked)
       : masked
 
-    props.modelValue !== val && emitValue(val, true)
+    String(props.modelValue) !== val && emitValue(val, true)
   }
 
   function moveCursorForPaste (inp, start, end) {

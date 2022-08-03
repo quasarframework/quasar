@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -7,6 +7,7 @@ import Ripple from '../../directives/Ripple.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
 
@@ -18,7 +19,7 @@ const defaultSizes = {
   xl: 24
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QChip',
 
   props: {

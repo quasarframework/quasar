@@ -21,6 +21,9 @@ const defaultSizes = {
   xl: 24
 }
 
+const formTypes = [ 'button', 'submit', 'reset' ]
+const mediaTypeRE = /[^\s]\/[^\s]/
+
 export const useBtnProps = {
   ...useSizeProps,
   ...useRouterLinkProps,
@@ -35,6 +38,7 @@ export const useBtnProps = {
   iconRight: String,
 
   round: Boolean,
+  square: Boolean,
   outline: Boolean,
   flat: Boolean,
   unelevated: Boolean,
@@ -76,7 +80,7 @@ export const useBtnProps = {
 export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasLink, linkProps, navigateToLink } = useRouterLink()
+  const { hasRouterLink, hasLink, linkTag, linkProps, navigateToRouterLink } = useRouterLink('button')
 
   const style = computed(() => {
     const obj = props.fab === false && props.fabMini === false
@@ -85,13 +89,13 @@ export default function (props) {
 
     return props.padding !== void 0
       ? Object.assign({}, obj, {
-          padding: props.padding
-            .split(/\s+/)
-            .map(v => (v in padding ? padding[ v ] + 'px' : v))
-            .join(' '),
-          minWidth: '0',
-          minHeight: '0'
-        })
+        padding: props.padding
+          .split(/\s+/)
+          .map(v => (v in padding ? padding[ v ] + 'px' : v))
+          .join(' '),
+        minWidth: '0',
+        minHeight: '0'
+      })
       : obj
   })
 
@@ -107,10 +111,6 @@ export default function (props) {
     isActionable.value === true ? props.tabindex || 0 : -1
   ))
 
-  const isLink = computed(() =>
-    props.type === 'a' || hasLink.value === true
-  )
-
   const design = computed(() => {
     if (props.flat === true) return 'flat'
     if (props.outline === true) return 'outline'
@@ -122,15 +122,27 @@ export default function (props) {
   const attributes = computed(() => {
     const acc = { tabindex: tabIndex.value }
 
-    if (props.type !== 'a') {
-      acc.type = props.type
-    }
-
     if (hasLink.value === true) {
       Object.assign(acc, linkProps.value)
     }
-    else {
-      acc.role = props.type === 'a' ? 'link' : 'button'
+    else if (formTypes.includes(props.type) === true) {
+      acc.type = props.type
+    }
+
+    if (linkTag.value === 'a') {
+      if (props.disable === true) {
+        acc[ 'aria-disabled' ] = 'true'
+      }
+      else if (acc.href === void 0) {
+        acc.role = 'button'
+      }
+      if (hasRouterLink.value !== true && mediaTypeRE.test(props.type) === true) {
+        acc.type = props.type
+      }
+    }
+    else if (props.disable === true) {
+      acc.disabled = ''
+      acc[ 'aria-disabled' ] = 'true'
     }
 
     if (props.loading === true && props.percentage !== void 0) {
@@ -140,11 +152,6 @@ export default function (props) {
         'aria-valuemax': 100,
         'aria-valuenow': props.percentage
       })
-    }
-
-    if (props.disable === true) {
-      acc.disabled = ''
-      acc[ 'aria-disabled' ] = 'true'
     }
 
     return acc
@@ -165,8 +172,11 @@ export default function (props) {
       colors = `text-${ props.textColor }`
     }
 
-    return `q-btn--${ design.value } `
-      + `q-btn--${ props.round === true ? 'round' : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : '' }` }`
+    const shape = props.round === true
+      ? 'round'
+      : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : (props.square === true ? ' q-btn--square' : '') }`
+
+    return `q-btn--${ design.value } q-btn--${ shape }`
       + (colors !== void 0 ? ' ' + colors : '')
       + (isActionable.value === true ? ' q-btn--actionable q-focusable q-hoverable' : (props.disable === true ? ' disabled' : ''))
       + (props.fab === true ? ' q-btn--fab' : (props.fabMini === true ? ' q-btn--fab-mini' : ''))
@@ -174,6 +184,7 @@ export default function (props) {
       + (props.dense === true ? ' q-btn--dense' : '')
       + (props.stretch === true ? ' no-border-radius self-stretch' : '')
       + (props.glossy === true ? ' glossy' : '')
+      + (props.square ? ' q-btn--square' : '')
   })
 
   const innerClasses = computed(() =>
@@ -187,9 +198,10 @@ export default function (props) {
     style,
     innerClasses,
     attributes,
+    hasRouterLink,
     hasLink,
-    isLink,
-    navigateToLink,
+    linkTag,
+    navigateToRouterLink,
     isActionable
   }
 }

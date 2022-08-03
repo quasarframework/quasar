@@ -65,6 +65,7 @@
           "definition": {
             "reset": {
               "type": "Function",
+              "required": true,
               "desc": "When called, it resets the component to its initial non-slided state",
               "params": null,
               "returns": null
@@ -83,6 +84,7 @@
           "definition": {
             "reset": {
               "type": "Function",
+              "required": true,
               "desc": "When called, it resets the component to its initial non-slided state",
               "params": null,
               "returns": null
@@ -101,6 +103,7 @@
           "definition": {
             "reset": {
               "type": "Function",
+              "required": true,
               "desc": "When called, it resets the component to its initial non-slided state",
               "params": null,
               "returns": null
@@ -119,6 +122,7 @@
           "definition": {
             "reset": {
               "type": "Function",
+              "required": true,
               "desc": "When called, it resets the component to its initial non-slided state",
               "params": null,
               "returns": null
@@ -137,16 +141,19 @@
           "definition": {
             "side": {
               "type": "String",
+              "required": true,
               "desc": "Side to which sliding is taking effect",
               "values": [ "left", "right", "top", "bottom" ]
             },
             "ratio": {
               "type": "Number",
+              "required": true,
               "desc": "Ratio of how much of the required slide was performed (0..1)",
               "examples": [ 0, 0.5, 1 ]
             },
             "isReset": {
               "type": "Boolean",
+              "required": true,
               "desc": "Ratio has been reset"
             }
           }
@@ -163,11 +170,13 @@
           "definition": {
             "side": {
               "type": "String",
+              "required": true,
               "desc": "Side to which sliding has taken effect",
               "values": [ "left", "right", "top", "bottom" ]
             },
             "reset": {
               "type": "Function",
+              "required": true,
               "desc": "When called, it resets the component to its initial non-slided state",
               "params": null,
               "returns": null

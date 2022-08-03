@@ -1,15 +1,17 @@
 let queue = []
-const waitFlags = []
+let waitFlags = []
+
+function clearFlag (flag) {
+  waitFlags = waitFlags.filter(entry => entry !== flag)
+}
 
 export function addFocusWaitFlag (flag) {
+  clearFlag(flag)
   waitFlags.push(flag)
 }
 
 export function removeFocusWaitFlag (flag) {
-  const index = waitFlags.indexOf(flag)
-  if (index !== -1) {
-    waitFlags.splice(index, 1)
-  }
+  clearFlag(flag)
 
   if (waitFlags.length === 0 && queue.length > 0) {
     // only call last focus handler (can't focus multiple things at once)
@@ -24,13 +26,9 @@ export function addFocusFn (fn) {
   }
   else {
     queue.push(fn)
-    return fn
   }
 }
 
 export function removeFocusFn (fn) {
-  const index = queue.indexOf(fn)
-  if (index !== -1) {
-    queue.splice(index, 1)
-  }
+  queue = queue.filter(entry => entry !== fn)
 }

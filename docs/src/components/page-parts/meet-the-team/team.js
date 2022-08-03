@@ -32,14 +32,6 @@ export default [
       },
 
       {
-        name: 'Allan Gaunt',
-        role: 'Senior Developer',
-        avatar: 'allan_gaunt.png',
-        github: 'webnoob',
-        desc: 'BEX (browser extension App CLI mode), web products and security research'
-      },
-
-      {
         name: 'Scott Molinari',
         role: 'Media Manager',
         avatar: 'scott_molinari.jpg',
@@ -49,10 +41,18 @@ export default [
 
       {
         name: 'Paolo Caleffi',
-        role: 'Senior developer',
+        role: 'Senior Developer',
         avatar: 'paolo_caleffi.jpg',
         github: 'IlCallo',
         desc: 'Typescript support'
+      },
+
+      {
+        name: 'Yusuf Kandemir',
+        role: 'Senior Developer',
+        avatar: 'yusuf_kandemir.jpg',
+        github: 'yusufkandemir',
+        desc: 'Wizard developer on multiple areas of Quasar'
       },
 
       {
@@ -85,6 +85,14 @@ export default [
     name: 'Honorable mentions',
     members: [
       {
+        name: 'Allan Gaunt',
+        role: 'Senior Developer',
+        avatar: 'allan_gaunt.png',
+        github: 'webnoob',
+        desc: 'Wrote the initial BEX mode and much more'
+      },
+
+      {
         name: 'Tobias Mesquita',
         role: 'Senior Developer',
         avatar: 'tobias_mesquita.jpg',
@@ -105,7 +113,7 @@ export default [
         role: 'Developer / Community Staff',
         avatar: 'noah_klayman.jpeg',
         github: 'nklayman',
-        desc: 'Capacitor App CLI mode'
+        desc: 'Wrote the initial Capacitor mode'
       },
 
       {

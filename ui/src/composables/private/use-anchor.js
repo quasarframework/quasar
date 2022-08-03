@@ -43,19 +43,23 @@ export default function ({
 
       toggle (evt) {
         proxy.toggle(evt)
+        evt.qAnchorHandled = true
       },
 
       toggleKey (evt) {
-        isKeyCode(evt, 13) === true && proxy.toggle(evt)
+        isKeyCode(evt, 13) === true && anchorEvents.toggle(evt)
       },
 
       contextClick (evt) {
         proxy.hide(evt)
-        nextTick(() => { proxy.show(evt) })
         prevent(evt)
+        nextTick(() => {
+          proxy.show(evt)
+          evt.qAnchorHandled = true
+        })
       },
 
-      mobilePrevent: prevent,
+      prevent,
 
       mobileTouch (evt) {
         anchorEvents.mobileCleanup(evt)
@@ -72,11 +76,12 @@ export default function ({
           [ target, 'touchmove', 'mobileCleanup', 'passive' ],
           [ target, 'touchend', 'mobileCleanup', 'passive' ],
           [ target, 'touchcancel', 'mobileCleanup', 'passive' ],
-          [ anchorEl.value, 'contextmenu', 'mobilePrevent', 'notPassive' ]
+          [ anchorEl.value, 'contextmenu', 'prevent', 'notPassive' ]
         ])
 
         touchTimer = setTimeout(() => {
           proxy.show(evt)
+          evt.qAnchorHandled = true
         }, 300)
       },
 
@@ -103,7 +108,7 @@ export default function ({
         }
         else {
           evts = [
-            [ anchorEl.value, 'click', 'hide', 'passive' ],
+            [ anchorEl.value, 'mousedown', 'hide', 'passive' ],
             [ anchorEl.value, 'contextmenu', 'contextClick', 'notPassive' ]
           ]
         }
@@ -132,7 +137,7 @@ export default function ({
   }
 
   function pickAnchorEl () {
-    if (props.target === false || props.target === '') {
+    if (props.target === false || props.target === '' || proxy.$el.parentNode === null) {
       anchorEl.value = null
     }
     else if (props.target === true) {

@@ -1,5 +1,5 @@
+import { createDirective } from '../utils/private/create.js'
 import morph from '../utils/morph.js'
-import getSSRProps from './Morph.ssr.js'
 
 const morphGroups = {}
 const props = [
@@ -161,8 +161,19 @@ function updateValue (ctx, value) {
   }
 }
 
-export default __QUASAR_SSR_SERVER__
-  ? { name: 'morph', getSSRProps }
+export default createDirective(__QUASAR_SSR_SERVER__
+  ? {
+      name: 'morph',
+      getSSRProps: binding => {
+        const name = binding.arg
+          ? binding.arg.split(':')[ 0 ]
+          : false
+
+        return {
+          class: name === binding.value ? '' : 'q-morph--invisible'
+        }
+      }
+    }
   : {
       name: 'morph',
 
@@ -209,3 +220,4 @@ export default __QUASAR_SSR_SERVER__
         delete el.__qmorph
       }
     }
+)

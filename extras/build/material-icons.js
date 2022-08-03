@@ -1,10 +1,15 @@
 const packageName = ''
 const iconSetName = 'Google Material Design Icons'
+const prefix = 'mat_'
 
 // ------------
 
 const { resolve } = require('path')
 const fetch = require('cross-fetch')
+const { writeFileSync } = require('fs')
+
+const cpus = require('os').cpus().length
+const maxJobCount = cpus * 2 - 1 || 1
 
 const skipped = {}
 const distFolder = {}
@@ -19,6 +24,9 @@ const themeMap = {
   outlined: '_outlined',
   round: '_round',
   sharp: '_sharp'
+  // We could do twotone, as they use opacity, but parsing fails
+  // on 'twotoneMedicationLiquid' because of SVG 'use' directive
+  // twotone: '_twotone'
 }
 
 function downloadIcon(icon) {
@@ -26,7 +34,7 @@ function downloadIcon(icon) {
     Object.keys(themeMap).map(async (theme) => {
       // get future icon name
       const themeName = themeMap[theme]
-      const name = ((themeName === '' ? 'mat_' : theme + '_') + icon.name)
+      const name = ((themeName === '' ? prefix : theme + '_') + icon.name)
         .replace(/(_\w)/g, m => m[1].toUpperCase())
 
       if (iconNames[theme].has(name)) {
@@ -67,12 +75,9 @@ async function run () {
     const data = JSON.parse(text.replace(")]}'", ''))
     let icons = data.icons
     icons = icons.map((icon, index) => ({ index, ...icon }))
-    const version = icons.reduce((a, b) => {
-      return a.version > b.version ? a : b
-    }).version
 
-    console.log('\nDownloading Google Material Design SVG icons...')
-    console.log(`${icons.length} icons to download...`)
+    console.log('\nDownloading Google Material Design Icons SVGs...')
+    console.log(`${icons.length} * ${Object.keys(themeMap).length} icons to download...(${icons.length * Object.keys(themeMap).length})`)
 
     Object.keys(themeMap).map(async (theme) => {
       if (skipped[theme] === void 0) skipped[theme] = []
@@ -89,24 +94,33 @@ async function run () {
           await downloadIcon(icon)
         })
       },
-      { concurrency: 5 },
+      { concurrency: maxJobCount },
     )
     queue.push(icons)
     await queue.wait({ empty: true })
 
     console.log('')
-    console.log(`SVG version is: ${version}`)
 
     Object.keys(themeMap).map(async (theme) => {
+      // convert from Set to an array
+      iconNames[theme] = [...iconNames[theme]]
+
       svgExports[theme].sort((a, b) => {
         return ('' + a).localeCompare(b)
       })
       typeExports[theme].sort((a, b) => {
         return ('' + a).localeCompare(b)
       })
+      iconNames[theme].sort((a, b) => {
+        return ('' + a).localeCompare(b)
+      })
 
-      console.log((`Updating SVG for ../material-icons${themeMap[theme]}`).replace(/_/g, '-'))
+      console.log((`Updating SVG for ../material-icons${distFolder[theme]}; icon count: ${iconNames[theme].length}`))
       writeExports(iconSetName, packageName, distFolder[theme], svgExports[theme], typeExports[theme], skipped[theme])
+
+      // write the JSON file
+      const file = resolve(distFolder[theme], 'icons.json')
+      writeFileSync(file, JSON.stringify(iconNames[theme], null, 2), 'utf-8')
     })
   } catch (err) {
     console.log('err', err)

@@ -75,6 +75,8 @@ Available format tokens:
 | AM/PM | <ul><li>**A**: AM, PM</li><li>**a**: am, pm</li><li>**aa**: a.m, p.m</li></ul> |
 | Unix Timestamp | <ul><li>**X**: 1360013296</li><li>**x** (ms): 1360013296123</li></ul> |
 
+If you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
+
 ## Manipulate dates
 
 ### Create
@@ -98,13 +100,13 @@ The object literal provided can contain the following keys (all are optional):
 
 | Key | Description |
 | --- | --- |
-| `milliseconds` | for the milliseconds component of the date/time |
-| `seconds` | for the seconds component of the date/time |
-| `minutes` | for the minutes component of the date/time |
-| `hours` | for the hours component of the date/time |
-| `date` | for the day component of the date/time |
-| `month` | for the month component of the date/time |
-| `year` | for the year component of the date/time |
+| `millisecond(s)` | for the milliseconds component of the date/time |
+| `second(s)` | for the seconds component of the date/time |
+| `minute(s)` | for the minutes component of the date/time |
+| `hour(s)` | for the hours component of the date/time |
+| `day(s)`/`date` | for the day component of the date/time |
+| `month(s)` | for the month component of the date/time |
+| `year(s)` | for the year component of the date/time |
 
 ### Validate
 To check if a date string is valid use:
@@ -138,13 +140,13 @@ The object literal provided can contain the following keys (all are optional):
 
 | Key | Description |
 | --- | --- |
-| `milliseconds` | for a duration in milliseconds |
-| `seconds` | for a duration in seconds |
-| `minutes` | for a duration in minutes |
-| `hours` | for a duration in hours |
-| `days` | for a duration in days |
-| `months` | for a duration in months |
-| `years` | for a duration in years |
+| `millisecond(s)` | for a duration in milliseconds |
+| `second(s)` | for a duration in seconds |
+| `minute(s)` | for a duration in minutes |
+| `hour(s)` | for a duration in hours |
+| `day(s)`/`date` | for a duration in days |
+| `month(s)` | for a duration in months |
+| `year(s)` | for a duration in years |
 
 ### Set date/time
 To set a specified unit(s) of date/time:
@@ -163,13 +165,13 @@ The object literal provided can contain the following keys (all are optional):
 
 | Key | Description |
 | --- | --- |
-| `milliseconds` | for the milliseconds component of the date/time |
-| `seconds` | for the seconds component of the date/time |
-| `minutes` | for the minutes component of the date/time |
-| `hours` | for the hours component of the date/time |
-| `date` | for the day component of the date/time |
-| `month` | for the month component of the date/time |
-| `year` | for the year component of the date/time |
+| `millisecond(s)` | for the milliseconds component of the date/time |
+| `second(s)` | for the seconds component of the date/time |
+| `minute(s)` | for the minutes component of the date/time |
+| `hour(s)` | for the hours component of the date/time |
+| `day(s)`/`date` | for the day component of the date/time |
+| `month(s)` | for the month component of the date/time |
+| `year(s)` | for the year component of the date/time |
 
 ## Query dates
 
@@ -255,12 +257,12 @@ Unit parameter can be omitted, in which case a full date/time comparison will oc
 
 | Unit | Description |
 | --- | --- |
-| `second` | test if same second only |
-| `minute` | test if same minute only |
-| `hour` | test if same hour only |
-| `day` | test if same day only |
-| `month` | test if same month only |
-| `year` | test if same year only |
+| `second(s)` | test if same second only |
+| `minute(s)` | test if same minute only |
+| `hour(s)` | test if same hour only |
+| `day(s)`/`date` | test if same day only |
+| `month(s)` | test if same month only |
+| `year(s)` | test if same year only |
 
 ### Difference
 To compute the difference between two dates use:
@@ -280,12 +282,12 @@ The unit parameter indicates the unit of measurement, if not specified then it i
 
 | Unit | Description |
 | --- | --- |
-| `seconds` | distance in seconds (disregarding milliseconds) |
-| `minutes` | distance in minutes (disregarding seconds, ...) |
-| `hours` | distance in hours (disregarding minutes, seconds, ...) |
-| `days` | distance in calendar days |
-| `months` | distance in calendar months |
-| `years` | distance in calendar years |
+| `second(s)` | distance in seconds (disregarding milliseconds) |
+| `minute(s)` | distance in minutes (disregarding seconds, ...) |
+| `hour(s)` | distance in hours (disregarding minutes, seconds, ...) |
+| `day(s)`/`date` | distance in calendar days |
+| `month(s)` | distance in calendar months |
+| `year(s)` | distance in calendar years |
 
 ### Calendar
 To get the [ISO week number in year](https://en.wikipedia.org/wiki/ISO_week_date) for a given date object use:
@@ -330,7 +332,7 @@ To mutate the original date object by setting it to the start of a unit of time 
 ```js
 import { date } from 'quasar'
 
-let newDate = new Date(2000)
+let newDate = new Date('2000')
 // set to beginning of year 2000 (January 1st, 2000, 00:00:00.000)
 newDate = date.startOfDate(newDate, 'year')
 // set to end of year 2000 (December 31st, 2000, 23:59:59.999)
@@ -341,12 +343,12 @@ The second parameter indicates a unit to reset to (beginning of it or end of it)
 
 | Unit | Description |
 | --- | --- |
-| `second` | reset seconds |
-| `minute` | reset minutes |
-| `hour` | reset hours |
-| `day` | reset days |
-| `month` | reset months |
-| `year` | reset years |
+| `second(s)` | reset seconds |
+| `minute(s)` | reset minutes |
+| `hour(s)` | reset hours |
+| `day(s)`/`date` | reset days |
+| `month(s)` | reset months |
+| `year(s)` | reset years |
 
 ## Other
 
@@ -400,5 +402,5 @@ const obj = date.extractDate('Month: Feb, Day: 11th, Year: 2018', '[Month: ]MMM[
   months: ['Ianuarie', 'Februarie', /* and all the rest of months */],
   monthsShort: ['Ian', 'Feb', /* and all the rest of months */]
 })
-// date is a new Date() object
+// obj is a new Date() object
 ```

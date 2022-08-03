@@ -1,9 +1,10 @@
-import { h, defineComponent, ref, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget, getVerticalScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
@@ -13,7 +14,7 @@ const
   PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
 
-export default defineComponent({
+export default createComponent({
   name: 'QPullToRefresh',
 
   props: {
@@ -75,7 +76,7 @@ export default defineComponent({
       }
 
       if (event.isFirst === true) {
-        if (getVerticalScrollPosition(localScrollTarget) !== 0 || event.direction !== "down") {
+        if (getVerticalScrollPosition(localScrollTarget) !== 0 || event.direction !== 'down') {
           if (pulling.value === true) {
             pulling.value = false
             state.value = 'pull'
@@ -188,10 +189,10 @@ export default defineComponent({
           }, [
             state.value !== 'refreshing'
               ? h(QIcon, {
-                  name: props.icon || $q.iconSet.pullToRefresh.icon,
-                  color: props.color,
-                  size: '32px'
-                })
+                name: props.icon || $q.iconSet.pullToRefresh.icon,
+                color: props.color,
+                size: '32px'
+              })
               : h(QSpinner, {
                 size: '24px',
                 color: props.color

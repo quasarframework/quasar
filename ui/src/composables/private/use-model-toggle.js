@@ -8,14 +8,14 @@ export const useModelToggleProps = {
     default: null
   },
 
-  'onUpdate:modelValue': Function
+  'onUpdate:modelValue': [ Function, Array ]
 }
 
 export const useModelToggleEmits = [
   'before-show', 'show', 'before-hide', 'hide'
 ]
 
-// handleShow/handleHide -> removeTick(), self (& emit show), prepareTick()
+// handleShow/handleHide -> removeTick(), self (& emit show)
 
 export default function ({
   showing,
@@ -40,7 +40,11 @@ export default function ({
   }
 
   function show (evt) {
-    if (props.disable === true || (canShow !== void 0 && canShow(evt) !== true)) {
+    if (
+      props.disable === true
+      || (evt !== void 0 && evt.qAnchorHandled === true)
+      || (canShow !== void 0 && canShow(evt) !== true)
+    ) {
       return
     }
 
@@ -132,7 +136,7 @@ export default function ({
   watch(() => props.modelValue, processModelChange)
 
   if (hideOnRouteChange !== void 0 && vmHasRouter(vm) === true) {
-    watch(() => proxy.$route, () => {
+    watch(() => proxy.$route.fullPath, () => {
       if (hideOnRouteChange.value === true && showing.value === true) {
         hide()
       }

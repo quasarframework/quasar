@@ -1,8 +1,9 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 
 const defaultSizes = {
@@ -21,7 +22,7 @@ function width (val, reverse, $q) {
   }
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QLinearProgress',
 
   props: {
@@ -43,6 +44,11 @@ export default defineComponent({
     query: Boolean,
     rounded: Boolean,
 
+    animationSpeed: {
+      type: [ String, Number ],
+      default: 2100
+    },
+
     instantFeedback: Boolean
   },
 
@@ -52,6 +58,11 @@ export default defineComponent({
     const sizeStyle = useSize(props, defaultSizes)
 
     const motion = computed(() => props.indeterminate === true || props.query === true)
+    const widthReverse = computed(() => props.reverse !== props.query)
+    const style = computed(() => ({
+      ...(sizeStyle.value !== null ? sizeStyle.value : {}),
+      '--q-linear-progress-speed': `${ props.animationSpeed }ms`
+    }))
 
     const classes = computed(() =>
       'q-linear-progress'
@@ -60,7 +71,7 @@ export default defineComponent({
       + (props.rounded === true ? ' rounded-borders' : '')
     )
 
-    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, props.reverse, proxy.$q))
+    const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, widthReverse.value, proxy.$q))
     const trackClass = computed(() =>
       'q-linear-progress__track absolute-full'
       + ` q-linear-progress__track--with${ props.instantFeedback === true ? 'out' : '' }-transition`
@@ -68,7 +79,7 @@ export default defineComponent({
       + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
     )
 
-    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, props.reverse, proxy.$q))
+    const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, widthReverse.value, proxy.$q))
     const modelClass = computed(() =>
       'q-linear-progress__model absolute-full'
       + ` q-linear-progress__model--with${ props.instantFeedback === true ? 'out' : '' }-transition`
@@ -102,7 +113,7 @@ export default defineComponent({
 
       return h('div', {
         class: classes.value,
-        style: sizeStyle.value,
+        style: style.value,
         role: 'progressbar',
         'aria-valuemin': 0,
         'aria-valuemax': 1,

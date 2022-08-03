@@ -99,10 +99,10 @@ export function isDeepEqual (a, b) {
       return a.toString() === b.toString()
     }
 
-    const keys = Object.keys(a)
+    const keys = Object.keys(a).filter(key => a[ key ] !== void 0)
     length = keys.length
 
-    if (length !== Object.keys(b).length) {
+    if (length !== Object.keys(b).filter(key => b[ key ] !== void 0).length) {
       return false
     }
 
@@ -120,17 +120,10 @@ export function isDeepEqual (a, b) {
   return a !== a && b !== b // eslint-disable-line no-self-compare
 }
 
-export function isPrintableChar (v) {
-  return (v > 47 && v < 58) // number keys
-    || v === 32 || v === 13 // spacebar & return key(s) (if you want to allow carriage returns)
-    || (v > 64 && v < 91) // letter keys
-    || (v > 95 && v < 112) // numpad keys
-    || (v > 185 && v < 193) // ;=,-./` (in order)
-    || (v > 218 && v < 223)
-}
-
+// not perfect, but what we ARE interested is for Arrays not to slip in
+// as spread operator will mess things up in various areas
 export function isObject (v) {
-  return Object(v) === v
+  return v !== null && typeof v === 'object' && Array.isArray(v) !== true
 }
 
 export function isDate (v) {
@@ -143,8 +136,4 @@ export function isRegexp (v) {
 
 export function isNumber (v) {
   return typeof v === 'number' && isFinite(v)
-}
-
-export function isString (v) {
-  return typeof v === 'string'
 }

@@ -1,10 +1,11 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
-import { hSlot } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private/create.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 
 const alignValues = [ 'top', 'middle', 'bottom' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QBadge',
 
   props: {
@@ -54,6 +55,6 @@ export default defineComponent({
       style: style.value,
       role: 'alert',
       'aria-label': props.label
-    }, props.label !== void 0 ? props.label : hSlot(slots.default))
+    }, hMergeSlot(slots.default, props.label !== void 0 ? [ props.label ] : []))
   }
 })

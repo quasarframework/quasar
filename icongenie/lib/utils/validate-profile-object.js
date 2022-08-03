@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi')
-const { red } = require('chalk')
+const { red } = require('kolorist')
 
 const generatorsList = Object.keys(require('../generators'))
 const modesList = [ 'all' ].concat(Object.keys(require('../modes')))

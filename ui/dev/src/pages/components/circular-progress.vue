@@ -92,6 +92,7 @@
         color="orange"
         text-color="white"
         center-color="grey-8"
+        animation-speed="3000"
       />
     </div>
   </div>

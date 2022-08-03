@@ -108,6 +108,7 @@ export function getRenderer (getPlugin) {
     pickFiles,
     addFiles,
     onDragover,
+    onDragleave,
     processFiles,
     getDndNode,
     maxFilesNumber,
@@ -148,6 +149,7 @@ export function getRenderer (getPlugin) {
     + (props.square === true ? ' q-uploader--square no-border-radius' : '')
     + (props.flat === true ? ' q-uploader--flat no-shadow' : '')
     + (props.disable === true ? ' disabled q-uploader--disable' : '')
+    + (dnd.value === true ? ' q-uploader--dnd' : '')
   )
 
   const colorClass = computed(() =>
@@ -210,7 +212,7 @@ export function getRenderer (getPlugin) {
       removed.size += f.size
       removed.files.push(f)
 
-      f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+      f.__img !== void 0 && window.URL.revokeObjectURL(f.__img.src)
 
       return false
     })
@@ -226,7 +228,7 @@ export function getRenderer (getPlugin) {
     if (props.disable) { return }
 
     if (file.__status === 'uploaded') {
-      state.uploadedFiles.value = state.uploadedFiles.value.filter(f => f.name !== file.name)
+      state.uploadedFiles.value = state.uploadedFiles.value.filter(f => f.__key !== file.__key)
     }
     else if (file.__status === 'uploading') {
       file.__abort()
@@ -236,21 +238,22 @@ export function getRenderer (getPlugin) {
     }
 
     state.files.value = state.files.value.filter(f => {
-      if (f.name !== file.name) {
+      if (f.__key !== file.__key) {
         return true
       }
 
-      f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+      f.__img !== void 0 && window.URL.revokeObjectURL(f.__img.src)
 
       return false
     })
-    state.queuedFiles.value = state.queuedFiles.value.filter(f => f.name !== file.name)
+
+    state.queuedFiles.value = state.queuedFiles.value.filter(f => f.__key !== file.__key)
     emit('removed', [ file ])
   }
 
   function revokeImgURLs () {
     state.files.value.forEach(f => {
-      f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+      f.__img !== void 0 && window.URL.revokeObjectURL(f.__img.src)
     })
   }
 
@@ -260,14 +263,9 @@ export function getRenderer (getPlugin) {
   }
 
   function addFilesToQueue (e, fileList) {
-    const processedFiles = processFiles(e, fileList, state.files.value, true)
-
-    if (processedFiles === void 0) { return }
-
-    const localFiles = processedFiles
-      .filter(file => state.files.value.findIndex(f => file.name === f.name) === -1)
-
+    const localFiles = processFiles(e, fileList, state.files.value, true)
     const fileInput = getFileInput()
+
     if (fileInput !== void 0 && fileInput !== null) {
       fileInput.value = ''
     }
@@ -308,6 +306,7 @@ export function getRenderer (getPlugin) {
       let child = void 0
 
       if (icon === 'add') {
+        data.onClick = pickFiles
         child = renderInput
       }
       else {
@@ -329,6 +328,7 @@ export function getRenderer (getPlugin) {
       multiple: props.multiple === true ? 'multiple' : void 0,
       capture: props.capture,
       onMousedown: stop, // need to stop refocus from QBtn
+      onClick: pickFiles,
       onChange: addFilesToQueue
     })
   }
@@ -340,28 +340,32 @@ export function getRenderer (getPlugin) {
 
     return [
       h('div', {
-        class: 'q-uploader__header-content flex flex-center no-wrap q-gutter-xs'
+        class: 'q-uploader__header-content column'
       }, [
-        getBtn(state.queuedFiles.value.length > 0, 'removeQueue', removeQueuedFiles),
-        getBtn(state.uploadedFiles.value.length > 0, 'removeUploaded', removeUploadedFiles),
+        h('div', {
+          class: 'flex flex-center no-wrap q-gutter-xs'
+        }, [
+          getBtn(state.queuedFiles.value.length > 0, 'removeQueue', removeQueuedFiles),
+          getBtn(state.uploadedFiles.value.length > 0, 'removeUploaded', removeUploadedFiles),
 
-        state.isUploading.value === true
-          ? h(QSpinner, { class: 'q-uploader__spinner' })
-          : null,
-
-        h('div', { class: 'col column justify-center' }, [
-          props.label !== void 0
-            ? h('div', { class: 'q-uploader__title' }, [ props.label ])
+          state.isUploading.value === true
+            ? h(QSpinner, { class: 'q-uploader__spinner' })
             : null,
 
-          h('div', { class: 'q-uploader__subtitle' }, [
-            uploadSizeLabel.value + ' / ' + uploadProgressLabel.value
-          ])
-        ]),
+          h('div', { class: 'col column justify-center' }, [
+            props.label !== void 0
+              ? h('div', { class: 'q-uploader__title' }, [ props.label ])
+              : null,
 
-        getBtn(canAddFiles.value, 'add'),
-        getBtn(props.hideUploadBtn === false && canUpload.value === true, 'upload', state.upload),
-        getBtn(state.isUploading.value, 'clear', state.abort)
+            h('div', { class: 'q-uploader__subtitle' }, [
+              uploadSizeLabel.value + ' / ' + uploadProgressLabel.value
+            ])
+          ]),
+
+          getBtn(canAddFiles.value, 'add'),
+          getBtn(props.hideUploadBtn === false && canUpload.value === true, 'upload', state.upload),
+          getBtn(state.isUploading.value, 'clear', state.abort)
+        ])
       ])
     ]
   }
@@ -372,7 +376,7 @@ export function getRenderer (getPlugin) {
     }
 
     return state.files.value.map(file => h('div', {
-      key: file.name,
+      key: file.__key,
       class: 'q-uploader__file relative-position'
         + (props.noThumbnails !== true && file.__img !== void 0 ? ' q-uploader__file--img' : '')
         + (
@@ -389,10 +393,10 @@ export function getRenderer (getPlugin) {
       }, [
         file.__status === 'failed'
           ? h(QIcon, {
-              class: 'q-uploader__file-status',
-              name: $q.iconSet.type.negative,
-              color: 'negative'
-            })
+            class: 'q-uploader__file-status',
+            name: $q.iconSet.type.negative,
+            color: 'negative'
+          })
           : null,
 
         h('div', { class: 'q-uploader__file-header-content col' }, [
@@ -406,11 +410,11 @@ export function getRenderer (getPlugin) {
 
         file.__status === 'uploading'
           ? h(QCircularProgress, {
-              value: file.__progress,
-              min: 0,
-              max: 1,
-              indeterminate: file.__progress === 0
-            })
+            value: file.__progress,
+            min: 0,
+            max: 1,
+            indeterminate: file.__progress === 0
+          })
           : h(QBtn, {
             round: true,
             dense: true,
@@ -438,6 +442,8 @@ export function getRenderer (getPlugin) {
     abort: state.abort
   }
 
+  // TODO: the result of this computed, especially the dynamic part, isn't currently typed
+  // This result in an error with Volar when accessing the state (eg. files array)
   const slotScope = computed(() => {
     const acc = {
       canAddFiles: canAddFiles.value,
@@ -446,11 +452,15 @@ export function getRenderer (getPlugin) {
       uploadProgressLabel: uploadProgressLabel.value
     }
 
-    Object.keys(state).forEach(key => {
+    for (const key in state) {
       acc[ key ] = isRef(state[ key ]) === true
         ? state[ key ].value
         : state[ key ]
-    })
+    }
+
+    // TODO: (Qv3) Put the QUploader instance under `ref`
+    // property for consistency and flexibility
+    // return { ref: { ...acc, ...publicMethods } }
     return { ...acc, ...publicMethods }
   })
 
@@ -473,7 +483,7 @@ export function getRenderer (getPlugin) {
     const data = { ref: rootRef, class: classes.value }
 
     if (canAddFiles.value === true) {
-      data.onDragover = onDragover
+      Object.assign(data, { onDragover, onDragleave })
     }
 
     return h('div', data, children)

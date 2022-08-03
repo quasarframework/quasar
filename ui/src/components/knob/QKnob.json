@@ -27,12 +27,34 @@
       "category": "model"
     },
 
+    "inner-min": {
+      "type": "Number",
+      "desc": "Inner minimum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be higher or equal to 'min' prop; Defaults to 'min' prop",
+      "examples": [ ":inner-min=\"0\"" ],
+      "category": "model",
+      "addedIn": "v2.5.4"
+    },
+
+    "inner-max": {
+      "type": "Number",
+      "desc": "Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be lower or equal to 'max' prop; Defaults to 'max' prop",
+      "examples": [ ":inner-max=\"100\"" ],
+      "category": "model",
+      "addedIn": "v2.5.4"
+    },
+
     "step": {
       "type": "Number",
       "default": "1",
       "desc": "A number representing steps in the value of the model, while adjusting the knob",
       "examples": [ "1", "5" ],
       "category": "model"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverses the direction of progress",
+      "category": "behavior"
     },
 
     "instant-feedback": {

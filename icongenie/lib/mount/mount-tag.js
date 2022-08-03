@@ -8,7 +8,7 @@ module.exports.mountTag = function mountTag (files) {
   }
 
   console.log()
-  log(`You will need the following tags in your /src/index.template.html:\n`)
+  log(`You will need the following tags in your /index.html or /src/index.template.html:\n`)
   tagFiles.forEach(file => {
     console.log(file.tag)
   })

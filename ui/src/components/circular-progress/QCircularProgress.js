@@ -1,8 +1,9 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useSize from '../../composables/private/use-size.js'
 import { useCircularCommonProps } from './use-circular-progress.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlotSafely } from '../../utils/private/render.js'
 import { between } from '../../utils/format.js'
 
@@ -12,7 +13,7 @@ const
   circumference = diameter * Math.PI,
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
-export default defineComponent({
+export default createComponent({
   name: 'QCircularProgress',
 
   props: {
@@ -21,6 +22,11 @@ export default defineComponent({
     value: {
       type: Number,
       default: 0
+    },
+
+    animationSpeed: {
+      type: [ String, Number ],
+      default: 600
     },
 
     indeterminate: Boolean
@@ -42,7 +48,7 @@ export default defineComponent({
 
     const circleStyle = computed(() => (
       props.instantFeedback !== true && props.indeterminate !== true
-        ? { transition: 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease' }
+        ? { transition: `stroke-dashoffset ${ props.animationSpeed }ms ease 0s, stroke ${ props.animationSpeed }ms ease` }
         : ''
     ))
 

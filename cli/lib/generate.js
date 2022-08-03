@@ -1,6 +1,6 @@
 // Adapted from Vue CLI v2 "init" command
 
-const chalk = require('chalk')
+const kolorist = require('kolorist')
 const Metalsmith = require('metalsmith')
 const Handlebars = require('handlebars')
 const async = require('async')
@@ -47,7 +47,7 @@ module.exports = function generate (name, src, dest, done) {
     Handlebars.registerHelper(key, opts.helpers[key])
   })
 
-  const helpers = { chalk, logger }
+  const helpers = { chalk: kolorist, logger }
 
   if (opts.metalsmith && typeof opts.metalsmith.before === 'function') {
     opts.metalsmith.before(metalsmith, opts, helpers)
@@ -70,7 +70,7 @@ module.exports = function generate (name, src, dest, done) {
     .build((err, files) => {
       done(err)
       if (typeof opts.complete === 'function') {
-        const helpers = { chalk, logger, files }
+        const helpers = { chalk: kolorist, logger, files }
         opts.complete(data, helpers)
       }
       else {
@@ -110,9 +110,7 @@ function filterFiles (filters) {
 /**
  * Template in place plugin.
  *
- * @param {Object} files
- * @param {Metalsmith} metalsmith
- * @param {Function} done
+ * @param {String|Array} skipInterpolation
  */
 
 function renderTemplateFiles (skipInterpolation) {

@@ -1,3 +1,4 @@
+import { createDirective } from '../utils/private/create.js'
 import { closePortals, getPortalVm } from '../utils/private/portal.js'
 import { isKeyCode } from '../utils/private/key-composition.js'
 import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
@@ -21,7 +22,7 @@ function getDepth (value) {
   return isNaN(depth) ? 0 : depth
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'close-popup', getSSRProps }
   : {
       name: 'close-popup',
@@ -64,3 +65,4 @@ export default __QUASAR_SSR_SERVER__
         delete el.__qclosepopup
       }
     }
+)

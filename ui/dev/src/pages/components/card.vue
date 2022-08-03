@@ -229,7 +229,7 @@
       </q-card>
 
       <q-card class="bigger">
-        <q-img :src="require('assets/donuts.png')" />
+        <q-img src="~assets/donuts.png" />
 
         <q-card-section>
           <q-btn
@@ -557,7 +557,7 @@
 
       <q-card>
         <q-img
-          :src="require('assets/parallax2.jpg')"
+          src="~assets/parallax2.jpg"
           basic
         >
           <div class="absolute-bottom text-subtitle2 text-center">

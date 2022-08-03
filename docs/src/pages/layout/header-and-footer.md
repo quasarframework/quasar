@@ -23,7 +23,7 @@ QLayout allows you to configure your views as a 3x3 matrix, containing an option
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" type="a" href="layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 ::: tip
@@ -51,7 +51,7 @@ In the example below, scroll the page to see the QHeader and QFooter behavior.
 <doc-example title="Reveal" file="QHeader/Reveal" />
 
 ### iOS look and feel
-In the example below, you could use Ionicons icons with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.
+In the example below, you could use Ionicons icons (v4) with `ion-ios-` prefix for QTabs, which would perfectly match the iOS look and feel.
 
 <doc-example title="iOS-like" file="QHeader/LookingIOS" />
 

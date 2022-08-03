@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    <% if (preset.lint) { %>"dbaeumer.vscode-eslint",
+    <% if (lintConfig === 'prettier') { %>"esbenp.prettier-vscode",<% } } %>
+    "octref.vetur"
+  ],
+  "unwantedRecommendations": [
+    "hookyqr.beautify",
+    "dbaeumer.jshint",
+    "ms-vscode.vscode-typescript-tslint-plugin"
+  ]
+}

@@ -62,8 +62,11 @@ else {
 
   copySync(join(pkgFolder, 'LICENSE'), join(dist, 'LICENSE'))
 
-  writeFileSync(join(dist, 'animate-list.js'), getList(`export const `), 'utf-8')
-  writeFileSync(join(dist, 'animate-list.common.js'), getList(`module.exports.`), 'utf-8')
+  const common = getList(`module.exports.`)
+
+  writeFileSync(join(dist, 'animate-list.js'), common, 'utf-8')
+  writeFileSync(join(dist, 'animate-list.mjs'), getList(`export const `), 'utf-8')
+  writeFileSync(join(dist, 'animate-list.common.js'), common, 'utf-8')
 
   writeFileSync(join(dist, 'animate-list.d.ts'), getList(`export type `).replace(/\[/g, '').replace(/\]/g, ';').replace(/\  '/g, `  | '`).replace(/,/g, ''), 'utf-8')
   writeFileSync(join(dist, 'animate-list.common.d.ts'), getList(`export type `).replace(/\[/g, '').replace(/\]/g, ';').replace(/\  '/g, `  | '`).replace(/,/g, ''), 'utf-8')

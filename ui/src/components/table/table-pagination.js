@@ -26,7 +26,7 @@ export const useTablePaginationProps = {
     default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
   },
 
-  'onUpdate:pagination': Function
+  'onUpdate:pagination': [ Function, Array ]
 }
 
 export function useTablePaginationState (vm, getCellValue) {
@@ -64,6 +64,10 @@ export function useTablePaginationState (vm, getCellValue) {
     nextTick(() => {
       emit('request', {
         pagination: prop.pagination || computedPagination.value,
+        // FIXME: 'props.filter' is string/object, but 'prop.filter' can be controlled by the user, and the docs are suggesting 'prop.filter' is a function
+        // So, value of 'filter' becomes function/string/object, which makes a lot of things unpredictable and can break things
+        // Either update the docs to say 'prop.filter' should be a string/object, or use 'prop.filter || props.filterMethod' or maybe get 'computedFilterFunction' here and use that instead of 'props.filterMethod'
+        // The examples on our docs are using 'filter' as a string in onRequest handler, but the JSON API is saying 'filter' is a function
         filter: prop.filter || props.filter,
         getCellValue
       })
@@ -76,7 +80,7 @@ export function useTablePaginationState (vm, getCellValue) {
       ...val
     })
 
-    if (samePagination(computedPagination.value, newPagination)) {
+    if (samePagination(computedPagination.value, newPagination) === true) {
       if (isServerSide.value === true && forceServerRequest === true) {
         sendServerRequest(newPagination)
       }

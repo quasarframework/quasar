@@ -25,13 +25,13 @@ There are some CSS classes that you can use out of the box for common functional
 ## Window Width Related
 First of all, let's define what the breakpoints are:
 
-| Window Size | Prefix | Width threshold in pixels |
-| --- | --- | --- |
-| Extra Small | xs | Up to 599px |
-| Small | sm | Up to 1023px |
-| Medium | md | Up to 1439px |
-| Large | lg | Up to 1919px |
-| Extra Large | xl | Bigger than 1920px |
+| Window Size | Name | Min-width threshold in pixels | Max-width threshold in pixels |
+| --- | --- | --- | --- |
+| Extra Small | `xs` | 0px | 599.99px |
+| Small | `sm` | 600px | 1023.99px |
+| Medium | `md` | 1024px | 1439.99px |
+| Large | `lg` | 1440px | 1919.99px |
+| Extra Large | `xl` | 1920px | Infinity |
 
 Now on to the window width related CSS classes.
 

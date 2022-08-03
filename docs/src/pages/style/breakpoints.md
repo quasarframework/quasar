@@ -7,13 +7,13 @@ related:
 
 Quasar uses the following CSS breakpoints:
 
-| Window Size | Name | Width threshold in pixels |
-| --- | --- | --- |
-| Extra Small | `xs` | Up to 599px |
-| Small | `sm` | Up to 1023px |
-| Medium | `md` | Up to 1439px |
-| Large | `lg` | Up to 1919px |
-| Extra Large | `xl` | Bigger than 1920px |
+| Window Size | Name | Min-width threshold in pixels | Max-width threshold in pixels |
+| --- | --- | --- | --- |
+| Extra Small | `xs` | 0px | 599.99px |
+| Small | `sm` | 600px | 1023.99px |
+| Medium | `md` | 1024px | 1439.99px |
+| Large | `lg` | 1440px | 1919.99px |
+| Extra Large | `xl` | 1920px | Infinity |
 
 To learn how to use them, please visit the [Visibility](/style/visibility) page.
 

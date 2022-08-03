@@ -1,5 +1,7 @@
 import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
-import materialIcons from '../icon-set/material-icons.js'
+import { injectProp } from './utils/private/inject-obj-prop.js'
+// no extension on purpose for next one:
+import materialIcons from '../icon-set/material-icons'
 
 const Plugin = defineReactivePlugin({
   iconMapFn: null,
@@ -42,10 +44,7 @@ const Plugin = defineReactivePlugin({
 
       $q.iconSet = this.__icons
 
-      Object.defineProperty($q, 'iconMapFn', {
-        get: () => this.iconMapFn,
-        set: val => { this.iconMapFn = val }
-      })
+      injectProp($q, 'iconMapFn', () => this.iconMapFn, val => { this.iconMapFn = val })
 
       if (this.__installed === true) {
         iconSet !== void 0 && this.set(iconSet)

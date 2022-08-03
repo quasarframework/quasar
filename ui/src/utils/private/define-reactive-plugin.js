@@ -1,4 +1,6 @@
+
 import { reactive } from 'vue'
+import { injectProp } from './inject-obj-prop'
 
 export default __QUASAR_SSR_SERVER__
   ? (state, plugin) => {
@@ -6,16 +8,16 @@ export default __QUASAR_SSR_SERVER__
       return plugin
     }
   : (state, plugin) => {
-      const props = {}
       const reactiveState = reactive(state)
 
-      Object.keys(state).forEach(name => {
-        props[ name ] = {
-          get: () => reactiveState[ name ],
-          set: val => { reactiveState[ name ] = val }
-        }
-      })
+      for (const name in state) {
+        injectProp(
+          plugin,
+          name,
+          () => reactiveState[ name ],
+          val => { reactiveState[ name ] = val }
+        )
+      }
 
-      Object.defineProperties(plugin, props)
       return plugin
     }

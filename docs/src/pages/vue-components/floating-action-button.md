@@ -22,7 +22,7 @@ Note that you don’t need a QLayout to use FABs.
 ## Usage
 There are two types of FABs: expandable (has sub-actions) and non-expandable.
 
-:::tip
+::: tip
 For an exhausting list of options, please read the API cards (at the top of this page).
 :::
 
@@ -70,6 +70,12 @@ The default padding for QFab is "md" and for QFabAction is "sm". However, you ca
 ### Square style
 
 <doc-example title="Square style" file="QFab/SquareStyle" />
+
+### Slots <q-badge align="top" color="brand-primary" label="v2.4+" />
+
+Notice the slots for QFab and the slots for QFabAction below:
+
+<doc-example title="Slots: icon, active-icon and label" file="QFab/FabSlots" />
 
 ### With QPageSticky
 

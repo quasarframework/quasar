@@ -6,13 +6,17 @@ import { Ref } from "vue";
 import { QVueGlobals } from "./globals";
 
 interface useDialogPluginComponent {
-  (): {
+  <T = any>(): {
     dialogRef: Ref<QDialog | undefined>;
     onDialogHide: () => void;
-    onDialogOK: (payload?: any) => void;
+    onDialogOK: (payload?: T) => void;
     onDialogCancel: () => void;
   };
-  emits: string[];
+  emits: ['ok', 'hide'];
+  emitsObject: {
+    ok: (payload?: any) => true;
+    hide: () => true;
+  }
 }
 
 export const useDialogPluginComponent: useDialogPluginComponent;

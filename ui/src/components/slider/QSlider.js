@@ -1,25 +1,24 @@
-import { h, defineComponent, ref, computed, watch, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, getCurrentInstance } from 'vue'
 
-import { useFormInject, useFormProps, useFormAttrs } from '../../composables/private/use-form.js'
+import { useFormAttrs } from '../../composables/private/use-form.js'
 
 import useSlider, {
   useSliderProps,
   useSliderEmits,
-  getRatio,
-  getModel,
   keyCodes
 } from './use-slider.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { hDir } from '../../utils/private/render.js'
 
-export default defineComponent({
+const getNodeData = () => ({})
+
+export default createComponent({
   name: 'QSlider',
 
   props: {
     ...useSliderProps,
-    ...useFormProps,
 
     modelValue: {
       required: true,
@@ -35,49 +34,57 @@ export default defineComponent({
   setup (props, { emit }) {
     const { proxy: { $q } } = getCurrentInstance()
 
-    const formAttrs = useFormAttrs(props)
-    const injectFormInput = useFormInject(formAttrs)
-
-    const rootRef = ref(null)
-    const model = ref(props.modelValue === null ? props.min : props.modelValue)
-    const curRatio = ref(0)
-
     const { state, methods } = useSlider({
-      updateValue, updatePosition, getDragging
+      updateValue, updatePosition, getDragging,
+      formAttrs: useFormAttrs(props)
     })
 
-    const modelRatio = computed(() => (
-      state.minMaxDiff.value === 0 ? 0 : (model.value - props.min) / state.minMaxDiff.value
-    ))
-    const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
+    const rootRef = ref(null)
+    const curRatio = ref(0)
+    const model = ref(0)
 
-    const trackStyle = computed(() => ({
-      [ state.positionProp.value ]: 0,
-      [ state.sizeProp.value ]: `${ 100 * ratio.value }%`
-    }))
+    function normalizeModel () {
+      model.value = props.modelValue === null
+        ? state.innerMin.value
+        : between(props.modelValue, state.innerMin.value, state.innerMax.value)
+    }
 
-    const thumbStyle = computed(() => ({
-      [ state.positionProp.value ]: `${ 100 * ratio.value }%`
-    }))
-
-    const thumbClass = computed(() => (
-      state.preventFocus.value === false && state.focus.value === true
-        ? ' q-slider--focus'
-        : ''
-    ))
-
-    const pinClass = computed(() => (
-      props.labelColor !== void 0
-        ? `text-${ props.labelColor }`
-        : ''
-    ))
-
-    const pinTextClass = computed(() =>
-      'q-slider__pin-value-marker-text'
-      + (props.labelTextColor !== void 0 ? ` text-${ props.labelTextColor }` : '')
+    watch(
+      () => `${ props.modelValue }|${ state.innerMin.value }|${ state.innerMax.value }`,
+      normalizeModel
     )
 
-    const events = computed(() => {
+    normalizeModel()
+
+    const modelRatio = computed(() => methods.convertModelToRatio(model.value))
+    const ratio = computed(() => (state.active.value === true ? curRatio.value : modelRatio.value))
+
+    const selectionBarStyle = computed(() => {
+      const acc = {
+        [ state.positionProp.value ]: `${ 100 * state.innerMinRatio.value }%`,
+        [ state.sizeProp.value ]: `${ 100 * (ratio.value - state.innerMinRatio.value) }%`
+      }
+      if (props.selectionImg !== void 0) {
+        acc.backgroundImage = `url(${ props.selectionImg }) !important`
+      }
+      return acc
+    })
+
+    const getThumb = methods.getThumbRenderFn({
+      focusValue: true,
+      getNodeData,
+      ratio,
+      label: computed(() => (
+        props.labelValue !== void 0
+          ? props.labelValue
+          : model.value
+      )),
+      thumbColor: computed(() => props.thumbColor || props.color),
+      labelColor: computed(() => props.labelColor),
+      labelTextColor: computed(() => props.labelTextColor)
+    })
+
+    const trackContainerEvents = computed(() => {
       if (state.editable.value !== true) {
         return {}
       }
@@ -93,27 +100,6 @@ export default defineComponent({
           }
     })
 
-    const label = computed(() => (
-      props.labelValue !== void 0
-        ? props.labelValue
-        : model.value
-    ))
-
-    const pinStyle = computed(() => {
-      const percent = (props.reverse === true ? -ratio.value : ratio.value - 1)
-      return methods.getPinStyle(percent, ratio.value)
-    })
-
-    watch(() => props.modelValue, v => {
-      model.value = v === null
-        ? 0
-        : between(v, props.min, props.max)
-    })
-
-    watch(() => props.min + props.max, () => {
-      model.value = between(model.value, props.min, props.max)
-    })
-
     function updateValue (change) {
       if (model.value !== props.modelValue) {
         emit('update:modelValue', model.value)
@@ -126,19 +112,13 @@ export default defineComponent({
     }
 
     function updatePosition (event, dragging = state.dragging.value) {
-      const ratio = getRatio(
-        event,
-        dragging,
-        state.isReversed.value,
-        props.vertical
-      )
+      const ratio = methods.getDraggingRatio(event, dragging)
 
-      model.value = getModel(ratio, props.min, props.max, props.step, state.decimals.value)
+      model.value = methods.convertRatioToModel(ratio)
+
       curRatio.value = props.snap !== true || props.step === 0
         ? ratio
-        : (
-            state.minMaxDiff.value === 0 ? 0 : (model.value - props.min) / state.minMaxDiff.value
-          )
+        : methods.convertModelToRatio(model.value)
     }
 
     function onFocus () {
@@ -154,86 +134,31 @@ export default defineComponent({
 
       const
         stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
-        offset = [ 34, 37, 40 ].includes(evt.keyCode) ? -stepVal : stepVal
+        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (state.isReversed.value === true ? -1 : 1) * stepVal
 
       model.value = between(
         parseFloat((model.value + offset).toFixed(state.decimals.value)),
-        props.min,
-        props.max
+        state.innerMin.value,
+        state.innerMax.value
       )
 
       updateValue()
     }
 
     return () => {
-      const child = [
-        methods.getThumbSvg(),
-        h('div', { class: 'q-slider__focus-ring' })
-      ]
-
-      if (props.label === true || props.labelAlways === true) {
-        child.push(
-          h('div', {
-            class: `q-slider__pin q-slider__pin${ state.axis.value } absolute ` + pinClass.value,
-            style: pinStyle.value.pin
-          }, [
-            h('div', {
-              class: `q-slider__pin-text-container q-slider__pin-text-container${ state.axis.value }`,
-              style: pinStyle.value.pinTextContainer
-            }, [
-              h('span', {
-                class: 'q-slider__pin-text ' + pinTextClass.value
-              }, [
-                label.value
-              ])
-            ])
-          ]),
-
-          h('div', {
-            class: `q-slider__arrow q-slider__arrow${ state.axis.value } ${ pinClass.value }`
-          })
-        )
-      }
-
-      if (props.name !== void 0 && props.disable !== true) {
-        injectFormInput(child, 'push')
-      }
-
-      const track = [
-        h('div', {
-          class: `q-slider__track q-slider__track${ state.axis.value } absolute`,
-          style: trackStyle.value
-        })
-      ]
-
-      props.markers === true && track.push(
-        h('div', {
-          class: `q-slider__track-markers q-slider__track-markers${ state.axis.value } absolute-full fit`,
-          style: state.markerStyle.value
-        })
+      const content = methods.getContent(
+        selectionBarStyle,
+        state.tabindex,
+        trackContainerEvents,
+        node => { node.push(getThumb()) }
       )
 
-      const content = [
-        h('div', {
-          class: `q-slider__track-container q-slider__track-container${ state.axis.value } absolute`
-        }, track),
-
-        h('div', {
-          class: `q-slider__thumb-container q-slider__thumb-container${ state.axis.value } absolute non-selectable` + thumbClass.value,
-          style: thumbStyle.value
-        }, child)
-      ]
-
-      const data = {
+      return h('div', {
         ref: rootRef,
         class: state.classes.value + (props.modelValue === null ? ' q-slider--no-value' : ''),
         ...state.attributes.value,
-        'aria-valuenow': props.modelValue,
-        tabindex: state.tabindex.value,
-        ...events.value
-      }
-
-      return hDir('div', data, content, 'slide', state.editable.value, () => state.panDirective.value)
+        'aria-valuenow': props.modelValue
+      }, content)
     }
   }
 })

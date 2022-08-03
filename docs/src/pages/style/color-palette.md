@@ -63,10 +63,10 @@ If you want to use your own colors for your components (let's say we are adding 
 
 ```css
 .text-brand {
-  color: #a2aa33;
+  color: #a2aa33 !important;
 }
 .bg-brand {
-  background: #a2aa33;
+  background: #a2aa33 !important;
 }
 ```
 
@@ -111,10 +111,10 @@ setCssVar('primary', '#33F')
 setCssVar('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
-Example of setting brand colors using the helper:
+Example of setting brand colors using vanilla JavaScript:
 
 ```js
-// equivalent of setCssVar('primary') in raw Javascript:
+// equivalent of setCssVar('primary') in raw JavaScript:
 document.body.style.setProperty('--q-primary', '#0273d4')
 ```
 
@@ -136,10 +136,10 @@ getCssVar('primary') // '#33F'
 getCssVar('primary', document.getElementById('rebranded-section-id'))
 ```
 
-What this helper does is wrap the raw Javascript `getPropertyValue()` and it's available for convenience. Here is an example of equivalent vanilla Javascript:
+What this helper does is wrap the raw JavaScript `getPropertyValue()` and it's available for convenience. Here is an example of equivalent vanilla JavaScript:
 
 ```js
-// equivalent of getCssVar('primary') in raw Javascript:
+// equivalent of getCssVar('primary') in raw JavaScript:
 getComputedStyle(document.documentElement)
   .getPropertyValue('--q-primary') // #0273d4
 ```
@@ -163,7 +163,7 @@ setCssVar('primary-darkened', lighten(newPrimaryColor, -10))
 This is how you can set up some brand colors without tampering with the Sass variables:
 
 ```js
-// Quasar CLI - quasar.conf.js
+// Quasar CLI - quasar.config.js
 return {
   framework: {
     config: {
@@ -176,7 +176,7 @@ return {
 }
 ```
 
-Or with a [boot file](/quasar-cli/boot-files):
+Or with a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files):
 
 ```js
 // For Quasar CLI
@@ -189,14 +189,16 @@ export default () => {
 }
 ```
 
-If you are using the Quasar UMD version or Vue CLI:
+If you are using the Quasar UMD version or the Quasar Vite plugin or Vue CLI:
 
 ```js
-// UMD or Vue CLI
+// UMD or Quasar Vite plugin or Vue CLI
 app.use(Quasar, {
-  brand: {
-    primary: '#ff0000',
-    // ...
+  config: {
+    brand: {
+      primary: '#ff0000',
+      // ...
+    }
   }
 })
 ```

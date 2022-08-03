@@ -10,6 +10,7 @@ import IconSet from './icon-set.js'
 
 import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
+import { isObject } from './utils/private/is.js'
 
 const autoInstalledPlugins = [
   Platform,
@@ -46,13 +47,13 @@ function prepareApp (app, uiOpts, pluginOpts) {
   installPlugins(pluginOpts, autoInstalledPlugins)
 
   uiOpts.components !== void 0 && Object.values(uiOpts.components).forEach(c => {
-    if (Object(c) === c && c.name !== void 0) {
+    if (isObject(c) === true && c.name !== void 0) {
       app.component(c.name, c)
     }
   })
 
   uiOpts.directives !== void 0 && Object.values(uiOpts.directives).forEach(d => {
-    if (Object(d) === d && d.name !== void 0) {
+    if (isObject(d) === true && d.name !== void 0) {
       app.directive(d.name, d)
     }
   })
@@ -74,44 +75,45 @@ function prepareApp (app, uiOpts, pluginOpts) {
 
 export default __QUASAR_SSR_SERVER__
   ? function (parentApp, opts = {}, ssrContext) {
-      const $q = {
-        version: __QUASAR_VERSION__,
-        config: opts.config || {}
-      }
-
-      Object.assign(ssrContext, {
-        $q,
-        _meta: {
-          htmlAttrs: '',
-          headTags: '',
-          bodyClasses: '',
-          bodyAttrs: 'data-server-rendered',
-          bodyTags: ''
-        }
-      })
-
-      if (ssrContext._modules === void 0) {
-        // not OK. means the SSR build is not using @quasar/ssr-helpers,
-        // but we shouldn't crash the app
-        ssrContext._modules = []
-      }
-
-      if (ssrContext.onRendered === void 0) {
-        // not OK. means the SSR build is not using @quasar/ssr-helpers,
-        // but we shouldn't crash the app
-        ssrContext.onRendered = () => {}
-      }
-
-      parentApp.config.globalProperties.ssrContext = ssrContext
-
-      prepareApp(parentApp, opts, {
-        parentApp,
-        $q,
-        lang: opts.lang,
-        iconSet: opts.iconSet,
-        ssrContext
-      })
+    const $q = {
+      version: __QUASAR_VERSION__,
+      config: opts.config || {}
     }
+
+    Object.assign(ssrContext, {
+      $q,
+      _meta: {
+        htmlAttrs: '',
+        headTags: '',
+        endingHeadTags: '',
+        bodyClasses: '',
+        bodyAttrs: 'data-server-rendered',
+        bodyTags: ''
+      }
+    })
+
+    if (ssrContext._modules === void 0) {
+      // not OK. means the SSR build is not using @quasar/ssr-helpers,
+      // but we shouldn't crash the app
+      ssrContext._modules = []
+    }
+
+    if (ssrContext.onRendered === void 0) {
+      // not OK. means the SSR build is not using @quasar/ssr-helpers,
+      // but we shouldn't crash the app
+      ssrContext.onRendered = () => {}
+    }
+
+    parentApp.config.globalProperties.ssrContext = ssrContext
+
+    prepareApp(parentApp, opts, {
+      parentApp,
+      $q,
+      lang: opts.lang,
+      iconSet: opts.iconSet,
+      ssrContext
+    })
+  }
   : function (parentApp, opts = {}) {
     const $q = { version: __QUASAR_VERSION__ }
 

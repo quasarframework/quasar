@@ -5,15 +5,20 @@ related:
   - /options/rtl-support
   - /options/quasar-language-packs
 ---
+
 Internationalization is a design process that ensures a product (a website or application) can be adapted to various languages and regions without requiring engineering changes to the source code. Think of internationalization as readiness for localization.
 
 ::: tip
-The recommended package for handling website/app is [vue-i18n](https://github.com/kazupon/vue-i18n). This package should be added through a [Boot File](/quasar-cli/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
+The recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n-next). This package should be added through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
+:::
+
+::: warning
+Quasar documentation assumes you are already familiar with [vue-i18n](https://github.com/intlify/vue-i18n-next). Below it's described only the basics of how to make use of it in a Quasar CLI project. For the full list of its features please visit the [Vue I18n documentation](https://vue-i18n.intlify.dev).
 :::
 
 ## Setup manually
 
-If you missed enabling i18n during `quasar create` wizard, here is how you can set it up manually.
+If you missed enabling i18n during `yarn create quasar` (or `npm init quasar`) wizard, here is how you can set it up manually.
 
 1. Install the `vue-i18n` dependency into your app.
 
@@ -29,17 +34,17 @@ $ npm install vue-i18n@next
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
-const i18n = createI18n({
-  locale: 'en-US',
-  messages
-})
-
 export default ({ app }) => {
-  // Set i18n instance on app
+  // Create I18n instance
+  const i18n = createI18n({
+    locale: 'en-US',
+    globalInjection: true,
+    messages
+  })
+
+  // Tell app to use the I18n instance
   app.use(i18n)
 }
-
-export { i18n }
 ```
 
 3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the "import messages from 'src/i18n'" from step 2. This is step where you write the content that gets imported.
@@ -47,7 +52,7 @@ export { i18n }
 4. Now reference this file in `quasar.config.js` in the `boot` section:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 return {
   boot: [
     // ...
@@ -61,34 +66,40 @@ return {
 Now you are ready to use it in your pages.
 
 ## Setting up Translation Blocks in your SFCs
-To use embedded `<i18n>` template components in your vue files with **vue-i18n-loader** you must ensure that the `@intlify/vue-i18n-loader` and `yaml-loader` dependencies are added to your project using your package manager of choice. Then in your `quasar.conf.js` file change the webpack build options. In this case the translations are stored in yaml format in the block.
+
+If we want to add support to the `<i18n>` tag inside a SFC (single file component) in a Quasar CLI project then we need to modify the existing configuration.
+
+We first install the `@intlify/vue-i18n-loader` package:
+
+``` bash
+$ yarn add --dev @intlify/vue-i18n-loader
+# or
+$ npm i --save-dev @intlify/vue-i18n-loader
+```
+
+We then edit `quasar.config.js` at the root of our project. We have to include the following:
 
 ```js
-// quasar.conf.js
+// quasar.config.js
 
 const path = require('path')
 
 build: {
-  // OR use the equivalent chainWebpack()
-  // with its own chain statements
-  extendWebpack (cfg) {
-    // for i18n resources (json/json5/yaml)
-    cfg.module.rules.push({
-      test: /\.(json5?|ya?ml)$/, // target json, json5, yaml and yml files
-      type: 'javascript/auto',
-      // Use `Rule.include` to specify the files of locale messages to be pre-compiled
-      include: [
-        path.resolve(__dirname, './src/i18n'),
-      ],
-      loader: '@intlify/vue-i18n-loader'
-    })
-
-    // for i18n custom block
-    cfg.module.rules.push({
-      resourceQuery: /blockType=i18n/,
-      type: 'javascript/auto',
-      loader: '@intlify/vue-i18n-loader'
-    })
+  chainWebpack: chain => {
+    chain.module
+      .rule('i18n-resource')
+        .test(/\.(json5?|ya?ml)$/)
+          .include.add(path.resolve(__dirname, './src/i18n'))
+          .end()
+        .type('javascript/auto')
+        .use('i18n-resource')
+          .loader('@intlify/vue-i18n-loader')
+    chain.module
+      .rule('i18n')
+        .resourceQuery(/blockType=i18n/)
+        .type('javascript/auto')
+        .use('i18n')
+          .loader('@intlify/vue-i18n-loader')
   }
 }
 ```
@@ -134,7 +145,7 @@ import de from './de'
 
 export default {
   'en-US': enUS,
-  de: de
+  'de': de
 }
 ```
 

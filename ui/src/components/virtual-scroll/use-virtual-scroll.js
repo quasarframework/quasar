@@ -1,7 +1,8 @@
-import { h, ref, computed, watch, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onActivated, onDeactivated, onBeforeMount, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { noop } from '../../utils/event.js'
+import { rtlHasScrollBug } from '../../utils/private/rtl.js'
 
 const aggBucketSize = 1000
 
@@ -14,52 +15,35 @@ const scrollToEdges = [
   'end-force'
 ]
 
-const slice = Array.prototype.slice
-
-let buggyRTL = void 0
-
-// mobile Chrome takes the crown for this
-if (!__QUASAR_SSR__) {
-  const scroller = document.createElement('div')
-  const spacer = document.createElement('div')
-
-  scroller.setAttribute('dir', 'rtl')
-  scroller.style.width = '1px'
-  scroller.style.height = '1px'
-  scroller.style.overflow = 'auto'
-
-  spacer.style.width = '1000px'
-  spacer.style.height = '1px'
-
-  document.body.appendChild(scroller)
-  scroller.appendChild(spacer)
-  scroller.scrollLeft = -1000
-
-  buggyRTL = scroller.scrollLeft >= 0
-
-  scroller.remove()
-}
-
-let id = 1
+const filterProto = Array.prototype.filter
 
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
   ? noop
-  : function (id, index) {
-    const ssId = id + '_ss'
-
-    let styleSheet = document.getElementById(ssId)
-
-    if (styleSheet === null) {
-      styleSheet = document.createElement('style')
-      styleSheet.type = 'text/css'
-      styleSheet.id = ssId
-      document.head.appendChild(styleSheet)
+  : function (contentEl, index) {
+    if (contentEl === null) {
+      return
     }
 
-    if (styleSheet.qChildIndex !== index) {
-      styleSheet.qChildIndex = index
-      styleSheet.innerHTML = `#${ id } > *:nth-child(${ index }) { overflow-anchor: auto }`
-    }
+    cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
+      if (contentEl === null) {
+        return
+      }
+
+      const children = contentEl.children || []
+
+      filterProto
+        .call(children, el => el.dataset && el.dataset.qVsAnchor !== void 0)
+        .forEach(el => {
+          delete el.dataset.qVsAnchor
+        })
+
+      const el = children[ index ]
+
+      if (el && el.dataset) {
+        el.dataset.qVsAnchor = ''
+      }
+    })
   }
 
 function sumFn (acc, h) {
@@ -90,7 +74,7 @@ function getScrollDetails (
   if (horizontal === true) {
     if (parent === window) {
       details.scrollStart = window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-      details.scrollViewSize += window.innerWidth
+      details.scrollViewSize += document.documentElement.clientWidth
     }
     else {
       details.scrollStart = parentCalc.scrollLeft
@@ -99,13 +83,13 @@ function getScrollDetails (
     details.scrollMaxSize = parentCalc.scrollWidth
 
     if (rtl === true) {
-      details.scrollStart = (buggyRTL === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
+      details.scrollStart = (rtlHasScrollBug === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
     }
   }
   else {
     if (parent === window) {
       details.scrollStart = window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-      details.scrollViewSize += window.innerHeight
+      details.scrollViewSize += document.documentElement.clientHeight
     }
     else {
       details.scrollStart = parentCalc.scrollTop
@@ -154,10 +138,16 @@ function getScrollDetails (
 }
 
 function setScroll (parent, scroll, horizontal, rtl) {
+  if (scroll === 'end') {
+    scroll = (parent === window ? document.body : parent)[
+      horizontal === true ? 'scrollWidth' : 'scrollHeight'
+    ]
+  }
+
   if (parent === window) {
     if (horizontal === true) {
       if (rtl === true) {
-        scroll = (buggyRTL === true ? document.body.scrollWidth - window.innerWidth : 0) - scroll
+        scroll = (rtlHasScrollBug === true ? document.body.scrollWidth - document.documentElement.clientWidth : 0) - scroll
       }
       window.scrollTo(scroll, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     }
@@ -167,7 +157,7 @@ function setScroll (parent, scroll, horizontal, rtl) {
   }
   else if (horizontal === true) {
     if (rtl === true) {
-      scroll = (buggyRTL === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
+      scroll = (rtlHasScrollBug === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
     }
     parent.scrollLeft = scroll
   }
@@ -248,8 +238,6 @@ export function useVirtualScroll ({
   const { $q } = proxy
 
   let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
-
-  const vsId = 'qvs_' + id++
 
   const virtualScrollPaddingBefore = ref(0)
   const virtualScrollPaddingAfter = ref(0)
@@ -422,24 +410,21 @@ export function useVirtualScroll ({
     }
 
     const { activeElement } = document
+    const contentEl = contentRef.value
     if (
       rangeChanged === true
-      && contentRef.value !== null
-      && contentRef.value !== activeElement
-      && contentRef.value.contains(activeElement) === true
+      && contentEl !== null
+      && contentEl !== activeElement
+      && contentEl.contains(activeElement) === true
     ) {
-      const onBlurFn = () => {
-        contentRef.value.focus()
-      }
+      contentEl.addEventListener('focusout', onBlurRefocusFn)
 
-      activeElement.addEventListener('blur', onBlurFn, true)
-
-      requestAnimationFrame(() => {
-        activeElement.removeEventListener('blur', onBlurFn, true)
+      setTimeout(() => {
+        contentEl !== null && contentEl.removeEventListener('focusout', onBlurRefocusFn)
       })
     }
 
-    setOverflowAnchor(vsId, toIndex - from + 1)
+    setOverflowAnchor(contentEl, toIndex - from)
 
     const sizeBefore = alignEnd !== void 0 ? virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
@@ -513,8 +498,10 @@ export function useVirtualScroll ({
 
     if (contentEl) {
       const
-        children = slice.call(contentEl.children)
-          .filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
+        children = filterProto.call(
+          contentEl.children,
+          el => el.classList && el.classList.contains('q-virtual-scroll--skip') === false
+        ),
         childrenLength = children.length,
         sizeFn = props.virtualScrollHorizontal === true
           ? el => el.getBoundingClientRect().width
@@ -543,6 +530,10 @@ export function useVirtualScroll ({
         index++
       }
     }
+  }
+
+  function onBlurRefocusFn () {
+    contentRef.value !== null && contentRef.value !== void 0 && contentRef.value.focus()
   }
 
   function localResetVirtualScroll (toIndex, fullReset) {
@@ -574,13 +565,14 @@ export function useVirtualScroll ({
     prevToIndex = -1
     prevScrollStart = void 0
 
+    virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, virtualScrollSliceRange.value.from)
+    virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, virtualScrollSliceRange.value.to, virtualScrollLength.value)
+
     if (toIndex >= 0) {
       updateVirtualScrollSizes(virtualScrollSliceRange.value.from)
       nextTick(() => { scrollTo(toIndex) })
     }
     else {
-      virtualScrollPaddingBefore.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, 0, virtualScrollSliceRange.value.from)
-      virtualScrollPaddingAfter.value = sumSize(virtualScrollSizesAgg, virtualScrollSizes, virtualScrollSliceRange.value.to, virtualScrollLength.value)
       onVirtualScrollEvt()
     }
   }
@@ -605,22 +597,24 @@ export function useVirtualScroll ({
 
     localScrollViewSize = scrollViewSize
 
-    const multiplier = 1 + props.virtualScrollSliceRatioBefore + props.virtualScrollSliceRatioAfter
+    const virtualScrollSliceRatioBefore = parseFloat(props.virtualScrollSliceRatioBefore) || 0
+    const virtualScrollSliceRatioAfter = parseFloat(props.virtualScrollSliceRatioAfter) || 0
+    const multiplier = 1 + virtualScrollSliceRatioBefore + virtualScrollSliceRatioAfter
     const view = scrollViewSize === void 0 || scrollViewSize <= 0
       ? 1
       : Math.ceil(scrollViewSize / virtualScrollItemSizeComputed.value)
 
     const baseSize = Math.max(
-      10,
+      1,
       view,
-      Math.ceil(props.virtualScrollSliceSize / multiplier)
+      Math.ceil((props.virtualScrollSliceSize > 0 ? props.virtualScrollSliceSize : 10) / multiplier)
     )
 
     virtualScrollSliceSizeComputed.value = {
       total: Math.ceil(baseSize * multiplier),
-      start: Math.ceil(baseSize * props.virtualScrollSliceRatioBefore),
-      center: Math.ceil(baseSize * (0.5 + props.virtualScrollSliceRatioBefore)),
-      end: Math.ceil(baseSize * (1 + props.virtualScrollSliceRatioBefore)),
+      start: Math.ceil(baseSize * virtualScrollSliceRatioBefore),
+      center: Math.ceil(baseSize * (0.5 + virtualScrollSliceRatioBefore)),
+      end: Math.ceil(baseSize * (1 + virtualScrollSliceRatioBefore)),
       view
     }
   }
@@ -634,17 +628,17 @@ export function useVirtualScroll ({
     return [
       tag === 'tbody'
         ? h(tag, {
-            class: 'q-virtual-scroll__padding',
-            key: 'before',
-            ref: beforeRef
-          }, [
-            h('tr', [
-              h('td', {
-                style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px`, ...style },
-                colspan: colspanAttr.value
-              })
-            ])
+          class: 'q-virtual-scroll__padding',
+          key: 'before',
+          ref: beforeRef
+        }, [
+          h('tr', [
+            h('td', {
+              style: { [ paddingSize ]: `${ virtualScrollPaddingBefore.value }px`, ...style },
+              colspan: colspanAttr.value
+            })
           ])
+        ])
         : h(tag, {
           class: 'q-virtual-scroll__padding',
           key: 'before',
@@ -656,23 +650,22 @@ export function useVirtualScroll ({
         class: 'q-virtual-scroll__content',
         key: 'content',
         ref: contentRef,
-        id: vsId,
         tabindex: -1
       }, content.flat()),
 
       tag === 'tbody'
         ? h(tag, {
-            class: 'q-virtual-scroll__padding',
-            key: 'after',
-            ref: afterRef
-          }, [
-            h('tr', [
-              h('td', {
-                style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px`, ...style },
-                colspan: colspanAttr.value
-              })
-            ])
+          class: 'q-virtual-scroll__padding',
+          key: 'after',
+          ref: afterRef
+        }, [
+          h('tr', [
+            h('td', {
+              style: { [ paddingSize ]: `${ virtualScrollPaddingAfter.value }px`, ...style },
+              colspan: colspanAttr.value
+            })
           ])
+        ])
         : h(tag, {
           class: 'q-virtual-scroll__padding',
           key: 'after',
@@ -697,15 +690,41 @@ export function useVirtualScroll ({
   }
 
   setVirtualScrollSize()
-  const onVirtualScrollEvt = debounce(localOnVirtualScrollEvt, $q.platform.is.ios === true ? 120 : 35)
+  const onVirtualScrollEvt = debounce(
+    localOnVirtualScrollEvt,
+    $q.platform.is.ios === true ? 120 : 35
+  )
 
   onBeforeMount(() => {
     setVirtualScrollSize()
   })
 
-  setOverflowAnchor !== noop && onBeforeUnmount(() => {
-    const styleSheet = document.getElementById(vsId + '_ss')
-    styleSheet !== null && styleSheet.remove()
+  let shouldActivate = false
+
+  onDeactivated(() => {
+    shouldActivate = true
+  })
+
+  onActivated(() => {
+    if (shouldActivate !== true) { return }
+
+    const scrollEl = getVirtualScrollTarget()
+
+    if (prevScrollStart !== void 0 && scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {
+      setScroll(
+        scrollEl,
+        prevScrollStart,
+        props.virtualScrollHorizontal,
+        $q.lang.rtl
+      )
+    }
+    else {
+      scrollTo(prevToIndex)
+    }
+  })
+
+  __QUASAR_SSR__ || onBeforeUnmount(() => {
+    onVirtualScrollEvt.cancel()
   })
 
   // expose public methods

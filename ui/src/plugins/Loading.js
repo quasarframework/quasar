@@ -5,6 +5,7 @@ import QSpinner from '../components/spinner/QSpinner.js'
 import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
 import preventScroll from '../utils/prevent-scroll.js'
+import { isObject } from '../utils/private/is.js'
 
 let
   app,
@@ -34,7 +35,7 @@ const Plugin = defineReactivePlugin({
   show (opts) {
     if (__QUASAR_SSR_SERVER__) { return }
 
-    props = opts === Object(opts) && opts.ignoreDefaults === true
+    props = isObject(opts) === true && opts.ignoreDefaults === true
       ? { ...originalDefaults, ...opts }
       : { ...defaults, ...opts }
 
@@ -135,7 +136,7 @@ const Plugin = defineReactivePlugin({
 
   setDefaults (opts) {
     if (__QUASAR_SSR_SERVER__ !== true) {
-      opts === Object(opts) && Object.assign(defaults, opts)
+      isObject(opts) === true && Object.assign(defaults, opts)
     }
   },
 

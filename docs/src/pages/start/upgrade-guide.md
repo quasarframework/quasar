@@ -5,14 +5,12 @@ components:
   - upgrade-guide/UpgradeVideoLink
 ---
 
-::: danger Quasar UI v2
-* In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your installed webpack plugins accordingly.
-* There is no IE11 support because Vue 3 does NOT (and will not) support it either.
-* There may be some App Extensions that are not yet ported to Vue 3 and Quasar v2.
+::: tip Quasar CLI with Vite or Webpack
+You now have the option to choose between Quasar CLI with Vite and Quasar CLI with Webpack.
 :::
 
 ::: tip Composition and Options API
-You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use the legacy Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
+You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use Vue Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
 :::
 
 ### Video guide <q-badge align="top" color="brand-primary" label="New" />
@@ -39,9 +37,31 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
+It's recommended to keep `vue` & `vue-router` packages up to date too:
+
+```bash
+# optional, but recommended
+$ yarn add vue@3 vue-router@4
+```
+
 ::: warning Note for code editor terminals
 If you're using a code editor terminal instead of an external one and you run `quasar upgrade` and get the error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%*, then restart your code editor.
 :::
+
+### With Quasar Vite plugin
+
+```bash
+$ yarn upgrade quasar
+```
+
+Optionally, you may also want to make sure that you have the latest `@quasar/vite-plugin` package.
+
+It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
+
+```bash
+# optional, but recommended
+$ yarn add vue@3 @quasar/extras@latest
+```
 
 ### With Vue CLI
 
@@ -51,16 +71,21 @@ $ yarn upgrade quasar
 
 Optionally, you may also want to make sure that you have the latest `vue-cli-plugin-quasar` package.
 
-It's highly recommended to keep `@quasar/extras` package up to date too:
+It's recommended to keep `vue` and `@quasar/extras` packages up to date too:
 
 ```bash
 # optional, but recommended
-$ yarn add @quasar/extras@latest
+$ yarn add vue@3 @quasar/extras@latest
 ```
 
 ## Migrate to v2 from v1
 
 **This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#add-vue-cli-quasar-plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
+
+::: danger
+* Quasar CLI for Quasar v1 only had the option to use Webpack. But now you can choose between Quasar CLI with Vite and Quasar CLI with Webpack. If you want to use Quasar CLI with Vite, follow the instructions below to Quasar CLI with Webpack first, then [migrate to Quasar CLI with Vite](/quasar-cli-vite/convert-to-quasar-cli-with-vite).
+* **The rest of this guide will focus on Quasar CLI with Webpack.**
+:::
 
 ### Intro
 
@@ -74,8 +99,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
 * In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
-* Not all of our official App Extensions are yet compatible with Quasar UI v2. We are working towards releasing new compatible versions for them.
-* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraits, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us futher modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraints, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us further modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -95,8 +119,6 @@ If you get stuck, check out the forums or visit our Discord server for help whic
 It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process, there are likely errors. If you find any, don't be afraid to make a PR and propose a change to make corrections.
 :::
 
-
-
 ### Initial Steps
 
 There are two paths you can follow. They are described below. Choose the path that fits your needs best. We do, however, recommend the first option.
@@ -104,17 +126,22 @@ There are two paths you can follow. They are described below. Choose the path th
 #### Option 1: Convert a project
 
 ::: danger Important!
-This guide assumes that you are currently using a `@quasar/app` v2 project.
+This guide assumes that you are currently using a `@quasar/app` v2 project. You will upgrade it to Quasar CLI with Webpack for Quasar v2 (the package is now named `@quasar/app-webpack` to better differentiate it from Quasar CLI with Vite).
 :::
 
 Before starting, it is highly suggested to make a copy of your current working project or create a new branch with git.
 
-1) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
+1) **Ensure** you have latest `@quasar/cli`:
+  ```bash
+  $ yarn global add @quasar/cli@latest
+  # or: npm i -g @quasar/cli@latest
+  ```
+2) **Stylus related**: Are you using Stylus and Quasar Stylus variables? Then before anything, convert all those files to Sass/SCSS (including src/css/app.styl -> src/css/app.sass or app.scss). If you still want to use Stylus in your project (without Quasar Stylus variables), then you'll also need to install the stylus related packages (which are no longer supplied by "@quasar/app" out of the box):
   ```bash
   # only if you still want to use Stylus (but without Quasar Stylus variables)
   $ yarn add --dev stylus stylus-loader
   ```
-2) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
+3) **Upgrade** Node to at least v12.22.1, npm to at least v6.14.12 and yarn to at least v1.17.3.
   ```bash
   # if you are already using a lts/erbium version (eg. 12.14.0), take note of its version, it should be listed at "lts/erbium" row
   $ nvm list
@@ -127,14 +154,18 @@ Before starting, it is highly suggested to make a copy of your current working p
   # uninstall previous "lts/erbium" version, we suppose 12.14.0 was already installed in our case
   nvm uninstall 12.14.0
   ```
-3) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
-4) **Install**: `@quasar/app` v3 and `quasar` v2 packages:
+4) **Remove** folders `.quasar`, `node_modules` and `package-lock.json` or `yarn.lock` file. This generally isn't needed, but in some cases it will avoid trouble with yarn/npm upgrading the packages for the purpose of this guide.
+5) **Uninstall**: `@quasar/app`
   ```bash
-  $ yarn add --dev @quasar/app@3
-  $ yarn add quasar@2
+  $ yarn remove @quasar/app
   ```
-5) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
-6) If you are using ESLint, then edit `/.eslintrc.js`:
+6) **Install**: `@quasar/app-webpack` v3, `quasar` v2, `vue` v3 and `vue-router` v4 packages (the last two are no longer supplied by @quasar/app):
+  ```bash
+  $ yarn add --dev @quasar/app-webpack@3
+  $ yarn add quasar@2 vue@3 vue-router@4
+  ```
+7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
+8) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
   parserOptions: {
@@ -164,16 +195,30 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-promise": "^5.1.0",
   "eslint-plugin-quasar": "^1.0.0",
   "eslint-plugin-vue": "^7.0.0",
-  "eslint-webpack-plugin": "^2.4.0"
+  "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
-7) If you are using Vuex, you will need to manually install it:
+  
+  In quasar.config.js, before the `module.exports = function (ctx)` add:
+  ```js
+  const ESLintPlugin = require('eslint-webpack-plugin')
+  ```
+  
+  In quasar.config.js -> build add:
+  ```js
+  chainWebpack (chain) {
+        chain
+          .plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+      }
+  ```
+9) If you are using Vuex, you will need to manually install it:
   ```bash
   $ yarn add vuex@4
   # or
   $ npm install vuex@4
   ```
 
-8) Edit quasar.conf.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
+10) Edit quasar.config.js > framework > lang. It will be explained in the "Quasar language packs" section on this page.
   ```js
   // old way
   framework: {
@@ -185,9 +230,9 @@ Before starting, it is highly suggested to make a copy of your current working p
     lang: 'en-US'
   }
   ```
-9) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.conf.js > [devServer config](/quasar-cli/quasar-conf-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
-10) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
-11) Upgrade your other project dependencies (especially ESLint related ones).
+11) Check all your manually installed webpack plugins to be compatible with Webpack 5 (the vast majority should already be compatible). Also update quasar.config.js > [devServer config](/quasar-cli-webpack/quasar-config-js#property-devserver) to match [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server).
+12) Follow the rest of the guide. You'll need to adapt to the breaking changes of the new versions of Vue 3, Vue Router 4, Vuex 4, Vue-i18n 9 and any other vue plugin that you are using.
+13) Upgrade your other project dependencies (especially ESLint related ones).
 
 #### Option 2: Create a project
 
@@ -196,8 +241,9 @@ Second option is to create a fresh project and port to it bit by bit. We see thi
 You can generate a new Quasar v2 project as shown below and then you can port your app to it.
 
 ```bash
-# Quasar UI v2 project
-$ quasar create <folder_name>
+$ yarn create quasar
+# pick "App with Quasar CLI" and "Quasar v2"
+# decide if you want "Quasar CLI with Vite" (beta) or "Quasar CLI with Webpack"
 ```
 
 ### Webpack v5
@@ -207,10 +253,10 @@ In order to support Node 13+ (and for many other benefits) we have **upgraded We
 #### Nodejs polyfills
 Webpack v5 removed the Nodejs polyfills for the web client builds. If you are using packages for the web client that rely on Nodejs API (they shouldn't!), you will get errors saying that some packages are missing. Examples: `Buffer`, `crypto`, `os`, `path`.
 
-These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (`yarn add --dev node-polyfill-webpack-plugin`) then reference it in quasar.conf.js > build > chainWebpack. Example:
+These need to be addressed by the package owners. But if you don't want to wait and just want to run your app/website (with a bit of risk), then you can manually install [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin) (`yarn add --dev node-polyfill-webpack-plugin`) then reference it in quasar.config.js > build > chainWebpack. Example:
 
 ```
-// quasar.conf.js
+// quasar.config.js
 build: {
   chainWebpack (chain) {
     const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
@@ -220,7 +266,7 @@ build: {
 ```
 
 #### Webpack devserver
-As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.conf.js > devServer options. Below are some of the most used props:
+As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server v4](https://github.com/webpack/webpack-dev-server) and [webpack-dev-middleware v4](https://github.com/webpack/webpack-dev-middleware) which come with their own breaking changes. This influences quasar.config.js > devServer options. Below are some of the most used props:
 
 | Prop name | Type | Description |
 | --- | --- | --- |
@@ -231,13 +277,13 @@ As part of the upgrade to Webpack 5, Quasar CLI now supplies [webpack-dev-server
 | proxy | Object/Array | Same as before with webpack 4 |
 
 ::: tip
-If you've tampered with quasar.conf.js > [devServer](/quasar-cli/quasar-conf-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
+If you've tampered with quasar.config.js > [devServer](/quasar-cli-webpack/quasar-config-js#property-devserver) then you might be interested in a list of all the breaking changes proposed by webpack-dev-server v4: [release notes](https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md). Check if any apply to you.
 :::
 
 #### webpack-chain
 
 ::: warning
-At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.conf.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
+At the moment of writing these lines, [webpack-chain](https://github.com/neutrinojs/webpack-chain) has not been updated to fully support Webpack 5. This has impact over all quasar.config.js > chainWebpack{...} methods. While these methods will still work, the newer parts of the configuration introduced in Webpack 5 are not (yet) available. For those parts, the `extendWebpack*` methods should be used, until webpack-chain is fully Webpack 5 compatible.
 :::
 
 ### App.vue
@@ -260,17 +306,13 @@ You'll need to edit src/App.vue and remove the wrapper `<div id="q-app">`. You d
 
 ### Vue 3
 
-::: tip
-For Quasar CLI projects, you don't need to manually install/upgrade the `vue` package as "@quasar/app" v3 is already supplying the correct version of Vue for you.
-:::
+Since you will also switch to [Vue 3](https://vuejs.org), it's best that you also take a look at its [migration guide](https://v3-migration.vuejs.org/) **after**  finishing reading this migration guide.
 
-Since you will also switch to [Vue 3](https://v3.vuejs.org), it's best that you also take a look at its [migration guide](https://v3.vuejs.org/guide/migration/introduction.html) **after**  finishing reading this migration guide.
-
-If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://v3.vuejs.org/guide/single-file-component.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html)).
+If you're using .vue files, you'll most likely have a fairly easy transition because 1) vue-loader (supplied by `@quasar/app`) is the one parsing the [SFC syntax](https://vuejs.org/api/sfc-spec.html) and instructing Vue 3 on what to do and 2) you can still use the Options API (although we recommend that you convert to the newer and better [Composition API](https://vuejs.org/guide/introduction.html#api-styles)).
 
 We suggest that you first convert your project to Quasar v2 while maintaining Options API (because your components are already in Options API form and you probably want to ensure everything is working first). After this transition, you can convert all your Vue components to Composition API, but in no way is this a requirement.
 
-Along with Vue3, there is a new major version of [Vue Router v4](https://next.router.vuejs.org), which has its own [breaking changes](https://next.router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
+Along with Vue3, there is a new major version of [Vue Router v4](https://router.vuejs.org), which has its own [breaking changes](https://router.vuejs.org/guide/migration/) you should be aware of. There's also the new [Vuex v4](https://vuex.vuejs.org/) too.
 
 #### Vue 3 breaking changes examples
 
@@ -292,16 +334,9 @@ export default {
 </script>
 ```
 
-### Vue.js Devtools
-If you'd like to use the Vue.js Devtools with Vue 3, you'll need to replace your current browser extension with the [v6 one](https://chrome.google.com/webstore/detail/vuejs-devtools/ljjemllljcmogpfapbkkighbhhppjdbg).
-
 ### Vue Router v4
 
-::: tip
-For Quasar CLI projects, you don't need to manually install/upgrade the `vue-router` package as "@quasar/app" v3 is already supplying the correct version of Vue Router for you.
-:::
-
-This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://next.router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
+This is a Vue 3 ecosystem upstream breaking change. Update src/router files to match Vue Router v4's API. Vue Router v4 comes with its own [breaking changes](https://router.vuejs.org/guide/migration/index.html). Especially note below how we are dealing with the 404 error.
 
 ```js
 // default src/router/index.js content:
@@ -318,9 +353,9 @@ export default function (/* { store, ssrContext } */) {
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
+    // Leave this as is and make changes in quasar.config.js instead!
+    // quasar.config.js -> build -> vueRouterMode
+    // quasar.config.js -> build -> publicPath
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 
@@ -362,7 +397,7 @@ $ yarn add vuex@4
 $ npm install vuex@4
 ```
 
-This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://next.vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
+This is a Vue 3 ecosystem upstream breaking change. You'll need to update src/store files to match Vuex v4's API. Notice the "createStore" import from vuex and its usage in an example below. For informative purposes: [Vuex migration to 4.0 from 3.x](https://vuex.vuejs.org/guide/migrating-to-4-0-from-3-x.html)
 
 ```js
 // default src/store/index.js content:
@@ -388,48 +423,29 @@ export default function (/* { ssrContext } */) {
 
 This is a Vue 3 ecosystem upstream breaking change. Update src/boot/i18n.js file to match Vue-i18n v9's API. Vue-i18n comes with its own [breaking changes](https://vue-i18n-next.intlify.dev/guide/migration/breaking.html).
 
-Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n@next`
+Since this package isn't provided by `@quasar/app`, you must update the dependency in your project via `yarn add vue-i18n`
 
 ```js
 // default src/boot/i18n.js content:
 
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
-// you'll need to create the src/i18n/index.js file too
-
-const i18n = createI18n({
-  locale: 'en-US',
-  messages
-})
+// You'll need to create the src/i18n/index.js/.ts file too
 
 export default ({ app }) => {
-  // Set i18n instance on app
+  // Create I18n instance
+  const i18n = createI18n({
+    locale: 'en-US',
+    globalInjection: true,
+    messages
+  })
+
+  // Tell app to use the I18n instance
   app.use(i18n)
 }
-
-export { i18n }
 ```
 
 If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
-If you use TypeScript and ESLint, due to an [upstream types generation problem](https://github.com/intlify/vue-i18n-next/issues/324), `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
-Until the problem is solved upstream, we recommended to create your own `useI18n` helper into the boot file
-
-```js
-export function useI18n() {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { t, te, tm, rt, d, n, ...globalApi } = i18n.global;
-
-  return {
-    t: t.bind(i18n),
-    te: te.bind(i18n),
-    tm: tm.bind(i18n),
-    rt: rt.bind(i18n),
-    d: d.bind(i18n),
-    n: n.bind(i18n),
-    ...globalApi,
-  };
-}
-```
 
 ### @vue/composition-api
 
@@ -445,7 +461,7 @@ If you've been using Composition API package for Vue 2, you'll need to change al
 
 If you were using the deprecated `context.root` object, you must refactor your code to avoid using it, as it's not available anymore.
 
-Delete `src/boot/composition-api` boot file and the corresponding entry from `quasar.conf.js`. Then uninstall the `@vue/composition-api` package:
+Delete `src/boot/composition-api` boot file and the corresponding entry from `quasar.config.js`. Then uninstall the `@vue/composition-api` package:
 
 ```bash
 $ yarn remove @vue/composition-api
@@ -469,7 +485,15 @@ All slots are now acting in the same manner as the scoped slots in Vue 2. If you
 
 Use "class" and "style" attributes instead of "content-class" / "content-style" props for the above mentioned Quasar components.
 
-### QBtn/QRouteTab
+#### QBtn/QItem/QBreadcrumbs/QRouteTab
+
+New props: href, target.
+
+For QBtn, it is no longer necessary to specify `type="a"` when using `href` prop.
+
+The `href` prop is especially useful for UMD if you don't also inject Vue Router.
+
+#### QBtn/QRouteTab
 
 If you were using the `to` prop and delaying navigation in your `@click` handler:
 
@@ -489,8 +513,16 @@ function onClick (e, go) {
 
 #### QBreadcrumbsEl
 
-Removed "append" prop because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Removed "append" prop because Vue Router v4 [has also dropped it](https://router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 Added "tag" and "ripple" properties.
+
+#### QCarousel
+
+Added "transition-duration" prop.
+
+#### QColor
+
+Added "no-header-tabs" prop.
 
 #### QChatMessage
 
@@ -507,9 +539,14 @@ Now by default, the "label", "name", "text" and "stamp" are protected from XSS a
 
 When `@update:model-value` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
 
+### QDialog
+
+Added "no-shake", "transition-duration".
+Use "class" and "style" attributes instead of "content-class" / "content-style" props.
+
 #### QExpansionItem
 
-Removed the "append" property because Vue Router v4 [has also dropped it](https://next.router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
+Removed the "append" property because Vue Router v4 [has also dropped it](https://router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 
 #### (New) Connecting to QForm
 
@@ -571,6 +608,10 @@ export default {
   // ...
 }
 ```
+
+### QInnerLoading
+
+Added "label", "label-class" and "label-style" props.
 
 #### QImg
 
@@ -641,6 +682,10 @@ The `@scroll` event parameter now has a slightly different content:
 }
 ```
 
+#### QOptionGroup
+
+Added "label" and "label-N" slots.
+
 #### QRouteTab
 
 Added "ripple" property.
@@ -682,6 +727,15 @@ The `@scroll` event parameter now has a slightly different content:
 * The "itemEvents" prop has been dropped from the "option" slot. That information is now contained within the "itemProps". This change is a logical result Vue 3's flattening of the rendering function's second parameter ("on", "props" etc. merged together into a single Object).
 * New method: "blur()"
 
+### QSlider/QRange
+
+New props: track-size, thumb-size, marker-labels, marker-labels-class, switch-label-side, switch-marker-labels-side, inner-min, inner-max,
+thumb-color, track-color, track-img, inner-track-color, inner-track-img, selection-color, selection-img.
+
+New props specific to QRange: left-thumb-color, right-thumb-color
+
+New slots: marker-label, marker-label-group
+
 #### QTable
 
 Renamed the "data" property to "rows" (to solve TS conflict issue with "data" incorrectly inferred as the "data()" method of a Vue component).
@@ -700,9 +754,17 @@ Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, th
 | selected.sync="varName" | v-model:selected="varName" |
 | expanded.sync="varName" | v-model:expanded="varName" |
 
-#### QTooltip/QMenu
+#### QTabs
+
+Added "active-class" prop.
+
+#### QTooltip/QMenu/QDialog/QStepper/QTabPanels
 
 Added "transition-duration" property.
+
+#### QSkeleton
+
+Added "animation-speed" prop.
 
 #### QUploader
 
@@ -731,6 +793,10 @@ this.$router.go(-1)
 ```
 
 ### Quasar plugins
+
+#### AppFullscreen plugin
+
+The request() method now accepts another node while in fullscreen already.
 
 #### Loading plugin
 
@@ -898,7 +964,7 @@ Full list of changes:
 | zh-hans | zh-CN |
 | zh-hant | zh-TW |
 
-If you have configured a default Quasar language pack in your quasar.conf.js, then you need to edit it:
+If you have configured a default Quasar language pack in your quasar.config.js, then you need to edit it:
 
 ```js
 // old way
@@ -928,7 +994,7 @@ The color CSS variable names (all the brand related ones) have changed:
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
-* There have been changes to the naming scheme of script and css tags to include the type of distubution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
+* There have been changes to the naming scheme of script and css tags to include the type of distribution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
 
 ::: tip
 For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#installation).
@@ -939,10 +1005,10 @@ For an in-depth look at the necessary UMD scripts and tags, please use our [gene
 This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar UI v2.
 
 * Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
-* New quasar.conf.js > build > vueLoaderOptions prop
-* Remove quasar.conf.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
+* New quasar.config.js > build > vueLoaderOptions prop
+* Remove quasar.config.js > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
-* If you have been using quasar.conf.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
+* If you have been using quasar.config.js > build > rtl in the form of an Object, then you must match [these options](https://github.com/elchininet/postcss-rtlcss) now, since we've switched from the unmaintained postcss-rtl to postcss-rtlcss package.
 
 If you have boot files, where you access and change the `$q` Object through `Vue.prototype.$q`, then you need to adapt this:
 
@@ -960,18 +1026,11 @@ Nothing changed in regards to how App Extensions work. Please note that not all 
 
 #### TypeScript
 
-Update `src/shims-vue.d.ts` as such:
+Update `src/shims-vue.d.ts` to match [Vue3 version](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/shims-vue.d.ts).
 
-```js
-// Mocks all files ending in `.vue` showing them as plain Vue instances
-declare module '*.vue' {
-  import { ComponentOptions } from 'vue';
-  const component: ComponentOptions;
-  export default component;
-}
-```
+Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar/blob/71143c4417d6bf3fd7a5dc88dd0e577d822ddc92/create-quasar/templates/app/quasar-v2/ts-webpack/BASE/src/quasar.d.ts).
 
-If you use ESLint, update the property into `quasar.conf.js`:
+If you use ESLint, update the property into `quasar.config.js`:
 
 ```js
 // old way
@@ -1024,7 +1083,7 @@ Due to the upgrade to Webpack 5, you will need to also upgrade `workbox-webpack-
 
 You can now enable ESLint for the custom service worker too. And it [supports TS](/quasar-cli/developing-pwa/pwa-with-typescript) out of the box (in which case, rename the extension to `.ts`).
 
-Enabling ESLint for the custom service worker is done by editing quasar.conf.js:
+Enabling ESLint for the custom service worker is done by editing quasar.config.js:
 
 ```js
 pwa: {

@@ -1,4 +1,6 @@
 import { client } from '../plugins/Platform.js'
+
+import { createDirective } from '../utils/private/create.js'
 import { getModifierDirections, shouldStart } from '../utils/private/touch.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/private/selection.js'
@@ -20,7 +22,7 @@ function parseArg (arg) {
   return data
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'touch-swipe', getSSRProps }
   : {
       name: 'touch-swipe',
@@ -263,3 +265,4 @@ export default __QUASAR_SSR_SERVER__
         }
       }
     }
+)

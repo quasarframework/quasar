@@ -125,8 +125,8 @@
     <script src="dist/quasar.umd.js"></script>
     <script src="dist/lang/es.umd.prod.js"></script>
     <script src="dist/lang/en-GB.umd.prod.js"></script>
-    <script src="dist/icon-set/fontawesome-v5.umd.prod.js"></script>
-    <script src="dist/icon-set/svg-fontawesome-v5.umd.prod.js"></script>
+    <script src="dist/icon-set/fontawesome-v6.umd.prod.js"></script>
+    <script src="dist/icon-set/svg-fontawesome-v6.umd.prod.js"></script>
 
     <script>
       const app = Vue.createApp({
@@ -153,12 +153,12 @@
       Quasar.Notify.create('Startup notification')
 
       Quasar.lang.set(Quasar.lang.es)
-      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV5)
+      Quasar.iconSet.set(Quasar.iconSet.svgFontawesomeV6)
 
       app.mount('#q-app')
 
-      console.log('fontawesome-v5 set', Quasar.iconSet.fontawesomeV5)
-      console.log('svg-fontawesome-v5 set', Quasar.iconSet.svgFontawesomeV5)
+      console.log('fontawesome-v6 set', Quasar.iconSet.fontawesomeV6)
+      console.log('svg-fontawesome-v6 set', Quasar.iconSet.svgFontawesomeV6)
       console.log('es lang', Quasar.lang.es)
       console.log('en-GB lang', Quasar.lang.enGB)
     </script>

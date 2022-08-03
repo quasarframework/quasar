@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
 const uglify = require('uglify-es')
+
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
 const replace = require('@rollup/plugin-replace')
@@ -12,9 +13,12 @@ const { version } = require('../package.json')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
+
+const rootFolder = path.resolve(__dirname, '..')
 
 function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
+  return path.resolve(rootFolder, _path)
 }
 
 // const tsConfig = {
@@ -26,7 +30,7 @@ function resolve (_path) {
 //   }
 // }
 
-const rollupPluginsModern = [
+const commonRollupPlugins = [
   // typescript(tsConfig),
   nodeResolve()
 ]
@@ -51,7 +55,7 @@ const uglifyJsOptions = {
     toplevel: false,
     typeofs: false,
 
-    // a few flags with noticable gains/speed ratio
+    // a few flags with noticeable gains/speed ratio
     booleans: true,
     if_return: true,
     sequences: true,
@@ -138,10 +142,10 @@ function addUmdAssets (builds, type, injectName) {
   const files = fs.readdirSync(resolve(type))
 
   files
-    .filter(file => file.endsWith('.js'))
+    .filter(file => file.endsWith('.mjs'))
     .forEach(file => {
       const name = file
-        .substr(0, file.length - 3)
+        .substring(0, file.length - 4)
         .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
 
       builds.push({
@@ -162,47 +166,6 @@ function addUmdAssets (builds, type, injectName) {
     })
 }
 
-function addSsrDirectives (builds) {
-  const files = fs.readdirSync(resolve('src/directives'))
-  const acc = []
-
-  files
-    .filter(file => file.endsWith('.js') && file.endsWith('.ssr.js') === false)
-    .forEach(file => {
-      const name = file.substr(0, file.length - 3)
-      const ssrFile = resolve(`src/directives/${ file.replace('.js', '.ssr.js') }`)
-
-      if (fs.existsSync(ssrFile)) {
-        acc.push(`  '${ buildUtils.kebabCase(name) }': require('./${ name }.js')`)
-
-        builds.push({
-          rollup: {
-            input: {
-              input: ssrFile
-            },
-            output: {
-              file: resolve(`dist/ssr-directives/${ name }.js`),
-              format: 'cjs',
-              exports: 'auto',
-              name: false
-            }
-          },
-          build: {
-            unminified: true
-          }
-        })
-      }
-      else {
-        acc.push(`  '${ buildUtils.kebabCase(name) }': noopTransform`)
-      }
-    })
-
-  buildUtils.writeFile(
-    resolve('dist/ssr-directives/index.js'),
-    'const noopTransform = () => ({ props: [] })\nmodule.exports = {\n' + acc.join(',\n') + '\n}\n'
-  )
-}
-
 function build (builds) {
   return Promise
     .all(builds.map(genConfig).map(buildEntry))
@@ -210,7 +173,7 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = [ ...rollupPluginsModern ]
+  opts.rollup.input.plugins = [ ...commonRollupPlugins ]
 
   if (opts.build.replace !== void 0) {
     opts.rollup.input.plugins.unshift(
@@ -241,7 +204,8 @@ function genConfig (opts) {
 
 function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
-  return `${ filename.slice(0, insertionPoint) }.${ ext }${ filename.slice(insertionPoint) }`
+  const suffix = filename.slice(insertionPoint)
+  return `${ filename.slice(0, insertionPoint) }.${ ext }${ suffix === '.mjs' ? '.js' : suffix }`
 }
 
 function injectVueRequirement (code) {
@@ -298,21 +262,68 @@ function buildEntry (config) {
     })
 }
 
-module.exports = function () {
-  require('./build.lang-index').generate()
-    .then(() => require('./build.svg-icon-sets').generate())
-    .then(() => require('./build.api').generate())
-    .then(data => {
-      require('./build.transforms').generate()
-      require('./build.vetur').generate(data)
-      require('./build.types').generate(data)
-      require('./build.web-types').generate(data)
+const runBuild = {
+  async full () {
+    await require('./build.lang').generate()
+    await require('./build.icon-sets').generate()
 
-      addSsrDirectives(builds)
+    const data = await require('./build.api').generate()
 
-      addUmdAssets(builds, 'lang', 'lang')
-      addUmdAssets(builds, 'icon-set', 'iconSet')
+    require('./build.transforms').generate()
+    require('./build.vetur').generate(data)
+    require('./build.types').generate(data)
+    require('./build.web-types').generate(data)
 
-      build(builds)
-    })
+    addUmdAssets(builds, 'lang', 'lang')
+    addUmdAssets(builds, 'icon-set', 'iconSet')
+
+    await build(builds)
+  },
+
+  async types () {
+    prepareDiff('dist/types/index.d.ts')
+
+    const data = await require('./build.api').generate()
+
+    require('./build.vetur').generate(data)
+    require('./build.web-types').generate(data)
+
+    // 'types' depends on 'lang-index'
+    await require('./build.lang').generate()
+    require('./build.types').generate(data)
+  },
+
+  async api () {
+    await prepareDiff('dist/api')
+    await require('./build.api').generate()
+  },
+
+  async vetur () {
+    await prepareDiff('dist/vetur')
+
+    const data = await require('./build.api').generate()
+    require('./build.vetur').generate(data)
+  },
+
+  async webtypes () {
+    await prepareDiff('dist/web-types')
+
+    const data = await require('./build.api').generate()
+    require('./build.web-types').generate(data)
+  },
+
+  async transforms () {
+    await prepareDiff('dist/transforms')
+    require('./build.transforms').generate()
+  }
+}
+
+module.exports = function (subtype) {
+  if (runBuild[ subtype ] === void 0) {
+    console.log(` Unrecognized subtype specified: "${ subtype }".`)
+    console.log(` Available: ${ Object.keys(runBuild).join(' | ') }\n`)
+    process.exit(1)
+  }
+
+  runBuild[ subtype ]()
 }

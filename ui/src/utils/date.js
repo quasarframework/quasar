@@ -3,7 +3,7 @@
 import { isDate } from './private/is.js'
 import { pad, capitalize } from './format.js'
 import { jalaaliMonthLength } from './private/date-persian.js'
-import lang from '../lang.js'
+import lang, { defaultLang } from '../lang.js'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
@@ -151,13 +151,164 @@ function getRegexData (mask, dateLocale) {
   return res
 }
 
+function getDateLocale (paramDateLocale, langProps) {
+  return paramDateLocale !== void 0
+    ? paramDateLocale
+    : (
+        langProps !== void 0
+          ? langProps.date
+          : defaultLang.date
+      )
+}
+
+function formatTimezone (offset, delimeter = '') {
+  const
+    sign = offset > 0 ? '-' : '+',
+    absOffset = Math.abs(offset),
+    hours = Math.floor(absOffset / 60),
+    minutes = absOffset % 60
+
+  return sign + pad(hours) + delimeter + pad(minutes)
+}
+
+function applyYearMonthDayChange (date, mod, sign) {
+  let
+    year = date.getFullYear(),
+    month = date.getMonth()
+
+  const day = date.getDate()
+
+  if (mod.year !== void 0) {
+    year += sign * mod.year
+    delete mod.year
+  }
+
+  if (mod.month !== void 0) {
+    month += sign * mod.month
+    delete mod.month
+  }
+
+  date.setDate(1)
+  date.setMonth(2)
+
+  date.setFullYear(year)
+  date.setMonth(month)
+  date.setDate(Math.min(day, daysInMonth(date)))
+
+  if (mod.date !== void 0) {
+    date.setDate(date.getDate() + sign * mod.date)
+    delete mod.date
+  }
+
+  return date
+}
+
+function applyYearMonthDay (date, mod, middle) {
+  const
+    year = mod.year !== void 0 ? mod.year : date[ `get${ middle }FullYear` ](),
+    month = mod.month !== void 0 ? mod.month - 1 : date[ `get${ middle }Month` ](),
+    maxDay = (new Date(year, month + 1, 0)).getDate(),
+    day = Math.min(maxDay, mod.date !== void 0 ? mod.date : date[ `get${ middle }Date` ]())
+
+  date[ `set${ middle }Date` ](1)
+  date[ `set${ middle }Month` ](2)
+
+  date[ `set${ middle }FullYear` ](year)
+  date[ `set${ middle }Month` ](month)
+  date[ `set${ middle }Date` ](day)
+
+  delete mod.year
+  delete mod.month
+  delete mod.date
+
+  return date
+}
+
+function getChange (date, rawMod, sign) {
+  const
+    mod = normalizeMod(rawMod),
+    d = new Date(date),
+    t = mod.year !== void 0 || mod.month !== void 0 || mod.date !== void 0
+      ? applyYearMonthDayChange(d, mod, sign) // removes year/month/day
+      : d
+
+  for (const key in mod) {
+    const op = capitalize(key)
+    t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
+  }
+
+  return t
+}
+
+function normalizeMod (mod) {
+  const acc = { ...mod }
+
+  if (mod.years !== void 0) {
+    acc.year = mod.years
+    delete acc.years
+  }
+
+  if (mod.months !== void 0) {
+    acc.month = mod.months
+    delete acc.months
+  }
+
+  if (mod.days !== void 0) {
+    acc.date = mod.days
+    delete acc.days
+  }
+  if (mod.day !== void 0) {
+    acc.date = mod.day
+    delete acc.day
+  }
+
+  if (mod.hour !== void 0) {
+    acc.hours = mod.hour
+    delete acc.hour
+  }
+
+  if (mod.minute !== void 0) {
+    acc.minutes = mod.minute
+    delete acc.minute
+  }
+
+  if (mod.second !== void 0) {
+    acc.seconds = mod.second
+    delete acc.second
+  }
+
+  if (mod.millisecond !== void 0) {
+    acc.milliseconds = mod.millisecond
+    delete acc.millisecond
+  }
+
+  return acc
+}
+
+export function adjustDate (date, rawMod, utc) {
+  const
+    mod = normalizeMod(rawMod),
+    middle = utc === true ? 'UTC' : '',
+    d = new Date(date),
+    t = mod.year !== void 0 || mod.month !== void 0 || mod.date !== void 0
+      ? applyYearMonthDay(d, mod, middle) // removes year/month/day
+      : d
+
+  for (const key in mod) {
+    const op = key.charAt(0).toUpperCase() + key.slice(1)
+    t[ `set${ middle }${ op }` ](mod[ key ])
+  }
+
+  return t
+}
+
 export function extractDate (str, mask, dateLocale) {
   const d = __splitDate(str, mask, dateLocale)
 
   const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
-    d.day,
+    d.day === null ? 1 : d.day,
     d.hour,
     d.minute,
     d.second,
@@ -168,7 +319,7 @@ export function extractDate (str, mask, dateLocale) {
 
   return d.timezoneOffset === null || d.timezoneOffset === tzOffset
     ? date
-    : getChange(date, { minutes: d.timezoneOffset - tzOffset }, true)
+    : getChange(date, { minutes: d.timezoneOffset - tzOffset }, 1)
 }
 
 export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
@@ -201,7 +352,7 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   }
 
   const
-    langOpts = dateLocale !== void 0 ? dateLocale : lang.props.date,
+    langOpts = getDateLocale(dateLocale, lang.props),
     months = langOpts.months,
     monthsShort = langOpts.monthsShort
 
@@ -303,47 +454,10 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     }
   }
 
-  date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+  date.dateHash = pad(date.year, 6) + '/' + pad(date.month) + '/' + pad(date.day)
   date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second) + tzString
 
   return date
-}
-
-function formatTimezone (offset, delimeter = '') {
-  const
-    sign = offset > 0 ? '-' : '+',
-    absOffset = Math.abs(offset),
-    hours = Math.floor(absOffset / 60),
-    minutes = absOffset % 60
-
-  return sign + pad(hours) + delimeter + pad(minutes)
-}
-
-function setMonth (date, newMonth /* 1-based */) {
-  const
-    test = new Date(date.getFullYear(), newMonth, 0, 0, 0, 0, 0),
-    days = test.getDate()
-
-  date.setMonth(newMonth - 1, Math.min(days, date.getDate()))
-}
-
-function getChange (date, mod, add) {
-  const
-    t = new Date(date),
-    sign = (add ? 1 : -1)
-
-  Object.keys(mod).forEach(key => {
-    if (key === 'months') {
-      setMonth(t, t.getMonth() + 1 + sign * mod.months)
-      return
-    }
-
-    const op = key === 'years'
-      ? 'FullYear'
-      : capitalize(key === 'days' ? 'date' : key)
-    t[ `set${ op }` ](t[ `get${ op }` ]() + sign * mod[ key ])
-  })
-  return t
 }
 
 export function isValid (date) {
@@ -403,30 +517,10 @@ export function isBetweenDates (date, from, to, opts = {}) {
 }
 
 export function addToDate (date, mod) {
-  return getChange(date, mod, true)
+  return getChange(date, mod, 1)
 }
 export function subtractFromDate (date, mod) {
-  return getChange(date, mod, false)
-}
-
-export function adjustDate (date, mod, utc) {
-  const
-    t = new Date(date),
-    prefix = `set${ utc === true ? 'UTC' : '' }`
-
-  Object.keys(mod).forEach(key => {
-    if (key === 'month') {
-      setMonth(t, mod.month)
-      return
-    }
-
-    const op = key === 'year'
-      ? 'FullYear'
-      : key.charAt(0).toUpperCase() + key.slice(1)
-    t[ `${ prefix }${ op }` ](mod[ key ])
-  })
-
-  return t
+  return getChange(date, mod, -1)
 }
 
 export function startOfDate (date, unit, utc) {
@@ -436,16 +530,23 @@ export function startOfDate (date, unit, utc) {
 
   switch (unit) {
     case 'year':
+    case 'years':
       t[ `${ prefix }Month` ](0)
     case 'month':
+    case 'months':
       t[ `${ prefix }Date` ](1)
     case 'day':
+    case 'days':
+    case 'date':
       t[ `${ prefix }Hours` ](0)
     case 'hour':
+    case 'hours':
       t[ `${ prefix }Minutes` ](0)
     case 'minute':
+    case 'minutes':
       t[ `${ prefix }Seconds` ](0)
     case 'second':
+    case 'seconds':
       t[ `${ prefix }Milliseconds` ](0)
   }
   return t
@@ -458,16 +559,23 @@ export function endOfDate (date, unit, utc) {
 
   switch (unit) {
     case 'year':
+    case 'years':
       t[ `${ prefix }Month` ](11)
     case 'month':
+    case 'months':
       t[ `${ prefix }Date` ](daysInMonth(t))
     case 'day':
+    case 'days':
+    case 'date':
       t[ `${ prefix }Hours` ](23)
     case 'hour':
+    case 'hours':
       t[ `${ prefix }Minutes` ](59)
     case 'minute':
+    case 'minutes':
       t[ `${ prefix }Seconds` ](59)
     case 'second':
+    case 'seconds':
       t[ `${ prefix }Milliseconds` ](999)
   }
   return t
@@ -503,21 +611,28 @@ export function getDateDiff (date, subtract, unit = 'days') {
 
   switch (unit) {
     case 'years':
+    case 'year':
       return (t.getFullYear() - sub.getFullYear())
 
     case 'months':
+    case 'month':
       return (t.getFullYear() - sub.getFullYear()) * 12 + t.getMonth() - sub.getMonth()
 
     case 'days':
+    case 'day':
+    case 'date':
       return getDiff(startOfDate(t, 'day'), startOfDate(sub, 'day'), MILLISECONDS_IN_DAY)
 
     case 'hours':
+    case 'hour':
       return getDiff(startOfDate(t, 'hour'), startOfDate(sub, 'hour'), MILLISECONDS_IN_HOUR)
 
     case 'minutes':
+    case 'minute':
       return getDiff(startOfDate(t, 'minute'), startOfDate(sub, 'minute'), MILLISECONDS_IN_MINUTE)
 
     case 'seconds':
+    case 'second':
       return getDiff(startOfDate(t, 'second'), startOfDate(sub, 'second'), 1000)
   }
 }
@@ -563,26 +678,33 @@ export function isSameDate (date, date2, unit) {
 
   switch (unit) {
     case 'second':
+    case 'seconds':
       if (t.getSeconds() !== d.getSeconds()) {
         return false
       }
     case 'minute': // intentional fall-through
+    case 'minutes':
       if (t.getMinutes() !== d.getMinutes()) {
         return false
       }
     case 'hour': // intentional fall-through
+    case 'hours':
       if (t.getHours() !== d.getHours()) {
         return false
       }
     case 'day': // intentional fall-through
+    case 'days':
+    case 'date':
       if (t.getDate() !== d.getDate()) {
         return false
       }
     case 'month': // intentional fall-through
+    case 'months':
       if (t.getMonth() !== d.getMonth()) {
         return false
       }
     case 'year': // intentional fall-through
+    case 'years':
       if (t.getFullYear() !== d.getFullYear()) {
         return false
       }
@@ -612,16 +734,16 @@ function getOrdinal (n) {
 
 const formatter = {
   // Year: 00, 01, ..., 99
-  YY (date, _, forcedYear) {
+  YY (date, dateLocale, forcedYear) {
     // workaround for < 1900 with new Date()
-    const y = this.YYYY(date, _, forcedYear) % 100
-    return y > 0
+    const y = this.YYYY(date, dateLocale, forcedYear) % 100
+    return y >= 0
       ? pad(y)
       : '-' + pad(Math.abs(y))
   },
 
   // Year: 1900, 1901, ..., 2099
-  YYYY (date, _, forcedYear) {
+  YYYY (date, _dateLocale, forcedYear) {
     // workaround for < 1900 with new Date()
     return forcedYear !== void 0 && forcedYear !== null
       ? forcedYear
@@ -731,13 +853,9 @@ const formatter = {
   // Hour: 1, 2, ..., 12
   h (date) {
     const hours = date.getHours()
-    if (hours === 0) {
-      return 12
-    }
-    if (hours > 12) {
-      return hours % 12
-    }
-    return hours
+    return hours === 0
+      ? 12
+      : (hours > 12 ? hours % 12 : hours)
   },
 
   // Hour: 01, 02, ..., 12
@@ -796,7 +914,7 @@ const formatter = {
   },
 
   // Timezone: -01:00, +00:00, ... +12:00
-  Z (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+  Z (date, _dateLocale, _forcedYear, forcedTimezoneOffset) {
     const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
       ? date.getTimezoneOffset()
       : forcedTimezoneOffset
@@ -805,7 +923,7 @@ const formatter = {
   },
 
   // Timezone: -0100, +0000, ... +1200
-  ZZ (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+  ZZ (date, _dateLocale, _forcedYear, forcedTimezoneOffset) {
     const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
       ? date.getTimezoneOffset()
       : forcedTimezoneOffset
@@ -843,9 +961,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezon
     mask = defaultMask
   }
 
-  const locale = dateLocale !== void 0
-    ? dateLocale
-    : lang.props.date
+  const locale = getDateLocale(dateLocale, lang.props)
 
   return mask.replace(
     token,

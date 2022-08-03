@@ -9,7 +9,7 @@
       "desc": "Path to image (unless a 'media' slot is used)",
       "transformAssetUrls": true,
       "examples": [
-        "(statics folder) src=\"statics/img/something.png\"",
+        "(public folder) src=\"img/something.png\"",
         "(assets folder) src=\"~assets/my-img.png\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) src=\"https://some-site.net/some-img.jpg\""

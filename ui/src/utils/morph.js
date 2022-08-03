@@ -1,3 +1,5 @@
+import { isObject } from './private/is'
+
 let id = 0
 let offsetBase = void 0
 
@@ -443,7 +445,7 @@ export default function morph (_options) {
       if (typeof options.style === 'string') {
         elTo.style.cssText += ' ' + options.style
       }
-      else if (options.style === Object(options.style)) {
+      else if (isObject(options.style) === true) {
         for (const prop in options.style) {
           elTo.style[ prop ] = options.style[ prop ]
         }
@@ -880,8 +882,8 @@ export default function morph (_options) {
         elToClone.style.animation = `${ options.duration }ms ${ options.easing } ${ options.delay }ms ${ animationDirection } ${ options.fill } ${ qAnimId }-to`
         elTo.style.animation = `${ options.duration }ms ${ options.easing } ${ options.delay }ms ${ animationDirection } ${ options.fill } ${ qAnimId }`
 
-        const cleanup = ev => {
-          if (ev === Object(ev) && ev.animationName !== qAnimId) {
+        const cleanup = evt => {
+          if (evt === Object(evt) && evt.animationName !== qAnimId) {
             return
           }
 
@@ -944,24 +946,24 @@ export default function morph (_options) {
         : (
             options.waitFor === 'transitionend'
               ? new Promise(resolve => {
-                  const timer = setTimeout(() => {
-                    endFn()
-                  }, 400)
+                const timer = setTimeout(() => {
+                  endFn()
+                }, 400)
 
-                  const endFn = ev => {
-                    clearTimeout(timer)
+                const endFn = ev => {
+                  clearTimeout(timer)
 
-                    if (elTo) {
-                      elTo.removeEventListener('transitionend', endFn)
-                      elTo.removeEventListener('transitioncancel', endFn)
-                    }
-
-                    resolve()
+                  if (elTo) {
+                    elTo.removeEventListener('transitionend', endFn)
+                    elTo.removeEventListener('transitioncancel', endFn)
                   }
 
-                  elTo.addEventListener('transitionend', endFn)
-                  elTo.addEventListener('transitioncancel', endFn)
-                })
+                  resolve()
+                }
+
+                elTo.addEventListener('transitionend', endFn)
+                elTo.addEventListener('transitioncancel', endFn)
+              })
               : options.waitFor
           )
 

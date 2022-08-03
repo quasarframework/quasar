@@ -54,6 +54,7 @@
 
     "done-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 
@@ -64,6 +65,7 @@
 
     "active-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 
@@ -74,6 +76,7 @@
 
     "error-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 

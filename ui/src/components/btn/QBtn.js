@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, Transition, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, Transition, onBeforeUnmount, withDirectives, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -7,7 +7,8 @@ import Ripple from '../../directives/Ripple.js'
 
 import useBtn, { useBtnProps } from './use-btn.js'
 
-import { hMergeSlot, hDir } from '../../utils/private/render.js'
+import { createComponent } from '../../utils/private/create.js'
+import { hMergeSlot } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
@@ -18,7 +19,7 @@ let
   keyboardTarget = null,
   mouseTarget = null
 
-export default defineComponent({
+export default createComponent({
   name: 'QBtn',
 
   props: {
@@ -36,7 +37,7 @@ export default defineComponent({
     const {
       classes, style, innerClasses,
       attributes,
-      hasLink, isLink, navigateToLink,
+      hasRouterLink, hasLink, linkTag, navigateToRouterLink,
       isActionable
     } = useBtn(props)
 
@@ -50,13 +51,15 @@ export default defineComponent({
     )
 
     const ripple = computed(() => (
-      props.ripple === false
+      props.disable === true || props.ripple === false
         ? false
         : {
-            keyCodes: isLink.value === true ? [ 13, 32 ] : [ 13 ],
+            keyCodes: hasLink.value === true ? [ 13, 32 ] : [ 13 ],
             ...(props.ripple === true ? {} : props.ripple)
           }
     ))
+
+    const rippleProps = computed(() => ({ center: props.round }))
 
     const percentageStyle = computed(() => {
       const val = Math.max(0, Math.min(100, props.percentage))
@@ -81,7 +84,7 @@ export default defineComponent({
           onClick,
           onKeydown,
           onMousedown,
-          onTouchstartPassive
+          onTouchstart
         }
       }
 
@@ -89,16 +92,6 @@ export default defineComponent({
         // needed; especially for disabled <a> tags
         onClick: stopAndPrevent
       }
-    })
-
-    const directives = computed(() => {
-      // if props.disable !== true && props.ripple !== false
-      return [ [
-        Ripple,
-        ripple.value,
-        void 0,
-        { center: props.round }
-      ] ]
     })
 
     const nodeProps = computed(() => ({
@@ -110,6 +103,9 @@ export default defineComponent({
     }))
 
     function onClick (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       if (e !== void 0) {
         if (e.defaultPrevented === true) {
           return
@@ -139,10 +135,10 @@ export default defineComponent({
         }
       }
 
-      if (hasLink.value === true) {
+      if (hasRouterLink.value === true) {
         const go = () => {
           e.__qNavigate = true
-          navigateToLink(e)
+          navigateToRouterLink(e)
         }
 
         emit('click', e, go)
@@ -154,12 +150,15 @@ export default defineComponent({
     }
 
     function onKeydown (e) {
-      if (isKeyCode(e, [ 13, 32 ]) === true) {
-        stopAndPrevent(e)
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
 
-        if (keyboardTarget !== rootRef.value) {
-          keyboardTarget !== null && cleanup()
+      emit('keydown', e)
 
+      if (isKeyCode(e, [ 13, 32 ]) === true && keyboardTarget !== rootRef.value) {
+        keyboardTarget !== null && cleanup()
+
+        if (e.defaultPrevented !== true) {
           // focus external button if the focus helper was focused before
           rootRef.value.focus()
 
@@ -168,12 +167,19 @@ export default defineComponent({
           document.addEventListener('keyup', onPressEnd, true)
           rootRef.value.addEventListener('blur', onPressEnd, passiveCapture)
         }
-      }
 
-      emit('keydown', e)
+        stopAndPrevent(e)
+      }
     }
 
-    function onTouchstartPassive (e) {
+    function onTouchstart (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
+      emit('touchstart', e)
+
+      if (e.defaultPrevented === true) { return }
+
       if (touchTarget !== rootRef.value) {
         touchTarget !== null && cleanup()
         touchTarget = rootRef.value
@@ -190,23 +196,27 @@ export default defineComponent({
       mouseTimer = setTimeout(() => {
         avoidMouseRipple = false
       }, 200)
-
-      emit('touchstart', e)
     }
 
     function onMousedown (e) {
-      if (mouseTarget !== rootRef.value) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
+      e.qSkipRipple = avoidMouseRipple === true
+      emit('mousedown', e)
+
+      if (e.defaultPrevented !== true && mouseTarget !== rootRef.value) {
         mouseTarget !== null && cleanup()
         mouseTarget = rootRef.value
         rootRef.value.classList.add('q-btn--active')
         document.addEventListener('mouseup', onPressEnd, passiveCapture)
       }
-
-      e.qSkipRipple = avoidMouseRipple === true
-      emit('mousedown', e)
     }
 
     function onPressEnd (e) {
+      // is it already destroyed?
+      if (rootRef.value === null) { return }
+
       // needed for IE (because it emits blur when focusing button from focus helper)
       if (e !== void 0 && e.type === 'blur' && document.activeElement === rootRef.value) {
         return
@@ -269,6 +279,7 @@ export default defineComponent({
     }
 
     function onLoadingEvt (evt) {
+      stopAndPrevent(evt)
       evt.qSkipRipple = true
     }
 
@@ -318,10 +329,10 @@ export default defineComponent({
       if (props.loading === true && props.percentage !== void 0) {
         child.push(
           h('span', {
-            class: 'q-btn__progress absolute-full overflow-hidden'
+            class: 'q-btn__progress absolute-full overflow-hidden' + (props.darkPercentage === true ? ' q-btn__progress--dark' : '')
           }, [
             h('span', {
-              class: 'q-btn__progress-indicator fit block' + (props.darkPercentage === true ? ' q-btn__progress--dark' : ''),
+              class: 'q-btn__progress-indicator fit block',
               style: percentageStyle.value
             })
           ])
@@ -349,13 +360,18 @@ export default defineComponent({
         ))
       )
 
-      return hDir(
-        isLink.value === true ? 'a' : 'button',
-        nodeProps.value,
-        child,
-        'ripple',
-        props.disable !== true && props.ripple !== false,
-        () => directives.value
+      return withDirectives(
+        h(
+          linkTag.value,
+          nodeProps.value,
+          child
+        ),
+        [ [
+          Ripple,
+          ripple.value,
+          void 0,
+          rippleProps.value
+        ] ]
       )
     }
   }

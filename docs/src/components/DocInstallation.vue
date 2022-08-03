@@ -2,10 +2,11 @@
 q-card.doc-installation.q-my-lg(flat, bordered)
   q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="brand-primary", dense, :breakpoint="0")
     q-tab(
-      v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
+      v-for="tab in ['Quasar CLI', 'Vite plugin / Vue CLI', 'UMD']"
       :key="`installation-${tab}`"
       :name="tab"
       :label="tab"
+      no-caps
     )
 
   q-separator
@@ -14,11 +15,11 @@ q-card.doc-installation.q-my-lg(flat, bordered)
     q-tab-panel.q-pa-none(name="Quasar CLI")
       doc-code(:code="QuasarCli")
 
+    q-tab-panel.q-pa-none(name="Vite plugin / Vue CLI")
+      doc-code(:code="ExternalCli")
+
     q-tab-panel.q-pa-none(name="UMD")
       doc-code(:code="UMD")
-
-    q-tab-panel.q-pa-none(name="Vue CLI")
-      doc-code(:code="VueCli")
 </template>
 
 <script>
@@ -80,7 +81,7 @@ export default {
     }`)
       }
 
-      return `// quasar.conf.js
+      return `// quasar.config.js
 
 return {
   framework: {
@@ -110,7 +111,7 @@ app.use(Quasar, {
       return content + config
     })
 
-    const VueCli = computed(() => {
+    const ExternalCli = computed(() => {
       const types = [], imports = []
 
       ;[ 'components', 'directives', 'plugins' ].forEach(type => {
@@ -145,7 +146,7 @@ app.use(Quasar, {
 
       QuasarCli,
       UMD,
-      VueCli
+      ExternalCli
     }
   }
 }

@@ -34,6 +34,11 @@
       "category": "style"
     },
 
+    "square": {
+      "extends": "square",
+      "addedIn": "v2.7.6"
+    },
+
     "push": {
       "type": "Boolean",
       "desc": "Use 'push' design for buttons",

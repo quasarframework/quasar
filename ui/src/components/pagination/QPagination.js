@@ -1,14 +1,15 @@
-import { h, defineComponent, ref, watch, computed, getCurrentInstance } from 'vue'
+import { h, ref, watch, computed, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QPagination',
 
   props: {
@@ -308,8 +309,8 @@ export default defineComponent({
             style,
             disable: props.disable,
             flat: !active,
-            textColor: active ? props.textColor : void 0,
-            label: props.min
+            label: props.min,
+            ...(active ? activeBtnProps.value : {})
           }, props.min))
         }
         if (boundaryEnd) {
@@ -319,8 +320,8 @@ export default defineComponent({
             style,
             disable: props.disable,
             flat: !active,
-            textColor: active ? props.textColor : void 0,
-            label: props.max
+            label: props.max,
+            ...(active ? activeBtnProps.value : {})
           }, props.max))
         }
         if (ellipsesStart) {

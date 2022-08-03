@@ -6,7 +6,7 @@ related:
   - /quasar-plugins/meta
 ---
 
-The useMeta composable is part of [Quasar Meta Plugin](/quasar-plugins/meta). If you haven't digged into it by now, please have a first read there.
+The useMeta composable is part of [Quasar Meta Plugin](/quasar-plugins/meta). If you haven't dug into it by now, please have a first read there.
 
 ## Syntax
 
@@ -40,14 +40,14 @@ setup () {
 
 ```html
 <script>
-import { useQuasar } from 'quasar'
+import { useMeta } from 'quasar'
 
 export default {
   setup () {
     const title = ref('Some title') // we define the "title" prop
 
     // NOTICE the parameter here is a function
-    // Under the covers, it is converted to a Vue computed prop for reactivity
+    // Under the hood, it is converted to a Vue computed prop for reactivity
     useMeta(() => {
       return {
         // whenever "title" from above changes, your meta will automatically update

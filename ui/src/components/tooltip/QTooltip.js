@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 import useScrollTarget from '../../composables/private/use-scroll-target.js'
@@ -8,6 +8,7 @@ import useTransition, { useTransitionProps } from '../../composables/private/use
 import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { stopAndPrevent, addEvt, cleanEvt } from '../../utils/event.js'
 import { clearSelection } from '../../utils/private/selection.js'
@@ -17,7 +18,7 @@ import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QTooltip',
 
   inheritAttrs: false,
@@ -91,7 +92,7 @@ export default defineComponent({
     const selfOrigin = computed(() => parsePosition(props.self, $q.lang.rtl))
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
-    const { registerTick, removeTick, prepareTick } = useTick()
+    const { registerTick, removeTick } = useTick()
     const { registerTimeout, removeTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
@@ -157,7 +158,6 @@ export default defineComponent({
         updatePosition()
         configureScrollTarget()
       })
-      prepareTick()
 
       if (unwatchPosition === void 0) {
         unwatchPosition = watch(
@@ -175,11 +175,12 @@ export default defineComponent({
     function handleHide (evt) {
       removeTick()
       removeTimeout()
+      hidePortal()
 
       anchorCleanup()
 
       registerTimeout(() => {
-        hidePortal()
+        hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
       }, props.transitionDuration)
     }
@@ -280,15 +281,18 @@ export default defineComponent({
     function getTooltipContent () {
       return showing.value === true
         ? h('div', {
-            ...attrs,
-            ref: innerRef,
-            class: [
-              'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-              attrs.class
-            ],
-            style: transitionStyle.value,
-            role: 'complementary'
-          }, hSlot(slots.default))
+          ...attrs,
+          ref: innerRef,
+          class: [
+            'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
+            attrs.class
+          ],
+          style: [
+            attrs.style,
+            transitionStyle.value
+          ],
+          role: 'complementary'
+        }, hSlot(slots.default))
         : null
     }
 

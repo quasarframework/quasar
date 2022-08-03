@@ -56,7 +56,6 @@
       :width="200"
     >
       <q-list>
-
         <q-item clickable class="GPLAY__drawer-link bg-grey-10 text-grey-3">
           <q-item-section avatar class="text-grey-1">
             <q-icon name="weekend" />

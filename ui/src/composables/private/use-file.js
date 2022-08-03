@@ -1,6 +1,6 @@
-import { h, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance } from 'vue'
 
-import { stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
   const acceptedFiles = []
@@ -42,18 +42,20 @@ export default function ({
 }) {
   const { props, emit, proxy } = getCurrentInstance()
 
+  const dndRef = ref(null)
+
   const extensions = computed(() => (
     props.accept !== void 0
       ? props.accept.split(',').map(ext => {
-          ext = ext.trim()
-          if (ext === '*') { // support "*"
-            return '*/'
-          }
-          else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext.toUpperCase()
-        })
+        ext = ext.trim()
+        if (ext === '*') { // support "*"
+          return '*/'
+        }
+        else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
+          ext = ext.slice(0, ext.length - 1)
+        }
+        return ext.toUpperCase()
+      })
       : null
   ))
 
@@ -62,8 +64,18 @@ export default function ({
 
   function pickFiles (e) {
     if (editable.value) {
-      const input = getFileInput()
-      input && input.click(e)
+      if (e !== Object(e)) {
+        e = { target: null }
+      }
+
+      if (e.target !== null && e.target.matches('input[type="file"]') === true) {
+        // stop propagation if it's not a real pointer event
+        e.clientX === 0 && e.clientY === 0 && stop(e)
+      }
+      else {
+        const input = getFileInput()
+        input && input !== e.target && input.click(e)
+      }
     }
   }
 
@@ -108,9 +120,22 @@ export default function ({
     // Cordova/iOS allows selecting multiple files even when the
     // multiple attribute is not specified. We also normalize drag'n'dropped
     // files here:
-    if (props.multiple !== true) {
+    if (props.multiple !== true && files.length > 0) {
       files = [ files[ 0 ] ]
     }
+
+    // Compute key to use for each file
+    files.forEach(file => {
+      file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
+    })
+
+    // Avoid duplicate files
+    const filenameMap = currentFileList.map(entry => entry.__key)
+    files = filterFiles(files, rejectedFiles, 'duplicate', file => {
+      return filenameMap.includes(file.__key) === false
+    })
+
+    if (files.length === 0) { return done() }
 
     if (props.maxTotalSize !== void 0) {
       let size = append === true
@@ -160,7 +185,7 @@ export default function ({
 
   function onDragleave (e) {
     stopAndPrevent(e)
-    dnd.value = false
+    e.relatedTarget !== dndRef.value && (dnd.value = false)
   }
 
   function onDrop (e) {
@@ -177,6 +202,7 @@ export default function ({
   function getDndNode (type) {
     if (dnd.value === true) {
       return h('div', {
+        ref: dndRef,
         class: `q-${ type }__dnd absolute-full`,
         onDragenter: stopAndPreventDrag,
         onDragover: stopAndPreventDrag,

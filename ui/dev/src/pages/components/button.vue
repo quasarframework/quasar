@@ -74,12 +74,18 @@
         Links
         <q-toggle v-model="toDisable" label="Disabled" />
       </div>
-      <q-btn to="/" :disable="toDisable" label="To index" outline color="secondary" />
-      <q-btn type="a" href="#/gigi" label="Type 'a' - bogus href" push color="secondary" class="q-ml-md" />
-      <q-btn type="a" href="#/gigi" target="_blank" label="Type 'a' - external" color="secondary" class="q-ml-md" />
-      <q-btn to="/" :disable="toDisable" label="To index in 2s" @click="linkClick" glossy color="secondary" class="q-ml-md" />
-      <br><br>
-      <div>
+      <div class="row items-center q-gutter-sm">
+        <q-btn to="/" :disable="toDisable" label="To index" outline color="secondary" />
+        <q-btn type="a" :disable="toDisable" label="type 'a'" color="secondary">
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-btn>
+        <q-btn href="#/gigi" type="image/png" :disable="toDisable" label="href + media type" push color="secondary" />
+        <q-btn type="a" href="#/gigi" :disable="toDisable" label="href" push color="secondary" />
+        <q-btn href="#/gigi" :disable="toDisable" target="_blank" label="href + _blank" push color="secondary" />
+        <q-btn href="#/gigi" disable label="href + disable" push color="secondary" />
+        <q-btn to="/" :disable="toDisable" label="To index in 2s" @click="linkClick" glossy color="secondary" />
+      </div>
+      <div class="q-mt-md">
         <q-toggle v-model="testD" label="Disable form buttons" />
         <q-toggle v-model="testR" label="Wait for ripple" />
         <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 q-pa-md row items-center">
@@ -94,8 +100,8 @@
               <q-input type="number" v-model="testN" />
             </div>
           </div>
-          <q-btn :tag="tag" fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" @click="onClick" :disable="testD" :wait-for-ripple="testR" />
-          <q-btn :tag="tag" fab color="primary" icon="android" type="submit" class="on-right" title="Submit" @click="onClick" :disable="testD" :wait-for-ripple="testR" />
+          <q-btn fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" @click="onClick" :disable="testD" :wait-for-ripple="testR" />
+          <q-btn fab color="primary" icon="android" type="submit" class="on-right" title="Submit" @click="onClick" :disable="testD" :wait-for-ripple="testR" />
         </form>
       </div>
 
@@ -496,6 +502,13 @@
       </div>
       <div class="q-gutter-sm">
         <q-btn :type="tag" rounded color="secondary" icon="alarm" />
+      </div>
+
+      <div class="caption">
+        Square Buttons
+      </div>
+      <div class="q-gutter-sm">
+        <q-btn :type="tag" square color="secondary" icon="alarm" />
       </div>
 
       <div class="caption">

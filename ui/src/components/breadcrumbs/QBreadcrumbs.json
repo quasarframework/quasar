@@ -50,8 +50,7 @@
     },
 
     "separator": {
-      "desc": "HTML or component you can slot in to separate the breadcrumbs",
-      "scope": {}
+      "desc": "HTML or component you can slot in to separate the breadcrumbs"
     }
   }
 }

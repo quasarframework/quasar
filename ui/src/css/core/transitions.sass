@@ -1,8 +1,6 @@
-// default easing is easeOutCubic
-
+// should not need this, but it's good as fallback
 \:root
   --q-transition-duration: .3s
-  --q-transition-easing: cubic-bezier(0.215,0.61,0.355,1)
 
 .q-transition
   &--slide-right,
@@ -17,6 +15,10 @@
   &--scale,
   &--rotate,
   &--flip
+    &-enter-active,
+    &-leave-active
+      --q-transition-duration: .3s
+      --q-transition-easing: cubic-bezier(0.215,0.61,0.355,1)
     &-leave-active
       position: absolute
 

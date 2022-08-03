@@ -5,7 +5,7 @@ export default [
     author: 'Danny Connell',
     lang: 'English',
     link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.2305152&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fquasarframework%2F',
-    imgUrl: 'https://img-a.udemycdn.com/course/480x270/2305152_ecfb_6.jpg'
+    imgUrl: 'https://cdn.quasar.dev/tutorials/danny/quasar-course-thumbnail-new.png'
   },
 
   {
@@ -14,7 +14,7 @@ export default [
     author: 'Danny Connell',
     lang: 'English',
     link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.3180950&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fweather-app-vue-js-quasar%2F',
-    imgUrl: 'https://img-a.udemycdn.com/course/480x270/3180950_e65e_3.jpg'
+    imgUrl: 'https://cdn.quasar.dev/tutorials/danny/quasar-weather-course-thumbnail.png'
   },
 
   {
@@ -23,7 +23,7 @@ export default [
     author: 'Danny Connell',
     lang: 'English',
     link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.3240810&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fpwa-with-vuejs-quasar-firebase%2F',
-    imgUrl: 'https://img-a.udemycdn.com/course/750x422/3240810_dedb_2.jpg'
+    imgUrl: 'https://cdn.quasar.dev/tutorials/danny/quasar-pwa-course-thumbnail.png'
   },
 
   {

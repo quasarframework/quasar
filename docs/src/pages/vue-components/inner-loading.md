@@ -27,4 +27,12 @@ In order for the spinner to be properly placed in the center of the element you 
 QInnerLoading must be the last element inside its parent so it can appear on top of the other content.
 :::
 
+### Basic
+
 <doc-example title="Basic" file="QInnerLoading/Basic" />
+
+### Label <q-badge align="top" color="brand-primary" label="v2.2+" />
+
+You can add a label when using the default slot, but you can also use the "label" props instead:
+
+<doc-example title="Label props" file="QInnerLoading/LabelProp" />

@@ -16,10 +16,10 @@
 
     "img-src": {
       "type": "String",
-      "desc": "URL pointing to a slide background image (use statics folder)",
+      "desc": "URL pointing to a slide background image (use public folder)",
       "transformAssetUrls": true,
       "examples": [
-        "(statics folder) src=\"statics/img/my-bg.png\"",
+        "(public folder) src=\"img/my-bg.png\"",
         "(assets folder) src=\"~assets/my-img.png\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
         "(URL) src=\"https://placeimg.com/500/300/nature\""

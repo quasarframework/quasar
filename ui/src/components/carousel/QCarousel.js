@@ -1,4 +1,4 @@
-import { h, defineComponent, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -6,13 +6,14 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { isNumber } from '../../utils/private/is.js'
 import { hMergeSlot, hDir } from '../../utils/private/render.js'
 
 const navigationPositionOptions = [ 'top', 'right', 'bottom', 'left' ]
 const controlTypeOptions = [ 'regular', 'flat', 'outline', 'push', 'unelevated' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QCarousel',
 
   props: {
@@ -136,7 +137,14 @@ export default defineComponent({
     })
 
     function startTimer () {
-      timer = setTimeout(nextPanel, isNumber(props.autoplay) ? props.autoplay : 5000)
+      const duration = isNumber(props.autoplay) === true
+        ? props.autoplay
+        : 5000
+
+      timer = setTimeout(
+        duration >= 0 ? nextPanel : previousPanel,
+        Math.abs(duration)
+      )
     }
 
     onMounted(() => {

@@ -4,6 +4,7 @@ desc: Tips and tricks on how to use a Quasar App Extension to configure the host
 ---
 
 This guide is for when you want to ensure that a [Webpack Loader](https://webpack.js.org/loaders/) is chained into the hosting app, because you depend on it for your own App Extension to work.
+We are assuming we will release this App Extension for `@quasar/app-webpack`, as it does not makes sense for `@quasar/app-vite` (which does not uses Webpack at all).
 
 ::: tip
 In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
@@ -13,7 +14,7 @@ In order for creating an App Extension project folder, please first read the [De
 To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/v2/chain-webpack), which is a GitHub repo with this App Extension.
 :::
 
-We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.conf.js from the host app to include our Webpack chaining.
+We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.config.js from the host app to include our Webpack chaining.
 
 ```bash
 .
@@ -30,9 +31,9 @@ module.exports = function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
-  // package or a minimum version of "@quasar/app" CLI
+  // package or a minimum version of Quasar App CLI
   api.compatibleWith('quasar', '^2.0.0')
-  api.compatibleWith('@quasar/app', '^3.0.0')
+  api.compatibleWith('@quasar/app-webpack', '^3.0.0')
 
   // chain webpack
   api.chainWebpack((chain) => chainWebpack(api.ctx, chain))
@@ -76,4 +77,3 @@ const chainWebpack = function (ctx, chain) {
     })
 }
 ```
-

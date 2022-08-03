@@ -43,7 +43,7 @@ Vertically:
 import { scroll } from 'quasar'
 const { getVerticalScrollPosition, setVerticalScrollPosition } = scroll
 
-// Get scroll position of a element or page.
+// Get scroll position of an element or page.
 // Use it in conjunction with `getScrollTarget()`
 getVerticalScrollPosition(scrollTargetDomElement) // returns a Number (pixels)
 
@@ -58,7 +58,7 @@ Horizontally:
 import { scroll } from 'quasar'
 const { getHorizontalScrollPosition, setHorizontalScrollPosition } = scroll
 
-// Get scroll position of a element or page.
+// Get scroll position of an element or page.
 // Use it in conjunction with `getScrollTarget()`
 getHorizontalScrollPosition(scrollTargetDomElement) // returns a Number (pixels)
 

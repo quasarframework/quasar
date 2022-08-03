@@ -1,8 +1,7 @@
 /* eslint-disable no-useless-escape */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-mixed-operators */
 
 import { ref, reactive } from 'vue'
+import { injectProp } from '../utils/private/inject-obj-prop'
 
 /**
  * __ QUASAR_SSR __            -> runs on SSR on client or server
@@ -24,19 +23,15 @@ export let iosEmulated = false
 export let iosCorrection
 
 function getMatch (userAgent, platformMatch) {
-  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
+  const match = /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
     || /(opr)[\/]([\w.]+)/.exec(userAgent)
     || /(vivaldi)[\/]([\w.]+)/.exec(userAgent)
     || /(chrome|crios)[\/]([\w.]+)/.exec(userAgent)
-    || /(iemobile)[\/]([\w.]+)/.exec(userAgent)
     || /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
     || /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent)
     || /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent)
     || /(webkit)[\/]([\w.]+)/.exec(userAgent)
     || /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent)
-    || /(msie) ([\w.]+)/.exec(userAgent)
-    || (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent))
-    || (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent))
     || []
 
   return {
@@ -59,6 +54,8 @@ function getPlatformMatch (userAgent) {
     || /(mac)/.exec(userAgent)
     || /(linux)/.exec(userAgent)
     || /(cros)/.exec(userAgent)
+    // TODO: Remove BlackBerry detection. BlackBerry OS, BlackBerry 10, and BlackBerry PlayBook OS
+    // is officially dead as of January 4, 2022 (https://www.blackberry.com/us/en/support/devices/end-of-life)
     || /(playbook)/.exec(userAgent)
     || /(bb)/.exec(userAgent)
     || /(blackberry)/.exec(userAgent)
@@ -150,6 +147,10 @@ function getPlatform (UA) {
     delete browser[ 'windows phone' ]
   }
 
+  // TODO: The assumption about WebKit based browsers below is not completely accurate.
+  // Google released Blink(a fork of WebKit) engine on April 3, 2013, which is really different than WebKit today.
+  // Today, one might want to check for WebKit to deal with its bugs, which is used on all browsers on iOS, and Safari browser on all platforms.
+
   // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
   if (
     browser.chrome
@@ -166,8 +167,15 @@ function getPlatform (UA) {
     browser.webkit = true
   }
 
+  // TODO: (Qv3) rename the terms 'edge' to 'edge legacy'(or remove it) then 'edge chromium' to 'edge' to match with the known up-to-date terms
+  // Microsoft Edge is the new Chromium-based browser. Microsoft Edge Legacy is the old EdgeHTML-based browser (EOL: March 9, 2021).
+  if (browser.edg) {
+    matched.browser = 'edgechromium'
+    browser.edgeChromium = true
+  }
+
   // Blackberry browsers are marked as Safari on BlackBerry
-  if (browser.safari && browser.blackberry || browser.bb) {
+  if ((browser.safari && browser.blackberry) || browser.bb) {
     matched.browser = 'blackberry'
     browser.blackberry = true
   }
@@ -330,23 +338,22 @@ else {
   // devland actually using it as this will get
   // reported under "Cookies" in Google Chrome
   let hasWebStorage
-  Object.defineProperty(client.has, 'webStorage', {
-    get: () => {
-      if (hasWebStorage !== void 0) {
-        return hasWebStorage
-      }
 
-      try {
-        if (window.localStorage) {
-          hasWebStorage = true
-          return true
-        }
-      }
-      catch (e) {}
-
-      hasWebStorage = false
-      return false
+  injectProp(client.has, 'webStorage', () => {
+    if (hasWebStorage !== void 0) {
+      return hasWebStorage
     }
+
+    try {
+      if (window.localStorage) {
+        hasWebStorage = true
+        return true
+      }
+    }
+    catch (e) {}
+
+    hasWebStorage = false
+    return false
   })
 
   iosEmulated = client.is.ios === true

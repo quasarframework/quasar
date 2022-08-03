@@ -87,7 +87,8 @@
     },
 
     "label-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the label container",
       "examples": [
         "my-special-class",
@@ -97,7 +98,8 @@
     },
 
     "label-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the label container",
       "examples": [
         "background-color: #ff0000",

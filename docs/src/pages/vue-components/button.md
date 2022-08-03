@@ -35,6 +35,10 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Round buttons" file="QBtn/Round" />
 
+### Square
+
+<doc-example title="Square buttons" file="QBtn/Square" />
+
 ### Custom content
 
 <doc-example title="Custom content" file="QBtn/CustomContent" />
@@ -73,9 +77,16 @@ Should you wish, you can also display a deterministic progress within the button
 
 <doc-example title="Custom ripple" file="QBtn/CustomRipple" />
 
-### Handling links
+### Handling navigation <q-badge align="top" color="brand-primary" label="updated for v2.4+" />
 
-The two examples below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+::: warning UMD usage
+* If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project. Otherwise use the alternative `href` prop.
+* Due to the above, some of the QBtn below won't work in Codepen/jsFiddle too.
+:::
+
+::: tip
+Prefer the Vue Router props over `href` when you can, because with `href` you will trigger a window navigation instead of an in-page Vue Router navigation.
+:::
 
 <doc-example title="Links" file="QBtn/Links" no-edit />
 

@@ -28,6 +28,7 @@
 
     "rules": {
       "type": "Array",
+      "tsType": "ValidationRule",
       "desc": "Array of Functions/Strings; If String, then it must be a name of one of the embedded validation rules",
       "examples": [
         ":rules=\"[ val => val.length <= 3 || 'Please use maximum 3 characters' ]\"",

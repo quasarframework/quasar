@@ -1,8 +1,10 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QVideo',
 
   props: {
@@ -11,6 +13,21 @@ export default defineComponent({
     src: {
       type: String,
       required: true
+    },
+
+    title: String,
+
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
+    loading: {
+      type: String,
+      default: 'eager'
+    },
+    referrerpolicy: {
+      type: String,
+      default: 'strict-origin-when-cross-origin'
     }
   },
 
@@ -28,6 +45,10 @@ export default defineComponent({
     }, [
       h('iframe', {
         src: props.src,
+        title: props.title,
+        fetchpriority: props.fetchpriority,
+        loading: props.loading,
+        referrerpolicy: props.referrerpolicy,
         frameborder: '0',
         allowfullscreen: true
       })

@@ -37,11 +37,17 @@ module.exports = function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
-  // package or a minimum version of "@quasar/app" CLI
+  // package or a minimum version of Quasar App CLI
   api.compatibleWith('quasar', '^2.0.0')
-  api.compatibleWith('@quasar/app', '^3.0.0')
 
-  // Here we extend /quasar.conf.js, so we can add
+  if (api.hasVite === true) {
+    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+  }
+  else { // api.hasWebpack === true
+    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+  }
+
+  // Here we extend /quasar.config.js, so we can add
   // a boot file which registers our new UI component;
   // "extendConf" will be defined below (keep reading the tutorial)
   api.extendQuasarConf(extendConf)
@@ -58,19 +64,22 @@ The second group tells Quasar to call our custom function when the `extendQuasar
 
 ```js
 // file: /index.js
-function extendConf (conf) {
+function extendConf (conf, api) {
   // make sure my-component boot file is registered
   conf.boot.push('~quasar-app-extension-my-component/src/boot/register-my-component.js')
 
-  // make sure boot & component files get transpiled
-  conf.build.transpileDependencies.push(/quasar-app-extension-my-component[\\/]src/)
+  // @quasar/app-vite does not need this
+  if (api.hasVite !== true) {
+    // make sure boot & component files get transpiled
+    conf.build.transpileDependencies.push(/quasar-app-extension-my-component[\\/]src/)
+  }
 
   // make sure my-component css goes through webpack to avoid ssr issues
   conf.css.push('~quasar-app-extension-my-component/src/component/MyComponent.sass')
 }
 ```
 
-Finally, let's see how the boot file would look like. Make sure that you read the [Boot files](/quasar-cli/boot-files) documentation and understand what a Boot file is first.
+Finally, let's see how the boot file would look like. Make sure that you read the [@quasar/app-vite Boot files](/quasar-cli-vite/boot-files) / [@quasar/app-webpack Boot files](/quasar-cli-webpack/boot-files) documentation and understand what a Boot file is first.
 
 ```js
 // file: /src/boot/register-my-component.js

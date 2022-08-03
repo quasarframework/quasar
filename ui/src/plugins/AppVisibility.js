@@ -1,4 +1,5 @@
 import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { injectProp } from '../utils/private/inject-obj-prop.js'
 
 const Plugin = defineReactivePlugin({
   appVisible: true
@@ -9,9 +10,7 @@ const Plugin = defineReactivePlugin({
       return
     }
 
-    Object.defineProperty($q, 'appVisible', {
-      get: () => this.appVisible
-    })
+    injectProp($q, 'appVisible', () => this.appVisible)
   }
 })
 

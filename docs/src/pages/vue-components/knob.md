@@ -30,6 +30,12 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <doc-example title="Custom min/max" file="QKnob/MinMax" />
 
+### Inner min/max <q-badge align="top" color="brand-primary" label="v2.5.4+" />
+
+Sometimes you need to restrict the model value to an interval inside of the track's length. For this purpose, use `inner-min` and `inner-max` props. First prop needs to be higher or equal to `min` prop while the latter needs to be lower or equal to the `max` prop.
+
+<doc-example title="Inner min/max" file="QKnob/InnerMinMax" />
+
 ### Custom step
 
 <doc-example title="Custom step" file="QKnob/Step" />

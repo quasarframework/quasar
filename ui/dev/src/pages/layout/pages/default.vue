@@ -2,7 +2,11 @@
   <q-page padding class="page-default-padding">
     <q-toggle v-model="extra" label="Extra content" />
     <div v-if="extra">
-      <div v-for="n in 50">
+      <div v-for="n in 5" :key="'a'+n">
+        {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </div>
+      <q-select v-model="select" :options="selectOptions" outlined dense use-input style="width: 150px" />
+      <div v-for="n in 45" :key="'b'+n">
         {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </div>
     </div>
@@ -51,11 +55,16 @@
 </style>
 
 <script>
+
 export default {
+  created () {
+    this.selectOptions = [ 'Google', 'Facebook', 'Tesla' ]
+  },
   data () {
     return {
       extra: true,
-      dialog: false
+      dialog: false,
+      select: null
     }
   }
 }

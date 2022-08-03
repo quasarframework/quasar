@@ -60,7 +60,7 @@ When using the persian calendar, the mask for QTime is forced to `HH:mm` or `HH:
 
 <doc-example title="Simple mask" file="QTime/MaskSimple" overflow />
 
-If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
+If you want to insert strings (including `[` and `]` characters) into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
 
 <doc-example title="Mask with escaped characters" file="QTime/MaskEscape" overflow />
 

@@ -42,14 +42,15 @@ q-page.landing
       .col-12.text-center.q-my-xl
         p Combine the power of Quasar UI with Quasar CLI. One source code for all platforms simultaneously with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
       .col-12.row.justify-center
-        .q-gutter-md
-          q-btn(color="red", no-caps, no-wrap, :icon-right="mdiLaunch", label="User Interface Components", to="/vue-components")
-          q-btn(color="primary", no-caps, no-wrap, :icon-right="mdiLaunch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
-          q-btn(color="teal", no-caps, no-wrap, :icon-right="mdiLaunch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
-          q-btn(color="pink", no-caps, no-wrap, :icon-right="mdiLaunch", label="BEX (Browser Extension)", to="/quasar-cli/developing-browser-extensions/introduction")
-          q-btn(color="accent", no-caps, no-wrap, :icon-right="mdiLaunch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
-          q-btn(color="orange", no-caps, no-wrap, :icon-right="mdiLaunch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
-          q-btn(color="indigo", no-caps, no-wrap, :icon-right="mdiLaunch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
+        q-card.bg-grey-1.q-px-lg.q-py-sm(bordered flat)
+          q-card-section(horizontal)
+            q-card-section.text-left.column.items-center.q-gutter-sm
+              q-badge(label="$ yarn global add @quasar/cli" color="grey-8")
+              q-badge(label="$ yarn create quasar" color="grey-8")
+            q-separator(vertical)
+            q-card-section.text-left.column.items-center.q-gutter-sm
+              q-badge(label="$ npm i -g @quasar/cli" color="grey-8")
+              q-badge(label="$ npm init quasar" color="grey-8")
 
   section.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-lg
@@ -96,7 +97,7 @@ q-page.landing
           q-icon(:name="fabGithub")
 
         a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="mdiBlogger")
+          q-icon(:name="mdiPost")
 
         a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
           q-icon(:name="mdiChat")
@@ -111,7 +112,7 @@ q-page.landing
           q-icon(:name="fabFacebook")
 
         a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
-          q-icon(:name="fasMedkit")
+          q-icon(:name="fasSuitcaseMedical")
 
       div.q-mt-lg
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -122,21 +123,21 @@ q-page.landing
 <script>
 import { useMeta } from 'quasar'
 
-import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
-import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
-import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
-// import SurveyCountdown from '../components/SurveyCountdown'
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor.vue'
+import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList.vue'
+import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo.vue'
+// import SurveyCountdown from '../components/SurveyCountdown.vue'
 
 import {
-  fabGithub, fabTwitter, fabFacebook, fasMedkit,
+  fabGithub, fabTwitter, fabFacebook, fasSuitcaseMedical,
   fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
   fabFirefox, fabEdge, fabSafari, fabGoogle
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
-  mdiChevronDown, mdiLaunch, mdiBlogger,
+  mdiChevronDown, mdiLaunch, mdiPost,
   mdiChat, mdiForum
-} from '@quasar/extras/mdi-v5'
+} from '@quasar/extras/mdi-v6'
 
 import { useDocStore } from 'assets/doc-store.js'
 import features from 'assets/features.js'
@@ -167,7 +168,7 @@ export default {
       fabGithub,
       fabTwitter,
       fabFacebook,
-      fasMedkit,
+      fasSuitcaseMedical,
       fabApple,
       fabWindows,
       fabLinux,
@@ -180,7 +181,7 @@ export default {
 
       mdiChevronDown,
       mdiLaunch,
-      mdiBlogger,
+      mdiPost,
       mdiChat,
       mdiForum
     }

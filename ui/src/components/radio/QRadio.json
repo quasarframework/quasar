@@ -8,12 +8,12 @@
   "props": {
     "model-value": {
       "extends": "model-value",
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null", "undefined" ],
       "examples": [ "v-model=\"option\"" ]
     },
 
     "val": {
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null", "undefined" ],
       "required": true,
       "desc": "The actual value of the option with which model value is changed",
       "examples": [ "opt1", 50 ],
@@ -31,6 +31,22 @@
       "type": "Boolean",
       "desc": "Label (if any specified) should be displayed on the left side of the checkbox",
       "category": "label"
+    },
+
+    "checked-icon": {
+      "type": "String",
+      "desc": "The icon to be used when selected (instead of the default design)",
+      "examples": [ "visibility" ],
+      "category": "icons",
+      "addedIn": "v2.5"
+    },
+
+    "unchecked-icon": {
+      "type": "String",
+      "desc": "The icon to be used when un-selected (instead of the default design)",
+      "examples": [ "visibility_off" ],
+      "category": "icons",
+      "addedIn": "v2.5"
     },
 
     "color": {
@@ -77,10 +93,8 @@
           "__exemption": [ "examples" ]
         },
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "required": true
         }
       }
     }

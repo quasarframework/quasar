@@ -1,4 +1,4 @@
-import { h, defineComponent, ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
@@ -7,12 +7,13 @@ import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 import useSplitAttrs from '../../composables/private/use-split-attrs.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QEditor',
 
   props: {
@@ -79,12 +80,12 @@ export default defineComponent({
   ],
 
   setup (props, { slots, emit, attrs }) {
-    const { proxy } = getCurrentInstance()
+    const { proxy, vnode } = getCurrentInstance()
     const { $q } = proxy
 
     const isDark = useDark(props, $q)
     const { inFullscreen, toggleFullscreen } = useFullscreen()
-    const splitAttrs = useSplitAttrs(attrs)
+    const splitAttrs = useSplitAttrs(attrs, vnode)
 
     const rootRef = ref(null)
     const contentRef = ref(null)
@@ -179,17 +180,17 @@ export default defineComponent({
       const userDef = props.definitions || {}
       const def = props.definitions || props.fonts
         ? extend(
-            true,
-            {},
-            buttonDef.value,
-            userDef,
-            getFonts(
-              defaultFont,
-              $q.lang.editor.defaultFont,
-              $q.iconSet.editor.font,
-              props.fonts
-            )
+          true,
+          {},
+          buttonDef.value,
+          userDef,
+          getFonts(
+            defaultFont,
+            $q.lang.editor.defaultFont,
+            $q.iconSet.editor.font,
+            props.fonts
           )
+        )
         : buttonDef.value
 
       return props.toolbar.map(
@@ -367,11 +368,14 @@ export default defineComponent({
     }
 
     function onFocusin (e) {
+      const root = rootRef.value
+
       if (
-        rootRef.value.contains(e.target) === true
+        root !== null
+        && root.contains(e.target) === true
         && (
           e.relatedTarget === null
-          || rootRef.value.contains(e.relatedTarget) !== true
+          || root.contains(e.relatedTarget) !== true
         )
       ) {
         const prop = `inner${ isViewingSource.value === true ? 'Text' : 'HTML' }`
@@ -381,11 +385,14 @@ export default defineComponent({
     }
 
     function onFocusout (e) {
+      const root = rootRef.value
+
       if (
-        rootRef.value.contains(e.target) === true
+        root !== null
+        && root.contains(e.target) === true
         && (
           e.relatedTarget === null
-          || rootRef.value.contains(e.relatedTarget) !== true
+          || root.contains(e.relatedTarget) !== true
         )
       ) {
         eVm.caret.savePosition()
@@ -393,27 +400,12 @@ export default defineComponent({
       }
     }
 
-    function onMousedown () {
+    function onPointerStart () {
       offsetBottom = void 0
     }
 
-    function onMouseup (e) {
+    function onSelectionchange (e) {
       eVm.caret.save()
-      emit('mouseup', e)
-    }
-
-    function onTouchstartPassive () {
-      offsetBottom = void 0
-    }
-
-    function onKeyup (e) {
-      eVm.caret.save()
-      emit('keyup', e)
-    }
-
-    function onTouchend (e) {
-      eVm.caret.save()
-      emit('touchend', e)
     }
 
     function setContent (v, restorePosition) {
@@ -453,7 +445,7 @@ export default defineComponent({
 
     function focus () {
       addFocusFn(() => {
-        contentRef.value !== null && contentRef.value.focus()
+        contentRef.value !== null && contentRef.value.focus({ preventScroll: true })
       })
     }
 
@@ -467,9 +459,15 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      eVm.caret = new Caret(contentRef.value, eVm)
+      eVm.caret = proxy.caret = new Caret(contentRef.value, eVm)
       setContent(props.modelValue)
       refreshToolbar()
+
+      document.addEventListener('selectionchange', onSelectionchange)
+    })
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('selectionchange', onSelectionchange)
     })
 
     return () => {
@@ -501,7 +499,7 @@ export default defineComponent({
       return h('div', {
         ref: rootRef,
         class: classes.value,
-        style: { height: inFullscreen.value === true ? '100vh' : null },
+        style: { height: inFullscreen.value === true ? '100%' : null },
         ...attributes.value,
         onFocusin,
         onFocusout
@@ -525,13 +523,8 @@ export default defineComponent({
           onFocus,
 
           // clean saved scroll position
-          onMousedown,
-          onTouchstartPassive,
-
-          // save caret
-          onMouseup,
-          onKeyup,
-          onTouchend
+          onMousedown: onPointerStart,
+          onTouchstartPassive: onPointerStart
         })
       ])
     }

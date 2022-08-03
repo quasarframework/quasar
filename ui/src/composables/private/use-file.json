@@ -72,6 +72,7 @@
       "params": {
         "rejectedEntries": {
           "type": "Array",
+          "tsType": "QRejectedEntry",
           "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation",
           "__exemption": ["examples"]
         }
@@ -84,9 +85,7 @@
       "desc": "Trigger file pick; Must be called as a direct consequence of user interaction (eg. in a click handler), due to browsers security policy",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },

@@ -1,7 +1,8 @@
-import { h, defineComponent, computed, getCurrentInstance } from 'vue'
+import { h, computed, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 
 export const skeletonTypes = [
@@ -16,7 +17,7 @@ export const skeletonAnimations = [
   'wave', 'pulse', 'pulse-x', 'pulse-y', 'fade', 'blink', 'none'
 ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QSkeleton',
 
   props: {
@@ -38,6 +39,10 @@ export default defineComponent({
       validator: v => skeletonAnimations.includes(v),
       default: 'wave'
     },
+    animationSpeed: {
+      type: [ String, Number ],
+      default: 1500
+    },
 
     square: Boolean,
     bordered: Boolean,
@@ -51,11 +56,17 @@ export default defineComponent({
     const vm = getCurrentInstance()
     const isDark = useDark(props, vm.proxy.$q)
 
-    const style = computed(() => (
-      props.size !== void 0
-        ? { width: props.size, height: props.size }
-        : { width: props.width, height: props.height }
-    ))
+    const style = computed(() => {
+      const size = props.size !== void 0
+        ? [ props.size, props.size ]
+        : [ props.width, props.height ]
+
+      return {
+        '--q-skeleton-speed': `${ props.animationSpeed }ms`,
+        width: size[ 0 ],
+        height: size[ 1 ]
+      }
+    })
 
     const classes = computed(() =>
       `q-skeleton q-skeleton--${ isDark.value === true ? 'dark' : 'light' } q-skeleton--type-${ props.type }`

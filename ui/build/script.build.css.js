@@ -7,6 +7,7 @@ const autoprefixer = require('autoprefixer')
 
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+const prepareDiff = require('./prepare-diff')
 
 const nano = postcss([
   cssnano({
@@ -48,7 +49,7 @@ function generateUMD (code, middleName, ext = '') {
 }
 
 function renderAsset (cssCode, middleName = '') {
-  return postcss([autoprefixer]).process(cssCode, { from: void 0 })
+  return postcss([ autoprefixer ]).process(cssCode, { from: void 0 })
     .then(code => {
       code.warnings().forEach(warn => {
         console.warn(warn.toString())
@@ -57,7 +58,7 @@ function renderAsset (cssCode, middleName = '') {
     })
     .then(code => Promise.all([
       generateUMD(code, middleName),
-      postcss([rtl({})]).process(code, { from: void 0 })
+      postcss([ rtl({}) ]).process(code, { from: void 0 })
         .then(code => generateUMD(code.css, middleName, '.rtl'))
     ]))
 }
@@ -68,7 +69,8 @@ function generateBase (source) {
 
   const result = sass.renderSync({ file: src })
 
-  const cssCode = result.css.toString()
+  // remove @charset declaration -- breaks Vite usage
+  const cssCode = result.css.toString().replace('@charset "UTF-8";', '')
   const depsList = result.stats.includedFiles
 
   return Promise.all([
@@ -88,7 +90,11 @@ function generateAddon (source) {
   return renderAsset(cssCode, '.addon')
 }
 
-module.exports = function () {
+module.exports = function (withDiff) {
+  if (withDiff === true) {
+    prepareDiff('dist/quasar.sass')
+  }
+
   Promise
     .all([
       generateBase('src/css/index.sass'),

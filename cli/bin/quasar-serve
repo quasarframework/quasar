@@ -115,17 +115,11 @@ if (fs.existsSync(pkgFile) && fs.existsSync(indexFile)) {
 }
 
 if (ssrDetected === false) {
-  let green, grey, red
+  if (!argv.colors) {
+    process.env.FORCE_COLOR = '0'
+  }
 
-  if (argv.colors) {
-    const chalk = require('chalk')
-    green = chalk.green
-    grey = chalk.grey
-    red = chalk.red
-  }
-  else {
-    green = grey = red = text => text
-  }
+  const { green, gray, red } = require('kolorist')
 
   const
     express = require('express'),
@@ -164,7 +158,7 @@ if (ssrDetected === false) {
   if (!argv.silent) {
     app.get('*', (req, _, next) => {
       console.log(
-        `GET ${green(req.url)} ${grey('[' + req.ip + ']')} ${new Date()}`
+        `GET ${green(req.url)} ${gray('[' + req.ip + ']')} ${new Date()}`
       )
       next()
     })

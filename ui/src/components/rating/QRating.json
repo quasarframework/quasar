@@ -9,7 +9,7 @@
     "model-value": {
       "extends": "model-value",
       "type": "Number",
-      "examples": [ ":value=\"2\"" ]
+      "examples": [ "v-model=\"rating\"", ":model-value=\"rating\"", ":model-value=\"2\"" ]
     },
 
     "max": {
@@ -27,7 +27,7 @@
         "map",
         "ion-add",
         "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },
@@ -39,7 +39,7 @@
         "map",
         "ion-add",
         "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },
@@ -51,7 +51,7 @@
         "map",
         "ion-add",
         "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },

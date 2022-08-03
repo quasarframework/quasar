@@ -1,12 +1,13 @@
-import { defineComponent, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts, noop } from '../../utils/event.js'
 
 const { passive } = listenOpts
 const axisValues = [ 'both', 'horizontal', 'vertical' ]
 
-export default defineComponent({
+export default createComponent({
   name: 'QScrollObserver',
 
   props: {
@@ -46,7 +47,7 @@ export default defineComponent({
       }
     }
 
-    let timer = null, localScrollTarget, parentEl
+    let clearTimer = null, localScrollTarget, parentEl
 
     watch(() => props.scrollTarget, () => {
       unconfigureScrollTarget()
@@ -54,7 +55,7 @@ export default defineComponent({
     })
 
     function emitEvent () {
-      timer = null
+      clearTimer !== null && clearTimer()
 
       const top = Math.max(0, getVerticalScrollPosition(localScrollTarget))
       const left = getHorizontalScrollPosition(localScrollTarget)
@@ -104,10 +105,15 @@ export default defineComponent({
       if (immediately === true || props.debounce === 0 || props.debounce === '0') {
         emitEvent()
       }
-      else if (timer === null) {
-        timer = props.debounce
-          ? setTimeout(emitEvent, props.debounce)
-          : requestAnimationFrame(emitEvent)
+      else if (clearTimer === null) {
+        const [ timer, fn ] = props.debounce
+          ? [ setTimeout(emitEvent, props.debounce), clearTimeout ]
+          : [ requestAnimationFrame(emitEvent), cancelAnimationFrame ]
+
+        clearTimer = () => {
+          fn(timer)
+          clearTimer = null
+        }
       }
     }
 
@@ -119,8 +125,7 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
-      clearTimeout(timer)
-      cancelAnimationFrame(timer)
+      clearTimer !== null && clearTimer()
       unconfigureScrollTarget()
     })
 

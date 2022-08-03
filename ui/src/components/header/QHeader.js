@@ -1,11 +1,12 @@
-import { h, defineComponent, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, inject, getCurrentInstance } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hUniqueSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QHeader',
 
   props: {
@@ -42,7 +43,7 @@ export default defineComponent({
     const fixed = computed(() =>
       props.reveal === true
       || $layout.view.value.indexOf('H') > -1
-      || $layout.isContainer.value === true
+      || ($q.platform.is.ios && $layout.isContainer.value === true)
     )
 
     const offset = computed(() => {

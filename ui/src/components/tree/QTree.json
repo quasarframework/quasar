@@ -6,6 +6,7 @@
   "props": {
     "nodes": {
       "type": "Array",
+      "tsType": "QTreeNode",
       "desc": "The array of nodes that designates the tree structure",
       "required": true,
       "examples": [ "[ {...}, {...} ]" ],
@@ -61,6 +62,11 @@
       "desc": "Color name for selected nodes (from the Quasar Color Palette)"
     },
 
+    "dense": {
+      "extends": "dense",
+      "addedIn": "v2.2.4"
+    },
+
     "dark": {
       "extends": "dark"
     },
@@ -99,6 +105,13 @@
       "sync": true,
       "examples": [ "v-model:selected=\"selectedKey\"" ],
       "category": "state"
+    },
+
+    "no-selection-unset": {
+      "type": "Boolean",
+      "desc": "Do not allow un-selection when clicking currently selected node",
+      "category": "behavior",
+      "addedIn": "v2.4.10"
     },
 
     "default-expand-all": {
@@ -181,9 +194,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -221,9 +234,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -261,9 +274,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -301,9 +314,9 @@
           "reactive": true
         },
         "tree": {
-          "type": "Object",
-          "desc": "QTree instance",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "tsType": "QTree",
+          "desc": "QTree instance"
         },
         "node": {
           "type": "Object",
@@ -349,21 +362,25 @@
           "definition": {
             "node": {
               "type": "Object",
+              "required": true,
               "desc": "The node to which the new nodes (the children) will be appended",
               "__exemption": [ "examples" ]
             },
             "key": {
               "type": "String",
+              "required": true,
               "desc": "The key of the node getting the newly loaded child nodes",
               "examples": [ "New Node" ]
             },
             "done": {
               "type": "Function",
+              "required": true,
               "desc": "The callback to be carried out when the loading is successful",
               "params": {
                 "children": {
                   "type": "Array",
                   "desc": "Array of nodes",
+                  "default": "[]",
                   "__exemption": [ "examples" ]
                 }
               },
@@ -371,6 +388,7 @@
             },
             "fail": {
               "type": "Function",
+              "required": true,
               "desc": "The callback to be carried out should the loading fails",
               "params": null,
               "returns": null
@@ -417,8 +435,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         }
       },
@@ -452,8 +470,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         }
       },
@@ -476,14 +494,14 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it",
-          "required": true
+          "required": true,
+          "desc": "Set to 'true' to expand the branch of the tree, otherwise 'false' collapses it"
         }
       }
     },
@@ -493,8 +511,8 @@
       "params": {
         "key": {
           "type": "Any",
-          "desc": "The key of a node",
           "required": true,
+          "desc": "The key of a node",
           "examples": [ "Node 1" ]
         }
       },
@@ -509,14 +527,14 @@
       "params": {
         "keys": {
           "type": "Array",
-          "desc": "The keys of nodes to tick/untick",
           "required": true,
+          "desc": "The keys of nodes to tick/untick",
           "examples": [ "[ 'Node 1', 'Node 2' ]" ]
         },
         "state": {
           "type": "Boolean",
-          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them",
-          "required": true
+          "required": true,
+          "desc": "Set to 'true' to tick the checkbox of nodes, otherwise 'false' unticks them"
         }
       }
     }

@@ -1,32 +1,42 @@
 module.exports = {
   root: true,
+
   parserOptions: {
-    parser: '@babel/eslint-parser',
-    sourceType: 'module'
+    ecmaVersion: '2021' // Allows for the parsing of modern ECMAScript features
   },
+
   env: {
-    browser: true
+    browser: true,
+    mocha: true,
+    'vue/setup-compiler-macros': true
   },
+
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/vue3-essential',
+    'plugin:cypress/recommended',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
+
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'no-only-tests'
   ],
+
   globals: {
-    cordova: true,
-    __statics: true,
-    __QUASAR_VERSION__: true,
-    __QUASAR_SSR__: true,
-    __QUASAR_SSR_SERVER__: true,
-    __QUASAR_SSR_CLIENT__: true,
-    __QUASAR_SSR_PWA__: true
+    cordova: 'readonly',
+    cy: 'readonly',
+    expect: 'readonly',
+    __QUASAR_VERSION__: 'readonly',
+    __QUASAR_SSR__: 'readonly',
+    __QUASAR_SSR_SERVER__: 'readonly',
+    __QUASAR_SSR_CLIENT__: 'readonly',
+    __QUASAR_SSR_PWA__: 'readonly'
   },
+
   // add your custom rules here
   rules: {
     'brace-style': [ 2, 'stroustrup', { allowSingleLine: true } ],
@@ -76,6 +86,11 @@ module.exports = {
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',
     'vue/no-v-model-argument': 'off',
-    'vue/require-explicit-emits': 'off'
+    'vue/require-explicit-emits': 'off',
+    'vue/multi-word-component-names': 'off',
+
+    // Testing
+    'cypress/no-unnecessary-waiting': 'off',
+    'no-only-tests/no-only-tests': 'error'
   }
 }

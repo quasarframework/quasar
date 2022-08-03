@@ -73,6 +73,7 @@
 
 <script>
 import { h } from 'vue'
+import { QInput, QForm } from 'quasar'
 
 export default {
   components: {
@@ -81,6 +82,12 @@ export default {
 
       props: {
         name: String
+      },
+
+      data () {
+        return {
+          text: 'input text sample'
+        }
       },
 
       created () {
@@ -95,12 +102,20 @@ export default {
         this.log('mounted')
       },
 
+      activated () {
+        this.log('activated')
+      },
+
+      deactivated () {
+        this.log('deactivated')
+      },
+
       beforeUnmount () {
         this.log('beforeUnmount')
       },
 
       unmounted () {
-        this.log('destroyed')
+        this.log('unmounted')
       },
 
       methods: {
@@ -110,7 +125,24 @@ export default {
       },
 
       render () {
-        return h('div', [ 'keep alive test ' + this.name ])
+        return h('div', [
+          'keep alive test ' + this.name,
+          h(QForm, {
+            autofocus: true
+          }, () => ([
+            h(QInput, {
+              class: 'q-my-md',
+              style: 'max-width: 300px',
+              modelValue: this.text,
+              // autofocus: true,
+              outlined: true,
+              label: 'Input with autofocus',
+              'onUpdate:model-value': val => {
+                this.text = val
+              }
+            })
+          ]))
+        ])
       }
     }
   },

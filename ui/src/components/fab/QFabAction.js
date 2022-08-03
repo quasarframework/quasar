@@ -1,10 +1,11 @@
-import { h, defineComponent, computed, inject, getCurrentInstance } from 'vue'
+import { h, computed, inject, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { fabKey } from '../../utils/private/symbols.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { noop } from '../../utils/event.js'
@@ -17,7 +18,7 @@ const anchorMap = {
 
 const anchorValues = Object.keys(anchorMap)
 
-export default defineComponent({
+export default createComponent({
   name: 'QFabAction',
 
   props: {
@@ -65,13 +66,20 @@ export default defineComponent({
     function getContent () {
       const child = []
 
-      props.icon !== '' && child.push(
-        h(QIcon, { name: props.icon })
-      )
+      if (slots.icon !== void 0) {
+        child.push(slots.icon())
+      }
+      else if (props.icon !== '') {
+        child.push(
+          h(QIcon, { name: props.icon })
+        )
+      }
 
-      props.label !== '' && child[ labelProps.value.action ](
-        h('div', labelProps.value.data, [ props.label ])
-      )
+      if (props.label !== '' || slots.label !== void 0) {
+        child[ labelProps.value.action ](
+          h('div', labelProps.value.data, slots.label !== void 0 ? slots.label() : [ props.label ])
+        )
+      }
 
       return hMergeSlot(slots.default, child)
     }

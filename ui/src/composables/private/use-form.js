@@ -12,13 +12,12 @@ export function useFormAttrs (props) {
   }))
 }
 
-export function useFormInject (formAttrs = {}, formDomProps = {}) {
+export function useFormInject (formAttrs = {}) {
   return (child, action, className) => {
     child[ action ](
       h('input', {
         class: 'hidden' + (className || ''),
-        ...formAttrs.value,
-        ...formDomProps.value
+        ...formAttrs.value
       })
     )
   }

@@ -1,10 +1,11 @@
-import { h, defineComponent, computed, provide, getCurrentInstance } from 'vue'
+import { h, computed, provide, getCurrentInstance } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 import usePanel, { usePanelProps, usePanelEmits } from '../../composables/private/use-panel.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stepperKey } from '../../utils/private/symbols.js'
 import { hSlot, hMergeSlot, hDir } from '../../utils/private/render.js'
 
@@ -12,14 +13,14 @@ const camelRE = /(-\w)/g
 
 function camelizeProps (props) {
   const acc = {}
-  Object.keys(props).forEach(key => {
+  for (const key in props) {
     const newKey = key.replace(camelRE, m => m[ 1 ].toUpperCase())
     acc[ newKey ] = props[ key ]
-  })
+  }
   return acc
 }
 
-export default defineComponent({
+export default createComponent({
   name: 'QStepper',
 
   props: {
@@ -67,7 +68,6 @@ export default defineComponent({
       `q-stepper q-stepper--${ props.vertical === true ? 'vertical' : 'horizontal' }`
       + (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '')
       + (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '')
-      + (props.contracted === true ? ' q-stepper--contracted' : '')
       + (isDark.value === true ? ' q-stepper--dark q-dark' : '')
     )
 
@@ -75,6 +75,7 @@ export default defineComponent({
       'q-stepper__header row items-stretch justify-between'
       + ` q-stepper__header--${ props.alternativeLabels === true ? 'alternative' : 'standard' }-labels`
       + (props.flat === false || props.bordered === true ? ' q-stepper__header--border' : '')
+      + (props.contracted === true ? ' q-stepper__header--contracted' : '')
       + (props.headerClass !== void 0 ? ` ${ props.headerClass }` : '')
     )
 

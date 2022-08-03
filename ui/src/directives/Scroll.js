@@ -1,3 +1,4 @@
+import { createDirective } from '../utils/private/create.js'
 import { getScrollTarget, getVerticalScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
@@ -14,7 +15,7 @@ function update (ctx, { value, oldValue }) {
   }
 }
 
-export default __QUASAR_SSR_SERVER__
+export default createDirective(__QUASAR_SSR_SERVER__
   ? { name: 'scroll', getSSRProps }
   : {
       name: 'scroll',
@@ -47,3 +48,4 @@ export default __QUASAR_SSR_SERVER__
         delete el.__qscroll
       }
     }
+)

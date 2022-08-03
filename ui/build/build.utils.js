@@ -60,7 +60,7 @@ function getDestinationInfo (dest) {
     }
   }
 
-  if (dest.endsWith('.js')) {
+  if (dest.endsWith('.js') || dest.endsWith('.mjs')) {
     return {
       banner: green('[js]  '),
       tableEntryType: green('js'),
@@ -130,6 +130,25 @@ module.exports.readFile = function (file) {
   return fs.readFileSync(file, 'utf-8')
 }
 
+module.exports.writeFileIfChanged = function (dest, newContent, zip) {
+  let currentContent = ''
+  try {
+    currentContent = fs.readFileSync(dest, 'utf-8')
+  }
+  catch (e) {}
+
+  return newContent.split(/[\n\r]+/).join('\n') !== currentContent.split(/[\n\r]+/).join('\n')
+    ? module.exports.writeFile(dest, newContent, zip)
+    : Promise.resolve()
+}
+
+module.exports.convertToCjs = function (content, banner = '') {
+  return banner + content
+    .replace(/export default {/, 'module.exports = {')
+    .replace(/import {/g, 'const {')
+    .replace(/} from '(.*)'/g, (_, pkg) => `} = require('${ pkg }')`)
+}
+
 function logError (err) {
   console.error('\n' + red('[Error]'), err)
   console.log()
@@ -137,20 +156,17 @@ function logError (err) {
 
 module.exports.logError = logError
 
-module.exports.rollupQuasarUMD = function (config = {}) {
-  return {
-    name: 'quasar-umd',
-    transform (code) {
-      return {
-        code: `Quasar.${ config.type }.set(${ code.replace('export default ', '') })`
-      }
-    }
-  }
-}
-
 module.exports.kebabCase = function (str) {
   return str.replace(
     kebabRegex,
     match => '-' + match.toLowerCase()
   ).substring(1)
+}
+
+module.exports.clone = function clone (data) {
+  const str = JSON.stringify(data)
+
+  if (str) {
+    return JSON.parse(str)
+  }
 }

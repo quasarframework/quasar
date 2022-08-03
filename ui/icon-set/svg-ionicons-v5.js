@@ -1,5 +1,5 @@
 
-import {
+const {
   ionCheckmark,
   ionAlert,
   ionInformationCircleOutline,
@@ -41,12 +41,12 @@ import {
   ionChevronForward,
   ionChevronBackCircle,
   ionChevronForwardCircle
-} from '@quasar/extras/ionicons-v5'
+} = require('@quasar/extras/ionicons-v5')
 
-// there are some icons that are needed but not available
-// so we import them from MDI as svgs
+/* There are some icons that are needed but not available
+   so we import them from MDI as svg */
 
-import {
+const {
   mdiFormatBold,
   mdiFormatItalic,
   mdiFormatStrikethroughVariant,
@@ -79,9 +79,9 @@ import {
   mdiNumeric6Box,
   mdiNumeric7Box,
   mdiFormatFont
-} from '@quasar/extras/mdi-v5'
+} = require('@quasar/extras/mdi-v6')
 
-export default {
+module.exports = {
   name: 'svg-ionicons-v5',
   type: {
     positive: ionCheckmark,

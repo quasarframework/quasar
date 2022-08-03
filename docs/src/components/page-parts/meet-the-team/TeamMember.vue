@@ -14,11 +14,11 @@ q-card.quasar-member.column(flat, bordered)
 
   q-card-actions(align="around")
     div(v-if="twitter")
-      q-btn(type="a", :href="url.twitter", target="_blank", rel="noopener", round, flat, :icon="fabTwitter")
+      q-btn(:href="url.twitter", target="_blank", rel="noopener", round, flat, :icon="fabTwitter")
     div(v-if="github")
-      q-btn(type="a", :href="url.github", target="_blank", rel="noopener", round, flat, :icon="fabGithub")
+      q-btn(:href="url.github", target="_blank", rel="noopener", round, flat, :icon="fabGithub")
     div(v-if="email")
-      q-btn(type="a", :href="url.email", target="_blank", rel="noopener", round, flat, icon="mail")
+      q-btn(:href="url.email", target="_blank", rel="noopener", round, flat, icon="mail")
 </template>
 
 <script>
@@ -26,7 +26,7 @@ import { computed } from 'vue'
 
 import {
   fabGithub, fabTwitter
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 export default {
   name: 'TeamMember',

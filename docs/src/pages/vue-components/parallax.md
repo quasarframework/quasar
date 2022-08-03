@@ -16,7 +16,15 @@ QParallax takes care of a lot of quirks, including image/video size which can ac
 
 ## Usage
 
+::: tip Scrolling container
+Please read [here](/vue-components/scroll-observer#determining-scrolling-container) about how Quasar determines the container to attach scrolling events to.
+:::
+
+### Image background
+
 <doc-example title="Image background" file="QParallax/Image" />
+
+### Video background
 
 ::: warning
 On some iOS platforms there may be problems regarding the autoplay feature of the native `<video>` tag. [Reference](https://webkit.org/blog/6784/new-video-policies-for-ios/). QParallax and Quasar are not interfering in any way with the client browser's ability/restrictions on the `<video>` tag.
@@ -28,6 +36,10 @@ When using the `video` tag inside QParallax, you **must** provide the `width` an
 
 <doc-example title="Custom height with video background" file="QParallax/Video" />
 
+### Custom speed
+
 <doc-example title="Custom speed" file="QParallax/Speed" />
+
+### Using slot
 
 <doc-example title="Using the slot" file="QParallax/ScopedSlot" />

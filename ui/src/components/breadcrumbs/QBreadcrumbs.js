@@ -1,11 +1,14 @@
-import { h, defineComponent, computed } from 'vue'
+import { h, computed } from 'vue'
 
 import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
-export default defineComponent({
+const disabledValues = [ '', true ]
+
+export default createComponent({
   name: 'QBreadcrumbs',
 
   props: {
@@ -37,14 +40,14 @@ export default defineComponent({
     )
 
     const sepClass = computed(() => (props.separatorColor ? ` text-${ props.separatorColor }` : ''))
-    const activeClass = computed(() => `text-${ props.activeColor }`)
+    const activeClass = computed(() => ` text-${ props.activeColor }`)
 
     return () => {
       const vnodes = getNormalizedVNodes(
         hSlot(slots.default)
       )
 
-      if (vnodes === void 0) { return }
+      if (vnodes.length === 0) { return }
 
       let els = 1
 
@@ -58,12 +61,15 @@ export default defineComponent({
       vnodes.forEach(comp => {
         if (comp.type !== void 0 && comp.type.name === 'QBreadcrumbsEl') {
           const middle = els < len
+          const disabled = comp.props !== null && disabledValues.includes(comp.props.disable)
+          const cls = (middle === true ? '' : ' q-breadcrumbs--last')
+            + (disabled !== true && middle === true ? activeClass.value : '')
+
           els++
 
           child.push(
             h('div', {
-              class: 'flex items-center '
-                + (middle === true ? activeClass.value : 'q-breadcrumbs--last')
+              class: `flex items-center${ cls }`
             }, [ comp ])
           )
 

@@ -1,14 +1,16 @@
-import { h, defineComponent, ref, computed, onBeforeUpdate, getCurrentInstance } from 'vue'
+import { h, ref, computed, onBeforeUpdate, getCurrentInstance } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-
-import { stopAndPrevent } from '../../utils/event.js'
-import { between } from '../../utils/format.js'
 
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import { useFormProps, useFormAttrs, useFormInject } from '../../composables/private/use-form.js'
 
-export default defineComponent({
+import { createComponent } from '../../utils/private/create.js'
+import { stopAndPrevent } from '../../utils/event.js'
+import { between } from '../../utils/format.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+
+export default createComponent({
   name: 'QRating',
 
   props: {
@@ -94,6 +96,51 @@ export default defineComponent({
       }
     })
 
+    const stars = computed(() => {
+      const
+        acc = [],
+        icons = iconData.value,
+        ceil = Math.ceil(props.modelValue)
+
+      const halfIndex = props.iconHalf === void 0 || ceil === props.modelValue
+        ? -1
+        : ceil
+
+      for (let i = 1; i <= props.max; i++) {
+        const
+          active = (mouseModel.value === 0 && props.modelValue >= i) || (mouseModel.value > 0 && mouseModel.value >= i),
+          half = halfIndex === i && mouseModel.value < i,
+          exSelected = mouseModel.value > 0 && (half === true ? ceil : props.modelValue) >= i && mouseModel.value < i,
+          color = half === true
+            ? (i <= icons.halfColorLen ? props.colorHalf[ i - 1 ] : icons.halfColor)
+            : (
+                icons.selColor !== void 0 && active === true
+                  ? (i <= icons.selColorLen ? props.colorSelected[ i - 1 ] : icons.selColor)
+                  : (i <= icons.colorLen ? props.color[ i - 1 ] : icons.color)
+              )
+
+        acc.push({
+          name: (
+            half === true
+              ? (i <= icons.halfIconLen ? props.iconHalf[ i - 1 ] : icons.halfIcon)
+              : (
+                  icons.selIcon !== void 0 && (active === true || exSelected === true)
+                    ? (i <= icons.selIconLen ? props.iconSelected[ i - 1 ] : icons.selIcon)
+                    : (i <= icons.iconLen ? props.icon[ i - 1 ] : icons.icon)
+                )
+          ) || $q.iconSet.rating.icon,
+
+          classes: 'q-rating__icon'
+            + (active === true || half === true ? ' q-rating__icon--active' : '')
+            + (exSelected === true ? ' q-rating__icon--exselected' : '')
+            + (mouseModel.value === i ? ' q-rating__icon--hovered' : '')
+            + (color !== void 0 ? ` text-${ color }` : '')
+        })
+      }
+
+      return acc
+    })
+
     const attributes = computed(() => {
       if (props.disable === true) {
         return { 'aria-disabled': 'true' }
@@ -102,6 +149,8 @@ export default defineComponent({
         return { 'aria-readonly': 'true' }
       }
     })
+
+    const tabindex = computed(() => (editable.value === true ? 0 : null))
 
     function set (value) {
       if (editable.value === true) {
@@ -150,57 +199,29 @@ export default defineComponent({
     })
 
     return () => {
-      const
-        child = [],
-        tabindex = editable.value === true ? 0 : null,
-        icons = iconData.value,
-        ceil = Math.ceil(props.modelValue)
+      const child = []
 
-      const halfIndex = props.iconHalf === void 0 || ceil === props.modelValue
-        ? -1
-        : ceil
-
-      for (let i = 1; i <= props.max; i++) {
-        const
-          active = (mouseModel.value === 0 && props.modelValue >= i) || (mouseModel.value > 0 && mouseModel.value >= i),
-          half = halfIndex === i && mouseModel.value < i,
-          exSelected = mouseModel.value > 0 && (half === true ? ceil : props.modelValue) >= i && mouseModel.value < i,
-          name = half === true
-            ? (i <= icons.halfIconLen ? props.iconHalf[ i - 1 ] : icons.halfIcon)
-            : (
-                icons.selIcon !== void 0 && (active === true || exSelected === true)
-                  ? (i <= icons.selIconLen ? props.iconSelected[ i - 1 ] : icons.selIcon)
-                  : (i <= icons.iconLen ? props.icon[ i - 1 ] : icons.icon)
-              ),
-          color = half === true
-            ? (i <= icons.halfColorLen ? props.colorHalf[ i - 1 ] : icons.halfColor)
-            : (
-                icons.selColor !== void 0 && active === true
-                  ? (i <= icons.selColorLen ? props.colorSelected[ i - 1 ] : icons.selColor)
-                  : (i <= icons.colorLen ? props.color[ i - 1 ] : icons.color)
-              ),
-          classes = 'q-rating__icon'
-            + (active === true || half === true ? ' q-rating__icon--active' : '')
-            + (exSelected === true ? ' q-rating__icon--exselected' : '')
-            + (mouseModel.value === i ? ' q-rating__icon--hovered' : '')
-            + (color !== void 0 ? ` text-${ color }` : '')
+      stars.value.forEach(({ classes, name }, index) => {
+        const i = index + 1
 
         child.push(
-          h(QIcon, {
+          h('div', {
             key: i,
             ref: vm => { iconRefs[ `rt${ i }` ] = vm },
-            class: classes,
-            name: name || $q.iconSet.rating.icon,
-            tabindex,
+            class: 'q-rating__icon-container flex flex-center',
+            tabindex: tabindex.value,
             onClick () { set(i) },
             onMouseover () { setHoverValue(i) },
             onMouseout: resetMouseModel,
             onFocus () { setHoverValue(i) },
             onBlur: resetMouseModel,
             onKeyup (e) { onKeyup(e, i) }
-          }, slots[ `tip-${ i }` ])
+          }, hMergeSlot(
+            slots[ `tip-${ i }` ],
+            [ h(QIcon, { class: classes, name }) ]
+          ))
         )
-      }
+      })
 
       if (props.name !== void 0 && props.disable !== true) {
         injectFormInput(child, 'push')

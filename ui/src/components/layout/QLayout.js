@@ -1,15 +1,16 @@
-import { h, defineComponent, ref, reactive, computed, provide, getCurrentInstance } from 'vue'
+import { h, ref, reactive, computed, watch, provide, onUnmounted, getCurrentInstance } from 'vue'
 
 import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { layoutKey } from '../../utils/private/symbols.js'
 
-export default defineComponent({
+export default createComponent({
   name: 'QLayout',
 
   props: {
@@ -172,6 +173,55 @@ export default defineComponent({
 
     provide(layoutKey, $layout)
 
+    // prevent scrollbar flicker while resizing window height
+    // if no page scrollbar is already present
+    if (__QUASAR_SSR_SERVER__ !== true && getScrollbarWidth() > 0) {
+      let timer = null
+      const el = document.body
+
+      function restoreScrollbar () {
+        timer = null
+        el.classList.remove('hide-scrollbar')
+      }
+
+      function hideScrollbar () {
+        if (timer === null) {
+          // if it has no scrollbar then there's nothing to do
+
+          if (el.scrollHeight > $q.screen.height) {
+            return
+          }
+
+          el.classList.add('hide-scrollbar')
+        }
+        else {
+          clearTimeout(timer)
+        }
+
+        timer = setTimeout(restoreScrollbar, 300)
+      }
+
+      function updateScrollEvent (action) {
+        if (timer !== null && action === 'remove') {
+          clearTimeout(timer)
+          restoreScrollbar()
+        }
+
+        window[ `${ action }EventListener` ]('resize', hideScrollbar)
+      }
+
+      watch(
+        () => (props.container !== true ? 'add' : 'remove'),
+        updateScrollEvent
+      )
+
+      props.container !== true && updateScrollEvent('add')
+
+      onUnmounted(() => {
+        updateScrollEvent('remove')
+      })
+    }
+
     return () => {
       const content = hMergeSlot(slots.default, [
         h(QScrollObserver, { onScroll: onPageScroll }),
@@ -181,7 +231,8 @@ export default defineComponent({
       const layout = h('div', {
         class: classes.value,
         style: style.value,
-        ref: props.container === true ? void 0 : rootRef
+        ref: props.container === true ? void 0 : rootRef,
+        tabindex: -1
       }, content)
 
       if (props.container === true) {
