@@ -47,7 +47,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       const { class: klass, style, ...otherProps } = pluginProps
 
       DialogComponent = DefaultComponent
-      props = otherProps || {}
+      props = otherProps
       klass !== void 0 && (otherProps.cardClass = klass)
       style !== void 0 && (otherProps.cardStyle = style)
     }
@@ -151,12 +151,6 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         onOk,
         onHide,
         onVnodeMounted (...args) {
-          // Need to ensure vm is set (as we finalize the showing of Dialog)
-          // The Vue lifecycle runs onVnodeMounted
-          // quicker (or later) depending on the specificity of the situation
-          // (script setup, or just script, etc etc etc)
-          vm = args[ 0 ].component.root.proxy
-
           if (typeof props.onVnodeMounted === 'function') {
             props.onVnodeMounted(...args)
           }
