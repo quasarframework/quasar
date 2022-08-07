@@ -45,6 +45,7 @@ module.exports = ctx => ({
     iconSet: 'svg-mdi-v6',
 
     config: {
+      dark: 'auto',
       loadingBar: {
         color: 'brand-primary',
         size: '4px'
