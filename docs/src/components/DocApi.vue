@@ -31,7 +31,7 @@ q-card.doc-api.q-my-lg(flat bordered)
   template(v-else)
     q-separator
 
-    q-tabs.bg-grey-2.text-grey-7(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
+    q-tabs.main-tabs.bg-grey-2.text-grey-7(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
       q-tab(
         v-for="tab in tabsList"
         :key="`api-tab-${tab}`"
@@ -46,8 +46,8 @@ q-card.doc-api.q-my-lg(flat bordered)
     q-tab-panels(v-model="currentTab", animated)
       q-tab-panel.q-pa-none(v-for="tab in tabsList", :name="tab", :key="tab")
         .row.no-wrap.api-container(v-if="innerTabsList[tab].length !== 1")
-          .col-auto.row.no-wrap.text-grey-7.q-py-sm
-            q-tabs(
+          .col-auto.row.no-wrap.q-py-sm
+            q-tabs.secondary-tabs.text-grey-7(
               v-model="currentInnerTab"
               active-color="brand-primary"
               indicator-color="brand-primary"
@@ -357,4 +357,13 @@ export default {
     color: $grey
     font-size: .8em
     font-style: italic
+
+  // Dark mode
+.body--dark
+  .doc-api
+    .main-tabs
+      background-color: $grey-10 !important
+      color: $grey-3 !important
+    .secondary-tabs
+      color: $grey-3 !important
 </style>

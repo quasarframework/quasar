@@ -227,9 +227,9 @@ export default {
 .body--dark
   .doc-example
     &__toolbar
-    color: $grey-2
-    > .q-btn
-      color: $grey-7
+      color: $grey-2
+      > .q-btn
+        color: $grey-7
 
     &__tabs
       background: $grey-10
