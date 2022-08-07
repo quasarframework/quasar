@@ -17,3 +17,58 @@
   --bg: #{$body-bg--dark}
   --color: #{$body-text-color--dark}
   background-color: var(--bg)
+
+  .doc-token
+    border: 1px dotted $brand-primary
+    background-color: $grey-10
+    color: $brand-primary
+
+  blockquote .doc-token
+    background: scale-color($grey-10, $lightness: 60%)
+    color: $grey-2
+
+  .doc-note
+    background-color: $grey-10
+    border-color: $grey-9
+
+    .doc-token
+      color: $grey-2
+
+    &--tip
+      background-color: scale-color($positive--dark, $lightness: -25%)
+      border-color: scale-color($positive--dark, $lightness: -30%)
+      .doc-token
+        background: scale-color($positive--dark, $lightness: -15%)
+      .doc-link
+        color: scale-color($positive--dark, $lightness: 60%)
+
+    &--warning
+      background-color: scale-color($warning--dark, $lightness: -15%)
+      border-color: scale-color($warning--dark, $lightness: -25%)
+      .doc-token
+        background: scale-color($warning--dark, $lightness: -40%)
+      .doc-link
+        color: scale-color($warning--dark, $lightness: 80%)
+
+    &--danger
+      background-color: scale-color($negative--dark, $lightness: -25%)
+      border-color: scale-color($negative--dark, $lightness: -30%)
+      .doc-token
+        background: scale-color($negative--dark, $lightness: -40%)
+      .doc-link
+        color: scale-color($negative--dark, $lightness: 80%)
+
+  .doc-heading
+    color: $brand-primary
+
+  .doc-h2
+    border-bottom: 1px solid #ccc
+
+  .doc-page-listing
+    .q-icon
+      color: $brand-primary
+
+  kbd
+    color: $grey-1
+    background: linear-gradient(-225deg,#15181d,#2c2a2a)
+    box-shadow: inset 0 -2px 0 0 #cdcde6,inset 0 0 1px 1px #fff,0 1px 2px 1px rgba(30,35,90,0.4)
