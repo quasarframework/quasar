@@ -53,4 +53,13 @@ $title-color: $grey-4
     border: 0 solid transparent
     border-top-color: scale-color($title-color, $lightness: -15%)
     border-width: 9px 0 0 11px
+
+// Dark mode
+.body--dark
+  .doc-card-title
+    background: $dark-1
+    color: $grey-2
+
+    &:after
+      border-top-color: scale-color($dark-1, $lightness: -15%)
 </style>
