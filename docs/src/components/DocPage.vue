@@ -254,4 +254,11 @@ export default {
 
   &__name
     font-size: 1em
+
+// Dark mode
+.body--dark
+  .doc-page-nav
+    .doc-page-related
+      color: $grey-2 !important
+      background-color: $grey-10 !important
 </style>
