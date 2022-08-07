@@ -49,7 +49,7 @@
     </q-btn>
 
     <q-btn class="float-right" label="Add Child" :icon="mdiPlus" dense flat :disabled="group.children.length >= 10" @click="addChild" />
-    <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
+    <div class="row full-width results-container" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden;">
         <child v-for="(child, index) in group.children" :key="index"
           :child="child"
@@ -370,4 +370,20 @@ export default {
 
 .column > .col
   padding: 5px 2px
+
+.results-container
+  background: $blue-grey-2
+
+// Dark mode
+.body--dark
+  .row:not(.q-field__append) > div
+    background: rgba(25,26,26,.6)
+    border: 1px solid rgba(25,32,38,.9)
+
+  .column > div
+    background: rgba(227,242,253,.6)
+    border: 1px solid rgba(187,222,251,.9)
+
+  .results-container
+    background: $blue-grey-10
 </style>
