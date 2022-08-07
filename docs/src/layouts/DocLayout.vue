@@ -284,4 +284,11 @@ body.mobile .app-search-input kbd
 .drawer-banner-bg
   background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
   background-size: 40px 40px
+
+// Dark mode
+.body--dark
+  .doc-toc .q-item
+    &.q-item--active
+      color: scale-color($brand-primary, $lightness: 50%)
+      background: scale-color($brand-primary, $lightness: -80%)
 </style>
