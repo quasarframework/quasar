@@ -197,6 +197,12 @@ export default {
   .header
     background-color: $grey-4
 
+.body--dark
+  .header
+    background-color: $grey-10
+    &.text-dark
+      color: var(--color) !important
+
 .doc-layout__main-btn
   width: 200px
 
@@ -237,6 +243,7 @@ export default {
   &__logotype
     height: 19px
     vertical-align: middle
+    filter: invert(1)
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
