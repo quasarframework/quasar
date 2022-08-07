@@ -7,7 +7,7 @@ div
   q-splitter.release__splitter(:model-value="20" :limits="[14, 90]")
     template(#before)
       q-scroll-area
-        q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
+        q-tabs.tabs-releases.text-grey-7(vertical v-model="selectedVersion"  active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
           q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label" no-caps)
             .q-tab__label {{ releaseInfo.version }}
             small.text-grey-7 {{ releaseInfo.date }}
@@ -113,4 +113,11 @@ export default {
 .release__code
   padding: 4px
   margin: 8px
+
+// Dark mode
+.body--dark
+  .tabs-releases
+    color: $grey-3 !important
+    .q-tab--active
+      background-color: scale-color($dark, $lightness: -5%) !important
 </style>

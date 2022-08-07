@@ -7,7 +7,7 @@ q-card(flat bordered)
     q-spinner.q-mr-sm(size="24px" color="brand-primary")
     div Loading release notes from GitHub...
   template(v-else)
-    q-tabs.text-grey-7(v-model="currentPackage" no-caps align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
+    q-tabs.tabs-packages.text-grey-7(v-model="currentPackage" no-caps align="left" active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
     q-separator
     q-tab-panels.packages-container(v-model="currentPackage" animated)
@@ -146,4 +146,11 @@ export default {
 .packages-container .q-tab-panel
   padding-right: 0
   padding-top: 0
+
+// Dark mode
+.body--dark
+  .tabs-packages
+    color: $grey-3 !important
+    .q-tab--active
+      background-color: scale-color($dark, $lightness: -5%) !important
 </style>
