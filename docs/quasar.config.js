@@ -13,7 +13,8 @@ module.exports = ctx => ({
   ],
 
   css: [
-    'app.sass'
+    'app.sass',
+    'app-dark.sass'
   ],
 
   extras: [
