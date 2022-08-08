@@ -42,7 +42,7 @@ q-page.landing
       .col-12.text-center.q-my-xl
         p Combine the power of Quasar UI with Quasar CLI. One source code for all platforms simultaneously with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
       .col-12.row.justify-center
-        q-card.bg-grey-1.q-px-lg.q-py-sm(bordered flat)
+        q-card.card-install-instructions.bg-grey-1.q-px-lg.q-py-sm(bordered flat)
           q-card-section(horizontal)
             q-card-section.text-left.column.items-center.q-gutter-sm
               q-badge(label="$ yarn global add @quasar/cli" color="grey-8")
@@ -323,4 +323,17 @@ export default {
 
     .landing__feature-item
       text-align: center
+
+// Dark mode
+.body--dark
+  .landing
+    > section
+      color: $grey-2 !important
+      background-color: $dark !important
+    .card-install-instructions
+      background-color:  $dark !important
+    .landing__features-link
+      color: $grey-3
+      &:hover
+        color: $brand-primary
 </style>
