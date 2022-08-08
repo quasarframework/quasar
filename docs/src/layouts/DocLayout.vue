@@ -12,6 +12,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
+      color-scheme-switcher(v-if="showRightDrawerToggler")
+
       q-btn.q-mx-xs(
         v-show="showRightDrawerToggler"
         flat
@@ -243,7 +245,6 @@ export default {
   &__logotype
     height: 19px
     vertical-align: middle
-    filter: invert(1)
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
@@ -291,4 +292,7 @@ body.mobile .app-search-input kbd
     &.q-item--active
       color: scale-color($brand-primary, $lightness: 50%)
       background: scale-color($brand-primary, $lightness: -80%)
+  .quasar-logo
+    &__logotype
+    filter: invert(1) // TODO: instead use custom dark image from CDN
 </style>

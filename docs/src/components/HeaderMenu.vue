@@ -170,6 +170,7 @@ div
         q-item-section(avatar)
           q-icon(:name="mdiCharity")
         q-item-section.text-no-wrap GitHub Sponsorship
+  color-scheme-switcher(v-if="$q.screen.gt.xs")
 </template>
 
 <script>

@@ -9,7 +9,8 @@ module.exports = ctx => ({
 
   boot: [
     { path: 'gdpr', server: false },
-    'components'
+    'components',
+    'color-scheme'
   ],
 
   css: [
