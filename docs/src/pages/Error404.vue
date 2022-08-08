@@ -35,4 +35,11 @@ export default {
 @keyframes err-logo-rotate
   100%
     transform: rotate(-360deg)
+
+// Dark mode
+.body--dark
+  .err404
+    .q-btn
+      color: #fff !important
+      background-color: $primary !important
 </style>
