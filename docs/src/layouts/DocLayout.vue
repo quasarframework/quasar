@@ -5,8 +5,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       q-btn.q-mx-sm.lt-md(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
-        img.quasar-logo__img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
-        img.quasar-logo__logotype(src="https://cdn.quasar.dev/logo-v2/svg/logotype.svg")
+        img.quasar-logo__img(:src="QuasarLogoImageSrc")
+        img.quasar-logo__logotype(:src="QuasarLogoLogotypeSrc")
 
       q-space
 
@@ -139,6 +139,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
@@ -170,7 +171,12 @@ export default {
     const $q = useQuasar()
     const $route = useRoute()
 
+    const QuasarLogoImageSrc = computed(() => $q.dark.isActive ? 'https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg' : 'https://cdn.quasar.dev/logo-v2/svg/logo.svg')
+    const QuasarLogoLogotypeSrc = computed(() => $q.dark.isActive ? 'https://cdn.quasar.dev/logo-v2/svg/logotype-dark.svg' : 'https://cdn.quasar.dev/logo-v2/svg/logotype.svg')
+
     const scope = {
+      QuasarLogoImageSrc,
+      QuasarLogoLogotypeSrc,
       mdiMenu,
       mdiClipboardText,
       mdiHeart,
@@ -292,7 +298,4 @@ body.mobile .app-search-input kbd
     &.q-item--active
       color: scale-color($brand-primary, $lightness: 50%)
       background: scale-color($brand-primary, $lightness: -80%)
-  .quasar-logo
-    &__logotype
-    filter: invert(1) // TODO: instead use custom dark image from CDN
 </style>

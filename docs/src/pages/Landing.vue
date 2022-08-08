@@ -4,7 +4,7 @@ q-page.landing
   section.landing__hero.flex.flex-center
     .row.items-center.justify-center.landing__hero-inner
       .landing__hero-logo.col-12.flex.flex-center.q-mb-lg
-        img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg")
+        img.landing__logo-image(:src="landingLogoImageSrc")
       .landing__hero-text.col-12.column.items-center
         //- .text-h4.landing__hero-text-main.text-bold.text-brand-primary.q-pb-xs QUASAR FRAMEWORK
         .q-pb-lg.text-grey-6.landing__hero-quote.text-center
@@ -121,7 +121,8 @@ q-page.landing
 </template>
 
 <script>
-import { useMeta } from 'quasar'
+import { computed } from 'vue'
+import { useMeta, useQuasar } from 'quasar'
 
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor.vue'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList.vue'
@@ -153,6 +154,8 @@ export default {
   },
 
   setup () {
+    const $q = useQuasar()
+
     useMeta({
       title: 'Quasar Framework',
       titleTemplate: ''
@@ -161,7 +164,10 @@ export default {
     const $store = useDocStore()
     $store.toc = []
 
+    const landingLogoImageSrc = computed(() => $q.dark.isActive ? 'https://cdn.quasar.dev/logo-v2/svg/logo-vertical-dark.svg' : 'https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg')
+
     return {
+      landingLogoImageSrc,
       year: (new Date()).getFullYear(),
       features,
 

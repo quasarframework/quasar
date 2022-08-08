@@ -3,20 +3,29 @@ q-page.err404.flex.flex-center.text-center
   div
     .err404__hero.flex.flex-center.no-wrap.q-gutter-sm.text-brand-primary
       div 4
-      img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")
+      img(:src="QuasarLogoImageSrc")
       div 4
     .err404__punch-line.text-grey-8 You're not intentionally heading for a black hole, are you?
     q-btn.q-mt-md(no-caps color="white" text-color="brand-primary" to="/" label="Take me home" push)
 </template>
 
 <script>
-import { useMeta } from 'quasar'
+import { computed } from 'vue'
+import { useMeta, useQuasar } from 'quasar'
 
 export default {
   name: 'Error404',
 
   setup () {
+    const $q = useQuasar()
+
     useMeta({ title: 'Oops..' })
+
+    const QuasarLogoImageSrc = computed(() => $q.dark.isActive ? 'https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg' : 'https://cdn.quasar.dev/logo-v2/svg/logo.svg')
+
+    return {
+      QuasarLogoImageSrc
+    }
   }
 }
 </script>
