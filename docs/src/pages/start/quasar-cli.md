@@ -98,6 +98,16 @@ Pick `Quasar CLI with Vite` if you want:
     ```
     <br>
     Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`.
+    <br>
+    Or to do this easily, enter the following code in the terminal:
+    
+    ```bash
+    # If you're using Yarn:
+    setx path "%path%;%LocalAppData%\yarn\bin"
+    
+    # Or if you're using NPM:
+    setx path "%path%;%AppData%\npm",
+    ```
     :::
 
     ::: tip WSL2
