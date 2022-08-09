@@ -1,9 +1,10 @@
 import { normalizePath } from 'vite'
 
 import { getViteConfig } from './vite-config'
-import { jsDevTransform, jsProdTransform, jsTransformRegex } from './js-transform'
-import { vueTransform, vueTransformRegex } from './vue-transform'
-import { sassTransformRegex, scssTransformRegex, createScssTransform } from './scss-transform'
+import { jsDevTransform, jsProdTransform } from './js-transform'
+import { vueTransform } from './vue-transform'
+import { createScssTransform } from './scss-transform'
+import { parseViteRequest } from './utils/query'
 
 const defaultOptions = {
   runMode: 'web-client',
@@ -39,13 +40,15 @@ function getScssTransformsPlugin (opts) {
     name: 'vite:quasar:scss',
     enforce: 'pre',
     transform (src, id) {
-      if (scssTransformRegex.test(id) === true) {
+      const { is } = parseViteRequest(id)
+
+      if (is.style('.scss')) {
         return {
           code: scssTransform(src),
           map: null
         }
       }
-      if (sassTransformRegex.test(id) === true) {
+      if (is.style('.sass')) {
         return {
           code: sassTransform(src),
           map: null
@@ -68,13 +71,15 @@ function getScriptTransformsPlugin (opts) {
       }
     },
     transform (src, id) {
-      if (vueTransformRegex.test(id) === true) {
+      const { is } = parseViteRequest(id)
+
+      if (is.template()) {
         return {
           code: vueTransform(src, opts.autoImportComponentCase, jsCodeTransform),
           map: null // provide source map if available
         }
       }
-      else if (jsTransformRegex.test(id) === true) {
+      else if (is.script()) {
         return {
           code: jsCodeTransform(src),
           map: null // provide source map if available
