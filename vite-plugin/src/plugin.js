@@ -1,10 +1,10 @@
 import { normalizePath } from 'vite'
 
 import { getViteConfig } from './vite-config'
-import { jsDevTransform, jsProdTransform } from './js-transform'
 import { vueTransform } from './vue-transform'
 import { createScssTransform } from './scss-transform'
-import { parseViteRequest } from './utils/query'
+import { parseViteRequest } from './query'
+import { jsProdTransform } from './js-transform'
 
 const defaultOptions = {
   runMode: 'web-client',
@@ -15,6 +15,7 @@ const defaultOptions = {
 function getConfigPlugin (opts) {
   return {
     name: 'vite:quasar:vite-conf',
+
     config (viteConf) {
       const vueCfg = viteConf.plugins.find(entry => entry.name === 'vite:vue')
 
@@ -35,20 +36,25 @@ function getScssTransformsPlugin (opts) {
 
   const scssTransform = createScssTransform('scss', sassVariables)
   const sassTransform = createScssTransform('sass', sassVariables)
+  const scssExt = [ '.scss' ]
+  const sassExt = [ '.sass' ]
 
   return {
     name: 'vite:quasar:scss',
+
     enforce: 'pre',
+
     transform (src, id) {
       const { is } = parseViteRequest(id)
 
-      if (is.style('.scss')) {
+      if (is.style(scssExt) === true) {
         return {
           code: scssTransform(src),
           map: null
         }
       }
-      if (is.style('.sass')) {
+
+      if (is.style(sassExt) === true) {
         return {
           code: sassTransform(src),
           map: null
@@ -61,27 +67,30 @@ function getScssTransformsPlugin (opts) {
 }
 
 function getScriptTransformsPlugin (opts) {
-  let jsCodeTransform = jsProdTransform
+  let isDev = false
 
   return {
     name: 'vite:quasar:script',
-    configResolved(resolvedConfig) {
+
+    configResolved (resolvedConfig) {
       if (resolvedConfig.mode === 'development') {
-        jsCodeTransform = jsDevTransform
+        isDev = true
       }
     },
+
     transform (src, id) {
       const { is } = parseViteRequest(id)
 
-      if (is.template()) {
+      if (is.template() === true) {
         return {
-          code: vueTransform(src, opts.autoImportComponentCase, jsCodeTransform),
+          code: vueTransform(src, opts.autoImportComponentCase, isDev),
           map: null // provide source map if available
         }
       }
-      else if (is.script()) {
+
+      if (isDev === false && is.script() === true) {
         return {
-          code: jsCodeTransform(src),
+          code: jsProdTransform(src),
           map: null // provide source map if available
         }
       }

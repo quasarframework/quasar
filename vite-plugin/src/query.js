@@ -19,39 +19,39 @@
  * @param {string} id
  * @returns {{ filename: string; query: { [key: string]: string; }; is: ViteQueryIs }}
  */
-export function parseViteRequest(id) {
-  const [filename, rawQuery] = id.split('?', 2)
+export function parseViteRequest (id) {
+  const [ filename, rawQuery ] = id.split('?', 2)
   const query = Object.fromEntries(new URLSearchParams(rawQuery))
 
-  const isVueQuery = query.vue !== void 0
+  const is = query.vue !== void 0 // is vue query?
+    ? {
+        vue: () => true,
+        template: () => query.type === void 0 || query.type === 'template',
+        script: (extensions = scriptExt) =>
+          (query.type === void 0 || query.type === 'script') &&
+          isOfExt({ query, extensions }) === true,
+        style: (extensions = styleExt) =>
+          query.type === 'style' && isOfExt({ query, extensions }) === true
+      }
+    : {
+        vue: () => isOfExt({ extensions: vueExt, filename }),
+        template: () => isOfExt({ filename, extensions: vueExt }),
+        script: (extensions = scriptExt) => isOfExt({ filename, extensions }),
+        style: (extensions = styleExt) => isOfExt({ filename, extensions })
+      }
 
   return {
     filename,
     query,
-
-    is: {
-      vue: () => isVueQuery || isOfExt({ extensions: '.vue', filename }),
-      template: () =>
-        isVueQuery
-          ? query.type === void 0 || query.type === 'template'
-          : isOfExt({ filename, extensions: '.vue' }),
-      script: (extensions = ['.js', '.jsx', '.ts', '.tsx', '.vue']) =>
-        isVueQuery
-          ? (query.type === void 0 || query.type === 'script') &&
-            isOfExt({ query, extensions })
-          : isOfExt({ filename, extensions }),
-      style: (extensions = ['.css', '.scss', '.sass']) =>
-        isVueQuery
-          ? query.type === 'style' && isOfExt({ query, extensions })
-          : isOfExt({ filename, extensions }),
-    },
+    is
   }
 }
 
-function isOfExt({ extensions, filename, query }) {
-  extensions = Array.isArray(extensions) ? extensions : [extensions]
+const vueExt = [ '.vue' ]
+const scriptExt = [ '.js', '.jsx', '.ts', '.tsx', '.vue' ]
+const styleExt = [ '.css', '.scss', '.sass' ]
 
-  return extensions.some(
-    (ext) => filename?.endsWith(ext) || query?.[`lang${ext}`] !== void 0
+const isOfExt = ({ extensions, filename, query }) =>
+  extensions.some(
+    ext => filename?.endsWith(ext) || query?.[`lang${ext}`] !== void 0
   )
-}

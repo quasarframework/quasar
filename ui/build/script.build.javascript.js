@@ -73,7 +73,7 @@ const uglifyJsOptions = {
 
 const builds = [
   {
-    // entry used by @quasar/vite-plugin for DEV only
+    // client entry used by @quasar/vite-plugin for DEV only
     // (has flags untouched; required to replace them)
     rollup: {
       input: {
@@ -87,10 +87,12 @@ const builds = [
     build: {
       unminified: true,
       replace: {
-        __QUASAR_VERSION__: `'${ version }'`
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR_SERVER__: false
       }
     }
   },
+
   {
     // SSR server prod entry
     // (no flags; not required to replace them)
@@ -114,6 +116,7 @@ const builds = [
       }
     }
   },
+
   {
     // UMD entry
     rollup: {
