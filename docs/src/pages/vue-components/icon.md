@@ -125,7 +125,7 @@ The current disadvantage is that it is more tedious to use these icons than thei
 
 ### Svg usage
 
-Notice in the example below that we want to avoid the Vue observable wrapping, so we inject icons on the instance through created() hook. It will work if declared in data() too, but... overhead.
+Usage inside the `<template>`:
 
 ```html
 <template>
@@ -135,7 +135,48 @@ Notice in the example below that we want to avoid the Vue observable wrapping, s
     <q-btn :icon="mdiAbTesting" />
   </div>
 </template>
+```
 
+Notice that we are using `:` to bind variables instead of plain values, it's important. We must make those variables available to the template. The way to do that depends on your Vue API preference:
+
+#### Composition API with <script setup>
+
+This is the most convenient way. Just importing the variables is enough to make them available to the template.
+  
+```html
+<script setup>
+import { matMenu } from '@quasar/extras/material-icons'
+import { mdiAbTesting } from '@quasar/extras/mdi-v6'
+import { fasFont } from '@quasar/extras/fontawesome-v5'
+</script>
+```
+
+#### Composition API without <script setup>
+
+```html
+<script>
+import { matMenu } from '@quasar/extras/material-icons'
+import { mdiAbTesting } from '@quasar/extras/mdi-v6'
+import { fasFont } from '@quasar/extras/fontawesome-v5'
+
+export default {
+  // ...
+  setup () {
+    return {
+      matMenu,
+      mdiAbTesting,
+      fasFont
+    }
+  }
+}
+</script>
+```
+
+#### Options API
+
+Notice in the example below that we are injecting the icons through the `created()` hook instead of returning them from `data()`. That is because we want to avoid Vue from making them reactive. Since they are static values, making them reactive would introduce some unnecessary overhead. It would still work if we declare them in `data()`, but it would be less performant.
+
+```html
 <script>
 import { matMenu } from '@quasar/extras/material-icons'
 import { mdiAbTesting } from '@quasar/extras/mdi-v6'
@@ -149,6 +190,7 @@ export default {
     this.fasFont = fasFont
   }
 }
+</script>
 ```
 
 ::: tip
