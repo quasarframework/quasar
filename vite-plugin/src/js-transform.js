@@ -2,7 +2,14 @@ import importTransformation from 'quasar/dist/transforms/import-transformation.j
 
 const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
 
-export function jsTransform (code, importMap = {}) {
+export function jsDevTransform (code) {
+  return code.replace(
+    importQuasarRegex,
+    (_, match) => `import {${match}} from 'quasar/dist/quasar.esm.js'`
+  )
+}
+
+export function jsProdTransform (code, importMap = {}) {
   return code.replace(
     importQuasarRegex,
     (_, match) => match.split(',')

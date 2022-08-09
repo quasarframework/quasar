@@ -1,7 +1,7 @@
 import autoImportData from 'quasar/dist/transforms/auto-import.json'
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-import { jsTransform } from './js-transform.js'
+import { jsProdTransform } from './js-transform.js'
 
 const compRegex = {
   'kebab': new RegExp(`_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`, 'g'),
@@ -12,7 +12,7 @@ const compRegex = {
 const dirRegex = new RegExp(`_resolveDirective\\("${autoImportData.regex.directives.replace(/v-/g, '')}"\\)`, 'g')
 const lengthSortFn = (a, b) => b.length - a.length
 
-export function vueTransform (content, autoImportComponentCase) {
+export function vueTransform (content, autoImportComponentCase, jsCodeTransform) {
   const importList = []
   const importMap = {}
 
@@ -21,7 +21,7 @@ export function vueTransform (content, autoImportComponentCase) {
 
   const reverseMap = {}
 
-  let code = jsTransform(content, importMap)
+  let code = jsCodeTransform(content, importMap)
     .replace(compRegex[autoImportComponentCase], (_, match) => {
       const name = autoImportData.importName[match]
       const reverseName = match.replace(/-/g, '_')
@@ -71,9 +71,9 @@ export function vueTransform (content, autoImportComponentCase) {
       .replace(new RegExp(`_directive_(${list})`, 'g'), (_, match) => reverseMap[match])
   }
 
-  const codePrefix = importList
-    .map(name => `import ${name} from '${importTransformation(name)}'`)
-    .join(`;`)
+  const codePrefix = jsCodeTransform === jsProdTransform // is it prod?
+    ? importList.map(name => `import ${name} from '${importTransformation(name)}'`).join(`;`)
+    : `import {${importList.join(',')}} from 'quasar/dist/quasar.esm.js'`
 
   return codePrefix + ';' + code
 }

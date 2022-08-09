@@ -1,7 +1,7 @@
 import { normalizePath } from 'vite'
 
 import { getViteConfig } from './vite-config'
-import { jsTransform } from './js-transform'
+import { jsDevTransform, jsProdTransform } from './js-transform'
 import { vueTransform } from './vue-transform'
 import { createScssTransform } from './scss-transform'
 import { parseViteRequest } from './utils/query'
@@ -61,20 +61,27 @@ function getScssTransformsPlugin (opts) {
 }
 
 function getScriptTransformsPlugin (opts) {
+  let jsCodeTransform = jsProdTransform
+
   return {
     name: 'vite:quasar:script',
+    configResolved(resolvedConfig) {
+      if (resolvedConfig.mode === 'development') {
+        jsCodeTransform = jsDevTransform
+      }
+    },
     transform (src, id) {
       const { is } = parseViteRequest(id)
 
       if (is.template()) {
         return {
-          code: vueTransform(src, opts.autoImportComponentCase),
+          code: vueTransform(src, opts.autoImportComponentCase, jsCodeTransform),
           map: null // provide source map if available
         }
       }
       else if (is.script()) {
         return {
-          code: jsTransform(src),
+          code: jsCodeTransform(src),
           map: null // provide source map if available
         }
       }
