@@ -30,11 +30,15 @@ Read more on `register-service-worker.[js|ts]` and how to interact with the Serv
 ## quasar.config.js
 This is the place where you can configure Workbox behavior and also tweak your manifest.json.
 
+::: warning
+If migrating from webpack, please note that the name of the service worker file has changed for vite (to `sw.js`). This can break your update process the first time the new app is loaded. To ensure smooth upgrades from previous webpack builds, make sure the name matches the name of your previous service worker file (usually `service-worker.js`)
+:::
+
 ```js
 pwa: {
   workboxMode: 'generateSW', // or 'injectManifest'
   injectPwaMetaTags: true,
-  swFilename: 'sw.js',
+  swFilename: 'sw.js', // if migrating from webpack 'service-worker.js' may be a better choice
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
   extendGenerateSWOptions (cfg) {},
