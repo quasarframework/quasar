@@ -61,6 +61,8 @@ Pick `Quasar CLI with Vite` if you want:
     $ npm init quasar
     ```
     <br>
+    
+    If you are using npm, you will be prompted to install 'create-quasar' and asking if it is 'Ok to proceed?' Press enter to confirm and install this required package.
 
 2. Pick the `App with Quasar CLI` option then `Quasar v2`.
 
