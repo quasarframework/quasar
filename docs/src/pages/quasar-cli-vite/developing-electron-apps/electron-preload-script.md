@@ -65,7 +65,7 @@ It directly exposes a powerful API without any kind of argument filtering. This 
 ```js
 // Good code
 contextBridge.exposeInMainWorld('myAPI', {
-  loadPreferences: () => ipcRenderer.invoke('load-prefs')
+  loadPreferences: () => ipcRenderer.invoke('myAPI:load-prefs')
 })
 ```
 
