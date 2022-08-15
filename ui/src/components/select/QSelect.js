@@ -80,6 +80,7 @@ export default createComponent({
     popupContentClass: String,
     popupContentStyle: [ String, Array, Object ],
 
+    blurAdds: Boolean,
     useInput: Boolean,
     useChips: Boolean,
 
@@ -1464,7 +1465,14 @@ export default createComponent({
         onFocusin (e) { state.onControlFocusin(e) },
         onFocusout (e) {
           state.onControlFocusout(e, () => {
-            resetInputValue()
+            if(!props.blurAdds)
+              resetInputValue()
+            else {
+              if(props.newValueMode === 'toggle')
+                toggleOption(inputValue.value)
+              else
+                add(inputValue.value, props.newValueMode === 'add-unique')
+            }
             closeMenu()
           })
         },
