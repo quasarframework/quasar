@@ -1465,7 +1465,7 @@ export default createComponent({
         onFocusin (e) { state.onControlFocusin(e) },
         onFocusout (e) {
           state.onControlFocusout(e, () => {
-            if(!props.blurAdds)
+            if(!props.blurAdds || !inputValue.value.length)
               resetInputValue()
             else {
               if(props.newValueMode === 'toggle')
