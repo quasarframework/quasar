@@ -173,7 +173,10 @@ export default createComponent({
           round: false,
           ...attributes.value,
           onClick
-        }, () => hSlot(slots.label, []).concat(Arrow))
+        }, {
+          default: () => hSlot(slots.label, []).concat(Arrow),
+          loading: slots.loading
+        })
       }
 
       return h(QBtnGroup, {
@@ -195,7 +198,10 @@ export default createComponent({
           iconRight: props.iconRight,
           round: false,
           onClick: onClickHide
-        }, slots.label),
+        }, {
+          default: slots.label,
+          loading: slots.loading
+        }),
 
         h(QBtn, {
           class: 'q-btn-dropdown__arrow-container q-anchor--skip',
