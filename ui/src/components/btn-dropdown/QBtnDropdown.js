@@ -144,7 +144,10 @@ export default Vue.extend({
           click: e => {
             this.$emit('click', e)
           }
-        })
+        }),
+        scopedSlots: {
+          loading: this.$scopedSlots.loading
+        }
       }, label.concat(Arrow))
     }
 
@@ -164,7 +167,10 @@ export default Vue.extend({
           this.hide()
           this.$emit('click', e)
         }
-      })
+      }),
+      scopedSlots: {
+        loading: this.$scopedSlots.loading
+      }
     }, label)
 
     return h(QBtnGroup, {

@@ -129,6 +129,11 @@
 
     "label": {
       "desc": "Customize main button's content through this slot, unless you're using the 'icon' and 'label' props"
+    },
+
+    "loading": {
+      "desc": "Override the default QSpinner when in 'loading' state",
+      "addedIn": "v1.19.6"
     }
   },
 
