@@ -78,6 +78,8 @@
       "definition": {
         "...commandName": {
           "type": "Object",
+          "tsType": "QEditorCommand",
+          "autoDefineTsType": true,
           "desc": "Command definition",
           "definition": {
             "label": {
