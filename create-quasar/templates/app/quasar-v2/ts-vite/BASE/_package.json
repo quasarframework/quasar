@@ -14,7 +14,7 @@
   "dependencies": {
     <% if (typescriptConfig === 'class') { %>"vue-class-component": "^8.0.0-rc.1",<% } %>
     <% if (preset.axios) { %>"axios": "^0.21.1",<% } %>
-    <% if (preset.i18n) { %>"vue-i18n": "^9.0.0",<% } %>
+    <% if (preset.i18n) { %>"vue-i18n": "^9.2.2",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.0.0",
