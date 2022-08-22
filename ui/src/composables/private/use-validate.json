@@ -74,5 +74,12 @@
         ]
       }
     }
+  },
+
+  "fields": {
+    "hasError": {
+      "type": "Boolean",
+      "desc": "Whether the component is in error state"
+    }
   }
 }

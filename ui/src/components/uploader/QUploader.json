@@ -152,5 +152,53 @@
         }
       }
     }
+  },
+
+  "fields": {
+    "files": {
+      "type": "Array",
+      "desc": "List of all files",
+      "__exemption": [ "examples" ]
+    },
+
+    "queuedFiles": {
+      "type": "Array",
+      "desc": "List of files that are waiting to be uploaded",
+      "__exemption": [ "examples" ]
+    },
+
+    "uploadedFiles": {
+      "type": "Array",
+      "desc": "List of files that have been uploaded",
+      "__exemption": [ "examples" ]
+    },
+
+    "uploadedSize": {
+      "type": "Number",
+      "desc": "Size of all uploaded files in bytes",
+      "examples": [ 1024 ]
+    },
+
+    "uploadSizeLabel": {
+      "type": "String",
+      "desc": "Label for the size total of all files",
+      "examples": [ "1.0MB" ]
+    },
+
+    "uploadProgressLabel": {
+      "type": "String",
+      "desc": "Label for the upload progress (in %)",
+      "examples": [ "52.76%" ]
+    },
+
+    "canAddFiles": {
+      "type": "Boolean",
+      "desc": "Whether new files can be added to the list"
+    },
+
+    "canUpload": {
+      "type": "Boolean",
+      "desc": "Whether the files can be uploaded"
+    }
   }
 }

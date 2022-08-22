@@ -2414,5 +2414,25 @@
         }
       }
     }
+  },
+
+  "fields": {
+    "filteredSortedRows": {
+      "desc": "The filtered and sorted rows (same as the rows prop if using server-side fetching)",
+      "type": "Array",
+      "examples": [ "[ { name: 'Ice Cream Sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: 8, iron: 1 }, ... ]" ]
+    },
+
+    "computedRows": {
+      "desc": "Paginated, filtered, and sorted rows (same as the rows prop if using server-side fetching)",
+      "type": "Array",
+      "examples": [ "[ { name: 'Ice Cream Sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: 8, iron: 1 }, ... ]" ]
+    },
+
+    "computedRowsNumber": {
+      "desc": "The number of computed rows",
+      "type": "Number",
+      "examples": [ 10 ]
+    }
   }
 }
