@@ -77,6 +77,11 @@ export default createComponent({
       type: String,
       default: 'Calendar',
       validator: viewIsValid
+    },
+
+    preventUpdateViewModel: {
+      type: Boolean,
+      default: false,
     }
   },
 
@@ -701,7 +706,7 @@ export default createComponent({
       if (lastEmitValue === v) {
         lastEmitValue = 0
       }
-      else {
+      else if (!this.preventUpdateViewModel) {
         const { year, month } = getViewModel(innerMask.value, innerLocale.value)
         updateViewModel(year, month)
       }
@@ -737,7 +742,9 @@ export default createComponent({
         addToModel(date)
       }
 
-      setCalendarTo(date.year, date.month)
+      if (!this.preventUpdateViewModel) {
+        setCalendarTo(date.year, date.month)
+      }
     }
 
     function setView (viewMode) {
@@ -776,7 +783,9 @@ export default createComponent({
         finalHash: getDayHash(final)
       }
 
-      setCalendarTo(init.year, init.month)
+      if (!this.preventUpdateViewModel) {
+        setCalendarTo(init.year, init.month)
+      }
     }
 
     function getMask () {
