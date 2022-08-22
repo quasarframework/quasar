@@ -277,7 +277,7 @@ function copyPropName (propName) {
 
 const describe = {}
 
-describe.props = props => {
+const describePropsLike = props => {
   const child = []
 
   for (const propName in props) {
@@ -288,18 +288,9 @@ describe.props = props => {
 
   return child
 }
-
-describe.slots = slots => {
-  const child = []
-
-  for (const slot in slots) {
-    child.push(
-      getProp(slots[ slot ], slot, 0)
-    )
-  }
-
-  return child
-}
+describe.props = describePropsLike
+describe.fields = describePropsLike
+describe.slots = describePropsLike
 
 describe.events = events => {
   const child = []
