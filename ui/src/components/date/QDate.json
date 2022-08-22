@@ -160,6 +160,13 @@
       "type": "Boolean",
       "desc": "Emit model when user browses month and year too; ONLY for single selection (non-multiple, non-range)",
       "category": "model"
+    },
+
+    "prevent-update-view-model": {
+      "type": "Boolean",
+      "desc": "Prevent auto update view model",
+      "category": "behavior",
+      "addedIn": "v1.19.5"
     }
   },
 
