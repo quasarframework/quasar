@@ -453,9 +453,7 @@ export function getRenderer (getPlugin) {
     }
 
     for (const key in state) {
-      acc[ key ] = isRef(state[ key ]) === true
-        ? state[ key ].value
-        : state[ key ]
+      acc[ key ] = unref(state[ key ])
     }
 
     // TODO: (Qv3) Put the QUploader instance under `ref`
