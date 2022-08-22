@@ -101,7 +101,7 @@ function getTypeVal (def) {
     : convertTypeVal(def.type, def)
 }
 
-function getPropDefinition ({ name, definition, docs = true, isMethodParam = false, isCompProps = false, escapeName = true }) {
+function getPropDefinition ({ name, definition, docs = true, isMethodParam = false, isCompProps = false, escapeName = true, isReadonly = false }) {
   let propName = escapeName ? toCamelCase(name) : name
 
   if (propName.startsWith('...')) {
@@ -147,7 +147,7 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
     jsDoc += ' */\n'
   }
 
-  return `${ jsDoc }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
+  return `${ jsDoc }${ isReadonly ? 'readonly ' : '' }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
 }
 
 function getPropDefinitions ({ definitions, docs = true, areMethodParams = false, isCompProps = false }) {
@@ -344,6 +344,9 @@ function writeIndexDTS (apis) {
       prop.type = 'Function'
     })
 
+    // Fields should always be required
+    content.fields = transformObject(content.fields, makeRequired)
+
     const props = getPropDefinitions({
       definitions: content.props,
       isCompProps: content.type === 'component'
@@ -447,6 +450,12 @@ function writeIndexDTS (apis) {
       const method = content.methods[ methodKey ]
       const methodDefinition = getPropDefinition({ name: methodKey, definition: method })
       writeLines(contents, methodDefinition, 1)
+    }
+
+    // Write Fields
+    for (const [ fieldName, field ] of Object.entries(content.fields)) {
+      const fieldDefinition = getPropDefinition({ name: fieldName, definition: field, isReadonly: true })
+      writeLines(contents, fieldDefinition, 1)
     }
 
     // Close class declaration
