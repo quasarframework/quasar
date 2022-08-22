@@ -1,4 +1,4 @@
-import { h, ref, isRef, computed, watch, provide, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, provide, onBeforeUnmount, getCurrentInstance, unref } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
@@ -11,6 +11,7 @@ import useFile, { useFileProps, useFileEmits } from '../../composables/private/u
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { uploaderKey } from '../../utils/private/symbols.js'
+import { injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
@@ -464,6 +465,18 @@ export function getRenderer (getPlugin) {
 
   // expose public methods
   Object.assign(proxy, publicMethods)
+
+  injectMultipleProps(proxy, {
+    canAddFiles: () => canAddFiles.value,
+    canUpload: () => canUpload.value,
+    uploadSizeLabel: () => uploadSizeLabel.value,
+    uploadProgressLabel: () => uploadProgressLabel.value,
+
+    ...Object.entries(state).reduce((acc, [ key, val ]) => {
+      acc[ key ] = () => unref(val)
+      return acc
+    })
+  })
 
   return () => {
     const children = [
