@@ -473,7 +473,7 @@ export function getRenderer (getPlugin) {
     ...Object.entries(state).reduce((acc, [ key, val ]) => {
       acc[ key ] = () => unref(val)
       return acc
-    })
+    }, {})
   })
 
   return () => {
