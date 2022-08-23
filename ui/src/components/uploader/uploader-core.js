@@ -443,24 +443,6 @@ export function getRenderer (getPlugin) {
     abort: state.abort
   }
 
-  const slotScope = computed(() => {
-    const acc = {
-      canAddFiles: canAddFiles.value,
-      canUpload: canUpload.value,
-      uploadSizeLabel: uploadSizeLabel.value,
-      uploadProgressLabel: uploadProgressLabel.value
-    }
-
-    for (const key in state) {
-      acc[ key ] = unref(state[ key ])
-    }
-
-    // TODO: (Qv3) Put the QUploader instance under `ref`
-    // property for consistency and flexibility
-    // return { ref: { ...acc, ...publicMethods } }
-    return { ...acc, ...publicMethods }
-  })
-
   // expose public methods
   Object.assign(proxy, publicMethods)
 
@@ -475,6 +457,10 @@ export function getRenderer (getPlugin) {
       return acc
     }, {})
   })
+
+  // TODO: (Qv3) Put the instance under `ref` property for consistency and flexibility
+  // computed(() => ({ ref: proxy, /* new stuff can be added if needed */ }))
+  const slotScope = computed(() => proxy)
 
   return () => {
     const children = [
