@@ -443,8 +443,6 @@ export function getRenderer (getPlugin) {
     abort: state.abort
   }
 
-  // TODO: the result of this computed, especially the dynamic part, isn't currently typed
-  // This result in an error with Volar when accessing the state (eg. files array)
   const slotScope = computed(() => {
     const acc = {
       canAddFiles: canAddFiles.value,
