@@ -2082,7 +2082,6 @@ export declare const roundWebStories: string;
 export declare const roundWebhook: string;
 export declare const roundWeekend: string;
 export declare const roundWest: string;
-export declare const roundWhatsapp: string;
 export declare const roundWhatshot: string;
 export declare const roundWheelchairPickup: string;
 export declare const roundWhereToVote: string;

@@ -2082,7 +2082,6 @@ export declare const sharpWebStories: string;
 export declare const sharpWebhook: string;
 export declare const sharpWeekend: string;
 export declare const sharpWest: string;
-export declare const sharpWhatsapp: string;
 export declare const sharpWhatshot: string;
 export declare const sharpWheelchairPickup: string;
 export declare const sharpWhereToVote: string;

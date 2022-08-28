@@ -2082,7 +2082,6 @@ export declare const outlinedWebStories: string;
 export declare const outlinedWebhook: string;
 export declare const outlinedWeekend: string;
 export declare const outlinedWest: string;
-export declare const outlinedWhatsapp: string;
 export declare const outlinedWhatshot: string;
 export declare const outlinedWheelchairPickup: string;
 export declare const outlinedWhereToVote: string;

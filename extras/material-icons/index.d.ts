@@ -2082,7 +2082,6 @@ export declare const matWebStories: string;
 export declare const matWebhook: string;
 export declare const matWeekend: string;
 export declare const matWest: string;
-export declare const matWhatsapp: string;
 export declare const matWhatshot: string;
 export declare const matWheelchairPickup: string;
 export declare const matWhereToVote: string;
