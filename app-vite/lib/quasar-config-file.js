@@ -562,7 +562,8 @@ class QuasarConfFile {
         injectPwaMetaTags: true,
         swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
-        useCredentialsForManifestTag: false
+        useCredentialsForManifestTag: false,
+        useFilenameHashes: false
       }, cfg.pwa)
 
       if (!['generateSW', 'injectManifest'].includes(cfg.pwa.workboxMode)) {

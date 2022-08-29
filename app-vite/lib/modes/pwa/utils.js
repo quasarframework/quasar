@@ -67,3 +67,20 @@ module.exports.buildPwaServiceWorker = async function buildPwaServiceWorker (wor
   await workboxBuild[ workboxMode ](workboxConfig)
   done('The ___ compiled with success')
 }
+
+// Don't generate filenames with hash
+// as this will force all files to be re-downloaded.
+// Used on PWA (or SSR+PWA) by default
+module.exports.stripViteConfFilenamesHash = function (viteConf) {
+  viteConf.build.rollupOptions = viteConf.build.rollupOptions || {}
+  viteConf.build.rollupOptions.output = viteConf.build.rollupOptions.output || {}
+
+  const target = viteConf.build.rollupOptions.output
+  const assetsDir = (viteConf.build.assetsDir || 'assets') + '/'
+
+  if (!target.entryFileNames) { target.entryFileNames = `${ assetsDir }[name].js` }
+  if (!target.chunkFileNames) { target.chunkFileNames = `${ assetsDir }[name].js` }
+  if (!target.assetFileNames) { target.assetFileNames = `${ assetsDir }[name].[ext]` }
+
+  return viteConf
+}
