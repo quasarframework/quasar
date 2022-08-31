@@ -493,8 +493,8 @@ async function run () {
 }
 
 function listElements () {
-  const getDevlandFile = require('../helpers/get-devland-file')
-  let api = getDevlandFile('quasar/dist/transforms/api-list.json')
+  const getPackage = require('../helpers/get-package')
+  let api = getPackage('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {
     fatal(` Could not retrieve list...`)

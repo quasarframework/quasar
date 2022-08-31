@@ -2,10 +2,10 @@ const { getOptions } = require('loader-utils')
 const hash = require('hash-sum')
 
 const stringifyRequest = require('loader-utils/lib/stringifyRequest')
-const getDevlandFile = require('../helpers/get-devland-file')
+const getPackage = require('../helpers/get-package')
 
-const autoImportData = getDevlandFile('quasar/dist/transforms/auto-import.json')
-const importTransformation = getDevlandFile('quasar/dist/transforms/import-transformation.js')
+const autoImportData = getPackage('quasar/dist/transforms/auto-import.json')
+const importTransformation = getPackage('quasar/dist/transforms/import-transformation.js')
 const autoImportRuntimePath = require.resolve('./runtime.auto-import.js')
 const injectModuleIdRuntimePath = require.resolve('./runtime.inject-module-id.js')
 
