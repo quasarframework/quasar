@@ -170,7 +170,7 @@ function getPackager () {
   }
 
 
-  warn('Please install Yarn or PNPM or NPM before running this command.\n')
+  warn('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
 module.exports = getPackager()
