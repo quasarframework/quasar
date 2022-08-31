@@ -89,9 +89,7 @@ module.exports = function (cfg, configName) {
   if (cfg.framework.importStrategy === 'all') {
     chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.esm.js')
   }
-  if (cfg.build.vueCompiler) {
-    chain.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
-  }
+  chain.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
 
   chain.resolveLoader.modules
     .merge(resolveModules)
