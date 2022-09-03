@@ -40,6 +40,7 @@
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
     <% } } %>
+    <% if (preset.jsx) { %> "@vue/babel-plugin-jsx": "^1.1.1",<% } %>
     "@quasar/app-webpack": "^3.0.0"
   },
   "browserslist": [
