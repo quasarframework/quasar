@@ -197,12 +197,12 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
-  
+
   In quasar.config.js, before the `module.exports = function (ctx)` add:
   ```js
   const ESLintPlugin = require('eslint-webpack-plugin')
   ```
-  
+
   In quasar.config.js -> build add:
   ```js
   chainWebpack (chain) {
@@ -356,7 +356,7 @@ export default function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.config.js instead!
     // quasar.config.js -> build -> vueRouterMode
     // quasar.config.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   return Router
