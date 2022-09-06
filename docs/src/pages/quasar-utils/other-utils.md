@@ -36,7 +36,7 @@ The optional `windowFeatures` parameter should be an Object with keys from [wind
 
 openURL(
   'http://...',
-  null, // in this example we don't care about the rejectFn()
+  undefined, // in this example we don't care about the rejectFn()
 
   // this is the windowFeatures Object param:
   {
