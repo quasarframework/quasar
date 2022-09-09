@@ -1,6 +1,7 @@
 import { h, createApp, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
+import QIcon from '../components/icon/QIcon.js'
 
 import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
@@ -20,6 +21,9 @@ const originalDefaults = {
   html: false,
   spinnerSize: 80,
   spinnerColor: '',
+  iconName: undefined,
+  iconSize: 80,
+  iconColor: '',
   messageColor: '',
   backgroundColor: '',
   boxClass: '',
@@ -81,11 +85,17 @@ const Plugin = defineReactivePlugin({
             }
 
             const content = [
-              h(props.spinner, {
-                class: 'q-loading__spinner',
-                color: props.spinnerColor,
-                size: props.spinnerSize
-              })
+              props.iconName
+              ? h(QIcon, {
+                  name: props.iconName,
+                  color: props.iconColor,
+                  size: props.iconSize
+                })
+              : h(props.spinner, {
+                  class: 'q-loading__spinner',
+                  color: props.spinnerColor,
+                  size: props.spinnerSize
+                })
             ]
 
             props.message && content.push(
