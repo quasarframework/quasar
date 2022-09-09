@@ -25,7 +25,7 @@ You will also be able to use the command line, so it will be almost identical to
 
 ::: tip Requirements:
 * Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
-* Yarn v1 (strongly recommended) or NPM.
+* Yarn v1 (strongly recommended), PNPM, or NPM.
 :::
 
 ```bash
@@ -55,7 +55,7 @@ Pick `Quasar CLI with Vite` if you want:
 
 ::: tip Requirements:
 * Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
-* Yarn v1 (strongly recommended) or NPM.
+* Yarn v1 (strongly recommended), PNPM, or NPM.
 :::
 
 1. Let's create a Quasar app:
@@ -68,7 +68,7 @@ Pick `Quasar CLI with Vite` if you want:
     $ pnpm create quasar
     ```
     <br>
-    
+
     ::: tip
     You may be presented with a confirmation to install the `create-quasar` package, press the enter key to confirm.
     :::
@@ -113,11 +113,11 @@ Pick `Quasar CLI with Vite` if you want:
     Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`.
     <br>
     Or to do this easily, enter the following code in the terminal:
-    
+
     ```bash
     # If you're using Yarn:
     setx path "%path%;%LocalAppData%\yarn\bin"
-    
+
     # Or if you're using NPM:
     setx path "%path%;%AppData%\npm",
     ```
