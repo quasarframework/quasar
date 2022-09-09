@@ -1,4 +1,4 @@
-const svgo = require('svgo')
+const { optimize } = require('svgo')
 const { writeFile } = require('fs')
 const { posterize } = require('potrace')
 
@@ -21,9 +21,7 @@ module.exports = async function (file, opts, done) {
   const buffer = await img.toBuffer()
 
   posterize(buffer, params, (_, svg) => {
-    const svgOutput = new svgo({})
-    svgOutput.optimize(svg).then(res => {
-      writeFile(file.absoluteName, res.data, done)
-    })
+    const res = optimize(svg)
+    writeFile(file.absoluteName, res.data, done)
   })
 }

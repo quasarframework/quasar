@@ -45,7 +45,8 @@ const render = createRenderer({
   vueRenderToString: renderToString,
   basedir: __dirname,
   serverManifest,
-  clientManifest
+  clientManifest,
+  manualStoreSerialization: <%= ssr.manualStoreSerialization === true %>
 })
 
 <% if (ssr.pwa) { %>

@@ -71,7 +71,7 @@ div
           q-icon(:name="mdiInvertColors")
         q-item-section.text-no-wrap Dark Mode
 
-      q-item(clickable, href="layout-builder", target="_blank")
+      q-item(clickable, href="/layout-builder", target="_blank")
         q-item-section.text-brand-primary(avatar)
           q-icon(:name="mdiViewDashboard")
         q-item-section.text-no-wrap Layout Builder
@@ -88,6 +88,13 @@ div
           .row.no-wrap.items-center
             span Flex Playground
 
+      q-item(clickable href="https://quasarcast.com" target="_blank")
+        q-item-section.text-red(avatar)
+          q-icon(:name="mdiPlayBox")
+        q-item-section.text-no-wrap
+          .row.no-wrap.items-center
+            span QuasarCast.com
+
       q-item-label.q-mt-md(header) Playground
 
       q-item(clickable, href="https://codepen.quasar.dev", target="_blank", rel="noopener")
@@ -99,6 +106,16 @@ div
         q-item-section.text-brand-primary(avatar)
           q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
+
+      q-item(clickable, href="https://stackblitz.com/fork/quasarframework", target="_blank", rel="noopener")
+        q-item-section.text-light-blue-14(avatar)
+          q-icon(:name="fasBolt")
+        q-item-section StackBlitz (Vite)
+
+      q-item(clickable, href="https://stackblitz.com/fork/quasarframework-webpack", target="_blank", rel="noopener")
+        q-item-section.text-light-blue-14(avatar)
+          q-icon(:name="fasBolt")
+        q-item-section StackBlitz (Webpack)
 
       q-item(clickable, href="https://codesandbox.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-black(avatar)
@@ -158,14 +175,15 @@ div
 <script>
 import {
   fabGithub, fasFlask, fabCodepen, fabJsfiddle,
-  fasCubes, fabTwitter, fabFacebook
+  fasBolt, fasCubes, fabTwitter, fabFacebook
 } from '@quasar/extras/fontawesome-v6'
 
 import {
   mdiPost, mdiForum, mdiChat, mdiBullhorn,
   mdiViewDashboard, mdiShoppingMusic, mdiClipboardText,
   mdiBugCheck, mdiFlare, mdiFilePlus, mdiPaletteSwatch,
-  mdiInvertColors, mdiCharity, mdiStarCircle
+  mdiInvertColors, mdiCharity, mdiStarCircle,
+  mdiPlayBox
 } from '@quasar/extras/mdi-v6'
 
 export default {
@@ -181,6 +199,7 @@ export default {
       fasFlask,
       fabCodepen,
       fabJsfiddle,
+      fasBolt,
       fasCubes,
       fabTwitter,
       fabFacebook,
@@ -198,7 +217,8 @@ export default {
       mdiPaletteSwatch,
       mdiInvertColors,
       mdiCharity,
-      mdiStarCircle
+      mdiStarCircle,
+      mdiPlayBox
     }
   }
 }

@@ -11,13 +11,13 @@ const sameFn = i => i
 const ionFn = i => `ionicons ${ i }`
 
 const libMap = {
+  'mdi-': i => `mdi ${ i }`,
   'icon-': sameFn, // fontawesome equiv
   'bt-': i => `bt ${ i }`,
   'eva-': i => `eva ${ i }`,
   'ion-md': ionFn,
   'ion-ios': ionFn,
   'ion-logo': ionFn,
-  'mdi-': i => `mdi ${ i }`,
   'iconfont ': sameFn,
   'ti-': i => `themify-icon ${ i }`,
   'bi-': i => `bootstrap-icons ${ i }`
@@ -29,14 +29,20 @@ const matMap = {
   s_: '-sharp'
 }
 
+const symMap = {
+  sym_o_: '-outlined',
+  sym_r_: '-rounded',
+  sym_s_: '-sharp'
+}
+
 const libRE = new RegExp('^(' + Object.keys(libMap).join('|') + ')')
 const matRE = new RegExp('^(' + Object.keys(matMap).join('|') + ')')
+const symRE = new RegExp('^(' + Object.keys(symMap).join('|') + ')')
 const mRE = /^[Mm]\s?[-+]?\.?\d/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
-const faLaRE = /^[lf]a[srlbdk]? /
-const fa6RE = /^fa-(brand|regular|solid)/
+const faRE = /^(fa-(solid|regular|light|brands|duotone|thin)|[lf]a[srlbdk]?) /
 
 export default createComponent({
   name: 'QIcon',
@@ -130,11 +136,27 @@ export default createComponent({
       if (matches !== null) {
         cls = libMap[ matches[ 1 ] ](icon)
       }
-      else if (faLaRE.test(icon) === true || fa6RE.test(icon) === true) {
+      else if (faRE.test(icon) === true) {
         cls = icon
       }
       else if (ionRE.test(icon) === true) {
-        cls = `ionicons ion-${ $q.platform.is.ios === true ? 'ios' : 'md' }${ icon.substr(3) }`
+        cls = `ionicons ion-${ $q.platform.is.ios === true ? 'ios' : 'md' }${ icon.substring(3) }`
+      }
+      else if (symRE.test(icon) === true) {
+        // "notranslate" class is for Google Translate
+        // to avoid tampering with Material Symbols ligature font
+        //
+        // Caution: To be able to add suffix to the class name,
+        // keep the 'material-symbols' at the end of the string.
+        cls = 'notranslate material-symbols'
+
+        const matches = icon.match(symRE)
+        if (matches !== null) {
+          icon = icon.substring(6)
+          cls += symMap[ matches[ 1 ] ]
+        }
+
+        content = icon
       }
       else {
         // "notranslate" class is for Google Translate
@@ -180,7 +202,7 @@ export default createComponent({
       if (type.value.svg === true) {
         return h('span', data, hMergeSlot(slots.default, [
           h('svg', {
-            viewBox: type.value.viewBox
+            viewBox: type.value.viewBox || '0 0 24 24'
           }, type.value.nodes)
         ]))
       }

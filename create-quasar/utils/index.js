@@ -3,7 +3,7 @@ const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
 const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
 const prompts = require('prompts')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 const fglob = require('fast-glob')
 const { yellow, green } = require('kolorist')
 const exec = require('child_process').execSync
@@ -11,7 +11,7 @@ const spawn = require('child_process').spawn
 
 const logger = require('./logger')
 
-const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html' ]
+const TEMPLATING_FILE_EXTENSIONS = [ '', '.json', '.js', '.ts', '.vue', '.md', '.html', '.sass' ]
 
 module.exports.join = join
 module.exports.logger = logger
@@ -58,9 +58,11 @@ module.exports.renderTemplate = function (templateDir, scope) {
   for (const rawPath of files) {
     const targetRelativePath = rawPath.split('/').map(name => {
       // dotfiles are ignored when published to npm, therefore in templates
-      // we need to use underscore instead (e.g. "_gitignore")
-      return name.charAt(0) === '_'
-        ? `.${name.slice(1)}`
+      // we need to prefix them with an underscore (e.g. "_.gitignore")
+      // Also, some tools like ESLint expect valid config files, therefore
+      // we also prefix files like "package.json" too. (e.g. "_package.json")
+      return name.startsWith('_')
+        ? name.slice(1)
         : name
     }).join('/')
 
@@ -143,7 +145,7 @@ Documentation can be found at: https://${verPrefix}quasar.dev
 Quasar is relying on donations to evolve. We'd be very grateful if you can
 read our manifest on "Why donations are important": https://${verPrefix}quasar.dev/why-donate
 Donation campaign: https://donate.quasar.dev
-Any amount is very welcomed.
+Any amount is very welcome.
 If invoices are required, please first contact Razvan Stoenescu.
 
 Please give us a star on Github if you appreciate our work:

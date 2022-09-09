@@ -179,15 +179,17 @@ Here is how the CSS `order` property works:
 ## Responsive Design
 Quasar Flex CSS classes can be applied based on the width of the screen, to help you in making a responsive UI. The 12 points grid is inspired by Bootstrap's, so there are a lot of similarities.
 
+Breakpoint specifiers use a mobile-first approach, where the larger breakpoint definitions will override the smaller ones.
+
 What we've learned so far is that, for example, we can size the columns regardless of window width. If we are to create a responsive UI, we need to dynamically change the sizing while taking window width into account. First, let's learn about some tokens that you can inject in middle of `col-*`, `offset-*` and `col-auto` helper classes (look at table below for tokens).
 
-| Token | Max window width | Description / When it applies |
+| Token | Min window width | Description / When it applies if not overridden by another larger breakpoint |
 | --- | --- | --- |
-| `xs` | 599px | Extra small sized window |
-| `sm` | 1023px | Small sized window |
-| `md` | 1439px | Medium-sized window |
-| `lg` | 1919px | Large sized window |
-| `xl` | Infinite | Extra large sized window |
+| `xs` | 0px | All window sizes (same as no breakpoint specifier) |
+| `sm` | 600px | Larger than extra small sized window |
+| `md` | 1024px | Larger than small window |
+| `lg` | 1440px | Larger than medium-sized sized window |
+| `xl` | 1920px | Larger than large sized window |
 
 Example: `col-md-7`, `offset-lg-3`, `col-xs-auto`.
 
@@ -234,7 +236,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 
 ```
 .flex-<bp>-(block|inline)
-.(row|column|flex)-<bp>(|-inline)
+.(row|column|flex)-<bp>(|-inline-<bp>)
 .reverse-<bp>
 .(wrap|no-wrap|reverse-wrap)-<bp>
 .order-<bp>-(first|last|none)
@@ -243,7 +245,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .content-<bp>-(start|end|center|between|around)
 .self-<bp>-(start|end|center|baseline|stretch)
 .flex-<bp>-center
-.gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
+.q-gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
 .(col|offset)-<bp>-(|0..12)
 ```
 
@@ -251,7 +253,6 @@ There are also responsive classes for spacing, both for padding and for margin:
 
 ```
 .q-(p|m)(t|r|b|l|a|x|y)-<bp>-(none|auto|xs|sm|md|lg|xl)
-.q-my-<bp>-form
 ```
 
 Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`

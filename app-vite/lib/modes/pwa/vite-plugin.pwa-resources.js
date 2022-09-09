@@ -9,11 +9,11 @@ module.exports = quasarConf => {
   let manifestContent
 
   function updateCache () {
-    if (quasarConf.metaConf.pwaManifest === pwaManifest) {
+    if (quasarConf.htmlVariables.pwaManifest === pwaManifest) {
       return
     }
 
-    pwaManifest = quasarConf.metaConf.pwaManifest
+    pwaManifest = quasarConf.htmlVariables.pwaManifest
     headTags = createHeadTags(quasarConf)
     manifestContent = JSON.stringify(pwaManifest)
   }

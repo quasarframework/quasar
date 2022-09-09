@@ -1,5 +1,5 @@
 const { ProgressPlugin } = require('webpack')
-const throttle = require('lodash.throttle')
+const throttle = require('lodash/throttle')
 const chalk = require('chalk')
 
 const appPaths = require('../app-paths')
@@ -144,7 +144,7 @@ function getReadyBanner (cfg) {
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                      `)
+    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                              `)
     : chalk.green(cfg.build.APP_URL)
 
   return [

@@ -15,11 +15,10 @@ import vueDevtools from '@vue/devtools'
 <% } %>
 
 import { Quasar } from 'quasar'
+import { markRaw } from 'vue'
 import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
-<% if (store) { %>
-import createStore from 'app/<%= sourceFiles.store %>'
-<% } %>
+<% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
 <% if (ctx.mode.capacitor) { %>
@@ -63,30 +62,18 @@ const RootComponent = defineComponent({
 })
 <% } %>
 
+<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
+export const ssrIsRunningOnClientPWA = typeof window !== 'undefined' &&
+  document.body.getAttribute('data-server-rendered') === null
+<% } %>
+
 export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>) {
-  // create store and router instances
-  <% if (store) { %>
-  const store = typeof createStore === 'function'
-    ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
-    : createStore
-
-  // obtain Vuex injection key in case we use TypeScript, not used for Pinia
-  const { storeKey } = await import('app/<%= sourceFiles.store %>');
-  <% } %>
-  const router = typeof createRouter === 'function'
-    ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
-    : createRouter
-  <% if (store) { %>
-  // make router instance available in store
-  store.$router = router
-  <% } %>
-
   // Create the app instance.
   // Here we inject into it the Quasar UI, the router & possibly the store.
   const app = createAppFn(RootComponent)
 
   <% if (ctx.dev || ctx.debug) { %>
-  app.config.devtools = true
+  app.config.performance = true
   <% } %>
 
   app.use(Quasar, quasarUserOptions<%= ctx.mode.ssr ? ', ssrContext' : '' %>)
@@ -95,12 +82,50 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   app.config.globalProperties.$q.capacitor = window.Capacitor
   <% } %>
 
+  <% if (store) { %>
+    const store = typeof createStore === 'function'
+      ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
+      : createStore
+
+    <% if (__storePackage === 'vuex') { %>
+      // obtain Vuex injection key in case we use TypeScript
+      const { storeKey } = await import('app/<%= sourceFiles.store %>')
+    <% } else if (__storePackage === 'pinia') { %>
+      app.use(store)
+
+      <% if (ctx.mode.ssr && ssr.manualStoreHydration !== true) { %>
+        // prime the store with server-initialized state.
+        // the state is determined during SSR and inlined in the page markup.
+        if (typeof window !== 'undefined' && <% if (ctx.mode.pwa) { %>ssrIsRunningOnClientPWA !== true && <% } %>window.__INITIAL_STATE__ !== void 0) {
+          store.state.value = window.__INITIAL_STATE__
+          // for security reasons, we'll delete this
+          delete window.__INITIAL_STATE__
+        }
+      <% } %>
+    <% } %>
+  <% } %>
+
+  const router = markRaw(
+    typeof createRouter === 'function'
+      ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
+      : createRouter
+  )
+
+  <% if (store) { %>
+    // make router instance available in store
+    <% if (__storePackage === 'vuex') { %>
+      store.$router = router
+    <% } else if (__storePackage === 'pinia') { %>
+      store.use(({ store }) => { store.router = router })
+    <% } %>
+  <% } %>
+
   // Expose the app, the router and the store.
   // Note that we are not mounting the app here, since bootstrapping will be
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <%= store ? 'store, storeKey,' : '' %>
+    <%= store ? 'store,' + (__storePackage === 'vuex' ? ' storeKey,' : '') : '' %>
     router
   }
 }

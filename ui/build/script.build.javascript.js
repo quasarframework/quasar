@@ -30,7 +30,7 @@ function resolve (_path) {
 //   }
 // }
 
-const rollupPluginsModern = [
+const commonRollupPlugins = [
   // typescript(tsConfig),
   nodeResolve()
 ]
@@ -55,7 +55,7 @@ const uglifyJsOptions = {
     toplevel: false,
     typeofs: false,
 
-    // a few flags with noticable gains/speed ratio
+    // a few flags with noticeable gains/speed ratio
     booleans: true,
     if_return: true,
     sequences: true,
@@ -72,10 +72,12 @@ const uglifyJsOptions = {
 }
 
 const builds = [
-  { // Generic prod entry (client-side only; NOT used by Quasar CLI)
+  {
+    // client entry used by @quasar/vite-plugin for DEV only
+    // (has flags untouched; required to replace them)
     rollup: {
       input: {
-        input: resolve('src/index.all.js')
+        input: resolve('src/index.dev.js')
       },
       output: {
         file: resolve('dist/quasar.esm.js'),
@@ -83,20 +85,20 @@ const builds = [
       }
     },
     build: {
-      minified: true,
+      unminified: true,
       replace: {
         __QUASAR_VERSION__: `'${ version }'`,
-        __QUASAR_SSR__: false,
-        __QUASAR_SSR_SERVER__: false,
-        __QUASAR_SSR_CLIENT__: false,
-        __QUASAR_SSR_PWA__: false
+        __QUASAR_SSR_SERVER__: false
       }
     }
   },
-  { // SSR server prod entry
+
+  {
+    // SSR server prod entry
+    // (no flags; not required to replace them)
     rollup: {
       input: {
-        input: resolve('src/index.all.js')
+        input: resolve('src/index.ssr.js')
       },
       output: {
         file: resolve('dist/quasar.cjs.js'),
@@ -114,7 +116,9 @@ const builds = [
       }
     }
   },
-  { // UMD entry
+
+  {
+    // UMD entry
     rollup: {
       input: {
         input: resolve('src/index.umd.js')
@@ -142,10 +146,10 @@ function addUmdAssets (builds, type, injectName) {
   const files = fs.readdirSync(resolve(type))
 
   files
-    .filter(file => file.endsWith('.js'))
+    .filter(file => file.endsWith('.mjs'))
     .forEach(file => {
       const name = file
-        .substr(0, file.length - 3)
+        .substring(0, file.length - 4)
         .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
 
       builds.push({
@@ -173,7 +177,7 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = [ ...rollupPluginsModern ]
+  opts.rollup.input.plugins = [ ...commonRollupPlugins ]
 
   if (opts.build.replace !== void 0) {
     opts.rollup.input.plugins.unshift(
@@ -204,7 +208,8 @@ function genConfig (opts) {
 
 function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
-  return `${ filename.slice(0, insertionPoint) }.${ ext }${ filename.slice(insertionPoint) }`
+  const suffix = filename.slice(insertionPoint)
+  return `${ filename.slice(0, insertionPoint) }.${ ext }${ suffix === '.mjs' ? '.js' : suffix }`
 }
 
 function injectVueRequirement (code) {
@@ -262,21 +267,21 @@ function buildEntry (config) {
 }
 
 const runBuild = {
-  full () {
-    require('./build.lang-index').generate()
-      .then(() => require('./build.svg-icon-sets').generate())
-      .then(() => require('./build.api').generate())
-      .then(data => {
-        require('./build.transforms').generate()
-        require('./build.vetur').generate(data)
-        require('./build.types').generate(data)
-        require('./build.web-types').generate(data)
+  async full () {
+    await require('./build.lang').generate()
+    await require('./build.icon-sets').generate()
 
-        addUmdAssets(builds, 'lang', 'lang')
-        addUmdAssets(builds, 'icon-set', 'iconSet')
+    const data = await require('./build.api').generate()
 
-        build(builds)
-      })
+    require('./build.transforms').generate()
+    require('./build.vetur').generate(data)
+    require('./build.types').generate(data)
+    require('./build.web-types').generate(data)
+
+    addUmdAssets(builds, 'lang', 'lang')
+    addUmdAssets(builds, 'icon-set', 'iconSet')
+
+    await build(builds)
   },
 
   async types () {
@@ -288,7 +293,7 @@ const runBuild = {
     require('./build.web-types').generate(data)
 
     // 'types' depends on 'lang-index'
-    await require('./build.lang-index').generate()
+    await require('./build.lang').generate()
     require('./build.types').generate(data)
   },
 

@@ -1,8 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 
-const { log } = require('./helpers/logger')
 const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
@@ -23,7 +22,6 @@ class Generator {
     if (ctx.mode.ssr) {
       paths.push(
         'server-entry.js',
-        'ssr-pwa.js',
         'ssr-middlewares.js'
       )
 

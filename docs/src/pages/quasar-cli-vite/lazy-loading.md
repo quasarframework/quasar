@@ -79,12 +79,22 @@ import('./categories.json')
   })
 ```
 
-One advantage of using dynamic imports as opposed to regular imports is that the import path can be determined at runtime:
+## Importing with Vite
+
+### Dynamic import statements
 
 ```js
-import('pages/' + pageName + '/' + 'id')
+const importList = import.meta.glob('./pages/*.vue')
+const startIndex = '/pages/'.length
+
+const routes = Object.keys(importList).map(key => {
+  return {
+    path: key.substring(startIndex, key.length - 4),
+    component: importList[ key ]
+  }
+})
 ```
 
-## Vite's own
+### Other import options
 
 More info on importing assets with Vite [here](https://vitejs.dev/guide/assets.html).

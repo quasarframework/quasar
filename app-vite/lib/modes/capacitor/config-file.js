@@ -60,7 +60,7 @@ class CapacitorConfigFile {
 
     this.#tamperedFiles = []
 
-    const capJsonPath = this.#getCapJsonPath(quasarConf)
+    const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
     const capJson = require(capJsonPath)
 
     this.#tamperedFiles.push({
@@ -91,22 +91,6 @@ class CapacitorConfigFile {
       fs.writeFileSync(file.path, file.content, 'utf8')
       log(`Updated ${file.name}`)
     })
-  }
-
-  #getCapJsonPath (quasarConf) {
-    let jsonPath
-
-    if (quasarConf.ctx.targetName === 'android') {
-      jsonPath = './android/app/src/main/assets/capacitor.config.json'
-    }
-    else if (quasarConf.ctx.targetName === 'ios') {
-      jsonPath = './ios/App/App/capacitor.config.json'
-    }
-    else {
-      jsonPath = './capacitor.config.json'
-    }
-
-    return path.join(appPaths.resolve.capacitor(jsonPath))
   }
 
   #updateCapJson (quasarConf, originalCapCfg) {

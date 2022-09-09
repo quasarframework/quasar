@@ -40,7 +40,7 @@ class SsrBuilder extends AppBuilder {
       writeFileSync(
         join(this.quasarConf.build.distDir, this.quasarConf.pwa.manifestFilename),
         JSON.stringify(
-          this.quasarConf.metaConf.pwaManifest,
+          this.quasarConf.htmlVariables.pwaManifest,
           null,
           this.quasarConf.build.minify !== false ? void 0 : 2
         ),
@@ -88,10 +88,6 @@ class SsrBuilder extends AppBuilder {
     const appPkg = require(appPaths.resolve.app('package.json'))
     const { dependencies: cliDeps } = require(appPaths.resolve.cli('package.json'))
 
-    if (appPkg.dependencies !== void 0) {
-      delete appPkg.dependencies['@quasar/extras']
-    }
-
     const appDeps = getFixedDeps(appPkg.dependencies || {})
 
     const pkg = {
@@ -105,12 +101,15 @@ class SsrBuilder extends AppBuilder {
       },
       dependencies: Object.assign(appDeps, {
         'compression': cliDeps.compression,
-        'express': cliDeps.express,
-        'serialize-javascript': cliDeps['serialize-javascript']
+        'express': cliDeps.express
       }),
       engines: appPkg.engines,
       browserslist: appPkg.browserslist,
       quasar: { ssr: true }
+    }
+
+    if (this.quasarConf.ssr.manualStoreSerialization !== true) {
+      pkg.dependencies['serialize-javascript'] = cliDeps['serialize-javascript']
     }
 
     if (typeof this.quasarConf.ssr.extendPackageJson === 'function') {

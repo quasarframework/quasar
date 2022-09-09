@@ -2,7 +2,7 @@ const path = require('path')
 const { existsSync } = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')
@@ -12,7 +12,7 @@ const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const resolveExtension = require('./helpers/resolve-extension')
-const getStoreProvider = require('./helpers/get-store-provider')
+const storeProvider = require('./helpers/store-provider')
 
 const urlRegex = /^http(s)?:\/\//i
 const { findClosestOpenPort } = require('../lib/helpers/net')
@@ -151,7 +151,7 @@ class QuasarConfFile {
     this.#opts = { host, port }
 
     if (this.#ctx.mode.pwa) {
-      // Enable this when workbox bumps version (as of writing these lines, we're handling v8)
+      // Enable this when workbox bumps version (as of writing these lines, we're handling v6)
       // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {
@@ -185,6 +185,7 @@ class QuasarConfFile {
 
       if (result.error !== void 0) {
         warn(result.error)
+        warn('Changes to quasar.config.js have NOT been applied due to error above')
       }
       else {
         log(`Applying quasar.config.js changes`)
@@ -247,17 +248,7 @@ class QuasarConfFile {
         vitePlugins: [],
         env: {},
         rawDefine: {},
-        resolve: {},
-        css: {},
-        json: {},
-        esbuild: {},
-        rollupOptions: {},
-        commonjsOptions: {},
-        dynamicImportVarsOptions: {},
-        optimizeDeps: {
-          entries: []
-        },
-        worker: {}
+        resolve: {}
       },
 
       ssr: {
@@ -313,7 +304,7 @@ class QuasarConfFile {
         ssrPwaHtmlFilename: 'offline.html',
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000 // gets superseeded in production by an eventual process.env.PORT
+        prodPort: 3000 // gets superseded in production by an eventual process.env.PORT
       }, cfg.ssr)
     }
 
@@ -412,7 +403,8 @@ class QuasarConfFile {
 
     Object.assign(cfg.metaConf, {
       hasLoadingBarPlugin: cfg.framework.plugins.includes('LoadingBar'),
-      hasMetaPlugin: cfg.framework.plugins.includes('Meta')
+      hasMetaPlugin: cfg.framework.plugins.includes('Meta'),
+      storePackage: storeProvider.name
     })
 
     cfg.build = merge({
@@ -440,17 +432,15 @@ class QuasarConfFile {
         __INTLIFY_PROD_DEVTOOLS__: cfg.metaConf.debugging
       },
 
-      resolve: {
-        alias: {
-          src: appPaths.srcDir,
-          app: appPaths.appDir,
-          components: appPaths.resolve.src('components'),
-          layouts: appPaths.resolve.src('layouts'),
-          pages: appPaths.resolve.src('pages'),
-          assets: appPaths.resolve.src('assets'),
-          boot: appPaths.resolve.src('boot'),
-          stores: appPaths.resolve.src('stores')
-        }
+      alias: {
+        src: appPaths.srcDir,
+        app: appPaths.appDir,
+        components: appPaths.resolve.src('components'),
+        layouts: appPaths.resolve.src('layouts'),
+        pages: appPaths.resolve.src('pages'),
+        assets: appPaths.resolve.src('assets'),
+        boot: appPaths.resolve.src('boot'),
+        stores: appPaths.resolve.src('stores')
       },
 
       vueRouterMode: 'hash',
@@ -465,10 +455,6 @@ class QuasarConfFile {
 
     if (!cfg.build.target.node) {
       cfg.build.target.node = 'node16'
-    }
-
-    if (cfg.build.optimizeDeps.entries.length === 0) {
-      cfg.build.optimizeDeps.entries = [ 'index.html' ]
     }
 
     if (this.#ctx.mode.ssr) {
@@ -491,8 +477,6 @@ class QuasarConfFile {
     cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0
       ? cfg.build.vueRouterBase
       : formatRouterBase(cfg.build.publicPath)
-
-    const storeProvider = getStoreProvider()
 
     // when adding new props here be sure to update
     // all impacted devserver diffs (look for this.registerDiff() calls)
@@ -578,7 +562,8 @@ class QuasarConfFile {
         injectPwaMetaTags: true,
         swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
-        useCredentialsForManifestTag: false
+        useCredentialsForManifestTag: false,
+        useFilenameHashes: false
       }, cfg.pwa)
 
       if (!['generateSW', 'injectManifest'].includes(cfg.pwa.workboxMode)) {
@@ -608,6 +593,7 @@ class QuasarConfFile {
     else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'
     }
+    // Electron is handled in lib/modes/electron/electron-builder.js -> #replaceAppUrl()
 
     Object.assign(cfg.build.env, {
       NODE_ENV: this.#ctx.prod ? 'production' : 'development',

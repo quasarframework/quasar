@@ -3,7 +3,7 @@ title: Convert project to Quasar CLI with Webpack
 desc: (@quasar/app-webpack) How to convert a Quasar CLI with Vite project to a Quasar CLI with Webpack one.
 ---
 
-This page will guide you on how to convert a Quasar CLI with Webpack (`@quasar/app-vite`) project into a Quasar CLI with Webpack one (`@quasar/app-webpack`).
+This page will guide you on how to convert a Quasar CLI with Vite (`@quasar/app-vite`) project into a Quasar CLI with Webpack one (`@quasar/app-webpack`).
 
 ### 1. Create a Quasar CLI with Webpack project folder:
 
@@ -41,7 +41,14 @@ Also move `/index.html` to `/src/index.template.html`. And make the following ch
 <div id="q-app"></div>
 ```
 
-Also, edit `/src/router/index.js`. Change `history: createHistory(process.env.VUE_ROUTER_BASE)` to `history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)`.
+Also, edit `/src/router/index.js`:
+
+```js
+// Change:
+history: createHistory(process.env.VUE_ROUTER_BASE)
+// Into:
+history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+```
 
 ### 3. Check the new quasar.config.js
 

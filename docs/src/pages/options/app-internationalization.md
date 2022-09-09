@@ -9,7 +9,7 @@ related:
 Internationalization is a design process that ensures a product (a website or application) can be adapted to various languages and regions without requiring engineering changes to the source code. Think of internationalization as readiness for localization.
 
 ::: tip
-The recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n-next). This package should be added through a [Boot File](/quasar-cli/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
+The recommended package for handling website/app is [vue-i18n](https://github.com/intlify/vue-i18n-next). This package should be added through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
 :::
 
 ::: warning
@@ -18,7 +18,7 @@ Quasar documentation assumes you are already familiar with [vue-i18n](https://gi
 
 ## Setup manually
 
-If you missed enabling i18n during `quasar create` wizard, here is how you can set it up manually.
+If you missed enabling i18n during `yarn create quasar` (or `npm init quasar`) wizard, here is how you can set it up manually.
 
 1. Install the `vue-i18n` dependency into your app.
 
@@ -38,6 +38,7 @@ export default ({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     locale: 'en-US',
+    globalInjection: true,
     messages
   })
 
@@ -144,7 +145,7 @@ import de from './de'
 
 export default {
   'en-US': enUS,
-  de: de
+  'de': de
 }
 ```
 

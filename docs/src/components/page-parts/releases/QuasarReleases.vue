@@ -19,7 +19,7 @@ q-card(flat bordered)
 import { ref, onMounted } from 'vue'
 import { date } from 'quasar'
 
-import PackageReleases from './PackageReleases'
+import PackageReleases from './PackageReleases.vue'
 
 const { extractDate } = date
 

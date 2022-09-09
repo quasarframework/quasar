@@ -12,7 +12,6 @@
 
 <% if (ctx.mode.ssr && ctx.mode.pwa) { %>
 import { createSSRApp, createApp } from 'vue'
-import { isRunningOnPWA } from './ssr-pwa'
 <% } else { %>
 import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 <% } %>
@@ -37,14 +36,14 @@ import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
-import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
+import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
 <% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
 import '<%= asset.path %>'
 <% }) %>
 
-import createQuasarApp from './app.js'
+import createQuasarApp<% if (ctx.mode.ssr && ctx.mode.pwa) { %>, { ssrIsRunningOnClientPWA }<% } %> from './app.js'
 import quasarUserOptions from './quasar-user-options.js'
 
 <% if (ctx.mode.pwa) { %>
@@ -75,23 +74,19 @@ const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
-  <% if (ctx.mode.ssr && store && ssr.manualStoreHydration !== true) { %>
-  // prime the store with server-initialized state.
-  // the state is determined during SSR and inlined in the page markup.
-  if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__ !== void 0) {
-    if (typeof store.replaceState === 'function') {
-      // it means it's Vuex
+async function start ({
+  app,
+  router
+  <%= store ? ', store' + (__storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+}<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
+  <% if (ctx.mode.ssr && store && __storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
+    // prime the store with server-initialized state.
+    // the state is determined during SSR and inlined in the page markup.
+    if (<%= ctx.mode.pwa ? 'ssrIsRunningOnClientPWA !== true &&' : '' %>window.__INITIAL_STATE__ !== void 0) {
       store.replaceState(window.__INITIAL_STATE__)
+      // for security reasons, we'll delete this
+      delete window.__INITIAL_STATE__
     }
-    else {
-      // it means it's Pinia
-      store.state.value = window.__INITIAL_STATE__
-    }
-
-    // for security reasons, we'll delete this
-    delete window.__INITIAL_STATE__
-  }
   <% } %>
 
   <% if (bootEntries.length > 0) { %>
@@ -152,13 +147,13 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
   <% } %>
 
   app.use(router)
-  <% if (store) { %>app.use(store, storeKey)<% } %>
+  <% if (store && __storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
   <% if (ctx.mode.ssr) { %>
     <% if (ctx.mode.pwa) { %>
-      if (isRunningOnPWA === true) {
+      if (ssrIsRunningOnClientPWA === true) {
         <% if (preFetch) { %>
-        addPreFetchHooks(router<%= store ? ', store' : '' %>)
+        addPreFetchHooks({ router, ssrIsRunningOnClientPWA<%= store ? ', store' : '' %> })
         <% } %>
         app.mount('#q-app')
       }
@@ -168,7 +163,7 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
     // and async components...
     router.isReady().then(() => {
       <% if (preFetch) { %>
-      addPreFetchHooks(router<%= store ? ', store' : '' %>, publicPath)
+      addPreFetchHooks({ router<%= store ? ', store' : '' %>, publicPath })
       <% } %>
       app.mount('#q-app')
     })
@@ -179,7 +174,7 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
   <% } else { // not SSR %>
 
     <% if (preFetch) { %>
-    addPreFetchHooks(router<%= store ? ', store' : '' %>)
+    addPreFetchHooks({ router<%= store ? ', store' : '' %> })
     <% } %>
 
     <% if (ctx.mode.cordova) { %>
@@ -266,7 +261,7 @@ async function start ({ app, router<%= store ? ', store, storeKey' : '' %> }<%= 
 
 createQuasarApp(<%=
   ctx.mode.ssr
-    ? (ctx.mode.pwa ? 'isRunningOnPWA ? createApp : createSSRApp' : 'createSSRApp')
+    ? (ctx.mode.pwa ? 'ssrIsRunningOnClientPWA ? createApp : createSSRApp' : 'createSSRApp')
     : 'createApp'
 %>, quasarUserOptions)
 <% if (bootEntries.length > 0) { %>

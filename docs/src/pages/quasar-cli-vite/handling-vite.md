@@ -1,6 +1,6 @@
 ---
 title: Handling Vite
-desc: (@quasar/app-vite) How to manage Webpack in a Quasar app.
+desc: (@quasar/app-vite) How to manage Vite in a Quasar app.
 related:
   - /quasar-cli-vite/quasar-config-js
 ---
@@ -48,8 +48,124 @@ $ quasar inspect -h
     --help, -h       Displays this message
 ```
 
+## Adding Vite plugins
+
+Make sure to yarn/npm install the vite plugin package that you want to use, then edit `/quasar.config.js`:
+
+```js
+build: {
+  vitePlugins: [
+    [ '<plugin-name>', { /* plugin options */ } ]
+  ]
+}
+```
+
+There are multiple syntaxes supported:
+
+```js
+vitePlugins: [
+  [ '<plugin1-name>', { /* plugin1 options */ } ],
+  [ '<plugin2-name>', { /* plugin2 options */ } ],
+  // ...
+]
+
+// or:
+
+vitePlugins: [
+  [ require('<plugin1-name>'), { /* plugin1 options */ } ],
+  [ require('<plugin2-name>'), { /* plugin2 options */ } ],
+  // ...
+]
+
+// finally, you can specify using the form below,
+// but this one has a drawback in that Quasar CLI cannot pick up
+// when you change the options param so you'll have to manually
+// restart the dev server
+
+vitePlugins: [
+  require('<plugin1-name>')({ /* plugin1 options */ }),
+  require('<plugin2-name>')({ /* plugin2 options */ })
+  // ...
+]
+```
+
+::: tip
+You might actually bump into Vite plugins that need to be used as `require('<package-name>').default` instead of `require('<package-name>')`. So:
+
+<br>
+
+```js
+vitePlugins: [
+  [ require('<plugin1-name>').default, { /* plugin1 options */ } ],
+  // ...
+]
+```
+:::
+
+And, should you want, you can also add Vite plugins through `extendViteConf()` in `/quasar.config.js`. This is especially useful for (but not limited to) SSR mode where you'd want a Vite plugin to be applied only on the server-side or the client-side:
+
+```js
+build: {
+  extendViteConf (viteConf, { isClient, isServer }) {
+    viteConf.plugins.push(
+      require('<plugin1-name>')({ /* plugin1 options */ }),
+      require('<plugin2-name>')({ /* plugin2 options */ })
+      // ...
+    )
+  }
+}
+```
+
+Moreover, don't forget that your `/quasar.config.js` exports a function that receives `ctx` as parameter. You can use it throughout the whole config file to apply settings only to certain Quasar modes or only to dev or prod:
+
+```js
+module.exports = function (ctx) {
+  return {
+    build: {
+      extendViteConf (viteConf, { isClient, isServer }) {
+        if (ctx.mode.pwa) {
+          viteConf.plugins.push(/* ... */)
+        }
+
+        if (ctx.dev) {
+          viteConf.plugins.push(/* ... */)
+        }
+      }
+    }
+  }
+}
+```
+
+### Example: rollup-plugin-copy
+It is likely that you will need to copy static or external files to your Quasar project during the build to production process, rollup-plugin-copy allows you to copy files and folders when building your app.
+
+```js
+// quasar.config.js
+...
+  build: {
+  ...
+    vitePlugins: [
+      [ 
+        'rollup-plugin-copy', {
+          targets: [
+            { // Syntax code, check doc in https://www.npmjs.com/package/rollup-plugin-copy
+              src: '[ORIGIN_PATH]',
+              dest: '[DEST_PATH]'
+            },
+            { // Copying firebase-messaging-sw.js to SPA/PWA/SSR dest build folder
+              src: 'config/firebase/firebase-messaging-sw.js',
+              dest: 'dest/spa'    // example when building SPA
+            }
+        } 
+       ],
+       // other vite/rollup plugins
+    ]
+  }
+...
+```
+
 ## Folder aliases
-Quasar comes with a bunch of useful folder aliases preconfigured. You can use them anywhere in your project and webpack will resolve the correct path.
+Quasar comes with a bunch of useful folder aliases preconfigured. You can use them anywhere in your project and Vite will resolve the correct path.
 
 | Alias | Resolves to |
 | --- | --- |
@@ -62,10 +178,28 @@ Quasar comes with a bunch of useful folder aliases preconfigured. You can use th
 | `boot` | /src/boot |
 | `stores` | /src/stores (Pinia stores) |
 
-### Adding folder aliases
+#### Adding folder aliases
 
-To add your own alias you can extend the webpack config and merge it with the existing alias.
-Use the `path.join` helper to resolve the path to your intended alias.
+To add your own alias there are two ways:
+
+1. Edit `/quasar.config.js`:
+
+```js
+// quasar.config.js
+const path = require('path')
+
+module.exports = function (ctx) {
+  return {
+    build: {
+      alias: {
+        myalias: path.join(__dirname, './src/somefolder')
+      }
+    }
+  }
+}
+```
+
+2. Alternatively, you can directly extend the Vite config and merge it with the existing alias list. Use the `path.join` helper to resolve the path to your intended alias.
 
 ```js
 // quasar.config.js
@@ -84,7 +218,7 @@ module.exports = function (ctx) {
 }
 ```
 
-### PostCSS
+## PostCSS
 
 Styles in `*.vue` files (and all other style files) are piped through PostCSS by default, so you don't need to use a specific loader for it.
 

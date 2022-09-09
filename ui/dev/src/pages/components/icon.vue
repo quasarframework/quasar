@@ -92,32 +92,38 @@
 import { ref, watch } from 'vue'
 import { useQuasar } from 'quasar'
 
-import matSet from 'quasar/icon-set/material-icons.js'
-import matOutlinedSet from 'quasar/icon-set/material-icons-outlined.js'
-import matRoundSet from 'quasar/icon-set/material-icons-round.js'
-import matSharpSet from 'quasar/icon-set/material-icons-sharp.js'
-import mdiSet from 'quasar/icon-set/mdi-v6.js'
-import fontawesomeSet from 'quasar/icon-set/fontawesome-v6.js'
-import ioniconsV4Set from 'quasar/icon-set/ionicons-v4.js'
-import evaSet from 'quasar/icon-set/eva-icons.js'
-import themifySet from 'quasar/icon-set/themify.js'
-import lineawesomeSet from 'quasar/icon-set/line-awesome.js'
-import bootstrapiconsSet from 'quasar/icon-set/bootstrap-icons.js'
+import matSet from 'quasar/icon-set/material-icons'
+import matOutlinedSet from 'quasar/icon-set/material-icons-outlined'
+import matRoundSet from 'quasar/icon-set/material-icons-round'
+import matSharpSet from 'quasar/icon-set/material-icons-sharp'
+import symOutlinedSet from 'quasar/icon-set/material-symbols-outlined'
+import symRoundedSet from 'quasar/icon-set/material-symbols-rounded'
+import symSharpSet from 'quasar/icon-set/material-symbols-sharp'
+import mdiSet from 'quasar/icon-set/mdi-v6'
+import fontawesomeSet from 'quasar/icon-set/fontawesome-v6'
+import ioniconsV4Set from 'quasar/icon-set/ionicons-v4'
+import evaSet from 'quasar/icon-set/eva-icons'
+import themifySet from 'quasar/icon-set/themify'
+import lineawesomeSet from 'quasar/icon-set/line-awesome'
+import bootstrapiconsSet from 'quasar/icon-set/bootstrap-icons'
 
-import svgMatSet from 'quasar/icon-set/svg-material-icons.js'
-import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined.js'
-import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round.js'
-import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp.js'
-import svgMdiSet from 'quasar/icon-set/svg-mdi-v6.js'
-import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4.js'
-import svgIoniconsV5Set from 'quasar/icon-set/svg-ionicons-v5.js'
-import svgIoniconsV6Set from 'quasar/icon-set/svg-ionicons-v6.js'
-import svgFontawesomeV5Set from 'quasar/icon-set/svg-fontawesome-v5.js'
-import svgFontawesomeV6Set from 'quasar/icon-set/svg-fontawesome-v6.js'
-import svgEvaSet from 'quasar/icon-set/svg-eva-icons.js'
-import svgThemifySet from 'quasar/icon-set/svg-themify.js'
-import svgLineawesomeSet from 'quasar/icon-set/svg-line-awesome.js'
-import svgBootstrapiconsSet from 'quasar/icon-set/svg-bootstrap-icons.js'
+import svgMatSet from 'quasar/icon-set/svg-material-icons'
+import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined'
+import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round'
+import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp'
+import svgSymOutlinedSet from 'quasar/icon-set/svg-material-symbols-outlined'
+import svgSymRoundedSet from 'quasar/icon-set/svg-material-symbols-rounded'
+import svgSymSharpSet from 'quasar/icon-set/svg-material-symbols-sharp'
+import svgMdiSet from 'quasar/icon-set/svg-mdi-v6'
+import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4'
+import svgIoniconsV5Set from 'quasar/icon-set/svg-ionicons-v5'
+import svgIoniconsV6Set from 'quasar/icon-set/svg-ionicons-v6'
+import svgFontawesomeV5Set from 'quasar/icon-set/svg-fontawesome-v5'
+import svgFontawesomeV6Set from 'quasar/icon-set/svg-fontawesome-v6'
+import svgEvaSet from 'quasar/icon-set/svg-eva-icons'
+import svgThemifySet from 'quasar/icon-set/svg-themify'
+import svgLineawesomeSet from 'quasar/icon-set/svg-line-awesome'
+import svgBootstrapiconsSet from 'quasar/icon-set/svg-bootstrap-icons'
 
 import { matAddBox } from '@quasar/extras/material-icons'
 import { mdiAirballoon } from '@quasar/extras/mdi-v6'
@@ -243,6 +249,9 @@ export default {
         { value: 'o_add_box', label: 'A Material Outlined icon' },
         { value: 'r_add_box', label: 'A Material Round icon' },
         { value: 's_add_box', label: 'A Material Sharp icon' },
+        { value: 'sym_o_search', label: 'A Material Symbols Outlined icon' },
+        { value: 'sym_r_search', label: 'A Material Symbols Rounded icon' },
+        { value: 'sym_s_search', label: 'A Material Symbols Sharp icon' },
         { value: 'mdi-airballoon', label: 'A MDI v6 icon' },
         { value: mdiAirballoon, label: 'A MDI v6 SVG icon' },
         { value: 'fab fa-github', label: 'A Fontawesome v6 icon' },
@@ -267,9 +276,11 @@ export default {
 
       sets: [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
+        symOutlinedSet, symRoundedSet, symSharpSet,
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet, bootstrapiconsSet,
         svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
+        svgSymOutlinedSet, svgSymRoundedSet, svgSymSharpSet,
         svgMdiSet, svgIoniconsV4Set, svgIoniconsV5Set, svgIoniconsV6Set,
         svgFontawesomeV5Set, svgFontawesomeV6Set,
         svgEvaSet, svgThemifySet, svgLineawesomeSet, svgBootstrapiconsSet

@@ -47,6 +47,7 @@ export default createComponent({
 
     persistent: Boolean,
     autoClose: Boolean,
+    allowFocusOutside: Boolean,
 
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
@@ -96,7 +97,7 @@ export default createComponent({
     const { registerTimeout, removeTimeout } = useTimeout()
     const { registerTick, removeTick } = useTick()
 
-    const { showPortal, hidePortal, portalIsActive, renderPortal } = usePortal(
+    const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
       vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
     )
 
@@ -235,6 +236,7 @@ export default createComponent({
       removeFromHistory()
       cleanup(true)
       animating.value = true
+      hidePortal()
 
       if (refocusTarget !== null) {
         refocusTarget.focus()
@@ -242,13 +244,13 @@ export default createComponent({
       }
 
       registerTimeout(() => {
-        hidePortal()
+        hidePortal(true) // done hiding, now destroy
         animating.value = false
         emit('hide', evt)
       }, props.transitionDuration)
     }
 
-    function focus () {
+    function focus (selector) {
       addFocusFn(() => {
         let node = innerRef.value
 
@@ -256,7 +258,7 @@ export default createComponent({
           return
         }
 
-        node = node.querySelector('[autofocus], [data-autofocus]') || node
+        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
         node.focus({ preventScroll: true })
       })
     }
@@ -350,11 +352,11 @@ export default createComponent({
     function onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
-        showing.value === true
-        && portalIsActive.value === true
+        props.allowFocusOutside !== true
+        && portalIsAccessible.value === true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
-        focus()
+        focus('[tabindex]:not([tabindex="-1"])')
       }
     }
 

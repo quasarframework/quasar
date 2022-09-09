@@ -1,9 +1,12 @@
 
 const { normalizePath } = require('vite')
-const getLinter = require('../eslint')
 const { dim, underline, bold } = require('kolorist')
 
+const { warning, error, success } = require('../helpers/logger')
+const getLinter = require('../eslint')
+
 const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
+const errorFiles = new Set()
 
 function parseIssue (path, reportEntry) {
   const source = reportEntry.source.split('\n')
@@ -67,11 +70,26 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
         }
 
         if (errors === true && errorCount !== 0) {
+          errorFiles.add(path)
+          console.log()
+          error('Error:', 'LINT')
+          console.log()
           return { errors: parseIssue(path, report[0]) }
         }
 
         if (warnings === true && warningCount !== 0) {
+          errorFiles.add(path)
+          console.log()
+          warning('Warning:', 'LINT')
+          console.log()
           return { warnings: parseIssue(path, report[0]) }
+        }
+
+        if (errorFiles.has(path) === true) {
+          console.log()
+          success(path, 'LINT OK')
+          console.log()
+          errorFiles.delete(path)
         }
 
         return {}

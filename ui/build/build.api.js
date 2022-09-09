@@ -46,64 +46,64 @@ const nativeTypes = [ 'Component', 'Error', 'Element', 'File', 'FileList', 'Even
 
 const objectTypes = {
   Boolean: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'transformAssetUrls', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples' ]
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'params', 'returns' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'params', 'returns' ],
     canBeNull: [ 'params', 'returns' ],
     isArray: [ 'examples' ]
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'internal' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
     isArray: [ 'examples', 'values' ]
   },
@@ -166,7 +166,14 @@ function isClassStyleType (type) {
   return hits === 3
 }
 
-function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
+const serializableTypes = [ 'Boolean', 'Number', 'String', 'Array', 'Object' ]
+function isSerializable (value) {
+  const types = Array.isArray(value.type) ? value.type : [ value.type ]
+
+  return types.every(type => serializableTypes.includes(type))
+}
+
+function parseObject ({ banner, api, itemName, masterType, verifyCategory, verifySerializable }) {
   let obj = api[ itemName ]
 
   if (obj.extends !== void 0 && extendApi[ masterType ] !== void 0) {
@@ -328,6 +335,18 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         process.exit(1)
       }
     }
+
+    if (verifySerializable && isSerializable(obj) === false) {
+      logError(`${ banner } object's type is non-serializable but props in "quasarConfOptions" can only consist of ${ serializableTypes.join('/') }:`)
+      console.error(obj)
+      console.log()
+      process.exit(1)
+    }
+  }
+
+  // If it must be synced, then it is syncable too (v-model:xyz)
+  if (obj.sync === true) {
+    obj.syncable = true
   }
 
   if (obj.returns) {
@@ -347,7 +366,8 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
         banner: `${ banner }/"${ prop }"/"${ item }"`,
         api: api[ itemName ][ prop ],
         itemName: item,
-        masterType: 'props'
+        masterType: 'props',
+        verifySerializable
       })
     }
   })
@@ -377,7 +397,7 @@ function handleAddedIn (api, banner) {
   }
 
   if (isValidVersion(addedIn.slice(1)) !== true) {
-    logError(`${ banner } "addedIn" value (${ addedIn }) must follow sematic versioning`)
+    logError(`${ banner } "addedIn" value (${ addedIn }) must follow semantic versioning`)
     console.log()
     process.exit(1)
   }
@@ -429,7 +449,8 @@ function parseAPI (file, apiType) {
         banner: `${ banner } "${ type }"`,
         api,
         itemName: type,
-        masterType: type
+        masterType: type,
+        verifySerializable: type === 'quasarConfOptions'
       })
       continue
     }

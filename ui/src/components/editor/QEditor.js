@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
@@ -368,11 +368,14 @@ export default createComponent({
     }
 
     function onFocusin (e) {
+      const root = rootRef.value
+
       if (
-        rootRef.value.contains(e.target) === true
+        root !== null
+        && root.contains(e.target) === true
         && (
           e.relatedTarget === null
-          || rootRef.value.contains(e.relatedTarget) !== true
+          || root.contains(e.relatedTarget) !== true
         )
       ) {
         const prop = `inner${ isViewingSource.value === true ? 'Text' : 'HTML' }`
@@ -382,11 +385,14 @@ export default createComponent({
     }
 
     function onFocusout (e) {
+      const root = rootRef.value
+
       if (
-        rootRef.value.contains(e.target) === true
+        root !== null
+        && root.contains(e.target) === true
         && (
           e.relatedTarget === null
-          || rootRef.value.contains(e.relatedTarget) !== true
+          || root.contains(e.relatedTarget) !== true
         )
       ) {
         eVm.caret.savePosition()
@@ -394,27 +400,12 @@ export default createComponent({
       }
     }
 
-    function onMousedown () {
+    function onPointerStart () {
       offsetBottom = void 0
     }
 
-    function onMouseup (e) {
+    function onSelectionchange (e) {
       eVm.caret.save()
-      emit('mouseup', e)
-    }
-
-    function onTouchstartPassive () {
-      offsetBottom = void 0
-    }
-
-    function onKeyup (e) {
-      eVm.caret.save()
-      emit('keyup', e)
-    }
-
-    function onTouchend (e) {
-      eVm.caret.save()
-      emit('touchend', e)
     }
 
     function setContent (v, restorePosition) {
@@ -471,6 +462,12 @@ export default createComponent({
       eVm.caret = proxy.caret = new Caret(contentRef.value, eVm)
       setContent(props.modelValue)
       refreshToolbar()
+
+      document.addEventListener('selectionchange', onSelectionchange)
+    })
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('selectionchange', onSelectionchange)
     })
 
     return () => {
@@ -526,13 +523,8 @@ export default createComponent({
           onFocus,
 
           // clean saved scroll position
-          onMousedown,
-          onTouchstartPassive,
-
-          // save caret
-          onMouseup,
-          onKeyup,
-          onTouchend
+          onMousedown: onPointerStart,
+          onTouchstartPassive: onPointerStart
         })
       ])
     }

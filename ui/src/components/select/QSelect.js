@@ -127,7 +127,7 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'add', 'remove', 'input-value',
+    'add', 'remove', 'input-value', 'new-value',
     'keyup', 'keypress', 'keydown',
     'filter-abort'
   ],
@@ -165,7 +165,7 @@ export default createComponent({
 
     const virtualScrollItemSizeComputed = computed(() => (
       props.virtualScrollItemSize === void 0
-        ? (props.dense === true ? 24 : 48)
+        ? (props.optionsDense === true ? 24 : 48)
         : props.virtualScrollItemSize
     ))
 
@@ -268,15 +268,23 @@ export default createComponent({
 
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
-    const comboboxAttrs = computed(() => ({
-      tabindex: props.tabindex,
-      role: 'combobox',
-      'aria-label': props.label,
-      'aria-autocomplete': props.useInput === true ? 'list' : 'none',
-      'aria-expanded': menu.value === true ? 'true' : 'false',
-      'aria-owns': `${ state.targetUid.value }_lb`,
-      'aria-controls': `${ state.targetUid.value }_lb`
-    }))
+    const comboboxAttrs = computed(() => {
+      const attrs = {
+        tabindex: props.tabindex,
+        role: 'combobox',
+        'aria-label': props.label,
+        'aria-autocomplete': props.useInput === true ? 'list' : 'none',
+        'aria-expanded': menu.value === true ? 'true' : 'false',
+        'aria-owns': `${ state.targetUid.value }_lb`,
+        'aria-controls': `${ state.targetUid.value }_lb`
+      }
+
+      if (optionIndex.value >= 0) {
+        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
+      }
+
+      return attrs
+    })
 
     const listboxAttrs = computed(() => {
       const attrs = {
@@ -431,6 +439,8 @@ export default createComponent({
     watch(() => props.fillInput, resetInputValue)
 
     watch(menu, updateMenu)
+
+    watch(virtualScrollLength, rerenderMenu)
 
     function getEmittingOptionValue (opt) {
       return props.emitValue === true
@@ -1010,7 +1020,7 @@ export default createComponent({
     function onInput (e) {
       clearTimeout(inputTimer)
 
-      if (e && e.target && e.target.composing === true) {
+      if (e && e.target && e.target.qComposing === true) {
         return
       }
 
@@ -1339,6 +1349,23 @@ export default createComponent({
       setOptionIndex(optionIndex)
     }
 
+    function rerenderMenu (newLength, oldLength) {
+      if (menu.value === true && state.innerLoading.value === false) {
+        localResetVirtualScroll(-1, true)
+
+        nextTick(() => {
+          if (menu.value === true && state.innerLoading.value === false) {
+            if (newLength > oldLength) {
+              localResetVirtualScroll()
+            }
+            else {
+              updateMenu(true)
+            }
+          }
+        })
+      }
+    }
+
     function updateMenuPosition () {
       if (dialog.value === false && menuRef.value !== null) {
         menuRef.value.updatePosition()
@@ -1411,10 +1438,9 @@ export default createComponent({
       showPopup,
 
       floatingLabel: computed(() =>
-        (props.hideSelected === true
-          ? inputValue.value.length > 0
-          : hasValue.value === true
-        )
+        (props.hideSelected !== true && hasValue.value === true)
+        || typeof inputValue.value === 'number'
+        || inputValue.value.length > 0
         || fieldValueIsFilled(props.displayValue)
       ),
 
@@ -1474,6 +1500,7 @@ export default createComponent({
               class: 'q-select__focus-target',
               id: isTarget === true ? state.targetUid.value : void 0,
               readonly: true,
+              'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
               ...attrs,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,

@@ -149,6 +149,7 @@ export function getRenderer (getPlugin) {
     + (props.square === true ? ' q-uploader--square no-border-radius' : '')
     + (props.flat === true ? ' q-uploader--flat no-shadow' : '')
     + (props.disable === true ? ' disabled q-uploader--disable' : '')
+    + (dnd.value === true ? ' q-uploader--dnd' : '')
   )
 
   const colorClass = computed(() =>
@@ -263,13 +264,13 @@ export function getRenderer (getPlugin) {
 
   function addFilesToQueue (e, fileList) {
     const localFiles = processFiles(e, fileList, state.files.value, true)
-
-    if (localFiles === void 0) { return }
-
     const fileInput = getFileInput()
+
     if (fileInput !== void 0 && fileInput !== null) {
       fileInput.value = ''
     }
+
+    if (localFiles === void 0) { return }
 
     localFiles.forEach(file => {
       state.updateFileStatus(file, 'idle')
@@ -339,28 +340,32 @@ export function getRenderer (getPlugin) {
 
     return [
       h('div', {
-        class: 'q-uploader__header-content flex flex-center no-wrap q-gutter-xs'
+        class: 'q-uploader__header-content column'
       }, [
-        getBtn(state.queuedFiles.value.length > 0, 'removeQueue', removeQueuedFiles),
-        getBtn(state.uploadedFiles.value.length > 0, 'removeUploaded', removeUploadedFiles),
+        h('div', {
+          class: 'flex flex-center no-wrap q-gutter-xs'
+        }, [
+          getBtn(state.queuedFiles.value.length > 0, 'removeQueue', removeQueuedFiles),
+          getBtn(state.uploadedFiles.value.length > 0, 'removeUploaded', removeUploadedFiles),
 
-        state.isUploading.value === true
-          ? h(QSpinner, { class: 'q-uploader__spinner' })
-          : null,
-
-        h('div', { class: 'col column justify-center' }, [
-          props.label !== void 0
-            ? h('div', { class: 'q-uploader__title' }, [ props.label ])
+          state.isUploading.value === true
+            ? h(QSpinner, { class: 'q-uploader__spinner' })
             : null,
 
-          h('div', { class: 'q-uploader__subtitle' }, [
-            uploadSizeLabel.value + ' / ' + uploadProgressLabel.value
-          ])
-        ]),
+          h('div', { class: 'col column justify-center' }, [
+            props.label !== void 0
+              ? h('div', { class: 'q-uploader__title' }, [ props.label ])
+              : null,
 
-        getBtn(canAddFiles.value, 'add'),
-        getBtn(props.hideUploadBtn === false && canUpload.value === true, 'upload', state.upload),
-        getBtn(state.isUploading.value, 'clear', state.abort)
+            h('div', { class: 'q-uploader__subtitle' }, [
+              uploadSizeLabel.value + ' / ' + uploadProgressLabel.value
+            ])
+          ]),
+
+          getBtn(canAddFiles.value, 'add'),
+          getBtn(props.hideUploadBtn === false && canUpload.value === true, 'upload', state.upload),
+          getBtn(state.isUploading.value, 'clear', state.abort)
+        ])
       ])
     ]
   }

@@ -1,5 +1,5 @@
 import { mount } from '@cypress/vue'
-import QAvatar from '../QAvatar'
+import QAvatar from '../QAvatar.js'
 
 describe('Avatar API', () => {
   describe('Props', () => {

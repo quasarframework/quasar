@@ -208,7 +208,7 @@ export default createComponent({
     }
 
     function onInput (e) {
-      if (!e || !e.target || e.target.composing === true) {
+      if (!e || !e.target) {
         return
       }
 
@@ -218,6 +218,12 @@ export default createComponent({
       }
 
       const val = e.target.value
+
+      if (e.target.qComposing === true) {
+        temp.value = val
+
+        return
+      }
 
       if (hasMask.value === true) {
         updateMaskValue(val, false, e.inputType)
@@ -253,6 +259,8 @@ export default createComponent({
         }
 
         if (props.modelValue !== val && emitCachedValue !== val) {
+          emitCachedValue = val
+
           stopWatcher === true && (stopValueWatcher = true)
           emit('update:modelValue', val)
 
@@ -284,13 +292,16 @@ export default createComponent({
       const inp = inputRef.value
       if (inp !== null) {
         const parentStyle = inp.parentNode.style
+        const { overflow } = inp.style
 
         // reset height of textarea to a small size to detect the real height
         // but keep the total control size the same
         parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
+        inp.style.overflow = 'hidden'
 
         inp.style.height = inp.scrollHeight + 'px'
+        inp.style.overflow = overflow
         parentStyle.marginBottom = ''
       }
     }

@@ -54,6 +54,8 @@ Given our Quasar App might need to take the full height of the window (and thus 
 We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.
 
 ```js
+import { bexContent } from 'quasar/wrappers'
+
 const
   iFrame = document.createElement('iframe'),
   defaultFrameHeight = '62px'
@@ -73,25 +75,6 @@ const resetIFrameHeight = () => {
   setIFrameHeight(defaultFrameHeight)
 }
 
-/**
- * Content hooks which listen for messages from the BEX in the iFrame
- * @param bridge
- */
-export default function attachContentHooks (bridge) {
-  /**
-   * When the drawer is toggled set the iFrame height to take the whole page.
-   * Reset when the drawer is closed.
-   */
-  bridge.on('wb.drawer.toggle', event => {
-    const payload = event.data
-    if (payload.open) {
-      setIFrameHeight('100%')
-    } else {
-      resetIFrameHeight()
-    }
-    bridge.send(event.eventResponseKey)
-  })
-}
 
 /**
  * The code below will get everything going. Initialize the iFrame with defaults and add it to the page.
@@ -115,9 +98,24 @@ Object.assign(iFrame.style, {
 
 ;(function () {
   // When the page loads, insert our browser extension app.
-  iFrame.src = chrome.runtime.getURL(`www/index.html`)
+  iFrame.src = chrome.runtime.getURL('www/index.html')
   document.body.prepend(iFrame)
 })()
+
+export default bexContent((bridge) => {
+  /**
+   * When the drawer is toggled set the iFrame height to take the whole page.
+   * Reset when the drawer is closed.
+   */
+  bridge.on('wb.drawer.toggle', ({ data, respond }) => {
+    if (data.open) {
+      setIFrameHeight('100%')
+    } else {
+      resetIFrameHeight()
+    }
+    respond()
+  })
+})
 ```
 
 * `src-bex/css/content-css.css`
@@ -130,7 +128,7 @@ Add a margin to the top of our document so our Quasar toolbar doesn't overlap th
 }
 ```
 
-* `Quasar App`
+* `Quasar App (/src)`
 
 Then in our Quasar app (/src), we have a function that toggles the drawer and sends an event to the content script telling it to
 resize the IFrame thus allowing our whole app to be visible:
@@ -149,15 +147,13 @@ setup () {
   const $q = useQuasar()
   const drawerIsOpen = ref(true)
 
-  function drawerToggled () {
-    $q.bex
-      .send('wb.drawer.toggle', {
-        open: drawerIsOpen.value // So it knows to make it bigger / smaller
-      })
-      .then(r => {
-        // Only set this once the promise has resolved so we can see the entire slide animation.
-        drawerIsOpen.value = !drawerIsOpen.value
-      })
+  async function drawerToggled () {
+    await $q.bex.send('wb.drawer.toggle', {
+      open: drawerIsOpen.value // So it knows to make it bigger / smaller
+    })
+
+    // Only set this once the promise has resolved so we can see the entire slide animation.
+    drawerIsOpen.value = !drawerIsOpen.value
   }
 
   return { drawerToggled }

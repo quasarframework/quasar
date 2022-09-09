@@ -6,7 +6,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
 
-const disabledValues = [ void 0, true ]
+const disabledValues = [ '', true ]
 
 export default createComponent({
   name: 'QBreadcrumbs',

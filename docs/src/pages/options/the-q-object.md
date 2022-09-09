@@ -21,7 +21,36 @@ Quasar supplies a `$q` object that you can use for various purposes. You will no
 
 The following sections will teach you how to use it in .vue files (with both Composition API and Options API) and outside of them.
 
-### Composition API
+### Composition API with `<script setup>`
+
+The following is a .vue file:
+
+```html
+<template>
+  <div>
+    <div v-if="$q.platform.is.ios">
+      Gets rendered only on iOS platform.
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useQuasar } from 'quasar'
+
+const $q = useQuasar()
+
+console.log($q.platform.is.ios)
+
+// showing an example on a method, but
+// can be any part of Vue script
+function show () {
+  // prints out Quasar version
+  console.log($q.version)
+}
+</script>
+```
+
+### Composition API without `<script setup>`
 
 The following is a .vue file:
 

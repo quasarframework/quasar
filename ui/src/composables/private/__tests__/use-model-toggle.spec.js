@@ -3,40 +3,41 @@ import { mount } from '@cypress/vue'
 import WrapperOne from './../../../components/menu/__tests__/WrapperOne.vue'
 import WrapperTwo from './../../../components/menu/__tests__/WrapperTwo.vue'
 import { ref } from 'vue'
+import { vModelAdapter } from '../../../../test/cypress/helpers/v-model-adapter'
 
 describe('use-model-toggle API', () => {
   describe('Props', () => {
     describe('Category: model', () => {
       describe('(prop): model-value', () => {
         it('should open the dialog when modifying the model-value', () => {
-          const modelValue = ref(false)
+          const model = ref(false)
           mount(WrapperOne, {
-            attrs: {
-              modelValue
+            props: {
+              ...vModelAdapter(model)
             }
           })
           cy.dataCy('wrapper')
           cy.dataCy('menu')
             .should('not.exist')
             .then(() => {
-              modelValue.value = true
+              model.value = true
               cy.dataCy('menu')
                 .should('exist')
             })
         })
 
         it('should close the dialog when modifying the model-value', () => {
-          const modelValue = ref(true)
+          const model = ref(true)
           mount(WrapperOne, {
-            attrs: {
-              modelValue
+            props: {
+              ...vModelAdapter(model)
             }
           })
           cy.dataCy('wrapper')
           cy.dataCy('menu')
             .should('exist')
             .then(() => {
-              modelValue.value = false
+              model.value = false
               cy.dataCy('menu')
                 .should('not.exist')
             })
@@ -50,7 +51,7 @@ describe('use-model-toggle API', () => {
       it('should emit @update:model-value event when state changes', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             'onUpdate:modelValue': fn
           }
         })
@@ -70,7 +71,7 @@ describe('use-model-toggle API', () => {
       it('should emit @show event when menu is triggered by parent', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onShow: fn
           }
         })
@@ -89,7 +90,7 @@ describe('use-model-toggle API', () => {
       it('should emit @show event when component is triggered with the show() method', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onShow: fn
           }
         })
@@ -111,7 +112,7 @@ describe('use-model-toggle API', () => {
       it('should emit @before-show event when menu is triggered by parent', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onBeforeShow: fn
           }
         })
@@ -129,7 +130,7 @@ describe('use-model-toggle API', () => {
       it('should emit @before-show event when component is triggered with the show() method', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onBeforeShow: fn
           }
         })
@@ -150,7 +151,7 @@ describe('use-model-toggle API', () => {
       it('should emit @hide event when menu is triggered by parent', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onHide: fn
           }
         })
@@ -175,7 +176,7 @@ describe('use-model-toggle API', () => {
       it('should emit @hide event when component is triggered with the show() method', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onHide: fn
           }
         })
@@ -203,7 +204,7 @@ describe('use-model-toggle API', () => {
       it('should emit @before-hide event when menu is triggered by parent', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onBeforeHide: fn
           }
         })
@@ -228,7 +229,7 @@ describe('use-model-toggle API', () => {
       it('should emit @before-hide event when component is triggered with the show() method', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onBeforeHide: fn
           }
         })
@@ -255,7 +256,7 @@ describe('use-model-toggle API', () => {
 
   describe('Methods', () => {
     describe('(method): show', () => {
-      it('should tigger the menu to show', () => {
+      it('should trigger the menu to show', () => {
         mount(WrapperOne)
 
         cy.dataCy('wrapper')
@@ -267,7 +268,7 @@ describe('use-model-toggle API', () => {
     })
 
     describe('(method): hide', () => {
-      it('should tigger the menu to hide', () => {
+      it('should trigger the menu to hide', () => {
         mount(WrapperOne)
 
         cy.dataCy('wrapper')

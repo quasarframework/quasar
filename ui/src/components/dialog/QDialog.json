@@ -92,6 +92,13 @@
       "desc": "Do not shake up the Dialog to catch user's attention",
       "category": "behavior",
       "addedIn": "v2.1.1"
+    },
+
+    "allow-focus-outside": {
+      "type": "Boolean",
+      "desc": "Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus",
+      "category": "behavior",
+      "addedIn": "v2.7.2"
     }
   },
 
@@ -107,7 +114,16 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it"
+      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it",
+      "params": {
+        "selector": {
+          "type": "String",
+          "required": false,
+          "desc": "Optional CSS selector to override default focusable element",
+          "examples": [ "[tabindex]:not([tabindex=\"-1\"])" ],
+          "addedIn": "v2.6.5"
+        }
+      }
     },
 
     "shake": {

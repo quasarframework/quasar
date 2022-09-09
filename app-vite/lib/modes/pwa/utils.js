@@ -10,7 +10,7 @@ const workboxBuild = getPackage('workbox-build')
 
 module.exports.createHeadTags = function createHeadTags (quasarConf) {
   const { publicPath } = quasarConf.build
-  const { pwaManifest } = quasarConf.metaConf
+  const { pwaManifest } = quasarConf.htmlVariables
   const { useCredentialsForManifestTag, injectPwaMetaTags, manifestFilename } = quasarConf.pwa
 
   let headTags =
@@ -40,7 +40,7 @@ module.exports.createHeadTags = function createHeadTags (quasarConf) {
 }
 
 module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
-  if (ifNotAlreadyGenerated === true && quasarConf.metaConf.pwaManifest !== void 0) {
+  if (ifNotAlreadyGenerated === true && quasarConf.htmlVariables.pwaManifest !== void 0) {
     return
   }
 
@@ -59,11 +59,28 @@ module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNot
     quasarConf.pwa.extendManifestJson(pwaManifest)
   }
 
-  quasarConf.metaConf.pwaManifest = pwaManifest
+  quasarConf.htmlVariables.pwaManifest = pwaManifest
 }
 
 module.exports.buildPwaServiceWorker = async function buildPwaServiceWorker (workboxMode, workboxConfig) {
   const done = progress('Compiling of the ___ with Workbox in progress...', 'Service Worker')
   await workboxBuild[ workboxMode ](workboxConfig)
   done('The ___ compiled with success')
+}
+
+// Don't generate filenames with hash
+// as this will force all files to be re-downloaded.
+// Used on PWA (or SSR+PWA) by default
+module.exports.stripViteConfFilenamesHash = function (viteConf) {
+  viteConf.build.rollupOptions = viteConf.build.rollupOptions || {}
+  viteConf.build.rollupOptions.output = viteConf.build.rollupOptions.output || {}
+
+  const target = viteConf.build.rollupOptions.output
+  const assetsDir = (viteConf.build.assetsDir || 'assets') + '/'
+
+  if (!target.entryFileNames) { target.entryFileNames = `${ assetsDir }[name].js` }
+  if (!target.chunkFileNames) { target.chunkFileNames = `${ assetsDir }[name].js` }
+  if (!target.assetFileNames) { target.assetFileNames = `${ assetsDir }[name].[ext]` }
+
+  return viteConf
 }

@@ -82,7 +82,7 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      chainWebpack (/* chain */) {}
+      // chainWebpack (/* chain */) {}
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
@@ -129,7 +129,7 @@ module.exports = configure(function (ctx) {
       maxAge: 1000 * 60 * 60 * 24 * 30,
         // Tell browser when a file from the server should expire from cache (in ms)
 
-      chainWebpackWebserver (/* chain */) {},
+      // chainWebpackWebserver (/* chain */) {},
 
       middlewares: [
         ctx.prod ? 'compression' : '',
@@ -144,7 +144,7 @@ module.exports = configure(function (ctx) {
 
       // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
       // if using workbox in InjectManifest mode
-      chainWebpackCustomSW (/* chain */) {},
+      // chainWebpackCustomSW (/* chain */) {},
 
       manifest: {
         name: `<%= productName %>`,
@@ -214,7 +214,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: '{{ name }}'
+        appId: '<%= name %>'
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

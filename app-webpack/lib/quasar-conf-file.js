@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const { green } = require('chalk')
 
 const appPaths = require('./app-paths')
@@ -10,12 +10,12 @@ const { log, warn, fatal } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
-const getDevlandFile = require('./helpers/get-devland-file')
+const getPackage = require('./helpers/get-package')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
-const getStoreProvider = require('./helpers/get-store-provider')
+const storeProvider = require('./helpers/store-provider')
 const { quasarVersion } = require('./helpers/banner')
 
-const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
+const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
 
 function encode (obj) {
@@ -429,7 +429,7 @@ class QuasarConfFile {
           toplevel: false,
           typeofs: false,
 
-          // a few flags with noticable gains/speed ratio
+          // a few flags with noticeable gains/speed ratio
           // numbers based on out of the box vendor bundle
           booleans: true, // 0.7kb
           if_return: true, // 0.4kb
@@ -518,8 +518,6 @@ class QuasarConfFile {
       ? cfg.build.appBase
       : cfg.build.publicPath
 
-    const storeProvider = getStoreProvider()
-
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
@@ -532,6 +530,8 @@ class QuasarConfFile {
     }, cfg.sourceFiles)
 
     appFilesValidations(cfg)
+
+    cfg.__storePackage = storeProvider.name
 
     // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
@@ -553,7 +553,7 @@ class QuasarConfFile {
         pwa: false,
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000, // gets superseeded in production by an eventual process.env.PORT
+        prodPort: 3000, // gets superseded in production by an eventual process.env.PORT
         maxAge: 1000 * 60 * 60 * 24 * 30
       }, cfg.ssr)
 
@@ -579,8 +579,6 @@ class QuasarConfFile {
     if (this.ctx.dev) {
       const originalSetup = cfg.devServer.setupMiddlewares
       const openInEditor = require('launch-editor-middleware')
-
-      delete cfg.devServer.setupMiddlewares
 
       if (this.ctx.mode.bex === true) {
         cfg.devServer.devMiddleware = cfg.devServer.devMiddleware || {}
@@ -677,7 +675,7 @@ class QuasarConfFile {
       }
 
       // make sure the prop is not supplied to webpack dev server
-      if (cfg.devServer.hasOwnProperty('vueDevtools')) {
+      if (cfg.devServer.vueDevtools !== void 0) {
         delete cfg.devServer.vueDevtools
       }
 

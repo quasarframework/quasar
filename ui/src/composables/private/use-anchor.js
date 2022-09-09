@@ -137,7 +137,7 @@ export default function ({
   }
 
   function pickAnchorEl () {
-    if (props.target === false || props.target === '') {
+    if (props.target === false || props.target === '' || proxy.$el.parentNode === null) {
       anchorEl.value = null
     }
     else if (props.target === true) {

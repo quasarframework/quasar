@@ -36,7 +36,7 @@
 
       "html": {
         "type": "Boolean",
-        "desc": "Render the message as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
+        "desc": "Render the message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
       },
 
       "icon": {
@@ -65,7 +65,8 @@
 
       "spinner": {
         "type": "Boolean",
-        "desc": "Useful for notifications that are updated; Displays the default Quasar spinner instead of an avatar or icon"
+        "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
+        "examples": [ true, "QSpinnerBars" ]
       },
 
       "spinnerColor": {
@@ -86,8 +87,7 @@
           "top-left", "top-right",
           "bottom-left", "bottom-right",
           "top", "bottom", "left", "right", "center"
-        ],
-        "examples": [ "top-right" ]
+        ]
       },
 
       "group": {
@@ -112,21 +112,24 @@
         "values": [
           "top-left", "top-right",
           "bottom-left", "bottom-right"
-        ],
-        "examples": [ "bottom-right" ]
+        ]
       },
       "badgeStyle": {
-        "type": "String",
+        "type": [ "String", "Array", "Object" ],
+        "tsType": "VueStyleProp",
         "desc": "Style definitions to be attributed to the badge",
         "examples": [
-          "background-color: #ff0000"
+          "background-color: #ff0000",
+          "{ backgroundColor: '#ff0000' }"
         ]
       },
       "badgeClass": {
-        "type": "String",
+        "type": [ "String", "Array", "Object" ],
+        "tsType": "VueClassProp",
         "desc": "Class definitions to be attributed to the badge",
         "examples": [
-          "my-special-class"
+          "my-special-class",
+          "{ 'my-special-class': <condition> }"
         ]
       },
 
@@ -135,10 +138,12 @@
         "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
       },
       "progressClass": {
-        "type": "String",
+        "type": [ "String", "Array", "Object" ],
+        "tsType": "VueClassProp",
         "desc": "Class definitions to be attributed to the progress bar",
         "examples": [
-          "my-special-class"
+          "my-special-class",
+          "{ 'my-special-class': <condition> }"
         ]
       },
 
@@ -166,7 +171,7 @@
 
       "closeBtn": {
         "type": [ "Boolean", "String" ],
-        "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
+        "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label according to the current Quasar language",
         "examples": [ "Close me" ]
       },
 
@@ -184,6 +189,8 @@
       "params": {
         "opts": {
           "type": [ "Object", "String" ],
+          "tsType": "QNotifyCreateOptions",
+          "autoDefineTsType": true,
           "required": true,
           "desc": "Notification options",
           "definition": {
@@ -215,7 +222,7 @@
 
             "html": {
               "type": "Boolean",
-              "desc": "Render message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
+              "desc": "Render the message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
             },
 
             "icon": {
@@ -234,7 +241,7 @@
 
             "avatar": {
               "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: public folder",
+              "desc": "URL to an avatar/image; Suggestion: use public folder",
               "examples": [
                 "(public folder) img/something.png",
                 "(relative path format) require('./my_img.jpg')",
@@ -350,9 +357,30 @@
 
             "actions": {
               "type": "Array",
-              "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
+              "tsType": "QNotifyAction",
+              "desc": "Notification actions (buttons); Unless 'noDismiss' is true, clicking/tapping on the button will close the notification; Also check 'closeBtn' convenience prop",
+              "definition": {
+                "handler": {
+                  "type": "Function",
+                  "desc": "Function to be executed when the button is clicked/tapped",
+                  "params": null,
+                  "returns": null,
+                  "examples": [
+                    "() => { console.log('button clicked') }"
+                  ]
+                },
+                "noDismiss": {
+                  "type": "Boolean",
+                  "desc": "Do not dismiss the notification when the button is clicked/tapped"
+                },
+                "...": {
+                  "type": "Any",
+                  "desc": "Any other QBtn prop expect 'onClick' (use 'handler' instead)",
+                  "examples": [ "label: 'Learn more'", "color: 'primary'" ]
+                }
+              },
               "examples": [
-                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
+                "[ { label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} } ]"
               ]
             },
 
@@ -368,7 +396,7 @@
 
             "closeBtn": {
               "type": [ "Boolean", "String" ],
-              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label accordding to the current Quasar language",
+              "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label according to the current Quasar language",
               "examples": [ "Close me" ]
             },
 
@@ -390,150 +418,10 @@
         "params": {
           "props": {
             "type": "Object",
+            "tsType": "QNotifyUpdateOptions",
             "required": false,
-            "desc": "Notification properties that will be shallow merged to previous ones in order to update the non-grouped notification",
-            "definition": {
-              "type": {
-                "type": "String",
-                "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-                "examples": [ "negative", "custom-type" ]
-              },
-
-              "color": {
-                "extends": "color"
-              },
-
-              "textColor": {
-                "extends": "color"
-              },
-
-              "message": {
-                "type": "String",
-                "desc": "The content of your message",
-                "examples": [ "John Doe pinged you" ]
-              },
-
-              "caption": {
-                "type": "String",
-                "desc": "The content of your optional caption",
-                "examples": [ "5 minutes ago" ]
-              },
-
-              "html": {
-                "type": "Boolean",
-                "desc": "Render message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
-              },
-
-              "icon": {
-                "extends": "icon"
-              },
-
-              "iconColor": {
-                "extends": "color",
-                "addedIn": "v2.5.5"
-              },
-
-              "iconSize": {
-                "extends": "size",
-                "addedIn": "v2.5.5"
-              },
-
-              "avatar": {
-                "type": "String",
-                "desc": "URL to an avatar/image; Suggestion: use public folder",
-                "examples": [
-                  "(public folder) img/something.png",
-                  "(relative path format) require('./my_img.jpg')",
-                  "(URL) https://some-site.net/some-img.gif"
-                ]
-              },
-
-              "spinner": {
-                "type": [ "Boolean", "Component" ],
-                "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-                "__exemption": [ "examples" ]
-              },
-
-              "spinnerColor": {
-                "extends": "color",
-                "addedIn": "v2.5.5"
-              },
-
-              "spinnerSize": {
-                "extends": "size",
-                "addedIn": "v2.5.5"
-              },
-
-              "progress": {
-                "type": "Boolean",
-                "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
-              },
-              "progressClass": {
-                "type": [ "String", "Array", "Object" ],
-                "tsType": "VueClassProp",
-                "desc": "Class definitions to be attributed to the progress bar",
-                "examples": [
-                  "my-special-class",
-                  "{ 'my-special-class': <condition> }"
-                ]
-              },
-
-              "classes": {
-                "type": "String",
-                "desc": "Add CSS class(es) to the notification for easier customization",
-                "examples": [
-                  "my-notif-class"
-                ]
-              },
-
-              "attrs": {
-                "type": "Object",
-                "desc": "Key-value for attributes to be set on the notification",
-                "examples": [ "{ role: 'alertdialog' }" ],
-                "__exemption": [ "definition" ]
-              },
-
-              "timeout": {
-                "type": "Number",
-                "desc": "Amount of time to display (in milliseconds)",
-                "default": 5000,
-                "examples": [ 2500 ]
-              },
-
-              "actions": {
-                "type": "Array",
-                "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
-                "examples": [
-                  "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
-                ]
-              },
-
-              "onDismiss": {
-                "type": "Function",
-                "desc": "Function to call when notification gets dismissed",
-                "params": null,
-                "returns": null,
-                "examples": [
-                  "() => { console.log('Dismissed') }"
-                ]
-              },
-
-              "closeBtn": {
-                "type": [ "Boolean", "String" ],
-                "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label accordding to the current Quasar language",
-                "examples": [ "Close me" ]
-              },
-
-              "multiLine": {
-                "type": "Boolean",
-                "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
-              },
-
-              "ignoreDefaults": {
-                "type": "Boolean",
-                "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
-              }
-            }
+            "desc": "Notification properties that will be shallow merged to previous ones in order to update the non-grouped notification; (See 'opts' param of 'create()' for object properties, except 'group' and 'position')",
+            "__exemption": [ "definition", "examples" ]
           }
         },
         "returns": null
@@ -545,193 +433,10 @@
       "params": {
         "opts": {
           "type": "Object",
+          "tsType": "QNotifyOptions",
           "required": true,
-          "desc": "Notification options",
-          "definition": {
-            "type": {
-              "type": "String",
-              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-              "examples": [ "negative", "custom-type" ]
-            },
-
-            "color": {
-              "extends": "color"
-            },
-
-            "textColor": {
-              "extends": "color"
-            },
-
-            "message": {
-              "type": "String",
-              "desc": "The content of your message",
-              "examples": [ "John Doe pinged you" ]
-            },
-
-            "caption": {
-              "type": "String",
-              "desc": "The content of your optional caption",
-              "examples": [ "5 minutes ago" ]
-            },
-
-            "html": {
-              "type": "Boolean",
-              "desc": "Render message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
-            },
-
-            "icon": {
-              "extends": "icon"
-            },
-
-            "iconColor": {
-              "extends": "color",
-              "addedIn": "v2.5.5"
-            },
-
-            "iconSize": {
-              "extends": "size",
-              "addedIn": "v2.5.5"
-            },
-
-            "avatar": {
-              "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use public folder",
-              "examples": [
-                "(public folder) img/something.png",
-                "(relative path format) require('./my_img.jpg')",
-                "(URL) https://some-site.net/some-img.gif"
-              ]
-            },
-
-            "spinner": {
-              "type": [ "Boolean", "Component" ],
-              "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ]
-            },
-
-            "spinnerColor": {
-              "extends": "color",
-              "addedIn": "v2.5.5"
-            },
-
-            "spinnerSize": {
-              "extends": "size",
-              "addedIn": "v2.5.5"
-            },
-
-            "position": {
-              "type": "String",
-              "desc": "Window side/corner to stick to",
-              "default": "bottom",
-              "values": [
-                "top-left", "top-right",
-                "bottom-left", "bottom-right",
-                "top", "bottom", "left", "right", "center"
-              ],
-              "examples": [ "top-right" ]
-            },
-
-            "badgeColor": {
-              "extends": "color",
-              "desc": "Color name for the badge from the Quasar Color Palette"
-            },
-            "badgeTextColor": {
-              "extends": "color",
-              "desc": "Color name for the badge text from the Quasar Color Palette"
-            },
-            "badgePosition": {
-              "type": "String",
-              "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
-              "default": "(top-left/top-right)",
-              "values": [
-                "top-left", "top-right",
-                "bottom-left", "bottom-right"
-              ],
-              "examples": [ "bottom-right" ]
-            },
-            "badgeStyle": {
-              "type": [ "String", "Array", "Object" ],
-              "tsType": "VueStyleProp",
-              "desc": "Style definitions to be attributed to the badge",
-              "examples": [
-                "background-color: #ff0000",
-                "{ backgroundColor: '#ff0000' }"
-              ]
-            },
-            "badgeClass": {
-              "type": [ "String", "Array", "Object" ],
-              "tsType": "VueClassProp",
-              "desc": "Class definitions to be attributed to the badge",
-              "examples": [
-                "my-special-class",
-                "{ 'my-special-class': <condition> }"
-              ]
-            },
-
-            "progress": {
-              "type": "Boolean",
-              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
-            },
-            "progressClass": {
-              "type": [ "String", "Array", "Object" ],
-              "tsType": "VueClassProp",
-              "desc": "Class definitions to be attributed to the progress bar",
-              "examples": [
-                "my-special-class",
-                "{ 'my-special-class': <condition> }"
-              ]
-            },
-
-            "classes": {
-              "type": "String",
-              "desc": "Add CSS class(es) to the notification for easier customization",
-              "examples": [
-                "my-notif-class"
-              ]
-            },
-
-            "attrs": {
-              "type": "Object",
-              "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ]
-            },
-
-            "timeout": {
-              "type": "Number",
-              "desc": "Amount of time to display (in milliseconds)",
-              "default": 5000,
-              "examples": [ 2500 ]
-            },
-
-            "actions": {
-              "type": "Array",
-              "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
-              "examples": [
-                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
-              ]
-            },
-
-            "onDismiss": {
-              "type": "Function",
-              "desc": "Function to call when notification gets dismissed",
-              "params": null,
-              "returns": null,
-              "examples": [
-                "() => { console.log('Dismissed') }"
-              ]
-            },
-
-            "closeBtn": {
-              "type": [ "Boolean", "String" ],
-              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label accordding to the current Quasar language",
-              "examples": [ "Close me" ]
-            },
-
-            "multiLine": {
-              "type": "Boolean",
-              "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
-            }
-          }
+          "desc": "Notification options (See 'opts' param of 'create()' for object properties)",
+          "__exemption": [ "definition", "examples" ]
         }
       }
     },
@@ -748,193 +453,10 @@
 
         "typeOpts": {
           "type": "Object",
+          "tsType": "QNotifyOptions",
           "required": true,
-          "desc": "Notification options",
-          "definition": {
-            "type": {
-              "type": "String",
-              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info', 'ongoing')",
-              "examples": [ "negative", "custom-type" ]
-            },
-
-            "color": {
-              "extends": "color"
-            },
-
-            "textColor": {
-              "extends": "color"
-            },
-
-            "message": {
-              "type": "String",
-              "desc": "The content of your message",
-              "examples": [ "John Doe pinged you" ]
-            },
-
-            "caption": {
-              "type": "String",
-              "desc": "The content of your optional caption",
-              "examples": [ "5 minutes ago" ]
-            },
-
-            "html": {
-              "type": "Boolean",
-              "desc": "Render message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
-            },
-
-            "icon": {
-              "extends": "icon"
-            },
-
-            "iconColor": {
-              "extends": "color",
-              "addedIn": "v2.5.5"
-            },
-
-            "iconSize": {
-              "extends": "size",
-              "addedIn": "v2.5.5"
-            },
-
-            "avatar": {
-              "type": "String",
-              "desc": "URL to an avatar/image; Suggestion: use public folder",
-              "examples": [
-                "(public folder) img/something.png",
-                "(relative path format) require('./my_img.jpg')",
-                "(URL) https://some-site.net/some-img.gif"
-              ]
-            },
-
-            "spinner": {
-              "type": [ "Boolean", "Component" ],
-              "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
-              "__exemption": [ "examples" ]
-            },
-
-            "spinnerColor": {
-              "extends": "color",
-              "addedIn": "v2.5.5"
-            },
-
-            "spinnerSize": {
-              "extends": "size",
-              "addedIn": "v2.5.5"
-            },
-
-            "position": {
-              "type": "String",
-              "desc": "Window side/corner to stick to",
-              "default": "bottom",
-              "values": [
-                "top-left", "top-right",
-                "bottom-left", "bottom-right",
-                "top", "bottom", "left", "right", "center"
-              ],
-              "examples": [ "top-right" ]
-            },
-
-            "badgeColor": {
-              "extends": "color",
-              "desc": "Color name for the badge from the Quasar Color Palette"
-            },
-            "badgeTextColor": {
-              "extends": "color",
-              "desc": "Color name for the badge text from the Quasar Color Palette"
-            },
-            "badgePosition": {
-              "type": "String",
-              "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
-              "default": "(top-left/top-right)",
-              "values": [
-                "top-left", "top-right",
-                "bottom-left", "bottom-right"
-              ],
-              "examples": [ "bottom-right" ]
-            },
-            "badgeStyle": {
-              "type": [ "String", "Array", "Object" ],
-              "tsType": "VueStyleProp",
-              "desc": "Style definitions to be attributed to the badge",
-              "examples": [
-                "background-color: #ff0000",
-                "{ backgroundColor: '#ff0000' }"
-              ]
-            },
-            "badgeClass": {
-              "type": [ "String", "Array", "Object" ],
-              "tsType": "VueClassProp",
-              "desc": "Class definitions to be attributed to the badge",
-              "examples": [
-                "my-special-class",
-                "{ 'my-special-class': <condition> }"
-              ]
-            },
-
-            "progress": {
-              "type": "Boolean",
-              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
-            },
-            "progressClass": {
-              "type": [ "String", "Array", "Object" ],
-              "tsType": "VueClassProp",
-              "desc": "Class definitions to be attributed to the progress bar",
-              "examples": [
-                "my-special-class",
-                "{ 'my-special-class': <condition> }"
-              ]
-            },
-
-            "classes": {
-              "type": "String",
-              "desc": "Add CSS class(es) to the notification for easier customization",
-              "examples": [
-                "my-notif-class"
-              ]
-            },
-
-            "attrs": {
-              "type": "Object",
-              "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ role: 'alertdialog' }" ]
-            },
-
-            "timeout": {
-              "type": "Number",
-              "desc": "Amount of time to display (in milliseconds)",
-              "default": 5000,
-              "examples": [ 2500 ]
-            },
-
-            "actions": {
-              "type": "Array",
-              "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
-              "examples": [
-                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
-              ]
-            },
-
-            "onDismiss": {
-              "type": "Function",
-              "desc": "Function to call when notification gets dismissed",
-              "params": null,
-              "returns": null,
-              "examples": [
-                "() => { console.log('Dismissed') }"
-              ]
-            },
-
-            "closeBtn": {
-              "type": [ "Boolean", "String" ],
-              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label accordding to the current Quasar language",
-              "examples": [ "Close me" ]
-            },
-
-            "multiLine": {
-              "type": "Boolean",
-              "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
-            }
-          }
+          "desc": "Notification options (See 'opts' param of 'create()' for object properties)",
+          "__exemption": [ "definition", "examples" ]
         }
       }
     }

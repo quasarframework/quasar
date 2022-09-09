@@ -26,11 +26,16 @@ function isOnGlobalDialog (vm) {
 // You MUST specify "inheritAttrs: false" in your component
 
 export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
+  // showing, including while in show/hide transition
   const portalIsActive = ref(false)
+
+  // showing & not in any show/hide transition
+  const portalIsAccessible = ref(false)
 
   if (__QUASAR_SSR_SERVER__) {
     return {
       portalIsActive,
+      portalIsAccessible,
 
       showPortal: noop,
       hidePortal: noop,
@@ -45,8 +50,11 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   function showPortal (isReady) {
     if (isReady === true) {
       removeFocusWaitFlag(focusObj)
+      portalIsAccessible.value = true
       return
     }
+
+    portalIsAccessible.value = false
 
     if (portalIsActive.value === false) {
       if (onGlobalDialog === false && portalEl === null) {
@@ -62,7 +70,11 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
     }
   }
 
-  function hidePortal () {
+  function hidePortal (isReady) {
+    portalIsAccessible.value = false
+
+    if (isReady !== true) { return }
+
     removeFocusWaitFlag(focusObj)
     portalIsActive.value = false
 
@@ -78,7 +90,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
     }
   }
 
-  onUnmounted(hidePortal)
+  onUnmounted(() => { hidePortal(true) })
 
   // expose publicly needed stuff for portal utils
   Object.assign(vm.proxy, { __qPortalInnerRef: innerRef })
@@ -88,6 +100,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
     hidePortal,
 
     portalIsActive,
+    portalIsAccessible,
 
     renderPortal: () => (
       onGlobalDialog === true

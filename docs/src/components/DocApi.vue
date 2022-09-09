@@ -231,6 +231,10 @@ function getApiCount (parsedApi, tabs, innerTabs) {
   return acc
 }
 
+const getJsonUrl = process.env.DEV === true
+  ? file => `/node_modules/quasar/dist/api/${ file }.json`
+  : file => `/quasar-api/${ file }.json`
+
 export default {
   name: 'DocApi',
 
@@ -301,15 +305,13 @@ export default {
       inputRef.value.focus()
     }
 
-    onMounted(() => {
-      import(
-        /* webpackChunkName: "quasar-api" */
-        /* webpackMode: "lazy-once" */
-        'quasar/dist/api/' + props.file + '.json'
-      ).then(json => {
-        parseApiFile(props.file, json.default)
-        loading.value = false
-      })
+    process.env.CLIENT && onMounted(() => {
+      fetch(getJsonUrl(props.file))
+        .then(response => response.json())
+        .then(json => {
+          parseApiFile(props.file, json)
+          loading.value = false
+        })
     })
 
     return {

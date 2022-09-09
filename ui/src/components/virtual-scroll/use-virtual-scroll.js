@@ -15,27 +15,35 @@ const scrollToEdges = [
   'end-force'
 ]
 
-let id = 1
 const filterProto = Array.prototype.filter
 
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
   ? noop
-  : function (id, index) {
-    const ssId = id + '_ss'
-
-    let styleSheet = document.getElementById(ssId)
-
-    if (styleSheet === null) {
-      styleSheet = document.createElement('style')
-      styleSheet.type = 'text/css'
-      styleSheet.id = ssId
-      document.head.appendChild(styleSheet)
+  : function (contentEl, index) {
+    if (contentEl === null) {
+      return
     }
 
-    if (styleSheet.qChildIndex !== index) {
-      styleSheet.qChildIndex = index
-      styleSheet.innerHTML = `#${ id } > *:nth-child(${ index }) { overflow-anchor: auto }`
-    }
+    cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
+      if (contentEl === null) {
+        return
+      }
+
+      const children = contentEl.children || []
+
+      filterProto
+        .call(children, el => el.dataset && el.dataset.qVsAnchor !== void 0)
+        .forEach(el => {
+          delete el.dataset.qVsAnchor
+        })
+
+      const el = children[ index ]
+
+      if (el && el.dataset) {
+        el.dataset.qVsAnchor = ''
+      }
+    })
   }
 
 function sumFn (acc, h) {
@@ -231,8 +239,6 @@ export function useVirtualScroll ({
 
   let prevScrollStart, prevToIndex, localScrollViewSize, virtualScrollSizesAgg = [], virtualScrollSizes
 
-  const vsId = 'qvs_' + id++
-
   const virtualScrollPaddingBefore = ref(0)
   const virtualScrollPaddingAfter = ref(0)
   const virtualScrollSliceSizeComputed = ref({})
@@ -414,11 +420,11 @@ export function useVirtualScroll ({
       contentEl.addEventListener('focusout', onBlurRefocusFn)
 
       setTimeout(() => {
-        contentEl !== void 0 && contentEl.removeEventListener('focusout', onBlurRefocusFn)
+        contentEl !== null && contentEl.removeEventListener('focusout', onBlurRefocusFn)
       })
     }
 
-    setOverflowAnchor(vsId, toIndex - from + 1)
+    setOverflowAnchor(contentEl, toIndex - from)
 
     const sizeBefore = alignEnd !== void 0 ? virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
@@ -527,7 +533,7 @@ export function useVirtualScroll ({
   }
 
   function onBlurRefocusFn () {
-    contentRef.value !== void 0 && contentRef.value.focus()
+    contentRef.value !== null && contentRef.value !== void 0 && contentRef.value.focus()
   }
 
   function localResetVirtualScroll (toIndex, fullReset) {
@@ -644,7 +650,6 @@ export function useVirtualScroll ({
         class: 'q-virtual-scroll__content',
         key: 'content',
         ref: contentRef,
-        id: vsId,
         tabindex: -1
       }, content.flat()),
 
@@ -718,9 +723,7 @@ export function useVirtualScroll ({
     }
   })
 
-  setOverflowAnchor !== noop && onBeforeUnmount(() => {
-    const styleSheet = document.getElementById(vsId + '_ss')
-    styleSheet !== null && styleSheet.remove()
+  __QUASAR_SSR__ || onBeforeUnmount(() => {
     onVirtualScrollEvt.cancel()
   })
 

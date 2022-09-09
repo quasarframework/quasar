@@ -72,7 +72,7 @@ export default routes
 ```
 
 ::: tip
-More in-depth analysis of [Lazy loading / code-splitting](/quasar-cli/lazy-loading).
+More in-depth analysis of Lazy loading / code-splitting with [@quasar/app-vite](/quasar-cli-vite/lazy-loading) or [@quasar/app-webpack](/quasar-cli-webpack/lazy-loading).
 :::
 
 ::: tip

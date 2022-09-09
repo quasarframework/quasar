@@ -6,7 +6,9 @@
 
 import { join, basename } from 'path'
 import { renderToString } from 'vue/server-renderer'
+<% if (store && ssr.manualStoreSerialization !== true) { %>
 import serialize from 'serialize-javascript'
+<% } %>
 
 import renderTemplate from './render-template.js'
 import clientManifest from './quasar.manifest.json'
@@ -62,13 +64,10 @@ function renderModulesPreload (modules) {
   return links
 }
 
+<% if (store && ssr.manualStoreSerialization !== true) { %>
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
 
 function renderStoreState (ssrContext) {
-  if (ssrContext.state === void 0) {
-    return ''
-  }
-
   const nonce = ssrContext.nonce !== void 0
     ? ' nonce="' + ssrContext.nonce + '" '
     : ''
@@ -76,6 +75,7 @@ function renderStoreState (ssrContext) {
   const state = serialize(ssrContext.state, { isJSON: true })
   return '<script' + nonce + '>window.__INITIAL_STATE__=' + state + ';' + autoRemove + '</script>'
 }
+<% } %>
 
 async function render (ssrContext) {
   const onRenderedList = []
@@ -96,7 +96,12 @@ async function render (ssrContext) {
     typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
     ssrContext._meta.runtimePageContent = runtimePageContent
-    ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+
+    <% if (store && ssr.manualStoreSerialization !== true) { %>
+      if (ssrContext.state !== void 0) {
+        ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
+      }
+    <% } %>
 
     // @vitejs/plugin-vue injects code into a component's setup() that registers
     // itself on ctx.modules. After the render, ctx.modules would contain all the

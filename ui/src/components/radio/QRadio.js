@@ -1,4 +1,4 @@
-import { h, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance, toRaw } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -64,7 +64,7 @@ export default createComponent({
     const rootRef = ref(null)
     const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
-    const isTrue = computed(() => props.modelValue === props.val)
+    const isTrue = computed(() => toRaw(props.modelValue) === toRaw(props.val))
 
     const classes = computed(() =>
       'q-radio cursor-pointer no-outline row inline no-wrap items-center'
@@ -142,7 +142,7 @@ export default createComponent({
         ? [
             h('div', {
               key: 'icon',
-              class: 'q-radio__icon-container absolute flex flex-center no-wrap'
+              class: 'q-radio__icon-container absolute-full flex flex-center no-wrap'
             }, [
               h(QIcon, {
                 class: 'q-radio__icon',

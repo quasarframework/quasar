@@ -13,10 +13,6 @@
 import { LoadingBar } from 'quasar'
 <% } %>
 
-<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
-import { isRunningOnPWA } from './ssr-pwa'
-<% } %>
-
 <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
 let appPrefetch = typeof App.preFetch === 'function'
@@ -32,11 +28,15 @@ let appPrefetch = typeof App.preFetch === 'function'
 function getMatchedComponents (to, router) {
   const route = to
     ? (to.matched ? to : router.resolve(to).route)
-    : router.currentRoute
+    : router.currentRoute.value
 
   if (!route) { return [] }
 
-  return Array.prototype.concat.apply([], route.matched.map(m => {
+  const matched = route.matched.filter(m => m.components !== void 0)
+
+  if (matched.length === 0) { return [] }
+
+  return Array.prototype.concat.apply([], matched.map(m => {
     return Object.keys(m.components).map(key => {
       const comp = m.components[key]
       return {
@@ -47,7 +47,7 @@ function getMatchedComponents (to, router) {
   }))
 }
 
-export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPath) {
+export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', ssrIsRunningOnClientPWA' : '' %><%= store ? ', store' : '' %>, publicPath }) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
@@ -75,7 +75,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
       .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
 
     <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
-    if (<%= ctx.mode.ssr && ctx.mode.pwa ? 'isRunningOnPWA === true && ' : '' %>appPrefetch !== false) {
+    if (<%= ctx.mode.ssr && ctx.mode.pwa ? 'ssrIsRunningOnClientPWA === true && ' : '' %>appPrefetch !== false) {
       preFetchList.unshift(appPrefetch)
       appPrefetch = false
     }

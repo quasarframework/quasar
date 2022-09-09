@@ -38,6 +38,7 @@ export const useBtnProps = {
   iconRight: String,
 
   round: Boolean,
+  square: Boolean,
   outline: Boolean,
   flat: Boolean,
   unelevated: Boolean,
@@ -171,8 +172,11 @@ export default function (props) {
       colors = `text-${ props.textColor }`
     }
 
-    return `q-btn--${ design.value } `
-      + `q-btn--${ props.round === true ? 'round' : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : '' }` }`
+    const shape = props.round === true
+      ? 'round'
+      : `rectangle${ isRounded.value === true ? ' q-btn--rounded' : (props.square === true ? ' q-btn--square' : '') }`
+
+    return `q-btn--${ design.value } q-btn--${ shape }`
       + (colors !== void 0 ? ' ' + colors : '')
       + (isActionable.value === true ? ' q-btn--actionable q-focusable q-hoverable' : (props.disable === true ? ' disabled' : ''))
       + (props.fab === true ? ' q-btn--fab' : (props.fabMini === true ? ' q-btn--fab-mini' : ''))
@@ -180,6 +184,7 @@ export default function (props) {
       + (props.dense === true ? ' q-btn--dense' : '')
       + (props.stretch === true ? ' no-border-radius self-stretch' : '')
       + (props.glossy === true ? ' glossy' : '')
+      + (props.square ? ' q-btn--square' : '')
   })
 
   const innerClasses = computed(() =>

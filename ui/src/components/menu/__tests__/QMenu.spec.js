@@ -15,7 +15,7 @@ describe('Menu API', () => {
       describe('(prop): touch-position', () => {
         it('should show menu at the position of the click', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'touch-position': true
             }
           })
@@ -71,7 +71,7 @@ describe('Menu API', () => {
 
         it('should not close the menu when clicking outside the menu when persistent', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               persistent: true
             }
           })
@@ -89,7 +89,7 @@ describe('Menu API', () => {
 
         it('should not close the menu when hitting the escape key when persistent', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               persistent: true
             }
           })
@@ -129,7 +129,7 @@ describe('Menu API', () => {
 
         it('should close the menu when clicking a menu child without v-close-popup when auto-close is true', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'auto-close': true
             }
           })
@@ -174,7 +174,7 @@ describe('Menu API', () => {
 
         it('should not switch focus back to parent element when closing if no-refocus is true', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'no-refocus': true
             }
           })
@@ -208,7 +208,7 @@ describe('Menu API', () => {
 
         it('should no switch focus to the menu when opening with no-focus is true', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               'no-focus': true
             }
           })
@@ -226,7 +226,7 @@ describe('Menu API', () => {
       describe('(prop): fit', () => {
         it('should show a menu that matches the full with of the target when fit is supplied', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               target: '.other-target',
               fit: true
             }
@@ -245,7 +245,7 @@ describe('Menu API', () => {
 
         it('should show a menu that not matches the full with of the target when fit is false', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               target: '.other-target',
               fit: false
             }
@@ -266,7 +266,7 @@ describe('Menu API', () => {
       describe('(prop): cover', () => {
         it('should show a menu that overlays the target when using cover', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               cover: true
             }
           })
@@ -279,7 +279,7 @@ describe('Menu API', () => {
 
         it('should show a menu that overlays the target when using cover', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               cover: true,
               target: '.other-target'
             }
@@ -293,7 +293,7 @@ describe('Menu API', () => {
 
         it('should ignore self property when using cover', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               cover: true,
               self: 'center right',
               target: '.other-target'
@@ -328,7 +328,7 @@ describe('Menu API', () => {
               horizontalSelf.forEach((hS) => {
                 it(`should position Anchor(${ vA } ${ hA }) & Self(${ vS } ${ hS })  correctly`, () => {
                   mount(WrapperOne, {
-                    attrs: {
+                    props: {
                       anchor: `${ vA } ${ hA }`,
                       self: `${ vS } ${ hS }`
                     }
@@ -357,7 +357,7 @@ describe('Menu API', () => {
           verticalSelf.forEach((vS) => {
             it(`should offset vertical position Anchor(${ vA } left) & Self(${ vS } left) correctly`, () => {
               mount(WrapperOne, {
-                attrs: {
+                props: {
                   anchor: `${ vA } left`,
                   self: `${ vS } left`,
                   offset: [ 0, 20 ]
@@ -378,7 +378,7 @@ describe('Menu API', () => {
           horizontalSelf.forEach((hS) => {
             it(`should offset horizontal position Anchor(top ${ hA }) & Self(top ${ hS }) correctly`, () => {
               mount(WrapperOne, {
-                attrs: {
+                props: {
                   anchor: `top ${ hA }`,
                   self: `top ${ hS }`,
                   offset: [ 20, 0 ]
@@ -399,7 +399,7 @@ describe('Menu API', () => {
       describe('(prop): dark', () => {
         it('should set the --q-dark color as background and white text color', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               dark: true
             }
           })
@@ -414,7 +414,7 @@ describe('Menu API', () => {
       describe('(prop): square', () => {
         it('should not have border-radius when using this prop', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               square: true
             }
           })
@@ -429,7 +429,7 @@ describe('Menu API', () => {
         it('should specify a max-height when setting this prop', () => {
           const maxHeight = '30px'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               maxHeight
             }
           })
@@ -444,7 +444,7 @@ describe('Menu API', () => {
         it('should specify a max-width when setting this prop', () => {
           const maxWidth = '30px'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               maxWidth
             }
           })
@@ -470,7 +470,7 @@ describe('Menu API', () => {
       it('should emit @escape-key event when escape key is pressed', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onEscapeKey: fn
           }
         })
@@ -493,7 +493,7 @@ describe('Menu API', () => {
       it('should not emit @escape-key event when menu is persistent', () => {
         const fn = cy.stub()
         mount(WrapperOne, {
-          attrs: {
+          props: {
             onEscapeKey: fn,
             persistent: true
           }
@@ -520,7 +520,7 @@ describe('Menu API', () => {
     describe('(method): updatePosition', () => {
       it('should reposition the menu when it is no longer in correct position', () => {
         mount(WrapperTwo, {
-          attrs: {
+          props: {
             anchor: 'bottom left',
             self: 'bottom left'
           }
@@ -564,7 +564,7 @@ describe('Menu API', () => {
     describe('(method): focus', () => {
       it('should focus the menu', () => {
         mount(WrapperOne, {
-          attrs: {
+          props: {
             'no-focus': true
           }
         })
@@ -586,7 +586,7 @@ describe('Menu API', () => {
 
       it('should focus the autofocus element inside the menu', () => {
         mount(WrapperTwo, {
-          attrs: {
+          props: {
             'no-focus': true
           }
         })

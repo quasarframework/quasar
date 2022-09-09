@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-import { createApp<%= store ? ', unref' : '' %> } from 'vue'
+import { createApp<%= store && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
 
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -24,7 +24,7 @@ import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
-import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
+import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
 <% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
@@ -88,7 +88,9 @@ const { components, directives, ...qUserOptions } = quasarUserOptions
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
-    const { app, router<%= store ? ', store, storeKey' : '' %> } = await createQuasarApp(createApp, qUserOptions, ssrContext)
+    const {
+      app, router<%= store ? ', store' + (__storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+    } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
     <% if (bootNames.length > 0) { %>
     let hasRedirected = false
@@ -121,7 +123,7 @@ export default ssrContext => {
     <% } %>
 
     app.use(router)
-    <% if (store) { %>app.use(store, storeKey)<% } %>
+    <% if (store && __storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
     const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)
@@ -136,6 +138,7 @@ export default ssrContext => {
     // wait until router has resolved possible async hooks
     router.isReady().then(() => {
       let matchedComponents = router.currentRoute.value.matched
+        .filter(record => record.components !== void 0)
         .flatMap(record => Object.values(record.components))
 
       // no matched routes
@@ -182,7 +185,7 @@ export default ssrContext => {
       .then(() => {
         if (hasRedirected === true) { return }
 
-        <% if (store) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
         resolve(app)
       })
@@ -190,9 +193,9 @@ export default ssrContext => {
 
       <% } else { %>
 
-      <% if (store) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
-      resolve(app)
+        resolve(app)
 
       <% } %>
     }).catch(reject)

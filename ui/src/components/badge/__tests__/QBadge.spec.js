@@ -1,5 +1,5 @@
 // import { mount } from '@cypress/vue'
-// import QBadge from '../QBadge'
+// import QBadge from '../QBadge.js'
 
 // const snapshotOptions = { customSnapshotsDir: '../src/components/badge/__tests__' }
 

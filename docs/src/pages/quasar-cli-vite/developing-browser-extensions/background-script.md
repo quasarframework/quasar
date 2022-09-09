@@ -8,14 +8,16 @@ desc: (@quasar/app-vite) How to communicate using your background script with ot
 The added benefit of this file is this function:
 
 ```js
-export default function (bridge, activeConnections) {
+import { bexBackground } from 'quasar/wrappers'
+
+export default bexBackground((bridge, activeConnections) => {
   //
-}
+})
 ```
 
 This function is called automatically via the Quasar BEX build chain and injects a bridge which is shared between all parts of the BEX meaning you can communicate with any part of your BEX.
 
-The `bridge` param is the bridge to use for communication. The `activeConnections` param provides an array of all the BEX connections registered via the bridge i.e All the Web Page, Options, Popup and Dev Tools BEX's used by the same Quasar App.
+The `bridge` param is the bridge to use for communication. The `activeConnections` param provides a map of all the BEX connections registered via the bridge i.e All the Web Page, Options, Popup and Dev Tools BEX's used by the same Quasar App.
 
 For example, let's say we want to listen for a new tab being opened in the web browser and then react to it in our Quasar App. First, we'd need to listen for the new tab being opened and emit a new event to tell the Quasar App this has happened:
 

@@ -1,6 +1,6 @@
-import QAvatar from './../../../components/avatar/QAvatar'
+import QAvatar from './../../../components/avatar/QAvatar.js'
 import { mount } from '@cypress/vue'
-import { useSizeDefaults } from './../use-size'
+import { useSizeDefaults } from './../use-size.js'
 
 describe('use-size API', () => {
   describe('Props', () => {

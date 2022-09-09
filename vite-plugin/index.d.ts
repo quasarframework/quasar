@@ -27,7 +27,7 @@ export interface QuasarPluginOpts {
    *    "ssr-server" (used by @quasar/app-vite)
    *    "ssr-client" (used by @quasar/app-vite)
    */
-  runMode?: "web-client" | "ssr-client";
+  runMode?: "web-client" | "ssr-client" | "ssr-server";
 }
 
 export function quasar(opts?: QuasarPluginOpts): Plugin;

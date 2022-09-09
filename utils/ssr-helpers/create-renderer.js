@@ -110,12 +110,8 @@ function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
 const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
 
 function renderVuexState (ssrContext, nonce) {
-  if (ssrContext.state !== void 0) {
-    const state = serialize(ssrContext.state, { isJSON: true })
-    return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
-  }
-
-  return ''
+  const state = serialize(ssrContext.state, { isJSON: true })
+  return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
 }
 
 function renderScripts(renderContext, usedAsyncFiles, nonce) {
@@ -138,11 +134,10 @@ module.exports = function createRenderer (opts) {
   async function runApp(ssrContext) {
     try {
       const entry = await evaluateEntry()
-      const app = await entry(ssrContext)
-      return app
+      return await entry(ssrContext)
     }
     catch (err) {
-      rewriteErrorTrace(err)
+      await rewriteErrorTrace(err)
       throw err
     }
   }
@@ -177,7 +172,7 @@ module.exports = function createRenderer (opts) {
         resourceApp,
         resourceStyles: renderStyles(renderContext, usedAsyncFiles, ssrContext),
         resourceScripts: (
-          renderVuexState(ssrContext, nonce)
+          (opts.manualStoreSerialization !== true && ssrContext.state !== void 0 ? renderVuexState(ssrContext, nonce) : '')
           + renderScripts(renderContext, usedAsyncFiles, nonce)
         )
       })

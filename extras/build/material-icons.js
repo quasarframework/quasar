@@ -4,12 +4,12 @@ const prefix = 'mat_'
 
 // ------------
 
-const { resolve, join } = require('path')
+const { resolve } = require('path')
 const fetch = require('cross-fetch')
 const { writeFileSync } = require('fs')
 
 const cpus = require('os').cpus().length
-const maxJobCount = cpus - 1 || 1
+const maxJobCount = cpus * 2 - 1 || 1
 
 const skipped = {}
 const distFolder = {}
@@ -75,11 +75,8 @@ async function run () {
     const data = JSON.parse(text.replace(")]}'", ''))
     let icons = data.icons
     icons = icons.map((icon, index) => ({ index, ...icon }))
-    const version = icons.reduce((a, b) => {
-      return a.version > b.version ? a : b
-    }).version
 
-    console.log('\nDownloading Google Material Design SVG icons...')
+    console.log('\nDownloading Google Material Design Icons SVGs...')
     console.log(`${icons.length} * ${Object.keys(themeMap).length} icons to download...(${icons.length * Object.keys(themeMap).length})`)
 
     Object.keys(themeMap).map(async (theme) => {
@@ -97,28 +94,33 @@ async function run () {
           await downloadIcon(icon)
         })
       },
-      { concurrency: maxJobCount * 2 },
+      { concurrency: maxJobCount },
     )
     queue.push(icons)
     await queue.wait({ empty: true })
 
     console.log('')
-    console.log(`Highest SVG version is: ${version} (each icon is versioned)`)
 
     Object.keys(themeMap).map(async (theme) => {
+      // convert from Set to an array
+      iconNames[theme] = [...iconNames[theme]]
+
       svgExports[theme].sort((a, b) => {
         return ('' + a).localeCompare(b)
       })
       typeExports[theme].sort((a, b) => {
         return ('' + a).localeCompare(b)
       })
+      iconNames[theme].sort((a, b) => {
+        return ('' + a).localeCompare(b)
+      })
 
-      console.log((`Updating SVG for ../material-icons${distFolder[theme]}; icon count: ${iconNames[theme].size}`))
+      console.log((`Updating SVG for ../material-icons${distFolder[theme]}; icon count: ${iconNames[theme].length}`))
       writeExports(iconSetName, packageName, distFolder[theme], svgExports[theme], typeExports[theme], skipped[theme])
 
       // write the JSON file
       const file = resolve(distFolder[theme], 'icons.json')
-      writeFileSync(file, JSON.stringify([...iconNames[theme]], null, 2), 'utf-8')
+      writeFileSync(file, JSON.stringify(iconNames[theme], null, 2), 'utf-8')
     })
   } catch (err) {
     console.log('err', err)

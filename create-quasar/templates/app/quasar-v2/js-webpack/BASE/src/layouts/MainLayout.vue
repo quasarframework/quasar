@@ -92,7 +92,7 @@ const linksList = [
     icon: 'favorite',
     link: 'https://awesome.quasar.dev'
   }
-];
+]
 
 export default defineComponent({
   name: 'MainLayout',

@@ -1,9 +1,7 @@
 import autoImportData from 'quasar/dist/transforms/auto-import.json'
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-import { importQuasarRegex } from './js-transform.js'
-
-export const vueTransformRegex = /\.vue(\?vue&type=template&lang.js)?$/
+import { jsProdTransform } from './js-transform.js'
 
 const compRegex = {
   'kebab': new RegExp(`_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`, 'g'),
@@ -14,7 +12,7 @@ const compRegex = {
 const dirRegex = new RegExp(`_resolveDirective\\("${autoImportData.regex.directives.replace(/v-/g, '')}"\\)`, 'g')
 const lengthSortFn = (a, b) => b.length - a.length
 
-export function vueTransform (content, autoImportComponentCase) {
+export function vueTransform (content, autoImportComponentCase, isDev) {
   const importList = []
   const importMap = {}
 
@@ -22,23 +20,11 @@ export function vueTransform (content, autoImportComponentCase) {
   const dirList = []
 
   const reverseMap = {}
+  const jsImportTransformed = isDev === true
+    ? content
+    : jsProdTransform(content, importMap)
 
-  let code = content
-    .replace(
-      importQuasarRegex,
-      (_, match) => match.split(',')
-        .map(identifier => {
-          const data = identifier.split(' as ')
-          const importName = data[0].trim()
-          const importAs = data[1] !== void 0
-            ? data[1].trim()
-            : importName
-
-          importMap[importName] = importAs
-          return `import ${importAs} from '${importTransformation(importName)}';`
-        })
-        .join('')
-    )
+  let code = jsImportTransformed
     .replace(compRegex[autoImportComponentCase], (_, match) => {
       const name = autoImportData.importName[match]
       const reverseName = match.replace(/-/g, '_')
@@ -88,9 +74,9 @@ export function vueTransform (content, autoImportComponentCase) {
       .replace(new RegExp(`_directive_(${list})`, 'g'), (_, match) => reverseMap[match])
   }
 
-  const codePrefix = importList
-    .map(name => `import ${name} from '${importTransformation(name)}'`)
-    .join(`;`)
+  const codePrefix = isDev === true // is it dev?
+    ? `import {${importList.join(',')}} from 'quasar'`
+    : importList.map(name => `import ${name} from '${importTransformation(name)}'`).join(`;`)
 
   return codePrefix + ';' + code
 }

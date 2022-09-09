@@ -2,10 +2,10 @@
  * Sanitizer which filters a set of whitelisted tags, attributes and css.
  * For now, the whitelist is small but can be easily extended.
  *
- * @param bool whether to escape or strip undesirable content.
- * @param map of allowed tag-attribute-attribute-parsers.
- * @param array of allowed css elements.
- * @param array of allowed url scheme
+ * @param {Boolean} escape - Whether to escape or strip undesirable content.
+ * @param {Map} tags - Map of allowed tag-attribute-attribute-parsers.
+ * @param {Array} css - Array of allowed css elements.
+ * @param {Array} urls - Array of allowed url scheme
  */
 function HtmlWhitelistedSanitizer (escape, tags, css, urls) {
   this.escape = escape

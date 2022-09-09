@@ -11,6 +11,7 @@
 <% if (preset.lint && lintConfig === 'airbnb') { %>/* eslint func-names: 0 */
 /* eslint global-require: 0 */<% } %>
 const { configure } = require('quasar/wrappers');
+<% if (preset.i18n) { %>const path = require('path');<% } %>
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -80,7 +81,13 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       <% if (preset.i18n) { %>vitePlugins: [
-        [ '@intlify/vite-plugin-vue-i18n', { /* options */ } ]
+        ['@intlify/vite-plugin-vue-i18n', {
+          // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
+          // compositionOnly: false,
+
+          // you need to set i18n resource including paths !
+          include: path.resolve(__dirname, './src/i18n/**')
+        }]
       ]<% } else { %>
       // vitePlugins: [
       //   [ 'package-name', { ..options.. } ]
@@ -155,6 +162,7 @@ module.exports = configure(function (/* ctx */) {
       swFilename: 'sw.js',
       manifestFilename: 'manifest.json',
       useCredentialsForManifestTag: false,
+      // useFilenameHashes: true,
       // extendGenerateSWOptions (cfg) {}
       // extendInjectManifestOptions (cfg) {},
       // extendManifestJson (json) {}

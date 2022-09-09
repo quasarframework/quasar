@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { normalize, join, sep } = require('path')
 
 const appPaths = require('../app-paths')
 const spawn = require('cross-spawn').sync
@@ -9,8 +10,22 @@ class PackageManager {
   name = 'unknown'
   lockFile = 'unknown'
 
+  /**
+   * Recursively checks for presence of the lock file by traversing
+   * the directory tree up to the root
+   */
   isUsed () {
-    return fs.existsSync(appPaths.resolve.app(this.lockFile))
+    let directory = process.cwd()
+
+    while (directory.length && directory[directory.length - 1] !== sep) {
+      if (fs.existsSync(join(directory, this.lockFile))) {
+        return true
+      }
+
+      directory = normalize(join(directory, '..'))
+    }
+
+    return false
   }
 
   isInstalled () {
@@ -105,15 +120,37 @@ class Yarn extends PackageManager {
   }
 }
 
+class Pnpm extends PackageManager {
+  name = 'pnpm'
+  lockFile = 'pnpm-lock.yaml'
+
+  getInstallPackageParams (names, isDev) {
+    return [
+      'add',
+      isDev ? '--save-dev' : '',
+      ...names
+    ]
+  }
+
+  getUninstallPackageParams (names) {
+    return ['remove', ...names]
+  }
+}
+
 /**
  * @returns {PackageManager}
  */
 function getPackager () {
   const yarn = new Yarn()
   const npm = new Npm()
+  const pnpm = new Pnpm()
 
   if (yarn.isUsed()) {
     return yarn
+  }
+  
+  if (pnpm.isUsed()) {
+    return pnpm
   }
 
   if (npm.isUsed()) {
@@ -124,11 +161,16 @@ function getPackager () {
     return yarn
   }
 
+  if (pnpm.isInstalled()) {
+    return pnpm
+  }
+
   if (npm.isInstalled()) {
     return npm
   }
 
-  warn('Please install Yarn or NPM before running this command.\n')
+
+  warn('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
 module.exports = getPackager()

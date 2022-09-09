@@ -1,6 +1,6 @@
 const fs = require('fs')
 const fse = require('fs-extra')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 
 const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')

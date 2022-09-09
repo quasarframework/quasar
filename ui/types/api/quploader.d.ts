@@ -14,15 +14,15 @@ type ValueOrFunction<ValueType, Param = never> =
   | ValueType;
 
 export type QUploaderFactoryObject = {
-  url?: ValueOrFunction<string, File[]>;
-  method?: ValueOrFunction<LiteralUnion<"POST" | "PUT">, File[]>;
-  headers?: ValueOrFunction<QUploaderHeaderItem[], File[]>;
-  formFields?: ValueOrFunction<QUploaderFormFieldsItem[], File[]>;
+  url?: ValueOrFunction<string, readonly File[]>;
+  method?: ValueOrFunction<LiteralUnion<"POST" | "PUT">, readonly File[]>;
+  headers?: ValueOrFunction<QUploaderHeaderItem[], readonly File[]>;
+  formFields?: ValueOrFunction<QUploaderFormFieldsItem[], readonly File[]>;
   fieldName?: ValueOrFunction<string, File>;
-  withCredentials?: ValueOrFunction<boolean, File[]>;
-  sendRaw?: ValueOrFunction<boolean, File[]>;
+  withCredentials?: ValueOrFunction<boolean, readonly File[]>;
+  sendRaw?: ValueOrFunction<boolean, readonly File[]>;
 };
 
 export type QUploaderFactoryFn = (
-  files: File[]
+  files: readonly File[]
 ) => QUploaderFactoryObject | Promise<QUploaderFactoryObject>;

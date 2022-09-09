@@ -37,9 +37,10 @@ pwa: {
   swFilename: 'sw.js',
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
-  extendGenerateSWOptions (cfg) {}
+  useFilenameHashes: false,
+  extendGenerateSWOptions (cfg) {},
   extendInjectManifestOptions (cfg) {},
-  extendManifestJson (json) {}
+  extendManifestJson (json) {},
   extendPWACustomSWConf (esbuildConf) {}
 }
 
@@ -68,6 +69,41 @@ module.exports = function (ctx) {
 ```
 
 More information: [Workbox](https://developers.google.com/web/tools/workbox).
+
+## Adding your own meta tags in index.html
+
+Quasar CLI adds (dynamically) some PWA oriented meta tags into your index.html. Should you wish to customize the tags, first disable this behavior in `/quasar.config.js`:
+
+```js
+// quasar.config.js
+pwa: {
+  injectPwaMetaTags: false
+}
+```
+
+Then, edit your `/index.html` file. The following are the actual meta tags that Quasar CLI injects dynamically:
+
+```html
+<head>
+
+  <% if (ctx.mode.pwa) { %>
+    <meta name="theme-color" content="<%= pwaManifest.theme_color %>">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="<%= pwaManifest.theme_color %>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="apple-mobile-web-app-title" content="<%= pwaManifest.name %>">
+    <link rel="apple-touch-icon" href="icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="icons/apple-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
+  <% } %>
+
+</head>
+```
+
+Notice that you have access to your PWA manifest through `pwaManifest` above.
 
 ## Picking Workbox mode
 
@@ -205,3 +241,18 @@ pwa: {
   }
 }
 ```
+
+## Filename hashes quirk <q-badge align="top" color="brand-primary" label="@quasar/app-vite v1.1+" />
+
+Due to how Rollup builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again. What a waste of bandwidth and such a longer time to get the PWA updated!
+
+By default, Quasar CLI configures Vite & Rollup to build all filenames **without the hash part** to avoid the scenario above. However, should you want your filenames to contain the hash part, you need to edit quasar.config.js file:
+
+```js
+// quasar.config.js
+pwa: {
+  useFilenameHashes: true // false by default
+}
+```
+
+When filename hashes are disabled it would be wise to also make sure that your webserver has cache set accordingly (as low as possible) to ensure consistent resource delivery to your clients that can't use the PWA functionality.

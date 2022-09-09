@@ -190,7 +190,7 @@ function upgradeQuasar () {
   if (removeDeprecatedAppPkg === true) {
     const params = packager === 'yarn'
       ? [ 'remove', '@quasar/app' ]
-      : [ 'uninstall', '--save--dev', '@quasar/app' ]
+      : [ 'uninstall', '--save-dev', '@quasar/app' ]
 
     console.log()
     spawn(packager, params, root)
@@ -227,7 +227,7 @@ function upgradeQuasar () {
 
     const params = packager === 'yarn'
       ? (type === 'devDependencies' ? [ 'add', '--dev' ] : [ 'add' ])
-      : [ `install`, `--save${type === 'devDependencies' ? '--dev' : ''}` ]
+      : [ `install`, `--save${type === 'devDependencies' ? '-dev' : ''}` ]
 
     deps[type].forEach(dep => {
       // need to delete tha package otherwise

@@ -6,7 +6,7 @@ components:
 ---
 
 ::: tip Quasar CLI with Vite or Webpack
-You now have the option to choose between Quasar CLI with Vite (currently in **BETA**) and Quasar CLI with Webpack.
+You now have the option to choose between Quasar CLI with Vite and Quasar CLI with Webpack.
 :::
 
 ::: tip Composition and Options API
@@ -83,7 +83,7 @@ $ yarn add vue@3 @quasar/extras@latest
 **This guide refers to Quasar CLI & UMD projects**, but information from here can be used for Vue CLI too. For developers already using Vue CLI on your projects you can check out how to install the [vue-cli-plugin-quasar](/start/vue-cli-plugin) package that works with Quasar v2. You will also need to make a few changes to your main.js (and also upgrade your Vue CLI project to support Vue 3) too (best way currently is to generate a new Vue CLI project for Vue 3 and then following the [install steps](/start/vue-cli-plugin#add-vue-cli-quasar-plugin) for the vue-cli-plugin-quasar and check out the changes incurred to that /src folder, then apply the same principle to your current Vue CLI project).
 
 ::: danger
-* Quasar CLI for Quasar v1 only had the option to use Webpack. But now you can choose between Quasar CLI with Vite (currently in **BETA**) and Quasar CLI with Webpack. For upgrading purposes, you might want to upgrade to Quasar CLI with Webpack first, and then maybe try out Quasar CLI with Vite.
+* Quasar CLI for Quasar v1 only had the option to use Webpack. But now you can choose between Quasar CLI with Vite and Quasar CLI with Webpack. If you want to use Quasar CLI with Vite, follow the instructions below to Quasar CLI with Webpack first, then [migrate to Quasar CLI with Vite](/quasar-cli-vite/convert-to-quasar-cli-with-vite).
 * **The rest of this guide will focus on Quasar CLI with Webpack.**
 :::
 
@@ -99,7 +99,7 @@ Quasar UI v2 is not just a port to Vue 3 and Composition API. __There are lots o
 * No IE11 support - Vue 3 does not support IE11 either. If IE11 support is mandatory for your project(s), then continue using Quasar UI v1.
 * In order to support Node 13+ (and for many other benefits) we have **upgraded Webpack from v4 to v5**. You may need to upgrade your webpack plugins accordingly.
 * Quasar Stylus variables are no longer available (only Sass/SCSS). This does NOT mean that you can't use Stylus anymore though.
-* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraints, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us futher modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
+* Node v10 reached its End Of Life and so support for it has been dropped. Be sure to update Node (to at least v12.22.1) and npm/yarn on your system accordingly to the new constraints, which include fixes for latest know security issues. This Node version also include native ESM module support, which will help us further modernize Quasar codebase under the hood during Quasar v2 lifecycle without breaking changes.
 :::
 
 Before you start with this journey of upgrading your project from v1 to v2, you should know a few additional things:
@@ -196,6 +196,20 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-quasar": "^1.0.0",
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
+  ```
+
+  In quasar.config.js, before the `module.exports = function (ctx)` add:
+  ```js
+  const ESLintPlugin = require('eslint-webpack-plugin')
+  ```
+
+  In quasar.config.js -> build add:
+  ```js
+  chainWebpack (chain) {
+        chain
+          .plugin('eslint-webpack-plugin')
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+      }
   ```
 9) If you are using Vuex, you will need to manually install it:
   ```bash
@@ -342,7 +356,7 @@ export default function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.config.js instead!
     // quasar.config.js -> build -> vueRouterMode
     // quasar.config.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   return Router
@@ -422,6 +436,7 @@ export default ({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     locale: 'en-US',
+    globalInjection: true,
     messages
   })
 
@@ -431,25 +446,6 @@ export default ({ app }) => {
 ```
 
 If you use TypeScript, remove the existing augmentation of 'vue/types/vue' as it has been integrated into the upstream package.
-If you use TypeScript and ESLint, due to an [upstream types generation problem](https://github.com/intlify/vue-i18n-next/issues/324), `useI18n` composable will generate a "@typescript-eslint/unbound-method" linting warning when used to destructure `t`, `te` and similar methods.
-Until the problem is solved upstream, we recommended to create your own `useI18n` helper into the boot file
-
-```js
-export function useI18n() {
-  // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { t, te, tm, rt, d, n, ...globalApi } = i18n.global;
-
-  return {
-    t: t.bind(i18n),
-    te: te.bind(i18n),
-    tm: tm.bind(i18n),
-    rt: rt.bind(i18n),
-    d: d.bind(i18n),
-    n: n.bind(i18n),
-    ...globalApi,
-  };
-}
-```
 
 ### @vue/composition-api
 
@@ -845,12 +841,12 @@ A few things changed:
   })
   ```
 2. The `parent` and `root` props have been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
-3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
+3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'hide' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
   ```js
   // the invoked component code
   export default {
     // ...
-    emits: [ 'ok', 'cancel' ],
+    emits: [ 'ok', 'hide' ],
     // ...
   }
   ```
@@ -998,7 +994,7 @@ The color CSS variable names (all the brand related ones) have changed:
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
-* There have been changes to the naming scheme of script and css tags to include the type of distubution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
+* There have been changes to the naming scheme of script and css tags to include the type of distribution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
 
 ::: tip
 For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#installation).
@@ -1032,7 +1028,7 @@ Nothing changed in regards to how App Extensions work. Please note that not all 
 
 Update `src/shims-vue.d.ts` to match [Vue3 version](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/shims-vue.d.ts).
 
-Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar-starter-kit/blob/b206de59d87b8adcc25a8f7863cfe705bf6b3741/template/src/quasar.d.ts).
+Create a `src/quasar.d.ts` file and copy into it the content from [here](https://github.com/quasarframework/quasar/blob/71143c4417d6bf3fd7a5dc88dd0e577d822ddc92/create-quasar/templates/app/quasar-v2/ts-webpack/BASE/src/quasar.d.ts).
 
 If you use ESLint, update the property into `quasar.config.js`:
 

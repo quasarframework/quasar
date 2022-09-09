@@ -15,8 +15,8 @@ Quasar attaches some very useful helper CSS classes to document.body which you c
 | no-touch | When client does NOT have touch support |
 | platform-android | When client is on an Android device |
 | platform-ios | When client is on an iOS device |
-| native-mobile | When client is on a [Cordova](/quasar-cli/developing-cordova-apps/introduction) or [Capacitor](/quasar-cli/developing-capacitor-apps/introduction) app |
-| electron | When client is on an [Electron](/quasar-cli/developing-electron-apps/introduction) app |
+| native-mobile | When client is on a Quasar CLI Cordova or Capacitor app |
+| electron | When client is on a Quasar CLI Electron app |
 | bex | When app runs from a browser extension |
 | within-iframe | When app runs from an iframe |
 | `screen--*` | If [enabled (only)](/options/screen-plugin#how-to-enable-body-classes), tells current window breakpoint (`screen--xs`, `screen--sm`, ..., `screen--xl`) |

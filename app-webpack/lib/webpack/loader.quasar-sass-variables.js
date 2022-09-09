@@ -20,7 +20,7 @@ module.exports = function (content) {
     }
 
     const newLineIndex = content.indexOf('\n', useIndex) + 1
-    return content.substr(0, newLineIndex) + prefix + content.substr(newLineIndex)
+    return content.substring(0, newLineIndex) + prefix + content.substring(newLineIndex)
   }
 
   return content

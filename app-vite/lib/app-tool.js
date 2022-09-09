@@ -1,7 +1,7 @@
 
 const { build: viteBuild } = require('vite')
 const { build: esBuild } = require('esbuild')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 
 const { log, progress } = require('./helpers/logger')
 

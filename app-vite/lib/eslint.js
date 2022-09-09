@@ -36,6 +36,7 @@ function extractStore ({
   const eslintOptions = {
     cache,
     fix,
+    errorOnUnmatchedPattern: false,
     ...rawOptions
   }
 

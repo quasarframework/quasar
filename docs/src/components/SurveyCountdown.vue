@@ -1,19 +1,20 @@
 <template lang="pug">
 q-banner(v-if="!hasEnded").survey-countdown
-  .q-gutter-sm.row(:class="[paddingClass, alignClass]")
-    | Quasar Scaffolding Survey closes in...
+  .q-gutter-y-sm.row(:class="[paddingClass, alignClass]")
+    .text-center.text-bold Quasar Conf 2022 - Get Ready!
 
-    q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
-    q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
-    q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
+    .q-gutter-x-sm.row
+      q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
+      q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
+      q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
 
     q-btn(
-      href="https://bit.ly/2VtIGK9"
+      href="https://bit.ly/qconf2022"
       target="_blank"
       :color="color"
       :text-color="textColor"
       :icon="mdiFileDocumentEditOutline"
-      label="Open survey"
+      label="Check announcement"
       no-caps
     )
 </template>
@@ -22,7 +23,7 @@ q-banner(v-if="!hasEnded").survey-countdown
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { mdiFileDocumentEditOutline } from '@quasar/extras/mdi-v6'
 
-const confDate = new Date('2021-08-08').getTime()
+const confDate = new Date('2022-07-09T15:00:00.000Z').getTime()
 
 const oneDay = 1000 * 60 * 60 * 24
 const oneHour = 1000 * 60 * 60

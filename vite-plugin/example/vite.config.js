@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 // In production, it should be import { ... } from '@quasar/vite-plugin'
 import { quasar, transformAssetUrls } from '../src'
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(() => {
   return {
     plugins: [
       vue({

@@ -7,6 +7,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const WebpackProgressPlugin = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')
 const parseBuildEnv = require('../helpers/parse-build-env')
+const getPackagePath = require('../helpers/get-package-path')
 
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
@@ -37,6 +38,13 @@ function getRootDefines (rootDefines, configName) {
 
   return rootDefines
 }
+
+const extrasPath = (() => {
+  const ePath = getPackagePath('@quasar/extras')
+  return ePath !== void 0
+    ? path.dirname(ePath)
+    : false
+})()
 
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
@@ -90,6 +98,11 @@ module.exports = function (cfg, configName) {
 
       'src-bex': appPaths.bexDir // needed for app/templates
     })
+
+  if (extrasPath) {
+    // required so quasar/icon-sets/* with imports to work correctly
+    chain.resolve.alias.merge({ '@quasar/extras': extrasPath })
+  }
 
   const vueFile = configName === webpackNames.ssr.serverSide
     ? (cfg.ctx.prod ? 'vue.cjs.prod.js' : 'vue.cjs.js')

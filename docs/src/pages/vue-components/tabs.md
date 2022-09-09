@@ -145,7 +145,7 @@ QRouteTab becomes "active" depending on your app's route and not due to the v-mo
         <q-route-tab :to="{ query: { tab: '1' } }" exact replace label="Activate in 2s" @click="navDelay" />
         <q-route-tab :to="{ query: { tab: '2' } }" exact replace label="Do nothing" @click="navCancel" />
         <q-route-tab :to="{ query: { tab: '3' } }" exact replace label="Navigate to the second tab" @click="navRedirect" />
-        <q-route-tab :to="{ query: { tab: '4' } }" exact replace label="Navigate immediatelly" @click="navPass" />
+        <q-route-tab :to="{ query: { tab: '4' } }" exact replace label="Navigate immediately" @click="navPass" />
       </q-tabs>
     </div>
   </div>

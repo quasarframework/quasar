@@ -5,12 +5,12 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 
     q-space
 
-    div.col-auto(v-if="!loading")
-      q-btn(dense, flat, round, :icon="fabGithub", @click="openGitHub")
+    div.col-auto
+      q-btn(dense flat round :icon="fabGithub" @click="openGitHub")
         q-tooltip View on GitHub
-      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, :icon="fabCodepen", @click="openCodepen")
+      q-btn.q-ml-sm(v-if="noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="loadingSource")
         q-tooltip Edit in Codepen
-      q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
+      q-btn.q-ml-sm(dense flat round icon="code" @click="expanded = !expanded" :disable="loadingSource")
         q-tooltip View Source
 
   q-separator.doc-example__separator
@@ -36,7 +36,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
       q-separator
 
       q-tab-panels.text-grey-3.text-weight-regular(
-        v-model="currentTab",
+        v-model="currentTab"
         animated
       )
         q-tab-panel.q-pa-none(
@@ -49,16 +49,16 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
       q-separator.doc-example__separator
 
   .row
-    q-linear-progress(v-if="loading", color="brand-primary", indeterminate)
-    component.col.doc-example__content(v-else, :is="component", :class="componentClass")
+    q-linear-progress(v-if="loadingComponent || loadingSource" color="brand-primary" indeterminate)
+    component.col.doc-example__content(v-if="!loadingComponent" :is="component" :class="componentClass")
 
-  doc-codepen(v-if="!loading", ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
+  doc-codepen(v-if="!loadingSource" ref="codepenRef" :title="title" :slugifiedTitle="slugifiedTitle")
 </template>
 
 <script>
-import { markRaw } from 'vue'
+import { markRaw, onMounted } from 'vue'
 import { openURL } from 'quasar'
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed } from 'vue'
 
 import {
   fabGithub, fabCodepen
@@ -69,6 +69,10 @@ import { slugify } from 'assets/page-utils'
 import DocCode from './DocCode.vue'
 import DocCodepen from './DocCodepen.vue'
 import CardTitle from './CardTitle.vue'
+
+const importExampleComponent = process.env.CLIENT
+  ? import.meta.glob('/public/examples/**/*.vue')
+  : null
 
 export default {
   name: 'DocExample',
@@ -89,9 +93,11 @@ export default {
   },
 
   setup (props) {
-    const codepen = ref(null) // $refs.codepen
+    const codepenRef = ref(null)
 
-    const loading = ref(true)
+    const loadingSource = ref(true)
+    const loadingComponent = ref(true)
+
     const component = ref(null)
     const def = reactive({
       tabs: [],
@@ -143,35 +149,29 @@ export default {
       def.tabs = tabs
     }
 
-    onMounted(() => {
-      Promise.all([
-        import(
-          /* webpackChunkName: "demo" */
-          /* webpackMode: "lazy-once" */
-          'examples/' + props.file + '.vue'
-        ).then(comp => {
+    process.env.CLIENT && onMounted(() => {
+      importExampleComponent[ '/public/examples/' + props.file + '.vue' ]()
+        .then(comp => {
           component.value = markRaw(comp.default)
-        }),
-
-        import(
-          /* webpackChunkName: "demo-source" */
-          /* webpackMode: "lazy-once" */
-          '!raw-loader!examples/' + props.file + '.vue'
-        ).then(comp => {
-          parseComponent(comp.default)
+          loadingComponent.value = false
         })
-      ]).then(() => {
-        loading.value = false
-      })
+
+      fetch(`/examples/${ props.file }.vue`)
+        .then(response => response.text())
+        .then(content => {
+          parseComponent(content)
+          loadingSource.value = false
+        })
     })
 
     return {
       fabGithub,
       fabCodepen,
 
-      codepen,
+      codepenRef,
 
-      loading,
+      loadingSource,
+      loadingComponent,
       component,
       currentTab,
       expanded,
@@ -182,11 +182,11 @@ export default {
       slugifiedTitle,
 
       openGitHub () {
-        openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${props.file}.vue`)
+        openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/public/examples/${props.file}.vue`)
       },
 
       openCodepen () {
-        codepen.value.open(def.parts)
+        codepenRef.value.open(def.parts)
       }
     }
   }

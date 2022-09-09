@@ -12,6 +12,10 @@ q-card(flat bordered)
     q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
     q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
+    q-toggle(v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)")
+    q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
+    q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
+
     q-toggle(v-model="css['mdi-v6']" label="MDI v6")
     q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
     q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
@@ -72,7 +76,7 @@ const cssMap = {
   'mdi-v6': 'cdn.jsdelivr.net/npm/@mdi/font@^6.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.15.4/css/all.css',
   // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
-  'fontawesome-v6': 'use.fontawesome.com/releases/v6.0.0/css/all.css',
+  'fontawesome-v6': 'use.fontawesome.com/releases/v6.1.1/css/all.css',
   'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
   themify: 'themify.me/wp-content/themes/themify-v32/themify-icons/themify-icons.css',
@@ -87,6 +91,12 @@ const googleMap = {
   'material-icons-outlined': 'Material+Icons+Outlined',
   'material-icons-round': 'Material+Icons+Round',
   'material-icons-sharp': 'Material+Icons+Sharp'
+}
+
+const googleSymbolsMap = {
+  'material-symbols-outlined': 'Material+Symbols+Outlined',
+  'material-symbols-rounded': 'Material+Symbols+Rounded',
+  'material-symbols-sharp': 'Material+Symbols+Sharp'
 }
 
 const camelize = str => str.replace(/(-\w)/g, m => m[ 1 ].toUpperCase())
@@ -104,6 +114,10 @@ export default {
       'material-icons-outlined': false,
       'material-icons-round': false,
       'material-icons-sharp': false,
+
+      'material-symbols-outlined': false,
+      'material-symbols-rounded': false,
+      'material-symbols-sharp': false,
 
       'mdi-v6': false,
       'fontawesome-v6': false,
@@ -153,11 +167,22 @@ export default {
         : `fonts.googleapis.com/css?family=${cssAcc.join('|')}`
     })
 
+    const googleSymbolsFonts = computed(() => {
+      const cssAcc = Object.keys(googleSymbolsMap)
+        .filter(key => css[ key ] === true)
+        .map(key => googleSymbolsMap[ key ])
+
+      return cssAcc.length === 0
+        ? ''
+        : `fonts.googleapis.com/css2?family=${cssAcc.join('|')}`
+    })
+
     const head = computed(() => {
       const cssAcc = Object.keys(cssMap)
         .filter(key => css[ key ] === true)
         .map(key => cssMap[ key ])
 
+      cssAcc.unshift(googleSymbolsFonts.value)
       cssAcc.unshift(googleFonts.value)
       cssAcc.push(`cdn.jsdelivr.net/npm/quasar@${version}/dist/quasar.rtl.prod.css`)
 
@@ -270,6 +295,9 @@ export default {
         { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
         { label: 'Material Round (webfont)', value: 'material-icons-round' },
         { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
+        { label: 'Material Symbols Outlined (webfont)', value: 'material-symbols-outlined' },
+        { label: 'Material Symbols Rounded (webfont)', value: 'material-symbols-rounded' },
+        { label: 'Material Symbols Sharp (webfont)', value: 'material-symbols-sharp' },
         { label: 'MDI v6 (webfont)', value: 'mdi-v6' },
         { label: 'MDI v6 (svg)', value: 'svg-mdi-v6' },
         { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },

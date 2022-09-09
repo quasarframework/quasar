@@ -148,9 +148,7 @@ function getRewriteErrorTrace (rawMaps) {
 
     const { source, line, column } = originalPosition
     const mappedPosition = `(${source.replace(webpackRE, '')}:${line}:${column})`
-    const trace = _trace.replace(filenameRE, mappedPosition)
-
-    return trace
+    return _trace.replace(filenameRE, mappedPosition)
   }
 
   return async function (err) {

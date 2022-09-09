@@ -24,6 +24,8 @@ const panOpts = {
   mouseAllDir: true
 }
 
+const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
+
 export default createComponent({
   name: 'QScrollArea',
 
@@ -115,7 +117,7 @@ export default createComponent({
       Math.round(
         between(
           container.vertical.value * container.vertical.value / scroll.vertical.size.value,
-          50,
+          getMinThumbSize(container.vertical.value),
           container.vertical.value
         )
       )
@@ -157,7 +159,7 @@ export default createComponent({
       Math.round(
         between(
           container.horizontal.value * container.horizontal.value / scroll.horizontal.size.value,
-          50,
+          getMinThumbSize(container.horizontal.value),
           container.horizontal.value
         )
       )

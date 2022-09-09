@@ -112,7 +112,7 @@ q-page.landing
           q-icon(:name="fabFacebook")
 
         a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
-          q-icon(:name="fasMedkit")
+          q-icon(:name="fasSuitcaseMedical")
 
       div.q-mt-lg
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -123,16 +123,16 @@ q-page.landing
 <script>
 import { useMeta } from 'quasar'
 
-import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
-import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
-import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
-// import SurveyCountdown from '../components/SurveyCountdown'
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor.vue'
+import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList.vue'
+import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo.vue'
+// import SurveyCountdown from '../components/SurveyCountdown.vue'
 
 import {
-  fabGithub, fabTwitter, fabFacebook, fasMedkit,
+  fabGithub, fabTwitter, fabFacebook, fasSuitcaseMedical,
   fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
   fabFirefox, fabEdge, fabSafari, fabGoogle
-} from '@quasar/extras/fontawesome-v5'
+} from '@quasar/extras/fontawesome-v6'
 
 import {
   mdiChevronDown, mdiLaunch, mdiPost,
@@ -168,7 +168,7 @@ export default {
       fabGithub,
       fabTwitter,
       fabFacebook,
-      fasMedkit,
+      fasSuitcaseMedical,
       fabApple,
       fabWindows,
       fabLinux,

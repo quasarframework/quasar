@@ -1,13 +1,13 @@
-import pages from './pages-list'
+import { pagesList } from './pages'
 
 function load (component) {
-  return () => import('pages/' + component + '.vue')
+  return pagesList[ `../pages/${ component }.vue` ]
 }
 
 function component (path) {
   return {
-    path: '/' + path.slice(0, path.length - 4),
-    component: () => import('pages/' + path)
+    path: '/' + path.slice(9, path.length - 4),
+    component: pagesList[ path ]
   }
 }
 
@@ -20,7 +20,7 @@ const metaChildren = [
 ]
 
 const routes = [
-  { path: '/', component: load('Index') },
+  { path: '/', component: load('IndexPage') },
   {
     path: '/tabs-router',
     redirect: { name: 'one' },
@@ -121,11 +121,11 @@ const routes = [
   }
 ]
 
-pages.forEach(page => {
-  if (!page.startsWith('meta') && page !== 'components/tabs.vue') {
-    routes.push(component(page))
+for (const key in pagesList) {
+  if (!key.startsWith('../pages/meta') && key !== '../pages/components/tabs.vue') {
+    routes.push(component(key))
   }
-})
+}
 
 // Always leave this as last one
 routes.push({
@@ -134,10 +134,3 @@ routes.push({
 })
 
 export default routes
-
-// function load (component) {
-//   return () => import('pages/' + component + '.vue')
-// }
-// export default [
-//   { path: '/', component: load('Index') }
-// ]

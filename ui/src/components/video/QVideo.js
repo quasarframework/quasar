@@ -15,7 +15,20 @@ export default createComponent({
       required: true
     },
 
-    title: String
+    title: String,
+
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
+    loading: {
+      type: String,
+      default: 'eager'
+    },
+    referrerpolicy: {
+      type: String,
+      default: 'strict-origin-when-cross-origin'
+    }
   },
 
   setup (props) {
@@ -33,6 +46,9 @@ export default createComponent({
       h('iframe', {
         src: props.src,
         title: props.title,
+        fetchpriority: props.fetchpriority,
+        loading: props.loading,
+        referrerpolicy: props.referrerpolicy,
         frameborder: '0',
         allowfullscreen: true
       })

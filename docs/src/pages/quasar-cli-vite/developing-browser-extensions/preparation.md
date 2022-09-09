@@ -43,6 +43,7 @@ The new folder has the following structure:
     │   ├── icon-128x128.png  # Icon file at 128px x 128px
     │   ├── icon-16x16.png    # Icon file at 16px x 16px
     │   └── icon-48x48.png    # Icon file at 48px x 48px
+    ├── _locales              # Optional BEX locales files that you might define in manifest
     ├── manifest.json         # The browser extension manifest file
     └── my-content-script.js  # Standard content script BEX file - auto injected via manifest.json
                               # (you can have multiple content scripts)

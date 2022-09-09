@@ -31,6 +31,10 @@ export default createComponent({
       type: String,
       default: 'lazy'
     },
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
     width: String,
     height: String,
     initialRatio: {
@@ -193,6 +197,7 @@ export default createComponent({
         height: props.height,
         width: props.width,
         loading: props.loading,
+        fetchpriority: props.fetchpriority,
         'aria-hidden': 'true',
         draggable: props.draggable,
         ...img

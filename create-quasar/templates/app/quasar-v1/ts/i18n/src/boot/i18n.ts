@@ -4,7 +4,6 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
 declare module 'vue/types/vue' {
-  <% if (preset.lint && lintConfig === 'airbnb') { %>// eslint-disable-next-line no-shadow<% } %>
   interface Vue {
     i18n: VueI18n;
   }

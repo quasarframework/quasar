@@ -2,7 +2,7 @@
 const { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } = require('fs')
 const { removeSync, copySync } = require('fs-extra')
 const path = require('path')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 
 const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')
@@ -23,7 +23,6 @@ class EntryFilesGenerator {
     if (ctx.mode.ssr) {
       filePaths.push(
         'server-entry.js',
-        'ssr-pwa.js',
         'ssr-middlewares.js',
         `ssr-${ctx.dev ? 'dev' : 'prod'}-webserver.js`
       )

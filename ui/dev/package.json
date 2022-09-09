@@ -8,6 +8,10 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
   },
+  "//": "Needed to make Cypress AE app-* detection work",
+  "devDependencies": {
+    "@quasar/app-vite": "^1.0.0-beta.14"
+  },
   "browserslist": [
     "last 2 Chrome versions",
     "last 2 Firefox versions",

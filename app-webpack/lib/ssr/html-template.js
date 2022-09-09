@@ -1,4 +1,4 @@
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 
 const { fillBaseTag } = require('../webpack/plugin.html-addons')
 const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')

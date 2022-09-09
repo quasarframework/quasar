@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 
 const { log, warn, fatal, success } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')
@@ -102,7 +102,7 @@ class ElectronRunner {
         }
       )
     }).then(() => {
-      return new Promise(async resolve => {
+      return new Promise(resolve => {
         if (typeof cfg.electron.beforePackaging === 'function') {
           log('Running beforePackaging()')
           log()
@@ -113,7 +113,11 @@ class ElectronRunner {
           })
 
           if (result && result.then) {
-            await result
+            return result.then(() => {
+              log()
+              log('[SUCCESS] Done running beforePackaging()')
+              resolve()
+            })
           }
 
           log()
@@ -193,7 +197,6 @@ class ElectronRunner {
       code => {
         if (this.__justKilledIt === true) {
           this.__justKilledIt = false
-          return
         }
         else if (code) {
           warn()

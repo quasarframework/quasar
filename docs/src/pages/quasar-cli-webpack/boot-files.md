@@ -7,7 +7,7 @@ related:
 
 A common use case for Quasar applications is to **run code before the root Vue app instance is instantiated**, like injecting and initializing your own dependencies (examples: Vue components, libraries...) or simply configuring some startup code of your app.
 
-Since you won't be having access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
+Since you won't have access to the `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
 
 In earlier Quasar versions, to run code before the root Vue instance was instantiated, you could alter the `/src/main.js` file and add any code you needed to execute.
 
@@ -284,7 +284,8 @@ In order to better understand how a boot file works and what it does, you need t
 2. Quasar Extras get imported (Roboto font -- if used, icons, animations, ...)
 3. Quasar CSS & your app's global CSS are imported
 4. App.vue is loaded (not yet being used)
-5. Store is imported (if using Vuex Store in src/store)
+5. Store is imported (if using Pinia in src/stores or Vuex in src/store)
+6. Pinia (if using) is injected into the Vue app instance
 6. Router is imported (in src/router)
 7. Boot files are imported
 8. Router default export function executed
@@ -321,10 +322,11 @@ export { axios, api }
 ### vue-i18n
 
 ```js
+import { boot } from 'quasar/wrappers'
 import { createI18n } from 'vue-i18n'
 import messages from 'src/i18n'
 
-export default ({ app }) => {
+export default boot(({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     locale: 'en-US',
@@ -333,13 +335,15 @@ export default ({ app }) => {
 
   // Tell app to use the I18n instance
   app.use(i18n)
-}
+})
 ```
 
 ### Router authentication
 Some boot files might need to interfere with Vue Router configuration:
 
 ```js
+import { boot } from 'quasar/wrappers'
+
 export default boot(({ router, store }) => {
   router.beforeEach((to, from, next) => {
     // Now you need to add your authentication logic here, like calling an API endpoint
