@@ -51,6 +51,10 @@ q-page.landing
             q-card-section.text-left.column.items-center.q-gutter-sm
               q-badge(label="$ npm i -g @quasar/cli" color="grey-8")
               q-badge(label="$ npm init quasar" color="grey-8")
+            q-separator(vertical)
+            q-card-section.text-left.column.items-center.q-gutter-sm
+              q-badge(label="$ pnpm i -g @quasar/cli" color="grey-8")
+              q-badge(label="$ pnpm create quasar" color="grey-8")
 
   section.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-lg
