@@ -62,6 +62,31 @@
           Show for 1000ms
         </q-btn>
       </div>
+
+      <div class="q-my-md">
+        Show with groups
+      </div>
+      <div class="row q-gutter-sm">
+        <q-btn push color="black" @click="showGroup1">
+          One.1 > Two.1 > One.2
+        </q-btn>
+
+        <q-btn push color="black" @click="showGroup2">
+          One.1 > Two.1 > Three.1 > One.2
+        </q-btn>
+
+        <q-btn push color="black" @click="showGroup3">
+          One.1 > Default
+        </q-btn>
+
+        <q-btn push color="black" @click="showGroup4">
+          One.1
+        </q-btn>
+
+        <q-btn push color="black" @click="showGroup5">
+          hide(group): One.1 > Two.1 > Three.1 > One.2
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -205,6 +230,132 @@ export default {
         show({ delay: 500 }, timeout)
         Loading.show({ delay: 500 })
       }
+    },
+
+    showGroup1 () {
+      const one = this.$q.loading.show({
+        group: 'one',
+        message: 'One.1'
+      })
+
+      setTimeout(() => {
+        one({ message: 'One.2' })
+
+        const two = this.$q.loading.show({
+          group: 'two',
+          message: 'Two.1'
+        })
+
+        setTimeout(() => {
+          two()
+          setTimeout(() => {
+            one()
+          }, 1000)
+        }, 1000)
+      }, 1000)
+    },
+
+    showGroup2 () {
+      const one = this.$q.loading.show({
+        group: 'one',
+        message: 'One.1'
+      })
+
+      setTimeout(() => {
+        one({
+          spinner: QSpinnerGears,
+          message: 'One.2'
+        })
+
+        const two = this.$q.loading.show({
+          group: 'two',
+          message: 'Two.1'
+        })
+
+        setTimeout(() => {
+          const third = this.$q.loading.show({
+            group: 'third',
+            message: 'Three.1'
+          })
+          two()
+
+          setTimeout(() => {
+            third()
+            setTimeout(() => {
+              one()
+            }, 1000)
+          }, 1000)
+        }, 1000)
+      }, 1000)
+    },
+
+    showGroup3 () {
+      const one = this.$q.loading.show({
+        group: 'one',
+        message: 'One.1'
+      })
+
+      setTimeout(() => {
+        one({ message: 'One.2' })
+
+        this.$q.loading.show({
+          message: 'Default'
+        })
+
+        setTimeout(() => {
+          this.$q.loading.hide()
+          one()
+        }, 1000)
+      }, 1000)
+    },
+
+    showGroup4 () {
+      const one = this.$q.loading.show({
+        group: 'one',
+        message: 'One.1'
+      })
+
+      setTimeout(() => {
+        one()
+        one()
+        this.$q.loading.hide()
+        one()
+      }, 1000)
+    },
+
+    showGroup5 () {
+      this.$q.loading.show({
+        group: 'one',
+        message: 'One.1'
+      })
+
+      setTimeout(() => {
+        this.$q.loading.show({
+          group: 'one',
+          spinner: QSpinnerGears,
+          message: 'One.2'
+        })
+
+        this.$q.loading.show({
+          group: 'two',
+          message: 'Two.1'
+        })
+
+        setTimeout(() => {
+          this.$q.loading.show({
+            group: 'third',
+            message: 'Three.1'
+          })
+          this.$q.loading.hide('two')
+
+          setTimeout(() => {
+            this.$q.loading.hide('third')
+            setTimeout(() => {
+              this.$q.loading.hide('one')
+            }, 1000)
+          }, 1000)
+        }, 1000)
+      }, 1000)
     }
   }
 }
