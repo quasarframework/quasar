@@ -480,6 +480,8 @@ interface QuasarStaticBuildConfiguration {
   rawDefine?: { [index: string]: string };
 
   /**
+   * (requires @quasar/app-vite v1.1+)
+   *
    * Build production assets with or without the hash part in filenames.
    * Example: "454d87bd" in "assets/index.454d87bd.js"
    *
