@@ -37,7 +37,6 @@ pwa: {
   swFilename: 'sw.js',
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
-  useFilenameHashes: false,
   extendGenerateSWOptions (cfg) {},
   extendInjectManifestOptions (cfg) {},
   extendManifestJson (json) {},
@@ -246,12 +245,12 @@ pwa: {
 
 Due to how Rollup builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again. What a waste of bandwidth and such a longer time to get the PWA updated!
 
-By default, Quasar CLI configures Vite & Rollup to build all filenames **without the hash part** to avoid the scenario above. However, should you want your filenames to contain the hash part, you need to edit quasar.config.js file:
+By default, Vite builds all filenames **with the hash part**. However, should you want your filenames to NOT contain the hash part, you need to edit quasar.config.js file:
 
 ```js
 // quasar.config.js
-pwa: {
-  useFilenameHashes: true // false by default
+build: {
+  useFilenameHashes: false // true by default
 }
 ```
 
