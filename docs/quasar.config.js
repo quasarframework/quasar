@@ -23,6 +23,7 @@ module.exports = ctx => ({
   build: {
     vueRouterMode: 'history',
     distDir: 'dist/quasar.dev',
+    useFilenameHashes: false,
     // analyze: true,
     // rebuildCache: true,
 

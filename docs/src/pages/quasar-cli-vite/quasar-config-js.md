@@ -488,7 +488,9 @@ interface QuasarStaticBuildConfiguration {
    * it's not the case.
    *
    * Will not change anything if your Vite config already touches the
-   * build.rollupOptions.output.entryFileNames/chunkFileNames/assetFileNames props
+   * build.rollupOptions.output.entryFileNames/chunkFileNames/assetFileNames props.
+   *
+   * Gets applied to production builds only.
    *
    * Useful especially for (but not restricted to) PWA. If set to false then updating the
    * PWA will force to re-download all assets again, regardless if they were changed or
