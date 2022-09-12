@@ -170,7 +170,13 @@ module.exports = function (cfg, configName) {
       .plugin('ts-checker')
       // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
       .use(ForkTsCheckerWebpackPlugin, [
-        cfg.supportTS.tsCheckerConfig || {}
+        merge({}, cfg.supportTS.tsCheckerConfig || {}, {
+          typescript: {
+            extensions: {
+              vue: true
+            }
+          }
+        })
       ])
   }
 

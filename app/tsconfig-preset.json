@@ -11,6 +11,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es6",
+    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
+    "jsx": "preserve",
     // Quasar-defined webpack aliases
     "paths": {
       "src/*": ["src/*"],
