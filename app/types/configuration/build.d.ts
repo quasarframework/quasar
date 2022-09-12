@@ -136,6 +136,8 @@ interface QuasarStaticBuildConfiguration {
    * When providing an object, it represents webpack-bundle-analyzer config options.
    */
   analyze: boolean | BundleAnalyzerPlugin.Options;
+  /** Include vue runtime + compiler version, instead of default Vue runtime-only. */
+  vueCompiler: boolean;
   /**
    * Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify).
    */
