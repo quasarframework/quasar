@@ -43,7 +43,7 @@ export default {
             // we update 'first' group message (just highlighting how it can be done);
             // note that updating here is not required to show the remaining 'first' group
             first({
-              message: 'We hide second group and updated first group message'
+              message: 'We hid the second group and updated the first group message'
             })
 
             timer = setTimeout(() => {

@@ -13,7 +13,7 @@ let
   uid = 0,
   timeout,
   props = {},
-  pendingGroups = {}
+  activeGroups = {}
 
 const originalDefaults = {
   group: '__default_quasar_group__',
@@ -32,15 +32,15 @@ const originalDefaults = {
 const defaults = { ...originalDefaults }
 
 function registerProps (opts) {
-  if (opts && opts.group !== void 0 && pendingGroups[ opts.group ] !== void 0) {
-    return Object.assign(pendingGroups[ opts.group ], opts)
+  if (opts && opts.group !== void 0 && activeGroups[ opts.group ] !== void 0) {
+    return Object.assign(activeGroups[ opts.group ], opts)
   }
 
   const newProps = isObject(opts) === true && opts.ignoreDefaults === true
     ? { ...originalDefaults, ...opts }
     : { ...defaults, ...opts }
 
-  pendingGroups[ newProps.group ] = newProps
+  activeGroups[ newProps.group ] = newProps
   return newProps
 }
 
@@ -144,29 +144,28 @@ const Plugin = defineReactivePlugin({
       }
 
       // else we have params so we need to update this group
-      const newProps = { ...paramProps, group }
-      Plugin.show(newProps)
+      Plugin.show({ ...paramProps, group })
     }
   },
 
   hide (group) {
     if (__QUASAR_SSR_SERVER__ !== true && Plugin.isActive === true) {
       if (group === void 0) {
-        // clear out any pending groups
-        pendingGroups = {}
+        // clear out any active groups
+        activeGroups = {}
       }
-      else if (pendingGroups[ group ] === void 0) {
+      else if (activeGroups[ group ] === void 0) {
         // we've already hidden it so nothing to do
         return
       }
       else {
-        // remove pending group
-        delete pendingGroups[ group ]
+        // remove active group
+        delete activeGroups[ group ]
 
-        const keys = Object.keys(pendingGroups)
+        const keys = Object.keys(activeGroups)
 
         // if there are other groups registered then
-        // show last registered one since that one is still pending
+        // show last registered one since that one is still active
         if (keys.length !== 0) {
           // get last registered group
           const lastGroup = keys[ keys.length - 1 ]
