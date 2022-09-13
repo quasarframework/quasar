@@ -167,7 +167,7 @@ Here are the options:
 
     ```bash
     $ npx quasar dev
-    $ yarn quasar inspect
+    $ npx quasar inspect
     # ..etc
     ```
 
