@@ -59,6 +59,7 @@ Quasar.QBtn
 Quasar.getCssVar('primary')
 Quasar.debounce(fn, 200)
 Quasar.Notify.create('Hi and welcome!')
+Quasar.utils.is.deepEqual(objA, objB)
 ```
 
 ## Quasar Config Object

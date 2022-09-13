@@ -12,7 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
-import { isObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]

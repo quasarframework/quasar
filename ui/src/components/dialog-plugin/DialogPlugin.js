@@ -17,7 +17,7 @@ import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/private/key-composition.js'
-import { isObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/is.js'
 
 export default createComponent({
   name: 'DialogPlugin',

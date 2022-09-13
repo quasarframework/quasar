@@ -10,7 +10,7 @@ import IconSet from './icon-set.js'
 
 import { quasarKey } from './utils/private/symbols.js'
 import { globalConfig, globalConfigIsFrozen, freezeGlobalConfig } from './utils/private/global-config.js'
-import { isObject } from './utils/private/is.js'
+import { isObject } from './utils/is.js'
 
 const autoInstalledPlugins = [
   Platform,

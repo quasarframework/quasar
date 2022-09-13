@@ -5,7 +5,7 @@ import QBtn from '../btn/QBtn.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import clone from '../../utils/clone.js'
-import { isDeepEqual } from '../../utils/private/is.js'
+import { isDeepEqual } from '../../utils/is.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
