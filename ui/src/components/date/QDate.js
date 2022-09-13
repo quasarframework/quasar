@@ -1065,11 +1065,6 @@ export default createComponent({
       emit('update:modelValue', (props.multiple === true ? model : model[ 0 ]) || null, reason)
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
-    })
-
     function getHeader () {
       if (props.minimal === true) { return }
 
@@ -1426,6 +1421,11 @@ export default createComponent({
         })
       }
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
+    })
 
     return () => {
       const content = [

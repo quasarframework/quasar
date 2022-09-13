@@ -527,9 +527,6 @@ export default function (state) {
       }, content)
   }
 
-  // expose public methods
-  Object.assign(proxy, { focus, blur })
-
   let shouldActivate = false
 
   onDeactivated(() => {
@@ -551,6 +548,9 @@ export default function (state) {
   onBeforeUnmount(() => {
     clearTimeout(focusoutTimer)
   })
+
+  // expose public methods
+  Object.assign(proxy, { focus, blur })
 
   return function renderField () {
     const labelAttrs = state.getControl === void 0 && slots.control === void 0

@@ -155,9 +155,6 @@ export default createComponent({
       }, 300)
     }
 
-    // expose public methods
-    Object.assign(proxy, { trigger, updateScrollTarget })
-
     let $el, localScrollTarget, timer
 
     function updateScrollTarget () {
@@ -174,6 +171,9 @@ export default createComponent({
     onBeforeUnmount(() => {
       clearTimeout(timer)
     })
+
+    // expose public methods
+    Object.assign(proxy, { trigger, updateScrollTarget })
 
     return () => {
       const child = [

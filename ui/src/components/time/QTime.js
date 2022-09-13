@@ -71,7 +71,8 @@ export default createComponent({
   emits: useDatetimeEmits,
 
   setup (props, { slots, emit }) {
-    const { proxy: { $q } } = getCurrentInstance()
+    const vm = getCurrentInstance()
+    const { $q } = vm.proxy
 
     const isDark = useDark(props, $q)
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
@@ -759,10 +760,6 @@ export default createComponent({
       emit('update:modelValue', val, date)
     }
 
-    // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { setNow })
-
     function getHeader () {
       const label = [
         h('div', {
@@ -899,6 +896,9 @@ export default createComponent({
         }) : null
       ])
     }
+
+    // expose public method
+    vm.proxy.setNow = setNow
 
     return () => {
       const child = [ getClock() ]

@@ -141,9 +141,9 @@ function jalCal (jy, withoutLeap) {
   }
 
   return {
-    leap: leap,
-    gy: gy,
-    march: march
+    leap,
+    gy,
+    march
   }
 }
 
@@ -188,9 +188,9 @@ function d2j (jdn) {
       jm = 1 + div(k, 31)
       jd = mod(k, 31) + 1
       return {
-        jy: jy,
-        jm: jm,
-        jd: jd
+        jy,
+        jm,
+        jd
       }
     }
     else {
@@ -207,9 +207,9 @@ function d2j (jdn) {
   jm = 7 + div(k, 30)
   jd = mod(k, 30) + 1
   return {
-    jy: jy,
-    jm: jm,
-    jd: jd
+    jy,
+    jm,
+    jd
   }
 }
 
@@ -253,9 +253,9 @@ function d2g (jdn) {
     gm = mod(div(i, 153), 12) + 1,
     gy = div(j, 1461) - 100100 + div(8 - gm, 6)
   return {
-    gy: gy,
-    gm: gm,
-    gd: gd
+    gy,
+    gm,
+    gd
   }
 }
 

@@ -453,11 +453,6 @@ export default createComponent({
       return contentRef.value
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      runCmd, refreshToolbar, focus, getContentEl
-    })
-
     onMounted(() => {
       eVm.caret = proxy.caret = new Caret(contentRef.value, eVm)
       setContent(props.modelValue)
@@ -468,6 +463,11 @@ export default createComponent({
 
     onBeforeUnmount(() => {
       document.removeEventListener('selectionchange', onSelectionchange)
+    })
+
+    // expose public methods
+    Object.assign(proxy, {
+      runCmd, refreshToolbar, focus, getContentEl
     })
 
     return () => {

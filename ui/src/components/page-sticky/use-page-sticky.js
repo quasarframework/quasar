@@ -21,8 +21,7 @@ export const usePageStickyProps = {
 }
 
 export default function () {
-  const { props, proxy } = getCurrentInstance()
-  const { $q } = proxy
+  const { props, proxy: { $q } } = getCurrentInstance()
 
   const $layout = inject(layoutKey, () => {
     console.error('QPageSticky needs to be child of QLayout')

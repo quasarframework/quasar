@@ -152,13 +152,6 @@ export default createComponent({
       index = newIndex
     }
 
-    // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
-      poll: () => { poll !== void 0 && poll() },
-      trigger, stop, reset, resume, setIndex
-    })
-
     function setDebounce (val) {
       val = parseInt(val, 10)
 
@@ -215,6 +208,13 @@ export default createComponent({
       setDebounce(props.debounce)
 
       updateScrollTarget()
+    })
+
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, {
+      poll: () => { poll !== void 0 && poll() },
+      trigger, stop, reset, resume, setIndex
     })
 
     return () => {

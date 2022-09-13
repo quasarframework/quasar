@@ -15,19 +15,19 @@ import { useRoute } from 'vue-router'
 import Menu from 'assets/menu.json'
 import './AppMenu.sass'
 
-function getParentVm (vm) {
-  if (vm.$parent !== void 0 && vm.$parent !== null) {
-    return vm.$parent
+function getParentProxy (proxy) {
+  if (Object(proxy.$parent) === proxy.$parent) {
+    return proxy.$parent
   }
 
-  vm = vm.$.parent
+  let { parent } = proxy.$
 
-  while (vm !== void 0 && vm !== null) {
-    if (vm.proxy !== void 0 && vm.proxy !== null) {
-      return vm.proxy
+  while (Object(parent) === parent) {
+    if (Object(parent.proxy) === parent.proxy) {
+      return parent.proxy
     }
 
-    vm = vm.parent
+    parent = parent.parent
   }
 }
 
@@ -50,10 +50,10 @@ export default {
       childRefs = []
     })
 
-    function showMenu (vm) {
-      if (vm !== void 0 && vm !== rootRef.value) {
-        vm.show !== void 0 && vm.show()
-        const parent = getParentVm(vm)
+    function showMenu (proxy) {
+      if (proxy !== void 0 && proxy !== rootRef.value) {
+        proxy.show !== void 0 && proxy.show()
+        const parent = getParentProxy(proxy)
         if (parent !== void 0) {
           showMenu(parent)
         }

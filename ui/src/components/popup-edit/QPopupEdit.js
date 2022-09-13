@@ -135,15 +135,6 @@ export default createComponent({
       emit('hide')
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      set,
-      cancel,
-      show (e) { menuRef.value !== null && menuRef.value.show(e) },
-      hide (e) { menuRef.value !== null && menuRef.value.hide(e) },
-      updatePosition
-    })
-
     function getContent () {
       const child = slots.default !== void 0
         ? [].concat(slots.default(scope.value))
@@ -172,6 +163,15 @@ export default createComponent({
 
       return child
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      set,
+      cancel,
+      show (e) { menuRef.value !== null && menuRef.value.show(e) },
+      hide (e) { menuRef.value !== null && menuRef.value.hide(e) },
+      updatePosition
+    })
 
     return () => {
       if (props.disable === true) { return }
