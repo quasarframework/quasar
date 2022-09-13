@@ -1009,7 +1009,7 @@ export default Vue.extend({
             h('input', {
               key: 'autoinp',
               staticClass: 'q-select__autocomplete-input',
-              attrs: { autocomplete: this.autocomplete },
+              attrs: { autocomplete: this.autocomplete, tabindex: -1 },
               on: cache(this, 'autoinp', {
                 keyup: this.__onTargetAutocomplete
               })
