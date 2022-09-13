@@ -1513,6 +1513,7 @@ export default createComponent({
               h('input', {
                 class: 'q-select__autocomplete-input',
                 autocomplete: props.autocomplete,
+                tabindex: -1,
                 onKeyup: onTargetAutocomplete
               })
             )
