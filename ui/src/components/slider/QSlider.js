@@ -134,7 +134,7 @@ export default createComponent({
 
       const
         stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
-        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (state.isReversed.value === true ? -1 : 1) * stepVal
+        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? (state.isVertical? 1 : -1) : 1) * (state.isReversed.value === true ? -1 : 1) * stepVal
 
       model.value = between(
         parseFloat((model.value + offset).toFixed(state.decimals.value)),
