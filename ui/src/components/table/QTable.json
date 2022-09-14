@@ -2421,7 +2421,7 @@
     }
   },
 
-  "fields": {
+  "computedProps": {
     "filteredSortedRows": {
       "desc": "The filtered and sorted rows (same as the rows prop if using server-side fetching)",
       "type": "Array",

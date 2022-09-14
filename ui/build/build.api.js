@@ -38,7 +38,7 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods' ],
-  component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'fields' ],
+  component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'computedProps' ],
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
@@ -130,7 +130,7 @@ const objectTypes = {
   },
 
   // component only
-  fields: {
+  computedProps: {
     props: [ 'desc', 'tsType', 'examples', 'addedIn', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'internal' ],
@@ -480,7 +480,7 @@ function parseAPI (file, apiType) {
         banner: `${ banner } "${ type }"/"${ itemName }"`,
         api: api[ type ],
         itemName,
-        masterType: type === 'fields' ? 'props' : type,
+        masterType: type === 'computedProps' ? 'props' : type,
         verifyCategory: type === 'props' && isComponent
       })
     }

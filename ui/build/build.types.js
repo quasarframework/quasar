@@ -344,8 +344,8 @@ function writeIndexDTS (apis) {
       prop.type = 'Function'
     })
 
-    // Fields should always be required
-    content.fields = transformObject(content.fields, makeRequired)
+    // computedProps should always be required
+    content.computedProps = transformObject(content.computedProps, makeRequired)
 
     const props = getPropDefinitions({
       definitions: content.props,
@@ -452,8 +452,8 @@ function writeIndexDTS (apis) {
       writeLines(contents, methodDefinition, 1)
     }
 
-    // Write Fields
-    for (const [ fieldName, field ] of Object.entries(content.fields)) {
+    // Write computedProps
+    for (const [ fieldName, field ] of Object.entries(content.computedProps)) {
       const fieldDefinition = getPropDefinition({ name: fieldName, definition: field, isReadonly: true })
       writeLines(contents, fieldDefinition, 1)
     }

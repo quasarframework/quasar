@@ -154,7 +154,7 @@
     }
   },
 
-  "fields": {
+  "computedProps": {
     "files": {
       "type": "Array",
       "desc": "List of all files",
