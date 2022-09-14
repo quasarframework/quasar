@@ -147,6 +147,12 @@ export default Vue.extend({
       }
 
       return on
+    },
+
+    attrs () {
+      return this.useBackdrop === true
+        ? { 'aria-modal': 'true', ...this.qAttrs }
+        : this.qAttrs
     }
   },
 
@@ -340,7 +346,7 @@ export default Vue.extend({
         staticClass: `q-dialog fullscreen no-pointer-events q-dialog--${this.useBackdrop === true ? 'modal' : 'seamless'}`,
         class: this.contentClass,
         style: this.contentStyle,
-        attrs: this.qAttrs
+        attrs: this.attrs
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
