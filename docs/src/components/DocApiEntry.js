@@ -289,7 +289,7 @@ const describePropsLike = props => {
   return child
 }
 describe.props = describePropsLike
-describe.fields = describePropsLike
+describe.computedProps = describePropsLike
 describe.slots = describePropsLike
 
 describe.events = events => {
