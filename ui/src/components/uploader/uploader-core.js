@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, provide, onBeforeUnmount, getCurrentInstance, unref } from 'vue'
+import { h, ref, isRef, computed, watch, provide, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
@@ -11,7 +11,6 @@ import useFile, { useFileProps, useFileEmits } from '../../composables/private/u
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { uploaderKey } from '../../utils/private/symbols.js'
-import { injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
@@ -443,24 +442,30 @@ export function getRenderer (getPlugin) {
     abort: state.abort
   }
 
-  // expose public methods
-  Object.assign(proxy, publicMethods)
+  // TODO: the result of this computed, especially the dynamic part, isn't currently typed
+  // This result in an error with Volar when accessing the state (eg. files array)
+  const slotScope = computed(() => {
+    const acc = {
+      canAddFiles: canAddFiles.value,
+      canUpload: canUpload.value,
+      uploadSizeLabel: uploadSizeLabel.value,
+      uploadProgressLabel: uploadProgressLabel.value
+    }
 
-  injectMultipleProps(proxy, {
-    canAddFiles: () => canAddFiles.value,
-    canUpload: () => canUpload.value,
-    uploadSizeLabel: () => uploadSizeLabel.value,
-    uploadProgressLabel: () => uploadProgressLabel.value,
+    for (const key in state) {
+      acc[ key ] = isRef(state[ key ]) === true
+        ? state[ key ].value
+        : state[ key ]
+    }
 
-    ...Object.entries(state).reduce((acc, [ key, val ]) => {
-      acc[ key ] = () => unref(val)
-      return acc
-    }, {})
+    // TODO: (Qv3) Put the QUploader instance under `ref`
+    // property for consistency and flexibility
+    // return { ref: { ...acc, ...publicMethods } }
+    return { ...acc, ...publicMethods }
   })
 
-  // TODO: (Qv3) Put the instance under `ref` property for consistency and flexibility
-  // computed(() => ({ ref: proxy, /* new stuff can be added if needed */ }))
-  const slotScope = computed(() => proxy)
+  // expose public methods
+  Object.assign(proxy, publicMethods)
 
   return () => {
     const children = [
