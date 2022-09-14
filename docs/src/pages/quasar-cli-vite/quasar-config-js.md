@@ -174,7 +174,7 @@ preFetch?: boolean;
 
 ### eslint
 
-You will need the linting files already installed. If you don't know which those are, scaffold a new Quasar project folder (`yarn create quasar` or `npm init quasar` or `pnpm create quasar`) and pick "Linting" when asked about it.
+You will need the linting files already installed. If you don't know which those are, scaffold a new Quasar project folder (`yarn create quasar` or `npm init quasar` or the experimental `pnpm create quasar`) and pick "Linting" when asked about it.
 
 ```js
 /** Options with which Quasar CLI will use ESLint */

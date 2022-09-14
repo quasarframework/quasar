@@ -49,7 +49,7 @@ $ yarn add -D postcss-rtlcss
 # or
 $ npm install -D postcss-rtlcss
 # or
-$ pnpm add quasar -D postcss-rtlcss
+$ pnpm add quasar -D postcss-rtlcss # experimental support
 ```
 
 Then create `/postcss.config.js` file if you don't have it already, and add this to it:
