@@ -113,8 +113,6 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       : props.reverse !== ($q.lang.rtl === true)
   ))
   
-  const isVertical = computed(() => props.vertical)
-
   const innerMin = computed(() => (
     isNaN(props.innerMin) === true || props.innerMin < props.min
       ? props.min
@@ -640,8 +638,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
       innerMaxRatio,
       positionProp,
       sizeProp,
-      isReversed,
-      isVertical
+      isReversed
     },
 
     methods: {
