@@ -14,6 +14,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
+import uid from '../../utils/uid.js'
 
 const eventName = 'q:expansion-item:close'
 
@@ -33,6 +34,7 @@ export default Vue.extend({
 
     dense: Boolean,
 
+    toggleAriaLabel: String,
     expandIcon: String,
     expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
@@ -43,6 +45,7 @@ export default Vue.extend({
 
     expandSeparator: Boolean,
     defaultOpened: Boolean,
+    hideExpandIcon: Boolean,
     expandIconToggle: Boolean,
     switchToggleSide: Boolean,
     denseToggle: Boolean,
@@ -103,6 +106,26 @@ export default Vue.extend({
 
     activeToggleIcon () {
       return this.disable !== true && (this.hasLink === true || this.expandIconToggle === true)
+    },
+
+    headerSlotScope () {
+      return {
+        expanded: this.showing === true,
+        detailsId: this.targetUid,
+        toggle: this.toggle,
+        show: this.show,
+        hide: this.hide
+      }
+    },
+
+    toggleAriaAttrs () {
+      return {
+        role: 'button',
+        'aria-expanded': this.showing === true ? 'true' : 'false',
+        'aria-owns': this.targetUid,
+        'aria-controls': this.targetUid,
+        'aria-label': this.toggleAriaLabel
+      }
     }
   },
 
@@ -148,7 +171,10 @@ export default Vue.extend({
 
       if (this.activeToggleIcon === true) {
         Object.assign(data, {
-          attrs: { tabindex: 0 },
+          attrs: {
+            tabindex: 0,
+            ...this.toggleAriaAttrs
+          },
           on: cache(this, 'inpExt', {
             click: this.__toggleIcon,
             keyup: this.__toggleIconKeyboard
@@ -171,7 +197,7 @@ export default Vue.extend({
       let child
 
       if (this.$scopedSlots.header !== void 0) {
-        child = [].concat(this.$scopedSlots.header({ expanded: this.showing === true }))
+        child = [].concat(this.$scopedSlots.header(this.headerSlotScope))
       }
       else {
         child = [
@@ -202,7 +228,7 @@ export default Vue.extend({
         )
       }
 
-      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
+      this.disable !== true && this.hideExpandIcon !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
         this.__getToggleIcon(h)
       )
 
@@ -233,6 +259,9 @@ export default Vue.extend({
 
           data.attrs = this.linkProps.attrs
         }
+        else {
+          data.attrs = this.toggleAriaAttrs
+        }
       }
 
       return h(QItem, data, child)
@@ -252,6 +281,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-expansion-item__content relative-position',
             style: this.contentStyle,
+            attrs: { id: this.targetUid },
             directives: [{ name: 'show', value: this.showing }]
           }, slot(this, 'default'))
         ])
@@ -289,6 +319,7 @@ export default Vue.extend({
 
   created () {
     this.group !== void 0 && this.$root.$on(eventName, this.__eventHandler)
+    this.targetUid = `e_${uid()}`
   },
 
   beforeDestroy () {
