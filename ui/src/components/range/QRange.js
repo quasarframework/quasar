@@ -388,7 +388,11 @@ export default Vue.extend({
 
       const
         stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (this.isReversed === true ? -1 : 1) * stepVal
+        offset = (
+          ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) *
+          (this.isReversed === true ? -1 : 1) *
+          (this.vertical === true ? -1 : 1) * stepVal
+        )
 
       if (this.focus === 'both') {
         const interval = this.model.max - this.model.min

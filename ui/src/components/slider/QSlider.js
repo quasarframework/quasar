@@ -162,8 +162,12 @@ export default Vue.extend({
       stopAndPrevent(evt)
 
       const
-        step = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
-        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (this.isReversed === true ? -1 : 1) * step
+        stepVal = ([34, 33].includes(evt.keyCode) ? 10 : 1) * this.computedStep,
+        offset = (
+          ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) *
+          (this.isReversed === true ? -1 : 1) *
+          (this.vertical === true ? -1 : 1) * stepVal
+        )
 
       this.model = between(
         parseFloat((this.model + offset).toFixed(this.computedDecimals)),
