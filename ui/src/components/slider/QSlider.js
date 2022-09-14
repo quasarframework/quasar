@@ -134,15 +134,11 @@ export default createComponent({
 
       const stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value
       const getTermValueForOffset = (x) => {
-        if (x && state.isVertical) {
-          return 1
+        if (state.isVertical) {
+          return (x ? 1 : -1)
         }
         
-        if ((!x && state.isVertical) || x) {
-          return -1
-        }
-        
-        return 1
+        return (x ? -1 : 1)
       }
       const offset = (getTermValueForOffset([ 34, 37, 40 ].includes(evt.keyCode))) * (state.isReversed.value === true ? -1 : 1) * stepVal
 
