@@ -133,22 +133,18 @@ export default createComponent({
       stopAndPrevent(evt)
 
       const stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value
-      const tmp = (a) => {
-        if (a && state.isVertical) {
+      const getTermValueForOffset = (x) => {
+        if (x && state.isVertical) {
           return 1
         }
         
-        if (!a && state.isVertical) {
-          return -1
-        }
-        
-        if (a) {
+        if ((!x && state.isVertical) || x) {
           return -1
         }
         
         return 1
       }
-      const offset = (tmp([ 34, 37, 40 ].includes(evt.keyCode))) * (state.isReversed.value === true ? -1 : 1) * stepVal
+      const offset = (getTermValueForOffset([ 34, 37, 40 ].includes(evt.keyCode))) * (state.isReversed.value === true ? -1 : 1) * stepVal
 
       model.value = between(
         parseFloat((model.value + offset).toFixed(state.decimals.value)),
