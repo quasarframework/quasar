@@ -430,7 +430,8 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-field__bottom row items-start q-field__bottom--' +
-          (this.hideBottomSpace !== true ? 'animated' : 'stale')
+          (this.hideBottomSpace !== true ? 'animated' : 'stale'),
+        on: { click: prevent }
       }, [
         this.hideBottomSpace === true
           ? main
