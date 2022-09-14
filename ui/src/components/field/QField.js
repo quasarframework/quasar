@@ -18,6 +18,8 @@ function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
 }
 
+const preventClickFocus = { click: prevent }
+
 export default Vue.extend({
   name: 'QField',
 
@@ -430,7 +432,8 @@ export default Vue.extend({
 
       return h('div', {
         staticClass: 'q-field__bottom row items-start q-field__bottom--' +
-          (this.hideBottomSpace !== true ? 'animated' : 'stale')
+          (this.hideBottomSpace !== true ? 'animated' : 'stale'),
+        on: preventClickFocus
       }, [
         this.hideBottomSpace === true
           ? main
