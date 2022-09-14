@@ -151,6 +151,60 @@
           "__exemption": ["examples"]
         }
       }
+    },
+
+    "updateFileStatus": {
+      "desc": "Update the status of a file",
+      "params": {
+        "file": {
+          "type": "Object",
+          "desc": "File to update (instance of File)",
+          "required": true,
+          "__exemption": ["examples"]
+        },
+        "status": {
+          "type": "String",
+          "desc": "Status of file",
+          "values": [ "idle", "failed", "uploading", "uploaded" ],
+          "required": true
+        },
+        "uploadedSize": {
+          "type": "Number",
+          "desc": "The number of uploaded bytes of the file; Is required explicitly only when status is NOT 'uploaded'",
+          "required": true,
+          "__exemption": ["examples"]
+        }
+      }
+    },
+
+    "isAlive": {
+      "desc": "Is the component alive (activated but not unmounted); Useful to determine if you still need to compute anything going further",
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current component is still activated and mounted"
+      }
+    },
+
+    "pickFiles": {
+      "desc": "Trigger the file picker dialog; The event must come from a user interaction event handler",
+      "params": {
+        "evt": {
+          "extends": "evt",
+          "required": true,
+          "desc": "JS event object of the original user interaction handler"
+        }
+      }
+    },
+
+    "addFiles": {
+      "desc": "Manually add files to the queue",
+      "params": {
+        "files": {
+          "type": "Array",
+          "required": true,
+          "desc": "Must be an array of instances of JS File type"
+        }
+      }
     }
   },
 
@@ -199,6 +253,11 @@
     "canUpload": {
       "type": "Boolean",
       "desc": "Whether the files can be uploaded"
+    },
+
+    "isBusy": {
+      "type": "Boolean",
+      "desc": "The component state is set as busy; User should not be able to interact with the component"
     }
   }
 }

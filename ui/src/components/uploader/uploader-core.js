@@ -11,6 +11,7 @@ import useFile, { useFileProps, useFileEmits } from '../../composables/private/u
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { uploaderKey } from '../../utils/private/symbols.js'
+import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
@@ -76,6 +77,12 @@ export function getRenderer (getPlugin) {
     proxy.$forceUpdate()
   }
 
+  const editable = computed(() => props.disable !== true && props.readonly !== true)
+  const dnd = ref(false)
+
+  const rootRef = ref(null)
+  const inputRef = ref(null)
+
   const state = {
     files: ref([]),
     queuedFiles: ref([]),
@@ -88,22 +95,6 @@ export function getRenderer (getPlugin) {
     }
   }
 
-  Object.assign(state, getPlugin({ props, slots, emit, helpers: state }))
-
-  const uploadSize = ref(0)
-  const editable = computed(() => props.disable !== true && props.readonly !== true)
-
-  if (state.isBusy === void 0) {
-    state.isBusy = ref(false)
-  }
-
-  const dnd = ref(false)
-
-  const rootRef = ref(null)
-  const inputRef = ref(null)
-
-  provide(uploaderKey, renderInput)
-
   const {
     pickFiles,
     addFiles,
@@ -114,6 +105,21 @@ export function getRenderer (getPlugin) {
     maxFilesNumber,
     maxTotalSizeNumber
   } = useFile({ editable, dnd, getFileInput, addFilesToQueue })
+
+  Object.assign(state, getPlugin({ props, slots, emit, helpers: state }))
+
+  if (state.isBusy === void 0) {
+    state.isBusy = ref(false)
+  }
+
+  const uploadSize = ref(0)
+  const uploadProgress = computed(() => (
+    uploadSize.value === 0
+      ? 0
+      : state.uploadedSize.value / uploadSize.value
+  ))
+  const uploadProgressLabel = computed(() => getProgressLabel(uploadProgress.value))
+  const uploadSizeLabel = computed(() => humanStorageSize(uploadSize.value))
 
   const canAddFiles = computed(() =>
     editable.value === true
@@ -133,14 +139,7 @@ export function getRenderer (getPlugin) {
     && state.queuedFiles.value.length > 0
   )
 
-  const uploadProgress = computed(() => (
-    uploadSize.value === 0
-      ? 0
-      : state.uploadedSize.value / uploadSize.value
-  ))
-
-  const uploadProgressLabel = computed(() => getProgressLabel(uploadProgress.value))
-  const uploadSizeLabel = computed(() => humanStorageSize(uploadSize.value))
+  provide(uploaderKey, renderInput)
 
   const classes = computed(() =>
     'q-uploader column no-wrap'
@@ -335,7 +334,7 @@ export function getRenderer (getPlugin) {
 
   function getHeader () {
     if (slots.header !== void 0) {
-      return slots.header(slotScope.value)
+      return slots.header(publicApi)
     }
 
     return [
@@ -372,7 +371,7 @@ export function getRenderer (getPlugin) {
 
   function getList () {
     if (slots.list !== void 0) {
-      return slots.list(slotScope.value)
+      return slots.list(publicApi)
     }
 
     return state.files.value.map(file => h('div', {
@@ -431,41 +430,37 @@ export function getRenderer (getPlugin) {
     state.files.value.length > 0 && revokeImgURLs()
   })
 
-  const publicMethods = {
-    pickFiles,
-    addFiles,
+  const publicApi = {}
+
+  for (const key in state) {
+    if (isRef(state[ key ]) === true) {
+      injectProp(publicApi, key, () => state[ key ].value)
+    }
+    else { // method or non-computed prop
+      publicApi[ key ] = state[ key ]
+    }
+  }
+
+  Object.assign(publicApi, {
+    upload,
     reset,
     removeUploadedFiles,
     removeQueuedFiles,
     removeFile,
-    upload,
-    abort: state.abort
-  }
 
-  // TODO: the result of this computed, especially the dynamic part, isn't currently typed
-  // This result in an error with Volar when accessing the state (eg. files array)
-  const slotScope = computed(() => {
-    const acc = {
-      canAddFiles: canAddFiles.value,
-      canUpload: canUpload.value,
-      uploadSizeLabel: uploadSizeLabel.value,
-      uploadProgressLabel: uploadProgressLabel.value
-    }
-
-    for (const key in state) {
-      acc[ key ] = isRef(state[ key ]) === true
-        ? state[ key ].value
-        : state[ key ]
-    }
-
-    // TODO: (Qv3) Put the QUploader instance under `ref`
-    // property for consistency and flexibility
-    // return { ref: { ...acc, ...publicMethods } }
-    return { ...acc, ...publicMethods }
+    pickFiles,
+    addFiles
   })
 
-  // expose public methods
-  Object.assign(proxy, publicMethods)
+  injectMultipleProps(publicApi, {
+    canAddFiles: () => canAddFiles.value,
+    canUpload: () => canUpload.value,
+    uploadSizeLabel: () => uploadSizeLabel.value,
+    uploadProgressLabel: () => uploadProgressLabel.value
+  })
+
+  // expose public api (methods & computed props)
+  Object.assign(proxy, publicApi)
 
   return () => {
     const children = [
