@@ -9,6 +9,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
+import uid from '../../utils/uid.js'
 
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = [ 'left', 'center', 'right' ]
@@ -70,6 +71,21 @@ export default Vue.extend({
       return `q-fab__actions--${this.direction}` + (this.showing === true ? ' q-fab__actions--opened' : '')
     },
 
+    actionsAttrs () {
+      const attrs = {
+        id: this.targetUid
+      }
+
+      if (this.showing === true) {
+        attrs.role = 'menu'
+      }
+      else {
+        attrs['aria-hidden'] = 'true'
+      }
+
+      return attrs
+    },
+
     iconHolderClasses () {
       return this.showing === true ? 'q-fab__icon-holder--opened' : ''
     },
@@ -78,6 +94,8 @@ export default Vue.extend({
       return {
         'aria-expanded': this.showing === true ? 'true' : 'false',
         'aria-haspopup': 'true',
+        'aria-controls': this.targetUid,
+        'aria-owns': this.targetUid,
         ...this.qAttrs
       }
     },
@@ -148,8 +166,13 @@ export default Vue.extend({
 
       h('div', {
         staticClass: 'q-fab__actions flex no-wrap inline',
-        class: this.actionsClasses
+        class: this.actionsClasses,
+        attrs: this.actionsAttrs
       }, slot(this, 'default'))
     ])
+  },
+
+  created () {
+    this.targetUid = `fb_${uid()}`
   }
 })
