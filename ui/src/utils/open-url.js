@@ -1,7 +1,7 @@
 import Platform from '../plugins/Platform.js'
 
 import { noop } from './event.js'
-import { isNumber } from './private/is.js'
+import { isNumber } from './is.js'
 
 function parseFeatures (winFeatures) {
   const cfg = Object.assign({ noopener: true }, winFeatures)
@@ -10,7 +10,8 @@ function parseFeatures (winFeatures) {
     const value = cfg[ key ]
     if (value === true) {
       feat.push(key)
-    } else if (isNumber(value) || (typeof value === 'string' && value !== '')) {
+    }
+    else if (isNumber(value) || (typeof value === 'string' && value !== '')) {
       feat.push(key + '=' + value)
     }
   }

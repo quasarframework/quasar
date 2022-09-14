@@ -12,6 +12,7 @@ import extend from './utils/extend.js'
 import format from './utils/format.js'
 import frameDebounce from './utils/frame-debounce.js'
 import getCssVar from './utils/get-css-var.js'
+import is from './utils/is.js'
 import morph from './utils/morph.js'
 import openURL from './utils/open-url.js'
 import patterns from './utils/patterns.js'
@@ -36,6 +37,7 @@ export {
   frameDebounce,
   getCssVar,
   noop,
+  is,
   morph,
   openURL,
   patterns,

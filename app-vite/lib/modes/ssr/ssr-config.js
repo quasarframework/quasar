@@ -9,7 +9,6 @@ const {
 const appPaths = require('../../app-paths')
 
 const pwaConfig = require('../pwa/pwa-config')
-const { stripViteConfFilenamesHash } = require('../pwa/utils')
 const quasarVitePluginPwaResources = require('../pwa/vite-plugin.pwa-resources')
 
 module.exports = {
@@ -44,11 +43,7 @@ module.exports = {
       cfg.build.rollupOptions.input = appPaths.resolve.app('.quasar/client-entry.js')
     }
 
-    const promise = extendViteConfig(cfg, quasarConf, { isClient: true })
-
-    return quasarConf.pwa.useFilenameHashes !== true && quasarConf.ssr.pwa === true
-      ? promise.then(stripViteConfFilenamesHash)
-      : promise
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
   viteServer: quasarConf => {

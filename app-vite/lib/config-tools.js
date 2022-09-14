@@ -12,6 +12,7 @@ const { log, warn, tip } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 
 const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
+const quasarViteStripFilenameHashes = require('./plugins/vite.strip-filename-hashes')
 
 const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.json'))
 const appPkgFile = appPaths.resolve.app('package.json')
@@ -136,13 +137,16 @@ function createViteConfig (quasarConf, quasarRunMode) {
     ]
   }
 
-  if (
-    quasarRunMode !== 'ssr-server'
-    && (quasarRunMode !== 'ssr-client' || quasarConf.ctx.prod === true)
-  ) {
-    viteConf.plugins.unshift(
-      quasarVitePluginIndexHtmlTransform(quasarConf)
-    )
+  if (quasarRunMode !== 'ssr-server') {
+    if (ctx.prod === true && quasarConf.build.useFilenameHashes !== true) {
+      viteConf.plugins.push(quasarViteStripFilenameHashes())
+    }
+
+    if (quasarRunMode !== 'ssr-client' || quasarConf.ctx.prod === true) {
+      viteConf.plugins.unshift(
+        quasarVitePluginIndexHtmlTransform(quasarConf)
+      )
+    }
   }
 
   if (ctx.dev) {

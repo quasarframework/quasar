@@ -1,17 +1,18 @@
-// used directly by docs too
-export function getParentVm (vm) {
-  if (Object(vm.$parent) === vm.$parent) {
-    return vm.$parent
+
+// copied to docs too
+export function getParentProxy (proxy) {
+  if (Object(proxy.$parent) === proxy.$parent) {
+    return proxy.$parent
   }
 
-  vm = vm.$.parent
+  let { parent } = proxy.$
 
-  while (Object(vm) === vm) {
-    if (Object(vm.proxy) === vm.proxy) {
-      return vm.proxy
+  while (Object(parent) === parent) {
+    if (Object(parent.proxy) === parent.proxy) {
+      return parent.proxy
     }
 
-    vm = vm.parent
+    parent = parent.parent
   }
 }
 

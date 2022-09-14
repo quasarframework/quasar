@@ -1,4 +1,4 @@
-import { isObject } from './private/is'
+import { isObject } from './is'
 
 let id = 0
 let offsetBase = void 0

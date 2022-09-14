@@ -197,12 +197,12 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
-  
+
   In quasar.config.js, before the `module.exports = function (ctx)` add:
   ```js
   const ESLintPlugin = require('eslint-webpack-plugin')
   ```
-  
+
   In quasar.config.js -> build add:
   ```js
   chainWebpack (chain) {
@@ -356,7 +356,7 @@ export default function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.config.js instead!
     // quasar.config.js -> build -> vueRouterMode
     // quasar.config.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   return Router
@@ -841,12 +841,12 @@ A few things changed:
   })
   ```
 2. The `parent` and `root` props have been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
-3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
+3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'hide' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
   ```js
   // the invoked component code
   export default {
     // ...
-    emits: [ 'ok', 'cancel' ],
+    emits: [ 'ok', 'hide' ],
     // ...
   }
   ```

@@ -72,7 +72,7 @@ export function close ({ listenResult }) {
 
 const maxAge = process.env.DEV
   ? 0
-  : 1000 * 60 * 60 * 24 * 30
+  : 1000 * 60 * 60 * 24
 
 /**
   * Should return middleware that serves the indicated path

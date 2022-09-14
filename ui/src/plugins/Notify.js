@@ -9,7 +9,7 @@ import { createComponent } from '../utils/private/create.js'
 import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
-import { isObject } from '../utils/private/is.js'
+import { isObject } from '../utils/is.js'
 
 let uid = 0
 

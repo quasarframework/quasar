@@ -1,7 +1,3 @@
-const
-  hasMap = typeof Map === 'function',
-  hasSet = typeof Set === 'function',
-  hasArrayBuffer = typeof ArrayBuffer === 'function'
 
 export function isDeepEqual (a, b) {
   if (a === b) {
@@ -31,7 +27,7 @@ export function isDeepEqual (a, b) {
       return true
     }
 
-    if (hasMap === true && a.constructor === Map) {
+    if (a.constructor === Map) {
       if (a.size !== b.size) {
         return false
       }
@@ -55,7 +51,7 @@ export function isDeepEqual (a, b) {
       return true
     }
 
-    if (hasSet === true && a.constructor === Set) {
+    if (a.constructor === Set) {
       if (a.size !== b.size) {
         return false
       }
@@ -71,7 +67,7 @@ export function isDeepEqual (a, b) {
       return true
     }
 
-    if (hasArrayBuffer === true && a.buffer != null && a.buffer.constructor === ArrayBuffer) {
+    if (a.buffer != null && a.buffer.constructor === ArrayBuffer) {
       length = a.length
 
       if (length !== b.length) {
@@ -136,4 +132,12 @@ export function isRegexp (v) {
 
 export function isNumber (v) {
   return typeof v === 'number' && isFinite(v)
+}
+
+export default {
+  deepEqual: isDeepEqual,
+  object: isObject,
+  date: isDate,
+  regexp: isRegexp,
+  number: isNumber
 }

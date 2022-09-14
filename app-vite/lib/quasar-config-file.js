@@ -443,6 +443,7 @@ class QuasarConfFile {
         stores: appPaths.resolve.src('stores')
       },
 
+      useFilenameHashes: true,
       vueRouterMode: 'hash',
       minify: cfg.metaConf.debugging !== true
         && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
@@ -562,8 +563,7 @@ class QuasarConfFile {
         injectPwaMetaTags: true,
         swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
-        useCredentialsForManifestTag: false,
-        useFilenameHashes: false
+        useCredentialsForManifestTag: false
       }, cfg.pwa)
 
       if (!['generateSW', 'injectManifest'].includes(cfg.pwa.workboxMode)) {

@@ -3,7 +3,7 @@ import { h, ref, onUnmounted, Teleport } from 'vue'
 import { noop } from '../../utils/event.js'
 import { addFocusWaitFlag, removeFocusWaitFlag } from '../../utils/private/focus-manager.js'
 import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
-import { portalList } from '../../utils/private/portal.js'
+import { portalProxyList } from '../../utils/private/portal.js'
 
 function isOnGlobalDialog (vm) {
   vm = vm.parent
@@ -64,7 +64,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
       portalIsActive.value = true
 
       // register portal
-      portalList.push(vm.proxy)
+      portalProxyList.push(vm.proxy)
 
       addFocusWaitFlag(focusObj)
     }
@@ -79,9 +79,9 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
     portalIsActive.value = false
 
     // unregister portal
-    const index = portalList.indexOf(vm.proxy)
-    if (index > -1) {
-      portalList.splice(index, 1)
+    const index = portalProxyList.indexOf(vm.proxy)
+    if (index !== -1) {
+      portalProxyList.splice(index, 1)
     }
 
     if (portalEl !== null) {
@@ -92,8 +92,8 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
   onUnmounted(() => { hidePortal(true) })
 
-  // expose publicly needed stuff for portal utils
-  Object.assign(vm.proxy, { __qPortalInnerRef: innerRef })
+  // needed for portal vm detection
+  vm.proxy.__qPortalInnerRef = innerRef
 
   return {
     showPortal,

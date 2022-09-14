@@ -24,7 +24,7 @@ electron: {
   bundler: 'packager', // or 'builder'
 
   // electron-packager options
-  // https://electron.github.io/electron-packager/master/
+  // https://electron.github.io/electron-packager/main/
   packager: {
     //...
   },

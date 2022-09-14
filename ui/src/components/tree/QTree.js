@@ -671,6 +671,8 @@ export default createComponent({
       }
     }
 
+    props.defaultExpandAll === true && expandAll()
+
     // expose public methods
     Object.assign(proxy, {
       getNodeByKey,
@@ -683,8 +685,6 @@ export default createComponent({
       isTicked,
       setTicked
     })
-
-    props.defaultExpandAll === true && expandAll()
 
     return () => {
       const children = getChildren(props.nodes)

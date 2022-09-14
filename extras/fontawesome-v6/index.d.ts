@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.1.2 */
+/* Fontawesome Free v6.2.0 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -597,7 +597,6 @@ export declare const farMessage: string;
 export declare const farMoneyBill1: string;
 export declare const farMoon: string;
 export declare const farNewspaper: string;
-export declare const farNotdef: string;
 export declare const farNoteSticky: string;
 export declare const farObjectGroup: string;
 export declare const farObjectUngroup: string;
@@ -1492,7 +1491,6 @@ export declare const fasNetworkWired: string;
 export declare const fasNeuter: string;
 export declare const fasNewspaper: string;
 export declare const fasNotEqual: string;
-export declare const fasNotdef: string;
 export declare const fasNoteSticky: string;
 export declare const fasNotesMedical: string;
 export declare const fasO: string;

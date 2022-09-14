@@ -3,7 +3,6 @@ const { join } = require('path')
 
 const appPaths = require('../../app-paths')
 const escapeRegexString = require('../../helpers/escape-regex-string')
-const { stripViteConfFilenamesHash } = require('./utils')
 const {
   createViteConfig, extendViteConfig,
   createBrowserEsbuildConfig, extendEsbuildConfig
@@ -21,11 +20,7 @@ module.exports = {
       quasarVitePluginPwaResources(quasarConf)
     )
 
-    const promise = extendViteConfig(cfg, quasarConf, { isClient: true })
-
-    return quasarConf.pwa.useFilenameHashes !== true
-      ? promise.then(stripViteConfFilenamesHash)
-      : promise
+    return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
   // exported to ssr-config.js as well

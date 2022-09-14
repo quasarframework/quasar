@@ -104,17 +104,6 @@ export interface QuasarPwaConfiguration {
   useCredentialsForManifestTag?: boolean;
 
   /**
-   * Build production assets with or without the hash part in filenames.
-   * Example: "454d87bd" in "assets/index.454d87bd.js"
-   *
-   * If set to true then updating the PWA will force to re-download all assets
-   * again, regardless if they were changed or not (due to how Rollup works through Vite)
-   *
-   * @default false
-   */
-  useFilenameHashes?: boolean;
-
-  /**
    * Extend the esbuild config that is used for the custom service worker
    * (if using it through workboxMode: 'injectManifest')
    */

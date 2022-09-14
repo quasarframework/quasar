@@ -117,10 +117,10 @@ export default createComponent({
       }
     }
 
-    const vm = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
 
     onMounted(() => {
-      parentEl = vm.proxy.$el.parentNode
+      parentEl = proxy.$el.parentNode
       configureScrollTarget()
     })
 
@@ -130,7 +130,7 @@ export default createComponent({
     })
 
     // expose public methods
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       trigger,
       getPosition: () => scroll
     })

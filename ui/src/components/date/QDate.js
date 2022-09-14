@@ -12,7 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
-import { isObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -1065,11 +1065,6 @@ export default createComponent({
       emit('update:modelValue', (props.multiple === true ? model : model[ 0 ]) || null, reason)
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
-    })
-
     function getHeader () {
       if (props.minimal === true) { return }
 
@@ -1426,6 +1421,11 @@ export default createComponent({
         })
       }
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
+    })
 
     return () => {
       const content = [
