@@ -119,6 +119,14 @@
       "examples": [ "[8, 8]", "[5, 10]" ],
       "category": "position",
       "addedIn": "v1.9.2"
+    },
+
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the dropdown toggle element",
+      "examples": [ "Open menu" ],
+      "category": "content",
+      "addedIn": "v1.21.0"
     }
   },
 
