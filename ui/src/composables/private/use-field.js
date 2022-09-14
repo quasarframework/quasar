@@ -504,7 +504,8 @@ export default function (state) {
 
     return h('div', {
       class: 'q-field__bottom row items-start q-field__bottom--'
-        + (props.hideBottomSpace !== true ? 'animated' : 'stale')
+        + (props.hideBottomSpace !== true ? 'animated' : 'stale'),
+      onClick: prevent
     }, [
       props.hideBottomSpace === true
         ? main
