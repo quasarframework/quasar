@@ -1971,56 +1971,9 @@
               }
             },
             "filter": {
-              "type": "Function",
-              "required": true,
-              "desc": "Filter method (the 'filter-method' prop)",
-              "params": {
-                "rows": {
-                  "type": "Array",
-                  "required": true,
-                  "desc": "Array of rows",
-                  "__exemption": [ "examples" ]
-                },
-                "terms": {
-                  "type": [ "String", "Object" ],
-                  "required": true,
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-                  "__exemption": [ "examples" ]
-                },
-                "cols": {
-                  "type": "Array",
-                  "desc": "Optional column definitions",
-                  "__exemption": [ "examples" ]
-                },
-                "getCellValue": {
-                  "type": "Function",
-                  "desc": "Optional function to get a cell value",
-                  "params": {
-                    "col": {
-                      "type": "Object",
-                      "required": true,
-                      "desc": "Column name from column definitions",
-                      "__exemption": [ "examples" ]
-                    },
-                    "row": {
-                      "type": "Object",
-                      "required": true,
-                      "desc": "The row object",
-                      "__exemption": [ "examples" ]
-                    }
-                  },
-                  "returns": {
-                    "type": "Any",
-                    "desc": "Parsed/Processed cell value",
-                    "examples": [ "Ice Cream Sandwich" ]
-                  }
-                }
-              },
-              "returns": {
-                "type": "Array",
-                "desc": "Filtered rows",
-                "__exemption": [ "examples" ]
-              }
+              "type": [ "String", "Object" ],
+              "desc": "String/Object to filter table with (the 'filter' prop)",
+              "__exemption": [ "examples" ]
             },
             "getCellValue": {
               "type": "Function",
