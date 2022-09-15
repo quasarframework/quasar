@@ -282,21 +282,24 @@ export default Vue.extend({
 
     // textarea only
     __adjustHeight () {
-      const inp = this.$refs.input
-      if (inp !== void 0) {
-        const parentStyle = inp.parentNode.style
-        const { overflow } = inp.style
+      requestAnimationFrame(() => {
+        const inp = this.$refs.input
+        if (inp !== void 0) {
+          const parentStyle = inp.parentNode.style
+          const { overflow } = inp.style
 
-        // reset height of textarea to a small size to detect the real height
-        // but keep the total control size the same
-        parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
-        inp.style.height = '1px'
-        inp.style.overflow = 'hidden'
+          // reset height of textarea to a small size to detect the real height
+          // but keep the total control size the same
+          // Firefox rulez #14263, #14344
+          this.$q.platform.is.firefox !== true && (inp.style.overflow = 'hidden')
+          inp.style.height = '1px'
+          parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
 
-        inp.style.height = inp.scrollHeight + 'px'
-        inp.style.overflow = overflow
-        parentStyle.marginBottom = ''
-      }
+          inp.style.height = inp.scrollHeight + 'px'
+          inp.style.overflow = overflow
+          parentStyle.marginBottom = ''
+        }
+      })
     },
 
     __onChange (e) {
