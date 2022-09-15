@@ -258,6 +258,11 @@
     "isBusy": {
       "type": "Boolean",
       "desc": "The component state is set as busy; User should not be able to interact with the component"
+    },
+
+    "isUploading": {
+      "type": "Boolean",
+      "desc": "The component is uploading files"
     }
   }
 }
