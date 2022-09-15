@@ -28,7 +28,7 @@ console.log( is.deepEqual(objA, objB) ) // true or false
 import { is } from 'quasar'
 
 const obj = { some: 'value' }
-console.log( is.object(objA) ) // true or false
+console.log( is.object(obj) ) // true
 ```
 
 ## is.date
@@ -36,8 +36,11 @@ console.log( is.object(objA) ) // true or false
 ```js
 import { is } from 'quasar'
 
-const myDate = new Date()
-console.log( is.date(myDate) ) // true or false
+const date = new Date()
+console.log( is.date(date) ) // true
+
+const now = Date.now()
+console.log( is.date(now) ) // false
 ```
 
 ## is.regexp
@@ -45,8 +48,11 @@ console.log( is.date(myDate) ) // true or false
 ```js
 import { is } from 'quasar'
 
-const myRegexp = new Regexp(/* ... */)
-console.log( is.date(myRegexp) ) // true or false
+const pattern1 = /\w+/
+console.log( is.regexp(pattern1) ) // true
+
+const pattern2 = new RegExp('\\w+')
+console.log( is.regexp(pattern2) ) // true
 ```
 
 ## is.number
@@ -55,5 +61,5 @@ console.log( is.date(myRegexp) ) // true or false
 import { is } from 'quasar'
 
 const myNumber = 80
-console.log( is.date(myNumber) ) // true or false
+console.log( is.number(myNumber) ) // true
 ```
