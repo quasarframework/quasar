@@ -43,6 +43,10 @@ class CapacitorBuilder extends AppBuilder {
 
     this.#capacitorConfigFile.prepare(this.quasarConf)
 
+    if (target == 'ios' && this.quasarConf.ctx.prod) {
+      this.quasarConf.capacitor.ios = this.#capacitorConfigFile.getCapIosConfig()
+    }
+
     await this.#runCapacitorCommand(this.quasarConf.capacitor.capacitorCliPreparationParams)
 
     this.#capacitorConfigFile.prepareSSL(false, target)
@@ -87,7 +91,8 @@ class CapacitorBuilder extends AppBuilder {
 
   async #buildIos () {
     const buildType = this.ctx.debug ? 'debug' : 'release'
-    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${buildType} -derivedDataPath`
+    const scheme = this.quasarConf.capacitor.ios?.scheme || 'App'
+    const args = `xcodebuild -workspace App.xcworkspace -scheme ${scheme} -configuration ${buildType} -derivedDataPath`
 
     log('Building iOS app...')
 

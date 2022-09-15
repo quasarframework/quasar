@@ -61,16 +61,24 @@ class CapacitorConfigFile {
     this.#tamperedFiles = []
 
     const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
-    const capJson = require(capJsonPath)
+    this.capJson = require(capJsonPath)
 
     this.#tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
-      content: this.#updateCapJson(quasarConf, capJson),
-      originalContent: JSON.stringify(capJson, null, 2)
+      content: this.#updateCapJson(quasarConf, this.capJson),
+      originalContent: JSON.stringify(this.capJson, null, 2)
     })
 
     this.#save()
+  }
+
+  getCapIosConfig(){
+    if (!this.capJson) {
+      return {'scheme': 'App'}
+    }
+
+    return this.capJson.ios
   }
 
   reset () {
