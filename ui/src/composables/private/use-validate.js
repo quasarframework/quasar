@@ -119,7 +119,7 @@ export default function (focused, innerLoading) {
 
     const index = ++validateIndex
 
-    if (innerLoading.value !== true && props.lazyRules !== true) {
+    if (innerLoading.value !== true) {
       isDirtyModel.value = true
     }
 
