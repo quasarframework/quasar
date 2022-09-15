@@ -73,7 +73,7 @@ const uglifyJsOptions = {
 
 const builds = [
   {
-    // client entry used by @quasar/vite-plugin for DEV only
+    // client entry-point used by @quasar/vite-plugin for DEV only
     // (has flags untouched; required to replace them)
     rollup: {
       input: {
@@ -94,12 +94,12 @@ const builds = [
   },
 
   {
-    // generic ESM entry that is not used by Quasar CLI,
+    // client prod entry-point that is not used by Quasar CLI,
     // but pointed to in package.json > module;
     // (no flags; not required to replace them)
     rollup: {
       input: {
-        input: resolve('src/index.dev.js')
+        input: resolve('src/index.prod.js')
       },
       output: {
         file: resolve('dist/quasar.esm.js'),
@@ -119,7 +119,7 @@ const builds = [
   },
 
   {
-    // SSR server prod entry
+    // SSR server prod entry-point
     // (no flags; not required to replace them)
     rollup: {
       input: {
