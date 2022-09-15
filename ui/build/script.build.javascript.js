@@ -94,6 +94,31 @@ const builds = [
   },
 
   {
+    // generic ESM entry that is not used by Quasar CLI,
+    // but pointed to in package.json > module;
+    // (no flags; not required to replace them)
+    rollup: {
+      input: {
+        input: resolve('src/index.dev.js')
+      },
+      output: {
+        file: resolve('dist/quasar.esm.js'),
+        format: 'es'
+      }
+    },
+    build: {
+      minified: true,
+      replace: {
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
+      }
+    }
+  },
+
+  {
     // SSR server prod entry
     // (no flags; not required to replace them)
     rollup: {
