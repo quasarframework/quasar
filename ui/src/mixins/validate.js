@@ -170,7 +170,7 @@ export default {
         let res
 
         if (typeof rule === 'function') {
-          res = rule(val)
+          res = rule(val, testPattern)
         }
         else if (typeof rule === 'string' && testPattern[rule] !== void 0) {
           res = testPattern[rule](val)
