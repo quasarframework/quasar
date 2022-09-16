@@ -118,10 +118,15 @@ Quasar.plugins.bottomSheet.create({...})
 ```
 
 ### Quasar Utils
-An example.
+Some usage examples:
 
 ```js
+Quasar.utils.colors.getBrand('primary')
 Quasar.utils.openURL('https://quasar.dev')
+Quasar.utils.debounce(fn, 200)
+Quasar.utils.is.deepEqual(objA, objB)
+Quasar.QBtn
+Quasar.Notify.create('Hi and welcome!')
 ```
 
 ### Changing Quasar Icon Set

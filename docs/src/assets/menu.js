@@ -1194,6 +1194,10 @@ const utils = [
     path: 'scrolling-utils'
   },
   {
+    name: 'Type Checking Utils (<is>)',
+    path: 'type-checking-utils'
+  },
+  {
     name: 'Other Utils',
     path: 'other-utils'
   }

@@ -138,3 +138,11 @@ export function isRegexp (v) {
 export function isNumber (v) {
   return typeof v === 'number' && isFinite(v)
 }
+
+export default {
+  deepEqual: isDeepEqual,
+  object: isObject,
+  date: isDate,
+  regexp: isRegexp,
+  number: isNumber
+}

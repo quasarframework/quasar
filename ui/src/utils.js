@@ -5,6 +5,7 @@ import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
 import event, { noop } from './utils/event.js'
+import is from './utils/is.js'
 import exportFile from './utils/export-file.js'
 import extend from './utils/extend.js'
 import format from './utils/format.js'
@@ -29,6 +30,7 @@ export {
   format,
   frameDebounce,
   noop,
+  is,
   openURL,
   morph,
   patterns,
