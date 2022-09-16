@@ -1,6 +1,19 @@
 import { mount } from '@cypress/vue'
 import QChip, { defaultSizes } from '../QChip.js'
 
+const defaultOptions = {
+  label: 'simple chip'
+}
+
+function mountQChip (options = {}) {
+  options.props = {
+    ...defaultOptions,
+    ...options.props
+  }
+
+  return mount(QChip, options)
+}
+
 describe('Chip API', () => {
   describe('Props', () => {
     describe('Category: content', () => {
@@ -8,15 +21,13 @@ describe('Chip API', () => {
         it('should render an icon', () => {
           const icon = 'add'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               icon
             }
           })
 
-          cy.get('.q-chip')
-            .get('.q-icon')
-            .should('have.text', `${ icon }`)
+          cy.get('.q-chip').get('.q-icon').should('have.text', `${ icon }`)
         })
       })
 
@@ -24,8 +35,8 @@ describe('Chip API', () => {
         it('should render an icon on the right', () => {
           const icon = 'add'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               iconRight: icon
             }
           })
@@ -40,8 +51,8 @@ describe('Chip API', () => {
         it('should render a remove icon if "removable" is active', () => {
           const icon = 'delete'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               removable: true,
               iconRemove: icon
             }
@@ -57,8 +68,8 @@ describe('Chip API', () => {
         it('should render a selected icon if is true', () => {
           const icon = 'done'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               selected: true,
               iconSelected: icon
             }
@@ -74,15 +85,13 @@ describe('Chip API', () => {
         it('should render the label inside the chip', () => {
           const label = 'Chip label'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               label
             }
           })
 
-          cy.get('.q-chip')
-            .get('.q-chip__content')
-            .should('have.text', label)
+          cy.get('.q-chip').get('.q-chip__content').should('have.text', label)
         })
       })
     })
@@ -92,15 +101,14 @@ describe('Chip API', () => {
         it('should set the tabindex', () => {
           const tabindex = 1
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               clickable: true,
               tabindex
             }
           })
 
-          cy.get('.q-chip')
-            .should('have.attr', 'tabindex', `${ tabindex }`)
+          cy.get('.q-chip').should('have.attr', 'tabindex', `${ tabindex }`)
         })
       })
     })
@@ -108,8 +116,8 @@ describe('Chip API', () => {
     describe('Category: model', () => {
       describe('(prop): model-value', () => {
         it('should be exist when modelValue is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               modelValue: true
             }
           })
@@ -118,8 +126,8 @@ describe('Chip API', () => {
         })
 
         it('should NOT be exist when modelValue is false', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               modelValue: false
             }
           })
@@ -130,8 +138,8 @@ describe('Chip API', () => {
 
       describe('(prop): selected', () => {
         it('should be selected when selected is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               selected: true
             }
           })
@@ -140,8 +148,8 @@ describe('Chip API', () => {
         })
 
         it('should NOT be selected when selected is false', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               selected: false
             }
           })
@@ -157,8 +165,8 @@ describe('Chip API', () => {
         it('should have hover effects and emit click events when clickable is true', () => {
           const fn = cy.stub()
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               clickable: true,
               onClick: fn
             }
@@ -167,9 +175,7 @@ describe('Chip API', () => {
           cy.get('.q-chip')
             .should('have.css', 'cursor', 'pointer')
             .click()
-            .then(() =>
-              expect(fn).to.be.calledOnce
-            )
+            .then(() => expect(fn).to.be.calledOnce)
         })
       })
 
@@ -177,8 +183,8 @@ describe('Chip API', () => {
         it('should displays a "remove" icon that when clicked the QChip emits "remove" event', () => {
           const fn = cy.stub()
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               removable: true,
               onRemove: fn
             }
@@ -187,9 +193,7 @@ describe('Chip API', () => {
           cy.get('.q-chip')
             .get('.q-icon.q-chip__icon--remove')
             .click()
-            .then(() =>
-              expect(fn).to.be.calledOnce
-            )
+            .then(() => expect(fn).to.be.calledOnce)
         })
       })
 
@@ -197,8 +201,8 @@ describe('Chip API', () => {
         it('should NOT have hover effects and NOT emit click events when disable is true', () => {
           const fn = cy.stub()
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               disable: true,
               onClick: fn
             }
@@ -207,9 +211,7 @@ describe('Chip API', () => {
           cy.get('.q-chip')
             .should('not.have.css', 'cursor', 'pointer')
             .click()
-            .then(() =>
-              expect(fn).to.not.be.called
-            )
+            .then(() => expect(fn).to.not.be.called)
         })
       })
     })
@@ -217,8 +219,8 @@ describe('Chip API', () => {
     describe('Category: style', () => {
       describe('(prop): dense', () => {
         it('should have a dense style when dense is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               dense: true
             }
           })
@@ -231,28 +233,30 @@ describe('Chip API', () => {
         it('should change QChip size based on a CSS unit value', () => {
           const size = '50px'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               size
             }
           })
 
-          cy.get('.q-chip')
-            .should('have.css', 'font-size', size)
+          cy.get('.q-chip').should('have.css', 'font-size', size)
         })
 
         it('should change QChip size based defined values: xs, sm, md, lg, xl', () => {
           const sizes = [ 'xs', 'sm', 'md', 'lg', 'xl' ]
 
-          sizes.forEach(size => {
-            mount(QChip, {
-              propsData: {
+          sizes.forEach((size) => {
+            mountQChip({
+              props: {
                 size
               }
             })
 
-            cy.get('.q-chip')
-              .should('have.css', 'font-size', `${ defaultSizes[ size ] }px`)
+            cy.get('.q-chip').should(
+              'have.css',
+              'font-size',
+              `${ defaultSizes[ size ] }px`
+            )
 
             // remove the component from the DOM
             cy.get('.q-chip').invoke('remove')
@@ -262,8 +266,8 @@ describe('Chip API', () => {
 
       describe('(prop): dark', () => {
         it('should have a dark style when dark is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               dark: true
             }
           })
@@ -276,8 +280,8 @@ describe('Chip API', () => {
         it('should change color based on Quasar Color Palette', () => {
           const color = 'red'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               color
             }
           })
@@ -290,8 +294,8 @@ describe('Chip API', () => {
         it('should change text color based on Quasar Color Palette', () => {
           const textColor = 'red'
 
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               textColor
             }
           })
@@ -302,8 +306,8 @@ describe('Chip API', () => {
 
       describe('(prop): square', () => {
         it('should have a square style when square is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               square: true
             }
           })
@@ -314,8 +318,8 @@ describe('Chip API', () => {
 
       describe('(prop): outline', () => {
         it('should have a outline style when outline is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               outline: true
             }
           })
@@ -326,29 +330,23 @@ describe('Chip API', () => {
 
       describe('(prop): ripple', () => {
         it('should have a ripple effect when ripple is true', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               ripple: true
             }
           })
 
-          cy.get('.q-chip')
-            .click()
-            .get('.q-ripple')
-            .should('exist')
+          cy.get('.q-chip').click().get('.q-ripple').should('exist')
         })
 
         it('should NOT have a ripple effect when ripple is false', () => {
-          mount(QChip, {
-            propsData: {
+          mountQChip({
+            props: {
               ripple: false
             }
           })
 
-          cy.get('.q-chip')
-            .click()
-            .get('.q-ripple')
-            .should('not.exist')
+          cy.get('.q-chip').click().get('.q-ripple').should('not.exist')
         })
       })
     })
@@ -357,7 +355,11 @@ describe('Chip API', () => {
   describe('Slots', () => {
     describe('(slot): default', () => {
       it('should display the default slot content', () => {
-        mount(QChip, {
+        mountQChip({
+          props: {
+            label: undefined
+          },
+
           slots: {
             default: 'Default Slot Content'
           }
@@ -373,8 +375,8 @@ describe('Chip API', () => {
       it('should emit click event when clicked and "clickable" is set', () => {
         const fn = cy.stub()
 
-        mount(QChip, {
-          propsData: {
+        mountQChip({
+          props: {
             clickable: true,
             onClick: fn
           }
@@ -382,25 +384,21 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
-          .then(() =>
-            expect(fn).to.be.calledOnce
-          )
+          .then(() => expect(fn).to.be.calledOnce)
       })
 
       it('should NOT emit click event when "clickable" is NOT set', () => {
         const fn = cy.stub()
 
-        mount(QChip, {
-          propsData: {
+        mountQChip({
+          props: {
             onClick: fn
           }
         })
 
         cy.get('.q-chip')
           .click()
-          .then(() =>
-            expect(fn).to.not.be.called
-          )
+          .then(() => expect(fn).to.not.be.called)
       })
     })
 
@@ -408,8 +406,8 @@ describe('Chip API', () => {
       it('should update selected value when called', () => {
         const fn = cy.stub()
 
-        mount(QChip, {
-          propsData: {
+        mountQChip({
+          props: {
             selected: false,
             'onUpdate:selected': fn
           }
@@ -417,25 +415,21 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
-          .then(() =>
-            expect(fn).to.be.calledOnce
-          )
+          .then(() => expect(fn).to.be.calledOnce)
       })
 
       it('should NOT emit update:selected event selected is NOT applied', () => {
         const fn = cy.stub()
 
-        mount(QChip, {
-          propsData: {
+        mountQChip({
+          props: {
             'onUpdate:selected': fn
           }
         })
 
         cy.get('.q-chip')
           .click()
-          .then(() =>
-            expect(fn).to.not.be.called
-          )
+          .then(() => expect(fn).to.not.be.called)
       })
     })
 
@@ -443,8 +437,8 @@ describe('Chip API', () => {
       it('should emit remove event when clicked and removable is applied', () => {
         const fn = cy.stub()
 
-        mount(QChip, {
-          propsData: {
+        mountQChip({
+          props: {
             removable: true,
             onRemove: fn
           }
@@ -453,25 +447,21 @@ describe('Chip API', () => {
         cy.get('.q-chip')
           .get('.q-icon.q-chip__icon--remove')
           .click()
-          .then(() =>
-            expect(fn).to.be.calledOnce
-          )
+          .then(() => expect(fn).to.be.calledOnce)
       })
 
       it('should NOT emit remove event when removable is NOT applied', () => {
         const fn = cy.stub()
 
-        mount(QChip, {
-          propsData: {
+        mountQChip({
+          props: {
             onRemove: fn
           }
         })
 
         cy.get('.q-chip')
           .click()
-          .then(() =>
-            expect(fn).to.not.be.called
-          )
+          .then(() => expect(fn).to.not.be.called)
       })
     })
   })
