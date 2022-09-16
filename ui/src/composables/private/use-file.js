@@ -129,11 +129,13 @@ export default function ({
       file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
     })
 
-    // Avoid duplicate files
-    const filenameMap = currentFileList.map(entry => entry.__key)
-    files = filterFiles(files, rejectedFiles, 'duplicate', file => {
-      return filenameMap.includes(file.__key) === false
-    })
+    if (append !== true) {
+      // Avoid duplicate files
+      const filenameMap = currentFileList.map(entry => entry.__key)
+      files = filterFiles(files, rejectedFiles, 'duplicate', file => {
+        return filenameMap.includes(file.__key) === false
+      })
+    }
 
     if (files.length === 0) { return done() }
 
