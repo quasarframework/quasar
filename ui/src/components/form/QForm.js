@@ -6,6 +6,8 @@ import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
 
+const noErrors = []
+
 export default createComponent({
   name: 'QForm',
 
@@ -28,7 +30,6 @@ export default createComponent({
     const registeredComponents = []
 
     function validate (shouldFocus) {
-      const promises = []
       const focus = typeof shouldFocus === 'boolean'
         ? shouldFocus
         : props.noErrorFocus !== true
@@ -39,50 +40,39 @@ export default createComponent({
         emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
-      for (let i = 0; i < registeredComponents.length; i++) {
-        const comp = registeredComponents[ i ]
+      const validateComponent = comp => {
+        if (index !== validateIndex || !comp) {
+          return Promise.resolve({ valid: true, comp })
+        }
+
         const valid = comp.validate()
 
-        if (typeof valid.then === 'function') {
-          promises.push(
-            valid.then(
-              valid => ({ valid, comp }),
-              err => ({ valid: false, comp, err })
-            )
+        return typeof valid.then === 'function'
+          ? valid.then(
+            valid => ({ valid, comp }),
+            err => ({ valid: false, comp, err })
           )
-        }
-        else if (valid !== true) {
-          if (props.greedy === false) {
-            emitEvent(false, comp)
-
-            if (focus === true && typeof comp.focus === 'function') {
-              comp.focus()
-            }
-
-            return Promise.resolve(false)
-          }
-
-          promises.push({ valid: false, comp })
-        }
+          : Promise.resolve({ valid, comp })
       }
 
-      if (promises.length === 0) {
-        emitEvent(true)
-        return Promise.resolve(true)
-      }
+      const errorsPromise = props.greedy === true
+        ? Promise.all(registeredComponents.map(validateComponent)).then(res => res.filter(r => r.valid !== true))
+        : registeredComponents
+          .reduce((acc, comp) => acc.then(() => validateComponent(comp)
+            .then(r => (r.valid === true ? noErrors : Promise.reject(r)))
+          ), Promise.resolve(noErrors))
+          .catch(error => [ error ])
 
-      return Promise.all(promises).then(res => {
-        const errors = res.filter(r => r.valid !== true)
-
+      return errorsPromise.then(errors => {
         if (errors.length === 0) {
           index === validateIndex && emitEvent(true)
           return true
         }
 
-        const { valid, comp, err } = errors[ 0 ]
-
         // if not outdated already
         if (index === validateIndex) {
+          const { valid, comp, err } = errors[ 0 ]
+
           err !== void 0 && console.error(err)
 
           emitEvent(false, comp)
@@ -90,6 +80,7 @@ export default createComponent({
           if (
             focus === true
             && valid !== true
+            && comp
             && typeof comp.focus === 'function'
           ) {
             comp.focus()
