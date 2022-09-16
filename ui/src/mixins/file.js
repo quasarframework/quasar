@@ -125,7 +125,9 @@ export default {
       })
 
       // Avoid duplicate files
-      const filenameMap = currentFileList.map(entry => entry.__key)
+      const filenameMap = append === true
+        ? currentFileList.map(entry => entry.__key)
+        : []
       files = filterFiles(files, rejectedFiles, 'duplicate', file => {
         return filenameMap.includes(file.__key) === false
       })
