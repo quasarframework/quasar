@@ -6,6 +6,8 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 import { addFocusFn } from '../../utils/focus-manager.js'
 
+const noErrors = []
+
 export default Vue.extend({
   name: 'QForm',
 
@@ -44,7 +46,6 @@ export default Vue.extend({
 
   methods: {
     validate (shouldFocus) {
-      const promises = []
       const focus = typeof shouldFocus === 'boolean'
         ? shouldFocus
         : this.noErrorFocus !== true
@@ -57,66 +58,54 @@ export default Vue.extend({
         this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
-      for (let i = 0; i < components.length; i++) {
-        const comp = components[i]
+      const validateComponent = comp => {
+        if (index !== this.validateIndex || !comp) {
+          return Promise.resolve({ valid: true, comp })
+        }
+
         const valid = comp.validate()
 
-        if (typeof valid.then === 'function') {
-          promises.push(
-            valid.then(
-              valid => ({ valid, comp }),
-              err => ({ valid: false, comp, err })
-            )
+        return typeof valid.then === 'function'
+          ? valid.then(
+            valid => ({ valid, comp }),
+            err => ({ valid: false, comp, err })
           )
-        }
-        else if (valid !== true) {
-          if (this.greedy === false) {
-            emit(false, comp)
-
-            if (focus === true && typeof comp.focus === 'function') {
-              comp.focus()
-            }
-
-            return Promise.resolve(false)
-          }
-
-          promises.push({ valid: false, comp })
-        }
+          : Promise.resolve({ valid, comp })
       }
 
-      if (promises.length === 0) {
-        emit(true)
-        return Promise.resolve(true)
-      }
+      const errorsPromise = this.greedy === true
+        ? Promise.all(components.map(validateComponent)).then(res => res.filter(r => r.valid !== true))
+        : components
+          .reduce((acc, comp) => acc.then(() => validateComponent(comp)
+            .then(r => r.valid === true ? noErrors : Promise.reject(r))
+          ), Promise.resolve(noErrors))
+          .catch(error => [error])
 
-      return Promise.all(promises).then(
-        res => {
-          const errors = res.filter(r => r.valid !== true)
+      return errorsPromise.then(errors => {
+        if (errors.length === 0) {
+          index === this.validateIndex && emit(true)
+          return true
+        }
 
-          if (errors.length === 0) {
-            index === this.validateIndex && emit(true)
-            return true
-          }
-
+        if (index === this.validateIndex) {
           const { valid, comp, err } = errors[0]
 
-          if (index === this.validateIndex) {
-            err !== void 0 && console.error(err)
+          err !== void 0 && console.error(err)
 
-            emit(false, comp)
+          emit(false, comp)
 
-            if (
-              focus === true &&
-              valid !== true &&
-              typeof comp.focus === 'function'
-            ) {
-              comp.focus()
-            }
+          if (
+            focus === true &&
+            valid !== true &&
+            comp &&
+            typeof comp.focus === 'function'
+          ) {
+            comp.focus()
           }
-
-          return false
         }
-      )
+
+        return false
+      })
     },
 
     resetValidation () {
