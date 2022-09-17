@@ -8,7 +8,7 @@ keys: openURL,copyToClipboard,exportFile,debounce,frameDebounce,throttle,extend,
 For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
-## Open External URL
+## openURL
 
 ```js
 import { openURL } from 'quasar'
@@ -54,7 +54,7 @@ openURL(
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn href="tel:123456789">`
 :::
 
-## Copy to Clipboard
+## copyToClipboard
 
 The following is a helper to copy some text to Clipboard. The method returns a Promise.
 
@@ -70,7 +70,7 @@ copyToClipboard('some text')
   })
 ```
 
-## Export file
+## exportFile
 
 The following is a helper to trigger the browser to start downloading a file with the specified content.
 
@@ -137,7 +137,131 @@ else {
 }
 ```
 
-## Debounce Function
+## runSequentialPromises <q-badge align="top" color="brand-primary" label="v2.8.4+" />
+
+The following is a helper to run multiple Promises sequentially. **Optionally, on multiple threads.**
+
+```js
+/**
+ * Run a list of Promises sequentially, optionally on multiple threads.
+ *
+ * @param {*} promiseList - Array of Functions
+ *                          Function form: () => Promise
+ * @param {*} opts - Optional options Object
+ *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
+ *                   Default: { threadsNumber: 1, abortOnFail: true }
+ *                   When configuring threadsNumber AND using http requests, be
+ *                       aware of the maximum threads that the hosting browser
+ *                       supports (usually 3); any number of threads above that
+ *                       won't add any real benefits
+ * @returns Promise<Array<Object>>
+ *    With opts.abortOnFail set to true (which is default):
+ *      The Promise resolves with an Array of Objects of the following form:
+ *         { promiseIndex: number, data: any }
+ *      The Promise rejects with an Object of the following form:
+ *         { promiseIndex: number, error: Error }
+ *    With opts.abortOnFail set to false:
+ *       The Promise resolves with an Array of Objects of the following form:
+ *         { promiseIndex: number, data: any } | { promiseIndex: number, error: Error }
+ *       The Promise is never rejected (no catch() needed)
+ */
+```
+
+Note that the `promiseList` param is an Array of Functions (each Function returns a Promise) and that the `opts` parameter is optional.
+
+Generic example:
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises([
+  () => new Promise((resolve, reject) => { /* do some work... */ }),
+  () => new Promise((resolve, reject) => { /* do some work... */ })
+  // ...
+]).then(resultList => {
+  console.log('result from first Promise:', resultList[0].data)
+  console.log('result from second Promise:', resultList[1].data)
+  // ...
+}).catch(errResult => {
+  console.error(`Error encountered on job #${ errResult.promiseIndex }:`)
+  console.error(errResult.error)
+})
+```
+
+Example with Axios:
+
+```js
+import { runSequentialPromises } from 'quasar'
+import axios from 'axios'
+
+const which = [ 'users', 'phones', 'laptops' ]
+
+runSequentialPromises([
+  () => axios.get('https://some-url.com/users')
+  () => axios.get('https://some-other-url.com/items/phones')
+  () => axios.get('https://some-other-url.com/items/laptops')
+]).then(resultList => {
+  resultList.forEach(result => {
+    // resultList is ordered in the same way as the promises above
+    // but we use the helper prop "promiseIndex" for brevity
+    console.log(which[result.promiseIndex], result.data) // example: users {...}
+  })
+}).catch(errResult => {
+  console.error(`Error encountered while fetching ${ which[errResult.promiseIndex] }:`)
+  console.error(errResult.error)
+})
+```
+
+Example with abortOnFail set to `false`:
+
+```js
+import { runSequentialPromises } from 'quasar'
+import axios from 'axios'
+
+const which = [ 'users', 'phones', 'laptops' ]
+
+// notice no "catch()"; runSequentialPromises() will always resolve
+runSequentialPromises(
+  [
+    () => axios.get('https://some-url.com/users')
+    () => axios.get('https://some-other-url.com/items/phones')
+    () => axios.get('https://some-other-url.com/items/laptops')
+  ],
+  { abortOnFail: false }
+).then(resultList => {
+  resultList.forEach(result => {
+    // resultList is ordered in the same way as the promises above
+    // but we use the helper prop "promiseIndex" for brevity
+    const itemName = which[result.promiseIndex]
+
+    if (result.error !== void 0) {
+      console.log(`Failed to fetch ${ itemName }:`, result.error)
+    }
+    else {
+      console.log(`Succeeded to fetch ${ itemName }:`, result.data)
+    }
+  })
+})
+```
+
+When configuring threadsNumber (`opts > threadsNumber`) AND using http requests, be aware of the maximum threads that the hosting browser supports (usually 3). Any number of threads above that won't add any real benefits.
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
+  .then(resultList => {
+    resultList.forEach(result => {
+      console.log(result.data)
+    })
+  })
+  .catch(errResult => {
+    console.error(`Error encountered:`)
+    console.error(errResult.error)
+  })
+```
+
+## debounce
 If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
 
 Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
@@ -194,7 +318,7 @@ window.addEventListener(
 )
 ```
 
-## Throttle Function
+## throttle
 Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
 
 ```js
@@ -227,7 +351,7 @@ created () {
 Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between *all* rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
 :::
 
-## (Deep) Copy Objects
+## extend - (Deep) Copy Objects
 A basic respawn of `jQuery.extend()`. Takes same parameters:
 
 ```js
@@ -238,7 +362,7 @@ let newObject = extend([Boolean deepCopy], targetObj, obj, ...)
 
 Watch out for methods within objects.
 
-## Generate UID
+## uid - Generate UID
 Generate unique identifiers:
 
 ```js
