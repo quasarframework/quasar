@@ -34,7 +34,6 @@ export default function runSequentialPromises (
   const getPromiseThread = () => new Promise((resolve, reject) => {
     function runNextPromise () {
       const currentJobIndex = ++jobIndex
-      console.log('running', currentJobIndex)
 
       if (hasAborted === true || currentJobIndex >= totalJobs) {
         resolve()
@@ -65,7 +64,6 @@ export default function runSequentialPromises (
             resultList[ currentJobIndex ] = { promiseIndex: currentJobIndex, data: result }
           }
 
-          console.log('running next')
           runNextPromise()
         })
     }
