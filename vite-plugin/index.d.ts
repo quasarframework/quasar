@@ -28,6 +28,11 @@ export interface QuasarPluginOpts {
    *    "ssr-client" (used by @quasar/app-vite)
    */
   runMode?: "web-client" | "ssr-client" | "ssr-server";
+  /**
+   * Should Quasar get treeshaken on dev mode?
+   * @default false
+   */
+  devTreeshaking?: boolean;
 }
 
 export function quasar(opts?: QuasarPluginOpts): Plugin;

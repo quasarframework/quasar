@@ -4,12 +4,13 @@ import { getViteConfig } from './vite-config'
 import { vueTransform } from './vue-transform'
 import { createScssTransform } from './scss-transform'
 import { parseViteRequest } from './query'
-import { jsProdTransform } from './js-transform'
+import { mapQuasarImports } from './js-transform'
 
 const defaultOptions = {
   runMode: 'web-client',
   autoImportComponentCase: 'kebab',
-  sassVariables: true
+  sassVariables: true,
+  devTreeshaking: false
 }
 
 function getConfigPlugin (opts) {
@@ -67,14 +68,14 @@ function getScssTransformsPlugin (opts) {
 }
 
 function getScriptTransformsPlugin (opts) {
-  let isDev = false
+  let useTreeshaking = true
 
   return {
     name: 'vite:quasar:script',
 
     configResolved (resolvedConfig) {
-      if (resolvedConfig.mode === 'development') {
-        isDev = true
+      if (opts.devTreeshaking === false && resolvedConfig.mode === 'development') {
+        useTreeshaking = false
       }
     },
 
@@ -83,14 +84,14 @@ function getScriptTransformsPlugin (opts) {
 
       if (is.template() === true) {
         return {
-          code: vueTransform(src, opts.autoImportComponentCase, isDev),
+          code: vueTransform(src, opts.autoImportComponentCase, useTreeshaking),
           map: null // provide source map if available
         }
       }
 
-      if (isDev === false && is.script() === true) {
+      if (useTreeshaking === true && is.script() === true) {
         return {
-          code: jsProdTransform(src),
+          code: mapQuasarImports(src),
           map: null // provide source map if available
         }
       }
