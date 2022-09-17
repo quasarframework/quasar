@@ -55,6 +55,8 @@ export default Vue.extend({
     clickable: Boolean,
     removable: Boolean,
 
+    removeAriaLabel: String,
+
     tabindex: [String, Number],
     disable: Boolean
   },
@@ -99,7 +101,12 @@ export default Vue.extend({
     attrs () {
       return this.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
-        : { tabindex: this.tabindex || 0 }
+        : {
+          tabindex: this.tabindex || 0,
+          role: 'button',
+          'aria-hidden': 'false',
+          'aria-label': this.removeAriaLabel || this.$q.lang.label.remove
+        }
     }
   },
 

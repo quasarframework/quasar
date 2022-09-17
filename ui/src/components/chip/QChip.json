@@ -92,6 +92,14 @@
       "category": "state"
     },
 
+    "remove-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the remove icon",
+      "examples": [ "Remove item" ],
+      "category": "content",
+      "addedIn": "v1.21.0"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     },
