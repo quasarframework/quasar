@@ -146,6 +146,13 @@ interface QuasarStaticBuildConfiguration {
   ignorePublicFolder?: boolean;
 
   /**
+   * Treeshake Quasar's UI on dev too?
+   * Recommended to leave this as false for performance reasons.
+   * @default false
+   */
+  devQuasarTreeshaking?: boolean;
+
+  /**
    * Prepare external services before `$ quasar dev` command runs
    * like starting some backend or any other service that the app relies on.
    * Can use async/await or directly return a Promise.

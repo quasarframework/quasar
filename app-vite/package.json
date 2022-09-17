@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@quasar/fastclick": "1.1.5",
-    "@quasar/vite-plugin": "^1.2.0",
+    "@quasar/vite-plugin": "^1.2.1",
     "@rollup/pluginutils": "^4.1.2",
     "@types/chrome": "^0.0.191",
     "@types/compression": "^1.7.2",
