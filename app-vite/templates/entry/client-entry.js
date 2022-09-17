@@ -262,13 +262,19 @@ createQuasarApp(<%=
 %>, quasarUserOptions)
 <% if (bootEntries.length > 0) { %>
   .then(app => {
-    return Promise.all([
+    return Promise.allSettled([
       <% bootEntries.forEach((asset, index) => { %>
       import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
       <% }) %>
     ]).then(bootFiles => {
       const boot = bootFiles
-        .map(entry => entry.default)
+        .map(result => {
+          if (result.status === 'rejected') {
+            console.error('[Quasar] boot error:', result.reason)
+            return undefined
+          }
+          return result.value.default
+        })
         .filter(entry => typeof entry === 'function')
 
       start(app, boot)
