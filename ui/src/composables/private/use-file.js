@@ -129,7 +129,7 @@ export default function ({
       file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
     })
 
-    if (append !== true) {
+    if (append === true) {
       // Avoid duplicate files
       const filenameMap = currentFileList.map(entry => entry.__key)
       files = filterFiles(files, rejectedFiles, 'duplicate', file => {
