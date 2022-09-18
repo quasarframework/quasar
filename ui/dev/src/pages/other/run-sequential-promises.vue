@@ -75,7 +75,8 @@ function getPromiseList (fail) {
       setTimeout(() => { resolve('three') }, Math.random() * 1000)
     }),
 
-    () => new Promise(resolve => {
+    resultList => new Promise(resolve => {
+      console.log('current resultList', JSON.stringify(resultList))
       setTimeout(() => { resolve('four') }, Math.random() * 1000)
     }),
 
@@ -185,7 +186,16 @@ runTest([ '1 reject', 'yes', '1 thread' ], setResult => {
   }).catch(result => {
     setResult(
       result,
-      is.deepEqual(result, { promiseIndex: 1, error: 'cannot settle promise 2' })
+      is.deepEqual(result, {
+        promiseIndex: 1, error: 'cannot settle promise 2',
+        resultList: [
+          { promiseIndex: 0, data: 'one' },
+          { promiseIndex: 1, error: 'cannot settle promise 2' },
+          null,
+          null,
+          null
+        ]
+      })
     )
   })
 })
@@ -215,7 +225,16 @@ runTest([ '1 reject', 'yes', '2 threads' ], setResult => {
   }).catch(result => {
     setResult(
       result,
-      is.deepEqual(result, { promiseIndex: 1, error: 'cannot settle promise 2' })
+      is.deepEqual(result, {
+        promiseIndex: 1, error: 'cannot settle promise 2',
+        resultList: [
+          { promiseIndex: 0, data: 'one' },
+          { promiseIndex: 1, error: 'cannot settle promise 2' },
+          null,
+          null,
+          null
+        ]
+      })
     )
   })
 })

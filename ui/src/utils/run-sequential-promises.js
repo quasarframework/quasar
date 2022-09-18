@@ -3,7 +3,7 @@
  * Run a list of Promises sequentially, optionally on multiple threads.
  *
  * @param {*} promiseList - Array of Functions
- *                          Function form: () => Promise
+ *                          Function form: (resultList: Array) => Promise<any>
  * @param {*} opts - Optional options Object
  *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
  *                   Default: { threadsNumber: 1, abortOnFail: true }
@@ -16,7 +16,7 @@
  *      The Promise resolves with an Array of Objects of the following form:
  *         { promiseIndex: number, data: any }
  *      The Promise rejects with an Object of the following form:
- *         { promiseIndex: number, error: Error }
+ *         { promiseIndex: number, error: Error, resultList: Array }
  *    With opts.abortOnFail set to false:
  *       The Promise resolves with an Array of Objects of the following form:
  *         { promiseIndex: number, data: any } | { promiseIndex: number, error: Error }
@@ -29,7 +29,7 @@ export default function runSequentialPromises (
   let jobIndex = -1, hasAborted = false
 
   const totalJobs = promiseList.length
-  const resultList = Array(totalJobs).fill()
+  const resultList = Array(totalJobs).fill(null)
 
   const getPromiseThread = () => new Promise((resolve, reject) => {
     function runNextPromise () {
@@ -40,7 +40,7 @@ export default function runSequentialPromises (
         return
       }
 
-      promiseList[ currentJobIndex ]()
+      promiseList[ currentJobIndex ]([ ...resultList ])
         .catch(err => ({ promiseIndex: currentJobIndex, error: err }))
         .then(result => {
           if (hasAborted === true) {
@@ -50,13 +50,12 @@ export default function runSequentialPromises (
 
           // if we have an error (caught earlier):
           if (result !== void 0 && result !== null && result.error !== void 0) {
+            resultList[ currentJobIndex ] = result
+
             if (abortOnFail === true) {
               hasAborted = true
-              reject(result)
+              reject({ ...result, resultList: [ ...resultList ] })
               return // early exit
-            }
-            else {
-              resultList[ currentJobIndex ] = result
             }
           }
           // yay, we have a success:

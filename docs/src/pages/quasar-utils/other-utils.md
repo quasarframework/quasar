@@ -146,7 +146,7 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
  * Run a list of Promises sequentially, optionally on multiple threads.
  *
  * @param {*} promiseList - Array of Functions
- *                          Function form: () => Promise
+ *                          Function form: (resultList: Array) => Promise<any>
  * @param {*} opts - Optional options Object
  *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
  *                   Default: { threadsNumber: 1, abortOnFail: true }
@@ -159,7 +159,7 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
  *      The Promise resolves with an Array of Objects of the following form:
  *         { promiseIndex: number, data: any }
  *      The Promise rejects with an Object of the following form:
- *         { promiseIndex: number, error: Error }
+ *         { promiseIndex: number, error: Error, resultList: Array }
  *    With opts.abortOnFail set to false:
  *       The Promise resolves with an Array of Objects of the following form:
  *         { promiseIndex: number, data: any } | { promiseIndex: number, error: Error }
@@ -167,7 +167,10 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
  */
 ```
 
-Note that the `promiseList` param is an Array of Functions (each Function returns a Promise) and that the `opts` parameter is optional.
+Note that:
+* the `promiseList` param is an Array of Functions (each Function returns a Promise)
+* each function in `promiseList` receives one param which is the resultList, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultList that hasn't been settled yet is marked as `null`
+* the `opts` parameter is optional.
 
 Generic example:
 
@@ -175,8 +178,8 @@ Generic example:
 import { runSequentialPromises } from 'quasar'
 
 runSequentialPromises([
-  () => new Promise((resolve, reject) => { /* do some work... */ }),
-  () => new Promise((resolve, reject) => { /* do some work... */ })
+  (resultList) => new Promise((resolve, reject) => { /* do some work... */ }),
+  (resultList) => new Promise((resolve, reject) => { /* do some work... */ })
   // ...
 ]).then(resultList => {
   console.log('result from first Promise:', resultList[0].data)
@@ -185,6 +188,8 @@ runSequentialPromises([
 }).catch(errResult => {
   console.error(`Error encountered on job #${ errResult.promiseIndex }:`)
   console.error(errResult.error)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultList)
 })
 ```
 
@@ -209,6 +214,8 @@ runSequentialPromises([
 }).catch(errResult => {
   console.error(`Error encountered while fetching ${ which[errResult.promiseIndex] }:`)
   console.error(errResult.error)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultList)
 })
 ```
 
@@ -258,6 +265,8 @@ runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
   .catch(errResult => {
     console.error(`Error encountered:`)
     console.error(errResult.error)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultList)
   })
 ```
 
