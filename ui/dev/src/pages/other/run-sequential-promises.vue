@@ -115,11 +115,11 @@ runTest([ '3 resolve', 'yes', '1 thread' ], setResult => {
     setResult(
       list,
       is.deepEqual(list, [
-        { promiseIndex: 0, data: 'one' },
-        { promiseIndex: 1, data: 'two' },
-        { promiseIndex: 2, data: 'three' },
-        { promiseIndex: 3, data: 'four' },
-        { promiseIndex: 4, data: 'five' }
+        { index: 0, status: 'fulfilled', value: 'one' },
+        { index: 1, status: 'fulfilled', value: 'two' },
+        { index: 2, status: 'fulfilled', value: 'three' },
+        { index: 3, status: 'fulfilled', value: 'four' },
+        { index: 4, status: 'fulfilled', value: 'five' }
       ])
     )
   }).catch(result => {
@@ -132,11 +132,11 @@ runTest([ '3 resolve', '', '1 thread' ], setResult => {
     setResult(
       list,
       is.deepEqual(list, [
-        { promiseIndex: 0, data: 'one' },
-        { promiseIndex: 1, data: 'two' },
-        { promiseIndex: 2, data: 'three' },
-        { promiseIndex: 3, data: 'four' },
-        { promiseIndex: 4, data: 'five' }
+        { index: 0, status: 'fulfilled', value: 'one' },
+        { index: 1, status: 'fulfilled', value: 'two' },
+        { index: 2, status: 'fulfilled', value: 'three' },
+        { index: 3, status: 'fulfilled', value: 'four' },
+        { index: 4, status: 'fulfilled', value: 'five' }
       ])
     )
   }).catch(result => {
@@ -149,11 +149,11 @@ runTest([ '3 resolve', 'yes', '2 thread' ], setResult => {
     setResult(
       list,
       is.deepEqual(list, [
-        { promiseIndex: 0, data: 'one' },
-        { promiseIndex: 1, data: 'two' },
-        { promiseIndex: 2, data: 'three' },
-        { promiseIndex: 3, data: 'four' },
-        { promiseIndex: 4, data: 'five' }
+        { index: 0, status: 'fulfilled', value: 'one' },
+        { index: 1, status: 'fulfilled', value: 'two' },
+        { index: 2, status: 'fulfilled', value: 'three' },
+        { index: 3, status: 'fulfilled', value: 'four' },
+        { index: 4, status: 'fulfilled', value: 'five' }
       ])
     )
   }).catch(result => {
@@ -166,11 +166,11 @@ runTest([ '3 resolve', '-', '2 thread' ], setResult => {
     setResult(
       list,
       is.deepEqual(list, [
-        { promiseIndex: 0, data: 'one' },
-        { promiseIndex: 1, data: 'two' },
-        { promiseIndex: 2, data: 'three' },
-        { promiseIndex: 3, data: 'four' },
-        { promiseIndex: 4, data: 'five' }
+        { index: 0, status: 'fulfilled', value: 'one' },
+        { index: 1, status: 'fulfilled', value: 'two' },
+        { index: 2, status: 'fulfilled', value: 'three' },
+        { index: 3, status: 'fulfilled', value: 'four' },
+        { index: 4, status: 'fulfilled', value: 'five' }
       ])
     )
   }).catch(result => {
@@ -187,10 +187,10 @@ runTest([ '1 reject', 'yes', '1 thread' ], setResult => {
     setResult(
       result,
       is.deepEqual(result, {
-        promiseIndex: 1, error: 'cannot settle promise 2',
+        index: 1, status: 'rejected', reason: 'cannot settle promise 2',
         resultList: [
-          { promiseIndex: 0, data: 'one' },
-          { promiseIndex: 1, error: 'cannot settle promise 2' },
+          { index: 0, status: 'fulfilled', value: 'one' },
+          { index: 1, status: 'rejected', reason: 'cannot settle promise 2' },
           null,
           null,
           null
@@ -205,11 +205,11 @@ runTest([ '1 reject', '-', '1 thread' ], setResult => {
     setResult(
       list,
       is.deepEqual(list, [
-        { promiseIndex: 0, data: 'one' },
-        { promiseIndex: 1, error: 'cannot settle promise 2' },
-        { promiseIndex: 2, data: 'three' },
-        { promiseIndex: 3, data: 'four' },
-        { promiseIndex: 4, data: 'five' }
+        { index: 0, status: 'fulfilled', value: 'one' },
+        { index: 1, status: 'rejected', reason: 'cannot settle promise 2' },
+        { index: 2, status: 'fulfilled', value: 'three' },
+        { index: 3, status: 'fulfilled', value: 'four' },
+        { index: 4, status: 'fulfilled', value: 'five' }
       ])
     )
   }).catch(result => {
@@ -226,10 +226,10 @@ runTest([ '1 reject', 'yes', '2 threads' ], setResult => {
     setResult(
       result,
       is.deepEqual(result, {
-        promiseIndex: 1, error: 'cannot settle promise 2',
+        index: 1, status: 'rejected', reason: 'cannot settle promise 2',
         resultList: [
-          { promiseIndex: 0, data: 'one' },
-          { promiseIndex: 1, error: 'cannot settle promise 2' },
+          { index: 0, status: 'fulfilled', value: 'one' },
+          { index: 1, status: 'rejected', reason: 'cannot settle promise 2' },
           null,
           null,
           null
@@ -244,11 +244,11 @@ runTest([ '1 reject', '-', '2 threads' ], setResult => {
     setResult(
       list,
       is.deepEqual(list, [
-        { promiseIndex: 0, data: 'one' },
-        { promiseIndex: 1, error: 'cannot settle promise 2' },
-        { promiseIndex: 2, data: 'three' },
-        { promiseIndex: 3, data: 'four' },
-        { promiseIndex: 4, data: 'five' }
+        { index: 0, status: 'fulfilled', value: 'one' },
+        { index: 1, status: 'rejected', reason: 'cannot settle promise 2' },
+        { index: 2, status: 'fulfilled', value: 'three' },
+        { index: 3, status: 'fulfilled', value: 'four' },
+        { index: 4, status: 'fulfilled', value: 'five' }
       ])
     )
   }).catch(result => {

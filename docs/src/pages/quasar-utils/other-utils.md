@@ -157,13 +157,13 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
  * @returns Promise<Array<Object>>
  *    With opts.abortOnFail set to true (which is default):
  *      The Promise resolves with an Array of Objects of the following form:
- *         { promiseIndex: number, data: any }
+ *         { index: number, status: 'fulfilled', value: any }
  *      The Promise rejects with an Object of the following form:
- *         { promiseIndex: number, error: Error, resultList: Array }
+ *         { index: number, status: 'rejected', reason: Error, resultList: Array }
  *    With opts.abortOnFail set to false:
- *       The Promise resolves with an Array of Objects of the following form:
- *         { promiseIndex: number, data: any } | { promiseIndex: number, error: Error }
  *       The Promise is never rejected (no catch() needed)
+ *       The Promise resolves with an Array of Objects of the following form:
+ *         { index: number, status: 'fulfilled', value: any } | { index: number, status: 'rejected', reason: Error }
  */
 ```
 
@@ -182,12 +182,12 @@ runSequentialPromises([
   (resultList) => new Promise((resolve, reject) => { /* do some work... */ })
   // ...
 ]).then(resultList => {
-  console.log('result from first Promise:', resultList[0].data)
-  console.log('result from second Promise:', resultList[1].data)
+  console.log('result from first Promise:', resultList[0].value)
+  console.log('result from second Promise:', resultList[1].value)
   // ...
 }).catch(errResult => {
-  console.error(`Error encountered on job #${ errResult.promiseIndex }:`)
-  console.error(errResult.error)
+  console.error(`Error encountered on job #${ errResult.index }:`)
+  console.error(errResult.reason)
   console.log('Managed to get these results before this error:')
   console.log(errResult.resultList)
 })
@@ -208,12 +208,12 @@ runSequentialPromises([
 ]).then(resultList => {
   resultList.forEach(result => {
     // resultList is ordered in the same way as the promises above
-    // but we use the helper prop "promiseIndex" for brevity
-    console.log(which[result.promiseIndex], result.data) // example: users {...}
+    // but we use the helper prop "index" for brevity
+    console.log(which[result.index], result.value) // example: users {...}
   })
 }).catch(errResult => {
-  console.error(`Error encountered while fetching ${ which[errResult.promiseIndex] }:`)
-  console.error(errResult.error)
+  console.error(`Error encountered while fetching ${ which[errResult.index] }:`)
+  console.error(errResult.reason)
   console.log('Managed to get these results before this error:')
   console.log(errResult.resultList)
 })
@@ -238,14 +238,14 @@ runSequentialPromises(
 ).then(resultList => {
   resultList.forEach(result => {
     // resultList is ordered in the same way as the promises above
-    // but we use the helper prop "promiseIndex" for brevity
-    const itemName = which[result.promiseIndex]
+    // but we use the helper prop "index" for brevity
+    const itemName = which[result.index]
 
-    if (result.error !== void 0) {
-      console.log(`Failed to fetch ${ itemName }:`, result.error)
+    if (result.status === 'rejected') {
+      console.log(`Failed to fetch ${ itemName }:`, result.reason)
     }
     else {
-      console.log(`Succeeded to fetch ${ itemName }:`, result.data)
+      console.log(`Succeeded to fetch ${ itemName }:`, result.value)
     }
   })
 })
@@ -259,12 +259,12 @@ import { runSequentialPromises } from 'quasar'
 runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
   .then(resultList => {
     resultList.forEach(result => {
-      console.log(result.data)
+      console.log(result.value)
     })
   })
   .catch(errResult => {
     console.error(`Error encountered:`)
-    console.error(errResult.error)
+    console.error(errResult.reason)
     console.log('Managed to get these results before this error:')
     console.log(errResult.resultList)
   })

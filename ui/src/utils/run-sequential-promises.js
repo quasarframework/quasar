@@ -14,13 +14,13 @@
  * @returns Promise<Array<Object>>
  *    With opts.abortOnFail set to true (which is default):
  *      The Promise resolves with an Array of Objects of the following form:
- *         { promiseIndex: number, data: any }
+ *         { index: number, status: 'fulfilled', value: any }
  *      The Promise rejects with an Object of the following form:
- *         { promiseIndex: number, error: Error, resultList: Array }
+ *         { index: number, status: 'rejected', reason: Error, resultList: Array }
  *    With opts.abortOnFail set to false:
- *       The Promise resolves with an Array of Objects of the following form:
- *         { promiseIndex: number, data: any } | { promiseIndex: number, error: Error }
  *       The Promise is never rejected (no catch() needed)
+ *       The Promise resolves with an Array of Objects of the following form:
+ *         { index: number, status: 'fulfilled', value: any } | { index: number, status: 'rejected', reason: Error }
  */
 export default function runSequentialPromises (
   promiseList,
@@ -41,29 +41,34 @@ export default function runSequentialPromises (
       }
 
       promiseList[ currentJobIndex ]([ ...resultList ])
-        .catch(err => ({ promiseIndex: currentJobIndex, error: err }))
-        .then(result => {
+        .then(value => {
           if (hasAborted === true) {
             resolve()
             return // early exit
           }
 
-          // if we have an error (caught earlier):
-          if (result !== void 0 && result !== null && result.error !== void 0) {
-            resultList[ currentJobIndex ] = result
+          resultList[ currentJobIndex ] = { index: currentJobIndex, status: 'fulfilled', value }
 
-            if (abortOnFail === true) {
-              hasAborted = true
-              reject({ ...result, resultList: [ ...resultList ] })
-              return // early exit
-            }
-          }
-          // yay, we have a success:
-          else {
-            resultList[ currentJobIndex ] = { promiseIndex: currentJobIndex, data: result }
+          // timeout so it doesn't interfere with the .catch() below
+          setTimeout(runNextPromise)
+        })
+        .catch(reason => {
+          if (hasAborted === true) {
+            resolve()
+            return // early exit
           }
 
-          runNextPromise()
+          const result = { index: currentJobIndex, status: 'rejected', reason }
+          resultList[ currentJobIndex ] = result
+
+          if (abortOnFail === true) {
+            hasAborted = true
+            reject({ ...result, resultList: [ ...resultList ] })
+            return // early exit
+          }
+
+          // timeout so no interference
+          setTimeout(runNextPromise)
         })
     }
 
