@@ -66,7 +66,7 @@ export default createComponent({
 
     const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
 
-    function getCircle ({ thickness, offset, color, cls }) {
+    function getCircle ({ thickness, offset, color, cls, rounded }) {
       return h('circle', {
         class: 'q-circular-progress__' + cls + (color !== void 0 ? ` text-${ color }` : ''),
         style: circleStyle.value,
@@ -75,6 +75,7 @@ export default createComponent({
         'stroke-width': thickness,
         'stroke-dasharray': strokeDashArray,
         'stroke-dashoffset': offset,
+        'stroke-linecap': rounded ? 'round' : undefined,
         cx: viewBox.value,
         cy: viewBox.value,
         r: radius
@@ -108,7 +109,8 @@ export default createComponent({
           cls: 'circle',
           thickness: strokeWidth.value,
           offset: strokeDashOffset.value,
-          color: props.color
+          color: props.color,
+          rounded: props.rounded
         })
       )
 

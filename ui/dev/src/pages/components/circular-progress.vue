@@ -78,6 +78,22 @@
       />
 
       <q-circular-progress
+        class="q-ma-sm"
+        :value="value"
+        :size="size + 'px'"
+        :thickness="thickness"
+        :angle="angle"
+        :min="range.min"
+        :max="range.max"
+        :reverse="reverse"
+        :show-value="showValue"
+        :indeterminate="indeterminate"
+        track-color="grey-4"
+        rounded
+        color="orange"
+      />
+
+      <q-circular-progress
         class="q-ma-sm text-orange"
         :value="value"
         :size="size / 1.5 + 'px'"
