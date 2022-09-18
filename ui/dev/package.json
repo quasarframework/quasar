@@ -9,6 +9,9 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "//": "Needed to make Cypress AE app-* detection work",
+  "devDependencies": {
+    "@quasar/app-vite": "^1.1.1"
+  },
   "engines": {
     "node": ">= 12.22.1",
     "npm": ">= 6.14.12",
