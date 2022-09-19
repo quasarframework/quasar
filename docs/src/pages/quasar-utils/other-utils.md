@@ -145,8 +145,9 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
 /**
  * Run a list of Promises sequentially, optionally on multiple threads.
  *
- * @param {*} promiseList - Array of Functions
- *                          Function form: (resultList: Array) => Promise<any>
+ * @param {*} sequentialPromises - Array of Functions or Object with Functions as values
+ *                          Array of Function form: [ (resultAggregator: Array) => Promise<any>, ... ]
+ *                          Object form: { [key: string]: (resultAggregator: Array) => Promise<any>, ... }
  * @param {*} opts - Optional options Object
  *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
  *                   Default: { threadsNumber: 1, abortOnFail: true }
@@ -154,42 +155,91 @@ The following is a helper to run multiple Promises sequentially. **Optionally, o
  *                       aware of the maximum threads that the hosting browser
  *                       supports (usually 3); any number of threads above that
  *                       won't add any real benefits
- * @returns Promise<Array<Object>>
+ * @returns Promise<Array<Object> | Object>
  *    With opts.abortOnFail set to true (which is default):
- *      The Promise resolves with an Array of Objects of the following form:
- *         { index: number, status: 'fulfilled', value: any }
- *      The Promise rejects with an Object of the following form:
- *         { index: number, status: 'rejected', reason: Error, resultList: Array }
+ *        When sequentialPromises param is Array:
+ *          The Promise resolves with an Array of Objects of the following form:
+ *             [ { key: number, status: 'fulfilled', value: any }, ... ]
+ *          The Promise rejects with an Object of the following form:
+ *             { key: number, status: 'rejected', reason: Error, resultAggregator: array }
+ *        When sequentialPromises param is Object:
+ *          The Promise resolves with an Object of the following form:
+ *             { [key: string]: { key: string, status: 'fulfilled', value: any }, ... }
+ *          The Promise rejects with an Object of the following form:
+ *             { key: string, status: 'rejected', reason: Error, resultAggregator: object }
  *    With opts.abortOnFail set to false:
  *       The Promise is never rejected (no catch() needed)
- *       The Promise resolves with an Array of Objects of the following form:
- *         { index: number, status: 'fulfilled', value: any } | { index: number, status: 'rejected', reason: Error }
+ *       The Promise resolves with:
+ *          An Array of Objects (when sequentialPromises param is also an Array) of the following form:
+ *             [ { key: number, status: 'fulfilled', value: any } | { status: 'rejected', reason: Error }, ... ]
+ *          An Object (when sequentialPromises param is also an Object) of the following form:
+ *             { [key: string]: { key: string, status: 'fulfilled', value: any } | { key: string, status: 'rejected', reason: Error }, ... }
  */
 ```
 
 Note that:
-* the `promiseList` param is an Array of Functions (each Function returns a Promise)
-* each function in `promiseList` receives one param which is the resultList, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultList that hasn't been settled yet is marked as `null`
+* the `sequentialPromises` param is an Array of Functions (each Function returns a Promise)
+* each function in `sequentialPromises` receives one param which is the `resultAggregator`, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultAggregator that hasn't been settled yet is marked as `null`
 * the `opts` parameter is optional.
 
-Generic example:
+Generic example (with `sequentialPromises` param as Array):
 
 ```js
 import { runSequentialPromises } from 'quasar'
 
 runSequentialPromises([
-  (resultList) => new Promise((resolve, reject) => { /* do some work... */ }),
-  (resultList) => new Promise((resolve, reject) => { /* do some work... */ })
+  (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ }),
+  (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ })
   // ...
-]).then(resultList => {
-  console.log('result from first Promise:', resultList[0].value)
-  console.log('result from second Promise:', resultList[1].value)
+]).then(resultAggregator => {
+  // resultAggregator is ordered in the same way as the promises above
+  console.log('result from first Promise:', resultAggregator[0].value)
+  console.log('result from second Promise:', resultAggregator[1].value)
   // ...
 }).catch(errResult => {
-  console.error(`Error encountered on job #${ errResult.index }:`)
+  console.error(`Error encountered on job #${ errResult.key }:`)
   console.error(errResult.reason)
   console.log('Managed to get these results before this error:')
-  console.log(errResult.resultList)
+  console.log(errResult.resultAggregator)
+})
+```
+
+Generic example (with `sequentialPromises` param as Object):
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises({
+  phones: (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ }),
+  laptops: (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ })
+  // ...
+}).then(resultAggregator => {
+  console.log('result from first Promise:', resultAggregator.phones.value)
+  console.log('result from second Promise:', resultAggregator.laptops.value)
+  // ...
+}).catch(errResult => {
+  console.error(`Error encountered on job (${ errResult.key}):`)
+  console.error(errResult.reason)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultAggregator)
+})
+```
+
+Example using previous results:
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises({
+  phones: () => new Promise((resolve, reject) => { /* do some work... */ }),
+  vendors: (resultAggregator) => {
+    new Promise((resolve, reject) => {
+      // You can do something with resultAggregator.phones.value here...
+      // Since are using the default abortOnFail option, the result is guaranteed to exist,
+      // so you don't have to guard resultAggregator.phones against "null"
+    })
+  }
+  // ...
 })
 ```
 
@@ -199,23 +249,39 @@ Example with Axios:
 import { runSequentialPromises } from 'quasar'
 import axios from 'axios'
 
-const which = [ 'users', 'phones', 'laptops' ]
+const keyList = [ 'users', 'phones', 'laptops' ]
 
 runSequentialPromises([
-  () => axios.get('https://some-url.com/users')
-  () => axios.get('https://some-other-url.com/items/phones')
+  () => axios.get('https://some-url.com/users'),
+  () => axios.get('https://some-other-url.com/items/phones'),
   () => axios.get('https://some-other-url.com/items/laptops')
-]).then(resultList => {
-  resultList.forEach(result => {
-    // resultList is ordered in the same way as the promises above
-    // but we use the helper prop "index" for brevity
-    console.log(which[result.index], result.value) // example: users {...}
+]).then(resultAggregator => {
+  // resultAggregator is ordered in the same way as the promises above
+  resultAggregator.forEach(result => {
+    console.log(keyList[ result.key ], result.value) // example: users {...}
   })
 }).catch(errResult => {
-  console.error(`Error encountered while fetching ${ which[errResult.index] }:`)
+  console.error(`Error encountered while fetching ${ keyList[ errResult.key ] }:`)
   console.error(errResult.reason)
   console.log('Managed to get these results before this error:')
-  console.log(errResult.resultList)
+  console.log(errResult.resultAggregator)
+})
+
+// **equivalent** example with sequentialPromises as Object:
+
+runSequentialPromises({
+  users: () => axios.get('https://some-url.com/users'),
+  phones: () => axios.get('https://some-other-url.com/items/phones'),
+  laptops: () => axios.get('https://some-other-url.com/items/laptops')
+}).then(resultAggregator => {
+  console.log('users:', resultAggregator.users.value)
+  console.log('phones:', resultAggregator.phones.value)
+  console.log('laptops:', resultAggregator.laptops.value)
+}).catch(errResult => {
+  console.error(`Error encountered while fetching ${ errResult.key }:`)
+  console.error(errResult.reason)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultAggregator)
 })
 ```
 
@@ -225,27 +291,21 @@ Example with abortOnFail set to `false`:
 import { runSequentialPromises } from 'quasar'
 import axios from 'axios'
 
-const which = [ 'users', 'phones', 'laptops' ]
-
 // notice no "catch()"; runSequentialPromises() will always resolve
 runSequentialPromises(
-  [
-    () => axios.get('https://some-url.com/users')
-    () => axios.get('https://some-other-url.com/items/phones')
-    () => axios.get('https://some-other-url.com/items/laptops')
-  ],
+  {
+    users: () => axios.get('https://some-url.com/users'),
+    phones: () => axios.get('https://some-other-url.com/items/phones'),
+    laptops: () => axios.get('https://some-other-url.com/items/laptops')
+  },
   { abortOnFail: false }
-).then(resultList => {
-  resultList.forEach(result => {
-    // resultList is ordered in the same way as the promises above
-    // but we use the helper prop "index" for brevity
-    const itemName = which[result.index]
-
+).then(resultAggregator => {
+  Object.values(resultAggregator).forEach(result => {
     if (result.status === 'rejected') {
-      console.log(`Failed to fetch ${ itemName }:`, result.reason)
+      console.log(`Failed to fetch ${ result.key }:`, result.reason)
     }
     else {
-      console.log(`Succeeded to fetch ${ itemName }:`, result.value)
+      console.log(`Succeeded to fetch ${ result.key }:`, result.value)
     }
   })
 })
@@ -257,8 +317,8 @@ When configuring threadsNumber (`opts > threadsNumber`) AND using http requests,
 import { runSequentialPromises } from 'quasar'
 
 runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
-  .then(resultList => {
-    resultList.forEach(result => {
+  .then(resultAggregator => {
+    resultAggregator.forEach(result => {
       console.log(result.value)
     })
   })
@@ -266,7 +326,7 @@ runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
     console.error(`Error encountered:`)
     console.error(errResult.reason)
     console.log('Managed to get these results before this error:')
-    console.log(errResult.resultList)
+    console.log(errResult.resultAggregator)
   })
 ```
 
