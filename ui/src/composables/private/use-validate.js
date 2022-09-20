@@ -3,6 +3,7 @@ import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
 import { debounce } from '../../utils.js'
+import { noop } from '../../utils/event.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
@@ -119,11 +120,13 @@ export default function (focused, innerLoading) {
 
     const index = ++validateIndex
 
-    if (innerLoading.value !== true && props.lazyRules !== true) {
-      isDirtyModel.value = true
-    }
+    const setDirty = innerLoading.value !== true
+      ? () => isDirtyModel.value !== true && (isDirtyModel.value = true)
+      : noop
 
     const update = (err, msg) => {
+      err === true && setDirty()
+
       if (innerError.value !== err) {
         innerError.value = err
       }
