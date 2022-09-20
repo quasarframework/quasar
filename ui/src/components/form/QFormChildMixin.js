@@ -1,18 +1,6 @@
 import { noop } from '../../utils/event.js'
 import { formKey } from '../../utils/private/symbols.js'
 
-// register component to parent QForm
-function login (vm) {
-  const $form = vm.$.provides[ formKey ]
-  $form !== void 0 && vm.disable !== true && $form.bindComponent(vm)
-}
-
-// un-register component from parent QForm
-function logout (vm) {
-  const $form = vm.$.provides[ formKey ]
-  $form !== void 0 && vm.disable !== true && $form.unbindComponent(vm)
-}
-
 export default {
   inject: {
     [ formKey ]: {
@@ -40,19 +28,15 @@ export default {
     resetValidation () {}
   },
 
-  created () {
-    login(this)
-  },
-
-  activated () {
-    login(this)
-  },
-
-  deactivated () {
-    logout(this)
+  mounted () {
+    // register to parent QForm
+    const $form = this.$.provides[ formKey ]
+    $form !== void 0 && this.disable !== true && $form.bindComponent(this)
   },
 
   beforeUnmount () {
-    logout(this)
+    // un-register from parent QForm
+    const $form = this.$.provides[ formKey ]
+    $form !== void 0 && this.disable !== true && $form.unbindComponent(this)
   }
 }

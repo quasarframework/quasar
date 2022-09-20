@@ -1,4 +1,4 @@
-import { inject, watch, onBeforeUnmount, getCurrentInstance, onActivated, onDeactivated } from 'vue'
+import { inject, watch, getCurrentInstance, onMounted, onBeforeUnmount } from 'vue'
 
 import { formKey } from '../utils/private/symbols.js'
 
@@ -21,21 +21,15 @@ export default function ({ validate, resetValidation, requiresQForm }) {
       }
     })
 
-    // register component to parent QForm
-    function login () {
+    onMounted(() => {
+      // register to parent QForm
       props.disable !== true && $form.bindComponent(proxy)
-    }
+    })
 
-    // un-register component from parent QForm
-    function logout () {
+    onBeforeUnmount(() => {
+      // un-register from parent QForm
       props.disable !== true && $form.unbindComponent(proxy)
-    }
-
-    login()
-
-    onActivated(login)
-    onDeactivated(logout)
-    onBeforeUnmount(logout)
+    })
   }
   else if (requiresQForm === true) {
     console.error('Parent QForm not found on useFormChild()!')

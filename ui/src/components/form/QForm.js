@@ -5,6 +5,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 export default createComponent({
   name: 'QForm',
@@ -39,11 +40,6 @@ export default createComponent({
       }
 
       const validateComponent = comp => {
-        // is it still registered (being registered implies mounted and activated)
-        if (registeredComponents.includes(comp) === false) {
-          return Promise.resolve({ valid: true })
-        }
-
         const valid = comp.validate()
 
         return typeof valid.then === 'function'
@@ -77,26 +73,21 @@ export default createComponent({
 
         // if not outdated already
         if (index === validateIndex) {
-          // Do we still have errors with active components?
-          // They might have been destroyed while we validated;
-          // Being registered implies mounted and activated
-          const activeErrors = errors.find(
-            entry => registeredComponents.includes(entry.comp) === true
-          )
+          const { comp, err } = errors[ 0 ]
 
-          if (activeErrors !== void 0) {
-            const { comp, err } = activeErrors
+          err !== void 0 && console.error(err)
+          emitEvent(false, comp)
 
-            err !== void 0 && console.error(err)
-            emitEvent(false, comp)
+          if (focus === true) {
+            // Try to focus first mounted and active component
+            const activeError = errors.find(({ comp }) => (
+              typeof comp.focus === 'function'
+              && vmIsDestroyed(comp.$) === false
+            ))
 
-            if (focus === true && typeof comp.focus === 'function') {
-              comp.focus()
+            if (activeError !== void 0) {
+              activeError.comp.focus()
             }
-          }
-          else {
-            emitEvent(true)
-            return true
           }
         }
 
