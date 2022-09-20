@@ -125,8 +125,6 @@
 </template>
 
 <script>
-/* eslint-disable */
-
 const langs = [
   {
     label: 'English',
@@ -186,6 +184,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-</style>
