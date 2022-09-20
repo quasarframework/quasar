@@ -13,6 +13,7 @@ import frameDebounce from './utils/frame-debounce.js'
 import openURL from './utils/open-url.js'
 import morph from './utils/morph.js'
 import patterns from './utils/patterns.js'
+import runSequentialPromises from './utils/run-sequential-promises.js'
 import scroll from './utils/scroll.js'
 import throttle from './utils/throttle.js'
 import uid from './utils/uid.js'
@@ -34,6 +35,7 @@ export {
   openURL,
   morph,
   patterns,
+  runSequentialPromises,
   scroll,
   throttle,
   uid
