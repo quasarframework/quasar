@@ -58,7 +58,8 @@
       "desc": "Rounding the arc of progress",
       "default": false,
       "examples": [ true ],
-      "category": "style"
+      "category": "style",
+      "addedIn": "v2.8.4"
     },
 
     "thickness": {
