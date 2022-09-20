@@ -6,8 +6,6 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 import { addFocusFn } from '../../utils/focus-manager.js'
 
-const noErrors = []
-
 export default Vue.extend({
   name: 'QForm',
 
@@ -52,17 +50,13 @@ export default Vue.extend({
 
       const index = ++this.validateIndex
 
-      const components = this.getValidationComponents().filter(c => c.disable !== true)
+      const registeredComponents = this.getValidationComponents().filter(c => c.disable !== true)
 
       const emit = (res, ref) => {
         this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
       const validateComponent = comp => {
-        if (index !== this.validateIndex || !comp) {
-          return Promise.resolve({ valid: true, comp })
-        }
-
         const valid = comp.validate()
 
         return typeof valid.then === 'function'
@@ -74,12 +68,19 @@ export default Vue.extend({
       }
 
       const errorsPromise = this.greedy === true
-        ? Promise.all(components.map(validateComponent)).then(res => res.filter(r => r.valid !== true))
-        : components
-          .reduce((acc, comp) => acc.then(() => validateComponent(comp)
-            .then(r => r.valid === true ? noErrors : Promise.reject(r))
-          ), Promise.resolve(noErrors))
-          .catch(error => [error])
+        ? Promise
+          .all(registeredComponents.map(validateComponent))
+          .then(res => res.filter(r => r.valid !== true))
+        : registeredComponents
+          .reduce(
+            (acc, comp) => acc.then(() => {
+              return validateComponent(comp).then(r => {
+                if (r.valid === false) { return Promise.reject(r) }
+              })
+            }),
+            Promise.resolve()
+          )
+          .catch(error => [ error ])
 
       return errorsPromise.then(errors => {
         if (errors.length === 0) {
@@ -88,19 +89,23 @@ export default Vue.extend({
         }
 
         if (index === this.validateIndex) {
-          const { valid, comp, err } = errors[0]
+          const { comp, err } = errors[0]
 
           err !== void 0 && console.error(err)
-
           emit(false, comp)
 
-          if (
-            focus === true &&
-            valid !== true &&
-            comp &&
-            typeof comp.focus === 'function'
-          ) {
-            comp.focus()
+          if (focus === true) {
+            // Try to focus first mounted and active component
+            const activeError = errors.find(({ comp }) => (
+              typeof comp.focus === 'function' &&
+              comp._isBeingDestroyed !== true &&
+              comp._isDestroyed !== true &&
+              comp._inactive !== true
+            ))
+
+            if (activeError !== void 0) {
+              activeError.comp.focus()
+            }
           }
         }
 
