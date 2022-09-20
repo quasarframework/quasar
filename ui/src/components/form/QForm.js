@@ -5,7 +5,6 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
-import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 export default createComponent({
   name: 'QForm',
@@ -40,12 +39,8 @@ export default createComponent({
       }
 
       const validateComponent = comp => {
-        if (
-          // is it still registered?
-          registeredComponents.includes(comp) === false
-          // is it still mounted and active?
-          || vmIsDestroyed(comp.$) === true
-        ) {
+        // is it still registered (being registered implies mounted and activated)
+        if (registeredComponents.includes(comp) === false) {
           return Promise.resolve({ valid: true })
         }
 
@@ -82,11 +77,11 @@ export default createComponent({
 
         // if not outdated already
         if (index === validateIndex) {
-          // do we still have errors with active components?
-          // they might have been destroyed while we validated
+          // Do we still have errors with active components?
+          // They might have been destroyed while we validated;
+          // Being registered implies mounted and activated
           const activeErrors = errors.find(
-            entry => vmIsDestroyed(entry.comp.$) === false
-            && registeredComponents.includes(entry.comp) === true
+            entry => registeredComponents.includes(entry.comp) === true
           )
 
           if (activeErrors !== void 0) {
