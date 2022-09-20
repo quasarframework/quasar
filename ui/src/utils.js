@@ -6,6 +6,7 @@ import createUploaderComponent from './utils/create-uploader-component.js'
 import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
+import EventBus from './utils/EventBus.js'
 import event, { noop } from './utils/event.js'
 import exportFile from './utils/export-file.js'
 import extend from './utils/extend.js'
@@ -31,6 +32,7 @@ export {
   date,
   debounce,
   dom,
+  EventBus,
   event,
   exportFile,
   extend,
