@@ -11,7 +11,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
 
-const defaultSizes = {
+export const defaultSizes = {
   xs: 8,
   sm: 10,
   md: 14,
