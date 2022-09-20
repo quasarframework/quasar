@@ -75,7 +75,7 @@ export default createComponent({
         'stroke-width': thickness,
         'stroke-dasharray': strokeDashArray,
         'stroke-dashoffset': offset,
-        'stroke-linecap': rounded ? 'round' : undefined,
+        'stroke-linecap': rounded,
         cx: viewBox.value,
         cy: viewBox.value,
         r: radius
@@ -110,7 +110,7 @@ export default createComponent({
           thickness: strokeWidth.value,
           offset: strokeDashOffset.value,
           color: props.color,
-          rounded: props.rounded
+          rounded: props.rounded === true ? 'round' : void 0
         })
       )
 
