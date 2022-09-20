@@ -3,8 +3,15 @@ on:
   issues:
     types:
       - opened
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   issue-automation:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      issues: write # to comment and add labels to issues
     if: >-
       ${{
         contains(github.event.issue.labels.*.name, 'kind/bug 🐞') ||
