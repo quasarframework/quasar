@@ -1,5 +1,6 @@
 import { testPattern } from '../utils/patterns.js'
 import debounce from '../utils/debounce.js'
+import { noop } from '../utils/event.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
 
@@ -143,11 +144,13 @@ export default {
 
       const index = ++this.validateIndex
 
-      if (this.innerLoading !== true && this.lazyRules !== true) {
-        this.isDirty = true
-      }
+      const setDirty = this.innerLoading !== true
+        ? () => this.isDirty !== true && (this.isDirty = true)
+        : noop
 
       const update = (err, msg) => {
+        err === true && setDirty()
+
         if (this.innerError !== err) {
           this.innerError = err
         }
