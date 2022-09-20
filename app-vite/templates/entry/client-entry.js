@@ -271,7 +271,7 @@ createQuasarApp(<%=
         .map(result => {
           if (result.status === 'rejected') {
             console.error('[Quasar] boot error:', result.reason)
-            return undefined
+            return
           }
           return result.value.default
         })
