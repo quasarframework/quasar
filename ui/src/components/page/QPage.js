@@ -45,7 +45,7 @@ export default createComponent({
     })
 
     const classes = computed(() =>
-      `q-page ${ props.padding === true ? ' q-layout-padding' : '' }`
+      `q-page${ props.padding === true ? ' q-layout-padding' : '' }`
     )
 
     return () => h('main', {

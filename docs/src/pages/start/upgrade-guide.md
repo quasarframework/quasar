@@ -206,10 +206,10 @@ Before starting, it is highly suggested to make a copy of your current working p
   In quasar.config.js -> build add:
   ```js
   chainWebpack (chain) {
-        chain
-          .plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
-      }
+    chain
+      .plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+  }
   ```
 9) If you are using Vuex, you will need to manually install it:
   ```bash
@@ -316,6 +316,8 @@ Along with Vue3, there is a new major version of [Vue Router v4](https://router.
 
 #### Vue 3 breaking changes examples
 
+##### The v-model
+
 One of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:model-value` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
 
 Also, if you emit custom events from your Vue components, you will need to explicitly specify them like below:
@@ -333,6 +335,10 @@ export default {
 }
 </script>
 ```
+
+##### The event bus methods
+
+One other breaking change is the drop of the event bus methods ($on, $once, $off, $emit). However, Quasar v2 (v2.8.4+) has a native equivalent: [EventBus util](/quasar-utils/event-bus-util).
 
 ### Vue Router v4
 
@@ -946,6 +952,11 @@ import { getCssVar, setCssVar } from 'quasar'
 const primaryColor = getCssVar('primary')
 setCssVar('primary', '#f3c')
 ```
+
+#### EventBus util
+
+Vue 3 dropped of the event bus methods ($on, $once, $off, $emit). However, Quasar v2 (v2.8.4+) has a native equivalent: [EventBus util](/quasar-utils/event-bus-util).
+
 
 ### Quasar language packs
 We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.
