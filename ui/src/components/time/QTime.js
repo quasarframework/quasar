@@ -12,6 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 function getViewByModel (model, withSeconds) {
   if (model.hour !== null) {
@@ -386,8 +387,7 @@ export default createComponent({
     }
 
     function shouldAbortInteraction () {
-      return vm.isDeactivated === true
-        || vm.isUnmounted === true
+      return vmIsDestroyed(vm) === true
         // if we have limited options, can we actually set any?
         || (
           viewValidOptions.value !== null

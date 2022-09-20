@@ -12,6 +12,7 @@ import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { uploaderKey } from '../../utils/private/symbols.js'
 import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
@@ -90,9 +91,7 @@ export function getRenderer (getPlugin) {
     uploadedSize: ref(0),
 
     updateFileStatus,
-    isAlive () {
-      return vm.isDeactivated !== true && vm.isUnmounted !== true
-    }
+    isAlive: () => vmIsDestroyed(vm) === false
   }
 
   const {

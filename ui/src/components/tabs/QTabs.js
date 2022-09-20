@@ -11,6 +11,7 @@ import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 import { rtlHasScrollBug } from '../../utils/private/rtl.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -180,7 +181,7 @@ export default createComponent({
 
     function recalculateScroll () {
       registerScrollTick(() => {
-        if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
+        if (vmIsDestroyed(vm) === false) {
           updateContainer({
             width: rootRef.value.offsetWidth,
             height: rootRef.value.offsetHeight

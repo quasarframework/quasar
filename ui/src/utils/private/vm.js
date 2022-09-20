@@ -43,3 +43,7 @@ export function getNormalizedVNodes (vnodes) {
 export function vmHasRouter (vm) {
   return vm.appContext.config.globalProperties.$router !== void 0
 }
+
+export function vmIsDestroyed (vm) {
+  return vm.isUnmounted === true || vm.isDeactivated === true
+}

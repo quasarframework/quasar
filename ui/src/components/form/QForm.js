@@ -5,8 +5,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
-
-const noErrors = []
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 export default createComponent({
   name: 'QForm',
@@ -41,8 +40,13 @@ export default createComponent({
       }
 
       const validateComponent = comp => {
-        if (index !== validateIndex || !comp) {
-          return Promise.resolve({ valid: true, comp })
+        if (
+          // is it still registered?
+          registeredComponents.includes(comp) === false
+          // is it still mounted and active?
+          || vmIsDestroyed(comp.$) === true
+        ) {
+          return Promise.resolve({ valid: true })
         }
 
         const valid = comp.validate()
@@ -56,34 +60,48 @@ export default createComponent({
       }
 
       const errorsPromise = props.greedy === true
-        ? Promise.all(registeredComponents.map(validateComponent)).then(res => res.filter(r => r.valid !== true))
+        ? Promise
+          .all(registeredComponents.map(validateComponent))
+          .then(res => res.filter(r => r.valid !== true))
         : registeredComponents
-          .reduce((acc, comp) => acc.then(() => validateComponent(comp)
-            .then(r => (r.valid === true ? noErrors : Promise.reject(r)))
-          ), Promise.resolve(noErrors))
+          .reduce(
+            (acc, comp) => acc.then(() => {
+              return validateComponent(comp).then(r => {
+                if (r.valid === false) { return Promise.reject(r) }
+              })
+            }),
+            Promise.resolve()
+          )
           .catch(error => [ error ])
 
       return errorsPromise.then(errors => {
-        if (errors.length === 0) {
+        if (errors === void 0 || errors.length === 0) {
           index === validateIndex && emitEvent(true)
           return true
         }
 
         // if not outdated already
         if (index === validateIndex) {
-          const { valid, comp, err } = errors[ 0 ]
+          // do we still have errors with active components?
+          // they might have been destroyed while we validated
+          const activeErrors = errors.find(
+            entry => vmIsDestroyed(entry.comp.$) === false
+            && registeredComponents.includes(entry.comp) === true
+          )
 
-          err !== void 0 && console.error(err)
+          if (activeErrors !== void 0) {
+            const { comp, err } = activeErrors
 
-          emitEvent(false, comp)
+            err !== void 0 && console.error(err)
+            emitEvent(false, comp)
 
-          if (
-            focus === true
-            && valid !== true
-            && comp
-            && typeof comp.focus === 'function'
-          ) {
-            comp.focus()
+            if (focus === true && typeof comp.focus === 'function') {
+              comp.focus()
+            }
+          }
+          else {
+            emitEvent(true)
+            return true
           }
         }
 
