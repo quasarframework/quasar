@@ -273,14 +273,11 @@ export default createComponent({
         tabindex: props.tabindex,
         role: 'combobox',
         'aria-label': props.label,
+        'aria-readonly': props.readonly === true ? 'true' : 'false',
         'aria-autocomplete': props.useInput === true ? 'list' : 'none',
         'aria-expanded': menu.value === true ? 'true' : 'false',
         'aria-owns': `${ state.targetUid.value }_lb`,
         'aria-controls': `${ state.targetUid.value }_lb`
-      }
-
-      if (optionIndex.value >= 0) {
-        attrs[ 'aria-activedescendant' ] = `${ state.targetUid.value }_${ optionIndex.value }`
       }
 
       return attrs

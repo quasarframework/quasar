@@ -374,6 +374,7 @@ export default createComponent({
 
     function renderPortalContent () {
       return h('div', {
+        'aria-modal': 'true',
         ...attrs,
         class: rootClasses.value
       }, [
