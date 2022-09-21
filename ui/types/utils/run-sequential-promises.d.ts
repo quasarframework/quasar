@@ -45,6 +45,8 @@ export interface RunSequentialPromisesOptions {
  * Run a list of Promises sequentially, optionally on multiple threads.
  *
  * @see https://quasar.dev/quasar-utils/other-utils#runsequentialpromises
+ *
+ * @throws {RunSequentialPromisesRejectedResult} when a Promise rejects (when `options.abortOnFail` is not false)
  */
 // Array-style overrides
 export function runSequentialPromises<
