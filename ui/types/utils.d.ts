@@ -147,6 +147,8 @@ export interface RunSequentialPromisesOptions {
 }
 /**
  * Run a list of Promises sequentially, optionally on multiple threads.
+ *
+ * @see https://quasar.dev/quasar-utils/other-utils#runsequentialpromises
  */
 export function runSequentialPromises<
   TValue = any,
