@@ -76,12 +76,14 @@ export function runSequentialPromises<
 >(
   promisesMap: {
     [key in TKey]: (resultAggregator: {
-      [key in TKey]?: RunSequentialPromisesFulfilledResult<TKey, TValue>;
+      [key in TKey]?: RunSequentialPromisesResult<TKey, TValue>;
     }) => Promise<TValue>;
   },
-  options?: RunSequentialPromisesOptions
+  options?: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
+    abortOnFail: false;
+  }
 ): Promise<{
-  [key in TKey]: RunSequentialPromisesFulfilledResult<TKey, TValue>;
+  [key in TKey]: RunSequentialPromisesResult<TKey, TValue>;
 }>;
 export function runSequentialPromises<
   TValue = any,
@@ -92,9 +94,7 @@ export function runSequentialPromises<
       [key in TKey]?: RunSequentialPromisesFulfilledResult<TKey, TValue>;
     }) => Promise<TValue>;
   },
-  options?: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
-    abortOnFail: false;
-  }
+  options?: RunSequentialPromisesOptions
 ): Promise<{
   [key in TKey]: RunSequentialPromisesFulfilledResult<TKey, TValue>;
 }>;
