@@ -4,6 +4,8 @@ export * from './utils/dom';
 export * from './utils/format';
 export * from './utils/scroll';
 export * from './utils/event';
+export * from './utils/is';
+export * from './utils/run-sequential-promises';
 
 // others utils
 export function copyToClipboard(text: string): Promise<void>;
