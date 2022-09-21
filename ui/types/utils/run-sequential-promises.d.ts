@@ -7,6 +7,23 @@ export interface RunSequentialPromisesFulfilledResult<
   value: TValue;
 }
 
+/**
+ * When using `runSequentialPromises` without `abortOnFail: false`, the Promise will reject with this type.
+ * You can use this type to strongly-type the result yourself as it can't be automatically inferred.
+ *
+ * @example
+ * runSequentialPromises([
+ *   () => Promise.resolve('value1'),
+ *   () => Promise.reject(new Error('test')),
+ *   () => Promise.resolve('value2'),
+ * ])
+ * // First generic param is `number` because we are using array-style
+ * // Second generic param is `string` because we are resolving with string values
+ * .catch((errResult: RunSequentialPromisesRejectedResult<number, string>) => {
+ *   // ...
+ *   errResult.reason // `any` because you can reject with anything, you can cast it as you wish
+ * })
+ */
 export interface RunSequentialPromisesRejectedResult<
   TKey extends number | string,
   TValue
