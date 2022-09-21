@@ -66,10 +66,10 @@
 
     "virtual-scroll-sticky-size-start": {
       "type": [ "Number", "String" ],
-      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
+      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision; Will be also used for non-virtual-scroll tables for fixing top alignment when using scrollTo method",
       "default": "0",
       "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll",
+      "category": "virtual-scroll|behavior",
       "addedIn": "v1.2.0"
     },
 

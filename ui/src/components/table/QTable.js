@@ -358,7 +358,7 @@ export default Vue.extend({
 
       if (rowEl !== null) {
         const scrollTarget = this.$el.querySelector('.q-table__middle.scroll')
-        const { offsetTop } = rowEl
+        const offsetTop = rowEl.offsetTop - this.virtualScrollStickySizeStart
         const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
 
         scrollTarget.scrollTop = offsetTop
