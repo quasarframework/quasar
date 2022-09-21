@@ -36,6 +36,7 @@ export default Vue.extend({
     trackColor: String,
 
     fontSize: String,
+    rounded: Boolean,
 
     // ratio
     thickness: {
@@ -105,7 +106,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __getCircle (h, { thickness, offset, color, cls }) {
+    __getCircle (h, { thickness, offset, color, cls, rounded }) {
       return h('circle', {
         staticClass: 'q-circular-progress__' + cls,
         class: color !== void 0 ? `text-${color}` : null,
@@ -116,6 +117,7 @@ export default Vue.extend({
           'stroke-width': thickness,
           'stroke-dasharray': strokeDashArray,
           'stroke-dashoffset': offset,
+          'stroke-linecap': rounded,
           cx: this.viewBox,
           cy: this.viewBox,
           r: radius
@@ -154,7 +156,8 @@ export default Vue.extend({
         cls: 'circle',
         thickness: this.strokeWidth,
         offset: this.strokeDashOffset,
-        color: this.color
+        color: this.color,
+        rounded: this.rounded === true ? 'round' : void 0
       })
     )
 

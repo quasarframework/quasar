@@ -32,4 +32,6 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <doc-example title="Indeterminate state" file="QCircularProgress/Indeterminate" />
 
+<doc-example title="Rounded arc of progress (v1.20.2+)" file="QCircularProgress/RoundedStyle" />
+
 <doc-example title="Standard sizes" file="QCircularProgress/StandardSizes" />
