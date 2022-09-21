@@ -14,7 +14,9 @@ export default {
     create: 'Krei',
     search: 'Serĉi',
     filter: 'Filtri',
-    refresh: 'Reŝargi'
+    refresh: 'Reŝargi',
+    expand: function (label) { return label ? `Vastigi "${label}"` : 'Vastigi' },
+    collapse: function (label) { return label ? `Kolapsi "${label}"` : 'Kolapso' }
   },
   date: {
     days: 'Dimanĉo_Lundo_Mardo_Merkredo_Jaŭdo_Vendredo_Sabato'.split('_'),

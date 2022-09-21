@@ -14,7 +14,9 @@ export default {
     create: 'Fatu',
     search: 'Sā\'ili',
     filter: 'Fa\'amamā',
-    refresh: 'Fa\'afou'
+    refresh: 'Fa\'afou',
+    expand: function (label) { return label ? `Fa'alautele "${label}"` : 'Faalautele' },
+    collapse: function (label) { return label ? `Pa'u "${label}"` : 'Pa\'u' }
   },
   date: {
     days: 'Aso Sā_Aso Gafua_Aso Lua_Aso Lulu_Aso Tofi_Aso Faraile_Aso To\'onai'.split('_'),

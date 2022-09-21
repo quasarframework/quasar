@@ -18,7 +18,9 @@ export default {
     create: 'ساخت',
     search: 'جستجو',
     filter: 'فیلتر',
-    refresh: 'تازه‌سازی'
+    refresh: 'تازه‌سازی',
+    expand: function (label) { return label ? `"${label}" گسترش` : 'بسط دادن' },
+    collapse: function (label) { return label ? `"${label}" کوچک کردن` : 'سقوط - فروپاشی' }
   },
   date: {
     days: days,

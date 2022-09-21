@@ -14,7 +14,9 @@ export default {
     create: 'ဖန်တီးမည်',
     search: 'ရှာမည်',
     filter: 'စစ်ထုတ်မည်',
-    refresh: 'အသစ်ပြန်လုပ်မည်'
+    refresh: 'အသစ်ပြန်လုပ်မည်',
+    expand: function (label) { return label ? `"${label}" ကိုချဲ့ထွင်ပါ။` : 'ချဲ့ထွင်ပါ။' },
+    collapse: function (label) { return label ? `"${label}" ကို ခေါက်သိမ်းပါ` : 'ပြိုကျသည်။' }
   },
   date: {
     days: 'တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ'.split('_'),

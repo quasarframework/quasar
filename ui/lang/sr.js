@@ -14,7 +14,9 @@ export default {
     create: 'Dodaj',
     search: 'Traži',
     filter: 'Filter',
-    refresh: 'Osveži'
+    refresh: 'Osveži',
+    expand: function (label) { return label ? `Proširi "${label}"` : 'Proširiti' },
+    collapse: function (label) { return label ? `Skupi "${label}"` : 'Kolaps' }
   },
   date: {
     days: 'Nedelja_Ponedeljak_Utorak_Sreda_Četvrtak_Petak_Subota'.split('_'),

@@ -14,7 +14,9 @@ export default {
     create: '作成', // 'Create',
     search: '検索', // 'Search',
     filter: 'フィルタ', // 'Filter',
-    refresh: '再読込' // 'Refresh'
+    refresh: '再読込', // 'Refresh'
+    expand: function (label) { return label ? `「${label}」を展開します。` : '拡大' },
+    collapse: function (label) { return label ? `「${label}」を折りたたむ` : '崩壊' }
   },
   date: {
     days: '日曜日_月曜日_火曜日_水曜日_木曜日_金曜日_土曜日'.split('_'), // 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),

@@ -14,7 +14,9 @@ export default {
     create: 'Japo',
     search: 'Heka',
     filter: 'Mbogua',
-    refresh: 'Actualisa'
+    refresh: 'Actualisa',
+    expand: function (label) { return label ? `Oñembotuichave "${label}"` : 'Myasãi' },
+    collapse: function (label) { return label ? `Omboguejy "${label}"` : 'Ñembyaipa' }
   },
   date: {
     days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),

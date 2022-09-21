@@ -18,7 +18,9 @@ export default {
     create: 'Жасау',
     search: 'Іздеу',
     filter: 'Сүзгі',
-    refresh: 'Жаңарту'
+    refresh: 'Жаңарту',
+    expand: function (label) { return label ? `"${label}" кеңейту` : 'Кеңейту' },
+    collapse: function (label) { return label ? `"${label}" жию` : 'Жыйрату' }
   },
   date: {
     days: 'Жексенбі_Дүйсенбі_Сейсенбі_Сәрсенбі_Бейсенбі_Жұма_Сенбі'.split('_'),

@@ -14,7 +14,9 @@ export default {
     create: 'Ustvari',
     search: 'Išči',
     filter: 'Filtriraj',
-    refresh: 'Ponovno naloži'
+    refresh: 'Ponovno naloži',
+    expand: function (label) { return label ? `Razširi "${label}"` : 'Razširi' },
+    collapse: function (label) { return label ? `Strni "${label}"` : 'Strni' }
   },
   date: {
     days: 'Nedelja_Ponedeljek_Torek_Sreda_Četrtek_Petek_Sobota'.split('_'),

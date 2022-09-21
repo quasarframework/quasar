@@ -124,6 +124,7 @@ export default Vue.extend({
     attrs () {
       return {
         tabindex: -1,
+        role: 'menu',
         ...this.qAttrs
       }
     }

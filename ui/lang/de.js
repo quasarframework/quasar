@@ -14,7 +14,9 @@ export default {
     create: 'Erstellen',
     search: 'Suche',
     filter: 'Filter',
-    refresh: 'Aktualisieren'
+    refresh: 'Aktualisieren',
+    expand: function (label) { return label ? `Erweitern Sie "${label}"` : 'Erweitern' },
+    collapse: function (label) { return label ? `"${label}" minimieren` : 'Zusammenbruch' }
   },
   date: {
     days: 'Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag'.split('_'),

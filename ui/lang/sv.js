@@ -14,7 +14,9 @@ export default {
     create: 'Skapa',
     search: 'Sök',
     filter: 'Filtrera',
-    refresh: 'Uppdatera'
+    refresh: 'Uppdatera',
+    expand: function (label) { return label ? `Utöka "${label}"` : 'Bygga ut' },
+    collapse: function (label) { return label ? `Komprimera "${label}"` : 'Kollaps' }
   },
   date: {
     days: 'Söndag_Måndag_Tisdag_Onsdag_Torsdag_Fredag_Lördag'.split('_'),

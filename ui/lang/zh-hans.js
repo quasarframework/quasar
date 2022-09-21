@@ -14,7 +14,9 @@ export default {
     create: '创建',
     search: '搜索',
     filter: '过滤',
-    refresh: '刷新'
+    refresh: '刷新',
+    expand: function (label) { return label ? `展开"${label}"` : '扩张' },
+    collapse: function (label) { return label ? `折叠"${label}"` : '坍塌' }
   },
   date: {
     days: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),

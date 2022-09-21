@@ -14,7 +14,9 @@ export default {
     create: 'Vytvoriť',
     search: 'Hľadať',
     filter: 'Filtrovať',
-    refresh: 'Obnoviť'
+    refresh: 'Obnoviť',
+    expand: function (label) { return label ? `Rozbaliť "${label}"` : 'Rozbaliť' },
+    collapse: function (label) { return label ? `Zbaliť "${label}"` : 'Kolaps' }
   },
   date: {
     days: 'Nedeľa_Pondelok_Utorok_Streda_Štvrtok_Piatok_Sobota'.split('_'),

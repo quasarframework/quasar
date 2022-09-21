@@ -14,7 +14,9 @@ export default {
     create: 'Яратиш',
     search: 'Қидириш',
     filter: 'Филтрлаш',
-    refresh: 'Янгилаш'
+    refresh: 'Янгилаш',
+    expand: function (label) { return label ? `"${label}" ни кенгайтириш` : 'ъКенгайтиришъ' },
+    collapse: function (label) { return label ? `"${label}" ни йиғиш` : 'ъЙиқилишъ' }
   },
   date: {
     days: 'Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба'.split('_'),

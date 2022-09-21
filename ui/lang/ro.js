@@ -14,7 +14,9 @@ export default {
     create: 'Creează',
     search: 'Caută',
     filter: 'Filtrează',
-    refresh: 'Actualizează'
+    refresh: 'Actualizează',
+    expand: function (label) { return label ? `Deschideți "${label}"` : 'Deschide' },
+    collapse: function (label) { return label ? `Închide "${label}"` : 'Închide' }
   },
   date: {
     days: 'Duminică_Luni_Marți_Miercuri_Joi_Vineri_Sâmbătă'.split('_'),

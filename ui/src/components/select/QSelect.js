@@ -421,6 +421,7 @@ export default Vue.extend({
         tabindex: this.tabindex,
         role: 'combobox',
         'aria-label': this.label,
+        'aria-readonly': this.readonly === true ? 'true' : 'false',
         'aria-autocomplete': this.useInput === true ? 'list' : 'none',
         'aria-expanded': this.menu === true ? 'true' : 'false',
         'aria-owns': `${this.targetUid}_lb`,
@@ -439,10 +440,6 @@ export default Vue.extend({
         id: `${this.targetUid}_lb`,
         role: 'listbox',
         'aria-multiselectable': this.multiple === true ? 'true' : 'false'
-      }
-
-      if (this.optionIndex >= 0) {
-        attrs['aria-activedescendant'] = `${this.targetUid}_${this.optionIndex}`
       }
 
       return attrs

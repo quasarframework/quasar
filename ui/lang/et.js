@@ -14,7 +14,9 @@ export default {
     create: 'Loo',
     search: 'Otsi',
     filter: 'Filtreeri',
-    refresh: 'Värskenda'
+    refresh: 'Värskenda',
+    expand: function (label) { return label ? `Laienda "${label}"` : 'Laienda' },
+    collapse: function (label) { return label ? `Ahenda "${label}"` : 'Ahenda' }
   },
   date: {
     days: 'pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev'.split('_'),

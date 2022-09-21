@@ -14,7 +14,9 @@ export default {
     create: 'Maak aan',
     search: 'Zoek',
     filter: 'Filter',
-    refresh: 'Ververs'
+    refresh: 'Ververs',
+    expand: function (label) { return label ? `Vouw "${label}" uit` : 'Uitbreiden' },
+    collapse: function (label) { return label ? `"${label}" samenvouwen` : 'Instorten' }
   },
   date: {
     days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),

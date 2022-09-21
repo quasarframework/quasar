@@ -14,7 +14,9 @@ export default {
     create: 'Utwórz',
     search: 'Szukaj',
     filter: 'Filtruj',
-    refresh: 'Odśwież'
+    refresh: 'Odśwież',
+    expand: function (label) { return label ? `Rozwiń "${label}"` : 'Zwiększać' },
+    collapse: function (label) { return label ? `Zwiń "${label}"` : 'Upadek' }
   },
   date: {
     days: 'Niedziela_Poniedziałek_Wtorek_Środa_Czwartek_Piątek_Sobota'.split('_'),

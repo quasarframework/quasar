@@ -11,6 +11,7 @@ import QMenu from '../menu/QMenu.js'
 import { slot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
+import uid from '../../utils/uid.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -45,7 +46,9 @@ export default Vue.extend({
     disableMainBtn: Boolean,
     disableDropdown: Boolean,
 
-    noIconAnimation: Boolean
+    noIconAnimation: Boolean,
+
+    toggleAriaLabel: String
   },
 
   data () {
@@ -68,7 +71,10 @@ export default Vue.extend({
     const label = slot(this, 'label', [])
     const attrs = {
       'aria-expanded': this.showing === true ? 'true' : 'false',
-      'aria-haspopup': 'true'
+      'aria-haspopup': 'true',
+      'aria-controls': this.targetUid,
+      'aria-owns': this.targetUid,
+      'aria-label': this.toggleAriaLabel || this.$q.lang.label[ this.showing === true ? 'collapse' : 'expand' ](this.label)
     }
 
     if (
@@ -93,6 +99,9 @@ export default Vue.extend({
     this.disableDropdown !== true && Arrow.push(
       h(QMenu, {
         ref: 'menu',
+        attrs: {
+          id: this.targetUid
+        },
         props: {
           cover: this.cover,
           fit: true,
@@ -137,8 +146,8 @@ export default Vue.extend({
           round: false
         },
         attrs: {
-          ...this.qAttrs,
-          ...attrs
+          ...attrs,
+          ...this.qAttrs
         },
         on: cache(this, 'nonSpl', {
           click: e => {
@@ -218,6 +227,10 @@ export default Vue.extend({
     hide (evt) {
       this.$refs.menu && this.$refs.menu.hide(evt)
     }
+  },
+
+  created () {
+    this.targetUid = `d_${uid()}`
   },
 
   mounted () {

@@ -14,7 +14,9 @@ export default {
     create: 'បង្កើត',
     search: 'ស្វែងរក',
     filter: 'ច្រោះ',
-    refresh: 'ធ្វើឲ្យថ្មី'
+    refresh: 'ធ្វើឲ្យថ្មី',
+    expand: function (label) { return label ? `ពង្រីក "${label}"` : 'ពង្រីក' },
+    collapse: function (label) { return label ? `បង្រួម "${label}"` : 'ដួលរលំ' }
   },
   date: {
     days: 'អាទិត្យ_ចន្ទ_អង្គារ_ពុធ_ព្រហស្បតិ៍_សុក្រ_សៅរ៍'.split('_'),
