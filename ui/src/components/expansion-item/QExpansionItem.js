@@ -119,7 +119,7 @@ export default Vue.extend({
     },
 
     toggleAriaAttrs () {
-      const computedToggleAriaLabel = this.toggleAriaLabel !== void 0
+      const toggleAriaLabel = this.toggleAriaLabel !== void 0
         ? this.toggleAriaLabel
         : this.$q.lang.label[ this.showing === true ? 'collapse' : 'expand' ](this.label)
 
@@ -128,7 +128,7 @@ export default Vue.extend({
         'aria-expanded': this.showing === true ? 'true' : 'false',
         'aria-owns': this.targetUid,
         'aria-controls': this.targetUid,
-        'aria-label': computedToggleAriaLabel
+        'aria-label': toggleAriaLabel
       }
     }
   },
