@@ -14,7 +14,9 @@ export default {
     create: 'Izveidot',
     search: 'Meklēt',
     filter: 'Filtēt',
-    refresh: 'Atjaunot'
+    refresh: 'Atjaunot',
+    expand: function (label) { return label ? `Paplašināt "${label}"` : 'Izvērst' },
+    collapse: function (label) { return label ? `Sakļaut "${label}"` : 'Sakļaut' }
   },
   date: {
     days: 'Svētdiena_Pirmdiena_Otrdiena_Trešdiena_Ceturtdiena_Piektdiena_Sestdiena'.split('_'),

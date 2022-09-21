@@ -17,7 +17,9 @@ export default {
     create: 'قۇرۇش',
     search: 'ئىزدەش',
     filter: 'سۈزگۈچ',
-    refresh: 'يېڭىلاش'
+    refresh: 'يېڭىلاش',
+    expand: function (label) { return label ? `نى كېڭەيتىڭ "${label}"` : 'كېڭەيتىش' },
+    collapse: function (label) { return label ? `نى يىمىرىڭ "${label}"` : 'كېڭەيتىش' }
   },
   date: {
     days,

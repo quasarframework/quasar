@@ -15,7 +15,9 @@ export default {
     create: 'إنشاء',
     search: 'بحث',
     filter: 'ترشيح',
-    refresh: 'تحديث'
+    refresh: 'تحديث',
+    expand: function (label) { return label ? `"${label} توسيع` : 'وسعت' },
+    collapse: function (label) { return label ? `"${label}" تصغير` : 'انهيار' }
   },
   date: {
     days: 'الأحد_الإثنين_الثلاثاء_الأربعاء_الخميس_الجمعة_السبت'.split('_'),

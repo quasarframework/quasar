@@ -14,7 +14,9 @@ export default {
     create: 'Opret',
     search: 'Søg',
     filter: 'Filtrer',
-    refresh: 'Opdater'
+    refresh: 'Opdater',
+    expand: function (label) { return label ? `Udvid "${label}"` : 'Udvide' },
+    collapse: function (label) { return label ? `Skjul "${label}"` : 'Bryder sammen' }
   },
   date: {
     days: 'Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag'.split('_'),

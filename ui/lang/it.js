@@ -14,7 +14,9 @@ export default {
     create: 'Crea',
     search: 'Cerca',
     filter: 'Filtra',
-    refresh: 'Aggiorna'
+    refresh: 'Aggiorna',
+    expand: function (label) { return label ? `Espandi "${label}"` : 'Espandere' },
+    collapse: function (label) { return label ? `Comprimi "${label}"` : 'Crollo' }
   },
   date: {
     days: 'Domenica_Lunedì_Martedì_Mercoledì_Giovedì_Venerdì_Sabato'.split('_'),

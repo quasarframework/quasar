@@ -14,7 +14,9 @@ export default {
     create: 'Създай',
     search: 'Търси',
     filter: 'Филтър',
-    refresh: 'Презареди'
+    refresh: 'Презареди',
+    expand: function (label) { return label ? `Разширете "${label}"` : 'Разширяване' },
+    collapse: function (label) { return label ? `Свиване на "${label}"` : 'Свиване' }
   },
   date: {
     days: 'Неделя_Понеделник_Вторник_Сряда_Четвъртък_Петък_Събота'.split('_'),

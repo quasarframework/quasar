@@ -14,7 +14,9 @@ export default {
     create: 'സൃഷ്ടിക്കുക',
     search: 'തിരയുക',
     filter: 'അരിക്കുക',
-    refresh: 'പുതുക്കുക'
+    refresh: 'പുതുക്കുക',
+    expand: function (label) { return label ? `"${label}" വികസിപ്പിക്കുക` : 'വികസിപ്പിക്കുക' },
+    collapse: function (label) { return label ? `"${label}" ചുരുക്കുക` : 'ചുരുക്കുക' }
   },
   date: {
     days: 'ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി'.split('_'),

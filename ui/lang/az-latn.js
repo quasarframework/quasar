@@ -14,7 +14,9 @@ export default {
     create: 'Yarat',
     search: 'Axtar',
     filter: 'Filtrlə',
-    refresh: 'Yenilə'
+    refresh: 'Yenilə',
+    expand: function (label) { return label ? `"${label}" genişləndirin` : 'Genişləndirin' },
+    collapse: function (label) { return label ? `"${label}" yığcamlaşdırın` : 'Yıxılma' }
   },
   date: {
     days: 'Bazar_Bazar ertəsi_Çərşənbə axşamı_Çərşənbə_Cümə axşamı_Cümə_Şənbə'.split('_'),

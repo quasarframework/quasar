@@ -14,7 +14,9 @@ export default {
     create: 'สร้าง',
     search: 'ค้นหา',
     filter: 'กรอง',
-    refresh: 'รีเฟรช'
+    refresh: 'รีเฟรช',
+    expand: function (label) { return label ? `ขยาย "${label}"` : 'ขยาย' },
+    collapse: function (label) { return label ? `ยุบ "${label}"` : 'ทรุด' }
   },
   date: {
     days: 'อาทิตย์_จันทร์_อังคาร_พุธ_พฤหัสบดี_ศุกร์_เสาร์'.split('_'),

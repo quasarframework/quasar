@@ -14,7 +14,9 @@ export default {
     create: 'Yaratish',
     search: 'Qidirish',
     filter: 'Filtrlash',
-    refresh: 'Yangilash'
+    refresh: 'Yangilash',
+    expand: function (label) { return label ? `"${label}" ni kengaytirish` : 'Kengaytirish' },
+    collapse: function (label) { return label ? `"${label}" ni yig'ish` : 'Yiqilish' }
   },
   date: {
     days: 'Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba'.split(

@@ -14,7 +14,9 @@ export default {
     create: 'Létrehozás',
     search: 'Keresés',
     filter: 'Szűrés',
-    refresh: 'Frissítés'
+    refresh: 'Frissítés',
+    expand: function (label) { return label ? `A "${label}" kiterjesztése` : 'Kiterjed' },
+    collapse: function (label) { return label ? `A "${label}" összecsukása` : 'Összeomlás' }
   },
   date: {
     days: 'Vasárnap_Hétfő_Kedd_Szerda_Csütörtök_Péntek_Szombat'.split('_'),

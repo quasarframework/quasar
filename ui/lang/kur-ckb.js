@@ -15,7 +15,9 @@ export default {
     create: 'دروستکردن',
     search: 'گەڕان',
     filter: 'پاڵاوتن',
-    refresh: 'تازەکردنەوە'
+    refresh: 'تازەکردنەوە',
+    expand: function (label) { return label ? `"${label}" فراوانکردنی` : 'فراوانکردن' },
+    collapse: function (label) { return label ? `"${label}" داخستنی` : 'شکست هێنان' }
   },
   date: {
     days: 'یەک شەممە_دووشەممە_سێ شەممە_چوار شەممە_پێنج شەممە_هەینی_شەممە'.split(

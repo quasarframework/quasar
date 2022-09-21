@@ -14,7 +14,9 @@ export default {
     create: 'Tambah',
     search: 'Cari',
     filter: 'Saring',
-    refresh: 'Muat semula'
+    refresh: 'Muat semula',
+    expand: function (label) { return label ? `Kembangkan "${label}"` : 'Kembangkan' },
+    collapse: function (label) { return label ? `Runtuhkan "${label}"` : 'Runtuh' }
   },
   date: {
     days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jummat_Sabtu'.split('_'),

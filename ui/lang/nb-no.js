@@ -14,7 +14,9 @@ export default {
     create: 'Lag',
     search: 'Søk',
     filter: 'Filter',
-    refresh: 'Oppdater'
+    refresh: 'Oppdater',
+    expand: function (label) { return label ? `Utvid "${label}"` : 'Utvide' },
+    collapse: function (label) { return label ? `Skjul "${label}"` : 'Kollapse' }
   },
   date: {
     days: 'Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag'.split('_'),

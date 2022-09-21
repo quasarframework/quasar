@@ -14,7 +14,9 @@ export default {
     create: 'Tạo',
     search: 'Tìm kiếm',
     filter: 'Bộ lọc',
-    refresh: 'Làm mới'
+    refresh: 'Làm mới',
+    expand: function (label) { return label ? `Mở rộng "${label}"` : 'Mở rộng' },
+    collapse: function (label) { return label ? `Thu gọn "${label}"` : 'Sụp đổ' }
   },
   date: {
     days: 'Chủ Nhật_Thứ Hai_Thứ Ba_Thứ Tư_Thứ Năm_Thứ Sáu_Thứ Bảy'.split('_'),
