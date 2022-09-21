@@ -206,6 +206,7 @@
           "returns": null,
           "addedIn": "v1.20.2"
         },
+
         "hide": {
           "type": "Function",
           "desc": "Triggers component to hide",
@@ -220,6 +221,7 @@
           "returns": null,
           "addedIn": "v1.20.2"
         },
+
         "toggle": {
           "type": "Function",
           "desc": "Triggers component to toggle between show/hide",
