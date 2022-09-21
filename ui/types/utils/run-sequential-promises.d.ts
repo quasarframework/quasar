@@ -29,7 +29,7 @@ export interface RunSequentialPromisesOptions {
    * the hosting browser supports (usually 3). Any number of threads
    * above that won't add any real benefits.
    *
-   * @default 3
+   * @default 1
    */
   threadsNumber?: number;
 
