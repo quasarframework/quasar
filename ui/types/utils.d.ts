@@ -106,6 +106,37 @@ export class EventBus {
   off (event: string, callback?: Function): this;
 }
 
+
+export interface RunSequentialPromisesOptions {
+  /**
+   * When using http requests, be aware of the maximum threads that
+   * the hosting browser supports (usually 3). Any number of threads
+   * above that won't add any real benefits.
+   *
+   * @default 3
+   */
+  threadsNumber?: number;
+
+  /**
+   * The Promise is never rejected (no catch() needed)
+   *
+   * @default true
+   */
+  abortOnFail?: boolean;
+}
+/**
+ * Run a list of Promises sequentially, optionally on multiple threads.
+ */
+// TODO: Add generics
+export function runSequentialPromises(
+  sequentialPromises: ((resultAggregator: any[]) => Promise<any>)[],
+  options?: RunSequentialPromisesOptions
+): Promise<any[]>;
+export function runSequentialPromises(
+  sequentialPromises: Record<string, (resultAggregator: Record<string, any>) => Promise<any>>,
+  options?: RunSequentialPromisesOptions
+): Promise<Record<string, any>>;
+
 interface CreateMetaMixinContext extends ComponentPublicInstance {
   [index: string]: any;
 }
