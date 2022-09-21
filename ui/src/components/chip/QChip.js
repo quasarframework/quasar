@@ -51,6 +51,8 @@ export default createComponent({
     clickable: Boolean,
     removable: Boolean,
 
+    removeAriaLabel: String,
+
     tabindex: [ String, Number ],
     disable: Boolean,
 
@@ -103,7 +105,12 @@ export default createComponent({
     const attributes = computed(() => (
       props.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
-        : { tabindex: props.tabindex || 0 }
+        : {
+            tabindex: props.tabindex || 0,
+            role: 'button',
+            'aria-hidden': 'false',
+            'aria-label': props.removeAriaLabel || $q.lang.label.remove
+          }
     ))
 
     function onKeyup (e) {

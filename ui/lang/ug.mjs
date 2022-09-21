@@ -3,7 +3,7 @@ const days = 'يەكشەنبە_دۈشەنبە_سەيشەنبە_چارشەنبە_
 export default {
   isoName: 'ug',
   nativeName: 'ئۇيغۇرچە',
-   rtl: true,
+  rtl: true,
   label: {
     clear: 'تازىلاش',
     ok: 'ھەئە',
@@ -17,7 +17,9 @@ export default {
     create: 'قۇرۇش',
     search: 'ئىزدەش',
     filter: 'سۈزگۈچ',
-    refresh: 'يېڭىلاش'
+    refresh: 'يېڭىلاش',
+    expand: label => (label ? `نى كېڭەيتىڭ "${ label }"` : 'كېڭەيتىش'),
+    collapse: label => (label ? `نى يىمىرىڭ "${ label }"` : 'كېڭەيتىش')
   },
   date: {
     days,
@@ -33,7 +35,7 @@ export default {
     noData: 'ئۇچۇر يوق',
     noResults: 'مۇناسىۋەتلىك ئۇچۇر تېپىلمىدى',
     loading: 'يۈكلىنىۋاتىدۇ ...',
-    selectedRecords:  rows => 'جەمئىي ' + rows + ' قۇر تاللاندى',
+    selectedRecords: rows => 'جەمئىي ' + rows + ' قۇر تاللاندى',
     recordsPerPage: 'ھەربەتتىكى قۇر سانى:',
     allRows: 'ھەممىسى',
     pagination: (start, end, total) => start + '-' + end + ' / ' + total,

@@ -350,6 +350,7 @@ export default createComponent({
         () => (
           showing.value === true
             ? h('div', {
+              role: 'menu',
               ...attrs,
               ref: innerRef,
               tabindex: -1,

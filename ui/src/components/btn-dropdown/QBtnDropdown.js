@@ -9,6 +9,7 @@ import { useBtnProps } from '../btn/use-btn.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
+import uid from '../../utils/uid.js'
 import { hSlot } from '../../utils/private/render.js'
 
 export default createComponent({
@@ -42,7 +43,9 @@ export default createComponent({
     disableMainBtn: Boolean,
     disableDropdown: Boolean,
 
-    noIconAnimation: Boolean
+    noIconAnimation: Boolean,
+
+    toggleAriaLabel: String
   },
 
   emits: [ 'update:modelValue', 'click', 'before-show', 'show', 'before-hide', 'hide' ],
@@ -52,11 +55,15 @@ export default createComponent({
 
     const showing = ref(props.modelValue)
     const menuRef = ref(null)
+    const targetUid = uid()
 
     const attributes = computed(() => {
       const acc = {
         'aria-expanded': showing.value === true ? 'true' : 'false',
-        'aria-haspopup': 'true'
+        'aria-haspopup': 'true',
+        'aria-controls': targetUid,
+        'aria-owns': targetUid,
+        'aria-label': props.toggleAriaLabel || proxy.$q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
       }
 
       if (
@@ -146,6 +153,7 @@ export default createComponent({
       props.disableDropdown !== true && Arrow.push(
         h(QMenu, {
           ref: menuRef,
+          id: targetUid,
           class: props.contentClass,
           style: props.contentStyle,
           cover: props.cover,

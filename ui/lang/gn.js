@@ -19,7 +19,9 @@ module.exports = {
     create: 'Japo',
     search: 'Heka',
     filter: 'Mbogua',
-    refresh: 'Actualisa'
+    refresh: 'Actualisa',
+    expand: label => (label ? `Oñembotuichave "${ label }"` : 'Myasãi'),
+    collapse: label => (label ? `Omboguejy "${ label }"` : 'Ñembyaipa')
   },
   date: {
     days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
