@@ -42,7 +42,7 @@ export type RunSequentialPromisesResult<TKey extends number | string, TValue> =
 
 export interface RunSequentialPromisesOptions {
   /**
-   * When using http requests, be aware of the maximum threads that
+   * When making HTTP requests, be aware of the maximum threads that
    * the hosting browser supports (usually 3). Any number of threads
    * above that won't add any real benefits.
    *
@@ -51,7 +51,9 @@ export interface RunSequentialPromisesOptions {
   threadsNumber?: number;
 
   /**
-   * The Promise is never rejected (no catch() needed)
+   * When set to `false`, the result Promise will never get rejected (no catch() needed)
+   * Otherwise, if one of the sequential Promises gets rejected, the Promise will be
+   * rejected with {@link RunSequentialPromisesRejectedResult}
    *
    * @default true
    */
