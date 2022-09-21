@@ -107,6 +107,11 @@ export class EventBus {
 }
 
 
+export interface RunSequentialPromisesResult<TKey extends number | string, TValue> {
+  key: TKey;
+  status: 'fulfilled';
+  value: TValue;
+}
 export interface RunSequentialPromisesOptions {
   /**
    * When using http requests, be aware of the maximum threads that
@@ -129,13 +134,19 @@ export interface RunSequentialPromisesOptions {
  */
 // TODO: Add generics
 export function runSequentialPromises(
-  sequentialPromises: ((resultAggregator: any[]) => Promise<any>)[],
+  sequentialPromises: ((
+    resultAggregator: RunSequentialPromisesResult<number, any>[]
+  ) => Promise<any>)[],
   options?: RunSequentialPromisesOptions
-): Promise<any[]>;
+): Promise<RunSequentialPromisesResult<number, any>[]>;
 export function runSequentialPromises(
-  sequentialPromises: Record<string, (resultAggregator: Record<string, any>) => Promise<any>>,
+  sequentialPromises: {
+    [key: string]: (resultAggregator: {
+      [key: string]: RunSequentialPromisesResult<string, any>;
+    }) => Promise<any>;
+  },
   options?: RunSequentialPromisesOptions
-): Promise<Record<string, any>>;
+): Promise<{ [key: string]: RunSequentialPromisesResult<string, any> }>;
 
 interface CreateMetaMixinContext extends ComponentPublicInstance {
   [index: string]: any;
