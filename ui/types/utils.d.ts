@@ -155,6 +155,17 @@ export function runSequentialPromises<
   TKey extends number = number
 >(
   promises: ((
+    resultAggregator: RunSequentialPromisesResult<TKey, TValue>[]
+  ) => Promise<TValue>)[],
+  options: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
+    abortOnFail: false;
+  }
+): Promise<RunSequentialPromisesResult<TKey, TValue>[]>;
+export function runSequentialPromises<
+  TValue = any,
+  TKey extends number = number
+>(
+  promises: ((
     resultAggregator: RunSequentialFulfilledResult<TKey, TValue>[]
   ) => Promise<TValue>)[],
   options?: RunSequentialPromisesOptions
@@ -169,6 +180,19 @@ export function runSequentialPromises<
     }) => Promise<TValue>;
   },
   options?: RunSequentialPromisesOptions
+): Promise<{ [key in TKey]: RunSequentialFulfilledResult<TKey, TValue> }>;
+export function runSequentialPromises<
+  TValue = any,
+  TKey extends string = string
+>(
+  promisesMap: {
+    [key in TKey]: (resultAggregator: {
+      [key in TKey]?: RunSequentialFulfilledResult<TKey, TValue>;
+    }) => Promise<TValue>;
+  },
+  options?: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
+    abortOnFail: false;
+  }
 ): Promise<{ [key in TKey]: RunSequentialFulfilledResult<TKey, TValue> }>;
 
 interface CreateMetaMixinContext extends ComponentPublicInstance {
