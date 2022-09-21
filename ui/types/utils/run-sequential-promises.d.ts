@@ -1,4 +1,4 @@
-export interface RunSequentialFulfilledResult<
+export interface RunSequentialPromisesFulfilledResult<
   TKey extends number | string,
   TValue
 > {
@@ -20,7 +20,7 @@ export interface RunSequentialPromisesRejectedResult<
 }
 
 export type RunSequentialPromisesResult<TKey extends number | string, TValue> =
-  | RunSequentialFulfilledResult<TKey, TValue>
+  | RunSequentialPromisesFulfilledResult<TKey, TValue>
   | RunSequentialPromisesRejectedResult<TKey, TValue>;
 
 export interface RunSequentialPromisesOptions {
@@ -65,10 +65,10 @@ export function runSequentialPromises<
   TKey extends number = number
 >(
   promises: ((
-    resultAggregator: RunSequentialFulfilledResult<TKey, TValue>[]
+    resultAggregator: RunSequentialPromisesFulfilledResult<TKey, TValue>[]
   ) => Promise<TValue>)[],
   options?: RunSequentialPromisesOptions
-): Promise<RunSequentialFulfilledResult<TKey, TValue>[]>;
+): Promise<RunSequentialPromisesFulfilledResult<TKey, TValue>[]>;
 // Object-style overrides
 export function runSequentialPromises<
   TValue = any,
@@ -76,21 +76,25 @@ export function runSequentialPromises<
 >(
   promisesMap: {
     [key in TKey]: (resultAggregator: {
-      [key in TKey]?: RunSequentialFulfilledResult<TKey, TValue>;
+      [key in TKey]?: RunSequentialPromisesFulfilledResult<TKey, TValue>;
     }) => Promise<TValue>;
   },
   options?: RunSequentialPromisesOptions
-): Promise<{ [key in TKey]: RunSequentialFulfilledResult<TKey, TValue> }>;
+): Promise<{
+  [key in TKey]: RunSequentialPromisesFulfilledResult<TKey, TValue>;
+}>;
 export function runSequentialPromises<
   TValue = any,
   TKey extends string = string
 >(
   promisesMap: {
     [key in TKey]: (resultAggregator: {
-      [key in TKey]?: RunSequentialFulfilledResult<TKey, TValue>;
+      [key in TKey]?: RunSequentialPromisesFulfilledResult<TKey, TValue>;
     }) => Promise<TValue>;
   },
   options?: Omit<RunSequentialPromisesOptions, "abortOnFail"> & {
     abortOnFail: false;
   }
-): Promise<{ [key in TKey]: RunSequentialFulfilledResult<TKey, TValue> }>;
+): Promise<{
+  [key in TKey]: RunSequentialPromisesFulfilledResult<TKey, TValue>;
+}>;
