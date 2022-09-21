@@ -15,6 +15,7 @@
         <q-toggle v-model="reverse" label="Reverse" />
         <q-toggle v-model="showValue" label="Show Value" />
         <q-toggle v-model="indeterminate" label="Indeterminate" />
+        <q-toggle v-model="rounded" label="Rounded" />
       </div>
       <div>
         <q-btn @click="value = 10" label="Set value to 10" flat color="primary" class="q-mr-sm" />
@@ -29,6 +30,7 @@
         size="100px"
         :show-value="showValue"
         :indeterminate="indeterminate"
+        :rounded="rounded"
       />
 
       <q-circular-progress
@@ -42,6 +44,7 @@
         :reverse="reverse"
         :show-value="showValue"
         :indeterminate="indeterminate"
+        :rounded="rounded"
         color="orange"
         center-color="grey-8"
         track-color="transparent"
@@ -74,6 +77,23 @@
         :reverse="reverse"
         :show-value="showValue"
         :indeterminate="indeterminate"
+        :rounded="rounded"
+        color="orange"
+      />
+
+      <q-circular-progress
+        class="q-ma-sm"
+        :value="value"
+        :size="size + 'px'"
+        :thickness="thickness"
+        :angle="angle"
+        :min="range.min"
+        :max="range.max"
+        :reverse="reverse"
+        :show-value="showValue"
+        :indeterminate="indeterminate"
+        track-color="grey-4"
+        :rounded="rounded"
         color="orange"
       />
 
@@ -89,6 +109,7 @@
         font-size="50px"
         :show-value="showValue"
         :indeterminate="indeterminate"
+        :rounded="rounded"
         color="orange"
         text-color="white"
         center-color="grey-8"
@@ -111,7 +132,8 @@ export default {
       },
       showValue: true,
       reverse: false,
-      indeterminate: false
+      indeterminate: false,
+      rounded: false
     }
   },
   methods: {

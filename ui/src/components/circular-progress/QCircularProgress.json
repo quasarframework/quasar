@@ -57,6 +57,13 @@
       "category": "style"
     },
 
+    "rounded": {
+      "type": "Boolean",
+      "desc": "Rounding the arc of progress",
+      "category": "style",
+      "addedIn": "v1.20.2"
+    },
+
     "thickness": {
       "type": "Number",
       "default": 0.2,
