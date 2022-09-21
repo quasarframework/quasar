@@ -20,6 +20,7 @@ export * from './utils/event';
 export * from './utils/format';
 export * from './utils/scroll';
 export * from './utils/is';
+export * from './utils/run-sequential-promises';
 
 import { VueStyleObjectProp } from "./api/vue-prop-types";
 
