@@ -28,7 +28,7 @@ function parsePromises (sequentialPromises) {
  *
  * @param {*} sequentialPromises - Array of Functions or Object with Functions as values
  *                          Array of Function form: [ (resultAggregator: Array) => Promise<any>, ... ]
- *                          Object form: { [key: string]: (resultAggregator: Array) => Promise<any>, ... }
+ *                          Object form: { [key: string]: (resultAggregator: object) => Promise<any>, ... }
  * @param {*} opts - Optional options Object
  *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
  *                   Default: { threadsNumber: 1, abortOnFail: true }
