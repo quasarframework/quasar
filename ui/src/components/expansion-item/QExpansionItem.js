@@ -282,9 +282,11 @@ export default createComponent({
         )
       }
 
-      props.disable !== true && props.hideExpandIcon !== true && child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
-        getToggleIcon()
-      )
+      if (props.disable !== true && props.hideExpandIcon !== true) {
+        child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
+          getToggleIcon()
+        )
+      }
 
       return child
     }
