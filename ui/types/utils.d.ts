@@ -106,12 +106,28 @@ export class EventBus {
   off (event: string, callback?: Function): this;
 }
 
-
-export interface RunSequentialPromisesResult<TKey extends number | string, TValue> {
+export interface RunSequentialFulfilledResult<
+  TKey extends number | string,
+  TValue
+> {
   key: TKey;
-  status: 'fulfilled';
+  status: "fulfilled";
   value: TValue;
 }
+export interface RunSequentialPromisesRejectedResult<
+  TKey extends number | string,
+  TValue
+> {
+  key: TKey;
+  status: "rejected";
+  reason: any;
+  resultAggregator: TKey extends number
+    ? RunSequentialPromisesResult<TKey, TValue>[]
+    : { [key in TKey]?: RunSequentialPromisesResult<TKey, TValue> };
+}
+export type RunSequentialPromisesResult<TKey extends number | string, TValue> =
+  | RunSequentialFulfilledResult<TKey, TValue>
+  | RunSequentialPromisesRejectedResult<TKey, TValue>;
 export interface RunSequentialPromisesOptions {
   /**
    * When using http requests, be aware of the maximum threads that
@@ -134,21 +150,21 @@ export interface RunSequentialPromisesOptions {
  */
 export function runSequentialPromises<T = any>(
   promises: ((
-    resultAggregator: RunSequentialPromisesResult<number, T>[]
+    resultAggregator: RunSequentialFulfilledResult<number, T>[]
   ) => Promise<any>)[],
   options?: RunSequentialPromisesOptions
-): Promise<RunSequentialPromisesResult<number, T>[]>;
+): Promise<RunSequentialFulfilledResult<number, T>[]>;
 export function runSequentialPromises<
   TValue = any,
   TKey extends string = string
 >(
   promisesMap: {
     [key in TKey]: (resultAggregator: {
-      [key in TKey]?: RunSequentialPromisesResult<TKey, TValue>;
+      [key in TKey]?: RunSequentialFulfilledResult<TKey, TValue>;
     }) => Promise<any>;
   },
   options?: RunSequentialPromisesOptions
-): Promise<{ [key in TKey]: RunSequentialPromisesResult<TKey, TValue> }>;
+): Promise<{ [key in TKey]: RunSequentialFulfilledResult<TKey, TValue> }>;
 
 interface CreateMetaMixinContext extends ComponentPublicInstance {
   [index: string]: any;
