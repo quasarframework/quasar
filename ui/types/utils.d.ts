@@ -132,21 +132,23 @@ export interface RunSequentialPromisesOptions {
 /**
  * Run a list of Promises sequentially, optionally on multiple threads.
  */
-// TODO: Add generics
-export function runSequentialPromises(
-  sequentialPromises: ((
-    resultAggregator: RunSequentialPromisesResult<number, any>[]
+export function runSequentialPromises<T = any>(
+  promises: ((
+    resultAggregator: RunSequentialPromisesResult<number, T>[]
   ) => Promise<any>)[],
   options?: RunSequentialPromisesOptions
-): Promise<RunSequentialPromisesResult<number, any>[]>;
-export function runSequentialPromises(
-  sequentialPromises: {
-    [key: string]: (resultAggregator: {
-      [key: string]: RunSequentialPromisesResult<string, any>;
+): Promise<RunSequentialPromisesResult<number, T>[]>;
+export function runSequentialPromises<
+  TValue = any,
+  TKey extends string = string
+>(
+  promisesMap: {
+    [key in TKey]: (resultAggregator: {
+      [key in TKey]?: RunSequentialPromisesResult<TKey, TValue>;
     }) => Promise<any>;
   },
   options?: RunSequentialPromisesOptions
-): Promise<{ [key: string]: RunSequentialPromisesResult<string, any> }>;
+): Promise<{ [key in TKey]: RunSequentialPromisesResult<TKey, TValue> }>;
 
 interface CreateMetaMixinContext extends ComponentPublicInstance {
   [index: string]: any;
