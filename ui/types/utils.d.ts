@@ -19,6 +19,7 @@ export * from './utils/dom';
 export * from './utils/event';
 export * from './utils/format';
 export * from './utils/scroll';
+export * from './utils/is';
 
 import { VueStyleObjectProp } from "./api/vue-prop-types";
 
