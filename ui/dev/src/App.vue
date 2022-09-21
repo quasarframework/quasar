@@ -8,7 +8,7 @@
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
+      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" label="Go Home" />
       <template v-if="showSelector">
         <q-toggle :value="$q.dark.mode" @input="val => $q.dark.set(val)" toggle-indeterminate indeterminate-value="auto" :label="`Dark Mode (${$q.dark.mode})`" />
 
