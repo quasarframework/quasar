@@ -74,7 +74,7 @@ export default Vue.extend({
       'aria-haspopup': 'true',
       'aria-controls': this.targetUid,
       'aria-owns': this.targetUid,
-      'aria-label': this.toggleAriaLabel
+      'aria-label': this.toggleAriaLabel || this.$q.lang.label[ this.showing === true ? 'collapse' : 'expand' ](this.label)
     }
 
     if (
