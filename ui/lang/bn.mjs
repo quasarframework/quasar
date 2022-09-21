@@ -14,7 +14,9 @@ export default {
     create: 'তৈরী',
     search: 'সন্ধান',
     filter: 'ছাঁকনি',
-    refresh: 'সতেজ'
+    refresh: 'সতেজ',
+    expand: label => (label ? `"${ label }" প্রসারিত করুন` : 'বিস্তৃত করা'),
+    collapse: label => (label ? `"${ label }" সঙ্কুচিত করুন` : 'সঙ্কুচিত')
   },
   date: {
     days: 'রবিবার_সোমবার_মঙ্গলবার_বুধবার_বৃহস্পতিবার_শুক্রবার_শনিবার'.split('_'),

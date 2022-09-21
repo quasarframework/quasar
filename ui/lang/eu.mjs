@@ -14,7 +14,9 @@ export default {
     create: 'Sortu',
     search: 'Bilatu',
     filter: 'Iragazi',
-    refresh: 'Eguneratu'
+    refresh: 'Eguneratu',
+    expand: label => (label ? `Zabaldu "${ label }"` : 'Zabaldu'),
+    collapse: label => (label ? `Tolestu "${ label }"` : 'Tolestu')
   },
   date: {
     days: 'Igandea_Astelehena_Astearte_Asteazkena_Osteguna_Ostirala_Larunbata'.split('_'),

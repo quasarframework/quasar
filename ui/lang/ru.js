@@ -23,7 +23,9 @@ module.exports = {
     create: 'Создать',
     search: 'Поиск',
     filter: 'Фильтр',
-    refresh: 'Обновить'
+    refresh: 'Обновить',
+    expand: label => (label ? `Расширьте "${ label }"` : 'Расширять'),
+    collapse: label => (label ? `Свернуть "${ label }"` : 'Крах')
   },
   date: {
     days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),

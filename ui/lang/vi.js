@@ -19,7 +19,9 @@ module.exports = {
     create: 'Tạo',
     search: 'Tìm kiếm',
     filter: 'Bộ lọc',
-    refresh: 'Làm mới'
+    refresh: 'Làm mới',
+    expand: label => (label ? `Mở rộng "${ label }"` : 'Mở rộng'),
+    collapse: label => (label ? `Thu gọn "${ label }"` : 'Sụp đổ')
   },
   date: {
     days: 'Chủ Nhật_Thứ Hai_Thứ Ba_Thứ Tư_Thứ Năm_Thứ Sáu_Thứ Bảy'.split('_'),

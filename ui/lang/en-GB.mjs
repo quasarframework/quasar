@@ -14,7 +14,9 @@ export default {
     create: 'Create',
     search: 'Search',
     filter: 'Filter',
-    refresh: 'Refresh'
+    refresh: 'Refresh',
+    expand: label => (label ? `Expand "${ label }"` : 'Expand'),
+    collapse: label => (label ? `Collapse "${ label }"` : 'Collapse')
   },
   date: {
     days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
