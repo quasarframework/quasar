@@ -37,7 +37,7 @@
       "desc": "aria-label to be used on the expansion toggle element",
       "examples": [ "Open details" ],
       "category": "content",
-      "addedIn": "v1.21.0"
+      "addedIn": "v1.20.2"
     },
 
     "label": {
@@ -114,7 +114,7 @@
       "type": "Boolean",
       "desc": "Do not show the expand icon",
       "category": "content",
-      "addedIn": "v1.21.0"
+      "addedIn": "v1.20.2"
     },
 
     "expand-icon-toggle": {
@@ -189,7 +189,7 @@
           "type": "String",
           "desc": "QExpansionItem details panel id (for use in aria-controls)",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.21.0"
+          "addedIn": "v1.20.2"
         },
 
         "show": {
@@ -204,7 +204,7 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.21.0"
+          "addedIn": "v1.20.2"
         },
         "hide": {
           "type": "Function",
@@ -218,7 +218,7 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.21.0"
+          "addedIn": "v1.20.2"
         },
         "toggle": {
           "type": "Function",
@@ -232,7 +232,7 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.21.0"
+          "addedIn": "v1.20.2"
         }
       }
     }

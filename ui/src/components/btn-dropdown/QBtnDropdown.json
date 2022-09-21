@@ -126,7 +126,7 @@
       "desc": "aria-label to be used on the dropdown toggle element",
       "examples": [ "Open menu" ],
       "category": "content",
-      "addedIn": "v1.21.0"
+      "addedIn": "v1.20.2"
     }
   },
 

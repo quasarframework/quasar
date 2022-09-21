@@ -97,7 +97,7 @@
       "desc": "aria-label to be used on the remove icon",
       "examples": [ "Remove item" ],
       "category": "content",
-      "addedIn": "v1.21.0"
+      "addedIn": "v1.20.2"
     },
 
     "tabindex": {
