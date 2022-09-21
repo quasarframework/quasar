@@ -2,17 +2,17 @@
   <div id="q-app">
     <router-view />
 
-    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" />
+    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" area-label="Go Home" />
 
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" label="Go Home" />
+      <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" area-label="Settings" />
       <template v-if="showSelector">
         <q-toggle :value="$q.dark.mode" @input="val => $q.dark.set(val)" toggle-indeterminate indeterminate-value="auto" :label="`Dark Mode (${$q.dark.mode})`" />
 
-        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
+        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" area-label="Toggle RTL/LTR" />
         <q-select
           label="Quasar Language"
           dense
