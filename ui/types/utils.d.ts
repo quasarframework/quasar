@@ -148,12 +148,15 @@ export interface RunSequentialPromisesOptions {
 /**
  * Run a list of Promises sequentially, optionally on multiple threads.
  */
-export function runSequentialPromises<T = any>(
+export function runSequentialPromises<
+  TValue = any,
+  TKey extends number = number
+>(
   promises: ((
-    resultAggregator: RunSequentialFulfilledResult<number, T>[]
-  ) => Promise<any>)[],
+    resultAggregator: RunSequentialFulfilledResult<TKey, TValue>[]
+  ) => Promise<TValue>)[],
   options?: RunSequentialPromisesOptions
-): Promise<RunSequentialFulfilledResult<number, T>[]>;
+): Promise<RunSequentialFulfilledResult<TKey, TValue>[]>;
 export function runSequentialPromises<
   TValue = any,
   TKey extends string = string
@@ -161,7 +164,7 @@ export function runSequentialPromises<
   promisesMap: {
     [key in TKey]: (resultAggregator: {
       [key in TKey]?: RunSequentialFulfilledResult<TKey, TValue>;
-    }) => Promise<any>;
+    }) => Promise<TValue>;
   },
   options?: RunSequentialPromisesOptions
 ): Promise<{ [key in TKey]: RunSequentialFulfilledResult<TKey, TValue> }>;
