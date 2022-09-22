@@ -16,7 +16,7 @@ export default {
     filter: 'Filter',
     refresh: 'Osveži',
     expand: function (label) { return label ? `Proširi "${label}"` : 'Proširiti' },
-    collapse: function (label) { return label ? `Skupi "${label}"` : 'Kolaps' }
+    collapse: function (label) { return label ? `Skupi "${label}"` : 'Skupiti' }
   },
   date: {
     days: 'Nedelja_Ponedeljak_Utorak_Sreda_Četvrtak_Petak_Subota'.split('_'),
