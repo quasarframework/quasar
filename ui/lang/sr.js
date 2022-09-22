@@ -21,7 +21,7 @@ module.exports = {
     filter: 'Filter',
     refresh: 'Osveži',
     expand: label => (label ? `Proširi "${ label }"` : 'Proširiti'),
-    collapse: label => (label ? `Skupi "${ label }"` : 'Kolaps')
+    collapse: label => (label ? `Skupi "${ label }"` : 'Skupiti')
   },
   date: {
     days: 'Nedelja_Ponedeljak_Utorak_Sreda_Četvrtak_Petak_Subota'.split('_'),
