@@ -349,7 +349,6 @@ const cli = [
       },
       {
         name: 'Capacitor versions',
-        badge: 'new',
         path: 'capacitor-version-support'
       },
       {
@@ -1195,10 +1194,12 @@ const utils = [
   },
   {
     name: 'Type Checking Utils (<is>)',
+    badge: 'new',
     path: 'type-checking-utils'
   },
   {
     name: 'Other Utils',
+    badge: 'update',
     path: 'other-utils'
   }
 ]
@@ -1222,7 +1223,6 @@ module.exports = [
   {
     name: 'API Explorer',
     icon: 'travel_explore',
-    badge: 'new',
     path: 'api-explorer'
   },
   {
