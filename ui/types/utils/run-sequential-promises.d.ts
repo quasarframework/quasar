@@ -43,7 +43,7 @@ export type RunSequentialPromisesResult<TKey extends number | string, TValue> =
 export interface RunSequentialPromisesOptions {
   /**
    * When making HTTP requests, be aware of the maximum threads that
-   * the hosting browser supports (usually 3). Any number of threads
+   * the hosting browser supports (usually 5). Any number of threads
    * above that won't add any real benefits.
    *
    * @default 1
