@@ -1,57 +1,73 @@
 <template>
-  <q-card class="q-ma-md" :style="{ maxWidth: width + 'px' }">
-    <q-list>
-      <q-item tag="label" dark class="bg-black" dense v-ripple no-refocus>
-        <q-item-section>
-          <q-item-label>Width</q-item-label>
-        </q-item-section>
-        <q-item-section side>
-          <q-input dark dense borderless input-class="text-right" v-model.number="width" type="number" :min="300" />
-        </q-item-section>
-      </q-item>
-      <q-separator />
-      <q-item dark class="bg-purple" dense v-ripple clickable @click="outsideArrows = outsideArrows === false">
-        <q-item-section>
-          <q-item-label>{{ outsideArrows === true ? 'Arrows outside (change to inside)' : 'Arrows inside (change to outside)'}}</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-separator />
-      <q-item dark class="bg-purple" dense v-ripple clickable @click="mobileArrows = mobileArrows === false">
-        <q-item-section>
-          <q-item-label>{{ mobileArrows === true ? 'Arrows visible on mobile (change to invisible)' : 'Arrows invisible on mobile (change to visible)'}}</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-separator />
-      <q-item dark class="bg-primary" dense v-ripple clickable @click="toggleAll">
-        <q-item-section>
-          <q-item-label>Toggle all</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
-        <q-item-section side>
-          <q-checkbox :value="item.selected" @input="status => { setTabSelected(item.tab, status) }" />
-        </q-item-section>
+  <div class="q-pa-md column q-gutter-y-md">
+    <q-card class="q-ma-md" :style="{ maxWidth: width + 'px' }">
+      <q-list>
+        <q-item tag="label" dark class="bg-black" dense v-ripple no-refocus>
+          <q-item-section>
+            <q-item-label>Width</q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-input dark dense borderless input-class="text-right" v-model.number="width" type="number" :min="300" />
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item dark class="bg-purple" dense v-ripple clickable @click="outsideArrows = outsideArrows === false">
+          <q-item-section>
+            <q-item-label>{{ outsideArrows === true ? 'Arrows outside (change to inside)' : 'Arrows inside (change to outside)'}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item dark class="bg-purple" dense v-ripple clickable @click="mobileArrows = mobileArrows === false">
+          <q-item-section>
+            <q-item-label>{{ mobileArrows === true ? 'Arrows visible on mobile (change to invisible)' : 'Arrows invisible on mobile (change to visible)'}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item dark class="bg-primary" dense v-ripple clickable @click="toggleAll">
+          <q-item-section>
+            <q-item-label>Toggle all</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
+          <q-item-section side>
+            <q-checkbox :value="item.selected" @input="status => { setTabSelected(item.tab, status) }" />
+          </q-item-section>
 
-        <q-item-section>
-          <q-item-label>{{ item.tab.label }}</q-item-label>
-        </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ item.tab.label }}</q-item-label>
+          </q-item-section>
 
-        <q-item-section side>
-          <q-icon :name="item.tab.icon" />
-        </q-item-section>
-      </q-item>
-    </q-list>
+          <q-item-section side>
+            <q-icon :name="item.tab.icon" />
+          </q-item-section>
+        </q-item>
+      </q-list>
 
-    <q-card-actions class="bg-black">
-      <q-toolbar class="bg-purple text-white">
-        <q-btn flat label="Homepage" />
-        <q-space />
+      <q-card-actions class="bg-black">
+        <q-toolbar class="bg-purple text-white">
+          <q-btn flat label="Homepage" />
+          <q-space />
 
-        <!--
-          notice shrink property since we are placing it
-          as child of QToolbar
-        -->
+          <!--
+            notice shrink property since we are placing it
+            as child of QToolbar
+          -->
+          <q-tabs
+            v-model="tab"
+            inline-label
+            shrink
+            stretch
+            :outside-arrows="outsideArrows"
+            :mobile-arrows="mobileArrows"
+          >
+            <q-tab v-for="t in tabs" :key="t.name" v-bind="t" />
+          </q-tabs>
+        </q-toolbar>
+      </q-card-actions>
+
+      <q-card-actions class="bg-black">
         <q-tabs
+          class="bg-primary text-white full-width"
           v-model="tab"
           inline-label
           shrink
@@ -61,23 +77,39 @@
         >
           <q-tab v-for="t in tabs" :key="t.name" v-bind="t" />
         </q-tabs>
-      </q-toolbar>
-    </q-card-actions>
+      </q-card-actions>
+    </q-card>
 
-    <q-card-actions class="bg-black">
-      <q-tabs
-        class="bg-primary text-white full-width"
-        v-model="tab"
-        inline-label
-        shrink
-        stretch
-        :outside-arrows="outsideArrows"
-        :mobile-arrows="mobileArrows"
-      >
-        <q-tab v-for="t in tabs" :key="t.name" v-bind="t" />
+    <q-card class="q-ma-md" style="max-width: 300px">
+      <q-card-section v-if="isHidden">
+        Tabs bar hidden - navigate to first / last to show
+      </q-card-section>
+
+      <q-tabs v-else v-model="tab2">
+        <q-tab name="first" icon="mail" label="First"></q-tab>
+        <q-tab name="mails" icon="mail" label="Mails"></q-tab>
+        <q-tab name="alarms" icon="alarm" label="Alarms"></q-tab>
+        <q-tab name="movies" icon="movie" label="Movies"></q-tab>
+        <q-tab name="alarms-2" icon="alarm" label="Long Long Long Alarms 2"></q-tab>
+        <q-tab name="alarms-3" icon="alarm" label="Long Long Long Alarms 3"></q-tab>
+        <q-tab name="alarms-4" icon="alarm" label="Long Long Long Alarms 4"></q-tab>
+        <q-tab name="alarms-5" icon="alarm" label="Long Long Long Alarms 5"></q-tab>
+        <q-tab name="alarms-6" icon="alarm" label="Long Long Long Alarms 6"></q-tab>
+        <q-tab name="alarms-7" icon="alarm" label="Long Long Long Alarms 7"></q-tab>
+        <q-tab name="alarms-8" icon="alarm" label="Long Long Long Alarms 8"></q-tab>
+        <q-tab name="alarms-9" icon="alarm" label="Long Long Long Alarms 9"></q-tab>
+        <q-tab name="last" icon="mail" label="Last"></q-tab>
       </q-tabs>
-    </q-card-actions>
-  </q-card>
+
+      <q-separator spaced />
+
+      <q-card-actions>
+        <q-btn flat label="To First" color="primary" @click="toFirst" />
+        <q-btn flat label="To Last" color="primary" @click="toLast" />
+        <q-btn flat label="Hide" color="negative" @click="hide" />
+      </q-card-actions>
+    </q-card>
+  </div>
 </template>
 
 <script>
@@ -97,7 +129,10 @@ export default {
       width: 300,
       mobileArrows: false,
       outsideArrows: false,
-      tabs: allTabs.slice(0, 1)
+      tabs: allTabs.slice(),
+
+      tab2: 'first',
+      isHidden: false
     }
   },
 
@@ -131,6 +166,20 @@ export default {
       else {
         this.tabs = this.allTabs.map(t => t.tab)
       }
+    },
+
+    toFirst: function () {
+      this.isHidden = false
+      this.tab2 = 'first'
+    },
+
+    toLast: function () {
+      this.isHidden = false
+      this.tab2 = 'last'
+    },
+
+    hide: function () {
+      this.isHidden = true
     }
   }
 }

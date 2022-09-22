@@ -460,7 +460,12 @@ export default Vue.extend({
     },
 
     __scrollTowards (value) {
-      const content = this.$refs.content
+      const { content } = this.$refs
+
+      if (content === void 0) {
+        return true
+      }
+
       const max = this.vertical === true ? content.scrollHeight - content.offsetHeight : content.scrollWidth - content.offsetWidth
 
       let pos = this.__getScrollPosition(content)
