@@ -1193,7 +1193,7 @@ const utils = [
     path: 'scrolling-utils'
   },
   {
-    name: 'Type Checking Utils (<is>)',
+    name: 'Type Checking Utils',
     badge: 'new',
     path: 'type-checking-utils'
   },
