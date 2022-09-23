@@ -11,6 +11,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
+import useSplitAttrs from '../../composables/private/use-split-attrs.js'
 
 const { passiveCapture } = listenOpts
 
@@ -31,8 +32,8 @@ export default createComponent({
 
   emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
 
-  setup (props, { slots, emit }) {
-    const { proxy } = getCurrentInstance()
+  setup (props, { slots, emit, attrs }) {
+    const { proxy, vnode } = getCurrentInstance()
 
     const {
       classes, style, innerClasses,
@@ -40,6 +41,7 @@ export default createComponent({
       hasRouterLink, hasLink, linkTag, navigateToRouterLink,
       isActionable
     } = useBtn(props)
+    const { listeners } = useSplitAttrs(attrs, vnode)
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
@@ -84,7 +86,7 @@ export default createComponent({
           onClick,
           onKeydown,
           onMousedown,
-          onTouchstart
+          [ listeners.value.onTouchstart !== void 0 ? 'onTouchstart' : 'onTouchstartPassive' ]: onTouchstart
         }
       }
 
