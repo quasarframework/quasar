@@ -31,6 +31,8 @@ export default Vue.extend({
     iconHalf: [String, Array],
     iconSelected: [String, Array],
 
+    iconAriaLabel: [String, Array],
+
     color: [String, Array],
     colorHalf: [String, Array],
     colorSelected: [String, Array],
@@ -85,11 +87,30 @@ export default Vue.extend({
       }
     },
 
+    iconLabel () {
+      if (typeof this.iconAriaLabel === 'string') {
+        const label = this.iconAriaLabel.length > 0 ? `${this.iconAriaLabel} ` : ''
+
+        return i => `${label}${i}`
+      }
+
+      if (Array.isArray(this.iconAriaLabel) === true) {
+        const iMax = this.iconAriaLabel.length
+
+        if (iMax > 0) {
+          return i => this.iconAriaLabel[Math.min(i, iMax) - 1]
+        }
+      }
+
+      return (i, label) => `${label} ${i}`
+    },
+
     stars () {
       const
         acc = [],
         icons = this.iconData,
-        ceil = Math.ceil(this.value)
+        ceil = Math.ceil(this.value),
+        tabindex = this.editable === true ? 0 : null
 
       const halfIndex = this.iconHalf === void 0 || ceil === this.value
         ? -1
@@ -106,10 +127,8 @@ export default Vue.extend({
               icons.selColor !== void 0 && active === true
                 ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
                 : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
-            )
-
-        acc.push({
-          name: (
+            ),
+          name = (
             half === true
               ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
               : (
@@ -117,7 +136,17 @@ export default Vue.extend({
                   ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
                   : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
               )
-          ) || this.$q.iconSet.rating.icon,
+          ) || this.$q.iconSet.rating.icon
+
+        acc.push({
+          name,
+
+          attrs: {
+            tabindex,
+            role: 'radio',
+            'aria-checked': this.value === i ? 'true' : 'false',
+            'aria-label': this.iconLabel(i, name)
+          },
 
           classes: 'q-rating__icon' +
             (active === true || half === true ? ' q-rating__icon--active' : '') +
@@ -131,12 +160,16 @@ export default Vue.extend({
     },
 
     attrs () {
+      const attrs = {
+        role: 'radiogroup'
+      }
       if (this.disable === true) {
-        return { 'aria-disabled': 'true' }
+        attrs[ 'aria-disabled' ] = 'true'
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': 'true' }
+        attrs[ 'aria-readonly' ] = 'true'
       }
+      return attrs
     }
   },
 
@@ -181,11 +214,9 @@ export default Vue.extend({
   },
 
   render (h) {
-    const
-      child = [],
-      tabindex = this.editable === true ? 0 : null
+    const child = []
 
-    this.stars.forEach(({ classes, name }, index) => {
+    this.stars.forEach(({ classes, name, attrs }, index) => {
       const i = index + 1
 
       child.push(
@@ -193,7 +224,7 @@ export default Vue.extend({
           key: i,
           ref: `rt${i}`,
           class: 'q-rating__icon-container flex flex-center',
-          attrs: { tabindex },
+          attrs,
           on: cache(this, 'i#' + i, {
             click: () => { this.__set(i) },
             mouseover: () => { this.__setHoverValue(i) },
