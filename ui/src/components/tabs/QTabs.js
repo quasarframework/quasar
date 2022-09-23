@@ -102,6 +102,7 @@ export default Vue.extend({
       tabs: {
         current: this.value,
         hasFocus: false,
+        hasCurrent: false,
         activeClass: this.activeClass,
         activeColor: this.activeColor,
         activeBgColor: this.activeBgColor,
@@ -278,7 +279,7 @@ export default Vue.extend({
 
   methods: {
     __onFocusin (e) {
-      this.tabs.hasFocus = true
+      this.tabs.hasFocus = e.target && typeof e.target.closest === 'function' && this.$el.contains(e.target.closest('.q-tab'))
       this.qListeners.focusin !== void 0 && this.$emit('focusin', e)
     },
 
@@ -287,12 +288,28 @@ export default Vue.extend({
       this.qListeners.focusout !== void 0 && this.$emit('focusout', e)
     },
 
+    __setCurrent (name) {
+      const newTabSelected = this.tabs.current !== name
+      newTabSelected === true && (this.tabs.current = name)
+
+      const curTabEl = this.$el.querySelector(`.q-tab[data-tab-name="${btoa(name)}"]`)
+      if (curTabEl === null) {
+        this.tabs.hasCurrent = false
+      }
+      else if (newTabSelected === true || this.tabs.hasCurrent !== true) {
+        this.$nextTick(() => {
+          this.__scrollToTab(curTabEl, void 0, true)
+        })
+        this.tabs.hasCurrent = true
+      }
+    },
+
     __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
         skipEmit !== true && this.$emit('input', name)
         if (setCurrent === true || this.qListeners.input === void 0) {
           this.__animate(this.tabs.current, name)
-          this.tabs.current = name
+          this.__setCurrent(name)
         }
       }
     },
@@ -331,6 +348,8 @@ export default Vue.extend({
     },
 
     __recalculateScroll () {
+      this.__setCurrent(this.tabs.current)
+
       this.__nextTick(() => {
         this._isDestroyed !== true && this.__updateContainer({
           width: this.$el.offsetWidth,
@@ -407,7 +426,9 @@ export default Vue.extend({
       }
 
       if (newTab && this.scrollable === true) {
-        this.__scrollToTab(newTab.$el, void 0, true)
+        this.$nextTick(() => {
+          this.__scrollToTab(newTab.$el, void 0, true)
+        })
       }
       else {
         this.__updateArrows()
@@ -475,7 +496,7 @@ export default Vue.extend({
 
       const direction = value < pos ? -1 : 1
 
-      pos += direction * 5
+      pos += direction * Math.max(5, Math.abs(value - pos) / 16)
 
       if (
         (direction === -1 && pos <= value) ||
@@ -492,11 +513,12 @@ export default Vue.extend({
     },
 
     __scrollToTab (tab, alignEnd, skipFocus) {
-      if (this.$refs.content === void 0) {
+      const { content } = this.$refs
+
+      if (content === void 0) {
         return
       }
 
-      const content = this.$refs.content
       const startContent = this.__getScrollPosition(content)
       const sizeContent = this.vertical === true ? content.offsetHeight : content.offsetWidth
       const sizeScroll = this.vertical === true ? content.scrollHeight : content.scrollWidth
@@ -553,7 +575,9 @@ export default Vue.extend({
           return false
         }
 
-        this.__scrollToTab(tabs[0], false)
+        this.$nextTick(() => {
+          this.__scrollToTab(tabs[0], false)
+        })
         this.__recalculateScroll()
 
         return true
@@ -563,7 +587,9 @@ export default Vue.extend({
           return false
         }
 
-        this.__scrollToTab(tabs[tabsLength - 1], true)
+        this.$nextTick(() => {
+          this.__scrollToTab(tabs[tabsLength - 1], true)
+        })
         this.__recalculateScroll()
 
         return true
@@ -587,7 +613,9 @@ export default Vue.extend({
           return false
         }
 
-        this.__scrollToTab(tabs[index], dir === rtlDir)
+        this.$nextTick(() => {
+          this.__scrollToTab(tabs[index], dir === rtlDir)
+        })
         this.__recalculateScroll()
 
         return true
@@ -642,10 +670,10 @@ export default Vue.extend({
         props: { name: this.arrowIcons.start },
         on: cache(this, 'onS', {
           mousedown: this.__scrollToStart,
-          touchstart: this.__scrollToStart,
+          '&touchstart': this.__scrollToStart,
           mouseup: this.__stopAnimScroll,
           mouseleave: this.__stopAnimScroll,
-          touchend: this.__stopAnimScroll
+          '&touchend': this.__stopAnimScroll
         })
       }),
 
@@ -655,10 +683,10 @@ export default Vue.extend({
         props: { name: this.arrowIcons.end },
         on: cache(this, 'onE', {
           mousedown: this.__scrollToEnd,
-          touchstart: this.__scrollToEnd,
+          '&touchstart': this.__scrollToEnd,
           mouseup: this.__stopAnimScroll,
           mouseleave: this.__stopAnimScroll,
-          touchend: this.__stopAnimScroll
+          '&touchend': this.__stopAnimScroll
         })
       })
     )

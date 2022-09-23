@@ -77,7 +77,7 @@ export default Vue.extend({
     },
 
     computedTabIndex () {
-      return this.disable === true || this.tabs.hasFocus === true
+      return this.disable === true || this.tabs.hasFocus === true || (this.isActive !== true && this.tabs.hasCurrent === true)
         ? -1
         : this.tabindex || 0
     },
@@ -110,6 +110,9 @@ export default Vue.extend({
       if (this.disable === true) {
         attrs['aria-disabled'] = 'true'
       }
+      else {
+        attrs['data-tab-name'] = btoa(this.name)
+      }
 
       return attrs
     }
@@ -128,6 +131,8 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
+      this.qListeners.keydown !== void 0 && this.$emit('keydown', e)
+
       if (shouldIgnoreKey(e)) {
         return
       }
