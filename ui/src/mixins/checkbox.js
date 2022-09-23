@@ -194,7 +194,8 @@ export default {
       h('div', {
         staticClass: `q-${this.type}__inner relative-position non-selectable`,
         class: this.innerClass,
-        style: this.sizeStyle
+        style: this.sizeStyle,
+        attrs: { 'aria-hidden': 'true' }
       }, inner)
     ]
 
