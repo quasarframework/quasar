@@ -145,7 +145,7 @@ export default {
 
     client.has.touch === true && addEvt(ctx, 'main', [
       [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
-      [ el, 'touchend', 'noop', 'notPassiveCapture' ]
+      [ el, 'touchend', 'noop', 'passiveCapture' ]
     ])
   },
 
