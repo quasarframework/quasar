@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { slot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QSlideTransition',

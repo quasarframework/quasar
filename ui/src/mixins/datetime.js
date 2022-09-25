@@ -1,4 +1,4 @@
-import { toJalaali } from '../utils/date-persian.js'
+import { toJalaali } from '../utils/private/date-persian.js'
 
 import DarkMixin from './dark.js'
 import FormMixin from './form.js'

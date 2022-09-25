@@ -8,8 +8,8 @@ import SizeMixin from '../../mixins/size.js'
 import FormMixin from '../../mixins/form.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import cache from '../../utils/cache.js'
-import { mergeSlot } from '../../utils/slot.js'
+import cache from '../../utils/private/cache.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 
 export default Vue.extend({
   name: 'QRating',

@@ -1,4 +1,4 @@
-import { isSSR } from '../plugins/Platform.js'
+import { isSSR } from '../../plugins/Platform.js'
 
 export default function cache (vm, key, obj) {
   if (isSSR === true) return obj

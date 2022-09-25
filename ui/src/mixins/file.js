@@ -1,5 +1,5 @@
 import { stop, stopAndPrevent } from '../utils/event.js'
-import cache from '../utils/cache.js'
+import cache from '../utils/private/cache.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
   const acceptedFiles = []

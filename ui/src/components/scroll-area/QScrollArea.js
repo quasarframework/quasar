@@ -7,8 +7,8 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { setVerticalScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { mergeSlot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 import debounce from '../../utils/debounce.js'
 
 import DarkMixin from '../../mixins/dark.js'

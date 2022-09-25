@@ -9,10 +9,10 @@ import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 import AttrsMixin, { iconAsButton } from '../../mixins/attrs.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import { addFocusFn, removeFocusFn } from '../../utils/focus-manager.js'
+import { addFocusFn, removeFocusFn } from '../../utils/private/focus-manager.js'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR } from '../plugins/Platform.js'
+import { isSSR } from '../../plugins/Platform.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,

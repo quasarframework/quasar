@@ -8,7 +8,7 @@ import FileMixin, { FileValueMixin } from '../../mixins/file.js'
 
 import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 import { prevent } from '../../utils/event.js'
 
 export default Vue.extend({

@@ -12,8 +12,8 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { slot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 import uid from '../../utils/uid.js'
 
 const eventName = 'q:expansion-item:close'

@@ -5,9 +5,9 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from '../../mixins/btn.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 const { passiveCapture } = listenOpts
 

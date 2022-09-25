@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { mergeSlotSafely } from '../../utils/slot.js'
+import { mergeSlotSafely } from '../../utils/private/slot.js'
 
 export default Vue.extend({
   name: 'QAvatar',

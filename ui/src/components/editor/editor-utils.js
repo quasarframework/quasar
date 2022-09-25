@@ -7,8 +7,8 @@ import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
 import { prevent, stop } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { slot } from '../../utils/private/slot.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {

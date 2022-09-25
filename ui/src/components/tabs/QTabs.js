@@ -7,8 +7,8 @@ import TimeoutMixin from '../../mixins/timeout.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop, noop } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { slot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 import { rtlHasScrollBug } from '../../utils/scroll.js'
 
 function getIndicatorClass (color, top, vertical) {

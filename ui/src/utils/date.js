@@ -2,7 +2,7 @@
 
 import { isDate } from './is.js'
 import { pad, capitalize } from './format.js'
-import { jalaaliMonthLength } from './date-persian.js'
+import { jalaaliMonthLength } from './private/date-persian.js'
 import lang, { defaultLang } from '../lang.js'
 
 const

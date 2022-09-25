@@ -9,7 +9,7 @@ import CompositionMixin from '../../mixins/composition.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
-import { addFocusFn } from '../../utils/focus-manager.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 export default Vue.extend({
   name: 'QInput',

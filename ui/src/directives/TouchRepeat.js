@@ -1,7 +1,7 @@
 import { client } from '../plugins/Platform.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
-import { clearSelection } from '../utils/selection.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { clearSelection } from '../utils/private/selection.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
 
 const
   keyCodes = {

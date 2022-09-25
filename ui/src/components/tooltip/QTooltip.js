@@ -7,11 +7,11 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { addEvt, cleanEvt } from '../../utils/event.js'
-import { clearSelection } from '../../utils/selection.js'
-import { slot } from '../../utils/slot.js'
+import { clearSelection } from '../../utils/private/selection.js'
+import { slot } from '../../utils/private/slot.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/position-engine.js'
+} from '../../utils/private/position-engine.js'
 
 export default Vue.extend({
   name: 'QTooltip',

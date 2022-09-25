@@ -5,13 +5,13 @@ import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
 import event, { noop } from './utils/event.js'
-import is from './utils/is.js'
 import exportFile from './utils/export-file.js'
 import extend from './utils/extend.js'
 import format from './utils/format.js'
 import frameDebounce from './utils/frame-debounce.js'
-import openURL from './utils/open-url.js'
+import is from './utils/is.js'
 import morph from './utils/morph.js'
+import openURL from './utils/open-url.js'
 import patterns from './utils/patterns.js'
 import runSequentialPromises from './utils/run-sequential-promises.js'
 import scroll from './utils/scroll.js'
@@ -26,14 +26,14 @@ export {
   debounce,
   dom,
   event,
+  noop,
   exportFile,
   extend,
   format,
   frameDebounce,
-  noop,
   is,
-  openURL,
   morph,
+  openURL,
   patterns,
   runSequentialPromises,
   scroll,

@@ -7,8 +7,8 @@ import FabMixin from '../../mixins/fab.js'
 import AttrsMixin from '../../mixins/attrs.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { slot, mergeSlot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 import uid from '../../utils/uid.js'
 
 const directions = ['up', 'right', 'down', 'left']

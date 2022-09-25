@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 import AttrsMixin from '../../mixins/attrs.js'
 import ListenersMixin from '../../mixins/listeners.js'
 

@@ -1,6 +1,6 @@
 import { setBrand } from './utils/colors.js'
 import { noop } from './utils/event.js'
-import { onKeyDownComposition } from './utils/key-composition.js'
+import { onKeyDownComposition } from './utils/private/key-composition.js'
 import { isSSR, fromSSR, client, iosCorrection } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {

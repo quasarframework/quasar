@@ -8,8 +8,8 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { isKeyCode } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QPagination',

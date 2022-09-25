@@ -8,8 +8,8 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { mergeSlot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QLayout',

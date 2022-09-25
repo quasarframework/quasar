@@ -7,7 +7,7 @@ import QToggle from '../toggle/QToggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 const components = {
   radio: QRadio,

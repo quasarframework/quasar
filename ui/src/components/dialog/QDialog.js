@@ -7,11 +7,11 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import AttrsMixin, { ariaHidden } from '../../mixins/attrs.js'
 
 import { childHasFocus } from '../../utils/dom.js'
-import EscapeKey from '../../utils/escape-key.js'
-import { slot } from '../../utils/slot.js'
+import EscapeKey from '../../utils/private/escape-key.js'
+import { slot } from '../../utils/private/slot.js'
 import { create, stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
-import { addFocusFn } from '../../utils/focus-manager.js'
+import cache from '../../utils/private/cache.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { client } from '../../plugins/Platform.js'
 
 let maximizedModals = 0

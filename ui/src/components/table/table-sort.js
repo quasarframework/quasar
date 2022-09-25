@@ -1,4 +1,4 @@
-import { sortDate } from '../../utils/sort.js'
+import { sortDate } from '../../utils/private/sort.js'
 import { isNumber, isDate, isObject } from '../../utils/is.js'
 
 export default {

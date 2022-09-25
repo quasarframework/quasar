@@ -6,8 +6,8 @@ import RippleMixin from '../../mixins/ripple.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import { mergeSlot } from '../../utils/slot.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { mergeSlot } from '../../utils/private/slot.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 let uid = 0
 

@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 import SizeMixin from '../../mixins/size.js'
-import { mergeSlotSafely } from '../../utils/slot.js'
+import { mergeSlotSafely } from '../../utils/private/slot.js'
 import { between } from '../../utils/format.js'
 
 const

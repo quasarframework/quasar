@@ -5,9 +5,9 @@ import StepHeader from './StepHeader.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/private/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QStepper',

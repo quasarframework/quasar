@@ -4,7 +4,7 @@ import SizeMixin from '../../mixins/size.js'
 import TagMixin from '../../mixins/tag.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/private/slot.js'
 
 const defaultViewBox = '0 0 24 24'
 

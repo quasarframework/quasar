@@ -1,5 +1,5 @@
 import { isSSR, client } from './Platform.js'
-import { getEmptyStorage, getStorage } from '../utils/web-storage.js'
+import { getEmptyStorage, getStorage } from '../utils/private/web-storage.js'
 
 export default {
   install ({ $q }) {

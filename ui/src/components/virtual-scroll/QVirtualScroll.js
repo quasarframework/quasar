@@ -10,7 +10,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 
 const comps = {
   list: QList,

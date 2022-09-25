@@ -5,7 +5,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import AttrsMixin from '../../mixins/attrs.js'
 
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'StepHeader',

@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
-import { clearSelection } from '../utils/selection.js'
+import { clearSelection } from '../utils/private/selection.js'
 
 function destroy (el) {
   const ctx = el.__qtouchhold

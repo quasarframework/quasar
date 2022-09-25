@@ -6,9 +6,9 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QFooter',

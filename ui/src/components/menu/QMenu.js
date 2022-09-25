@@ -11,14 +11,14 @@ import { client } from '../../plugins/Platform.js'
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { create, stop, position, stopAndPreventClick } from '../../utils/event.js'
-import EscapeKey from '../../utils/escape-key.js'
+import EscapeKey from '../../utils/private/escape-key.js'
 
-import { slot } from '../../utils/slot.js'
-import { addFocusFn } from '../../utils/focus-manager.js'
+import { slot } from '../../utils/private/slot.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition
-} from '../../utils/position-engine.js'
+} from '../../utils/private/position-engine.js'
 
 export default Vue.extend({
   name: 'QMenu',

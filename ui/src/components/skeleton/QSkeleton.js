@@ -4,7 +4,7 @@ import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 
 export const skeletonTypes = [
   'text', 'rect', 'circle',

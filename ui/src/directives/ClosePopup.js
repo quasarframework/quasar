@@ -1,5 +1,5 @@
 import { closePortals } from '../mixins/portal.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
 
 /*
  * depth

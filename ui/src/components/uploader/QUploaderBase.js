@@ -10,7 +10,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QUploaderBase',

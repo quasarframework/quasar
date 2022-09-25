@@ -5,9 +5,9 @@ import TagMixin from '../../mixins/tag.js'
 import RouterLinkMixin from '../../mixins/router-link.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { uniqueSlot } from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/private/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 export default Vue.extend({
   name: 'QItem',

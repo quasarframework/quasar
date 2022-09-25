@@ -8,8 +8,8 @@ import FormMixin from '../../mixins/form.js'
 import RefocusTargetMixin from '../../mixins/refocus-target.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot, mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { slot, mergeSlot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QRadio',

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 const disabledValues = [ true, '' ]

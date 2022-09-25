@@ -5,9 +5,9 @@ import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/private/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QSplitter',

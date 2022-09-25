@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot, uniqueSlot } from '../../utils/slot.js'
+import { slot, uniqueSlot } from '../../utils/private/slot.js'
 
 export default Vue.extend({
   name: 'QTh',

@@ -1,7 +1,7 @@
-import { clearSelection } from '../utils/selection.js'
+import { clearSelection } from '../utils/private/selection.js'
 import { addEvt, cleanEvt, prevent, listenOpts } from '../utils/event.js'
 import { getElement } from '../utils/dom.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
 
 export default {
   props: {

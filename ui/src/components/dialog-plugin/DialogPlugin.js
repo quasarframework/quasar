@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
-import { isKeyCode } from '../../utils/key-composition.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
 
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
@@ -19,7 +19,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import DarkMixin from '../../mixins/dark.js'
 import AttrsMixin from '../../mixins/attrs.js'
 
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 import { isObject } from '../../utils/is.js'
 
 export default Vue.extend({

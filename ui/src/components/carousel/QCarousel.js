@@ -7,8 +7,8 @@ import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
-import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { mergeSlot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QCarousel',

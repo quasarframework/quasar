@@ -23,10 +23,6 @@ function lowerCamelCase (name) {
   return name.replace(/-([a-z])/g, g => g[1].toUpperCase())
 }
 
-function isExternalUtil (name) {
-  return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage'].includes(name)
-}
-
 function addComponents (map, autoImport) {
   glob.sync(resolvePath('src/components/**/Q*.js'))
     .map(relative)
@@ -73,9 +69,7 @@ function addUtils (map) {
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
-      if (isExternalUtil(name)) {
-        map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
-      }
+      map[name === 'open-url' ? 'openURL' : lowerCamelCase(name)] = file
     })
 }
 

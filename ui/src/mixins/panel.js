@@ -5,8 +5,8 @@ import TouchSwipe from '../directives/TouchSwipe.js'
 import ListenersMixin from './listeners.js'
 
 import { stop } from '../utils/event.js'
-import { slot } from '../utils/slot.js'
-import cache, { cacheWithFn } from '../utils/cache.js'
+import { slot } from '../utils/private/slot.js'
+import cache, { cacheWithFn } from '../utils/private/cache.js'
 
 function getPanelWrapper (h) {
   return h('div', {

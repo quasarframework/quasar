@@ -1,4 +1,4 @@
-import { getPropCacheMixin } from '../utils/cache.js'
+import { getPropCacheMixin } from '../utils/private/cache.js'
 
 export const ariaHidden = { 'aria-hidden': 'true' }
 

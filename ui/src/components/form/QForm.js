@@ -3,8 +3,8 @@ import Vue from 'vue'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
-import { addFocusFn } from '../../utils/focus-manager.js'
+import { slot } from '../../utils/private/slot.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 export default Vue.extend({
   name: 'QForm',

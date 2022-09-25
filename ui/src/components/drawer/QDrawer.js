@@ -8,8 +8,8 @@ import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { slot } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150

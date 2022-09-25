@@ -7,9 +7,9 @@ import AttrsMixin from '../../mixins/attrs.js'
 
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
-import { slot } from '../../utils/slot.js'
-import { isKeyCode } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
+import { slot } from '../../utils/private/slot.js'
+import { isKeyCode } from '../../utils/private/key-composition.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QPopupEdit',

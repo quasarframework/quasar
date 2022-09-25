@@ -3,7 +3,7 @@ import Vue from 'vue'
 import RatioMixin from '../../mixins/ratio.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 
 export default Vue.extend({
   name: 'QResponsive',

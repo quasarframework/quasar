@@ -3,11 +3,11 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
-import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
-import cache from '../../utils/cache.js'
+import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
+import cache from '../../utils/private/cache.js'
 import { isObject } from '../../utils/is.js'
 
 const yearsInterval = 20

@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
-import cache from '../utils/cache.js'
+import cache from '../utils/private/cache.js'
 import { isObject } from '../utils/is.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 

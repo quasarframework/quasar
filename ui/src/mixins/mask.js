@@ -1,4 +1,4 @@
-import { shouldIgnoreKey } from '../utils/key-composition.js'
+import { shouldIgnoreKey } from '../utils/private/key-composition.js'
 
 // leave NAMED_MASKS at top of file (code referenced from docs)
 const NAMED_MASKS = {

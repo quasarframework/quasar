@@ -4,7 +4,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { getSizeMixin } from '../../mixins/size.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 
 function width (val, reverse, $q) {
   return {

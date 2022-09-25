@@ -7,7 +7,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/private/slot.js'
 
 export default Vue.extend({
   name: 'QBtnToggle',

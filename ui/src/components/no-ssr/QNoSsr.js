@@ -4,7 +4,7 @@ import CanRenderMixin from '../../mixins/can-render.js'
 import TagMixin from '../../mixins/tag.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 
 export default Vue.extend({
   name: 'QNoSsr',

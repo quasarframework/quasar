@@ -1,5 +1,5 @@
-import { noop } from '../utils/event.js'
-import { isDate, isRegexp } from '../utils/is.js'
+import { noop } from '../event.js'
+import { isDate, isRegexp } from '../is.js'
 
 function encode (value) {
   if (isDate(value) === true) {

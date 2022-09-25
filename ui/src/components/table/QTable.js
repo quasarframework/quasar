@@ -21,7 +21,7 @@ import RowExpand from './table-row-expand.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })

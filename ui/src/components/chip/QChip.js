@@ -7,8 +7,8 @@ import RippleMixin from '../../mixins/ripple.js'
 import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { mergeSlotSafely } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { mergeSlotSafely } from '../../utils/private/slot.js'
+import cache from '../../utils/private/cache.js'
 
 export default Vue.extend({
   name: 'QChip',

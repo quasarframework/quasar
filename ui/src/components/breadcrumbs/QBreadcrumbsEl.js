@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 import ListenersMixin from '../../mixins/listeners.js'
 import RouterLinkMixin from '../../mixins/router-link.js'
 

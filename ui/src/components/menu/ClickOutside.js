@@ -1,6 +1,6 @@
 import { client } from '../../plugins/Platform.js'
 import { listenOpts } from '../../utils/event.js'
-import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
+import { getVmOfNode, isVmChildOf } from '../../utils/private/vm.js'
 
 let timer
 

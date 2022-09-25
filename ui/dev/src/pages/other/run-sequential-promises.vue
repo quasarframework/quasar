@@ -106,7 +106,6 @@ export default {
       })
 
       runFn((result, success) => {
-        console.log(result)
         Object.assign(this.testList[ index ], {
           icon: success ? 'done' : 'cancel',
           outcome: success ? 'as expected' : 'FAIL',

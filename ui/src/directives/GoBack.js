@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { isKeyCode } from '../utils/key-composition.js'
+import { isKeyCode } from '../utils/private/key-composition.js'
 
 function destroy (el) {
   const ctx = el.__qgoback

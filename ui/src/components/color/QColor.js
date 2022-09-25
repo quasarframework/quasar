@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 import { stop } from '../../utils/event.js'
 import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 

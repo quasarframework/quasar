@@ -3,11 +3,11 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
 export default Vue.extend({

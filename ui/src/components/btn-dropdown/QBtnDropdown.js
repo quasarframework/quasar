@@ -8,9 +8,9 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot } from '../../utils/private/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
+import cache from '../../utils/private/cache.js'
 import uid from '../../utils/uid.js'
 
 export default Vue.extend({

@@ -7,8 +7,8 @@ import QSpinner from '../spinner/QSpinner.js'
 import DarkMixin from '../../mixins/dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import { shouldIgnoreKey } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
+import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import cache from '../../utils/private/cache.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 

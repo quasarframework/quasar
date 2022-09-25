@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
-import { addFocusWaitFlag, removeFocusWaitFlag } from '../utils/focus-manager.js'
+import { addFocusWaitFlag, removeFocusWaitFlag } from '../utils/private/focus-manager.js'
 import debounce from '../utils/debounce.js'
 
 export function closePortalMenus (vm, evt) {

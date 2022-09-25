@@ -6,7 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import FabMixin from '../../mixins/fab.js'
 
 import { noop } from '../../utils/event.js'
-import { mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/private/slot.js'
 
 const anchorMap = {
   start: 'self-end',

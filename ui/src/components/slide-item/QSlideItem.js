@@ -5,8 +5,8 @@ import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { slot } from '../../utils/slot.js'
-import { cacheWithFn } from '../../utils/cache.js'
+import { slot } from '../../utils/private/slot.js'
+import { cacheWithFn } from '../../utils/private/cache.js'
 
 const slotsDef = [
   ['left', 'center', 'start', 'width'],
