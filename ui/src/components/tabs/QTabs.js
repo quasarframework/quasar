@@ -610,22 +610,22 @@ export default createComponent({
           class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon'
             + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
-          onMousedown: scrollToStart,
+          onMousedownPassive: scrollToStart,
           onTouchstartPassive: scrollToStart,
-          onMouseup: stopAnimScroll,
-          onMouseleave: stopAnimScroll,
-          onTouchend: stopAnimScroll
+          onMouseupPassive: stopAnimScroll,
+          onMouseleavePassive: stopAnimScroll,
+          onTouchendPassive: stopAnimScroll
         }),
 
         h(QIcon, {
           class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon'
             + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
-          onMousedown: scrollToEnd,
+          onMousedownPassive: scrollToEnd,
           onTouchstartPassive: scrollToEnd,
-          onMouseup: stopAnimScroll,
-          onMouseleave: stopAnimScroll,
-          onTouchend: stopAnimScroll
+          onMouseupPassive: stopAnimScroll,
+          onMouseleavePassive: stopAnimScroll,
+          onTouchendPassive: stopAnimScroll
         })
       )
 

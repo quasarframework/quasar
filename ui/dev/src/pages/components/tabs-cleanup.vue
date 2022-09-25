@@ -5,6 +5,7 @@
       <q-btn label="To Last" color="primary" @click="toLast" />
       <q-btn label="To Far Away" color="warning" @click="toFarAway" />
       <q-btn label="To first and navigate away" color="primary" @click="changeTabAndNavigateAway" />
+      <q-btn label="Navigate away in 1.5s" color="primary" @click="navigateAwayWithDelay" />
     </div>
 
     <div v-if="isFarAway" class="q-ma-md">
@@ -15,7 +16,7 @@
       class="q-gutter-y-md"
       style="max-width: 600px"
     >
-      <q-tabs v-model="tab">
+      <q-tabs v-model="tab" mobile-arrows>
         <q-tab name="first" icon="mail" label="First" />
         <q-tab name="mails" icon="mail" label="Mails" />
         <q-tab name="alarms" icon="alarm" label="Alarms" />
@@ -61,7 +62,15 @@ export default {
 
     changeTabAndNavigateAway () {
       this.toFirst()
-      this.$router.push('/')
+      this.$nextTick(() => {
+        this.$router.push('/')
+      })
+    },
+
+    navigateAwayWithDelay () {
+      setTimeout(() => {
+        this.$router.push('/')
+      }, 1500)
     }
   }
 }
