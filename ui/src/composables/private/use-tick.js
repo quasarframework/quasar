@@ -30,8 +30,9 @@ export default function () {
         // got to trigger one nextTick() we cannot stop it
         if (vmIsDestroyed(vm) === false && tickFn === fn) {
           tickFn()
-          tickFn = void 0
         }
+
+        tickFn = void 0
       })
     }
   }
