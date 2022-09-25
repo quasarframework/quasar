@@ -69,7 +69,7 @@
         "Rating",
         "[\"Bad\", \"Normal\", \"Good\"]"
       ],
-      "category": "content",
+      "category": "accessibility",
       "addedIn": "v1.20.3"
     },
 
