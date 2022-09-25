@@ -37,7 +37,7 @@
       "type": "String",
       "desc": "aria-label to be used on the expansion toggle element",
       "examples": [ "Open details" ],
-      "category": "content",
+      "category": "accessibility",
       "addedIn": "v2.8.4"
     },
 
