@@ -210,12 +210,10 @@ export default function (props, slots, emit, routerProps) {
 
   onBeforeUnmount(() => {
     $tabs.unregisterTab(tabData)
-    $tabs.recalculateScroll()
   })
 
   onMounted(() => {
     $tabs.registerTab(tabData)
-    $tabs.recalculateScroll()
   })
 
   function renderTab (tag, customData) {

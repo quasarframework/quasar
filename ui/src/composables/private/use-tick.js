@@ -28,11 +28,10 @@ export default function () {
       nextTick(() => {
         // we also check if VM is destroyed, since if it
         // got to trigger one nextTick() we cannot stop it
-        if (vmIsDestroyed(vm) === false && tickFn === fn) {
-          tickFn()
+        if (tickFn === fn) {
+          vmIsDestroyed(vm) === false && tickFn()
+          tickFn = void 0
         }
-
-        tickFn = void 0
       })
     }
   }

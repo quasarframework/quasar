@@ -520,6 +520,7 @@ export default createComponent({
 
     function registerTab (getTab) {
       tabList.push(getTab)
+      recalculateScroll()
 
       if (getRouteList().length !== 0) {
         watchRoute()
@@ -549,6 +550,7 @@ export default createComponent({
      */
     function unregisterTab (tabData) {
       tabList.splice(tabList.indexOf(tabData), 1)
+      recalculateScroll()
 
       if (unwatchRoute !== void 0) {
         getRouteList().length === 0 && unwatchRoute()
@@ -566,7 +568,6 @@ export default createComponent({
 
       verifyRouteModel,
       updateModel,
-      recalculateScroll,
       onKbdNavigate,
 
       avoidRouteWatcher: false
