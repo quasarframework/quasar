@@ -135,7 +135,7 @@ export default Vue.extend({
         h('svg', {
           key: 'svg',
           staticClass: 'q-radio__bg absolute non-selectable',
-          attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
+          attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24' }
         }, [
           h('path', {
             attrs: {
@@ -162,7 +162,8 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-radio__inner relative-position',
         class: this.innerClass,
-        style: this.sizeStyle
+        style: this.sizeStyle,
+        attrs: { 'aria-hidden': 'true' }
       }, content)
     ]
 
