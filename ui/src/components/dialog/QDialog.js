@@ -46,6 +46,7 @@ export default Vue.extend({
   props: {
     persistent: Boolean,
     autoClose: Boolean,
+    allowFocusOutside: Boolean,
 
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
@@ -334,6 +335,7 @@ export default Vue.extend({
     __onFocusChange (e) {
       // the focus is not in a vue child component
       if (
+        this.allowFocusOutside !== true &&
         this.__portalIsAccessible === true &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
