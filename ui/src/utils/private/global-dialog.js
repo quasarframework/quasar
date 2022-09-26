@@ -1,4 +1,4 @@
-import { h, ref, nextTick } from 'vue'
+import { h, ref } from 'vue'
 
 import { createChildApp } from '../../install-quasar.js'
 import { createGlobalNode, removeGlobalNode } from './global-nodes.js'
@@ -147,16 +147,10 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
       name: 'QGlobalDialog',
       setup: () => () => h(DialogComponent, {
         ...props,
+        modelValue: true,
         ref: dialogRef,
         onOk,
-        onHide,
-        onVnodeMounted (...args) {
-          if (typeof props.onVnodeMounted === 'function') {
-            props.onVnodeMounted(...args)
-          }
-
-          nextTick(() => applyState('show'))
-        }
+        onHide
       })
     }, parentApp)
 

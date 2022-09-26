@@ -1,4 +1,4 @@
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed } from 'vue'
 
 export const useTransitionProps = {
   transitionShow: {
@@ -18,16 +18,10 @@ export const useTransitionProps = {
 }
 
 export default function (props, showing) {
-  const transitionState = ref(showing.value)
-
-  watch(showing, val => {
-    nextTick(() => { transitionState.value = val })
-  })
-
   // return transition
   return {
     transition: computed(() => 'q-transition--' + (
-      transitionState.value === true ? props.transitionHide : props.transitionShow
+      showing.value !== true ? props.transitionHide : props.transitionShow
     )),
 
     transitionStyle: computed(() => `--q-transition-duration: ${ props.transitionDuration }ms`)

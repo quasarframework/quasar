@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/private/use-timeout.js'
@@ -82,7 +82,6 @@ export default createComponent({
 
     const innerRef = ref(null)
     const showing = ref(false)
-    const transitionState = ref(false)
     const animating = ref(false)
 
     let shakeTimeout, refocusTarget = null, isMaximized, avoidAutoClose
@@ -132,7 +131,7 @@ export default createComponent({
     )
 
     const transition = computed(() => (
-      transitionState.value === true
+      showing.value !== true
         ? transitionHide.value
         : transitionShow.value
     ))
@@ -154,12 +153,6 @@ export default createComponent({
         + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
       attrs.class
     ])
-
-    watch(showing, val => {
-      nextTick(() => {
-        transitionState.value = val
-      })
-    })
 
     watch(() => props.maximized, state => {
       showing.value === true && updateMaximized(state)

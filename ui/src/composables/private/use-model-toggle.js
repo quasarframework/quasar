@@ -1,4 +1,4 @@
-import { watch, nextTick, onMounted, getCurrentInstance } from 'vue'
+import { watch, nextTick, onBeforeMount, getCurrentInstance } from 'vue'
 
 import { vmHasRouter } from '../../utils/private/vm.js'
 
@@ -143,7 +143,7 @@ export default function ({
     })
   }
 
-  processOnMount === true && onMounted(() => {
+  processOnMount === true && onBeforeMount(() => {
     processModelChange(props.modelValue)
   })
 
