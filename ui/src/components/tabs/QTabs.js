@@ -510,7 +510,7 @@ export default createComponent({
 
     function watchRoute () {
       if (unwatchRoute === void 0) {
-        const unwatch = watch(() => vm.proxy.$route, verifyRouteModel)
+        const unwatch = watch(() => vm.proxy.$route.fullPath, verifyRouteModel)
         unwatchRoute = () => {
           unwatch()
           unwatchRoute = void 0
