@@ -26,9 +26,9 @@ export default function () {
       tickFn = fn
 
       nextTick(() => {
-        // we also check if VM is destroyed, since if it
-        // got to trigger one nextTick() we cannot stop it
         if (tickFn === fn) {
+          // we also check if VM is destroyed, since if it
+          // got to trigger one nextTick() we cannot stop it
           vmIsDestroyed(vm) === false && tickFn()
           tickFn = void 0
         }

@@ -80,7 +80,7 @@ export const useBtnProps = {
 export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasRouterLink, hasLink, linkTag, linkProps, navigateToRouterLink } = useRouterLink('button')
+  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateToRouterLink } = useRouterLink('button')
 
   const style = computed(() => {
     const obj = props.fab === false && props.fabMini === false
@@ -123,7 +123,7 @@ export default function (props) {
     const acc = { tabindex: tabIndex.value }
 
     if (hasLink.value === true) {
-      Object.assign(acc, linkProps.value)
+      Object.assign(acc, linkAttrs.value)
     }
     else if (formTypes.includes(props.type) === true) {
       acc.type = props.type
@@ -136,6 +136,7 @@ export default function (props) {
       else if (acc.href === void 0) {
         acc.role = 'button'
       }
+
       if (hasRouterLink.value !== true && mediaTypeRE.test(props.type) === true) {
         acc.type = props.type
       }

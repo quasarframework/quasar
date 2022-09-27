@@ -119,7 +119,7 @@ export default function (fallbackTag) {
   const linkRoute = computed(() => {
     if (hasRouterLinkProps.value === true) {
       try { return proxy.$router.resolve(props.to) }
-      catch (err) {}
+      catch (_) {}
     }
 
     return null
@@ -134,7 +134,7 @@ export default function (fallbackTag) {
       : (props.tag || fallbackTag || 'div')
   ))
 
-  const linkProps = computed(() => (
+  const linkAttrs = computed(() => (
     hasHrefLink.value === true
       ? {
           href: props.href,
@@ -199,7 +199,7 @@ export default function (fallbackTag) {
 
   const linkIsActive = computed(() =>
     hasRouterLink.value === true
-    && linkActiveIndex.value > -1
+    && linkActiveIndex.value !== -1
     && includesParams(proxy.$route.params, linkRoute.value.params)
   )
 
@@ -223,8 +223,9 @@ export default function (fallbackTag) {
       : ''
   ))
 
-  // should match RouterLink from Vue Router
+  // returns false or Promise<void|Error>
   function navigateToRouterLink (e) {
+    // should match RouterLink from Vue Router
     if (
       // component is not disabled
       props.disable === true
@@ -237,7 +238,7 @@ export default function (fallbackTag) {
       || (e.__qNavigate !== true && e.defaultPrevented === true)
 
       // don't redirect on right click
-      || (e.button !== undefined && e.button !== 0)
+      || (e.button !== void 0 && e.button !== 0)
 
       // don't redirect if it should open in a new window
       || props.target === '_blank'
@@ -261,7 +262,7 @@ export default function (fallbackTag) {
     linkIsActive,
     linkIsExactActive,
     linkClass,
-    linkProps,
+    linkAttrs,
 
     navigateToRouterLink
   }

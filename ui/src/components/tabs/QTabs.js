@@ -208,9 +208,7 @@ export default createComponent({
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
-      if (scrollable.value !== scroll) {
-        scrollable.value = scroll
-      }
+      scrollable.value = scroll
 
       // Arrows need to be updated even if the scroll status was already true
       scroll === true && registerUpdateArrowsTick(localUpdateArrows)
@@ -407,7 +405,7 @@ export default createComponent({
     }
 
     function getRouteList () {
-      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasRouterLink.value === true)
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.linkRoute.value !== null)
     }
 
     // do not use directly; use verifyRouteModel() instead
@@ -441,9 +439,7 @@ export default createComponent({
           continue
         }
 
-        const
-          linkRoute = tab.routerProps.linkRoute.value,
-          tabHash = linkRoute.hash
+        const { hash: tabHash, matched, href } = tab.routerProps.linkRoute.value
 
         // Vue Router does not match the hash too, even if link is set to "exact"
         if (exact === true) {
@@ -458,8 +454,8 @@ export default createComponent({
         }
 
         const
-          matchedLen = linkRoute.matched.length,
-          hrefLen = linkRoute.href.length - tabHash.length
+          matchedLen = matched.length,
+          hrefLen = href.length - tabHash.length
 
         if (
           matchedLen === best.matchedLen

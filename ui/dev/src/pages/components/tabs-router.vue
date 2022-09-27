@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-y-md" style="max-width: 600px">
+    <div class="q-gutter-y-md" style="max-width: 800px">
       <q-tabs
         no-caps
         class="bg-orange text-white shadow-2"
@@ -9,6 +9,10 @@
         <q-route-tab :to="{ query: { tab: '2', noScroll: true } }" replace label="Do nothing" @click="navCancel" />
         <q-route-tab :to="{ query: { tab: '3', noScroll: true } }" replace label="Navigate to the second tab" @click="navRedirect" />
         <q-route-tab :to="{ query: { tab: '4', noScroll: true } }" replace label="Navigate immediatelly" @click="navPass" />
+
+        <q-route-tab replace :to="{ query: { tab: '5', noScroll: true } }" label="With button" @click="navPass">
+          <q-btn unelevated :label="`Click (${ clickCounter })`" @click.stop.prevent="onClick" />
+        </q-route-tab>
       </q-tabs>
     </div>
   </div>
@@ -16,6 +20,12 @@
 
 <script>
 export default {
+  data () {
+    return {
+      clickCounter: 0
+    }
+  },
+
   methods: {
     navDelay (e, go) {
       e.preventDefault() // we cancel the default navigation
@@ -31,12 +41,16 @@ export default {
       e.preventDefault() // we cancel the default navigation
     },
 
-    navRedirect (e, go) {
+    navRedirect (e, _go) {
       e.preventDefault() // we cancel the default navigation
-      go({ query: { tab: '2', noScroll: true } })
+      this.$router.push({ query: { tab: '2', noScroll: true } }).catch(() => {})
     },
 
-    navPass () {}
+    navPass () {},
+
+    onClick () {
+      this.clickCounter += 1
+    }
   }
 }
 </script>

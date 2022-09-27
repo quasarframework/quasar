@@ -624,9 +624,9 @@ export default {
       e.preventDefault()
     },
 
-    routeNavChange (e, go) {
+    routeNavChange (e, _go) {
       e.preventDefault()
-      go({ name: 'r.1.1' })
+      this.$router.push({ name: 'r.1.1' }).catch(() => {})
     }
   }
 }
