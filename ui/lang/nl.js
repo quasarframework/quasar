@@ -15,8 +15,8 @@ export default {
     search: 'Zoek',
     filter: 'Filter',
     refresh: 'Ververs',
-    expand: function (label) { return label ? `Vouw "${label}" uit` : 'Uitbreiden' },
-    collapse: function (label) { return label ? `"${label}" samenvouwen` : 'Instorten' }
+    expand: function (label) { return label ? `"${label}" uitklappen` : 'Uitklappen' },
+    collapse: function (label) { return label ? `"${label}" inklappen` : 'Inklappen' }
   },
   date: {
     days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),
