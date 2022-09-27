@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
@@ -16,7 +17,7 @@ import {
 export default Vue.extend({
   name: 'QTooltip',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [ AnchorMixin, TimeoutMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   props: {
     maxHeight: {
@@ -84,7 +85,7 @@ export default Vue.extend({
     __show (evt) {
       this.__showPortal()
 
-      this.__nextTick(() => {
+      this.__registerTick(() => {
         this.observer = new MutationObserver(() => this.updatePosition())
         this.observer.observe(this.__portal.$el, { attributes: false, childList: true, characterData: true, subtree: true })
         this.updatePosition()
@@ -98,17 +99,20 @@ export default Vue.extend({
         )
       }
 
-      this.__setTimeout(() => {
+      // should __removeTimeout() if this gets removed
+      this.__registerTimeout(() => {
         this.__showPortal(true)
         this.$emit('show', evt)
       }, 300)
     },
 
     __hide (evt) {
+      this.__removeTick()
       this.__anchorCleanup()
       this.__hidePortal()
 
-      this.__setTimeout(() => {
+      // should __removeTimeout() if this gets removed
+      this.__registerTimeout(() => {
         this.__hidePortal(true) // done hiding, now destroy
         this.$emit('hide', evt)
       }, 300)
@@ -164,14 +168,10 @@ export default Vue.extend({
         addEvt(this, 'tooltipTemp', evts)
       }
 
-      this.__setTimeout(() => {
-        this.show(evt)
-      }, this.delay)
+      this.__registerTimeout(() => { this.show(evt) }, this.delay)
     },
 
     __delayHide (evt) {
-      this.__clearTimeout()
-
       if (this.$q.platform.is.mobile === true) {
         cleanEvt(this, 'tooltipTemp')
         clearSelection()
@@ -181,9 +181,8 @@ export default Vue.extend({
         }, 10)
       }
 
-      this.__setTimeout(() => {
-        this.hide(evt)
-      }, this.hideDelay)
+      // should __removeTimeout() if this gets removed
+      this.__registerTimeout(() => { this.hide(evt) }, this.hideDelay)
     },
 
     __configureAnchorEl () {
@@ -233,6 +232,11 @@ export default Vue.extend({
         }, slot(this, 'default')) : null
       ])
     }
+  },
+
+  created () {
+    this.__useTick('__registerTick', '__removeTick')
+    this.__useTimeout('__registerTimeout')
   },
 
   mounted () {

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
@@ -38,6 +39,7 @@ export default Vue.extend({
   mixins: [
     AttrsMixin,
     HistoryMixin,
+    TimeoutMixin,
     ModelToggleMixin,
     PortalMixin,
     PreventScrollMixin
@@ -222,10 +224,14 @@ export default Vue.extend({
       if (this.noFocus !== true) {
         // IE can have null document.activeElement
         document.activeElement !== null && document.activeElement.blur()
-        this.__nextTick(this.focus)
+        this.__registerTick(this.focus)
+      }
+      else {
+        this.__removeTick()
       }
 
-      this.__setTimeout(() => {
+      // should __removeTimeout() if this gets removed
+      this.__registerTimeout(() => {
         if (this.$q.platform.is.ios === true) {
           if (this.seamless !== true && document.activeElement) {
             const
@@ -258,6 +264,7 @@ export default Vue.extend({
     },
 
     __hide (evt) {
+      this.__removeTick()
       this.__removeHistory()
       this.__cleanup(true)
       this.__hidePortal()
@@ -271,7 +278,8 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.__setTimeout(() => {
+      // should __removeTimeout() if this gets removed
+      this.__registerTimeout(() => {
         this.__hidePortal(true) // done hiding, now destroy
         this.animating = false
         this.$emit('hide', evt)
@@ -375,6 +383,11 @@ export default Vue.extend({
         ])
       ])
     }
+  },
+
+  created () {
+    this.__useTick('__registerTick', '__removeTick')
+    this.__useTimeout('__registerTimeout')
   },
 
   mounted () {

@@ -1,10 +1,9 @@
 import { isSSR } from '../plugins/Platform.js'
 
-import TimeoutMixin from './timeout.js'
 import ListenersMixin from './listeners.js'
 
 export default {
-  mixins: [ TimeoutMixin, ListenersMixin ],
+  mixins: [ ListenersMixin ],
 
   props: {
     value: {
@@ -35,7 +34,10 @@ export default {
     },
 
     show (evt) {
-      if (this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
+      if (
+        this.disable === true ||
+        (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)
+      ) {
         return
       }
 
@@ -68,9 +70,7 @@ export default {
       this.$emit('before-show', evt)
 
       if (this.__show !== void 0) {
-        this.__clearTick()
         this.__show(evt)
-        this.__prepareTick()
       }
       else {
         this.$emit('show', evt)
@@ -106,9 +106,7 @@ export default {
       this.$emit('before-hide', evt)
 
       if (this.__hide !== void 0) {
-        this.__clearTick()
         this.__hide(evt)
-        this.__prepareTick()
       }
       else {
         this.$emit('hide', evt)

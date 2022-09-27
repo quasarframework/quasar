@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
@@ -27,6 +28,7 @@ export default Vue.extend({
     AttrsMixin,
     DarkMixin,
     AnchorMixin,
+    TimeoutMixin,
     ModelToggleMixin,
     PortalMixin,
     TransitionMixin
@@ -185,12 +187,12 @@ export default Vue.extend({
         document.activeElement.blur()
       }
 
-      this.__nextTick(() => {
+      this.__registerTick(() => {
         this.updatePosition()
         this.noFocus !== true && this.focus()
       })
 
-      this.__setTimeout(() => {
+      this.__registerTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
         if (this.$q.platform.is.ios === true) {
           // if auto-close, then this click should
@@ -206,6 +208,7 @@ export default Vue.extend({
     },
 
     __hide (evt) {
+      this.__removeTick()
       this.__anchorCleanup(true)
       this.__hidePortal()
 
@@ -226,7 +229,8 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.__setTimeout(() => {
+      // should __removeTimeout() if this gets removed
+      this.__registerTimeout(() => {
         this.__hidePortal(true) // done hiding, now destroy
         this.$emit('hide', evt)
       }, 300)
@@ -334,6 +338,11 @@ export default Vue.extend({
         }, slot(this, 'default')) : null
       ])
     }
+  },
+
+  created () {
+    this.__useTick('__registerTick', '__removeTick')
+    this.__useTimeout('__registerTimeout')
   },
 
   mounted () {

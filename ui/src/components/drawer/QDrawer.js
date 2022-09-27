@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
@@ -29,7 +30,7 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ DarkMixin, HistoryMixin, ModelToggleMixin, PreventScrollMixin ],
+  mixins: [ DarkMixin, HistoryMixin, TimeoutMixin, ModelToggleMixin, PreventScrollMixin ],
 
   directives: {
     TouchPan
@@ -536,7 +537,7 @@ export default Vue.extend({
         evt !== false && this.__setScrollable(false)
       }
 
-      this.__setTimeout(() => {
+      this.__registerTimeout(() => {
         evt !== false && this.__setScrollable(true)
         noEvent !== true && this.$emit('show', evt)
       }, duration)
@@ -553,9 +554,12 @@ export default Vue.extend({
 
       this.__cleanup()
 
-      noEvent !== true && this.__setTimeout(() => {
-        this.$emit('hide', evt)
-      }, duration)
+      if (noEvent !== true) {
+        this.__registerTimeout(() => { this.$emit('hide', evt) }, duration)
+      }
+      else {
+        this.__removeTimeout()
+      }
     },
 
     __cleanup () {
@@ -588,6 +592,8 @@ export default Vue.extend({
   },
 
   created () {
+    this.__useTimeout('__registerTimeout', '__removeTimeout')
+
     this.layout.instances[this.side] = this
     this.__updateSizeOnLayout(this.miniToOverlay, this.size)
     this.__update('space', this.onLayout)
