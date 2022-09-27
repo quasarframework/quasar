@@ -15,8 +15,8 @@ export default {
     search: 'Zoek',
     filter: 'Filter',
     refresh: 'Ververs',
-    expand: label => (label ? `Vouw "${ label }" uit` : 'Uitbreiden'),
-    collapse: label => (label ? `"${ label }" samenvouwen` : 'Instorten')
+    expand: label => (label ? `"${ label }" uitklappen` : 'Uitklappen'),
+    collapse: label => (label ? `"${ label }" inklappen` : 'Inklappen')
   },
   date: {
     days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),
