@@ -19,8 +19,32 @@ We won't go into details on how to configure or use Pinia since it has great doc
 
 When you scaffold a Quasar project folder you can choose to add Pinia. It will create all the necessary configuration for you. Like for example the creation of `/src/stores` which handles all the Pinia related code that you need.
 
-If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.[js|ts]` file.
+If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.[js|ts]` file (it's automatically created when you run `quasar new store <name>`):
 
+```js
+// src/stores/index.js
+
+import { store } from 'quasar/wrappers'
+import { createPinia } from 'pinia'
+
+/*
+ * If not building with SSR mode, you can
+ * directly export the Store instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Store instance.
+ */
+
+export default store((/* { ssrContext } */) => {
+  const pinia = createPinia()
+
+  // You can add Pinia plugins here
+  // pinia.use(SomePiniaPlugin)
+
+  return pinia
+})
+```
 
 ## Adding a Pinia store
 Adding a Pinia store is easy with Quasar CLI through the `$ quasar new` command.
