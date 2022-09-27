@@ -9,6 +9,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import cache from '../../utils/private/cache.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 
@@ -422,18 +423,19 @@ export default Vue.extend({
     __getSlotScope (node, meta, key) {
       const scope = { tree: this, node, key, color: this.color, dark: this.isDark }
 
-      Object.defineProperty(scope, 'expanded', {
-        get: () => { return meta.expanded },
-        set: val => { val !== meta.expanded && this.setExpanded(key, val) },
-        configurable: true,
-        enumerable: true
-      })
-      Object.defineProperty(scope, 'ticked', {
-        get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && this.setTicked([ key ], val) },
-        configurable: true,
-        enumerable: true
-      })
+      injectProp(
+        scope,
+        'expanded',
+        () => { return meta.expanded },
+        val => { val !== meta.expanded && this.setExpanded(key, val) }
+      )
+
+      injectProp(
+        scope,
+        'ticked',
+        () => { return meta.ticked },
+        val => { val !== meta.ticked && this.setTicked([ key ], val) }
+      )
 
       return scope
     },

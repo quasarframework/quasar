@@ -2,6 +2,7 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 
 import cache from '../../utils/private/cache.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default {
   computed: {
@@ -100,14 +101,13 @@ export default {
       })
 
       if (this.multipleSelection === true) {
-        Object.defineProperty(data, 'selected', {
-          get: () => this.headerSelectedValue,
-          set: this.__onMultipleSelectionSet,
-          configurable: true,
-          enumerable: true
-        })
+        injectProp(
+          data,
+          'selected',
+          () => this.headerSelectedValue,
+          this.__onMultipleSelectionSet
+        )
 
-        // TODO: remove in v2
         data.partialSelected = this.someRowsSelected
         data.multipleSelect = true
       }

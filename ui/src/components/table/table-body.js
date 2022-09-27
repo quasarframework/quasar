@@ -1,5 +1,7 @@
 import QCheckbox from '../checkbox/QCheckbox.js'
 
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
+
 export default {
   methods: {
     __getTBodyTR (h, row, bodySlot, pageIndex) {
@@ -114,11 +116,7 @@ export default {
 
       data.cols = data.cols.map(col => {
         const c = { ...col }
-        Object.defineProperty(c, 'value', {
-          get: () => this.getCellValue(col, data.row),
-          configurable: true,
-          enumerable: true
-        })
+        injectProp(c, 'value', () => this.getCellValue(col, data.row))
         return c
       })
 
@@ -127,13 +125,7 @@ export default {
 
     __getBodyCellScope (data) {
       this.__injectBodyCommonScope(data)
-
-      Object.defineProperty(data, 'value', {
-        get: () => this.getCellValue(data.col, data.row),
-        configurable: true,
-        enumerable: true
-      })
-
+      injectProp(data, 'value', () => this.getCellValue(data.col, data.row))
       return data
     },
 
@@ -153,23 +145,21 @@ export default {
         dense: this.dense
       })
 
-      this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
-        get: () => this.isRowSelected(data.key),
-        set: (adding, evt) => {
+      this.hasSelectionMode === true && injectProp(
+        data,
+        'selected',
+        () => this.isRowSelected(data.key),
+        (adding, evt) => {
           this.__updateSelection([ data.key ], [ data.row ], adding, evt)
-        },
-        configurable: true,
-        enumerable: true
-      })
+        }
+      )
 
-      Object.defineProperty(data, 'expand', {
-        get: () => this.isRowExpanded(data.key),
-        set: adding => {
-          this.__updateExpanded(data.key, adding)
-        },
-        configurable: true,
-        enumerable: true
-      })
+      injectProp(
+        data,
+        'expand',
+        () => this.isRowExpanded(data.key),
+        adding => { this.__updateExpanded(data.key, adding) }
+      )
     },
 
     getCellValue (col, row) {

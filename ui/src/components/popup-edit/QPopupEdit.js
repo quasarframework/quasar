@@ -10,6 +10,7 @@ import { isDeepEqual } from '../../utils/is.js'
 import { slot } from '../../utils/private/slot.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 import cache from '../../utils/private/cache.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default Vue.extend({
   name: 'QPopupEdit',
@@ -78,11 +79,7 @@ export default Vue.extend({
         cancel: this.cancel
       }
 
-      Object.defineProperty(acc, 'value', {
-        get: () => this.modelValue,
-        set: this.__changeModel
-      })
-
+      injectProp(acc, 'value', () => this.modelValue, this.__changeModel)
       return acc
     },
 
