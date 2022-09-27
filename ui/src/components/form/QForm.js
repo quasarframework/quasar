@@ -83,7 +83,7 @@ export default Vue.extend({
           .catch(error => [ error ])
 
       return errorsPromise.then(errors => {
-        if (errors.length === 0) {
+        if (errors === void 0 || errors.length === 0) {
           index === this.validateIndex && emit(true)
           return true
         }
