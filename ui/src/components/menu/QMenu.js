@@ -99,7 +99,7 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
     const { registerTick, removeTick } = useTick()
-    const { registerTimeout, removeTimeout } = useTimeout()
+    const { registerTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
@@ -187,9 +187,6 @@ export default createComponent({
     }
 
     function handleShow (evt) {
-      removeTick()
-      removeTimeout()
-
       refocusTarget = props.noRefocus === false
         ? document.activeElement
         : null
@@ -221,11 +218,13 @@ export default createComponent({
         document.activeElement.blur()
       }
 
+      // should removeTick() if this gets removed
       registerTick(() => {
         updatePosition()
         props.noFocus !== true && focus()
       })
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
         if ($q.platform.is.ios === true) {
@@ -243,7 +242,6 @@ export default createComponent({
 
     function handleHide (evt) {
       removeTick()
-      removeTimeout()
       hidePortal()
 
       anchorCleanup(true)
@@ -261,6 +259,7 @@ export default createComponent({
         refocusTarget = null
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)

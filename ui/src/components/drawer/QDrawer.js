@@ -75,7 +75,7 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
-    const { registerTimeout } = useTimeout()
+    const { registerTimeout, removeTimeout } = useTimeout()
 
     const $layout = inject(layoutKey, () => {
       console.error('QDrawer needs to be child of QLayout')
@@ -145,9 +145,12 @@ export default createComponent({
 
       cleanup()
 
-      noEvent !== true && registerTimeout(() => {
-        emit('hide', evt)
-      }, duration)
+      if (noEvent !== true) {
+        registerTimeout(() => { emit('hide', evt) }, duration)
+      }
+      else {
+        removeTimeout()
+      }
     }
 
     const { show, hide } = useModelToggle({

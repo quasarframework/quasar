@@ -94,7 +94,7 @@ export default createComponent({
     )
 
     const { preventBodyScroll } = usePreventScroll()
-    const { registerTimeout, removeTimeout } = useTimeout()
+    const { registerTimeout } = useTimeout()
     const { registerTick, removeTick } = useTick()
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
@@ -179,8 +179,6 @@ export default createComponent({
     })
 
     function handleShow (evt) {
-      removeTimeout()
-      removeTick()
       addToHistory()
 
       refocusTarget = props.noRefocus === false && document.activeElement !== null
@@ -195,7 +193,11 @@ export default createComponent({
         document.activeElement !== null && document.activeElement.blur()
         registerTick(focus)
       }
+      else {
+        removeTick()
+      }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         if (vm.proxy.$q.platform.is.ios === true) {
           if (props.seamless !== true && document.activeElement) {
@@ -231,7 +233,6 @@ export default createComponent({
     }
 
     function handleHide (evt) {
-      removeTimeout()
       removeTick()
       removeFromHistory()
       cleanup(true)
@@ -243,6 +244,7 @@ export default createComponent({
         refocusTarget = null
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         animating.value = false

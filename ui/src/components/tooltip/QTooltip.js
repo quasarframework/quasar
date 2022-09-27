@@ -93,7 +93,7 @@ export default createComponent({
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
     const { registerTick, removeTick } = useTick()
-    const { registerTimeout, removeTimeout } = useTimeout()
+    const { registerTimeout } = useTimeout()
     const { transition, transitionStyle } = useTransition(props, showing)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
@@ -147,11 +147,9 @@ export default createComponent({
     }
 
     function handleShow (evt) {
-      removeTick()
-      removeTimeout()
-
       showPortal()
 
+      // should removeTick() if this gets removed
       registerTick(() => {
         observer = new MutationObserver(() => updatePosition())
         observer.observe(innerRef.value, { attributes: false, childList: true, characterData: true, subtree: true })
@@ -166,6 +164,7 @@ export default createComponent({
         )
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         showPortal(true) // done showing portal
         emit('show', evt)
@@ -174,11 +173,11 @@ export default createComponent({
 
     function handleHide (evt) {
       removeTick()
-      removeTimeout()
       hidePortal()
 
       anchorCleanup()
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
@@ -230,14 +229,10 @@ export default createComponent({
         addEvt(anchorEvents, 'tooltipTemp', evts)
       }
 
-      registerTimeout(() => {
-        show(evt)
-      }, props.delay)
+      registerTimeout(() => { show(evt) }, props.delay)
     }
 
     function delayHide (evt) {
-      removeTimeout()
-
       if ($q.platform.is.mobile === true) {
         cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
@@ -247,9 +242,8 @@ export default createComponent({
         }, 10)
       }
 
-      registerTimeout(() => {
-        hide(evt)
-      }, props.hideDelay)
+      // should removeTimeout() if this gets removed
+      registerTimeout(() => { hide(evt) }, props.hideDelay)
     }
 
     function configureAnchorEl () {
