@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-y-md" style="max-width: 1600px">
+    <div class="q-gutter-y-md" style="max-width: 800px">
       <q-tabs
         no-caps
         class="bg-orange text-white shadow-2"
@@ -41,10 +41,9 @@ export default {
       e.navigate = false // we cancel the default navigation
     },
 
-    navRedirect (e, go) {
+    navRedirect (e, _go) {
       e.navigate = false // we cancel the default navigation
-
-      go({ query: { tab: '2', noScroll: true } })
+      this.$router.push({ query: { tab: '2', noScroll: true } }).catch(() => {})
     },
 
     navPass () {},

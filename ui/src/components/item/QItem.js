@@ -15,7 +15,10 @@ export default Vue.extend({
   mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
 
   props: {
-    active: Boolean,
+    active: {
+      type: Boolean,
+      default: null
+    },
 
     clickable: Boolean,
     dense: Boolean,
@@ -39,20 +42,26 @@ export default Vue.extend({
     },
 
     classes () {
-      return {
-        'q-item--clickable q-link cursor-pointer': this.isClickable,
-        'q-focusable q-hoverable': this.isClickable === true && this.manualFocus === false,
-
-        'q-manual-focusable': this.isClickable === true && this.manualFocus === true,
-        'q-manual-focusable--focused': this.isClickable === true && this.focused === true,
-
-        'q-item--dense': this.dense,
-        'q-item--dark': this.isDark,
-        'q-item--active': this.active,
-        [this.activeClass]: this.active === true && this.hasRouterLink !== true && this.activeClass !== void 0,
-
-        'disabled': this.disable
-      }
+      return 'q-item q-item-type row no-wrap' +
+        (this.dense === true ? ' q-item--dense' : '') +
+        (this.isDark === true ? ' q-item--dark' : '') +
+        (
+          this.hasLink === true && this.active === null
+            ? this.linkClass
+            : (
+              this.active === true
+                ? ` q-item--active${this.activeClass !== void 0 ? ` ${this.activeClass}` : ''} `
+                : ''
+            )
+        ) +
+        (this.disable === true ? ' disabled' : '') +
+        (
+          this.isClickable === true
+            ? ' q-item--clickable q-link cursor-pointer ' +
+              (this.manualFocus === true ? 'q-manual-focusable' : 'q-focusable q-hoverable') +
+              (this.focused === true ? ' q-manual-focusable--focused' : '')
+            : ''
+        )
     },
 
     style () {
@@ -74,14 +83,6 @@ export default Vue.extend({
   },
 
   methods: {
-    __getContent (h) {
-      const child = uniqueSlot(this, 'default', [])
-      this.isClickable === true && child.unshift(
-        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' })
-      )
-      return child
-    },
-
     __onClick (e) {
       if (this.isClickable === true) {
         if (this.$refs.blurTarget !== void 0) {
@@ -93,6 +94,7 @@ export default Vue.extend({
           }
         }
 
+        this.hasRouterLink === true && this.navigateToRouterLink(e)
         this.$emit('click', e)
       }
     },
@@ -111,28 +113,33 @@ export default Vue.extend({
       }
 
       this.$emit('keyup', e)
+    },
+
+    __getContent (h) {
+      const child = uniqueSlot(this, 'default', [])
+
+      this.isClickable === true && child.unshift(
+        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' })
+      )
+
+      return child
     }
   },
 
   render (h) {
     const data = {
-      staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
       style: this.style,
       attrs: {},
-      [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
+      on: this.onEvents
     }
 
     if (this.isClickable === true) {
       data.attrs.tabindex = this.tabindex || '0'
+      Object.assign(data.attrs, this.linkAttrs)
     }
     else if (this.isActionable === true) {
       data.attrs['aria-disabled'] = 'true'
-    }
-
-    if (this.hasLink === true) {
-      data.props = this.linkProps.props
-      Object.assign(data.attrs, this.linkProps.attrs)
     }
 
     return h(

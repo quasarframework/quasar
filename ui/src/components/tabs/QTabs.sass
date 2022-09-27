@@ -129,12 +129,12 @@
 
     &--start
       top: 0
-      left: 0
+      left: 0 #{"/* rtl:ignore */"}
       bottom: 0
 
     &--end
       top: 0
-      right: 0
+      right: 0 #{"/* rtl:ignore */"}
       bottom: 0
 
   &--vertical
@@ -181,8 +181,3 @@
       min-height: 36px
       &--full
         min-height: 52px
-
-@media (min-width: $breakpoint-lg-min)
-  .q-header, .q-footer
-    .q-tab__content
-      min-width: 128px

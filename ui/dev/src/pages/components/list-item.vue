@@ -128,35 +128,35 @@
           <q-item-section avatar>
             <q-icon name="bluetooth" />
           </q-item-section>
-          <q-item-section>Inactive link</q-item-section>
+          <q-item-section>Inactive link (/; exact)</q-item-section>
         </q-item>
 
         <q-item to="/" exact disable>
           <q-item-section avatar>
             <q-icon name="bluetooth" />
           </q-item-section>
-          <q-item-section>Inactive link - Disabled</q-item-section>
+          <q-item-section>Inactive link - Disabled (/; exact)</q-item-section>
         </q-item>
 
         <q-item :to="$route.path">
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
-          <q-item-section>Active link</q-item-section>
+          <q-item-section>Active link (current route)</q-item-section>
         </q-item>
 
         <q-item to="/" exact>
           <q-item-section avatar>
             <q-icon name="bluetooth" />
           </q-item-section>
-          <q-item-section>Inactive link</q-item-section>
+          <q-item-section>Inactive link (/; exact)</q-item-section>
         </q-item>
 
-        <q-item :to="$route.path">
+        <q-item :to="$route.path" exact>
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
-          <q-item-section>Active link</q-item-section>
+          <q-item-section>Active link (current route)</q-item-section>
         </q-item>
 
         <!-- check .my-link CSS class below -->
@@ -164,7 +164,7 @@
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
           </q-item-section>
-          <q-item-section>Customized active link</q-item-section>
+          <q-item-section>Customized active link (/components/list-item)</q-item-section>
         </q-item>
 
         <q-item href="/">

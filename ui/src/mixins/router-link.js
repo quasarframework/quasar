@@ -1,4 +1,55 @@
-const routerLinkProps = {
+const trailingSlashRE = /\/?$/
+
+function equals (current, target) {
+  if (Object.keys(current).length !== Object.keys(target).length) {
+    return false
+  }
+
+  // route query and params are strings when read from URL
+  for (const key in target) {
+    if (!(key in current) || String(current[key]) !== String(target[key])) {
+      return false
+    }
+  }
+  return true
+}
+
+function includes (current, target) {
+  for (const key in target) {
+    if (!(key in current)) {
+      return false
+    }
+  }
+  return true
+}
+
+function isSameRoute (current, target) {
+  if (!target) {
+    return false
+  }
+
+  if (current.path && target.path) {
+    return (
+      current.path.replace(trailingSlashRE, '') === target.path.replace(trailingSlashRE, '') &&
+      current.hash === target.hash &&
+      equals(current.query, target.query)
+    )
+  }
+
+  return typeof current.name === 'string' &&
+    current.name === target.name &&
+    current.hash === target.hash &&
+    equals(current.query, target.query) === true &&
+    equals(current.params, target.params) === true
+}
+
+function isIncludedRoute (current, target) {
+  return current.path.replace(trailingSlashRE, '/').indexOf(target.path.replace(trailingSlashRE, '/')) === 0 &&
+    (typeof target.hash !== 'string' || target.hash.length < 2 || current.hash === target.hash) &&
+    includes(current.query, target.query) === true
+}
+
+export const routerLinkProps = {
   // router-link
   to: [String, Object],
   exact: Boolean,
@@ -44,13 +95,12 @@ export default {
         // we protect from accessing this.$route without
         // actually needing it so that we won't trigger
         // unnecessary updates
-
         try {
           return this.append === true
             ? this.$router.resolve(this.to, this.$route, true)
             : this.$router.resolve(this.to)
         }
-        catch (err) {}
+        catch (_) {}
       }
 
       return null
@@ -65,41 +115,81 @@ export default {
     },
 
     linkTag () {
-      if (this.hasRouterLink === true) {
-        return 'router-link'
-      }
-
       return this.type === 'a' || this.hasLink === true
         ? 'a'
         : (this.tag || this.fallbackTag || 'div')
     },
 
-    linkProps () {
+    linkAttrs () {
       return this.hasHrefLink === true
         ? {
-          attrs: {
-            href: this.href,
-            target: this.target
-          }
+          href: this.href,
+          target: this.target
         }
         : (
           this.hasRouterLink === true
             ? {
-              props: {
-                to: this.to,
-                exact: this.exact,
-                append: this.append,
-                replace: this.replace,
-                activeClass: this.activeClass,
-                exactActiveClass: this.exactActiveClass
-              },
-              attrs: {
-                href: this.linkRoute.href,
-                target: this.target
-              }
+              href: this.linkRoute.href,
+              target: this.target
             }
             : {}
         )
+    },
+
+    linkIsActive () {
+      return this.hasRouterLink === true &&
+        isIncludedRoute(this.$route, this.linkRoute.route)
+    },
+
+    linkIsExactActive () {
+      return this.hasRouterLink === true &&
+        isSameRoute(this.$route, this.linkRoute.route)
+    },
+
+    linkClass () {
+      return this.hasRouterLink === true
+        ? (
+          this.linkIsExactActive === true
+            ? ` ${this.exactActiveClass} ${this.activeClass}`
+            : (
+              this.exact === true
+                ? ''
+                : (this.linkIsActive === true ? ` ${this.activeClass}` : '')
+            )
+        )
+        : ''
+    }
+  },
+
+  methods: {
+    // returns false or Promise<void|Error>
+    navigateToRouterLink (e) {
+      // should match RouterLink from Vue Router
+      if (
+        // component is not disabled
+        this.disable === true ||
+
+        // don't redirect with control keys
+        e.metaKey || e.altKey || e.ctrlKey || e.shiftKey ||
+
+        // don't redirect when e.navigate is set to false in userland
+        // ...unless calling go() from @click(e, go)
+        (e.__qNavigate !== true && e.defaultPrevented === true) ||
+
+        // don't redirect on right click
+        (e.button !== void 0 && e.button !== 0) ||
+
+        // don't redirect if it should open in a new window
+        this.target === '_blank'
+      ) {
+        return false
+      }
+
+      e.preventDefault()
+
+      const { location } = this.$router.resolve(this.to, this.$route, this.append)
+      return this.$router[this.replace === true ? 'replace' : 'push'](location)
+        .catch(err => err)
     }
   }
 }

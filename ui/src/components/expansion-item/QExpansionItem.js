@@ -7,7 +7,8 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import RouterLinkMixin from '../../mixins/router-link.js'
+import { routerLinkProps } from '../../mixins/router-link.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 
@@ -17,13 +18,16 @@ import cache from '../../utils/private/cache.js'
 import uid from '../../utils/uid.js'
 
 const eventName = 'q:expansion-item:close'
+const LINK_PROPS = Object.keys(routerLinkProps)
 
 export default Vue.extend({
   name: 'QExpansionItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, ModelToggleMixin ],
+  mixins: [ DarkMixin, TimeoutMixin, ModelToggleMixin ],
 
   props: {
+    ...routerLinkProps,
+
     icon: String,
 
     label: String,
@@ -92,6 +96,21 @@ export default Vue.extend({
           ['padding' + dir]: (this.contentInsetLevel * 56) + 'px'
         }
       }
+    },
+
+    hasLink () {
+      return this.disable !== true && (
+        this.href !== void 0
+        || (this.to !== void 0 && this.to !== null && this.to !== '')
+      )
+    },
+
+    linkProps () {
+      const acc = {}
+      LINK_PROPS.forEach(key => {
+        acc[ key ] = this[ key ]
+      })
+      return acc
     },
 
     isClickable () {
@@ -250,21 +269,17 @@ export default Vue.extend({
 
       if (this.isClickable === true) {
         data.props.clickable = true
-        data[this.hasRouterLink === true ? 'nativeOn' : 'on'] = {
-          ...this.qListeners,
-          click: this.__onHeaderClick
-        }
 
         if (this.hasLink === true) {
-          Object.assign(
-            data.props,
-            this.linkProps.props
-          )
-
-          data.attrs = this.linkProps.attrs
+          Object.assign(data.props, this.linkProps)
         }
         else {
           data.attrs = this.toggleAriaAttrs
+        }
+
+        data.on = {
+          ...this.qListeners,
+          click: this.__onHeaderClick
         }
       }
 

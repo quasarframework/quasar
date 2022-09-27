@@ -6,7 +6,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import BtnMixin from '../../mixins/btn.js'
 
 import { mergeSlot } from '../../utils/private/slot.js'
-import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/private/key-composition.js'
 
 const { passiveCapture } = listenOpts
@@ -126,32 +126,22 @@ export default Vue.extend({
           document.addEventListener('keyup', onClickCleanup, passiveCapture)
           this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
         }
+      }
 
-        if (this.hasRouterLink === true) {
-          if (
-            e.ctrlKey === true ||
-            e.shiftKey === true ||
-            e.altKey === true ||
-            e.metaKey === true
-          ) {
-            // if it has meta keys, let vue-router link
-            // handle this by its own
-            return
-          }
-
-          stopAndPrevent(e)
+      if (this.hasRouterLink === true) {
+        const go = () => {
+          e.__qNavigate = true
+          this.navigateToRouterLink(e)
         }
-      }
 
-      const go = () => {
-        // vue-router now throwing error if navigating
-        // to the same route that the user is currently at
-        // https://github.com/vuejs/vue-router/issues/2872
-        this.$router[this.replace === true ? 'replace' : 'push'](this.linkRoute.route, void 0, noop)
-      }
+        stopAndPrevent(e)
 
-      this.$emit('click', e, go)
-      this.hasRouterLink === true && e.navigate !== false && go()
+        this.$emit('click', e, go)
+        e.navigate !== false && go()
+      }
+      else {
+        this.$emit('click', e)
+      }
     },
 
     __onKeydown (e) {

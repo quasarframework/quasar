@@ -5,9 +5,9 @@ import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/private/slot.js'
-import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
 
 let uid = 0
 
@@ -17,14 +17,11 @@ export default Vue.extend({
   mixins: [ RippleMixin, ListenersMixin ],
 
   inject: {
-    tabs: {
+    $tabs: {
       default () {
         console.error('QTab/QRouteTab components need to be child of QTabs')
       }
-    },
-    __activateTab: {},
-    __recalculateScroll: {},
-    __onKbdNavigate: {}
+    }
   },
 
   props: {
@@ -49,35 +46,35 @@ export default Vue.extend({
 
   computed: {
     isActive () {
-      return this.tabs.current === this.name
+      return this.$tabs.currentModel === this.name
     },
 
     classes () {
-      return {
-        ...(
+      return 'q-tab relative-position self-stretch flex flex-center text-center' +
+        (
           this.isActive === true
-            ? {
-              'q-tab--active': true,
-              [this.tabs.activeClass]: this.tabs.activeClass,
-              [`text-${this.tabs.activeColor}`]: this.tabs.activeColor,
-              [`bg-${this.tabs.activeBgColor}`]: this.tabs.activeBgColor
-            }
-            : { 'q-tab--inactive': true }
-        ),
-        'q-tab--full': this.icon && this.label && !this.tabs.inlineLabel,
-        'q-tab--no-caps': this.noCaps === true || this.tabs.noCaps === true,
-        'q-focusable q-hoverable cursor-pointer': !this.disable,
-        disabled: this.disable
-      }
+            ? (
+              ' q-tab--active' +
+                (this.$tabs.tabProps.activeClass ? ' ' + this.$tabs.tabProps.activeClass : '') +
+                (this.$tabs.tabProps.activeColor ? ` text-${this.$tabs.tabProps.activeColor}` : '') +
+                (this.$tabs.tabProps.activeBgColor ? ` bg-${this.$tabs.tabProps.activeBgColor}` : '')
+            )
+            : ' q-tab--inactive'
+        ) +
+        (this.icon && this.label && this.$tabs.tabProps.inlineLabel === false ? ' q-tab--full' : '') +
+        (this.noCaps === true || this.$tabs.tabProps.noCaps === true ? ' q-tab--no-caps' : '') +
+        (this.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer') +
+        (this.hasRouterLinkProps !== void 0 ? this.linkClass : '')
     },
 
     innerClass () {
-      return (this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
+      return 'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable ' +
+        (this.$tabs.tabProps.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
         (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     computedTabIndex () {
-      return this.disable === true || this.tabs.hasFocus === true
+      return this.disable === true || this.$tabs.hasFocus === true
         ? -1
         : this.tabindex || 0
     },
@@ -95,13 +92,14 @@ export default Vue.extend({
       return {
         input: stop,
         ...this.qListeners,
-        click: this.__activate,
+        click: this.__onClick,
         keydown: this.__onKeydown
       }
     },
 
     attrs () {
       const attrs = {
+        ...this.linkAttrs,
         tabindex: this.computedTabIndex,
         role: 'tab',
         'aria-selected': this.isActive === true ? 'true' : 'false'
@@ -116,38 +114,79 @@ export default Vue.extend({
   },
 
   methods: {
-    __activate (e, keyboard) {
+    __onClick (e, keyboard) {
       if (keyboard !== true && this.$refs.blurTarget !== void 0) {
         this.$refs.blurTarget.focus({ preventScroll: true })
       }
 
       if (this.disable !== true) {
-        this.qListeners.click !== void 0 && this.$emit('click', e)
-        this.__activateTab(this.name)
+        let go
+
+        if (this.hasRouterLinkProps !== void 0) {
+          if (this.hasRouterLink === true) {
+            go = () => {
+              e.__qNavigate = true
+              this.$tabs.avoidRouteWatcher = true
+
+              const res = this.navigateToRouterLink(e)
+
+              if (res === false) {
+                this.$tabs.avoidRouteWatcher = false
+              }
+              else {
+                res.then(err => {
+                  this.$tabs.avoidRouteWatcher = false
+
+                  if (err === void 0) {
+                    this.$tabs.__updateModel({ name: this.name, fromRoute: true })
+                  }
+                })
+              }
+            }
+
+            stopAndPrevent(e)
+          }
+          else {
+            this.qListeners.click !== void 0 && this.$emit('click', e)
+            return
+          }
+        }
+        else {
+          go = () => {
+            this.$tabs.__updateModel({ name: this.name, fromRoute: false })
+          }
+        }
+
+        this.qListeners.click !== void 0 && this.$emit('click', e, go)
+        e.navigate !== false && go()
       }
     },
 
     __onKeydown (e) {
-      if (shouldIgnoreKey(e)) {
-        return
+      if (isKeyCode(e, [ 13, 32 ])) {
+        this.__onClick(e, true)
+      }
+      else if (
+        shouldIgnoreKey(e) !== true &&
+        e.keyCode >= 35 &&
+        e.keyCode <= 40 &&
+        e.altKey !== true &&
+        e.metaKey !== true
+      ) {
+        this.$tabs.__onKbdNavigate(e.keyCode, this.$el) === true && stopAndPrevent(e)
       }
 
-      if ([ 13, 32 ].indexOf(e.keyCode) !== -1) {
-        this.__activate(e, true)
-        prevent(e)
-      }
-      else if (e.keyCode >= 35 && e.keyCode <= 40) {
-        this.__onKbdNavigate(e.keyCode, this.$el) === true && stopAndPrevent(e)
-      }
+      // TODO should it emit keydown?
     },
 
     __getContent (h) {
       const
-        narrow = this.tabs.narrowIndicator,
+        narrow = this.$tabs.tabProps.narrowIndicator,
         content = [],
         indicator = h('div', {
+          ref: 'tabIndicator',
           staticClass: 'q-tab__indicator',
-          class: this.tabs.indicatorClass
+          class: this.$tabs.tabProps.indicatorClass
         })
 
       this.icon !== void 0 && content.push(
@@ -186,11 +225,7 @@ export default Vue.extend({
 
       const node = [
         h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
-
-        h('div', {
-          staticClass: 'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable',
-          class: this.innerClass
-        }, mergeSlot(content, this, 'default'))
+        h('div', { class: this.innerClass }, mergeSlot(content, this, 'default'))
       ]
 
       narrow === false && node.push(indicator)
@@ -200,49 +235,24 @@ export default Vue.extend({
 
     __renderTab (h, tag) {
       const data = {
-        staticClass: 'q-tab relative-position self-stretch flex flex-center text-center no-outline',
         class: this.classes,
         attrs: this.attrs,
+        on: this.onEvents,
         directives: this.ripple === false || this.disable === true ? null : [
           { name: 'ripple', value: this.computedRipple }
         ]
       }
 
-      if (this.hasRouterLink === true) {
-        return h(tag, {
-          ...data,
-          nativeOn: this.onEvents,
-          props: this.routerTabLinkProps,
-          scopedSlots: {
-            default: ({ href, isActive, isExactActive }) => h('a', {
-              class: {
-                [this.activeClass]: isActive,
-                [this.exactActiveClass]: isExactActive
-              },
-              attrs: {
-                ...this.linkProps.attrs,
-                href
-              }
-            }, this.__getContent(h))
-          }
-        })
-      }
-
-      if (this.hasLink === true) {
-        Object.assign(data.attrs, this.linkProps.attrs)
-        data.props = this.linkProps.props
-      }
-      data.on = this.onEvents
       return h(tag, data, this.__getContent(h))
     }
   },
 
   mounted () {
-    this.__recalculateScroll()
+    this.$tabs.__registerTab(this)
   },
 
   beforeDestroy () {
-    this.__recalculateScroll()
+    this.$tabs.__unregisterTab(this)
   },
 
   render (h) {

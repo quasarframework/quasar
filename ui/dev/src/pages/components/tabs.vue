@@ -617,7 +617,6 @@ export default {
 
     routeNavDelay (e, go) {
       e.navigate = false
-
       setTimeout(go, 2000)
     },
 
@@ -627,10 +626,9 @@ export default {
       e.navigate = false
     },
 
-    routeNavChange (e, go) {
+    routeNavChange (e, _go) {
       e.navigate = false
-
-      go({ name: 'r.1.1' })
+      this.$router.push({ name: 'r.1.1' }).catch(() => {})
     }
   }
 }

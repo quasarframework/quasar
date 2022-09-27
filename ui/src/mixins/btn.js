@@ -107,20 +107,21 @@ export default {
       const acc = { tabindex: this.computedTabIndex }
 
       if (this.hasLink === true) {
-        Object.assign(acc, this.linkProps.attrs)
+        Object.assign(acc, this.linkAttrs)
       }
       else if (formTypes.includes(this.type) === true) {
         acc.type = this.type
       }
 
-      if (this.hasLink === true || this.type === 'a') {
+      if (this.linkTag === 'a') {
         if (this.disable === true) {
           acc['aria-disabled'] = 'true'
         }
         else if (acc.href === void 0) {
           acc.role = 'button'
         }
-        if (mediaTypeRe.test(this.type) === true) {
+
+        if (this.hasRouterLink !== true && mediaTypeRe.test(this.type) === true) {
           acc.type = this.type
         }
       }
