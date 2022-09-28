@@ -20,7 +20,7 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
-const emptyFn = () => {}
+const getDefaultBestScore = () => ({ matchedLen: 0, hrefLen: 0, exact: false, redirected: true })
 
 export default Vue.extend({
   name: 'QTabs',
@@ -81,7 +81,7 @@ export default Vue.extend({
       // used by children
       currentModel: this.value,
       hasFocus: false,
-      avoidRouteWatcher: false
+      avoidRouteWatcher: false // false | string (uid)
     }
   },
 
@@ -193,20 +193,16 @@ export default Vue.extend({
 
   methods: {
     // used by children too
-    __updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
+    __updateModel ({ name, setCurrent, skipEmit }) {
       if (this.currentModel !== name) {
-        skipEmit !== true && this.$emit('input', name)
-        if (
-          setCurrent === true ||
-          this.qListeners.input === void 0
-        ) {
+        if (skipEmit !== true && this.qListeners.input !== void 0) {
+          this.$emit('input', name)
+        }
+
+        if (setCurrent === true || this.qListeners.input === void 0) {
           this.__animate(this.currentModel, name)
           this.currentModel = name
         }
-      }
-
-      if (fromRoute !== void 0) {
-        this.localFromRoute = fromRoute
       }
     },
 
@@ -424,75 +420,97 @@ export default Vue.extend({
       return done
     },
 
-    __getRouteList () {
-      return this.tabList.filter(tab => tab.hasRouterLink === true && tab.linkRoute !== null)
+    __getRouteTabList () {
+      // disabled QRouteTab will not appear here because hasRouterLink is forced to false
+      return this.tabList.filter(tab => tab.hasRouterLink === true && tab.resolvedLink !== null)
+    },
+
+    __hasActiveNonRouteTab () {
+      return this.tabList.some(tab => tab.hasRouterLink !== true && tab.name === this.currentModel)
     },
 
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
-      let name = null, wasActive = this.localFromRoute
+      let name = null, best = getDefaultBestScore()
+      const tabList = this.__getRouteTabList()
 
-      const
-        best = { matchedLen: 0, hrefLen: 0, exact: false, found: false },
-        { hash } = this.$route,
-        model = this.currentModel
-
-      let wasItActive = wasActive === true
-        ? emptyFn
-        : tab => {
-          if (model === tab.name) {
-            wasActive = true
-            wasItActive = emptyFn
-          }
-        }
-
-      const tabList = this.__getRouteList()
+      console.log('\n\nSTART')
 
       for (const tab of tabList) {
         const exact = tab.exact === true
 
+        // if a) it doesn't respect the active/exact active status
+        // or b) we already found an exact match and this one isn't set as exact
+        // then we don't deal with it
         if (
           tab[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ] !== true ||
           (best.exact === true && exact !== true)
         ) {
-          wasItActive(tab)
+          const reason = tab[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ] !== true
+            ? 'wrong-status'
+            : 'already-found-exact'
+          console.log('skipping START', tab.name, `##${tab.label}##`, tab.to, reason)
           continue
         }
 
-        const { route: tabRoute, href } = tab.linkRoute
-        const tabHash = tabRoute.hash
+        const { route, href } = tab.resolvedLink
+        const { hash, matched } = route
+        const redirected = route.redirectedFrom !== void 0
 
-        // Vue Router does not match the hash too, even if link is set to "exact"
         if (exact === true) {
-          if (hash === tabHash) {
+          // hey, we found the perfect match; no more searching!
+          if (redirected === false) {
             name = tab.name
+            console.log('found match:', tab.name, `##${tab.label}##`, tab.to, exact ? 'exact' : 'non-exact', redirected ? 'redirected' : 'non-redirected')
             break
           }
-          else if (hash !== '' && tabHash !== '') {
-            wasItActive(tab)
-            continue
+
+          if (best.exact === false) {
+            // we reset values so we can discard previous non-exact matches
+            // and so we can register this exact one below
+            best = getDefaultBestScore()
+            console.log('this is the first exact one found; resetting score')
           }
         }
 
-        const matchedLen = tabRoute.matched.length
-        const hrefLen = href.length - tabHash.length
-
-        if (
-          matchedLen === best.matchedLen
-            ? hrefLen > best.hrefLen
-            : matchedLen > best.matchedLen
-        ) {
-          name = tab.name
-          Object.assign(best, { matchedLen, hrefLen, exact })
+        // if best is non-redirected and this one is redirected
+        // then this one is inferior so we don't care about it
+        if (best.redirected === false && redirected === true) {
+          console.log('skipping INFERIOR', tab.name, `##${tab.label}##`, tab.to)
           continue
         }
 
-        wasItActive(tab)
+        const matchedLen = matched.length
+        const hrefLen = href.length - hash.length
+
+        // if it has better score
+        if (
+          // tab.exact might be set to false in userland,
+          // but this is an exact match! so it should have higher priority
+          (exact === false && tab.linkIsExactActive === true) ||
+
+          (matchedLen === best.matchedLen
+            ? hrefLen > best.hrefLen
+            : matchedLen > best.matchedLen)
+        ) {
+          name = tab.name
+          console.log('* found better one:', tab.name, `##${tab.label}##`, tab.to, exact ? 'exact' : 'non-exact', redirected ? 'redirected' : 'non-redirected')
+          console.log('* score (new -vs- last best):', 'matchedLen', matchedLen, '-vs-', best.matchedLen, '& hrefLen', hrefLen, '-vs-', best.hrefLen)
+          best = { matchedLen, hrefLen, exact, redirected }
+        }
+        else {
+          console.log('is not better:', tab.name, `##${tab.label}##`, tab.to, exact ? 'exact' : 'non-exact', redirected ? 'redirected' : 'non-redirected', '; matchedLen', matchedLen, '-vs-', best.matchedLen, '& hrefLen', hrefLen, '-vs-', best.hrefLen)
+        }
       }
 
-      if (wasActive === true || name !== null) {
-        this.__updateModel({ name, setCurrent: true, fromRoute: true })
+      if (name === null && this.__hasActiveNonRouteTab() === true) {
+        // we shouldn't interfere if non-route tab is active
+        console.log('abort; no route found and has one current non-route active')
+        return
       }
+
+      console.log('FINAL:', name)
+      this.__updateModel({ name, setCurrent: true })
     },
 
     __onFocusin (e) {
@@ -523,8 +541,11 @@ export default Vue.extend({
 
     // used by children
     __verifyRouteModel () {
-      if (this.avoidRouteWatcher !== true) {
+      if (this.avoidRouteWatcher === false) {
         this.__registerScrollToTabTimeout(this.__updateActiveRoute)
+      }
+      else {
+        this.__removeScrollToTabTimeout()
       }
     },
 
@@ -543,7 +564,7 @@ export default Vue.extend({
       this.tabList.push(getTab)
       this.__recalculateScroll()
 
-      if (this.__getRouteList().length !== 0) {
+      if (this.__getRouteTabList().length !== 0) {
         this.__watchRoute()
         this.__verifyRouteModel()
       }
@@ -575,7 +596,7 @@ export default Vue.extend({
       this.__recalculateScroll()
 
       if (this.unwatchRoute !== void 0) {
-        this.__getRouteList().length === 0 && this.unwatchRoute()
+        this.__getRouteTabList().length === 0 && this.unwatchRoute()
         this.__verifyRouteModel()
       }
     },
@@ -593,12 +614,10 @@ export default Vue.extend({
     this.__useTick('__registerAnimateTick')
 
     this.__useTimeout('__registerFocusTimeout', '__removeFocusTimeout')
-    this.__useTimeout('__registerScrollToTabTimeout')
+    this.__useTimeout('__registerScrollToTabTimeout', '__removeScrollToTabTimeout')
 
     Object.assign(this, {
       tabList: [],
-      localFromRoute: false,
-
       __localUpdateArrows: this.arrowsEnabled === true
         ? this.__updateArrowsFn
         : noop

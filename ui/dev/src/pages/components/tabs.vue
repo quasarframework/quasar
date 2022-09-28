@@ -280,75 +280,61 @@
       </q-tabs>
 
       <div class="row q-col-gutter-xs justify-stretch">
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r">
-            r => r.1
+        <div class="col-12">Control router-links</div>
+
+        <div class="col-12 col-sm-4 col-md" v-for="route in controlRoutes" :key="'control.' + route.label">
+          <router-link class="router-link" replace :to="route.to">
+            {{ route.label }}
           </router-link>
         </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r?q=2">
-            r q=2 => r.1 q=2
+
+        <div class="col-12">Router-links</div>
+
+        <div class="col-12 col-sm-4 col-md" v-for="route in tabRoutes" :key="'r-link.' + route.label">
+          <router-link class="router-link" replace :to="route.to">
+            {{ route.label }} *
+          </router-link>
+          <router-link class="router-link q-mt-xs" replace :to="route.to" exact>
+            {{ route.label }}
           </router-link>
         </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/1?a=1">
-            r.1 a=1
-          </router-link>
+
+        <div class="col-12">QItems</div>
+
+        <div class="col-12 col-sm-4 col-md" v-for="route in tabRoutes" :key="'qitem.' + route.label">
+          <q-item class="router-link" replace :to="route.to" active-class="router-link-active" exact-active-class="router-link-exact-active">
+            <q-item-section>{{ route.label }} *</q-item-section>
+          </q-item>
+          <q-item class="router-link q-mt-xs" replace :to="route.to" exact active-class="router-link-active" exact-active-class="router-link-exact-active">
+            <q-item-section>{{ route.label }}</q-item-section>
+          </q-item>
         </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/1/1">
-            r.1.1
-          </router-link>
-        </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/1?q=1">
-            r.1 q=1
-          </router-link>
-        </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/1/1?a=1">
-            r.1.1 a=1
-          </router-link>
-        </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/1/2">
-            r.1.2 => r => r.1
-          </router-link>
-        </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/1/3">
-            r.1.3 => r.1.1
-          </router-link>
-        </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/2">
-            r.2
-          </router-link>
-        </div>
-        <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/r/3">
-            r.3
-          </router-link>
-        </div>
+
+        <div class="col-12">Route: {{ $route.path }} {{ $route.query }}</div>
       </div>
       <q-toggle v-model="exact" label="Show exact match tabs" />
       <q-toggle v-model="loose" label="Show loose match tabs" />
-      <q-tabs :dense="dense" class="test q-mt-sm" active-class="test-active-class">
-        <q-route-tab v-if="exact" key="01" replace :to="{ name: 'r' }" exact label="r" />
-        <q-route-tab v-if="loose" key="02" replace :to="{ name: 'r' }" label="r *" />
-        <q-route-tab v-if="exact" key="03" replace :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
-        <q-route-tab v-if="loose" key="04" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 *" />
-        <q-route-tab v-if="loose" key="15" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 * disabled" disable />
-        <q-route-tab v-if="exact" key="05" replace :to="{ name: 'r.1.1' }" exact label="r.1.1" />
-        <q-route-tab v-if="loose" key="06" replace :to="{ name: 'r.1.1' }" label="r.1.1 *" />
-        <q-route-tab v-if="exact" key="07" replace :to="{ name: 'r.1.2' }" exact label="r.1.2" />
-        <q-route-tab v-if="loose" key="08" replace :to="{ name: 'r.1.2' }" label="r.1.2 *" />
-        <q-route-tab v-if="exact" key="09" replace :to="{ name: 'r.1.3' }" exact label="r.1.3" />
-        <q-route-tab v-if="loose" key="10" replace :to="{ name: 'r.1.3' }" label="r.1.3 *" />
-        <q-route-tab v-if="exact" key="11" replace :to="{ name: 'r.2' }" exact label="r.2" />
-        <q-route-tab v-if="loose" key="12" replace :to="{ name: 'r.2' }" label="r.2 *" />
-        <q-route-tab v-if="exact" key="13" replace :to="{ name: 'r.3' }" exact label="r.3" />
-        <q-route-tab v-if="loose" key="14" replace :to="{ name: 'r.3' }" label="r.3 *" />
+      <q-toggle v-model="useR1" label="Insert r.1 exact not-redirected" />
+      <q-tabs :dense="dense" class="test q-mt-sm" active-class="test-active-class" no-caps outside-arrows>
+        <q-tab label="Gigi" />
+        <q-route-tab v-if="loose" key="01" replace :to="{ name: 'r.1.1' }" label="r.1.1 *" />
+        <q-route-tab v-if="loose" key="02" replace :to="{ name: 'r' }" label="r => r1 *" />
+        <q-route-tab v-if="exact" key="03" replace :to="{ name: 'r' }" exact label="r => r1" />
+        <q-route-tab v-if="loose" key="04" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 * disabled" disable />
+        <q-route-tab v-if="loose" key="05" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 *" />
+        <q-route-tab v-if="exact" key="06" replace :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
+        <q-route-tab v-if="exact && useR1" key="07" replace :to="{ name: 'r.1' }" exact label="r.1" />
+        <q-route-tab v-if="exact" key="08" replace :to="{ name: 'r.1.1' }" exact label="r.1.1" />
+        <q-route-tab v-if="loose" key="09" replace :to="{ name: 'r.1.2' }" label="r.1.2 => r => r.1 *" />
+        <q-route-tab v-if="exact" key="10" replace :to="{ name: 'r.1.2' }" exact label="r.1.2 => r => r.1" />
+        <q-route-tab v-if="loose" key="11" replace :to="{ name: 'r.1.3' }" label="r.1.3 => r1.1.1 *" />
+        <q-route-tab v-if="exact" key="12" replace :to="{ name: 'r.1.3' }" exact label="r.1.3 => r.1.1" />
+        <q-route-tab v-if="exact" key="13" replace to="/components/tabs/r/2#123456" exact label="r/2#123456" />
+        <q-route-tab v-if="exact" key="14" replace to="/components/tabs/r/2#123" exact label="r/2#123" />
+        <q-route-tab v-if="loose" key="15" replace :to="{ name: 'r.2' }" label="r.2 *" />
+        <q-route-tab v-if="exact" key="16" replace :to="{ name: 'r.2' }" exact label="r.2" />
+        <q-route-tab v-if="loose" key="17" replace :to="{ name: 'r.3' }" label="r.3 => t.2.a *" />
+        <q-route-tab v-if="exact" key="18" replace :to="{ name: 'r.3' }" exact label="r.3 => t/2/a" />
       </q-tabs>
 
       <div class="q-text-subtitle2">Custom click action</div>
@@ -592,26 +578,68 @@ export default {
       panelTest: false,
       some: false,
       exact: true,
-      loose: true
+      loose: true,
+      useR1: true,
     }
+  },
+
+  created () {
+    this.controlRoutes = [
+      { to: '/components/tabs/r', label: 'r => r.1' },
+      { to: '/components/tabs/r?q=2', label: 'r q=2 => r.1 q=2' },
+      { to: '/components/tabs/r?q=2', label: 'r.1' },
+      { to: '/components/tabs/r/1?a=1', label: 'r.1 a=1' },
+      { to: '/components/tabs/r/1/1', label: 'r.1.1' },
+      { to: '/components/tabs/r/1?q=1', label: 'r.1 q=1' },
+      { to: '/components/tabs/r/1/1?a=1', label: 'r.1.1 a=1' },
+      { to: '/components/tabs/r/1/2', label: 'r.1.2 => r => r.1' },
+      { to: '/components/tabs/r/1/3', label: 'r.1.3 => r.1.1' },
+      { to: '/components/tabs/r/2', label: 'r.2' },
+      { to: '/components/tabs/r/3', label: 'r.3 => t/2/a' }
+    ]
+
+    this.tabRoutes = [
+      { to: { name: 'r' }, label: 'r => r.1' },
+      { to: { name: 'r.1' }, label: 'r.1' },
+      { to: { name: 'r.1', query: { q: '1' } }, label: 'r.1 q=1' },
+      { to: { name: 'r', query: { q: '1' } }, label: 'r q=1 => r.1 q=1' },
+      { to: { name: 'r.1.1' }, label: 'r.1.1' },
+      { to: { name: 'r.1.2' }, label: 'r.1.2 => r => r.1' },
+      { to: { name: 'r.1.3' }, label: 'r.1.3 => r.1.1' },
+      { to: '/components/tabs/r/2#999', label: 'r/2#999' },
+      { to: '/components/tabs/r/2#123', label: 'r/2#123' },
+      { to: { name: 'r.2' }, label: 'r.2' },
+      { to: { name: 'r.3' }, label: 'r.3 => t/2/a' },
+      { to: '/components/tabs/t/2/b', label: 't/2/b (not in list)' }
+    ]
   },
 
   methods: {
     onChangeTab1 (val) {
       if (val === 'two') {
+        console.log('@onChangeTab1', val, '-> setting to one')
         this.tabModel = 'one'
       }
       else if (val !== 'three') {
+        console.log('@onChangeTab1', val, '-> setting to', val)
         this.tabModel = val
+      }
+      else {
+        console.log('@onChangeTab1', val, 'doing nothing')
       }
     },
 
     onChangeTab2 (val) {
       if (val === 'one') {
+        console.log('@onChangeTab2', val, '-> setting to two')
         this.tabModel = 'two'
       }
       else if (val !== 'four') {
+        console.log('@onChangeTab2', val, '-> setting to', val)
         this.tabModel = val
+      }
+      else {
+        console.log('@onChangeTab2', val, 'doing nothing')
       }
     },
 

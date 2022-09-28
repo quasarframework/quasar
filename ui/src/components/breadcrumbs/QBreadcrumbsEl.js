@@ -32,7 +32,7 @@ export default Vue.extend({
       }
 
       if (this.hasRouterLink === true) {
-        acc.on.click = this.navigateToRouterLink
+        acc.on.click = this.__navigateToRouterLink
       }
 
       return acc

@@ -16,7 +16,7 @@ export default Vue.extend({
 
   computed: {
     routeModel () {
-      return `${this.name} | ${this.exact} | ${(this.linkRoute || {}).href}`
+      return `${this.name} | ${this.exact} | ${(this.resolvedLink || {}).href}`
     }
   },
 

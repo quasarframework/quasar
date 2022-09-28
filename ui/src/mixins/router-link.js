@@ -90,24 +90,14 @@ export default {
         this.to !== void 0 && this.to !== null && this.to !== ''
     },
 
-    linkRoute () {
-      if (this.hasRouterLinkProps === true) {
-        // we protect from accessing this.$route without
-        // actually needing it so that we won't trigger
-        // unnecessary updates
-        try {
-          return this.append === true
-            ? this.$router.resolve(this.to, this.$route, true)
-            : this.$router.resolve(this.to)
-        }
-        catch (_) {}
-      }
-
-      return null
+    resolvedLink () {
+      return this.hasRouterLinkProps === true
+        ? this.__resolveLink(this.to, this.append)
+        : null
     },
 
     hasRouterLink () {
-      return this.linkRoute !== null
+      return this.resolvedLink !== null
     },
 
     hasLink () {
@@ -129,7 +119,7 @@ export default {
         : (
           this.hasRouterLink === true
             ? {
-              href: this.linkRoute.href,
+              href: this.resolvedLink.href,
               target: this.target
             }
             : {}
@@ -138,12 +128,12 @@ export default {
 
     linkIsActive () {
       return this.hasRouterLink === true &&
-        isIncludedRoute(this.$route, this.linkRoute.route)
+        isIncludedRoute(this.$route, this.resolvedLink.route)
     },
 
     linkIsExactActive () {
       return this.hasRouterLink === true &&
-        isSameRoute(this.$route, this.linkRoute.route)
+        isSameRoute(this.$route, this.resolvedLink.route)
     },
 
     linkClass () {
@@ -162,8 +152,26 @@ export default {
   },
 
   methods: {
-    // returns false or Promise<void|Error>
-    navigateToRouterLink (e) {
+    __resolveLink (to, append) {
+      // we protect from accessing this.$route without
+      // actually needing it so that we won't trigger
+      // unnecessary updates in computed props using this method
+      try {
+        const route = append === true
+          ? this.$router.resolve(to, this.$route, true)
+          : this.$router.resolve(to)
+
+        if (route) { return route }
+      }
+      catch (_) {}
+
+      return null
+    },
+
+    /**
+     * @returns false | Promise<RouterLocation|RouterError> | Promise<RouterLocation|void>
+     */
+    __navigateToRouterLink (e, fromGoFn, returnRouterError) {
       // should match RouterLink from Vue Router
       if (
         // component is not disabled
@@ -174,7 +182,7 @@ export default {
 
         // don't redirect when e.navigate is set to false in userland
         // ...unless calling go() from @click(e, go)
-        (e.__qNavigate !== true && e.defaultPrevented === true) ||
+        (fromGoFn !== true && e.defaultPrevented === true) ||
 
         // don't redirect on right click
         (e.button !== void 0 && e.button !== 0) ||
@@ -187,9 +195,11 @@ export default {
 
       e.preventDefault()
 
-      const { location } = this.$router.resolve(this.to, this.$route, this.append)
-      return this.$router[this.replace === true ? 'replace' : 'push'](location)
-        .catch(err => err)
+      const promise = this.$router[this.replace === true ? 'replace' : 'push'](this.resolvedLink.location)
+
+      return returnRouterError === true
+        ? promise
+        : promise.catch(() => {})
     }
   }
 }

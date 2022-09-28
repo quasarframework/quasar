@@ -8,8 +8,9 @@ import ListenersMixin from '../../mixins/listeners.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/private/slot.js'
 import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
+import uid from '../../utils/uid.js'
 
-let uid = 0
+let id = 0
 
 export default Vue.extend({
   name: 'QTab',
@@ -33,7 +34,7 @@ export default Vue.extend({
 
     name: {
       type: [Number, String],
-      default: () => `t_${uid++}`
+      default: () => `t_${id++}`
     },
 
     noCaps: Boolean,
@@ -119,47 +120,55 @@ export default Vue.extend({
         this.$refs.blurTarget.focus({ preventScroll: true })
       }
 
-      if (this.disable !== true) {
-        let go
+      if (this.disable === true) { return }
 
-        if (this.hasRouterLinkProps !== void 0) {
-          if (this.hasRouterLink === true) {
-            go = () => {
-              e.__qNavigate = true
-              this.$tabs.avoidRouteWatcher = true
+      // do we have a QTab?
+      if (this.hasRouterLinkProps === void 0) {
+        this.$tabs.__updateModel({ name: this.name })
+        this.qListeners.click !== void 0 && this.$emit('click', e)
+        return
+      }
 
-              const res = this.navigateToRouterLink(e)
+      if (this.hasRouterLink === true) {
+        const go = (to = this.to, append = this.append, replace = this.replace) => {
+          let reqId
 
-              if (res === false) {
+          // if requiring to go to another route, then we
+          // let the QTabs route watcher do its job,
+          // otherwise directly select this
+          const sameInternalRoute = to === this.to && append === this.append
+
+          if (sameInternalRoute === true) {
+            reqId = this.$tabs.avoidRouteWatcher = uid()
+            this.$tabs.__updateModel({ name: this.name })
+          }
+
+          const resolvedLink = sameInternalRoute === true
+            ? this.resolvedLink
+            : this.__resolveLink(to, append)
+
+          if (resolvedLink === null) {
+            return Promise.resolve()
+          }
+
+          return this.$router[replace === true ? 'replace' : 'push'](resolvedLink.location)
+            .catch(() => {})
+            .finally(() => {
+              if (sameInternalRoute === true && reqId === this.$tabs.avoidRouteWatcher) {
                 this.$tabs.avoidRouteWatcher = false
               }
-              else {
-                res.then(err => {
-                  this.$tabs.avoidRouteWatcher = false
-
-                  if (err === void 0) {
-                    this.$tabs.__updateModel({ name: this.name, fromRoute: true })
-                  }
-                })
-              }
-            }
-
-            stopAndPrevent(e)
-          }
-          else {
-            this.qListeners.click !== void 0 && this.$emit('click', e)
-            return
-          }
+            })
         }
-        else {
-          go = () => {
-            this.$tabs.__updateModel({ name: this.name, fromRoute: false })
-          }
-        }
+
+        stopAndPrevent(e)
 
         this.qListeners.click !== void 0 && this.$emit('click', e, go)
         e.navigate !== false && go()
+
+        return
       }
+
+      this.qListeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onKeydown (e) {
