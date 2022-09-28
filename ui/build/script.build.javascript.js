@@ -73,7 +73,7 @@ const uglifyJsOptions = {
 
 const builds = [
   {
-    // client entry used by @quasar/vite-plugin for DEV only
+    // client entry-point used by @quasar/vite-plugin for DEV only
     // (has flags untouched; required to replace them)
     rollup: {
       input: {
@@ -94,7 +94,32 @@ const builds = [
   },
 
   {
-    // SSR server prod entry
+    // client prod entry-point that is not used by Quasar CLI,
+    // but pointed to in package.json > module;
+    // (no flags; not required to replace them)
+    rollup: {
+      input: {
+        input: resolve('src/index.prod.js')
+      },
+      output: {
+        file: resolve('dist/quasar.esm.js'),
+        format: 'es'
+      }
+    },
+    build: {
+      minified: true,
+      replace: {
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
+      }
+    }
+  },
+
+  {
+    // SSR server prod entry-point
     // (no flags; not required to replace them)
     rollup: {
       input: {

@@ -131,7 +131,8 @@ function createViteConfig (quasarConf, quasarRunMode) {
       quasarVitePlugin({
         runMode: quasarRunMode || 'web-client',
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
-        sassVariables: quasarConf.metaConf.css.variablesFile
+        sassVariables: quasarConf.metaConf.css.variablesFile,
+        devTreeshaking: quasarConf.build.devQuasarTreeshaking === true
       }),
       ...parseVitePlugins(build.vitePlugins)
     ]

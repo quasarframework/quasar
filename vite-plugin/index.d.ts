@@ -11,6 +11,7 @@ export interface QuasarPluginOpts {
    *   "combined": q-carousel QPage
    */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
+
   /**
    * Would you like to use Quasar's SCSS/Sass variables?
    *   true
@@ -21,6 +22,7 @@ export interface QuasarPluginOpts {
    *      --> yes, and I'd also like to customize those variables
    */
   sassVariables?: string | boolean;
+
   /**
    * How will Quasar be used? In a:
    *    "web-client" (default)
@@ -28,6 +30,13 @@ export interface QuasarPluginOpts {
    *    "ssr-client" (used by @quasar/app-vite)
    */
   runMode?: "web-client" | "ssr-client" | "ssr-server";
+
+  /**
+   * Treeshake Quasar's UI on dev too?
+   * Recommended to leave this as false for performance reasons.
+   * @default false
+   */
+  devTreeshaking?: boolean;
 }
 
 export function quasar(opts?: QuasarPluginOpts): Plugin;

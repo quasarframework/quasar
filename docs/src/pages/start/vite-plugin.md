@@ -51,8 +51,8 @@ $ npm install quasar @quasar/extras
 $ npm install -D @quasar/vite-plugin sass@1.32.12
 
 # or
-$ pnpm add quasar @quasar/extras
-$ pnpm add -D @quasar/vite-plugin sass@1.32.12
+$ pnpm add quasar @quasar/extras # experimental support
+$ pnpm add -D @quasar/vite-plugin sass@1.32.12 # experimental support
 ```
 
 ## Using Quasar

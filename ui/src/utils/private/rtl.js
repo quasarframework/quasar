@@ -3,15 +3,18 @@ let rtlHasScrollBug = false
 // mobile Chrome takes the crown for this
 if (!__QUASAR_SSR__) {
   const scroller = document.createElement('div')
-  const spacer = document.createElement('div')
-
   scroller.setAttribute('dir', 'rtl')
-  scroller.style.width = '1px'
-  scroller.style.height = '1px'
-  scroller.style.overflow = 'auto'
+  Object.assign(scroller.style, {
+    width: '1px',
+    height: '1px',
+    overflow: 'auto'
+  })
 
-  spacer.style.width = '1000px'
-  spacer.style.height = '1px'
+  const spacer = document.createElement('div')
+  Object.assign(spacer.style, {
+    width: '1000px',
+    height: '1px'
+  })
 
   document.body.appendChild(scroller)
   scroller.appendChild(spacer)

@@ -19,7 +19,9 @@ module.exports = {
     create: 'Creează',
     search: 'Caută',
     filter: 'Filtrează',
-    refresh: 'Actualizează'
+    refresh: 'Actualizează',
+    expand: label => (label ? `Deschideți "${ label }"` : 'Deschide'),
+    collapse: label => (label ? `Închide "${ label }"` : 'Închide')
   },
   date: {
     days: 'Duminică_Luni_Marți_Miercuri_Joi_Vineri_Sâmbătă'.split('_'),

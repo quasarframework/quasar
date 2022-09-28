@@ -11,14 +11,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 /* eslint-disable */
 import { h, ref, computed, watch, nextTick, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
-
-export default {
-  setup () {
-    return {
-    }
-  }
-}
 </script>

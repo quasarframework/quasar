@@ -51,7 +51,7 @@ In the example above, we're using `accept` property. Its value must be a comma s
 :::
 
 ::: warning
-Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/png", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
+Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/jpeg", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
 :::
 
 You can also apply custom filters (which are executed after user picks files):

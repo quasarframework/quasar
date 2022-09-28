@@ -39,8 +39,8 @@ $ npm init quasar
 
 # or:
 
-$ pnpm add -g @quasar/cli
-$ pnpm create quasar
+$ pnpm add -g @quasar/cli # experimental support
+$ pnpm create quasar # experimental support
 ```
 
 Pick `Quasar CLI with Vite` if you want:
@@ -65,7 +65,7 @@ Pick `Quasar CLI with Vite` if you want:
     # or:
     $ npm init quasar
     # or:
-    $ pnpm create quasar
+    $ pnpm create quasar # experimental support
     ```
     <br>
 
@@ -95,7 +95,7 @@ Pick `Quasar CLI with Vite` if you want:
     # or
     $ npm install -g @quasar/cli
     # or
-    $ pnpm add -g @quasar/cli
+    $ pnpm add -g @quasar/cli # experimental support
     ```
 
     ::: tip

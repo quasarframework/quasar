@@ -2,6 +2,7 @@
   <div class="q-pa-md flex flex-center">
     <q-circular-progress
       indeterminate
+      rounded
       size="50px"
       color="lime"
       class="q-ma-md"
@@ -30,6 +31,7 @@
       indeterminate
       size="50px"
       :thickness="0.22"
+      rounded
       color="lime"
       track-color="grey-3"
       class="q-ma-md"

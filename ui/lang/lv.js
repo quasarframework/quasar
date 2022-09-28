@@ -19,7 +19,9 @@ module.exports = {
     create: 'Izveidot',
     search: 'Meklēt',
     filter: 'Filtēt',
-    refresh: 'Atjaunot'
+    refresh: 'Atjaunot',
+    expand: label => (label ? `Paplašināt "${ label }"` : 'Izvērst'),
+    collapse: label => (label ? `Sakļaut "${ label }"` : 'Sakļaut')
   },
   date: {
     days: 'Svētdiena_Pirmdiena_Otrdiena_Trešdiena_Ceturtdiena_Piektdiena_Sestdiena'.split('_'),

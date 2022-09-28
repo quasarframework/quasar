@@ -139,10 +139,10 @@ Usage inside the `<template>`:
 
 Notice that we are using `:` to bind variables instead of plain values, it's important. We must make those variables available to the template. The way to do that depends on your Vue API preference:
 
-#### Composition API with <script setup>
+#### Composition API with "script setup"
 
 This is the most convenient way. Just importing the variables is enough to make them available to the template.
-  
+
 ```html
 <script setup>
 import { matMenu } from '@quasar/extras/material-icons'
@@ -151,7 +151,7 @@ import { fasFont } from '@quasar/extras/fontawesome-v5'
 </script>
 ```
 
-#### Composition API without <script setup>
+#### Composition API without "script setup"
 
 ```html
 <script>

@@ -23,7 +23,9 @@ module.exports = {
     create: 'Жасау',
     search: 'Іздеу',
     filter: 'Сүзгі',
-    refresh: 'Жаңарту'
+    refresh: 'Жаңарту',
+    expand: label => (label ? `"${ label }" кеңейту` : 'Кеңейту'),
+    collapse: label => (label ? `"${ label }" жию` : 'Жыйрату')
   },
   date: {
     days: 'Жексенбі_Дүйсенбі_Сейсенбі_Сәрсенбі_Бейсенбі_Жұма_Сенбі'.split('_'),

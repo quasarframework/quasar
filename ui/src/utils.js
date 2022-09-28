@@ -6,6 +6,7 @@ import createUploaderComponent from './utils/create-uploader-component.js'
 import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
+import EventBus from './utils/EventBus.js'
 import event, { noop } from './utils/event.js'
 import exportFile from './utils/export-file.js'
 import extend from './utils/extend.js'
@@ -16,6 +17,7 @@ import is from './utils/is.js'
 import morph from './utils/morph.js'
 import openURL from './utils/open-url.js'
 import patterns from './utils/patterns.js'
+import runSequentialPromises from './utils/run-sequential-promises.js'
 import scroll from './utils/scroll.js'
 import setCssVar from './utils/set-css-var.js'
 import throttle from './utils/throttle.js'
@@ -30,6 +32,7 @@ export {
   date,
   debounce,
   dom,
+  EventBus,
   event,
   exportFile,
   extend,
@@ -41,6 +44,7 @@ export {
   morph,
   openURL,
   patterns,
+  runSequentialPromises,
   scroll,
   setCssVar,
   throttle,

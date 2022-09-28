@@ -75,7 +75,7 @@ export default function (props, slots, emit, routerProps) {
     + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
     + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
     + (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
-    + (routerProps !== void 0 && routerProps.linkClass.value !== '' ? ` ${ routerProps.linkClass.value }` : '')
+    + (routerProps !== void 0 ? routerProps.linkClass.value : '')
   )
 
   const innerClass = computed(() =>
@@ -210,12 +210,10 @@ export default function (props, slots, emit, routerProps) {
 
   onBeforeUnmount(() => {
     $tabs.unregisterTab(tabData)
-    $tabs.recalculateScroll()
   })
 
   onMounted(() => {
     $tabs.registerTab(tabData)
-    $tabs.recalculateScroll()
   })
 
   function renderTab (tag, customData) {

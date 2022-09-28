@@ -19,7 +19,9 @@ module.exports = {
     create: 'Krei',
     search: 'Serĉi',
     filter: 'Filtri',
-    refresh: 'Reŝargi'
+    refresh: 'Reŝargi',
+    expand: label => (label ? `Vastigi "${ label }"` : 'Vastigi'),
+    collapse: label => (label ? `Kolapsi "${ label }"` : 'Kolapso')
   },
   date: {
     days: 'Dimanĉo_Lundo_Mardo_Merkredo_Jaŭdo_Vendredo_Sabato'.split('_'),

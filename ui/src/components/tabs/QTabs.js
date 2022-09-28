@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, nextTick, onBeforeUnmount, onActivated, onDeactivated, getCurrentInstance, provide } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, onActivated, onDeactivated, getCurrentInstance, provide } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -71,8 +71,11 @@ export default createComponent({
     const { proxy: { $q } } = vm
 
     const { registerTick: registerScrollTick } = useTick()
+    const { registerTick: registerUpdateArrowsTick } = useTick()
+    const { registerTick: registerAnimateTick } = useTick()
+
     const { registerTimeout: registerFocusTimeout, removeTimeout: removeFocusTimeout } = useTimeout()
-    const { registerTimeout } = useTimeout()
+    const { registerTimeout: registerScrollToTabTimeout } = useTimeout()
 
     const rootRef = ref(null)
     const contentRef = ref(null)
@@ -150,7 +153,7 @@ export default createComponent({
     })
 
     watch(() => props.outsideArrows, () => {
-      nextTick(recalculateScroll())
+      recalculateScroll()
     })
 
     watch(arrowsEnabled, v => {
@@ -158,7 +161,7 @@ export default createComponent({
         ? updateArrowsFn
         : noop
 
-      nextTick(recalculateScroll())
+      recalculateScroll()
     })
 
     function updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
@@ -180,12 +183,10 @@ export default createComponent({
 
     function recalculateScroll () {
       registerScrollTick(() => {
-        if (vm.isDeactivated !== true && vm.isUnmounted !== true) {
-          updateContainer({
-            width: rootRef.value.offsetWidth,
-            height: rootRef.value.offsetHeight
-          })
-        }
+        updateContainer({
+          width: rootRef.value.offsetWidth,
+          height: rootRef.value.offsetHeight
+        })
       })
     }
 
@@ -207,12 +208,10 @@ export default createComponent({
         ),
         scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
-      if (scrollable.value !== scroll) {
-        scrollable.value = scroll
-      }
+      scrollable.value = scroll
 
       // Arrows need to be updated even if the scroll status was already true
-      scroll === true && nextTick(localUpdateArrows)
+      scroll === true && registerUpdateArrowsTick(localUpdateArrows)
 
       const localJustify = size < parseInt(props.breakpoint, 10)
 
@@ -251,7 +250,7 @@ export default createComponent({
           : `translate3d(${ oldPos.left - newPos.left }px,0,0) scale3d(${ newPos.width ? oldPos.width / newPos.width : 1 },1,1)`
 
         // allow scope updates to kick in (QRouteTab needs more time)
-        nextTick(() => {
+        registerAnimateTick(() => {
           animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
@@ -306,8 +305,6 @@ export default createComponent({
 
     function animScrollTo (value) {
       stopAnimScroll()
-      scrollTowards(value)
-
       scrollTimer = setInterval(() => {
         if (scrollTowards(value) === true) {
           stopAnimScroll()
@@ -408,7 +405,7 @@ export default createComponent({
     }
 
     function getRouteList () {
-      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.hasRouterLink.value === true)
+      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.linkRoute.value !== null)
     }
 
     // do not use directly; use verifyRouteModel() instead
@@ -442,9 +439,7 @@ export default createComponent({
           continue
         }
 
-        const
-          linkRoute = tab.routerProps.linkRoute.value,
-          tabHash = linkRoute.hash
+        const { hash: tabHash, matched, href } = tab.routerProps.linkRoute.value
 
         // Vue Router does not match the hash too, even if link is set to "exact"
         if (exact === true) {
@@ -459,8 +454,8 @@ export default createComponent({
         }
 
         const
-          matchedLen = linkRoute.matched.length,
-          hrefLen = linkRoute.href.length - tabHash.length
+          matchedLen = matched.length,
+          hrefLen = href.length - tabHash.length
 
         if (
           matchedLen === best.matchedLen
@@ -505,21 +500,40 @@ export default createComponent({
 
     function verifyRouteModel () {
       if ($tabs.avoidRouteWatcher !== true) {
-        registerTimeout(updateActiveRoute)
+        registerScrollToTabTimeout(updateActiveRoute)
+      }
+    }
+
+    function watchRoute () {
+      if (unwatchRoute === void 0) {
+        const unwatch = watch(() => vm.proxy.$route.fullPath, verifyRouteModel)
+        unwatchRoute = () => {
+          unwatch()
+          unwatchRoute = void 0
+        }
       }
     }
 
     function registerTab (getTab) {
       tabList.push(getTab)
+      recalculateScroll()
 
-      const routeList = getRouteList()
-
-      if (routeList.length > 0) {
-        if (unwatchRoute === void 0) {
-          unwatchRoute = watch(() => vm.proxy.$route, verifyRouteModel)
-        }
-
+      if (getRouteList().length !== 0) {
+        watchRoute()
         verifyRouteModel()
+      }
+      else {
+        // we should still position to the currently active tab (if any)
+        registerScrollToTabTimeout(() => {
+          if (scrollable.value === true) {
+            const { value } = currentModel
+            const newTab = value !== void 0 && value !== null && value !== ''
+              ? tabList.find(tab => tab.name.value === value)
+              : null
+
+            newTab && scrollToTabEl(newTab.rootRef.value)
+          }
+        })
       }
     }
 
@@ -532,15 +546,10 @@ export default createComponent({
      */
     function unregisterTab (tabData) {
       tabList.splice(tabList.indexOf(tabData), 1)
+      recalculateScroll()
 
       if (unwatchRoute !== void 0) {
-        const routeList = getRouteList()
-
-        if (routeList.length === 0) {
-          unwatchRoute()
-          unwatchRoute = void 0
-        }
-
+        getRouteList().length === 0 && unwatchRoute()
         verifyRouteModel()
       }
     }
@@ -555,7 +564,6 @@ export default createComponent({
 
       verifyRouteModel,
       updateModel,
-      recalculateScroll,
       onKbdNavigate,
 
       avoidRouteWatcher: false
@@ -563,19 +571,24 @@ export default createComponent({
 
     provide(tabsKey, $tabs)
 
-    onBeforeUnmount(() => {
+    function cleanup () {
       clearTimeout(animateTimer)
+      stopAnimScroll()
       unwatchRoute !== void 0 && unwatchRoute()
-    })
+    }
 
-    let shouldActivate = false
+    let hadRouteWatcher
+
+    onBeforeUnmount(cleanup)
 
     onDeactivated(() => {
-      shouldActivate = true
+      hadRouteWatcher = unwatchRoute !== void 0
+      cleanup()
     })
 
     onActivated(() => {
-      shouldActivate === true && recalculateScroll()
+      hadRouteWatcher === true && watchRoute()
+      recalculateScroll()
     })
 
     return () => {
@@ -594,22 +607,22 @@ export default createComponent({
           class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon'
             + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.leftIcon || $q.iconSet.tabs[ props.vertical === true ? 'up' : 'left' ],
-          onMousedown: scrollToStart,
+          onMousedownPassive: scrollToStart,
           onTouchstartPassive: scrollToStart,
-          onMouseup: stopAnimScroll,
-          onMouseleave: stopAnimScroll,
-          onTouchend: stopAnimScroll
+          onMouseupPassive: stopAnimScroll,
+          onMouseleavePassive: stopAnimScroll,
+          onTouchendPassive: stopAnimScroll
         }),
 
         h(QIcon, {
           class: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon'
             + (rightArrow.value === true ? '' : ' q-tabs__arrow--faded'),
           name: props.rightIcon || $q.iconSet.tabs[ props.vertical === true ? 'down' : 'right' ],
-          onMousedown: scrollToEnd,
+          onMousedownPassive: scrollToEnd,
           onTouchstartPassive: scrollToEnd,
-          onMouseup: stopAnimScroll,
-          onMouseleave: stopAnimScroll,
-          onTouchend: stopAnimScroll
+          onMouseupPassive: stopAnimScroll,
+          onMouseleavePassive: stopAnimScroll,
+          onTouchendPassive: stopAnimScroll
         })
       )
 

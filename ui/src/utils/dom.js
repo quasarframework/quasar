@@ -1,4 +1,4 @@
-import { isRef } from 'vue'
+import { unref } from 'vue'
 
 export function offset (el) {
   if (el === window) {
@@ -63,10 +63,7 @@ export function getElement (el) {
     }
   }
 
-  const target = isRef(el) === true
-    ? el.value
-    : el
-
+  const target = unref(el)
   if (target) {
     return target.$el || target
   }

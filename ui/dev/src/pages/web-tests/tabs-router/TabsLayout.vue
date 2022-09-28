@@ -13,7 +13,7 @@
   <q-tabs v-model="tab">
     <q-route-tab name="one" to="/tabs-router/one" label="Tab one" />
     <q-route-tab name="two" to="/tabs-router/two" label="Tab two" />
-    <q-route-tab name="two" to="/tabs-router/bogus" label="Tab bogus" />
+    <q-route-tab name="three" to="/tabs-router/bogus" label="Tab bogus" />
   </q-tabs>
 
   <router-view v-bind:allowRouteChange="allowRouteChange" />

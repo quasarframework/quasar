@@ -19,7 +19,9 @@ module.exports = {
     create: 'Skapa',
     search: 'Sök',
     filter: 'Filtrera',
-    refresh: 'Uppdatera'
+    refresh: 'Uppdatera',
+    expand: label => (label ? `Utöka "${ label }"` : 'Bygga ut'),
+    collapse: label => (label ? `Komprimera "${ label }"` : 'Kollaps')
   },
   date: {
     days: 'Söndag_Måndag_Tisdag_Onsdag_Torsdag_Fredag_Lördag'.split('_'),

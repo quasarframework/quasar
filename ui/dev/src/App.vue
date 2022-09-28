@@ -2,17 +2,17 @@
   <div>
     <router-view />
 
-    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" />
+    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" aria-label="Go Home" />
 
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" />
+      <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" aria-label="Settings" />
       <template v-if="showSelector">
         <q-toggle :model-value="$q.dark.isActive" @update:model-value="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
 
-        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" />
+        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" aria-label="Toggle RTL/LTR" />
         <q-select
           label="Quasar Language"
           dense

@@ -14,7 +14,9 @@ export default {
     create: 'Búa til',
     search: 'Leita',
     filter: 'Sía',
-    refresh: 'Endurhlaða'
+    refresh: 'Endurhlaða',
+    expand: label => (label ? `Stækka "${ label }"` : 'Stækkaðu'),
+    collapse: label => (label ? `Draga saman "${ label }"` : 'Hrun')
   },
   date: {
     days: 'Sunnudagur_Mánudagur_Þriðjudagur_Miðvikudagur_Fimmtudagur_Föstudagur_Laugardagur'.split('_'),

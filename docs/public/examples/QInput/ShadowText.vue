@@ -114,9 +114,9 @@ export default {
           }
         }
         else if (e.keyCode === 9) {
-          if (inputFillCancelled.value !== true && this.inputShadowText.length > 0) {
+          if (inputFillCancelled.value !== true && inputShadowText.value.length > 0) {
             stopAndPrevent(e)
-            inputModel.value = (typeof inputModel.value === 'string' ? inputModel.value : '') + this.inputShadowText
+            inputModel.value = (typeof inputModel.value === 'string' ? inputModel.value : '') + inputShadowText.value
           }
         }
         else if (inputFillCancelled.value === true) {
@@ -139,9 +139,9 @@ export default {
           }
         }
         else if (e.keyCode === 9) {
-          if (textareaFillCancelled.value !== true && this.textareaShadowText.length > 0) {
+          if (textareaFillCancelled.value !== true && textareaShadowText.value.length > 0) {
             stopAndPrevent(e)
-            textareaModel.value = (typeof textareaModel.value === 'string' ? textareaModel.value : '') + this.textareaShadowText
+            textareaModel.value = (typeof textareaModel.value === 'string' ? textareaModel.value : '') + textareaShadowText.value
           }
         }
         else if (textareaFillCancelled.value === true) {

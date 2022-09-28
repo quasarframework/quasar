@@ -348,7 +348,7 @@ export default createComponent({
 
       if (rowEl !== null) {
         const scrollTarget = rootRef.value.querySelector('.q-table__middle.scroll')
-        const { offsetTop } = rowEl
+        const offsetTop = rowEl.offsetTop - props.virtualScrollStickySizeStart
         const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
 
         scrollTarget.scrollTop = offsetTop

@@ -119,6 +119,14 @@
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[8, 8]", "[5, 10]" ],
       "category": "position"
+    },
+
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the dropdown toggle element",
+      "examples": [ "Open menu" ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
     }
   },
 

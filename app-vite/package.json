@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "1.0.6",
+  "version": "1.1.2",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar"
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@quasar/fastclick": "1.1.5",
-    "@quasar/vite-plugin": "^1.1.1",
+    "@quasar/vite-plugin": "^1.2.1",
     "@rollup/pluginutils": "^4.1.2",
     "@types/chrome": "^0.0.191",
     "@types/compression": "^1.7.2",
@@ -101,7 +101,7 @@
     "electron-packager": "^15.0.0",
     "eslint": "^8.11.0",
     "pinia": "^2.0.0",
-    "quasar": "^2.6.0",
+    "quasar": "^2.8.0",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",

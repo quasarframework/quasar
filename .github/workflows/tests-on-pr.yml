@@ -9,8 +9,15 @@ on:
       - 'ui/**.js'
       - '!.github/**'
 
+permissions:
+  contents: read # to fetch code (actions/checkout)
+
 jobs:
   tests:      
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      actions: read # to correctly identify workflow run (cypress-io/github-action)
+
     runs-on: ubuntu-latest
 
     strategy:

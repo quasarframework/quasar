@@ -8,6 +8,7 @@ const partArgs = {
   p: 'props',
   s: 'slots',
   m: 'methods',
+  c: 'computedProps',
   e: 'events',
   v: 'value',
   a: 'arg',
@@ -63,8 +64,9 @@ if (!item || argv.help) {
     --filter, -f <filter> Filters the API
     --props, -p           Displays the API props
     --slots, -s           Displays the API slots
-    --methods, -m         Displays the API methods
     --events, -e          Displays the API events
+    --methods, -m         Displays the API methods
+    --computedProps, -c   Displays the API computed props
     --value, -v           Displays the API value
     --arg, -a             Displays the API arg
     --modifiers, -M       Displays the API modifiers
@@ -328,6 +330,34 @@ function printMethods ({ methods }) {
   }
 }
 
+function printComputedProps ({ computedProps }) {
+  const keys = Object.keys(computedProps || {})
+
+  console.log('\n ' + underline('Computed Properties'))
+
+  if (keys.length === 0) {
+    console.log('\n   ' + italic('*No computed properties*'))
+    return
+  }
+
+  if (argv.filter) {
+    keys.forEach(key => {
+      if (key.indexOf(argv.filter) === -1) {
+        delete computedProps[key]
+      }
+    })
+    if (Object.keys(computedProps).length === 0) {
+      console.log('\n   ' + italic('*No matching computed properties*'))
+      return
+    }
+  }
+
+  for (let propName in computedProps) {
+    console.log()
+    printProp(computedProps[propName], propName, 3)
+  }
+}
+
 function printValue ({ value }) {
   console.log('\n ' + underline('Value'))
 
@@ -433,6 +463,7 @@ function describe (api) {
       apiParts.slots === true && printSlots(api)
       apiParts.events === true && printEvents(api)
       apiParts.methods === true && printMethods(api)
+      apiParts.computedProps === true && printComputedProps(api)
       break
 
     case 'directive':

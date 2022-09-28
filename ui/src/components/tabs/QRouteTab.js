@@ -28,10 +28,10 @@ export default createComponent({
       }
     )
 
-    watch(() => props.name + props.exact + (rData.linkRoute.value || {}).href, () => {
+    watch(() => `${ props.name } | ${ props.exact } | ${ (rData.linkRoute.value || {}).href }`, () => {
       $tabs.verifyRouteModel()
     })
 
-    return () => renderTab(rData.linkTag.value, rData.linkProps.value)
+    return () => renderTab(rData.linkTag.value, rData.linkAttrs.value)
   }
 })

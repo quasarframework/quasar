@@ -95,6 +95,14 @@
       "extends": "ripple"
     },
 
+    "remove-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the remove icon",
+      "examples": [ "Remove item" ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     },

@@ -312,5 +312,14 @@
         "__exemption": [ "examples" ]
       }
     }
+  },
+
+  "computedProps": {
+    "caret": {
+      "type": "Object",
+      "tsType": "QEditorCaret",
+      "desc": "The current caret state",
+      "__exemption": [ "examples" ]
+    }
   }
 }
