@@ -560,6 +560,8 @@ function writeIndexDTS (apis) {
   //  and not directly referenced by any file
   writeLine(contents, 'import \'./shim-icon-set\'')
   writeLine(contents, 'import \'./shim-lang\'')
+  writeLine(contents, 'import \'./shim-jsx\'')
+
 
   writeFile(
     resolvePath('index.d.ts'),
