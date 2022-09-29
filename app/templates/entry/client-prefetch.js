@@ -30,7 +30,11 @@ function getMatchedComponents (to, router) {
 
   if (!route) { return [] }
 
-  return Array.prototype.concat.apply([], route.matched.map(m => {
+  const matched = route.matched.filter(m => m.components !== void 0)
+
+  if (matched.length === 0) { return [] }
+
+  return Array.prototype.concat.apply([], matched.map(m => {
     return Object.keys(m.components).map(key => {
       const comp = m.components[key]
       return {

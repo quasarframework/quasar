@@ -123,6 +123,7 @@ export default context => {
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
+        .filter(m => m !== void 0)
         .map(m => m.options /* Vue.extend() */ || m)
 
       // no matched routes
