@@ -169,7 +169,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .button-toggle-group-test .q-btn-toggle
-  margin 15px
+  margin: 15px
 </style>

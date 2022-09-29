@@ -304,7 +304,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .table-sticky
   .q-table__top,
   .q-table__bottom,

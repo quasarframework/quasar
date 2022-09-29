@@ -91,7 +91,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .example-item
   height: 50px
 .conversation-item-move

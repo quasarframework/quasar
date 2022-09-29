@@ -319,12 +319,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .fields-border
-  .q-field, .q-item
-    border 1px solid currentColor
+  .q-field,
+  .q-item
+    border: 1px solid currentColor
 
 .fields-individual-border
-  .q-field__before, .q-field__after, .q-field__content, .q-field__bottom, .q-item
-    border 1px solid currentColor
+  .q-field__before,
+  .q-field__after,
+  .q-field__content,
+  .q-field__bottom, .q-item
+    border: 1px solid currentColor
 </style>

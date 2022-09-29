@@ -207,12 +207,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .stylish-splitter
-  border 3px solid $deep-orange
-  height 700px
+  border: 3px solid $deep-orange
+  height: 700px
 .test-separator
-  position absolute
-  left auto
-  right 0
+  position: absolute
+  left: auto
+  right: 0
 </style>

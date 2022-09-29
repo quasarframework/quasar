@@ -96,26 +96,26 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 #view-colors
   div.main-color
-    width 130px
-    margin 5px
-    height 40px
+    width: 130px
+    margin: 5px
+    height: 40px
 
   .detailed-color
-    width 100%
+    width: 100%
 
   div.detailed-color
-    height 55px
+    height: 55px
 
   div.detail
-    margin-bottom 25px
-    max-width 400px
-    min-width 135px
-    display inline-block
-    margin-right 5px
+    margin-bottom: 25px
+    max-width: 400px
+    min-width: 135px
+    display: inline-block
+    margin-right: 5px
 
   h5
-    margin-bottom 5px
+    margin-bottom: 5px
 </style>

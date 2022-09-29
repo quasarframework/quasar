@@ -768,10 +768,10 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-expand-link
-  color $secondary
-  background alpha($secondary, .1)
+  color: $secondary
+  background: rgba($secondary, .1)
   .q-item__section--side .q-icon
-    color $secondary
+    color: $secondary
 </style>

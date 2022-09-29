@@ -830,8 +830,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-link
-  color white
-  background $deep-orange
+  color: white
+  background: $deep-orange
 </style>

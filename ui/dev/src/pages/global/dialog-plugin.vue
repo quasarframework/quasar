@@ -593,9 +593,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .custom-dialog
-  color #33c
-  background-color #ee9
-  padding 40px
+  color: #33c
+  background-color: #ee9
+  padding: 40px
 </style>

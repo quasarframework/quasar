@@ -277,10 +277,10 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .button-group-test
   .q-btn-group
-    // margin 5px 15px
+    // margin: 5px 15px
 </style>
 
 <script>

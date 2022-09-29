@@ -1002,9 +1002,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .select-card
-  transition .3s background-color
+  transition: .3s background-color
   &:not(.disabled):hover
-    background $grey-3
+    background: $grey-3
 </style>

@@ -75,9 +75,9 @@
   </q-layout>
 </template>
 
-<style lang="stylus">
-  .no-height
-    height 0
+<style lang="sass">
+.no-height
+  height: 0
 </style>
 
 <script>

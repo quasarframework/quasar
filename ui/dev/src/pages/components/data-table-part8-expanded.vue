@@ -249,9 +249,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-table + .q-table
-  margin-top 25px
+  margin-top: 25px
 .text-pre-wrap
-  white-space pre-wrap
+  white-space: pre-wrap
 </style>

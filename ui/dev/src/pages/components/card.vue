@@ -1101,13 +1101,13 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .card-examples
   .q-card
-    width 300px
+    width: 300px
   .bigger
-    width 450px
+    width: 450px
   @media (max-width $breakpoint-xs-max)
     .q-card
-      width 100%
+      width: 100%
 </style>

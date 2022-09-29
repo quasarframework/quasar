@@ -262,20 +262,20 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .popup-surface-test
-  width 200px
-  height 50px
-  background white
-  border 1px solid #999
-  display flex
-  align-items center
-  justify-content center
-  border-radius 5px
+  width: 200px
+  height: 50px
+  background: white
+  border: 1px solid #999
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: 5px
 
   > div
-    user-select none
+    user-select: none
 
   & + &
-    margin-top 16px
+    margin-top: 16px
 </style>

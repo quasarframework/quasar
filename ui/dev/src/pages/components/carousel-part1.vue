@@ -386,14 +386,14 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .docs-carousel
   p.caption:not(:first-of-type)
-    margin-top 38px
+    margin-top: 38px
   .custom-caption
-    text-align center
-    padding 12px
-    color white
+    text-align: center
+    padding: 12px
+    color: white
 .test-scroll-container
   background: rgba(255,255,255,.3)
   border-radius: $generic-border-radius

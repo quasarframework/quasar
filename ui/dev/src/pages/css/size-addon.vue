@@ -16,34 +16,33 @@
   </div>
 </template>
 
-<style lang="stylus">
-  .box
-    position relative
-    display inline-flex
-    margin 2em
-    background rgba(255, 150, 0, .3)
-    width 200px
-    height 200px
-    div
-      flex 1 1 100%
-      background rgba(0, 200, 0, .3)
-      &:before
-        content ''
-        display block
-        width 100%
-        height 100%
-        background rgba(0, 0, 255, .3)
-      &:after
-        content attr(class)
-        position absolute
-        bottom 0
-        left 0
-        right 0
-        transform translateY(100%)
-        padding .5em
-        background rgba(100, 100, 100, .1)
-        text-align center
-
+<style lang="sass">
+.box
+  position: relative
+  display: inline-flex
+  margin: 2em
+  background: rgba(255, 150, 0, .3)
+  width: 200px
+  height: 200px
+  div
+    flex: 1 1 100%
+    background: rgba(0, 200, 0, .3)
+    &:before
+      content: ''
+      display: block
+      width: 100%
+      height: 100%
+      background: rgba(0, 0, 255, .3)
+    &:after
+      content: attr(class)
+      position: absolute
+      bottom: 0
+      left: 0
+      right: 0
+      transform: translateY(100%)
+      padding: .5em
+      background: rgba(100, 100, 100, .1)
+      text-align: center
 </style>
 
 <script>
