@@ -611,7 +611,7 @@ export default Vue.extend({
           this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
         }
         else if (meta.key !== this.selected) {
-          this.$emit('update:selected', meta.key || null)
+          this.$emit('update:selected', meta.key === void 0 ? null : meta.key)
         }
       }
       else {
