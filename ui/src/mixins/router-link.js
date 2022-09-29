@@ -83,6 +83,7 @@ export default {
       return this.disable !== true && this.href !== void 0
     },
 
+    // beware, it gets overwritten in QRouteTab
     hasRouterLinkProps () {
       return this.$router !== void 0 &&
         this.disable !== true &&
@@ -157,11 +158,9 @@ export default {
       // actually needing it so that we won't trigger
       // unnecessary updates in computed props using this method
       try {
-        const route = append === true
+        return append === true
           ? this.$router.resolve(to, this.$route, true)
           : this.$router.resolve(to)
-
-        if (route) { return route }
       }
       catch (_) {}
 
@@ -172,11 +171,16 @@ export default {
      * @returns false | Promise<RouterLocation|RouterError> | Promise<RouterLocation|void>
      */
     __navigateToRouterLink (e, fromGoFn, returnRouterError) {
+      if (this.disable === true) {
+        // ensure native navigation is prevented in all cases,
+        // like in QRouteTab where hasRouterLinkProps does not care about disable state
+        e.preventDefault()
+
+        return false
+      }
+
       // should match RouterLink from Vue Router
       if (
-        // component is not disabled
-        this.disable === true ||
-
         // don't redirect with control keys
         e.metaKey || e.altKey || e.ctrlKey || e.shiftKey ||
 

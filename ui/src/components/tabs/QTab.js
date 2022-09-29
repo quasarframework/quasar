@@ -120,7 +120,11 @@ export default Vue.extend({
         this.$refs.blurTarget.focus({ preventScroll: true })
       }
 
-      if (this.disable === true) { return }
+      if (this.disable === true) {
+        // we should hinder native navigation though
+        this.hasRouterLink === true && stopAndPrevent(e)
+        return
+      }
 
       // do we have a QTab?
       if (this.hasRouterLinkProps === void 0) {
