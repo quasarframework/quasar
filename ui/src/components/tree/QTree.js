@@ -620,7 +620,7 @@ export default createComponent({
           emit('update:selected', meta.key !== props.selected ? meta.key : null)
         }
         else if (meta.key !== props.selected) {
-          emit('update:selected', meta.key ?? null)
+          emit('update:selected', meta.key === void 0 ? null : meta.key)
         }
       }
       else {
