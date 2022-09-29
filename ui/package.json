@@ -29,8 +29,10 @@
     "build": "node build/script.build.js",
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix",
-    "test:component": "node build/script.build.js && cd ./dev && cypress open-ct && cd ..",
-    "test:component:ci": "node build/script.build.js && cd ./dev && cypress run-ct --record --parallel && cd ..",
+    "test:build": "node build/script.build.js js api && node build/script.build.js js transforms",
+    "test:component": "yarn test:build && cd ./dev && cypress open-ct && cd ..",
+    "test:component:run": "yarn test:build && cd ./dev && cypress run-ct && cd ..",
+    "test:component:ci": "yarn test:build && cd ./dev && cypress run-ct --record --parallel && cd ..",
     "test:create": "node ./test/cypress/helpers/create-spec.js -c"
   },
   "repository": {
