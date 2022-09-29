@@ -237,7 +237,8 @@ export default Vue.extend({
         destroying !== true &&
         (touchTarget === this.$el || mouseTarget === this.$el) &&
         blurTarget !== void 0 &&
-        blurTarget !== document.activeElement
+        blurTarget !== document.activeElement &&
+        this.$el.contains(document.activeElement) === true
       ) {
         blurTarget.setAttribute('tabindex', -1)
         blurTarget.focus()
