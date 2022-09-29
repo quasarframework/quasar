@@ -13,7 +13,36 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
+  build:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ui
+
+    name: Build the UI package
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build the package
+        run: npm run build
+
   tests:
+    # If the build pipeline doesn't succeed, we don't need to run tests at all
+    needs: build
+
     permissions:
       contents: read # to fetch code (actions/checkout)
       actions: read # to correctly identify workflow run (cypress-io/github-action)
