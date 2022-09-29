@@ -2,6 +2,19 @@
 
 This folder contains a testing harness for [Cypress component testing](https://docs.cypress.io/guides/component-testing/introduction).
 
+## Running the tests
+```bash
+# run tests in watch mode with visual feedback one component at a time
+# use when developing
+yarn test:component
+# execute all tests without visual feedback
+# run it locally before pushing the branch and creating a PR
+yarn test:component:run
+# execute all tests without visual feedback and record the results in the Cypress dashboard
+# won't work if run locally, reserved for GitHub Actions CI
+yarn test:component:ci
+```
+
 ## Component test setup
 Each component of Quasar has it's own API, which we will use to also write component tests. When the whole API is covered we can ensure the components work as documented and vice-versa. 
 
@@ -27,6 +40,13 @@ Done :white_check_mark:
 - [x] QMenu (140+)
 - [x] QChip (100+)
 - [x] QAvatar
+
+## Known issues
+Any help to resolve these issues is welcome.
+
+### Transitions
+Tests on components which show/hide themselves with a transition (eg. QMenu) will fail unless we add a custom delay.
+Right now the workaround is to add a delay of 300ms to the test to wait for the transition to finish, but this is not ideal as it greatly slows down tests and force us to disable `cypress/no-unnecessary-waiting` ESLint rule all over the place.
 
 ## Adding boilerplate code for other components
 What to test for a specific component is based on the API documentation for that component. Along with each component (or composable) that Quasar had is a `.json` file which documents the properties, slots, methods and events.

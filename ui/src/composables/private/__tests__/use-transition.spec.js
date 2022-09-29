@@ -61,6 +61,7 @@ describe('use-transition API', () => {
       describe('(prop): transition-duration', () => {
         it('should be done with transitioning after 300ms passed', () => {
           mount(WrapperOne)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(300)
@@ -70,6 +71,7 @@ describe('use-transition API', () => {
 
         it('should not be done with transitioning before 300ms passed', () => {
           mount(WrapperOne)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(200) // Commands take some time so a high value can fail, just take a decent margin
@@ -83,6 +85,7 @@ describe('use-transition API', () => {
               transitionDuration: 1000
             }
           })
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(1000)
@@ -96,6 +99,7 @@ describe('use-transition API', () => {
               transitionDuration: 1000
             }
           })
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(900)
