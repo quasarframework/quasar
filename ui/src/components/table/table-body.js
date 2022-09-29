@@ -114,19 +114,18 @@ export default {
     __getBodyScope (data) {
       this.__injectBodyCommonScope(data)
 
-      data.cols = data.cols.map(col => {
-        const c = { ...col }
-        injectProp(c, 'value', () => this.getCellValue(col, data.row))
-        return c
-      })
+      data.cols = data.cols.map(col => injectProp(
+        { ...col },
+        'value',
+        () => this.getCellValue(col, data.row)
+      ))
 
       return data
     },
 
     __getBodyCellScope (data) {
       this.__injectBodyCommonScope(data)
-      injectProp(data, 'value', () => this.getCellValue(data.col, data.row))
-      return data
+      return injectProp(data, 'value', () => this.getCellValue(data.col, data.row))
     },
 
     __getBodySelectionScope (data) {

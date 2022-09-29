@@ -75,7 +75,11 @@ export default Vue.extend({
     },
 
     computedTabIndex () {
-      return this.disable === true || this.$tabs.hasFocus === true
+      return (
+        this.disable === true ||
+        this.$tabs.hasFocus === true ||
+        (this.isActive === false && this.$tabs.hasActiveTab === true)
+      )
         ? -1
         : this.tabindex || 0
     },

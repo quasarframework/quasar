@@ -70,17 +70,14 @@ export default Vue.extend({
     },
 
     defaultSlotScope () {
-      const acc = {
+      return injectProp({
         initialValue: this.initialValue,
         updatePosition: this.__reposition,
         emitValue: this.__changeModel,
         validate: this.validate,
         set: this.set,
         cancel: this.cancel
-      }
-
-      injectProp(acc, 'value', () => this.modelValue, this.__changeModel)
-      return acc
+      }, 'value', () => this.modelValue, this.__changeModel)
     },
 
     menuProps () {

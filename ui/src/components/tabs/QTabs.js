@@ -10,6 +10,7 @@ import { stop, noop } from '../../utils/event.js'
 import { slot } from '../../utils/private/slot.js'
 import cache from '../../utils/private/cache.js'
 import { rtlHasScrollBug } from '../../utils/scroll.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -28,9 +29,7 @@ export default Vue.extend({
   mixins: [ TimeoutMixin, ListenersMixin ],
 
   provide () {
-    return {
-      $tabs: this
-    }
+    return { $tabs: this }
   },
 
   props: {
@@ -78,6 +77,8 @@ export default Vue.extend({
       rightArrow: false,
       justify: false,
 
+      tabNameList: [],
+
       // used by children
       currentModel: this.value,
       hasFocus: false,
@@ -123,6 +124,11 @@ export default Vue.extend({
         inlineLabel: this.inlineLabel,
         noCaps: this.noCaps
       }
+    },
+
+    // used by children
+    hasActiveTab () {
+      return this.tabNameList.some(entry => entry.name === this.currentModel)
     },
 
     arrowsEnabled () {
@@ -422,7 +428,7 @@ export default Vue.extend({
       return done
     },
 
-    __getRouteEnabledTabVmList () {
+    __getRouteTabVmList () {
       return this.tabVmList.filter(tab => tab.hasRouterLinkProps !== void 0 && tab.hasRouterLink === true)
     },
 
@@ -433,7 +439,7 @@ export default Vue.extend({
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
       let name = null, best = getDefaultBestScore()
-      const vmList = this.__getRouteEnabledTabVmList()
+      const vmList = this.__getRouteTabVmList()
 
       for (const tab of vmList) {
         const exact = tab.exact === true
@@ -546,7 +552,15 @@ export default Vue.extend({
 
     // used by children
     __registerTab (tabVm) {
+      // we avoid setting tabVmList in data() as this would
+      // make the whole vm reactive
       this.tabVmList.push(tabVm)
+      // ...so we extract only the needed stuff out of it
+      // into data() defined tabNameList
+      this.tabNameList.push(
+        injectProp({}, 'name', () => tabVm.name)
+      )
+
       this.__recalculateScroll()
 
       // if it's a QTab
@@ -579,13 +593,17 @@ export default Vue.extend({
      */
     // used by children
     __unregisterTab (tabVm) {
-      this.tabVmList.splice(this.tabVmList.indexOf(tabVm), 1)
+      const index = this.tabVmList.indexOf(tabVm)
+
+      this.tabVmList.splice(index, 1)
+      this.tabNameList.splice(index, 1)
+
       this.__recalculateScroll()
 
       // if we're watching route and this tab is a QRouteTab
       if (this.unwatchRoute !== void 0 && tabVm.hasRouterLinkProps !== void 0) {
         // unwatch route if we don't have any QRouteTabs left
-        this.__getRouteEnabledTabVmList().length === 0 && this.unwatchRoute()
+        this.__getRouteTabVmList().length === 0 && this.unwatchRoute()
         // then update model
         this.__verifyRouteModel()
       }
