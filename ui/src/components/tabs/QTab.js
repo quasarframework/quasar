@@ -185,7 +185,7 @@ export default Vue.extend({
         this.$tabs.__onKbdNavigate(e.keyCode, this.$el) === true && stopAndPrevent(e)
       }
 
-      // TODO should it emit keydown?
+      this.qListeners.keydown !== void 0 && this.$emit('keydown', e)
     },
 
     __getContent (h) {

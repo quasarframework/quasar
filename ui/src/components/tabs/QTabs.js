@@ -364,10 +364,12 @@ export default Vue.extend({
 
       if (keyCode === 36) { // Home
         this.__scrollToTabEl(tabs[ 0 ])
+        tabs[ 0 ].focus()
         return true
       }
       if (keyCode === 35) { // End
         this.__scrollToTabEl(tabs[ len - 1 ])
+        tabs[ len - 1 ].focus()
         return true
       }
 
