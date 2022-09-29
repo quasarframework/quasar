@@ -5,7 +5,7 @@
         <div class="col-12">Router-links</div>
 
         <div v-for="n in 5" :key="'r-link.' + n">
-          <router-link class="special-router-link" replace :to="{ query: { tab: '' + n, noScroll: true } }" active-class="special-router-link-active" exact-active-class="special-router-link-exact-active">
+          <router-link class="special-router-link" replace :to="{ query: { tab: '' + n, noScroll: true } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
             [ {{ n }} ]
           </router-link>
         </div>
@@ -13,7 +13,7 @@
         <div class="col-12">QItems</div>
 
         <div v-for="n in 5" :key="'q-item.' + n">
-          <q-item class="special-router-link" replace :to="{ query: { tab: '' + n, noScroll: true } }" active-class="special-router-link-active" exact-active-class="special-router-link-exact-active">
+          <q-item class="special-router-link" replace :to="{ query: { tab: '' + n, noScroll: true } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
             <q-item-section>[ {{ n }} ]</q-item-section>
           </q-item>
         </div>
@@ -84,9 +84,9 @@ export default {
   border: 1px solid black
   width: 50px
 
-  &-active
+  &--active
     background-color: #ee9
 
-  &-exact-active
+  &--exact-active
     background-color: #9e9
 </style>
