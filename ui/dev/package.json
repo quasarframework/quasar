@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
   },
-  "//": "Needed to make Cypress AE app-* detection work",
+  "//": "@quasar/app-vite dependency is needed to make Cypress AE app-* detection work, since it reads the project package.json",
   "devDependencies": {
     "@quasar/app-vite": "^1.1.1"
   },
