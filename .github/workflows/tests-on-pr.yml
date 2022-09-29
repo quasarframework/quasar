@@ -2,8 +2,8 @@ name: UI Tests
 
 on:
   pull_request_target:
-    types: [opened, synchronize ]
-    branches:    
+    types: [opened, synchronize]
+    branches:
       - 'dev'
     paths:
       - 'ui/**.js'
@@ -13,7 +13,7 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
-  tests:      
+  tests:
     permissions:
       contents: read # to fetch code (actions/checkout)
       actions: read # to correctly identify workflow run (cypress-io/github-action)
@@ -34,10 +34,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 14
-      
+
       - name: Install dependencies
         run: cd ./ui && npm i
-      
+
       - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v2
         with:
@@ -47,7 +47,7 @@ jobs:
           tag: ${{ github.event.name }} # Tag will be either "opened" or "synchronize"
           group: Tests in ${{ matrix.browser }} browser
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable        
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }} # Dashboard record key as an environment variable
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # To allow accurately detecting a build vs a re-run build
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
           COMMIT_INFO_AUTHOR: ${{ github.event.pull_request.user.login }}
@@ -61,15 +61,15 @@ jobs:
             We've detected file changes inside the `ui` folder, so that triggered our Cypress component tests.
         run: echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
         if: always()
-          
+
       - name: Output failure message
-        env: 
+        env:
           FAILURE: ":bangbang: Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it."
         run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
         if: failure() || cancelled()
 
       - name: Output success message
-        env: 
-          SUCCESS: ":white_check_mark: Seems like all the tests passed successfully, so your PR is ready to be reviewed!"
+        env:
+          SUCCESS: ':white_check_mark: Seems like all the tests passed successfully, so your PR is ready to be reviewed!'
         run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
         if: success()
