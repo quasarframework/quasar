@@ -8,8 +8,8 @@ export function injectProp (target, propName, get, set) {
 }
 
 export function injectMultipleProps (target, props) {
-  for (const key in props) {
+  Object.keys(props).forEach(key => {
     injectProp(target, key, props[ key ])
-  }
+  })
   return target
 }

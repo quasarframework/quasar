@@ -93,7 +93,7 @@ export default {
 
     resolvedLink () {
       return this.hasRouterLinkProps === true
-        ? this.__resolveLink(this.to, this.append)
+        ? this.__getLink(this.to, this.append)
         : null
     },
 
@@ -153,7 +153,7 @@ export default {
   },
 
   methods: {
-    __resolveLink (to, append) {
+    __getLink (to, append) {
       // we protect from accessing this.$route without
       // actually needing it so that we won't trigger
       // unnecessary updates in computed props using this method
@@ -175,7 +175,6 @@ export default {
         // ensure native navigation is prevented in all cases,
         // like in QRouteTab where hasRouterLinkProps does not care about disable state
         e.preventDefault()
-
         return false
       }
 

@@ -153,7 +153,7 @@ export default Vue.extend({
 
           const resolvedLink = sameInternalRoute === true
             ? this.resolvedLink
-            : this.__resolveLink(to, append)
+            : this.__getLink(to, append)
 
           if (resolvedLink === null) {
             return Promise.resolve()

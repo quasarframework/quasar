@@ -75,6 +75,7 @@
           "returns": {
             "type": "Promise<any>",
             "desc": "Returns the router's navigation promise",
+            "__exemption": [ "examples" ],
             "addedIn": "v1.21"
           }
         }

@@ -429,7 +429,7 @@ export default Vue.extend({
     },
 
     __getRouteTabVmList () {
-      return this.tabVmList.filter(tab => tab.hasRouterLinkProps !== void 0 && tab.hasRouterLink === true)
+      return this.tabVmList.filter(tab => tab.hasRouterLink === true)
     },
 
     __hasActiveNonRouteTab () {
@@ -440,8 +440,10 @@ export default Vue.extend({
     __updateActiveRoute () {
       let name = null, best = getDefaultBestScore()
       const vmList = this.__getRouteTabVmList()
+      const vmLen = vmList.length
 
-      for (const tab of vmList) {
+      for (let tabIndex = 0; tabIndex < vmLen; tabIndex++) {
+        const tab = vmList[tabIndex]
         const exact = tab.exact === true
 
         // if a) it doesn't respect the active/exact active status
@@ -564,7 +566,7 @@ export default Vue.extend({
       this.__recalculateScroll()
 
       // if it's a QTab
-      if (tabVm.hasRouterLinkProps === void 0) {
+      if (tabVm.hasRouterLink === void 0) {
         // we should position to the currently active tab (if any)
         this.__registerScrollToTabTimeout(() => {
           if (this.scrollable === true) {
@@ -601,7 +603,7 @@ export default Vue.extend({
       this.__recalculateScroll()
 
       // if we're watching route and this tab is a QRouteTab
-      if (this.unwatchRoute !== void 0 && tabVm.hasRouterLinkProps !== void 0) {
+      if (this.unwatchRoute !== void 0 && tabVm.hasRouterLink !== void 0) {
         // unwatch route if we don't have any QRouteTabs left
         this.__getRouteTabVmList().length === 0 && this.unwatchRoute()
         // then update model

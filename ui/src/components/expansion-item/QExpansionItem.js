@@ -100,8 +100,8 @@ export default Vue.extend({
 
     hasLink () {
       return this.disable !== true && (
-        this.href !== void 0
-        || (this.to !== void 0 && this.to !== null && this.to !== '')
+        this.href !== void 0 ||
+        (this.to !== void 0 && this.to !== null && this.to !== '')
       )
     },
 
