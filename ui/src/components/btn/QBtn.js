@@ -129,9 +129,7 @@ export default Vue.extend({
       }
 
       if (this.hasRouterLink === true) {
-        const go = returnError => {
-          return this.__navigateToRouterLink(e, true, returnError)
-        }
+        const go = returnError => this.__navigateToRouterLink(e, true, returnError)
 
         stopAndPrevent(e)
 

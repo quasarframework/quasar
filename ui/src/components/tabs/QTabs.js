@@ -433,7 +433,7 @@ export default Vue.extend({
     },
 
     __hasActiveNonRouteTab () {
-      return this.tabVmList.some(tab => tab.hasRouterLink !== true && tab.name === this.currentModel)
+      return this.tabVmList.some(tab => tab.hasRouterLink === void 0 && tab.name === this.currentModel)
     },
 
     // do not use directly; use __verifyRouteModel() instead

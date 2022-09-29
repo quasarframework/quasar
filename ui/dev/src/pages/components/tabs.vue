@@ -217,22 +217,22 @@
 
       <div class="row q-col-gutter-xs justify-stretch">
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/a#123">
+          <router-link class="r-link" replace to="/components/tabs/a#123">
             /tabs/a#123 - select most specific tab
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/a/a#123">
+          <router-link class="r-link" replace to="/components/tabs/a/a#123">
             /tabs/a/a#123 - select most specific tab
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/a/a">
+          <router-link class="r-link" replace to="/components/tabs/a/a">
             /tabs/a/a - select exact tab
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace to="/components/tabs/b#123">
+          <router-link class="r-link" replace to="/components/tabs/b#123">
             /tabs/b#123 - select no tab
           </router-link>
         </div>
@@ -253,22 +253,22 @@
 
       <div class="row q-col-gutter-xs justify-stretch">
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'ta', params: { id: 1 }}">
+          <router-link class="r-link" replace :to="{ name: 'ta', params: { id: 1 }}">
             t/1/a
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'tb', params: { id: 1 }}">
+          <router-link class="r-link" replace :to="{ name: 'tb', params: { id: 1 }}">
             t/1/b
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'ta', params: { id: 2 }}">
+          <router-link class="r-link" replace :to="{ name: 'ta', params: { id: 2 }}">
             t/2/a
           </router-link>
         </div>
         <div class="col-12 col-sm-4 col-md">
-          <router-link class="router-link" replace :to="{ name: 'tb', params: { id: 2 }}">
+          <router-link class="r-link" replace :to="{ name: 'tb', params: { id: 2 }}">
             t/2/b
           </router-link>
         </div>
@@ -283,7 +283,7 @@
         <div class="col-12">Control router-links</div>
 
         <div class="col-12 col-sm-4 col-md" v-for="route in controlRoutes" :key="'control.' + route.label">
-          <router-link class="router-link" replace :to="route.to">
+          <router-link class="r-link" replace :to="route.to">
             {{ route.label }}
           </router-link>
         </div>
@@ -291,10 +291,10 @@
         <div class="col-12">Router-links</div>
 
         <div class="col-12 col-sm-4 col-md" v-for="route in tabRoutes" :key="'r-link.' + route.label">
-          <router-link class="router-link" replace :to="route.to">
+          <router-link class="r-link" replace :to="route.to">
             {{ route.label }} *
           </router-link>
-          <router-link class="router-link q-mt-xs" replace :to="route.to" exact>
+          <router-link class="r-link q-mt-xs" replace :to="route.to" exact>
             {{ route.label }}
           </router-link>
         </div>
@@ -302,10 +302,10 @@
         <div class="col-12">QItems</div>
 
         <div class="col-12 col-sm-4 col-md" v-for="route in tabRoutes" :key="'qitem.' + route.label">
-          <q-item class="router-link" replace :to="route.to" active-class="router-link-active" exact-active-class="router-link-exact-active">
+          <q-item class="r-link" replace :to="route.to" active-class="r-link--active" exact-active-class="r-link--exact-active">
             <q-item-section>{{ route.label }} *</q-item-section>
           </q-item>
-          <q-item class="router-link q-mt-xs" replace :to="route.to" exact active-class="router-link-active" exact-active-class="router-link-exact-active">
+          <q-item class="r-link q-mt-xs" replace :to="route.to" exact active-class="r-link--active" exact-active-class="r-link--exact-active">
             <q-item-section>{{ route.label }}</q-item-section>
           </q-item>
         </div>
@@ -579,7 +579,7 @@ export default {
       some: false,
       exact: true,
       loose: true,
-      useR1: true,
+      useR1: true
     }
   },
 
@@ -654,9 +654,9 @@ export default {
       e.navigate = false
     },
 
-    routeNavChange (e, _go) {
+    routeNavChange (e, go) {
       e.navigate = false
-      this.$router.push({ name: 'r.1.1' }).catch(() => {})
+      go({ name: 'r.1.1' })
     }
   }
 }
@@ -690,9 +690,9 @@ export default {
   padding: 2px
   border: 1px solid black
 
-  &-active
+  &--active
     background-color: #ee9
 
-  &-exact-active
+  &--exact-active
     background-color: #9e9
 </style>
