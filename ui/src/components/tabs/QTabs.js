@@ -434,8 +434,6 @@ export default Vue.extend({
       let name = null, best = getDefaultBestScore()
       const tabList = this.__getRouteTabList()
 
-      console.log('\n\nSTART')
-
       for (const tab of tabList) {
         const exact = tab.exact === true
 
@@ -446,10 +444,6 @@ export default Vue.extend({
           tab[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ] !== true ||
           (best.exact === true && exact !== true)
         ) {
-          const reason = tab[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ] !== true
-            ? 'wrong-status'
-            : 'already-found-exact'
-          console.log('skipping START', tab.name, `##${tab.label}##`, tab.to, reason)
           continue
         }
 
@@ -461,7 +455,6 @@ export default Vue.extend({
           // hey, we found the perfect match; no more searching!
           if (redirected === false) {
             name = tab.name
-            console.log('found match:', tab.name, `##${tab.label}##`, tab.to, exact ? 'exact' : 'non-exact', redirected ? 'redirected' : 'non-redirected')
             break
           }
 
@@ -469,14 +462,12 @@ export default Vue.extend({
             // we reset values so we can discard previous non-exact matches
             // and so we can register this exact one below
             best = getDefaultBestScore()
-            console.log('this is the first exact one found; resetting score')
           }
         }
 
         // if best is non-redirected and this one is redirected
         // then this one is inferior so we don't care about it
         if (best.redirected === false && redirected === true) {
-          console.log('skipping INFERIOR', tab.name, `##${tab.label}##`, tab.to)
           continue
         }
 
@@ -494,22 +485,15 @@ export default Vue.extend({
             : matchedLen > best.matchedLen)
         ) {
           name = tab.name
-          console.log('* found better one:', tab.name, `##${tab.label}##`, tab.to, exact ? 'exact' : 'non-exact', redirected ? 'redirected' : 'non-redirected')
-          console.log('* score (new -vs- last best):', 'matchedLen', matchedLen, '-vs-', best.matchedLen, '& hrefLen', hrefLen, '-vs-', best.hrefLen)
           best = { matchedLen, hrefLen, exact, redirected }
-        }
-        else {
-          console.log('is not better:', tab.name, `##${tab.label}##`, tab.to, exact ? 'exact' : 'non-exact', redirected ? 'redirected' : 'non-redirected', '; matchedLen', matchedLen, '-vs-', best.matchedLen, '& hrefLen', hrefLen, '-vs-', best.hrefLen)
         }
       }
 
       if (name === null && this.__hasActiveNonRouteTab() === true) {
         // we shouldn't interfere if non-route tab is active
-        console.log('abort; no route found and has one current non-route active')
         return
       }
 
-      console.log('FINAL:', name)
       this.__updateModel({ name, setCurrent: true })
     },
 
