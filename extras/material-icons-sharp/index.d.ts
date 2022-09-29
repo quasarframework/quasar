@@ -1393,7 +1393,6 @@ export declare const sharpPhoneCallback: string;
 export declare const sharpPhoneDisabled: string;
 export declare const sharpPhoneEnabled: string;
 export declare const sharpPhoneForwarded: string;
-export declare const sharpPhoneInTalk: string;
 export declare const sharpPhoneIphone: string;
 export declare const sharpPhoneLocked: string;
 export declare const sharpPhoneMissed: string;
