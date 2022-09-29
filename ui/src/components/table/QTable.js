@@ -479,11 +479,9 @@ export default createComponent({
     function getBodyScope (data) {
       injectBodyCommonScope(data)
 
-      data.cols = data.cols.map(col => {
-        const c = { ...col }
-        injectProp(c, 'value', () => getCellValue(col, data.row))
-        return c
-      })
+      data.cols = data.cols.map(
+        col => injectProp({ ...col }, 'value', () => getCellValue(col, data.row))
+      )
 
       return data
     }

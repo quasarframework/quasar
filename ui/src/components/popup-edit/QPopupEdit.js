@@ -58,16 +58,13 @@ export default createComponent({
     let validated = false
 
     const scope = computed(() => {
-      const acc = {
+      return injectProp({
         initialValue: initialValue.value,
         validate: props.validate,
         set,
         cancel,
         updatePosition
-      }
-
-      injectProp(acc, 'value', () => currentModel.value, val => { currentModel.value = val })
-      return acc
+      }, 'value', () => currentModel.value, val => { currentModel.value = val })
     })
 
     function set () {
