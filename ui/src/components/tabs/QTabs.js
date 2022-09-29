@@ -250,10 +250,10 @@ export default Vue.extend({
     __animate (oldName, newName) {
       const
         oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
-          ? this.tabList.find(tab => tab.name === oldName)
+          ? this.tabVmList.find(tab => tab.name === oldName)
           : null,
         newTab = newName !== void 0 && newName !== null && newName !== ''
-          ? this.tabList.find(tab => tab.name === newName)
+          ? this.tabVmList.find(tab => tab.name === newName)
           : null
 
       if (oldTab && newTab) {
@@ -422,21 +422,20 @@ export default Vue.extend({
       return done
     },
 
-    __getRouteTabList () {
-      // disabled QRouteTab will not appear here because hasRouterLink is forced to false
-      return this.tabList.filter(tab => tab.hasRouterLink === true && tab.resolvedLink !== null)
+    __getRouteEnabledTabVmList () {
+      return this.tabVmList.filter(tab => tab.hasRouterLinkProps !== void 0 && tab.hasRouterLink === true)
     },
 
     __hasActiveNonRouteTab () {
-      return this.tabList.some(tab => tab.hasRouterLink !== true && tab.name === this.currentModel)
+      return this.tabVmList.some(tab => tab.hasRouterLink !== true && tab.name === this.currentModel)
     },
 
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
       let name = null, best = getDefaultBestScore()
-      const tabList = this.__getRouteTabList()
+      const vmList = this.__getRouteEnabledTabVmList()
 
-      for (const tab of tabList) {
+      for (const tab of vmList) {
         const exact = tab.exact === true
 
         // if a) it doesn't respect the active/exact active status
@@ -546,26 +545,28 @@ export default Vue.extend({
     },
 
     // used by children
-    __registerTab (getTab) {
-      this.tabList.push(getTab)
+    __registerTab (tabVm) {
+      this.tabVmList.push(tabVm)
       this.__recalculateScroll()
 
-      if (this.__getRouteTabList().length !== 0) {
-        this.__watchRoute()
-        this.__verifyRouteModel()
-      }
-      else {
-        // we should still position to the currently active tab (if any)
+      // if it's a QTab
+      if (tabVm.hasRouterLinkProps === void 0) {
+        // we should position to the currently active tab (if any)
         this.__registerScrollToTabTimeout(() => {
           if (this.scrollable === true) {
             const value = this.currentModel
             const newTab = value !== void 0 && value !== null && value !== ''
-              ? this.tabList.find(tab => tab.name === value)
+              ? this.tabVmList.find(tab => tab.name === value)
               : null
 
             newTab && this.__scrollToTabEl(newTab.$el)
           }
         })
+      }
+      // else if it's a QRouteTab with a valid link
+      else if (tabVm.hasRouterLink === true) {
+        this.__watchRoute()
+        this.__verifyRouteModel()
       }
     },
 
@@ -577,12 +578,15 @@ export default Vue.extend({
      * always check the existing list again and infer the changes.
      */
     // used by children
-    __unregisterTab (tabData) {
-      this.tabList.splice(this.tabList.indexOf(tabData), 1)
+    __unregisterTab (tabVm) {
+      this.tabVmList.splice(this.tabVmList.indexOf(tabVm), 1)
       this.__recalculateScroll()
 
-      if (this.unwatchRoute !== void 0) {
-        this.__getRouteTabList().length === 0 && this.unwatchRoute()
+      // if we're watching route and this tab is a QRouteTab
+      if (this.unwatchRoute !== void 0 && tabVm.hasRouterLinkProps !== void 0) {
+        // unwatch route if we don't have any QRouteTabs left
+        this.__getRouteEnabledTabVmList().length === 0 && this.unwatchRoute()
+        // then update model
         this.__verifyRouteModel()
       }
     },
@@ -603,7 +607,7 @@ export default Vue.extend({
     this.__useTimeout('__registerScrollToTabTimeout', '__removeScrollToTabTimeout')
 
     Object.assign(this, {
-      tabList: [],
+      tabVmList: [],
       __localUpdateArrows: this.arrowsEnabled === true
         ? this.__updateArrowsFn
         : noop
