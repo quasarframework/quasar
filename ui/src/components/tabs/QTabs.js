@@ -521,6 +521,10 @@ export default Vue.extend({
         // (it might be other elements focused, like additional QBtn)
         if (tab && this.$el.contains(tab) === true) {
           this.hasFocus = true
+
+          if (this.scrollable === true) {
+            this.__scrollToTabEl(tab)
+          }
         }
       }
 
