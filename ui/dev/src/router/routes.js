@@ -21,6 +21,15 @@ const metaChildren = [
 const routes = [
   { path: '/', component: load('Index') },
   {
+    path: '/tabs-router',
+    redirect: { name: 'one' },
+    component: () => import('pages/web-tests/tabs-router/TabsLayout.vue'),
+    children: [
+      { path: 'one', name: 'one', component: () => import('pages/web-tests/tabs-router/One.vue') },
+      { path: 'two', name: 'two', component: () => import('pages/web-tests/tabs-router/Two.vue') }
+    ]
+  },
+  {
     path: '/meta/layout_1',
     component: load('meta/layout_1'),
     children: metaChildren

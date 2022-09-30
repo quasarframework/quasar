@@ -55,6 +55,8 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   })
 })
 
+list[ 'web-tests' ].push({ route: '/tabs-router', title: 'Tabs Router' })
+
 export default {
   created () {
     this.list = list
