@@ -1,7 +1,10 @@
 const
   toString = Object.prototype.toString,
   hasOwn = Object.prototype.hasOwnProperty,
-  notPlainObject = new Set('Boolean Number String Function Array Date RegExp'.split(' ').map(name => '[object ' + name + ']'))
+  notPlainObject = new Set(
+    ['Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp']
+      .map(name => '[object ' + name + ']')
+   )
 
 function isPlainObject (obj) {
   if (obj !== Object(obj) || notPlainObject.has(toString.call(obj)) === true) {
