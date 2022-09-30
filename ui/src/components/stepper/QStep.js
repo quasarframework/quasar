@@ -79,7 +79,7 @@ export default Vue.extend({
       if (target.scrollTop > 0) {
         target.scrollTop = 0
       }
-      this.qListeners.scroll !== void 0 && this.qListeners.scroll(ev)
+      this.qListeners.scroll !== void 0 && this.$emit('scroll', ev)
     }
   },
 
