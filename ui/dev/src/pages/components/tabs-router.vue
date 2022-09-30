@@ -28,7 +28,7 @@
         <q-route-tab replace :to="{ query: { tab: '1', noScroll: true } }" label="[1] Activate in 2s" @click="navDelay" />
         <q-route-tab replace :to="{ query: { tab: '2', noScroll: true } }" label="[2] Do nothing" @click="navCancel" />
         <q-route-tab replace :to="{ query: { tab: '3', noScroll: true } }" label="[3] Navigate to the second tab" @click="navRedirect" />
-        <q-route-tab replace :to="{ query: { tab: '4', noScroll: true } }" label="[4] Navigate immediatelly" @click="navPass" />
+        <q-route-tab replace :to="{ query: { tab: '4', noScroll: true } }" label="[4] Navigate immediately" @click="navPass" />
 
         <q-route-tab replace :to="{ query: { tab: '5', noScroll: true } }" label="[5] With button" @click="navPass">
           <q-btn unelevated :label="`Click (${ clickCounter })`" @click.stop.prevent="onClick" />

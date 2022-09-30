@@ -4,7 +4,7 @@ const
   notPlainObject = new Set(
     ['Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp']
       .map(name => '[object ' + name + ']')
-   )
+  )
 
 function isPlainObject (obj) {
   if (obj !== Object(obj) || notPlainObject.has(toString.call(obj)) === true) {
