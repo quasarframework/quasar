@@ -602,9 +602,13 @@ export default createComponent({
         })
       }
       // else if it's a QRouteTab with a valid link
-      else if (tabData.routeData.hasRouterLink.value === true) {
+      else {
+        // start watching route
         watchRoute()
-        verifyRouteModel()
+
+        if (tabData.routeData.hasRouterLink.value === true) {
+          verifyRouteModel()
+        }
       }
     }
 
