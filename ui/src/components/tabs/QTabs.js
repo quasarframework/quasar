@@ -428,10 +428,6 @@ export default Vue.extend({
       return done
     },
 
-    __getRouteTabVmList () {
-      return this.tabVmList.filter(tab => tab.hasRouterLink === true)
-    },
-
     __hasActiveNonRouteTab () {
       return this.tabVmList.some(tab => tab.hasRouterLink === void 0 && tab.name === this.currentModel)
     },
@@ -439,7 +435,7 @@ export default Vue.extend({
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
       let name = null, best = getDefaultBestScore()
-      const vmList = this.__getRouteTabVmList()
+      const vmList = this.tabVmList.filter(tab => tab.hasRouterLink === true)
       const vmLen = vmList.length
 
       for (let tabIndex = 0; tabIndex < vmLen; tabIndex++) {
@@ -612,7 +608,10 @@ export default Vue.extend({
       // if we're watching route and this tab is a QRouteTab
       if (this.unwatchRoute !== void 0 && tabVm.hasRouterLink !== void 0) {
         // unwatch route if we don't have any QRouteTabs left
-        this.__getRouteTabVmList().length === 0 && this.unwatchRoute()
+        if (this.tabVmList.every(tab => tab.hasRouterLink === void 0) === true) {
+          this.unwatchRoute()
+        }
+
         // then update model
         this.__verifyRouteModel()
       }
