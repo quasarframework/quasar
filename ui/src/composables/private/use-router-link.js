@@ -5,7 +5,6 @@
 
 import { computed, getCurrentInstance } from 'vue'
 
-import { prevent } from '../../utils/event.js'
 import { vmHasRouter } from '../../utils/private/vm.js'
 
 // Get the original path value of a record by following its aliasOf
@@ -102,30 +101,35 @@ export const useRouterLinkProps = {
 
 // external props: type, tag
 
-export default function (fallbackTag) {
+export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = {}) {
   const vm = getCurrentInstance()
   const { props, proxy } = vm
 
   const hasRouter = vmHasRouter(vm)
   const hasHrefLink = computed(() => props.disable !== true && props.href !== void 0)
 
-  const hasRouterLinkProps = computed(() =>
-    hasRouter === true
-    && props.disable !== true
-    && hasHrefLink.value !== true
-    && props.to !== void 0 && props.to !== null && props.to !== ''
-  )
+  // for perf reasons, we use minimum amount of runtime work
+  const hasRouterLinkProps = useDisableForRouterLinkProps === true
+    ? computed(() =>
+      hasRouter === true
+      && props.disable !== true
+      && hasHrefLink.value !== true
+      && props.to !== void 0 && props.to !== null && props.to !== ''
+    )
+    : computed(() =>
+      hasRouter === true
+      && hasHrefLink.value !== true
+      && props.to !== void 0 && props.to !== null && props.to !== ''
+    )
 
-  const linkRoute = computed(() => {
-    if (hasRouterLinkProps.value === true) {
-      try { return proxy.$router.resolve(props.to) }
-      catch (_) {}
-    }
+  const resolvedLink = computed(() => (
+    hasRouterLinkProps.value === true
+      ? getLink(props.to)
+      : null
+  ))
 
-    return null
-  })
-
-  const hasRouterLink = computed(() => linkRoute.value !== null)
+  resolvedLink.value !== null && resolvedLink.value.redirectedFrom && console.log(resolvedLink.value.redirectedFrom)
+  const hasRouterLink = computed(() => resolvedLink.value !== null)
   const hasLink = computed(() => hasHrefLink.value === true || hasRouterLink.value === true)
 
   const linkTag = computed(() => (
@@ -143,7 +147,7 @@ export default function (fallbackTag) {
       : (
           hasRouterLink.value === true
             ? {
-                href: linkRoute.value.href,
+                href: resolvedLink.value.href,
                 target: props.target
               }
             : {}
@@ -152,11 +156,11 @@ export default function (fallbackTag) {
 
   const linkActiveIndex = computed(() => {
     if (hasRouterLink.value === false) {
-      return null
+      return -1
     }
 
     const
-      { matched } = linkRoute.value,
+      { matched } = resolvedLink.value,
       { length } = matched,
       routeMatched = matched[ length - 1 ]
 
@@ -200,13 +204,13 @@ export default function (fallbackTag) {
   const linkIsActive = computed(() =>
     hasRouterLink.value === true
     && linkActiveIndex.value !== -1
-    && includesParams(proxy.$route.params, linkRoute.value.params)
+    && includesParams(proxy.$route.params, resolvedLink.value.params)
   )
 
   const linkIsExactActive = computed(() =>
     linkIsActive.value === true
       && linkActiveIndex.value === proxy.$route.matched.length - 1
-      && isSameRouteLocationParams(proxy.$route.params, linkRoute.value.params)
+      && isSameRouteLocationParams(proxy.$route.params, resolvedLink.value.params)
   )
 
   const linkClass = computed(() => (
@@ -223,19 +227,32 @@ export default function (fallbackTag) {
       : ''
   ))
 
-  // returns false or Promise<void|Error>
-  function navigateToRouterLink (e) {
+  function getLink (to) {
+    try { return proxy.$router.resolve(to) }
+    catch (_) {}
+
+    return null
+  }
+
+  /**
+   * @returns false | Promise<RouterLocation|RouterError> | Promise<RouterLocation|void>
+   */
+  function navigateToRouterLink (e, fromGoFn, returnRouterError) {
+    if (props.disable === true) {
+      // ensure native navigation is prevented in all cases,
+      // like when useDisableForRouterLinkProps === false (QRouteTab)
+      e.preventDefault()
+      return false
+    }
+
     // should match RouterLink from Vue Router
     if (
-      // component is not disabled
-      props.disable === true
-
       // don't redirect with control keys
-      || e.metaKey || e.altKey || e.ctrlKey || e.shiftKey
+      e.metaKey || e.altKey || e.ctrlKey || e.shiftKey
 
       // don't redirect when preventDefault called
       // ...unless calling go() from @click(e, go)
-      || (e.__qNavigate !== true && e.defaultPrevented === true)
+      || (fromGoFn !== true && e.defaultPrevented === true)
 
       // don't redirect on right click
       || (e.button !== void 0 && e.button !== 0)
@@ -246,10 +263,13 @@ export default function (fallbackTag) {
       return false
     }
 
-    prevent(e)
+    e.preventDefault()
 
-    return proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
-      .catch(err => err)
+    const promise = proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
+
+    return returnRouterError === true
+      ? promise
+      : promise.catch(() => {})
   }
 
   return {
@@ -258,12 +278,13 @@ export default function (fallbackTag) {
     hasLink,
 
     linkTag,
-    linkRoute,
+    resolvedLink,
     linkIsActive,
     linkIsExactActive,
     linkClass,
     linkAttrs,
 
+    getLink,
     navigateToRouterLink
   }
 }

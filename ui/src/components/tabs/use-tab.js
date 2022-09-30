@@ -8,8 +8,9 @@ import { hMergeSlot } from '../../utils/private/render.js'
 import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import uid from '../../utils/uid.js'
 
-let uid = 0
+let id = 0
 
 export const useTabEmits = [ 'click', 'keydown' ]
 
@@ -22,7 +23,7 @@ export const useTabProps = {
 
   name: {
     type: [ Number, String ],
-    default: () => `t_${ uid++ }`
+    default: () => `t_${ id++ }`
   },
 
   noCaps: Boolean,
@@ -38,7 +39,7 @@ export const useTabProps = {
   }
 }
 
-export default function (props, slots, emit, routerProps) {
+export default function (props, slots, emit, routeData) {
   const $tabs = inject(tabsKey, () => {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
   })
@@ -75,7 +76,7 @@ export default function (props, slots, emit, routerProps) {
     + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
     + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
     + (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
-    + (routerProps !== void 0 ? routerProps.linkClass.value : '')
+    + (routeData !== void 0 ? routeData.linkClass.value : '')
   )
 
   const innerClass = computed(() =>
@@ -85,53 +86,70 @@ export default function (props, slots, emit, routerProps) {
   )
 
   const tabIndex = computed(() => (
-    props.disable === true || $tabs.hasFocus.value === true
+    (
+      props.disable === true
+      || $tabs.hasFocus.value === true
+      || (isActive.value === false && $tabs.hasActiveTab.value === true)
+    )
       ? -1
       : props.tabindex || 0
   ))
 
   function onClick (e, keyboard) {
-    keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
+    if (keyboard !== true && blurTargetRef.value !== null) {
+      blurTargetRef.value.focus()
+    }
 
-    if (props.disable !== true) {
-      let go
+    if (props.disable === true) {
+      // we should hinder native navigation though
+      if (routeData !== void 0 && routeData.hasRouterLink.value === true) {
+        stopAndPrevent(e)
+      }
+      return
+    }
 
-      if (routerProps !== void 0) {
-        if (routerProps.hasRouterLink.value === true) {
-          go = () => {
-            e.__qNavigate = true
-            $tabs.avoidRouteWatcher = true
+    // do we have a QTab?
+    if (routeData === void 0) {
+      $tabs.updateModel({ name: props.name })
+      emit('click', e)
+      return
+    }
 
-            const res = routerProps.navigateToRouterLink(e)
+    if (routeData.hasRouterLink.value === true) {
+      const go = (to = props.to, replace = props.replace) => {
+        let reqId
 
-            if (res === false) {
+        // if requiring to go to another route, then we
+        // let the QTabs route watcher do its job,
+        // otherwise directly select this
+        const sameInternalRoute = to === props.to
+
+        if (sameInternalRoute === true) {
+          reqId = $tabs.avoidRouteWatcher = uid()
+          $tabs.updateModel({ name: props.name })
+        }
+
+        // hinder native navigation
+        stopAndPrevent(e)
+
+        return proxy.$router[ replace === true ? 'replace' : 'push' ](to)
+          .catch((err) => {
+            console.log(err)
+          })
+          .finally(() => {
+            if (sameInternalRoute === true && reqId === $tabs.avoidRouteWatcher) {
               $tabs.avoidRouteWatcher = false
             }
-            else {
-              res.then(err => {
-                $tabs.avoidRouteWatcher = false
-
-                if (err === void 0) {
-                  $tabs.updateModel({ name: props.name, fromRoute: true })
-                }
-              })
-            }
-          }
-        }
-        else {
-          emit('click', e)
-          return
-        }
-      }
-      else {
-        go = () => {
-          $tabs.updateModel({ name: props.name, fromRoute: false })
-        }
+          })
       }
 
       emit('click', e, go)
       e.defaultPrevented !== true && go()
+
+      return
     }
+
+    emit('click', e)
   }
 
   function onKeydown (e) {
@@ -203,9 +221,10 @@ export default function (props, slots, emit, routerProps) {
 
   const tabData = {
     name: computed(() => props.name),
+    label: computed(() => props.label), // TODO remove; used for debugging
     rootRef,
     tabIndicatorRef,
-    routerProps
+    routeData
   }
 
   onBeforeUnmount(() => {

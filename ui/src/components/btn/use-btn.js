@@ -80,7 +80,9 @@ export const useBtnProps = {
 export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateToRouterLink } = useRouterLink('button')
+  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateToRouterLink } = useRouterLink({
+    fallbackTag: 'button'
+  })
 
   const style = computed(() => {
     const obj = props.fab === false && props.fabMini === false

@@ -11,6 +11,7 @@ import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 import { rtlHasScrollBug } from '../../utils/private/rtl.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -21,7 +22,6 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
-const emptyFn = () => {}
 
 export default createComponent({
   name: 'QTabs',
@@ -67,15 +67,15 @@ export default createComponent({
   },
 
   setup (props, { slots, emit }) {
-    const vm = getCurrentInstance()
-    const { proxy: { $q } } = vm
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
 
     const { registerTick: registerScrollTick } = useTick()
     const { registerTick: registerUpdateArrowsTick } = useTick()
     const { registerTick: registerAnimateTick } = useTick()
 
     const { registerTimeout: registerFocusTimeout, removeTimeout: removeFocusTimeout } = useTimeout()
-    const { registerTimeout: registerScrollToTabTimeout } = useTimeout()
+    const { registerTimeout: registerScrollToTabTimeout, removeTimeout: removeScrollToTabTimeout } = useTimeout()
 
     const rootRef = ref(null)
     const contentRef = ref(null)
@@ -90,10 +90,11 @@ export default createComponent({
       $q.platform.is.desktop === true || props.mobileArrows === true
     )
 
-    const tabList = []
+    const tabDataList = []
+    const tabDataListLen = ref(0)
     const hasFocus = ref(false)
 
-    let localFromRoute = false, animateTimer, scrollTimer, unwatchRoute
+    let animateTimer, scrollTimer, unwatchRoute
     let localUpdateArrows = arrowsEnabled.value === true
       ? updateArrowsFn
       : noop
@@ -111,6 +112,19 @@ export default createComponent({
       inlineLabel: props.inlineLabel,
       noCaps: props.noCaps
     }))
+
+    const hasActiveTab = computed(() => {
+      const len = tabDataListLen.value
+      const val = currentModel.value
+
+      for (let i = 0; i < len; i++) {
+        if (tabDataList[ i ].name.value === val) {
+          return true
+        }
+      }
+
+      return false
+    })
 
     const alignClass = computed(() => {
       const align = scrollable.value === true
@@ -166,7 +180,10 @@ export default createComponent({
 
     function updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
       if (currentModel.value !== name) {
-        skipEmit !== true && emit('update:modelValue', name)
+        if (skipEmit !== true && props[ 'onUpdate:modelValue' ] !== void 0) {
+          emit('update:modelValue', name)
+        }
+
         if (
           setCurrent === true
           || props[ 'onUpdate:modelValue' ] === void 0
@@ -174,10 +191,6 @@ export default createComponent({
           animate(currentModel.value, name)
           currentModel.value = name
         }
-      }
-
-      if (fromRoute !== void 0) {
-        localFromRoute = fromRoute
       }
     }
 
@@ -213,20 +226,16 @@ export default createComponent({
       // Arrows need to be updated even if the scroll status was already true
       scroll === true && registerUpdateArrowsTick(localUpdateArrows)
 
-      const localJustify = size < parseInt(props.breakpoint, 10)
-
-      if (justify.value !== localJustify) {
-        justify.value = localJustify
-      }
+      justify.value = size < parseInt(props.breakpoint, 10)
     }
 
     function animate (oldName, newName) {
       const
         oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
-          ? tabList.find(tab => tab.name.value === oldName)
+          ? tabDataList.find(tab => tab.name.value === oldName)
           : null,
         newTab = newName !== void 0 && newName !== null && newName !== ''
-          ? tabList.find(tab => tab.name.value === newName)
+          ? tabDataList.find(tab => tab.name.value === newName)
           : null
 
       if (oldTab && newTab) {
@@ -335,10 +344,12 @@ export default createComponent({
 
       if (keyCode === 36) { // Home
         scrollToTabEl(tabs[ 0 ])
+        tabs[ 0 ].focus()
         return true
       }
       if (keyCode === 35) { // End
         scrollToTabEl(tabs[ len - 1 ])
+        tabs[ len - 1 ].focus()
         return true
       }
 
@@ -404,75 +415,127 @@ export default createComponent({
       return done
     }
 
-    function getRouteList () {
-      return tabList.filter(tab => tab.routerProps !== void 0 && tab.routerProps.linkRoute.value !== null)
+    function getRouteTabList () {
+      return tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
+    }
+
+    function hasActiveNonRouteTab () {
+      return tabDataList.some(tab => tab.routeData === void 0 && tab.name.value === currentModel.value)
+    }
+
+    function hasQueryIncluded (targetQuery, matchingQuery) {
+      for (const key in targetQuery) {
+        if (isDeepEqual(targetQuery[ key ], matchingQuery[ key ]) === false) {
+          return false
+        }
+      }
+
+      return true
     }
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let name = null, wasActive = localFromRoute
+      let name = null
+      const bestScore = { matchedLen: 0, queryDiff: Number.MAX_SAFE_INTEGER, hrefLen: 0 }
 
-      const
-        best = { matchedLen: 0, hrefLen: 0, exact: false, found: false },
-        { hash } = vm.proxy.$route,
-        model = currentModel.value
+      const list = getRouteTabList()
+      const { hash: currentHash, query: currentQuery } = proxy.$route
 
-      let wasItActive = wasActive === true
-        ? emptyFn
-        : tab => {
-          if (model === tab.name.value) {
-            wasActive = true
-            wasItActive = emptyFn
-          }
-        }
+      console.log('\n\nSTART', `hash: "${ currentHash }"`, `query: ${ JSON.stringify(currentQuery) }`)
 
-      const tabList = getRouteList()
+      for (const tab of list) {
+        const exact = tab.routeData.exact.value === true
 
-      for (const tab of tabList) {
-        const exact = tab.routerProps.exact.value === true
-
-        if (
-          tab.routerProps[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ].value !== true
-          || (best.exact === true && exact !== true)
-        ) {
-          wasItActive(tab)
+        if (tab.routeData[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ].value !== true) {
+          // it cannot match anything as it's not active nor exact-active
           continue
         }
 
-        const { hash: tabHash, matched, href } = tab.routerProps.linkRoute.value
+        const { hash, query, matched, href } = tab.routeData.resolvedLink.value
+        console.log('* checking ---', tab.name.value, `##${ tab.label.value }##`, `hash: "${ hash }"`, `query: ${ JSON.stringify(query) }`, `href: "${ href }"`)
 
-        // Vue Router does not match the hash too, even if link is set to "exact"
         if (exact === true) {
-          if (hash === tabHash) {
-            name = tab.name.value
-            break
-          }
-          else if (hash !== '' && tabHash !== '') {
-            wasItActive(tab)
+          if (hash !== currentHash) {
+            // it's set to exact but it doesn't matches the hash
+            console.log('  discarding (exact but hash does not matches)')
             continue
           }
+
+          if (
+            Object.keys(query).length !== Object.keys(currentQuery).length
+            || hasQueryIncluded(currentQuery, query) === false
+          ) {
+            // it's set to exact but it doesn't matches the query
+            console.log('  discarding (exact but query does not matches)')
+            continue
+          }
+
+          // yey, we found the perfect match (route + hash + query)
+          console.log('  FOUND perfect match (exact; same hash; same query)')
+          name = tab.name.value
+          break
         }
 
-        const
-          matchedLen = matched.length,
-          hrefLen = href.length - tabHash.length
-
-        if (
-          matchedLen === best.matchedLen
-            ? hrefLen > best.hrefLen
-            : matchedLen > best.matchedLen
-        ) {
-          name = tab.name.value
-          Object.assign(best, { matchedLen, hrefLen, exact })
+        if (hash !== '' && hash !== currentHash) {
+          // it has hash and it doesn't matches
+          console.log('  discarding (with hash but not current one)')
           continue
         }
 
-        wasItActive(tab)
+        if (Object.keys(query).length !== 0 && hasQueryIncluded(query, currentQuery) === false) {
+          // it has query and it doesn't includes the current one
+          console.log('  discarding (with query but not includes current one)')
+          continue
+        }
+
+        const matchedLen = matched.length
+        const queryDiff = Object.keys(currentQuery).length - Object.keys(query).length
+        const hrefLen = href.length - hash.length
+
+        if (matchedLen > bestScore.matchedLen) {
+          console.log('  FOUND better one (matchedLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
+          // it matches more routes so it's more specific so we set it as current champion
+          name = tab.name.value
+          Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
+          continue
+        }
+        else if (matchedLen !== bestScore.matchedLen) {
+          // it matches less routes than the current champion so we discard it
+          console.log('  discarding (worse matchedLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
+          continue
+        }
+
+        if (queryDiff < bestScore.queryDiff) {
+          console.log('  FOUND better one (queryDiff)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
+          // query is closer to the current one so we set it as current champion
+          name = tab.name.value
+          Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
+          continue
+        }
+        else if (queryDiff !== bestScore.queryDiff) {
+          // query is farther away than current champion so we discard it
+          console.log('  discarding (worse queryDiff)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
+          continue
+        }
+
+        if (hrefLen > bestScore.hrefLen) {
+          console.log('  FOUND better one (hrefLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
+          // href is lengthier so it's more specific so we set it as current champion
+          name = tab.name.value
+          Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
+          continue
+        }
+
+        console.log('  discarding (worse or equal hrefLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
       }
 
-      if (wasActive === true || name !== null) {
-        updateModel({ name, setCurrent: true, fromRoute: true })
+      console.log('FINAL', name)
+      if (name === null && hasActiveNonRouteTab() === true) {
+        // we shouldn't interfere if non-route tab is active
+        return
       }
+
+      updateModel({ name, setCurrent: true })
     }
 
     function onFocusin (e) {
@@ -490,6 +553,7 @@ export default createComponent({
         // (it might be other elements focused, like additional QBtn)
         if (tab && rootRef.value.contains(tab) === true) {
           hasFocus.value = true
+          scrollable.value === true && scrollToTabEl(tab)
         }
       }
     }
@@ -499,14 +563,17 @@ export default createComponent({
     }
 
     function verifyRouteModel () {
-      if ($tabs.avoidRouteWatcher !== true) {
+      if ($tabs.avoidRouteWatcher === false) {
         registerScrollToTabTimeout(updateActiveRoute)
+      }
+      else {
+        removeScrollToTabTimeout()
       }
     }
 
     function watchRoute () {
       if (unwatchRoute === void 0) {
-        const unwatch = watch(() => vm.proxy.$route.fullPath, verifyRouteModel)
+        const unwatch = watch(() => proxy.$route.fullPath, verifyRouteModel)
         unwatchRoute = () => {
           unwatch()
           unwatchRoute = void 0
@@ -514,26 +581,30 @@ export default createComponent({
       }
     }
 
-    function registerTab (getTab) {
-      tabList.push(getTab)
+    function registerTab (tabData) {
+      tabDataList.push(tabData)
+      tabDataListLen.value++
+
       recalculateScroll()
 
-      if (getRouteList().length !== 0) {
-        watchRoute()
-        verifyRouteModel()
-      }
-      else {
-        // we should still position to the currently active tab (if any)
+      // if it's a QTab
+      if (tabData.routeData === void 0) {
+        // we should position to the currently active tab (if any)
         registerScrollToTabTimeout(() => {
           if (scrollable.value === true) {
-            const { value } = currentModel
+            const value = currentModel.value
             const newTab = value !== void 0 && value !== null && value !== ''
-              ? tabList.find(tab => tab.name.value === value)
+              ? tabDataList.find(tab => tab.name.value === value)
               : null
 
             newTab && scrollToTabEl(newTab.rootRef.value)
           }
         })
+      }
+      // else if it's a QRouteTab with a valid link
+      else if (tabData.routeData.hasRouterLink.value === true) {
+        watchRoute()
+        verifyRouteModel()
       }
     }
 
@@ -545,11 +616,13 @@ export default createComponent({
      * always check the existing list again and infer the changes.
      */
     function unregisterTab (tabData) {
-      tabList.splice(tabList.indexOf(tabData), 1)
+      tabDataList.splice(tabDataList.indexOf(tabData), 1)
+      tabDataListLen.value--
+
       recalculateScroll()
 
-      if (unwatchRoute !== void 0) {
-        getRouteList().length === 0 && unwatchRoute()
+      if (unwatchRoute !== void 0 && tabData.routeData !== void 0) {
+        getRouteTabList().length === 0 && unwatchRoute()
         verifyRouteModel()
       }
     }
@@ -558,6 +631,7 @@ export default createComponent({
       currentModel,
       tabProps,
       hasFocus,
+      hasActiveTab,
 
       registerTab,
       unregisterTab,
@@ -566,7 +640,7 @@ export default createComponent({
       updateModel,
       onKbdNavigate,
 
-      avoidRouteWatcher: false
+      avoidRouteWatcher: false // false | string (uid)
     }
 
     provide(tabsKey, $tabs)

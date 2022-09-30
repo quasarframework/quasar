@@ -58,8 +58,18 @@
         "navigateFn": {
           "type": "Function",
           "desc": "When you need to control the time at which the button should trigger the route navigation then set 'evt.navigate' to false and call this function; Useful if you have async work to be done before the actual route navigation",
-          "params": null,
-          "returns": null
+          "params": {
+            "returnError": {
+              "type": "Boolean",
+              "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill",
+              "addedIn": "v2.8.5"
+            }
+          },
+          "returns": {
+            "type": "Promise<any>",
+            "desc": "Returns the router's navigation promise",
+            "addedIn": "v2.8.5"
+          }
         }
       }
     }
