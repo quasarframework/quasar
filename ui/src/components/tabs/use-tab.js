@@ -117,28 +117,25 @@ export default function (props, slots, emit, routeData) {
 
     if (routeData.hasRouterLink.value === true) {
       const go = (to = props.to, replace = props.replace) => {
-        let reqId
+        // hinder native navigation
+        stopAndPrevent(e)
 
         // if requiring to go to another route, then we
         // let the QTabs route watcher do its job,
         // otherwise directly select this
-        const sameInternalRoute = to === props.to
-
-        if (sameInternalRoute === true) {
-          reqId = $tabs.avoidRouteWatcher = uid()
-          $tabs.updateModel({ name: props.name })
-        }
-
-        // hinder native navigation
-        stopAndPrevent(e)
+        let failed
+        const reqId = to === props.to
+          ? ($tabs.avoidRouteWatcher = uid())
+          : null
 
         return proxy.$router[ replace === true ? 'replace' : 'push' ](to)
-          .catch((err) => {
-            console.log(err)
-          })
-          .finally(() => {
-            if (sameInternalRoute === true && reqId === $tabs.avoidRouteWatcher) {
+          .catch(() => { failed = true })
+          .then(err => {
+            if (reqId === $tabs.avoidRouteWatcher) {
               $tabs.avoidRouteWatcher = false
+              if (err === void 0 && failed !== true) {
+                $tabs.updateModel({ name: props.name })
+              }
             }
           })
       }
