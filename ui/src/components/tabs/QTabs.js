@@ -415,10 +415,6 @@ export default createComponent({
       return done
     }
 
-    function getRouteTabList () {
-      return tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
-    }
-
     function hasActiveNonRouteTab () {
       return tabDataList.some(tab => tab.routeData === void 0 && tab.name.value === currentModel.value)
     }
@@ -438,7 +434,7 @@ export default createComponent({
       let name = null
       const bestScore = { matchedLen: 0, queryDiff: Number.MAX_SAFE_INTEGER, hrefLen: 0 }
 
-      const list = getRouteTabList()
+      const list = tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
       const { hash: currentHash, query: currentQuery } = proxy.$route
 
       console.log('\n\nSTART', `hash: "${ currentHash }"`, `query: ${ JSON.stringify(currentQuery) }`)
@@ -626,7 +622,12 @@ export default createComponent({
       recalculateScroll()
 
       if (unwatchRoute !== void 0 && tabData.routeData !== void 0) {
-        getRouteTabList().length === 0 && unwatchRoute()
+        // unwatch route if we don't have any QRouteTabs left
+        if (tabDataList.every(tab => tab.routeData === void 0) === true) {
+          unwatchRoute()
+        }
+
+        // then update model
         verifyRouteModel()
       }
     }
