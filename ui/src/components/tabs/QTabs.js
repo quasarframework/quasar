@@ -584,9 +584,12 @@ export default Vue.extend({
         })
       }
       // else if it's a QRouteTab with a valid link
-      else if (tabVm.hasRouterLink === true) {
+      else {
         this.__watchRoute()
-        this.__verifyRouteModel()
+
+        if (tabVm.hasRouterLink === true) {
+          this.__verifyRouteModel()
+        }
       }
     },
 
