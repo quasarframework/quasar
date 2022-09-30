@@ -152,20 +152,17 @@ export default Vue.extend({
           // if requiring to go to another route, then we
           // let the QTabs route watcher do its job,
           // otherwise directly select this
+          let failed
           const reqId = sameInternalRoute === true
             ? (this.$tabs.avoidRouteWatcher = uid())
             : null
 
           return this.$router[replace === true ? 'replace' : 'push'](resolvedLink.location)
-            .then(() => {
-              if (reqId === this.$tabs.avoidRouteWatcher) {
-                this.$tabs.__updateModel({ name: this.name })
-              }
-            })
-            .catch(() => {})
+            .catch(() => { failed = true })
             .finally(() => {
               if (reqId === this.$tabs.avoidRouteWatcher) {
                 this.$tabs.avoidRouteWatcher = false
+                failed !== true && this.$tabs.__updateModel({ name: this.name })
               }
             })
         }
