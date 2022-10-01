@@ -18,6 +18,10 @@
           </q-item>
         </div>
 
+        <q-item class="special-router-link" replace :to="{ query: { tab: '3', noScroll: true, y: '5' } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
+          <q-item-section>3 + y=5</q-item-section>
+        </q-item>
+
         <div class="col-12">Route query {{ $route.query }}</div>
       </div>
 
@@ -62,8 +66,15 @@ export default {
     },
 
     navRedirect (e, go) {
-      e.navigate = false // we cancel the default navigation
-      go({ query: { tab: '2', noScroll: true } })
+      e.preventDefault()
+      go({
+        to: { query: { tab: '2', noScroll: true } }
+      })
+
+      // this is equivalent & and it should still work:
+      //
+      // e.navigate = false // we cancel the default navigation
+      // go({ query: { tab: '2', noScroll: true } })
     },
 
     navPass () {},

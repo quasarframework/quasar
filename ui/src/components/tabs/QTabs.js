@@ -11,6 +11,7 @@ import { slot } from '../../utils/private/slot.js'
 import cache from '../../utils/private/cache.js'
 import { rtlHasScrollBug } from '../../utils/scroll.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -21,7 +22,19 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
-const getDefaultBestScore = () => ({ matchedLen: 0, hrefLen: 0, exact: false, redirected: true })
+const getDefaultBestScore = () => ({ matchedLen: 0, queryScore: 0, hrefLen: 0, exact: false, redirected: true })
+
+function getQueryScore (targetQuery, matchingQuery) {
+  let score = 0
+
+  for (const key in targetQuery) {
+    if (isDeepEqual(targetQuery[ key ], matchingQuery[ key ]) === true) {
+      score++
+    }
+  }
+
+  return score
+}
 
 export default Vue.extend({
   name: 'QTabs',
@@ -434,7 +447,7 @@ export default Vue.extend({
 
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
-      let name = null, best = getDefaultBestScore()
+      let name = null, bestScore = getDefaultBestScore()
       const vmList = this.tabVmList.filter(tab => tab.hasRouterLink === true)
       const vmLen = vmList.length
 
@@ -447,13 +460,13 @@ export default Vue.extend({
         // then we don't deal with it
         if (
           tab[ exact === true ? 'linkIsExactActive' : 'linkIsActive' ] !== true ||
-          (best.exact === true && exact !== true)
+          (bestScore.exact === true && exact !== true)
         ) {
           continue
         }
 
         const { route, href } = tab.resolvedLink
-        const { hash, matched } = route
+        const { hash, matched, query } = route
         const redirected = route.redirectedFrom !== void 0
 
         if (exact === true) {
@@ -463,34 +476,55 @@ export default Vue.extend({
             break
           }
 
-          if (best.exact === false) {
+          if (bestScore.exact === false) {
             // we reset values so we can discard previous non-exact matches
             // and so we can register this exact one below
-            best = getDefaultBestScore()
+            bestScore = getDefaultBestScore()
           }
         }
 
         // if best is non-redirected and this one is redirected
         // then this one is inferior so we don't care about it
-        if (best.redirected === false && redirected === true) {
+        if (bestScore.redirected === false && redirected === true) {
           continue
         }
 
-        const matchedLen = matched.length
-        const hrefLen = href.length - hash.length
+        const newScore = {
+          exact,
+          redirected,
+          matchedLen: matched.length,
+          queryScore: exact === true
+            ? 0 // avoid computing as it's maximum anyway
+            : getQueryScore(query, this.$route.query),
+          hrefLen: href.length - hash.length
+        }
 
-        // if it has better score
-        if (
-          // tab.exact might be set to false in userland,
-          // but this is an exact match! so it should have higher priority
-          (exact === false && tab.linkIsExactActive === true) ||
-
-          (matchedLen === best.matchedLen
-            ? hrefLen > best.hrefLen
-            : matchedLen > best.matchedLen)
-        ) {
+        if (newScore.matchedLen > bestScore.matchedLen) {
+          // it matches more routes so it's more specific so we set it as current champion
           name = tab.name
-          best = { matchedLen, hrefLen, exact, redirected }
+          bestScore = newScore
+          continue
+        }
+        else if (newScore.matchedLen !== bestScore.matchedLen) {
+          // it matches less routes than the current champion so we discard it
+          continue
+        }
+
+        if (newScore.queryScore > bestScore.queryScore) {
+          // query is closer to the current one so we set it as current champion
+          name = tab.name
+          bestScore = newScore
+          continue
+        }
+        else if (newScore.queryScore !== bestScore.queryScore) {
+          // query is farther away than current champion so we discard it
+          continue
+        }
+
+        if (newScore.hrefLen > bestScore.hrefLen) {
+          // href is lengthier so it's more specific so we set it as current champion
+          name = tab.name
+          bestScore = newScore
         }
       }
 
