@@ -432,12 +432,13 @@ export default createComponent({
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
       let name = null
-      const bestScore = { matchedLen: 0, queryDiff: Number.MAX_SAFE_INTEGER, hrefLen: 0 }
+      const bestScore = { matchedLen: 0, queryDiff: 9999, hrefLen: 0 }
 
       const list = tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
       const { hash: currentHash, query: currentQuery } = proxy.$route
 
-      console.log('\n\nSTART', `hash: "${ currentHash }"`, `query: ${ JSON.stringify(currentQuery) }`)
+      // Vue Router does not keep account of hash & query when matching
+      // so we're doing this as well
 
       for (const tab of list) {
         const exact = tab.routeData.exact.value === true
@@ -448,12 +449,10 @@ export default createComponent({
         }
 
         const { hash, query, matched, href } = tab.routeData.resolvedLink.value
-        console.log('* checking ---', tab.name.value, `##${ tab.label.value }##`, `hash: "${ hash }"`, `query: ${ JSON.stringify(query) }`, `href: "${ href }"`)
 
         if (exact === true) {
           if (hash !== currentHash) {
             // it's set to exact but it doesn't matches the hash
-            console.log('  discarding (exact but hash does not matches)')
             continue
           }
 
@@ -462,25 +461,21 @@ export default createComponent({
             || hasQueryIncluded(currentQuery, query) === false
           ) {
             // it's set to exact but it doesn't matches the query
-            console.log('  discarding (exact but query does not matches)')
             continue
           }
 
           // yey, we found the perfect match (route + hash + query)
-          console.log('  FOUND perfect match (exact; same hash; same query)')
           name = tab.name.value
           break
         }
 
         if (hash !== '' && hash !== currentHash) {
           // it has hash and it doesn't matches
-          console.log('  discarding (with hash but not current one)')
           continue
         }
 
         if (Object.keys(query).length !== 0 && hasQueryIncluded(query, currentQuery) === false) {
           // it has query and it doesn't includes the current one
-          console.log('  discarding (with query but not includes current one)')
           continue
         }
 
@@ -489,7 +484,6 @@ export default createComponent({
         const hrefLen = href.length - hash.length
 
         if (matchedLen > bestScore.matchedLen) {
-          console.log('  FOUND better one (matchedLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
           // it matches more routes so it's more specific so we set it as current champion
           name = tab.name.value
           Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
@@ -497,12 +491,10 @@ export default createComponent({
         }
         else if (matchedLen !== bestScore.matchedLen) {
           // it matches less routes than the current champion so we discard it
-          console.log('  discarding (worse matchedLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
           continue
         }
 
         if (queryDiff < bestScore.queryDiff) {
-          console.log('  FOUND better one (queryDiff)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
           // query is closer to the current one so we set it as current champion
           name = tab.name.value
           Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
@@ -510,22 +502,17 @@ export default createComponent({
         }
         else if (queryDiff !== bestScore.queryDiff) {
           // query is farther away than current champion so we discard it
-          console.log('  discarding (worse queryDiff)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
           continue
         }
 
         if (hrefLen > bestScore.hrefLen) {
-          console.log('  FOUND better one (hrefLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
           // href is lengthier so it's more specific so we set it as current champion
           name = tab.name.value
           Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
           continue
         }
-
-        console.log('  discarding (worse or equal hrefLen)', 'matchedLen', matchedLen, '-vs-', bestScore.matchedLen, '; queryDiff', queryDiff, '-vs-', bestScore.queryDiff, '; hrefLen', hrefLen, '-vs-', bestScore.hrefLen)
       }
 
-      console.log('FINAL', name)
       if (name === null && hasActiveNonRouteTab() === true) {
         // we shouldn't interfere if non-route tab is active
         return

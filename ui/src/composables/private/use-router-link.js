@@ -128,7 +128,6 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
       : null
   ))
 
-  resolvedLink.value !== null && resolvedLink.value.redirectedFrom && console.log(resolvedLink.value.redirectedFrom)
   const hasRouterLink = computed(() => resolvedLink.value !== null)
   const hasLink = computed(() => hasHrefLink.value === true || hasRouterLink.value === true)
 

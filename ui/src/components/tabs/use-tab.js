@@ -229,7 +229,6 @@ export default function (props, slots, emit, routeData) {
 
   const tabData = {
     name: computed(() => props.name),
-    label: computed(() => props.label), // TODO remove; used for debugging
     rootRef,
     tabIndicatorRef,
     routeData
