@@ -26,10 +26,12 @@ export default createComponent({
     ...useBtnProps,
 
     percentage: Number,
-    darkPercentage: Boolean
+    darkPercentage: Boolean,
+
+    onTouchstart: [ Function, Array ]
   },
 
-  emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
+  emits: [ 'click', 'keydown', 'mousedown', 'keyup' ],
 
   setup (props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
@@ -72,7 +74,7 @@ export default createComponent({
       if (props.loading === true) {
         return {
           onMousedown: onLoadingEvt,
-          onTouchstartPassive: onLoadingEvt,
+          onTouchstart: onLoadingEvt,
           onClick: onLoadingEvt,
           onKeydown: onLoadingEvt,
           onKeyup: onLoadingEvt
@@ -80,12 +82,21 @@ export default createComponent({
       }
 
       if (isActionable.value === true) {
-        return {
+        const acc = {
           onClick,
           onKeydown,
-          onMousedown,
-          onTouchstart
+          onMousedown
         }
+
+        if (proxy.$q.platform.has.touch === true) {
+          const suffix = props.onTouchstart !== void 0
+            ? ''
+            : 'Passive'
+
+          acc[ `onTouchstart${ suffix }` ] = onTouchstart
+        }
+
+        return acc
       }
 
       return {

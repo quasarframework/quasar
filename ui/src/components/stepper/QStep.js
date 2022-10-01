@@ -53,10 +53,12 @@ export default createComponent({
       default: true
     },
     done: Boolean,
-    error: Boolean
+    error: Boolean,
+
+    onScroll: [ Function, Array ]
   },
 
-  setup (props, { attrs, slots }) {
+  setup (props, { slots, emit }) {
     const { proxy: { $q } } = getCurrentInstance()
 
     const $stepper = inject(stepperKey, () => {
@@ -80,7 +82,7 @@ export default createComponent({
               if (target.scrollTop > 0) {
                 target.scrollTop = 0
               }
-              attrs.onScroll !== void 0 && attrs.onScroll(e)
+              props.onScroll !== void 0 && emit('scroll', e)
             }
           }
     ))

@@ -209,7 +209,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
 
         client.has.touch === true && addEvt(ctx, 'main', [
           [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
-          [ el, 'touchend', 'noop', 'notPassiveCapture' ]
+          [ el, 'touchend', 'noop', 'passiveCapture' ]
         ])
 
         keyboard.length > 0 && addEvt(ctx, 'main', [
