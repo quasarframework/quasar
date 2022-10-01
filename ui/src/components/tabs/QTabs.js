@@ -431,8 +431,7 @@ export default createComponent({
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let name = null
-      const bestScore = { matchedLen: 0, queryDiff: 9999, hrefLen: 0 }
+      let name = null, bestScore = { matchedLen: 0, queryDiff: 9999, hrefLen: 0 }
 
       const list = tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
       const { hash: currentHash, query: currentQuery } = proxy.$route
@@ -479,37 +478,38 @@ export default createComponent({
           continue
         }
 
-        const matchedLen = matched.length
-        const queryDiff = Object.keys(currentQuery).length - Object.keys(query).length
-        const hrefLen = href.length - hash.length
+        const newScore = {
+          matchedLen: matched.length,
+          queryDiff: Object.keys(currentQuery).length - Object.keys(query).length,
+          hrefLen: href.length - hash.length
+        }
 
-        if (matchedLen > bestScore.matchedLen) {
+        if (newScore.matchedLen > bestScore.matchedLen) {
           // it matches more routes so it's more specific so we set it as current champion
           name = tab.name.value
-          Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
+          bestScore = newScore
           continue
         }
-        else if (matchedLen !== bestScore.matchedLen) {
+        else if (newScore.matchedLen !== bestScore.matchedLen) {
           // it matches less routes than the current champion so we discard it
           continue
         }
 
-        if (queryDiff < bestScore.queryDiff) {
+        if (newScore.queryDiff < bestScore.queryDiff) {
           // query is closer to the current one so we set it as current champion
           name = tab.name.value
-          Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
+          bestScore = newScore
           continue
         }
-        else if (queryDiff !== bestScore.queryDiff) {
+        else if (newScore.queryDiff !== bestScore.queryDiff) {
           // query is farther away than current champion so we discard it
           continue
         }
 
-        if (hrefLen > bestScore.hrefLen) {
+        if (newScore.hrefLen > bestScore.hrefLen) {
           // href is lengthier so it's more specific so we set it as current champion
           name = tab.name.value
-          Object.assign(bestScore, { queryDiff, matchedLen, hrefLen })
-          continue
+          bestScore = newScore
         }
       }
 

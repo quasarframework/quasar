@@ -21,6 +21,10 @@
         <div class="col-12">Route query {{ $route.query }}</div>
       </div>
 
+      <q-item class="special-router-link" replace :to="{ query: { tab: '3', noScroll: true, y: '5' } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
+        <q-item-section>3 + y=5</q-item-section>
+      </q-item>
+
       <q-tabs
         no-caps
         class="bg-orange text-white shadow-2"
