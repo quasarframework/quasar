@@ -32,5 +32,54 @@
     "default": {
       "desc": "This is where custom content goes, unless 'icon' and 'label' props are not enough"
     }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted when the component is clicked",
+      "params": {
+        "evt": {
+          "extends": "evt",
+          "desc": "JS event object; If you are using route navigation ('to'/'replace' props) and you want to cancel navigation then call evt.preventDefault() synchronously in your event handler"
+        },
+        "navigateFn": {
+          "type": "Function",
+          "desc": "Available ONLY if you are using route navigation ('to'/'replace' props); When you need to control the time at which the component should trigger the route navigation then call evt.preventDefault() synchronously and then call this function at your convenience; Useful if you have async work to be done before the actual route navigation or if you want to redirect somewhere else",
+          "params": {
+            "opts": {
+              "type": "Object",
+              "desc": "Optional options",
+              "definition": {
+                "to": {
+                  "type": [ "String", "Object" ],
+                  "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
+                  "examples": [
+                    "/home/dashboard",
+                    "{ name: 'my-route-name' }"
+                  ]
+                },
+
+                "replace": {
+                  "type": "Boolean",
+                  "desc": "Equivalent to Vue Router <router-link> 'replace' property; Specify it explicitly otherwise it will be set with same value as component's 'replace' prop"
+                },
+
+                "returnRouterError": {
+                  "type": "Boolean",
+                  "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill"
+                }
+              },
+              "addedIn": "v2.8.5"
+            }
+          },
+          "returns": {
+            "type": "Promise<any>",
+            "desc": "Returns the router's navigation promise",
+            "__exemption": [ "examples" ],
+            "addedIn": "v2.8.5"
+          }
+        }
+      }
+    }
   }
 }

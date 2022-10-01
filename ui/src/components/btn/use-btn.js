@@ -80,7 +80,7 @@ export const useBtnProps = {
 export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateToRouterLink } = useRouterLink({
+  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateOnClick } = useRouterLink({
     fallbackTag: 'button'
   })
 
@@ -201,10 +201,9 @@ export default function (props) {
     style,
     innerClasses,
     attributes,
-    hasRouterLink,
     hasLink,
     linkTag,
-    navigateToRouterLink,
+    navigateOnClick,
     isActionable
   }
 }

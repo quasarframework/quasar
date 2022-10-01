@@ -103,7 +103,7 @@ export const useRouterLinkProps = {
 
 export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = {}) {
   const vm = getCurrentInstance()
-  const { props, proxy } = vm
+  const { props, proxy, emit } = vm
 
   const hasRouter = vmHasRouter(vm)
   const hasHrefLink = computed(() => props.disable !== true && props.href !== void 0)
@@ -274,6 +274,19 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
       : promise.then(() => {}).catch(() => {})
   }
 
+  // warning! ensure that the component using it has 'click' included in its 'emits' definition prop
+  function navigateOnClick (e) {
+    if (hasRouterLink.value === true) {
+      const go = opts => navigateToRouterLink(e, opts)
+
+      emit('click', e, go)
+      e.defaultPrevented !== true && go()
+    }
+    else {
+      emit('click', e)
+    }
+  }
+
   return {
     hasRouterLink,
     hasHrefLink,
@@ -287,6 +300,7 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
     linkAttrs,
 
     getLink,
-    navigateToRouterLink
+    navigateToRouterLink,
+    navigateOnClick
   }
 }

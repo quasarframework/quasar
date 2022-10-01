@@ -39,7 +39,7 @@ export default createComponent({
     const {
       classes, style, innerClasses,
       attributes,
-      hasRouterLink, hasLink, linkTag, navigateToRouterLink,
+      hasLink, linkTag, navigateOnClick,
       isActionable
     } = useBtn(props)
 
@@ -146,15 +146,7 @@ export default createComponent({
         }
       }
 
-      if (hasRouterLink.value === true) {
-        const go = opts => navigateToRouterLink(e, opts)
-
-        emit('click', e, go)
-        e.defaultPrevented !== true && go()
-      }
-      else {
-        emit('click', e)
-      }
+      navigateOnClick(e)
     }
 
     function onKeydown (e) {
