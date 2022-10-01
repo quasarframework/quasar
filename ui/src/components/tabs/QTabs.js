@@ -11,7 +11,6 @@ import { slot } from '../../utils/private/slot.js'
 import cache from '../../utils/private/cache.js'
 import { rtlHasScrollBug } from '../../utils/scroll.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
-import { isDeepEqual } from '../../utils/is.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -22,18 +21,16 @@ function getIndicatorClass (color, top, vertical) {
 }
 
 const alignValues = [ 'left', 'center', 'right', 'justify' ]
-const getDefaultBestScore = () => ({ matchedLen: 0, queryScore: 0, hrefLen: 0, exact: false, redirected: true })
+const getDefaultBestScore = () => ({ matchedLen: 0, queryDiff: 9999, hrefLen: 0, exact: false, redirected: true })
 
-function getQueryScore (targetQuery, matchingQuery) {
-  let score = 0
-
+function hasQueryIncluded (targetQuery, matchingQuery) {
   for (const key in targetQuery) {
-    if (isDeepEqual(targetQuery[ key ], matchingQuery[ key ]) === true) {
-      score++
+    if (targetQuery[ key ] !== matchingQuery[ key ]) {
+      return false
     }
   }
 
-  return score
+  return true
 }
 
 export default Vue.extend({
@@ -448,8 +445,12 @@ export default Vue.extend({
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
       let name = null, bestScore = getDefaultBestScore()
+
       const vmList = this.tabVmList.filter(tab => tab.hasRouterLink === true)
       const vmLen = vmList.length
+
+      const { query: currentQuery } = this.$route
+      const currentQueryLen = Object.keys(currentQuery).length
 
       for (let tabIndex = 0; tabIndex < vmLen; tabIndex++) {
         const tab = vmList[tabIndex]
@@ -466,7 +467,7 @@ export default Vue.extend({
         }
 
         const { route, href } = tab.resolvedLink
-        const { hash, matched, query } = route
+        const { matched, query, hash } = route
         const redirected = route.redirectedFrom !== void 0
 
         if (exact === true) {
@@ -489,13 +490,26 @@ export default Vue.extend({
           continue
         }
 
+        const queryLen = Object.keys(query).length
+
+        if (
+          // if it's exact it already perfectly includes current query
+          // so no point in computing it
+          exact === false &&
+          queryLen !== 0 &&
+          hasQueryIncluded(query, currentQuery) === false
+        ) {
+          // it has query and it doesn't includes the current one
+          continue
+        }
+
         const newScore = {
           exact,
           redirected,
           matchedLen: matched.length,
-          queryScore: exact === true
-            ? 0 // avoid computing as it's maximum anyway
-            : getQueryScore(query, this.$route.query),
+          queryDiff: exact === true
+            ? 0 // avoid computing as it's 0 anyway
+            : currentQueryLen - queryLen,
           hrefLen: href.length - hash.length
         }
 
@@ -510,14 +524,13 @@ export default Vue.extend({
           continue
         }
 
-        if (newScore.queryScore > bestScore.queryScore) {
+        if (newScore.queryDiff < bestScore.queryDiff) {
           // query is closer to the current one so we set it as current champion
           name = tab.name
           bestScore = newScore
           continue
         }
-        else if (newScore.queryScore !== bestScore.queryScore) {
-          // query is farther away than current champion so we discard it
+        else if (newScore.queryDiff !== bestScore.queryDiff) {
           continue
         }
 
