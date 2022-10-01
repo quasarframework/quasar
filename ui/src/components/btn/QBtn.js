@@ -69,7 +69,7 @@ export default Vue.extend({
         }
 
         if (this.$q.platform.has.touch === true) {
-          on.touchstart = this.__onTouchstart
+          on[ `${on.touchstart === void 0 ? '&' : ''}touchstart` ] = this.__onTouchstart
         }
 
         return on
