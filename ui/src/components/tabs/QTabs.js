@@ -430,7 +430,7 @@ export default createComponent({
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let name = null, bestScore = { matchedLen: 0, queryDiff: 9999 }
+      let name = null, bestScore = { matchedLen: 0, queryDiff: 9999, hrefLen: 0 }
 
       const list = tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
       const { hash: currentHash, query: currentQuery } = proxy.$route
@@ -447,7 +447,7 @@ export default createComponent({
           continue
         }
 
-        const { hash, query, matched } = tab.routeData.resolvedLink.value
+        const { hash, query, matched, href } = tab.routeData.resolvedLink.value
         const queryLen = Object.keys(query).length
 
         if (exact === true) {
@@ -484,7 +484,8 @@ export default createComponent({
 
         const newScore = {
           matchedLen: matched.length,
-          queryDiff: currentQueryLen - queryLen
+          queryDiff: currentQueryLen - queryLen,
+          hrefLen: href.length - hash.length
         }
 
         if (newScore.matchedLen > bestScore.matchedLen) {
@@ -500,6 +501,16 @@ export default createComponent({
 
         if (newScore.queryDiff < bestScore.queryDiff) {
           // query is closer to the current one so we set it as current champion
+          name = tab.name.value
+          bestScore = newScore
+        }
+        else if (newScore.queryDiff !== bestScore.queryDiff) {
+          // it matches less routes than the current champion so we discard it
+          continue
+        }
+
+        if (newScore.hrefLen > bestScore.hrefLen) {
+          // href is lengthier so it's more specific so we set it as current champion
           name = tab.name.value
           bestScore = newScore
         }

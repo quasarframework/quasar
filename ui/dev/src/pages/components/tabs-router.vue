@@ -19,11 +19,19 @@
         </div>
 
         <div class="col-12">Route query {{ $route.query }}</div>
-      </div>
 
-      <q-item class="special-router-link" replace :to="{ query: { tab: '3', noScroll: true, y: '5' } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
-        <q-item-section>3 + y=5</q-item-section>
-      </q-item>
+        <div>
+          <q-item class="special-router-link" replace :to="{ query: { tab: '3', noScroll: true, y: '5' } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
+            <q-item-section>3 + y=5 - select 3*</q-item-section>
+          </q-item>
+        </div>
+
+        <div>
+          <q-item class="special-router-link" replace :to="{ query: { tab: '3' } }" active-class="special-router-link--active" exact-active-class="special-router-link--exact-active">
+            <q-item-section>{ tab: 3 } - select none</q-item-section>
+          </q-item>
+        </div>
+      </div>
 
       <q-tabs no-caps class="bg-orange text-white">
         <q-route-tab replace :to="{ query: { tab: '1', noScroll: true } }" label="[1*] Activate in 2s" @click="navDelay" />
@@ -84,9 +92,9 @@ export default {
   text-align: center
   text-decoration: none
   color: black
-  padding: 2px
+  padding: 12px
   border: 1px solid black
-  width: 50px
+  minwidth: 50px
 
   &--active
     background-color: #ee9
