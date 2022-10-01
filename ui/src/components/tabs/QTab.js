@@ -138,7 +138,7 @@ export default Vue.extend({
       }
 
       if (this.hasRouterLink === true) {
-        const go = (to = this.to, append = this.append, replace = this.replace) => {
+        const go = (to = this.to, append = this.append, replace = this.replace, returnError) => {
           const sameInternalRoute = to === this.to && append === this.append
 
           const resolvedLink = sameInternalRoute === true
@@ -152,17 +152,23 @@ export default Vue.extend({
           // if requiring to go to another route, then we
           // let the QTabs route watcher do its job,
           // otherwise directly select this
-          let failed
           const reqId = sameInternalRoute === true
             ? (this.$tabs.avoidRouteWatcher = uid())
             : null
 
           return this.$router[replace === true ? 'replace' : 'push'](resolvedLink.location)
-            .catch(() => { failed = true })
-            .finally(() => {
+            .catch(err => err === void 0 ? true : err)
+            .then(err => {
               if (reqId === this.$tabs.avoidRouteWatcher) {
                 this.$tabs.avoidRouteWatcher = false
-                failed !== true && this.$tabs.__updateModel({ name: this.name })
+
+                if (err !== void 0) {
+                  this.$tabs.__updateModel({ name: this.name })
+                }
+              }
+
+              if (err !== void 0 && returnError === true) {
+                return Promise.reject(err)
               }
             })
         }

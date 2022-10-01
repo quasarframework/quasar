@@ -70,7 +70,7 @@
         "[\"Bad\", \"Normal\", \"Good\"]"
       ],
       "category": "accessibility",
-      "addedIn": "v1.20.3"
+      "addedIn": "v1.21.0"
     },
 
     "color": {

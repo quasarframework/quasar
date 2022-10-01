@@ -38,6 +38,12 @@
               "type": "Boolean",
               "desc": "Equivalent to Vue Router <router-link> 'replace' property",
               "default": "Tab's 'replace' property"
+            },
+
+            "returnError": {
+              "type": "Boolean",
+              "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill",
+              "addedIn": "v1.21"
             }
           },
           "returns": {
