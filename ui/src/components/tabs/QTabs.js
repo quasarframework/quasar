@@ -414,10 +414,6 @@ export default createComponent({
       return done
     }
 
-    function hasActiveNonRouteTab () {
-      return tabDataList.some(tab => tab.routeData === void 0 && tab.name.value === currentModel.value)
-    }
-
     function hasQueryIncluded (targetQuery, matchingQuery) {
       for (const key in targetQuery) {
         if (targetQuery[ key ] !== matchingQuery[ key ]) {
@@ -516,7 +512,10 @@ export default createComponent({
         }
       }
 
-      if (name === null && hasActiveNonRouteTab() === true) {
+      if (
+        name === null
+        && tabDataList.some(tab => tab.routeData === void 0 && tab.name.value === currentModel.value) === true
+      ) {
         // we shouldn't interfere if non-route tab is active
         return
       }

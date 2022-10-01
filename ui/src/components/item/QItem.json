@@ -76,7 +76,7 @@
           "type": "Function",
           "desc": "Available ONLY if you are using route navigation ('to'/'replace' props); When you need to control the time at which the component should trigger the route navigation then call evt.preventDefault() synchronously and then call this function at your convenience; Useful if you have async work to be done before the actual route navigation or if you want to redirect somewhere else",
           "required": false,
-          "addedIn": "v2.8.5",
+          "addedIn": "v2.9",
           "params": {
             "opts": {
               "type": "Object",
