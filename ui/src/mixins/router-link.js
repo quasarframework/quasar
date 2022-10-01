@@ -168,24 +168,23 @@ export default {
     },
 
     /**
-     * @returns false | Promise<RouterLocation|RouterError> | Promise<RouterLocation|void>
+     * @returns Promise<RouterLocation|RouterError|false> | Promise<RouterLocation|false|void>
      */
-    __navigateToRouterLink (e, fromGoFn, returnRouterError) {
+    __navigateToRouterLink (
+      e,
+      { returnRouterError, to, replace = this.replace, append } = {}
+    ) {
       if (this.disable === true) {
         // ensure native navigation is prevented in all cases,
         // like in QRouteTab where hasRouterLinkProps does not care about disable state
         e.preventDefault()
-        return false
+        return Promise.resolve(false)
       }
 
-      // should match RouterLink from Vue Router
       if (
-        // don't redirect with control keys
+        // don't redirect with control keys;
+        // should match RouterLink from Vue Router
         e.metaKey || e.altKey || e.ctrlKey || e.shiftKey ||
-
-        // don't redirect when e.navigate is set to false in userland
-        // ...unless calling go() from @click(e, go)
-        (fromGoFn !== true && e.defaultPrevented === true) ||
 
         // don't redirect on right click
         (e.button !== void 0 && e.button !== 0) ||
@@ -193,16 +192,40 @@ export default {
         // don't redirect if it should open in a new window
         this.target === '_blank'
       ) {
-        return false
+        return Promise.resolve(false)
       }
 
       e.preventDefault()
 
-      const promise = this.$router[this.replace === true ? 'replace' : 'push'](this.resolvedLink.location)
+      const resolvedLink = to === void 0
+        ? this.resolvedLink
+        : this.__getLink(to, append)
+
+      if (resolvedLink === null) {
+        return Promise[returnRouterError === true ? 'reject' : 'resolve'](false)
+      }
+
+      const promise = this.$router[replace === true ? 'replace' : 'push'](resolvedLink.location)
 
       return returnRouterError === true
         ? promise
         : promise.catch(() => {})
+    },
+
+    __navigateOnClick (e) {
+      if (this.hasRouterLink === true) {
+        const go = opts => this.__navigateToRouterLink(e, opts)
+
+        this.$emit('click', e, go)
+
+        // for backward compatibility
+        e.navigate === false && e.preventDefault()
+
+        e.defaultPrevented !== true && go()
+      }
+      else {
+        this.$emit('click', e)
+      }
     }
   }
 }

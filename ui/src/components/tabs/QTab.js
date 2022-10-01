@@ -9,6 +9,7 @@ import { stop, stopAndPrevent } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/private/slot.js'
 import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import uid from '../../utils/uid.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 let id = 0
 
@@ -138,39 +139,49 @@ export default Vue.extend({
       }
 
       if (this.hasRouterLink === true) {
-        const go = (to = this.to, append = this.append, replace = this.replace) => {
-          const sameInternalRoute = to === this.to && append === this.append
-
-          const resolvedLink = sameInternalRoute === true
-            ? this.resolvedLink
-            : this.__getLink(to, append)
-
-          if (resolvedLink === null) {
-            return Promise.resolve()
-          }
+        const go = (first, second, third) => {
+          // for backwards compatibility
+          const { to, replace, append, returnRouterError } = e.navigate === false
+            ? { to: first, replace: second, append: third }
+            : (first || {})
 
           // if requiring to go to another route, then we
           // let the QTabs route watcher do its job,
           // otherwise directly select this
-          let failed
-          const reqId = sameInternalRoute === true
+          let hardError
+          const reqId = to === void 0 || (append === this.append && isDeepEqual(to, this.to) === true)
             ? (this.$tabs.avoidRouteWatcher = uid())
             : null
 
-          return this.$router[replace === true ? 'replace' : 'push'](resolvedLink.location)
-            .catch(() => { failed = true })
-            .finally(() => {
+          return this.__navigateToRouterLink(e, { to, replace, append, returnRouterError: true })
+            .catch(err => { hardError = err })
+            .then(result => {
               if (reqId === this.$tabs.avoidRouteWatcher) {
                 this.$tabs.avoidRouteWatcher = false
-                failed !== true && this.$tabs.__updateModel({ name: this.name })
+
+                // if we don't have any hard errors, except for
+                // when navigating to the same route (on all other errors,
+                // like when navigation was aborted in a nav guard, we don't activate this tab)
+                if (
+                  hardError === void 0 ||
+                  hardError.message.startsWith('Avoided redundant navigation') === true
+                ) {
+                  this.$tabs.__updateModel({ name: this.name })
+                }
               }
+
+              return hardError !== void 0 && returnRouterError === true
+                ? Promise.reject(hardError)
+                : result
             })
         }
 
-        stopAndPrevent(e)
-
         this.qListeners.click !== void 0 && this.$emit('click', e, go)
-        e.navigate !== false && go()
+
+        // for backwards compatibility
+        e.navigate === false && e.preventDefault()
+
+        e.defaultPrevented !== true && go()
 
         return
       }

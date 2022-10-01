@@ -23,19 +23,16 @@ export default Vue.extend({
     },
 
     renderData () {
-      const acc = {
+      return {
         staticClass: 'q-breadcrumbs__el q-link ' +
           'flex inline items-center relative-position ' +
           (this.disable !== true ? 'q-link--focusable' + this.linkClass : 'q-breadcrumbs__el--disabled'),
         attrs: this.linkAttrs,
-        on: { ...this.qListeners }
+        on: {
+          ...this.qListeners,
+          click: this.__navigateOnClick
+        }
       }
-
-      if (this.hasRouterLink === true) {
-        acc.on.click = this.__navigateToRouterLink
-      }
-
-      return acc
     }
   },
 

@@ -94,8 +94,7 @@ export default Vue.extend({
           }
         }
 
-        this.hasRouterLink === true && this.__navigateToRouterLink(e)
-        this.$emit('click', e)
+        this.__navigateOnClick(e)
       }
     },
 

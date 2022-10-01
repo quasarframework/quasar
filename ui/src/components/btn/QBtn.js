@@ -128,17 +128,7 @@ export default Vue.extend({
         }
       }
 
-      if (this.hasRouterLink === true) {
-        const go = returnError => this.__navigateToRouterLink(e, true, returnError)
-
-        stopAndPrevent(e)
-
-        this.$emit('click', e, go)
-        e.navigate !== false && go()
-      }
-      else {
-        this.$emit('click', e)
-      }
+      this.__navigateOnClick(e)
     },
 
     __onKeydown (e) {

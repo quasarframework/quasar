@@ -16,7 +16,7 @@
         },
         "navigateFn": {
           "type": "Function",
-          "desc": "When you need to control the time at which the tab should trigger the route navigation then set 'evt.navigate' to false and call this function; Useful if you have async work to be done before the actual route navigation",
+          "desc": "When you need to control the time at which the tab should trigger the route navigation then set 'evt.navigate' to false and call this function at your convenience; Useful if you have async work to be done before the actual route navigation or you want to navigate elsewhere",
           "params": {
             "to": {
               "type": [ "String", "Object" ],
