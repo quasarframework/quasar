@@ -11,7 +11,6 @@ import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 import { rtlHasScrollBug } from '../../utils/private/rtl.js'
-import { isDeepEqual } from '../../utils/is.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -421,7 +420,7 @@ export default createComponent({
 
     function hasQueryIncluded (targetQuery, matchingQuery) {
       for (const key in targetQuery) {
-        if (isDeepEqual(targetQuery[ key ], matchingQuery[ key ]) === false) {
+        if (targetQuery[ key ] !== matchingQuery[ key ]) {
           return false
         }
       }
@@ -431,10 +430,11 @@ export default createComponent({
 
     // do not use directly; use verifyRouteModel() instead
     function updateActiveRoute () {
-      let name = null, bestScore = { matchedLen: 0, queryDiff: 9999, hrefLen: 0 }
+      let name = null, bestScore = { matchedLen: 0, queryDiff: 9999 }
 
       const list = tabDataList.filter(tab => tab.routeData !== void 0 && tab.routeData.hasRouterLink.value === true)
       const { hash: currentHash, query: currentQuery } = proxy.$route
+      const currentQueryLen = Object.keys(currentQuery).length
 
       // Vue Router does not keep account of hash & query when matching
       // so we're doing this as well
@@ -447,7 +447,8 @@ export default createComponent({
           continue
         }
 
-        const { hash, query, matched, href } = tab.routeData.resolvedLink.value
+        const { hash, query, matched } = tab.routeData.resolvedLink.value
+        const queryLen = Object.keys(query).length
 
         if (exact === true) {
           if (hash !== currentHash) {
@@ -456,7 +457,7 @@ export default createComponent({
           }
 
           if (
-            Object.keys(query).length !== Object.keys(currentQuery).length
+            queryLen !== currentQueryLen
             || hasQueryIncluded(currentQuery, query) === false
           ) {
             // it's set to exact but it doesn't matches the query
@@ -473,15 +474,17 @@ export default createComponent({
           continue
         }
 
-        if (Object.keys(query).length !== 0 && hasQueryIncluded(query, currentQuery) === false) {
+        if (
+          queryLen !== 0
+          && hasQueryIncluded(query, currentQuery) === false
+        ) {
           // it has query and it doesn't includes the current one
           continue
         }
 
         const newScore = {
           matchedLen: matched.length,
-          queryDiff: Object.keys(currentQuery).length - Object.keys(query).length,
-          hrefLen: href.length - hash.length
+          queryDiff: currentQueryLen - queryLen
         }
 
         if (newScore.matchedLen > bestScore.matchedLen) {
@@ -497,17 +500,6 @@ export default createComponent({
 
         if (newScore.queryDiff < bestScore.queryDiff) {
           // query is closer to the current one so we set it as current champion
-          name = tab.name.value
-          bestScore = newScore
-          continue
-        }
-        else if (newScore.queryDiff !== bestScore.queryDiff) {
-          // query is farther away than current champion so we discard it
-          continue
-        }
-
-        if (newScore.hrefLen > bestScore.hrefLen) {
-          // href is lengthier so it's more specific so we set it as current champion
           name = tab.name.value
           bestScore = newScore
         }

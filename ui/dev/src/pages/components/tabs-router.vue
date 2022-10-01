@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-y-md" style="max-width: 800px">
+    <div class="q-gutter-y-md">
       <div class="row q-col-gutter-md justify-stretch">
         <div class="col-12">Router-links</div>
 
@@ -25,16 +25,14 @@
         <q-item-section>3 + y=5</q-item-section>
       </q-item>
 
-      <q-tabs
-        no-caps
-        class="bg-orange text-white shadow-2"
-      >
-        <q-route-tab replace :to="{ query: { tab: '1', noScroll: true } }" label="[1] Activate in 2s" @click="navDelay" />
-        <q-route-tab replace :to="{ query: { tab: '2', noScroll: true } }" label="[2] Do nothing" @click="navCancel" />
-        <q-route-tab replace :to="{ query: { tab: '3', noScroll: true } }" label="[3] Navigate to the second tab" @click="navRedirect" />
-        <q-route-tab replace :to="{ query: { tab: '4', noScroll: true } }" label="[4] Navigate immediately" @click="navPass" />
+      <q-tabs no-caps class="bg-orange text-white">
+        <q-route-tab replace :to="{ query: { tab: '1', noScroll: true } }" label="[1*] Activate in 2s" @click="navDelay" />
+        <q-route-tab replace :to="{ query: { tab: '2', noScroll: true } }" label="[2*] Do nothing" @click="navCancel" />
+        <q-route-tab replace :to="{ query: { tab: '3', noScroll: true } }" label="[3*] Navigate to the second tab" @click="navRedirect" />
+        <q-route-tab replace :to="{ query: { tab: '3', noScroll: true } }" exact label="[3] exact" @click="navPass" />
+        <q-route-tab replace :to="{ query: { tab: '4', noScroll: true } }" label="[4*] Navigate immediately" @click="navPass" />
 
-        <q-route-tab replace :to="{ query: { tab: '5', noScroll: true } }" label="[5] With button" @click="navPass">
+        <q-route-tab replace :to="{ query: { tab: '5', noScroll: true } }" label="[5*] With button" @click="navPass">
           <q-btn unelevated :label="`Click (${ clickCounter })`" @click.stop.prevent="onClick" />
         </q-route-tab>
       </q-tabs>
