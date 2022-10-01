@@ -249,7 +249,7 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
     }
 
     if (
-      // don't redirect with control keys
+      // don't redirect with control keys;
       // should match RouterLink from Vue Router
       e.metaKey || e.altKey || e.ctrlKey || e.shiftKey
 

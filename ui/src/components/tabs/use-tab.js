@@ -9,6 +9,7 @@ import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.
 import { tabsKey } from '../../utils/private/symbols.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
+import { isDeepEqual } from '../../utils/is.js'
 
 let id = 0
 
@@ -121,7 +122,7 @@ export default function (props, slots, emit, routeData) {
         // let the QTabs route watcher do its job,
         // otherwise directly select this
         let hardError
-        const reqId = opts.to === void 0 || opts.to === props.to
+        const reqId = opts.to === void 0 || isDeepEqual(opts.to, props.to) === true
           ? ($tabs.avoidRouteWatcher = uid())
           : null
 
