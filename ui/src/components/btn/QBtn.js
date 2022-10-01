@@ -147,7 +147,7 @@ export default createComponent({
       }
 
       if (hasRouterLink.value === true) {
-        const go = returnError => navigateToRouterLink(e, true, returnError)
+        const go = opts => navigateToRouterLink(e, opts)
 
         emit('click', e, go)
         e.defaultPrevented !== true && go()

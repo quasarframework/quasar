@@ -63,7 +63,9 @@ export default {
 
     navRedirect (e, go) {
       e.preventDefault() // we cancel the default navigation
-      go({ query: { tab: '2', noScroll: true } })
+      go({
+        to: { query: { tab: '2', noScroll: true } }
+      })
     },
 
     navPass () {},

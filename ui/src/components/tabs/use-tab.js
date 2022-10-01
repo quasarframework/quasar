@@ -116,26 +116,36 @@ export default function (props, slots, emit, routeData) {
     }
 
     if (routeData.hasRouterLink.value === true) {
-      const go = (to = props.to, replace = props.replace) => {
-        // hinder native navigation
-        stopAndPrevent(e)
-
+      const go = (opts = {}) => {
         // if requiring to go to another route, then we
         // let the QTabs route watcher do its job,
         // otherwise directly select this
-        let failed
-        const reqId = to === props.to
+        let hardError
+        const reqId = opts.to === void 0 || opts.to === props.to
           ? ($tabs.avoidRouteWatcher = uid())
           : null
 
-        return proxy.$router[ replace === true ? 'replace' : 'push' ](to)
-          .catch(() => { failed = true })
-          .then(err => {
+        return routeData.navigateToRouterLink(e, { ...opts, returnRouterError: true })
+          .catch(err => { hardError = err })
+          .then(softError => {
             if (reqId === $tabs.avoidRouteWatcher) {
               $tabs.avoidRouteWatcher = false
-              if (err === void 0 && failed !== true) {
+
+              // if we don't have any hard errors or any soft errors, except for
+              // when navigating to the same route (on all other soft errors,
+              // like when navigation was aborted in a nav guard, we don't activate this tab)
+              if (
+                hardError === void 0 && (
+                  softError === void 0
+                  || softError.message.startsWith('Avoided redundant navigation') === true
+                )
+              ) {
                 $tabs.updateModel({ name: props.name })
               }
+            }
+
+            if (opts.returnRouterError === true) {
+              return hardError !== void 0 ? Promise.reject(hardError) : softError
             }
           })
       }

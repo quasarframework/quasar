@@ -235,24 +235,23 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
   }
 
   /**
-   * @returns false | Promise<RouterLocation|RouterError> | Promise<RouterLocation|void>
+   * @returns Promise<RouterError | false | undefined>
    */
-  function navigateToRouterLink (e, fromGoFn, returnRouterError) {
+  function navigateToRouterLink (
+    e,
+    { returnRouterError, to = props.to, replace = props.replace } = {}
+  ) {
     if (props.disable === true) {
       // ensure native navigation is prevented in all cases,
       // like when useDisableForRouterLinkProps === false (QRouteTab)
       e.preventDefault()
-      return false
+      return Promise.resolve(false)
     }
 
-    // should match RouterLink from Vue Router
     if (
       // don't redirect with control keys
+      // should match RouterLink from Vue Router
       e.metaKey || e.altKey || e.ctrlKey || e.shiftKey
-
-      // don't redirect when preventDefault called
-      // ...unless calling go() from @click(e, go)
-      || (fromGoFn !== true && e.defaultPrevented === true)
 
       // don't redirect on right click
       || (e.button !== void 0 && e.button !== 0)
@@ -260,16 +259,19 @@ export default function ({ fallbackTag, useDisableForRouterLinkProps = true } = 
       // don't redirect if it should open in a new window
       || props.target === '_blank'
     ) {
-      return false
+      return Promise.resolve(false)
     }
 
+    // hinder the native navigation
     e.preventDefault()
 
-    const promise = proxy.$router[ props.replace === true ? 'replace' : 'push' ](props.to)
+    // then() can also return a "soft" router error (Vue Router behavior)
+    const promise = proxy.$router[ replace === true ? 'replace' : 'push' ](to)
 
     return returnRouterError === true
       ? promise
-      : promise.catch(() => {})
+      // else catching hard errors and also "soft" ones - then(err => ...)
+      : promise.then(() => {}).catch(() => {})
   }
 
   return {
