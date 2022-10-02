@@ -94,3 +94,7 @@ You can use QItems together with Vue Router through `<router-link>` properties b
   </q-item-section>
 </q-item>
 ```
+
+You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QItem API card at the top of the page.
+
+<doc-example title="Links with delayed, cancelled or redirected navigation (v1.21+)" file="QItem/LinksWithGo" no-edit />

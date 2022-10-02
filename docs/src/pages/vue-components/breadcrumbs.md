@@ -12,16 +12,27 @@ The QBreadcrumbs component is used as a navigational aid in UI. It allows users 
 <doc-api file="QBreadcrumbsEl" />
 
 ## Usage
+
+### Basic
+
 <doc-example title="Basic" file="QBreadcrumbs/Basic" />
 
 <doc-example title="In a QToolbar" file="QBreadcrumbs/Toolbar" />
 
+### Design
+
 <doc-example title="Custom separators" file="QBreadcrumbs/Separator" />
-
-The example below won't work with UMD version (so in Codepen/jsFiddle too) because it depends on Vue Router.
-
-<doc-example title="Router links" file="QBreadcrumbs/RouterLinks" />
 
 <doc-example title="Gutters" file="QBreadcrumbs/Gutters" />
 
 <doc-example title="Align" file="QBreadcrumbs/Align" />
+
+### Connecting with Vue Router
+
+The examples below won't work with UMD version (so in Codepen/jsFiddle too) because they depend on Vue Router.
+
+<doc-example title="Router links" file="QBreadcrumbs/RouterLinks" />
+
+You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBreadcrumbsEl API card at the top of the page.
+
+<doc-example title="Links with delayed, cancelled or redirected navigation (v1.21+)" file="QBreadcrumbs/LinksWithGo" no-edit />

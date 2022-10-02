@@ -438,10 +438,6 @@ export default Vue.extend({
       return done
     },
 
-    __hasActiveNonRouteTab () {
-      return this.tabVmList.some(tab => tab.hasRouterLink === void 0 && tab.name === this.currentModel)
-    },
-
     // do not use directly; use __verifyRouteModel() instead
     __updateActiveRoute () {
       let name = null, bestScore = getDefaultBestScore()
@@ -541,7 +537,10 @@ export default Vue.extend({
         }
       }
 
-      if (name === null && this.__hasActiveNonRouteTab() === true) {
+      if (
+        name === null &&
+        this.tabVmList.some(tab => tab.hasRouterLink === void 0 && tab.name === this.currentModel) === true
+      ) {
         // we shouldn't interfere if non-route tab is active
         return
       }
