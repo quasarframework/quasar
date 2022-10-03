@@ -196,7 +196,9 @@ export default {
         // returnRouterError: boolean
       })
       .then(vueRouterResult => { /* ... */ })
-      .catch(err => { /* ...we have a vue router error... */ })
+      .catch(vueRouterError => {
+        /* ...will not reach here unless returnRouterError === true */
+      })
     },
 
     navPass () {}
