@@ -2,7 +2,7 @@ const
   toString = Object.prototype.toString,
   hasOwn = Object.prototype.hasOwnProperty,
   notPlainObject = new Set(
-    [ 'Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp', 'Object' ]
+    [ 'Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp' ]
       .map(name => '[object ' + name + ']')
   )
 
@@ -14,7 +14,7 @@ function isPlainObject (obj) {
   if (
     obj.constructor
     && hasOwn.call(obj, 'constructor') === false
-    && !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf') === false
+    && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf') === false
   ) {
     return false
   }
