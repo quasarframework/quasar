@@ -68,6 +68,10 @@ export default createComponent({
 
     duration: Number,
     noConnectors: Boolean,
+    noTransition: {
+      type: Boolean,
+      default: false
+    },
 
     noNodesLabel: String,
     noResultsLabel: String
@@ -133,6 +137,7 @@ export default createComponent({
     ))
 
     const meta = computed(() => {
+      const perf = performance.now()
       const meta = {}
 
       const travel = (node, parent) => {
@@ -140,7 +145,6 @@ export default createComponent({
         const
           key = node[ props.nodeKey ],
           isParent = node[ props.childrenKey ] && node[ props.childrenKey ].length > 0,
-          isLeaf = isParent !== true,
           selectable = node.disabled !== true && hasSelection.value === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
@@ -166,7 +170,6 @@ export default createComponent({
           key,
           parent,
           isParent,
-          isLeaf,
           lazy: localLazy,
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
@@ -186,7 +189,7 @@ export default createComponent({
           leafTicking,
           ticked: strictTicking === true
             ? innerTicked.value.includes(key)
-            : (isLeaf === true ? innerTicked.value.includes(key) : false)
+            : (isParent === true ? false : innerTicked.value.includes(key))
         }
 
         meta[ key ] = m
@@ -243,6 +246,7 @@ export default createComponent({
       }
 
       props.nodes.forEach(node => travel(node, null))
+      console.log(`meta built in: ${ performance.now() - perf } ms`)
       return meta
     })
 
@@ -586,12 +590,8 @@ export default createComponent({
         ]),
 
         isParent === true
-          ? h(QSlideTransition, {
-            duration: props.duration,
-            onShow,
-            onHide
-          }, () => withDirectives(
-            h('div', {
+          ? props.noTransition === true
+            ? h('div', {
               class: 'q-tree__node-collapsible' + textColorClass.value,
               key: `${ key }__q`
             }, [
@@ -599,10 +599,25 @@ export default createComponent({
               h('div', {
                 class: 'q-tree__children'
                   + (m.disabled === true ? ' q-tree__node--disabled' : '')
-              }, children)
-            ]),
-            [ [ vShow, m.expanded ] ]
-          ))
+              }, m.expanded ? children : null)
+            ])
+            : h(QSlideTransition, {
+              duration: props.duration,
+              onShow,
+              onHide
+            }, () => withDirectives(
+              h('div', {
+                class: 'q-tree__node-collapsible' + textColorClass.value,
+                key: `${ key }__q`
+              }, [
+                body,
+                h('div', {
+                  class: 'q-tree__children'
+                    + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                }, children)
+              ]),
+              [ [ vShow, m.expanded ] ]
+            ))
           : body
       ])
     }

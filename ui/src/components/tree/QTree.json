@@ -126,6 +126,13 @@
       "category": "behavior"
     },
 
+    "noTransition": {
+      "type": "Boolean",
+      "desc": "Turn off transition effects when expand nodes",
+      "default": false,
+      "category": "behavior"
+    },
+
     "filter": {
       "type": "String",
       "desc": "The text value to be used for filtering nodes",
