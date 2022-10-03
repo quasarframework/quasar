@@ -77,7 +77,7 @@ Should you wish, you can also display a deterministic progress within the button
 
 <doc-example title="Custom ripple" file="QBtn/CustomRipple" />
 
-### Connecting with Vue Router <q-badge align="top" color="brand-primary" label="updated on v2.4+" />
+### Connecting to Vue Router <q-badge align="top" color="brand-primary" label="updated on v2.9+" />
 
 ::: warning UMD usage
 * If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project (Quasar CLI projects have this out of the box). Otherwise use the alternative `href` prop.

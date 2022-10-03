@@ -36,7 +36,9 @@ export default {
         // replace: boolean; default is what the tab is configured with
         // returnRouterError: boolean
       }).then(_vueRouterResult => { /* ... */ })
-        .catch(_err => { /* ...we have a vue router error... */ })
+        .catch(_vueRouterError => {
+          /* ...will not reach here unless returnRouterError === true */
+        })
     }
 
     return { onDelayedClick, onCancelledClick, onRedirectedClick }

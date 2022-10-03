@@ -149,7 +149,7 @@ When using QTabs with QRouteTab, it is not recommended to also use a v-model (th
 
 The `exact` configured QRouteTabs always win over loose-matching (non-exact) ones.
 
-### Handling custom navigation
+### Handling custom navigation <q-badge align="top" color="brand-primary" label="updated for v2.9+" />
 
 ::: tip
 Please refer to the QRouteTab API card at the top of the page for a more in-depth description of the `@click` event being used below.
@@ -192,10 +192,12 @@ export default {
       go({
         to: { query: { tab: '2', noScroll: true } },
         // replace: boolean; default is what the tab is configured with
-        // returnRouterError: boolean
+        // returnRouterError: boolean; default is false
       })
       .then(vueRouterResult => { /* ... */ })
-      .catch(err => { /* ...we have a vue router error... */ })
+      .catch(vueRouterError => {
+        /* ...will not reach here unless returnRouterError === true */
+      })
     }
 
     function navPass () {}
