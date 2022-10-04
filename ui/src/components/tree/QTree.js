@@ -137,7 +137,6 @@ export default createComponent({
     ))
 
     const meta = computed(() => {
-      const perf = performance.now()
       const meta = {}
 
       const travel = (node, parent) => {
@@ -246,7 +245,6 @@ export default createComponent({
       }
 
       props.nodes.forEach(node => travel(node, null))
-      console.log(`meta built in: ${ performance.now() - perf } ms`)
       return meta
     })
 
