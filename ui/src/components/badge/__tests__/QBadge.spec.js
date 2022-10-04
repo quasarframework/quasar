@@ -5,6 +5,8 @@ const defaultOptions = {
   label: 'simple badge'
 }
 
+const alignValues = [ 'top', 'middle', 'bottom' ]
+
 function mountQBadge (options = {}) {
   options.props = {
     ...defaultOptions,
@@ -53,31 +55,15 @@ describe('Badge API', () => {
       })
 
       describe('(prop): align', () => {
-        it('should render a badge aligned to the top when align is set to "top"', () => {
-          mountQBadge({
-            props: { align: 'top' }
-          })
+        it(`should render a badge aligned based on defined values: ${ alignValues.join(', ') }`, () => {
+          mountQBadge()
 
-          cy.get('.q-badge')
-            .should('have.css', 'vertical-align', 'top')
-        })
-
-        it('should render a badge aligned to the middle when align is set to "middle"', () => {
-          mountQBadge({
-            props: { align: 'middle' }
-          })
-
-          cy.get('.q-badge')
-            .should('have.css', 'vertical-align', 'middle')
-        })
-
-        it('should render a badge aligned to the bottom when align is set to "bottom"', () => {
-          mountQBadge({
-            props: { align: 'bottom' }
-          })
-
-          cy.get('.q-badge')
-            .should('have.css', 'vertical-align', 'bottom')
+          // loop over alignValues
+          for (const align of alignValues) {
+            cy.get('.q-badge')
+              .then(() => Cypress.vueWrapper.setProps({ align }))
+              .should('have.css', 'vertical-align', align)
+          }
         })
       })
     })
