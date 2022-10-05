@@ -129,8 +129,8 @@
     "noTransition": {
       "type": "Boolean",
       "desc": "Turn off transition effects when expand nodes",
-      "default": false,
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v2.9.3"
     },
 
     "filter": {
