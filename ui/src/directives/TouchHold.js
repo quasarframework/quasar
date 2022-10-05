@@ -140,7 +140,7 @@ export default {
     el.__qtouchhold = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true || modifiers.mousecapture === true ? 'Capture' : ''}` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [

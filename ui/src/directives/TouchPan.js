@@ -208,7 +208,7 @@ export default {
            */
           if (
             ctx.direction.all !== true &&
-            (mouseEvent !== true || ctx.modifiers.mouseAllDir !== true)
+            (mouseEvent !== true || (ctx.modifiers.mouseAllDir !== true && ctx.modifiers.mousealldir !== true))
           ) {
             const clone = evt.type.indexOf('mouse') > -1
               ? new MouseEvent(evt.type, evt)
@@ -256,7 +256,9 @@ export default {
         const start = () => {
           handleEvent(evt, isMouseEvt)
 
-          if (modifiers.preserveCursor !== true) {
+          let cursor
+          if (ctx.modifiers.preserveCursor !== true && ctx.modifiers.preservecursor !== true) {
+            cursor = document.documentElement.style.cursor || ''
             document.documentElement.style.cursor = 'grabbing'
           }
           isMouseEvt === true && document.body.classList.add('no-pointer-events--children')
@@ -266,8 +268,8 @@ export default {
           ctx.styleCleanup = withDelayedFn => {
             ctx.styleCleanup = void 0
 
-            if (modifiers.preserveCursor !== true) {
-              document.documentElement.style.cursor = ''
+            if (cursor !== void 0) {
+              document.documentElement.style.cursor = cursor
             }
             document.body.classList.remove('non-selectable')
 
@@ -316,7 +318,7 @@ export default {
 
         if (
           ctx.direction.all === true ||
-          (isMouseEvt === true && ctx.modifiers.mouseAllDir === true)
+          (isMouseEvt === true && (ctx.modifiers.mouseAllDir === true || ctx.modifiers.mousealldir === true))
         ) {
           start()
           ctx.event.detected = true
@@ -387,7 +389,7 @@ export default {
     el.__qtouchpan = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true || modifiers.mousecapture === true ? 'Capture' : ''}` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [

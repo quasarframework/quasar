@@ -218,7 +218,7 @@ export default {
     el.__qtouchrepeat = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true || modifiers.mousecapture === true ? 'Capture' : ''}` ]
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
@@ -227,7 +227,7 @@ export default {
     ])
 
     keyboard.length > 0 && addEvt(ctx, 'main', [
-      [ el, 'keydown', 'keyboardStart', `notPassive${modifiers.keyCapture === true ? 'Capture' : ''}` ]
+      [ el, 'keydown', 'keyboardStart', `notPassive${modifiers.keyCapture === true || modifiers.keycapture === true ? 'Capture' : ''}` ]
     ])
   },
 
