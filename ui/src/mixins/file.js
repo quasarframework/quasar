@@ -1,3 +1,4 @@
+import Platform from '../plugins/Platform.js'
 import { stop, stopAndPrevent } from '../utils/event.js'
 import cache from '../utils/private/cache.js'
 
@@ -182,7 +183,14 @@ export default {
 
     __onDragLeave (e) {
       stopAndPrevent(e)
-      e.relatedTarget !== this.$refs.dnd && (this.dnd = false)
+
+      // Safari bug: relatedTarget is null for over 10 years
+      // https://bugs.webkit.org/show_bug.cgi?id=66547
+      const gone = e.relatedTarget !== null || Platform.is.safari !== true
+        ? e.relatedTarget !== this.$refs.dnd
+        : document.elementsFromPoint(e.clientX, e.clientY).includes(this.$refs.dnd) === false
+
+      gone === true && (this.dnd = false)
     },
 
     __onDrop (e) {
