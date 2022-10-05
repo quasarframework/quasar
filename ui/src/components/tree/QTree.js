@@ -68,10 +68,7 @@ export default createComponent({
 
     duration: Number,
     noConnectors: Boolean,
-    noTransition: {
-      type: Boolean,
-      default: false
-    },
+    noTransition: Boolean,
 
     noNodesLabel: String,
     noResultsLabel: String
