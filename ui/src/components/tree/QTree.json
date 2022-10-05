@@ -130,7 +130,7 @@
       "type": "Boolean",
       "desc": "Turn off transition effects when expand nodes; Also enhances perf by a lot as a side-effect; Recommended for big trees",
       "category": "behavior",
-      "addedIn": "v2.9.3"
+      "addedIn": "v2.9.2"
     },
 
     "filter": {
