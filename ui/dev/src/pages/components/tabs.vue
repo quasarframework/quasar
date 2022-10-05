@@ -317,34 +317,34 @@
       <q-toggle v-model="useR1" label="Insert r.1 exact not-redirected" />
       <q-tabs :dense="dense" class="test q-mt-sm" active-class="test-active-class" no-caps outside-arrows>
         <q-tab label="Gigi" />
-        <q-route-tab v-if="loose" key="01" replace :to="{ name: 'r.1.1' }" label="r.1.1 *" />
-        <q-route-tab v-if="loose" key="02" replace :to="{ name: 'r' }" label="r => r1 *" />
-        <q-route-tab v-if="exact" key="03" replace :to="{ name: 'r' }" exact label="r => r1" />
-        <q-route-tab v-if="loose" key="04" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 * disabled" disable />
-        <q-route-tab v-if="loose" key="05" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 *" />
-        <q-route-tab v-if="exact" key="06" replace :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
-        <q-route-tab v-if="exact && useR1" key="07" replace :to="{ name: 'r.1' }" exact label="r.1" />
-        <q-route-tab v-if="exact" key="08" replace :to="{ name: 'r.1.1' }" exact label="r.1.1" />
-        <q-route-tab v-if="loose" key="09" replace :to="{ name: 'r.1.2' }" label="r.1.2 => r => r.1 *" />
-        <q-route-tab v-if="exact" key="10" replace :to="{ name: 'r.1.2' }" exact label="r.1.2 => r => r.1" />
-        <q-route-tab v-if="loose" key="11" replace :to="{ name: 'r.1.3' }" label="r.1.3 => r1.1.1 *" />
-        <q-route-tab v-if="exact" key="12" replace :to="{ name: 'r.1.3' }" exact label="r.1.3 => r.1.1" />
-        <q-route-tab v-if="exact" key="13" replace to="/components/tabs/r/2#123456" exact label="r/2#123456" />
-        <q-route-tab v-if="exact" key="14" replace to="/components/tabs/r/2#123" exact label="r/2#123" />
-        <q-route-tab v-if="loose" key="15" replace :to="{ name: 'r.2' }" label="r.2 *" />
-        <q-route-tab v-if="exact" key="16" replace :to="{ name: 'r.2' }" exact label="r.2" />
-        <q-route-tab v-if="loose" key="17" replace :to="{ name: 'r.3' }" label="r.3 => t.2.a *" />
-        <q-route-tab v-if="exact" key="18" replace :to="{ name: 'r.3' }" exact label="r.3 => t/2/a" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.1.1' }" label="r.1.1 *" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r' }" label="r => r1 *" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r' }" exact label="r => r1" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 * disabled" disable />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.1', query: { q: '1' } }" label="r.1 q=1 *" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
+        <q-route-tab v-if="exact && useR1" replace :to="{ name: 'r.1' }" exact label="r.1" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r.1.1' }" exact label="r.1.1" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.1.2' }" label="r.1.2 => r => r.1 *" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r.1.2' }" exact label="r.1.2 => r => r.1" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.1.3' }" label="r.1.3 => r1.1.1 *" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r.1.3' }" exact label="r.1.3 => r.1.1" />
+        <q-route-tab v-if="exact" replace to="/components/tabs/r/2#123456" exact label="r/2#123456" />
+        <q-route-tab v-if="exact" replace to="/components/tabs/r/2#123" exact label="r/2#123" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.2' }" label="r.2 *" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r.2' }" exact label="r.2" />
+        <q-route-tab v-if="loose" replace :to="{ name: 'r.3' }" label="r.3 => t.2.a *" />
+        <q-route-tab v-if="exact" replace :to="{ name: 'r.3' }" exact label="r.3 => t/2/a" />
       </q-tabs>
 
       <div class="q-text-subtitle2">Custom click action</div>
       <q-tabs :dense="dense" class="test q-mt-sm">
-        <q-route-tab key="1" replace :to="{ name: 'r.1' }" label="r.1 - delay 2sec" @click="routeNavDelay" />
-        <q-route-tab key="2" replace :to="{ name: 'r.1.1' }" label="r.1.1 disabled - delay 2sec" disable @click="routeNavDelay" />
-        <q-route-tab key="3" replace :to="{ name: 'r.2' }" label="r.2 - passthrough" @click="routeNavPass" />
-        <q-route-tab key="4" replace :to="{ name: 'r.2' }" label="r.2 - delay 2sec" @click="routeNavDelay" />
-        <q-route-tab key="5" replace :to="{ name: 'r.2' }" label="r.2 - cancel" @click="routeNavCancel" />
-        <q-route-tab key="6" replace :to="{ name: 'r.3' }" label="r.3 - redirect to r.1.1" @click="routeNavChange" />
+        <q-route-tab replace :to="{ name: 'r.1' }" label="r.1 - delay 2sec" @click="routeNavDelay" />
+        <q-route-tab replace :to="{ name: 'r.1.1' }" label="r.1.1 disabled - delay 2sec" disable @click="routeNavDelay" />
+        <q-route-tab replace :to="{ name: 'r.2' }" label="r.2 - passthrough" @click="routeNavPass" />
+        <q-route-tab replace :to="{ name: 'r.2' }" label="r.2 - delay 2sec" @click="routeNavDelay" />
+        <q-route-tab replace :to="{ name: 'r.2' }" label="r.2 - cancel" @click="routeNavCancel" />
+        <q-route-tab replace :to="{ name: 'r.3' }" label="r.3 - redirect to r.1.1" @click="routeNavChange" />
       </q-tabs>
 
       <h4>Href</h4>
