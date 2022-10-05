@@ -99,14 +99,17 @@ export default Vue.extend({
     },
 
     attrs () {
-      return this.disable === true
+      const chip = this.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
-        : {
-          tabindex: this.tabindex || 0,
-          role: 'button',
-          'aria-hidden': 'false',
-          'aria-label': this.removeAriaLabel || this.$q.lang.label.remove
-        }
+        : { tabindex: this.tabindex || 0 }
+      const remove = {
+        ...chip,
+        role: 'button',
+        'aria-hidden': 'false',
+        'aria-label': this.removeAriaLabel || this.$q.lang.label.remove
+      }
+
+      return { chip, remove }
     }
   },
 
@@ -164,7 +167,7 @@ export default Vue.extend({
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
           props: { name: this.removeIcon },
-          attrs: this.attrs,
+          attrs: this.attrs.remove,
           on: cache(this, 'non', {
             click: this.__onRemove,
             keyup: this.__onRemove
@@ -186,7 +189,7 @@ export default Vue.extend({
     }
 
     this.isClickable === true && Object.assign(data, {
-      attrs: this.attrs,
+      attrs: this.attrs.chip,
       on: cache(this, 'click', {
         click: this.__onClick,
         keyup: this.__onKeyup
