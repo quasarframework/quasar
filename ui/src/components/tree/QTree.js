@@ -71,6 +71,7 @@ export default Vue.extend({
 
     duration: Number,
     noConnectors: Boolean,
+    noTransition: Boolean,
 
     noNodesLabel: String,
     noResultsLabel: String
@@ -117,7 +118,6 @@ export default Vue.extend({
         const
           key = node[this.nodeKey],
           isParent = node[this.childrenKey] && node[this.childrenKey].length > 0,
-          isLeaf = isParent !== true,
           selectable = node.disabled !== true && this.hasSelection === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
@@ -143,7 +143,6 @@ export default Vue.extend({
           key,
           parent,
           isParent,
-          isLeaf,
           lazy,
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || lazy === true))),
@@ -163,7 +162,7 @@ export default Vue.extend({
           leafTicking,
           ticked: strictTicking === true
             ? this.innerTicked.includes(key)
-            : (isLeaf === true ? this.innerTicked.includes(key) : false)
+            : (isParent === true ? false : this.innerTicked.includes(key))
         }
 
         meta[key] = m
@@ -574,26 +573,42 @@ export default Vue.extend({
         ]),
 
         isParent === true
-          ? h(QSlideTransition, {
-            props: { duration: this.duration },
-            on: cache(this, 'slide', {
-              show: () => { this.$emit('after-show') },
-              hide: () => { this.$emit('after-hide') }
-            })
-          }, [
-            h('div', {
-              staticClass: 'q-tree__node-collapsible',
-              class: this.textColorClass,
-              directives: [{ name: 'show', value: meta.expanded }]
-            }, [
-              body,
+          ? (
+            this.noTransition === true
+              ? h('div', {
+                staticClass: 'q-tree__node-collapsible',
+                class: this.textColorClass,
+                directives: [{ name: 'show', value: meta.expanded }]
+              }, [
+                body,
 
-              h('div', {
-                staticClass: 'q-tree__children',
-                class: { 'q-tree__node--disabled': meta.disabled }
-              }, children)
-            ])
-          ])
+                h('div', {
+                  staticClass: 'q-tree__children',
+                  class: { 'q-tree__node--disabled': meta.disabled }
+                }, children)
+              ])
+
+              : h(QSlideTransition, {
+                props: { duration: this.duration },
+                on: cache(this, 'slide', {
+                  show: () => { this.$emit('after-show') },
+                  hide: () => { this.$emit('after-hide') }
+                })
+              }, [
+                h('div', {
+                  staticClass: 'q-tree__node-collapsible',
+                  class: this.textColorClass,
+                  directives: [{ name: 'show', value: meta.expanded }]
+                }, [
+                  body,
+
+                  h('div', {
+                    staticClass: 'q-tree__children',
+                    class: { 'q-tree__node--disabled': meta.disabled }
+                  }, children)
+                ])
+              ])
+          )
           : body
       ])
     },

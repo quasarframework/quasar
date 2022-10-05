@@ -32,9 +32,11 @@
           <div v-if="selectableNodes" class="col-xs-12 col-md-6" style="min-height: 60px">
             <span class="text-bold">Selected</span>:<br>{{ selected || 'null' }}
           </div>
-          <div class="col-xs-12 col-md-6">
+          <div class="col-xs-12 col-md-6 q-gutter-xs">
             <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
+            <q-toggle v-model="noTransition" label="noTransition"/>
             <q-btn @click="expandAll" no-caps label="Expand all" />
+            <q-btn @click="collapseAll" no-caps label="Collapse all" />
           </div>
         </div>
       </div>
@@ -52,6 +54,7 @@
           :dark="dark"
           :dense="dense"
           :accordion="accordion"
+          :no-transition="noTransition"
           :color="color"
           :filter="filter"
           :no-connectors="noConnectors"
@@ -130,6 +133,7 @@ export default {
 
     return {
       noConnectors: false,
+      noTransition: false,
       selected: null,
       noSelectionUnset: false,
       tickStrategy: 'leaf',
@@ -555,6 +559,9 @@ export default {
     },
     expandAll () {
       this.$refs.tree.expandAll()
+    },
+    collapseAll () {
+      this.$refs.tree.collapseAll()
     },
     onLazyLoad ({ node, key, done, fail }) {
       // call fail() if any error occurs
