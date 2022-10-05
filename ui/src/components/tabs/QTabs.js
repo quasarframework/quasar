@@ -612,7 +612,7 @@ export default Vue.extend({
       this.__recalculateScroll()
 
       // if it's a QTab
-      if (tabVm.hasRouterLink === void 0) {
+      if (tabVm.hasRouterLink === void 0 || this.$route === void 0) {
         // we should position to the currently active tab (if any)
         this.__registerScrollToTabTimeout(() => {
           if (this.scrollable === true) {
