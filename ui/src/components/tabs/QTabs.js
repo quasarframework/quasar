@@ -597,13 +597,6 @@ export default createComponent({
       }
     }
 
-    /*
-     * Vue has an aggressive diff (in-place replacement) so we cannot
-     * ensure that the instance getting destroyed is the actual tab
-     * reported here. As a result, we cannot use its name or check
-     * if it's a route one to make the necessary updates. We need to
-     * always check the existing list again and infer the changes.
-     */
     function unregisterTab (tabData) {
       tabDataList.splice(tabDataList.indexOf(tabData), 1)
       tabDataListLen.value--
