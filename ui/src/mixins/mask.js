@@ -170,7 +170,7 @@ export default {
           '^' +
           unmask.join('') +
           '(' + (unmaskChar === '' ? '.' : '[^' + unmaskChar + ']') + '+)?' +
-          '$'
+          '[' + unmaskChar + ']*$'
         ),
         extractLast = extract.length - 1,
         extractMatcher = extract.map((re, index) => {
