@@ -64,8 +64,7 @@ export default Vue.extend({
     directives () {
       if (this.disable !== true) {
         const modifiers = {
-          down: true,
-          mightPrevent: true
+          down: true
         }
 
         if (this.noMouse !== true) {

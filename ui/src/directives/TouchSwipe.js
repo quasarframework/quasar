@@ -47,7 +47,7 @@ export default {
       return
     }
 
-    const mouseCapture = modifiers.mouseCapture === true ? 'Capture' : ''
+    const mouseCapture = modifiers.mouseCapture === true || modifiers.mousecapture === true ? 'Capture' : ''
 
     const ctx = {
       handler: value,

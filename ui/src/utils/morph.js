@@ -155,9 +155,9 @@ function normalizeOptions (options) {
     fill: typeof options.fill === 'string' && options.fill.length > 0 ? options.fill : 'none',
 
     resize: options.resize === true,
-    useCSS: options.useCSS === true,
-    hideFromClone: options.hideFromClone === true,
-    keepToClone: options.keepToClone === true,
+    useCSS: options.useCSS === true || options.usecss === true,
+    hideFromClone: options.hideFromClone === true || options.hidefromclone === true,
+    keepToClone: options.keepToClone === true || options.keeptoclone === true,
 
     tween: options.tween === true,
     tweenFromOpacity: isNaN(options.tweenFromOpacity) === true ? 0.6 : parseFloat(options.tweenFromOpacity),
