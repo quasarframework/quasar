@@ -585,34 +585,37 @@ export default createComponent({
         ]),
 
         isParent === true
-          ? props.noTransition === true
-            ? h('div', {
-              class: 'q-tree__node-collapsible' + textColorClass.value,
-              key: `${ key }__q`
-            }, [
-              body,
-              h('div', {
-                class: 'q-tree__children'
-                  + (m.disabled === true ? ' q-tree__node--disabled' : '')
-              }, m.expanded ? children : null)
-            ])
-            : h(QSlideTransition, {
-              duration: props.duration,
-              onShow,
-              onHide
-            }, () => withDirectives(
-              h('div', {
-                class: 'q-tree__node-collapsible' + textColorClass.value,
-                key: `${ key }__q`
-              }, [
-                body,
-                h('div', {
-                  class: 'q-tree__children'
-                    + (m.disabled === true ? ' q-tree__node--disabled' : '')
-                }, children)
-              ]),
-              [ [ vShow, m.expanded ] ]
-            ))
+          ? (
+              props.noTransition === true
+                ? h('div', {
+                  class: 'q-tree__node-collapsible' + textColorClass.value,
+                  key: `${ key }__q`
+                }, [
+                  body,
+                  h('div', {
+                    class: 'q-tree__children'
+                      + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                  }, m.expanded ? children : null)
+                ])
+
+                : h(QSlideTransition, {
+                  duration: props.duration,
+                  onShow,
+                  onHide
+                }, () => withDirectives(
+                  h('div', {
+                    class: 'q-tree__node-collapsible' + textColorClass.value,
+                    key: `${ key }__q`
+                  }, [
+                    body,
+                    h('div', {
+                      class: 'q-tree__children'
+                        + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                    }, children)
+                  ]),
+                  [ [ vShow, m.expanded ] ]
+                ))
+            )
           : body
       ])
     }
