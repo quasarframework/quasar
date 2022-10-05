@@ -123,11 +123,6 @@
       "desc": "Calls event.preventDefault() for touch events"
     },
 
-    "mightPrevent": {
-      "type": "Boolean",
-      "desc": "Required when you might call event.preventDefault() in your handler for touch events"
-    },
-
     "capture": {
       "type": "Boolean",
       "desc": "Use capture for touchstart event"
