@@ -572,8 +572,8 @@ export default createComponent({
 
       recalculateScroll()
 
-      // if it's a QTab
-      if (tabData.routeData === void 0) {
+      // if it's a QTab or we don't have Vue Router
+      if (tabData.routeData === void 0 || proxy.$route === void 0) {
         // we should position to the currently active tab (if any)
         registerScrollToTabTimeout(() => {
           if (scrollable.value === true) {
