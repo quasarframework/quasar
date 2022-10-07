@@ -51,6 +51,11 @@
       "category": "content|model"
     },
 
+    "tabindex": {
+      "extends": "tabindex",
+      "addedIn": "v1.18.6"
+    },
+
     "disable": {
       "extends": "disable"
     },
