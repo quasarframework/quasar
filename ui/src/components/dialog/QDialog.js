@@ -153,9 +153,11 @@ export default Vue.extend({
     },
 
     attrs () {
-      return this.useBackdrop === true
-        ? { 'aria-modal': 'true', ...this.qAttrs }
-        : this.qAttrs
+      return {
+        role: 'dialog',
+        'aria-modal': this.useBackdrop === true ? 'true' : 'false',
+        ...this.qAttrs
+      }
     }
   },
 

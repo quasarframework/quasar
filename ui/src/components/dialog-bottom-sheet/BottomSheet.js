@@ -16,6 +16,13 @@ import AttrsMixin from '../../mixins/attrs.js'
 
 import cache from '../../utils/private/cache.js'
 
+const optsGrid = {
+  staticClass: 'row items-stretch justify-start',
+  attrs: { role: 'list' }
+}
+const optsList = { attrs: { role: 'list' } }
+const attrsGridItem = { tabindex: 0, role: 'listitem' }
+
 export default Vue.extend({
   name: 'BottomSheetPlugin',
 
@@ -69,7 +76,7 @@ export default Vue.extend({
           : h('div', {
             staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
             class: action.classes,
-            attrs: { tabindex: 0 },
+            attrs: attrsGridItem,
             on: {
               click: () => this.onOk(action),
               keyup: e => {
@@ -151,10 +158,8 @@ export default Vue.extend({
 
     child.push(
       this.grid === true
-        ? h('div', {
-          staticClass: 'row items-stretch justify-start'
-        }, this.__getGrid(h))
-        : h('div', this.__getList(h))
+        ? h('div', optsGrid, this.__getGrid(h))
+        : h('div', optsList, this.__getList(h))
     )
 
     return h(QDialog, {

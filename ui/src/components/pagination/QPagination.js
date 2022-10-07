@@ -160,11 +160,11 @@ export default Vue.extend({
     },
 
     attrs () {
+      const attrs = { role: 'navigation' }
       if (this.disable === true) {
-        return {
-          'aria-disabled': 'true'
-        }
+        attrs['aria-disabled'] = 'true'
       }
+      return attrs
     },
 
     btnProps () {
@@ -218,10 +218,15 @@ export default Vue.extend({
         : otherwise
     },
 
-    __getBtn (h, data, props, page) {
+    __getBtn (h, data, props, page, active) {
       data.props = {
         ...this.btnProps,
         ...props
+      }
+      data.attrs = {
+        'aria-label': page,
+        'aria-current': active === true ? 'true' : 'false',
+        ...data.attrs
       }
 
       if (page !== void 0) {
@@ -354,7 +359,7 @@ export default Vue.extend({
         contentStart.push(this.__getBtn(h, {
           key: 'bns',
           style
-        }, btn, this.min))
+        }, btn, this.min, active))
       }
       if (boundaryEnd) {
         const active = this.max === this.value
@@ -372,7 +377,7 @@ export default Vue.extend({
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bne',
           style
-        }, btn, this.max))
+        }, btn, this.max, active))
       }
       if (ellipsesStart) {
         contentStart.push(this.__getBtn(h, {
@@ -408,7 +413,7 @@ export default Vue.extend({
         contentMiddle.push(this.__getBtn(h, {
           key: `bpg${i}`,
           style
-        }, btn, i))
+        }, btn, i, i === this.value))
       }
     }
 

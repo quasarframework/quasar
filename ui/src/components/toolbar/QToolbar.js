@@ -4,6 +4,8 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/private/slot.js'
 
+const attrs = { role: 'toolbar' }
+
 export default Vue.extend({
   name: 'QToolbar',
 
@@ -17,6 +19,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-toolbar row no-wrap items-center',
       class: this.inset ? 'q-toolbar--inset' : null,
+      attrs,
       on: { ...this.qListeners }
     }, slot(this, 'default'))
   }

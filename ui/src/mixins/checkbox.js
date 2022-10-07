@@ -111,7 +111,7 @@ export default {
     attrs () {
       const attrs = {
         tabindex: this.computedTabindex,
-        role: 'checkbox',
+        role: this.type === 'toggle' ? 'switch' : 'checkbox',
         'aria-label': this.label,
         'aria-checked': this.isIndeterminate === true
           ? 'mixed'
