@@ -856,7 +856,17 @@
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "__exemption": [ "examples" ],
+          "definition": {
+            "name": {
+              "type": "String",
+              "desc": "Column name"
+            },
+            "value": {
+              "type": "String",
+              "desc": "Column value for the given row"
+            }
+          }
         },
         "colsMap": {
           "type": "Object",
