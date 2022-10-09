@@ -36,6 +36,7 @@ mainWindow = new BrowserWindow({
   useContentSize: true,
   frame: false // <-- add this
   webPreferences: {
+    sandbox: false  // <-- add this if used electron version is > v19
     // ...
   }
 })
