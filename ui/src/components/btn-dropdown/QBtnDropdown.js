@@ -6,6 +6,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { useBtnProps } from '../btn/use-btn.js'
+import { useTransitionProps } from '../../composables/private/use-transition.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
@@ -17,6 +18,7 @@ export default createComponent({
 
   props: {
     ...useBtnProps,
+    ...useTransitionProps,
 
     modelValue: Boolean,
     split: Boolean,
@@ -165,6 +167,9 @@ export default createComponent({
           self: props.menuSelf,
           offset: props.menuOffset,
           separateClosePopup: true,
+          transitionShow: props.transitionShow,
+          transitionHide: props.transitionHide,
+          transitionDuration: props.transitionDuration,
           onBeforeShow,
           onShow,
           onBeforeHide,
