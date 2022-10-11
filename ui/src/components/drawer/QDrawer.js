@@ -338,6 +338,7 @@ export default createComponent({
         props.behavior === 'mobile'
         || (props.behavior !== 'desktop' && $layout.totalWidth.value <= props.breakpoint)
       ))
+      applyPosition()
     }
 
     watch(belowBreakpoint, val => {
