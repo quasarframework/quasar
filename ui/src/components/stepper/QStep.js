@@ -121,7 +121,7 @@ export default createComponent({
 
     return () => h(
       'div',
-      { ref: rootRef, class: 'q-stepper__step', ...scrollEvent.value },
+      { ref: rootRef, class: 'q-stepper__step', role: 'tabpanel', ...scrollEvent.value },
       $stepper.value.vertical === true
         ? [
             h(StepHeader, {

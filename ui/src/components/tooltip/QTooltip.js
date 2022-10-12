@@ -285,7 +285,7 @@ export default createComponent({
             attrs.style,
             transitionStyle.value
           ],
-          role: 'complementary'
+          role: 'tooltip'
         }, hSlot(slots.default))
         : null
     }

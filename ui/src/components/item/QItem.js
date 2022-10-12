@@ -136,6 +136,7 @@ export default createComponent({
         ref: rootRef,
         class: classes.value,
         style: style.value,
+        role: 'listitem',
         onClick,
         onKeyup
       }

@@ -376,7 +376,8 @@ export default createComponent({
 
     function renderPortalContent () {
       return h('div', {
-        'aria-modal': 'true',
+        role: 'dialog',
+        'aria-modal': useBackdrop.value === true ? 'true' : 'false',
         ...attrs,
         class: rootClasses.value
       }, [
