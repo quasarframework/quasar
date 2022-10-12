@@ -36,7 +36,7 @@ mainWindow = new BrowserWindow({
   useContentSize: true,
   frame: false // <-- add this
   webPreferences: {
-    sandbox:false // to be able to import @electron/remote in preload script
+    sandbox: false // to be able to import @electron/remote in preload script
     // ...
   }
 })
