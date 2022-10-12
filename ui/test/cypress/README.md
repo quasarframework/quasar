@@ -40,6 +40,11 @@ Done :white_check_mark:
 - [x] QMenu (140+)
 - [x] QChip (100+)
 - [x] QAvatar
+- [x] QBadge
+- [x] QBanner
+- [x] QBar
+- [x] QBreadcrumbs
+- [x] QBreadcrumbsEl 
 
 ## Known issues
 Any help to resolve these issues is welcome.
