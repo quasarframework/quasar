@@ -17,8 +17,18 @@ class Mode {
     }
 
     log(`Creating SSR source folder...`)
+
     const format = hasTypescript ? 'ts' : 'default'
-    fse.copySync(appPaths.resolve.cli(`templates/ssr/${format}`), appPaths.ssrDir)
+    fse.copySync(
+      appPaths.resolve.cli(`templates/ssr/${format}`),
+      appPaths.ssrDir
+    )
+
+    fse.copySync(
+      appPaths.resolve.cli('templates/ssr/ssr-flag.d.ts'),
+      appPaths.resolve.ssr('ssr-flag.d.ts')
+    )
+
     log(`SSR support was added`)
   }
 
