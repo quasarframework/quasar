@@ -10,13 +10,15 @@ describe('Breadcrumbs API', () => {
     describe('Category: content', () => {
       describe('(prop): separator', () => {
         it('should render a custom separator based on the defined value', () => {
+          const customSeparator = '>'
+
           mount(BasicBreadcrumbs, {
             props: {
-              separator: '>'
+              separator: customSeparator
             }
           })
           cy.get('.q-breadcrumbs__separator')
-            .each(($el) => cy.wrap($el).should('contain', '>'))
+            .each(($el) => cy.wrap($el).should('contain', customSeparator))
         })
       })
 
