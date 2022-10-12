@@ -21,10 +21,6 @@
       "extends": "tag",
       "default": "span",
       "examples": [ "div", "span" ]
-    },
-
-    "ripple": {
-      "extends": "ripple"
     }
   },
 
