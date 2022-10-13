@@ -32,6 +32,12 @@ export const getBtnDesign = (props, defaultValue) => {
   if (props.unelevated === true) return 'unelevated'
   return defaultValue
 }
+export const getBtnDesignAttr = props => {
+  const design = getBtnDesign(props)
+  return design !== void 0
+    ? { [ design ]: true }
+    : {}
+}
 
 export const useBtnProps = {
   ...useSizeProps,

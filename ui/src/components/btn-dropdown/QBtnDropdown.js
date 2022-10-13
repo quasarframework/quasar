@@ -5,7 +5,7 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { useBtnProps } from '../btn/use-btn.js'
+import { getBtnDesignAttr, useBtnProps } from '../btn/use-btn.js'
 import { useTransitionProps } from '../../composables/private/use-transition.js'
 
 import { createComponent } from '../../utils/private/create.js'
@@ -13,11 +13,31 @@ import { stop } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
 import { hSlot } from '../../utils/private/render.js'
 
+const btnPropsList = Object.keys(useBtnProps)
+
+// let's not duplicate type checking and prop validations
+// so just specify the props here with no type description
+const btnProps = btnPropsList.reduce(
+  (acc, key) => (acc[ key ] = {}) && acc,
+  {}
+)
+
+export const passBtnProps = props => btnPropsList.reduce(
+  (acc, key) => {
+    const val = props[ key ]
+    if (val !== void 0) {
+      acc[ key ] = val
+    }
+    return acc
+  },
+  {}
+)
+
 export default createComponent({
   name: 'QBtnDropdown',
 
   props: {
-    ...useBtnProps,
+    ...btnProps,
     ...useTransitionProps,
 
     modelValue: Boolean,
@@ -59,7 +79,7 @@ export default createComponent({
     const menuRef = ref(null)
     const targetUid = uid()
 
-    const attributes = computed(() => {
+    const ariaAttrs = computed(() => {
       const acc = {
         'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
@@ -86,6 +106,9 @@ export default createComponent({
       + (showing.value === true && props.noIconAnimation === false ? ' rotate-180' : '')
       + (props.split === false ? ' q-btn-dropdown__arrow-container' : '')
     )
+
+    const btnDesignAttr = computed(() => getBtnDesignAttr(props))
+    const btnProps = computed(() => passBtnProps(props))
 
     watch(() => props.modelValue, val => {
       menuRef.value !== null && menuRef.value[ val ? 'show' : 'hide' ]()
@@ -180,11 +203,11 @@ export default createComponent({
       if (props.split === false) {
         return h(QBtn, {
           class: 'q-btn-dropdown q-btn-dropdown--simple',
-          ...props,
+          ...btnProps.value,
+          ...ariaAttrs.value,
           disable: props.disable === true || props.disableMainBtn === true,
           noWrap: true,
           round: false,
-          ...attributes.value,
           onClick
         }, {
           default: () => hSlot(slots.label, []).concat(Arrow),
@@ -194,21 +217,17 @@ export default createComponent({
 
       return h(QBtnGroup, {
         class: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
-        outline: props.outline,
-        flat: props.flat,
         rounded: props.rounded,
         square: props.square,
-        push: props.push,
-        unelevated: props.unelevated,
+        ...btnDesignAttr.value,
         glossy: props.glossy,
         stretch: props.stretch
       }, () => [
         h(QBtn, {
           class: 'q-btn-dropdown--current',
-          ...props,
+          ...btnProps.value,
           disable: props.disable === true || props.disableMainBtn === true,
           noWrap: true,
-          iconRight: props.iconRight,
           round: false,
           onClick: onClickHide
         }, {
@@ -218,16 +237,15 @@ export default createComponent({
 
         h(QBtn, {
           class: 'q-btn-dropdown__arrow-container q-anchor--skip',
-          ...attributes.value,
+          ...ariaAttrs.value,
+          ...btnDesignAttr.value,
           disable: props.disable === true || props.disableDropdown === true,
-          outline: props.outline,
-          flat: props.flat,
           rounded: props.rounded,
-          push: props.push,
-          size: props.size,
           color: props.color,
           textColor: props.textColor,
           dense: props.dense,
+          size: props.size,
+          padding: props.padding,
           ripple: props.ripple
         }, () => Arrow)
       ])

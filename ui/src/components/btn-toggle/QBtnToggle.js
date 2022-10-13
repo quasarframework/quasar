@@ -7,7 +7,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import { hMergeSlot } from '../../utils/private/render.js'
-import { getBtnDesign } from '../btn/use-btn.js'
+import { getBtnDesignAttr } from '../btn/use-btn.js'
 
 export default createComponent({
   name: 'QBtnToggle',
@@ -81,17 +81,12 @@ export default createComponent({
 
     const injectFormInput = useFormInject(formAttrs)
 
-    const btnDesign = computed(() => {
-      const design = getBtnDesign(props)
-      return design !== void 0
-        ? { [ design ]: true }
-        : {}
-    })
+    const btnDesignAttr = computed(() => getBtnDesignAttr(props))
 
     const btnOptionDesign = computed(() => ({
       rounded: props.rounded,
       dense: props.dense,
-      ...btnDesign.value
+      ...btnDesignAttr.value
     }))
 
     const btnOptions = computed(() => props.options.map((item, i) => {
@@ -164,7 +159,7 @@ export default createComponent({
 
     return () => h(QBtnGroup, {
       class: 'q-btn-toggle',
-      ...btnDesign.value,
+      ...btnDesignAttr.value,
       rounded: props.rounded,
       stretch: props.stretch,
       glossy: props.glossy,
