@@ -12,7 +12,7 @@
     },
 
     "min": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Minimum page (must be lower than 'max')",
       "default": 1,
       "examples": [ 3 ],
@@ -20,56 +20,16 @@
     },
 
     "max": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Number of last page (must be higher than 'min')",
       "required": true,
       "examples": [ 10 ],
       "category": "model"
     },
 
-    "color": {
-      "extends": "color",
-      "default": "primary"
-    },
-
-    "text-color": {
-      "extends": "text-color"
-    },
-
-    "active-color": {
-      "extends": "color",
-      "default": "primary"
-    },
-
-    "active-text-color": {
-      "extends": "text-color"
-    },
-
     "dark": {
       "extends": "dark",
       "desc": "Notify the component that the background is a dark color (useful when you are using it along with the 'input' prop)"
-    },
-
-    "input-style": {
-      "type": [ "String", "Array", "Object" ],
-      "tsType": "VueStyleProp",
-      "desc": "Style definitions to be attributed to the input (if using one)",
-      "examples": [
-        "background-color: #ff0000",
-        ":input-style=\"{ backgroundColor: '#ff0000' }\""
-      ],
-      "category": "style"
-    },
-
-    "input-class": {
-      "type": [ "String", "Array", "Object" ],
-      "tsType": "VueClassProp",
-      "desc": "Class definitions to be attributed to the input (if using one)",
-      "examples": [
-        "my-special-class",
-        ":input-class=\"{ 'my-special-class': <condition> }\""
-      ],
-      "category": "style"
     },
 
     "size": {
@@ -149,19 +109,65 @@
     },
 
     "max-pages": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "default": 0,
       "desc": "Maximum number of page links to display at a time; 0 means Infinite",
       "examples": [ 5 ],
-      "category": "model"
+      "category": "content"
     },
 
-    "ripple": {
-      "type": [ "Boolean", "Object" ],
-      "desc": "Configure buttons material ripple (disable it by setting it to 'false' or supply a config object); Does not applies to boundary and ellipsis buttons",
-      "default": true,
-      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for non-active buttons (it's the default option)",
       "category": "style"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for non-active buttons",
+      "category": "style"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow for non-active buttons",
+      "category": "style"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for non-active buttons",
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color",
+      "desc": "Color name from the Quasar Color Palette for the non-active buttons",
+      "default": "primary"
+    },
+
+    "text-color": {
+      "extends": "text-color",
+      "desc": "Text color name from the Quasar Color Palette for the ACTIVE buttons"
+    },
+
+    "active-design": {
+      "type": "String",
+      "desc": "The design of the ACTIVE button, similar to the flat/outline/push/unelevated props (but those are used for non-active buttons)",
+      "values": [ "flat", "outline", "push", "unelevated" ],
+      "category": "style",
+      "addedIn": "v2.9.3"
+    },
+
+    "active-color": {
+      "extends": "color",
+      "desc": "Color name from the Quasar Color Palette for the ACTIVE button",
+      "default": "primary"
+    },
+
+    "active-text-color": {
+      "extends": "text-color",
+      "desc": "Text color name from the Quasar Color Palette for the ACTIVE button"
     },
 
     "round": {
@@ -176,44 +182,55 @@
       "category": "style"
     },
 
-    "flat": {
-      "type": "Boolean",
-      "desc": "Use 'flat' design for current page button",
-      "category": "style"
-    },
-
-    "outline": {
-      "type": "Boolean",
-      "desc": "Use 'outline' design for current page button",
-      "category": "style"
-    },
-
-    "unelevated": {
-      "type": "Boolean",
-      "desc": "Remove shadow for current page button",
-      "category": "style"
-    },
-
-    "push": {
-      "type": "Boolean",
-      "desc": "Use 'push' design for current page button",
-      "category": "style"
-    },
-
     "glossy": {
       "type": "Boolean",
       "desc": "Applies a glossy effect for all buttons",
       "category": "style"
     },
 
-    "dense": {
-      "extends": "dense"
+    "gutter": {
+      "type": "String",
+      "desc": "Apply custom gutter; Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl)",
+      "default": "2px",
+      "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg", "2px 2px 5px 7px" ],
+      "category": "style",
+      "addedIn": "v2.9.3"
     },
 
     "padding": {
       "type": "String",
       "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
       "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg", "2px 2px 5px 7px" ],
+      "category": "style"
+    },
+
+    "input-style": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
+      "desc": "Style definitions to be attributed to the input (if using one)",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "input-class": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the input (if using one)",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "ripple": {
+      "type": [ "Boolean", "Object" ],
+      "desc": "Configure buttons material ripple (disable it by setting it to 'false' or supply a config object); Does not applies to boundary and ellipsis buttons",
+      "default": true,
+      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
       "category": "style"
     }
   },
