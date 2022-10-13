@@ -79,6 +79,8 @@ export default Vue.extend({
 
         return attrs
       }
+
+      return { role: 'group' }
     }
   },
 

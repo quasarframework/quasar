@@ -14,6 +14,8 @@ import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/private/position-engine.js'
 
+const attrs = { role: 'tooltip' }
+
 export default Vue.extend({
   name: 'QTooltip',
 
@@ -226,9 +228,7 @@ export default Vue.extend({
           staticClass: 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
           class: this.contentClass,
           style: this.contentStyle,
-          attrs: {
-            role: 'complementary'
-          }
+          attrs
         }, slot(this, 'default')) : null
       ])
     }

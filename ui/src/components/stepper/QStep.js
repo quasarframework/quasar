@@ -7,6 +7,8 @@ import { PanelChildMixin } from '../../mixins/panel.js'
 
 import { slot } from '../../utils/private/slot.js'
 
+const attrs = { role: 'tabpanel' }
+
 const StepWrapper = Vue.extend({
   name: 'QStepWrapper',
 
@@ -102,6 +104,7 @@ export default Vue.extend({
       'div',
       {
         staticClass: 'q-stepper__step',
+        attrs,
         on: this.onEvents
       },
       vertical === true

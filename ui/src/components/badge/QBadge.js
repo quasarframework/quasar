@@ -53,7 +53,7 @@ export default Vue.extend({
 
     attrs () {
       return {
-        role: 'alert',
+        role: 'status',
         'aria-label': this.label
       }
     }

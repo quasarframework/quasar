@@ -129,7 +129,7 @@ export default Vue.extend({
     const data = {
       class: this.classes,
       style: this.style,
-      attrs: {},
+      attrs: { role: 'listitem' },
       on: this.onEvents
     }
 
