@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import BtnMixin from '../../mixins/btn.js'
 import AttrsMixin from '../../mixins/attrs.js'
+import TransitionMixin from '../../mixins/transition.js'
 
 import QIcon from '../icon/QIcon.js'
 import QBtn from '../btn/QBtn.js'
@@ -12,6 +13,13 @@ import { slot } from '../../utils/private/slot.js'
 import { stop } from '../../utils/event.js'
 import cache from '../../utils/private/cache.js'
 import uid from '../../utils/uid.js'
+
+// let's not duplicate type checking and prop validations
+// so just specify the props here with no type description
+const menuTransitionProps = Object.keys(TransitionMixin.props).reduce(
+  (acc, key) => (acc[ key ] = {}) && acc,
+  {}
+)
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -42,6 +50,7 @@ export default Vue.extend({
       default: 'top end'
     },
     menuOffset: Array,
+    ...menuTransitionProps,
 
     disableMainBtn: Boolean,
     disableDropdown: Boolean,
@@ -113,7 +122,9 @@ export default Vue.extend({
           offset: this.menuOffset,
           contentClass: this.contentClass,
           contentStyle: this.contentStyle,
-          separateClosePopup: true
+          separateClosePopup: true,
+          transitionShow: this.transitionShow,
+          transitionHide: this.transitionHide
         },
         on: cache(this, 'menu', {
           'before-show': e => {

@@ -121,6 +121,20 @@
       "addedIn": "v1.9.2"
     },
 
+    "transition-show": {
+      "extends": "transition",
+      "default": "fade",
+      "category": "behavior",
+      "addedIn": "v1.22"
+    },
+
+    "transition-hide": {
+      "extends": "transition",
+      "default": "fade",
+      "category": "behavior",
+      "addedIn": "v1.22"
+    },
+
     "toggle-aria-label": {
       "type": "String",
       "desc": "aria-label to be used on the dropdown toggle element",
