@@ -198,6 +198,7 @@ export default Vue.extend({
         outline: this.outline,
         flat: this.flat,
         rounded: this.rounded,
+        square: this.square,
         push: this.push,
         unelevated: this.unelevated,
         glossy: this.glossy,
