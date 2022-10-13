@@ -53,7 +53,7 @@ export default createComponent({
     return () => h('div', {
       class: classes.value,
       style: style.value,
-      role: 'alert',
+      role: 'status',
       'aria-label': props.label
     }, hMergeSlot(slots.default, props.label !== void 0 ? [ props.label ] : []))
   }

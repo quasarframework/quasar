@@ -148,11 +148,10 @@ export default createComponent({
       return $q.lang.rtl === true ? ico.reverse() : ico
     })
 
-    const attrs = computed(() => (
-      props.disable === true
-        ? { 'aria-disabled': 'true' }
-        : {}
-    ))
+    const attrs = computed(() => ({
+      'aria-disabled': props.disable === true ? 'true' : 'false',
+      role: 'navigation'
+    }))
 
     const btnProps = computed(() => ({
       round: props.round,
@@ -193,8 +192,13 @@ export default createComponent({
       newPage.value = null
     }
 
-    function getBtn (cfg, page) {
-      const data = { ...btnProps.value, ...cfg }
+    function getBtn (cfg, page, active) {
+      const data = {
+        'aria-label': page,
+        'aria-current': active === true ? 'true' : 'false',
+        ...btnProps.value,
+        ...cfg
+      }
 
       if (page !== void 0) {
         if (props.toFn !== void 0) {
@@ -311,7 +315,7 @@ export default createComponent({
             flat: !active,
             label: props.min,
             ...(active ? activeBtnProps.value : {})
-          }, props.min))
+          }, props.min, active))
         }
         if (boundaryEnd) {
           const active = props.max === props.modelValue
@@ -322,7 +326,7 @@ export default createComponent({
             flat: !active,
             label: props.max,
             ...(active ? activeBtnProps.value : {})
-          }, props.max))
+          }, props.max, active))
         }
         if (ellipsesStart) {
           contentStart.push(getBtn({
@@ -352,7 +356,7 @@ export default createComponent({
           if (i === props.modelValue) {
             Object.assign(btn, activeBtnProps.value)
           }
-          contentMiddle.push(getBtn(btn, i))
+          contentMiddle.push(getBtn(btn, i, i === props.modelValue))
         }
       }
 
