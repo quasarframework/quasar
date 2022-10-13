@@ -11,7 +11,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
-import { layoutKey } from '../../utils/private/symbols.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
 
 const duration = 150
 
@@ -77,9 +77,11 @@ export default createComponent({
     const { preventBodyScroll } = usePreventScroll()
     const { registerTimeout, removeTimeout } = useTimeout()
 
-    const $layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, emptyRenderFn)
+    if ($layout === emptyRenderFn) {
       console.error('QDrawer needs to be child of QLayout')
-    })
+      return emptyRenderFn
+    }
 
     let lastDesktopState, timerMini, layoutTotalWidthWatcher
 

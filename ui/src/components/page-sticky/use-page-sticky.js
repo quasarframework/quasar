@@ -1,7 +1,7 @@
 import { h, computed, inject, getCurrentInstance } from 'vue'
 
 import { hSlot } from '../../utils/private/render.js'
-import { layoutKey } from '../../utils/private/symbols.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
 
 export const usePageStickyProps = {
   position: {
@@ -23,9 +23,11 @@ export const usePageStickyProps = {
 export default function () {
   const { props, proxy: { $q } } = getCurrentInstance()
 
-  const $layout = inject(layoutKey, () => {
+  const $layout = inject(layoutKey, emptyRenderFn)
+  if ($layout === emptyRenderFn) {
     console.error('QPageSticky needs to be child of QLayout')
-  })
+    return emptyRenderFn
+  }
 
   const attach = computed(() => {
     const pos = props.position

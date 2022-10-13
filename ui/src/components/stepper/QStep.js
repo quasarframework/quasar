@@ -7,7 +7,7 @@ import { usePanelChildProps } from '../../composables/private/use-panel.js'
 import useCache from '../../composables/private/use-cache.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { stepperKey } from '../../utils/private/symbols.js'
+import { stepperKey, emptyRenderFn } from '../../utils/private/symbols.js'
 import { hSlot } from '../../utils/private/render.js'
 
 function getStepWrapper (slots) {
@@ -61,9 +61,11 @@ export default createComponent({
   setup (props, { slots, emit }) {
     const { proxy: { $q } } = getCurrentInstance()
 
-    const $stepper = inject(stepperKey, () => {
-      console.error('QStep needs to be child of QStepper')
-    })
+    const $stepper = inject(stepperKey, emptyRenderFn)
+    if ($stepper === emptyRenderFn) {
+      console.error('QStep needs to be a child of QStepper')
+      return emptyRenderFn
+    }
 
     const { getCacheWithFn } = useCache()
 

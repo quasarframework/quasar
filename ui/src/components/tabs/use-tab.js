@@ -6,7 +6,7 @@ import Ripple from '../../directives/Ripple.js'
 
 import { hMergeSlot } from '../../utils/private/render.js'
 import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
-import { tabsKey } from '../../utils/private/symbols.js'
+import { tabsKey, emptyRenderFn } from '../../utils/private/symbols.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
 import { isDeepEqual } from '../../utils/is.js'
@@ -41,9 +41,11 @@ export const useTabProps = {
 }
 
 export default function (props, slots, emit, routeData) {
-  const $tabs = inject(tabsKey, () => {
+  const $tabs = inject(tabsKey, emptyRenderFn)
+  if ($tabs === emptyRenderFn) {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
-  })
+    return emptyRenderFn
+  }
 
   const { proxy } = getCurrentInstance()
 

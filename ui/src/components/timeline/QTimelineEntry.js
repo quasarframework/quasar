@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hUniqueSlot } from '../../utils/private/render.js'
-import { timelineKey } from '../../utils/private/symbols.js'
+import { timelineKey, emptyRenderFn } from '../../utils/private/symbols.js'
 
 export default createComponent({
   name: 'QTimelineEntry',
@@ -32,9 +32,11 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const $timeline = inject(timelineKey, () => {
+    const $timeline = inject(timelineKey, emptyRenderFn)
+    if ($timeline === emptyRenderFn) {
       console.error('QTimelineEntry needs to be child of QTimeline')
-    })
+      return emptyRenderFn
+    }
 
     const classes = computed(() =>
       `q-timeline__entry q-timeline__entry--${ props.side }`
