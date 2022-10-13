@@ -156,7 +156,7 @@
       "desc": "The design of the ACTIVE button, similar to the flat/outline/push/unelevated props (but those are used for non-active buttons)",
       "values": [ "flat", "outline", "push", "unelevated" ],
       "category": "style",
-      "addedIn": "v2.9.3"
+      "addedIn": "v2.10"
     },
 
     "active-color": {
@@ -194,7 +194,7 @@
       "default": "2px",
       "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg", "2px 2px 5px 7px" ],
       "category": "style",
-      "addedIn": "v2.9.3"
+      "addedIn": "v2.10"
     },
 
     "padding": {
