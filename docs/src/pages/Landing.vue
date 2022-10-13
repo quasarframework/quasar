@@ -6,7 +6,6 @@ q-page.landing
       .landing__hero-logo.col-12.flex.flex-center.q-mb-lg
         img.landing__logo-image(src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg")
       .landing__hero-text.col-12.column.items-center
-        //- .text-h4.landing__hero-text-main.text-bold.text-brand-primary.q-pb-xs QUASAR FRAMEWORK
         .q-pb-lg.text-grey-6.landing__hero-quote.text-center
           | Effortlessly build high-performance & high-quality
           | <span class="text-bold text-no-wrap">Vue.js 3</span> user interfaces in record time
@@ -42,12 +41,12 @@ q-page.landing
       .col-12.text-center.q-my-xl
         p Combine the power of Quasar UI with Quasar CLI. One source code for all platforms simultaneously with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
       .col-12.row.justify-center
-        q-card.bg-grey-1.q-px-lg.q-py-sm(bordered flat)
+        q-card.bg-grey-1.q-px-sm.q-py-sm(bordered flat)
+          q-card-section.text-left.column.items-center.q-gutter-sm
+            q-badge(label="$ yarn global add @quasar/cli" color="grey-8")
+            q-badge(label="$ yarn create quasar" color="grey-8")
+          q-separator.q-mb-sm
           q-card-section(horizontal)
-            q-card-section.text-left.column.items-center.q-gutter-sm
-              q-badge(label="$ yarn global add @quasar/cli" color="grey-8")
-              q-badge(label="$ yarn create quasar" color="grey-8")
-            q-separator(vertical)
             q-card-section.text-left.column.items-center.q-gutter-sm
               q-badge(label="$ npm i -g @quasar/cli" color="grey-8")
               q-badge(label="$ npm init quasar" color="grey-8")
