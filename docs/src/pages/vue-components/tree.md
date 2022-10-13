@@ -28,7 +28,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 <doc-example title="Dark" file="QTree/Dark" dark />
 
 ### Perf considerations <q-badge align="top" color="brand-primary" label="v2.9.2+" />
-When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will make a significant runtime speed improvement.
+When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement.
 
 ```html
 <q-tree no-transition ...
