@@ -625,6 +625,10 @@ Changed property "no-default-spinner" to "no-spinner".
 
 For the detailed changes, please view the API Card on [QImg](/vue-components/img#qimg-api) page.
 
+#### QPagination
+
+Added prop "gutter".
+
 #### QPopupEdit
 
 Some performance improvements have been made on this component and as a result you will need to now use the default slot.
