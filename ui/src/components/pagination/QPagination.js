@@ -105,7 +105,6 @@ export default Vue.extend({
     activeColor: String,
     activeTextColor: String,
 
-    gutter: String,
     padding: {
       type: String,
       default: '3px 2px'
@@ -173,17 +172,6 @@ export default Vue.extend({
 
     __ellipses () {
       return getBool(this.ellipses, !this.input)
-    },
-
-    __gutter () {
-      return this.gutter in btnPadding
-        ? `${btnPadding[ this.gutter ]}px`
-        : this.gutter || null
-    },
-    __gutterStyle () {
-      return this.__gutter !== null
-        ? `--q-pagination-gutter-parent:-${this.__gutter};--q-pagination-gutter-child:${this.__gutter}`
-        : null
     },
 
     __btnDesign () {
@@ -425,7 +413,7 @@ export default Vue.extend({
             disable: this.disable,
             label: '…',
             ripple: false
-          }, this.btnConfig.pgFrom - 1)
+          }, pgFrom - 1)
         )
       }
 
@@ -462,8 +450,7 @@ export default Vue.extend({
       on: { ...this.qListeners }
     }, [
       h('div', {
-        staticClass: 'q-pagination__content row no-wrap items-center',
-        style: this.__gutterStyle
+        staticClass: 'q-pagination__content row no-wrap items-center'
       }, [
         ...contentStart,
 
@@ -492,7 +479,7 @@ export default Vue.extend({
                 min: this.__min,
                 max: this.__max
               },
-              on: cache(this, 'inp', { ...this.inputEvents })
+              on: { ...this.inputEvents }
             })
           ]
           : contentMiddle

@@ -17,11 +17,11 @@ const formTypes = [ 'button', 'submit', 'reset' ]
 const mediaTypeRe = /[^\s]\/[^\s]/
 
 export const btnDesignOptions = [ 'flat', 'outline', 'push', 'unelevated' ]
-export const getBtnDesign = (props, defaultValue) => {
-  if (props.flat === true) return 'flat'
-  if (props.outline === true) return 'outline'
-  if (props.push === true) return 'push'
-  if (props.unelevated === true) return 'unelevated'
+export const getBtnDesign = (vm, defaultValue) => {
+  if (vm.flat === true) return 'flat'
+  if (vm.outline === true) return 'outline'
+  if (vm.push === true) return 'push'
+  if (vm.unelevated === true) return 'unelevated'
   return defaultValue
 }
 

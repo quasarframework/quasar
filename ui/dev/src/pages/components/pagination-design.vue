@@ -11,7 +11,6 @@
         outline
         text-color="black"
         active-text-color="red"
-        gutter="10px"
         max="5"
       />
 
@@ -73,7 +72,6 @@
       <q-pagination
         v-model="currentPage"
         max="5"
-        gutter="md"
         boundary-links
         direction-links
       />

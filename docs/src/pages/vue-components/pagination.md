@@ -20,8 +20,6 @@ The following are a few examples, but not an exhaustive list:
 
 <doc-example title="Button design (v1.22+)" file="QPagination/BtnDesign" />
 
-<doc-example title="Gutter (v1.22+)" file="QPagination/BtnGutter" />
-
 ### Custom icons <q-badge align="top" color="brand-primary" label="v1.9.4+" />
 
 <doc-example title="With icon replacement" file="QPagination/Icons" />
