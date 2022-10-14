@@ -176,6 +176,10 @@ const objectTypes = {
 function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   let obj = api[itemName]
 
+  if (obj.addedIn !== void 0) {
+    handleAddedIn(obj.addedIn, banner)
+  }
+
   if (obj.extends !== void 0 && extendApi[masterType] !== void 0) {
     if (extendApi[masterType][obj.extends] === void 0) {
       logError(`${banner} extends "${obj.extends}" which does not exists`)
@@ -311,30 +315,21 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
 
 // https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // https://regex101.com/r/vkijKf/1/
-const SEMANTIC_REGEX = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+const SEMANTIC_REGEX = /^v(0|[1-9]\d*)\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
-function isValidVersion (version) {
-  return !!SEMANTIC_REGEX.exec(version)
-}
-
-function handleAddedIn (api, banner) {
-  if (api['addedIn'] === void 0 || api['addedIn'].length === 0) {
+function handleAddedIn (addedIn, banner) {
+  if (addedIn === void 0 || addedIn.length === 0) {
     logError(`${banner} "addedIn" is empty`)
-    console.log()
     process.exit(1)
   }
-
-  const addedIn = api['addedIn']
 
   if (addedIn.charAt(0) !== 'v') {
     logError(`${banner} "addedIn" value (${addedIn}) must start with "v"`)
-    console.log()
     process.exit(1)
   }
 
-  if (isValidVersion(addedIn.slice(1)) !== true) {
+  if (SEMANTIC_REGEX.test(addedIn) !== true) {
     logError(`${banner} "addedIn" value (${addedIn}) must follow sematic versioning`)
-    console.log()
     process.exit(1)
   }
 }
@@ -395,7 +390,7 @@ function parseAPI (file, apiType) {
     }
 
     if (type === 'addedIn') {
-      handleAddedIn(api, banner)
+      handleAddedIn(api.addedIn, banner)
       continue
     }
 
