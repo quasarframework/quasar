@@ -4,7 +4,7 @@ import ListenersMixin from './listeners.js'
 import RouterLinkMixin from './router-link.js'
 import { getSizeMixin } from './size.js'
 
-const padding = {
+export const btnPadding = {
   none: 0,
   xs: 4,
   sm: 8,
@@ -15,6 +15,15 @@ const padding = {
 
 const formTypes = [ 'button', 'submit', 'reset' ]
 const mediaTypeRe = /[^\s]\/[^\s]/
+
+export const btnDesignOptions = [ 'flat', 'outline', 'push', 'unelevated' ]
+export const getBtnDesign = (props, defaultValue) => {
+  if (props.flat === true) return 'flat'
+  if (props.outline === true) return 'outline'
+  if (props.push === true) return 'push'
+  if (props.unelevated === true) return 'unelevated'
+  return defaultValue
+}
 
 export default {
   mixins: [
@@ -45,12 +54,14 @@ export default {
     icon: String,
     iconRight: String,
 
+    ...btnDesignOptions.reduce(
+      (acc, val) => (acc[ val ] = Boolean) && acc,
+      {}
+    ),
+
+    square: Boolean,
     round: Boolean,
-    outline: Boolean,
-    flat: Boolean,
-    unelevated: Boolean,
     rounded: Boolean,
-    push: Boolean,
     glossy: Boolean,
 
     size: String,
@@ -96,11 +107,7 @@ export default {
     },
 
     design () {
-      if (this.flat === true) return 'flat'
-      if (this.outline === true) return 'outline'
-      if (this.push === true) return 'push'
-      if (this.unelevated === true) return 'unelevated'
-      return 'standard'
+      return getBtnDesign(this, 'standard')
     },
 
     attrs () {
@@ -155,8 +162,11 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.design} ` +
-        `q-btn--${this.round === true ? 'round' : `rectangle${this.isRounded === true ? ' q-btn--rounded' : ''}`}` +
+      const shape = this.round === true
+        ? 'round'
+        : `rectangle${this.isRounded === true ? ' q-btn--rounded' : (this.square === true ? ' q-btn--square' : '')}`
+
+      return `q-btn--${this.design} q-btn--${shape}` +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
@@ -178,7 +188,7 @@ export default {
         return {
           padding: this.padding
             .split(/\s+/)
-            .map(v => v in padding ? padding[v] + 'px' : v)
+            .map(v => v in btnPadding ? btnPadding[v] + 'px' : v)
             .join(' '),
           minWidth: '0',
           minHeight: '0'

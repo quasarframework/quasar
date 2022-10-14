@@ -14,6 +14,7 @@ export default Vue.extend({
     outline: Boolean,
     flat: Boolean,
     rounded: Boolean,
+    square: Boolean,
     push: Boolean,
     stretch: Boolean,
     glossy: Boolean,
@@ -22,7 +23,7 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy']
+      return ['unelevated', 'outline', 'flat', 'rounded', 'square', 'push', 'stretch', 'glossy']
         .filter(t => this[t] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
     }

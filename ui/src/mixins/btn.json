@@ -98,6 +98,11 @@
       "category": "style"
     },
 
+    "square": {
+      "extends": "square",
+      "addedIn": "v1.22.0"
+    },
+
     "glossy": {
       "type": "Boolean",
       "desc": "Applies a glossy effect",
