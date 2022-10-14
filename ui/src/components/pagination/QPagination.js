@@ -385,7 +385,7 @@ export default createComponent({
               disable: props.disable,
               label: '…',
               ripple: false
-            }, btnConfig.value.pgFrom - 1)
+            }, pgFrom - 1)
           )
         }
 
