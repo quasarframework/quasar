@@ -47,7 +47,7 @@
       "extends": "color",
       "desc": "Color name for left label text from the Quasar Color Palette",
       "category": "labels",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     },
 
     "right-label-color": {
@@ -60,7 +60,7 @@
       "extends": "color",
       "desc": "Color name for right label text from the Quasar Color Palette",
       "category": "labels",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     },
 
     "left-label-value": {

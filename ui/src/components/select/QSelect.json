@@ -267,7 +267,7 @@
       "desc": "Autocomplete attribute for field",
       "examples": [ "autocomplete=\"country\"" ],
       "category": "behavior",
-      "addedIn": "v1.15.0"
+      "addedIn": "v1.15"
     },
 
     "transition-show": {
@@ -292,7 +292,7 @@
       ],
       "default": "default",
       "category": "behavior",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     }
   },
 
@@ -307,11 +307,11 @@
 
     "before-options": {
       "desc": "Template slot for the elements that should be rendered before the list of options",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     },
     "after-options": {
       "desc": "Template slot for the elements that should be rendered after the list of options",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     }
   },
 
@@ -681,7 +681,7 @@
         "skipInputValue": {
           "type": "Boolean",
           "desc": "Don't set input-value on navigation",
-          "addedIn": "v1.8.0"
+          "addedIn": "v1.8"
         }
       },
       "addedIn": "v1.7.4"

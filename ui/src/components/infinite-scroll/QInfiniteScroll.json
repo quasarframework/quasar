@@ -22,7 +22,7 @@
       "default": 100,
       "examples": [ "0", "530" ],
       "category": "behavior",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     },
 
     "initial-index": {
@@ -31,7 +31,7 @@
       "default": 0,
       "examples": [ 2, 3 ],
       "category": "behavior",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "scroll-target": {
@@ -106,7 +106,7 @@
 
     "setIndex": {
       "desc": "Overwrite the current pagination index",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "updateScrollTarget": {

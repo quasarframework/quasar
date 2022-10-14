@@ -12,7 +12,7 @@
   "props": {
     "dark": {
       "extends": "dark",
-      "addedIn": "v1.3.0"
+      "addedIn": "v1.3"
     }
   },
 

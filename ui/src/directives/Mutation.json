@@ -3,7 +3,7 @@
     "docsUrl": "https://v1.quasar.dev/vue-directives/mutation"
   },
 
-  "addedIn": "v1.3.0",
+  "addedIn": "v1.3",
 
   "value": {
     "type": [ "Function" ],

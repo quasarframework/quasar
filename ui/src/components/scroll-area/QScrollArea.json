@@ -6,7 +6,7 @@
   "props": {
     "dark": {
       "extends": "dark",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "bar-style": {
@@ -14,7 +14,7 @@
       "desc": "Object with CSS properties and values for custom styling the scrollbars (both vertical and horizontal)",
       "examples": [ ":bar-style=\"{ borderRadius: '5px', background: 'red', opacity: 1 }\"" ],
       "category": "style",
-      "addedIn": "v1.5.0"
+      "addedIn": "v1.5"
     },
 
     "vertical-bar-style": {
@@ -74,7 +74,7 @@
       "type": "Boolean",
       "desc": "Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
       "category": "behavior",
-      "addedIn": "v1.3.0"
+      "addedIn": "v1.3"
     },
 
     "delay": {

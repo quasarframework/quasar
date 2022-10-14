@@ -101,7 +101,7 @@
       "desc": "Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop",
       "examples": [ "2020/07" ],
       "category": "selection",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "navigation-max-year-month": {
@@ -109,7 +109,7 @@
       "desc": "Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model; You might want to also use 'default-year-month' prop",
       "examples": [ "2020/10" ],
       "category": "selection",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "no-unset": {
@@ -146,14 +146,14 @@
       "type": "Boolean",
       "desc": "Allow multiple selection; Model must be Array",
       "category": "model|selection",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "range": {
       "type": "Boolean",
       "desc": "Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days",
       "category": "model|selection",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "emit-immediately": {
@@ -221,7 +221,7 @@
                   "__exemption": [ "examples" ]
                 }
               },
-              "addedIn": "v1.13.0"
+              "addedIn": "v1.13"
             },
             "to": {
               "type": "Object",
@@ -243,7 +243,7 @@
                   "__exemption": [ "examples" ]
                 }
               },
-              "addedIn": "v1.13.0"
+              "addedIn": "v1.13"
             },
             "changed": {
               "type": "Boolean",
@@ -275,7 +275,7 @@
           }
         }
       },
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "range-start": {
@@ -303,7 +303,7 @@
           }
         }
       },
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "range-end": {
@@ -358,7 +358,7 @@
           }
         }
       },
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     }
   },
 
@@ -412,7 +412,7 @@
           "__exemption": [ "examples" ]
         }
       },
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "setEditingRange": {

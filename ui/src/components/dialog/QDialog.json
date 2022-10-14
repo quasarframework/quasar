@@ -114,7 +114,7 @@
       "type": "Boolean",
       "desc": "Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus",
       "category": "behavior",
-      "addedIn": "v1.21.0"
+      "addedIn": "v1.21"
     }
   },
 

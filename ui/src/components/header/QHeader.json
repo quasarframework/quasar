@@ -50,7 +50,7 @@
       "default": 50,
       "examples": [ "150" ],
       "category": "behavior",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     }
   },
 

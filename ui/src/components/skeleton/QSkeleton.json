@@ -9,7 +9,7 @@
     "$listeners": true
   },
 
-  "addedIn": "v1.6.0",
+  "addedIn": "v1.6",
 
   "props": {
     "dark": {

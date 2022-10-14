@@ -147,7 +147,7 @@
     "preserveCursor": {
       "type": "Boolean",
       "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "horizontal": {

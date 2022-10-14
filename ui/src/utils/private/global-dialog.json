@@ -115,7 +115,7 @@
               "tsType": "DialogChainObject",
               "__exemption": [ "examples" ]
             },
-            "addedIn": "v1.14.0"
+            "addedIn": "v1.14"
           }
         }
       }

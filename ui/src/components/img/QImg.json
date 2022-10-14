@@ -51,7 +51,7 @@
         "70%"
       ],
       "category": "model",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "height": {
@@ -62,7 +62,7 @@
         "70%"
       ],
       "category": "model",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "alt": {
@@ -128,7 +128,7 @@
         ":img-class=\"{ 'my-special-class': <condition> }\""
       ],
       "category": "style",
-      "addedIn": "v1.4.0"
+      "addedIn": "v1.4"
     },
 
     "img-style": {
@@ -155,7 +155,7 @@
       "type": "Boolean",
       "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
       "category": "content",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     },
 
     "native-context-menu": {

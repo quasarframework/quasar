@@ -61,7 +61,7 @@
       "type": "Boolean",
       "desc": "No animation when model changes",
       "category": "behavior",
-      "addedIn": "v1.11.0"
+      "addedIn": "v1.11"
     },
 
     "color": {

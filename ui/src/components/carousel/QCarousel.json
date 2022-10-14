@@ -12,7 +12,7 @@
   "props": {
     "dark": {
       "extends": "dark",
-      "addedIn": "v1.3.0"
+      "addedIn": "v1.3"
     },
 
     "height": {
@@ -34,7 +34,7 @@
     "control-text-color": {
       "extends": "color",
       "desc": "Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "control-type": {
@@ -42,7 +42,7 @@
       "desc": "Type of button to use for controls (arrows, navigation)",
       "values": [ "regular", "flat", "outline", "push", "unelevated" ],
       "category": "style",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "autoplay": {
@@ -84,7 +84,7 @@
       "values": [ "top", "right", "bottom", "left" ],
       "examples": [ "left" ],
       "category": "content",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "navigation-icon": {

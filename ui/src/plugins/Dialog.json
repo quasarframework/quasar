@@ -218,7 +218,7 @@
                   "extends": "color"
                 }
               },
-              "addedIn": "v1.14.0"
+              "addedIn": "v1.14"
             },
 
             "ok": {
@@ -250,7 +250,7 @@
               "desc": "What button to focus, unless you also have 'prompt' or 'options'",
               "values": [ "ok", "cancel", "none" ],
               "default": "ok",
-              "addedIn": "v1.5.0"
+              "addedIn": "v1.5"
             },
 
             "stackButtons": {

@@ -37,7 +37,7 @@
 
     "size": {
       "extends": "size",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "color": {

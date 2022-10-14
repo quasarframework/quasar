@@ -121,7 +121,7 @@
         "desc": "Vue components that support Quasar validation API",
         "__exemption": [ "examples" ]
       },
-      "addedIn": "v1.10.0"
+      "addedIn": "v1.10"
     }
   }
 }

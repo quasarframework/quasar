@@ -21,7 +21,7 @@
     },
 
     "ratio": {
-      "addedIn": "v1.7.0"
+      "addedIn": "v1.7"
     },
 
     "title": {
@@ -32,7 +32,7 @@
         "My Daily Marathon"
       ],
       "category": "accessibility",
-      "addedIn": "v1.17.0"
+      "addedIn": "v1.17"
     },
 
     "fetchpriority": {

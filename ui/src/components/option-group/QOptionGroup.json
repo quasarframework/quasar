@@ -54,7 +54,7 @@
       "desc": "Used to specify the name of the controls; Useful if dealing with forms submitted directly to a URL",
       "examples": [ "car_id" ],
       "category": "behavior",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     },
 
     "type": {
@@ -77,7 +77,7 @@
     },
 
     "size": {
-      "addedIn": "v1.8.0"
+      "addedIn": "v1.8"
     },
 
     "dark": {

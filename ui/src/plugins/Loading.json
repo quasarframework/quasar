@@ -123,7 +123,7 @@
             "ignoreDefaults": {
               "type": "Boolean",
               "desc": "Ignore the default configuration (set by setDefaults()) for this instance only",
-              "addedIn": "v1.1.0"
+              "addedIn": "v1.1"
             }
           }
         }

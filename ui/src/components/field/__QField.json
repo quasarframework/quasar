@@ -45,7 +45,7 @@
     "label-color" : {
       "extends": "color",
       "desc": "Color name for the label from the Quasar Color Palette; Overrides the 'color' prop; The difference from 'color' prop is that the label will always have this color, even when field is not focused",
-      "addedIn": "v1.7.0"
+      "addedIn": "v1.7"
     },
 
     "color": {
@@ -179,7 +179,7 @@
       "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists",
       "examples": [ "car_id" ],
       "category": "behavior",
-      "addedIn": "v1.9.0"
+      "addedIn": "v1.9"
     }
   },
 

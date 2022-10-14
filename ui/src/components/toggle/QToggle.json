@@ -25,19 +25,19 @@
     "icon-color": {
       "extends": "color",
       "desc": "Override default icon color (for truthy state only); Color name for component from the Quasar Color Palette",
-      "addedIn": "v1.8.0"
+      "addedIn": "v1.8"
     },
 
     "indeterminate-value": {
-      "addedIn": "v1.8.0"
+      "addedIn": "v1.8"
     },
 
     "toggle-indeterminate": {
-      "addedIn": "v1.8.0"
+      "addedIn": "v1.8"
     },
 
     "size": {
-      "addedIn": "v1.8.0"
+      "addedIn": "v1.8"
     }
   }
 }

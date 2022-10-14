@@ -18,7 +18,7 @@
       "desc": "Equivalent to using Vue's native include prop for <keep-alive>; Values must be valid Vue component names",
       "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
       "category": "behavior",
-      "addedIn": "v1.15.0"
+      "addedIn": "v1.15"
     },
 
     "keep-alive-exclude": {
@@ -26,7 +26,7 @@
       "desc": "Equivalent to using Vue's native exclude prop for <keep-alive>; Values must be valid Vue component names",
       "examples": [ "a,b", "/a|b/", "['a', 'b']" ],
       "category": "behavior",
-      "addedIn": "v1.15.0"
+      "addedIn": "v1.15"
     },
 
     "keep-alive-max": {
@@ -34,7 +34,7 @@
       "desc": "Equivalent to using Vue's native max prop for <keep-alive>",
       "examples": [ "2" ],
       "category": "behavior",
-      "addedIn": "v1.15.0"
+      "addedIn": "v1.15"
     },
 
     "animated": {

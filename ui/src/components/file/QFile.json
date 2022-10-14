@@ -5,7 +5,7 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/file"
   },
 
-  "addedIn": "v1.8.0",
+  "addedIn": "v1.8",
 
   "props": {
     "value": {

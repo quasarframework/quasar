@@ -12,7 +12,7 @@
   "props": {
     "dark": {
       "extends": "dark",
-      "addedIn": "v1.3.0"
+      "addedIn": "v1.3"
     },
 
     "fit": {
@@ -78,7 +78,7 @@
       "type": "Boolean",
       "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
       "category": "behavior",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "auto-close": {
@@ -91,7 +91,7 @@
       "type": "Boolean",
       "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
       "category": "behavior",
-      "addedIn": "v1.1.0"
+      "addedIn": "v1.1"
     },
 
     "square": {

@@ -25,7 +25,7 @@
       "type": "Boolean",
       "desc": "Display data using QVirtualScroll (for non-grid mode only)",
       "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "addedIn": "v1.2"
     },
 
     "virtual-scroll-slice-size": {
@@ -34,7 +34,7 @@
       "default": "30",
       "examples": [ "virtual-scroll-slice-size=\"60\"" ],
       "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "addedIn": "v1.2"
     },
 
     "virtual-scroll-slice-ratio-before": {
@@ -61,7 +61,7 @@
       "default": "48 (24 if dense)",
       "examples": [ "virtual-scroll-item-size=\"48\"" ],
       "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "addedIn": "v1.2"
     },
 
     "virtual-scroll-sticky-size-start": {
@@ -70,7 +70,7 @@
       "default": "0",
       "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
       "category": "virtual-scroll|behavior",
-      "addedIn": "v1.2.0"
+      "addedIn": "v1.2"
     },
 
     "virtual-scroll-sticky-size-end": {
@@ -79,7 +79,7 @@
       "default": "0",
       "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
       "category": "virtual-scroll",
-      "addedIn": "v1.2.0"
+      "addedIn": "v1.2"
     },
 
     "table-colspan": {
@@ -87,7 +87,7 @@
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
       "examples": [ "table-colspan=\"12\"" ],
       "category": "virtual-scroll|content",
-      "addedIn": "v1.13.0"
+      "addedIn": "v1.13"
     },
 
     "color": {
@@ -98,25 +98,25 @@
     "icon-first-page": {
       "extends": "icon",
       "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "icon-prev-page": {
       "extends": "icon",
       "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "icon-next-page": {
       "extends": "icon",
       "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "icon-last-page": {
       "extends": "icon",
       "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "grid": {
@@ -257,13 +257,13 @@
           "type": "String",
           "desc": "Style to apply on header cells of the column",
           "examples": [ "width: 500px" ],
-          "addedIn": "v1.3.0"
+          "addedIn": "v1.3"
         },
         "headerClasses": {
           "type": "String",
           "desc": "Classes to add on header cells of the column",
           "examples": [ "my-special-class" ],
-          "addedIn": "v1.3.0"
+          "addedIn": "v1.3"
         }
       }
     },
@@ -307,21 +307,21 @@
       "type": "Boolean",
       "desc": "Hide the selected rows banner (if any)",
       "category": "content",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "hide-no-data": {
       "type": "Boolean",
       "desc": "Hide the default no data bottom layer",
       "category": "content",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "hide-pagination": {
       "type": "Boolean",
       "desc": "Hide the pagination controls at the bottom",
       "category": "content",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "dark": {
@@ -494,7 +494,7 @@
         ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
       ],
       "category": "style",
-      "addedIn": "v1.4.0"
+      "addedIn": "v1.4"
     },
 
     "card-container-class": {
@@ -506,7 +506,7 @@
         ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
       "category": "style",
-      "addedIn": "v1.4.0"
+      "addedIn": "v1.4"
     },
 
     "card-style": {
@@ -715,7 +715,7 @@
   "slots": {
     "loading": {
       "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading",
-      "addedIn": "v1.8.0"
+      "addedIn": "v1.8"
     }
   },
 
@@ -765,7 +765,7 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "selected": {
           "type": "Boolean",
@@ -780,15 +780,15 @@
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         }
       }
     },
@@ -838,7 +838,7 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "selected": {
           "type": "Boolean",
@@ -853,15 +853,15 @@
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "__trClass": {
           "type": "String",
@@ -888,7 +888,7 @@
           "type": "Any",
           "desc": "Row's key",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "row": {
           "type": "Object",
@@ -909,13 +909,13 @@
           "type": "Object",
           "desc": "Column definitions",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "colsMap": {
           "type": "Object",
           "desc": "Column mapping (key is column name, value is column object)",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "sort": {
           "type": "Function",
@@ -929,7 +929,7 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "selected": {
           "type": "Boolean",
@@ -944,15 +944,15 @@
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         }
       }
     },
@@ -974,7 +974,7 @@
           "type": "Any",
           "desc": "Row's key",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "row": {
           "type": "Object",
@@ -995,13 +995,13 @@
           "type": "Object",
           "desc": "Column definitions",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "colsMap": {
           "type": "Object",
           "desc": "Column mapping (key is column name, value is column object)",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "sort": {
           "type": "Function",
@@ -1015,32 +1015,32 @@
             }
           },
           "returns": null,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "selected": {
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         }
       }
     },
@@ -1075,26 +1075,26 @@
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "__trClass": {
           "type": "String",
@@ -1143,26 +1143,26 @@
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         }
       }
     },
@@ -1202,26 +1202,26 @@
           "type": "Boolean",
           "desc": "(Only if using selection) Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true,
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "color": {
           "extends": "color",
           "default": "grey-8",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dark": {
           "extends": "dark",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         },
         "dense": {
           "extends": "dense",
-          "addedIn": "v1.14.0"
+          "addedIn": "v1.14"
         }
       },
       "addedIn": "v1.1.1"
@@ -1294,7 +1294,7 @@
           "extends": "dense"
         }
       },
-      "addedIn": "v1.14.0"
+      "addedIn": "v1.14"
     },
 
     "header-selection": {
@@ -1344,7 +1344,7 @@
           "extends": "dense"
         }
       },
-      "addedIn": "v1.14.0"
+      "addedIn": "v1.14"
     },
 
     "top-row": {
@@ -1415,7 +1415,7 @@
           "desc": "Navigates to first page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "prevPage": {
           "type": "Function",
@@ -1434,7 +1434,7 @@
           "desc": "Navigates to last page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1495,7 +1495,7 @@
           "desc": "Navigates to first page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "prevPage": {
           "type": "Function",
@@ -1514,7 +1514,7 @@
           "desc": "Navigates to last page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1575,7 +1575,7 @@
           "desc": "Navigates to first page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "prevPage": {
           "type": "Function",
@@ -1594,7 +1594,7 @@
           "desc": "Navigates to last page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1655,7 +1655,7 @@
           "desc": "Navigates to first page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "prevPage": {
           "type": "Function",
@@ -1674,7 +1674,7 @@
           "desc": "Navigates to last page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1735,7 +1735,7 @@
           "desc": "Navigates to first page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "prevPage": {
           "type": "Function",
@@ -1754,7 +1754,7 @@
           "desc": "Navigates to last page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1815,7 +1815,7 @@
           "desc": "Navigates to first page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "prevPage": {
           "type": "Function",
@@ -1834,7 +1834,7 @@
           "desc": "Navigates to last page",
           "params": null,
           "returns": null,
-          "addedIn": "v1.12.0"
+          "addedIn": "v1.12"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1887,7 +1887,7 @@
           "type": "Number",
           "desc": "Index of the row in the current page",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.13.0"
+          "addedIn": "v1.13"
         }
       },
       "addedIn": "v1.2.6"
@@ -1913,7 +1913,7 @@
           "type": "Number",
           "desc": "Index of the row in the current page",
           "__exemption": [ "examples" ],
-          "addedIn": "v1.13.0"
+          "addedIn": "v1.13"
         }
       },
       "addedIn": "v1.5.10"
@@ -2301,7 +2301,7 @@
 
     "firstPage": {
       "desc": "Navigates to first page",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "prevPage": {
@@ -2314,7 +2314,7 @@
 
     "lastPage": {
       "desc": "Navigates to last page",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "isRowSelected": {

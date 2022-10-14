@@ -62,7 +62,7 @@
       "desc": "Class definitions to be attributed to the content wrapper",
       "examples": [ "my-special-class" ],
       "category": "style",
-      "addedIn": "v1.12.0"
+      "addedIn": "v1.12"
     },
 
     "tabindex": {
