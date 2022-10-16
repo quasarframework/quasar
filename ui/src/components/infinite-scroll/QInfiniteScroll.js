@@ -103,7 +103,7 @@ export default createComponent({
     }
 
     function reset () {
-      index = 0
+      index = props.initialIndex || 0
     }
 
     function resume () {
