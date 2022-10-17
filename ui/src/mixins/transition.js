@@ -11,23 +11,21 @@ export default {
     }
   },
 
-  data () {
-    return {
-      transitionState: this.showing
-    }
-  },
-
-  watch: {
-    showing (val) {
-      this.transitionShow !== this.transitionHide && this.$nextTick(() => {
-        this.transitionState = val
-      })
-    }
-  },
-
   computed: {
-    transition () {
-      return 'q-transition--' + (this.transitionState === true ? this.transitionHide : this.transitionShow)
+    transitionProps () {
+      const show = `q-transition--${this.transitionShow}`
+      const hide = `q-transition--${this.transitionHide}`
+      return {
+        enterClass: `${show}-enter`,
+        leaveClass: `${hide}-leave`,
+        appearClass: `${show}-appear`,
+        enterToClass: `${show}-enter-to`,
+        leaveToClass: `${hide}-leave-to`,
+        appearToClass: `${show}-appear-to`,
+        enterActiveClass: `${show}-enter-active`,
+        leaveActiveClass: `${hide}-leave-active`,
+        appearActiveClass: `${show}-appear-active`
+      }
     }
   }
 }

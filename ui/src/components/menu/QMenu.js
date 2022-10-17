@@ -321,7 +321,7 @@ export default Vue.extend({
 
     __renderPortal (h) {
       return h('transition', {
-        props: { name: this.transition }
+        props: this.transitionProps
       }, [
         this.showing === true ? h('div', {
           ref: 'inner',
