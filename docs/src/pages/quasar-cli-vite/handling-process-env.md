@@ -154,12 +154,3 @@ Be sure to read the [dotenv documentation](https://www.npmjs.com/package/dotenv)
 ## Caveats
 
 1. Do not `console.log(process)` or `console.log(process.env)` as this will error out, for security reasons.
-2. Only full object paths will resolve and get replaced in your code.
-
-    For example, in the snippet below, `console.log(process.env .my)` will result in an error, while `console.log(process.env .my.prop)` will work as expected.
-
-    ```js
-    env: {
-      my: { prop: 'value' }
-    }
-    ```
