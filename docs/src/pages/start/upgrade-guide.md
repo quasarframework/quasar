@@ -856,6 +856,22 @@ A few things changed:
     // ...
   }
   ```
+4. If invoking the Dialog with the built-in component, then there is a new way of supplying the native attributes:
+  ```js
+  // OLD way
+  prompt: { // or "options"
+    // ...
+    attrs: {
+      someattribute: 'value'
+    }
+  }
+
+  // New v2 way
+  prompt: { // or "options"
+    // ...
+    someattribute: 'value'
+  }
+  ```
 
 #### Meta plugin
 
