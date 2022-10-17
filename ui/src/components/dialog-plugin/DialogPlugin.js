@@ -211,12 +211,12 @@ export default createComponent({
     function getPrompt () {
       return [
         h(QInput, {
-          modelValue: model.value,
-          ...formProps.value,
           color: vmColor.value,
           dense: true,
           autofocus: true,
           dark: isDark.value,
+          ...formProps.value,
+          modelValue: model.value,
           'onUpdate:modelValue': onUpdateModel,
           onKeyup: onInputKeyup
         })
@@ -226,11 +226,11 @@ export default createComponent({
     function getOptions () {
       return [
         h(QOptionGroup, {
-          modelValue: model.value,
-          ...formProps.value,
           color: vmColor.value,
           options: props.options.items,
           dark: isDark.value,
+          ...formProps.value,
+          modelValue: model.value,
           'onUpdate:modelValue': onUpdateModel
         })
       ]
