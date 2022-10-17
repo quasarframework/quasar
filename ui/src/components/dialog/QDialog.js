@@ -33,6 +33,11 @@ const transitions = {
   left: ['slide-right', 'slide-left']
 }
 
+const backdropAttrs = {
+  ...ariaHidden,
+  tabindex: -1
+}
+
 export default Vue.extend({
   name: 'QDialog',
 
@@ -170,13 +175,22 @@ export default Vue.extend({
           return
         }
 
-        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
+        node = (selector !== '' ? node.querySelector(selector) : null) ||
+          node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]') ||
+          node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]') ||
+          node.querySelector('[autofocus], [data-autofocus]') ||
+          node
         node.focus({ preventScroll: true })
       })
     },
 
-    shake () {
-      this.focus()
+    shake (refocusTarget) {
+      if (refocusTarget && typeof refocusTarget.focus === 'function') {
+        refocusTarget.focus()
+      }
+      else {
+        this.focus()
+      }
       this.$emit('shake')
 
       const node = this.__getInnerNode()
@@ -338,7 +352,7 @@ export default Vue.extend({
         this.hide(e)
       }
       else if (this.noShake !== true) {
-        this.shake()
+        this.shake(e.relatedTarget)
       }
     },
 
@@ -365,9 +379,9 @@ export default Vue.extend({
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
-            attrs: ariaHidden,
+            attrs: backdropAttrs,
             on: cache(this, 'bkdrop', {
-              click: this.__onBackdropClick
+              focusin: this.__onBackdropClick
             })
           })
         ] : null),

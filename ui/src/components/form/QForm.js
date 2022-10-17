@@ -156,7 +156,9 @@ export default Vue.extend({
       addFocusFn(() => {
         if (!this.$el) { return }
 
-        const target = this.$el.querySelector('[autofocus], [data-autofocus]') ||
+        const target = this.$el.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]') ||
+          this.$el.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]') ||
+          this.$el.querySelector('[autofocus], [data-autofocus]') ||
           Array.prototype.find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
 
         target !== null && target !== void 0 && target.focus({ preventScroll: true })
