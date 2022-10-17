@@ -38,11 +38,11 @@ In order for the user to be able to activate the `@submit` or `@reset` events on
 Alternatively, you can give the QForm a Vue ref name and call the `validate`, `validateField` and `resetValidation` functions directly:
 
 ```js
-// Validate the whole form:
 // Composition API variant
 
 // <q-form ref="myForm">
-//    <q-input name="title" />
+//    <q-input name="name" />
+//    <q-input name="email" />
 // </q-form>
 
 setup () {
@@ -61,8 +61,8 @@ setup () {
   }
 
   // For validating one specific field
-  function validateNameField () {
-    myForm.value.validateField('title').then(success => {
+  function validateEmailField () {
+    myForm.value.validateField('email').then(success => {
       if (success) {
         // yay, models are correct
       }
@@ -101,7 +101,7 @@ this.$refs.myForm.validate().then(success => {
 })
 
 // For validating one specific field
-this.$refs.myForm.validateField('title').then(success => {
+this.$refs.myForm.validateField('email').then(success => {
   if (success) {
     // yay, models are correct
   }
