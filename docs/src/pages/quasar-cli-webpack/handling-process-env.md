@@ -173,6 +173,74 @@ return {
 // ...
 ```
 
-## Caveats
 
-1. Do not `console.log(process)` or `console.log(process.env)` as this will error out, for security reasons.
+## Troubleshooting
+
+You might be getting `process is not defined` errors in the browser console if you are accessing the variables wrong or if you have a misconfiguration.
+
+### Wrong usage
+
+```js
+// quasar.config.js > build
+env: {
+  FOO: 'hello',
+}
+```
+
+```js
+const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+process.env.FOO             // ✅ It can only replace direct usage like this
+
+function getEnv(name) {
+  return process.env[name] // ❌ It can't analyze dynamic usage
+}
+
+console.log(process)     // ❌
+console.log(process.env) // ❌
+// If you want to see a list of available env variables,
+// you can log the object you are passing to `build > env` inside `quasar.config.js`
+
+console.log(process.env.FOO) // ✅
+console.log(process.env.foo) // ❌ Case sensitive
+console.log(process.env.F0O) // ❌ Typo in the variable name (middle o is 0(zero))
+```
+
+### Misconfiguration
+
+#### Manual definition
+
+```js
+// quasar.config.js > build
+env: {
+  FOO: 'hello',
+}
+```
+
+```js
+console.log(process.env.FOO) // ✅
+console.log(process.env.BAR) // ❌ It's not defined in `build > env`
+```
+
+#### dotenv
+
+```js
+// quasar.config.js > build
+env: require('dotenv').config(/* ... */).parsed
+```
+
+If the `.env` doesn't exist or there is a typo in the file name:
+
+```js
+console.log(process.env.FOO) // ❌ The .env file is not loaded, this will fail
+```
+
+If the `.env` file exists with the correct name, and has the following content:
+
+```bash
+FOO=hello
+```
+
+```js
+console.log(process.env.FOO) // ✅ It's loaded correctly from the `.env` file
+console.log(process.env.BAR) // ❌ It's not defined in the `.env` file
+```
