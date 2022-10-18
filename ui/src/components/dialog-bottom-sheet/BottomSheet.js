@@ -78,7 +78,9 @@ export default Vue.extend({
             class: action.classes,
             attrs: attrsGridItem,
             on: {
-              click: () => this.onOk(action),
+              click: () => {
+                this.onOk(action)
+              },
               keyup: e => {
                 e.keyCode === 13 && this.onOk(action)
               }
@@ -117,9 +119,8 @@ export default Vue.extend({
               dark: this.isDark
             },
             on: {
-              click: () => this.onOk(action),
-              keyup: e => {
-                e.keyCode === 13 && this.onOk(action)
+              click: () => {
+                this.onOk(action)
               }
             }
           }, [
