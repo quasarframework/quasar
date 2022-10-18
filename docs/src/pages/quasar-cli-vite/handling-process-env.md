@@ -135,7 +135,7 @@ build: {
 
 #### Using dotenv
 
-Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmjs.com/package/dotenv) package. The following is an example that passes env variables from the terminal down to your UI's app code:
+Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmjs.com/package/dotenv) package. The following is an example that passes env variables from the `.env` file to your UI code:
 
 ```bash
 $ yarn add --dev dotenv
@@ -143,13 +143,42 @@ $ yarn add --dev dotenv
 
 Then, in your `/quasar.config.js`:
 
-```
+```js
 build: {
   env: require('dotenv').config().parsed
 }
 ```
 
 Be sure to read the [dotenv documentation](https://www.npmjs.com/package/dotenv) and create the necessary `.env` file(s) in the root of your Quasar CLI project.
+
+Note that the approach above will pass only what's defined in the `.env` file and nothing else. So, the ones defined in the terminal(_e.g. `MY_API=api.com quasar build`_) will not be passed nor used to override the `.env` file.
+
+If you want to be able to override what's inside `.env` or want to make the `.env` file completely optional, you have to follow another approach. If you are using CI/CD, Docker, etc. you probably don't want to stay limited to the `.env` file. Here is an example:
+
+```js
+// quasar.config.js
+
+// This will load from `.env` if it exists, but not override existing `process.env.*` values
+require('dotenv').config()
+
+// process.env now contains the terminal variables and the ones from the .env file
+// Precedence:
+//   1. Terminal variables (API_URL=https://api.com quasar build)
+//   2. `.env` file
+// If you want .env file to override the terminal variables,
+// use `require('dotenv').config({ override: true })` instead
+
+return {
+// ...
+  build: {
+    env: {
+      // You have to manually define all the variables you want to pass in
+      API_URL: process.env.API_URL,
+      // ...
+    }
+  }
+// ...
+```
 
 ## Caveats
 
