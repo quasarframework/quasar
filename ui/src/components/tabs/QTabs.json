@@ -35,7 +35,6 @@
       "desc": "Horizontal alignment the tabs within the tabs container",
       "default": "center",
       "values": [ "left", "center", "right", "justify" ],
-      "examples": [ "right" ],
       "category": "content"
     },
 

@@ -9,7 +9,6 @@
       "desc": "Position within window of where QAjaxBar should be displayed",
       "default": "top",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "bottom" ],
       "category": "style"
     },
 

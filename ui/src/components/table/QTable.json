@@ -699,7 +699,6 @@
       "desc": "Selection type",
       "default": "none",
       "values": [ "single", "multiple", "none" ],
-      "examples": [ "multiple" ],
       "category": "selection"
     },
 

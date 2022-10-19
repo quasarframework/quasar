@@ -97,7 +97,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "bottom end",
-      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -110,7 +109,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "top end",
-      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 

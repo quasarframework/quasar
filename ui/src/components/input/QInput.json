@@ -28,7 +28,6 @@
         "text", "password", "textarea", "email", "search",
         "tel", "file", "number", "url", "time", "date"
       ],
-      "examples": [ "password" ],
       "category": "general"
     },
 
