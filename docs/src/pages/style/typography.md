@@ -14,6 +14,9 @@ We'll handle the typography supplied by Quasar in the sections below.
 ## Headings
 <typography-headings />
 
+For an in-depth explanation of the type system please refer to the [Material
+Design documentation](https://m2.material.io/design/typography/the-type-system.html).
+
 ## Font Weights
 <typography-weights />
 
