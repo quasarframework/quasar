@@ -15,13 +15,6 @@ import { hSlot } from '../../utils/private/render.js'
 
 const btnPropsList = Object.keys(useBtnProps)
 
-// let's not duplicate type checking and prop validations
-// so just specify the props here with no type description
-const btnProps = btnPropsList.reduce(
-  (acc, key) => (acc[ key ] = {}) && acc,
-  {}
-)
-
 export const passBtnProps = props => btnPropsList.reduce(
   (acc, key) => {
     const val = props[ key ]
@@ -37,7 +30,7 @@ export default createComponent({
   name: 'QBtnDropdown',
 
   props: {
-    ...btnProps,
+    ...useBtnProps,
     ...useTransitionProps,
 
     modelValue: Boolean,
