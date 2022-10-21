@@ -190,7 +190,7 @@ export default {
 
       this.computedMask = mask
       this.computedUnmask = val => {
-        const unmaskMatch = unmaskMatcher.exec(val)
+        const unmaskMatch = unmaskMatcher.exec(this.reverseFillMask === true ? val : val.slice(0, mask.length))
         if (unmaskMatch !== null) {
           val = unmaskMatch.slice(1).join('')
         }
