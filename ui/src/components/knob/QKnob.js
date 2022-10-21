@@ -92,7 +92,7 @@ export default createComponent({
       )
     )
 
-    const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
+    const decimals = computed(() => (String(props.step).trim().split('.')[ 1 ] || '').length)
     const step = computed(() => (props.step === 0 ? 1 : props.step))
     const instantFeedback = computed(() => props.instantFeedback === true || dragging.value === true)
 
