@@ -269,7 +269,7 @@ export default createComponent({
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
     const comboboxAttrs = computed(() => {
-      const attrs = {
+      return {
         tabindex: props.tabindex,
         role: 'combobox',
         'aria-label': props.label,
@@ -279,8 +279,6 @@ export default createComponent({
         'aria-owns': `${ state.targetUid.value }_lb`,
         'aria-controls': `${ state.targetUid.value }_lb`
       }
-
-      return attrs
     })
 
     const listboxAttrs = computed(() => {
