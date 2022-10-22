@@ -47,8 +47,8 @@ function injectRuntimeInterpolation (html) {
     }
   )
   .replace(
-    /(<head[^>]*)(>)/i,
-    (_, start, end) => `${start}${end}{{ _meta.headTags }}`
+    /(<head[^>]*)(>)(?:([^]*)(<meta[^>]*charset\s*=\s*['"]utf-8['"][^>]*>)|)/i,
+    (_, start, end, head, charset) => `${start}${end}${charset || ''}{{ _meta.headTags }}${head || ''}`
   )
   .replace(
     /(<\/head>)/i,
