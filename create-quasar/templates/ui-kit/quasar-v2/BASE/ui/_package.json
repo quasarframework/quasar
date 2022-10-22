@@ -32,7 +32,7 @@
     "quasar": "^2.0.0",
     "@quasar/extras": "^1.0.0",
     "core-js": "^3.0.0",
-    "@quasar/app-wepback": "^3.0.0",
+    "@quasar/app-webpack": "^3.0.0",
     "open": "^7.3.0",
     "fs-extra": "^8.1.0",
     "chalk": "^4.1.0",
@@ -43,6 +43,8 @@
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.4.2",
     "uglify-js": "^3.13.3",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
     "zlib": "^1.0.5"
   },
   "browserslist": [

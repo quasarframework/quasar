@@ -152,7 +152,6 @@ export default createComponent({
 
     const __containerClass = computed(() =>
       `q-table__container q-table--${ props.separator }-separator column no-wrap`
-      + (props.loading === true ? ' q-table--loading' : '')
       + (props.grid === true ? ' q-table--grid' : cardDefaultClass.value)
       + (isDark.value === true ? ' q-table--dark' : '')
       + (props.dense === true ? ' q-table--dense' : '')
@@ -349,7 +348,7 @@ export default createComponent({
 
       if (rowEl !== null) {
         const scrollTarget = rootRef.value.querySelector('.q-table__middle.scroll')
-        const { offsetTop } = rowEl
+        const offsetTop = rowEl.offsetTop - props.virtualScrollStickySizeStart
         const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
 
         scrollTarget.scrollTop = offsetTop
@@ -480,11 +479,9 @@ export default createComponent({
     function getBodyScope (data) {
       injectBodyCommonScope(data)
 
-      data.cols = data.cols.map(col => {
-        const c = { ...col }
-        injectProp(c, 'value', () => getCellValue(col, data.row))
-        return c
-      })
+      data.cols = data.cols.map(
+        col => injectProp({ ...col }, 'value', () => getCellValue(col, data.row))
+      )
 
       return data
     }

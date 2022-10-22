@@ -5,16 +5,14 @@ desc: (@quasar/app-vite) How to convert a Quasar CLI with Webpack project to a Q
 
 This page will guide you on how to convert a Quasar CLI with Webpack (`@quasar/app-webpack` - formerly known as `@quasar/app`) project into a Quasar CLI with Vite one (`@quasar/app-vite`).
 
-::: warning
-Quasar CLI with Vite (`@quasar/app-vite`) is currently in **BETA**. Specifications may slightly change until the stable release.
-:::
-
 ### 1. Create a Quasar CLI with Vite project folder:
 
 ```bash
 $ yarn create quasar
 # or:
 $ npm init quasar
+# or:
+$ pnpm create quasar # experimental support
 
 # pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Vite"
 ```
@@ -69,6 +67,8 @@ More info: [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr)
 
 ### 6. PWA related
 
+* **VERY important: BEFORE porting your files over, run command `quasar mode add pwa`. Otherwise all the needed packages will not be added, and your build will fail.**
+* The default name of the outputted service worker file has changed from `service-worker.js` to `sw.js`. This can break your update process the first time the new app is loaded. So, if your app is in production, to ensure smooth upgrades from the previous Webpack builds, make sure the name matches the name of your previous service worker file. You can set it through [quasar.config.js > pwa > swFilename](/quasar-cli-vite/developing-pwa/configuring-pwa#quasar-config-js).
 * Quasar CLI with Webpack relies on `quasar.config.js > manifest` to specify the manifest, but you will need to use `/src-pwa/manifest.json` to declare it for Quasar CLI with Vite. After declaring the manifest in `/src-pwa/manifest.json`, delete `quasar.config.js > manifest` section.
 * There were also some props in `quasar.config.js` that are no longer available. Most notably: `metaVariables`, `metaVariablesFn`. Simply edit `/index.html` and add those tags directly there.
 

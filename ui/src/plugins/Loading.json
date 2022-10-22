@@ -18,6 +18,13 @@
         "desc": "Message to display",
         "examples": [ "Processing your request" ]
       },
+      "group": {
+        "type": "String",
+        "desc": "Default Loading group name",
+        "default": "__default_quasar_group__",
+        "examples": [ "default-group-name" ],
+        "addedIn": "v2.8"
+      },
       "html": {
         "extends": "html",
         "desc": "Force render the message as HTML; This can lead to XSS attacks so make sure that you sanitize the content"
@@ -71,6 +78,8 @@
       "params": {
         "opts": {
           "type": "Object",
+          "tsType": "QLoadingShowOptions",
+          "autoDefineTsType": true,
           "desc": "All props are optional",
           "definition": {
             "delay": {
@@ -82,6 +91,12 @@
               "type": "String",
               "desc": "Message to display",
               "examples": [ "Processing your request" ]
+            },
+            "group": {
+              "type": "String",
+              "desc": "Loading group name",
+              "examples": [ "some-api-call" ],
+              "addedIn": "v2.8"
             },
             "html": {
               "extends": "html",
@@ -124,11 +139,35 @@
             }
           }
         }
+      },
+      "returns": {
+        "type": "Function",
+        "desc": "Calling this function with no parameters hides the group; When called with one Object parameter then it updates the Loading group (specified properties are shallow merged with the group ones; note that group cannot be changed while updating and it is ignored)",
+        "params": {
+          "props": {
+            "type": "Object",
+            "tsType": "QLoadingUpdateOptions",
+            "required": false,
+            "desc": "Loading properties that will be shallow merged to the group ones; (See 'opts' param of 'show()' for object properties, except 'group')",
+            "__exemption": [ "definition", "examples" ]
+          }
+        },
+        "returns": null,
+        "addedIn": "v2.8"
       }
     },
 
     "hide": {
-      "desc": "Hide it"
+      "desc": "Hide it",
+      "params": {
+        "group": {
+          "type": "String",
+          "desc": "Optional Loading group name to hide instead of hiding all groups",
+          "required": false,
+          "examples": [ "some-api-call" ],
+          "addedIn": "v2.8"
+        }
+      }
     },
 
     "setDefaults": {
@@ -148,6 +187,13 @@
               "type": "String",
               "desc": "Message to display",
               "examples": [ "Processing your request" ]
+            },
+            "group": {
+              "type": "String",
+              "desc": "Default Loading group name",
+              "default": "__default_quasar_group__",
+              "examples": [ "default-group-name" ],
+              "addedIn": "v2.8"
             },
             "spinnerSize": {
               "type": "Number",

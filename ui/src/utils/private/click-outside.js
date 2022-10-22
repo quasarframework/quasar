@@ -1,5 +1,5 @@
 import { listenOpts } from '../event.js'
-import { portalList } from '../private/portal.js'
+import { portalProxyList } from '../private/portal.js'
 
 let timer
 
@@ -22,10 +22,10 @@ function globalHandler (evt) {
 
   // check last portal vm if it's
   // a QDialog and not in seamless mode
-  let portalIndex = portalList.length - 1
+  let portalIndex = portalProxyList.length - 1
 
   while (portalIndex >= 0) {
-    const proxy = portalList[ portalIndex ].$
+    const proxy = portalProxyList[ portalIndex ].$
 
     if (proxy.type.name !== 'QDialog') {
       break

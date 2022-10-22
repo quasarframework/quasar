@@ -332,7 +332,7 @@ To mutate the original date object by setting it to the start of a unit of time 
 ```js
 import { date } from 'quasar'
 
-let newDate = new Date(2000)
+let newDate = new Date('2000')
 // set to beginning of year 2000 (January 1st, 2000, 00:00:00.000)
 newDate = date.startOfDate(newDate, 'year')
 // set to end of year 2000 (December 31st, 2000, 23:59:59.999)
@@ -402,5 +402,5 @@ const obj = date.extractDate('Month: Feb, Day: 11th, Year: 2018', '[Month: ]MMM[
   months: ['Ianuarie', 'Februarie', /* and all the rest of months */],
   monthsShort: ['Ian', 'Feb', /* and all the rest of months */]
 })
-// date is a new Date() object
+// obj is a new Date() object
 ```

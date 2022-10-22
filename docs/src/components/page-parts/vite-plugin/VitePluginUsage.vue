@@ -13,6 +13,10 @@ q-card(flat bordered)
     q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
     q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
+    q-toggle(v-model="css['material-symbols-outlined']" label="Material Symbols (Outlined)")
+    q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
+    q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
+
     q-toggle(v-model="css['mdi-v6']" label="MDI v6")
     q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
     q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
@@ -94,6 +98,9 @@ const extrasOptions = [
   'material-icons-outlined',
   'material-icons-round',
   'material-icons-sharp',
+  'material-symbols-outlined',
+  'material-symbols-rounded',
+  'material-symbols-sharp',
   'mdi-v6',
   'fontawesome-v5',
   // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
@@ -119,6 +126,10 @@ export default {
       'material-icons-outlined': false,
       'material-icons-round': false,
       'material-icons-sharp': false,
+
+      'material-symbols-outlined': false,
+      'material-symbols-rounded': false,
+      'material-symbols-sharp': false,
 
       'mdi-v6': false,
       'fontawesome-v6': false,
@@ -308,6 +319,9 @@ $warning   : #F2C037
         { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
         { label: 'Material Round (webfont)', value: 'material-icons-round' },
         { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
+        { label: 'Material Symbols Outlined (webfont)', value: 'material-symbols-outlined' },
+        { label: 'Material Symbols Round (webfont)', value: 'material-symbols-rounded' },
+        { label: 'Material Symbols Sharp (webfont)', value: 'material-symbols-sharp' },
         { label: 'MDI v6 (webfont)', value: 'mdi-v6' },
         { label: 'MDI v6 (svg)', value: 'svg-mdi-v6' },
         { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },

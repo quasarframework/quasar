@@ -13,7 +13,7 @@
 import { Todo, Meta } from 'components/models';
 import ExampleComponent from 'components/ExampleComponent.vue';
 <% if (typescriptConfig === 'composition') { %>
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'PageIndex',

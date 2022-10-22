@@ -1,14 +1,27 @@
-# Unit testing Quasar components
+# Component testing Quasar components
 
 This folder contains a testing harness for [Cypress component testing](https://docs.cypress.io/guides/component-testing/introduction).
 
-## Unit test setup
-Each component of Quasar has it's own API, which we will use to also write unit tests. When the whole API is covered we can ensure the components work as documented and vice-versa. 
+## Running the tests
+```bash
+# run tests in watch mode with visual feedback one component at a time
+# use when developing
+yarn test:component
+# execute all tests without visual feedback
+# run it locally before pushing the branch and creating a PR
+yarn test:component:run
+# execute all tests without visual feedback and record the results in the Cypress dashboard
+# won't work if run locally, reserved for GitHub Actions CI
+yarn test:component:ci
+```
+
+## Component test setup
+Each component of Quasar has it's own API, which we will use to also write component tests. When the whole API is covered we can ensure the components work as documented and vice-versa. 
 
 There is some overlap in the API of components which Quasar abstracts to composables. These composables are tested once against one of the components using it. This means that the `.spec.js` file of a specific component will not always have all the properties/methods/slots/events listed that are in the API documentation.
 
 ## Components list todo
-I did a quick search in the issues to see which components popup the most, to make a shortlist of what to pickup first.
+Here's a list of what to pickup first based on which components popup the most into the repo issues.
 
 Shortlist :memo:
 - [ ] QInput (400+)
@@ -17,16 +30,28 @@ Shortlist :memo:
 - [ ] QButton (230+)
 - [ ] QDate (150+)
 - [ ] QEditor (100+)
-- [ ] QChip (100+)
 - [ ] QTabs (100+)
 - [ ] QUploader (100+)
 
 In progress :clap:
-- [X] QSelect (600+)
+- [x] QSelect (600+)
 
 Done :white_check_mark:
-- [X] QMenu (140+)
-- [X] QAvatar
+- [x] QMenu (140+)
+- [x] QChip (100+)
+- [x] QAvatar
+- [x] QBadge
+- [x] QBanner
+- [x] QBar
+- [x] QBreadcrumbs
+- [x] QBreadcrumbsEl 
+
+## Known issues
+Any help to resolve these issues is welcome.
+
+### Transitions
+Tests on components which show/hide themselves with a transition (eg. QMenu) will fail unless we add a custom delay.
+Right now the workaround is to add a delay of 300ms to the test to wait for the transition to finish, but this is not ideal as it greatly slows down tests and force us to disable `cypress/no-unnecessary-waiting` ESLint rule all over the place.
 
 ## Adding boilerplate code for other components
 What to test for a specific component is based on the API documentation for that component. Along with each component (or composable) that Quasar had is a `.json` file which documents the properties, slots, methods and events.
@@ -69,10 +94,11 @@ The script will convert kebab case into pascal case so you could use either one.
 ## Additions/quirks needed for this to work
 Here is a list of things I needed to do to make this work:
 
-- Get a webpack config from quasar project. This is necessary for cypress to fire up it's server to serve up components. I used the `ui/dev` project for this.
 - Because cypress looks for a `cypress.json` in that project folder I had to add that file in `ui/dev/cypress.json`
-- The `.spec.js` files are part of the `src/ui` and are handled by the `.eslintrc.js` file there. I had to add the `mocha` env to use `describe` etc. Also `expect` is added in globals to make use of that command inside `.spec.js` files.
-- In general I added `.vscode/settings.json` to make it so that ESLint will autofix stuff on save so I don't go nuts.
+- The `.spec.js` files are part of the `src/ui` and are handled by the `.eslintrc.js` file `overrides` there
 - Had to add to `ui/tsconfig.json` include array to include the `commands.d.ts` which is necessary for autocomplete of custom commands when writing tests
-- I added a visual snapshot testing package and configured that to include the snapshots made inside the folder of the component that is tested. However the screenshots are always place inside a `All Specs` folder in there. There is no option to change the name of that folder :(
-- In `ui/test/cypress/support/unit.js` I have to import global quasar css, as well as the icons css. This file is run before every test suite as a global configuration of your tests.
+- Visual snapshot testing package isn't currently working with Cypress. Cypress core team suggests using [Percy](https://percy.io/) instead, which has a free tier for open source communities
+- In `ui/test/cypress/support/component.js` I have to import global quasar css, as well as the icons css. This file is run before every test suite as a global configuration of your tests.
+- To make `app-vite`/`app-webpack` detection work, we had to add `app-vite` as a devDependency of `ui/dev`, even if that's its only use
+- Cypress AE needs a `quasar` dependency to use its `installQuasarPlugin`, but when `test:component` is executed within `ui` folder, Vite plugin adds an alias (`quasar` > `quasar/dist/quasar.esm.js`) expecting to be executed into a Quasar project. This results into a broken `ui/dev/quasar/dist/quasar.esm.js` import. To fix this, we added a file at that path which re-exports what Vite needs to run.
+- Vite AE needs transforms and api generated JSONs to run component tests, so we defined a `test:build` step which is called before each `test:component` execution.

@@ -35,6 +35,10 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Round buttons" file="QBtn/Round" />
 
+### Square
+
+<doc-example title="Square buttons" file="QBtn/Square" />
+
 ### Custom content
 
 <doc-example title="Custom content" file="QBtn/CustomContent" />
@@ -73,10 +77,10 @@ Should you wish, you can also display a deterministic progress within the button
 
 <doc-example title="Custom ripple" file="QBtn/CustomRipple" />
 
-### Handling navigation <q-badge align="top" color="brand-primary" label="updated for v2.4+" />
+### Connecting to Vue Router <q-badge align="top" color="brand-primary" label="updated on v2.9+" />
 
 ::: warning UMD usage
-* If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project. Otherwise use the alternative `href` prop.
+* If you will be using `to` & `replace` props, make sure that you also inject Vue Router in your project (Quasar CLI projects have this out of the box). Otherwise use the alternative `href` prop.
 * Due to the above, some of the QBtn below won't work in Codepen/jsFiddle too.
 :::
 
@@ -85,6 +89,10 @@ Prefer the Vue Router props over `href` when you can, because with `href` you wi
 :::
 
 <doc-example title="Links" file="QBtn/Links" no-edit />
+
+You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QBtn API card at the top of the page.
+
+<doc-example title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="QBtn/LinksWithGo" no-edit />
 
 For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
 

@@ -13,6 +13,7 @@
           label-lines="1"
           caption="John Dowwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwe"
           caption-lines="1"
+          toggle-aria-label="Toggle details"
         >
           <q-card>
             <q-card-section>
@@ -61,7 +62,7 @@
           </q-item-section>
         </q-item>
 
-        <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
+        <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle toggle-aria-label="Toggle details">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -92,7 +93,7 @@
         </q-expansion-item>
 
         <q-expansion-item expand-separator>
-          <template v-slot:header>
+          <template v-slot:header="{ expanded }">
             <q-item-section avatar>
               <q-avatar icon="bluetooth" color="primary" text-color="white" />
             </q-item-section>
@@ -100,7 +101,7 @@
             <q-item-section>
               <div>
                 <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
-                  Using slot
+                  Using slot - {{ expanded ? 'Expanded' : 'Collapsed' }}
                 </q-chip>
                 <q-badge color="secondary">
                   Using slot
@@ -114,6 +115,33 @@
                 <q-icon name="star" color="red" size="24px" />
                 <q-icon name="star" color="red" size="24px" />
               </div>
+            </q-item-section>
+          </template>
+
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator expand-icon-toggle hide-expand-icon>
+          <template #header="{ expanded, toggle, detailsId }">
+            <q-item-section>
+              <div>
+                Using slot and toggle icon - {{ expanded ? 'Expanded' : 'Collapsed' }}
+              </div>
+            </q-item-section>
+
+            <q-item-section side>
+              <q-btn
+                flat
+                dense
+                label="Toggle content"
+                :aria-expanded="expanded === true ? 'true' : 'false'"
+                :aria-controls="detailsId"
+                @click="toggle"
+              />
             </q-item-section>
           </template>
 

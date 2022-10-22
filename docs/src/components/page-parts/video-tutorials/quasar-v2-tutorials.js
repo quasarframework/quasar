@@ -14,5 +14,13 @@ export default [
     lang: 'Brazilian-portuguese',
     link: 'https://youtube.com/playlist?list=PLBjvYfV_TvwIfgvouZCaLtgjYdrWQL02d',
     imgUrl: 'https://github.com/patrickmonteiro/patrickmonteiro/raw/main/assets/capa2.png'
+  },
+  {
+    name: 'Chinese quasar-v2 tutorial',
+    desc: 'Quasar introductory tutorial includes ts+vue3+quasar2+pinia (quasar 中文入门教程)',
+    author: 'donglin',
+    lang: 'Chinese',
+    link: 'https://www.bilibili.com/video/BV1pA4y197Zc/',
+    imgUrl: 'https://cdn.quasar.dev/logo-v2/svg/logo-vertical.svg'
   }
 ]

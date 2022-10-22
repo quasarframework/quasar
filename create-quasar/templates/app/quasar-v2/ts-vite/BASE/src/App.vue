@@ -2,16 +2,18 @@
   <router-view />
 </template>
 
-<script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue';
+<% if (typescriptConfig === 'composition-setup') { %><script setup lang="ts">
+<% } else if (typescriptConfig === 'composition') { %><script lang="ts">
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'App'
-});<% } else if (typescriptConfig === 'options') { %>import { defineComponent } from 'vue';
+});<% } else if (typescriptConfig === 'options') { %><script lang="ts">
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'App'
-});<% } else if (typescriptConfig === 'class') { %>
+});<% } else if (typescriptConfig === 'class') { %><script lang="ts">
 import { Vue } from 'vue-class-component'
 
 export default class App extends Vue {}<% } %>

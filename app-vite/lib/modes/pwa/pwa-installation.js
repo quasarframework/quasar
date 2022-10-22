@@ -5,6 +5,8 @@ const fse = require('fs-extra')
 const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
 const nodePackager = require('../../helpers/node-packager')
+const hasTypescript = require('../../helpers/has-typescript')
+const hasEslint = require('../../helpers/has-eslint')
 
 const defaultVersion = '^6.5.0'
 
@@ -36,7 +38,19 @@ function add (silent) {
   )
 
   log('Creating PWA source folder...')
-  fse.copySync(appPaths.resolve.cli('templates/pwa'), appPaths.pwaDir)
+
+  const format = hasTypescript ? 'ts' : 'default'
+  fse.copySync(
+    appPaths.resolve.cli(`templates/pwa/${format}`),
+    appPaths.pwaDir,
+    // Copy .eslintrc.js only if the app has ESLint
+    { filter: src => hasEslint || !src.endsWith('/.eslintrc.js') }
+  )
+
+  fse.copySync(
+    appPaths.resolve.cli('templates/pwa/pwa-flag.d.ts'),
+    appPaths.resolve.pwa('pwa-flag.d.ts')
+  )
 
   log('Copying PWA icons to /public/icons/ (if they are not already there)...')
   fse.copySync(

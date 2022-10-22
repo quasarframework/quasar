@@ -56,7 +56,6 @@
       "desc": "The type of input component to be used",
       "values": [ "radio", "checkbox", "toggle" ],
       "default": "radio",
-      "examples": [ "checkbox" ],
       "category": "content"
     },
 

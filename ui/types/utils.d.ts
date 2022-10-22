@@ -19,6 +19,8 @@ export * from './utils/dom';
 export * from './utils/event';
 export * from './utils/format';
 export * from './utils/scroll';
+export * from './utils/is';
+export * from './utils/run-sequential-promises';
 
 import { VueStyleObjectProp } from "./api/vue-prop-types";
 
@@ -30,27 +32,37 @@ interface ExportFileOpts {
 
 // others utils
 export function copyToClipboard(text: string): Promise<void>;
+
 export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
   immediate?: boolean
 ): F & { cancel(): void };
+
+export function frameDebounce<F extends (...args: any[]) => any>(
+  fn: F,
+): F & { cancel(): void };
+
 export function exportFile(
   fileName: string,
   rawData: string | ArrayBuffer | ArrayBufferView | Blob,
   opts?: string | ExportFileOpts
 ): true | Error;
+
 export function extend<R>(deep: boolean, target: any, ...sources: any[]): R;
 export function extend<R>(target: object, ...sources: any[]): R;
+
 export function openURL<F extends (...args: any[]) => any>(
   url: string,
   reject?: F,
   windowFeatures?: Object
 ): void;
+
 export function throttle<F extends (...args: any[]) => any>(
   fn: F,
   limit: number
 ): F;
+
 export function uid(): string;
 
 interface MorphOptions {
@@ -82,11 +94,19 @@ interface MorphOptions {
 export function morph(options: MorphOptions): (abort?: boolean) => boolean;
 
 export function getCssVar(varName: string, element?: Element): string | null;
+
 export function setCssVar(
   varName: string,
   value: string,
   element?: Element
 ): void;
+
+export class EventBus {
+  on (event: string, callback: Function, ctx?: any): this;
+  once (event: string, callback: Function, ctx?: any): this;
+  emit (event: string, ...args: any[]): this;
+  off (event: string, callback?: Function): this;
+}
 
 interface CreateMetaMixinContext extends ComponentPublicInstance {
   [index: string]: any;

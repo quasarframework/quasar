@@ -35,7 +35,6 @@
       "desc": "Horizontal alignment the tabs within the tabs container",
       "default": "center",
       "values": [ "left", "center", "right", "justify" ],
-      "examples": [ "right" ],
       "category": "content"
     },
 
@@ -77,7 +76,7 @@
       "desc": "The class to be set on the active tab",
       "examples": [ "my-active-class" ],
       "category": "style",
-      "addedIn": "2.1.4"
+      "addedIn": "v2.1.4"
     },
 
     "left-icon": {

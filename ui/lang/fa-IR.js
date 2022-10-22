@@ -23,13 +23,15 @@ module.exports = {
     create: 'ساخت',
     search: 'جستجو',
     filter: 'فیلتر',
-    refresh: 'تازه‌سازی'
+    refresh: 'تازه‌سازی',
+    expand: label => (label ? `"${ label }" گسترش` : 'بسط دادن'),
+    collapse: label => (label ? `"${ label }" کوچک کردن` : 'سقوط - فروپاشی')
   },
   date: {
-    days: days,
+    days,
     daysShort: 'ی_د_س_چ_پ_ج_ش'.split('_'),
     months: 'فروردین_اردیبهشت_خرداد_تیر_مرداد_شهریور_مهر_آبان_آذر_دی_بهمن_اسفند'.split('_'),
-    monthsShort: monthsShort,
+    monthsShort,
     headerTitle: (date, model) => `${ days[ date.getDay() ] }، ${ model.day } ${ monthsShort[ model.month - 1 ] }`,
     firstDayOfWeek: 6,
     format24h: true,

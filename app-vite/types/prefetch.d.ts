@@ -5,7 +5,7 @@ import { HasStoreParam } from "./store";
 interface PreFetchOptions<TState> extends HasSsrParam, HasStoreParam<TState> {
   currentRoute: RouteLocationNormalizedLoaded;
   previousRoute: RouteLocationNormalizedLoaded;
-  redirect: (url: RouteLocationRaw) => void;
+  redirect: (url: RouteLocationRaw, statusCode?: number) => void;
   urlPath: string;
   publicPath: string;
 }

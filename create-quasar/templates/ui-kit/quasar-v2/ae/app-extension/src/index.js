@@ -24,7 +24,7 @@ module.exports = function (api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0-alpha.0')
+    api.compatibleWith('@quasar/app-vite', '^1.0.0')
   }
   else if (api.hasWebpack) {
     api.compatibleWith('@quasar/app-webpack', '^3.4.0')

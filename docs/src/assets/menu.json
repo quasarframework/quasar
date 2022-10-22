@@ -78,7 +78,6 @@
       },
       {
         "name": "Upgrade guide",
-        "badge": "update",
         "path": "upgrade-guide"
       },
       {
@@ -1295,7 +1294,6 @@
           },
           {
             "name": "Upgrade guide",
-            "badge": "new",
             "path": "ssr-upgrade-guide"
           },
           {
@@ -1308,22 +1306,18 @@
           },
           {
             "name": "ssrContext",
-            "badge": "update",
             "path": "ssr-context"
           },
           {
             "name": "SSR Middleware",
-            "badge": "new",
             "path": "ssr-middleware"
           },
           {
             "name": "SSR Production Export",
-            "badge": "new",
             "path": "ssr-production-export"
           },
           {
             "name": "Vue SSR Directives",
-            "badge": "new",
             "path": "vue-ssr-directives"
           },
           {
@@ -1356,7 +1350,6 @@
           },
           {
             "name": "SSR with Typescript",
-            "badge": "new",
             "path": "ssr-with-typescript"
           },
           {
@@ -1399,7 +1392,6 @@
           },
           {
             "name": "PWA with Typescript",
-            "badge": "new",
             "path": "pwa-with-typescript"
           }
         ]
@@ -1506,8 +1498,7 @@
           },
           {
             "name": "Upgrade guide",
-            "path": "electron-upgrade-guide",
-            "badge": "new"
+            "path": "electron-upgrade-guide"
           },
           {
             "name": "Preparation",
@@ -1745,7 +1736,18 @@
         "path": "scrolling-utils"
       },
       {
+        "name": "Type Checking Utils",
+        "badge": "new",
+        "path": "type-checking-utils"
+      },
+      {
+        "name": "EventBus Util",
+        "badge": "new",
+        "path": "event-bus-util"
+      },
+      {
         "name": "Other Utils",
+        "badge": "update",
         "path": "other-utils"
       }
     ]

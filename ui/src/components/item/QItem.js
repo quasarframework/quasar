@@ -20,7 +20,10 @@ export default createComponent({
       default: 'div'
     },
 
-    active: Boolean,
+    active: {
+      type: Boolean,
+      default: null
+    },
 
     clickable: Boolean,
     dense: Boolean,
@@ -38,7 +41,7 @@ export default createComponent({
     const { proxy: { $q } } = getCurrentInstance()
 
     const isDark = useDark(props, $q)
-    const { hasRouterLink, hasLink, linkProps, linkClass, linkTag, navigateToRouterLink } = useRouterLink()
+    const { hasLink, linkAttrs, linkClass, linkTag, navigateOnClick } = useRouterLink()
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
@@ -58,11 +61,11 @@ export default createComponent({
       + (props.dense === true ? ' q-item--dense' : '')
       + (isDark.value === true ? ' q-item--dark' : '')
       + (
-        hasLink.value === true
+        hasLink.value === true && props.active === null
           ? linkClass.value
           : (
               props.active === true
-                ? `${ props.activeClass !== void 0 ? ` ${ props.activeClass }` : '' } q-item--active`
+                ? ` q-item--active${ props.activeClass !== void 0 ? ` ${ props.activeClass }` : '' }`
                 : ''
             )
       )
@@ -98,8 +101,7 @@ export default createComponent({
           }
         }
 
-        hasRouterLink.value === true && navigateToRouterLink(e)
-        emit('click', e)
+        navigateOnClick(e)
       }
     }
 
@@ -134,13 +136,14 @@ export default createComponent({
         ref: rootRef,
         class: classes.value,
         style: style.value,
+        role: 'listitem',
         onClick,
         onKeyup
       }
 
       if (isClickable.value === true) {
         data.tabindex = props.tabindex || '0'
-        Object.assign(data, linkProps.value)
+        Object.assign(data, linkAttrs.value)
       }
       else if (isActionable.value === true) {
         data[ 'aria-disabled' ] = 'true'

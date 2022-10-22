@@ -14,7 +14,9 @@ export default {
     create: 'Buat',
     search: 'Cari',
     filter: 'Saring',
-    refresh: 'Segarkan'
+    refresh: 'Segarkan',
+    expand: label => (label ? `Perluas "${ label }"` : 'Mengembangkan'),
+    collapse: label => (label ? `Ciutkan "${ label }"` : 'Jatuh')
   },
   date: {
     days: 'Minggu_Senin_Selasa_Rabu_Kamis_Jum\'at_Sabtu'.split('_'),

@@ -11,6 +11,6 @@ export default createComponent({
   props: usePanelChildProps,
 
   setup (_, { slots }) {
-    return () => h('div', { class: 'q-tab-panel' }, hSlot(slots.default))
+    return () => h('div', { class: 'q-tab-panel', role: 'tabpanel' }, hSlot(slots.default))
   }
 })

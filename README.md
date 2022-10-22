@@ -10,6 +10,8 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
+[![UI Tests](https://github.com/quasarframework/quasar/actions/workflows/tests-on-pr.yml/badge.svg?branch=dev)](https://github.com/quasarframework/quasar/actions/workflows/tests-on-pr.yml)
+
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 
 ## Supporting Quasar
@@ -131,6 +133,11 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
           <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/synestia.svg">
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://www.nodesol.com" target="_blank">
+          <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/nodesol.svg">
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -141,7 +148,7 @@ Head on to the Quasar Framework official website: [https://quasar.dev](https://q
 
 ## Stay in Touch
 
-For latest releases and announcements, follow on Twitter: [@quasarframework](https://twitter.com/quasarframework)
+For latest releases and announcements, follow us on our Twitter account: [@quasarframework](https://twitter.com/quasarframework)
 
 ## Chat Support
 

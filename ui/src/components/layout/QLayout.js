@@ -231,7 +231,8 @@ export default createComponent({
       const layout = h('div', {
         class: classes.value,
         style: style.value,
-        ref: props.container === true ? void 0 : rootRef
+        ref: props.container === true ? void 0 : rootRef,
+        tabindex: -1
       }, content)
 
       if (props.container === true) {

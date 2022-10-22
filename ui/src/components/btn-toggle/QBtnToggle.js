@@ -7,6 +7,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { useFormInject, useFormProps } from '../../composables/private/use-form.js'
 
 import { hMergeSlot } from '../../utils/private/render.js'
+import { getBtnDesignAttr } from '../btn/use-btn.js'
 
 export default createComponent({
   name: 'QBtnToggle',
@@ -80,6 +81,14 @@ export default createComponent({
 
     const injectFormInput = useFormInject(formAttrs)
 
+    const btnDesignAttr = computed(() => getBtnDesignAttr(props))
+
+    const btnOptionDesign = computed(() => ({
+      rounded: props.rounded,
+      dense: props.dense,
+      ...btnDesignAttr.value
+    }))
+
     const btnOptions = computed(() => props.options.map((item, i) => {
       const { attrs, value, slot, ...opt } = item
 
@@ -87,19 +96,11 @@ export default createComponent({
         slot,
         props: {
           key: i,
-          onClick (e) { set(value, item, e) },
 
           'aria-pressed': value === props.modelValue ? 'true' : 'false',
-
           ...attrs,
           ...opt,
-
-          outline: props.outline,
-          flat: props.flat,
-          rounded: props.rounded,
-          push: props.push,
-          unelevated: props.unelevated,
-          dense: props.dense,
+          ...btnOptionDesign.value,
 
           disable: props.disable === true || opt.disable === true,
 
@@ -117,7 +118,9 @@ export default createComponent({
           padding: mergeOpt(opt, 'padding'),
           ripple: mergeOpt(opt, 'ripple'),
           stack: mergeOpt(opt, 'stack') === true,
-          stretch: mergeOpt(opt, 'stretch') === true
+          stretch: mergeOpt(opt, 'stretch') === true,
+
+          onClick (e) { set(value, item, e) }
         }
       }
     }))
@@ -156,12 +159,9 @@ export default createComponent({
 
     return () => h(QBtnGroup, {
       class: 'q-btn-toggle',
-      outline: props.outline,
-      flat: props.flat,
+      ...btnDesignAttr.value,
       rounded: props.rounded,
-      push: props.push,
       stretch: props.stretch,
-      unelevated: props.unelevated,
       glossy: props.glossy,
       spread: props.spread
     }, getContent)

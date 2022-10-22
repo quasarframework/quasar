@@ -12,8 +12,11 @@ You can have multiple content scripts with the name of your desire (that include
 The added benefit of this file is this function:
 
 ```js
-export default function (bridge) {
-}
+import { bexContent } from 'quasar/wrappers'
+
+export default bexContent((bridge) => {
+  //
+})
 ```
 
 This function is called automatically via the Quasar BEX build chain and injects a bridge which is shared between your Quasar App instance and the background script of the BEX.
@@ -26,10 +29,9 @@ For example, let's say we want to react to a button being pressed on our Quasar 
 setup () {
   const $q = useQuasar()
 
-  function myButtonClickHandler () {
-    $q.bex.send('highlight.content.event', { someData: 'someValue '}).then(r => {
-      console.log('Text has been highlighted')
-    })
+  async function myButtonClickHandler () {
+    await $q.bex.send('highlight.content', { selector: '.some-class' })
+    $q.notify('Text has been highlighted')
   }
 
   return { myButtonClickHandler }
@@ -46,19 +48,19 @@ setup () {
 
 ```js
 // src-bex/my-content-script.js:
+import { bexContent } from 'quasar/wrappers'
 
-export default function (bridge) {
-  bridge.on('highlight.content.event', event => {
-    // Find a .some-class element and add our highlight CSS class.
-    const el = document.querySelector('.some-class')
+export default bexContent((bridge) => {
+  bridge.on('highlight.content', ({ data, respond }) => {
+    const el = document.querySelector(data.selector)
     if (el !== null) {
       el.classList.add('bex-highlight')
     }
 
-    // Not required but resolve our promise.
-    bridge.send(event.responseKey)
+    // Let's resolve the `send()` call's promise, this way we can await it on the other side then display a notification.
+    respond()
   })
-}
+})
 ```
 
 Content scripts live in an [isolated world](https://developer.chrome.com/extensions/content_scripts#isolated_world), allowing a content script to makes changes to its JavaScript environment without conflicting with the page or additional content scripts.

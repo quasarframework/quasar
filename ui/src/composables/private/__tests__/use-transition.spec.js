@@ -16,7 +16,7 @@ describe('use-transition API', () => {
         it('should use a different show transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionShow: transition
             }
           })
@@ -43,7 +43,7 @@ describe('use-transition API', () => {
         it('should use a different hide transition if defined', () => {
           const transition = 'scale'
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionHide: transition
             }
           })
@@ -61,15 +61,17 @@ describe('use-transition API', () => {
       describe('(prop): transition-duration', () => {
         it('should be done with transitioning after 300ms passed', () => {
           mount(WrapperOne)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(300)
-          cy.dataCy('menu', { timeout: 0 }) // Disable retry
+          cy.dataCy('menu', { timeout: 350 })
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
 
         it('should not be done with transitioning before 300ms passed', () => {
           mount(WrapperOne)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(200) // Commands take some time so a high value can fail, just take a decent margin
@@ -79,10 +81,11 @@ describe('use-transition API', () => {
 
         it('should be done after a custom 1000ms passed', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionDuration: 1000
             }
           })
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(1000)
@@ -92,10 +95,11 @@ describe('use-transition API', () => {
 
         it('should not be done before a custom 1000ms passed', () => {
           mount(WrapperOne, {
-            attrs: {
+            props: {
               transitionDuration: 1000
             }
           })
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
             .wait(900)

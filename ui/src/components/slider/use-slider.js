@@ -7,7 +7,7 @@ import { useFormProps, useFormInject } from '../../composables/private/use-form.
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
-import { isNumber, isObject } from '../../utils/private/is.js'
+import { isNumber, isObject } from '../../utils/is.js'
 import { hDir } from '../../utils/private/render.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'
@@ -129,7 +129,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
     && innerMin.value < innerMax.value
   ))
 
-  const decimals = computed(() => (String(props.step).trim('0').split('.')[ 1 ] || '').length)
+  const decimals = computed(() => (String(props.step).trim().split('.')[ 1 ] || '').length)
   const step = computed(() => (props.step === 0 ? 1 : props.step))
   const tabindex = computed(() => (editable.value === true ? props.tabindex || 0 : -1))
 

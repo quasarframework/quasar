@@ -35,7 +35,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "bottom middle",
-      "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
 
@@ -48,7 +47,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "top middle",
-      "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
 

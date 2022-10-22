@@ -105,6 +105,7 @@
     "model-value": {
       "desc": "Model of the component; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
       "required": true,
+      "syncable": true,
       "category": "model"
     },
 

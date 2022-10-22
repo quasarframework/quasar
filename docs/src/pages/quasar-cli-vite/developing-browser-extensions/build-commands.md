@@ -33,7 +33,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Chrome, navigate to `chrome://extensions`
 2. Toggle "Developer Mode".
-3. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `src-bex` folder.
+3. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `dist/bex` folder.
 4. You should now see your BEX mounted in Chrome.
 
 More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
@@ -50,7 +50,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Firefox, navigate to `about:debugging`
 2. Click on "This Firefox"
-3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `src-bex/manifest.json` file. **Note:** Firefox requires the manifest file, not the `src-bex` folder like Chromium browsers.
+3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `dist/bex/manifest.json` file. **Note:** Firefox requires the manifest file, not the `dist/bex` folder like Chromium browsers.
 4. You should now see your BEX mounted in Firefox.
 
 More information about debugging Firefox temporary addons can be found in the [Firefox Extension Workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
@@ -71,8 +71,8 @@ Browser extensions runs in three different environments (more on upcoming pages)
 
 You can find following places to investigate the errors and outputs from the console in DevTools:
 
-1. Popup - right click on the page or on the extension icon  a choose `Inspect` pop-up for DevTools.
-2. Background scripts (e.g.: background-hooks.js) open DevTools from `Manage extensions - background page`.
+1. Popup - right click on the page or on the extension icon and choose `Inspect popup` for DevTools.
+2. Background scripts (e.g.: background-hooks.js) - open DevTools from `Manage extensions - background page`.
 3. Content scripts - page where your script is injected.
 4. Extension Errors - list of errors related to the extension (e.g. manifest configuration) are available in `Manage extension - Errors`.
 

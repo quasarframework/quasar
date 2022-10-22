@@ -24,6 +24,8 @@ const panOpts = {
   mouseAllDir: true
 }
 
+const getMinThumbSize = size => (size >= 250 ? 50 : Math.ceil(size / 5))
+
 export default createComponent({
   name: 'QScrollArea',
 
@@ -82,9 +84,9 @@ export default createComponent({
       }
     }
 
-    const vm = getCurrentInstance()
+    const { proxy } = getCurrentInstance()
 
-    const isDark = useDark(props, vm.proxy.$q)
+    const isDark = useDark(props, proxy.$q)
 
     let timer, panRefPos
 
@@ -115,7 +117,7 @@ export default createComponent({
       Math.round(
         between(
           container.vertical.value * container.vertical.value / scroll.vertical.size.value,
-          50,
+          getMinThumbSize(container.vertical.value),
           container.vertical.value
         )
       )
@@ -157,7 +159,7 @@ export default createComponent({
       Math.round(
         between(
           container.horizontal.value * container.horizontal.value / scroll.horizontal.size.value,
-          50,
+          getMinThumbSize(container.horizontal.value),
           container.horizontal.value
         )
       )
@@ -219,7 +221,7 @@ export default createComponent({
     // multiple times
     const emitScroll = debounce(() => {
       const info = getScroll()
-      info.ref = vm.proxy
+      info.ref = proxy
       emit('scroll', info)
     }, 0)
 
@@ -358,28 +360,6 @@ export default createComponent({
       hover.value = false
     }
 
-    // expose public methods
-    Object.assign(vm.proxy, {
-      getScrollTarget: () => targetRef.value,
-      getScroll,
-      getScrollPosition: () => ({
-        top: scroll.vertical.position.value,
-        left: scroll.horizontal.position.value
-      }),
-      getScrollPercentage: () => ({
-        top: scroll.vertical.percentage.value,
-        left: scroll.horizontal.percentage.value
-      }),
-      setScrollPosition: localSetScrollPosition,
-      setScrollPercentage (axis, percentage, duration) {
-        localSetScrollPosition(
-          axis,
-          percentage * (scroll[ axis ].size.value - container[ axis ].value),
-          duration
-        )
-      }
-    })
-
     let scrollPosition = null
 
     onDeactivated(() => {
@@ -401,6 +381,28 @@ export default createComponent({
     })
 
     onBeforeUnmount(emitScroll.cancel)
+
+    // expose public methods
+    Object.assign(proxy, {
+      getScrollTarget: () => targetRef.value,
+      getScroll,
+      getScrollPosition: () => ({
+        top: scroll.vertical.position.value,
+        left: scroll.horizontal.position.value
+      }),
+      getScrollPercentage: () => ({
+        top: scroll.vertical.percentage.value,
+        left: scroll.horizontal.percentage.value
+      }),
+      setScrollPosition: localSetScrollPosition,
+      setScrollPercentage (axis, percentage, duration) {
+        localSetScrollPosition(
+          axis,
+          percentage * (scroll[ axis ].size.value - container[ axis ].value),
+          duration
+        )
+      }
+    })
 
     return () => {
       return h('div', {

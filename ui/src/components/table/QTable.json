@@ -77,10 +77,10 @@
 
     "virtual-scroll-sticky-size-start": {
       "type": [ "Number", "String" ],
-      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
+      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision; Will be also used for non-virtual-scroll tables for fixing top alignment when using scrollTo method",
       "default": "0",
       "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll"
+      "category": "virtual-scroll|behavior"
     },
 
     "virtual-scroll-sticky-size-end": {
@@ -676,6 +676,7 @@
           "examples": [ 100, 200 ]
         }
       },
+      "syncable": true,
       "examples": [
         ":pagination=\"myInitialPagination\"",
         "v-model:pagination=\"myPagination\""
@@ -698,7 +699,6 @@
       "desc": "Selection type",
       "default": "none",
       "values": [ "single", "multiple", "none" ],
-      "examples": [ "multiple" ],
       "category": "selection"
     },
 
@@ -706,6 +706,7 @@
       "type": "Array",
       "desc": "Keeps the user selection array",
       "default": "[]",
+      "syncable": true,
       "examples": [
         "v-model:selected=\"selection\""
       ],
@@ -716,6 +717,7 @@
       "type": "Array",
       "desc": "Keeps the array with expanded rows keys",
       "default": "[]",
+      "syncable": true,
       "examples": [
         "v-model:expanded=\"expanded\""
       ],
@@ -1968,56 +1970,9 @@
               }
             },
             "filter": {
-              "type": "Function",
-              "required": true,
-              "desc": "Filter method (the 'filter-method' prop)",
-              "params": {
-                "rows": {
-                  "type": "Array",
-                  "required": true,
-                  "desc": "Array of rows",
-                  "__exemption": [ "examples" ]
-                },
-                "terms": {
-                  "type": [ "String", "Object" ],
-                  "required": true,
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-                  "__exemption": [ "examples" ]
-                },
-                "cols": {
-                  "type": "Array",
-                  "desc": "Optional column definitions",
-                  "__exemption": [ "examples" ]
-                },
-                "getCellValue": {
-                  "type": "Function",
-                  "desc": "Optional function to get a cell value",
-                  "params": {
-                    "col": {
-                      "type": "Object",
-                      "required": true,
-                      "desc": "Column name from column definitions",
-                      "__exemption": [ "examples" ]
-                    },
-                    "row": {
-                      "type": "Object",
-                      "required": true,
-                      "desc": "The row object",
-                      "__exemption": [ "examples" ]
-                    }
-                  },
-                  "returns": {
-                    "type": "Any",
-                    "desc": "Parsed/Processed cell value",
-                    "examples": [ "Ice Cream Sandwich" ]
-                  }
-                }
-              },
-              "returns": {
-                "type": "Array",
-                "desc": "Filtered rows",
-                "__exemption": [ "examples" ]
-              }
+              "type": [ "String", "Object" ],
+              "desc": "String/Object to filter table with (the 'filter' prop)",
+              "__exemption": [ "examples" ]
             },
             "getCellValue": {
               "type": "Function",
@@ -2217,6 +2172,11 @@
                   "type": "Number",
                   "desc": "How many rows per page? 0 means Infinite",
                   "examples": [ 10 ]
+                },
+                "rowsNumber": {
+                  "type": "Number",
+                  "desc": "For server-side fetching only. How many total database rows are there to be added to the table.",
+                  "examples": [ 100, 200 ]
                 }
               }
             },
@@ -2410,6 +2370,26 @@
           "default": "end (if scrolling towards the end) / start (if scrolling towards the start)"
         }
       }
+    }
+  },
+
+  "computedProps": {
+    "filteredSortedRows": {
+      "desc": "The filtered and sorted rows (same as the rows prop if using server-side fetching)",
+      "type": "Array",
+      "examples": [ "[ { name: 'Ice Cream Sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: 8, iron: 1 }, ... ]" ]
+    },
+
+    "computedRows": {
+      "desc": "Paginated, filtered, and sorted rows (same as the rows prop if using server-side fetching)",
+      "type": "Array",
+      "examples": [ "[ { name: 'Ice Cream Sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: 8, iron: 1 }, ... ]" ]
+    },
+
+    "computedRowsNumber": {
+      "desc": "The number of computed rows",
+      "type": "Number",
+      "examples": [ 10 ]
     }
   }
 }

@@ -37,33 +37,32 @@ Let's see how it works.
 ### Trigger an event and wait for the response
 
 ```js
-bridge.send('some.event', { someKey: 'aValue' }).then(response => {
-  console.log('Some response from the other side')
-})
+const { data } = await bridge.send('some.event', { someKey: 'aValue' })
+console.log('Some response from the other side', data)
 ```
 
 ### Listen for an event and sending a response
 
+You can respond to let the caller know the operation is done. You can optionally return back some data too.
+
 ```js
-bridge.on('some.event', event => {
-  console.log('Event Receieved, responding ...')
-  bridge.send(event.eventResponseKey)
+bridge.on('some.event', ({ data, respond }) => {
+  console.log('Event receieved, responding...')
+  respond(data.someKey + ' hey!')
 })
 ```
+
+::: warning
+If you omit `respond()` the promise on `.send()` will not resolve.
+:::
+
+The Quasar bridge does some work behind the scenes to convert the normal event based communication into promises and as such, in order for the promise to resolve, we need to call `respond`.
 
 ### Clean up your listeners
 
 ```js
 bridge.off('some.event', this.someFunction)
 ```
-
-Wait, what's `bridge.send(event.eventResponseKey)`?
-
-The Quasar bridge does some work behind the scenes to convert the normal event based communication into promises and as such, in order for the promise to resolve, we need to send a *new* event which is captured and promisified.
-
-::: warning
-If you omit `bridge.send(event.eventResponseKey)` the promise on `.send()` will not resolve.
-:::
 
 ::: tip
 The bridge also does some work to split large data which is too big to be transmitted in one go due to the browser extension 60mb data transfer limit. In order for this to happen, the payload must be an array.

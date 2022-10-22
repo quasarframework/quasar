@@ -10,7 +10,7 @@ related:
 
 Quasar Dialogs are a great way to offer the user the ability to choose a specific action or list of actions. They also can provide the user with important information, or require them to make a decision (or multiple decisions).
 
-From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions only.
+From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions.
 
 ::: tip
 Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
@@ -36,7 +36,7 @@ In order to create #2, the options selection form, you have the `options` proper
 
 <doc-installation plugins="Dialog" />
 
-## Usage
+## Built-in component
 
 ```js
 // outside of a Vue file
@@ -54,7 +54,7 @@ setup () {
 
 Please check the API card to see what the returned Object is.
 
-### Predefined
+### Usage
 
 ::: tip
 For all the examples below, also see the browser console while you check them out.
@@ -72,7 +72,13 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
 
-### Basic validation
+### Native attributes
+
+You can also supply native HTML attributes to the inner QInput or QOptionGroup components, like in the example below.
+
+<doc-example title="Using native attributes" file="Dialog/NativeAttributes" />
+
+### User input validation
 
 There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
 
@@ -89,7 +95,7 @@ You can use HTML on title and message if you specify the `html: true` prop. **Pl
 
 <doc-example title="Unsafe HTML message" file="Dialog/UnsafeHtml" />
 
-### Invoking custom component
+## Invoking custom component
 
 You can also invoke your own custom component rather than relying on the default one that the Dialog plugin comes with out of the box. But in this case you will be responsible for handling everything (including your own component props).
 
@@ -165,7 +171,7 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } = useDialogPluginC
 // onDialogHide   - Function to be used as handler for @hide on QDialog
 // onDialogOK     - Function to call to settle dialog with "ok" outcome
 //                    example: onDialogOK() - no payload
-//                    example: onDialogOK({ /*.../* }) - with payload
+//                    example: onDialogOK({ /*...*/ }) - with payload
 // onDialogCancel - Function to call to settle dialog with "cancel" outcome
 
 // this is part of our example (so not required)
@@ -272,7 +278,7 @@ emits: {
   ...useDialogPluginComponent.emitsObject,
 
   // ...your own definitions
-]
+}
 ```
 
 #### Options API variant

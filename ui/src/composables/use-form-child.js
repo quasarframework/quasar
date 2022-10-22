@@ -1,4 +1,4 @@
-import { inject, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { inject, watch, getCurrentInstance, onMounted, onBeforeUnmount } from 'vue'
 
 import { formKey } from '../utils/private/symbols.js'
 
@@ -21,11 +21,13 @@ export default function ({ validate, resetValidation, requiresQForm }) {
       }
     })
 
-    // register component to parent QForm
-    props.disable !== true && $form.bindComponent(proxy)
+    onMounted(() => {
+      // register to parent QForm
+      props.disable !== true && $form.bindComponent(proxy)
+    })
 
     onBeforeUnmount(() => {
-      // unregister component
+      // un-register from parent QForm
       props.disable !== true && $form.unbindComponent(proxy)
     })
   }

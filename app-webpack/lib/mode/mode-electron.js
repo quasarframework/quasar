@@ -4,6 +4,7 @@ const fse = require('fs-extra')
 const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')
 const nodePackager = require('../helpers/node-packager')
+const hasTypescript = require('../helpers/has-typescript')
 const { bundlerIsInstalled } = require('../electron/bundler')
 
 const electronDeps = {
@@ -27,9 +28,22 @@ class Mode {
     )
 
     log('Creating Electron source folder...')
+
+    const format = hasTypescript ? 'ts' : 'default'
     fse.copySync(
-      appPaths.resolve.cli('templates/electron'),
+      appPaths.resolve.cli(`templates/electron/${format}`),
       appPaths.electronDir
+    )
+
+    fse.copySync(
+      appPaths.resolve.cli('templates/electron/electron-flag.d.ts'),
+      appPaths.resolve.electron('electron-flag.d.ts')
+    )
+
+    log('Creating Electron icons folder...')
+    fse.copySync(
+      appPaths.resolve.cli('templates/electron/icons'),
+      appPaths.resolve.electron('icons')
     )
 
     log('Electron support was added')

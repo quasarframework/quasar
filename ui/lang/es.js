@@ -19,7 +19,9 @@ module.exports = {
     create: 'Crear',
     search: 'Buscar',
     filter: 'Filtrar',
-    refresh: 'Actualizar'
+    refresh: 'Actualizar',
+    expand: label => (label ? `Expandir "${ label }"` : 'Expandir'),
+    collapse: label => (label ? `Ocultar "${ label }"` : 'Colapsar')
   },
   date: {
     days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
@@ -32,7 +34,7 @@ module.exports = {
   },
   table: {
     noData: 'Sin datos disponibles',
-    noResults: 'No se han encontrado resultado',
+    noResults: 'No se han encontrado resultados',
     loading: 'Cargando...',
     selectedRecords: rows => (
       rows > 1

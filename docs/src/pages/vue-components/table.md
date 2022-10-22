@@ -183,6 +183,8 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Selection cell slots" file="QTable/SelectionSlots" />
 
+<doc-example title="Selection cell slots with range selection" file="QTable/SelectionSlotsRange" />
+
 <doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
 
 ## Visible columns, custom top, fullscreen

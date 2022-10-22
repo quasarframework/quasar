@@ -42,12 +42,23 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         )
 
       template(v-else)
-        //- survey-countdown.layout-countdown(
+        //- survey-countdown.drawer-banner-bg(
         //-   color="primary"
         //-   align-class="justify-center"
         //-   padding-class="q-py-md"
         //- )
-        //- q-separator.q-mb-lg
+        q-banner.drawer-banner-bg
+          .flex.q-py-md.justify-center
+            q-btn(
+              href="https://bit.ly/qconf2022yt"
+              target="_blank"
+              color="primary"
+              :icon="mdiYoutube"
+              label="Watch Quasar Conf 2022"
+              no-caps
+            )
+
+        q-separator.q-mb-lg
 
         .row.justify-center.q-my-md
           q-btn.doc-layout__main-btn(
@@ -130,7 +141,7 @@ import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
 import {
-  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp, mdiYoutube
 } from '@quasar/extras/mdi-v6'
 
 import AppMenu from 'components/AppMenu.js'
@@ -162,7 +173,8 @@ export default {
       mdiClipboardText,
       mdiHeart,
       mdiMagnify,
-      mdiChevronUp
+      mdiChevronUp,
+      mdiYoutube
     }
 
     useToc(scope, $route)
@@ -262,7 +274,7 @@ export default {
 body.mobile .app-search-input kbd
   display: none
 
-.layout-countdown
+.drawer-banner-bg
   background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
   background-size: 40px 40px
 </style>

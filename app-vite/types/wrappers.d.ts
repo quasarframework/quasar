@@ -8,17 +8,22 @@
 // This is a precaution measure to avoid future hard-to-backtrack bugs.
 
 declare module "quasar/wrappers" {
-  import { BootCallback } from "@quasar/app-vite";
-  import { ConfigureCallback } from "@quasar/app-vite";
-  import { PrefetchCallback } from "@quasar/app-vite";
-  import { RouteCallback } from "@quasar/app-vite";
-  import { StoreCallback } from "@quasar/app-vite";
-  import { SsrMiddlewareCallback } from "@quasar/app-vite";
-  import { SsrCreateCallback } from "@quasar/app-vite";
-  import { SsrListenCallback } from "@quasar/app-vite";
-  import { SsrCloseCallback } from "@quasar/app-vite";
-  import { SsrServeStaticContentCallback } from "@quasar/app-vite";
-  import { SsrRenderPreloadTagCallback } from "@quasar/app-vite";
+  import type {
+    BootCallback,
+    ConfigureCallback,
+    PrefetchCallback,
+    RouteCallback,
+    StoreCallback,
+    SsrMiddlewareCallback,
+    SsrCreateCallback,
+    SsrListenCallback,
+    SsrCloseCallback,
+    SsrServeStaticContentCallback,
+    SsrRenderPreloadTagCallback,
+    BexBackgroundCallback,
+    BexContentCallback,
+    BexDomCallback,
+  } from "@quasar/app-vite";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
   function boot<TState = any>(
@@ -60,4 +65,14 @@ declare module "quasar/wrappers" {
   function ssrRenderPreloadTag(
     callback: SsrRenderPreloadTagCallback
   ): SsrRenderPreloadTagCallback;
+
+  function bexBackground(
+    callback: BexBackgroundCallback
+  ): BexBackgroundCallback;
+
+  function bexContent(
+    callback: BexContentCallback
+  ): BexContentCallback;
+
+  function bexDom(callback: BexDomCallback): BexDomCallback;
 }

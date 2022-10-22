@@ -445,6 +445,7 @@ export default function (state) {
         h('div', {
           ref: state.targetRef,
           class: 'q-field__native row',
+          tabindex: -1,
           ...state.splitAttrs.attributes.value,
           'data-autofocus': props.autofocus === true || void 0
         }, slots.control(controlSlotScope.value))
@@ -503,7 +504,8 @@ export default function (state) {
 
     return h('div', {
       class: 'q-field__bottom row items-start q-field__bottom--'
-        + (props.hideBottomSpace !== true ? 'animated' : 'stale')
+        + (props.hideBottomSpace !== true ? 'animated' : 'stale'),
+      onClick: prevent
     }, [
       props.hideBottomSpace === true
         ? main
@@ -525,9 +527,6 @@ export default function (state) {
         class: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip'
       }, content)
   }
-
-  // expose public methods
-  Object.assign(proxy, { focus, blur })
 
   let shouldActivate = false
 
@@ -551,11 +550,14 @@ export default function (state) {
     clearTimeout(focusoutTimer)
   })
 
+  // expose public methods
+  Object.assign(proxy, { focus, blur })
+
   return function renderField () {
     const labelAttrs = state.getControl === void 0 && slots.control === void 0
       ? {
           ...state.splitAttrs.attributes.value,
-          'data-autofocus': props.autofocus,
+          'data-autofocus': props.autofocus === true || void 0,
           ...attributes.value
         }
       : attributes.value

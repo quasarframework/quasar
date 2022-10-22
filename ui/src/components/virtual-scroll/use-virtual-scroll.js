@@ -20,8 +20,13 @@ const filterProto = Array.prototype.filter
 const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.body).overflowAnchor === void 0
   ? noop
   : function (contentEl, index) {
-    requestAnimationFrame(() => {
-      if (contentEl === void 0) {
+    if (contentEl === null) {
+      return
+    }
+
+    cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
+      if (contentEl === null) {
         return
       }
 
@@ -415,7 +420,7 @@ export function useVirtualScroll ({
       contentEl.addEventListener('focusout', onBlurRefocusFn)
 
       setTimeout(() => {
-        contentEl !== void 0 && contentEl.removeEventListener('focusout', onBlurRefocusFn)
+        contentEl !== null && contentEl.removeEventListener('focusout', onBlurRefocusFn)
       })
     }
 
@@ -528,7 +533,7 @@ export function useVirtualScroll ({
   }
 
   function onBlurRefocusFn () {
-    contentRef.value !== void 0 && contentRef.value.focus()
+    contentRef.value !== null && contentRef.value !== void 0 && contentRef.value.focus()
   }
 
   function localResetVirtualScroll (toIndex, fullReset) {

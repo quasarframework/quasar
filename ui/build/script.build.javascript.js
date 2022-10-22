@@ -72,10 +72,34 @@ const uglifyJsOptions = {
 }
 
 const builds = [
-  { // Generic prod entry (client-side only; NOT used by Quasar CLI)
+  {
+    // client entry-point used by @quasar/vite-plugin for DEV only
+    // (has flags untouched; required to replace them)
     rollup: {
       input: {
-        input: resolve('src/index.all.js')
+        input: resolve('src/index.dev.js')
+      },
+      output: {
+        file: resolve('dist/quasar.esm.js'),
+        format: 'es'
+      }
+    },
+    build: {
+      unminified: true,
+      replace: {
+        __QUASAR_VERSION__: `'${ version }'`,
+        __QUASAR_SSR_SERVER__: false
+      }
+    }
+  },
+
+  {
+    // client prod entry-point that is not used by Quasar CLI,
+    // but pointed to in package.json > module;
+    // (no flags; not required to replace them)
+    rollup: {
+      input: {
+        input: resolve('src/index.prod.js')
       },
       output: {
         file: resolve('dist/quasar.esm.js'),
@@ -93,10 +117,13 @@ const builds = [
       }
     }
   },
-  { // SSR server prod entry
+
+  {
+    // SSR server prod entry-point
+    // (no flags; not required to replace them)
     rollup: {
       input: {
-        input: resolve('src/index.all.js')
+        input: resolve('src/index.ssr.js')
       },
       output: {
         file: resolve('dist/quasar.cjs.js'),
@@ -114,7 +141,9 @@ const builds = [
       }
     }
   },
-  { // UMD entry
+
+  {
+    // UMD entry
     rollup: {
       input: {
         input: resolve('src/index.umd.js')

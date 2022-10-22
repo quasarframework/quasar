@@ -65,7 +65,6 @@
       "desc": "Stick dialog to one of the sides (top, right, bottom or left)",
       "default": "standard",
       "values": [ "standard", "top", "right", "bottom", "left" ],
-      "examples": [ "top", "right" ],
       "category": "content"
     },
 
@@ -92,6 +91,13 @@
       "desc": "Do not shake up the Dialog to catch user's attention",
       "category": "behavior",
       "addedIn": "v2.1.1"
+    },
+
+    "allow-focus-outside": {
+      "type": "Boolean",
+      "desc": "Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus",
+      "category": "behavior",
+      "addedIn": "v2.7.2"
     }
   },
 

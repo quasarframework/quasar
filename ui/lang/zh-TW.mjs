@@ -14,7 +14,9 @@ export default {
     create: '新增',
     search: '搜尋',
     filter: '篩選',
-    refresh: '更新'
+    refresh: '更新',
+    expand: label => (label ? `展開"${ label }"` : '擴張'),
+    collapse: label => (label ? `折疊"${ label }"` : '坍塌')
   },
   date: {
     days: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),

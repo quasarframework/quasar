@@ -73,5 +73,4 @@ module.exports = async function ({ scope, utils }) {
   if (scope.preset.i18n) utils.renderTemplate(utils.join(__dirname, 'i18n'), scope)
   if (scope.preset.vuex) utils.renderTemplate(utils.join(__dirname, 'vuex'), scope)
   if (scope.preset.lint) utils.renderTemplate(utils.join(__dirname, 'lint'), scope)
-  if (scope.typescriptConfig === 'composition') utils.renderTemplate(utils.join(__dirname, 'composition'), scope)
 }

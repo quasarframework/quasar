@@ -7,7 +7,7 @@ related:
 ---
 
 ::: tip
-The useDialogPluginComponent composable is part of [Quasar Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) (Invoking custom component). If you haven't digged into it by now, please have a first read there.
+The useDialogPluginComponent composable is part of [Quasar Dialog Plugin](/quasar-plugins/dialog#invoking-custom-component) (Invoking custom component). If you haven't dug into it by now, please have a first read there.
 :::
 
 This composable is to be used on the custom components which a Dialog plugin is invoked with. It will bootstrap all the necessary communication of the component with the plugin.

@@ -1,5 +1,6 @@
 import { store } from 'quasar/wrappers'
 import { InjectionKey } from 'vue'
+import { Router } from 'vue-router'
 import {
   createStore,
   Store as VuexStore,
@@ -34,6 +35,13 @@ declare module '@vue/runtime-core' {
 
 // provide typings for `useStore` helper
 export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-key')
+
+// Provide typings for `this.$router` inside Vuex store
+ declare module "vuex" {
+   export interface Store<S> {
+     readonly $router: Router;
+   }
+ }
 
 export default store(function (/* { ssrContext } */) {
   const Store = createStore<StateInterface>({

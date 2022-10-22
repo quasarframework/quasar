@@ -49,7 +49,7 @@ $ yarn add -D postcss-rtlcss
 # or
 $ npm install -D postcss-rtlcss
 # or
-$ pnpm add quasar -D postcss-rtlcss
+$ pnpm add quasar -D postcss-rtlcss # experimental support
 ```
 
 Then create `/postcss.config.js` file if you don't have it already, and add this to it:
@@ -110,7 +110,7 @@ Let's discuss about each of these requirements:
 3. Optional: *Treat devland source CSS as RTL*.
   By default, Quasar assumes that all styles are written in LTR direction and generates corresponding RTL styles for them. Should you wish to write your own css directly in RTL then you need to:
     * (Quasar CLI with Webpack) set quasar.config.js > "build" > rtl > "source" to `rtl`
-    * (Quasar CLI with Vite / Quasar Vite plugin / Vue CLI plugin) set `require('postcss-rtlcss', { source: 'rtl' })` in /postcss.config.js
+    * (Quasar CLI with Vite / Quasar Vite plugin / Vue CLI plugin) set `require('postcss-rtlcss')({ source: 'rtl' })` in /postcss.config.js
 
 ::: tip
 Full list of [postcss-rtlcss options](https://github.com/elchininet/postcss-rtlcss#options).

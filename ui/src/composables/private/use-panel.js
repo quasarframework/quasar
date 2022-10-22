@@ -126,13 +126,6 @@ export default function () {
   function nextPanel () { goToPanelByOffset(1) }
   function previousPanel () { goToPanelByOffset(-1) }
 
-  // expose public methods
-  Object.assign(proxy, {
-    next: nextPanel,
-    previous: previousPanel,
-    goTo: goToPanel
-  })
-
   function goToPanel (name) {
     emit('update:modelValue', name)
   }
@@ -256,6 +249,13 @@ export default function () {
   function getPanels () {
     return panels
   }
+
+  // expose public methods
+  Object.assign(proxy, {
+    next: nextPanel,
+    previous: previousPanel,
+    goTo: goToPanel
+  })
 
   return {
     panelIndex,

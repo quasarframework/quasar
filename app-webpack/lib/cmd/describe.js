@@ -9,6 +9,7 @@ const partArgs = {
   p: 'props',
   s: 'slots',
   m: 'methods',
+  c: 'computedProps',
   e: 'events',
   v: 'value',
   a: 'arg',
@@ -64,8 +65,9 @@ if (!item || argv.help) {
     --filter, -f <filter> Filters the API
     --props, -p           Displays the API props
     --slots, -s           Displays the API slots
-    --methods, -m         Displays the API methods
     --events, -e          Displays the API events
+    --methods, -m         Displays the API methods
+    --computedProps, -c   Displays the API computed props
     --value, -v           Displays the API value
     --arg, -a             Displays the API arg
     --modifiers, -M       Displays the API modifiers
@@ -329,6 +331,34 @@ function printMethods ({ methods }) {
   }
 }
 
+function printComputedProps ({ computedProps }) {
+  const keys = Object.keys(computedProps || {})
+
+  console.log('\n ' + chalk.underline('Computed Properties'))
+
+  if (keys.length === 0) {
+    console.log('\n   ' + chalk.italic('*No computed properties*'))
+    return
+  }
+
+  if (argv.filter) {
+    keys.forEach(key => {
+      if (key.indexOf(argv.filter) === -1) {
+        delete computedProps[key]
+      }
+    })
+    if (Object.keys(computedProps).length === 0) {
+      console.log('\n   ' + chalk.italic('*No matching computed properties*'))
+      return
+    }
+  }
+
+  for (let propName in computedProps) {
+    console.log()
+    printProp(computedProps[propName], propName, 3)
+  }
+}
+
 function printValue ({ value }) {
   console.log('\n ' + chalk.underline('Value'))
 
@@ -434,6 +464,7 @@ function describe (api) {
       apiParts.slots === true && printSlots(api)
       apiParts.events === true && printEvents(api)
       apiParts.methods === true && printMethods(api)
+      apiParts.computedProps === true && printComputedProps(api)
       break
 
     case 'directive':
@@ -494,8 +525,8 @@ async function run () {
 }
 
 function listElements () {
-  const getDevlandFile = require('../helpers/get-devland-file')
-  let api = getDevlandFile('quasar/dist/transforms/api-list.json')
+  const getPackage = require('../helpers/get-package')
+  let api = getPackage('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {
     fatal(` Could not retrieve list...`)

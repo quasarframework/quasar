@@ -15,7 +15,7 @@ async function promptOverwrite ({ targetPath, options }) {
     { name: 'Skip all (might break extension)', value: 'skipAll' }
   ]
 
-  const answer = await inquirer.prompt([{
+  return await inquirer.prompt([{
     name: 'action',
     type: 'list',
     message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
@@ -24,12 +24,11 @@ async function promptOverwrite ({ targetPath, options }) {
       : choices,
     default: 'overwrite'
   }])
-  return answer
 }
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
   const { isBinaryFileSync: isBinary } = require('isbinaryfile')
-  const compileTemplate = require('lodash.template')
+  const compileTemplate = require('lodash/template')
 
   if (overwritePrompt === true && fs.existsSync(targetPath)) {
     const answer = await promptOverwrite({

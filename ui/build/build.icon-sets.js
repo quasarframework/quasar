@@ -48,12 +48,27 @@ const iconTypes = [
     convert: str => materialConvert(str, 's_', 'sharp_')
   },
   {
+    name: 'material-symbols-outlined',
+    regex: /^sym_o_/,
+    convert: str => materialConvert(str, 'sym_o_', 'sym_outlined_')
+  },
+  {
+    name: 'material-symbols-rounded',
+    regex: /^sym_r_/,
+    convert: str => materialConvert(str, 'sym_r_', 'sym_rounded_')
+  },
+  {
+    name: 'material-symbols-sharp',
+    regex: /^sym_s_/,
+    convert: str => materialConvert(str, 'sym_s_', 'sym_sharp_')
+  },
+  {
     name: 'mdi-v6',
     regex: /^mdi-/,
     convert
   },
   {
-    name: 'ionicons-v4',
+    name: 'ionicons-v4', // last web font version
     regex: /^ion-/,
     convert: str => convert(
       /ion-(md|ios)-/.test(str) === true

@@ -2,17 +2,17 @@
   <div>
     <router-view />
 
-    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" />
+    <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" aria-label="Go Home" />
 
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
     >
-      <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" />
+      <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" aria-label="Settings" />
       <template v-if="showSelector">
         <q-toggle :model-value="$q.dark.isActive" @update:model-value="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
 
-        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" />
+        <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="switchRTL" class="absolute-bottom-right z-top" aria-label="Toggle RTL/LTR" />
         <q-select
           label="Quasar Language"
           dense
@@ -111,6 +111,9 @@ export default {
         { label: 'Material Outlined', value: 'material-icons-outlined' },
         { label: 'Material Round', value: 'material-icons-round' },
         { label: 'Material Sharp', value: 'material-icons-sharp' },
+        { label: 'Material Symbols Outlined', value: 'material-symbols-outlined' },
+        { label: 'Material Symbols Rounded', value: 'material-symbols-rounded' },
+        { label: 'Material Symbols Sharp', value: 'material-symbols-sharp' },
         { label: 'MDI v6', value: 'mdi-v6' },
         { label: 'SVG MDI v6', value: 'svg-mdi-v6' },
         { label: 'SVG Ionicons v6', value: 'svg-ionicons-v6' },

@@ -20,6 +20,9 @@ const webfonts = [
   'material-icons-outlined',
   'material-icons-round',
   'material-icons-sharp',
+  'material-symbols-outlined',
+  'material-symbols-rounded',
+  'material-symbols-sharp',
   'roboto-font',
   'roboto-font-latin-ext'
 ]

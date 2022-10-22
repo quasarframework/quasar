@@ -11,6 +11,6 @@ export namespace dom {
   function height(el: Element): number;
   function width(el: Element): number;
   function css(el: Element, css: VueStyleObjectProp): void;
-  function cssBatch(elements: Element[], css: VueStyleObjectProp): void;
+  function cssBatch(elements: readonly Element[], css: VueStyleObjectProp): void;
   function ready<F extends (...args: any[]) => any>(fn: F): ReturnType<F>;
 }

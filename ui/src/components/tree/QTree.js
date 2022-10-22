@@ -68,6 +68,7 @@ export default createComponent({
 
     duration: Number,
     noConnectors: Boolean,
+    noTransition: Boolean,
 
     noNodesLabel: String,
     noResultsLabel: String
@@ -140,7 +141,6 @@ export default createComponent({
         const
           key = node[ props.nodeKey ],
           isParent = node[ props.childrenKey ] && node[ props.childrenKey ].length > 0,
-          isLeaf = isParent !== true,
           selectable = node.disabled !== true && hasSelection.value === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
@@ -166,7 +166,6 @@ export default createComponent({
           key,
           parent,
           isParent,
-          isLeaf,
           lazy: localLazy,
           disabled: node.disabled,
           link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || localLazy === true))),
@@ -186,7 +185,7 @@ export default createComponent({
           leafTicking,
           ticked: strictTicking === true
             ? innerTicked.value.includes(key)
-            : (isLeaf === true ? innerTicked.value.includes(key) : false)
+            : (isParent === true ? false : innerTicked.value.includes(key))
         }
 
         meta[ key ] = m
@@ -586,23 +585,37 @@ export default createComponent({
         ]),
 
         isParent === true
-          ? h(QSlideTransition, {
-            duration: props.duration,
-            onShow,
-            onHide
-          }, () => withDirectives(
-            h('div', {
-              class: 'q-tree__node-collapsible' + textColorClass.value,
-              key: `${ key }__q`
-            }, [
-              body,
-              h('div', {
-                class: 'q-tree__children'
-                  + (m.disabled === true ? ' q-tree__node--disabled' : '')
-              }, children)
-            ]),
-            [ [ vShow, m.expanded ] ]
-          ))
+          ? (
+              props.noTransition === true
+                ? h('div', {
+                  class: 'q-tree__node-collapsible' + textColorClass.value,
+                  key: `${ key }__q`
+                }, [
+                  body,
+                  h('div', {
+                    class: 'q-tree__children'
+                      + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                  }, m.expanded ? children : null)
+                ])
+
+                : h(QSlideTransition, {
+                  duration: props.duration,
+                  onShow,
+                  onHide
+                }, () => withDirectives(
+                  h('div', {
+                    class: 'q-tree__node-collapsible' + textColorClass.value,
+                    key: `${ key }__q`
+                  }, [
+                    body,
+                    h('div', {
+                      class: 'q-tree__children'
+                        + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                    }, children)
+                  ]),
+                  [ [ vShow, m.expanded ] ]
+                ))
+            )
           : body
       ])
     }
@@ -620,7 +633,7 @@ export default createComponent({
           emit('update:selected', meta.key !== props.selected ? meta.key : null)
         }
         else if (meta.key !== props.selected) {
-          emit('update:selected', meta.key || null)
+          emit('update:selected', meta.key === void 0 ? null : meta.key)
         }
       }
       else {
@@ -671,6 +684,8 @@ export default createComponent({
       }
     }
 
+    props.defaultExpandAll === true && expandAll()
+
     // expose public methods
     Object.assign(proxy, {
       getNodeByKey,
@@ -683,8 +698,6 @@ export default createComponent({
       isTicked,
       setTicked
     })
-
-    props.defaultExpandAll === true && expandAll()
 
     return () => {
       const children = getChildren(props.nodes)

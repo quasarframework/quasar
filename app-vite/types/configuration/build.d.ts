@@ -114,6 +114,27 @@ interface QuasarStaticBuildConfiguration {
   rawDefine?: { [index: string]: string };
 
   /**
+   * Build production assets with or without the hash part in filenames.
+   * Example: "454d87bd" in "assets/index.454d87bd.js"
+   *
+   * When used, please be careful how you configure your web server cache strategy as
+   * files will not change name so your client might get 304 (Not Modified) even when
+   * it's not the case.
+   *
+   * Will not change anything if your Vite config already touches the
+   * build.rollupOptions.output.entryFileNames/chunkFileNames/assetFileNames props.
+   *
+   * Gets applied to production builds only.
+   *
+   * Useful especially for (but not restricted to) PWA. If set to false then updating the
+   * PWA will force to re-download all assets again, regardless if they were changed or
+   * not (due to how Rollup works through Vite).
+   *
+   * @default true
+   */
+  useFilenameHashes?: boolean;
+
+  /**
    * whether to inject module preload polyfill.
    * @default false
    */
@@ -123,6 +144,13 @@ interface QuasarStaticBuildConfiguration {
    * @default false
    */
   ignorePublicFolder?: boolean;
+
+  /**
+   * Treeshake Quasar's UI on dev too?
+   * Recommended to leave this as false for performance reasons.
+   * @default false
+   */
+  devQuasarTreeshaking?: boolean;
 
   /**
    * Prepare external services before `$ quasar dev` command runs

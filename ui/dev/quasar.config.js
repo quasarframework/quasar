@@ -25,6 +25,9 @@ module.exports = function (ctx) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font',
+      'material-symbols-outlined',
+      'material-symbols-rounded',
+      'material-symbols-sharp',
       'material-icons-outlined',
       'material-icons-round',
       'material-icons-sharp',
@@ -39,6 +42,7 @@ module.exports = function (ctx) {
       //     class: 'mimi'
       //   }
       // },
+
       plugins: [
         'AddressbarColor',
         'AppFullscreen',
@@ -61,6 +65,10 @@ module.exports = function (ctx) {
     build: {
       vueRouterMode: 'history',
 
+      // needed otherwise we need to compile Quasar UI
+      // on each source file change:
+      devQuasarTreeshaking: true,
+
       alias: {
         'quasar/dist/quasar.sass': join(__dirname, '../src/css/index.sass'),
         'quasar/icon-set': join(__dirname, '../icon-set'),
@@ -74,7 +82,7 @@ module.exports = function (ctx) {
         viteConf.server.fs.allow = [ '..' ]
 
         if (isServer) {
-          viteConf.resolve.alias.quasar = join(__dirname, '../src/index.all.js')
+          viteConf.resolve.alias.quasar = join(__dirname, '../src/index.ssr.js')
         }
       }
     },

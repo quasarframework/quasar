@@ -1,3 +1,4 @@
+
 .q-pagination
   input
     text-align: center
@@ -7,3 +8,16 @@
   input::-webkit-inner-spin-button
     -webkit-appearance: none
     margin: 0
+
+  &__content
+    --q-pagination-gutter-parent: -2px
+    --q-pagination-gutter-child: 2px
+
+    margin-top: var(--q-pagination-gutter-parent)
+    margin-left: var(--q-pagination-gutter-parent)
+
+  &__content > .q-btn,
+  &__content > .q-input,
+  &__middle > .q-btn
+    margin-top: var(--q-pagination-gutter-child)
+    margin-left: var(--q-pagination-gutter-child)

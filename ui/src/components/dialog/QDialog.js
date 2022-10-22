@@ -47,6 +47,7 @@ export default createComponent({
 
     persistent: Boolean,
     autoClose: Boolean,
+    allowFocusOutside: Boolean,
 
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
@@ -93,7 +94,7 @@ export default createComponent({
     )
 
     const { preventBodyScroll } = usePreventScroll()
-    const { registerTimeout, removeTimeout } = useTimeout()
+    const { registerTimeout } = useTimeout()
     const { registerTick, removeTick } = useTick()
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
@@ -178,8 +179,6 @@ export default createComponent({
     })
 
     function handleShow (evt) {
-      removeTimeout()
-      removeTick()
       addToHistory()
 
       refocusTarget = props.noRefocus === false && document.activeElement !== null
@@ -194,7 +193,11 @@ export default createComponent({
         document.activeElement !== null && document.activeElement.blur()
         registerTick(focus)
       }
+      else {
+        removeTick()
+      }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         if (vm.proxy.$q.platform.is.ios === true) {
           if (props.seamless !== true && document.activeElement) {
@@ -230,7 +233,6 @@ export default createComponent({
     }
 
     function handleHide (evt) {
-      removeTimeout()
       removeTick()
       removeFromHistory()
       cleanup(true)
@@ -242,6 +244,7 @@ export default createComponent({
         refocusTarget = null
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         animating.value = false
@@ -351,7 +354,8 @@ export default createComponent({
     function onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
-        portalIsAccessible.value === true
+        props.allowFocusOutside !== true
+        && portalIsAccessible.value === true
         && childHasFocus(innerRef.value, evt.target) !== true
       ) {
         focus('[tabindex]:not([tabindex="-1"])')
@@ -372,6 +376,8 @@ export default createComponent({
 
     function renderPortalContent () {
       return h('div', {
+        role: 'dialog',
+        'aria-modal': useBackdrop.value === true ? 'true' : 'false',
         ...attrs,
         class: rootClasses.value
       }, [

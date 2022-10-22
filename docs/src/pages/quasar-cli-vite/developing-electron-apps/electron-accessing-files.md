@@ -34,6 +34,18 @@ import { app } from '@electron/remote'
 const filePath = path.join(app.getPath('userData'), '/some.file')
 ```
 
+If you import `@electron/remote` in your preload script, then you need to set the following in your `electron-main.js` where you instantiate BrowserWindow:
+
+```js
+mainWindow = new BrowserWindow({
+  // ...
+  webPreferences: {
+    // ...
+    sandbox: false // <-- to be able to import @electron/remote in preload script
+  }
+}
+```
+
 ## Accessing the Public Folder
 
 If for some reason, you have important files that you are storing in the /public folder, you can access those too by following the code below. To understand why you need to access them this way, please read the "Using __dirname & __filename" section above.

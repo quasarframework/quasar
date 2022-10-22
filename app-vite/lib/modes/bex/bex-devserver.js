@@ -1,5 +1,5 @@
 
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const chokidar = require('chokidar')
 const { copySync } = require('fs-extra')
 

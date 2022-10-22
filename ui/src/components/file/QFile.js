@@ -103,6 +103,11 @@ export default createComponent({
       disabled: state.editable.value !== true
     }))
 
+    const fieldClass = computed(() =>
+      'q-file q-field--auto-height'
+      + (dnd.value === true ? ' q-file--dnd' : '')
+    )
+
     const isAppending = computed(() =>
       props.multiple === true && props.append === true
     )
@@ -142,6 +147,11 @@ export default createComponent({
 
     function addFilesToQueue (e, fileList) {
       const files = processFiles(e, fileList, innerValue.value, isAppending.value)
+      const fileInput = getFileInput()
+
+      if (fileInput !== void 0 && fileInput !== null) {
+        fileInput.value = ''
+      }
 
       // if nothing to do...
       if (files === void 0) { return }
@@ -235,7 +245,7 @@ export default createComponent({
     }
 
     Object.assign(state, {
-      fieldClass: { value: 'q-file q-field--auto-height' },
+      fieldClass,
       emitValue,
       hasValue,
       inputRef,

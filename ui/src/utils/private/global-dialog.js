@@ -41,7 +41,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         ? parentApp.component(component)
         : component
 
-      props = componentProps
+      props = componentProps || {}
     }
     else {
       const { class: klass, style, ...otherProps } = pluginProps
@@ -59,19 +59,31 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
     const applyState = cmd => {
       if (dialogRef.value !== null && dialogRef.value[ cmd ] !== void 0) {
         dialogRef.value[ cmd ]()
+        return
       }
-      else if (
+
+      const target = vm.$.subTree
+
+      if (target && target.component) {
         // account for "script setup" way of declaring component
-        vm.$.subTree
-        && vm.$.subTree.component
-        && vm.$.subTree.component.proxy
-        && vm.$.subTree.component.proxy[ cmd ]
-      ) {
-        vm.$.subTree.component.proxy[ cmd ]()
+        if (target.component.proxy && target.component.proxy[ cmd ]) {
+          target.component.proxy[ cmd ]()
+          return
+        }
+
+        // account for "script setup" + async component way of declaring component
+        if (
+          target.component.subTree
+          && target.component.subTree.component
+          && target.component.subTree.component.proxy
+          && target.component.subTree.component.proxy[ cmd ]
+        ) {
+          target.component.subTree.component.proxy[ cmd ]()
+          return
+        }
       }
-      else {
-        console.error('[Quasar] Incorrectly defined Dialog component')
-      }
+
+      console.error('[Quasar] Incorrectly defined Dialog component')
     }
 
     const
@@ -137,24 +149,18 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         ...props,
         ref: dialogRef,
         onOk,
-        onHide
+        onHide,
+        onVnodeMounted (...args) {
+          if (typeof props.onVnodeMounted === 'function') {
+            props.onVnodeMounted(...args)
+          }
+
+          nextTick(() => applyState('show'))
+        }
       })
     }, parentApp)
 
     vm = app.mount(el)
-
-    function show () {
-      applyState('show')
-    }
-
-    if (typeof DialogComponent.__asyncLoader === 'function') {
-      DialogComponent.__asyncLoader().then(() => {
-        nextTick(show)
-      })
-    }
-    else {
-      nextTick(show)
-    }
 
     return API
   }

@@ -49,13 +49,6 @@ export default createComponent({
       }
     })
 
-    // expose public methods
-    Object.assign(proxy, {
-      show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
-      hide (evt) { popupRef.value.hide(evt) },
-      toggle (evt) { popupRef.value.toggle(evt) }
-    })
-
     function onShow (evt) {
       showing.value = true
       emit('show', evt)
@@ -66,6 +59,13 @@ export default createComponent({
       type.value = getType()
       emit('hide', evt)
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
+      hide (evt) { popupRef.value.hide(evt) },
+      toggle (evt) { popupRef.value.toggle(evt) }
+    })
 
     return () => {
       const data = {

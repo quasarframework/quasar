@@ -5,7 +5,7 @@ import QBtn from '../btn/QBtn.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import clone from '../../utils/clone.js'
-import { isDeepEqual } from '../../utils/private/is.js'
+import { isDeepEqual } from '../../utils/is.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
@@ -58,16 +58,13 @@ export default createComponent({
     let validated = false
 
     const scope = computed(() => {
-      const acc = {
+      return injectProp({
         initialValue: initialValue.value,
         validate: props.validate,
         set,
         cancel,
         updatePosition
-      }
-
-      injectProp(acc, 'value', () => currentModel.value, val => { currentModel.value = val })
-      return acc
+      }, 'value', () => currentModel.value, val => { currentModel.value = val })
     })
 
     function set () {
@@ -135,15 +132,6 @@ export default createComponent({
       emit('hide')
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      set,
-      cancel,
-      show (e) { menuRef.value !== null && menuRef.value.show(e) },
-      hide (e) { menuRef.value !== null && menuRef.value.hide(e) },
-      updatePosition
-    })
-
     function getContent () {
       const child = slots.default !== void 0
         ? [].concat(slots.default(scope.value))
@@ -172,6 +160,15 @@ export default createComponent({
 
       return child
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      set,
+      cancel,
+      show (e) { menuRef.value !== null && menuRef.value.show(e) },
+      hide (e) { menuRef.value !== null && menuRef.value.hide(e) },
+      updatePosition
+    })
 
     return () => {
       if (props.disable === true) { return }

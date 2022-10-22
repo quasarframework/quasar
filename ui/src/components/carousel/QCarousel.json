@@ -75,7 +75,6 @@
       "desc": "Side to stick navigation to",
       "default": "bottom/right",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "left" ],
       "category": "content"
     },
 

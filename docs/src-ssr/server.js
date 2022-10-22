@@ -22,6 +22,10 @@ import compression from 'compression'
 export function create (/* { ... } */) {
   const app = express()
 
+  // attackers can use this header to detect apps running Express
+  // and then launch specifically-targeted attacks
+  app.disable('x-powered-by')
+
   // place here any middlewares that
   // absolutely need to run before anything else
   if (process.env.PROD) {
@@ -68,7 +72,7 @@ export function close ({ listenResult }) {
 
 const maxAge = process.env.DEV
   ? 0
-  : 1000 * 60 * 60 * 24 * 30
+  : 1000 * 60 * 60 * 1
 
 /**
   * Should return middleware that serves the indicated path

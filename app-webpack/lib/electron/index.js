@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 
 const { log, warn, fatal, success } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')

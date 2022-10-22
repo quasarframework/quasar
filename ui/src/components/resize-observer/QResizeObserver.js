@@ -53,25 +53,26 @@ export default createComponent({
       }
     }
 
-    const vm = getCurrentInstance()
-
-    // expose public methods
-    Object.assign(vm.proxy, { trigger })
+    const { proxy } = getCurrentInstance()
 
     if (hasObserver === true) {
       let observer
 
-      onMounted(() => {
-        nextTick(() => {
-          targetEl = vm.proxy.$el.parentNode
+      // initialize as soon as possible
+      const init = stop => {
+        targetEl = proxy.$el.parentNode
 
-          if (targetEl) {
-            observer = new ResizeObserver(trigger)
-            observer.observe(targetEl)
-            emitEvent()
-          }
-        })
-      })
+        if (targetEl) {
+          observer = new ResizeObserver(trigger)
+          observer.observe(targetEl)
+          emitEvent()
+        }
+        else if (stop !== true) {
+          nextTick(() => { init(true) })
+        }
+      }
+
+      onMounted(() => { init() })
 
       onBeforeUnmount(() => {
         clearTimeout(timer)
@@ -117,12 +118,15 @@ export default createComponent({
 
       onMounted(() => {
         nextTick(() => {
-          targetEl = vm.proxy.$el
+          targetEl = proxy.$el
           targetEl && onObjLoad()
         })
       })
 
       onBeforeUnmount(cleanup)
+
+      // expose public method
+      proxy.trigger = trigger
 
       return () => {
         if (canRender.value === true) {

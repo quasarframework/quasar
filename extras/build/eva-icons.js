@@ -16,7 +16,7 @@ const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/`)
 const iconTypes = ['fill', 'outline']
-const iconNames = new Set()
+let iconNames = new Set()
 
 const svgExports = []
 const typeExports = []
@@ -45,6 +45,17 @@ iconTypes.forEach(type => {
   })
 })
 
+iconNames = [...iconNames]
+svgExports.sort((a, b) => {
+  return ('' + a).localeCompare(b)
+})
+typeExports.sort((a, b) => {
+  return ('' + a).localeCompare(b)
+})
+iconNames.sort((a, b) => {
+  return ('' + a).localeCompare(b)
+})
+
 writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skipped)
 
 // then update webfont files
@@ -65,4 +76,4 @@ webfont.forEach(file => {
 const file = resolve(__dirname, join('..', distName, 'icons.json'))
 writeFileSync(file, JSON.stringify([...iconNames].sort(), null, 2), 'utf-8')
 
-console.log(`${distName} done with ${iconNames.size} icons`)
+console.log(`${distName} done with ${iconNames.length} icons`)

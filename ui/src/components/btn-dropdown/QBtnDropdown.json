@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/btn/use-btn", "composables/private/use-model-toggle" ],
+  "mixins": [ "components/btn/use-btn", "composables/private/use-model-toggle", "composables/private/use-transition" ],
 
   "meta": {
     "docsUrl": "https://v2.quasar.dev/vue-components/button-dropdown"
@@ -97,7 +97,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "bottom end",
-      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -110,7 +109,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "top end",
-      "examples": [ "top right", "bottom end" ],
       "category": "position"
     },
 
@@ -119,6 +117,14 @@
       "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
       "examples": [ "[8, 8]", "[5, 10]" ],
       "category": "position"
+    },
+
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the dropdown toggle element",
+      "examples": [ "Open menu" ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
     }
   },
 
@@ -129,6 +135,11 @@
 
     "label": {
       "desc": "Customize main button's content through this slot, unless you're using the 'icon' and 'label' props"
+    },
+
+    "loading": {
+      "desc": "Override the default QSpinner when in 'loading' state",
+      "addedIn": "v2.8"
     }
   },
 

@@ -14,7 +14,9 @@ export default {
     create: 'Opret',
     search: 'Søg',
     filter: 'Filtrer',
-    refresh: 'Opdater'
+    refresh: 'Opdater',
+    expand: label => (label ? `Udvid "${ label }"` : 'Udvide'),
+    collapse: label => (label ? `Skjul "${ label }"` : 'Bryder sammen')
   },
   date: {
     days: 'Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag'.split('_'),

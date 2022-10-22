@@ -1,7 +1,19 @@
 import { h } from 'vue'
-import { QBadge } from 'quasar'
+import { QBadge, Notify } from 'quasar'
+import { copyToClipboard } from 'assets/page-utils'
 
 import './DocApiEntry.sass'
+
+function copyPropName (propName) {
+  copyToClipboard(propName)
+
+  Notify.create({
+    message: 'The name has been copied to clipboard.',
+    position: 'top',
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
+    timeout: 2000
+  })
+}
 
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0
@@ -66,9 +78,9 @@ function getNameDiv (label, level) {
   return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
     h('div', { class: 'api-row__value' }, [
       h(QBadge, {
+        class: 'api-row__pill',
         color: NAME_PROP_COLOR[ level ],
-        label,
-        style: 'font-size: 1em; line-height: 1.2em'
+        label
       })
     ])
   ])
@@ -79,9 +91,10 @@ function getExtendedNameDiv (label, level, type, required, addedIn) {
 
   const child = [
     h(QBadge, {
-      color: NAME_PROP_COLOR[ level ],
+      class: 'api-row__pill cursor-pointer',
       label,
-      style: 'font-size: 1em; line-height: 1.2em'
+      color: NAME_PROP_COLOR[ level ],
+      onClick: () => { copyPropName(label) }
     }),
     suffix
   ]
@@ -264,7 +277,7 @@ function getProp (prop, propName, level, onlyChildren) {
 
 const describe = {}
 
-describe.props = props => {
+const describePropsLike = props => {
   const child = []
 
   for (const propName in props) {
@@ -275,18 +288,9 @@ describe.props = props => {
 
   return child
 }
-
-describe.slots = slots => {
-  const child = []
-
-  for (const slot in slots) {
-    child.push(
-      getProp(slots[ slot ], slot, 0)
-    )
-  }
-
-  return child
-}
+describe.props = describePropsLike
+describe.computedProps = describePropsLike
+describe.slots = describePropsLike
 
 describe.events = events => {
   const child = []
@@ -433,9 +437,9 @@ describe.quasarConfOptions = conf => {
       h('div', { class: 'api-row__value' }, [
         h('span', { class: 'api-row__type text-grey' }, 'quasar.config.js > framework > config > '),
         h(QBadge, {
+          class: 'api-row__pill',
           color: NAME_PROP_COLOR[ 0 ],
-          label: conf.propName,
-          style: 'font-size: 1em; line-height: 1.2em'
+          label: conf.propName
         })
       ])
     ])

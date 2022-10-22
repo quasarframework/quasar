@@ -7,7 +7,7 @@ import usePanel, { usePanelProps, usePanelEmits } from '../../composables/privat
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { isNumber } from '../../utils/private/is.js'
+import { isNumber } from '../../utils/is.js'
 import { hMergeSlot, hDir } from '../../utils/private/render.js'
 
 const navigationPositionOptions = [ 'top', 'right', 'bottom', 'left' ]

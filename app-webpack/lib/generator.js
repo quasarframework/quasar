@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const compileTemplate = require('lodash.template')
+const compileTemplate = require('lodash/template')
 
 const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')

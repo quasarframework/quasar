@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { isNumber } from '../../utils/private/is.js'
+import { isNumber } from '../../utils/is.js'
 
 export const useTableColumnSelectionProps = {
   visibleColumns: Array

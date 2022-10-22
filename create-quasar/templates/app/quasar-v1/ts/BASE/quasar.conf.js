@@ -17,7 +17,10 @@ module.exports = configure(function (/* ctx */) {
     // https://v1.quasar.dev/quasar-cli/supporting-ts
     supportTS: <% if (preset.lint) { %>{
       tsCheckerConfig: {
-        eslint: true
+        eslint: {
+          enabled: true,
+          files: './src/**/*.{ts,tsx,js,jsx,vue}',
+        },
       }
     }<% } else { %>true<% } %>,
 
@@ -28,7 +31,6 @@ module.exports = configure(function (/* ctx */) {
     // --> boot files are part of "main.js"
     // https://v1.quasar.dev/quasar-cli/boot-files
     boot: [
-      <% if (typescriptConfig === 'composition') { %>'composition-api',<% } %>
       <% if (preset.i18n) { %>'i18n',<% } %>
       <% if (preset.axios) { %>'axios',<% } %>
     ],

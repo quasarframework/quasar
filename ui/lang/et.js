@@ -19,7 +19,9 @@ module.exports = {
     create: 'Loo',
     search: 'Otsi',
     filter: 'Filtreeri',
-    refresh: 'Värskenda'
+    refresh: 'Värskenda',
+    expand: label => (label ? `Laienda "${ label }"` : 'Laienda'),
+    collapse: label => (label ? `Ahenda "${ label }"` : 'Ahenda')
   },
   date: {
     days: 'pühapäev_esmaspäev_teisipäev_kolmapäev_neljapäev_reede_laupäev'.split('_'),

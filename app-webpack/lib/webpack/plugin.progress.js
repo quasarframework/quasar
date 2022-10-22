@@ -1,5 +1,5 @@
 const { ProgressPlugin } = require('webpack')
-const throttle = require('lodash.throttle')
+const throttle = require('lodash/throttle')
 const chalk = require('chalk')
 
 const appPaths = require('../app-paths')

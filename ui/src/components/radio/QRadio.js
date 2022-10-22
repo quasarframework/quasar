@@ -1,4 +1,4 @@
-import { h, ref, computed, getCurrentInstance } from 'vue'
+import { h, ref, computed, getCurrentInstance, toRaw } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -15,8 +15,7 @@ import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 const svg = h('svg', {
   key: 'svg',
   class: 'q-radio__bg absolute non-selectable',
-  viewBox: '0 0 24 24',
-  'aria-hidden': 'true'
+  viewBox: '0 0 24 24'
 }, [
   h('path', {
     d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
@@ -64,7 +63,7 @@ export default createComponent({
     const rootRef = ref(null)
     const { refocusTargetEl, refocusTarget } = useRefocusTarget(props, rootRef)
 
-    const isTrue = computed(() => props.modelValue === props.val)
+    const isTrue = computed(() => toRaw(props.modelValue) === toRaw(props.val))
 
     const classes = computed(() =>
       'q-radio cursor-pointer no-outline row inline no-wrap items-center'
@@ -161,7 +160,8 @@ export default createComponent({
       const child = [
         h('div', {
           class: innerClass.value,
-          style: sizeStyle.value
+          style: sizeStyle.value,
+          'aria-hidden': 'true'
         }, content)
       ]
 

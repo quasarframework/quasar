@@ -26,10 +26,12 @@ export default createComponent({
     ...useBtnProps,
 
     percentage: Number,
-    darkPercentage: Boolean
+    darkPercentage: Boolean,
+
+    onTouchstart: [ Function, Array ]
   },
 
-  emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
+  emits: [ 'click', 'keydown', 'mousedown', 'keyup' ],
 
   setup (props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
@@ -37,7 +39,7 @@ export default createComponent({
     const {
       classes, style, innerClasses,
       attributes,
-      hasRouterLink, hasLink, linkTag, navigateToRouterLink,
+      hasLink, linkTag, navigateOnClick,
       isActionable
     } = useBtn(props)
 
@@ -72,7 +74,7 @@ export default createComponent({
       if (props.loading === true) {
         return {
           onMousedown: onLoadingEvt,
-          onTouchstartPassive: onLoadingEvt,
+          onTouchstart: onLoadingEvt,
           onClick: onLoadingEvt,
           onKeydown: onLoadingEvt,
           onKeyup: onLoadingEvt
@@ -80,12 +82,21 @@ export default createComponent({
       }
 
       if (isActionable.value === true) {
-        return {
+        const acc = {
           onClick,
           onKeydown,
-          onMousedown,
-          onTouchstart
+          onMousedown
         }
+
+        if (proxy.$q.platform.has.touch === true) {
+          const suffix = props.onTouchstart !== void 0
+            ? ''
+            : 'Passive'
+
+          acc[ `onTouchstart${ suffix }` ] = onTouchstart
+        }
+
+        return acc
       }
 
       return {
@@ -135,18 +146,7 @@ export default createComponent({
         }
       }
 
-      if (hasRouterLink.value === true) {
-        const go = () => {
-          e.__qNavigate = true
-          navigateToRouterLink(e)
-        }
-
-        emit('click', e, go)
-        e.defaultPrevented !== true && go()
-      }
-      else {
-        emit('click', e)
-      }
+      navigateOnClick(e)
     }
 
     function onKeydown (e) {
@@ -329,10 +329,10 @@ export default createComponent({
       if (props.loading === true && props.percentage !== void 0) {
         child.push(
           h('span', {
-            class: 'q-btn__progress absolute-full overflow-hidden'
+            class: 'q-btn__progress absolute-full overflow-hidden' + (props.darkPercentage === true ? ' q-btn__progress--dark' : '')
           }, [
             h('span', {
-              class: 'q-btn__progress-indicator fit block' + (props.darkPercentage === true ? ' q-btn__progress--dark' : ''),
+              class: 'q-btn__progress-indicator fit block',
               style: percentageStyle.value
             })
           ])

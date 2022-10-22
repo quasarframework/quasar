@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, nextTick, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, nextTick, getCurrentInstance } from 'vue'
 
 import Caret from './editor-caret.js'
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
@@ -400,27 +400,12 @@ export default createComponent({
       }
     }
 
-    function onMousedown () {
+    function onPointerStart () {
       offsetBottom = void 0
     }
 
-    function onMouseup (e) {
+    function onSelectionchange (e) {
       eVm.caret.save()
-      emit('mouseup', e)
-    }
-
-    function onTouchstartPassive () {
-      offsetBottom = void 0
-    }
-
-    function onKeyup (e) {
-      eVm.caret.save()
-      emit('keyup', e)
-    }
-
-    function onTouchend (e) {
-      eVm.caret.save()
-      emit('touchend', e)
     }
 
     function setContent (v, restorePosition) {
@@ -468,15 +453,21 @@ export default createComponent({
       return contentRef.value
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      runCmd, refreshToolbar, focus, getContentEl
-    })
-
     onMounted(() => {
       eVm.caret = proxy.caret = new Caret(contentRef.value, eVm)
       setContent(props.modelValue)
       refreshToolbar()
+
+      document.addEventListener('selectionchange', onSelectionchange)
+    })
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('selectionchange', onSelectionchange)
+    })
+
+    // expose public methods
+    Object.assign(proxy, {
+      runCmd, refreshToolbar, focus, getContentEl
     })
 
     return () => {
@@ -532,13 +523,8 @@ export default createComponent({
           onFocus,
 
           // clean saved scroll position
-          onMousedown,
-          onTouchstartPassive,
-
-          // save caret
-          onMouseup,
-          onKeyup,
-          onTouchend
+          onMousedown: onPointerStart,
+          onTouchstartPassive: onPointerStart
         })
       ])
     }

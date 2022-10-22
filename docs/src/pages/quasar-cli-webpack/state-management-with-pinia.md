@@ -19,7 +19,32 @@ We won't go into details on how to configure or use Pinia since it has great doc
 
 When you scaffold a Quasar project folder you can choose to add Pinia. It will create all the necessary configuration for you. Like for example the creation of `/src/stores` which handles all the Pinia related code that you need.
 
-If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.[js|ts]` file.
+If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.[js|ts]` file (it's automatically created when you run `quasar new store <name>`):
+
+```js
+// src/stores/index.js
+
+import { store } from 'quasar/wrappers'
+import { createPinia } from 'pinia'
+
+/*
+ * If not building with SSR mode, you can
+ * directly export the Store instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Store instance.
+ */
+
+export default store((/* { ssrContext } */) => {
+  const pinia = createPinia()
+
+  // You can add Pinia plugins here
+  // pinia.use(SomePiniaPlugin)
+
+  return pinia
+})
+```
 
 
 ## Adding a Pinia store
@@ -66,25 +91,103 @@ We've created the new Pinia store, but we haven't yet used it in our app. In a V
 ```html
 <template>
   <div>
-    <q-toggle v-model="store.counter" />
+    <!-- Option 1 -->
+    <div>Direct store</div>
+    <!-- Read the state value directly -->
+    <div>{{ store.counter }}</div>
+    <!-- Use getter directly -->
+    <div>{{ store.doubleCount }}</div>
+
+    <!-- Manipulate state directly -->
+    <q-btn @click="store.counter--">-</q-btn>
+    <!-- Use an action -->
+    <q-btn @click="store.increment()">+</q-btn>
+  </div>
+
+  <div>
+    <!-- Option 2 -->
+    <div>Indirect store</div>
+    <!-- Use the computed state -->
+    <div>{{ count }}</div>
+    <!-- Use the computed getter -->
+    <div>{{ doubleCountValue }}</div>
+
+    <!-- Use the exposed function -->
+    <q-btn @click="decrementCount()">-</q-btn>
+    <!-- Use the exposed function -->
+    <q-btn @click="incrementCount()">+</q-btn>
+  </div>
+
+  <div>
+    <!-- Option 3 -->
+    <div>Destructured store</div>
+    <!-- Use the destructured state -->
+    <div>{{ counter }}</div>
+    <!-- Use the destructured getter -->
+    <div>{{ doubleCount }}</div>
+
+    <!-- Manipulate state directly-->
+    <q-btn @click="counter--">-</q-btn>
+    <!-- Use an action -->
+    <q-btn @click="increment()">+</q-btn>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useCounterStore } from 'stores/counter'
+import { computed } from 'vue';
+import { useCounterStore } from 'stores/counter';
+import { storeToRefs } from 'pinia';
 
 export default {
-  setup () {
-    const store = useCounterStore()
+  setup() {
+    const store = useCounterStore();
+
+    // Option 2: use computed and functions to use the store
+    const count = computed(() => store.counter);
+    const doubleCountValue = computed(() => store.doubleCount);
+    const incrementCount = () => store.increment(); // use action
+    const decrementCount = () => store.counter--; // manipulate directly
+
+    // Option 3: use destructuring to use the store in the template
+    const { counter, doubleCount } = storeToRefs(store); // state and getters need "storeToRefs"
+    const { increment } = store; // actions can be destructured directly
 
     return {
-      // you can return the whole store instance to use it in the template
-      store
-    }
-  }
-}
+      // Option 1: return the store directly and couple it in the template
+      store,
+
+      // Option 2: use the store in functions and compute the state to use in the template
+      count,
+      doubleCountValue,
+      incrementCount,
+      decrementCount,
+
+      // Option 3: pass the destructed state, getters and actions to the template
+      counter,
+      increment,
+      doubleCount,
+    };
+  },
+};
 </script>
 ```
 
 More info on defining a Pinia store [here](https://pinia.vuejs.org/core-concepts/).
+
+## Accessing the router in Pinia stores
+
+Simply use `this.router` in Pinia stores to get access to the router.
+
+Here is an example:
+```js
+import { defineStore } from 'pinia'
+
+export const useWhateverStore = defineStore('whatever', {
+  // ...
+  actions: {
+    whateverAction () {
+      this.router.push('...')
+    }
+  }
+}
+```
