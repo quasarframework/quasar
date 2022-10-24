@@ -7,7 +7,7 @@ import BaseDirectoryStructure from '../BaseDirectoryStructure.vue'
 import structure from './structure'
 
 export default {
-  name: 'AppWebpackDirectoryStructure',
+  name: 'AppViteDirectoryStructure',
 
   components: {
     BaseDirectoryStructure
