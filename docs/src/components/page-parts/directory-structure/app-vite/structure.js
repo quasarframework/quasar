@@ -151,15 +151,15 @@ export default {
     },
     {
       label: '.editorconfig',
-      comment: 'Editor config'
+      comment: 'EditorConfig file'
     },
     {
       label: '.eslintignore',
-      comment: 'ESlint ignore paths'
+      comment: 'ESLint ignore paths'
     },
     {
       label: '.eslintrc.js',
-      comment: 'ESlint config'
+      comment: 'ESLint config'
     },
     {
       label: 'postcss.config.js',
@@ -167,11 +167,11 @@ export default {
     },
     {
       label: 'jsconfig.json',
-      comment: 'Editor config (if not using Typescript)'
+      comment: 'Editor config (if not using TypeScript)'
     },
     {
       label: 'tsconfig.json',
-      comment: 'Typescript config'
+      comment: 'TypeScript config'
     },
     {
       label: 'package.json',
@@ -179,7 +179,7 @@ export default {
     },
     {
       label: 'README.md',
-      comment: 'Eeadme for your website/App'
+      comment: 'Readme for your website/App'
     }
   ]
 }

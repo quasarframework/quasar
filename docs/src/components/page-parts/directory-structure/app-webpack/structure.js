@@ -151,19 +151,27 @@ export default {
     },
     {
       label: '.editorconfig',
-      comment: 'Editor config'
+      comment: 'EditorConfig file'
     },
     {
       label: '.eslintignore',
-      comment: 'ESlint ignore paths'
+      comment: 'ESLint ignore paths'
     },
     {
       label: '.eslintrc.js',
-      comment: 'ESlint config'
+      comment: 'ESLint config'
     },
     {
       label: '.postcssrc.js',
       comment: 'PostCSS config'
+    },
+    {
+      label: 'jsconfig.json',
+      comment: 'Editor config (if not using TypeScript)'
+    },
+    {
+      label: 'tsconfig.json',
+      comment: 'TypeScript config'
     },
     {
       label: '.gitignore',
@@ -175,7 +183,7 @@ export default {
     },
     {
       label: 'README.md',
-      comment: 'Eeadme for your website/App'
+      comment: 'Readme for your website/App'
     }
   ]
 }
