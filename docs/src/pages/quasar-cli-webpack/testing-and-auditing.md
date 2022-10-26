@@ -1,9 +1,9 @@
 ---
 title: Testing & Auditing
-desc: (@quasar/app-webpack) How to unit and end to end test a Quasar app and also how to audit for quality and security.
+desc: (@quasar/app-webpack) How to unit and end to end test a Quasar app.
 ---
 
-Your Quasar projects have the ability to add unit and e2e testing harnesses. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing/tree/dev). If you are a beginner, consider reading one of the books in the "Further Reading" section.
+Your Quasar projects have the ability to add unit and e2e testing harnesses. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [testing repo at GitHub](https://github.com/quasarframework/quasar-testing/tree/dev). If you are a beginner, consider reading one of the books in the "Further Reading" section.
 
 ## High level overview
 
@@ -13,10 +13,11 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 
 ## Testing documentation
 
-Most Testing AEs have been migrated to be Qv2-compatible, but since some are still in alpha or beta phase existing documentation website (https://testing.quasar.dev) still refer to Qv1 AEs.
-You can find the updated documentation into `dev` branch of quasar-testing repo.
+You can find the documentation of testing AEs at https://testing.quasar.dev or into [`dev` branch](https://github.com/quasarframework/quasar-testing/tree/dev) of quasar-testing repo.
 
-<q-btn color="brand-primary" label="Testing repo @dev branch" icon-right="launch" no-caps href="https://github.com/quasarframework/quasar-testing/tree/dev" target="_blank" />
+You can find the documentation of testing AEs compatible with Quasar v1 into [`qv1` branch](https://github.com/quasarframework/quasar-testing/tree/qv1) of quasar-testing repo.
+
+<q-btn color="brand-primary" label="Testing AEs documentation" icon-right="launch" no-caps href="https://testing.quasar.dev" target="_blank" />
 
 ## Installing
 
@@ -36,7 +37,7 @@ $ quasar test --unit jest --dev="-m pwa"
 
 If you ever need to review your choices you can take a look at `quasar.extensions.json`.
 
-If you don't want to install the base package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone, but you won't have the tight integration with the `quasar test` command functionality.
+If you don't want to install the helper package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone, but you won't have the `quasar test` command functionality.
 
 ## Further Reading
 
