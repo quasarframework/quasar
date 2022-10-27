@@ -50,8 +50,7 @@ describe('use-btn API', () => {
             }
           })
 
-          cy.get('.q-btn')
-            .get('.absolute-full.flex.flex-center').should('exist')
+          cy.get('.q-btn .q-spinner')
         })
       })
     })
@@ -80,7 +79,7 @@ describe('use-btn API', () => {
             }
           })
 
-          cy.get('.q-btn').should('contain', icon)
+          cy.get('.q-btn .on-left').should('contain', icon)
         })
       })
 
@@ -94,7 +93,7 @@ describe('use-btn API', () => {
             }
           })
 
-          cy.get('.q-btn').should('contain', iconRight)
+          cy.get('.q-btn .on-right').should('contain', iconRight)
         })
       })
 
@@ -191,14 +190,16 @@ describe('use-btn API', () => {
 
       describe('(prop): tabindex', () => {
         it('should set the tabindex', () => {
+          const tabindex = 1
+
           mountQBtn({
             props: {
-              tabindex: 1
+              tabindex
             }
           })
 
           cy.get('.q-btn')
-            .should('have.attr', 'tabindex', '1')
+            .should('have.attr', 'tabindex', tabindex)
         })
       })
     })
@@ -238,7 +239,7 @@ describe('use-btn API', () => {
       })
 
       describe('(prop): href', () => {
-        it('should render a component with <a> tag and "href" attribute', () => {
+        it('should render a component with <a> tag when "href" attribute is set', () => {
           const href = 'https://quasar.dev'
 
           mountQBtn({
@@ -254,7 +255,7 @@ describe('use-btn API', () => {
       })
 
       describe('(prop): target', () => {
-        it('should render a component with <a> tag and "target" attribute', () => {
+        it('should render a component with <a> tag when "href" and "target" attributes are set', () => {
           const href = 'https://quasar.dev'
 
           mountQBtn({

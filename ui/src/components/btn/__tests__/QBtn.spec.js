@@ -87,7 +87,7 @@ describe('Btn API', () => {
           }
         })
 
-        cy.get('.q-btn').contains(loadingSlot)
+        cy.get('.q-btn').should('contain', loadingSlot).contains(defaultOptions.label).should('not.be.visible')
       })
     })
   })
