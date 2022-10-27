@@ -91,11 +91,11 @@ Pick `Quasar CLI with Vite` if you want:
     We strongly recommend to pick the first choice and be able to run commands directly. Actually, you'll be able to do even more than just this (eg. "quasar upgrade" or "quasar serve" commands). For this, you'll need to globally install the `@quasar/cli` package:
 
     ```bash
-    $ yarn global add @quasar/cli
+    $ sudo yarn global add @quasar/cli
     # or
-    $ npm install -g @quasar/cli
+    $ sudo npm install -g @quasar/cli
     # or
-    $ pnpm add -g @quasar/cli # experimental support
+    $ sudo pnpm add -g @quasar/cli # experimental support
     ```
 
     ::: tip
