@@ -27,7 +27,6 @@ Shortlist :memo:
 - [ ] QInput (400+)
 - [ ] QDialog (400+)
 - [ ] QTable (300+)
-- [ ] QButton (230+)
 - [ ] QDate (150+)
 - [ ] QEditor (100+)
 - [ ] QTabs (100+)
@@ -37,14 +36,15 @@ In progress :clap:
 - [x] QSelect (600+)
 
 Done :white_check_mark:
-- [x] QMenu (140+)
-- [x] QChip (100+)
 - [x] QAvatar
 - [x] QBadge
 - [x] QBanner
 - [x] QBar
 - [x] QBreadcrumbs
 - [x] QBreadcrumbsEl 
+- [x] QButton (230+)
+- [x] QChip (100+)
+- [x] QMenu (140+)
 
 ## Known issues
 Any help to resolve these issues is welcome.
