@@ -35,7 +35,7 @@ export default Vue.extend({
     },
 
     '$q.lang.rtl' () {
-      this.trigger(true)
+      this.__emit()
     }
   },
 
