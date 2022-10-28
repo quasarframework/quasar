@@ -407,7 +407,9 @@ export default createComponent({
       setScrollPercentage (axis, percentage, duration) {
         localSetScrollPosition(
           axis,
-          percentage * (scroll[ axis ].size.value - container[ axis ].value) * (axis === 'horizontal' && proxy.$q.lang.rtl === true ? -1 : 1),
+          percentage
+            * (scroll[ axis ].size.value - container[ axis ].value)
+            * (axis === 'horizontal' && proxy.$q.lang.rtl === true ? -1 : 1),
           duration
         )
       }
