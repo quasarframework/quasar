@@ -117,12 +117,21 @@
     },
 
     "getNativeElement": {
-      "desc": "Get the native input/textarea DOM Element",
+      "desc": "DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element",
       "returns": {
         "type": "Object",
         "desc": "The underlying native input/textarea DOM Element",
         "__exemption": [ "examples" ]
       }
+    }
+  },
+
+  "computedProps": {
+    "nativeEl": {
+      "type": "Element",
+      "desc": "The native input/textarea DOM Element",
+      "__exemption": [ "examples" ],
+      "addedIn": "v2.10.1"
     }
   }
 }

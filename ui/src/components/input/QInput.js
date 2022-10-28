@@ -9,6 +9,7 @@ import useKeyComposition from '../../composables/private/use-key-composition.js'
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QInput',
@@ -415,8 +416,10 @@ export default createComponent({
     Object.assign(proxy, {
       focus,
       select,
-      getNativeElement: () => inputRef.value
+      getNativeElement: () => inputRef.value // deprecated
     })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
 
     return renderFn
   }

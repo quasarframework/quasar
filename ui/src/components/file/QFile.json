@@ -173,12 +173,21 @@
     },
 
     "getNativeElement": {
-      "desc": "Get the native input DOM Element",
+      "desc": "DEPRECATED; Access 'nativeEl' directly; Gets the native input DOM Element",
       "returns": {
         "type": "Object",
         "desc": "The underlying native input DOM Element",
         "__exemption": [ "examples" ]
       }
+    }
+  },
+
+  "computedProps": {
+    "nativeEl": {
+      "type": "Element",
+      "desc": "The native input DOM Element",
+      "__exemption": [ "examples" ],
+      "addedIn": "v2.10.1"
     }
   }
 }
