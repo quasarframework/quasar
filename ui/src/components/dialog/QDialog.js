@@ -239,13 +239,22 @@ export default createComponent({
           return
         }
 
-        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
+        node = (selector !== '' ? node.querySelector(selector) : null)
+          || node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+          || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+          || node.querySelector('[autofocus], [data-autofocus]')
+          || node
         node.focus({ preventScroll: true })
       })
     }
 
-    function shake () {
-      focus()
+    function shake (refocusTarget) {
+      if (refocusTarget && typeof refocusTarget.focus === 'function') {
+        refocusTarget.focus()
+      }
+      else {
+        focus()
+      }
       emit('shake')
 
       const node = innerRef.value
@@ -326,7 +335,7 @@ export default createComponent({
         hide(e)
       }
       else if (props.noShake !== true) {
-        shake()
+        shake(e.relatedTarget)
       }
     }
 
@@ -369,7 +378,8 @@ export default createComponent({
               class: 'q-dialog__backdrop fixed-full',
               style: transitionStyle.value,
               'aria-hidden': 'true',
-              onMousedown: onBackdropClick
+              tabindex: -1,
+              onFocusin: onBackdropClick
             })
             : null
         )),
