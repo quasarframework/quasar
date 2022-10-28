@@ -80,7 +80,7 @@ export default Vue.extend({
   render (h) {
     return h('transition', {
       props: {
-        name: this.transition,
+        ...this.transitionProps,
         appear: true
       }
     }, this.__getContent(h))

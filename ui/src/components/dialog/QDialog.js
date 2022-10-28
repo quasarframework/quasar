@@ -78,20 +78,11 @@ export default Vue.extend({
 
   data () {
     return {
-      transitionState: this.showing,
       animating: false
     }
   },
 
   watch: {
-    showing (val) {
-      if (this.transitionShowComputed !== this.transitionHideComputed) {
-        this.$nextTick(() => {
-          this.transitionState = val
-        })
-      }
-    },
-
     maximized (state) {
       this.showing === true && this.__updateMaximized(state)
     },
@@ -112,18 +103,20 @@ export default Vue.extend({
         (this.square === true ? ' q-dialog__inner--square' : '')
     },
 
-    transitionShowComputed () {
-      return 'q-transition--' + (this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow)
-    },
-
-    transitionHideComputed () {
-      return 'q-transition--' + (this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide)
-    },
-
-    transition () {
-      return this.transitionState === true
-        ? this.transitionHideComputed
-        : this.transitionShowComputed
+    transitionProps () {
+      const show = `q-transition--${this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow}`
+      const hide = `q-transition--${this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide}`
+      return {
+        enterClass: `${show}-enter`,
+        leaveClass: `${hide}-leave`,
+        appearClass: `${show}-appear`,
+        enterToClass: `${show}-enter-to`,
+        leaveToClass: `${hide}-leave-to`,
+        appearToClass: `${show}-appear-to`,
+        enterActiveClass: `${show}-enter-active`,
+        leaveActiveClass: `${hide}-leave-active`,
+        appearActiveClass: `${show}-appear-active`
+      }
     },
 
     useBackdrop () {
@@ -373,7 +366,7 @@ export default Vue.extend({
         ] : null),
 
         h('transition', {
-          props: { name: this.transition }
+          props: this.transitionProps
         }, [
           this.showing === true ? h('div', {
             ref: 'inner',
