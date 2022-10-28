@@ -250,11 +250,12 @@ export default createComponent({
 
     function shake (refocusTarget) {
       if (refocusTarget && typeof refocusTarget.focus === 'function') {
-        refocusTarget.focus()
+        refocusTarget.focus({ preventScroll: true })
       }
       else {
         focus()
       }
+
       emit('shake')
 
       const node = innerRef.value

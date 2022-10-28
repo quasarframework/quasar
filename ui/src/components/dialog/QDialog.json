@@ -127,14 +127,12 @@
 
     "shake": {
       "desc": "Shakes dialog",
-      "shake": {
-      "desc": "Shakes dialog",
       "params": {
         "focusTarget": {
           "type": "Element",
-          "desc": "Optional Element to be focused after shake",
+          "desc": "Optional DOM Element to be focused after shake",
           "examples": [ "document.getElementById('example')" ],
-          "addedIn": "v2.11"
+          "addedIn": "v2.10.1"
         }
       }
     }
