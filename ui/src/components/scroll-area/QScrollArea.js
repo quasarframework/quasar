@@ -364,7 +364,10 @@ export default createComponent({
 
     watch(() => proxy.$q.lang.rtl, rtl => {
       if (targetRef.value !== null) {
-        setHorizontalScrollPosition(targetRef.value, Math.abs(scroll.horizontal.position.value) * (rtl === true ? -1 : 1))
+        setHorizontalScrollPosition(
+          targetRef.value,
+          Math.abs(scroll.horizontal.position.value) * (rtl === true ? -1 : 1)
+        )
       }
     })
 
