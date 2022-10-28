@@ -73,6 +73,10 @@
       getScroll()
     </q-btn>
 
+    <q-separator spaced />
+    <pre class="inline-block" dir="ltr">{{ scrollDetails }}</pre>
+    <q-separator spaced />
+
     <div style="height: 250px" />
 
     <div class="row q-gutter-md">
@@ -142,7 +146,8 @@ export default {
       horizontal: false,
       alwaysVisible: true,
       customStyle: false,
-      focusable: true
+      focusable: true,
+      scrollDetails: null
     }
   },
 
@@ -192,20 +197,29 @@ export default {
       return this.customStyle === true
         ? { borderWidth: '2px 0', height: '24px' }
         : null
+    },
+
+    scrollSign () {
+      return this.axis === 'horizontal' && this.$q.lang.rtl === true ? -1 : 1
     }
   },
 
   methods: {
     scroll () {
-      this.$refs.scroll.setScrollPosition(this.axis, 125)
+      this.$refs.scroll.setScrollPosition(this.axis, 125 * this.scrollSign)
     },
     scroll2 () {
-      this.$refs.scroll.setScrollPosition(this.axis, 525, 1000)
+      this.$refs.scroll.setScrollPosition(this.axis, 525 * this.scrollSign, 1000)
     },
     scroll3 () {
       this.$refs.scroll.setScrollPercentage(this.axis, 0.9, 1000)
     },
     getInfo () {
+      this.scrollDetails = {
+        getScroll: this.$refs.scroll.getScroll(),
+        getScrollPosition: this.$refs.scroll.getScrollPosition(),
+        getScrollPercentage: this.$refs.scroll.getScrollPercentage()
+      }
       console.log('getScroll()', this.$refs.scroll.getScroll())
       console.log('getScrollPosition()', this.$refs.scroll.getScrollPosition())
       console.log('getScrollPercentage()', this.$refs.scroll.getScrollPercentage())

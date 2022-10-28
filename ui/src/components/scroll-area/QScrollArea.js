@@ -101,7 +101,7 @@ export default Vue.extend({
     horizontalScrollPercentage () {
       const diff = this.scroll.horizontal.size - this.container.horizontal
       if (diff <= 0) { return 0 }
-      const p = between(this.scroll.horizontal.position / diff, 0, 1)
+      const p = between(Math.abs(this.scroll.horizontal.position) / diff, 0, 1)
       return Math.round(p * 10000) / 10000
     },
 
@@ -162,7 +162,7 @@ export default Vue.extend({
       return {
         ...this.thumbStyle,
         ...this.horizontalThumbStyle,
-        left: `${this.horizontalThumbStart}px`,
+        [ this.$q.lang.rtl === true ? 'right' : 'left' ]: `${this.horizontalThumbStart}px`,
         width: `${this.horizontalThumbSize}px`
       }
     },
@@ -251,6 +251,12 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    '$q.lang.rtl' (rtl) {
+      this.setScrollPosition('horizontal', Math.abs(this.scroll.horizontal.position) * (rtl === true ? -1 : 1))
+    }
+  },
+
   methods: {
     getScrollTarget () {
       return this.$refs.target
@@ -330,7 +336,7 @@ export default Vue.extend({
 
       this.setScrollPosition(
         axis,
-        percentage * (this.scroll[axis].size - this.container[axis]),
+        percentage * (this.scroll[axis].size - this.container[axis]) * (axis === 'horizontal' && this.$q.lang.rtl === true ? -1 : 1),
         duration
       )
     },

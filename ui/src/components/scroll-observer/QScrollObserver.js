@@ -32,6 +32,10 @@ export default Vue.extend({
     scrollTarget () {
       this.__unconfigureScrollTarget()
       this.__configureScrollTarget()
+    },
+
+    '$q.lang.rtl' () {
+      this.trigger(true)
     }
   },
 
