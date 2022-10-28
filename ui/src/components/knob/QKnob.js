@@ -45,7 +45,7 @@ export default createComponent({
     readonly: Boolean
   },
 
-  emits: [ 'update:modelValue', 'change', 'drag-value' ],
+  emits: [ 'update:modelValue', 'change', 'dragValue' ],
 
   setup (props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
@@ -227,7 +227,7 @@ export default createComponent({
 
       newModel = between(newModel, innerMin.value, innerMax.value)
 
-      emit('drag-value', newModel)
+      emit('dragValue', newModel)
 
       if (model.value !== newModel) {
         model.value = newModel

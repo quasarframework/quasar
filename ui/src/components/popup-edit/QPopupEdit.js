@@ -43,7 +43,7 @@ export default createComponent({
 
   emits: [
     'update:modelValue', 'save', 'cancel',
-    'before-show', 'show', 'before-hide', 'hide'
+    'beforeShow', 'show', 'beforeHide', 'hide'
   ],
 
   setup (props, { slots, emit }) {
@@ -107,7 +107,7 @@ export default createComponent({
       validated = false
       initialValue.value = clone(props.modelValue)
       currentModel.value = clone(props.modelValue)
-      emit('before-show')
+      emit('beforeShow')
     }
 
     function onShow () {
@@ -125,7 +125,7 @@ export default createComponent({
         }
       }
 
-      emit('before-hide')
+      emit('beforeHide')
     }
 
     function onHide () {

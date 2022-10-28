@@ -82,7 +82,7 @@ export default createComponent({
 
   emits: [
     ...useDatetimeEmits,
-    'range-start', 'range-end', 'navigation'
+    'rangeStart', 'rangeEnd', 'navigation'
   ],
 
   setup (props, { slots, emit }) {
@@ -1391,7 +1391,7 @@ export default createComponent({
           finalHash: initHash
         }
 
-        emit('range-start', getShortDate(day))
+        emit('rangeStart', getShortDate(day))
       }
       else {
         const
@@ -1404,7 +1404,7 @@ export default createComponent({
         editRange.value = null
         addToModel(initHash === finalHash ? day : { target: day, ...payload })
 
-        emit('range-end', {
+        emit('rangeEnd', {
           from: getShortDate(payload.from),
           to: getShortDate(payload.to)
         })

@@ -63,7 +63,7 @@ export default createComponent({
     toggleAriaLabel: String
   },
 
-  emits: [ 'update:modelValue', 'click', 'before-show', 'show', 'before-hide', 'hide' ],
+  emits: [ 'update:modelValue', 'click', 'beforeShow', 'show', 'beforeHide', 'hide' ],
 
   setup (props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
@@ -111,7 +111,7 @@ export default createComponent({
 
     function onBeforeShow (e) {
       showing.value = true
-      emit('before-show', e)
+      emit('beforeShow', e)
     }
 
     function onShow (e) {
@@ -121,7 +121,7 @@ export default createComponent({
 
     function onBeforeHide (e) {
       showing.value = false
-      emit('before-hide', e)
+      emit('beforeHide', e)
     }
 
     function onHide (e) {

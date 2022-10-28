@@ -78,9 +78,9 @@ export default createComponent({
     'update:expanded',
     'update:ticked',
     'update:selected',
-    'lazy-load',
-    'after-show',
-    'after-hide'
+    'lazyLoad',
+    'afterShow',
+    'afterHide'
   ],
 
   setup (props, { slots, emit }) {
@@ -329,7 +329,7 @@ export default createComponent({
         if (Array.isArray(node[ props.childrenKey ]) !== true) {
           node[ props.childrenKey ] = []
         }
-        emit('lazy-load', {
+        emit('lazyLoad', {
           node,
           key,
           done: children => {
@@ -476,11 +476,11 @@ export default createComponent({
     }
 
     function onShow () {
-      emit('after-show')
+      emit('afterShow')
     }
 
     function onHide () {
-      emit('after-hide')
+      emit('afterHide')
     }
 
     function getNode (node) {

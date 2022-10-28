@@ -677,7 +677,7 @@ export function useVirtualScroll ({
 
   function emitScroll (index) {
     if (prevToIndex !== index) {
-      props.onVirtualScroll !== void 0 && emit('virtual-scroll', {
+      props.onVirtualScroll !== void 0 && emit('virtualScroll', {
         index,
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,

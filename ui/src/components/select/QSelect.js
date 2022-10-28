@@ -127,9 +127,9 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'add', 'remove', 'input-value', 'new-value',
+    'add', 'remove', 'inputValue', 'newValue',
     'keyup', 'keypress', 'keydown',
-    'filter-abort'
+    'filterAbort'
   ],
 
   setup (props, { slots, emit }) {
@@ -873,7 +873,7 @@ export default createComponent({
         }
 
         if (props.onNewValue !== void 0) {
-          emit('new-value', inputValue.value, done)
+          emit('newValue', inputValue.value, done)
         }
         else {
           done(inputValue.value)
@@ -1040,7 +1040,7 @@ export default createComponent({
     function setInputValue (val) {
       if (inputValue.value !== val) {
         inputValue.value = val
-        emit('input-value', val)
+        emit('inputValue', val)
       }
     }
 
@@ -1064,7 +1064,7 @@ export default createComponent({
       }
 
       if (state.innerLoading.value === true) {
-        emit('filter-abort')
+        emit('filterAbort')
       }
       else {
         state.innerLoading.value = true
@@ -1281,7 +1281,7 @@ export default createComponent({
         filterId = void 0
 
         if (state.innerLoading.value === true) {
-          emit('filter-abort')
+          emit('filterAbort')
           state.innerLoading.value = false
           innerLoadingIndicator.value = false
         }
@@ -1367,14 +1367,14 @@ export default createComponent({
 
     function onControlPopupShow (e) {
       e !== void 0 && stop(e)
-      emit('popup-show', e)
+      emit('popupShow', e)
       state.hasPopupOpen = true
       state.onControlFocusin(e)
     }
 
     function onControlPopupHide (e) {
       e !== void 0 && stop(e)
-      emit('popup-hide', e)
+      emit('popupHide', e)
       state.hasPopupOpen = false
       state.onControlFocusout(e)
     }

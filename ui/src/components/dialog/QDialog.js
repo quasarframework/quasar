@@ -74,7 +74,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'shake', 'click', 'escape-key'
+    'shake', 'click', 'escapeKey'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -292,7 +292,7 @@ export default createComponent({
           props.maximized !== true && props.noShake !== true && shake()
         }
         else {
-          emit('escape-key')
+          emit('escapeKey')
           hide()
         }
       }

@@ -66,7 +66,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'on-layout', 'mini-state'
+    'onLayout', 'miniState'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -399,7 +399,7 @@ export default createComponent({
     watch(offset, val => { updateLayout('offset', val) })
 
     watch(onLayout, val => {
-      emit('on-layout', val)
+      emit('onLayout', val)
       updateLayout('space', val)
     })
 
@@ -423,7 +423,7 @@ export default createComponent({
       }
     })
 
-    watch(isMini, val => { emit('mini-state', val) })
+    watch(isMini, val => { emit('miniState', val) })
 
     function applyPosition (position) {
       if (position === void 0) {
@@ -588,8 +588,8 @@ export default createComponent({
     }
 
     onMounted(() => {
-      emit('on-layout', onLayout.value)
-      emit('mini-state', isMini.value)
+      emit('onLayout', onLayout.value)
+      emit('miniState', isMini.value)
 
       lastDesktopState = props.showIfAbove === true
 

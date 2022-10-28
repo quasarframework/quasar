@@ -119,7 +119,7 @@ export default createComponent({
   },
 
   emits: [
-    'request', 'virtual-scroll',
+    'request', 'virtualScroll',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits
@@ -353,7 +353,7 @@ export default createComponent({
 
         scrollTarget.scrollTop = offsetTop
 
-        emit('virtual-scroll', {
+        emit('virtualScroll', {
           index: toIndex,
           from: 0,
           to: innerPagination.value.rowsPerPage - 1,
@@ -363,7 +363,7 @@ export default createComponent({
     }
 
     function onVScroll (info) {
-      emit('virtual-scroll', info)
+      emit('virtualScroll', info)
     }
 
     function getProgress () {

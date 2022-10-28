@@ -79,7 +79,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'click', 'escape-key'
+    'click', 'escapeKey'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -317,7 +317,7 @@ export default createComponent({
     }
 
     function onEscapeKey (evt) {
-      emit('escape-key')
+      emit('escapeKey')
       hide(evt)
     }
 
