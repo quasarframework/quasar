@@ -94,7 +94,7 @@ export default createComponent({
 
     const { registerTick, removeTick } = useTick()
     const { registerTimeout } = useTimeout()
-    const { transition, transitionStyle } = useTransition(props, showing)
+    const { transitionProps, transitionStyle } = useTransition(props)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow, anchorEvents } = useAnchor({ showing, configureAnchorEl })
@@ -291,10 +291,7 @@ export default createComponent({
     }
 
     function renderPortalContent () {
-      return h(Transition, {
-        name: transition.value,
-        appear: true
-      }, getTooltipContent)
+      return h(Transition, transitionProps.value, getTooltipContent)
     }
 
     onBeforeUnmount(anchorCleanup)

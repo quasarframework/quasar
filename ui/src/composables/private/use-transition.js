@@ -1,4 +1,4 @@
-import { ref, computed, watch, nextTick } from 'vue'
+import { computed } from 'vue'
 
 export const useTransitionProps = {
   transitionShow: {
@@ -17,18 +17,24 @@ export const useTransitionProps = {
   }
 }
 
-export default function (props, showing) {
-  const transitionState = ref(showing.value)
-
-  watch(showing, val => {
-    nextTick(() => { transitionState.value = val })
-  })
-
-  // return transition
+export default function (props, showFnClass = () => props.transitionShow, hideFnClass = () => props.transitionHide) {
   return {
-    transition: computed(() => 'q-transition--' + (
-      transitionState.value === true ? props.transitionHide : props.transitionShow
-    )),
+    transitionProps: computed(() => {
+      const show = `q-transition--${ showFnClass() }`
+      const hide = `q-transition--${ hideFnClass() }`
+
+      return {
+        appear: true,
+
+        enterFromClass: `${ show }-enter-from`,
+        enterActiveClass: `${ show }-enter-active`,
+        enterToClass: `${ show }-enter-to`,
+
+        leaveFromClass: `${ hide }-leave-from`,
+        leaveActiveClass: `${ hide }-leave-active`,
+        leaveToClass: `${ hide }-leave-to`
+      }
+    }),
 
     transitionStyle: computed(() => `--q-transition-duration: ${ props.transitionDuration }ms`)
   }

@@ -100,7 +100,7 @@ export default createComponent({
     const isDark = useDark(props, $q)
     const { registerTick, removeTick } = useTick()
     const { registerTimeout } = useTimeout()
-    const { transition, transitionStyle } = useTransition(props, showing)
+    const { transitionProps, transitionStyle } = useTransition(props)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow } = useAnchor({ showing })
@@ -345,7 +345,7 @@ export default createComponent({
     function renderPortalContent () {
       return h(
         Transition,
-        { name: transition.value, appear: true },
+        transitionProps.value,
         () => (
           showing.value === true
             ? h('div', {
