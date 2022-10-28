@@ -138,7 +138,9 @@ export default createComponent({
       addFocusFn(() => {
         if (rootRef.value === null) { return }
 
-        const target = rootRef.value.querySelector('[autofocus], [data-autofocus]')
+        const target = rootRef.value.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+          || rootRef.value.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+          || rootRef.value.querySelector('[autofocus], [data-autofocus]')
           || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
 
         target !== null && target !== void 0 && target.focus({ preventScroll: true })
