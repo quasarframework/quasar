@@ -119,9 +119,7 @@ export default createComponent({
 
     const { proxy } = getCurrentInstance()
 
-    watch(() => proxy.$q.lang.rtl, () => {
-      emitEvent()
-    })
+    watch(() => proxy.$q.lang.rtl, emitEvent)
 
     onMounted(() => {
       parentEl = proxy.$el.parentNode
