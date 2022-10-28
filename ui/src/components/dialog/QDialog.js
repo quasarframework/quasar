@@ -6,6 +6,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import AttrsMixin, { ariaHidden } from '../../mixins/attrs.js'
+import TransitionMixin from '../../mixins/transition.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/private/escape-key.js'
@@ -25,7 +26,7 @@ const positionClass = {
   left: 'fixed-left items-center'
 }
 
-const transitions = {
+const defaultTransitions = {
   standard: ['scale', 'scale'],
   top: ['slide-down', 'slide-up'],
   bottom: ['slide-up', 'slide-down'],
@@ -38,6 +39,7 @@ export default Vue.extend({
 
   mixins: [
     AttrsMixin,
+    TransitionMixin,
     HistoryMixin,
     TimeoutMixin,
     ModelToggleMixin,
@@ -103,20 +105,12 @@ export default Vue.extend({
         (this.square === true ? ' q-dialog__inner--square' : '')
     },
 
-    transitionProps () {
-      const show = `q-transition--${this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow}`
-      const hide = `q-transition--${this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide}`
-      return {
-        enterClass: `${show}-enter`,
-        leaveClass: `${hide}-leave`,
-        appearClass: `${show}-appear`,
-        enterToClass: `${show}-enter-to`,
-        leaveToClass: `${hide}-leave-to`,
-        appearToClass: `${show}-appear-to`,
-        enterActiveClass: `${show}-enter-active`,
-        leaveActiveClass: `${hide}-leave-active`,
-        appearActiveClass: `${show}-appear-active`
-      }
+    defaultTransitionShow () {
+      return defaultTransitions[this.position][0]
+    },
+
+    defaultTransitionHide () {
+      return defaultTransitions[this.position][1]
     },
 
     useBackdrop () {
@@ -366,7 +360,7 @@ export default Vue.extend({
         ] : null),
 
         h('transition', {
-          props: this.transitionProps
+          props: { ...this.transitionProps }
         }, [
           this.showing === true ? h('div', {
             ref: 'inner',

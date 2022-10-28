@@ -13,18 +13,19 @@ export default {
 
   computed: {
     transitionProps () {
-      const show = `q-transition--${this.transitionShow}`
-      const hide = `q-transition--${this.transitionHide}`
+      const show = `q-transition--${this.transitionShow || this.defaultTransitionShow}`
+      const hide = `q-transition--${this.transitionHide || this.defaultTransitionHide}`
+
       return {
+        appear: true,
+
         enterClass: `${show}-enter`,
-        leaveClass: `${hide}-leave`,
-        appearClass: `${show}-appear`,
-        enterToClass: `${show}-enter-to`,
-        leaveToClass: `${hide}-leave-to`,
-        appearToClass: `${show}-appear-to`,
         enterActiveClass: `${show}-enter-active`,
+        enterToClass: `${show}-enter-to`,
+
+        leaveClass: `${hide}-leave`,
         leaveActiveClass: `${hide}-leave-active`,
-        appearActiveClass: `${show}-appear-active`
+        leaveToClass: `${hide}-leave-to`
       }
     }
   }

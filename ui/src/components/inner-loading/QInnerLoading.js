@@ -78,11 +78,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('transition', {
-      props: {
-        ...this.transitionProps,
-        appear: true
-      }
-    }, this.__getContent(h))
+    return h('transition', { props: { ...this.transitionProps } }, this.__getContent(h))
   }
 })
