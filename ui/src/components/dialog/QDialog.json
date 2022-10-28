@@ -147,9 +147,9 @@
       "params": {
         "focusTarget": {
           "type": "Element",
-          "desc": "Optional Element to be focused after shake",
+          "desc": "Optional DOM Element to be focused after shake",
           "examples": [ "document.getElementById('example')" ],
-          "addedIn": "v1.23"
+          "addedIn": "v1.22.1"
         }
       }
     }

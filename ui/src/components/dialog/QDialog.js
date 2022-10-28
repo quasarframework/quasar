@@ -173,11 +173,12 @@ export default Vue.extend({
 
     shake (refocusTarget) {
       if (refocusTarget && typeof refocusTarget.focus === 'function') {
-        refocusTarget.focus()
+        refocusTarget.focus({ preventScroll: true })
       }
       else {
         this.focus()
       }
+
       this.$emit('shake')
 
       const node = this.__getInnerNode()
