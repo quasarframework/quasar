@@ -103,8 +103,7 @@ export default createComponent({
             tabindex: 0,
             clickable: true,
             dark: isDark.value,
-            onClick () { onOk(action) },
-            onKeyup (e) { e.keyCode === 13 && onOk(action) }
+            onClick () { onOk(action) }
           }, () => [
             h(
               QItemSection,
