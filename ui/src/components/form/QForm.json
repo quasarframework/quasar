@@ -88,6 +88,27 @@
       }
     },
 
+    "validateField": {
+      "desc": "Triggers a validation o a specific inner Quasar component with the name prop",
+      "params": {
+        "fieldName": {
+          "type": "String",
+          "desc": "Specify the name of the field to validate. It should match the Quasar's component `name` prop"
+        },
+        "shouldFocus": {
+          "type": "Boolean",
+          "desc": "Tell if it should focus or not on component with error on submitting form; Overrides 'no-focus-error' prop if specified"
+        }
+      },
+      "returns": {
+        "type": "Promise<boolean>",
+        "desc": "Promise is always fulfilled and receives the outcome (true -> validation was a success, false -> invalid model detected)",
+        "examples": [
+          "validateField(fieldName).then(outcome => { ... })"
+        ]
+      }
+    },
+
     "resetValidation": {
       "desc": "Resets the validation on all applicable inner Quasar components"
     },

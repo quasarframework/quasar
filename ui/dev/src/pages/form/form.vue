@@ -60,6 +60,7 @@
 
         <q-input
           ref="name"
+          name="name"
           :dark="dark"
           filled
           v-model="name"
@@ -279,6 +280,10 @@ export default {
           resolve(!!val || '* Required')
         }, 1000)
       })
+    },
+
+    validateNameField () {
+      this.$refs.form.validateField('name')
     },
 
     onSubmit (evt) {

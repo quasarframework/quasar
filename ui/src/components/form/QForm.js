@@ -28,33 +28,20 @@ export default createComponent({
     let validateIndex = 0
     const registeredComponents = []
 
-    function validate (shouldFocus) {
-      const focus = typeof shouldFocus === 'boolean'
-        ? shouldFocus
-        : props.noErrorFocus !== true
-
-      const index = ++validateIndex
-
-      const emitEvent = (res, ref) => {
-        emit('validation-' + (res === true ? 'success' : 'error'), ref)
+    const errorsPromise = (singleFieldToValidate = null) => {
+      if (singleFieldToValidate) {
+        const componentToValidate = registeredComponents.findAll(comp => comp.name === singleFieldToValidate)
+        return Promise.resolve(validateComponent(componentToValidate)).then(r => {
+          if (r.valid === false) { return Promise.reject(r) }
+        }).catch(error => [ error ])
       }
-
-      const validateComponent = comp => {
-        const valid = comp.validate()
-
-        return typeof valid.then === 'function'
-          ? valid.then(
-            valid => ({ valid, comp }),
-            err => ({ valid: false, comp, err })
-          )
-          : Promise.resolve({ valid, comp })
-      }
-
-      const errorsPromise = props.greedy === true
-        ? Promise
+      else if (props.greedy === true) {
+        return Promise
           .all(registeredComponents.map(validateComponent))
           .then(res => res.filter(r => r.valid !== true))
-        : registeredComponents
+      }
+      else {
+        return registeredComponents
           .reduce(
             (acc, comp) => acc.then(() => {
               return validateComponent(comp).then(r => {
@@ -64,8 +51,69 @@ export default createComponent({
             Promise.resolve()
           )
           .catch(error => [ error ])
+      }
+    }
 
-      return errorsPromise.then(errors => {
+    const validateComponent = comp => {
+      const valid = comp.validate()
+
+      return typeof valid.then === 'function'
+        ? valid.then(
+          valid => ({ valid, comp }),
+          err => ({ valid: false, comp, err })
+        )
+        : Promise.resolve({ valid, comp })
+    }
+
+    const emitEvent = (res, ref) => {
+      emit('validation-' + (res === true ? 'success' : 'error'), ref)
+    }
+
+    function validate (shouldFocus) {
+      const focus = typeof shouldFocus === 'boolean'
+        ? shouldFocus
+        : props.noErrorFocus !== true
+
+      const index = ++validateIndex
+
+      return errorsPromise().then(errors => {
+        if (errors === void 0 || errors.length === 0) {
+          index === validateIndex && emitEvent(true)
+          return true
+        }
+
+        // if not outdated already
+        if (index === validateIndex) {
+          const { comp, err } = errors[ 0 ]
+
+          err !== void 0 && console.error(err)
+          emitEvent(false, comp)
+
+          if (focus === true) {
+            // Try to focus first mounted and active component
+            const activeError = errors.find(({ comp }) => (
+              typeof comp.focus === 'function'
+              && vmIsDestroyed(comp.$) === false
+            ))
+
+            if (activeError !== void 0) {
+              activeError.comp.focus()
+            }
+          }
+        }
+
+        return false
+      })
+    }
+
+    function validateField (fieldName, shouldFocus) {
+      const focus = typeof shouldFocus === 'boolean'
+        ? shouldFocus
+        : props.noErrorFocus !== true
+
+      const index = ++validateIndex
+
+      return errorsPromise(fieldName).then(errors => {
         if (errors === void 0 || errors.length === 0) {
           index === validateIndex && emitEvent(true)
           return true
@@ -175,6 +223,7 @@ export default createComponent({
     // expose public methods
     Object.assign(vm.proxy, {
       validate,
+      validateField,
       resetValidation,
       submit,
       reset,
