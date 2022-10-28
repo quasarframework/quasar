@@ -181,7 +181,7 @@
             </template>
         -->
           <q-input v-model="inp" />
-          <input v-model="inp">
+          <input style="width: 5em" v-model="inp">
           <q-btn
             class="q-mini-drawer-hide"
             icon="keyboard_arrow_left"
