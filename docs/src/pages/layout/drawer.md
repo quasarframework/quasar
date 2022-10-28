@@ -56,7 +56,7 @@ There are some CSS classes that will help you customize the drawer when dealing 
 
 | CSS Class | Description |
 | --- | --- |
-| `q-mini-drawer-hide` | Hide when drawer is in "mini" mode. |
+| `q-mini-drawer-hide` | Hide when drawer is in "mini" mode or in "mobile" mode. |
 | `q-mini-drawer-only` | Show only when drawer is in "mini" mode. |
 
 You can also write your own CSS classes based on the fact that QLayoutDrawer has `q-drawer--standard` CSS class when in "normal" mode and `q-drawer--mini` when in "mini" mode. Also, when drawer is in "mobile" behavior, it gets `q-drawer--mobile` CSS class.

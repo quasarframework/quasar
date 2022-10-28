@@ -20,7 +20,7 @@
         bordered
         content-class="bg-grey-3"
       >
-        <q-scroll-area class="fit">
+        <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
           <q-list padding>
             <q-item clickable v-ripple>
               <q-item-section avatar>
