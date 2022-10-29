@@ -94,7 +94,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   onUnmounted(() => { hidePortal(true) })
 
   // needed for portal vm detection
-  vm.proxy.__qPortalInnerRef = innerRef
+  vm.proxy.__qPortal = true
 
   // public way of accessing the rendered content
   injectProp(vm.proxy, 'contentEl', () => innerRef.value)

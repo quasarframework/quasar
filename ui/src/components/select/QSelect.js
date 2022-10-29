@@ -896,8 +896,8 @@ export default createComponent({
       return hasDialog === true
         ? menuContentRef.value
         : (
-            menuRef.value !== null && menuRef.value.__qPortalInnerRef.value !== null
-              ? menuRef.value.__qPortalInnerRef.value
+            menuRef.value !== null && menuRef.value.contentEl !== null
+              ? menuRef.value.contentEl
               : void 0
           )
     }

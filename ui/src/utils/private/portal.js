@@ -4,8 +4,8 @@ export const portalProxyList = []
 
 export function getPortalProxy (el) {
   return portalProxyList.find(proxy =>
-    proxy.__qPortalInnerRef.value !== null
-    && proxy.__qPortalInnerRef.value.contains(el)
+    proxy.contentEl !== null
+    && proxy.contentEl.contains(el)
   )
 }
 
@@ -19,7 +19,7 @@ export function closePortalMenus (proxy, evt) {
         return getParentProxy(proxy)
       }
     }
-    else if (proxy.__qPortalInnerRef !== void 0) {
+    else if (proxy.__qPortal === true) {
       // treat it as point of separation if parent is QPopupProxy
       // (so mobile matches desktop behavior)
       // and hide it too
@@ -40,7 +40,7 @@ export function closePortalMenus (proxy, evt) {
 
 export function closePortals (proxy, evt, depth) {
   while (depth !== 0 && proxy !== void 0 && proxy !== null) {
-    if (proxy.__qPortalInnerRef !== void 0) {
+    if (proxy.__qPortal === true) {
       depth--
 
       if (proxy.$options.name === 'QMenu') {
