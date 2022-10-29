@@ -26,6 +26,13 @@
       "type": "Boolean",
       "desc": "Applies a material design-like padding on top and bottom",
       "category": "content"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "span" ],
+      "addedIn": "v2.10.1"
     }
   },
 
