@@ -16,7 +16,12 @@ export default Vue.extend({
     bordered: Boolean,
     dense: Boolean,
     separator: Boolean,
-    padding: Boolean
+    padding: Boolean,
+
+    tag: {
+      type: String,
+      default: 'div'
+    }
   },
 
   computed: {
@@ -31,7 +36,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
+    return h(this.tag, {
       class: this.classes,
       attrs,
       on: { ...this.qListeners }
