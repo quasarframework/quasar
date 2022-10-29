@@ -98,8 +98,8 @@ export default createComponent({
 
     const { transitionProps, transitionStyle } = useTransition(
       props,
-      () => props.transitionShow || defaultTransitions[ props.position ][ 0 ],
-      () => props.transitionHide || defaultTransitions[ props.position ][ 1 ]
+      () => defaultTransitions[ props.position ][ 0 ],
+      () => defaultTransitions[ props.position ][ 1 ]
     )
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(

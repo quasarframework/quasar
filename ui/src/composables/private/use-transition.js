@@ -17,11 +17,11 @@ export const useTransitionProps = {
   }
 }
 
-export default function (props, showFnClass = () => props.transitionShow, hideFnClass = () => props.transitionHide) {
+export default function (props, defaultShowFn = () => {}, defaultHideFn = () => {}) {
   return {
     transitionProps: computed(() => {
-      const show = `q-transition--${ showFnClass() }`
-      const hide = `q-transition--${ hideFnClass() }`
+      const show = `q-transition--${ props.transitionShow || defaultShowFn() }`
+      const hide = `q-transition--${ props.transitionHide || defaultHideFn() }`
 
       return {
         appear: true,
