@@ -47,15 +47,17 @@ class ElectronBuilder extends AppBuilder {
   async #writePackageJson () {
     const pkg = require(appPaths.resolve.app('package.json'))
 
+    pkg.name += '-electron'
+
     if (pkg.dependencies) {
       pkg.dependencies = getFixedDeps(pkg.dependencies)
-      delete pkg.dependencies['@quasar/extras']
+      // delete pkg.dependencies['@quasar/extras']
     }
 
     // we don't need this (also, faster install time & smaller bundles)
-    delete pkg.devDependencies
-    delete pkg.browserslist
-    delete pkg.scripts
+    // delete pkg.devDependencies
+    // delete pkg.browserslist
+    // delete pkg.scripts
 
     pkg.main = './electron-main.js'
 
@@ -87,9 +89,12 @@ class ElectronBuilder extends AppBuilder {
 
   #packageFiles () {
     return new Promise(resolve => {
+      const oldNodeEnv = process.env.NODE_ENV
+      process.env.NODE_ENV = 'development'
+
       spawn(
         nodePackager.name,
-        [ 'install', '--production' ].concat(this.quasarConf.electron.unPackagedInstallParams),
+        [ 'install' ].concat(this.quasarConf.electron.unPackagedInstallParams),
         { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
         code => {
           if (code) {
@@ -98,6 +103,8 @@ class ElectronBuilder extends AppBuilder {
           resolve()
         }
       )
+
+      process.env.NODE_ENV = oldNodeEnv
     }).then(async () => {
       if (typeof this.quasarConf.electron.beforePackaging === 'function') {
         log('Running beforePackaging()')
