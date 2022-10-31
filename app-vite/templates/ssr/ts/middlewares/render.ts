@@ -1,4 +1,4 @@
-import { RenderError } from '@quasar/app-vite';
+import { RenderError } from '@gustavotoyota/quasar-app-vite';
 import { ssrMiddleware } from 'quasar/wrappers';
 
 // This middleware should execute as last one

@@ -23,7 +23,7 @@ declare module "quasar/wrappers" {
     BexBackgroundCallback,
     BexContentCallback,
     BexDomCallback,
-  } from "@quasar/app-vite";
+  } from "@gustavotoyota/quasar-app-vite";
 
   /** Some arguments are available only if you enable the related mode: `store` when using the Store, `ssrContext` when using SSR, etc */
   function boot<TState = any>(
