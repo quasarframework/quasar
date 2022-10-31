@@ -1,6 +1,23 @@
 ---
 title: Routing with Layouts and Pages
 desc: How to connect the Vue Router with your Quasar layouts and pages.
+scope:
+  tree:
+    { l: 'src/',
+      c: [
+        { l: 'layouts',
+          c: [
+            { l: 'User.vue', e: 'our QLayout definition' }
+          ]
+        },
+        { l: 'pages',
+          c: [
+            { l: 'Posts.vue', e: 'page for /user/feed route' },
+            { l: 'Profile.vue', e: 'page for /user/profile route' }
+          ]
+        }
+      ]
+    }
 ---
 You can benefit from Vue Router's capabilities while structuring your routes with a Quasar Layout. The information below is just a recommendation and not mandatory to follow. Quasar allows you full freedom. Take the lines below only as an example.
 
@@ -28,14 +45,8 @@ $ quasar new page Profile Posts
 ```
 
 The commands above create the following folder structure:
-```bash
-src/
-├── layouts
-│   └── User.vue         # our QLayout definition
-└── pages
-    ├── Posts.vue        # page for /user/feed route
-    └── Profile.vue      # page for /user/profile route
-```
+
+<doc-tree :def="scope.tree" />
 
 ## Defining Routes
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.

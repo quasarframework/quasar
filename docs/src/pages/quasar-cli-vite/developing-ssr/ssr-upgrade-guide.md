@@ -6,6 +6,21 @@ related:
   - /quasar-cli-vite/developing-ssr/ssr-context
   - /quasar-cli-vite/developing-ssr/ssr-middleware
   - /quasar-cli-vite/developing-ssr/ssr-webserver
+scope:
+  oldTree:
+    { l: 'src-ssr',
+      c: [
+        { l: 'index.js', e: 'Production Node webserver serving the app' },
+        { l: 'extension.js', e: 'Common code for production & development server' }
+      ]
+    }
+  newTree:
+    { l: 'src-ssr',
+      c: [
+        { l: 'middlewares/', e: 'SSR middleware files' },
+        { l: 'server.js', e: 'SSR webserver production export' }
+      ]
+    }
 ---
 
 This page refers only to upgrading a Quasar UI v1 app (with Vue 2) to a Quasar UI v2 one (with Vue 3).
@@ -25,19 +40,13 @@ Please note that currently the only Nodejs supported server is [Expressjs](https
 
 ### The /src-ssr folder
 
-```bash
-# old structure
-.
-└── src-ssr/
-    ├── index.js      # Production Node webserver serving the app
-    └── extension.js  # Common code for production & development server
+The **old** structure:
 
-# NEW structure
-.
-└── src-ssr/
-    ├── middlewares/  # SSR middleware files
-    └── server.js     # SSR webserver production export
-```
+<doc-tree :def="scope.oldTree" />
+
+The **NEW** structure:
+
+<doc-tree :def="scope.newTree" />
 
 ### Performing the upgrade
 
