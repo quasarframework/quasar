@@ -61,5 +61,24 @@
     "toggle": {
       "extends": "toggle"
     }
+  },
+
+  "computedProps": {
+    "currentComponent": {
+      "type": "Object",
+      "desc": "Access current underlying component (QMenu or QDialog)",
+      "definition": {
+        "name": {
+          "type": "String",
+          "desc": "Component type",
+          "values": [ "dialog", "menu" ]
+        },
+        "ref": {
+          "type": "Component",
+          "tsType": "QPopupProxyInnerComponent",
+          "desc": "The actual component (QMenu or QDialog); Access it directly, without '.value'"
+        }
+      }
+    }
   }
 }

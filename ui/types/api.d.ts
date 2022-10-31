@@ -6,6 +6,7 @@ export * from "./api/qtable";
 export * from "./api/qtree";
 export * from "./api/quploader";
 export * from "./api/qnotify";
+export * from "./api/qpopupproxy";
 export * from "./api/qeditor";
 export * from "./api/qloading";
 export * from "./api/touchswipe";
