@@ -91,7 +91,7 @@ class SsrBuilder extends AppBuilder {
     const appDeps = getFixedDeps(appPkg.dependencies || {})
 
     const pkg = {
-      name: appPkg.name,
+      name: appPkg.name + '-ssr',
       version: appPkg.version,
       description: appPkg.description,
       author: appPkg.author,
