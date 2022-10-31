@@ -16,7 +16,6 @@
       "type": [ "Number", "String" ],
       "desc": "Number of icons to display",
       "default": 5,
-      "examples": [ "3", ":max=\"5\"" ],
       "category": "general"
     },
 

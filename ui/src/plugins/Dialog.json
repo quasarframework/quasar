@@ -48,8 +48,7 @@
                 "model": {
                   "type": "String",
                   "required": true,
-                  "desc": "The initial value of the input",
-                  "__exemption": [ "examples" ]
+                  "desc": "The initial value of the input"
                 },
 
                 "type": {
@@ -66,8 +65,7 @@
                     "val": {
                       "type": "String",
                       "required": true,
-                      "desc": "The value of the input",
-                      "__exemption": [ "examples" ]
+                      "desc": "The value of the input"
                     }
                   },
                   "returns": {
@@ -157,8 +155,7 @@
 
                 "...nativeAttributes": {
                   "type": "Object",
-                  "desc": "Any native attributes to pass to the inner QOptionGroup",
-                  "__exemption": [ "examples" ]
+                  "desc": "Any native attributes to pass to the inner QOptionGroup"
                 }
               }
             },
@@ -183,8 +180,7 @@
               "definition": {
                 "...props": {
                   "type": "Any",
-                  "desc": "See QBtn for available props",
-                  "__exemption": [ "examples" ]
+                  "desc": "See QBtn for available props"
                 }
               }
             },
@@ -195,8 +191,7 @@
               "definition": {
                 "...props": {
                   "type": "Any",
-                  "desc": "See QBtn for available props",
-                  "__exemption": [ "examples" ]
+                  "desc": "See QBtn for available props"
                 }
               }
             },
@@ -280,8 +275,7 @@
 
             "componentProps": {
               "type": "Object",
-              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
-              "__exemption": [ "examples" ]
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used"
             }
           }
         }

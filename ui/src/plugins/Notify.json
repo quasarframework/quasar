@@ -165,8 +165,7 @@
       "timeout": {
         "type": "Number",
         "desc": "Amount of time to display (in milliseconds)",
-        "default": 5000,
-        "examples": [ 2500 ]
+        "default": 5000
       },
 
       "closeBtn": {
@@ -421,7 +420,7 @@
             "tsType": "QNotifyUpdateOptions",
             "required": false,
             "desc": "Notification properties that will be shallow merged to previous ones in order to update the non-grouped notification; (See 'opts' param of 'create()' for object properties, except 'group' and 'position')",
-            "__exemption": [ "definition", "examples" ]
+            "__exemption": [ "definition" ]
           }
         },
         "returns": null
@@ -436,7 +435,7 @@
           "tsType": "QNotifyOptions",
           "required": true,
           "desc": "Notification options (See 'opts' param of 'create()' for object properties)",
-          "__exemption": [ "definition", "examples" ]
+          "__exemption": [ "definition" ]
         }
       }
     },
@@ -456,7 +455,7 @@
           "tsType": "QNotifyOptions",
           "required": true,
           "desc": "Notification options (See 'opts' param of 'create()' for object properties)",
-          "__exemption": [ "definition", "examples" ]
+          "__exemption": [ "definition" ]
         }
       }
     }

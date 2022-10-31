@@ -29,13 +29,11 @@
             "definition": {
               "top": {
                 "type": "Number",
-                "desc": "Vertical offset from top of window",
-                "examples": [ 235 ]
+                "desc": "Vertical offset from top of window"
               },
               "left": {
                 "type": "Number",
-                "desc": "Horizontal offset from left of window",
-                "examples": [ 235 ]
+                "desc": "Horizontal offset from left of window"
               }
             }
           },
@@ -54,8 +52,7 @@
           },
           "duration": {
             "type": "Number",
-            "desc": "How long it took to trigger the event (in milliseconds)",
-            "examples": [ 612 ]
+            "desc": "How long it took to trigger the event (in milliseconds)"
           },
           "distance": {
             "type": "Object",
@@ -63,13 +60,11 @@
             "definition": {
               "x": {
                 "type": "Number",
-                "desc": "Absolute distance horizontally",
-                "examples": [ 231 ]
+                "desc": "Absolute distance horizontally"
               },
               "y": {
                 "type": "Number",
-                "desc": "Absolute distance vertically",
-                "examples": [ 231 ]
+                "desc": "Absolute distance vertically"
               }
             }
           },
@@ -95,13 +90,11 @@
             "definition": {
               "x": {
                 "type": "Number",
-                "desc": "Distance horizontally",
-                "examples": [ 2 ]
+                "desc": "Distance horizontally"
               },
               "y": {
                 "type": "Number",
-                "desc": "Distance vertically",
-                "examples": [ 1 ]
+                "desc": "Distance vertically"
               }
             }
           }

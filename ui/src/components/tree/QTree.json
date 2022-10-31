@@ -147,13 +147,11 @@
       "params": {
         "node": {
           "type": "Object",
-          "desc": "Node currently being filtered",
-          "__exemption": [ "examples" ]
+          "desc": "Node currently being filtered"
         },
         "filter": {
           "type": "String",
-          "desc": "Filter text to match against",
-          "__exemption": [ "examples" ]
+          "desc": "Filter text to match against"
         }
       },
       "returns": {
@@ -167,7 +165,6 @@
       "type": "Number",
       "desc": "Toggle animation duration (in milliseconds)",
       "default": 300,
-      "examples": [ ":duration=\"500\"" ],
       "category": "style"
     },
 
@@ -207,13 +204,11 @@
         },
         "node": {
           "type": "Object",
-          "desc": "Node object",
-          "__exemption": [ "examples" ]
+          "desc": "Node object"
         },
         "key": {
           "type": "Any",
-          "desc": "Node's key",
-          "__exemption": [ "examples" ]
+          "desc": "Node's key"
         },
         "color": {
           "type": "String",
@@ -247,13 +242,11 @@
         },
         "node": {
           "type": "Object",
-          "desc": "Node object",
-          "__exemption": [ "examples" ]
+          "desc": "Node object"
         },
         "key": {
           "type": "Any",
-          "desc": "Node's key",
-          "__exemption": [ "examples" ]
+          "desc": "Node's key"
         },
         "color": {
           "type": "String",
@@ -287,13 +280,11 @@
         },
         "node": {
           "type": "Object",
-          "desc": "Node object",
-          "__exemption": [ "examples" ]
+          "desc": "Node object"
         },
         "key": {
           "type": "Any",
-          "desc": "Node's key",
-          "__exemption": [ "examples" ]
+          "desc": "Node's key"
         },
         "color": {
           "type": "String",
@@ -327,13 +318,11 @@
         },
         "node": {
           "type": "Object",
-          "desc": "Node object",
-          "__exemption": [ "examples" ]
+          "desc": "Node object"
         },
         "key": {
           "type": "Any",
-          "desc": "Node's key",
-          "__exemption": [ "examples" ]
+          "desc": "Node's key"
         },
         "color": {
           "type": "String",
@@ -370,8 +359,7 @@
             "node": {
               "type": "Object",
               "required": true,
-              "desc": "The node to which the new nodes (the children) will be appended",
-              "__exemption": [ "examples" ]
+              "desc": "The node to which the new nodes (the children) will be appended"
             },
             "key": {
               "type": "String",
@@ -387,8 +375,7 @@
                 "children": {
                   "type": "Array",
                   "desc": "Array of nodes",
-                  "default": "[]",
-                  "__exemption": [ "examples" ]
+                  "default": "[]"
                 }
               },
               "returns": null
@@ -449,8 +436,7 @@
       },
       "returns": {
         "type": "Object",
-        "desc": "Requested node",
-        "__exemption": [ "examples" ]
+        "desc": "Requested node"
       }
     },
 
@@ -458,8 +444,7 @@
       "desc": "Get array of nodes that are ticked",
       "returns": {
         "type": "Array",
-        "desc": "Ticked node objects",
-        "__exemption": [ "examples" ]
+        "desc": "Ticked node objects"
       }
     },
 
@@ -467,8 +452,7 @@
       "desc": "Get array of nodes that are expanded",
       "returns": {
         "type": "Array",
-        "desc": "Expanded node objects",
-        "__exemption": [ "examples" ]
+        "desc": "Expanded node objects"
       }
     },
 

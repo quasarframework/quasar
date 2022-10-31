@@ -7,15 +7,13 @@
     "model-value": {
       "extends": "model-value",
       "type": "Number",
-      "desc": "Current page (must be between min/max)",
-      "examples": [ 3 ]
+      "desc": "Current page (must be between min/max)"
     },
 
     "min": {
       "type": [ "Number", "String" ],
       "desc": "Minimum page (must be lower than 'max')",
       "default": 1,
-      "examples": [ 3 ],
       "category": "model"
     },
 
@@ -23,7 +21,6 @@
       "type": [ "Number", "String" ],
       "desc": "Number of last page (must be higher than 'min')",
       "required": true,
-      "examples": [ 10 ],
       "category": "model"
     },
 
@@ -71,14 +68,12 @@
       "params": {
         "page": {
           "type": "Number",
-          "desc": "Page number to navigate to",
-          "examples": [ 2 ]
+          "desc": "Page number to navigate to"
         }
       },
       "returns": {
         "type": [ "Object", "String" ],
-        "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
-        "__exemption": [ "examples" ]
+        "desc": "Object or String that can be passed to a <router-link> as `to` parameter"
       },
       "examples": [ ":to-fn=\"page => ({ query: { page } })\"" ],
       "category": "content"
@@ -112,7 +107,6 @@
       "type": [ "Number", "String" ],
       "default": 0,
       "desc": "Maximum number of page links to display at a time; 0 means Infinite",
-      "examples": [ 5 ],
       "category": "content"
     },
 
@@ -252,8 +246,7 @@
       "params": {
         "pageNumber": {
           "type": "Number",
-          "desc": "Page number to go to",
-          "examples": [ 3 ]
+          "desc": "Page number to go to"
         }
       }
     },
@@ -263,8 +256,7 @@
       "params": {
         "offset": {
           "type": "Number",
-          "desc": "Offset page, can be negative or positive",
-          "examples": [ 3 ]
+          "desc": "Offset page, can be negative or positive"
         }
       }
     }

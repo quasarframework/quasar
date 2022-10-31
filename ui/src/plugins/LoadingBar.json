@@ -10,8 +10,7 @@
     "definition": {
       "...props": {
         "type": "Object",
-        "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter'",
-        "__exemption": [ "examples" ]
+        "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter'"
       }
     }
   },
@@ -31,8 +30,7 @@
         "speed": {
           "type": "Number",
           "desc": "Delay (in milliseconds) between bar progress increments",
-          "default": 300,
-          "examples": [ 150 ]
+          "default": 300
         }
       }
     },
@@ -46,8 +44,7 @@
       "params": {
         "amount": {
           "type": "Number",
-          "desc": "Amount (0.0 < x < 1.0) to increment with",
-          "examples": [ 0.22 ]
+          "desc": "Amount (0.0 < x < 1.0) to increment with"
         }
       }
     },

@@ -15,7 +15,6 @@
     "percentage": {
       "type": "Number",
       "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
-      "examples": [ 23 ],
       "category": "behavior"
     },
 
@@ -92,8 +91,7 @@
           },
           "returns": {
             "type": "Promise<any>",
-            "desc": "Returns the router's navigation promise",
-            "__exemption": [ "examples" ]
+            "desc": "Returns the router's navigation promise"
           }
         }
       }

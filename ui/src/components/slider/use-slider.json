@@ -14,14 +14,12 @@
       "type": "Number",
       "desc": "Maximum value of the model; Set track's maximum value",
       "default": 100,
-      "examples": [ ":max=\"100\"" ],
       "category": "model"
     },
 
     "inner-min": {
       "type": "Number",
       "desc": "Inner minimum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be higher or equal to 'min' prop; Defaults to 'min' prop",
-      "examples": [ ":inner-min=\"0\"" ],
       "category": "model",
       "addedIn": "v2.4"
     },
@@ -29,7 +27,6 @@
     "inner-max": {
       "type": "Number",
       "desc": "Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be lower or equal to 'max' prop; Defaults to 'max' prop",
-      "examples": [ ":inner-max=\"100\"" ],
       "category": "model",
       "addedIn": "v2.4"
     },
@@ -38,7 +35,6 @@
       "type": "Number",
       "desc": "Specify step amount between valid values (> 0.0); When step equals to 0 it defines infinite granularity",
       "default": 1,
-      "examples": [ ":step=\"1\"" ],
       "category": "model"
     },
 
@@ -154,13 +150,11 @@
         "value": {
           "type": "Number",
           "required": true,
-          "desc": "Value of equivalent model where to position the marker",
-          "__exemption": [ "examples" ]
+          "desc": "Value of equivalent model where to position the marker"
         },
         "label": {
           "type": [ "Number", "String" ],
-          "desc": "Label to use",
-          "__exemption": [ "examples" ]
+          "desc": "Label to use"
         },
         "classes": {
           "type": [ "String", "Array", "Object" ],
@@ -179,8 +173,7 @@
         "value": {
           "type": "Number",
           "desc": "The marker value to transform",
-          "required": true,
-          "examples": [ "5" ]
+          "required": true
         }
       },
       "returns": {
@@ -189,13 +182,11 @@
         "definition": {
           "value": {
             "type": "Number",
-            "desc": "Value of equivalent model where to position the marker",
-            "__exemption": [ "examples" ]
+            "desc": "Value of equivalent model where to position the marker"
           },
           "label": {
             "type": [ "Number", "String" ],
-            "desc": "Label to use",
-            "__exemption": [ "examples" ]
+            "desc": "Label to use"
           },
           "classes": {
             "type": [ "String", "Array", "Object" ],
@@ -301,23 +292,19 @@
           "definition": {
             "index": {
               "type": "Number",
-              "desc": "Index of the marker label (0-based)",
-              "__exemption": [ "examples" ]
+              "desc": "Index of the marker label (0-based)"
             },
             "value": {
               "type": "Number",
-              "desc": "Equivalent model value for the marker label",
-              "__exemption": [ "examples" ]
+              "desc": "Equivalent model value for the marker label"
             },
             "label": {
               "type": [ "Number", "String" ],
-              "desc": "Configured label for the marker",
-              "__exemption": [ "examples" ]
+              "desc": "Configured label for the marker"
             },
             "classes": {
               "type": "String",
-              "desc": "Required CSS classes to be applied to the marker element",
-              "__exemption": [ "examples" ]
+              "desc": "Required CSS classes to be applied to the marker element"
             },
             "style": {
               "type": "Object",
@@ -335,23 +322,19 @@
           "definition": {
             "index": {
               "type": "Number",
-              "desc": "Index of the marker label (0-based)",
-              "__exemption": [ "examples" ]
+              "desc": "Index of the marker label (0-based)"
             },
             "value": {
               "type": "Number",
-              "desc": "Equivalent model value for the marker label",
-              "__exemption": [ "examples" ]
+              "desc": "Equivalent model value for the marker label"
             },
             "label": {
               "type": [ "Number", "String" ],
-              "desc": "Configured label for the marker",
-              "__exemption": [ "examples" ]
+              "desc": "Configured label for the marker"
             },
             "classes": {
               "type": "String",
-              "desc": "Required CSS classes to be applied to the marker element",
-              "__exemption": [ "examples" ]
+              "desc": "Required CSS classes to be applied to the marker element"
             },
             "style": {
               "type": "Object",
@@ -373,23 +356,19 @@
               "definition": {
                 "index": {
                   "type": "Number",
-                  "desc": "Index of the marker label (0-based)",
-                  "__exemption": [ "examples" ]
+                  "desc": "Index of the marker label (0-based)"
                 },
                 "value": {
                   "type": "Number",
-                  "desc": "Equivalent model value for the marker label",
-                  "__exemption": [ "examples" ]
+                  "desc": "Equivalent model value for the marker label"
                 },
                 "label": {
                   "type": [ "Number", "String" ],
-                  "desc": "Configured label for the marker",
-                  "__exemption": [ "examples" ]
+                  "desc": "Configured label for the marker"
                 },
                 "classes": {
                   "type": "String",
-                  "desc": "Required CSS classes to be applied to the marker element",
-                  "__exemption": [ "examples" ]
+                  "desc": "Required CSS classes to be applied to the marker element"
                 },
                 "style": {
                   "type": "Object",
@@ -404,8 +383,7 @@
 
         "classes": {
           "type": "String",
-          "desc": "Required CSS classes to be applied to the marker element",
-          "__exemption": [ "examples" ]
+          "desc": "Required CSS classes to be applied to the marker element"
         },
 
         "getStyle": {
@@ -415,16 +393,13 @@
             "value": {
               "type": "Number",
               "desc": "The marker label equivalent model value",
-              "required": true,
-              "examples": [ "5" ]
+              "required": true
             }
           },
           "returns": {
             "type": "Object",
-            "desc": "CSS style Object to apply to a marker element at respective model value",
-            "__exemption": [ "examples" ]
-          },
-          "__exemption": [ "examples" ]
+            "desc": "CSS style Object to apply to a marker element at respective model value"
+          }
         }
       }
     },
@@ -440,23 +415,19 @@
           "definition": {
             "index": {
               "type": "Number",
-              "desc": "Index of the marker label (0-based)",
-              "__exemption": [ "examples" ]
+              "desc": "Index of the marker label (0-based)"
             },
             "value": {
               "type": "Number",
-              "desc": "Equivalent model value for the marker label",
-              "__exemption": [ "examples" ]
+              "desc": "Equivalent model value for the marker label"
             },
             "label": {
               "type": [ "Number", "String" ],
-              "desc": "Configured label for the marker",
-              "__exemption": [ "examples" ]
+              "desc": "Configured label for the marker"
             },
             "classes": {
               "type": "String",
-              "desc": "Required CSS classes to be applied to the marker element",
-              "__exemption": [ "examples" ]
+              "desc": "Required CSS classes to be applied to the marker element"
             },
             "style": {
               "type": "Object",
@@ -478,23 +449,19 @@
               "definition": {
                 "index": {
                   "type": "Number",
-                  "desc": "Index of the marker label (0-based)",
-                  "__exemption": [ "examples" ]
+                  "desc": "Index of the marker label (0-based)"
                 },
                 "value": {
                   "type": "Number",
-                  "desc": "Equivalent model value for the marker label",
-                  "__exemption": [ "examples" ]
+                  "desc": "Equivalent model value for the marker label"
                 },
                 "label": {
                   "type": [ "Number", "String" ],
-                  "desc": "Configured label for the marker",
-                  "__exemption": [ "examples" ]
+                  "desc": "Configured label for the marker"
                 },
                 "classes": {
                   "type": "String",
-                  "desc": "Required CSS classes to be applied to the marker element",
-                  "__exemption": [ "examples" ]
+                  "desc": "Required CSS classes to be applied to the marker element"
                 },
                 "style": {
                   "type": "Object",
@@ -509,8 +476,7 @@
 
         "classes": {
           "type": "String",
-          "desc": "Required CSS classes to be applied to the marker element",
-          "__exemption": [ "examples" ]
+          "desc": "Required CSS classes to be applied to the marker element"
         },
 
         "getStyle": {
@@ -520,16 +486,13 @@
             "value": {
               "type": "Number",
               "desc": "The marker label equivalent model value",
-              "required": true,
-              "examples": [ "5" ]
+              "required": true
             }
           },
           "returns": {
             "type": "Object",
-            "desc": "CSS style Object to apply to a marker element at respective model value",
-            "__exemption": [ "examples" ]
-          },
-          "__exemption": [ "examples" ]
+            "desc": "CSS style Object to apply to a marker element at respective model value"
+          }
         }
       }
     }

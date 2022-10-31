@@ -3,7 +3,6 @@
     "contentEl": {
       "type": "Element",
       "desc": "The DOM Element of the rendered content",
-      "__exemption": [ "examples" ],
       "addedIn": "v2.10.1"
     }
   }

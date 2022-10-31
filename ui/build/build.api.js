@@ -54,21 +54,21 @@ const objectTypes = {
 
   String: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
     props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
@@ -77,7 +77,7 @@ const objectTypes = {
 
   Array: {
     props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
@@ -85,7 +85,7 @@ const objectTypes = {
 
   Promise: {
     props: [ 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples' ]
@@ -102,7 +102,7 @@ const objectTypes = {
 
   MultipleTypes: {
     props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
     isArray: [ 'examples', 'values' ]

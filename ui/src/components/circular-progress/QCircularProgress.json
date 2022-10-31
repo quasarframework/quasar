@@ -10,7 +10,6 @@
       "type": "Number",
       "default": 0,
       "desc": "Current progress (must be between min/max)",
-      "examples": [ 0, 100, 52.32 ],
       "category": "model"
     },
 
@@ -18,7 +17,6 @@
       "type": "Number",
       "default": 0,
       "desc": "Minimum value defining 'no progress' (must be lower than 'max')",
-      "examples": [ 0, 100, 52.32 ],
       "category": "model"
     },
 
@@ -26,7 +24,6 @@
       "type": "Number",
       "default": 100,
       "desc": "Maximum value defining 100% progress made (must be higher than 'min')",
-      "examples": [ 100, 52.32 ],
       "category": "model"
     },
 
@@ -64,7 +61,6 @@
       "type": "Number",
       "default": 0.2,
       "desc": "Thickness of progress arc as a ratio (0.0 < x < 1.0) of component size",
-      "examples": [ 1, 0.3 ],
       "category": "style"
     },
 
@@ -72,7 +68,6 @@
       "type": "Number",
       "desc": "Angle to rotate progress arc by",
       "default": 0,
-      "examples": [ 0, 40, 90 ],
       "category": "content"
     },
 

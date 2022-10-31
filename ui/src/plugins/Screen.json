@@ -33,23 +33,19 @@
       "definition": {
         "sm": {
           "type": "Number",
-          "desc": "Breakpoint width size (minimum size)",
-          "examples": [ 600 ]
+          "desc": "Breakpoint width size (minimum size)"
         },
         "md": {
           "type": "Number",
-          "desc": "Breakpoint width size (minimum size)",
-          "examples": [ 1024 ]
+          "desc": "Breakpoint width size (minimum size)"
         },
         "lg": {
           "type": "Number",
-          "desc": "Breakpoint width size (minimum size)",
-          "examples": [ 1440 ]
+          "desc": "Breakpoint width size (minimum size)"
         },
         "xl": {
           "type": "Number",
-          "desc": "Breakpoint width size (minimum size)",
-          "examples": [ 1920 ]
+          "desc": "Breakpoint width size (minimum size)"
         }
       },
       "reactive": true,
@@ -153,23 +149,19 @@
           "definition": {
             "sm": {
               "type": "Number",
-              "desc": "Breakpoint width size (minimum size)",
-              "examples": [ 600 ]
+              "desc": "Breakpoint width size (minimum size)"
             },
             "md": {
               "type": "Number",
-              "desc": "Breakpoint width size (minimum size)",
-              "examples": [ 1024 ]
+              "desc": "Breakpoint width size (minimum size)"
             },
             "lg": {
               "type": "Number",
-              "desc": "Breakpoint width size (minimum size)",
-              "examples": [ 1440 ]
+              "desc": "Breakpoint width size (minimum size)"
             },
             "xl": {
               "type": "Number",
-              "desc": "Breakpoint width size (minimum size)",
-              "examples": [ 1920 ]
+              "desc": "Breakpoint width size (minimum size)"
             }
           },
           "required": true
@@ -183,8 +175,7 @@
         "amount": {
           "type": "Number",
           "desc": "Amount in milliseconds",
-          "required": true,
-          "examples": [ 300 ]
+          "required": true
         }
       }
     }

@@ -32,17 +32,12 @@
     "max-total-size": {
       "type": [ "Number", "String" ],
       "desc": "Maximum size of all files combined in bytes",
-      "examples": [ 1024, 1048576 ],
       "category": "behavior"
     },
 
     "max-files": {
       "type": [ "Number", "String" ],
       "desc": "Maximum number of files to contain",
-      "examples": [
-        ":max-files=\"5\"",
-        "10"
-      ],
       "category": "behavior"
     },
 
@@ -52,14 +47,12 @@
       "params": {
         "files": {
           "type": [ "FileList", "Array" ],
-          "desc": "Candidate files to be added to queue",
-          "__exemption": [ "examples" ]
+          "desc": "Candidate files to be added to queue"
         }
       },
       "returns": {
         "type": "Array",
-        "desc": "Filtered files to be added to queue",
-        "__exemption": [ "examples" ]
+        "desc": "Filtered files to be added to queue"
       },
       "examples": [ ":filter=\"files => files.filter(file => file.size === 1024)\"" ],
       "category": "behavior"
@@ -73,8 +66,7 @@
         "rejectedEntries": {
           "type": "Array",
           "tsType": "QRejectedEntry",
-          "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation",
-          "__exemption": ["examples"]
+          "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation"
         }
       }
     }
@@ -96,8 +88,7 @@
         "files": {
           "type": [ "FileList", "Array" ],
           "desc": "Array of files (instances of File)",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "required": true
         }
       }
     }

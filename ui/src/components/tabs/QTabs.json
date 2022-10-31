@@ -42,7 +42,6 @@
       "type": [ "Number", "String" ],
       "desc": "Breakpoint (in pixels) of tabs container width at which the tabs automatically turn to a justify alignment",
       "default": 600,
-      "examples": [ ":breakpoint=\"500\"" ],
       "category": "content|behavior"
     },
 

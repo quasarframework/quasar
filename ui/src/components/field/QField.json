@@ -9,7 +9,6 @@
     "maxlength": {
       "type": [ "String", "Number" ],
       "desc": "Specify a max length of model",
-      "examples": [ "12" ],
       "category": "model"
     },
 

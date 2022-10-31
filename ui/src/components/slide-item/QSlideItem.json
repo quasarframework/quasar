@@ -148,8 +148,7 @@
             "ratio": {
               "type": "Number",
               "required": true,
-              "desc": "Ratio of how much of the required slide was performed (0..1)",
-              "examples": [ 0, 0.5, 1 ]
+              "desc": "Ratio of how much of the required slide was performed (0 <= x <= 1)"
             },
             "isReset": {
               "type": "Boolean",

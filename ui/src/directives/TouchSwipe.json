@@ -30,8 +30,7 @@
           },
           "duration": {
             "type": "Number",
-            "desc": "How long it took to trigger the event (in milliseconds)",
-            "examples": [ 612 ]
+            "desc": "How long it took to trigger the event (in milliseconds)"
           },
           "distance": {
             "type": "Object",
@@ -39,13 +38,11 @@
             "definition": {
               "x": {
                 "type": "Number",
-                "desc": "Absolute distance horizontally",
-                "examples": [ 231 ]
+                "desc": "Absolute distance horizontally"
               },
               "y": {
                 "type": "Number",
-                "desc": "Absolute distance vertically",
-                "examples": [ 231 ]
+                "desc": "Absolute distance vertically"
               }
             }
           }

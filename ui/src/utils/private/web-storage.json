@@ -24,8 +24,7 @@
       "desc": "Get storage number of entries",
       "returns": {
         "type": "Number",
-        "desc": "Number of entries",
-        "examples": [ 21 ]
+        "desc": "Number of entries"
       }
     },
 
@@ -54,14 +53,12 @@
         "index": {
           "type": "Number",
           "desc": "Entry index",
-          "required": true,
-          "examples": [ 5 ]
+          "required": true
         }
       },
       "returns": {
         "type": [ "Number", "null" ],
-        "desc": "Storage item index",
-        "examples": [ 7 ]
+        "desc": "Storage item index"
       }
     },
 
@@ -72,8 +69,7 @@
         "index": {
           "type": "Number",
           "desc": "Entry index",
-          "required": true,
-          "examples": [ 5 ]
+          "required": true
         }
       },
       "returns": {
@@ -121,12 +117,12 @@
           "params": {
             "...params": {
               "type": "Any",
-              "__exemption": [ "desc", "examples" ]
+              "__exemption": [ "desc" ]
             }
           },
           "returns": {
             "type": "Any",
-            "__exemption": [ "desc", "examples" ]
+            "__exemption": [ "desc" ]
           },
           "examples": [ "john12" ]
         }

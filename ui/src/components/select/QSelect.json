@@ -142,7 +142,6 @@
     "max-values": {
       "type": [ "Number", "String" ],
       "desc": "Allow a maximum number of selections that the user can do",
-      "examples": [ "5" ],
       "category": "selection"
     },
 
@@ -273,7 +272,6 @@
       "type": [ "Number", "String" ],
       "desc": "Debounce the input model update with an amount of milliseconds",
       "default": 500,
-      "examples": [ 650 ],
       "category": "content"
     },
 
@@ -328,7 +326,6 @@
       "type": [ "String", "Number" ],
       "desc": "Transition duration when hiding the menu/dialog (in milliseconds, without unit)",
       "default": 300,
-      "examples": [ 500, "1200" ],
       "category": "behavior"
     },
 
@@ -376,13 +373,11 @@
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "Selection index",
-          "examples": [ 0 ]
+          "desc": "Selection index"
         },
         "opt": {
           "type": "Any",
-          "desc": "Selected option -- its value is taken from model",
-          "__exemption": [ "examples" ]
+          "desc": "Selected option -- its value is taken from model"
         },
         "selected": {
           "type": "Boolean",
@@ -395,8 +390,7 @@
             "index": {
               "type": "Number",
               "required": true,
-              "desc": "Index at which to remove selection",
-              "examples": [ 0 ]
+              "desc": "Index at which to remove selection"
             }
           },
           "returns": null
@@ -408,8 +402,7 @@
             "opt": {
               "type": "Any",
               "required": true,
-              "desc": "Option to add to model",
-              "__exemption": [ "examples" ]
+              "desc": "Option to add to model"
             }
           },
           "returns": null
@@ -427,13 +420,11 @@
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "Option index",
-          "examples": [ 0 ]
+          "desc": "Option index"
         },
         "opt": {
           "type": "Any",
-          "desc": "Option -- its value is taken from 'options' prop",
-          "__exemption": [ "examples" ]
+          "desc": "Option -- its value is taken from 'options' prop"
         },
         "selected": {
           "type": "Boolean",
@@ -450,8 +441,7 @@
             "opt": {
               "type": "Any",
               "required": true,
-              "desc": "Option to add to model",
-              "__exemption": [ "examples" ]
+              "desc": "Option to add to model"
             }
           },
           "returns": null
@@ -463,16 +453,14 @@
             "index": {
               "type": "Number",
               "required": true,
-              "desc": "Index of option from menu",
-              "examples": [ 10 ]
+              "desc": "Index of option from menu"
             }
           },
           "returns": null
         },
         "itemProps": {
           "type": "Object",
-          "desc": "Computed properties passed down to QItem",
-          "__exemption": [ "examples" ]
+          "desc": "Computed properties passed down to QItem"
         }
       }
     }
@@ -488,8 +476,7 @@
       "params": {
         "value": {
           "type": "String",
-          "desc": "New text value",
-          "__exemption": [ "examples" ]
+          "desc": "New text value"
         }
       }
     },
@@ -504,14 +491,12 @@
             "index": {
               "type": "Number",
               "required": true,
-              "desc": "Model index at which removal took place",
-              "examples": [ 2 ]
+              "desc": "Model index at which removal took place"
             },
             "value": {
               "type": "Any",
               "required": true,
-              "desc": "The actual value that was removed",
-              "__exemption": [ "examples" ]
+              "desc": "The actual value that was removed"
             }
           }
         }
@@ -528,14 +513,12 @@
             "index": {
               "type": "Number",
               "required": true,
-              "desc": "Model index at which addition took place",
-              "examples": [ 2 ]
+              "desc": "Model index at which addition took place"
             },
             "value": {
               "type": "Any",
               "required": true,
-              "desc": "The actual value that was added",
-              "__exemption": [ "examples" ]
+              "desc": "The actual value that was added"
             }
           }
         }
@@ -557,8 +540,7 @@
             "item": {
               "type": "Any",
               "required": false,
-              "desc": "Item to add",
-              "__exemption": [ "examples" ]
+              "desc": "Item to add"
             },
             "mode": {
               "type": "String",
@@ -673,8 +655,7 @@
         "index": {
           "type": "Number",
           "required": true,
-          "desc": "Index at which to remove selection",
-          "examples": [ 0 ]
+          "desc": "Index at which to remove selection"
         }
       }
     },
@@ -685,13 +666,11 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option to add to model",
-          "__exemption": [ "examples" ]
+          "desc": "Option to add to model"
         },
         "unique": {
           "type": "Boolean",
-          "desc": "Option must be unique",
-          "__exemption": [ "examples" ]
+          "desc": "Option must be unique"
         }
       }
     },
@@ -702,8 +681,7 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option to add to model",
-          "__exemption": [ "examples" ]
+          "desc": "Option to add to model"
         },
         "keepOpen": {
           "type": "Boolean",
@@ -716,8 +694,7 @@
       "desc": "Gets current focused option index from menu; It's -1 if no option is focused",
       "returns": {
         "type": "Number",
-        "desc": "Index of option from menu; It's -1 if no option is focused",
-        "examples": [ -1, 0, 10 ]
+        "desc": "Index of option from menu; It's -1 if no option is focused"
       },
       "addedIn": "v2.5.4"
     },
@@ -728,8 +705,7 @@
         "index": {
           "type": "Number",
           "required": true,
-          "desc": "Index of option from menu; -1 to focus none",
-          "examples": [ 10 ]
+          "desc": "Index of option from menu; -1 to focus none"
         }
       }
     },
@@ -740,8 +716,7 @@
         "offset": {
           "type": "Number",
           "desc": "Number of options to move up or down",
-          "default": 1,
-          "examples": [ -1, 1, 5 ]
+          "default": 1
         },
         "skipInputValue": {
           "type": "Boolean",
@@ -788,8 +763,7 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option entry",
-          "__exemption": [ "examples" ]
+          "desc": "Option entry"
         }
       },
       "returns": {
@@ -804,14 +778,12 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option entry",
-          "__exemption": [ "examples" ]
+          "desc": "Option entry"
         }
       },
       "returns": {
         "type": "Any",
-        "desc": "Emitting model value of said option",
-        "__exemption": [ "examples" ]
+        "desc": "Emitting model value of said option"
       }
     },
 
@@ -821,14 +793,12 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option entry",
-          "__exemption": [ "examples" ]
+          "desc": "Option entry"
         }
       },
       "returns": {
         "type": "Any",
-        "desc": "Model value of said option",
-        "__exemption": [ "examples" ]
+        "desc": "Model value of said option"
       }
     },
 
@@ -838,14 +808,12 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option entry",
-          "__exemption": [ "examples" ]
+          "desc": "Option entry"
         }
       },
       "returns": {
         "type": "Any",
-        "desc": "Label of said option",
-        "__exemption": [ "examples" ]
+        "desc": "Label of said option"
       }
     },
 
@@ -855,8 +823,7 @@
         "opt": {
           "type": "Any",
           "required": true,
-          "desc": "Option entry",
-          "__exemption": [ "examples" ]
+          "desc": "Option entry"
         }
       },
       "returns": {

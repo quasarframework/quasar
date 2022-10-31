@@ -9,13 +9,11 @@
     "params": {
       "verticalScrollPosition": {
         "type": "Number",
-        "desc": "Scroll offset from top",
-        "examples": [ 350 ]
+        "desc": "Scroll offset from top"
       },
       "horizontalScrollPosition": {
         "type": "Number",
-        "desc": "Scroll offset from left",
-        "examples": [ 350 ]
+        "desc": "Scroll offset from left"
       }
     },
     "returns": null,
