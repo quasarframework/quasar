@@ -99,7 +99,15 @@
     },
 
     "setIndex": {
-      "desc": "Overwrite the current pagination index"
+      "desc": "Overwrite the current pagination index",
+      "params": {
+        "newIndex": {
+          "type": "Number",
+          "desc": "New pagination index",
+          "required": true,
+          "examples": [ 1 ]
+        }
+      }
     },
 
     "updateScrollTarget": {
