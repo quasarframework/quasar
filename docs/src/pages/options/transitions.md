@@ -5,7 +5,7 @@ components:
   - transitions/TransitionList
 ---
 
-There are a few Quasar components that mention about transitions through `transition-show`/`transition-hide` or `transition-prev`/`transition-next` or simply `transition` props. We're going to showcase these transitions here.
+There are a few Quasar components that implement transitions through `transition-show`/`transition-hide` or `transition-prev`/`transition-next` or simply `transition` props. We're going to showcase these transitions here.
 
 <transition-list />
 
