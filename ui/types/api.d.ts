@@ -1,5 +1,6 @@
 export * from "./api/vue-prop-types";
 export * from "./api/cookies";
+export * from "./api/dialog";
 export * from "./api/qfile";
 export * from "./api/qselect";
 export * from "./api/qtable";
