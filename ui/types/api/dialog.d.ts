@@ -36,7 +36,7 @@ type DatalessInputType = Extract<InputType, "submit" | "reset">;
 
 type PromptInputType = "textarea" | Exclude<InputType, DatalessInputType>;
 
-export type QDialogInputPromptOptions<T = string> = {
+export type QDialogInputPrompt<T = string> = {
   /**
    * The initial value of the input
    */
@@ -59,9 +59,9 @@ export type QDialogInputPromptOptions<T = string> = {
   Partial<NonFunctionProperties<HTMLInputElement>>;
 
 type SelectionPromptType = NonNullable<QOptionGroupProps["type"]>
-export type QDialogSelectionPromptOptions<
+export type QDialogSelectionPrompt<
   // As this gets used as is in generated types, we must define default values for generic params.
-  // Example: `options?: QDialogSelectionPromptOptions;` <- notice the missing type params.
+  // Example: `options?: QDialogSelectionPrompt;` <- notice the missing type params.
   // We can't use "radio" as the default either, because that would make it the only value.
   TType extends SelectionPromptType = SelectionPromptType,
   TModel = TType extends "radio" ? string : readonly any[]
