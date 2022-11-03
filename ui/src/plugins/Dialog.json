@@ -42,6 +42,7 @@
 
             "prompt": {
               "type": "Object",
+              "tsType": "QDialogInputPrompt",
               "desc": "An object definition of the input field for the prompting question.",
               "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
               "definition": {
@@ -95,6 +96,7 @@
 
             "options": {
               "type": "Object",
+              "tsType": "QDialogSelectionPrompt",
               "desc": "An object definition for creating the selection form content",
               "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
               "definition": {
@@ -114,7 +116,7 @@
 
                 "items": {
                   "type": "Array",
-                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionsGroup component",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionGroup component",
                   "examples": [
                     "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
                   ]
