@@ -34,6 +34,6 @@ export default createComponent({
       + (props.padding === true ? ' q-list--padding' : '')
     )
 
-    return () => h(props.tag, { class: classes.value, role: 'list' }, hSlot(slots.default))
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
   }
 })
