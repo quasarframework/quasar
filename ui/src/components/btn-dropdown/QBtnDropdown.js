@@ -77,7 +77,6 @@ export default createComponent({
         'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
         'aria-controls': targetUid,
-        'aria-owns': targetUid,
         'aria-label': props.toggleAriaLabel || proxy.$q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
       }
 

@@ -251,6 +251,11 @@ export default createComponent({
         .join(', ')
     )
 
+    const ariaCurrentValue = computed(() => (props.displayValue !== void 0
+      ? props.displayValue
+      : selectedString.value
+    ))
+
     const needsHtmlFn = computed(() => (
       props.optionsHtml === true
         ? () => true
@@ -268,22 +273,15 @@ export default createComponent({
 
     const tabindex = computed(() => (state.focused.value === true ? props.tabindex : -1))
 
-    const comboboxAttrs = computed(() => ({
-      tabindex: props.tabindex,
-      role: 'combobox',
-      'aria-label': props.label,
-      'aria-readonly': props.readonly === true ? 'true' : 'false',
-      'aria-autocomplete': props.useInput === true ? 'list' : 'none',
-      'aria-expanded': menu.value === true ? 'true' : 'false',
-      'aria-owns': `${ state.targetUid.value }_lb`,
-      'aria-controls': `${ state.targetUid.value }_lb`
-    }))
-
-    const listboxAttrs = computed(() => {
+    const comboboxAttrs = computed(() => {
       const attrs = {
-        id: `${ state.targetUid.value }_lb`,
-        role: 'listbox',
-        'aria-multiselectable': props.multiple === true ? 'true' : 'false'
+        tabindex: props.tabindex,
+        role: 'combobox',
+        'aria-label': props.label,
+        'aria-readonly': props.readonly === true ? 'true' : 'false',
+        'aria-autocomplete': props.useInput === true ? 'list' : 'none',
+        'aria-expanded': menu.value === true ? 'true' : 'false',
+        'aria-controls': `${ state.targetUid.value }_lb`
       }
 
       if (optionIndex.value >= 0) {
@@ -292,6 +290,12 @@ export default createComponent({
 
       return attrs
     })
+
+    const listboxAttrs = computed(() => ({
+      id: `${ state.targetUid.value }_lb`,
+      role: 'listbox',
+      'aria-multiselectable': props.multiple === true ? 'true' : 'false'
+    }))
 
     const selectedScope = computed(() => {
       return innerValue.value.map((opt, i) => ({
@@ -935,9 +939,7 @@ export default createComponent({
 
       return [
         h('span', {
-          [ valueAsHtml.value === true ? 'innerHTML' : 'textContent' ]: props.displayValue !== void 0
-            ? props.displayValue
-            : selectedString.value
+          [ valueAsHtml.value === true ? 'innerHTML' : 'textContent' ]: ariaCurrentValue.value
         })
       ]
     }
@@ -992,7 +994,7 @@ export default createComponent({
         id: isTarget === true ? state.targetUid.value : void 0,
         maxlength: props.maxlength,
         autocomplete: props.autocomplete,
-        'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
+        'data-autofocus': fromDialog === true || props.autofocus === true || void 0,
         disabled: props.disable === true,
         readonly: props.readonly === true,
         ...inputControlEvents.value
@@ -1492,8 +1494,9 @@ export default createComponent({
               key: 'd_t',
               class: 'q-select__focus-target',
               id: isTarget === true ? state.targetUid.value : void 0,
+              value: ariaCurrentValue.value,
               readonly: true,
-              'data-autofocus': (fromDialog !== true && props.autofocus === true) || void 0,
+              'data-autofocus': fromDialog === true || props.autofocus === true || void 0,
               ...attrs,
               onKeydown: onTargetKeydown,
               onKeyup: onTargetKeyup,

@@ -143,7 +143,6 @@ export default createComponent({
       return {
         role: 'button',
         'aria-expanded': showing.value === true ? 'true' : 'false',
-        'aria-owns': targetUid,
         'aria-controls': targetUid,
         'aria-label': toggleAriaLabel
       }

@@ -77,13 +77,11 @@ export default createComponent({
 
     const actionAttrs = computed(() => {
       const attrs = {
-        id: targetUid
+        id: targetUid,
+        role: 'menu'
       }
 
-      if (showing.value === true) {
-        attrs.role = 'menu'
-      }
-      else {
+      if (showing.value !== true) {
         attrs[ 'aria-hidden' ] = 'true'
       }
 
@@ -152,7 +150,6 @@ export default createComponent({
         'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
         'aria-controls': targetUid,
-        'aria-owns': targetUid,
         onClick: toggle
       }, getTriggerContent),
 
