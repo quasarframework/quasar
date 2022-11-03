@@ -145,7 +145,6 @@ export default Vue.extend({
       return {
         role: 'button',
         'aria-expanded': this.showing === true ? 'true' : 'false',
-        'aria-owns': this.targetUid,
         'aria-controls': this.targetUid,
         'aria-label': toggleAriaLabel
       }

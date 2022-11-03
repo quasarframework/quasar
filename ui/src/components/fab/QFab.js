@@ -73,13 +73,11 @@ export default Vue.extend({
 
     actionsAttrs () {
       const attrs = {
-        id: this.targetUid
+        id: this.targetUid,
+        role: 'menu'
       }
 
-      if (this.showing === true) {
-        attrs.role = 'menu'
-      }
-      else {
+      if (this.showing !== true) {
         attrs['aria-hidden'] = 'true'
       }
 
@@ -95,7 +93,6 @@ export default Vue.extend({
         'aria-expanded': this.showing === true ? 'true' : 'false',
         'aria-haspopup': 'true',
         'aria-controls': this.targetUid,
-        'aria-owns': this.targetUid,
         ...this.qAttrs
       }
     },
