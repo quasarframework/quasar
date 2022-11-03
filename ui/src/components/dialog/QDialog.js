@@ -171,9 +171,9 @@ export default Vue.extend({
       })
     },
 
-    shake (refocusTarget) {
-      if (refocusTarget && typeof refocusTarget.focus === 'function') {
-        refocusTarget.focus({ preventScroll: true })
+    shake (focusTarget) {
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus({ preventScroll: true })
       }
       else {
         this.focus()
@@ -210,14 +210,14 @@ export default Vue.extend({
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
       this.__updateMaximized(this.maximized)
 
-      EscapeKey.register(this, () => {
+      EscapeKey.register(this, escEvt => {
         if (this.seamless !== true) {
           if (this.persistent === true || this.noEscDismiss === true) {
             this.maximized !== true && this.noShake !== true && this.shake()
           }
           else {
             this.$emit('escape-key')
-            this.hide()
+            this.hide(escEvt)
           }
         }
       })
@@ -276,7 +276,10 @@ export default Vue.extend({
 
       // check null for IE
       if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
-        this.__refocusTarget.focus(evt)
+        ((evt && evt.type.indexOf('key') === 0
+          ? this.__refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || this.__refocusTarget).focus()
         this.__refocusTarget = void 0
       }
 
