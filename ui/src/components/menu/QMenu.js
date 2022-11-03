@@ -258,7 +258,10 @@ export default createComponent({
           || evt.qClickOutside !== true
         )
       ) {
-        refocusTarget.focus()
+        ((evt && evt.type.indexOf('key') === 0
+          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || refocusTarget).focus()
         refocusTarget = null
       }
 

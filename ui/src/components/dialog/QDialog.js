@@ -219,7 +219,10 @@ export default createComponent({
       hidePortal()
 
       if (refocusTarget !== null) {
-        refocusTarget.focus()
+        ((evt && evt.type.indexOf('key') === 0
+          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || refocusTarget).focus()
         refocusTarget = null
       }
 
@@ -248,9 +251,9 @@ export default createComponent({
       })
     }
 
-    function shake (refocusTarget) {
-      if (refocusTarget && typeof refocusTarget.focus === 'function') {
-        refocusTarget.focus({ preventScroll: true })
+    function shake (focusTarget) {
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus({ preventScroll: true })
       }
       else {
         focus()
