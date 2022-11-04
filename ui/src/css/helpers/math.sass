@@ -1,5 +1,38 @@
 $PI: 3.14159265359
 
+// Implements division via multiplication to avoid deprecation warnings in
+// sass@>1.32.12.
+// Source: https://github.com/twbs/bootstrap/blob/2b21094074b1bdabf9ebc4095c29398f8b2de237/scss/_functions.scss
+@function divide($dividend, $divisor, $precision: 10)
+  $sign: if($dividend > 0 and $divisor > 0 or $dividend < 0 and $divisor < 0, 1, -1)
+  $dividend: abs($dividend)
+  $divisor: abs($divisor)
+  @if $dividend == 0
+    @return 0
+  @if $divisor == 0
+    @error "Cannot divide by 0"
+  $remainder: $dividend
+  $result: 0
+  $factor: 10
+  @while ($remainder > 0 and $precision >= 0)
+    $quotient: 0
+    @while ($remainder >= $divisor)
+      $remainder: $remainder - $divisor
+      $quotient: $quotient + 1
+    $result: $result * 10 + $quotient
+    $factor: $factor * .1
+    $remainder: $remainder * 10
+    $precision: $precision - 1
+    @if ($precision < 0 and $remainder >= $divisor * 5)
+      $result: $result + 1
+  $result: $result * $factor * $sign
+  $dividend-unit: unit($dividend)
+  $divisor-unit: unit($divisor)
+  $unit-map: ("px": 1px, "rem": 1rem, "em": 1em, "%": 1%)
+  @if ($dividend-unit != $divisor-unit and map-has-key($unit-map, $dividend-unit))
+    $result: $result * map-get($unit-map, $dividend-unit)
+  @return $result
+
 @function pow($number, $exp)
   $value: 1
   @if $exp > 0
@@ -7,7 +40,7 @@ $PI: 3.14159265359
       $value: $value * $number
   @else if $exp < 0
     @for $i from 1 through -$exp
-      $value: $value / $number
+      $value: divide($value, $number)
   @return $value
 
 @function fact($number)
@@ -21,22 +54,22 @@ $PI: 3.14159265359
 // toFixed(0.12345, 100) -> 0.12
 // toFixed(0.12345, 1000) -> 0.123
 @function toFixed($number, $power)
-  @return round($number * $power) / $power
+  @return divide(round($number * $power), $power)
 
 @function sin($angle)
   $sin: 0
   // angle -> radians
-  $rad: $angle / 180 * $PI
+  $rad: divide($angle, 180) * $PI
   // interval determines precision
   @for $i from 0 through 25
-    $sin: $sin + pow(-1, $i) * pow($rad, (2 * $i + 1)) / fact(2 * $i + 1)
+    $sin: $sin + pow(-1, $i) * divide(pow($rad, (2 * $i + 1)), fact(2 * $i + 1))
   @return $sin
 
 @function cos($angle)
   $cos: 0
   // angle -> radians
-  $rad: $angle / 180 * $PI
+  $rad: divide($angle, 180) * $PI
   // interval determines precision
   @for $i from 0 through 25
-    $cos: $cos + pow(-1, $i) * pow($rad, 2 * $i) / fact(2 * $i)
+    $cos: $cos + pow(-1, $i) * divide(pow($rad, 2 * $i), fact(2 * $i))
   @return $cos
