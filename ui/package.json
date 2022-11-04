@@ -60,7 +60,7 @@
   "homepage": "https://quasar.dev",
   "devDependencies": {
     "@quasar/app": "^2.0.6",
-    "@quasar/extras": "^1.11.0",
+    "@quasar/extras": "^1.15.5",
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-node-resolve": "^7.1.0",
