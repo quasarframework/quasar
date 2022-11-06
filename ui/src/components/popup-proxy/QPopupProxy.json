@@ -68,7 +68,7 @@
       "type": "Object",
       "desc": "Access current underlying component (QMenu or QDialog)",
       "definition": {
-        "name": {
+        "type": {
           "type": "String",
           "desc": "Component type",
           "values": [ "dialog", "menu" ]
