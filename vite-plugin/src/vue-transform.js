@@ -1,7 +1,7 @@
 import autoImportData from 'quasar/dist/transforms/auto-import.json'
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-import { mapQuasarImports } from './js-transform.js'
+import { mapQuasarImports, fillQuasarImports } from './js-transform.js'
 
 const compRegex = {
   'kebab': new RegExp(`_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`, 'g'),
@@ -22,7 +22,7 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
   const reverseMap = {}
   const jsImportTransformed = useTreeshaking === true
     ? mapQuasarImports(content, importMap)
-    : content
+    : fillQuasarImports(content, importMap)
 
   let code = jsImportTransformed
     .replace(compRegex[autoImportComponentCase], (_, match) => {

@@ -2,6 +2,28 @@ import importTransformation from 'quasar/dist/transforms/import-transformation.j
 
 const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
 
+export function fillQuasarImports (code, importMap) {
+  if (typeof code === 'string') {
+    [...code.matchAll(importQuasarRegex)].forEach(match => {
+      match[1].split(',').forEach(identifier => {
+        const data = identifier.split(' as ')
+        const importName = data[0].trim()
+
+        // might be an empty entry like below
+        // (notice useQuasar is followed by a comma)
+        // import { QTable, useQuasar, } from 'quasar'
+        if (importName !== '') {
+          importMap[importName] = data[1] !== void 0
+            ? data[1].trim()
+            : importName
+        }
+      })
+    })
+  }
+
+  return code
+}
+
 /**
  * Transforms JS code where importing from 'quasar' package
  * Example:
