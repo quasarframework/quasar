@@ -145,7 +145,7 @@ export default Vue.extend({
       }
 
       if (this.autogrow === true) {
-        on.animationend = this.__adjustHeight
+        on.animationend = this.__onAnimationend
       }
 
       return on
@@ -240,6 +240,11 @@ export default Vue.extend({
       // we need to trigger it immediately too,
       // to avoid "flickering"
       this.autogrow === true && this.__adjustHeight()
+    },
+
+    __onAnimationend (e) {
+      this.qListeners.animationend !== void 0 && this.$emit('animationend', e)
+      this.__adjustHeight()
     },
 
     __emitValue (val, stopWatcher) {
