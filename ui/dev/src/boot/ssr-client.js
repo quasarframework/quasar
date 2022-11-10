@@ -3,12 +3,14 @@ export default ({ router }) => {
   console.log('[Quasar] On route change we deliberately load page from server -- in order to test hydration errors')
 
   let reload = false
-  router.beforeEach((to, _, next) => {
+  router.beforeEach((to) => {
     if (reload) {
-      window.location.href = to.fullPath
+      setTimeout(() => {
+        window.location.href = to.fullPath
+      }, 0)
       return false
     }
     reload = true
-    next()
+    return true
   })
 }
