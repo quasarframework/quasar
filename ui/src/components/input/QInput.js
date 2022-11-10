@@ -40,7 +40,8 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'paste', 'change'
+    'paste', 'change',
+    'keydown', 'animationend'
   ],
 
   setup (props, { emit, attrs }) {
@@ -98,7 +99,7 @@ export default createComponent({
       }
 
       if (props.autogrow === true) {
-        evt.onAnimationend = adjustHeight
+        evt.onAnimationend = onAnimationend
       }
 
       return evt
@@ -251,6 +252,11 @@ export default createComponent({
       // we need to trigger it immediately too,
       // to avoid "flickering"
       props.autogrow === true && adjustHeight()
+    }
+
+    function onAnimationend (e) {
+      emit('animationend', e)
+      adjustHeight()
     }
 
     function emitValue (val, stopWatcher) {
