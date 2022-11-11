@@ -201,3 +201,16 @@ export const useWhateverStore = defineStore('whatever', {
   }
 }
 ```
+  
+## Note
+  
+if you have this error: getActivePinia was called with no active Pinia. Did you forget to install pinia?
+
+Try add 'LocalStorage' plugin into quasar.config.js
+  ```js
+plugins: [
+  'LocalStorage'
+]
+```
+  
+If it doesn’t help, check that your folder where the pinia storage is stored is called 'stores'
