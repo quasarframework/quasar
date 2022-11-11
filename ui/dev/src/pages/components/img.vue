@@ -171,6 +171,7 @@
 
       <q-img
         :src="bogusSrc"
+        placeholder-src="https://picsum.photos/500/300/?blur"
         spinner-color="white"
         ratio="1"
         style="min-height: 100px; max-width: 225px"

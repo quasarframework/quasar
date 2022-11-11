@@ -73,7 +73,7 @@ export default createComponent({
 
     const images = [
       ref(null),
-      ref(props.placeholderSrc !== void 0 ? { src: props.placeholderSrc } : null)
+      ref(getPlaceholderSrc())
     ]
 
     const position = ref(0)
@@ -113,18 +113,24 @@ export default createComponent({
         : null
     }
 
+    function getPlaceholderSrc () {
+      return props.placeholderSrc !== void 0
+        ? { src: props.placeholderSrc }
+        : null
+    }
+
     function addImage (imgProps) {
       clearTimeout(loadTimer)
       hasError.value = false
 
       if (imgProps === null) {
         isLoading.value = false
-        images[ 0 ].value = null
-        images[ 1 ].value = null
-        return
+        images[ position.value ^ 1 ].value = getPlaceholderSrc()
+      }
+      else {
+        isLoading.value = true
       }
 
-      isLoading.value = true
       images[ position.value ].value = imgProps
     }
 
@@ -159,7 +165,7 @@ export default createComponent({
       // if component has been already destroyed
       if (loadTimer === null) { return }
 
-      position.value = position.value === 1 ? 0 : 1
+      position.value = position.value ^ 1
       images[ position.value ].value = null
       isLoading.value = false
       hasError.value = false
@@ -170,8 +176,8 @@ export default createComponent({
       clearTimeout(loadTimer)
       isLoading.value = false
       hasError.value = true
-      images[ 0 ].value = null
-      images[ 1 ].value = null
+      images[ position.value ].value = null
+      images[ position.value ^ 1 ].value = getPlaceholderSrc()
       emit('error', err)
     }
 
