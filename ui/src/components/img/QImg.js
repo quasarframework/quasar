@@ -6,7 +6,6 @@ import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 const defaultRatio = 16 / 9
 
@@ -242,7 +241,7 @@ export default createComponent({
     }
 
     if (__QUASAR_SSR_SERVER__ !== true) {
-      if (__QUASAR_SSR_CLIENT__ && isRuntimeSsrPreHydration.value === true) {
+      if (__QUASAR_SSR_CLIENT__) {
         onMounted(() => {
           addImage(getCurrentSrc())
         })

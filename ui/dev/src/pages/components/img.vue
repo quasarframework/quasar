@@ -204,7 +204,9 @@ export default {
     onClick () {
       console.log('@click')
     }
-  }
+  } // ,
+
+  // async setup () {}
 }
 </script>
 
