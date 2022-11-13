@@ -3,7 +3,7 @@ title: Configuring quasar.config.js
 desc: (@quasar/app-vite) Where, how and what you can configure in a Quasar CLI with Vite app.
 ---
 
-Notice that you scaffolded project folder contains a `/quasar.config.js` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
+Notice that your scaffolded project folder contains a `/quasar.config.js` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
 
 * Quasar components, directives and plugins that you'll be using in your website/app
 * Default [Quasar Language Pack](/options/quasar-language-packs)
