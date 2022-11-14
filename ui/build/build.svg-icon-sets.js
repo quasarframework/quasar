@@ -61,6 +61,11 @@ const iconTypes = [
     convert
   },
   {
+    name: 'mdi-v7',
+    regex: /^mdi-/,
+    convert
+  },
+  {
     name: 'ionicons-v4',
     regex: /^ion-/,
     convert: str => convert(
@@ -105,8 +110,10 @@ const iconTypes = [
   }
 ]
 
-function convertWebfont (name) {
-  const type = iconTypes.find(type => type.regex.test(name)) || iconTypes[0]
+function convertWebfont (name, originalType) {
+  const type = originalType.regex.test(name)
+    ? originalType
+    : iconTypes.find(type => type.regex.test(name)) || iconTypes[0]
 
   return {
     importName: type.name,
@@ -145,8 +152,8 @@ module.exports.generate = function () {
 
       const contentString = insideOfExport
         .replace(/name: '(.+)'/, `name: ""`)
-        .replace(/'(.+)'/g, m => {
-          const { importName, variableName } = convertWebfont(m.substring(1, m.length - 1))
+        .replace(/'(.+)'/g, (_match, name) => {
+          const { importName, variableName } = convertWebfont(name, type)
           if (!importList[importName].includes(variableName)) {
             importList[importName].push(variableName)
           }
