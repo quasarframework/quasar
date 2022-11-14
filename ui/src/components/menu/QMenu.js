@@ -226,7 +226,6 @@ export default Vue.extend({
           evt.qClickOutside !== true
         )
       ) {
-        console.log(evt);
         ((evt && evt.type.indexOf('key') === 0
           ? this.__refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
           : void 0
