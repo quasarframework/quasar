@@ -246,6 +246,12 @@ export default Vue.extend({
         .join(', ')
     },
 
+    ariaCurrentValue () {
+      return this.displayValue !== void 0
+        ? this.displayValue
+        : this.selectedString
+    },
+
     sanitizeFn () {
       return this.optionsSanitize === true
         ? () => true
@@ -424,7 +430,6 @@ export default Vue.extend({
         'aria-readonly': this.readonly === true ? 'true' : 'false',
         'aria-autocomplete': this.useInput === true ? 'list' : 'none',
         'aria-expanded': this.menu === true ? 'true' : 'false',
-        'aria-owns': `${this.targetUid}_lb`,
         'aria-controls': `${this.targetUid}_lb`
       }
 
@@ -436,13 +441,11 @@ export default Vue.extend({
     },
 
     listboxAttrs () {
-      const attrs = {
+      return {
         id: `${this.targetUid}_lb`,
         role: 'listbox',
         'aria-multiselectable': this.multiple === true ? 'true' : 'false'
       }
-
-      return attrs
     }
   },
 
@@ -963,9 +966,7 @@ export default Vue.extend({
       return [
         h('span', {
           domProps: {
-            [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
-              ? this.displayValue
-              : this.selectedString
+            [this.displayAsText ? 'textContent' : 'innerHTML']: this.ariaCurrentValue
           }
         })
       ]
@@ -1006,6 +1007,7 @@ export default Vue.extend({
             h('input', {
               key: 'autoinp',
               staticClass: 'q-select__autocomplete-input',
+              domProps: { value: this.ariaCurrentValue },
               attrs: { autocomplete: this.autocomplete, tabindex: -1 },
               on: cache(this, 'autoinp', {
                 keyup: this.__onTargetAutocomplete

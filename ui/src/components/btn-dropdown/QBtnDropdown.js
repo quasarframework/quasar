@@ -82,7 +82,6 @@ export default Vue.extend({
       'aria-expanded': this.showing === true ? 'true' : 'false',
       'aria-haspopup': 'true',
       'aria-controls': this.targetUid,
-      'aria-owns': this.targetUid,
       'aria-label': this.toggleAriaLabel || this.$q.lang.label[ this.showing === true ? 'collapse' : 'expand' ](this.label)
     }
 

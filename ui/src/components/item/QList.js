@@ -5,8 +5,6 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/private/slot.js'
 
-const attrs = { role: 'list' }
-
 export default Vue.extend({
   name: 'QList',
 
@@ -38,7 +36,6 @@ export default Vue.extend({
   render (h) {
     return h(this.tag, {
       class: this.classes,
-      attrs,
       on: { ...this.qListeners }
     }, slot(this, 'default'))
   }

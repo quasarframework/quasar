@@ -137,7 +137,8 @@
 
     &--opened
       opacity: 1
-      transform: scale(1) translate(0, 0)
+      // needed when rtlcss is enabled
+      transform: scale(1) translate(0.1px, 0)
       pointer-events: all
 
   &--align-left

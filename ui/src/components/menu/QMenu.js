@@ -155,10 +155,10 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      EscapeKey.register(this, () => {
+      EscapeKey.register(this, escEvt => {
         if (this.persistent !== true) {
           this.$emit('escape-key')
-          this.hide()
+          this.hide(escEvt)
         }
       })
 
@@ -226,7 +226,10 @@ export default Vue.extend({
           evt.qClickOutside !== true
         )
       ) {
-        this.__refocusTarget.focus()
+        ((evt && evt.type.indexOf('key') === 0
+          ? this.__refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || this.__refocusTarget).focus()
         this.__refocusTarget = void 0
       }
 
