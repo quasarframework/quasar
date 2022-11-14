@@ -102,7 +102,9 @@ export default Vue.extend({
     },
 
     view () {
-      this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+      if (this.$refs.blurTarget !== void 0 && this.$el.contains(document.activeElement) === true) {
+        this.$refs.blurTarget.focus()
+      }
     },
 
     'viewModel.year' (year) {

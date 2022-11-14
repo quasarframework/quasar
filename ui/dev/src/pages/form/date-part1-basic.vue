@@ -329,6 +329,24 @@
           </template>
         </q-input>
       </div>
+
+      <div class="text-h6">
+        Input that keeps focus: {{ input }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input :dark="dark" filled v-model="inputFull" label="Keep focus here" @focus="e => $refs.menuRef.show(e)" @blur="e => $refs.menuRef.hide(e)">
+          <q-menu ref="menuRef" anchor="bottom left" self="top left" no-focus no-refocus no-parent-event>
+            <q-date
+              v-model="inputFull"
+              v-bind="props"
+              mask="YYYY-MM-DD HH:mm"
+              today-btn
+              :style="style"
+              @pointerdown.capture.prevent
+            />
+          </q-menu>
+        </q-input>
+      </div>
     </div>
   </div>
 </template>
