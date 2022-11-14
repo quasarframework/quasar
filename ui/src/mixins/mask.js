@@ -422,6 +422,8 @@ export default {
     },
 
     __onMaskedKeydown (e) {
+      this.qListeners.keydown !== void 0 && this.$emit('keydown', e)
+
       if (shouldIgnoreKey(e) === true) {
         return
       }
