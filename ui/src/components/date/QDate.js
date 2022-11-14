@@ -708,7 +708,9 @@ export default createComponent({
     })
 
     watch(view, () => {
-      blurTargetRef.value !== null && blurTargetRef.value.focus()
+      if (blurTargetRef.value !== null && proxy.$el.contains(document.activeElement) === true) {
+        blurTargetRef.value.focus()
+      }
     })
 
     watch(() => viewModel.value.year, year => {
