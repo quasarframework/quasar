@@ -181,14 +181,6 @@ export default createComponent({
       emit('error', err)
     }
 
-    function getContainer (key, child) {
-      return h(
-        'div',
-        { class: 'q-img__container absolute-full', key },
-        child
-      )
-    }
-
     function getImage (index) {
       const img = images[ index ].value
 
@@ -216,7 +208,11 @@ export default createComponent({
         data.class += ' q-img__image--loaded'
       }
 
-      return getContainer('img' + index, h('img', data))
+      return h(
+        'div',
+        { class: 'q-img__container absolute-full', key: 'img' + index },
+        h('img', data)
+      )
     }
 
     function getContent () {
