@@ -7,3 +7,5 @@ debug.log
 package-lock.json
 
 ui/.vscode/
+
+node_modules/
