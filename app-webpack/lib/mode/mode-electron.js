@@ -28,10 +28,16 @@ class Mode {
     )
 
     log('Creating Electron source folder...')
+
     const format = hasTypescript ? 'ts' : 'default'
     fse.copySync(
       appPaths.resolve.cli(`templates/electron/${format}`),
       appPaths.electronDir
+    )
+
+    fse.copySync(
+      appPaths.resolve.cli('templates/electron/electron-flag.d.ts'),
+      appPaths.resolve.electron('electron-flag.d.ts')
     )
 
     log('Creating Electron icons folder...')

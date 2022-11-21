@@ -12,6 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 function getViewByModel (model, withSeconds) {
   if (model.hour !== null) {
@@ -71,7 +72,8 @@ export default createComponent({
   emits: useDatetimeEmits,
 
   setup (props, { slots, emit }) {
-    const { proxy: { $q } } = getCurrentInstance()
+    const vm = getCurrentInstance()
+    const { $q } = vm.proxy
 
     const isDark = useDark(props, $q)
     const { tabindex, headerClass, getLocale, getCurrentDate } = useDatetime(props, $q)
@@ -385,8 +387,7 @@ export default createComponent({
     }
 
     function shouldAbortInteraction () {
-      return vm.isDeactivated === true
-        || vm.isUnmounted === true
+      return vmIsDestroyed(vm) === true
         // if we have limited options, can we actually set any?
         || (
           viewValidOptions.value !== null
@@ -759,10 +760,6 @@ export default createComponent({
       emit('update:modelValue', val, date)
     }
 
-    // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, { setNow })
-
     function getHeader () {
       const label = [
         h('div', {
@@ -899,6 +896,9 @@ export default createComponent({
         }) : null
       ])
     }
+
+    // expose public method
+    vm.proxy.setNow = setNow
 
     return () => {
       const child = [ getClock() ]

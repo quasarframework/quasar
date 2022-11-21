@@ -138,6 +138,7 @@ export default ssrContext => {
     // wait until router has resolved possible async hooks
     router.isReady().then(() => {
       let matchedComponents = router.currentRoute.value.matched
+        .filter(record => record.components !== void 0)
         .flatMap(record => Object.values(record.components))
 
       // no matched routes

@@ -17,8 +17,8 @@ export default createComponent({
   },
 
   setup (props, { slots }) {
-    const vm = getCurrentInstance()
-    const isDark = useDark(props, vm.proxy.$q)
+    const { proxy: { $q } } = getCurrentInstance()
+    const isDark = useDark(props, $q)
 
     const classes = computed(() =>
       'q-banner row items-center'

@@ -39,7 +39,7 @@ module.exports = {
 
       Object.assign(opts, {
         sourcemap: quasarConf.build.sourcemap !== false,
-        mode: quasarConf.metaConf.debugging === true ? 'development' : 'production',
+        mode: quasarConf.metaConf.debugging === true || quasarConf.build.minify === false ? 'development' : 'production',
         cacheId: appPkg.name || 'quasar-pwa-app',
         cleanupOutdatedCaches: true,
         clientsClaim: true,

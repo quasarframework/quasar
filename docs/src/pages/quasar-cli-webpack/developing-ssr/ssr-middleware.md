@@ -158,7 +158,7 @@ This command creates a new file: `/src-ssr/middlewares/<name>.js` with the follo
 
 // "async" is optional!
 // remove it if you don't need it
-export default async ({ app resolveUrlPath, publicPath, folders, render }) => {
+export default async ({ app, resolveUrlPath, publicPath, folders, render }) => {
   // something to do with the server "app"
 }
 ```

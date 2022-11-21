@@ -42,10 +42,15 @@ We are updating this section constantly in order to keep you up to date with our
 ### Q3 2022
 * ✌️ (DONE) Quasar.Conf 2022 - 9th of July - [Watch](https://bit.ly/qconf2022yt)
 * ✌️ (DONE) Quasar v2 TypeScript projects created with Quasar CLI will have all files spawned in .ts format instead of .js for all Quasar modes (_modes had templates only in .js form by default_) ([#8572](https://github.com/quasarframework/quasar/issues/8572))
-* Gradually add more automatic tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our Discord server if you're willing to help!
-* Allow to save starter kit options as JSON profiles ([#5537](https://github.com/quasarframework/quasar/issues/5537))
+* ✌️ (DONE) Support PNPM [#13615](https://github.com/quasarframework/quasar/pull/13615)
+* 🚫 (BLOCKED, workaround provided) Allow to save starter kit options as JSON profiles ([#5537](https://github.com/quasarframework/quasar/issues/5537))
+* ✌️ (DONE) Add Vitest integration via Quasar Vitest AE, [check it out](https://github.com/quasarframework/quasar-testing/tree/dev/packages/unit-vitest)
 
 ### Q4 2022
+* 🚧 (WIP) Gradually add more automatic tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our Discord server if you're willing to help!
+* ✌️ (DONE) Refactor & enhance QPagination [#14609](https://github.com/quasarframework/quasar/pull/14609)
+* ✌️ (DONE) Improve a11y for Quasar components [#14609](https://github.com/quasarframework/quasar/pull/14609)
+* ✌️ (DONE) Support Cypress 10 into Quasar Cypress AE, [check it out](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)
 * Publish official Quasar Organizational chart
 * Start working on Quasar v3
 * More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))

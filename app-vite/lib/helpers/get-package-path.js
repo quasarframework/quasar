@@ -1,6 +1,9 @@
 const appPaths = require('../app-paths')
 
-module.exports = function (pkgName, folder = appPaths.appDir) {
+/**
+ * Get the resolved path of a host package.
+ */
+module.exports = function getPackagePath(pkgName, folder = appPaths.appDir) {
   try {
     return require.resolve(pkgName, {
       paths: [ folder ]

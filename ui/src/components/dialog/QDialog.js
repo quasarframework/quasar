@@ -1,10 +1,10 @@
-import { h, ref, computed, watch, onBeforeUnmount, nextTick, Transition, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
 import useHistory from '../../composables/private/use-history.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 import useTick from '../../composables/private/use-tick.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
-import { useTransitionProps } from '../../composables/private/use-transition.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
 import usePortal from '../../composables/private/use-portal.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
@@ -25,7 +25,7 @@ const positionClass = {
   left: 'fixed-left items-center'
 }
 
-const transitions = {
+const defaultTransitions = {
   standard: [ 'scale', 'scale' ],
   top: [ 'slide-down', 'slide-up' ],
   bottom: [ 'slide-up', 'slide-down' ],
@@ -42,8 +42,8 @@ export default createComponent({
     ...useModelToggleProps,
     ...useTransitionProps,
 
-    transitionShow: String,
-    transitionHide: String,
+    transitionShow: String, // override useTransitionProps
+    transitionHide: String, // override useTransitionProps
 
     persistent: Boolean,
     autoClose: Boolean,
@@ -74,7 +74,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'shake', 'click', 'escape-key'
+    'shake', 'click', 'escapeKey'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -82,7 +82,6 @@ export default createComponent({
 
     const innerRef = ref(null)
     const showing = ref(false)
-    const transitionState = ref(false)
     const animating = ref(false)
 
     let shakeTimeout, refocusTarget = null, isMaximized, avoidAutoClose
@@ -94,8 +93,14 @@ export default createComponent({
     )
 
     const { preventBodyScroll } = usePreventScroll()
-    const { registerTimeout, removeTimeout } = useTimeout()
+    const { registerTimeout } = useTimeout()
     const { registerTick, removeTick } = useTick()
+
+    const { transitionProps, transitionStyle } = useTransition(
+      props,
+      () => defaultTransitions[ props.position ][ 0 ],
+      () => defaultTransitions[ props.position ][ 1 ]
+    )
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
       vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
@@ -121,26 +126,6 @@ export default createComponent({
       + (props.square === true ? ' q-dialog__inner--square' : '')
     )
 
-    const transitionShow = computed(() =>
-      'q-transition--'
-      + (props.transitionShow === void 0 ? transitions[ props.position ][ 0 ] : props.transitionShow)
-    )
-
-    const transitionHide = computed(() =>
-      'q-transition--'
-      + (props.transitionHide === void 0 ? transitions[ props.position ][ 1 ] : props.transitionHide)
-    )
-
-    const transition = computed(() => (
-      transitionState.value === true
-        ? transitionHide.value
-        : transitionShow.value
-    ))
-
-    const transitionStyle = computed(
-      () => `--q-transition-duration: ${ props.transitionDuration }ms`
-    )
-
     const useBackdrop = computed(() => showing.value === true && props.seamless !== true)
 
     const onEvents = computed(() => (
@@ -154,12 +139,6 @@ export default createComponent({
         + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
       attrs.class
     ])
-
-    watch(showing, val => {
-      nextTick(() => {
-        transitionState.value = val
-      })
-    })
 
     watch(() => props.maximized, state => {
       showing.value === true && updateMaximized(state)
@@ -179,8 +158,6 @@ export default createComponent({
     })
 
     function handleShow (evt) {
-      removeTimeout()
-      removeTick()
       addToHistory()
 
       refocusTarget = props.noRefocus === false && document.activeElement !== null
@@ -195,7 +172,11 @@ export default createComponent({
         document.activeElement !== null && document.activeElement.blur()
         registerTick(focus)
       }
+      else {
+        removeTick()
+      }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         if (vm.proxy.$q.platform.is.ios === true) {
           if (props.seamless !== true && document.activeElement) {
@@ -231,7 +212,6 @@ export default createComponent({
     }
 
     function handleHide (evt) {
-      removeTimeout()
       removeTick()
       removeFromHistory()
       cleanup(true)
@@ -239,10 +219,14 @@ export default createComponent({
       hidePortal()
 
       if (refocusTarget !== null) {
-        refocusTarget.focus()
+        ((evt && evt.type.indexOf('key') === 0
+          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || refocusTarget).focus()
         refocusTarget = null
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         animating.value = false
@@ -258,13 +242,23 @@ export default createComponent({
           return
         }
 
-        node = node.querySelector(selector || '[autofocus], [data-autofocus]') || node
+        node = (selector !== '' ? node.querySelector(selector) : null)
+          || node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+          || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+          || node.querySelector('[autofocus], [data-autofocus]')
+          || node
         node.focus({ preventScroll: true })
       })
     }
 
-    function shake () {
-      focus()
+    function shake (focusTarget) {
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus({ preventScroll: true })
+      }
+      else {
+        focus()
+      }
+
       emit('shake')
 
       const node = innerRef.value
@@ -290,7 +284,7 @@ export default createComponent({
           props.maximized !== true && props.noShake !== true && shake()
         }
         else {
-          emit('escape-key')
+          emit('escapeKey')
           hide()
         }
       }
@@ -345,7 +339,7 @@ export default createComponent({
         hide(e)
       }
       else if (props.noShake !== true) {
-        shake()
+        shake(e.relatedTarget)
       }
     }
 
@@ -374,6 +368,8 @@ export default createComponent({
 
     function renderPortalContent () {
       return h('div', {
+        role: 'dialog',
+        'aria-modal': useBackdrop.value === true ? 'true' : 'false',
         ...attrs,
         class: rootClasses.value
       }, [
@@ -386,14 +382,15 @@ export default createComponent({
               class: 'q-dialog__backdrop fixed-full',
               style: transitionStyle.value,
               'aria-hidden': 'true',
-              onMousedown: onBackdropClick
+              tabindex: -1,
+              onFocusin: onBackdropClick
             })
             : null
         )),
 
         h(
           Transition,
-          { name: transition.value, appear: true },
+          transitionProps.value,
           () => (
             showing.value === true
               ? h('div', {

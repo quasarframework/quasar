@@ -72,7 +72,7 @@ export const useFieldProps = {
   maxlength: [ Number, String ]
 }
 
-export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
+export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
 
 export function useFieldState () {
   const { props, attrs, proxy, vnode } = getCurrentInstance()
@@ -504,7 +504,8 @@ export default function (state) {
 
     return h('div', {
       class: 'q-field__bottom row items-start q-field__bottom--'
-        + (props.hideBottomSpace !== true ? 'animated' : 'stale')
+        + (props.hideBottomSpace !== true ? 'animated' : 'stale'),
+      onClick: prevent
     }, [
       props.hideBottomSpace === true
         ? main
@@ -527,9 +528,6 @@ export default function (state) {
       }, content)
   }
 
-  // expose public methods
-  Object.assign(proxy, { focus, blur })
-
   let shouldActivate = false
 
   onDeactivated(() => {
@@ -551,6 +549,9 @@ export default function (state) {
   onBeforeUnmount(() => {
     clearTimeout(focusoutTimer)
   })
+
+  // expose public methods
+  Object.assign(proxy, { focus, blur })
 
   return function renderField () {
     const labelAttrs = state.getControl === void 0 && slots.control === void 0

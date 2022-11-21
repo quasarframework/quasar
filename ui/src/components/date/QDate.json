@@ -210,20 +210,17 @@
             "year": {
               "type": "Number",
               "required": true,
-              "desc": "The year of the date that the user has clicked/tapped on",
-              "__exemption": [ "examples" ]
+              "desc": "The year of the date that the user has clicked/tapped on"
             },
             "month": {
               "type": "Number",
               "required": true,
-              "desc": "The month of the date that the user has clicked/tapped on",
-              "__exemption": [ "examples" ]
+              "desc": "The month of the date that the user has clicked/tapped on"
             },
             "day": {
               "type": "Number",
               "required": true,
-              "desc": "The day of the month that the user has clicked/tapped on",
-              "__exemption": [ "examples" ]
+              "desc": "The day of the month that the user has clicked/tapped on"
             },
             "from": {
               "type": "Object",
@@ -233,20 +230,17 @@
                 "year": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The year",
-                  "__exemption": [ "examples" ]
+                  "desc": "The year"
                 },
                 "month": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The month"
                 },
                 "day": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The day of month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The day of month"
                 }
               }
             },
@@ -258,20 +252,17 @@
                 "year": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The year",
-                  "__exemption": [ "examples" ]
+                  "desc": "The year"
                 },
                 "month": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The month"
                 },
                 "day": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The day of month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The day of month"
                 }
               }
             }
@@ -290,14 +281,12 @@
             "year": {
               "type": "Number",
               "required": true,
-              "desc": "The year",
-              "__exemption": [ "examples" ]
+              "desc": "The year"
             },
             "month": {
               "type": "Number",
               "required": true,
-              "desc": "The month",
-              "__exemption": [ "examples" ]
+              "desc": "The month"
             }
           }
         }
@@ -314,20 +303,17 @@
             "year": {
               "type": "Number",
               "required": true,
-              "desc": "The year",
-              "__exemption": [ "examples" ]
+              "desc": "The year"
             },
             "month": {
               "type": "Number",
               "required": true,
-              "desc": "The month",
-              "__exemption": [ "examples" ]
+              "desc": "The month"
             },
             "day": {
               "type": "Number",
               "required": true,
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
+              "desc": "The day of month"
             }
           }
         }
@@ -349,20 +335,17 @@
                 "year": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The year",
-                  "__exemption": [ "examples" ]
+                  "desc": "The year"
                 },
                 "month": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The month"
                 },
                 "day": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The day of month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The day of month"
                 }
               }
             },
@@ -374,20 +357,17 @@
                 "year": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The year",
-                  "__exemption": [ "examples" ]
+                  "desc": "The year"
                 },
                 "month": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The month"
                 },
                 "day": {
                   "type": "Number",
                   "required": true,
-                  "desc": "The day of month",
-                  "__exemption": [ "examples" ]
+                  "desc": "The day of month"
                 }
               }
             }
@@ -435,13 +415,11 @@
       "params": {
         "year": {
           "type": "Number",
-          "desc": "The year",
-          "__exemption": [ "examples" ]
+          "desc": "The year"
         },
         "month": {
           "type": "Number",
-          "desc": "The month",
-          "__exemption": [ "examples" ]
+          "desc": "The month"
         }
       }
     },
@@ -455,18 +433,15 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year",
-              "__exemption": [ "examples" ]
+              "desc": "The year"
             },
             "month": {
               "type": "Number",
-              "desc": "The month",
-              "__exemption": [ "examples" ]
+              "desc": "The month"
             },
             "day": {
               "type": "Number",
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
+              "desc": "The day of month"
             }
           }
         },
@@ -476,18 +451,15 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year",
-              "__exemption": [ "examples" ]
+              "desc": "The year"
             },
             "month": {
               "type": "Number",
-              "desc": "The month",
-              "__exemption": [ "examples" ]
+              "desc": "The month"
             },
             "day": {
               "type": "Number",
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
+              "desc": "The day of month"
             }
           }
         }

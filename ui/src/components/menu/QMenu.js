@@ -79,7 +79,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'click', 'escape-key'
+    'click', 'escapeKey'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -99,8 +99,8 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
     const { registerTick, removeTick } = useTick()
-    const { registerTimeout, removeTimeout } = useTimeout()
-    const { transition, transitionStyle } = useTransition(props, showing)
+    const { registerTimeout } = useTimeout()
+    const { transitionProps, transitionStyle } = useTransition(props)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow } = useAnchor({ showing })
@@ -180,16 +180,16 @@ export default createComponent({
         let node = innerRef.value
 
         if (node && node.contains(document.activeElement) !== true) {
-          node = node.querySelector('[autofocus], [data-autofocus]') || node
+          node = node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+            || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+            || node.querySelector('[autofocus], [data-autofocus]')
+            || node
           node.focus({ preventScroll: true })
         }
       })
     }
 
     function handleShow (evt) {
-      removeTick()
-      removeTimeout()
-
       refocusTarget = props.noRefocus === false
         ? document.activeElement
         : null
@@ -221,11 +221,13 @@ export default createComponent({
         document.activeElement.blur()
       }
 
+      // should removeTick() if this gets removed
       registerTick(() => {
         updatePosition()
         props.noFocus !== true && focus()
       })
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
         if ($q.platform.is.ios === true) {
@@ -243,7 +245,6 @@ export default createComponent({
 
     function handleHide (evt) {
       removeTick()
-      removeTimeout()
       hidePortal()
 
       anchorCleanup(true)
@@ -257,10 +258,14 @@ export default createComponent({
           || evt.qClickOutside !== true
         )
       ) {
-        refocusTarget.focus()
+        ((evt && evt.type.indexOf('key') === 0
+          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || refocusTarget).focus()
         refocusTarget = null
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
@@ -318,7 +323,7 @@ export default createComponent({
     }
 
     function onEscapeKey (evt) {
-      emit('escape-key')
+      emit('escapeKey')
       hide(evt)
     }
 
@@ -346,10 +351,11 @@ export default createComponent({
     function renderPortalContent () {
       return h(
         Transition,
-        { name: transition.value, appear: true },
+        transitionProps.value,
         () => (
           showing.value === true
             ? h('div', {
+              role: 'menu',
               ...attrs,
               ref: innerRef,
               tabindex: -1,

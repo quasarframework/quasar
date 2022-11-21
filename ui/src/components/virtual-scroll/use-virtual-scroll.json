@@ -17,24 +17,21 @@
     "virtual-scroll-slice-ratio-before": {
       "type": [ "Number", "String" ],
       "desc": "Ratio of number of items in visible zone to render before it",
-      "default": "1",
-      "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
+      "default": 1,
       "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-after": {
       "type": [ "Number", "String" ],
       "desc": "Ratio of number of items in visible zone to render after it",
-      "default": "1",
-      "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
+      "default": 1,
       "category": "virtual-scroll"
     },
 
     "virtual-scroll-item-size": {
       "type": [ "Number", "String" ],
       "desc": "Default size in pixels (height if vertical, width if horizontal) of an item; This value is used for rendering the initial list; Try to use a value close to the minimum size of an item",
-      "default": "24",
-      "examples": [ "virtual-scroll-item-size=\"48\"" ],
+      "default": 24,
       "category": "virtual-scroll"
     },
 
@@ -42,7 +39,6 @@
       "type": [ "Number", "String" ],
       "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the start of the list; A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
       "category": "virtual-scroll"
     },
 
@@ -50,14 +46,12 @@
       "type": [ "Number", "String" ],
       "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the end of the list; A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
       "category": "virtual-scroll"
     },
 
     "table-colspan": {
       "type": [ "Number", "String" ],
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
-      "examples": [ "table-colspan=\"12\"" ],
       "category": "virtual-scroll|content"
     }
   },
@@ -73,20 +67,17 @@
             "index": {
               "type": "Number",
               "required": true,
-              "desc": "Index of the list item that was scrolled into view (0 based)",
-              "examples": [ 30 ]
+              "desc": "Index of the list item that was scrolled into view (0 based)"
             },
             "from": {
               "type": "Number",
               "required": true,
-              "desc": "The index of the first list item that is rendered (0 based)",
-              "examples": [ 10 ]
+              "desc": "The index of the first list item that is rendered (0 based)"
             },
             "to": {
               "type": "Number",
               "required": true,
-              "desc": "The index of the last list item that is rendered (0 based)",
-              "examples": [ 50 ]
+              "desc": "The index of the last list item that is rendered (0 based)"
             },
             "direction": {
               "type": "String",
@@ -112,8 +103,7 @@
         "index": {
           "type": [ "String", "Number" ],
           "desc": "The index of the list item (0 based)",
-          "required": true,
-          "examples": [ "1", 23 ]
+          "required": true
         },
         "edge": {
           "type": "String",
@@ -132,8 +122,7 @@
       "params": {
         "index": {
           "type": [ "String", "Number" ],
-          "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed; Use a negative value to keep scroll position",
-          "examples": [ "1", 23, -1 ]
+          "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed; Use a negative value to keep scroll position"
         }
       }
     }

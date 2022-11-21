@@ -135,7 +135,7 @@ build: {
 
 #### Using dotenv
 
-Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmjs.com/package/dotenv) package. The following is an example that passes env variables from the terminal down to your UI's app code:
+Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmjs.com/package/dotenv) package. The following is an example that passes env variables from the `.env` file to your UI code:
 
 ```bash
 $ yarn add --dev dotenv
@@ -143,7 +143,7 @@ $ yarn add --dev dotenv
 
 Then, in your `/quasar.config.js`:
 
-```
+```js
 build: {
   env: require('dotenv').config().parsed
 }
@@ -151,15 +151,102 @@ build: {
 
 Be sure to read the [dotenv documentation](https://www.npmjs.com/package/dotenv) and create the necessary `.env` file(s) in the root of your Quasar CLI project.
 
-## Caveats
+Note that the approach above will pass only what's defined in the `.env` file and nothing else. So, the ones defined in the terminal(_e.g. `MY_API=api.com quasar build`_) will not be passed nor used to override the `.env` file.
 
-1. Do not `console.log(process)` or `console.log(process.env)` as this will error out, for security reasons.
-2. Only full object paths will resolve and get replaced in your code.
+If you want to be able to override what's inside `.env` or want to make the `.env` file completely optional, you have to follow another approach. If you are using CI/CD, Docker, etc. you probably don't want to stay limited to the `.env` file. Here is an example:
 
-    For example, in the snippet below, `console.log(process.env .my)` will result in an error, while `console.log(process.env .my.prop)` will work as expected.
+```js
+// quasar.config.js
 
-    ```js
+// This will load from `.env` if it exists, but not override existing `process.env.*` values
+require('dotenv').config()
+
+// process.env now contains the terminal variables and the ones from the .env file
+// Precedence:
+//   1. Terminal variables (API_URL=https://api.com quasar build)
+//   2. `.env` file
+// If you want .env file to override the terminal variables,
+// use `require('dotenv').config({ override: true })` instead
+
+return {
+// ...
+  build: {
     env: {
-      my: { prop: 'value' }
+      // You have to manually define all the variables you want to pass in
+      API_URL: process.env.API_URL,
+      // ...
     }
-    ```
+  }
+// ...
+```
+
+## Troubleshooting
+
+You might be getting `process is not defined` errors in the browser console if you are accessing the variables wrong or if you have a misconfiguration.
+
+### Wrong usage
+
+```js
+// quasar.config.js > build
+env: {
+  FOO: 'hello',
+}
+```
+
+```js
+const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+process.env.FOO             // ✅ It can only replace direct usage like this
+
+function getEnv(name) {
+  return process.env[name] // ❌ It can't analyze dynamic usage
+}
+
+console.log(process)     // ❌
+console.log(process.env) // ❌
+// If you want to see a list of available env variables,
+// you can log the object you are passing to `build > env` inside `quasar.config.js`
+
+console.log(process.env.FOO) // ✅
+console.log(process.env.foo) // ❌ Case sensitive
+console.log(process.env.F0O) // ❌ Typo in the variable name (middle o is 0(zero))
+```
+
+### Misconfiguration
+
+#### Manual definition
+
+```js
+// quasar.config.js > build
+env: {
+  FOO: 'hello',
+}
+```
+
+```js
+console.log(process.env.FOO) // ✅
+console.log(process.env.BAR) // ❌ It's not defined in `build > env`
+```
+
+#### dotenv
+
+```js
+// quasar.config.js > build
+env: require('dotenv').config(/* ... */).parsed
+```
+
+If the `.env` doesn't exist or there is a typo in the file name:
+
+```js
+console.log(process.env.FOO) // ❌ The .env file is not loaded, this will fail
+```
+
+If the `.env` file exists with the correct name, and has the following content:
+
+```bash
+FOO=hello
+```
+
+```js
+console.log(process.env.FOO) // ✅ It's loaded correctly from the `.env` file
+console.log(process.env.BAR) // ❌ It's not defined in the `.env` file
+```

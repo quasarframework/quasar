@@ -80,6 +80,7 @@ describe('Menu API', () => {
             .click()
           cy.dataCy('menu')
             .should('exist')
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.get('body')
             .click(499, 0)
             .wait(300) // Await menu animation otherwise it always passes
@@ -98,6 +99,7 @@ describe('Menu API', () => {
             .click()
           cy.dataCy('menu')
             .should('exist')
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.get('body')
             .type('{esc}')
             .wait(300) // Await menu animation otherwise it always passes
@@ -118,6 +120,7 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .dataCy('keep-open')
@@ -136,6 +139,7 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .dataCy('keep-open')
@@ -161,6 +165,7 @@ describe('Menu API', () => {
             .focus()
             .should('have.focus')
             .click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .should('have.focus')
@@ -183,6 +188,7 @@ describe('Menu API', () => {
             .focus()
             .should('have.focus')
             .click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .should('have.focus')
@@ -529,6 +535,7 @@ describe('Menu API', () => {
         let bottom = null
         let left = null
 
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.dataCy('wrapper')
           .click()
           .wait(300)

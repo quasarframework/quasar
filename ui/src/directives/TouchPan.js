@@ -188,7 +188,8 @@ export default createDirective(__QUASAR_SSR_SERVER__
               */
               if (
                 ctx.direction.all !== true
-                && (mouseEvent !== true || ctx.modifiers.mouseAllDir !== true)
+                // account for UMD too where modifiers will be lowercased to work
+                && (mouseEvent !== true || (ctx.modifiers.mouseAllDir !== true && ctx.modifiers.mousealldir !== true))
               ) {
                 const clone = evt.type.indexOf('mouse') > -1
                   ? new MouseEvent(evt.type, evt)
@@ -255,9 +256,12 @@ export default createDirective(__QUASAR_SSR_SERVER__
             const start = () => {
               handleEvent(evt, isMouseEvt)
 
-              if (modifiers.preserveCursor !== true) {
+              let cursor
+              if (modifiers.preserveCursor !== true && modifiers.preservecursor !== true) {
+                cursor = document.documentElement.style.cursor || ''
                 document.documentElement.style.cursor = 'grabbing'
               }
+
               isMouseEvt === true && document.body.classList.add('no-pointer-events--children')
               document.body.classList.add('non-selectable')
               clearSelection()
@@ -265,9 +269,10 @@ export default createDirective(__QUASAR_SSR_SERVER__
               ctx.styleCleanup = withDelayedFn => {
                 ctx.styleCleanup = void 0
 
-                if (modifiers.preserveCursor !== true) {
-                  document.documentElement.style.cursor = ''
+                if (cursor !== void 0) {
+                  document.documentElement.style.cursor = cursor
                 }
+
                 document.body.classList.remove('non-selectable')
 
                 if (isMouseEvt === true) {
@@ -315,7 +320,8 @@ export default createDirective(__QUASAR_SSR_SERVER__
 
             if (
               ctx.direction.all === true
-              || (isMouseEvt === true && ctx.modifiers.mouseAllDir === true)
+              // account for UMD too where modifiers will be lowercased to work
+              || (isMouseEvt === true && (ctx.modifiers.mouseAllDir === true || ctx.modifiers.mousealldir === true))
             ) {
               start()
               ctx.event.detected = true
@@ -382,13 +388,20 @@ export default createDirective(__QUASAR_SSR_SERVER__
 
         el.__qtouchpan = ctx
 
-        modifiers.mouse === true && addEvt(ctx, 'main', [
-          [ el, 'mousedown', 'mouseStart', `passive${ modifiers.mouseCapture === true ? 'Capture' : '' }` ]
-        ])
+        if (modifiers.mouse === true) {
+          // account for UMD too where modifiers will be lowercased to work
+          const capture = modifiers.mouseCapture === true || modifiers.mousecapture === true
+            ? 'Capture'
+            : ''
+
+          addEvt(ctx, 'main', [
+            [ el, 'mousedown', 'mouseStart', `passive${ capture }` ]
+          ])
+        }
 
         client.has.touch === true && addEvt(ctx, 'main', [
           [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
-          [ el, 'touchmove', 'noop', 'notPassiveCapture' ]
+          [ el, 'touchmove', 'noop', 'notPassiveCapture' ] // cannot be passive (ex: iOS scroll)
         ])
       },
 

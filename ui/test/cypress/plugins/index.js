@@ -17,6 +17,9 @@
 
 const { injectDevServer } = require('@quasar/quasar-app-extension-testing-e2e-cypress/cct-dev-server')
 const path = require('path')
+const moduleAlias = require('module-alias')
+
+moduleAlias.addAlias('quasar', path.join(__dirname, '../../..'))
 
 /**
  * @type {Cypress.PluginConfig}

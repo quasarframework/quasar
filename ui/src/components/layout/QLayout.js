@@ -90,7 +90,7 @@ export default createComponent({
       if (height.value !== newHeight) {
         resized = true
         height.value = newHeight
-        props.onScrollHeight !== void 0 && emit('scroll-height', newHeight)
+        props.onScrollHeight !== void 0 && emit('scrollHeight', newHeight)
         updateScrollbarWidth()
       }
       if (width.value !== newWidth) {

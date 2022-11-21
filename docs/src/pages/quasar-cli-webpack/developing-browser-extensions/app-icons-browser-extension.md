@@ -1,6 +1,19 @@
 ---
 title: App Icons for (BEX)
 desc: (@quasar/app-webpack) How to manage the app icons for a Quasar Browser Extension (BEX).
+scope:
+  tree:
+    { l: 'src-bex',
+      c: [
+        { l: 'icons',
+          c: [
+            { l: 'icon-16x16.png', e: 'Favicon on extension pages' },
+            { l: 'icon-48x48.png', e: 'Extension management page' },
+            { l: 'icon-128x128.png', e: 'Installation and web store' }
+          ]
+        }
+      ]
+    }
 ---
 
 This build target includes the icons required for browser extensions. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
@@ -21,10 +34,4 @@ $ icongenie generate -m bex -i /path/to/source/icon.png
 
 ## Manual instructions
 
-```
-src-bex/
-  icons/
-     icon-16x16.png   # Favicon on extension pages
-     icon-48x48.png   # Extension management page
-     icon-128x128.png # Installation and web store
-```
+<doc-tree :def="scope.tree" />

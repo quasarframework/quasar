@@ -20,7 +20,7 @@ When using Vuex the store is not directly importable from other scripts, but it 
 export default function ({ store /*, ssrContext */ }) {
   // ...
   Router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requireAuth) && !store.getters['auth/isSignedIn']) {
+    if (to.matched.some(record => record.meta.requiresAuth) && !store.getters['auth/isSignedIn']) {
       next({ name: 'account-signin', query: { next: to.fullPath } })
     } else {
       next()

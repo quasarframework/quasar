@@ -35,6 +35,11 @@ function add (silent) {
     appPaths.electronDir
   )
 
+  fse.copySync(
+    appPaths.resolve.cli('templates/electron/electron-flag.d.ts'),
+    appPaths.resolve.electron('electron-flag.d.ts')
+  )
+
   log('Creating Electron icons folder...')
   fse.copySync(
     appPaths.resolve.cli('templates/electron/icons'),

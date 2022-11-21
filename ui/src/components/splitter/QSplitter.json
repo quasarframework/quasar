@@ -124,8 +124,7 @@
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panels",
-          "examples": [ 0.22 ]
+          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panels"
         }
       }
     }

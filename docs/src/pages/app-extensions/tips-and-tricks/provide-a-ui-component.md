@@ -1,6 +1,31 @@
 ---
 title: Provide a UI component
 desc: Tips and tricks on how to provide a Vue component to the host app of a Quasar App Extension.
+scope:
+  tree:
+    { l: '.',
+      c: [
+        { l: 'package.json' },
+        { l: 'src',
+          c: [
+            { l: 'boot',
+              e: 'folder to contain boot code',
+              c: [
+                { l: 'register-my-component.js', e: 'boot file for component' }
+              ]
+            },
+            { l: 'component',
+              e: 'folder to contain component',
+              c: [
+                { l: 'MyComponent.vue', e: 'component file (can be .vue or even .js)' },
+                { l: 'MyComponent.sass', e: 'sass file for component (or .scss/.css, or whatever you need)' }
+              ]
+            },
+            { l: 'index.js', e: 'Described in Index API' }
+          ]
+        }
+      ]
+    }
 ---
 
 This guide is for when you want to create a new UI component and provide it through an App Extension, which will inject it into the hosting app.
@@ -15,17 +40,7 @@ To see an example of what we will build, head over to [MyComponent full example]
 
 Create a folder structure to keep your code modularized and organized. For instance, for a UI component, create a structure that looks like this:
 
-```bash
-.
-├── package.json
-└── src
-    ├── boot                         # folder to contain 'boot' code
-    │   └── register-my-component.js # boot file for component
-    ├── component                    # folder to contain component
-    │   ├── MyComponent.vue          # component file (can be .vue or even .js)
-    │   └── MyComponent.sass         # sass file for component (or .scss/.css, or whatever you need)
-    └── index.js                     # Described in Index API
-```
+<doc-tree :def="scope.tree" />
 
 Now, you need to handle registering your component. You do this with the `/index.js` file (described in the [Index API](/app-extensions/development-guide/index-api)) that was created when you set up your new App Extension.
 

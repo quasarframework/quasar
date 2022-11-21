@@ -11,8 +11,7 @@ const bgNode = h('div', {
 }, [
   h('svg', {
     class: 'q-checkbox__svg fit absolute-full',
-    viewBox: '0 0 24 24',
-    'aria-hidden': 'true'
+    viewBox: '0 0 24 24'
   }, [
     h('path', {
       class: 'q-checkbox__truthy',

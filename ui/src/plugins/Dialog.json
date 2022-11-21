@@ -42,14 +42,14 @@
 
             "prompt": {
               "type": "Object",
+              "tsType": "QDialogInputPrompt",
               "desc": "An object definition of the input field for the prompting question.",
               "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
               "definition": {
                 "model": {
                   "type": "String",
                   "required": true,
-                  "desc": "The initial value of the input",
-                  "__exemption": [ "examples" ]
+                  "desc": "The initial value of the input"
                 },
 
                 "type": {
@@ -66,8 +66,7 @@
                     "val": {
                       "type": "String",
                       "required": true,
-                      "desc": "The value of the input",
-                      "__exemption": [ "examples" ]
+                      "desc": "The value of the input"
                     }
                   },
                   "returns": {
@@ -76,78 +75,28 @@
                   }
                 },
 
-                "attrs": {
-                  "type": "Object",
-                  "desc": "Attributes to pass to prompt control",
-                  "examples": [ "{ autocomplete: 'off' }" ]
-                },
-
-                "label": {
-                  "type": "String",
-                  "desc": "A text label that will “float” up above the input field, once the field gets focus",
-                  "examples": [ "Username" ]
-                },
-
-                "stackLabel": {
-                  "type": "Boolean",
-                  "desc": "Label will be always shown above the field regardless of field content (if any)"
-                },
-
-                "filled": {
-                  "type": "Boolean",
-                  "desc": "Use 'filled' design for the field"
-                },
-
-                "outlined": {
-                  "type": "Boolean",
-                  "desc": "Use 'outlined' design for the field"
-                },
-
-                "standout": {
-                  "type": [ "Boolean", "String" ],
-                  "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+                "...QInputProps": {
+                  "type": "Any",
+                  "desc": "Any QInput props, like color, label, stackLabel, filled, outlined, rounded, prefix etc",
                   "examples": [
-                    "standout",
-                    "standout=\"bg-primary text-white\""
+                    "label: 'My Label'",
+                    "standout: true",
+                    "counter: true",
+                    "maxlength: 12"
                   ]
                 },
 
-                "rounded": {
-                  "extends": "rounded"
-                },
-
-                "square": {
-                  "type": "Boolean",
-                  "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop"
-                },
-
-                "counter": {
-                  "type": "Boolean",
-                  "desc": "Show an automatic counter on bottom right"
-                },
-
-                "maxlength": {
-                  "type": [ "String", "Number" ],
-                  "desc": "Specify a max length of model",
-                  "examples": [ "12" ]
-                },
-
-                "prefix": {
-                  "type": "String",
-                  "desc": "Prefix",
-                  "examples": [ "$" ]
-                },
-
-                "suffix": {
-                  "type": "String",
-                  "desc": "Suffix",
-                  "examples": [ "@gmail.com" ]
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the prompt control",
+                  "examples": [ "autocomplete: 'off'" ]
                 }
               }
             },
 
             "options": {
               "type": "Object",
+              "tsType": "QDialogSelectionPrompt",
               "desc": "An object definition for creating the selection form content",
               "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
               "definition": {
@@ -167,7 +116,7 @@
 
                 "items": {
                   "type": "Array",
-                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionsGroup component",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionGroup component",
                   "examples": [
                     "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
                   ]
@@ -193,6 +142,22 @@
                     "type": "Boolean",
                     "desc": "The selection passed validation or not"
                   }
+                },
+
+                "...QOptionGroupProps": {
+                  "type": "Any",
+                  "desc": "Any QOptionGroup props",
+                  "examples": [
+                    "color: 'deep-purple-4'",
+                    "inline: true",
+                    "dense: true",
+                    "leftLabel: true"
+                  ]
+                },
+
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the inner QOptionGroup"
                 }
               }
             },
@@ -217,8 +182,7 @@
               "definition": {
                 "...props": {
                   "type": "Any",
-                  "desc": "See QBtn for available props",
-                  "__exemption": [ "examples" ]
+                  "desc": "See QBtn for available props"
                 }
               }
             },
@@ -229,8 +193,7 @@
               "definition": {
                 "...props": {
                   "type": "Any",
-                  "desc": "See QBtn for available props",
-                  "__exemption": [ "examples" ]
+                  "desc": "See QBtn for available props"
                 }
               }
             },
@@ -314,8 +277,7 @@
 
             "componentProps": {
               "type": "Object",
-              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
-              "__exemption": [ "examples" ]
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used"
             }
           }
         }

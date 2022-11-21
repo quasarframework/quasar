@@ -30,7 +30,7 @@ export default createComponent({
     const vm = getCurrentInstance()
     const isDark = useDark(props, vm.proxy.$q)
 
-    const { transition, transitionStyle } = useTransition(props, computed(() => props.showing))
+    const { transitionProps, transitionStyle } = useTransition(props)
 
     const classes = computed(() =>
       'q-inner-loading absolute-full column flex-center'
@@ -74,9 +74,6 @@ export default createComponent({
         : null
     }
 
-    return () => h(Transition, {
-      name: transition.value,
-      appear: true
-    }, getContent)
+    return () => h(Transition, transitionProps.value, getContent)
   }
 })

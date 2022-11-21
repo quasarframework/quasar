@@ -17,7 +17,7 @@ import { createComponent } from '../../utils/private/create.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import { isKeyCode } from '../../utils/private/key-composition.js'
-import { isObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/is.js'
 
 export default createComponent({
   name: 'DialogPlugin',
@@ -211,12 +211,12 @@ export default createComponent({
     function getPrompt () {
       return [
         h(QInput, {
-          modelValue: model.value,
-          ...formProps.value,
           color: vmColor.value,
           dense: true,
           autofocus: true,
           dark: isDark.value,
+          ...formProps.value,
+          modelValue: model.value,
           'onUpdate:modelValue': onUpdateModel,
           onKeyup: onInputKeyup
         })
@@ -226,11 +226,11 @@ export default createComponent({
     function getOptions () {
       return [
         h(QOptionGroup, {
-          modelValue: model.value,
-          ...formProps.value,
           color: vmColor.value,
           options: props.options.items,
           dark: isDark.value,
+          ...formProps.value,
+          modelValue: model.value,
           'onUpdate:modelValue': onUpdateModel
         })
       ]

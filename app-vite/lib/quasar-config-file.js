@@ -443,6 +443,7 @@ class QuasarConfFile {
         stores: appPaths.resolve.src('stores')
       },
 
+      useFilenameHashes: true,
       vueRouterMode: 'hash',
       minify: cfg.metaConf.debugging !== true
         && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),

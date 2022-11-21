@@ -197,19 +197,19 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-vue": "^7.0.0",
   "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
   ```
-  
+
   In quasar.config.js, before the `module.exports = function (ctx)` add:
   ```js
   const ESLintPlugin = require('eslint-webpack-plugin')
   ```
-  
+
   In quasar.config.js -> build add:
   ```js
   chainWebpack (chain) {
-        chain
-          .plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
-      }
+    chain
+      .plugin('eslint-webpack-plugin')
+      .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+  }
   ```
 9) If you are using Vuex, you will need to manually install it:
   ```bash
@@ -316,6 +316,8 @@ Along with Vue3, there is a new major version of [Vue Router v4](https://router.
 
 #### Vue 3 breaking changes examples
 
+##### The v-model
+
 One of the most important breaking changes when dealing with Vue 3 is how v-model works. It is now an alias to the `model-value` + `@update:model-value` combo, instead of `value` + `@input`. This has impact on all Quasar components using v-model. If you're writing your components in .vue files, then you don't need to worry about it as vue-loader correctly translates it for you.
 
 Also, if you emit custom events from your Vue components, you will need to explicitly specify them like below:
@@ -333,6 +335,10 @@ export default {
 }
 </script>
 ```
+
+##### The event bus methods
+
+One other breaking change is the drop of the event bus methods ($on, $once, $off, $emit). However, Quasar v2 (v2.8.4+) has a native equivalent: [EventBus util](/quasar-utils/event-bus-util).
 
 ### Vue Router v4
 
@@ -356,7 +362,7 @@ export default function (/* { store, ssrContext } */) {
     // Leave this as is and make changes in quasar.config.js instead!
     // quasar.config.js -> build -> vueRouterMode
     // quasar.config.js -> build -> publicPath
-    history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   })
 
   return Router
@@ -516,10 +522,6 @@ function onClick (e, go) {
 Removed "append" prop because Vue Router v4 [has also dropped it](https://router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 Added "tag" and "ripple" properties.
 
-#### QCarousel
-
-Added "transition-duration" prop.
-
 #### QColor
 
 Added "no-header-tabs" prop.
@@ -539,7 +541,7 @@ Now by default, the "label", "name", "text" and "stamp" are protected from XSS a
 
 When `@update:model-value` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
 
-### QDialog
+#### QDialog
 
 Added "no-shake", "transition-duration".
 Use "class" and "style" attributes instead of "content-class" / "content-style" props.
@@ -609,7 +611,7 @@ export default {
 }
 ```
 
-### QInnerLoading
+#### QInnerLoading
 
 Added "label", "label-class" and "label-style" props.
 
@@ -622,6 +624,10 @@ Removed properties: "transition", "basic" (now equivalent to "no-spinner" + "no-
 Changed property "no-default-spinner" to "no-spinner".
 
 For the detailed changes, please view the API Card on [QImg](/vue-components/img#qimg-api) page.
+
+#### QPagination
+
+Added prop "gutter".
 
 #### QPopupEdit
 
@@ -727,7 +733,7 @@ The `@scroll` event parameter now has a slightly different content:
 * The "itemEvents" prop has been dropped from the "option" slot. That information is now contained within the "itemProps". This change is a logical result Vue 3's flattening of the rendering function's second parameter ("on", "props" etc. merged together into a single Object).
 * New method: "blur()"
 
-### QSlider/QRange
+#### QSlider/QRange
 
 New props: track-size, thumb-size, marker-labels, marker-labels-class, switch-label-side, switch-marker-labels-side, inner-min, inner-max,
 thumb-color, track-color, track-img, inner-track-color, inner-track-img, selection-color, selection-img.
@@ -758,7 +764,7 @@ Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, th
 
 Added "active-class" prop.
 
-#### QTooltip/QMenu/QDialog/QStepper/QTabPanels
+#### QBtnDropdown/QCarousel/QTooltip/QMenu/QDialog/QStepper/QTabPanels
 
 Added "transition-duration" property.
 
@@ -841,13 +847,29 @@ A few things changed:
   })
   ```
 2. The `parent` and `root` props have been removed. Due to the Vue 3 architecture, we can no longer use a "parent" component for the provide/inject functionality. But you'll still be able to use Vue Router/Vuex/etc. inside of your custom component.
-3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'cancel' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
+3. If invoking the Dialog plugin with a custom component then you need to add `emits: [ 'ok', 'hide' ]` to your component as Vue 3 now requires an explicit list of events that the component might emit. You can also transform the component to Composition API. For detailed information please see [Invoking custom component](/quasar-plugins/dialog#invoking-custom-component).
   ```js
   // the invoked component code
   export default {
     // ...
-    emits: [ 'ok', 'cancel' ],
+    emits: [ 'ok', 'hide' ],
     // ...
+  }
+  ```
+4. If invoking the Dialog with the built-in component, then there is a new way of supplying the native attributes:
+  ```js
+  // OLD way
+  prompt: { // or "options"
+    // ...
+    attrs: {
+      someattribute: 'value'
+    }
+  }
+
+  // New v2 way
+  prompt: { // or "options"
+    // ...
+    someattribute: 'value'
   }
   ```
 
@@ -946,6 +968,11 @@ import { getCssVar, setCssVar } from 'quasar'
 const primaryColor = getCssVar('primary')
 setCssVar('primary', '#f3c')
 ```
+
+#### EventBus util
+
+Vue 3 dropped of the event bus methods ($on, $once, $off, $emit). However, Quasar v2 (v2.8.4+) has a native equivalent: [EventBus util](/quasar-utils/event-bus-util).
+
 
 ### Quasar language packs
 We have changed the language pack filenames to reflect the standard naming used by browsers. This will allow you to use `$q.lang.getLocale()` when you want to dynamically import the Quasar language pack file.

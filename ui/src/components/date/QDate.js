@@ -12,7 +12,7 @@ import { hSlot } from '../../utils/private/render.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
-import { isObject } from '../../utils/private/is.js'
+import { isObject } from '../../utils/is.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -82,7 +82,7 @@ export default createComponent({
 
   emits: [
     ...useDatetimeEmits,
-    'range-start', 'range-end', 'navigation'
+    'rangeStart', 'rangeEnd', 'navigation'
   ],
 
   setup (props, { slots, emit }) {
@@ -708,7 +708,9 @@ export default createComponent({
     })
 
     watch(view, () => {
-      blurTargetRef.value !== null && blurTargetRef.value.focus()
+      if (blurTargetRef.value !== null && proxy.$el.contains(document.activeElement) === true) {
+        blurTargetRef.value.focus()
+      }
     })
 
     watch(() => viewModel.value.year, year => {
@@ -1065,11 +1067,6 @@ export default createComponent({
       emit('update:modelValue', (props.multiple === true ? model : model[ 0 ]) || null, reason)
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
-    })
-
     function getHeader () {
       if (props.minimal === true) { return }
 
@@ -1396,7 +1393,7 @@ export default createComponent({
           finalHash: initHash
         }
 
-        emit('range-start', getShortDate(day))
+        emit('rangeStart', getShortDate(day))
       }
       else {
         const
@@ -1409,7 +1406,7 @@ export default createComponent({
         editRange.value = null
         addToModel(initHash === finalHash ? day : { target: day, ...payload })
 
-        emit('range-end', {
+        emit('rangeEnd', {
           from: getShortDate(payload.from),
           to: getShortDate(payload.to)
         })
@@ -1426,6 +1423,11 @@ export default createComponent({
         })
       }
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      setToday, setView, offsetCalendar, setCalendarTo, setEditingRange
+    })
 
     return () => {
       const content = [

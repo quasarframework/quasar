@@ -3,6 +3,14 @@ title: Configuring SSR
 desc: (@quasar/app-vite) How to manage your server-side rendered apps with Quasar CLI.
 related:
   - /quasar-cli-vite/quasar-config-js
+scope:
+  nodeJsTree:
+    { l: 'src-ssr',
+      c: [
+        { l: 'middlewares/', e: 'SSR middleware files' },
+        { l: 'server.js', e: 'SSR webserver' }
+      ]
+    }
 ---
 
 ## quasar.config.js
@@ -138,12 +146,7 @@ export default {
 
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files:
 
-```bash
-.
-└── src-ssr/
-    ├── middlewares/  # SSR middleware files
-    └── server.js     # SSR webserver
-```
+<doc-tree :def="scope.nodeJsTree" />
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
 

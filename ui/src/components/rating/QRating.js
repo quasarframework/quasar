@@ -31,6 +31,8 @@ export default createComponent({
     iconHalf: [ String, Array ],
     iconSelected: [ String, Array ],
 
+    iconAriaLabel: [ String, Array ],
+
     color: [ String, Array ],
     colorHalf: [ String, Array ],
     colorSelected: [ String, Array ],
@@ -96,11 +98,29 @@ export default createComponent({
       }
     })
 
+    const iconLabel = computed(() => {
+      if (typeof props.iconAriaLabel === 'string') {
+        const label = props.iconAriaLabel.length > 0 ? `${ props.iconAriaLabel } ` : ''
+        return i => `${ label }${ i }`
+      }
+
+      if (Array.isArray(props.iconAriaLabel) === true) {
+        const iMax = props.iconAriaLabel.length
+
+        if (iMax > 0) {
+          return i => props.iconAriaLabel[ Math.min(i, iMax) - 1 ]
+        }
+      }
+
+      return (i, label) => `${ label } ${ i }`
+    })
+
     const stars = computed(() => {
       const
         acc = [],
         icons = iconData.value,
-        ceil = Math.ceil(props.modelValue)
+        ceil = Math.ceil(props.modelValue),
+        tabindex = editable.value === true ? 0 : null
 
       const halfIndex = props.iconHalf === void 0 || ceil === props.modelValue
         ? -1
@@ -117,7 +137,16 @@ export default createComponent({
                 icons.selColor !== void 0 && active === true
                   ? (i <= icons.selColorLen ? props.colorSelected[ i - 1 ] : icons.selColor)
                   : (i <= icons.colorLen ? props.color[ i - 1 ] : icons.color)
-              )
+              ),
+          name = (
+            half === true
+              ? (i <= icons.halfIconLen ? props.iconHalf[ i - 1 ] : icons.halfIcon)
+              : (
+                  icons.selIcon !== void 0 && (active === true || exSelected === true)
+                    ? (i <= icons.selIconLen ? props.iconSelected[ i - 1 ] : icons.selIcon)
+                    : (i <= icons.iconLen ? props.icon[ i - 1 ] : icons.icon)
+                )
+          ) || $q.iconSet.rating.icon
 
         acc.push({
           name: (
@@ -130,7 +159,14 @@ export default createComponent({
                 )
           ) || $q.iconSet.rating.icon,
 
-          classes: 'q-rating__icon'
+          attrs: {
+            tabindex,
+            role: 'radio',
+            'aria-checked': props.modelValue === i ? 'true' : 'false',
+            'aria-label': iconLabel.value(i, name)
+          },
+
+          iconClass: 'q-rating__icon'
             + (active === true || half === true ? ' q-rating__icon--active' : '')
             + (exSelected === true ? ' q-rating__icon--exselected' : '')
             + (mouseModel.value === i ? ' q-rating__icon--hovered' : '')
@@ -142,15 +178,17 @@ export default createComponent({
     })
 
     const attributes = computed(() => {
+      const attrs = { role: 'radiogroup' }
+
       if (props.disable === true) {
-        return { 'aria-disabled': 'true' }
+        attrs[ 'aria-disabled' ] = 'true'
       }
       if (props.readonly === true) {
-        return { 'aria-readonly': 'true' }
+        attrs[ 'aria-readonly' ] = 'true'
       }
-    })
 
-    const tabindex = computed(() => (editable.value === true ? 0 : null))
+      return attrs
+    })
 
     function set (value) {
       if (editable.value === true) {
@@ -201,7 +239,7 @@ export default createComponent({
     return () => {
       const child = []
 
-      stars.value.forEach(({ classes, name }, index) => {
+      stars.value.forEach(({ iconClass, name, attrs }, index) => {
         const i = index + 1
 
         child.push(
@@ -209,7 +247,7 @@ export default createComponent({
             key: i,
             ref: vm => { iconRefs[ `rt${ i }` ] = vm },
             class: 'q-rating__icon-container flex flex-center',
-            tabindex: tabindex.value,
+            ...attrs,
             onClick () { set(i) },
             onMouseover () { setHoverValue(i) },
             onMouseout: resetMouseModel,
@@ -218,7 +256,7 @@ export default createComponent({
             onKeyup (e) { onKeyup(e, i) }
           }, hMergeSlot(
             slots[ `tip-${ i }` ],
-            [ h(QIcon, { class: classes, name }) ]
+            [ h(QIcon, { class: iconClass, name }) ]
           ))
         )
       })

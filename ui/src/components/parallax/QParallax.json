@@ -21,14 +21,12 @@
       "type": "Number",
       "desc": "Height of component (in pixels)",
       "default": 500,
-      "examples": [ ":height=\"1000\"" ],
       "category": "style"
     },
 
     "speed": {
       "type": "Number",
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
-      "examples": [ ":speed=\"0.24\"" ],
       "category": "behavior"
     },
 
@@ -51,8 +49,7 @@
       "scope": {
         "percentScrolled": {
           "type": "Number",
-          "desc": "Percentage (0.0 < x < 1.0) of scroll in regards to QParallax",
-          "examples": [ 0.241 ]
+          "desc": "Percentage (0.0 < x < 1.0) of scroll in regards to QParallax"
         }
       }
     }
@@ -64,8 +61,7 @@
       "params": {
         "percentage": {
           "type": "Number",
-          "desc": "Number between 0.0 and 1.0 defining the scrolled percentage of the component",
-          "examples": [ 0.234 ]
+          "desc": "Number between 0.0 and 1.0 defining the scrolled percentage of the component"
         }
       }
     }

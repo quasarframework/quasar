@@ -54,7 +54,7 @@
 
       <q-fab
         class="fixed-bottom-right"
-        style="right: 18px; bottom: 86px;"
+        style="inset-inline-end: 18px; bottom: 86px;"
         icon="fas fa-address-book"
         direction="up"
         color="primary"
@@ -123,7 +123,7 @@
         direction="up"
         class="fixed-bottom-right"
         :icon="mdiMenu"
-        style="right: 18px; bottom: 18px;"
+        style="inset-inline-end: 18px; bottom: 18px;"
       >
         <template v-slot:tooltip>
           <q-tooltip ref="tooltip0" anchor="center left" self="center right" :offset="[20, 0]">

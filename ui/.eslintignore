@@ -1,0 +1,2 @@
+# We don't have TS-related plugins&rules, so disable to avoid annoyance
+types/

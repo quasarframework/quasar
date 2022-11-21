@@ -127,7 +127,7 @@ export default function (type, getInner) {
   const attributes = computed(() => {
     const attrs = {
       tabindex: tabindex.value,
-      role: 'checkbox',
+      role: type === 'toggle' ? 'switch' : 'checkbox',
       'aria-label': props.label,
       'aria-checked': isIndeterminate.value === true
         ? 'mixed'
@@ -211,7 +211,8 @@ export default function (type, getInner) {
     const child = [
       h('div', {
         class: innerClass.value,
-        style: sizeStyle.value
+        style: sizeStyle.value,
+        'aria-hidden': 'true'
       }, inner)
     ]
 

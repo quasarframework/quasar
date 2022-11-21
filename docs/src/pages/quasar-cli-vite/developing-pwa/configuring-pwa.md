@@ -3,19 +3,21 @@ title: Configuring PWA
 desc: (@quasar/app-vite) How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli-vite/quasar-config-js
+scope:
+  tree:
+    { l: 'src-pwa',
+      c: [
+        { l: 'register-service-worker.js', e: '(or .ts) UI code *managing* service worker' },
+        { l: 'manifest.json', e: 'Your PWA manifest file' },
+        { l: 'custom-service-worker.js', e: '(or .ts) Optional custom service worker file (injectManifest mode ONLY)' }
+      ]
+    }
 ---
 
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
-```bash
-.
-└── src-pwa/
-    ├── register-service-worker.js  # (or .ts) UI code *managing* service worker
-    ├── manifest.json               # Your PWA manifest file
-    └── custom-service-worker.js    # (or .ts) Optional custom service worker file
-                                    #               (injectManifest mode ONLY)
-```
+<doc-tree :def="scope.tree" />
 
 You can freely edit these files. Notice a few things:
 
@@ -240,3 +242,18 @@ pwa: {
   }
 }
 ```
+
+## Filename hashes quirk <q-badge align="top" color="brand-primary" label="@quasar/app-vite v1.1+" />
+
+Due to how Rollup builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again. What a waste of bandwidth and such a longer time to get the PWA updated!
+
+By default, Vite builds all filenames **with the hash part**. However, should you want your filenames to NOT contain the hash part, you need to edit quasar.config.js file:
+
+```js
+// quasar.config.js
+build: {
+  useFilenameHashes: false // true by default
+}
+```
+
+When filename hashes are disabled it would be wise to also make sure that your webserver has cache set accordingly (as low as possible) to ensure consistent resource delivery to your clients that can't use the PWA functionality.

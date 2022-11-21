@@ -41,8 +41,7 @@
       "params": {
         "evt": {
           "type": [ "Event", "SubmitEvent" ],
-          "desc": "Form submission event object",
-          "__exemption": [ "examples" ]
+          "desc": "Form submission event object"
         }
       }
     },
@@ -114,8 +113,7 @@
       "desc": "Get array of children vue components that support validation",
       "returns": {
         "type": "Array",
-        "desc": "Vue components that support Quasar validation API",
-        "__exemption": [ "examples" ]
+        "desc": "Vue components that support Quasar validation API"
       }
     }
   }

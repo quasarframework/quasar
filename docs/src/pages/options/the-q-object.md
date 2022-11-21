@@ -120,10 +120,11 @@ export default {
 </script>
 ```
 
-### Outside of a vue file
+### Outside of a .vue file
 
 ```js
-import { Quasar } from 'quasar'
+import { Quasar, Platform } from 'quasar'
 
-console.log(Quasar.platform.is.ios)
+console.log(Quasar.version)
+console.log(Platform.is.ios)
 ```

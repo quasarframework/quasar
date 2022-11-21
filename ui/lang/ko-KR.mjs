@@ -14,7 +14,9 @@ export default {
     create: '생성',
     search: '검색',
     filter: '필터',
-    refresh: '새로 고침'
+    refresh: '새로 고침',
+    expand: label => (label ? `"${ label }" 확장` : '확장하다'),
+    collapse: label => (label ? `"${ label }" 접기` : '무너지다')
   },
   date: {
     days: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),

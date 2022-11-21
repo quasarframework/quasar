@@ -7,7 +7,7 @@
       <div class="col-6 col-md-4">.col-6 .col-md-4</div>
     </div>
 
-    <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+    <!-- Columns start at 33.3% wide on mobile and bump up to 50% wide on desktop -->
     <div class="column" style="height: 150px">
       <div class="col-4 col-md-6">.col-4 .col-md-6</div>
       <div class="col-4 col-md-6">.col-4 .col-md-6</div>

@@ -21,20 +21,19 @@ export default createComponent({
     }
   },
 
+  emits: [ 'click' ],
+
   setup (props, { slots }) {
-    const { linkTag, linkProps, linkClass, hasRouterLink, navigateToRouterLink } = useRouterLink()
+    const { linkTag, linkAttrs, linkClass, navigateOnClick } = useRouterLink()
 
     const data = computed(() => {
-      const acc = {
+      return {
         class: 'q-breadcrumbs__el q-link '
           + 'flex inline items-center relative-position '
           + (props.disable !== true ? 'q-link--focusable' + linkClass.value : 'q-breadcrumbs__el--disable'),
-        ...linkProps.value
+        ...linkAttrs.value,
+        onClick: navigateOnClick
       }
-      if (hasRouterLink.value === true) {
-        acc.onClick = navigateToRouterLink
-      }
-      return acc
     })
 
     const iconClass = computed(() =>

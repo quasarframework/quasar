@@ -38,7 +38,7 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods' ],
-  component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods' ],
+  component: [ 'meta', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'events', 'methods', 'computedProps' ],
   directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
@@ -54,21 +54,21 @@ const objectTypes = {
 
   String: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
     props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
     props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
@@ -77,7 +77,7 @@ const objectTypes = {
 
   Array: {
     props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples', 'values' ]
@@ -85,7 +85,7 @@ const objectTypes = {
 
   Promise: {
     props: [ 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'default', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition' ],
     isArray: [ 'examples' ]
@@ -102,7 +102,7 @@ const objectTypes = {
 
   MultipleTypes: {
     props: [ 'tsInjectionPoint', 'tsType', 'autoDefineTsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn', 'internal' ],
-    required: [ 'desc', 'examples' ],
+    required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'internal' ],
     isObject: [ 'definition', 'params', 'returns' ],
     isArray: [ 'examples', 'values' ]
@@ -127,6 +127,14 @@ const objectTypes = {
     required: [ 'desc' ],
     isObject: [ 'params' ],
     isBoolean: [ 'internal' ]
+  },
+
+  // component only
+  computedProps: {
+    props: [ 'desc', 'tsType', 'examples', 'addedIn', 'internal' ],
+    required: [ 'desc' ],
+    isBoolean: [ 'internal' ],
+    isArray: [ 'examples' ]
   },
 
   methods: {
@@ -175,6 +183,10 @@ function isSerializable (value) {
 
 function parseObject ({ banner, api, itemName, masterType, verifyCategory, verifySerializable }) {
   let obj = api[ itemName ]
+
+  if (obj.addedIn !== void 0) {
+    handleAddedIn(obj.addedIn, banner)
+  }
 
   if (obj.extends !== void 0 && extendApi[ masterType ] !== void 0) {
     if (extendApi[ masterType ][ obj.extends ] === void 0) {
@@ -375,30 +387,22 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
 
 // https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // https://regex101.com/r/vkijKf/1/
-const SEMANTIC_REGEX = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+const SEMANTIC_REGEX = /^v(0|[1-9]\d*)\.(0|[1-9]\d*)(\.(0|[1-9]\d*))?(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
 
-function isValidVersion (version) {
-  return !!SEMANTIC_REGEX.exec(version)
-}
-
-function handleAddedIn (api, banner) {
-  if (api.addedIn === void 0 || api.addedIn.length === 0) {
+function handleAddedIn (addedIn, banner) {
+  if (addedIn === void 0 || addedIn.length === 0) {
     logError(`${ banner } "addedIn" is empty`)
     console.log()
     process.exit(1)
   }
 
-  const addedIn = api.addedIn
-
   if (addedIn.charAt(0) !== 'v') {
     logError(`${ banner } "addedIn" value (${ addedIn }) must start with "v"`)
-    console.log()
     process.exit(1)
   }
 
-  if (isValidVersion(addedIn.slice(1)) !== true) {
+  if (SEMANTIC_REGEX.test(addedIn) !== true) {
     logError(`${ banner } "addedIn" value (${ addedIn }) must follow semantic versioning`)
-    console.log()
     process.exit(1)
   }
 }
@@ -433,7 +437,7 @@ function parseAPI (file, apiType) {
     }
 
     if (type === 'addedIn') {
-      handleAddedIn(api, banner)
+      handleAddedIn(api.addedIn, banner)
       continue
     }
 
@@ -472,7 +476,7 @@ function parseAPI (file, apiType) {
         banner: `${ banner } "${ type }"/"${ itemName }"`,
         api: api[ type ],
         itemName,
-        masterType: type,
+        masterType: type === 'computedProps' ? 'props' : type,
         verifyCategory: type === 'props' && isComponent
       })
     }

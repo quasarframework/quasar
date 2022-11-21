@@ -28,15 +28,13 @@
       "duration": {
         "type": "Number",
         "desc": "Duration of the animation (in milliseconds)",
-        "default": "300",
-        "examples": [ "500" ]
+        "default": "300"
       },
 
       "delay": {
         "type": "Number",
         "desc": "Delay for the animation (in milliseconds)",
-        "default": "0",
-        "examples": [ "500" ]
+        "default": "0"
       },
 
       "easing": {
@@ -93,15 +91,13 @@
       "tweenFromOpacity": {
         "type": "Number",
         "desc": "If using tween it is the initial opacity of the initial element (will be animated to 0) - the initial element is placed on top of the final element",
-        "default": "0.6",
-        "examples": [ "1" ]
+        "default": 0.6
       },
 
       "tweenToOpacity": {
         "type": "Number",
         "desc": "If using tween it is the initial opacity of the final element (will be animated to 1)",
-        "default": "0.5",
-        "examples": [ "0.3" ]
+        "default": 0.5
       },
 
       "waitFor": {

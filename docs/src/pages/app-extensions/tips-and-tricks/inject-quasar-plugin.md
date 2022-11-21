@@ -1,6 +1,18 @@
 ---
 title: Injecting Quasar Plugin
 desc: Tips and tricks on how to use a Quasar App Extension to configure the host app to use a Quasar Plugin.
+scope:
+  tree:
+    { l: '.',
+      c: [
+        { l: 'package.json' },
+        { l: 'src',
+          c: [
+            { l: 'index.js', e: 'Described in Index API' }
+          ]
+        }
+      ]
+    }
 ---
 
 This guide is for when you want to ensure that a [Quasar Plugin](/quasar-plugins) will be injected into the hosting app, because you depend on it for your own App Extension to work.
@@ -15,12 +27,7 @@ To see an example of what we will build, head over to [full example](https://git
 
 We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.config.js from the host app to include our required Quasar Plugin.
 
-```bash
-.
-├── package.json
-└── src
-    └── index.js              # Described in Index API
-```
+<doc-tree :def="scope.tree" />
 
 And /index.js would look like this:
 

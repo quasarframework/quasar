@@ -44,7 +44,7 @@ export const usePanelProps = {
   keepAliveMax: Number
 }
 
-export const usePanelEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
+export const usePanelEmits = [ 'update:modelValue', 'beforeTransition', 'transition' ]
 
 export default function () {
   const { props, emit, proxy } = getCurrentInstance()
@@ -116,7 +116,7 @@ export default function () {
 
     if (panelIndex.value !== index) {
       panelIndex.value = index
-      emit('before-transition', newVal, oldVal)
+      emit('beforeTransition', newVal, oldVal)
       nextTick(() => {
         emit('transition', newVal, oldVal)
       })
@@ -125,13 +125,6 @@ export default function () {
 
   function nextPanel () { goToPanelByOffset(1) }
   function previousPanel () { goToPanelByOffset(-1) }
-
-  // expose public methods
-  Object.assign(proxy, {
-    next: nextPanel,
-    previous: previousPanel,
-    goTo: goToPanel
-  })
 
   function goToPanel (name) {
     emit('update:modelValue', name)
@@ -256,6 +249,13 @@ export default function () {
   function getPanels () {
     return panels
   }
+
+  // expose public methods
+  Object.assign(proxy, {
+    next: nextPanel,
+    previous: previousPanel,
+    goTo: goToPanel
+  })
 
   return {
     panelIndex,

@@ -42,9 +42,13 @@ async function add (silent) {
   }])
 
   log(`Creating Browser Extension source folder...`)
+
   fse.copySync(appPaths.resolve.cli('templates/bex/common'), appPaths.bexDir)
+  fse.copySync(appPaths.resolve.cli('templates/bex/bex-flag.d.ts'), appPaths.resolve.bex('bex-flag.d.ts'))
+
   const format = hasTypescript ? 'ts' : 'default'
   fse.copySync(appPaths.resolve.cli(`templates/bex/${format}/${answer.manifestVersion}`), appPaths.bexDir)
+
   log(`Browser Extension support was added`)
 }
 

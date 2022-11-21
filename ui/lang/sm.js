@@ -19,7 +19,9 @@ module.exports = {
     create: 'Fatu',
     search: 'Sā\'ili',
     filter: 'Fa\'amamā',
-    refresh: 'Fa\'afou'
+    refresh: 'Fa\'afou',
+    expand: label => (label ? `Fa'alautele "${ label }"` : 'Faalautele'),
+    collapse: label => (label ? `Pa'u "${ label }"` : 'Pa\'u')
   },
   date: {
     days: 'Aso Sā_Aso Gafua_Aso Lua_Aso Lulu_Aso Tofi_Aso Faraile_Aso To\'onai'.split('_'),

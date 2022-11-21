@@ -14,7 +14,9 @@ export default {
     create: 'உருவாக்கு',
     search: 'தேடு',
     filter: 'வடிகட்டு',
-    refresh: 'புதுப்பி'
+    refresh: 'புதுப்பி',
+    expand: label => (label ? `"${ label }" ஐ விரிவாக்கு` : 'விரிவாக்கு'),
+    collapse: label => (label ? `"${ label }" ஐச் சுருக்கு` : 'சுருக்கு')
   },
   date: {
     days: 'ஞாயிறு_திங்கள்_செவ்வாய்_புதன்_வியாழன்_வெள்ளி_சனி'.split('_'),

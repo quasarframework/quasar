@@ -9,6 +9,7 @@ import useKeyComposition from '../../composables/private/use-key-composition.js'
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QInput',
@@ -39,10 +40,14 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'paste', 'change'
+    'paste', 'change',
+    'keydown', 'animationend'
   ],
 
   setup (props, { emit, attrs }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const temp = {}
     let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer, emitValueFn
 
@@ -94,7 +99,7 @@ export default createComponent({
       }
 
       if (props.autogrow === true) {
-        evt.onAnimationend = adjustHeight
+        evt.onAnimationend = onAnimationend
       }
 
       return evt
@@ -249,6 +254,11 @@ export default createComponent({
       props.autogrow === true && adjustHeight()
     }
 
+    function onAnimationend (e) {
+      emit('animationend', e)
+      adjustHeight()
+    }
+
     function emitValue (val, stopWatcher) {
       emitValueFn = () => {
         if (
@@ -289,21 +299,24 @@ export default createComponent({
 
     // textarea only
     function adjustHeight () {
-      const inp = inputRef.value
-      if (inp !== null) {
-        const parentStyle = inp.parentNode.style
-        const { overflow } = inp.style
+      requestAnimationFrame(() => {
+        const inp = inputRef.value
+        if (inp !== null) {
+          const parentStyle = inp.parentNode.style
+          const { overflow } = inp.style
 
-        // reset height of textarea to a small size to detect the real height
-        // but keep the total control size the same
-        parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
-        inp.style.height = '1px'
-        inp.style.overflow = 'hidden'
+          // reset height of textarea to a small size to detect the real height
+          // but keep the total control size the same
+          // Firefox rulez #14263, #14344
+          $q.platform.is.firefox !== true && (inp.style.overflow = 'hidden')
+          inp.style.height = '1px'
+          parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
 
-        inp.style.height = inp.scrollHeight + 'px'
-        inp.style.overflow = overflow
-        parentStyle.marginBottom = ''
-      }
+          inp.style.height = inp.scrollHeight + 'px'
+          inp.style.overflow = overflow
+          parentStyle.marginBottom = ''
+        }
+      })
     }
 
     function onChange (e) {
@@ -406,12 +419,13 @@ export default createComponent({
     const renderFn = useField(state)
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       focus,
       select,
-      getNativeElement: () => inputRef.value
+      getNativeElement: () => inputRef.value // deprecated
     })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
 
     return renderFn
   }

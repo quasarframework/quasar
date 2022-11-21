@@ -2,7 +2,7 @@ import { h, computed, inject, getCurrentInstance } from 'vue'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
-import { pageContainerKey, layoutKey } from '../../utils/private/symbols.js'
+import { pageContainerKey, layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
 
 export default createComponent({
   name: 'QPage',
@@ -15,10 +15,17 @@ export default createComponent({
   setup (props, { slots }) {
     const { proxy: { $q } } = getCurrentInstance()
 
-    const $layout = inject(layoutKey)
-    inject(pageContainerKey, () => {
+    const $layout = inject(layoutKey, emptyRenderFn)
+    if ($layout === emptyRenderFn) {
+      console.error('QPage needs to be a deep child of QLayout')
+      return emptyRenderFn
+    }
+
+    const $pageContainer = inject(pageContainerKey, emptyRenderFn)
+    if ($pageContainer === emptyRenderFn) {
       console.error('QPage needs to be child of QPageContainer')
-    })
+      return emptyRenderFn
+    }
 
     const style = computed(() => {
       const offset
@@ -45,7 +52,7 @@ export default createComponent({
     })
 
     const classes = computed(() =>
-      `q-page ${ props.padding === true ? ' q-layout-padding' : '' }`
+      `q-page${ props.padding === true ? ' q-layout-padding' : '' }`
     )
 
     return () => h('main', {

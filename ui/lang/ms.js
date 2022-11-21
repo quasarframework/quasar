@@ -19,7 +19,9 @@ module.exports = {
     create: 'Tambah',
     search: 'Cari',
     filter: 'Saring',
-    refresh: 'Muat semula'
+    refresh: 'Muat semula',
+    expand: label => (label ? `Kembangkan "${ label }"` : 'Kembangkan'),
+    collapse: label => (label ? `Runtuhkan "${ label }"` : 'Runtuh')
   },
   date: {
     days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jummat_Sabtu'.split('_'),

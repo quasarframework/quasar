@@ -46,7 +46,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-btn label="Confirm" flat color="primary" @click="confirm" />
+                <q-btn label="Confirm" flat color="primary" @click="confirm()" />
               </q-item-section>
             </q-item>
             <q-item>

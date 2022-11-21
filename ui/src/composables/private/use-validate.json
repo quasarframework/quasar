@@ -3,7 +3,6 @@
     "model-value": {
       "type": "Any",
       "desc": "Model of the component; Either use this property (along with a listener for 'update:model-value' event) OR use v-model directive",
-      "__exemption": [ "examples" ],
       "category": "model"
     },
 
@@ -32,7 +31,8 @@
       "desc": "Array of Functions/Strings; If String, then it must be a name of one of the embedded validation rules",
       "examples": [
         ":rules=\"[ val => val.length <= 3 || 'Please use maximum 3 characters' ]\"",
-        ":rules=\"[ 'fulltime' ]\""
+        ":rules=\"[ 'fulltime' ]\"",
+        ":rules=\"[ (val, rules) => rules.email(val) || 'Please enter a valid email address' ]\""
       ],
       "category": "behavior"
     },
@@ -61,8 +61,7 @@
       "params": {
         "value": {
           "type": "Any",
-          "desc": "Optional value to validate against",
-          "__exemption": [ "examples" ]
+          "desc": "Optional value to validate against"
         }
       },
       "returns": {
@@ -73,6 +72,13 @@
           "validate().then(outcome => { ... })"
         ]
       }
+    }
+  },
+
+  "computedProps": {
+    "hasError": {
+      "type": "Boolean",
+      "desc": "Whether the component is in error state"
     }
   }
 }

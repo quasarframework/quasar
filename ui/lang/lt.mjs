@@ -26,7 +26,9 @@ export default {
     create: 'Sukurti',
     search: 'Ieškoti',
     filter: 'Filtruoti',
-    refresh: 'Atnaujinti'
+    refresh: 'Atnaujinti',
+    expand: label => (label ? `Išskleisti "${ label }"` : 'Išskleisti'),
+    collapse: label => (label ? `Sutraukti "${ label }"` : 'Sutraukti')
   },
   date: {
     days: 'Sekmadienis_Pirmadienis_Antradienis_Trečiadienis_Ketvirtadienis_Penktadienis_Šeštadienis'.split('_'),

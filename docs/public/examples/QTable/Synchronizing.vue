@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      ref="tableRef"
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -8,8 +9,8 @@
       v-model:pagination="pagination"
       :loading="loading"
       :filter="filter"
-      @request="onRequest"
       binary-state-sort
+      @request="onRequest"
     >
       <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
@@ -90,6 +91,7 @@ const originalRows = [
 
 export default {
   setup () {
+    const tableRef = ref()
     const rows = ref([])
     const filter = ref('')
     const loading = ref(false)
@@ -175,13 +177,11 @@ export default {
 
     onMounted(() => {
       // get initial data from server (1st page)
-      onRequest({
-        pagination: pagination.value,
-        filter: undefined
-      })
+      tableRef.value.requestServerInteraction()
     })
 
     return {
+      tableRef,
       filter,
       loading,
       pagination,

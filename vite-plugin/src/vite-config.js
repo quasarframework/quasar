@@ -23,8 +23,19 @@ export function getViteConfig (runMode, externalViteCfg) {
     })
   }
   else {
-    viteCfg.optimizeDeps = {
-      exclude: [ 'quasar' ]
+    // Alias "quasar" package to its dev file (which has flags)
+    // to reduce the number of HTTP requests while in DEV mode
+    if (externalViteCfg.mode === 'development') {
+      viteCfg.resolve = {
+        alias: [
+          { find: /^quasar$/, replacement: 'quasar/dist/quasar.esm.js' }
+        ]
+      }
+    }
+    else {
+      viteCfg.optimizeDeps = {
+        exclude: [ 'quasar' ]
+      }
     }
 
     if (runMode === 'ssr-client') {

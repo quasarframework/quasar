@@ -74,7 +74,7 @@ export default createComponent({
     )
 
     const attrs = computed(() => {
-      const attrs = {}
+      const attrs = { role: 'group' }
 
       if (props.type === 'radio') {
         attrs.role = 'radiogroup'

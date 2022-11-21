@@ -6,10 +6,12 @@ import Ripple from '../../directives/Ripple.js'
 
 import { hMergeSlot } from '../../utils/private/render.js'
 import { isKeyCode, shouldIgnoreKey } from '../../utils/private/key-composition.js'
-import { tabsKey } from '../../utils/private/symbols.js'
+import { tabsKey, emptyRenderFn } from '../../utils/private/symbols.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import uid from '../../utils/uid.js'
+import { isDeepEqual } from '../../utils/is.js'
 
-let uid = 0
+let id = 0
 
 export const useTabEmits = [ 'click', 'keydown' ]
 
@@ -22,7 +24,7 @@ export const useTabProps = {
 
   name: {
     type: [ Number, String ],
-    default: () => `t_${ uid++ }`
+    default: () => `t_${ id++ }`
   },
 
   noCaps: Boolean,
@@ -38,10 +40,12 @@ export const useTabProps = {
   }
 }
 
-export default function (props, slots, emit, routerProps) {
-  const $tabs = inject(tabsKey, () => {
+export default function (props, slots, emit, routeData) {
+  const $tabs = inject(tabsKey, emptyRenderFn)
+  if ($tabs === emptyRenderFn) {
     console.error('QTab/QRouteTab component needs to be child of QTabs')
-  })
+    return emptyRenderFn
+  }
 
   const { proxy } = getCurrentInstance()
 
@@ -75,7 +79,7 @@ export default function (props, slots, emit, routerProps) {
     + (props.icon && props.label && $tabs.tabProps.value.inlineLabel === false ? ' q-tab--full' : '')
     + (props.noCaps === true || $tabs.tabProps.value.noCaps === true ? ' q-tab--no-caps' : '')
     + (props.disable === true ? ' disabled' : ' q-focusable q-hoverable cursor-pointer')
-    + (routerProps !== void 0 && routerProps.linkClass.value !== '' ? ` ${ routerProps.linkClass.value }` : '')
+    + (routeData !== void 0 ? routeData.linkClass.value : '')
   )
 
   const innerClass = computed(() =>
@@ -85,53 +89,77 @@ export default function (props, slots, emit, routerProps) {
   )
 
   const tabIndex = computed(() => (
-    props.disable === true || $tabs.hasFocus.value === true
+    (
+      props.disable === true
+      || $tabs.hasFocus.value === true
+      || (isActive.value === false && $tabs.hasActiveTab.value === true)
+    )
       ? -1
       : props.tabindex || 0
   ))
 
   function onClick (e, keyboard) {
-    keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
+    if (keyboard !== true && blurTargetRef.value !== null) {
+      blurTargetRef.value.focus()
+    }
 
-    if (props.disable !== true) {
-      let go
-
-      if (routerProps !== void 0) {
-        if (routerProps.hasRouterLink.value === true) {
-          go = () => {
-            e.__qNavigate = true
-            $tabs.avoidRouteWatcher = true
-
-            const res = routerProps.navigateToRouterLink(e)
-
-            if (res === false) {
-              $tabs.avoidRouteWatcher = false
-            }
-            else {
-              res.then(err => {
-                $tabs.avoidRouteWatcher = false
-
-                if (err === void 0) {
-                  $tabs.updateModel({ name: props.name, fromRoute: true })
-                }
-              })
-            }
-          }
-        }
-        else {
-          emit('click', e)
-          return
-        }
+    if (props.disable === true) {
+      // we should hinder native navigation though
+      if (routeData !== void 0 && routeData.hasRouterLink.value === true) {
+        stopAndPrevent(e)
       }
-      else {
-        go = () => {
-          $tabs.updateModel({ name: props.name, fromRoute: false })
-        }
+      return
+    }
+
+    // do we have a QTab?
+    if (routeData === void 0) {
+      $tabs.updateModel({ name: props.name })
+      emit('click', e)
+      return
+    }
+
+    if (routeData.hasRouterLink.value === true) {
+      const go = (opts = {}) => {
+        // if requiring to go to another route, then we
+        // let the QTabs route watcher do its job,
+        // otherwise directly select this
+        let hardError
+        const reqId = opts.to === void 0 || isDeepEqual(opts.to, props.to) === true
+          ? ($tabs.avoidRouteWatcher = uid())
+          : null
+
+        return routeData.navigateToRouterLink(e, { ...opts, returnRouterError: true })
+          .catch(err => { hardError = err })
+          .then(softError => {
+            if (reqId === $tabs.avoidRouteWatcher) {
+              $tabs.avoidRouteWatcher = false
+
+              // if we don't have any hard errors or any soft errors, except for
+              // when navigating to the same route (on all other soft errors,
+              // like when navigation was aborted in a nav guard, we don't activate this tab)
+              if (
+                hardError === void 0 && (
+                  softError === void 0
+                  || softError.message.startsWith('Avoided redundant navigation') === true
+                )
+              ) {
+                $tabs.updateModel({ name: props.name })
+              }
+            }
+
+            if (opts.returnRouterError === true) {
+              return hardError !== void 0 ? Promise.reject(hardError) : softError
+            }
+          })
       }
 
       emit('click', e, go)
       e.defaultPrevented !== true && go()
+
+      return
     }
+
+    emit('click', e)
   }
 
   function onKeydown (e) {
@@ -205,17 +233,15 @@ export default function (props, slots, emit, routerProps) {
     name: computed(() => props.name),
     rootRef,
     tabIndicatorRef,
-    routerProps
+    routeData
   }
 
   onBeforeUnmount(() => {
     $tabs.unregisterTab(tabData)
-    $tabs.recalculateScroll()
   })
 
   onMounted(() => {
     $tabs.registerTab(tabData)
-    $tabs.recalculateScroll()
   })
 
   function renderTab (tag, customData) {

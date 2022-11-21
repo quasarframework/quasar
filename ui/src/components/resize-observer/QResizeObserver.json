@@ -24,14 +24,12 @@
             "height": {
               "type": "Number",
               "required": true,
-              "desc": "Layout height",
-              "examples": [ 822 ]
+              "desc": "Layout height"
             },
             "width": {
               "type": "Number",
               "required": true,
-              "desc": "Layout width",
-              "examples": [ 822 ]
+              "desc": "Layout width"
             }
           }
         }

@@ -122,7 +122,8 @@ export default {
     badge: String,
     metaTitle: String,
     metaDesc: String,
-    toc: Array
+    toc: Array,
+    scope: Object
   },
 
   setup (props) {
@@ -141,6 +142,8 @@ export default {
     })
 
     return {
+      scope: props.scope, // eslint-disable-line
+
       year,
       editHref,
 

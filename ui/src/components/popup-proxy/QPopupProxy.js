@@ -6,6 +6,7 @@ import QMenu from '../menu/QMenu.js'
 import useAnchor, { useAnchorProps } from '../../composables/private/use-anchor.js'
 
 import { createComponent } from '../../utils/private/create.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QPopupProxy',
@@ -49,13 +50,6 @@ export default createComponent({
       }
     })
 
-    // expose public methods
-    Object.assign(proxy, {
-      show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
-      hide (evt) { popupRef.value.hide(evt) },
-      toggle (evt) { popupRef.value.toggle(evt) }
-    })
-
     function onShow (evt) {
       showing.value = true
       emit('show', evt)
@@ -66,6 +60,18 @@ export default createComponent({
       type.value = getType()
       emit('hide', evt)
     }
+
+    // expose public methods
+    Object.assign(proxy, {
+      show (evt) { canShow(evt) === true && popupRef.value.show(evt) },
+      hide (evt) { popupRef.value.hide(evt) },
+      toggle (evt) { popupRef.value.toggle(evt) }
+    })
+
+    injectProp(proxy, 'currentComponent', () => ({
+      type: type.value,
+      ref: popupRef.value
+    }))
 
     return () => {
       const data = {
