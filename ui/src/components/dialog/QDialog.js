@@ -372,7 +372,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__backdrop fixed-full',
             attrs: backdropAttrs,
             on: cache(this, 'bkdrop', {
-              focusin: this.__onBackdropClick
+              [ this.$q.platform.is.ios === true ? 'click' : 'focusin' ]: this.__onBackdropClick
             })
           })
         ] : null),
