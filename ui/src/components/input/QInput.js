@@ -309,8 +309,8 @@ export default createComponent({
           // but keep the total control size the same
           // Firefox rulez #14263, #14344
           $q.platform.is.firefox !== true && (inp.style.overflow = 'hidden')
-          inp.style.height = '1px'
           parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
+          inp.style.height = '1px'
 
           inp.style.height = inp.scrollHeight + 'px'
           inp.style.overflow = overflow
