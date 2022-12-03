@@ -188,7 +188,7 @@ return {
   // ...
   boot: [
     'some-boot-file', // runs on both server and client
-    { path: 'some-other', server: false } // this boot file gets embedded only on client-side
+    { path: 'some-other', server: false }, // this boot file gets embedded only on client-side
     { path: 'third', client: false } // this boot file gets embedded only on server-side
   ]
 }
