@@ -20,7 +20,7 @@
     <% if (preset.lint) { %>
     "@babel/eslint-parser": "^7.13.14",
     "eslint": "^8.10.0",
-    "eslint-plugin-vue": "^9.0.0",
+    "eslint-plugin-vue": "^8.7.1",
     "eslint-webpack-plugin": "^2.0.0",
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^17.0.0",
