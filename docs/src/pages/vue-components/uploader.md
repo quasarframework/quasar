@@ -324,6 +324,38 @@ end
 isrunning(:webserver) || up()
 ```
 
+### Perl/Mojolicious
+
+```
+# Perl
+
+use Mojolicious::Lite -signatures;
+
+# CORS
+app->hook(after_dispatch => sub {
+    my $c = shift;
+    $c->res->headers->header('Access-Control-Allow-Origin' => '*');
+});
+options '*' => sub ($c) {
+   $c->res->headers->header('Access-Control-Allow-Methods' => 'GET, OPTIONS, POST, DELETE, PUT');
+   $c->res->headers->header('Access-Control-Allow-Headers' => 'Content-Type');
+   $c->render(text => '');
+};
+
+post '/upload' => sub ($c) {
+   my $uploads = $c->req->uploads('files');
+
+   foreach my $f (@{$uploads}) {
+      $f->move_to('/tmp/' . $f->filename);
+   }
+
+   $c->render(text => 'Saved!');
+};
+
+app->start;
+
+```
+
 ## Supporting other services
 QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
