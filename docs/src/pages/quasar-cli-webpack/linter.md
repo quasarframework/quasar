@@ -2,7 +2,7 @@
 title: ESLint
 desc: (@quasar/app-webpack) How to configure a code linter in a Quasar app.
 ---
-Having a code linter (like [ESLint](https://eslint.org/) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
+Having a code linter (like [ESLint](https://eslint.org/)) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
 
 When you scaffold a Quasar project folder it will ask you if you want a linter and which setup you want for ESLint:
 
