@@ -24,8 +24,9 @@ function getConfigPlugin (opts) {
         console.warn('In your Vite config file, please add the Quasar plugin after the Vue one')
         process.exit(1)
       }
-
-      return getViteConfig(opts.runMode, viteConf)
+    },
+    configResolved(config){
+      return getViteConfig(opts.runMode, config)
     }
   }
 }
