@@ -22,4 +22,6 @@ type WithKnownType<
 export type QInputNativeElement<T extends QInputType = QInputType> =
   T extends "textarea"
     ? WithKnownType<HTMLTextAreaElement, "textarea">
-    : WithKnownType<HTMLInputElement, T>;
+    : Omit<WithKnownType<HTMLInputElement, T>, "files"> & {
+        files: T extends "file" ? FileList : null;
+      };
