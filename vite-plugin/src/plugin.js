@@ -17,7 +17,7 @@ function getConfigPlugin (opts) {
   return {
     name: 'vite:quasar:vite-conf',
 
-    config (viteConf) {
+    config (viteConf, { mode }) {
       const vueCfg = viteConf.plugins.find(entry => entry.name === 'vite:vue')
 
       if (vueCfg === void 0) {
@@ -25,7 +25,7 @@ function getConfigPlugin (opts) {
         process.exit(1)
       }
 
-      return getViteConfig(opts.runMode, viteConf)
+      return getViteConfig(opts.runMode, mode, viteConf)
     }
   }
 }
