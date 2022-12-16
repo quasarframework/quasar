@@ -1,7 +1,7 @@
 // Partly used with babel-plugin-transform-imports
 // and by @quasar/app auto-import feature
 
-const glob = require('glob')
+const glob = require('fast-glob')
 const path = require('path')
 
 const root = path.resolve(__dirname, '..')
