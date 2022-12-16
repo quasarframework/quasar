@@ -9,7 +9,6 @@ const resolvePath = file => path.resolve(root, file)
 const { writeFile, kebabCase } = require('./build.utils')
 
 const sourceFileSuffixRE = /\.spec\.js$/
-const directiveFileSuffixRE = /\.(spec|ssr)\.js$/
 
 function relative (name) {
   return path.relative(root, name).split('\\').join('/')
@@ -44,7 +43,7 @@ function addComponents (map, autoImport) {
 
 function addDirectives (map, autoImport) {
   glob.sync(resolvePath('src/directives/*.js'))
-    .filter(file => directiveFileSuffixRE.test(file) === false)
+    .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
       const
