@@ -383,7 +383,7 @@ export default createComponent({
               style: transitionStyle.value,
               'aria-hidden': 'true',
               tabindex: -1,
-              onFocusin: onBackdropClick
+              [ vm.proxy.$q.platform.is.ios === true ? 'onClick' : 'onFocusin' ]: onBackdropClick
             })
             : null
         )),
