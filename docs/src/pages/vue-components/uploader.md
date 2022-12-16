@@ -353,7 +353,6 @@ post '/upload' => sub ($c) {
 };
 
 app->start;
-
 ```
 
 ## Supporting other services
