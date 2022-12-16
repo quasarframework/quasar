@@ -113,6 +113,10 @@ The Vercel CLI should now display information regarding your deployment, like th
 ### Vercel configuration tips
 You should consider adding some additional configurations to your project.
 
+* Important: Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
+so you will need to override the `Output Directory` in your Vercel project. Set it to `dist/spa` through the Vercel web ui
+under your project's settings > Build & Development Settings.
+
 * Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
 ```json
   {
@@ -123,18 +127,6 @@ You should consider adding some additional configurations to your project.
       "deploy": "vercel"
     }
   }
-```
-
-* Since Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
-consider updating `quasar.config.js` accordingly:
-```js
-module.exports = function (ctx) {
-  return {
-    ...
-    build: {
-      ...
-      distDir: ctx.mode.spa ? 'public' : null,
-    }
 ```
 
 * In order to support SPA routing in the deployed app, consider adding `vercel.json` file in your root folder:
