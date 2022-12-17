@@ -113,6 +113,7 @@ $footer-columns-after-xs: 2
 .doc-page-footer
   background-color: #d8e1e5
   width: 100%
+  z-index: 1
 
   .q-item__label
     // we assume 2em + line-height difference
