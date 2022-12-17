@@ -39,8 +39,8 @@ function getScssTransformsPlugin (opts) {
 
   const scssTransform = createScssTransform('scss', sassVariables)
   const sassTransform = createScssTransform('sass', sassVariables)
-  const scssExt = [ '.scss' ]
-  const sassExt = [ '.sass' ]
+  const scssExt = [ '.scss', '.module.scss' ]
+  const sassExt = [ '.sass', '.module.sass' ]
 
   return {
     name: 'vite:quasar:scss',
