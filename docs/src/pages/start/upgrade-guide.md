@@ -984,6 +984,7 @@ Full list of changes:
 | en-gb | en-GB |
 | az-latn | az-Latn |
 | fa-ir | fa-IR |
+| kz | kk |
 | ko-kr | ko-KR |
 | kur-CKB | kur-CKB |
 | nb-no | nb-NO |
