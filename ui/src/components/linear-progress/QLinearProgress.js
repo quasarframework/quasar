@@ -68,8 +68,12 @@ export default Vue.extend({
       return width(this.buffer !== void 0 ? this.buffer : 1, this.widthReverse, this.$q)
     },
 
+    transitionSuffix () {
+      return `with${this.instantFeedback === true ? 'out' : ''}-transition`
+    },
+
     trackClass () {
-      return `q-linear-progress__track--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+      return `q-linear-progress__track absolute-full q-linear-progress__track--${this.transitionSuffix}` +
         ` q-linear-progress__track--${this.isDark === true ? 'dark' : 'light'}` +
         (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
     },
@@ -79,7 +83,7 @@ export default Vue.extend({
     },
 
     modelClasses () {
-      return `q-linear-progress__model--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+      return `q-linear-progress__model absolute-full q-linear-progress__model--${this.transitionSuffix}` +
         ` q-linear-progress__model--${this.motion === true ? 'in' : ''}determinate`
     },
 
@@ -88,7 +92,8 @@ export default Vue.extend({
     },
 
     stripeClass () {
-      return this.reverse === true ? 'absolute-right' : 'absolute-left'
+      return `q-linear-progress__stripe q-linear-progress__stripe--${this.transitionSuffix}`
+        + ` absolute-${this.reverse === true ? 'right' : 'left'}`
     },
 
     attrs () {
@@ -104,13 +109,11 @@ export default Vue.extend({
   render (h) {
     const child = [
       h('div', {
-        staticClass: 'q-linear-progress__track absolute-full',
         style: this.trackStyle,
         class: this.trackClass
       }),
 
       h('div', {
-        staticClass: 'q-linear-progress__model absolute-full',
         style: this.modelStyle,
         class: this.modelClasses
       })
@@ -118,7 +121,6 @@ export default Vue.extend({
 
     this.stripe === true && this.motion === false && child.push(
       h('div', {
-        staticClass: 'q-linear-progress__stripe',
         style: this.stripeStyle,
         class: this.stripeClass
       })
