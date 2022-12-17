@@ -17,14 +17,16 @@ function getConfigPlugin (opts) {
   return {
     name: 'vite:quasar:vite-conf',
 
-    config (viteConf, { mode }) {
+    configResolved (viteConf) {
       const vueCfg = viteConf.plugins.find(entry => entry.name === 'vite:vue')
 
       if (vueCfg === void 0) {
-        console.warn('In your Vite config file, please add the Quasar plugin after the Vue one')
+        console.error('\n\n[Quasar] Error: In your Vite config file, please add the Quasar plugin ** after ** the Vue one\n\n')
         process.exit(1)
       }
+    },
 
+    config (viteConf, { mode }) {
       return getViteConfig(opts.runMode, mode, viteConf)
     }
   }
