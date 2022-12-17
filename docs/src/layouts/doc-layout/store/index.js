@@ -25,13 +25,7 @@ export function provideDocStore () {
 
     state: {
       dark: $q.cookies.get('dark-layout') === 'true',
-      mounted: false,
-
-      page: { // TODO
-        forcedDark: false,
-        forcedLightHeader: false,
-        scrollTop: 0
-      }
+      mounted: false
     },
 
     setDark (val) {

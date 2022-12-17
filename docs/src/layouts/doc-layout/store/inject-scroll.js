@@ -48,7 +48,8 @@ export default function injectScroll (store) {
   }
 
   function onPageScroll ({ position }) {
-    store.state.value.page.scrollTop = position
+    // TODO
+    // store.state.value.page.scrollTop = position
 
     if (
       preventTocUpdate !== true &&
