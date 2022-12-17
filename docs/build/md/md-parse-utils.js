@@ -1,33 +1,40 @@
 const matter = require('gray-matter')
 const toml = require('toml')
 
-function getComponentsImport (componentList) {
-  return componentList.map(c => {
+function getComponentsImport (componentsList) {
+  return componentsList.map(c => {
     const parts = c.split('/')
-    return `import ${parts[ parts.length - 1 ]} from 'components/page-parts/${c}.vue'\n`
+    return `import ${parts[ parts.length - 1 ]} from '${ c }.vue'\n`
   }).join('')
 }
 
-module.exports.getVueComponent = function (rendered, data, toc) {
+module.exports.getVueComponent = function (data, mdPageContent) {
   return `
 <template>
   <doc-page
-    meta-title="${data.title}"
-    title="${data.heading !== false ? data.title : ''}"
+    title="${data.title}"
+    ${data.desc !== void 0 ? `desc="${data.desc}"` : ''}
     ${data.overline !== void 0 ? `overline="${data.overline}"` : ''}
     ${data.badge !== void 0 ? `badge="${data.badge}"` : ''}
+    ${data.heading !== false ? 'heading' : ''}
+    ${data.editLink !== false ? `edit-link="${data.editLink}"` : ''}
+    ${data.toc.length !== 0 ? ':toc="toc"' : ''}
     ${data.related !== void 0 ? ':related="related"' : ''}
     ${data.nav !== void 0 ? ':nav="nav"' : ''}
-    ${data.related !== void 0 || data.nav !== void 0 ? ':toc="toc"' : ''}
-    ${data.scope !== void 0 ? ':scope="scope"' : ''}
-    ${data.desc !== void 0 ? `meta-desc="${data.desc}"` : ''}>${rendered}</doc-page>
+    ${data.scope !== void 0 ? ':scope="scope"' : ''}>${mdPageContent}</doc-page>
 </template>
 <script setup>
 import { copyHeading } from 'assets/page-utils'
+${data.examples !== void 0 ? `
+import { provide } from 'vue'
+provide('_q_ex', process.env.CLIENT
+  ? { name: '${data.examples}', list: import('examples:${data.examples}') }
+  : { name: '${data.examples}' })
+` : ''}
 ${data.components.length !== 0 ? getComponentsImport(data.components) : ''}
 ${data.related !== void 0 ? `const related = ${JSON.stringify(data.related)}` : ''}
 ${data.nav !== void 0 ? `const nav = ${JSON.stringify(data.nav)}` : ''}
-${data.related !== void 0 || data.nav !== void 0 ? `const toc = ${toc}` : ''}
+${data.toc.length !== 0 ? `const toc = [${data.toc.join(',')}]` : ''}
 ${data.scope !== void 0 ? `const scope = ${JSON.stringify(data.scope)}` : ''}
 </script>`
 }

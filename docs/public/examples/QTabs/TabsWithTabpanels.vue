@@ -59,7 +59,7 @@
         <q-tabs
           v-model="tab"
           dense
-          class="bg-grey-3"
+          :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
           align="justify"
           narrow-indicator
         >

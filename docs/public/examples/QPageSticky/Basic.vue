@@ -31,7 +31,7 @@
         :breakpoint="700"
         behavior="desktop"
         bordered
-        class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -47,7 +47,7 @@
         :width="150"
         :breakpoint="500"
         behavior="desktop"
-        class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">

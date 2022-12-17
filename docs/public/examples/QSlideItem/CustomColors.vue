@@ -34,9 +34,9 @@
           </div>
         </template>
 
-        <q-item class="bg-grey-3">
+        <q-item class="bg-grey-9 text-white">
           <q-item-section avatar>
-            <q-icon color="purple" name="event" />
+            <q-icon color="amber" name="event" />
           </q-item-section>
           <q-item-section>Custom colors 2</q-item-section>
         </q-item>

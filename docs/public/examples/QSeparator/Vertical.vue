@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
-      <q-toolbar class="bg-grey-3 shadow-2 rounded-borders">
+      <q-toolbar class="bg-orange shadow-2 rounded-borders">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
 
         <q-separator vertical inset />

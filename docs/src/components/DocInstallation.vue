@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card.doc-installation.q-my-lg(flat, bordered)
-  q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="brand-primary", dense, :breakpoint="0")
+  q-tabs.doc-installation__tabs(v-model="currentTab", align="left", indicator-color="brand-primary", dense, :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'Vite plugin / Vue CLI', 'UMD']"
       :key="`installation-${tab}`"
@@ -151,3 +151,14 @@ app.use(Quasar, {
   }
 }
 </script>
+
+<style lang="sass">
+body.body--light .doc-installation
+  &__tabs
+    color: $grey-7
+    background-color: #fff
+
+body.body--dark .doc-installation
+  &__tabs
+    color: $dark-text
+</style>

@@ -25,7 +25,7 @@
 
       <q-tabs
         v-model="tab"
-        class="bg-yellow"
+        class="bg-yellow text-dark"
       >
         <q-tab name="mails" icon="mail" label="Mails">
           <q-badge color="primary" text-color="white" floating>2</q-badge>
@@ -38,7 +38,7 @@
 
       <q-tabs
         v-model="tab"
-        class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-tab alert="red" name="mails" icon="mail" label="Mails" />
         <q-tab alert="purple" name="alarms" icon="alarm" label="Alarms" />

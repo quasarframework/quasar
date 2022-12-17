@@ -9,6 +9,7 @@
     </div>
 
     <q-table
+      flat bordered
       title="Treats"
       :rows="records"
       :columns="columns"

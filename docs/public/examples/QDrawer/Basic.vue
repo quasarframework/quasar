@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header elevated class="bg-black">
+      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="drawerLeft = !drawerLeft" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -31,7 +31,7 @@
         bordered
         :width="200"
         :breakpoint="500"
-        class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">

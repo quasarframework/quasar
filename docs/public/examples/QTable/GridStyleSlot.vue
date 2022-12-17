@@ -24,7 +24,7 @@
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
           :style="props.selected ? 'transform: scale(0.95);' : ''"
         >
-          <q-card :class="props.selected ? 'bg-grey-2' : ''">
+          <q-card bordered flat :class="props.selected ? ($q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2') : ''">
             <q-card-section>
               <q-checkbox dense v-model="props.selected" :label="props.row.name" />
             </q-card-section>
@@ -51,15 +51,6 @@
 import { ref } from 'vue'
 
 const columns = [
-  {
-    name: 'name',
-    required: true,
-    label: 'Dessert (100g serving)',
-    align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
-    sortable: true
-  },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
   { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
@@ -81,7 +72,7 @@ const rows = [
     iron: '1%'
   },
   {
-    name: 'Ice cream sandwich',
+    name: 'Ice cream',
     calories: 237,
     fat: 9.0,
     carbs: 37,

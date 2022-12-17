@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       :dense="$q.screen.lt.md"
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"

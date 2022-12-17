@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       style="height: 400px"
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"

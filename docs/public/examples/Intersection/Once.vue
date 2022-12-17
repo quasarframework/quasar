@@ -57,7 +57,7 @@ export default {
   width: 100%
   font-size: 20px
   color: #ccc
-  background: #282a37
+  background: #424242
   padding: 10px
 
 .example-area

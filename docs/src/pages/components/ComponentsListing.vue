@@ -1,0 +1,199 @@
+<template>
+  <div class="page-all q-pa-xl fit column">
+    <doc-stars />
+
+    <div class="page-all__search q-py-lg q-px-xl q-pa-md row no-wrap items-center">
+      <div
+        class="page-all__search-field rounded-borders row items-center no-wrap q-pl-sm q-pr-xs"
+        @click.prevent="onSearchFieldClick"
+      >
+        <input
+          ref="inputRef"
+          class="page-all__search-input text-white"
+          v-model="searchTerms"
+          placeholder="Search component"
+        />
+        <q-icon v-if="!searchTerms" name="search" size="24px" color="brand-primary" />
+        <q-icon v-else name="clear" size="24px" color="brand-primary" class="cursor-pointer" @click.stop="clearSearchTerms" />
+      </div>
+
+      <q-space />
+
+      <div class="row justify-start q-ml-xl gt-sm">
+        <q-chip
+          v-for="({label, value}, chipIndex) in filterChips"
+          :key="chipIndex"
+          :label="label"
+          :color="value === filterTag ? 'brand-accent' : 'brand-primary'"
+          clickable
+          text-color="white"
+          @click="setFilterTag(value)"
+        />
+      </div>
+    </div>
+
+    <div
+      v-if="noResultsLabel"
+      class="col flex flex-center text-size-20 letter-spacing-225 q-pa-xl"
+    >{{ noResultsLabel }}</div>
+
+    <div v-else class="q-pa-xl text-size-16 row items-center justify-center q-gutter-lg relative-position">
+      <transition-group name="page-all-transition">
+        <card-link
+          v-for="entry in searchResults"
+          :key="entry.key"
+          :to="entry.to"
+        >
+          <q-card class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300">
+            <!-- bg-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
+            <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
+            <div class="page-all__card-img bg-dark">
+              <q-img v-if="entry.img" :src="entry.img" class="bg-dark" />
+            </div>
+            <q-card-section class="text-brand-primary text-weight-bold">
+              {{ entry.name }}
+            </q-card-section>
+            <q-card-section class="page-all__card-description text-dark q-pt-none">
+              {{ entry.description }}
+            </q-card-section>
+          </q-card>
+        </card-link>
+      </transition-group>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, watch } from 'vue'
+
+import { quasarElements } from 'src/assets/links.components.js'
+
+import DocStars from 'src/components/DocStars.vue'
+import CardLink from 'src/components/CardLink.vue'
+
+const filterChips = [
+  { label: 'Buttons', value: 'button' },
+  { label: 'Inputs', value: 'input' },
+  { label: 'Loading', value: 'loading' },
+  { label: 'Media', value: 'media' },
+  { label: 'Navigation', value: 'navigation' },
+  { label: 'Panels & Popups', value: 'panel' },
+  { label: 'Scroll', value: 'scroll' },
+  { label: 'Tables', value: 'table' },
+  { label: 'Other Components', value: 'other' },
+  { label: 'Directives', value: 'directive' },
+  { label: 'Plugins', value: 'plugin' },
+  { label: 'Utils', value: 'util' }
+]
+
+const inputRef = ref(null)
+const filterTag = ref(null)
+
+const searchTerms = ref('')
+const searchResults = ref(quasarElements)
+const noResultsLabel = ref(false)
+
+let searchTimer
+watch([ searchTerms, filterTag ], () => {
+  clearTimeout(searchTimer)
+  searchTimer = setTimeout(() => {
+    const terms = searchTerms.value.trim().toLowerCase()
+    const tag = filterTag.value
+
+    if (terms === '' && tag === null) {
+      searchResults.value = quasarElements
+    }
+
+    // allow to search for direct components name (example: qbtn)
+    const needle = terms.length !== 1 && terms.startsWith('q')
+      ? terms.substring(1)
+      : terms
+
+    const results = quasarElements.filter(entry =>
+      (tag === null || entry.tag === tag) &&
+      entry.haystack.indexOf(needle) !== -1
+    )
+
+    if (results.length === 0) {
+      const tagLabel = tag !== null
+        ? filterChips.find(entry => entry.value === tag).label
+        : null
+
+      noResultsLabel.value = `Nothing matches ${ tagLabel !== null ? `the "${ tagLabel }" tag and ` : ''}"${ terms }" search terms.`
+    }
+    else {
+      noResultsLabel.value = false
+    }
+
+    searchResults.value = results
+  }, 300)
+})
+
+function setFilterTag (filterChipValue) {
+  // if the filter tag is the same as the one we are trying to set, then we reset the filter tag
+  filterTag.value = filterTag.value === filterChipValue ? null : filterChipValue
+}
+
+function clearSearchTerms () {
+  searchTerms.value = ''
+}
+
+function onSearchFieldClick () {
+  inputRef.value.focus()
+}
+</script>
+
+<style lang="sass">
+.page-all
+  &__search
+    position: sticky
+    top: $headerHeight
+    z-index: 1
+    background: rgba($dark-bg, .7)
+    backdrop-filter: blur(7px)
+
+  &__search-field
+    border: 1px solid $brand-primary
+    border-radius: $generic-border-radius
+    height: 40px
+    cursor: text
+    transition: box-shadow .3s ease-in-out
+
+    &:focus-within
+      box-shadow: $spreaded-shadow
+
+  &__search-input
+    font-size: 14px
+    border: 0
+    outline: 0
+    background: none
+
+  &__card
+    width: 300px
+    height: 289px
+    transition: transform .3s, box-shadow 0.3s
+
+    &:hover
+      box-shadow: 0 24px 24px 0 rgba(0, 180, 255, 0.4)
+      transform: scale(1.03)
+
+  &__card-img
+    height: 170px
+
+  &__card-description
+    font-size: .9em
+
+.page-all-transition
+  &-move,
+  &-enter-active,
+  &-leave-active
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1)
+
+  &-enter-from,
+  &-leave-to
+    opacity: 0
+    transform: scaleY(0.01) translate(30px, 0)
+
+  &-leave-active
+    position: absolute
+</style>

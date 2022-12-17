@@ -3,6 +3,7 @@
     <q-table
       grid
       grid-header
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"

@@ -8,7 +8,7 @@
         transition="scale"
         class="example-item"
       >
-        <q-card class="q-ma-sm">
+        <q-card flat bordered class="q-ma-sm">
           <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
           <q-card-section>

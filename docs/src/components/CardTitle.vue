@@ -1,47 +1,37 @@
-<template lang="pug">
-section.q-my-xs.q-mr-sm.cursor-pointer.text-subtitle1(:id="id", @click="onClick")
-  div.doc-card-title {{ title }}
+<template>
+  <section class="q-my-xs q-mr-sm cursor-pointer text-subtitle1" :id="id" @click="onClick">
+    <div class="doc-card-title">{{ title }}</div>
+  </section>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { copyHeading, slugify } from 'assets/page-utils'
 
-export default {
-  name: 'DocHeading',
+const props = defineProps({
+  title: String,
+  slugifiedTitle: String,
+  prefix: String
+})
 
-  props: {
-    title: String,
-    slugifiedTitle: String,
-    prefix: String
-  },
+const id = computed(() =>
+  (props.prefix || '') +
+  (props.slugifiedTitle !== void 0 ? props.slugifiedTitle : slugify(props.title))
+)
 
-  setup (props) {
-    const id = computed(() =>
-      (props.prefix || '') +
-      (props.slugifiedTitle !== void 0 ? props.slugifiedTitle : slugify(props.title))
-    )
-
-    return {
-      id,
-      onClick () {
-        copyHeading(id.value)
-      }
-    }
-  }
+function onClick () {
+  copyHeading(id.value)
 }
 </script>
 
 <style lang="sass">
-$title-color: $grey-4
-
 .doc-card-title
   margin-left: -24px
   padding: 2px 10px 2px 24px
-  background: $title-color
-  color: $grey-8
   position: relative
   border-radius: 3px 5px 5px 0
+  background: $grey-4
+  color: $grey-8
 
   &:after
     content: ''
@@ -51,6 +41,12 @@ $title-color: $grey-4
     width: 0
     height: 0
     border: 0 solid transparent
-    border-top-color: scale-color($title-color, $lightness: -15%)
     border-width: 9px 0 0 11px
+    border-top-color: scale-color($grey-4, $lightness: -15%)
+
+body.body--dark .doc-card-title
+  background: $grey-9
+  color: $dark-text
+  &:after
+    border-top-color: scale-color($grey-9, $lightness: -30%)
 </style>

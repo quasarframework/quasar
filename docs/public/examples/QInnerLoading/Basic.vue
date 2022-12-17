@@ -4,7 +4,7 @@
       Show it
     </q-btn>
 
-    <q-card class="bg-grey-3 relative-position card-example">
+    <q-card class="relative-position card-example" flat bordered>
       <q-card-section class="q-pb-none">
         <div class="text-h6">Lorem Ipsum</div>
       </q-card-section>

@@ -14,7 +14,7 @@
 
       <q-tabs
         v-model="tab"
-        class="bg-grey-1"
+        class="bg-grey-9"
         dense
         align="justify"
       >

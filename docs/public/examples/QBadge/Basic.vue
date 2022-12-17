@@ -22,7 +22,12 @@
       Feature <q-badge color="primary">v1.0.0+</q-badge>
     </div>
 
-    <q-item clickable v-ripple class="bg-grey-2">
+    <q-item
+      clickable
+      v-ripple
+      class="rounded-borders"
+      :class="$q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-2'"
+    >
       <q-item-section avatar>
         <q-avatar rounded>
           <img src="https://cdn.quasar.dev/img/chaosmonkey.png">

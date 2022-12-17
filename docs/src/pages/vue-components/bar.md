@@ -2,6 +2,7 @@
 title: Bar
 desc: The QBar Vue component is used to create the top bar on different platforms.
 keys: QBar
+examples: QBar
 related:
   - /quasar-cli-vite/developing-electron-apps/frameless-electron-window
   - /quasar-cli-webpack/developing-electron-apps/frameless-electron-window
@@ -23,21 +24,21 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 
 ### Styling
 
-<doc-example title="MacOS style" file="QBar/MacOS" no-edit />
+<doc-example title="MacOS style" file="MacOS" no-edit />
 
-<doc-example title="Windows style" file="QBar/Windows" />
+<doc-example title="Windows style" file="Windows" />
 
-<doc-example title="iOS style" file="QBar/iOS" no-edit />
+<doc-example title="iOS style" file="iOS" no-edit />
 
-<doc-example title="Android style" file="QBar/Android" />
+<doc-example title="Android style" file="Android" />
 
 ### With other components
 
-<doc-example title="QMenu" file="QBar/Menu" />
+<doc-example title="QMenu" file="Menu" />
 
-<doc-example title="QDialog" file="QBar/Dialog" />
+<doc-example title="QDialog" file="Dialog" />
 
-<doc-example title="QHeader with QToolbar" file="QBar/Header" />
+<doc-example title="QHeader with QToolbar" file="Header" />
 
 ### Frameless Electron Window
 QBar component can come in really handy when developing Electron apps, especially if you choose to use a frameless window.

@@ -3,7 +3,7 @@ title: Routing with Layouts and Pages
 desc: How to connect the Vue Router with your Quasar layouts and pages.
 scope:
   tree:
-    { l: 'src/',
+    { l: 'src',
       c: [
         { l: 'layouts',
           c: [

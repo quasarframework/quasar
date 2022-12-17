@@ -2,6 +2,7 @@
 title: Touch Pan Directive
 desc: Vue directive which triggers an event when the user drags the finger or mouse on a component or element.
 keys: touch-pan
+examples: TouchPan
 related:
   - /vue-directives/touch-swipe
   - /vue-directives/touch-repeat
@@ -25,7 +26,7 @@ Page scrolling is prevented, but you can opt out if you wish.
 If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-<doc-example title="All directions" file="TouchPan/Basic" />
+<doc-example title="All directions" file="Basic" />
 
 Panning works both with a mouse or a native touch action.
 You can also capture pan to certain directions (any) only as you'll see below.
@@ -33,15 +34,15 @@ You can also capture pan to certain directions (any) only as you'll see below.
 Example on capturing only horizontal panning.
 Notice that on touch capable devices the scrolling is automatically not blocked, since we are only capturing horizontally.
 
-<doc-example title="Horizontally" file="TouchPan/Horizontal" />
+<doc-example title="Horizontally" file="Horizontal" />
 
 Example on capturing only vertically panning. Page scrolling is prevented, but you can opt out if you wish.
 
-<doc-example title="Vertically" file="TouchPan/Vertical" />
+<doc-example title="Vertically" file="Vertical" />
 
 Example on capturing panning on custom directions. For this, use modifiers: `up`, `down`, `left`, `right`. Page scrolling is prevented, but you can opt out if you wish.
 
-<doc-example title="Custom directions" file="TouchPan/Custom" />
+<doc-example title="Custom directions" file="Custom" />
 
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:

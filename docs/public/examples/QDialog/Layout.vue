@@ -14,7 +14,7 @@
         </q-header>
 
         <q-footer class="bg-black text-white">
-          <q-toolbar inset>
+          <q-toolbar>
             <q-toolbar-title>Footer</q-toolbar-title>
           </q-toolbar>
         </q-footer>

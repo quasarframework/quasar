@@ -2,6 +2,7 @@
 title: Touch Hold Directive
 desc: Vue directive which triggers an event when the user touches and holds on a component or element for a specified amount of time.
 keys: touch-hold
+examples: TouchHold
 related:
   - /vue-directives/touch-swipe
   - /vue-directives/touch-repeat
@@ -19,11 +20,11 @@ We will be describing `v-touch-hold` directive on the lines below.
 
 ## Usage
 
-<doc-example title="Basic" file="TouchHold/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 The default wait time is 600ms, but you can change it:
 
-<doc-example title="Custom wait time" file="TouchHold/CustomTimer" />
+<doc-example title="Custom wait time" file="CustomTimer" />
 
 ::: tip
 TouchHold also has a default sensitivity of 5px for touch events and 7px for mouse events, which means that it allows a slight movement of the finger or mouse without aborting, improving the user experience.
@@ -31,7 +32,7 @@ TouchHold also has a default sensitivity of 5px for touch events and 7px for mou
 
 However, you can change this sensitivity too (notice the directive argument below - `600:12:15` - 600ms wait time, 12px sensitivity for touch events, 15px sensitivity for mouse events):
 
-<doc-example title="Custom sensitivity" file="TouchHold/CustomSensitivity" />
+<doc-example title="Custom sensitivity" file="CustomSensitivity" />
 
 ### Handling Mouse Events
 When you want to also handle mouse events too, use the `mouse` modifier:

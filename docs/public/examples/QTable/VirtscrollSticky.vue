@@ -3,6 +3,7 @@
     <q-table
       class="my-sticky-virtscroll-table"
       virtual-scroll
+      flat bordered
       v-model:pagination="pagination"
       :rows-per-page-options="[0]"
       :virtual-scroll-sticky-size-start="48"
@@ -175,7 +176,7 @@ export default {
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th /* bg color is important for th; just specify one */
-    background-color: #fff
+    background-color: #00b4ff
 
   thead tr th
     position: sticky

@@ -2,8 +2,6 @@ import { h } from 'vue'
 import { QBadge, Notify } from 'quasar'
 import { copyToClipboard } from 'assets/page-utils'
 
-import './DocApiEntry.sass'
-
 function copyPropName (propName) {
   copyToClipboard(propName)
 
@@ -66,19 +64,19 @@ const NAME_PROP_COLOR = [
 ]
 
 function getDiv (col, propName, propValue, slot) {
-  return h('div', { class: `api-row__item col-xs-12 col-sm-${col}` }, [
-    h('div', { class: 'api-row__type' }, propName),
+  return h('div', { class: `doc-api-entry__item col-xs-12 col-sm-${col}` }, [
+    h('div', { class: 'doc-api-entry__type' }, propName),
     propValue !== void 0
-      ? h('div', { class: 'api-row__value' }, propValue)
+      ? h('div', { class: 'doc-api-entry__value' }, propValue)
       : slot
   ])
 }
 
 function getNameDiv (label, level) {
-  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
-    h('div', { class: 'api-row__value' }, [
+  return h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12' }, [
+    h('div', { class: 'doc-api-entry__value' }, [
       h(QBadge, {
-        class: 'api-row__pill',
+        class: 'doc-api-entry__pill',
         color: NAME_PROP_COLOR[ level ],
         label
       })
@@ -91,7 +89,7 @@ function getExtendedNameDiv (label, level, type, required, addedIn) {
 
   const child = [
     h(QBadge, {
-      class: 'api-row__pill cursor-pointer',
+      class: 'doc-api-entry__pill cursor-pointer',
       label,
       color: NAME_PROP_COLOR[ level ],
       onClick: () => { copyPropName(label) }
@@ -110,8 +108,8 @@ function getExtendedNameDiv (label, level, type, required, addedIn) {
     )
   }
 
-  return h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
-    h('div', { class: 'api-row__value' }, child)
+  return h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12' }, [
+    h('div', { class: 'doc-api-entry__value' }, child)
   ])
 }
 
@@ -155,8 +153,8 @@ function getProp (prop, propName, level, onlyChildren) {
         void 0,
         h(
           'div',
-          { class: 'api-row--indent api-row__value' },
-          h('div', { class: 'api-row__example' }, '' + prop.default)
+          { class: 'doc-api-entry--indent doc-api-entry__value' },
+          h('div', { class: 'doc-token' }, '' + prop.default)
         )
       )
     )
@@ -176,8 +174,8 @@ function getProp (prop, propName, level, onlyChildren) {
         void 0,
         h(
           'div',
-          { class: 'api-row--indent api-row__value' },
-          prop.values.map(val => h('div', { class: 'api-row__example' }, '' + val))
+          { class: 'doc-api-entry--indent doc-api-entry__value' },
+          prop.values.map(val => h('div', { class: 'doc-token' }, '' + val))
         )
       )
     )
@@ -196,7 +194,7 @@ function getProp (prop, propName, level, onlyChildren) {
         12,
         'Props',
         void 0,
-        h('div', { class: 'api-row__subitem' }, nodes)
+        h('div', { class: 'doc-api-entry__subitem' }, nodes)
       )
     )
   }
@@ -217,7 +215,7 @@ function getProp (prop, propName, level, onlyChildren) {
         12,
         'Params',
         void 0,
-        h('div', { class: 'api-row__subitem' }, nodes)
+        h('div', { class: 'doc-api-entry__subitem' }, nodes)
       )
     )
   }
@@ -230,7 +228,7 @@ function getProp (prop, propName, level, onlyChildren) {
         void 0,
         h(
           'div',
-          { class: 'api-row__subitem' },
+          { class: 'doc-api-entry__subitem' },
           [getProp(prop.returns, void 0, 0)]
         )
       )
@@ -250,7 +248,7 @@ function getProp (prop, propName, level, onlyChildren) {
         12,
         'Scope',
         void 0,
-        h('div', { class: 'api-row__subitem' }, nodes)
+        h('div', { class: 'doc-api-entry__subitem' }, nodes)
       )
     )
   }
@@ -263,15 +261,15 @@ function getProp (prop, propName, level, onlyChildren) {
         void 0,
         h(
           'div',
-          { class: 'api-row--indent api-row__value' },
-          prop.examples.map(example => h('div', { class: 'api-row__example' }, '' + example))
+          { class: 'doc-api-entry--indent doc-api-entry__value' },
+          prop.examples.map(example => h('div', { class: 'doc-token' }, '' + example))
         )
       )
     )
   }
 
   return onlyChildren !== true
-    ? h('div', { class: 'api-row row' }, child)
+    ? h('div', { class: 'doc-api-entry row' }, child)
     : child
 }
 
@@ -317,7 +315,7 @@ describe.events = events => {
     }
 
     child.push(
-      h('div', { class: 'api-row row' }, [
+      h('div', { class: 'doc-api-entry row' }, [
         getNameDiv(`@${eventName}${getEventParams(event)}`, 0),
         event.addedIn !== void 0
           ? getDiv(12, 'Added in', event.addedIn)
@@ -326,7 +324,7 @@ describe.events = events => {
         getDiv(12,
           'Parameters',
           void 0,
-          h('div', { class: 'api-row__subitem' }, params)
+          h('div', { class: 'doc-api-entry__subitem' }, params)
         )
       ])
     )
@@ -361,7 +359,7 @@ describe.methods = methods => {
           12,
           'Parameters',
           void 0,
-          h('div', { class: 'api-row__subitem' }, props)
+          h('div', { class: 'doc-api-entry__subitem' }, props)
         )
       )
     }
@@ -373,7 +371,7 @@ describe.methods = methods => {
           void 0,
           h(
             'div',
-            { class: 'api-row__subitem' },
+            { class: 'doc-api-entry__subitem' },
             [getProp(method.returns, void 0, 0)]
           )
         )
@@ -381,7 +379,7 @@ describe.methods = methods => {
     }
 
     child.push(
-      h('div', { class: 'api-row row' }, nodes)
+      h('div', { class: 'doc-api-entry row' }, nodes)
     )
   }
 
@@ -390,7 +388,7 @@ describe.methods = methods => {
 
 describe.value = value => {
   return [
-    h('div', { class: 'api-row row' }, [
+    h('div', { class: 'doc-api-entry row' }, [
       getDiv(12, 'Type', getStringType(value.type))
     ].concat(getProp(value, void 0, 0, true)))
   ]
@@ -398,7 +396,7 @@ describe.value = value => {
 
 describe.arg = arg => {
   return [
-    h('div', { class: 'api-row row' }, [
+    h('div', { class: 'doc-api-entry row' }, [
       getDiv(12, 'Type', getStringType(arg.type))
     ].concat(getProp(arg, void 0, 0, true)))
   ]
@@ -413,7 +411,7 @@ describe.modifiers = modifiers => {
     child.push(
       h(
         'div',
-        { class: 'api-row row' },
+        { class: 'doc-api-entry row' },
         getProp(modifier, modifierName, 0, true)
       )
     )
@@ -424,7 +422,7 @@ describe.modifiers = modifiers => {
 
 describe.injection = injection => {
   return [
-    h('div', { class: 'api-row row' }, [
+    h('div', { class: 'doc-api-entry row' }, [
       getNameDiv(injection, 0)
     ])
   ]
@@ -433,11 +431,11 @@ describe.injection = injection => {
 describe.quasarConfOptions = conf => {
   const child = []
   const entry = [
-    h('div', { class: 'api-row__item col-xs-12 col-sm-12' }, [
-      h('div', { class: 'api-row__value' }, [
-        h('span', { class: 'api-row__type text-grey' }, 'quasar.config.js > framework > config > '),
+    h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12' }, [
+      h('div', { class: 'doc-api-entry__value' }, [
+        h('span', { class: 'doc-api-entry__type text-grey' }, 'quasar.config.js > framework > config > '),
         h(QBadge, {
-          class: 'api-row__pill',
+          class: 'doc-api-entry__pill',
           color: NAME_PROP_COLOR[ 0 ],
           label: conf.propName
         })
@@ -460,12 +458,12 @@ describe.quasarConfOptions = conf => {
       12,
       'Definition',
       void 0,
-      h('div', { class: 'api-row__subitem' }, child)
+      h('div', { class: 'doc-api-entry__subitem' }, child)
     )
   )
 
   return [
-    h('div', { class: 'api-row row' }, entry)
+    h('div', { class: 'doc-api-entry row' }, entry)
   ]
 }
 
@@ -488,7 +486,7 @@ export default {
             ])
           ]
 
-      return h('div', { class: 'api-rows' }, content)
+      return h('div', { class: 'doc-api-entrys' }, content)
     }
   }
 }

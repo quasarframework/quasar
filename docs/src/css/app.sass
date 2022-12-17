@@ -1,13 +1,14 @@
 @import './prism-theme.sass'
 
-.text-brand-primary
-  color: $brand-primary !important
-.bg-brand-primary
-  background-color: $brand-primary !important
+.primary-line-height
+  line-height: 1.5
+
+.normal-line-height
+  line-height: normal
 
 body
-  background-color: #fff
-  font-family: $font-family
+  color: $light-text
+  background-color: $light-bg
   -webkit-font-smoothing: auto
 
 strong
@@ -17,65 +18,67 @@ ul
   margin: 0 0 16px
 
 .doc-token
-  white-space: nowrap
   display: inline-block
-  padding: 2px 4px
-  line-height: 1
-  border: 1px dotted $brand-primary
+  padding: 0 4px
+  font-size: .9em
   border-radius: 5px
   font-family: inherit
-  background-color: #fff
   color: $brand-primary
-
-blockquote .doc-token
-  background: scale-color($grey, $lightness: 60%)
-  color: $grey-9
+  border: 1px solid $brand-primary
 
 .doc-note
   font-family: $font-family-avenir
-  background-color: $grey-2
   border-radius: $generic-border-radius
   margin: 16px 0
-  padding: 16px 24px
+  padding: 16px
   font-size: 1em
   line-height: 1.35em
-  border-width: 0 5px
+  border-width: 1px
   border-style: solid
-  border-color: $grey-3
   letter-spacing: .5px
-
-  .doc-token
-    color: #000
 
   > p, > ul
     margin-bottom: 0
 
+  &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)
+    background-color: $grey-2
+    border-color: $separator-color
+    .doc-note__title,
+    .doc-link,
+    .doc-token
+      color: $brand-primary
+    .doc-token
+      border-color: $brand-primary
+
   &--tip
     background-color: scale-color($positive, $lightness: 85%)
-    border-color: scale-color($positive, $lightness: 60%)
+    border-color: $positive
+    .doc-note__title,
+    .doc-link,
     .doc-token
-      border-width: 0
-      background: scale-color($positive, $lightness: 60%)
-    .doc-link
-      color: scale-color($positive, $lightness: -35%)
+      color: scale-color($positive, $lightness: -40%)
+    .doc-token
+      border-color: scale-color($positive, $lightness: -40%)
 
   &--warning
-    background-color: scale-color($warning, $lightness: 80%)
-    border-color: scale-color($warning, $lightness: 50%)
+    background-color: scale-color($warning, $lightness: 85%)
+    border-color: scale-color($warning, $lightness: -30%)
+    .doc-note__title,
+    .doc-link,
     .doc-token
-      border-width: 0
-      background: scale-color($warning, $lightness: 40%)
-    .doc-link
-      color: scale-color($warning, $lightness: -45%)
+      color: scale-color($warning, $lightness: -40%)
+    .doc-token
+      border-color: scale-color($warning, $lightness: -40%)
 
   &--danger
     background-color: scale-color($negative, $lightness: 90%)
-    border-color: scale-color($negative, $lightness: 60%)
+    border-color: $negative
+    .doc-note__title,
+    .doc-link,
     .doc-token
-      border-width: 0
-      background: scale-color($negative, $lightness: 60%)
-    .doc-link
-      color: scale-color($negative, $lightness: -25%)
+      color: $negative
+    .doc-token
+      border-color: $negative
 
   &__title
     font-weight: 500
@@ -91,10 +94,14 @@ blockquote .doc-token
   &:hover:after
     opacity: 1
 
+  .q-badge
+    // for dark, so it won't jump around, jump around, and come down:
+    border: 1px solid transparent
+
 .doc-h1
   font-size: 3rem
   line-height: 3rem
-  padding: 1rem 0
+  padding: 0 0 1rem
   font-weight: 600
   margin: 0 0 .5em !important
 
@@ -108,7 +115,7 @@ blockquote .doc-token
   line-height: 2rem
   padding: 0.5rem 0
   font-weight: 600
-  border-bottom: 1px solid #ccc
+  border-bottom: 1px solid $separator-color
   margin: 4rem 0 1.5rem
 
 .doc-h3
@@ -144,16 +151,17 @@ blockquote .doc-token
     color: $brand-primary
 
 kbd
+  font-family: $font-family-examples
   white-space: nowrap
   display: inline-block
   padding: 2px 4px 4px
   line-height: 1
   font-size: .8em
+  border-radius: 4px
+  margin: 0 .2em
   color: $grey-8
   background: linear-gradient(-225deg,#d5dbe4,#f8f8f8)
-  border-radius: 4px
   box-shadow: inset 0 -2px 0 0 #cdcde6,inset 0 0 1px 1px #fff,0 1px 2px 1px rgba(30,35,90,0.4)
-  margin: 0 .2em
 
 .doc-gdpr
   max-width: 360px
@@ -167,3 +175,181 @@ body.q-scroll--lock .q-page
 
   > .q-scroll--anchor
     overflow-anchor: auto
+
+// makes the scroll bar look better for the drop-down menus in the header
+::-webkit-scrollbar
+  height: 12px
+  width: 14px
+  background: transparent
+  z-index: 12
+  overflow: visible
+
+::-webkit-scrollbar-thumb
+  width: 10px
+  background-color: $brand-primary
+  border-radius: 10px
+  z-index: 12
+  border: 4px solid rgba(0, 0, 0, 0)
+  background-clip: padding-box
+  transition: background-color .32s ease-in-out
+  margin: 4px
+  min-height: 32px
+  min-width: 32px
+
+::-webkit-scrollbar-thumb:hover
+  background: $brand-primary
+
+.shadow-bottom
+  &-small
+    box-shadow: $shadow--small
+
+  &-medium
+    box-shadow: $shadow--medium
+
+  &-large
+    box-shadow: $shadow--large
+
+.heading
+  display: block
+  text-align: center
+  text-transform: uppercase
+
+  &--large
+    color: $brand-primary
+    font-size: 24px
+    font-weight: 700
+    letter-spacing: 6.75px
+    margin: 36px 0
+
+    @media screen and (min-width: $breakpoint-sm-min)
+      font-size: 36px
+
+  &--medium
+    color: $brand-primary
+    font-size: 24px
+    font-weight: bold
+    letter-spacing: 4.5px
+
+  &--small
+    color: white
+    font-size: 16px
+    font-weight: 400
+    letter-spacing: 3.75px
+    text-transform: initial
+
+    @media screen and (min-width: $breakpoint-sm-min)
+      font-size: 20px
+
+  &--quote
+    color: $brand-primary
+    font-size: 14px
+    font-weight: 400
+    letter-spacing: 3px
+    text-transform: initial
+
+    @media screen and (min-width: $breakpoint-sm-min)
+      font-size: 16px
+
+.landing-mb--large
+  margin-bottom: 64px
+  @media screen and (min-width: $breakpoint-sm-min)
+    margin-bottom: 100px
+
+.landing-mx--large
+  margin-left: 64px
+  margin-right: 64px
+  @media screen and (min-width: $breakpoint-sm-min)
+    margin-left: 100px
+    margin-right: 100px
+
+.landing-my-large
+  margin: 36px 0
+
+.call-to-action-btn
+  font-weight: bold
+  font-size: 14px
+  letter-spacing: 2.63px
+  padding: 16px
+
+$additional-colors: ('brand-primary' $brand-primary, 'brand-secondary' $brand-secondary, 'brand-accent' $brand-accent)
+@each $color-name, $color in $additional-colors
+  :root
+    --q-#{$color-name}: #{$color}
+
+  .bg-#{$color-name}
+    background-color: var(--q-#{$color-name}) !important
+
+  .text-#{$color-name}
+    color: var(--q-#{$color-name}) !important
+
+$alpha-map: ('87' 0.87, '54' 0.54, '38' 0.38, '28' 0.28, 'focused-dark' 0.24, 'focused-light' 0.12, '12' 0.12, 'activated-dark' 0.24, 'activated-light' 0.12, 'selected' 0.08, 'hover' 0.04)
+$color-map: ('brand-primary' $brand-primary, 'brand-secondary' $brand-secondary, 'brand-accent' $brand-accent, 'black' #000, 'white' #fff)
+@each $alpha-name, $alpha in $alpha-map
+  @each $color-name, $color in $color-map
+    .bg-#{$color-name}-#{$alpha-name}
+      background-color: rgba($color, $alpha) !important
+    .text-#{$color-name}-#{$alpha-name}
+      color: rgba($color, $alpha) !important
+
+$text-size-list: 10, 12, 14, 16, 18, 20, 24, 28, 32, 36
+@each $text-size in $text-size-list
+  .text-size-#{$text-size}
+    font-size: $text-size + px !important
+
+$letter-spacing-list: 25, 40, 100, 225, 263, 300, 375, 450, 675
+@each $letter-spacing in $letter-spacing-list
+  .letter-spacing-#{$letter-spacing}
+    letter-spacing: ($letter-spacing/100) + px !important
+
+body.body--dark
+  color: $dark-text
+  background: $dark-bg
+
+  .doc-img
+    background-color: #a8b6c5
+    border-radius: $generic-border-radius
+
+  .doc-heading .q-badge
+    background-color: transparent !important
+    border: 1px solid $brand-primary
+    color: $brand-primary
+
+  .doc-note
+    &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)
+      background-color: $dark-pill
+      border-color: scale-color($brand-primary, $lightness: -50%)
+      .doc-token
+        border-color: #ddd
+        color: #ddd
+
+    &--tip
+      border-color: $positive
+      background-color: scale-color($positive, $lightness: -85%)
+      .doc-note__title,
+      .doc-link,
+      .doc-token
+        color: $positive
+      .doc-token
+        border-color: $positive
+
+    &--warning
+      border-color: $warning
+      background-color: scale-color($warning, $lightness: -85%)
+      .doc-note__title,
+      .doc-link,
+      .doc-token
+        color: $warning
+      .doc-token
+        border-color: $warning
+
+    &--danger
+      border-color: $negative
+      background-color: scale-color($negative, $lightness: -80%)
+
+  .doc-h2
+    border-color: $brand-primary
+
+  kbd
+    color: $dark-text
+    background: linear-gradient(-225deg,$brown,$brown-9)
+    box-shadow: inset 0 -2px 0 0 $brown-10, inset 0 0 1px 1px $brown-8, -1px 0 0 0 $brown, 1px 0 0 0 $brown, 0 1px 0 0 $brown

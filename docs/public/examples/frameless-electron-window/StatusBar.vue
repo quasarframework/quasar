@@ -120,21 +120,21 @@ export default {
   setup () {
     // we rely upon
     function minimize () {
-      if (process.env.MODE === 'electron') {
-        window.myWindowAPI.minimize()
-      }
+      // if (process.env.MODE === 'electron') {
+      //   window.myWindowAPI.minimize()
+      // }
     }
 
     function toggleMaximize () {
-      if (process.env.MODE === 'electron') {
-        window.myWindowAPI.toggleMaximize()
-      }
+      // if (process.env.MODE === 'electron') {
+      //   window.myWindowAPI.toggleMaximize()
+      // }
     }
 
     function closeApp () {
-      if (process.env.MODE === 'electron') {
-        window.myWindowAPI.close()
-      }
+      // if (process.env.MODE === 'electron') {
+      //   window.myWindowAPI.close()
+      // }
     }
 
     return { minimize, toggleMaximize, closeApp }

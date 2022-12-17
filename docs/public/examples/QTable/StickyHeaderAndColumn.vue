@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       class="my-sticky-header-column-table"
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -154,14 +155,14 @@ export default {
 
   td:first-child
     /* bg color is important for td; just specify one */
-    background-color: #c1f4cd !important
+    background-color: #00b4ff
 
   tr th
     position: sticky
     /* higher than z-index for td below */
     z-index: 2
     /* bg color is important; just specify one */
-    background: #fff
+    background: #00b4ff
 
   /* this will be the loading indicator */
   thead tr:last-child th

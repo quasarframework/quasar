@@ -203,8 +203,12 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   handleAnchor()
 }
 
-const processPage = (page, entry, entries) => {
-  const contents = getFileContents(page)
+const processPage = (pageUrl, pagePath, entry, entries) => {
+  const file = fs.existsSync(path.resolve(__dirname, intro + pageUrl + '/' + pagePath + '.md'))
+    ? pageUrl + '/' + pagePath
+    : pageUrl
+
+  const contents = getFileContents(intro + file + '.md')
   const frontMatter = parseFrontMatter(contents)
   let keys = null
 
@@ -248,7 +252,7 @@ const processChildren = (parent, entry, entries) => {
           processChildren(menuItem, entryChild, entries)
         }
         else {
-          processPage(intro + entryChild.url + '.md', entryChild, entries)
+          processPage(entryChild.url, menuItem.path, entryChild, entries)
         }
       }
     })
@@ -270,7 +274,7 @@ const processMenuItem = (menuItem, entries) => {
       processChildren(menuItem, entryChild, entries)
     }
     else {
-      processPage(intro + entryItem.url + '.md', entryItem, entries)
+      processPage(entryItem.url, menuItem.path, entryItem, entries)
     }
   }
 }

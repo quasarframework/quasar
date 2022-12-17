@@ -1,45 +1,33 @@
-<template lang="pug">
-.doc-code-container
-  code-prism(:lang="lang" :code="code" :style="style")
-
-  .doc-code-container__copy.absolute
-    copy-button(:text="code")
+<template>
+  <div class="doc-code-container relative-position">
+    <code-prism :lang="lang" :code="code" :style="style" />
+    <div class="doc-code-container__copy absolute">
+      <copy-button :text="code" />
+    </div>
+  </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 
 import CodePrism from './CodePrism.js'
 import CopyButton from './CopyButton.vue'
 
-export default {
-  name: 'DocCode',
+const props = defineProps({
+  code: String,
+  maxHeight: String,
 
-  components: {
-    CodePrism,
-    CopyButton
-  },
-
-  props: {
-    code: String,
-    maxHeight: String,
-
-    lang: {
-      type: String,
-      default: 'js'
-    }
-  },
-
-  setup (props) {
-    const style = computed(() => (
-      props.maxHeight !== void 0
-        ? { overflow: 'auto', maxHeight: props.maxHeight }
-        : null
-    ))
-
-    return { style }
+  lang: {
+    type: String,
+    default: 'js'
   }
-}
+})
+
+const style = computed(() => (
+  props.maxHeight !== void 0
+    ? { overflow: 'auto', maxHeight: props.maxHeight }
+    : null
+))
 </script>
 
 <style lang="sass">

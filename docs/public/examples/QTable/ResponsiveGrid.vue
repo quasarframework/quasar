@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       :grid="$q.screen.xs"
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"

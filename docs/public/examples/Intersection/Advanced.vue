@@ -8,10 +8,10 @@
           v-for="n in 30"
           :key="n"
           :data-id="n"
-          class="q-my-md q-pa-sm bg-grey-3"
+          class="q-my-md q-pa-sm bg-grey-9 text-white"
           v-intersection="onIntersection"
         >
-          <q-item-section class="text-center" style="background: #eee">
+          <q-item-section class="text-center">
             Item #{{ n }}
           </q-item-section>
         </q-item>

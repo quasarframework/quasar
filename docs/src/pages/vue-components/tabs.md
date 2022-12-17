@@ -2,6 +2,7 @@
 title: Tabs
 desc: The QTabs, QTab and QRouteTab Vue components are a way of helping the user navigate between pages or tab panels.
 keys: QTabs,QTab,QRouteTab
+examples: QTabs
 related:
   - /vue-components/tab-panels
   - /vue-components/button-toggle
@@ -43,61 +44,61 @@ QRouteTab won't and cannot work with the UMD version if you don't also install V
 
 ### Basic
 
-<doc-example title="Basic" file="QTabs/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 ### Outside, inside and visible on mobile arrows
 
-<doc-example title="Outside, inside and visible on mobile arrows" file="QTabs/ArrowsModifiers" />
+<doc-example title="Outside, inside and visible on mobile arrows" file="ArrowsModifiers" />
 
 ### Vertical
 
-<doc-example title="Vertical (example with QSplitter)" file="QTabs/Vertical" />
+<doc-example title="Vertical (example with QSplitter)" file="Vertical" />
 
 ### Dense
 
-<doc-example title="Dense" file="QTabs/Dense" />
+<doc-example title="Dense" file="Dense" />
 
 ### Individual colors
 
-<doc-example title="Individual colors" file="QTabs/IndividualColor" />
+<doc-example title="Individual colors" file="IndividualColor" />
 
 ### Ripple
 
-<doc-example title="No ripple and custom ripple color" file="QTabs/Ripples" />
+<doc-example title="No ripple and custom ripple color" file="Ripples" />
 
 ### Custom indicator
 
 In the examples below, please notice the last two QTabs: indicator at top and no indicator.
 
-<doc-example title="Custom indicator" file="QTabs/CustomIndicator" />
+<doc-example title="Custom indicator" file="CustomIndicator" />
 
 ### Tab notifications
 
 There are multiple ways to display tab notifications: with a QBadge, through an alert dot or an alert icon (can be any).
 
-<doc-example title="Tab notifications" file="QTabs/Notifying" />
+<doc-example title="Tab notifications" file="Notifying" />
 
 ### Alignment
 
 QTabs are responsive and the `align` prop (see below) becomes active when the container width (not window width) is bigger than the configured breakpoint. For demoing purposes, the tabs below have breakpoint disabled.
 
-<doc-example title="Alignment" file="QTabs/Alignment" />
+<doc-example title="Alignment" file="Alignment" />
 
 In the second QTabs from the example below, if window width is below 1024px then the "Movies" and "Photos" tabs will be replaced by a "More..." dropdown.
 
 ### With dropdown
 
-<doc-example title="With a dropdown" file="QTabs/Dropdown" />
+<doc-example title="With a dropdown" file="Dropdown" />
 
 ### On QToolbar
 
 Notice we need to specify the `shrink` prop. By default, QTabs tries to expand to all the available horizontal space, but in this case we are using it as a child of QToolbar so we don't want that.
 
-<doc-example title="Tabs in a QToolbar" file="QTabs/TabsInToolbar" />
+<doc-example title="Tabs in a QToolbar" file="TabsInToolbar" />
 
 ### Dynamic update
 
-<doc-example title="Dynamic tabs" file="QTabs/DynamicTabs" />
+<doc-example title="Dynamic tabs" file="DynamicTabs" />
 
 ### Along with QTabsPanel
 
@@ -105,7 +106,7 @@ Notice we need to specify the `shrink` prop. By default, QTabs tries to expand t
 QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.
 :::
 
-<doc-example title="Tabs with tab panels" file="QTabs/TabsWithTabpanels" />
+<doc-example title="Tabs with tab panels" file="TabsWithTabpanels" />
 
 More info: [Tab Panels](/vue-components/tab-panels).
 

@@ -2,6 +2,7 @@
 title: Morph Directive
 desc: Vue directive that morphs between DOM elements or even between the two states of the same DOM element.
 keys: morph
+examples: Morph
 related:
   - /quasar-utils/morph-utils
 ---
@@ -25,6 +26,6 @@ This directive morphs one element in a group into another. The morphing is activ
 * If the value of the directive is in Object form, then "model" is also mandatory.
 :::
 
-<doc-example title="Morph between multiple elements in a group" file="Morph/BasicGroup" />
+<doc-example title="Morph between multiple elements in a group" file="BasicGroup" />
 
-<doc-example title="Morph a button into a card" file="Morph/Card" />
+<doc-example title="Morph a button into a card" file="Card" />

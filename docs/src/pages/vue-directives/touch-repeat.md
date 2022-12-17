@@ -1,12 +1,14 @@
 ---
 title: Touch Repeat Directive
 desc: Vue directive which triggers an event at specified intervals of time while the user touches and holds on a component or element.
+keys: touch-repeat
+examples: TouchRepeat
 related:
   - /vue-directives/touch-swipe
   - /vue-directives/touch-pan
   - /vue-directives/touch-hold
-keys: touch-repeat
 ---
+
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and `v-touch-repeat`.
 
 > **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
@@ -23,15 +25,15 @@ Notice that on touch capable devices the scrolling is not blocked.
 
 > The default repeat pattern is 0:600:300 (ms).
 
-<doc-example title="Basic" file="TouchRepeat/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 Below is an example configured to also react to `SPACE`, `ENTER` and `h` keys (**focus on it first**), with 0:300:200 (ms) repeat pattern. Hit & hold keys, or click/tap and hold.
 
-<doc-example title="Custom keys" file="TouchRepeat/Keys" />
+<doc-example title="Custom keys" file="Keys" />
 
 Below is an example of applying TouchRepeat to QBtn. Notice how we play with the directive arguments in order to make the blue buttons increment slower than the red ones.
 
-<doc-example title="Applied to QBtn" file="TouchRepeat/Buttons" />
+<doc-example title="Applied to QBtn" file="Buttons" />
 
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:

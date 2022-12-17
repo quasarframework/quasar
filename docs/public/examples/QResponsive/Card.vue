@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="row items-start q-gutter-md">
       <q-responsive :ratio="16/9" class="col">
-        <q-card class="column">
+        <q-card class="column" flat bordered>
           <q-img class="col" src="https://cdn.quasar.dev/img/parallax2.jpg" />
 
           <q-card-section>
@@ -12,7 +12,7 @@
       </q-responsive>
 
       <q-responsive :ratio="1" class="col">
-        <q-card class="column">
+        <q-card class="column" flat bordered>
           <q-img class="col" src="https://cdn.quasar.dev/img/parallax1.jpg" />
 
           <q-card-section>

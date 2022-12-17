@@ -14,8 +14,8 @@
       </q-card-section>
 
       <q-card-actions>
-        <q-btn flat color="dark" label="Share" />
-        <q-btn flat color="primary" label="Book" />
+        <q-btn flat color="primary" label="Share" />
+        <q-btn flat color="secondary" label="Book" />
 
         <q-space />
 

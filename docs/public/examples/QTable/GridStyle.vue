@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      flat bordered
       grid
       title="Treats"
       :rows="rows"

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-card class="my-card">
+    <q-card class="my-card" flat bordered>
       <q-card-section>
         <div class="text-h6">Our Changing Planet</div>
         <div class="text-subtitle2">by John Doe</div>

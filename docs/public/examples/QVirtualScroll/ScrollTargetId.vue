@@ -1,6 +1,6 @@
 <template>
   <div id="virtual-scroll-target" class="scroll" style="max-height: 230px">
-    <div class="q-pa-md bg-yellow">
+    <div class="q-pa-md bg-purple text-white">
       Above the list - scrolls with the list
     </div>
 
@@ -22,7 +22,7 @@
       </q-item>
     </q-virtual-scroll>
 
-    <div class="q-pa-md bg-yellow">
+    <div class="q-pa-md bg-purple text-white">
       Below the list - scrolls with the list
     </div>
   </div>

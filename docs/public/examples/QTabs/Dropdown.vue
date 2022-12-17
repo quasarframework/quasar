@@ -24,7 +24,7 @@
       <q-tabs
         v-model="tab"
         inline-label
-        class="bg-yellow shadow-2"
+        class="bg-yellow text-dark shadow-2"
       >
         <q-tab name="mails" label="Mails" icon="mail" />
         <q-tab name="alarms" label="Alarms" icon="alarm" />

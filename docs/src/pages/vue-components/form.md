@@ -2,6 +2,7 @@
 title: Form
 desc: The QForm Vue component renders a form and allows easy validation of child form components like QInput, QSelect or QField.
 keys: QForm
+examples: QForm
 related:
   - /vue-components/input
   - /vue-components/select
@@ -24,7 +25,7 @@ Please be aware of the following:
 * If you want to take advantage of the `reset` functionality, then be sure to also capture the `@reset` event on QForm and make its handler reset all of the wrapped components models.
 :::
 
-<doc-example title="Basic" file="QForm/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 In order for the user to be able to activate the `@submit` or `@reset` events on the form, create a QBtn with `type` set to `submit` or `reset`:
 

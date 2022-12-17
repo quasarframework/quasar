@@ -18,7 +18,28 @@ $negative  : #C10015
 $info      : #31CCEC
 $warning   : #F2C037
 
-$brand-primary : #00B4FF
+$brand-primary: #00b4ff
+$brand-secondary: #475d66
+$brand-accent: #ea5e13
 
-$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
+$light-pill: #f5f5f5 // $grey-2
+$light-text: #1d1d1d // $dark
+$light-bg: #fafafa
+
+$dark-text: #e5e5e5
+$dark-bg: #001724
+$dark-pill: scale-color($brand-primary, $lightness: -80%)
+
+$font-family-examples: -apple-system, 'Roboto', BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
+$font-family: 'Montserrat', $font-family-examples
 $font-family-avenir: Avenir, $font-family
+
+$shadow--large: 0 24px 24px 0 rgba(0, 179, 255, 0.24)
+$shadow--medium: 0 6px 6px 0 rgba($brand-primary, 0.38)
+$shadow--small: 0 6px 6px 0 rgba($brand-primary, 0.28)
+
+// also update QHeader :height-hint
+$headerHeight: 128px
+
+// should be used with dark mode only:
+$spreaded-shadow: 0 0 3px 3px rgba($brand-primary, 0.38)

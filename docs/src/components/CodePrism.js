@@ -10,16 +10,16 @@ export default {
   },
 
   setup (props) {
-    const className = computed(() => `language-${props.lang}`)
+    const html = computed(() => Prism.highlight(
+      props.code,
+      Prism.languages[ props.lang ],
+      props.lang
+    ))
 
-    return () => h('pre', { class: 'doc-code ' + className.value }, [
+    return () => h('pre', { class: `doc-code language-${ props.lang }` }, [
       h('code', {
-        class: 'doc-code__inner ' + className.value,
-        innerHTML: Prism.highlight(
-          props.code,
-          Prism.languages[ props.lang ],
-          props.lang
-        )
+        class: `doc-code__inner language-${ props.lang }`,
+        innerHTML: html.value
       })
     ])
   }

@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       grid
+      flat bordered
       :card-container-class="cardContainerClass"
       title="Treats"
       :rows="rows"
@@ -22,7 +23,7 @@
 
       <template v-slot:item="props">
         <div class="q-pa-xs col-xs-12 col-sm-6 col-md-4">
-          <q-card>
+          <q-card flat bordered>
             <q-card-section class="text-center">
               Calories for
               <br>

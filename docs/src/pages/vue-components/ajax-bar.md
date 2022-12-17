@@ -2,6 +2,7 @@
 title: Ajax Bar
 desc: The QAjaxBar Vue component displays a loading bar whenever an Ajax call is in progress.
 keys: QAjaxBar
+examples: QAjaxBar
 related:
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar
@@ -28,7 +29,7 @@ The example below triggers events manually for demonstrating purposes only. This
 
 ### Basic
 
-<doc-example title="Basic" file="QAjaxBar/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 Please check out the API section for all properties that you can use.
 

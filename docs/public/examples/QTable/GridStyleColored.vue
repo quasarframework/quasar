@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       grid
+      flat bordered
       card-class="bg-primary text-white"
       title="Treats"
       :rows="rows"

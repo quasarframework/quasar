@@ -2,6 +2,7 @@
 title: Layout QPageScroller
 desc: How to use the QPageScroller component. Places components that will appear on screen after user scrolls the page.
 keys: QPageScroller
+examples: QPageScroller
 related:
   - /layout/layout
   - /layout/page
@@ -29,12 +30,12 @@ Since QPageScroller needs a layout and QLayout by default manages the entire win
 
 ### Basic
 
-<doc-example title="Basic" file="QPageScroller/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 ### Expanded
 
-<doc-example title="Expanded" file="QPageScroller/Expanded" />
+<doc-example title="Expanded" file="Expanded" />
 
 ### Reverse
 
-<doc-example title="Reverse" file="QPageScroller/Reverse" />
+<doc-example title="Reverse" file="Reverse" />

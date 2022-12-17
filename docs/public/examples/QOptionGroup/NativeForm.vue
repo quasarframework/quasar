@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-form @submit="onSubmit" class="q-gutter-md">
-      <div class="bg-grey-2 q-pa-sm rounded-borders">
+      <div class="q-pa-sm rounded-borders" :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
         Preferred genre:
         <q-option-group
           name="preferred_genre"
@@ -12,7 +12,7 @@
         />
       </div>
 
-      <div class="bg-grey-2 q-pa-sm rounded-borders">
+      <div class="q-pa-sm rounded-borders" :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
         Accepted genres:
         <q-option-group
           name="accepted_genres"
@@ -29,7 +29,12 @@
       </div>
     </q-form>
 
-    <q-card v-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
+    <q-card
+      v-if="submitResult.length > 0"
+      flat bordered
+      class="q-mt-md"
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+    >
       <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
       <q-separator />
       <q-card-section class="row q-gutter-sm items-center">

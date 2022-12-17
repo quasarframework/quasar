@@ -2,12 +2,11 @@
   <div class="q-pa-md">
     <q-table
       class="my-sticky-header-table"
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
       row-key="name"
-      flat
-      bordered
     />
   </div>
 </template>
@@ -154,7 +153,7 @@ export default {
   .q-table__bottom,
   thead tr:first-child th
     /* bg color is important for th; just specify one */
-    background-color: #c1f4cd
+    background-color: #00b4ff
 
   thead tr th
     position: sticky

@@ -1,5 +1,7 @@
 
 const mdPlugin = require('./build/md')
+const examplesPlugin = require('./build/examples')
+const manualChunks = require('./build/chunks')
 
 module.exports = ctx => ({
   eslint: {
@@ -32,14 +34,24 @@ module.exports = ctx => ({
     },
 
     vitePlugins: [
-      mdPlugin
-    ]
+      mdPlugin,
+      examplesPlugin(ctx.prod)
+    ],
+
+    extendViteConf (config, { isClient }) {
+      if (ctx.prod && isClient) {
+        config.build.rollupOptions = {
+          output: { manualChunks }
+        }
+      }
+    }
   },
 
   devServer: {
-    // https: true,
     port: 9090,
-    open: true // opens browser window automatically
+    open: {
+      app: { name: 'google chrome' }
+    }
   },
 
   framework: {
@@ -81,7 +93,7 @@ module.exports = ctx => ({
   animations: [ 'fadeIn', 'fadeOut' ],
 
   ssr: {
-    pwa: ctx.prod,
+    // pwa: ctx.prod,
     prodPort: 3010,
     middlewares: [
       'render'

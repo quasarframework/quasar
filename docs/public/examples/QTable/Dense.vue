@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      flat bordered
       title="Treats"
       dense
       :rows="rows"

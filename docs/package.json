@@ -29,6 +29,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-quasar": "^1.1.0",
     "eslint-plugin-vue": "^8.5.0",
+    "fast-glob": "^3.2.12",
     "gray-matter": "^4.0.2",
     "markdown-ast": "^0.2.1",
     "markdown-it": "^12.3.2",

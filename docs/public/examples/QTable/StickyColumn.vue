@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       class="my-sticky-column-table"
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"
@@ -151,10 +152,10 @@ export default {
 
   thead tr:first-child th:first-child
     /* bg color is important for th; just specify one */
-    background-color: #fff
+    background-color: #00b4ff
 
   td:first-child
-    background-color: #f5f5dc
+    background-color: #00b4ff
 
   th:first-child,
   td:first-child

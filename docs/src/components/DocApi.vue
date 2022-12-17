@@ -31,8 +31,8 @@ q-card.doc-api.q-my-lg(flat bordered)
   template(v-else)
     q-separator
 
-    q-tabs.bg-grey-2.text-grey-7(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
-      q-tab(
+    q-tabs.doc-api__tabs-list(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
+      q-tab.doc-api__tab(
         v-for="tab in tabsList"
         :key="`api-tab-${tab}`"
         :name="tab"
@@ -45,7 +45,7 @@ q-card.doc-api.q-my-lg(flat bordered)
 
     q-tab-panels(v-model="currentTab", animated)
       q-tab-panel.q-pa-none(v-for="tab in tabsList", :name="tab", :key="tab")
-        .row.no-wrap.api-container(v-if="innerTabsList[tab].length !== 1")
+        .doc-api__container.row.no-wrap(v-if="innerTabsList[tab].length !== 1")
           .col-auto.row.no-wrap.text-grey-7.q-py-sm
             q-tabs(
               v-model="currentInnerTab"
@@ -56,10 +56,10 @@ q-card.doc-api.q-my-lg(flat bordered)
               dense
               shrink
             )
-              q-tab(
+              q-tab.doc-api__tab.doc-api__tab--inner(
                 v-for="innerTab in innerTabsList[tab]"
                 :key="`api-inner-tab-${innerTab}`"
-                class="inner-tab"
+                class="doc-api__inner-tab"
                 :name="innerTab"
               )
                 .row.no-wrap.items-center.self-stretch
@@ -78,7 +78,7 @@ q-card.doc-api.q-my-lg(flat bordered)
             q-tab-panel.q-pa-none(v-for="innerTab in innerTabsList[tab]" :name="innerTab" :key="innerTab")
               DocApiEntry(:type="tab" :definition="filteredApi[tab][innerTab]")
 
-        .api-container(v-else)
+        .doc-api__container(v-else)
           DocApiEntry(:type="tab" :definition="filteredApi[tab][defaultInnerTabName]")
 </template>
 
@@ -341,15 +341,15 @@ export default {
 
 <style lang="sass">
 .doc-api
-  .q-tab
+  &__tab
     height: 40px
 
-  .inner-tab
-    justify-content: left
-    .q-tab__content
-      width: 100%
+    &--inner
+      justify-content: left
+      .q-tab__content
+        width: 100%
 
-  .api-container
+  &__container
     max-height: 600px
 
   &__nothing-to-show
@@ -357,4 +357,69 @@ export default {
     color: $grey
     font-size: .8em
     font-style: italic
+
+.doc-api-entry
+  padding: 8px 16px 4px
+  font-weight: 300
+  color: $grey
+
+  & + &
+    border-top: 1px solid #ddd
+
+  &__item
+    min-height: 25px
+    margin-bottom: 4px
+
+  &__subitem
+    padding: 4px 0 0 16px
+    border-radius: 5px
+    > div
+      border: 1px solid rgba(0,0,0,.12) !important
+      border-radius: inherit
+    > div + div
+      margin-top: 4px
+
+  &__type
+    font-family: $font-family-avenir
+
+  &__value
+    font-weight: 400
+    color: #000
+
+  &--indent
+    padding-left: 16px
+
+  .doc-token
+    margin: 4px
+    display: inline-block
+
+  &__pill
+    font-size: 1em
+    line-height: 1.2em
+
+body.body--light .doc-api
+  &__tabs-list
+    background: $grey-2
+  &__tab
+    color: $grey-7
+  .doc-token
+    background-color: #eee
+    border: 1px solid #ddd
+    color: $light-text
+
+body.body--dark
+  .doc-api
+    &__tab
+      color: $dark-text
+
+  .doc-api-entry
+    & + .doc-api-entry,
+    &__subitem > div
+      border-color: $separator-dark-color !important
+    &__value
+      color: $dark-text
+    &__example
+      background-color: transparent
+      color: $brand-primary
+      border-color: $brand-primary
 </style>

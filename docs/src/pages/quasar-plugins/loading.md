@@ -2,6 +2,7 @@
 title: Loading Plugin
 desc: A Quasar plugin which can display a loading state for your app through an overlay with a spinner and a message.
 keys: Loading
+examples: Loading
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
@@ -65,21 +66,21 @@ Loading.hide()
 
 ### Default options
 
-<doc-example title="Default options" file="Loading/Default" />
+<doc-example title="Default options" file="Default" />
 
 ### Customization
 
-<doc-example title="With message" file="Loading/WithMessage" />
+<doc-example title="With message" file="WithMessage" />
 
-<doc-example title="With customized box" file="Loading/WithBox" />
+<doc-example title="With customized box" file="WithBox" />
 
-<doc-example title="Customized" file="Loading/Customized" />
+<doc-example title="Customized" file="Customized" />
 
-<doc-example title="Show and Change" file="Loading/ShowAndChange" />
+<doc-example title="Show and Change" file="ShowAndChange" />
 
 ### Content sanitization
 
-<doc-example title="With unsafe message, but sanitized" file="Loading/WithMessageSanitized" />
+<doc-example title="With unsafe message, but sanitized" file="WithMessageSanitized" />
 
 ### Multiple groups in parallel <q-badge align="top" color="brand-primary" label="v2.8+" />
 
@@ -91,7 +92,7 @@ Specify the `group` property when spawning each of your Loading instances and yo
 
 Obviously, we can only display one group at a time, so the order in which they are spawned determines the priority in which they are shown (the last one has priority over the previous ones; LIFO).
 
-<doc-example title="Multiple groups" file="Loading/MultipleGroups" />
+<doc-example title="Multiple groups" file="MultipleGroups" />
 
 You can play with the returning function to show/update/hide the group or just call `Loading.show({ group: '..group_name..', ... })` or `Loading.hide('..group_name..')`.
 

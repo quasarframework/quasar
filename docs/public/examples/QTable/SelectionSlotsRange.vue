@@ -3,6 +3,7 @@
     <div class="text-subtitle1 q-pa-sm">Use <kbd>SHIFT</kbd> to select / deselect a range and <kbd>CTRL</kbd> to add to selection</div>
 
     <q-table
+      flat bordered
       ref="tableRef"
       title="Treats"
       :rows="rows"

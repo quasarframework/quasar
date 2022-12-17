@@ -3,6 +3,7 @@
     <q-table
       :rows="rows"
       row-key="name"
+      flat bordered
     />
   </div>
 </template>

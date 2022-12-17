@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-toggle v-model="loading" label="Loading state" class="q-mb-md" />
     <q-table
+      flat bordered
       title="Treats"
       :rows="rows"
       :columns="columns"

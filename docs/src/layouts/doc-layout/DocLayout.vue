@@ -1,0 +1,124 @@
+<template>
+  <q-layout class="doc-layout" view="hHh LpR fff" @scroll="docStore.onPageScroll">
+    <doc-header key="header" />
+    <doc-drawer key="drawer" v-if="docStore.state.value.mounted === true && docStore.hasDrawer.value" />
+
+    <q-page-container key="q-page-container">
+      <q-page :class="pageClass" key="q-page">
+        <router-view v-if="isFullscreen" key="page-fullscreen" />
+        <div v-else :class="pageContentClass" key="page-standard">
+          <q-scroll-area key="menu" class="doc-layout__menu q-ml-md">
+            <doc-page-menu />
+          </q-scroll-area>
+          <router-view key="page" />
+        </div>
+
+        <doc-page-footer key="page-footer" />
+      </q-page>
+    </q-page-container>
+
+    <q-page-scroller key="page-up">
+      <q-btn class="shadow-bottom-small" fab-mini color="brand-accent" :icon="mdiArrowUp" />
+    </q-page-scroller>
+  </q-layout>
+</template>
+
+<script setup>
+import { computed, onMounted } from 'vue'
+import { mdiArrowUp } from '@quasar/extras/mdi-v6'
+
+import { provideDocStore } from './store'
+
+import DocHeader from './DocHeader.vue'
+import DocDrawer from './DocDrawer.vue'
+import DocPageMenu from './DocPageMenu.js'
+import DocPageFooter from './DocPageFooter.vue'
+
+const docStore = provideDocStore()
+
+const isFullscreen = computed(() => docStore.$route.meta?.fullscreen === true)
+const pageClass = computed(() => isFullscreen.value === true ? '' : 'column items-center')
+const pageContentClass = computed(() =>
+  'doc-layout__page row no-wrap ' +
+  `doc-layout__page--${ docStore.$route.meta?.fullwidth === true ? 'fullwidth' : 'standard' }`
+)
+
+onMounted(() => { docStore.state.value.mounted = true })
+</script>
+
+<style lang="sass">
+.doc-layout
+  font-family: $font-family
+
+  .q-page-container :target
+    scroll-margin-top: $headerHeight
+
+  // keep the button on top of sticky in examples
+  .q-page-scroller > .q-page-sticky
+    z-index: 1
+
+  &__page
+    width: 100%
+
+    &--standard
+      /**
+          16px  - left menu margin
+        + 300px - left menu
+        + 900px - page content
+        + 300px - toc menu
+       */
+      max-width: 1516px
+
+      .doc-page__content
+        padding: 32px 42px
+        width: auto
+        min-width: 0
+        flex: 10000 1 0%
+        max-width: 900px
+
+        > div, > pre
+          margin-bottom: 22px
+
+        @media (max-width: 850px)
+          padding: 32px 16px
+
+    &--fullwidth
+      .doc-page__content
+        width: 100%
+
+      .doc-page__toc
+        display: none
+
+  &__menu
+    position: sticky
+    top: $headerHeight
+    height: calc(100vh - #{$headerHeight})
+    width: 300px
+    min-width: 300px
+
+    @media (max-width: 1300px)
+      display: none
+
+    .doc-page-menu
+      padding: 32px 16px 32px 0 // page top padding
+
+  &__item.q-item,
+  &__item .q-item
+    font-size: 12px
+    border-radius: 10px
+    margin-top: 1px
+    min-height: 30px
+    padding: 0 4px 0 6px
+    color: $light-text
+    .q-item__section
+      padding-top: 2px
+      padding-bottom: 2px
+    &.q-item--dark
+      color: $dark-text
+
+  &__item--active
+    color: $brand-primary !important
+    background: scale-color($primary, $lightness: 90%)
+    &.q-item--dark
+      background: scale-color($primary, $lightness: -50%)
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
-    <q-banner rounded class="bg-grey-3">
+    <q-banner rounded :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
       <template v-slot:avatar>
         <img
           src="https://cdn.quasar.dev/img/mountains.jpg"

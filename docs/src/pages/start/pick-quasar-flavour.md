@@ -1,5 +1,5 @@
 ---
-title: Getting Started - Pick a Quasar Flavour
+title: Pick a Quasar Flavour
 desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI, Vue CLI or UMD'
 ---
 
