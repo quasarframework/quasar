@@ -72,9 +72,11 @@ export default createComponent({
     )
 
     const trackStyle = computed(() => width(props.buffer !== void 0 ? props.buffer : 1, widthReverse.value, proxy.$q))
+    const transitionSuffix = computed(() => `with${ props.instantFeedback === true ? 'out' : '' }-transition`)
+
     const trackClass = computed(() =>
       'q-linear-progress__track absolute-full'
-      + ` q-linear-progress__track--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__track--${ transitionSuffix.value }`
       + ` q-linear-progress__track--${ isDark.value === true ? 'dark' : 'light' }`
       + (props.trackColor !== void 0 ? ` bg-${ props.trackColor }` : '')
     )
@@ -82,14 +84,14 @@ export default createComponent({
     const modelStyle = computed(() => width(motion.value === true ? 1 : props.value, widthReverse.value, proxy.$q))
     const modelClass = computed(() =>
       'q-linear-progress__model absolute-full'
-      + ` q-linear-progress__model--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__model--${ transitionSuffix.value }`
       + ` q-linear-progress__model--${ motion.value === true ? 'in' : '' }determinate`
     )
 
     const stripeStyle = computed(() => ({ width: `${ props.value * 100 }%` }))
     const stripeClass = computed(() =>
       `q-linear-progress__stripe absolute-${ props.reverse === true ? 'right' : 'left' }`
-      + ` q-linear-progress__stripe--with${ props.instantFeedback === true ? 'out' : '' }-transition`
+      + ` q-linear-progress__stripe--${ transitionSuffix.value }`
     )
 
     return () => {
