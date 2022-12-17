@@ -261,6 +261,7 @@ function onKeydown (evt) {
 
 function onResultSuccess (response) {
   results.value = parseResults(response.hits)
+  activeId.value = results.value.ids?.[ 0 ] || null
 }
 
 function onResultError () {
