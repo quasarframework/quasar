@@ -66,8 +66,8 @@ export default createComponent({
 
     const classes = computed(() =>
       `q-stepper q-stepper--${ props.vertical === true ? 'vertical' : 'horizontal' }`
-      + (props.flat === true || isDark.value === true ? ' q-stepper--flat no-shadow' : '')
-      + (props.bordered === true || (isDark.value === true && props.flat === false) ? ' q-stepper--bordered' : '')
+      + (props.flat === true ? ' q-stepper--flat' : '')
+      + (props.bordered === true ? ' q-stepper--bordered' : '')
       + (isDark.value === true ? ' q-stepper--dark q-dark' : '')
     )
 

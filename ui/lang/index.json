@@ -112,6 +112,10 @@
     "nativeName": "日本語 (にほんご)"
   },
   {
+    "isoName": "kz",
+    "nativeName": "Қазақша"
+  },
+  {
     "isoName": "km",
     "nativeName": "ខ្មែរ"
   },
@@ -122,10 +126,6 @@
   {
     "isoName": "kur-CKB",
     "nativeName": "کوردی سۆرانی"
-  },
-  {
-    "isoName": "kz",
-    "nativeName": "Қазақша"
   },
   {
     "isoName": "lt",
