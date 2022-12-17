@@ -89,6 +89,7 @@ export default createComponent({
     const stripeStyle = computed(() => ({ width: `${ props.value * 100 }%` }))
     const stripeClass = computed(() =>
       `q-linear-progress__stripe absolute-${ props.reverse === true ? 'right' : 'left' }`
+      + ` q-linear-progress__stripe--with${ props.instantFeedback === true ? 'out' : '' }-transition`
     )
 
     return () => {
