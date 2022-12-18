@@ -8,7 +8,7 @@ function plurals (n, opts) {
 }
 
 module.exports = {
-  isoName: 'kz',
+  isoName: 'kk',
   nativeName: 'Қазақша',
   label: {
     clear: 'Тазалау',

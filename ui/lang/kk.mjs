@@ -3,7 +3,7 @@ function plurals (n, opts) {
 }
 
 export default {
-  isoName: 'kz',
+  isoName: 'kk',
   nativeName: 'Қазақша',
   label: {
     clear: 'Тазалау',
