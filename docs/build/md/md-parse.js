@@ -12,24 +12,21 @@ module.exports = function (code, id) {
     data.related = data.related.map(entry => convertToRelated(entry, id))
   }
 
-  if (data.components === void 0) {
-    data.components = ['src/layouts/doc-layout/DocPage']
-  }
-  else {
-    data.components.push('src/layouts/doc-layout/DocPage')
-  }
+  data.toc = []
+  data.components = new Set(data.components || [])
+  data.components.add('src/layouts/doc-layout/DocPage')
 
   if (data.examples !== void 0) {
-    data.components.push('src/components/DocExample')
+    data.components.add('src/components/DocExample')
   }
   if (code.indexOf('<doc-api') !== -1) {
-    data.components.push('src/components/DocApi')
+    data.components.add('src/components/DocApi')
   }
   if (code.indexOf('<doc-installation') !== -1) {
-    data.components.push('src/components/DocInstallation')
+    data.components.add('src/components/DocInstallation')
   }
   if (code.indexOf('<doc-tree') !== -1) {
-    data.components.push('src/components/DocTree')
+    data.components.add('src/components/DocTree')
   }
 
   if (data.overline === void 0) {
@@ -58,12 +55,9 @@ module.exports = function (code, id) {
     }
   }
 
-  md.$data = { toc: [], components: new Set() }
+  md.$data = data
 
   const mdPageContent = md.render(content)
-
-  data.toc = md.$data.toc
-  data.components.push(...Array.from(md.$data.components))
 
   if (data.editLink !== false) {
     data.editLink = id.substring(id.indexOf('src/pages/') + 10, id.length - 3)

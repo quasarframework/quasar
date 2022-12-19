@@ -111,6 +111,7 @@ $footer-columns-sm-min: 3
 $footer-columns-after-xs: 2
 
 .doc-page-footer
+  position: relative
   background-color: #d8e1e5
   width: 100%
   z-index: 1

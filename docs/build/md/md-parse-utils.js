@@ -30,7 +30,7 @@ provide('_q_ex', process.env.CLIENT
   ? { name: '${data.examples}', list: import('examples:${data.examples}') }
   : { name: '${data.examples}' })
 ` : ''}
-${data.components.length !== 0 ? getComponentsImport(data.components) : ''}
+${data.components.size !== 0 ? getComponentsImport(Array.from(data.components)) : ''}
 ${data.related !== void 0 ? `const related = ${JSON.stringify(data.related)}` : ''}
 ${data.nav !== void 0 ? `const nav = ${JSON.stringify(data.nav)}` : ''}
 ${data.toc.length !== 0 ? `const toc = [${data.toc.join(',')}]` : ''}
