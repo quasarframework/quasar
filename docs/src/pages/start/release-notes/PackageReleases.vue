@@ -7,10 +7,10 @@ div
   q-splitter.release__splitter(:model-value="20" :limits="[14, 90]")
     template(#before)
       q-scroll-area
-        q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="brand-primary" active-bg-color="blue-1" indicator-color="brand-primary")
+        q-tabs.text-grey-7(vertical v-model="selectedVersion" active-color="brand-primary" indicator-color="brand-primary")
           q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label" no-caps)
             .q-tab__label {{ releaseInfo.version }}
-            small.text-grey-7 {{ releaseInfo.date }}
+            small {{ releaseInfo.date }}
     template(#after)
       q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
         q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")

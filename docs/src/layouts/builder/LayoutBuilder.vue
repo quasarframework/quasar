@@ -365,7 +365,7 @@
   </q-layout>
 </template>
 
-<script>
+<script setup>
 import { useMeta, useQuasar } from 'quasar'
 import { ref, reactive, computed } from 'vue'
 
@@ -374,6 +374,7 @@ import {
 } from '@quasar/extras/mdi-v6'
 
 import getMeta from 'assets/get-meta.js'
+import DocCode from 'src/components/DocCode.vue'
 
 const drawerBehaviorOptions = [
   { label: 'Behave Normal', value: 'default' },
@@ -387,115 +388,89 @@ const sepOptions = [
   { label: 'Bordered', value: 'bordered' }
 ]
 
-export default {
-  setup () {
-    useMeta({
-      title: 'Layout Builder',
+useMeta({
+  title: 'Layout Builder',
 
-      meta: getMeta(
-        'Layout Builder | Quasar Framework',
-        'Tool to build Quasar layouts. Configure the layout parts then export the code.'
-      )
-    })
+  meta: getMeta(
+    'Layout Builder | Quasar Framework',
+    'Tool to build Quasar layouts. Configure the layout parts then export the code.'
+  )
+})
 
-    const $q = useQuasar()
+const $q = useQuasar()
 
-    const topL = ref('h')
-    const topC = ref('H')
-    const topR = ref('h')
-    const middleL = ref('l')
-    const middleR = ref('R')
-    const bottomL = ref('f')
-    const bottomC = ref('F')
-    const bottomR = ref('f')
+const topL = ref('h')
+const topC = ref('H')
+const topR = ref('h')
+const middleL = ref('l')
+const middleR = ref('R')
+const bottomL = ref('f')
+const bottomC = ref('F')
+const bottomR = ref('f')
 
-    const pick = reactive({
-      header: true,
-      footer: true,
-      left: true,
-      right: true,
-      navtabs: true
-    })
+const pick = reactive({
+  header: true,
+  footer: true,
+  left: true,
+  right: true,
+  navtabs: true
+})
 
-    const cfg = reactive({
-      headerReveal: false,
-      headerSep: 'elevated',
+const cfg = reactive({
+  headerReveal: false,
+  headerSep: 'elevated',
 
-      footerReveal: false,
-      footerSep: 'elevated',
+  footerReveal: false,
+  footerSep: 'elevated',
 
-      leftBehavior: 'default',
-      leftOverlay: false,
-      leftSep: 'bordered',
+  leftBehavior: 'default',
+  leftOverlay: false,
+  leftSep: 'bordered',
 
-      rightBehavior: 'default',
-      rightOverlay: false,
-      rightSep: 'bordered'
-    })
+  rightBehavior: 'default',
+  rightOverlay: false,
+  rightSep: 'bordered'
+})
 
-    const play = reactive({
-      header: true,
-      footer: true,
-      left: false,
-      right: false,
+const play = reactive({
+  header: true,
+  footer: true,
+  left: false,
+  right: false,
 
-      scroll: true
-    })
+  scroll: true
+})
 
-    const view = computed(() => {
-      const
-        top = `${topL.value}${topC.value}${topR.value}`,
-        middle = `${middleL.value}p${middleR.value}`,
-        bottom = `${bottomL.value}${bottomC.value}${bottomR.value}`
+const view = computed(() => {
+  const
+    top = `${topL.value}${topC.value}${topR.value}`,
+    middle = `${middleL.value}p${middleR.value}`,
+    bottom = `${bottomL.value}${bottomC.value}${bottomR.value}`
 
-      return `${top} ${middle} ${bottom}`
-    })
+  return `${top} ${middle} ${bottom}`
+})
 
-    return {
-      topL,
-      topC,
-      topR,
-      middleL,
-      middleR,
-      bottomL,
-      bottomC,
-      bottomR,
+const navTabModel = ref('tab1')
+const step = ref('pick')
+const exportDialog = ref(false)
 
-      navTabModel: ref('tab1'),
-      step: ref('pick'),
-      exportDialog: ref(false),
+const isContracted = computed(() => {
+  return $q.screen.lt.sm === true || (
+    $q.screen.md === true &&
+    play.left === true &&
+    cfg.leftOverlay === false &&
+    play.right === true &&
+    cfg.rightOverlay === false
+  )
+})
 
-      pick,
-      cfg,
-      play,
-
-      view,
-
-      drawerBehaviorOptions,
-      sepOptions,
-
-      mdiMenu,
-      mdiViewDashboard,
-      mdiCog,
-      mdiPlayCircleOutline,
-
-      isContracted: computed(() => {
-        return $q.screen.lt.sm === true || (
-          $q.screen.md === true &&
-          play.left === true &&
-          cfg.leftOverlay === false &&
-          play.right === true &&
-          cfg.rightOverlay === false
-        )
-      }),
-
-      layoutExport: computed(() => {
-        let code = `<${'template'}>
+const layoutExport = computed(() => {
+  let code = `<${'template'}>
   <q-layout view="${view.value}">
 `
 
-        if (pick.header) {
-          code += `
+  if (pick.header) {
+    code += `
     <q-header ${cfg.headerReveal ? 'reveal ' : ''}${cfg.headerSep !== 'none' ? cfg.headerSep + ' ' : ''}class="bg-primary text-white"${pick.navtabs ? ' height-hint="98"' : ''}>
       <q-toolbar>${pick.left ? `
         <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
@@ -517,32 +492,32 @@ export default {
       </q-tabs>` : ''}
     </q-header>
 `
-        }
+  }
 
-        if (pick.left) {
-          code += `
+  if (pick.left) {
+    code += `
     <q-drawer ${cfg.leftBehavior !== 'mobile' && !cfg.leftOverlay ? 'show-if-above ' : ''}v-model="leftDrawerOpen" side="left"${cfg.leftOverlay ? ' overlay' : ''}${cfg.leftBehavior !== 'default' ? ` behavior="${cfg.leftBehavior}"` : ''}${cfg.leftSep !== 'none' ? ' ' + cfg.leftSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
-        }
+  }
 
-        if (pick.right) {
-          code += `
+  if (pick.right) {
+    code += `
     <q-drawer ${cfg.rightBehavior !== 'mobile' && !cfg.rightOverlay ? 'show-if-above ' : ''}v-model="rightDrawerOpen" side="right"${cfg.rightOverlay ? ' overlay' : ''}${cfg.rightBehavior !== 'default' ? ` behavior="${cfg.rightBehavior}"` : ''}${cfg.rightSep !== 'none' ? ' ' + cfg.rightSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
-        }
+  }
 
-        code += `
+  code += `
     <q-page-container>
       <router-view />
     </q-page-container>
 `
 
-        if (pick.footer) {
-          code += `
+  if (pick.footer) {
+    code += `
     <q-footer ${cfg.footerReveal ? 'reveal ' : ''}${cfg.footerSep !== 'none' ? cfg.footerSep + ' ' : ''}class="bg-grey-8 text-white">
       <q-toolbar>
         <q-toolbar-title>
@@ -554,9 +529,9 @@ export default {
       </q-toolbar>
     </q-footer>
 `
-        }
+  }
 
-        code += `
+  code += `
   </q-layout>
 </${'template'}>${pick.left || pick.right ? `
 
@@ -582,11 +557,8 @@ export default {
 }
 </${'script'}>` : ''}`
 
-        return code
-      })
-    }
-  }
-}
+  return code
+})
 </script>
 
 <style lang="sass">

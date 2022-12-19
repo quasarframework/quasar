@@ -99,6 +99,7 @@ import {
   mdiFlash
 } from '@quasar/extras/mdi-v6'
 
+import DocLink from 'src/components/DocLink.vue'
 import DocPageToc from './DocPageToc.vue'
 
 import { copyHeading } from 'assets/page-utils'

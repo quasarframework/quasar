@@ -10,8 +10,7 @@ module.exports = ctx => ({
   },
 
   boot: [
-    { path: 'gdpr', server: false },
-    'components'
+    { path: 'gdpr', server: false }
   ],
 
   css: [

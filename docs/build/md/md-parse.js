@@ -13,7 +13,10 @@ module.exports = function (code, id) {
   }
 
   if (data.components === void 0) {
-    data.components = []
+    data.components = ['src/layouts/doc-layout/DocPage']
+  }
+  else {
+    data.components.push('src/layouts/doc-layout/DocPage')
   }
 
   if (data.examples !== void 0) {
@@ -55,11 +58,12 @@ module.exports = function (code, id) {
     }
   }
 
-  md.$data = { toc: [] }
+  md.$data = { toc: [], components: new Set() }
 
   const mdPageContent = md.render(content)
 
   data.toc = md.$data.toc
+  data.components.push(...Array.from(md.$data.components))
 
   if (data.editLink !== false) {
     data.editLink = id.substring(id.indexOf('src/pages/') + 10, id.length - 3)

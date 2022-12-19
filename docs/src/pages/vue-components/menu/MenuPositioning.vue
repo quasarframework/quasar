@@ -86,6 +86,8 @@
 <script setup>
 import { ref, reactive, computed } from 'vue'
 
+import DocCode from 'src/components/DocCode.vue'
+
 const fit = ref(false)
 const cover = ref(false)
 const anchorOrigin = reactive({ vertical: 'bottom', horizontal: 'left' })

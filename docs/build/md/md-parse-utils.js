@@ -9,8 +9,7 @@ function getComponentsImport (componentsList) {
 }
 
 module.exports.getVueComponent = function (data, mdPageContent) {
-  return `
-<template>
+  return `<template>
   <doc-page
     title="${data.title}"
     ${data.desc !== void 0 ? `desc="${data.desc}"` : ''}
