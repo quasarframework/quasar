@@ -1,8 +1,8 @@
 <template>
-  <div class="page-all q-pa-xl fit column">
+  <div class="page-all q-pa-md fit column">
     <doc-stars />
 
-    <div class="page-all__search q-py-lg q-px-xl q-pa-md row no-wrap items-center">
+    <div class="page-all__search q-py-lg q-px-xl q-pa-md row no-wrap items-center justify-center">
       <div
         class="page-all__search-field rounded-borders row items-center no-wrap q-pl-sm q-pr-xs"
         @click.prevent="onSearchFieldClick"
@@ -16,8 +16,6 @@
         <q-icon v-if="!searchTerms" name="search" size="24px" color="brand-primary" />
         <q-icon v-else name="clear" size="24px" color="brand-primary" class="cursor-pointer" @click.stop="clearSearchTerms" />
       </div>
-
-      <q-space />
 
       <div class="row justify-start q-ml-xl gt-sm">
         <q-chip
@@ -37,7 +35,7 @@
       class="col flex flex-center text-size-20 letter-spacing-225 q-pa-xl"
     >{{ noResultsLabel }}</div>
 
-    <div v-else class="q-pa-xl text-size-16 row items-center justify-center q-gutter-lg relative-position">
+    <div v-else class="q-py-xl text-size-16 row items-center justify-center q-gutter-lg relative-position">
       <transition-group name="page-all-transition">
         <card-link
           v-for="entry in searchResults"

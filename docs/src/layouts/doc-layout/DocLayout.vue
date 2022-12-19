@@ -83,6 +83,7 @@ onMounted(() => { docStore.state.value.mounted = true })
           padding: 32px 16px
 
     &--fullwidth
+
       .doc-page__content
         width: 100%
 
@@ -95,9 +96,6 @@ onMounted(() => { docStore.state.value.mounted = true })
     height: calc(100vh - #{$headerHeight})
     width: 300px
     min-width: 300px
-
-    @media (max-width: 1300px)
-      display: none
 
     .doc-page-menu
       padding: 32px 16px 32px 0 // page top padding
@@ -121,4 +119,11 @@ onMounted(() => { docStore.state.value.mounted = true })
     background: scale-color($primary, $lightness: 90%)
     &.q-item--dark
       background: scale-color($primary, $lightness: -50%)
+
+@media (max-width: 1300px)
+  .doc-layout__page
+    width: unset
+  .doc-layout__menu,
+  .doc-page__toc-container--flowing
+    display: none
 </style>
