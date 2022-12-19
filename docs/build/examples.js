@@ -22,25 +22,19 @@ function prodLoad (id) {
     const localFolder = join(targetFolder, exampleId) + '/'
     const localFolderLen = localFolder.length
 
-    const importNameList = new Set()
-    const importStatements = files.map(entry => {
-      const importName = entry.substring(localFolderLen, entry.length - 4)
-      importNameList.add(importName)
-      return `import ${importName} from 'app/public/examples/${exampleId}/${importName}.vue'` +
-        `\n// import Raw${importName} from 'app/public/examples/${exampleId}/${importName}.vue?raw'`
-    }).join('\n')
+    const importList = files.map(entry => entry.substring(localFolderLen, entry.length - 4))
+    const importStatements = importList
+      .map(entry => (
+        `import ${entry} from 'app/public/examples/${exampleId}/${entry}.vue'` +
+        `\nimport Raw${entry} from 'app/public/examples/${exampleId}/${entry}.vue?raw'`
+      ))
+      .join('\n')
 
-    if (id.indexOf('frameless-electron') !== -1) {
-      console.log('\n-------')
-      console.log(id)
-      console.log('------')
-      console.log(importStatements +
-        `\nexport const code = {${Array.from(importNameList).join(',')}}` +
-        `\nexport const source = {${Array.from(importNameList).map(entry => `${entry}:Raw${entry}`).join(',')}}`)
-    }
-    return importStatements +
-      `\nexport const code = {${Array.from(importNameList).join(',')}}` +
-      `\nexport const source = {}// {${Array.from(importNameList).map(entry => `${entry}:Raw${entry}`).join(',')}}`
+    const exportStatements = importList
+      .map(entry => `${ entry },Raw${ entry }`)
+      .join(',')
+
+    return importStatements + `\nexport {${ exportStatements }}`
   }
 }
 

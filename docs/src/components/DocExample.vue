@@ -8,15 +8,15 @@
           <q-tooltip>Toggle dark mode</q-tooltip>
         </q-btn>
 
-        <q-separator class="doc-example__separator q-ml-sm" vertical />
+        <q-separator class="doc-example__separator q-mx-sm" vertical />
 
         <q-btn class="doc-example__btn" dense flat round :icon="fabGithub" @click="openGitHub">
           <q-tooltip>View on GitHub</q-tooltip>
         </q-btn>
-        <q-btn class="doc-example__btn" v-if="noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="loadingSource">
+        <q-btn class="doc-example__btn" v-if="noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
           <q-tooltip>Edit in Codepen</q-tooltip>
         </q-btn>
-        <q-btn class="doc-example__btn" dense flat round icon="code" @click="expanded = !expanded" :disable="loadingSource">
+        <q-btn class="doc-example__btn" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
           <q-tooltip>View Source</q-tooltip>
         </q-btn>
       </div>
@@ -42,11 +42,11 @@
       </div>
     </q-slide-transition>
 
-    <doc-codepen v-if="!loadingSource" ref="codepenRef" :title="title" :slugifiedTitle="slugifiedTitle" />
+    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="title" :slugifiedTitle="slugifiedTitle" />
 
     <div class="row overflow-hidden">
-      <q-linear-progress v-if="loadingComponent || loadingSource" color="brand-primary" indeterminate="indeterminate" />
-      <component class="col doc-example__content" v-if="!loadingComponent" :is="component" :class="componentClass" />
+      <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate="indeterminate" />
+      <component class="col doc-example__content" v-else :is="component" :class="componentClass" />
     </div>
   </q-card>
 </template>
@@ -79,9 +79,7 @@ const docStore = useDocStore()
 const examples = inject('_q_ex')
 
 const codepenRef = ref(null)
-
-const loadingSource = ref(true)
-const loadingComponent = ref(true)
+const isBusy = ref(true)
 
 const component = ref(null)
 const def = reactive({
@@ -137,31 +135,26 @@ function openCodepen () {
   codepenRef.value.open(def.parts)
 }
 
+function toggleExpand () {
+  expanded.value = expanded.value === false
+}
+
 process.env.CLIENT && onMounted(() => {
   examples.list.then(list => {
-    console.log(list) // eslint-disable-line
     component.value = markRaw(
       process.env.DEV
         ? list.code[ `./public/examples/${ examples.name }/${ props.file }.vue` ].default
-        : list.code[ props.file ]
+        : list[ props.file ]
     )
 
     parseComponent(
       process.env.DEV
         ? list.source[ `./public/examples/${ examples.name }/${ props.file }.vue` ]
-        : list.source[ props.file ]
+        : list[ `Raw${ props.file }` ]
     )
 
-    loadingComponent.value = false
-    loadingSource.value = false
+    isBusy.value = false
   })
-
-  // fetch(`/examples/${ examples.name }/${ props.file }.vue`)
-  //   .then(response => response.text())
-  //   .then(content => {
-  //     parseComponent(content)
-  //     loadingSource.value = false
-  //   })
 })
 </script>
 

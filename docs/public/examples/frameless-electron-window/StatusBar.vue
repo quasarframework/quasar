@@ -112,29 +112,22 @@
 </template>
 
 <script>
-// We guard the Electron API calls, but this
-// is only needed if we build same app with other
-// Quasar Modes as well (SPA/PWA/Cordova/SSR...)
+// We guard the Electron API calls with the optional chaining JS operator,
+// but this is only needed if we build same app with other Quasar Modes
+// as well (SPA/PWA/Cordova/SSR...)
 
 export default {
   setup () {
-    // we rely upon
     function minimize () {
-      // if (process.env.MODE === 'electron') {
-      //   window.myWindowAPI.minimize()
-      // }
+      window.myWindowAPI?.minimize()
     }
 
     function toggleMaximize () {
-      // if (process.env.MODE === 'electron') {
-      //   window.myWindowAPI.toggleMaximize()
-      // }
+      window.myWindowAPI?.toggleMaximize()
     }
 
     function closeApp () {
-      // if (process.env.MODE === 'electron') {
-      //   window.myWindowAPI.close()
-      // }
+      window.myWindowAPI?.close()
     }
 
     return { minimize, toggleMaximize, closeApp }
