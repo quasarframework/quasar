@@ -16,7 +16,7 @@ q-card(flat bordered)
     q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
     q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
 
-    q-toggle(v-model="css['mdi-v6']" label="MDI v6")
+    q-toggle(v-model="css['mdi-v7']" label="MDI v7")
     q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
     q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
     q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
@@ -73,7 +73,7 @@ import { ref, reactive, computed } from 'vue'
 import languages from 'quasar/lang/index.json'
 
 const cssMap = {
-  'mdi-v6': 'cdn.jsdelivr.net/npm/@mdi/font@^6.0.0/css/materialdesignicons.min.css',
+  'mdi-v7': 'cdn.jsdelivr.net/npm/@mdi/font@^7.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.15.4/css/all.css',
   // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
   'fontawesome-v6': 'use.fontawesome.com/releases/v6.1.1/css/all.css',
@@ -119,7 +119,7 @@ export default {
       'material-symbols-rounded': false,
       'material-symbols-sharp': false,
 
-      'mdi-v6': false,
+      'mdi-v7': false,
       'fontawesome-v6': false,
       'fontawesome-v5': false,
       'ionicons-v4': false,
@@ -298,8 +298,8 @@ export default {
         { label: 'Material Symbols Outlined (webfont)', value: 'material-symbols-outlined' },
         { label: 'Material Symbols Rounded (webfont)', value: 'material-symbols-rounded' },
         { label: 'Material Symbols Sharp (webfont)', value: 'material-symbols-sharp' },
-        { label: 'MDI v6 (webfont)', value: 'mdi-v6' },
-        { label: 'MDI v6 (svg)', value: 'svg-mdi-v6' },
+        { label: 'MDI v6 (webfont)', value: 'mdi-v7' },
+        { label: 'MDI v6 (svg)', value: 'svg-mdi-v7' },
         { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },
         { label: 'Ionicons v5 (svg)', value: 'svg-ionicons-v5' },
         { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },

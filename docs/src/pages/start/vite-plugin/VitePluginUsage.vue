@@ -17,7 +17,7 @@ q-card(flat bordered)
     q-toggle(v-model="css['material-symbols-rounded']" label="Material Symbols (Rounded)")
     q-toggle(v-model="css['material-symbols-sharp']" label="Material Symbols (Sharp)")
 
-    q-toggle(v-model="css['mdi-v6']" label="MDI v6")
+    q-toggle(v-model="css['mdi-v7']" label="MDI v7")
     q-toggle(v-model="css['fontawesome-v6']" label="Fontawesome v6")
     q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
     q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
@@ -101,7 +101,7 @@ const extrasOptions = [
   'material-symbols-outlined',
   'material-symbols-rounded',
   'material-symbols-sharp',
-  'mdi-v6',
+  'mdi-v7',
   'fontawesome-v5',
   // must come after v5 if used together: https://fontawesome.com/v6/docs/web/setup/upgrade/#if-you-re-unable-to-remove-font-awesome-5
   'fontawesome-v6',
@@ -131,7 +131,7 @@ export default {
       'material-symbols-rounded': false,
       'material-symbols-sharp': false,
 
-      'mdi-v6': false,
+      'mdi-v7': false,
       'fontawesome-v6': false,
       'fontawesome-v5': false,
       'ionicons-v4': false,
@@ -322,8 +322,8 @@ $warning   : #F2C037
         { label: 'Material Symbols Outlined (webfont)', value: 'material-symbols-outlined' },
         { label: 'Material Symbols Round (webfont)', value: 'material-symbols-rounded' },
         { label: 'Material Symbols Sharp (webfont)', value: 'material-symbols-sharp' },
-        { label: 'MDI v6 (webfont)', value: 'mdi-v6' },
-        { label: 'MDI v6 (svg)', value: 'svg-mdi-v6' },
+        { label: 'MDI v6 (webfont)', value: 'mdi-v7' },
+        { label: 'MDI v6 (svg)', value: 'svg-mdi-v7' },
         { label: 'Ionicons v6 (svg)', value: 'svg-ionicons-v6' },
         { label: 'Ionicons v5 (svg)', value: 'svg-ionicons-v5' },
         { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },

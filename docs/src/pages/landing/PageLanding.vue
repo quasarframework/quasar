@@ -76,9 +76,8 @@
             <br />desktop app and browser extension altogether in less than 12 minutes.
           </q>
         </div>
-        <q-no-ssr>
-          <twitter-showcase-cards />
-        </q-no-ssr>
+
+        <twitter-cards class="q-mt-xl" />
       </div>
 
       <div class="support-quasar-section q-px-lg">
@@ -147,7 +146,7 @@ import { useMeta, scroll } from 'quasar'
 
 import DocStars from 'src/components/DocStars.vue'
 import SponsorList from './SponsorList.vue'
-import TwitterShowcaseCards from './TwitterShowcaseCards.vue'
+import TwitterCards from './TwitterCards.vue'
 import WhyQuasarCard from './WhyQuasarCard.vue'
 import SponsorTile from '../sponsors-and-backers/SponsorTile.vue'
 
