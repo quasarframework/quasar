@@ -16,7 +16,7 @@
           label="Are you ready to lift off?"
           class="call-to-action-btn shadow-bottom-small"
           :class="{'letter-spacing-100': $q.screen.xs}"
-          @click="scrollSectionIntoView('why-quasar-section')"
+          @click="scrollSectionIntoView.whyQuasar"
         />
 
         <q-btn
@@ -26,7 +26,7 @@
           class="text-white q-mt-md"
           size="lg"
           padding="none"
-          @click="scrollSectionIntoView('why-quasar-section')"
+          @click="scrollSectionIntoView.whyQuasar"
         />
 
         <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-brand-primary text-size-16 text-capitalize">
@@ -42,12 +42,12 @@
         />
         <q-btn
           flat
-          padding="none"
+          padding="0 8px"
           text-color="white-54"
           no-caps
           label="Full sponsor's list"
           class="btn-underline text-size-16 letter-spacing-300"
-          @click="scrollSectionIntoView('sponsors-section')"
+          @click="scrollSectionIntoView.sponsors"
         />
       </div>
 
@@ -143,7 +143,7 @@
 </template>
 
 <script setup>
-import { useMeta } from 'quasar'
+import { useMeta, scroll } from 'quasar'
 
 import DocStars from 'src/components/DocStars.vue'
 import SponsorList from './SponsorList.vue'
@@ -182,6 +182,16 @@ const whyQuasar = [
     btnLink: '/start/quick-start'
   }
 ]
+
+function goToSection (sectionId) {
+  const el = document.getElementById(sectionId)
+  el && scroll.setVerticalScrollPosition(window, el.offsetTop, 400)
+}
+
+const scrollSectionIntoView = {
+  whyQuasar: () => goToSection('why-quasar-section'),
+  sponsors: () => goToSection('sponsors-section')
+}
 </script>
 
 <style lang="sass">
