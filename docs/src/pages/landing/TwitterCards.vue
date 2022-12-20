@@ -3,7 +3,6 @@
     <div
       class="col overflow-hidden row items-center no-wrap q-pa-xl"
       ref="contentRef"
-      @scroll="onScroll"
     >
       <q-card
         v-for="tweet in tweetsList"
@@ -26,17 +25,20 @@
           <q-btn
             :href="tweet.link"
             target="_blank"
-            label="Read on Twitter"
+            label="View on Twitter"
             no-caps
             flat
             color="blue"
           />
         </q-card-section>
       </q-card>
+
+      <q-resize-observer @resize="updateArrows" />
     </div>
 
     <div
-      class="twitter-cards__left-arrow cursor-pointer absolute-left row items-center"
+      class="twitter-cards__arrow twitter-cards__arrow--left cursor-pointer absolute-left row items-center"
+      :class="leftArrowClass"
       @mousedown.passive="scrollToStart"
       @touchstart.passive="scrollToStart"
       @mouseup.passive="stopAnimScroll"
@@ -51,7 +53,8 @@
     </div>
 
     <div
-      class="twitter-cards__right-arrow cursor-pointer absolute-right row items-center"
+      class="twitter-cards__arrow twitter-cards__arrow--right cursor-pointer absolute-right row items-center"
+      :class="rightArrowClass"
       @mousedown.passive="scrollToEnd"
       @touchstart.passive="scrollToEnd"
       @mouseup.passive="stopAnimScroll"
@@ -73,7 +76,11 @@ import { fabTwitter } from '@quasar/extras/fontawesome-v5'
 import { mdiChevronLeft, mdiChevronRight } from '@quasar/extras/mdi-v7'
 
 let scrollTimer
+const hiddenArrowClass = 'twitter-cards__arrow--hidden'
+
 const contentRef = ref(null)
+const leftArrowClass = ref(hiddenArrowClass)
+const rightArrowClass = ref(null)
 
 function animScrollTo (value) {
   stopAnimScroll()
@@ -93,11 +100,13 @@ function scrollToEnd () {
 }
 
 function scrollTowards (value) {
-  const content = contentRef.value
+  const el = contentRef.value
+
+  if (!el) { return true }
 
   let
     done = false,
-    pos = content.scrollLeft
+    pos = el.scrollLeft
 
   const direction = value < pos ? -1 : 1
 
@@ -115,7 +124,9 @@ function scrollTowards (value) {
     pos = value
   }
 
-  content.scrollLeft = pos
+  el.scrollLeft = pos
+  updateArrows()
+
   return done
 }
 
@@ -123,8 +134,26 @@ function stopAnimScroll () {
   clearInterval(scrollTimer)
 }
 
-function onScroll () {
-  //
+let arrowsTimer, lastTime = 0
+
+const updateArrows = () => {
+  clearTimeout(arrowsTimer)
+  if (Date.now() - lastTime > 150) {
+    localUpdateArrows()
+  }
+  else {
+    arrowsTimer = setTimeout(localUpdateArrows, 50)
+  }
+}
+
+function localUpdateArrows () {
+  const el = contentRef.value
+  if (el) {
+    lastTime = Date.now()
+    const { scrollLeft, offsetWidth, scrollWidth } = contentRef.value
+    leftArrowClass.value = scrollLeft <= 0 ? hiddenArrowClass : null
+    rightArrowClass.value = scrollLeft + offsetWidth >= scrollWidth ? hiddenArrowClass : null
+  }
 }
 
 const tweetsList = [
@@ -236,9 +265,12 @@ const tweetsList = [
     width: 300px
     max-width: 80vw
 
-  &__left-arrow
-    background: linear-gradient(to right, $dark-bg 0%, $dark-bg 5%, transparent 100%)
-
-  &__right-arrow
-    background: linear-gradient(to left, $dark-bg 0%, $dark-bg 5%, transparent 100%)
+  &__arrow
+    transition: opacity .5s ease-in-out
+    &--left
+      background: linear-gradient(to right, $dark-bg 0%, $dark-bg 5%, transparent 100%)
+    &--right
+      background: linear-gradient(to left, $dark-bg 0%, $dark-bg 5%, transparent 100%)
+    &--hidden
+      opacity: 0
 </style>
