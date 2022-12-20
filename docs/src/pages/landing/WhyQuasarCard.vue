@@ -1,8 +1,8 @@
 <template>
-  <q-card class="bg-white card py-32 q-px-lg text-center column justify-between items-center shadow-bottom-large">
+  <q-card class="why-quasar-card bg-white q-px-lg text-center column justify-between items-center shadow-bottom-large">
     <q-card-section class="q-pa-none">
       <q-icon size="xl" :name="props.icon"/>
-      <div :class="{'letter-spacing-40': $q.screen.xs}" class="text-uppercase heading--medium q-py-md">
+      <div class="why-quasar-card__title text-uppercase heading--medium q-py-md">
         {{ props.title }}
       </div>
       <div class="text-dark text-size-16 text-weight-medium q-pb-md letter-spacing-300 primary-line-height">
@@ -36,14 +36,14 @@ const props = defineProps({
 $card-side--large: 400px
 $card-side--small: 280px
 
-.py-32
+.why-quasar-card
   padding-top: 32px
   padding-bottom: 32px
-
-.card
   width: $card-side--small
 
-  @media screen and (min-width: $breakpoint-xs-max)
+  @media (min-width: $breakpoint-xs-max)
     width: $card-side--large
     height: $card-side--large
+    &__title
+      letter-spacing: 0.4px
 </style>
