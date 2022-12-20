@@ -25,7 +25,7 @@ Here's the list of colors provided out of the box. Within your app's `*.vue` fil
 <color-list />
 
 ## Using as CSS Classes
-Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background.
+Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background. Additionally, use the `text-on-` prefix to select a text color that should be used when the specified color is the background color.
 
 ```html
 <!-- changing text color -->
@@ -33,11 +33,14 @@ Use `text-` or `bg-` prefixes as class names to change the color of text or the 
 
 <!-- changing background color -->
 <p class="bg-positive">...</p>
+
+<!-- changing text color to one that should be used when secondary is the background color -->
+<p class="text-on-secondary">...</p>
 ```
 
 ## Using Sass/SCSS Variables
 
-In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on.
+In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, `$on-primary` and so on.
 
 ```html
 <!-- Notice lang="sass" -->
@@ -52,7 +55,7 @@ div
 <!-- Notice lang="scss" -->
 <style lang="scss">
 div {
-  color: $red-1;
+  color: $on-grey-5;
   background-color: $grey-5;
 }
 </style>
@@ -67,6 +70,9 @@ If you want to use your own colors for your components (let's say we are adding 
 }
 .bg-brand {
   background: #a2aa33 !important;
+}
+.text-on-brand {
+  color: #ffffff !important;
 }
 ```
 
@@ -83,7 +89,7 @@ You can access a custom color value (hex string) in JS context with the [getPale
 
 You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
-The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-${name}` (example: `--q-primary`, `--q-secondary`) and should have a valid CSS color as value.
+The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-${name}` (example: `--q-primary`, `--q-secondary`, `--q-on-primary`) and should have a valid CSS color as value.
 
 The CSS Custom properties use the same inheritance rules as normal CSS, so you can only redefine your desired colors and the rest will be inherited from the parent elements.
 
@@ -97,7 +103,7 @@ Quasar offers a helper function for setting Quasar CSS variables that can be use
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` `on-primary`, `on-secondary`, `on-accent`, `on-positive`, `on-negative`, `on-info`, `on-warning` |
 | `colorValue` | String | *Yes* | Valid CSS color value |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be set. |
 
@@ -124,7 +130,7 @@ Quasar offers a helper function for getting the value of Quasar CSS variables th
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`, `on-primary`, `on-secondary`, `on-accent`, `on-positive`, `on-negative`, `on-info`, `on-warning` |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be read. |
 
 Example of getting brand colors using the helper:
