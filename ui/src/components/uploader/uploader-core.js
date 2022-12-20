@@ -13,6 +13,7 @@ import { humanStorageSize } from '../../utils/format.js'
 import { uploaderKey } from '../../utils/private/symbols.js'
 import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 import { vmIsDestroyed } from '../../utils/private/vm.js'
+import { getTextColor } from '../../utils/private/text-color.js'
 
 function getProgressLabel (p) {
   return (p * 100).toFixed(2) + '%'
@@ -150,11 +151,12 @@ export function getRenderer (getPlugin) {
     + (dnd.value === true ? ' q-uploader--dnd' : '')
   )
 
-  const colorClass = computed(() =>
-    'q-uploader__header'
+  const colorClass = computed(() => {
+    const textColor = getTextColor(props.color, props.textColor)
+    return 'q-uploader__header'
     + (props.color !== void 0 ? ` bg-${ props.color }` : '')
-    + (props.textColor !== void 0 ? ` text-${ props.textColor }` : '')
-  )
+    + (textColor !== void 0 ? ` text-${ textColor }` : '')
+  })
 
   watch(state.isUploading, (newVal, oldVal) => {
     if (oldVal === false && newVal === true) {

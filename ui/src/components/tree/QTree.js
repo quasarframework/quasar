@@ -14,6 +14,7 @@ import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/private/key-composition.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
+import { getTextColor } from '../../utils/private/text-color.js'
 
 const tickStrategyOptions = [ 'none', 'strict', 'leaf', 'leaf-filtered' ]
 
@@ -112,11 +113,12 @@ export default createComponent({
 
     const computedControlColor = computed(() => props.controlColor || props.color)
 
-    const textColorClass = computed(() => (
-      props.textColor !== void 0
-        ? ` text-${ props.textColor }`
-        : ''
-    ))
+    const textColorClass = computed(() => {
+      const textColor = getTextColor(props.color, props.textColor)
+      return (textColor !== void 0
+        ? ` text-${ textColor }`
+        : '')
+    })
 
     const selectedColorClass = computed(() => {
       const color = props.selectedColor || props.color

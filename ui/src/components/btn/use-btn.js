@@ -4,6 +4,8 @@ import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
+import { getTextColor } from '../../utils/private/text-color.js'
+
 export const btnPadding = {
   none: 0,
   xs: 4,
@@ -178,7 +180,8 @@ export default function (props) {
         colors = `text-${ props.textColor || props.color }`
       }
       else {
-        colors = `bg-${ props.color } text-${ props.textColor || 'white' }`
+        const textColor = getTextColor(props.color, props.textColor)
+        colors = `bg-${ props.color } text-${ textColor }`
       }
     }
     else if (props.textColor) {

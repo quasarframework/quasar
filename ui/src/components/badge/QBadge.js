@@ -3,6 +3,8 @@ import { h, computed } from 'vue'
 import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlot } from '../../utils/private/render.js'
 
+import { getTextColor } from '../../utils/private/text-color.js'
+
 const alignValues = [ 'top', 'middle', 'bottom' ]
 
 export default createComponent({
@@ -36,7 +38,7 @@ export default createComponent({
     const classes = computed(() => {
       const text = props.outline === true
         ? props.color || props.textColor
-        : props.textColor
+        : getTextColor(props.color, props.textColor)
 
       return 'q-badge flex inline items-center no-wrap'
         + ` q-badge--${ props.multiLine === true ? 'multi' : 'single' }-line`

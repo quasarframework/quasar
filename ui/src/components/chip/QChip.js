@@ -11,6 +11,8 @@ import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { hMergeSlotSafely, hDir } from '../../utils/private/render.js'
 
+import { getTextColor } from '../../utils/private/text-color.js'
+
 export const defaultSizes = {
   xs: 8,
   sm: 10,
@@ -88,7 +90,7 @@ export default createComponent({
     const classes = computed(() => {
       const text = props.outline === true
         ? props.color || props.textColor
-        : props.textColor
+        : getTextColor(props.color, props.textColor)
 
       return 'q-chip row inline no-wrap items-center'
         + (props.outline === false && props.color !== void 0 ? ` bg-${ props.color }` : '')

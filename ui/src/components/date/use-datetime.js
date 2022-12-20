@@ -2,6 +2,7 @@ import { computed } from 'vue'
 
 import { toJalaali } from '../../utils/private/date-persian.js'
 import { pad } from '../../utils/format.js'
+import { getTextColor } from '../../utils/private/text-color.js'
 
 const calendars = [ 'gregorian', 'persian' ]
 
@@ -52,7 +53,8 @@ export default function (props, $q) {
   const headerClass = computed(() => {
     const cls = []
     props.color !== void 0 && cls.push(`bg-${ props.color }`)
-    props.textColor !== void 0 && cls.push(`text-${ props.textColor }`)
+    const textColor = getTextColor(props.color, props.textColor)
+    textColor !== void 0 && cls.push(`text-${ textColor }`)
     return cls.join(' ')
   })
 

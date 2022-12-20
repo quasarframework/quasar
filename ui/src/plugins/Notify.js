@@ -10,6 +10,7 @@ import { noop } from '../utils/event.js'
 import { createGlobalNode } from '../utils/private/global-nodes.js'
 import { createChildApp } from '../install-quasar.js'
 import { isObject } from '../utils/is.js'
+import { getTextColor } from '../utils/private/text-color.js'
 
 let uid = 0
 
@@ -67,7 +68,7 @@ function addNotification (config, $q, originalApi) {
   }
 
   let Api
-  const notif = { textColor: 'white' }
+  const notif = {}
 
   if (config.ignoreDefaults !== true) {
     Object.assign(notif, defaults)
@@ -174,11 +175,12 @@ function addNotification (config, $q, originalApi) {
     notif.multiLine = notif.actions.length > 1
   }
 
+  const notifTextColor = getTextColor(notif.color, notif.textColor) || 'white'
   Object.assign(notif.meta, {
     class: 'q-notification row items-stretch'
       + ` q-notification--${ notif.multiLine === true ? 'multi-line' : 'standard' }`
       + (notif.color !== void 0 ? ` bg-${ notif.color }` : '')
-      + (notif.textColor !== void 0 ? ` text-${ notif.textColor }` : '')
+      + (notifTextColor !== void 0 ? ` text-${ notifTextColor }` : '')
       + (notif.classes !== void 0 ? ` ${ notif.classes }` : ''),
 
     wrapperClass: 'q-notification__wrapper col relative-position border-radius-inherit '
@@ -272,11 +274,12 @@ function addNotification (config, $q, originalApi) {
         notif.badgePosition = `top-${ notif.position.indexOf('left') > -1 ? 'right' : 'left' }`
       }
 
+      const notifBadgeTextColor = getTextColor(notif.badgeColor, notif.badgeTextColor)
       notif.meta.uid = original.meta.uid
       notif.meta.badge = original.meta.badge + 1
       notif.meta.badgeClass = `q-notification__badge q-notification__badge--${ notif.badgePosition }`
         + (notif.badgeColor !== void 0 ? ` bg-${ notif.badgeColor }` : '')
-        + (notif.badgeTextColor !== void 0 ? ` text-${ notif.badgeTextColor }` : '')
+        + (notifBadgeTextColor !== void 0 ? ` text-${ notifBadgeTextColor }` : '')
         + (notif.badgeClass ? ` ${ notif.badgeClass }` : '')
 
       const index = notificationsList[ notif.position ].value.indexOf(original)
