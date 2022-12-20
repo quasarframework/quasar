@@ -1,88 +1,71 @@
-<template lang="pug">
-q-card.doc-api.q-my-lg(flat bordered)
-  q-toolbar.text-grey-8
-    card-title(:title="nameBanner" prefix="api--")
+<template>
+  <q-card class="doc-api q-my-lg" flat bordered>
+    <q-toolbar class="text-grey-8">
+      <card-title :title="nameBanner" prefix="api--" />
+      <q-btn class="q-mr-sm" v-if="props.pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath">
+        <q-icon name="launch" />
+        <div class="q-ml-xs">Docs</div>
+      </q-btn>
 
-    q-btn.q-mr-sm(v-if="pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath")
-      q-icon(name="launch")
-      .q-ml-xs Docs
+      <q-input class="col" ref="inputRef" v-model="filter" dense input-class="text-right" borderless placeholder="Filter..." style="min-width: 6em">
+        <template #append>
+          <q-icon class="cursor-pointer" :name="inputIcon" @click="onFilterClick" />
+        </template>
+      </q-input>
+    </q-toolbar>
 
-    q-input.col(
-      ref="inputRef"
-      v-model="filter"
-      dense
-      input-class="text-right"
-      borderless
-      placeholder="Filter..."
-      style="min-width: 6em"
-    )
-      template(v-slot:append)
-        q-icon.cursor-pointer(
-          :name="inputIcon"
-          @click="onFilterClick"
-        )
+    <q-linear-progress v-if="loading" color="brand-primary" indeterminate />
+    <template v-else-if="nothingToShow">
+      <q-separator />
+      <div class="doc-api__nothing-to-show">Nothing to display</div>
+    </template>
+    <template v-else>
+      <q-separator />
 
-  q-linear-progress(v-if="loading", color="brand-primary", indeterminate)
+      <q-tabs class="doc-api__tabs-list" v-model="currentTab" active-color="brand-primary" indicator-color="brand-primary" align="left" :breakpoint="0" dense>
+        <q-tab class="doc-api__tab" v-for="tab in tabsList" :key="`api-tab-${tab}`" :name="tab">
+          <div class="row no-wrap items-center">
+            <span class="q-mr-xs text-capitalize text-weight-medium">{{ tab }}</span>
+            <q-badge v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall" />
+          </div>
+        </q-tab>
+      </q-tabs>
 
-  template(v-else-if="nothingToShow")
-    q-separator
-    .doc-api__nothing-to-show Nothing to display
+      <q-separator />
 
-  template(v-else)
-    q-separator
+      <q-tab-panels v-model="currentTab" animated>
+        <q-tab-panel class="q-pa-none" v-for="tab in tabsList" :name="tab" :key="tab">
+          <div class="doc-api__container row no-wrap" v-if="innerTabsList[tab].length !== 1">
+            <div class="col-auto row no-wrap text-grey-7 q-py-sm">
+              <q-tabs v-model="currentInnerTab" active-color="brand-primary" indicator-color="brand-primary" :breakpoint="0" vertical dense shrink>
+                <q-tab class="doc-api__tab doc-api__tab--inner doc-api__inner-tab" v-for="innerTab in innerTabsList[tab]" :key="`api-inner-tab-${innerTab}`" :name="innerTab">
+                  <div class="row no-wrap items-center self-stretch">
+                    <span class="q-mr-xs text-capitalize text-weight-medium">{{ innerTab }}</span>
+                    <div class="col" />
+                    <q-badge v-if="filteredApiCount[tab].category[innerTab]" :label="filteredApiCount[tab].category[innerTab]" />
+                  </div>
+                </q-tab>
+              </q-tabs>
+            </div>
 
-    q-tabs.doc-api__tabs-list(v-model="currentTab", active-color="brand-primary", indicator-color="brand-primary", align="left", :breakpoint="0", dense)
-      q-tab.doc-api__tab(
-        v-for="tab in tabsList"
-        :key="`api-tab-${tab}`"
-        :name="tab"
-      )
-        .row.no-wrap.items-center
-          span.q-mr-xs.text-capitalize.text-weight-medium {{ tab }}
-          q-badge(v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall")
+            <q-separator vertical />
 
-    q-separator
-
-    q-tab-panels(v-model="currentTab", animated)
-      q-tab-panel.q-pa-none(v-for="tab in tabsList", :name="tab", :key="tab")
-        .doc-api__container.row.no-wrap(v-if="innerTabsList[tab].length !== 1")
-          .col-auto.row.no-wrap.text-grey-7.q-py-sm
-            q-tabs(
-              v-model="currentInnerTab"
-              active-color="brand-primary"
-              indicator-color="brand-primary"
-              :breakpoint="0"
-              vertical
-              dense
-              shrink
-            )
-              q-tab.doc-api__tab.doc-api__tab--inner(
-                v-for="innerTab in innerTabsList[tab]"
-                :key="`api-inner-tab-${innerTab}`"
-                class="doc-api__inner-tab"
-                :name="innerTab"
-              )
-                .row.no-wrap.items-center.self-stretch
-                  span.q-mr-xs.text-capitalize.text-weight-medium {{ innerTab }}
-                  .col
-                  q-badge(v-if="filteredApiCount[tab].category[innerTab]" :label="filteredApiCount[tab].category[innerTab]")
-
-          q-separator(vertical)
-
-          q-tab-panels.col(
-            v-model="currentInnerTab"
-            animated
-            transition-prev="slide-down"
-            transition-next="slide-up"
-          )
-            q-tab-panel.q-pa-none(v-for="innerTab in innerTabsList[tab]" :name="innerTab" :key="innerTab")
-              DocApiEntry(:type="tab" :definition="filteredApi[tab][innerTab]")
-
-        .doc-api__container(v-else)
-          DocApiEntry(:type="tab" :definition="filteredApi[tab][defaultInnerTabName]")
+            <q-tab-panels class="col" v-model="currentInnerTab" animated transition-prev="slide-down" transition-next="slide-up">
+              <q-tab-panel class="q-pa-none" v-for="innerTab in innerTabsList[tab]" :name="innerTab" :key="innerTab">
+                <doc-api-entry :type="tab" :definition="filteredApi[tab][innerTab]" />
+              </q-tab-panel>
+            </q-tab-panels>
+          </div>
+          <div class="doc-api__container" v-else>
+            <doc-api-entry :type="tab" :definition="filteredApi[tab][defaultInnerTabName]" />
+          </div>
+        </q-tab-panel>
+      </q-tab-panels>
+    </template>
+  </q-card>
 </template>
 
-<script>
+<script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v6'
 
@@ -235,108 +218,75 @@ const getJsonUrl = process.env.DEV === true
   ? file => `/node_modules/quasar/dist/api/${ file }.json`
   : file => `/quasar-api/${ file }.json`
 
-export default {
-  name: 'DocApi',
-
-  components: {
-    CardTitle,
-    DocApiEntry
+const props = defineProps({
+  file: {
+    type: String,
+    required: true
   },
 
-  props: {
-    file: {
-      type: String,
-      required: true
-    },
+  pageLink: Boolean
+})
 
-    pageLink: Boolean
-  },
+const inputRef = ref(null)
 
-  setup (props) {
-    const inputRef = ref(null)
+const loading = ref(true)
+const nameBanner = ref('Loading API...')
+const nothingToShow = ref(false)
 
-    const loading = ref(true)
-    const nameBanner = ref('Loading API...')
-    const nothingToShow = ref(false)
+const docPath = ref('')
 
-    const docPath = ref('')
+const filter = ref('')
+const apiDef = ref({})
 
-    const filter = ref('')
-    const apiDef = ref({})
+const tabsList = ref([])
+const innerTabsList = ref({})
 
-    const tabsList = ref([])
-    const innerTabsList = ref({})
+const currentTab = ref(null)
+const currentInnerTab = ref(null)
 
-    const currentTab = ref(null)
-    const currentInnerTab = ref(null)
+watch(currentTab, val => {
+  currentInnerTab.value = innerTabsList.value[ val ][ 0 ]
+})
 
-    watch(currentTab, val => {
-      currentInnerTab.value = innerTabsList.value[ val ][ 0 ]
-    })
+const inputIcon = computed(() => filter.value !== '' ? mdiClose : mdiMagnify)
+const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value.toLowerCase(), tabsList.value, innerTabsList.value))
+const filteredApiCount = computed(() => getApiCount(filteredApi.value, tabsList.value, innerTabsList.value))
 
-    const inputIcon = computed(() => filter.value !== '' ? mdiClose : mdiMagnify)
-    const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value.toLowerCase(), tabsList.value, innerTabsList.value))
-    const filteredApiCount = computed(() => getApiCount(filteredApi.value, tabsList.value, innerTabsList.value))
+function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
+  nameBanner.value = name
+  docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
-    function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
-      nameBanner.value = name
-      docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
+  const tabs = Object.keys(api)
 
-      const tabs = Object.keys(api)
-
-      if (tabs.length === 0) {
-        nothingToShow.value = true
-        return
-      }
-
-      tabsList.value = tabs
-      currentTab.value = tabs[ 0 ]
-
-      const subTabs = getInnerTabs(api, tabs, type)
-      innerTabsList.value = subTabs
-      apiDef.value = parseApi(api, tabs, subTabs)
-    }
-
-    function onFilterClick () {
-      if (filter.value !== '') {
-        filter.value = ''
-      }
-
-      inputRef.value.focus()
-    }
-
-    process.env.CLIENT && onMounted(() => {
-      fetch(getJsonUrl(props.file))
-        .then(response => response.json())
-        .then(json => {
-          parseApiFile(props.file, json)
-          loading.value = false
-        })
-    })
-
-    return {
-      loading,
-      nameBanner,
-      nothingToShow,
-      docPath,
-
-      filteredApi,
-      filteredApiCount,
-
-      tabsList,
-      innerTabsList,
-      defaultInnerTabName,
-
-      currentTab,
-      currentInnerTab,
-
-      inputRef,
-      filter,
-      inputIcon,
-      onFilterClick
-    }
+  if (tabs.length === 0) {
+    nothingToShow.value = true
+    return
   }
+
+  tabsList.value = tabs
+  currentTab.value = tabs[ 0 ]
+
+  const subTabs = getInnerTabs(api, tabs, type)
+  innerTabsList.value = subTabs
+  apiDef.value = parseApi(api, tabs, subTabs)
 }
+
+function onFilterClick () {
+  if (filter.value !== '') {
+    filter.value = ''
+  }
+
+  inputRef.value.focus()
+}
+
+process.env.CLIENT && onMounted(() => {
+  fetch(getJsonUrl(props.file))
+    .then(response => response.json())
+    .then(json => {
+      parseApiFile(props.file, json)
+      loading.value = false
+    })
+})
 </script>
 
 <style lang="sass">

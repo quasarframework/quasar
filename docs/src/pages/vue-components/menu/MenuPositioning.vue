@@ -4,21 +4,21 @@
       <q-btn push color="orange" label="Test me" style="width: 200px">
         <q-menu :fit="fit" :cover="cover" :anchor="anchor" :self="self" auto-close>
           <q-list style="min-width: 100px">
-            <q-item clickable="clickable">
+            <q-item clickable>
               <q-item-section>New tab</q-item-section>
             </q-item>
 
-            <q-item clickable="clickable">
+            <q-item clickable>
               <q-item-section>New incognito tab</q-item-section>
             </q-item>
 
             <q-separator />
 
-            <q-item clickable="clickable">
+            <q-item clickable>
               <q-item-section>Recent tabs</q-item-section>
             </q-item>
 
-            <q-item clickable="clickable">
+            <q-item clickable>
               <q-item-section>History</q-item-section>
             </q-item>
           </q-list>

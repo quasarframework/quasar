@@ -29,7 +29,7 @@
               <q-btn flat dense round :icon="mdiMagnify" />
               <q-btn flat dense round :icon="mdiMenu" />
             </q-toolbar>
-            <q-toolbar inset="inset">
+            <q-toolbar inset>
               <q-toolbar-title>Quasar</q-toolbar-title>
             </q-toolbar>
           </div>
@@ -49,7 +49,7 @@
                 </q-card>
               </div>
             </div>
-            <q-btn class="absolute" fab="fab" :icon="mdiMapMarkerRadius" color="accent" :text-color="dark.accent === true ? 'white' : 'black'" style="bottom: 16px; right: 16px" />
+            <q-btn class="absolute" fab :icon="mdiMapMarkerRadius" color="accent" :text-color="dark.accent === true ? 'white' : 'black'" style="bottom: 16px; right: 16px" />
           </div>
         </div>
       </div>
@@ -64,29 +64,29 @@
     <q-dialog v-model="exportDialog">
       <q-card>
         <q-tabs class="text-grey-7" v-model="exportTab" active-color="brand-primary" align="justify">
-          <q-tab name="sass" no-caps="no-caps" label="Sass" />
-          <q-tab name="scss" no-caps="no-caps" label="SCSS" />
-          <q-tab name="quasar-cli" no-caps="no-caps" label="Quasar CLI" />
-          <q-tab name="umd" no-caps="no-caps" label="Vite / UMD / Vue CLI" />
+          <q-tab name="sass" no-caps label="Sass" />
+          <q-tab name="scss" no-caps label="SCSS" />
+          <q-tab name="quasar-cli" no-caps label="Quasar CLI" />
+          <q-tab name="umd" no-caps label="Vite / UMD / Vue CLI" />
         </q-tabs>
 
         <q-separator />
 
-        <q-tab-panels v-model="exportTab" animated="animated">
+        <q-tab-panels v-model="exportTab" animated>
           <q-tab-panel class="q-pa-none" name="sass">
-            <doc-code copy="copy" :code="sassExport" />
+            <doc-code copy :code="sassExport" />
           </q-tab-panel>
           <q-tab-panel class="q-pa-none" name="scss">
-            <doc-code copy="copy" :code="scssExport" />
+            <doc-code copy :code="scssExport" />
           </q-tab-panel>
           <q-tab-panel class="q-pa-none" name="quasar-cli">
-            <doc-code copy="copy" :code="quasarCliExport" />
+            <doc-code copy :code="quasarCliExport" />
           </q-tab-panel>
           <q-tab-panel class="q-pa-none" name="umd">
-            <doc-code copy="copy" :code="umdExport" />
+            <doc-code copy :code="umdExport" />
           </q-tab-panel>
           <q-tab-panel class="q-pa-none" name="vue-cli">
-            <doc-code copy="copy" :code="vueCliExport" />
+            <doc-code copy :code="vueCliExport" />
           </q-tab-panel>
         </q-tab-panels>
 

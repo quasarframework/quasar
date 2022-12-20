@@ -6,17 +6,17 @@
     @click="openWebsite"
   >
     <q-card-section class="col tutorial-link__title">
-      <div class="text-subtitle2 text-weight-bold">{{ name }}</div>
-      <div class="q-mt-sm">{{ desc }}</div>
+      <div class="text-subtitle2 text-weight-bold">{{ props.name }}</div>
+      <div class="q-mt-sm">{{ props.desc }}</div>
     </q-card-section>
 
-    <q-img alt="Tutorial logo" :src="imgUrl" />
+    <q-img alt="Tutorial logo" :src="props.imgUrl" />
 
     <q-card-section>
-      <div>Created by: {{ author }}</div>
+      <div>Created by: {{ props.author }}</div>
       <div>
         Language:
-        <span class="q-ml-xs text-weight-bold">{{ lang }}</span>
+        <span class="q-ml-xs text-weight-bold">{{ props.lang }}</span>
       </div>
     </q-card-section>
   </q-card>

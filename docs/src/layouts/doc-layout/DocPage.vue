@@ -2,14 +2,14 @@
   <div key="content" class="doc-page__content">
     <q-badge
       key="overline"
-      v-if="overline"
+      v-if="props.overline"
       class="doc-page__overline"
-      :label="overline"
+      :label="props.overline"
     />
 
     <div key="heading" class="doc-h1 row items-start no-wrap" v-if="props.heading">
       <div class="col doc-heading" id="introduction" @click="copyIntroductionHeading">
-        <span>{{ title }}</span>
+        <span>{{ props.title }}</span>
         <q-badge class="q-ml-sm doc-page__badge" v-if="props.badge" :label="props.badge" />
       </div>
       <a class="doc-page__top-link text-brand-primary flex flex-center" v-if="props.editLink" :href="editHref" target="_blank" rel="noopener noreferrer">
@@ -133,7 +133,7 @@ const docStore = useDocStore()
 docStore.setToc(props.toc)
 
 const editHref = computed(() =>
-  `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages/${props.editLink}.md`
+  `https://github.com/quasarframework/quasar/edit/dev/docs/src/pages/${ props.editLink }.md`
 )
 
 const tocClass = computed(() =>

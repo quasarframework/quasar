@@ -11,7 +11,7 @@
     v-else
     v-bind="$attrs"
     class="doc-link"
-    :href="to"
+    :href="props.to"
     target="_blank"
     rel="noopener"
   >

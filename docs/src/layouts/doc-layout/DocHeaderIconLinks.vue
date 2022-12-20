@@ -15,7 +15,6 @@
 
 <script setup>
 const props = defineProps({
-  menu: Array,
-  navClass: String
+  menu: Array
 })
 </script>

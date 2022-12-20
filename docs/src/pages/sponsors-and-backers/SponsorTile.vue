@@ -29,7 +29,7 @@ const props = defineProps({
   }
 })
 
-const logoUrl = computed(() => `${props.cdn ? 'https://cdn.quasar.dev/sponsors/' : 'https://cdn.quasar.dev/img/sponsor-logos'}/${props.src}`)
+const logoUrl = computed(() => `${ props.cdn ? 'https://cdn.quasar.dev/sponsors/' : 'https://cdn.quasar.dev/img/sponsor-logos' }/${ props.src }`)
 </script>
 
 <style lang="sass">

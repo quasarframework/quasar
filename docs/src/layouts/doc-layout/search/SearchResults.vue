@@ -15,7 +15,7 @@
     <q-list v-for="group in props.results.groupList" :key="`group_${group}`">
       <q-item-label class="app-search__section-title" header>{{ group }}</q-item-label>
       <result-entry
-        v-for="entry in results.entries[group]"
+        v-for="entry in props.results.entries[ group ]"
         :key="entry.id"
         :entry="entry"
         :active="entry.id === props.searchActiveId"

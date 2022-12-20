@@ -9,7 +9,7 @@
       <iframe
         src="https://www.youtube.com/embed/GV-D85D9KJQ?autoplay=1"
         frameborder="0"
-        allowfullscreen="allowfullscreen"
+        allowfullscreen
       />
     </div>
   </div>

@@ -13,20 +13,20 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.12.4",
+    "@quasar/extras": "^1.15.8",
     "prismjs": "^1.26.0",
-    "quasar": "^2.6.2",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "quasar": "^2.11.1",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.0.0-beta.9",
-    "autoprefixer": "^10.4.2",
-    "eslint": "^8.10.0",
+    "@quasar/app-vite": "^1.1.3",
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.30.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-n": "^15.1.0",
-    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-quasar": "^1.1.0",
     "eslint-plugin-vue": "^8.5.0",
     "fast-glob": "^3.2.12",
@@ -34,7 +34,6 @@
     "markdown-ast": "^0.2.1",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
-    "pug": "^3.0.2",
     "toml": "^3.0.0",
     "workbox-build": "^6.5.1"
   },

@@ -1,8 +1,8 @@
 <template>
   <div class="doc-code-container relative-position">
-    <code-prism :lang="lang" :code="code" :style="style" />
+    <code-prism :lang="props.lang" :code="props.code" :style="style" />
     <div class="doc-code-container__copy absolute">
-      <copy-button :text="code" />
+      <copy-button :text="props.code" />
     </div>
   </div>
 </template>

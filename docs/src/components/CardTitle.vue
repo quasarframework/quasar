@@ -1,6 +1,6 @@
 <template>
   <section class="q-my-xs q-mr-sm cursor-pointer text-subtitle1" :id="id" @click="onClick">
-    <div class="doc-card-title">{{ title }}</div>
+    <div class="doc-card-title">{{ props.title }}</div>
   </section>
 </template>
 

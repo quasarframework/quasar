@@ -1,7 +1,7 @@
 <template>
   <q-card class="doc-example q-my-lg" :class="classes" flat bordered>
     <q-toolbar class="doc-example__toolbar">
-      <card-title :title="title" :slugifiedTitle="slugifiedTitle" />
+      <card-title :title="props.title" :slugifiedTitle="slugifiedTitle" />
       <q-space />
       <div class="col-auto row no-wrap items-center">
         <q-btn class="doc-example__btn" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
@@ -13,7 +13,7 @@
         <q-btn class="doc-example__btn" dense flat round :icon="fabGithub" @click="openGitHub">
           <q-tooltip>View on GitHub</q-tooltip>
         </q-btn>
-        <q-btn class="doc-example__btn" v-if="noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
+        <q-btn class="doc-example__btn" v-if="props.noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
           <q-tooltip>Edit in Codepen</q-tooltip>
         </q-btn>
         <q-btn class="doc-example__btn" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
@@ -42,10 +42,10 @@
       </div>
     </q-slide-transition>
 
-    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="title" :slugifiedTitle="slugifiedTitle" />
+    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="props.title" :slugifiedTitle="slugifiedTitle" />
 
     <div class="row overflow-hidden">
-      <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate="indeterminate" />
+      <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate />
       <component class="col doc-example__content" v-else :is="component" :class="componentClass" />
     </div>
   </q-card>
@@ -128,7 +128,7 @@ function parseComponent (comp) {
 }
 
 function openGitHub () {
-  openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/public/examples/${examples.name}/${props.file}.vue`)
+  openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/public/examples/${ examples.name }/${ props.file }.vue`)
 }
 
 function openCodepen () {
