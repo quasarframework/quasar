@@ -43,10 +43,8 @@
           :to="entry.to"
         >
           <q-card class="page-all__card bg-white shadow-bottom-large cursor-pointer overflow-hidden letter-spacing-300">
-            <!-- bg-dark fixes background bleeding of image (top left/right) when q-card is displayed on dark background with a border radius -->
-            <!-- See https://github.com/quasarframework/quasar/issues/11665 -->
-            <div class="page-all__card-img bg-dark">
-              <q-img v-if="entry.img" :src="entry.img" class="bg-dark" />
+            <div class="page-all__card-img">
+              <q-img v-if="entry.img" :src="entry.img" />
             </div>
             <q-card-section class="text-brand-primary text-weight-bold">
               {{ entry.name }}
@@ -177,6 +175,7 @@ function onSearchFieldClick () {
 
   &__card-img
     height: 170px
+    background-color: #475d66
 
   &__card-description
     font-size: .9em
