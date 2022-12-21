@@ -107,7 +107,6 @@ export default {
 
 <style lang="sass">
 .doc-page-footer
-  position: relative
   background-color: #d8e1e5
   width: 100%
   z-index: 1
@@ -120,6 +119,7 @@ export default {
     grid-row-gap: 100px
     padding: 100px 30px
     grid-template-columns: 1fr
+    border-top: 1px solid $separator-color
 
     @media (min-width: 720px)
       padding-left: 100px
@@ -135,4 +135,7 @@ export default {
 
     @media (min-width: 1540px)
       grid-template-columns: repeat(5, 1fr)
+
+body.body--dark .doc-page-footer__nav
+  border-top-color: $separator-dark-color
 </style>
