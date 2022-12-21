@@ -98,6 +98,7 @@ onMounted(() => { docStore.state.value.mounted = true })
     height: calc(100vh - #{$headerHeight})
     width: 300px
     min-width: 300px
+    border-right: 1px solid $separator-color
 
     .doc-page-menu
       padding: 32px 16px 32px 0 // page top padding
@@ -105,8 +106,9 @@ onMounted(() => { docStore.state.value.mounted = true })
   &__item.q-item,
   &__item .q-item
     font-size: 12px
+    letter-spacing: 0.25px
     border-radius: 10px
-    margin-top: 1px
+    margin-top: 2px
     min-height: 30px
     padding: 0 4px 0 6px
     color: $light-text
