@@ -154,7 +154,7 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
 
   &__links
     justify-content: end
-    @media (min-width: 1600px)
+    @media (min-width: 1920px)
       justify-content: center
 
 .doc-header-menu
