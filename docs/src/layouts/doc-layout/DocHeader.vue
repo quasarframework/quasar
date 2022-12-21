@@ -26,7 +26,19 @@
       />
 
       <doc-search :logo="logo.small" />
-      <doc-header-btn-theme class="q-ml-sm" />
+
+      <div class="doc-header-icon-links q-ml-sm row no-wrap items-center">
+        <q-btn
+          type="a"
+          flat
+          round
+          :icon="mdiCompare"
+          :disable="cannotChangeTheme"
+          @click="docStore.toggleDark"
+        >
+          <q-tooltip v-if="cannotChangeTheme">Changing Light/Dark mode will be available on other pages</q-tooltip>
+        </q-btn>
+      </div>
     </q-toolbar>
 
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
@@ -66,12 +78,12 @@
 
 <script setup>
 import { computed } from 'vue'
+import { mdiCompare } from '@quasar/extras/mdi-v6'
 
 import { versionLinks, primaryToolbarLinks, secondaryToolbarLinks, moreLinks } from 'src/assets/links.header'
 import { socialLinks } from 'src/assets/links.social'
 
 import DocSearch from './DocSearch.vue'
-import DocHeaderBtnTheme from './DocHeaderBtnTheme.vue'
 import DocHeaderTextLinks from './DocHeaderTextLinks.vue'
 import DocHeaderIconLinks from './DocHeaderIconLinks.vue'
 
@@ -85,6 +97,8 @@ const logo = computed(() => {
     small: `https://cdn.quasar.dev/logo-v2/svg/logo${opt}.svg`
   }
 })
+
+const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
 </script>
 
 <style lang="sass">
