@@ -31,7 +31,7 @@
           Most Used
         </div>
 
-        <card-link
+        <doc-card-link
           v-for="(entry, pageIndex) in mostUsedPages"
           :key="pageIndex"
           :to="entry.path"
@@ -49,7 +49,7 @@
               {{ entry.name }}
             </div>
           </q-card>
-        </card-link>
+        </doc-card-link>
       </div>
 
       <div class="gt-sm col-md-1 row justify-center">
@@ -61,7 +61,7 @@
           Discover Also
         </div>
 
-        <card-link
+        <doc-card-link
           v-for="(entry, pageIndex) in pagesToDiscover"
           :key="pageIndex"
           :to="entry.path"
@@ -79,14 +79,14 @@
               {{ entry.name }}
             </div>
           </q-card>
-        </card-link>
+        </doc-card-link>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import CardLink from 'components/CardLink.vue'
+import DocCardLink from 'components/DocCardLink.vue'
 import { mostUsedPages, pagesToDiscover } from 'src/assets/docs-homepage.js'
 </script>
 

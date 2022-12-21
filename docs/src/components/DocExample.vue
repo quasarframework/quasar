@@ -1,9 +1,9 @@
 <template>
   <q-card class="doc-example q-my-lg" :class="classes" flat bordered>
-    <q-toolbar class="doc-example__toolbar">
-      <card-title :title="props.title" :slugifiedTitle="slugifiedTitle" />
+    <div class="doc-example__toolbar row items-center relative-position q-px-sm">
+      <doc-card-title :title="props.title" :slugifiedTitle="slugifiedTitle" />
       <q-space />
-      <div class="col-auto row no-wrap items-center">
+      <div class="col-auto row no-wrap items-center q-py-sm">
         <q-btn class="doc-example__btn" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
           <q-tooltip>Toggle dark mode</q-tooltip>
         </q-btn>
@@ -20,7 +20,7 @@
           <q-tooltip>View Source</q-tooltip>
         </q-btn>
       </div>
-    </q-toolbar>
+    </div>
 
     <q-separator class="doc-example__separator" />
 
@@ -64,7 +64,7 @@ import { useDocStore } from 'src/layouts/doc-layout/store'
 
 import DocCode from './DocCode.vue'
 import DocCodepen from './DocCodepen.vue'
-import CardTitle from './CardTitle.vue'
+import DocCardTitle from './DocCardTitle.vue'
 
 const props = defineProps({
   title: String,

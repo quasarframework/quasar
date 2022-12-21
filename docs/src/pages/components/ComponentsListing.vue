@@ -37,7 +37,7 @@
 
     <div v-else class="q-py-xl text-size-16 row items-center justify-center q-gutter-lg relative-position">
       <transition-group name="page-all-transition">
-        <card-link
+        <doc-card-link
           v-for="entry in searchResults"
           :key="entry.key"
           :to="entry.to"
@@ -53,7 +53,7 @@
               {{ entry.description }}
             </q-card-section>
           </q-card>
-        </card-link>
+        </doc-card-link>
       </transition-group>
     </div>
   </div>
@@ -65,7 +65,7 @@ import { ref, watch } from 'vue'
 import { quasarElements } from 'src/assets/links.components.js'
 
 import DocStars from 'src/components/DocStars.vue'
-import CardLink from 'src/components/CardLink.vue'
+import DocCardLink from 'src/components/DocCardLink.vue'
 
 const filterChips = [
   { label: 'Buttons', value: 'button' },

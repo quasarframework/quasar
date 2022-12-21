@@ -37,7 +37,7 @@ import DocPageFooter from './DocPageFooter.vue'
 const docStore = provideDocStore()
 
 const isFullscreen = computed(() => docStore.$route.meta?.fullscreen === true)
-const pageClass = computed(() => isFullscreen.value === true ? '' : 'column items-center')
+const pageClass = computed(() => `doc-layout__page-el--${ isFullscreen.value === true ? 'fullscreen' : 'standard' }`)
 const pageContentClass = computed(() =>
   'doc-layout__page row no-wrap ' +
   `doc-layout__page--${ docStore.$route.meta?.fullwidth === true ? 'fullwidth' : 'standard' }`
@@ -91,6 +91,12 @@ onMounted(() => { docStore.state.value.mounted = true })
 
       .doc-page__toc
         display: none
+
+  &__page-el--standard
+    @media (min-width: 914px)
+      display: flex
+      flex-direction: column
+      align-items: center
 
   &__menu
     position: sticky

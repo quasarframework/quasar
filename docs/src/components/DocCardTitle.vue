@@ -26,7 +26,7 @@ function onClick () {
 
 <style lang="sass">
 .doc-card-title
-  margin-left: -24px
+  margin-left: -20px
   padding: 2px 10px 2px 24px
   position: relative
   border-radius: 3px 5px 5px 0

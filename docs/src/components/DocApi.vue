@@ -1,7 +1,7 @@
 <template>
   <q-card class="doc-api q-my-lg" flat bordered>
-    <q-toolbar class="text-grey-8">
-      <card-title :title="nameBanner" prefix="api--" />
+    <div class="text-grey-8 row items-center relative-position q-px-sm">
+      <doc-card-title :title="nameBanner" prefix="api--" />
       <q-btn class="q-mr-sm" v-if="props.pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath">
         <q-icon name="launch" />
         <div class="q-ml-xs">Docs</div>
@@ -12,7 +12,7 @@
           <q-icon class="cursor-pointer" :name="inputIcon" @click="onFilterClick" />
         </template>
       </q-input>
-    </q-toolbar>
+    </div>
 
     <q-linear-progress v-if="loading" color="brand-primary" indeterminate />
     <template v-else-if="nothingToShow">
@@ -69,7 +69,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v6'
 
-import CardTitle from './CardTitle.vue'
+import DocCardTitle from './DocCardTitle.vue'
 import DocApiEntry from './DocApiEntry.js'
 
 const defaultInnerTabName = '__default'
