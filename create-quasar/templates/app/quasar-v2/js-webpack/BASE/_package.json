@@ -12,7 +12,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    <% if (preset.axios) { %>"axios": "^0.21.1",<% } %>
+    <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
     <% if (preset.i18n) { %>"vue-i18n": "^9.0.0",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
