@@ -106,44 +106,33 @@ export default {
 </script>
 
 <style lang="sass">
-$footer-columns-md-min: 5
-$footer-columns-sm-min: 3
-$footer-columns-after-xs: 2
-
 .doc-page-footer
   position: relative
   background-color: #d8e1e5
   width: 100%
   z-index: 1
 
-  .q-item__label
-    // we assume 2em + line-height difference
-    height: 2.4em
-
   &__margin
     margin-left: 6px
 
   &__nav
     display: grid
-    grid-template-columns: 1fr
-    grid-column-gap: 24px
     grid-row-gap: 100px
-    padding: 100px 32px
+    padding: 100px 30px
+    grid-template-columns: 1fr
 
-    @media screen and (min-width: $breakpoint-sm-min)
-      padding-left: 30px
-      padding-right: 30px
-      grid-column-gap: 36px
-      grid-template-columns: repeat($footer-columns-sm-min, 1fr)
-
-    @media screen and (min-width: $breakpoint-md-min)
+    @media (min-width: 720px)
       padding-left: 100px
       padding-right: 100px
-      grid-template-columns: repeat($footer-columns-md-min, 1fr)
+      grid-column-gap: 36px
+      grid-template-columns: repeat(2, 1fr)
 
-    // handle edge case, on devices just after $breakpoint-xs-max and into sm
-    @media screen and (min-width: $breakpoint-xs-max) and (max-width: 807px)
-      padding-left: 64px
-      padding-right: 64px
-      grid-template-columns: repeat($footer-columns-after-xs, 1fr)
+    @media (min-width: 980px)
+      grid-template-columns: repeat(3, 1fr)
+
+    @media (min-width: 1270px)
+      grid-template-columns: repeat(4, 1fr)
+
+    @media (min-width: 1540px)
+      grid-template-columns: repeat(5, 1fr)
 </style>
