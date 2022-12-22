@@ -1,7 +1,7 @@
 <template>
   <div
     ref="rootRef"
-    class="doc-search z-max relative-position self-center"
+    class="doc-search z-max self-center"
     :class="classes"
     @click.prevent="onClick"
     @focusin="onFocusin"
@@ -21,9 +21,8 @@
     </div>
 
     <q-scroll-area
-      class="doc-search__results absolute rounded-borders rounded-borders"
+      class="doc-search__results rounded-borders rounded-borders"
       :class="`doc-search__results--${ results ? 'active' : 'hidden' }`"
-      dark
     >
       <template v-if="results">
         <component
@@ -216,7 +215,13 @@ function onKeydown (evt) {
   switch (evt.keyCode) {
     case 27: // escape
       evt.preventDefault()
-      resetSearch()
+      if (results.value !== null) {
+        results.value = null
+        activeId.value = null
+      }
+      else {
+        resetSearch()
+      }
       break
     case 38: // up
     case 40: // down
@@ -338,6 +343,18 @@ body.desktop
       display: inline-block !important
     .doc-search__kbd
       display: none
+
+@media (max-width: 445px)
+  .doc-search__results
+    position: fixed
+    top: 60px
+    left: 16px
+    right: 16px
+@media (min-width: 446px)
+  .doc-search
+    position: relative
+  .doc-search__results
+    position: absolute
 
 body.body--light .doc-search
   input
