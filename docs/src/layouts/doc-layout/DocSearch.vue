@@ -20,10 +20,7 @@
       <kbd v-if="keysLabel" class="doc-search__kbd q-ma-none">{{ keysLabel }}</kbd>
     </div>
 
-    <q-scroll-area
-      class="doc-search__results rounded-borders rounded-borders"
-      :class="`doc-search__results--${ results ? 'active' : 'hidden' }`"
-    >
+    <q-scroll-area :class="resultsClass">
       <template v-if="results">
         <component
           v-if="results.masterComponent !== void 0"
@@ -83,6 +80,10 @@ function onFocusout () {
 }
 
 const classes = computed(() => (hasFocus.value ? 'doc-search--focused' : null))
+const resultsClass = computed(() => (
+  'doc-search__results rounded-borders rounded-borders' +
+  ` doc-search__results--${ results.value ? 'active' : 'hidden' }`
+))
 
 function resetSearch () {
   terms.value = ''

@@ -33,10 +33,6 @@ const props = defineProps({
   results: Object,
   searchActiveId: String
 })
-
-// const instructionsClass = computed(() =>
-//   `app-search__instructions--${props.searchHasFocus === true ? 'visible' : 'hidden'}`
-// )
 </script>
 
 <style lang="sass">
