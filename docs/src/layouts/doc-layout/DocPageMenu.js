@@ -77,7 +77,7 @@ export default {
           () => menu.children.map(item => getDrawerMenu(
             item,
             path + (item.path !== void 0 ? '/' + item.path : ''),
-            level + 0.46
+            (level / 2) + 0.5
           ))
         )
       }

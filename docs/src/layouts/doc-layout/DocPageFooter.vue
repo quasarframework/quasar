@@ -110,6 +110,7 @@ export default {
   background-color: #d8e1e5
   width: 100%
   z-index: 1
+  border-top: 1px solid $separator-color
 
   &__margin
     margin-left: 6px
@@ -119,7 +120,6 @@ export default {
     grid-row-gap: 100px
     padding: 100px 30px
     grid-template-columns: 1fr
-    border-top: 1px solid $separator-color
 
     @media (min-width: 720px)
       padding-left: 100px
@@ -136,6 +136,7 @@ export default {
     @media (min-width: 1540px)
       grid-template-columns: repeat(5, 1fr)
 
-body.body--dark .doc-page-footer__nav
-  border-top-color: $separator-dark-color
+body.body--dark .doc-page-footer
+  border-top-color: $brand-primary
+  box-shadow: 0 0 6px 3px $brand-primary
 </style>

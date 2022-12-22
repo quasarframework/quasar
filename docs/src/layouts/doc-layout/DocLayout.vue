@@ -112,7 +112,7 @@ onMounted(() => { docStore.state.value.mounted = true })
   &__item.q-item,
   &__item .q-item
     font-size: 12px
-    letter-spacing: 0.25px
+    letter-spacing: 1px
     border-radius: 10px
     margin-top: 2px
     min-height: 30px
@@ -123,6 +123,9 @@ onMounted(() => { docStore.state.value.mounted = true })
       padding-bottom: 2px
     &.q-item--dark
       color: $dark-text
+
+  &__item .q-expansion-item > .q-expansion-item__container > .q-item .q-item__label
+    padding-left: 8.5px
 
   &__item--active
     color: $brand-primary !important
@@ -136,4 +139,7 @@ onMounted(() => { docStore.state.value.mounted = true })
   .doc-layout__menu,
   .doc-page__toc-container--flowing
     display: none
+
+body.body--dark .doc-layout__menu
+  border-right-color: $brand-primary
 </style>
