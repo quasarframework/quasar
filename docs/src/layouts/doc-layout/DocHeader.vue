@@ -69,7 +69,7 @@
         />
       </div>
       <doc-header-icon-links
-        class="q-ml-sm gt-1400"
+        class="q-ml-sm gt-1310"
         :menu="socialLinks.children"
       />
     </q-toolbar>
@@ -204,7 +204,7 @@ body.body--dark
   .doc-header-icon-links
     color: $brand-primary
 
-$mq-list: 475, 560, 700, 860, 970, 1060, 1130, 1190, 1290, 1400
+$mq-list: 475, 560, 700, 860, 970, 1060, 1130, 1190, 1310, 1400
 @each $query in $mq-list
   @media (min-width: #{$query}px)
     .lt-#{$query}

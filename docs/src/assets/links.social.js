@@ -3,7 +3,7 @@ import { mdiDiscord, mdiForum } from '@quasar/extras/mdi-v6'
 
 export const socialLinks = {
   name: 'Social',
-  mq: 1400,
+  mq: 1290,
   children: [
     { name: 'Github', icon: fabGithub, path: 'https://github.quasar.dev', external: true },
     { name: 'Discord', icon: mdiDiscord, path: 'https://chat.quasar.dev', external: true },

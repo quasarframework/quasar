@@ -82,7 +82,7 @@ export const primaryToolbarLinks = [
   { name: 'Docs', mq: 700, path: '/docs' },
   { name: 'Components', mq: 860, path: '/components' },
   { name: 'Sponsors', mq: 1190, path: '/sponsors-and-backers' },
-  { name: 'Team', mq: 1290, path: '/meet-the-team' },
+  { name: 'Team', mq: 1310, path: '/meet-the-team' },
   { name: 'Blog', mq: 1400, path: 'https://blog.quasar.dev', external: true }
 ]
 
@@ -93,7 +93,7 @@ export const secondaryToolbarLinks = [
   { name: 'Announcements', mq: 860, path: 'https://github.com/quasarframework/quasar/discussions/categories/announcements', external: true },
   { name: 'Roadmap', mq: 970, path: 'https://roadmap.quasar.dev/', external: true },
   { name: 'Video Tutorials', mq: 1130, path: '/video-tutorials' },
-  { name: 'Brand resources', mq: 1290, path: 'https://github.com/quasarframework/quasar-art', external: true }
+  { name: 'Brand resources', mq: 1400, path: 'https://github.com/quasarframework/quasar-art', external: true }
 ]
 
 export const moreLinks = [{
