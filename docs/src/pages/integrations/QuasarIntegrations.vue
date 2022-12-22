@@ -118,8 +118,11 @@ import { platformIcons, buildTargets, ecosystemParts } from 'src/assets/links.in
     color: $brand-secondary
 
 body.body--dark .page-integrations
-  &__card:hover
-    box-shadow: $spreaded-shadow !important
+  &__card
+    box-shadow: 0 1px 5px rgba($brand-primary, .2), 0 2px 2px rgba($brand-primary, .14), 0 3px 1px -2px rgba($brand-primary, .12)
+
+    &:hover
+      box-shadow: 0 4px 8px 0 rgba($brand-primary, 0.8) !important
   &__card-description
     color: #fff
 </style>

@@ -113,5 +113,5 @@ import { mostUsedPages, pagesToDiscover } from 'src/assets/docs-homepage.js'
 
 body.body--dark .page-docs
   &__card:hover
-    box-shadow: $spreaded-shadow !important
+    box-shadow: 0 4px 8px 0 rgba($brand-primary, 0.8) !important
 </style>

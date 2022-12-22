@@ -334,7 +334,7 @@ body.desktop
       height: 80vh
 
     .doc-search__icon
-      display: block !important
+      display: inline-block !important
     .doc-search__kbd
       display: none
 
