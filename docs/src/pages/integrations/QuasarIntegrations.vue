@@ -54,7 +54,7 @@
     </h2>
 
     <template v-for="(part, partIndex) in ecosystemParts" :key="partIndex">
-      <div class="q-mb-md text-size-16 letter-spacing-40 primary-line-height text-brand-secondary">
+      <div class="page-integrations__about q-mb-md text-size-16 letter-spacing-40 primary-line-height">
         {{ part.about }}
       </div>
 
@@ -114,7 +114,8 @@ import { platformIcons, buildTargets, ecosystemParts } from 'src/assets/links.in
     .q-icon
       font-size: 36px
 
-  &__card-description
+  &__card-description,
+  &__about
     color: #050A14
 
 body.body--dark .page-integrations
@@ -123,6 +124,8 @@ body.body--dark .page-integrations
 
     &:hover
       box-shadow: 0 4px 8px 0 rgba($brand-primary, 0.8) !important
-  &__card-description
+
+  &__card-description,
+  &__about
     color: #fff
 </style>

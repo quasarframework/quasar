@@ -198,6 +198,9 @@ body.body--dark
     &__logo
       border-color: $brand-primary
 
+    .q-toolbar:last-child
+      border-bottom-color: transparent
+
     &__version,
     .q-btn:not(.disabled):hover
       color: #fff
