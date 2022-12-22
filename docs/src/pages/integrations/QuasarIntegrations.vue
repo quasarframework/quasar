@@ -115,7 +115,7 @@ import { platformIcons, buildTargets, ecosystemParts } from 'src/assets/links.in
       font-size: 36px
 
   &__card-description
-    color: $brand-secondary
+    color: #050A14
 
 body.body--dark .page-integrations
   &__card

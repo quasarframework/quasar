@@ -7,7 +7,7 @@
     @focusin="onFocusin"
     @focusout="onFocusout"
   >
-    <div class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-xs">
+    <div class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-md">
       <input
         class="col"
         ref="inputRef"
@@ -17,7 +17,7 @@
       />
 
       <q-icon class="doc-search__icon cursor-pointer" :name="icon.name" size="24px" @click="icon.onClick" />
-      <kbd v-if="keysLabel" class="doc-search__kbd">{{ keysLabel }}</kbd>
+      <kbd v-if="keysLabel" class="doc-search__kbd q-ma-none">{{ keysLabel }}</kbd>
     </div>
 
     <q-scroll-area
@@ -313,7 +313,7 @@ body.desktop
     height: inherit
     width: inherit
     cursor: text
-    transition: box-shadow .3s ease-in-out
+    transition: box-shadow .3s ease-in-out, background-color .3s ease-in-out
 
   input
     font-size: 14px
@@ -324,7 +324,7 @@ body.desktop
 
   &__results
     height: 0
-    top: 49px
+    top: 42px
     left: 0
     right: 0
     transition: height .3s ease-in-out, box-shadow .3s ease-in-out, border-color .3s ease-in-out
@@ -332,6 +332,7 @@ body.desktop
   &--focused
     .doc-search__results--active
       height: 80vh
+      box-shadow: $shadow--primary-down
 
     .doc-search__icon
       display: inline-block !important
@@ -342,29 +343,23 @@ body.body--light .doc-search
   input
     color: $light-text
   &__field
-    background: $grey-3
+    background: $grey-4
   &__results
     background: #fff
     color: $light-text
-  &--focused
-    .doc-search__field,
-    .doc-search__results--active
-      box-shadow: 0 0 1px 1px rgba(0,0,0,.2)
+  &--focused .doc-search__field
+    background-color: rgba(#000, .28)
 
 body.body--dark .doc-search
   input
     color: #fff
   &__field
-    border: 1px solid $brand-primary
+    background-color: rgba(#fff, .12)
   &__icon
     color: $brand-primary
   &__results
     background: $dark-bg
     color: $dark-text
-    border: 1px solid transparent
-  &--focused
-    .doc-search__field,
-    .doc-search__results--active
-      box-shadow: $spreaded-shadow
-      border: 1px solid $brand-primary
+  &--focused .doc-search__field
+    background-color: rgba(#fff, .28)
 </style>

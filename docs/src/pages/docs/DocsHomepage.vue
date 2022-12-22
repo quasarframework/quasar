@@ -45,7 +45,7 @@
               class="q-mb-sm"
               color="brand-primary"
             />
-            <div class="text-size-12 letter-spacing-100">
+            <div class="page-docs__card-label text-size-12 letter-spacing-100">
               {{ entry.name }}
             </div>
           </q-card>
@@ -75,7 +75,7 @@
               class="q-mb-sm"
               color="brand-primary"
             />
-            <div class="text-center text-size-12 letter-spacing-100">
+            <div class="page-docs__card-label text-center text-size-12 letter-spacing-100">
               {{ entry.name }}
             </div>
           </q-card>
@@ -103,6 +103,9 @@ import { mostUsedPages, pagesToDiscover } from 'src/assets/docs-homepage.js'
     border-radius: 8px
     transition: transform 0.3s, box-shadow 0.3s
 
+    &-label
+      color: #050A14
+
     &:hover
       // !important needed when used with flat cards
       box-shadow: 0 8px 8px 0 rgba($dark, 0.2) !important
@@ -114,4 +117,6 @@ import { mostUsedPages, pagesToDiscover } from 'src/assets/docs-homepage.js'
 body.body--dark .page-docs
   &__card:hover
     box-shadow: 0 4px 8px 0 rgba($brand-primary, 0.8) !important
+  &__card-label
+    color: #fff
 </style>

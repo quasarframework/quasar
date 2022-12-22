@@ -107,10 +107,11 @@ export default {
 
 <style lang="sass">
 .doc-page-footer
+  position: relative
   background-color: #d8e1e5
   width: 100%
   z-index: 1
-  border-top: 1px solid $separator-color
+  box-shadow: $shadow--primary
 
   &__margin
     margin-left: 6px
@@ -138,5 +139,4 @@ export default {
 
 body.body--dark .doc-page-footer
   border-top-color: $brand-primary
-  box-shadow: 0 0 6px 3px $brand-primary
 </style>

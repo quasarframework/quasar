@@ -111,8 +111,8 @@ onMounted(() => { docStore.state.value.mounted = true })
 
   &__item.q-item,
   &__item .q-item
-    font-size: 12px
-    letter-spacing: 1px
+    font-size: $font-size
+    letter-spacing: $letter-spacing
     border-radius: 10px
     margin-top: 2px
     min-height: 30px

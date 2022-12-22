@@ -104,6 +104,7 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
 <style lang="sass">
 .doc-header
   transition: color .28s, background-color .28s
+  box-shadow: $shadow--primary
 
   &__primary
     height: 72px
@@ -158,11 +159,14 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
 
   &__links
     justify-content: end
-    @media (min-width: 1920px)
+    @media (min-width: 1921px)
       justify-content: center
 
 .doc-header-menu
   font-family: $font-family
+  letter-spacing: $letter-spacing
+  font-size: $font-size
+  box-shadow: $shadow--primary-down
 
   .q-item__label--header
     color: $brand-accent
@@ -176,19 +180,19 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
   .q-icon
     margin-left: 0
 
-body.body--light .doc-header
-  color: #757575 !important
-  background: #fff
+body.body--light
+  .doc-header
+    color: #757575 !important
+    background: #fff
 
-  .q-toolbar,
-  &__logo
-    border-color: $separator-color
+    .q-toolbar,
+    &__logo
+      border-color: $separator-color
 
 body.body--dark
   .doc-header
     color: #929397 !important
     background: #050a14
-    box-shadow: $shadow--medium
 
     .q-toolbar,
     &__logo
@@ -197,9 +201,6 @@ body.body--dark
     &__version,
     .q-btn:not(.disabled):hover
       color: #fff
-
-  .doc-header-menu
-    box-shadow: $spreaded-shadow
 
   .doc-header-icon-links
     color: $brand-primary

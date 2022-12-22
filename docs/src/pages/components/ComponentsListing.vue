@@ -156,7 +156,7 @@ function onSearchFieldClick () {
     transition: box-shadow .3s ease-in-out
 
     &:focus-within
-      box-shadow: $spreaded-shadow
+      box-shadow: 0 0 3px 3px rgba($brand-primary, 0.38)
 
   &__search-input
     font-size: 14px

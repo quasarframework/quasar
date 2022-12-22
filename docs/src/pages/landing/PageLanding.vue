@@ -80,28 +80,29 @@
         <twitter-cards class="q-mt-xl" />
       </div>
 
-      <div class="support-quasar-section q-px-lg">
-        <h2
-          class="text-uppercase heading--large support-quasar-section__title"
-        >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
+      <div class="support-quasar-section q-px-lg row justify-center">
+        <div class="support-quasar-section__content">
+          <h2
+            class="text-uppercase heading--large support-quasar-section__title"
+          >SPONSOR QUASAR, HELP THE PROJECT GROW!</h2>
 
-        <div class="heading--small text-left">
-          Working for a company? Are you a freelancer? You can contribute, even a bit,
-          <br> and even get something back in return.
+          <div class="heading--small">
+            Working for a company? Are you a freelancer? You can contribute, even a bit,
+            and even get something back in return.
+          </div>
+
+          <q
+            class="q-my-md heading--quote primary-line-height landing-my-large"
+          >So, um, we think we should discuss the bonus situation</q>
+
+          <q-btn
+            color="brand-accent"
+            label="Consult tiers"
+            class="call-to-action-btn shadow-bottom-small"
+            href="https://donate.quasar.dev"
+            target="_blank"
+          />
         </div>
-
-        <q
-          class="q-my-md heading--quote primary-line-height landing-my-large"
-        >So, um, we think we should discuss the bonus situation</q>
-
-        <q-btn
-          color="brand-accent"
-          label="Consult tiers"
-          class="call-to-action-btn shadow-bottom-small"
-          href="https://donate.quasar.dev"
-          target="_blank"
-        />
-
       </div>
 
       <div class="text-center sponsors-section" id="sponsors-section">
@@ -257,6 +258,10 @@ $support-quasar-background-padding: 35vw
       position: absolute
       right: -24px
       top: 0px
+
+    &__content
+      width: 940px
+      max-width: 90vw
 
   .sponsors-section
     margin-top: 200px
