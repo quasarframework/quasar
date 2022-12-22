@@ -43,8 +43,7 @@
 
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
       <q-btn
-        v-if="docStore.hasDrawer.value"
-        class="doc-header__drawer-btn q-mr-sm"
+        class="doc-header__drawer-btn q-mr-sm lt-1300"
         flat round
         icon="menu"
         @click="docStore.toggleDrawer"
@@ -208,7 +207,7 @@ body.body--dark
   .doc-header-icon-links
     color: $brand-primary
 
-$mq-list: 475, 560, 700, 860, 970, 1060, 1130, 1190, 1310, 1400
+$mq-list: 475, 560, 700, 860, 970, 1060, 1130, 1190, 1300 /* drawer */, 1310, 1400
 @each $query in $mq-list
   @media (min-width: #{$query}px)
     .lt-#{$query}

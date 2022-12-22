@@ -1,7 +1,7 @@
 <template>
   <q-layout class="doc-layout" view="hHh LpR fff" @scroll="docStore.onPageScroll">
     <doc-header key="header" />
-    <doc-drawer key="drawer" v-if="docStore.state.value.mounted === true && docStore.hasDrawer.value" />
+    <doc-drawer key="drawer" v-if="mounted === true" />
 
     <q-page-container key="q-page-container">
       <q-page :class="pageClass" key="q-page">
@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { mdiArrowUp } from '@quasar/extras/mdi-v6'
 
 import { provideDocStore } from './store'
@@ -43,7 +43,11 @@ const pageContentClass = computed(() =>
   `doc-layout__page--${ docStore.$route.meta?.fullwidth === true ? 'fullwidth' : 'standard' }`
 )
 
-onMounted(() => { docStore.state.value.mounted = true })
+// let's avoid rendering the drawer on SSR, especially server-side
+// since it doesn't adds any value to the UI (drawer is hidden by default
+// and only usable on the client side)
+const mounted = ref(false)
+onMounted(() => { mounted.value = true })
 </script>
 
 <style lang="sass">
@@ -138,7 +142,12 @@ onMounted(() => { docStore.state.value.mounted = true })
     width: unset
   .doc-layout__menu,
   .doc-page__toc-container--flowing
-    display: none
+    // let's position them off-screen
+    // instead of "display: none"
+    // so that QScrollArea won't compute the size uselessly
+    position: fixed
+    left: -1000px
+    top: 0
 
 body.body--dark .doc-layout__menu
   border-right-color: $brand-primary

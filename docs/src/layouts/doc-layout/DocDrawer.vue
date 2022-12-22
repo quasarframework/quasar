@@ -21,11 +21,13 @@ const docStore = useDocStore()
 
 <style lang="sass">
 .doc-drawer
+  box-shadow: $shadow--primary
   &__header
     position: sticky
     top: 0
     z-index: 1
     .q-btn
+      letter-spacing: $letter-spacing
       background-color: #fff !important
 
 body.body--dark .doc-drawer

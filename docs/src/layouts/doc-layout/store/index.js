@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router'
 
 import injectToc from './inject-toc'
 import injectScroll from './inject-scroll'
-import injectDrawer from './inject-drawer'
 
 export const docStoreKey = '_q_ds_'
 
@@ -25,7 +24,7 @@ export function provideDocStore () {
 
     state: {
       dark: $q.cookies.get('dark-layout') === 'true',
-      mounted: false
+      drawer: false
     },
 
     setDark (val) {
@@ -37,12 +36,15 @@ export function provideDocStore () {
     toggleDark () {
       const val = store.state.value.dark = store.state.value.dark === false
       $q.cookies.set('dark-layout', val, { path: '/' })
+    },
+
+    toggleDrawer () {
+      store.state.value.drawer = store.state.value.drawer === false
     }
   }
 
   injectToc(store)
   injectScroll(store)
-  injectDrawer(store)
 
   if (process.env.SERVER) {
     store.state = { value: store.state }
@@ -52,6 +54,13 @@ export function provideDocStore () {
     store.state = ref(store.state)
     store.dark = computed(() => (store.state.value.dark || $route.meta?.dark))
     watch(store.dark, val => { $q.dark.set(val) }, { immediate: true })
+
+    // let's auto-close the drawer when we're starting to show
+    // the left menu on the page...
+    watch(
+      () => store.$q.screen.width < 1301,
+      () => { store.state.value.drawer = false }
+    )
   }
 
   provide(docStoreKey, store)
