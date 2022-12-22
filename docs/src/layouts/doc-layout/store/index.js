@@ -23,19 +23,13 @@ export function provideDocStore () {
     $router,
 
     state: {
-      dark: $q.cookies.get('dark-layout') === 'true',
+      dark: $q.cookies.get('theme') === 'dark',
       drawer: false
-    },
-
-    setDark (val) {
-      if (store.state.value.dark !== val) {
-        store.toggleDark()
-      }
     },
 
     toggleDark () {
       const val = store.state.value.dark = store.state.value.dark === false
-      $q.cookies.set('dark-layout', val, { path: '/' })
+      $q.cookies.set('theme', val ? 'dark' : 'light', { path: '/', sameSite: 'Strict' })
     },
 
     toggleDrawer () {
