@@ -1,20 +1,20 @@
 <template>
   <q-header class="doc-header" :height-hint="128">
     <q-toolbar class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch">
-      <router-link to="/" class="doc-header__logo flex flex-center cursor-pointer">
+      <router-link to="/" class="doc-header__logo row items-center no-wrap cursor-pointer">
         <img
-          class="doc-header__logo--full"
-          :src="logo.full"
+          class="doc-header__logo-img"
+          :src="logo.img"
           alt="Quasar Logo"
+          width="48"
           height="48"
-          width="236"
         >
         <img
-          class="doc-header__logo--small"
-          :src="logo.small"
+          class="doc-header__logo-text q-ml-md"
+          :src="logo.text"
           alt="Quasar Logo"
-          height="48"
-          width="48"
+          width="150"
+          height="20"
         >
       </router-link>
 
@@ -25,7 +25,7 @@
         nav-class="text-uppercase text-size-16 letter-spacing-300"
       />
 
-      <doc-search :logo="logo.small" />
+      <doc-search />
 
       <div class="doc-header-icon-links q-ml-sm row no-wrap items-center">
         <q-btn
@@ -93,8 +93,8 @@ const docStore = useDocStore()
 const logo = computed(() => {
   const opt = docStore.$q.dark.isActive === true ? '-dark' : ''
   return {
-    full: `https://cdn.quasar.dev/logo-v2/svg/logo-horizontal${opt}.svg`,
-    small: `https://cdn.quasar.dev/logo-v2/svg/logo${opt}.svg`
+    img: `https://cdn.quasar.dev/logo-v2/svg/logo${opt}.svg`,
+    text: `https://cdn.quasar.dev/logo-v2/svg/logotype${opt}.svg`
   }
 })
 
@@ -116,9 +116,16 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
     &:last-child
       border-bottom: 1px solid
 
+  &__logo-img
+    transform: rotate(0deg)
+    transition: transform .8s ease-in-out
+
   &__logo
     border-right: 1px solid
     padding-right: 24px
+
+    &:hover .doc-header__logo-img
+      transform: rotate(-360deg)
 
   .q-btn:not(.disabled):hover
     color: $grey-9
@@ -131,11 +138,7 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
     margin-left: -8px
 
   @media (max-width: 1059px)
-    &__logo--full
-      display: none
-
-  @media (min-width: 1060px)
-    &__logo--small
+    &__logo-text
       display: none
 
   @media (max-width: 699px)
@@ -143,7 +146,8 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
       padding-left: 16px
       padding-right: 8px
     &__logo
-      display: none
+      border-right: 0
+      padding-right: 16px
     .doc-search
       width: 100%
   @media (min-width: 700px)

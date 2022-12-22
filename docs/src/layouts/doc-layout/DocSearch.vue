@@ -8,13 +8,6 @@
     @focusout="onFocusout"
   >
     <div class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-xs">
-      <img
-        class="doc-search__logo q-mr-sm"
-        :src="props.logo"
-        alt="Quasar Logo"
-        height="48"
-        width="48"
-      >
       <input
         class="col"
         ref="inputRef"
@@ -35,11 +28,13 @@
       <template v-if="results">
         <component
           v-if="results.masterComponent !== void 0"
-          :is="results.masterComponent"/>
+          :is="results.masterComponent"
+        />
         <app-search-results
           v-else
           :results="results"
-          :search-active-id="activeId"/>
+          :search-active-id="activeId"
+        />
       </template>
     </q-scroll-area>
   </div>
@@ -53,10 +48,6 @@ import { useRoute, useRouter } from 'vue-router'
 import AppSearchResults from './search/SearchResults.vue'
 import ResultEmpty from './search/ResultEmpty.vue'
 import ResultError from './search/ResultError.vue'
-
-const props = defineProps({
-  logo: String
-})
 
 const $q = useQuasar()
 const $route = useRoute()
@@ -326,6 +317,7 @@ body.desktop
 
   input
     font-size: 14px
+    width: 1px !important // required when on narrow width window to not overflow the page
     border: 0
     outline: 0
     background: none
