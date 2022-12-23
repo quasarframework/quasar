@@ -17,10 +17,6 @@ module.exports = ctx => ({
     'app.sass'
   ],
 
-  extras: [
-    'material-icons'
-  ],
-
   build: {
     vueRouterMode: 'history',
     distDir: 'dist/quasar.dev',

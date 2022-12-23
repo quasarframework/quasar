@@ -169,7 +169,7 @@ const tweetsList = [
     handle: 'alvarosabu',
     message: 'I must say Im quite surprise how complete @quasarframework is, been working on a really complex select component and it works like charm. Very well documented.',
     stamp: '6:39 PM · Oct 16, 2020 from Terrassa, España',
-    avatar: '1604552866806505473/NVIct2bL_x96.jpg',
+    avatar: 'NVIct2bL_x96.jpg',
     id: '1317128110509379585'
   },
 
@@ -178,7 +178,7 @@ const tweetsList = [
     handle: 'dalezak',
     message: 'Ok, I’m really impressed with the @QuasarFramework, great documentation and powerful framework for building #iOS, #Android, #PWA and #SPA apps using #VueJS https://quasar.dev 🤩',
     stamp: '7:39 PM · May 7, 2020 from Saskatoon, Saskatchewan',
-    avatar: '1458594149012148224/gz0OLObO_x96.jpg',
+    avatar: 'gz0OLObO_x96.jpg',
     id: '1258436297087086594'
   },
 
@@ -187,7 +187,7 @@ const tweetsList = [
     handle: 'LuneauGregory',
     message: 'Quasar is the best thing since sliced bread.',
     stamp: '6:51 PM · May 28, 2021',
-    avatar: '1584253412853547016/nCM554Ai_x96.jpg',
+    avatar: 'nCM554Ai_x96.jpg',
     id: '1398305954882543616'
   },
 
@@ -196,7 +196,7 @@ const tweetsList = [
     handle: 'tony_ohagan',
     message: 'Quasar listen .. I\'ve submitted several suggestions which they acted on (😍 QSplitter, line-awesome icons and Icon genie!).  Optimised rock solid components and best docs & examples in the business save me time and money every week. #QuasarLove #quasarframework',
     stamp: '12:59 PM · Jan 20, 2022',
-    avatar: '1486164493592047623/a8_JRn1d_x96.jpg',
+    avatar: 'a8_JRn1d_x96.jpg',
     id: '1484118254193094656'
   },
 
@@ -205,7 +205,7 @@ const tweetsList = [
     handle: 'estados',
     message: 'I love #quasarframework because I can make great web, mobile and desktop applications with a single code base. It\'s organized and clean, has an active community, and is at the forefront of innovation. #QuasarLove  ❤',
     stamp: '10:28 PM · Jan 19, 2022',
-    avatar: '711172532397862912/ZSyt7Dpc_x96.jpg',
+    avatar: 'ZSyt7Dpc_x96.jpg',
     id: '1483899151129751554'
   },
 
@@ -214,7 +214,7 @@ const tweetsList = [
     handle: 'NavicsteinR',
     message: 'Very very ahead, i wish there could be a world blaster to notify all Vue users that a framework like quasar exist!',
     stamp: '10:28 PM · Jan 19, 2022',
-    avatar: '1556687554627440642/uTY9chHX_x96.jpg',
+    avatar: 'uTY9chHX_x96.jpg',
     id: '1189641922182307840'
   },
 
@@ -223,7 +223,7 @@ const tweetsList = [
     handle: 'Qoyyuum',
     message: 'I love how #quasarframework is so versatile. Easy copy and paste components and UI elements (especially for a crappy designer like me) and quick x-platform deploy is amazingly easy! #QuasarLove',
     stamp: '11:49 AM · Jan 19, 2022',
-    avatar: '1299171902930300929/ZgJxRWD9_x96.jpg',
+    avatar: 'ZgJxRWD9_x96.jpg',
     id: '1483738286128758785'
   },
 
@@ -232,7 +232,7 @@ const tweetsList = [
     handle: 'maurietchev',
     message: 'I\'m gonna marry @quasarframework. It was love at first sight ♥️♥️♥️',
     stamp: '4:25 PM · Dec 23, 2019',
-    avatar: '1282351053560778752/nZ2PbTV1_x96.jpg',
+    avatar: 'nZ2PbTV1_x96.jpg',
     id: '1209117858904629248'
   },
 
@@ -241,7 +241,7 @@ const tweetsList = [
     handle: 'gpproton',
     message: 'Quasar really save you from toiling away with third party dependencies #QuasarLove #quasarframework',
     stamp: '2:06 PM · Jan 19, 2022',
-    avatar: '1576360545015545859/wTSVDHBO_x96.jpg',
+    avatar: 'wTSVDHBO_x96.jpg',
     id: '1483772969822343168'
   },
 
@@ -250,7 +250,7 @@ const tweetsList = [
     handle: 'AliAttaf1',
     message: 'There is no situation I needed to make an !important override to the Quasar framework. It\'s just there, everything you will face will already be in their consideration. #QuasarLove #quasarframework',
     stamp: '9:19 PM · Jan 22, 2022',
-    avatar: '1134413142958780416/jDxh4Bi5_x96.png',
+    avatar: 'jDxh4Bi5_x96.png',
     id: '1484969068218265611'
   },
 
@@ -259,7 +259,7 @@ const tweetsList = [
     handle: 'smakinson',
     message: 'I\'ve used #quasarframework for websites, mobile & interactive touch via electron for museum & welcome center display. It\'s flexible, reliable, powerful and fast. Thank you Razvan & team as well as the community! #QuasarLove',
     stamp: '8:32 PM · Jan 20, 2022',
-    avatar: '73115573/Photo_9_x96.jpg',
+    avatar: 'Photo_9_x96.jpg',
     id: '1484232499136016392'
   },
 
@@ -268,7 +268,7 @@ const tweetsList = [
     handle: 'simon_swain',
     message: 'Gotta throw some love out there for @quasarframework -- it really does make things stupidly easy and fast to build.',
     stamp: '9:23 AM · Sep 2, 2020',
-    avatar: '516179271975305218/FhA-7oua_x96.jpeg',
+    avatar: 'FhA-7oua_x96.jpeg',
     id: '1301043009987866624'
   },
 
@@ -277,12 +277,12 @@ const tweetsList = [
     handle: 'hyranity',
     message: 'Code faster and smarter with the best Vue framework. Your brain will thank you. #quasarframework. #QuasarLove',
     stamp: '2:51 PM · Jan 19, 2022',
-    avatar: '1525693074000977920/R8iWV7es_x96.jpg',
+    avatar: 'R8iWV7es_x96.jpg',
     id: '1483784231017148420'
   }
 ].map(entry => ({
   ...entry,
-  avatar: `https://pbs.twimg.com/profile_images/${ entry.avatar }`,
+  avatar: `https://cdn.quasar.dev/img/tweets/${ entry.avatar }`,
   link: `https://twitter.com/${ entry.handle }/status/${ entry.id }`
 }))
 </script>
