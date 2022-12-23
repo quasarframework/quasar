@@ -17,7 +17,9 @@
       />
 
       <q-icon class="doc-search__icon cursor-pointer" :name="icon.name" size="24px" @click="icon.onClick" />
-      <kbd v-if="keysLabel" class="doc-search__kbd q-ma-none">{{ keysLabel }}</kbd>
+      <q-no-ssr v-if="keysLabel">
+        <kbd class="doc-search__kbd q-ma-none">{{ keysLabel }}</kbd>
+      </q-no-ssr>
     </div>
 
     <q-scroll-area :class="resultsClass">

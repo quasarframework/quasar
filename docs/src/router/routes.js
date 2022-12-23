@@ -22,7 +22,6 @@ const routes = [
   { path: '/start', redirect: '/start/quick-start' },
   { path: '/vue-components', redirect: '/components' },
   { path: '/directives', redirect: '/components' },
-  { path: '/composables', redirect: '/vue-composables' },
   { path: '/plugins', redirect: '/components' },
   { path: '/utils', redirect: '/components' },
 
