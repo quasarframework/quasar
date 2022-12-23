@@ -1,5 +1,6 @@
 <template>
-  <div class="page404 flex flex-center text-center">
+  <doc-stars v-if="$q.dark.isActive" />
+  <div class="page404 flex flex-center text-center relative-position">
     <div>
       <div class="page404__hero flex flex-center no-wrap q-gutter-sm text-brand-primary">
         <div>4</div>
@@ -7,7 +8,7 @@
         <img class="page404__logo-dark" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" />
         <div>4</div>
       </div>
-      <div class="letter-spacing-225 q-mb-lg">
+      <div class="letter-spacing-225 q-mb-xl">
         You're not intentionally heading to a black hole, are you?
       </div>
       <q-btn class="call-to-action-btn shadow-bottom-small" color="brand-accent" to="/" label="Take me home" />
@@ -17,6 +18,9 @@
 
 <script setup>
 import { useMeta } from 'quasar'
+
+import DocStars from 'src/components/DocStars.vue'
+
 useMeta({ title: 'Page not found' })
 </script>
 
