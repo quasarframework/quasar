@@ -48,7 +48,7 @@
     <q-separator class="full-width" :dark="false" />
 
     <div class="text-dark text-center q-pa-lg letter-spacing-100">
-      <div>Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu</div>
+      <div class="q-mb-sm">Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu</div>
       <div>
         This website has been designed in collaboration with
         <a
