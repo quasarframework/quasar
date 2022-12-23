@@ -1,7 +1,9 @@
 <template>
   <q-layout class="doc-layout" view="hHh LpR fff" @scroll="docStore.onPageScroll">
     <doc-header key="header" />
-    <doc-drawer key="drawer" v-if="mounted === true" />
+    <q-no-ssr>
+      <doc-drawer key="drawer" />
+    </q-no-ssr>
 
     <q-page-container key="q-page-container">
       <q-page :class="pageClass" key="q-page">
@@ -24,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { mdiArrowUp } from '@quasar/extras/mdi-v6'
 
 import { provideDocStore } from './store'
@@ -42,12 +44,6 @@ const pageContentClass = computed(() =>
   'doc-layout__page row no-wrap ' +
   `doc-layout__page--${ docStore.$route.meta?.fullwidth === true ? 'fullwidth' : 'standard' }`
 )
-
-// let's avoid rendering the drawer on SSR, especially server-side
-// since it doesn't adds any value to the UI (drawer is hidden by default
-// and only usable on the client side)
-const mounted = ref(false)
-onMounted(() => { mounted.value = true })
 </script>
 
 <style lang="sass">
