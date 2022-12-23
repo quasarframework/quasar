@@ -74,7 +74,6 @@ onMounted(() => { mounted.value = true })
       max-width: 1516px
 
       .doc-page__content
-        padding: 80px 42px
         width: auto
         min-width: 0
         flex: 10000 1 0%
@@ -82,11 +81,6 @@ onMounted(() => { mounted.value = true })
 
         > div, > pre
           margin-bottom: 22px
-
-        @media (max-width: 1300px)
-          padding: 32px
-        @media (max-width: 850px)
-          padding: 32px 16px
 
     &--fullwidth
 

@@ -35,6 +35,7 @@ const internal = computed(() => props.to.charAt(0) === '/')
   border-bottom: 1px dotted currentColor
   outline: 0
   transition: opacity .2s
+  letter-spacing: $letter-spacing
 
   &:hover
     opacity: .8

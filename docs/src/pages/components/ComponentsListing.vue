@@ -1,8 +1,8 @@
 <template>
-  <div class="page-all q-pa-md fit column">
+  <div class="page-all fit column">
     <doc-stars />
 
-    <div class="page-all__search q-py-lg q-px-xl q-pa-md row no-wrap items-center justify-center">
+    <div class="page-all__search q-py-md q-px-xl q-pa-md row no-wrap items-center justify-center">
       <div
         class="page-all__search-field rounded-borders row items-center no-wrap q-pl-sm q-pr-xs"
         @click.prevent="onSearchFieldClick"
@@ -146,7 +146,7 @@ function onSearchFieldClick () {
     top: $headerHeight
     z-index: 1
     background: rgba($dark-bg, .7)
-    backdrop-filter: blur(7px)
+    backdrop-filter: blur(5px)
 
   &__search-field
     border: 1px solid $brand-primary
@@ -156,7 +156,7 @@ function onSearchFieldClick () {
     transition: box-shadow .3s ease-in-out
 
     &:focus-within
-      box-shadow: 0 0 3px 3px rgba($brand-primary, 0.38)
+      box-shadow: 0 3px 6px 3px rgba($brand-primary, 0.38)
 
   &__search-input
     font-size: 14px

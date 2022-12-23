@@ -7,7 +7,8 @@ import vueGalleryPageList from 'src/layouts/gallery/listing'
 import DocLayout from 'src/layouts/doc-layout/DocLayout.vue'
 
 const routeMap = {
-  // './docs/docs.md': { path: 'docs', meta: { fullwidth: true } },
+  // './docs/docs.md': { path: 'docs' },
+  // './integrations/integrations.md': { path: 'integrations' },
   './components/components.md': { path: 'components', meta: { fullwidth: true, dark: true } }
 }
 

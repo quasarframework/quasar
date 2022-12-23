@@ -1,13 +1,12 @@
 <template>
-  <div key="content" class="doc-page__content">
+  <div class="doc-page__content">
     <q-badge
-      key="overline"
       v-if="props.overline"
       class="doc-page__overline"
       :label="props.overline"
     />
 
-    <div key="heading" class="doc-h1 row items-start no-wrap" v-if="props.heading">
+    <div class="doc-h1 row items-start no-wrap" v-if="props.heading">
       <div class="col doc-heading" id="introduction" @click="copyIntroductionHeading">
         <span>{{ props.title }}</span>
         <q-badge class="q-ml-sm doc-page__badge" v-if="props.badge" :label="props.badge" />
@@ -27,7 +26,7 @@
       </a>
     </div>
 
-    <div key="related" class="doc-page__nav" v-if="props.related">
+    <div class="doc-page__nav" v-if="props.related">
       <div class="q-gutter-md flex">
         <router-link
           class="q-link doc-page__related rounded-borders q-pa-md cursor-pointer column justify-center"
@@ -49,7 +48,7 @@
 
     <slot />
 
-    <div key="nav" class="doc-page__nav doc-page__nav--footer" v-if="props.nav">
+    <div class="doc-page__nav doc-page__nav--footer" v-if="props.nav">
       <div class="text-h6 q-pb-md">Ready for more?</div>
       <div class="q-gutter-md flex">
         <router-link
@@ -74,7 +73,7 @@
       </div>
     </div>
 
-    <div key="footer" class="doc-page__content-footer" v-if="props.editLink">
+    <div class="doc-page__content-footer" v-if="props.editLink">
       <q-separator class="q-mb-sm" />
 
       <div class="q-mb-md">
@@ -84,7 +83,7 @@
     </div>
   </div>
 
-  <q-scroll-area key="toc" class="doc-page__toc-container gt-sm" :class="tocClass">
+  <q-scroll-area class="doc-page__toc-container gt-sm" :class="tocClass">
     <doc-page-toc />
   </q-scroll-area>
 </template>
@@ -147,6 +146,14 @@ function copyIntroductionHeading () {
 
 <style lang="sass">
 .doc-page
+  &__content
+    padding: 80px 42px
+
+    @media (max-width: 1300px)
+      padding: 32px
+    @media (max-width: 850px)
+      padding: 32px 16px
+
   &__toc-container
     position: sticky
     top: $headerHeight
