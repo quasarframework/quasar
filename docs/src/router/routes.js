@@ -21,7 +21,7 @@ const routes = [
   // shortcuts
   { path: '/start', redirect: '/start/quick-start' },
   { path: '/vue-components', redirect: '/components' },
-  { path: '/directives', redirect: '/components' },
+  { path: '/vue-directives', redirect: '/components' },
   { path: '/plugins', redirect: '/components' },
   { path: '/utils', redirect: '/components' },
 
