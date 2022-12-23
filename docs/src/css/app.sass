@@ -229,14 +229,17 @@ body.q-scroll--lock .q-page
     letter-spacing: 6.75px
     margin: 12px 0 36px 0
 
-    @media screen and (min-width: $breakpoint-sm-min)
+    @media (min-width: $breakpoint-sm-min)
       font-size: 36px
 
   &--medium
     color: $brand-primary
-    font-size: 24px
+    font-size: 18px
     font-weight: bold
     letter-spacing: 4.5px
+
+    @media (min-width: $breakpoint-sm-min)
+      font-size: 24px
 
   &--small
     color: white
@@ -245,7 +248,7 @@ body.q-scroll--lock .q-page
     letter-spacing: 3.75px
     text-transform: initial
 
-    @media screen and (min-width: $breakpoint-sm-min)
+    @media (min-width: $breakpoint-sm-min)
       font-size: 20px
 
   &--quote
@@ -255,12 +258,12 @@ body.q-scroll--lock .q-page
     letter-spacing: 3px
     text-transform: initial
 
-    @media screen and (min-width: $breakpoint-sm-min)
+    @media (min-width: $breakpoint-sm-min)
       font-size: 16px
 
 .landing-mb--large
   margin-bottom: 64px
-  @media screen and (min-width: $breakpoint-sm-min)
+  @media (min-width: $breakpoint-sm-min)
     margin-bottom: 100px
 
 .landing-mx--large
