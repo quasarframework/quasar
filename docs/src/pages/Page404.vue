@@ -10,7 +10,7 @@
       <div>
         You're not intentionally heading for a black hole, are you?
       </div>
-      <q-btn class="q-mt-md" no-caps color="brand-primary" push to="/" label="Take me home" />
+      <q-btn class="q-mt-md call-to-action-btn shadow-bottom-small" color="brand-accent" to="/" label="Take me home" />
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ useMeta({ title: 'Page not found' })
 
 <style lang="sass">
 .page404
-  padding: 100px 16px
+  padding: 120px 16px
 
   &__hero
     font-size: 150px
