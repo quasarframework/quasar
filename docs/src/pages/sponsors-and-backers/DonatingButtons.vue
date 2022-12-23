@@ -30,7 +30,7 @@
           <q-icon left :name="fabPaypal" />
 
           <div class="text-center">
-            Paypal<br>(one time)
+            Paypal (one time)
           </div>
         </div>
       </q-btn>
