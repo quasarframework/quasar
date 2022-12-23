@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
-    "build": "node build/search/index.js && cp node_modules/quasar/dist/api/* public/quasar-api/ && quasar build -m ssr",
+    "build": "node build/search/index.js && cp node_modules/quasar/dist/api/* public/quasar-api/ && quasar build -m ssr && cp src/examples/* public/examples/",
     "lint": "eslint --ext .js,.vue ./ --fix",
     "test": "echo \"No test specified\" && exit 0"
   },

@@ -128,7 +128,7 @@ function parseComponent (comp) {
 }
 
 function openGitHub () {
-  openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/public/examples/${ examples.name }/${ props.file }.vue`)
+  openURL(`https://github.com/quasarframework/quasar/tree/${ process.env.DOCS_BRANCH }/docs/src/examples/${ examples.name }/${ props.file }.vue`)
 }
 
 function openCodepen () {
@@ -143,13 +143,13 @@ process.env.CLIENT && onMounted(() => {
   examples.list.then(list => {
     component.value = markRaw(
       process.env.DEV
-        ? list.code[ `./public/examples/${ examples.name }/${ props.file }.vue` ].default
+        ? list.code[ `./src/examples/${ examples.name }/${ props.file }.vue` ].default
         : list[ props.file ]
     )
 
     parseComponent(
       process.env.DEV
-        ? list.source[ `./public/examples/${ examples.name }/${ props.file }.vue` ]
+        ? list.source[ `./src/examples/${ examples.name }/${ props.file }.vue` ]
         : list[ `Raw${ props.file }` ]
     )
 

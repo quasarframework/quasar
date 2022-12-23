@@ -4,13 +4,13 @@ const { sync: fgSync } = require('fast-glob')
 const moduleIdRE = /^examples:/
 const resolvedIdPrefix = '\0examples:'
 
-const targetFolder = join(__dirname, '../public/examples')
+const targetFolder = join(__dirname, '../src/examples')
 
 function devLoad (id) {
   if (id.startsWith(resolvedIdPrefix) === true) {
     const folder = id.substring(id.indexOf(':') + 1)
-    return `export const code = import.meta.globEager('./public/examples/${folder}/*.vue')` +
-      `\nexport const source = import.meta.globEager('./public/examples/${folder}/*.vue', { as: 'raw' })`
+    return `export const code = import.meta.globEager('./src/examples/${folder}/*.vue')` +
+      `\nexport const source = import.meta.globEager('./src/examples/${folder}/*.vue', { as: 'raw' })`
   }
 }
 
@@ -25,8 +25,8 @@ function prodLoad (id) {
     const importList = files.map(entry => entry.substring(localFolderLen, entry.length - 4))
     const importStatements = importList
       .map(entry => (
-        `import ${entry} from 'app/public/examples/${exampleId}/${entry}.vue'` +
-        `\nimport Raw${entry} from 'app/public/examples/${exampleId}/${entry}.vue?raw'`
+        `import ${entry} from 'app/src/examples/${exampleId}/${entry}.vue'` +
+        `\nimport Raw${entry} from 'app/src/examples/${exampleId}/${entry}.vue?raw'`
       ))
       .join('\n')
 

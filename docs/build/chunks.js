@@ -1,6 +1,6 @@
 
 const vendorRE = /node_modules[\\/](vue|@vue|quasar|vue-router)[\\/](.*)\.(m?js|css|sass)$/
-const exampleRE = /examples:([a-zA-Z0-9]+)$|public[\\/]examples[\\/]([a-zA-Z0-9-]+)/
+const exampleRE = /examples:([a-zA-Z0-9]+)$|src[\\/]examples[\\/]([a-zA-Z0-9-]+)/
 
 module.exports = function manualChunks (id) {
   if (vendorRE.test(id) === true) {

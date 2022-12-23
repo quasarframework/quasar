@@ -28,6 +28,10 @@ module.exports = ctx => ({
     // analyze: true,
     // rebuildCache: true,
 
+    env: {
+      DOCS_BRANCH: 'new-docs'
+    },
+
     viteVuePluginOptions: {
       include: [/\.(vue|md)$/]
     },
@@ -39,6 +43,7 @@ module.exports = ctx => ({
 
     extendViteConf (config, { isClient }) {
       if (ctx.prod && isClient) {
+        config.build.chunkSizeWarningLimit = 650
         config.build.rollupOptions = {
           output: { manualChunks }
         }
