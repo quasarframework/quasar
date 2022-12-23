@@ -7,10 +7,10 @@
         <img class="page404__logo-dark" src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg" />
         <div>4</div>
       </div>
-      <div>
-        You're not intentionally heading for a black hole, are you?
+      <div class="letter-spacing-225 q-mb-lg">
+        You're not intentionally heading to a black hole, are you?
       </div>
-      <q-btn class="q-mt-md call-to-action-btn shadow-bottom-small" color="brand-accent" to="/" label="Take me home" />
+      <q-btn class="call-to-action-btn shadow-bottom-small" color="brand-accent" to="/" label="Take me home" />
     </div>
   </div>
 </template>
