@@ -12,7 +12,9 @@ export const sponsors = {
     { src: 'kalisio.png', name: 'Kalisio', href: 'https://kalisio.com/' },
     { src: 'com-com-services.png', name: 'Com Com Services', href: 'https://comcomservices.com/' },
     { src: 'digitalocean.png', name: 'DigitalOcean', href: 'https://digitalocean.com/' },
+    { src: 'project-finance.png', name: 'Project Finance', href: 'https://www.project-finance.io/', cdn: true },
     { src: 'ib-langenthal.png', name: 'IB Langenthal AG', href: 'https://ib-langenthal.ch/' },
-    { src: 'juggle-street.png', name: 'Juggle Street', href: 'https://jugglestreet.com.au/' }
+    { src: 'juggle-street.png', name: 'Juggle Street', href: 'https://jugglestreet.com.au/' },
+    { src: 'nodesol.svg', name: 'Nodesol', href: 'https://www.nodesol.com/', cdn: true }
   ]
 }

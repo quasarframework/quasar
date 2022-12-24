@@ -4,10 +4,7 @@
       <sponsor-tile src="mio-ab.svg" name="Mio AB" href="https://mio.se/" />
       <sponsor-tile src="dreamonkey.png" name="Dreamonkey Srl" href="https://dreamonkey.com/" />
       <sponsor-tile src="hapag-lloyd.png" name="Hapag-LLoyd" href="https://www.hapag-lloyd.com/en/landingpage/quasar.html" />
-      <sponsor-tile src="campus-cloud-services.png" name="Campus Cloud Services" href="http://campuscloudservices.com/" />
-      <sponsor-tile src="platform-purple.png" name="Platform Purple" href="https://platformpurple.com/" />
       <sponsor-tile src="irewind.png" name="iRewind" href="https://irewind.com/" />
-      <sponsor-tile src="truelogic.png" name="Truelogic" href="https://truelogic.com/" />
       <sponsor-tile src="juggle-street.png" name="Juggle Street" href="https://www.jugglestreet.com.au/" />
       <sponsor-tile src="digitalocean.svg" name="DigitalOcean" href="https://digitalocean.com/" />
       <sponsor-tile src="com-com-services.png" name="Com Com Services" href="https://comcomservices.com/" />
