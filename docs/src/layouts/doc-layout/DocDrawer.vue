@@ -5,7 +5,13 @@
     behavior="mobile"
   >
     <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-md">
-      <q-btn color="brand-primary" outline rounded label="Close" no-caps @click="docStore.toggleDrawer" />
+      <q-btn
+        class="call-to-action-btn shadow-bottom-small"
+        color="brand-accent"
+        label="Close"
+        no-caps
+        @click="docStore.toggleDrawer"
+      />
     </div>
     <doc-page-menu class="q-mx-sm q-mb-lg" />
   </q-drawer>
@@ -27,11 +33,6 @@ const docStore = useDocStore()
     top: 0
     z-index: 1
     .q-btn
-      letter-spacing: $letter-spacing
-      background-color: #fff !important
-
-body.body--dark .doc-drawer
-  &__header
-    .q-btn
-      background-color: $dark !important
+      font-size: 12px
+      padding: 8px 16px
 </style>
