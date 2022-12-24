@@ -6,16 +6,14 @@
       <div class="column items-center intro-section letter-spacing-300">
         <q-img src="https://cdn.quasar.dev/logo-v2/svg/logo-vertical-dark.svg" width="250px" height="255px" />
 
-        <h1
-          :class="$q.screen.gt.md ? 'letter-spacing-375' : 'letter-spacing-300'"
-          class="landing-my-large text-center text-white text-size-20 primary-line-height"
-        >The enterprise-ready cross-platform VueJs framework</h1>
+        <h1 class="letter-spacing-375 landing-my-large text-center text-white text-size-20 primary-line-height">
+          The enterprise-ready cross-platform VueJs framework
+        </h1>
 
         <q-btn
           color="brand-accent"
           label="Are you ready to lift off?"
           class="call-to-action-btn shadow-bottom-small"
-          :class="{'letter-spacing-100': $q.screen.xs}"
           @click="scrollSectionIntoView.whyQuasar"
         />
 
@@ -54,7 +52,7 @@
       <div class="q-my-xl" id="why-quasar-section">
         <h2 class="heading heading--large">Why should you choose Quasar?</h2>
 
-        <div :class="$q.screen.gt.xs? 'why-quasar__grid--large':'why-quasar__grid--small'" class="why-quasar__grid justify-center">
+        <div class="q-gutter-lg row justify-center">
           <why-quasar-card
             v-for="({ icon, title, body, btnLabel, btnLink }, whyQuasarCardIndex) in whyQuasar"
             :key="whyQuasarCardIndex"
@@ -123,7 +121,7 @@
             <q-icon size="xl" name="img:https://cdn.quasar.dev/img/custom-svg-icons/satellite.svg" />
             <div class="heading heading--large">Don't miss the news</div>
             <div class="heading heading--small">Follow our social pages to stay up to date</div>
-            <div :class="$q.screen.gt.xs? 'landing-mb--large':'q-mb-md'" class="row reverse justify-center q-mt-md q-gutter-md">
+            <div class="landing-mb--large row reverse justify-center q-mt-md q-gutter-md">
               <q-btn
                 v-for="(socialLink, linkIndex) in socialLinks.children.slice(1)"
                 :key="linkIndex"
@@ -195,9 +193,6 @@ const scrollSectionIntoView = {
 </script>
 
 <style lang="sass">
-$undo-margin-from-qpage: 0 -24px 0 -24px
-$why-quasar-card-side--large: 400px
-$why-quasar-card-side--small: 280px
 $support-quasar-background-padding: 35vw
 
 .landing-page
@@ -206,29 +201,11 @@ $support-quasar-background-padding: 35vw
     border-bottom: 1px solid rgba($color: white, $alpha: 0.54)
 
   .social-channels-call-to-action
-    margin: $undo-margin-from-qpage
+    // undo margin from q-page
+    margin: 0 -24px 0 -24px
 
   q
     display: block
-
-  .why-quasar__grid
-    display: grid
-    gap: 24px
-    grid-template-columns: $why-quasar-card-side--large
-    justify-items: center
-
-    &--small
-      grid-template-columns: $why-quasar-card-side--small
-
-    &--large
-      @media screen and (min-width: $breakpoint-md-min) and (max-width: $breakpoint-md-max)
-        grid-template-columns: repeat(2, $why-quasar-card-side--large)
-
-        > :last-of-type
-          grid-column: span 2
-
-      @media screen and (min-width: $breakpoint-lg-min)
-        grid-template-columns: repeat(3, $why-quasar-card-side--large)
 
   .sponsors
     margin-top: 80px
