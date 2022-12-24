@@ -1,7 +1,7 @@
 <template>
   <div id="theme-picker">
     <div class="row items-stretch">
-      <div :class="$q.screen.gt.xs ? 'column q-gutter-md' : 'row q-gutter-sm q-mb-md'">
+      <div class="theme-picker__colors flex q-gutter-sm">
         <q-btn v-for="color in list" :key="`picker-${color}`" :color="color" :text-color="dark[color] === true ? 'white' : 'black'" no-caps glossy unelevated>
           <div class="text-caption text-weight-light">
             <div class="text-capitalize">{{ color }}</div>
@@ -13,7 +13,7 @@
         </q-btn>
       </div>
 
-      <div class="col" :class="$q.screen.gt.xs ? 'q-pl-md' : ''">
+      <div class="theme-picker__content col">
         <div class="relative-position fit rounded-borders shadow-2 bg-white overflow-hidden" :class="pageClass">
           <div :class="`bg-primary text-${dark.primary === true ? 'white shadow-2' : 'black'}`">
             <q-bar dense :dark="dark.primary">
@@ -160,7 +160,7 @@ list.forEach(entry => {
 
 const pageClass = computed(() => {
   return darkMode.value === true
-    ? 'bg-dark-page text-white'
+    ? 'theme-picker__bg-dark text-white'
     : 'bg-white text-black'
 })
 
@@ -238,7 +238,20 @@ const sideColors = [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warni
 </script>
 
 <style lang="sass">
-#theme-picker
-  .bg-dark-page
+.theme-picker
+  &__bg-dark
     background-color: var(--q-dark-page) !important
+
+  &__content
+    padding-top: 8px
+
+  &__colors
+    flex-direction: row
+
+  @media (min-width: $breakpoint-sm-min)
+    &__colors
+      flex-direction: column
+
+    &__content
+      padding: 0 0 0 8px
 </style>
