@@ -15,7 +15,7 @@
   "dependencies": {
     "@quasar/extras": "^1.15.8",
     "prismjs": "^1.26.0",
-    "quasar": "^2.11.1",
+    "quasar": "^2.11.2",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
