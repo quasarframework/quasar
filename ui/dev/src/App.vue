@@ -2,11 +2,29 @@
   <div>
     <router-view />
 
+    <!--
+    <router-view v-slot="{ Component, route }">
+      <template v-if="Component">
+        <transition name="fade" mode="out-in">
+          <keep-alive>
+            <suspense :timeout="100">
+              <component :is="Component" :key="route.path" />
+
+              <template #fallback>
+                <q-inner-loading showing size="10vmin" />
+              </template>
+            </suspense>
+          </keep-alive>
+        </transition>
+      </template>
+    </router-view>
+    -->
+
     <q-btn to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" aria-label="Go Home" />
 
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
-      class="rounded-borders shadow-4 fixed"
+      class="rounded-borders shadow-4 fixed z-max"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="toggleSelector" class="absolute-top-right z-top" aria-label="Settings" />
       <template v-if="showSelector">

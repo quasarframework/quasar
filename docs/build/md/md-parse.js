@@ -29,6 +29,9 @@ module.exports = function (code, id) {
   if (code.indexOf('<doc-installation') !== -1) {
     data.components.push('../DocInstallation')
   }
+  if (code.indexOf('<doc-tree') !== -1) {
+    data.components.push('../DocTree')
+  }
 
   if (data.overline === void 0) {
     if (id.indexOf('quasar-cli-webpack') !== -1) {

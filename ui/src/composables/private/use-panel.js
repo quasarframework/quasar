@@ -44,7 +44,7 @@ export const usePanelProps = {
   keepAliveMax: Number
 }
 
-export const usePanelEmits = [ 'update:modelValue', 'before-transition', 'transition' ]
+export const usePanelEmits = [ 'update:modelValue', 'beforeTransition', 'transition' ]
 
 export default function () {
   const { props, emit, proxy } = getCurrentInstance()
@@ -116,7 +116,7 @@ export default function () {
 
     if (panelIndex.value !== index) {
       panelIndex.value = index
-      emit('before-transition', newVal, oldVal)
+      emit('beforeTransition', newVal, oldVal)
       nextTick(() => {
         emit('transition', newVal, oldVal)
       })

@@ -1,6 +1,30 @@
 ---
 title: BEX Build Commands
 desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
+scope:
+  devTree:
+    { l: '.',
+      c: [
+        { l: 'dist',
+          c: [
+            { l: '...files', e: 'Built code from /src-bex' },
+            { l: 'www/', e: 'Built code from /src' }
+          ]
+        }
+      ]
+    }
+  prodTree:
+    { l: '.',
+      c: [
+        { l: 'dist',
+          c: [
+            { l: '...files', e: 'Built code from /src-bex' },
+            { l: 'www/', e: 'Built code from /src' },
+            { l: 'Packaged.your-project-name.zip', e: 'A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.' }
+          ]
+        }
+      ]
+    }
 ---
 
 ## Developing
@@ -18,12 +42,7 @@ You may or may not have already had a `src-bex` folder, but you will definitely 
 
 While you develop your BEX, you will notice that Quasar CLI builds the actual extension in the dist folder (normally in `/dist/bex/`):
 
-```bash
-.
-└── dist/
-    ├── ...files  # Built code from /src-bex
-    └── www/      # Built code from /src
-```
+<doc-tree :def="scope.devTree" />
 
 ### Chrome
 
@@ -98,13 +117,7 @@ $ quasar build --mode bex
 
 You will be instructed which is the output folder. Normally, it's `/dist/bex/`.
 
-```bash
-.
-└── dist/
-    ├── ...files                       # Built code from /src-bex
-		├── www/                           # Built code from /src
-    └── Packaged.your-project-name.zip  # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
-```
+<doc-tree :def="scope.prodTree" />
 
 ::: tip
 If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.

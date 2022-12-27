@@ -111,10 +111,7 @@ export default createComponent({
 
     const directives = computed(() => {
       // if props.disable === false
-      const modifiers = {
-        down: true,
-        mightPrevent: true
-      }
+      const modifiers = { down: true }
 
       if (props.noMouse !== true) {
         modifiers.mouse = true

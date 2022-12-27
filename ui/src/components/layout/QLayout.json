@@ -38,14 +38,12 @@
             "height": {
               "type": "Number",
               "required": true,
-              "desc": "Layout height",
-              "examples": [ 575 ]
+              "desc": "Layout height"
             },
             "width": {
               "type": "Number",
               "required": true,
-              "desc": "Layout height",
-              "examples": [ 575 ]
+              "desc": "Layout height"
             }
           }
         }
@@ -62,8 +60,7 @@
             "position": {
               "type": "Number",
               "required": true,
-              "desc": "Scroll offset from top (vertical)",
-              "examples": [ 120 ]
+              "desc": "Scroll offset from top (vertical)"
             },
 
             "direction": {
@@ -80,15 +77,13 @@
             "delta": {
               "type": "Number",
               "required": true,
-              "desc": "Vertical delta distance since event was last emitted",
-              "examples": [ 120 ]
+              "desc": "Vertical delta distance since event was last emitted"
             },
 
             "inflectionPoint": {
               "type": "Number",
               "required": true,
-              "desc": "Scroll offset from top (vertical)",
-              "examples": [ 120 ]
+              "desc": "Scroll offset from top (vertical)"
             }
           }
         }
@@ -100,8 +95,7 @@
       "params": {
         "height": {
           "type": "Number",
-          "desc": "New scroll height of layout",
-          "examples": [ 1442 ]
+          "desc": "New scroll height of layout"
         }
       }
     }

@@ -4,6 +4,7 @@ import { noop } from '../../utils/event.js'
 import { addFocusWaitFlag, removeFocusWaitFlag } from '../../utils/private/focus-manager.js'
 import { createGlobalNode, removeGlobalNode } from '../../utils/private/global-nodes.js'
 import { portalProxyList } from '../../utils/private/portal.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 function isOnGlobalDialog (vm) {
   vm = vm.parent
@@ -93,7 +94,10 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
   onUnmounted(() => { hidePortal(true) })
 
   // needed for portal vm detection
-  vm.proxy.__qPortalInnerRef = innerRef
+  vm.proxy.__qPortal = true
+
+  // public way of accessing the rendered content
+  injectProp(vm.proxy, 'contentEl', () => innerRef.value)
 
   return {
     showPortal,

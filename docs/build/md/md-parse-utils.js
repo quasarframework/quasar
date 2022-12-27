@@ -19,6 +19,7 @@ module.exports.getVueComponent = function (rendered, data, toc) {
     ${data.related !== void 0 ? ':related="related"' : ''}
     ${data.nav !== void 0 ? ':nav="nav"' : ''}
     ${data.related !== void 0 || data.nav !== void 0 ? ':toc="toc"' : ''}
+    ${data.scope !== void 0 ? ':scope="scope"' : ''}
     ${data.desc !== void 0 ? `meta-desc="${data.desc}"` : ''}>${rendered}</doc-page>
 </template>
 <script setup>
@@ -27,6 +28,7 @@ ${data.components.length !== 0 ? getComponentsImport(data.components) : ''}
 ${data.related !== void 0 ? `const related = ${JSON.stringify(data.related)}` : ''}
 ${data.nav !== void 0 ? `const nav = ${JSON.stringify(data.nav)}` : ''}
 ${data.related !== void 0 || data.nav !== void 0 ? `const toc = ${toc}` : ''}
+${data.scope !== void 0 ? `const scope = ${JSON.stringify(data.scope)}` : ''}
 </script>`
 }
 

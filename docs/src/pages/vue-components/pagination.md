@@ -13,9 +13,15 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 ## Usage
 
-### Standard
+### Design
 
 <doc-example title="Standard" file="QPagination/Standard" />
+
+The following are a few examples, but not an exhaustive list:
+
+<doc-example title="Button design (v2.10+)" file="QPagination/BtnDesign" />
+
+<doc-example title="Gutter (v2.10+)" file="QPagination/BtnGutter" />
 
 ### Custom icons
 
@@ -40,9 +46,3 @@ There are two modes in which QPagination operates: with buttons only or with an 
 <doc-example title="With boundary links" file="QPagination/BoundaryLinks" />
 
 <doc-example title="With direction links" file="QPagination/DirectionLinks" />
-
-### Styles
-
-The following are a few examples, but not an exhaustive list:
-
-<doc-example title="Styles" file="QPagination/Styles" />

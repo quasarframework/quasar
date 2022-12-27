@@ -3,18 +3,20 @@ title: Configuring PWA
 desc: (@quasar/app-webpack) How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
+scope:
+  tree:
+    { l: 'src-pwa',
+      c: [
+        { l: 'register-service-worker.js', e: '(or .ts) App-code *managing* service worker' },
+        { l: 'custom-service-worker.js', e: '(or .ts) Optional custom service worker file (InjectManifest mode ONLY)' }
+      ]
+    }
 ---
 
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
-```bash
-.
-└── src-pwa/
-    ├── register-service-worker.js  # (or .ts) App-code *managing* service worker
-    └── custom-service-worker.js    # (or .ts) Optional custom service worker file
-                                    #               (InjectManifest mode ONLY)
-```
+<doc-tree :def="scope.tree" />
 
 You can freely edit these files. Notice a few things:
 

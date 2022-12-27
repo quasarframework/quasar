@@ -43,18 +43,15 @@
       "params": {
         "hr": {
           "type": "Number",
-          "desc": "Hour",
-          "examples": [ 15 ]
+          "desc": "Hour"
         },
         "min": {
           "type": [ "Number", "null" ],
-          "desc": "Minutes",
-          "examples": [ 38 ]
+          "desc": "Minutes"
         },
         "sec": {
           "type": [ "Number", "null" ],
-          "desc": "Seconds",
-          "examples": [ 12 ]
+          "desc": "Seconds"
         }
       },
       "returns": null,
@@ -124,44 +121,37 @@
             "year": {
               "type": "Number",
               "required": true,
-              "desc": "The year",
-              "__exemption": [ "examples" ]
+              "desc": "The year"
             },
             "month": {
               "type": "Number",
               "required": true,
-              "desc": "The month",
-              "__exemption": [ "examples" ]
+              "desc": "The month"
             },
             "day": {
               "type": "Number",
               "required": true,
-              "desc": "The day of the month",
-              "__exemption": [ "examples" ]
+              "desc": "The day of the month"
             },
             "hour": {
               "type": "Number",
               "required": true,
-              "desc": "The hour",
-              "__exemption": [ "examples" ]
+              "desc": "The hour"
             },
             "minute": {
               "type": "Number",
               "required": true,
-              "desc": "The minute",
-              "__exemption": [ "examples" ]
+              "desc": "The minute"
             },
             "second": {
               "type": "Number",
               "required": true,
-              "desc": "The second",
-              "__exemption": [ "examples" ]
+              "desc": "The second"
             },
             "millisecond": {
               "type": "Number",
               "required": true,
-              "desc": "The millisecond",
-              "__exemption": [ "examples" ]
+              "desc": "The millisecond"
             },
             "changed": {
               "type": "Boolean",

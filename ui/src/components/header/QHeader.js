@@ -4,7 +4,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hUniqueSlot } from '../../utils/private/render.js'
-import { layoutKey } from '../../utils/private/symbols.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
 
 export default createComponent({
   name: 'QHeader',
@@ -33,9 +33,11 @@ export default createComponent({
   setup (props, { slots, emit }) {
     const { proxy: { $q } } = getCurrentInstance()
 
-    const $layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, emptyRenderFn)
+    if ($layout === emptyRenderFn) {
       console.error('QHeader needs to be child of QLayout')
-    })
+      return emptyRenderFn
+    }
 
     const size = ref(parseInt(props.heightHint, 10))
     const revealed = ref(true)

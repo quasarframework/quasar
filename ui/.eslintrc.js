@@ -7,7 +7,6 @@ module.exports = {
 
   env: {
     browser: true,
-    mocha: true,
     'vue/setup-compiler-macros': true
   },
 
@@ -15,7 +14,6 @@ module.exports = {
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/vue3-essential',
-    'plugin:cypress/recommended',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
@@ -28,14 +26,23 @@ module.exports = {
 
   globals: {
     cordova: 'readonly',
-    cy: 'readonly',
-    expect: 'readonly',
     __QUASAR_VERSION__: 'readonly',
     __QUASAR_SSR__: 'readonly',
     __QUASAR_SSR_SERVER__: 'readonly',
     __QUASAR_SSR_CLIENT__: 'readonly',
     __QUASAR_SSR_PWA__: 'readonly'
   },
+
+  overrides: [
+    {
+      files: [ '**/*.spec.{js,ts}', 'test/cypress/**/*' ],
+      extends: [
+        // Add Cypress-specific lint rules, globals and Cypress plugin
+        // See https://github.com/cypress-io/eslint-plugin-cypress#rules
+        'plugin:cypress/recommended'
+      ]
+    }
+  ],
 
   // add your custom rules here
   rules: {

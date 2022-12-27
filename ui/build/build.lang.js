@@ -1,4 +1,4 @@
-const glob = require('glob')
+const glob = require('fast-glob')
 const path = require('path')
 const fs = require('fs')
 

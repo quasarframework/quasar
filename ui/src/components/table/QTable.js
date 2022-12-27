@@ -119,7 +119,7 @@ export default createComponent({
   },
 
   emits: [
-    'request', 'virtual-scroll',
+    'request', 'virtualScroll',
     ...useFullscreenEmits,
     ...useTableRowExpandEmits,
     ...useTableRowSelectionEmits
@@ -353,7 +353,7 @@ export default createComponent({
 
         scrollTarget.scrollTop = offsetTop
 
-        emit('virtual-scroll', {
+        emit('virtualScroll', {
           index: toIndex,
           from: 0,
           to: innerPagination.value.rowsPerPage - 1,
@@ -363,7 +363,7 @@ export default createComponent({
     }
 
     function onVScroll (info) {
-      emit('virtual-scroll', info)
+      emit('virtualScroll', info)
     }
 
     function getProgress () {
@@ -479,11 +479,9 @@ export default createComponent({
     function getBodyScope (data) {
       injectBodyCommonScope(data)
 
-      data.cols = data.cols.map(col => {
-        const c = { ...col }
-        injectProp(c, 'value', () => getCellValue(col, data.row))
-        return c
-      })
+      data.cols = data.cols.map(
+        col => injectProp({ ...col }, 'value', () => getCellValue(col, data.row))
+      )
 
       return data
     }

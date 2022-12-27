@@ -9,6 +9,7 @@ import useKeyComposition from '../../composables/private/use-key-composition.js'
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QInput',
@@ -39,7 +40,8 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'paste', 'change'
+    'paste', 'change',
+    'keydown', 'animationend'
   ],
 
   setup (props, { emit, attrs }) {
@@ -97,7 +99,7 @@ export default createComponent({
       }
 
       if (props.autogrow === true) {
-        evt.onAnimationend = adjustHeight
+        evt.onAnimationend = onAnimationend
       }
 
       return evt
@@ -252,6 +254,11 @@ export default createComponent({
       props.autogrow === true && adjustHeight()
     }
 
+    function onAnimationend (e) {
+      emit('animationend', e)
+      adjustHeight()
+    }
+
     function emitValue (val, stopWatcher) {
       emitValueFn = () => {
         if (
@@ -302,8 +309,8 @@ export default createComponent({
           // but keep the total control size the same
           // Firefox rulez #14263, #14344
           $q.platform.is.firefox !== true && (inp.style.overflow = 'hidden')
-          inp.style.height = '1px'
           parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
+          inp.style.height = '1px'
 
           inp.style.height = inp.scrollHeight + 'px'
           inp.style.overflow = overflow
@@ -415,8 +422,10 @@ export default createComponent({
     Object.assign(proxy, {
       focus,
       select,
-      getNativeElement: () => inputRef.value
+      getNativeElement: () => inputRef.value // deprecated
     })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
 
     return renderFn
   }

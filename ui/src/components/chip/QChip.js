@@ -102,16 +102,19 @@ export default createComponent({
         + (isDark.value === true ? ' q-chip--dark q-dark' : '')
     })
 
-    const attributes = computed(() => (
-      props.disable === true
+    const attributes = computed(() => {
+      const chip = props.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
-        : {
-            tabindex: props.tabindex || 0,
-            role: 'button',
-            'aria-hidden': 'false',
-            'aria-label': props.removeAriaLabel || $q.lang.label.remove
-          }
-    ))
+        : { tabindex: props.tabindex || 0 }
+      const remove = {
+        ...chip,
+        role: 'button',
+        'aria-hidden': 'false',
+        'aria-label': props.removeAriaLabel || $q.lang.label.remove
+      }
+
+      return { chip, remove }
+    })
 
     function onKeyup (e) {
       e.keyCode === 13 /* ENTER */ && onClick(e)
@@ -169,7 +172,7 @@ export default createComponent({
         h(QIcon, {
           class: 'q-chip__icon q-chip__icon--remove cursor-pointer',
           name: removeIcon.value,
-          ...attributes.value,
+          ...attributes.value.remove,
           onClick: onRemove,
           onKeyup: onRemove
         })
@@ -188,7 +191,7 @@ export default createComponent({
 
       isClickable.value === true && Object.assign(
         data,
-        attributes.value,
+        attributes.value.chip,
         { onClick, onKeyup }
       )
 

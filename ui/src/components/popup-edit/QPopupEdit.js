@@ -43,7 +43,7 @@ export default createComponent({
 
   emits: [
     'update:modelValue', 'save', 'cancel',
-    'before-show', 'show', 'before-hide', 'hide'
+    'beforeShow', 'show', 'beforeHide', 'hide'
   ],
 
   setup (props, { slots, emit }) {
@@ -58,16 +58,13 @@ export default createComponent({
     let validated = false
 
     const scope = computed(() => {
-      const acc = {
+      return injectProp({
         initialValue: initialValue.value,
         validate: props.validate,
         set,
         cancel,
         updatePosition
-      }
-
-      injectProp(acc, 'value', () => currentModel.value, val => { currentModel.value = val })
-      return acc
+      }, 'value', () => currentModel.value, val => { currentModel.value = val })
     })
 
     function set () {
@@ -110,7 +107,7 @@ export default createComponent({
       validated = false
       initialValue.value = clone(props.modelValue)
       currentModel.value = clone(props.modelValue)
-      emit('before-show')
+      emit('beforeShow')
     }
 
     function onShow () {
@@ -128,7 +125,7 @@ export default createComponent({
         }
       }
 
-      emit('before-hide')
+      emit('beforeHide')
     }
 
     function onHide () {

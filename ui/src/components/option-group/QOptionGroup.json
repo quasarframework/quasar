@@ -56,7 +56,6 @@
       "desc": "The type of input component to be used",
       "values": [ "radio", "checkbox", "toggle" ],
       "default": "radio",
-      "examples": [ "checkbox" ],
       "category": "content"
     },
 
@@ -124,8 +123,7 @@
               "desc": "Any other props from QToggle, QCheckbox, or QRadio",
               "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
             }
-          },
-          "__exemption": [ "examples" ]
+          }
         }
       },
       "addedIn": "v2.2"
@@ -159,8 +157,7 @@
               "desc": "Any other props from QToggle, QCheckbox, or QRadio",
               "examples": [ "val=\"car\"", ":true-value=\"trueValue\"", "checked-icon=\"visibility\"" ]
             }
-          },
-          "__exemption": [ "examples" ]
+          }
         }
       },
       "addedIn": "v2.2"

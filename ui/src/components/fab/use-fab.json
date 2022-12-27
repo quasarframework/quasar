@@ -68,7 +68,6 @@
     "label": {
       "type": [ "String", "Number" ],
       "desc": "The label that will be shown when Fab is extended",
-      "default": "",
       "examples": [ "Button Label" ],
       "category": "content"
     },

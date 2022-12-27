@@ -17,6 +17,12 @@ console.log()
 if (!type) {
   require('./script.clean.js')
 }
+else if ([ 'js', 'css' ].includes(type) === false) {
+  console.error(` Unrecognized build type specified: ${ type }`)
+  console.error(' Available: js | css')
+  console.error()
+  process.exit(1)
+}
 
 console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').version) }...\n`)
 

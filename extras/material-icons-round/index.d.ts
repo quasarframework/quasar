@@ -1393,7 +1393,6 @@ export declare const roundPhoneCallback: string;
 export declare const roundPhoneDisabled: string;
 export declare const roundPhoneEnabled: string;
 export declare const roundPhoneForwarded: string;
-export declare const roundPhoneInTalk: string;
 export declare const roundPhoneIphone: string;
 export declare const roundPhoneLocked: string;
 export declare const roundPhoneMissed: string;

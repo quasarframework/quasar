@@ -151,8 +151,7 @@
               "type": "Boolean",
               "desc": "Highlight the toolbar button, when a child option has been selected."
             }
-          },
-          "__exemption": [ "examples" ]
+          }
         }
       },
       "category": "toolbar"
@@ -308,8 +307,7 @@
       "desc": "Retrieve the content of the Editor",
       "returns": {
         "type": "Element",
-        "desc": "Provides the pure HTML within the editable area",
-        "__exemption": [ "examples" ]
+        "desc": "Provides the pure HTML within the editable area"
       }
     }
   },
@@ -318,8 +316,7 @@
     "caret": {
       "type": "Object",
       "tsType": "QEditorCaret",
-      "desc": "The current caret state",
-      "__exemption": [ "examples" ]
+      "desc": "The current caret state"
     }
   }
 }

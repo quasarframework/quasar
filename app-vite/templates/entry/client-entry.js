@@ -262,21 +262,29 @@ createQuasarApp(<%=
 %>, quasarUserOptions)
 <% if (bootEntries.length > 0) { %>
   .then(app => {
-    return Promise.allSettled([
-      <% bootEntries.forEach((asset, index) => { %>
-      import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
-      <% }) %>
-    ]).then(bootFiles => {
-      const boot = bootFiles
-        .map(result => {
+    // eventually remove this when Cordova/Capacitor/Electron support becomes old
+    const [ method, mapFn ] = Promise.allSettled !== void 0
+      ? [
+        'allSettled',
+        bootFiles => bootFiles.map(result => {
           if (result.status === 'rejected') {
             console.error('[Quasar] boot error:', result.reason)
             return
           }
           return result.value.default
         })
-        .filter(entry => typeof entry === 'function')
+      ]
+      : [
+        'all',
+        bootFiles => bootFiles.map(entry => entry.default)
+      ]
 
+    return Promise[ method ]([
+      <% bootEntries.forEach((asset, index) => { %>
+      import('<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+      <% }) %>
+    ]).then(bootFiles => {
+      const boot = mapFn(bootFiles).filter(entry => typeof entry === 'function')
       start(app, boot)
     })
   })

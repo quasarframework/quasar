@@ -32,7 +32,6 @@
       "desc": "Forces a certain model format upon the model",
       "default": "auto",
       "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
-      "examples": [ "hex" ],
       "category": "model"
     },
 

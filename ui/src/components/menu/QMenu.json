@@ -30,7 +30,6 @@
         "center left", "center middle", "center right", "center start", "center end",
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
 
@@ -42,7 +41,6 @@
         "center left", "center middle", "center right", "center start", "center end",
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
-      "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
 

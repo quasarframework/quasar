@@ -12,7 +12,7 @@ export const useModelToggleProps = {
 }
 
 export const useModelToggleEmits = [
-  'before-show', 'show', 'before-hide', 'hide'
+  'beforeShow', 'show', 'beforeHide', 'hide'
 ]
 
 // handleShow/handleHide -> removeTick(), self (& emit show)
@@ -72,7 +72,7 @@ export default function ({
 
     showing.value = true
 
-    emit('before-show', evt)
+    emit('beforeShow', evt)
 
     if (handleShow !== void 0) {
       handleShow(evt)
@@ -111,7 +111,7 @@ export default function ({
 
     showing.value = false
 
-    emit('before-hide', evt)
+    emit('beforeHide', evt)
 
     if (handleHide !== void 0) {
       handleHide(evt)

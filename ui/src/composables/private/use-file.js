@@ -1,5 +1,6 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
+import { client } from '../../plugins/Platform.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
@@ -187,7 +188,14 @@ export default function ({
 
   function onDragleave (e) {
     stopAndPrevent(e)
-    e.relatedTarget !== dndRef.value && (dnd.value = false)
+
+    // Safari bug: relatedTarget is null for over 10 years
+    // https://bugs.webkit.org/show_bug.cgi?id=66547
+    const gone = e.relatedTarget !== null || client.is.safari !== true
+      ? e.relatedTarget !== dndRef.value
+      : document.elementsFromPoint(e.clientX, e.clientY).includes(dndRef.value) === false
+
+    gone === true && (dnd.value = false)
   }
 
   function onDrop (e) {
@@ -221,6 +229,7 @@ export default function ({
     pickFiles,
     addFiles,
     onDragover,
+    onDragleave,
     processFiles,
     getDndNode,
 

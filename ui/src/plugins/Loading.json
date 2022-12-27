@@ -36,8 +36,7 @@
       },
       "spinnerSize": {
         "type": "Number",
-        "desc": "Spinner size (in pixels)",
-        "examples": [ 60 ]
+        "desc": "Spinner size (in pixels)"
       },
       "spinnerColor": {
         "extends": "color",
@@ -84,8 +83,7 @@
           "definition": {
             "delay": {
               "type": "Number",
-              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time",
-              "examples": [ 400 ]
+              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time"
             },
             "message": {
               "type": "String",
@@ -109,8 +107,7 @@
             },
             "spinnerSize": {
               "type": "Number",
-              "desc": "Spinner size (in pixels)",
-              "examples": [ 60 ]
+              "desc": "Spinner size (in pixels)"
             },
             "spinnerColor": {
               "extends": "color",
@@ -149,7 +146,7 @@
             "tsType": "QLoadingUpdateOptions",
             "required": false,
             "desc": "Loading properties that will be shallow merged to the group ones; (See 'opts' param of 'show()' for object properties, except 'group')",
-            "__exemption": [ "definition", "examples" ]
+            "__exemption": [ "definition" ]
           }
         },
         "returns": null,
@@ -180,8 +177,7 @@
           "definition": {
             "delay": {
               "type": "Number",
-              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time",
-              "examples": [ 400 ]
+              "desc": "Wait a number of millisecond before showing; Not worth showing for 100ms for example then hiding it, so wait until you're sure it's a process that will take some considerable amount of time"
             },
             "message": {
               "type": "String",
@@ -197,8 +193,7 @@
             },
             "spinnerSize": {
               "type": "Number",
-              "desc": "Spinner size (in pixels)",
-              "examples": [ 60 ]
+              "desc": "Spinner size (in pixels)"
             },
             "spinnerColor": {
               "extends": "color",

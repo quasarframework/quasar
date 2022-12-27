@@ -2,7 +2,7 @@
 q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
   q-header.header.text-dark(bordered)
     q-toolbar.q-px-none
-      q-btn.q-mx-sm.lt-md(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
+      q-btn.q-mx-sm(v-if="!leftDrawerState", flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         img.quasar-logo__img(src="https://cdn.quasar.dev/logo-v2/svg/logo.svg")

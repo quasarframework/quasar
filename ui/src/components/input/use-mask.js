@@ -166,7 +166,7 @@ export default function (props, emit, emitValue, inputRef) {
         '^'
         + unmask.join('')
         + '(' + (unmaskChar === '' ? '.' : '[^' + unmaskChar + ']') + '+)?'
-        + '$'
+        + (unmaskChar === '' ? '' : '[' + unmaskChar + ']*') + '$'
       ),
       extractLast = extract.length - 1,
       extractMatcher = extract.map((re, index) => {
@@ -186,7 +186,7 @@ export default function (props, emit, emitValue, inputRef) {
 
     computedMask = mask
     computedUnmask = val => {
-      const unmaskMatch = unmaskMatcher.exec(val)
+      const unmaskMatch = unmaskMatcher.exec(props.reverseFillMask === true ? val : val.slice(0, mask.length))
       if (unmaskMatch !== null) {
         val = unmaskMatch.slice(1).join('')
       }
@@ -420,6 +420,8 @@ export default function (props, emit, emitValue, inputRef) {
   }
 
   function onMaskedKeydown (e) {
+    emit('keydown', e)
+
     if (shouldIgnoreKey(e) === true) {
       return
     }

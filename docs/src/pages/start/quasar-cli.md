@@ -9,7 +9,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 * a SSR (Server-side Rendered App/Website),
 * a PWA (Progressive Web App),
 * a BEX (Browser Extensions),
-* a Mobile App (through Cordova),
+* a Mobile App (through Cordova or Capacitor),
 * an Electron App
 
 ...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
@@ -19,7 +19,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 You can try Quasar CLI online directly in the browser, without installing anything!
 You will also be able to use the command line, so it will be almost identical to creating a project locally.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/quasarframework)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.quasar.dev)
 
 ## TL;DR
 

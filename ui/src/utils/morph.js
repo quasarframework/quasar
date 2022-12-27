@@ -154,9 +154,13 @@ function normalizeOptions (options) {
     fill: typeof options.fill === 'string' && options.fill.length > 0 ? options.fill : 'none',
 
     resize: options.resize === true,
-    useCSS: options.useCSS === true,
-    hideFromClone: options.hideFromClone === true,
-    keepToClone: options.keepToClone === true,
+
+    // account for UMD too where modifiers will be lowercased to work
+    useCSS: options.useCSS === true || options.usecss === true,
+    // account for UMD too where modifiers will be lowercased to work
+    hideFromClone: options.hideFromClone === true || options.hidefromclone === true,
+    // account for UMD too where modifiers will be lowercased to work
+    keepToClone: options.keepToClone === true || options.keeptoclone === true,
 
     tween: options.tween === true,
     tweenFromOpacity: isNaN(options.tweenFromOpacity) === true ? 0.6 : parseFloat(options.tweenFromOpacity),

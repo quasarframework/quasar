@@ -81,7 +81,6 @@
       "type": "Number",
       "desc": "Animation duration (in milliseconds)",
       "default": 300,
-      "examples": [ ":duration=\"1000\"" ],
       "category": "behavior"
     },
 
@@ -189,7 +188,6 @@
         "detailsId": {
           "type": "String",
           "desc": "QExpansionItem details panel id (for use in aria-controls)",
-          "__exemption": [ "examples" ],
           "addedIn": "v2.8.4"
         },
 
@@ -200,8 +198,7 @@
             "evt": {
               "type": "Object",
               "required": false,
-              "desc": "JS event object",
-              "__exemption": [ "examples" ]
+              "desc": "JS event object"
             }
           },
           "returns": null,
@@ -215,8 +212,7 @@
             "evt": {
               "type": "Object",
               "required": false,
-              "desc": "JS event object",
-              "__exemption": [ "examples" ]
+              "desc": "JS event object"
             }
           },
           "returns": null,
@@ -230,8 +226,7 @@
             "evt": {
               "type": "Object",
               "required": false,
-              "desc": "JS event object",
-              "__exemption": [ "examples" ]
+              "desc": "JS event object"
             }
           },
           "returns": null,

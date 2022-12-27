@@ -40,14 +40,12 @@
                 "top": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Scroll offset from top (vertical)",
-                  "examples": [ 120 ]
+                  "desc": "Scroll offset from top (vertical)"
                 },
                 "left": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Scroll offset from left (horizontal)",
-                  "examples": [ 10 ]
+                  "desc": "Scroll offset from left (horizontal)"
                 }
               }
             },
@@ -71,14 +69,12 @@
                 "top": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Vertical delta distance since event was last emitted",
-                  "examples": [ 120 ]
+                  "desc": "Vertical delta distance since event was last emitted"
                 },
                 "left": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Horizontal delta distance since event was last emitted",
-                  "examples": [ 10 ]
+                  "desc": "Horizontal delta distance since event was last emitted"
                 }
               }
             },
@@ -91,14 +87,12 @@
                 "top": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Scroll offset from top (vertical)",
-                  "examples": [ 120 ]
+                  "desc": "Scroll offset from top (vertical)"
                 },
                 "left": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Scroll offset from left (horizontal)",
-                  "examples": [ 10 ]
+                  "desc": "Scroll offset from left (horizontal)"
                 }
               }
             }

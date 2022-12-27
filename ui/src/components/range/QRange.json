@@ -13,13 +13,11 @@
       "definition": {
         "min": {
           "type": [ "Number", "null" ],
-          "desc": "Model value for left thumb",
-          "examples": [ 2 ]
+          "desc": "Model value for left thumb"
         },
         "max": {
           "type": [ "Number", "null" ],
-          "desc": "Model value for right thumb",
-          "examples": [ 12 ]
+          "desc": "Model value for right thumb"
         }
       },
       "examples": [ "v-model=\"positionModel\"" ]

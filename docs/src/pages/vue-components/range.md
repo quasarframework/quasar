@@ -21,7 +21,7 @@ Notice we are using an object for the selection, which holds values for both the
 ### Standard
 
 ::: warning
-You are responsible for accommodating the space around QSlider so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
+You are responsible for accommodating the space around QRange so that the label and marker labels won't overlap the other content on your page. You can use CSS margin or padding for this purpose.
 :::
 
 <doc-example title="Standard" file="QRange/Standard" />

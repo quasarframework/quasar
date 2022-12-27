@@ -182,6 +182,21 @@
           </div>
         </template>
       </q-img>
+
+      <q-img
+        :src="bogusSrc"
+        :placeholder-src="placeholderSrc"
+        spinner-color="white"
+        ratio="1"
+        style="min-height: 100px; max-width: 225px"
+        :no-native-menu="noNativeMenu"
+      >
+        <template v-slot:error>
+          <div class="absolute-full bg-negative text-white flex flex-center">
+            Error...
+          </div>
+        </template>
+      </q-img>
     </div>
   </div>
 </template>
@@ -192,7 +207,8 @@ export default {
     return {
       url: 'https://placeimg.com/500/300/nature',
       bogusSrc: 'https://bogu.bogus',
-      noNativeMenu: false
+      noNativeMenu: false,
+      placeholderSrc: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIzLjYxMiAyMy42MTIiIHZpZXdCb3g9IjAgMCAyMy42MTIgMjMuNjEyIj48cGF0aCBkPSJNMTYuMTkyIDUuMjI0di0uNzM3aC04Ljc3di43MzdzMS4zMzQgMy43MTMgMy44MzggNS40Mjh2MS43ODVzLTIuNzYxIDIuNjg2LTMuODM4IDUuNzc1di44NDJoOC43N3YtLjg0MmMtMS4zOTktMy40MS0zLjgzNy01Ljc3NS0zLjgzNy01Ljc3NXYtMS43ODVjMy40MDQtMi45MjYgMy44MzctNS40MjggMy44MzctNS40Mjh6IiBzdHlsZT0iZmlsbDojMDEwMDAyIi8+PHBhdGggZD0iTTE5LjM1MyAzLjg1NlYyLjUyOWgxLjI1OFYwSDMuMDAydjIuNTI5aDEuMjU5djEuMzI3YzAgMi4wMjUgMy42MzQgNy41NTUgMy44MDQgNy45NTUtLjE2Ny4zOTctMy44MDQgNS45MjktMy44MDQgNy45NDZ2MS4zMjVIMy4wMDJ2Mi41M2gxNy42MDl2LTIuNTNoLTEuMjU4di0xLjMyNWMwLTIuMDI1LTMuNjM1LTcuNTIxLTMuODI5LTcuOTUxLjE5NC0uNDMgMy44MjktNS45MjYgMy44MjktNy45NXptLTEuMjU3IDE1LjkwMXYxLjMyNUg1LjUxOXYtMS4zMjVjMC0xLjQ1NSAzLjg1NC03LjIyMiAzLjg1NC03Ljk1MXMtMy44NTQtNi40OTUtMy44NTQtNy45NVYyLjUyOWgxMi41Nzh2MS4zMjdjMCAxLjQ1NS0zLjg4NiA3LjIyMS0zLjg4NiA3Ljk1LS4wMDEuNzI5IDMuODg1IDYuNDk2IDMuODg1IDcuOTUxeiIgc3R5bGU9ImZpbGw6IzAxMDAwMiIvPjwvc3ZnPg=='
     }
   },
 
@@ -204,7 +220,9 @@ export default {
     onClick () {
       console.log('@click')
     }
-  }
+  } // ,
+
+  // async setup () {}
 }
 </script>
 

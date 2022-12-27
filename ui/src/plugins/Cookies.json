@@ -145,15 +145,13 @@
         "ssrContext": {
           "type": "Object",
           "desc": "SSR Context Object",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "required": true
         }
       },
       "returns": {
         "type": "Object",
         "tsType": "Cookies",
-        "desc": "Cookie object (like $q.cookies) for SSR usage purposes",
-        "__exemption": [ "examples" ]
+        "desc": "Cookie object (like $q.cookies) for SSR usage purposes"
       }
     }
   }

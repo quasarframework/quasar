@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.2.0 */
+/* Fontawesome Free v6.2.1 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -735,6 +735,7 @@ export declare const fasBahtSign: string;
 export declare const fasBan: string;
 export declare const fasBanSmoking: string;
 export declare const fasBandage: string;
+export declare const fasBangladeshiTakaSign: string;
 export declare const fasBarcode: string;
 export declare const fasBars: string;
 export declare const fasBarsProgress: string;
@@ -906,9 +907,9 @@ export declare const fasChevronLeft: string;
 export declare const fasChevronRight: string;
 export declare const fasChevronUp: string;
 export declare const fasChild: string;
+export declare const fasChildCombatant: string;
 export declare const fasChildDress: string;
 export declare const fasChildReaching: string;
-export declare const fasChildRifle: string;
 export declare const fasChildren: string;
 export declare const fasChurch: string;
 export declare const fasCircle: string;
@@ -1491,6 +1492,7 @@ export declare const fasNetworkWired: string;
 export declare const fasNeuter: string;
 export declare const fasNewspaper: string;
 export declare const fasNotEqual: string;
+export declare const fasNotdef: string;
 export declare const fasNoteSticky: string;
 export declare const fasNotesMedical: string;
 export declare const fasO: string;

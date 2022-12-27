@@ -522,10 +522,6 @@ function onClick (e, go) {
 Removed "append" prop because Vue Router v4 [has also dropped it](https://router.vuejs.org/guide/migration/index.html#removal-of-append-prop-in-router-link).
 Added "tag" and "ripple" properties.
 
-#### QCarousel
-
-Added "transition-duration" prop.
-
 #### QColor
 
 Added "no-header-tabs" prop.
@@ -545,7 +541,7 @@ Now by default, the "label", "name", "text" and "stamp" are protected from XSS a
 
 When `@update:model-value` event (equivalent of the old `@input`) is triggered, the contents of the first parameter no longer contain the (deprecated) `changed` prop.
 
-### QDialog
+#### QDialog
 
 Added "no-shake", "transition-duration".
 Use "class" and "style" attributes instead of "content-class" / "content-style" props.
@@ -615,7 +611,7 @@ export default {
 }
 ```
 
-### QInnerLoading
+#### QInnerLoading
 
 Added "label", "label-class" and "label-style" props.
 
@@ -628,6 +624,10 @@ Removed properties: "transition", "basic" (now equivalent to "no-spinner" + "no-
 Changed property "no-default-spinner" to "no-spinner".
 
 For the detailed changes, please view the API Card on [QImg](/vue-components/img#qimg-api) page.
+
+#### QPagination
+
+Added prop "gutter".
 
 #### QPopupEdit
 
@@ -733,7 +733,7 @@ The `@scroll` event parameter now has a slightly different content:
 * The "itemEvents" prop has been dropped from the "option" slot. That information is now contained within the "itemProps". This change is a logical result Vue 3's flattening of the rendering function's second parameter ("on", "props" etc. merged together into a single Object).
 * New method: "blur()"
 
-### QSlider/QRange
+#### QSlider/QRange
 
 New props: track-size, thumb-size, marker-labels, marker-labels-class, switch-label-side, switch-marker-labels-side, inner-min, inner-max,
 thumb-color, track-color, track-img, inner-track-color, inner-track-img, selection-color, selection-img.
@@ -764,7 +764,7 @@ Due to the new v-model feature of Vue 3, which replaces the ".sync" modifier, th
 
 Added "active-class" prop.
 
-#### QTooltip/QMenu/QDialog/QStepper/QTabPanels
+#### QBtnDropdown/QCarousel/QTooltip/QMenu/QDialog/QStepper/QTabPanels
 
 Added "transition-duration" property.
 
@@ -854,6 +854,22 @@ A few things changed:
     // ...
     emits: [ 'ok', 'hide' ],
     // ...
+  }
+  ```
+4. If invoking the Dialog with the built-in component, then there is a new way of supplying the native attributes:
+  ```js
+  // OLD way
+  prompt: { // or "options"
+    // ...
+    attrs: {
+      someattribute: 'value'
+    }
+  }
+
+  // New v2 way
+  prompt: { // or "options"
+    // ...
+    someattribute: 'value'
   }
   ```
 
@@ -968,6 +984,7 @@ Full list of changes:
 | en-gb | en-GB |
 | az-latn | az-Latn |
 | fa-ir | fa-IR |
+| kz | kk |
 | ko-kr | ko-KR |
 | kur-CKB | kur-CKB |
 | nb-no | nb-NO |

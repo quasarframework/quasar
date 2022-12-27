@@ -72,7 +72,7 @@ export const useFieldProps = {
   maxlength: [ Number, String ]
 }
 
-export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
+export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
 
 export function useFieldState () {
   const { props, attrs, proxy, vnode } = getCurrentInstance()

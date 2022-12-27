@@ -79,6 +79,7 @@ describe('use-model-toggle API', () => {
         expect(fn).not.to.be.called
         cy.dataCy('wrapper')
           .click()
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.dataCy('menu')
           .should('exist')
           .wait(300) // Await menu animation
@@ -99,6 +100,7 @@ describe('use-model-toggle API', () => {
         cy.dataCy('wrapper')
         cy.dataCy('method-show')
           .click({ force: true }) // Element is hidden to prevent clogging the window
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.dataCy('menu')
           .should('exist')
           .wait(300) // Await menu animation

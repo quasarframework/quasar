@@ -1,6 +1,92 @@
 ---
 title: App Icons for Cordova
 desc: (@quasar/app-webpack) How to manage the app icons for a Quasar hybrid mobile app with Cordova.
+scope:
+  tree:
+    { l: 'src-cordova',
+      c: [
+        { l: 'res',
+          c: [
+            { l: 'android',
+              c: [
+                { l: 'ldpi.png', e: '36x36' },
+                { l: 'mdpi.png', e: '48x48' },
+                { l: 'hdpi.png', e: '72x72' },
+                { l: 'xhdpi.png', e: '96x96' },
+                { l: 'xxhdpi.png', e: '144x144' },
+                { l: 'xxxhdpi.png', e: '192x192' },
+              ]
+            }
+          ]
+        },
+        { l: 'ios',
+          c: [
+            { l: 'icon.png', e: '57x57' },
+            { l: 'icon@2x.png', e: '144x144' },
+            { l: 'icon-20@2x.png' },
+            { l: 'icon-20@3x.png' },
+            { l: 'icon-29.png' },
+            { l: 'icon-29@2x.png' },
+            { l: 'icon-29@3x.png' },
+            { l: 'icon-40@2x.png' },
+            { l: 'icon-60@2x.png' },
+            { l: 'icon-60@3x.png' },
+            { l: 'icon-20.png' },
+            { l: 'icon-20@2x.png' },
+            { l: 'icon-40.png' },
+            { l: 'icon-50.png' },
+            { l: 'icon-50@2x.png' },
+            { l: 'icon-72.png' },
+            { l: 'icon-72@2x.png' },
+            { l: 'icon-76.png' },
+            { l: 'icon-76@2x.png' },
+            { l: 'icon-83.5@2x.png' },
+            { l: 'icon-1024.png' },
+            { l: 'icon-24@2x.png' },
+            { l: 'icon-27.5@2x.png' },
+            { l: 'icon-29@2x.png' },
+            { l: 'icon-29@3x.png' },
+            { l: 'icon-40@2x.png' },
+            { l: 'icon-44@2x.png' },
+            { l: 'icon-50@2x.png' },
+            { l: 'icon-86@2x.png' },
+            { l: 'icon-98@2x.png' }
+          ]
+        },
+        { l: 'screen',
+          c: [
+            { l: 'android',
+              c: [
+                { l: 'splash-land-ldpi.png', e: '' },
+                { l: 'splash-port-ldpi.png', e: '' },
+                { l: 'splash-land-mdpi.png', e: '' },
+                { l: 'splash-port-mdpi.png', e: '' },
+                { l: 'splash-land-hdpi.png', e: '' },
+                { l: 'splash-port-hdpi.png', e: '' },
+                { l: 'splash-land-xhdpi.png', e: '' },
+                { l: 'splash-port-xhdpi.png', e: '' },
+                { l: 'splash-land-xxhdpi.png', e: '' },
+                { l: 'splash-port-xxhdpi.png', e: '' },
+                { l: 'splash-land-xxxhdpi.png', e: '' },
+                { l: 'splash-port-xxxhdpi.png', e: '' }
+              ]
+            },
+            { l: 'ios',
+              c: [
+                { l: 'Default@2x~iphone~comcom.png' },
+                { l: 'Default@2x~iphone~comany.png' },
+                { l: 'Default@2x~iphone~anyany.png' },
+                { l: 'Default@3x~iphone~anycom.png' },
+                { l: 'Default@3x~iphone~comany.png' },
+                { l: 'Default@3x~iphone~anyany.png' },
+                { l: 'Default@2x~ipad~comany.png' },
+                { l: 'Default@2x~ipad~anyany.png' }
+              ]
+            }
+          ]
+        }
+      ]
+    }
 ---
 
 Cordova is one of the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splash screens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml.
@@ -31,72 +117,7 @@ $ cordova plugin add cordova-plugin-splashscreen
 $ cordova plugin save
 ```
 
-```
-src-cordova/
-  config.xml
-  res/
-    android/
-      ldpi.png     # 36x36
-      mdpi.png     # 48x48
-      hdpi.png     # 72x72
-      xhdpi.png    # 96x96
-      xxhdpi.png   # 144x144
-      xxxhdpi.png  # 192x192
-    ios/
-      icon.png          # 57x57
-      icon@2x.png       # 144x144
-      icon-20@2x.png
-      icon-20@3x.png
-      icon-29.png
-      icon-29@2x.png
-      icon-29@3x.png
-      icon-40@2x.png
-      icon-60@2x.png
-      icon-60@3x.png
-      icon-20.png
-      icon-20@2x.png
-      icon-40.png
-      icon-50.png
-      icon-50@2x.png
-      icon-72.png
-      icon-72@2x.png
-      icon-76.png
-      icon-76@2x.png
-      icon-83.5@2x.png
-      icon-1024.png
-      icon-24@2x.png
-      icon-27.5@2x.png
-      icon-29@2x.png
-      icon-29@3x.png
-      icon-40@2x.png
-      icon-44@2x.png
-      icon-50@2x.png
-      icon-86@2x.png
-      icon-98@2x.pn
-    screen/
-      android/
-        splash-land-ldpi.png     # 320x200
-        splash-port-ldpi.png     # 200x320
-        splash-land-mdpi.png     # 480x320
-        splash-port-mdpi.png     # 320x480
-        splash-land-hdpi.png     # 800x480
-        splash-port-hdpi.png     # 480x800
-        splash-land-xhdpi.png    # 1280x720
-        splash-port-xhdpi.png    # 720x1280
-        splash-land-xxhdpi.png   # 1600x960
-        splash-port-xxhdpi.png   # 960x1600
-        splash-land-xxxhdpi.png  # 1920x1280
-        splash-port-xxxhdpi.png  # 1280x1920
-      ios/
-        Default@2x~iphone~comcom.png
-        Default@2x~iphone~comany.png
-        Default@2x~iphone~anyany.png
-        Default@3x~iphone~anycom.png
-        Default@3x~iphone~comany.png
-        Default@3x~iphone~anyany.png
-        Default@2x~ipad~comany.png
-        Default@2x~ipad~anyany.png
-```
+<doc-tree :def="scope.tree" />
 
 And here is part of what your config.xml should look like:
 

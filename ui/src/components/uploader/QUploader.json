@@ -94,8 +94,7 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Array of files that were added",
-          "__exemption": ["examples"]
+          "desc": "Array of files that were added"
         }
       }
     },
@@ -105,8 +104,7 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Array of files that were removed",
-          "__exemption": ["examples"]
+          "desc": "Array of files that were removed"
         }
       }
     },
@@ -145,10 +143,9 @@
       "desc": "Remove specified file from the queue",
       "params": {
         "file": {
-          "type": "Object",
-          "desc": "File to remove (instance of File)",
-          "required": true,
-          "__exemption": ["examples"]
+          "type": "File",
+          "desc": "The file to remove",
+          "required": true
         }
       }
     },
@@ -157,10 +154,9 @@
       "desc": "Update the status of a file",
       "params": {
         "file": {
-          "type": "Object",
-          "desc": "File to update (instance of File)",
-          "required": true,
-          "__exemption": ["examples"]
+          "type": "File",
+          "desc": "The file to update",
+          "required": true
         },
         "status": {
           "type": "String",
@@ -171,8 +167,7 @@
         "uploadedSize": {
           "type": "Number",
           "desc": "The number of uploaded bytes of the file; Is required explicitly only when status is NOT 'uploaded'",
-          "required": true,
-          "__exemption": ["examples"]
+          "required": true
         }
       }
     },
@@ -211,26 +206,22 @@
   "computedProps": {
     "files": {
       "type": "Array",
-      "desc": "List of all files",
-      "__exemption": [ "examples" ]
+      "desc": "List of all files"
     },
 
     "queuedFiles": {
       "type": "Array",
-      "desc": "List of files that are waiting to be uploaded",
-      "__exemption": [ "examples" ]
+      "desc": "List of files that are waiting to be uploaded"
     },
 
     "uploadedFiles": {
       "type": "Array",
-      "desc": "List of files that have been uploaded",
-      "__exemption": [ "examples" ]
+      "desc": "List of files that have been uploaded"
     },
 
     "uploadedSize": {
       "type": "Number",
-      "desc": "Size of all uploaded files in bytes",
-      "examples": [ 1024 ]
+      "desc": "Size of all uploaded files in bytes"
     },
 
     "uploadSizeLabel": {

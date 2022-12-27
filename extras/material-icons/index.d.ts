@@ -1393,7 +1393,6 @@ export declare const matPhoneCallback: string;
 export declare const matPhoneDisabled: string;
 export declare const matPhoneEnabled: string;
 export declare const matPhoneForwarded: string;
-export declare const matPhoneInTalk: string;
 export declare const matPhoneIphone: string;
 export declare const matPhoneLocked: string;
 export declare const matPhoneMissed: string;

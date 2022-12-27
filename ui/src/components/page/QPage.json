@@ -16,19 +16,16 @@
       "params": {
         "offset": {
           "type": "Number",
-          "desc": "Header + Footer height (in pixels)",
-          "examples": [ 152 ]
+          "desc": "Header + Footer height (in pixels)"
         },
         "height": {
           "type": "Number",
-          "desc": "Value in pixels of container height (if containerized) or window height otherwise",
-          "examples": [ 1200 ]
+          "desc": "Value in pixels of container height (if containerized) or window height otherwise"
         }
       },
       "returns": {
         "type": "Object",
-        "desc": "Object with CSS properties to apply to Page DOM element",
-        "__exemption": [ "examples" ]
+        "desc": "Object with CSS properties to apply to Page DOM element"
       },
       "default": "(see source code)",
       "examples": [ "(see source code)" ],

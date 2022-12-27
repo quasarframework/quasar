@@ -18,14 +18,28 @@
         <q-btn size="sm" color="primary" @click="randomize">
           Change Model
         </q-btn>
-        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" rounded :value="progress" />
+        <q-linear-progress :dark="dark" class="q-my-sm" rounded :value="progress" />
         <q-linear-progress :dark="dark" size="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
         <q-linear-progress :dark="dark" size="20px" rounded class="q-my-sm" :value="progress" color="info" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="warning" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="secondary" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="accent" />
-        <q-linear-progress :dark="dark" track-color="orange" class="q-my-sm" :value="progress" color="purple" />
+        <q-linear-progress stripe size="25px" :dark="dark" track-color="orange" class="q-my-sm" :value="progress" color="purple" />
         <q-linear-progress animation-speed="5000" :dark="dark" class="q-my-sm" :value="progress" color="negative" />
+      </div>
+
+      <div class="group">
+        <q-btn size="sm" color="primary" @click="randomize">
+          Change Model (instant-feedback)
+        </q-btn>
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" rounded :value="progress" />
+        <q-linear-progress instant-feedback :dark="dark" size="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+        <q-linear-progress instant-feedback :dark="dark" size="20px" rounded class="q-my-sm" :value="progress" color="info" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progress" color="warning" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progress" color="secondary" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progress" color="accent" />
+        <q-linear-progress instant-feedback stripe size="25px" :dark="dark" track-color="orange" class="q-my-sm" :value="progress" color="purple" />
+        <q-linear-progress instant-feedback animation-speed="5000" :dark="dark" class="q-my-sm" :value="progress" color="negative" />
       </div>
 
       <h5>Determinate State - Reverse</h5>
@@ -57,6 +71,19 @@
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progressBuffer" :buffer="buffer" fill-color="yellow" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progressBuffer" stripe :buffer="buffer" fill-color="yellow" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progressBuffer" stripe animate color="secondary" :buffer="buffer" fill-color="yellow" buffer-color="primary" />
+      </div>
+
+      <div class="group">
+        <q-btn size="sm" color="primary" @click="randomizeBuffer">
+          Change Buffer Model (instant-feedback)
+        </q-btn>
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progressBuffer" :buffer="buffer" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progressBuffer" stripe :buffer="buffer" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progressBuffer" stripe animate color="secondary" :buffer="buffer" />
+
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progressBuffer" :buffer="buffer" fill-color="yellow" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progressBuffer" stripe :buffer="buffer" fill-color="yellow" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" :value="progressBuffer" stripe animate color="secondary" :buffer="buffer" fill-color="yellow" buffer-color="primary" />
       </div>
 
       <h5>Indeterminate State</h5>

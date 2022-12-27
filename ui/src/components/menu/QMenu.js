@@ -79,7 +79,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'click', 'escape-key'
+    'click', 'escapeKey'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -100,7 +100,7 @@ export default createComponent({
     const isDark = useDark(props, $q)
     const { registerTick, removeTick } = useTick()
     const { registerTimeout } = useTimeout()
-    const { transition, transitionStyle } = useTransition(props, showing)
+    const { transitionProps, transitionStyle } = useTransition(props)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow } = useAnchor({ showing })
@@ -180,7 +180,10 @@ export default createComponent({
         let node = innerRef.value
 
         if (node && node.contains(document.activeElement) !== true) {
-          node = node.querySelector('[autofocus], [data-autofocus]') || node
+          node = node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+            || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+            || node.querySelector('[autofocus], [data-autofocus]')
+            || node
           node.focus({ preventScroll: true })
         }
       })
@@ -255,7 +258,10 @@ export default createComponent({
           || evt.qClickOutside !== true
         )
       ) {
-        refocusTarget.focus()
+        ((evt && evt.type.indexOf('key') === 0
+          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || refocusTarget).focus()
         refocusTarget = null
       }
 
@@ -317,7 +323,7 @@ export default createComponent({
     }
 
     function onEscapeKey (evt) {
-      emit('escape-key')
+      emit('escapeKey')
       hide(evt)
     }
 
@@ -345,7 +351,7 @@ export default createComponent({
     function renderPortalContent () {
       return h(
         Transition,
-        { name: transition.value, appear: true },
+        transitionProps.value,
         () => (
           showing.value === true
             ? h('div', {

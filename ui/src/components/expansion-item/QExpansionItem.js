@@ -61,7 +61,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'click', 'after-show', 'after-hide'
+    'click', 'afterShow', 'afterHide'
   ],
 
   setup (props, { slots, emit }) {
@@ -143,7 +143,6 @@ export default createComponent({
       return {
         role: 'button',
         'aria-expanded': showing.value === true ? 'true' : 'false',
-        'aria-owns': targetUid,
         'aria-controls': targetUid,
         'aria-label': toggleAriaLabel
       }
@@ -170,11 +169,11 @@ export default createComponent({
     }
 
     function onShow () {
-      emit('after-show')
+      emit('afterShow')
     }
 
     function onHide () {
-      emit('after-hide')
+      emit('afterHide')
     }
 
     function enterGroup () {

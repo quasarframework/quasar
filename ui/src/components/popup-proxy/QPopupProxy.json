@@ -17,7 +17,6 @@
       "type": [ "Number", "String" ],
       "desc": "Breakpoint (in pixels) of window width/height (whichever is smaller) from where a Menu will get to be used instead of a Dialog",
       "default": 450,
-      "examples": [ 992, ":breakpoint=\"1024\"" ],
       "category": "behavior"
     }
   },
@@ -61,6 +60,25 @@
 
     "toggle": {
       "extends": "toggle"
+    }
+  },
+
+  "computedProps": {
+    "currentComponent": {
+      "type": "Object",
+      "desc": "Access current underlying component (QMenu or QDialog)",
+      "definition": {
+        "type": {
+          "type": "String",
+          "desc": "Component type",
+          "values": [ "dialog", "menu" ]
+        },
+        "ref": {
+          "type": "Component",
+          "tsType": "QPopupProxyInnerComponent",
+          "desc": "The actual component (QMenu or QDialog); Access it directly, without '.value'"
+        }
+      }
     }
   }
 }

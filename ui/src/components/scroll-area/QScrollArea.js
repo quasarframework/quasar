@@ -1,4 +1,4 @@
-import { h, ref, computed, withDirectives, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
+import { h, ref, computed, watch, withDirectives, onActivated, onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
@@ -142,7 +142,7 @@ export default createComponent({
     scroll.horizontal.percentage = computed(() => {
       const diff = scroll.horizontal.size.value - container.horizontal.value
       if (diff <= 0) { return 0 }
-      const p = between(scroll.horizontal.position.value / diff, 0, 1)
+      const p = between(Math.abs(scroll.horizontal.position.value) / diff, 0, 1)
       return Math.round(p * 10000) / 10000
     })
     scroll.horizontal.thumbHidden = computed(() =>
@@ -168,7 +168,7 @@ export default createComponent({
       return {
         ...props.thumbStyle,
         ...props.horizontalThumbStyle,
-        left: `${ scroll.horizontal.thumbStart.value }px`,
+        [ proxy.$q.lang.rtl === true ? 'right' : 'left' ]: `${ scroll.horizontal.thumbStart.value }px`,
         width: `${ scroll.horizontal.thumbSize.value }px`
       }
     })
@@ -362,6 +362,15 @@ export default createComponent({
 
     let scrollPosition = null
 
+    watch(() => proxy.$q.lang.rtl, rtl => {
+      if (targetRef.value !== null) {
+        setHorizontalScrollPosition(
+          targetRef.value,
+          Math.abs(scroll.horizontal.position.value) * (rtl === true ? -1 : 1)
+        )
+      }
+    })
+
     onDeactivated(() => {
       scrollPosition = {
         top: scroll.vertical.position.value,
@@ -398,7 +407,9 @@ export default createComponent({
       setScrollPercentage (axis, percentage, duration) {
         localSetScrollPosition(
           axis,
-          percentage * (scroll[ axis ].size.value - container[ axis ].value),
+          percentage
+            * (scroll[ axis ].size.value - container[ axis ].value)
+            * (axis === 'horizontal' && proxy.$q.lang.rtl === true ? -1 : 1),
           duration
         )
       }

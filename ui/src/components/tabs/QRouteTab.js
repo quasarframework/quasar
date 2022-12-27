@@ -16,7 +16,9 @@ export default createComponent({
   emits: useTabEmits,
 
   setup (props, { slots, emit }) {
-    const rData = useRouterLink()
+    const routeData = useRouterLink({
+      useDisableForRouterLinkProps: false
+    })
 
     const { renderTab, $tabs } = useTab(
       props,
@@ -24,14 +26,14 @@ export default createComponent({
       emit,
       {
         exact: computed(() => props.exact),
-        ...rData
+        ...routeData
       }
     )
 
-    watch(() => `${ props.name } | ${ props.exact } | ${ (rData.linkRoute.value || {}).href }`, () => {
+    watch(() => `${ props.name } | ${ props.exact } | ${ (routeData.resolvedLink.value || {}).href }`, () => {
       $tabs.verifyRouteModel()
     })
 
-    return () => renderTab(rData.linkTag.value, rData.linkAttrs.value)
+    return () => renderTab(routeData.linkTag.value, routeData.linkAttrs.value)
   }
 })

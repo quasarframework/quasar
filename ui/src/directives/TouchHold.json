@@ -29,20 +29,17 @@
             "definition": {
               "top": {
                 "type": "Number",
-                "desc": "Vertical offset from top of window",
-                "examples": [ 235 ]
+                "desc": "Vertical offset from top of window"
               },
               "left": {
                 "type": "Number",
-                "desc": "Horizontal offset from left of window",
-                "examples": [ 235 ]
+                "desc": "Horizontal offset from left of window"
               }
             }
           },
           "duration": {
             "type": "Number",
-            "desc": "How long it took to trigger the event (in milliseconds)",
-            "examples": [ 612 ]
+            "desc": "How long it took to trigger the event (in milliseconds)"
           }
         }
       }
