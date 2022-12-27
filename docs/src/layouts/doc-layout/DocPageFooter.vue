@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-page-footer text-size-12">
+  <div class="doc-page-footer text-size-12" v-once>
     <nav class="doc-page-footer__nav">
       <q-list v-for="entry in links" :key="entry.name">
         <q-item-label
@@ -48,7 +48,7 @@
     <q-separator class="full-width" :dark="false" />
 
     <div class="text-dark text-center q-pa-lg letter-spacing-100">
-      <div class="q-mb-sm">Copyright © 2015 - {{ currentYear }} PULSARDEV SRL, Razvan Stoenescu</div>
+      <div class="q-mb-sm">Copyright © 2015-present - PULSARDEV SRL, Razvan Stoenescu</div>
       <div>
         This website has been designed in collaboration with
         <a
@@ -64,8 +64,6 @@
 <script>
 import menu from 'assets/menu.json'
 import { footerLinks } from 'assets/links.footer.js'
-
-const currentYear = (new Date()).getFullYear()
 
 /**
  * Loop through the menus and extract all menu items therein, including children to a flat array of menu items
@@ -97,10 +95,7 @@ const links = footerLinks.flatMap(nav => ({
 
 export default {
   setup () {
-    return {
-      links,
-      currentYear
-    }
+    return { links }
   }
 }
 </script>
