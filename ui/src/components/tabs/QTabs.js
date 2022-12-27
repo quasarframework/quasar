@@ -7,7 +7,6 @@ import useTick from '../../composables/private/use-tick.js'
 import useTimeout from '../../composables/private/use-timeout.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { noop } from '../../utils/event.js'
 import { hSlot } from '../../utils/private/render.js'
 import { tabsKey } from '../../utils/private/symbols.js'
 import { rtlHasScrollBug } from '../../utils/private/rtl.js'
@@ -85,18 +84,11 @@ export default createComponent({
     const rightArrow = ref(false)
     const justify = ref(false)
 
-    const arrowsEnabled = computed(() =>
-      $q.platform.is.desktop === true || props.mobileArrows === true
-    )
-
     const tabDataList = []
     const tabDataListLen = ref(0)
     const hasFocus = ref(false)
 
     let animateTimer, scrollTimer, unwatchRoute
-    let localUpdateArrows = arrowsEnabled.value === true
-      ? updateArrowsFn
-      : noop
 
     const tabProps = computed(() => ({
       activeClass: props.activeClass,
@@ -137,17 +129,17 @@ export default createComponent({
       'q-tabs row no-wrap items-center'
       + ` q-tabs--${ scrollable.value === true ? '' : 'not-' }scrollable`
       + ` q-tabs--${ props.vertical === true ? 'vertical' : 'horizontal' }`
-      + ` q-tabs__arrows--${ arrowsEnabled.value === true && props.outsideArrows === true ? 'outside' : 'inside' }`
+      + ` q-tabs__arrows--${ props.outsideArrows === true ? 'outside' : 'inside' }`
+      + ` q-tabs--mobile-with${ props.mobileArrows === true ? '' : 'out' }-arrows`
       + (props.dense === true ? ' q-tabs--dense' : '')
       + (props.shrink === true ? ' col-shrink' : '')
       + (props.stretch === true ? ' self-stretch' : '')
     )
 
     const innerClass = computed(() =>
-      'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar relative-position '
+      'q-tabs__content scroll--mobile row no-wrap items-center self-stretch hide-scrollbar relative-position '
       + alignClass.value
       + (props.contentClass !== void 0 ? ` ${ props.contentClass }` : '')
-      + ($q.platform.is.mobile === true ? ' scroll' : '')
     )
 
     const domProps = computed(() => (
@@ -159,25 +151,15 @@ export default createComponent({
     const isRTL = computed(() => props.vertical !== true && $q.lang.rtl === true)
     const rtlPosCorrection = computed(() => rtlHasScrollBug === false && isRTL.value === true)
 
-    watch(isRTL, localUpdateArrows)
+    watch(isRTL, updateArrows)
 
     watch(() => props.modelValue, name => {
       updateModel({ name, setCurrent: true, skipEmit: true })
     })
 
-    watch(() => props.outsideArrows, () => {
-      recalculateScroll()
-    })
+    watch(() => props.outsideArrows, recalculateScroll)
 
-    watch(arrowsEnabled, v => {
-      localUpdateArrows = v === true
-        ? updateArrowsFn
-        : noop
-
-      recalculateScroll()
-    })
-
-    function updateModel ({ name, setCurrent, skipEmit, fromRoute }) {
+    function updateModel ({ name, setCurrent, skipEmit }) {
       if (currentModel.value !== name) {
         if (skipEmit !== true && props[ 'onUpdate:modelValue' ] !== void 0) {
           emit('update:modelValue', name)
@@ -223,7 +205,7 @@ export default createComponent({
       scrollable.value = scroll
 
       // Arrows need to be updated even if the scroll status was already true
-      scroll === true && registerUpdateArrowsTick(localUpdateArrows)
+      scroll === true && registerUpdateArrowsTick(updateArrows)
 
       justify.value = size < parseInt(props.breakpoint, 10)
     }
@@ -280,34 +262,34 @@ export default createComponent({
 
       if (offset < 0) {
         contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.floor(offset)
-        localUpdateArrows()
+        updateArrows()
         return
       }
 
       offset += props.vertical === true ? newPos.height - height : newPos.width - width
       if (offset > 0) {
         contentRef.value[ props.vertical === true ? 'scrollTop' : 'scrollLeft' ] += Math.ceil(offset)
-        localUpdateArrows()
+        updateArrows()
       }
     }
 
-    function updateArrowsFn () {
+    function updateArrows () {
       const content = contentRef.value
-      if (content !== null) {
-        const
-          rect = content.getBoundingClientRect(),
-          pos = props.vertical === true ? content.scrollTop : Math.abs(content.scrollLeft)
+      if (content === null) { return }
 
-        if (isRTL.value === true) {
-          leftArrow.value = Math.ceil(pos + rect.width) < content.scrollWidth - 1
-          rightArrow.value = pos > 0
-        }
-        else {
-          leftArrow.value = pos > 0
-          rightArrow.value = props.vertical === true
-            ? Math.ceil(pos + rect.height) < content.scrollHeight
-            : Math.ceil(pos + rect.width) < content.scrollWidth
-        }
+      const
+        rect = content.getBoundingClientRect(),
+        pos = props.vertical === true ? content.scrollTop : Math.abs(content.scrollLeft)
+
+      if (isRTL.value === true) {
+        leftArrow.value = Math.ceil(pos + rect.width) < content.scrollWidth - 1
+        rightArrow.value = pos > 0
+      }
+      else {
+        leftArrow.value = pos > 0
+        rightArrow.value = props.vertical === true
+          ? Math.ceil(pos + rect.height) < content.scrollHeight
+          : Math.ceil(pos + rect.width) < content.scrollWidth
       }
     }
 
@@ -409,7 +391,7 @@ export default createComponent({
       }
 
       set(content, pos)
-      localUpdateArrows()
+      updateArrows()
 
       return done
     }
@@ -653,17 +635,21 @@ export default createComponent({
     })
 
     return () => {
-      const child = [
+      return h('div', {
+        ref: rootRef,
+        class: classes.value,
+        role: 'tablist',
+        onFocusin,
+        onFocusout
+      }, [
         h(QResizeObserver, { onResize: updateContainer }),
 
         h('div', {
           ref: contentRef,
           class: innerClass.value,
-          onScroll: localUpdateArrows
-        }, hSlot(slots.default))
-      ]
+          onScroll: updateArrows
+        }, hSlot(slots.default)),
 
-      arrowsEnabled.value === true && child.push(
         h(QIcon, {
           class: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon'
             + (leftArrow.value === true ? '' : ' q-tabs__arrow--faded'),
@@ -685,15 +671,7 @@ export default createComponent({
           onMouseleavePassive: stopAnimScroll,
           onTouchendPassive: stopAnimScroll
         })
-      )
-
-      return h('div', {
-        ref: rootRef,
-        class: classes.value,
-        role: 'tablist',
-        onFocusin,
-        onFocusout
-      }, child)
+      ])
     }
   }
 })

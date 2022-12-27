@@ -276,3 +276,29 @@ setup () {
   $q.lang.getLocale() // returns a string
 }
 ```
+
+## Disabling HTML attributes <q-badge align="top" color="brand-primary" label="v2.11.3+" />
+
+By default, Quasar will add `dir` and `lang` HTML attributes to the `<html>` tag for you. The `dir` attribute is especially important to the way CSS is preprocesses with Sass when [RTL is enabled](/options/rtl-support).
+
+If, for whatever reason you want this behavior disabled, then you can:
+
+```js
+// Quasar CLI > quasar.config.js
+framework: {
+  config: {
+    lang: {
+      noHtmlAttrs: true // add this
+    }
+  }
+}
+
+// Vite plugin / Vue plugin / UMD
+app.use(Quasar, {
+  config: {
+    lang: {
+      noHtmlAttrs: true // add this
+    }
+  }
+})
+```
