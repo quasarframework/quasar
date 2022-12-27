@@ -337,6 +337,12 @@
       ],
       "default": "default",
       "category": "behavior"
+    },
+
+    "open-on-hover": {
+      "type": "Boolean",
+      "desc": "Opens selection menu on hover (does not work with dialog behavior)",
+      "category": "behavior"
     }
   },
 

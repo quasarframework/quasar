@@ -122,7 +122,9 @@ export default createComponent({
     },
 
     onNewValue: Function,
-    onFilter: Function
+    onFilter: Function,
+
+    openOnHover: Boolean
   },
 
   emits: [
@@ -143,7 +145,7 @@ export default createComponent({
     const dialogFieldFocused = ref(false)
     const innerLoadingIndicator = ref(false)
 
-    let inputTimer, innerValueCache,
+    let inputTimer, hoverTimer, innerValueCache,
       hasDialog, userInputValue, filterId, defaultInputValue,
       transitionShowComputed, searchBuffer, searchBufferExp
 
@@ -1159,7 +1161,9 @@ export default createComponent({
         onScrollPassive: onVirtualScrollEvt,
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onMenuBeforeHide,
-        onShow: onMenuShow
+        onShow: onMenuShow,
+        onMouseenter: showPopupOnMouseEnter,
+        onMouseleave: hidePopupOnMouseLeave
       }, getAllOptions)
     }
 
@@ -1316,9 +1320,30 @@ export default createComponent({
       }
     }
 
+    function showPopupOnMouseEnter (e) {
+      prevent(e)
+
+      if (props.openOnHover !== true || hasDialog === true) return
+
+      if (state.hasPopupOpen !== true) {
+        showPopup(e)
+      }
+      else {
+        clearTimeout(hoverTimer)
+      }
+    }
+
     function hidePopup () {
       dialog.value = false
       closeMenu()
+    }
+
+    function hidePopupOnMouseLeave (e) {
+      prevent(e)
+
+      if (props.openOnHover !== true || hasDialog === true || state.hasPopupOpen !== true) return
+
+      hoverTimer = setTimeout(() => { hidePopup(e) }, 1)
     }
 
     function resetInputValue () {
@@ -1476,6 +1501,12 @@ export default createComponent({
           }
 
           showPopup(e)
+        },
+        onMouseenter (e) {
+          showPopupOnMouseEnter(e)
+        },
+        onMouseleave (e) {
+          hidePopupOnMouseLeave(e)
         }
       },
 
