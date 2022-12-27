@@ -1,17 +1,33 @@
 const fs = require('fs')
+const { join } = require('path')
+const fg = require('fast-glob')
 const path = require('path')
 const md = require('markdown-ast')
-const { parseFrontMatter } = require('../md/md-parse-utils.js')
+const { parseFrontMatter } = require('./md/md-parse-utils.js')
 
-const { slugify } = require('../utils')
+const { slugify, capitalize } = require('./utils')
+
+const mdPagesDir = join(__dirname, '../src/pages')
+const mdPagesLen = mdPagesDir.length + 1
+const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md')).map(key => {
+  const parts = key.substring(mdPagesLen, key.length - 3).split('/')
+  const len = parts.length
+  const urlParts = parts[ len - 2 ] === parts[ len - 1 ]
+    ? parts.slice(0, len - 1)
+    : parts
+
+  return {
+    file: key,
+    group: urlParts.map(entry => entry.split('-').map(capitalize).join(' ')),
+    url: '/' + urlParts.join('/')
+  }
+})
+
+function getJsonSize (content) {
+  return (content.length / 1024).toFixed(2) + 'kb'
+}
 
 const levelName = 'l'
-
-// get the menu from assets folder
-const menu = require('../../src/assets/menu.json')
-
-// where the markdown lives
-const intro = '../../src/pages'
 
 let objectID = 1
 const getObjectID = () => objectID++
@@ -23,7 +39,7 @@ function parseRank (rank) {
   return rank - 1
 }
 
-const createFolder = (folder) => {
+const createFolder = folder => {
   const dir = path.join(__dirname, '../..', folder)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir)
@@ -203,12 +219,10 @@ const processMarkdown = (syntaxTree, entries, entry) => {
   handleAnchor()
 }
 
-const processPage = (pageUrl, pagePath, entry, entries) => {
-  const file = fs.existsSync(path.resolve(__dirname, intro + pageUrl + '/' + pagePath + '.md'))
-    ? pageUrl + '/' + pagePath
-    : pageUrl
+function processPage (page, entries) {
+  const { file, group, url } = page
 
-  const contents = getFileContents(intro + file + '.md')
+  const contents = getFileContents(file)
   const frontMatter = parseFrontMatter(contents)
   let keys = null
 
@@ -217,7 +231,8 @@ const processPage = (pageUrl, pagePath, entry, entries) => {
   }
 
   const entryItem = createIndex({
-    ...entry,
+    menu: group,
+    url,
     keys,
     content: frontMatter.data.desc,
     type: 'page-link',
@@ -233,56 +248,6 @@ const processPage = (pageUrl, pagePath, entry, entries) => {
   processMarkdown(ast, entries, entryItem)
 }
 
-// process child entries from menu.js
-const processChildren = (parent, entry, entries) => {
-  if (parent.children) {
-    parent.children.forEach(menuItem => {
-      if (menuItem.external !== true) {
-        let entryChild = { ...entry }
-        if (menuItem.path) {
-          entryChild = {
-            ...entry,
-            menu: entry.menu.concat(menuItem.name),
-            url: entry.url + '/' + menuItem.path,
-            anchor: slugify(menuItem.name)
-          }
-        }
-
-        if (menuItem.children) {
-          processChildren(menuItem, entryChild, entries)
-        }
-        else {
-          processPage(entryChild.url, menuItem.path, entryChild, entries)
-        }
-      }
-    })
-  }
-}
-
-const processMenuItem = (menuItem, entries) => {
-  const entryItem = createIndex({
-    group: menuItem.name,
-    url: '/' + menuItem.path
-  })
-
-  if (menuItem.external !== true) {
-    if (menuItem.children) {
-      const entryChild = {
-        ...entryItem,
-        anchor: slugify(menuItem.name)
-      }
-      processChildren(menuItem, entryChild, entries)
-    }
-    else {
-      processPage(entryItem.url, menuItem.path, entryItem, entries)
-    }
-  }
-}
-
-function getJsonSize (content) {
-  return (content.length / 1024).toFixed(2) + 'kb'
-}
-
 // -- Begin processing
 
 const run = () => {
@@ -290,13 +255,13 @@ const run = () => {
 
   createFolder('dist')
 
-  const fileName = path.resolve(__dirname, '../../dist/indices.json')
   const entries = []
 
-  menu.forEach(item => {
-    processMenuItem(item, entries)
+  mdPagesList.forEach(page => {
+    processPage(page, entries)
   })
 
+  const fileName = path.resolve(__dirname, '../dist/indices.json')
   const content = JSON.stringify(entries, null, 2)
   fs.writeFileSync(fileName, content, () => {})
 
@@ -307,6 +272,8 @@ const run = () => {
   console.log(`Finished ${entries.length} indices in ${time}ms`)
   console.log(`Generated ${fileName}`)
   console.log(`File size: ${getJsonSize(content)}`)
+
+  // console.log(entries)
 }
 
 run()
