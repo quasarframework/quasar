@@ -15,8 +15,6 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-repeat` on the lines below.
 
-## TouchRepeat API
-
 <doc-api file="TouchRepeat" />
 
 ## Usage

@@ -15,8 +15,6 @@ The QDate component provides a method to input date. Currently it supports Grego
 For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/date-utils).
 :::
 
-## QDate API
-
 <doc-api file="QDate" />
 
 ## Usage

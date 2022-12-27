@@ -7,8 +7,6 @@ examples: QSeparator
 
 The QSeparator component is used to separate sections of text, other components, etc... It creates a colored line across the width of the parent. It can be horizontal or vertical.
 
-## QSeparator API
-
 <doc-api file="QSeparator" />
 
 ## Usage

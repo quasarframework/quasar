@@ -10,14 +10,10 @@ import { copyHeading, slugify } from 'assets/page-utils'
 
 const props = defineProps({
   title: String,
-  slugifiedTitle: String,
   prefix: String
 })
 
-const id = computed(() =>
-  (props.prefix || '') +
-  (props.slugifiedTitle !== void 0 ? props.slugifiedTitle : slugify(props.title))
-)
+const id = computed(() => (props.prefix || '') + slugify(props.title))
 
 function onClick () {
   copyHeading(id.value)
@@ -26,7 +22,7 @@ function onClick () {
 
 <style lang="sass">
 .doc-card-title
-  margin-left: -20px
+  margin-left: -12px
   padding: 2px 10px 2px 24px
   position: relative
   border-radius: 3px 5px 5px 0

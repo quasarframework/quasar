@@ -10,8 +10,6 @@ related:
 
 This directive is a helper when dealing with [QDialog](/vue-components/dialog) and [QMenu](/vue-components/menu) components. When attached to a DOM element or component then that component will close the QDialog or QMenu (whichever is first parent) when clicked/tapped.
 
-## ClosePopup API
-
 <doc-api file="ClosePopup" />
 
 ## Usage

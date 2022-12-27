@@ -12,8 +12,6 @@ related:
 The QSplitter component allow containers to be split vertically and/or horizontally through a draggable separator bar.
 
 
-## QSplitter API
-
 <doc-api file="QSplitter" />
 
 ## Usage

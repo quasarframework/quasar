@@ -14,8 +14,6 @@ This is a Vue directive which takes one parameter (a Function) and fires when us
 * There is one more scrolling-related directive available called [Scroll Fire](/vue-directives/scroll-fire).
 :::
 
-## Scroll API
-
 <doc-api file="Scroll" />
 
 ## Usage

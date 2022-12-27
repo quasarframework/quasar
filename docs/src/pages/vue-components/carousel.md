@@ -7,15 +7,9 @@ examples: QCarousel
 
 The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
 
-## QCarousel API
-
 <doc-api file="QCarousel" />
 
-## QCarouselControl API
-
 <doc-api file="QCarouselControl" />
-
-## QCarouselSlide API
 
 <doc-api file="QCarouselSlide" />
 

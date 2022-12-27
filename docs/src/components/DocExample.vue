@@ -1,9 +1,11 @@
 <template>
   <q-card class="doc-example q-my-lg" :class="classes" flat bordered>
-    <div class="doc-example__toolbar row items-center relative-position q-px-sm">
-      <doc-card-title :title="props.title" :slugifiedTitle="slugifiedTitle" />
+    <div class="doc-example__toolbar row items-center q-pr-sm">
+      <doc-card-title :title="props.title" prefix="example--" />
+
       <q-space />
-      <div class="col-auto row no-wrap items-center q-py-sm">
+
+      <div class="row no-wrap items-center q-py-sm">
         <q-btn class="doc-example__btn" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
           <q-tooltip>Toggle dark mode</q-tooltip>
         </q-btn>
@@ -42,7 +44,7 @@
       </div>
     </q-slide-transition>
 
-    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="props.title" :slugifiedTitle="slugifiedTitle" />
+    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="props.title" />
 
     <div class="row overflow-hidden">
       <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate />
@@ -59,7 +61,6 @@ import { ref, reactive, computed, inject } from 'vue'
 import { fabGithub, fabCodepen } from '@quasar/extras/fontawesome-v6'
 import { mdiCompare } from '@quasar/extras/mdi-v7'
 
-import { slugify } from 'assets/page-utils'
 import { useDocStore } from 'src/layouts/doc-layout/store'
 
 import DocCode from './DocCode.vue'
@@ -94,10 +95,6 @@ const componentClass = computed(() => {
   return props.scrollable === true
     ? 'doc-example__content--scrollable scroll-y'
     : (props.overflow === true ? 'overflow-auto' : '')
-})
-
-const slugifiedTitle = computed(() => {
-  return 'example--' + slugify(props.title)
 })
 
 function parseTemplate (target, template) {

@@ -12,11 +12,7 @@ Tab panels are a way of displaying more information using less window real estat
 Works great along with [QTabs](/vue-components/tabs) but it is not required to be used with it.
 :::
 
-## QTabPanels API
-
 <doc-api file="QTabPanels" />
-
-## QTabPanel API
 
 <doc-api file="QTabPanel" />
 

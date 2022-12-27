@@ -13,8 +13,6 @@ The QMarkupTable is a way for you to simply wrap a native `<table>` in order to 
 For advanced functionality like pagination, sorting, filtering, and many more, you may want to check out [QTable](/vue-components/table) component instead.
 :::
 
-## QMarkupTable API
-
 <doc-api file="QMarkupTable" />
 
 ## Usage

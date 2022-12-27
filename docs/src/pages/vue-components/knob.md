@@ -9,8 +9,6 @@ related:
 
 The QKnob component is used to take a number input from the user through mouse/touch panning. It is based on [QCircularProgress](/vue-components/circular-progress) and inherits all its properties and behavior.
 
-## QKnob API
-
 <doc-api file="QKnob" />
 
 ## Usage

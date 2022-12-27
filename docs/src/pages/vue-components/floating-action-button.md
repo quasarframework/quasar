@@ -12,11 +12,7 @@ A Floating Action Button (FAB) represents the primary action in a Page. But, it'
 
 Note that you don’t need a QLayout to use FABs.
 
-## QFab API
-
 <doc-api file="QFab" />
-
-## QFabAction API
 
 <doc-api file="QFabAction" />
 

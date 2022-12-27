@@ -1,7 +1,8 @@
 <template>
-  <q-card class="doc-api q-my-lg" flat bordered>
-    <div class="text-grey-8 row items-center relative-position q-px-sm">
-      <doc-card-title :title="nameBanner" prefix="api--" />
+  <q-card class="doc-api q-my-xl" flat bordered>
+    <div class="row items-center q-pr-sm">
+      <doc-card-title :title="nameBanner" />
+
       <q-btn class="q-mr-sm" v-if="props.pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath">
         <q-icon name="launch" />
         <div class="q-ml-xs">Docs</div>
@@ -230,7 +231,7 @@ const props = defineProps({
 const inputRef = ref(null)
 
 const loading = ref(true)
-const nameBanner = ref('Loading API...')
+const nameBanner = ref(`Loading ${ props.file } API...`)
 const nothingToShow = ref(false)
 
 const docPath = ref('')
@@ -253,7 +254,7 @@ const filteredApi = computed(() => getFilteredApi(apiDef.value, filter.value.toL
 const filteredApiCount = computed(() => getApiCount(filteredApi.value, tabsList.value, innerTabsList.value))
 
 function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
-  nameBanner.value = name
+  nameBanner.value = `${ name } API`
   docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
   const tabs = Object.keys(api)

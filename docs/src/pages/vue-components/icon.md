@@ -19,8 +19,6 @@ There are multiple types of icons in Quasar: webfont-based, svg-based and image-
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-## QIcon API
-
 <doc-api file="QIcon" />
 
 ## Size & colors

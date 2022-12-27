@@ -20,6 +20,8 @@
 import { Quasar } from 'quasar'
 import { ref, reactive, computed, nextTick } from 'vue'
 
+import { slugify } from 'assets/page-utils'
+
 const cssResources = [
   'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons',
   `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.min.css`
@@ -47,10 +49,7 @@ const replace = name => function (_, p1) {
   return text.join('\n')
 }
 
-const props = defineProps({
-  title: String,
-  slugifiedTitle: String
-})
+const props = defineProps({ title: String })
 
 const active = ref(false)
 const formRef = ref(null)
@@ -125,13 +124,17 @@ const computedTitle = computed(() => {
     `Quasar v${Quasar.version}`
 })
 
+const slugifiedTitle = computed(() => {
+  return 'example--' + slugify(props.title)
+})
+
 const options = computed(() => {
   const data = {
     title: computedTitle.value,
     html:
       `<!--
 Forked from:
-${window.location.origin + window.location.pathname}#${props.slugifiedTitle}
+${window.location.origin + window.location.pathname}#${slugifiedTitle.value}
 -->
 <div id="q-app" style="min-height: 100vh;">
 ${html.value}

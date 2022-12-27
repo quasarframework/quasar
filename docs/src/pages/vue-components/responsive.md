@@ -7,8 +7,6 @@ examples: QResponsive
 
 QResponsive is a component which forces the content to maintain an aspect ratio based on its width.
 
-## QResponsive API
-
 <doc-api file="QResponsive" />
 
 ## Usage

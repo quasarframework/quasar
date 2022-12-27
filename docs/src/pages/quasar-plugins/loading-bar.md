@@ -11,11 +11,7 @@ The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjax
 
 For a demo, please visit the QAjaxBar documentation page.
 
-## LoadingBar API
-
 <doc-api file="LoadingBar" />
-
-## Installation
 
 <doc-installation plugins="LoadingBar" config="loadingBar" />
 

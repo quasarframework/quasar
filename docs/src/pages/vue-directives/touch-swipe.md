@@ -15,8 +15,6 @@ Quasar offers full-featured Vue directives that can totally replace libraries li
 
 We will be describing `v-touch-swipe` on the lines below.
 
-## TouchSwipe API
-
 <doc-api file="TouchSwipe" />
 
 ## Usage

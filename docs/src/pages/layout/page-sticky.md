@@ -13,7 +13,6 @@ The QPageSticky component helps in placing DOM elements / components wrapped by 
 The great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offset so that the overlap won't occur.
 Try it out with a non-fixed footer for example. When user reaches bottom of screen and footer comes into view, the component will shift up so it won't overlap with the footer.
 
-## QPageSticky API
 <doc-api file="QPageSticky" />
 
 ## Usage

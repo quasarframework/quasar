@@ -11,8 +11,6 @@ related:
 
 Under the hood, it uses the Quasar [Morph function util](/quasar-utils/morph-utils).
 
-## Morph API
-
 <doc-api file="Morph" />
 
 ## Usage

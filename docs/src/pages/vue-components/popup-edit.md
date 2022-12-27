@@ -12,8 +12,6 @@ The QPopupEdit component can be used to edit a value “in place”, like for ex
 
 This component injects a [QMenu](/vue-components/menu) into its parent DOM element and enables the behavior described above, so **it can be used anywhere**, not only in QTable.
 
-## QPopupEdit API
-
 <doc-api file="QPopupEdit" />
 
 ## Usage

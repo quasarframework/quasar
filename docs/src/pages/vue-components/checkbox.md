@@ -17,8 +17,6 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 :::
 
 
-## QCheckbox API
-
 <doc-api file="QCheckbox" />
 
 ## Usage

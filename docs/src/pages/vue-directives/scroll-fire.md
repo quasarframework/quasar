@@ -14,8 +14,6 @@ related:
 There is also a [Scroll](/vue-directives/scroll) directive which fires whenever user scrolls the page.
 :::
 
-## ScrollFire API
-
 <doc-api file="ScrollFire" />
 
 ## Usage

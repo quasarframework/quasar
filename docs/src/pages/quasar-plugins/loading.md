@@ -14,11 +14,7 @@ related:
 ---
 Loading is a feature that you can use to display an overlay with a spinner on top of your App's content to inform the user that a background operation is taking place. No need to add complex logic within your Pages for global background operations.
 
-## Loading API
-
 <doc-api file="Loading" />
-
-## Installation
 
 <doc-installation plugins="Loading" config="loading" />
 

@@ -16,8 +16,6 @@ The QRadio component is another basic element for user input. You can use this t
 Please also refer to the [QOptionGroup](/vue-components/option-group) on other possibilities for creating groups of Radios.
 :::
 
-## QRadio API
-
 <doc-api file="QRadio" />
 
 ## Usage

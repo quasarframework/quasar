@@ -9,8 +9,6 @@ related:
 
 The QScrollArea component offers a neat way of customizing the scrollbars by encapsulating your content. Think of it as a DOM element which has `overflow: auto`, but with your own custom styled scrollbar instead of browser's default one and a few nice features on top.
 
-## QScrollArea API
-
 <doc-api file="QScrollArea" />
 
 ## Usage

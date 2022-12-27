@@ -12,7 +12,6 @@ QLayout allows you to configure your views as a 3x3 matrix, containing optional 
 
 QDrawer is the sidebar part of your QLayout.
 
-## QDrawer API
 <doc-api file="QDrawer" />
 
 ## Layout Builder

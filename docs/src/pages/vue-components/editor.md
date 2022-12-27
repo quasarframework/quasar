@@ -12,8 +12,6 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 - [execCommand() reference](https://developer.mozilla.org/en-US/docs/Web/API/document/execCommand)
 - [contentEditable spec](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
 
-## QEditor API
-
 <doc-api file="QEditor" />
 
 ## Examples

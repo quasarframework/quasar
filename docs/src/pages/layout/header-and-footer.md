@@ -14,11 +14,8 @@ related:
 
 QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer (mostly used for navbar, but can be anything). If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
-
-## QHeader API
 <doc-api file="QHeader" />
 
-## QFooter API
 <doc-api file="QFooter" />
 
 ## Layout Builder

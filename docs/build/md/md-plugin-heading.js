@@ -5,6 +5,9 @@
 const { slugify } = require('../utils')
 
 const titleRE = /<\/?[^>]+(>|$)/g
+const apiRE = /^<doc-api /
+const apiNameRE = /file="([^"]+)"/
+const installationRE = /^<doc-installation /
 
 function parseContent (str) {
   const title = String(str)
@@ -39,5 +42,22 @@ module.exports = function (md) {
     }
 
     return self.renderToken(tokens, idx, options)
+  }
+
+  md.renderer.rules.html_block = function (tokens, idx /*, options, env */) {
+    const token = tokens[ idx ]
+
+    if (apiRE.test(token.content) === true) {
+      const match = apiNameRE.exec(token.content)
+      if (match !== null) {
+        const title = `${ match[ 1 ] } API`
+        md.$data.toc.push(`{id:'${ slugify(title) }',title:'${ title }',deep:true}`)
+      }
+    }
+    else if (installationRE.test(token.content) === true) {
+      md.$data.toc.push('{id:\'installation\',title:\'Installation\',deep:true}')
+    }
+
+    return tokens[ idx ].content
   }
 }

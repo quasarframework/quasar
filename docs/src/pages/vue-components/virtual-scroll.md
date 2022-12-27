@@ -12,8 +12,6 @@ The QVirtualScroll component allows you to display only a part of a long list of
 
 There are currently two types of QVirtualScroll: "list" (using QItems) and "table" (using a tabular style to display rows of data).
 
-## QVirtualScroll API
-
 <doc-api file="QVirtualScroll" />
 
 ## Usage

@@ -76,7 +76,7 @@
       </template>
     </q-input>
 
-    <doc-codepen ref="codepenRef" title="Flex example" slugifiedTitle="flex-example" />
+    <doc-codepen ref="codepenRef" title="Flex example" />
   </div>
 </template>
 

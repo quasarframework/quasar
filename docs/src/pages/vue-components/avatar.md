@@ -9,8 +9,6 @@ The QAvatar component creates a scalable, color-able element that can have text,
 
 It is often used with other components in their slots.
 
-## QAvatar API
-
 <doc-api file="QAvatar" />
 
 ## Usage

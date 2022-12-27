@@ -8,6 +8,7 @@ components:
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 
 ## Installation
+
 UMD is all about adding Quasar style and javascript tags. Please select what you will be using and check out the output below it.
 
 <umd-tags />

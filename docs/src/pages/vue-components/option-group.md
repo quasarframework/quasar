@@ -12,8 +12,6 @@ related:
 
 The QOptionGroup component is a helper component that allows you better control for grouping binary (on or off, true or false, 1 or 0) form input components like checkboxes, radios or toggles. A good use for this component is for offering a set of options or settings to turn on and off.
 
-## QOptionGroup API
-
 <doc-api file="QOptionGroup" />
 
 ## Usage

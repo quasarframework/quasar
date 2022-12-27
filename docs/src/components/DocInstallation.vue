@@ -1,8 +1,14 @@
 <template>
-  <q-card class="doc-installation q-my-lg" flat bordered>
-    <q-tabs class="doc-installation__tabs" v-model="currentTab" align="left" indicator-color="brand-primary" dense :breakpoint="0">
-      <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" :label="tab" no-caps />
-    </q-tabs>
+  <q-card id="installation" class="doc-installation q-my-xl" flat bordered>
+    <div class="row">
+      <doc-card-title title="Installation" />
+
+      <q-space />
+
+      <q-tabs class="doc-installation__tabs" v-model="currentTab" align="left" indicator-color="brand-primary" dense :breakpoint="0" shrink>
+        <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" :label="tab" no-caps />
+      </q-tabs>
+    </div>
 
     <q-separator />
 
@@ -26,6 +32,7 @@
 import { ref, computed } from 'vue'
 
 import DocCode from './DocCode.vue'
+import DocCardTitle from './DocCardTitle.vue'
 
 const props = defineProps({
   components: [ Array, String ],
@@ -138,6 +145,11 @@ app.use(Quasar, {
 </script>
 
 <style lang="sass">
+.doc-installation__tabs
+  &,
+  .q-tab
+    border-radius: $generic-border-radius $generic-border-radius 0 0
+
 body.body--light .doc-installation
   &__tabs
     color: $grey-7

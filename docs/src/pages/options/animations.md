@@ -10,7 +10,9 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 > Please refer to [Vue](https://vuejs.org/api/built-in-components.html#transition) documentation for learning on how to use the Vue supplied `<transition>` component.
 
 ## Installation
+
 Edit `/quasar.config.js`.
+
 ```js
 // embedding all animations
 animations: 'all'

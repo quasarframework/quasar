@@ -13,7 +13,11 @@ function updateActiveToc (position, state) {
       continue
     }
 
-    if (item.offsetTop >= position + 155) {
+    const offset = section.deep === true
+      ? item.offsetTop + item.offsetParent.offsetTop
+      : item.offsetTop
+
+    if (offset >= position + 155) {
       if (last === void 0) {
         last = section.id
       }

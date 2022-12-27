@@ -7,8 +7,6 @@ examples: QTree
 
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
-## QTree API
-
 <doc-api file="QTree" />
 
 ## Usage

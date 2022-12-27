@@ -10,7 +10,6 @@ Helpers are built into Quasar to detect the Platform (and its capabilities) with
 Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 :::
 
-## API
 <doc-api file="Platform" />
 
 ## Usage

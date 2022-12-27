@@ -11,8 +11,6 @@ QBtnDropdown is a very convenient dropdown button. Goes very well with [QList](/
 
 In case you are looking for a dropdown "input" instead of "button" use [Select](/vue-components/select) instead.
 
-## QBtnDropdown API
-
 <doc-api file="QBtnDropdown" />
 
 ## Usage

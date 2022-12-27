@@ -11,11 +11,8 @@ Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozi
 Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
 :::
 
-## AppFullscreen API
-
 <doc-api file="AppFullscreen" />
 
-## Installation
 <doc-installation plugins="AppFullscreen" />
 
 ## Usage

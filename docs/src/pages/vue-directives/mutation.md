@@ -9,8 +9,6 @@ examples: Mutation
 
 Under the hood, it uses the [Mutation Observer API](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
 
-## Mutation API
-
 <doc-api file="Mutation" />
 
 ## Usage

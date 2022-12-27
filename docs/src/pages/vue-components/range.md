@@ -11,8 +11,6 @@ The QRange component is a great way to offer the user the selection of a sub-ran
 
 Also check out its “sibling”, the [QSlider](/vue-components/slider) component.
 
-## QRange API
-
 <doc-api file="QRange" />
 
 ## Usage
