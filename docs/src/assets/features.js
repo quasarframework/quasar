@@ -4,44 +4,39 @@ function normalizeComps (list) {
   let acc = [
     {
       name: 'Layout',
-      path: '/layout/layout'
+      path: 'layout'
     },
     {
       name: 'Layout Header',
-      path: '/layout/header-and-footer'
+      path: 'header-and-footer'
     },
     {
       name: 'Layout Footer',
-      path: '/layout/header-and-footer'
+      path: 'header-and-footer'
     },
     {
       name: 'Layout Drawer',
-      path: '/layout/drawer'
+      path: 'drawer'
     },
     {
       name: 'Layout Page',
-      path: '/layout/page'
+      path: 'page'
     },
     {
       name: 'Page Sticky',
-      path: '/layout/page-sticky'
+      path: 'page-sticky'
     },
     {
       name: 'Page Scroller',
-      path: '/layout/page-scroller'
+      path: 'page-scroller'
     }
   ]
 
   list.forEach(entry => {
     if (entry.children) {
-      entry.children = entry.children.map(function (comp) {
-        comp.path = '/vue-components/' + comp.path
-        return comp
-      })
       acc = acc.concat(entry.children)
     }
     else {
-      entry.path = '/vue-components/' + entry.path
       acc.push(entry)
     }
   })
