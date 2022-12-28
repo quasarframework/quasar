@@ -25,7 +25,8 @@ module.exports = ctx => ({
     // rebuildCache: true,
 
     env: {
-      DOCS_BRANCH: 'new-docs'
+      DOCS_BRANCH: 'new-docs',
+      SEARCH_INDEX: 'new-docs'
     },
 
     viteVuePluginOptions: {

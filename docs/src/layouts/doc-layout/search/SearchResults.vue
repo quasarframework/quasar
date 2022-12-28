@@ -12,10 +12,9 @@
       <kbd class="q-ml-sm"><q-icon :name="mdiKeyboardEsc" /></kbd>
     </div>
 
-    <q-list v-for="group in props.results.groupList" :key="`group_${group}`">
-      <q-item-label class="app-search__section-title" header>{{ group }}</q-item-label>
+    <q-list padding>
       <result-entry
-        v-for="entry in props.results.entries[ group ]"
+        v-for="entry in props.results.entries"
         :key="entry.id"
         :entry="entry"
         :active="entry.id === props.searchActiveId"
@@ -67,7 +66,7 @@ const props = defineProps({
     padding-left: 8px
 
   &__result
-    padding: 4px 8px
+    padding: 8px
     border: 1px solid $separator-color
     border-radius: $generic-border-radius
     font-size: 12px
@@ -76,25 +75,45 @@ const props = defineProps({
       margin-top: 6px !important
 
     &-icon
-      padding: 0 8px 0 0
+      height: 32px
       width: 32px
+      padding: 4px 0
+      font-size: 24px
 
     kbd
       margin: 0 0 0 3px
-      font-size: 12px
+      font-size: 16px
 
-    &-overlay
-      padding-bottom: 4px
-      font-size: .8em
+    &-title
+      color: $brand-primary
+      letter-spacing: $letter-spacing
+      .doc-token
+        border-radius: $generic-border-radius
+
+    &-page
       font-weight: bold
-      opacity: .7
 
-    &-main
+    &-content
+      padding-top: 8px
       font-weight: 400
       line-height: 1.2em
 
     &-token
       color: $brand-accent
+      font-weight: bold
+
+    &--active
+      background: $brand-primary !important
+
+      &,
+      .app-search__result-title,
+      .doc-token
+        color: #fff !important
+
+      .doc-token
+        border-color: #fff !important
+      .app-search__result-token
+        color: $dark !important
 
 body.mobile .app-search__instructions
   display: none
@@ -108,4 +127,11 @@ body.body--dark .app-search
   &__instructions,
   &__result
     border-color: $separator-dark-color
+
+  &__result--active
+    border-color: $brand-accent !important
+    background: rgba($brand-accent, .2) !important
+
+    .app-search__result-token
+      color: $brand-accent !important
 </style>

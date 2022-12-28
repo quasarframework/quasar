@@ -7,6 +7,9 @@ const { parseFrontMatter } = require('./md/md-parse-utils.js')
 
 const { slugify, capitalize } = require('./utils')
 
+const apiRE = /<doc-api .*file="([^"]+)".*\n/
+const installationRE = /<doc-installation /
+
 const mdPagesDir = join(__dirname, '../src/pages')
 const mdPagesLen = mdPagesDir.length + 1
 const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md')).map(key => {
@@ -18,7 +21,7 @@ const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md')).map(key => {
 
   return {
     file: key,
-    group: urlParts.map(entry => entry.split('-').map(capitalize).join(' ')),
+    menu: urlParts.map(entry => entry.split('-').map(capitalize).join(' ')),
     url: '/' + urlParts.join('/')
   }
 })
@@ -48,7 +51,6 @@ const createFolder = folder => {
 
 const createIndex = (data) => {
   return {
-    group: null,
     menu: [],
     [ levelName + 1 ]: null,
     [ levelName + 2 ]: null,
@@ -220,7 +222,7 @@ const processMarkdown = (syntaxTree, entries, entry) => {
 }
 
 function processPage (page, entries) {
-  const { file, group, url } = page
+  const { file, menu, url } = page
 
   const contents = getFileContents(file)
   const frontMatter = parseFrontMatter(contents)
@@ -231,13 +233,35 @@ function processPage (page, entries) {
   }
 
   const entryItem = createIndex({
-    menu: group,
+    menu,
     url,
     keys,
     content: frontMatter.data.desc,
     type: 'page-link',
     anchor: 'introduction'
   })
+
+  // handle API card (deep heading)
+  const apiMatches = contents.match(apiRE)
+  if (apiMatches) {
+    const name = apiMatches[ 1 ] + ' API'
+    addItem(entries, {
+      ...entryItem,
+      l1: name,
+      anchor: slugify(name),
+      content: null
+    })
+  }
+
+  // handle Installation card (deep heading)
+  if (installationRE.test(contents) === true) {
+    addItem(entries, {
+      ...entryItem,
+      l1: 'Installation',
+      anchor: 'installation',
+      content: null
+    })
+  }
 
   addItem(entries, entryItem)
 
@@ -272,8 +296,6 @@ const run = () => {
   console.log(`Finished ${entries.length} indices in ${time}ms`)
   console.log(`Generated ${fileName}`)
   console.log(`File size: ${getJsonSize(content)}`)
-
-  // console.log(entries)
 }
 
 run()

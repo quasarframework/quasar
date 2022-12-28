@@ -104,7 +104,7 @@ function fetchQuery (val, onResult, onError) {
 
     const xhr = new XMLHttpRequest()
     const data = JSON.stringify({
-      q: val, limit: 10, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
+      q: val, limit: 15, cropLength: 50, attributesToCrop: ['content'], attributesToHighlight: ['content']
     })
 
     xhr.addEventListener('load', function () {
@@ -115,7 +115,7 @@ function fetchQuery (val, onResult, onError) {
       localRequestId === requestId && onError()
     })
 
-    xhr.open('POST', 'https://search.quasar.dev/indexes/quasar-v2/search')
+    xhr.open('POST', `https://search.quasar.dev/indexes/${ process.env.SEARCH_INDEX }/search`)
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.setRequestHeader('X-Meili-API-Key', 'a7c3283824a29d1b0e8042f0266690670b00f7c81d92021b80117563577d2106')
     xhr.send(data)
@@ -164,8 +164,7 @@ function parseResults (hits) {
   }
 
   const acc = {
-    groupList: [],
-    entries: {},
+    entries: [],
     ids: []
   }
 
@@ -175,18 +174,9 @@ function parseResults (hits) {
       return
     }
 
-    if (acc.entries[ hit.group ] === void 0) {
-      acc.groupList.push(hit.group)
-      acc.entries[ hit.group ] = []
-    }
-
-    const title = [
-      hit.menu !== void 0 ? hit.menu.join(' » ') : null,
-      [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » ')
-    ].filter(e => e).join(' | ')
-
     const entry = {
-      path: title || hit.group,
+      page: hit.menu.join(' » '),
+      section: [ hit.l1, hit.l2, hit.l3, hit.l4, hit.l5, hit.l6 ].filter(e => e).join(' » ') || null,
       content: parseContent(hit._formatted.content),
 
       onMouseenter () {
@@ -197,18 +187,16 @@ function parseResults (hits) {
       }
     }
 
-    acc.entries[ hit.group ].push(entry)
+    acc.entries.push(entry)
   })
 
   // ensure that the ids are assigned in the right order
   // otherwise keyboard up/down will not work correctly
   let globalId = 0
-  acc.groupList.forEach(group => {
-    acc.entries[ group ].forEach(hit => {
-      const id = 'search--' + (++globalId)
-      hit.id = id
-      acc.ids.push(id)
-    })
+  acc.entries.forEach(hit => {
+    const id = 'search--' + (++globalId)
+    hit.id = id
+    acc.ids.push(id)
   })
 
   return acc
