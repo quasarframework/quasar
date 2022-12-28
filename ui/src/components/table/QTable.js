@@ -25,7 +25,7 @@ import { useTableColumnSelection, useTableColumnSelectionProps } from './table-c
 
 import { injectProp, injectMultipleProps } from '../../utils/private/inject-obj-prop.js'
 import { createComponent } from '../../utils/private/create.js'
-import { getCssClassAsObject } from '../../utils/private/css-class.js'
+import { getCssClassesAsObject } from '../../utils/private/css-class.js'
 
 const bottomClass = 'q-table__bottom row items-center'
 
@@ -457,26 +457,19 @@ export default createComponent({
       }
 
       if (props.tableRowStyle !== void 0) {
-        if (typeof props.tableRowStyle === 'function') {
-          data.style = props.tableRowStyle(row)
-        }
-        else {
-          data.style = props.tableRowStyle
-        }
+        data.style = typeof props.tableRowStyle === 'function' ? props.tableRowStyle(row) : props.tableRowStyle
       }
 
       if (props.tableRowClass !== void 0) {
-        if (typeof props.tableRowClass === 'function') {
-          data.class = {
-            ...data.class,
-            ...getCssClassAsObject(props.tableRowClass(row)),
-          };
-        }
-        else {
-          data.class = {
-            ...data.class,
-            ...getCssClassAsObject(props.tableRowClass),
-          };
+        const cssClassesAsObject = getCssClassesAsObject(
+          typeof props.tableRowClass === 'function'
+            ? props.tableRowClass(row)
+            : props.tableRowClass
+        )
+
+        data.class = {
+          ...data.class,
+          ...cssClassesAsObject
         }
       }
 
