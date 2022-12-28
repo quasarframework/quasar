@@ -33,7 +33,7 @@ You are likely going to need the following components - QLayout, QHeader, QToolb
 Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.config.js file.
 :::
 
-<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ## Usage
 
@@ -68,7 +68,7 @@ For example, if you want your layout's right side / drawer to be placed on the r
 
 These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
 
-<q-btn push color="red" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ::: warning
 * It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.

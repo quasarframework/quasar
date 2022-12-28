@@ -154,6 +154,20 @@ function copyIntroductionHeading () {
     @media (max-width: 850px)
       padding: 32px 16px
 
+    > .q-btn
+      background: $brand-accent
+      color: #fff
+      font-weight: bold
+      font-size: 14px
+      letter-spacing: $letter-spacing
+      padding: 8px 16px
+      box-shadow: $shadow--small
+      text-transform: none
+      .on-right
+        margin-left: 8px
+      .on-left
+        margin-right: 8px
+
   &__toc-container
     position: sticky
     top: $headerHeight

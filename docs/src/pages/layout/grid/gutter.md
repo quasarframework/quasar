@@ -85,4 +85,4 @@ Because `q-col-gutter-*` classes apply a **negative top and left padding** to th
 ## Flex Grid Playground
 To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
-<q-btn push color="brand-primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
+<q-btn icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

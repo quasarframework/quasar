@@ -190,7 +190,7 @@ You can couple this with a Quasar [language pack](/options/quasar-language-packs
 When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 :::
 
-<q-btn href="https://codepen.io/rstoenescu/pen/MWKpbNa" target="_blank" label="See example" icon-right="launch" color="brand-primary" />
+<q-btn href="https://codepen.io/rstoenescu/pen/MWKpbNa" target="_blank" label="See example" icon-right="launch" rel="noopener noreferrer" />
 
 ### Native form submit
 

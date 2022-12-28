@@ -51,4 +51,4 @@ Although you may get a similar multi-platform support via Vite (directly) or the
 ### Recommendation
 Let's get you going with **Quasar's CLI**! You'll be up and running with a new project in no time.
 
-<q-btn push no-caps color="brand-primary" icon-right="launch" label="Start with Quasar CLI" to="/start/quasar-cli" class="q-mt-sm q-mb-lg" />
+<q-btn icon-right="launch" label="Start with Quasar CLI" to="/start/quasar-cli" class="q-mt-sm q-mb-lg" />

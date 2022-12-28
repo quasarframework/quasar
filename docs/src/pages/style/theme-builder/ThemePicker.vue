@@ -58,7 +58,7 @@
     <q-separator class="q-mt-lg q-mb-sm" />
 
     <div class="col-12 row items-center justify-end q-gutter-md">
-      <q-btn :color="$q.dark.isActive ? 'brand-primary': 'black'" label="Export" @click="exportDialog = true" />
+      <q-btn class="call-to-action-btn shadow-bottom-small" no-caps padding="8px 16px" label="Export" @click="exportDialog = true" />
     </div>
 
     <q-dialog v-model="exportDialog">
@@ -93,7 +93,7 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn color="brand-primary" flat label="Close" v-close-popup />
+          <q-btn class="call-to-action-btn shadow-bottom-small" no-caps padding="8px 16px" label="Close" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>

@@ -11,7 +11,7 @@
       <div class="letter-spacing-225 q-mb-xl">
         You're not intentionally heading to a black hole, are you?
       </div>
-      <q-btn class="call-to-action-btn shadow-bottom-small" color="brand-accent" to="/" label="Take me home" />
+      <q-btn class="call-to-action-btn shadow-bottom-small" to="/" label="Take me home" />
     </div>
   </div>
 </template>

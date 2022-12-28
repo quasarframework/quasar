@@ -16,7 +16,7 @@ We will be talking about encapsulating pages within a QLayout. If you haven’t 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ## Usage
 

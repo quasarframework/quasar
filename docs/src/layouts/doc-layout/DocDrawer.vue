@@ -7,7 +7,6 @@
     <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-md">
       <q-btn
         class="call-to-action-btn shadow-bottom-small"
-        color="brand-accent"
         label="Close"
         no-caps
         @click="docStore.toggleDrawer"

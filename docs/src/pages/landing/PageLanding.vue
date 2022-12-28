@@ -11,7 +11,6 @@
         </h1>
 
         <q-btn
-          color="brand-accent"
           label="Are you ready to lift off?"
           class="call-to-action-btn shadow-bottom-small"
           @click="scrollSectionIntoView.whyQuasar"
@@ -94,7 +93,6 @@
           >So, um, we think we should discuss the bonus situation</q>
 
           <q-btn
-            color="brand-accent"
             label="Consult tiers"
             class="call-to-action-btn shadow-bottom-small"
             href="https://donate.quasar.dev"
