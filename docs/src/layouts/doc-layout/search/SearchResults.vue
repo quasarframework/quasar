@@ -8,7 +8,7 @@
       <span>Select</span>
       <kbd class="q-mx-sm"><q-icon :name="mdiKeyboardReturn" /></kbd>
 
-      <span>Reset</span>
+      <span>Close/Reset</span>
       <kbd class="q-ml-sm"><q-icon :name="mdiKeyboardEsc" /></kbd>
     </div>
 
@@ -39,6 +39,7 @@ const props = defineProps({
   padding: 0 12px 38px
 
   &__instructions
+    margin: 0 -12px // reset container padding
     padding: 12px 8px
     transition: opacity .28s
     min-height: 38px

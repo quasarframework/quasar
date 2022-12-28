@@ -9,7 +9,7 @@
     @mouseenter="props.entry.onMouseenter"
   >
     <q-item-section>
-      <div class="app-search__result-title row items-center q-gutter-xs">
+      <div class="app-search__result-title row items-center q-gutter-sm">
         <div class="doc-token text-weight-bold">{{ props.entry.page }}</div>
         <div v-if="props.entry.section">{{ props.entry.section }}</div>
       </div>
