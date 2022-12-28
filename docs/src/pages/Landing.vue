@@ -62,7 +62,7 @@ q-page.landing
           router-link.landing__features-link.col-6.col-sm-4(
             v-for="dir in features.comps"
             :key="dir.name"
-            :to="'/vue-components/' + dir.path"
+            :to="(dir.name.startsWith('Page') || dir.name.startsWith('Layout')?'/layout/':'/vue-components/') + dir.path"
           ) {{ dir.name }}
 
         .col-6.col-sm-4.col-md-2.landing__features-section.column.text-left
