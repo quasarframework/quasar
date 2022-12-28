@@ -41,7 +41,7 @@
     "@mdi/font": "7.0.96",
     "@mdi/svg": "7.0.96",
     "animate.css": "4.1.1",
-    "bootstrap-icons": "^1.10.2",
+    "bootstrap-icons": "^1.10.3",
     "cross-fetch": "^3.1.5",
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",
