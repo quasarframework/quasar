@@ -30,7 +30,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v75 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
 | [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v75 | `material-symbols-rounded` | Material symbols rounded font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
 | [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v74 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
-| [MDI v7](https://materialdesignicons.com/) (Material Design Icons) | 7.0.96 | `mdi-v7` | Extended Material Design icons font | Requires: @quasar/extras 1.15+ | [License](mdi-v7/LICENSE) |
+| [MDI v7](https://materialdesignicons.com/) (Material Design Icons) | 7.1.96 | `mdi-v7` | Extended Material Design icons font | Requires: @quasar/extras 1.15+ | [License](mdi-v7/LICENSE) |
 | MDI v6 (Material Design Icons) | 6.9.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
 | MDI v5 (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
@@ -44,7 +44,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Bootstrap Icons](https://icons.getbootstrap.com/) | 1.10.3 | `bootstrap-icons` | Bootstrap Icons font | Requires: @quasar/extras 1.10+ | [License](bootstrap-icons/LICENSE.md) |
 | [Animate.css](https://animate.style/) | 4.1.1 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
 
-> Install one of MDI v5, MDI v4 or MDI v3, but never together at the same time.
+> Install one of MDI v6, MDI v5, MDI v4 or MDI v3, but never together at the same time.
 
 > Note that ionicons v5+ no longer comes with a webfont.
 ### SVG
@@ -60,7 +60,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) (Google) | CDN v75 | `svg-material-symbols-outlined` | `@quasar/extras/material-symbols-outlined` | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
 | [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) (Google) | CDN v75 | `svg-material-symbols-rounded` | `@quasar/extras/material-symbols-rounded` | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
 | [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) (Google) | CDN v74 | `svg-material-symbols-sharp` | `@quasar/extras/material-symbols-sharp` | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
-| [MDI v7](https://materialdesignicons.com/) (Material Design Icons) | 7.0.96 | `svg-mdi-v7` | `@quasar/extras/mdi-v7` | | [License](mdi-v7/LICENSE) |
+| [MDI v7](https://materialdesignicons.com/) (Material Design Icons) | 7.1.96 | `svg-mdi-v7` | `@quasar/extras/mdi-v7` | | [License](mdi-v7/LICENSE) |
 | MDI v6 (Material Design Icons) | 6.9.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
 | MDI v5 (Material Design Icons) | 5.9.55 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
