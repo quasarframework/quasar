@@ -1,7 +1,7 @@
 <template>
-  <div class="doc-code-container relative-position">
+  <div class="relative-position">
     <code-prism :lang="props.lang" :code="props.code" :style="style" />
-    <div class="doc-code-container__copy absolute">
+    <div class="doc-code__copy absolute">
       <copy-button :text="props.code" />
     </div>
   </div>
@@ -25,14 +25,7 @@ const props = defineProps({
 
 const style = computed(() => (
   props.maxHeight !== void 0
-    ? { overflow: 'auto', maxHeight: props.maxHeight }
+    ? { maxHeight: props.maxHeight }
     : null
 ))
 </script>
-
-<style lang="sass">
-.doc-code-container
-  &__copy
-    top: 8px
-    right: 16px
-</style>

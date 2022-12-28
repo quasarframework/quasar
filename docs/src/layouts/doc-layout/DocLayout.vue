@@ -58,7 +58,6 @@ const pageContentClass = computed(() =>
     z-index: 1
 
   &__page
-    width: 100%
 
     &--standard
       /**
@@ -67,7 +66,7 @@ const pageContentClass = computed(() =>
         + 900px - page content
         + 300px - toc menu
        */
-      max-width: 1516px
+      max-width: min(100%, 1516px)
 
       .doc-page__content
         width: auto
@@ -127,9 +126,11 @@ const pageContentClass = computed(() =>
     &.q-item--dark
       background: scale-color($primary, $lightness: -50%)
 
-@media (max-width: 1300px)
+@media (min-width: 1301px)
   .doc-layout__page
-    width: unset
+    width: 100%
+
+@media (max-width: 1300px)
   .doc-layout__menu,
   .doc-page__toc-container--flowing
     // let's position them off-screen

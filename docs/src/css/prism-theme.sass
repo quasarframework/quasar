@@ -1,5 +1,4 @@
-.doc-code,
-.doc-code__inner
+.doc-code
   border-radius: inherit
   margin: 0
   position: relative
@@ -13,31 +12,23 @@
   line-height: 1.5
   tab-size: 2
   hyphens: none
-
-.doc-code
-  overflow: visible
+  overflow: auto
   padding: 0
   border-radius: $generic-border-radius
+  padding: 1em
 
-  &__inner
-    max-height: inherit
-    height: inherit
-    padding: 1em
-    display: block
-    overflow: auto
+  &--prerendered
+    border-width: 1px 4px
+    border-style: solid
+    border-radius: $generic-border-radius
 
-    &--prerendered
-      border-width: 1px 4px
-      border-style: solid
-      border-radius: $generic-border-radius
+  &__copy
+    top: 8px
+    right: 16px
 
 body.body--light
-  .doc-code,
-  .doc-code__inner
+  .doc-code
     color: $grey-9
-    background-color: #fdfdfd
-
-  .doc-code__inner
     background-color: $light-pill
 
     &--prerendered
@@ -113,11 +104,8 @@ body.body--light
     color: #e0d7d1
 
 body.body--dark
-  .doc-code,
-  .doc-code__inner
+  .doc-code
     color: #f8f8f2
-
-  .doc-code__inner
     background-color: $dark-pill
 
     &--prerendered
