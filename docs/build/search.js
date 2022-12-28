@@ -229,7 +229,7 @@ function processPage (page, entries) {
   let keys = null
 
   if (frontMatter.data.keys) {
-    keys = frontMatter.data.keys.split(',').join(' ')
+    keys = frontMatter.data.keys.replace(/,/g, ' ')
   }
 
   const entryItem = createIndex({

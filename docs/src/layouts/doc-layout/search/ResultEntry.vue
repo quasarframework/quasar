@@ -5,13 +5,13 @@
     :active="props.active"
     clickable
     active-class="app-search__result--active"
-    @click="props.entry.onClick"
+    @click.prevent.stop="props.entry.onClick"
     @mouseenter="props.entry.onMouseenter"
   >
     <q-item-section>
       <div class="app-search__result-title row items-center q-gutter-xs">
         <div class="doc-token text-weight-bold">{{ props.entry.page }}</div>
-        <div v-if="props.entry.section" class="app-search__result-section">{{ props.entry.section }}</div>
+        <div v-if="props.entry.section">{{ props.entry.section }}</div>
       </div>
       <div v-if="props.entry.content" class="app-search__result-content">
         <span

@@ -58,13 +58,6 @@ const props = defineProps({
     &--hidden
       opacity: 0
 
-  &__section
-    margin: 4px 0
-
-  &__section-title
-    color: $brand-primary !important
-    padding-left: 8px
-
   &__result
     padding: 8px
     border: 1px solid $separator-color
@@ -87,11 +80,10 @@ const props = defineProps({
     &-title
       color: $brand-primary
       letter-spacing: $letter-spacing
+      word-break: break-word
+      font-size: .9em
       .doc-token
         border-radius: $generic-border-radius
-
-    &-page
-      font-weight: bold
 
     &-content
       padding-top: 8px
@@ -107,20 +99,16 @@ const props = defineProps({
 
       &,
       .app-search__result-title,
+      .app-search__result-token,
       .doc-token
         color: #fff !important
 
       .doc-token
         border-color: #fff !important
-      .app-search__result-token
-        color: $dark !important
 
 body.mobile .app-search__instructions
   display: none
 
-body.body--light .app-search
-  &__result
-    background: $grey-1
 body.body--dark .app-search
   &__instructions
     background: $dark-bg

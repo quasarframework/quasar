@@ -87,6 +87,11 @@ const resultsClass = computed(() => (
   ` doc-search__results--${ results.value ? 'active' : 'hidden' }`
 ))
 
+function closePopup () {
+  hasFocus.value = false
+  activeId.value = null
+}
+
 function resetSearch () {
   terms.value = ''
   results.value = null
@@ -183,6 +188,7 @@ function parseResults (hits) {
         activeId.value = entry.id
       },
       onClick () {
+        closePopup()
         $router.push(hit.url).catch(() => {})
       }
     }
@@ -206,9 +212,8 @@ function onKeydown (evt) {
   switch (evt.keyCode) {
     case 27: // escape
       evt.preventDefault()
-      if (results.value !== null) {
-        results.value = null
-        activeId.value = null
+      if (hasFocus.value === true) {
+        closePopup()
       }
       else {
         resetSearch()
@@ -239,8 +244,15 @@ function onKeydown (evt) {
     case 13: // enter
       evt.preventDefault()
       evt.stopPropagation()
-      if (results.value !== null && activeId.value !== null) {
-        document.getElementById(activeId.value).click(evt)
+      if (results.value !== null) {
+        if (hasFocus.value === false) {
+          hasFocus.value = true
+          return
+        }
+
+        if (activeId.value !== null) {
+          document.getElementById(activeId.value).click(evt)
+        }
       }
       break
   }
@@ -248,6 +260,7 @@ function onKeydown (evt) {
 
 function onResultSuccess (response) {
   results.value = parseResults(response.hits)
+  hasFocus.value = true
   activeId.value = results.value.ids?.[ 0 ] || null
 }
 
