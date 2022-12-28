@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const glob = require('glob')
+const glob = require('fast-glob')
 
 const { writeFile, convertToCjs, logError } = require('./build.utils')
 

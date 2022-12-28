@@ -17,15 +17,17 @@ function getConfigPlugin (opts) {
   return {
     name: 'vite:quasar:vite-conf',
 
-    config (viteConf) {
+    configResolved (viteConf) {
       const vueCfg = viteConf.plugins.find(entry => entry.name === 'vite:vue')
 
       if (vueCfg === void 0) {
-        console.warn('In your Vite config file, please add the Quasar plugin after the Vue one')
+        console.error('\n\n[Quasar] Error: In your Vite config file, please add the Quasar plugin ** after ** the Vue one\n\n')
         process.exit(1)
       }
+    },
 
-      return getViteConfig(opts.runMode, viteConf)
+    config (viteConf, { mode }) {
+      return getViteConfig(opts.runMode, mode, viteConf)
     }
   }
 }
@@ -37,8 +39,8 @@ function getScssTransformsPlugin (opts) {
 
   const scssTransform = createScssTransform('scss', sassVariables)
   const sassTransform = createScssTransform('sass', sassVariables)
-  const scssExt = [ '.scss' ]
-  const sassExt = [ '.sass' ]
+  const scssExt = [ '.scss', '.module.scss' ]
+  const sassExt = [ '.sass', '.module.sass' ]
 
   return {
     name: 'vite:quasar:scss',

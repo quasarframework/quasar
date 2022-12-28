@@ -168,6 +168,7 @@
       "desc": "DEPRECATED; Access 'nativeEl' directly; Gets the native input DOM Element",
       "returns": {
         "type": "Element",
+        "tsType": "QFileNativeElement",
         "desc": "The underlying native input DOM Element"
       }
     }
@@ -176,6 +177,7 @@
   "computedProps": {
     "nativeEl": {
       "type": "Element",
+      "tsType": "QFileNativeElement",
       "desc": "The native input DOM Element",
       "addedIn": "v2.10.1"
     }

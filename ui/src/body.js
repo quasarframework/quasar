@@ -45,20 +45,50 @@ function getBodyClasses ({ is, has, within }, cfg) {
 }
 
 function applyClientSsrCorrections () {
+  const { is } = client
   const classes = document.body.className
-  let newCls = classes
+
+  const classList = new Set(classes.replace(/ {2}/g, ' ').split(' '))
 
   if (iosCorrection !== void 0) {
-    newCls = newCls.replace('desktop', 'platform-ios mobile')
+    classList.delete('desktop')
+    classList.add('platform-ios')
+    classList.add('mobile')
+  }
+  // else: is it SSG?
+  else if (is.nativeMobile !== true && is.electron !== true && is.bex !== true) {
+    if (is.desktop === true) {
+      classList.delete('mobile')
+      classList.delete('platform-ios')
+      classList.delete('platform-android')
+      classList.add('desktop')
+    }
+    else if (is.mobile === true) {
+      classList.delete('desktop')
+      classList.add('mobile')
+
+      const mobile = getMobilePlatform(is)
+      if (mobile !== void 0) {
+        classList.add(`platform-${ mobile }`)
+        classList.delete(`platform-${ mobile === 'ios' ? 'android' : 'ios' }`)
+      }
+      else {
+        classList.delete('platform-ios')
+        classList.delete('platform-android')
+      }
+    }
   }
 
   if (client.has.touch === true) {
-    newCls = newCls.replace('no-touch', 'touch')
+    classList.delete('no-touch')
+    classList.add('touch')
   }
 
   if (client.within.iframe === true) {
-    newCls += ' within-iframe'
+    classList.add('within-iframe')
   }
+
+  const newCls = Array.from(classList).join(' ')
 
   if (classes !== newCls) {
     document.body.className = newCls

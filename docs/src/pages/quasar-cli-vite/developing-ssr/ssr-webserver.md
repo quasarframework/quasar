@@ -294,9 +294,7 @@ export async function listen (({ app, port, ssrHandler }) => {
   if (process.env.DEV) {
     await isReady()
     return await app.listen(port, () => {
-      if (process.env.PROD) {
-        console.log('Server listening at port ' + port)
-      }
+      // we're ready to serve clients
     })
   }
   else { // in production
@@ -316,9 +314,7 @@ export async function listen (({ app, port, ssrHandler }) => {
   if (process.env.DEV) {
     await isReady()
     return await app.listen(port, () => {
-      if (process.env.PROD) {
-        console.log('Server listening at port ' + port)
-      }
+      // we're ready to serve clients
     })
   }
   else { // in production

@@ -118,6 +118,7 @@
       "desc": "DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element",
       "returns": {
         "type": "Element",
+        "tsType": "QInputNativeElement",
         "desc": "The underlying native input/textarea DOM Element"
       }
     }
@@ -126,6 +127,7 @@
   "computedProps": {
     "nativeEl": {
       "type": "Element",
+      "tsType": "QInputNativeElement",
       "desc": "The native input/textarea DOM Element",
       "addedIn": "v2.10.1"
     }

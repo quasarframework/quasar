@@ -308,8 +308,8 @@ const Platform = {
       // the rest of the props; we also avoid
       // hydration errors
       opts.onSSRHydrated.push(() => {
-        isRuntimeSsrPreHydration.value = false
         Object.assign($q.platform, client)
+        isRuntimeSsrPreHydration.value = false
         iosCorrection = void 0
       })
 

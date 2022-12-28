@@ -56,7 +56,7 @@ export function parseViteRequest (id) {
 
 const vueExt = [ '.vue' ]
 const scriptExt = [ '.js', '.jsx', '.ts', '.tsx', '.vue' ]
-const styleExt = [ '.css', '.scss', '.sass' ]
+const styleExt = [ '.css', '.scss', '.module.scss', '.sass', '.module.sass' ]
 
 const isOfExt = ({ extensions, filename, query }) =>
   extensions.some(
