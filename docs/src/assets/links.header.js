@@ -40,6 +40,9 @@ const gettingStarted = {
       name: 'Installation',
       children: [
         { name: 'Pick Quasar Flavour', path: '/start/pick-quasar-flavour' },
+        {
+          separator: true
+        },
         { name: 'Quasar CLI', path: '/start/quasar-cli' },
         { name: 'UMD / Standalone', path: '/start/umd' },
         { name: 'Vue CLI Plugin', path: '/start/vue-cli-plugin' },

@@ -175,6 +175,9 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
   .q-item__section--side .q-icon
     color: $brand-primary
 
+  &__arrow
+    margin-right: -8px
+
 .doc-header-text-links__item
   .q-icon
     margin-left: 0

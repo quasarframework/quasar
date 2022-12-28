@@ -34,11 +34,11 @@ export default {
           )
 
           acc.push(
-            h(QItemSection, () => entry.name)
+            h(QItemSection, { class: 'text-no-wrap' }, () => entry.name)
           )
 
           entry.children !== void 0 && acc.push(
-            h(QItemSection, { side: true }, () => h(QIcon, { name: mdiChevronRight })),
+            h(QItemSection, { side: true, class: 'doc-header-menu__arrow' }, () => h(QIcon, { name: mdiChevronRight })),
             h(QMenu, { anchor: 'top right', self: 'top left', class: 'doc-header-menu' }, () => getChildren(entry.children))
           )
 
