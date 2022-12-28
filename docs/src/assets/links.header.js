@@ -91,7 +91,7 @@ export const secondaryToolbarLinks = [
   gettingStarted,
   tools,
   { name: 'Announcements', mq: 860, path: 'https://github.com/quasarframework/quasar/discussions/categories/announcements', external: true },
-  { name: 'Roadmap', mq: 970, path: 'https://roadmap.quasar.dev/', external: true },
+  { name: 'Roadmap', mq: 970, path: '/start/roadmap' },
   { name: 'Video Tutorials', mq: 1130, path: '/video-tutorials' },
   { name: 'Brand resources', mq: 1400, path: 'https://github.com/quasarframework/quasar-art', external: true }
 ]
