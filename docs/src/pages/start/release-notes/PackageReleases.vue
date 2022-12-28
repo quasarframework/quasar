@@ -76,8 +76,8 @@ function parse (body) {
     .replace(/# ([\S ]+)/g, '<div class="text-h4">$1</div>')
     .replace(/\*\*([\S ]*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*([\S ]*?)\*/g, '<em>$1</em>')
-    .replace(/```([\S]+)/g, '<code class="doc-code__inner doc-code__inner--prerendered release__code">')
-    .replace(/```\n/g, '</code>')
+    .replace(/```([\S]+)/g, '<pre class="doc-code doc-code--prerendered release__code">')
+    .replace(/```\n/g, '</pre>')
     .replace(/`(.*?)`/g, '<code class="doc-token">$1</code>')
     .replace(/#([\d]+)/g, '<a class="doc-link" href="https://github.com/quasarframework/quasar/issues/$1" target="_blank">#$1</a>')
     .replace(/^&gt; ([\S ]+)$/gm, '<div class="release__blockquote">$1</div>')
@@ -86,7 +86,7 @@ function parse (body) {
     .replace(/^[-*] ([\S .]+)$/gm, '<li>$1</li>')
     .replace(/<\/li>[\s\n\r]*<li/g, '</li><li')
 
-  return content.indexOf('| -') > -1
+  return content.indexOf('| -') !== -1
     ? parseMdTable(content)
     : content
 }

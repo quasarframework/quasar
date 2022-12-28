@@ -571,7 +571,7 @@ body
     max-width: 95vw !important
 
 .export-code
-  .doc-code__inner
+  .doc-code
     max-height: 50vh
   .doc-code + div
     right: 22px !important
