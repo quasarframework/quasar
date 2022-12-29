@@ -49,6 +49,9 @@ interface QuasarFrameworkInnerConfiguration {
   capacitor?: QuasarMobileFrameworkInnerConfiguration;
   cordova?: QuasarMobileFrameworkInnerConfiguration;
   dark?: boolean | "auto";
+  lang?: {
+    noHtmlAttrs?: boolean;
+  };
   loading?: {
     delay?: number;
     message?: false | string;
