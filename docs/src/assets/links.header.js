@@ -33,7 +33,7 @@ export const versionLinks = [{
 
 const gettingStarted = {
   name: 'Getting Started',
-  mq: 475,
+  mq: 510,
   children: [
     { name: 'Quick Start', path: '/start/quick-start' },
     {
@@ -58,7 +58,7 @@ const gettingStarted = {
 
 const tools = {
   name: 'Tools',
-  mq: 560,
+  mq: 600,
   children: [
     { name: 'Awesome List', icon: mdiFlare, path: 'https://awesome.quasar.dev', external: true },
     { name: 'Integrations', icon: mdiMathIntegralBox, path: '/integrations' },
@@ -82,7 +82,7 @@ const tools = {
 }
 
 export const primaryToolbarLinks = [
-  { name: 'Docs', mq: 700, path: '/docs' },
+  { name: 'Docs', mq: 750, path: '/docs' },
   { name: 'Components', mq: 860, path: '/components' },
   { name: 'Sponsors', mq: 1190, path: '/sponsors-and-backers' },
   { name: 'Team', mq: 1310, path: '/meet-the-team' },
@@ -90,11 +90,11 @@ export const primaryToolbarLinks = [
 ]
 
 export const secondaryToolbarLinks = [
-  { name: 'Why Quasar?', mq: 700, path: '/introduction-to-quasar' },
+  { name: 'Why Quasar?', mq: 750, path: '/introduction-to-quasar' },
   gettingStarted,
   tools,
-  { name: 'Announcements', mq: 860, path: 'https://github.com/quasarframework/quasar/discussions/categories/announcements', external: true },
-  { name: 'Roadmap', mq: 970, path: '/start/roadmap' },
+  { name: 'Announcements', mq: 910, path: 'https://github.com/quasarframework/quasar/discussions/categories/announcements', external: true },
+  { name: 'Roadmap', mq: 1000, path: '/start/roadmap' },
   { name: 'Video Tutorials', mq: 1130, path: '/video-tutorials' },
   { name: 'Brand resources', mq: 1400, path: 'https://github.com/quasarframework/quasar-art', external: true }
 ]

@@ -53,7 +53,10 @@ export default function injectToc (store) {
           },
           ...toc.map(entry => ({
             ...entry,
-            onClick: () => { store.scrollTo(entry.id) }
+            onClick: () => {
+              store.state.value.tocDrawer = false
+              store.scrollTo(entry.id)
+            }
           }))
         ]
       : []

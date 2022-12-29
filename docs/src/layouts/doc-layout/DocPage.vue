@@ -7,23 +7,25 @@
     />
 
     <div class="doc-h1 row items-start no-wrap" v-if="props.heading">
-      <div class="col doc-heading" id="introduction" @click="copyIntroductionHeading">
+      <div class="doc-heading q-mr-xs" id="introduction">
         <span>{{ props.title }}</span>
         <q-badge class="q-ml-sm doc-page__badge" v-if="props.badge" :label="props.badge" />
       </div>
-      <a class="doc-page__top-link text-brand-primary flex flex-center" v-if="props.editLink" :href="editHref" target="_blank" rel="noopener noreferrer">
-        <q-icon :name="mdiPencil" />
-        <q-tooltip
-          class="row no-wrap items-center"
-          anchor="center left"
-          self="center right"
-          transition-show="jump-left"
-          transition-hide="jump-right"
-        >
+      <q-space />
+      <q-btn
+        v-if="props.editLink"
+        :href="editHref" target="_blank" rel="noopener noreferrer"
+        flat
+        round
+        color="brand-primary"
+        size="12px"
+        :icon="mdiPencil"
+      >
+        <q-tooltip class="row no-wrap items-center">
           <span>Caught a mistake? Edit page in browser</span>
           <q-icon class="q-ml-xs" :name="mdiFlash" size="2em" />
         </q-tooltip>
-      </a>
+      </q-btn>
     </div>
 
     <div class="doc-page__nav" v-if="props.related">
@@ -101,7 +103,6 @@ import {
 import DocLink from 'src/components/DocLink.vue'
 import DocPageToc from './DocPageToc.vue'
 
-import { copyHeading } from 'assets/page-utils'
 import getMeta from 'assets/get-meta'
 import { useDocStore } from './store'
 
@@ -128,7 +129,6 @@ useMeta(
 )
 
 const docStore = useDocStore()
-
 docStore.setToc(props.toc)
 
 const editHref = computed(() =>
@@ -138,10 +138,6 @@ const editHref = computed(() =>
 const tocClass = computed(() =>
   `doc-page__toc-container--${ props.toc !== void 0 ? 'fixed' : 'flowing' }`
 )
-
-function copyIntroductionHeading () {
-  copyHeading('introduction')
-}
 </script>
 
 <style lang="sass">
@@ -173,14 +169,14 @@ function copyIntroductionHeading () {
     top: $headerHeight
     height: calc(100vh - #{$headerHeight})
 
+    .doc-page-toc
+      padding: 32px 16px 32px 0 // page top padding
+
     &--fixed
       min-width: 300px
       width: 300px
     &--flowing
       // just leave it as-is
-
-  &-toc
-    padding: 32px 16px 32px 0 // page top padding
 
   &__content-footer
     margin-top: 64px
@@ -189,11 +185,6 @@ function copyIntroductionHeading () {
     margin-bottom: 0 !important
     & + .doc-h1
       padding-top: .4rem !important
-
-  &__top-link
-    color: inherit
-    text-decoration: none
-    outline: 0
 
   &__badge
     vertical-align: super

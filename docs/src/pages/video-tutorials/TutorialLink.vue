@@ -10,7 +10,7 @@
       <div class="q-mt-sm">{{ props.desc }}</div>
     </q-card-section>
 
-    <q-img alt="Tutorial logo" :src="props.imgUrl" />
+    <q-img alt="Tutorial logo" :src="props.imgUrl" class="bg-white" />
 
     <q-card-section>
       <div>Created by: {{ props.author }}</div>

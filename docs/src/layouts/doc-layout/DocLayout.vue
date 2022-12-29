@@ -1,27 +1,29 @@
 <template>
   <q-layout class="doc-layout" view="hHh LpR fff" @scroll="docStore.onPageScroll">
-    <doc-header key="header" />
-    <q-no-ssr>
-      <doc-drawer key="drawer" />
-    </q-no-ssr>
+    <doc-header />
 
-    <q-page-container key="q-page-container">
+    <q-page-container>
       <q-page :class="pageClass" key="q-page">
         <router-view v-if="isFullscreen" key="page-fullscreen" />
         <div v-else :class="pageContentClass" key="page-standard">
-          <q-scroll-area key="menu" class="doc-layout__menu q-ml-md">
+          <q-scroll-area class="doc-layout__menu q-ml-md">
             <doc-page-menu />
           </q-scroll-area>
-          <router-view key="page" />
+          <router-view />
         </div>
 
-        <doc-page-footer key="page-footer" />
+        <doc-page-footer />
       </q-page>
     </q-page-container>
 
-    <q-page-scroller key="page-up">
+    <q-page-scroller>
       <q-btn class="shadow-bottom-small" fab-mini color="brand-accent" :icon="mdiArrowUp" />
     </q-page-scroller>
+
+    <q-no-ssr>
+      <doc-drawer-menu />
+      <doc-drawer-toc />
+    </q-no-ssr>
   </q-layout>
 </template>
 
@@ -32,17 +34,18 @@ import { mdiArrowUp } from '@quasar/extras/mdi-v6'
 import { provideDocStore } from './store'
 
 import DocHeader from './DocHeader.vue'
-import DocDrawer from './DocDrawer.vue'
+import DocDrawerMenu from './DocDrawerMenu.vue'
+import DocDrawerToc from './DocDrawerToc.vue'
 import DocPageMenu from './DocPageMenu.js'
 import DocPageFooter from './DocPageFooter.vue'
 
 const docStore = provideDocStore()
 
-const isFullscreen = computed(() => docStore.$route.meta?.fullscreen === true)
+const isFullscreen = computed(() => docStore.$route.meta.fullscreen === true)
 const pageClass = computed(() => `doc-layout__page-el--${ isFullscreen.value === true ? 'fullscreen' : 'standard' }`)
 const pageContentClass = computed(() =>
   'doc-layout__page row no-wrap ' +
-  `doc-layout__page--${ docStore.$route.meta?.fullwidth === true ? 'fullwidth' : 'standard' }`
+  `doc-layout__page--${ docStore.$route.meta.fullwidth === true ? 'fullwidth' : 'standard' }`
 )
 </script>
 
@@ -142,4 +145,22 @@ const pageContentClass = computed(() =>
 
 body.body--dark .doc-layout__menu
   border-right-color: $brand-primary
+
+.doc-drawer
+  // only show the shadow when the drawer is open
+  .q-drawer:not(.q-layout--prevent-focus) &
+    box-shadow: $shadow--primary
+
+  &__header
+    position: sticky
+    top: 0
+    z-index: 1
+    .q-btn
+      font-size: 12px
+      padding: 8px 16px
+
+  &__title
+    font-size: $font-size
+    letter-spacing: $letter-spacing
+    padding-left: 22px
 </style>

@@ -24,7 +24,8 @@ export function provideDocStore () {
 
     state: {
       dark: $q.cookies.get('theme') === 'dark',
-      drawer: false
+      menuDrawer: false,
+      tocDrawer: false
     },
 
     toggleDark () {
@@ -32,8 +33,12 @@ export function provideDocStore () {
       $q.cookies.set('theme', val ? 'dark' : 'light', { path: '/', sameSite: 'Strict' })
     },
 
-    toggleDrawer () {
-      store.state.value.drawer = store.state.value.drawer === false
+    toggleMenuDrawer () {
+      store.state.value.menuDrawer = store.state.value.menuDrawer === false
+    },
+
+    toggleTocDrawer () {
+      store.state.value.tocDrawer = store.state.value.tocDrawer === false
     }
   }
 
@@ -42,18 +47,25 @@ export function provideDocStore () {
 
   if (process.env.SERVER) {
     store.state = { value: store.state }
-    $q.dark.set(store.state.value.dark || $route.meta?.dark)
+    $q.dark.set(store.state.value.dark || $route.meta.dark)
   }
   else {
     store.state = ref(store.state)
-    store.dark = computed(() => (store.state.value.dark || $route.meta?.dark))
+    store.dark = computed(() => (store.state.value.dark || $route.meta.dark))
     watch(store.dark, val => { $q.dark.set(val) }, { immediate: true })
 
     // let's auto-close the drawer when we're starting to show
     // the left menu on the page...
     watch(
-      () => store.$q.screen.width < 1301,
-      () => { store.state.value.drawer = false }
+      () => $q.screen.width < 1301,
+      () => { store.state.value.menuDrawer = false }
+    )
+
+    // let's auto-close the drawer when we're starting to show
+    // the toc on the page...
+    watch(
+      () => $q.screen.lt.md,
+      () => { store.state.value.tocDrawer = false }
     )
   }
 

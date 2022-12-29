@@ -43,10 +43,10 @@
 
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
       <q-btn
-        class="doc-header__drawer-btn q-mr-sm lt-1300"
+        class="doc-header__leftmost q-mr-sm lt-1300"
         flat round
         icon="menu"
-        @click="docStore.toggleDrawer"
+        @click="docStore.toggleMenuDrawer"
       />
 
       <doc-header-text-links
@@ -54,21 +54,29 @@
         nav-class="text-size-12 letter-spacing-225 doc-header__version"
       />
 
-      <div class="doc-header__links col row items-center q-ml-sm">
+      <div class="doc-header__links col row items-center no-wrap">
         <doc-header-text-links
           :menu="secondaryToolbarLinks"
           nav-class="text-size-12 letter-spacing-225"
           mq-prefix="gt"
         />
         <doc-header-text-links
-          class="q-ml-sm"
           :menu="moreLinks"
           nav-class="text-size-12 letter-spacing-225 lt-1400"
           mq-prefix="lt"
         />
+        <q-btn
+          v-if="hasToc"
+          class="lt-md"
+          flat
+          round
+          icon="description"
+          size="12px"
+          @click="docStore.toggleTocDrawer"
+        />
       </div>
       <doc-header-icon-links
-        class="q-ml-sm gt-1310"
+        class="gt-1310"
         :menu="socialLinks.children"
       />
     </q-toolbar>
@@ -97,7 +105,8 @@ const logo = computed(() => {
   }
 })
 
-const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
+const cannotChangeTheme = computed(() => docStore.$route.meta.dark === true)
+const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStore.$route.meta.fullscreen !== true && docStore.state.value.toc.length !== 0)
 </script>
 
 <style lang="sass">
@@ -134,7 +143,7 @@ const cannotChangeTheme = computed(() => docStore.$route.meta?.dark === true)
     color: #000
     border: 1px solid $brand-primary
 
-  &__drawer-btn
+  &__leftmost
     margin-left: -8px
 
   @media (max-width: 1059px)
@@ -209,8 +218,10 @@ body.body--dark
 
   .doc-header-icon-links
     color: $brand-primary
+    .q-btn
+      font-size: 12px
 
-$mq-list: 475, 560, 700, 860, 970, 1060, 1130, 1190, 1300 /* drawer */, 1310, 1400
+$mq-list: 510, 600, 750, 860, 910, 1000, 1060, 1130, 1190, 1300 /* drawer */, 1310, 1400
 @each $query in $mq-list
   @media (min-width: #{$query}px)
     .lt-#{$query}

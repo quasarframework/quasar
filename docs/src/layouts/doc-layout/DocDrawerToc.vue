@@ -1,0 +1,28 @@
+<template>
+  <q-drawer
+    v-model="docStore.state.value.tocDrawer"
+    side="right"
+    class="doc-drawer"
+    behavior="mobile"
+  >
+    <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-pr-md">
+      <q-btn
+        class="call-to-action-btn shadow-bottom-small"
+        label="Close"
+        no-caps
+        @click="docStore.toggleTocDrawer"
+      />
+    </div>
+
+    <div class="doc-drawer__title q-px-md text-weight-bold">On this page</div>
+    <doc-page-toc class="doc-page-toc--mobile q-pt-sm q-px-md q-pb-lg" />
+  </q-drawer>
+</template>
+
+<script setup>
+import { useDocStore } from './store'
+
+import DocPageToc from './DocPageToc.vue'
+
+const docStore = useDocStore()
+</script>

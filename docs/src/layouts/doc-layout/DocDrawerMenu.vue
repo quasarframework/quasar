@@ -1,6 +1,6 @@
 <template>
   <q-drawer
-    v-model="docStore.state.value.drawer"
+    v-model="docStore.state.value.menuDrawer"
     class="doc-drawer"
     behavior="mobile"
   >
@@ -9,7 +9,7 @@
         class="call-to-action-btn shadow-bottom-small"
         label="Close"
         no-caps
-        @click="docStore.toggleDrawer"
+        @click="docStore.toggleMenuDrawer"
       />
     </div>
     <doc-page-menu class="q-mx-sm q-mb-lg" />
@@ -23,15 +23,3 @@ import DocPageMenu from './DocPageMenu'
 
 const docStore = useDocStore()
 </script>
-
-<style lang="sass">
-.doc-drawer
-  box-shadow: $shadow--primary
-  &__header
-    position: sticky
-    top: 0
-    z-index: 1
-    .q-btn
-      font-size: 12px
-      padding: 8px 16px
-</style>

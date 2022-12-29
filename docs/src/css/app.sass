@@ -86,13 +86,15 @@ ul
 
 .doc-heading
   color: $brand-primary
-  cursor: pointer
 
-  &:after
-    content: ' #'
-    opacity: 0
-  &:hover:after
-    opacity: 1
+  &:not(#introduction)
+    cursor: pointer
+
+    &:after
+      content: ' #'
+      opacity: 0
+    &:hover:after
+      opacity: 1
 
   .q-badge
     // for dark, so it won't jump around, jump around, and come down:
@@ -104,11 +106,6 @@ ul
   padding: 0 0 1rem
   font-weight: 600
   margin: 0 0 .5em !important
-
-  a
-    height: 3rem
-  .q-icon
-    font-size: 2rem
 
 .doc-h2
   font-size: 2rem
