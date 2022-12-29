@@ -46,6 +46,7 @@
         class="doc-header__leftmost q-mr-sm lt-1300"
         flat round
         icon="menu"
+        size="12px"
         @click="docStore.toggleMenuDrawer"
       />
 
