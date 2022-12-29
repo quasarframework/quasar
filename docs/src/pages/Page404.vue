@@ -1,5 +1,5 @@
 <template>
-  <doc-stars v-if="$q.dark.isActive" />
+  <doc-stars />
   <div class="page404 flex flex-center text-center relative-position">
     <div>
       <div class="page404__hero flex flex-center no-wrap q-gutter-sm text-brand-primary">
