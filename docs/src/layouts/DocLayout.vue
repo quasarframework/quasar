@@ -50,11 +50,11 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         q-banner.drawer-banner-bg
           .flex.q-py-md.justify-center
             q-btn(
-              href="https://bit.ly/qconf2022yt"
+              href="https://github.com/quasarframework/quasar/discussions/15168"
               target="_blank"
               color="primary"
-              :icon="mdiYoutube"
-              label="Watch Quasar Conf 2022"
+              :icon="mdiBullhornOutline"
+              label="Check out the next docs"
               no-caps
             )
 
@@ -141,7 +141,7 @@ import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 
 import {
-  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp, mdiYoutube
+  mdiMenu, mdiClipboardText, mdiHeart, mdiMagnify, mdiChevronUp, mdiBullhornOutline
 } from '@quasar/extras/mdi-v6'
 
 import AppMenu from 'components/AppMenu.js'
@@ -174,7 +174,7 @@ export default {
       mdiHeart,
       mdiMagnify,
       mdiChevronUp,
-      mdiYoutube
+      mdiBullhornOutline
     }
 
     useToc(scope, $route)
