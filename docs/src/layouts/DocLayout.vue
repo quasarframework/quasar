@@ -54,7 +54,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
               target="_blank"
               color="primary"
               :icon="mdiBullhornOutline"
-              label="Check out the next docs"
+              label="Test the next docs!"
               no-caps
             )
 
