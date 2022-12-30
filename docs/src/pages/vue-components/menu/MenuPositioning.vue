@@ -1,7 +1,7 @@
 <template>
   <q-card flat bordered>
     <div class="q-pa-md text-center">
-      <q-btn push color="orange" label="Test me" style="width: 200px">
+      <q-btn class="call-to-action-btn shadow-bottom-small" label="Test me" style="width: 200px">
         <q-menu :fit="fit" :cover="cover" :anchor="anchor" :self="self" auto-close>
           <q-list style="min-width: 100px">
             <q-item clickable>

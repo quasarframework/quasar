@@ -1,7 +1,7 @@
 <template>
   <q-card flat bordered>
     <div class="q-pa-md text-center">
-      <q-btn push color="orange" label="Test me" style="width: 200px">
+      <q-btn class="call-to-action-btn shadow-bottom-small" label="Test me" style="width: 200px">
         <q-tooltip :anchor="anchor" :self="self">
           Here I am!
         </q-tooltip>
