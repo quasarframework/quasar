@@ -110,7 +110,7 @@ export const ecosystemParts = [
       {
         label: 'All AEs',
         icon: mdiPuzzle,
-        path: 'https://quasar.dev/app-extensions/discover',
+        path: 'https://www.npmjs.com/search?q=quasar-app-extension',
         iconColor: 'brand-accent'
       }
     ]
