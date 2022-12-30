@@ -22,7 +22,7 @@
       </q-no-ssr>
     </div>
 
-    <q-scroll-area :class="resultsClass">
+    <div :class="resultsClass">
       <template v-if="results">
         <component
           v-if="results.masterComponent !== void 0"
@@ -34,7 +34,7 @@
           :search-active-id="activeId"
         />
       </template>
-    </q-scroll-area>
+    </div>
   </div>
 </template>
 
@@ -83,7 +83,7 @@ function onFocusout () {
 
 const classes = computed(() => (hasFocus.value ? 'doc-search--focused' : null))
 const resultsClass = computed(() => (
-  'doc-search__results rounded-borders rounded-borders' +
+  'doc-search__results rounded-borders rounded-borders overflow-auto' +
   ` doc-search__results--${ results.value ? 'active' : 'hidden' }`
 ))
 
@@ -332,21 +332,27 @@ body.desktop
     background: none
 
   &__results
-    height: 0
+    max-height: 80vh
     top: 42px
     left: 0
     right: 0
-    transition: height .3s ease-in-out, box-shadow .3s ease-in-out, border-color .3s ease-in-out
+    transform: scale3d(1, 0, 1)
+    transform-origin: top
+    transition: transform .14s ease-in-out, box-shadow .3s ease-in-out
 
   &--focused
     .doc-search__results--active
-      height: 80vh
+      transform: scale3d(1, 1, 1)
       box-shadow: $shadow--primary-down
 
     .doc-search__icon
       display: inline-block !important
     .doc-search__kbd
       display: none
+
+.app-search-warning
+  font-size: 12px
+  letter-spacing: $letter-spacing
 
 @media (max-width: 445px)
   .doc-search__results
@@ -359,6 +365,10 @@ body.desktop
     position: relative
   .doc-search__results
     position: absolute
+
+body.mobile
+  .doc-search__results
+    max-height: 50vh
 
 body.body--light .doc-search
   input

@@ -1,7 +1,7 @@
 <template>
-  <div class="q-my-lg q-mx-md q-pa-md text-center">
+  <div class="app-search-warning q-my-lg q-mx-md q-pa-md text-center">
     <q-icon :name="mdiTextBoxSearchOutline" color="brand-primary" size="4em" />
-    <div class="q-mt-md text-weight-thin">
+    <div class="q-mt-md">
       We searched for it but couldn't find it... It may exist and not yet indexed.
     </div>
     <div class="q-mt-sm">

@@ -43,10 +43,9 @@
 
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
       <q-btn
-        class="doc-header__leftmost q-mr-sm lt-1300"
+        class="doc-header__leftmost q-mr-xs lt-1300"
         flat round
         icon="menu"
-        size="12px"
         @click="docStore.toggleMenuDrawer"
       />
 
@@ -72,7 +71,6 @@
           flat
           round
           icon="description"
-          size="12px"
           @click="docStore.toggleTocDrawer"
         />
       </div>
@@ -147,6 +145,12 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
   &__leftmost
     margin-left: -8px
 
+  @media (max-width: 320px)
+    .q-btn
+      font-size: 12px
+    .q-btn--rectangle
+      padding: 8px 2px 8px 10px !important
+
   @media (max-width: 1059px)
     &__logo-text
       display: none
@@ -219,8 +223,6 @@ body.body--dark
 
   .doc-header-icon-links
     color: $brand-primary
-    .q-btn
-      font-size: 12px
 
 $mq-list: 510, 600, 750, 860, 910, 1000, 1060, 1130, 1190, 1300 /* drawer */, 1310, 1400
 @each $query in $mq-list

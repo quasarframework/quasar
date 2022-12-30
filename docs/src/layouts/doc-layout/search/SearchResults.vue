@@ -36,7 +36,7 @@ const props = defineProps({
 
 <style lang="sass">
 .app-search
-  padding: 0 12px 38px
+  padding: 0 12px 4px
 
   &__instructions
     margin: 0 -12px // reset container padding
@@ -80,10 +80,10 @@ const props = defineProps({
 
     &-title
       color: $brand-primary
-      letter-spacing: $letter-spacing
       word-break: break-word
       font-size: .9em
       .doc-token
+        letter-spacing: $letter-spacing
         border-radius: $generic-border-radius
 
     &-content
