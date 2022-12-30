@@ -40,24 +40,29 @@ const Plugin = defineReactivePlugin({
         return
       }
 
-      const dir = lang.rtl === true ? 'rtl' : 'ltr'
-      const attrs = `lang=${ lang.isoName } dir=${ dir }`
-
       lang.set = ssrContext.$q.lang.set
 
-      ssrContext._meta.htmlAttrs = ssrContext.__qPrevLang !== void 0
-        ? ssrContext._meta.htmlAttrs.replace(ssrContext.__qPrevLang, attrs)
-        : attrs
+      if (ssrContext.$q.config.lang === void 0 || ssrContext.$q.config.lang.noHtmlAttrs !== true) {
+        const dir = lang.rtl === true ? 'rtl' : 'ltr'
+        const attrs = `lang=${ lang.isoName } dir=${ dir }`
 
-      ssrContext.__qPrevLang = attrs
+        ssrContext._meta.htmlAttrs = ssrContext.__qPrevLang !== void 0
+          ? ssrContext._meta.htmlAttrs.replace(ssrContext.__qPrevLang, attrs)
+          : attrs
+
+        ssrContext.__qPrevLang = attrs
+      }
+
       ssrContext.$q.lang = lang
     }
     else {
-      const el = document.documentElement
-      el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
-      el.setAttribute('lang', lang.isoName)
-
       lang.set = Plugin.set
+
+      if (Plugin.__langConfig === void 0 || Plugin.__langConfig.noHtmlAttrs !== true) {
+        const el = document.documentElement
+        el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
+        el.setAttribute('lang', lang.isoName)
+      }
 
       Object.assign(Plugin.__langPack, lang)
 
@@ -87,6 +92,7 @@ const Plugin = defineReactivePlugin({
     }
     else {
       $q.lang = Plugin.__langPack
+      Plugin.__langConfig = $q.config.lang
 
       if (this.__installed === true) {
         lang !== void 0 && this.set(lang)
