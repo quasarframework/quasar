@@ -30,6 +30,12 @@ console.log(dom.offset(DomElement))
 For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
+::: tip
+Use one of the following methods to retrieve `DomElement`
+- const DomElement = document.getElementByID("theElement")
+- const DomElement = this.$refs.theElement.$el
+:::
+
 ## Offset on screen viewport
 ```js
 import { dom } from 'quasar'
