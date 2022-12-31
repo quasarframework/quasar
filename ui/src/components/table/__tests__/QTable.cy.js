@@ -550,19 +550,35 @@ describe('Table API', () => {
         })
 
         it('should add row class (Function)', () => {
-          const rowClass = 'row-class'
+          const firstRowClass = 'first-row'
+          const secondRowClass = 'second-row'
+
+          function tableRowClass (row) {
+            if (row.name === 'Frozen Yogurt') {
+              return firstRowClass
+            }
+
+            if (row.name === 'Ice cream sandwich') {
+              return secondRowClass
+            }
+          }
 
           mount(QTable, {
             props: {
               rows,
               columns,
-              tableRowClass: () => rowClass
+              tableRowClass
             }
           })
 
-          cy.get('.q-table tbody tr').each((tr) =>
-            cy.wrap(tr).should('have.class', rowClass)
-          )
+          cy.get('.q-table tbody tr').each((tr, i) => {
+            if (i === 0) {
+              cy.wrap(tr).should('have.class', firstRowClass)
+            }
+            else if (i === 1) {
+              cy.wrap(tr).should('have.class', secondRowClass)
+            }
+          })
         })
       })
 
