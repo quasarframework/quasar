@@ -100,6 +100,8 @@ export default createComponent({
       const prop = { type: 'radio' }
 
       props.name !== void 0 && Object.assign(prop, {
+        // see https://vuejs.org/guide/extras/render-function.html#creating-vnodes (.prop)
+        '.checked': isTrue.value === true,
         '^checked': isTrue.value === true ? 'checked' : void 0,
         name: props.name,
         value: props.val
