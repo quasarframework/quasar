@@ -155,9 +155,6 @@ body.body--dark .doc-layout__menu
     position: sticky
     top: 0
     z-index: 1
-    .q-btn
-      font-size: 12px
-      padding: 8px 16px
 
   &__title
     font-size: $font-size

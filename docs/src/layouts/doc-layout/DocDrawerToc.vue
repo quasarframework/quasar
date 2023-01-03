@@ -8,8 +8,9 @@
     <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-pr-md">
       <q-btn
         class="call-to-action-btn shadow-bottom-small"
-        label="Close"
-        no-caps
+        :icon="mdiClose"
+        round
+        dense
         @click="docStore.toggleTocDrawer"
       />
     </div>
@@ -20,6 +21,8 @@
 </template>
 
 <script setup>
+import { mdiClose } from '@quasar/extras/mdi-v6'
+
 import { useDocStore } from './store'
 
 import DocPageToc from './DocPageToc.vue'
