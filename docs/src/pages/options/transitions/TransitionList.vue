@@ -5,20 +5,31 @@
       src="https://cdn.quasar.dev/img/parallax1.jpg"
     />
 
-    <q-btn class="q-mb-lg" push color="teal" label="Trigger" @click="trigger" />
+    <q-btn
+      class="call-to-action-btn shadow-bottom-small q-mb-lg"
+      no-caps
+      label="Trigger All"
+      padding="8px 16px"
+      @click="triggerAll"
+    />
 
     <div class="q-gutter-md row items-start">
       <div
         v-for="transition in transitions"
-        :key="transition"
-        class="transition-list-box relative-position overflow-hidden rounded-borders shadow-2"
+        :key="transition.name"
+        class="transition-list-box relative-position overflow-hidden rounded-borders shadow-2 cursor-pointer non-selectable"
+        @click="transition.trigger"
       >
-        <transition :name="'q-transition--' + transition">
-          <img class="transition-list-box__img absolute-full" :key="globalIndex + transition" :src="url"/>
+        <transition :name="transition.css">
+          <img
+            class="transition-list-box__img absolute-full"
+            :key="transition.name + '|' + transition.url"
+            :src="transition.url"
+          />
         </transition>
 
         <div class="transition-list-box__label absolute-bottom q-pa-sm text-center text-body2">
-          {{ transition }}
+          {{ transition.name }}
         </div>
       </div>
     </div>
@@ -28,12 +39,10 @@
 <script setup>
 import { ref } from 'vue'
 
-let index = 0
+const urlFirst = 'https://cdn.quasar.dev/img/parallax2.jpg'
+const urlSecond = 'https://cdn.quasar.dev/img/parallax1.jpg'
 
-const url = ref('https://cdn.quasar.dev/img/parallax2.jpg')
-const globalIndex = ref('q_0_')
-
-const transitions = [
+const transitions = ref([
   'slide-right',
   'slide-left',
   'slide-up',
@@ -49,13 +58,20 @@ const transitions = [
   'jump-left',
   'jump-up',
   'jump-down'
-]
+].map((name, index) => ({
+  name,
+  css: `q-transition--${ name }`,
+  url: urlFirst,
+  trigger: () => {
+    const { url } = transitions.value[ index ]
+    transitions.value[ index ].url = url === urlFirst
+      ? urlSecond
+      : urlFirst
+  }
+})))
 
-function trigger () {
-  globalIndex.value = 'q_' + (++index) + '_'
-  url.value = url.value === 'https://cdn.quasar.dev/img/parallax2.jpg'
-    ? 'https://cdn.quasar.dev/img/parallax1.jpg'
-    : 'https://cdn.quasar.dev/img/parallax2.jpg'
+function triggerAll () {
+  transitions.value.forEach(transition => { transition.trigger() })
 }
 </script>
 
@@ -64,6 +80,20 @@ function trigger () {
 
   width: 150px
   height: 150px
+
+  &:after
+    content: ''
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
+    background-color: #000
+    opacity: 0
+    transition: opacity .28s ease-in-out
+
+  &:hover:after
+    opacity: .15
 
   &__img
     height: inherit
