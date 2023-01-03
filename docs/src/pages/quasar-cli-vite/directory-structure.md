@@ -5,23 +5,24 @@ scope:
   tree:
     l: '.'
     c: [
-      { l: 'public', e: 'Pure static assets (directly copied)' },
+      { l: 'public', e: 'Pure static assets (directly copied)', r: '/quasar-cli-vite/handling-assets#static-assets-public' },
       { l: 'src',
         c: [
-          { l: 'assets/', e: 'Dynamic assets (processed by Vite)' },
-          { l: 'components/', e: '.vue components used in pages & layouts' },
+          { l: 'assets/', e: 'Dynamic assets (processed by Vite)', r: '/quasar-cli-vite/handling-assets#regular-assets-src-assets' },
+          { l: 'components/', e: '.vue components used in pages & layouts', r: '/start/how-to-use-vue#vue-single-file-components-sfc-' },
           { l: 'css',
             e: 'CSS/Sass/... files for your app',
             c: [
               { l: 'app.sass' },
-              { l: 'quasar.variables.sass', e: 'Quasar Sass variables for you to tweak' }
+              { l: 'quasar.variables.sass', e: 'Quasar Sass variables for you to tweak', r: '/style/sass-scss-variables#introduction' }
             ]
           },
-          { l: 'layouts/', e: 'Layout .vue files' },
+          { l: 'layouts/', e: 'Layout .vue files', r: '/layout/layout' },
           { l: 'pages/', e: 'Page .vue files' },
-          { l: 'boot/', e: 'Boot files (app initialization code)' },
+          { l: 'boot/', e: 'Boot files (app initialization code)', r: '/quasar-cli-vite/boot-files' },
           { l: 'router',
             e: 'Vue Router',
+            r: '/quasar-cli-vite/routing',
             c: [
               { l: 'index.js', e: 'Vue Router definition' },
               { l: 'routes.js', e: 'App Routes definitions' }
@@ -30,6 +31,7 @@ scope:
           {
             l: 'stores',
             e: 'Pinia Stores (if not using Vuex)',
+            r: '/quasar-cli-vite/state-management-with-pinia',
             c: [
               { l: 'index.js', e: 'Pinia initialization' },
               { l: '<store>', e: 'Pinia stores...' },
@@ -39,21 +41,22 @@ scope:
           {
             l: 'store',
             e: 'Vuex Store (if not using Pinia)',
+            r: '/quasar-cli-vite/state-management-with-vuex',
             c: [
               { l: 'index.js', e: 'Vuex Store definition' },
               { l: '<folder>', e: 'Vuex Store Module...' },
               { l: '<folder>', e: 'Vuex Store Module...' }
             ]
           },
-          { l: 'App.vue', e: 'Root Vue component of your App' }
+          { l: 'App.vue', e: 'Root Vue component of your App', r: 'https://vuejs.org/guide/essentials/application.html' },
+          { l: 'index.template.html', e: 'Template for index.html' },
         ]
       },
-      { l: 'index.html', e: 'Template for index.html' },
-      { l: 'src-ssr/', e: 'SSR specific code (like production Node webserver)' },
-      { l: 'src-pwa/', e: 'PWA specific code (like Service Worker)' },
-      { l: 'src-cordova/', e: 'Cordova generated folder used to create Mobile Apps' },
-      { l: 'src-electron/', e: 'Electron specific code (like "main" thread)' },
-      { l: 'src-bex/', e: 'BEX (browser extension) specific code (like "main" thread)' },
+      { l: 'src-ssr/', e: 'SSR specific code (like production Node webserver)', r: '/quasar-cli-vite/developing-ssr/introduction' },
+      { l: 'src-pwa/', e: 'PWA specific code (like Service Worker)', r: '/quasar-cli-vite/developing-pwa/introduction' },
+      { l: 'src-cordova/', e: 'Cordova generated folder used to create Mobile Apps', r: '/quasar-cli-vite/developing-cordova-apps/introduction' },
+      { l: 'src-electron/', e: 'Electron specific code (like "main" thread)', r: '/quasar-cli-vite/developing-electron-apps/introduction' },
+      { l: 'src-bex/', e: 'BEX (browser extension) specific code (like "main" thread)', r: '/quasar-cli-vite/developing-browser-extensions/introduction' },
       { l: 'dist',
         e: 'Where production builds go',
         c: [
@@ -63,16 +66,16 @@ scope:
           { l: '...' }
         ]
       },
-      { l: 'quasar.config.js', e: 'Quasar App Config file' },
-      { l: '.gitignore', e: 'GIT ignore paths' },
-      { l: '.editorconfig', e: 'EditorConfig file' },
-      { l: '.eslintignore', e: 'ESLint ignore paths' },
-      { l: '.eslintrc.js', e: 'ESLint config' },
-      { l: 'postcss.config.js', e: 'PostCSS config' },
-      { l: 'jsconfig.json', e: 'Editor config (if not using TypeScript)' },
-      { l: 'tsconfig.json', e: 'TypeScript config' },
-      { l: 'package.json', e: 'npm scripts and dependencies' },
-      { l: 'README.md', e: 'Readme for your website/App' }
+      { l: 'quasar.config.js', e: 'Quasar App Config file', r: '/quasar-cli-vite/quasar-config-js' },
+      { l: '.gitignore', e: 'GIT ignore paths', r: 'https://git-scm.com/docs/gitignore' },
+      { l: '.editorconfig', e: 'EditorConfig file', r: 'https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig' },
+      { l: '.eslintignore', e: 'ESLint ignore paths', r: 'https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#the-eslintignore-file' },
+      { l: '.eslintrc.js', e: 'ESLint config', r: 'https://eslint.org/docs/latest/user-guide/configuring/configuration-files#using-configuration-files' },
+      { l: 'postcss.config.js', e: 'PostCSS config', r: 'https://github.com/postcss/postcss' },
+      { l: 'jsconfig.json', e: 'Editor config (if not using TypeScript)', r: 'https://code.visualstudio.com/docs/languages/jsconfig' },
+      { l: 'tsconfig.json', e: 'TypeScript config', r: 'https://www.typescriptlang.org/docs/handbook/tsconfig-json.html' },
+      { l: 'package.json', e: 'npm scripts and dependencies', r: 'https://docs.npmjs.com/cli/v9/configuring-npm/package-json' },
+      { l: 'README.md', e: 'Readme for your website/App', r: 'https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes' }
     ]
 ---
 This is the structure of a project with all modes installed. There's no reason to be intimidated though!
