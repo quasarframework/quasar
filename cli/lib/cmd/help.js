@@ -1,13 +1,12 @@
-#!/usr/bin/env node
 
 console.log()
 console.log(
   require('fs').readFileSync(
-    require('path').join(__dirname, '../assets/logo.art'),
+    require('path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )
-console.log('  Running @quasar/cli v' + require('../package.json').version)
+console.log('  Running @quasar/cli v' + require('../../package.json').version)
 
 const { italic } = require('kolorist')
 

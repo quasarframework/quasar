@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 const { yellow } = require('kolorist')
@@ -51,12 +50,12 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/ensure-outside-project')()
+require('../ensure-outside-project')()
 
 console.log()
 console.log(
   require('fs').readFileSync(
-    require('path').join(__dirname, '../assets/logo.art'),
+    require('path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )
@@ -86,9 +85,9 @@ const tildify = require('tildify')
 const inquirer = require('inquirer')
 const rm = require('rimraf').sync
 
-const generate = require('../lib/generate')
-const logger = require('../lib/logger')
-const { isLocalPath, getTemplatePath } = require('../lib/local-path')
+const generate = require('../generate')
+const logger = require('../logger')
+const { isLocalPath, getTemplatePath } = require('../local-path')
 
 let template = argv.kit
   ? (
