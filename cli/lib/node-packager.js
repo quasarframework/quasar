@@ -14,8 +14,6 @@ function isInstalled (cmd) {
 }
 
 function getPackager (root) {
-
-
   if (fs.existsSync(join(root, 'yarn.lock'))) {
     return 'yarn'
   }
@@ -32,12 +30,12 @@ function getPackager (root) {
     return 'yarn'
   }
 
-  if (isInstalled('pnpm')) {
-    return 'pnpm'
-  }
-
   if (isInstalled('npm')) {
     return 'npm'
+  }
+
+  if (isInstalled('pnpm')) {
+    return 'pnpm'
   }
 
   fatal('⚠️  Please install Yarn or Pnpm or NPM before running this command.\n')
