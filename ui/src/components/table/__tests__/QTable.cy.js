@@ -453,12 +453,13 @@ describe('Table API', () => {
 
         it('should add row style (Array)', () => {
           const style = 'font-size: 20px;'
+          const styleFalse = 'background: yellow'
 
           mount(QTable, {
             props: {
               rows,
               columns,
-              tableRowStyle: [ style ]
+              tableRowStyle: [ style, false && styleFalse ]
             }
           })
 
@@ -474,7 +475,7 @@ describe('Table API', () => {
             props: {
               rows,
               columns,
-              tableRowStyle: { fontSize: '20px' }
+              tableRowStyle: { fontSize: '20px', backgroundColor: false && 'yellow' }
             }
           })
 
@@ -484,19 +485,32 @@ describe('Table API', () => {
         })
 
         it('should add row style (Function)', () => {
-          const style = 'font-size: 20px;'
+          const styleMap = {
+            'Frozen Yogurt': 'font-size: 20px;',
+            'Ice cream sandwich': 'font-size: 12px;'
+          }
+
+          function tableRowStyle (row) {
+            return styleMap[ row.name ]
+          }
 
           mount(QTable, {
             props: {
               rows,
               columns,
-              tableRowStyle: () => style
+              tableRowStyle
             }
           })
 
-          cy.get('.q-table tbody tr').each((tr) =>
-            cy.wrap(tr).should('have.attr', 'style', style)
-          )
+          cy.get('.q-table tbody tr').each((tr, i) => {
+            const style = styleMap[ rows[ i ].name ]
+            if (style) {
+              cy.wrap(tr).should('have.attr', 'style', style)
+            }
+            else {
+              cy.wrap(tr).should('not.have.attr', 'style')
+            }
+          })
         })
       })
 
@@ -519,48 +533,50 @@ describe('Table API', () => {
 
         it('should add row class (Array)', () => {
           const arrayRowClasses = [ 'row-class1', 'row-class2' ]
+          const arrayRowClassesFalse = [ 'row-class3' ]
 
           mount(QTable, {
             props: {
               rows,
               columns,
-              tableRowClass: arrayRowClasses
+              tableRowClass: [ ...arrayRowClasses, ...arrayRowClassesFalse.map((clsName) => false && clsName) ]
             }
           })
 
-          cy.get('.q-table tbody tr').each((tr) =>
+          cy.get('.q-table tbody tr').each((tr) => {
             arrayRowClasses.forEach((rowClass) => cy.wrap(tr).should('have.class', rowClass))
-          )
+
+            arrayRowClassesFalse.forEach((rowClass) => cy.wrap(tr).should('not.have.class', rowClass))
+          })
         })
 
         it('should add row class (Object)', () => {
           const objectRowClasses = { 'row-class1': true, 'row-class2': true }
+          const objectRowClassesFalse = { 'row-class3': false }
 
           mount(QTable, {
             props: {
               rows,
               columns,
-              tableRowClass: objectRowClasses
+              tableRowClass: { ...objectRowClasses, ...objectRowClassesFalse }
             }
           })
 
-          cy.get('.q-table tbody tr').each((tr) =>
+          cy.get('.q-table tbody tr').each((tr) => {
             Object.keys(objectRowClasses).forEach((rowClass) => cy.wrap(tr).should('have.class', rowClass))
-          )
+
+            Object.keys(objectRowClassesFalse).forEach((rowClass) => cy.wrap(tr).should('not.have.class', rowClass))
+          })
         })
 
         it('should add row class (Function)', () => {
-          const firstRowClass = 'first-row'
-          const secondRowClass = 'second-row'
+          const classesMap = {
+            'Frozen Yogurt': 'first-row',
+            'Ice cream sandwich': 'second-row'
+          }
 
           function tableRowClass (row) {
-            if (row.name === 'Frozen Yogurt') {
-              return firstRowClass
-            }
-
-            if (row.name === 'Ice cream sandwich') {
-              return secondRowClass
-            }
+            return classesMap[ row.name ] || ''
           }
 
           mount(QTable, {
@@ -572,12 +588,9 @@ describe('Table API', () => {
           })
 
           cy.get('.q-table tbody tr').each((tr, i) => {
-            if (i === 0) {
-              cy.wrap(tr).should('have.class', firstRowClass)
-            }
-            else if (i === 1) {
-              cy.wrap(tr).should('have.class', secondRowClass)
-            }
+            const className = classesMap[ rows[ i ].name ] || ''
+
+            cy.wrap(tr).should('have.class', className)
           })
         })
       })
