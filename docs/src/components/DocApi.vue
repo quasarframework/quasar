@@ -317,6 +317,10 @@ process.env.CLIENT && onMounted(() => {
   & + &
     border-top: 1px solid #ddd
 
+  &__expand-btn
+    margin-left: 4px
+    color: $dark
+
   &__item
     min-height: 25px
     margin-bottom: 4px
@@ -373,4 +377,6 @@ body.body--dark
       background-color: transparent
       color: $brand-primary
       border-color: $brand-primary
+    &__expand-btn
+      color: #fff
 </style>
