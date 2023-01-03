@@ -3,49 +3,46 @@ title: App Icons for SSR
 desc: (@quasar/app-webpack) How to manage the app icons for a Quasar server-side rendered app.
 scope:
   spaTree:
-    { l: 'public',
-      c: [
-        { l: 'favicon.ico' },
-        { l: 'icons',
-          c: [
-            { l: 'favicon-128x128.png' },
-            { l: 'favicon-96x96.png' },
-            { l: 'favicon-32x32.png' },
-            { l: 'favicon-16x16.png' }
-          ]
-        }
-      ]
-    }
+    l: public
+    c:
+    - l: favicon.ico
+    - l: icons
+      c:
+      - l: favicon-128x128.png
+      - l: favicon-96x96.png
+      - l: favicon-32x32.png
+      - l: favicon-16x16.png
   ssrTree:
-    { l: 'public',
-      c: [
-        { l: 'icons',
-          c: [
-            { l: 'icon-128x128.png', e: 'for the PWA manifest' },
-            { l: 'icon-192x192.png', e: 'for the PWA manifest' },
-            { l: 'icon-256x256.png', e: 'for the PWA manifest' },
-            { l: 'icon-384x384.png', e: 'for the PWA manifest' },
-            { l: 'icon-512x512.png', e: 'for the PWA manifest' },
-            { l: 'ms-icon-144x144.png' },
-            { l: 'safari-pinned-tab.svg' },
-            { l: 'apple-icon-120x120.png' },
-            { l: 'apple-icon-152x152.png' },
-            { l: 'apple-icon-167x167.png' },
-            { l: 'apple-icon-180x180.png' },
-            { l: 'apple-icon-828x1792.png' },
-            { l: 'apple-icon-1125x2436.png' },
-            { l: 'apple-icon-1242x2688.png' },
-            { l: 'apple-icon-750x1334.png' },
-            { l: 'apple-icon-1242x2208.png' },
-            { l: 'apple-icon-640x1136.png' },
-            { l: 'apple-icon-1536x2048.png' },
-            { l: 'apple-icon-1668x2224.png' },
-            { l: 'apple-icon-1668x2388.png' },
-            { l: 'apple-icon-2048x2732.png' }
-          ]
-        }
-      ]
-    }
+    l: public
+    c:
+    - l: icons
+      c:
+      - l: icon-128x128.png
+        e: for the PWA manifest
+      - l: icon-192x192.png
+        e: for the PWA manifest
+      - l: icon-256x256.png
+        e: for the PWA manifest
+      - l: icon-384x384.png
+        e: for the PWA manifest
+      - l: icon-512x512.png
+        e: for the PWA manifest
+      - l: ms-icon-144x144.png
+      - l: safari-pinned-tab.svg
+      - l: apple-icon-120x120.png
+      - l: apple-icon-152x152.png
+      - l: apple-icon-167x167.png
+      - l: apple-icon-180x180.png
+      - l: apple-icon-828x1792.png
+      - l: apple-icon-1125x2436.png
+      - l: apple-icon-1242x2688.png
+      - l: apple-icon-750x1334.png
+      - l: apple-icon-1242x2208.png
+      - l: apple-icon-640x1136.png
+      - l: apple-icon-1536x2048.png
+      - l: apple-icon-1668x2224.png
+      - l: apple-icon-1668x2388.png
+      - l: apple-icon-2048x2732.png
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).

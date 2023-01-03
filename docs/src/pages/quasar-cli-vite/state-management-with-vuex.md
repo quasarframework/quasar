@@ -3,36 +3,37 @@ title: App Vuex Store
 desc: (@quasar/app-vite) How to manage the Vuex Store in a Quasar App.
 scope:
   tree:
-    { l: 'src',
-      c: [
-        { l: 'store', e: 'Vuex Store',
-          c: [
-            { l: 'index.js', e: 'Vuex Store definition' },
-            { l: '<folder>', e: 'Vuex Store Module...' },
-            { l: '<folder>', e: 'Vuex Store Module...' }
-          ]
-        }
-      ]
-    }
+    l: src
+    c:
+    - l: store
+      e: Vuex Store
+      c:
+      - l: index.js
+        e: Vuex Store definition
+      - l: "<folder>"
+        e: Vuex Store Module...
+      - l: "<folder>"
+        e: Vuex Store Module...
   newStore:
-    { l: 'src',
-      c: [
-        { l: 'store',
-          c: [
-            { l: 'index.js', e: 'Vuex Store definition' },
-            { l: 'showcase', e: 'Module "showcase"...',
-              c: [
-                { l: 'index.js', e: 'Gluing the module together' },
-                { l: 'actions.js', e: 'Module actions' },
-                { l: 'getters.js', e: 'Module getters' },
-                { l: 'mutations.js', e: 'Module mutations' },
-                { l: 'state.js', e: 'Module state' }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+    l: src
+    c:
+    - l: store
+      c:
+      - l: index.js
+        e: Vuex Store definition
+      - l: showcase
+        e: Module "showcase"...
+        c:
+        - l: index.js
+          e: Gluing the module together
+        - l: actions.js
+          e: Module actions
+        - l: getters.js
+          e: Module getters
+        - l: mutations.js
+          e: Module mutations
+        - l: state.js
+          e: Module state
 ---
 
 ::: danger

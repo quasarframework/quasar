@@ -3,28 +3,26 @@ title: State management with Pinia
 desc: (@quasar/app-webpack) How to manage Pinia in a Quasar App.
 scope:
   tree:
-    { l: 'src',
-      c: [
-        { l: 'stores', e: 'Pinia',
-          c: [
-            { l: 'index.js', e: 'Pinia initialization' },
-            { l: '<store>', e: 'Pinia store...' },
-            { l: '<store>', e: 'Pinia store...' }
-          ]
-        }
-      ]
-    }
+    l: src
+    c:
+    - l: stores
+      e: Pinia
+      c:
+      - l: index.js
+        e: Pinia initialization
+      - l: "<store>"
+        e: Pinia store...
+      - l: "<store>"
+        e: Pinia store...
   newStore:
-    { l: 'src',
-      c: [
-        { l: 'stores',
-          c: [
-            { l: 'index.js', e: 'Pinia initialization' },
-            { l: 'counter.js', e: 'Pinia store' }
-          ]
-        }
-      ]
-    }
+    l: src
+    c:
+    - l: stores
+      c:
+      - l: index.js
+        e: Pinia initialization
+      - l: counter.js
+        e: Pinia store
 ---
 In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.
 

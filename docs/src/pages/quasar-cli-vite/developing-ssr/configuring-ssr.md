@@ -5,12 +5,12 @@ related:
   - /quasar-cli-vite/quasar-config-js
 scope:
   nodeJsTree:
-    { l: 'src-ssr',
-      c: [
-        { l: 'middlewares/', e: 'SSR middleware files' },
-        { l: 'server.js', e: 'SSR webserver' }
-      ]
-    }
+    l: src-ssr
+    c:
+    - l: middlewares/
+      e: SSR middleware files
+    - l: server.js
+      e: SSR webserver
 ---
 
 ## quasar.config.js

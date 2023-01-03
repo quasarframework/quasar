@@ -5,12 +5,12 @@ related:
   - /quasar-cli-webpack/quasar-config-js
 scope:
   tree:
-    { l: 'src-pwa',
-      c: [
-        { l: 'register-service-worker.js', e: '(or .ts) App-code *managing* service worker' },
-        { l: 'custom-service-worker.js', e: '(or .ts) Optional custom service worker file (InjectManifest mode ONLY)' }
-      ]
-    }
+    l: src-pwa
+    c:
+    - l: register-service-worker.js
+      e: "(or .ts) App-code *managing* service worker"
+    - l: custom-service-worker.js
+      e: "(or .ts) Optional custom service worker file (InjectManifest mode ONLY)"
 ---
 
 We'll be using Quasar CLI to develop and build a PWA. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
