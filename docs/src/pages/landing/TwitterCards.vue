@@ -1,8 +1,9 @@
 <template>
   <div class="twitter-cards row no-wrap relative-position">
     <div
-      class="col overflow-hidden row items-stretch no-wrap q-pa-xl"
+      class="twitter-cards__content col row items-stretch no-wrap q-pa-xl"
       ref="contentRef"
+      @scroll="updateArrows"
     >
       <q-card
         v-for="tweet in tweetsList"
@@ -40,17 +41,13 @@
         </q-card-section>
       </q-card>
 
-      <q-resize-observer @resize="updateArrows" />
+      <q-resize-observer @resize="updateArrows" debounce="0" />
     </div>
 
     <div
       class="twitter-cards__arrow twitter-cards__arrow--left cursor-pointer absolute-left row items-center"
       :class="leftArrowClass"
-      @mousedown.passive="scrollToStart"
-      @touchstart.passive="scrollToStart"
-      @mouseup.passive="stopAnimScroll"
-      @mouseleave.passive="stopAnimScroll"
-      @touchend.passive="stopAnimScroll"
+      @click="scrollToStart"
     >
       <q-icon
         :name="mdiChevronLeft"
@@ -62,11 +59,7 @@
     <div
       class="twitter-cards__arrow twitter-cards__arrow--right cursor-pointer absolute-right row items-center"
       :class="rightArrowClass"
-      @mousedown.passive="scrollToEnd"
-      @touchstart.passive="scrollToEnd"
-      @mouseup.passive="stopAnimScroll"
-      @mouseleave.passive="stopAnimScroll"
-      @touchend.passive="stopAnimScroll"
+      @click="scrollToEnd"
     >
       <q-icon
         :name="mdiChevronRight"
@@ -82,63 +75,35 @@ import { ref } from 'vue'
 import { fabTwitter } from '@quasar/extras/fontawesome-v5'
 import { mdiChevronLeft, mdiChevronRight } from '@quasar/extras/mdi-v7'
 
-let scrollTimer
 const hiddenArrowClass = 'twitter-cards__arrow--hidden'
 
 const contentRef = ref(null)
 const leftArrowClass = ref(hiddenArrowClass)
 const rightArrowClass = ref(null)
 
-function animScrollTo (value) {
-  stopAnimScroll()
-  scrollTimer = setInterval(() => {
-    if (scrollTowards(value) === true) {
-      stopAnimScroll()
-    }
-  }, 5)
-}
-
 function scrollToStart () {
-  animScrollTo(0)
+  scrollTo(-1)
 }
 
 function scrollToEnd () {
-  animScrollTo(Number.MAX_SAFE_INTEGER)
+  scrollTo(1)
 }
 
-function scrollTowards (value) {
+function scrollTo (direction) {
   const el = contentRef.value
+  if (el) {
+    const { scrollLeft, offsetWidth } = el
+    const modulo = scrollLeft % 332
 
-  if (!el) { return true }
+    const left = direction === -1 && modulo !== 0
+      ? scrollLeft - modulo
+      : (
+          (scrollLeft - modulo) +
+          direction * 332 * Math.max(1, Math.floor(offsetWidth / 332))
+        )
 
-  let
-    done = false,
-    pos = el.scrollLeft
-
-  const direction = value < pos ? -1 : 1
-
-  pos += direction * 5
-
-  if (pos < 0) {
-    done = true
-    pos = 0
+    el.scrollTo({ left, behavior: 'smooth' })
   }
-  else if (
-    (direction === -1 && pos <= value) ||
-    (direction === 1 && pos >= value)
-  ) {
-    done = true
-    pos = value
-  }
-
-  el.scrollLeft = pos
-  updateArrows()
-
-  return done
-}
-
-function stopAnimScroll () {
-  clearInterval(scrollTimer)
 }
 
 let arrowsTimer, lastTime = 0
@@ -157,7 +122,7 @@ function localUpdateArrows () {
   const el = contentRef.value
   if (el) {
     lastTime = Date.now()
-    const { scrollLeft, offsetWidth, scrollWidth } = contentRef.value
+    const { scrollLeft, offsetWidth, scrollWidth } = el
     leftArrowClass.value = scrollLeft <= 0 ? hiddenArrowClass : null
     rightArrowClass.value = scrollLeft + offsetWidth >= scrollWidth ? hiddenArrowClass : null
   }
@@ -292,6 +257,9 @@ const tweetsList = [
   margin-left: -24px
   margin-right: -24px
 
+  &__content
+    overflow: hidden
+
   &__entry
     border-radius: 14px
     box-shadow: 0 24px 24px 0 rgba(0,179,255,0.24)
@@ -315,4 +283,7 @@ const tweetsList = [
       background: linear-gradient(to left, $dark-bg 0%, $dark-bg 5%, transparent 100%)
     &--hidden
       opacity: 0
+
+body.mobile .twitter-cards__content
+  overflow: auto
 </style>
