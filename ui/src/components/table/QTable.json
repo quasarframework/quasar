@@ -519,8 +519,21 @@
 
     "table-row-style": {
       "type": [ "String", "Array", "Object", "Function" ],
-      "tsType": "VueStyleProp",
+      "tsType": "QTableRowStyleProp",
       "desc": "CSS style to apply to native HTML <tr> element",
+      "params": {
+        "row": {
+          "type": "Object",
+          "desc": "The current row being processed",
+          "examples": [ "{ name: 'Lorem Ipsum', price: 19 }" ]
+        }
+      },
+      "returns": {
+        "type": [ "String", "Array", "Object" ],
+        "tsType": "VueStyleProp",
+        "desc": "CSS style to apply to native HTML <tr> element",
+        "examples": [ "'width: 10px'", "{ backgroundColor: '#ff0000' }", "['width: 10px', 'font-size: 2em']" ]
+      },
       "examples": [
         "background-color: #ff0000",
         ":table-row-style=\"{ backgroundColor: '#ff0000' }\"",
@@ -531,8 +544,21 @@
 
     "table-row-class": {
       "type": [ "String", "Array", "Object", "Function" ],
-      "tsType": "VueClassProp",
+      "tsType": "QTableRowClassProp",
       "desc": "CSS class to apply to native HTML <tr> element",
+      "params": {
+        "row": {
+          "type": "Object",
+          "desc": "The current row being processed",
+          "examples": [ "{ name: 'Lorem Ipsum', price: 19 }" ]
+        }
+      },
+      "returns": {
+        "type": [ "String", "Array", "Object" ],
+        "tsType": "VueClassProp",
+        "desc": "CSS classes to apply to native HTML <tr> element",
+        "examples": [ "'bg-green'", "{ 'text-white': [Boolean condition] }", "['bg-green', 'text-white']" ]
+      },
       "examples": [
         "my-special-class",
         ":table--row-class=\"{ 'my-special-class': [Boolean condition] }\"",
