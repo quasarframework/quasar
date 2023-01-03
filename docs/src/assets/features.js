@@ -1,7 +1,7 @@
 import menu from './menu.js'
 
 function normalizeComps (list) {
-  let acc = [
+  const acc = [
     {
       name: 'Layout',
       path: 'layout'
@@ -30,14 +30,16 @@ function normalizeComps (list) {
       name: 'Page Scroller',
       path: 'page-scroller'
     }
-  ]
+  ].map(entry => ({ ...entry, path: `/layout/${entry.path}` }))
 
   list.forEach(entry => {
     if (entry.children) {
-      acc = acc.concat(entry.children)
+      acc.push(
+        ...(entry.children.map(entry => ({ ...entry, path: `/vue-components/${entry.path}` })))
+      )
     }
     else {
-      acc.push(entry)
+      acc.push({ ...entry, path: `/vue-components/${entry.path}` })
     }
   })
 
@@ -46,6 +48,6 @@ function normalizeComps (list) {
 
 export default {
   comps: normalizeComps(menu.find(entry => entry.name === 'Vue Components').children),
-  dirs: menu.find(entry => entry.name === 'Vue Directives').children,
-  plugins: menu.find(entry => entry.name === 'Quasar Plugins').children
+  dirs: menu.find(entry => entry.name === 'Vue Directives').children.map(entry => ({ ...entry, path: `/vue-directives/${entry.path}` })),
+  plugins: menu.find(entry => entry.name === 'Quasar Plugins').children.map(entry => ({ ...entry, path: `/quasar-plugins/${entry.path}` }))
 }
