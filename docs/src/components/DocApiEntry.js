@@ -315,7 +315,6 @@ function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
 
   const childKey = `${ masterKey }|||prop|${ prop.type }|${ propName }|${ level }`
 
-  console.log(childKey)
   child.push(
     ...getExpandable(
       openState,
