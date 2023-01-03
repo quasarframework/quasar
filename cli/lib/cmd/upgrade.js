@@ -229,7 +229,7 @@ function upgradeQuasar () {
       : (
         packager === 'pnpm'
           ? [ 'install' ]
-          : `--save${type === 'devDependencies' ? '-dev' : ''}` // npm
+          : [ 'install', `--save${type === 'devDependencies' ? '-dev' : ''}` ] // npm
       )
 
     deps[type].forEach(dep => {
