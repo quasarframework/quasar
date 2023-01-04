@@ -109,6 +109,7 @@ const pageContentClass = computed(() =>
   &__item .q-item
     font-size: $font-size
     letter-spacing: $letter-spacing
+    letter-spacing: .7px
     border-radius: 10px
     margin-top: 2px
     min-height: 30px

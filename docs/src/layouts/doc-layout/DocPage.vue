@@ -225,6 +225,8 @@ body.body--light .doc-page
     color: $grey-9
     background: $grey-3
     border: 1px solid $separator-color
+  &__toc-container .q-item
+    color: rgba(0,0,0,.54)
 
 body.body--dark .doc-page
   &__overline
@@ -240,4 +242,6 @@ body.body--dark .doc-page
     color: $dark-text
     background: $dark-pill
     border: 1px solid $brand-primary
+  &__toc-container .q-item
+    color: rgba(255,255,255,.54)
 </style>
