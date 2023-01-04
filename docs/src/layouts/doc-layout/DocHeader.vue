@@ -34,6 +34,7 @@
           round
           :icon="mdiCompare"
           :disable="cannotChangeTheme"
+          size="12px"
           @click="docStore.toggleDark"
         >
           <q-tooltip v-if="cannotChangeTheme">Changing Light/Dark mode will be available on other pages</q-tooltip>
@@ -46,6 +47,7 @@
         class="doc-header__leftmost q-mr-xs lt-1300"
         flat round
         icon="menu"
+        size="12px"
         @click="docStore.toggleMenuDrawer"
       />
 
@@ -71,6 +73,7 @@
           flat
           round
           icon="description"
+          size="12px"
           @click="docStore.toggleTocDrawer"
         />
       </div>
@@ -123,6 +126,14 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
     border-top: 1px solid
     &:last-child
       border-bottom: 1px solid
+
+  .q-btn
+    transition: color .6s
+    .q-focus-helper
+      &,
+      &:before,
+      &:after
+        transition: background-color .6s cubic-bezier(0.25, 0.8, 0.5, 1), opacity .6s cubic-bezier(0.25, 0.8, 0.5, 1)
 
   &__logo-img
     transform: rotate(0deg)
