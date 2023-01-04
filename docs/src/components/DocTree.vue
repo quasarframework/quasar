@@ -56,7 +56,6 @@ const nodes = [addId(props.def)]
     font-size: 17px
   &__explanation
     font-size: .7em
-    font-weight: 500
     letter-spacing: .2px
 
   .q-tree__node

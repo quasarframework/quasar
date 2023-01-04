@@ -169,6 +169,9 @@ process.env.CLIENT && onMounted(() => {
     color: $grey-7
   &__content
     position: relative
+
+    // reset doc style
+    font-weight: 400
     font-family: $font-family-examples
 
     &--scrollable

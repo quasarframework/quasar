@@ -52,6 +52,7 @@ const pageContentClass = computed(() =>
 <style lang="sass">
 .doc-layout
   font-family: $font-family
+  font-weight: $font-weight
 
   .q-page-container :target
     scroll-margin-top: $headerHeight
@@ -109,7 +110,6 @@ const pageContentClass = computed(() =>
   &__item .q-item
     font-size: $font-size
     letter-spacing: $letter-spacing
-    letter-spacing: .7px
     border-radius: 10px
     margin-top: 2px
     min-height: 30px
@@ -154,11 +154,6 @@ const pageContentClass = computed(() =>
     top: 0
     z-index: 1
     background: linear-gradient(to bottom, #fff 0%, #fff 75%, transparent)
-
-  &__title
-    font-size: $font-size
-    letter-spacing: $letter-spacing
-    padding-left: 22px
 
 body.body--dark
   .doc-layout__menu
