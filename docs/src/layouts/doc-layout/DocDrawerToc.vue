@@ -5,12 +5,13 @@
     class="doc-drawer"
     behavior="mobile"
   >
-    <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-pr-md">
+    <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-sm">
       <q-btn
-        class="call-to-action-btn shadow-bottom-small"
         :icon="mdiClose"
         round
         dense
+        flat
+        color="brand-accent"
         @click="docStore.toggleTocDrawer"
       />
     </div>

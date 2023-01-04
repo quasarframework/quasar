@@ -4,12 +4,13 @@
     class="doc-drawer"
     behavior="mobile"
   >
-    <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-md">
+    <div class="doc-drawer__header row justify-end no-wrap q-pt-sm q-pb-md q-px-xs">
       <q-btn
-        class="call-to-action-btn shadow-bottom-small"
         :icon="mdiClose"
         round
         dense
+        flat
+        color="brand-accent"
         @click="docStore.toggleMenuDrawer"
       />
     </div>

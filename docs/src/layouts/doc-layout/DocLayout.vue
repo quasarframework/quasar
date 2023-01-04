@@ -143,9 +143,6 @@ const pageContentClass = computed(() =>
     left: -1000px
     top: 0
 
-body.body--dark .doc-layout__menu
-  border-right-color: $brand-primary
-
 .doc-drawer
   // only show the shadow when the drawer is open
   .q-drawer:not(.q-layout--prevent-focus) &
@@ -155,9 +152,16 @@ body.body--dark .doc-layout__menu
     position: sticky
     top: 0
     z-index: 1
+    background: linear-gradient(to bottom, #fff 0%, #fff 75%, transparent)
 
   &__title
     font-size: $font-size
     letter-spacing: $letter-spacing
     padding-left: 22px
+
+body.body--dark
+  .doc-layout__menu
+    border-right-color: $brand-primary
+  .doc-drawer__header
+    background: linear-gradient(to bottom, $dark 0%, $dark 75%, transparent)
 </style>
