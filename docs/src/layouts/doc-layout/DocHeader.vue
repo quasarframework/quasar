@@ -219,7 +219,7 @@ body.body--light
 body.body--dark
   .doc-header
     color: #929397 !important
-    background: #050a14
+    background: $dark-bg
 
     .q-toolbar,
     &__logo
