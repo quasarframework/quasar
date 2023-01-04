@@ -10,7 +10,7 @@ let
   vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
-  closeTimer
+  closeTimer = null
 
 function onWheel (e) {
   if (shouldPreventScroll(e)) {
@@ -157,9 +157,9 @@ export default function (state) {
   if (state === true) {
     registered++
 
-    if (closeTimer !== void 0) {
+    if (closeTimer !== null) {
       clearTimeout(closeTimer)
-      closeTimer = void 0
+      closeTimer = null
       return
     }
 
@@ -181,11 +181,10 @@ export default function (state) {
     action = 'remove'
 
     if (client.is.ios === true && client.is.nativeMobile === true) {
-      clearTimeout(closeTimer)
-
+      closeTimer !== null && clearTimeout(closeTimer)
       closeTimer = setTimeout(() => {
         apply(action)
-        closeTimer = void 0
+        closeTimer = null
       }, 100)
       return
     }

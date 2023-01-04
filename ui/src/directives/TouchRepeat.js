@@ -138,6 +138,8 @@ export default createDirective(__QUASAR_SSR_SERVER__
             }
 
             const fn = () => {
+              ctx.timer = void 0
+
               if (ctx.event === void 0) {
                 return
               }
@@ -181,8 +183,9 @@ export default createDirective(__QUASAR_SSR_SERVER__
           },
 
           move (evt) {
-            if (ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true) {
+            if (ctx.event !== void 0 && ctx.timer !== void 0 && shouldEnd(evt, ctx.origin) === true) {
               clearTimeout(ctx.timer)
+              ctx.timer = void 0
             }
           },
 
@@ -195,7 +198,11 @@ export default createDirective(__QUASAR_SSR_SERVER__
             evt !== void 0 && ctx.event.repeatCount > 0 && stopAndPrevent(evt)
 
             cleanEvt(ctx, 'temp')
-            clearTimeout(ctx.timer)
+
+            if (ctx.timer !== void 0) {
+              clearTimeout(ctx.timer)
+              ctx.timer = void 0
+            }
 
             ctx.event = void 0
           }
@@ -244,7 +251,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
         const ctx = el.__qtouchrepeat
 
         if (ctx !== void 0) {
-          clearTimeout(ctx.timer)
+          ctx.timer !== void 0 && clearTimeout(ctx.timer)
 
           cleanEvt(ctx, 'main')
           cleanEvt(ctx, 'temp')

@@ -21,7 +21,7 @@ export default function ({
 
   const anchorEl = ref(null)
 
-  let touchTimer
+  let touchTimer = null
 
   function canShow (evt) {
     // abort with no parent configured or on multi-touch
@@ -80,6 +80,7 @@ export default function ({
         ])
 
         touchTimer = setTimeout(() => {
+          touchTimer = null
           proxy.show(evt)
           evt.qAnchorHandled = true
         }, 300)
@@ -87,7 +88,11 @@ export default function ({
 
       mobileCleanup (evt) {
         anchorEl.value.classList.remove('non-selectable')
-        clearTimeout(touchTimer)
+
+        if (touchTimer !== null) {
+          clearTimeout(touchTimer)
+          touchTimer = null
+        }
 
         if (showing.value === true && evt !== void 0) {
           clearSelection()
@@ -201,7 +206,7 @@ export default function ({
   })
 
   onBeforeUnmount(() => {
-    clearTimeout(touchTimer)
+    touchTimer !== null && clearTimeout(touchTimer)
     unconfigureAnchorEl()
   })
 

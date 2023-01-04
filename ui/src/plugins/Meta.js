@@ -1,7 +1,7 @@
 import { isRuntimeSsrPreHydration } from './Platform.js'
 import extend from '../utils/extend.js'
 
-let updateId, currentClientMeta
+let updateId = null, currentClientMeta
 export const clientList = []
 
 function normalize (meta) {
@@ -218,6 +218,8 @@ function injectServerMeta (ssrContext) {
 }
 
 function updateClientMeta () {
+  updateId = null
+
   const data = {
     title: '',
     titleTemplate: null,
@@ -243,7 +245,7 @@ function updateClientMeta () {
 }
 
 export function planClientUpdate () {
-  clearTimeout(updateId)
+  updateId !== null && clearTimeout(updateId)
   updateId = setTimeout(updateClientMeta, 50)
 }
 

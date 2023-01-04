@@ -17,15 +17,23 @@ export default createComponent({
 
   setup (props, { slots, emit }) {
     let animating = false, doneFn, element
-    let timer, timerFallback, animListener, lastEvent
+    let timer = null, timerFallback = null, animListener, lastEvent
 
     function cleanup () {
       doneFn && doneFn()
       doneFn = null
       animating = false
 
-      clearTimeout(timer)
-      clearTimeout(timerFallback)
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
+      }
+
+      if (timerFallback !== null) {
+        clearTimeout(timerFallback)
+        timerFallback = null
+      }
+
       element !== void 0 && element.removeEventListener('transitionend', animListener)
       animListener = null
     }
@@ -64,8 +72,11 @@ export default createComponent({
       begin(el, pos, done)
 
       timer = setTimeout(() => {
+        timer = null
         el.style.height = `${ el.scrollHeight }px`
         animListener = evt => {
+          timerFallback = null
+
           if (Object(evt) !== evt || evt.target === el) {
             end(el, 'show')
           }
@@ -90,8 +101,11 @@ export default createComponent({
       begin(el, pos, done)
 
       timer = setTimeout(() => {
+        timer = null
         el.style.height = 0
         animListener = evt => {
+          timerFallback = null
+
           if (Object(evt) !== evt || evt.target === el) {
             end(el, 'hide')
           }

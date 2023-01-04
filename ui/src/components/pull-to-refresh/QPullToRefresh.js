@@ -137,6 +137,8 @@ export default createComponent({
       })
     }
 
+    let $el, localScrollTarget, timer = null
+
     function animateTo ({ pos, ratio }, done) {
       animating.value = true
       pullPosition.value = pos
@@ -145,14 +147,13 @@ export default createComponent({
         pullRatio.value = ratio
       }
 
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
       timer = setTimeout(() => {
+        timer = null
         animating.value = false
         done && done()
       }, 300)
     }
-
-    let $el, localScrollTarget, timer
 
     function updateScrollTarget () {
       localScrollTarget = getScrollTarget($el, props.scrollTarget)
@@ -166,7 +167,7 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
     })
 
     // expose public methods

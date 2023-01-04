@@ -69,7 +69,7 @@ export default createComponent({
     const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
 
-    let loadTimer
+    let loadTimer = null, isDestroyed = false
 
     const images = [
       ref(null),
@@ -120,7 +120,11 @@ export default createComponent({
     }
 
     function addImage (imgProps) {
-      clearTimeout(loadTimer)
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
+
       hasError.value = false
 
       if (imgProps === null) {
@@ -135,10 +139,12 @@ export default createComponent({
     }
 
     function onLoad ({ target }) {
-      // if component has been already destroyed
-      if (loadTimer === null) { return }
+      if (isDestroyed === true) { return }
 
-      clearTimeout(loadTimer)
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
 
       naturalRatio.value = target.naturalHeight === 0
         ? 0.5
@@ -149,21 +155,21 @@ export default createComponent({
 
     function waitForCompleteness (target, count) {
       // protect against running forever
-      if (loadTimer === null || count === 1000) { return }
+      if (isDestroyed === true || count === 1000) { return }
 
       if (target.complete === true) {
         onReady(target)
       }
       else {
         loadTimer = setTimeout(() => {
+          loadTimer = null
           waitForCompleteness(target, count + 1)
         }, 50)
       }
     }
 
     function onReady (img) {
-      // if component has been already destroyed
-      if (loadTimer === null) { return }
+      if (isDestroyed === true) { return }
 
       position.value = position.value ^ 1
       images[ position.value ].value = null
@@ -173,7 +179,11 @@ export default createComponent({
     }
 
     function onError (err) {
-      clearTimeout(loadTimer)
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
+
       isLoading.value = false
       hasError.value = true
       images[ position.value ].value = null
@@ -253,8 +263,12 @@ export default createComponent({
       }
 
       onBeforeUnmount(() => {
-        clearTimeout(loadTimer)
-        loadTimer = null
+        isDestroyed = true
+
+        if (loadTimer !== null) {
+          clearTimeout(loadTimer)
+          loadTimer = null
+        }
       })
     }
 
