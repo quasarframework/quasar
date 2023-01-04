@@ -11,7 +11,7 @@
       :active="docStore.state.value.activeToc === tocItem.id"
       @click="tocItem.onClick"
     >
-      <q-item-section v-if="tocItem.sub === true" side>»</q-item-section>
+      <q-item-section v-if="tocItem.sub === true" side />
       <q-item-section>{{ tocItem.title }}</q-item-section>
     </q-item>
   </q-list>
