@@ -48,7 +48,7 @@ export default function injectToc (store) {
       ? [
           {
             id: 'introduction',
-            title: 'Introduction',
+            title: '1. Introduction',
             onClick
           },
           ...toc.map(entry => ({

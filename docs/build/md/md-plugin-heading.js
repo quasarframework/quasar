@@ -35,10 +35,10 @@ module.exports = function (md) {
     token.attrSet('@click', `copyHeading(\`${id}\`)`)
 
     if (token.tag === 'h2') {
-      md.$data.toc.push(`{id:\`${id}\`,title:\`${title}\`}`)
+      md.$data.toc.push({ id, title })
     }
     else if (token.tag === 'h3') {
-      md.$data.toc.push(`{id:\`${id}\`,title:\`${title}\`, sub: true}`)
+      md.$data.toc.push({ id, title, sub: true })
     }
 
     return self.renderToken(tokens, idx, options)
@@ -51,11 +51,11 @@ module.exports = function (md) {
       const match = apiNameRE.exec(token.content)
       if (match !== null) {
         const title = `${ match[ 1 ] } API`
-        md.$data.toc.push(`{id:'${ slugify(title) }',title:'${ title }',deep:true}`)
+        md.$data.toc.push({ id: slugify(title), title, deep: true })
       }
     }
     else if (installationRE.test(token.content) === true) {
-      md.$data.toc.push('{id:\'installation\',title:\'Installation\',deep:true}')
+      md.$data.toc.push({ id: 'installation', title: 'Installation', deep: true })
     }
 
     return tokens[ idx ].content
