@@ -3,7 +3,7 @@
     <nav class="doc-page-footer__nav">
       <q-list v-for="entry in links" :key="entry.name">
         <q-item-label
-          class="doc-page-footer__title doc-page-footer__margin row items-end text-dark text-weight-bold letter-spacing-225"
+          class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225"
         >{{ entry.name }}</q-item-label>
 
         <q-separator spaced color="brand-primary" class="doc-page-footer__margin" />
@@ -13,26 +13,25 @@
           :key="index"
           dense
           clickable
-          :dark="false"
           :to="item.path"
           :href="item.external ? item.path : void 0"
           :target="item.external ? '_blank' : void 0"
           class="doc-layout__item"
         >
-          <q-item-section class="text-dark letter-spacing-100">{{ item.name }}</q-item-section>
+          <q-item-section class="letter-spacing-100">{{ item.name }}</q-item-section>
         </q-item>
       </q-list>
     </nav>
 
-    <q-separator color="brand-primary" class="landing-mx--large" />
+    <q-separator class="landing-mx--large" />
 
-    <div class="row justify-center q-my-md letter-spacing-225">
+    <div class="doc-page-footer__license row justify-center q-my-md letter-spacing-225">
       <q-btn
         no-caps
         flat
         href="https://github.com/quasarframework/quasar/blob/dev/LICENSE"
         target="_blank"
-        class="text-black-54 text-weight-bold"
+        class=" text-weight-bold"
         label="MIT License"
       />
       <q-btn
@@ -40,15 +39,22 @@
         flat
         href="https://www.iubenda.com/privacy-policy/40685560"
         target="_blank"
-        class="text-black-54 text-weight-bold"
+        class=" text-weight-bold"
         label="Privacy Policy"
       />
     </div>
 
-    <q-separator class="full-width" :dark="false" />
+    <q-separator class="full-width" />
 
-    <div class="text-dark text-center q-pa-lg letter-spacing-100">
-      <div class="q-mb-sm">Copyright © 2015-present - PULSARDEV SRL, Razvan Stoenescu</div>
+    <div class="doc-page-footer__copyright text-center q-pa-lg letter-spacing-100">
+      <div class="q-mb-xs">
+        Copyright © 2015-present - PULSARDEV SRL,
+        <a
+          href="https://github.com/rstoenescu"
+          target="_blank"
+          class="text-brand-accent text-weight-bold"
+        >Razvan Stoenescu</a>
+      </div>
       <div>
         This website has been designed in collaboration with
         <a
@@ -103,7 +109,7 @@ export default {
 <style lang="sass">
 .doc-page-footer
   position: relative
-  background-color: #d8e1e5
+  background-color: $void-dust
   width: 100%
   z-index: 1
   box-shadow: $shadow--primary
@@ -132,6 +138,17 @@ export default {
     @media (min-width: 1540px)
       grid-template-columns: repeat(5, 1fr)
 
-body.body--dark .doc-page-footer
-  border-top-color: $brand-primary
+  &__license
+    color: rgba(0,0,0,.54)
+
+  &__copyright
+    font-size: .9em
+
+body.body--dark
+  .doc-page-footer
+    background-color: $floating-rock
+    border-top-color: $brand-primary
+
+    &__license
+      color: rgba(255,255,255,.54)
 </style>
