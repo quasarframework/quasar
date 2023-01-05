@@ -8,7 +8,7 @@
         <div class="q-ml-xs">Docs</div>
       </q-btn>
 
-      <q-input class="col" ref="inputRef" v-model="filter" dense input-class="text-right" borderless placeholder="Filter..." style="min-width: 6em">
+      <q-input class="col doc-api__search" ref="inputRef" v-model="filter" dense input-class="text-right" borderless placeholder="Filter...">
         <template #append>
           <q-icon class="cursor-pointer" :name="inputIcon" @click="onFilterClick" />
         </template>
@@ -308,6 +308,9 @@ process.env.CLIENT && onMounted(() => {
     color: $grey
     font-size: .8em
     font-style: italic
+
+  &__search
+    min-width: 10em !important
 
 .doc-api-entry
   padding: 8px 16px 4px
