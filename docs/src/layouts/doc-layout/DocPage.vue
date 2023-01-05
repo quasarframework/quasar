@@ -52,7 +52,7 @@
 
     <div class="doc-page__nav doc-page__nav--footer" v-if="props.nav">
       <div class="text-h6 q-pb-md">Ready for more?</div>
-      <div class="q-gutter-md flex">
+      <div class="q-gutter-sm flex">
         <router-link
           class="q-link doc-page__related rounded-borders q-pa-md cursor-pointer column justify-center"
           v-for="link in props.nav"
