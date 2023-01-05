@@ -34,10 +34,10 @@ const internal = computed(() => props.to.charAt(0) === '/')
   text-decoration: none
   border-bottom: 1px dotted currentColor
   outline: 0
-  transition: opacity .2s
+  transition: color .28s
 
   &:hover
-    opacity: .8
+    color: inherit !important
 
   .q-icon
     margin-top: -2px
