@@ -54,7 +54,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
     let vm, emittedOK = false
     const dialogRef = ref(null)
-    const el = createGlobalNode()
+    const el = createGlobalNode(false, 'dialog')
 
     const applyState = cmd => {
       if (dialogRef.value !== null && dialogRef.value[ cmd ] !== void 0) {

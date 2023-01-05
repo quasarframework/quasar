@@ -26,7 +26,7 @@ function isOnGlobalDialog (vm) {
 // Warning!
 // You MUST specify "inheritAttrs: false" in your component
 
-export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
+export default function (vm, innerRef, renderPortalContent, type) {
   // showing, including while in show/hide transition
   const portalIsActive = ref(false)
 
@@ -46,7 +46,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
   let portalEl = null
   const focusObj = {}
-  const onGlobalDialog = checkGlobalDialog === true && isOnGlobalDialog(vm)
+  const onGlobalDialog = type === 'dialog' && isOnGlobalDialog(vm)
 
   function showPortal (isReady) {
     if (isReady === true) {
@@ -59,7 +59,7 @@ export default function (vm, innerRef, renderPortalContent, checkGlobalDialog) {
 
     if (portalIsActive.value === false) {
       if (onGlobalDialog === false && portalEl === null) {
-        portalEl = createGlobalNode()
+        portalEl = createGlobalNode(false, type)
       }
 
       portalIsActive.value = true

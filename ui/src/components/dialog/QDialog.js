@@ -103,7 +103,7 @@ export default createComponent({
     )
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
-      vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
+      vm, innerRef, renderPortalContent, 'dialog'
     )
 
     const { hide } = useModelToggle({

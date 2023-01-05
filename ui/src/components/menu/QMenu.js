@@ -111,7 +111,7 @@ export default createComponent({
       processOnMount: true
     })
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent, 'menu')
 
     const clickOutsideProps = {
       anchorEl,
