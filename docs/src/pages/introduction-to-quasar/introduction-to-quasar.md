@@ -42,7 +42,6 @@ When using Quasar, you won't need additional heavy libraries like Hammer.js, Mom
 Because of the simplicity and power offered to you out of the box, Quasar, with its CLI, is packed full of features, all built to make your developer life easier.
 
 ::: tip Food for thought
-<br>
 Quasar is looking into the future and sets its own high and modern standards. And yes, in order to make progress in web development, we need to break the current establishment. Otherwise, we’d all continue to write websites in cgi-bin / perl today too, because many years ago that’s what developers were accustomed to. However, what most developers are accustomed to at one point in time doesn’t actually mean it’s the best solution or the “definite” solution, and Quasar will never bend into choosing what we believe is not the optimal path to high-quality work, not even over money.
 <br><br>
 

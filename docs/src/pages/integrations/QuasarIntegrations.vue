@@ -116,7 +116,7 @@ import { platformIcons, buildTargets, ecosystemParts } from 'src/assets/links.in
 
   &__card-description,
   &__about
-    color: #050A14
+    color: $cold-black
 
 body.body--dark .page-integrations
   &__card

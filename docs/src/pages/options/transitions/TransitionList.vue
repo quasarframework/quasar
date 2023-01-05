@@ -6,7 +6,7 @@
     />
 
     <q-btn
-      class="call-to-action-btn shadow-bottom-small q-mb-lg"
+      class="call-to-action-btn q-mb-lg"
       no-caps
       label="Trigger All"
       padding="8px 16px"

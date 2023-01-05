@@ -218,9 +218,12 @@ body.body--light
       border-color: $separator-color
 
 body.body--dark
+  .doc-header,
+  .doc-header-menu
+    background: $dark-bg
+
   .doc-header
     color: #929397 !important
-    background: $dark-bg
 
     .q-toolbar,
     &__logo

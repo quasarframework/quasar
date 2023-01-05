@@ -104,7 +104,7 @@ import { mostUsedPages, pagesToDiscover } from 'src/assets/docs-homepage.js'
     transition: transform 0.3s, box-shadow 0.3s
 
     &-label
-      color: #050A14
+      color: $cold-black
 
     &:hover
       // !important needed when used with flat cards

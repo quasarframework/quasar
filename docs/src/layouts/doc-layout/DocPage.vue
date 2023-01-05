@@ -29,7 +29,7 @@
     </div>
 
     <div class="doc-page__nav" v-if="props.related">
-      <div class="q-gutter-md flex">
+      <div class="q-gutter-sm flex">
         <router-link
           class="q-link doc-page__related rounded-borders q-pa-md cursor-pointer column justify-center"
           v-for="link in props.related"
@@ -157,7 +157,6 @@ const tocClass = computed(() =>
       font-size: 14px
       letter-spacing: $letter-spacing
       padding: 8px 16px
-      box-shadow: $shadow--small
       text-transform: none
       .on-right
         margin-left: 8px

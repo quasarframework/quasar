@@ -175,7 +175,7 @@ function onSearchFieldClick () {
 
   &__card-img
     height: 170px
-    background-color: #475d66
+    background-color: $floating-rock
 
   &__card-description
     font-size: .9em

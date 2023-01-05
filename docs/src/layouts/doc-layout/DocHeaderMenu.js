@@ -1,6 +1,6 @@
 import { QMenu, QIcon, QList, QItem, QItemSection, QItemLabel, QSeparator } from 'quasar'
 import { h } from 'vue'
-import { mdiMenuDown } from '@quasar/extras/mdi-v6'
+import { mdiMenuRight } from '@quasar/extras/mdi-v6'
 
 const offset = [ 0, 4 ]
 
@@ -38,7 +38,7 @@ export default {
           )
 
           entry.children !== void 0 && acc.push(
-            h(QItemSection, { side: true, class: 'doc-header-menu__arrow' }, () => h(QIcon, { name: mdiMenuDown })),
+            h(QItemSection, { side: true, class: 'doc-header-menu__arrow' }, () => h(QIcon, { name: mdiMenuRight })),
             h(QMenu, { anchor: 'top right', self: 'top left', class: 'doc-header-menu' }, () => getChildren(entry.children))
           )
 
