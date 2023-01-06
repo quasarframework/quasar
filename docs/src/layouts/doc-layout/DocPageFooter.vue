@@ -31,7 +31,7 @@
         flat
         href="https://github.com/quasarframework/quasar/blob/dev/LICENSE"
         target="_blank"
-        class=" text-weight-bold"
+        class="header-btn text-weight-bold"
         label="MIT License"
       />
       <q-btn
@@ -39,7 +39,7 @@
         flat
         href="https://www.iubenda.com/privacy-policy/40685560"
         target="_blank"
-        class=" text-weight-bold"
+        class="header-btn text-weight-bold"
         label="Privacy Policy"
       />
     </div>
@@ -109,7 +109,7 @@ export default {
 <style lang="sass">
 .doc-page-footer
   position: relative
-  background-color: $void-dust
+  background-color: $void-suit
   width: 100%
   z-index: 1
   box-shadow: $shadow--primary
@@ -138,9 +138,6 @@ export default {
     @media (min-width: 1540px)
       grid-template-columns: repeat(5, 1fr)
 
-  &__license
-    color: rgba(0,0,0,.54)
-
   &__copyright
     font-size: .9em
 
@@ -148,7 +145,4 @@ body.body--dark
   .doc-page-footer
     background-color: $floating-rock
     border-top-color: $brand-primary
-
-    &__license
-      color: rgba(255,255,255,.54)
 </style>

@@ -31,7 +31,7 @@
     <div class="doc-page__nav" v-if="props.related">
       <div class="q-gutter-sm flex">
         <router-link
-          class="q-link doc-page__related rounded-borders q-pa-md cursor-pointer column justify-center"
+          class="q-link doc-page__related rounded-borders q-px-md q-py-md cursor-pointer column justify-center text-size-12"
           v-for="link in props.related"
           :key="link.category + link.path"
           :to="link.path"
@@ -54,7 +54,7 @@
       <div class="text-h6 q-pb-md">Ready for more?</div>
       <div class="q-gutter-sm flex">
         <router-link
-          class="q-link doc-page__related rounded-borders q-pa-md cursor-pointer column justify-center"
+          class="q-link doc-page__related rounded-borders q-px-md q-py-md cursor-pointer column justify-center text-size-12"
           v-for="link in props.nav"
           :key="link.category + link.path"
           :to="link.path"
@@ -155,7 +155,7 @@ const tocClass = computed(() =>
       color: #fff
       font-weight: bold
       font-size: 14px
-      letter-spacing: $letter-spacing
+      letter-spacing: $letter-spacing-brand
       padding: 8px 16px
       text-transform: none
       .on-right
@@ -165,8 +165,8 @@ const tocClass = computed(() =>
 
   &__toc-container
     position: sticky
-    top: $headerHeight
-    height: calc(100vh - #{$headerHeight})
+    top: $header-height
+    height: calc(100vh - #{$header-height})
 
     .doc-page-toc
       padding: 32px 16px 32px 0 // page top padding
@@ -189,7 +189,7 @@ const tocClass = computed(() =>
     vertical-align: super
 
   &__related
-    transition: color .28s
+    transition: color $header-transition
     &:hover
       color: $brand-primary !important
 
@@ -221,11 +221,13 @@ body.body--light .doc-page
   &__nav
     color: $brand-primary
   &__related
-    color: $grey-9
-    background: $grey-3
+    color: $dark
+    background: $void-suit
     border: 1px solid $separator-color
   &__toc-container .q-item
-    color: rgba(0,0,0,.54)
+    color: $header-btn-color--light
+    &:hover
+      color: $header-btn-hover-color--light
 
 body.body--dark .doc-page
   &__overline
@@ -242,5 +244,7 @@ body.body--dark .doc-page
     background: $dark-pill
     border: 1px solid $brand-primary
   &__toc-container .q-item
-    color: rgba(255,255,255,.54)
+    color: $header-btn-color--dark
+    &:not(.disabled):hover
+      color: $header-btn-hover-color--dark
 </style>

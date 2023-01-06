@@ -83,7 +83,7 @@ const props = defineProps({
       word-break: break-word
       font-size: .9em
       .doc-token
-        letter-spacing: $letter-spacing
+        letter-spacing: $letter-spacing-brand
         border-radius: $generic-border-radius
 
     &-content

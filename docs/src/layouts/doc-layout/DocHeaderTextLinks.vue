@@ -4,7 +4,7 @@
       v-for="(entry, index) in props.menu"
       :key="index"
       flat
-      class="doc-header-text-links__item text-weight-bold"
+      class="header-btn doc-header-text-links__item text-weight-bold"
       :class="`${ props.mqPrefix }-${ entry.mq || 'none' } ${ props.navClass }`"
       :padding="entry.children ? '8px 8px 8px 16px' : '8px 12px'"
       :label="entry.name"

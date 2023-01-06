@@ -55,7 +55,7 @@ const pageContentClass = computed(() =>
   font-weight: $font-weight
 
   .q-page-container :target
-    scroll-margin-top: $headerHeight
+    scroll-margin-top: $header-height
 
   // keep the button on top of sticky in examples
   .q-page-scroller > .q-page-sticky
@@ -97,8 +97,8 @@ const pageContentClass = computed(() =>
 
   &__menu
     position: sticky
-    top: $headerHeight
-    height: calc(100vh - #{$headerHeight})
+    top: $header-height
+    height: calc(100vh - #{$header-height})
     width: 300px
     min-width: 300px
     border-right: 1px solid $separator-color
@@ -109,12 +109,13 @@ const pageContentClass = computed(() =>
   &__item.q-item,
   &__item .q-item
     font-size: $font-size
-    letter-spacing: $letter-spacing
+    letter-spacing: $letter-spacing-brand
     border-radius: 10px
     margin-top: 2px
     min-height: 30px
     padding: 0 4px 0 6px
     color: $light-text
+
     .q-item__section
       padding-top: 2px
       padding-bottom: 2px

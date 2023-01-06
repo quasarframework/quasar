@@ -309,6 +309,41 @@ body.q-scroll--lock .q-page
   &.q-btn--rectangle
     padding: 16px
 
+.doc-page-table
+  width: fit-content
+  max-width: 100%
+  th
+    font-weight: 700
+    letter-spacing: $letter-spacing-brand
+
+.header-btn
+  color: $header-btn-color--light
+  transition: color $header-transition
+
+  &:not(.disabled):hover
+    color: $header-btn-hover-color--light
+
+  .q-focus-helper
+    &,
+    &:before,
+    &:after
+      transition: background-color $header-transition, opacity $header-transition
+
+.header-toolbar
+  color: $header-btn-color--light
+  background: #fff
+
+.header-tabs
+  &,
+  .q-tab
+    background: #fff
+    border-radius: $generic-border-radius $generic-border-radius 0 0
+
+.header-toolbar,
+.header-tabs,
+.header-tabs .q-tab
+  transition: color $header-transition
+
 $additional-colors: ('brand-primary' $brand-primary, 'brand-secondary' $brand-secondary, 'brand-accent' $brand-accent)
 @each $color-name, $color in $additional-colors
   :root
@@ -333,6 +368,20 @@ $letter-spacing-list: 40, 100, 225, 263, 300, 375, 450
 body.body--dark
   color: $dark-text
   background: #080E1A
+
+  .header-btn
+    color: $header-btn-color--dark
+    &:not(.disabled):hover
+      color: $header-btn-hover-color--dark
+
+  .header-toolbar
+    color: $header-btn-color--dark
+    background: $dark-bg
+
+  .header-tabs
+    &,
+    .q-tab
+      background: $dark-bg
 
   .doc-img
     background-color: $ship-shell

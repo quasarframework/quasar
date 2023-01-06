@@ -44,7 +44,7 @@ There are four ways of using Quasar. Pick the one that suits you best:
 |                                                                                            | Quasar UMD | Quasar CLI (with Vite or Webpack) | Quasar Vite Plugin                  | Vue CLI Plugin |
 
 
-::: tip (*)Important!
+::: tip (*) Important!
 Although you may get a similar multi-platform support via Vite (directly) or the Vue CLI and some Vue community built plugins, these 3rd party supported build paths aren't tightly integrated with Quasar's components. Thus, as you run into problems with these 3rd party plugins, you will have to depend on the support of each individual plugin developer. With Quasar, you have a one-stop-shop should anything go wrong. Also, the Quasar CLI ensures applications are built to the best possible standards in both performance, project size and best practices. You will find no such guarantees anywhere else!
 :::
 

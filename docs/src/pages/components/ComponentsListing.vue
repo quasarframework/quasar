@@ -165,7 +165,7 @@ function onSearchFieldClick () {
 .page-all
   &__search
     position: sticky
-    top: $headerHeight
+    top: $header-height
     z-index: 1
     background: rgba($dark-bg, .7)
     backdrop-filter: blur(5px)

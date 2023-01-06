@@ -352,7 +352,7 @@ body.desktop
 
 .app-search-warning
   font-size: 12px
-  letter-spacing: $letter-spacing
+  letter-spacing: $letter-spacing-brand
 
 @media (max-width: 445px)
   .doc-search__results

@@ -3,6 +3,7 @@
     <q-btn
       v-for="(entry, index) in props.menu"
       :key="index"
+      class="header-btn"
       flat
       round
       size="12px"

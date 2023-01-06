@@ -17,7 +17,7 @@ export default {
           return h(QItemLabel, { header: true }, () => entry.header)
         }
         if (entry.separator === true) {
-          return h(QSeparator, { spaced: true })
+          return h(QSeparator)
         }
 
         return h(QItem, {

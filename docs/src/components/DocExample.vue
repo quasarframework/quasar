@@ -1,35 +1,33 @@
 <template>
-  <q-card class="doc-example q-my-lg" :class="classes" flat bordered>
-    <div class="doc-example__toolbar row items-center q-pr-sm">
+  <q-card class="doc-example q-my-lg" flat bordered>
+    <div class="header-toolbar row items-center q-pr-sm">
       <doc-card-title :title="props.title" prefix="example--" />
 
       <q-space />
 
-      <div class="row no-wrap items-center q-py-sm">
-        <q-btn class="doc-example__btn" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
+      <div class="row no-wrap items-center q-py-xs q-pl-sm">
+        <q-btn class="header-btn q-ml-xs" size="12px" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
           <q-tooltip>Toggle dark mode</q-tooltip>
         </q-btn>
 
-        <q-separator class="doc-example__separator q-mx-sm" vertical />
+        <q-separator class="q-mx-xs" vertical inset />
 
-        <q-btn class="doc-example__btn" dense flat round :icon="fabGithub" @click="openGitHub">
+        <q-btn class="header-btn" size="12px" dense flat round :icon="fabGithub" @click="openGitHub">
           <q-tooltip>View on GitHub</q-tooltip>
         </q-btn>
-        <q-btn class="doc-example__btn" v-if="props.noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
+        <q-btn class="header-btn q-ml-xs" v-if="props.noEdit === false" size="12px" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
           <q-tooltip>Edit in Codepen</q-tooltip>
         </q-btn>
-        <q-btn class="doc-example__btn" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
+        <q-btn class="header-btn q-ml-xs" size="12px" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
           <q-tooltip>View Source</q-tooltip>
         </q-btn>
       </div>
     </div>
 
-    <q-separator class="doc-example__separator" />
-
     <q-slide-transition>
       <div v-show="expanded">
-        <q-tabs class="doc-example__tabs" v-model="currentTab" align="left" no-caps active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0">
-          <q-tab v-for="tab in def.tabs" :key="`tab-${tab}`" :name="tab" :label="tab" />
+        <q-tabs class="header-tabs" v-model="currentTab" align="left" no-caps active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0">
+          <q-tab v-for="tab in def.tabs" :key="`tab-${tab}`" :name="tab" :label="tab" class="header-btn" />
         </q-tabs>
 
         <q-separator />
@@ -40,11 +38,12 @@
           </q-tab-panel>
         </q-tab-panels>
 
-        <q-separator class="doc-example__separator" />
       </div>
     </q-slide-transition>
 
     <doc-codepen v-if="!isBusy" ref="codepenRef" :title="props.title" />
+
+    <q-separator />
 
     <div class="row overflow-hidden">
       <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate />
@@ -72,8 +71,7 @@ const props = defineProps({
   file: String,
   noEdit: Boolean,
   scrollable: Boolean,
-  overflow: Boolean,
-  dark: Boolean
+  overflow: Boolean
 })
 
 const docStore = useDocStore()
@@ -90,7 +88,6 @@ const def = reactive({
 const currentTab = ref('Template')
 const expanded = ref(false)
 
-const classes = computed(() => (props.dark === true ? 'doc-example--dark' : ''))
 const componentClass = computed(() => {
   return props.scrollable === true
     ? 'doc-example__content--scrollable scroll-y'
@@ -157,16 +154,6 @@ process.env.CLIENT && onMounted(() => {
 
 <style lang="sass">
 .doc-example
-  &__toolbar
-    color: $grey-8
-  &__btn
-    margin-left: 4px
-    color: $grey-7
-    &:hover
-      color: $grey-9
-  &__tabs
-    background: $grey-3
-    color: $grey-7
   &__content
     position: relative
 
@@ -176,19 +163,4 @@ process.env.CLIENT && onMounted(() => {
 
     &--scrollable
       height: 500px
-
-body.body--dark .doc-example,
-.doc-example--dark
-  .doc-example__toolbar
-    background: $grey-10
-    color: #fff
-  .doc-example__btn
-    color: $grey-8
-    &:hover
-      color: $grey-3
-  .doc-example__separator
-    background-color: $grey-8
-  .doc-example__tabs
-    background: $grey-9
-    color: $dark-text
 </style>

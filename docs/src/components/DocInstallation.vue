@@ -1,12 +1,10 @@
 <template>
   <q-card id="installation" class="doc-installation q-my-xl" flat bordered>
-    <div class="row">
+    <div class="header-toolbar column items-start justify-center">
       <doc-card-title title="Installation" />
 
-      <q-space />
-
-      <q-tabs class="doc-installation__tabs" v-model="currentTab" align="left" indicator-color="brand-primary" dense :breakpoint="0" shrink>
-        <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" :label="tab" no-caps />
+      <q-tabs class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
+        <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" :label="tab" class="header-btn" no-caps />
       </q-tabs>
     </div>
 
@@ -143,19 +141,3 @@ app.use(Quasar, {
 })`
 })
 </script>
-
-<style lang="sass">
-.doc-installation__tabs
-  &,
-  .q-tab
-    border-radius: $generic-border-radius $generic-border-radius 0 0
-
-body.body--light .doc-installation
-  &__tabs
-    color: $grey-7
-    background-color: #fff
-
-body.body--dark .doc-installation
-  &__tabs
-    color: $dark-text
-</style>

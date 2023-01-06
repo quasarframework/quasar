@@ -1,7 +1,9 @@
 <template>
-  <section class="q-my-xs q-mr-sm cursor-pointer text-subtitle1" :id="id" @click="onClick">
-    <div class="doc-card-title">{{ props.title }}</div>
-  </section>
+  <div
+    class="doc-card-title q-my-xs q-mr-sm cursor-pointer"
+    :id="id"
+    @click="onClick"
+  >{{ props.title }}</div>
 </template>
 
 <script setup>
@@ -23,11 +25,12 @@ function onClick () {
 <style lang="sass">
 .doc-card-title
   margin-left: -12px
-  padding: 2px 10px 2px 24px
+  padding: 4px 10px 4px 24px
   position: relative
   border-radius: 3px 5px 5px 0
-  background: $grey-4
-  color: $grey-8
+  background: $void-suit
+  color: $header-btn-color--light
+  letter-spacing: $letter-spacing-brand
 
   &:after
     content: ''
@@ -38,11 +41,11 @@ function onClick () {
     height: 0
     border: 0 solid transparent
     border-width: 9px 0 0 11px
-    border-top-color: scale-color($grey-4, $lightness: -15%)
+    border-top-color: scale-color($void-suit, $lightness: -15%)
 
 body.body--dark .doc-card-title
-  background: $grey-9
+  background: $floating-rock
   color: $dark-text
   &:after
-    border-top-color: scale-color($grey-9, $lightness: -30%)
+    border-top-color: scale-color($floating-rock, $lightness: -30%)
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <q-header class="doc-header" :height-hint="128">
+  <q-header class="doc-header header-toolbar" :height-hint="128">
     <q-toolbar class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch">
       <router-link to="/" class="doc-header__logo row items-center no-wrap cursor-pointer">
         <img
@@ -29,6 +29,7 @@
 
       <div class="doc-header-icon-links q-ml-sm row no-wrap items-center">
         <q-btn
+          class="header-btn"
           type="a"
           flat
           round
@@ -127,14 +128,6 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
     &:last-child
       border-bottom: 1px solid
 
-  .q-btn
-    transition: color .6s
-    .q-focus-helper
-      &,
-      &:before,
-      &:after
-        transition: background-color .6s cubic-bezier(0.25, 0.8, 0.5, 1), opacity .6s cubic-bezier(0.25, 0.8, 0.5, 1)
-
   &__logo-img
     transform: rotate(0deg)
     transition: transform .8s ease-in-out
@@ -145,9 +138,6 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
     &:hover .doc-header__logo-img
       transform: rotate(-360deg)
-
-  .q-btn:not(.disabled):hover
-    color: $grey-9
 
   &__version
     color: #000
@@ -188,7 +178,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
 .doc-header-menu
   font-family: $font-family
-  letter-spacing: $letter-spacing
+  letter-spacing: $letter-spacing-brand
   font-weight: $font-weight
   font-size: $font-size
   box-shadow: $shadow--primary-down
@@ -210,21 +200,15 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
 body.body--light
   .doc-header
-    color: #757575 !important
-    background: #fff
-
     .q-toolbar,
     &__logo
       border-color: $separator-color
 
 body.body--dark
-  .doc-header,
   .doc-header-menu
     background: $dark-bg
 
   .doc-header
-    color: #929397 !important
-
     .q-toolbar,
     &__logo
       border-color: $brand-primary
@@ -232,8 +216,7 @@ body.body--dark
     .q-toolbar:last-child
       border-bottom-color: transparent
 
-    &__version,
-    .q-btn:not(.disabled):hover
+    &__version
       color: #fff
 
   .doc-header-icon-links

@@ -1,30 +1,43 @@
 <template>
   <q-card class="doc-api q-my-xl" flat bordered>
-    <div class="row items-center q-pr-sm">
+    <div class="header-toolbar row items-center q-pr-sm">
       <doc-card-title :title="nameBanner" />
 
-      <q-btn class="q-mr-sm" v-if="props.pageLink" size="sm" padding="xs sm" color="brand-primary" no-caps unelevated :to="docPath">
+      <div
+        class="col doc-api__search-field row items-center no-wrap"
+        @click="onSearchFieldClick"
+      >
+        <input
+          class="col doc-api__search text-right"
+          ref="inputRef"
+          v-model="filter"
+          placeholder="Filter..."
+        >
+        <q-btn
+          :icon="inputIcon"
+          class="header-btn q-ml-xs"
+          size="12px"
+          dense
+          flat
+          round
+          @click="onFilterClick"
+        />
+      </div>
+
+      <q-btn class="q-ml-sm header-btn" v-if="props.pageLink" size="sm" padding="xs sm" no-caps outline :to="docPath">
         <q-icon name="launch" />
         <div class="q-ml-xs">Docs</div>
       </q-btn>
-
-      <q-input class="col doc-api__search" ref="inputRef" v-model="filter" dense input-class="text-right" borderless placeholder="Filter...">
-        <template #append>
-          <q-icon class="cursor-pointer" :name="inputIcon" @click="onFilterClick" />
-        </template>
-      </q-input>
     </div>
 
-    <q-linear-progress v-if="loading" color="brand-primary" indeterminate />
+    <q-linear-progress v-if="loading" color="brand-primary" indeterminate class="q-mt-xs" />
     <template v-else-if="nothingToShow">
       <q-separator />
       <div class="doc-api__nothing-to-show">Nothing to display</div>
     </template>
     <template v-else>
-      <q-separator />
-
-      <q-tabs class="doc-api__tabs-list" v-model="currentTab" active-color="brand-primary" indicator-color="brand-primary" align="left" :breakpoint="0" dense>
-        <q-tab class="doc-api__tab" v-for="tab in tabsList" :key="`api-tab-${tab}`" :name="tab">
+      <q-tabs class="header-tabs" v-model="currentTab" active-color="brand-primary" indicator-color="brand-primary" align="left" :breakpoint="0" dense>
+        <q-tab v-for="tab in tabsList" :key="`api-tab-${tab}`" :name="tab" class="header-btn">
           <div class="row no-wrap items-center">
             <span class="q-mr-xs text-capitalize text-weight-medium">{{ tab }}</span>
             <q-badge v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall" />
@@ -37,9 +50,9 @@
       <q-tab-panels v-model="currentTab" animated>
         <q-tab-panel class="q-pa-none" v-for="tab in tabsList" :name="tab" :key="tab">
           <div class="doc-api__container row no-wrap" v-if="innerTabsList[tab].length !== 1">
-            <div class="col-auto row no-wrap text-grey-7 q-py-sm">
-              <q-tabs v-model="currentInnerTab" active-color="brand-primary" indicator-color="brand-primary" :breakpoint="0" vertical dense shrink>
-                <q-tab class="doc-api__tab doc-api__tab--inner doc-api__inner-tab" v-for="innerTab in innerTabsList[tab]" :key="`api-inner-tab-${innerTab}`" :name="innerTab">
+            <div class="col-auto">
+              <q-tabs class="header-tabs doc-api__subtabs" v-model="currentInnerTab" active-color="brand-primary" indicator-color="brand-primary" :breakpoint="0" vertical dense shrink>
+                <q-tab class="doc-api__subtabs-item header-btn" v-for="innerTab in innerTabsList[tab]" :key="`api-inner-tab-${innerTab}`" :name="innerTab">
                   <div class="row no-wrap items-center self-stretch">
                     <span class="q-mr-xs text-capitalize text-weight-medium">{{ innerTab }}</span>
                     <div class="col" />
@@ -272,12 +285,14 @@ function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
   apiDef.value = parseApi(api, tabs, subTabs)
 }
 
+function onSearchFieldClick () {
+  inputRef.value.focus()
+}
+
 function onFilterClick () {
   if (filter.value !== '') {
     filter.value = ''
   }
-
-  inputRef.value.focus()
 }
 
 process.env.CLIENT && onMounted(() => {
@@ -292,37 +307,51 @@ process.env.CLIENT && onMounted(() => {
 
 <style lang="sass">
 .doc-api
-  &__tab
-    height: 40px
+  &__subtabs .q-tabs__content
+    padding: 8px 0
 
-    &--inner
-      justify-content: left
-      .q-tab__content
-        width: 100%
+  &__subtabs-item
+    justify-content: left
+    .q-tab__content
+      width: 100%
+
+  &__subtabs,
+  &__subtabs-item
+    border-radius: 0 !important
 
   &__container
     max-height: 600px
 
   &__nothing-to-show
     padding: 16px
-    color: $grey
     font-size: .8em
-    font-style: italic
+
+  &__search-field
+    cursor: text
+    min-width: 10em !important
 
   &__search
-    min-width: 10em !important
+    border: 0
+    outline: 0
+    background: none
+    color: inherit
+    width: 1px !important // required when on narrow width window to not overflow the page
+    height: 37px
+    padding: 0 0 2px
 
 .doc-api-entry
   padding: 8px 16px 4px
   font-weight: 300
   color: $grey
 
+  .doc-api-entry
+    padding: 8px 8px 4px
+
   & + &
     border-top: 1px solid #ddd
 
   &__expand-btn
     margin-left: 4px
-    color: $dark
 
   &__item
     min-height: 25px
@@ -356,20 +385,14 @@ process.env.CLIENT && onMounted(() => {
     line-height: 1.2em
 
 body.body--light .doc-api
-  &__tabs-list
-    background: $grey-2
-  &__tab
-    color: $grey-7
   .doc-token
     background-color: #eee
     border: 1px solid #ddd
     color: $light-text
 
 body.body--dark
-  .doc-api
-    &__tab
-      color: $dark-text
-
+  .doc-api__search
+    color: $dark-text
   .doc-api-entry
     & + .doc-api-entry,
     &__subitem > div
@@ -377,9 +400,6 @@ body.body--dark
     &__value
       color: $dark-text
     &__example
-      background-color: transparent
       color: $brand-primary
       border-color: $brand-primary
-    &__expand-btn
-      color: #fff
 </style>

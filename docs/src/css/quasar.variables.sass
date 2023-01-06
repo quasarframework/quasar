@@ -22,13 +22,18 @@ $warning   : #F2C037
 $ice-dust: #00B4FF
 $cold-black: #050A14
 $mars-sand: #EA5E13
-$void-dust: #D8E1E5
+$void-suit: #D8E1E5
 $ship-shell: #8FA8B2
 $floating-rock: #475D66
 
 $brand-primary: $ice-dust
 $brand-secondary: $floating-rock
 $brand-accent: $mars-sand
+
+$header-btn-color--light: #757575
+$header-btn-hover-color--light: #212121 // $grey-10
+$header-btn-color--dark: #929397
+$header-btn-hover-color--dark: #fff
 
 $light-pill: #f5f5f5 // $grey-2
 $light-text: #1d1d1d // $dark
@@ -40,7 +45,7 @@ $dark-pill: scale-color($brand-primary, $lightness: -80%)
 
 $font-size: 12px
 $font-weight: 500
-$letter-spacing: .7px
+$letter-spacing-brand: .7px
 
 $font-family-examples: -apple-system, 'Roboto', BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
 $font-family: 'Montserrat', $font-family-examples
@@ -54,4 +59,5 @@ $shadow--primary: 0 0 6px 3px $brand-primary
 $shadow--primary-down: 0 0 8px 1px rgba($brand-primary, 0.8)
 
 // also update QHeader :height-hint
-$headerHeight: 128px
+$header-height: 128px
+$header-transition: .6s cubic-bezier(0.25, 0.8, 0.5, 1)
