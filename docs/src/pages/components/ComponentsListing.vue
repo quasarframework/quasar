@@ -9,9 +9,9 @@
       >
         <input
           ref="inputRef"
-          class="page-all__search-input text-white"
+          class="page-all__search-input text-white letter-spacing-225"
           v-model="searchTerms"
-          placeholder="Search component"
+          placeholder="Search item"
         />
         <q-icon v-if="!searchTerms" name="search" size="24px" color="brand-primary" />
         <q-icon v-else name="clear" size="24px" color="brand-primary" class="cursor-pointer" @click.stop="clearSearchTerms" />
@@ -19,13 +19,13 @@
 
       <div class="row justify-start q-ml-xl gt-sm">
         <q-chip
-          v-for="({label, value}, chipIndex) in filterChips"
+          v-for="(chip, chipIndex) in filterChips"
           :key="chipIndex"
-          :label="label"
-          :color="value === filterTag ? 'brand-accent' : 'brand-primary'"
+          :label="chip.label"
+          :color="chipColor[ chipIndex ]"
           clickable
           text-color="white"
-          @click="setFilterTag(value)"
+          @click="chip.onClick"
         />
       </div>
     </div>
@@ -80,7 +80,12 @@ const filterChips = [
   { label: 'Directives', value: 'directive' },
   { label: 'Plugins', value: 'plugin' },
   { label: 'Utils', value: 'util' }
-]
+].map((entry, index) => ({
+  ...entry,
+  onClick: () => { setFilterTag(entry.value, index) }
+}))
+
+const chipColor = ref(filterChips.map(_ => 'brand-primary'))
 
 const inputRef = ref(null)
 const filterTag = ref(null)
@@ -125,9 +130,26 @@ watch([ searchTerms, filterTag ], () => {
   }, 300)
 })
 
-function setFilterTag (filterChipValue) {
+let lastIndex = null
+
+function setFilterTag (filterChipValue, index) {
+  const tag = filterTag.value
+
+  if (tag !== null && tag !== filterChipValue && lastIndex !== null) {
+    chipColor.value[ lastIndex ] = 'brand-primary'
+  }
+
+  lastIndex = index
+
   // if the filter tag is the same as the one we are trying to set, then we reset the filter tag
-  filterTag.value = filterTag.value === filterChipValue ? null : filterChipValue
+  if (tag === filterChipValue) {
+    filterTag.value = null
+    chipColor.value[ index ] = 'brand-primary'
+  }
+  else {
+    filterTag.value = filterChipValue
+    chipColor.value[ index ] = 'brand-accent'
+  }
 }
 
 function clearSearchTerms () {
