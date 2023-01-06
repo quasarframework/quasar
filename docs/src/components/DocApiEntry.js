@@ -19,7 +19,7 @@ function getEventParams (event) {
     ? ''
     : Object.keys(event.params).join(', ')
 
-  return ' -> function(' + params + ')'
+  return `(${ params }) => void`
 }
 
 function getMethodParams (method, noRequired) {
@@ -37,7 +37,7 @@ function getMethodParams (method, noRequired) {
   const str = optionalIndex !== -1
     ? params.slice(0, optionalIndex).join(', ') +
       (optionalIndex < params.length
-        ? '[' + (optionalIndex > 0 ? ', ' : '') + params.slice(optionalIndex).join(', ') + ']'
+        ? (optionalIndex > 0 ? ', ' : '') + params.slice(optionalIndex).join('?, ') + '?'
         : '')
     : params.join(', ')
 
@@ -47,8 +47,8 @@ function getMethodParams (method, noRequired) {
 function getMethodReturnValue (method) {
   return ' => ' +
     (!method.returns
-      ? 'void 0'
-      : method.returns.type
+      ? 'void'
+      : getStringType(method.returns.type)
     )
 }
 
@@ -73,20 +73,8 @@ function getDiv (col, propName, propValue, slot) {
   ])
 }
 
-function getNameDiv (label, level) {
-  return h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12' }, [
-    h('div', { class: 'doc-api-entry__value' }, [
-      h(QBadge, {
-        class: 'doc-api-entry__pill',
-        color: NAME_PROP_COLOR[ level ],
-        label
-      })
-    ])
-  ])
-}
-
-function getExtendedNameDiv (label, level, type, required, addedIn) {
-  const suffix = `${type ? ` : ${type}` : ''}${required ? ' - required!' : ''}`
+function getNameDiv (prop, label, suffix, level) {
+  const suffixLabel = `${suffix ? ` : ${ suffix }` : ''}${prop.required ? ' - required!' : ''}`
 
   const child = [
     h(QBadge, {
@@ -95,16 +83,16 @@ function getExtendedNameDiv (label, level, type, required, addedIn) {
       color: NAME_PROP_COLOR[ level ],
       onClick: () => { copyPropName(label) }
     }),
-    suffix
+    suffixLabel
   ]
 
-  if (addedIn !== void 0) {
+  if (prop.addedIn !== void 0) {
     child.push(
       h(QBadge, {
         class: 'q-ml-sm',
-        color: 'black',
+        color: 'red',
         textColor: 'white',
-        label: addedIn + '+'
+        label: prop.addedIn + '+'
       })
     )
   }
@@ -122,7 +110,7 @@ function getExpandable (openState, desc, isExpandable, key, getDetails) {
         h('div', { class: 'doc-api-entry__type row items-center no-wrap' }, [
           h('span', 'Description'),
           h(QBtn, {
-            class: 'doc-api-entry__expand-btn',
+            class: 'doc-api-entry__expand-btn header-btn',
             flat: true,
             size: '11px',
             padding: '1px',
@@ -143,14 +131,8 @@ function getExpandable (openState, desc, isExpandable, key, getDetails) {
   }
 }
 
-function getPropDetails (openState, masterKey, prop, type, level) {
+function getPropDetails (openState, masterKey, prop, level) {
   const details = []
-
-  if (type === 'Function') {
-    details.push(
-      getDiv(12, 'Function form', getMethodParams(prop, true) + getMethodReturnValue(prop))
-    )
-  }
 
   if (prop.sync === true) {
     details.push(
@@ -237,7 +219,7 @@ function getPropDetails (openState, masterKey, prop, type, level) {
     details.push(
       getDiv(
         12,
-        `Returns <${getStringType(prop.returns.type)}>`,
+        `Return type: ${getStringType(prop.returns.type)}`,
         void 0,
         h(
           'div',
@@ -289,8 +271,12 @@ function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
   const child = []
 
   if (propName !== void 0) {
+    const suffix = type === 'Function'
+      ? `${ getMethodParams(prop, true) }${ getMethodReturnValue(prop) }`
+      : type
+
     child.push(
-      getExtendedNameDiv(propName, level, type, type !== 'Function' && prop.required === true, prop.addedIn)
+      getNameDiv(prop, propName, suffix, level)
     )
 
     if (prop.reactive === true) {
@@ -321,7 +307,7 @@ function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
       prop.desc,
       isExpandable,
       childKey,
-      () => getPropDetails(openState, childKey, prop, type, level)
+      () => getPropDetails(openState, childKey, prop, level)
     )
   )
 
@@ -360,10 +346,8 @@ describe.events = (openState, events) => {
 
     child.push(
       h('div', { class: 'doc-api-entry row' }, [
-        getNameDiv(`@${eventName}${getEventParams(event)}`, 0),
-        event.addedIn !== void 0
-          ? getDiv(12, 'Added in', event.addedIn)
-          : null,
+        getNameDiv(event, eventName, getEventParams(event), 0),
+
         ...getExpandable(
           openState,
           event.desc,
@@ -407,7 +391,7 @@ describe.methods = (openState, methods) => {
     const masterKey = `method|${ methodName }`
 
     const methodNode = h('div', { class: 'doc-api-entry row' }, [
-      getNameDiv(`${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`, 0),
+      getNameDiv(method, methodName, `${ getMethodParams(method) }${ getMethodReturnValue(method) }`, 0),
 
       method.addedIn !== void 0
         ? getDiv(12, 'Added in', method.addedIn)
@@ -442,7 +426,7 @@ describe.methods = (openState, methods) => {
             nodes.push(
               getDiv(
                 12,
-                `Returns <${getStringType(method.returns.type)}>`,
+                `Return type: ${getStringType(method.returns.type)}`,
                 void 0,
                 h(
                   'div',
@@ -501,7 +485,7 @@ describe.modifiers = (openState, modifiers) => {
 describe.injection = (_, injection) => {
   return [
     h('div', { class: 'doc-api-entry row' }, [
-      getNameDiv(injection, 0)
+      getNameDiv(injection, injection, false, 0)
     ])
   ]
 }
