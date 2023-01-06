@@ -1,9 +1,9 @@
 <template>
   <q-card id="installation" class="doc-installation q-my-xl" flat bordered>
-    <div class="header-toolbar column items-start justify-center">
+    <div class="header-toolbar row">
       <doc-card-title title="Installation" />
 
-      <q-tabs class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
+      <q-tabs class="header-tabs col-12" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
         <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" :label="tab" class="header-btn" no-caps />
       </q-tabs>
     </div>

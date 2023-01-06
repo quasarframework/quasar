@@ -198,7 +198,7 @@ const processMarkdown = (syntaxTree, entries, entry) => {
     }
   }
 
-  syntaxTree.forEach((node, index) => {
+  syntaxTree.forEach(node => {
     const val = processNode(node)
 
     if (val.type === 'page-link') {
