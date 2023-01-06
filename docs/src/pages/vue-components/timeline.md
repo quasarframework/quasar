@@ -37,7 +37,7 @@ Below is again the same example, but using only QTimelineEntry slots:
 
 ### Dark design
 
-<doc-example title="Force dark mode" file="Dark" dark scrollable />
+<doc-example title="Force dark mode" file="Dark" scrollable />
 
 ### Layouts and side selection
 

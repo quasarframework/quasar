@@ -70,7 +70,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 ## Basic features
 

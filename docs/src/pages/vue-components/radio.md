@@ -40,7 +40,7 @@ In the second row in the example below, the property `keep-color` is being used 
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="OnDarkBackground" dark />
+<doc-example title="Force dark mode" file="OnDarkBackground" />
 
 ### Disable
 

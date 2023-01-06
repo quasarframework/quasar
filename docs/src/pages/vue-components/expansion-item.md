@@ -29,7 +29,7 @@ They are basically [QItem](/vue-components/list-and-list-items) components wrapp
 
 <doc-example title="Dense" file="Dense" />
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 ### Options
 

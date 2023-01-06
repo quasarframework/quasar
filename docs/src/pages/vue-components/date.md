@@ -125,7 +125,7 @@ If, for some reason, you need to use a custom ad-hoc locale rather than the curr
 
 <doc-example title="Coloring" file="Color" overflow />
 
-<doc-example title="Force dark mode" file="Dark" overflow dark />
+<doc-example title="Force dark mode" file="Dark" overflow />
 
 ### Highlighting events
 

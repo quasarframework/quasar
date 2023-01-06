@@ -107,7 +107,7 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 ### Readonly and disable
 

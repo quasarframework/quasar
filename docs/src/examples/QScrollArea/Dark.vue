@@ -2,7 +2,7 @@
   <div class="q-ma-md">
     <q-scroll-area
       dark
-      class="bg-dark text-white rounded-borders"
+      class="bg-grey-9 text-white rounded-borders"
       style="height: 200px; max-width: 300px;"
     >
       <div v-for="n in 100" :key="n" class="q-py-sm q-px-md">

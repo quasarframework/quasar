@@ -41,7 +41,7 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="Stripe" file="Stripe" />
 
-<doc-example title="Force dark mode" file="OnDarkBackground" dark />
+<doc-example title="Force dark mode" file="OnDarkBackground" />
 
 ### Buffer
 

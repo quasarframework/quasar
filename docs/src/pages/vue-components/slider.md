@@ -95,7 +95,7 @@ In order to use the marker label slots (see below), you must enable them by usin
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 ### Readonly and disable
 

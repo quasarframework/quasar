@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <div>
         <q-toggle v-model="readonly" label="Readonly" dark />

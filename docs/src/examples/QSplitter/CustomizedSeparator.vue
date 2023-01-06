@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-grey-10 text-white">
+  <div class="bg-grey-9 text-white">
     <q-splitter
       v-model="splitterModel"
       separator-class="bg-orange"

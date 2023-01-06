@@ -32,7 +32,7 @@ List Items have the following pre-built child components:
 
 <doc-example title="Basic" file="Basic" />
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 <doc-example title="Dense" file="Dense" />
 

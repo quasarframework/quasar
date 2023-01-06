@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <q-badge color="secondary" class="q-mb-lg">
       Model: {{ model.min }} to {{ model.max }} (0 to 50)
     </q-badge>

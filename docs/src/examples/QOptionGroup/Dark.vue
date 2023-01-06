@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-lg bg-grey-10 text-white">
+  <div class="q-pa-lg bg-grey-9 text-white">
     <q-option-group
       v-model="group"
       :options="options"

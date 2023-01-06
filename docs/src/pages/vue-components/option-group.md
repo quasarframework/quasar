@@ -64,7 +64,7 @@ The objects within the `options` array can hold any of the props found in QToggl
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 ### Native form submit
 

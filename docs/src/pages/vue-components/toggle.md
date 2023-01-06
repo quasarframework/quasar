@@ -69,7 +69,7 @@ If you have a number of toggles for a selection, use can use an Array as the mod
 
 ### Dark design
 
-<doc-example title="Force dark mode" file="DarkBackground" dark />
+<doc-example title="Force dark mode" file="DarkBackground" />
 
 ### Disable
 

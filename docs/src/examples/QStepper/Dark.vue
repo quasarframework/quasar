@@ -4,7 +4,7 @@
       v-model="step"
       ref="stepper"
       dark
-      class="bg-grey-10"
+      class="bg-grey-9"
       active-color="deep-orange"
       done-color="secondary"
       animated

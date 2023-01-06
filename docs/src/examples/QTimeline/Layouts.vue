@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <div class="row q-gutter-md q-mb-sm">
+    <div class="row q-gutter-md q-mb-lg">
       <q-option-group
         type="radio"
         dense

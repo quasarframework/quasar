@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class=" row items-start q-gutter-md">
+    <div class="row items-start q-gutter-md">
       <q-color v-model="hex" dark class="my-picker" />
       <q-color v-model="hexa" dark class="my-picker" />
       <q-color v-model="rgb" dark class="my-picker" />

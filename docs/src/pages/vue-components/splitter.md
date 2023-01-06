@@ -56,7 +56,7 @@ If you use images as content for the separator slot, you might want to add `drag
 
 ### Dark design
 
-<doc-example title="On a dark background with customized separator" file="CustomizedSeparator" dark />
+<doc-example title="On a dark background with customized separator" file="CustomizedSeparator" />
 
 ### Embedded
 

@@ -25,7 +25,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 ### Force dark mode
 
-<doc-example title="Force dark mode" file="Dark" dark />
+<doc-example title="Force dark mode" file="Dark" />
 
 ### Perf considerations <q-badge align="top" color="brand-primary" label="v2.9.2+" />
 When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement.
