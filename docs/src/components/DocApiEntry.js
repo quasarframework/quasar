@@ -60,8 +60,10 @@ function getStringType (type) {
 
 const NAME_PROP_COLOR = [
   'orange-8',
-  'accent',
-  'secondary'
+  'green',
+  'purple',
+  'amber',
+  'accent'
 ]
 
 function getDiv (col, propName, propValue, slot) {
@@ -73,33 +75,38 @@ function getDiv (col, propName, propValue, slot) {
   ])
 }
 
-function getNameDiv (prop, label, suffix, level) {
-  const suffixLabel = `${suffix ? ` : ${ suffix }` : ''}${prop.required ? ' - required!' : ''}`
+function getNameDiv (prop, label, level, suffix, prefix) {
+  const child = []
 
-  const child = [
+  prefix !== void 0 && child.push(
+    h('div', { class: 'doc-api-entry__type q-mr-xs' }, prefix)
+  )
+
+  child.push(
     h(QBadge, {
       class: 'doc-api-entry__pill cursor-pointer',
       label,
       color: NAME_PROP_COLOR[ level ],
+      textColor: 'none',
       onClick: () => { copyPropName(label) }
-    }),
-    suffixLabel
-  ]
+    })
+  )
 
-  if (prop.addedIn !== void 0) {
-    child.push(
-      h(QBadge, {
-        class: 'q-ml-sm',
-        color: 'red',
-        textColor: 'white',
-        label: prop.addedIn + '+'
-      })
-    )
-  }
+  const suffixLabel = `${suffix ? ` : ${ suffix }` : ''}${prop.required ? ' - required!' : ''}`
+  suffixLabel !== '' && child.push(
+    h('div', { class: 'doc-api-entry__type q-ml-xs' }, suffixLabel)
+  )
 
-  return h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12' }, [
-    h('div', { class: 'doc-api-entry__value' }, child)
-  ])
+  prop.addedIn !== void 0 && child.push(
+    h(QBadge, {
+      class: 'q-ml-sm',
+      color: 'red',
+      outline: true,
+      label: prop.addedIn + '+'
+    })
+  )
+
+  return h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12 row items-center' }, child)
 }
 
 function getExpandable (openState, desc, isExpandable, key, getDetails) {
@@ -133,6 +140,7 @@ function getExpandable (openState, desc, isExpandable, key, getDetails) {
 
 function getPropDetails (openState, masterKey, prop, level) {
   const details = []
+  const newLevel = (level + 1) % NAME_PROP_COLOR.length
 
   if (prop.sync === true) {
     details.push(
@@ -180,7 +188,7 @@ function getPropDetails (openState, masterKey, prop, level) {
     const nodes = []
     for (const propName in prop.definition) {
       nodes.push(
-        getProp(openState, masterKey, prop.definition[ propName ], propName, 2)
+        getProp(openState, masterKey, prop.definition[ propName ], propName, newLevel)
       )
     }
 
@@ -195,9 +203,7 @@ function getPropDetails (openState, masterKey, prop, level) {
   }
 
   if (prop.params !== void 0 && prop.params !== null) {
-    const
-      nodes = [],
-      newLevel = (level + 1) % NAME_PROP_COLOR.length
+    const nodes = []
 
     for (const propName in prop.params) {
       nodes.push(
@@ -224,7 +230,7 @@ function getPropDetails (openState, masterKey, prop, level) {
         h(
           'div',
           { class: 'doc-api-entry__subitem' },
-          [getProp(openState, masterKey, prop.returns, void 0, 0)]
+          [getProp(openState, masterKey, prop.returns, void 0, newLevel)]
         )
       )
     )
@@ -234,7 +240,7 @@ function getPropDetails (openState, masterKey, prop, level) {
     const nodes = []
     for (const propName in prop.scope) {
       nodes.push(
-        getProp(openState, masterKey, prop.scope[ propName ], propName, 1)
+        getProp(openState, masterKey, prop.scope[ propName ], propName, newLevel)
       )
     }
 
@@ -276,7 +282,7 @@ function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
       : type
 
     child.push(
-      getNameDiv(prop, propName, suffix, level)
+      getNameDiv(prop, propName, level, suffix)
     )
 
     if (prop.reactive === true) {
@@ -346,7 +352,7 @@ describe.events = (openState, events) => {
 
     child.push(
       h('div', { class: 'doc-api-entry row' }, [
-        getNameDiv(event, `@${ eventName }`, getEventParams(event), 0),
+        getNameDiv(event, `@${ eventName }`, 0, getEventParams(event)),
 
         ...getExpandable(
           openState,
@@ -391,11 +397,7 @@ describe.methods = (openState, methods) => {
     const masterKey = `method|${ methodName }`
 
     const methodNode = h('div', { class: 'doc-api-entry row' }, [
-      getNameDiv(method, methodName, `${ getMethodParams(method) }${ getMethodReturnValue(method) }`, 0),
-
-      method.addedIn !== void 0
-        ? getDiv(12, 'Added in', method.addedIn)
-        : null,
+      getNameDiv(method, methodName, 0, `${ getMethodParams(method) }${ getMethodReturnValue(method) }`),
 
       ...getExpandable(
         openState,
@@ -485,7 +487,7 @@ describe.modifiers = (openState, modifiers) => {
 describe.injection = (_, injection) => {
   return [
     h('div', { class: 'doc-api-entry row' }, [
-      getNameDiv(injection, injection, false, 0)
+      getNameDiv(injection, injection, 0)
     ])
   ]
 }
@@ -493,16 +495,7 @@ describe.injection = (_, injection) => {
 describe.quasarConfOptions = (openState, conf) => {
   const child = []
   const entry = [
-    h('div', { class: 'doc-api-entry__item col-xs-12 col-sm-12' }, [
-      h('div', { class: 'doc-api-entry__value' }, [
-        h('span', { class: 'doc-api-entry__type text-grey' }, 'quasar.config.js > framework > config > '),
-        h(QBadge, {
-          class: 'doc-api-entry__pill',
-          color: NAME_PROP_COLOR[ 0 ],
-          label: conf.propName
-        })
-      ])
-    ])
+    getNameDiv(conf, conf.propName, 0, false, 'quasar.config.js > framework > config > ')
   ]
 
   for (const def in conf.definition) {
@@ -510,10 +503,6 @@ describe.quasarConfOptions = (openState, conf) => {
       getProp(openState, 'quasarConfOptions', conf.definition[ def ], def, 0)
     )
   }
-
-  conf.addedIn !== void 0 && entry.push(
-    getDiv(12, 'Added in', conf.addedIn)
-  )
 
   entry.push(
     getDiv(

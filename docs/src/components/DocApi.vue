@@ -384,15 +384,19 @@ process.env.CLIENT && onMounted(() => {
     font-size: 1em
     line-height: 1.2em
 
-body.body--light .doc-api
-  .doc-token
+body.body--light
+  .doc-api .doc-token
     background-color: #eee
     border: 1px solid #ddd
     color: $light-text
+  .doc-api-entry__pill
+    color: #fff
 
 body.body--dark
   .doc-api__search
     color: $dark-text
+  .doc-api-entry__pill
+    color: $dark
   .doc-api-entry
     & + .doc-api-entry,
     &__subitem > div
