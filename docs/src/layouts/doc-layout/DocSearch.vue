@@ -316,7 +316,7 @@ body.desktop
 
 .doc-search
   width: 400px
-  height: 40px
+  height: 43px
 
   &__field
     height: inherit
