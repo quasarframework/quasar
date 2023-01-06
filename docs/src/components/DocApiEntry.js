@@ -346,7 +346,7 @@ describe.events = (openState, events) => {
 
     child.push(
       h('div', { class: 'doc-api-entry row' }, [
-        getNameDiv(event, eventName, getEventParams(event), 0),
+        getNameDiv(event, `@${ eventName }`, getEventParams(event), 0),
 
         ...getExpandable(
           openState,
