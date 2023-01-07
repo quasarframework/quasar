@@ -82,7 +82,7 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 
 Below is a nice example on using TouchPan on a QFab. You can drag it across the screen.
 
-<doc-example title="Draggable" file="QFab/Draggable" />
+<doc-example title="Draggable" file="Draggable" />
 
 ## Note on HMR
 Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
