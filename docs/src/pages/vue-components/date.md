@@ -69,7 +69,7 @@ When clicking on title then the QDate's view is changed to the calendar and when
 
 ### Functionality
 
-When model is unfilled (like `null`, `void 0`/`undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
+When model is unfilled (like `null`, `void 0` / `undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
 
 <doc-example title="Default year month" file="DefaultYearMonth" overflow />
 

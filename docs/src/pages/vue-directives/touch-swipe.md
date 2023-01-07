@@ -38,7 +38,7 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Inhibiting TouchSwipe
-When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
+When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
 <div v-touch-swipe.mouse="userSwiped">

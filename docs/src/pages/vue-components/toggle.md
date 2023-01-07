@@ -40,7 +40,7 @@ Use the `color` prop to control the toggle’s color.
 
 ### Custom model values
 
-Instead of the default `true`/`false` values, you can use custom ones.
+Instead of the default `true` / `false` values, you can use custom ones.
 
 <doc-example title="Custom model values" file="CustomValues" />
 

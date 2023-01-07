@@ -33,7 +33,7 @@ Since QBtnToggle uses QBtn, you can use design related props of QBtn to style th
 
 ### Custom content
 
-First QBtnToggle below has tooltips on each button. Second QBtnToggle has customized the content. Notice the `slot` prop in the `options` Object definition. When you use this `slot` prop, you don't necessary need the `label`/`icon` props in `options`.
+First QBtnToggle below has tooltips on each button. Second QBtnToggle has customized the content. Notice the `slot` prop in the `options` Object definition. When you use this `slot` prop, you don't necessary need the `label` / `icon` props in `options`.
 
 <doc-example title="Custom buttons content" file="CustomContent" />
 

@@ -60,7 +60,7 @@ By default, the directive does not block page scrolling. If you want to prevent 
 ```
 
 ### Inhibiting TouchPan
-When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
+When you want to inhibit TouchPan, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
 <div v-touch-pan.mouse="userHasHold">

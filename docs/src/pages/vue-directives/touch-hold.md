@@ -40,7 +40,7 @@ When you want to also handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Inhibiting TouchHold
-When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
+When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
 <div v-touch-hold.mouse="userHasHold">

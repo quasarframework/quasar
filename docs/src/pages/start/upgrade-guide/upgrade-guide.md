@@ -164,7 +164,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ yarn add --dev @quasar/app-webpack@3
   $ yarn add quasar@2 vue@3 vue-router@4
   ```
-7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json`/`yarn.lock` file, then run `npm install`/`yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
+7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json` / `yarn.lock` file, then run `npm install` / `yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
 8) If you are using ESLint, then edit `/.eslintrc.js`:
   ```js
   // old way
@@ -1021,7 +1021,7 @@ The color CSS variable names (all the brand related ones) have changed:
 
 ### Quasar UMD
 * Due to the new Vue 3 architecture, the code for bootstrapping the app has changed and you will need to adapt [accordingly](/start/umd).
-* There have been changes to the naming scheme of script and css tags to include the type of distribution. For example, the minified resources filenames now end in `.prod.js`/`.prod.css`. This was done to match Vue 3's own file naming scheme.
+* There have been changes to the naming scheme of script and css tags to include the type of distribution. For example, the minified resources filenames now end in `.prod.js` / `.prod.css`. This was done to match Vue 3's own file naming scheme.
 
 ::: tip
 For an in-depth look at the necessary UMD scripts and tags, please use our [generator tool](/start/umd#installation).

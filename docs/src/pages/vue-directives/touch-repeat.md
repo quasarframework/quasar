@@ -50,7 +50,7 @@ When you want to handle key events too, use [keycodes](https://keycode.info/) as
 There are some special modifiers that you do not require to write the equivalent keycode: `space`, `tab`, `enter`.
 
 ### Inhibiting TouchRepeat
-When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart`/`mousedown`/`keydown` events from the inner content:
+When you want to inhibit TouchRepeat, you can do so by stopping propagation of the `touchstart` / `mousedown` / `keydown` events from the inner content:
 
 ```html
 <div v-touch-repeat.mouse.enter="userHasHold">
