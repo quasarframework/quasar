@@ -7,7 +7,7 @@ function copyPropName (propName) {
   copyToClipboard(propName)
 
   Notify.create({
-    message: 'The name has been copied to clipboard.',
+    message: `"${ propName }" has been copied to clipboard.`,
     position: 'top',
     actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
     timeout: 2000
@@ -60,11 +60,11 @@ function getStringType (type) {
 
 const NAME_PROP_COLOR = [
   'orange-8',
-  'green',
-  'purple',
-  'amber',
-  'accent'
+  'brand-primary',
+  'green-5',
+  'purple-5'
 ]
+const NAME_PROP_COLOR_LEN = NAME_PROP_COLOR.length
 
 function getDiv (col, propName, propValue, slot) {
   return h('div', { class: `doc-api-entry__item col-xs-12 col-sm-${col}` }, [
@@ -86,8 +86,7 @@ function getNameDiv (prop, label, level, suffix, prefix) {
     h(QBadge, {
       class: 'doc-api-entry__pill cursor-pointer',
       label,
-      color: NAME_PROP_COLOR[ level ],
-      textColor: 'none',
+      color: NAME_PROP_COLOR[ level % NAME_PROP_COLOR_LEN ],
       onClick: () => { copyPropName(label) }
     })
   )
@@ -99,8 +98,7 @@ function getNameDiv (prop, label, level, suffix, prefix) {
 
   prop.addedIn !== void 0 && child.push(
     h(QBadge, {
-      class: 'q-ml-sm',
-      color: 'red',
+      class: 'q-ml-sm doc-api-entry__added-in',
       outline: true,
       label: prop.addedIn + '+'
     })
@@ -140,7 +138,6 @@ function getExpandable (openState, desc, isExpandable, key, getDetails) {
 
 function getPropDetails (openState, masterKey, prop, level) {
   const details = []
-  const newLevel = (level + 1) % NAME_PROP_COLOR.length
 
   if (prop.sync === true) {
     details.push(
@@ -188,7 +185,7 @@ function getPropDetails (openState, masterKey, prop, level) {
     const nodes = []
     for (const propName in prop.definition) {
       nodes.push(
-        getProp(openState, masterKey, prop.definition[ propName ], propName, newLevel)
+        getProp(openState, masterKey, prop.definition[ propName ], propName, level)
       )
     }
 
@@ -207,7 +204,7 @@ function getPropDetails (openState, masterKey, prop, level) {
 
     for (const propName in prop.params) {
       nodes.push(
-        getProp(openState, masterKey, prop.params[ propName ], propName, newLevel)
+        getProp(openState, masterKey, prop.params[ propName ], propName, level)
       )
     }
 
@@ -230,7 +227,7 @@ function getPropDetails (openState, masterKey, prop, level) {
         h(
           'div',
           { class: 'doc-api-entry__subitem' },
-          [getProp(openState, masterKey, prop.returns, void 0, newLevel)]
+          [getProp(openState, masterKey, prop.returns, void 0, level)]
         )
       )
     )
@@ -240,7 +237,7 @@ function getPropDetails (openState, masterKey, prop, level) {
     const nodes = []
     for (const propName in prop.scope) {
       nodes.push(
-        getProp(openState, masterKey, prop.scope[ propName ], propName, newLevel)
+        getProp(openState, masterKey, prop.scope[ propName ], propName, level)
       )
     }
 
@@ -293,7 +290,6 @@ function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
   }
 
   const isExpandable = (
-    type === 'Function' ||
     prop.sync === true ||
     prop.default !== void 0 ||
     prop.link === true ||
@@ -313,7 +309,7 @@ function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
       prop.desc,
       isExpandable,
       childKey,
-      () => getPropDetails(openState, childKey, prop, level)
+      () => getPropDetails(openState, childKey, prop, level + 1)
     )
   )
 
@@ -357,21 +353,14 @@ describe.events = (openState, events) => {
         ...getExpandable(
           openState,
           event.desc,
-          true,
+          event.params !== void 0,
           masterKey,
           () => {
             const params = []
 
-            if (event.params !== void 0) {
-              for (const paramName in event.params) {
-                params.push(
-                  getProp(openState, masterKey, event.params[ paramName ], paramName, 1)
-                )
-              }
-            }
-            else {
+            for (const paramName in event.params) {
               params.push(
-                h('div', { class: 'text-italic q-py-xs q-px-md' }, '*None*')
+                getProp(openState, masterKey, event.params[ paramName ], paramName, 1)
               )
             }
 
@@ -433,7 +422,7 @@ describe.methods = (openState, methods) => {
                 h(
                   'div',
                   { class: 'doc-api-entry__subitem' },
-                  [getProp(openState, masterKey, method.returns, void 0, 0)]
+                  [getProp(openState, masterKey, method.returns, void 0, 1)]
                 )
               )
             )
@@ -454,7 +443,7 @@ describe.value = (openState, value) => {
   return [
     h('div', { class: 'doc-api-entry row' }, [
       getDiv(12, 'Type', getStringType(value.type))
-    ].concat(getProp(openState, 'value', value, void 0, 0, true)))
+    ].concat(getProp(openState, 'value', value, void 0, -1, true)))
   ]
 }
 
@@ -462,7 +451,7 @@ describe.arg = (openState, arg) => {
   return [
     h('div', { class: 'doc-api-entry row' }, [
       getDiv(12, 'Type', getStringType(arg.type))
-    ].concat(getProp(openState, 'arg', arg, void 0, 0, true)))
+    ].concat(getProp(openState, 'arg', arg, void 0, -1, true)))
   ]
 }
 
