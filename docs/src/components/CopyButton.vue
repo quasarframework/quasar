@@ -1,15 +1,13 @@
 <template>
   <div class="relative">
-    <q-btn color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
+    <q-btn class="header-btn copy-button__action" color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
       <q-tooltip>Copy to Clipboard</q-tooltip>
     </q-btn>
 
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <q-badge
-        class="absolute"
+        class="absolute copy-button__badge header-badge"
         v-show="copied"
-        style="top: 8px; right: 58px;"
-        color="brand-primary"
         label="Copied to clipboard"
       />
     </transition>
@@ -41,3 +39,15 @@ function copy () {
     .catch(() => {})
 }
 </script>
+
+<style lang="sass">
+.copy-button
+
+  &__action
+    .q-icon
+      font-size: 18px !important
+
+  &__badge
+    top: 5px
+    right: 38px
+</style>

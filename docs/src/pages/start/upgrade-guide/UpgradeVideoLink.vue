@@ -24,13 +24,13 @@
     border-radius: $generic-border-radius
     background: $brand-primary
     opacity: 0
-    transition: opacity .28s
+    transition: opacity $header-quick-transition
 
   .q-icon
     z-index: 2
     opacity: 0.5
     color: $grey-9
-    transition: opacity 0.3s
+    transition: opacity $header-quick-transition
 
   &:hover
     .upgrade-video-link__overlay

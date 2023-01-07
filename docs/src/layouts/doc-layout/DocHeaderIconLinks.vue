@@ -6,7 +6,6 @@
       class="header-btn"
       flat
       round
-      size="12px"
       :icon="entry.icon"
       :to="entry.path"
       :href="entry.external ? entry.path : void 0"

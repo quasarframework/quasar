@@ -41,7 +41,7 @@ const props = defineProps({
   &__instructions
     margin: 0 -12px // reset container padding
     padding: 12px 8px
-    transition: opacity .28s
+    transition: opacity $header-quick-transition
     min-height: 38px
     background: #fff
     border-bottom: 1px solid $separator-color

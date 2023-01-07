@@ -68,7 +68,7 @@ The default padding for QFab is "md" and for QFabAction is "sm". However, you ca
 
 <doc-example title="Square style" file="SquareStyle" />
 
-### Slots <q-badge align="top" color="brand-primary" label="v2.4+" />
+### Slots <q-badge label="v2.4+" />
 
 Notice the slots for QFab and the slots for QFabAction below:
 

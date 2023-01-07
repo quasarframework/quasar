@@ -35,7 +35,6 @@
           round
           :icon="mdiCompare"
           :disable="cannotChangeTheme"
-          size="12px"
           @click="docStore.toggleDark"
         >
           <q-tooltip v-if="cannotChangeTheme">Changing Light/Dark mode will be available on other pages</q-tooltip>
@@ -45,10 +44,9 @@
 
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
       <q-btn
-        class="doc-header__leftmost q-mr-xs lt-1300"
+        class="header-btn doc-header__leftmost q-mr-xs lt-1300"
         flat round
         icon="menu"
-        size="12px"
         @click="docStore.toggleMenuDrawer"
       />
 
@@ -70,11 +68,10 @@
         />
         <q-btn
           v-if="hasToc"
-          class="lt-md"
+          class="header-btn lt-md"
           flat
           round
           icon="description"
-          size="12px"
           @click="docStore.toggleTocDrawer"
         />
       </div>

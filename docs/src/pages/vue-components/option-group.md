@@ -30,7 +30,7 @@ The model for checkboxes/toggles must be an array.
 
 <doc-example title="With toggles" file="Toggle" />
 
-### Using label slots <q-badge align="top" color="brand-primary" label="v2.2+" />
+### Using label slots <q-badge label="v2.2+" />
 
 There are two types of slots. A generic one (`label`) which applies to all options, unless a more specific index-based one is used (`label-N` where N is the 0-based index of the option). Both types of slots receive the respective option as parameter.
 

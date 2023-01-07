@@ -34,7 +34,7 @@ const internal = computed(() => props.to.charAt(0) === '/')
   text-decoration: none
   border-bottom: 1px dotted currentColor
   outline: 0
-  transition: color .28s
+  transition: color $header-quick-transition
 
   &:hover
     color: inherit !important

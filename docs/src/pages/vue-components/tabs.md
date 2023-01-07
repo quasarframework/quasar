@@ -128,7 +128,7 @@ This component inherits everything from QTab, however it also has `router-link` 
 When using QTabs with QRouteTab, it is not recommended to also use a v-model (though you still can), because the source of truth for the current active tab is determined by the current route instead of the v-model. Each QRouteTab becomes "active" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.
 :::
 
-### Matching QRouteTab to current route <q-badge align="top" color="brand-primary" label="updated for v2.9+" />
+### Matching QRouteTab to current route <q-badge label="updated for v2.9+" />
 
 * If it is set to `exact` matching:
   1. The route that it points to must be considered "exact-active" by Vue Router (exactly matches route, disregards hash & query).
@@ -144,7 +144,7 @@ When using QTabs with QRouteTab, it is not recommended to also use a v-model (th
 
 The `exact` configured QRouteTabs always win over loose-matching (non-exact) ones.
 
-### Handling custom navigation <q-badge align="top" color="brand-primary" label="updated for v2.9+" />
+### Handling custom navigation <q-badge label="updated for v2.9+" />
 
 ::: tip
 Please refer to the QRouteTab API card at the top of the page for a more in-depth description of the `@click` event being used below.

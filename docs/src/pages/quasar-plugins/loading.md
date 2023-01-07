@@ -78,7 +78,7 @@ Loading.hide()
 
 <doc-example title="With unsafe message, but sanitized" file="WithMessageSanitized" />
 
-### Multiple groups in parallel <q-badge align="top" color="brand-primary" label="v2.8+" />
+### Multiple groups in parallel <q-badge label="v2.8+" />
 
 ::: tip
 When you have multiple processes that occur in parallel then you can group Loading instances so that you can manage the Loading state per group (individually).

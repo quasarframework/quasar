@@ -13,7 +13,7 @@ You now have the option to choose between Quasar CLI with Vite and Quasar CLI wi
 You will notice that all of our documentation examples are using Vue 3's Composition API. This does NOT mean that you can't use Vue Options API. On the contrary, maintaining Options API will actually help you on your upgrade path and make it a lot easier for you. After upgrading is done we do recommend switching to the Composition API, but by no means you are required to do so.
 :::
 
-### Video guide <q-badge align="top" color="brand-primary" label="New" />
+### Video guide
 
 Clicking on the poster below will open a Youtube playlist on the process of upgrading your Quasar CLI project from Quasar v1 to Quasar v2. It may get out of sync as we progress with Quasar v2, but it may help you get started.
 

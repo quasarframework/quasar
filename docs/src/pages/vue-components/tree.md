@@ -19,7 +19,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <doc-example title="No connectors" file="NoConnectors" />
 
-### Dense <q-badge align="top" color="brand-primary" label="v2.2.4+" />
+### Dense <q-badge label="v2.2.4+" />
 
 <doc-example title="Dense" file="DenseTree" />
 
@@ -27,7 +27,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <doc-example title="Force dark mode" file="Dark" />
 
-### Perf considerations <q-badge align="top" color="brand-primary" label="v2.9.2+" />
+### Perf considerations <q-badge label="v2.9.2+" />
 When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement.
 
 ```html

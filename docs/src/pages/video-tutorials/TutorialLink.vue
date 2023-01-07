@@ -45,7 +45,7 @@ function openWebsite () {
     background: rgba(0,0,0,.05)
 
 body.desktop .tutorial-link
-  transition: background-color .28s
+  transition: background-color $header-quick-transition
   &:hover
     background-color: rgba(0,0,0,.02)
 </style>

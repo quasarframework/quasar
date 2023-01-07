@@ -45,23 +45,23 @@ ul
 
 .doc-token
   display: inline-block
-  padding: 0 4px
-  font-size: .9em
-  border-radius: 5px
+  padding: 4px 8px
+  font-size: 12px
+  border-radius: $generic-border-radius
   font-family: inherit
   color: $brand-primary
+  line-height: 12px
+  vertical-align: baseline
   border: 1px solid currentColor
 
 .doc-note
-  font-family: $font-family-avenir
+  font-size: 14px
   border-radius: $generic-border-radius
   margin: 16px 0
   padding: 16px
   font-size: 1em
-  line-height: 1.35em
   border-width: 1px
   border-style: solid
-  letter-spacing: .5px
 
   > p, > ul
     margin-bottom: 0
@@ -107,7 +107,8 @@ ul
       border-color: $negative
 
   &__title
-    font-weight: 600
+    font-weight: 700
+    letter-spacing: $letter-spacing-brand
     padding-bottom: 8px
 
 .doc-heading
@@ -122,12 +123,8 @@ ul
     &:hover:after
       opacity: 1
 
-  .q-badge
-    // for dark, so it won't jump around, jump around, and come down:
-    border: 1px solid transparent
-
 .doc-h1
-  font-size: 3rem
+  font-size: 36px
   line-height: 3rem
   padding: 0 0 1rem
   font-weight: 600
@@ -222,7 +219,7 @@ body.q-scroll--lock .q-page
   z-index: 12
   border: 4px solid rgba(0, 0, 0, 0)
   background-clip: padding-box
-  transition: background-color .32s ease-in-out
+  transition: background-color $header-quick-transition
   margin: 4px
   min-height: 32px
   min-width: 32px
@@ -320,6 +317,11 @@ body.q-scroll--lock .q-page
   color: $header-btn-color--light
   transition: color $header-transition
 
+  &.q-btn--round
+    font-size: 12px
+    .q-icon
+      font-size: 21px
+
   &:not(.disabled):hover
     color: $header-btn-hover-color--light
 
@@ -337,12 +339,22 @@ body.q-scroll--lock .q-page
   &,
   .q-tab
     background: #fff
+    letter-spacing: $letter-spacing-brand
     border-radius: $generic-border-radius $generic-border-radius 0 0
 
 .header-toolbar,
 .header-tabs,
 .header-tabs .q-tab
+  min-height: 40px
   transition: color $header-transition
+
+.doc-heading .q-badge,
+.header-badge
+  color: $light-bg
+  background: $brand-primary
+  vertical-align: super
+  letter-spacing: $letter-spacing-brand
+  padding: 4px 8px
 
 $additional-colors: ('brand-primary' $brand-primary, 'brand-secondary' $brand-secondary, 'brand-accent' $brand-accent)
 @each $color-name, $color in $additional-colors
@@ -383,14 +395,13 @@ body.body--dark
     .q-tab
       background: $dark-bg
 
+  .doc-heading .q-badge,
+  .header-badge
+    color: $dark-bg
+
   .doc-img
     background-color: $ship-shell
     border-radius: $generic-border-radius
-
-  .doc-heading .q-badge
-    background-color: transparent !important
-    border: 1px solid $brand-primary
-    color: $brand-primary
 
   .doc-note
     &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)

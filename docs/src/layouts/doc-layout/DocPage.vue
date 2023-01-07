@@ -1,10 +1,6 @@
 <template>
   <div class="doc-page__content">
-    <q-badge
-      v-if="props.overline"
-      class="doc-page__overline"
-      :label="props.overline"
-    />
+    <div v-if="props.overline" class="doc-page__overline text-size-12 text-brand-primary">{{ props.overline }}</div>
 
     <div class="doc-h1 row items-start no-wrap" v-if="props.heading">
       <div class="doc-heading q-mr-xs" id="introduction">
@@ -18,7 +14,6 @@
         flat
         round
         color="brand-primary"
-        size="12px"
         :icon="mdiPencil"
       >
         <q-tooltip class="row no-wrap items-center">
@@ -31,7 +26,7 @@
     <div class="doc-page__nav" v-if="props.related">
       <div class="q-gutter-sm flex">
         <router-link
-          class="q-link doc-page__related rounded-borders q-px-md q-py-md cursor-pointer column justify-center text-size-12"
+          class="q-link doc-page__related rounded-borders q-px-md q-py-md cursor-pointer column justify-center"
           v-for="link in props.related"
           :key="link.category + link.path"
           :to="link.path"
@@ -54,7 +49,7 @@
       <div class="text-h6 q-pb-md">Ready for more?</div>
       <div class="q-gutter-sm flex">
         <router-link
-          class="q-link doc-page__related rounded-borders q-px-md q-py-md cursor-pointer column justify-center text-size-12"
+          class="q-link doc-page__related rounded-borders q-px-md q-py-md cursor-pointer column justify-center"
           v-for="link in props.nav"
           :key="link.category + link.path"
           :to="link.path"
@@ -181,12 +176,11 @@ const tocClass = computed(() =>
     margin-top: 64px
 
   &__overline
+    letter-spacing: $letter-spacing-brand
     margin-bottom: 0 !important
     & + .doc-h1
-      padding-top: .4rem !important
-
-  &__badge
-    vertical-align: super
+      margin-top: 0 !important
+      padding-top: 0 !important
 
   &__related
     transition: color $header-transition
@@ -206,18 +200,9 @@ const tocClass = computed(() =>
 
     &-categ
       font-size: .8em
-    &-name
-      font-size: 1em
+      letter-spacing: $letter-spacing-brand
 
 body.body--light .doc-page
-  &__overline
-    color: $grey-10
-    background: $grey-3
-    border: 1px solid $separator-color
-  &__badge
-    color: #fff
-    background: $brand-primary
-    border-color: none
   &__nav
     color: $brand-primary
   &__related
@@ -230,13 +215,6 @@ body.body--light .doc-page
       color: $header-btn-hover-color--light
 
 body.body--dark .doc-page
-  &__overline
-    color: $brand-primary
-    background: $dark-pill
-    border: 1px solid $brand-primary
-  &__badge
-    color: $light-text
-    background: $brand-primary
   &__nav
     color: $brand-primary
   &__related
