@@ -37,7 +37,7 @@
               <div class="doc-page__nav-name text-weight-bold">{{ link.name }}</div>
             </div>
 
-            <q-icon class="q-ml-lg" :name="mdiLaunch" />
+            <q-icon class="q-ml-md" :name="mdiLaunch" />
           </div>
         </router-link>
       </div>
@@ -184,6 +184,7 @@ const tocClass = computed(() =>
 
   &__related
     transition: color $header-transition
+    word-break: break-word
     &:hover
       color: $brand-primary !important
 
