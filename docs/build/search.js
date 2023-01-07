@@ -9,22 +9,28 @@ const { slugify, capitalize } = require('./utils')
 
 const apiRE = /<doc-api .*file="([^"]+)".*\n/
 const installationRE = /<doc-installation /
+const hiddenPageRE = /[\\/]__[a-zA-Z0-9_-]+\.md$/
 
 const mdPagesDir = join(__dirname, '../src/pages')
 const mdPagesLen = mdPagesDir.length + 1
-const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md')).map(key => {
-  const parts = key.substring(mdPagesLen, key.length - 3).split('/')
-  const len = parts.length
-  const urlParts = parts[ len - 2 ] === parts[ len - 1 ]
-    ? parts.slice(0, len - 1)
-    : parts
+const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md'))
+  .filter(file => hiddenPageRE.test(file) === false)
+  .map(key => {
+    if (key.indexOf('elements') !== -1) {
+      console.log(key)
+    }
+    const parts = key.substring(mdPagesLen, key.length - 3).split('/')
+    const len = parts.length
+    const urlParts = parts[ len - 2 ] === parts[ len - 1 ]
+      ? parts.slice(0, len - 1)
+      : parts
 
-  return {
-    file: key,
-    menu: urlParts.map(entry => entry.split('-').map(capitalize).join(' ')),
-    url: '/' + urlParts.join('/')
-  }
-})
+    return {
+      file: key,
+      menu: urlParts.map(entry => entry.split('-').map(capitalize).join(' ')),
+      url: '/' + urlParts.join('/')
+    }
+  })
 
 function getJsonSize (content) {
   return (content.length / 1024).toFixed(2) + 'kb'
