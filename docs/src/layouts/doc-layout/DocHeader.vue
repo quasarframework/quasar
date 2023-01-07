@@ -71,7 +71,7 @@
           class="header-btn lt-md"
           flat
           round
-          icon="description"
+          :icon="mdiFolderPound"
           @click="docStore.toggleTocDrawer"
         />
       </div>
@@ -85,7 +85,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { mdiCompare } from '@quasar/extras/mdi-v6'
+import { mdiCompare, mdiFolderPound } from '@quasar/extras/mdi-v6'
 
 import { versionLinks, primaryToolbarLinks, secondaryToolbarLinks, moreLinks } from 'src/assets/links.header'
 import { socialLinks } from 'src/assets/links.social'
