@@ -5,20 +5,20 @@
 
       <q-space />
 
-      <div class="row no-wrap items-center q-py-xs q-pl-sm">
-        <q-btn class="header-btn q-ml-xs" size="12px" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
+      <div class="doc-example__actions row no-wrap items-center">
+        <q-btn class="header-btn" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
           <q-tooltip>Toggle dark mode</q-tooltip>
         </q-btn>
 
         <q-separator class="q-mx-xs" vertical inset />
 
-        <q-btn class="header-btn" size="12px" dense flat round :icon="fabGithub" @click="openGitHub">
+        <q-btn class="header-btn" dense flat round :icon="fabGithub" @click="openGitHub">
           <q-tooltip>View on GitHub</q-tooltip>
         </q-btn>
-        <q-btn class="header-btn q-ml-xs" v-if="props.noEdit === false" size="12px" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
+        <q-btn class="header-btn q-ml-xs" v-if="props.noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
           <q-tooltip>Edit in Codepen</q-tooltip>
         </q-btn>
-        <q-btn class="header-btn q-ml-xs" size="12px" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
+        <q-btn class="header-btn q-ml-xs" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
           <q-tooltip>View Source</q-tooltip>
         </q-btn>
       </div>
@@ -154,6 +154,10 @@ process.env.CLIENT && onMounted(() => {
 
 <style lang="sass">
 .doc-example
+
+  &__actions
+    padding: 3px 0 3px 7px
+
   &__content
     position: relative
 

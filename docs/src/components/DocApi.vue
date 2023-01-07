@@ -16,7 +16,6 @@
         <q-btn
           :icon="inputIcon"
           class="header-btn q-ml-xs"
-          size="12px"
           dense
           flat
           round
@@ -36,10 +35,10 @@
       <div class="doc-api__nothing-to-show">Nothing to display</div>
     </template>
     <template v-else>
-      <q-tabs class="header-tabs" v-model="currentTab" active-color="brand-primary" indicator-color="brand-primary" align="left" :breakpoint="0" dense>
+      <q-tabs class="header-tabs" v-model="currentTab" active-color="brand-primary" indicator-color="brand-primary" align="left" :breakpoint="0">
         <q-tab v-for="tab in tabsList" :key="`api-tab-${tab}`" :name="tab" class="header-btn">
           <div class="row no-wrap items-center">
-            <span class="q-mr-xs text-capitalize text-weight-medium">{{ tab }}</span>
+            <span class="q-mr-xs text-capitalize">{{ tab }}</span>
             <q-badge v-if="filteredApiCount[tab].overall" :label="filteredApiCount[tab].overall" />
           </div>
         </q-tab>
@@ -53,8 +52,8 @@
             <div class="col-auto">
               <q-tabs class="header-tabs doc-api__subtabs" v-model="currentInnerTab" active-color="brand-primary" indicator-color="brand-primary" :breakpoint="0" vertical dense shrink>
                 <q-tab class="doc-api__subtabs-item header-btn" v-for="innerTab in innerTabsList[tab]" :key="`api-inner-tab-${innerTab}`" :name="innerTab">
-                  <div class="row no-wrap items-center self-stretch">
-                    <span class="q-mr-xs text-capitalize text-weight-medium">{{ innerTab }}</span>
+                  <div class="row no-wrap items-center self-stretch q-pl-sm">
+                    <span class="q-mr-xs text-capitalize">{{ innerTab }}</span>
                     <div class="col" />
                     <q-badge v-if="filteredApiCount[tab].category[innerTab]" :label="filteredApiCount[tab].category[innerTab]" />
                   </div>
@@ -311,7 +310,9 @@ process.env.CLIENT && onMounted(() => {
     padding: 8px 0
 
   &__subtabs-item
+    font-size: 13px
     justify-content: left
+    min-height: 36px !important
     .q-tab__content
       width: 100%
 
@@ -337,15 +338,13 @@ process.env.CLIENT && onMounted(() => {
     color: inherit
     width: 1px !important // required when on narrow width window to not overflow the page
     height: 37px
-    padding: 0 0 2px
 
 .doc-api-entry
-  padding: 8px 16px 4px
-  font-weight: 300
-  color: $grey
+  padding: 16px
+  color: $header-btn-color--light
 
   .doc-api-entry
-    padding: 8px 8px 4px
+    padding: 8px
 
   & + &
     border-top: 1px solid #ddd
@@ -355,49 +354,56 @@ process.env.CLIENT && onMounted(() => {
 
   &__item
     min-height: 25px
-    margin-bottom: 4px
+    & + &
+      margin-top: 4px
 
   &__subitem
-    padding: 4px 0 0 16px
-    border-radius: 5px
+    padding: 4px 0 0 8px
+    border-radius: $generic-border-radius
     > div
       border: 1px solid rgba(0,0,0,.12) !important
       border-radius: inherit
     > div + div
-      margin-top: 4px
+      margin-top: 8px
 
   &__type
-    font-family: $font-family-avenir
+    font-size: 13px
 
   &__value
-    font-weight: 400
     color: #000
 
   &--indent
-    padding-left: 16px
+    padding-left: 8px
 
   .doc-token
     margin: 4px
     display: inline-block
 
   &__pill
-    font-size: 1em
-    line-height: 1.2em
+    letter-spacing: $letter-spacing-brand
+    line-height: 1.4em
 
 body.body--light
   .doc-api .doc-token
     background-color: #eee
-    border: 1px solid #ddd
+    border: 1px solid $separator-color
     color: $light-text
   .doc-api-entry__pill
     color: #fff
+  .doc-api-entry__added-in
+    color: $red-7
+    border-color: $red
+    background-color: $red-1
 
 body.body--dark
+  .doc-api .doc-token
+    background-color: $dark-bg
+    border: 1px solid $separator-dark-color
+    color: $dark-text
   .doc-api__search
     color: $dark-text
-  .doc-api-entry__pill
-    color: $dark
   .doc-api-entry
+    color: $ship-shell
     & + .doc-api-entry,
     &__subitem > div
       border-color: $separator-dark-color !important
@@ -406,4 +412,10 @@ body.body--dark
     &__example
       color: $brand-primary
       border-color: $brand-primary
+    &__pill
+      color: $dark
+    &__added-in
+      color: $red
+      border-color: $red
+      background-color: $dark-bg
 </style>
