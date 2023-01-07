@@ -100,7 +100,7 @@ import { platformIcons, buildTargets, ecosystemParts } from 'src/assets/links.in
     width: 120px
     height: 120px
     border-radius: $generic-border-radius
-    transition: transform .3s, box-shadow .3s
+    transition: transform $header-quick-transition, box-shadow $header-quick-transition
 
     &--bordered
       border-radius: 8px

@@ -175,7 +175,7 @@ function onSearchFieldClick () {
     border-radius: $generic-border-radius
     height: 40px
     cursor: text
-    transition: box-shadow .3s ease-in-out
+    transition: box-shadow $header-quick-transition
 
     &:focus-within
       box-shadow: 0 3px 6px 3px rgba($brand-primary, 0.38)
@@ -189,7 +189,7 @@ function onSearchFieldClick () {
   &__card
     width: 300px
     height: 289px
-    transition: transform .3s, box-shadow 0.3s
+    transition: transform $header-quick-transition, box-shadow $header-quick-transition
 
     &:hover
       box-shadow: 0 24px 24px 0 rgba(0, 180, 255, 0.4)
@@ -206,7 +206,7 @@ function onSearchFieldClick () {
   &-move,
   &-enter-active,
   &-leave-active
-    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1)
+    transition: all .5s cubic-bezier(0.55, 0, 0.1, 1)
 
   &-enter-from,
   &-leave-to

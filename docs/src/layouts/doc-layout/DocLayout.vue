@@ -115,6 +115,7 @@ const pageContentClass = computed(() =>
     min-height: 30px
     padding: 0 4px 0 6px
     color: $light-text
+    transition: none
 
     .q-item__section
       padding-top: 2px

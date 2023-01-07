@@ -114,7 +114,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
 <style lang="sass">
 .doc-header
-  transition: color .28s, background-color .28s
+  transition: none
   box-shadow: $shadow--primary
 
   &__primary
@@ -142,6 +142,9 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
   &__version
     color: #000
     border: 1px solid $brand-primary
+    transition: none
+    .q-focus-helper
+      color: $brand-primary
 
   &__leftmost
     margin-left: -8px

@@ -322,7 +322,7 @@ body.desktop
     height: inherit
     width: inherit
     cursor: text
-    transition: box-shadow .3s ease-in-out, background-color .3s ease-in-out
+    transition: box-shadow $header-quick-transition, background-color $header-quick-transition
 
   input
     font-size: 14px
@@ -338,7 +338,7 @@ body.desktop
     right: 0
     transform: scale3d(1, 0, 1)
     transform-origin: top
-    transition: transform .14s ease-in-out, box-shadow .3s ease-in-out
+    transition: transform .14s ease-in-out, box-shadow $header-quick-transition
 
   &--focused
     .doc-search__results--active

@@ -42,12 +42,12 @@ function showVideo () {
       z-index: 1
       background-color: rgba(0, 0, 0, 0.3)
       opacity: 0
-      transition: opacity 0.3s
+      transition: opacity $header-quick-transition
 
     .play-button
       z-index: 2
       opacity: 0.5
-      transition: opacity 0.3s
+      transition: opacity $header-quick-transition
 
     &:hover
       &:after

@@ -101,7 +101,7 @@ import { mostUsedPages, pagesToDiscover } from 'src/assets/docs-homepage.js'
     height: 110px
     border: solid 1px rgba($brand-secondary, 0.54)
     border-radius: 8px
-    transition: transform 0.3s, box-shadow 0.3s
+    transition: transform $header-quick-transition, box-shadow $header-quick-transition
 
     &-label
       color: $cold-black
