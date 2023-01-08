@@ -46,7 +46,7 @@ export default createComponent({
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
 
-    let localTouchTargetEl = null, avoidMouseRipple, mouseTimer
+    let localTouchTargetEl = null, avoidMouseRipple, mouseTimer = null
 
     const hasLabel = computed(() =>
       props.label !== void 0 && props.label !== null && props.label !== ''
@@ -192,8 +192,9 @@ export default createComponent({
       // avoid duplicated mousedown event
       // triggering another early ripple
       avoidMouseRipple = true
-      clearTimeout(mouseTimer)
+      mouseTimer !== null && clearTimeout(mouseTimer)
       mouseTimer = setTimeout(() => {
+        mouseTimer = null
         avoidMouseRipple = false
       }, 200)
     }

@@ -112,6 +112,8 @@ export default function (type, getInner) {
     const prop = { type: 'checkbox' }
 
     props.name !== void 0 && Object.assign(prop, {
+      // see https://vuejs.org/guide/extras/render-function.html#creating-vnodes (.prop)
+      '.checked': isTrue.value,
       '^checked': isTrue.value === true ? 'checked' : void 0,
       name: props.name,
       value: modelIsArray.value === true

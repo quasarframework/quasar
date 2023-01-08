@@ -18,6 +18,10 @@ function getPackager (root) {
     return 'yarn'
   }
 
+  if (fs.existsSync(join(root, 'pnpm-lock.yaml'))) {
+    return 'pnpm'
+  }
+
   if (fs.existsSync(join(root, 'package-lock.json'))) {
     return 'npm'
   }
@@ -30,7 +34,11 @@ function getPackager (root) {
     return 'npm'
   }
 
-  fatal('⚠️  Please install Yarn or NPM before running this command.\n')
+  if (isInstalled('pnpm')) {
+    return 'pnpm'
+  }
+
+  fatal('⚠️  Please install Yarn or Pnpm or NPM before running this command.\n')
 }
 
 module.exports = getPackager

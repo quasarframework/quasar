@@ -40,7 +40,7 @@ export default createComponent({
 
     const contentRef = ref(null)
 
-    let timer, pan = {}, dirRefs = {}, dirContentRefs = {}
+    let timer = null, pan = {}, dirRefs = {}, dirContentRefs = {}
 
     const langDir = computed(() => (
       $q.lang.rtl === true
@@ -91,7 +91,9 @@ export default createComponent({
         if (pan.scale === 1) {
           node.style.transform = `translate${ pan.axis }(${ pan.dir * 100 }%)`
 
+          timer !== null && clearTimeout(timer)
           timer = setTimeout(() => {
+            timer = null
             emit(pan.showing, { reset })
             emit('action', { side: pan.showing, reset })
           }, 230)
@@ -162,7 +164,7 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
     })
 
     // expose public methods

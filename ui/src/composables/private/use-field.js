@@ -122,7 +122,7 @@ export default function (state) {
   const { props, emit, slots, attrs, proxy } = getCurrentInstance()
   const { $q } = proxy
 
-  let focusoutTimer
+  let focusoutTimer = null
 
   if (state.hasValue === void 0) {
     state.hasValue = computed(() => fieldValueIsFilled(props.modelValue))
@@ -288,7 +288,11 @@ export default function (state) {
   }
 
   function onControlFocusin (e) {
-    clearTimeout(focusoutTimer)
+    if (focusoutTimer !== null) {
+      clearTimeout(focusoutTimer)
+      focusoutTimer = null
+    }
+
     if (state.editable.value === true && state.focused.value === false) {
       state.focused.value = true
       emit('focus', e)
@@ -296,8 +300,10 @@ export default function (state) {
   }
 
   function onControlFocusout (e, then) {
-    clearTimeout(focusoutTimer)
+    focusoutTimer !== null && clearTimeout(focusoutTimer)
     focusoutTimer = setTimeout(() => {
+      focusoutTimer = null
+
       if (
         document.hasFocus() === true && (
           state.hasPopupOpen === true
@@ -547,7 +553,7 @@ export default function (state) {
   })
 
   onBeforeUnmount(() => {
-    clearTimeout(focusoutTimer)
+    focusoutTimer !== null && clearTimeout(focusoutTimer)
   })
 
   // expose public methods

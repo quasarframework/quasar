@@ -143,8 +143,8 @@ export default createComponent({
     const dialogFieldFocused = ref(false)
     const innerLoadingIndicator = ref(false)
 
-    let inputTimer, innerValueCache,
-      hasDialog, userInputValue, filterId, defaultInputValue,
+    let inputTimer = null, innerValueCache,
+      hasDialog, userInputValue, filterId = null, defaultInputValue,
       transitionShowComputed, searchBuffer, searchBufferExp
 
     const inputRef = ref(null)
@@ -650,7 +650,12 @@ export default createComponent({
       }
 
       e.target.value = ''
-      clearTimeout(inputTimer)
+
+      if (inputTimer !== null) {
+        clearTimeout(inputTimer)
+        inputTimer = null
+      }
+
       resetInputValue()
 
       if (typeof value === 'string' && value.length > 0) {
@@ -1015,7 +1020,10 @@ export default createComponent({
     }
 
     function onInput (e) {
-      clearTimeout(inputTimer)
+      if (inputTimer !== null) {
+        clearTimeout(inputTimer)
+        inputTimer = null
+      }
 
       if (e && e.target && e.target.qComposing === true) {
         return
@@ -1036,6 +1044,7 @@ export default createComponent({
 
       if (props.onFilter !== void 0) {
         inputTimer = setTimeout(() => {
+          inputTimer = null
           filter(inputValue.value)
         }, props.inputDebounce)
       }
@@ -1089,7 +1098,7 @@ export default createComponent({
         menu.value === true && (menu.value = false)
       }, 10)
 
-      clearTimeout(filterId)
+      filterId !== null && clearTimeout(filterId)
       filterId = localFilterId
 
       emit(
@@ -1281,8 +1290,10 @@ export default createComponent({
       }
 
       if (state.focused.value === false) {
-        clearTimeout(filterId)
-        filterId = void 0
+        if (filterId !== null) {
+          clearTimeout(filterId)
+          filterId = null
+        }
 
         if (state.innerLoading.value === true) {
           emit('filterAbort')
@@ -1403,7 +1414,7 @@ export default createComponent({
     updatePreState()
 
     onBeforeUnmount(() => {
-      clearTimeout(inputTimer)
+      inputTimer !== null && clearTimeout(inputTimer)
     })
 
     // expose public methods

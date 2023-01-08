@@ -49,7 +49,7 @@ export default createComponent({
     const { $q } = proxy
 
     const temp = {}
-    let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer, emitValueFn
+    let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer = null, emitValueFn
 
     const inputRef = ref(null)
     const nameProp = useFormInputNameAttr(props)
@@ -261,6 +261,8 @@ export default createComponent({
 
     function emitValue (val, stopWatcher) {
       emitValueFn = () => {
+        emitTimer = null
+
         if (
           props.type !== 'number'
           && temp.hasOwnProperty('value') === true
@@ -288,7 +290,7 @@ export default createComponent({
       }
 
       if (props.debounce !== void 0) {
-        clearTimeout(emitTimer)
+        emitTimer !== null && clearTimeout(emitTimer)
         temp.value = val
         emitTimer = setTimeout(emitValueFn, props.debounce)
       }
@@ -322,7 +324,11 @@ export default createComponent({
     function onChange (e) {
       onComposition(e)
 
-      clearTimeout(emitTimer)
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
       emitValueFn !== void 0 && emitValueFn()
 
       emit('change', e.target.value)
@@ -331,7 +337,11 @@ export default createComponent({
     function onFinishEditing (e) {
       e !== void 0 && stop(e)
 
-      clearTimeout(emitTimer)
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
       emitValueFn !== void 0 && emitValueFn()
 
       typedNumber = false

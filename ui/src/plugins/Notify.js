@@ -225,7 +225,10 @@ function addNotification (config, $q, originalApi) {
 
   if (originalApi !== void 0) {
     // reset timeout if any
-    clearTimeout(originalApi.notif.meta.timer)
+    if (originalApi.notif.meta.timer) {
+      clearTimeout(originalApi.notif.meta.timer)
+      originalApi.notif.meta.timer = void 0
+    }
 
     // retain uid
     notif.meta.uid = originalApi.notif.meta.uid
@@ -261,7 +264,10 @@ function addNotification (config, $q, originalApi) {
     // ok, so it's NOT a new one
     else {
       // reset timeout if any
-      clearTimeout(original.meta.timer)
+      if (original.meta.timer) {
+        clearTimeout(original.meta.timer)
+        original.meta.timer = void 0
+      }
 
       if (notif.badgePosition !== void 0) {
         if (badgePositions.includes(notif.badgePosition) === false) {
@@ -291,6 +297,7 @@ function addNotification (config, $q, originalApi) {
 
   if (notif.timeout > 0) {
     notif.meta.timer = setTimeout(() => {
+      notif.meta.timer = void 0
       dismiss()
     }, notif.timeout + /* show duration */ 1000)
   }
@@ -339,7 +346,10 @@ function addNotification (config, $q, originalApi) {
 }
 
 function removeNotification (notif) {
-  clearTimeout(notif.meta.timer)
+  if (notif.meta.timer) {
+    clearTimeout(notif.meta.timer)
+    notif.meta.timer = void 0
+  }
 
   const index = notificationsList[ notif.position ].value.indexOf(notif)
   if (index !== -1) {

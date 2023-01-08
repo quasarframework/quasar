@@ -11,7 +11,7 @@ let
   app,
   vm,
   uid = 0,
-  timeout,
+  timeout = null,
   props = {},
   activeGroups = {}
 
@@ -61,10 +61,10 @@ const Plugin = defineReactivePlugin({
     }
     else {
       props.uid = ++uid
-      clearTimeout(timeout)
+      timeout !== null && clearTimeout(timeout)
 
       timeout = setTimeout(() => {
-        timeout = void 0
+        timeout = null
 
         const el = createGlobalNode('q-loading')
 
@@ -174,9 +174,9 @@ const Plugin = defineReactivePlugin({
         }
       }
 
-      if (timeout !== void 0) {
+      if (timeout !== null) {
         clearTimeout(timeout)
-        timeout = void 0
+        timeout = null
       }
 
       Plugin.isActive = false

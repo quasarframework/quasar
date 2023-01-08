@@ -74,6 +74,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
               : ctx.touchSensitivity
 
             ctx.timer = setTimeout(() => {
+              ctx.timer = void 0
               clearSelection()
               ctx.triggered = true
 
@@ -90,10 +91,13 @@ export default createDirective(__QUASAR_SSR_SERVER__
           move (evt) {
             const { top, left } = position(evt)
             if (
-              Math.abs(left - ctx.origin.left) >= ctx.sensitivity
-              || Math.abs(top - ctx.origin.top) >= ctx.sensitivity
+              ctx.timer !== void 0 && (
+                Math.abs(left - ctx.origin.left) >= ctx.sensitivity
+                || Math.abs(top - ctx.origin.top) >= ctx.sensitivity
+              )
             ) {
               clearTimeout(ctx.timer)
+              ctx.timer = void 0
             }
           },
 
@@ -106,8 +110,9 @@ export default createDirective(__QUASAR_SSR_SERVER__
             if (ctx.triggered === true) {
               evt !== void 0 && stopAndPrevent(evt)
             }
-            else {
+            else if (ctx.timer !== void 0) {
               clearTimeout(ctx.timer)
+              ctx.timer = void 0
             }
           }
         }
@@ -159,7 +164,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
           cleanEvt(ctx, 'main')
           cleanEvt(ctx, 'temp')
 
-          clearTimeout(ctx.timer)
+          ctx.timer !== void 0 && clearTimeout(ctx.timer)
           ctx.styleCleanup !== void 0 && ctx.styleCleanup()
 
           delete el.__qtouchhold

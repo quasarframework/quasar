@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 const { green, red } = require('kolorist')
@@ -37,14 +36,14 @@ function getSpawnOutput (command) {
   }
 }
 
-const getExternalIPs = require('../lib/net').getExternalNetworkInterface
+const getExternalIPs = require('../net').getExternalNetworkInterface
 const output = [
   { key: 'Operating System', value: green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
   { key: 'NodeJs', value: green(process.version.slice(1)) },
   { key: 'Global packages', section: true },
   { key: '  NPM', value: getSpawnOutput('npm') },
   { key: '  yarn', value: getSpawnOutput('yarn') },
-  { key: '  @quasar/cli', value: green(require('../package.json').version) },
+  { key: '  @quasar/cli', value: green(require('../../package.json').version) },
   { key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') },
   { key: '  cordova', value: getSpawnOutput('cordova') }
 ]

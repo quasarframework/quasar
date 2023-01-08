@@ -107,7 +107,7 @@ export default createComponent({
 
     Object.assign(anchorEvents, { delayShow, delayHide })
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent, 'tooltip')
 
     // if we're on mobile, let's improve the experience
     // by closing it when user taps outside of it

@@ -84,7 +84,7 @@ export default createComponent({
     const showing = ref(false)
     const animating = ref(false)
 
-    let shakeTimeout, refocusTarget = null, isMaximized, avoidAutoClose
+    let shakeTimeout = null, refocusTarget = null, isMaximized, avoidAutoClose
 
     const hideOnRouteChange = computed(() =>
       props.persistent !== true
@@ -103,7 +103,7 @@ export default createComponent({
     )
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
-      vm, innerRef, renderPortalContent, /* pls do check if on a global dialog */ true
+      vm, innerRef, renderPortalContent, 'dialog'
     )
 
     const { hide } = useModelToggle({
@@ -266,8 +266,9 @@ export default createComponent({
       if (node !== null) {
         node.classList.remove('q-animate--scale')
         node.classList.add('q-animate--scale')
-        clearTimeout(shakeTimeout)
+        shakeTimeout !== null && clearTimeout(shakeTimeout)
         shakeTimeout = setTimeout(() => {
+          shakeTimeout = null
           if (innerRef.value !== null) {
             node.classList.remove('q-animate--scale')
             // some platforms (like desktop Chrome)
@@ -291,7 +292,10 @@ export default createComponent({
     }
 
     function cleanup (hiding) {
-      clearTimeout(shakeTimeout)
+      if (shakeTimeout !== null) {
+        clearTimeout(shakeTimeout)
+        shakeTimeout = null
+      }
 
       if (hiding === true || showing.value === true) {
         updateMaximized(false)

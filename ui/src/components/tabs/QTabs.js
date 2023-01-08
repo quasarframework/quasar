@@ -88,7 +88,7 @@ export default createComponent({
     const tabDataListLen = ref(0)
     const hasFocus = ref(false)
 
-    let animateTimer, scrollTimer, unwatchRoute
+    let animateTimer = null, scrollTimer = null, unwatchRoute
 
     const tabProps = computed(() => ({
       activeClass: props.activeClass,
@@ -224,7 +224,10 @@ export default createComponent({
           oldEl = oldTab.tabIndicatorRef.value,
           newEl = newTab.tabIndicatorRef.value
 
-        clearTimeout(animateTimer)
+        if (animateTimer !== null) {
+          clearTimeout(animateTimer)
+          animateTimer = null
+        }
 
         oldEl.style.transition = 'none'
         oldEl.style.transform = 'none'
@@ -242,6 +245,7 @@ export default createComponent({
         // allow scope updates to kick in (QRouteTab needs more time)
         registerAnimateTick(() => {
           animateTimer = setTimeout(() => {
+            animateTimer = null
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
           }, 70)
@@ -294,7 +298,7 @@ export default createComponent({
     }
 
     function animScrollTo (value) {
-      stopAnimScroll()
+      scrollTimer !== null && clearInterval(scrollTimer)
       scrollTimer = setInterval(() => {
         if (scrollTowards(value) === true) {
           stopAnimScroll()
@@ -311,7 +315,10 @@ export default createComponent({
     }
 
     function stopAnimScroll () {
-      clearInterval(scrollTimer)
+      if (scrollTimer !== null) {
+        clearInterval(scrollTimer)
+        scrollTimer = null
+      }
     }
 
     function onKbdNavigate (keyCode, fromEl) {
@@ -615,7 +622,7 @@ export default createComponent({
     provide(tabsKey, $tabs)
 
     function cleanup () {
-      clearTimeout(animateTimer)
+      animateTimer !== null && clearTimeout(animateTimer)
       stopAnimScroll()
       unwatchRoute !== void 0 && unwatchRoute()
     }

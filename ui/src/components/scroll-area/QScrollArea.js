@@ -88,7 +88,7 @@ export default createComponent({
 
     const isDark = useDark(props, proxy.$q)
 
-    let timer, panRefPos
+    let timer = null, panRefPos
 
     const targetRef = ref(null)
 
@@ -337,14 +337,14 @@ export default createComponent({
     }
 
     function startTimer () {
-      if (tempShowing.value === true) {
-        clearTimeout(timer)
-      }
-      else {
-        tempShowing.value = true
-      }
+      tempShowing.value = true
 
-      timer = setTimeout(() => { tempShowing.value = false }, props.delay)
+      timer !== null && clearTimeout(timer)
+      timer = setTimeout(() => {
+        timer = null
+        tempShowing.value = false
+      }, props.delay)
+
       props.onScroll !== void 0 && emitScroll()
     }
 

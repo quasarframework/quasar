@@ -62,14 +62,29 @@ export function getAnchorProps (el, offset) {
   }
 
   return {
-    top,
-    left,
-    right,
-    bottom,
-    width,
-    height,
+    top, bottom, height,
+    left, right, width,
     middle: left + (right - left) / 2,
     center: top + (bottom - top) / 2
+  }
+}
+
+function getAbsoluteAnchorProps (el, absoluteOffset, offset) {
+  let { top, left } = el.getBoundingClientRect()
+
+  top += absoluteOffset.top
+  left += absoluteOffset.left
+
+  if (offset !== void 0) {
+    top += offset[ 1 ]
+    left += offset[ 0 ]
+  }
+
+  return {
+    top, bottom: top + 1, height: 1,
+    left, right: left + 1, width: 1,
+    middle: left,
+    center: top
   }
 }
 
@@ -81,6 +96,13 @@ export function getTargetProps (el) {
     left: 0,
     middle: el.offsetWidth / 2,
     right: el.offsetWidth
+  }
+}
+
+function getTopLeftProps (anchorProps, targetProps, cfg) {
+  return {
+    top: anchorProps[ cfg.anchorOrigin.vertical ] - targetProps[ cfg.selfOrigin.vertical ],
+    left: anchorProps[ cfg.anchorOrigin.horizontal ] - targetProps[ cfg.selfOrigin.horizontal ]
   }
 }
 
@@ -102,25 +124,15 @@ export function setPosition (cfg) {
     }
   }
 
-  let anchorProps
-
   // scroll position might change
   // if max-height/-width changes, so we
   // need to restore it after we calculate
   // the new positioning
   const { scrollLeft, scrollTop } = cfg.el
 
-  if (cfg.absoluteOffset === void 0) {
-    anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [ 0, 0 ] : cfg.offset)
-  }
-  else {
-    const
-      { top: anchorTop, left: anchorLeft } = cfg.anchorEl.getBoundingClientRect(),
-      top = anchorTop + cfg.absoluteOffset.top,
-      left = anchorLeft + cfg.absoluteOffset.left
-
-    anchorProps = { top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1 }
-  }
+  const anchorProps = cfg.absoluteOffset === void 0
+    ? getAnchorProps(cfg.anchorEl, cfg.cover === true ? [ 0, 0 ] : cfg.offset)
+    : getAbsoluteAnchorProps(cfg.anchorEl, cfg.absoluteOffset, cfg.offset)
 
   let elStyle = {
     maxHeight: cfg.maxHeight,
@@ -137,14 +149,44 @@ export function setPosition (cfg) {
 
   Object.assign(cfg.el.style, elStyle)
 
-  const
-    targetProps = getTargetProps(cfg.el),
-    props = {
-      top: anchorProps[ cfg.anchorOrigin.vertical ] - targetProps[ cfg.selfOrigin.vertical ],
-      left: anchorProps[ cfg.anchorOrigin.horizontal ] - targetProps[ cfg.selfOrigin.horizontal ]
+  const targetProps = getTargetProps(cfg.el)
+  let props = getTopLeftProps(anchorProps, targetProps, cfg)
+
+  if (cfg.absoluteOffset === void 0 || cfg.offset === void 0) {
+    applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+  }
+  else { // we have touch position or context menu with offset
+    const { top, left } = props // cache initial values
+
+    // apply initial boundaries
+    applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+
+    let hasChanged = false
+
+    // did it flip vertically?
+    if (props.top !== top) {
+      hasChanged = true
+      const offsetY = 2 * cfg.offset[ 1 ]
+      anchorProps.center = anchorProps.top -= offsetY
+      anchorProps.bottom -= offsetY + 2
     }
 
-  applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+    // did it flip horizontally?
+    if (props.left !== left) {
+      hasChanged = true
+      const offsetX = 2 * cfg.offset[ 0 ]
+      anchorProps.middle = anchorProps.left -= offsetX
+      anchorProps.right -= offsetX + 2
+    }
+
+    if (hasChanged === true) {
+      // re-calculate props with the new anchor
+      props = getTopLeftProps(anchorProps, targetProps, cfg)
+
+      // and re-apply boundaries
+      applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+    }
+  }
 
   elStyle = {
     top: props.top + 'px',

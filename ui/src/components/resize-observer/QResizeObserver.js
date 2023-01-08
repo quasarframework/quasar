@@ -40,8 +40,10 @@ export default createComponent({
     }
 
     function emitEvent () {
-      clearTimeout(timer)
-      timer = null
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
+      }
 
       if (targetEl) {
         const { offsetWidth: width, offsetHeight: height } = targetEl
@@ -75,7 +77,7 @@ export default createComponent({
       onMounted(() => { init() })
 
       onBeforeUnmount(() => {
-        clearTimeout(timer)
+        timer !== null && clearTimeout(timer)
 
         if (observer !== void 0) {
           if (observer.disconnect !== void 0) {
@@ -95,7 +97,10 @@ export default createComponent({
       let curDocView
 
       function cleanup () {
-        clearTimeout(timer)
+        if (timer !== null) {
+          clearTimeout(timer)
+          timer = null
+        }
 
         if (curDocView !== void 0) {
           // iOS is fuzzy, need to check it first

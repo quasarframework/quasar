@@ -83,7 +83,7 @@ export default createComponent({
       return emptyRenderFn
     }
 
-    let lastDesktopState, timerMini, layoutTotalWidthWatcher
+    let lastDesktopState, timerMini = null, layoutTotalWidthWatcher
 
     const belowBreakpoint = ref(
       props.behavior === 'mobile'
@@ -458,7 +458,7 @@ export default createComponent({
     }
 
     function animateMini () {
-      clearTimeout(timerMini)
+      timerMini !== null && clearTimeout(timerMini)
 
       if (vm.proxy && vm.proxy.$el) {
         // need to speed it up and apply it immediately,
@@ -468,6 +468,7 @@ export default createComponent({
 
       flagMiniAnimate.value = true
       timerMini = setTimeout(() => {
+        timerMini = null
         flagMiniAnimate.value = false
         if (vm && vm.proxy && vm.proxy.$el) {
           vm.proxy.$el.classList.remove('q-drawer--mini-animate')
@@ -620,7 +621,11 @@ export default createComponent({
 
     onBeforeUnmount(() => {
       layoutTotalWidthWatcher !== void 0 && layoutTotalWidthWatcher()
-      clearTimeout(timerMini)
+
+      if (timerMini !== null) {
+        clearTimeout(timerMini)
+        timerMini = null
+      }
 
       showing.value === true && cleanup()
 
