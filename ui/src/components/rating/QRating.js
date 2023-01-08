@@ -216,13 +216,13 @@ export default createComponent({
         case 37: // LEFT ARROW
         case 40: // DOWN ARROW
           if (iconRefs[ `rt${ i - 1 }` ]) {
-            iconRefs[ `rt${ i - 1 }` ].$el.focus()
+            iconRefs[ `rt${ i - 1 }` ].focus()
           }
           return stopAndPrevent(e)
         case 39: // RIGHT ARROW
         case 38: // UP ARROW
           if (iconRefs[ `rt${ i + 1 }` ]) {
-            iconRefs[ `rt${ i + 1 }` ].$el.focus()
+            iconRefs[ `rt${ i + 1 }` ].focus()
           }
           return stopAndPrevent(e)
       }
@@ -245,7 +245,7 @@ export default createComponent({
         child.push(
           h('div', {
             key: i,
-            ref: vm => { iconRefs[ `rt${ i }` ] = vm },
+            ref: el => { iconRefs[ `rt${ i }` ] = el },
             class: 'q-rating__icon-container flex flex-center',
             ...attrs,
             onClick () { set(i) },
