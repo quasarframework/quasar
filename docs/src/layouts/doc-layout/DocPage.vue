@@ -1,6 +1,6 @@
 <template>
   <div class="doc-page__content">
-    <div v-if="props.overline" class="doc-page__overline text-size-12 text-brand-primary">{{ props.overline }}</div>
+    <div v-if="props.overline" class="doc-page__overline text-brand-primary">{{ props.overline }}</div>
 
     <div class="doc-h1 row items-start no-wrap" v-if="props.heading">
       <div class="doc-heading q-mr-xs" id="introduction">
@@ -149,7 +149,7 @@ const tocClass = computed(() =>
       background: $brand-accent
       color: #fff
       font-weight: bold
-      font-size: 14px
+      font-size: $font-size
       letter-spacing: $letter-spacing-brand
       padding: 8px 16px
       text-transform: none

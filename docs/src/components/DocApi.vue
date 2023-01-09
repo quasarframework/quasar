@@ -310,7 +310,7 @@ process.env.CLIENT && onMounted(() => {
     padding: 8px 0
 
   &__subtabs-item
-    font-size: 13px
+    font-size: ($font-size - 1px)
     justify-content: left
     min-height: 36px !important
     .q-tab__content
@@ -325,7 +325,7 @@ process.env.CLIENT && onMounted(() => {
 
   &__nothing-to-show
     padding: 16px
-    font-size: .8em
+    font-size: ($font-size - 1px)
 
   &__search-field
     cursor: text
@@ -367,7 +367,7 @@ process.env.CLIENT && onMounted(() => {
       margin-top: 8px
 
   &__type
-    font-size: 13px
+    font-size: ($font-size - 1px)
 
   &__value
     color: #000

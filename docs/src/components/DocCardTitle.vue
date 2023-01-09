@@ -30,6 +30,7 @@ function onClick () {
   border-radius: 3px 5px 5px 0
   background: $void-suit
   color: $header-btn-color--light
+  font-size: ($font-size + 2px)
   letter-spacing: $letter-spacing-brand
 
   &:after

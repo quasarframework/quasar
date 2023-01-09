@@ -757,7 +757,7 @@
         "path": "testing-and-auditing"
       },
       {
-        "name": "Developing SPA",
+        "name": "SPA mode",
         "path": "developing-spa",
         "children": [
           {
@@ -779,7 +779,7 @@
         ]
       },
       {
-        "name": "Developing SSR",
+        "name": "SSR mode",
         "path": "developing-ssr",
         "children": [
           {
@@ -857,7 +857,7 @@
         ]
       },
       {
-        "name": "Developing PWA",
+        "name": "PWA mode",
         "path": "developing-pwa",
         "children": [
           {
@@ -899,7 +899,7 @@
         "path": "developing-mobile-apps"
       },
       {
-        "name": "Developing Capacitor Apps",
+        "name": "Capacitor mode",
         "path": "developing-capacitor-apps",
         "children": [
           {
@@ -945,7 +945,7 @@
         ]
       },
       {
-        "name": "Developing Cordova Apps",
+        "name": "Cordova mode",
         "path": "developing-cordova-apps",
         "children": [
           {
@@ -987,7 +987,7 @@
         ]
       },
       {
-        "name": "Developing Electron Apps",
+        "name": "Electron mode",
         "path": "developing-electron-apps",
         "children": [
           {
@@ -1045,7 +1045,7 @@
         ]
       },
       {
-        "name": "Developing Browser Extensions",
+        "name": "Browser Extensions mode",
         "path": "developing-browser-extensions",
         "children": [
           {
@@ -1182,7 +1182,7 @@
         "path": "testing-and-auditing"
       },
       {
-        "name": "Developing SPA",
+        "name": "SPA mode",
         "path": "developing-spa",
         "children": [
           {
@@ -1204,7 +1204,7 @@
         ]
       },
       {
-        "name": "Developing SSR",
+        "name": "SSR mode",
         "path": "developing-ssr",
         "children": [
           {
@@ -1282,7 +1282,7 @@
         ]
       },
       {
-        "name": "Developing PWA",
+        "name": "PWA mode",
         "path": "developing-pwa",
         "children": [
           {
@@ -1324,7 +1324,7 @@
         "path": "developing-mobile-apps"
       },
       {
-        "name": "Developing Capacitor Apps",
+        "name": "Capacitor mode",
         "path": "developing-capacitor-apps",
         "children": [
           {
@@ -1370,7 +1370,7 @@
         ]
       },
       {
-        "name": "Developing Cordova Apps",
+        "name": "Cordova mode",
         "path": "developing-cordova-apps",
         "children": [
           {
@@ -1412,7 +1412,7 @@
         ]
       },
       {
-        "name": "Developing Electron Apps",
+        "name": "Electron mode",
         "path": "developing-electron-apps",
         "children": [
           {
@@ -1470,7 +1470,7 @@
         ]
       },
       {
-        "name": "Developing Browser Extensions",
+        "name": "Browser Extensions mode",
         "path": "developing-browser-extensions",
         "children": [
           {

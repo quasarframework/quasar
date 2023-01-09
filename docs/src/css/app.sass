@@ -1,17 +1,5 @@
+@import './fonts.sass'
 @import './prism-theme.sass'
-
-@font-face
-  font-family: 'Montserrat'
-  font-style: normal
-  font-weight: 100 950
-  font-display: swap
-  src: url(https://fonts.gstatic.com/s/montserrat/v25/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2) format('woff2')
-
-@font-face
-  font-family: 'Material Icons'
-  font-style: normal
-  font-weight: 400
-  src: url(https://fonts.gstatic.com/s/materialicons/v139/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2) format('woff2')
 
 .material-icons
   font-family: 'Material Icons'
@@ -35,7 +23,14 @@
 body
   color: $light-text
   background-color: $light-bg
+  font-size: $font-size
+  text-rendering: optimizeLegibility
   -webkit-font-smoothing: auto
+
+.doc-typography
+  font-family: $font-family
+  font-weight: $font-weight
+  font-size: $font-size
 
 strong
   font-weight: bold
@@ -46,20 +41,19 @@ ul
 .doc-token
   display: inline-block
   padding: 4px 8px
-  font-size: 12px
+  font-size: $font-size
+  line-height: $font-size
   border-radius: $generic-border-radius
   font-family: inherit
   color: $brand-primary
-  line-height: 12px
   vertical-align: baseline
   border: 1px solid currentColor
 
 .doc-note
-  font-size: 14px
+  font-size: $font-size
   border-radius: $generic-border-radius
   margin: 16px 0
   padding: 16px
-  font-size: 1em
   border-width: 1px
   border-style: solid
 
@@ -195,9 +189,10 @@ kbd
   font-family: $font-family-examples
   white-space: nowrap
   display: inline-block
-  padding: 2px 4px 4px
+  padding: 4px 4px 6px
   line-height: 1
   font-size: .8em
+  line-height: .8em
   border-radius: 4px
   margin: 0 .2em
   color: $grey-8
@@ -286,7 +281,7 @@ body.q-scroll--lock .q-page
 
   &--quote
     color: $brand-primary
-    font-size: 14px
+    font-size: $font-size
     font-weight: 400
     letter-spacing: 3px
     text-transform: initial
@@ -313,7 +308,7 @@ body.q-scroll--lock .q-page
   background: $brand-accent
   color: #fff
   font-weight: bold
-  font-size: 14px
+  font-size: $font-size
   letter-spacing: 2.63px
 
   &.q-btn--rectangle
@@ -322,6 +317,9 @@ body.q-scroll--lock .q-page
 .doc-page-table
   width: fit-content
   max-width: 100%
+  th,
+  td
+    font-size: $font-size !important
   th
     font-weight: 700
     letter-spacing: $letter-spacing-brand

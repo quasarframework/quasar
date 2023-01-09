@@ -1,5 +1,5 @@
 <template>
-  <q-layout class="doc-layout" view="hHh LpR fff" @scroll="docStore.onPageScroll">
+  <q-layout class="doc-layout doc-typography" view="hHh LpR fff" @scroll="docStore.onPageScroll">
     <doc-header />
 
     <q-page-container>
@@ -51,8 +51,6 @@ const pageContentClass = computed(() =>
 
 <style lang="sass">
 .doc-layout
-  font-family: $font-family
-  font-weight: $font-weight
 
   .q-page-container :target
     scroll-margin-top: $header-height
@@ -108,7 +106,6 @@ const pageContentClass = computed(() =>
 
   &__item.q-item,
   &__item .q-item
-    font-size: $font-size
     letter-spacing: $letter-spacing-brand
     border-radius: 10px
     margin-top: 2px
@@ -122,6 +119,9 @@ const pageContentClass = computed(() =>
       padding-bottom: 2px
     &.q-item--dark
       color: $dark-text
+
+    .q-item__section--main ~ .q-item__section--side
+      padding-left: 8px
 
   &__item .q-expansion-item > .q-expansion-item__container > .q-item .q-item__label
     padding-left: 8.5px

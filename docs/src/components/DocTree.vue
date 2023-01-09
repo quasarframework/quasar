@@ -51,11 +51,11 @@ const nodes = [addId(props.def)]
 <style lang="sass">
 .doc-tree
   &__label
-    font-size: .9em
+    font-size: ($font-size - 1px)
   &__btn .q-icon
     font-size: 17px
   &__explanation
-    font-size: .7em
+    font-size: ($font-size - 3px)
     letter-spacing: .2px
 
   .q-tree__node

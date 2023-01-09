@@ -39,7 +39,7 @@ export default {
 
           entry.children !== void 0 && acc.push(
             h(QItemSection, { side: true, class: 'doc-header-menu__arrow' }, () => h(QIcon, { name: mdiMenuRight })),
-            h(QMenu, { anchor: 'top right', self: 'top left', class: 'doc-header-menu' }, () => getChildren(entry.children))
+            h(QMenu, { anchor: 'top right', self: 'top left', class: 'doc-header-menu doc-typography' }, () => getChildren(entry.children))
           )
 
           return acc
@@ -51,6 +51,6 @@ export default {
       return getChildren(props.elements)
     }
 
-    return () => h(QMenu, { fit: true, class: 'doc-header-menu', offset }, getMenu)
+    return () => h(QMenu, { fit: true, class: 'doc-header-menu doc-typography', offset }, getMenu)
   }
 }

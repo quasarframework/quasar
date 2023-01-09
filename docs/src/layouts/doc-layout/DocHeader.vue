@@ -177,10 +177,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
       justify-content: center
 
 .doc-header-menu
-  font-family: $font-family
   letter-spacing: $letter-spacing-brand
-  font-weight: $font-weight
-  font-size: $font-size
   box-shadow: $shadow--primary-down
 
   .q-item__label--header

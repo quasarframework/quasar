@@ -200,7 +200,7 @@ function onSearchFieldClick () {
     background-color: $floating-rock
 
   &__card-description
-    font-size: .9em
+    font-size: $font-size
 
 .page-all-transition
   &-move,

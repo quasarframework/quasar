@@ -233,7 +233,7 @@ function onKeydown (evt) {
         }
 
         const target = document.getElementById(activeId.value)
-        if (target.scrollIntoViewIfNeeded) {
+        if (target.scrollIntoViewIfNeeded !== void 0) {
           target.scrollIntoViewIfNeeded()
         }
         else {
@@ -325,7 +325,7 @@ body.desktop
     transition: box-shadow $header-quick-transition, background-color $header-quick-transition
 
   input
-    font-size: 14px
+    font-size: $font-size
     width: 1px !important // required when on narrow width window to not overflow the page
     border: 0
     outline: 0
@@ -349,10 +349,6 @@ body.desktop
       display: inline-block !important
     .doc-search__kbd
       display: none
-
-.app-search-warning
-  font-size: 12px
-  letter-spacing: $letter-spacing-brand
 
 @media (max-width: 445px)
   .doc-search__results

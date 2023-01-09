@@ -10,7 +10,7 @@
   >
     <q-item-section>
       <div class="app-search__result-title row items-center q-gutter-sm">
-        <div class="doc-token text-weight-bold">{{ props.entry.page }}</div>
+        <div class="doc-token">{{ props.entry.page }}</div>
         <div v-if="props.entry.section">{{ props.entry.section }}</div>
       </div>
       <div v-if="props.entry.content" class="app-search__result-content">

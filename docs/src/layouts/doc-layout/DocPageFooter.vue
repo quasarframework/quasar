@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-page-footer text-size-12" v-once>
+  <div class="doc-page-footer" v-once>
     <nav class="doc-page-footer__nav">
       <q-list v-for="entry in links" :key="entry.name">
         <q-item-label
@@ -119,27 +119,33 @@ export default {
 
   &__nav
     display: grid
-    grid-row-gap: 100px
-    padding: 100px 30px
+    grid-row-gap: 64px
+    grid-column-gap: 32px
+    padding: 64px 32px
     grid-template-columns: 1fr
 
     @media (min-width: 720px)
-      padding-left: 100px
-      padding-right: 100px
-      grid-column-gap: 36px
+      padding-left: 64px
+      padding-right: 64px
       grid-template-columns: repeat(2, 1fr)
 
-    @media (min-width: 980px)
+    @media (min-width: 830px)
+      grid-column-gap: 64px
+
+    @media (min-width: 1070px)
+      padding-top: 100px
+      padding-bottom: 100px
+      grid-row-gap: 64px
       grid-template-columns: repeat(3, 1fr)
 
-    @media (min-width: 1270px)
+    @media (min-width: 1400px)
       grid-template-columns: repeat(4, 1fr)
 
-    @media (min-width: 1540px)
+    @media (min-width: 2060px)
       grid-template-columns: repeat(5, 1fr)
 
   &__copyright
-    font-size: .9em
+    font-size: ($font-size - 2px)
 
 body.body--dark
   .doc-page-footer

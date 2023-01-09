@@ -50,10 +50,9 @@ const props = defineProps({
     z-index: 1
 
     span
-      font-size: .8em
+      font-size: ($font-size - 2px)
       color: $grey
     kbd
-      font-size: 1em
       color: #000
 
     &--hidden
@@ -63,33 +62,27 @@ const props = defineProps({
     padding: 8px
     border: 1px solid $separator-color
     border-radius: $generic-border-radius
-    font-size: 12px
+    font-size: ($font-size - 2px)
 
     & + &
       margin-top: 6px !important
 
-    &-icon
-      height: 32px
-      width: 32px
-      padding: 4px 0
-      font-size: 24px
-
     kbd
       margin: 0 0 0 3px
-      font-size: 16px
+      font-size: $font-size
 
     &-title
       color: $brand-primary
       word-break: break-word
-      font-size: .9em
       .doc-token
+        font-size: ($font-size - 2px)
+        font-weight: 700
         letter-spacing: $letter-spacing-brand
         border-radius: $generic-border-radius
 
     &-content
       padding-top: 8px
-      font-weight: 400
-      line-height: 1.2em
+      line-height: 1.3em
 
     &-token
       color: $brand-accent
