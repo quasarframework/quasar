@@ -124,42 +124,51 @@ ul
       opacity: 1
 
 .doc-h1
-  font-size: 36px
-  line-height: 3rem
-  padding: 0 0 1rem
-  font-weight: 600
-  margin: 0 0 .5em !important
+  font-size: 2.4rem
+  font-weight: 700
+  margin: 0 0 1em !important
 
 .doc-h2
-  font-size: 2rem
-  line-height: 2rem
-  padding: 0.5rem 0
+  font-size: 1.8rem
   font-weight: 600
   border-bottom: 1px solid $separator-color
-  margin: 4rem 0 1.5rem
 
 .doc-h3
-  font-size: 1.7rem
-  line-height: 1.7rem
-  padding: 0.45rem 0
-  margin: 2.5rem 0 1.5rem
+  font-size: 1.6rem
+  font-weight: 500
 
 .doc-h4
   font-size: 1.4rem
-  line-height: 1.4rem
-  padding: 0.25rem 0
-  margin: 1.6rem 0 1.3rem
-
+  font-weight: 500
   &:before
     content: '» '
+    vertical-align: text-top
 
 .doc-h5
-  font-size: 0.9rem
-  margin: 1.5rem 0
+  font-size: 1rem
+  font-weight: 500
+  &:before
+    content: '»» '
+    vertical-align: text-top
 
 .doc-h6
-  font-size: 0.8rem
-  margin: 1.5rem 0
+  font-size: 1rem
+  font-weight: 400
+  &:before
+    content: '»»» '
+    vertical-align: text-top
+
+@media (max-width: 850px)
+  .doc-h1
+    font-size: 1.7rem
+  .doc-h2
+    font-size: 1.4rem
+  .doc-h3
+    font-size: 1.3rem
+  .doc-h4
+    font-size: 1.2rem
+  .doc-h5
+    font-size: 1.1rem
 
 .doc-h1,
 .doc-h2,
@@ -168,6 +177,10 @@ ul
 .doc-h5,
 .doc-h6
   word-break: break-word
+  letter-spacing: $letter-spacing-brand
+  padding: 0
+  line-height: 1.1em
+  margin: 1.7em 0 1em
 
 .doc-img
   max-width: 100%
