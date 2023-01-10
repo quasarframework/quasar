@@ -35,6 +35,7 @@
     "markdown-ast": "^0.2.1",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
+    "octokit": "^2.0.11",
     "toml": "^3.0.0",
     "workbox-build": "^6.5.1"
   },
