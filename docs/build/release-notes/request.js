@@ -2,7 +2,7 @@ const { Octokit } = require('@octokit/core')
 
 const md = require('./md')
 
-const gitFetch = new Octokit({ auth: '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' })
+const gitFetch = new Octokit({ auth: process.env.TOKEN })
 const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
 
 module.exports = async (packages, versionRE) => {
