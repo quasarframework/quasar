@@ -13,6 +13,8 @@ const opts = {
 }
 
 function mdPlugins (md) {
+  mdToken(md)
+
   // link
   md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
     const token = tokens[ idx ]
@@ -21,15 +23,7 @@ function mdPlugins (md) {
     return self.renderToken(tokens, idx, options)
   }
 
-  // headings
-  md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
-    const token = tokens[ idx ]
-    token.attrSet('class', `doc-heading doc-${token.tag}`)
-    return self.renderToken(tokens, idx, options)
-  }
-
   mdPluginContainers(md)
-  mdToken(md)
   mdBlockquote(md)
 }
 

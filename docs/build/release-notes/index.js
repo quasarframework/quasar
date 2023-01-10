@@ -20,21 +20,6 @@ const api = {
       '@quasar/icongenie': [],
       '@quasar/vite-plugin': []
     }
-  },
-
-  v1: {
-    versionRE: {
-      quasar: /^1./,
-      '@quasar/app': /^2./
-    },
-
-    packages: {
-      quasar: [],
-      '@quasar/app': [],
-      '@quasar/cli': [],
-      '@quasar/extras': [],
-      '@quasar/icongenie': []
-    }
   }
 }
 

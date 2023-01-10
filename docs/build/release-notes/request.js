@@ -7,7 +7,6 @@ const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
 
 module.exports = async (packages, versionRE) => {
   const packageNameList = Object.keys(packages)
-  const latestVersions = {}
 
   async function query (page) {
     const request = `GET /repos/quasarframework/quasar/releases?per_page=100&page=${page}`
@@ -54,15 +53,10 @@ module.exports = async (packages, versionRE) => {
       const releaseInfo = {
         version,
         date: release.created_at,
-        body: md.render(release.body),
-        label: `${packageName} v${version}`
+        body: md.render(release.body)
       }
 
       packages[ packageName ].push(releaseInfo)
-
-      if (latestVersions[ packageName ] === void 0) {
-        latestVersions[ packageName ] = `v${version}`
-      }
     }
 
     if (!stopQuery) {
@@ -72,8 +66,5 @@ module.exports = async (packages, versionRE) => {
 
   await query(1)
 
-  return {
-    packages,
-    latestVersions
-  }
+  return packages
 }
