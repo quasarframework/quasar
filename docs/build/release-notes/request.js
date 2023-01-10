@@ -4,6 +4,7 @@ const md = require('./md')
 
 const gitFetch = new Octokit({ auth: process.env.TOKEN })
 const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
+const ghLinkRE = /#([\d]+)/g
 
 module.exports = async (packages, versionRE) => {
   const packageNameList = Object.keys(packages)
@@ -54,6 +55,7 @@ module.exports = async (packages, versionRE) => {
         version,
         date: release.created_at,
         body: md.render(release.body)
+          .replace(ghLinkRE, '<a href="https://github.com/quasarframework/quasar/issues/$1" class="doc-link" target="_blank">#$1</a>')
       }
 
       packages[ packageName ].push(releaseInfo)

@@ -7,7 +7,7 @@
 
     <q-card-section class="row no-wrap items-center" v-else-if="loading">
       <q-spinner class="q-mr-sm" size="24px" color="brand-primary" />
-      <div>Loading release notes from GitHub...</div>
+      <div>Loading release notes...</div>
     </q-card-section>
 
     <template v-else>
