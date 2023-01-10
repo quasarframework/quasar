@@ -11,7 +11,7 @@ module.exports = async (packages, versionRE) => {
 
   async function query (page) {
     const request = `GET /repos/quasarframework/quasar/releases?per_page=100&page=${page}`
-    console.log('Requesting:', request)
+    console.log(' Requesting:', request)
 
     const response = await gitFetch.request(request)
     const releases = response.data
