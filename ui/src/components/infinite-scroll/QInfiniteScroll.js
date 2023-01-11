@@ -44,6 +44,12 @@ export default Vue.extend({
     }
   },
 
+  computed: {
+    renderLoadingSlot () {
+      return this.disable !== true && this.isWorking === true
+    }
+  },
+
   watch: {
     disable (val) {
       if (val === true) { this.stop() }
@@ -62,6 +68,14 @@ export default Vue.extend({
 
     debounce (val) {
       this.__setDebounce(val)
+    },
+
+    isFetching () {
+      this.__updateSvgAnimations()
+    },
+
+    renderLoadingSlot () {
+      this.__updateSvgAnimations()
     }
   },
 
@@ -183,14 +197,34 @@ export default Vue.extend({
 
         this.__scrollTarget.addEventListener('scroll', this.poll, passive)
       }
+    },
+
+    __updateSvgAnimations (isRetry) {
+      if (this.renderLoadingSlot === true) {
+        const el = this.$refs.loading
+
+        if (!el) {
+          isRetry !== true && this.$nextTick(() => {
+            this.__updateSvgAnimations(true)
+          })
+          return
+        }
+
+        // we need to pause svg animations (if any) when hiding
+        // otherwise the browser will keep on recalculating the style
+        const action = `${ this.isFetching === true ? 'un' : '' }pauseAnimations`
+        Array.from(el.getElementsByTagName('svg')).forEach(el => {
+          el[ action ]()
+        })
+      }
     }
   },
 
   mounted () {
     this.immediatePoll = this.poll
     this.__setDebounce(this.debounce)
-
     this.updateScrollTarget()
+    this.isFetching === false && this.__updateSvgAnimations()
   },
 
   activated () {
@@ -212,9 +246,10 @@ export default Vue.extend({
   render (h) {
     const child = uniqueSlot(this, 'default', [])
 
-    if (this.disable !== true && this.isWorking === true) {
+    if (this.renderLoadingSlot === true) {
       child[this.reverse === false ? 'push' : 'unshift'](
         h('div', {
+          ref: 'loading',
           staticClass: 'q-infinite-scroll__loading',
           class: this.isFetching === true ? '' : 'invisible'
         }, slot(this, 'loading'))
