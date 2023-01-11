@@ -24,12 +24,16 @@ const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.bod
       return
     }
 
-    cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    if (contentEl._qOverflowAnimationFrame !== void 0) {
+      cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    }
+
     contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
       if (contentEl === null) {
         return
       }
 
+      contentEl._qOverflowAnimationFrame = void 0
       const children = contentEl.children || []
 
       filterProto
