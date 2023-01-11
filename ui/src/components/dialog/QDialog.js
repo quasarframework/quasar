@@ -79,6 +79,7 @@ export default createComponent({
 
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
+    const { proxy: { $q } } = vm
 
     const innerRef = ref(null)
     const showing = ref(false)
@@ -370,7 +371,7 @@ export default createComponent({
 
     onBeforeUnmount(cleanup)
 
-    const backdropEvt = vm.proxy.$q.platform.is.ios === true ? 'onClick' : 'onFocusin'
+    const backdropEvt = $q.platform.is.ios === true || $q.platform.is.safari ? 'onClick' : 'onFocusin'
 
     function renderPortalContent () {
       return h('div', {
