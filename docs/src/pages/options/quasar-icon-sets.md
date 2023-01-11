@@ -113,7 +113,7 @@ import { Quasar } from 'quasar'
 // relative path to your node_modules/quasar/..
 // change to YOUR path
 const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.mjs')
-// or just a select few (example below with only DE and FR):
+// or just a select few (example below with only mdi-v7 and fontawesome-v6):
 // import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).mjs')
 
 export default async () => {
@@ -177,7 +177,7 @@ import { Quasar } from 'quasar'
 // relative path to your node_modules/quasar/..
 // change to YOUR path
 const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.mjs')
-// or just a select few (example below with only DE and FR):
+// or just a select few (example below with only mdi-v7 and fontawesome-v6):
 // import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).mjs')
 
 // ! NOTICE ssrContext param:
