@@ -39,6 +39,7 @@ export default createComponent({
     const isFetching = ref(false)
     const isWorking = ref(true)
     const rootRef = ref(null)
+    const loadingRef = ref(null)
 
     let index = props.initialIndex || 0
     let localScrollTarget, poll
@@ -170,12 +171,23 @@ export default createComponent({
       }
     }
 
+    // we need to pause svg animations (if any) otherwise
+    // the browser will keep on recalculating the style
+    watch(isFetching, val => {
+      if (loadingRef.value !== null) {
+        const action = `${ val === true ? 'un' : '' }pauseAnimations`
+        Array.from(loadingRef.value.getElementsByTagName('svg')).forEach(el => {
+          el[ action ]()
+        })
+      }
+    })
+
     watch(() => props.disable, val => {
       if (val === true) { stop() }
       else { resume() }
     })
 
-    watch(() => props.reverse, val => {
+    watch(() => props.reverse, () => {
       if (isFetching.value === false && isWorking.value === true) {
         immediatePoll()
       }
@@ -206,7 +218,6 @@ export default createComponent({
 
     onMounted(() => {
       setDebounce(props.debounce)
-
       updateScrollTarget()
     })
 
@@ -222,7 +233,7 @@ export default createComponent({
 
       if (props.disable !== true && isWorking.value === true) {
         child[ props.reverse === false ? 'push' : 'unshift' ](
-          h('div', { class: classes.value }, hSlot(slots.loading))
+          h('div', { ref: loadingRef, class: classes.value }, hSlot(slots.loading))
         )
       }
 
