@@ -171,16 +171,18 @@ export default createComponent({
       }
     }
 
-    // we need to pause svg animations (if any) otherwise
-    // the browser will keep on recalculating the style
-    watch(isFetching, val => {
+    function updateSvgAnimations (fetching) {
       if (loadingRef.value !== null) {
-        const action = `${ val === true ? 'un' : '' }pauseAnimations`
+        // we need to pause svg animations (if any) when hiding
+        // otherwise the browser will keep on recalculating the style
+        const action = `${ fetching === true ? 'un' : '' }pauseAnimations`
         Array.from(loadingRef.value.getElementsByTagName('svg')).forEach(el => {
           el[ action ]()
         })
       }
-    })
+    }
+
+    watch(isFetching, updateSvgAnimations)
 
     watch(() => props.disable, val => {
       if (val === true) { stop() }
@@ -219,6 +221,7 @@ export default createComponent({
     onMounted(() => {
       setDebounce(props.debounce)
       updateScrollTarget()
+      isFetching.value === false && updateSvgAnimations(false)
     })
 
     // expose public methods
