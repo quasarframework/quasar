@@ -10,6 +10,7 @@ let
   vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
+  href,
   closeTimer = null
 
 function onWheel (e) {
@@ -96,6 +97,8 @@ function apply (action) {
     bodyLeft = body.style.left
     bodyTop = body.style.top
 
+    href = window.location.href
+
     body.style.left = `-${ scrollPositionX }px`
     body.style.top = `-${ scrollPositionY }px`
 
@@ -108,6 +111,7 @@ function apply (action) {
 
     body.classList.add('q-body--prevent-scroll')
     document.qScrollPrevented = true
+
     if (client.is.ios === true) {
       if (hasViewport === true) {
         window.scrollTo(0, 0)
@@ -146,7 +150,11 @@ function apply (action) {
     body.style.left = bodyLeft
     body.style.top = bodyTop
 
-    window.scrollTo(scrollPositionX, scrollPositionY)
+    // scroll back only if route has not changed
+    if (window.location.href === href) {
+      window.scrollTo(scrollPositionX, scrollPositionY)
+    }
+
     maxScrollTop = void 0
   }
 }
