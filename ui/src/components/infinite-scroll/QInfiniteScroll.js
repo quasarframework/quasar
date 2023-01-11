@@ -171,18 +171,25 @@ export default createComponent({
       }
     }
 
-    function updateSvgAnimations (fetching) {
-      if (loadingRef.value !== null) {
+    function updateSvgAnimations (isRetry) {
+      if (renderLoadingSlot.value === true) {
+        if (loadingRef.value === null) {
+          isRetry !== true && nextTick(() => { updateSvgAnimations(true) })
+          return
+        }
+
         // we need to pause svg animations (if any) when hiding
         // otherwise the browser will keep on recalculating the style
-        const action = `${ fetching === true ? 'un' : '' }pauseAnimations`
+        const action = `${ isFetching.value === true ? 'un' : '' }pauseAnimations`
         Array.from(loadingRef.value.getElementsByTagName('svg')).forEach(el => {
           el[ action ]()
         })
       }
     }
 
-    watch(isFetching, updateSvgAnimations)
+    const renderLoadingSlot = computed(() => props.disable !== true && isWorking.value === true)
+
+    watch([ isFetching, renderLoadingSlot ], () => { updateSvgAnimations() })
 
     watch(() => props.disable, val => {
       if (val === true) { stop() }
@@ -221,7 +228,8 @@ export default createComponent({
     onMounted(() => {
       setDebounce(props.debounce)
       updateScrollTarget()
-      isFetching.value === false && updateSvgAnimations(false)
+
+      isFetching.value === false && updateSvgAnimations()
     })
 
     // expose public methods
@@ -234,7 +242,7 @@ export default createComponent({
     return () => {
       const child = hUniqueSlot(slots.default, [])
 
-      if (props.disable !== true && isWorking.value === true) {
+      if (renderLoadingSlot.value === true) {
         child[ props.reverse === false ? 'push' : 'unshift' ](
           h('div', { ref: loadingRef, class: classes.value }, hSlot(slots.loading))
         )
