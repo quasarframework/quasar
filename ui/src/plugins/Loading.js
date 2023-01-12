@@ -1,7 +1,8 @@
-import { h, createApp, Transition, onMounted } from 'vue'
+import { h, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 
+import { createChildApp } from '../install-quasar.js'
 import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
 import preventScroll from '../utils/prevent-scroll.js'
@@ -11,7 +12,7 @@ let
   app,
   vm,
   uid = 0,
-  timeout,
+  timeout = null,
   props = {},
   activeGroups = {}
 
@@ -61,14 +62,14 @@ const Plugin = defineReactivePlugin({
     }
     else {
       props.uid = ++uid
-      clearTimeout(timeout)
+      timeout !== null && clearTimeout(timeout)
 
       timeout = setTimeout(() => {
-        timeout = void 0
+        timeout = null
 
         const el = createGlobalNode('q-loading')
 
-        app = createApp({
+        app = createChildApp({
           name: 'QLoading',
 
           setup () {
@@ -130,7 +131,7 @@ const Plugin = defineReactivePlugin({
               onAfterLeave
             }, getContent)
           }
-        })
+        }, Plugin.__parentApp)
 
         vm = app.mount(el)
       }, props.delay)
@@ -174,9 +175,9 @@ const Plugin = defineReactivePlugin({
         }
       }
 
-      if (timeout !== void 0) {
+      if (timeout !== null) {
         clearTimeout(timeout)
-        timeout = void 0
+        timeout = null
       }
 
       Plugin.isActive = false
@@ -189,11 +190,15 @@ const Plugin = defineReactivePlugin({
     }
   },
 
-  install ({ $q }) {
+  install ({ $q, parentApp }) {
     $q.loading = this
 
-    if (__QUASAR_SSR_SERVER__ !== true && $q.config.loading !== void 0) {
-      this.setDefaults($q.config.loading)
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      Plugin.__parentApp = parentApp
+
+      if ($q.config.loading !== void 0) {
+        this.setDefaults($q.config.loading)
+      }
     }
   }
 })

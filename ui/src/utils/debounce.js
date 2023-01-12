@@ -1,25 +1,28 @@
 export default function (fn, wait = 250, immediate) {
-  let timeout
+  let timer = null
 
   function debounced (/* ...args */) {
     const args = arguments
 
     const later = () => {
-      timeout = void 0
+      timer = null
       if (immediate !== true) {
         fn.apply(this, args)
       }
     }
 
-    clearTimeout(timeout)
-    if (immediate === true && timeout === void 0) {
+    if (timer !== null) {
+      clearTimeout(timer)
+    }
+    else if (immediate === true) {
       fn.apply(this, args)
     }
-    timeout = setTimeout(later, wait)
+
+    timer = setTimeout(later, wait)
   }
 
   debounced.cancel = () => {
-    clearTimeout(timeout)
+    timer !== null && clearTimeout(timer)
   }
 
   return debounced

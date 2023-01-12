@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
@@ -227,7 +226,7 @@ if (ssrDetected === false) {
 
   getServer(app).listen(argv.port, argv.hostname, () => {
     const url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`
-    const { version } = require('../package.json')
+    const { version } = require('../../package.json')
 
     const info = [
       ['Quasar CLI', `v${version}`],
@@ -248,7 +247,7 @@ if (ssrDetected === false) {
     console.log('\n' + info.join('\n') + '\n')
 
     if (argv.open) {
-      const isMinimalTerminal = require('../lib/is-minimal-terminal')
+      const isMinimalTerminal = require('../is-minimal-terminal')
       if (!isMinimalTerminal) {
         require('open')(url, { url: true })
       }
@@ -285,7 +284,7 @@ if (ssrDetected === false) {
     else {
       // Use a self-signed certificate if no certificate was configured.
       // Cycle certs every 24 hours
-      const certPath = path.join(__dirname, '../ssl-server.pem')
+      const certPath = path.join(__dirname, '../../ssl-server.pem')
       let certExists = fs.existsSync(certPath)
 
       if (certExists) {

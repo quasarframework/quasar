@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 
 const parseArgs = require('minimist')
 
@@ -53,15 +52,15 @@ const path = require('path')
 const execSync = require('child_process').execSync
 const { green, red } = require('kolorist')
 
-const root = require('../lib/get-project-root')()
-const { log, fatal } = require('../lib/logger')
+const root = require('../get-project-root')()
+const { log, fatal } = require('../logger')
 
 if (!root) {
   fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
 }
 
 if (!fs.existsSync(path.join(root, 'node_modules'))) {
-  fatal('⚠️  Please run "yarn" / "npm install" first\n')
+  fatal('⚠️  Please run "yarn" / "npm install" / "pnpm install" first\n')
 }
 
 const pkg = require(path.join(root, 'package.json'))
@@ -114,8 +113,8 @@ function upgradeQuasar () {
     devDependencies: []
   }
 
-  const packager = require('../lib/node-packager')(root)
-  const getPackageJson = require('../lib/get-package-json')(root)
+  const packager = require('../node-packager')(root)
+  const getPackageJson = require('../get-package-json')(root)
 
   console.log()
   log(`Gathering information with ${packager}...`)
@@ -185,7 +184,7 @@ function upgradeQuasar () {
   }
 
   const { removeSync } = require('fs-extra')
-  const spawn = require('../lib/spawn')
+  const spawn = require('../spawn')
 
   if (removeDeprecatedAppPkg === true) {
     const params = packager === 'yarn'
@@ -227,7 +226,11 @@ function upgradeQuasar () {
 
     const params = packager === 'yarn'
       ? (type === 'devDependencies' ? [ 'add', '--dev' ] : [ 'add' ])
-      : [ `install`, `--save${type === 'devDependencies' ? '-dev' : ''}` ]
+      : (
+        packager === 'pnpm'
+          ? [ 'install' ]
+          : [ 'install', `--save${type === 'devDependencies' ? '-dev' : ''}` ] // npm
+      )
 
     deps[type].forEach(dep => {
       // need to delete tha package otherwise

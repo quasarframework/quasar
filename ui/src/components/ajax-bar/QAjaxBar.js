@@ -119,7 +119,7 @@ export default createComponent({
     const onScreen = ref(false)
     const animate = ref(true)
 
-    let sessions = 0, timer, speed
+    let sessions = 0, timer = null, speed
 
     const classes = computed(() =>
       `q-loading-bar q-loading-bar--${ props.position }`
@@ -171,19 +171,21 @@ export default createComponent({
         if (oldSpeed === 0 && newSpeed > 0) {
           planNextStep()
         }
-        else if (oldSpeed > 0 && newSpeed <= 0) {
+        else if (timer !== null && oldSpeed > 0 && newSpeed <= 0) {
           clearTimeout(timer)
+          timer = null
         }
 
         return sessions
       }
 
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
       emit('start')
 
       progress.value = 0
 
       timer = setTimeout(() => {
+        timer = null
         animate.value = true
         newSpeed > 0 && planNextStep()
       }, onScreen.value === true ? 500 : 1)
@@ -210,13 +212,18 @@ export default createComponent({
         return sessions
       }
 
-      clearTimeout(timer)
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
+      }
+
       emit('stop')
 
       const end = () => {
         animate.value = true
         progress.value = 100
         timer = setTimeout(() => {
+          timer = null
           onScreen.value = false
         }, 1000)
       }
@@ -234,6 +241,7 @@ export default createComponent({
     function planNextStep () {
       if (progress.value < 100) {
         timer = setTimeout(() => {
+          timer = null
           increment()
           planNextStep()
         }, speed)
@@ -254,7 +262,7 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
       hijacked === true && restoreAjax(start)
     })
 

@@ -202,6 +202,12 @@
               </q-card>
             </q-expansion-item>
 
+            <q-item to="/">
+              <q-item-section>
+                <q-item-label>Homepage</q-item-label>
+              </q-item-section>
+            </q-item>
+
             <q-item-label header>
               Folders
             </q-item-label>

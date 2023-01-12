@@ -22,15 +22,15 @@ let cmd = process.argv[2]
 
 if (cmd === 'create') {
   process.argv.splice(2, 1)
-  require(`./quasar-create`)
+  require(`../lib/cmd/create.js`)
 }
 else if (cmd === 'serve') {
   process.argv.splice(2, 1)
-  require(`./quasar-serve`)
+  require(`../lib/cmd/serve.js`)
 }
 else if (cmd === 'upgrade') {
   process.argv.splice(2, 1)
-  require(`./quasar-upgrade`)
+  require(`../lib/cmd/upgrade.js`)
 }
 else {
   const root = require('../lib/get-project-root')()
@@ -83,7 +83,7 @@ else {
 
         const { red } = require('kolorist')
 
-        require(`./quasar-help`)
+        require(`../lib/cmd/help.js`)
 
         console.log(`\n ${red(`Error`)} Unknown command "${ cmd }"`)
 
@@ -99,6 +99,6 @@ else {
       cmd = 'help'
     }
 
-    require(`./quasar-${cmd}`)
+    require(`../lib/cmd/${cmd}.js`)
   }
 }
