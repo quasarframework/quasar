@@ -29,7 +29,7 @@ function resolvePublicFolder () {
 }
 
 const doubleSlashRE = /\/\//g
-const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+const autoRemove = 'document.currentScript.remove()'
 
 const ouchInstance = (new Ouch()).pushHandler(
   new Ouch.handlers.PrettyPageHandler('orange', null, 'sublime')
