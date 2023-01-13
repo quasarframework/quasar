@@ -16,7 +16,7 @@ export default Vue.extend({
 
   methods: {
     __begin (el, height, done) {
-      el.style.overflowY = 'hidden'
+      // here overflowY is 'hidden'
       if (height !== void 0) {
         el.style.height = `${height}px`
       }
@@ -61,12 +61,14 @@ export default Vue.extend({
           let pos = 0
           this.el = el
 
+          // if animationg overflowY is already 'hidden'
           if (this.animating === true) {
             this.__cleanup()
             pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
           }
           else {
             this.lastEvent = 'hide'
+            el.style.overflowY = 'hidden'
           }
 
           this.__begin(el, pos, done)
@@ -92,6 +94,9 @@ export default Vue.extend({
           }
           else {
             this.lastEvent = 'show'
+            // we need to set overflowY 'hidden' before calculating the height
+            // or else we get small differences
+            el.style.overflowY = 'hidden'
             pos = el.scrollHeight
           }
 
