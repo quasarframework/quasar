@@ -1,14 +1,17 @@
 
+import { readFileSync } from 'node:fs'
+import { italic } from 'kolorist'
+
+import { version } from '../version.js'
+
 console.log()
 console.log(
-  require('fs').readFileSync(
-    require('path').join(__dirname, '../../assets/logo.art'),
+  readFileSync(
+    new URL('../../assets/logo.art', import.meta.url),
     'utf8'
   )
 )
-console.log('  Running @quasar/cli v' + require('../../package.json').version)
-
-const { italic } = require('kolorist')
+console.log('  Running @quasar/cli v' + version)
 
 console.log(`
   Example usage
@@ -22,7 +25,6 @@ console.log(`
     --version, -v Print Quasar CLI version
 
   Commands
-    create    Create a project folder
     info      Display info about your machine
                    (and your App if in a project folder)
     upgrade   Check (and optionally) upgrade Quasar packages

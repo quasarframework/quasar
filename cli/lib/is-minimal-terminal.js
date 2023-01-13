@@ -1,9 +1,7 @@
-const ci = require('ci-info')
+import ci from 'ci-info'
 
-const isMinimal = (
+export const isMinimalTerminal = (
   ci.isCI ||
   process.env.NODE_ENV === 'test' ||
   !process.stdout.isTTY
 )
-
-module.exports = isMinimal
