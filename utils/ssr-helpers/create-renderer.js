@@ -107,7 +107,7 @@ function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
   )
 }
 
-const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+const autoRemove = 'document.currentScript.remove()'
 
 function renderVuexState (ssrContext, nonce) {
   const state = serialize(ssrContext.state, { isJSON: true })
