@@ -113,11 +113,7 @@ if (existsSync(pkgFile) && existsSync(indexFile)) {
     console.log()
     ssrDetected = true
 
-    // TODO upgrade to ESM when local CLI is also ESM
-    import('module').then(({ createRequire }) => {
-      const require = createRequire(import.meta.url)
-      require(indexFile)
-    })
+    import(indexFile)
   }
 }
 
