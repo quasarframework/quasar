@@ -59,6 +59,21 @@ You may notice in some dev environments, that Workbox will not load your service
 
 When you set `devServer > https: true` in your quasar.config.js file, Quasar will instruct Vite to auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config.js > devServer > https` should look like this:
 
+```js
+// quasar.config.js
+
+devServer: {
+    htpps: {
+      // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+      key: "/path/to/server.key",
+      pfx: "/path/to/server.pfx",
+      cert: "/path/to/server.crt",
+      ca: "/path/to/ca.pem",
+      passphrase: 'vite-dev-server' // do you need it?
+    }
+}
+```
+
 More info on Vite and HTTPS [here](https://vitejs.dev/config/#server-https).
 
 ## Important Hosting Configuration
