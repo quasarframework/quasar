@@ -39,7 +39,7 @@ export default createComponent({
     }
 
     function begin (el, height, done) {
-      el.style.overflowY = 'hidden'
+      // here overflowY is 'hidden'
       if (height !== void 0) {
         el.style.height = `${ height }px`
       }
@@ -61,12 +61,14 @@ export default createComponent({
       let pos = 0
       element = el
 
+      // if animationg overflowY is already 'hidden'
       if (animating === true) {
         cleanup()
         pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
       }
       else {
         lastEvent = 'hide'
+        el.style.overflowY = 'hidden'
       }
 
       begin(el, pos, done)
@@ -95,6 +97,9 @@ export default createComponent({
       }
       else {
         lastEvent = 'show'
+        // we need to set overflowY 'hidden' before calculating the height
+        // or else we get small differences
+        el.style.overflowY = 'hidden'
         pos = el.scrollHeight
       }
 

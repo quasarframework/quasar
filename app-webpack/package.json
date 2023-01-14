@@ -46,9 +46,9 @@
     "url": "https://donate.quasar.dev"
   },
   "dependencies": {
-    "@quasar/babel-preset-app": "2.0.1",
+    "@quasar/babel-preset-app": "2.0.2",
     "@quasar/fastclick": "1.1.5",
-    "@quasar/ssr-helpers": "2.2.0",
+    "@quasar/ssr-helpers": "2.2.2",
     "@types/chrome": "^0.0.191",
     "@types/compression": "^1.7.2",
     "@types/cordova": "0.0.34",
@@ -150,7 +150,7 @@
     }
   },
   "engines": {
-    "node": ">= 12.22.1",
+    "node": ">= 14.8",
     "npm": ">= 6.14.12",
     "yarn": ">= 1.17.3"
   },

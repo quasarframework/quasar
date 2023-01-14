@@ -1,7 +1,7 @@
 // Adapted from Vue CLI v2 "init" command
 
-const { gray, white, red } = require('kolorist')
-const format = require('util').format
+import { gray, white, red } from 'kolorist'
+import { format } from 'node:util'
 
 /**
  * Prefix.
@@ -16,7 +16,7 @@ const sep = gray('·')
  * @param {String} message
  */
 
-exports.log = function (...args) {
+export function log (...args) {
   const msg = format.apply(format, args)
   console.log(white(prefix), sep, msg)
 }
@@ -27,7 +27,7 @@ exports.log = function (...args) {
  * @param {String} message
  */
 
-module.exports.fatal = function (...args) {
+export function fatal (...args) {
   if (args[0] instanceof Error) args[0] = args[0].message.trim()
   const msg = format.apply(format, args)
   console.error(red(prefix), sep, msg)
@@ -40,7 +40,7 @@ module.exports.fatal = function (...args) {
  * @param {String} message
  */
 
-module.exports.success = function (...args) {
+export function success (...args) {
   const msg = format.apply(format, args)
   console.log(white(prefix), sep, msg)
 }

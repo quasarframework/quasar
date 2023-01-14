@@ -1,6 +1,6 @@
 
-const parseArgs = require('minimist')
-const { green, red } = require('kolorist')
+import parseArgs from 'minimist'
+import { green, red } from 'kolorist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -21,8 +21,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-const os = require('os')
-const spawn = require('cross-spawn').sync
+import os from 'os'
+import { sync as spawn } from 'cross-spawn'
+
+import { getExternalNetworkInterface as getExternalIPs } from '../net.js'
+import { version } from '../version.js'
 
 function getSpawnOutput (command) {
   try {
@@ -36,14 +39,13 @@ function getSpawnOutput (command) {
   }
 }
 
-const getExternalIPs = require('../net').getExternalNetworkInterface
 const output = [
   { key: 'Operating System', value: green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
   { key: 'NodeJs', value: green(process.version.slice(1)) },
   { key: 'Global packages', section: true },
   { key: '  NPM', value: getSpawnOutput('npm') },
   { key: '  yarn', value: getSpawnOutput('yarn') },
-  { key: '  @quasar/cli', value: green(require('../../package.json').version) },
+  { key: '  @quasar/cli', value: green(version) },
   { key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') },
   { key: '  cordova', value: getSpawnOutput('cordova') }
 ]

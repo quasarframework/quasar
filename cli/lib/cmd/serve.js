@@ -1,5 +1,5 @@
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -85,8 +85,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const fs = require('fs')
-const path = require('path')
+import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
+import path from 'node:path'
 
 const root = getAbsolutePath(argv._[0] || '.')
 const resolve = p => path.resolve(root, p)
@@ -102,14 +102,18 @@ const indexFile = resolve('index.js')
 
 let ssrDetected = false
 
-if (fs.existsSync(pkgFile) && fs.existsSync(indexFile)) {
-  const pkg = require(pkgFile)
+if (existsSync(pkgFile) && existsSync(indexFile)) {
+  const pkg = JSON.parse(
+    readFileSync(pkgFile, 'utf8')
+  )
+
   if (pkg.quasar && pkg.quasar.ssr) {
     console.log('Quasar SSR folder detected.')
     console.log('Yielding control to its own webserver.')
     console.log()
     ssrDetected = true
-    require(indexFile)
+
+    import(indexFile)
   }
 }
 
@@ -118,14 +122,13 @@ if (ssrDetected === false) {
     process.env.FORCE_COLOR = '0'
   }
 
-  const { green, gray, red } = require('kolorist')
+  const { default: express } = await import('express')
+  const { green, gray, red } = await import('kolorist')
 
-  const
-    express = require('express'),
-    resolvedIndex = resolve(argv.index),
-    microCacheSeconds = argv.micro
-      ? parseInt(argv.micro, 10)
-      : false
+  const resolvedIndex = resolve(argv.index)
+  const microCacheSeconds = argv.micro
+    ? parseInt(argv.micro, 10)
+    : false
 
   function serve (path, cache) {
     const opts = {
@@ -150,7 +153,7 @@ if (ssrDetected === false) {
   const app = express()
 
   if (argv.cors) {
-    const cors = require('cors')
+    const { default: cors } = await import('cors')
     app.use(cors())
   }
 
@@ -164,31 +167,32 @@ if (ssrDetected === false) {
   }
 
   if (argv.gzip) {
-    const compression = require('compression')
+    const { default: compression } = await import('compression')
     app.use(compression({ threshold: 0 }))
   }
 
   const serviceWorkerFile = resolve('service-worker.js')
-  if (fs.existsSync(serviceWorkerFile)) {
+  if (existsSync(serviceWorkerFile)) {
     app.use('/service-worker.js', serve('service-worker.js'))
   }
 
   if (argv.proxy) {
     let file = argv.proxy = getAbsolutePath(argv.proxy)
-    if (!fs.existsSync(file)) {
+    if (!existsSync(file)) {
       console.error('Proxy definition file not found! ' + file)
       process.exit(1)
     }
-    file = require(file)
+    file = await import(file)
 
-    const { createProxyMiddleware } = require('http-proxy-middleware')
-    file.forEach(entry => {
+    const { createProxyMiddleware } = await import('http-proxy-middleware')
+
+    ;(file.default || file).forEach(entry => {
       app.use(entry.path, createProxyMiddleware(entry.rule))
     })
   }
 
   if (argv.history) {
-    const history = require('connect-history-api-fallback')
+    const { default: history } = await import('connect-history-api-fallback')
     app.use(
       history({
         index: argv.index.startsWith('/')
@@ -201,7 +205,7 @@ if (ssrDetected === false) {
   app.use('/', serve('.', true))
 
   if (microCacheSeconds) {
-    const microcache = require('route-cache')
+    const { default: microcache } = await import('route-cache')
     app.use(
       microcache.cacheSeconds(
         microCacheSeconds,
@@ -224,9 +228,10 @@ if (ssrDetected === false) {
       : host
   }
 
-  getServer(app).listen(argv.port, argv.hostname, () => {
+  const server = await getServer(app)
+  server.listen(argv.port, argv.hostname, async () => {
     const url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`
-    const { version } = require('../../package.json')
+    const { version } = await import('../version.js')
 
     const info = [
       ['Quasar CLI', `v${version}`],
@@ -247,14 +252,15 @@ if (ssrDetected === false) {
     console.log('\n' + info.join('\n') + '\n')
 
     if (argv.open) {
-      const isMinimalTerminal = require('../is-minimal-terminal')
+      const { isMinimalTerminal } = await import('../is-minimal-terminal.js')
       if (!isMinimalTerminal) {
-        require('open')(url, { url: true })
+        const { default: open } = await import('open')
+        open(url, { url: true })
       }
     }
   })
 
-  function getServer (app) {
+  async function getServer (app) {
     if (!argv.https) {
       return app
     }
@@ -265,16 +271,16 @@ if (ssrDetected === false) {
       key = getAbsolutePath(argv.key)
       cert = getAbsolutePath(argv.cert)
 
-      if (fs.existsSync(key)) {
-        key = fs.readFileSync(key)
+      if (existsSync(key)) {
+        key = readFileSync(key)
       }
       else {
         console.error('SSL key file not found!' + key)
         process.exit(1)
       }
 
-      if (fs.existsSync(cert)) {
-        cert = fs.readFileSync(cert)
+      if (existsSync(cert)) {
+        cert = readFileSync(cert)
       }
       else {
         console.error('SSL cert file not found!' + cert)
@@ -284,18 +290,18 @@ if (ssrDetected === false) {
     else {
       // Use a self-signed certificate if no certificate was configured.
       // Cycle certs every 24 hours
-      const certPath = path.join(__dirname, '../../ssl-server.pem')
-      let certExists = fs.existsSync(certPath)
+      const certPath = new URL('../../ssl-server.pem', import.meta.url)
+      let certExists = existsSync(certPath)
 
       if (certExists) {
-        const certStat = fs.statSync(certPath)
+        const certStat = statSync(certPath)
         const certTtl = 1000 * 60 * 60 * 24
         const now = new Date()
 
         // cert is more than 30 days old
         if ((now - certStat.ctime) / certTtl > 30) {
           console.log(' SSL Certificate is more than 30 days old. Removing.')
-          const { removeSync } = require('fs-extra')
+          const { removeSync } = await import('fs-extra')
           removeSync(certPath)
           certExists = false
         }
@@ -305,7 +311,7 @@ if (ssrDetected === false) {
         console.log(' Generating self signed SSL Certificate...')
         console.log(' DO NOT use this self-signed certificate in production!')
 
-        const selfsigned = require('selfsigned')
+        const selfsigned = await import('selfsigned')
         const pems = selfsigned.generate(
           [{ name: 'commonName', value: 'localhost' }],
           {
@@ -361,7 +367,7 @@ if (ssrDetected === false) {
         )
 
         try {
-          fs.writeFileSync(certPath, pems.private + pems.cert, { encoding: 'utf-8' })
+          writeFileSync(certPath, pems.private + pems.cert, { encoding: 'utf-8' })
         }
         catch (err) {
           console.error(' Cannot write certificate file ' + certPath)
@@ -370,10 +376,11 @@ if (ssrDetected === false) {
         }
       }
 
-      fakeCert = fs.readFileSync(certPath)
+      fakeCert = readFileSync(certPath)
     }
 
-    return require('https').createServer({
+    const https = await import('node:https')
+    return https.createServer({
       key: key || fakeCert,
       cert: cert || fakeCert
     }, app)
