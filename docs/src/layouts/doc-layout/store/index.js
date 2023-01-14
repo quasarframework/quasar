@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 import injectToc from './inject-toc'
 import injectScroll from './inject-scroll'
+import { pathContainsQuery } from 'src/components/utils'
 
 export const docStoreKey = '_q_ds_'
 
@@ -51,6 +52,11 @@ export function provideDocStore () {
   }
   else {
     store.state = ref(store.state)
+
+    if (pathContainsQuery($route.fullPath, 'dark')) {
+      store.state.dark = true
+    }
+
     store.dark = computed(() => (store.state.value.dark || $route.meta.dark))
     watch(store.dark, val => { $q.dark.set(val) }, { immediate: true })
 
