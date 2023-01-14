@@ -1,4 +1,3 @@
-const { getOptions } = require('loader-utils')
 const hash = require('hash-sum')
 
 const stringifyRequest = require('loader-utils/lib/stringifyRequest')
@@ -82,7 +81,7 @@ module.exports = function (content, map) {
   let newContent = content
 
   if (!this.resourceQuery) {
-    const opts = getOptions(this)
+    const opts = this.getOptions()
 
     if (opts.isServerBuild === true) {
       newContent = content + getModuleIdentifierCode(this)
