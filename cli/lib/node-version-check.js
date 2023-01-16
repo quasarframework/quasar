@@ -7,7 +7,7 @@ const patch = parseInt(version[2].replace(/\D/g,''), 10)
 
 const min = {
   major: 14,
-  minor: 8,
+  minor: 15,
   patch: 0
 }
 
