@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-webpack",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
     "quasar": "./bin/quasar"
@@ -80,7 +80,6 @@
     "inquirer": "8.2.2",
     "isbinaryfile": "5.0.0",
     "launch-editor-middleware": "2.6.0",
-    "loader-utils": "^3.2.1",
     "lodash": "^4.17.21",
     "log-update": "4.0.0",
     "mini-css-extract-plugin": "2.7.2",

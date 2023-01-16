@@ -1,6 +1,5 @@
 const hash = require('hash-sum')
 
-const stringifyRequest = require('loader-utils/lib/stringifyRequest')
 const getPackage = require('../helpers/get-package')
 
 const autoImportData = getPackage('quasar/dist/transforms/auto-import.json')
@@ -60,19 +59,23 @@ function extract (content, ctx, autoImportCase) {
     installStatements += `qInstall(script, 'directives', {${dir.join(',')}});`
   }
 
+  const from = JSON.stringify(ctx.utils.contextify(ctx.context, autoImportRuntimePath))
+
   // stringifyRequest needed so it doesn't
   // messes up consistency of hashes between builds
   return `
 ${importStatements}
-import qInstall from ${stringifyRequest(ctx, autoImportRuntimePath)};
+import qInstall from ${from};
 ${installStatements}
 `
 }
 
 function getModuleIdentifierCode (ctx) {
   const id = hash(ctx.request)
+  const from = JSON.stringify(ctx.utils.contextify(ctx.context, injectModuleIdRuntimePath))
+
   return `
-import qInject from ${stringifyRequest(ctx, injectModuleIdRuntimePath)};
+import qInject from ${from};
 qInject(script, '${id}');
 `
 }
