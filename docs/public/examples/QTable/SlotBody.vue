@@ -7,7 +7,7 @@
       row-key="name"
     >
       <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr :props="props" @click="onRowClick(props.row)">
           <q-td key="name" :props="props">
             {{ props.row.name }}
           </q-td>
@@ -178,6 +178,7 @@ const rows = [
 export default {
   setup () {
     return {
+      onRowClick: (row) => alert(`${row.name} clicked`),
       columns,
       rows
     }
