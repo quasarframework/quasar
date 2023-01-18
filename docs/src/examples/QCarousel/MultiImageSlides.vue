@@ -16,13 +16,17 @@
       <q-carousel-slide :name="1" class="column no-wrap">
         <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
           <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/mountains.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg" />
+          <q-img native-context-menu not-draggable class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax1.jpg">
+            <div>With native context menu and not draggable - can be swiped</div>
+          </q-img>
         </div>
       </q-carousel-slide>
       <q-carousel-slide :name="2" class="column no-wrap">
         <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
           <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-          <q-img class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/quasar.jpg" />
+          <q-img native-context-menu class="rounded-borders col-6 full-height" src="https://cdn.quasar.dev/img/quasar.jpg">
+            <div>With native context menu and draggable - cannot be swiped</div>
+          </q-img>
         </div>
       </q-carousel-slide>
       <q-carousel-slide :name="3" class="column no-wrap">

@@ -38,6 +38,7 @@ export default Vue.extend({
     imgStyle: Object,
 
     nativeContextMenu: Boolean,
+    notDraggable: Boolean,
 
     noDefaultSpinner: Boolean,
     spinnerColor: String,
@@ -73,6 +74,14 @@ export default Vue.extend({
       const att = { role: 'img' }
       if (this.alt !== void 0) {
         att['aria-label'] = this.alt
+      }
+      return att
+    },
+
+    imgAttrs () {
+      const att = { src: this.url, 'aria-hidden': 'true' }
+      if (this.notDraggable === true) {
+        att.draggable = false
       }
       return att
     },
@@ -228,7 +237,7 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: { src: this.url, 'aria-hidden': 'true' }
+            attrs: this.imgAttrs
           })
         ]
         : void 0
