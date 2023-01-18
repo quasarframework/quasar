@@ -6,7 +6,7 @@ const components = [
   { name: 'Banner', description: 'To display important messages and actions', tag: 'panel' },
   { name: 'Bar', description: 'A small top bar for side info and actions', tag: 'other' },
   { name: 'Breadcrumbs', description: 'To keep track of your position inside app', tag: 'navigation' },
-  { name: 'Buttons', short: 'btn', description: 'To access the most important actions', tag: 'button' },
+  { name: 'Buttons', short: 'btn', description: 'To access the most important actions', tag: 'button', path: 'button' },
   { name: 'Buttons Dropdown', short: 'btndropdown', description: 'To access more actions at once in less space', tag: 'button', path: 'button-dropdown' },
   { name: 'Buttons Group', short: 'qbtngroup', description: 'An alternative to classic buttons', tag: 'button', path: 'button-group' },
   { name: 'Cards', description: 'To display grouped contents', tag: 'panel', path: 'card' },
