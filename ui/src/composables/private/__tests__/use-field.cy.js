@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import FieldWrapper from './FieldWrapper.vue'
 
 describe('use-field API', () => {
@@ -41,7 +40,7 @@ describe('use-field API', () => {
       describe('(prop): label', () => {
         it('should show the label when supplied', () => {
           const label = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               label
             }
@@ -52,7 +51,7 @@ describe('use-field API', () => {
 
         it('should show the label centered when not focused', () => {
           const label = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               label
             }
@@ -65,7 +64,7 @@ describe('use-field API', () => {
 
         it('should show the label stacked when focused', () => {
           const label = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               label
             }
@@ -81,7 +80,7 @@ describe('use-field API', () => {
       describe('(prop): stack-label', () => {
         it('should show the label stacked', () => {
           const label = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               label,
               stackLabel: true
@@ -96,7 +95,7 @@ describe('use-field API', () => {
       describe('(prop): hint', () => {
         it('should show a hint text', () => {
           const hint = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               hint
             }
@@ -109,7 +108,7 @@ describe('use-field API', () => {
       describe('(prop): hide-hint', () => {
         it('should not show a hint text when not focused', () => {
           const hint = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               hint,
               hideHint: true
@@ -120,7 +119,7 @@ describe('use-field API', () => {
         })
         it('should show a hint text when focused', () => {
           const hint = 'Select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               hint,
               hideHint: true

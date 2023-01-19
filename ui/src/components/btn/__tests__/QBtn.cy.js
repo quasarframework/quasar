@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QBtn from '../QBtn.js'
 
 const defaultOptions = {
@@ -11,7 +10,7 @@ function mountQBtn (options = {}) {
     ...options.props
   }
 
-  return mount(QBtn, options)
+  return cy.mount(QBtn, options)
 }
 
 describe('Btn API', () => {

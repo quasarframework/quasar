@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QChip, { defaultSizes } from '../QChip.js'
 
 const defaultOptions = {
@@ -13,7 +12,7 @@ function mountQChip (options = {}) {
     ...options.props
   }
 
-  return mount(QChip, options)
+  return cy.mount(QChip, options)
 }
 
 describe('Chip API', () => {

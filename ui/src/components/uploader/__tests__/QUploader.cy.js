@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QUploader from '../QUploader'
 
 describe('Uploader API', () => {
@@ -111,7 +110,7 @@ describe('Uploader API', () => {
 </template>
 `
 
-        mount(QUploader, {
+        cy.mount(QUploader, {
           slots: {
             header: headerSlot
           }

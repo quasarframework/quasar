@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QBadge from '../QBadge.js'
 
 const defaultOptions = {
@@ -13,7 +12,7 @@ function mountQBadge (options = {}) {
     ...options.props
   }
 
-  return mount(QBadge, options)
+  return cy.mount(QBadge, options)
 }
 
 describe('Badge API', () => {

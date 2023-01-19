@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import { alignMap, alignValues } from '../../../composables/private/use-align.js'
 import QBtn from '../QBtn.js'
@@ -36,7 +35,7 @@ function mountQBtn (options = {}) {
     }
   })
 
-  return mount(QBtn, options)
+  return cy.mount(QBtn, options)
 }
 
 describe('use-btn API', () => {

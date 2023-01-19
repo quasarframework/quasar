@@ -30,11 +30,13 @@
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix",
     "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
+    "test:create": "node ./test/cypress/helpers/create-spec.js -c",
     "test:build": "node build/script.build.js js api && node build/script.build.js js transforms",
-    "test:component": "yarn test:build && cd ./dev && cypress open-ct && cd ..",
-    "test:component:run": "yarn test:build && cd ./dev && cypress run-ct && cd ..",
-    "test:component:ci": "yarn test:build && cd ./dev && cypress run-ct --record --parallel && cd ..",
-    "test:create": "node ./test/cypress/helpers/create-spec.js -c"
+    "test:e2e": "yarn test:build && cd ./dev && cross-env NODE_ENV=test start-test \"node ./script.dev.js\" http-get://localhost:9000 \"cypress open --e2e\" && cd ..",
+    "test:e2e:ci": "yarn test:build && cd ./dev && cross-env NODE_ENV=test start-test \"node ./script.dev.js\" http-get://localhost:9000 \"cypress run --e2e\" && cd ..",
+    "test:component": "yarn test:build && cd ./dev && cross-env NODE_ENV=test cypress open --component && cd ..",
+    "test:component:run": "yarn test:build && cd ./dev && cross-env NODE_ENV=test cypress run --component && cd ..",
+    "test:component:ci": "yarn test:build && cd ./dev && cross-env NODE_ENV=test cypress run --component --record --parallel && cd .."
   },
   "repository": {
     "type": "git",
@@ -70,13 +72,14 @@
   "devDependencies": {
     "@quasar/app-vite": "^1.2.0",
     "@quasar/extras": "^1.15.11",
-    "@quasar/quasar-app-extension-testing-e2e-cypress": "^4.1.2",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.1.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.3.3",
     "autoprefixer": "^10.4.13",
     "babel-preset-es2015-rollup": "^3.0.0",
     "cli-highlight": "^2.1.11",
     "cssnano": "^5.1.14",
+    "cypress": "^12.3.0",
     "diff": "^5.1.0",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^17.0.0",

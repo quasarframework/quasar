@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QAvatar from '../QAvatar.js'
 
 describe('Avatar API', () => {
@@ -7,7 +6,7 @@ describe('Avatar API', () => {
       describe('(prop): icon', () => {
         it('should render an icon', () => {
           const icon = 'bug_report'
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               icon,
               color: 'grey'
@@ -28,7 +27,7 @@ describe('Avatar API', () => {
           // Doing em/rem units here does not work
           // Cypress looks at actual computed values in the browser
           const fontSize = '32px'
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               size,
               fontSize,
@@ -46,7 +45,7 @@ describe('Avatar API', () => {
       describe('(prop): color', () => {
         it('should set a background color', () => {
           const color = 'red'
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               color
             }
@@ -60,7 +59,7 @@ describe('Avatar API', () => {
       describe('(prop): text-color', () => {
         it('should set a text color', () => {
           const textColor = 'red'
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               textColor
             }
@@ -73,7 +72,7 @@ describe('Avatar API', () => {
 
       describe('(prop): square', () => {
         it('should create a square avatar', () => {
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               square: true,
               color: 'grey'
@@ -88,7 +87,7 @@ describe('Avatar API', () => {
 
       describe('(prop): rounded', () => {
         it('should create a rounded avatar', () => {
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               rounded: true,
               color: 'grey'
@@ -106,7 +105,7 @@ describe('Avatar API', () => {
     describe('(slot): default', () => {
       it('render the text in the default slot', () => {
         const text = 'QQ'
-        mount(QAvatar, {
+        cy.mount(QAvatar, {
           slots: {
             // Using only a string here results in an error, this is a workaround
             default: () => text
