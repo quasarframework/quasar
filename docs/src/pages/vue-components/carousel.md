@@ -21,7 +21,7 @@ The QCarousel component allows you to display more information with less real es
 
 ::: tip
 * If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
-* If the QCarouselSlide content also has QImgs with `native-context-menu` prop and you want to use swipe actions to navigate, you must also use the `not-draggable` prop on QImg, otherwise the native browser behavior will interfere and swipe navigation will not work.
+* If the QCarouselSlide content also has a QImg with `native-context-menu` prop and you want to use swipe actions to navigate, you must also use the `not-draggable` prop on the QImg otherwise the native browser behavior will interfere and swipe navigation will not work.
 :::
 
 ::: danger Keep Alive
