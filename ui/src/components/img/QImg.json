@@ -163,6 +163,13 @@
       "desc": "Enable the native context menu of the image",
       "category": "behavior",
       "addedIn": "v1.8.4"
+    },
+
+    "not-draggable": {
+      "type": "Boolean",
+      "desc": "Make the native img not-draggable (to allow swipe in QCarousel) - only has meaning when `native-context-menu` is used",
+      "category": "behavior",
+      "addedIn": "v1.22.6"
     }
   },
 
