@@ -63,14 +63,15 @@ When you set `devServer > https: true` in your quasar.config.js file, Quasar wil
 // quasar.config.js
 
 devServer: {
-    htpps: {
-      // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
-      key: "/path/to/server.key",
-      pfx: "/path/to/server.pfx",
-      cert: "/path/to/server.crt",
-      ca: "/path/to/ca.pem",
-      passphrase: 'vite-dev-server' // do you need it?
-    }
+  https: {
+    // Use ABSOLUTE paths or path.join(__dirname, 'root/relative/path')
+    // https://nodejs.org/api/https.html#https_https_createserver_options_requestlistener
+    key: "/path/to/server.key",
+    pfx: "/path/to/server.pfx",
+    cert: "/path/to/server.crt",
+    ca: "/path/to/ca.pem",
+    passphrase: 'vite-dev-server' // do you need it?
+  }
 }
 ```
 
