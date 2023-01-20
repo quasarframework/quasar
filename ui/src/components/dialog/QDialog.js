@@ -79,7 +79,6 @@ export default createComponent({
 
   setup (props, { slots, emit, attrs }) {
     const vm = getCurrentInstance()
-    const { proxy: { $q } } = vm
 
     const innerRef = ref(null)
     const showing = ref(false)
@@ -344,7 +343,7 @@ export default createComponent({
         hide(e)
       }
       else if (props.noShake !== true) {
-        shake(e.relatedTarget)
+        shake()
       }
     }
 
@@ -371,8 +370,6 @@ export default createComponent({
 
     onBeforeUnmount(cleanup)
 
-    const backdropEvt = $q.platform.is.ios === true || $q.platform.is.safari ? 'onClick' : 'onFocusin'
-
     function renderPortalContent () {
       return h('div', {
         role: 'dialog',
@@ -390,7 +387,7 @@ export default createComponent({
               style: transitionStyle.value,
               'aria-hidden': 'true',
               tabindex: -1,
-              [ backdropEvt ]: onBackdropClick
+              onClick: onBackdropClick
             })
             : null
         )),
