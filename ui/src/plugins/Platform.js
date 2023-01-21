@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 
 import { ref, reactive } from 'vue'
-import { injectProp } from '../utils/private/inject-obj-prop'
+import { injectProp } from '../utils/private/inject-obj-prop.js'
 
 /**
  * __ QUASAR_SSR __            -> runs on SSR on client or server
