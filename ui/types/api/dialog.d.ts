@@ -55,6 +55,9 @@ export type QDialogInputPrompt<T = string> = {
    * @returns The text passed validation or not
    */
   isValid?: (value: T) => boolean;
+  
+  /** Allow to provide non-standard native attributes, e.g. `data-cy`  */
+  [ index: string ]: any;
 } & Partial<Omit<QInputProps, "modelValue" | "onUpdate:modelValue" | "type">> &
   Partial<NonFunctionProperties<HTMLInputElement>>;
 
