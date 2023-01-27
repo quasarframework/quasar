@@ -1,0 +1,189 @@
+name: Generate and Publish Release Notes JSON
+
+on:
+  release:
+    types:
+      - released # A release was published, or a pre-release was changed to a release.
+
+jobs:
+  generate:
+    permissions:
+      contents: read # to fetch code (actions/checkout) and to read releases (actions/github-script)
+    runs-on: ubuntu-latest
+    outputs:
+      release-notes: ${{ steps.release-notes.outputs.result }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # TODO: Update to `dev` when the new docs get merged
+          ref: new-docs
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+          cache-dependency-path: docs/yarn.lock
+
+      - run: yarn install
+        working-directory: docs
+
+      - name: Generate Release Notes
+        id: release-notes
+        uses: actions/github-script@v6
+        with:
+          script: |
+            /**
+            * `/[\w/\-@]+/` is the name of the package. (e.g. @quasar/app-vite)
+            * `v` is the literal letter v between the package name and the version.
+            * `/[\d.\-\w]+/` is the version of the package after `v`. (e.g. 1.0.0, 1.0.0-beta.1)
+            */
+            const versionPattern = /([\w/\-@]+)[- ]v([\d.\-\w]+)/;
+            /**
+            * GitHub issue reference (e.g. #123)
+            */
+            const gitHubReferencePattern = /#(\d+)/g;
+            const gitHubReferenceToMarkdownLink = (content) =>
+              content.replace(
+                gitHubReferencePattern,
+                `[$1](https://github.com/${context.repo.owner}/${context.repo.repo}/issues/$1)`
+              );
+
+            const markdown = require('./docs/build/release-notes/md.js');
+
+            const groups = {
+              v2: {
+                versionPatterns: {
+                  quasar: /^2./,
+                  '@quasar/app-webpack': /^3./,
+                  '@quasar/app-vite': /^1./,
+                },
+                packages: {
+                  quasar: [],
+                  '@quasar/app-vite': [],
+                  '@quasar/app-webpack': [],
+                  '@quasar/cli': [],
+                  '@quasar/extras': [],
+                  '@quasar/icongenie': [],
+                  '@quasar/vite-plugin': [],
+                },
+              },
+            };
+
+            const allPackageNames = new Set(
+              Object.values(groups).flatMap(({ packages }) => Object.keys(packages))
+            );
+
+            const releases = await github.paginate(
+              github.rest.repos.listReleases,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 100,
+              },
+              ({ data }) =>
+                data
+                  .map((release) => {
+                    // Split by space and use the first part for cases like this: `@quasar/app-v1.0.4 - Security update`
+                    const matchesList = release.name.split(' ')[0].match(versionPattern);
+                    if (!matchesList || matchesList.length < 2) {
+                      return;
+                    }
+
+                    let [, packageName, version] = matchesList;
+                    if (!version) {
+                      return;
+                    }
+
+                    if (packageName === '@quasar/app') {
+                      packageName = '@quasar/app-webpack';
+                    }
+
+                    if (!allPackageNames.has(packageName)) {
+                      return;
+                    }
+
+                    return {
+                      packageName,
+                      version,
+                      date: release.created_at,
+                      body: release.body,
+                    };
+                  })
+                  .filter((release) => release !== undefined)
+            );
+
+            for (const [group, { versionPatterns, packages }] of Object.entries(groups)) {
+              console.log('Started processing group', group);
+
+              const packageNameList = Object.keys(packages);
+
+              for (const { packageName, version, date, body } of releases) {
+                if (!packageNameList.includes(packageName)) {
+                  continue;
+                }
+                if (
+                  versionPatterns[packageName] &&
+                  versionPatterns[packageName].test(version) === false
+                ) {
+                  continue;
+                }
+
+                packages[packageName].push({
+                  version,
+                  date,
+                  body: markdown.render(gitHubReferenceToMarkdownLink(body)),
+                });
+              }
+
+              console.log('Completed processing group', group);
+            }
+
+            return Object.fromEntries(
+              Object.entries(groups).map(([groupName, { packages }]) => [
+                groupName,
+                packages,
+              ])
+            );
+
+  publish:
+    permissions: {} # No permissions needed for the active repo
+    runs-on: ubuntu-latest
+    needs: generate
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: quasarframework/cdn
+          token: ${{ secrets.CDN_REPO_PAT }}
+
+      - name: Write Release Notes
+        uses: actions/github-script@v6
+        env:
+          RELEASE_NOTES: ${{ needs.generate.outputs.release-notes }}
+        with:
+          script: |
+            const { writeFile } = require('node:fs/promises');
+            const { join } = require('node:path');
+
+            const releaseNotes = JSON.parse(process.env.RELEASE_NOTES);
+            const directory = join(__dirname, './release-notes');
+
+            const writeJsonFile = (name, data) =>
+              writeFile(
+                join(directory, `${name}.json`),
+                JSON.stringify(data, null, 2),
+                'utf8'
+              );
+
+            await Promise.all(
+              Object.entries(releaseNotes).map(([groupName, releaseNotes]) =>
+                writeJsonFile(groupName, releaseNotes)
+              )
+            );
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: |
+            Generate release notes for Quasar packages
+            Triggered after "${{ github.event.release.name }}" got released
+
+            ${{ github.event.release.html_url }}
