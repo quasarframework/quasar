@@ -10,8 +10,6 @@ jobs:
     permissions:
       contents: read # to fetch code (actions/checkout) and to read releases (actions/github-script)
     runs-on: ubuntu-latest
-    outputs:
-      release-notes: ${{ steps.release-notes.outputs.result }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -28,7 +26,6 @@ jobs:
         working-directory: docs
 
       - name: Generate Release Notes
-        id: release-notes
         uses: actions/github-script@v6
         with:
           script: |
@@ -48,6 +45,8 @@ jobs:
                 `[$1](https://github.com/${context.repo.owner}/${context.repo.repo}/issues/$1)`
               );
 
+            const { mkdir, writeFile } = require('node:fs/promises');
+            const { join } = require('node:path');
             const markdown = require('./docs/build/release-notes/md.js');
 
             const groups = {
@@ -138,12 +137,27 @@ jobs:
               console.log('Completed processing group', group);
             }
 
-            return Object.fromEntries(
-              Object.entries(groups).map(([groupName, { packages }]) => [
-                groupName,
-                packages,
-              ])
+            // The data goes above GitHub Actions 1 MB output limit, so we write the results to files and use actions/upload-artifact and actions/download-artifact to transfer it
+            const directory = './docs/dist/release-notes';
+            await mkdir(directory, { recursive: true });
+            const writeJsonFile = (name, data) =>
+              writeFile(
+                join(directory, `${name}.json`),
+                JSON.stringify(data, null, 2),
+                'utf8'
+              );
+            await Promise.all(
+              Object.entries(groups).map(([groupName, { packages }]) => writeJsonFile(groupName, packages))
             );
+
+      - name: Upload release notes JSON files
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-notes
+          path: docs/dist/release-notes
+          # As we commit them in the `publish` job, we don't really need to keep them for long.
+          # We can't use 0, so we use the minimum possible, 1: https://github.com/actions/upload-artifact/issues/290
+          retention-days: 1
 
   publish:
     permissions: {} # No permissions needed for the active repo
@@ -155,35 +169,16 @@ jobs:
           repository: quasarframework/cdn
           token: ${{ secrets.CDN_REPO_PAT }}
 
-      - name: Write Release Notes
-        uses: actions/github-script@v6
-        env:
-          RELEASE_NOTES: ${{ needs.generate.outputs.release-notes }}
+      - name: Download generated release notes JSON files
+        uses: actions/download-artifact@v3
         with:
-          script: |
-            const { writeFile } = require('node:fs/promises');
-            const { join } = require('node:path');
-
-            const releaseNotes = JSON.parse(process.env.RELEASE_NOTES);
-            const directory = join(__dirname, './release-notes');
-
-            const writeJsonFile = (name, data) =>
-              writeFile(
-                join(directory, `${name}.json`),
-                JSON.stringify(data, null, 2),
-                'utf8'
-              );
-
-            await Promise.all(
-              Object.entries(releaseNotes).map(([groupName, releaseNotes]) =>
-                writeJsonFile(groupName, releaseNotes)
-              )
-            );
+          name: release-notes
+          path: release-notes
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: |
-            Generate release notes for Quasar packages
+            Generated release notes for Quasar packages
             Triggered after "${{ github.event.release.name }}" got released
 
             ${{ github.event.release.html_url }}
