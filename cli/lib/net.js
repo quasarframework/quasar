@@ -1,8 +1,8 @@
-const os = require('os')
+import os from 'os'
 
-module.exports.getExternalNetworkInterface = function () {
+export function getExternalNetworkInterface () {
   const
-    networkInterfaces = os.networkInterfaces();
+    networkInterfaces = os.networkInterfaces()
     const devices = []
 
   for (let deviceName of Object.keys(networkInterfaces)) {

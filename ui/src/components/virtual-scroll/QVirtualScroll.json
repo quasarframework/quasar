@@ -93,11 +93,11 @@
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "Item index in the options list"
+          "desc": "Item index in the items list"
         },
         "item": {
           "type": "Any",
-          "desc": "Item data -- its value is taken from 'options' prop"
+          "desc": "Item data -- its value is taken from 'items' prop"
         }
       }
     }

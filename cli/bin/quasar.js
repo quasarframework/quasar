@@ -1,11 +1,18 @@
 #!/usr/bin/env node
 
-require('../lib/node-version-check')
+import '../lib/node-version-check.js'
 
-const updateNotifier = require('update-notifier')
-const pkg = require('../package.json')
+import updateNotifier from 'update-notifier'
+import { readFileSync } from 'node:fs'
+
+const pkg = JSON.parse(
+  readFileSync(new URL('../package.json', import.meta.url), 'utf8')
+)
 
 updateNotifier({ pkg }).notify()
+
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 
 function getQuasarAppExecutable (which, root) {
   try {
@@ -22,30 +29,31 @@ let cmd = process.argv[2]
 
 if (cmd === 'create') {
   process.argv.splice(2, 1)
-  require(`../lib/cmd/create.js`)
+  import(`../lib/cmd/create.js`)
 }
 else if (cmd === 'serve') {
   process.argv.splice(2, 1)
-  require(`../lib/cmd/serve.js`)
+  import(`../lib/cmd/serve.js`)
 }
 else if (cmd === 'upgrade') {
   process.argv.splice(2, 1)
-  require(`../lib/cmd/upgrade.js`)
+  import(`../lib/cmd/upgrade.js`)
 }
 else {
-  const root = require('../lib/get-project-root')()
+  const { getProjectRoot } = await import('../lib/get-project-root.js')
+  const root = getProjectRoot()
 
   const localFile = root
     ? (
-      getQuasarAppExecutable('@quasar/app/bin/quasar', root) ||
-      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) ||
-      getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) ||
-      getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy <1.0
+      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) || // Quasar 2.0
+      getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) || // Quasar 2.0
+      getQuasarAppExecutable('@quasar/app/bin/quasar', root) || // legacy Quasar 1.0 & partial Quasar 2.0
+      getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy Quasar <1.0
     )
     : void 0
 
   if (localFile) {
-    process.env.QUASAR_CLI_VERSION = require('../package.json').version
+    process.env.QUASAR_CLI_VERSION = pkg.version
 
     global.quasarCli = {
       help: `
@@ -55,8 +63,15 @@ else {
 `
     }
 
-    // deferring to local @quasar/app or pre-v1 quasar-cli
-    require(localFile)
+    // deferring to locally installed Quasar CLI
+    if (localFile.endsWith('.js')) {
+      // local CLI is in ESM format by convention
+      import(localFile)
+    }
+    else {
+      // local CLI is in legacy CJS format
+      require(localFile)
+    }
   }
   else {
     const commands = [
@@ -77,14 +92,13 @@ else {
       }
       else {
         if (cmd === '-v' || cmd === '--version' || cmd === '-V') {
-          console.log(require('../package.json').version)
+          console.log(pkg.version)
           process.exit(0)
         }
 
-        const { red } = require('kolorist')
+        await import(`../lib/cmd/help.js`)
 
-        require(`../lib/cmd/help.js`)
-
+        const { red } = await import('kolorist')
         console.log(`\n ${red(`Error`)} Unknown command "${ cmd }"`)
 
         if (cmd.indexOf('-') === 0) {
@@ -99,6 +113,6 @@ else {
       cmd = 'help'
     }
 
-    require(`../lib/cmd/${cmd}.js`)
+    import(`../lib/cmd/${cmd}.js`)
   }
 }

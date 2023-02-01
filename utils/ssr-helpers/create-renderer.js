@@ -107,9 +107,9 @@ function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
   )
 }
 
-const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+const autoRemove = 'document.currentScript.remove()'
 
-function renderVuexState (ssrContext, nonce) {
+function renderStoreState (ssrContext, nonce) {
   const state = serialize(ssrContext.state, { isJSON: true })
   return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
 }
@@ -172,7 +172,7 @@ module.exports = function createRenderer (opts) {
         resourceApp,
         resourceStyles: renderStyles(renderContext, usedAsyncFiles, ssrContext),
         resourceScripts: (
-          (opts.manualStoreSerialization !== true && ssrContext.state !== void 0 ? renderVuexState(ssrContext, nonce) : '')
+          (opts.manualStoreSerialization !== true && ssrContext.state !== void 0 ? renderStoreState(ssrContext, nonce) : '')
           + renderScripts(renderContext, usedAsyncFiles, nonce)
         )
       })
