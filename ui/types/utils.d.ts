@@ -37,11 +37,11 @@ export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
   immediate?: boolean
-): ((...args: Parameters<F>) => void) & { cancel(): void };
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & { cancel(): void };
 
 export function frameDebounce<F extends (...args: any[]) => any>(
   fn: F,
-): ((...args: Parameters<F>) => void) & { cancel(): void };
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & { cancel(): void };
 
 export function exportFile(
   fileName: string,
