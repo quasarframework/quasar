@@ -1,12 +1,7 @@
 // Error on "quasar" import shown in IDE is normal, as we only have Components/Directives/Plugins types after the build step
 // The import will work correctly at runtime
 import { QInputProps, QOptionGroupProps } from "quasar";
-
-// Taken from https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#distributive-conditional-types
-type NonFunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? never : K;
-}[keyof T];
-type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+import { InputHTMLAttributes, HTMLAttributes } from "vue";
 
 // https://html.spec.whatwg.org/multipage/input.html#attr-input-type
 type InputType =
@@ -56,7 +51,7 @@ export type QDialogInputPrompt<T = string> = {
    */
   isValid?: (value: T) => boolean;
 } & Partial<Omit<QInputProps, "modelValue" | "onUpdate:modelValue" | "type">> &
-  Partial<NonFunctionProperties<HTMLInputElement>> & {
+  Omit<InputHTMLAttributes, "type"> & {
     // Has type-checking but no autocompletion: https://github.com/microsoft/TypeScript/issues/41620
     [dataAttributes in `data-${string}`]?: any;
   } & {
@@ -103,4 +98,4 @@ export type QDialogSelectionPrompt<
     "modelValue" | "onUpdate:modelValue" | "type" | "options"
   >
 > &
-  Partial<NonFunctionProperties<HTMLElement>>;
+  HTMLAttributes;
