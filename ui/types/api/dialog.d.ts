@@ -31,6 +31,13 @@ type DatalessInputType = Extract<InputType, "submit" | "reset">;
 
 type PromptInputType = "textarea" | Exclude<InputType, DatalessInputType>;
 
+type DataAttributes = {
+  // Has type-checking but no autocompletion: https://github.com/microsoft/TypeScript/issues/41620
+  [dataAttributes in `data-${string}`]?: any;
+} & {
+  "data-cy"?: string;
+};
+
 export type QDialogInputPrompt<T = string> = {
   /**
    * The initial value of the input
@@ -51,12 +58,8 @@ export type QDialogInputPrompt<T = string> = {
    */
   isValid?: (value: T) => boolean;
 } & Partial<Omit<QInputProps, "modelValue" | "onUpdate:modelValue" | "type">> &
-  Omit<InputHTMLAttributes, "type"> & {
-    // Has type-checking but no autocompletion: https://github.com/microsoft/TypeScript/issues/41620
-    [dataAttributes in `data-${string}`]?: any;
-  } & {
-    "data-cy"?: string;
-  };
+  Omit<InputHTMLAttributes, "type"> &
+  DataAttributes;
 
 type SelectionPromptType = NonNullable<QOptionGroupProps["type"]>;
 export type QDialogSelectionPrompt<
@@ -98,4 +101,5 @@ export type QDialogSelectionPrompt<
     "modelValue" | "onUpdate:modelValue" | "type" | "options"
   >
 > &
-  HTMLAttributes;
+  HTMLAttributes &
+  DataAttributes;
