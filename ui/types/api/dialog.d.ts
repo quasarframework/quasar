@@ -55,13 +55,15 @@ export type QDialogInputPrompt<T = string> = {
    * @returns The text passed validation or not
    */
   isValid?: (value: T) => boolean;
-  
-  /** Allow to provide non-standard native attributes, e.g. `data-cy`  */
-  [ index: string ]: any;
 } & Partial<Omit<QInputProps, "modelValue" | "onUpdate:modelValue" | "type">> &
-  Partial<NonFunctionProperties<HTMLInputElement>>;
+  Partial<NonFunctionProperties<HTMLInputElement>> & {
+    // Has type-checking but no autocompletion: https://github.com/microsoft/TypeScript/issues/41620
+    [dataAttributes in `data-${string}`]?: any;
+  } & {
+    "data-cy"?: string;
+  };
 
-type SelectionPromptType = NonNullable<QOptionGroupProps["type"]>
+type SelectionPromptType = NonNullable<QOptionGroupProps["type"]>;
 export type QDialogSelectionPrompt<
   // As this gets used as is in generated types, we must define default values for generic params.
   // Example: `options?: QDialogSelectionPrompt;` <- notice the missing type params.
