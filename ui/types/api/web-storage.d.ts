@@ -6,8 +6,7 @@ type WebStorageGetMethodReturnType =
   | string
   | object;
 
-type WebStorageGetKeyMethodReturnType =
-  | string
+type WebStorageGetKeyMethodReturnType = string;
 
 export type WebStorageGetItemMethodType = <
   T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType

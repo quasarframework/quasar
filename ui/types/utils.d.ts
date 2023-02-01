@@ -8,17 +8,17 @@ import {
   ExtractPropTypes,
   Ref,
   SetupContext,
-} from 'vue';
-import { MetaOptions } from './meta';
+} from "vue";
+import { MetaOptions } from "./meta";
 
-export * from './utils/colors';
-export * from './utils/date';
-export * from './utils/dom';
-export * from './utils/event';
-export * from './utils/format';
-export * from './utils/scroll';
-export * from './utils/is';
-export * from './utils/run-sequential-promises';
+export * from "./utils/colors";
+export * from "./utils/date";
+export * from "./utils/dom";
+export * from "./utils/event";
+export * from "./utils/format";
+export * from "./utils/scroll";
+export * from "./utils/is";
+export * from "./utils/run-sequential-promises";
 
 import { VueStyleObjectProp } from "./api/vue-prop-types";
 
@@ -35,11 +35,15 @@ export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
   immediate?: boolean
-): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & { cancel(): void };
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void;
+};
 
 export function frameDebounce<F extends (...args: any[]) => any>(
-  fn: F,
-): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & { cancel(): void };
+  fn: F
+): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
+  cancel(): void;
+};
 
 export function exportFile(
   fileName: string,
@@ -67,7 +71,7 @@ interface MorphOptions {
   from: Element | string | (() => Element | null | undefined);
   to?: Element | string | (() => Element | null | undefined);
   onToggle?: () => void;
-  waitFor?: number | 'transitionend' | Promise<any>;
+  waitFor?: number | "transitionend" | Promise<any>;
 
   duration?: number;
   easing?: string;
@@ -86,7 +90,7 @@ interface MorphOptions {
   tweenFromOpacity?: number;
   tweenToOpacity?: number;
 
-  onEnd?: (direction: 'to' | 'from', aborted: boolean) => void;
+  onEnd?: (direction: "to" | "from", aborted: boolean) => void;
 }
 
 export function morph(options: MorphOptions): (abort?: boolean) => boolean;
@@ -100,10 +104,10 @@ export function setCssVar(
 ): void;
 
 export class EventBus {
-  on (event: string, callback: Function, ctx?: any): this;
-  once (event: string, callback: Function, ctx?: any): this;
-  emit (event: string, ...args: any[]): this;
-  off (event: string, callback?: Function): this;
+  on(event: string, callback: Function, ctx?: any): this;
+  once(event: string, callback: Function, ctx?: any): this;
+  emit(event: string, ...args: any[]): this;
+  off(event: string, callback?: Function): this;
 }
 
 interface CreateMetaMixinContext extends ComponentPublicInstance {
@@ -124,7 +128,7 @@ interface InjectPluginFnHelpers {
   uploadedSize: Ref<number>;
   updateFileStatus: (
     file: File,
-    status: 'failed' | 'idle' | 'uploaded' | 'uploading',
+    status: "failed" | "idle" | "uploaded" | "uploading",
     uploadedSize?: number
   ) => void;
   isAlive: () => boolean;
@@ -132,7 +136,7 @@ interface InjectPluginFnHelpers {
 
 interface InjectPluginFnOptions<Props> {
   props: ExtractPropTypes<Props>;
-  emit: SetupContext['emit'];
+  emit: SetupContext["emit"];
   helpers: InjectPluginFnHelpers;
 }
 

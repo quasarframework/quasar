@@ -10,11 +10,11 @@ interface useDialogPluginComponent {
     onDialogOK: (payload?: T) => void;
     onDialogCancel: () => void;
   };
-  emits: ['ok', 'hide'];
+  emits: ["ok", "hide"];
   emitsObject: {
     ok: (payload?: any) => true;
     hide: () => true;
-  }
+  };
 }
 
 export const useDialogPluginComponent: useDialogPluginComponent;

@@ -1,3 +1,3 @@
 import { QLoadingShowOptions } from "quasar";
 
-export type QLoadingUpdateOptions = Omit<QLoadingShowOptions, 'group'>;
+export type QLoadingUpdateOptions = Omit<QLoadingShowOptions, "group">;
