@@ -97,7 +97,7 @@
         },
         "item": {
           "type": "Any",
-          "desc": "Item data - its value is taken from \`items\` prop"
+          "desc": "Item data -- its value is taken from 'items' prop"
         }
       }
     }
