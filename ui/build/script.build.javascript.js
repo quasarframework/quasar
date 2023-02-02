@@ -300,7 +300,7 @@ const runBuild = {
 
     require('./build.transforms').generate()
     require('./build.vetur').generate(data)
-    require('./build.types').generate(data)
+    await require('./build.types').generate(data)
     require('./build.web-types').generate(data)
 
     addUmdAssets(builds, 'lang', 'lang')
@@ -319,7 +319,7 @@ const runBuild = {
 
     // 'types' depends on 'lang-index'
     await require('./build.lang').generate()
-    require('./build.types').generate(data)
+    await require('./build.types').generate(data)
   },
 
   async api () {
