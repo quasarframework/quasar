@@ -63,7 +63,7 @@ jobs:
         run: yarn
 
       - name: Ensure types are formatted correctly
-        run: yarn format:types --check
+        run: yarn format:types --write=false --check
 
       - name: Build the types
         run: yarn build js types
