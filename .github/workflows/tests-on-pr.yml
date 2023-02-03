@@ -9,9 +9,6 @@ on:
       - 'ui/**.js'
       - '!.github/**'
 
-permissions:
-  contents: read # to fetch code (actions/checkout)
-
 jobs:
   build:
     permissions:
@@ -68,7 +65,7 @@ jobs:
         run: cd ./ui && npm i
 
       - name: Run tests in ${{ matrix.browser }} browser
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v5
         with:
           browser: ${{ matrix.browser }}
           command: npm run test:component:ci
