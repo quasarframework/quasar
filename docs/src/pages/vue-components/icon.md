@@ -53,7 +53,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
 | material-symbols-outlined | sym_o_ | sym_o_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
-| material-symbols-round | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
+| material-symbols-rounded | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
 | material-symbols-sharp | sym_s_ | sym_s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.14+** |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | ionicons-v5 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component |
