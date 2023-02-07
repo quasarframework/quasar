@@ -59,6 +59,7 @@ body:
         - Directives (quasar)
         - Plugins (quasar)
         - Style & Identity (quasar)
+        - Accessibility [a11y] (quasar)
 
         - Quasar Extras (@quasar/extras)
         - TypeScript Support
