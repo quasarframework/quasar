@@ -88,6 +88,7 @@ body:
         - Plugins (quasar)
         - Composables (quasar)
         - Style & Identity (quasar)
+        - Accessibility [a11y] (quasar)
 
         - Project Creation (create-quasar)
         - Quasar Extras (@quasar/extras)
