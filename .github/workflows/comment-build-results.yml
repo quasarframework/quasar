@@ -31,10 +31,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { writeFile } = require('node:fs/promises');
-            const { resolve } = require('node:path');
-            const __dirname = process.env.GITHUB_WORKSPACE;
-
             const { data: { workflow_runs: [workflowRun] } } = await github.rest.actions.listWorkflowRuns({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -81,7 +77,7 @@ jobs:
             });
 
             const zipPath = resolve(__dirname, './current-build.zip');
-            await writeFile(zipPath, artifactData);
+            await writeFile(zipPath, Buffer.from(artifactData));
             await exec.exec('unzip', [zipPath, '-d', './current-build']);
             await unlink(zipPath);
 
@@ -108,7 +104,7 @@ jobs:
             });
 
             const zipPath = resolve(__dirname, './pr-info.zip');
-            await writeFile(zipPath, artifactData);
+            await writeFile(zipPath, Buffer.from(artifactData));
             await exec.exec('unzip', [zipPath, '-d', './pr-build']);
             await unlink(zipPath);
 
