@@ -138,7 +138,7 @@ export default {
           return
         }
 
-        const currentIndex = selected.value.length > 0 ? computedRows.indexOf(selected.value[ 0 ]) : -1
+        const currentIndex = selected.value.length > 0 ? computedRows.findIndex(r => r.id === selected.value[ 0 ].id) : -1
         const currentPage = pagination.value.page
         const rowsPerPage = pagination.value.rowsPerPage === 0 ? computedRowsNumber : pagination.value.rowsPerPage
         const lastIndex = computedRows.length - 1
