@@ -151,7 +151,7 @@ jobs:
 
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          number: ${{ steps.pr-info.outputs.result.number }}
+          number: ${{ fromJSON(steps.pr-info.outputs.result).number }}
           hide_and_recreate: true
           hide_classify: 'OUTDATED'
           path: build-results.md
