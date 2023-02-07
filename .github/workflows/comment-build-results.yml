@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       actions: read # to download artifacts
-      issues: write # to comment to the PR
+      pull-requests: write # to comment to the PR
 
     needs: check-current-build
 
