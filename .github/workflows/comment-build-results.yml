@@ -125,26 +125,26 @@ jobs:
 
           echo "## JSON API" >> build-results.md
           echo "" >> build-results.md
-          api_diff=$(git diff --no-index ./current-build/api ./pr-build/api || '')
-          if [ -z "$api_diff" ]; then
+          # git diff exits with 1 if there is no diff, which evaluates to true
+          if $(git diff --no-index ./current-build/api ./pr-build/api > ./api.diff); then
             echo "📜 No changes detected." >> build-results.md
           else
             echo "📜 Changes detected:" >> build-results.md
             echo '```diff' >> build-results.md
-            echo $api_diff >> build-results.md
+            cat ./api.diff >> build-results.md
             echo '```' >> build-results.md
           fi
           echo "" >> build-results.md
 
           echo "## Types" >> build-results.md
           echo "" >> build-results.md
-          types_diff=$(git diff --no-index ./current-build/types ./pr-build/types || '')
-          if [ -z "$types_diff" ]; then
+          # git diff exits with 1 if there is no diff, which evaluates to true
+          if $(git diff --no-index ./current-build/types ./pr-build/types > ./types.diff); then
             echo "📜 No changes detected." >> build-results.md
           else
             echo "📜 Changes detected:" >> build-results.md
             echo '```diff' >> build-results.md
-            echo $types_diff >> build-results.md
+            cat ./types.diff >> build-results.md
             echo '```' >> build-results.md
           fi
           echo "" >> build-results.md
