@@ -59,7 +59,7 @@ jobs:
           CURRENT_RUN_ID: ${{ needs.check-current-build.outputs.run-id }}
         with:
           script: |
-            const { writeFile } = require('node:fs/promises');
+            const { writeFile, unlink } = require('node:fs/promises');
             const { resolve } = require('node:path');
             const __dirname = process.env.GITHUB_WORKSPACE;
 
@@ -86,7 +86,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const { readFile, writeFile } = require('node:fs/promises');
+            const { readFile, writeFile, unlink } = require('node:fs/promises');
             const { resolve } = require('node:path');
             const __dirname = process.env.GITHUB_WORKSPACE;
 
