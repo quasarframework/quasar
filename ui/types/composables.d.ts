@@ -1,5 +1,3 @@
-// Error on "quasar" import shown in IDE is normal, as we only have Components/Directives/Plugins types after the build step
-// The import will work correctly at runtime
 import { QDialog } from "quasar";
 import { MetaOptions } from "./meta";
 import { Ref } from "vue";
@@ -12,11 +10,11 @@ interface useDialogPluginComponent {
     onDialogOK: (payload?: T) => void;
     onDialogCancel: () => void;
   };
-  emits: ['ok', 'hide'];
+  emits: ["ok", "hide"];
   emitsObject: {
     ok: (payload?: any) => true;
     hide: () => true;
-  }
+  };
 }
 
 export const useDialogPluginComponent: useDialogPluginComponent;

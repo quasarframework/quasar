@@ -182,14 +182,17 @@ function getInjectionDefinition (propertyName, typeDef, typeName) {
   return `${ propertyName }: ${ typeName }`
 }
 
+/**
+ * @returns {Promise<void>[]}
+ */
 function copyPredefinedTypes (dir, parentDir) {
-  fs.readdirSync(dir)
+  return fs.readdirSync(dir)
     .filter(file => path.basename(file).startsWith('.') !== true)
-    .forEach(file => {
+    .flatMap(async file => {
       const fullPath = path.resolve(dir, file)
       const stats = fs.lstatSync(fullPath)
       if (stats.isFile()) {
-        writeFile(
+        return writeFile(
           resolvePath(parentDir ? parentDir + file : file),
           fs.readFileSync(fullPath)
         )
@@ -199,7 +202,7 @@ function copyPredefinedTypes (dir, parentDir) {
         if (!fs.existsSync(p)) {
           fs.mkdirSync(p)
         }
-        copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
+        return copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
       }
     })
 }
@@ -258,7 +261,7 @@ function transformObject (definition, handler) {
   return result
 }
 
-function writeIndexDTS (apis) {
+function getIndexDts (apis) {
   const contents = []
   const quasarTypeContents = []
   const components = []
@@ -280,10 +283,12 @@ function writeIndexDTS (apis) {
   //  but as a normal comment
   // On Vue CLI projects `@quasar/app`/`@quasar/app-webpack`/`@quasar/app-vite` aren't available,
   //  we ignore the "missing package" error because it's the intended behaviour
-  writeLine(contents, '// @ts-ignore')
-  writeLine(contents, '/// <reference types="@quasar/app" />')
-  writeLine(contents, '/// <reference types="@quasar/app-webpack" />')
-  writeLine(contents, '/// <reference types="@quasar/app-vite" />')
+  const headerContents = []
+  writeLine(headerContents, '// @ts-ignore')
+  writeLine(headerContents, '/// <reference types="@quasar/app" />')
+  writeLine(headerContents, '/// <reference types="@quasar/app-webpack" />')
+  writeLine(headerContents, '/// <reference types="@quasar/app-vite" />')
+
   // ----
   writeLine(contents, 'import { App, Component, ComponentPublicInstance, VNode } from \'vue\'')
   writeLine(contents, 'import { ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
@@ -561,25 +566,75 @@ function writeIndexDTS (apis) {
   writeLine(contents, 'import \'./shim-icon-set\'')
   writeLine(contents, 'import \'./shim-lang\'')
 
-  writeFile(
-    resolvePath('index.d.ts'),
-    prettier.format(contents.join(''), { parser: 'typescript' })
-  )
+  return {
+    header: headerContents.join(''),
+    body: contents.join('')
+  }
 }
 
-module.exports.generate = function (data) {
+const ts = require('typescript')
+
+/**
+ * @throws {Error} if TypeScript validation fails
+ */
+function ensureTypeScriptValidity () {
+  const tsConfigPath = ts.findConfigFile(distRoot, ts.sys.fileExists, 'tsconfig.json')
+  if (!tsConfigPath) {
+    throw Error(resolvePath('tsconfig.json') + ' not found')
+  }
+  const { config } = ts.readConfigFile(tsConfigPath, ts.sys.readFile)
+  config.compilerOptions.noEmit = true
+  const { options, fileNames, errors } = ts.parseJsonConfigFileContent(config, ts.sys, distRoot)
+
+  const program = ts.createProgram({ options, rootNames: fileNames, configFileParsingDiagnostics: errors })
+  const emitResult = program.emit()
+  const diagnostics = [ ...ts.getPreEmitDiagnostics(program), ...emitResult.diagnostics ]
+  if (diagnostics.length === 0) {
+    return
+  }
+
+  /** @type {ts.FormatDiagnosticsHost} */
+  const formatDiagnosticsHost = {
+    getCurrentDirectory: ts.sys.getCurrentDirectory,
+    getCanonicalFileName: file => file,
+    getNewLine: () => ts.sys.newLine
+  }
+  const error = new Error(ts.formatDiagnosticsWithColorAndContext(diagnostics, formatDiagnosticsHost))
+  error.name = 'TypeScriptError'
+  throw error
+}
+
+module.exports.generate = async function (data) {
   const apis = data.plugins
     .concat(data.directives)
     .concat(data.components)
 
   try {
-    copyPredefinedTypes(typeRoot)
-    writeIndexDTS(apis)
+    await Promise.all(copyPredefinedTypes(typeRoot))
+
+    const { header, body } = getIndexDts(apis)
+    const formattedBody = prettier.format(body, { parser: 'typescript' })
+
+    // The header contains stuff that breaks TS checking.
+    // So, write only the body at first to check the validity
+    await writeFile(resolvePath('index.d.ts'), formattedBody)
+
+    ensureTypeScriptValidity()
+
+    // Write the final file
+    await writeFile(resolvePath('index.d.ts'), header + formattedBody)
   }
   catch (err) {
     logError('build.types.js: something went wrong...')
     console.log()
-    console.error(err)
+    if (err.name === 'TypeScriptError') {
+      console.error('Make sure .d.ts files in /ui/types and JSON API files in /ui/src are valid!')
+      console.log()
+      console.error(err.message)
+    }
+    else {
+      console.error(err)
+    }
     console.log()
     process.exit(1)
   }

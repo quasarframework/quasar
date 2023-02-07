@@ -22,7 +22,10 @@ export namespace colors {
   function lighten(color: string, percent: number): string;
   function luminosity(color: string | colorsRgba): number;
   function brightness(color: string | colorsRgba): number;
-  function blend(fgColor: string | colorsRgba, bColor: string | colorsRgba): string;
+  function blend(
+    fgColor: string | colorsRgba,
+    bColor: string | colorsRgba
+  ): string;
   function changeAlpha(color: string, offset: number): string;
   function getPaletteColor(colorName: string): string;
 }
