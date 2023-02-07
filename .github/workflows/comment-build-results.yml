@@ -36,6 +36,8 @@ jobs:
               repo: context.repo.repo,
               branch: 'dev', // TODO: Get the PR target branch to support branches other than dev
               workflow_id: 'build-types.yml',
+              event: 'push',
+              status: 'success',
             });
 
             return {
