@@ -23,7 +23,7 @@ jobs:
       }}
 
     outputs:
-      run-id: ${{ fromJSON(steps.current-workflow-run.outputs.result).id }}
+      run-id: ${{ steps.current-workflow-run.outputs.result.id }}
 
     steps:
       - name: Check current types build workflow run
