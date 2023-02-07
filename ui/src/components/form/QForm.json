@@ -113,7 +113,7 @@
       "desc": "Get array of children vue components that support validation",
       "returns": {
         "type": "Array",
-        "tsType": "QFormChildComponent",
+        "tsType": "QFormChildComponentt",
         "desc": "Vue components that support Quasar validation API"
       }
     }
