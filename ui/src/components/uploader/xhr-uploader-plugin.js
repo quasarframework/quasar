@@ -104,7 +104,7 @@ function injectPlugin ({ props, emit, helpers }) {
           helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files)
           files.forEach(f => { helpers.updateFileStatus(f, 'failed') })
 
-          emit('factoryFailed', err, files)
+          emit('factory-failed', err, files)
           workingThreads.value--
         }
       }
