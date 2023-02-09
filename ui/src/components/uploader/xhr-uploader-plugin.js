@@ -27,7 +27,7 @@ const props = {
   factory: Function
 }
 
-const emits = [ 'factory-failed', 'uploaded', 'failed', 'uploading' ]
+const emits = [ 'factoryFailed', 'uploaded', 'failed', 'uploading' ]
 
 function injectPlugin ({ props, emit, helpers }) {
   const xhrs = ref([])
@@ -84,7 +84,7 @@ function injectPlugin ({ props, emit, helpers }) {
 
     if (!res) {
       emit(
-        'factory-failed',
+        'factoryFailed',
         new Error('QUploader: factory() does not return properly'),
         files
       )
@@ -104,7 +104,7 @@ function injectPlugin ({ props, emit, helpers }) {
           helpers.queuedFiles.value = helpers.queuedFiles.value.concat(files)
           files.forEach(f => { helpers.updateFileStatus(f, 'failed') })
 
-          emit('factory-failed', err, files)
+          emit('factoryFailed', err, files)
           workingThreads.value--
         }
       }
