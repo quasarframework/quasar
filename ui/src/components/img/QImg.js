@@ -60,7 +60,12 @@ export default createComponent({
     noTransition: Boolean,
 
     spinnerColor: String,
-    spinnerSize: String
+    spinnerSize: String,
+
+    transition: {
+      type: String,
+      default: 'fade'
+    }
   },
 
   emits: [ 'load', 'error' ],
@@ -292,7 +297,7 @@ export default createComponent({
       }
 
       content.push(
-        h(Transition, { name: 'q-transition--fade' }, getContent)
+        h(Transition, { name: 'q-transition--' + props.transition }, getContent)
       )
 
       return h('div', {
