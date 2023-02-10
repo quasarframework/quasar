@@ -117,10 +117,10 @@ describe('Btn API', () => {
           props: {
             onClick: fn
           }
+        }).then(({ wrapper }) => {
+          wrapper.vm.click()
+          return expect(fn).to.be.calledOnce
         })
-
-        cy.get('.q-btn').invoke('click')
-          .then(() => expect(fn).to.be.calledOnce)
       })
     })
   })
