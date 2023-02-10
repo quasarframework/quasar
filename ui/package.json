@@ -79,7 +79,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "cli-highlight": "^2.1.11",
     "cssnano": "^5.1.14",
-    "cypress": "^12.3.0",
+    "cypress": "^12.5.1",
     "diff": "^5.1.0",
     "eslint": "^7.4.0",
     "eslint-config-standard": "^17.0.0",
