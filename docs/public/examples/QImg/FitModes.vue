@@ -4,7 +4,7 @@
       <q-img
         v-for="mode in fitModes"
         :key="mode"
-        src="https://placeimg.com/500/300/nature"
+        src="https://picsum.photos/500/300"
         style="max-width: 300px; height: 150px;"
         :fit="mode"
       >
