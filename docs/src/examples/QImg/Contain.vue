@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="q-gutter-md row items-start">
       <q-img
-        src="https://placeimg.com/500/300/nature"
+        src="https://picsum.photos/500/300"
         style="max-width: 400px; height: 200px;"
         contain
       >
@@ -12,7 +12,7 @@
       </q-img>
 
       <q-img
-        src="https://placeimg.com/500/300/nature"
+        src="https://picsum.photos/500/300"
         style="max-width: 400px; height: 200px;"
       >
         <div class="absolute-bottom text-subtitle1 text-center">

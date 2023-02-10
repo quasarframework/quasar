@@ -30,7 +30,7 @@ export default {
   methods: {
     toggle () {
       this.url = this.url === null
-        ? 'https://placeimg.com/500/300/nature?t=' + Math.random()
+        ? 'https://picsum.photos/500/300?t=' + Math.random()
         : null
     }
   }
