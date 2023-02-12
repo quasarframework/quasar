@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.2.1 */
+/* Fontawesome Free v6.3.0 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -270,6 +270,7 @@ export declare const fabNs8: string;
 export declare const fabNutritionix: string;
 export declare const fabOctopusDeploy: string;
 export declare const fabOdnoklassniki: string;
+export declare const fabOdysee: string;
 export declare const fabOldRepublic: string;
 export declare const fabOpencart: string;
 export declare const fabOpenid: string;
@@ -388,6 +389,7 @@ export declare const fabStickerMule: string;
 export declare const fabStrava: string;
 export declare const fabStripe: string;
 export declare const fabStripeS: string;
+export declare const fabStubber: string;
 export declare const fabStudiovinari: string;
 export declare const fabStumbleupon: string;
 export declare const fabStumbleuponCircle: string;
