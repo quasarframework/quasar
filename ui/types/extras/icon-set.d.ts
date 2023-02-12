@@ -135,6 +135,8 @@ export type QuasarIconSets =
   | "svg-ionicons-v5"
   | "ionicons-v4"
   | "svg-ionicons-v4"
+  | "svg-ionicons-v5"
+  | "svg-ionicons-v6"
   | "eva-icons"
   | "svg-eva-icons"
   | "themify"
