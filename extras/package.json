@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.15.10",
+  "version": "1.15.11",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
