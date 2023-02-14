@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { ref, computed, nextTick } from 'vue'
+import { ref, computed, nextTick, toRaw } from 'vue'
 
 const columns = [
   {
@@ -138,7 +138,7 @@ export default {
           return
         }
 
-        const currentIndex = selected.value.length > 0 ? computedRows.indexOf(selected.value[ 0 ]) : -1
+        const currentIndex = selected.value.length > 0 ? computedRows.indexOf(toRaw(selected.value[ 0 ])) : -1
         const currentPage = pagination.value.page
         const rowsPerPage = pagination.value.rowsPerPage === 0 ? computedRowsNumber : pagination.value.rowsPerPage
         const lastIndex = computedRows.length - 1
@@ -194,6 +194,7 @@ export default {
           nextTick(() => {
             const { computedRows } = tableRef.value
             selected.value = [computedRows[ Math.min(index, computedRows.length - 1) ]]
+            tableRef.value.$el.focus()
           })
         }
         else {
