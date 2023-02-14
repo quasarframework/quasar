@@ -23,7 +23,7 @@ div
 export default {
   data () {
     return {
-      url: 'https://placeimg.com/500/300/nature',
+      url: 'https://picsum.photos/500/300',
       transitions: [
         'slide-right',
         'slide-left',
@@ -46,7 +46,7 @@ export default {
 
   methods: {
     trigger () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      this.url = 'https://picsum.photos/500/300?t=' + Math.random()
     }
   }
 }

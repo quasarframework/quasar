@@ -158,7 +158,7 @@
 
     <div class="q-mt-lg">
       <q-btn label="Set null src" @click="bogusSrc = null" />
-      <q-btn label="Set good src" @click="bogusSrc = 'https://placeimg.com/500/300/nature?t=' + Math.random()" />
+      <q-btn label="Set good src" @click="bogusSrc = 'https://picsum.photos/500/300?t=' + Math.random()" />
       <q-btn label="Set bogus src" @click="bogusSrc = 'https://bogu.bogus'" />
 
       <q-img
@@ -179,7 +179,7 @@
 export default {
   data () {
     return {
-      url: 'https://placeimg.com/500/300/nature',
+      url: 'https://picsum.photos/500/300',
       bogusSrc: 'https://bogu.bogus',
       nativeContextMenu: false
     }
@@ -187,7 +187,7 @@ export default {
 
   methods: {
     refresh () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      this.url = 'https://picsum.photos/500/300?t=' + Math.random()
     }
   }
 }
