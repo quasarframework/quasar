@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-img
-      src="https://placeimg.com/500/300/nature"
+      src="https://picsum.photos/500/300"
       loading="lazy"
       spinner-color="white"
       height="140px"
