@@ -3,7 +3,7 @@ export default {
   nativeName: 'Slovenski Jezik',
   label: {
     clear: 'Počisti',
-    ok: 'Vredu',
+    ok: 'V redu',
     cancel: 'Prekliči',
     close: 'Zapri',
     set: 'Postavi',

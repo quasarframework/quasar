@@ -15,12 +15,12 @@ import { ref } from 'vue'
 
 export default {
   setup () {
-    const url = ref('https://placeimg.com/500/300/nature')
+    const url = ref('https://picsum.photos/500/300')
 
     return {
       url,
       refresh () {
-        url.value = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+        url.value = 'https://picsum.photos/500/300?t=' + Math.random()
       }
     }
   }

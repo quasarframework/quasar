@@ -110,10 +110,11 @@
     },
 
     "getValidationComponents": {
-      "desc": "Get array of children vue components that support validation",
+      "desc": "Get an array of children Vue component instances that support Quasar validation API (derived from QField, or using useFormChild()/QFormChildMixin)",
       "returns": {
         "type": "Array",
-        "desc": "Vue components that support Quasar validation API"
+        "tsType": "QFormChildComponent",
+        "desc": "Quasar validation API-compatible Vue component instances"
       }
     }
   }

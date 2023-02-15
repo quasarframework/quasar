@@ -46,7 +46,7 @@ export default function (props, $q) {
   })
 
   const tabindex = computed(() => {
-    return props.editable === true ? 0 : -1
+    return editable.value === true ? 0 : -1
   })
 
   const headerClass = computed(() => {
