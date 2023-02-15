@@ -96,7 +96,8 @@ export default Vue.extend({
         this.lastEmitValue = 0
       }
       else {
-        const { year, month } = this.__getViewModel(this.innerMask, this.innerLocale)
+        const { year, month, ...rest } = this.__getViewModel(this.innerMask, this.innerLocale)
+        Object.assign(this.viewModel, rest)
         this.__updateViewModel(year, month)
       }
     },
