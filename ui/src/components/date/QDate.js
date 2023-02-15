@@ -702,7 +702,8 @@ export default createComponent({
         lastEmitValue = 0
       }
       else {
-        const { year, month } = getViewModel(innerMask.value, innerLocale.value)
+        const { year, month, ...rest } = getViewModel(innerMask.value, innerLocale.value)
+        Object.assign(viewModel.value, rest)
         updateViewModel(year, month)
       }
     })
