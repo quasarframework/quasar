@@ -102,6 +102,9 @@ interface QuasarFrameworkInnerConfiguration {
     multiLine?: boolean;
     actions?: { icon: string; color: string }[];
   };
+  screen?: {
+    bodyClasses?: boolean;
+  };
 }
 
 interface QuasarFrameworkConfiguration {
