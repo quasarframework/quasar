@@ -67,6 +67,11 @@ export default Vue.extend({
       type: String,
       default: 'Calendar',
       validator: viewIsValid
+    },
+
+    preventUpdateViewModel: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -95,7 +100,7 @@ export default Vue.extend({
       if (this.lastEmitValue === v) {
         this.lastEmitValue = 0
       }
-      else {
+      else if (!this.preventUpdateViewModel) {
         const { year, month } = this.__getViewModel(this.innerMask, this.innerLocale)
         this.__updateViewModel(year, month)
       }
@@ -711,7 +716,9 @@ export default Vue.extend({
         this.__addToModel(date)
       }
 
-      this.setCalendarTo(this.today.year, this.today.month)
+      if (!this.preventUpdateViewModel) {
+        this.setCalendarTo(this.today.year, this.today.month)
+      }
     },
 
     setView (view) {
@@ -751,7 +758,9 @@ export default Vue.extend({
         finalHash: this.__getDayHash(final)
       }
 
-      this.setCalendarTo(init.year, init.month)
+      if (!this.preventUpdateViewModel) {
+        this.setCalendarTo(init.year, init.month)
+      }
     },
 
     __getMask () {
