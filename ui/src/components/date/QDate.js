@@ -96,8 +96,8 @@ export default Vue.extend({
         this.lastEmitValue = 0
       }
       else {
-        const { year, month } = this.__getViewModel(this.innerMask, this.innerLocale)
-        this.__updateViewModel(year, month)
+        const model = this.__getViewModel(this.innerMask, this.innerLocale)
+        this.__updateViewModel(model.year, model.month, model)
       }
     },
 
@@ -1265,7 +1265,7 @@ export default Vue.extend({
       }
     },
 
-    __updateViewModel (year, month) {
+    __updateViewModel (year, month, time) {
       if (this.minNav !== void 0 && year <= this.minNav.year) {
         year = this.minNav.year
         if (month < this.minNav.month) {
@@ -1278,6 +1278,11 @@ export default Vue.extend({
         if (month > this.maxNav.month) {
           month = this.maxNav.month
         }
+      }
+
+      if (time !== void 0) {
+        const { hour, minute, second, millisecond, timezoneOffset, timeHash } = time
+        Object.assign(this.viewModel, { hour, minute, second, millisecond, timezoneOffset, timeHash })
       }
 
       const newHash = year + '/' + pad(month) + '/01'
