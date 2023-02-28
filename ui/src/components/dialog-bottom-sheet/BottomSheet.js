@@ -69,6 +69,7 @@ export default createComponent({
               'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
               action.class
             ],
+            style: action.style,
             tabindex: 0,
             role: 'listitem',
             onClick () { onOk(action) },
@@ -100,6 +101,7 @@ export default createComponent({
           ? h(QSeparator, { spaced: true, dark: isDark.value })
           : h(QItem, {
             class: [ 'q-bottom-sheet__item', action.classes ],
+            style: action.style,
             tabindex: 0,
             clickable: true,
             dark: isDark.value,
