@@ -76,6 +76,7 @@ export default Vue.extend({
           : h('div', {
             staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
             class: action.classes,
+            style: action.style,
             attrs: attrsGridItem,
             on: {
               click: () => {
@@ -113,6 +114,7 @@ export default Vue.extend({
           : h(QItem, {
             staticClass: 'q-bottom-sheet__item',
             class: action.classes,
+            style: action.style,
             props: {
               tabindex: 0,
               clickable: true,

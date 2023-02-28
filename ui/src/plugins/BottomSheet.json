@@ -37,6 +37,13 @@
                   "examples": [ "my-class" ]
                 },
 
+                "style": {
+                  "type": [ "String", "Array", "Object" ],
+                  "desc": "Style definitions to be attributed to this action element",
+                  "examples": [ "border: 2px solid black" ],
+                  "addedIn": "v1.22.6"
+                },
+
                 "icon": {
                   "extends": "icon"
                 },
