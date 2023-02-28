@@ -60,7 +60,7 @@ function queryReleases () {
       loading.value = false
     })
     .catch(err => {
-      console.error(err)
+      console.error(err) // eslint-disable-line
       error.value = true
     })
 }
