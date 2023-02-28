@@ -626,7 +626,7 @@ export default createComponent({
     }
 
     function onClick (node, meta, e, keyboard) {
-      keyboard !== true && meta.selectable && blur(meta.key)
+      keyboard !== true && meta.selectable !== false && blur(meta.key)
 
       if (hasSelection.value && meta.selectable) {
         if (props.noSelectionUnset === false) {
@@ -649,7 +649,7 @@ export default createComponent({
       if (e !== void 0) {
         stopAndPrevent(e)
       }
-      keyboard !== true && meta.selectable && blur(meta.key)
+      keyboard !== true && meta.selectable !== false && blur(meta.key)
       setExpanded(meta.key, !meta.expanded, node, meta)
     }
 
