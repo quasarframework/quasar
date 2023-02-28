@@ -702,8 +702,8 @@ export default createComponent({
         lastEmitValue = 0
       }
       else {
-        const { year, month } = getViewModel(innerMask.value, innerLocale.value)
-        updateViewModel(year, month)
+        const model = getViewModel(innerMask.value, innerLocale.value)
+        updateViewModel(model.year, model.month, model)
       }
     })
 
@@ -713,12 +713,8 @@ export default createComponent({
       }
     })
 
-    watch(() => viewModel.value.year, year => {
-      emit('navigation', { year, month: viewModel.value.month })
-    })
-
-    watch(() => viewModel.value.month, month => {
-      emit('navigation', { year: viewModel.value.year, month })
+    watch(() => viewModel.value.year + '|' + viewModel.value.month, () => {
+      emit('navigation', { year: viewModel.value.year, month: viewModel.value.month })
     })
 
     watch(mask, val => {
@@ -900,7 +896,7 @@ export default createComponent({
       return { year: date.year, month: date.month, day: date.day }
     }
 
-    function updateViewModel (year, month) {
+    function updateViewModel (year, month, time) {
       if (minNav.value !== null && year <= minNav.value.year) {
         year = minNav.value.year
         if (month < minNav.value.month) {
@@ -913,6 +909,11 @@ export default createComponent({
         if (month > maxNav.value.month) {
           month = maxNav.value.month
         }
+      }
+
+      if (time !== void 0) {
+        const { hour, minute, second, millisecond, timezoneOffset, timeHash } = time
+        Object.assign(viewModel.value, { hour, minute, second, millisecond, timezoneOffset, timeHash })
       }
 
       const newHash = year + '/' + pad(month) + '/01'
