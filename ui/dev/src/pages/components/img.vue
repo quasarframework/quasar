@@ -122,7 +122,6 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        transition="slide-left"
         :no-native-menu="noNativeMenu"
       />
 
@@ -140,7 +139,6 @@
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
         ratio="1"
-        transition="slide-up"
         spinner-color="white"
         style="max-width: 225px"
         :no-native-menu="noNativeMenu"
