@@ -569,7 +569,7 @@ export default createComponent({
 
         if (topLeft !== void 0) {
           child.push(
-            h('div', { class: 'q-table-control' }, [
+            h('div', { class: 'q-table__control' }, [
               topLeft(marginalsScope.value)
             ])
           )
