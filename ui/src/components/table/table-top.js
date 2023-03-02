@@ -43,7 +43,7 @@ export default {
 
         if (topLeft !== void 0) {
           child.push(
-            h('div', { staticClass: 'q-table-control' }, [
+            h('div', { staticClass: 'q-table__control' }, [
               topLeft(this.marginalsScope)
             ])
           )
