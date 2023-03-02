@@ -28,7 +28,7 @@ export default {
         weekday: 'short', month: 'short', day: 'numeric'
       }).format(date)
     },
-    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true, // true
     pluralDay: '日間'
   },
