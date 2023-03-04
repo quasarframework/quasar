@@ -250,8 +250,15 @@ export default {
         }
 
         if (inputType === 'insertFromPaste' && this.reverseFillMask !== true) {
-          const cursor = end - 1
-          this.__moveCursorRight(inp, cursor, cursor)
+          const maxEnd = inp.selectionEnd
+          let cursor = end - 1
+          // each non-marker char means we move once to right
+          for (let i = this.__pastedTextStart; i <= cursor && i < maxEnd; i++) {
+            if (this.maskMarked[i] !== MARKER) {
+              cursor++
+            }
+          }
+          this.__moveCursorRight(inp, cursor)
 
           return
         }
@@ -277,7 +284,7 @@ export default {
               inp.setSelectionRange(cursor, cursor, 'forward')
             }
             else {
-              this.__moveCursorRightReverse(inp, cursor, cursor)
+              this.__moveCursorRightReverse(inp, cursor)
             }
           }
           else {
@@ -288,11 +295,11 @@ export default {
         else {
           if (changed === true) {
             const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, end) - 1)
-            this.__moveCursorRight(inp, cursor, cursor)
+            this.__moveCursorRight(inp, cursor)
           }
           else {
             const cursor = end - 1
-            this.__moveCursorRight(inp, cursor, cursor)
+            this.__moveCursorRight(inp, cursor)
           }
         }
       })
@@ -308,73 +315,71 @@ export default {
       const preMasked = this.__mask(this.__unmask(inp.value))
 
       start = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, start))
+      this.__pastedTextStart = start
 
       inp.setSelectionRange(start, end, 'forward')
     },
 
-    __moveCursorLeft (inp, start, end, selection) {
-      const noMarkBefore = this.maskMarked.slice(start - 1).indexOf(MARKER) === -1
-      let i = Math.max(0, start - 1)
+    __moveCursorLeft (inp, cursor) {
+      const noMarkBefore = this.maskMarked.slice(cursor - 1).indexOf(MARKER) === -1
+      let i = Math.max(0, cursor - 1)
 
       for (; i >= 0; i--) {
         if (this.maskMarked[i] === MARKER) {
-          start = i
-          noMarkBefore === true && start++
+          cursor = i
+          noMarkBefore === true && cursor++
           break
         }
       }
 
       if (
         i < 0 &&
-        this.maskMarked[start] !== void 0 &&
-        this.maskMarked[start] !== MARKER
+        this.maskMarked[cursor] !== void 0 &&
+        this.maskMarked[cursor] !== MARKER
       ) {
-        return this.__moveCursorRight(inp, 0, 0)
+        return this.__moveCursorRight(inp, 0)
       }
 
-      start >= 0 && inp.setSelectionRange(
-        start,
-        selection === true ? end : start, 'backward'
-      )
+      cursor >= 0 && inp.setSelectionRange(cursor, cursor, 'backward')
     },
 
-    __moveCursorRight (inp, start, end, selection) {
+    __moveCursorRight (inp, cursor) {
       const limit = inp.value.length
-      let i = Math.min(limit, end + 1)
+      let i = Math.min(limit, cursor + 1)
 
       for (; i <= limit; i++) {
         if (this.maskMarked[i] === MARKER) {
-          end = i
+          cursor = i
           break
         }
         else if (this.maskMarked[i - 1] === MARKER) {
-          end = i
+          cursor = i
         }
       }
 
       if (
         i > limit &&
-        this.maskMarked[end - 1] !== void 0 &&
-        this.maskMarked[end - 1] !== MARKER
+        this.maskMarked[cursor - 1] !== void 0 &&
+        this.maskMarked[cursor - 1] !== MARKER
       ) {
-        return this.__moveCursorLeft(inp, limit, limit)
+        return this.__moveCursorLeft(inp, limit)
       }
 
-      inp.setSelectionRange(selection ? start : end, end, 'forward')
+      inp.setSelectionRange(cursor, cursor, 'forward')
     },
 
-    __moveCursorLeftReverse (inp, start, end, selection) {
+    __moveCursorLeftReverse (inp, cursor) {
       const
         maskMarked = this.__getPaddedMaskMarked(inp.value.length)
-      let i = Math.max(0, start - 1)
+      let i = Math.max(0, cursor - 1)
 
       for (; i >= 0; i--) {
         if (maskMarked[i - 1] === MARKER) {
-          start = i
+          cursor = i
           break
         }
         else if (maskMarked[i] === MARKER) {
-          start = i
+          cursor = i
           if (i === 0) {
             break
           }
@@ -383,42 +388,45 @@ export default {
 
       if (
         i < 0 &&
-        maskMarked[start] !== void 0 &&
-        maskMarked[start] !== MARKER
+        maskMarked[cursor] !== void 0 &&
+        maskMarked[cursor] !== MARKER
       ) {
-        return this.__moveCursorRightReverse(inp, 0, 0)
+        return this.__moveCursorRightReverse(inp, 0)
       }
 
-      start >= 0 && inp.setSelectionRange(
-        start,
-        selection === true ? end : start, 'backward'
-      )
+      cursor >= 0 && inp.setSelectionRange(cursor, cursor, 'backward')
     },
 
-    __moveCursorRightReverse (inp, start, end, selection) {
+    __moveCursorRightReverse (inp, cursor) {
       const
         limit = inp.value.length,
         maskMarked = this.__getPaddedMaskMarked(limit),
-        noMarkBefore = maskMarked.slice(0, end + 1).indexOf(MARKER) === -1
-      let i = Math.min(limit, end + 1)
+        noMarkBefore = maskMarked.slice(0, cursor + 1).indexOf(MARKER) === -1
+      let i = Math.min(limit, cursor + 1)
 
       for (; i <= limit; i++) {
         if (maskMarked[i - 1] === MARKER) {
-          end = i
-          end > 0 && noMarkBefore === true && end--
+          cursor = i
+          cursor > 0 && noMarkBefore === true && cursor--
           break
         }
       }
 
       if (
         i > limit &&
-        maskMarked[end - 1] !== void 0 &&
-        maskMarked[end - 1] !== MARKER
+        maskMarked[cursor - 1] !== void 0 &&
+        maskMarked[cursor - 1] !== MARKER
       ) {
-        return this.__moveCursorLeftReverse(inp, limit, limit)
+        return this.__moveCursorLeftReverse(inp, limit)
       }
 
-      inp.setSelectionRange(selection === true ? start : end, end, 'forward')
+      inp.setSelectionRange(cursor, cursor, 'forward')
+    },
+
+    __onMaskedClick (e) {
+      this.qListeners.click !== void 0 && this.$emit('click', e)
+
+      this.__selectionAnchor = void 0
     },
 
     __onMaskedKeydown (e) {
@@ -433,25 +441,39 @@ export default {
         start = inp.selectionStart,
         end = inp.selectionEnd
 
+      if (!e.shiftKey) {
+        this.__selectionAnchor = void 0
+      }
+
       if (e.keyCode === 37 || e.keyCode === 39) { // Left / Right
+        if (e.shiftKey && this.__selectionAnchor === void 0) {
+          this.__selectionAnchor = inp.selectionDirection === 'forward' ? start : end
+        }
+
         const fn = this['__moveCursor' + (e.keyCode === 39 ? 'Right' : 'Left') + (this.reverseFillMask === true ? 'Reverse' : '')]
 
         e.preventDefault()
-        fn(inp, start, end, e.shiftKey)
+        fn(inp, this.__selectionAnchor === start ? end : start)
+
+        if (e.shiftKey) {
+          const anchor = this.__selectionAnchor
+          const cursor = inp.selectionStart
+          inp.setSelectionRange(Math.min(anchor, cursor), Math.max(anchor, cursor), 'forward')
+        }
       }
       else if (
         e.keyCode === 8 && // Backspace
         this.reverseFillMask !== true &&
         start === end
       ) {
-        this.__moveCursorLeft(inp, start, end, true)
+        this.__moveCursorLeft(inp, start)
       }
       else if (
         e.keyCode === 46 && // Delete
         this.reverseFillMask === true &&
         start === end
       ) {
-        this.__moveCursorRightReverse(inp, start, end, true)
+        this.__moveCursorRightReverse(inp, end)
       }
 
       this.$emit('keydown', e)

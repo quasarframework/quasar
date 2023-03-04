@@ -142,6 +142,8 @@ export default Vue.extend({
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown
+        // reset selection anchor on pointer selection
+        on.click = this.__onMaskedClick
       }
 
       if (this.autogrow === true) {
