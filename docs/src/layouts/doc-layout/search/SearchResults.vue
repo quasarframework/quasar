@@ -51,7 +51,6 @@ const props = defineProps({
 
     span
       font-size: ($font-size - 2px)
-      color: $grey
     kbd
       color: #000
 

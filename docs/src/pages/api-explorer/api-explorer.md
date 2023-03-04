@@ -6,4 +6,6 @@ components:
   - ./DocApiExplorer
 ---
 
+Here you can explore the API for all the Quasar UI Vue components, Vue directives & Quasar UI plugins.
+
 <doc-api-explorer />

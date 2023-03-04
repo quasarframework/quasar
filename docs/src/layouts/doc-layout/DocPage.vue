@@ -2,7 +2,7 @@
   <div class="doc-page__content">
     <div v-if="props.overline" class="doc-page__overline text-brand-primary">{{ props.overline }}</div>
 
-    <div class="doc-h1 row items-start no-wrap" v-if="props.heading">
+    <div class="doc-h1 row items-center no-wrap" v-if="props.heading">
       <div class="doc-heading q-mr-xs" id="introduction">
         <span>{{ props.title }}</span>
         <q-badge class="q-ml-sm doc-page__badge" v-if="props.badge" :label="props.badge" />
@@ -10,6 +10,7 @@
       <q-space />
       <q-btn
         v-if="props.editLink"
+        class="self-start"
         :href="editHref" target="_blank" rel="noopener noreferrer"
         flat
         round
@@ -162,6 +163,7 @@ const tocClass = computed(() =>
     position: sticky
     top: $header-height
     height: calc(100vh - #{$header-height})
+    font-size: ($font-size - 2px)
 
     .doc-page-toc
       padding: 32px 16px 32px 0 // page top padding

@@ -12,12 +12,13 @@
           <router-view />
         </div>
 
-        <doc-page-footer />
+        <div class="col" />
+        <doc-page-footer :fullscreen="isFullscreen" />
       </q-page>
     </q-page-container>
 
     <q-page-scroller>
-      <q-btn class="shadow-bottom-small" fab-mini color="brand-accent" :icon="mdiArrowUp" />
+      <q-btn fab-mini color="brand-accent" :icon="mdiArrowUp" />
     </q-page-scroller>
 
     <q-no-ssr>
@@ -64,11 +65,11 @@ const pageContentClass = computed(() =>
     &--standard
       /**
           16px  - left menu margin
-        + 300px - left menu
+        + 330px - left menu
         + 900px - page content
         + 300px - toc menu
        */
-      max-width: min(100%, 1516px)
+      max-width: min(100%, 1546px)
 
       .doc-page__content
         width: auto
@@ -88,17 +89,16 @@ const pageContentClass = computed(() =>
         display: none
 
   &__page-el--standard
-    @media (min-width: 914px)
-      display: flex
-      flex-direction: column
-      align-items: center
+    display: flex
+    flex-direction: column
+    align-items: center
 
   &__menu
     position: sticky
     top: $header-height
     height: calc(100vh - #{$header-height})
-    width: 300px
-    min-width: 300px
+    width: 330px
+    min-width: 330px
     border-right: 1px solid $separator-color
 
     .doc-page-menu
@@ -121,7 +121,7 @@ const pageContentClass = computed(() =>
       color: $dark-text
 
     .q-item__section--main ~ .q-item__section--side
-      padding-left: 8px
+      padding-left: 4px
 
   &__item .q-expansion-item > .q-expansion-item__container > .q-item .q-item__label
     padding-left: 8.5px
@@ -149,7 +149,7 @@ const pageContentClass = computed(() =>
 .doc-drawer
   // only show the shadow when the drawer is open
   .q-drawer:not(.q-layout--prevent-focus) &
-    box-shadow: $shadow--primary
+    box-shadow: 0 0 6px 3px $separator-color
 
   &__header
     position: sticky
@@ -159,7 +159,11 @@ const pageContentClass = computed(() =>
 
 body.body--dark
   .doc-layout__menu
-    border-right-color: $brand-primary
+    border-right-color: $separator-dark-color
+
+  // only show the shadow when the drawer is open
+  .q-drawer:not(.q-layout--prevent-focus) .doc-drawer
+    box-shadow: 0 0 6px 3px $brand-primary
   .doc-drawer__header
     background: linear-gradient(to bottom, $dark 0%, $dark 75%, transparent)
 </style>

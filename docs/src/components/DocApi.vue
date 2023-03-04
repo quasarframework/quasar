@@ -380,6 +380,7 @@ process.env.CLIENT && onMounted(() => {
     display: inline-block
 
   &__pill
+    font-weight: 600
     letter-spacing: $letter-spacing-brand
     line-height: 1.4em
 

@@ -23,7 +23,7 @@ export function provideDocStore () {
     $router,
 
     state: {
-      dark: $q.cookies.get('theme') === 'dark',
+      dark: $q.cookies.get('theme') !== 'light',
       menuDrawer: false,
       tocDrawer: false
     },

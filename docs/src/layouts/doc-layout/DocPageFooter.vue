@@ -1,31 +1,33 @@
 <template>
-  <div class="doc-page-footer" v-once>
-    <nav class="doc-page-footer__nav">
-      <q-list v-for="entry in links" :key="entry.name">
-        <q-item-label
-          class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225"
-        >{{ entry.name }}</q-item-label>
+  <div class="doc-page-footer">
+    <template v-if="fullscreen">
+      <nav class="doc-page-footer__nav" v-once>
+        <q-list v-for="entry in links" :key="entry.name">
+          <q-item-label
+            class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225"
+          >{{ entry.name }}</q-item-label>
 
-        <q-separator spaced color="brand-primary" class="doc-page-footer__margin" />
+          <q-separator spaced color="brand-primary" class="doc-page-footer__margin" />
 
-        <q-item
-          v-for="(item, index) in entry.children"
-          :key="index"
-          dense
-          clickable
-          :to="item.path"
-          :href="item.external ? item.path : void 0"
-          :target="item.external ? '_blank' : void 0"
-          class="doc-layout__item"
-        >
-          <q-item-section class="letter-spacing-100">{{ item.name }}</q-item-section>
-        </q-item>
-      </q-list>
-    </nav>
+          <q-item
+            v-for="(item, index) in entry.children"
+            :key="index"
+            dense
+            clickable
+            :to="item.path"
+            :href="item.external ? item.path : void 0"
+            :target="item.external ? '_blank' : void 0"
+            class="doc-layout__item"
+          >
+            <q-item-section class="letter-spacing-100">{{ item.name }}</q-item-section>
+          </q-item>
+        </q-list>
+      </nav>
 
-    <q-separator class="landing-mx--large" />
+      <q-separator class="landing-mx--large" />
+    </template>
 
-    <div class="doc-page-footer__license row justify-center q-my-md letter-spacing-225">
+    <div class="doc-page-footer__license row justify-center q-mt-md letter-spacing-225">
       <q-btn
         no-caps
         flat
@@ -43,8 +45,6 @@
         label="Privacy Policy"
       />
     </div>
-
-    <q-separator class="full-width" />
 
     <div class="doc-page-footer__copyright text-center q-pa-lg letter-spacing-100">
       <div class="q-mb-xs">
@@ -100,6 +100,10 @@ const links = footerLinks.flatMap(nav => ({
 }))
 
 export default {
+  props: {
+    fullscreen: Boolean
+  },
+
   setup () {
     return { links }
   }
@@ -112,7 +116,7 @@ export default {
   background-color: $void-suit
   width: 100%
   z-index: 1
-  box-shadow: $shadow--primary
+  border-top: 1px solid $separator-color
 
   &__margin
     margin-left: 6px
@@ -150,5 +154,5 @@ export default {
 body.body--dark
   .doc-page-footer
     background-color: $floating-rock
-    border-top-color: $brand-primary
+    border-top-color: $separator-dark-color
 </style>

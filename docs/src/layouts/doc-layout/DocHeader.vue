@@ -1,5 +1,5 @@
 <template>
-  <q-header class="doc-header header-toolbar" :height-hint="128">
+  <q-header class="doc-header header-toolbar" bordered :height-hint="128">
     <q-toolbar class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch">
       <router-link to="/" class="doc-header__logo row items-center no-wrap cursor-pointer">
         <img
@@ -27,18 +27,15 @@
 
       <doc-search />
 
-      <div class="doc-header-icon-links q-ml-sm row no-wrap items-center">
+      <div v-if="showThemeChanger" class="doc-header-icon-links q-ml-sm row no-wrap items-center">
         <q-btn
           class="header-btn"
           type="a"
           flat
           round
           :icon="mdiCompare"
-          :disable="cannotChangeTheme"
           @click="docStore.toggleDark"
-        >
-          <q-tooltip v-if="cannotChangeTheme">Changing Light/Dark mode will be available on other pages</q-tooltip>
-        </q-btn>
+        />
       </div>
     </q-toolbar>
 
@@ -105,32 +102,25 @@ const logo = computed(() => {
   }
 })
 
-const cannotChangeTheme = computed(() => docStore.$route.meta.dark === true)
+const showThemeChanger = computed(() => docStore.$route.meta.dark !== true)
 const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStore.$route.meta.fullscreen !== true && docStore.state.value.toc.length !== 0)
 </script>
 
 <style lang="sass">
 .doc-header
   transition: none
-  box-shadow: $shadow--primary
 
   &__primary
     height: 72px
 
   &__secondary
-    height: 56px
-
-  .q-toolbar
-    border-top: 1px solid
-    &:last-child
-      border-bottom: 1px solid
+    height: 55px
 
   &__logo-img
     transform: rotate(0deg)
     transition: transform .8s ease-in-out
 
   &__logo
-    border-right: 1px solid
     padding-right: 24px
 
     &:hover .doc-header__logo-img
@@ -161,7 +151,6 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
       padding-left: 16px
       padding-right: 8px
     &__logo
-      border-right: 0
       padding-right: 16px
     .doc-search
       width: 100%
@@ -178,7 +167,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
 .doc-header-menu
   letter-spacing: $letter-spacing-brand
-  box-shadow: $shadow--primary-down
+  border: 1px solid $separator-color
 
   .q-item__label--header
     color: $brand-accent
@@ -195,24 +184,12 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
   .q-icon
     margin-left: 0
 
-body.body--light
-  .doc-header
-    .q-toolbar,
-    &__logo
-      border-color: $separator-color
-
 body.body--dark
   .doc-header-menu
     background: $dark-bg
+    border-color: $separator-dark-color
 
   .doc-header
-    .q-toolbar,
-    &__logo
-      border-color: $brand-primary
-
-    .q-toolbar:last-child
-      border-bottom-color: transparent
-
     &__version
       color: #fff
 

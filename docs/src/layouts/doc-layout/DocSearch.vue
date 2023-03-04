@@ -333,7 +333,7 @@ body.desktop
 
   &__results
     max-height: 80vh
-    top: 42px
+    top: 45px
     left: 0
     right: 0
     transform: scale3d(1, 0, 1)
@@ -343,7 +343,6 @@ body.desktop
   &--focused
     .doc-search__results--active
       transform: scale3d(1, 1, 1)
-      box-shadow: $shadow--primary-down
 
     .doc-search__icon
       display: inline-block !important
@@ -374,8 +373,11 @@ body.body--light .doc-search
   &__results
     background: #fff
     color: $light-text
-  &--focused .doc-search__field
-    background-color: rgba(#000, .28)
+  &--focused
+    .doc-search__results--active
+      border: 1px solid $separator-color
+    .doc-search__field
+      background-color: rgba(#000, .28)
 
 body.body--dark .doc-search
   input
@@ -387,6 +389,9 @@ body.body--dark .doc-search
   &__results
     background: $dark-bg
     color: $dark-text
-  &--focused .doc-search__field
-    background-color: rgba(#fff, .28)
+  &--focused
+    .doc-search__results--active
+      border: 1px solid $separator-dark-color
+    .doc-search__field
+      background-color: rgba(#fff, .28)
 </style>
