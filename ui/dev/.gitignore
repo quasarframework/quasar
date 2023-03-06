@@ -33,3 +33,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+.nyc_output
+coverage/

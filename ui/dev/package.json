@@ -10,7 +10,7 @@
   },
   "//": "@quasar/app-vite dependency is needed to make Cypress AE app-* detection work, since it reads the project package.json",
   "devDependencies": {
-    "@quasar/app-vite": "^1.1.1"
+    "@quasar/app-vite": "^1.1.3"
   },
   "engines": {
     "node": ">= 12.22.1",

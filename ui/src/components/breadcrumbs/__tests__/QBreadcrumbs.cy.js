@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import { alignMap, alignValues } from '../../../composables/private/use-align.js'
 import BasicBreadcrumbs from './BasicBreadcrumbs.vue'
 import BreadcrumbWithSeparatorSlot from './BreadcrumbWithSeparatorSlot.vue'
@@ -12,7 +11,7 @@ describe('Breadcrumbs API', () => {
         it('should render a custom separator based on the defined value', () => {
           const customSeparator = '>'
 
-          mount(BasicBreadcrumbs, {
+          cy.mount(BasicBreadcrumbs, {
             props: {
               separator: customSeparator
             }
@@ -24,7 +23,7 @@ describe('Breadcrumbs API', () => {
 
       describe('(prop): gutter', () => {
         it(`should render a breadcrumb with a gutter based on defined values: ${ gutterValues.join(', ') }`, () => {
-          mount(BasicBreadcrumbs)
+          cy.mount(BasicBreadcrumbs)
 
           // loop through each gutter value
           for (const gutter of gutterValues) {
@@ -35,7 +34,7 @@ describe('Breadcrumbs API', () => {
         })
 
         it('should render a breadcrumb with no gutter when the value is set to "none"', () => {
-          mount(BasicBreadcrumbs, {
+          cy.mount(BasicBreadcrumbs, {
             props: {
               gutter: 'none'
             }
@@ -47,7 +46,7 @@ describe('Breadcrumbs API', () => {
 
       describe('(prop): align', () => {
         it(`should render a breadcrumb aligned based on defined values: ${ alignValues.join(', ') }`, () => {
-          mount(BasicBreadcrumbs)
+          cy.mount(BasicBreadcrumbs)
 
           // loop over alignValues
           for (const align of alignValues) {
@@ -64,7 +63,7 @@ describe('Breadcrumbs API', () => {
         it('should change breadcrumb item color based on Quasar Color Palette', () => {
           const activeColor = 'red'
 
-          mount(BasicBreadcrumbs, {
+          cy.mount(BasicBreadcrumbs, {
             props: {
               activeColor
             }
@@ -78,7 +77,7 @@ describe('Breadcrumbs API', () => {
         it('should change breadcrumb separator color based on Quasar Color Palette', () => {
           const separatorColor = 'red'
 
-          mount(BasicBreadcrumbs, {
+          cy.mount(BasicBreadcrumbs, {
             props: {
               separatorColor
             }
@@ -93,7 +92,7 @@ describe('Breadcrumbs API', () => {
   describe('Slots', () => {
     describe('(slot): default', () => {
       it('should display the default slot content', () => {
-        mount(BasicBreadcrumbs)
+        cy.mount(BasicBreadcrumbs)
 
         cy.get('.q-breadcrumbs > div')
           .should('contain', 'Home')
@@ -102,7 +101,7 @@ describe('Breadcrumbs API', () => {
 
     describe('(slot): separator', () => {
       it('should display the separator slot content', () => {
-        mount(BreadcrumbWithSeparatorSlot)
+        cy.mount(BreadcrumbWithSeparatorSlot)
 
         cy.get('.q-breadcrumbs__separator')
           .should('contain', 'arrow_forward')

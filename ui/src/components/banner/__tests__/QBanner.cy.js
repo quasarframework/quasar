@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QBanner from '../QBanner.js'
 
 describe('Banner API', () => {
@@ -6,7 +5,7 @@ describe('Banner API', () => {
     describe('Category: content', () => {
       describe('(prop): inline-actions', () => {
         it('should render the actions in the same row as the content', () => {
-          mount(QBanner, {
+          cy.mount(QBanner, {
             slots: {
               default: 'Banner content',
               action: 'Banner action'
@@ -25,7 +24,7 @@ describe('Banner API', () => {
     describe('Category: style', () => {
       describe('(prop): dense', () => {
         it('should have a dense style when "dense" prop is true', () => {
-          mount(QBanner, {
+          cy.mount(QBanner, {
             props: {
               dense: true
             }
@@ -38,7 +37,7 @@ describe('Banner API', () => {
 
       describe('(prop): rounded', () => {
         it('should have a rounded style when "rounded" prop is true', () => {
-          mount(QBanner, {
+          cy.mount(QBanner, {
             props: {
               rounded: true
             }
@@ -51,7 +50,7 @@ describe('Banner API', () => {
 
       describe('(prop): dark', () => {
         it('should have a dark style when "dark" prop is true', () => {
-          mount(QBanner, {
+          cy.mount(QBanner, {
             props: {
               dark: true
             }
@@ -67,7 +66,7 @@ describe('Banner API', () => {
   describe('Slots', () => {
     describe('(slot): default', () => {
       it('should render the default content', () => {
-        mount(QBanner, {
+        cy.mount(QBanner, {
           slots: {
             default: 'Banner content'
           }
@@ -80,7 +79,7 @@ describe('Banner API', () => {
 
     describe('(slot): avatar', () => {
       it('should render the avatar content', () => {
-        mount(QBanner, {
+        cy.mount(QBanner, {
           slots: {
             avatar: 'Banner avatar'
           }
@@ -93,7 +92,7 @@ describe('Banner API', () => {
 
     describe('(slot): action', () => {
       it('should render the action content', () => {
-        mount(QBanner, {
+        cy.mount(QBanner, {
           slots: {
             action: 'Banner action'
           }

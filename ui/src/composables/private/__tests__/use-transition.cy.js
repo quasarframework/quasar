@@ -1,12 +1,11 @@
-import { mount } from '@cypress/vue'
-import WrapperOne from './../../../components/menu/__tests__/WrapperOne.vue'
+import WrapperOne from '../../../components/menu/__tests__/WrapperOne.vue'
 
 describe('use-transition API', () => {
   describe('Props', () => {
     describe('Category: transition', () => {
       describe('(prop): transition-show', () => {
         it('should use the fade transition by default', () => {
-          mount(WrapperOne)
+          cy.mount(WrapperOne)
           cy.dataCy('wrapper')
             .click()
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
@@ -15,7 +14,7 @@ describe('use-transition API', () => {
 
         it('should use a different show transition if defined', () => {
           const transition = 'scale'
-          mount(WrapperOne, {
+          cy.mount(WrapperOne, {
             props: {
               transitionShow: transition
             }
@@ -29,7 +28,7 @@ describe('use-transition API', () => {
 
       describe('(prop): transition-hide', () => {
         it('should use the fade transition by default', () => {
-          mount(WrapperOne)
+          cy.mount(WrapperOne)
           cy.dataCy('wrapper')
             .click()
           cy.dataCy('menu')
@@ -42,7 +41,7 @@ describe('use-transition API', () => {
 
         it('should use a different hide transition if defined', () => {
           const transition = 'scale'
-          mount(WrapperOne, {
+          cy.mount(WrapperOne, {
             props: {
               transitionHide: transition
             }
@@ -60,7 +59,7 @@ describe('use-transition API', () => {
 
       describe('(prop): transition-duration', () => {
         it('should be done with transitioning after 300ms passed', () => {
-          mount(WrapperOne)
+          cy.mount(WrapperOne)
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
@@ -70,7 +69,7 @@ describe('use-transition API', () => {
         })
 
         it('should not be done with transitioning before 300ms passed', () => {
-          mount(WrapperOne)
+          cy.mount(WrapperOne)
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
@@ -80,7 +79,7 @@ describe('use-transition API', () => {
         })
 
         it('should be done after a custom 1000ms passed', () => {
-          mount(WrapperOne, {
+          cy.mount(WrapperOne, {
             props: {
               transitionDuration: 1000
             }
@@ -94,7 +93,7 @@ describe('use-transition API', () => {
         })
 
         it('should not be done before a custom 1000ms passed', () => {
-          mount(WrapperOne, {
+          cy.mount(WrapperOne, {
             props: {
               transitionDuration: 1000
             }

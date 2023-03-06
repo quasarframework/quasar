@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QBar from '../QBar.js'
 
 describe('Bar API', () => {
@@ -6,7 +5,7 @@ describe('Bar API', () => {
     describe('Category: style', () => {
       describe('(prop): dense', () => {
         it('should have a dense style when "dense" prop is true', () => {
-          mount(QBar, {
+          cy.mount(QBar, {
             propsData: {
               dense: true
             }
@@ -18,7 +17,7 @@ describe('Bar API', () => {
 
       describe('(prop): dark', () => {
         it('should have a dark style when "dark" prop is true', () => {
-          mount(QBar, {
+          cy.mount(QBar, {
             propsData: {
               dark: true
             }
@@ -33,7 +32,7 @@ describe('Bar API', () => {
   describe('Slots', () => {
     describe('(slot): default', () => {
       it('should render the default slot', () => {
-        mount(QBar, {
+        cy.mount(QBar, {
           slots: {
             default: 'default bar slot'
           }
