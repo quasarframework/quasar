@@ -368,6 +368,7 @@ process.env.CLIENT && onMounted(() => {
 
   &__type
     font-size: ($font-size - 1px)
+    line-height: ($font-size + 8px)
 
   &__value
     color: #000

@@ -47,7 +47,7 @@
 
     <div class="row overflow-hidden">
       <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate />
-      <component class="col doc-example__content" v-else :is="component" :class="componentClass" />
+      <component class="col doc-example__content doc-example-typography" v-else :is="component" :class="componentClass" />
     </div>
   </q-card>
 </template>

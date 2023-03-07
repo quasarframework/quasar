@@ -20,17 +20,18 @@
 .normal-line-height
   line-height: normal
 
-body
-  color: $light-text
-  background-color: $light-bg
-  font-size: $font-size
-  text-rendering: optimizeLegibility
-  -webkit-font-smoothing: auto
-
 .doc-typography
   font-family: $font-family
   font-weight: $font-weight
   font-size: $font-size
+  color: $light-text
+  background-color: $light-bg
+  text-rendering: optimizeLegibility
+  -webkit-font-smoothing: auto
+
+// resets .doc-typography above to Quasar original
+.doc-example-typography
+  font-size: 14px
 
 strong
   font-weight: bold
@@ -191,7 +192,6 @@ kbd
   white-space: nowrap
   display: inline-block
   padding: 4px 4px 6px
-  line-height: 1
   font-size: .8em
   line-height: .8em
   border-radius: 4px
@@ -390,8 +390,9 @@ $letter-spacing-list: 40, 100, 225, 263, 300, 375, 450
     letter-spacing: ($letter-spacing/100) + px !important
 
 body.body--dark
-  color: $dark-text
-  background: #080E1A
+  .doc-typography
+    color: $dark-text
+    background: #080E1A
 
   .header-btn
     color: $header-btn-color--dark

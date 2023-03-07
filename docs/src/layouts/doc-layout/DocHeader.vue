@@ -47,11 +47,6 @@
         @click="docStore.toggleMenuDrawer"
       />
 
-      <doc-header-text-links
-        :menu="versionLinks"
-        nav-class="text-size-12 letter-spacing-225 doc-header__version"
-      />
-
       <div class="doc-header__links col row items-center no-wrap">
         <doc-header-text-links
           :menu="secondaryToolbarLinks"
@@ -63,19 +58,27 @@
           nav-class="text-size-12 letter-spacing-225 lt-1400"
           mq-prefix="lt"
         />
+      </div>
+
+      <doc-header-icon-links
+        class="gt-1310"
+        :menu="socialLinks.children"
+      />
+
+      <doc-header-text-links
+        :menu="versionLinks"
+        nav-class="text-size-12 letter-spacing-225 doc-header__version q-ml-md"
+      />
+
+      <div v-if="hasToc" class="doc-header-icon-links q-ml-sm lt-md row no-wrap items-center">
         <q-btn
-          v-if="hasToc"
-          class="header-btn lt-md"
+          class="header-btn"
           flat
           round
           :icon="mdiFolderPound"
           @click="docStore.toggleTocDrawer"
         />
       </div>
-      <doc-header-icon-links
-        class="gt-1310"
-        :menu="socialLinks.children"
-      />
     </q-toolbar>
   </q-header>
 </template>
@@ -112,6 +115,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
   &__primary
     height: 72px
+    border-bottom: 1px solid $separator-color
 
   &__secondary
     height: 55px
@@ -168,6 +172,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 .doc-header-menu
   letter-spacing: $letter-spacing-brand
   border: 1px solid $separator-color
+  font-size: ($font-size - 1px)
 
   .q-item__label--header
     color: $brand-accent
@@ -185,9 +190,12 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
     margin-left: 0
 
 body.body--dark
+  .doc-header__primary
+    border-bottom-color: $separator-dark-color
   .doc-header-menu
     background: $dark-bg
     border-color: $separator-dark-color
+    box-shadow: none !important
 
   .doc-header
     &__version

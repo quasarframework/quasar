@@ -331,6 +331,12 @@ body.desktop
     outline: 0
     background: none
 
+  &__kbd
+    box-shadow: none !important
+    padding: 4px
+    border: 1px solid $grey !important
+    background: transparent !important
+
   &__results
     max-height: 80vh
     top: 45px

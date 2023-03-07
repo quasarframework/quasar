@@ -146,6 +146,9 @@ const tocClass = computed(() =>
     @media (max-width: 850px)
       padding: 32px 16px
 
+    > p
+      line-height: 28px
+
     > .q-btn
       background: $brand-accent
       color: #fff

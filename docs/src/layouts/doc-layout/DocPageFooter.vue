@@ -4,10 +4,8 @@
       <nav class="doc-page-footer__nav" v-once>
         <q-list v-for="entry in links" :key="entry.name">
           <q-item-label
-            class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225"
+            class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225 q-mb-md"
           >{{ entry.name }}</q-item-label>
-
-          <q-separator spaced color="brand-primary" class="doc-page-footer__margin" />
 
           <q-item
             v-for="(item, index) in entry.children"
@@ -47,8 +45,8 @@
     </div>
 
     <div class="doc-page-footer__copyright text-center q-pa-lg letter-spacing-100">
-      <div class="q-mb-xs">
-        Copyright © 2015-present - PULSARDEV SRL,
+      <div>
+        Copyright © 2015-present PULSARDEV SRL,
         <a
           href="https://github.com/rstoenescu"
           target="_blank"
@@ -121,6 +119,10 @@ export default {
   &__margin
     margin-left: 6px
 
+  .doc-layout__item,
+  &__title
+    font-size: ($font-size - 2px)
+
   &__nav
     display: grid
     grid-row-gap: 64px
@@ -142,14 +144,14 @@ export default {
       grid-row-gap: 64px
       grid-template-columns: repeat(3, 1fr)
 
-    @media (min-width: 1400px)
+    @media (min-width: 1417px)
       grid-template-columns: repeat(4, 1fr)
 
     @media (min-width: 2060px)
       grid-template-columns: repeat(5, 1fr)
 
   &__copyright
-    font-size: ($font-size - 2px)
+    font-size: ($font-size - 4px)
 
 body.body--dark
   .doc-page-footer
