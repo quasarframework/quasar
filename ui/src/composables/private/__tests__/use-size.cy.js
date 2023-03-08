@@ -1,6 +1,5 @@
-import QAvatar from './../../../components/avatar/QAvatar.js'
-import { mount } from '@cypress/vue'
-import { useSizeDefaults } from './../use-size.js'
+import QAvatar from '../../../components/avatar/QAvatar.js'
+import { useSizeDefaults } from '../use-size.js'
 
 describe('use-size API', () => {
   describe('Props', () => {
@@ -8,7 +7,7 @@ describe('use-size API', () => {
       describe('(prop): size', () => {
         it('should set the size', () => {
           const size = '24px'
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               size,
               color: 'grey'
@@ -21,7 +20,7 @@ describe('use-size API', () => {
 
         it('should set the size with standard size names', () => {
           const size = 'sm'
-          mount(QAvatar, {
+          cy.mount(QAvatar, {
             props: {
               size,
               color: 'grey'

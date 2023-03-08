@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
-import { mount } from '@cypress/vue'
+import { vModelAdapter } from '@quasar/quasar-app-extension-testing-e2e-cypress'
 import { h, ref } from 'vue'
-import { vModelAdapter } from '../../../../test/cypress/helpers/v-model-adapter.js'
 import QSelect from '../QSelect.js'
 
 function getHostElement (extendedSelector = '') {
@@ -16,7 +15,7 @@ function mountQSelect (options = {}) {
     }
   }
 
-  return mount(QSelect, options)
+  return cy.mount(QSelect, options)
 }
 
 // QSelect does not set the `data-cy` attribute on the root element, but on the `.q-field__native` element

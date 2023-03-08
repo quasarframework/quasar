@@ -1,6 +1,5 @@
-import { mount } from '@cypress/vue'
 import FieldWrapper from './FieldWrapper.vue'
-import Icons from './../../../../icon-set/material-icons.mjs'
+import Icons from '../../../../icon-set/material-icons.mjs'
 
 // const snapshotOptions = { customSnapshotsDir: '../__tests__' }
 
@@ -36,7 +35,7 @@ describe('use-validate API', () => {
       describe('(prop): error-message', () => {
         it('should show an error-message when error is true', () => {
           const message = 'Please select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               error: true,
               errorMessage: message
@@ -48,7 +47,7 @@ describe('use-validate API', () => {
 
         it('should not show an error-message when error is false', () => {
           const message = 'Please select something'
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               error: false,
               errorMessage: message
@@ -61,7 +60,7 @@ describe('use-validate API', () => {
 
       describe('(prop): no-error-icon', () => {
         it('should not show an error icon when error is true', () => {
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               error: true,
               noErrorIcon: true
@@ -73,7 +72,7 @@ describe('use-validate API', () => {
         })
 
         it('should show an error icon when error is true an no-error-icon is false', () => {
-          mount(FieldWrapper, {
+          cy.mount(FieldWrapper, {
             props: {
               error: true,
               noErrorIcon: false

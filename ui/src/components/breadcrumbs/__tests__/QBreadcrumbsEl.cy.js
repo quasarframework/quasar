@@ -1,4 +1,3 @@
-import { mount } from '@cypress/vue'
 import QBreadcrumbsEl from '../QBreadcrumbsEl.js'
 
 describe('BreadcrumbsEl API', () => {
@@ -8,7 +7,7 @@ describe('BreadcrumbsEl API', () => {
         it('should render a label inside the breadcrumb element', () => {
           const label = 'Breadcrumb label'
 
-          mount(QBreadcrumbsEl, {
+          cy.mount(QBreadcrumbsEl, {
             props: { label }
           })
 
@@ -21,7 +20,7 @@ describe('BreadcrumbsEl API', () => {
         it('should render on the left of the breadcrumb element', () => {
           const icon = 'home'
 
-          mount(QBreadcrumbsEl, {
+          cy.mount(QBreadcrumbsEl, {
             props: { icon }
           })
 
@@ -34,7 +33,7 @@ describe('BreadcrumbsEl API', () => {
         it('should render a custom tag', () => {
           const tag = 'a'
 
-          mount(QBreadcrumbsEl, {
+          cy.mount(QBreadcrumbsEl, {
             props: { tag }
           })
 
@@ -56,7 +55,7 @@ describe('BreadcrumbsEl API', () => {
       it('should render the default slot', () => {
         const label = 'Breadcrumb label'
 
-        mount(QBreadcrumbsEl, {
+        cy.mount(QBreadcrumbsEl, {
           slots: { default: label }
         })
 
@@ -71,7 +70,7 @@ describe('BreadcrumbsEl API', () => {
       it('should emit "click" event when clicked', () => {
         const fn = cy.stub()
 
-        mount(QBreadcrumbsEl, {
+        cy.mount(QBreadcrumbsEl, {
           props: {
             label: 'clicked breadcrumb',
             onClick: fn
