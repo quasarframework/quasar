@@ -12,7 +12,7 @@
           <q-td key="name" :props="props">
             {{ props.row.name }}
             <q-popup-edit v-model="props.row.name" v-slot="scope">
-              <q-input v-model="scope.value" dense autofocus counter />
+              <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
