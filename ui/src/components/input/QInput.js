@@ -41,7 +41,7 @@ export default createComponent({
   emits: [
     ...useFieldEmits,
     'paste', 'change',
-    'keydown', 'animationend'
+    'keydown', 'click', 'animationend'
   ],
 
   setup (props, { emit, attrs }) {
@@ -59,7 +59,8 @@ export default createComponent({
       hasMask,
       moveCursorForPaste,
       updateMaskValue,
-      onMaskedKeydown
+      onMaskedKeydown,
+      onMaskedClick
     } = useMask(props, emit, emitValue, inputRef)
 
     const formDomProps = useFileFormDomProps(props, /* type guard */ true)
@@ -96,6 +97,8 @@ export default createComponent({
 
       if (hasMask.value === true) {
         evt.onKeydown = onMaskedKeydown
+        // reset selection anchor on pointer selection
+        evt.onClick = onMaskedClick
       }
 
       if (props.autogrow === true) {
