@@ -76,7 +76,11 @@ export default createComponent({
     ...useFullscreenEmits,
     'update:modelValue',
     'keydown', 'click', 'mouseup', 'keyup', 'touchend',
-    'focus', 'blur'
+    'focus', 'blur',
+    'dropdown-show',
+    'dropdown-hide',
+    'dropdown-before-show',
+    'dropdown-before-hide'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -233,6 +237,7 @@ export default createComponent({
       $q,
       props,
       slots,
+      emit,
       // caret (will get injected after mount)
       inFullscreen,
       toggleFullscreen,

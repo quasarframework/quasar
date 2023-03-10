@@ -269,6 +269,42 @@
           "desc": "The pure HTML of the content"
         }
       }
+    },
+
+    "dropdown-show": {
+      "desc": "Emitted after a dropdown in the toolbar has triggered show()",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      }
+    },
+
+    "dropdown-before-show": {
+      "desc": "Emitted when a dropdown in the toolbar triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      }
+    },
+
+    "dropdown-hide": {
+      "desc": "Emitted after a dropdown in the toolbar has triggered hide()",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      }
+    },
+
+    "dropdown-before-hide": {
+      "desc": "Emitted when a dropdown in the toolbar triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      }
     }
   },
 
