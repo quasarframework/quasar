@@ -277,7 +277,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "addedIn": "v2.11.8"
     },
 
     "dropdown-before-show": {
@@ -286,7 +287,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "addedIn": "v2.11.8"
     },
 
     "dropdown-hide": {
@@ -295,7 +297,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "addedIn": "v2.11.8"
     },
 
     "dropdown-before-hide": {
@@ -304,7 +307,8 @@
         "evt": {
           "extends": "evt"
         }
-      }
+      },
+      "addedIn": "v2.11.8"
     }
   },
 
