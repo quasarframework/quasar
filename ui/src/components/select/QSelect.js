@@ -1545,7 +1545,8 @@ export default createComponent({
 
         return h('div', {
           class: 'q-field__native row items-center',
-          ...attrs
+          ...attrs,
+          ...state.splitAttrs.listeners.value
         }, child)
       },
 
