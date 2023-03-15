@@ -77,10 +77,10 @@ export default createComponent({
     'update:modelValue',
     'keydown', 'click', 'mouseup', 'keyup', 'touchend',
     'focus', 'blur',
-    'dropdown-show',
-    'dropdown-hide',
-    'dropdown-before-show',
-    'dropdown-before-hide'
+    'dropdownShow',
+    'dropdownHide',
+    'dropdownBeforeShow',
+    'dropdownBeforeHide'
   ],
 
   setup (props, { slots, emit, attrs }) {
