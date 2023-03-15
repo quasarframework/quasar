@@ -150,17 +150,17 @@ function getDropdown (eVm, btn) {
   const highlight = btn.highlight && label !== btn.label
   const Dropdown = h(QBtnDropdown, {
     ...eVm.buttonProps.value,
-    onShow: (evt) => eVm.emit('dropdown-show', evt),
-    onHide: (evt) => eVm.emit('dropdown-hide', evt),
-    onBeforeShow: (evt) => eVm.emit('dropdown-before-show', evt),
-    onBeforeHide: (evt) => eVm.emit('dropdown-before-hide', evt),
     noCaps: true,
     noWrap: true,
     color: highlight ? eVm.props.toolbarToggleColor : eVm.props.toolbarColor,
     textColor: highlight && !eVm.props.toolbarPush ? null : eVm.props.toolbarTextColor,
     label: btn.fixedLabel ? btn.label : label,
     icon: btn.fixedIcon ? (btn.icon !== null ? btn.icon : void 0) : icon,
-    contentClass
+    contentClass,
+    onShow: evt => eVm.emit('dropdown-show', evt),
+    onHide: evt => eVm.emit('dropdown-hide', evt),
+    onBeforeShow: evt => eVm.emit('dropdown-before-show', evt),
+    onBeforeHide: evt => eVm.emit('dropdown-before-hide', evt)
   }, () => Items)
 
   return Dropdown
