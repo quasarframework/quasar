@@ -157,10 +157,10 @@ function getDropdown (eVm, btn) {
     label: btn.fixedLabel ? btn.label : label,
     icon: btn.fixedIcon ? (btn.icon !== null ? btn.icon : void 0) : icon,
     contentClass,
-    onShow: evt => eVm.emit('dropdown-show', evt),
-    onHide: evt => eVm.emit('dropdown-hide', evt),
-    onBeforeShow: evt => eVm.emit('dropdown-before-show', evt),
-    onBeforeHide: evt => eVm.emit('dropdown-before-hide', evt)
+    onShow: evt => eVm.emit('dropdownShow', evt),
+    onHide: evt => eVm.emit('dropdownHide', evt),
+    onBeforeShow: evt => eVm.emit('dropdownBeforeShow', evt),
+    onBeforeHide: evt => eVm.emit('dropdownBeforeHide', evt)
   }, () => Items)
 
   return Dropdown
