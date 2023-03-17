@@ -407,7 +407,10 @@ export default createComponent({
       hasValue,
 
       floatingLabel: computed(() =>
-        hasValue.value === true
+        (
+          hasValue.value === true
+          && (props.type !== 'number' || isNaN(innerValue.value) === false)
+        )
         || fieldValueIsFilled(props.displayValue)
       ),
 

@@ -133,8 +133,14 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
     &:-webkit-autofill + .q-field__label
       transform: translateY(-40%) scale(.75)
-    &[type="number"]:invalid + .q-field__label
-      transform: translateY(-40%) scale(.75)
+    &[type="color"],
+    &[type="date"],
+    &[type="datetime-local"],
+    &[type="month"],
+    &[type="time"],
+    &[type="week"]
+      + .q-field__label
+        transform: translateY(-40%) scale(.75)
 
     &:invalid
       box-shadow: none
@@ -438,8 +444,14 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     .q-field__native, .q-field__input
       &:-webkit-autofill + .q-field__label
         transform: translateY(-30%) scale(.75)
-      &[type="number"]:invalid + .q-field__label
-        transform: translateY(-30%) scale(.75)
+      &[type="color"],
+      &[type="date"],
+      &[type="datetime-local"],
+      &[type="month"],
+      &[type="time"],
+      &[type="week"]
+        + .q-field__label
+          transform: translateY(-30%) scale(.75)
 
   &--borderless, &--standard
 
