@@ -288,7 +288,6 @@ You will need to manually yarn/npm install the `serverless-http` package.
 // src-ssr/server.[js|ts]
 
 import serverless from 'serverless-http'
-import { ssrProductionExport } from 'quasar/wrappers'
 
 export async function listen (({ app, port, ssrHandler }) => {
   if (process.env.DEV) {
