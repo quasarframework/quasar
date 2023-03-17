@@ -122,7 +122,11 @@ export default Vue.extend({
         this.focused === true ||
         typeof this.inputValue === 'number' ||
         (typeof this.inputValue === 'string' && this.inputValue.length > 0) ||
-        (this.hideSelected !== true && this.hasValue === true) ||
+        (
+          this.hideSelected !== true &&
+          this.hasValue === true &&
+          (this.type !== 'number' || isNaN(this.value) === false)
+        ) ||
         (
           this.displayValue !== void 0 &&
           this.displayValue !== null &&
