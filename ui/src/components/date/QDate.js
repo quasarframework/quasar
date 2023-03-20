@@ -53,6 +53,10 @@ export default createComponent({
 
     events: [ Array, Function ],
     eventColor: [ String, Function ],
+    highlightAll: {
+      type: Boolean,
+      default: false
+    },
 
     emitImmediately: Boolean,
 
@@ -1234,7 +1238,10 @@ export default createComponent({
                     ? () => h('div', { class: 'q-date__event bg-' + day.event })
                     : null
                 )
-                : h('div', '' + day.i)
+                : h('div', {}, '' + day.i, [ props.highlightAll && day.event
+                  ? h('div', { class: ('q-date__event bg-' + day.event) }) : null
+                ])
+
             ]))))
           ])
         ])

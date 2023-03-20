@@ -132,6 +132,16 @@
           :event-color="eventColor"
           :style="style"
         />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :events="eventFn"
+          :highlight-all="true"
+          :options="[`2018/11/06`]"
+          :event-color="eventColor"
+          :style="style"
+        />
       </div>
 
       <div class="text-h6">
