@@ -21,6 +21,8 @@ For example, here are two grid layouts that apply to every device and viewport, 
 ## Setting one row height
 Auto-layout for flexbox grid rows also means you can set the height of one row and the others will automatically resize around it. You may use predefined grid classes (as shown below) or inline heights. Note that the other rows will resize no matter the height of the center row.
 
+::: warning When using column type flex you must define a height for the container. The height must be large enough to hold the longest column. :::
+
 <doc-example title="Setting one row height" file="grid/ColumnRowWidth" />
 
 ## Variable height content
