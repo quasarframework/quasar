@@ -369,8 +369,7 @@ export default {
     },
 
     __moveCursorLeftReverse (inp, cursor) {
-      const
-        maskMarked = this.__getPaddedMaskMarked(inp.value.length)
+      const maskMarked = this.__getPaddedMaskMarked(inp.value.length)
       let i = Math.max(0, cursor - 1)
 
       for (; i >= 0; i--) {
@@ -467,6 +466,7 @@ export default {
         start === end
       ) {
         this.__moveCursorLeft(inp, start)
+        inp.setSelectionRange(inp.selectionStart, end, 'backward')
       }
       else if (
         e.keyCode === 46 && // Delete
@@ -474,6 +474,7 @@ export default {
         start === end
       ) {
         this.__moveCursorRightReverse(inp, end)
+        inp.setSelectionRange(start, inp.selectionEnd, 'forward')
       }
 
       this.$emit('keydown', e)
