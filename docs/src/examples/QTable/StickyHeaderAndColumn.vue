@@ -207,4 +207,9 @@ export default {
   td:first-child, th:first-child
     position: sticky
     left: 0
+
+  /* prevent scrolling behind sticky top row on focus */
+  tbody
+    /* height of all previous header rows */
+    scroll-margin-top: 48px
 </style>

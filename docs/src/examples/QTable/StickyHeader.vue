@@ -191,4 +191,9 @@ export default {
   &.q-table--loading thead tr:last-child th
     /* height of all previous header rows */
     top: 48px
+
+  /* prevent scrolling behind sticky top row on focus */
+  tbody
+    /* height of all previous header rows */
+    scroll-margin-top: 48px
 </style>
