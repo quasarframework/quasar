@@ -464,6 +464,7 @@ export default function (props, emit, emitValue, inputRef) {
       && start === end
     ) {
       moveCursor.left(inp, start)
+      inp.setSelectionRange(inp.selectionStart, end, 'backward')
     }
     else if (
       e.keyCode === 46 // Delete
@@ -471,6 +472,7 @@ export default function (props, emit, emitValue, inputRef) {
       && start === end
     ) {
       moveCursor.rightReverse(inp, end)
+      inp.setSelectionRange(start, inp.selectionEnd, 'forward')
     }
   }
 
