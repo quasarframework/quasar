@@ -29,6 +29,7 @@
     "lint": "eslint --ext .js,.ts ./ --fix"
   },
   "dependencies": {
+    "@types/lodash.merge": "^4.6.7",
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.0.1",
     "kolorist": "^1.5.1",

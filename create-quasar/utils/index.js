@@ -1,9 +1,10 @@
 
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
-const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
+const { emptyDirSync, ensureDirSync, ensureFileSync, copySync, readJsonSync, writeJsonSync } = require('fs-extra')
 const prompts = require('prompts')
 const compileTemplate = require('lodash/template')
+const merge = require('lodash/merge')
 const fglob = require('fast-glob')
 const { yellow, green } = require('kolorist')
 const exec = require('child_process').execSync
@@ -215,6 +216,36 @@ module.exports.ensureOutsideProject = function () {
     }
 
     dir = normalize(join(dir, '..'))
+  }
+}
+
+module.exports.extendJsonFile = function (filePath, newData) {
+  if (Object.keys(newData).length > 0) {
+    try {
+      logger.log('filepath type')
+      logger.log(typeof(filePath))
+      logger.log('filepath')
+      logger.log(JSON.stringify(filePath, null, 4))
+      const fileData = existsSync(filePath)
+        ? 
+        (readJsonSync(filePath))
+        : {};
+
+      const data = merge({}, fileData, newData);
+
+      writeJsonSync(filePath, data, { spaces: 2 });
+    } catch (e) {
+      logger.warn(e);
+      logger.warn(
+        `extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`
+      );
+      logger.warn(
+        `extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(
+          newData
+        )}`
+      );
+      logger.warn();
+    }
   }
 }
 
