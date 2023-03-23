@@ -101,6 +101,12 @@ async function run () {
         process.exit(0)
       }
     })
+
+    await utils.extendJsonFile(scope.projectFolder + '/package.json', {
+      scripts: {
+        serve: "quasar serve",
+      },
+    });
     
     if (scope.packageManager !== false) {
       try {
