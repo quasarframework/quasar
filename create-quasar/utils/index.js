@@ -219,36 +219,6 @@ module.exports.ensureOutsideProject = function () {
   }
 }
 
-module.exports.extendJsonFile = function (filePath, newData) {
-  if (Object.keys(newData).length > 0) {
-    try {
-      logger.log('filepath type')
-      logger.log(typeof(filePath))
-      logger.log('filepath')
-      logger.log(JSON.stringify(filePath, null, 4))
-      const fileData = existsSync(filePath)
-        ? 
-        (readJsonSync(filePath))
-        : {};
-
-      const data = merge({}, fileData, newData);
-
-      writeJsonSync(filePath, data, { spaces: 2 });
-    } catch (e) {
-      logger.warn(e);
-      logger.warn(
-        `extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`
-      );
-      logger.warn(
-        `extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(
-          newData
-        )}`
-      );
-      logger.warn();
-    }
-  }
-}
-
 const QUASAR_VERSIONS = [
   { title: 'Quasar v2 (Vue 3 | latest and greatest)', value: 'v2', description: 'recommended' },
   { title: 'Quasar v1 (Vue 2)', value: 'v1' }

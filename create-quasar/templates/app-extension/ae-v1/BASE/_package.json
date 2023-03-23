@@ -7,7 +7,9 @@
   "license": "<%= license %>",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "repository": {
     "type": "<%= repositoryType %>",

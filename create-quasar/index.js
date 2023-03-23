@@ -102,12 +102,6 @@ async function run () {
       }
     })
 
-    utils.extendJsonFile(scope.projectFolder + '/package.json', {
-      scripts: {
-        dev: "quasar dev",
-        build: "quasar build",
-      },
-    });
     
     if (scope.packageManager !== false) {
       try {

@@ -9,7 +9,9 @@
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",
     <% if (lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,vue<% if (css !== 'sass') { %>,<%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
     <% } %>
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>

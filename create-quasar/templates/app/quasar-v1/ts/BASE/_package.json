@@ -7,7 +7,9 @@
   "private": true,
   "scripts": {
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.ts,.vue ./",<% } %>
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     <% if (typescriptConfig === 'class') { %>
