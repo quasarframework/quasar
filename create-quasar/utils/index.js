@@ -231,9 +231,13 @@ async function getShellResponse(command) {
 
 module.exports.extendJsonFile = async function (filePath, newData) {
   if (Object.keys(newData).length > 0) {
-    const localResponse = await getShellResponse('npm list --depth=0 | grep @quasar/cli')
-    const globalResponse = await getShellResponse('npm list -g --depth=0 | grep @quasar/cli')
-    if (globalResponse || localResponse) {
+    const localNpmResponse = await getShellResponse('npm list --depth=0 | grep @quasar/cli')
+    const localPnpmResponse = await getShellResponse('pnpm list --depth=0 | grep @quasar/cli')
+    const localYarnResponse = await getShellResponse('yarn list --depth=0 | grep @quasar/cli')
+    const globalPnpmResponse = await getShellResponse('pnpm -g list --depth=0 | grep @quasar/cli')
+    const globalYarnResponse = await getShellResponse('yarn global list --depth=0 | grep @quasar/cli')
+    const globalNpmResponse = await getShellResponse('npm list -g --depth=0 | grep @quasar/cli')
+    if (globalNpmResponse || globalYarnResponse || globalPnpmResponse || localYarnResponse || localPnpmResponse || localNpmResponse) {
       try {          
         const fileData = existsSync(filePath)
         ? 
