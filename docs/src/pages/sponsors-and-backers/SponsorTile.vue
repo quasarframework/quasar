@@ -9,8 +9,7 @@
 
 <script setup>
 import { computed } from 'vue'
-
-import { useDocStore } from 'src/layouts/doc-layout/store'
+import { Dark } from 'quasar'
 
 const props = defineProps({
   src: String,
@@ -18,8 +17,7 @@ const props = defineProps({
   href: String
 })
 
-const docStore = useDocStore()
-const logoUrl = computed(() => `https://cdn.quasar.dev/logo-sponsors-v2/${ docStore.state.value.dark ? 'dark' : 'light' }/${ props.src }`)
+const logoUrl = computed(() => `https://cdn.quasar.dev/logo-sponsors-v2/${ Dark.isActive ? 'dark' : 'light' }/${ props.src }`)
 </script>
 
 <style lang="sass">
