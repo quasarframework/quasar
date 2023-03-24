@@ -32,8 +32,8 @@ useMeta({ title: 'Page not found' })
     font-size: 150px
 
     img
-      width: 1em
-      height: 1em
+      width: 130px
+      height: 130px
       animation: err-logo-rotate 80s linear infinite
 
 body.body--light .page404__logo-dark
