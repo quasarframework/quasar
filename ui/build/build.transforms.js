@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
 const { writeFile, kebabCase } = require('./build.utils')
 
-const sourceFileSuffixRE = /\.spec\.js$/
+const sourceFileSuffixRE = /__tests__/
 
 function relative (name) {
   return path.relative(root, name).split('\\').join('/')
