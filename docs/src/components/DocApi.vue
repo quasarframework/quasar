@@ -310,7 +310,6 @@ process.env.CLIENT && onMounted(() => {
     padding: 8px 0
 
   &__subtabs-item
-    font-size: ($font-size - 1px)
     justify-content: left
     min-height: 36px !important
     .q-tab__content
@@ -325,7 +324,6 @@ process.env.CLIENT && onMounted(() => {
 
   &__nothing-to-show
     padding: 16px
-    font-size: ($font-size - 1px)
 
   &__search-field
     cursor: text
@@ -367,11 +365,10 @@ process.env.CLIENT && onMounted(() => {
       margin-top: 8px
 
   &__type
-    font-size: ($font-size - 1px)
     line-height: ($font-size + 8px)
 
   &__value
-    color: #000
+    color: $light-text
 
   &--indent
     padding-left: 8px
@@ -380,10 +377,15 @@ process.env.CLIENT && onMounted(() => {
     margin: 4px
     display: inline-block
 
+  &__added-in,
   &__pill
+    font-size: ($font-size - 1px)
     font-weight: 600
     letter-spacing: $letter-spacing-brand
     line-height: 1.4em
+
+  &__added-in
+    font-size: ($font-size - 4px)
 
 body.body--light
   .doc-api .doc-token

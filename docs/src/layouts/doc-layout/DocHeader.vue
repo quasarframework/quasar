@@ -1,5 +1,5 @@
 <template>
-  <q-header class="doc-header header-toolbar" bordered :height-hint="128">
+  <q-header class="doc-header header-toolbar doc-marketing" bordered :height-hint="128">
     <q-toolbar class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch">
       <router-link to="/" class="doc-header__logo row items-center no-wrap cursor-pointer">
         <img
@@ -51,11 +51,12 @@
         <doc-header-text-links
           :menu="secondaryToolbarLinks"
           nav-class="text-size-12 letter-spacing-225"
+          nav-class="text-size-14 letter-spacing-100"
           mq-prefix="gt"
         />
         <doc-header-text-links
           :menu="moreLinks"
-          nav-class="text-size-12 letter-spacing-225 lt-1400"
+          nav-class="text-size-14 letter-spacing-100 lt-1400"
           mq-prefix="lt"
         />
       </div>
@@ -67,7 +68,7 @@
 
       <doc-header-text-links
         :menu="versionLinks"
-        nav-class="text-size-12 letter-spacing-225 doc-header__version q-ml-md"
+        nav-class="text-size-14 letter-spacing-100 doc-header__version q-ml-md"
       />
 
       <div v-if="hasToc" class="doc-header-icon-links q-ml-sm lt-md row no-wrap items-center">
@@ -172,7 +173,9 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 .doc-header-menu
   letter-spacing: $letter-spacing-brand
   border: 1px solid $separator-color
-  font-size: ($font-size - 1px)
+  font-size: ($font-size - 2px)
+  box-shadow: none !important
+  background-color: #fff
 
   .q-item__label--header
     color: $brand-accent
@@ -195,7 +198,6 @@ body.body--dark
   .doc-header-menu
     background: $dark-bg
     border-color: $separator-dark-color
-    box-shadow: none !important
 
   .doc-header
     &__version

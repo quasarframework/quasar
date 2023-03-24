@@ -1,12 +1,12 @@
 <template>
-  <div class="page-docs column justify-center text-center">
+  <div class="page-docs column justify-center text-center doc-marketing">
     <div class="heading heading--large normal-line-height">Welcome to Quasar docs</div>
     <div class="letter-spacing-300 text-size-16 text-weight-bold q-mb-md">
       Here you can find everything you need to start working with Quasar.
     </div>
 
-    <div class="row justify-center">
-      <div class="page-docs__text letter-spacing-40 text-size-16">
+    <div class="row justify-center items-center">
+      <div class="page-docs__text letter-spacing-40 text-size-16 q-ma-md">
         In the top navigation bar there is a search function that helps you find
         what you need and also many other pages that you can explore, like beginner
         resources and other cool content about the Quasar galaxy. Don't forget to check
@@ -18,7 +18,7 @@
         >become a sponsor</a>!
       </div>
 
-      <div class="page-docs__text q-my-md letter-spacing-40 text-size-16">
+      <div class="page-docs__text q-ma-md letter-spacing-40 text-size-16">
         If you are an experienced explorer get right into
         action: use the navigation drawer on the left to navigate through our most important
         technical resources.

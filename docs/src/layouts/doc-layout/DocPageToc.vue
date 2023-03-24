@@ -1,5 +1,5 @@
 <template>
-  <q-list class="doc-page-toc">
+  <q-list class="doc-page__toc">
     <q-item
       v-for="tocItem in docStore.state.value.toc"
       :key="tocItem.id"

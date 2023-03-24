@@ -1,5 +1,5 @@
 <template>
-  <div class="landing-page q-px-lg">
+  <div class="landing-page q-px-lg doc-marketing">
     <doc-stars />
 
     <div>

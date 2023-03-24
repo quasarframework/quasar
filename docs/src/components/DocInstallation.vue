@@ -5,7 +5,9 @@
     </div>
 
     <q-tabs class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
-      <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" :label="tab" class="header-btn" no-caps />
+      <q-tab v-for="tab in tabList" :key="`installation-${tab}`" :name="tab" class="header-btn" no-caps>
+        {{ tab }}
+      </q-tab>
     </q-tabs>
 
     <q-separator />

@@ -27,7 +27,9 @@
     <q-slide-transition>
       <div v-show="expanded">
         <q-tabs class="header-tabs" v-model="currentTab" align="left" no-caps active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0">
-          <q-tab v-for="tab in def.tabs" :key="`tab-${tab}`" :name="tab" :label="tab" class="header-btn" />
+          <q-tab v-for="tab in def.tabs" :key="`tab-${tab}`" :name="tab" class="header-btn">
+            {{ tab }}
+          </q-tab>
         </q-tabs>
 
         <q-separator />

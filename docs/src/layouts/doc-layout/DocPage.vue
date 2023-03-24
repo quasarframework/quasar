@@ -194,6 +194,8 @@ const tocClass = computed(() =>
       color: $brand-primary !important
 
   &__nav
+    color: $brand-primary
+
     &--footer
       margin: 68px 0 0
       margin-bottom: 0 !important
@@ -209,24 +211,22 @@ const tocClass = computed(() =>
       letter-spacing: $letter-spacing-brand
 
 body.body--light .doc-page
-  &__nav
-    color: $brand-primary
   &__related
-    color: $dark
+    color: $header-btn-color--light
     background: $void-suit
-    border: 1px solid $separator-color
+    border: 1px solid $void-suit // match dark to avoid page reflow
+
   &__toc-container .q-item
     color: $header-btn-color--light
     &:hover
       color: $header-btn-hover-color--light
 
 body.body--dark .doc-page
-  &__nav
-    color: $brand-primary
   &__related
     color: $dark-text
     background: $dark-pill
     border: 1px solid $brand-primary
+
   &__toc-container .q-item
     color: $header-btn-color--dark
     &:not(.disabled):hover

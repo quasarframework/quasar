@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-page-footer">
+  <div class="doc-page-footer doc-marketing">
     <template v-if="fullscreen">
       <nav class="doc-page-footer__nav" v-once>
         <q-list v-for="entry in links" :key="entry.name">

@@ -20,16 +20,21 @@
 .normal-line-height
   line-height: normal
 
-.doc-typography
-  font-family: $font-family
-  font-weight: $font-weight
+.doc-technical
+  font-family: $font-family-technical
+  font-weight: $font-weight-technical
   font-size: $font-size
   color: $light-text
   background-color: $light-bg
   text-rendering: optimizeLegibility
   -webkit-font-smoothing: auto
 
-// resets .doc-typography above to Quasar original
+.doc-marketing,
+.doc-header-menu
+  font-family: $font-family-marketing
+  font-weight: $font-weight-marketing
+
+// resets .doc-technical above to Quasar original
 .doc-example-typography
   font-size: 14px
 
@@ -119,36 +124,36 @@ ul
       opacity: 1
 
 .doc-h1
-  font-size: 2.4rem
+  font-size: 2.4em
   font-weight: 700
   margin: 0 0 1em !important
 
 .doc-h2
-  font-size: 1.8rem
+  font-size: 1.8em
   font-weight: 600
   padding-bottom: 8px !important
   border-bottom: 1px solid $separator-color
 
 .doc-h3
-  font-size: 1.6rem
+  font-size: 1.6em
   font-weight: 500
 
 .doc-h4
-  font-size: 1.4rem
+  font-size: 1.4em
   font-weight: 500
   &:before
     content: '» '
     vertical-align: text-top
 
 .doc-h5
-  font-size: 1rem
+  font-size: 1em
   font-weight: 500
   &:before
     content: '»» '
     vertical-align: text-top
 
 .doc-h6
-  font-size: 1rem
+  font-size: 1em
   font-weight: 400
   &:before
     content: '»»» '
@@ -156,15 +161,15 @@ ul
 
 @media (max-width: 850px)
   .doc-h1
-    font-size: 1.7rem
+    font-size: 1.7em
   .doc-h2
-    font-size: 1.4rem
+    font-size: 1.4em
   .doc-h3
-    font-size: 1.3rem
+    font-size: 1.3em
   .doc-h4
-    font-size: 1.2rem
+    font-size: 1.2em
   .doc-h5
-    font-size: 1.1rem
+    font-size: 1.1em
 
 .doc-h1,
 .doc-h2,
@@ -172,11 +177,15 @@ ul
 .doc-h4,
 .doc-h5,
 .doc-h6
+  display: flex
+  align-items: center
   word-break: break-word
   letter-spacing: $letter-spacing-brand
   padding: 0
   line-height: 1.1em
-  margin: 1.7em 0 1em
+  margin: 2.5em 0 1em
+  > *
+    margin: 0 8px
 
 .doc-img
   max-width: 100%
@@ -298,7 +307,7 @@ body.q-scroll--lock .q-page
 .landing-mx--large
   margin-left: 64px
   margin-right: 64px
-  @media screen and (min-width: $breakpoint-sm-min)
+  @media (min-width: $breakpoint-sm-min)
     margin-left: 100px
     margin-right: 100px
 
@@ -390,7 +399,7 @@ $letter-spacing-list: 40, 100, 225, 263, 300, 375, 450
     letter-spacing: ($letter-spacing/100) + px !important
 
 body.body--dark
-  .doc-typography
+  .doc-technical
     color: $dark-text
     background: #080E1A
 
