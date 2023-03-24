@@ -380,7 +380,6 @@ process.env.CLIENT && onMounted(() => {
   &__added-in,
   &__pill
     font-size: ($font-size - 1px)
-    font-weight: 600
     letter-spacing: $letter-spacing-brand
     line-height: 1.4em
 
