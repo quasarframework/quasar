@@ -9,7 +9,8 @@
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.ts,.vue ./",<% } %>
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build"
+    "build": "quasar build",
+    "serve": "quasar serve dist/spa"
   },
   "dependencies": {
     <% if (typescriptConfig === 'class') { %>

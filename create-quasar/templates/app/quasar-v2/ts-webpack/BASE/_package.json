@@ -11,7 +11,8 @@
     <% } %>
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
-    "build": "quasar build"
+    "build": "quasar build",
+    "serve": "quasar serve dist/spa"
   },
   "dependencies": {
     <% if (typescriptConfig === 'class') { %>"vue-class-component": "^8.0.0-rc.1",<% } %>

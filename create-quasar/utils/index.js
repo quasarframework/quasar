@@ -229,37 +229,24 @@ async function getShellResponse(command) {
   }
 }
 
-module.exports.extendJsonFile = async function (filePath, newData) {
-  if (Object.keys(newData).length > 0) {
-    const localNpmResponse = await getShellResponse('npm list --depth=0 | grep @quasar/cli')
-    const localPnpmResponse = await getShellResponse('pnpm list --depth=0 | grep @quasar/cli')
-    const localYarnResponse = await getShellResponse('yarn list --depth=0 | grep @quasar/cli')
-    const globalPnpmResponse = await getShellResponse('pnpm -g list --depth=0 | grep @quasar/cli')
-    const globalYarnResponse = await getShellResponse('yarn global list --depth=0 | grep @quasar/cli')
-    const globalNpmResponse = await getShellResponse('npm list -g --depth=0 | grep @quasar/cli')
-    if (globalNpmResponse || globalYarnResponse || globalPnpmResponse || localYarnResponse || localPnpmResponse || localNpmResponse) {
-      try {          
-        const fileData = existsSync(filePath)
-        ? 
-        (readJsonSync(filePath))
-        : {};
-        
-        const data = merge({}, fileData, newData);
-        
-        writeJsonSync(filePath, data, { spaces: 2 });
-      } catch (e) {
-        logger.warn(e);
-        logger.warn(
-          `extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`
-          );
-          logger.warn(
-            `extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(
-              newData
-              )}`
-              );
-              logger.warn();
-        }
-    }
+module.exports.checkServeScript = async function (filePath) {
+  const linuxResponse = await getShellResponse('which quasar')
+  const windowsResponse = await getShellResponse('where quasar')
+  if (!(linuxResponse || windowsResponse)) {
+    try {          
+      const fileData = existsSync(filePath)
+      ? 
+      (readJsonSync(filePath))
+      : {};
+      logger.log("I'm here *****************")
+      logger.log(fileData)
+      logger.log(JSON.stringify(fileData))
+
+      delete fileData.scripts["serve"]
+      writeJsonSync(filePath, fileData, { spaces: 2 });
+    } catch (e) {
+      logger.warn(e);
+      }
   }
 }
 
