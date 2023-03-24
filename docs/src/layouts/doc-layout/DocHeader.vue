@@ -71,7 +71,7 @@
 
       <doc-header-text-links
         :menu="versionLinks"
-        nav-class="text-size-14 letter-spacing-100 doc-header__version q-ml-md"
+        nav-class="text-size-14 letter-spacing-100 doc-header__version q-ml-sm"
       />
 
       <div v-if="hasToc" class="doc-header-icon-links q-ml-sm lt-md row no-wrap items-center">
@@ -184,9 +184,12 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 .doc-header-menu
   letter-spacing: $letter-spacing-brand
   border: 1px solid $separator-color
-  font-size: ($font-size - 2px)
+  font-size: ($font-size - 4px)
   box-shadow: none !important
   background-color: #fff
+
+  .q-item
+    height: 36px
 
   .q-item__label--header
     color: $brand-accent
