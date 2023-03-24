@@ -199,9 +199,6 @@ function onSearchFieldClick () {
     height: 170px
     background-color: $floating-rock
 
-  &__card-description
-    font-size: $font-size
-
 .page-all-transition
   &-move,
   &-enter-active,

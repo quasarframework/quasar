@@ -5,7 +5,7 @@
       Here you can find everything you need to start working with Quasar.
     </div>
 
-    <div class="row items-center">
+    <div class="row">
       <div class="col-12 col-md text-center page-docs__text letter-spacing-40 text-size-16 q-ma-md">
         In the top navigation bar there is a search function that helps you find
         what you need and also many other pages that you can explore, like beginner

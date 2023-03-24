@@ -32,7 +32,7 @@
         :to="entry.path"
       >
         <q-card
-          class="page-integrations__card column justify-center items-center cursor-pointer"
+          class="page-integrations__card column justify-center items-center no-wrap cursor-pointer"
         >
           <q-icon
             :name="entry.icon"
