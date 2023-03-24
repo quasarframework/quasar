@@ -3,10 +3,12 @@
     <q-editor
       v-model="qeditor"
       :dense="$q.screen.lt.md"
-      @dropdown-before-show="beforeShow"
-      @dropdown-before-hide="beforeHide"
-      @dropdown-hide="hide"
-      @dropdown-show="show"
+      @dropdown-before-show="dropdownBeforeShow"
+      @dropdown-before-hide="dropdownBeforeHide"
+      @dropdown-hide="dropdownHide"
+      @dropdown-show="dropdownShow"
+      @link-show="linkShow"
+      @link-hide="linkHide"
       :toolbar="[
         [
           {
@@ -103,17 +105,23 @@ export default {
     }
   },
   methods: {
-    beforeShow (evt) {
-      console.log('beforeShow', evt)
+    dropdownBeforeShow (evt) {
+      console.log('dropdownBeforeShow', evt)
     },
-    beforeHide (evt) {
-      console.log('beforeHide', evt)
+    dropdownBeforeHide (evt) {
+      console.log('dropdownBeforeHide', evt)
     },
-    show (evt) {
-      console.log('show', evt)
+    dropdownShow (evt) {
+      console.log('dropdownShow', evt)
     },
-    hide (evt) {
-      console.log('hide', evt)
+    dropdownHide (evt) {
+      console.log('dropdownHide', evt)
+    },
+    linkShow () {
+      console.log('linkShow')
+    },
+    linkHide () {
+      console.log('linkHide')
     }
   }
 }

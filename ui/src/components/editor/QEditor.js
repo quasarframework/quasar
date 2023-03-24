@@ -80,7 +80,9 @@ export default createComponent({
     'dropdownShow',
     'dropdownHide',
     'dropdownBeforeShow',
-    'dropdownBeforeHide'
+    'dropdownBeforeHide',
+    'linkShow',
+    'linkHide'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -256,6 +258,10 @@ export default createComponent({
         lastEmit = v
         setContent(v, true)
       }
+    })
+
+    watch(editLinkUrl, v => {
+      emit(`link-${ v ? 'Show' : 'Hide' }`)
     })
 
     const hasToolbar = computed(() => props.toolbar && props.toolbar.length > 0)
