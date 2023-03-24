@@ -13,7 +13,7 @@ desc: Quasar's active projects, goals and maintainers.
 | Quasar ESLint plugin | Plugin for ESLint with Quasar upgrade support warnings  | Jeff | [repo](https://github.com/quasarframework/eslint-plugin-quasar)|
 | Typescript support | Full Typescript support for Quasar | Paolo, Kerry | [repo](https://github.com/quasarframework/app-extension-typescript) |
 | Quasar Testing AE | Maintenance and enhancements | Paolo | [repo](https://github.com/quasarframework/quasar-testing) |
-| Apollo Client AE | Creator and maintainer | Scott | |
+| Apollo Client AE | Creator and maintainer | Scott | [repo](https://github.com/quasarframework/app-extension-apollo) |
 
 ## List of Projects Where New Maintainer is Needed
 These projects are an inevitable part of the Quasar framework, but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
