@@ -142,14 +142,12 @@ const tocClass = computed(() =>
 .doc-page
   &__content
     padding: 80px 42px
+    line-height: 30px
 
     @media (max-width: 1300px)
       padding: 32px
     @media (max-width: 850px)
       padding: 32px 16px
-
-    > p
-      line-height: 28px
 
     > .q-btn
       background: $brand-accent
@@ -172,7 +170,6 @@ const tocClass = computed(() =>
     &--fixed
       .doc-page__toc
         padding: 32px 16px 32px 0 // page top padding
-    // &--flow // just leave it as-is
 
   &__toc-container
     min-width: 300px !important
@@ -195,6 +192,7 @@ const tocClass = computed(() =>
   &__related
     transition: color $header-transition
     word-break: break-word
+    line-height: 1.4em
     &:hover
       color: $brand-primary !important
 
@@ -217,7 +215,7 @@ const tocClass = computed(() =>
 
 body.body--light .doc-page
   &__related
-    color: $header-btn-color--light
+    color: $light-text
     background: $void-suit
     border: 1px solid $void-suit // match dark to avoid page reflow
 
