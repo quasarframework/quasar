@@ -10,26 +10,16 @@
 <script setup>
 import { computed } from 'vue'
 
+import { useDocStore } from 'src/layouts/doc-layout/store'
+
 const props = defineProps({
-  src: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  href: {
-    type: String,
-    default: undefined
-  },
-  cdn: {
-    type: Boolean,
-    default: true
-  }
+  src: String,
+  name: String,
+  href: String
 })
 
-const logoUrl = computed(() => `${ props.cdn ? 'https://cdn.quasar.dev/sponsors/' : 'https://cdn.quasar.dev/img/sponsor-logos' }/${ props.src }`)
+const docStore = useDocStore()
+const logoUrl = computed(() => `https://cdn.quasar.dev/logo-sponsors-v2/${ docStore.state.value.dark ? 'dark' : 'light' }/${ props.src }`)
 </script>
 
 <style lang="sass">

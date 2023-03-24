@@ -6,12 +6,11 @@
           <div class="q-my-md text-capitalize text-size-16 text-weight-bold">{{tierName}} Sponsors</div>
           <div class="row justify-center logos-container">
             <sponsor-tile
-              v-for="({src, name, href, cdn}, sponsorIndex) in tierSponsors"
+              v-for="({src, name, href}, sponsorIndex) in tierSponsors"
               :key="`${tierName}-${sponsorIndex}`"
               :src="src"
               :name="name"
               :href="href"
-              :cdn="cdn || false"
             />
           </div>
         </template>

@@ -30,12 +30,11 @@
           Our Platinum sponsors
         </div>
         <sponsor-tile
-          v-for="({src, name, href, cdn}, platinumSponsorIndex) in sponsors.platinum"
+          v-for="({src, name, href}, platinumSponsorIndex) in sponsors.platinum"
           :key="platinumSponsorIndex"
           :src="src"
           :name="name"
           :href="href"
-          :cdn="cdn || false"
         />
         <q-btn
           flat
