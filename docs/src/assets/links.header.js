@@ -1,6 +1,6 @@
 import { Quasar } from 'quasar'
 
-import { fasCubes } from '@quasar/extras/fontawesome-v5'
+import { fasCubes, fasBolt } from '@quasar/extras/fontawesome-v5'
 
 import {
   mdiBug, mdiClipboardText, mdiCodepen, mdiFlare, mdiFlask, mdiGithub, mdiJsfiddle, mdiPaletteSwatch, mdiPuzzle, mdiShoppingMusic,
@@ -22,12 +22,12 @@ export const versionLinks = [{
     {
       header: 'Older Releases'
     },
-    { name: 'v1 docs', path: 'https://v1.quasar.dev/', external: true },
-    { name: 'v0.17 docs', path: 'https://v0-17.quasar-framework.org/', external: true },
-    { name: 'v0.16 docs', path: 'https://v0-16.quasar-framework.org/', external: true },
-    { name: 'v0.15 docs', path: 'https://v0-15.quasar-framework.org/', external: true },
-    { name: 'v0.14 docs', path: 'https://v0-14.quasar-framework.org/', external: true },
-    { name: 'v0.13 docs', path: 'https://v0-13.quasar-framework.org/', external: true }
+    { name: 'v1', path: 'https://v1.quasar.dev/', external: true },
+    { name: 'v0.17', path: 'https://v0-17.quasar-framework.org/', external: true },
+    { name: 'v0.16', path: 'https://v0-16.quasar-framework.org/', external: true },
+    { name: 'v0.15', path: 'https://v0-15.quasar-framework.org/', external: true },
+    { name: 'v0.14', path: 'https://v0-14.quasar-framework.org/', external: true },
+    { name: 'v0.13', path: 'https://v0-13.quasar-framework.org/', external: true }
   ]
 }]
 
@@ -77,6 +77,8 @@ const tools = {
     },
     { name: 'Codepen', icon: mdiCodepen, path: 'https://codepen.quasar.dev', external: true },
     { name: 'jsFiddle', icon: mdiJsfiddle, path: 'https://jsfiddle.quasar.dev', external: true },
+    { name: 'Stackblitz (Vite)', icon: fasBolt, path: 'https://stackblitz.quasar.dev', external: true },
+    { name: 'Stackblitz (Webpack)', icon: fasBolt, path: 'https://stackblitz-webpack.quasar.dev', external: true },
     { name: 'Codesandbox', icon: fasCubes, path: 'https://codesandbox.quasar.dev', external: true }
   ]
 }
