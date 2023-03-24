@@ -1,14 +1,16 @@
 <template>
-  <q-layout class="doc-layout doc-typography" view="hHh LpR fff" @scroll="docStore.onPageScroll">
+  <q-layout class="doc-layout doc-technical" view="hHh LpR fff" @scroll="docStore.onPageScroll">
     <doc-header />
 
     <q-page-container>
       <q-page :class="pageClass" key="q-page">
         <router-view v-if="isFullscreen" key="page-fullscreen" />
         <div v-else :class="pageContentClass" key="page-standard">
-          <q-scroll-area class="doc-layout__menu q-ml-md">
-            <doc-page-menu />
-          </q-scroll-area>
+          <div class="doc-layout__menu-container row justify-center">
+            <q-scroll-area class="doc-layout__menu q-ml-md">
+              <doc-page-menu />
+            </q-scroll-area>
+          </div>
           <router-view />
         </div>
 
@@ -45,7 +47,7 @@ const docStore = provideDocStore()
 const isFullscreen = computed(() => docStore.$route.meta.fullscreen === true)
 const pageClass = computed(() => `doc-layout__page-el--${ isFullscreen.value === true ? 'fullscreen' : 'standard' }`)
 const pageContentClass = computed(() =>
-  'doc-layout__page row no-wrap ' +
+  'doc-layout__page row no-wrap justify-start ' +
   `doc-layout__page--${ docStore.$route.meta.fullwidth === true ? 'fullwidth' : 'standard' }`
 )
 </script>
@@ -61,31 +63,43 @@ const pageContentClass = computed(() =>
     z-index: 1
 
   &__page
+    width: 100%
 
     &--standard
       /**
           16px  - left menu margin
         + 330px - left menu
-        + 900px - page content
+        + 1200px - page content
         + 300px - toc menu
        */
-      max-width: min(100%, 1546px)
+      max-width: 2500px
 
       .doc-page__content
         width: auto
         min-width: 0
         flex: 10000 1 0%
-        max-width: 900px
+        max-width: 1200px
 
         > div, > pre
           margin-bottom: 22px
+
+      @media (max-width: 1845px)
+        justify-content: start
+        .doc-page__toc-container--flowing
+          display: none
+      @media (min-width: 1846px)
+        .doc-layout__menu-container
+          flex: 1 0 auto
+          width: auto
+          min-width: 0
+          max-width: 100%
 
     &--fullwidth
 
       .doc-page__content
         width: 100%
 
-      .doc-page__toc
+      .doc-page__toc-container
         display: none
 
   &__page-el--standard
@@ -131,10 +145,6 @@ const pageContentClass = computed(() =>
     background: scale-color($primary, $lightness: 90%)
     &.q-item--dark
       background: scale-color($primary, $lightness: -50%)
-
-@media (min-width: 1301px)
-  .doc-layout__page
-    width: 100%
 
 @media (max-width: 1300px)
   .doc-layout__menu,

@@ -18,6 +18,8 @@
         >
       </router-link>
 
+      <div class="doc-header__primary-left-spacer gt-lg" />
+
       <doc-header-text-links
         class="doc-header__links col text-size-16 gt-700"
         :menu="primaryToolbarLinks"
@@ -47,10 +49,11 @@
         @click="docStore.toggleMenuDrawer"
       />
 
+      <div class="doc-header__secondary-left-spacer gt-lg" />
+
       <div class="doc-header__links col row items-center no-wrap">
         <doc-header-text-links
           :menu="secondaryToolbarLinks"
-          nav-class="text-size-12 letter-spacing-225"
           nav-class="text-size-14 letter-spacing-100"
           mq-prefix="gt"
         />
@@ -140,6 +143,14 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 
   &__leftmost
     margin-left: -8px
+
+  /**
+    Spacers are used to align the links dead center
+   */
+  &__primary-left-spacer
+    width: 198px
+  &__secondary-left-spacer
+    width: 296px
 
   @media (max-width: 320px)
     .q-btn

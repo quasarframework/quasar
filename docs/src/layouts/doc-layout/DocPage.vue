@@ -81,9 +81,11 @@
     </div>
   </div>
 
-  <q-scroll-area class="doc-page__toc-container gt-sm" :class="tocClass">
-    <doc-page-toc />
-  </q-scroll-area>
+  <div class="doc-page__toc-container col-grow row justify-center gt-sm" :class="tocClass">
+    <q-scroll-area class="doc-page__toc-area">
+      <doc-page-toc />
+    </q-scroll-area>
+  </div>
 </template>
 
 <script setup>
@@ -166,16 +168,19 @@ const tocClass = computed(() =>
     position: sticky
     top: $header-height
     height: calc(100vh - #{$header-height})
-    font-size: ($font-size - 2px)
-
-    .doc-page-toc
-      padding: 32px 16px 32px 0 // page top padding
 
     &--fixed
-      min-width: 300px
-      width: 300px
-    &--flowing
-      // just leave it as-is
+      .doc-page__toc
+        padding: 32px 16px 32px 0 // page top padding
+    // &--flow // just leave it as-is
+
+  &__toc-container
+    min-width: 300px !important
+  &__toc-area
+    width: 300px
+
+  &__toc
+    font-size: ($font-size - 2px)
 
   &__content-footer
     margin-top: 64px

@@ -17,7 +17,7 @@
     </div>
 
     <div class="doc-drawer__title q-px-md text-weight-bold">On this page</div>
-    <doc-page-toc class="doc-page-toc--mobile q-pt-sm q-px-md q-pb-lg" />
+    <doc-page-toc class="q-pt-sm q-px-md q-pb-lg" />
   </q-drawer>
 </template>
 
