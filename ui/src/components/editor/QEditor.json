@@ -309,6 +309,16 @@
         }
       },
       "addedIn": "v2.11.8"
+    },
+
+    "link-show": {
+      "desc": "Emitted when the toolbar for editing a link is shown",
+      "addedIn": "v2.11.9"
+    },
+
+    "link-hide": {
+      "desc": "Emitted when the toolbar for editing a link is hidden",
+      "addedIn": "v2.11.9"
     }
   },
 
