@@ -23,13 +23,13 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | --- | --- | --- | --- | --- | --- |
 | Roboto Font | CDN v30 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
 | Roboto Font Latin Extended | CDN v30 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v139 | `material-icons` | Material icons font | Requires: @quasar/extras 1.2+ | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v108 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v107 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v108 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2+ | [License](material-icons-sharp/LICENSE) |
-| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v86 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
-| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v86 | `material-symbols-rounded` | Material symbols rounded font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
-| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v83 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v140 | `material-icons` | Material icons font | Requires: @quasar/extras 1.2+ | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v109 | `material-icons-outlined` | Material icons outlined font | Requires: @quasar/extras 1.2+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v108 | `material-icons-round` | Material icons round font | Requires: @quasar/extras 1.2+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v109 | `material-icons-sharp` | Material icons sharp font | Requires: @quasar/extras 1.2+ | [License](material-icons-sharp/LICENSE) |
+| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) | CDN v100 | `material-symbols-outlined` | Material symbols outlined font | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
+| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) | CDN v99 | `material-symbols-rounded` | Material symbols rounded font | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
+| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) | CDN v96 | `material-symbols-sharp` | Material symbols sharp font | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
 | [MDI v7](https://materialdesignicons.com/) (Material Design Icons) | 7.2.96 | `mdi-v7` | Extended Material Design icons font | Requires: @quasar/extras 1.15+ | [License](mdi-v7/LICENSE) |
 | MDI v6 (Material Design Icons) | 6.9.96 | `mdi-v6` | Extended Material Design icons font |  | [License](mdi-v6/LICENSE) |
 | MDI v5 (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
@@ -53,13 +53,13 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v139 | `svg-material-icons` | `@quasar/extras/material-icons` | | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | CDN v108 | `svg-material-icons-outlined` | `@quasar/extras/material-icons-outlined` | Requires: @quasar/extras 1.9+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | CDN v107 | `svg-material-icons-round` | `@quasar/extras/material-icons-round` | Requires: @quasar/extras 1.9+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | CDN v108 | `svg-material-icons-sharp` | `@quasar/extras/material-icons-sharp` | Requires: @quasar/extras 1.9+ | [License](material-icons-sharp/LICENSE) |
-| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) (Google) | CDN v86 | `svg-material-symbols-outlined` | `@quasar/extras/material-symbols-outlined` | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
-| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) (Google) | CDN v86 | `svg-material-symbols-rounded` | `@quasar/extras/material-symbols-rounded` | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
-| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) (Google) | CDN v83 | `svg-material-symbols-sharp` | `@quasar/extras/material-symbols-sharp` | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v140 | `svg-material-icons` | `@quasar/extras/material-icons` | | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | CDN v109 | `svg-material-icons-outlined` | `@quasar/extras/material-icons-outlined` | Requires: @quasar/extras 1.9+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | CDN v108 | `svg-material-icons-round` | `@quasar/extras/material-icons-round` | Requires: @quasar/extras 1.9+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | CDN v109 | `svg-material-icons-sharp` | `@quasar/extras/material-icons-sharp` | Requires: @quasar/extras 1.9+ | [License](material-icons-sharp/LICENSE) |
+| [Material Symbols Outlined](https://fonts.google.com/icons?icon.style=Outlined) (Google) | CDN v100 | `svg-material-symbols-outlined` | `@quasar/extras/material-symbols-outlined` | Requires: @quasar/extras 1.14+ | [License](material-symbols-outlined/LICENSE) |
+| [Material Symbols Rounded](https://fonts.google.com/icons?icon.style=Rounded) (Google) | CDN v99 | `svg-material-symbols-rounded` | `@quasar/extras/material-symbols-rounded` | Requires: @quasar/extras 1.14+ | [License](material-symbols-round/LICENSE) |
+| [Material Symbols Sharp](https://fonts.google.com/icons?icon.style=Sharp) (Google) | CDN v96 | `svg-material-symbols-sharp` | `@quasar/extras/material-symbols-sharp` | Requires: @quasar/extras 1.14+ | [License](material-symbols-sharp/LICENSE) |
 | [MDI v7](https://materialdesignicons.com/) (Material Design Icons) | 7.2.96 | `svg-mdi-v7` | `@quasar/extras/mdi-v7` | | [License](mdi-v7/LICENSE) |
 | MDI v6 (Material Design Icons) | 6.9.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
 | MDI v5 (Material Design Icons) | 5.9.55 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | | [License](mdi-v5/LICENSE) |
