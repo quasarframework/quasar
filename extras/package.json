@@ -32,7 +32,7 @@
       "types": "./ionicons-v4/index.d.ts",
       "import": "./ionicons-v4/index.mjs",
       "require": "./ionicons-v4/index.js"
-    }
+    },
     "./ionicons-v5": {
       "types": "./ionicons-v5/index.d.ts",
       "import": "./ionicons-v5/index.mjs",
