@@ -1,5 +1,5 @@
 const packageName = 'ionicons'
-const distName = 'ionicons-v6'
+const distName = 'ionicons-v7'
 const iconSetName = 'Ionicons'
 const prefix = 'ion'
 
@@ -11,7 +11,7 @@ const { writeFileSync } = require('fs')
 const { resolve, join } = require('path')
 
 let skipped = []
-const distFolder = resolve(__dirname, `../ionicons-v6`)
+const distFolder = resolve(__dirname, `../${ distName }`)
 const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/dist/svg/`)
@@ -56,7 +56,7 @@ writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skip
 
 copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
-  resolve(__dirname, `../ionicons-v6/LICENSE`)
+  resolve(__dirname, `../${distName}/LICENSE`)
 )
 
 // write the JSON file
