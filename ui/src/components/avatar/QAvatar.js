@@ -6,6 +6,7 @@ import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hMergeSlotSafely } from '../../utils/private/render.js'
+import { getTextColor } from '../../utils/private/text-color.js'
 
 export default createComponent({
   name: 'QAvatar',
@@ -26,16 +27,17 @@ export default createComponent({
   setup (props, { slots }) {
     const sizeStyle = useSize(props)
 
-    const classes = computed(() =>
-      'q-avatar'
+    const classes = computed(() => {
+      const textColor = getTextColor(props.color, props.textColor)
+      return 'q-avatar'
       + (props.color ? ` bg-${ props.color }` : '')
-      + (props.textColor ? ` text-${ props.textColor } q-chip--colored` : '')
+      + (textColor ? ` text-${ textColor } q-chip--colored` : '')
       + (
         props.square === true
           ? ' q-avatar--square'
           : (props.rounded === true ? ' rounded-borders' : '')
       )
-    )
+    })
 
     const contentStyle = computed(() => (
       props.fontSize

@@ -14,6 +14,8 @@ import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/private/date-persian.js'
 import { isObject } from '../../utils/is.js'
 
+import { getTextColor } from '../../utils/private/text-color.js'
+
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
 const viewIsValid = v => views.includes(v)
@@ -135,7 +137,7 @@ export default createComponent({
     })
 
     const computedTextColor = computed(() => {
-      return props.textColor || 'white'
+      return getTextColor(computedColor.value, props.textColor) || 'white'
     })
 
     const isImmediate = computed(() =>
