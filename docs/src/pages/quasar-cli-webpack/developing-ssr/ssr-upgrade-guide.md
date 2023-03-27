@@ -8,19 +8,19 @@ related:
   - /quasar-cli-webpack/developing-ssr/ssr-production-export
 scope:
   oldTree:
-    { l: 'src-ssr',
-      c: [
-        { l: 'index.js', e: 'Production Node webserver serving the app' },
-        { l: 'extension.js', e: 'Common code for production & development server' }
-      ]
-    }
+    l: src-ssr
+    c:
+    - l: index.js
+      e: Production Node webserver serving the app
+    - l: extension.js
+      e: Common code for production & development server
   newTree:
-    { l: 'src-ssr',
-      c: [
-        { l: 'middlewares/', e: 'SSR middleware files' },
-        { l: 'production-export.js', e: 'SSR webserver production export' }
-      ]
-    }
+    l: src-ssr
+    c:
+    - l: middlewares/
+      e: SSR middleware files
+    - l: production-export.js
+      e: SSR webserver production export
 ---
 
 This page refers only to upgrading a Quasar UI v1 app (with Vue 2) to a Quasar UI v2 one (with Vue 3).

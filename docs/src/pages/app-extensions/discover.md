@@ -3,7 +3,7 @@ title: Discover App Extensions
 desc: Look up official and community Quasar App Extensions.
 ---
 
-<q-btn push class="q-py-xs" no-caps color="brand-primary" icon-right="search" label="Look up extensions" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener" />
+<q-btn icon-right="search" label="Look up extensions" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener noreferrer" />
 
 ## Community App Extensions
 

@@ -1,6 +1,7 @@
 ---
 title: Frameless Electron Window
 desc: (@quasar/app-vite) How to hide the window frame in a Quasar desktop app.
+examples: frameless-electron-window
 related:
   - /vue-components/bar
 ---
@@ -106,7 +107,7 @@ Example of adding an exception to an icon:
 
 ### Minimize, maximize and close app
 
-<doc-example title="Full example" file="frameless-electron-window/StatusBar" />
+<doc-example title="Full example" file="StatusBar" />
 
 In the example above, notice that we add `q-electron-drag` to our QBar and we also add handlers for the minimize, maximize and close app buttons by using the injected `window.myWindowAPI` Object (from the Electron preload script).
 

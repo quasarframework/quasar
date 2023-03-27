@@ -3,7 +3,7 @@ title: Why Donate?
 desc: Quasar Team's manifesto on why it is essential to donate towards the development of the framework.
 keys: Donate
 components:
-  - sponsors-and-backers/DonatingButtons
+  - ./sponsors-and-backers/DonatingButtons
 ---
 
 Quasar Framework is an MIT-licensed open-source project maintained by Razvan Stoenescu along with his Team and a community of open source contributors. We work on behalf of the community to create new features, fix bugs, and maintain Quasar so you can get on with your own development projects. We’re working to shape the future of the Vue.js ecosystem to write code once and simultaneously deploy it as a website (SPA/PWA/SSR), a Mobile App and/or an Electron App.

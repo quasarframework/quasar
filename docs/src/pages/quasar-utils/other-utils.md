@@ -137,7 +137,7 @@ else {
 }
 ```
 
-## runSequentialPromises <q-badge align="top" color="brand-primary" label="v2.8.4+" />
+## runSequentialPromises <q-badge label="v2.8.4+" />
 
 The following is a helper to run multiple Promises sequentially. **Optionally, on multiple threads.**
 

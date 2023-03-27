@@ -2,6 +2,7 @@
 title: Chat Message
 desc: The QChatMessage Vue component displays a chat entry containing one or more user messages.
 keys: QChatMessage
+examples: QChatMessage
 ---
 
 Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.
@@ -9,8 +10,6 @@ Quasar supplies a chat component called QChatMessage which is really a chat entr
 ::: tip
 To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.
 :::
-
-## QChatMessage API
 
 <doc-api file="QChatMessage" />
 
@@ -22,27 +21,27 @@ To mix messages with avatar and without avatar in the same thread, use a placeho
 Using the property `sent` is intended for the sender of the chat message. The other side is for received messages.
 :::
 
-<doc-example title="Basic" file="QChatMessage/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-<doc-example title="Name" file="QChatMessage/Name" />
+<doc-example title="Name" file="Name" />
 
-<doc-example title="Avatar" file="QChatMessage/Avatar" />
+<doc-example title="Avatar" file="Avatar" />
 
-<doc-example title="Stamp" file="QChatMessage/Stamp" />
+<doc-example title="Stamp" file="Stamp" />
 
-<doc-example title="Label" file="QChatMessage/Label" />
+<doc-example title="Label" file="Label" />
 
 ### Customization
 
-<doc-example title="Text and background color" file="QChatMessage/Color" />
+<doc-example title="Text and background color" file="Color" />
 
-<doc-example title="Size" file="QChatMessage/Size" />
+<doc-example title="Size" file="Size" />
 
 ### Slots
 
-<doc-example title="Default slot" file="QChatMessage/SlotDefault" />
+<doc-example title="Default slot" file="SlotDefault" />
 
-<doc-example title="Avatar/Stamp/Name slots" file="QChatMessage/SlotAvatarStampName" />
+<doc-example title="Avatar/Stamp/Name slots" file="SlotAvatarStampName" />
 
 ### Sanitization
 
@@ -50,4 +49,4 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 Always sanitize values if you do not trust the origin (if the value comes from user input).
 :::
 
-<doc-example title="Sanitized content" file="QChatMessage/Sanitize" />
+<doc-example title="Sanitized content" file="Sanitize" />

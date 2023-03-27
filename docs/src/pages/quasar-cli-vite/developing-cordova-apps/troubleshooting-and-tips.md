@@ -90,11 +90,11 @@ The output should contain each one entry for the Android SDK 'tools'-folder and 
 
 In Android Studio (if you open it on `/src-cordova/platforms/android`), you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Cordova project. Same goes for any other requested upgrades.
 
-<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-mb-md fit rounded-borders" style="max-width: 350px">
+<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-mb-md rounded-borders" style="max-width: 350px">
 
 If you encounter any IDE errors then click on File > Invalidate caches and restart.
 
-<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="fit rounded-borders" style="max-width: 350px">
+<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="rounded-borders" style="max-width: 350px">
 
 ### Setting up device on Linux
 

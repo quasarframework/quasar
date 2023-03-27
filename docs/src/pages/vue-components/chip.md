@@ -2,6 +2,7 @@
 title: Chip
 desc: The QChip Vue component is a simple UI block entity, representing for example more advanced underlying data, such as a contact, but in a compact way.
 keys: QChip
+examples: QChip
 related:
   - /vue-components/avatar
   - /vue-components/icon
@@ -17,25 +18,23 @@ Also check out [QBadge](/vue-components/badge).
 :::
 
 
-## QChip API
-
 <doc-api file="QChip" />
 
 ## Usage
-<doc-example title="Basic" file="QChip/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-<doc-example title="Dense" file="QChip/Dense" />
+<doc-example title="Dense" file="Dense" />
 
-<doc-example title="Custom size" file="QChip/Sizes" />
+<doc-example title="Custom size" file="Sizes" />
 
-<doc-example title="Square" file="QChip/Square" />
+<doc-example title="Square" file="Square" />
 
-<doc-example title="Outline" file="QChip/Outline" />
+<doc-example title="Outline" file="Outline" />
 
-<doc-example title="Clickable" file="QChip/Clickable" />
+<doc-example title="Clickable" file="Clickable" />
 
-<doc-example title="Selected" file="QChip/Selected" />
+<doc-example title="Selected" file="Selected" />
 
-<doc-example title="Removable" file="QChip/Removable" />
+<doc-example title="Removable" file="Removable" />
 
-<doc-example title="Long label truncation" file="QChip/LongLabel" />
+<doc-example title="Long label truncation" file="LongLabel" />

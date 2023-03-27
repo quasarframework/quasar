@@ -2,19 +2,18 @@
 title: Scroll Observer
 desc: The QScrollObserver Vue component emits an event whenever the user scrolls the page or the parent scrollable container.
 keys: QScrollObserver
+examples: QScrollObserver
 related:
   - /vue-components/resize-observer
 ---
 QScrollObserver is a Quasar component that emits a `scroll` event whenever the user scrolls the page or overflowed container with `.scroll` CSS class applied to it.
-
-## QScrollObserver API
 
 <doc-api file="QScrollObserver" />
 
 ## Usage
 Scroll this page to see the example below in action.
 
-<doc-example title="Basic" file="QScrollObserver/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 ## Determining Scrolling Container
 All components or directives in Quasar have a simple algorithm to determine the container that supports the scroll:

@@ -3,65 +3,45 @@ title: Starter kit equivalent
 desc: Tips and tricks on how to use a Quasar App Extension to create the equivalent of a starter kit.
 scope:
   tree:
-    { l: '.',
-      c: [
-        { l: 'README.md' },
-        { l: 'package.json' },
-        { l: 'src',
-          c: [
-            { l: 'boot',
-              c: [
-                { l: 'my-starter-kit-boot.js' }
-              ]
-            },
-            { l: 'templates',
-              c: [
-                { l: 'common-files',
-                  c: [
-                    { l: 'README.md' },
-                    { l: 'some-folder',
-                      c: [
-                        { l: 'tasks.md' }
-                      ]
-                    }
-                  ]
-                },
-                { l: 'serviceA',
-                  c: [
-                    { l: 'src',
-                      c: [
-                        { l: 'services',
-                          c: [
-                            { l: 'serviceA.js' }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                { l: 'serviceB',
-                  c: [
-                      { l: 'src',
-                        c: [
-                          { l: 'services',
-                            c: [
-                              { l: 'serviceB.js' }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                }
-              ]
-            },
-            { l: 'index.js', e: 'Described in Index API' },
-            { l: 'install.js', e: 'Described in Install API' },
-            { l: 'prompts.js', e: 'Described in Prompts API' },
-            { l: 'uninstall.js', e: 'Described in Uninstall API' }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: README.md
+    - l: package.json
+    - l: src
+      c:
+      - l: boot
+        c:
+        - l: my-starter-kit-boot.js
+      - l: templates
+        c:
+        - l: common-files
+          c:
+          - l: README.md
+          - l: some-folder
+            c:
+            - l: tasks.md
+        - l: serviceA
+          c:
+          - l: src
+            c:
+            - l: services
+              c:
+              - l: serviceA.js
+        - l: serviceB
+          c:
+          - l: src
+            c:
+            - l: services
+              c:
+              - l: serviceB.js
+      - l: index.js
+        e: Described in Index API
+      - l: install.js
+        e: Described in Install API
+      - l: prompts.js
+        e: Described in Prompts API
+      - l: uninstall.js
+        e: Described in Uninstall API
 ---
 
 This guide is for when you want to create what essentially is a "starter kit" that adds stuff (/quasar.config.js configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.

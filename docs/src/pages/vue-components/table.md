@@ -2,6 +2,7 @@
 title: Table
 desc: The QTable Vue component allows you to display data in a tabular manner and it's packed with a lot of related features. It's generally called a datatable.
 keys: QTable,QTh,QTr,QTd
+examples: QTable
 related:
   - /vue-components/markup-table
   - /vue-components/pagination
@@ -24,16 +25,12 @@ QTable is a component that allows you to display data in a tabular manner. It's 
 If you don't need pagination, sorting, filtering, and all other features of QTable, then you may want to check out [QMarkupTable](/vue-components/markup-table) component instead.
 :::
 
-## QTable API
 <doc-api file="QTable" />
 
-## QTh API
 <doc-api file="QTh" />
 
-## QTr API
 <doc-api file="QTr" />
 
-## QTd API
 <doc-api file="QTd" />
 
 ## Defining the columns
@@ -106,11 +103,11 @@ columns: [ // array of Objects
 
 ## Basic usage
 
-<doc-example title="Basic" file="QTable/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-<doc-example title="Dark" file="QTable/Dark" />
+<doc-example title="Force dark mode" file="Dark" />
 
-<doc-example title="Dense" file="QTable/Dense" />
+<doc-example title="Dense" file="Dense" />
 
 ::: tip
 You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
@@ -120,7 +117,7 @@ You can use the `dense` prop along with `$q.screen` to create a responsive behav
 
 You can omit specifying the `columns`. QTable will infer the columns from the properties of the first row of the data. Note that labels are uppercased and sorting is enabled:
 
-<doc-example title="Infering columns from data" file="QTable/InferColumns" />
+<doc-example title="Infering columns from data" file="InferColumns" />
 
 ## Sticky header/column
 
@@ -128,48 +125,48 @@ You can omit specifying the `columns`. QTable will infer the columns from the pr
 Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
 :::
 
-<doc-example title="Sticky header" file="QTable/StickyHeader" />
+<doc-example title="Sticky header" file="StickyHeader" />
 
-<doc-example title="Sticky column" file="QTable/StickyColumn" />
+<doc-example title="Sticky column" file="StickyColumn" />
 
-<doc-example title="Sticky header and column" file="QTable/StickyHeaderAndColumn" />
+<doc-example title="Sticky header and column" file="StickyHeaderAndColumn" />
 
 ## Separators
 
-<doc-example title="Separators" file="QTable/Separators" />
+<doc-example title="Separators" file="Separators" />
 
 ## Styling
 
-<doc-example title="Custom column" file="QTable/CustomColumn" />
+<doc-example title="Custom column" file="CustomColumn" />
 
-<doc-example title="Custom coloring" file="QTable/CustomColor" />
+<doc-example title="Custom coloring" file="CustomColor" />
 
-<doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
+<doc-example title="No header/footer" file="NoHeaderFooter" />
 
 ## Virtual scrolling
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
-<doc-example title="Basic virtual scroll" file="QTable/VirtscrollBasic" />
+<doc-example title="Basic virtual scroll" file="VirtscrollBasic" />
 
 You can dynamically load new rows when scroll reaches the end:
 
-<doc-example title="Dynamic loading virtual scroll" file="QTable/VirtscrollDynamic" />
+<doc-example title="Dynamic loading virtual scroll" file="VirtscrollDynamic" />
 
 You can have both virtual scroll and pagination:
 
-<doc-example title="Virtual scroll and pagination" file="QTable/VirtscrollPagination" />
+<doc-example title="Virtual scroll and pagination" file="VirtscrollPagination" />
 
 The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height.
 
-<doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
+<doc-example title="Virtual scroll with sticky header" file="VirtscrollSticky" />
 
 There are 2 utility CSS classes that control VirtualScroll size calculation:
 
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
-<doc-example title="Virtual scroll with multiple rows for a data row" file="QTable/VirtscrollMultipleRows" />
+<doc-example title="Virtual scroll with multiple rows for a data row" file="VirtscrollMultipleRows" />
 
 ## Selection
 
@@ -177,23 +174,23 @@ There are 2 utility CSS classes that control VirtualScroll size calculation:
 The property `row-key` must be set in order for selection to work properly.
 :::
 
-<doc-example title="Single selection" file="QTable/SingleSelection" />
+<doc-example title="Single selection" file="SingleSelection" />
 
-<doc-example title="Multiple selection" file="QTable/MultipleSelection" />
+<doc-example title="Multiple selection" file="MultipleSelection" />
 
-<doc-example title="Selection cell slots" file="QTable/SelectionSlots" />
+<doc-example title="Selection cell slots" file="SelectionSlots" />
 
-<doc-example title="Selection cell slots with range selection" file="QTable/SelectionSlotsRange" />
+<doc-example title="Selection cell slots with range selection" file="SelectionSlotsRange" />
 
-<doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
+<doc-example title="Custom multiple selection" file="CustomSelection" />
 
 ## Visible columns, custom top, fullscreen
 
 Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
 
-<doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
+<doc-example title="Visible columns, custom top and fullscreen" file="VisibleColumns" />
 
-<doc-example title="Visible columns" file="QTable/VisibleColumns2" />
+<doc-example title="Visible columns" file="VisibleColumns2" />
 
 ## Popup editing
 
@@ -201,7 +198,7 @@ Please note that columns marked as `required` (in the column definition) cannot 
 Below is an example with the user being able to edit “in place” with the help of **QPopupEdit** component. Please note that we are using the `body` scoped slot. **QPopupEdit** won’t work with cell scoped slots.
 :::
 
-<doc-example title="Popup editing" file="QTable/PopupEditing" />
+<doc-example title="Popup editing" file="PopupEditing" />
 
 ## Grid style
 
@@ -211,20 +208,20 @@ You can use the `grid` prop along with `$q.screen` to create a responsive behavi
 
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
 
-<doc-example title="Grid style" file="QTable/GridStyle" />
+<doc-example title="Grid style" file="GridStyle" />
 
-<doc-example title="Grid with header" file="QTable/GridHeader" />
+<doc-example title="Grid with header" file="GridHeader" />
 
-<doc-example title="Colored grid style" file="QTable/GridStyleColored" />
+<doc-example title="Colored grid style" file="GridStyleColored" />
 
-<doc-example title="Masonry like grid" file="QTable/GridMasonry" />
+<doc-example title="Masonry like grid" file="GridMasonry" />
 
 However, if you want to fully customize the content, check the example below, where:
 
 * We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
 * We are using multiple selection.
 
-<doc-example title="Grid style with slot" file="QTable/GridStyleSlot" />
+<doc-example title="Grid style with slot" file="GridStyleSlot" />
 
 ## Expanding rows
 
@@ -232,21 +229,21 @@ However, if you want to fully customize the content, check the example below, wh
 Add unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.
 :::
 
-<doc-example title="Internal expansion model" file="QTable/ExpandedRowInternal" />
+<doc-example title="Internal expansion model" file="ExpandedRowInternal" />
 
 An external expansion model can also be used:
 
-<doc-example title="External expansion model" file="QTable/ExpandedRowExternal" />
+<doc-example title="External expansion model" file="ExpandedRowExternal" />
 
 If you are using virtual scroll with QTable, you should know that there are 2 utility CSS classes that control VirtualScroll size calculation:
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
 * Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
-<doc-example title="Virtual scroll with expansion model" file="QTable/VirtscrollExpandedRow" />
+<doc-example title="Virtual scroll with expansion model" file="VirtscrollExpandedRow" />
 
 ## Before/after slots
 
-<doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
+<doc-example title="Before/After slots (header/footer)" file="BeforeAfterHeaderFooter" />
 
 ## Pagination
 
@@ -258,73 +255,73 @@ Below are two examples of handling the pagination (and sorting and rows per page
 
 The first example highlights how to configure the initial pagination:
 
-<doc-example title="Initial pagination" file="QTable/PaginationInitial" />
+<doc-example title="Initial pagination" file="PaginationInitial" />
 
 The second example uses the "v-model:pagination" directive because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
 
-<doc-example title="Synchronized pagination" file="QTable/PaginationSync" />
+<doc-example title="Synchronized pagination" file="PaginationSync" />
 
 ## Pagination slot
 
 For learning purposes, we will customize the pagination controls with the default controls in order to help you get started with your own.
 
-<doc-example title="Pagination slot" file="QTable/PaginationSlot" />
+<doc-example title="Pagination slot" file="PaginationSlot" />
 
 ## Loading state
 
-<doc-example title="Default loading" file="QTable/Loading" />
+<doc-example title="Default loading" file="Loading" />
 
-<doc-example title="Custom loading state" file="QTable/CustomLoading" />
+<doc-example title="Custom loading state" file="CustomLoading" />
 
 ## Custom top
 
-<doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
+<doc-example title="Custom top with add/remove row" file="CustomTop" />
 
 ## Body slots
 
 The example below shows how you can use a slot to customize the entire row:
 
-<doc-example title="Body slot" file="QTable/SlotBody" />
+<doc-example title="Body slot" file="SlotBody" />
 
 Below, we use a slot which gets applied to each body cell:
 
-<doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
+<doc-example title="Body-cell slot" file="SlotBodyCell" />
 
 We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
 
-<doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
+<doc-example title="Body-cell-[name] slot" file="SlotBodyCellName" />
 
 ## Header slots
 
 The example below shows how you can use a slot to customize the entire header row:
 
-<doc-example title="Header slot" file="QTable/SlotHeader" />
+<doc-example title="Header slot" file="SlotHeader" />
 
 Below, we use a slot which gets applied to each header cell:
 
-<doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
+<doc-example title="Header-cell slot" file="SlotHeaderCell" />
 
 We can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
 
-<doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
+<doc-example title="Header-cell-[name] slot" file="SlotHeaderCellName" />
 
 ## No data
 
-<doc-example title="No Data Label" file="QTable/NoData" />
+<doc-example title="No Data Label" file="NoData" />
 
 There is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
 
-<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
+<doc-example title="No Data Slot" file="NoDataSlot" />
 
 ## Handling bottom layer
 
 There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
 
-<doc-example title="Hiding bottom layer" file="QTable/HideBottom" />
+<doc-example title="Hiding bottom layer" file="HideBottom" />
 
 ## Custom sorting
 
-<doc-example title="Custom sorting" file="QTable/CustomSorting" />
+<doc-example title="Custom sorting" file="CustomSorting" />
 
 ## Responsive tables
 
@@ -332,9 +329,9 @@ In order to create responsive tables, we have two tools at our disposal: `dense`
 
 First example below uses `$q.screen.lt.md` (for enabling dense mode) and the second examples uses `$q.screen.xs` to enable grid mode, so play with browser width to see them in action.
 
-<doc-example title="Using dense prop" file="QTable/ResponsiveDense" />
+<doc-example title="Using dense prop" file="ResponsiveDense" />
 
-<doc-example title="Using grid prop" file="QTable/ResponsiveGrid" />
+<doc-example title="Using grid prop" file="ResponsiveGrid" />
 
 ## Server side pagination, filter and sorting
 
@@ -350,7 +347,7 @@ When your database contains a big number of rows for a Table, obviously it’s n
 In the example below, steps have been taken to emulate an ajax call to a server. While the concepts are similar, if you use this code you will need to make the appropriate changes to connect to your own data source.
 :::
 
-<doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
+<doc-example title="Synchronizing with server" file="Synchronizing" />
 
 ## Exporting data
 
@@ -360,10 +357,10 @@ Below is an example of a naive csv encoding and then exporting table data by usi
 You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
 :::
 
-<doc-example title="Export to csv" file="QTable/ExportCsv" />
+<doc-example title="Export to csv" file="ExportCsv" />
 
 ## Keyboard navigation
 
 Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
 
-<doc-example title="Keyboard navigation" file="QTable/KeyboardNavigation" />
+<doc-example title="Keyboard navigation" file="KeyboardNavigation" />

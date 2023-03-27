@@ -2,6 +2,7 @@
 title: Dialog Plugin
 desc: A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog.
 keys: Dialog
+examples: Dialog
 related:
   - /vue-components/dialog
   - /quasar-plugins/bottom-sheet
@@ -29,10 +30,7 @@ In order to create #1, the prompting input form, you have the `prompt` property 
 
 In order to create #2, the options selection form, you have the `options` property within the `opts` object.
 
-## Dialog API
 <doc-api file="Dialog" />
-
-## Installation
 
 <doc-installation plugins="Dialog" />
 
@@ -64,36 +62,36 @@ For all the examples below, also see the browser console while you check them ou
 This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins. For further exploration check out the API section.
 :::
 
-<doc-example title="Basic" file="Dialog/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-<doc-example title="Dark mode" file="Dialog/Dark" />
+<doc-example title="Force dark mode" file="Dark" />
 
-<doc-example title="Radios, Checkboxes, Toggles" file="Dialog/Pickers" />
+<doc-example title="Radios, Checkboxes, Toggles" file="Pickers" />
 
-<doc-example title="Other options" file="Dialog/OtherOptions" />
+<doc-example title="Other options" file="OtherOptions" />
 
 ### Native attributes
 
 You can also supply native HTML attributes to the inner QInput or QOptionGroup components, like in the example below.
 
-<doc-example title="Using native attributes" file="Dialog/NativeAttributes" />
+<doc-example title="Using native attributes" file="NativeAttributes" />
 
 ### User input validation
 
 There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
 
-<doc-example title="Prompt with validation" file="Dialog/ValidationPrompt" />
+<doc-example title="Prompt with validation" file="ValidationPrompt" />
 
-<doc-example title="Options with validation" file="Dialog/ValidationOptions" />
+<doc-example title="Options with validation" file="ValidationOptions" />
 
 ### Progress
 
-<doc-example title="Showing progress" file="Dialog/Progress" />
+<doc-example title="Showing progress" file="Progress" />
 
 ### Using HTML
 You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
-<doc-example title="Unsafe HTML message" file="Dialog/UnsafeHtml" />
+<doc-example title="Unsafe HTML message" file="UnsafeHtml" />
 
 ## Invoking custom component
 

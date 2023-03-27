@@ -3,121 +3,109 @@ title: App Icons for Capacitor
 desc: (@quasar/app-vite) How to manage the app icons for a Quasar hybrid mobile app with Capacitor.
 scope:
   tree:
-    { l: '.',
-      c: [
-        { l: 'android',
-          c: [
-            { l: 'app',
-              c: [
-                { l: 'src',
-                  c: [
-                    { l: 'main',
-                      c: [
-                        { l: 'res',
-                          c: [
-                            { l: 'drawable', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-land-hdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-land-mdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-land-xhdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-land-xxhdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-land-xxxhdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-port-hdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-port-mdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-port-xhdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-port-xxhdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'drawable-port-xxxhdpi', c: [{ l: 'splash.png' }] },
-                            { l: 'mipmap-hdpi',
-                              c: [
-                                { l: 'ic_launcher.png' },
-                                { l: 'ic_launcher_foreground.png' },
-                                { l: 'ic_launcher_round.png' }
-                              ]
-                            },
-                            { l: 'mipmap-mdpi',
-                              c: [
-                                { l: 'ic_launcher.png' },
-                                { l: 'ic_launcher_foreground.png' },
-                                { l: 'ic_launcher_round.png' }
-                              ]
-                            },
-                            { l: 'mipmap-xhdpi',
-                              c: [
-                                { l: 'ic_launcher.png' },
-                                { l: 'ic_launcher_foreground.png' },
-                                { l: 'ic_launcher_round.png' }
-                              ]
-                            },
-                            { l: 'mipmap-xxhdpi',
-                              c: [
-                                { l: 'ic_launcher.png' },
-                                { l: 'ic_launcher_foreground.png' },
-                                { l: 'ic_launcher_round.png' }
-                              ]
-                            },
-                            { l: 'mipmap-xxhdpi',
-                              c: [
-                                { l: 'ic_launcher.png' },
-                                { l: 'ic_launcher_foreground.png' },
-                                { l: 'ic_launcher_round.png' }
-                              ]
-                            },
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        { l: 'ios',
-          c: [
-            { l: 'App',
-              c: [
-                { l: 'App',
-                  c: [
-                    { l: 'Assets.xcassets',
-                      c: [
-                        { l: 'AppIcon.appiconset',
-                          c: [
-                            { l: 'AppIcon-20x20@1x.png' },
-                            { l: 'AppIcon-20x20@2x-1.png' },
-                            { l: 'AppIcon-20x20@2x.png' },
-                            { l: 'AppIcon-20x20@3x.png' },
-                            { l: 'AppIcon-29x29@1x.png' },
-                            { l: 'AppIcon-29x29@2x-1.png' },
-                            { l: 'AppIcon-29x29@2x.png' },
-                            { l: 'AppIcon-29x29@3x.png' },
-                            { l: 'AppIcon-40x40@1x.png' },
-                            { l: 'AppIcon-40x40@2x-1.png' },
-                            { l: 'AppIcon-40x40@2x.png' },
-                            { l: 'AppIcon-40x40@3x.png' },
-                            { l: 'AppIcon-512@2x.png' },
-                            { l: 'AppIcon-60x60@2x.png' },
-                            { l: 'AppIcon-60x60@3x.png' },
-                            { l: 'AppIcon-76x76@1x.png' },
-                            { l: 'AppIcon-76x76@2x.png' },
-                            { l: 'AppIcon-83.5x83.5@2x.png' }
-                          ]
-                        },
-                        { l: 'Splash.imageset',
-                          c: [
-                            { l: 'splash-2732x2732-1.png' },
-                            { l: 'splash-2732x2732-2.png' },
-                            { l: 'splash-2732x2732.png' }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: android
+      c:
+      - l: app
+        c:
+        - l: src
+          c:
+          - l: main
+            c:
+            - l: res
+              c:
+              - l: drawable
+                c:
+                - l: splash.png
+              - l: drawable-land-hdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-mdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-xhdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-xxhdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-xxxhdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-hdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-mdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-xhdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-xxhdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-xxxhdpi
+                c:
+                - l: splash.png
+              - l: mipmap-hdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-mdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-xhdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-xxhdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-xxhdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+    - l: ios
+      c:
+      - l: App
+        c:
+        - l: App
+          c:
+          - l: Assets.xcassets
+            c:
+            - l: AppIcon.appiconset
+              c:
+              - l: AppIcon-20x20@1x.png
+              - l: AppIcon-20x20@2x-1.png
+              - l: AppIcon-20x20@2x.png
+              - l: AppIcon-20x20@3x.png
+              - l: AppIcon-29x29@1x.png
+              - l: AppIcon-29x29@2x-1.png
+              - l: AppIcon-29x29@2x.png
+              - l: AppIcon-29x29@3x.png
+              - l: AppIcon-40x40@1x.png
+              - l: AppIcon-40x40@2x-1.png
+              - l: AppIcon-40x40@2x.png
+              - l: AppIcon-40x40@3x.png
+              - l: AppIcon-512@2x.png
+              - l: AppIcon-60x60@2x.png
+              - l: AppIcon-60x60@3x.png
+              - l: AppIcon-76x76@1x.png
+              - l: AppIcon-76x76@2x.png
+              - l: AppIcon-83.5x83.5@2x.png
+            - l: Splash.imageset
+              c:
+              - l: splash-2732x2732-1.png
+              - l: splash-2732x2732-2.png
+              - l: splash-2732x2732.png
 ---
 
 

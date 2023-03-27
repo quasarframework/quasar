@@ -2,6 +2,7 @@
 title: Ajax Bar
 desc: The QAjaxBar Vue component displays a loading bar whenever an Ajax call is in progress.
 keys: QAjaxBar
+examples: QAjaxBar
 related:
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar
@@ -17,8 +18,6 @@ QAjaxBar is a component which displays a loading bar (like Youtube) whenever an 
 If you'd like **a simpler and more convenient way** to offer an Ajax Bar to your users, have a look at the [Loading Bar Plugin](/quasar-plugins/loading-bar), which is actually **the recommended way**.
 :::
 
-## QAjaxBar API
-
 <doc-api file="QAjaxBar" />
 
 ## Usage
@@ -28,11 +27,11 @@ The example below triggers events manually for demonstrating purposes only. This
 
 ### Basic
 
-<doc-example title="Basic" file="QAjaxBar/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 Please check out the API section for all properties that you can use.
 
-### Ajax filter <q-badge align="top" color="brand-primary" label="v2.4.5+" />
+### Ajax filter <q-badge label="v2.4.5+" />
 
 Should you want QAjaxBar to trigger only for some URLs (and not for all, like in the default behavior), then you can use the `hijackFilter` property:
 

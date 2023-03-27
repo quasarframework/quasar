@@ -5,13 +5,14 @@ related:
   - /quasar-cli-webpack/quasar-config-js
 scope:
   nodeJsTree:
-    { l: 'src-ssr',
-      c: [
-        { l: 'middlewares/', e: 'SSR middleware files' },
-        { l: 'directives/', e: 'SSR transformations for Vue directives' },
-        { l: 'production-export.js', e: 'SSR webserver production export' }
-      ]
-    }
+    l: src-ssr
+    c:
+    - l: middlewares/
+      e: SSR middleware files
+    - l: directives/
+      e: SSR transformations for Vue directives
+    - l: production-export.js
+      e: SSR webserver production export
 ---
 
 ## quasar.config.js

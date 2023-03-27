@@ -3,20 +3,21 @@ title: Preparation for Electron
 desc: (@quasar/app-webpack) How to add Electron mode into a Quasar app.
 scope:
   tree:
-    { l: 'src-electron',
-      c: [
-        { l: 'icons',
-          e: 'Icons of your app for all platforms',
-          c: [
-            { l: 'icon.icns', e: 'Icon file for Darwin (MacOS) platform' },
-            { l: 'icon.ico', e: 'Icon file for win32 (Windows) platform' },
-            { l: 'icon.png', e: 'Tray icon file for all platforms (especially Linux)' },
-          ]
-        },
-        { l: 'electron-preload.js', e: '(or .ts) Electron preload script (injects Node.js stuff into renderer thread)' },
-        { l: 'electron-main.js', e: '(or .ts) Main thread code' }
-      ]
-    }
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: icon.png
+        e: Tray icon file for all platforms (especially Linux)
+    - l: electron-preload.js
+      e: "(or .ts) Electron preload script (injects Node.js stuff into renderer thread)"
+    - l: electron-main.js
+      e: "(or .ts) Main thread code"
 ---
 Before we dive in to the actual development, we need to do some preparation work.
 

@@ -19,7 +19,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 You can try Quasar CLI online directly in the browser, without installing anything!
 You will also be able to use the command line, so it will be almost identical to creating a project locally.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.quasar.dev)
+<q-btn no-wrap href="https://stackblitz.quasar.dev" target="_blank" label="Open in Stackblitz" />
 
 ## TL;DR
 
@@ -49,7 +49,7 @@ Pick `Quasar CLI with Vite` if you want:
 * Faster build
 * Superior PWA, SSR and BEX Quasar modes (more features)
 
-<q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
+<q-btn icon-right="launch" no-wrap label="View Components" to="/components" />
 
 ## Installation / Project Scaffolding
 
@@ -173,4 +173,4 @@ Here are the options:
 
 ## What next?
 
-<q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
+<q-btn icon-right="launch" no-wrap label="View Components" to="/components" />

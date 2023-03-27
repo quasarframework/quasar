@@ -3,28 +3,26 @@ title: BEX Build Commands
 desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
 scope:
   devTree:
-    { l: '.',
-      c: [
-        { l: 'dist',
-          c: [
-            { l: '...files', e: 'Built code from /src-bex' },
-            { l: 'www/', e: 'Built code from /src' }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: dist
+      c:
+      - l: "...files"
+        e: Built code from /src-bex
+      - l: www/
+        e: Built code from /src
   prodTree:
-    { l: '.',
-      c: [
-        { l: 'dist',
-          c: [
-            { l: '...files', e: 'Built code from /src-bex' },
-            { l: 'www/', e: 'Built code from /src' },
-            { l: 'Packaged.your-project-name.zip', e: 'A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.' }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: dist
+      c:
+      - l: "...files"
+        e: Built code from /src-bex
+      - l: www/
+        e: Built code from /src
+      - l: Packaged.your-project-name.zip
+        e: A zip file ready for submission to the Chrome Browser Extension Store /
+          Other Chromium based stores.
 ---
 
 ## Developing

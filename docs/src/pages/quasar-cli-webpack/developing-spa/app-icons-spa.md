@@ -3,19 +3,15 @@ title: App Icons for SPA
 desc: (@quasar/app-webpack) How to manage the app icons for a Quasar Single Page Application.
 scope:
   spaTree:
-    { l: 'public',
-      c: [
-        { l: 'favicon.ico' },
-        { l: 'icons',
-          c: [
-            { l: 'favicon-128x128.png' },
-            { l: 'favicon-96x96.png' },
-            { l: 'favicon-32x32.png' },
-            { l: 'favicon-16x16.png' }
-          ]
-        }
-      ]
-    }
+    l: public
+    c:
+    - l: favicon.ico
+    - l: icons
+      c:
+      - l: favicon-128x128.png
+      - l: favicon-96x96.png
+      - l: favicon-32x32.png
+      - l: favicon-16x16.png
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).

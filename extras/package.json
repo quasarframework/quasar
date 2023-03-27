@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.15.11",
+  "version": "1.16.1",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -8,6 +8,11 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
+    "./animate/animate-list.common": {
+      "types": "./animate/animate-list.d.ts",
+      "import": "./animate/animate-list.mjs",
+      "require": "./animate/animate-list.common.js"
+    },
     "./bootstrap-icons": {
       "types": "./bootstrap-icons/index.d.ts",
       "import": "./bootstrap-icons/index.mjs",
@@ -32,7 +37,7 @@
       "types": "./ionicons-v4/index.d.ts",
       "import": "./ionicons-v4/index.mjs",
       "require": "./ionicons-v4/index.js"
-    }
+    },
     "./ionicons-v5": {
       "types": "./ionicons-v5/index.d.ts",
       "import": "./ionicons-v5/index.mjs",
@@ -42,6 +47,11 @@
       "types": "./ionicons-v6/index.d.ts",
       "import": "./ionicons-v6/index.mjs",
       "require": "./ionicons-v6/index.js"
+    },
+    "./ionicons-v7": {
+      "types": "./ionicons-v7/index.d.ts",
+      "import": "./ionicons-v7/index.mjs",
+      "require": "./ionicons-v7/index.js"
     },
     "./line-awesome": {
       "types": "./line-awesome/index.d.ts",
@@ -73,10 +83,10 @@
       "import": "./material-symbols-outlined/index.mjs",
       "require": "./material-symbols-outlined/index.js"
     },
-    "./material-symbols-round": {
-      "types": "./material-symbols-round/index.d.ts",
-      "import": "./material-symbols-round/index.mjs",
-      "require": "./material-symbols-round/index.js"
+    "./material-symbols-rounded": {
+      "types": "./material-symbols-rounded/index.d.ts",
+      "import": "./material-symbols-rounded/index.mjs",
+      "require": "./material-symbols-rounded/index.js"
     },
     "./material-symbols-sharp": {
       "types": "./material-symbols-sharp/index.d.ts",
@@ -102,6 +112,11 @@
       "types": "./mdi-v6/index.d.ts",
       "import": "./mdi-v6/index.mjs",
       "require": "./mdi-v6/index.js"
+    },
+    "./mdi-v7": {
+      "types": "./mdi-v7/index.d.ts",
+      "import": "./mdi-v7/index.mjs",
+      "require": "./mdi-v7/index.js"
     },
     "./themify": {
       "types": "./themify/index.d.ts",
@@ -143,16 +158,16 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "6.3.0",
-    "@mdi/font": "7.1.96",
-    "@mdi/svg": "7.1.96",
+    "@mdi/font": "7.2.96",
+    "@mdi/svg": "7.2.96",
     "animate.css": "4.1.1",
     "bootstrap-icons": "^1.10.3",
     "cross-fetch": "^3.1.5",
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",
-    "fs-extra": "11.1.0",
-    "glob": "8.1.0",
-    "ionicons": "6.1.3",
+    "fs-extra": "11.1.1",
+    "glob": "9.3.2",
+    "ionicons": "7.1.0",
     "line-awesome": "1.3.0",
     "themify-icons": "https://github.com/lykmapipo/themify-icons",
     "@xmldom/xmldom": "0.8.6"

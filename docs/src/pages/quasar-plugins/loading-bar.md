@@ -11,11 +11,7 @@ The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjax
 
 For a demo, please visit the QAjaxBar documentation page.
 
-## LoadingBar API
-
 <doc-api file="LoadingBar" />
-
-## Installation
 
 <doc-installation plugins="LoadingBar" config="loadingBar" />
 
@@ -83,7 +79,7 @@ LoadingBar.setDefaults({
 })
 ```
 
-### Using an Ajax filter <q-badge align="top" color="brand-primary" label="v2.4.5+" />
+### Using an Ajax filter <q-badge label="v2.4.5+" />
 
 Should you want to trigger LoadingBar only for some URLs, then you can use the `setDefaults()` method (described above) to configure the `hijackFilter` property:
 

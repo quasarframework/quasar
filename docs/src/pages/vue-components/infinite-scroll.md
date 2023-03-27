@@ -2,6 +2,7 @@
 title: Infinite Scroll
 desc: The QInfiniteScroll Vue component allows you to load new content as the user scrolls the page.
 keys: QInfiniteScroll
+examples: QInfiniteScroll
 related:
   - /vue-components/spinners
   - /vue-components/pull-to-refresh
@@ -10,8 +11,6 @@ related:
 ---
 
 The QInfiniteScroll component allows you to load new content as the user scrolls the page.
-
-## QInfiniteScroll API
 
 <doc-api file="QInfiniteScroll" />
 
@@ -27,11 +26,11 @@ In your `@load` function, don't forget to call the passed in `done()` function w
 
 Scroll to the bottom to see QInfiniteScroll in action.
 
-<doc-example title="Basic" file="QInfiniteScroll/Basic" scrollable />
+<doc-example title="Basic" file="Basic" scrollable />
 
-<doc-example title="Custom Scroll Target Container" file="QInfiniteScroll/Container" />
+<doc-example title="Custom Scroll Target Container" file="Container" />
 
-<doc-example title="Reverse (Messenger style)" file="QInfiniteScroll/Reverse" scrollable />
+<doc-example title="Reverse (Messenger style)" file="Reverse" scrollable />
 
 ### Tips
 
@@ -49,4 +48,4 @@ If you pass a custom scroll target container with `scroll-target` prop you must 
 If the scroll target container cannot be overflowed you'll get a forever loading situation.
 :::
 
-<doc-example title="Usage in QMenu" file="QInfiniteScroll/Menu" />
+<doc-example title="Usage in QMenu" file="Menu" />
