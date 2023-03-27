@@ -230,17 +230,14 @@ async function getShellResponse(command) {
 }
 
 module.exports.checkServeScript = async function (filePath) {
-  const linuxResponse = await getShellResponse('which quasar')
+  const unixResponse = await getShellResponse('which quasar')
   const windowsResponse = await getShellResponse('where quasar')
-  if (!(linuxResponse || windowsResponse)) {
+  if (!(unixResponse || windowsResponse)) {
     try {          
       const fileData = existsSync(filePath)
       ? 
       (readJsonSync(filePath))
       : {};
-      logger.log("I'm here *****************")
-      logger.log(fileData)
-      logger.log(JSON.stringify(fileData))
 
       delete fileData.scripts["serve"]
       writeJsonSync(filePath, fileData, { spaces: 2 });
