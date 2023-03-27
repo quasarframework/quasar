@@ -25,8 +25,8 @@ module.exports = ctx => ({
     // rebuildCache: true,
 
     env: {
-      DOCS_BRANCH: 'new-docs',
-      SEARCH_INDEX: 'new-docs'
+      DOCS_BRANCH: 'dev',
+      SEARCH_INDEX: '@quasar-v2'
     },
 
     viteVuePluginOptions: {
@@ -94,7 +94,7 @@ module.exports = ctx => ({
   animations: [ 'fadeIn', 'fadeOut' ],
 
   ssr: {
-    // pwa: ctx.prod,
+    pwa: ctx.prod,
     prodPort: 3111,
     middlewares: [
       'render'
