@@ -78,10 +78,10 @@
       "import": "./material-symbols-outlined/index.mjs",
       "require": "./material-symbols-outlined/index.js"
     },
-    "./material-symbols-round": {
-      "types": "./material-symbols-round/index.d.ts",
-      "import": "./material-symbols-round/index.mjs",
-      "require": "./material-symbols-round/index.js"
+    "./material-symbols-rounded": {
+      "types": "./material-symbols-rounded/index.d.ts",
+      "import": "./material-symbols-rounded/index.mjs",
+      "require": "./material-symbols-rounded/index.js"
     },
     "./material-symbols-sharp": {
       "types": "./material-symbols-sharp/index.d.ts",
