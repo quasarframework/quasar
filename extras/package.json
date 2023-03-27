@@ -8,6 +8,11 @@
   "main": "index.js",
   "exports": {
     ".": "./index.js",
+    "./animate/animate-list.common": {
+      "types": "./animate/animate-list.d.ts",
+      "import": "./animate/animate-list.mjs",
+      "require": "./animate/animate-list.common.js"
+    },
     "./bootstrap-icons": {
       "types": "./bootstrap-icons/index.d.ts",
       "import": "./bootstrap-icons/index.mjs",
