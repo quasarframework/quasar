@@ -42,7 +42,7 @@ const packages = ref({})
 const packageList = ref([])
 
 function queryReleases () {
-  fetch('/release-notes/v2.json')
+  fetch('https://cdn.quasar.dev/release-notes/v2.json')
     .then(response => response.json())
     .then(data => {
       const list = Object.keys(data)
