@@ -3,67 +3,68 @@ title: App Extension Development
 desc: How to setup your machine for a Quasar App Extension development and getting started quickly.
 scope:
   appExtensionTree:
-    { l: '.',
-      c: [
-        { l: 'package.json' },
-        { l: 'src',
-          c: [
-            { l: 'index.js', e: 'Described in Index API' },
-            { l: 'install.js', e: 'Described in Install API' },
-            { l: 'prompts.js', e: 'Described in Prompts API' },
-            { l: 'uninstall.js', e: 'Described in Uninstall API' }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: package.json
+    - l: src
+      c:
+      - l: index.js
+        e: Described in Index API
+      - l: install.js
+        e: Described in Install API
+      - l: prompts.js
+        e: Described in Prompts API
+      - l: uninstall.js
+        e: Described in Uninstall API
   uiKitTree:
-    { l: '.',
-      c: [
-        { l: 'app-extension',
-          c: [
-            { l: 'package.json' },
-            { l: 'src',
-              c: [
-                { l: 'index.js', e: 'Described in Index API' },
-                { l: 'install.js', e: 'Described in Install API' },
-                { l: 'prompts.js', e: 'Described in Prompts API' },
-                { l: 'uninstall.js', e: 'Described in Uninstall API' }
-              ]
-            }
-          ]
-        },
-        { l: 'ui',
-          c: [
-            { l: 'package.json' },
-            { l: 'build', e: 'build scripts' },
-            { l: 'dev', e: 'Quasar app for testing component/directive' },
-            { l: 'src',
-              c: [
-                { l: 'components',
-                  e: '(optional) Folder for your component(s)',
-                  c: [
-                    { l: 'Component.js', e: '(optional) Code for your component(s)' },
-                    { l: 'Component.sass', e: '(optional) Sass for your component(s)' }
-                  ]
-                },
-                { l: 'directives',
-                  e: '(optional) Folder for your directive(s)',
-                  c: [
-                    { l: 'Directive.js', e: '(optional) Code for your directive(s)' },
-                    { l: 'Directive.sass', e: '(optional) Sass for your directive(s)' }
-                  ]
-                },
-                { l: 'index.common.js', e: 'CommonJS entry point' },
-                { l: 'index.esm.js', e: 'ESM entry point' },
-                { l: 'index.umd.js', e: 'UMD entry point' },
-                { l: 'vue-plugin.js', e: 'Exports the associated Vue plugin' },
-                { l: 'index.sass', e: 'Exports the associated SASS files' }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: app-extension
+      c:
+      - l: package.json
+      - l: src
+        c:
+        - l: index.js
+          e: Described in Index API
+        - l: install.js
+          e: Described in Install API
+        - l: prompts.js
+          e: Described in Prompts API
+        - l: uninstall.js
+          e: Described in Uninstall API
+    - l: ui
+      c:
+      - l: package.json
+      - l: build
+        e: build scripts
+      - l: dev
+        e: Quasar app for testing component/directive
+      - l: src
+        c:
+        - l: components
+          e: "(optional) Folder for your component(s)"
+          c:
+          - l: Component.js
+            e: "(optional) Code for your component(s)"
+          - l: Component.sass
+            e: "(optional) Sass for your component(s)"
+        - l: directives
+          e: "(optional) Folder for your directive(s)"
+          c:
+          - l: Directive.js
+            e: "(optional) Code for your directive(s)"
+          - l: Directive.sass
+            e: "(optional) Sass for your directive(s)"
+        - l: index.common.js
+          e: CommonJS entry point
+        - l: index.esm.js
+          e: ESM entry point
+        - l: index.umd.js
+          e: UMD entry point
+        - l: vue-plugin.js
+          e: Exports the associated Vue plugin
+        - l: index.sass
+          e: Exports the associated SASS files
 ---
 
 This section of the docs deals with creating your own App Extensions.

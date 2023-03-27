@@ -5,6 +5,7 @@ desc: Some Quasar components and plugins to show floating elements will create g
 You can define custom className for this global node elements.
 
 ## Installation
+
 You don't need to do anything.
 
 ## Configuration

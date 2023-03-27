@@ -17,7 +17,7 @@ You can find the documentation of testing AEs at https://testing.quasar.dev or i
 
 You can find the documentation of testing AEs compatible with Quasar v1 into [`qv1` branch](https://github.com/quasarframework/quasar-testing/tree/qv1) of quasar-testing repo.
 
-<q-btn color="brand-primary" label="Testing AEs documentation" icon-right="launch" no-caps href="https://testing.quasar.dev" target="_blank" />
+<q-btn label="Testing AEs documentation" icon-right="launch" href="https://testing.quasar.dev" target="_blank" />
 
 ## Installing
 

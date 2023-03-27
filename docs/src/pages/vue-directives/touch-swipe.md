@@ -2,18 +2,18 @@
 title: Touch Swipe Directive
 desc: Vue directive which triggers an event when the user swipes with the finger or mouse on a component or element.
 keys: touch-swipe
+examples: TouchSwipe
 related:
   - /vue-directives/touch-repeat
   - /vue-directives/touch-pan
   - /vue-directives/touch-hold
 ---
+
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 
 > **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
 
 We will be describing `v-touch-swipe` on the lines below.
-
-## TouchSwipe API
 
 <doc-api file="TouchSwipe" />
 
@@ -24,11 +24,11 @@ Swipe with your mouse on the area below to see it in action. If using a mouse, y
 If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
-<doc-example title="All directions" file="TouchSwipe/Basic" />
+<doc-example title="All directions" file="Basic" />
 
-<doc-example title="One direction only" file="TouchSwipe/Right" />
+<doc-example title="One direction only" file="Right" />
 
-<doc-example title="Several directions" file="TouchSwipe/UpOrLeft" />
+<doc-example title="Several directions" file="UpOrLeft" />
 
 ### Handling Mouse Events
 When you want to handle mouse events too, use the `mouse` modifier:
@@ -38,7 +38,7 @@ When you want to handle mouse events too, use the `mouse` modifier:
 ```
 
 ### Inhibiting TouchSwipe
-When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
+When you want to inhibit TouchSwipe, you can do so by stopping propagation of the `touchstart` / `mousedown` events from the inner content:
 
 ```html
 <div v-touch-swipe.mouse="userSwiped">

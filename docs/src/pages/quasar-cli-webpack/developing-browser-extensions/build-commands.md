@@ -3,29 +3,23 @@ title: BEX Build Commands
 desc: (@quasar/app-webpack) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
 scope:
   prodTree:
-    { l: '.',
-      c: [
-        { l: 'dist',
-          c: [
-            { l: 'UnPackaged/', e: 'Built code ready for testing in your development environment' },
-            { l: 'Packaged',
-              c: [
-                { l: 'Chrome',
-                  c: [
-                    { l: 'your-project-name.zip', e: 'A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.' }
-                  ]
-                },
-                { l: 'Firefox',
-                  c: [
-                    { l: 'your-project-name.zip', e: 'A zip file ready for submission to the Firefox Extension Store' }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: dist
+      c:
+      - l: UnPackaged/
+        e: Built code ready for testing in your development environment
+      - l: Packaged
+        c:
+        - l: Chrome
+          c:
+          - l: your-project-name.zip
+            e: A zip file ready for submission to the Chrome Browser Extension Store
+              / Other Chromium based stores.
+        - l: Firefox
+          c:
+          - l: your-project-name.zip
+            e: A zip file ready for submission to the Firefox Extension Store
 ---
 
 ## Developing

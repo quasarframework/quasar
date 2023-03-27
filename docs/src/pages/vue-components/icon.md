@@ -2,6 +2,7 @@
 title: Icon
 desc: The QIcon Vue component allows you to insert icons within other components or any other area of your pages.
 keys: QIcon
+examples: QIcon
 related:
   - /options/installing-icon-libraries
   - /options/quasar-icon-sets
@@ -18,14 +19,12 @@ There are multiple types of icons in Quasar: webfont-based, svg-based and image-
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-## QIcon API
-
 <doc-api file="QIcon" />
 
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
 
-<doc-example title="Basic" file="QIcon/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 For `icon` properties on different Quasar components you won't have the means to specify an icon for each platform, but you can achieve the same effect with:
 
@@ -35,7 +34,7 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
-<doc-example title="Standard sizes" file="QIcon/StandardSizes" />
+<doc-example title="Standard sizes" file="StandardSizes" />
 
 ## Webfont icons
 
@@ -207,7 +206,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Symbols Sharp (Google) | svg-material-symbols-sharp | @quasar/extras/material-symbols-sharp | @quasar/extras v1.14+ |
 | Material Symbols Round (Google) | svg-material-symbols-rounded | @quasar/extras/material-symbols-rounded | @quasar/extras v1.14+ |
 | MDI (Material Design Icons) (v3-v5) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
-| MDI (Material Design Icons) v6 | svg-mdi-v6 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+ |
+| MDI (Material Design Icons) v6 | svg-mdi-v7 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+ |
 | Font Awesome v6 | svg-fontawesome-v6 | @quasar/extras/fontawesome-v6 | @quasar/extras v1.13+ |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
 | Ionicons v6 | svg-ionicons-v6 | @quasar/extras/ionicons-v6 | @quasar/extras v1.12+ |
@@ -513,7 +512,7 @@ It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically
 <q-icon name="img:data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' height='140' width='500'><ellipse cx='200' cy='80' rx='100' ry='50' style='fill:yellow;stroke:purple;stroke-width:2' /></svg>" />
 ```
 
-<doc-example title="Dynamic SVG" file="QIcon/DynamicSvg" />
+<doc-example title="Dynamic SVG" file="DynamicSvg" />
 
 You can also base64 encode an image and supply it. The example below is with a QBtn, but the same principle is involved when dealing with any icon prop or with QIcon:
 

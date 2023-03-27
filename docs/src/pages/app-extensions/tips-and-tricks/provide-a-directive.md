@@ -3,28 +3,23 @@ title: Providing a directive
 desc: Tips and tricks on how to provide a Vue directive to the host app of a Quasar App Extension.
 scope:
   tree:
-    { l: '.',
-      c: [
-        { l: 'package.json' },
-        { l: 'src',
-          c: [
-            { l: 'boot',
-              e: 'folder to contain boot code',
-              c: [
-                { l: 'register-my-directive.js', e: 'boot file for directive' }
-              ]
-            },
-            { l: 'directive',
-              e: 'folder to contain directive',
-              c: [
-                { l: 'MyDirective.js', e: 'directive file' }
-              ]
-            },
-            { l: 'index.js', e: 'Described in Index API' }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: package.json
+    - l: src
+      c:
+      - l: boot
+        e: folder to contain boot code
+        c:
+        - l: register-my-directive.js
+          e: boot file for directive
+      - l: directive
+        e: folder to contain directive
+        c:
+        - l: MyDirective.js
+          e: directive file
+      - l: index.js
+        e: Described in Index API
 ---
 
 This guide is for when you want to create a new directive and provide it through an App Extension, which will inject it into the hosting app.

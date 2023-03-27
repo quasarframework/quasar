@@ -11,7 +11,7 @@ If you previously used a lower version of Capacitor and you want to upgrade to a
 
 1. Delete the /src-capacitor/ios and /src-capacitor/android folders, but make sure that you are aware of any changes that you made in those folders as you will have to redo them after step 4.
 2. Change /src-capacitor/package.json to reflect the correct versions of Capacitor dependencies (you can read them in the next appropriate section related to your desired Capacitor version).
-3. Delete yarn.lock/package-lock.json then run `yarn`/`npm install` in /src-capacitor.
+3. Delete yarn.lock/package-lock.json then run `yarn` / `npm install` in /src-capacitor.
 4. At this point, you will have Capacitor installed. Now you can run `quasar dev -m capacitor -T [ios|android]` or `quasar build -m capacitor -T [ios|android]` and it will add the upgraded iOS/Android platform that corresponds to your Capacitor version.
 
 It would also be wise to check the changelog of Capacitor itself to see what breaking changes it has.

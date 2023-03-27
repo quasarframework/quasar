@@ -7,7 +7,7 @@ desc: (@quasar/app-vite) Tips and tricks for a Quasar server-side rendered app.
 Take a look at our [Client Side Hydration](/quasar-cli-vite/developing-ssr/client-side-hydration) page. When you get hydration errors, it means the HTML rendered on the server does not match the equivalent HTML rendered on client-side. This error will appear only when developing (and NOT on production) and it definitely needs to be addressed, before you release your website. Is there some content that you can only generate on client-side? Then use [QNoSsr](/vue-components/no-ssr).
 
 ## Why doesn't importing Platform and Cookies work?
-When building for SSR, use only the `$q.platform`/`$q.cookies` form. If you need to use the `import { Platform, Cookies } from 'quasar'` (when on server-side), then you’ll need to do it like this:
+When building for SSR, use only the `$q.platform` / `$q.cookies` form. If you need to use the `import { Platform, Cookies } from 'quasar'` (when on server-side), then you’ll need to do it like this:
 
 ```js
 // example with Platform; same thing for Cookies

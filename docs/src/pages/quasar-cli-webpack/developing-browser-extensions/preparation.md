@@ -3,38 +3,40 @@ title: Preparation for BEX
 desc: (@quasar/app-webpack) How to add the Browser Extension (BEX) mode into a Quasar app.
 scope:
   tree:
-    { l: 'src-bex',
-      c: [
-        { l: 'css',
-          e: 'CSS to use in the Browser Context',
-          c: [
-            { l: 'content-css.css', e: 'CSS file which is auto injected into the consuming webpage via the manifest.json' }
-          ]
-        },
-        {
-          l: 'icons',
-          e: 'Icons of your app for all platforms',
-          c: [
-            { l: 'icon-16x16.png ', e: 'Icon file at 16px x 16px' },
-            { l: 'icon-48x48.png', e: 'Icon file at 48px x 48px' },
-            { l: 'icon-128x128.png', e: 'Icon file at 128px x 128px' }
-          ]
-        },
-        {
-          l: 'js',
-          e: 'Javascript files used within the context of the BEX.',
-          c: [
-            { l: 'background.js', e: 'Standard background script BEX file - auto injected via manifest.json' },
-            { l: 'background-hooks.js', e: 'Background script with a hook into the BEX communication layer' },
-            { l: 'content-hooks.js', e: 'Content script script with a hook into the BEX communication layer' },
-            { l: 'content-script.js', e: 'Standard content script BEX file - auto injected via manifest.json' },
-            { l: 'dom-hooks.js', e: 'JS file which is injected into the DOM with a hook into the BEX communication layer' }
-          ]
-        },
-        { l: 'www/', e: 'Compiled BEX source - compiled from /src (Quasar app)' },
-        { l: 'manifest.json', e: 'Main thread code for production' }
-      ]
-    }
+    l: src-bex
+    c:
+    - l: css
+      e: CSS to use in the Browser Context
+      c:
+      - l: content-css.css
+        e: CSS file which is auto injected into the consuming webpage via the manifest.json
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: 'icon-16x16.png '
+        e: Icon file at 16px x 16px
+      - l: icon-48x48.png
+        e: Icon file at 48px x 48px
+      - l: icon-128x128.png
+        e: Icon file at 128px x 128px
+    - l: js
+      e: Javascript files used within the context of the BEX.
+      c:
+      - l: background.js
+        e: Standard background script BEX file - auto injected via manifest.json
+      - l: background-hooks.js
+        e: Background script with a hook into the BEX communication layer
+      - l: content-hooks.js
+        e: Content script script with a hook into the BEX communication layer
+      - l: content-script.js
+        e: Standard content script BEX file - auto injected via manifest.json
+      - l: dom-hooks.js
+        e: JS file which is injected into the DOM with a hook into the BEX communication
+          layer
+    - l: www/
+      e: Compiled BEX source - compiled from /src (Quasar app)
+    - l: manifest.json
+      e: Main thread code for production
 ---
 
 The difference between building a SPA, Mobile App, Electron App, BEX or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.

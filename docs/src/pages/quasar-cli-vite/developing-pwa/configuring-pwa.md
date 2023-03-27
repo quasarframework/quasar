@@ -5,13 +5,14 @@ related:
   - /quasar-cli-vite/quasar-config-js
 scope:
   tree:
-    { l: 'src-pwa',
-      c: [
-        { l: 'register-service-worker.js', e: '(or .ts) UI code *managing* service worker' },
-        { l: 'manifest.json', e: 'Your PWA manifest file' },
-        { l: 'custom-service-worker.js', e: '(or .ts) Optional custom service worker file (injectManifest mode ONLY)' }
-      ]
-    }
+    l: src-pwa
+    c:
+    - l: register-service-worker.js
+      e: "(or .ts) UI code *managing* service worker"
+    - l: manifest.json
+      e: Your PWA manifest file
+    - l: custom-service-worker.js
+      e: "(or .ts) Optional custom service worker file (injectManifest mode ONLY)"
 ---
 
 ## Service Worker
@@ -243,7 +244,7 @@ pwa: {
 }
 ```
 
-## Filename hashes quirk <q-badge align="top" color="brand-primary" label="@quasar/app-vite v1.1+" />
+## Filename hashes quirk <q-badge label="@quasar/app-vite v1.1+" />
 
 Due to how Rollup builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again. What a waste of bandwidth and such a longer time to get the PWA updated!
 
