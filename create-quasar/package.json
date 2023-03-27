@@ -33,10 +33,12 @@
     "fs-extra": "^10.0.1",
     "kolorist": "^1.5.1",
     "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
     "@types/lodash": "^4.6.7",
+    "@types/minimist": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
     "eslint": "^8.11.0",

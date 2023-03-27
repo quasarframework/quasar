@@ -226,6 +226,54 @@ module.exports.ensureOutsideProject = function () {
   }
 }
 
+function hasGit() {
+  try {
+    exec("git --version");
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function hasProjectGit(cwd) {
+  try {
+    exec("git status", { stdio: "ignore", cwd });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+module.exports.initializeGit = async function (cwd) {
+  if (!hasGit()) {
+    logger.warning(
+      "Git is not present on the system, skipping repo initialization..."
+    );
+    return;
+  }
+
+  if (hasProjectGit(cwd)) {
+    logger.warning(
+      "The project already have an initialized Git repository, skipping repo initialization..."
+    );
+    return;
+  }
+
+  await exec("git init", { cwd });
+  await exec("git add -A", { cwd });
+
+  try {
+    await exec(
+      "git commit -m 'Initialize the project 🚀' --no-verify",
+      { cwd }
+    );
+  } catch (e) {
+    logger.warning(
+      "Skipped git commit because an error occurred, you will need to perform the initial commit yourself."
+    );
+  }
+}
+
 const QUASAR_VERSIONS = [
   { title: 'Quasar v2 (Vue 3 | latest and greatest)', value: 'v2', description: 'recommended' },
   { title: 'Quasar v1 (Vue 2)', value: 'v1' }
