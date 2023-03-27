@@ -3,7 +3,7 @@
     <div class="row items-stretch">
       <div class="theme-picker__colors flex q-gutter-sm">
         <q-btn v-for="color in list" :key="`picker-${color}`" :color="color" :text-color="dark[color] === true ? 'white' : 'black'" no-caps glossy unelevated>
-          <div class="text-caption text-weight-light">
+          <div class="text-weight-light">
             <div class="text-capitalize">{{ color }}</div>
             <div>{{ colors[color] }}</div>
           </div>
@@ -63,7 +63,7 @@
 
     <q-dialog v-model="exportDialog">
       <q-card>
-        <q-tabs class="text-grey-7" v-model="exportTab" active-color="brand-primary" align="justify">
+        <q-tabs class="theme-picker__tabs text-grey-7" v-model="exportTab" active-color="brand-primary" align="justify">
           <q-tab name="sass" no-caps label="Sass" />
           <q-tab name="scss" no-caps label="SCSS" />
           <q-tab name="quasar-cli" no-caps label="Quasar CLI" />
@@ -247,6 +247,11 @@ const sideColors = [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warni
 
   &__colors
     flex-direction: row
+
+  &__colors .q-btn
+    font-size: ($font-size - 2px)
+  &__tabs .q-tab__label
+    font-size: $font-size
 
   @media (min-width: $breakpoint-sm-min)
     &__colors

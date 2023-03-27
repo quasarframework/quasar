@@ -12,7 +12,9 @@
 
     <template v-else>
       <q-tabs class="header-tabs" v-model="currentPackage" no-caps align="left" active-color="brand-primary" indicator-color="brand-primary">
-        <q-tab v-for="packageName in packageList" class="header-btn" :label="packageName" :name="packageName" :key="packageName" />
+        <q-tab v-for="packageName in packageList" class="header-btn" :name="packageName" :key="packageName">
+          {{ packageName }}
+        </q-tab>
       </q-tabs>
 
       <q-separator />
