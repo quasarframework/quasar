@@ -108,6 +108,11 @@
       "import": "./mdi-v6/index.mjs",
       "require": "./mdi-v6/index.js"
     },
+    "./mdi-v7": {
+      "types": "./mdi-v7/index.d.ts",
+      "import": "./mdi-v7/index.mjs",
+      "require": "./mdi-v7/index.js"
+    },
     "./themify": {
       "types": "./themify/index.d.ts",
       "import": "./themify/index.mjs",
