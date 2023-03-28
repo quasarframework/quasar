@@ -2,7 +2,7 @@
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
 const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
-const { hasGit, hasProjectGit } = require('./git')
+const { initializeGit } = require('./git')
 const prompts = require('prompts')
 const compileTemplate = require('lodash/template')
 const fglob = require('fast-glob')
@@ -227,53 +227,7 @@ module.exports.ensureOutsideProject = function () {
   }
 }
 
-// function hasGit() {
-//   try {
-//     exec("git --version");
-//     return true;
-//   } catch (e) {
-//     return false;
-//   }
-// }
-
-// function hasProjectGit(cwd) {
-//   try {
-//     exec("git status", { stdio: "ignore", cwd });
-//     return true;
-//   } catch (e) {
-//     return false;
-//   }
-// }
-
-module.exports.initializeGit = function (cwd) {
-  if (!hasGit()) {
-    logger.warning(
-      "Git is not present on the system, skipping repo initialization..."
-    );
-    return;
-  }
-
-  if (hasProjectGit(cwd)) {
-    logger.warning(
-      "The project already have an initialized Git repository, skipping repo initialization..."
-    );
-    return;
-  }
-
-  exec("git init", { cwd });
-  exec("git add -A", { cwd });
-
-  try {
-    exec(
-      "git commit -m 'Initialize the project 🚀' --no-verify",
-      { cwd }
-    );
-  } catch (e) {
-    logger.warning(
-      "Skipped git commit because an error occurred, you will need to perform the initial commit yourself."
-    );
-  }
-}
+module.exports.initializeGit = initializeGit
 
 const QUASAR_VERSIONS = [
   { title: 'Quasar v2 (Vue 3 | latest and greatest)', value: 'v2', description: 'recommended' },
