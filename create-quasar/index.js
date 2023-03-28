@@ -137,7 +137,7 @@ async function run () {
   if (argv['nogit']) {
     utils.logger.warn('Skipping git initialization as --nogit flag was provided')
   } else {
-    await utils.initializeGit(resolve(scope.projectFolder || "."))
+    utils.initializeGit(resolve(scope.projectFolder || "."))
   }
 
   utils.printFinalMessage(scope)

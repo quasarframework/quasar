@@ -2,6 +2,7 @@
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
 const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
+const { hasGit, hasProjectGit } = require('./git')
 const prompts = require('prompts')
 const compileTemplate = require('lodash/template')
 const fglob = require('fast-glob')
@@ -226,25 +227,25 @@ module.exports.ensureOutsideProject = function () {
   }
 }
 
-function hasGit() {
-  try {
-    exec("git --version");
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
+// function hasGit() {
+//   try {
+//     exec("git --version");
+//     return true;
+//   } catch (e) {
+//     return false;
+//   }
+// }
 
-function hasProjectGit(cwd) {
-  try {
-    exec("git status", { stdio: "ignore", cwd });
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
+// function hasProjectGit(cwd) {
+//   try {
+//     exec("git status", { stdio: "ignore", cwd });
+//     return true;
+//   } catch (e) {
+//     return false;
+//   }
+// }
 
-module.exports.initializeGit = async function (cwd) {
+module.exports.initializeGit = function (cwd) {
   if (!hasGit()) {
     logger.warning(
       "Git is not present on the system, skipping repo initialization..."
@@ -259,11 +260,11 @@ module.exports.initializeGit = async function (cwd) {
     return;
   }
 
-  await exec("git init", { cwd });
-  await exec("git add -A", { cwd });
+  exec("git init", { cwd });
+  exec("git add -A", { cwd });
 
   try {
-    await exec(
+    exec(
       "git commit -m 'Initialize the project 🚀' --no-verify",
       { cwd }
     );
