@@ -3,14 +3,14 @@
     <div v-if="props.overline" class="doc-page__overline text-brand-primary">{{ props.overline }}</div>
 
     <div class="doc-h1 row items-center no-wrap" v-if="props.heading">
-      <div class="doc-heading q-mr-xs" id="introduction">
+      <div class="doc-heading" id="introduction">
         <span>{{ props.title }}</span>
-        <q-badge class="q-ml-sm doc-page__badge" v-if="props.badge" :label="props.badge" />
+        <q-badge class="doc-page__badge" v-if="props.badge" :label="props.badge" />
       </div>
       <q-space />
       <q-btn
         v-if="props.editLink"
-        class="self-start"
+        class="self-start q-ml-sm"
         :href="editHref" target="_blank" rel="noopener noreferrer"
         flat
         round

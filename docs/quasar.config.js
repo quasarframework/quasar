@@ -26,7 +26,7 @@ module.exports = ctx => ({
 
     env: {
       DOCS_BRANCH: 'dev',
-      SEARCH_INDEX: '@quasar-v2'
+      SEARCH_INDEX: 'quasar-v2'
     },
 
     viteVuePluginOptions: {

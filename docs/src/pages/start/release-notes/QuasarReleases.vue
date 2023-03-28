@@ -1,18 +1,20 @@
 <template>
   <q-card flat bordered>
     <q-card-section class="row no-wrap items-center" v-if="error">
-      <q-icon class="q-mr-sm" name="warning" size="24px" color="negative" />
+      <q-icon class="q-mr-md" name="warning" size="24px" color="negative" />
       <div>Cannot fetch the release notes. Please use the links above instead.</div>
     </q-card-section>
 
     <q-card-section class="row no-wrap items-center" v-else-if="loading">
-      <q-spinner class="q-mr-sm" size="24px" color="brand-primary" />
+      <q-spinner class="q-mr-md" size="24px" color="brand-primary" />
       <div>Loading release notes...</div>
     </q-card-section>
 
     <template v-else>
       <q-tabs class="header-tabs" v-model="currentPackage" no-caps align="left" active-color="brand-primary" indicator-color="brand-primary">
-        <q-tab v-for="packageName in packageList" class="header-btn" :label="packageName" :name="packageName" :key="packageName" />
+        <q-tab v-for="packageName in packageList" class="header-btn" :name="packageName" :key="packageName">
+          {{ packageName }}
+        </q-tab>
       </q-tabs>
 
       <q-separator />
@@ -34,7 +36,7 @@ import PackageReleases from './PackageReleases.vue'
 
 const { extractDate } = date
 
-const loading = ref(false)
+const loading = ref(true)
 const error = ref(false)
 
 const currentPackage = ref('quasar')
@@ -42,7 +44,7 @@ const packages = ref({})
 const packageList = ref([])
 
 function queryReleases () {
-  fetch('/release-notes/v2.json')
+  fetch('https://cdn.quasar.dev/release-notes/v2.json')
     .then(response => response.json())
     .then(data => {
       const list = Object.keys(data)
