@@ -13,8 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          # TODO: Update to `dev` when the new docs get merged
-          ref: new-docs
+          ref: dev
 
       - uses: actions/setup-node@v3
         with:
