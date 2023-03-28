@@ -8,9 +8,9 @@
   "scripts": {
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",<% } %>
     "test": "echo \"No test specified\" && exit 0",
+    <% if (shouldAddServeScript) { %>"serve": "<%= globalQuasarBinPath() %> serve dist/spa",<% } %>
     "dev": "quasar dev",
-    "build": "quasar build",
-    <% if (shouldAddServeScript) { %>"serve": "<%= globalQuasarBinPath %> serve dist/spa"<% } %>
+    "build": "quasar build"
   },
   "dependencies": {
     <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>

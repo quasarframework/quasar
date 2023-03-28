@@ -220,6 +220,7 @@ module.exports.ensureOutsideProject = function () {
   }
 }
 
+
 async function getShellResponse(command) {
   try {
     const { stdout } = await execComm(command)
@@ -228,17 +229,28 @@ async function getShellResponse(command) {
     return false
   }
 }
-
+async function getResponse() {
+  try {
+    const unixResponse = await getShellResponse('which quasar')
+    const windowsResponse = await getShellResponse('where quasar')
+    if (unixResponse) {
+      return unixResponse
+    } else if (windowsResponse) {
+      return windowsResponse
+    }
+  } catch (e) {
+    logger.log('Quasar/cli is probably not installed on your computer.Try installing it?')
+    return false
+  }
+}
 module.exports.checkServeScript = async function (scope) {
-  const unixResponse = await getShellResponse('which quasar')
-  const windowsResponse = await getShellResponse('where quasar')
-  if (unixResponse || windowsResponse) {
+  if (getResponse()) {
     try {
-      Object.assign(scope, { shouldAddServeScript: true, globalQuasarBinPath: unixResponse || windowsResponse });
+      Object.assign(scope, { shouldAddServeScript: true, globalQuasarBinPath: getResponse() });
     } catch (e) {
       logger.warn(e);
       }
-  }
+  } 
 }
 
 const QUASAR_VERSIONS = [
