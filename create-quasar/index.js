@@ -102,7 +102,7 @@ async function run () {
         process.exit(0)
       }
     })
-    
+
     if (scope.packageManager !== false) {
       try {
         await utils.installDeps(scope)
