@@ -1,10 +1,9 @@
 
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
-const { emptyDirSync, ensureDirSync, ensureFileSync, copySync, readJsonSync, writeJsonSync } = require('fs-extra')
+const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
 const prompts = require('prompts')
 const compileTemplate = require('lodash/template')
-const merge = require('lodash/merge')
 const fglob = require('fast-glob')
 const { yellow, green } = require('kolorist')
 const exec = require('child_process').execSync
