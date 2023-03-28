@@ -20,8 +20,8 @@ const defaultProjectFolder = 'quasar-project'
 
 async function run () {
   const scope = {}
-  await utils.checkServeScript(scope);
 
+  await utils.checkServeScript(scope);
   await utils.prompts(scope, [
     {
       type: 'select',

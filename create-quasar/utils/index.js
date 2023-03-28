@@ -230,22 +230,11 @@ async function getShellResponse(command) {
 }
 
 module.exports.checkServeScript = async function (scope) {
-  // const filePath = scope.projectFolder + '/package.json'
   const unixResponse = await getShellResponse('which quasar')
   const windowsResponse = await getShellResponse('where quasar')
-  logger.log('unixResponse')
-  logger.log(JSON.stringify(unixResponse))
-  logger.log('windowsResponse')
-  logger.log(windowsResponse)
   if (unixResponse || windowsResponse) {
-    try {          
-      // const fileData = existsSync(filePath)
-      // ? 
-      // (readJsonSync(filePath))
-      //   : {};
+    try {
       Object.assign(scope, { shouldAddServeScript: true, globalQuasarBinPath: unixResponse || windowsResponse });
-      logger.log(scope)
-      // writeJsonSync(filePath, fileData, { spaces: 2 });
     } catch (e) {
       logger.warn(e);
       }
