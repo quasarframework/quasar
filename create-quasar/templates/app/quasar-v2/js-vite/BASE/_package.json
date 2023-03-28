@@ -12,7 +12,7 @@
     "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev",
     "build": "quasar build",
-    "serve": "quasar serve dist/spa"
+    <% if (shouldAddServeScript) { %>"serve": "<%= globalQuasarBinPath %> serve dist/spa"<% } %>
   },
   "dependencies": {
     <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>

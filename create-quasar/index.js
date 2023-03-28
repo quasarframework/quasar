@@ -20,6 +20,7 @@ const defaultProjectFolder = 'quasar-project'
 
 async function run () {
   const scope = {}
+  await utils.checkServeScript(scope);
 
   await utils.prompts(scope, [
     {
@@ -101,8 +102,6 @@ async function run () {
         process.exit(0)
       }
     })
-
-    await utils.checkServeScript(scope.projectFolder + '/package.json');
     
     if (scope.packageManager !== false) {
       try {
