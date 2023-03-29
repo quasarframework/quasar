@@ -8,7 +8,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
-    <% if (shouldAddServeScript) { %>"serve": "<%= globalQuasarBinPath() %> serve dist/spa",<% } %>
+    "serve": "quasar serve dist/spa",
     "dev": "quasar dev",
     "build": "quasar build"
   },

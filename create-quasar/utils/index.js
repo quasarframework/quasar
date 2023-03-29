@@ -7,7 +7,6 @@ const compileTemplate = require('lodash/template')
 const fglob = require('fast-glob')
 const { yellow, green } = require('kolorist')
 const exec = require('child_process').execSync
-const execComm = require('util').promisify(require('child_process').exec)
 const spawn = require('child_process').spawn
 
 const logger = require('./logger')
@@ -217,39 +216,6 @@ module.exports.ensureOutsideProject = function () {
 
     dir = normalize(join(dir, '..'))
   }
-}
-
-
-async function getShellResponse(command) {
-  try {
-    const { stdout } = await execComm(command)
-    return stdout.trim()
-  } catch (e) { 
-    return false
-  }
-}
-async function getResponse() {
-  try {
-    const unixResponse = await getShellResponse('which quasar')
-    const windowsResponse = await getShellResponse('where quasar')
-    if (unixResponse) {
-      return unixResponse
-    } else if (windowsResponse) {
-      return windowsResponse
-    }
-  } catch (e) {
-    logger.log('Quasar/cli is probably not installed on your computer.Try installing it?')
-    return false
-  }
-}
-module.exports.checkServeScript = async function (scope) {
-  if (getResponse()) {
-    try {
-      Object.assign(scope, { shouldAddServeScript: true, globalQuasarBinPath: getResponse() });
-    } catch (e) {
-      logger.warn(e);
-      }
-  } 
 }
 
 const QUASAR_VERSIONS = [

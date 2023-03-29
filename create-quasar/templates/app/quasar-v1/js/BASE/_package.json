@@ -8,7 +8,7 @@
   "scripts": {
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",<% } %>
     "test": "echo \"No test specified\" && exit 0",
-    <% if (shouldAddServeScript) { %>"serve": "<%= globalQuasarBinPath() %> serve dist/spa",<% } %>
+    "serve": "quasar serve dist/spa",
     "dev": "quasar dev",
     "build": "quasar build"
   },
@@ -37,7 +37,8 @@
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
     <% } } %>
-    "@quasar/app": "^2.0.0"
+    "@quasar/app": "^2.0.0",
+    "@quasar/cli": "^2.0.0"
   },
   "browserslist": [
     <% if (preset.ie) { %>"ie >= 11",<% } %>
