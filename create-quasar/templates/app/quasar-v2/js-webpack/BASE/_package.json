@@ -10,7 +10,6 @@
     <% if (lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,vue<% if (css !== 'sass') { %>,<%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
     <% } %>
     "test": "echo \"No test specified\" && exit 0",
-    "serve": "quasar serve dist/spa",
     "dev": "quasar dev",
     "build": "quasar build"
   },
@@ -43,8 +42,7 @@
     "eslint-config-prettier": "^8.1.0",
     "prettier": "^2.5.1",
     <% } } %>
-    "@quasar/app-webpack": "^3.0.0",
-    "@quasar/cli": "^2.0.0"
+    "@quasar/app-webpack": "^3.0.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
