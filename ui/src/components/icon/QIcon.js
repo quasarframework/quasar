@@ -43,7 +43,7 @@ const mRE = /^[Mm]\s?[-+]?\.?\d/
 const imgRE = /^img:/
 const svgUseRE = /^svguse:/
 const ionRE = /^ion-/
-const faRE = /^(fa-(solid|regular|light|brands|duotone|thin)|[lf]a[srlbdk]?) /
+const faRE = /^(fa-(sharp|solid|regular|light|brands|duotone|thin)|[lf]a[srlbdk]?) /
 
 export default Vue.extend({
   name: 'QIcon',
