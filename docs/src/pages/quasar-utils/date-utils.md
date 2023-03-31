@@ -121,6 +121,14 @@ if (date.isValid(dateString)) {
 }
 ```
 
+::: warning
+`isValid` only validates the date format, not the logic validity of the date.
+
+The underlying implementation is based on native `Date.parse(...)` API and its shortcomings will pass through our API.
+
+It will not check if the date is valid for the month (e.g. 31st of February), or if the date is valid for the year (e.g. 29th of February in a non-leap year), and will return a different value in those cases for Firefox with respect to Chromium-based browsers (Chrome, Edge, etc).
+:::
+
 ### Add/Subtract
 To add/subtract some duration to/from a date use:
 
