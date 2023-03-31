@@ -7,7 +7,7 @@ if (Cookies.has('gdpr') !== true) {
     message: 'Our third-party tools use cookies, which are necessary for its functioning' +
       ' and required to achieve the purposes illustrated in the cookie policy.',
     multiline: true,
-    classes: 'doc-gdpr doc-technical',
+    classes: 'doc-gdpr',
     timeout: 0,
     position: 'bottom-right',
     actions: [
