@@ -33,9 +33,9 @@ If you chose ESLint when creating your project folder, you'll also notice that t
 
 eslint: {
   // fix: true,
-  // include = [],
-  // exclude = [],
-  // rawOptions = {},
+  // include: [],
+  // exclude: [],
+  // rawOptions: {},
   warnings: true,
   errors: true
 },

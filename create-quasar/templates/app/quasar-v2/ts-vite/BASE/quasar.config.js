@@ -18,9 +18,9 @@ module.exports = configure(function (/* ctx */) {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,
-      // include = [],
-      // exclude = [],
-      // rawOptions = {},
+      // include: [],
+      // exclude: [],
+      // rawOptions: {},
       warnings: true,
       errors: true
     },<% } %>
