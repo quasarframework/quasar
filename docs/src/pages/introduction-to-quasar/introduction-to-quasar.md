@@ -53,7 +53,7 @@ Below is a non-exhaustive list of Quasar's great aspects and features.
 #### All Platforms in One Go
 One authoritative source of code for all platforms, simultaneously: responsive desktop/mobile websites (SPA, SSR + SPA client takeover, SSR + PWA client takeover), PWAs (Progressive Web Apps), mobile apps (that look native) and multi-platform desktop apps (through Electron).
 
-#### The largest sets of top-class, fast and responsive web components
+#### The largest set of top-class, fast and responsive web components
 There’s a component for almost every web development need within Quasar. Each of Quasar's components is carefully crafted to offer you the best possible experience for your users. Quasar is **designed with performance & responsiveness in mind** – so the overhead of using Quasar is barely noticeable. This attention to performance and good design is something that gives us special pride.
 
 #### Best practices integrated by default
