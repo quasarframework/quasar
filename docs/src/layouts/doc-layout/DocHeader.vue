@@ -1,5 +1,5 @@
 <template>
-  <q-header class="doc-header header-toolbar doc-marketing" bordered :height-hint="128">
+  <q-header class="doc-header header-toolbar doc-brand" bordered :height-hint="128">
     <q-toolbar class="doc-header__primary q-pl-lg q-pr-md no-wrap items-stretch">
       <router-link to="/" class="doc-header__logo row items-center no-wrap cursor-pointer">
         <img
@@ -184,7 +184,7 @@ const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStor
 .doc-header-menu
   letter-spacing: $letter-spacing-brand
   border: 1px solid $separator-color
-  font-size: ($font-size - 4px)
+  font-size: ($font-size - 2px)
   box-shadow: none !important
   background-color: #fff
 

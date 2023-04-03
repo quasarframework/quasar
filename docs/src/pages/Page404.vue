@@ -1,6 +1,6 @@
 <template>
   <doc-stars />
-  <div class="page404 flex flex-center text-center relative-position doc-marketing">
+  <div class="page404 flex flex-center text-center relative-position doc-brand">
     <div>
       <div class="page404__hero flex flex-center no-wrap q-gutter-sm text-brand-primary">
         <div>4</div>

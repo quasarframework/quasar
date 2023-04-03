@@ -1,5 +1,5 @@
 <template>
-  <div class="doc-page-footer doc-marketing">
+  <div class="doc-page-footer doc-brand">
     <template v-if="fullscreen">
       <nav class="doc-page-footer__nav" v-once>
         <q-list v-for="entry in links" :key="entry.name">
@@ -151,7 +151,7 @@ export default {
       grid-template-columns: repeat(5, 1fr)
 
   &__copyright
-    font-size: ($font-size - 4px)
+    font-size: ($font-size - 2px)
 
 body.body--dark
   .doc-page-footer

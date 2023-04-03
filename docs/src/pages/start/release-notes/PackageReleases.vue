@@ -76,8 +76,10 @@ const currentReleaseBody = computed(() => {
 .release__tab-label
   font-size: $font-size
   font-weight: 700
+  line-height: ($font-size + 3px)
 .release__tab-date
   font-size: ($font-size - 3px)
+  line-height: ($font-size + 3px)
 
 .release__body
   h1, h2, h3, h4, h5, h6

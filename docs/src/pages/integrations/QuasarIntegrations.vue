@@ -1,5 +1,5 @@
 <template>
-  <div class="page-integrations column justify-center text-center doc-marketing">
+  <div class="page-integrations column justify-center text-center doc-brand">
     <div class="heading heading--large normal-line-height">All platforms in one go</div>
     <div class="letter-spacing-300 text-size-16 text-weight-bold text-center q-mb-md">
       Focus only on your mission and forget about the spaceship.

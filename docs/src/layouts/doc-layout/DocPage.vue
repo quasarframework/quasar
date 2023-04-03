@@ -142,7 +142,7 @@ const tocClass = computed(() =>
 .doc-page
   &__content
     padding: 80px 42px
-    line-height: 30px
+    line-height: 1.5em
 
     @media (max-width: 1300px)
       padding: 32px

@@ -1,5 +1,5 @@
 <template>
-  <div class="page-all fit column doc-marketing">
+  <div class="page-all fit column doc-brand">
     <doc-stars />
 
     <div class="page-all__search q-py-md q-px-xl q-pa-md row no-wrap items-center justify-center">
