@@ -35,7 +35,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | MDI v5 (Material Design Icons) | 5.9.55 | `mdi-v5` | Extended Material Design icons font |  | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
-| [Font Awesome v6](https://fontawesome.com/icons) | 6.3.0 | `fontawesome-v6` | Fontawesome icons font | Requires: @quasar/extras 1.13+| [License](fontawesome-v6/LICENSE.txt) |
+| [Font Awesome v6](https://fontawesome.com/icons) | 6.4.0 | `fontawesome-v6` | Fontawesome icons font | Requires: @quasar/extras 1.13+| [License](fontawesome-v6/LICENSE.txt) |
 | Font Awesome v5 | 5.15.4 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons](https://ionicons.com/v4) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
@@ -64,7 +64,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | MDI v6 (Material Design Icons) | 6.9.96 | `svg-mdi-v6` | `@quasar/extras/mdi-v6` | | [License](mdi-v6/LICENSE) |
 | MDI v5 (Material Design Icons) | 5.9.55 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | | [License](mdi-v5/LICENSE) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
-| [Font Awesome v6](https://fontawesome.com/icons) | 6.3.0 | `svg-fontawesome-v6` | `@quasar/extras/fontawesome-v6` | Requires: @quasar/extras 1.13+ | [License](fontawesome-v5/LICENSE.txt) |
+| [Font Awesome v6](https://fontawesome.com/icons) | 6.4.0 | `svg-fontawesome-v6` | `@quasar/extras/fontawesome-v6` | Requires: @quasar/extras 1.13+ | [License](fontawesome-v5/LICENSE.txt) |
 | Font Awesome v5 | 5.15.4 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons v7](https://ionicons.com/) | 7.1.0 | `svg-ionicons-v7` | `@quasar/extras/ionicons-v7` | Requires: @quasar/extras 1.16+ | [Icon License](ionicons-v7/LICENSE) |
 | Ionicons v6 | 6.1.3 | `svg-ionicons-v6` | `@quasar/extras/ionicons-v6` | Requires: @quasar/extras 1.12+ | [Icon License](ionicons-v6/LICENSE) |

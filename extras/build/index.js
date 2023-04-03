@@ -87,6 +87,11 @@ async function generate () {
   // don't exit before everything is done
   await queue.wait({ empty: true })
 
+  runJob('./utils/buildExports.js')
+
+  // don't exit before everything is done
+  await queue.wait({ empty: true })
+
   console.log(JSON.stringify(materialFontVersions, null, 2))
 }
 
