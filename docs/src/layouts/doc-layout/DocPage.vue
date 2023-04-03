@@ -152,7 +152,7 @@ const tocClass = computed(() =>
     > .q-btn
       background: $brand-accent
       color: #fff
-      font-weight: bold
+      font-weight: 700
       font-size: $font-size
       letter-spacing: $letter-spacing-brand
       padding: 8px 16px

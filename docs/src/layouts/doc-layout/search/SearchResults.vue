@@ -85,7 +85,7 @@ const props = defineProps({
 
     &-token
       color: $brand-accent
-      font-weight: bold
+      font-weight: 700
 
     &--active
       background: $brand-primary !important
