@@ -18,7 +18,7 @@
         </q-input>
       </template>
 
-      <template v-slot:no-data="{ icon, message, filter }">
+      <template v-slot:no-data="{ icon, message }">
         <div class="full-width row flex-center text-accent q-gutter-sm">
           <q-icon size="2em" name="sentiment_dissatisfied" />
           <span>
