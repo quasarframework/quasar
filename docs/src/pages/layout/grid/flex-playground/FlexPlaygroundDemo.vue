@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <q-markup-table flat bordered class="text-left q-my-md">
+    <q-markup-table flat bordered class="text-left q-mt-md">
       <thead>
         <tr>
           <th>Where to apply</th>
@@ -294,7 +294,7 @@ function editInCodepen () {
     </div>`
   })
 
-  const template = `
+  const Template = `
     <div class="flex flex-center column">
       <div class="text-h6">Flex playground example</div>
       <div class="row bg-blue-grey-2" style="min-height: 400px; width: 80%; padding: 24px;">
@@ -304,7 +304,7 @@ function editInCodepen () {
       </div>
     </div>
   `
-  codepenRef.value.open({ template })
+  codepenRef.value.open({ Template })
 }
 
 onMounted(checkQueryParams)
