@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md example-row-nesting">
 
     <div class="row">
       <div class="col-sm-9">
@@ -18,11 +18,12 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.row
-  background: rgba(255,0,0,.1)
-.row > div
-  padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
+<style lang="sass">
+.example-row-nesting
+  .row
+    background: rgba(#aa0, .1)
+  .row > div
+    padding: 10px 15px
+    background: rgba(#999,.15)
+    border: 1px solid rgba(#999,.2)
 </style>

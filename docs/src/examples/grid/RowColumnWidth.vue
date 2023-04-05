@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md example-row-column-width">
 
     <div class="row">
       <div class="col">
@@ -28,11 +28,12 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.row > div
-  padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
-.row + .row
-  margin-top: 1rem
+<style lang="sass">
+.example-row-column-width
+  .row > div
+    padding: 10px 15px
+    background: rgba(#999,.15)
+    border: 1px solid rgba(#999,.2)
+  .row + .row
+    margin-top: 1rem
 </style>
