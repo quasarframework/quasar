@@ -1,6 +1,6 @@
 <template>
-  <div v-bind="fullscreenAttrs">
-    <div class="q-pb-md">
+  <div class="flex-playground-demo" :class="demoClasses">
+    <div class="q-pb-lg">
       <q-btn
         color="secondary"
         @click="toggleFullscreen"
@@ -8,50 +8,59 @@
         :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Try playground in Fullscreen'"
       />
     </div>
-    <div class="text-subtitle2 q-pb-md">Parent Properties (container)</div>
-    <div class="row wrap justify-start content-stretch">
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.containerGroup" :options="containerOptions" label="Container" emit-value map-options dense options-dense />
+
+    <div class="text-h6 q-mb-md">Configure parent (container):</div>
+    <div class="row q-col-gutter-sm content-stretch q-mb-md">
+      <div class="col-lg-2 col-xs-12 col-sm-6">
+        <q-select color="blue-12" v-model="group.containerGroup" :options="containerOptions" label="Container" emit-value map-options dense options-dense outlined />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.directionGroup" :options="directionOptions" label="Direction" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-12 col-sm-6">
+        <q-select color="blue-12" v-model="group.directionGroup" :options="directionOptions" label="Direction" emit-value map-options dense options-dense outlined />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.wrapGroup" :options="wrapOptions" label="Wrap" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-12 col-sm-6">
+        <q-select color="blue-12" v-model="group.wrapGroup" :options="wrapOptions" label="Wrap" emit-value map-options dense options-dense outlined />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.justifyGroup" :options="justifyOptions" label="Justify Content" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-12 col-sm-6">
+        <q-select color="blue-12" v-model="group.justifyGroup" :options="justifyOptions" label="Justify Content" emit-value map-options dense options-dense outlined />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.itemsGroup" :options="itemsOptions" label="Align Items" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-12 col-sm-6">
+        <q-select color="blue-12" v-model="group.itemsGroup" :options="itemsOptions" label="Align Items" emit-value map-options dense options-dense outlined />
       </div>
-      <div class="col-lg-2 col-xs-6">
-        <q-select color="blue-12" v-model="group.contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense />
+      <div class="col-lg-2 col-xs-12 col-sm-6">
+        <q-select color="blue-12" v-model="group.contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense outlined />
       </div>
     </div>
 
-    <div class="text-weight-medium q-mt-sm">Container Classes</div>
-    <q-input filled v-model="classes" dense readonly class="q-py-sm">
-      <template #append>
+    <div class="row items-center q-gutter-md q-mb-md">
+      <div>Resulting container classes:</div>
+      <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
+        <div class="text-subtitle2 q-mr-sm">{{ classes }}</div>
         <copy-button :text="classes" />
-      </template>
-    </q-input>
-
-    <div class="text-subtitle2 float-left">
-      Results <span class="text-weight-thin">(children: {{ group.children.length }}/10)</span>
+      </div>
     </div>
 
-    <q-btn class="float-right" round dense flat :icon="mdiShareVariant" @click="share">
-      <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
-    </q-btn>
-    <q-btn class="float-right" round dense flat :icon="fabCodepen" @click="editInCodepen">
-      <q-tooltip>Edit in Codepen</q-tooltip>
-    </q-btn>
+    <div class="row items-center q-gutter-md q-mb-md">
+      <div class="text-h6">Configure children: {{ group.children.length }} / 10</div>
 
-    <q-btn class="float-right" label="Add Child" :icon="mdiPlus" dense flat :disabled="group.children.length >= 10" @click="addChild" />
-    <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
-      <div id="parent" :class="classes" style="overflow: hidden;">
-        <child v-for="(child, index) in group.children" :key="index"
+      <q-btn label="Add Child" :icon="mdiPlus" size="10px" outline :disabled="group.children.length >= 10" @click="addChild" />
+
+      <q-space />
+
+      <q-btn round dense flat :icon="mdiShareVariant" @click="share">
+        <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
+      </q-btn>
+
+      <q-btn round dense flat :icon="fabCodepen" @click="editInCodepen">
+        <q-tooltip>Edit in Codepen</q-tooltip>
+      </q-btn>
+    </div>
+
+    <div class="flex-playground-demo__container rounded-borders" :class="containerClass">
+      <div :class="classes" class="row full-width" style="overflow: hidden">
+        <flex-child
+          v-for="(child, index) in group.children"
+          :key="index"
+          class="flex-playground-demo__child rounded-borders"
           :child="child"
           :ref="el => { childRef[index] = el }"
           :index="index"
@@ -62,32 +71,58 @@
       </div>
     </div>
 
-    <div class="text-weight-medium q-mt-sm">Child Classes</div>
-    <q-input filled v-model="group.childClasses" dense readonly class="q-py-sm">
-      <template #append>
-        <copy-button :text="group.childClasses" />
-      </template>
-    </q-input>
+    <q-markup-table flat bordered class="text-left q-my-md">
+      <thead>
+        <tr>
+          <th>Where to apply</th>
+          <th>What to apply</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Container classes</td>
+          <td>
+            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
+              <div class="text-subtitle2 q-mr-sm">{{ classes }}</div>
+              <copy-button :text="classes" />
+            </div>
+          </td>
+        </tr>
 
-    <div class="text-weight-medium q-mt-sm">Child Styles</div>
-    <q-input filled v-model="group.childStyles" dense readonly class="q-py-sm">
-      <template #append>
-        <copy-button :text="group.childStyles" />
-      </template>
-    </q-input>
+        <tr>
+          <td>Child #{{ selectedIndex + 1 }} classes</td>
+          <td>
+            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
+              <div class="text-subtitle2 q-mr-sm">{{ group.childClasses || '* none *' }}</div>
+              <copy-button v-if="group.childClasses" :text="group.childClasses" />
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td>Child #{{ selectedIndex + 1 }} styles</td>
+          <td>
+            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
+              <div class="text-subtitle2 q-mr-sm">{{ group.childStyles || '* none *' }}</div>
+              <copy-button v-if="group.childStyles" :text="group.childStyles" />
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </q-markup-table>
 
     <doc-codepen ref="codepenRef" title="Flex example" />
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive, computed, onMounted, onBeforeUpdate } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar, copyToClipboard } from 'quasar'
 import { fabCodepen } from '@quasar/extras/fontawesome-v6'
 import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v6'
 
-import Child from './FlexChild.vue'
+import FlexChild from './FlexChild.vue'
 import DocCodepen from 'src/components/DocCodepen.vue'
 import CopyButton from 'src/components/CopyButton.vue'
 
@@ -150,224 +185,185 @@ const contentOptions = [
   { label: 'content-around', value: 'content-around' }
 ]
 
-export default {
-  name: 'FlexPlayground',
+const $q = useQuasar()
+const $route = useRoute()
 
-  components: {
-    Child,
-    DocCodepen,
-    CopyButton
-  },
+const childRef = ref([])
+const codepenRef = ref(null)
 
-  setup () {
-    const $q = useQuasar()
-    const $route = useRoute()
+const group = reactive({
+  containerGroup: 'fit',
+  directionGroup: 'row',
+  wrapGroup: 'wrap',
+  justifyGroup: 'justify-start',
+  itemsGroup: 'items-start',
+  contentGroup: 'content-start',
+  children: [],
+  childClasses: '',
+  childStyles: ''
+})
 
-    const childRef = ref([])
-    const codepenRef = ref(null)
+const selectedIndex = ref(0)
+const copied = ref(false)
 
-    const group = reactive({
-      containerGroup: 'fit',
-      directionGroup: 'row',
-      wrapGroup: 'wrap',
-      justifyGroup: 'justify-start',
-      itemsGroup: 'items-start',
-      contentGroup: 'content-start',
-      children: [],
-      childClasses: '',
-      childStyles: ''
-    })
-
-    const selectedIndex = ref(0)
-    const copied = ref(false)
-
-    function checkQueryParams () {
-      const query = $route.query
-      for (const param in queryParams) {
-        if (param in query) {
-          const paramType = queryParams[ param ]
-          switch (paramType) {
-            case 'object':
-              group[ param ] = JSON.parse(query[ param ])
-              break
-            default:
-              group[ param ] = query[ param ]
-          }
-        }
+function checkQueryParams () {
+  const query = $route.query
+  for (const param in queryParams) {
+    if (param in query) {
+      const paramType = queryParams[ param ]
+      switch (paramType) {
+        case 'object':
+          group[ param ] = JSON.parse(query[ param ])
+          break
+        default:
+          group[ param ] = query[ param ]
       }
-      if (!query.children) {
-        addChild()
-      }
-    }
-
-    function addChild () {
-      if (group.children.length < 10) {
-        group.children.push({
-          width: '',
-          height: '',
-          widthGroup: '',
-          breakpointGroup: null,
-          alignmentGroup: '',
-          offsetGroup: '',
-          gutterGroup: null,
-          colGutterGroup: null
-        })
-      }
-    }
-
-    function onDelete (index) {
-      group.children.splice(index, 1)
-    }
-
-    function onChange (index) {
-      selectedIndex.value = index
-      const child = childRef.value[ index ]
-      group.childClasses = child.classes
-      group.childStyles = child.styles
-    }
-
-    function share () {
-      let playgroudUrl = window.location.href
-      if (playgroudUrl.includes('?')) {
-        playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
-      }
-      let queryString = '',
-        index = 0
-      const paramsCount = Object.keys(queryParams).length
-      for (const param in queryParams) {
-        const paramType = queryParams[ param ]
-        let value
-        switch (paramType) {
-          case 'object':
-            value = JSON.stringify(group[ param ])
-            break
-          default:
-            value = group[ param ]
-        }
-        queryString += `${param}=${encodeURIComponent(value)}`
-        index++
-        if (index < paramsCount) {
-          queryString += '&'
-        }
-      }
-      copyToClipboard(`${playgroudUrl}?${queryString}`)
-      copied.value = true
-      setTimeout(() => {
-        copied.value = false
-      }, 1500)
-    }
-
-    function editInCodepen () {
-      const children = group.children.map((child, index) => {
-        const kid = childRef.value[ index ]
-        return `<div class="${kid.classes} bg-grey-6" style="${kid.styles}">
-          <q-card class="no-border-radius">
-            <q-card-section>
-              Child #${index}
-            </q-card-section>
-          </q-card>
-        </div>`
-      })
-
-      const template = `
-        <div class="flex flex-center column">
-          <div class="text-h6">Flex playground example</div>
-          <div class="row bg-blue-grey-2" style="min-height: 400px; width: 80%; padding: 24px;">
-            <div id="parent" class="${classes.value}" style="overflow: hidden;">
-              ${children.join('')}
-            </div>
-          </div>
-        </div>
-      `
-      codepenRef.value.open({ template })
-    }
-
-    onMounted(checkQueryParams)
-
-    // Make sure to reset the dynamic refs before each update.
-    onBeforeUpdate(() => {
-      childRef.value = []
-    })
-
-    const classes = computed(() => {
-      return (group.containerGroup +
-        ' ' + group.directionGroup +
-        ' ' + group.wrapGroup +
-        ' ' + group.justifyGroup +
-        ' ' + group.itemsGroup +
-        ' ' + group.contentGroup)
-        .replace(/,/g, ' ')
-        .replace(/'  +'/g, ' ')
-        .trim()
-    })
-
-    const fullscreenAttrs = computed(() => {
-      return $q.fullscreen.isActive
-        ? {
-            style: {
-              backgroundColor: '#fff'
-            },
-            class: [
-              'q-pa-md'
-            ]
-          }
-        : {}
-    })
-
-    function toggleFullscreen (e) {
-      const target = document.getElementById('flex-playground')
-      target && $q.fullscreen.toggle(target)
-    }
-
-    return {
-      fabCodepen,
-      mdiPlus,
-      mdiShareVariant,
-
-      childRef,
-      codepenRef,
-
-      group,
-
-      queryParams,
-      containerOptions,
-      directionOptions,
-      wrapOptions,
-      justifyOptions,
-      itemsOptions,
-      contentOptions,
-
-      selectedIndex,
-      copied,
-
-      classes,
-      fullscreenAttrs,
-
-      addChild,
-      onDelete,
-      onChange,
-      share,
-      editInCodepen,
-      toggleFullscreen
     }
   }
+  if (!query.children) {
+    addChild()
+  }
+}
+
+function addChild () {
+  if (group.children.length < 10) {
+    group.children.push({
+      width: '',
+      height: '',
+      widthGroup: '',
+      breakpointGroup: null,
+      alignmentGroup: '',
+      offsetGroup: '',
+      gutterGroup: null,
+      colGutterGroup: null
+    })
+  }
+}
+
+function onDelete (index) {
+  group.children.splice(index, 1)
+}
+
+function onChange (index) {
+  selectedIndex.value = index
+  const child = childRef.value[ index ]
+  group.childClasses = child.classes
+  group.childStyles = child.styles
+}
+
+function share () {
+  let playgroudUrl = window.location.href
+  if (playgroudUrl.includes('?')) {
+    playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
+  }
+  let queryString = '',
+    index = 0
+  const paramsCount = Object.keys(queryParams).length
+  for (const param in queryParams) {
+    const paramType = queryParams[ param ]
+    let value
+    switch (paramType) {
+      case 'object':
+        value = JSON.stringify(group[ param ])
+        break
+      default:
+        value = group[ param ]
+    }
+    queryString += `${param}=${encodeURIComponent(value)}`
+    index++
+    if (index < paramsCount) {
+      queryString += '&'
+    }
+  }
+  copyToClipboard(`${playgroudUrl}?${queryString}`)
+  copied.value = true
+  setTimeout(() => {
+    copied.value = false
+  }, 1500)
+}
+
+function editInCodepen () {
+  const children = group.children.map((_, index) => {
+    const kid = childRef.value[ index ]
+    return `<div class="${kid.classes} bg-grey-6" style="${kid.styles}">
+      <q-card class="no-border-radius">
+        <q-card-section>
+          Child #${index + 1}
+        </q-card-section>
+      </q-card>
+    </div>`
+  })
+
+  const template = `
+    <div class="flex flex-center column">
+      <div class="text-h6">Flex playground example</div>
+      <div class="row bg-blue-grey-2" style="min-height: 400px; width: 80%; padding: 24px;">
+        <div id="parent" class="${classes.value}" style="overflow: hidden;">
+          ${children.join('')}
+        </div>
+      </div>
+    </div>
+  `
+  codepenRef.value.open({ template })
+}
+
+onMounted(checkQueryParams)
+
+// Make sure to reset the dynamic refs before each update.
+onBeforeUpdate(() => {
+  childRef.value = []
+})
+
+const classes = computed(() => {
+  return (group.containerGroup +
+    ' ' + group.directionGroup +
+    ' ' + group.wrapGroup +
+    ' ' + group.justifyGroup +
+    ' ' + group.itemsGroup +
+    ' ' + group.contentGroup)
+    .replace(/,/g, ' ')
+    .replace(/'  +'/g, ' ')
+    .trim()
+})
+
+const resultClasses = computed(() => ($q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-2 text-dark'))
+const demoClasses = computed(() => ($q.fullscreen.isActive ? 'bg-white q-pa-md' : null))
+const containerClass = computed(() => `flex-playground-demo__container--${ $q.dark.isActive ? 'dark' : 'light' }`)
+
+function toggleFullscreen () {
+  const target = document.getElementById('flex-playground')
+  target && $q.fullscreen.toggle(target)
 }
 </script>
 
-<style lang="sass" scoped>
-.row:not(.q-field__append) > div
-  padding: 8px
-  background: rgba(227,242,253,.6)
-  border: 1px solid rgba(187,222,251,.9)
+<style lang="sass">
+.flex-playground-demo
 
-.row + .row
-  margin-top: 1rem
+  &__result
+    border-radius: $generic-border-radius
+    border: 1px dotted currentColor
 
-.column > div
-  padding: 8px
-  background: rgba(227,242,253,.6)
-  border: 1px solid rgba(187,222,251,.9)
+  &__child
+    padding: 8px
+    min-width: 220px
 
-.column > .col
-  padding: 5px 2px
+    > div,
+    > .q-field
+      margin-bottom: 2px
+
+  &__container
+    min-height: 400px
+    padding: 8px
+
+    &--light
+      &,
+      .flex-playground-demo__child
+        background: rgba(227,242,253,.6)
+        border: 1px solid $separator-color
+
+    &--dark
+      &,
+      .flex-playground-demo__child
+        background: rgba(#333,.6)
+        border: 1px solid $separator-dark-color
 </style>
