@@ -3,31 +3,31 @@
     <div class="row">
       <div class="offset-1 col-3 column justify-between">
         <p>Styling on parent</p>
-        <div>
-          <div class="bg-yellow q-pa-sm">Yellow block</div>
-          <div class="row q-gutter-lg bg-red-4">
-            <div class="q-pa-md bg-green-3" v-for="n in 4" :key="n">C</div>
+        <div class="text-dark">
+          <div class="bg-amber q-pa-sm">Amber block</div>
+          <div class="row q-gutter-lg bg-blue-4">
+            <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n">C</div>
           </div>
         </div>
       </div>
       <div class="offset-1 col-3 column justify-between">
         <p>Styling on wrapper - .row</p>
-        <div>
-          <div class="bg-yellow q-pa-sm">Yellow block</div>
-          <div class="bg-red-4 row">
+        <div class="text-dark">
+          <div class="bg-amber q-pa-sm">Amber block</div>
+          <div class="bg-blue-4 row">
             <div class="row q-gutter-lg">
-              <div class="q-pa-md bg-green-3" v-for="n in 4" :key="n">C</div>
+              <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n">C</div>
             </div>
           </div>
         </div>
       </div>
       <div class="offset-1 col-3 column justify-between">
         <p>Styling on wrapper - .overflow-auto</p>
-        <div>
-          <div class="bg-yellow q-pa-sm">Yellow block</div>
-          <div class="bg-red-4 overflow-auto">
+        <div class="text-dark">
+          <div class="bg-amber q-pa-sm">Amber block</div>
+          <div class="bg-blue-4 overflow-auto">
             <div class="row q-gutter-lg">
-              <div class="q-pa-md bg-green-3" v-for="n in 4" :key="n">C</div>
+              <div class="q-pa-md bg-blue-10 text-white" v-for="n in 4" :key="n">C</div>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md example-break-column">
 
     <div class="column inline items-start example-container">
       <div class="example-cell" tabindex="0">Col 1 / Row 1</div>
@@ -15,16 +15,17 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.flex-break
-  flex: 1 0 100% !important
-  width: 0 !important
+<style lang="sass">
+.example-break-column
+  .flex-break
+    flex: 1 0 100% !important
+    width: 0 !important
 
-.example-container
-  height: 100px
+  .example-container
+    height: 100px
 
-  .example-cell
-    margin: 1px
-    padding: 4px 8px
-    box-shadow: inset 0 0 0 2px $grey-6
+    .example-cell
+      margin: 1px
+      padding: 4px 8px
+      box-shadow: inset 0 0 0 2px #9e9e9e
 </style>

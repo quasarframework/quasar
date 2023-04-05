@@ -103,7 +103,7 @@ export default {
 
       cardContainerClass: computed(() => {
         return $q.screen.gt.xs
-          ? 'grid-masonry grid-masonry--' + ($q.screen.gt.sm ? '3' : '2')
+          ? 'example-masonry-table-grid example-masonry-table-grid--' + ($q.screen.gt.sm ? '3' : '2')
           : null
       }),
 
@@ -118,7 +118,7 @@ export default {
 </script>
 
 <style lang="sass">
-.grid-masonry
+.example-masonry-table-grid
   flex-direction: column
   height: 700px
 
