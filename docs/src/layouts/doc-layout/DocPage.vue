@@ -224,8 +224,6 @@ body.body--light .doc-page
 
   &__toc-container .q-item
     color: $header-btn-color--light
-    &:hover
-      color: $header-btn-hover-color--light
 
 body.body--dark .doc-page
   &__related
@@ -238,6 +236,4 @@ body.body--dark .doc-page
 
   &__toc-container .q-item
     color: $header-btn-color--dark
-    &:not(.disabled):hover
-      color: $header-btn-hover-color--dark
 </style>
