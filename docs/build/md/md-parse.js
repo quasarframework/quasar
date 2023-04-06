@@ -48,10 +48,10 @@ module.exports = function (code, id) {
     }
 
     if (prev !== void 0) {
-      data.nav.push({ ...prev, dir: 'left' })
+      data.nav.push({ ...prev, classes: 'doc-page__related--left' })
     }
     if (next !== void 0) {
-      data.nav.push({ ...next, dir: 'right' })
+      data.nav.push({ ...next, classes: 'doc-page__related--right' })
     }
   }
 
