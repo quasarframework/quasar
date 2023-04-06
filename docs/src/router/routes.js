@@ -17,6 +17,7 @@ const routes = [
   { path: '/quasar-cli/supporting-ie', redirect: '/quasar-cli-webpack/browser-compatibility' },
   { path: '/quasar-cli/modern-build', redirect: '/quasar-cli-webpack/browser-compatibility' },
   { path: '/quasar-cli/quasar-conf-js', redirect: '/quasar-cli-webpack/quasar-config-js' },
+  { path: '/contribution-guide', redirect: '/how-to-contribute/contribution-guide' },
 
   // shortcuts
   { path: '/start', redirect: '/start/quick-start' },
