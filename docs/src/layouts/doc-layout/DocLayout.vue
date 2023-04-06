@@ -127,12 +127,16 @@ const pageContentClass = computed(() =>
     padding: 0 4px 0 6px
     color: $light-text
     transition: none
+    &:hover
+      color: #000 !important // $header-btn-hover-color--light makes little difference
 
     .q-item__section
       padding-top: 2px
       padding-bottom: 2px
     &.q-item--dark
       color: $dark-text
+      &:hover
+        color: $header-btn-hover-color--dark !important
 
     .q-item__section--main ~ .q-item__section--side
       padding-left: 4px
