@@ -51,10 +51,17 @@ history: createHistory(process.env.VUE_ROUTER_BASE)
 ```
 
 
-### 3. Check the new quasar.config.js
+### 3. Explicitly specify extensions on all your import statements
 
-Make sure that all your customs components imports have their ".vue" extension such as `import MyComponent from "components/MyComponent.vue";`
-Indeed, omitting the file extension used to work in webpack, but not anymore in vite.
+Make sure that all your Vue component files (SFC) are imported with their `.vue` extension explicitly specified. Omitting the file extension works with Webpack (due to Quasar CLI configured list of extensions for it to try), but not with Vite too.
+
+```js
+// BAD! Will not work:
+import MyComponent from './MyComponent'
+
+// GOOD:
+import MyComponent from './MyComponent.vue'
+```
 
 ### 4. Check the new quasar.config.js
 
