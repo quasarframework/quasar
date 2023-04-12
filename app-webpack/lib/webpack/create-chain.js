@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
+const aliasHQ = require('alias-hq')
 const WebpackChain = require('webpack-chain')
 const { VueLoaderPlugin } = require('vue-loader')
 
@@ -119,6 +120,8 @@ module.exports = function (cfg, configName) {
     : 'vue-i18n.esm-bundler.js'
 
   chain.resolve.alias.set('vue-i18n$', 'vue-i18n/dist/' + vueI18nFile)
+
+  chain.resolve.alias.merge(aliasHQ.get('webpack'))
 
   chain.resolveLoader.modules
     .merge(resolveModules)

@@ -2,6 +2,7 @@ const path = require('path')
 const { existsSync } = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
+const hq = require('alias-hq')
 const debounce = require('lodash/debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
@@ -432,16 +433,7 @@ class QuasarConfFile {
         __INTLIFY_PROD_DEVTOOLS__: cfg.metaConf.debugging
       },
 
-      alias: {
-        src: appPaths.srcDir,
-        app: appPaths.appDir,
-        components: appPaths.resolve.src('components'),
-        layouts: appPaths.resolve.src('layouts'),
-        pages: appPaths.resolve.src('pages'),
-        assets: appPaths.resolve.src('assets'),
-        boot: appPaths.resolve.src('boot'),
-        stores: appPaths.resolve.src('stores')
-      },
+      alias: hq.get('rollup'),
 
       useFilenameHashes: true,
       vueRouterMode: 'hash',
