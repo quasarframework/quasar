@@ -106,7 +106,7 @@ module.exports = function (ctx) {
 }
 ```
 
-Then in your website/app you can access `process.env. API` and it's gonna point to one of those two links above, based on dev or production build type.
+Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
 
