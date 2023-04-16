@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 const { readFileSync, readdirSync, existsSync } = require('fs')
-
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).argv
 // display banner
 console.log()
 console.log(
@@ -17,7 +19,10 @@ const utils = require('./utils')
 utils.ensureOutsideProject()
 
 const defaultProjectFolder = 'quasar-project'
-
+let current = false
+if (argv.current) {
+  current = true
+}
 async function run () {
   const scope = {}
 
@@ -34,7 +39,7 @@ async function run () {
       ]
     },
     {
-      type: 'text',
+      type: () => current ? null: 'text',
       name: 'projectFolder',
       message: 'Project folder:',
       initial: defaultProjectFolder,
@@ -65,7 +70,10 @@ async function run () {
       name: 'overwriteConfirmation'
     }
   ])
-
+  if(!scope.projectFolderName){
+    scope.projectFolderName = "."
+    scope.projectName = process.cwd()
+  }
   const projectScript = require(`./templates/${scope.projectType}`)
   await projectScript({ scope, utils })
 
