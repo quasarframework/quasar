@@ -1,11 +1,9 @@
-const { getOptions } = require('loader-utils')
 const hash = require('hash-sum')
 
-const stringifyRequest = require('loader-utils/lib/stringifyRequest')
-const getDevlandFile = require('../helpers/get-devland-file')
+const getPackage = require('../helpers/get-package')
 
-const autoImportData = getDevlandFile('quasar/dist/transforms/auto-import.json')
-const importTransformation = getDevlandFile('quasar/dist/transforms/import-transformation.js')
+const autoImportData = getPackage('quasar/dist/transforms/auto-import.json')
+const importTransformation = getPackage('quasar/dist/transforms/import-transformation.js')
 const autoImportRuntimePath = require.resolve('./runtime.auto-import.js')
 const injectModuleIdRuntimePath = require.resolve('./runtime.inject-module-id.js')
 
@@ -61,19 +59,23 @@ function extract (content, ctx, autoImportCase) {
     installStatements += `qInstall(script, 'directives', {${dir.join(',')}});`
   }
 
+  const from = JSON.stringify(ctx.utils.contextify(ctx.context, autoImportRuntimePath))
+
   // stringifyRequest needed so it doesn't
   // messes up consistency of hashes between builds
   return `
 ${importStatements}
-import qInstall from ${stringifyRequest(ctx, autoImportRuntimePath)};
+import qInstall from ${from};
 ${installStatements}
 `
 }
 
 function getModuleIdentifierCode (ctx) {
   const id = hash(ctx.request)
+  const from = JSON.stringify(ctx.utils.contextify(ctx.context, injectModuleIdRuntimePath))
+
   return `
-import qInject from ${stringifyRequest(ctx, injectModuleIdRuntimePath)};
+import qInject from ${from};
 qInject(script, '${id}');
 `
 }
@@ -82,7 +84,7 @@ module.exports = function (content, map) {
   let newContent = content
 
   if (!this.resourceQuery) {
-    const opts = getOptions(this)
+    const opts = this.getOptions()
 
     if (opts.isServerBuild === true) {
       newContent = content + getModuleIdentifierCode(this)

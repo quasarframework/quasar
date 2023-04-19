@@ -16,6 +16,6 @@ export default createComponent({
       + (props.inset === true ? ' q-toolbar--inset' : '')
     )
 
-    return () => h('div', { class: classes.value }, hSlot(slots.default))
+    return () => h('div', { class: classes.value, role: 'toolbar' }, hSlot(slots.default))
   }
 })

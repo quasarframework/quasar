@@ -19,7 +19,9 @@ module.exports = {
     create: 'Lag',
     search: 'Søk',
     filter: 'Filter',
-    refresh: 'Oppdater'
+    refresh: 'Oppdater',
+    expand: label => (label ? `Utvid "${ label }"` : 'Utvide'),
+    collapse: label => (label ? `Skjul "${ label }"` : 'Kollapse')
   },
   date: {
     days: 'Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag'.split('_'),

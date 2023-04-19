@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-<% if (typescriptConfig === 'composition') { %>import { defineComponent } from '@vue/composition-api';
+<% if (typescriptConfig === 'composition') { %>import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'App',

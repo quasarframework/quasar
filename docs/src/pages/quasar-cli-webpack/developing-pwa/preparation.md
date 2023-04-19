@@ -3,6 +3,14 @@ title: Preparation for PWA
 desc: (@quasar/app-webpack) How to add PWA mode with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
+scope:
+  tree:
+    l: src-pwa
+    c:
+    - l: register-service-worker.js
+      e: "(or .ts) App-code *managing* service worker"
+    - l: custom-service-worker.js
+      e: "(or .ts) Optional custom service worker file (InjectManifest mode ONLY)"
 ---
 
 We'll be using Quasar CLI to develop and build a PWA. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
@@ -23,13 +31,7 @@ This will add PWA mode automatically, if it is missing.
 
 A new folder will appear in your project folder (which is explained in detail on the [Configuring PWA](/quasar-cli-webpack/developing-pwa/configuring-pwa) page):
 
-```bash
-.
-└── src-pwa/
-    ├── register-service-worker.js  # (or .ts) App-code *managing* service worker
-    └── custom-service-worker.js    # (or .ts) Optional custom service worker file
-                                    #               (InjectManifest mode ONLY)
-```
+<doc-tree :def="scope.tree" />
 
 Both files are going to be detailed in the next pages, but the high overview is:
 

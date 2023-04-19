@@ -48,7 +48,7 @@
 
 <script lang="ts">
 <% if (typescriptConfig === 'composition') { %>
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref } from 'vue';
 import EssentialLink from 'components/EssentialLink.vue'
 
 const linksData = [

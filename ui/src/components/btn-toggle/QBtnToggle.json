@@ -36,8 +36,7 @@
         "value": {
           "type": "Any",
           "desc": "Value of the option that will be used by component model",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "required": true
         },
         "slot": {
           "type": "String",
@@ -46,8 +45,7 @@
         },
         "...props": {
           "type": "Any",
-          "desc": "Any other QBtn props (including class and style)",
-          "__exemption": [ "examples" ]
+          "desc": "Any other QBtn props (including class and style)"
         }
       },
       "examples": [

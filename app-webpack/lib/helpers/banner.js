@@ -42,7 +42,7 @@ module.exports = function (argv, cmd, details) {
       ? grey('skip')
       : green(getPackager(argv, cmd))
 
-    banner += `\n ${cmd === 'build' ? 'Packaging' : 'Running'} mode....${cmd === 'build' ? '' : '..'} ${packaging}`
+    banner += `\n ${cmd === 'build' ? 'Packaging' : 'Running'} mode............${cmd === 'build' ? '' : '..'} ${packaging}`
   }
 
   if (details) {

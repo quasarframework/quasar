@@ -9,10 +9,12 @@
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",
     <% if (lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,vue<% if (css !== 'sass') { %>,<%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
     <% } %>
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
-    <% if (preset.axios) { %>"axios": "^0.21.1",<% } %>
+    <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
     <% if (preset.i18n) { %>"vue-i18n": "^9.0.0",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
@@ -26,7 +28,7 @@
     <% if (preset.lint) { %>
     "@babel/eslint-parser": "^7.13.14",
     "eslint": "^8.10.0",
-    "eslint-plugin-vue": "^8.5.0",
+    "eslint-plugin-vue": "^9.0.0",
     "eslint-webpack-plugin": "^3.1.1",
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^17.0.0",

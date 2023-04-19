@@ -133,6 +133,11 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
           <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/synestia.svg">
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://www.nodesol.com" target="_blank">
+          <img width="222px" height="74px" src="https://cdn.quasar.dev/sponsors/nodesol.svg">
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -1,6 +1,6 @@
 {
   "name": "create-quasar",
-  "version": "1.0.21",
+  "version": "1.1.2",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
   "author": {
     "name": "Razvan Stoenescu",
@@ -32,10 +32,11 @@
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.0.1",
     "kolorist": "^1.5.1",
-    "lodash.template": "^4.5.0",
+    "lodash": "^4.17.21",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.6.7",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
     "eslint": "^8.11.0",

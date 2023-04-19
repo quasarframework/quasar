@@ -28,7 +28,6 @@
       "desc": "Direction to expand Fab Actions to",
       "default": "right",
       "values": [ "up", "right", "down", "left" ],
-      "examples": [ "down" ],
       "category": "behavior"
     },
 

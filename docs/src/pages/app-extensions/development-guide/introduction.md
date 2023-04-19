@@ -1,6 +1,70 @@
 ---
 title: App Extension Development
 desc: How to setup your machine for a Quasar App Extension development and getting started quickly.
+scope:
+  appExtensionTree:
+    l: "."
+    c:
+    - l: package.json
+    - l: src
+      c:
+      - l: index.js
+        e: Described in Index API
+      - l: install.js
+        e: Described in Install API
+      - l: prompts.js
+        e: Described in Prompts API
+      - l: uninstall.js
+        e: Described in Uninstall API
+  uiKitTree:
+    l: "."
+    c:
+    - l: app-extension
+      c:
+      - l: package.json
+      - l: src
+        c:
+        - l: index.js
+          e: Described in Index API
+        - l: install.js
+          e: Described in Install API
+        - l: prompts.js
+          e: Described in Prompts API
+        - l: uninstall.js
+          e: Described in Uninstall API
+    - l: ui
+      c:
+      - l: package.json
+      - l: build
+        e: build scripts
+      - l: dev
+        e: Quasar app for testing component/directive
+      - l: src
+        c:
+        - l: components
+          e: "(optional) Folder for your component(s)"
+          c:
+          - l: Component.js
+            e: "(optional) Code for your component(s)"
+          - l: Component.sass
+            e: "(optional) Sass for your component(s)"
+        - l: directives
+          e: "(optional) Folder for your directive(s)"
+          c:
+          - l: Directive.js
+            e: "(optional) Code for your directive(s)"
+          - l: Directive.sass
+            e: "(optional) Sass for your directive(s)"
+        - l: index.common.js
+          e: CommonJS entry point
+        - l: index.esm.js
+          e: ESM entry point
+        - l: index.umd.js
+          e: UMD entry point
+        - l: vue-plugin.js
+          e: Exports the associated Vue plugin
+        - l: index.sass
+          e: Exports the associated SASS files
 ---
 
 This section of the docs deals with creating your own App Extensions.
@@ -9,12 +73,34 @@ It is assumed you have already installed one of the official App Extensions. Hav
 
 ## Getting started
 
-An App Extension is an npm package. There are two official kits for creating App Extensions. The official `App Extension` starter kit should be used to create App Extensions that do not provide a UI, like a component or directive, unless the objective is to install a 3rd-party library into Vue. The second official kit is the `UI` kit. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
+An App Extension is an npm package. There are two official kits for creating App Extensions:
+
+1. App Extension (AE) kit
+2. UI kit
+
+### App Extension (AE) kit
+
+If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE kit. An example of this would be an extension that creates a boot file only.
+
+### UI kit
+
+If your app extension does involve UI (i.e. does have components or directives) then use the UI kit. An example of this would be an extension that provides a UI element for use in your app. This has a `ui` folder for creating your component/directive, a `ui/dev` Quasar application for testing your component/directive in isolation, and an `app-extension` folder for creating the App Extension that will be used for injecting your component/directive via the Quasar CLI into a Quasar app. The UI kit can also be used such that your component/directive can also be used with the Quasar Vite plugin or Vue CLI or UMD.
+
+### 3rd party integration
+
+If your objective is to install a 3rd-party library into Vue, then it depends upon the library...
+
+- If you also aim to provide some UI components or such that uses that Vue plugin, you should use the _UI Kit_. This would be a good choice for including something like a Calendar extension.
+- If the only objective is to load it through a simple `app.use(SomeVuePlugin)` in a boot file, and maybe some config updates and such, the _AE Kit_ may be a better choice. This is a good choice for example for something like including Axios.
+
+### Creating the App Extension
 
 ```bash
-$ quasar create my-ext --kit app-extension
+$ yarn create quasar
 # or
-$ quasar create my-ui --kit ui
+$ npm init quasar
+
+# pick the AppExtension option
 ```
 
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.
@@ -23,40 +109,13 @@ For the sake of this documentation page, let's assume we answered with `my-ext` 
 
 Based on your response, Quasar CLI will create a folder for your App Extension’s source code that will have the following structure:
 
-```bash
-# app-extension kit
-.
-├── package.json
-└── src
-    ├── index.js      # Described in Index API
-    ├── install.js    # Described in Install API
-    ├── prompts.js    # Described in Prompts API
-    └── uninstall.js  # Described in Uninstall API
+The app-extension kit:
 
-# ui kit
-.
-├── app-extension
-│   ├── package.json
-│   └── src
-│       ├── index.js           # Described in Index API
-│       ├── install.js         # Described in Install API
-│       ├── prompts.js         # Described in Prompts API
-│       └── uninstall.js       # Described in Uninstall API
-└── ui
-    ├── package.json
-    ├── build                  # build scripts
-    ├── dev                    # Quasar app for testing component/directive
-    └── src
-        ├── components         # (optional) Folder for your component(s)
-        │   ├── Component.js   # (optional) Code for your component(s)
-        │   └── Component.sass # (optional) Sass for your component(s)
-        ├── directives         # (optional) Folder for your directive(s)
-        │   ├── Directive.js   # (optional) Code for your directive(s)
-        │   └── Directive.sass # (optional) Sass for your directive(s)
-        ├── mixins             # (optional) Where to put your mixin sources
-        ├── index.js           # Exports and Vue injection
-        └── index.sass         # Sass imports
-```
+<doc-tree :def="scope.appExtensionTree" />
+
+The ui kit:
+
+<doc-tree :def="scope.uiKitTree" />
 
 Except for `src/index.js` (from the `app-extension` kit) or `app-extension/src/index.js` (from the `ui` kit) , all the other files are optional. You can manually add or remove them at any point in time.
 
@@ -86,7 +145,11 @@ Never yarn/npm install packages that are supplied by the Quasar CLI, because App
 We need to create a Quasar project folder to be able to test it while we develop the extension:
 
 ```bash
-$ quasar create test-app
+$ yarn create quasar
+# or
+$ npm init quasar
+
+# pick "App with Quasar CLI"
 ```
 
 ### Install and prompts scripts

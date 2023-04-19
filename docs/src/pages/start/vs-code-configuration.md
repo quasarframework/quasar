@@ -23,6 +23,7 @@ This guide assumes you have already installed VS Code(Visual Studio Code).
 - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)
 - [npm](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script)
 - [VS Code Icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons)
+- [Quasar Docs](https://marketplace.visualstudio.com/items?itemName=CodeCoaching.quasar-docs)
 
 ## Quasar CLI
 

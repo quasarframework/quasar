@@ -2,6 +2,7 @@
 title: Fullscreen Plugin
 desc: A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.
 keys: AppFullScreen
+examples: AppFullscreen
 ---
 There are times when you want your website or App to run in fullscreen.
 Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
@@ -10,11 +11,8 @@ Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozi
 Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
 :::
 
-## AppFullscreen API
-
 <doc-api file="AppFullscreen" />
 
-## Installation
 <doc-installation plugins="AppFullscreen" />
 
 ## Usage
@@ -73,9 +71,9 @@ setup () {
 }
 ```
 
-<doc-example title="Basic" file="AppFullscreen/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-<doc-example title="On custom element" file="AppFullscreen/Targeted" />
+<doc-example title="On custom element" file="Targeted" />
 
 ::: warning
 On some phones this will have little effect:

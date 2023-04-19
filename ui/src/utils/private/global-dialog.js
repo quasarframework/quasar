@@ -41,7 +41,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         ? parentApp.component(component)
         : component
 
-      props = componentProps
+      props = componentProps || {}
     }
     else {
       const { class: klass, style, ...otherProps } = pluginProps
@@ -54,7 +54,7 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
     let vm, emittedOK = false
     const dialogRef = ref(null)
-    const el = createGlobalNode()
+    const el = createGlobalNode(false, 'dialog')
 
     const applyState = cmd => {
       if (dialogRef.value !== null && dialogRef.value[ cmd ] !== void 0) {
@@ -73,10 +73,10 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
 
         // account for "script setup" + async component way of declaring component
         if (
-          target.component.subTree &&
-          target.component.subTree.component &&
-          target.component.subTree.component.proxy &&
-          target.component.subTree.component.proxy[ cmd ]
+          target.component.subTree
+          && target.component.subTree.component
+          && target.component.subTree.component.proxy
+          && target.component.subTree.component.proxy[ cmd ]
         ) {
           target.component.subTree.component.proxy[ cmd ]()
           return
@@ -149,24 +149,18 @@ export default function (DefaultComponent, supportsCustomComponent, parentApp) {
         ...props,
         ref: dialogRef,
         onOk,
-        onHide
+        onHide,
+        onVnodeMounted (...args) {
+          if (typeof props.onVnodeMounted === 'function') {
+            props.onVnodeMounted(...args)
+          }
+
+          nextTick(() => applyState('show'))
+        }
       })
     }, parentApp)
 
     vm = app.mount(el)
-
-    function show () {
-      applyState('show')
-    }
-
-    if (typeof DialogComponent.__asyncLoader === 'function') {
-      DialogComponent.__asyncLoader().then(() => {
-        nextTick(show)
-      })
-    }
-    else {
-      nextTick(show)
-    }
 
     return API
   }

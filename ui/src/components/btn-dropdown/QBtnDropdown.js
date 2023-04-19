@@ -5,17 +5,33 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import { useBtnProps } from '../btn/use-btn.js'
+import { getBtnDesignAttr, useBtnProps } from '../btn/use-btn.js'
+import { useTransitionProps } from '../../composables/private/use-transition.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
+import uid from '../../utils/uid.js'
 import { hSlot } from '../../utils/private/render.js'
+
+const btnPropsList = Object.keys(useBtnProps)
+
+export const passBtnProps = props => btnPropsList.reduce(
+  (acc, key) => {
+    const val = props[ key ]
+    if (val !== void 0) {
+      acc[ key ] = val
+    }
+    return acc
+  },
+  {}
+)
 
 export default createComponent({
   name: 'QBtnDropdown',
 
   props: {
     ...useBtnProps,
+    ...useTransitionProps,
 
     modelValue: Boolean,
     split: Boolean,
@@ -42,21 +58,26 @@ export default createComponent({
     disableMainBtn: Boolean,
     disableDropdown: Boolean,
 
-    noIconAnimation: Boolean
+    noIconAnimation: Boolean,
+
+    toggleAriaLabel: String
   },
 
-  emits: [ 'update:modelValue', 'click', 'before-show', 'show', 'before-hide', 'hide' ],
+  emits: [ 'update:modelValue', 'click', 'beforeShow', 'show', 'beforeHide', 'hide' ],
 
   setup (props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
 
     const showing = ref(props.modelValue)
     const menuRef = ref(null)
+    const targetUid = uid()
 
-    const attributes = computed(() => {
+    const ariaAttrs = computed(() => {
       const acc = {
         'aria-expanded': showing.value === true ? 'true' : 'false',
-        'aria-haspopup': 'true'
+        'aria-haspopup': 'true',
+        'aria-controls': targetUid,
+        'aria-label': props.toggleAriaLabel || proxy.$q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
       }
 
       if (
@@ -78,6 +99,9 @@ export default createComponent({
       + (props.split === false ? ' q-btn-dropdown__arrow-container' : '')
     )
 
+    const btnDesignAttr = computed(() => getBtnDesignAttr(props))
+    const btnProps = computed(() => passBtnProps(props))
+
     watch(() => props.modelValue, val => {
       menuRef.value !== null && menuRef.value[ val ? 'show' : 'hide' ]()
     })
@@ -86,7 +110,7 @@ export default createComponent({
 
     function onBeforeShow (e) {
       showing.value = true
-      emit('before-show', e)
+      emit('beforeShow', e)
     }
 
     function onShow (e) {
@@ -96,7 +120,7 @@ export default createComponent({
 
     function onBeforeHide (e) {
       showing.value = false
-      emit('before-hide', e)
+      emit('beforeHide', e)
     }
 
     function onHide (e) {
@@ -146,6 +170,7 @@ export default createComponent({
       props.disableDropdown !== true && Arrow.push(
         h(QMenu, {
           ref: menuRef,
+          id: targetUid,
           class: props.contentClass,
           style: props.contentStyle,
           cover: props.cover,
@@ -157,6 +182,9 @@ export default createComponent({
           self: props.menuSelf,
           offset: props.menuOffset,
           separateClosePopup: true,
+          transitionShow: props.transitionShow,
+          transitionHide: props.transitionHide,
+          transitionDuration: props.transitionDuration,
           onBeforeShow,
           onShow,
           onBeforeHide,
@@ -167,47 +195,49 @@ export default createComponent({
       if (props.split === false) {
         return h(QBtn, {
           class: 'q-btn-dropdown q-btn-dropdown--simple',
-          ...props,
+          ...btnProps.value,
+          ...ariaAttrs.value,
           disable: props.disable === true || props.disableMainBtn === true,
           noWrap: true,
           round: false,
-          ...attributes.value,
           onClick
-        }, () => hSlot(slots.label, []).concat(Arrow))
+        }, {
+          default: () => hSlot(slots.label, []).concat(Arrow),
+          loading: slots.loading
+        })
       }
 
       return h(QBtnGroup, {
         class: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
-        outline: props.outline,
-        flat: props.flat,
         rounded: props.rounded,
-        push: props.push,
-        unelevated: props.unelevated,
+        square: props.square,
+        ...btnDesignAttr.value,
         glossy: props.glossy,
         stretch: props.stretch
       }, () => [
         h(QBtn, {
           class: 'q-btn-dropdown--current',
-          ...props,
+          ...btnProps.value,
           disable: props.disable === true || props.disableMainBtn === true,
           noWrap: true,
-          iconRight: props.iconRight,
           round: false,
           onClick: onClickHide
-        }, slots.label),
+        }, {
+          default: slots.label,
+          loading: slots.loading
+        }),
 
         h(QBtn, {
           class: 'q-btn-dropdown__arrow-container q-anchor--skip',
-          ...attributes.value,
+          ...ariaAttrs.value,
+          ...btnDesignAttr.value,
           disable: props.disable === true || props.disableDropdown === true,
-          outline: props.outline,
-          flat: props.flat,
           rounded: props.rounded,
-          push: props.push,
-          size: props.size,
           color: props.color,
           textColor: props.textColor,
           dense: props.dense,
+          size: props.size,
+          padding: props.padding,
           ripple: props.ripple
         }, () => Arrow)
       ])

@@ -10,6 +10,7 @@ import useFileFormDomProps from '../../composables/private/use-file-dom-props.js
 import { createComponent } from '../../utils/private/create.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QFile',
@@ -103,6 +104,11 @@ export default createComponent({
       disabled: state.editable.value !== true
     }))
 
+    const fieldClass = computed(() =>
+      'q-file q-field--auto-height'
+      + (dnd.value === true ? ' q-file--dnd' : '')
+    )
+
     const isAppending = computed(() =>
       props.multiple === true && props.append === true
     )
@@ -142,6 +148,11 @@ export default createComponent({
 
     function addFilesToQueue (e, fileList) {
       const files = processFiles(e, fileList, innerValue.value, isAppending.value)
+      const fileInput = getFileInput()
+
+      if (fileInput !== void 0 && fileInput !== null) {
+        fileInput.value = ''
+      }
 
       // if nothing to do...
       if (files === void 0) { return }
@@ -235,7 +246,7 @@ export default createComponent({
     }
 
     Object.assign(state, {
-      fieldClass: { value: 'q-file q-field--auto-height' },
+      fieldClass,
       emitValue,
       hasValue,
       inputRef,
@@ -275,8 +286,10 @@ export default createComponent({
     Object.assign(proxy, {
       removeAtIndex,
       removeFile,
-      getNativeElement: () => inputRef.value
+      getNativeElement: () => inputRef.value // deprecated
     })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
 
     return useField(state)
   }

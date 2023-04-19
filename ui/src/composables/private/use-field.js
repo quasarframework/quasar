@@ -72,7 +72,7 @@ export const useFieldProps = {
   maxlength: [ Number, String ]
 }
 
-export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popup-show', 'popup-hide' ]
+export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
 
 export function useFieldState () {
   const { props, attrs, proxy, vnode } = getCurrentInstance()
@@ -122,7 +122,7 @@ export default function (state) {
   const { props, emit, slots, attrs, proxy } = getCurrentInstance()
   const { $q } = proxy
 
-  let focusoutTimer
+  let focusoutTimer = null
 
   if (state.hasValue === void 0) {
     state.hasValue = computed(() => fieldValueIsFilled(props.modelValue))
@@ -288,7 +288,11 @@ export default function (state) {
   }
 
   function onControlFocusin (e) {
-    clearTimeout(focusoutTimer)
+    if (focusoutTimer !== null) {
+      clearTimeout(focusoutTimer)
+      focusoutTimer = null
+    }
+
     if (state.editable.value === true && state.focused.value === false) {
       state.focused.value = true
       emit('focus', e)
@@ -296,8 +300,10 @@ export default function (state) {
   }
 
   function onControlFocusout (e, then) {
-    clearTimeout(focusoutTimer)
+    focusoutTimer !== null && clearTimeout(focusoutTimer)
     focusoutTimer = setTimeout(() => {
+      focusoutTimer = null
+
       if (
         document.hasFocus() === true && (
           state.hasPopupOpen === true
@@ -504,7 +510,8 @@ export default function (state) {
 
     return h('div', {
       class: 'q-field__bottom row items-start q-field__bottom--'
-        + (props.hideBottomSpace !== true ? 'animated' : 'stale')
+        + (props.hideBottomSpace !== true ? 'animated' : 'stale'),
+      onClick: prevent
     }, [
       props.hideBottomSpace === true
         ? main
@@ -527,9 +534,6 @@ export default function (state) {
       }, content)
   }
 
-  // expose public methods
-  Object.assign(proxy, { focus, blur })
-
   let shouldActivate = false
 
   onDeactivated(() => {
@@ -549,14 +553,17 @@ export default function (state) {
   })
 
   onBeforeUnmount(() => {
-    clearTimeout(focusoutTimer)
+    focusoutTimer !== null && clearTimeout(focusoutTimer)
   })
+
+  // expose public methods
+  Object.assign(proxy, { focus, blur })
 
   return function renderField () {
     const labelAttrs = state.getControl === void 0 && slots.control === void 0
       ? {
           ...state.splitAttrs.attributes.value,
-          'data-autofocus': props.autofocus,
+          'data-autofocus': props.autofocus === true || void 0,
           ...attributes.value
         }
       : attributes.value

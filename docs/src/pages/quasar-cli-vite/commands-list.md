@@ -328,7 +328,7 @@ This command is simply a helper in order to quickly scaffold a page/layout/compo
 $ quasar new -h
 
   Description
-    Quickly scaffold a page/layout/component/store module.
+    Quickly scaffold files.
 
   Usage
     $ quasar new <p|page> [-f <option>] <page_file_name>
@@ -336,9 +336,9 @@ $ quasar new -h
     $ quasar new <c|component> [-f <option>] <component_file_name>
     $ quasar new <b|boot> [-f ts] <boot_name>
     $ quasar new <s|store> [-f ts] <store_module_name>
+    $ quasar new ssrmiddleware [-f ts] <middleware_name>
 
-    # Examples:
-
+  Examples
     # Create src/pages/MyNewPage.vue:
     $ quasar new p MyNewPage
 
@@ -351,18 +351,20 @@ $ quasar new -h
     # Create src/layouts/shop/Checkout.vue with TypeScript options API
     $ quasar new layout -f ts-options shop/Checkout.vue
 
-    # Create a store with TypeScript support
+    # Create a store with TypeScript (-f ts is optional if tsconfig.json is present)
     $ quasar new store -f ts myStore
 
   Options
     --help, -h            Displays this message
 
     --format -f <option>  (optional) Use a supported format for the template
-                          Option can be:
+                          Possible values:
+                             * default - Default JS template
+                             * ts-composition - TS composition API (default if using TS)
+                             * ts-composition-setup - TS composition API with <script setup>
                              * ts-options - TS options API
-                             * ts-composition - TS composition API
                              * ts-class - [DEPRECATED] TS class style syntax
-                             * ts - use for TS boot file and store modules only
+                             * ts - Plain TS template (for boot, store, and ssrmiddleware files)
 ```
 
 ## Mode
@@ -687,22 +689,35 @@ Finally, run one of these files:
 $ node my-server.js
 ```
 
-## Create
+## Create <q-badge align="top" color="brand-primary" label="legacy" />
 
-Creates a Quasar project (app, AppExtension or UI kit) from **CUSTOM** starter kits.
+### Scaffolding a Quasar project folder
+
+Please use `yarn create quasar` or `npm init quasar` instead of this command, which is now considered "legacy".
+
+### Scaffolding from a custom starter kit <q-badge align="top" color="brand-primary" label="legacy" />
+
+Should you wish to create a Quasar project (app, AppExtension or UI kit) from **CUSTOM** starter kits, please use the `@quasar/legacy-create` global installable CLI instead:
 
 ```bash
-$ quasar create <folder_name> --kit <address> [--branch <branch_name>]
+# globally install the @quasar/legacy-create CLI
+
+$ yarn global add @quasar/legacy-create
+#  or:
+$ npm i -g @quasar/legacy-create
+
+# then:
+$ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]
 ```
 
-You can use a starter kit stored on your machine by providing a **local path** to a folder (eg. `quasar create --kit ./my-custom-starter-kit`).
+With a starter kit stored on your machine by providing a **local path** to a folder: `quasar-legacy-create <folder> ./my-custom-starter-kit`.
 
-You can use a starter kit stored into any publicly accessible Git repository by providing a reference which follows this schema:
+With a starter kit stored into any publicly accessible Git repository by providing a reference which follows this schema:
 - GitHub - `github:owner/name` or simply `owner/name`
 - GitLab - `gitlab:owner/name`
 - Bitbucket - `bitbucket:owner/name`
 
-`master` branch will be checked out by default, but you can specify the one you prefer via `--branch <branch name>` (eg. `quasar create --kit owner/name --branch my-branch`).
+`master` branch will be checked out by default, but you can specify the one you prefer via `--branch <branch name>` (eg. `quasar-legacy-create <folder> owner/name --branch my-branch`).
 
 ::: warning
 The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.

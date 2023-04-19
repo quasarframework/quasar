@@ -1,6 +1,6 @@
 const { createServer } = require('vite')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 
 const AppDevserver = require('../../app-devserver')
 const openBrowser = require('../../helpers/open-browser')

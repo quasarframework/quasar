@@ -19,7 +19,9 @@ module.exports = {
     create: 'ဖန်တီးမည်',
     search: 'ရှာမည်',
     filter: 'စစ်ထုတ်မည်',
-    refresh: 'အသစ်ပြန်လုပ်မည်'
+    refresh: 'အသစ်ပြန်လုပ်မည်',
+    expand: label => (label ? `"${ label }" ကိုချဲ့ထွင်ပါ။` : 'ချဲ့ထွင်ပါ။'),
+    collapse: label => (label ? `"${ label }" ကို ခေါက်သိမ်းပါ` : 'ပြိုကျသည်။')
   },
   date: {
     days: 'တနင်္ဂနွေ_တနင်္လာ_အင်္ဂါ_ဗုဒ္ဓဟူး_ကြာသပတေး_သောကြာ_စနေ'.split('_'),
@@ -41,6 +43,7 @@ module.exports = {
     ),
     recordsPerPage: 'တစ်မျက်နှာ အကြောင်းရေတွက်',
     allRows: 'အားလုံး',
+    // eslint-disable-next-line no-useless-concat
     pagination: (start, end, total) => start + 'မှ' + end + 'ထိ' + 'အားလုံး' + total + 'ရှိ',
     columns: 'ကော်လံ'
   },

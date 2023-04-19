@@ -52,7 +52,14 @@ function updateConfigXml (cordovaFiles, hasSplashscreen) {
   }
 
   const androidNode = getNode(rootNode, 'platform', '[@name="android"]')
+  if (androidNode.get('name') === void 0) {
+    androidNode.set('name', 'android')
+  }
+
   const iosNode = getNode(rootNode, 'platform', '[@name="ios"]')
+  if (iosNode.get('name') === void 0) {
+    iosNode.set('name', 'ios')
+  }
 
   cordovaFiles.forEach(file => {
     const isAndroid = file.platform === 'cordova-android'

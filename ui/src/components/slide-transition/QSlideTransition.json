@@ -14,7 +14,6 @@
       "type": "Number",
       "desc": "Duration (in milliseconds) enabling animated scroll.",
       "default": 300,
-      "examples": [ 500, ":duration=\"500\"" ],
       "category": "behavior"
     }
   },

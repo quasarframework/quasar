@@ -1,148 +1,99 @@
-const { existsSync } = require('fs')
-const { green, red, underline } = require('kolorist')
 
-const { appDir, resolveDir } = require('../utils/app-paths')
-const { warn } = require('../utils/logger')
+const parseArgs = require('minimist')
 
-const modes = require('../modes')
-const { verifyMount } = require('../mount')
-const getAssetsFiles = require('../utils/get-assets-files')
-const getPngSize = require('../utils/get-png-size')
+const argv = parseArgs(process.argv.slice(2), {
+  alias: {
+    m: 'mode',
+    p: 'profile',
+    f: 'filter',
+    h: 'help'
+  },
+  boolean: ['h']
+})
+
+if (argv.help) {
+  const modes = Object.keys(require('../modes')).join('|')
+  const generators = Object.keys(require('../generators')).join('|')
+
+  console.log(`
+  Description
+    Verifies your Quasar App's icons and splashscreens
+    for all installed modes.
+
+  Usage
+    $ icongenie verify [options]
+
+    # verify all Quasar modes
+    $ icongenie verify
+
+    # verify specific mode
+    $ icongenie verify -m spa
+
+    # verify with specific filter
+    $ icongenie verify -f ico
+
+    # verify by using a profile file
+    $ icongenie verify -p ./icongenie-profile.json
+
+    # verify by using batch of profile files
+    $ icongenie verify -p ./folder-containing-profile-files
+
+  Options
+    --mode, -m      For which Quasar mode(s) to verify the assets;
+                    Default: all
+                      [all|${modes}]
+                    Multiple can be specified, separated by ",":
+                      spa,cordova,capacitor
+
+    --filter, -f    Filter the available generators; when used, it verifies
+                    only one type of asset instead of all
+                      [${generators}]
+
+    --profile       Use JSON profile file(s) to extract the asset list to verify:
+                      - path to folder (absolute or relative to current folder)
+                        that contains JSON profile files (icongenie-*.json)
+                      - path to a single *.json profile file (absolute or relative
+                        to current folder)
+                    Structure of a JSON profile file:
+                      {
+                        "params": {
+                          "include": [ ... ], /* optional */
+                          ...
+                        },
+                        "assets": [ /* list of custom assets */ ]
+                      }
+
+    --help, -h      Displays this message
+  `)
+  process.exit(0)
+}
+
 const parseArgv = require('../utils/parse-argv')
-const mergeObjects = require('../utils/merge-objects')
-const getProfileContent = require('../utils/get-profile-content')
-const validateProfileObject = require('../utils/validate-profile-object')
+const verify = require('../runner/verify')
+const getProfileFiles = require('../utils/get-profile-files')
+const filterArgvParams = require('../utils/filter-argv-params')
+const { log } = require('../utils/logger')
 
-function getFileStatus (file) {
-  if (!existsSync(file.absoluteName)) {
-    return red('ERROR: missing!')
-  }
+async function runProfiles (params, profileFiles) {
+  for (let i = 0; i < profileFiles.length; i++) {
+    const profile = profileFiles[i]
 
-  if (file.generator === 'png' || file.generator === 'splashscreen') {
-    const { width, height } = getPngSize(file.absoluteName)
+    console.log(`\n`)
+    log(`--------------------`)
+    log(`Verifying by profile: ${profile}`)
+    log(`--------------------`)
+    console.log(`\n`)
 
-    if (width === 0 && height === 0) {
-      return red('ERROR: not a png!')
-    }
-
-    if (width !== file.width || height !== file.height) {
-      return red(`ERROR: incorrect resolution! ${width}x${height}`)
-    }
-  }
-
-  return green('SIZE OK')
-}
-
-function printMode (modeName, files) {
-  console.log(` ${green(underline(`Mode ${modeName.toUpperCase()}`))} \n`)
-
-  files.forEach(file => {
-    console.log(` ${getFileStatus(file)} - ${(file.generator + ':').padEnd(13, ' ')} ${file.relativeName} ${verifyMount(file)}`)
-  })
-
-  console.log()
-}
-
-function printBanner (assetsOf, params) {
-  console.log(` VERIFYING with the following options:
- ================
- Root folder..... ${green(appDir)}
- Assets of....... ${green(assetsOf)}
- Assets filter... ${!params.filter ? 'none' : green(params.filter)}
- ================
-`)
-}
-
-function parseAssets (assets, include) {
-  let filesMap = []
-  let assetsOf = []
-
-  if (include) {
-    const embeddedModes = include.filter(
-      mode => existsSync(resolveDir(modes[mode].folder))
-    )
-
-    embeddedModes.forEach(mode => {
-      filesMap.push({
-        name: mode,
-        files: getAssetsFiles(modes[mode].assets)
-      })
-    })
-
-    assetsOf = assetsOf.concat(embeddedModes)
-  }
-
-  if (assets && assets.length > 0) {
-    filesMap.push({
-      name: 'profile assets',
-      files: getAssetsFiles(assets)
-    })
-
-    assetsOf.push('profile')
-  }
-
-  return {
-    filesMap,
-    assetsOf: assetsOf.join(' | ')
+    await verify({ ...params, profile })
   }
 }
 
-function verifyProfile (profile) {
-  const params = profile.params
-  const { assetsOf, filesMap } = parseAssets(profile.assets, params.include)
+const params = filterArgvParams(argv)
 
-  if (assetsOf.length === 0) {
-    warn(`No assets to generate! No mode/include specified, filter too specific or the respective Quasar mode(s) are not installed`)
-    return
-  }
-
-  printBanner(assetsOf, params)
-
-  filesMap.forEach(entry => {
-    const files = params.filter
-      ? entry.files.filter(file => file.generator === params.filter)
-      : entry.files
-
-    if (files.length > 0) {
-      printMode(entry.name, files)
-    }
-  })
+if (params.profile) {
+  parseArgv(params, [ 'profile' ])
+  runProfiles(params, getProfileFiles(params.profile))
 }
-
-module.exports = function verify (argv) {
-  const profile = {
-    params: {},
-    assets: []
-  }
-
-  if (argv.profile) {
-    parseArgv(argv, [ 'profile' ])
-
-    const userProfile = getProfileContent(argv.profile)
-
-    if (userProfile.params) {
-      const { profile: _, ...params } = argv
-
-      profile.params = mergeObjects(userProfile.params, params)
-      parseArgv(profile.params, [ 'include' ])
-    }
-    if (userProfile.assets) {
-      profile.assets = userProfile.assets
-    }
-  }
-  else {
-    parseArgv(argv, [ 'mode' ])
-
-    const { mode, ...params } = argv
-
-    profile.params = params
-    profile.params.include = mode
-  }
-
-  parseArgv(profile.params, [ 'filter' ])
-
-  // final thorough validation
-  validateProfileObject(profile)
-
-  verifyProfile(profile)
+else {
+  verify(params)
 }

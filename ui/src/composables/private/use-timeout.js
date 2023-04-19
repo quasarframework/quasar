@@ -1,20 +1,36 @@
-import { onBeforeUnmount } from 'vue'
+import { onDeactivated, onBeforeUnmount, getCurrentInstance } from 'vue'
+
+import { vmIsDestroyed } from '../../utils/private/vm.js'
+
+/*
+ * Usage:
+ *    registerTimeout(fn[, delay])
+ *    removeTimeout()
+ */
 
 export default function () {
-  let timer
+  let timer = null
+  const vm = getCurrentInstance()
 
-  onBeforeUnmount(() => {
-    clearTimeout(timer)
-  })
+  function removeTimeout () {
+    if (timer !== null) {
+      clearTimeout(timer)
+      timer = null
+    }
+  }
+
+  onDeactivated(removeTimeout)
+  onBeforeUnmount(removeTimeout)
 
   return {
-    registerTimeout (fn, delay) {
-      clearTimeout(timer)
-      timer = setTimeout(fn, delay)
-    },
+    removeTimeout,
 
-    removeTimeout () {
-      clearTimeout(timer)
+    registerTimeout (fn, delay) {
+      removeTimeout(timer)
+
+      if (vmIsDestroyed(vm) === false) {
+        timer = setTimeout(fn, delay)
+      }
     }
   }
 }

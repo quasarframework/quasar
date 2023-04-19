@@ -6,13 +6,10 @@ module.exports = {
   // Remove this if you have an higher level ESLint config file (it usually happens into a monorepos)
   root: true,
 
-  // https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
+  // https://eslint.vuejs.org/user-guide/#how-to-use-a-custom-parser
   // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
   parserOptions: {
-    // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser#configuration
-    // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
-    // Needed to make the parser take into account 'vue' files
     extraFileExtensions: ['.vue'],
     parser: '@typescript-eslint/parser',
     project: resolve(__dirname, './tsconfig.json'),
@@ -22,7 +19,10 @@ module.exports = {
   },
 
   env: {
-    browser: true
+    browser: true,
+    es2021: true,
+    node: true,
+    'vue/setup-compiler-macros': true
   },
 
   // Rules order is important, please avoid shuffling them
@@ -82,19 +82,30 @@ module.exports = {
     // allow paren-less arrow functions
     'arrow-parens': 'off',
     'one-var': 'off',
+    'no-void': 'off',
+    'multiline-ternary': 'off',
 
     'import/first': 'off',
-    'import/named': 'error',
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
-    'import/no-extraneous-dependencies': 'off',<% } else if (lintConfig === 'airbnb') { %>
+    'import/no-extraneous-dependencies': 'off',
+
+    // The core 'import/named' rules
+    // does not work with type definitions
+    'import/named': 'off',
+    <% } else if (lintConfig === 'airbnb') { %>
     'no-param-reassign': 'off',
+    'no-void': 'off',
+    'no-nested-ternary': 'off',
+    'max-classes-per-file': 'off',
+
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': 'error',
 
     'import/first': 'off',
-    'import/named': 'error',
     'import/namespace': 'error',
     'import/default': 'error',
     'import/export': 'error',
@@ -102,18 +113,26 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
+
+    // The core 'import/named' rules
+    // does not work with type definitions
+    'import/named': 'off',
     <% } %>
     'prefer-promise-reject-errors': 'off',
-    'func-names': 'off',
 
-    // TypeScript
     quotes: ['warn', 'single', { avoidEscape: true }],
+
+    // this rule, if on, would require explicit return type on the `render` function
     '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    <% if (lintConfig === 'airbnb') { %>
-    'no-shadow': 'off',
-    '@typescript-eslint/no-shadow': 'error',
-    <% } %>
+
+    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
+    '@typescript-eslint/no-var-requires': 'off',
+
+    // The core 'no-unused-vars' rules (in the eslint:recommended ruleset)
+    // does not work with type definitions
+    'no-unused-vars': 'off',
+
+    'vue/multi-word-component-names': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

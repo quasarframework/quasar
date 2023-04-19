@@ -181,7 +181,7 @@
             </template>
         -->
           <q-input v-model="inp" />
-          <input v-model="inp">
+          <input style="width: 5em" v-model="inp">
           <q-btn
             class="q-mini-drawer-hide"
             icon="keyboard_arrow_left"
@@ -201,6 +201,12 @@
                 </q-card-section>
               </q-card>
             </q-expansion-item>
+
+            <q-item to="/">
+              <q-item-section>
+                <q-item-label>Homepage</q-item-label>
+              </q-item-section>
+            </q-item>
 
             <q-item-label header>
               Folders

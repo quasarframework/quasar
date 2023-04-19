@@ -19,7 +19,9 @@ module.exports = {
     create: 'Maak aan',
     search: 'Zoek',
     filter: 'Filter',
-    refresh: 'Ververs'
+    refresh: 'Ververs',
+    expand: label => (label ? `"${ label }" uitklappen` : 'Uitklappen'),
+    collapse: label => (label ? `"${ label }" inklappen` : 'Inklappen')
   },
   date: {
     days: 'Zondag_Maandag_Dinsdag_Woensdag_Donderdag_Vrijdag_Zaterdag'.split('_'),

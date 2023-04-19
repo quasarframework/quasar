@@ -3,18 +3,20 @@ title: Configuring PWA
 desc: (@quasar/app-webpack) How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
+scope:
+  tree:
+    l: src-pwa
+    c:
+    - l: register-service-worker.js
+      e: "(or .ts) App-code *managing* service worker"
+    - l: custom-service-worker.js
+      e: "(or .ts) Optional custom service worker file (InjectManifest mode ONLY)"
 ---
 
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
-```bash
-.
-└── src-pwa/
-    ├── register-service-worker.js  # (or .ts) App-code *managing* service worker
-    └── custom-service-worker.js    # (or .ts) Optional custom service worker file
-                                    #               (InjectManifest mode ONLY)
-```
+<doc-tree :def="scope.tree" />
 
 You can freely edit these files. Notice a few things:
 
@@ -108,7 +110,7 @@ pwa: {
 }
 ```
 
-More information: [Workbox Webpack Plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin), [Workbox](https://developers.google.com/web/tools/workbox/).
+More information: [Workbox Webpack Plugin](https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin/), [Workbox](https://developer.chrome.com/docs/workbox/).
 
 The `metaVariables` Object is used by Quasar itself only (has no meaning for Workbox) to inject specific value attributes to some PWA meta tags into the rendered HTML page. Example: `<meta name="apple-mobile-web-app-status-bar-style">` will have value attribute assigned to the content of `metaVariables.appleMobileWebAppStatusBarStyle`.
 

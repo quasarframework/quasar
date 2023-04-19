@@ -93,7 +93,11 @@
       .q-tabs__arrow--faded
         display: none
 
-  &--not-scrollable
+  &--not-scrollable,
+  body.mobile &--scrollable.q-tabs--mobile-without-arrows
+    &.q-tabs__arrows--outside
+      padding-left: 0
+      padding-right: 0
     .q-tabs__arrow
       display: none
     .q-tabs__content

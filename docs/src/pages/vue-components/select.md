@@ -2,13 +2,12 @@
 title: Select
 desc: The QSelect Vue component has two types of selection - single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
 keys: QSelect
+examples: QSelect
 ---
 
 The QSelect component has two types of selection: single or multiple. This component opens up a menu for the selection list and action. A filter can also be used for longer lists.
 
 In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
-
-## QSelect API
 
 <doc-api file="QSelect" />
 
@@ -20,24 +19,24 @@ In case you are looking for a dropdown "button" instead of "input" use [Button D
 For your QSelect you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
 
-<doc-example title="Design Overview" file="QSelect/DesignOverview" />
+<doc-example title="Design Overview" file="DesignOverview" />
 
 ### Decorators
 
-<doc-example title="Decorators" file="QSelect/Decorators" />
+<doc-example title="Decorators" file="Decorators" />
 
 ### Coloring
 
-<doc-example title="Coloring" file="QSelect/Coloring" />
+<doc-example title="Coloring" file="Coloring" />
 
 ### Clearable
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QSelect in the example below is the equivalent of using `clearable`.
 
-<doc-example title="Clearable" file="QSelect/Clearable" />
+<doc-example title="Clearable" file="Clearable" />
 
 ### Disable and readonly
 
-<doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
+<doc-example title="Disable and readonly" file="DisableReadonly" />
 
 ### Slots with QBtn type "submit"
 
@@ -53,7 +52,7 @@ Please note that transitions do not work when using `options-cover` prop.
 
 In the example below there's a few transitions showcased. For a full list of transitions available, go to [Transitions](/options/transitions).
 
-<doc-example title="Menu transitions" file="QSelect/MenuTransitions" />
+<doc-example title="Menu transitions" file="MenuTransitions" />
 
 ### Options list display mode
 By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.
@@ -62,9 +61,9 @@ By default QSelect shows the list of options as a menu on desktop and as a dialo
 Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios === true ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
 :::
 
-<doc-example title="Show options in menu" file="QSelect/BehaviorMenu" />
+<doc-example title="Show options in menu" file="BehaviorMenu" />
 
-<doc-example title="Show options in dialog" file="QSelect/BehaviorDialog" />
+<doc-example title="Show options in dialog" file="BehaviorDialog" />
 
 ## The model
 
@@ -72,9 +71,9 @@ Please note that on iOS menu behavior might generate problems, especially when u
 The model for single selection can be anything (String, Object, ...) while the model for multiple selection must be an Array.
 :::
 
-<doc-example title="Single vs multiple selection" file="QSelect/ModelSingleMultiple" />
+<doc-example title="Single vs multiple selection" file="ModelSingleMultiple" />
 
-<doc-example title="Multiple selection, counter and max-values" file="QSelect/ModelMultipleCounter" />
+<doc-example title="Multiple selection, counter and max-values" file="ModelMultipleCounter" />
 
 The model content can be influenced by `emit-value` prop as you'll learn in "The options" section below.
 
@@ -82,19 +81,19 @@ The model content can be influenced by `emit-value` prop as you'll learn in "The
 
 ### Options type
 
-<doc-example title="String options" file="QSelect/OptionString" />
+<doc-example title="String options" file="OptionString" />
 
-<doc-example title="Object options" file="QSelect/OptionObject" />
+<doc-example title="Object options" file="OptionObject" />
 
 ### Affecting model
 
 When `emit-value` is used, the model becomes the determined `value` from the specified selected option. Default is to emit the whole option. It makes sense to use it only when the options are of Object form.
 
-<doc-example title="Emit-value" file="QSelect/OptionEmitValue" />
+<doc-example title="Emit-value" file="OptionEmitValue" />
 
 When `map-options` is used, the model can contain only the `value`, and it will be mapped against the options to determine its label. There is a performance penalty involved, so use it only if absolutely necessary. It's not needed, for example, if the model contains the whole Object (so contains the label prop).
 
-<doc-example title="Map options" file="QSelect/OptionMapOptions" />
+<doc-example title="Map options" file="OptionMapOptions" />
 
 ### Custom prop names
 
@@ -104,7 +103,7 @@ By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of
 If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
 :::
 
-<doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
+<doc-example title="Custom label, value and disable props" file="OptionCustomProps" />
 
 ### Customizing menu options
 
@@ -112,37 +111,37 @@ If you use functions for custom props always check if the option is null. These 
 The list of options is rendered using virtual scroll, so if you render more than one element for an option you must set a `q-virtual-scroll--with-prev` class on all elements except the first one.
 :::
 
-<doc-example title="Options slot" file="QSelect/OptionSlot" />
+<doc-example title="Options slot" file="OptionSlot" />
 
 Here is another example where we add a QToggle to each option. The possibilities are endless.
 
-<doc-example title="Object options" file="QSelect/OptionQToggle" />
+<doc-example title="Object options" file="OptionQToggle" />
 
 By default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display.
 
-<doc-example title="No options slot" file="QSelect/OptionNoneSlot" />
+<doc-example title="No options slot" file="OptionNoneSlot" />
 
 ### Lazy loading
 
 The following example shows a glimpse of how you can play with lazy loading the options. This means, along with many other things, that `options` prop is not required on first render.
 
-<doc-example title="Lazy load options" file="QSelect/OptionLazyLoad" />
+<doc-example title="Lazy load options" file="OptionLazyLoad" />
 
 You can dynamically load new options when scroll reaches the end:
 
-<doc-example title="Dynamic loading options" file="QSelect/OptionsDynamic" />
+<doc-example title="Dynamic loading options" file="OptionsDynamic" />
 
 ### Cover mode
 
-<doc-example title="Menu covering component" file="QSelect/OptionCover" />
+<doc-example title="Menu covering component" file="OptionCover" />
 
 ## The display value
 
-<doc-example title="Custom display value" file="QSelect/DisplayCustomValue" />
+<doc-example title="Custom display value" file="DisplayCustomValue" />
 
-<doc-example title="Chips as display value" file="QSelect/DisplayChips" />
+<doc-example title="Chips as display value" file="DisplayChips" />
 
-<doc-example title="Selected-item slot" file="QSelect/DisplaySelectedItemSlot" />
+<doc-example title="Selected-item slot" file="DisplaySelectedItemSlot" />
 
 ## Filtering and autocomplete
 
@@ -152,17 +151,17 @@ All the attributes set on QSelect that are not in the list of props in the API w
 
 More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
-<doc-example title="Filtering options" file="QSelect/InputFilterOptions" />
+<doc-example title="Filtering options" file="InputFilterOptions" />
 
-<doc-example title="Basic filtering" file="QSelect/BasicFiltering" />
+<doc-example title="Basic filtering" file="BasicFiltering" />
 
-<doc-example title="Filtering on more than 2 chars" file="QSelect/InputFilterMin" />
+<doc-example title="Filtering on more than 2 chars" file="InputFilterMin" />
 
-<doc-example title="Text autocomplete" file="QSelect/TextAutocomplete" />
+<doc-example title="Text autocomplete" file="TextAutocomplete" />
 
-<doc-example title="Lazy filtering" file="QSelect/InputFilterLazy" />
+<doc-example title="Lazy filtering" file="InputFilterLazy" />
 
-<doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
+<doc-example title="Selecting option after filtering" file="InputFilterAfter" />
 
 ## Create new values
 
@@ -179,7 +178,7 @@ The `new-value-mode` prop value specifies how the value should be added: `add` (
 
 By using this prop you don't need to also listen for `@new-value` event, unless you have some specific scenarios for which you want to override the behavior.
 
-<doc-example title="New value mode" file="QSelect/CreateNewValueMode" />
+<doc-example title="New value mode" file="CreateNewValueMode" />
 
 ### The @new-value event
 The `@new-value` event is emitted with the value to be added and a `done` callback. The `done` callback has two **optional** parameters:
@@ -188,22 +187,22 @@ The `@new-value` event is emitted with the value to be added and a `done` callba
 
 Calling `done()` with no parameters simply empties the input box value, without tampering with the model in any way.
 
-<doc-example title="Listening on @new-value" file="QSelect/CreateListener" />
+<doc-example title="Listening on @new-value" file="CreateListener" />
 
-<doc-example title="Adding only unique values" file="QSelect/CreateListenerUnique" />
+<doc-example title="Adding only unique values" file="CreateListenerUnique" />
 
 ### Using menu and filtering
 Filtering and adding the new values to menu:
 
-<doc-example title="Filtering and adding to menu" file="QSelect/FilteringAddsToMenu" />
+<doc-example title="Filtering and adding to menu" file="FilteringAddsToMenu" />
 
 Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
 
-<doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
+<doc-example title="Filtering without adding to menu" file="FilteringNoAddToMenu" />
 
 Generating multiple values from input:
 
-<doc-example title="Generating multiple values" file="QSelect/FilteringAddMultiple" />
+<doc-example title="Generating multiple values" file="FilteringAddMultiple" />
 
 ## Sanitization
 
@@ -223,9 +222,9 @@ The displayed value of QSelect is displayed as HTML if:
 If you use `selected` or `selected-item` slots, then you are responsible for sanitization of the display value. The `display-value-html` prop will not apply.
 :::
 
-<doc-example title="Options in HTML form" file="QSelect/HtmlOptions" />
+<doc-example title="Options in HTML form" file="HtmlOptions" />
 
-<doc-example title="Display value in HTML form" file="QSelect/HtmlDisplayValue" />
+<doc-example title="Display value in HTML form" file="HtmlDisplayValue" />
 
 ## Render performance
 
@@ -237,7 +236,7 @@ Notice the infinite scroll in place which renders additional options as the user
 * (Options API) To get the best performance while using lots of options, freeze the array that you are passing in the `options` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
 :::
 
-<doc-example title="100k options" file="QSelect/RenderPerf" />
+<doc-example title="100k options" file="RenderPerf" />
 
 ## Keyboard navigation
 
@@ -266,4 +265,4 @@ When the list of options is opened:
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
-<doc-example title="Native form" file="QSelect/NativeForm" />
+<doc-example title="Native form" file="NativeForm" />

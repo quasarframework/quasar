@@ -1,6 +1,6 @@
 /* eslint no-fallthrough: 0 */
 
-import { isDate } from './private/is.js'
+import { isDate } from './is.js'
 import { pad, capitalize } from './format.js'
 import { jalaaliMonthLength } from './private/date-persian.js'
 import lang, { defaultLang } from '../lang.js'
@@ -737,7 +737,7 @@ const formatter = {
   YY (date, dateLocale, forcedYear) {
     // workaround for < 1900 with new Date()
     const y = this.YYYY(date, dateLocale, forcedYear) % 100
-    return y > 0
+    return y >= 0
       ? pad(y)
       : '-' + pad(Math.abs(y))
   },

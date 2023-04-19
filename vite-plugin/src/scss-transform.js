@@ -1,7 +1,3 @@
-
-export const scssTransformRegex = /\.scss$/
-export const sassTransformRegex = /\.sass$/
-
 export function createScssTransform (fileExtension, sassVariables) {
   const sassImportCode = [ `@import 'quasar/src/css/variables.sass'`, '' ]
 

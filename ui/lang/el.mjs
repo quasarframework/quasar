@@ -14,7 +14,9 @@ export default {
     create: 'Δημιουργία',
     search: 'Αναζήτηση',
     filter: 'Φίλτρο',
-    refresh: 'Ανανέωση'
+    refresh: 'Ανανέωση',
+    expand: label => (label ? `Επέκταση "${ label }"` : 'Επεκτείνουν'),
+    collapse: label => (label ? `Σύμπτυξη "${ label }"` : 'Κατάρρευση')
   },
   date: {
     days: 'Κυριακή_Δευτέρα_Τρίτη_Τετάρτη_Πέμπτη_Παρασκευή_Σάββατο'.split('_'),

@@ -9,6 +9,7 @@ import useKeyComposition from '../../composables/private/use-key-composition.js'
 import { createComponent } from '../../utils/private/create.js'
 import { stop } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QInput',
@@ -39,12 +40,16 @@ export default createComponent({
 
   emits: [
     ...useFieldEmits,
-    'paste', 'change'
+    'paste', 'change',
+    'keydown', 'click', 'animationend'
   ],
 
   setup (props, { emit, attrs }) {
+    const { proxy } = getCurrentInstance()
+    const { $q } = proxy
+
     const temp = {}
-    let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer, emitValueFn
+    let emitCachedValue = NaN, typedNumber, stopValueWatcher, emitTimer = null, emitValueFn
 
     const inputRef = ref(null)
     const nameProp = useFormInputNameAttr(props)
@@ -54,7 +59,8 @@ export default createComponent({
       hasMask,
       moveCursorForPaste,
       updateMaskValue,
-      onMaskedKeydown
+      onMaskedKeydown,
+      onMaskedClick
     } = useMask(props, emit, emitValue, inputRef)
 
     const formDomProps = useFileFormDomProps(props, /* type guard */ true)
@@ -91,10 +97,12 @@ export default createComponent({
 
       if (hasMask.value === true) {
         evt.onKeydown = onMaskedKeydown
+        // reset selection anchor on pointer selection
+        evt.onClick = onMaskedClick
       }
 
       if (props.autogrow === true) {
-        evt.onAnimationend = adjustHeight
+        evt.onAnimationend = onAnimationend
       }
 
       return evt
@@ -208,7 +216,7 @@ export default createComponent({
     }
 
     function onInput (e) {
-      if (!e || !e.target || e.target.qComposing === true) {
+      if (!e || !e.target) {
         return
       }
 
@@ -218,6 +226,12 @@ export default createComponent({
       }
 
       const val = e.target.value
+
+      if (e.target.qComposing === true) {
+        temp.value = val
+
+        return
+      }
 
       if (hasMask.value === true) {
         updateMaskValue(val, false, e.inputType)
@@ -243,8 +257,15 @@ export default createComponent({
       props.autogrow === true && adjustHeight()
     }
 
+    function onAnimationend (e) {
+      emit('animationend', e)
+      adjustHeight()
+    }
+
     function emitValue (val, stopWatcher) {
       emitValueFn = () => {
+        emitTimer = null
+
         if (
           props.type !== 'number'
           && temp.hasOwnProperty('value') === true
@@ -272,7 +293,7 @@ export default createComponent({
       }
 
       if (props.debounce !== void 0) {
-        clearTimeout(emitTimer)
+        emitTimer !== null && clearTimeout(emitTimer)
         temp.value = val
         emitTimer = setTimeout(emitValueFn, props.debounce)
       }
@@ -283,27 +304,45 @@ export default createComponent({
 
     // textarea only
     function adjustHeight () {
-      const inp = inputRef.value
-      if (inp !== null) {
-        const parentStyle = inp.parentNode.style
-        const { overflow } = inp.style
+      requestAnimationFrame(() => {
+        const inp = inputRef.value
+        if (inp !== null) {
+          const parentStyle = inp.parentNode.style
+          // chrome does not keep scroll #15498
+          const { scrollTop } = inp
+          // chrome calculates a smaller scrollHeight when in a .column container
+          const { overflowY, maxHeight } = $q.platform.is.firefox === true
+            ? {}
+            : window.getComputedStyle(inp)
+          // on firefox or if overflowY is specified as scroll #14263, #14344
+          // we don't touch overflow
+          // firefox is not so bad in the end
+          const changeOverflow = overflowY !== void 0 && overflowY !== 'scroll'
 
-        // reset height of textarea to a small size to detect the real height
-        // but keep the total control size the same
-        parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
-        inp.style.height = '1px'
-        inp.style.overflow = 'hidden'
+          // reset height of textarea to a small size to detect the real height
+          // but keep the total control size the same
+          changeOverflow === true && (inp.style.overflowY = 'hidden')
+          parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
+          inp.style.height = '1px'
 
-        inp.style.height = inp.scrollHeight + 'px'
-        inp.style.overflow = overflow
-        parentStyle.marginBottom = ''
-      }
+          inp.style.height = inp.scrollHeight + 'px'
+          // we should allow scrollbars only
+          // if there is maxHeight and content is taller than maxHeight
+          changeOverflow === true && (inp.style.overflowY = parseInt(maxHeight, 10) < inp.scrollHeight ? 'auto' : 'hidden')
+          parentStyle.marginBottom = ''
+          inp.scrollTop = scrollTop
+        }
+      })
     }
 
     function onChange (e) {
       onComposition(e)
 
-      clearTimeout(emitTimer)
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
       emitValueFn !== void 0 && emitValueFn()
 
       emit('change', e.target.value)
@@ -312,7 +351,11 @@ export default createComponent({
     function onFinishEditing (e) {
       e !== void 0 && stop(e)
 
-      clearTimeout(emitTimer)
+      if (emitTimer !== null) {
+        clearTimeout(emitTimer)
+        emitTimer = null
+      }
+
       emitValueFn !== void 0 && emitValueFn()
 
       typedNumber = false
@@ -364,7 +407,10 @@ export default createComponent({
       hasValue,
 
       floatingLabel: computed(() =>
-        hasValue.value === true
+        (
+          hasValue.value === true
+          && (props.type !== 'number' || isNaN(innerValue.value) === false)
+        )
         || fieldValueIsFilled(props.displayValue)
       ),
 
@@ -400,12 +446,13 @@ export default createComponent({
     const renderFn = useField(state)
 
     // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
+    Object.assign(proxy, {
       focus,
       select,
-      getNativeElement: () => inputRef.value
+      getNativeElement: () => inputRef.value // deprecated
     })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
 
     return renderFn
   }

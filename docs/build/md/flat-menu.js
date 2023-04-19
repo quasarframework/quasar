@@ -35,6 +35,9 @@ function menuWalk (node, path, parentName) {
     }
 
     flatMenu[ join(prefix, newPath + '.md') ] = current
+    // may be folder-based:
+    flatMenu[ join(prefix, newPath + '/' + node.path + '.md') ] = current
+
     prev = current
   }
 }

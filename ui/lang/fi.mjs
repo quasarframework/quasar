@@ -14,7 +14,9 @@ export default {
     create: 'Luo',
     search: 'Etsi',
     filter: 'Suodata',
-    refresh: 'Päivitä'
+    refresh: 'Päivitä',
+    expand: label => (label ? `Laajenna "${ label }"` : 'Laajentaa'),
+    collapse: label => (label ? `Tiivistä "${ label }"` : 'Romahdus')
   },
   date: {
     days: 'sunnuntai_maanantai_tiistai_keskiviikko_torstai_perjantai_lauantai'.split('_'),

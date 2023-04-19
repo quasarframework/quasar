@@ -19,7 +19,9 @@ module.exports = {
     create: 'Crea',
     search: 'Cerca',
     filter: 'Filtra',
-    refresh: 'Aggiorna'
+    refresh: 'Aggiorna',
+    expand: label => (label ? `Espandi "${ label }"` : 'Espandere'),
+    collapse: label => (label ? `Comprimi "${ label }"` : 'Crollo')
   },
   date: {
     days: 'Domenica_Lunedì_Martedì_Mercoledì_Giovedì_Venerdì_Sabato'.split('_'),

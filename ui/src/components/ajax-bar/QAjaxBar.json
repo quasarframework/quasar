@@ -9,7 +9,6 @@
       "desc": "Position within window of where QAjaxBar should be displayed",
       "default": "top",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "bottom" ],
       "category": "style"
     },
 
@@ -70,14 +69,12 @@
         "speed": {
           "type": "Number",
           "default": 300,
-          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing",
-          "examples": [ 400, 0 ]
+          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing"
         }
       },
       "returns": {
         "type": "Number",
-        "desc": "Number of active simultaneous sessions",
-        "__exemption": [ "examples" ]
+        "desc": "Number of active simultaneous sessions"
       }
     },
 
@@ -86,14 +83,12 @@
       "params": {
         "amount": {
           "type": "Number",
-          "desc": "Amount (0 < x <= 100) to increment with",
-          "examples": [ 1 ]
+          "desc": "Amount (0 < x <= 100) to increment with"
         }
       },
       "returns": {
         "type": "Number",
-        "desc": "Number of active simultaneous sessions",
-        "__exemption": [ "examples" ]
+        "desc": "Number of active simultaneous sessions"
       }
     },
 
@@ -101,8 +96,7 @@
       "desc": "Notify bar that one process you were waiting has finished",
       "returns": {
         "type": "Number",
-        "desc": "Number of active simultaneous sessions",
-        "__exemption": [ "examples" ]
+        "desc": "Number of active simultaneous sessions"
       }
     }
   }

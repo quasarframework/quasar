@@ -1,0 +1,40 @@
+.doc-page-menu
+  font-size: ($font-size - 2px)
+
+  .q-icon
+    font-size: 24px
+
+  .q-item__section--avatar
+    color: $brand-primary
+    min-width: 28px
+    padding-right: 12px
+
+  .q-expansion-item__content
+    margin-left: 18px
+    padding-left: 4px
+    border-left: 1px solid $separator-color
+
+    .q-expansion-item__content
+      margin-left: 26px
+      padding-left: 2px !important
+      .q-item
+        padding-left: 16px !important
+        margin-left: 2px
+
+  .q-expansion-item__toggle-icon
+    color: $grey-5
+
+  .q-expansion-item--expanded > div > .q-item
+    > .q-item__section--main
+      color: $brand-primary
+    > .q-item__section--side .q-expansion-item__toggle-icon
+      color: $brand-primary
+
+  &__deep-expansion > .q-expansion-item__container > .q-item
+    .q-item__section--avatar
+      min-width: 16px
+      padding-left: 8px
+      padding-right: 0
+
+body.body--dark .doc-page-menu .q-expansion-item__content
+  border-left-color: $separator-dark-color

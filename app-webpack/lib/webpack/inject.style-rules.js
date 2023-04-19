@@ -69,7 +69,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     const cssLoaderOptions = {
       sourceMap: pref.sourceMap,
-      url: shouldRequireUrl,
+      url: { filter: shouldRequireUrl },
       importLoaders:
         1 + // stylePostLoader injected by vue-loader
         1 + // postCSS loader

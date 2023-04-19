@@ -9,10 +9,12 @@
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.vue ./",
     <% if (lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,vue<% if (css !== 'sass') { %>,<%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
     <% } %>
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
-    <% if (preset.axios) { %>"axios": "^0.21.1",<% } %>
+    <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
     <% if (preset.i18n) { %>"vue-i18n": "^9.0.0",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
@@ -24,7 +26,7 @@
   "devDependencies": {
     <% if (preset.lint) { %>
     "eslint": "^8.10.0",
-    "eslint-plugin-vue": "^8.5.0",
+    "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.19.1",
@@ -39,7 +41,8 @@
     <% } } %>
     <% if (preset.i18n) { %>"@intlify/vite-plugin-vue-i18n": "^3.3.1",<% } %>
     "@quasar/app-vite": "^1.0.0",
-    "autoprefixer": "^10.4.2"
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.14"
   },
   "engines": {
     "node": "^18 || ^16 || ^14.19",

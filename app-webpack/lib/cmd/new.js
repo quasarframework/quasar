@@ -57,6 +57,7 @@ function showHelp () {
                           Possible values:
                              * default - Default JS template
                              * ts-composition - TS composition API (default if using TS)
+                             * ts-composition-setup - TS composition API with <script setup>
                              * ts-options - TS options API
                              * ts-class - [DEPRECATED] TS class style syntax
                              * ts - Plain TS template (for boot, store, and ssrmiddleware files)
@@ -85,7 +86,7 @@ if (argv._.length < 2) {
 
 /** @type {string[]} */
 const [ rawType, ...names ] = argv._
-/** @type {{ format: 'default'|'ts'|'ts-options'|'ts-class'|'ts-composition'}} */
+/** @type {{ format: 'default'|'ts'|'ts-options'|'ts-class'|'ts-composition'|'ts-composition-setup'}} */
 let { format } = argv
 
 const typeAliasMap = {
@@ -103,7 +104,7 @@ if (![...Object.entries(typeAliasMap).flat(), 'ssrmiddleware'].includes(rawType)
 /** @type {'page'|'layout'|'component'|'store'|'boot'|'ssrmiddleware'} */
 const type = typeAliasMap[rawType] || rawType
 
-if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts'].includes(format)) {
+if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts-composition-setup', 'ts'].includes(format)) {
   showError('Invalid asset format', format)
 }
 

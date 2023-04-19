@@ -49,22 +49,19 @@
             "filesNumber": {
               "type": "Number",
               "required": true,
-              "desc": "Number of picked files",
-              "examples": [ 5 ]
+              "desc": "Number of picked files"
             },
             "maxFiles": {
               "type": [ "Number", "String" ],
               "required": true,
-              "desc": "Maximum number of files (same as 'max-files' prop, if specified); When 'max-files' is not specified, this has 'void 0' as value",
-              "examples": [ 5 ]
+              "desc": "Maximum number of files (same as 'max-files' prop, if specified); When 'max-files' is not specified, this has 'void 0' as value"
             }
           }
         }
       },
       "returns": {
         "type": "String",
-        "desc": "String to display for the counter label",
-        "__exemption": [ "examples" ]
+        "desc": "String to display for the counter label"
       },
       "examples": [
         ":counter-label=\"counterLabelFn\""
@@ -105,14 +102,12 @@
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "Selection index",
-          "examples": [ 0 ]
+          "desc": "Selection index"
         },
 
         "file": {
           "type": "File",
-          "desc": "File object",
-          "__exemption": [ "examples" ]
+          "desc": "File object"
         },
 
         "ref": {
@@ -128,8 +123,7 @@
       "scope": {
         "files": {
           "type": [ "FileList", "Array" ],
-          "desc": "Array of File objects",
-          "__exemption": [ "examples" ]
+          "desc": "Array of File objects"
         },
 
         "ref": {
@@ -154,8 +148,7 @@
         "index": {
           "type": "Number",
           "desc": "Index at which to remove selection",
-          "required": true,
-          "examples": [ 0 ]
+          "required": true
         }
       }
     },
@@ -166,19 +159,27 @@
         "file": {
           "type": "File",
           "desc": "File to remove (instance of File)",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "required": true
         }
       }
     },
 
     "getNativeElement": {
-      "desc": "Get the native input DOM Element",
+      "desc": "DEPRECATED; Access 'nativeEl' directly; Gets the native input DOM Element",
       "returns": {
-        "type": "Object",
-        "desc": "The underlying native input DOM Element",
-        "__exemption": [ "examples" ]
+        "type": "Element",
+        "tsType": "QFileNativeElement",
+        "desc": "The underlying native input DOM Element"
       }
+    }
+  },
+
+  "computedProps": {
+    "nativeEl": {
+      "type": "Element",
+      "tsType": "QFileNativeElement",
+      "desc": "The native input DOM Element",
+      "addedIn": "v2.10.1"
     }
   }
 }

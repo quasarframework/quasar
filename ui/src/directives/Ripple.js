@@ -61,8 +61,8 @@ function showRipple (evt, el, ctx, forceCenter) {
   }, 50)
 }
 
-function updateModifiers (ctx, { modifiers, value, arg, instance }) {
-  const cfg = Object.assign({}, instance.$q.config.ripple, modifiers, value)
+function updateModifiers (ctx, { modifiers, value, arg }) {
+  const cfg = Object.assign({}, ctx.cfg.ripple, modifiers, value)
   ctx.modifiers = {
     early: cfg.early === true,
     stop: cfg.stop === true,
@@ -78,7 +78,14 @@ export default createDirective(__QUASAR_SSR_SERVER__
       name: 'ripple',
 
       beforeMount (el, binding) {
+        const cfg = binding.instance.$.appContext.config.globalProperties.$q.config || {}
+
+        if (cfg.ripple === false) {
+          return
+        }
+
         const ctx = {
+          cfg,
           enabled: binding.value !== false,
           modifiers: {},
           abort: [],
@@ -87,11 +94,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
             if (
               ctx.enabled === true
               && evt.qSkipRipple !== true
-              && (
-                ctx.modifiers.early === true
-                  ? [ 'mousedown', 'touchstart' ].includes(evt.type) === true
-                  : evt.type === 'click'
-              )
+              && evt.type === (ctx.modifiers.early === true ? 'pointerdown' : 'click')
             ) {
               showRipple(evt, el, ctx, evt.qKeyEvent === true)
             }
@@ -114,8 +117,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
         el.__qripple = ctx
 
         addEvt(ctx, 'main', [
-          [ el, 'mousedown', 'start', 'passive' ],
-          [ el, 'touchstart', 'start', 'passive' ],
+          [ el, 'pointerdown', 'start', 'passive' ],
           [ el, 'click', 'start', 'passive' ],
           [ el, 'keydown', 'keystart', 'passive' ],
           [ el, 'keyup', 'keystart', 'passive' ]
@@ -125,19 +127,23 @@ export default createDirective(__QUASAR_SSR_SERVER__
       updated (el, binding) {
         if (binding.oldValue !== binding.value) {
           const ctx = el.__qripple
-          ctx.enabled = binding.value !== false
+          if (ctx !== void 0) {
+            ctx.enabled = binding.value !== false
 
-          if (ctx.enabled === true && Object(binding.value) === binding.value) {
-            updateModifiers(ctx, binding)
+            if (ctx.enabled === true && Object(binding.value) === binding.value) {
+              updateModifiers(ctx, binding)
+            }
           }
         }
       },
 
       beforeUnmount (el) {
         const ctx = el.__qripple
-        ctx.abort.forEach(fn => { fn() })
-        cleanEvt(ctx, 'main')
-        delete el._qripple
+        if (ctx !== void 0) {
+          ctx.abort.forEach(fn => { fn() })
+          cleanEvt(ctx, 'main')
+          delete el._qripple
+        }
       }
     }
 )

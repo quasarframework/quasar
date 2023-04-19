@@ -89,6 +89,7 @@ async function run () {
             : [
               { title: 'Yes, use Yarn (recommended)', value: 'yarn' },
               { title: 'Yes, use NPM', value: 'npm' },
+              { title: 'Yes, use PNPM (experimental support)', value: 'pnpm' },
               { title: 'No, I will handle that myself', value: false }
             ]
         )

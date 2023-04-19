@@ -1,6 +1,111 @@
 ---
 title: App Icons for Capacitor
 desc: (@quasar/app-vite) How to manage the app icons for a Quasar hybrid mobile app with Capacitor.
+scope:
+  tree:
+    l: "."
+    c:
+    - l: android
+      c:
+      - l: app
+        c:
+        - l: src
+          c:
+          - l: main
+            c:
+            - l: res
+              c:
+              - l: drawable
+                c:
+                - l: splash.png
+              - l: drawable-land-hdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-mdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-xhdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-xxhdpi
+                c:
+                - l: splash.png
+              - l: drawable-land-xxxhdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-hdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-mdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-xhdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-xxhdpi
+                c:
+                - l: splash.png
+              - l: drawable-port-xxxhdpi
+                c:
+                - l: splash.png
+              - l: mipmap-hdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-mdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-xhdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-xxhdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+              - l: mipmap-xxhdpi
+                c:
+                - l: ic_launcher.png
+                - l: ic_launcher_foreground.png
+                - l: ic_launcher_round.png
+    - l: ios
+      c:
+      - l: App
+        c:
+        - l: App
+          c:
+          - l: Assets.xcassets
+            c:
+            - l: AppIcon.appiconset
+              c:
+              - l: AppIcon-20x20@1x.png
+              - l: AppIcon-20x20@2x-1.png
+              - l: AppIcon-20x20@2x.png
+              - l: AppIcon-20x20@3x.png
+              - l: AppIcon-29x29@1x.png
+              - l: AppIcon-29x29@2x-1.png
+              - l: AppIcon-29x29@2x.png
+              - l: AppIcon-29x29@3x.png
+              - l: AppIcon-40x40@1x.png
+              - l: AppIcon-40x40@2x-1.png
+              - l: AppIcon-40x40@2x.png
+              - l: AppIcon-40x40@3x.png
+              - l: AppIcon-512@2x.png
+              - l: AppIcon-60x60@2x.png
+              - l: AppIcon-60x60@3x.png
+              - l: AppIcon-76x76@1x.png
+              - l: AppIcon-76x76@2x.png
+              - l: AppIcon-83.5x83.5@2x.png
+            - l: Splash.imageset
+              c:
+              - l: splash-2732x2732-1.png
+              - l: splash-2732x2732-2.png
+              - l: splash-2732x2732.png
 ---
 
 
@@ -28,80 +133,4 @@ Depending on what packager (electron-packager or electron-builder) you will be u
 
 Unless you are using the Icon Genie app extension, these are the files that you need to replace:
 
-```
-.
-├── android
-│   └── app
-│       └── src
-│           └── main
-│               └── res
-│                   ├── drawable
-│                   │   └── splash.png
-│                   ├── drawable-land-hdpi
-│                   │   └── splash.png
-│                   ├── drawable-land-mdpi
-│                   │   └── splash.png
-│                   ├── drawable-land-xhdpi
-│                   │   └── splash.png
-│                   ├── drawable-land-xxhdpi
-│                   │   └── splash.png
-│                   ├── drawable-land-xxxhdpi
-│                   │   └── splash.png
-│                   ├── drawable-port-hdpi
-│                   │   └── splash.png
-│                   ├── drawable-port-mdpi
-│                   │   └── splash.png
-│                   ├── drawable-port-xhdpi
-│                   │   └── splash.png
-│                   ├── drawable-port-xxhdpi
-│                   │   └── splash.png
-│                   ├── drawable-port-xxxhdpi
-│                   │   └── splash.png
-│                   ├── mipmap-hdpi
-│                   │   ├── ic_launcher.png
-│                   │   ├── ic_launcher_foreground.png
-│                   │   └── ic_launcher_round.png
-│                   ├── mipmap-mdpi
-│                   │   ├── ic_launcher.png
-│                   │   ├── ic_launcher_foreground.png
-│                   │   └── ic_launcher_round.png
-│                   ├── mipmap-xhdpi
-│                   │   ├── ic_launcher.png
-│                   │   ├── ic_launcher_foreground.png
-│                   │   └── ic_launcher_round.png
-│                   ├── mipmap-xxhdpi
-│                   │   ├── ic_launcher.png
-│                   │   ├── ic_launcher_foreground.png
-│                   │   └── ic_launcher_round.png
-│                   └── mipmap-xxxhdpi
-│                       ├── ic_launcher.png
-│                       ├── ic_launcher_foreground.png
-│                       └── ic_launcher_round.png
-└── ios
-    └── App
-        └── App
-            └── Assets.xcassets
-                ├── AppIcon.appiconset
-                │   ├── AppIcon-20x20@1x.png
-                │   ├── AppIcon-20x20@2x-1.png
-                │   ├── AppIcon-20x20@2x.png
-                │   ├── AppIcon-20x20@3x.png
-                │   ├── AppIcon-29x29@1x.png
-                │   ├── AppIcon-29x29@2x-1.png
-                │   ├── AppIcon-29x29@2x.png
-                │   ├── AppIcon-29x29@3x.png
-                │   ├── AppIcon-40x40@1x.png
-                │   ├── AppIcon-40x40@2x-1.png
-                │   ├── AppIcon-40x40@2x.png
-                │   ├── AppIcon-40x40@3x.png
-                │   ├── AppIcon-512@2x.png
-                │   ├── AppIcon-60x60@2x.png
-                │   ├── AppIcon-60x60@3x.png
-                │   ├── AppIcon-76x76@1x.png
-                │   ├── AppIcon-76x76@2x.png
-                │   └── AppIcon-83.5x83.5@2x.png
-                └── Splash.imageset
-                    ├── splash-2732x2732-1.png
-                    ├── splash-2732x2732-2.png
-                    └── splash-2732x2732.png
-```
+<doc-tree :def="scope.tree" />

@@ -1,0 +1,84 @@
+name: Build types
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - '.github/workflows/build-types.yml'
+
+      # We don't need to hunt for every possible case, these should cover almost all cases
+      - 'ui/package.json'
+      - 'ui/build/build.types.js'
+      - 'ui/build/build.javascript.js'
+
+      # Manually authored .d.ts files
+      - 'ui/types/**'
+      # JSON API files
+      - 'ui/src/**/*.json'
+      - '!ui/src/api-file-example.json'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - '.github/workflows/build-types.yml'
+
+      # We don't need to hunt for every possible case, these should cover almost all cases
+      - 'ui/package.json'
+      - 'ui/build/build.types.js'
+      - 'ui/build/build.javascript.js'
+
+      # Manually authored .d.ts files
+      - 'ui/types/**'
+      # JSON API files
+      - 'ui/src/**/*.json'
+      - '!ui/src/api-file-example.json'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      actions: write # to upload artifacts (actions/upload-artifact)
+
+    defaults:
+      run:
+        working-directory: ui
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          # No caching because we are not checking lock files in
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Ensure types are formatted correctly
+        run: yarn format:types --write=false --check
+
+      - name: Build the types
+        run: yarn build js types
+
+      - if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo ${{ github.event.number }} > dist/.pr-number
+
+      - name: Upload the build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: types-build
+          path: |
+            ui/dist/api
+            ui/dist/types
+            ui/dist/.pr-number
+
+      # The flow continues with ./comment-build-results.yml for PRs

@@ -7,7 +7,7 @@ import { useFormProps, useFormInject } from '../../composables/private/use-form.
 
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
-import { isNumber, isObject } from '../../utils/private/is.js'
+import { isNumber, isObject } from '../../utils/is.js'
 import { hDir } from '../../utils/private/render.js'
 
 const markerPrefixClass = 'q-slider__marker-labels'

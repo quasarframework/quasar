@@ -1,8 +1,14 @@
+
+import { addFocusout, removeFocusout } from './private/focusout.js'
+
 function fallback (text) {
   const area = document.createElement('textarea')
   area.value = text
   area.contentEditable = 'true'
   area.style.position = 'fixed' // avoid scrolling to bottom
+
+  const fn = () => {}
+  addFocusout(fn)
 
   document.body.appendChild(area)
   area.focus()
@@ -11,6 +17,8 @@ function fallback (text) {
   const res = document.execCommand('copy')
 
   area.remove()
+  removeFocusout(fn)
+
   return res
 }
 

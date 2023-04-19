@@ -4,6 +4,7 @@ const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
+const hasTypescript = require('../../helpers/has-typescript')
 
 function isInstalled () {
   return fs.existsSync(appPaths.ssrDir)
@@ -18,7 +19,18 @@ function add (silent) {
   }
 
   log(`Creating SSR source folder...`)
-  fse.copySync(appPaths.resolve.cli('templates/ssr'), appPaths.ssrDir)
+
+  const format = hasTypescript ? 'ts' : 'default'
+  fse.copySync(
+    appPaths.resolve.cli(`templates/ssr/${format}`),
+    appPaths.ssrDir
+  )
+
+  fse.copySync(
+    appPaths.resolve.cli('templates/ssr/ssr-flag.d.ts'),
+    appPaths.resolve.ssr('ssr-flag.d.ts')
+  )
+
   log(`SSR support was added`)
 }
 

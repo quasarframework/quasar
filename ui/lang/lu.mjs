@@ -14,7 +14,9 @@ export default {
     create: 'Erstellen',
     search: 'Sichen',
     filter: 'Filter',
-    refresh: 'Aktualiséieren'
+    refresh: 'Aktualiséieren',
+    expand: label => (label ? `"${ label }" erweideren` : 'Erweideren'),
+    collapse: label => (label ? `"${ label }" zesummeklappen` : 'Zesummebroch')
   },
   date: {
     days: 'Sonndeg_Méindeg_Dënschdeg_Mëttwoch_Donneschdeg_Freideg_Samschdeg'.split('_'),

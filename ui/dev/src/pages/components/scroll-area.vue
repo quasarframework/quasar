@@ -6,7 +6,7 @@
     <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
     <q-toggle v-model="focusable" label="Focusable" />
 
-    <div style="height: 200px;" />
+    <div style="height: 100px;" />
 
     <keep-alive>
       <q-scroll-area
@@ -73,49 +73,65 @@
       getScroll()
     </q-btn>
 
+    <q-separator spaced />
+    <pre class="inline-block" dir="ltr">{{ scrollDetails }}</pre>
+    <q-separator spaced />
+
     <div style="height: 250px" />
 
-    <q-scroll-area
-      ref="scroll2"
-      class="bg-yellow"
-      style="width: 400px; height: 200px;"
-      :visible="alwaysVisible"
-      :bar-style="customBarStyle"
-      :vertical-bar-style="customVBarStyle"
-      :horizontal-bar-style="customHBarStyle"
-      :thumbStyle="customThumbStyle"
-      :vertical-thumb-style="customVThumbStyle"
-      :horizontal-thumb-style="customHThumbStyle"
-    >
-      <div class="flex no-wrap">
-        <div style="margin-top: 150px" />
+    <div class="row q-gutter-md">
+      <q-scroll-area
+        ref="scroll2"
+        class="bg-yellow"
+        style="width: 400px; height: 200px;"
+        :visible="alwaysVisible"
+        :bar-style="customBarStyle"
+        :vertical-bar-style="customVBarStyle"
+        :horizontal-bar-style="customHBarStyle"
+        :thumbStyle="customThumbStyle"
+        :vertical-thumb-style="customVThumbStyle"
+        :horizontal-thumb-style="customHThumbStyle"
+      >
+        <div class="flex no-wrap">
+          <div style="margin-top: 150px" />
+          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
+        </div>
+        <div class="flex no-wrap">
+          <div style="margin-top: 150px" />
+          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
+        </div>
+        <div class="flex no-wrap">
+          <div style="margin-top: 150px" />
+          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
+        </div>
+        <div class="flex no-wrap">
+          <div style="margin-top: 150px" />
+          <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
+            {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <q-btn label="Click" color="primary" />
+          </div>
+        </div>
+      </q-scroll-area>
+
+      <q-scroll-area
+        class="bg-yellow"
+        style="width: 40px; height: 40px;"
+        :visible="alwaysVisible"
+      >
         <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
           {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          <q-btn label="Click" color="primary" />
         </div>
-      </div>
-      <div class="flex no-wrap">
-        <div style="margin-top: 150px" />
-        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
-          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          <q-btn label="Click" color="primary" />
-        </div>
-      </div>
-      <div class="flex no-wrap">
-        <div style="margin-top: 150px" />
-        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
-          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          <q-btn label="Click" color="primary" />
-        </div>
-      </div>
-      <div class="flex no-wrap">
-        <div style="margin-top: 150px" />
-        <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number" :key="n">
-          {{ n }} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          <q-btn label="Click" color="primary" />
-        </div>
-      </div>
-    </q-scroll-area>
+      </q-scroll-area>
+    </div>
 
     <div style="height: 300px" />
   </div>
@@ -130,7 +146,8 @@ export default {
       horizontal: false,
       alwaysVisible: true,
       customStyle: false,
-      focusable: true
+      focusable: true,
+      scrollDetails: null
     }
   },
 
@@ -180,20 +197,29 @@ export default {
       return this.customStyle === true
         ? { borderWidth: '2px 0', height: '24px' }
         : null
+    },
+
+    scrollSign () {
+      return this.axis === 'horizontal' && this.$q.lang.rtl === true ? -1 : 1
     }
   },
 
   methods: {
     scroll () {
-      this.$refs.scroll.setScrollPosition(this.axis, 125)
+      this.$refs.scroll.setScrollPosition(this.axis, 125 * this.scrollSign)
     },
     scroll2 () {
-      this.$refs.scroll.setScrollPosition(this.axis, 525, 1000)
+      this.$refs.scroll.setScrollPosition(this.axis, 525 * this.scrollSign, 1000)
     },
     scroll3 () {
       this.$refs.scroll.setScrollPercentage(this.axis, 0.9, 1000)
     },
     getInfo () {
+      this.scrollDetails = {
+        getScroll: this.$refs.scroll.getScroll(),
+        getScrollPosition: this.$refs.scroll.getScrollPosition(),
+        getScrollPercentage: this.$refs.scroll.getScrollPercentage()
+      }
       console.log('getScroll()', this.$refs.scroll.getScroll())
       console.log('getScrollPosition()', this.$refs.scroll.getScrollPosition())
       console.log('getScrollPercentage()', this.$refs.scroll.getScrollPercentage())

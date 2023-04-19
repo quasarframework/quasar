@@ -6,8 +6,11 @@ desc: (@quasar/app-webpack) How to communicate to the underlying web page using 
 `src-bex/js/dom-hooks.js` is a javascript file that is injected into the underlying web page automatically by Quasar but as with all the other hook files has access to the bridge via:
 
 ```js
-export default function attachDomHooks (bridge) {
-}
+import { bexDom } from 'quasar/wrappers'
+
+export default bexDom((bridge) => {
+  //
+})
 ```
 
 If you ever find yourself needing to inject a JS file into your underlying web page, you can use dom hooks instead as it means you can maintain that chain of communication in the BEX.
@@ -74,11 +77,12 @@ export default function detectQuasar (bridge) {
 
 ```js
 // dom-hooks.js:
-
+import { bexDom } from 'quasar/wrappers'
 import detectQuasar from './dom/detect-quasar'
-export default function attachDomHooks (bridge) {
+
+export default bexDom((bridge) => {
   detectQuasar(bridge)
-}
+})
 ```
 
 The bridge above will notify all listeners in the BEX that Quasar has been found and along with that send the instance information.

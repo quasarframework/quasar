@@ -79,5 +79,9 @@ $chip-height: 2em
     .q-avatar
       border-radius: ($generic-border-radius - 1px) 0 0 ($generic-border-radius - 1px)
 
-body.desktop .q-chip--clickable:focus
-  box-shadow: $shadow-1
+body.desktop
+  .q-chip--clickable:focus
+    box-shadow: $shadow-1
+  &.body--dark
+    .q-chip--clickable:focus
+      box-shadow: $dark-shadow-1

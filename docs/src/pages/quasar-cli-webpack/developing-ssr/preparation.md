@@ -3,6 +3,14 @@ title: Preparation for SSR
 desc: (@quasar/app-webpack) How to add SSR mode with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
+scope:
+  tree:
+    l: src-ssr
+    c:
+    - l: middlewares/
+      e: SSR middleware files
+    - l: production-export.js
+      e: SSR webserver production export
 ---
 
 We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.
@@ -23,9 +31,4 @@ This will add SSR mode automatically, if it is missing.
 
 A new folder will appear in your project folder (which is explained in detail on the [Configuring SSR](/quasar-cli-webpack/developing-ssr/configuring-ssr) page):
 
-```bash
-.
-└── src-ssr/
-    ├── middlewares/  # SSR middleware files
-    └── production-export.js # SSR webserver production export
-```
+<doc-tree :def="scope.tree" />

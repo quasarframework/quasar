@@ -1,6 +1,39 @@
 ---
 title: App Vuex Store
 desc: (@quasar/app-webpack) How to manage the Vuex Store in a Quasar App.
+scope:
+  tree:
+    l: src
+    c:
+    - l: store
+      e: Vuex Store
+      c:
+      - l: index.js
+        e: Vuex Store definition
+      - l: "<folder>"
+        e: Vuex Store Module...
+      - l: "<folder>"
+        e: Vuex Store Module...
+  newStore:
+    l: src
+    c:
+    - l: store
+      c:
+      - l: index.js
+        e: Vuex Store definition
+      - l: showcase
+        e: Module "showcase"...
+        c:
+        - l: index.js
+          e: Gluing the module together
+        - l: actions.js
+          e: Module actions
+        - l: getters.js
+          e: Module getters
+        - l: mutations.js
+          e: Module mutations
+        - l: state.js
+          e: Module state
 ---
 
 ::: danger
@@ -13,14 +46,7 @@ The recommended way to go if you want components sharing state is Vuex. Take a l
 
 We won't go into details on how to configure or use Vuex since it has great docs. Instead we'll just show you what the folder structure looks like when using it on a Quasar project.
 
-```bash
-.
-└── src/
-    └── store/               # Vuex Store
-        ├── index.js         # Vuex Store definition
-        ├── <folder>         # Vuex Store Module...
-        └── <folder>         # Vuex Store Module...
-```
+<doc-tree :def="scope.tree" />
 
 By default, if you choose to use Vuex when you create a project folder with Quasar CLI, it will set you up on using Vuex modules. Each sub-folder of `/src/store` represents a Vuex Module.
 
@@ -41,18 +67,7 @@ It will create a folder in `/src/store` named by "store_name" from the command a
 
 Let's say that you want to create a "showcase" Vuex Module. You issue `$ quasar new store showcase`. You then notice the newly created `/src/store/showcase` folder, which holds the following files:
 
-```bash
-.
-└── src/
-    └── store/
-        ├── index.js         # Vuex Store definition
-        └── showcase         # Module "showcase"
-            ├── index.js     # Gluing the module together
-            ├── actions.js   # Module actions
-            ├── getters.js   # Module getters
-            ├── mutations.js # Module mutations
-            └── state.js     # Module state
-```
+<doc-tree :def="scope.newStore" />
 
 We've created the new Vuex Module, but we haven't yet informed Vuex to use it. So we edit `/src/store/index.js` and add a reference to it:
 
@@ -454,4 +469,15 @@ export default defineComponent({
     }
 });
 </script>
+```
+
+## Accessing the router in Vuex stores
+
+Simply use `this.$router` in Vuex stores to get access to the router.
+
+Here is an example:
+```js
+export function whateverAction (state) {
+  this.$router.push('...')
+}
 ```

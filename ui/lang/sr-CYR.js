@@ -19,7 +19,9 @@ module.exports = {
     create: 'Додај',
     search: 'Тражи',
     filter: 'Филтер',
-    refresh: 'Освежи'
+    refresh: 'Освежи',
+    expand: label => (label ? `Прошири "${ label }"` : 'Проширити'),
+    collapse: label => (label ? `Скупи "${ label }"` : 'Колапс')
   },
   date: {
     days: 'Недеља_Понедељак_Уторак_Среда_Четвртак_Петак_Субота'.split('_'),

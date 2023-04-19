@@ -209,7 +209,7 @@ some-folder/__my.css
 ```
 
 #### Using scope
-You can also inject some decision-making code into the files to be rendered by interpolating with [lodash.template](https://www.npmjs.com/package/lodash.template) syntax.
+You can also inject some decision-making code into the files to be rendered by interpolating with [lodash/template](https://lodash.com/docs/4.17.15#template) syntax.
 
 Example:
 

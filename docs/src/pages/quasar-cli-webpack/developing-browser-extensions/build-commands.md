@@ -1,6 +1,25 @@
 ---
 title: BEX Build Commands
 desc: (@quasar/app-webpack) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
+scope:
+  prodTree:
+    l: "."
+    c:
+    - l: dist
+      c:
+      - l: UnPackaged/
+        e: Built code ready for testing in your development environment
+      - l: Packaged
+        c:
+        - l: Chrome
+          c:
+          - l: your-project-name.zip
+            e: A zip file ready for submission to the Chrome Browser Extension Store
+              / Other Chromium based stores.
+        - l: Firefox
+          c:
+          - l: your-project-name.zip
+            e: A zip file ready for submission to the Firefox Extension Store
 ---
 
 ## Developing
@@ -85,25 +104,19 @@ If your code changes are not propagated to the browser you can try to:
 For more information, please visit [Debugging extensions](https://developer.chrome.com/docs/extensions/mv2/tut_debugging/).
 
 ## Building for Production
+
 ```bash
 $ quasar build -m bex
 
 # ..or the longer form:
 $ quasar build --mode bex
 ```
+
 When building for production, multiple directories are generated:
 
 The new folder has the following structure:
-```bash
-.
-└── dist/
-    ├── UnPackaged/                       # Built code ready for testing in your development environment
-    └── Packaged/
-        ├── Chrome
-        |   └── your-project-name.zip     # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
-        └── Firefox
-            └── your-project-name.zip     # A zip file ready for submission to the Firefox Extension Store
-```
+
+<doc-tree :def="scope.prodTree" />
 
 ::: tip
 If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.

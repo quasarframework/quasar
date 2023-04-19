@@ -70,6 +70,7 @@ Given our Quasar App might need to take the full height of the window (and thus 
 
 // Hooks added here have a bridge allowing communication between the BEX Content Script and the Quasar Application.
 // More info: https://quasar.dev/quasar-cli/developing-browser-extensions/content-hooks
+import { bexContent } from 'quasar/wrappers'
 
 const
   iFrame = document.createElement('iframe'),
@@ -112,25 +113,24 @@ Object.assign(iFrame.style, {
 
 ;(function () {
   // When the page loads, insert our browser extension app.
-  iFrame.src = chrome.runtime.getURL(`www/index.html`)
+  iFrame.src = chrome.runtime.getURL('www/index.html')
   document.body.prepend(iFrame)
 })()
 
-export default function (bridge) {
+export default bexContent((bridge) => {
   /**
    * When the drawer is toggled set the iFrame height to take the whole page.
    * Reset when the drawer is closed.
    */
-  bridge.on('wb.drawer.toggle', event => {
-    const payload = event.data
-    if (payload.open) {
+  bridge.on('wb.drawer.toggle', ({ data, respond }) => {
+    if (data.open) {
       setIFrameHeight('100%')
     } else {
       resetIFrameHeight()
     }
-    bridge.send(event.eventResponseKey)
+    respond()
   })
-}
+})
 ```
 
 We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.
@@ -164,15 +164,13 @@ setup () {
   const $q = useQuasar()
   const drawerIsOpen = ref(true)
 
-  function drawerToggled () {
-    $q.bex
-      .send('wb.drawer.toggle', {
-        open: drawerIsOpen.value // So it knows to make it bigger / smaller
-      })
-      .then(r => {
-        // Only set this once the promise has resolved so we can see the entire slide animation.
-        drawerIsOpen.value = !drawerIsOpen.value
-      })
+  async function drawerToggled () {
+    await $q.bex.send('wb.drawer.toggle', {
+      open: drawerIsOpen.value // So it knows to make it bigger / smaller
+    })
+
+    // Only set this once the promise has resolved so we can see the entire slide animation.
+    drawerIsOpen.value = !drawerIsOpen.value
   }
 
   return { drawerToggled }
@@ -183,5 +181,5 @@ Now you have a Quasar App running in a web page. You can now trigger other event
 script can listen to and interact with the underlying page.
 
 ::: warning
-Be sure to check your manifest file, especially around the reference to `my-content-script.js`. Note that **you can have multiple content scripts**. Whenever you create a new one, you need to reference it in the manifest file.
+Be sure to check your manifest file, especially around the reference to `my-content-script.js`. Note that **you can have multiple content scripts**. Whenever you create a new one, you need to reference it in the manifest file, and in the bex.contentScripts section of quasar.config.js
 :::

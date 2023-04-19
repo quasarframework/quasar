@@ -37,6 +37,7 @@ export default createComponent({
 
     dense: Boolean,
 
+    toggleAriaLabel: String,
     expandIcon: String,
     expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
@@ -47,6 +48,7 @@ export default createComponent({
 
     expandSeparator: Boolean,
     defaultOpened: Boolean,
+    hideExpandIcon: Boolean,
     expandIconToggle: Boolean,
     switchToggleSide: Boolean,
     denseToggle: Boolean,
@@ -59,7 +61,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'click', 'after-show', 'after-hide'
+    'click', 'afterShow', 'afterHide'
   ],
 
   setup (props, { slots, emit }) {
@@ -73,8 +75,9 @@ export default createComponent({
     )
 
     const blurTargetRef = ref(null)
+    const targetUid = uid()
 
-    const { hide, toggle } = useModelToggle({ showing })
+    const { show, hide, toggle } = useModelToggle({ showing })
 
     let uniqueId, exitGroup
 
@@ -124,6 +127,27 @@ export default createComponent({
       props.disable !== true && (hasLink.value === true || props.expandIconToggle === true)
     )
 
+    const headerSlotScope = computed(() => ({
+      expanded: showing.value === true,
+      detailsId: props.targetUid,
+      toggle,
+      show,
+      hide
+    }))
+
+    const toggleAriaAttrs = computed(() => {
+      const toggleAriaLabel = props.toggleAriaLabel !== void 0
+        ? props.toggleAriaLabel
+        : $q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
+
+      return {
+        role: 'button',
+        'aria-expanded': showing.value === true ? 'true' : 'false',
+        'aria-controls': targetUid,
+        'aria-label': toggleAriaLabel
+      }
+    })
+
     watch(() => props.group, name => {
       exitGroup !== void 0 && exitGroup()
       name !== void 0 && enterGroup()
@@ -145,11 +169,11 @@ export default createComponent({
     }
 
     function onShow () {
-      emit('after-show')
+      emit('afterShow')
     }
 
     function onHide () {
-      emit('after-hide')
+      emit('afterHide')
     }
 
     function enterGroup () {
@@ -215,6 +239,7 @@ export default createComponent({
       if (activeToggleIcon.value === true) {
         Object.assign(data, {
           tabindex: 0,
+          ...toggleAriaAttrs.value,
           onClick: toggleIcon,
           onKeyup: toggleIconKeyboard
         })
@@ -235,7 +260,7 @@ export default createComponent({
       let child
 
       if (slots.header !== void 0) {
-        child = [].concat(slots.header())
+        child = [].concat(slots.header(headerSlotScope.value))
       }
       else {
         child = [
@@ -256,9 +281,11 @@ export default createComponent({
         )
       }
 
-      props.disable !== true && child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
-        getToggleIcon()
-      )
+      if (props.disable !== true && props.hideExpandIcon !== true) {
+        child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
+          getToggleIcon()
+        )
+      }
 
       return child
     }
@@ -278,9 +305,9 @@ export default createComponent({
         data.clickable = true
         data.onClick = onHeaderClick
 
-        hasLink.value === true && Object.assign(
+        Object.assign(
           data,
-          linkProps.value
+          hasLink.value === true ? linkProps.value : toggleAriaAttrs.value
         )
       }
 
@@ -292,7 +319,8 @@ export default createComponent({
         h('div', {
           key: 'e-content',
           class: 'q-expansion-item__content relative-position',
-          style: contentStyle.value
+          style: contentStyle.value,
+          id: targetUid
         }, hSlot(slots.default)),
         [ [
           vShow,

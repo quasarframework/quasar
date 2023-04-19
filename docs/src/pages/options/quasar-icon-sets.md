@@ -32,14 +32,14 @@ We edit `/quasar.config.js` again:
 ```js
 framework: {
   // webfont-based example
-  iconSet: 'mdi-v6'
+  iconSet: 'mdi-v7'
 }
 ```
 
 ```js
 framework: {
   // svg-based example
-  iconSet: 'svg-mdi-v6'
+  iconSet: 'svg-mdi-v7'
 }
 ```
 
@@ -49,7 +49,7 @@ Full example of including MDI & Fontawesome and telling Quasar to use Fontawesom
 
 ```js
 extras: [
-  'mdi-v6',
+  'mdi-v7',
   'fontawesome-v6'
 ],
 framework: {
@@ -113,11 +113,11 @@ import { Quasar } from 'quasar'
 // relative path to your node_modules/quasar/..
 // change to YOUR path
 const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.mjs')
-// or just a select few (example below with only DE and FR):
-// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v6|fontawesome-v6).mjs')
+// or just a select few (example below with only mdi-v7 and fontawesome-v6):
+// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).mjs')
 
 export default async () => {
-  const iconSetName = 'mdi-v6' // ... some logic to determine it (use Cookies Plugin?)
+  const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
     iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.mjs` ]().then(lang => {
@@ -137,11 +137,11 @@ export default async () => {
 import { Quasar } from 'quasar'
 
 export default async () => {
-  const iconSetName = 'mdi-v6' // ... some logic to determine it (use Cookies Plugin?)
+  const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v6|fontawesome-v6)\.js$/ */
+      /* webpackInclude: /(mdi-v7|fontawesome-v6)\.js$/ */
       'quasar/icon-set/' + iconSetName
     ).then(setDefinition => {
       Quasar.iconSet.set(setDefinition.default)
@@ -177,12 +177,12 @@ import { Quasar } from 'quasar'
 // relative path to your node_modules/quasar/..
 // change to YOUR path
 const iconSetList = import.meta.glob('../../node_modules/quasar/icon-set/*.mjs')
-// or just a select few (example below with only DE and FR):
-// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v6|fontawesome-v6).mjs')
+// or just a select few (example below with only mdi-v7 and fontawesome-v6):
+// import.meta.glob('../../node_modules/quasar/icon-set/(mdi-v7|fontawesome-v6).mjs')
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
-  const iconSetName = 'mdi-v6' // ... some logic to determine it (use Cookies Plugin?)
+  const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
     iconSetList[ `../../node_modules/quasar/icon-set/${ iconSetName }.mjs` ]().then(lang => {
@@ -203,11 +203,11 @@ import { Quasar } from 'quasar'
 
 // ! NOTICE ssrContext param:
 export default async ({ ssrContext }) => {
-  const iconSetName = 'mdi-v6' // ... some logic to determine it (use Cookies Plugin?)
+  const iconSetName = 'mdi-v7' // ... some logic to determine it (use Cookies Plugin?)
 
   try {
     await import(
-      /* webpackInclude: /(mdi-v6|fontawesome-v6)\.js$/ */
+      /* webpackInclude: /(mdi-v7|fontawesome-v6)\.js$/ */
       'quasar/icon-set/' + iconSetName
     ).then(setDefinition => {
       Quasar.iconSet.set(setDefinition.default, ssrContext)
@@ -228,7 +228,7 @@ Quasar Icon Set is reactive, so all components will update properly if you chang
 ```js
 // Composition API variant
 import { useQuasar } from 'quasar'
-import mdiIconSet from 'quasar/icon-set/mdi-v6.js'
+import mdiIconSet from 'quasar/icon-set/mdi-v7.js'
 
 setup () {
   const $q = useQuasar()
@@ -245,7 +245,7 @@ setup () {
 
 ```js
 // Options API variant
-import mdiIconSet from 'quasar/icon-set/mdi-v6.js'
+import mdiIconSet from 'quasar/icon-set/mdi-v7.js'
 
 methods: {
   changeIconSetToMdiIconSet () {

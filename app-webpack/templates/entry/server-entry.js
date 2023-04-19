@@ -24,7 +24,7 @@ import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
-import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
+import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
 <% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
@@ -138,6 +138,7 @@ export default ssrContext => {
     // wait until router has resolved possible async hooks
     router.isReady().then(() => {
       let matchedComponents = router.currentRoute.value.matched
+        .filter(record => record.components !== void 0)
         .flatMap(record => Object.values(record.components))
 
       // no matched routes

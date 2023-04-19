@@ -2,6 +2,7 @@
 title: Icon
 desc: The QIcon Vue component allows you to insert icons within other components or any other area of your pages.
 keys: QIcon
+examples: QIcon
 related:
   - /options/installing-icon-libraries
   - /options/quasar-icon-sets
@@ -18,14 +19,12 @@ There are multiple types of icons in Quasar: webfont-based, svg-based and image-
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-## QIcon API
-
 <doc-api file="QIcon" />
 
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
 
-<doc-example title="Basic" file="QIcon/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 For `icon` properties on different Quasar components you won't have the means to specify an icon for each platform, but you can achieve the same effect with:
 
@@ -35,7 +34,7 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
-<doc-example title="Standard sizes" file="QIcon/StandardSizes" />
+<doc-example title="Standard sizes" file="StandardSizes" />
 
 ## Webfont icons
 
@@ -56,7 +55,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space |
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space |
 | material-symbols-outlined | sym_o_ | sym_o_thumb_up | Notice the underline character instead of dash or space |
-| material-symbols-round | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space |
+| material-symbols-rounded | sym_r_ | sym_r_thumb_up | Notice the underline character instead of dash or space |
 | material-symbols-sharp | sym_s_ | sym_s_thumb_up | Notice the underline character instead of dash or space |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | ionicons-v5/v6 | ion- | ion-heart, ion-logo-npm, ion-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
@@ -125,7 +124,7 @@ The current disadvantage is that it is more tedious to use these icons than thei
 
 ### Svg usage
 
-Notice in the example below that we want to avoid the Vue observable wrapping, so we inject icons on the instance through created() hook. It will work if declared in data() too, but... overhead.
+Usage inside the `<template>`:
 
 ```html
 <template>
@@ -135,7 +134,48 @@ Notice in the example below that we want to avoid the Vue observable wrapping, s
     <q-btn :icon="mdiAbTesting" />
   </div>
 </template>
+```
 
+Notice that we are using `:` to bind variables instead of plain values, it's important. We must make those variables available to the template. The way to do that depends on your Vue API preference:
+
+#### Composition API with "script setup"
+
+This is the most convenient way. Just importing the variables is enough to make them available to the template.
+
+```html
+<script setup>
+import { matMenu } from '@quasar/extras/material-icons'
+import { mdiAbTesting } from '@quasar/extras/mdi-v6'
+import { fasFont } from '@quasar/extras/fontawesome-v5'
+</script>
+```
+
+#### Composition API without "script setup"
+
+```html
+<script>
+import { matMenu } from '@quasar/extras/material-icons'
+import { mdiAbTesting } from '@quasar/extras/mdi-v6'
+import { fasFont } from '@quasar/extras/fontawesome-v5'
+
+export default {
+  // ...
+  setup () {
+    return {
+      matMenu,
+      mdiAbTesting,
+      fasFont
+    }
+  }
+}
+</script>
+```
+
+#### Options API
+
+Notice in the example below that we are injecting the icons through the `created()` hook instead of returning them from `data()`. That is because we want to avoid Vue from making them reactive. Since they are static values, making them reactive would introduce some unnecessary overhead. It would still work if we declare them in `data()`, but it would be less performant.
+
+```html
 <script>
 import { matMenu } from '@quasar/extras/material-icons'
 import { mdiAbTesting } from '@quasar/extras/mdi-v6'
@@ -149,6 +189,7 @@ export default {
     this.fasFont = fasFont
   }
 }
+</script>
 ```
 
 ::: tip
@@ -165,7 +206,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Symbols Sharp (Google) | svg-material-symbols-sharp | @quasar/extras/material-symbols-sharp | @quasar/extras v1.14+ |
 | Material Symbols Round (Google) | svg-material-symbols-rounded | @quasar/extras/material-symbols-rounded | @quasar/extras v1.14+ |
 | MDI (Material Design Icons) (v3-v5) | svg-mdi-v5 | @quasar/extras/mdi-v5 | |
-| MDI (Material Design Icons) v6 | svg-mdi-v6 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+ |
+| MDI (Material Design Icons) v6 | svg-mdi-v7 | @quasar/extras/mdi-v6 | @quasar/extras v1.11+ |
 | Font Awesome v6 | svg-fontawesome-v6 | @quasar/extras/fontawesome-v6 | @quasar/extras v1.13+ |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
 | Ionicons v6 | svg-ionicons-v6 | @quasar/extras/ionicons-v6 | @quasar/extras v1.12+ |
@@ -471,7 +512,7 @@ It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically
 <q-icon name="img:data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' height='140' width='500'><ellipse cx='200' cy='80' rx='100' ry='50' style='fill:yellow;stroke:purple;stroke-width:2' /></svg>" />
 ```
 
-<doc-example title="Dynamic SVG" file="QIcon/DynamicSvg" />
+<doc-example title="Dynamic SVG" file="DynamicSvg" />
 
 You can also base64 encode an image and supply it. The example below is with a QBtn, but the same principle is involved when dealing with any icon prop or with QIcon:
 

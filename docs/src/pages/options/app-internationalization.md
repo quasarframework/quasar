@@ -18,7 +18,7 @@ Quasar documentation assumes you are already familiar with [vue-i18n](https://gi
 
 ## Setup manually
 
-If you missed enabling i18n during `quasar create` wizard, here is how you can set it up manually.
+If you missed enabling i18n during `yarn create quasar` (or `npm init quasar`) wizard, here is how you can set it up manually.
 
 1. Install the `vue-i18n` dependency into your app.
 
@@ -38,6 +38,7 @@ export default ({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     locale: 'en-US',
+    globalInjection: true,
     messages
   })
 
@@ -170,7 +171,6 @@ export default {
 </template>
 
 <script>
-import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export default {

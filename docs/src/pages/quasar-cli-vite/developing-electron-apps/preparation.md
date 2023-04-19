@@ -1,6 +1,23 @@
 ---
 title: Preparation for Electron
 desc: (@quasar/app-vite) How to add Electron mode into a Quasar app.
+scope:
+  tree:
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: icon.png
+        e: Tray icon file for all platforms
+    - l: electron-preload.js
+      e: "(or .ts) Electron preload script (injects Node.js stuff into renderer thread)"
+    - l: electron-main.js
+      e: "(or .ts) Main thread code"
 ---
 Before we dive in to the actual development, we need to do some preparation work.
 
@@ -15,16 +32,7 @@ Every Electron app has two threads: the main thread (deals with the window and i
 
 The new folder has the following structure:
 
-```bash
-.
-└── src-electron/
-    ├── icons/                 # Icons of your app for all platforms
-    |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
-    |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── icon.png              # Tray icon file for all platforms
-    ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
-    └── electron-main.js      # (or .ts) Main thread code
-```
+<doc-tree :def="scope.tree" />
 
 ### A note for Windows Users
 If you run into errors during npm install about node-gyp, then you most likely do not have the proper build tools installed on your system. Build tools include items like Python and Visual Studio. Fortunately, there are a few packages to help simplify this process.

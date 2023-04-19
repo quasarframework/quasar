@@ -6,13 +6,14 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
     ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
   },
 
   env: {
-    browser: true
+    browser: true,
+    'vue/setup-compiler-macros': true
   },
 
   // Rules order is important, please avoid shuffling them
@@ -62,6 +63,8 @@ module.exports = {
     // allow paren-less arrow functions
     'arrow-parens': 'off',
     'one-var': 'off',
+    'no-void': 'off',
+    'multiline-ternary': 'off',
 
     'import/first': 'off',
     'import/named': 'error',
@@ -70,8 +73,12 @@ module.exports = {
     'import/export': 'error',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
-    'import/no-extraneous-dependencies': 'off',<% } else if (lintConfig === 'airbnb') { %>
+    'import/no-extraneous-dependencies': 'off',
+    <% } else if (lintConfig === 'airbnb') { %>
     'no-param-reassign': 'off',
+    'no-void': 'off',
+    'no-nested-ternary': 'off',
+    'max-classes-per-file': 'off',
 
     'import/first': 'off',
     'import/named': 'error',
@@ -84,7 +91,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     <% } %>
     'prefer-promise-reject-errors': 'off',
-    'func-names': 'off',
+
+    'vue/multi-word-component-names': 'off',
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

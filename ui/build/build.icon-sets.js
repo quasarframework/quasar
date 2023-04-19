@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const glob = require('glob')
+const glob = require('fast-glob')
 
 const { writeFile, convertToCjs, logError } = require('./build.utils')
 
@@ -68,7 +68,12 @@ const iconTypes = [
     convert
   },
   {
-    name: 'ionicons-v4',
+    name: 'mdi-v7',
+    regex: /^mdi-/,
+    convert
+  },
+  {
+    name: 'ionicons-v4', // last web font version
     regex: /^ion-/,
     convert: str => convert(
       /ion-(md|ios)-/.test(str) === true
@@ -112,8 +117,10 @@ const iconTypes = [
   }
 ]
 
-function convertWebfont (name) {
-  const type = iconTypes.find(type => type.regex.test(name)) || iconTypes[ 0 ]
+function convertWebfont (name, originalType) {
+  const type = originalType.regex.test(name)
+    ? originalType
+    : iconTypes.find(type => type.regex.test(name)) || iconTypes[ 0 ]
 
   return {
     importName: type.name,
@@ -150,8 +157,8 @@ function generateSvgFile (type) {
 
   const contentString = insideOfExport
     .replace(/name: '(.+)'/, 'name: ""')
-    .replace(/'(.+)'/g, m => {
-      const { importName, variableName } = convertWebfont(m.substring(1, m.length - 1))
+    .replace(/'(.+)'/g, (_match, name) => {
+      const { importName, variableName } = convertWebfont(name, type)
       if (!importList[ importName ].includes(variableName)) {
         importList[ importName ].push(variableName)
       }

@@ -75,7 +75,6 @@
       "desc": "Side to stick navigation to",
       "default": "bottom/right",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "left" ],
       "category": "content"
     },
 
@@ -117,18 +116,15 @@
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "The 0-based index of corresponding slide",
-          "__exemption": [ "examples" ]
+          "desc": "The 0-based index of corresponding slide"
         },
         "maxIndex": {
           "type": "Number",
-          "desc": "The available number of slides",
-          "__exemption": [ "examples" ]
+          "desc": "The available number of slides"
         },
         "name": {
           "type": "Any",
-          "desc": "The name of the corresponding slide",
-          "__exemption": [ "examples" ]
+          "desc": "The name of the corresponding slide"
         },
         "active": {
           "type": "Boolean",
@@ -136,8 +132,7 @@
         },
         "btnProps": {
           "type": "Object",
-          "desc": "Default QBtn props that can be binded to your own QBtn",
-          "__exemption": [ "examples" ]
+          "desc": "Default QBtn props that can be binded to your own QBtn"
         },
         "onClick": {
           "type": "Function",

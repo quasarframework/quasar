@@ -14,6 +14,27 @@ After reading the Vue documentation, let's clear up some of the most frequently 
 
 You'll be building your Quasar app using `*.vue` files which contain multiple sections: `template` (HTML), `script` (Javascript) and `style` (CSS/SASS/SCSS/Stylus/Less) all in the same file.
 
+Currently, it is recommended to use Composition API with `<script setup>`. Check out [Vue.js documentation](https://vuejs.org/api/sfc-script-setup.html) for more information.
+
+```html
+<template>
+  <!-- you define your Vue template here -->
+</template>
+
+<script setup>
+// This is where your Javascript goes
+// to define your Vue component, which
+// can be a Layout, a Page or your own
+// component used throughout the app.
+</script>
+
+<style>
+/* This is where your CSS goes */
+</style>
+```
+
+But you can still use Composition API without `<script setup>` or Options API if you wish. The only difference is within the `<script>` tag.
+
 ```html
 <template>
   <!-- you define your Vue template here -->

@@ -54,8 +54,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
-              "tsType": "DialogChainObject",
-              "__exemption": [ "examples" ]
+              "tsType": "DialogChainObject"
             }
           },
 
@@ -75,8 +74,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
-              "tsType": "DialogChainObject",
-              "__exemption": [ "examples" ]
+              "tsType": "DialogChainObject"
             }
           },
 
@@ -96,8 +94,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
-              "tsType": "DialogChainObject",
-              "__exemption": [ "examples" ]
+              "tsType": "DialogChainObject"
             }
           },
 
@@ -109,8 +106,7 @@
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
-              "tsType": "DialogChainObject",
-              "__exemption": [ "examples" ]
+              "tsType": "DialogChainObject"
             }
           },
 
@@ -122,15 +118,13 @@
               "opts": {
                 "type": "Object",
                 "required": true,
-                "desc": "Props (except 'component') which will overwrite the initial create() params; If create() was invoked with a custom dialog component then this param should contain the new componentProps",
-                "__exemption": [ "examples" ]
+                "desc": "Props (except 'component') which will overwrite the initial create() params; If create() was invoked with a custom dialog component then this param should contain the new componentProps"
               }
             },
             "returns": {
               "type": "Object",
               "desc": "Chained Object",
-              "tsType": "DialogChainObject",
-              "__exemption": [ "examples" ]
+              "tsType": "DialogChainObject"
             }
           }
         }

@@ -10,14 +10,12 @@
       "type": "Number",
       "desc": "Progress value (0.0 < x < 1.0)",
       "default": 0,
-      "examples": [ ":value=\"0.28\"" ],
       "category": "model"
     },
 
     "buffer": {
       "type": "Number",
       "desc": "Optional buffer value (0.0 < x < 1.0)",
-      "examples": [ ":buffer=\"0.78\"" ],
       "category": "behavior"
     },
 

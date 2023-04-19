@@ -42,6 +42,7 @@ module.exports = function (ctx) {
       //     class: 'mimi'
       //   }
       // },
+
       plugins: [
         'AddressbarColor',
         'AppFullscreen',
@@ -64,6 +65,10 @@ module.exports = function (ctx) {
     build: {
       vueRouterMode: 'history',
 
+      // needed otherwise we need to compile Quasar UI
+      // on each source file change:
+      devQuasarTreeshaking: true,
+
       alias: {
         'quasar/dist/quasar.sass': join(__dirname, '../src/css/index.sass'),
         'quasar/icon-set': join(__dirname, '../icon-set'),
@@ -77,15 +82,16 @@ module.exports = function (ctx) {
         viteConf.server.fs.allow = [ '..' ]
 
         if (isServer) {
-          viteConf.resolve.alias.quasar = join(__dirname, '../src/index.all.js')
+          viteConf.resolve.alias.quasar = join(__dirname, '../src/index.ssr.js')
         }
       }
     },
 
     devServer: {
       https: false,
-      // port: 8080,
-      open: true // opens browser window automatically
+      open: {
+        app: { name: 'google chrome' }
+      }
     },
 
     ssr: {

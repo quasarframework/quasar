@@ -76,74 +76,82 @@
         ":definitions=\"{ save: { tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork }, upload: { tip: 'Upload to cloud', icon: 'cloud_upload', label: 'Upload', handler: uploadIt } }\""
       ],
       "definition": {
-        "label": {
-          "type": "String",
-          "desc": "Label of the button",
-          "examples": [ "Addresses" ]
-        },
-        "tip": {
-          "type": "String",
-          "desc": "Text to be displayed as a tooltip on hover",
-          "examples": [ "Add a contact from the Address Book" ]
-        },
-        "htmlTip": {
-          "type": "String",
-          "desc": "HTML formatted text to be displayed within a tooltip on hover",
-          "examples": [ "Add a <span class=\"red\">user</span> from the address book" ]
-        },
-        "icon": {
-          "type": "String",
-          "desc": "Icon of the button",
-          "examples": [ "fas fa-address-book" ]
-        },
-        "key": {
-          "type": "Number",
-          "desc": "Keycode of a key to be used together with the <ctrl> key for use as a shortcut to trigger this element",
-          "examples": [ "12", "36" ]
-        },
-        "handler": {
-          "type": "Function",
-          "desc": "Either this or \"cmd\" is required. Function for when button gets clicked/tapped.",
-          "params": null,
-          "returns": null,
-          "examples": [ "() => this.uploadFile()" ]
-        },
-        "cmd": {
-          "type": "String",
-          "desc": "Either this or \"handler\" is required. This must be a valid execCommand method according to the designMode API.",
-          "examples": [ "insertHTML", "justifyFull" ]
-        },
-        "param": {
-          "type": "String",
-          "desc": "Only set a param if using a \"cmd\". This is commonly text or HTML to inject, but is highly dependent upon the specific cmd being called.",
-          "examples": [ "<img src=\"://uploads/001.jpg\" alt=\"nice pic\" />" ]
-        },
-        "disable": {
-          "type": [ "Boolean", "Function" ],
-          "desc": "Is button disabled?",
-          "returns": {
-            "type": "Boolean",
-            "desc": "If true, the button will be disabled"
-          },
-          "examples": [ "!user.active", "() => !checkIfUserIsActive()" ]
-        },
-        "type": {
-          "type": "String",
-          "desc": "Pass the value \"no-state\" if the button should not have an \"active\" state",
-          "values": [ null, "no-state" ],
-          "examples": [ "no-state" ]
-        },
-        "fixedLabel": {
-          "type": "Boolean",
-          "desc": "Lock the button label, so it doesn't change based on the child option selected."
-        },
-        "fixedIcon": {
-          "type": "Boolean",
-          "desc": "Lock the button icon, so it doesn't change based on the child option selected."
-        },
-        "highlight": {
-          "type": "Boolean",
-          "desc": "Highlight the toolbar button, when a child option has been selected."
+        "...commandName": {
+          "type": "Object",
+          "tsType": "QEditorCommand",
+          "autoDefineTsType": true,
+          "desc": "Command definition",
+          "definition": {
+            "label": {
+              "type": "String",
+              "desc": "Label of the button",
+              "examples": [ "Addresses" ]
+            },
+            "tip": {
+              "type": "String",
+              "desc": "Text to be displayed as a tooltip on hover",
+              "examples": [ "Add a contact from the Address Book" ]
+            },
+            "htmlTip": {
+              "type": "String",
+              "desc": "HTML formatted text to be displayed within a tooltip on hover",
+              "examples": [ "Add a <span class=\"red\">user</span> from the address book" ]
+            },
+            "icon": {
+              "type": "String",
+              "desc": "Icon of the button",
+              "examples": [ "fas fa-address-book" ]
+            },
+            "key": {
+              "type": "Number",
+              "desc": "Keycode of a key to be used together with the <ctrl> key for use as a shortcut to trigger this element",
+              "examples": [ "12", "36" ]
+            },
+            "handler": {
+              "type": "Function",
+              "desc": "Either this or \"cmd\" is required. Function for when button gets clicked/tapped.",
+              "params": null,
+              "returns": null,
+              "examples": [ "() => this.uploadFile()" ]
+            },
+            "cmd": {
+              "type": "String",
+              "desc": "Either this or \"handler\" is required. This must be a valid execCommand method according to the designMode API.",
+              "examples": [ "insertHTML", "justifyFull" ]
+            },
+            "param": {
+              "type": "String",
+              "desc": "Only set a param if using a \"cmd\". This is commonly text or HTML to inject, but is highly dependent upon the specific cmd being called.",
+              "examples": [ "<img src=\"://uploads/001.jpg\" alt=\"nice pic\" />" ]
+            },
+            "disable": {
+              "type": [ "Boolean", "Function" ],
+              "desc": "Is button disabled?",
+              "returns": {
+                "type": "Boolean",
+                "desc": "If true, the button will be disabled"
+              },
+              "examples": [ "!user.active", "() => !checkIfUserIsActive()" ]
+            },
+            "type": {
+              "type": "String",
+              "desc": "Pass the value \"no-state\" if the button should not have an \"active\" state",
+              "values": [ null, "no-state" ],
+              "examples": [ "no-state" ]
+            },
+            "fixedLabel": {
+              "type": "Boolean",
+              "desc": "Lock the button label, so it doesn't change based on the child option selected."
+            },
+            "fixedIcon": {
+              "type": "Boolean",
+              "desc": "Lock the button icon, so it doesn't change based on the child option selected."
+            },
+            "highlight": {
+              "type": "Boolean",
+              "desc": "Highlight the toolbar button, when a child option has been selected."
+            }
+          }
         }
       },
       "category": "toolbar"
@@ -261,6 +269,56 @@
           "desc": "The pure HTML of the content"
         }
       }
+    },
+
+    "dropdown-show": {
+      "desc": "Emitted after a dropdown in the toolbar has triggered show()",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "dropdown-before-show": {
+      "desc": "Emitted when a dropdown in the toolbar triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "dropdown-hide": {
+      "desc": "Emitted after a dropdown in the toolbar has triggered hide()",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "dropdown-before-hide": {
+      "desc": "Emitted when a dropdown in the toolbar triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "link-show": {
+      "desc": "Emitted when the toolbar for editing a link is shown",
+      "addedIn": "v2.11.9"
+    },
+
+    "link-hide": {
+      "desc": "Emitted when the toolbar for editing a link is hidden",
+      "addedIn": "v2.11.9"
     }
   },
 
@@ -299,9 +357,16 @@
       "desc": "Retrieve the content of the Editor",
       "returns": {
         "type": "Element",
-        "desc": "Provides the pure HTML within the editable area",
-        "__exemption": [ "examples" ]
+        "desc": "Provides the pure HTML within the editable area"
       }
+    }
+  },
+
+  "computedProps": {
+    "caret": {
+      "type": "Object",
+      "tsType": "QEditorCaret",
+      "desc": "The current caret state"
     }
   }
 }

@@ -65,7 +65,7 @@ function renderModulesPreload (modules) {
 }
 
 <% if (store && ssr.manualStoreSerialization !== true) { %>
-const autoRemove = 'var currentScript=document.currentScript;currentScript.parentNode.removeChild(currentScript)'
+const autoRemove = 'document.currentScript.remove()'
 
 function renderStoreState (ssrContext) {
   const nonce = ssrContext.nonce !== void 0

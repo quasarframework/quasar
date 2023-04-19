@@ -42,19 +42,16 @@
       "params": {
         "from": {
           "type": "Number",
-          "desc": "Index of the first item (0 based)",
-          "examples": [ 15 ]
+          "desc": "Index of the first item (0 based)"
         },
         "size": {
           "type": "Number",
-          "desc": "Number of items to return",
-          "examples": [ 38 ]
+          "desc": "Number of items to return"
         }
       },
       "returns": {
         "type": "Array",
-        "desc": "List of scope for items to be displayed",
-        "__exemption": [ "examples" ]
+        "desc": "List of scope for items to be displayed"
       },
       "examples": [
         ":items-fn=\"(from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push('Item ' + i) }; return items }\""
@@ -96,13 +93,11 @@
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "Item index in the options list",
-          "examples": [ 0 ]
+          "desc": "Item index in the items list"
         },
         "item": {
           "type": "Any",
-          "desc": "Item data -- its value is taken from 'options' prop",
-          "__exemption": [ "examples" ]
+          "desc": "Item data -- its value is taken from 'items' prop"
         }
       }
     }

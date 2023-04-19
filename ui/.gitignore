@@ -13,5 +13,6 @@ cordova
 .idea/
 debug.log
 package-lock.json
+yarn.lock
 .vscode
 __diff_output__

@@ -1,6 +1,28 @@
 ---
 title: BEX Build Commands
 desc: (@quasar/app-vite) The Quasar CLI list of commands when developing or building a Browser Extension (BEX).
+scope:
+  devTree:
+    l: "."
+    c:
+    - l: dist
+      c:
+      - l: "...files"
+        e: Built code from /src-bex
+      - l: www/
+        e: Built code from /src
+  prodTree:
+    l: "."
+    c:
+    - l: dist
+      c:
+      - l: "...files"
+        e: Built code from /src-bex
+      - l: www/
+        e: Built code from /src
+      - l: Packaged.your-project-name.zip
+        e: A zip file ready for submission to the Chrome Browser Extension Store /
+          Other Chromium based stores.
 ---
 
 ## Developing
@@ -18,12 +40,7 @@ You may or may not have already had a `src-bex` folder, but you will definitely 
 
 While you develop your BEX, you will notice that Quasar CLI builds the actual extension in the dist folder (normally in `/dist/bex/`):
 
-```bash
-.
-└── dist/
-    ├── ...files  # Built code from /src-bex
-    └── www/      # Built code from /src
-```
+<doc-tree :def="scope.devTree" />
 
 ### Chrome
 
@@ -33,7 +50,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Chrome, navigate to `chrome://extensions`
 2. Toggle "Developer Mode".
-3. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `src-bex` folder.
+3. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `dist/bex` folder.
 4. You should now see your BEX mounted in Chrome.
 
 More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
@@ -50,7 +67,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Firefox, navigate to `about:debugging`
 2. Click on "This Firefox"
-3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `src-bex/manifest.json` file. **Note:** Firefox requires the manifest file, not the `src-bex` folder like Chromium browsers.
+3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `dist/bex/manifest.json` file. **Note:** Firefox requires the manifest file, not the `dist/bex` folder like Chromium browsers.
 4. You should now see your BEX mounted in Firefox.
 
 More information about debugging Firefox temporary addons can be found in the [Firefox Extension Workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
@@ -71,8 +88,8 @@ Browser extensions runs in three different environments (more on upcoming pages)
 
 You can find following places to investigate the errors and outputs from the console in DevTools:
 
-1. Popup - right click on the page or on the extension icon  a choose `Inspect` pop-up for DevTools.
-2. Background scripts (e.g.: background-hooks.js) open DevTools from `Manage extensions - background page`.
+1. Popup - right click on the page or on the extension icon and choose `Inspect popup` for DevTools.
+2. Background scripts (e.g.: background-hooks.js) - open DevTools from `Manage extensions - background page`.
 3. Content scripts - page where your script is injected.
 4. Extension Errors - list of errors related to the extension (e.g. manifest configuration) are available in `Manage extension - Errors`.
 
@@ -98,13 +115,7 @@ $ quasar build --mode bex
 
 You will be instructed which is the output folder. Normally, it's `/dist/bex/`.
 
-```bash
-.
-└── dist/
-    ├── ...files                       # Built code from /src-bex
-		├── www/                           # Built code from /src
-    └── Packaged.your-project-name.zip  # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
-```
+<doc-tree :def="scope.prodTree" />
 
 ::: tip
 If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.

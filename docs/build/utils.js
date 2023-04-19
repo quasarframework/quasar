@@ -11,3 +11,7 @@ module.exports.slugify = str => (
     .replace(nonWordRE, '')
     .replace(multipleDashRE, '-')
 )
+
+module.exports.capitalize = str => (
+  str.charAt(0).toUpperCase() + str.slice(1)
+)

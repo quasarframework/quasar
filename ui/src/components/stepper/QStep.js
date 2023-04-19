@@ -7,7 +7,7 @@ import { usePanelChildProps } from '../../composables/private/use-panel.js'
 import useCache from '../../composables/private/use-cache.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { stepperKey } from '../../utils/private/symbols.js'
+import { stepperKey, emptyRenderFn } from '../../utils/private/symbols.js'
 import { hSlot } from '../../utils/private/render.js'
 
 function getStepWrapper (slots) {
@@ -53,15 +53,19 @@ export default createComponent({
       default: true
     },
     done: Boolean,
-    error: Boolean
+    error: Boolean,
+
+    onScroll: [ Function, Array ]
   },
 
-  setup (props, { attrs, slots }) {
+  setup (props, { slots, emit }) {
     const { proxy: { $q } } = getCurrentInstance()
 
-    const $stepper = inject(stepperKey, () => {
-      console.error('QStep needs to be child of QStepper')
-    })
+    const $stepper = inject(stepperKey, emptyRenderFn)
+    if ($stepper === emptyRenderFn) {
+      console.error('QStep needs to be a child of QStepper')
+      return emptyRenderFn
+    }
 
     const { getCacheWithFn } = useCache()
 
@@ -80,7 +84,7 @@ export default createComponent({
               if (target.scrollTop > 0) {
                 target.scrollTop = 0
               }
-              attrs.onScroll !== void 0 && attrs.onScroll(e)
+              props.onScroll !== void 0 && emit('scroll', e)
             }
           }
     ))
@@ -119,7 +123,7 @@ export default createComponent({
 
     return () => h(
       'div',
-      { ref: rootRef, class: 'q-stepper__step', ...scrollEvent.value },
+      { ref: rootRef, class: 'q-stepper__step', role: 'tabpanel', ...scrollEvent.value },
       $stepper.value.vertical === true
         ? [
             h(StepHeader, {

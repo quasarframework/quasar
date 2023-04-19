@@ -6,7 +6,6 @@ import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
 
 const defaultRatio = 16 / 9
 
@@ -70,11 +69,11 @@ export default createComponent({
     const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
 
-    let loadTimer
+    let loadTimer = null, isDestroyed = false
 
     const images = [
       ref(null),
-      ref(props.placeholderSrc !== void 0 ? { src: props.placeholderSrc } : null)
+      ref(getPlaceholderSrc())
     ]
 
     const position = ref(0)
@@ -114,26 +113,38 @@ export default createComponent({
         : null
     }
 
+    function getPlaceholderSrc () {
+      return props.placeholderSrc !== void 0
+        ? { src: props.placeholderSrc }
+        : null
+    }
+
     function addImage (imgProps) {
-      clearTimeout(loadTimer)
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
+
       hasError.value = false
 
       if (imgProps === null) {
         isLoading.value = false
-        images[ 0 ].value = null
-        images[ 1 ].value = null
-        return
+        images[ position.value ^ 1 ].value = getPlaceholderSrc()
+      }
+      else {
+        isLoading.value = true
       }
 
-      isLoading.value = true
       images[ position.value ].value = imgProps
     }
 
     function onLoad ({ target }) {
-      // if component has been already destroyed
-      if (loadTimer === null) { return }
+      if (isDestroyed === true) { return }
 
-      clearTimeout(loadTimer)
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
 
       naturalRatio.value = target.naturalHeight === 0
         ? 0.5
@@ -144,23 +155,23 @@ export default createComponent({
 
     function waitForCompleteness (target, count) {
       // protect against running forever
-      if (loadTimer === null || count === 1000) { return }
+      if (isDestroyed === true || count === 1000) { return }
 
       if (target.complete === true) {
         onReady(target)
       }
       else {
         loadTimer = setTimeout(() => {
+          loadTimer = null
           waitForCompleteness(target, count + 1)
         }, 50)
       }
     }
 
     function onReady (img) {
-      // if component has been already destroyed
-      if (loadTimer === null) { return }
+      if (isDestroyed === true) { return }
 
-      position.value = position.value === 1 ? 0 : 1
+      position.value = position.value ^ 1
       images[ position.value ].value = null
       isLoading.value = false
       hasError.value = false
@@ -168,20 +179,16 @@ export default createComponent({
     }
 
     function onError (err) {
-      clearTimeout(loadTimer)
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
+
       isLoading.value = false
       hasError.value = true
-      images[ 0 ].value = null
-      images[ 1 ].value = null
+      images[ position.value ].value = null
+      images[ position.value ^ 1 ].value = getPlaceholderSrc()
       emit('error', err)
-    }
-
-    function getContainer (key, child) {
-      return h(
-        'div',
-        { class: 'q-img__container absolute-full', key },
-        child
-      )
     }
 
     function getImage (index) {
@@ -211,7 +218,11 @@ export default createComponent({
         data.class += ' q-img__image--loaded'
       }
 
-      return getContainer('img' + index, h('img', data))
+      return h(
+        'div',
+        { class: 'q-img__container absolute-full', key: 'img' + index },
+        h('img', data)
+      )
     }
 
     function getContent () {
@@ -242,7 +253,7 @@ export default createComponent({
     }
 
     if (__QUASAR_SSR_SERVER__ !== true) {
-      if (__QUASAR_SSR_CLIENT__ && isRuntimeSsrPreHydration.value === true) {
+      if (__QUASAR_SSR_CLIENT__) {
         onMounted(() => {
           addImage(getCurrentSrc())
         })
@@ -252,8 +263,12 @@ export default createComponent({
       }
 
       onBeforeUnmount(() => {
-        clearTimeout(loadTimer)
-        loadTimer = null
+        isDestroyed = true
+
+        if (loadTimer !== null) {
+          clearTimeout(loadTimer)
+          loadTimer = null
+        }
       })
     }
 

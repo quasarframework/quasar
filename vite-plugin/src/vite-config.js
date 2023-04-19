@@ -1,6 +1,6 @@
 import { version } from 'quasar/package.json'
 
-export function getViteConfig (runMode, externalViteCfg) {
+export function getViteConfig (runMode, viteMode, externalViteCfg) {
   const viteCfg = {
     define: {
       __QUASAR_VERSION__: `'${ version }'`,
@@ -23,8 +23,19 @@ export function getViteConfig (runMode, externalViteCfg) {
     })
   }
   else {
-    viteCfg.optimizeDeps = {
-      exclude: [ 'quasar' ]
+    // Alias "quasar" package to its dev file (which has flags)
+    // to reduce the number of HTTP requests while in DEV mode
+    if (viteMode === 'development') {
+      viteCfg.resolve = {
+        alias: [
+          { find: /^quasar$/, replacement: 'quasar/dist/quasar.esm.js' }
+        ]
+      }
+    }
+    else {
+      viteCfg.optimizeDeps = {
+        exclude: [ 'quasar' ]
+      }
     }
 
     if (runMode === 'ssr-client') {

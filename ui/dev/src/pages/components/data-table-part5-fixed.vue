@@ -321,4 +321,9 @@ export default {
     top: 48px // height of all previous header rows
   thead tr:first-child th
     top: 0
+
+  /* prevent scrolling behind sticky top row on focus */
+  tbody
+    /* height of all previous header rows */
+    scroll-margin-top: 48px
 </style>

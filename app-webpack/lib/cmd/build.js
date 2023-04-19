@@ -191,7 +191,11 @@ async function build () {
 
   let outputFolder = quasarConf.build.packagedDistDir || quasarConf.build.distDir
 
-  artifacts.clean(outputFolder)
+  artifacts.clean(quasarConf.build.distDir)
+  if (quasarConf.build.packagedDistDir) {
+    artifacts.clean(quasarConf.build.packagedDistDir)
+  }
+
   generator.build()
 
   if (typeof quasarConf.build.beforeBuild === 'function') {
@@ -227,7 +231,10 @@ async function build () {
       process.exit(1)
     }
 
-    artifacts.add(outputFolder)
+    artifacts.add(quasarConf.build.distDir)
+    if (quasarConf.build.packagedDistDir) {
+      artifacts.add(quasarConf.build.packagedDistDir)
+    }
 
     const statsArray = stats.stats
 

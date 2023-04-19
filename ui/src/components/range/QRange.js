@@ -327,7 +327,11 @@ export default createComponent({
 
       const
         stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
-        offset = ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1) * (state.isReversed.value === true ? -1 : 1) * stepVal
+        offset = (
+          ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1)
+          * (state.isReversed.value === true ? -1 : 1)
+          * (props.vertical === true ? -1 : 1) * stepVal
+        )
 
       if (state.focus.value === 'both') {
         const interval = model.value.max - model.value.min

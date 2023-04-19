@@ -1,138 +1,196 @@
+@import './fonts.sass'
 @import './prism-theme.sass'
 
-.text-brand-primary
-  color: $brand-primary !important
-.bg-brand-primary
-  background-color: $brand-primary !important
+.material-icons
+  font-family: 'Material Icons'
+  font-weight: 400
+  font-style: normal
+  line-height: 1
+  letter-spacing: normal
+  text-transform: none
+  white-space: nowrap
+  word-wrap: normal
+  direction: ltr
+  -webkit-font-feature-settings: 'liga'
+  -webkit-font-smoothing: antialiased
 
-body
-  background-color: #fff
-  font-family: $font-family
+.primary-line-height
+  line-height: 1.5
+
+.normal-line-height
+  line-height: normal
+
+.doc-technical
+  font-family: $font-family-technical
+  font-weight: $font-weight-technical
+  font-size: $font-size
+  color: $light-text
+  background-color: $light-bg
+  text-rendering: optimizeLegibility
   -webkit-font-smoothing: auto
 
+.doc-brand
+  font-size: $font-size-brand
+  line-height: 1.5
+
+.doc-brand,
+.doc-header-menu
+  font-family: $font-family-brand
+  font-weight: $font-weight-brand
+
+// resets .doc-technical above to Quasar original
+.doc-example-typography
+  font-size: 14px
+  line-height: 1.5em
+
 strong
-  font-weight: bold
+  font-weight: 700
 
 ul
   margin: 0 0 16px
 
 .doc-token
-  white-space: nowrap
   display: inline-block
-  padding: 2px 4px
-  line-height: 1
-  border: 1px dotted $brand-primary
-  border-radius: 5px
+  padding: 4px 6px
+  font-size: $font-size
+  line-height: $font-size
+  border-radius: $generic-border-radius
   font-family: inherit
-  background-color: #fff
   color: $brand-primary
-
-blockquote .doc-token
-  background: scale-color($grey, $lightness: 60%)
-  color: $grey-9
+  vertical-align: baseline
+  border: 1px solid currentColor
 
 .doc-note
-  font-family: $font-family-avenir
-  background-color: $grey-2
+  font-size: $font-size
   border-radius: $generic-border-radius
   margin: 16px 0
-  padding: 16px 24px
-  font-size: 1em
-  line-height: 1.35em
-  border-width: 0 5px
+  padding: 16px
+  border-width: 1px
   border-style: solid
-  border-color: $grey-3
-  letter-spacing: .5px
-
-  .doc-token
-    color: #000
 
   > p, > ul
     margin-bottom: 0
 
+  &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)
+    background-color: $grey-2
+    border-color: $separator-color
+    .doc-note__title,
+    .doc-link,
+    .doc-token
+      color: $brand-primary
+    .doc-token
+      border-color: $brand-primary
+
   &--tip
     background-color: scale-color($positive, $lightness: 85%)
-    border-color: scale-color($positive, $lightness: 60%)
+    border-color: $positive
+    .doc-note__title,
+    .doc-link,
     .doc-token
-      border-width: 0
-      background: scale-color($positive, $lightness: 60%)
-    .doc-link
-      color: scale-color($positive, $lightness: -35%)
+      color: scale-color($positive, $lightness: -40%)
+    .doc-token
+      border-color: scale-color($positive, $lightness: -40%)
 
   &--warning
-    background-color: scale-color($warning, $lightness: 80%)
-    border-color: scale-color($warning, $lightness: 50%)
+    background-color: scale-color($warning, $lightness: 85%)
+    border-color: scale-color($warning, $lightness: -30%)
+    .doc-note__title,
+    .doc-link,
     .doc-token
-      border-width: 0
-      background: scale-color($warning, $lightness: 40%)
-    .doc-link
-      color: scale-color($warning, $lightness: -45%)
+      color: scale-color($warning, $lightness: -40%)
+    .doc-token
+      border-color: scale-color($warning, $lightness: -40%)
 
   &--danger
     background-color: scale-color($negative, $lightness: 90%)
-    border-color: scale-color($negative, $lightness: 60%)
+    border-color: $negative
+    .doc-note__title,
+    .doc-link,
     .doc-token
-      border-width: 0
-      background: scale-color($negative, $lightness: 60%)
-    .doc-link
-      color: scale-color($negative, $lightness: -25%)
+      color: $negative
+    .doc-token
+      border-color: $negative
 
   &__title
-    font-weight: 500
+    font-weight: 700
+    letter-spacing: $letter-spacing-brand
     padding-bottom: 8px
 
 .doc-heading
   color: $brand-primary
-  cursor: pointer
 
-  &:after
-    content: ' #'
-    opacity: 0
-  &:hover:after
-    opacity: 1
+  &:not(#introduction)
+    cursor: pointer
+
+    &:after
+      content: ' #'
+      opacity: 0
+    &:hover:after
+      opacity: 1
 
 .doc-h1
-  font-size: 3rem
-  line-height: 3rem
-  padding: 1rem 0
-  font-weight: 600
-  margin: 0 0 .5em !important
-
-  a
-    height: 3rem
-  .q-icon
-    font-size: 2rem
+  font-size: 2.4em
+  font-weight: 700
+  margin: 0 0 1em !important
 
 .doc-h2
-  font-size: 2rem
-  line-height: 2rem
-  padding: 0.5rem 0
+  font-size: 1.8em
   font-weight: 600
-  border-bottom: 1px solid #ccc
-  margin: 4rem 0 1.5rem
+  padding-bottom: 8px !important
+  border-bottom: 1px solid $separator-color
 
 .doc-h3
-  font-size: 1.7rem
-  line-height: 1.7rem
-  padding: 0.45rem 0
-  margin: 2.5rem 0 1.5rem
+  font-size: 1.6em
+  font-weight: 500
 
 .doc-h4
-  font-size: 1.4rem
-  line-height: 1.4rem
-  padding: 0.25rem 0
-  margin: 1.6rem 0 1.3rem
-
+  font-size: 1.4em
+  font-weight: 500
   &:before
     content: '» '
+    vertical-align: text-top
 
 .doc-h5
-  font-size: 0.9rem
-  margin: 1.5rem 0
+  font-size: 1em
+  font-weight: 500
+  &:before
+    content: '»» '
+    vertical-align: text-top
 
 .doc-h6
-  font-size: 0.8rem
-  margin: 1.5rem 0
+  font-size: 1em
+  font-weight: 400
+  &:before
+    content: '»»» '
+    vertical-align: text-top
+
+@media (max-width: 850px)
+  .doc-h1
+    font-size: 1.7em
+  .doc-h2
+    font-size: 1.4em
+  .doc-h3
+    font-size: 1.3em
+  .doc-h4
+    font-size: 1.2em
+  .doc-h5
+    font-size: 1.1em
+
+.doc-h1,
+.doc-h2,
+.doc-h3,
+.doc-h4,
+.doc-h5,
+.doc-h6
+  display: flex
+  align-items: center
+  word-break: break-word
+  letter-spacing: $letter-spacing-brand
+  padding: 0
+  line-height: 1.1em
+  margin: 2.5em 0 1em
+  .q-badge
+    margin-left: 8px
 
 .doc-img
   max-width: 100%
@@ -144,19 +202,24 @@ blockquote .doc-token
     color: $brand-primary
 
 kbd
+  font-family: $font-family-examples
   white-space: nowrap
   display: inline-block
-  padding: 2px 4px 4px
-  line-height: 1
+  padding: 4px 4px 6px
   font-size: .8em
+  line-height: .8em
+  border-radius: 4px
+  margin: 0 .2em
   color: $grey-8
   background: linear-gradient(-225deg,#d5dbe4,#f8f8f8)
-  border-radius: 4px
   box-shadow: inset 0 -2px 0 0 #cdcde6,inset 0 0 1px 1px #fff,0 1px 2px 1px rgba(30,35,90,0.4)
-  margin: 0 .2em
 
 .doc-gdpr
+  font-family: $font-family-brand
   max-width: 360px
+  &,
+  .q-btn
+    font-weight: 700
 
 .q-page > .q-badge + .doc-example
   margin-top: 0
@@ -167,3 +230,246 @@ body.q-scroll--lock .q-page
 
   > .q-scroll--anchor
     overflow-anchor: auto
+
+// makes the scroll bar look better for the drop-down menus in the header
+::-webkit-scrollbar
+  height: 12px
+  width: 14px
+  background: transparent
+  z-index: 12
+  overflow: visible
+
+::-webkit-scrollbar-thumb
+  width: 10px
+  background-color: $brand-primary
+  border-radius: 10px
+  z-index: 12
+  border: 4px solid rgba(0, 0, 0, 0)
+  background-clip: padding-box
+  transition: background-color $header-quick-transition
+  margin: 4px
+  min-height: 32px
+  min-width: 32px
+
+::-webkit-scrollbar-thumb:hover
+  background: $brand-primary
+
+.shadow-bottom
+  &-small
+    box-shadow: $shadow--small
+
+  &-medium
+    box-shadow: $shadow--medium
+
+  &-large
+    box-shadow: $shadow--large
+
+.heading
+  display: block
+  text-align: center
+  text-transform: uppercase
+
+  &--large
+    color: $brand-primary
+    font-size: 24px
+    font-weight: 700
+    letter-spacing: 6.75px
+    margin: 12px 0 36px 0
+
+    @media (min-width: $breakpoint-sm-min)
+      font-size: 36px
+
+  &--medium
+    color: $brand-primary
+    font-size: 18px
+    font-weight: 700
+    letter-spacing: 4.5px
+
+    @media (min-width: $breakpoint-sm-min)
+      font-size: 24px
+
+  &--small
+    color: white
+    font-size: 16px
+    font-weight: 400
+    letter-spacing: 3.75px
+    text-transform: initial
+
+    @media (min-width: $breakpoint-sm-min)
+      font-size: 20px
+
+  &--quote
+    color: $brand-primary
+    font-size: $font-size
+    font-weight: 400
+    letter-spacing: 3px
+    text-transform: initial
+
+    @media (min-width: $breakpoint-sm-min)
+      font-size: 16px
+
+.landing-mb--large
+  margin-bottom: 64px
+  @media (min-width: $breakpoint-sm-min)
+    margin-bottom: 100px
+
+.landing-mx--large
+  margin-left: 64px
+  margin-right: 64px
+  @media (min-width: $breakpoint-sm-min)
+    margin-left: 100px
+    margin-right: 100px
+
+.landing-my-large
+  margin: 36px 0
+
+.call-to-action-btn
+  background: $brand-accent
+  color: #fff
+  font-weight: 700
+  font-size: $font-size
+  letter-spacing: 2.63px
+
+  &.q-btn--rectangle
+    padding: 16px
+
+.doc-page-table
+  width: fit-content
+  max-width: 100%
+  th,
+  td
+    font-size: $font-size !important
+  th
+    font-weight: 700
+    letter-spacing: $letter-spacing-brand
+
+.header-btn
+  color: $header-btn-color--light
+  transition: color $header-transition
+
+  &.q-btn--round
+    font-size: 12px
+    .q-icon
+      font-size: 21px
+
+  &:not(.disabled):hover
+    color: $header-btn-hover-color--light
+
+  .q-focus-helper
+    &,
+    &:before,
+    &:after
+      transition: background-color $header-transition, opacity $header-transition
+
+.header-toolbar
+  color: $header-btn-color--light
+  background: #fff
+
+.header-tabs
+  &,
+  .q-tabs__content
+    background: #fff
+    letter-spacing: $letter-spacing-brand
+    border-radius: $generic-border-radius $generic-border-radius 0 0
+
+.header-toolbar,
+.header-tabs,
+.header-tabs .q-tab
+  min-height: 40px
+  transition: color $header-transition
+
+.doc-heading .q-badge,
+.header-badge
+  color: $light-bg
+  background: $brand-primary
+  vertical-align: super
+  letter-spacing: $letter-spacing-brand
+  padding: 4px 8px
+
+$additional-colors: ('brand-primary' $brand-primary, 'brand-secondary' $brand-secondary, 'brand-accent' $brand-accent)
+@each $color-name, $color in $additional-colors
+  :root
+    --q-#{$color-name}: #{$color}
+
+  .bg-#{$color-name}
+    background-color: var(--q-#{$color-name}) !important
+
+  .text-#{$color-name}
+    color: var(--q-#{$color-name}) !important
+
+$text-size-list: 12, 14, 16, 20, 24, 36
+@each $text-size in $text-size-list
+  .text-size-#{$text-size}
+    font-size: $text-size + px !important
+
+$letter-spacing-list: 40, 100, 225, 263, 300, 375, 450
+@each $letter-spacing in $letter-spacing-list
+  .letter-spacing-#{$letter-spacing}
+    letter-spacing: ($letter-spacing/100) + px !important
+
+body.body--dark
+  .doc-technical
+    color: $dark-text
+    background: #080E1A
+
+  .header-btn
+    color: $header-btn-color--dark
+    &:not(.disabled):hover
+      color: $header-btn-hover-color--dark
+
+  .header-toolbar
+    color: $header-btn-color--dark
+    background: $dark-bg
+
+  .header-tabs
+    &,
+    .q-tabs__content
+      background: $dark-bg
+
+  .doc-heading .q-badge,
+  .header-badge
+    color: $dark-bg
+
+  .doc-img
+    background-color: $ship-shell
+    border-radius: $generic-border-radius
+
+  .doc-note
+    &:not(.doc-note--tip):not(.doc-note--warning):not(.doc-note--danger)
+      background-color: $dark-pill
+      border-color: scale-color($brand-primary, $lightness: -50%)
+      .doc-token
+        border-color: #ddd
+        color: #ddd
+
+    &--tip
+      border-color: $positive
+      background-color: scale-color($positive, $lightness: -85%)
+      .doc-note__title,
+      .doc-link,
+      .doc-token
+        color: $positive
+      .doc-token
+        border-color: $positive
+
+    &--warning
+      border-color: $warning
+      background-color: scale-color($warning, $lightness: -85%)
+      .doc-note__title,
+      .doc-link,
+      .doc-token
+        color: $warning
+      .doc-token
+        border-color: $warning
+
+    &--danger
+      border-color: $negative
+      background-color: scale-color($negative, $lightness: -80%)
+
+  .doc-h2
+    border-color: $separator-dark-color
+
+  kbd
+    color: $dark-text
+    background: linear-gradient(-225deg,$brown,$brown-9)
+    box-shadow: inset 0 -2px 0 0 $brown-10, inset 0 0 1px 1px $brown-8, -1px 0 0 0 $brown, 1px 0 0 0 $brown, 0 1px 0 0 $brown

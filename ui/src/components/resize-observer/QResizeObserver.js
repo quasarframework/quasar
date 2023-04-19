@@ -40,8 +40,10 @@ export default createComponent({
     }
 
     function emitEvent () {
-      clearTimeout(timer)
-      timer = null
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
+      }
 
       if (targetEl) {
         const { offsetWidth: width, offsetHeight: height } = targetEl
@@ -53,28 +55,29 @@ export default createComponent({
       }
     }
 
-    const vm = getCurrentInstance()
-
-    // expose public methods
-    Object.assign(vm.proxy, { trigger })
+    const { proxy } = getCurrentInstance()
 
     if (hasObserver === true) {
       let observer
 
-      onMounted(() => {
-        nextTick(() => {
-          targetEl = vm.proxy.$el.parentNode
+      // initialize as soon as possible
+      const init = stop => {
+        targetEl = proxy.$el.parentNode
 
-          if (targetEl) {
-            observer = new ResizeObserver(trigger)
-            observer.observe(targetEl)
-            emitEvent()
-          }
-        })
-      })
+        if (targetEl) {
+          observer = new ResizeObserver(trigger)
+          observer.observe(targetEl)
+          emitEvent()
+        }
+        else if (stop !== true) {
+          nextTick(() => { init(true) })
+        }
+      }
+
+      onMounted(() => { init() })
 
       onBeforeUnmount(() => {
-        clearTimeout(timer)
+        timer !== null && clearTimeout(timer)
 
         if (observer !== void 0) {
           if (observer.disconnect !== void 0) {
@@ -94,7 +97,10 @@ export default createComponent({
       let curDocView
 
       function cleanup () {
-        clearTimeout(timer)
+        if (timer !== null) {
+          clearTimeout(timer)
+          timer = null
+        }
 
         if (curDocView !== void 0) {
           // iOS is fuzzy, need to check it first
@@ -117,12 +123,15 @@ export default createComponent({
 
       onMounted(() => {
         nextTick(() => {
-          targetEl = vm.proxy.$el
+          targetEl = proxy.$el
           targetEl && onObjLoad()
         })
       })
 
       onBeforeUnmount(cleanup)
+
+      // expose public method
+      proxy.trigger = trigger
 
       return () => {
         if (canRender.value === true) {

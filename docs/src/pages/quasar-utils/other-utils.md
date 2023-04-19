@@ -8,7 +8,7 @@ keys: openURL,copyToClipboard,exportFile,debounce,frameDebounce,throttle,extend,
 For usage with the UMD build see [here](/start/umd#quasar-global-object).
 :::
 
-## Open External URL
+## openURL
 
 ```js
 import { openURL } from 'quasar'
@@ -36,7 +36,7 @@ The optional `windowFeatures` parameter should be an Object with keys from [wind
 
 openURL(
   'http://...',
-  null, // in this example we don't care about the rejectFn()
+  undefined, // in this example we don't care about the rejectFn()
 
   // this is the windowFeatures Object param:
   {
@@ -54,7 +54,7 @@ openURL(
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn href="tel:123456789">`
 :::
 
-## Copy to Clipboard
+## copyToClipboard
 
 The following is a helper to copy some text to Clipboard. The method returns a Promise.
 
@@ -70,7 +70,7 @@ copyToClipboard('some text')
   })
 ```
 
-## Export file
+## exportFile
 
 The following is a helper to trigger the browser to start downloading a file with the specified content.
 
@@ -137,7 +137,200 @@ else {
 }
 ```
 
-## Debounce Function
+## runSequentialPromises <q-badge label="v2.8.4+" />
+
+The following is a helper to run multiple Promises sequentially. **Optionally, on multiple threads.**
+
+```js
+/**
+ * Run a list of Promises sequentially, optionally on multiple threads.
+ *
+ * @param {*} sequentialPromises - Array of Functions or Object with Functions as values
+ *                          Array of Function form: [ (resultAggregator: Array) => Promise<any>, ... ]
+ *                          Object form: { [key: string]: (resultAggregator: object) => Promise<any>, ... }
+ * @param {*} opts - Optional options Object
+ *                   Object form: { threadsNumber?: number, abortOnFail?: boolean }
+ *                   Default: { threadsNumber: 1, abortOnFail: true }
+ *                   When configuring threadsNumber AND using http requests, be
+ *                       aware of the maximum threads that the hosting browser
+ *                       supports (usually 5); any number of threads above that
+ *                       won't add any real benefits
+ * @returns Promise<Array<Object> | Object>
+ *    With opts.abortOnFail set to true (which is default):
+ *        When sequentialPromises param is Array:
+ *          The Promise resolves with an Array of Objects of the following form:
+ *             [ { key: number, status: 'fulfilled', value: any }, ... ]
+ *          The Promise rejects with an Object of the following form:
+ *             { key: number, status: 'rejected', reason: Error, resultAggregator: array }
+ *        When sequentialPromises param is Object:
+ *          The Promise resolves with an Object of the following form:
+ *             { [key: string]: { key: string, status: 'fulfilled', value: any }, ... }
+ *          The Promise rejects with an Object of the following form:
+ *             { key: string, status: 'rejected', reason: Error, resultAggregator: object }
+ *    With opts.abortOnFail set to false:
+ *       The Promise is never rejected (no catch() needed)
+ *       The Promise resolves with:
+ *          An Array of Objects (when sequentialPromises param is also an Array) of the following form:
+ *             [ { key: number, status: 'fulfilled', value: any } | { status: 'rejected', reason: Error }, ... ]
+ *          An Object (when sequentialPromises param is also an Object) of the following form:
+ *             { [key: string]: { key: string, status: 'fulfilled', value: any } | { key: string, status: 'rejected', reason: Error }, ... }
+ */
+```
+
+Note that:
+* the `sequentialPromises` param is an Array of Functions (each Function returns a Promise)
+* each function in `sequentialPromises` receives one param which is the `resultAggregator`, so basically you can use the results of the previous promises to decide what to do with the current promise; each entry in the resultAggregator that hasn't been settled yet is marked as `null`
+* the `opts` parameter is optional.
+
+Generic example (with `sequentialPromises` param as Array):
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises([
+  (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ }),
+  (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ })
+  // ...
+]).then(resultAggregator => {
+  // resultAggregator is ordered in the same way as the promises above
+  console.log('result from first Promise:', resultAggregator[0].value)
+  console.log('result from second Promise:', resultAggregator[1].value)
+  // ...
+}).catch(errResult => {
+  console.error(`Error encountered on job #${ errResult.key }:`)
+  console.error(errResult.reason)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultAggregator)
+})
+```
+
+Generic example (with `sequentialPromises` param as Object):
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises({
+  phones: (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ }),
+  laptops: (resultAggregator) => new Promise((resolve, reject) => { /* do some work... */ })
+  // ...
+}).then(resultAggregator => {
+  console.log('result from first Promise:', resultAggregator.phones.value)
+  console.log('result from second Promise:', resultAggregator.laptops.value)
+  // ...
+}).catch(errResult => {
+  console.error(`Error encountered on job (${ errResult.key}):`)
+  console.error(errResult.reason)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultAggregator)
+})
+```
+
+Example using previous results:
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises({
+  phones: () => new Promise((resolve, reject) => { /* do some work... */ }),
+  vendors: (resultAggregator) => {
+    new Promise((resolve, reject) => {
+      // You can do something with resultAggregator.phones.value here...
+      // Since are using the default abortOnFail option, the result is guaranteed to exist,
+      // so you don't have to guard resultAggregator.phones against "null"
+    })
+  }
+  // ...
+})
+```
+
+Example with Axios:
+
+```js
+import { runSequentialPromises } from 'quasar'
+import axios from 'axios'
+
+const keyList = [ 'users', 'phones', 'laptops' ]
+
+runSequentialPromises([
+  () => axios.get('https://some-url.com/users'),
+  () => axios.get('https://some-other-url.com/items/phones'),
+  () => axios.get('https://some-other-url.com/items/laptops')
+]).then(resultAggregator => {
+  // resultAggregator is ordered in the same way as the promises above
+  resultAggregator.forEach(result => {
+    console.log(keyList[ result.key ], result.value) // example: users {...}
+  })
+}).catch(errResult => {
+  console.error(`Error encountered while fetching ${ keyList[ errResult.key ] }:`)
+  console.error(errResult.reason)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultAggregator)
+})
+
+// **equivalent** example with sequentialPromises as Object:
+
+runSequentialPromises({
+  users: () => axios.get('https://some-url.com/users'),
+  phones: () => axios.get('https://some-other-url.com/items/phones'),
+  laptops: () => axios.get('https://some-other-url.com/items/laptops')
+}).then(resultAggregator => {
+  console.log('users:', resultAggregator.users.value)
+  console.log('phones:', resultAggregator.phones.value)
+  console.log('laptops:', resultAggregator.laptops.value)
+}).catch(errResult => {
+  console.error(`Error encountered while fetching ${ errResult.key }:`)
+  console.error(errResult.reason)
+  console.log('Managed to get these results before this error:')
+  console.log(errResult.resultAggregator)
+})
+```
+
+Example with abortOnFail set to `false`:
+
+```js
+import { runSequentialPromises } from 'quasar'
+import axios from 'axios'
+
+// notice no "catch()"; runSequentialPromises() will always resolve
+runSequentialPromises(
+  {
+    users: () => axios.get('https://some-url.com/users'),
+    phones: () => axios.get('https://some-other-url.com/items/phones'),
+    laptops: () => axios.get('https://some-other-url.com/items/laptops')
+  },
+  { abortOnFail: false }
+).then(resultAggregator => {
+  Object.values(resultAggregator).forEach(result => {
+    if (result.status === 'rejected') {
+      console.log(`Failed to fetch ${ result.key }:`, result.reason)
+    }
+    else {
+      console.log(`Succeeded to fetch ${ result.key }:`, result.value)
+    }
+  })
+})
+```
+
+When configuring threadsNumber (`opts > threadsNumber`) AND using http requests, be aware of the maximum threads that the hosting browser supports (usually 5). Any number of threads above that won't add any real benefits.
+
+```js
+import { runSequentialPromises } from 'quasar'
+
+runSequentialPromises([ /* ... */ ], { threadsNumber: 3 })
+  .then(resultAggregator => {
+    resultAggregator.forEach(result => {
+      console.log(result.value)
+    })
+  })
+  .catch(errResult => {
+    console.error(`Error encountered:`)
+    console.error(errResult.reason)
+    console.log('Managed to get these results before this error:')
+    console.log(errResult.resultAggregator)
+  })
+```
+
+## debounce
 If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
 
 Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
@@ -194,7 +387,7 @@ window.addEventListener(
 )
 ```
 
-## Throttle Function
+## throttle
 Throttling enforces a maximum number of times a function can be called over time. As in "execute this function at most once every X milliseconds."
 
 ```js
@@ -227,7 +420,7 @@ created () {
 Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between *all* rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
 :::
 
-## (Deep) Copy Objects
+## extend - (Deep) Copy Objects
 A basic respawn of `jQuery.extend()`. Takes same parameters:
 
 ```js
@@ -238,7 +431,7 @@ let newObject = extend([Boolean deepCopy], targetObj, obj, ...)
 
 Watch out for methods within objects.
 
-## Generate UID
+## uid - Generate UID
 Generate unique identifiers:
 
 ```js

@@ -1,104 +1,170 @@
-.doc-code, .doc-code__inner
+.doc-code
   margin: 0
   position: relative
-  font-size: 12px
-  color: $grey-9
-  background-color: #fdfdfd
+  font-size: ($font-size - 2px)
   font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+  line-height: 1.5em
+  tab-size: 2
   text-align: left
   white-space: pre
   word-spacing: normal
   word-break: normal
   word-wrap: normal
-  line-height: 1.5
-  tab-size: 4
   hyphens: none
+  overflow: auto
+  padding: 16px
+  border-radius: inherit
 
-.doc-code
-  overflow: visible
-  padding: 0
-  border-radius: $generic-border-radius
+  &--prerendered
+    border-width: 1px 4px
+    border-style: solid
+    border-radius: $generic-border-radius
 
-  &__inner
-    background-color: $grey-2
-    max-height: inherit
-    height: inherit
-    padding: 1em
-    display: block
-    overflow: auto
+  &__copy
+    top: 8px
+    right: 16px
+
+body.body--light
+  .doc-code
+    color: $grey-9
+    background-color: $light-pill
 
     &--prerendered
-      border-width: 1px 4px
-      border-style: solid
       border-color: $separator-color
       border-left-color: $brand-primary
       border-right-color: $brand-primary
-      border-radius: $generic-border-radius
 
-.token.comment,
-.token.block-comment,
-.token.prolog,
-.token.doctype,
-.token.cdata
-  color: #7D8B99
+  .token.comment,
+  .token.block-comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata
+    color: #7D8B99
 
-.token
-  &.punctuation
-    color: #5F6364
-  &.important
-    font-weight: normal
-  &.bold
-    font-weight: bold
-  &.italic
+  .token
+    &.punctuation
+      color: #5F6364
+    &.important
+      font-weight: 400
+    &.bold
+      font-weight: 700
+    &.italic
+      font-style: italic
+    &.entity
+      cursor: help
+
+  .token.property,
+  .token.tag,
+  .token.boolean,
+  .token.number,
+  .token.function-name,
+  .token.constant,
+  .token.symbol,
+  .token.deleted
+    color: #c92c2c
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.function,
+  .token.builtin,
+  .token.inserted
+    color: #2f9c0a
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .token.variable
+    color: #da5a20
+
+  .token.atrule,
+  .token.attr-value,
+  .token.keyword,
+  .token.class-name
+    color: #1990b8
+
+  .token.regex,
+  .token.important
+    color: #e90
+
+  .language-css .token.string,
+  .style .token.string
+    color: #a67f59
+    background: rgba(255, 255, 255, 0.5)
+
+  .namespace
+    opacity: .7
+
+  .token.tab:not(:empty):before,
+  .token.cr:before,
+  .token.lf:before
+    color: #e0d7d1
+
+body.body--dark
+  .doc-code
+    color: #f8f8f2
+    background-color: $dark-pill
+
+    &--prerendered
+      border-color: scale-color($brand-primary, $lightness: -50%)
+      border-left-color: scale-color($brand-primary, $lightness: -50%)
+      border-right-color: scale-color($brand-primary, $lightness: -50%)
+
+  .token.comment,
+  .token.prolog,
+  .token.doctype,
+  .token.cdata
+    color: #d4d0ab
+
+  .token.punctuation
+    color: #fefefe
+
+  .token.property,
+  .token.tag,
+  .token.constant,
+  .token.symbol,
+  .token.deleted
+    color: #ffa07a
+
+  .token.boolean,
+  .token.number
+    color: #00e0e0
+
+  .token.selector,
+  .token.attr-name,
+  .token.string,
+  .token.char,
+  .token.builtin,
+  .token.inserted
+    color: #abe338
+
+  .token.operator,
+  .token.entity,
+  .token.url,
+  .language-css .token.string,
+  .style .token.string,
+  .token.variable
+    color: #00e0e0
+
+  .token.atrule,
+  .token.attr-value,
+  .token.function
+    color: #ffd700
+
+  .token.keyword
+    color: #00e0e0
+
+  .token.regex,
+  .token.important
+    color: #ffd700
+
+  .token.important,
+  .token.bold
+    font-weight: 700
+
+  .token.italic
     font-style: italic
-  &.entity
+
+  .token.entity
     cursor: help
-
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.function-name,
-.token.constant,
-.token.symbol,
-.token.deleted
-  color: #c92c2c
-
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.function,
-.token.builtin,
-.token.inserted
-  color: #2f9c0a
-
-.token.operator,
-.token.entity,
-.token.url,
-.token.variable
-  color: #da5a20
-
-.token.atrule,
-.token.attr-value,
-.token.keyword,
-.token.class-name
-  color: #1990b8
-
-.token.regex,
-.token.important
-  color: #e90
-
-.language-css .token.string,
-.style .token.string
-  color: #a67f59
-  background: rgba(255, 255, 255, 0.5)
-
-.namespace
-  opacity: .7
-
-.token.tab:not(:empty):before,
-.token.cr:before,
-.token.lf:before
-  color: #e0d7d1
-

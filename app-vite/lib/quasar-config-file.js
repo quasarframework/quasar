@@ -2,7 +2,7 @@ const path = require('path')
 const { existsSync } = require('fs')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash.debounce')
+const debounce = require('lodash/debounce')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')
@@ -443,6 +443,7 @@ class QuasarConfFile {
         stores: appPaths.resolve.src('stores')
       },
 
+      useFilenameHashes: true,
       vueRouterMode: 'hash',
       minify: cfg.metaConf.debugging !== true
         && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
@@ -592,6 +593,7 @@ class QuasarConfFile {
     else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'
     }
+    // Electron is handled in lib/modes/electron/electron-builder.js -> #replaceAppUrl()
 
     Object.assign(cfg.build.env, {
       NODE_ENV: this.#ctx.prod ? 'production' : 'development',
