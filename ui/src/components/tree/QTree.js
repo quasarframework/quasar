@@ -44,6 +44,7 @@ export default createComponent({
 
     color: String,
     controlColor: String,
+    keepColor: { type: Boolean, default: true },
     textColor: String,
     selectedColor: String,
 
@@ -562,7 +563,7 @@ export default createComponent({
               color: computedControlColor.value,
               dark: isDark.value,
               dense: true,
-              keepColor: true,
+              keepColor: props.keepColor,
               disable: m.tickable !== true,
               onKeydown: stopAndPrevent,
               'onUpdate:modelValue': v => {
