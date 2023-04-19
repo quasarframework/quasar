@@ -9,7 +9,7 @@
       "import": "./dist/quasar.esm.prod.mjs",
       "require": "./dist/quasar.cjs.prod.js"
     },
-    "./quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs",
+    "./dist/quasar.esm.prod.js": "./dist/quasar.esm.prod.mjs",
     "./*": "./*"
   },
   "module": "dist/quasar.esm.prod.mjs",
