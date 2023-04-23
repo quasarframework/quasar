@@ -1,5 +1,6 @@
 
 const { join } = require('path')
+const { sync } = require('cross-spawn')
 
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
@@ -86,10 +87,22 @@ class ElectronBuilder extends AppBuilder {
   }
 
   #packageFiles () {
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
+      let majorVersion=parseInt(sync(
+        nodePackager.name,
+        [ '--version' ],
+        { stdio: 'pipe' }
+      ).output.join('').trim().split('.')[0]);
+      if ( nodePackager.name==='yarn' && majorVersion >= 2 ) {
+        console.log(sync(
+          nodePackager.name,
+          [ 'plugin', 'import', 'workspace-tools' ],
+          { stdio: 'pipe' }
+        ).stdout.toString());
+      }
       spawn(
         nodePackager.name,
-        [ 'install', '--production' ].concat(this.quasarConf.electron.unPackagedInstallParams),
+        ( nodePackager.name === 'yarn' && majorVersion >= 2 ? [ 'workspaces', 'focus', '--production' ] : [ 'install', '--production' ] ).concat(this.quasarConf.electron.unPackagedInstallParams),
         { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
         code => {
           if (code) {
