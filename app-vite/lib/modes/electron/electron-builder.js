@@ -99,6 +99,7 @@ class ElectronBuilder extends AppBuilder {
           [ 'plugin', 'import', 'workspace-tools' ],
           { stdio: 'pipe' }
         ).stdout.toString());
+        this.writeFile('yarn.lock','');
       }
       spawn(
         nodePackager.name,
