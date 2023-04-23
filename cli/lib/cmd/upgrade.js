@@ -73,14 +73,35 @@ const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
 function getLatestVersion (packager, packageName, curVersion) {
   let versions
+  let yarnBerry=false
+
+
+  if (packager === 'yarn') {
+    let majorVersion=parseInt(execSync(
+      `${packager} --version`,
+      { stdio: ['ignore', 'pipe', 'pipe'] }
+    ).toString().trim().split('.')[0]);
+    if ( majorVersion >= 2 ) {
+      yarnBerry = true
+    }
+  }
 
   try {
-    versions = JSON.parse(
-      execSync(
-        `${packager} info ${packageName} versions --json`,
-        { stdio: ['ignore', 'pipe', 'pipe'] }
+    if (yarnBerry) {
+      versions = versions = JSON.parse(
+        execSync(
+          `${packager} npm info ${packageName} --fields versions --json`,
+          { stdio: ['ignore', 'pipe', 'pipe'] }
+        )
       )
-    )
+    } else {
+      versions = JSON.parse(
+        execSync(
+          `${packager} info ${packageName} versions --json`,
+          { stdio: ['ignore', 'pipe', 'pipe'] }
+        )
+      )
+    }
   }
   catch (err) {
     return null
@@ -91,7 +112,11 @@ function getLatestVersion (packager, packageName, curVersion) {
   }
 
   if (packager === 'yarn') {
-    versions = versions.data
+    if (yarnBerry) {
+      versions = versions.versions
+    } else {
+      versions = versions.data
+    }
   }
 
   if (curVersion === null) {
