@@ -29,7 +29,7 @@
               <strong>{{ props.row.name }}</strong>
             </q-card-section>
             <q-separator />
-            <q-card-section class="flex flex-center" :style="{ fontSize: props.row.calories + 'px' }">
+            <q-card-section class="flex flex-center" :style="{ fontSize: (props.row.calories / 2) + 'px' }">
               <div>{{ props.row.calories }} g</div>
             </q-card-section>
           </q-card>
