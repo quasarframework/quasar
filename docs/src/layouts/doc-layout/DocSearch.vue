@@ -124,7 +124,7 @@ function fetchQuery (val, onResult, onError) {
     xhr.setRequestHeader('Content-Type', 'application/json')
     xhr.setRequestHeader('X-Meili-API-Key', 'a7c3283824a29d1b0e8042f0266690670b00f7c81d92021b80117563577d2106')
     xhr.send(data)
-  }, 200)
+  }, 400)
 }
 
 const contentRE = /(<em>|<\/em>)/
