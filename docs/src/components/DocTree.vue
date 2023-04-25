@@ -23,7 +23,7 @@
 
       <template v-if="prop.node.e">
         <q-icon :name="mdiInformationOutline" class="q-ml-sm lt-sm" v-if="prop.node.e" color="grey" @click.stop @touchstart.stop>
-          <q-tooltip :offset="tooltipOffset">{{ prop.node.e }}</q-tooltip>
+          <q-tooltip>{{ prop.node.e }}</q-tooltip>
         </q-icon>
         <div class="doc-tree__explanation text-grey q-ml-sm gt-xs" v-if="prop.node.e"># {{ prop.node.e }}</div>
       </template>
@@ -32,14 +32,11 @@
 </template>
 
 <script setup>
-import { Platform } from 'quasar'
 import { mdiLaunch, mdiInformationOutline } from '@quasar/extras/mdi-v6'
 
 const props = defineProps({
   def: Object
 })
-
-const tooltipOffset = Platform.is.mobile ? [ 0, 36 ] : void 0
 
 let id = 0
 const addId = node => {
