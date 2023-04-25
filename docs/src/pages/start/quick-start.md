@@ -12,7 +12,7 @@ If you are a more advanced Vue developer, we invite you to start off by [decidin
 ## Prerequisites
 Make sure that you have Node >=14 (or any newer **LTS Node.js version**) and NPM >=6.14.12 or Yarn >= 1.21.1 installed on your machine. Please do not use any odd versions of Node, as these are [considered experimental](https://nodejs.org/en/about/releases/#releases).
 
-## Step 1 - Create a Project
+## Step 1: Create a Project
 
 Enter the following command:
 
@@ -33,7 +33,7 @@ $ yarn global add @quasar/cli
 $ npm install -g @quasar/cli
 ```
 
-## Step 2 - Start developing
+## Step 2: Start developing
 
 For the second and last step, navigate into the newly created project folder and run the Quasar CLI command to start the dev server.
 

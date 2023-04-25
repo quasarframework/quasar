@@ -145,7 +145,7 @@ You can dynamically load new options when scroll reaches the end:
 
 ## Filtering and autocomplete
 
-### Native attributes with `use-input`
+### Native attributes with "use-input"
 
 All the attributes set on QSelect that are not in the list of props in the API will be passed to the native input field used (please check `use-input` prop description first to understand what it does) for filtering / autocomplete / adding new value. Some examples: autocomplete, placeholder.
 

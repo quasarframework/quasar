@@ -1,11 +1,11 @@
 export const sponsors = {
   platinum: [
-    { src: 'Dreamonkey.svg', name: 'Dreamonkey Srl', href: 'https://dreamonkey.com/' }
+    { src: 'Dreamonkey.svg', name: 'Dreamonkey Srl', href: 'https://dreamonkey.com/' },
+    { src: 'MIO.svg', name: 'Mio AB', href: 'https://mio.se/' },
+    { src: 'iRewind.svg', name: 'iRewind', href: 'https://irewind.com/' }
   ],
   gold: [],
   silver: [
-    { src: 'MIO.svg', name: 'Mio AB', href: 'https://mio.se/' },
-    { src: 'iRewind.svg', name: 'iRewind', href: 'https://irewind.com/' },
     { src: 'Qintil.svg', name: 'Qintil Technology Ltd', href: 'https://qintil.com/' },
     { src: 'Synestia.svg', name: 'Synestia', href: 'https://synestia.pl/' },
     { src: 'Letsbutterfly.svg', name: 'letsbutterfly Inc', href: 'https://letsbutterfly.com/' },

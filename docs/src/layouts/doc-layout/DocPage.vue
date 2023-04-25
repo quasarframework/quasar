@@ -2,12 +2,14 @@
   <div class="doc-page__content">
     <div v-if="props.overline" class="doc-page__overline text-brand-primary">{{ props.overline }}</div>
 
-    <div class="doc-h1 row items-center no-wrap" v-if="props.heading">
-      <div class="doc-heading" id="introduction">
-        <span>{{ props.title }}</span>
-        <q-badge class="doc-page__badge" v-if="props.badge" :label="props.badge" />
+    <div class="doc-heading doc-h1" id="introduction" v-if="props.heading">
+      <div class="row items-center q-gutter-sm">
+        <div>{{ props.title }}</div>
+        <q-badge v-if="props.badge" :label="props.badge" />
       </div>
+
       <q-space />
+
       <q-btn
         v-if="props.editLink"
         class="self-start q-ml-sm"

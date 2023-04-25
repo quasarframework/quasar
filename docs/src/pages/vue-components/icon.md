@@ -551,7 +551,7 @@ iconMapFn (String: iconName) => Object / void 0 (undefined)
 
 Let's take both cases now.
 
-#### 1. Support for custom icon library
+#### Step 1: Support for custom icon library
 
 This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
 
@@ -621,7 +621,7 @@ css: [
 
 And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same folder as "my-app-icon.css" (or somewhere else, but edit the relative paths (see "src:" above) to the woff/woff2 files).
 
-#### 2. Simply mapping a few icons
+#### Step 2: Simply mapping a few icons
 
 ```js
 import { useQuasar } from 'quasar'

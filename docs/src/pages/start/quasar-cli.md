@@ -133,7 +133,7 @@ Pick `Quasar CLI with Vite` if you want:
 
 Quasar CLI (`@quasar/cli`) works in tandem with either `@quasar/app-vite` or `@quasar/app-webpack`. The first one is optional (but **strongly recommended**) and allows you to run Quasar CLI commands directly and some other useful commands like `quasar upgrade` (upgrade Quasar packages seamlessly) or `quasar serve` (serve your distributable with an ad-hoc webserver). The second package is the heart of it (runs the important commands - dev, build, inspect, info, describe etc) and it gets installed locally into every Quasar project folder.
 
-#### Running without the global `@quasar/cli`
+#### Running without the global @quasar/cli
 
 However, should you want independence of the globally installed `@quasar/cli` package, you have the possibility to directly run the Quasar CLI commands. It is `@quasar/app-vite` or `@quasar/app-webpack` (which is specific to each project folder) that will run all the CLI commands.
 
