@@ -38,7 +38,8 @@ class BexBuilder extends AppBuilder {
 
   #bundlePackage (folder) {
     const done = progress('Bundling in progress...')
-    const file = join(folder, `Packaged.${ name }.zip`)
+    const zipName = `Packaged.${ name }.zip`
+    const file = join(folder, zipName)
 
     let output = createWriteStream(file)
     let archive = archiver('zip', {
@@ -46,7 +47,7 @@ class BexBuilder extends AppBuilder {
     })
 
     archive.pipe(output)
-    archive.directory(folder, false)
+    archive.directory(folder, false, entryData => ((entryData.name !== zipName) ? entryData : false))
     archive.finalize()
 
     done(`Bundle has been generated at: ${file}`)
