@@ -6,6 +6,9 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "rollup --config rollup.config.js",
+    "test": "yarn test:unit:ci && yarn test:e2e:ci",
+    "test:unit:dev": "vitest",
+    "test:unit:ci": "vitest run",
     "test:e2e:start:dev": "cd ./playground && yarn dev --port 9000",
     "test:e2e:start:serve": "cd ./playground && yarn start --port 9000",
     "test:e2e:dev": "start-test \"yarn test:e2e:start:dev\" http-get://localhost:9000 \"yarn cypress open --e2e\"",
@@ -33,9 +36,11 @@
   },
   "devDependencies": {
     "cypress": "^12.10.0",
+    "quasar": "^2.11.10",
     "rollup": "^2.58.0",
     "start-server-and-test": "^2.0.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
   },
   "peerDependencies": {
     "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",
