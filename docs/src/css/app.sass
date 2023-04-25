@@ -118,6 +118,11 @@ ul
 
 .doc-heading
   color: $brand-primary
+  word-break: break-word
+  letter-spacing: $letter-spacing-brand
+  padding: 0
+  line-height: 1.1em
+  margin: 2.5em 0 1em
 
   &:not(#introduction)
     cursor: pointer
@@ -132,6 +137,8 @@ ul
   font-size: 2.4em
   font-weight: 700
   margin: 0 0 1em !important
+  display: flex
+  align-items: center
 
 .doc-h2
   font-size: 1.8em
@@ -175,22 +182,6 @@ ul
     font-size: 1.2em
   .doc-h5
     font-size: 1.1em
-
-.doc-h1,
-.doc-h2,
-.doc-h3,
-.doc-h4,
-.doc-h5,
-.doc-h6
-  display: flex
-  align-items: center
-  word-break: break-word
-  letter-spacing: $letter-spacing-brand
-  padding: 0
-  line-height: 1.1em
-  margin: 2.5em 0 1em
-  .q-badge
-    margin-left: 8px
 
 .doc-img
   max-width: 100%

@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) What you need to do before developing a Quasar hybrid m
 
 Before we dive in to the actual development, we need to do some preparation work.
 
-## 1. Installation
+## Step 1: Installation
 
 ### Android setup
 
@@ -51,7 +51,7 @@ setx path "%path%;%ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools"
 
 You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed. After you've installed it, open Xcode in order to get the license prompt. Accept the license, then you can close it.
 
-## 2. Add Capacitor Quasar Mode
+## Step 2: Add Capacitor Quasar Mode
 
 In order to develop/build a Mobile app, we need to add the Capacitor mode to our Quasar project. This will use the Capacitor CLI to generate a Capacitor project in `/src-capacitor` folder.
 
@@ -59,7 +59,7 @@ In order to develop/build a Mobile app, we need to add the Capacitor mode to our
 $ quasar mode add capacitor
 ```
 
-## 3. Start Developing
+## Step 3: Start Developing
 
 To start a dev server with HMR, run the command below:
 

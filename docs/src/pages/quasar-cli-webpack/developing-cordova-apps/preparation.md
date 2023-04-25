@@ -4,7 +4,7 @@ desc: (@quasar/app-webpack) What you need to do before developing a Quasar hybri
 ---
 Before we dive in to the actual development, we need to do some preparation work.
 
-## 1. Installation
+## Step 1: Installation
 First step is to make sure you got the Cordova CLI installed and the necessary SDKs.
 
 ```bash
@@ -73,14 +73,14 @@ After the tools are installed, setup Android Studio with the correct SDK and cre
 
 You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed. After you've installed it, open Xcode in order to get the license prompt. Accept the license, then you can close it.
 
-## 2. Add Cordova Quasar Mode
+## Step 2: Add Cordova Quasar Mode
 In order to develop/build a Mobile app, we need to add the Cordova mode to our Quasar project. What this does is that it uses Cordova CLI to generate a Cordova project in `/src-cordova` folder. `/src-cordova/www` folder will be overwritten each time you build.
 
 ```bash
 $ quasar mode add cordova
 ```
 
-## 3. Add Platform
+## Step 3: Add Platform
 To switch to the cordova project, type:
 
 ```bash
@@ -139,7 +139,7 @@ $ cordova plugin add cordova-plugin-wkwebview-engine
 
 2. For caveats and more info, visit: [https://github.com/apache/cordova-plugin-wkwebview-engine](https://github.com/apache/cordova-plugin-wkwebview-engine)
 
-## 4. Start Developing
+## Step 4: Start Developing
 If you want to jump right in and start developing, you can skip step #2 and #3 commands and issue one of the commands below. If you have a mobile/tablet device connected to your machine, you can also run the dev app on it instead of in an emulator.
 
 ```bash

@@ -41,7 +41,7 @@ scope:
 
 The difference between building a SPA, Mobile App, Electron App, BEX or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
-## 1. Add Quasar BEX Mode
+## Add Quasar BEX Mode
 In order to build a BEX, we first need to add the BEX mode to our Quasar project:
 
 ```bash
@@ -64,7 +64,7 @@ The `src-bex` folder is just a standard browser extension folder so you are free
 * **Other Chromium Based Browsers** - Refer to their specific documentation.
 :::
 
-## 2. Understand The Anatomy Of `src-bex`
+## Understand The Anatomy Of "src-bex"
 
 The new folder has the following structure:
 
