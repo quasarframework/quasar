@@ -6,7 +6,10 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "rollup --config rollup.config.js",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test:e2e:start:dev": "cd ./playground && yarn dev --port 9000",
+    "test:e2e:start:serve": "cd ./playground && yarn start --port 9000",
+    "test:e2e:dev": "start-test \"yarn test:e2e:start:dev\" http-get://localhost:9000 \"yarn cypress open --e2e\"",
+    "test:e2e:ci": "start-test \"yarn test:e2e:start:serve\" http-get://localhost:9000 \"yarn cypress run --e2e\""
   },
   "files": [
     "dist",
@@ -29,7 +32,10 @@
     "url": "https://github.com/quasarframework/quasar"
   },
   "devDependencies": {
-    "rollup": "^2.58.0"
+    "cypress": "^12.10.0",
+    "rollup": "^2.58.0",
+    "start-server-and-test": "^2.0.0",
+    "typescript": "^5.0.4"
   },
   "peerDependencies": {
     "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",
