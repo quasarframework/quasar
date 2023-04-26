@@ -3,7 +3,7 @@
     <q-btn label="Click me" color="primary" @click="layout = true" />
 
     <q-dialog v-model="layout">
-      <q-layout view="Lhh lpR fff" container class="bg-white">
+      <q-layout view="Lhh lpR fff" container class="bg-white text-dark">
         <q-header class="bg-primary">
           <q-toolbar>
             <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
@@ -19,11 +19,11 @@
           </q-toolbar>
         </q-footer>
 
-        <q-drawer bordered v-model="drawer" :width="200" :breakpoint="600" class="bg-grey-3 q-pa-sm">
+        <q-drawer bordered v-model="drawer" :width="200" :breakpoint="600" class="bg-grey-3 text-dark q-pa-sm">
           <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
         </q-drawer>
 
-        <q-drawer side="right" bordered v-model="drawerR" :width="200" :breakpoint="300" class="bg-grey-3 q-pa-sm">
+        <q-drawer side="right" bordered v-model="drawerR" :width="200" :breakpoint="300" class="bg-grey-3 text-dark q-pa-sm">
           <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
         </q-drawer>
 
