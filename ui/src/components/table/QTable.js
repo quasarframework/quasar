@@ -777,7 +777,7 @@ export default createComponent({
         }, getPaginationDiv(child))
       }
 
-      if (child.length > 0) {
+      if (child.length !== 0) {
         return h('div', { class: bottomClass }, child)
       }
     }

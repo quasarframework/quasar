@@ -100,7 +100,7 @@ export default createComponent({
 
     const iconLabel = computed(() => {
       if (typeof props.iconAriaLabel === 'string') {
-        const label = props.iconAriaLabel.length > 0 ? `${ props.iconAriaLabel } ` : ''
+        const label = props.iconAriaLabel.length !== 0 ? `${ props.iconAriaLabel } ` : ''
         return i => `${ label }${ i }`
       }
 

@@ -98,7 +98,7 @@ function apply ({ add, remove }) {
     document.title = add.title
   }
 
-  if (Object.keys(remove).length > 0) {
+  if (Object.keys(remove).length !== 0) {
     [ 'meta', 'link', 'script' ].forEach(type => {
       remove[ type ].forEach(name => {
         document.head.querySelector(`${ type }[data-qmeta="${ name }"]`).remove()
@@ -193,9 +193,9 @@ function injectServerMeta (ssrContext) {
 
   const htmlAttr = Object.keys(data.htmlAttr).filter(htmlFilter)
 
-  if (htmlAttr.length > 0) {
+  if (htmlAttr.length !== 0) {
     ctx.htmlAttrs += (
-      (ctx.htmlAttrs.length > 0 ? ' ' : '')
+      (ctx.htmlAttrs.length !== 0 ? ' ' : '')
       + htmlAttr.map(getAttr(data.htmlAttr)).join(' ')
     )
   }
@@ -204,9 +204,9 @@ function injectServerMeta (ssrContext) {
 
   const bodyAttr = Object.keys(data.bodyAttr).filter(bodyFilter)
 
-  if (bodyAttr.length > 0) {
+  if (bodyAttr.length !== 0) {
     ctx.bodyAttrs += (
-      (ctx.bodyAttrs.length > 0 ? ' ' : '')
+      (ctx.bodyAttrs.length !== 0 ? ' ' : '')
       + bodyAttr.map(getAttr(data.bodyAttr)).join(' ')
     )
   }

@@ -264,7 +264,7 @@ export default createComponent({
       emit(`link-${ v ? 'Show' : 'Hide' }`)
     })
 
-    const hasToolbar = computed(() => props.toolbar && props.toolbar.length > 0)
+    const hasToolbar = computed(() => props.toolbar && props.toolbar.length !== 0)
 
     const keys = computed(() => {
       const

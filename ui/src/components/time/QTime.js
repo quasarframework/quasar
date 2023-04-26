@@ -470,9 +470,9 @@ export default createComponent({
           const am = computedFormat24h.value !== true
             ? isAM.value === true
             : (
-                validHours.value.am.values.length > 0 && validHours.value.pm.values.length > 0
+                validHours.value.am.values.length !== 0 && validHours.value.pm.values.length !== 0
                   ? distance >= clockRect.dist
-                  : validHours.value.am.values.length > 0
+                  : validHours.value.am.values.length !== 0
               )
 
           val = getNormalizedClockValue(

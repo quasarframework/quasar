@@ -397,7 +397,7 @@ export default createComponent({
       hasShadow: computed(() =>
         props.type !== 'file'
         && typeof props.shadowText === 'string'
-        && props.shadowText.length > 0
+        && props.shadowText.length !== 0
       ),
 
       inputRef,

@@ -140,7 +140,7 @@ export default createComponent({
         const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : props.tickStrategy)
         const
           key = node[ props.nodeKey ],
-          isParent = node[ props.childrenKey ] && node[ props.childrenKey ].length > 0,
+          isParent = node[ props.childrenKey ] && node[ props.childrenKey ].length !== 0,
           selectable = node.disabled !== true && hasSelection.value === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
@@ -301,7 +301,7 @@ export default createComponent({
       const
         expanded = innerExpanded.value,
         travel = node => {
-          if (node[ props.childrenKey ] && node[ props.childrenKey ].length > 0) {
+          if (node[ props.childrenKey ] && node[ props.childrenKey ].length !== 0) {
             if (node.expandable !== false && node.disabled !== true) {
               expanded.push(node[ props.nodeKey ])
               node[ props.childrenKey ].forEach(travel)
@@ -382,7 +382,7 @@ export default createComponent({
                 }
               })
             }
-            if (collapse.length > 0) {
+            if (collapse.length !== 0) {
               target = target.filter(k => collapse.includes(k) === false)
             }
           }
@@ -495,7 +495,7 @@ export default createComponent({
         ? getChildren(node[ props.childrenKey ])
         : []
 
-      const isParent = children.length > 0 || (m.lazy && m.lazy !== 'loaded')
+      const isParent = children.length !== 0 || (m.lazy && m.lazy !== 'loaded')
 
       let body = node.body
         ? slots[ `body-${ node.body }` ] || slots[ 'default-body' ]

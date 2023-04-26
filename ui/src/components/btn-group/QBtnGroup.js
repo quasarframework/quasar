@@ -24,7 +24,7 @@ export default createComponent({
         .filter(t => props[ t ] === true)
         .map(t => `q-btn-group--${ t }`).join(' ')
 
-      return `q-btn-group row no-wrap${ cls.length > 0 ? ' ' + cls : '' }`
+      return `q-btn-group row no-wrap${ cls.length !== 0 ? ' ' + cls : '' }`
         + (props.spread === true ? ' q-btn-group--spread' : ' inline')
     })
 

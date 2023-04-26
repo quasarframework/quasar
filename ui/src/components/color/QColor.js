@@ -162,7 +162,7 @@ export default createComponent({
     }))
 
     const computedPalette = computed(() => (
-      props.palette !== void 0 && props.palette.length > 0
+      props.palette !== void 0 && props.palette.length !== 0
         ? props.palette
         : palette
     ))

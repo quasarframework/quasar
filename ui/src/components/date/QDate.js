@@ -210,7 +210,7 @@ export default createComponent({
     )
 
     const headerTitle = computed(() => {
-      if (props.title !== void 0 && props.title !== null && props.title.length > 0) {
+      if (props.title !== void 0 && props.title !== null && props.title.length !== 0) {
         return props.title
       }
 
@@ -262,7 +262,7 @@ export default createComponent({
     })
 
     const headerSubtitle = computed(() => {
-      if (props.subtitle !== void 0 && props.subtitle !== null && props.subtitle.length > 0) {
+      if (props.subtitle !== void 0 && props.subtitle !== null && props.subtitle.length !== 0) {
         return props.subtitle
       }
 

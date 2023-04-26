@@ -110,7 +110,7 @@ export default function (props, emit, emitValue, inputRef) {
 
   function updateMaskInternals () {
     hasMask.value = props.mask !== void 0
-      && props.mask.length > 0
+      && props.mask.length !== 0
       && getIsTypeText()
 
     if (hasMask.value === false) {
@@ -124,7 +124,7 @@ export default function (props, emit, emitValue, inputRef) {
       localComputedMask = NAMED_MASKS[ props.mask ] === void 0
         ? props.mask
         : NAMED_MASKS[ props.mask ],
-      fillChar = typeof props.fillMask === 'string' && props.fillMask.length > 0
+      fillChar = typeof props.fillMask === 'string' && props.fillMask.length !== 0
         ? props.fillMask.slice(0, 1)
         : '_',
       fillCharEscaped = fillChar.replace(escRegex, '\\$&'),
@@ -205,7 +205,7 @@ export default function (props, emit, emitValue, inputRef) {
         str = str.slice(m.shift().length)
         extractMatch.push(...m)
       }
-      if (extractMatch.length > 0) {
+      if (extractMatch.length !== 0) {
         return extractMatch.join('')
       }
 
@@ -553,7 +553,7 @@ export default function (props, emit, emitValue, inputRef) {
       return val
     }
 
-    return props.reverseFillMask === true && val.length > 0
+    return props.reverseFillMask === true && val.length !== 0
       ? maskReplaced.slice(0, -val.length) + val
       : val + maskReplaced.slice(val.length)
   }

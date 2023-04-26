@@ -46,14 +46,14 @@ function injectPlugin ({ props, emit, helpers }) {
   }))
 
   const isUploading = computed(() => workingThreads.value > 0)
-  const isBusy = computed(() => promises.value.length > 0)
+  const isBusy = computed(() => promises.value.length !== 0)
 
   let abortPromises
 
   function abort () {
     xhrs.value.forEach(x => { x.abort() })
 
-    if (promises.value.length > 0) {
+    if (promises.value.length !== 0) {
       abortPromises = true
     }
   }

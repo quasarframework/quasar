@@ -182,7 +182,7 @@ export default function () {
       index += direction
     }
 
-    if (props.infinite === true && panels.length > 0 && startIndex !== -1 && startIndex !== panels.length) {
+    if (props.infinite === true && panels.length !== 0 && startIndex !== -1 && startIndex !== panels.length) {
       goToPanelByOffset(direction, direction === -1 ? panels.length : -1)
     }
   }

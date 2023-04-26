@@ -91,7 +91,7 @@ export default function ({
     const rejectedFiles = []
 
     const done = () => {
-      if (rejectedFiles.length > 0) {
+      if (rejectedFiles.length !== 0) {
         emit('rejected', rejectedFiles)
       }
     }
@@ -121,7 +121,7 @@ export default function ({
     // Cordova/iOS allows selecting multiple files even when the
     // multiple attribute is not specified. We also normalize drag'n'dropped
     // files here:
-    if (props.multiple !== true && files.length > 0) {
+    if (props.multiple !== true && files.length !== 0) {
       files = [ files[ 0 ] ]
     }
 
@@ -176,7 +176,7 @@ export default function ({
 
     done()
 
-    if (files.length > 0) {
+    if (files.length !== 0) {
       return files
     }
   }
@@ -202,7 +202,7 @@ export default function ({
     stopAndPreventDrag(e)
     const files = e.dataTransfer.files
 
-    if (files.length > 0) {
+    if (files.length !== 0) {
       addFilesToQueue(null, files)
     }
 

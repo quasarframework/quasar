@@ -658,7 +658,7 @@ export default createComponent({
 
       resetInputValue()
 
-      if (typeof value === 'string' && value.length > 0) {
+      if (typeof value === 'string' && value.length !== 0) {
         const needle = value.toLocaleLowerCase()
         const findFn = extractFn => {
           const option = props.options.find(opt => extractFn.value(opt).toLocaleLowerCase() === needle)
@@ -705,7 +705,7 @@ export default createComponent({
         return
       }
 
-      const newValueModeValid = inputValue.value.length > 0
+      const newValueModeValid = inputValue.value.length !== 0
         && (props.newValueMode !== void 0 || props.onNewValue !== void 0)
 
       const tabShouldSelect = e.shiftKey !== true
@@ -800,7 +800,7 @@ export default createComponent({
         && e.altKey === false // not kbd shortcut
         && e.ctrlKey === false // not kbd shortcut
         && e.metaKey === false // not kbd shortcut, especially on macOS with Command key
-        && (e.keyCode !== 32 || searchBuffer.length > 0) // space in middle of search
+        && (e.keyCode !== 32 || searchBuffer.length !== 0) // space in middle of search
       ) {
         menu.value !== true && showPopup(e)
 
@@ -1087,7 +1087,7 @@ export default createComponent({
       if (
         val !== ''
         && props.multiple !== true
-        && innerValue.value.length > 0
+        && innerValue.value.length !== 0
         && userInputValue !== true
         && val === getOptionLabel.value(innerValue.value[ 0 ])
       ) {
@@ -1206,7 +1206,7 @@ export default createComponent({
           loading: innerLoadingIndicator.value,
           itemAligned: false,
           filled: true,
-          stackLabel: inputValue.value.length > 0,
+          stackLabel: inputValue.value.length !== 0,
           ...state.splitAttrs.listeners.value,
           onFocus: onDialogFieldFocus,
           onBlur: onDialogFieldBlur
@@ -1334,7 +1334,7 @@ export default createComponent({
 
     function resetInputValue () {
       props.useInput === true && updateInputValue(
-        props.multiple !== true && props.fillInput === true && innerValue.value.length > 0
+        props.multiple !== true && props.fillInput === true && innerValue.value.length !== 0
           ? getOptionLabel.value(innerValue.value[ 0 ]) || ''
           : '',
         true,
@@ -1346,7 +1346,7 @@ export default createComponent({
       let optionIndex = -1
 
       if (show === true) {
-        if (innerValue.value.length > 0) {
+        if (innerValue.value.length !== 0) {
           const val = getOptionValue.value(innerValue.value[ 0 ])
           optionIndex = props.options.findIndex(v => isDeepEqual(getOptionValue.value(v), val))
         }
@@ -1448,7 +1448,7 @@ export default createComponent({
       floatingLabel: computed(() =>
         (props.hideSelected !== true && hasValue.value === true)
         || typeof inputValue.value === 'number'
-        || inputValue.value.length > 0
+        || inputValue.value.length !== 0
         || fieldValueIsFilled(props.displayValue)
       ),
 
@@ -1517,7 +1517,7 @@ export default createComponent({
             })
           )
 
-          if (isTarget === true && typeof props.autocomplete === 'string' && props.autocomplete.length > 0) {
+          if (isTarget === true && typeof props.autocomplete === 'string' && props.autocomplete.length !== 0) {
             child.push(
               h('input', {
                 class: 'q-select__autocomplete-input',
@@ -1529,7 +1529,7 @@ export default createComponent({
           }
         }
 
-        if (nameProp.value !== void 0 && props.disable !== true && innerOptionsValue.value.length > 0) {
+        if (nameProp.value !== void 0 && props.disable !== true && innerOptionsValue.value.length !== 0) {
           const opts = innerOptionsValue.value.map(value => h('option', { value, selected: true }))
 
           child.push(

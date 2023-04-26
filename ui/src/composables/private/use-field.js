@@ -21,7 +21,7 @@ function getTargetUid (val) {
 export function fieldValueIsFilled (val) {
   return val !== void 0
     && val !== null
-    && ('' + val).length > 0
+    && ('' + val).length !== 0
 }
 
 export const useFieldProps = {
@@ -217,7 +217,7 @@ export default function (state) {
       hasError.value === true
         ? ' text-negative'
         : (
-            typeof props.standout === 'string' && props.standout.length > 0 && state.focused.value === true
+            typeof props.standout === 'string' && props.standout.length !== 0 && state.focused.value === true
               ? ` ${ props.standout }`
               : (props.color !== void 0 ? ` text-${ props.color }` : '')
           )

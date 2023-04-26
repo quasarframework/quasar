@@ -218,7 +218,7 @@ export default createComponent({
         ? props.displayValue
         : selectedString.value
 
-      return textContent.length > 0
+      return textContent.length !== 0
         ? [
             h('div', {
               class: props.inputClass,
