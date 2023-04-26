@@ -18,6 +18,12 @@ const skips = [
   'roboto-font-latin-ext'
 ]
 
+const extensionList = [
+  { prop: 'types', ext: '.d.ts' },
+  { prop: 'import', ext: '.mjs' },
+  { prop: 'require', ext: '.js' }
+]
+
 async function readFolders(baseFolder, skips = []) {
   try {
     const files = await fs.promises.readdir(baseFolder)
@@ -56,10 +62,16 @@ function generateExports(folders) {
       }
     }
     else {
-      exports[ `./${ folder }` ] = {
-        types: `./${ folder }/index.d.ts`,
-        import: `./${ folder }/index.mjs`,
-        require: `./${ folder }/index.js`
+      const exportDefinition = extensionList.reduce((acc, { prop, ext }) => {
+        const filePath = path.join(baseFolder, folder, `index${ ext }`)
+        if (fs.existsSync(filePath)) {
+          acc[ prop ] = `./${ folder }/index${ ext }`
+        }
+        return acc
+      }, {})
+
+      if (Object.keys(exportDefinition).length !== 0) {
+        exports[ `./${ folder }` ] = exportDefinition
       }
     }
   }
