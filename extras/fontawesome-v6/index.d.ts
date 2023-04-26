@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.4.0 */
+/* Fontawesome Free v6.3.0 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;

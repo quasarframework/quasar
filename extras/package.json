@@ -94,6 +94,7 @@
       "require": "./material-symbols-sharp/index.js"
     },
     "./mdi-v4": {
+      "types": "./mdi-v4/index.d.ts",
       "import": "./mdi-v4/index.mjs",
       "require": "./mdi-v4/index.js"
     },
