@@ -1,0 +1,13 @@
+{
+  "name": "quasar-monorepo",
+  "private": true,
+  "//": "Currently, workspaces feature is only used for Vite Ecosystem CI, so not all packages are included. Use individual folders for usual development.",
+  "workspaces": [
+    "vite-plugin",
+    "vite-plugin/playground"
+  ],
+  "scripts": {
+    "vite-ecosystem-ci:build": "yarn workspace @quasar/vite-plugin build",
+    "vite-ecosystem-ci:test": "yarn workspace @quasar/vite-plugin test"
+  }
+}

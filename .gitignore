@@ -3,6 +3,7 @@
 *.sublime*
 .idea/
 yarn.lock
+!/yarn.lock
 debug.log
 package-lock.json
 
