@@ -29,13 +29,15 @@
         <div class="intro-section__sponsors-heading q-mt-xl text-weight-bold text-brand-primary text-size-16 text-capitalize">
           Our Platinum sponsors
         </div>
-        <sponsor-tile
-          v-for="({src, name, href}, platinumSponsorIndex) in sponsors.platinum"
-          :key="platinumSponsorIndex"
-          :src="src"
-          :name="name"
-          :href="href"
-        />
+        <div class="row justify-center full-width">
+          <sponsor-tile
+            v-for="({src, name, href}, platinumSponsorIndex) in sponsors.platinum"
+            :key="platinumSponsorIndex"
+            :src="src"
+            :name="name"
+            :href="href"
+          />
+        </div>
         <q-btn
           flat
           padding="0 8px"
