@@ -31,6 +31,18 @@ bus.on('some-event', (arg1, arg2, arg3) => {
 
 bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
 ```
+Events can also be typed strictly.
+```ts
+import { EventBus } from 'quasar'
+
+const bus = new EventBus<{
+    'some-event': (arg1: string, arg2: string, arg3: string) => void;
+    'other': (arg: boolean) => void;
+}>()
+
+bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
+```
+
 
 ### Convenience usage
 
