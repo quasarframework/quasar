@@ -287,16 +287,15 @@ export default Vue.extend({
     },
 
     expandAll () {
-      const
-        expanded = this.innerExpanded,
-        travel = node => {
-          if (node[this.childrenKey] && node[this.childrenKey].length > 0) {
-            if (node.expandable !== false && node.disabled !== true) {
-              expanded.push(node[this.nodeKey])
-              node[this.childrenKey].forEach(travel)
-            }
+      const expanded = []
+      const travel = node => {
+        if (node[this.childrenKey] && node[this.childrenKey].length > 0) {
+          if (node.expandable !== false && node.disabled !== true) {
+            expanded.push(node[this.nodeKey])
+            node[this.childrenKey].forEach(travel)
           }
         }
+      }
 
       this.nodes.forEach(travel)
 
