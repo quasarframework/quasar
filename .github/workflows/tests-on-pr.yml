@@ -36,7 +36,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --focus
+        run: yarn
 
       - name: Build the package
         run: yarn build
@@ -78,7 +78,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --focus
+        run: yarn
 
       - name: Download build artifact
         uses: actions/download-artifact@v3
