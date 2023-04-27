@@ -298,16 +298,15 @@ export default createComponent({
     }
 
     function expandAll () {
-      const
-        expanded = innerExpanded.value,
-        travel = node => {
-          if (node[ props.childrenKey ] && node[ props.childrenKey ].length !== 0) {
-            if (node.expandable !== false && node.disabled !== true) {
-              expanded.push(node[ props.nodeKey ])
-              node[ props.childrenKey ].forEach(travel)
-            }
+      const expanded = []
+      const travel = node => {
+        if (node[ props.childrenKey ] && node[ props.childrenKey ].length !== 0) {
+          if (node.expandable !== false && node.disabled !== true) {
+            expanded.push(node[ props.nodeKey ])
+            node[ props.childrenKey ].forEach(travel)
           }
         }
+      }
 
       props.nodes.forEach(travel)
 
