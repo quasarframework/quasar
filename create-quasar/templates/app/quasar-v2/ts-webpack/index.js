@@ -33,7 +33,8 @@ module.exports = async function ({ scope, utils }) {
         { title: 'State Management (Pinia)', value: 'pinia', description: 'https://pinia.vuejs.org' },
         { title: 'State Management (Vuex) [DEPRECATED by Vue Team]', value: 'vuex', description: 'See https://vuejs.org/guide/scaling-up/state-management.html#pinia' },
         { title: 'Axios', value: 'axios' },
-        { title: 'Vue-i18n', value: 'i18n' }
+        { title: 'Vue-i18n', value: 'i18n' },
+        { title: 'JSX/TSX', value: 'jsx', description: 'See https://vuejs.org/guide/extras/render-function.html#jsx-tsx' }
       ],
       format: values => {
         let result = values

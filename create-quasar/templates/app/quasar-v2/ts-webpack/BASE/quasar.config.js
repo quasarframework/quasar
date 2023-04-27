@@ -82,7 +82,37 @@ module.exports = configure(function (ctx) {
 
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      // chainWebpack (/* chain */) {}
+      <% if (preset.lint || preset.jsx) { %>
+        chainWebpack (chain) {
+          <% if (preset.lint) { %>
+          chain.plugin('eslint-webpack-plugin')
+            .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
+          <% } %>
+          <% if (preset.jsx) { %>
+            chain.resolve.extensions.add('.jsx').add('.tsx')
+            chain.module
+            .rule('jsx')
+            .test(/\.jsx$/)
+            .use('babel-loader')
+            .loader('babel-loader')
+            chain.module
+              .rule('tsx')
+              .test(/\.tsx$/)
+              .use('babel-loader')
+              .loader('babel-loader')
+              .end()
+              .use('ts-loader')
+              .loader('ts-loader')
+              .options({
+                transpileOnly: true,
+                appendTsSuffixTo: ['\\.vue$'],
+                happyPackMode: false,
+              })
+          <% } %>  
+        }
+        <% } else { %>
+        // chainWebpack (/* chain */) {}
+        <% } %>
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
