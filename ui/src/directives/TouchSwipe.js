@@ -123,6 +123,13 @@ export default {
             return
           }
         }
+        // is user trying to select text?
+        // if so, then something should be reported here
+        // (previous selection, if any, was discarded when swipe started)
+        else if (window.getSelection().toString() !== '') {
+          ctx.end(evt)
+          return
+        }
         else if (absX < ctx.sensitivity[2] && absY < ctx.sensitivity[2]) {
           return
         }
