@@ -41,7 +41,7 @@ export default createComponent({
       type: Number,
       default: 57
     },
-    disableMiniAnimation: Boolean,
+    noMiniAnimation: Boolean,
 
     breakpoint: {
       type: Number,
@@ -418,7 +418,7 @@ export default createComponent({
     watch(() => $q.lang.rtl, () => { applyPosition() })
 
     watch(() => props.mini, () => {
-      if (props.disableMiniAnimation) return
+      if (props.noMiniAnimation) return
       if (props.modelValue === true) {
         animateMini()
         $layout.animate()

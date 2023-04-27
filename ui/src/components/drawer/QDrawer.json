@@ -42,14 +42,21 @@
       "category": "style"
     },
 
-    "dark": {
-      "extends": "dark"
-    },
-
     "mini-to-overlay": {
       "type": "Boolean",
       "desc": "Mini mode will expand as an overlay",
       "category": "behavior"
+    },
+
+    "no-mini-animation": {
+      "type": "Boolean",
+      "desc": "Disables animation of the drawer when toggling mini mode",
+      "category": "behavior",
+      "addedIn": "v2.11.11"
+    },
+
+    "dark": {
+      "extends": "dark"
     },
 
     "breakpoint": {
@@ -108,13 +115,6 @@
       "type": "Boolean",
       "desc": "Disables the default behavior where drawer backdrop can be swiped",
       "category": "behavior"
-    },
-
-    "disable-mini-animation": {
-      "type": "Boolean",
-      "desc": "Disables animation of the drawer when toggling mini mode",
-      "category": "behavior",
-      "addedIn": "v2.11.11"
     }
   },
 

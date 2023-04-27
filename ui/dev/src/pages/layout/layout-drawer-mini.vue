@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding">
-    <q-toggle v-model="disableMiniAnimation">
-      Disable mini animation
+    <q-toggle v-model="noMiniAnimation">
+      No mini animation
     </q-toggle>
     <q-toggle v-model="miniToOverlay">
       Mini to overlay
@@ -21,7 +21,7 @@
         :mini="miniState"
         :mini-to-overlay="miniToOverlay"
         :width="200"
-        :disable-mini-animation="disableMiniAnimation"
+        :no-mini-animation="noMiniAnimation"
         :breakpoint="0"
         bordered
       >
@@ -90,7 +90,7 @@ export default {
       miniToOverlay: true,
       width: 1030,
       contentSize: 30,
-      disableMiniAnimation: false
+      noMiniAnimation: false
     }
   },
 
