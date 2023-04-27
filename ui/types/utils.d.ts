@@ -108,8 +108,20 @@ interface Callbacks {
 }
 
 export class EventBus<T extends Callbacks = Callbacks> {
-  on<K extends keyof T>(event: K, callback: T[K], ctx?: any): this;
-  once<K extends keyof T>(event: K, callback: T[K], ctx?: any): this;
+  on<K extends keyof T>(
+    event: K,
+    callback: T[K],
+    ...ctx: unknown extends ThisParameterType<T[K]>
+      ? []
+      : [ctx: ThisParameterType<T[K]>]
+  ): this;
+  once<K extends keyof T>(
+    event: K,
+    callback: T[K],
+    ...ctx: unknown extends ThisParameterType<T[K]>
+      ? []
+      : [ctx: ThisParameterType<T[K]>]
+  ): this;
   emit<K extends keyof T>(event: K, ...args: Parameters<T[K]>): this;
   off<K extends keyof T>(event: K, callback?: T[K]): this;
 }
