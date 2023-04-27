@@ -16,6 +16,6 @@ console.log(SomeComponent)
 console.log('Notify', Notify)
 
 export default defineComponent({
-  name: 'AliasedImports'
+  name: 'RSAliasedImports'
 })
 </script>

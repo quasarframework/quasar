@@ -19,7 +19,7 @@ console.log(Mimi)
 console.log('Notify', Notify)
 
 export default defineComponent({
-  name: 'AliasedImports',
+  name: 'RSCustomWithAliasedImports',
   components: {
     CustomComponent
   }

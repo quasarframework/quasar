@@ -16,6 +16,6 @@ console.log(QBtn)
 console.log('Notify', Notify)
 
 export default defineComponent({
-  name: 'Import'
+  name: 'RSImports'
 })
 </script>

@@ -19,7 +19,7 @@ console.log(QBtn)
 console.log('Notify', Notify)
 
 export default defineComponent({
-  name: 'AliasedImports',
+  name: 'RSCustomWithImports',
   components: {
     CustomComponent
   }

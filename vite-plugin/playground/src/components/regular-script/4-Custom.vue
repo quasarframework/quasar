@@ -15,7 +15,7 @@ import { defineComponent } from 'vue'
 import CustomComponent from './custom-component.js';
 
 export default defineComponent({
-  name: 'AliasedImports',
+  name: 'RSCustom',
   components: {
     CustomComponent
   }
