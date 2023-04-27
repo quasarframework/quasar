@@ -1,5 +1,7 @@
 const exec = require('child_process').execSync
 
+const logger = require('./logger')
+
 function hasGit() {
   try {
     exec("git --version");
