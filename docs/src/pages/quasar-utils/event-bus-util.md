@@ -31,8 +31,11 @@ bus.on('some-event', (arg1, arg2, arg3) => {
 
 bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
 ```
-Events can also be typed strictly.
-```ts
+
+If using Typescript, then events can also be typed strictly:
+
+```js
+// Quasar v2.11.11+
 import { EventBus } from 'quasar'
 
 const bus = new EventBus<{
@@ -42,7 +45,6 @@ const bus = new EventBus<{
 
 bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
 ```
-
 
 ### Convenience usage
 
