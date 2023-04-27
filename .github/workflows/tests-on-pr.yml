@@ -1,4 +1,4 @@
-name: UI Tests
+name: UI tests
 
 on:
   pull_request:
@@ -90,26 +90,19 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           install: false
-          command: yarn test:component:run --browser ${{ matrix.browser }}
+          command: yarn test:component:run --browser ${{ matrix.browser }} --reporter json --reporter-option output=dist/test-results/${{ matrix.browser }}.json
           working-directory: ui
 
-      - name: Add workflow summary
-        env:
-          SUMMARY: |
-            Hi @${{ github.event.pull_request.user.login }} and thanks for the contribution! 👏
+      # Upload required artifacts to be used in tests-on-pr-report.yml
 
-            We've detected file changes inside the `ui` folder, so that triggered our Cypress component tests.
-        run: echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
-        if: always()
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.browser }}
+          path: ui/dist/test-results/${{ matrix.browser }}.json
 
-      - name: Output failure message
-        env:
-          FAILURE: ":bangbang: Seems like some of the tests are failing. Please amend 'em for someone from the team to be able to review it."
-        run: echo "$FAILURE" >> $GITHUB_STEP_SUMMARY
-        if: failure() || cancelled()
-
-      - name: Output success message
-        env:
-          SUCCESS: ':white_check_mark: Seems like all the tests passed successfully, so your PR is ready to be reviewed!'
-        run: echo "$SUCCESS" >> $GITHUB_STEP_SUMMARY
-        if: success()
+      - name: Upload GitHub Actions event data
+        uses: actions/upload-artifact@v3
+        with:
+          name: event-data
+          path: ${{ github.event_path }}
