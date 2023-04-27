@@ -1,5 +1,5 @@
 export default {
-  isoName: 'mk-MK',
+  isoName: 'mk',
   nativeName: 'Македонски',
   label: {
     clear: 'Испразни',
