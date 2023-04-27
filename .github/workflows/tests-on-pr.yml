@@ -31,10 +31,10 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: npm i
+        run: yarn install --focus
 
       - name: Build the package
-        run: npm run build
+        run: yarn build
 
   tests:
     # If the build pipeline doesn't succeed, we don't need to run tests at all
@@ -45,6 +45,10 @@ jobs:
       actions: read # to correctly identify workflow run (cypress-io/github-action)
 
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ui
 
     strategy:
       fail-fast: false
@@ -62,13 +66,14 @@ jobs:
           node-version: 14
 
       - name: Install dependencies
-        run: cd ./ui && npm i
+        run: yarn install --focus
 
       - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v5
         with:
+          install: false
           browser: ${{ matrix.browser }}
-          command: npm run test:component:ci --record --parallel
+          command: yarn test:component:ci --record --parallel
           working-directory: ui
           tag: ${{ github.event.name }} # Tag will be either "opened" or "synchronize"
           group: Tests in ${{ matrix.browser }} browser
