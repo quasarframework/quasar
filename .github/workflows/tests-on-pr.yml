@@ -20,21 +20,30 @@ jobs:
       run:
         working-directory: ui
 
+    # Check if the build cache exists, and if it does, do nothing else.
+    # Otherwise, run the build and cache it.
     name: Build the UI package
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup node
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --focus
 
       - name: Build the package
         run: yarn build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-build
+          path: ui/dist
 
   tests:
     # If the build pipeline doesn't succeed, we don't need to run tests at all
@@ -60,20 +69,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup node
+      - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 14
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --focus
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ui-build
+          path: ui/dist
 
       - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v5
         with:
           install: false
           browser: ${{ matrix.browser }}
-          command: yarn test:component:ci --record --parallel
+          command: yarn test:component:run --record --parallel
           working-directory: ui
           tag: ${{ github.event.name }} # Tag will be either "opened" or "synchronize"
           group: Tests in ${{ matrix.browser }} browser
