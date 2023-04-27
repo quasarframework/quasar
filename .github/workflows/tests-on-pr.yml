@@ -6,8 +6,10 @@ on:
     branches:
       - 'dev'
     paths:
-      - 'ui/**.js'
-      - '!.github/**'
+      - '.github/workflows/tests-on-pr.yml'
+      - 'ui/**/*.js'
+      - 'ui/package.json'
+      - 'ui/dev/package.json'
 
 jobs:
   build:
