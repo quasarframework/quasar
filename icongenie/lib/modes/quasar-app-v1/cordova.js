@@ -1,3 +1,4 @@
+
 const iosIconRegex = /icon-(\d+\.?\d?)@?(\d+)?x?\.png/
 
 function getAndroidIcon (entry) {
@@ -70,7 +71,7 @@ function getIosSplashscreen (entry) {
   }
 }
 
-module.exports = [
+export default [
   /***************
    *** Android ***
    ***************/

@@ -1,17 +1,18 @@
-const { existsSync } = require('fs')
-const { green, red, underline } = require('kolorist')
 
-const { appDir, resolveDir } = require('../utils/app-paths')
-const { warn } = require('../utils/logger')
+import { existsSync } from 'node:fs'
+import { green, red, underline } from 'kolorist'
 
-const modes = require('../modes')
-const { verifyMount } = require('../mount')
-const getAssetsFiles = require('../utils/get-assets-files')
-const getPngSize = require('../utils/get-png-size')
-const parseArgv = require('../utils/parse-argv')
-const mergeObjects = require('../utils/merge-objects')
-const getProfileContent = require('../utils/get-profile-content')
-const validateProfileObject = require('../utils/validate-profile-object')
+import { appDir, resolveDir } from '../utils/app-paths.js'
+import { warn } from '../utils/logger.js'
+
+import { modes } from '../modes/index.js'
+import { verifyMount } from '../mount/index.js'
+import { getAssetsFiles } from '../utils/get-assets-files.js'
+import { getPngSize } from '../utils/get-png-size.js'
+import { parseArgv } from '../utils/parse-argv.js'
+import { mergeObjects } from '../utils/merge-objects.js'
+import { getProfileContent } from '../utils/get-profile-content.js'
+import { validateProfileObject } from '../utils/validate-profile-object.js'
 
 function getFileStatus (file) {
   if (!existsSync(file.absoluteName)) {
@@ -109,7 +110,7 @@ function verifyProfile (profile) {
   })
 }
 
-module.exports = function verify (argv) {
+export function verify (argv) {
   const profile = {
     params: {},
     assets: []

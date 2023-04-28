@@ -1,6 +1,7 @@
-const getSquareIcon = require('../utils/get-square-icon')
 
-module.exports = async function (file, opts, done) {
+import { getSquareIcon } from '../utils/get-square-icon.js'
+
+export default async function (file, opts, done) {
   const size = Math.min(file.width, file.height)
 
   const img = opts.background

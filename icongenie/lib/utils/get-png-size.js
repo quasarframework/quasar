@@ -1,5 +1,6 @@
-const readChunk = require('read-chunk')
-const isPng = require('is-png')
+
+import { readChunkSync } from 'read-chunk'
+import isPng from 'is-png'
 
 // "fried" png's - http://www.jongware.com/pngdefry.html
 const friedChunk = 'CgBI'
@@ -15,8 +16,8 @@ function getSize (buffer) {
   }
 }
 
-module.exports = function getPngSize (file) {
-  const buffer = readChunk.sync(file, 0, 40)
+export function getPngSize (file) {
+  const buffer = readChunkSync(file, { startPosition: 0, length: 40 })
 
   return isPng(buffer) !== true
     ? { width: 0, height: 0}

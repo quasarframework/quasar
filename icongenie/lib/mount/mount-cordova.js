@@ -1,11 +1,12 @@
-const { readFileSync, writeFileSync, existsSync } = require('fs')
-const elementTree = require('elementtree')
-const { relative } = require('path')
-const { red, green } = require('kolorist')
 
-const { resolveDir } = require('../utils/app-paths')
-const { log, warn } = require('../utils/logger')
-const spawnSync = require('../utils/spawn-sync')
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import elementTree from 'elementtree'
+import { relative } from 'node:path'
+import { red, green } from 'kolorist'
+
+import { resolveDir } from '../utils/app-paths.js'
+import { log, warn } from '../utils/logger.js'
+import { spawnSync } from '../utils/spawn-sync.js'
 
 const cordovaConfigXml = resolveDir('src-cordova/config.xml')
 const srcCordovaDir = resolveDir('src-cordova')
@@ -24,7 +25,7 @@ function hasNode (root, tag, selector) {
   return root.find(`${tag}${selector}`)
 }
 
-function isCordovaFile (file) {
+export function isCordovaFile (file) {
   return platformList.includes(file.platform) &&
     generatorList.includes(file.generator)
 }
@@ -134,7 +135,9 @@ function installSplashscreenPlugin () {
     return
   }
 
-  const pkg = require(pkgPath)
+  const pkg = JSON.parse(
+    readFileSync(pkgPath, 'utf8')
+  )
 
   if (
     hasDeepProp(pkg, 'dependencies', 'cordova-plugin-splashscreen') ||
@@ -157,7 +160,7 @@ function installSplashscreenPlugin () {
   console.log()
 }
 
-module.exports.mountCordova = function mountCordova (files) {
+export function mountCordova (files) {
   if (existsSync(cordovaConfigXml)) {
     const cordovaFiles = getCordovaFiles(files)
 
@@ -173,9 +176,7 @@ module.exports.mountCordova = function mountCordova (files) {
   }
 }
 
-module.exports.isCordovaFile = isCordovaFile
-
-module.exports.verifyCordova = function verifyCordova (file) {
+export function verifyCordova (file) {
   if (isCordovaFile(file) && existsSync(cordovaConfigXml)) {
     const doc = elementTree.parse(readFileSync(cordovaConfigXml, 'utf-8'))
     const isAndroid = file.platform === 'cordova-android'

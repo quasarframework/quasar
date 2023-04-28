@@ -1,4 +1,5 @@
-const { statSync } = require('fs')
+
+import { statSync } from 'node:fs'
 
 const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
 
@@ -13,6 +14,6 @@ function humanStorageSize (bytes) {
   return `${bytes.toFixed(1)}${units[u]}`
 }
 
-module.exports = function getFileSize (filename) {
+export function getFileSize (filename) {
   return humanStorageSize(statSync(filename).size)
 }

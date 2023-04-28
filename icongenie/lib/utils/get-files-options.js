@@ -1,6 +1,7 @@
-const sharp = require('sharp')
 
-const { getPngCompression, getIcoCompression } = require('./get-compression')
+import sharp from 'sharp'
+
+import { getPngCompression, getIcoCompression } from './get-compression.js'
 
 function getRgbColor (color) {
   let hex = color.replace(/^#/, '')
@@ -19,7 +20,7 @@ function getRgbColor (color) {
   }
 }
 
-module.exports = async function getFilesOptions ({
+export async function getFilesOptions ({
   quality,
   padding,
 

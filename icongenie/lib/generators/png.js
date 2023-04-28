@@ -1,6 +1,7 @@
-const getSquareIcon = require('../utils/get-square-icon')
 
-module.exports = function (file, opts, done) {
+import { getSquareIcon } from '../utils/get-square-icon.js'
+
+export default function (file, opts, done) {
   const img = getSquareIcon({
     file,
     icon: opts.icon,

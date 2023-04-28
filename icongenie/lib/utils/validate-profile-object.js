@@ -1,8 +1,12 @@
-const Joi = require('@hapi/joi')
-const { red } = require('kolorist')
 
-const generatorsList = Object.keys(require('../generators'))
-const modesList = [ 'all' ].concat(Object.keys(require('../modes')))
+import Joi from '@hapi/joi'
+import { red } from 'kolorist'
+
+import { generators } from '../generators/index.js'
+import { modes } from '../modes/index.js'
+
+const generatorsList = Object.keys(generators)
+const modesList = [ 'all' ].concat(Object.keys(modes))
 const platformsList = [ 'cordova-ios', 'cordova-android' ]
 
 const baseParamsSchema = {
@@ -74,7 +78,7 @@ const getParamsSchema = (isGeneratingProfileFile) => {
   }
 }
 
-module.exports = function validateProfileObject (profileObject, generatingProfileFile = false) {
+export function validateProfileObject (profileObject, generatingProfileFile = false) {
   const profileSchema = Joi.object({
     params: getParamsSchema(generatingProfileFile),
     assets: assetsSchema

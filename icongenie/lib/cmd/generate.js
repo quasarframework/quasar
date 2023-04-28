@@ -1,5 +1,6 @@
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
+
 const processArgv = process.argv.slice(2)
 
 const argv = parseArgs(processArgv, {
@@ -30,12 +31,16 @@ if (processArgv.includes('--skip-trim') === false) {
   delete argv['skip-trim']
 }
 
-const { green } = require('kolorist')
+import { green } from 'kolorist'
 
 if (argv.help) {
-  const modes = Object.keys(require('../modes')).join('|')
-  const generators = Object.keys(require('../generators')).join('|')
-  const defaultParams = require('../utils/default-params')
+  const { defaultParams } = await import('../utils/default-params.js')
+
+  const { modes } = await import('../modes/index.js')
+  const modesList = Object.keys(modes).join('|')
+
+  const { generators } = await import('../generators/index.js')
+  const generatorsList = Object.keys(generators).join('|')
 
   console.log(`
   Description
@@ -86,13 +91,13 @@ if (argv.help) {
 
     --mode, -m            For which Quasar mode(s) to generate the assets;
                           Default: all
-                            [all|${modes}]
+                            [all|${modesList}]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 
     --filter, -f          Filter the available generators; when used, it can
                           generate only one type of asset instead of all
-                            [${generators}]
+                            [${generatorsList}]
 
     --quality             Quality of the files [1 - 12] (default: ${defaultParams.quality})
                             - higher quality --> bigger filesize & slower to create
@@ -157,11 +162,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-const parseArgv = require('../utils/parse-argv')
-const generate = require('../runner/generate')
-const getProfileFiles = require('../utils/get-profile-files')
-const filterArgvParams = require('../utils/filter-argv-params')
-const { log } = require('../utils/logger')
+import { generate } from '../runner/generate.js'
+import { parseArgv } from '../utils/parse-argv.js'
+import { getProfileFiles } from '../utils/get-profile-files.js'
+import { filterArgvParams } from '../utils/filter-argv-params.js'
+import { log } from '../utils/logger.js'
 
 async function runProfiles (params, profileFiles) {
   for (let i = 0; i < profileFiles.length; i++) {

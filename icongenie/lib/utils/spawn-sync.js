@@ -1,8 +1,9 @@
-const crossSpawn = require('cross-spawn')
 
-const { log, warn } = require('./logger')
+import crossSpawn from 'cross-spawn'
 
-module.exports = function spawnSync (cmd, params, opts, onFail) {
+import { log, warn } from './logger.js'
+
+export function spawnSync (cmd, params, opts, onFail) {
   log(`[sync] Running "${cmd} ${params.join(' ')}"\n`)
 
   const runner = crossSpawn.sync(

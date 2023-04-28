@@ -1,6 +1,7 @@
-const { log } = require('../utils/logger')
 
-module.exports.mountTag = function mountTag (files) {
+import { log } from '../utils/logger.js'
+
+export function mountTag (files) {
   const tagFiles = files.filter(file => file.tag)
 
   if (tagFiles.length === 0) {

@@ -1,8 +1,9 @@
-const { basename } = require('path')
-const glob = require('fast-glob')
-const { lstatSync } = require('fs')
 
-const { warn } = require('../utils/logger')
+import { basename } from 'node:path'
+import glob from 'fast-glob'
+import { lstatSync } from 'node:fs'
+
+import { warn } from '../utils/logger.js'
 
 function parseFolder (folder) {
   const profileFiles = glob.sync(`icongenie-*.json`, {
@@ -34,7 +35,7 @@ function parseFolder (folder) {
   return profileFiles
 }
 
-module.exports = function getProfileFiles (profileParam) {
+export function getProfileFiles (profileParam) {
   return lstatSync(profileParam).isDirectory()
     ? parseFolder(profileParam)
     : [ profileParam ]

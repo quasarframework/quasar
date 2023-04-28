@@ -3,12 +3,15 @@
   "version": "2.5.4",
   "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
   "bin": {
-    "icongenie": "./bin/icongenie"
+    "icongenie": "./bin/icongenie.js"
   },
-  "scripts": {},
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quasarframework/quasar.git"
+  },
+  "engines": {
+    "node": "^24 || ^22 || ^20 || ^18 || ^16 || ^14.19"
   },
   "keywords": [
     "vuejs",
@@ -39,23 +42,23 @@
     "@hapi/joi": "^17.1.1",
     "cross-spawn": "^7.0.2",
     "elementtree": "^0.1.7",
-    "fast-glob": "^3.2.11",
-    "fs-extra": "^10.0.1",
-    "imagemin": "^7.0.1",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^11.1.1",
+    "imagemin": "^8.0.1",
     "imagemin-pngquant": "^9.0.2",
-    "is-png": "^2.0.0",
-    "kolorist": "^1.5.1",
-    "minimist": "^1.2.6",
+    "is-png": "^3.0.1",
+    "kolorist": "^1.8.0",
+    "minimist": "^1.2.8",
     "png2icons": "^2.0.1",
     "potrace": "^2.1.5",
-    "read-chunk": "^3.2.0",
+    "read-chunk": "^4.0.3",
     "sharp": "^0.30.3",
-    "svgo": "^2.8.0",
+    "svgo": "^3.0.2",
     "untildify": "^4.0.0",
-    "update-notifier": "^5.1.0"
+    "update-notifier": "^6.0.2"
   },
   "resolutions": {
-    "minimist": "^1.2.6"
+    "minimist": "^1.2.8"
   },
   "publishConfig": {
     "access": "public"

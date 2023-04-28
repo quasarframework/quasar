@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-require('../lib/utils/node-version-check')
+console.log('NEW icongenie')
 
-const updateNotifier = require('update-notifier')
-const pkg = require('../package.json')
+import '../lib/utils/node-version-check.js'
 
-updateNotifier({ pkg }).notify()
+import updateNotifier from 'update-notifier'
+import { packageJson } from '../lib/utils/package-json.js'
+
+updateNotifier({ pkg: packageJson }).notify()
 
 const commands = [
   'generate',
@@ -26,17 +28,17 @@ if (cmd && cmd.length === 1) {
   cmd = mapToCmd[cmd]
 }
 
+import { warn } from '../lib/utils/logger.js'
+
 if (cmd) {
   if (commands.includes(cmd)) {
     process.argv.splice(2, 1)
   }
   else {
     if (cmd === '-v' || cmd === '--version') {
-      console.log(require('../package.json').version)
+      console.log(packageJson.version)
       process.exit(0)
     }
-
-    const { warn } = require('../lib/utils/logger')
 
     if (cmd === '-h' || cmd === '--help') {
       cmd = 'help'
@@ -58,4 +60,4 @@ else {
 }
 
 console.log()
-require(`../lib/cmd/${cmd}`)
+import(`../lib/cmd/${cmd}.js`)

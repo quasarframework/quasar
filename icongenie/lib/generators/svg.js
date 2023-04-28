@@ -1,10 +1,11 @@
-const { optimize } = require('svgo')
-const { writeFile } = require('fs')
-const { posterize } = require('potrace')
 
-const getSquareIcon = require('../utils/get-square-icon')
+import { optimize } from 'svgo'
+import { writeFile } from 'node:fs'
+import { posterize } from 'potrace'
 
-module.exports = async function (file, opts, done) {
+import { getSquareIcon } from '../utils/get-square-icon.js'
+
+export default async function (file, opts, done) {
   const img = getSquareIcon({
     file,
     icon: opts.icon,

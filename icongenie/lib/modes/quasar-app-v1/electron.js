@@ -1,4 +1,5 @@
-module.exports = [
+
+export default [
   {
     // macos (embedded icons)
     generator: 'icns',

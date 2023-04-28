@@ -1,4 +1,5 @@
-const spaEntries = require('./spa')
+
+import spaEntries from './spa.js'
 
 /* def: width, height, pixel-ratio */
 function getAppleLaunch (def) {
@@ -15,7 +16,7 @@ function getAppleLaunch (def) {
   }
 }
 
-module.exports = [
+export default [
   ...spaEntries,
 
   {

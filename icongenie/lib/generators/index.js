@@ -1,7 +1,14 @@
-module.exports = {
-  png: require('./png'),
-  ico: require('./ico'),
-  icns: require('./icns'),
-  splashscreen: require('./splashscreen'),
-  svg: require('./svg')
+
+import png from './png.js'
+import ico from './ico.js'
+import icns from './icns.js'
+import splashscreen from './splashscreen.js'
+import svg from './svg.js'
+
+export const generators = {
+  png,
+  ico,
+  icns,
+  splashscreen,
+  svg
 }

@@ -1,4 +1,5 @@
-module.exports = [
+
+export default [
   {
     generator: 'png',
     name: 'icon-{size}x{size}.png',

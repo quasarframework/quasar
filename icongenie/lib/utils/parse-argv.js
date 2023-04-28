@@ -1,11 +1,16 @@
-const { existsSync, lstatSync } = require('fs')
-const { resolve, normalize, join, isAbsolute } = require('path')
-const untildify = require('untildify')
 
-const getPngSize = require('./get-png-size')
-const { warn } = require('./logger')
-const generators = require('../generators')
-const defaultParams = require('./default-params')
+import { existsSync, lstatSync } from 'node:fs'
+import { resolve, normalize, join, isAbsolute } from 'node:path'
+import untildify from 'untildify'
+
+import { getPngSize } from './get-png-size.js'
+import { warn } from './logger.js'
+import { generators } from '../generators/index.js'
+import { defaultParams } from './default-params.js'
+import { appDir } from './app-paths.js'
+import { modes } from '../modes/index.js'
+
+const modesList = Object.keys(modes)
 
 function die (msg) {
   warn(msg)
@@ -35,21 +40,19 @@ function profile (value, argv) {
 }
 
 function mode (value, argv) {
-  const possibleValues = Object.keys(require('../modes'))
-
   if (!value) {
-    argv.mode = possibleValues
+    argv.mode = modesList
     return
   }
 
   const list = value.split(',')
 
   if (list.includes('all')) {
-    argv.mode = possibleValues
+    argv.mode = modesList
     return
   }
 
-  if (list.some(mode => !possibleValues.includes(mode))) {
+  if (list.some(mode => !modesList.includes(mode))) {
     die(`Invalid mode requested: "${value}"`)
   }
 
@@ -61,14 +64,12 @@ function include (value, argv) {
     return
   }
 
-  const possibleValues = Object.keys(require('../modes'))
-
   if (value.includes('all')) {
-    argv.include = possibleValues
+    argv.include = modesList
     return
   }
 
-  if (value.some(mode => !possibleValues.includes(mode))) {
+  if (value.some(mode => !modesList.includes(mode))) {
     die(`Invalid include requested: "${value}"`)
   }
 }
@@ -139,7 +140,6 @@ function parseIconPath (value) {
     return icon
   }
 
-  const { appDir } = require('./app-paths')
   icon = resolve(appDir, __path)
 
   return existsSync(icon) ? icon : null
@@ -148,7 +148,9 @@ function parseIconPath (value) {
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
-    argv.icon = normalize(join(__dirname, '../../samples/icongenie-icon.png'))
+    argv.icon = normalize(
+      new URL('../../samples/icongenie-icon.png', import.meta.url).pathname
+    )
     return
   }
 
@@ -173,8 +175,6 @@ function background (value, argv) {
   if (!value) {
     return
   }
-
-  const { appDir } = require('./app-paths')
 
   argv.background = resolve(appDir, untildify(value))
 
@@ -236,8 +236,6 @@ function output (value) {
 }
 
 function assets (value, argv) {
-  const possibleValues = Object.keys(require('../modes'))
-
   if (!value) {
     argv.assets = []
     return
@@ -246,11 +244,11 @@ function assets (value, argv) {
   const list = value.split(',')
 
   if (list.includes('all')) {
-    argv.assets = possibleValues
+    argv.assets = modesList
     return
   }
 
-  if (list.some(mode => !possibleValues.includes(mode))) {
+  if (list.some(mode => !modesList.includes(mode))) {
     die(`Invalid assets requested: "${value}"`)
   }
 
@@ -278,7 +276,7 @@ const parsers = {
   assets // profile cmd
 }
 
-module.exports = function (argv, list) {
+export function parseArgv (argv, list) {
   list.forEach(name => {
     const fn = parsers[name]
     if (fn === void 0) {

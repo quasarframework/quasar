@@ -1,4 +1,5 @@
-module.exports = function mergeObjects () {
+
+export function mergeObjects () {
   const base = {}
 
   for (let i = 0; i < arguments.length; i++) {

@@ -1,21 +1,22 @@
-const { existsSync } = require('fs')
-const { ensureFileSync } = require('fs-extra')
-const { green, gray } = require('kolorist')
 
-const { appDir, resolveDir } = require('../utils/app-paths')
-const { log, warn } = require('../utils/logger')
+import { existsSync } from 'node:fs'
+import { ensureFileSync } from 'fs-extra'
+import { green, gray } from 'kolorist'
 
-const modes = require('../modes')
-const generators = require('../generators')
-const { mount } = require('../mount')
+import { appDir, resolveDir } from '../utils/app-paths.js'
+import { log, warn } from '../utils/logger.js'
 
-const getAssetsFiles = require('../utils/get-assets-files')
-const getFilesOptions = require('../utils/get-files-options')
-const parseArgv = require('../utils/parse-argv')
-const mergeObjects = require('../utils/merge-objects')
-const getProfileContent = require('../utils/get-profile-content')
-const getFileSize = require('../utils/get-file-size')
-const validateProfileObject = require('../utils/validate-profile-object')
+import { modes } from '../modes/index.js'
+import { generators } from '../generators/index.js'
+import { mount } from '../mount/index.js'
+
+import { getAssetsFiles } from '../utils/get-assets-files.js'
+import { getFilesOptions } from '../utils/get-files-options.js'
+import { parseArgv } from '../utils/parse-argv.js'
+import { mergeObjects } from '../utils/merge-objects.js'
+import { getProfileContent } from '../utils/get-profile-content.js'
+import { getFileSize } from '../utils/get-file-size.js'
+import { validateProfileObject } from '../utils/validate-profile-object.js'
 
 function printBanner (assetsOf, params) {
   console.log(` Generating files with the following options:
@@ -121,7 +122,7 @@ async function generateFromProfile (profile) {
     .then(() => uniqueFiles.length)
 }
 
-module.exports = function generate (argv) {
+export function generate (argv) {
   const profile = {
     params: {},
     assets: []

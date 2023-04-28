@@ -1,4 +1,5 @@
-module.exports = function filterArgvParams (argv) {
+
+export function filterArgvParams (argv) {
   const params = {}
 
   Object.keys(argv).forEach(key => {

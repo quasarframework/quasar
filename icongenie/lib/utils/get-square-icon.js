@@ -1,6 +1,7 @@
-const { warn } = require('../utils/logger')
 
-module.exports = function getSquareIcon ({
+import { warn } from '../utils/logger.js'
+
+export function getSquareIcon ({
   file,
   icon,
   size,
