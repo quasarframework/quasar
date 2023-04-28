@@ -7,25 +7,25 @@ function getAndroidIcons (entries) {
   entries.forEach(entry => {
     const icon = {
       generator: 'png',
-      folder: `src-capacitor/android/app/src/main/res/mipmap-${entry[0]}`
+      folder: `src-capacitor/android/app/src/main/res/mipmap-${ entry[ 0 ] }`
     }
 
     list.push({
       ...icon,
       name: 'ic_launcher_foreground.png',
-      sizes: [ entry[2] ]
+      sizes: [ entry[ 2 ] ]
     })
 
     list.push({
       ...icon,
       name: 'ic_launcher_round.png',
-      sizes: [ entry[1] ]
+      sizes: [ entry[ 1 ] ]
     })
 
     list.push({
       ...icon,
       name: 'ic_launcher.png',
-      sizes: [ entry[1] ]
+      sizes: [ entry[ 1 ] ]
     })
   })
 
@@ -43,17 +43,17 @@ function getAndroidSplashscreen (entries) {
 
     list.push({
       ...icon,
-      folder: `src-capacitor/android/app/src/main/res/drawable-land-${entry[0]}`,
+      folder: `src-capacitor/android/app/src/main/res/drawable-land-${ entry[ 0 ] }`,
       sizes: [
-        [ entry[1], entry[2] ]
+        [ entry[ 1 ], entry[ 2 ] ]
       ]
     })
 
     list.push({
       ...icon,
-      folder: `src-capacitor/android/app/src/main/res/drawable-port-${entry[0]}`,
+      folder: `src-capacitor/android/app/src/main/res/drawable-port-${ entry[ 0 ] }`,
       sizes: [
-        [ entry[2], entry[1] ]
+        [ entry[ 2 ], entry[ 1 ] ]
       ]
     })
   })
@@ -62,7 +62,7 @@ function getAndroidSplashscreen (entries) {
 }
 
 function getIosIcon (name) {
-  const [,size,,multiplier] = name.match(iosIconRegex)
+  const [ ,size,,multiplier ] = name.match(iosIconRegex)
 
   return {
     generator: 'png',

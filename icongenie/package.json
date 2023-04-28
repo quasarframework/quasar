@@ -6,6 +6,9 @@
     "icongenie": "./bin/icongenie.js"
   },
   "type": "module",
+  "scripts": {
+    "lint": "eslint --ext .js ./ --fix"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quasarframework/quasar.git"
@@ -56,6 +59,10 @@
     "svgo": "^3.0.2",
     "untildify": "^4.0.0",
     "update-notifier": "^6.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-plugin-n": "^15.6.1"
   },
   "resolutions": {
     "minimist": "^1.2.8"

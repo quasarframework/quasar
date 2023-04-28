@@ -7,7 +7,7 @@ function getRgbColor (color) {
   let hex = color.replace(/^#/, '')
 
   if (hex.length === 3) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
+    hex = hex[ 0 ] + hex[ 0 ] + hex[ 1 ] + hex[ 1 ] + hex[ 2 ] + hex[ 2 ]
   }
 
   const num = parseInt(hex, 16)
@@ -52,8 +52,8 @@ export async function getFilesOptions ({
   const computedPadding = padding
     ? (
       padding.length === 1
-        ? { horiz: padding[0], vert: padding[0] }
-        : { horiz: padding[0], vert: padding[1] }
+        ? { horiz: padding[ 0 ], vert: padding[ 0 ] }
+        : { horiz: padding[ 0 ], vert: padding[ 1 ] }
     )
     : { horiz: 0, vert: 0 }
 

@@ -15,19 +15,19 @@ function parseFolder (folder) {
   const numberOfFiles = profileFiles.length
 
   if (numberOfFiles === 0) {
-    warn(`No icongenie-*.json files detected in "${folder}" folder!`)
+    warn(`No icongenie-*.json files detected in "${ folder }" folder!`)
     process.exit(1)
   }
 
-  console.log(` Detected ${numberOfFiles} JSON profile file(s):\n`)
-  console.log(` * ${folder}`)
+  console.log(` Detected ${ numberOfFiles } JSON profile file(s):\n`)
+  console.log(` * ${ folder }`)
 
   profileFiles.forEach((file, index) => {
     const prefix = index + 1 < profileFiles.length
       ? `├──`
       : `└──`
 
-    console.log(` ${prefix} ${basename(file)}`)
+    console.log(` ${ prefix } ${ basename(file) }`)
   })
 
   console.log()

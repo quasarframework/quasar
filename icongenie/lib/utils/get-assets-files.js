@@ -18,7 +18,7 @@ export function getAssetsFiles (assets) {
           : [ size, size ]
 
         const replacer = isArray
-          ? `${width}x${height}`
+          ? `${ width }x${ height }`
           : width
 
         list.push({
@@ -42,7 +42,7 @@ export function getAssetsFiles (assets) {
     }
 
     if (tag) {
-      file.tag = tag.replace(tagRegex, (_, p) => file[p === 'size' ? 'width' : p])
+      file.tag = tag.replace(tagRegex, (_, p) => file[ p === 'size' ? 'width' : p ])
     }
 
     return file

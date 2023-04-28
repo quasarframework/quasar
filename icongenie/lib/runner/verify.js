@@ -27,7 +27,7 @@ function getFileStatus (file) {
     }
 
     if (width !== file.width || height !== file.height) {
-      return red(`ERROR: incorrect resolution! ${width}x${height}`)
+      return red(`ERROR: incorrect resolution! ${ width }x${ height }`)
     }
   }
 
@@ -35,10 +35,10 @@ function getFileStatus (file) {
 }
 
 function printMode (modeName, files) {
-  console.log(` ${green(underline(`Mode ${modeName.toUpperCase()}`))} \n`)
+  console.log(` ${ green(underline(`Mode ${ modeName.toUpperCase() }`)) } \n`)
 
   files.forEach(file => {
-    console.log(` ${getFileStatus(file)} - ${(file.generator + ':').padEnd(13, ' ')} ${file.relativeName} ${verifyMount(file)}`)
+    console.log(` ${ getFileStatus(file) } - ${ (file.generator + ':').padEnd(13, ' ') } ${ file.relativeName } ${ verifyMount(file) }`)
   })
 
   console.log()
@@ -47,26 +47,26 @@ function printMode (modeName, files) {
 function printBanner (assetsOf, params) {
   console.log(` VERIFYING with the following options:
  ================
- Root folder..... ${green(appDir)}
- Assets of....... ${green(assetsOf)}
- Assets filter... ${!params.filter ? 'none' : green(params.filter)}
+ Root folder..... ${ green(appDir) }
+ Assets of....... ${ green(assetsOf) }
+ Assets filter... ${ !params.filter ? 'none' : green(params.filter) }
  ================
 `)
 }
 
 function parseAssets (assets, include) {
-  let filesMap = []
+  const filesMap = []
   let assetsOf = []
 
   if (include) {
     const embeddedModes = include.filter(
-      mode => existsSync(resolveDir(modes[mode].folder))
+      mode => existsSync(resolveDir(modes[ mode ].folder))
     )
 
     embeddedModes.forEach(mode => {
       filesMap.push({
         name: mode,
-        files: getAssetsFiles(modes[mode].assets)
+        files: getAssetsFiles(modes[ mode ].assets)
       })
     })
 

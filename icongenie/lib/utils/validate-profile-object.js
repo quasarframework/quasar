@@ -62,7 +62,7 @@ const assetsSchema = Joi.array().items({
  * When generating the icon, we're expecting a hash on the color (automatically added to user input via the CLI)
  */
 const getColorParamsSchema = (requireHash) => {
-  const colorPattern = Joi.string().pattern(new RegExp(`^${requireHash ? '#' : ''}[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
+  const colorPattern = Joi.string().pattern(new RegExp(`^${ requireHash ? '#' : '' }[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
   return {
     themeColor: colorPattern,
     pngColor: colorPattern,
@@ -86,8 +86,8 @@ export function validateProfileObject (profileObject, generatingProfileFile = fa
 
   const { error } = profileSchema.validate(profileObject)
   if (error) {
-    console.error(` ${red('ERROR')}: Input parameters are not valid. Please correct them.`)
-    console.error(` ${error}`)
+    console.error(` ${ red('ERROR') }: Input parameters are not valid. Please correct them.`)
+    console.error(` ${ error }`)
     console.log()
     process.exit(1)
   }

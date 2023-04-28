@@ -16,7 +16,7 @@ const commands = [
   'help'
 ]
 
-let cmd = process.argv[2]
+let cmd = process.argv[ 2 ]
 
 if (cmd && cmd.length === 1) {
   const mapToCmd = {
@@ -25,7 +25,7 @@ if (cmd && cmd.length === 1) {
     p: 'profile',
     h: 'help'
   }
-  cmd = mapToCmd[cmd]
+  cmd = mapToCmd[ cmd ]
 }
 
 import { warn } from '../lib/utils/logger.js'
@@ -50,7 +50,7 @@ if (cmd) {
     }
     else {
       warn()
-      warn(`Unknown command specified: "${cmd}"`)
+      warn(`Unknown command specified: "${ cmd }"`)
       cmd = 'help'
     }
   }
@@ -60,4 +60,4 @@ else {
 }
 
 console.log()
-import(`../lib/cmd/${cmd}.js`)
+import(`../lib/cmd/${ cmd }.js`)

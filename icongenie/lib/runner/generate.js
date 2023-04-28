@@ -21,18 +21,18 @@ import { validateProfileObject } from '../utils/validate-profile-object.js'
 function printBanner (assetsOf, params) {
   console.log(` Generating files with the following options:
  ==========================
- Quasar project folder..... ${green(appDir)}
- ${green(`Quality level............. ${params.quality}/12`)}
- Icon source file.......... ${green(params.icon)}
- Icon trimming............. ${params.skipTrim ? 'no' : green('yes')}
- Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
- Background source file.... ${params.background ? green(params.background) : 'none'}
- Assets of................. ${green(assetsOf)}
- Generator filter.......... ${params.filter ? green(params.filter) : 'none'}
- Svg color................. ${green(params.svgColor)}
- Png color................. ${green(params.pngColor)}
- Splashscreen color........ ${green(params.splashscreenColor)}
- Splashscreen icon ratio... ${green(params.splashscreenIconRatio)}%
+ Quasar project folder..... ${ green(appDir) }
+ ${ green(`Quality level............. ${ params.quality }/12`) }
+ Icon source file.......... ${ green(params.icon) }
+ Icon trimming............. ${ params.skipTrim ? 'no' : green('yes') }
+ Icon padding.............. ${ green(`horizontal: ${ params.padding[ 0 ] }; vertical: ${ params.padding[ 1 ] }`) }
+ Background source file.... ${ params.background ? green(params.background) : 'none' }
+ Assets of................. ${ green(assetsOf) }
+ Generator filter.......... ${ params.filter ? green(params.filter) : 'none' }
+ Svg color................. ${ green(params.svgColor) }
+ Png color................. ${ green(params.pngColor) }
+ Splashscreen color........ ${ green(params.splashscreenColor) }
+ Splashscreen icon ratio... ${ green(params.splashscreenIconRatio) }%
  ==========================
 `)
 }
@@ -43,12 +43,12 @@ function parseAssets (assets, include) {
 
   if (include) {
     const embeddedModes = include.filter(
-      mode => existsSync(resolveDir(modes[mode].folder))
+      mode => existsSync(resolveDir(modes[ mode ].folder))
     )
 
     embeddedModes.forEach(mode => {
       files = files.concat(
-        getAssetsFiles(modes[mode].assets)
+        getAssetsFiles(modes[ mode ].assets)
       )
     })
 
@@ -71,8 +71,8 @@ function getUniqueFiles (files) {
   const uniqueFiles = []
 
   files.forEach(file => {
-    if (filePaths[file.absoluteName] === void 0) {
-      filePaths[file.absoluteName] = true
+    if (filePaths[ file.absoluteName ] === void 0) {
+      filePaths[ file.absoluteName ] = true
       uniqueFiles.push(file)
     }
   })
@@ -86,11 +86,11 @@ function generateFile (file, opts) {
 
   return new Promise(resolve => {
     // use the appropriate generator to handle the file creation
-    generators[file.generator](file, opts, () => {
-      const size = `(${getFileSize(file.absoluteName)})`
+    generators[ file.generator ](file, opts, () => {
+      const size = `(${ getFileSize(file.absoluteName) })`
       const type = (file.generator + ':').padEnd(13, ' ')
 
-      log(`Generated ${type} ${green(file.relativeName)} ${gray(size)}`)
+      log(`Generated ${ type } ${ green(file.relativeName) } ${ gray(size) }`)
       resolve()
     })
   })
@@ -167,6 +167,6 @@ export function generate (argv) {
 
   return generateFromProfile(profile)
     .then(numberOfFiles => {
-      console.log(`\n Task done - generated ${numberOfFiles} file(s)!\n`)
+      console.log(`\n Task done - generated ${ numberOfFiles } file(s)!\n`)
     })
 }

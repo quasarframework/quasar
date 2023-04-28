@@ -20,7 +20,7 @@ function getAssets (assets) {
   let list = []
 
   assets.forEach(name => {
-    list = list.concat(modes[name].assets)
+    list = list.concat(modes[ name ].assets)
   })
 
   return list
@@ -38,7 +38,7 @@ function getTargetFilepath (output) {
     ? ''
     : '.json'
 
-  const filename = `${prefix}${name}${suffix}`
+  const filename = `${ prefix }${ name }${ suffix }`
   return resolve(process.cwd(), folder || '', filename)
 }
 
@@ -66,5 +66,5 @@ export function profile ({ output, assets, ...params }) {
   writeFileSync(targetFile, JSON.stringify(profile, null, 2), 'utf-8')
 
   console.log(` Generated Icon Genie profile file:`)
-  log(`${targetFile}\n`)
+  log(`${ targetFile }\n`)
 }

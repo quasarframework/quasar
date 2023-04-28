@@ -11,8 +11,8 @@ function getSize (buffer) {
     : [ 20, 16 ]
 
   return {
-    height: buffer.readUInt32BE(offset[0]),
-    width: buffer.readUInt32BE(offset[1])
+    height: buffer.readUInt32BE(offset[ 0 ]),
+    width: buffer.readUInt32BE(offset[ 1 ])
   }
 }
 
@@ -20,6 +20,6 @@ export function getPngSize (file) {
   const buffer = readChunkSync(file, { startPosition: 0, length: 40 })
 
   return isPng(buffer) !== true
-    ? { width: 0, height: 0}
+    ? { width: 0, height: 0 }
     : getSize(buffer)
 }

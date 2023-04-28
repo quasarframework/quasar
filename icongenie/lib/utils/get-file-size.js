@@ -1,7 +1,7 @@
 
 import { statSync } from 'node:fs'
 
-const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+const units = [ 'B', 'KB', 'MB', 'GB', 'TB', 'PB' ]
 
 function humanStorageSize (bytes) {
   let u = 0
@@ -11,7 +11,7 @@ function humanStorageSize (bytes) {
     ++u
   }
 
-  return `${bytes.toFixed(1)}${units[u]}`
+  return `${ bytes.toFixed(1) }${ units[ u ] }`
 }
 
 export function getFileSize (filename) {

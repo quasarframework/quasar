@@ -7,7 +7,7 @@ import { fatal } from './logger.js'
 function getAppInfo () {
   let appDir = process.cwd()
 
-  while (appDir.length && appDir[appDir.length - 1] !== sep) {
+  while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
     if (
       existsSync(join(appDir, 'quasar.config.js'))
       || existsSync(join(appDir, 'quasar.config.mjs'))

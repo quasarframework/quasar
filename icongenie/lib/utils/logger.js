@@ -7,14 +7,14 @@ const logBanner = green(banner)
 const warnBanner = red(banner)
 
 export function log (msg) {
-  console.log(msg ? ` ${logBanner} ${msg}` : '')
+  console.log(msg ? ` ${ logBanner } ${ msg }` : '')
 }
 
 export function warn (msg) {
-  console.warn(msg ? ` ${warnBanner} ⚠️  ${msg}\n` : '')
+  console.warn(msg ? ` ${ warnBanner } ⚠️  ${ msg }\n` : '')
 }
 
 export function fatal (msg) {
-  console.error(msg ? ` ${warnBanner} ⚠️  ${msg}` : '')
+  console.error(msg ? ` ${ warnBanner } ⚠️  ${ msg }` : '')
   process.exit(1)
 }
