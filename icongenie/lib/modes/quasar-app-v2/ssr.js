@@ -1,3 +1,4 @@
-const spaEntries = require('./spa')
 
-module.exports = [ ...spaEntries ]
+import spaEntries from './spa.js'
+
+export default [ ...spaEntries ]

@@ -1,36 +1,32 @@
-const
-  md = require('./md'),
-  { convertToRelated, flatMenu } = require('./flat-menu')
-
-const {
-  getVueComponent,
-  parseFrontMatter
-} = require('./md-parse-utils')
+const md = require('./md')
+const { convertToRelated, flatMenu } = require('./flat-menu')
+const { getVueComponent, parseFrontMatter } = require('./md-parse-utils')
 
 module.exports = function (code, id) {
   const { data, content } = parseFrontMatter(code)
 
+  data.id = id
   data.title = data.title || 'Generic Page'
 
   if (data.related !== void 0) {
     data.related = data.related.map(entry => convertToRelated(entry, id))
   }
 
-  if (data.components === void 0) {
-    data.components = []
-  }
+  data.toc = []
+  data.components = new Set(data.components || [])
+  data.components.add('src/layouts/doc-layout/DocPage')
 
-  if (code.indexOf('<doc-example') !== -1) {
-    data.components.push('../DocExample')
+  if (data.examples !== void 0) {
+    data.components.add('src/components/DocExample')
   }
   if (code.indexOf('<doc-api') !== -1) {
-    data.components.push('../DocApi')
+    data.components.add('src/components/DocApi')
   }
   if (code.indexOf('<doc-installation') !== -1) {
-    data.components.push('../DocInstallation')
+    data.components.add('src/components/DocInstallation')
   }
   if (code.indexOf('<doc-tree') !== -1) {
-    data.components.push('../DocTree')
+    data.components.add('src/components/DocTree')
   }
 
   if (data.overline === void 0) {
@@ -52,27 +48,22 @@ module.exports = function (code, id) {
     }
 
     if (prev !== void 0) {
-      data.nav.push({ ...prev, dir: 'left' })
+      data.nav.push({ ...prev, classes: 'doc-page__related--left' })
     }
     if (next !== void 0) {
-      data.nav.push({ ...next, dir: 'right' })
+      data.nav.push({ ...next, classes: 'doc-page__related--right' })
     }
   }
 
-  md.$data = {
-    toc: []
+  md.$data = data
+
+  const mdPageContent = md.render(content)
+
+  if (data.editLink !== false) {
+    data.editLink = id.substring(id.indexOf('src/pages/') + 10, id.length - 3)
   }
 
-  const rendered = md.render(content)
-  const toc = data.toc !== false
-    ? md.$data.toc
-    : []
+  md.$data = null // free up memory
 
-  md.$data = {}
-
-  return getVueComponent(
-    rendered,
-    data,
-    '[' + toc.join(',') + ']'
-  )
+  return getVueComponent(data, mdPageContent)
 }

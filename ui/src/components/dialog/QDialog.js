@@ -343,7 +343,7 @@ export default createComponent({
         hide(e)
       }
       else if (props.noShake !== true) {
-        shake(e.relatedTarget)
+        shake()
       }
     }
 
@@ -370,8 +370,6 @@ export default createComponent({
 
     onBeforeUnmount(cleanup)
 
-    const backdropEvt = vm.proxy.$q.platform.is.ios === true ? 'onClick' : 'onFocusin'
-
     function renderPortalContent () {
       return h('div', {
         role: 'dialog',
@@ -389,7 +387,7 @@ export default createComponent({
               style: transitionStyle.value,
               'aria-hidden': 'true',
               tabindex: -1,
-              [ backdropEvt ]: onBackdropClick
+              onClick: onBackdropClick
             })
             : null
         )),

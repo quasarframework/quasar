@@ -149,9 +149,9 @@ function normalizeOptions (options) {
     waitFor: options.waitFor === void 0 ? 0 : options.waitFor,
 
     duration: isNaN(options.duration) === true ? 300 : parseInt(options.duration, 10),
-    easing: typeof options.easing === 'string' && options.easing.length > 0 ? options.easing : 'ease-in-out',
+    easing: typeof options.easing === 'string' && options.easing.length !== 0 ? options.easing : 'ease-in-out',
     delay: isNaN(options.delay) === true ? 0 : parseInt(options.delay, 10),
-    fill: typeof options.fill === 'string' && options.fill.length > 0 ? options.fill : 'none',
+    fill: typeof options.fill === 'string' && options.fill.length !== 0 ? options.fill : 'none',
 
     resize: options.resize === true,
 

@@ -1,6 +1,7 @@
 ---
 title: Flexbox Patterns
 desc: Common recipes for working with flexbox CSS is and how it can be used in a Quasar App.
+examples: grid
 related:
   - /layout/grid/introduction-to-flexbox
   - /layout/grid/row
@@ -43,13 +44,13 @@ You can use `q-py-##` on row breaking elements or `q-px-##` on column breaking e
 </div>
 ```
 
-<doc-example title="Row break" file="grid/BreakRow" />
+<doc-example title="Row break" file="BreakRow" />
 
 ::: warning
 When using `column` type flex you must define a height for the container. The height must be large enough to hold the longest column.
 :::
 
-<doc-example title="Column break" file="grid/BreakColumn" />
+<doc-example title="Column break" file="BreakColumn" />
 
 ## Masonry-like layout
 When using a `column` type flex with multiple columns the visual order of the elements will be in vertical columns. Sometimes you want the order to follow the rows in the layout, and in order to achieve this you can use a combination or custom order CSS styles and column break elements.
@@ -109,7 +110,7 @@ Example, supossing you want a 4 column layout:
 </div>
 ```
 
-<doc-example title="Masonry" file="grid/Masonry" />
+<doc-example title="Masonry" file="Masonry" />
 
 ## Masonry with pseudo selectors to break rows / columns
 When it's not easy or not possible to insert the elements for row / column break and you need 2 or 3 rows / column you can use pseudo selectors.
@@ -140,4 +141,4 @@ When it's not easy or not possible to insert the elements for row / column break
       order: 2
 ```
 
-<doc-example title="Masonry like table grid" file="grid/MasonryTableGrid" />
+<doc-example title="Masonry like table grid" file="MasonryTableGrid" />

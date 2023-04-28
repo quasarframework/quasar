@@ -1,8 +1,8 @@
-const fs = require('fs')
-const { join } = require('path')
-const spawn = require('cross-spawn').sync
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
+import { sync as spawn } from 'cross-spawn'
 
-const { fatal } = require('./logger')
+import { fatal } from './logger.js'
 
 function isInstalled (cmd) {
   try {
@@ -13,16 +13,16 @@ function isInstalled (cmd) {
   }
 }
 
-function getPackager (root) {
-  if (fs.existsSync(join(root, 'yarn.lock'))) {
+export function getNodePackager (root) {
+  if (existsSync(join(root, 'yarn.lock'))) {
     return 'yarn'
   }
 
-  if (fs.existsSync(join(root, 'pnpm-lock.yaml'))) {
+  if (existsSync(join(root, 'pnpm-lock.yaml'))) {
     return 'pnpm'
   }
 
-  if (fs.existsSync(join(root, 'package-lock.json'))) {
+  if (existsSync(join(root, 'package-lock.json'))) {
     return 'npm'
   }
 
@@ -40,5 +40,3 @@ function getPackager (root) {
 
   fatal('⚠️  Please install Yarn or Pnpm or NPM before running this command.\n')
 }
-
-module.exports = getPackager

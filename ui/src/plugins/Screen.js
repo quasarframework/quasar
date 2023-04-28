@@ -160,7 +160,7 @@ export default defineReactivePlugin({
 
       this.setDebounce(updateDebounce)
 
-      if (Object.keys(updateSizes).length > 0) {
+      if (Object.keys(updateSizes).length !== 0) {
         this.setSizes(updateSizes)
         updateSizes = void 0 // free up memory
       }

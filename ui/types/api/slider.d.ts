@@ -10,11 +10,13 @@ interface SliderMarkerLabelPartialDefinition {
   style?: VueStyleObjectProp;
 }
 
-interface SliderMarkerLabelDefinition extends SliderMarkerLabelPartialDefinition {
+interface SliderMarkerLabelDefinition
+  extends SliderMarkerLabelPartialDefinition {
   value?: number;
 }
 
-interface SliderMarkerLabelDefinitionRequiredValue extends SliderMarkerLabelPartialDefinition {
+interface SliderMarkerLabelDefinitionRequiredValue
+  extends SliderMarkerLabelPartialDefinition {
   value: number;
 }
 
@@ -26,7 +28,7 @@ export type SliderMarkerLabels =
   | boolean
   | Array<SliderMarkerLabelDefinitionRequiredValue>
   | SliderMarkerLabelObjectDefinition
-  | ((value: number) => string | SliderMarkerLabelDefinition)
+  | ((value: number) => string | SliderMarkerLabelDefinition);
 
 // --- Slots
 
@@ -35,7 +37,7 @@ export type SliderMarkerLabelConfig = {
   value: number;
   label: number | string;
   classes: string;
-  style: VueStyleObjectProp
+  style: VueStyleObjectProp;
 };
 
 export type SliderMarkerLabelArrayConfig = SliderMarkerLabelConfig[];

@@ -1,8 +1,12 @@
-const Joi = require('@hapi/joi')
-const { red } = require('kolorist')
 
-const generatorsList = Object.keys(require('../generators'))
-const modesList = [ 'all' ].concat(Object.keys(require('../modes')))
+import Joi from '@hapi/joi'
+import { red } from 'kolorist'
+
+import { generators } from '../generators/index.js'
+import { modes } from '../modes/index.js'
+
+const generatorsList = Object.keys(generators)
+const modesList = [ 'all' ].concat(Object.keys(modes))
 const platformsList = [ 'cordova-ios', 'cordova-android' ]
 
 const baseParamsSchema = {
@@ -58,7 +62,7 @@ const assetsSchema = Joi.array().items({
  * When generating the icon, we're expecting a hash on the color (automatically added to user input via the CLI)
  */
 const getColorParamsSchema = (requireHash) => {
-  const colorPattern = Joi.string().pattern(new RegExp(`^${requireHash ? '#' : ''}[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
+  const colorPattern = Joi.string().pattern(new RegExp(`^${ requireHash ? '#' : '' }[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
   return {
     themeColor: colorPattern,
     pngColor: colorPattern,
@@ -74,7 +78,7 @@ const getParamsSchema = (isGeneratingProfileFile) => {
   }
 }
 
-module.exports = function validateProfileObject (profileObject, generatingProfileFile = false) {
+export function validateProfileObject (profileObject, generatingProfileFile = false) {
   const profileSchema = Joi.object({
     params: getParamsSchema(generatingProfileFile),
     assets: assetsSchema
@@ -82,8 +86,8 @@ module.exports = function validateProfileObject (profileObject, generatingProfil
 
   const { error } = profileSchema.validate(profileObject)
   if (error) {
-    console.error(` ${red('ERROR')}: Input parameters are not valid. Please correct them.`)
-    console.error(` ${error}`)
+    console.error(` ${ red('ERROR') }: Input parameters are not valid. Please correct them.`)
+    console.error(` ${ error }`)
     console.log()
     process.exit(1)
   }

@@ -1,6 +1,6 @@
 
 import { reactive } from 'vue'
-import { injectProp } from './inject-obj-prop'
+import { injectProp } from './inject-obj-prop.js'
 
 export default __QUASAR_SSR_SERVER__
   ? (state, plugin) => {

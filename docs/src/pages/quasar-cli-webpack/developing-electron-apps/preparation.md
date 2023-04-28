@@ -3,24 +3,25 @@ title: Preparation for Electron
 desc: (@quasar/app-webpack) How to add Electron mode into a Quasar app.
 scope:
   tree:
-    { l: 'src-electron',
-      c: [
-        { l: 'icons',
-          e: 'Icons of your app for all platforms',
-          c: [
-            { l: 'icon.icns', e: 'Icon file for Darwin (MacOS) platform' },
-            { l: 'icon.ico', e: 'Icon file for win32 (Windows) platform' },
-            { l: 'icon.png', e: 'Tray icon file for all platforms (especially Linux)' },
-          ]
-        },
-        { l: 'electron-preload.js', e: '(or .ts) Electron preload script (injects Node.js stuff into renderer thread)' },
-        { l: 'electron-main.js', e: '(or .ts) Main thread code' }
-      ]
-    }
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: icon.png
+        e: Tray icon file for all platforms (especially Linux)
+    - l: electron-preload.js
+      e: "(or .ts) Electron preload script (injects Node.js stuff into renderer thread)"
+    - l: electron-main.js
+      e: "(or .ts) Main thread code"
 ---
 Before we dive in to the actual development, we need to do some preparation work.
 
-## 1. Add Quasar Electron Mode
+## Step 1: Add Quasar Electron Mode
 In order to develop/build a Quasar Electron app, we need to add the Electron mode to our Quasar project. What this does is that it yarn installs some Electron packages and creates `/src-electron` folder.
 
 ```bash
@@ -50,7 +51,7 @@ and then run `choco upgrade python2 visualstudio2017-workload-vctools`.
 
 At this point things should successfully install, but if not then you will need a clean installation of Visual Studio. Please note that these are not problems with Quasar, but they are related to NPM and Windows.
 
-## 2. Start Developing
+## Step 2: Start Developing
 If you want to jump right in and start developing, you can skip the previous step with "quasar mode" command and issue:
 
 ```bash

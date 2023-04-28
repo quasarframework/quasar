@@ -569,7 +569,7 @@ export default createComponent({
 
         if (topLeft !== void 0) {
           child.push(
-            h('div', { class: 'q-table-control' }, [
+            h('div', { class: 'q-table__control' }, [
               topLeft(marginalsScope.value)
             ])
           )
@@ -777,7 +777,7 @@ export default createComponent({
         }, getPaginationDiv(child))
       }
 
-      if (child.length > 0) {
+      if (child.length !== 0) {
         return h('div', { class: bottomClass }, child)
       }
     }

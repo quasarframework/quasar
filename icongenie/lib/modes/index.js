@@ -1,6 +1,9 @@
-const { existsSync } = require('fs')
-const { resolveDir } = require('../utils/app-paths')
 
-module.exports = existsSync(resolveDir('public'))
-  ? require('./quasar-app-v2')
-  : require('./quasar-app-v1')
+import { existsSync } from 'node:fs'
+import { resolveDir } from '../utils/app-paths.js'
+
+const { modes } = existsSync(resolveDir('public'))
+  ? await import('./quasar-app-v2/index.js')
+  : await import('./quasar-app-v1/index.js')
+
+export { modes }

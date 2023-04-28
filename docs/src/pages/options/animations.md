@@ -10,7 +10,9 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 > Please refer to [Vue](https://vuejs.org/api/built-in-components.html#transition) documentation for learning on how to use the Vue supplied `<transition>` component.
 
 ## Installation
+
 Edit `/quasar.config.js`.
+
 ```js
 // embedding all animations
 animations: 'all'
@@ -32,7 +34,7 @@ If you are building a website, you can also skip configuring quasar.config.js an
   <!-- CDN example for Animate.css -->
   <link
     rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   >
 </head>
 ```
@@ -43,10 +45,10 @@ It should be noted that when you import Animate.css through the `<link>` tag, al
 
 ::: warning
 **Windows Developers**
-If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame. 
+If you're developing on Windows and the animations don't appear to be working, it's likely an OS level setting that's to blame.
 Try changing **Visual Effects** to **Adjust for Best Appearance**.
 1. Right click `My Computer` and select `Properties`
-2. Click `Advanced System Settings` 
+2. Click `Advanced System Settings`
 3. Click the `Settings` button under `Performance`
 4. Under the `Visual Effects` tab, change the radio option to: `Adjust for Best Appearance`
 :::

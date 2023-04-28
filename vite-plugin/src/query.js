@@ -33,7 +33,7 @@ export function parseViteRequest (id) {
           query.type === 'template' ||
           // On prod, TS code turns into a separate 'script' request.
           // See: https://github.com/vitejs/vite/pull/7909
-          (query.type === 'script' && query['lang.ts'] !== void 0),
+          (query.type === 'script' && (query['lang.ts'] !== void 0 || query['lang.tsx'] !== void 0)),
         script: (extensions = scriptExt) =>
           (query.type === void 0 || query.type === 'script') &&
           isOfExt({ query, extensions }) === true,

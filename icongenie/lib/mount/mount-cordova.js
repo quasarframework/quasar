@@ -1,11 +1,12 @@
-const { readFileSync, writeFileSync, existsSync } = require('fs')
-const elementTree = require('elementtree')
-const { relative } = require('path')
-const { red, green } = require('kolorist')
 
-const { resolveDir } = require('../utils/app-paths')
-const { log, warn } = require('../utils/logger')
-const spawnSync = require('../utils/spawn-sync')
+import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import elementTree from 'elementtree'
+import { relative } from 'node:path'
+import { red, green } from 'kolorist'
+
+import { resolveDir } from '../utils/app-paths.js'
+import { log, warn } from '../utils/logger.js'
+import { spawnSync } from '../utils/spawn-sync.js'
 
 const cordovaConfigXml = resolveDir('src-cordova/config.xml')
 const srcCordovaDir = resolveDir('src-cordova')
@@ -15,18 +16,18 @@ const generatorList = [ 'png', 'splashscreen' ]
 
 function getNode (root, tag, selector) {
   return (
-    root.find(`${tag}${selector}`) ||
-    elementTree.SubElement(root, tag)
+    root.find(`${ tag }${ selector }`)
+    || elementTree.SubElement(root, tag)
   )
 }
 
 function hasNode (root, tag, selector) {
-  return root.find(`${tag}${selector}`)
+  return root.find(`${ tag }${ selector }`)
 }
 
-function isCordovaFile (file) {
-  return platformList.includes(file.platform) &&
-    generatorList.includes(file.generator)
+export function isCordovaFile (file) {
+  return platformList.includes(file.platform)
+    && generatorList.includes(file.generator)
 }
 
 function getCordovaFiles (files) {
@@ -74,7 +75,7 @@ function updateConfigXml (cordovaFiles, hasSplashscreen) {
       const entry = getNode(
         node,
         'splash',
-        isAndroid ? `[@density="${file.density}"]` : `[@src="${src}"]`
+        isAndroid ? `[@density="${ file.density }"]` : `[@src="${ src }"]`
       )
 
       entry.set('src', src)
@@ -91,8 +92,8 @@ function updateConfigXml (cordovaFiles, hasSplashscreen) {
         node,
         'icon',
         isAndroid
-          ? `[@density="${file.density}"]`
-          : `[@width="${file.width}"][@height="${file.height}"]`
+          ? `[@density="${ file.density }"]`
+          : `[@width="${ file.width }"][@height="${ file.height }"]`
       )
 
       entry.set('src', src)
@@ -115,8 +116,8 @@ function hasDeepProp (target /* , param1, param2, ... */) {
   let obj = target
 
   for (let i = 1; i < arguments.length; i++) {
-    const prop = arguments[i]
-    obj = obj[prop]
+    const prop = arguments[ i ]
+    obj = obj[ prop ]
 
     if (obj === void 0) {
       return false
@@ -134,11 +135,13 @@ function installSplashscreenPlugin () {
     return
   }
 
-  const pkg = require(pkgPath)
+  const pkg = JSON.parse(
+    readFileSync(pkgPath, 'utf8')
+  )
 
   if (
-    hasDeepProp(pkg, 'dependencies', 'cordova-plugin-splashscreen') ||
-    hasDeepProp(pkg, 'cordova', 'plugins', 'cordova-plugin-splashscreen')
+    hasDeepProp(pkg, 'dependencies', 'cordova-plugin-splashscreen')
+    || hasDeepProp(pkg, 'cordova', 'plugins', 'cordova-plugin-splashscreen')
   ) {
     // it's already installed, so nothing to do
     return
@@ -157,7 +160,7 @@ function installSplashscreenPlugin () {
   console.log()
 }
 
-module.exports.mountCordova = function mountCordova (files) {
+export function mountCordova (files) {
   if (existsSync(cordovaConfigXml)) {
     const cordovaFiles = getCordovaFiles(files)
 
@@ -173,15 +176,13 @@ module.exports.mountCordova = function mountCordova (files) {
   }
 }
 
-module.exports.isCordovaFile = isCordovaFile
-
-module.exports.verifyCordova = function verifyCordova (file) {
+export function verifyCordova (file) {
   if (isCordovaFile(file) && existsSync(cordovaConfigXml)) {
     const doc = elementTree.parse(readFileSync(cordovaConfigXml, 'utf-8'))
     const isAndroid = file.platform === 'cordova-android'
 
     const node = doc.getroot()
-      .find(`platform[@name="${isAndroid ? 'android' : 'ios'}"]`)
+      .find(`platform[@name="${ isAndroid ? 'android' : 'ios' }"]`)
 
     // verify that the platform is installed
     if (!node) {
@@ -192,8 +193,8 @@ module.exports.verifyCordova = function verifyCordova (file) {
 
     if (file.generator === 'splashscreen') {
       const selector = isAndroid
-        ? `[@density="${file.density}"]`
-        : `[@src="${src}"]`
+        ? `[@density="${ file.density }"]`
+        : `[@src="${ src }"]`
 
       if (!hasNode(node, 'splash', selector)) {
         return red('ERROR: no entry for it in src-cordova/config.xml')
@@ -201,8 +202,8 @@ module.exports.verifyCordova = function verifyCordova (file) {
     }
     else {
       const selector = isAndroid
-        ? `[@density="${file.density}"]`
-        : `[@width="${file.width}"][@height="${file.height}"]`
+        ? `[@density="${ file.density }"]`
+        : `[@width="${ file.width }"][@height="${ file.height }"]`
 
       if (!hasNode(node, 'icon', selector)) {
         return red('ERROR: no entry for it in src-cordova/config.xml')

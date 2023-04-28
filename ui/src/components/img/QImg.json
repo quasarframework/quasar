@@ -14,7 +14,7 @@
         "(public folder) src=\"img/something.png\"",
         "(assets folder) src=\"~assets/my-img.gif\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) src=\"https://placeimg.com/500/300/nature\""
+        "(URL) src=\"https://picsum.photos/500/300\""
       ],
       "category": "model"
     },
@@ -47,7 +47,7 @@
         "(public folder) src=\"img/some-placeholder.png\"",
         "(assets folder) src=\"~assets/my-placeholder.gif\"",
         "(relative path format) :src=\"require('./placeholder.jpg')\"",
-        "(URL) src=\"https://placeimg.com/500/300/nature\""
+        "(URL) src=\"https://picsum.photos/500/300\""
       ],
       "category": "model"
     },

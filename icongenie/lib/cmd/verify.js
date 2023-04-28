@@ -1,5 +1,5 @@
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -8,12 +8,15 @@ const argv = parseArgs(process.argv.slice(2), {
     f: 'filter',
     h: 'help'
   },
-  boolean: ['h']
+  boolean: [ 'h' ]
 })
 
 if (argv.help) {
-  const modes = Object.keys(require('../modes')).join('|')
-  const generators = Object.keys(require('../generators')).join('|')
+  const { modes } = await import('../modes/index.js')
+  const modesList = Object.keys(modes).join('|')
+
+  const { generators } = await import('../generators/index.js')
+  const generatorsList = Object.keys(generators).join('|')
 
   console.log(`
   Description
@@ -41,13 +44,13 @@ if (argv.help) {
   Options
     --mode, -m      For which Quasar mode(s) to verify the assets;
                     Default: all
-                      [all|${modes}]
+                      [all|${ modesList }]
                     Multiple can be specified, separated by ",":
                       spa,cordova,capacitor
 
     --filter, -f    Filter the available generators; when used, it verifies
                     only one type of asset instead of all
-                      [${generators}]
+                      [${ generatorsList }]
 
     --profile       Use JSON profile file(s) to extract the asset list to verify:
                       - path to folder (absolute or relative to current folder)
@@ -68,19 +71,19 @@ if (argv.help) {
   process.exit(0)
 }
 
-const parseArgv = require('../utils/parse-argv')
-const verify = require('../runner/verify')
-const getProfileFiles = require('../utils/get-profile-files')
-const filterArgvParams = require('../utils/filter-argv-params')
-const { log } = require('../utils/logger')
+import { parseArgv } from '../utils/parse-argv.js'
+import { verify } from '../runner/verify.js'
+import { getProfileFiles } from '../utils/get-profile-files.js'
+import { filterArgvParams } from '../utils/filter-argv-params.js'
+import { log } from '../utils/logger.js'
 
 async function runProfiles (params, profileFiles) {
   for (let i = 0; i < profileFiles.length; i++) {
-    const profile = profileFiles[i]
+    const profile = profileFiles[ i ]
 
     console.log(`\n`)
     log(`--------------------`)
-    log(`Verifying by profile: ${profile}`)
+    log(`Verifying by profile: ${ profile }`)
     log(`--------------------`)
     console.log(`\n`)
 

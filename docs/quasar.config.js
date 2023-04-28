@@ -1,5 +1,7 @@
 
 const mdPlugin = require('./build/md')
+const examplesPlugin = require('./build/examples')
+const manualChunks = require('./build/chunks')
 
 module.exports = ctx => ({
   eslint: {
@@ -8,16 +10,11 @@ module.exports = ctx => ({
   },
 
   boot: [
-    { path: 'gdpr', server: false },
-    'components'
+    { path: 'gdpr', server: false }
   ],
 
   css: [
     'app.sass'
-  ],
-
-  extras: [
-    'material-icons'
   ],
 
   build: {
@@ -27,19 +24,35 @@ module.exports = ctx => ({
     // analyze: true,
     // rebuildCache: true,
 
+    env: {
+      DOCS_BRANCH: 'dev',
+      SEARCH_INDEX: 'quasar-v2'
+    },
+
     viteVuePluginOptions: {
       include: [/\.(vue|md)$/]
     },
 
     vitePlugins: [
-      mdPlugin
-    ]
+      mdPlugin,
+      examplesPlugin(ctx.prod)
+    ],
+
+    extendViteConf (config, { isClient }) {
+      if (ctx.prod && isClient) {
+        config.build.chunkSizeWarningLimit = 650
+        config.build.rollupOptions = {
+          output: { manualChunks }
+        }
+      }
+    }
   },
 
   devServer: {
-    // https: true,
     port: 9090,
-    open: true // opens browser window automatically
+    open: {
+      app: { name: 'google chrome' }
+    }
   },
 
   framework: {
@@ -82,7 +95,7 @@ module.exports = ctx => ({
 
   ssr: {
     pwa: ctx.prod,
-    prodPort: 3010,
+    prodPort: 3111,
     middlewares: [
       'render'
     ]

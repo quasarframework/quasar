@@ -32,12 +32,32 @@ We are updating this section constantly in order to keep you up to date with our
 
 *The schedule may change based on unforeseen and/or out of the ordinary circumstances.*
 
-### Q2 2022
-* ✌️ (DONE) Stable release of the new CLI based on Vite.js
-* ✌️ (DONE) Support Google Material Symbols ([#13437](https://github.com/quasarframework/quasar/pull/13437))
-* ✌️ (DONE) Run automatic tests on Quasar UI via GitHub Actions for every PR [#13432](https://github.com/quasarframework/quasar/pull/13432)
-* ✌️ (DONE) [Video tutorials for all Quasar components](https://youtube.com/playlist?list=PLFZAa7EupbB7xC-C0YwYk7aXIAbHYX1Xl). Subscribe at [QuasarCast](https://quasarcast.com/course) to be notified when first-party advanced Quasar paid courses will be available
-* 🚧 (WIP) New Quasar website preview 🔥
+### Evergreens
+* 🚧 (WIP) Gradually add more automated tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our [Discord server](https://chat.quasar.dev/) if you're willing to help!
+* 🚧 (WIP) Gather feedback about new Quasar website. [Let us know what do you like and what not!](https://github.com/quasarframework/quasar/discussions/15168)
+
+### Q1 2023
+* Release new Quasar website
+* Porting Quasar packages to ESM
+* Support Vite 3 and 4 in `@quasar/app-vite` ([#14077](https://github.com/quasarframework/quasar/issues/14077)) (already supported via [workaround](https://github.com/quasarframework/quasar/issues/14077#issuecomment-1353213893))
+* Publish official Quasar Organizational chart
+* More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
+* Website update community survey
+
+### Q2 2023
+* Support Capacitor 4 and related bugfixes ([#14226](https://github.com/quasarframework/quasar/pull/14226))
+* Add Quasar entry in [Vite ecosystem CI](https://github.com/vitejs/vite-ecosystem-ci)
+* Add SSG mode ([#2299](https://github.com/quasarframework/quasar/issues/2299)) ([community support](https://github.com/freddy38510/quasar-app-extension-ssg))
+* June 30th 2023 marks the end of life for Quasar v1. It will no longer receive updates. (postponed for the second time, previously reported EOL was 31th of December 2022)
+
+## Archive
+
+### Q4 2022
+* ✌️ (DONE) New Quasar website [preview](https://new-docs.quasar.dev/) 🔥
+* ✌️ (DONE) Refactor & enhance QPagination [#14609](https://github.com/quasarframework/quasar/pull/14609)
+* ✌️ (DONE) Improve a11y for Quasar components [#14609](https://github.com/quasarframework/quasar/pull/14609)
+* ✌️ (DONE) Support Cypress 10/11/12 into Quasar Cypress AE, [check it out](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)
+* ✌️ (DONE) Support Vite 4 in `@quasar/vite-plugin` [#15125](https://github.com/quasarframework/quasar/pull/15125)
 
 ### Q3 2022
 * ✌️ (DONE) Quasar.Conf 2022 - 9th of July - [Watch](https://bit.ly/qconf2022yt)
@@ -46,18 +66,11 @@ We are updating this section constantly in order to keep you up to date with our
 * 🚫 (BLOCKED, workaround provided) Allow to save starter kit options as JSON profiles ([#5537](https://github.com/quasarframework/quasar/issues/5537))
 * ✌️ (DONE) Add Vitest integration via Quasar Vitest AE, [check it out](https://github.com/quasarframework/quasar-testing/tree/dev/packages/unit-vitest)
 
-### Q4 2022
-* 🚧 (WIP) Gradually add more automatic tests to Quasar UI. **We're searching for contributors**, get in touch with the team on our Discord server if you're willing to help!
-* ✌️ (DONE) Refactor & enhance QPagination [#14609](https://github.com/quasarframework/quasar/pull/14609)
-* ✌️ (DONE) Improve a11y for Quasar components [#14609](https://github.com/quasarframework/quasar/pull/14609)
-* ✌️ (DONE) Support Cypress 10 into Quasar Cypress AE, [check it out](https://github.com/quasarframework/quasar-testing/tree/dev/packages/e2e-cypress)
-* Publish official Quasar Organizational chart
-* Start working on Quasar v3
-* More triaging automation ([quasarframework/rfcs#10](https://github.com/quasarframework/rfcs/issues/10))
-* 2022 Quasar Survey
-* December 31th 2022 marks the end of life for Quasar v1. It will no longer receive updates. (postponed, originally EOL was 1st of April 2022)
-
-## Archive
+### Q2 2022
+* ✌️ (DONE) Stable release of the new CLI based on Vite.js
+* ✌️ (DONE) Support Google Material Symbols ([#13437](https://github.com/quasarframework/quasar/pull/13437))
+* ✌️ (DONE) Run automatic tests on Quasar UI via GitHub Actions for every PR [#13432](https://github.com/quasarframework/quasar/pull/13432)
+* ✌️ (DONE) [Video tutorials for all Quasar components](https://youtube.com/playlist?list=PLFZAa7EupbB7xC-C0YwYk7aXIAbHYX1Xl). Subscribe at [QuasarCast](https://quasarcast.com/course) to be notified when first-party advanced Quasar paid courses will be available
 
 ### Q1 2022
 * ✌️ (DONE) First beta of a new CLI for Quasar based on Vite.js instead of Webpack (will have its own life along with the current Webpack-based CLI)

@@ -3,26 +3,20 @@ title: Electron Accessing Files
 desc: (@quasar/app-vite) How to access files in a Quasar desktop app.
 scope:
   tree:
-    { l: 'app.asar',
-      c: [
-        { l: 'dist',
-          c: [
-            { l: 'electron-*',
-              c: [
-                { l: 'js/...' },
-                { l: 'icons/' },
-                { l: 'node_modules/' },
-                { l: 'index.html' },
-                { l: 'package.json' },
-                { l: 'electron-main.js' },
-                { l: 'electron-preload.js' },
-                { l: '...contents of /public' }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+    l: app.asar
+    c:
+    - l: dist
+      c:
+      - l: electron-*
+        c:
+        - l: js/...
+        - l: icons/
+        - l: node_modules/
+        - l: index.html
+        - l: package.json
+        - l: electron-main.js
+        - l: electron-preload.js
+        - l: "...contents of /public"
 ---
 
 ## Using __dirname & __filename

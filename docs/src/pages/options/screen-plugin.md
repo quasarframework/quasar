@@ -4,8 +4,8 @@ desc: Quasar plugin that helps in writing a dynamic and responsive UI through Ja
 ---
 The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#window-width-related) instead, for performance reasons.
 
-## Installation
-You don't need to do anything. The Screen plugin gets installed automatically.
+## API
+<doc-api file="Screen" />
 
 ## Usage
 Notice `$q.screen` below. This is just a simple usage example.
@@ -119,6 +119,3 @@ setup () {
 import { Screen } from 'quasar'
 Screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
 ```
-
-## API
-<doc-api file="Screen" />

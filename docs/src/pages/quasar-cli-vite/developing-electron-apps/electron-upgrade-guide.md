@@ -3,41 +3,41 @@ title: Upgrade guide on Electron
 desc: (@quasar/app-vite) Upgrading instructions when dealing with Electron in Quasar.
 scope:
   oldStructure:
-    { l: 'src-electron',
-      c: [
-        { l: 'icons',
-          e: 'Icons of your app for all platforms',
-          c: [
-            { l: 'icon.icns', e: 'Icon file for Darwin (MacOS) platform' },
-            { l: 'icon.ico', e: 'Icon file for win32 (Windows) platform' },
-            { l: 'linux-512x512.png', e: 'Icon file for Linux platform (when using electron-builder)' },
-          ]
-        },
-        {
-          l: 'main-process',
-          c: [
-            { l: 'electron-preload.js', e: 'Electron preload script (injects Node.js stuff into renderer thread)' },
-            { l: 'electron-main.dev.js', e: 'Main thread code (preceded by dev code only)' },
-            { l: 'electron-main.js', e: 'Main thread code (production code)' }
-          ]
-        }
-      ]
-    }
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: linux-512x512.png
+        e: Icon file for Linux platform (when using electron-builder)
+    - l: main-process
+      c:
+      - l: electron-preload.js
+        e: Electron preload script (injects Node.js stuff into renderer thread)
+      - l: electron-main.dev.js
+        e: Main thread code (preceded by dev code only)
+      - l: electron-main.js
+        e: Main thread code (production code)
   newStructure:
-    { l: 'src-electron',
-      c: [
-        { l: 'icons',
-          e: 'Icons of your app for all platforms',
-          c: [
-            { l: 'icon.icns', e: 'Icon file for Darwin (MacOS) platform' },
-            { l: 'icon.ico', e: 'Icon file for win32 (Windows) platform' },
-            { l: 'icon.png', e: 'Tray icon file for all platforms (especially Linux)' },
-          ]
-        },
-        { l: 'electron-preload.js', e: '(or .ts) Electron preload script (injects Node.js stuff into renderer thread)' },
-        { l: 'electron-main.js', e: '(or .ts) Main thread code' }
-      ]
-    }
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: icon.png
+        e: Tray icon file for all platforms (especially Linux)
+    - l: electron-preload.js
+      e: "(or .ts) Electron preload script (injects Node.js stuff into renderer thread)"
+    - l: electron-main.js
+      e: "(or .ts) Main thread code"
 ---
 
 ## Upgrading Electron

@@ -2,6 +2,7 @@
 title: Layout Drawer
 desc: How to use the QDrawer component. The sidebars of your Quasar app.
 keys: QDrawer
+examples: QDrawer
 related:
   - /layout/layout
   - /vue-components/list-and-list-items
@@ -11,13 +12,12 @@ QLayout allows you to configure your views as a 3x3 matrix, containing optional 
 
 QDrawer is the sidebar part of your QLayout.
 
-## QDrawer API
 <doc-api file="QDrawer" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ## Usage
 ::: tip
@@ -35,15 +35,15 @@ When QDrawer is set into overlay mode, **it will force it to go into fixed posit
 
 ### Basic
 
-<doc-example title="Basic" file="QDrawer/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 Consider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.
 
-<doc-example title="With navigation menu" file="QDrawer/Menu" />
+<doc-example title="With navigation menu" file="Menu" />
 
-<doc-example title="Seamless menu" file="QDrawer/MenuSeamless" />
+<doc-example title="Seamless menu" file="MenuSeamless" />
 
-<doc-example title="Header Picture" file="QDrawer/HeaderPicture" />
+<doc-example title="Header Picture" file="HeaderPicture" />
 
 ### Mini-mode
 
@@ -66,29 +66,29 @@ You can also write your own CSS classes based on the fact that QLayoutDrawer has
 
 Consider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.
 
-<doc-example title="Mini-mode with mouseover/mouseout trigger" file="QDrawer/MiniMouseEvents" />
+<doc-example title="Mini-mode with mouseover/mouseout trigger" file="MiniMouseEvents" />
 
 #### Mini to overlay
 
 The `mini-to-overlay` Boolean property will always set your drawer with fixed position, regardless of your configuration from the `view` prop, but will occupy space on the layout only as wide as when in mini-mode.
 
-<doc-example title="Mini to overlay" file="QDrawer/MiniToOverlay" />
+<doc-example title="Mini to overlay" file="MiniToOverlay" />
 
 #### Click trigger
 In the example below, when in "mini" mode, if the user clicks on Drawer then we switch to normal mode.
 
 Consider using QItems with routing props (like `to`) below. For demoing purposes these props have not been added as it would break the UMD version.
 
-<doc-example title="Mini-mode with click trigger" file="QDrawer/MiniClickEvent" />
+<doc-example title="Mini-mode with click trigger" file="MiniClickEvent" />
 
 #### Slots
 By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide a neat narrow drawer. But there may certainly be use-cases where you need a deep tweak. You can use the "mini" Vue slot of QLayoutDrawer just for that. The content of this slot will replace your drawer's default content when in "mini" mode.
 
-<doc-example title="Mini-mode with slot" file="QDrawer/MiniSlot" />
+<doc-example title="Mini-mode with slot" file="MiniSlot" />
 
 ### Overlay mode
 The overlay mode prevents the drawer from occupying space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.
 
 On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
 
-<doc-example title="Overlay mode" file="QDrawer/OverlayMode" />
+<doc-example title="Overlay mode" file="OverlayMode" />

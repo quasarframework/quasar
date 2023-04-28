@@ -122,7 +122,6 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        transition="slide-left"
         :no-native-menu="noNativeMenu"
       />
 
@@ -140,7 +139,6 @@
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
         ratio="1"
-        transition="slide-up"
         spinner-color="white"
         style="max-width: 225px"
         :no-native-menu="noNativeMenu"
@@ -166,7 +164,7 @@
 
     <div class="q-mt-lg">
       <q-btn label="Set null src" @click="bogusSrc = null" />
-      <q-btn label="Set good src" @click="bogusSrc = 'https://placeimg.com/500/300/nature?t=' + Math.random()" />
+      <q-btn label="Set good src" @click="bogusSrc = 'https://picsum.photos/500/300?t=' + Math.random()" />
       <q-btn label="Set bogus src" @click="bogusSrc = 'https://bogu.bogus'" />
 
       <q-img
@@ -205,7 +203,7 @@
 export default {
   data () {
     return {
-      url: 'https://placeimg.com/500/300/nature',
+      url: 'https://picsum.photos/500/300',
       bogusSrc: 'https://bogu.bogus',
       noNativeMenu: false,
       placeholderSrc: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIzLjYxMiAyMy42MTIiIHZpZXdCb3g9IjAgMCAyMy42MTIgMjMuNjEyIj48cGF0aCBkPSJNMTYuMTkyIDUuMjI0di0uNzM3aC04Ljc3di43MzdzMS4zMzQgMy43MTMgMy44MzggNS40Mjh2MS43ODVzLTIuNzYxIDIuNjg2LTMuODM4IDUuNzc1di44NDJoOC43N3YtLjg0MmMtMS4zOTktMy40MS0zLjgzNy01Ljc3NS0zLjgzNy01Ljc3NXYtMS43ODVjMy40MDQtMi45MjYgMy44MzctNS40MjggMy44MzctNS40Mjh6IiBzdHlsZT0iZmlsbDojMDEwMDAyIi8+PHBhdGggZD0iTTE5LjM1MyAzLjg1NlYyLjUyOWgxLjI1OFYwSDMuMDAydjIuNTI5aDEuMjU5djEuMzI3YzAgMi4wMjUgMy42MzQgNy41NTUgMy44MDQgNy45NTUtLjE2Ny4zOTctMy44MDQgNS45MjktMy44MDQgNy45NDZ2MS4zMjVIMy4wMDJ2Mi41M2gxNy42MDl2LTIuNTNoLTEuMjU4di0xLjMyNWMwLTIuMDI1LTMuNjM1LTcuNTIxLTMuODI5LTcuOTUxLjE5NC0uNDMgMy44MjktNS45MjYgMy44MjktNy45NXptLTEuMjU3IDE1LjkwMXYxLjMyNUg1LjUxOXYtMS4zMjVjMC0xLjQ1NSAzLjg1NC03LjIyMiAzLjg1NC03Ljk1MXMtMy44NTQtNi40OTUtMy44NTQtNy45NVYyLjUyOWgxMi41Nzh2MS4zMjdjMCAxLjQ1NS0zLjg4NiA3LjIyMS0zLjg4NiA3Ljk1LS4wMDEuNzI5IDMuODg1IDYuNDk2IDMuODg1IDcuOTUxeiIgc3R5bGU9ImZpbGw6IzAxMDAwMiIvPjwvc3ZnPg=='
@@ -214,7 +212,7 @@ export default {
 
   methods: {
     refresh () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      this.url = 'https://picsum.photos/500/300?t=' + Math.random()
     },
 
     onClick () {

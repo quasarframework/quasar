@@ -1,5 +1,5 @@
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -47,23 +47,27 @@ if (argv.help) {
   process.exit(0)
 }
 
-const fs = require('fs')
-const path = require('path')
-const execSync = require('child_process').execSync
-const { green, red } = require('kolorist')
+import fs from 'node:fs'
+import { join } from 'node:path'
+import { green, red } from 'kolorist'
+import { execSync } from 'node:child_process'
 
-const root = require('../get-project-root')()
-const { log, fatal } = require('../logger')
+const { getProjectRoot } = await import('../get-project-root.js')
+const root = getProjectRoot()
+
+import { log, fatal } from '../logger.js'
 
 if (!root) {
   fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
 }
 
-if (!fs.existsSync(path.join(root, 'node_modules'))) {
+if (!fs.existsSync(join(root, 'node_modules'))) {
   fatal('⚠️  Please run "yarn" / "npm install" / "pnpm install" first\n')
 }
 
-const pkg = require(path.join(root, 'package.json'))
+const pkg = JSON.parse(
+  fs.readFileSync(join(root, 'package.json'), 'utf8')
+)
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
@@ -107,151 +111,147 @@ function getLatestVersion (packager, packageName, curVersion) {
   return versions[versions.length - 1]
 }
 
-function upgradeQuasar () {
-  const deps = {
-    dependencies: [],
-    devDependencies: []
-  }
+const deps = {
+  dependencies: [],
+  devDependencies: []
+}
 
-  const packager = require('../node-packager')(root)
-  const getPackageJson = require('../get-package-json')(root)
+const packager = (await import('../node-packager.js')).getNodePackager(root)
+const getPackageJson = (await import('../get-package-json.js')).getPackageJson(root)
 
-  console.log()
-  log(`Gathering information with ${packager}...`)
-  console.log()
+console.log()
+log(`Gathering information with ${packager}...`)
+console.log()
 
-  let updateAvailable = false
-  let removeDeprecatedAppPkg = false
+let updateAvailable = false
+let removeDeprecatedAppPkg = false
 
-  for (const type of Object.keys(deps)) {
-    for (let packageName of Object.keys(pkg[type] || {})) {
-      // is it a Quasar package?
-      if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
-        continue
-      }
-
-      const json = getPackageJson(packageName)
-      const curVersion = json
-        ? json.version
-        : null
-
-      // q/app v3 has been renamed to q/app-webpack
-      if (packageName === '@quasar/app' && curVersion && curVersion.startsWith('3.')) {
-        removeDeprecatedAppPkg = true
-        packageName = '@quasar/app-webpack'
-      }
-
-      const latestVersion = getLatestVersion(packager, packageName, curVersion)
-
-      const current = curVersion === null
-        ? red('Missing!')
-        : curVersion
-
-      if (latestVersion === null) {
-        console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
-        console.log(`   (⚠️  NPM server returned an error, so we cannot detect latest version)`)
-      }
-      else if (curVersion !== latestVersion) {
-        deps[type].push({
-          packageName,
-          latestVersion
-        })
-
-        updateAvailable = true
-
-        console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
-      }
-    }
-  }
-
-  if (!updateAvailable) {
-    // The string `Congrats!` in the following log line is parsed by
-    // @quasar/wizard AE. Do not change under any circumstances.
-    console.log('  Congrats! All Quasar packages are up to date.\n')
-    return
-  }
-
-  if (!argv.install) {
-    const params = [ '-i' ]
-    argv.prerelease && params.push('-p')
-    argv.major && params.push('-m')
-
-    console.log()
-    console.log(` See ${green('https://quasar.dev/start/release-notes')} for release notes.`)
-    console.log(` Run "quasar upgrade ${params.join(' ')}" to do the actual upgrade.`)
-    console.log()
-    return
-  }
-
-  const { removeSync } = require('fs-extra')
-  const spawn = require('../spawn')
-
-  if (removeDeprecatedAppPkg === true) {
-    const params = packager === 'yarn'
-      ? [ 'remove', '@quasar/app' ]
-      : [ 'uninstall', '--save-dev', '@quasar/app' ]
-
-    console.log()
-    spawn(packager, params, root)
-
-    // need to delete the package otherwise
-    // installing the new version might fail on Windows;
-    removeSync(path.join(root, 'node_modules/@quasar/app'))
-
-    const tsConfigFile = path.join(root, 'tsconfig.json')
-    if (fs.existsSync(tsConfigFile) === true) {
-      const content = fs.readFileSync(tsConfigFile, 'utf-8')
-      fs.writeFileSync(
-        tsConfigFile,
-        content.replace('"@quasar/app/tsconfig-preset"', '"@quasar/app-webpack/tsconfig-preset"'),
-        'utf-8'
-      )
-    }
-
-    const quasarDTsFile = path.join(root, 'src/quasar.d.ts')
-    if (fs.existsSync(quasarDTsFile) === true) {
-      const content = fs.readFileSync(quasarDTsFile, 'utf-8')
-      fs.writeFileSync(
-        quasarDTsFile,
-        content.replace('"@quasar/app"', '"@quasar/app-webpack"'),
-        'utf-8'
-      )
-    }
-  }
-
-  for (const type of Object.keys(deps)) {
-    if (deps[type].length === 0) {
+for (const type of Object.keys(deps)) {
+  for (let packageName of Object.keys(pkg[type] || {})) {
+    // is it a Quasar package?
+    if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
       continue
     }
 
-    const params = packager === 'yarn'
-      ? (type === 'devDependencies' ? [ 'add', '--dev' ] : [ 'add' ])
-      : (
-        packager === 'pnpm'
-          ? [ 'install' ]
-          : [ 'install', `--save${type === 'devDependencies' ? '-dev' : ''}` ] // npm
-      )
+    const json = getPackageJson(packageName)
+    const curVersion = json
+      ? json.version
+      : null
 
-    deps[type].forEach(dep => {
-      // need to delete tha package otherwise
-      // installing the new version might fail on Windows
-      removeSync(path.join(root, 'node_modules', dep.packageName))
+    // q/app v3 has been renamed to q/app-webpack
+    if (packageName === '@quasar/app' && curVersion && curVersion.startsWith('3.')) {
+      removeDeprecatedAppPkg = true
+      packageName = '@quasar/app-webpack'
+    }
 
-      const pinned = /^\d/.test(
-        pkg.dependencies[dep.packageName] ||
-        pkg.devDependencies[dep.packageName] ||
-        '^' // fallback, just in case
-      )
+    const latestVersion = getLatestVersion(packager, packageName, curVersion)
 
-      params.push(`${dep.packageName}@${pinned ? '' : '^'}${dep.latestVersion}`)
-    })
+    const current = curVersion === null
+      ? red('Missing!')
+      : curVersion
 
-    console.log()
-    spawn(packager, params, root)
+    if (latestVersion === null) {
+      console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
+      console.log(`   (⚠️  NPM registry server returned an error, so we cannot detect latest version)`)
+    }
+    else if (curVersion !== latestVersion) {
+      deps[type].push({
+        packageName,
+        latestVersion
+      })
+
+      updateAvailable = true
+
+      console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
+    }
   }
-
-  console.log()
-  log('Successfully upgraded Quasar packages.\n')
 }
 
-upgradeQuasar()
+if (!updateAvailable) {
+  // The string `Congrats!` in the following log line is parsed by
+  // @quasar/wizard AE. Do not change under any circumstances.
+  console.log('  Congrats! All Quasar packages are up to date.\n')
+  process.exit(0)
+}
+
+if (!argv.install) {
+  const params = [ '-i' ]
+  argv.prerelease && params.push('-p')
+  argv.major && params.push('-m')
+
+  console.log()
+  console.log(` See ${green('https://quasar.dev/start/release-notes')} for release notes.`)
+  console.log(` Run "quasar upgrade ${params.join(' ')}" to do the actual upgrade.`)
+  console.log()
+  process.exit(0)
+}
+
+const { default: { removeSync } } = await import('fs-extra')
+const { spawn } = await import('../spawn.js')
+
+if (removeDeprecatedAppPkg === true) {
+  const params = packager === 'yarn' || packager === 'pnpm'
+    ? [ 'remove', '@quasar/app' ]
+    : [ 'uninstall', '--save-dev', '@quasar/app' ]
+
+  console.log()
+  spawn(packager, params, root)
+
+  // need to delete the package otherwise
+  // installing the new version might fail on Windows;
+  removeSync(join(root, 'node_modules/@quasar/app'))
+
+  const tsConfigFile = join(root, 'tsconfig.json')
+  if (fs.existsSync(tsConfigFile) === true) {
+    const content = fs.readFileSync(tsConfigFile, 'utf-8')
+    fs.writeFileSync(
+      tsConfigFile,
+      content.replace('"@quasar/app/tsconfig-preset"', '"@quasar/app-webpack/tsconfig-preset"'),
+      'utf-8'
+    )
+  }
+
+  const quasarDTsFile = join(root, 'src/quasar.d.ts')
+  if (fs.existsSync(quasarDTsFile) === true) {
+    const content = fs.readFileSync(quasarDTsFile, 'utf-8')
+    fs.writeFileSync(
+      quasarDTsFile,
+      content.replace('"@quasar/app"', '"@quasar/app-webpack"'),
+      'utf-8'
+    )
+  }
+}
+
+for (const type of Object.keys(deps)) {
+  if (deps[type].length === 0) {
+    continue
+  }
+
+  const params = packager === 'yarn'
+    ? (type === 'devDependencies' ? [ 'add', '--dev' ] : [ 'add' ])
+    : (
+      packager === 'pnpm'
+        ? [ 'install' ]
+        : [ 'install', `--save${type === 'devDependencies' ? '-dev' : ''}` ] // npm
+    )
+
+  deps[type].forEach(dep => {
+    // need to delete tha package otherwise
+    // installing the new version might fail on Windows
+    removeSync(join(root, 'node_modules', dep.packageName))
+
+    const pinned = /^\d/.test(
+      pkg.dependencies[dep.packageName] ||
+      pkg.devDependencies[dep.packageName] ||
+      '^' // fallback, just in case
+    )
+
+    params.push(`${dep.packageName}@${pinned ? '' : '^'}${dep.latestVersion}`)
+  })
+
+  console.log()
+  spawn(packager, params, root)
+}
+
+console.log()
+log('Successfully upgraded Quasar packages.\n')

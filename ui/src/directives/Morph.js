@@ -75,7 +75,7 @@ function updateModifiers (mod, ctx) {
 }
 
 function insertArgs (arg, ctx) {
-  const opts = typeof arg === 'string' && arg.length > 0
+  const opts = typeof arg === 'string' && arg.length !== 0
     ? arg.split(':') : []
 
   ctx.name = opts[ 0 ]

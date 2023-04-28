@@ -269,6 +269,56 @@
           "desc": "The pure HTML of the content"
         }
       }
+    },
+
+    "dropdown-show": {
+      "desc": "Emitted after a dropdown in the toolbar has triggered show()",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "dropdown-before-show": {
+      "desc": "Emitted when a dropdown in the toolbar triggers show() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "dropdown-hide": {
+      "desc": "Emitted after a dropdown in the toolbar has triggered hide()",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "dropdown-before-hide": {
+      "desc": "Emitted when a dropdown in the toolbar triggers hide() but before it finishes doing it",
+      "params": {
+        "evt": {
+          "extends": "evt"
+        }
+      },
+      "addedIn": "v2.11.8"
+    },
+
+    "link-show": {
+      "desc": "Emitted when the toolbar for editing a link is shown",
+      "addedIn": "v2.11.9"
+    },
+
+    "link-hide": {
+      "desc": "Emitted when the toolbar for editing a link is hidden",
+      "addedIn": "v2.11.9"
     }
   },
 

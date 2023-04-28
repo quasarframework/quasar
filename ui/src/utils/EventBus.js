@@ -42,21 +42,25 @@ export default class EventBus {
 
   off (name, callback) {
     const list = this.__stack[ name ]
-    const liveEvents = []
 
-    if (list !== void 0 && callback) {
-      list.forEach(entry => {
-        if (entry.fn !== callback && entry.fn.__callback !== callback) {
-          liveEvents.push(entry)
-        }
-      })
+    if (list === void 0) {
+      return this // chainable
+    }
 
-      if (liveEvents.length !== 0) {
-        this.__stack[ name ] = liveEvents
-      }
-      else {
-        delete this.__stack[ name ]
-      }
+    if (callback === void 0) {
+      delete this.__stack[ name ]
+      return this // chainable
+    }
+
+    const liveEvents = list.filter(
+      entry => entry.fn !== callback && entry.fn.__callback !== callback
+    )
+
+    if (liveEvents.length !== 0) {
+      this.__stack[ name ] = liveEvents
+    }
+    else {
+      delete this.__stack[ name ]
     }
 
     return this // chainable

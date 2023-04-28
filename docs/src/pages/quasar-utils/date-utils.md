@@ -104,7 +104,7 @@ The object literal provided can contain the following keys (all are optional):
 | `second(s)` | for the seconds component of the date/time |
 | `minute(s)` | for the minutes component of the date/time |
 | `hour(s)` | for the hours component of the date/time |
-| `day(s)`/`date` | for the day component of the date/time |
+| `day(s)` / `date` | for the day component of the date/time |
 | `month(s)` | for the month component of the date/time |
 | `year(s)` | for the year component of the date/time |
 
@@ -120,6 +120,14 @@ if (date.isValid(dateString)) {
   // Do something with date string
 }
 ```
+
+::: warning
+`isValid` only validates the date format, not the logic validity of the date.
+
+The underlying implementation is based on native `Date.parse(...)` API and its shortcomings will pass through our API.
+
+It will not check if the date is valid for the month (e.g. 31st of February), or if the date is valid for the year (e.g. 29th of February in a non-leap year), and will return a different value in those cases for Firefox with respect to Chromium-based browsers (Chrome, Edge, etc).
+:::
 
 ### Add/Subtract
 To add/subtract some duration to/from a date use:
@@ -144,7 +152,7 @@ The object literal provided can contain the following keys (all are optional):
 | `second(s)` | for a duration in seconds |
 | `minute(s)` | for a duration in minutes |
 | `hour(s)` | for a duration in hours |
-| `day(s)`/`date` | for a duration in days |
+| `day(s)` / `date` | for a duration in days |
 | `month(s)` | for a duration in months |
 | `year(s)` | for a duration in years |
 
@@ -169,7 +177,7 @@ The object literal provided can contain the following keys (all are optional):
 | `second(s)` | for the seconds component of the date/time |
 | `minute(s)` | for the minutes component of the date/time |
 | `hour(s)` | for the hours component of the date/time |
-| `day(s)`/`date` | for the day component of the date/time |
+| `day(s)` / `date` | for the day component of the date/time |
 | `month(s)` | for the month component of the date/time |
 | `year(s)` | for the year component of the date/time |
 
@@ -260,7 +268,7 @@ Unit parameter can be omitted, in which case a full date/time comparison will oc
 | `second(s)` | test if same second only |
 | `minute(s)` | test if same minute only |
 | `hour(s)` | test if same hour only |
-| `day(s)`/`date` | test if same day only |
+| `day(s)` / `date` | test if same day only |
 | `month(s)` | test if same month only |
 | `year(s)` | test if same year only |
 
@@ -285,7 +293,7 @@ The unit parameter indicates the unit of measurement, if not specified then it i
 | `second(s)` | distance in seconds (disregarding milliseconds) |
 | `minute(s)` | distance in minutes (disregarding seconds, ...) |
 | `hour(s)` | distance in hours (disregarding minutes, seconds, ...) |
-| `day(s)`/`date` | distance in calendar days |
+| `day(s)` / `date` | distance in calendar days |
 | `month(s)` | distance in calendar months |
 | `year(s)` | distance in calendar years |
 
@@ -346,7 +354,7 @@ The second parameter indicates a unit to reset to (beginning of it or end of it)
 | `second(s)` | reset seconds |
 | `minute(s)` | reset minutes |
 | `hour(s)` | reset hours |
-| `day(s)`/`date` | reset days |
+| `day(s)` / `date` | reset days |
 | `month(s)` | reset months |
 | `year(s)` | reset years |
 

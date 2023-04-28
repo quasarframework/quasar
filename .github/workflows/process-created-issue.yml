@@ -4,9 +4,6 @@ on:
     types:
       - opened
 
-permissions:
-  contents: read # to fetch code (actions/checkout)
-
 jobs:
   issue-automation:
     permissions:
@@ -23,14 +20,14 @@ jobs:
       TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug 🐞') && 'bug' || 'docs' }}
       TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv1') && 'v1' || 'v2' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: stefanbuck/github-issue-parser@v2
+      - uses: stefanbuck/github-issue-parser@v3
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--quasar-${{ env.TEMPLATE_VERSION }}.yml
 
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
         env:
           ISSUE_MODEL: ${{ steps.issue-parser.outputs.jsonString }}
           INVALID_REPRO_MESSAGE: |
@@ -80,6 +77,7 @@ jobs:
                 'Plugins': 'area/plugins',
                 'Composables': 'area/composables',
                 'Style & Identity': 'area/style',
+                'Accessibility [a11y]': 'area/a11y',
 
                 'Project Creation': 'area/project-creation',
                 'Quasar Extras': 'area/extras',

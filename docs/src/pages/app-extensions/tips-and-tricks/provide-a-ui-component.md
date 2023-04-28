@@ -3,29 +3,25 @@ title: Provide a UI component
 desc: Tips and tricks on how to provide a Vue component to the host app of a Quasar App Extension.
 scope:
   tree:
-    { l: '.',
-      c: [
-        { l: 'package.json' },
-        { l: 'src',
-          c: [
-            { l: 'boot',
-              e: 'folder to contain boot code',
-              c: [
-                { l: 'register-my-component.js', e: 'boot file for component' }
-              ]
-            },
-            { l: 'component',
-              e: 'folder to contain component',
-              c: [
-                { l: 'MyComponent.vue', e: 'component file (can be .vue or even .js)' },
-                { l: 'MyComponent.sass', e: 'sass file for component (or .scss/.css, or whatever you need)' }
-              ]
-            },
-            { l: 'index.js', e: 'Described in Index API' }
-          ]
-        }
-      ]
-    }
+    l: "."
+    c:
+    - l: package.json
+    - l: src
+      c:
+      - l: boot
+        e: folder to contain boot code
+        c:
+        - l: register-my-component.js
+          e: boot file for component
+      - l: component
+        e: folder to contain component
+        c:
+        - l: MyComponent.vue
+          e: component file (can be .vue or even .js)
+        - l: MyComponent.sass
+          e: sass file for component (or .scss/.css, or whatever you need)
+      - l: index.js
+        e: Described in Index API
 ---
 
 This guide is for when you want to create a new UI component and provide it through an App Extension, which will inject it into the hosting app.

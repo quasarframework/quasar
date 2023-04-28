@@ -132,7 +132,7 @@ You should consider adding some additional configurations to your project.
 {
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    { "src": "/.*", "dest": "/" }
   ]
 }
 ```

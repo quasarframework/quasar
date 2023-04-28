@@ -1,224 +1,171 @@
-<template lang="pug">
-q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
-  q-toolbar.doc-example__toolbar
-    card-title(:title="title" :slugifiedTitle="slugifiedTitle")
+<template>
+  <q-card class="doc-example q-my-lg" flat bordered>
+    <div class="header-toolbar row items-center q-pr-sm">
+      <doc-card-title :title="props.title" prefix="example--" />
 
-    q-space
+      <q-space />
 
-    div.col-auto
-      q-btn(dense flat round :icon="fabGithub" @click="openGitHub")
-        q-tooltip View on GitHub
-      q-btn.q-ml-sm(v-if="noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="loadingSource")
-        q-tooltip Edit in Codepen
-      q-btn.q-ml-sm(dense flat round icon="code" @click="expanded = !expanded" :disable="loadingSource")
-        q-tooltip View Source
+      <div class="doc-example__actions row no-wrap items-center">
+        <q-btn class="header-btn" dense flat round :icon="mdiCompare" @click="docStore.toggleDark">
+          <q-tooltip>Toggle dark mode</q-tooltip>
+        </q-btn>
 
-  q-separator.doc-example__separator
+        <q-separator class="q-mx-xs" vertical inset />
 
-  q-slide-transition
-    div(v-show="expanded")
-      q-tabs.doc-example__tabs(
-        v-model="currentTab"
-        align="left"
-        no-caps
-        :active-color="dark ? 'amber' : void 0"
-        :indicator-color="dark ? 'amber' : 'brand-primary'"
-        dense
-        :breakpoint="0"
-      )
-        q-tab(
-          v-for="tab in def.tabs"
-          :key="`tab-${tab}`"
-          :name="tab"
-          :label="tab"
-        )
+        <q-btn class="header-btn" dense flat round :icon="fabGithub" @click="openGitHub">
+          <q-tooltip>View on GitHub</q-tooltip>
+        </q-btn>
+        <q-btn class="header-btn q-ml-xs" v-if="props.noEdit === false" dense flat round :icon="fabCodepen" @click="openCodepen" :disable="isBusy">
+          <q-tooltip>Edit in Codepen</q-tooltip>
+        </q-btn>
+        <q-btn class="header-btn q-ml-xs" dense flat round icon="code" @click="toggleExpand" :disable="isBusy">
+          <q-tooltip>View Source</q-tooltip>
+        </q-btn>
+      </div>
+    </div>
 
-      q-separator
+    <q-slide-transition>
+      <div v-show="expanded">
+        <q-tabs class="header-tabs" v-model="currentTab" align="left" no-caps active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0">
+          <q-tab v-for="tab in def.tabs" :key="`tab-${tab}`" :name="tab" class="header-btn">
+            {{ tab }}
+          </q-tab>
+        </q-tabs>
 
-      q-tab-panels.text-grey-3.text-weight-regular(
-        v-model="currentTab"
-        animated
-      )
-        q-tab-panel.q-pa-none(
-          v-for="tab in def.tabs"
-          :key="`pane-${tab}`"
-          :name="tab"
-        )
-          doc-code(lang="markup" :code="def.parts[tab]" max-height="70vh")
+        <q-separator />
 
-      q-separator.doc-example__separator
+        <q-tab-panels class="text-grey-3 text-weight-regular" v-model="currentTab" animated>
+          <q-tab-panel class="q-pa-none" v-for="tab in def.tabs" :key="`pane-${tab}`" :name="tab">
+            <doc-code lang="markup" :code="def.parts[tab]" max-height="70vh" />
+          </q-tab-panel>
+        </q-tab-panels>
 
-  .row
-    q-linear-progress(v-if="loadingComponent || loadingSource" color="brand-primary" indeterminate)
-    component.col.doc-example__content(v-if="!loadingComponent" :is="component" :class="componentClass")
+      </div>
+    </q-slide-transition>
 
-  doc-codepen(v-if="!loadingSource" ref="codepenRef" :title="title" :slugifiedTitle="slugifiedTitle")
+    <doc-codepen v-if="!isBusy" ref="codepenRef" :title="props.title" />
+
+    <q-separator />
+
+    <div class="row overflow-hidden">
+      <q-linear-progress v-if="isBusy" color="brand-primary" indeterminate />
+      <component class="col doc-example__content doc-example-typography" v-else :is="component" :class="componentClass" />
+    </div>
+  </q-card>
 </template>
 
-<script>
+<script setup>
 import { markRaw, onMounted } from 'vue'
 import { openURL } from 'quasar'
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, inject } from 'vue'
 
-import {
-  fabGithub, fabCodepen
-} from '@quasar/extras/fontawesome-v6'
+import { fabGithub, fabCodepen } from '@quasar/extras/fontawesome-v6'
+import { mdiCompare } from '@quasar/extras/mdi-v7'
 
-import { slugify } from 'assets/page-utils'
+import { useDocStore } from 'src/layouts/doc-layout/store'
 
 import DocCode from './DocCode.vue'
 import DocCodepen from './DocCodepen.vue'
-import CardTitle from './CardTitle.vue'
+import DocCardTitle from './DocCardTitle.vue'
 
-const importExampleComponent = process.env.CLIENT
-  ? import.meta.glob('/public/examples/**/*.vue')
-  : null
+const props = defineProps({
+  title: String,
+  file: String,
+  noEdit: Boolean,
+  scrollable: Boolean,
+  overflow: Boolean
+})
 
-export default {
-  name: 'DocExample',
+const docStore = useDocStore()
+const examples = inject('_q_ex')
 
-  components: {
-    DocCode,
-    DocCodepen,
-    CardTitle
-  },
+const codepenRef = ref(null)
+const isBusy = ref(true)
 
-  props: {
-    title: String,
-    file: String,
-    noEdit: Boolean,
-    dark: Boolean,
-    scrollable: Boolean,
-    overflow: Boolean
-  },
+const component = ref(null)
+const def = reactive({
+  tabs: [],
+  parts: {}
+})
+const currentTab = ref('Template')
+const expanded = ref(false)
 
-  setup (props) {
-    const codepenRef = ref(null)
+const componentClass = computed(() => {
+  return props.scrollable === true
+    ? 'doc-example__content--scrollable scroll-y'
+    : (props.overflow === true ? 'overflow-auto' : '')
+})
 
-    const loadingSource = ref(true)
-    const loadingComponent = ref(true)
+function parseTemplate (target, template) {
+  const
+    string = `(<${target}(.*)?>[\\w\\W]*<\\/${target}>)`,
+    regex = new RegExp(string, 'g'),
+    parsed = regex.exec(template) || []
 
-    const component = ref(null)
-    const def = reactive({
-      tabs: [],
-      parts: {}
-    })
-    const currentTab = ref('Template')
-    const expanded = ref(false)
-
-    const classes = computed(() => {
-      return props.dark === true
-        ? 'doc-example--dark'
-        : ''
-    })
-
-    const componentClass = computed(() => {
-      return props.scrollable === true
-        ? 'doc-example__content--scrollable scroll-y'
-        : (props.overflow === true ? 'overflow-auto' : '')
-    })
-
-    const slugifiedTitle = computed(() => {
-      return 'example--' + slugify(props.title)
-    })
-
-    function parseTemplate (target, template) {
-      const
-        string = `(<${target}(.*)?>[\\w\\W]*<\\/${target}>)`,
-        regex = new RegExp(string, 'g'),
-        parsed = regex.exec(template) || []
-
-      return parsed[ 1 ] || ''
-    }
-
-    function parseComponent (comp) {
-      def.parts = {
-        Template: parseTemplate('template', comp),
-        Script: parseTemplate('script', comp),
-        Style: parseTemplate('style', comp)
-      }
-
-      const tabs = [ 'Template', 'Script', 'Style' ]
-        .filter(type => def.parts[ type ])
-
-      if (tabs.length > 1) {
-        def.parts.All = comp
-        tabs.push('All')
-      }
-
-      def.tabs = tabs
-    }
-
-    process.env.CLIENT && onMounted(() => {
-      importExampleComponent[ '/public/examples/' + props.file + '.vue' ]()
-        .then(comp => {
-          component.value = markRaw(comp.default)
-          loadingComponent.value = false
-        })
-
-      fetch(`/examples/${ props.file }.vue`)
-        .then(response => response.text())
-        .then(content => {
-          parseComponent(content)
-          loadingSource.value = false
-        })
-    })
-
-    return {
-      fabGithub,
-      fabCodepen,
-
-      codepenRef,
-
-      loadingSource,
-      loadingComponent,
-      component,
-      currentTab,
-      expanded,
-      def,
-
-      classes,
-      componentClass,
-      slugifiedTitle,
-
-      openGitHub () {
-        openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/public/examples/${props.file}.vue`)
-      },
-
-      openCodepen () {
-        codepenRef.value.open(def.parts)
-      }
-    }
-  }
+  return parsed[ 1 ] || ''
 }
+
+function parseComponent (comp) {
+  def.parts = {
+    Template: parseTemplate('template', comp),
+    Script: parseTemplate('script', comp),
+    Style: parseTemplate('style', comp)
+  }
+
+  const tabs = [ 'Template', 'Script', 'Style' ]
+    .filter(type => def.parts[ type ])
+
+  if (tabs.length > 1) {
+    def.parts.All = comp
+    tabs.push('All')
+  }
+
+  def.tabs = tabs
+}
+
+function openGitHub () {
+  openURL(`https://github.com/quasarframework/quasar/tree/${ process.env.DOCS_BRANCH }/docs/src/examples/${ examples.name }/${ props.file }.vue`)
+}
+
+function openCodepen () {
+  codepenRef.value.open(def.parts)
+}
+
+function toggleExpand () {
+  expanded.value = expanded.value === false
+}
+
+process.env.CLIENT && onMounted(() => {
+  examples.list.then(list => {
+    component.value = markRaw(
+      process.env.DEV
+        ? list.code[ `./src/examples/${ examples.name }/${ props.file }.vue` ].default
+        : list[ props.file ]
+    )
+
+    parseComponent(
+      process.env.DEV
+        ? list.source[ `./src/examples/${ examples.name }/${ props.file }.vue` ]
+        : list[ `Raw${ props.file }` ]
+    )
+
+    isBusy.value = false
+  })
+})
 </script>
 
 <style lang="sass">
 .doc-example
 
-  &__toolbar
-    color: $grey-8
-    > .q-btn
-      color: $grey-7
-
-  &__tabs
-    background: $grey-3
-    color: $grey-7
-
-  &--dark
-    .doc-example__toolbar
-      background: $grey-10
-      color: #fff
-      > .q-btn
-        color: $grey-3
-    .doc-example__separator
-      background-color: $grey-8
-    .doc-example__tabs
-      background: $grey-9
-      color: $grey-5
+  &__actions
+    padding: 3px 0 3px 7px
 
   &__content
     position: relative
+
+    // reset doc style
+    font-weight: 400
+    font-family: $font-family-examples
 
     &--scrollable
       height: 500px

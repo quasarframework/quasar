@@ -18,7 +18,45 @@ $negative  : #C10015
 $info      : #31CCEC
 $warning   : #F2C037
 
-$brand-primary : #00B4FF
+$ice-dust: #00B4FF
+$cold-black: #050A14
+$mars-sand: #EA5E13
+$void-suit: #D8E1E5
+$ship-shell: #8FA8B2
+$floating-rock: #475D66
 
-$font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
-$font-family-avenir: Avenir, $font-family
+$brand-primary: $ice-dust
+$brand-secondary: $floating-rock
+$brand-accent: $mars-sand
+
+$header-btn-color--light: #757575
+$header-btn-hover-color--light: #212121 // $grey-10
+$header-btn-color--dark: #929397
+$header-btn-hover-color--dark: #fff
+
+$light-pill: #f5f5f5 // $grey-2
+$light-text: #474747
+$light-bg: #fafafa
+
+$dark-text: #cbcbcb
+$dark-bg: $cold-black
+$dark-pill: scale-color($brand-primary, $lightness: -80%)
+
+$font-size: 16px
+$font-size-brand: 16px
+$font-weight-brand: 500
+$font-weight-technical: 400
+$letter-spacing-brand: .7px
+
+$font-family-technical: "Roboto", -apple-system, Avenir, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
+$font-family-examples: $font-family-technical
+$font-family-brand: "Montserrat", $font-family-technical
+
+$shadow--large: 0 24px 24px 0 rgba(0,179,255, 0.24)
+$shadow--medium: 0 6px 6px 0 rgba($brand-primary, 0.38)
+$shadow--small: 0 6px 6px 0 rgba($brand-primary, 0.28)
+
+// also update QHeader :height-hint
+$header-height: 128px
+$header-transition: .6s cubic-bezier(0.25, 0.8, 0.5, 1)
+$header-quick-transition: .28s ease-in-out

@@ -79,9 +79,13 @@ export default createComponent({
     }
 
     function getContent () {
-      return showing.value === true
-        ? [ h('div', { key: 'content', style: transitionStyle.value }, hSlot(slots.default)) ]
-        : void 0
+      if (showing.value === true) {
+        return [ h('div', { key: 'content', style: transitionStyle.value }, hSlot(slots.default)) ]
+      }
+
+      if (slots.hidden !== void 0) {
+        return [ h('div', { key: 'hidden', style: transitionStyle.value }, slots.hidden()) ]
+      }
     }
 
     return () => {

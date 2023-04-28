@@ -37,7 +37,7 @@ export function useTablePaginationState (vm, getCellValue) {
       sortBy: null,
       descending: false,
       page: 1,
-      rowsPerPage: props.rowsPerPageOptions.length > 0
+      rowsPerPage: props.rowsPerPageOptions.length !== 0
         ? props.rowsPerPageOptions[ 0 ]
         : 5
     }, props.pagination)

@@ -38,6 +38,14 @@
                   "examples": [ "my-class" ]
                 },
 
+                "style": {
+                  "type": [ "String", "Array", "Object" ],
+                  "tsType": "VueStyleProp",
+                  "desc": "Style definitions to be attributed to this action element",
+                  "examples": [ "{ padding: '2px' }" ],
+                  "addedIn": "v2.11.7"
+                },
+
                 "icon": {
                   "extends": "icon"
                 },

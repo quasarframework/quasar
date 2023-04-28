@@ -1,11 +1,11 @@
-const { dirname } = require('path')
 
-const imagemin = require('imagemin')
-const pngquant = require('imagemin-pngquant')
+import { dirname } from 'node:path'
 
-const { BICUBIC2, HERMITE, BEZIER, BICUBIC, BILINEAR, NEAREST_NEIGHBOR } = require('png2icons')
+import imagemin from 'imagemin'
+import pngquant from 'imagemin-pngquant'
+import { BICUBIC2, HERMITE, BEZIER, BICUBIC, BILINEAR, NEAREST_NEIGHBOR } from 'png2icons'
 
-module.exports.getIcoCompression = function getIcoCompression (quality) {
+export function getIcoCompression (quality) {
   switch (quality) {
     case 1:
     case 2:
@@ -28,7 +28,7 @@ module.exports.getIcoCompression = function getIcoCompression (quality) {
   }
 }
 
-module.exports.getPngCompression = function getPngCompression (quality) {
+export function getPngCompression (quality) {
   if (quality === 12) {
     return () => {}
   }

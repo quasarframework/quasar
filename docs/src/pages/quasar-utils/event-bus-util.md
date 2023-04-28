@@ -32,6 +32,20 @@ bus.on('some-event', (arg1, arg2, arg3) => {
 bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
 ```
 
+When using TypeScript the events can be strongly-typed:
+
+```js
+// Quasar v2.11.11+
+import { EventBus } from 'quasar'
+
+const bus = new EventBus<{
+    'some-event': (arg1: string, arg2: string, arg3: string) => void;
+    'other': (arg: boolean) => void;
+}>()
+
+bus.emit('some-event', 'arg1 value', 'arg2 value', 'arg3 value')
+```
+
 ### Convenience usage
 
 Create a file in your app where you instantiate and export the new event bus then import and use it throughout your app.

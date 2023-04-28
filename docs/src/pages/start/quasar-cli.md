@@ -19,7 +19,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 You can try Quasar CLI online directly in the browser, without installing anything!
 You will also be able to use the command line, so it will be almost identical to creating a project locally.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.quasar.dev)
+<q-btn no-wrap href="https://stackblitz.quasar.dev" target="_blank" label="Open in Stackblitz" />
 
 ## TL;DR
 
@@ -49,7 +49,7 @@ Pick `Quasar CLI with Vite` if you want:
 * Faster build
 * Superior PWA, SSR and BEX Quasar modes (more features)
 
-<q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
+<q-btn icon-right="launch" no-wrap label="View Components" to="/components" />
 
 ## Installation / Project Scaffolding
 
@@ -133,7 +133,7 @@ Pick `Quasar CLI with Vite` if you want:
 
 Quasar CLI (`@quasar/cli`) works in tandem with either `@quasar/app-vite` or `@quasar/app-webpack`. The first one is optional (but **strongly recommended**) and allows you to run Quasar CLI commands directly and some other useful commands like `quasar upgrade` (upgrade Quasar packages seamlessly) or `quasar serve` (serve your distributable with an ad-hoc webserver). The second package is the heart of it (runs the important commands - dev, build, inspect, info, describe etc) and it gets installed locally into every Quasar project folder.
 
-#### Running without the global `@quasar/cli`
+#### Running without the global @quasar/cli
 
 However, should you want independence of the globally installed `@quasar/cli` package, you have the possibility to directly run the Quasar CLI commands. It is `@quasar/app-vite` or `@quasar/app-webpack` (which is specific to each project folder) that will run all the CLI commands.
 
@@ -173,4 +173,4 @@ Here are the options:
 
 ## What next?
 
-<q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
+<q-btn icon-right="launch" no-wrap label="View Components" to="/components" />

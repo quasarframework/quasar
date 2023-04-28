@@ -1,10 +1,12 @@
-const { resolve, dirname, basename, isAbsolute, relative } = require('path')
-const { writeFileSync } = require('fs')
-const { ensureDir } = require('fs-extra')
 
-const { log } = require('../utils/logger')
-const modes = require('../modes')
-const validateProfileObject = require('../utils/validate-profile-object')
+import { resolve, dirname, basename, isAbsolute, relative } from 'node:path'
+import { writeFileSync } from 'node:fs'
+import { ensureDir } from 'fs-extra'
+
+import { log } from '../utils/logger.js'
+import { modes } from '../modes/index.js'
+import { validateProfileObject } from '../utils/validate-profile-object.js'
+import { appDir } from '../utils/app-paths.js'
 
 function getParams ({ include, ...props }) {
   if (include) {
@@ -18,7 +20,7 @@ function getAssets (assets) {
   let list = []
 
   assets.forEach(name => {
-    list = list.concat(modes[name].assets)
+    list = list.concat(modes[ name ].assets)
   })
 
   return list
@@ -36,11 +38,11 @@ function getTargetFilepath (output) {
     ? ''
     : '.json'
 
-  const filename = `${prefix}${name}${suffix}`
+  const filename = `${ prefix }${ name }${ suffix }`
   return resolve(process.cwd(), folder || '', filename)
 }
 
-module.exports = function profile ({ output, assets, ...params }) {
+export function profile ({ output, assets, ...params }) {
   const profile = {
     params: getParams(params),
     assets: getAssets(assets)
@@ -51,7 +53,6 @@ module.exports = function profile ({ output, assets, ...params }) {
   if (profile.params.icon && isAbsolute(profile.params.icon) === false) {
     // generate icon path relative to app root
     // so it won't matter from where the profile file is run
-    const { appDir } = require('../utils/app-paths')
     profile.params.icon = relative(appDir, profile.params.icon)
   }
 
@@ -65,5 +66,5 @@ module.exports = function profile ({ output, assets, ...params }) {
   writeFileSync(targetFile, JSON.stringify(profile, null, 2), 'utf-8')
 
   console.log(` Generated Icon Genie profile file:`)
-  log(`${targetFile}\n`)
+  log(`${ targetFile }\n`)
 }

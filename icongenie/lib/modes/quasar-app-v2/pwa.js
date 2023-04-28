@@ -1,21 +1,22 @@
-const spaEntries = require('./spa')
+
+import spaEntries from './spa.js'
 
 /* def: width, height, pixel-ratio */
 function getAppleLaunch (def) {
-  const media = `(device-width: ${def[0] / def[2]}px) and (device-height: ${def[1] / def[2]}px) and (-webkit-device-pixel-ratio: ${def[2]})`
+  const media = `(device-width: ${ def[ 0 ] / def[ 2 ] }px) and (device-height: ${ def[ 1 ] / def[ 2 ] }px) and (-webkit-device-pixel-ratio: ${ def[ 2 ] })`
 
   return {
     generator: 'splashscreen',
     name: 'apple-launch-{size}.png',
     folder: 'public/icons',
     sizes: [
-      [ def[0], def[1] ]
+      [ def[ 0 ], def[ 1 ] ]
     ],
-    tag: `${def[3]}\n<link rel="apple-touch-startup-image" media="${media}" href="icons/{name}">`
+    tag: `${ def[ 3 ] }\n<link rel="apple-touch-startup-image" media="${ media }" href="icons/{name}">`
   }
 }
 
-module.exports = [
+export default [
   ...spaEntries,
 
   {

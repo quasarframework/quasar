@@ -3,6 +3,12 @@
     <q-editor
       v-model="qeditor"
       :dense="$q.screen.lt.md"
+      @dropdown-before-show="dropdownBeforeShow"
+      @dropdown-before-hide="dropdownBeforeHide"
+      @dropdown-hide="dropdownHide"
+      @dropdown-show="dropdownShow"
+      @link-show="linkShow"
+      @link-hide="linkHide"
       :toolbar="[
         [
           {
@@ -96,6 +102,26 @@ export default {
     return {
       qeditor: '<pre>Check out the two different types of dropdowns'
         + ' in each of the "Align" buttons.</pre> '
+    }
+  },
+  methods: {
+    dropdownBeforeShow (evt) {
+      console.log('dropdownBeforeShow', evt)
+    },
+    dropdownBeforeHide (evt) {
+      console.log('dropdownBeforeHide', evt)
+    },
+    dropdownShow (evt) {
+      console.log('dropdownShow', evt)
+    },
+    dropdownHide (evt) {
+      console.log('dropdownHide', evt)
+    },
+    linkShow () {
+      console.log('linkShow')
+    },
+    linkHide () {
+      console.log('linkHide')
     }
   }
 }

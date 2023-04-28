@@ -1,6 +1,7 @@
-const { warn } = require('../utils/logger')
 
-module.exports = function getSquareIcon ({
+import { warn } from '../utils/logger.js'
+
+export function getSquareIcon ({
   file,
   icon,
   size,
@@ -10,7 +11,7 @@ module.exports = function getSquareIcon ({
   const img = icon.clone()
   let width = size - 2 * horiz
   let height = size - 2 * vert
-  let corrections = []
+  const corrections = []
 
   if (width <= 0) {
     width = size
@@ -25,7 +26,7 @@ module.exports = function getSquareIcon ({
   }
 
   if (corrections.length > 0) {
-    warn(`Correction on padding for ${file.relativeName} due to padding exceeding file's dimension of ${size}x${size}px`)
+    warn(`Correction on padding for ${ file.relativeName } due to padding exceeding file's dimension of ${ size }x${ size }px`)
   }
 
   img.resize({

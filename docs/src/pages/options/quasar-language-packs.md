@@ -277,7 +277,7 @@ setup () {
 }
 ```
 
-## Disabling HTML attributes <q-badge align="top" color="brand-primary" label="v2.11.3+" />
+## Disabling HTML attributes <q-badge label="v2.11.3+" />
 
 By default, Quasar will add `dir` and `lang` HTML attributes to the `<html>` tag for you. The `dir` attribute is especially important to the way CSS is preprocesses with Sass when [RTL is enabled](/options/rtl-support).
 

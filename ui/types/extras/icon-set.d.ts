@@ -5,7 +5,12 @@ type QuasarIconSetArrow = "up" | "right" | "down" | "left" | "dropdown";
 type QuasarIconSetChevron = "left" | "right";
 type QuasarIconSetColorPicker = "spectrum" | "tune" | "palette";
 type QuasarIconSetPullToRefresh = "icon";
-type QuasarIconSetCarousel = "left" | "right" | "up" | "down" | "navigationIcon";
+type QuasarIconSetCarousel =
+  | "left"
+  | "right"
+  | "up"
+  | "down"
+  | "navigationIcon";
 type QuasarIconSetChip = "remove" | "selected";
 type QuasarIconSetDatetime = "arrowLeft" | "arrowRight" | "now" | "today";
 type QuasarIconSetEditor =
@@ -59,7 +64,13 @@ type QuasarIconSetPagination = "first" | "prev" | "next" | "last";
 type QuasarIconSetRating = "icon";
 type QuasarIconSetStepper = "done" | "active" | "error";
 type QuasarIconSetTabs = "left" | "right" | "up" | "down";
-type QuasarIconSetTable = "arrowUp" | "warning" | "firstPage" | "prevPage" | "nextPage" | "lastPage";
+type QuasarIconSetTable =
+  | "arrowUp"
+  | "warning"
+  | "firstPage"
+  | "prevPage"
+  | "nextPage"
+  | "lastPage";
 type QuasarIconSetTree = "icon";
 type QuasarIconSetUploader =
   | "done"
@@ -93,42 +104,44 @@ export interface QuasarIconSet {
 }
 
 export type QuasarIconSets =
-  | "material-icons"
-  | "svg-material-icons"
-  | "material-icons-outlined"
-  | "svg-material-icons-outlined"
-  | "material-icons-round"
-  | "svg-material-icons-round"
-  | "material-icons-sharp"
-  | "svg-material-icons-sharp"
-  | "material-symbols-outlined"
-  | "svg-material-symbols-outlined"
-  | "material-symbols-rounded"
-  | "svg-material-symbols-rounded"
-  | "material-symbols-sharp"
-  | "svg-material-symbols-sharp"
-  | "mdi-v6"
-  | "svg-mdi-v6"
-  | "mdi-v5"
-  | "svg-mdi-v5"
-  | "mdi-v4"
-  | "svg-mdi-v4"
-  | "mdi-v3"
+  | "bootstrap-icons"
+  | "eva-icons"
   | "fontawesome-v5"
-  | "fontawesome-v6"
   | "fontawesome-v5-pro"
+  | "fontawesome-v6"
   | "fontawesome-v6-pro"
+  | "ionicons-v4"
+  | "line-awesome"
+  | "material-icons"
+  | "material-icons-outlined"
+  | "material-icons-round"
+  | "material-icons-sharp"
+  | "material-symbols-outlined"
+  | "material-symbols-rounded"
+  | "material-symbols-sharp"
+  | "mdi-v3"
+  | "mdi-v4"
+  | "mdi-v5"
+  | "mdi-v6"
+  | "mdi-v7"
+  | "themify"
+  | "svg-bootstrap-icons"
+  | "svg-eva-icons"
   | "svg-fontawesome-v5"
   | "svg-fontawesome-v6"
-  | "svg-ionicons-v6"
-  | "svg-ionicons-v5"
-  | "ionicons-v4"
   | "svg-ionicons-v4"
-  | "eva-icons"
-  | "svg-eva-icons"
-  | "themify"
-  | "svg-themify"
-  | "line-awesome"
+  | "svg-ionicons-v5"
+  | "svg-ionicons-v6"
   | "svg-line-awesome"
-  | "bootstrap-icons"
-  | "svg-bootstrap-icons";
+  | "svg-material-icons"
+  | "svg-material-icons-outlined"
+  | "svg-material-icons-round"
+  | "svg-material-icons-sharp"
+  | "svg-material-symbols-outlined"
+  | "svg-material-symbols-rounded"
+  | "svg-material-symbols-sharp"
+  | "svg-mdi-v4"
+  | "svg-mdi-v5"
+  | "svg-mdi-v6"
+  | "svg-mdi-v7"
+  | "svg-themify";

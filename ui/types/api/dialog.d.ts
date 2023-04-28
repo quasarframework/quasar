@@ -1,12 +1,5 @@
-// Error on "quasar" import shown in IDE is normal, as we only have Components/Directives/Plugins types after the build step
-// The import will work correctly at runtime
 import { QInputProps, QOptionGroupProps } from "quasar";
-
-// Taken from https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-8.html#distributive-conditional-types
-type NonFunctionPropertyNames<T> = {
-  [K in keyof T]: T[K] extends Function ? never : K;
-}[keyof T];
-type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+import { InputHTMLAttributes, HTMLAttributes } from "vue";
 
 // https://html.spec.whatwg.org/multipage/input.html#attr-input-type
 type InputType =
@@ -36,6 +29,13 @@ type DatalessInputType = Extract<InputType, "submit" | "reset">;
 
 type PromptInputType = "textarea" | Exclude<InputType, DatalessInputType>;
 
+type DataAttributes = {
+  // Has type-checking but no autocompletion: https://github.com/microsoft/TypeScript/issues/41620
+  [dataAttributes in `data-${string}`]?: any;
+} & {
+  "data-cy"?: string;
+};
+
 export type QDialogInputPrompt<T = string> = {
   /**
    * The initial value of the input
@@ -56,9 +56,10 @@ export type QDialogInputPrompt<T = string> = {
    */
   isValid?: (value: T) => boolean;
 } & Partial<Omit<QInputProps, "modelValue" | "onUpdate:modelValue" | "type">> &
-  Partial<NonFunctionProperties<HTMLInputElement>>;
+  Omit<InputHTMLAttributes, "type"> &
+  DataAttributes;
 
-type SelectionPromptType = NonNullable<QOptionGroupProps["type"]>
+type SelectionPromptType = NonNullable<QOptionGroupProps["type"]>;
 export type QDialogSelectionPrompt<
   // As this gets used as is in generated types, we must define default values for generic params.
   // Example: `options?: QDialogSelectionPrompt;` <- notice the missing type params.
@@ -98,4 +99,5 @@ export type QDialogSelectionPrompt<
     "modelValue" | "onUpdate:modelValue" | "type" | "options"
   >
 > &
-  Partial<NonFunctionProperties<HTMLElement>>;
+  HTMLAttributes &
+  DataAttributes;

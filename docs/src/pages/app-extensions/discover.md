@@ -3,7 +3,7 @@ title: Discover App Extensions
 desc: Look up official and community Quasar App Extensions.
 ---
 
-<q-btn push class="q-py-xs" no-caps color="brand-primary" icon-right="search" label="Look up extensions" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener" />
+<q-btn icon-right="search" label="Look up extensions" href="https://www.npmjs.com/search?q=quasar-app-extension" target="_blank" rel="noopener noreferrer" />
 
 ## Community App Extensions
 
@@ -20,14 +20,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | Alias | Description |
 | --- | --- |
 | [@quasar/testing](https://github.com/quasarframework/quasar-testing) | Includes pre-configured sub-extensions for all of your testing needs |
-| [@quasar/typescript](https://github.com/quasarframework/app-extension-typescript) | Transform your project into typescript awesomeness |
-| [@quasar/wizard](https://github.com/quasarframework/app-extension-wizard) | Search and find all known App Extensions, Install Collections, keep everything up to date |
-
-### Project Rigging
-
-| Alias | Description |
-| --- | --- |
-| [@quasar/obyte](https://github.com/quasarframework/app-extension-obyte) | Work with the Obyte Blockchain |
+| [@quasar/apollo](https://github.com/quasarframework/app-extension-apollo/tree/v2) | Includes pre-configured Apollo integration |
 
 ### Components
 
@@ -42,7 +35,4 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qcalendar](https://github.com/quasarframework/quasar-ui-qcalendar) | Calendar for Quasar |
 | [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
 | [@quasar/qwindow](https://github.com/quasarframework/app-extension-qwindow) | Floating, movable, resizable interactive windows for Quasar |
-| [@quasar/qplaceholder](https://github.com/quasarframework/app-extension-qplaceholder) | Display a placeholder before your data arrives |
 | [@quasar/qiconpicker](https://github.com/quasarframework/quasar-ui-qiconpicker) | Icon Picker for your Quasar apps |
-| [@quasar/qribbon](https://github.com/quasarframework/app-extension-qribbon) | QRibbon UI component for your Quasar apps |
-| [@quasar/qzoom](https://github.com/quasarframework/app-extension-qzoom) | Zoom any content (image, video, text, components, ...) |

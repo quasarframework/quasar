@@ -1,4 +1,5 @@
-module.exports = [
+
+export default [
   {
     generator: 'png',
     name: 'favicon-{size}x{size}.png',

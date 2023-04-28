@@ -41,7 +41,7 @@ export default createComponent({
   emits: [
     ...useFieldEmits,
     'paste', 'change',
-    'keydown', 'animationend'
+    'keydown', 'click', 'animationend'
   ],
 
   setup (props, { emit, attrs }) {
@@ -59,7 +59,8 @@ export default createComponent({
       hasMask,
       moveCursorForPaste,
       updateMaskValue,
-      onMaskedKeydown
+      onMaskedKeydown,
+      onMaskedClick
     } = useMask(props, emit, emitValue, inputRef)
 
     const formDomProps = useFileFormDomProps(props, /* type guard */ true)
@@ -96,6 +97,8 @@ export default createComponent({
 
       if (hasMask.value === true) {
         evt.onKeydown = onMaskedKeydown
+        // reset selection anchor on pointer selection
+        evt.onClick = onMaskedClick
       }
 
       if (props.autogrow === true) {
@@ -305,18 +308,29 @@ export default createComponent({
         const inp = inputRef.value
         if (inp !== null) {
           const parentStyle = inp.parentNode.style
-          const { overflow } = inp.style
+          // chrome does not keep scroll #15498
+          const { scrollTop } = inp
+          // chrome calculates a smaller scrollHeight when in a .column container
+          const { overflowY, maxHeight } = $q.platform.is.firefox === true
+            ? {}
+            : window.getComputedStyle(inp)
+          // on firefox or if overflowY is specified as scroll #14263, #14344
+          // we don't touch overflow
+          // firefox is not so bad in the end
+          const changeOverflow = overflowY !== void 0 && overflowY !== 'scroll'
 
           // reset height of textarea to a small size to detect the real height
           // but keep the total control size the same
-          // Firefox rulez #14263, #14344
-          $q.platform.is.firefox !== true && (inp.style.overflow = 'hidden')
+          changeOverflow === true && (inp.style.overflowY = 'hidden')
           parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
           inp.style.height = '1px'
 
           inp.style.height = inp.scrollHeight + 'px'
-          inp.style.overflow = overflow
+          // we should allow scrollbars only
+          // if there is maxHeight and content is taller than maxHeight
+          changeOverflow === true && (inp.style.overflowY = parseInt(maxHeight, 10) < inp.scrollHeight ? 'auto' : 'hidden')
           parentStyle.marginBottom = ''
+          inp.scrollTop = scrollTop
         }
       })
     }
@@ -383,7 +397,7 @@ export default createComponent({
       hasShadow: computed(() =>
         props.type !== 'file'
         && typeof props.shadowText === 'string'
-        && props.shadowText.length > 0
+        && props.shadowText.length !== 0
       ),
 
       inputRef,
@@ -393,7 +407,10 @@ export default createComponent({
       hasValue,
 
       floatingLabel: computed(() =>
-        hasValue.value === true
+        (
+          hasValue.value === true
+          && (props.type !== 'number' || isNaN(innerValue.value) === false)
+        )
         || fieldValueIsFilled(props.displayValue)
       ),
 

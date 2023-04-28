@@ -1,3 +1,4 @@
+
 const modifiersAll = {
   left: true,
   right: true,
@@ -45,11 +46,18 @@ export function getModifierDirections (mod) {
   return dir
 }
 
+// This is especially important (not the main reason, but important)
+// for TouchSwipe directive running on Firefox
+// because text selection on such elements cannot be determined
+// without additional work (on top of getSelection() API)
+// https://bugzilla.mozilla.org/show_bug.cgi?id=85686
+const avoidNodeNamesList = [ 'INPUT', 'TEXTAREA' ]
+
 export function shouldStart (evt, ctx) {
   return ctx.event === void 0
     && evt.target !== void 0
     && evt.target.draggable !== true
     && typeof ctx.handler === 'function'
-    && evt.target.nodeName.toUpperCase() !== 'INPUT'
+    && avoidNodeNamesList.includes(evt.target.nodeName.toUpperCase()) === false
     && (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
 }

@@ -120,7 +120,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
         // duration in ms, touch in pixels, mouse in pixels
         const data = [ 600, 5, 7 ]
 
-        if (typeof binding.arg === 'string' && binding.arg.length > 0) {
+        if (typeof binding.arg === 'string' && binding.arg.length !== 0) {
           binding.arg.split(':').forEach((val, index) => {
             const v = parseInt(val, 10)
             v && (data[ index ] = v)

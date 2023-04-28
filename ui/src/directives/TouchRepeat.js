@@ -50,7 +50,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
           return
         }
 
-        const durations = typeof arg === 'string' && arg.length > 0
+        const durations = typeof arg === 'string' && arg.length !== 0
           ? arg.split(':').map(val => parseInt(val, 10))
           : [ 0, 600, 300 ]
 

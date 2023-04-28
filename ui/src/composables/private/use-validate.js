@@ -39,7 +39,7 @@ export default function (focused, innerLoading) {
   const hasRules = computed(() =>
     props.rules !== void 0
     && props.rules !== null
-    && props.rules.length > 0
+    && props.rules.length !== 0
   )
 
   const hasActiveRules = computed(() =>
@@ -52,7 +52,7 @@ export default function (focused, innerLoading) {
   )
 
   const errorMessage = computed(() => (
-    typeof props.errorMessage === 'string' && props.errorMessage.length > 0
+    typeof props.errorMessage === 'string' && props.errorMessage.length !== 0
       ? props.errorMessage
       : innerErrorMessage.value
   ))

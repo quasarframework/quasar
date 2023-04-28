@@ -1,6 +1,7 @@
 ---
 title: Platform Detection
 desc: How to detect the platform under which a Quasar app is running.
+examples: Platform
 ---
 
 Helpers are built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
@@ -8,6 +9,8 @@ Helpers are built into Quasar to detect the Platform (and its capabilities) with
 ::: tip
 Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
 :::
+
+<doc-api file="Platform" />
 
 ## Usage
 Usage inside a Vue component JS:
@@ -65,7 +68,7 @@ Now, let's say we want to render different components or DOM elements, based on 
 </div>
 ```
 
-<doc-example title="Your device" file="Platform/Basic" />
+<doc-example title="Your device" file="Basic" />
 
 ## Properties
 
@@ -126,6 +129,3 @@ function (ssrContext) {
 The `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files). And also in the [@quasar/app-vite preFetch](/quasar-cli-vite/prefetch-feature) or [@quasar/app-webpack preFetch](/quasar-cli-webpack/prefetch-feature) feature, where it is supplied as a parameter.
 
 The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.
-
-## API
-<doc-api file="Platform" />

@@ -2,22 +2,21 @@
 title: Layout Page
 desc: How to use QPageContainer and QPage components. They define the contents of your Quasar app pages.
 keys: QPage
+examples: QPage
 related:
   - /layout/layout
 ---
 
 We will be talking about encapsulating pages within a QLayout. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
-## QPageContainer API
 <doc-api file="QPageContainer" />
 
-## QPage API
 <doc-api file="QPage" />
 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn push color="brand-primary" icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
+<q-btn icon-right="launch" label="Layout Builder" href="/layout-builder" target="_blank" />
 
 ## Usage
 
@@ -58,7 +57,7 @@ Usually, the QPageContainer is part of the Layout template (where it contains a 
 Since QPageContainer and QPage need a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QPageContainer and QPage.
 :::
 
-<doc-example title="Basic" file="QPage/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 ### Style-fn
 A QPage needs a QLayout because QLayout controls all the offsets of a page, keeping account of the space that header/footer/drawer use, according to its `view` property configuration. By default, your QPage component will have a `min-height` CSS property set on it to ensure that the content fills the screen at all times, even when the content is just a few lines.
