@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-console.log('NEW icongenie')
-
 import '../lib/utils/node-version-check.js'
 
 import updateNotifier from 'update-notifier'
