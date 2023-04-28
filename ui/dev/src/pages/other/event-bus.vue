@@ -1,6 +1,15 @@
 <template>
   <div class="q-layout-padding">
-    Check console.log
+    <div>Check console.log</div>
+    <div>Output should be:</div>
+    <ul>
+      <li>called onMyEvent</li>
+      <li>called onceMyEvent</li>
+      <li>called onMyEvent</li>
+      <li>called onSomeOtherEvent</li>
+      <li>called onMyEvent</li>
+      <li>called onMyEvent2</li>
+    </ul>
   </div>
 </template>
 
@@ -13,6 +22,10 @@ const bus = new EventBus()
 
 function onMyEvent () {
   console.log('called onMyEvent')
+}
+
+function onMyEvent2 () {
+  console.log('called onMyEvent2')
 }
 
 function onceMyEvent () {
@@ -35,11 +48,9 @@ bus.emit('bogus-event')
 bus.off('my-event', onMyEvent)
 bus.emit('my-event')
 
-/**
- * Output should be:
- *   called onMyEvent
- *   called onceMyEvent
- *   called onMyEvent
- *   called onSomeOtherEvent
- */
+bus.on('my-event', onMyEvent)
+bus.on('my-event', onMyEvent2)
+bus.emit('my-event')
+bus.off('my-event')
+bus.emit('my-event')
 </script>
