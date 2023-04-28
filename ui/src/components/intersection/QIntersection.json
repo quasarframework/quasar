@@ -69,6 +69,11 @@
   "slots": {
     "default": {
       "extends": "default"
+    },
+
+    "hidden": {
+      "desc": "Slot for content to render when component is not on screen; Example: a text that the user can search for with the browser's search function",
+      "addedIn": "v2.11.11"
     }
   },
 
