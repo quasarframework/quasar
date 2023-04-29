@@ -162,7 +162,7 @@ function startVueDevtools () {
 
   const nodePackager = require('../helpers/node-packager')
 
-  nodePackager.installPackage('@vue/devtools', { isDev: true })
+  nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
   // after a yarn/npm install will fail

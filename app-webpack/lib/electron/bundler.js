@@ -16,7 +16,7 @@ function installBundler (bundlerName) {
 
   nodePackager.installPackage(
     `electron-${ bundlerName }@^${ versions[ bundlerName ] }`,
-    { isDev: true, displayName: `electron-${ bundlerName }` }
+    { isDevDependency: true, displayName: `electron-${ bundlerName }` }
   )
 }
 

@@ -24,7 +24,7 @@ class Mode {
 
     nodePackager.installPackage(
       Object.entries(electronDeps).map(([ name, version ]) => `${ name }@${ version }`),
-      { isDev: true, displayName: 'Electron dependencies' }
+      { isDevDependency: true, displayName: 'Electron dependencies' }
     )
 
     log('Creating Electron source folder...')
