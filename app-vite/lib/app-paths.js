@@ -49,6 +49,7 @@ module.exports = {
   capacitorDir,
   electronDir,
   bexDir,
+
   quasarConfigFilename,
 
   resolve: {
