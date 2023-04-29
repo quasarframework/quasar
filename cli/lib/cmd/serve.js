@@ -228,38 +228,6 @@ if (ssrDetected === false) {
       : host
   }
 
-  const server = await getServer(app)
-  server.listen(argv.port, argv.hostname, async () => {
-    const url = `http${ argv.https ? 's' : '' }://${ getHostname(argv.hostname) }:${ argv.port }`
-    const { version } = await import('../version.js')
-
-    const info = [
-      [ 'Quasar CLI', `v${ version }` ],
-      [ 'Listening at', url ],
-      [ 'Web server root', root ],
-      argv.https ? [ 'HTTPS', 'enabled' ] : '',
-      argv.gzip ? [ 'Gzip', 'enabled' ] : '',
-      [ 'Cache (max-age)', argv.cache || 'disabled' ],
-      microCacheSeconds ? [ 'Micro-cache', microCacheSeconds + 's' ] : '',
-      argv.history ? [ 'History mode', 'enabled' ] : '',
-      [ 'Index file', argv.index ],
-      argv.cors ? [ 'CORS', 'enabled' ] : '',
-      argv.proxy ? [ 'Proxy definitions', argv.proxy ] : ''
-    ]
-    .filter(msg => msg)
-    .map(msg => ' ' + msg[ 0 ].padEnd(20, '.') + ' ' + green(msg[ 1 ]))
-
-    console.log('\n' + info.join('\n') + '\n')
-
-    if (argv.open) {
-      const { isMinimalTerminal } = await import('../is-minimal-terminal.js')
-      if (!isMinimalTerminal) {
-        const { default: open } = await import('open')
-        open(url, { url: true })
-      }
-    }
-  })
-
   const getServer = async app => {
     if (!argv.https) {
       return app
@@ -385,4 +353,36 @@ if (ssrDetected === false) {
       cert: cert || fakeCert
     }, app)
   }
+
+  const server = await getServer(app)
+  server.listen(argv.port, argv.hostname, async () => {
+    const url = `http${ argv.https ? 's' : '' }://${ getHostname(argv.hostname) }:${ argv.port }`
+    const { version } = await import('../version.js')
+
+    const info = [
+      [ 'Quasar CLI', `v${ version }` ],
+      [ 'Listening at', url ],
+      [ 'Web server root', root ],
+      argv.https ? [ 'HTTPS', 'enabled' ] : '',
+      argv.gzip ? [ 'Gzip', 'enabled' ] : '',
+      [ 'Cache (max-age)', argv.cache || 'disabled' ],
+      microCacheSeconds ? [ 'Micro-cache', microCacheSeconds + 's' ] : '',
+      argv.history ? [ 'History mode', 'enabled' ] : '',
+      [ 'Index file', argv.index ],
+      argv.cors ? [ 'CORS', 'enabled' ] : '',
+      argv.proxy ? [ 'Proxy definitions', argv.proxy ] : ''
+    ]
+    .filter(msg => msg)
+    .map(msg => ' ' + msg[ 0 ].padEnd(20, '.') + ' ' + green(msg[ 1 ]))
+
+    console.log('\n' + info.join('\n') + '\n')
+
+    if (argv.open) {
+      const { isMinimalTerminal } = await import('../is-minimal-terminal.js')
+      if (!isMinimalTerminal) {
+        const { default: open } = await import('open')
+        open(url, { url: true })
+      }
+    }
+  })
 }
