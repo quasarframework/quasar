@@ -31,7 +31,7 @@ function getBrowsersList () {
     return browserListCache
   }
   catch (err) {
-    warn(`${err.name}: ${err.message}`)
+    warn(`${ err.name }: ${ err.message }`)
     fatal('Please revise /package.json > browserslist -- invalid entry!')
   }
 }
@@ -45,24 +45,24 @@ function getSupportData () {
 
   const versions = {}
 
-  for (let entry of browsers) {
+  for (const entry of browsers) {
     const [ rawName, ver ] = entry.split(' ')
-    const name = NAMES[rawName] || capitalize(rawName)
+    const name = NAMES[ rawName ] || capitalize(rawName)
 
-    if (versions[name]) {
-      versions[name].push(ver)
+    if (versions[ name ]) {
+      versions[ name ].push(ver)
     }
     else {
-      versions[name] = [ ver ]
+      versions[ name ] = [ ver ]
     }
   }
 
   const lines = []
 
-  for (let name in versions) {
-    let list = versions[name]
+  for (const name in versions) {
+    const list = versions[ name ]
     list.sort((a, b) => parseFloat(a) - parseFloat(b))
-    lines.push(` · ${name} >= ${list[0]}`)
+    lines.push(` · ${ name } >= ${ list[ 0 ] }`)
   }
 
   return {
@@ -78,8 +78,8 @@ function getBrowsersBanner () {
 
   const { coverage, lines } = getSupportData()
 
-  browserBannerCache = ` Configured browser support (>= ${coverage}% of global marketshare):\n` +
-    lines.join('\n') + '\n'
+  browserBannerCache = ` Configured browser support (>= ${ coverage }% of global marketshare):\n`
+    + lines.join('\n') + '\n'
 
   return browserBannerCache
 }

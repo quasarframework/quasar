@@ -18,8 +18,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     d: 'devtools'
   },
-  boolean: ['h', 'i', 'd'],
-  string: ['m', 'T', 'H'],
+  boolean: [ 'h', 'i', 'd' ],
+  string: [ 'm', 'T', 'H' ],
   default: {
     m: 'spa'
   }
@@ -99,8 +99,8 @@ async function parseAddress ({ host, port }) {
     host = this.chosenHost
   }
   else if (
-    ['cordova', 'capacitor'].includes(argv.mode) &&
-    (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
+    [ 'cordova', 'capacitor' ].includes(argv.mode)
+    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
   ) {
     const getExternalIP = require('../helpers/get-external-ip')
     host = await getExternalIP()
@@ -111,7 +111,7 @@ async function parseAddress ({ host, port }) {
     const openPort = await findPort(port, host)
     if (port !== openPort) {
       warn()
-      warn(`️️Setting port to closest one available: ${openPort}`)
+      warn(`️️Setting port to closest one available: ${ openPort }`)
       warn()
 
       port = openPort
@@ -237,14 +237,14 @@ async function goLive () {
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
-    log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
+    log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
   const generator = new Generator(quasarConfFile)
   let runMode
 
-  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr'].includes(argv.mode)) {
+  if ([ 'cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr' ].includes(argv.mode)) {
     const ModeRunner = require('../' + (argv.mode === 'ssr' ? 'pwa' : argv.mode))
     ModeRunner.init(ctx)
     runMode = () => ModeRunner.run(quasarConfFile, argv)
@@ -286,7 +286,7 @@ async function goLive () {
     }
     // run possible afterDev hooks
     await extensionRunner.runHook('afterDev', async hook => {
-      log(`Extension(${hook.api.extId}): Running afterDev hook...`)
+      log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
       await hook.fn(hook.api, { quasarConf })
     })
 

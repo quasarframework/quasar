@@ -8,8 +8,8 @@ function extract (message) {
   }
 
   return {
-    title: parts[1],
-    message: message.substring(`Error: ${parts[1]}: `.length + 1)
+    title: parts[ 1 ],
+    message: message.substring(`Error: ${ parts[ 1 ] }: `.length + 1)
   }
 }
 

@@ -20,7 +20,7 @@ class Mode {
 
     const format = hasTypescript ? 'ts' : 'default'
     fse.copySync(
-      appPaths.resolve.cli(`templates/ssr/${format}`),
+      appPaths.resolve.cli(`templates/ssr/${ format }`),
       appPaths.ssrDir
     )
 

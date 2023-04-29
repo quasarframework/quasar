@@ -14,8 +14,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     f: 'format'
   },
-  boolean: ['h'],
-  string: ['f'],
+  boolean: [ 'h' ],
+  string: [ 'f' ],
   default: {
     f: hasTypescript ? 'ts-composition' : 'default'
   }
@@ -67,7 +67,7 @@ function showHelp () {
 
 function showError (message, param) {
   console.log()
-  warn(`${message}: ${param}`)
+  warn(`${ message }: ${ param }`)
   showHelp()
 }
 
@@ -79,7 +79,7 @@ console.log()
 
 if (argv._.length < 2) {
   console.log()
-  warn(`Wrong number of parameters (${argv._.length}).`)
+  warn(`Wrong number of parameters (${ argv._.length }).`)
   showHelp()
   process.exit(1)
 }
@@ -97,14 +97,14 @@ const typeAliasMap = {
   b: 'boot'
 }
 
-if (![...Object.entries(typeAliasMap).flat(), 'ssrmiddleware'].includes(rawType)) {
+if (![ ...Object.entries(typeAliasMap).flat(), 'ssrmiddleware' ].includes(rawType)) {
   showError('Invalid asset type', rawType)
 }
 
 /** @type {'page'|'layout'|'component'|'store'|'boot'|'ssrmiddleware'} */
-const type = typeAliasMap[rawType] || rawType
+const type = typeAliasMap[ rawType ] || rawType
 
-if (!['default', 'ts-options', 'ts-class', 'ts-composition', 'ts-composition-setup', 'ts'].includes(format)) {
+if (![ 'default', 'ts-options', 'ts-class', 'ts-composition', 'ts-composition-setup', 'ts' ].includes(format)) {
   showError('Invalid asset format', format)
 }
 
@@ -120,7 +120,7 @@ function createFile (asset, file) {
   const relativePath = path.relative(appPaths.appDir, file)
 
   if (fs.existsSync(file)) {
-    warn(`${relativePath} already exists.`, 'SKIPPED')
+    warn(`${ relativePath } already exists.`, 'SKIPPED')
     console.log()
     return
   }
@@ -140,13 +140,13 @@ function createFile (asset, file) {
     err => {
       if (err) {
         console.warn(err)
-        warn(`Could not generate ${relativePath}.`, 'FAIL')
+        warn(`Could not generate ${ relativePath }.`, 'FAIL')
         return
       }
 
-      log(`Generated ${type}: ${relativePath}`)
+      log(`Generated ${ type }: ${ relativePath }`)
       if (asset.reference) {
-        log(`Make sure to reference it in ${asset.reference}`)
+        log(`Make sure to reference it in ${ asset.reference }`)
       }
       log()
     }
@@ -158,7 +158,7 @@ const resolveWithExtension = (path) =>
 
 const pathList = {
   router: resolveWithExtension('src/router/routes'),
-  store: resolveWithExtension(`src/${storeProvider.pathKey}/index`)
+  store: resolveWithExtension(`src/${ storeProvider.pathKey }/index`)
 }
 
 const mapping = {
@@ -177,7 +177,7 @@ const mapping = {
     ext: '.vue'
   },
   store: {
-    folder: `src/${storeProvider.pathKey}`,
+    folder: `src/${ storeProvider.pathKey }`,
     install: true,
     // Vuex module template is a folder, Pinia's is a single file
     ext: storeProvider.name === 'vuex' ? '' : isTypeScript ? '.ts' : '.js',
@@ -196,7 +196,7 @@ const mapping = {
   }
 }
 
-const asset = mapping[type]
+const asset = mapping[ type ]
 
 if (asset.install) {
   const folder = appPaths.resolve.app(asset.folder)
@@ -208,16 +208,16 @@ if (asset.install) {
   if (!fs.existsSync(folder)) {
     fse.ensureDir(folder)
     fse.copy(
-      appPaths.resolve.cli(`templates/store/${storeProvider.name}/${format}`),
+      appPaths.resolve.cli(`templates/store/${ storeProvider.name }/${ format }`),
       folder,
       err => {
         if (err) {
           console.warn(err)
-          warn(`Could not generate ${asset.folder}.`, 'FAIL')
+          warn(`Could not generate ${ asset.folder }.`, 'FAIL')
           return
         }
 
-        log(`Generated ${asset.folder}`)
+        log(`Generated ${ asset.folder }`)
         log()
       }
     )

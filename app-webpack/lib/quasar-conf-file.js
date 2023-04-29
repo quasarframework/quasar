@@ -21,7 +21,7 @@ const urlRegex = /^http(s)?:\/\//
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
     return typeof value === 'function'
-      ? `/fn(${value.toString()})`
+      ? `/fn(${ value.toString() })`
       : value
   })
 }
@@ -43,7 +43,7 @@ function formatPublicPath (path) {
   }
 
   if (!path.endsWith('/')) {
-    path = `${path}/`
+    path = `${ path }/`
   }
 
   if (urlRegex.test(path) === true) {
@@ -51,7 +51,7 @@ function formatPublicPath (path) {
   }
 
   if (!path.startsWith('/')) {
-    path = `/${path}`
+    path = `/${ path }`
   }
 
   return path
@@ -63,21 +63,21 @@ function formatRouterBase (publicPath) {
   }
 
   const match = publicPath.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/)
-  return formatPublicPath(match[5] || '')
+  return formatPublicPath(match[ 5 ] || '')
 }
 
 function parseAssetProperty (prefix) {
   return asset => {
     if (typeof asset === 'string') {
       return {
-        path: asset[0] === '~' ? asset.substring(1) : prefix + `/${asset}`
+        path: asset[ 0 ] === '~' ? asset.substring(1) : prefix + `/${ asset }`
       }
     }
 
     return {
       ...asset,
       path: typeof asset.path === 'string'
-        ? (asset.path[0] === '~' ? asset.path.substring(1) : prefix + `/${asset.path}`)
+        ? (asset.path[ 0 ] === '~' ? asset.path.substring(1) : prefix + `/${ asset.path }`)
         : asset.path
     }
   }
@@ -150,7 +150,7 @@ class QuasarConfFile {
     let quasarConfigFunction
 
     if (fs.existsSync(this.filename)) {
-      delete require.cache[this.filename]
+      delete require.cache[ this.filename ]
       quasarConfigFunction = require(this.filename)
     }
     else {
@@ -248,9 +248,9 @@ class QuasarConfFile {
       }
 
       if (
-        this.address &&
-        this.address.from.host === cfg.devServer.host &&
-        this.address.from.port === cfg.devServer.port
+        this.address
+        && this.address.from.host === cfg.devServer.host
+        && this.address.from.port === cfg.devServer.port
       ) {
         cfg.devServer.host = this.address.to.host
         cfg.devServer.port = this.address.to.port
@@ -284,10 +284,10 @@ class QuasarConfFile {
   }
 
   async compile () {
-    let cfg = this.sourceCfg
+    const cfg = this.sourceCfg
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
-      log(`Extension(${hook.api.extId}): Extending quasar.config.js...`)
+      log(`Extension(${ hook.api.extId }): Extending quasar.config.js...`)
       await hook.fn(cfg, hook.api)
     })
 
@@ -368,7 +368,7 @@ class QuasarConfFile {
       cfg.animations = getUniqueArray(cfg.animations)
     }
 
-    if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
+    if (![ 'kebab', 'pascal', 'combined' ].includes(cfg.framework.autoImportComponentCase)) {
       cfg.framework.autoImportComponentCase = 'kebab'
     }
 
@@ -496,15 +496,15 @@ class QuasarConfFile {
     }
 
     if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
-      cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
+      cfg.build.distDir = appPaths.resolve[ this.ctx.modeName ]('www')
     }
     else if (this.ctx.mode.electron || this.ctx.mode.bex) {
       cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
-    cfg.build.publicPath =
-      cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.ctx.modeName)
+    cfg.build.publicPath
+      = cfg.build.publicPath && [ 'spa', 'pwa', 'ssr' ].includes(this.ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
         : (cfg.build.vueRouterMode === 'hash' ? '' : '/')
 
@@ -521,7 +521,7 @@ class QuasarConfFile {
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
       router: 'src/router/index',
-      store: `src/${storeProvider.pathKey}/index`,
+      store: `src/${ storeProvider.pathKey }/index`,
       indexHtmlTemplate: 'src/index.template.html',
       registerServiceWorker: 'src-pwa/register-service-worker',
       serviceWorker: 'src-pwa/custom-service-worker',
@@ -536,9 +536,9 @@ class QuasarConfFile {
     // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
     cfg.store = (
-      fs.existsSync(storePath) ||
-      fs.existsSync(storePath + '.js') ||
-      fs.existsSync(storePath + '.ts')
+      fs.existsSync(storePath)
+      || fs.existsSync(storePath + '.js')
+      || fs.existsSync(storePath + '.ts')
     )
 
     // make sure we have preFetch in config
@@ -612,7 +612,7 @@ class QuasarConfFile {
           }
         : {
             historyApiFallback: cfg.build.vueRouterMode === 'history'
-              ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
+              ? { index: `${ cfg.build.publicPath || '/' }${ cfg.build.htmlFilename }` }
               : false,
             devMiddleware: {
               index: cfg.build.htmlFilename
@@ -633,7 +633,7 @@ class QuasarConfFile {
             }
 
             if (this.ctx.mode.cordova) {
-              const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
+              const folder = appPaths.resolve.cordova(`platforms/${ this.ctx.targetName }/platform_www`)
               app.use('/', express.static(folder, { maxAge: 0 }))
             }
           }
@@ -709,10 +709,10 @@ class QuasarConfFile {
     }
 
     if (cfg.build.gzip) {
-      let gzip = cfg.build.gzip === true
+      const gzip = cfg.build.gzip === true
         ? {}
         : cfg.build.gzip
-      let ext = ['js', 'css']
+      let ext = [ 'js', 'css' ]
 
       if (gzip.extensions) {
         ext = gzip.extensions
@@ -758,16 +758,16 @@ class QuasarConfFile {
         process.exit(1)
       }
 
-      if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxPluginMode)) {
+      if (![ 'GenerateSW', 'InjectManifest' ].includes(cfg.pwa.workboxPluginMode)) {
         warn()
-        warn(`Workbox webpack plugin mode "${cfg.pwa.workboxPluginMode}" is invalid.`)
+        warn(`Workbox webpack plugin mode "${ cfg.pwa.workboxPluginMode }" is invalid.`)
         warn(`Valid Workbox modes are: GenerateSW, InjectManifest\n`)
         process.exit(1)
       }
 
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
         if (urlRegex.test(icon.src) === false) {
-          icon.src = `${cfg.build.publicPath}${icon.src}`
+          icon.src = `${ cfg.build.publicPath }${ icon.src }`
         }
         return icon
       })
@@ -778,7 +778,7 @@ class QuasarConfFile {
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
-      cfg.__getUrl = hostname => `http${cfg.devServer.server.type === 'https' ? 's' : ''}://${hostname}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
+      cfg.__getUrl = hostname => `http${ cfg.devServer.server.type === 'https' ? 's' : '' }://${ hostname }:${ cfg.devServer.port }${ cfg.build.publicPath }${ urlPath }`
       cfg.build.APP_URL = cfg.__getUrl(
         cfg.devServer.host === '0.0.0.0'
           ? 'localhost'
@@ -789,7 +789,7 @@ class QuasarConfFile {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
-      cfg.__rootDefines[`process.env.APP_URL`] = `"file://" + __dirname + "/index.html"`
+      cfg.__rootDefines[ `process.env.APP_URL` ] = `"file://" + __dirname + "/index.html"`
     }
 
     Object.assign(cfg.build.env, {
@@ -806,7 +806,7 @@ class QuasarConfFile {
     })
 
     if (this.ctx.mode.pwa) {
-      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
+      cfg.build.env.SERVICE_WORKER_FILE = `${ cfg.build.publicPath }service-worker.js`
     }
     else if (this.ctx.mode.bex) {
       cfg.bex = merge({}, cfg.bex, {
@@ -892,7 +892,7 @@ class QuasarConfFile {
         }
 
         if (cfg.ctx.archName) {
-          cfg.electron.builder[cfg.ctx.archName] = true
+          cfg.electron.builder[ cfg.ctx.archName ] = true
         }
 
         if (cfg.ctx.publish) {

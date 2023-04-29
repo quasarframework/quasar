@@ -82,9 +82,9 @@ module.exports = function (cfg, configName) {
       .exclude
         .add(filepath => (
           // Transpile the exceptions:
-          exceptionsRegex.test(filepath) === false &&
+          exceptionsRegex.test(filepath) === false
           // Don't transpile anything else in node_modules:
-          nodeModulesRegex.test(filepath)
+          && nodeModulesRegex.test(filepath)
         ))
         .end()
       .use('babel-loader')
@@ -136,7 +136,7 @@ module.exports = function (cfg, configName) {
     .maxAssetSize(500000)
 
   chain.plugin('progress')
-    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
+    .use(WebpackProgressPlugin, [ { name: configName, cfg } ])
 
   return chain
 }

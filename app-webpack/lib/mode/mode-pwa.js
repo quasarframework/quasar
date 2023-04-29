@@ -23,7 +23,7 @@ class Mode {
     }
 
     nodePackager.installPackage(
-      Object.entries(pwaDeps).map(([name, version]) => `${name}@${version}`),
+      Object.entries(pwaDeps).map(([ name, version ]) => `${ name }@${ version }`),
       { isDev: true, displayName: 'PWA dependencies' }
     )
 
@@ -31,7 +31,7 @@ class Mode {
 
     const format = hasTypescript ? 'ts' : 'default'
     fse.copySync(
-      appPaths.resolve.cli(`templates/pwa/${format}`),
+      appPaths.resolve.cli(`templates/pwa/${ format }`),
       appPaths.pwaDir,
       // Copy .eslintrc.js only if the app has ESLint
       hasEslint === true && format === 'ts' ? { filter: src => !src.endsWith('/.eslintrc.js') } : void 0

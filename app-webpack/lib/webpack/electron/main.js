@@ -35,7 +35,7 @@ module.exports = function (cfg, configName) {
 
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [{ patterns }])
+      .use(CopyWebpackPlugin, [ { patterns } ])
   }
 
   return chain

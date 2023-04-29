@@ -25,6 +25,6 @@ module.exports.uniqueBy = function uniqueBy(arr, fn) {
   if (!file) { return '' }
 
   const split = file.split('!')
-  const filePath = split[split.length - 1]
-  return `in ${filePath}`
+  const filePath = split[ split.length - 1 ]
+  return `in ${ filePath }`
 }

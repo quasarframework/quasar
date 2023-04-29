@@ -22,7 +22,7 @@ module.exports = (nodeType, cfg, configName) => {
     appPaths.resolve.cli('node_modules')
   ]
 
-  chain.target(`electron-${nodeType}`)
+  chain.target(`electron-${ nodeType }`)
   chain.mode(cfg.ctx.dev ? 'development' : 'production')
   chain.node
     .merge({
@@ -31,7 +31,7 @@ module.exports = (nodeType, cfg, configName) => {
     })
 
   chain.output
-    .filename(`electron-${nodeType}.js`)
+    .filename(`electron-${ nodeType }.js`)
     .libraryTarget('commonjs2')
     .path(
       cfg.ctx.dev
@@ -65,12 +65,12 @@ module.exports = (nodeType, cfg, configName) => {
     .merge(resolveModules)
 
   chain.plugin('progress')
-    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
+    .use(WebpackProgressPlugin, [ { name: configName, cfg } ])
 
   const env = {
     ...cfg.build.env,
     QUASAR_ELECTRON_PRELOAD: cfg.ctx.dev
-      ? appPaths.resolve.app(`${tempElectronDir}/electron-preload.js`)
+      ? appPaths.resolve.app(`${ tempElectronDir }/electron-preload.js`)
       : 'electron-preload.js',
     QUASAR_PUBLIC_FOLDER: cfg.ctx.dev
       ? appPaths.resolve.app('public')
@@ -102,11 +102,11 @@ module.exports = (nodeType, cfg, configName) => {
 
       chain.optimization
         .minimizer('js')
-        .use(TerserPlugin, [{
+        .use(TerserPlugin, [ {
           terserOptions: cfg.build.uglifyOptions,
           extractComments: false,
           parallel: true
-        }])
+        } ])
     }
   }
 

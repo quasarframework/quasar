@@ -8,7 +8,7 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: ['h']
+  boolean: [ 'h' ]
 })
 
 if (argv.help) {
@@ -32,9 +32,9 @@ const appPaths = require('../app-paths')
 
 function getSpawnOutput (command) {
   try {
-    const child = spawn(command, ['--version'])
+    const child = spawn(command, [ '--version' ])
     return child.status === 0
-      ? chalk.green(String(child.output[1]).trim())
+      ? chalk.green(String(child.output[ 1 ]).trim())
       : chalk.grey('Not installed')
   }
   catch (err) {
@@ -47,23 +47,23 @@ function safePkgInfo (pkg, folder) {
 
   if (json !== void 0) {
     return {
-      key: `  ${String(json.name).trim()}`,
-      value: `${chalk.green(String(json.version).trim())}${json.description ? ` -- ${json.description}` : ''}`
+      key: `  ${ String(json.name).trim() }`,
+      value: `${ chalk.green(String(json.version).trim()) }${ json.description ? ` -- ${ json.description }` : '' }`
     }
   }
   else {
     return {
-      key: `  ${pkg}`,
+      key: `  ${ pkg }`,
       value: chalk.grey('Not installed')
     }
   }
 }
 
 function print(m) {
-  console.log(`${m.section ? '\n' : ''}${ m.key }${ m.value === undefined ? '' : ' - ' + m.value }`)
+  console.log(`${ m.section ? '\n' : '' }${ m.key }${ m.value === undefined ? '' : ' - ' + m.value }`)
 }
 
-print({ key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true })
+print({ key: 'Operating System', value: chalk.green(`${ os.type() }(${ os.release() }) - ${ os.platform() }/${ os.arch() }`), section: true })
 print({ key: 'NodeJs', value: chalk.green(process.version.slice(1)) })
 print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })

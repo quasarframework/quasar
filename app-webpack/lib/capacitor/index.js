@@ -59,7 +59,7 @@ class CapacitorRunner {
 
     this.capacitorConfig.prepareSSL(false, this.target)
 
-    if (argv['skip-pkg'] === true) {
+    if (argv[ 'skip-pkg' ] === true) {
       return
     }
 
@@ -78,7 +78,7 @@ class CapacitorRunner {
 
   async __buildIos (argv, cfg) {
     const buildType = this.ctx.debug ? 'debug' : 'release'
-    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${buildType} -derivedDataPath`
+    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${ buildType } -derivedDataPath`
 
     log('Building iOS app...')
 
@@ -111,8 +111,8 @@ class CapacitorRunner {
     log('Building Android app...')
 
     await spawnSync(
-      `./gradlew${process.platform === 'win32' ? '.bat' : ''}`,
-      [ `assemble${this.ctx.debug ? 'Debug' : 'Release'}` ].concat(argv._),
+      `./gradlew${ process.platform === 'win32' ? '.bat' : '' }`,
+      [ `assemble${ this.ctx.debug ? 'Debug' : 'Release' }` ].concat(argv._),
       { cwd: appPaths.resolve.capacitor('android') },
       () => {
         warn()

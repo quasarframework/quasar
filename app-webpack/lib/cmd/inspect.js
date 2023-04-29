@@ -11,8 +11,8 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: ['h'],
-  string: ['c', 'm', 'p'],
+  boolean: [ 'h' ],
+  string: [ 'c', 'm', 'p' ],
   default: {
     c: 'dev',
     m: 'spa',
@@ -101,7 +101,7 @@ async function inspect () {
 
   cfgEntries.forEach(cfgEntry => {
     console.log()
-    log(`Showing Webpack config for "${cfgEntry.name}" with depth of ${depth}`)
+    log(`Showing Webpack config for "${ cfgEntry.name }" with depth of ${ depth }`)
     console.log()
     console.log(
       util.inspect(cfgEntry.webpack, {
@@ -113,7 +113,7 @@ async function inspect () {
     )
   })
 
-  console.log(`\n  Depth used: ${depth}. You can change it with "-d" parameter.\n`)
+  console.log(`\n  Depth used: ${ depth }. You can change it with "-d" parameter.\n`)
 }
 
 inspect()

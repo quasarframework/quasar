@@ -20,7 +20,7 @@ function getClientManifest (compilation) {
 
   const initialFiles = uniq(
     Object.keys(stats.entrypoints)
-      .map(name => stats.entrypoints[name].assets.map(entry => entry.name))
+      .map(name => stats.entrypoints[ name ].assets.map(entry => entry.name))
       .reduce((assets, all) => all.concat(assets), [])
       .filter(file => jsCssRE.test(file) === true && hotUpdateRE.test(file) === false)
   )
@@ -43,7 +43,7 @@ function getClientManifest (compilation) {
   stats.modules.forEach(m => {
     // ignore modules duplicated in multiple chunks
     if (m.chunks.length === 1) {
-      const cid = m.chunks[0]
+      const cid = m.chunks[ 0 ]
       const chunk = stats.chunks.find(c => c.id === cid)
 
       if (!chunk || !chunk.files) {
@@ -51,7 +51,7 @@ function getClientManifest (compilation) {
       }
 
       const id = m.identifier.replace(swRE, '') // remove appended hash
-      const files = manifest.modules[hash(id)] = chunk.files.map(fileToIndex)
+      const files = manifest.modules[ hash(id) ] = chunk.files.map(fileToIndex)
 
       // find all asset modules associated with the same chunk
       assetModules.forEach(m => {

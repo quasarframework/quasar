@@ -21,7 +21,7 @@ const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
 const renderError = ({ err, req, res }) => {
   ouchInstance.handleException(err, req, res, () => {
-    console.error(`${banner} ${req.url} -> error during render`)
+    console.error(`${ banner } ${ req.url } -> error during render`)
     console.error(err.stack)
   })
 }
@@ -93,7 +93,7 @@ module.exports = class DevServer {
     const publicPath = cfg.build.publicPath
     const resolveUrlPath = publicPath === '/'
       ? url => url || '/'
-      : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
+      : url => (url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath)
 
     const rootFolder = appPaths.appDir
     const publicFolder = appPaths.resolve.app('public')
@@ -120,7 +120,7 @@ module.exports = class DevServer {
 
     this.htmlWatcher = chokidar.watch(templatePath).on('change', () => {
       updateTemplate()
-      console.log(`${banner} index.template.html template updated.`)
+      console.log(`${ banner } index.template.html template updated.`)
     })
 
     updateTemplate()
@@ -145,7 +145,7 @@ module.exports = class DevServer {
 
           return renderer(ssrContext, renderTemplate)
             .then(html => {
-              console.log(`${banner} ${ssrContext.req.url} -> request took: ${Date.now() - startTime}ms`)
+              console.log(`${ banner } ${ ssrContext.req.url } -> request took: ${ Date.now() - startTime }ms`)
               return html
             })
         }
@@ -156,7 +156,7 @@ module.exports = class DevServer {
 
     webserverCompiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
-        delete require.cache[compiledMiddlewareFile]
+        delete require.cache[ compiledMiddlewareFile ]
         const injectMiddleware = require(compiledMiddlewareFile)
 
         startWebpackServer()

@@ -10,7 +10,7 @@ function extract (stats, severity) {
   const type = severity + 's'
 
   const findErrorsRecursive = compilation => {
-    const errors = compilation[type]
+    const errors = compilation[ type ]
     if (errors.length === 0 && compilation.children) {
       for (const child of compilation.children) {
         errors.push(...findErrorsRecursive(child))
@@ -40,8 +40,8 @@ function display (stats, severity, titleFn) {
 
   const errorsBag = transformErrors(errors)
   const topErrors = getMaxSeverityErrors(errorsBag)
-  const summary = `${topErrors.length} ${severity}${topErrors.length > 1 ? 's' : ''}`
-  const printLog = console[severity === 'error' ? 'error' : 'warn']
+  const summary = `${ topErrors.length } ${ severity }${ topErrors.length > 1 ? 's' : '' }`
+  const printLog = console[ severity === 'error' ? 'error' : 'warn' ]
 
   topErrors.forEach(err => {
     printLog()

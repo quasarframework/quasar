@@ -43,17 +43,17 @@ class CordovaRunner {
     if (argv.ide) {
       await this.__runCordovaCommand(
         cfg,
-        ['prepare', this.target].concat(argv._)
+        [ 'prepare', this.target ].concat(argv._)
       )
 
       await openIde('cordova', cfg.bin, this.target, true)
       return
     }
 
-    const args = ['run', this.target]
+    const args = [ 'run', this.target ]
 
     if (this.ctx.emulator) {
-      args.push(`--target=${this.ctx.emulator}`)
+      args.push(`--target=${ this.ctx.emulator }`)
     }
 
     await this.__runCordovaCommand(
@@ -73,16 +73,16 @@ class CordovaRunner {
     // Remove old build output
     fse.removeSync(buildPath)
 
-    const args = argv['skip-pkg'] || argv.ide
-      ? ['prepare', this.target]
-      : ['build', this.ctx.debug ? '--debug' : '--release', this.target]
+    const args = argv[ 'skip-pkg' ] || argv.ide
+      ? [ 'prepare', this.target ]
+      : [ 'build', this.ctx.debug ? '--debug' : '--release', this.target ]
 
     await this.__runCordovaCommand(
       cfg,
       args.concat(argv._)
     )
 
-    if (argv['skip-pkg'] === true) {
+    if (argv[ 'skip-pkg' ] === true) {
       return
     }
 

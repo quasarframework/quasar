@@ -17,8 +17,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u', 'i'],
-  string: ['m', 'T', 'P'],
+  boolean: [ 'h', 'd', 'u', 'i' ],
+  string: [ 'm', 'T', 'P' ],
   default: {
     m: 'spa'
   }
@@ -130,10 +130,10 @@ function parseWebpackConfig (cfg, mode) {
 function finalizeBuild (mode, ctx, quasarConfFile) {
   let Runner
 
-  if (['cordova', 'capacitor'].includes(mode)) {
+  if ([ 'cordova', 'capacitor' ].includes(mode)) {
     Runner = require('../' + mode)
   }
-  else if (argv['skip-pkg'] !== true && mode === 'electron') {
+  else if (argv[ 'skip-pkg' ] !== true && mode === 'electron') {
     Runner = require('../electron')
   }
 
@@ -204,7 +204,7 @@ async function build () {
 
   // run possible beforeBuild hooks
   await extensionRunner.runHook('beforeBuild', async hook => {
-    log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
+    log(`Extension(${ hook.api.extId }): Running beforeBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
@@ -243,16 +243,16 @@ async function build () {
         return
       }
 
-      const summary = printWebpackErrors(webpackData.name[index], stats)
+      const summary = printWebpackErrors(webpackData.name[ index ], stats)
       console.log()
-      fatal(`for "${webpackData.name[index]}" with ${summary}. Please check the log above.`, 'COMPILATION FAILED')
+      fatal(`for "${ webpackData.name[ index ] }" with ${ summary }. Please check the log above.`, 'COMPILATION FAILED')
     })
 
     const printWebpackStats = require('../helpers/print-webpack-stats')
 
     console.log()
     statsArray.forEach((stats, index) => {
-      printWebpackStats(stats, webpackData.folder[index], webpackData.name[index])
+      printWebpackStats(stats, webpackData.folder[ index ], webpackData.name[ index ])
     })
 
     // free up memory
@@ -271,7 +271,7 @@ async function build () {
 
       // run possible beforeBuild hooks
       await extensionRunner.runHook('afterBuild', async hook => {
-        log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
+        log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
         await hook.fn(hook.api, { quasarConf })
       })
 
@@ -288,7 +288,7 @@ async function build () {
 
         // run possible onPublish hooks
         await extensionRunner.runHook('onPublish', async hook => {
-          log(`Extension(${hook.api.extId}): Running onPublish hook...`)
+          log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
           await hook.fn(hook.api, opts)
         })
       }

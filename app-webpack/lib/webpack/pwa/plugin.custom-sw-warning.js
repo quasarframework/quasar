@@ -2,8 +2,8 @@
 const msgRE = /^InjectManifest has been called multiple times/
 
 const filterFn = warn => !(
-  warn.name === 'Error' &&
-  msgRE.test(warn.message) === true
+  warn.name === 'Error'
+  && msgRE.test(warn.message) === true
 )
 
 module.exports = class CustomSwWarningPlugin {

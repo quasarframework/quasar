@@ -19,7 +19,7 @@ function makeTag (tagName, attributes, closeTag = false) {
 function fillBaseTag (html, base) {
   return html.replace(
     /(<head[^>]*)(>)/i,
-    (_, start, end) => `${start}${end}<base href="${base}">`
+    (_, start, end) => `${ start }${ end }<base href="${ base }">`
   )
 }
 

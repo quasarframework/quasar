@@ -17,24 +17,24 @@ function injectSsrInterpolation (html) {
 
       matches = found.match(/\sdir\s*=\s*['"]([^'"]*)['"]/i)
       if (matches) {
-        start = start.replace(matches[0], '')
+        start = start.replace(matches[ 0 ], '')
       }
 
       matches = found.match(/\slang\s*=\s*['"]([^'"]*)['"]/i)
       if (matches) {
-        start = start.replace(matches[0], '')
+        start = start.replace(matches[ 0 ], '')
       }
 
-      return `${start} {{ _meta.htmlAttrs }}${end}`
+      return `${ start } {{ _meta.htmlAttrs }}${ end }`
     }
   )
   .replace(
     /(<head[^>]*)(>)/i,
-    (_, start, end) => `${start}${end}{{ _meta.headTags }}`
+    (_, start, end) => `${ start }${ end }{{ _meta.headTags }}`
   )
   .replace(
     /(<\/head>)/i,
-    (_, tag) => `{{ _meta.resourceStyles }}{{ _meta.endingHeadTags || '' }}${tag}`
+    (_, tag) => `{{ _meta.resourceStyles }}{{ _meta.endingHeadTags || '' }}${ tag }`
   )
   .replace(
     /(<body[^>]*)(>)/i,
@@ -44,13 +44,13 @@ function injectSsrInterpolation (html) {
       const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
 
       if (matches) {
-        if (matches[1].length > 0) {
-          classes += ` ${matches[1]}`
+        if (matches[ 1 ].length > 0) {
+          classes += ` ${ matches[ 1 ] }`
         }
-        start = start.replace(matches[0], '')
+        start = start.replace(matches[ 0 ], '')
       }
 
-      return `${start} class="${classes.trim()}" {{ _meta.bodyAttrs }}${end}{{ _meta.bodyTags }}`
+      return `${ start } class="${ classes.trim() }" {{ _meta.bodyAttrs }}${ end }{{ _meta.bodyTags }}`
     }
   )
   .replace(
@@ -106,16 +106,16 @@ function injectAssetsIntoHtml (html, assetTags) {
  */
 function htmlTagObjectToString (tagDefinition) {
   const attributes = Object.keys(tagDefinition.attributes || {})
-    .filter(attributeName => tagDefinition.attributes[attributeName] === '' || tagDefinition.attributes[attributeName])
+    .filter(attributeName => tagDefinition.attributes[ attributeName ] === '' || tagDefinition.attributes[ attributeName ])
     .map(attributeName => (
-      tagDefinition.attributes[attributeName] === true
+      tagDefinition.attributes[ attributeName ] === true
         ? attributeName
-        : attributeName + '="' + tagDefinition.attributes[attributeName] + '"'
+        : attributeName + '="' + tagDefinition.attributes[ attributeName ] + '"'
     ))
 
-  return '<' + [tagDefinition.tagName].concat(attributes).join(' ') + '>' +
-    (tagDefinition.innerHTML || '') +
-    (tagDefinition.voidTag ? '' : '</' + tagDefinition.tagName + '>')
+  return '<' + [ tagDefinition.tagName ].concat(attributes).join(' ') + '>'
+    + (tagDefinition.innerHTML || '')
+    + (tagDefinition.voidTag ? '' : '</' + tagDefinition.tagName + '>')
 }
 
 module.exports.getIndexHtml = function (template, cfg) {

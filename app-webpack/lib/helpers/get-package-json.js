@@ -9,7 +9,7 @@ const getPackagePath = require('./get-package-path')
  */
 module.exports = function getPackageJson(pkgName, folder = appPaths.appDir) {
   try {
-    return require(getPackagePath(`${pkgName}/package.json`, folder))
+    return require(getPackagePath(`${ pkgName }/package.json`, folder))
   }
   catch (e) {}
 }

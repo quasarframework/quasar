@@ -49,7 +49,7 @@ const extrasPath = (() => {
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
-  const useFastHash = cfg.ctx.dev || ['electron', 'cordova', 'capacitor', 'bex'].includes(cfg.ctx.modeName)
+  const useFastHash = cfg.ctx.dev || [ 'electron', 'cordova', 'capacitor', 'bex' ].includes(cfg.ctx.modeName)
   const fileHash = useFastHash === true ? '' : '.[contenthash:8]'
   const assetHash = useFastHash === true ? '.[hash:8]' : '.[contenthash:8]'
 
@@ -71,8 +71,8 @@ module.exports = function (cfg, configName) {
           : cfg.build.distDir
       )
       .publicPath(cfg.build.publicPath)
-      .filename(`js/[name]${fileHash}.js`)
-      .chunkFilename(`js/[name]${useFastHash === true ? '' : '.[chunkhash:8]'}.js`)
+      .filename(`js/[name]${ fileHash }.js`)
+      .chunkFilename(`js/[name]${ useFastHash === true ? '' : '.[chunkhash:8]' }.js`)
   }
 
   chain.resolve.extensions
@@ -166,9 +166,9 @@ module.exports = function (cfg, configName) {
       .exclude
         .add(filepath => (
           // Transpile the exceptions:
-          exceptionsRegex.test(filepath) === false &&
+          exceptionsRegex.test(filepath) === false
           // Don't transpile anything else in node_modules:
-          nodeModulesRegex.test(filepath)
+          && nodeModulesRegex.test(filepath)
         ))
         .end()
       .use('babel-loader')
@@ -221,7 +221,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `img/[name]${assetHash}.[ext]`
+        name: `img/[name]${ assetHash }.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
@@ -233,7 +233,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `fonts/[name]${assetHash}.[ext]`
+        name: `fonts/[name]${ assetHash }.[ext]`
       })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
@@ -245,7 +245,7 @@ module.exports = function (cfg, configName) {
       .options({
         esModule: false,
         limit: 10000,
-        name: `media/[name]${assetHash}.[ext]`
+        name: `media/[name]${ assetHash }.[ext]`
       })
 
   injectStyleRules(chain, {
@@ -286,7 +286,7 @@ module.exports = function (cfg, configName) {
   }
 
   chain.plugin('progress')
-    .use(WebpackProgressPlugin, [{ name: configName, cfg }])
+    .use(WebpackProgressPlugin, [ { name: configName, cfg } ])
 
   chain.plugin('boot-default-export')
     .use(BootDefaultExport)
@@ -332,15 +332,15 @@ module.exports = function (cfg, configName) {
     const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
     chain.plugin('mini-css-extract')
-      .use(MiniCssExtractPlugin, [{
-        filename: `css/[name]${fileHash}.css`
-      }])
+      .use(MiniCssExtractPlugin, [ {
+        filename: `css/[name]${ fileHash }.css`
+      } ])
   }
 
   if (cfg.ctx.prod) {
     if (
-      cfg.build.ignorePublicFolder !== true &&
-      configName !== webpackNames.ssr.serverSide
+      cfg.build.ignorePublicFolder !== true
+      && configName !== webpackNames.ssr.serverSide
     ) {
       // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -355,20 +355,20 @@ module.exports = function (cfg, configName) {
       ]
 
       // avoid useless files to be copied
-      if (['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)) {
+      if ([ 'electron', 'cordova', 'capacitor' ].includes(cfg.ctx.modeName)) {
         ignore.push(
           '**/public/icons', '**/public/favicon.ico'
         )
       }
 
-      const patterns = [{
+      const patterns = [ {
         from: appPaths.resolve.app('public'),
         noErrorOnMissing: true,
         globOptions: { ignore }
-      }]
+      } ]
 
       chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [{ patterns }])
+        .use(CopyWebpackPlugin, [ { patterns } ])
     }
 
     chain.optimization
@@ -385,11 +385,11 @@ module.exports = function (cfg, configName) {
 
       chain.optimization
         .minimizer('js')
-        .use(TerserPlugin, [{
+        .use(TerserPlugin, [ {
           terserOptions: cfg.build.uglifyOptions,
           extractComments: false,
           parallel: true
-        }])
+        } ])
     }
 
     if (configName !== webpackNames.ssr.serverSide) {
@@ -401,9 +401,9 @@ module.exports = function (cfg, configName) {
         // duplicated CSS = require(different components) can be deduped.
         chain.optimization
           .minimizer('css')
-          .use(CssMinimizerPlugin, [{
+          .use(CssMinimizerPlugin, [ {
             parallel: true
-          }])
+          } ])
       }
 
       // also produce a gzipped version

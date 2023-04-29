@@ -14,7 +14,7 @@ module.exports = function injectModuleId (component, id) {
 
   const target = targetComponent.mixins
   const mixin = {
-    created () { this.ssrContext._modules.add(`${id}`) }
+    created () { this.ssrContext._modules.add(`${ id }`) }
   }
 
   if (target === void 0) {

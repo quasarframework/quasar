@@ -70,10 +70,10 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
       sourceMap: pref.sourceMap,
       url: { filter: shouldRequireUrl },
       importLoaders:
-        1 + // stylePostLoader injected by vue-loader
-        1 + // postCSS loader
-        (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
-        (loader ? (loader === 'sass-loader' ? 2 : 1) : 0)
+        1 // stylePostLoader injected by vue-loader
+        + 1 // postCSS loader
+        + (!pref.extract && pref.minify ? 1 : 0) // postCSS with cssnano
+        + (loader ? (loader === 'sass-loader' ? 2 : 1) : 0)
     }
 
     if (modules) {
@@ -112,7 +112,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     // need a fresh copy, otherwise plugins
     // will keep on adding making N duplicates for each one
-    delete require.cache[appPaths.postcssConfigFilename]
+    delete require.cache[ appPaths.postcssConfigFilename ]
     const postCssConfig = require(appPaths.postcssConfigFilename)
     let postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
 
@@ -121,8 +121,8 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
       const postcssRTLOptions = pref.rtl === true ? {} : pref.rtl
 
       if (
-        typeof postCssConfig.plugins !== 'function' &&
-        (postcssRTLOptions.source === 'ltr' || typeof postcssRTLOptions === 'function')
+        typeof postCssConfig.plugins !== 'function'
+        && (postcssRTLOptions.source === 'ltr' || typeof postcssRTLOptions === 'function')
       ) {
         const originalPlugins = postCssOpts.plugins ? [ ...postCssOpts.plugins ] : []
 
@@ -175,7 +175,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
 module.exports = function (chain, pref) {
   injectRule(chain, pref, 'css', /\.css$/)
-  injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions),
+  injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions)
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(
     { sassOptions: { outputStyle: /* required for RTL */ 'expanded' } },
     pref.scssLoaderOptions

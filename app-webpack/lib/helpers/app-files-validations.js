@@ -4,12 +4,10 @@ const { warn } = require('./logger')
 const appPaths = require('../app-paths')
 
 module.exports = function (cfg) {
-  let file
-  let content
   let error = false
 
-  file = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
-  content = fs.readFileSync(file, 'utf-8')
+  const file = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
+  const content = fs.readFileSync(file, 'utf-8')
 
   if (content.indexOf('<base href') > -1) {
     warn(`Please remove the <base> tag from /src/index.template.html

@@ -8,7 +8,7 @@ function makeTag (tagName, attributes) {
   }
 }
 
-function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, useCredentials }}) {
+function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, useCredentials } }) {
   data.headTags.push(
     // Add to home screen for Android and modern mobile browsers
     makeTag('link', {
