@@ -6,7 +6,7 @@ const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
 const nodePackager = require('../../helpers/node-packager')
 const hasTypescript = require('../../helpers/has-typescript')
-const hasEslint = require('../../helpers/has-eslint')
+const { hasEslint } = require('../../helpers/has-eslint')
 
 const defaultVersion = '^6.5.0'
 
@@ -44,7 +44,7 @@ function add (silent) {
     appPaths.resolve.cli(`templates/pwa/${format}`),
     appPaths.pwaDir,
     // Copy .eslintrc.js only if the app has ESLint
-    { filter: src => hasEslint || !src.endsWith('/.eslintrc.js') }
+    hasEslint === true && format === 'ts' ? { filter: src => !src.endsWith('/.eslintrc.js') } : void 0
   )
 
   fse.copySync(
