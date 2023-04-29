@@ -47,7 +47,7 @@ class CapacitorBuilder extends AppBuilder {
 
     this.#capacitorConfigFile.prepareSSL(false, target)
 
-    if (this.argv['skip-pkg'] !== true) {
+    if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide === true) {
         await openIde('capacitor', this.quasarConf.bin, target)
         process.exit(0)
@@ -87,7 +87,7 @@ class CapacitorBuilder extends AppBuilder {
 
   async #buildIos () {
     const buildType = this.ctx.debug ? 'debug' : 'release'
-    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${buildType} -derivedDataPath`
+    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${ buildType } -derivedDataPath`
 
     log('Building iOS app...')
 
@@ -118,8 +118,8 @@ class CapacitorBuilder extends AppBuilder {
     log('Building Android app...')
 
     await spawnSync(
-      `./gradlew${process.platform === 'win32' ? '.bat' : ''}`,
-      [ `assemble${this.ctx.debug ? 'Debug' : 'Release'}` ].concat(this.argv._),
+      `./gradlew${ process.platform === 'win32' ? '.bat' : '' }`,
+      [ `assemble${ this.ctx.debug ? 'Debug' : 'Release' }` ].concat(this.argv._),
       { cwd: appPaths.resolve.capacitor('android') },
       () => {
         warn()

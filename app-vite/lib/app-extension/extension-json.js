@@ -31,9 +31,9 @@ class ExtensionJson {
     log('Listing installed App Extensions')
     log()
 
-    for (let ext in this.extensions) {
+    for (const ext in this.extensions) {
       console.log('Extension name: ' + green(ext))
-      console.log('Extension prompts: ' + JSON.stringify(this.extensions[ext], null, 2))
+      console.log('Extension prompts: ' + JSON.stringify(this.extensions[ ext ], null, 2))
       console.log()
     }
   }
@@ -43,8 +43,8 @@ class ExtensionJson {
   }
 
   set (extId, opts) {
-    log(`Updating /quasar.extensions.json for "${extId}" extension ...`)
-    this.extensions[extId] = opts
+    log(`Updating /quasar.extensions.json for "${ extId }" extension ...`)
+    this.extensions[ extId ] = opts
     this.__save()
   }
 
@@ -56,14 +56,14 @@ class ExtensionJson {
 
   remove (extId) {
     if (this.has(extId)) {
-      log(`Removing "${extId}" extension from /quasar.extensions.json ...`)
-      delete this.extensions[extId]
+      log(`Removing "${ extId }" extension from /quasar.extensions.json ...`)
+      delete this.extensions[ extId ]
       this.__save()
     }
   }
 
   get (extId) {
-    return this.extensions[extId] || {}
+    return this.extensions[ extId ] || {}
   }
 
   getPrompts (extId) {
@@ -77,7 +77,7 @@ class ExtensionJson {
   }
 
   has (extId) {
-    return this.extensions[extId] !== void 0
+    return this.extensions[ extId ] !== void 0
   }
 
   __save () {

@@ -21,7 +21,7 @@ function save (content) {
   fs.writeFileSync(filePath, JSON.stringify(content), 'utf-8')
 
   // clear require cache so subsequent reads will get the updated content
-  delete require.cache[filePath]
+  delete require.cache[ filePath ]
 }
 
 module.exports.add = function (entry) {
@@ -65,12 +65,12 @@ module.exports.cleanAll = function () {
       fse.removeSync(folder)
     }
 
-    log(`Cleaned build artifact: "${folder}"`)
+    log(`Cleaned build artifact: "${ folder }"`)
   })
 
-  let folder = appPaths.resolve.app('.quasar')
+  const folder = appPaths.resolve.app('.quasar')
   fse.removeSync(folder)
-  log(`Cleaned build artifact: "${folder}"`)
+  log(`Cleaned build artifact: "${ folder }"`)
 
   const distFolder = appPaths.resolve.app('dist')
 

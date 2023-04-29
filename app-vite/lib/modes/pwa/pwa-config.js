@@ -49,8 +49,8 @@ module.exports = {
       if (quasarConf.ctx.dev === true && quasarConf.build.ignorePublicFolder === true) {
         // we don't have a public folder, so we can't use the glob* props,
         // but then we need a runtime caching at least
-        opts.runtimeCaching = [{
-          urlPattern: `${quasarConf.build.publicPath || '/'}${quasarConf.pwa.manifestFilename}`,
+        opts.runtimeCaching = [ {
+          urlPattern: `${ quasarConf.build.publicPath || '/' }${ quasarConf.pwa.manifestFilename }`,
           handler: 'NetworkFirst',
           options: {
             cacheName: 'static-manifest',
@@ -59,7 +59,7 @@ module.exports = {
               maxAgeSeconds: 60 * 60
             }
           }
-        }]
+        } ]
       }
       else {
         Object.assign(opts, {
@@ -67,7 +67,7 @@ module.exports = {
             ? appPaths.publicDir
             : quasarConf.build.distDir,
           globPatterns: [ '**/*' ],
-          globIgnores: [ `**/${quasarConf.pwa.swFilename}`, '**/workbox-*' ]
+          globIgnores: [ `**/${ quasarConf.pwa.swFilename }`, '**/workbox-*' ]
         })
       }
 
@@ -91,7 +91,7 @@ module.exports = {
       }
 
       opts.swDest = quasarConf.ctx.dev === true
-        ? appPaths.resolve.app(`.quasar/pwa/${quasarConf.pwa.swFilename}`)
+        ? appPaths.resolve.app(`.quasar/pwa/${ quasarConf.pwa.swFilename }`)
         : join(quasarConf.build.distDir, quasarConf.pwa.swFilename)
     }
     else {
@@ -103,7 +103,7 @@ module.exports = {
             ? appPaths.publicDir
             : quasarConf.build.distDir,
           globPatterns: [ '**/*' ],
-          globIgnores: [ `**/${quasarConf.pwa.swFilename}`, '**/workbox-*' ]
+          globIgnores: [ `**/${ quasarConf.pwa.swFilename }`, '**/workbox-*' ]
         })
       }
 
@@ -113,7 +113,7 @@ module.exports = {
 
       opts.swSrc = appPaths.resolve.app(`.quasar/pwa-sw/compiled-sw.js`)
       opts.swDest = quasarConf.ctx.dev === true
-        ? appPaths.resolve.app(`.quasar/pwa/${quasarConf.pwa.swFilename}`)
+        ? appPaths.resolve.app(`.quasar/pwa/${ quasarConf.pwa.swFilename }`)
         : join(quasarConf.build.distDir, quasarConf.pwa.swFilename)
     }
 
@@ -124,7 +124,7 @@ module.exports = {
   customSw: quasarConf => {
     const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
 
-    cfg.define['process.env.PWA_FALLBACK_HTML'] = JSON.stringify(
+    cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = JSON.stringify(
       quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
         ? quasarConf.ssr.ssrPwaHtmlFilename
         : 'index.html'

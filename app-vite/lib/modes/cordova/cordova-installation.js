@@ -27,8 +27,8 @@ async function add (silent, target) {
 
   if (/^[0-9]/.test(appName)) {
     warn(
-      `App product name cannot start with a number. ` +
-      `Please change the "productName" prop in your /package.json then try again.`
+      `App product name cannot start with a number. `
+      + `Please change the "productName" prop in your /package.json then try again.`
     )
     return
   }
@@ -36,19 +36,19 @@ async function add (silent, target) {
   const inquirer = require('inquirer')
 
   console.log()
-  const answer = await inquirer.prompt([{
+  const answer = await inquirer.prompt([ {
     name: 'appId',
     type: 'input',
     message: 'What is the Cordova app id?',
     default: 'org.cordova.quasar.app',
-    validate: appId => appId ? true : 'Please fill in a value'
-  }])
+    validate: appId => (appId ? true : 'Please fill in a value')
+  } ])
 
   log('Creating Cordova source folder...')
 
   spawnSync(
     'cordova',
-    ['create', 'src-cordova', answer.appId, appName],
+    [ 'create', 'src-cordova', answer.appId, appName ],
     { cwd: appPaths.appDir },
     () => {
       fatal(`There was an error trying to install Cordova support`)
@@ -59,7 +59,7 @@ async function add (silent, target) {
   ensureWWW(true)
 
   log(`Cordova support was installed`)
-  log(`App name was taken from package.json: "${appName}"`)
+  log(`App name was taken from package.json: "${ appName }"`)
   log()
   warn(`If you want a different App name then remove Cordova support, edit productName field from package.json then add Cordova support again.`)
   warn()
@@ -95,17 +95,17 @@ function addPlatform (target) {
   ensureConsistency()
 
   // if it has the platform
-  if (fs.existsSync(appPaths.resolve.cordova(`platforms/${target}`))) {
+  if (fs.existsSync(appPaths.resolve.cordova(`platforms/${ target }`))) {
     return
   }
 
-  log(`Adding Cordova platform "${target}"`)
+  log(`Adding Cordova platform "${ target }"`)
   spawnSync(
     'cordova',
-    ['platform', 'add', target],
+    [ 'platform', 'add', target ],
     { cwd: appPaths.cordovaDir },
     () => {
-      warn(`There was an error trying to install Cordova platform "${target}"`)
+      warn(`There was an error trying to install Cordova platform "${ target }"`)
       process.exit(1)
     }
   )

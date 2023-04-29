@@ -20,9 +20,9 @@ const minifyOptions = {
 function injectPublicPath (html, publicPath) {
   return html.replace(
     /(href|src)\s*=\s*(['"])(.+)(['"])/ig,
-    (_, att, pre, val, post) => absoluteUrlRE.test(val.trim()) === true
-      ? `${att}=${pre}${val}${post}`
-      : `${att}=${pre}${publicPath + val}${post}`
+    (_, att, pre, val, post) => (absoluteUrlRE.test(val.trim()) === true
+      ? `${ att }=${ pre }${ val }${ post }`
+      : `${ att }=${ pre }${ publicPath + val }${ post }`)
   )
 }
 
@@ -35,24 +35,24 @@ function injectRuntimeInterpolation (html) {
 
       matches = found.match(/\sdir\s*=\s*['"]([^'"]*)['"]/i)
       if (matches) {
-        start = start.replace(matches[0], '')
+        start = start.replace(matches[ 0 ], '')
       }
 
       matches = found.match(/\slang\s*=\s*['"]([^'"]*)['"]/i)
       if (matches) {
-        start = start.replace(matches[0], '')
+        start = start.replace(matches[ 0 ], '')
       }
 
-      return `${start} {{ _meta.htmlAttrs }}${end}`
+      return `${ start } {{ _meta.htmlAttrs }}${ end }`
     }
   )
   .replace(
     /(<head[^>]*)(>)/i,
-    (_, start, end) => `${start}${end}{{ _meta.headTags }}`
+    (_, start, end) => `${ start }${ end }{{ _meta.headTags }}`
   )
   .replace(
     /(<\/head>)/i,
-    (_, tag) => `{{ _meta.endingHeadTags || '' }}${tag}`
+    (_, tag) => `{{ _meta.endingHeadTags || '' }}${ tag }`
   )
   .replace(
     /(<body[^>]*)(>)/i,
@@ -62,13 +62,13 @@ function injectRuntimeInterpolation (html) {
       const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
 
       if (matches) {
-        if (matches[1].length > 0) {
-          classes += ` ${matches[1]}`
+        if (matches[ 1 ].length > 0) {
+          classes += ` ${ matches[ 1 ] }`
         }
-        start = start.replace(matches[0], '')
+        start = start.replace(matches[ 0 ], '')
       }
 
-      return `${start} class="${classes.trim()}" {{ _meta.bodyAttrs }}${end}{{ _meta.bodyTags }}`
+      return `${ start } class="${ classes.trim() }" {{ _meta.bodyAttrs }}${ end }{{ _meta.bodyTags }}`
     }
   )
 }
@@ -140,7 +140,7 @@ module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `${entryPointMarkup}${entryScript}`
+    `${ entryPointMarkup }${ entryScript }`
   )
 
   return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })

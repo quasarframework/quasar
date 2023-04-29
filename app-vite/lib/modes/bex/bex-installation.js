@@ -24,14 +24,14 @@ async function add (silent) {
   }
 
   nodePackager.installPackage(
-    Object.entries(bexDeps).map(([name, version]) => `${name}@${version}`),
+    Object.entries(bexDeps).map(([ name, version ]) => `${ name }@${ version }`),
     { displayName: 'BEX dependencies' }
   )
 
   const inquirer = require('inquirer')
 
   console.log()
-  const answer = await inquirer.prompt([{
+  const answer = await inquirer.prompt([ {
     name: 'manifestVersion',
     type: 'list',
     choices: [
@@ -39,7 +39,7 @@ async function add (silent) {
       { name: 'Manifest v3 (works with Chrome only currently)', value: 'manifest-v3' }
     ],
     message: 'What version of manifest would you like?'
-  }])
+  } ])
 
   log(`Creating Browser Extension source folder...`)
 
@@ -47,7 +47,7 @@ async function add (silent) {
   fse.copySync(appPaths.resolve.cli('templates/bex/bex-flag.d.ts'), appPaths.resolve.bex('bex-flag.d.ts'))
 
   const format = hasTypescript ? 'ts' : 'default'
-  fse.copySync(appPaths.resolve.cli(`templates/bex/${format}/${answer.manifestVersion}`), appPaths.bexDir)
+  fse.copySync(appPaths.resolve.cli(`templates/bex/${ format }/${ answer.manifestVersion }`), appPaths.bexDir)
 
   log(`Browser Extension support was added`)
 }

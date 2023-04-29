@@ -18,7 +18,7 @@ module.exports = {
     // are installed in /src-capacitor and not in root
     // so it breaks Vite
     depsList.forEach(dep => {
-      cfg.resolve.alias[dep] = path.join(target, dep)
+      cfg.resolve.alias[ dep ] = path.join(target, dep)
     })
 
     cfg.plugins.unshift({

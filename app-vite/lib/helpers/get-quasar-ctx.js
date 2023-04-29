@@ -16,18 +16,18 @@ module.exports = function (opts) {
     vueDevtools: opts.vueDevtools || false
   }
 
-  ctx.mode[opts.mode] = true
+  ctx.mode[ opts.mode ] = true
 
   if (opts.target) {
-    ctx.target[opts.target] = true
+    ctx.target[ opts.target ] = true
   }
 
   if (opts.arch) {
-    ctx.arch[opts.arch] = true
+    ctx.arch[ opts.arch ] = true
   }
 
   if (opts.bundler) {
-    ctx.bundler[opts.bundler] = true
+    ctx.bundler[ opts.bundler ] = true
   }
 
   return ctx

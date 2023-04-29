@@ -16,8 +16,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u', 'i'],
-  string: ['m', 'T', 'P'],
+  boolean: [ 'h', 'd', 'u', 'i' ],
+  string: [ 'm', 'T', 'P' ],
   default: {
     m: 'spa'
   }
@@ -106,7 +106,7 @@ const path = require('path')
 
 async function build () {
   // install mode if it's missing
-  const { add } = require(`../modes/${argv.mode}/${argv.mode}-installation`)
+  const { add } = require(`../modes/${ argv.mode }/${ argv.mode }-installation`)
   await add(true, argv.target)
 
   const getQuasarCtx = require('../helpers/get-quasar-ctx')
@@ -139,7 +139,7 @@ async function build () {
   const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags')
   regenerateTypesFeatureFlags(quasarConf)
 
-  const AppProdBuilder = require(`../modes/${argv.mode}/${argv.mode}-builder`)
+  const AppProdBuilder = require(`../modes/${ argv.mode }/${ argv.mode }-builder`)
   const appBuilder = new AppProdBuilder({ argv, quasarConf })
 
   const artifacts = require('../artifacts')
@@ -155,7 +155,7 @@ async function build () {
 
   // run possible beforeBuild hooks
   await extensionRunner.runHook('beforeBuild', async hook => {
-    log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
+    log(`Extension(${ hook.api.extId }): Running beforeBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
@@ -177,7 +177,7 @@ async function build () {
 
     // run possible beforeBuild hooks
     await extensionRunner.runHook('afterBuild', async hook => {
-      log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
+      log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
       await hook.fn(hook.api, { quasarConf })
     })
 
@@ -194,7 +194,7 @@ async function build () {
 
       // run possible onPublish hooks
       await extensionRunner.runHook('onPublish', async hook => {
-        log(`Extension(${hook.api.extId}): Running onPublish hook...`)
+        log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
         await hook.fn(hook.api, opts)
       })
     }

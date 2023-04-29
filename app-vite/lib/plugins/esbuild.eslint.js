@@ -13,7 +13,7 @@ function parseIssue (path, reportEntry) {
 
   return reportEntry.messages.map(entry => {
     const ruleLink = entry.ruleId
-      ? `\n\n    ⚠️  ${eslintUrl}${underline(bold(entry.ruleId))}`
+      ? `\n\n    ⚠️  ${ eslintUrl }${ underline(bold(entry.ruleId)) }`
       : ''
 
     return {
@@ -63,7 +63,7 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
         const {
           errorCount, fixableErrorCount,
           warningCount, fixableWarningCount
-        } = report[0]
+        } = report[ 0 ]
 
         if (fix === true && (fixableErrorCount !== 0 || fixableWarningCount !== 0)) {
           outputFixes(report)
@@ -74,7 +74,7 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
           console.log()
           error('Error:', 'LINT')
           console.log()
-          return { errors: parseIssue(path, report[0]) }
+          return { errors: parseIssue(path, report[ 0 ]) }
         }
 
         if (warnings === true && warningCount !== 0) {
@@ -82,7 +82,7 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
           console.log()
           warning('Warning:', 'LINT')
           console.log()
-          return { warnings: parseIssue(path, report[0]) }
+          return { warnings: parseIssue(path, report[ 0 ]) }
         }
 
         if (errorFiles.has(path) === true) {

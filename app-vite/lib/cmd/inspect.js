@@ -12,8 +12,8 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: ['h'],
-  string: ['c', 'm', 'p', 't'],
+  boolean: [ 'h' ],
+  string: [ 'c', 'm', 'p', 't' ],
   default: {
     c: 'dev',
     m: 'spa',
@@ -49,7 +49,7 @@ require('../helpers/ensure-argv')(argv, 'inspect')
 require('../helpers/banner-global')(argv, argv.cmd)
 
 const { log, fatal } = require('../helpers/logger')
-const { isInstalled } = require(`../modes/${argv.mode}/${argv.mode}-installation`)
+const { isInstalled } = require(`../modes/${ argv.mode }/${ argv.mode }-installation`)
 
 if (isInstalled() !== true) {
   fatal('Requested mode for inspection is NOT installed.')
@@ -84,7 +84,7 @@ async function inspect () {
     fatal(quasarConf.error, 'FAIL')
   }
 
-  const generateConfig = require(`../modes/${argv.mode}/${argv.mode}-config`)
+  const generateConfig = require(`../modes/${ argv.mode }/${ argv.mode }-config`)
 
   const cfgEntries = []
   let threadList = Object.keys(generateConfig)
@@ -119,7 +119,7 @@ async function inspect () {
       : 'esbuild'
 
     console.log()
-    log(`Showing "${cfgEntry.name}" config (for ${tool}) with depth of ${depth}`)
+    log(`Showing "${ cfgEntry.name }" config (for ${ tool }) with depth of ${ depth }`)
     console.log()
     console.log(
       util.inspect(cfgEntry.object, {
@@ -131,7 +131,7 @@ async function inspect () {
     )
   })
 
-  console.log(`\n  Depth used: ${depth}. You can change it with "-d" / "--depth" parameter.\n`)
+  console.log(`\n  Depth used: ${ depth }. You can change it with "-d" / "--depth" parameter.\n`)
 }
 
 inspect()

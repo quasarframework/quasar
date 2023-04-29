@@ -9,7 +9,7 @@ const { warn, fatal } = require('./logger')
 function findXcodeWorkspace (folder) {
   const root = fs.readdirSync(folder)
 
-  for (let item of root) {
+  for (const item of root) {
     const __path = path.join(folder, item)
 
     if (item.endsWith('.xcworkspace')) {
@@ -54,7 +54,7 @@ function getLinuxPath (bin) {
     canonicalPaths.unshift(bin.linuxAndroidStudio)
   }
 
-  for (let studioPath of canonicalPaths) {
+  for (const studioPath of canonicalPaths) {
     if (fs.existsSync(studioPath)) {
       return studioPath
     }
@@ -145,7 +145,7 @@ function runWindows (mode, bin, target) {
 module.exports = function (mode, bin, target, dev) {
   console.log()
   console.log(` ⚠️  `)
-  console.log(` ⚠️  Opening ${target === 'ios' ? 'XCode' : 'Android Studio'} IDE...`)
+  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
 
   if (dev) {
     console.log(` ⚠️  From there, use the IDE to run the app.`)

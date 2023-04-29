@@ -4,8 +4,8 @@ const { fatal } = require('./logger')
 module.exports = async function getApi(item) {
   try {
     const api = require(
-      require.resolve(`quasar/dist/api/${item}.json`, {
-        paths: [appPaths.appDir]
+      require.resolve(`quasar/dist/api/${ item }.json`, {
+        paths: [ appPaths.appDir ]
       })
     )
     return {
@@ -20,11 +20,11 @@ module.exports = async function getApi(item) {
   if (extensions.length > 0) {
     const Extension = require('../app-extension/Extension.js')
 
-    for (let ext of extensions) {
+    for (const ext of extensions) {
       const instance = new Extension(ext)
       const hooks = await instance.run({})
 
-      if (hooks.describeApi !== void 0 && hooks.describeApi[item]) {
+      if (hooks.describeApi !== void 0 && hooks.describeApi[ item ]) {
         const fs = require('fs')
         const path = require('path')
 
@@ -32,26 +32,26 @@ module.exports = async function getApi(item) {
         const {
           callerPath,
           relativePath
-        } = hooks.describeApi[item]
+        } = hooks.describeApi[ item ]
 
         if (relativePath.charAt(0) === '~') {
           try {
             file = relativePath.slice(1)
             file = require.resolve(
               file, {
-                paths: [callerPath, appPaths.appDir]
+                paths: [ callerPath, appPaths.appDir ]
               }
             )
           }
           catch (e) {
-            fatal(`Extension(${instance.extId}): registerDescribeApi - there is no package "${file}" installed`)
+            fatal(`Extension(${ instance.extId }): registerDescribeApi - there is no package "${ file }" installed`)
           }
         }
         else {
           file = path.resolve(callerPath, relativePath)
 
           if (!fs.existsSync(file)) {
-            fatal(`Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
+            fatal(`Extension(${ instance.extId }): registerDescribeApi - there is no file at ${ file }`)
           }
         }
 
@@ -62,11 +62,11 @@ module.exports = async function getApi(item) {
           }
         }
         catch (e) {
-          fatal(`Extension(${instance.extId}): Malformed API file at ${file}`)
+          fatal(`Extension(${ instance.extId }): Malformed API file at ${ file }`)
         }
       }
     }
   }
 
-  fatal(`No API found for requested "${item}"`)
+  fatal(`No API found for requested "${ item }"`)
 }

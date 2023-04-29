@@ -9,17 +9,17 @@ module.exports = async function () {
   }
 
   if (interfaces.length === 1) {
-    const address = interfaces[0].address
-    warn(`Detected external IP ${address} and using it`)
+    const address = interfaces[ 0 ].address
+    warn(`Detected external IP ${ address } and using it`)
     return address
   }
 
-  const answer = await require('inquirer').prompt([{
+  const answer = await require('inquirer').prompt([ {
     type: 'list',
     name: 'address',
     message: 'What external IP should Quasar use?',
     choices: interfaces.map(intf => intf.address)
-  }])
+  } ])
 
   return answer.address
 }

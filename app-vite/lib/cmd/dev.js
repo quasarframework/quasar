@@ -17,8 +17,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     d: 'devtools'
   },
-  boolean: ['h', 'i', 'd'],
-  string: ['m', 'T', 'H'],
+  boolean: [ 'h', 'i', 'd' ],
+  string: [ 'm', 'T', 'H' ],
   default: {
     m: 'spa'
   }
@@ -116,7 +116,7 @@ function startVueDevtools () {
 
 async function goLive () {
   // install mode if it's missing
-  const { add } = require(`../modes/${argv.mode}/${argv.mode}-installation`)
+  const { add } = require(`../modes/${ argv.mode }/${ argv.mode }-installation`)
   await add(true, argv.target)
 
   const getQuasarCtx = require('../helpers/get-quasar-ctx')
@@ -151,7 +151,7 @@ async function goLive () {
     await startVueDevtools()
   }
 
-  const AppDevServer = require(`../modes/${argv.mode}/${argv.mode}-devserver`)
+  const AppDevServer = require(`../modes/${ argv.mode }/${ argv.mode }-devserver`)
   const devServer = new AppDevServer({ argv, ctx, quasarConf })
 
   if (typeof quasarConf.build.beforeDev === 'function') {
@@ -160,7 +160,7 @@ async function goLive () {
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
-    log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
+    log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
@@ -171,7 +171,7 @@ async function goLive () {
       }
       // run possible afterDev hooks
       await extensionRunner.runHook('afterDev', async hook => {
-        log(`Extension(${hook.api.extId}): Running afterDev hook...`)
+        log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
         await hook.fn(hook.api, { quasarConf })
       })
     })

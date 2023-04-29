@@ -194,7 +194,7 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
   }
 
   const promise = extensionRunner.runHook('extendViteConf', async hook => {
-    log(`Extension(${hook.api.extId}): Extending Vite config`)
+    log(`Extension(${ hook.api.extId }): Extending Vite config`)
     await hook.fn(viteConf, opts, hook.api)
   })
 
@@ -203,7 +203,7 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
 
 function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
   // fetch fresh copy; user might have installed something new
-  delete require.cache[appPkgFile]
+  delete require.cache[ appPkgFile ]
   const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPkgFile)
 
   const cfg = {
@@ -257,15 +257,15 @@ function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
 }
 
 function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
-  const method = `extend${threadName}Conf`
+  const method = `extend${ threadName }Conf`
 
   // example: quasarConf.ssr.extendSSRWebserverConf
-  if (typeof quasarConfTarget[method] === 'function') {
-    quasarConfTarget[method](esbuildConf)
+  if (typeof quasarConfTarget[ method ] === 'function') {
+    quasarConfTarget[ method ](esbuildConf)
   }
 
   const promise = extensionRunner.runHook(method, async hook => {
-    log(`Extension(${hook.api.extId}): Extending "${threadName}" Esbuild config`)
+    log(`Extension(${ hook.api.extId }): Extending "${ threadName }" Esbuild config`)
     await hook.fn(esbuildConf, hook.api)
   })
 

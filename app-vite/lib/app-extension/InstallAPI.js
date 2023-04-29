@@ -71,11 +71,11 @@ module.exports = class InstallAPI extends BaseAPI {
     const json = getPackageJson(packageName)
 
     if (json === void 0) {
-      fatal(`Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
+      fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      fatal(`Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
+      fatal(`Extension(${ this.extId }): is not compatible with ${ packageName } v${ json.version }. Required version: ${ semverCondition }`)
     }
   }
 
@@ -143,13 +143,13 @@ module.exports = class InstallAPI extends BaseAPI {
 
       if (!fs.existsSync(source)) {
         warn()
-        warn(`Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`)
+        warn(`Extension(${ this.extId }): extendPackageJson() - cannot locate ${ extPkg }. Skipping...`)
         warn()
         return
       }
       if (fs.lstatSync(source).isDirectory()) {
         warn()
-        warn(`Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`)
+        warn(`Extension(${ this.extId }): extendPackageJson() - "${ extPkg }" is a folder instead of file. Skipping...`)
         warn()
         return
       }
@@ -158,7 +158,7 @@ module.exports = class InstallAPI extends BaseAPI {
         extPkg = require(source)
       }
       catch (e) {
-        warn(`Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`)
+        warn(`Extension(${ this.extId }): extendPackageJson() - "${ extPkg }" is malformed`)
         warn()
         process.exit(1)
       }
@@ -178,11 +178,11 @@ module.exports = class InstallAPI extends BaseAPI {
     )
 
     if (
-      extPkg.dependencies ||
-      extPkg.devDependencies ||
-      extPkg.optionalDependencies ||
-      extPkg.bundleDependencies ||
-      extPkg.peerDependencies
+      extPkg.dependencies
+      || extPkg.devDependencies
+      || extPkg.optionalDependencies
+      || extPkg.bundleDependencies
+      || extPkg.peerDependencies
     ) {
       this.__needsNodeModulesUpdate = true
     }
@@ -215,8 +215,8 @@ module.exports = class InstallAPI extends BaseAPI {
       }
       catch(e) {
         warn()
-        warn(`Extension(${this.extId}): extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
-        warn(`Extension(${this.extId}): extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(newData)}`)
+        warn(`Extension(${ this.extId }): extendJsonFile() - "${ filePath }" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
+        warn(`Extension(${ this.extId }): extendJsonFile() - The extension tried to apply these updates to "${ filePath }" file: ${ JSON.stringify(newData) }`)
         warn()
       }
     }
@@ -236,12 +236,12 @@ module.exports = class InstallAPI extends BaseAPI {
 
     if (!fs.existsSync(source)) {
       warn()
-      warn(`Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...\n`)
+      warn(`Extension(${ this.extId }): render() - cannot locate ${ templatePath }. Skipping...\n`)
       return
     }
     if (!fs.lstatSync(source).isDirectory()) {
       warn()
-      warn(`Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...\n`)
+      warn(`Extension(${ this.extId }): render() - "${ templatePath }" is a file instead of folder. Skipping...\n`)
       return
     }
 
@@ -268,12 +268,12 @@ module.exports = class InstallAPI extends BaseAPI {
 
     if (!fs.existsSync(sourcePath)) {
       warn()
-      warn(`Extension(${this.extId}): renderFile() - cannot locate ${relativeSourcePath}. Skipping...\n`)
+      warn(`Extension(${ this.extId }): renderFile() - cannot locate ${ relativeSourcePath }. Skipping...\n`)
       return
     }
     if (fs.lstatSync(sourcePath).isDirectory()) {
       warn()
-      warn(`Extension(${this.extId}): renderFile() - "${relativeSourcePath}" is a folder instead of a file. Skipping...\n`)
+      warn(`Extension(${ this.extId }): renderFile() - "${ relativeSourcePath }" is a folder instead of a file. Skipping...\n`)
       return
     }
 

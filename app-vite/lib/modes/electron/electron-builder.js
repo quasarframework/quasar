@@ -19,7 +19,7 @@ class ElectronBuilder extends AppBuilder {
 
     this.printSummary(join(this.quasarConf.build.distDir, 'UnPackaged'))
 
-    if (this.argv['skip-pkg'] !== true) {
+    if (this.argv[ 'skip-pkg' ] !== true) {
       await this.#packageFiles()
     }
   }
@@ -49,7 +49,7 @@ class ElectronBuilder extends AppBuilder {
 
     if (pkg.dependencies) {
       pkg.dependencies = getFixedDeps(pkg.dependencies)
-      delete pkg.dependencies['@quasar/extras']
+      delete pkg.dependencies[ '@quasar/extras' ]
     }
 
     // we don't need this (also, faster install time & smaller bundles)
@@ -93,7 +93,7 @@ class ElectronBuilder extends AppBuilder {
         { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
         code => {
           if (code) {
-            fatal(`${nodePackager.name} failed installing dependencies`, 'FAIL')
+            fatal(`${ nodePackager.name } failed installing dependencies`, 'FAIL')
           }
           resolve()
         }
@@ -117,12 +117,12 @@ class ElectronBuilder extends AppBuilder {
       }
     }).then(() => {
       const bundlerName = this.quasarConf.electron.bundler
-      const bundlerConfig = this.quasarConf.electron[bundlerName]
+      const bundlerConfig = this.quasarConf.electron[ bundlerName ]
       const bundler = require('./bundler').getBundler(bundlerName)
-      const pkgName = `electron-${bundlerName}`
+      const pkgName = `electron-${ bundlerName }`
 
       return new Promise((resolve, reject) => {
-        const done = progress('Bundling app with ___...', `electron-${bundlerName}`)
+        const done = progress('Bundling app with ___...', `electron-${ bundlerName }`)
 
         const bundlePromise = bundlerName === 'packager'
           ? bundler({
@@ -134,13 +134,13 @@ class ElectronBuilder extends AppBuilder {
         bundlePromise
           .then(() => {
             log()
-            done(`${pkgName} built the app`)
+            done(`${ pkgName } built the app`)
             log()
             resolve()
           })
           .catch(err => {
             log()
-            warn(`${pkgName} could not build`, 'FAIL')
+            warn(`${ pkgName } could not build`, 'FAIL')
             log()
             console.error(err + '\n')
             reject()

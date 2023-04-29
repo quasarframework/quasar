@@ -10,7 +10,7 @@ function getStoreFlagPath(storeIndexPath) {
 }
 
 function isInstalled (mode) {
-  const { isInstalled } = require(`../modes/${mode}/${mode}-installation`)
+  const { isInstalled } = require(`../modes/${ mode }/${ mode }-installation`)
   return isInstalled()
 }
 
@@ -29,7 +29,7 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
     'store',
     'bex'
   ]) {
-    const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
+    const [ isFeatureInstalled, sourceFlagPath, destFlagPath ] = feature === 'store'
       ? [
         quasarConf.store,
         appPaths.resolve.cli('templates/store/store-flag.d.ts'),
@@ -37,13 +37,13 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
       ]
       : [
         isInstalled(feature),
-        appPaths.resolve.cli(`templates/${feature}/${feature}-flag.d.ts`),
-        appPaths.resolve[feature](`${feature}-flag.d.ts`)
+        appPaths.resolve.cli(`templates/${ feature }/${ feature }-flag.d.ts`),
+        appPaths.resolve[ feature ](`${ feature }-flag.d.ts`)
       ]
 
     if (isFeatureInstalled && !fs.existsSync(destFlagPath)) {
       fse.copySync(sourceFlagPath, destFlagPath)
-      log(`'${feature}' feature flag was missing and has been regenerated`)
+      log(`'${ feature }' feature flag was missing and has been regenerated`)
     }
   }
 }

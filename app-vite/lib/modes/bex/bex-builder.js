@@ -41,8 +41,8 @@ class BexBuilder extends AppBuilder {
     const zipName = `Packaged.${ name }.zip`
     const file = join(folder, zipName)
 
-    let output = createWriteStream(file)
-    let archive = archiver('zip', {
+    const output = createWriteStream(file)
+    const archive = archiver('zip', {
       zlib: { level: 9 } // Sets the compression level.
     })
 
@@ -50,7 +50,7 @@ class BexBuilder extends AppBuilder {
     archive.directory(folder, false, entryData => ((entryData.name !== zipName) ? entryData : false))
     archive.finalize()
 
-    done(`Bundle has been generated at: ${file}`)
+    done(`Bundle has been generated at: ${ file }`)
   }
 }
 

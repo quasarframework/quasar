@@ -17,7 +17,7 @@ const commands = [
   'help'
 ]
 
-let cmd = process.argv[2]
+let cmd = process.argv[ 2 ]
 
 if (cmd) {
   if (cmd.length === 1) {
@@ -33,7 +33,7 @@ if (cmd) {
       t: 'test',
       h: 'help'
     }
-    cmd = mapToCmd[cmd]
+    cmd = mapToCmd[ cmd ]
   }
 
   if (commands.includes(cmd)) {
@@ -55,7 +55,7 @@ if (cmd) {
       cmd = 'help'
     }
     else {
-      log(`Looking for Quasar App Extension "${process.argv[2]}" command${(process.argv[3] && (' "' + process.argv[3] + '"')) || ''}`)
+      log(`Looking for Quasar App Extension "${ process.argv[ 2 ] }" command${ (process.argv[ 3 ] && (' "' + process.argv[ 3 ] + '"')) || '' }`)
 
       const exit = process.exit
       process.exit = (code, reason) => {
@@ -76,4 +76,4 @@ else {
   cmd = 'help'
 }
 
-require(`../lib/cmd/${cmd}`)
+require(`../lib/cmd/${ cmd }`)
