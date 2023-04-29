@@ -20,5 +20,10 @@ export interface QuasarAppPaths {
   capacitorDir: string;
   electronDir: string;
   bexDir: string;
+
+  quasarConfigFilename: string;
+  postcssConfigFilename: string;
+  babelConfigFilename: string;
+
   resolve: IResolve;
 }
