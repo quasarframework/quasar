@@ -19,10 +19,6 @@ function getAppDir () {
       quasarConfigFilename = 'quasar.conf.js'
       return dir
     }
-    if (fs.existsSync(join(dir, 'quasar.conf.cjs'))) {
-      quasarConfigFilename = 'quasar.conf.cjs'
-      return dir
-    }
 
     dir = normalize(join(dir, '..'))
   }
