@@ -1,22 +1,61 @@
 const fs = require('fs')
 const { normalize, join, sep } = require('path')
+const spawn = require('cross-spawn').sync
 
 const appPaths = require('../app-paths')
-const spawn = require('cross-spawn').sync
 const { log, warn, fatal } = require('./logger')
 const { spawnSync } = require('./spawn')
 
+function run ({ name, params, cwd, onFail, env = 'development' }) {
+  spawnSync(
+    name,
+    params.filter(param => typeof param === 'string' && param.length !== 0),
+    { cwd: cwd || appPaths.appDir, env: { ...process.env, NODE_ENV: env } },
+    onFail
+  )
+}
+
 class PackageManager {
+  /**
+   * To be declared by subclasses
+   */
   name = 'unknown'
   lockFile = 'unknown'
 
+  getInstallParams (_env) {
+    return []
+  }
+
+  getInstallPackageParams (_names, _isDev) {
+    return []
+  }
+
+  getUninstallPackageParams (_names) {
+    return []
+  }
+
   /**
-   * Recursively checks for presence of the lock file by traversing
-   * the directory tree up to the root
+   * Implementation of the actual package manager
    */
+
+  get majorVersion () {
+    try {
+      const child = spawn(this.name, [ '--version' ])
+      if (child.status === 0) {
+        const version = String(child.output[ 1 ]).trim()
+        return parseInt(version.split('.')[ 0 ], 10)
+      }
+    }
+    catch (_) {}
+
+    return null
+  }
+
   isUsed () {
     let directory = process.cwd()
 
+    // Recursively checks for presence of the lock file by traversing
+    // the directory tree up to the root
     while (directory.length && directory[ directory.length - 1 ] !== sep) {
       if (fs.existsSync(join(directory, this.lockFile))) {
         return true
@@ -29,60 +68,42 @@ class PackageManager {
   }
 
   isInstalled () {
-    try {
-      // spawnSync helper logs stuff and exits the app on error, so we don't use it here
-      return spawn(this.name, [ '--version' ]).status === 0
-    }
-    catch (err) {
-      return false
-    }
+    return this.majorVersion !== null
   }
 
-  install ({ cwd, displayName } = {}) {
+  install ({ cwd, params, displayName, env = 'development' } = {}) {
     displayName = displayName ? displayName + ' ' : ''
 
     log(`Installing ${ displayName }dependencies...`)
-    this.__run([ 'install' ], {
+    run({
+      name: this.name,
+      params: params && params.length !== 0
+        ? params
+        : this.getInstallParams(env),
       cwd,
+      env,
       onFail: () => fatal(`Failed to install ${ displayName }dependencies`, 'FAIL')
     })
   }
 
-  getInstallPackageParams (_names, _isDev) {
-    return []
-  }
-
-  installPackage (name, { cwd, displayName = name, isDev = false } = {}) {
-    const params = this.getInstallPackageParams(Array.isArray(name) ? name : [ name ], isDev)
-
+  installPackage (name, { cwd, displayName = name, isDevDependency = false } = {}) {
     log(`Installing ${ displayName }...`)
-    this.__run(params, {
+    run({
+      name: this.name,
+      params: this.getInstallPackageParams(Array.isArray(name) ? name : [ name ], isDevDependency),
       cwd,
       onFail: () => fatal(`Failed to install ${ displayName }`, 'FAIL')
     })
   }
 
-  getUninstallPackageParams (_names) {
-    return []
-  }
-
   uninstallPackage (name, { cwd, displayName = name } = {}) {
-    const params = this.getUninstallPackageParams(Array.isArray(name) ? name : [ name ])
-
     log(`Uninstalling ${ displayName }...`)
-    this.__run(params, {
+    run({
+      name: this.name,
+      params: this.getUninstallPackageParams(Array.isArray(name) ? name : [ name ]),
       cwd,
       onFail: () => fatal(`Failed to uninstall ${ displayName }`, 'FAIL')
     })
-  }
-
-  __run (params, { cwd, onFail } = {}) {
-    spawnSync(
-      this.name,
-      params.filter(param => typeof param === 'string' && param.length > 0),
-      { cwd: cwd || appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      onFail
-    )
   }
 }
 
@@ -90,10 +111,20 @@ class Npm extends PackageManager {
   name = 'npm'
   lockFile = 'package-lock.json'
 
-  getInstallPackageParams (names, isDev) {
+  getInstallParams (env) {
+    if (env === 'development') {
+      return [ 'install' ]
+    }
+
+    return this.majorVersion >= 9
+      ? [ 'install' ] // env will be set to production
+      : [ 'install', '--production' ]
+  }
+
+  getInstallPackageParams (names, isDevDependency) {
     return [
       'install',
-      isDev ? '--save-dev' : '',
+      isDevDependency ? '--save-dev' : '',
       ...names,
     ]
   }
@@ -107,10 +138,28 @@ class Yarn extends PackageManager {
   name = 'yarn'
   lockFile = 'yarn.lock'
 
-  getInstallPackageParams (names, isDev) {
+  getInstallParams (env) {
+    if (env === 'development') {
+      return [ 'install' ]
+    }
+
+    return this.majorVersion >= 2
+      ? [
+        'workspaces',
+        'focus',
+        '--all',
+        '--production'
+      ]
+      : [
+        'install',
+        '--production'
+      ]
+  }
+
+  getInstallPackageParams (names, isDevDependency) {
     return [
       'add',
-      isDev ? '--dev' : '',
+      isDevDependency ? '--dev' : '',
       ...names
     ]
   }
@@ -124,10 +173,16 @@ class Pnpm extends PackageManager {
   name = 'pnpm'
   lockFile = 'pnpm-lock.yaml'
 
-  getInstallPackageParams (names, isDev) {
+  getInstallParams (env) {
+    return env === 'development'
+      ? [ 'install' ]
+      : [ 'install', '--prod' ]
+  }
+
+  getInstallPackageParams (names, isDevDependency) {
     return [
       'add',
-      isDev ? '--save-dev' : '',
+      isDevDependency ? '--save-dev' : '',
       ...names
     ]
   }
@@ -142,16 +197,18 @@ class Pnpm extends PackageManager {
  */
 function getPackager () {
   const yarn = new Yarn()
-  const npm = new Npm()
-  const pnpm = new Pnpm()
 
   if (yarn.isUsed()) {
     return yarn
   }
-  
+
+  const pnpm = new Pnpm()
+
   if (pnpm.isUsed()) {
     return pnpm
   }
+
+  const npm = new Npm()
 
   if (npm.isUsed()) {
     return npm

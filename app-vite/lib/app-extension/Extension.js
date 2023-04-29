@@ -269,7 +269,7 @@ module.exports = class Extension {
   __installPackage () {
     const nodePackager = require('../helpers/node-packager')
 
-    nodePackager.installPackage(this.packageFullName, { isDev: true })
+    nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
   }
 
   __uninstallPackage () {

@@ -4,8 +4,7 @@ const { join } = require('path')
 const AppBuilder = require('../../app-builder')
 const config = require('./electron-config')
 
-const { log, warn, fatal, progress } = require('../../helpers/logger')
-const { spawn } = require('../../helpers/spawn')
+const { log, warn, progress } = require('../../helpers/logger')
 const appPaths = require('../../app-paths')
 const nodePackager = require('../../helpers/node-packager')
 const getPackageJson = require('../../helpers/get-package-json')
@@ -85,67 +84,60 @@ class ElectronBuilder extends AppBuilder {
     this.copyFiles(patterns)
   }
 
-  #packageFiles () {
-    return new Promise(resolve => {
-      spawn(
-        nodePackager.name,
-        [ 'install', '--production' ].concat(this.quasarConf.electron.unPackagedInstallParams),
-        { cwd: join(this.quasarConf.build.distDir, 'UnPackaged') },
-        code => {
-          if (code) {
-            fatal(`${ nodePackager.name } failed installing dependencies`, 'FAIL')
-          }
-          resolve()
-        }
-      )
-    }).then(async () => {
-      if (typeof this.quasarConf.electron.beforePackaging === 'function') {
-        log('Running beforePackaging()')
-        log()
+  async #packageFiles () {
+    nodePackager.install({
+      cwd: join(this.quasarConf.build.distDir, 'UnPackaged'),
+      params: this.quasarConf.electron.unPackagedInstallParams,
+      displayName: 'UnPackaged folder production',
+      env: 'production'
+    })
 
-        const result = this.quasarConf.electron.beforePackaging({
-          appPaths,
-          unpackagedDir: join(this.quasarConf.build.distDir, 'UnPackaged')
-        })
+    if (typeof this.quasarConf.electron.beforePackaging === 'function') {
+      log('Running beforePackaging()')
+      log()
 
-        if (result && result.then) {
-          await result
-        }
-
-        log()
-        log('[SUCCESS] Done running beforePackaging()')
-      }
-    }).then(() => {
-      const bundlerName = this.quasarConf.electron.bundler
-      const bundlerConfig = this.quasarConf.electron[ bundlerName ]
-      const bundler = require('./bundler').getBundler(bundlerName)
-      const pkgName = `electron-${ bundlerName }`
-
-      return new Promise((resolve, reject) => {
-        const done = progress('Bundling app with ___...', `electron-${ bundlerName }`)
-
-        const bundlePromise = bundlerName === 'packager'
-          ? bundler({
-            ...bundlerConfig,
-            electronVersion: getPackageJson('electron').version
-          })
-          : bundler.build(bundlerConfig)
-
-        bundlePromise
-          .then(() => {
-            log()
-            done(`${ pkgName } built the app`)
-            log()
-            resolve()
-          })
-          .catch(err => {
-            log()
-            warn(`${ pkgName } could not build`, 'FAIL')
-            log()
-            console.error(err + '\n')
-            reject()
-          })
+      const result = this.quasarConf.electron.beforePackaging({
+        appPaths,
+        unpackagedDir: join(this.quasarConf.build.distDir, 'UnPackaged')
       })
+
+      if (result && result.then) {
+        await result
+      }
+
+      log()
+      log('[SUCCESS] Done running beforePackaging()')
+    }
+
+    const bundlerName = this.quasarConf.electron.bundler
+    const bundlerConfig = this.quasarConf.electron[ bundlerName ]
+    const bundler = require('./bundler').getBundler(bundlerName)
+    const pkgName = `electron-${ bundlerName }`
+
+    return new Promise((resolve, reject) => {
+      const done = progress('Bundling app with ___...', `electron-${ bundlerName }`)
+
+      const bundlePromise = bundlerName === 'packager'
+        ? bundler({
+          ...bundlerConfig,
+          electronVersion: getPackageJson('electron').version
+        })
+        : bundler.build(bundlerConfig)
+
+      bundlePromise
+        .then(() => {
+          log()
+          done(`${ pkgName } built the app`)
+          log()
+          resolve()
+        })
+        .catch(err => {
+          log()
+          warn(`${ pkgName } could not build`, 'FAIL')
+          log()
+          console.error(err + '\n')
+          reject()
+        })
     })
   }
 }

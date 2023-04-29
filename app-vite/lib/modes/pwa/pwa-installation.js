@@ -34,7 +34,7 @@ function add (silent) {
 
   nodePackager.installPackage(
     Object.entries(pwaDeps).map(([ name, version ]) => `${ name }@${ version }`),
-    { isDev: true, displayName: 'PWA dependencies' }
+    { isDevDependency: true, displayName: 'PWA dependencies' }
   )
 
   log('Creating PWA source folder...')
