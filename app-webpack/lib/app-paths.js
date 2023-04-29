@@ -27,9 +27,12 @@ function getAppInfo () {
 }
 
 const postcssConfigFilenameList = [
+  'postcss.config.cjs',
   '.postcssrc.js',
   'postcss.config.js',
-  'postcss.config.cjs'
+  'postcss.config.mjs',
+  '.postcssrc.cjs',
+  '.postcssrc.mjs'
 ]
 
 function getPostcssConfigFile (appDir) {
@@ -42,9 +45,13 @@ function getPostcssConfigFile (appDir) {
 }
 
 const babelConfigFilenameList = [
-  'babel.config.js',
   'babel.config.cjs',
-  '.babelrc.js'
+  'babel.config.js',
+  'babel.config.mjs',
+  '.babelrc.js',
+  '.babelrc.cjs',
+  '.babelrc.mjs',
+  '.babelrc'
 ]
 
 function getBabelConfigFile (appDir) {

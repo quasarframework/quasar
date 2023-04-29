@@ -79,7 +79,7 @@ $ yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plug
 Then update your ESLint configuration accordingly, like in the following example:
 
 ```js
-// .eslintrc.js
+// .eslintrc.cjs
 const { resolve } = require('path');
 
 module.exports = {

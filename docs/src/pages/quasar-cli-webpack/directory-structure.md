@@ -102,12 +102,15 @@ scope:
     - l: ".eslintignore"
       e: ESLint ignore paths
       url: https://eslint.org/docs/latest/user-guide/configuring/ignoring-code#the-eslintignore-file
-    - l: ".eslintrc.js"
+    - l: ".eslintrc.cjs"
       e: ESLint config
       url: https://eslint.org/docs/latest/user-guide/configuring/configuration-files#using-configuration-files
-    - l: postcss.config.js
+    - l: postcss.config.cjs
       e: PostCSS config
       url: https://github.com/postcss/postcss
+    - l: babel.config.cjs
+      e: Babel config
+      url: https://babeljs.io/docs/
     - l: jsconfig.json
       e: Editor config (if not using TypeScript)
       url: https://code.visualstudio.com/docs/languages/jsconfig

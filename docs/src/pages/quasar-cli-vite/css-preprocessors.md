@@ -9,7 +9,7 @@ related:
 
 ## Configuration
 
-You can configure how your CSS is handled through `/postcss.config.js` and through extending the Vite config:
+You can configure how your CSS is handled through `/postcss.config.cjs` and through extending the Vite config:
 
 ```js
 // quasar.config.js

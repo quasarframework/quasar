@@ -28,10 +28,10 @@ build: {
 }
 ```
 
-Furthermore, based on your `/postcss.config.js` file content, your CSS will also pass through `autoprefixer` for which you can configure the browser levels that you are interested in:
+Furthermore, based on your `/postcss.config.cjs` file content, your CSS will also pass through `autoprefixer` for which you can configure the browser levels that you are interested in:
 
 ```js
-// postcss.config.js
+// postcss.config.cjs
 
 require('autoprefixer')({
   overrideBrowserslist: [

@@ -165,7 +165,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   $ yarn add quasar@2 vue@3 vue-router@4
   ```
 7) **Remove** `.quasar` and `node_modules` folders, and `package-lock.json` / `yarn.lock` file, then run `npm install` / `yarn install` to regenerate the lock file. This forces the upgrade of the whole dependency graph (deep dependencies included) and avoids troubles with mismatching packages, especially webpack 5 related ones.
-8) If you are using ESLint, then edit `/.eslintrc.js`:
+8) If you are using ESLint, then edit `/.eslintrc.cjs` (also rename from `/.eslintrc.js`):
   ```js
   // old way
   parserOptions: {
