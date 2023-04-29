@@ -175,7 +175,7 @@ module.exports = function (cfg, configName) {
         .loader('babel-loader')
           .options({
             compact: false,
-            extends: appPaths.resolve.app('babel.config.js')
+            extends: appPaths.babelConfigFilename
           })
   }
 

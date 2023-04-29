@@ -4,7 +4,6 @@ const path = require('path')
 
 const appPaths = require('../app-paths')
 const cssVariables = require('../helpers/css-variables')
-const postCssConfigFile = appPaths.resolve.app('.postcssrc.js')
 const quasarCssPaths = [
   path.join('node_modules', 'quasar', 'dist'),
   path.join('node_modules', 'quasar', 'src'),
@@ -113,8 +112,8 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     // need a fresh copy, otherwise plugins
     // will keep on adding making N duplicates for each one
-    delete require.cache[postCssConfigFile]
-    const postCssConfig = require(postCssConfigFile)
+    delete require.cache[appPaths.postcssConfigFilename]
+    const postCssConfig = require(appPaths.postcssConfigFilename)
     let postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
 
     if (pref.rtl) {
