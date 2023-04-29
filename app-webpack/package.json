@@ -3,7 +3,7 @@
   "version": "3.7.2",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
-    "quasar": "./bin/quasar"
+    "quasar": "./bin/quasar.js"
   },
   "typings": "types/index.d.ts",
   "files": [
