@@ -15,7 +15,7 @@
     "tsconfig-preset.json"
   ],
   "scripts": {
-    "lint": "eslint --ext .js ./ ./bin/quasar --fix --report-unused-disable-directives"
+    "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
   },
   "keywords": [
     "quasar",
