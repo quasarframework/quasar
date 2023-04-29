@@ -8,7 +8,7 @@ const argv = parseArgs(process.argv.slice(2), {
     m: 'major',
     h: 'help'
   },
-  boolean: ['h', 'i', 'p', 'm']
+  boolean: [ 'h', 'i', 'p', 'm' ]
 })
 
 if (argv.help) {
@@ -77,8 +77,8 @@ function getLatestVersion (packager, packageName, curVersion) {
   try {
     versions = JSON.parse(
       execSync(
-        `${packager} info ${packageName} versions --json`,
-        { stdio: ['ignore', 'pipe', 'pipe'] }
+        `${ packager } info ${ packageName } versions --json`,
+        { stdio: [ 'ignore', 'pipe', 'pipe' ] }
       )
     )
   }
@@ -95,20 +95,20 @@ function getLatestVersion (packager, packageName, curVersion) {
   }
 
   if (curVersion === null) {
-    return versions[versions.length - 1]
+    return versions[ versions.length - 1 ]
   }
 
-  const [, major, prerelease] = curVersion.match(versionRegex)
+  const [ , major, prerelease ] = curVersion.match(versionRegex)
   const majorSyntax = argv.major ? `(\\d+)` : major
   const regex = new RegExp(
     prerelease || argv.prerelease
-      ? `^${majorSyntax}\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
-      : `^${majorSyntax}\\.(\\d+)\\.(\\d+)$`
+      ? `^${ majorSyntax }\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
+      : `^${ majorSyntax }\\.(\\d+)\\.(\\d+)$`
   )
 
   versions = versions.filter(version => regex.test(version))
 
-  return versions[versions.length - 1]
+  return versions[ versions.length - 1 ]
 }
 
 const deps = {
@@ -120,14 +120,14 @@ const packager = (await import('../node-packager.js')).getNodePackager(root)
 const getPackageJson = (await import('../get-package-json.js')).getPackageJson(root)
 
 console.log()
-log(`Gathering information with ${packager}...`)
+log(`Gathering information with ${ packager }...`)
 console.log()
 
 let updateAvailable = false
 let removeDeprecatedAppPkg = false
 
 for (const type of Object.keys(deps)) {
-  for (let packageName of Object.keys(pkg[type] || {})) {
+  for (let packageName of Object.keys(pkg[ type ] || {})) {
     // is it a Quasar package?
     if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
       continue
@@ -151,18 +151,18 @@ for (const type of Object.keys(deps)) {
       : curVersion
 
     if (latestVersion === null) {
-      console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
+      console.log(` ${ green(packageName) }: ${ current } → ${ red('Skipping!') }`)
       console.log(`   (⚠️  NPM registry server returned an error, so we cannot detect latest version)`)
     }
     else if (curVersion !== latestVersion) {
-      deps[type].push({
+      deps[ type ].push({
         packageName,
         latestVersion
       })
 
       updateAvailable = true
 
-      console.log(` ${green(packageName)}: ${current} → ${latestVersion}`)
+      console.log(` ${ green(packageName) }: ${ current } → ${ latestVersion }`)
     }
   }
 }
@@ -180,8 +180,8 @@ if (!argv.install) {
   argv.major && params.push('-m')
 
   console.log()
-  console.log(` See ${green('https://quasar.dev/start/release-notes')} for release notes.`)
-  console.log(` Run "quasar upgrade ${params.join(' ')}" to do the actual upgrade.`)
+  console.log(` See ${ green('https://quasar.dev/start/release-notes') } for release notes.`)
+  console.log(` Run "quasar upgrade ${ params.join(' ') }" to do the actual upgrade.`)
   console.log()
   process.exit(0)
 }
@@ -223,7 +223,7 @@ if (removeDeprecatedAppPkg === true) {
 }
 
 for (const type of Object.keys(deps)) {
-  if (deps[type].length === 0) {
+  if (deps[ type ].length === 0) {
     continue
   }
 
@@ -232,21 +232,21 @@ for (const type of Object.keys(deps)) {
     : (
       packager === 'pnpm'
         ? [ 'install' ]
-        : [ 'install', `--save${type === 'devDependencies' ? '-dev' : ''}` ] // npm
+        : [ 'install', `--save${ type === 'devDependencies' ? '-dev' : '' }` ] // npm
     )
 
-  deps[type].forEach(dep => {
+  deps[ type ].forEach(dep => {
     // need to delete tha package otherwise
     // installing the new version might fail on Windows
     removeSync(join(root, 'node_modules', dep.packageName))
 
     const pinned = /^\d/.test(
-      pkg.dependencies[dep.packageName] ||
-      pkg.devDependencies[dep.packageName] ||
-      '^' // fallback, just in case
+      pkg.dependencies[ dep.packageName ]
+      || pkg.devDependencies[ dep.packageName ]
+      || '^' // fallback, just in case
     )
 
-    params.push(`${dep.packageName}@${pinned ? '' : '^'}${dep.latestVersion}`)
+    params.push(`${ dep.packageName }@${ pinned ? '' : '^' }${ dep.latestVersion }`)
   })
 
   console.log()

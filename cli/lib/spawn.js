@@ -2,7 +2,7 @@ import { log, fatal } from './logger.js'
 import { default as crossSpawn } from 'cross-spawn'
 
 export function spawn (cmd, params, cwd) {
-  log(`Running "${cmd} ${params.join(' ')}"`)
+  log(`Running "${ cmd } ${ params.join(' ') }"`)
   console.log()
 
   const runner = crossSpawn.sync(
@@ -13,6 +13,6 @@ export function spawn (cmd, params, cwd) {
 
   if (runner.status || runner.error) {
     console.log()
-    fatal(`⚠️  Command "${cmd}" failed with exit code: ${runner.status}`)
+    fatal(`⚠️  Command "${ cmd }" failed with exit code: ${ runner.status }`)
   }
 }

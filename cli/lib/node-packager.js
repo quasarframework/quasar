@@ -6,7 +6,7 @@ import { fatal } from './logger.js'
 
 function isInstalled (cmd) {
   try {
-    return spawn(cmd, ['--version']).status === 0
+    return spawn(cmd, [ '--version' ]).status === 0
   }
   catch (err) {
     return false

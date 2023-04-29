@@ -6,7 +6,7 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: ['h']
+  boolean: [ 'h' ]
 })
 
 if (argv.help) {
@@ -29,9 +29,9 @@ import { version } from '../version.js'
 
 function getSpawnOutput (command) {
   try {
-    const child = spawn(command, ['--version'])
+    const child = spawn(command, [ '--version' ])
     return child.status === 0
-      ? green(String(child.output[1]).trim())
+      ? green(String(child.output[ 1 ]).trim())
       : red('Not installed')
   }
   catch (err) {
@@ -40,7 +40,7 @@ function getSpawnOutput (command) {
 }
 
 const output = [
-  { key: 'Operating System', value: green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
+  { key: 'Operating System', value: green(`${ os.type() }(${ os.release() }) - ${ os.platform() }/${ os.arch() }`), section: true },
   { key: 'NodeJs', value: green(process.version.slice(1)) },
   { key: 'Global packages', section: true },
   { key: '  NPM', value: getSpawnOutput('npm') },
@@ -64,6 +64,6 @@ getExternalIPs().forEach(intf => {
 const spaces = output.reduce((acc, v) => Math.max(acc, v.key.length), 0)
 console.log(
   output
-    .map(m => `${m.section ? '\n' : ''}${ m.key }${' '.repeat(spaces - m.key.length)}\t${ m.value === undefined ? '' : m.value }`).join('\n')
+    .map(m => `${ m.section ? '\n' : '' }${ m.key }${ ' '.repeat(spaces - m.key.length) }\t${ m.value === undefined ? '' : m.value }`).join('\n')
 )
 console.log()

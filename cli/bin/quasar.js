@@ -25,7 +25,7 @@ function getQuasarAppExecutable (which, root) {
   }
 }
 
-let cmd = process.argv[2]
+let cmd = process.argv[ 2 ]
 
 if (cmd === 'create') {
   process.argv.splice(2, 1)
@@ -45,10 +45,10 @@ else {
 
   const localFile = root
     ? (
-      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) || // Quasar 2.0
-      getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) || // Quasar 2.0
-      getQuasarAppExecutable('@quasar/app/bin/quasar', root) || // legacy Quasar 1.0 & partial Quasar 2.0
-      getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy Quasar <1.0
+      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) // Quasar 2.0
+      || getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) // Quasar 2.0
+      || getQuasarAppExecutable('@quasar/app/bin/quasar', root) // legacy Quasar 1.0 & partial Quasar 2.0
+      || getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy Quasar <1.0
     )
     : void 0
 
@@ -99,10 +99,10 @@ else {
         await import(`../lib/cmd/help.js`)
 
         const { red } = await import('kolorist')
-        console.log(`\n ${red(`Error`)} Unknown command "${ cmd }"`)
+        console.log(`\n ${ red(`Error`) } Unknown command "${ cmd }"`)
 
         if (cmd.indexOf('-') === 0) {
-          console.log(`\n ${red(`Error`)} Command must come before the options`)
+          console.log(`\n ${ red(`Error`) } Command must come before the options`)
         }
 
         console.log()
@@ -113,6 +113,6 @@ else {
       cmd = 'help'
     }
 
-    import(`../lib/cmd/${cmd}.js`)
+    import(`../lib/cmd/${ cmd }.js`)
   }
 }

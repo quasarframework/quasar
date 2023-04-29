@@ -28,7 +28,7 @@ export function log (...args) {
  */
 
 export function fatal (...args) {
-  if (args[0] instanceof Error) args[0] = args[0].message.trim()
+  if (args[ 0 ] instanceof Error) args[ 0 ] = args[ 0 ].message.trim()
   const msg = format.apply(format, args)
   console.error(red(prefix), sep, msg)
   process.exit(1)

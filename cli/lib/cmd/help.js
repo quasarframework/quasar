@@ -34,6 +34,6 @@ console.log(`
 
   --------------
   => IMPORTANT !
-  => ${italic('Trigger this inside of a Quasar project (and npm/yarn install) for more commands.')}
+  => ${ italic('Trigger this inside of a Quasar project (and npm/yarn install) for more commands.') }
   --------------
 `)

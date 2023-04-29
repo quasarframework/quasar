@@ -2,8 +2,12 @@
   "name": "@quasar/cli",
   "version": "2.0.0",
   "description": "Quasar Framework - the Global CLI",
+  "type": "module",
   "bin": {
     "quasar": "./bin/quasar.js"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js ./ --fix"
   },
   "files": [
     "assets",
@@ -37,7 +41,6 @@
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
-  "type": "module",
   "engines": {
     "node": ">= 14.15.0",
     "npm": ">= 5.6.0",
@@ -58,6 +61,10 @@
     "route-cache": "0.4.7",
     "selfsigned": "^2.0.0",
     "update-notifier": "^6.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.31.0",
+    "eslint-plugin-n": "^15.6.1"
   },
   "publishConfig": {
     "access": "public"
