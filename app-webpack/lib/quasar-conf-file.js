@@ -96,7 +96,7 @@ function uniqueRegexFilter (value, index, self) {
 }
 
 /*
- * this.quasarConf          - Compiled Object from quasar.conf.js
+ * this.quasarConf          - Compiled Object from quasar.conf(ig).js
  * this.webpackConf         - Webpack config(s)
  */
 
