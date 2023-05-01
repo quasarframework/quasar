@@ -41,7 +41,6 @@ export const clearConsole = process.stdout.isTTY
     }
   : () => {}
 
-
 export function tip (msg) {
   console.log(msg ? ` ${ tipBanner } ${ format(msg) }` : '')
 }

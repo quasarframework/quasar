@@ -12,8 +12,8 @@ const WebpackProgressPlugin = require('../plugin.progress')
 const tempElectronDir = '.quasar/electron'
 
 module.exports = (nodeType, cfg, configName) => {
-  const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
-  const { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
+  const { dependencies: appDeps = {} } = require(appPaths.resolve.app('package.json'))
+  const { dependencies: cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
 
   const chain = new WebpackChain()
   const resolveModules = [
@@ -53,7 +53,7 @@ module.exports = (nodeType, cfg, configName) => {
   chain.module.rule('node')
     .test(/\.node$/)
     .use('node-loader')
-      .loader('node-loader')
+    .loader('node-loader')
 
   chain.resolve.modules
     .merge(resolveModules)

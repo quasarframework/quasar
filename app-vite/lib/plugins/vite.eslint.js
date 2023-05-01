@@ -19,7 +19,7 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   return {
     name: 'quasar:eslint',
 
-    async transform(_, id) {
+    async transform (_, id) {
       if (filter(id) === false || await eslint.isPathIgnored(normalizePath(id)) === true) {
         return null
       }

@@ -137,7 +137,7 @@ if (ssrDetected === false) {
       maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0,
       setHeaders (res, path) {
         if (res.req.method === 'GET' && path === resolvedIndex) {
-          res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+          res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
           res.set('Pragma', 'no-cache')
           res.set('Expires', '0')
           res.set('Surrogate-Control', 'no-store')
@@ -369,8 +369,8 @@ if (ssrDetected === false) {
       argv.cors ? [ 'CORS', 'enabled' ] : '',
       argv.proxy ? [ 'Proxy definitions', argv.proxy ] : ''
     ]
-    .filter(msg => msg)
-    .map(msg => ' ' + msg[ 0 ].padEnd(20, '.') + ' ' + green(msg[ 1 ]))
+      .filter(msg => msg)
+      .map(msg => ' ' + msg[ 0 ].padEnd(20, '.') + ' ' + green(msg[ 1 ]))
 
     console.log('\n' + info.join('\n') + '\n')
 

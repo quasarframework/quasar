@@ -7,14 +7,14 @@ module.exports = function (argv, cmd) {
       argv.T = argv.target = 'ios'
 
       console.log()
-      console.log(` Converting to long form: -m cordova -T ios`)
+      console.log(' Converting to long form: -m cordova -T ios')
     }
     else if (argv.mode === 'android') {
       argv.m = argv.mode = 'cordova'
       argv.T = argv.target = 'android'
 
       console.log()
-      console.log(` Converting to long form: -m cordova -T android`)
+      console.log(' Converting to long form: -m cordova -T android')
     }
   }
 

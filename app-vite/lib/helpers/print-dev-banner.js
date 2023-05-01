@@ -27,7 +27,7 @@ function getBanner (quasarConf) {
 
   if (ctx.mode.bex !== true) {
     const urlList = quasarConf.devServer.host === '0.0.0.0'
-      ? getIPList().map(ip => green(quasarConf.metaConf.getUrl(ip))).join(`\n                           `)
+      ? getIPList().map(ip => green(quasarConf.metaConf.getUrl(ip))).join('\n                           ')
       : green(quasarConf.metaConf.APP_URL)
 
     banner.push(` ${ greenBanner } App URL................ ${ urlList }`)

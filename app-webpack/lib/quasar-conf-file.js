@@ -111,22 +111,22 @@ class QuasarConfFile {
     if (this.watch) {
       // Start watching for quasar.conf(ig).js changes
       chokidar
-      .watch(this.filename, { ignoreInitial: true })
-      .on('change', debounce(async () => {
-        console.log()
-        log(`quasar.config.js changed`)
+        .watch(this.filename, { ignoreInitial: true })
+        .on('change', debounce(async () => {
+          console.log()
+          log('quasar.config.js changed')
 
-        const result = await this.reboot()
+          const result = await this.reboot()
 
-        if (result !== false) {
-          if (this.webpackConfChanged === true) {
-            opts.onBuildChange()
+          if (result !== false) {
+            if (this.webpackConfChanged === true) {
+              opts.onBuildChange()
+            }
+            else {
+              opts.onAppChange()
+            }
           }
-          else {
-            opts.onAppChange()
-          }
-        }
-      }, 1000))
+        }, 1000))
     }
   }
 
@@ -137,7 +137,7 @@ class QuasarConfFile {
     catch (e) {
       if (e.message !== 'NETWORK_ERROR') {
         console.error(e)
-        warn(`quasar.config.js has JS errors. Please fix them then save file again.\n`)
+        warn('quasar.config.js has JS errors. Please fix them then save file again.\n')
       }
 
       return false
@@ -401,7 +401,7 @@ class QuasarConfFile {
       distDir: path.join('dist', this.ctx.modeName),
       htmlFilename: 'index.html',
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
-                                          // will mess up SSR
+      // will mess up SSR
       vueRouterMode: 'hash',
       transpile: true,
       // transpileDependencies: [], // leaving here for completeness
@@ -449,7 +449,7 @@ class QuasarConfFile {
 
     if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
-      cfg.__transpileBanner = green(`yes (Babel)`)
+      cfg.__transpileBanner = green('yes (Babel)')
     }
     else {
       cfg.__transpileBanner = 'no'
@@ -754,14 +754,14 @@ class QuasarConfFile {
 
       if (cfg.pwa.manifest.icons.length === 0) {
         warn()
-        warn(`PWA manifest in quasar.config.js > pwa > manifest is missing "icons" prop.\n`)
+        warn('PWA manifest in quasar.config.js > pwa > manifest is missing "icons" prop.\n')
         process.exit(1)
       }
 
       if (![ 'GenerateSW', 'InjectManifest' ].includes(cfg.pwa.workboxPluginMode)) {
         warn()
         warn(`Workbox webpack plugin mode "${ cfg.pwa.workboxPluginMode }" is invalid.`)
-        warn(`Valid Workbox modes are: GenerateSW, InjectManifest\n`)
+        warn('Valid Workbox modes are: GenerateSW, InjectManifest\n')
         process.exit(1)
       }
 
@@ -789,7 +789,7 @@ class QuasarConfFile {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
-      cfg.__rootDefines[ `process.env.APP_URL` ] = `"file://" + __dirname + "/index.html"`
+      cfg.__rootDefines[ 'process.env.APP_URL' ] = '"file://" + __dirname + "/index.html"'
     }
 
     Object.assign(cfg.build.env, {
@@ -915,14 +915,14 @@ class QuasarConfFile {
     cfg.__html = {
       minifyOptions: cfg.build.minify
         ? {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true,
-          collapseBooleanAttributes: true,
-          removeScriptTypeAttributes: true
+            removeComments: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true,
+            collapseBooleanAttributes: true,
+            removeScriptTypeAttributes: true
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
-        }
+          }
         : false
     }
 

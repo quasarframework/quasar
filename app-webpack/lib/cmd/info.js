@@ -59,7 +59,7 @@ function safePkgInfo (pkg, folder) {
   }
 }
 
-function print(m) {
+function print (m) {
   console.log(`${ m.section ? '\n' : '' }${ m.key }${ m.value === undefined ? '' : ' - ' + m.value }`)
 }
 
@@ -98,7 +98,7 @@ print({ key: 'Important local packages', section: true })
   '@capacitor/core',
   '@capacitor/cli',
   '@capacitor/android',
-  '@capacitor/ios',
+  '@capacitor/ios'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.capacitorDir)))
 
 print({ key: 'Quasar App Extensions', section: true })

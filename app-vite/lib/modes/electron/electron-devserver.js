@@ -118,7 +118,7 @@ class ElectronDevServer extends AppDevserver {
       getPackage('electron'),
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        appPaths.resolve.app(`.quasar/electron/electron-main.js`)
+        appPaths.resolve.app('.quasar/electron/electron-main.js')
       ].concat(this.argv._),
       { cwd: appPaths.appDir },
       code => {

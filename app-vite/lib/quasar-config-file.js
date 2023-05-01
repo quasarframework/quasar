@@ -26,7 +26,7 @@ const defaultPortMapping = {
   pwa: 9200,
   electron: 9300,
   cordova: 9400,
-  capacitor: 9500,
+  capacitor: 9500
 }
 
 function escapeHTMLTagContent (str) {
@@ -117,13 +117,13 @@ async function onAddress ({ host, port }, mode) {
     warn()
 
     if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
-      warn(`Could not find an open port. Please configure a lower one to start searching with.`)
+      warn('Could not find an open port. Please configure a lower one to start searching with.')
     }
     else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
-      warn(`Invalid host specified. No network address matches. Please specify another one.`)
+      warn('Invalid host specified. No network address matches. Please specify another one.')
     }
     else {
-      warn(`Unknown network error occurred`)
+      warn('Unknown network error occurred')
       console.error(e)
     }
 
@@ -176,24 +176,24 @@ class QuasarConfFile {
   watch (onChange) {
     // Watch for quasar.conf(ig).js changes
     chokidar
-    .watch(appPaths.quasarConfigFilename, { ignoreInitial: true })
-    .on('change', debounce(async () => {
-      console.log()
-      log(`Reading quasar.config.js as it changed`)
+      .watch(appPaths.quasarConfigFilename, { ignoreInitial: true })
+      .on('change', debounce(async () => {
+        console.log()
+        log('Reading quasar.config.js as it changed')
 
-      const result = await this.read()
+        const result = await this.read()
 
-      if (result.error !== void 0) {
-        warn(result.error)
-        warn('Changes to quasar.config.js have NOT been applied due to error above')
-      }
-      else {
-        log(`Applying quasar.config.js changes`)
-        log()
+        if (result.error !== void 0) {
+          warn(result.error)
+          warn('Changes to quasar.config.js have NOT been applied due to error above')
+        }
+        else {
+          log('Applying quasar.config.js changes')
+          log()
 
-        onChange(result)
-      }
-    }, 550))
+          onChange(result)
+        }
+      }, 550))
   }
 
   async read () {
@@ -521,7 +521,7 @@ class QuasarConfFile {
 
       if (cfg.ssr.pwa === true) {
         // install pwa mode if it's missing
-        const { add } = require(`../lib/modes/pwa/pwa-installation`)
+        const { add } = require('../lib/modes/pwa/pwa-installation')
         await add(true)
       }
 
@@ -569,7 +569,7 @@ class QuasarConfFile {
       if (![ 'generateSW', 'injectManifest' ].includes(cfg.pwa.workboxMode)) {
         return {
           error: `Workbox strategy "${ cfg.pwa.workboxMode }" is invalid. `
-            + `Valid quasar.config.js > pwa > workboxMode options are: generateSW or injectManifest\n`
+            + 'Valid quasar.config.js > pwa > workboxMode options are: generateSW or injectManifest\n'
         }
       }
 
@@ -604,7 +604,7 @@ class QuasarConfFile {
       DEBUGGING: cfg.metaConf.debugging === true,
       MODE: this.#ctx.modeName,
       VUE_ROUTER_MODE: cfg.build.vueRouterMode,
-      VUE_ROUTER_BASE: cfg.build.vueRouterBase,
+      VUE_ROUTER_BASE: cfg.build.vueRouterBase
     })
 
     if (cfg.metaConf.APP_URL) {

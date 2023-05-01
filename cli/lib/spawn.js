@@ -7,7 +7,7 @@ import { log, warn, fatal } from './logger.js'
  */
 export function spawn (cmd, params, opts, onClose) {
   if (!cmd) {
-    fatal(`Command name was not available. Please run again.`)
+    fatal('Command name was not available. Please run again.')
   }
 
   const targetFolder = opts && opts.cwd

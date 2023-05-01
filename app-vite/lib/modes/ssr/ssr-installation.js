@@ -13,12 +13,12 @@ function isInstalled () {
 function add (silent) {
   if (isInstalled()) {
     if (silent !== true) {
-      warn(`SSR support detected already. Aborting.`)
+      warn('SSR support detected already. Aborting.')
     }
     return
   }
 
-  log(`Creating SSR source folder...`)
+  log('Creating SSR source folder...')
 
   const format = hasTypescript ? 'ts' : 'default'
   fse.copySync(
@@ -31,18 +31,18 @@ function add (silent) {
     appPaths.resolve.ssr('ssr-flag.d.ts')
   )
 
-  log(`SSR support was added`)
+  log('SSR support was added')
 }
 
 function remove () {
   if (!isInstalled()) {
-    warn(`No SSR support detected. Aborting.`)
+    warn('No SSR support detected. Aborting.')
     return
   }
 
-  log(`Removing SSR source folder`)
+  log('Removing SSR source folder')
   fse.removeSync(appPaths.ssrDir)
-  log(`SSR support was removed`)
+  log('SSR support was removed')
 }
 
 module.exports = {

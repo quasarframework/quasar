@@ -37,6 +37,10 @@ class PackageManager {
     return []
   }
 
+  getPackageVersionList (_packageName) {
+    return null
+  }
+
   /**
    * Implementation of the actual package manager
    */
@@ -49,7 +53,9 @@ class PackageManager {
         return parseInt(version.split('.')[ 0 ], 10)
       }
     }
-    catch (_) {}
+    catch (_) {
+      /* do nothing; we return null below */
+    }
 
     return null
   }
@@ -126,7 +132,7 @@ class PackageManager {
     }
 
     const [ , major, prerelease ] = currentVersion.match(versionRegex)
-    const majorSyntax = majorVersion ? `(\\d+)` : major
+    const majorSyntax = majorVersion ? '(\\d+)' : major
     const regex = new RegExp(
       prerelease || preReleaseVersion
         ? `^${ majorSyntax }\\.(\\d+)\\.(\\d+)-?(alpha|beta|rc)?`
@@ -134,7 +140,7 @@ class PackageManager {
     )
 
     const list = versionList.filter(version => regex.test(version))
-      return list[ list.length - 1 ] || null
+    return list[ list.length - 1 ] || null
   }
 }
 
@@ -156,7 +162,7 @@ class Npm extends PackageManager {
     return [
       'install',
       isDevDependency ? '--save-dev' : '',
-      ...names,
+      ...names
     ]
   }
 
@@ -199,15 +205,15 @@ class Yarn extends PackageManager {
 
     return this.majorVersion >= 2
       ? [
-        'workspaces',
-        'focus',
-        '--all',
-        '--production'
-      ]
+          'workspaces',
+          'focus',
+          '--all',
+          '--production'
+        ]
       : [
-        'install',
-        '--production'
-      ]
+          'install',
+          '--production'
+        ]
   }
 
   getInstallPackageParams (names, isDevDependency) {

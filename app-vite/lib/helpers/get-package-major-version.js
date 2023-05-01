@@ -9,7 +9,7 @@ function getMajorVersion (version) {
 /**
  * Get major version of a host package.
  */
-module.exports = function getPackageMajorVersion(pkgName, folder = appPaths.appDir) {
+module.exports = function getPackageMajorVersion (pkgName, folder = appPaths.appDir) {
   const pkg = getPackageJson(pkgName, folder)
 
   return pkg ? getMajorVersion(pkg.version) : undefined

@@ -21,8 +21,8 @@ function mapIncludeExclude (entry) {
 function extractStore ({
   formatter = 'stylish',
   cache = false, // Note that cache is broken in ESLint
-                 // at the time of writing these lines
-                 // which is why we disable it by default
+  // at the time of writing these lines
+  // which is why we disable it by default
   fix = false,
   warnings = true,
   errors = true,

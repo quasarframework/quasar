@@ -13,16 +13,11 @@ module.exports = {
 
   extends: [
     'eslint:recommended',
-    'plugin:n/recommended'
+    'plugin:n/recommended',
+    'standard'
   ],
 
   rules: {
-    'no-empty': 'off',
-    'no-useless-escape': 'off',
-    'no-unused-vars': [ 'error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' } ],
-
-    'n/no-process-exit': 'off',
-
     'brace-style': [ 2, 'stroustrup', { allowSingleLine: true } ],
     'prefer-const': 2,
     'prefer-promise-reject-errors': 'off',
@@ -45,6 +40,21 @@ module.exports = {
     'array-bracket-spacing': [ 'error', 'always' ],
     'object-curly-spacing': [ 'error', 'always' ],
     'computed-property-spacing': [ 'error', 'always' ],
-    'template-curly-spacing': [ 'error', 'always' ]
+    'template-curly-spacing': [ 'error', 'always' ],
+
+    'import/first': 0,
+    'import/named': 2,
+    'import/namespace': 2,
+    'import/default': 2,
+    'import/export': 2,
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
+    'import/no-extraneous-dependencies': 'off',
+
+    'no-useless-escape': 'off',
+    'no-unused-vars': [ 'error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' } ],
+
+    'n/no-process-exit': 'off',
+    'no-multiple-empty-lines': 'error'
   }
 }

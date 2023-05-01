@@ -6,7 +6,7 @@ const ext = cssVariables.appFile.scss
 
 const prefix = ext !== false
   ? `@import '~src/css/quasar.variables.${ ext }', 'quasar/src/css/variables.sass';\n`
-  : `@import 'quasar/src/css/variables.sass';\n`
+  : '@import \'quasar/src/css/variables.sass\';\n'
 
 module.exports = function (content) {
   if (content.indexOf('$') !== -1) {

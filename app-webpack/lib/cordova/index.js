@@ -106,7 +106,7 @@ class CordovaRunner {
     this.cordovaConfig.prepare(cfg)
 
     if (this.target === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
-      args.push(`--buildFlag=-UseModernBuildSystem=0`)
+      args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
     return new Promise(resolve => {

@@ -59,7 +59,7 @@ async function run (action, name) {
     action === 'add' || action === 'invoke'
       ? 'install'
       : 'uninstall'
-    ](action === 'invoke' || action === 'uninvoke')
+  ](action === 'invoke' || action === 'uninvoke')
 }
 
 if (argv._.length === 0) {

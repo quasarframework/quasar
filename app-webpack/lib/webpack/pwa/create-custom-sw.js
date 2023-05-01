@@ -68,7 +68,7 @@ module.exports = function (cfg, configName) {
   chain.module.rule('js-transform-quasar-imports')
     .test(/\.(t|j)sx?$/)
     .use('transform-quasar-imports')
-      .loader(path.join(__dirname, '../loader.js.transform-quasar-imports.js'))
+    .loader(path.join(__dirname, '../loader.js.transform-quasar-imports.js'))
 
   if (cfg.build.transpile === true) {
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
@@ -80,19 +80,19 @@ module.exports = function (cfg, configName) {
     chain.module.rule('babel')
       .test(/\.js$/)
       .exclude
-        .add(filepath => (
-          // Transpile the exceptions:
-          exceptionsRegex.test(filepath) === false
+      .add(filepath => (
+        // Transpile the exceptions:
+        exceptionsRegex.test(filepath) === false
           // Don't transpile anything else in node_modules:
           && nodeModulesRegex.test(filepath)
-        ))
-        .end()
+      ))
+      .end()
       .use('babel-loader')
-        .loader('babel-loader')
-          .options({
-            compact: false,
-            extends: appPaths.babelConfigFilename
-          })
+      .loader('babel-loader')
+      .options({
+        compact: false,
+        extends: appPaths.babelConfigFilename
+      })
   }
 
   if (cfg.supportTS !== false) {
@@ -103,16 +103,16 @@ module.exports = function (cfg, configName) {
       .rule('typescript')
       .test(/\.ts$/)
       .use('ts-loader')
-        .loader('ts-loader')
-        .options({
-          onlyCompileBundledFiles: true,
-          transpileOnly: false,
-          // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
-          // it prevents emitting transpiled files when run into node context
-          compilerOptions: {
-            noEmit: false,
-          }
-        })
+      .loader('ts-loader')
+      .options({
+        onlyCompileBundledFiles: true,
+        transpileOnly: false,
+        // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
+        // it prevents emitting transpiled files when run into node context
+        compilerOptions: {
+          noEmit: false
+        }
+      })
   }
 
   chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
@@ -120,7 +120,7 @@ module.exports = function (cfg, configName) {
     .test(/\.mjs$/)
     .type('javascript/auto')
     .include
-      .add(/[\\/]node_modules[\\/]/)
+    .add(/[\\/]node_modules[\\/]/)
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [

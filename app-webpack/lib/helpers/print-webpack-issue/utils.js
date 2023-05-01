@@ -9,7 +9,7 @@
  *     val => val.id
  * ) = [{ id: 1 }, { id: 2 }]
  */
-module.exports.uniqueBy = function uniqueBy(arr, fn) {
+module.exports.uniqueBy = function uniqueBy (arr, fn) {
   const seen = new Set()
 
   return arr.filter(el => {
@@ -21,7 +21,7 @@ module.exports.uniqueBy = function uniqueBy(arr, fn) {
 /**
  * Removes the bloat around the filename (webpack loaders etc)
  */
- module.exports.removeFileLoaders = function removeFileLoaders (file) {
+module.exports.removeFileLoaders = function removeFileLoaders (file) {
   if (!file) { return '' }
 
   const split = file.split('!')

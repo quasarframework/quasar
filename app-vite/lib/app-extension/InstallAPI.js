@@ -213,7 +213,7 @@ module.exports = class InstallAPI extends BaseAPI {
           'utf-8'
         )
       }
-      catch(e) {
+      catch (e) {
         warn()
         warn(`Extension(${ this.extId }): extendJsonFile() - "${ filePath }" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
         warn(`Extension(${ this.extId }): extendJsonFile() - The extension tried to apply these updates to "${ filePath }" file: ${ JSON.stringify(newData) }`)

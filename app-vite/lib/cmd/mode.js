@@ -10,7 +10,7 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: [ 'y', 'h' ]
 })
 
-function showHelp() {
+function showHelp () {
   console.log(`
   Description
     Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
@@ -72,7 +72,7 @@ async function run () {
 
     if (!answer.go) {
       console.log()
-      console.log(`⚠️  Aborted...`)
+      console.log('⚠️  Aborted...')
       console.log()
       process.exit(0)
     }
@@ -82,7 +82,7 @@ async function run () {
 }
 
 function displayModes () {
-  log(`Detecting installed modes...`)
+  log('Detecting installed modes...')
 
   const info = []
   ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {

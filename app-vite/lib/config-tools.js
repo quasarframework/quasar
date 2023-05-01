@@ -14,7 +14,7 @@ const extensionRunner = require('./app-extension/extensions-runner')
 const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
 const quasarViteStripFilenameHashes = require('./plugins/vite.strip-filename-hashes')
 
-const { dependencies:cliDepsObject } = require(appPaths.resolve.cli('package.json'))
+const { dependencies: cliDepsObject } = require(appPaths.resolve.cli('package.json'))
 const appPkgFile = appPaths.resolve.app('package.json')
 const cliDeps = Object.keys(cliDepsObject)
 
@@ -56,7 +56,7 @@ function parseVitePlugins (entries) {
     if (typeof name !== 'string') {
       console.log(name)
       warn('quasar.config.js > invalid Vite plugin specified: ' + name)
-      warn(`Correct form: [ 'my-vite-plugin-name', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]`)
+      warn('Correct form: [ \'my-vite-plugin-name\', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]')
       return
     }
 
@@ -71,7 +71,7 @@ function parseVitePlugins (entries) {
   })
 
   if (showTip === true) {
-    tip(`If you want changes to quasar.config.js > build > vitePlugins to be picked up, specify them in this form: [ [ 'plugin-name', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]`)
+    tip('If you want changes to quasar.config.js > build > vitePlugins to be picked up, specify them in this form: [ [ \'plugin-name\', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]')
   }
 
   return acc
@@ -89,9 +89,9 @@ function createViteConfig (quasarConf, quasarRunMode) {
   const vueVitePluginOptions = quasarRunMode !== 'ssr-server'
     ? build.viteVuePluginOptions
     : merge({
-        ssr: true,
-        template: { ssr: true }
-      }, build.viteVuePluginOptions)
+      ssr: true,
+      template: { ssr: true }
+    }, build.viteVuePluginOptions)
 
   const viteConf = {
     configFile: false,
@@ -204,7 +204,7 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
 function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
   // fetch fresh copy; user might have installed something new
   delete require.cache[ appPkgFile ]
-  const { dependencies:appDeps = {}, devDependencies:appDevDeps = {} } = require(appPkgFile)
+  const { dependencies: appDeps = {}, devDependencies: appDevDeps = {} } = require(appPkgFile)
 
   const cfg = {
     platform: 'node',

@@ -106,7 +106,7 @@ async function inspect () {
     console.log(
       util.inspect(cfgEntry.webpack, {
         showHidden: true,
-        depth: depth,
+        depth,
         colors: true,
         compact: false
       })

@@ -1,7 +1,7 @@
 
 const { removeFileLoaders } = require('../utils')
 
-const stackStart = `  \u001b[0m\u001b[90m-\u001b[0m \u001b[0m\u001b[93mindex.js\u001b[0m\u001b[90m:`
+const stackStart = '  \u001b[0m\u001b[90m-\u001b[0m \u001b[0m\u001b[93mindex.js\u001b[0m\u001b[90m:'
 
 function cleanMessage (message) {
   const cleanMessage = message

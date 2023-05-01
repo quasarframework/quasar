@@ -7,7 +7,7 @@ module.exports = class BootDefaultExport {
       stats.compilation.warnings = stats.compilation.warnings.filter(
         warn => !(
           warn.name === 'ModuleDependencyWarning'
-          && warn.message.includes(`export 'default'`)
+          && warn.message.includes('export \'default\'')
           && warn.message.includes('qboot_')
         )
       )

@@ -121,13 +121,13 @@ async function parseAddress ({ host, port }) {
     warn()
 
     if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
-      warn(`Could not find an open port. Please configure a lower one to start searching with.`)
+      warn('Could not find an open port. Please configure a lower one to start searching with.')
     }
     else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
-      warn(`Invalid host specified. No network address matches. Please specify another one.`)
+      warn('Invalid host specified. No network address matches. Please specify another one.')
     }
     else {
-      warn(`Unknown network error occurred`)
+      warn('Unknown network error occurred')
       console.log(e)
     }
 
@@ -151,7 +151,7 @@ function startVueDevtools () {
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
 
   function run () {
-    log(`Booting up remote Vue Devtools...`)
+    log('Booting up remote Vue Devtools...')
     spawn(vueDevtoolsBin, [], {})
   }
 
@@ -204,11 +204,11 @@ async function goLive () {
     host: argv.hostname,
     onAddress: parseAddress,
     onBuildChange () {
-      log(`Rebuilding app...`)
+      log('Rebuilding app...')
       dev = dev.then(startDev)
     },
     onAppChange () {
-      log(`Updating app...`)
+      log('Updating app...')
       generator.build()
     }
   })
@@ -262,7 +262,7 @@ async function goLive () {
         oldDevServer = void 0
       }
 
-      generator.build()  // Update generated files
+      generator.build() // Update generated files
       devServer = new DevServer(quasarConfFile) // Create new devserver
 
       return devServer.listen() // Start listening

@@ -51,11 +51,11 @@ async function run () {
 
   const list = () => {
     if (Object.keys(hooks.commands).length === 0) {
-      warn(`"@quasar/testing" app extension has no commands registered`)
+      warn('"@quasar/testing" app extension has no commands registered')
       return
     }
 
-    log(`Listing "@quasar/testing" app extension commands`)
+    log('Listing "@quasar/testing" app extension commands')
     log()
 
     for (const cmd in hooks.commands) {

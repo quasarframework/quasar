@@ -107,10 +107,10 @@ module.exports = function (cfg, configName) {
   const vueFile = configName === webpackNames.ssr.serverSide
     ? (cfg.ctx.prod ? 'vue.cjs.prod.js' : 'vue.cjs.js')
     : (
-      cfg.build.vueCompiler
-        ? 'vue.esm-bundler.js'
-        : 'vue.runtime.esm-bundler.js'
-    )
+        cfg.build.vueCompiler
+          ? 'vue.esm-bundler.js'
+          : 'vue.runtime.esm-bundler.js'
+      )
 
   chain.resolve.alias.set('vue$', 'vue/dist/' + vueFile)
 
@@ -151,7 +151,7 @@ module.exports = function (cfg, configName) {
     chain.module.rule('js-transform-quasar-imports')
       .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
-        .loader(path.join(__dirname, 'loader.js.transform-quasar-imports.js'))
+      .loader(path.join(__dirname, 'loader.js.transform-quasar-imports.js'))
   }
 
   if (cfg.build.transpile === true) {
@@ -164,19 +164,19 @@ module.exports = function (cfg, configName) {
     chain.module.rule('babel')
       .test(/\.js$/)
       .exclude
-        .add(filepath => (
-          // Transpile the exceptions:
-          exceptionsRegex.test(filepath) === false
+      .add(filepath => (
+        // Transpile the exceptions:
+        exceptionsRegex.test(filepath) === false
           // Don't transpile anything else in node_modules:
           && nodeModulesRegex.test(filepath)
-        ))
-        .end()
+      ))
+      .end()
       .use('babel-loader')
-        .loader('babel-loader')
-          .options({
-            compact: false,
-            extends: appPaths.babelConfigFilename
-          })
+      .loader('babel-loader')
+      .options({
+        compact: false,
+        extends: appPaths.babelConfigFilename
+      })
   }
 
   if (cfg.supportTS !== false) {
@@ -184,14 +184,14 @@ module.exports = function (cfg, configName) {
       .rule('typescript')
       .test(/\.ts$/)
       .use('ts-loader')
-        .loader('ts-loader')
-        .options({
-          // custom config is merged if present, but vue setup and type checking disable are always applied
-          ...(cfg.supportTS.tsLoaderConfig || {}),
-          appendTsSuffixTo: [ /\.vue$/ ],
-          // Type checking is handled by fork-ts-checker-webpack-plugin
-          transpileOnly: true
-        })
+      .loader('ts-loader')
+      .options({
+        // custom config is merged if present, but vue setup and type checking disable are always applied
+        ...(cfg.supportTS.tsLoaderConfig || {}),
+        appendTsSuffixTo: [ /\.vue$/ ],
+        // Type checking is handled by fork-ts-checker-webpack-plugin
+        transpileOnly: true
+      })
 
     const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
     chain
@@ -217,36 +217,36 @@ module.exports = function (cfg, configName) {
     .test(/\.(png|jpe?g|gif|svg|webp|avif|ico)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
-      .loader('url-loader')
-      .options({
-        esModule: false,
-        limit: 10000,
-        name: `img/[name]${ assetHash }.[ext]`
-      })
+    .loader('url-loader')
+    .options({
+      esModule: false,
+      limit: 10000,
+      name: `img/[name]${ assetHash }.[ext]`
+    })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('fonts')
     .test(/\.(woff2?|eot|ttf|otf)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
-      .loader('url-loader')
-      .options({
-        esModule: false,
-        limit: 10000,
-        name: `fonts/[name]${ assetHash }.[ext]`
-      })
+    .loader('url-loader')
+    .options({
+      esModule: false,
+      limit: 10000,
+      name: `fonts/[name]${ assetHash }.[ext]`
+    })
 
   // TODO: change to Asset Management when webpack-chain is webpack5 compatible
   chain.module.rule('media')
     .test(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/)
     .type('javascript/auto')
     .use('url-loader')
-      .loader('url-loader')
-      .options({
-        esModule: false,
-        limit: 10000,
-        name: `media/[name]${ assetHash }.[ext]`
-      })
+    .loader('url-loader')
+    .options({
+      esModule: false,
+      limit: 10000,
+      name: `media/[name]${ assetHash }.[ext]`
+    })
 
   injectStyleRules(chain, {
     isServerBuild: configName === webpackNames.ssr.serverSide,
@@ -265,7 +265,7 @@ module.exports = function (cfg, configName) {
     .test(/\.mjs$/)
     .type('javascript/auto')
     .include
-      .add(/[\\/]node_modules[\\/]/)
+    .add(/[\\/]node_modules[\\/]/)
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
@@ -317,7 +317,7 @@ module.exports = function (cfg, configName) {
             : regex
         },
         common: {
-          name: `chunk-common`,
+          name: 'chunk-common',
           minChunks: 2,
           priority: -20,
           chunks: 'all',

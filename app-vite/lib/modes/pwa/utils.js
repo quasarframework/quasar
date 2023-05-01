@@ -14,7 +14,7 @@ module.exports.createHeadTags = function createHeadTags (quasarConf) {
   const { useCredentialsForManifestTag, injectPwaMetaTags, manifestFilename } = quasarConf.pwa
 
   let headTags
-    = `<link rel="manifest" href="${ publicPath }${ manifestFilename }"${ useCredentialsForManifestTag === true ? ` crossorigin="use-credentials"` : '' }>`
+    = `<link rel="manifest" href="${ publicPath }${ manifestFilename }"${ useCredentialsForManifestTag === true ? ' crossorigin="use-credentials"' : '' }>`
 
   if (injectPwaMetaTags === true) {
     headTags

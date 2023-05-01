@@ -6,7 +6,7 @@ const crossSpawn = require('cross-spawn')
  */
 module.exports.spawn = function (cmd, params, opts, onClose) {
   if (!cmd) {
-    fatal(`Command name was not available. Please run again.`)
+    fatal('Command name was not available. Please run again.')
   }
 
   const targetFolder = opts && opts.cwd

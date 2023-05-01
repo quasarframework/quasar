@@ -1,7 +1,7 @@
 const appPaths = require('../app-paths')
 const { fatal } = require('./logger')
 
-module.exports = async function getApi(item) {
+module.exports = async function getApi (item) {
   try {
     const api = require(
       require.resolve(`quasar/dist/api/${ item }.json`, {
@@ -12,7 +12,9 @@ module.exports = async function getApi(item) {
       api
     }
   }
-  catch (e) {}
+  catch (_) {
+    /* do nothing */
+  }
 
   const extensionJson = require('../app-extension/extension-json')
   const extensions = Object.keys(extensionJson.getList())

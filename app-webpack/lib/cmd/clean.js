@@ -26,4 +26,4 @@ const Artifacts = require('../artifacts')
 Artifacts.cleanAll()
 
 console.log()
-log(`Done cleaning build artifacts\n`)
+log('Done cleaning build artifacts\n')

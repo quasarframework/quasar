@@ -23,7 +23,7 @@ module.exports = class ApiBase {
    * Private-ish methods
    */
 
-   __getHooks () {
+  __getHooks () {
     return this.__hooks
   }
 

@@ -7,7 +7,7 @@ const WebserverAssetsPlugin = require('./plugin.webserver-assets')
 const injectNodeTypescript = require('../inject.node-typescript')
 const WebpackProgressPlugin = require('../plugin.progress')
 
-const nodeEnvBanner = `if(process.env.NODE_ENV===void 0){process.env.NODE_ENV='production'}`
+const nodeEnvBanner = 'if(process.env.NODE_ENV===void 0){process.env.NODE_ENV=\'production\'}'
 const prodExportFile = {
   js: appPaths.resolve.ssr('production-export.js'),
   ts: appPaths.resolve.ssr('production-export.ts'),
@@ -31,8 +31,8 @@ const flattenObject = (obj, prefix = 'process.env') => {
 }
 
 module.exports = function (cfg, configName) {
-  const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
-  const { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
+  const { dependencies: appDeps = {} } = require(appPaths.resolve.app('package.json'))
+  const { dependencies: cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
 
   const chain = new WebpackChain()
   const resolveModules = [
@@ -101,7 +101,7 @@ module.exports = function (cfg, configName) {
   chain.module.rule('node')
     .test(/\.node$/)
     .use('node-loader')
-      .loader('node-loader')
+    .loader('node-loader')
 
   chain.resolve.modules
     .merge(resolveModules)

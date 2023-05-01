@@ -7,9 +7,11 @@ const getPackagePath = require('./get-package-path')
  * Don't use it for direct dependencies of this project.
  * Use plain `require('pkg')` and `require.resolve('pkg')` instead.
  */
-module.exports = function getPackageJson(pkgName, folder = appPaths.appDir) {
+module.exports = function getPackageJson (pkgName, folder = appPaths.appDir) {
   try {
     return require(getPackagePath(`${ pkgName }/package.json`, folder))
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

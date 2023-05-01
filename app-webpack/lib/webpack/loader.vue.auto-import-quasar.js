@@ -8,9 +8,9 @@ const autoImportRuntimePath = require.resolve('./runtime.auto-import.js')
 const injectModuleIdRuntimePath = require.resolve('./runtime.inject-module-id.js')
 
 const compRegex = {
-  'kebab': new RegExp(autoImportData.regex.kebabComponents || autoImportData.regex.components, 'g'),
-  'pascal': new RegExp(autoImportData.regex.pascalComponents || autoImportData.regex.components, 'g'),
-  'combined': new RegExp(autoImportData.regex.components, 'g')
+  kebab: new RegExp(autoImportData.regex.kebabComponents || autoImportData.regex.components, 'g'),
+  pascal: new RegExp(autoImportData.regex.pascalComponents || autoImportData.regex.components, 'g'),
+  combined: new RegExp(autoImportData.regex.components, 'g')
 }
 
 const dirRegex = new RegExp(autoImportData.regex.directives, 'g')
@@ -18,7 +18,7 @@ const dirRegex = new RegExp(autoImportData.regex.directives, 'g')
 function transform (itemArray) {
   return itemArray
     .map(name => `import ${ name } from '${ importTransformation(name) }';`)
-    .join(`\n`)
+    .join('\n')
 }
 
 function extract (content, ctx, autoImportCase) {

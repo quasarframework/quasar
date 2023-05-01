@@ -100,8 +100,8 @@ class SsrBuilder extends AppBuilder {
         start: 'node index.js'
       },
       dependencies: Object.assign(appDeps, {
-        'compression': cliDeps.compression,
-        'express': cliDeps.express
+        compression: cliDeps.compression,
+        express: cliDeps.express
       }),
       engines: appPkg.engines,
       browserslist: appPkg.browserslist,

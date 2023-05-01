@@ -23,7 +23,7 @@ function getAppInfo () {
   }
 
   const { fatal } = require('./helpers/logger')
-  fatal(`Error. This command must be executed inside a Quasar project folder.`)
+  fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 
 const postcssConfigFilenameList = [

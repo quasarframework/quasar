@@ -29,15 +29,15 @@ class AppTool {
   async buildWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
     const cfg = onRebuildSuccess !== void 0
       ? {
-        ...esbuildConfig,
-        watch: {
-          onRebuild: debounce(error => {
-            if (!error) {
-              onRebuildSuccess()
-            }
-          }, 600)
+          ...esbuildConfig,
+          watch: {
+            onRebuild: debounce(error => {
+              if (!error) {
+                onRebuildSuccess()
+              }
+            }, 600)
+          }
         }
-      }
       : esbuildConfig
 
     const done = progress(

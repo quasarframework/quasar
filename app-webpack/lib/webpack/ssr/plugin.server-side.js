@@ -26,15 +26,15 @@ function getServerManifest (compilation) {
 
   if (entryAssets.length > 1) {
     throw new Error(
-      "Server-side bundle should have one single entry file. "
-      + "Avoid using CommonsChunkPlugin in the server config."
+      'Server-side bundle should have one single entry file. '
+      + 'Avoid using CommonsChunkPlugin in the server config.'
     )
   }
 
   const entry = entryAssets[ 0 ]
   if (!entry || typeof entry.name !== 'string') {
     throw new Error(
-      ("Entry \"" + entryName + "\" not found. Did you specify the correct entry option?")
+      ('Entry "' + entryName + '" not found. Did you specify the correct entry option?')
     )
   }
 

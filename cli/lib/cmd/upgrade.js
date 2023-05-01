@@ -54,7 +54,7 @@ import appPaths from '../app-paths.js'
 import { log, fatal, success } from '../logger.js'
 
 if (appPaths.appDir === void 0) {
-  fatal(`This command must be executed inside a Quasar project folder only.`, 'Error')
+  fatal('This command must be executed inside a Quasar project folder only.', 'Error')
 }
 
 if (!fs.existsSync(appPaths.resolve.app('node_modules'))) {
@@ -71,7 +71,7 @@ const deps = {
 }
 
 import { nodePackager } from '../node-packager.js'
-import { getPackageJson  } from '../get-package-json.js'
+import { getPackageJson } from '../get-package-json.js'
 
 console.log()
 log(`Gathering information with ${ nodePackager.name }...`)
@@ -111,7 +111,7 @@ for (const type of Object.keys(deps)) {
 
     if (latestVersion === null) {
       console.log(` ${ green(packageName) }: ${ current } → ${ red('Skipping!') }`)
-      console.log(`   (⚠️  NPM registry server returned an error, so we cannot detect latest version)`)
+      console.log('   (⚠️  NPM registry server returned an error, so we cannot detect latest version)')
     }
     else if (currentVersion !== latestVersion) {
       deps[ type ].push({

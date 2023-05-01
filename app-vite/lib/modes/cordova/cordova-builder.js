@@ -92,7 +92,7 @@ class CapacitorBuilder extends AppBuilder {
 
   #runCordovaCommand (args, target) {
     if (target === 'ios' && this.quasarConf.cordova.noIosLegacyBuildFlag !== true) {
-      args.push(`--buildFlag=-UseModernBuildSystem=0`)
+      args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
     return new Promise(resolve => {

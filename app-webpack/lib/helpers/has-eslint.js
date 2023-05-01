@@ -9,7 +9,7 @@ const eslintConfigFile = [
   '.eslintrc.js',
   '.eslintrc.yaml',
   '.eslintrc.yml',
-  '.eslintrc.json',
+  '.eslintrc.json'
 ].find(path => existsSync(appPaths.resolve.app(path)))
 
 module.exports.eslintConfigFile = eslintConfigFile

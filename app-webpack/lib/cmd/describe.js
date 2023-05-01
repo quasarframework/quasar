@@ -161,7 +161,7 @@ function printProp (prop, propName, indentLevel) {
     console.log(`${ indent }Link: ${ prop.link }`)
   }
   if (prop.values) {
-    console.log(`${ indent }Accepted values: ${ prop.values.join(` | `) }`)
+    console.log(`${ indent }Accepted values: ${ prop.values.join(' | ') }`)
   }
   if (prop.default) {
     console.log(`${ indent }Default value: ${ prop.default }`)
@@ -500,8 +500,8 @@ async function run () {
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
-        console.log(` Please report this issue to: https://github.com/quasarframework/quasar/issues/`)
-        console.log(` Write down the command that you tried along with a complete log of "quasar info" command output`)
+        console.log(' Please report this issue to: https://github.com/quasarframework/quasar/issues/')
+        console.log(' Write down the command that you tried along with a complete log of "quasar info" command output')
         console.log()
       }
     }
@@ -509,7 +509,7 @@ async function run () {
       console.log(` Describing ${ chalk.green(item) } ${ api.type } API`)
 
       if (supplier === void 0) {
-        console.log(` ${ chalk.italic(`Description is based on your project's Quasar version`) }`)
+        console.log(` ${ chalk.italic('Description is based on your project\'s Quasar version') }`)
       }
       else {
         console.log(` ${ chalk.italic(`Supplied by "${ supplier }" App Extension`) }`)
@@ -529,7 +529,7 @@ function listElements () {
   let api = getPackage('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {
-    fatal(` Could not retrieve list...`)
+    fatal(' Could not retrieve list...')
   }
 
   const filter = argv._[ 1 ]
@@ -547,7 +547,7 @@ function listElements () {
     console.log(`\n The list of API elements that match "${ filterBanner }":\n`)
   }
   else {
-    console.log(`\n The complete list of API elements:\n`)
+    console.log('\n The complete list of API elements:\n')
   }
 
   const dot = chalk.green('  • ')

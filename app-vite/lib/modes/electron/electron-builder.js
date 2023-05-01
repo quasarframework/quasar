@@ -40,7 +40,7 @@ class ElectronBuilder extends AppBuilder {
   // does not accepts the syntax of the replacement
   #replaceAppUrl (file) {
     const content = this.readFile(file)
-    this.writeFile(file, content.replace(/process\.env\.APP_URL/g, `"file://" + __dirname + "/index.html"`))
+    this.writeFile(file, content.replace(/process\.env\.APP_URL/g, '"file://" + __dirname + "/index.html"'))
   }
 
   async #writePackageJson () {
@@ -70,7 +70,7 @@ class ElectronBuilder extends AppBuilder {
       '.npmrc',
       'package-lock.json',
       '.yarnrc',
-      'yarn.lock',
+      'yarn.lock'
     ].map(filename => ({
       from: filename,
       to: './UnPackaged'

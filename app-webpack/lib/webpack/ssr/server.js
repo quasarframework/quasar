@@ -35,7 +35,7 @@ module.exports = function (chain, cfg) {
 
   chain.output
     .filename('render-app.js')
-    .chunkFilename(`chunk-[name].js`)
+    .chunkFilename('chunk-[name].js')
     .libraryTarget('commonjs2')
 
   chain.externals(nodeExternals({

@@ -97,8 +97,8 @@ class CapacitorBuilder extends AppBuilder {
       { cwd: appPaths.resolve.capacitor('ios/App') },
       () => {
         console.log()
-        console.log(` ⚠️  xcodebuild command failed!`)
-        console.log(` ⚠️  As an alternative, you can use the "--ide" param and build from the IDE.`)
+        console.log(' ⚠️  xcodebuild command failed!')
+        console.log(' ⚠️  As an alternative, you can use the "--ide" param and build from the IDE.')
         console.log()
 
         // cleanup build folder
@@ -123,8 +123,8 @@ class CapacitorBuilder extends AppBuilder {
       { cwd: appPaths.resolve.capacitor('android') },
       () => {
         warn()
-        warn(`Gradle build failed!`)
-        warn(`As an alternative, you can use the "--ide" param and build from the IDE.`)
+        warn('Gradle build failed!')
+        warn('As an alternative, you can use the "--ide" param and build from the IDE.')
         warn()
       }
     )

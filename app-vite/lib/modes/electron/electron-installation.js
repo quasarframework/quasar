@@ -8,7 +8,7 @@ const hasTypescript = require('../../helpers/has-typescript')
 const { bundlerIsInstalled } = require('./bundler')
 
 const electronDeps = {
-  'electron': 'latest'
+  electron: 'latest'
 }
 
 function isInstalled () {
@@ -55,7 +55,7 @@ function remove () {
     return
   }
 
-  log(`Removing Electron source folder`)
+  log('Removing Electron source folder')
   fse.removeSync(appPaths.electronDir)
 
   const deps = Object.keys(electronDeps)

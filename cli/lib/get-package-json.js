@@ -17,5 +17,7 @@ export function getPackageJson (pkgName, folder = appPaths.appDir) {
       )
     )
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

@@ -10,7 +10,7 @@ module.exports = function (_cfg) {
   let valid = true
 
   if (fs.existsSync(file) === false) {
-    warn(`The file /index.html is missing. Please add it back.\n`)
+    warn('The file /index.html is missing. Please add it back.\n')
     return false
   }
 

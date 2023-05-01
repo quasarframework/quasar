@@ -91,9 +91,9 @@ function printBars () {
 
     const details = state.idle === false
       ? state.progress + '% ' + ([
-          state.progressMessage,
-          state.progressDetails ? [ state.progressDetails[ 0 ], state.progressDetails[ 1 ] ].filter(s => s).join(' ') : ''
-        ].filter(m => m).join(' '))
+        state.progressMessage,
+        state.progressDetails ? [ state.progressDetails[ 0 ], state.progressDetails[ 1 ] ].filter(s => s).join(' ') : ''
+      ].filter(m => m).join(' '))
       : 'idle'
 
     return ` ${ prefix } ${ name } ${ bar } ${ chalk.grey(details) }\n`
@@ -132,7 +132,7 @@ function getReadyBanner (cfg) {
       ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarVersion) }`,
       ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliAppVersion) }`,
       ` ${ greenBanner } Transpiled JS..... ${ cfg.__transpileBanner }`,
-      ` ----------------------------`,
+      ' ----------------------------',
       ` ${ greenBanner } Load the dev extension from:`,
       `   · Chrome(ium): ${ chalk.green(appPaths.bexDir) }`,
       `   · Firefox:     ${ chalk.green(appPaths.resolve.bex('manifest.json')) }`
@@ -144,7 +144,7 @@ function getReadyBanner (cfg) {
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                              `)
+    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join('\n                              ')
     : chalk.green(cfg.build.APP_URL)
 
   return [

@@ -48,7 +48,7 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
   }
   else {
     const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-    const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
+    const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
     fs.writeFileSync(targetPath, template(scope), 'utf-8')
   }
 }
@@ -157,7 +157,7 @@ module.exports = class Extension {
       const answer = await inquirer.prompt([ {
         name: 'reinstall',
         type: 'confirm',
-        message: `Already installed. Reinstall?`,
+        message: 'Already installed. Reinstall?',
         default: false
       } ])
 

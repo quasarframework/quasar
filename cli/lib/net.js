@@ -1,9 +1,8 @@
 import os from 'os'
 
 export function getExternalNetworkInterface () {
-  const
-    networkInterfaces = os.networkInterfaces()
-    const devices = []
+  const networkInterfaces = os.networkInterfaces()
+  const devices = []
 
   for (const deviceName of Object.keys(networkInterfaces)) {
     const networkInterface = networkInterfaces[ deviceName ]

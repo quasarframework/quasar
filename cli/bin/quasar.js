@@ -15,15 +15,15 @@ let cmd = process.argv[ 2 ]
 
 if (cmd === 'create') {
   process.argv.splice(2, 1)
-  import(`../lib/cmd/create.js`)
+  import('../lib/cmd/create.js')
 }
 else if (cmd === 'serve') {
   process.argv.splice(2, 1)
-  import(`../lib/cmd/serve.js`)
+  import('../lib/cmd/serve.js')
 }
 else if (cmd === 'upgrade') {
   process.argv.splice(2, 1)
-  import(`../lib/cmd/upgrade.js`)
+  import('../lib/cmd/upgrade.js')
 }
 else {
   const { default: appPaths } = await import('../lib/app-paths.js')
@@ -31,11 +31,11 @@ else {
 
   const localFile = appPaths.appDir !== void 0
     ? (
-      getPackagePath('@quasar/app-vite/bin/quasar') // Quasar 2.0
-      || getPackagePath('@quasar/app-webpack/bin/quasar') // Quasar 2.0
-      || getPackagePath('@quasar/app/bin/quasar') // legacy Quasar 1.0 & partial Quasar 2.0
-      || getPackagePath('quasar-cli/bin/quasar') // legacy Quasar <1.0
-    )
+        getPackagePath('@quasar/app-vite/bin/quasar') // Quasar 2.0
+        || getPackagePath('@quasar/app-webpack/bin/quasar') // Quasar 2.0
+        || getPackagePath('@quasar/app/bin/quasar') // legacy Quasar 1.0 & partial Quasar 2.0
+        || getPackagePath('quasar-cli/bin/quasar') // legacy Quasar <1.0
+      )
     : void 0
 
   if (localFile) {
@@ -85,12 +85,12 @@ else {
           process.exit(0)
         }
 
-        await import(`../lib/cmd/help.js`)
+        await import('../lib/cmd/help.js')
 
         const { fatal } = await import('../lib/logger.js')
 
         if (cmd.indexOf('-') === 0) {
-          fatal(`Command must come before the options`, 'Error')
+          fatal('Command must come before the options', 'Error')
         }
 
         fatal(`Unknown command "${ cmd }"`, 'Error')

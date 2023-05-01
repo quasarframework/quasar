@@ -13,5 +13,7 @@ export function getPackagePath (pkgName, folder = appPaths.appDir) {
       paths: [ folder ]
     })
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

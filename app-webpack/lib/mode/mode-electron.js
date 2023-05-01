@@ -8,7 +8,7 @@ const hasTypescript = require('../helpers/has-typescript')
 const { bundlerIsInstalled } = require('../electron/bundler')
 
 const electronDeps = {
-  'electron': 'latest'
+  electron: 'latest'
 }
 
 class Mode {

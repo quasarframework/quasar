@@ -42,8 +42,8 @@ module.exports = class WebserverAssetsPlugin {
       dependencies: Object.assign(
         appDeps,
         {
-          'compression': '^1.0.0',
-          'express': '^4.0.0',
+          compression: '^1.0.0',
+          express: '^4.0.0',
           '@quasar/ssr-helpers': cliDeps[ '@quasar/ssr-helpers' ]
         },
         this.cfg.build.transpile === true
