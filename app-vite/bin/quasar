@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 require('../lib/node-version-check')
-require('../lib/helpers/cli-error-handling')
 
 const commands = [
   'dev',
@@ -42,7 +41,11 @@ if (cmd) {
   }
   else {
     if (cmd === '-v' || cmd === '--version') {
-      console.log(require('../package.json').version)
+      const pkg = require('../package.json')
+      console.log(
+        `${ pkg.name } ${ pkg.version }`
+        + (process.env.QUASAR_CLI_VERSION ? ` (@quasar/cli ${ process.env.QUASAR_CLI_VERSION })` : '')
+      )
       process.exit(0)
     }
 

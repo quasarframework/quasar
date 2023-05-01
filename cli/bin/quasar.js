@@ -11,20 +11,6 @@ const pkg = JSON.parse(
 
 updateNotifier({ pkg }).notify()
 
-import { createRequire } from 'module'
-const require = createRequire(import.meta.url)
-
-function getQuasarAppExecutable (which, root) {
-  try {
-    return require.resolve(which, {
-      paths: [ root ]
-    })
-  }
-  catch (e) {
-    return false
-  }
-}
-
 let cmd = process.argv[ 2 ]
 
 if (cmd === 'create') {
@@ -40,15 +26,15 @@ else if (cmd === 'upgrade') {
   import(`../lib/cmd/upgrade.js`)
 }
 else {
-  const { getProjectRoot } = await import('../lib/get-project-root.js')
-  const root = getProjectRoot()
+  const { default: appPaths } = await import('../lib/app-paths.js')
+  const { getPackagePath } = await import('../lib/get-package-path.js')
 
-  const localFile = root
+  const localFile = appPaths.appDir !== void 0
     ? (
-      getQuasarAppExecutable('@quasar/app-vite/bin/quasar', root) // Quasar 2.0
-      || getQuasarAppExecutable('@quasar/app-webpack/bin/quasar', root) // Quasar 2.0
-      || getQuasarAppExecutable('@quasar/app/bin/quasar', root) // legacy Quasar 1.0 & partial Quasar 2.0
-      || getQuasarAppExecutable('quasar-cli/bin/quasar', root) // legacy Quasar <1.0
+      getPackagePath('@quasar/app-vite/bin/quasar') // Quasar 2.0
+      || getPackagePath('@quasar/app-webpack/bin/quasar') // Quasar 2.0
+      || getPackagePath('@quasar/app/bin/quasar') // legacy Quasar 1.0 & partial Quasar 2.0
+      || getPackagePath('quasar-cli/bin/quasar') // legacy Quasar <1.0
     )
     : void 0
 
@@ -69,6 +55,9 @@ else {
       import(localFile)
     }
     else {
+      const { createRequire } = await import('node:module')
+      const require = createRequire(import.meta.url)
+
       // local CLI is in legacy CJS format
       require(localFile)
     }
@@ -92,21 +81,19 @@ else {
       }
       else {
         if (cmd === '-v' || cmd === '--version' || cmd === '-V') {
-          console.log(pkg.version)
+          console.log(`${ pkg.name } v${ pkg.version }`)
           process.exit(0)
         }
 
         await import(`../lib/cmd/help.js`)
 
-        const { red } = await import('kolorist')
-        console.log(`\n ${ red(`Error`) } Unknown command "${ cmd }"`)
+        const { fatal } = await import('../lib/logger.js')
 
         if (cmd.indexOf('-') === 0) {
-          console.log(`\n ${ red(`Error`) } Command must come before the options`)
+          fatal(`Command must come before the options`, 'Error')
         }
 
-        console.log()
-        process.exit(1)
+        fatal(`Unknown command "${ cmd }"`, 'Error')
       }
     }
     else {

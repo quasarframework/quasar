@@ -88,6 +88,8 @@ if (argv.help) {
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
 import path from 'node:path'
 
+const { fatal } = await import('../logger.js')
+
 const root = getAbsolutePath(argv._[ 0 ] || '.')
 const resolve = p => path.resolve(root, p)
 
@@ -179,8 +181,7 @@ if (ssrDetected === false) {
   if (argv.proxy) {
     let file = argv.proxy = getAbsolutePath(argv.proxy)
     if (!existsSync(file)) {
-      console.error('Proxy definition file not found! ' + file)
-      process.exit(1)
+      fatal('Proxy definition file not found! ' + file)
     }
     file = await import(file)
 
@@ -243,16 +244,14 @@ if (ssrDetected === false) {
         key = readFileSync(key)
       }
       else {
-        console.error('SSL key file not found!' + key)
-        process.exit(1)
+        fatal('SSL key file not found!' + key)
       }
 
       if (existsSync(cert)) {
         cert = readFileSync(cert)
       }
       else {
-        console.error('SSL cert file not found!' + cert)
-        process.exit(1)
+        fatal('SSL cert file not found!' + cert)
       }
     }
     else {
@@ -338,9 +337,7 @@ if (ssrDetected === false) {
           writeFileSync(certPath, pems.private + pems.cert, { encoding: 'utf-8' })
         }
         catch (err) {
-          console.error(' Cannot write certificate file ' + certPath)
-          console.error(' Aborting...')
-          process.exit(1)
+          fatal(' Cannot write certificate file ' + certPath + '. Aborting...')
         }
       }
 
