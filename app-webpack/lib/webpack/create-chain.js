@@ -14,15 +14,15 @@ const injectStyleRules = require('./inject.style-rules')
 const { webpackNames } = require('./symbols')
 
 function getDependenciesRegex (list) {
-  const deps = list.map(dep => {
+  const deps = list.map(dep => { // eslint-disable-line array-callback-return
     if (typeof dep === 'string') {
       return path.join('node_modules', dep, '/')
         .replace(/\\/g, '[\\\\/]') // windows support
     }
-    else if (dep instanceof RegExp) {
+    if (dep instanceof RegExp) {
       return dep.source
     }
-  })
+  }).filter(e => e)
 
   return new RegExp(deps.join('|'))
 }
