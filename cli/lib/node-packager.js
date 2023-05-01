@@ -330,7 +330,6 @@ function getPackager () {
     return npm
   }
 
-
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
