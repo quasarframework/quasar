@@ -54,7 +54,6 @@ module.exports = {
     'no-useless-escape': 'off',
     'no-unused-vars': [ 'error', { ignoreRestSiblings: true, argsIgnorePattern: '^_' } ],
 
-    'n/no-process-exit': 'off',
-    'no-multiple-empty-lines': 'error'
+    'n/no-process-exit': 'off'
   }
 }
