@@ -10,17 +10,6 @@
  * Boot files are your "main.js"
  **/
 
-<% if (__vueDevtools !== false) { %>
-import vueDevtools from '@vue/devtools'
-<% } %>
-
-import { Quasar } from 'quasar'
-import { markRaw } from 'vue'
-import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
-
-<% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
-import createRouter from 'app/<%= sourceFiles.router %>'
-
 <% if (ctx.mode.capacitor) { %>
   <% if (__versions.capacitor <= 2) { %>
   import { Plugins } from '@capacitor/core'
@@ -36,6 +25,17 @@ import createRouter from 'app/<%= sourceFiles.router %>'
     <% } %>
   <% } %>
 <% } %>
+
+<% if (__vueDevtools !== false) { %>
+import vueDevtools from '@vue/devtools'
+<% } %>
+
+import { Quasar } from 'quasar'
+import { markRaw } from 'vue'
+import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
+
+<% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
+import createRouter from 'app/<%= sourceFiles.router %>'
 
 <% if (__needsAppMountHook === true) { %>
 import { defineComponent, h, onMounted<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
