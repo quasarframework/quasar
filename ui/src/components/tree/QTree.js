@@ -44,7 +44,10 @@ export default createComponent({
 
     color: String,
     controlColor: String,
-    keepColor: { type: Boolean, default: true },
+    keepColor: {
+      type: Boolean,
+      default: true
+    },
     textColor: String,
     selectedColor: String,
 
