@@ -148,10 +148,10 @@ Cypress.Commands.add('isNotActionable', { prevSubject: true }, function (subject
     expect(err.message).to.include('is being covered by another element')
     done()
   })
-  cy.wrap(subject)
+  cy.wrap(subject).as('subject')
     .click({ timeout: 100 })
-    .then(x => {
-      done(new Error('Expected element NOT to be clickable, but click() succeeded'))
-    })
+  cy.get('@subject').then(x => {
+    done(new Error('Expected element NOT to be clickable, but click() succeeded'))
+  })
   return subject
 })

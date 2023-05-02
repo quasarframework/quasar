@@ -79,6 +79,7 @@ describe('BreadcrumbsEl API', () => {
 
         cy.get('.q-breadcrumbs__el')
           .click()
+        cy.get('.q-breadcrumbs__el')
           .then(() => expect(fn).to.be.calledOnce)
       })
     })

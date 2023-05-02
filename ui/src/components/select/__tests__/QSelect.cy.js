@@ -223,6 +223,7 @@ describe('QSelect API', () => {
           cy.get('.q-menu')
             .contains('Option 1')
             .click()
+          cy.get('.q-menu')
             .then(() => {
               expect(fn).to.have.been.calledWith(1)
             })
@@ -242,6 +243,7 @@ describe('QSelect API', () => {
           cy.get('.q-menu')
             .contains('Option 1')
             .click()
+          cy.get('.q-menu')
             .then(() => {
               expect(fn).to.have.been.calledWith(options[ 0 ])
             })
@@ -265,6 +267,7 @@ describe('QSelect API', () => {
           cy.withinSelectMenu(() => {
             cy.contains('Option 1')
               .click()
+            cy.contains('Option 1')
               .then(() => {
                 expect(model.value).to.equal(options[ 0 ])
               })
@@ -274,6 +277,7 @@ describe('QSelect API', () => {
           cy.withinSelectMenu(() => {
             cy.contains('Option 2')
               .click()
+            cy.contains('Option 2')
               .then(() => {
                 expect(model.value).to.equal(options[ 1 ])
               })
@@ -297,12 +301,14 @@ describe('QSelect API', () => {
             fn: () => {
               cy.contains('Option 1')
                 .click()
+              cy.contains('Option 1')
                 .then(() => {
                   expect(model.value).to.eql([ options[ 0 ] ])
                 })
 
               cy.contains('Option 2')
                 .click()
+              cy.contains('Option 2')
                 .then(() => {
                   expect(model.value).to.eql(options)
                 })
@@ -348,6 +354,7 @@ describe('QSelect API', () => {
           cy.get('.q-menu')
             .contains(options[ 0 ].label)
             .click()
+          cy.get('.q-menu')
             .then(() => {
               expect(model.value).to.equal(options[ 0 ].value)
             })
@@ -369,6 +376,7 @@ describe('QSelect API', () => {
           cy.get('.q-menu')
             .contains(options[ 0 ].label)
             .click()
+          cy.get('.q-menu')
             .then(() => {
               expect(model.value).to.equal(options[ 0 ].test)
             })
@@ -390,6 +398,7 @@ describe('QSelect API', () => {
           cy.get('.q-menu')
             .contains(options[ 0 ].label)
             .click()
+          cy.get('.q-menu')
             .then(() => {
               expect(model.value).to.equal(options[ 0 ].test)
             })
@@ -859,7 +868,9 @@ describe('QSelect API', () => {
             .click()
           cy.get('.q-menu')
             .get('[role="option"]')
+            .as('clicked')
             .click({ multiple: true })
+          cy.get('@clicked')
             .then(() => {
               expect(model.value.length).to.equal(max)
             })
@@ -1231,7 +1242,9 @@ describe('QSelect API', () => {
         cy.get('.q-menu')
           .get('[role="option"]')
           .first()
+          .as('clicked')
           .click()
+        cy.get('@clicked')
           .then(() => {
             expect(fn).to.be.calledWith('1')
           })
@@ -1278,14 +1291,18 @@ describe('QSelect API', () => {
         cy.get('.q-menu')
           .get('[role="option"]')
           .first()
+          .as('clicked')
           .click()
+        cy.get('@clicked')
           .then(() => {
             expect(fn).not.to.be.called
           })
         cy.get('.q-menu')
           .get('[role="option"]')
           .first()
+          .as('clicked')
           .click()
+        cy.get('@clicked')
           .then(() => {
             // Item is added in the previous step at the end of the array, so at index 2
             expect(fn).to.be.calledWith({ index: 2, value: '1' })
@@ -1312,7 +1329,9 @@ describe('QSelect API', () => {
         cy.get('.q-menu')
           .get('[role="option"]')
           .first()
+          .as('clicked')
           .click()
+        cy.get('@clicked')
           .then(() => {
             // Item is added in the previous step at the end of the array, so at index 2
             expect(fn).to.be.calledWith({ index: 1, value: '1' })

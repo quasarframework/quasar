@@ -103,6 +103,7 @@ describe('Btn API', () => {
         })
 
         cy.get('.q-btn').click()
+        cy.get('.q-btn')
           .then(() => expect(fn).to.be.calledOnce)
       })
     })

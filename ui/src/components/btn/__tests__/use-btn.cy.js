@@ -507,7 +507,9 @@ describe('use-btn API', () => {
           })
 
           cy.get('.q-btn')
-            .click().get('.q-ripple').should('exist')
+            .click()
+          cy.get('.q-btn').get('.q-ripple')
+            .should('exist')
         })
       })
     })
