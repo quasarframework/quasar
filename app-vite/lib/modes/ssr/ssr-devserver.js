@@ -3,7 +3,6 @@ const { join } = require('path')
 const { createServer } = require('vite')
 const chokidar = require('chokidar')
 const debounce = require('lodash/debounce')
-const Ouch = require('ouch')
 const serialize = require('serialize-javascript')
 
 const AppDevserver = require('../../app-devserver')
@@ -31,24 +30,26 @@ function resolvePublicFolder () {
 const doubleSlashRE = /\/\//g
 const autoRemove = 'document.currentScript.remove()'
 
-const ouchInstance = (new Ouch()).pushHandler(
-  new Ouch.handlers.PrettyPageHandler('orange', null, 'sublime')
-)
-
 function logServerMessage (title, msg, additional) {
   log()
   info(`${ msg }${ additional !== void 0 ? ` ${ dot } ${ additional }` : '' }`, title)
 }
 
+let renderSSRError
 function renderError ({ err, req, res }) {
-  ouchInstance.handleException(err, req, res, () => {
-    log()
-    warn(req.url, 'Render failed')
-  })
+  log()
+  warn(req.url, 'Render failed')
+
+  renderSSRError({ err, req, res })
 }
 
 async function warmupServer (viteClient, viteServer) {
   const done = progress('Warming up...')
+
+  if (renderSSRError === void 0) {
+    const { default: render } = await import('@quasar/render-ssr-error')
+    renderSSRError = render
+  }
 
   try {
     await viteServer.ssrLoadModule(serverEntryFile)
