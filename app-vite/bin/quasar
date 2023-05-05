@@ -55,7 +55,7 @@ if (cmd) {
       cmd = 'help'
     }
     else if (cmd.indexOf('-') === 0) {
-      warn(`Command must come before the options`)
+      warn('Command must come before the options')
       cmd = 'help'
     }
     else {
