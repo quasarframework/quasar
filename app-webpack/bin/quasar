@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 require('../lib/node-version-check')
-require('../lib/helpers/cli-error-handling')
 
 const commands = [
   'dev',

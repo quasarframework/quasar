@@ -15,15 +15,17 @@ const appPaths = require('./app-paths')
 const getPackage = require('./helpers/get-package')
 const { renderToString } = getPackage('@vue/server-renderer')
 const openBrowser = require('./helpers/open-browser')
-const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
 
 const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
+
+let renderSSRError
 const renderError = ({ err, req, res }) => {
-  ouchInstance.handleException(err, req, res, () => {
-    console.error(`${ banner } ${ req.url } -> error during render`)
-    console.error(err.stack)
-  })
+  console.log()
+  console.error(`${ banner } ${ req.url } -> error during render`)
+  console.error(err.stack)
+
+  renderSSRError({ err, req, res })
 }
 
 const doubleSlashRE = /\/\//g
@@ -43,7 +45,7 @@ module.exports = class DevServer {
     this.webpackServer = null
   }
 
-  listen () {
+  async listen () {
     const cfg = this.quasarConfFile.quasarConf
     const webpackConf = this.quasarConfFile.webpackConf
 
@@ -51,6 +53,11 @@ module.exports = class DevServer {
     const serverCompiler = webpack(webpackConf.serverSide)
 
     let clientCompiler, serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
+
+    if (renderSSRError === void 0) {
+      const { default: render } = await import('@quasar/render-ssr-error')
+      renderSSRError = render
+    }
 
     async function startClient () {
       if (clientCompiler) {
