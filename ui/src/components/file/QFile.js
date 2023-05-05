@@ -110,7 +110,7 @@ export default Vue.extend({
     },
 
     removeFile (file) {
-      const index = this.innerValue.findIndex(file)
+      const index = this.innerValue.indexOf(file)
       if (index > -1) {
         this.removeAtIndex(index)
       }
