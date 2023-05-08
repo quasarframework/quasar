@@ -78,14 +78,16 @@ module.exports = function (ctx) {
       },
 
       extendViteConf (viteConf, { isServer }) {
-        viteConf.server = viteConf.server || {}
-        viteConf.server.fs = viteConf.server.fs || {}
-        viteConf.server.fs.allow = [
-          // for quasar package (ui folder) and related deps
-          '..',
-          // due to workspace hoisting, some deps might come from the root node_modules
-          '../..'
-        ]
+        viteConf.server = mergeConfig(viteConf.server, {
+          fs: {
+            allow: [
+              // for quasar package (ui folder) and related deps
+              '..',
+              // due to workspace hoisting, some deps might come from the root node_modules
+              '../..'
+            ]
+          }
+        })
 
         if (isServer) {
           viteConf.resolve.alias.quasar = join(__dirname, '../src/index.ssr.js')
