@@ -3,8 +3,8 @@ const getPackage = require('../helpers/get-package')
 const { fatal } = require('../helpers/logger')
 
 const versions = {
-  packager: '15.2.0',
-  builder: '22.4.0'
+  packager: '17.1.1',
+  builder: '24.3.0'
 }
 
 function isValidName (bundlerName) {
