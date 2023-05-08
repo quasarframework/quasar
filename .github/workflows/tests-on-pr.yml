@@ -18,13 +18,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ui
-
     # Check if the build cache exists, and if it does, do nothing else.
     # Otherwise, run the build and cache it.
-    name: Build the UI package
+    name: Build the packages
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -38,14 +34,25 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Build the package
+      - name: Build the UI package
+        working-directory: ui
         run: yarn build
 
-      - name: Upload build artifact
+      - name: Upload UI build artifact
         uses: actions/upload-artifact@v3
         with:
           name: ui-build
           path: ui/dist
+
+      - name: Build vite-plugin package
+        working-directory: vite-plugin
+        run: yarn build
+
+      - name: Upload vite-plugin build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vite-plugin-build
+          path: vite-plugin/dist
 
   tests:
     # If the build pipeline doesn't succeed, we don't need to run tests at all
@@ -80,11 +87,17 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Download build artifact
+      - name: Download UI build artifact
         uses: actions/download-artifact@v3
         with:
           name: ui-build
           path: ui/dist
+
+      - name: Download vite-plugin build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: vite-plugin-build
+          path: vite-plugin/dist
 
       - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v5
