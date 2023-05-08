@@ -68,7 +68,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           browser: ${{ matrix.browser }}
-          command: npm run test:component:ci
+          command: npm run test:component:ci --record --parallel
           working-directory: ui
           tag: ${{ github.event.name }} # Tag will be either "opened" or "synchronize"
           group: Tests in ${{ matrix.browser }} browser

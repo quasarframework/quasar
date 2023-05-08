@@ -40,7 +40,11 @@ module.exports = {
         // Add Cypress-specific lint rules, globals and Cypress plugin
         // See https://github.com/cypress-io/eslint-plugin-cypress#rules
         'plugin:cypress/recommended'
-      ]
+      ],
+
+      rules: {
+        'no-only-tests/no-only-tests': 'error'
+      }
     }
   ],
 
@@ -94,10 +98,6 @@ module.exports = {
     'vue/script-indent': 'off',
     'vue/no-v-model-argument': 'off',
     'vue/require-explicit-emits': 'off',
-    'vue/multi-word-component-names': 'off',
-
-    // Testing
-    'cypress/no-unnecessary-waiting': 'off',
-    'no-only-tests/no-only-tests': 'error'
+    'vue/multi-word-component-names': 'off'
   }
 }

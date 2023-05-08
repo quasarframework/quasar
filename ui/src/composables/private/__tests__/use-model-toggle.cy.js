@@ -220,6 +220,7 @@ describe('use-model-toggle API', () => {
           })
         cy.get('body')
           .click(499, 0)
+        cy.get('body')
           .then(() => {
             expect(fn).to.be.called
           })
@@ -246,6 +247,7 @@ describe('use-model-toggle API', () => {
           })
         cy.dataCy('method-hide')
           .click({ force: true })
+        cy.dataCy('method-hide')
           .then(() => {
             expect(fn).to.be.called
           })
