@@ -43,9 +43,6 @@ module.exports = {
       ],
 
       rules: {
-        'cypress/no-unnecessary-waiting': 'off',
-        // It doesn't even allow .then(), it is too restrictive. It's quite new, needs time to mature.
-        'cypress/unsafe-to-chain-command': 'off',
         'no-only-tests/no-only-tests': 'error'
       }
     }
