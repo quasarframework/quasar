@@ -82,7 +82,6 @@
       "type": [ "Number", "String" ],
       "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars disappear again (if component is not hovered)",
       "default": 1000,
-      "examples": [ 500, ":delay=\"550\"" ],
       "category": "behavior"
     },
 
@@ -115,51 +114,43 @@
             "verticalPosition": {
               "type": "Number",
               "required": true,
-              "desc": "Vertical scroll position (in px)",
-              "__exemption": [ "examples" ]
+              "desc": "Vertical scroll position (in px)"
             },
             "verticalPercentage": {
               "type": "Number",
               "required": true,
-              "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
-              "__exemption": [ "examples" ]
+              "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)"
             },
             "verticalSize": {
               "type": "Number",
               "required": true,
-              "desc": "Vertical scroll size (in px)",
-              "__exemption": [ "examples" ]
+              "desc": "Vertical scroll size (in px)"
             },
             "verticalContainerSize": {
               "type": "Number",
               "required": true,
-              "desc": "Height of the container (in px)",
-              "__exemption": [ "examples" ]
+              "desc": "Height of the container (in px)"
             },
 
             "horizontalPosition": {
               "type": "Number",
               "required": true,
-              "desc": "Horizontal scroll position (in px)",
-              "__exemption": [ "examples" ]
+              "desc": "Horizontal scroll position (in px)"
             },
             "horizontalPercentage": {
               "type": "Number",
               "required": true,
-              "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
-              "__exemption": [ "examples" ]
+              "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)"
             },
             "horizontalSize": {
               "type": "Number",
               "required": true,
-              "desc": "Horizontal scroll size (in px)",
-              "__exemption": [ "examples" ]
+              "desc": "Horizontal scroll size (in px)"
             },
             "horizontalContainerSize": {
               "type": "Number",
               "required": true,
-              "desc": "Width of the container (in px)",
-              "__exemption": [ "examples" ]
+              "desc": "Width of the container (in px)"
             }
           }
         }
@@ -181,56 +172,47 @@
       "returns": {
         "type": "Object",
         "desc": "Scroll information",
-        "__exemption": [ "examples" ],
         "definition": {
           "verticalPosition": {
             "type": "Number",
             "required": true,
-            "desc": "Vertical scroll position (in px)",
-            "__exemption": [ "examples" ]
+            "desc": "Vertical scroll position (in px)"
           },
           "verticalPercentage": {
             "type": "Number",
             "required": true,
-            "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)",
-            "__exemption": [ "examples" ]
+            "desc": "Vertical scroll percentage (0.0 <= x <= 1.0)"
           },
           "verticalSize": {
             "type": "Number",
             "required": true,
-            "desc": "Vertical scroll size (in px)",
-            "__exemption": [ "examples" ]
+            "desc": "Vertical scroll size (in px)"
           },
           "verticalContainerSize": {
             "type": "Number",
             "required": true,
-            "desc": "Height of the container (in px)",
-            "__exemption": [ "examples" ]
+            "desc": "Height of the container (in px)"
           },
 
           "horizontalPosition": {
             "type": "Number",
             "required": true,
-            "desc": "Horizontal scroll position (in px)",
-            "__exemption": [ "examples" ]
+            "desc": "Horizontal scroll position (in px)"
           },
           "horizontalPercentage": {
             "type": "Number",
             "required": true,
-            "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)",
-            "__exemption": [ "examples" ]
+            "desc": "Horizontal scroll percentage (0.0 <= x <= 1.0)"
           },
           "horizontalSize": {
             "type": "Number",
             "required": true,
-            "desc": "Horizontal scroll size (in px)",
-            "__exemption": [ "examples" ]
+            "desc": "Horizontal scroll size (in px)"
           },
           "horizontalContainerSize": {
             "type": "Number",
             "required": true,
-            "desc": "Width of the container (in px)",
-            "__exemption": [ "examples" ]
+            "desc": "Width of the container (in px)"
           }
         }
       }
@@ -245,14 +227,12 @@
           "top": {
             "type": "Number",
             "required": true,
-            "desc": "Scroll offset from top (vertical)",
-            "examples": [ 120 ]
+            "desc": "Scroll offset from top (vertical)"
           },
           "left": {
             "type": "Number",
             "required": true,
-            "desc": "Scroll offset from left (horizontal)",
-            "examples": [ 10 ]
+            "desc": "Scroll offset from left (horizontal)"
           }
         },
         "examples": [ "{ top: 10, left: 0 }" ]
@@ -268,14 +248,12 @@
           "top": {
             "type": "Number",
             "required": true,
-            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from top (vertical)",
-            "examples": [ 0.12 ]
+            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from top (vertical)"
           },
           "left": {
             "type": "Number",
             "required": true,
-            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from left (horizontal)",
-            "examples": [ 0.92 ]
+            "desc": "Scroll percentage (0.0 <= x <= 1.0) offset from left (horizontal)"
           }
         },
         "examples": [ "{ top: 0.212, left: 0 }" ]
@@ -294,13 +272,11 @@
         "offset": {
           "type": "Number",
           "required": true,
-          "desc": "Scroll position offset from top (in pixels)",
-          "examples": [ 220 ]
+          "desc": "Scroll position offset from top (in pixels)"
         },
         "duration": {
           "type": "Number",
-          "desc": "Duration (in milliseconds) enabling animated scroll",
-          "examples": [ 300 ]
+          "desc": "Duration (in milliseconds) enabling animated scroll"
         }
       }
     },
@@ -317,13 +293,11 @@
         "offset": {
           "type": "Number",
           "desc": "Scroll percentage (0.0 <= x <= 1.0) of the total scrolling size",
-          "required": true,
-          "examples": [ 220 ]
+          "required": true
         },
         "duration": {
           "type": "Number",
-          "desc": "Duration (in milliseconds) enabling animated scroll",
-          "examples": [ 300 ]
+          "desc": "Duration (in milliseconds) enabling animated scroll"
         }
       }
     }

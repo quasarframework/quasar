@@ -1,5 +1,6 @@
 import { h, ref, computed, getCurrentInstance } from 'vue'
 
+import { client } from '../../plugins/Platform.js'
 import { stop, stopAndPrevent } from '../../utils/event.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
@@ -90,7 +91,7 @@ export default function ({
     const rejectedFiles = []
 
     const done = () => {
-      if (rejectedFiles.length > 0) {
+      if (rejectedFiles.length !== 0) {
         emit('rejected', rejectedFiles)
       }
     }
@@ -120,7 +121,7 @@ export default function ({
     // Cordova/iOS allows selecting multiple files even when the
     // multiple attribute is not specified. We also normalize drag'n'dropped
     // files here:
-    if (props.multiple !== true && files.length > 0) {
+    if (props.multiple !== true && files.length !== 0) {
       files = [ files[ 0 ] ]
     }
 
@@ -129,11 +130,13 @@ export default function ({
       file.__key = file.webkitRelativePath + file.lastModified + file.name + file.size
     })
 
-    // Avoid duplicate files
-    const filenameMap = currentFileList.map(entry => entry.__key)
-    files = filterFiles(files, rejectedFiles, 'duplicate', file => {
-      return filenameMap.includes(file.__key) === false
-    })
+    if (append === true) {
+      // Avoid duplicate files
+      const filenameMap = currentFileList.map(entry => entry.__key)
+      files = filterFiles(files, rejectedFiles, 'duplicate', file => {
+        return filenameMap.includes(file.__key) === false
+      })
+    }
 
     if (files.length === 0) { return done() }
 
@@ -173,7 +176,7 @@ export default function ({
 
     done()
 
-    if (files.length > 0) {
+    if (files.length !== 0) {
       return files
     }
   }
@@ -185,14 +188,21 @@ export default function ({
 
   function onDragleave (e) {
     stopAndPrevent(e)
-    e.relatedTarget !== dndRef.value && (dnd.value = false)
+
+    // Safari bug: relatedTarget is null for over 10 years
+    // https://bugs.webkit.org/show_bug.cgi?id=66547
+    const gone = e.relatedTarget !== null || client.is.safari !== true
+      ? e.relatedTarget !== dndRef.value
+      : document.elementsFromPoint(e.clientX, e.clientY).includes(dndRef.value) === false
+
+    gone === true && (dnd.value = false)
   }
 
   function onDrop (e) {
     stopAndPreventDrag(e)
     const files = e.dataTransfer.files
 
-    if (files.length > 0) {
+    if (files.length !== 0) {
       addFilesToQueue(null, files)
     }
 
@@ -219,8 +229,10 @@ export default function ({
     pickFiles,
     addFiles,
     onDragover,
+    onDragleave,
     processFiles,
     getDndNode,
+
     maxFilesNumber,
     maxTotalSizeNumber
   }

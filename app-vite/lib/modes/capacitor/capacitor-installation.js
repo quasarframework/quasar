@@ -18,7 +18,7 @@ async function add (silent, target) {
       addPlatform(target)
     }
     else if (silent !== true) {
-      warn(`Capacitor support detected already. Aborting.`)
+      warn('Capacitor support detected already. Aborting.')
     }
 
     return
@@ -30,8 +30,8 @@ async function add (silent, target) {
 
   if (/^[0-9]/.test(appName)) {
     warn(
-      `App product name cannot start with a number. ` +
-      `Please change the "productName" prop in your /package.json then try again.`
+      'App product name cannot start with a number. '
+      + 'Please change the "productName" prop in your /package.json then try again.'
     )
     return
   }
@@ -39,15 +39,15 @@ async function add (silent, target) {
   const inquirer = require('inquirer')
 
   console.log()
-  const answer = await inquirer.prompt([{
+  const answer = await inquirer.prompt([ {
     name: 'appId',
     type: 'input',
     message: 'What is the Capacitor app id?',
     default: 'org.capacitor.quasar.app',
-    validate: appId => appId ? true : 'Please fill in a value'
-  }])
+    validate: appId => (appId ? true : 'Please fill in a value')
+  } ])
 
-  log(`Creating Capacitor source folder...`)
+  log('Creating Capacitor source folder...')
 
   // Create /src-capacitor from template
   fse.ensureDirSync(appPaths.capacitorDir)
@@ -60,7 +60,7 @@ async function add (silent, target) {
     nodePackager: nodePackager.name
   }
 
-  fglob.sync(['**/*'], {
+  fglob.sync([ '**/*' ], {
     cwd: appPaths.resolve.cli('templates/capacitor')
   }).forEach(filePath => {
     const dest = appPaths.resolve.capacitor(filePath)
@@ -74,7 +74,7 @@ async function add (silent, target) {
 
   const { capBin } = require('./cap-cli')
 
-  log(`Initializing capacitor...`)
+  log('Initializing capacitor...')
   spawnSync(
     capBin,
     [
@@ -87,11 +87,11 @@ async function add (silent, target) {
     { cwd: appPaths.capacitorDir }
   )
 
-  log(`Capacitor support was added`)
+  log('Capacitor support was added')
 
   if (!target) {
     console.log()
-    console.log(` No Capacitor platform has been added yet as these get installed on demand automatically when running "quasar dev" or "quasar build".`)
+    console.log(' No Capacitor platform has been added yet as these get installed on demand automatically when running "quasar dev" or "quasar build".')
     log()
     return
   }
@@ -101,14 +101,14 @@ async function add (silent, target) {
 
 function remove () {
   if (!isInstalled()) {
-    warn(`No Capacitor support detected. Aborting.`)
+    warn('No Capacitor support detected. Aborting.')
     return
   }
 
-  log(`Removing Capacitor folder`)
+  log('Removing Capacitor folder')
   fse.removeSync(appPaths.capacitorDir)
 
-  log(`Capacitor support was removed`)
+  log('Capacitor support was removed')
 }
 
 function addPlatform (target) {
@@ -129,10 +129,10 @@ function addPlatform (target) {
     )
   }
 
-  log(`Adding Capacitor platform "${target}"`)
+  log(`Adding Capacitor platform "${ target }"`)
   spawnSync(
     capBin,
-    ['add', target],
+    [ 'add', target ],
     { cwd: appPaths.capacitorDir }
   )
 }

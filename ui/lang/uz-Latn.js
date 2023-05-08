@@ -19,7 +19,9 @@ module.exports = {
     create: 'Yaratish',
     search: 'Qidirish',
     filter: 'Filtrlash',
-    refresh: 'Yangilash'
+    refresh: 'Yangilash',
+    expand: label => (label ? `"${ label }" ni kengaytirish` : 'Kengaytirish'),
+    collapse: label => (label ? `"${ label }" ni yig'ish` : 'Yiqilish')
   },
   date: {
     days: 'Yakshanba_Dushanba_Seshanba_Chorshanba_Payshanba_Juma_Shanba'.split(

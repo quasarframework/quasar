@@ -84,7 +84,7 @@ export default class Caret {
 
   get hasSelection () {
     return this.selection !== null
-      ? this.selection.toString().length > 0
+      ? this.selection.toString().length !== 0
       : false
   }
 

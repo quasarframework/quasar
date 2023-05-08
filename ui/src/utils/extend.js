@@ -1,24 +1,21 @@
 const
   toString = Object.prototype.toString,
   hasOwn = Object.prototype.hasOwnProperty,
-  class2type = {}
-
-'Boolean Number String Function Array Date RegExp Object'.split(' ').forEach(name => {
-  class2type[ '[object ' + name + ']' ] = name.toLowerCase()
-})
-
-function type (obj) {
-  return obj === null ? String(obj) : class2type[ toString.call(obj) ] || 'object'
-}
+  notPlainObject = new Set(
+    [ 'Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp' ]
+      .map(name => '[object ' + name + ']')
+  )
 
 function isPlainObject (obj) {
-  if (!obj || type(obj) !== 'object') {
+  if (obj !== Object(obj) || notPlainObject.has(toString.call(obj)) === true) {
     return false
   }
 
-  if (obj.constructor
-    && !hasOwn.call(obj, 'constructor')
-    && !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
+  if (
+    obj.constructor
+    && hasOwn.call(obj, 'constructor') === false
+    && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf') === false
+  ) {
     return false
   }
 
@@ -42,7 +39,7 @@ export default function extend () {
     i = 2
   }
 
-  if (Object(target) !== target && type(target) !== 'function') {
+  if (Object(target) !== target && typeof target !== 'function') {
     target = {}
   }
 
@@ -61,13 +58,16 @@ export default function extend () {
           continue
         }
 
-        if (deep && copy && (isPlainObject(copy) || (copyIsArray = type(copy) === 'array'))) {
-          if (copyIsArray) {
-            copyIsArray = false
-            clone = src && type(src) === 'array' ? src : []
+        if (
+          deep === true
+          && copy
+          && ((copyIsArray = Array.isArray(copy)) || isPlainObject(copy) === true)
+        ) {
+          if (copyIsArray === true) {
+            clone = Array.isArray(src) === true ? src : []
           }
           else {
-            clone = src && isPlainObject(src) ? src : {}
+            clone = isPlainObject(src) === true ? src : {}
           }
 
           target[ name ] = extend(deep, clone, copy)

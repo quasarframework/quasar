@@ -9,13 +9,12 @@ export default defineComponent({
   name: 'One',
 
   props: {
-    allowRouteChange: {
-      type: Boolean
-    }
+    allowRouteChange: Boolean
   },
 
-  beforeRouteLeave (to, from, next) {
-    next(this.allowRouteChange)
+  beforeRouteLeave () {
+    console.log(this.allowRouteChange ? 'allowing navigation' : 'denying navigation')
+    return this.allowRouteChange
   }
 })
 </script>

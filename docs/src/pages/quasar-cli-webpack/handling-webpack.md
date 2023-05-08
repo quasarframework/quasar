@@ -201,7 +201,7 @@ And you're done.
 
 Styles in `*.vue` files (and all other style files) are piped through PostCSS by default, so you don't need to use a specific loader for it.
 
-By default, PostCSS is configured to use Autoprefixer. Take a look at `/.postcssrc.js` where you can tweak it if you need to.
+By default, PostCSS is configured to use Autoprefixer. Take a look at `/postcss.config.cjs` where you can tweak it if you need to.
 
 ### Pug
 First, you need to install some dependencies:

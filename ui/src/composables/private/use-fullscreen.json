@@ -17,6 +17,18 @@
     }
   },
 
+  "events": {
+    "fullscreen": {
+      "desc": "Emitted when fullscreen state changes",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "Fullscreen state (showing/hidden)"
+        }
+      }
+    }
+  },
+
   "methods": {
     "toggleFullscreen": {
       "desc": "Toggle the view to be fullscreen or not fullscreen"

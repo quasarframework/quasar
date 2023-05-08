@@ -27,7 +27,7 @@ function getIPList () {
   // expensive operation, so cache the response
   if (ipList === void 0) {
     const { getIPs } = require('../helpers/net')
-    ipList = getIPs().map(ip => ip === '127.0.0.1' ? 'localhost' : ip)
+    ipList = getIPs().map(ip => (ip === '127.0.0.1' ? 'localhost' : ip))
   }
 
   return ipList
@@ -86,20 +86,20 @@ function printBars () {
 
     const barWidth = Math.floor(state.progress * barProgressFactor)
     const bar = barString
-      .map((char, index) => index <= barWidth ? char : ' ')
+      .map((char, index) => (index <= barWidth ? char : ' '))
       .join('')
 
     const details = state.idle === false
       ? state.progress + '% ' + ([
-          state.progressMessage,
-          state.progressDetails ? [ state.progressDetails[0], state.progressDetails[1] ].filter(s => s).join(' ') : ''
-        ].filter(m => m).join(' '))
+        state.progressMessage,
+        state.progressDetails ? [ state.progressDetails[ 0 ], state.progressDetails[ 1 ] ].filter(s => s).join(' ') : ''
+      ].filter(m => m).join(' '))
       : 'idle'
 
-    return ` ${prefix} ${name} ${bar} ${chalk.grey(details)}\n`
+    return ` ${ prefix } ${ name } ${ bar } ${ chalk.grey(details) }\n`
   })
 
-  progressLog(`\n • ${chalk.green.bold('Compiling')}:\n` + lines.join(''))
+  progressLog(`\n • ${ chalk.green.bold('Compiling') }:\n` + lines.join(''))
 }
 
 const renderBars = throttle(printBars, 200)
@@ -113,11 +113,11 @@ const greenBanner = chalk.green('»')
 let readyBanner = false
 
 function printReadyBanner () {
-  const webpackCompilations = compilations.map(c => `"${c.name}"`).join(', ')
+  const webpackCompilations = compilations.map(c => `"${ c.name }"`).join(', ')
 
   clearConsole()
   console.log()
-  success(`Compiled: ${webpackCompilations}\n`, 'READY')
+  success(`Compiled: ${ webpackCompilations }\n`, 'READY')
 
   if (readyBanner !== false) {
     console.log(readyBanner)
@@ -127,33 +127,33 @@ function printReadyBanner () {
 function getReadyBanner (cfg) {
   if (cfg.ctx.mode.bex === true) {
     return [
-      ` ${greenBanner} App dir................... ${chalk.green(appPaths.appDir)}`,
-      ` ${greenBanner} Dev mode.................. ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
-      ` ${greenBanner} Pkg quasar................ ${chalk.green('v' + quasarVersion)}`,
-      ` ${greenBanner} Pkg @quasar/app-webpack... ${chalk.green('v' + cliAppVersion)}`,
-      ` ${greenBanner} Transpiled JS..... ${cfg.__transpileBanner}`,
-      ` ----------------------------`,
-      ` ${greenBanner} Load the dev extension from:`,
-      `   · Chrome(ium): ${chalk.green(appPaths.bexDir)}`,
-      `   · Firefox:     ${chalk.green(appPaths.resolve.bex('manifest.json'))}`
+      ` ${ greenBanner } App dir................... ${ chalk.green(appPaths.appDir) }`,
+      ` ${ greenBanner } Dev mode.................. ${ chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
+      ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarVersion) }`,
+      ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliAppVersion) }`,
+      ` ${ greenBanner } Transpiled JS..... ${ cfg.__transpileBanner }`,
+      ' ----------------------------',
+      ` ${ greenBanner } Load the dev extension from:`,
+      `   · Chrome(ium): ${ chalk.green(appPaths.bexDir) }`,
+      `   · Firefox:     ${ chalk.green(appPaths.resolve.bex('manifest.json')) }`
     ].join('\n') + '\n'
   }
 
-  if (['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName) === false) {
+  if ([ 'spa', 'pwa', 'ssr' ].includes(cfg.ctx.modeName) === false) {
     return false
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join(`\n                              `)
+    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join('\n                              ')
     : chalk.green(cfg.build.APP_URL)
 
   return [
-    ` ${greenBanner} App dir................... ${chalk.green(appPaths.appDir)}`,
-    ` ${greenBanner} App URL................... ${urlList}`,
-    ` ${greenBanner} Dev mode.................. ${chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : ''))}`,
-    ` ${greenBanner} Pkg quasar................ ${chalk.green('v' + quasarVersion)}`,
-    ` ${greenBanner} Pkg @quasar/app-webpack... ${chalk.green('v' + cliAppVersion)}`,
-    ` ${greenBanner} Transpiled JS............. ${cfg.__transpileBanner}`
+    ` ${ greenBanner } App dir................... ${ chalk.green(appPaths.appDir) }`,
+    ` ${ greenBanner } App URL................... ${ urlList }`,
+    ` ${ greenBanner } Dev mode.................. ${ chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
+    ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarVersion) }`,
+    ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliAppVersion) }`,
+    ` ${ greenBanner } Transpiled JS............. ${ cfg.__transpileBanner }`
   ].join('\n') + '\n'
 }
 
@@ -237,7 +237,7 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
         }
 
         maxLengthName = compilations.reduce(
-          (acc, entry) => entry.name.length > acc ? entry.name.length : acc,
+          (acc, entry) => (entry.name.length > acc ? entry.name.length : acc),
           0
         )
       }
@@ -257,7 +257,7 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
         this.state.externalWork = true
       }
 
-      info(`Compiling of "${this.state.name}" in progress...`, 'WAIT')
+      info(`Compiling of "${ this.state.name }" in progress...`, 'WAIT')
 
       if (this.opts.useBars === true) {
         progressLog.start()
@@ -291,13 +291,13 @@ module.exports = class WebpackProgressPlugin extends ProgressPlugin {
       const diffTime = +new Date() - this.state.startTime
 
       if (this.state.errors !== null) {
-        error(`"${this.state.name}" compiled with errors • ${diffTime}ms`, 'DONE')
+        error(`"${ this.state.name }" compiled with errors • ${ diffTime }ms`, 'DONE')
       }
       else if (this.state.warnings !== null) {
-        warning(`"${this.state.name}" compiled, but with warnings • ${diffTime}ms`, 'DONE')
+        warning(`"${ this.state.name }" compiled, but with warnings • ${ diffTime }ms`, 'DONE')
       }
       else {
-        success(`"${this.state.name}" compiled with success • ${diffTime}ms`, 'DONE')
+        success(`"${ this.state.name }" compiled with success • ${ diffTime }ms`, 'DONE')
       }
 
       printStatus()

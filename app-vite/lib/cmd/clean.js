@@ -6,7 +6,7 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: ['h']
+  boolean: [ 'h' ]
 })
 
 if (argv.help) {
@@ -25,4 +25,4 @@ const Artifacts = require('../artifacts')
 Artifacts.cleanAll()
 
 console.log()
-log(`Done cleaning build artifacts\n`)
+log('Done cleaning build artifacts\n')

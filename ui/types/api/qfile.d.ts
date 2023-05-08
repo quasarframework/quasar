@@ -6,3 +6,8 @@ export interface QRejectedEntry {
     | "filter";
   file: File;
 }
+
+export type QFileNativeElement = Omit<
+  Omit<HTMLInputElement, "files"> & { files: FileList },
+  "type"
+> & { type: "file" };

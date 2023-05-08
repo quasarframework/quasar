@@ -8,24 +8,24 @@ const versions = {
 }
 
 function isValidName (bundlerName) {
-  return ['packager', 'builder'].includes(bundlerName)
+  return [ 'packager', 'builder' ].includes(bundlerName)
 }
 
 function installBundler (bundlerName) {
   const nodePackager = require('../../helpers/node-packager')
 
   nodePackager.installPackage(
-    `electron-${bundlerName}@^${versions[bundlerName]}`,
-    { isDev: true, displayName: `electron-${bundlerName}` }
+    `electron-${ bundlerName }@^${ versions[ bundlerName ] }`,
+    { isDevDependency: true, displayName: `electron-${ bundlerName }` }
   )
 }
 
 function bundlerIsInstalled (bundlerName) {
   const appPkg = require(appPaths.resolve.app('package.json'))
-  const pgkName = `electron-${bundlerName}`
+  const pgkName = `electron-${ bundlerName }`
   return (
-    (appPkg.devDependencies && appPkg.devDependencies[pgkName])
-    || (appPkg.dependencies && appPkg.dependencies[pgkName])
+    (appPkg.devDependencies && appPkg.devDependencies[ pgkName ])
+    || (appPkg.dependencies && appPkg.dependencies[ pgkName ])
   ) !== void 0
 }
 
@@ -54,5 +54,5 @@ module.exports.getDefaultName = function () {
 }
 
 module.exports.getBundler = function (bundlerName) {
-  return getPackage(`electron-${bundlerName}`)
+  return getPackage(`electron-${ bundlerName }`)
 }

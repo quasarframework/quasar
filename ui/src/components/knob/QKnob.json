@@ -16,21 +16,18 @@
     "min": {
       "type": "Number",
       "desc": "The minimum value that the model (the knob value) should start at",
-      "examples": [ "20", "5" ],
       "category": "model"
     },
 
     "max": {
       "type": "Number",
       "desc": "The maximum value that the model (the knob value) should go to",
-      "examples": [ "100", "50" ],
       "category": "model"
     },
 
     "inner-min": {
       "type": "Number",
       "desc": "Inner minimum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be higher or equal to 'min' prop; Defaults to 'min' prop",
-      "examples": [ ":inner-min=\"0\"" ],
       "category": "model",
       "addedIn": "v2.5.4"
     },
@@ -38,16 +35,14 @@
     "inner-max": {
       "type": "Number",
       "desc": "Inner maximum value of the model; Use in case you need the model value to be inside of the track's min-max values; Needs to be lower or equal to 'max' prop; Defaults to 'max' prop",
-      "examples": [ ":inner-max=\"100\"" ],
       "category": "model",
       "addedIn": "v2.5.4"
     },
 
     "step": {
       "type": "Number",
-      "default": "1",
+      "default": 1,
       "desc": "A number representing steps in the value of the model, while adjusting the knob",
-      "examples": [ "1", "5" ],
       "category": "model"
     },
 
@@ -89,7 +84,6 @@
       "type": "Number",
       "default": 0.2,
       "desc": "Thickness of progress arc as a ratio (0.0 < x < 1.0) of component size",
-      "examples": [ 1, 0.3 ],
       "category": "style"
     },
 
@@ -97,7 +91,6 @@
       "type": "Number",
       "desc": "Angle to rotate progress arc by",
       "default": 0,
-      "examples": [ 0, 40, 90 ],
       "category": "content"
     },
 
@@ -142,8 +135,7 @@
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value",
-          "examples": [ 12 ]
+          "desc": "New model value"
         }
       }
     },
@@ -153,8 +145,7 @@
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value",
-          "examples": [ 12 ]
+          "desc": "New model value"
         }
       }
     }

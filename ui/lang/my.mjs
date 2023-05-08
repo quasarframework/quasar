@@ -14,7 +14,9 @@ export default {
     create: 'cipta',
     search: 'cari',
     filter: 'penapis',
-    refresh: 'segarkan semula'
+    refresh: 'segarkan semula',
+    expand: label => (label ? `"${ label }" ko hkyaae htwin par` : 'hkyaae htwin par'),
+    collapse: label => (label ? `"${ label }" ko hkout saimpar` : 'pyaokya sai')
   },
   date: {
     days: 'Ahad_Isnin_Selasa_Rabu_Khamis_Jumaat_Sabtu'.split('_'),

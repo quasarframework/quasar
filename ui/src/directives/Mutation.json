@@ -33,26 +33,22 @@
 
           "addedNodes": {
             "type": "Array",
-            "desc": "The NodeList of the nodes that have been added",
-            "__exemption": [ "examples" ]
+            "desc": "The NodeList of the nodes that have been added"
           },
 
           "removedNodes": {
             "type": "Array",
-            "desc": "The NodeList of the nodes that have been removed",
-            "__exemption": [ "examples" ]
+            "desc": "The NodeList of the nodes that have been removed"
           },
 
           "previousSibling": {
             "type": "Object",
-            "desc": "The previous sibling of the added or removed nodes, or null",
-            "__exemption": [ "examples" ]
+            "desc": "The previous sibling of the added or removed nodes, or null"
           },
 
           "nextSibling": {
             "type": "Object",
-            "desc": "The next sibling of the added or removed nodes, or null",
-            "__exemption": [ "examples" ]
+            "desc": "The next sibling of the added or removed nodes, or null"
           },
 
           "attributeName": {
@@ -63,14 +59,12 @@
 
           "attributeNamespace": {
             "type": "String",
-            "desc": "The namespace of the changed attribute, or null",
-            "__exemption": [ "examples" ]
+            "desc": "The namespace of the changed attribute, or null"
           },
 
           "oldValue": {
             "type": "String",
-            "desc": "Value depends on the mutation type; For attributes, it is the value of the changed attribute before the change; For characterData it is data of the changed node before the change; For childList it is null; Note that for this to work as expected, attributeOldValue or characterDataOldValue must be set",
-            "__exemption": [ "examples" ]
+            "desc": "Value depends on the mutation type; For attributes, it is the value of the changed attribute before the change; For characterData it is data of the changed node before the change; For childList it is null; Note that for this to work as expected, attributeOldValue or characterDataOldValue must be set"
           }
         }
       }

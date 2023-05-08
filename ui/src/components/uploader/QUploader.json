@@ -94,8 +94,7 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Array of files that were added",
-          "__exemption": ["examples"]
+          "desc": "Array of files that were added"
         }
       }
     },
@@ -105,8 +104,7 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Array of files that were removed",
-          "__exemption": ["examples"]
+          "desc": "Array of files that were removed"
         }
       }
     },
@@ -145,12 +143,117 @@
       "desc": "Remove specified file from the queue",
       "params": {
         "file": {
-          "type": "Object",
-          "desc": "File to remove (instance of File)",
-          "required": true,
-          "__exemption": ["examples"]
+          "type": "File",
+          "desc": "The file to remove",
+          "required": true
         }
       }
+    },
+
+    "updateFileStatus": {
+      "desc": "Update the status of a file",
+      "params": {
+        "file": {
+          "type": "File",
+          "desc": "The file to update",
+          "required": true
+        },
+        "status": {
+          "type": "String",
+          "desc": "Status of file",
+          "values": [ "idle", "failed", "uploading", "uploaded" ],
+          "required": true
+        },
+        "uploadedSize": {
+          "type": "Number",
+          "desc": "The number of uploaded bytes of the file; Is required explicitly only when status is NOT 'uploaded'",
+          "required": true
+        }
+      }
+    },
+
+    "isAlive": {
+      "desc": "Is the component alive (activated but not unmounted); Useful to determine if you still need to compute anything going further",
+      "returns": {
+        "type": "Boolean",
+        "desc": "If true, the current component is still activated and mounted"
+      }
+    },
+
+    "pickFiles": {
+      "desc": "Trigger the file picker dialog; The event must come from a user interaction event handler",
+      "params": {
+        "evt": {
+          "extends": "evt",
+          "required": true,
+          "desc": "JS event object of the original user interaction handler"
+        }
+      }
+    },
+
+    "addFiles": {
+      "desc": "Manually add files to the queue",
+      "params": {
+        "files": {
+          "type": "Array",
+          "required": true,
+          "desc": "Must be an array of instances of JS File type"
+        }
+      }
+    }
+  },
+
+  "computedProps": {
+    "files": {
+      "type": "Array",
+      "desc": "List of all files"
+    },
+
+    "queuedFiles": {
+      "type": "Array",
+      "desc": "List of files that are waiting to be uploaded"
+    },
+
+    "uploadedFiles": {
+      "type": "Array",
+      "desc": "List of files that have been uploaded"
+    },
+
+    "uploadedSize": {
+      "type": "Number",
+      "desc": "Size of all uploaded files in bytes"
+    },
+
+    "uploadSizeLabel": {
+      "type": "String",
+      "desc": "Label for the size total of all files",
+      "examples": [ "1.0MB" ]
+    },
+
+    "uploadProgressLabel": {
+      "type": "String",
+      "desc": "Label for the upload progress (in %)",
+      "examples": [ "52.76%" ]
+    },
+
+    "canAddFiles": {
+      "type": "Boolean",
+      "desc": "Whether new files can be added to the list"
+    },
+
+    "canUpload": {
+      "type": "Boolean",
+      "desc": "Whether the files can be uploaded"
+    },
+
+    "isBusy": {
+      "type": "Boolean",
+      "desc": "The component state is set as busy; User should not be able to interact with the component"
+    },
+
+    "isUploading": {
+      "type": "Boolean",
+      "desc": "The component is uploading files"
     }
   }
 }

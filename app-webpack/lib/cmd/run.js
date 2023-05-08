@@ -5,11 +5,11 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: ['h']
+  boolean: [ 'h' ]
 })
 
-const extId = argv._[0]
-const cmd = argv._[1]
+const extId = argv._[ 0 ]
+const cmd = argv._[ 1 ]
 
 if (!extId && argv.help) {
   console.log(`
@@ -53,15 +53,15 @@ async function run () {
 
   const list = () => {
     if (Object.keys(hooks.commands).length === 0) {
-      warn(`"${extId}" app extension has no commands registered`)
+      warn(`"${ extId }" app extension has no commands registered`)
       return
     }
 
-    log(`Listing "${extId}" app extension commands`)
+    log(`Listing "${ extId }" app extension commands`)
     log()
 
-    for (let cmd in hooks.commands) {
-      console.log(`  > ${cmd}`)
+    for (const cmd in hooks.commands) {
+      console.log(`  > ${ cmd }`)
     }
 
     console.log()
@@ -71,17 +71,17 @@ async function run () {
     list()
     process.exit(0)
   }
-  if (!hooks.commands[cmd]) {
+  if (!hooks.commands[ cmd ]) {
     warn()
-    warn(`"${extId}" app extension has no command called "${cmd}"`)
+    warn(`"${ extId }" app extension has no command called "${ cmd }"`)
     warn()
     list()
     process.exit(1)
   }
 
-  const command = hooks.commands[cmd]
+  const command = hooks.commands[ cmd ]
 
-  log(`Running "${extId}" > "${cmd}" command`)
+  log(`Running "${ extId }" > "${ cmd }" command`)
   log()
 
   await command(getArgv(argv))

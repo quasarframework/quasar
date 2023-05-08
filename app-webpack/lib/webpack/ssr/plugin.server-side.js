@@ -11,30 +11,30 @@ const mapRE = /\.map$/
 const banner = '@quasar/ssr/webpack-server-plugin'
 
 function warn (msg) {
-  console.warn(msg ? ` [warn] ${banner} ⚠️  ${msg}` : '')
+  console.warn(msg ? ` [warn] ${ banner } ⚠️  ${ msg }` : '')
 }
 
 function error (msg) {
-  console.error(msg ? ` [error] ${banner} ⚠️  ${msg}` : '')
+  console.error(msg ? ` [error] ${ banner } ⚠️  ${ msg }` : '')
 }
 
 function getServerManifest (compilation) {
   const stats = compilation.getStats().toJson()
-  const entryName = Object.keys(stats.entrypoints)[0]
-  const entryInfo = stats.entrypoints[entryName]
+  const entryName = Object.keys(stats.entrypoints)[ 0 ]
+  const entryInfo = stats.entrypoints[ entryName ]
   const entryAssets = entryInfo.assets.filter(file => jsRE.test(file.name))
 
   if (entryAssets.length > 1) {
     throw new Error(
-      "Server-side bundle should have one single entry file. " +
-      "Avoid using CommonsChunkPlugin in the server config."
+      'Server-side bundle should have one single entry file. '
+      + 'Avoid using CommonsChunkPlugin in the server config.'
     )
   }
 
-  const entry = entryAssets[0]
+  const entry = entryAssets[ 0 ]
   if (!entry || typeof entry.name !== 'string') {
     throw new Error(
-      ("Entry \"" + entryName + "\" not found. Did you specify the correct entry option?")
+      ('Entry "' + entryName + '" not found. Did you specify the correct entry option?')
     )
   }
 
@@ -46,10 +46,10 @@ function getServerManifest (compilation) {
 
   stats.assets.forEach(asset => {
     if (jsRE.test(asset.name)) {
-      serverManifest.files[asset.name] = compilation.getAsset(asset.name).source.source()
+      serverManifest.files[ asset.name ] = compilation.getAsset(asset.name).source.source()
     }
     else if (asset.name.match(jsMapRE)) {
-      serverManifest.maps[asset.name.replace(mapRE, '')] = JSON.parse(
+      serverManifest.maps[ asset.name.replace(mapRE, '') ] = JSON.parse(
         compilation.getAsset(asset.name).source.source()
       )
     }
@@ -79,8 +79,8 @@ module.exports.QuasarSSRServerPlugin = class QuasarSSRServerPlugin {
 
     if (!compiler.options.externals) {
       warn(
-        'It is recommended to externalize dependencies in the server build for ' +
-        'better build performance.'
+        'It is recommended to externalize dependencies in the server build for '
+        + 'better build performance.'
       )
     }
 

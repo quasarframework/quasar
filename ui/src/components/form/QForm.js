@@ -5,6 +5,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { addFocusFn } from '../../utils/private/focus-manager.js'
 import { hSlot } from '../../utils/private/render.js'
 import { formKey } from '../../utils/private/symbols.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
 
 export default createComponent({
   name: 'QForm',
@@ -18,7 +19,7 @@ export default createComponent({
     onSubmit: Function
   },
 
-  emits: [ 'reset', 'validation-success', 'validation-error' ],
+  emits: [ 'reset', 'validationSuccess', 'validationError' ],
 
   setup (props, { slots, emit }) {
     const vm = getCurrentInstance()
@@ -28,7 +29,6 @@ export default createComponent({
     const registeredComponents = []
 
     function validate (shouldFocus) {
-      const promises = []
       const focus = typeof shouldFocus === 'boolean'
         ? shouldFocus
         : props.noErrorFocus !== true
@@ -36,63 +36,58 @@ export default createComponent({
       const index = ++validateIndex
 
       const emitEvent = (res, ref) => {
-        emit('validation-' + (res === true ? 'success' : 'error'), ref)
+        emit('validation' + (res === true ? 'Success' : 'Error'), ref)
       }
 
-      for (let i = 0; i < registeredComponents.length; i++) {
-        const comp = registeredComponents[ i ]
+      const validateComponent = comp => {
         const valid = comp.validate()
 
-        if (typeof valid.then === 'function') {
-          promises.push(
-            valid.then(
-              valid => ({ valid, comp }),
-              err => ({ valid: false, comp, err })
-            )
+        return typeof valid.then === 'function'
+          ? valid.then(
+            valid => ({ valid, comp }),
+            err => ({ valid: false, comp, err })
           )
-        }
-        else if (valid !== true) {
-          if (props.greedy === false) {
-            emitEvent(false, comp)
-
-            if (focus === true && typeof comp.focus === 'function') {
-              comp.focus()
-            }
-
-            return Promise.resolve(false)
-          }
-
-          promises.push({ valid: false, comp })
-        }
+          : Promise.resolve({ valid, comp })
       }
 
-      if (promises.length === 0) {
-        emitEvent(true)
-        return Promise.resolve(true)
-      }
+      const errorsPromise = props.greedy === true
+        ? Promise
+          .all(registeredComponents.map(validateComponent))
+          .then(res => res.filter(r => r.valid !== true))
+        : registeredComponents
+          .reduce(
+            (acc, comp) => acc.then(() => {
+              return validateComponent(comp).then(r => {
+                if (r.valid === false) { return Promise.reject(r) }
+              })
+            }),
+            Promise.resolve()
+          )
+          .catch(error => [ error ])
 
-      return Promise.all(promises).then(res => {
-        const errors = res.filter(r => r.valid !== true)
-
-        if (errors.length === 0) {
+      return errorsPromise.then(errors => {
+        if (errors === void 0 || errors.length === 0) {
           index === validateIndex && emitEvent(true)
           return true
         }
 
-        const { valid, comp, err } = errors[ 0 ]
-
         // if not outdated already
         if (index === validateIndex) {
-          err !== void 0 && console.error(err)
+          const { comp, err } = errors[ 0 ]
 
+          err !== void 0 && console.error(err)
           emitEvent(false, comp)
 
-          if (
-            focus === true
-            && valid !== true
-            && typeof comp.focus === 'function'
-          ) {
-            comp.focus()
+          if (focus === true) {
+            // Try to focus first mounted and active component
+            const activeError = errors.find(({ comp }) => (
+              typeof comp.focus === 'function'
+              && vmIsDestroyed(comp.$) === false
+            ))
+
+            if (activeError !== void 0) {
+              activeError.comp.focus()
+            }
           }
         }
 
@@ -143,7 +138,9 @@ export default createComponent({
       addFocusFn(() => {
         if (rootRef.value === null) { return }
 
-        const target = rootRef.value.querySelector('[autofocus], [data-autofocus]')
+        const target = rootRef.value.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+          || rootRef.value.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+          || rootRef.value.querySelector('[autofocus], [data-autofocus]')
           || Array.prototype.find.call(rootRef.value.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
 
         target !== null && target !== void 0 && target.focus({ preventScroll: true })

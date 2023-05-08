@@ -1,5 +1,5 @@
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -26,9 +26,13 @@ const argv = parseArgs(process.argv.slice(2), {
 })
 
 if (argv.help) {
-  const modes = Object.keys(require('../modes')).join('|')
-  const generators = Object.keys(require('../generators')).join('|')
-  const defaultParams = require('../utils/default-params')
+  const { defaultParams } = await import('../utils/default-params.js')
+
+  const { modes } = await import('../modes/index.js')
+  const modesList = Object.keys(modes).join('|')
+
+  const { generators } = await import('../generators/index.js')
+  const generatorsList = Object.keys(generators).join('|')
 
   console.log(`
   Description
@@ -48,7 +52,7 @@ if (argv.help) {
 
     --assets, -a          Prefill the assets Array with Icon Genie's
                           internal list, based on the modes that you indicate;
-                            [all|${modes}]
+                            [all|${ modesList }]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 
@@ -74,15 +78,15 @@ if (argv.help) {
                           Recommended min size: 1024x1024 px
 
     --include             Prefill the params.include property;
-                            [all|${modes}]
+                            [all|${ modesList }]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 
     --filter, -f          Prefill the params.filter property;
-                            [${generators}]
+                            [${ generatorsList }]
 
     --quality             Prefill in the params.quality property;
-                          Quality of the files [1 - 12] (default: ${defaultParams.quality})
+                          Quality of the files [1 - 12] (default: ${ defaultParams.quality })
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
 
@@ -103,7 +107,7 @@ if (argv.help) {
 
     --svg-color           Prefill the params.svgColor property;
                           Color to use for the generated monochrome svgs
-                          Default (if no theme-color is specified): ${defaultParams.svgColor.slice(1)}
+                          Default (if no theme-color is specified): ${ defaultParams.svgColor.slice(1) }
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
@@ -112,14 +116,14 @@ if (argv.help) {
                           Background color to use for the png generator, when
                           "background: true" in the asset definition (like for
                           the Cordova/Capacitor iOS icons);
-                          Default (if no theme-color is specified): ${defaultParams.pngColor.slice(1)}
+                          Default (if no theme-color is specified): ${ defaultParams.pngColor.slice(1) }
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
 
     --splashscreen-color  Prefill the params.splashscreenColor property;
                           Background color to use for the splashscreen generator;
-                          Default (if no theme-color is specified): ${defaultParams.splashscreenColor.slice(1)}
+                          Default (if no theme-color is specified): ${ defaultParams.splashscreenColor.slice(1) }
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
@@ -129,14 +133,14 @@ if (argv.help) {
                                (whichever is smaller) of the resulting splashscreen;
                                Represents percentages; Valid values: 0 - 100
                                If 0 then it doesn't add the icon of top of background
-                               Default: ${defaultParams.splashscreenIconRatio}
+                               Default: ${ defaultParams.splashscreenIconRatio }
   `)
   process.exit(0)
 }
 
-const profile = require('../runner/profile')
-const filterArgvParams = require('../utils/filter-argv-params')
-const parseArgv = require('../utils/parse-argv')
+import { profile } from '../runner/profile.js'
+import { filterArgvParams } from '../utils/filter-argv-params.js'
+import { parseArgv } from '../utils/parse-argv.js'
 
 parseArgv(argv, [
   'output',

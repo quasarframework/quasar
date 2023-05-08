@@ -69,7 +69,9 @@ export default createComponent({
               'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
               action.class
             ],
+            style: action.style,
             tabindex: 0,
+            role: 'listitem',
             onClick () { onOk(action) },
             onKeyup (e) { e.keyCode === 13 && onOk(action) }
           }, [
@@ -99,11 +101,11 @@ export default createComponent({
           ? h(QSeparator, { spaced: true, dark: isDark.value })
           : h(QItem, {
             class: [ 'q-bottom-sheet__item', action.classes ],
+            style: action.style,
             tabindex: 0,
             clickable: true,
             dark: isDark.value,
-            onClick () { onOk(action) },
-            onKeyup (e) { e.keyCode === 13 && onOk(action) }
+            onClick () { onOk(action) }
           }, () => [
             h(
               QItemSection,
@@ -145,9 +147,12 @@ export default createComponent({
       child.push(
         props.grid === true
           ? h('div', {
-            class: 'row items-stretch justify-start'
+            class: 'row items-stretch justify-start',
+            role: 'list'
           }, getGrid())
-          : h('div', getList())
+          : h('div', {
+            role: 'list'
+          }, getList())
       )
 
       return child

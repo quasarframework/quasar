@@ -11,7 +11,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { createComponent } from '../../utils/private/create.js'
 import { between } from '../../utils/format.js'
 import { hSlot, hDir } from '../../utils/private/render.js'
-import { layoutKey } from '../../utils/private/symbols.js'
+import { layoutKey, emptyRenderFn } from '../../utils/private/symbols.js'
 
 const duration = 150
 
@@ -41,6 +41,7 @@ export default createComponent({
       type: Number,
       default: 57
     },
+    noMiniAnimation: Boolean,
 
     breakpoint: {
       type: Number,
@@ -66,7 +67,7 @@ export default createComponent({
 
   emits: [
     ...useModelToggleEmits,
-    'on-layout', 'mini-state'
+    'onLayout', 'miniState'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -75,13 +76,15 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
     const { preventBodyScroll } = usePreventScroll()
-    const { registerTimeout } = useTimeout()
+    const { registerTimeout, removeTimeout } = useTimeout()
 
-    const $layout = inject(layoutKey, () => {
+    const $layout = inject(layoutKey, emptyRenderFn)
+    if ($layout === emptyRenderFn) {
       console.error('QDrawer needs to be child of QLayout')
-    })
+      return emptyRenderFn
+    }
 
-    let lastDesktopState, timerMini, layoutTotalWidthWatcher
+    let lastDesktopState, timerMini = null, layoutTotalWidthWatcher
 
     const belowBreakpoint = ref(
       props.behavior === 'mobile'
@@ -145,9 +148,12 @@ export default createComponent({
 
       cleanup()
 
-      noEvent !== true && registerTimeout(() => {
-        emit('hide', evt)
-      }, duration)
+      if (noEvent !== true) {
+        registerTimeout(() => { emit('hide', evt) }, duration)
+      }
+      else {
+        removeTimeout()
+      }
     }
 
     const { show, hide } = useModelToggle({
@@ -394,7 +400,7 @@ export default createComponent({
     watch(offset, val => { updateLayout('offset', val) })
 
     watch(onLayout, val => {
-      emit('on-layout', val)
+      emit('onLayout', val)
       updateLayout('space', val)
     })
 
@@ -412,13 +418,14 @@ export default createComponent({
     watch(() => $q.lang.rtl, () => { applyPosition() })
 
     watch(() => props.mini, () => {
+      if (props.noMiniAnimation) return
       if (props.modelValue === true) {
         animateMini()
         $layout.animate()
       }
     })
 
-    watch(isMini, val => { emit('mini-state', val) })
+    watch(isMini, val => { emit('miniState', val) })
 
     function applyPosition (position) {
       if (position === void 0) {
@@ -453,7 +460,7 @@ export default createComponent({
     }
 
     function animateMini () {
-      clearTimeout(timerMini)
+      timerMini !== null && clearTimeout(timerMini)
 
       if (vm.proxy && vm.proxy.$el) {
         // need to speed it up and apply it immediately,
@@ -463,6 +470,7 @@ export default createComponent({
 
       flagMiniAnimate.value = true
       timerMini = setTimeout(() => {
+        timerMini = null
         flagMiniAnimate.value = false
         if (vm && vm.proxy && vm.proxy.$el) {
           vm.proxy.$el.classList.remove('q-drawer--mini-animate')
@@ -583,8 +591,8 @@ export default createComponent({
     }
 
     onMounted(() => {
-      emit('on-layout', onLayout.value)
-      emit('mini-state', isMini.value)
+      emit('onLayout', onLayout.value)
+      emit('miniState', isMini.value)
 
       lastDesktopState = props.showIfAbove === true
 
@@ -615,7 +623,11 @@ export default createComponent({
 
     onBeforeUnmount(() => {
       layoutTotalWidthWatcher !== void 0 && layoutTotalWidthWatcher()
-      clearTimeout(timerMini)
+
+      if (timerMini !== null) {
+        clearTimeout(timerMini)
+        timerMini = null
+      }
 
       showing.value === true && cleanup()
 

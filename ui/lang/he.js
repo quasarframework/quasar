@@ -20,7 +20,9 @@ module.exports = {
     create: 'צור',
     search: 'חיפוש',
     filter: 'סינון',
-    refresh: 'רענון'
+    refresh: 'רענון',
+    expand: label => (label ? `"${ label }" הרחב את` : 'לְהַרְחִיב'),
+    collapse: label => (label ? `"${ label }" כווץ` : 'הִתמוֹטְטוּת')
   },
   date: {
     days: 'ראשון_שני_שלישי_רביעי_חמישי_שישי_שבת'.split('_'),

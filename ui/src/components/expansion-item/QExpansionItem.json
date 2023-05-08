@@ -33,6 +33,14 @@
       "category": "style"
     },
 
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the expansion toggle element",
+      "examples": [ "Open details" ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
+    },
+
     "label": {
       "type": "String",
       "desc": "Header label (unless using 'header' slot)",
@@ -73,7 +81,6 @@
       "type": "Number",
       "desc": "Animation duration (in milliseconds)",
       "default": 300,
-      "examples": [ ":duration=\"1000\"" ],
       "category": "behavior"
     },
 
@@ -101,6 +108,13 @@
       "type": "Boolean",
       "desc": "Puts expansion item into open state on initial render; Overridden by v-model if used",
       "category": "behavior"
+    },
+
+    "hide-expand-icon": {
+      "type": "Boolean",
+      "desc": "Do not show the expand icon",
+      "category": "content",
+      "addedIn": "v2.8.4"
     },
 
     "expand-icon-toggle": {
@@ -169,6 +183,54 @@
           "type": "Boolean",
           "desc": "QExpansionItem expanded status",
           "addedIn": "v2.7.6"
+        },
+
+        "detailsId": {
+          "type": "String",
+          "desc": "QExpansionItem details panel id (for use in aria-controls)",
+          "addedIn": "v2.8.4"
+        },
+
+        "show": {
+          "type": "Function",
+          "desc": "Triggers component to show",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        },
+
+        "hide": {
+          "type": "Function",
+          "desc": "Triggers component to hide",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        },
+
+        "toggle": {
+          "type": "Function",
+          "desc": "Triggers component to toggle between show/hide",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
         }
       }
     }

@@ -2,7 +2,7 @@ import { coreProps, coreEmits, getRenderer } from '../components/uploader/upload
 
 import { createComponent } from './private/create.js'
 import getEmitsObject from './private/get-emits-object.js'
-import { isObject } from './private/is.js'
+import { isObject } from './is.js'
 
 const coreEmitsObject = getEmitsObject(coreEmits)
 

@@ -71,7 +71,7 @@ async function generate () {
 
   runJob('./mdi-v7.js')
   runJob('./fontawesome-v6.js')
-  runJob('./ionicons-v6.js')
+  runJob('./ionicons-v7.js')
   runJob('./eva-icons.js')
   runJob('./themify.js')
   runJob('./line-awesome.js')
@@ -83,6 +83,11 @@ async function generate () {
   // run the material svg icon jobs
   runJob('./material-icons.js')
   runJob('./material-symbols.js')
+
+  // don't exit before everything is done
+  await queue.wait({ empty: true })
+
+  runJob('./utils/buildExports.js')
 
   // don't exit before everything is done
   await queue.wait({ empty: true })

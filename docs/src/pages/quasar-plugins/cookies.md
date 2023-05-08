@@ -9,15 +9,11 @@ This is a wrapper over the standardized `document.cookie`.
 In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 :::
 
-## Cookies API
-
 <doc-api file="Cookies" />
 
 ::: tip
 With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
 :::
-
-## Installation
 
 <doc-installation plugins="Cookies" />
 

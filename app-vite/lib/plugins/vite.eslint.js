@@ -19,21 +19,21 @@ module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
   return {
     name: 'quasar:eslint',
 
-    async transform(_, id) {
+    async transform (_, id) {
       if (filter(id) === false || await eslint.isPathIgnored(normalizePath(id)) === true) {
         return null
       }
 
       const report = await eslint.lintFiles(id)
 
-      if (report[0] === void 0) {
+      if (report[ 0 ] === void 0) {
         return null
       }
 
       const {
         errorCount, fixableErrorCount,
         warningCount, fixableWarningCount
-      } = report[0]
+      } = report[ 0 ]
 
       if (errors === true && errorCount !== 0) {
         const { format } = await eslint.loadFormatter(formatter)

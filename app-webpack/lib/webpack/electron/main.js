@@ -20,7 +20,7 @@ module.exports = function (cfg, configName) {
       appPaths.resolve.app('.npmrc'),
       appPaths.resolve.app('package-lock.json'),
       appPaths.resolve.app('.yarnrc'),
-      appPaths.resolve.app('yarn.lock'),
+      appPaths.resolve.app('yarn.lock')
     ].map(filename => ({
       from: filename,
       to: '.',
@@ -35,7 +35,7 @@ module.exports = function (cfg, configName) {
 
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [{ patterns }])
+      .use(CopyWebpackPlugin, [ { patterns } ])
   }
 
   return chain

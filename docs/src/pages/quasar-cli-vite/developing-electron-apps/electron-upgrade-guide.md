@@ -1,6 +1,43 @@
 ---
 title: Upgrade guide on Electron
 desc: (@quasar/app-vite) Upgrading instructions when dealing with Electron in Quasar.
+scope:
+  oldStructure:
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: linux-512x512.png
+        e: Icon file for Linux platform (when using electron-builder)
+    - l: main-process
+      c:
+      - l: electron-preload.js
+        e: Electron preload script (injects Node.js stuff into renderer thread)
+      - l: electron-main.dev.js
+        e: Main thread code (preceded by dev code only)
+      - l: electron-main.js
+        e: Main thread code (production code)
+  newStructure:
+    l: src-electron
+    c:
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: icon.icns
+        e: Icon file for Darwin (MacOS) platform
+      - l: icon.ico
+        e: Icon file for win32 (Windows) platform
+      - l: icon.png
+        e: Tray icon file for all platforms (especially Linux)
+    - l: electron-preload.js
+      e: "(or .ts) Electron preload script (injects Node.js stuff into renderer thread)"
+    - l: electron-main.js
+      e: "(or .ts) Main thread code"
 ---
 
 ## Upgrading Electron
@@ -27,29 +64,13 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
 
 ### The /src-electron folder
 
-```bash
-# old structure
-.
-└── src-electron/
-    ├── icons/                 # Icons of your app for all platforms
-    |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
-    |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── linux-512x512.png     # Icon file for Linux platform (when using electron-builder)
-    └── main-process/
-        ├── electron-preload.js   # Electron preload script (injects Node.js stuff into renderer thread)
-        ├── electron-main.dev.js  # Main thread code (preceded by dev code only)
-        └── electron-main.js      # Main thread code (production code)
+The **old** structure was:
 
-# NEW structure
-.
-└── src-electron/
-    ├── icons/                 # Icons of your app for all platforms
-    |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
-    |   ├── icon.ico              # Icon file for win32 (Windows) platform
-    |   └── icon.png              # Tray icon file for all platforms (especially Linux)
-    ├── electron-preload.js   # (or .ts) Electron preload script (injects Node.js stuff into renderer thread)
-    └── electron-main.js      # (or .ts) Main thread code
-```
+<doc-tree :def="scope.oldStructure" />
+
+The **NEW** structure is:
+
+<doc-tree :def="scope.newStructure" />
 
 Notice that there's no `electron-main.dev.js` file anymore (not needed anymore) and that the `electron-preload/main.js` files need to be moved directly under `/src-electron`.
 

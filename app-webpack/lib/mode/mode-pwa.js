@@ -5,7 +5,7 @@ const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')
 const nodePackager = require('../helpers/node-packager')
 const hasTypescript = require('../helpers/has-typescript')
-const hasEslint = require('../helpers/has-eslint')
+const { hasEslint } = require('../helpers/has-eslint')
 
 const pwaDeps = {
   'workbox-webpack-plugin': '^6.0.0'
@@ -23,17 +23,23 @@ class Mode {
     }
 
     nodePackager.installPackage(
-      Object.entries(pwaDeps).map(([name, version]) => `${name}@${version}`),
-      { isDev: true, displayName: 'PWA dependencies' }
+      Object.entries(pwaDeps).map(([ name, version ]) => `${ name }@${ version }`),
+      { isDevDependency: true, displayName: 'PWA dependencies' }
     )
 
     log('Creating PWA source folder...')
+
     const format = hasTypescript ? 'ts' : 'default'
     fse.copySync(
-      appPaths.resolve.cli(`templates/pwa/${format}`),
+      appPaths.resolve.cli(`templates/pwa/${ format }`),
       appPaths.pwaDir,
       // Copy .eslintrc.js only if the app has ESLint
-      { filter: src => hasEslint || !src.endsWith('/.eslintrc.js') }
+      hasEslint === true && format === 'ts' ? { filter: src => !src.endsWith('/.eslintrc.js') } : void 0
+    )
+
+    fse.copySync(
+      appPaths.resolve.cli('templates/pwa/pwa-flag.d.ts'),
+      appPaths.resolve.pwa('pwa-flag.d.ts')
     )
 
     log('Copying PWA icons to /public/icons/ (if they are not already there)...')

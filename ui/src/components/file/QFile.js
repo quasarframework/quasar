@@ -10,6 +10,7 @@ import useFileFormDomProps from '../../composables/private/use-file-dom-props.js
 import { createComponent } from '../../utils/private/create.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
+import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 export default createComponent({
   name: 'QFile',
@@ -119,7 +120,7 @@ export default createComponent({
     }
 
     function removeFile (file) {
-      const index = innerValue.value.findIndex(file)
+      const index = innerValue.value.indexOf(file)
       if (index > -1) {
         removeAtIndex(index)
       }
@@ -217,7 +218,7 @@ export default createComponent({
         ? props.displayValue
         : selectedString.value
 
-      return textContent.length > 0
+      return textContent.length !== 0
         ? [
             h('div', {
               class: props.inputClass,
@@ -285,8 +286,10 @@ export default createComponent({
     Object.assign(proxy, {
       removeAtIndex,
       removeFile,
-      getNativeElement: () => inputRef.value
+      getNativeElement: () => inputRef.value // deprecated
     })
+
+    injectProp(proxy, 'nativeEl', () => inputRef.value)
 
     return useField(state)
   }

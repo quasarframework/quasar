@@ -1,5 +1,7 @@
 
-console.log('  Running @quasar/icongenie v' + require('../../package.json').version)
+import { packageJson } from '../utils/package-json.js'
+
+console.log('  Running @quasar/icongenie v' + packageJson.version)
 
 console.log(`
   Example usage

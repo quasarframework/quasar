@@ -4,7 +4,7 @@ import useAlign, { useAlignProps } from '../../composables/private/use-align.js'
 import useSize, { useSizeProps } from '../../composables/private/use-size.js'
 import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 
-const padding = {
+export const btnPadding = {
   none: 0,
   xs: 4,
   sm: 8,
@@ -24,6 +24,21 @@ const defaultSizes = {
 const formTypes = [ 'button', 'submit', 'reset' ]
 const mediaTypeRE = /[^\s]\/[^\s]/
 
+export const btnDesignOptions = [ 'flat', 'outline', 'push', 'unelevated' ]
+export const getBtnDesign = (props, defaultValue) => {
+  if (props.flat === true) return 'flat'
+  if (props.outline === true) return 'outline'
+  if (props.push === true) return 'push'
+  if (props.unelevated === true) return 'unelevated'
+  return defaultValue
+}
+export const getBtnDesignAttr = props => {
+  const design = getBtnDesign(props)
+  return design !== void 0
+    ? { [ design ]: true }
+    : {}
+}
+
 export const useBtnProps = {
   ...useSizeProps,
   ...useRouterLinkProps,
@@ -37,13 +52,14 @@ export const useBtnProps = {
   icon: String,
   iconRight: String,
 
-  round: Boolean,
+  ...btnDesignOptions.reduce(
+    (acc, val) => (acc[ val ] = Boolean) && acc,
+    {}
+  ),
+
   square: Boolean,
-  outline: Boolean,
-  flat: Boolean,
-  unelevated: Boolean,
+  round: Boolean,
   rounded: Boolean,
-  push: Boolean,
   glossy: Boolean,
 
   size: String,
@@ -80,7 +96,9 @@ export const useBtnProps = {
 export default function (props) {
   const sizeStyle = useSize(props, defaultSizes)
   const alignClass = useAlign(props)
-  const { hasRouterLink, hasLink, linkTag, linkProps, navigateToRouterLink } = useRouterLink('button')
+  const { hasRouterLink, hasLink, linkTag, linkAttrs, navigateOnClick } = useRouterLink({
+    fallbackTag: 'button'
+  })
 
   const style = computed(() => {
     const obj = props.fab === false && props.fabMini === false
@@ -91,7 +109,7 @@ export default function (props) {
       ? Object.assign({}, obj, {
         padding: props.padding
           .split(/\s+/)
-          .map(v => (v in padding ? padding[ v ] + 'px' : v))
+          .map(v => (v in btnPadding ? btnPadding[ v ] + 'px' : v))
           .join(' '),
         minWidth: '0',
         minHeight: '0'
@@ -111,19 +129,13 @@ export default function (props) {
     isActionable.value === true ? props.tabindex || 0 : -1
   ))
 
-  const design = computed(() => {
-    if (props.flat === true) return 'flat'
-    if (props.outline === true) return 'outline'
-    if (props.push === true) return 'push'
-    if (props.unelevated === true) return 'unelevated'
-    return 'standard'
-  })
+  const design = computed(() => getBtnDesign(props, 'standard'))
 
   const attributes = computed(() => {
     const acc = { tabindex: tabIndex.value }
 
     if (hasLink.value === true) {
-      Object.assign(acc, linkProps.value)
+      Object.assign(acc, linkAttrs.value)
     }
     else if (formTypes.includes(props.type) === true) {
       acc.type = props.type
@@ -136,6 +148,7 @@ export default function (props) {
       else if (acc.href === void 0) {
         acc.role = 'button'
       }
+
       if (hasRouterLink.value !== true && mediaTypeRE.test(props.type) === true) {
         acc.type = props.type
       }
@@ -198,10 +211,9 @@ export default function (props) {
     style,
     innerClasses,
     attributes,
-    hasRouterLink,
     hasLink,
     linkTag,
-    navigateToRouterLink,
+    navigateOnClick,
     isActionable
   }
 }

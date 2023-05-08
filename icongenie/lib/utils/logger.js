@@ -1,19 +1,20 @@
-const { green, red } = require('kolorist')
+
+import { green, red } from 'kolorist'
 
 const banner = '*'
 
 const logBanner = green(banner)
 const warnBanner = red(banner)
 
-module.exports.log = function (msg) {
-  console.log(msg ? ` ${logBanner} ${msg}` : '')
+export function log (msg) {
+  console.log(msg ? ` ${ logBanner } ${ msg }` : '')
 }
 
-module.exports.warn = function (msg) {
-  console.warn(msg ? ` ${warnBanner} ⚠️  ${msg}\n` : '')
+export function warn (msg) {
+  console.warn(msg ? ` ${ warnBanner } ⚠️  ${ msg }\n` : '')
 }
 
-module.exports.fatal = function (msg) {
-  console.error(msg ? ` ${warnBanner} ⚠️  ${msg}` : '')
+export function fatal (msg) {
+  console.error(msg ? ` ${ warnBanner } ⚠️  ${ msg }` : '')
   process.exit(1)
 }

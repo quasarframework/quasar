@@ -24,12 +24,16 @@ const setOverflowAnchor = __QUASAR_SSR__ || window.getComputedStyle(document.bod
       return
     }
 
-    cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    if (contentEl._qOverflowAnimationFrame !== void 0) {
+      cancelAnimationFrame(contentEl._qOverflowAnimationFrame)
+    }
+
     contentEl._qOverflowAnimationFrame = requestAnimationFrame(() => {
       if (contentEl === null) {
         return
       }
 
+      contentEl._qOverflowAnimationFrame = void 0
       const children = contentEl.children || []
 
       filterProto
@@ -677,7 +681,7 @@ export function useVirtualScroll ({
 
   function emitScroll (index) {
     if (prevToIndex !== index) {
-      props.onVirtualScroll !== void 0 && emit('virtual-scroll', {
+      props.onVirtualScroll !== void 0 && emit('virtualScroll', {
         index,
         from: virtualScrollSliceRange.value.from,
         to: virtualScrollSliceRange.value.to - 1,

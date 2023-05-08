@@ -13,7 +13,12 @@ export default createComponent({
     bordered: Boolean,
     dense: Boolean,
     separator: Boolean,
-    padding: Boolean
+    padding: Boolean,
+
+    tag: {
+      type: String,
+      default: 'div'
+    }
   },
 
   setup (props, { slots }) {
@@ -29,6 +34,6 @@ export default createComponent({
       + (props.padding === true ? ' q-list--padding' : '')
     )
 
-    return () => h('div', { class: classes.value }, hSlot(slots.default))
+    return () => h(props.tag, { class: classes.value }, hSlot(slots.default))
   }
 })

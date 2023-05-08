@@ -35,7 +35,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "bottom middle",
-      "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
 
@@ -48,7 +47,6 @@
         "bottom left", "bottom middle", "bottom right", "bottom start", "bottom end"
       ],
       "default": "top middle",
-      "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
 
@@ -86,7 +84,6 @@
       "type": "Number",
       "desc": "Configure Tooltip to appear with delay",
       "default": 0,
-      "examples": [ ":delay=\"550\"" ],
       "category": "behavior"
     },
 
@@ -94,7 +91,6 @@
       "type": "Number",
       "desc": "Configure Tooltip to disappear with delay",
       "default": 0,
-      "examples": [ ":hide-delay=\"650\"" ],
       "category": "behavior"
     }
   },

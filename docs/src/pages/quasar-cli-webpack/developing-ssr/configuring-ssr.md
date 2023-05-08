@@ -3,6 +3,16 @@ title: Configuring SSR
 desc: (@quasar/app-webpack) How to manage your server-side rendered apps with Quasar CLI.
 related:
   - /quasar-cli-webpack/quasar-config-js
+scope:
+  nodeJsTree:
+    l: src-ssr
+    c:
+    - l: middlewares/
+      e: SSR middleware files
+    - l: directives/
+      e: SSR transformations for Vue directives
+    - l: production-export.js
+      e: SSR webserver production export
 ---
 
 ## quasar.config.js
@@ -150,13 +160,7 @@ export default {
 
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files:
 
-```bash
-.
-└── src-ssr/
-    ├── middlewares/  # SSR middleware files
-    ├── directives/   # SSR transformations for Vue directives
-    └── production-export.js # SSR webserver production export
-```
+<doc-tree :def="scope.nodeJsTree" />
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
 
@@ -211,7 +215,7 @@ return {
   // ...
   boot: [
     'some-boot-file', // runs on both server and client
-    { path: 'some-other', server: false } // this boot file gets embedded only on client-side
+    { path: 'some-other', server: false }, // this boot file gets embedded only on client-side
     { path: 'third', client: false } // this boot file gets embedded only on server-side
   ]
 }

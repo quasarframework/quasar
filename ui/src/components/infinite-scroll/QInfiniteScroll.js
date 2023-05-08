@@ -39,6 +39,7 @@ export default createComponent({
     const isFetching = ref(false)
     const isWorking = ref(true)
     const rootRef = ref(null)
+    const loadingRef = ref(null)
 
     let index = props.initialIndex || 0
     let localScrollTarget, poll
@@ -152,13 +153,6 @@ export default createComponent({
       index = newIndex
     }
 
-    // expose public methods
-    const vm = getCurrentInstance()
-    Object.assign(vm.proxy, {
-      poll: () => { poll !== void 0 && poll() },
-      trigger, stop, reset, resume, setIndex
-    })
-
     function setDebounce (val) {
       val = parseInt(val, 10)
 
@@ -177,12 +171,32 @@ export default createComponent({
       }
     }
 
+    function updateSvgAnimations (isRetry) {
+      if (renderLoadingSlot.value === true) {
+        if (loadingRef.value === null) {
+          isRetry !== true && nextTick(() => { updateSvgAnimations(true) })
+          return
+        }
+
+        // we need to pause svg animations (if any) when hiding
+        // otherwise the browser will keep on recalculating the style
+        const action = `${ isFetching.value === true ? 'un' : '' }pauseAnimations`
+        Array.from(loadingRef.value.getElementsByTagName('svg')).forEach(el => {
+          el[ action ]()
+        })
+      }
+    }
+
+    const renderLoadingSlot = computed(() => props.disable !== true && isWorking.value === true)
+
+    watch([ isFetching, renderLoadingSlot ], () => { updateSvgAnimations() })
+
     watch(() => props.disable, val => {
       if (val === true) { stop() }
       else { resume() }
     })
 
-    watch(() => props.reverse, val => {
+    watch(() => props.reverse, () => {
       if (isFetching.value === false && isWorking.value === true) {
         immediatePoll()
       }
@@ -213,16 +227,24 @@ export default createComponent({
 
     onMounted(() => {
       setDebounce(props.debounce)
-
       updateScrollTarget()
+
+      isFetching.value === false && updateSvgAnimations()
+    })
+
+    // expose public methods
+    const vm = getCurrentInstance()
+    Object.assign(vm.proxy, {
+      poll: () => { poll !== void 0 && poll() },
+      trigger, stop, reset, resume, setIndex
     })
 
     return () => {
       const child = hUniqueSlot(slots.default, [])
 
-      if (props.disable !== true && isWorking.value === true) {
+      if (renderLoadingSlot.value === true) {
         child[ props.reverse === false ? 'push' : 'unshift' ](
-          h('div', { class: classes.value }, hSlot(slots.loading))
+          h('div', { ref: loadingRef, class: classes.value }, hSlot(slots.loading))
         )
       }
 

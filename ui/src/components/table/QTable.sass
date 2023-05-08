@@ -119,6 +119,15 @@
   &--col-auto-width
     width: 1px
 
+// positioning selector here
+// so user-land overwrites with !important are not required
+// and also for --flat/--grid to not require !important by default
+.q-table__card--dark,
+.q-table--dark
+  box-shadow: $table-box-shadow-dark
+
+.q-table
+
   &--flat
     box-shadow: none
   &--bordered
@@ -263,7 +272,8 @@ body.desktop .q-table > tbody > tr:not(.q-tr--no-hover):hover > td:not(.q-td--no
 /*
  * On dark background
  */
-.q-table__card--dark, .q-table--dark
+.q-table__card--dark,
+.q-table--dark
   border-color: $table-dark-border-color
 
 .q-table--dark

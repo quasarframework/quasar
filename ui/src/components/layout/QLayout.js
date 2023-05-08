@@ -90,7 +90,7 @@ export default createComponent({
       if (height.value !== newHeight) {
         resized = true
         height.value = newHeight
-        props.onScrollHeight !== void 0 && emit('scroll-height', newHeight)
+        props.onScrollHeight !== void 0 && emit('scrollHeight', newHeight)
         updateScrollbarWidth()
       }
       if (width.value !== newWidth) {
@@ -122,7 +122,7 @@ export default createComponent({
       }
     }
 
-    let timer
+    let animateTimer = null
 
     const $layout = {
       instances: {},
@@ -153,16 +153,16 @@ export default createComponent({
       scroll,
 
       animate () {
-        if (timer !== void 0) {
-          clearTimeout(timer)
+        if (animateTimer !== null) {
+          clearTimeout(animateTimer)
         }
         else {
           document.body.classList.add('q-body--layout-animate')
         }
 
-        timer = setTimeout(() => {
+        animateTimer = setTimeout(() => {
+          animateTimer = null
           document.body.classList.remove('q-body--layout-animate')
-          timer = void 0
         }, 155)
       },
 

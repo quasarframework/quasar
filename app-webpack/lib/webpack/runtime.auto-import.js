@@ -14,15 +14,15 @@ module.exports = function qInstall (component, type, items) {
     ? component.__vccOpts
     : component
 
-  const target = targetComponent[type]
+  const target = targetComponent[ type ]
 
   if (target === void 0) {
-    targetComponent[type] = items
+    targetComponent[ type ] = items
   }
   else {
     for (const i in items) {
-      if (target[i] === void 0) {
-        target[i] = items[i]
+      if (target[ i ] === void 0) {
+        target[ i ] = items[ i ]
       }
     }
   }

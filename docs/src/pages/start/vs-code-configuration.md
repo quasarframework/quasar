@@ -94,8 +94,8 @@ The first step to properly start debugging is enabling source maps. Quasar autom
 build: {
   // ...
 
-  // this is a configuration passed on
-  // to the underlying Webpack
+  // this is a configuration passed on to the underlying Webpack.
+  // No need to set this if you are using vite.
   devtool: 'source-map'
 }
 ```
@@ -112,6 +112,7 @@ In the example below, replace `package-name` with the `name` property from your 
   "url": "http://localhost:8080",
   "webRoot": "${workspaceFolder}/src",
   "breakOnLoad": true,
+  // No need to configure sourcemap explicitly for vite.
   "sourceMapPathOverrides": {
     "webpack://package-name/./src/*": "${webRoot}/*"
   }

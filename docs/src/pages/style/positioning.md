@@ -15,15 +15,15 @@ There are CSS classes supplied by Quasar to help you position a DOM element easi
 | `fixed-center` | Set position to `fixed` but in the middle of window. |
 | `absolute` | Set `position` to `absolute` without specifying `top`, `left`, `right` or `bottom` properties |
 | `absolute-center` | Set position to `absolute` but in the middle of the container (container needs relative position). |
-| `fixed-top`, `absolute-top` | Fixed or absolute position to top of screen |
-| `fixed-right`, `absolute-right` | Fixed or absolute position to the right edge of screen |
-| `fixed-bottom`, `absolute-bottom` | Fixed or absolute position to bottom of screen |
-| `fixed-left`, `absolute-left` | Fixed or absolute position to the left edge of screen |
-| `fixed-top-left`, `absolute-top-left` | Fixed or absolute position to top left of screen |
-| `fixed-top-right`, `absolute-top-right` | Fixed or absolute position to top right of screen |
-| `fixed-bottom-left`, `absolute-bottom-left` | Fixed or absolute position to bottom left of screen |
-| `fixed-bottom-right`, `absolute-bottom-right` | Fixed or absolute position to bottom right of screen |
-| `fixed-full`, `absolute-full` | Fixed or absolute position to all screen edges |
+| `fixed-top` `absolute-top` | Fixed or absolute position to top of screen |
+| `fixed-right` `absolute-right` | Fixed or absolute position to the right edge of screen |
+| `fixed-bottom` `absolute-bottom` | Fixed or absolute position to bottom of screen |
+| `fixed-left` `absolute-left` | Fixed or absolute position to the left edge of screen |
+| `fixed-top-left` `absolute-top-left` | Fixed or absolute position to top left of screen |
+| `fixed-top-right` `absolute-top-right` | Fixed or absolute position to top right of screen |
+| `fixed-bottom-left` `absolute-bottom-left` | Fixed or absolute position to bottom left of screen |
+| `fixed-bottom-right` `absolute-bottom-right` | Fixed or absolute position to bottom right of screen |
+| `fixed-full` `absolute-full` | Fixed or absolute position to all screen edges |
 | `relative-position` | Set position to `relative` |
 
 ## Alignment

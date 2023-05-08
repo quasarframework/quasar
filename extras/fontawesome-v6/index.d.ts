@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.1.2 */
+/* Fontawesome Free v6.3.0 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -270,6 +270,7 @@ export declare const fabNs8: string;
 export declare const fabNutritionix: string;
 export declare const fabOctopusDeploy: string;
 export declare const fabOdnoklassniki: string;
+export declare const fabOdysee: string;
 export declare const fabOldRepublic: string;
 export declare const fabOpencart: string;
 export declare const fabOpenid: string;
@@ -388,6 +389,7 @@ export declare const fabStickerMule: string;
 export declare const fabStrava: string;
 export declare const fabStripe: string;
 export declare const fabStripeS: string;
+export declare const fabStubber: string;
 export declare const fabStudiovinari: string;
 export declare const fabStumbleupon: string;
 export declare const fabStumbleuponCircle: string;
@@ -597,7 +599,6 @@ export declare const farMessage: string;
 export declare const farMoneyBill1: string;
 export declare const farMoon: string;
 export declare const farNewspaper: string;
-export declare const farNotdef: string;
 export declare const farNoteSticky: string;
 export declare const farObjectGroup: string;
 export declare const farObjectUngroup: string;
@@ -736,6 +737,7 @@ export declare const fasBahtSign: string;
 export declare const fasBan: string;
 export declare const fasBanSmoking: string;
 export declare const fasBandage: string;
+export declare const fasBangladeshiTakaSign: string;
 export declare const fasBarcode: string;
 export declare const fasBars: string;
 export declare const fasBarsProgress: string;
@@ -907,9 +909,9 @@ export declare const fasChevronLeft: string;
 export declare const fasChevronRight: string;
 export declare const fasChevronUp: string;
 export declare const fasChild: string;
+export declare const fasChildCombatant: string;
 export declare const fasChildDress: string;
 export declare const fasChildReaching: string;
-export declare const fasChildRifle: string;
 export declare const fasChildren: string;
 export declare const fasChurch: string;
 export declare const fasCircle: string;

@@ -6,8 +6,8 @@ const argv = parseArgs(process.argv.slice(2), {
     c: 'cmd',
     h: 'help'
   },
-  boolean: ['h'],
-  string: ['c'],
+  boolean: [ 'h' ],
+  string: [ 'c' ],
   default: {
     c: 'test'
   }
@@ -47,19 +47,19 @@ async function run () {
   const extension = new Extension('@quasar/testing')
 
   const hooks = await extension.run()
-  const command = hooks.commands[argv.cmd]
+  const command = hooks.commands[ argv.cmd ]
 
   const list = () => {
     if (Object.keys(hooks.commands).length === 0) {
-      warn(`"@quasar/testing" app extension has no commands registered`)
+      warn('"@quasar/testing" app extension has no commands registered')
       return
     }
 
-    log(`Listing "@quasar/testing" app extension commands`)
+    log('Listing "@quasar/testing" app extension commands')
     log()
 
-    for (let cmd in hooks.commands) {
-      console.log(`  > ${cmd}`)
+    for (const cmd in hooks.commands) {
+      console.log(`  > ${ cmd }`)
     }
 
     console.log()
@@ -67,13 +67,13 @@ async function run () {
 
   if (!command) {
     warn()
-    warn(`"@quasar/testing" app extension has no command called "${argv.cmd}"`)
+    warn(`"@quasar/testing" app extension has no command called "${ argv.cmd }"`)
     warn()
     list()
     process.exit(1)
   }
 
-  log(`Running "@quasar/testing" > "${argv.cmd}" command`)
+  log(`Running "@quasar/testing" > "${ argv.cmd }" command`)
   log()
 
   await command(getArgv(argv))

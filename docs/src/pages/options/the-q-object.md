@@ -21,7 +21,7 @@ Quasar supplies a `$q` object that you can use for various purposes. You will no
 
 The following sections will teach you how to use it in .vue files (with both Composition API and Options API) and outside of them.
 
-### Composition API with `<script setup>`
+### Composition API with "script setup"
 
 The following is a .vue file:
 
@@ -50,7 +50,7 @@ function show () {
 </script>
 ```
 
-### Composition API without `<script setup>`
+### Composition API without "script setup"
 
 The following is a .vue file:
 
@@ -120,10 +120,11 @@ export default {
 </script>
 ```
 
-### Outside of a vue file
+### Outside of a .vue file
 
 ```js
-import { Quasar } from 'quasar'
+import { Quasar, Platform } from 'quasar'
 
-console.log(Quasar.platform.is.ios)
+console.log(Quasar.version)
+console.log(Platform.is.ios)
 ```

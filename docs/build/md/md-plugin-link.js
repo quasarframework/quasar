@@ -15,6 +15,7 @@ module.exports = function (md) {
       link[ 1 ] = decodeURI(link[ 1 ])
 
       token.tag = 'doc-link'
+      md.$data.components.add('src/components/DocLink')
     }
 
     return self.renderToken(tokens, idx, options)

@@ -2,7 +2,7 @@ import { ref, computed, watch, onBeforeUnmount, getCurrentInstance } from 'vue'
 
 import useFormChild from '../use-form-child.js'
 import { testPattern } from '../../utils/patterns.js'
-import { debounce } from '../../utils.js'
+import debounce from '../../utils/debounce.js'
 import { injectProp } from '../../utils/private/inject-obj-prop.js'
 
 const lazyRulesValues = [ true, false, 'ondemand' ]
@@ -39,7 +39,7 @@ export default function (focused, innerLoading) {
   const hasRules = computed(() =>
     props.rules !== void 0
     && props.rules !== null
-    && props.rules.length > 0
+    && props.rules.length !== 0
   )
 
   const hasActiveRules = computed(() =>
@@ -52,7 +52,7 @@ export default function (focused, innerLoading) {
   )
 
   const errorMessage = computed(() => (
-    typeof props.errorMessage === 'string' && props.errorMessage.length > 0
+    typeof props.errorMessage === 'string' && props.errorMessage.length !== 0
       ? props.errorMessage
       : innerErrorMessage.value
   ))
@@ -119,21 +119,15 @@ export default function (focused, innerLoading) {
 
     const index = ++validateIndex
 
-    if (innerLoading.value !== true && props.lazyRules !== true) {
-      isDirtyModel.value = true
-    }
+    const setDirty = innerLoading.value !== true
+      ? () => { isDirtyModel.value = true }
+      : () => {}
 
     const update = (err, msg) => {
-      if (innerError.value !== err) {
-        innerError.value = err
-      }
+      err === true && setDirty()
 
-      const m = msg || void 0
-
-      if (innerErrorMessage.value !== m) {
-        innerErrorMessage.value = m
-      }
-
+      innerError.value = err
+      innerErrorMessage.value = msg || null
       innerLoading.value = false
     }
 
@@ -144,7 +138,7 @@ export default function (focused, innerLoading) {
       let res
 
       if (typeof rule === 'function') {
-        res = rule(val)
+        res = rule(val, testPattern)
       }
       else if (typeof rule === 'string' && testPattern[ rule ] !== void 0) {
         res = testPattern[ rule ](val)

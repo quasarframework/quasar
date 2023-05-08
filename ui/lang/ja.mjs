@@ -14,7 +14,9 @@ export default {
     create: '作成', // 'Create',
     search: '検索', // 'Search',
     filter: 'フィルタ', // 'Filter',
-    refresh: '再読込' // 'Refresh'
+    refresh: '再読込', // 'Refresh'
+    expand: label => (label ? `「${ label }」を展開します。` : '拡大'),
+    collapse: label => (label ? `「${ label }」を折りたたむ` : '崩壊')
   },
   date: {
     days: '日曜日_月曜日_火曜日_水曜日_木曜日_金曜日_土曜日'.split('_'), // 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
@@ -24,7 +26,7 @@ export default {
     headerTitle: date => new Intl.DateTimeFormat('ja-JP', {
       weekday: 'short', month: 'short', day: 'numeric'
     }).format(date),
-    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true, // true
     pluralDay: '日間'
   },

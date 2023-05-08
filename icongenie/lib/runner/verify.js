@@ -1,17 +1,18 @@
-const { existsSync } = require('fs')
-const { green, red, underline } = require('kolorist')
 
-const { appDir, resolveDir } = require('../utils/app-paths')
-const { warn } = require('../utils/logger')
+import { existsSync } from 'node:fs'
+import { green, red, underline } from 'kolorist'
 
-const modes = require('../modes')
-const { verifyMount } = require('../mount')
-const getAssetsFiles = require('../utils/get-assets-files')
-const getPngSize = require('../utils/get-png-size')
-const parseArgv = require('../utils/parse-argv')
-const mergeObjects = require('../utils/merge-objects')
-const getProfileContent = require('../utils/get-profile-content')
-const validateProfileObject = require('../utils/validate-profile-object')
+import { appDir, resolveDir } from '../utils/app-paths.js'
+import { warn } from '../utils/logger.js'
+
+import { modes } from '../modes/index.js'
+import { verifyMount } from '../mount/index.js'
+import { getAssetsFiles } from '../utils/get-assets-files.js'
+import { getPngSize } from '../utils/get-png-size.js'
+import { parseArgv } from '../utils/parse-argv.js'
+import { mergeObjects } from '../utils/merge-objects.js'
+import { getProfileContent } from '../utils/get-profile-content.js'
+import { validateProfileObject } from '../utils/validate-profile-object.js'
 
 function getFileStatus (file) {
   if (!existsSync(file.absoluteName)) {
@@ -26,7 +27,7 @@ function getFileStatus (file) {
     }
 
     if (width !== file.width || height !== file.height) {
-      return red(`ERROR: incorrect resolution! ${width}x${height}`)
+      return red(`ERROR: incorrect resolution! ${ width }x${ height }`)
     }
   }
 
@@ -34,10 +35,10 @@ function getFileStatus (file) {
 }
 
 function printMode (modeName, files) {
-  console.log(` ${green(underline(`Mode ${modeName.toUpperCase()}`))} \n`)
+  console.log(` ${ green(underline(`Mode ${ modeName.toUpperCase() }`)) } \n`)
 
   files.forEach(file => {
-    console.log(` ${getFileStatus(file)} - ${(file.generator + ':').padEnd(13, ' ')} ${file.relativeName} ${verifyMount(file)}`)
+    console.log(` ${ getFileStatus(file) } - ${ (file.generator + ':').padEnd(13, ' ') } ${ file.relativeName } ${ verifyMount(file) }`)
   })
 
   console.log()
@@ -46,26 +47,26 @@ function printMode (modeName, files) {
 function printBanner (assetsOf, params) {
   console.log(` VERIFYING with the following options:
  ================
- Root folder..... ${green(appDir)}
- Assets of....... ${green(assetsOf)}
- Assets filter... ${!params.filter ? 'none' : green(params.filter)}
+ Root folder..... ${ green(appDir) }
+ Assets of....... ${ green(assetsOf) }
+ Assets filter... ${ !params.filter ? 'none' : green(params.filter) }
  ================
 `)
 }
 
 function parseAssets (assets, include) {
-  let filesMap = []
+  const filesMap = []
   let assetsOf = []
 
   if (include) {
     const embeddedModes = include.filter(
-      mode => existsSync(resolveDir(modes[mode].folder))
+      mode => existsSync(resolveDir(modes[ mode ].folder))
     )
 
     embeddedModes.forEach(mode => {
       filesMap.push({
         name: mode,
-        files: getAssetsFiles(modes[mode].assets)
+        files: getAssetsFiles(modes[ mode ].assets)
       })
     })
 
@@ -109,7 +110,7 @@ function verifyProfile (profile) {
   })
 }
 
-module.exports = function verify (argv) {
+export function verify (argv) {
   const profile = {
     params: {},
     assets: []

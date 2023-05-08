@@ -44,7 +44,7 @@ export const useMaskProps = {
 }
 
 export default function (props, emit, emitValue, inputRef) {
-  let maskMarked, maskReplaced, computedMask, computedUnmask
+  let maskMarked, maskReplaced, computedMask, computedUnmask, pastedTextStart, selectionAnchor
 
   const hasMask = ref(null)
   const innerValue = ref(getInitialMaskedValue())
@@ -110,7 +110,7 @@ export default function (props, emit, emitValue, inputRef) {
 
   function updateMaskInternals () {
     hasMask.value = props.mask !== void 0
-      && props.mask.length > 0
+      && props.mask.length !== 0
       && getIsTypeText()
 
     if (hasMask.value === false) {
@@ -124,7 +124,7 @@ export default function (props, emit, emitValue, inputRef) {
       localComputedMask = NAMED_MASKS[ props.mask ] === void 0
         ? props.mask
         : NAMED_MASKS[ props.mask ],
-      fillChar = typeof props.fillMask === 'string' && props.fillMask.length > 0
+      fillChar = typeof props.fillMask === 'string' && props.fillMask.length !== 0
         ? props.fillMask.slice(0, 1)
         : '_',
       fillCharEscaped = fillChar.replace(escRegex, '\\$&'),
@@ -166,7 +166,7 @@ export default function (props, emit, emitValue, inputRef) {
         '^'
         + unmask.join('')
         + '(' + (unmaskChar === '' ? '.' : '[^' + unmaskChar + ']') + '+)?'
-        + '$'
+        + (unmaskChar === '' ? '' : '[' + unmaskChar + ']*') + '$'
       ),
       extractLast = extract.length - 1,
       extractMatcher = extract.map((re, index) => {
@@ -186,7 +186,7 @@ export default function (props, emit, emitValue, inputRef) {
 
     computedMask = mask
     computedUnmask = val => {
-      const unmaskMatch = unmaskMatcher.exec(val)
+      const unmaskMatch = unmaskMatcher.exec(props.reverseFillMask === true ? val : val.slice(0, mask.length + 1))
       if (unmaskMatch !== null) {
         val = unmaskMatch.slice(1).join('')
       }
@@ -205,7 +205,7 @@ export default function (props, emit, emitValue, inputRef) {
         str = str.slice(m.shift().length)
         extractMatch.push(...m)
       }
-      if (extractMatch.length > 0) {
+      if (extractMatch.length !== 0) {
         return extractMatch.join('')
       }
 
@@ -246,8 +246,15 @@ export default function (props, emit, emitValue, inputRef) {
       }
 
       if (inputType === 'insertFromPaste' && props.reverseFillMask !== true) {
-        const cursor = end - 1
-        moveCursor.right(inp, cursor, cursor)
+        const maxEnd = inp.selectionEnd
+        let cursor = end - 1
+        // each non-marker char means we move once to right
+        for (let i = pastedTextStart; i <= cursor && i < maxEnd; i++) {
+          if (maskMarked[ i ] !== MARKER) {
+            cursor++
+          }
+        }
+        moveCursor.right(inp, cursor)
 
         return
       }
@@ -273,7 +280,7 @@ export default function (props, emit, emitValue, inputRef) {
             inp.setSelectionRange(cursor, cursor, 'forward')
           }
           else {
-            moveCursor.rightReverse(inp, cursor, cursor)
+            moveCursor.rightReverse(inp, cursor)
           }
         }
         else {
@@ -284,11 +291,11 @@ export default function (props, emit, emitValue, inputRef) {
       else {
         if (changed === true) {
           const cursor = Math.max(0, maskMarked.indexOf(MARKER), Math.min(preMasked.length, end) - 1)
-          moveCursor.right(inp, cursor, cursor)
+          moveCursor.right(inp, cursor)
         }
         else {
           const cursor = end - 1
-          moveCursor.right(inp, cursor, cursor)
+          moveCursor.right(inp, cursor)
         }
       }
     })
@@ -304,74 +311,72 @@ export default function (props, emit, emitValue, inputRef) {
     const preMasked = maskValue(unmaskValue(inp.value))
 
     start = Math.max(0, maskMarked.indexOf(MARKER), Math.min(preMasked.length, start))
+    pastedTextStart = start
 
     inp.setSelectionRange(start, end, 'forward')
   }
 
   const moveCursor = {
-    left (inp, start, end, selection) {
-      const noMarkBefore = maskMarked.slice(start - 1).indexOf(MARKER) === -1
-      let i = Math.max(0, start - 1)
+    left (inp, cursor) {
+      const noMarkBefore = maskMarked.slice(cursor - 1).indexOf(MARKER) === -1
+      let i = Math.max(0, cursor - 1)
 
       for (; i >= 0; i--) {
         if (maskMarked[ i ] === MARKER) {
-          start = i
-          noMarkBefore === true && start++
+          cursor = i
+          noMarkBefore === true && cursor++
           break
         }
       }
 
       if (
         i < 0
-        && maskMarked[ start ] !== void 0
-        && maskMarked[ start ] !== MARKER
+        && maskMarked[ cursor ] !== void 0
+        && maskMarked[ cursor ] !== MARKER
       ) {
-        return moveCursor.right(inp, 0, 0)
+        return moveCursor.right(inp, 0)
       }
 
-      start >= 0 && inp.setSelectionRange(
-        start,
-        selection === true ? end : start, 'backward'
-      )
+      cursor >= 0 && inp.setSelectionRange(cursor, cursor, 'backward')
     },
 
-    right (inp, start, end, selection) {
+    right (inp, cursor) {
       const limit = inp.value.length
-      let i = Math.min(limit, end + 1)
+      let i = Math.min(limit, cursor + 1)
 
       for (; i <= limit; i++) {
         if (maskMarked[ i ] === MARKER) {
-          end = i
+          cursor = i
           break
         }
         else if (maskMarked[ i - 1 ] === MARKER) {
-          end = i
+          cursor = i
         }
       }
 
       if (
         i > limit
-        && maskMarked[ end - 1 ] !== void 0
-        && maskMarked[ end - 1 ] !== MARKER
+        && maskMarked[ cursor - 1 ] !== void 0
+        && maskMarked[ cursor - 1 ] !== MARKER
       ) {
-        return moveCursor.left(inp, limit, limit)
+        return moveCursor.left(inp, limit)
       }
 
-      inp.setSelectionRange(selection ? start : end, end, 'forward')
+      inp.setSelectionRange(cursor, cursor, 'forward')
     },
 
-    leftReverse (inp, start, end, selection) {
+    leftReverse (inp, cursor) {
       const
         localMaskMarked = getPaddedMaskMarked(inp.value.length)
-      let i = Math.max(0, start - 1)
+      let i = Math.max(0, cursor - 1)
 
       for (; i >= 0; i--) {
         if (localMaskMarked[ i - 1 ] === MARKER) {
-          start = i
+          cursor = i
           break
         }
         else if (localMaskMarked[ i ] === MARKER) {
-          start = i
+          cursor = i
           if (i === 0) {
             break
           }
@@ -380,46 +385,51 @@ export default function (props, emit, emitValue, inputRef) {
 
       if (
         i < 0
-        && localMaskMarked[ start ] !== void 0
-        && localMaskMarked[ start ] !== MARKER
+        && localMaskMarked[ cursor ] !== void 0
+        && localMaskMarked[ cursor ] !== MARKER
       ) {
-        return moveCursor.rightReverse(inp, 0, 0)
+        return moveCursor.rightReverse(inp, 0)
       }
 
-      start >= 0 && inp.setSelectionRange(
-        start,
-        selection === true ? end : start, 'backward'
-      )
+      cursor >= 0 && inp.setSelectionRange(cursor, cursor, 'backward')
     },
 
-    rightReverse (inp, start, end, selection) {
+    rightReverse (inp, cursor) {
       const
         limit = inp.value.length,
         localMaskMarked = getPaddedMaskMarked(limit),
-        noMarkBefore = localMaskMarked.slice(0, end + 1).indexOf(MARKER) === -1
-      let i = Math.min(limit, end + 1)
+        noMarkBefore = localMaskMarked.slice(0, cursor + 1).indexOf(MARKER) === -1
+      let i = Math.min(limit, cursor + 1)
 
       for (; i <= limit; i++) {
         if (localMaskMarked[ i - 1 ] === MARKER) {
-          end = i
-          end > 0 && noMarkBefore === true && end--
+          cursor = i
+          cursor > 0 && noMarkBefore === true && cursor--
           break
         }
       }
 
       if (
         i > limit
-        && localMaskMarked[ end - 1 ] !== void 0
-        && localMaskMarked[ end - 1 ] !== MARKER
+        && localMaskMarked[ cursor - 1 ] !== void 0
+        && localMaskMarked[ cursor - 1 ] !== MARKER
       ) {
-        return moveCursor.leftReverse(inp, limit, limit)
+        return moveCursor.leftReverse(inp, limit)
       }
 
-      inp.setSelectionRange(selection === true ? start : end, end, 'forward')
+      inp.setSelectionRange(cursor, cursor, 'forward')
     }
   }
 
+  function onMaskedClick (e) {
+    emit('click', e)
+
+    selectionAnchor = void 0
+  }
+
   function onMaskedKeydown (e) {
+    emit('keydown', e)
+
     if (shouldIgnoreKey(e) === true) {
       return
     }
@@ -429,25 +439,40 @@ export default function (props, emit, emitValue, inputRef) {
       start = inp.selectionStart,
       end = inp.selectionEnd
 
+    if (!e.shiftKey) {
+      selectionAnchor = void 0
+    }
+
     if (e.keyCode === 37 || e.keyCode === 39) { // Left / Right
+      if (e.shiftKey && selectionAnchor === void 0) {
+        selectionAnchor = inp.selectionDirection === 'forward' ? start : end
+      }
+
       const fn = moveCursor[ (e.keyCode === 39 ? 'right' : 'left') + (props.reverseFillMask === true ? 'Reverse' : '') ]
 
       e.preventDefault()
-      fn(inp, start, end, e.shiftKey)
+      fn(inp, selectionAnchor === start ? end : start)
+
+      if (e.shiftKey) {
+        const cursor = inp.selectionStart
+        inp.setSelectionRange(Math.min(selectionAnchor, cursor), Math.max(selectionAnchor, cursor), 'forward')
+      }
     }
     else if (
       e.keyCode === 8 // Backspace
       && props.reverseFillMask !== true
       && start === end
     ) {
-      moveCursor.left(inp, start, end, true)
+      moveCursor.left(inp, start)
+      inp.setSelectionRange(inp.selectionStart, end, 'backward')
     }
     else if (
       e.keyCode === 46 // Delete
       && props.reverseFillMask === true
       && start === end
     ) {
-      moveCursor.rightReverse(inp, start, end, true)
+      moveCursor.rightReverse(inp, end)
+      inp.setSelectionRange(start, inp.selectionEnd, 'forward')
     }
   }
 
@@ -528,7 +553,7 @@ export default function (props, emit, emitValue, inputRef) {
       return val
     }
 
-    return props.reverseFillMask === true && val.length > 0
+    return props.reverseFillMask === true && val.length !== 0
       ? maskReplaced.slice(0, -val.length) + val
       : val + maskReplaced.slice(val.length)
   }
@@ -538,6 +563,7 @@ export default function (props, emit, emitValue, inputRef) {
     hasMask,
     moveCursorForPaste,
     updateMaskValue,
-    onMaskedKeydown
+    onMaskedKeydown,
+    onMaskedClick
   }
 }

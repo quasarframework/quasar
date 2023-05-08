@@ -17,7 +17,7 @@ const commands = [
   'help'
 ]
 
-let cmd = process.argv[2]
+let cmd = process.argv[ 2 ]
 
 if (cmd) {
   if (cmd.length === 1) {
@@ -33,7 +33,7 @@ if (cmd) {
       t: 'test',
       h: 'help'
     }
-    cmd = mapToCmd[cmd]
+    cmd = mapToCmd[ cmd ]
   }
 
   if (commands.includes(cmd)) {
@@ -41,7 +41,11 @@ if (cmd) {
   }
   else {
     if (cmd === '-v' || cmd === '--version') {
-      console.log(require('../package.json').version)
+      const pkg = require('../package.json')
+      console.log(
+        `${ pkg.name } ${ pkg.version }`
+        + (process.env.QUASAR_CLI_VERSION ? ` (@quasar/cli ${ process.env.QUASAR_CLI_VERSION })` : '')
+      )
       process.exit(0)
     }
 
@@ -51,11 +55,11 @@ if (cmd) {
       cmd = 'help'
     }
     else if (cmd.indexOf('-') === 0) {
-      warn(`Command must come before the options`)
+      warn('Command must come before the options')
       cmd = 'help'
     }
     else {
-      log(`Looking for Quasar App Extension "${process.argv[2]}" command${(process.argv[3] && (' "' + process.argv[3] + '"')) || ''}`)
+      log(`Looking for Quasar App Extension "${ process.argv[ 2 ] }" command${ (process.argv[ 3 ] && (' "' + process.argv[ 3 ] + '"')) || '' }`)
 
       const exit = process.exit
       process.exit = (code, reason) => {
@@ -76,4 +80,4 @@ else {
   cmd = 'help'
 }
 
-require(`../lib/cmd/${cmd}`)
+require(`../lib/cmd/${ cmd }`)

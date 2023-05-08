@@ -11,12 +11,7 @@ related:
 For a better understanding of this Quasar plugin, please head to the Style & Identity [Dark Mode](/style/dark-mode) page.
 :::
 
-## Dark API
-
 <doc-api file="Dark" />
-
-## Installation
-This plugin is automatically installed. No need to do anything but directly use it.
 
 ## Usage
 

@@ -5,7 +5,7 @@ const argv = parseArgs(process.argv.slice(2), {
   alias: {
     h: 'help'
   },
-  boolean: ['h']
+  boolean: [ 'h' ]
 })
 
 function showHelp () {
@@ -46,7 +46,7 @@ const { warn } = require('../helpers/logger')
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
-  warn(`Wrong number of parameters (${argv._.length}).`)
+  warn(`Wrong number of parameters (${ argv._.length }).`)
   showHelp()
   process.exit(1)
 }
@@ -59,7 +59,7 @@ async function run (action, name) {
     action === 'add' || action === 'invoke'
       ? 'install'
       : 'uninstall'
-    ](action === 'invoke' || action === 'uninvoke')
+  ](action === 'invoke' || action === 'uninvoke')
 }
 
 if (argv._.length === 0) {
@@ -69,9 +69,9 @@ if (argv._.length === 0) {
 else {
   const [ action, name ] = argv._
 
-  if (!['add', 'remove', 'invoke', 'uninvoke'].includes(action)) {
+  if (![ 'add', 'remove', 'invoke', 'uninvoke' ].includes(action)) {
     console.log()
-    warn(`Unknown action specified (${action}).`)
+    warn(`Unknown action specified (${ action }).`)
     showHelp()
     process.exit(1)
   }

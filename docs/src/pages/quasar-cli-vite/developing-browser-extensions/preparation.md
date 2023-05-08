@@ -1,11 +1,40 @@
 ---
 title: Preparation for BEX
 desc: (@quasar/app-vite) How to add the Browser Extension (BEX) mode into a Quasar app.
+scope:
+  tree:
+    l: src-bex
+    c:
+    - l: assets
+      c:
+      - l: content.css
+        e: CSS file which is auto injected into the consuming webpage via the manifest.json
+    - l: background.js
+      e: Standard background script BEX file (auto injected via manifest.json)
+    - l: dom.js
+      e: JS file which is injected into the DOM with a hook into the BEX communication
+        layer
+    - l: icons
+      e: Icons of your app for all platforms
+      c:
+      - l: 'icon-128x128.png '
+        e: Icon file at 128px x 128px
+      - l: icon-16x16.png
+        e: Icon file at 16px x 16px
+      - l: icon-48x48.png
+        e: Icon file at 48px x 48px
+    - l: _locales/
+      e: Optional BEX locales files that you might define in manifest
+    - l: manifest.json
+      e: The browser extension manifest file
+    - l: my-content-script.js
+      e: Standard content script BEX file - auto injected via manifest.json (you can
+        have multiple scripts)
 ---
 
 The difference between building a SPA, Mobile App, Electron App, BEX or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
-## 1. Add Quasar BEX Mode
+## Add Quasar BEX Mode
 In order to build a BEX, we first need to add the BEX mode to our Quasar project:
 
 ```bash
@@ -28,25 +57,10 @@ The `src-bex` folder is just a standard browser extension folder so you are free
 * **Other Chromium Based Browsers** - Refer to their specific documentation.
 :::
 
-## 2. Understand The Anatomy Of `src-bex`
+## Understand The Anatomy Of "src-bex"
 
 The new folder has the following structure:
-```bash
-.
-└── src-bex
-    ├── assets
-    │   └── content.css       # CSS file which is auto injected into the consuming webpage via the manifest.json
-    ├── background.js         # Standard background script BEX file
-    │                             # auto injected via manifest.json
-    ├── dom.js                # JS file which is injected into the DOM with a hook into the BEX communication layer
-    ├── icons                 # Icons of your app for all platforms
-    │   ├── icon-128x128.png  # Icon file at 128px x 128px
-    │   ├── icon-16x16.png    # Icon file at 16px x 16px
-    │   └── icon-48x48.png    # Icon file at 48px x 48px
-    ├── _locales              # Optional BEX locales files that you might define in manifest
-    ├── manifest.json         # The browser extension manifest file
-    └── my-content-script.js  # Standard content script BEX file - auto injected via manifest.json
-                              # (you can have multiple content scripts)
-```
+
+<doc-tree :def="scope.tree" />
 
 The next section will discuss these in more detail.

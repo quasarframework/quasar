@@ -27,7 +27,7 @@ module.exports = quasarConf => {
         updateCache()
         return html.replace(
           /(<\/head>)/i,
-          (_, tag) => `${headTags}${tag}`
+          (_, tag) => `${ headTags }${ tag }`
         )
       }
     },
@@ -35,7 +35,7 @@ module.exports = quasarConf => {
     // runs for dev only to serve manifest and service-worker
     configureServer (server) {
       server.middlewares.use(
-        `${quasarConf.build.publicPath}${quasarConf.pwa.manifestFilename}`,
+        `${ quasarConf.build.publicPath }${ quasarConf.pwa.manifestFilename }`,
         (_, res) => {
           updateCache()
           res.setHeader('Content-Type', 'application/json')

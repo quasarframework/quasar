@@ -2,6 +2,7 @@
 title: Bottom Sheet Plugin
 desc: A Quasar plugin for displaying a list of user actions that slides up from the bottom edge of the app window.
 keys: BottomSheet
+examples: BottomSheet
 related:
   - /quasar-plugins/dialog
   - /vue-components/dialog
@@ -13,11 +14,7 @@ The Bottom Sheet always appears above any other components on the page, and must
 
 Bottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.
 
-## BottomSheet API
-
 <doc-api file="BottomSheet" />
-
-## Installation
 
 <doc-installation plugins="BottomSheet" />
 
@@ -42,9 +39,9 @@ When user hits the phone/tablet back button (only for Cordova apps), the Action 
 Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.
 :::
 
-<doc-example title="List and Grid" file="BottomSheet/Basic" />
+<doc-example title="List and Grid" file="Basic" />
 
-<doc-example title="Dark mode" file="BottomSheet/Dark" />
+<doc-example title="Force dark mode" file="Dark" />
 
 ::: tip
 For an exhaustive list of options, please check API section.

@@ -2,8 +2,9 @@
 const { build: viteBuild } = require('vite')
 const { build: esBuild } = require('esbuild')
 const debounce = require('lodash/debounce')
+const artifacts = require('./artifacts')
 
-const { log, progress } = require('./helpers/logger')
+const { progress } = require('./helpers/logger')
 
 class AppTool {
   argv
@@ -13,29 +14,30 @@ class AppTool {
   }
 
   async buildWithVite (threadName, viteConfig) {
+    // ensure clean build
+    artifacts.clean(viteConfig.build.outDir)
+
     const done = progress(
       'Compiling of ___ with Vite in progress...',
       threadName
     )
 
     await viteBuild(viteConfig)
-    log()
-
     done('___ compiled with success')
   }
 
   async buildWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
     const cfg = onRebuildSuccess !== void 0
       ? {
-        ...esbuildConfig,
-        watch: {
-          onRebuild: debounce(error => {
-            if (!error) {
-              onRebuildSuccess()
-            }
-          }, 600)
+          ...esbuildConfig,
+          watch: {
+            onRebuild: debounce(error => {
+              if (!error) {
+                onRebuildSuccess()
+              }
+            }, 600)
+          }
         }
-      }
       : esbuildConfig
 
     const done = progress(

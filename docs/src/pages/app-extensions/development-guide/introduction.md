@@ -1,6 +1,70 @@
 ---
 title: App Extension Development
 desc: How to setup your machine for a Quasar App Extension development and getting started quickly.
+scope:
+  appExtensionTree:
+    l: "."
+    c:
+    - l: package.json
+    - l: src
+      c:
+      - l: index.js
+        e: Described in Index API
+      - l: install.js
+        e: Described in Install API
+      - l: prompts.js
+        e: Described in Prompts API
+      - l: uninstall.js
+        e: Described in Uninstall API
+  uiKitTree:
+    l: "."
+    c:
+    - l: app-extension
+      c:
+      - l: package.json
+      - l: src
+        c:
+        - l: index.js
+          e: Described in Index API
+        - l: install.js
+          e: Described in Install API
+        - l: prompts.js
+          e: Described in Prompts API
+        - l: uninstall.js
+          e: Described in Uninstall API
+    - l: ui
+      c:
+      - l: package.json
+      - l: build
+        e: build scripts
+      - l: dev
+        e: Quasar app for testing component/directive
+      - l: src
+        c:
+        - l: components
+          e: "(optional) Folder for your component(s)"
+          c:
+          - l: Component.js
+            e: "(optional) Code for your component(s)"
+          - l: Component.sass
+            e: "(optional) Sass for your component(s)"
+        - l: directives
+          e: "(optional) Folder for your directive(s)"
+          c:
+          - l: Directive.js
+            e: "(optional) Code for your directive(s)"
+          - l: Directive.sass
+            e: "(optional) Sass for your directive(s)"
+        - l: index.common.js
+          e: CommonJS entry point
+        - l: index.esm.js
+          e: ESM entry point
+        - l: index.umd.js
+          e: UMD entry point
+        - l: vue-plugin.js
+          e: Exports the associated Vue plugin
+        - l: index.sass
+          e: Exports the associated SASS files
 ---
 
 This section of the docs deals with creating your own App Extensions.
@@ -16,7 +80,7 @@ An App Extension is an npm package. There are two official kits for creating App
 
 ### App Extension (AE) kit
 
-If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE kit. An example of this would be an extension that creates a boot file only. 
+If your app extension does _not_ involve UI (i.e. does _not_ have components or directives) then use the AE kit. An example of this would be an extension that creates a boot file only.
 
 ### UI kit
 
@@ -45,40 +109,13 @@ For the sake of this documentation page, let's assume we answered with `my-ext` 
 
 Based on your response, Quasar CLI will create a folder for your App Extension’s source code that will have the following structure:
 
-```bash
-# app-extension kit
-.
-├── package.json
-└── src
-    ├── index.js      # Described in Index API
-    ├── install.js    # Described in Install API
-    ├── prompts.js    # Described in Prompts API
-    └── uninstall.js  # Described in Uninstall API
+The app-extension kit:
 
-# ui kit
-.
-├── app-extension
-│   ├── package.json
-│   └── src
-│       ├── index.js           # Described in Index API
-│       ├── install.js         # Described in Install API
-│       ├── prompts.js         # Described in Prompts API
-│       └── uninstall.js       # Described in Uninstall API
-└── ui
-    ├── package.json
-    ├── build                  # build scripts
-    ├── dev                    # Quasar app for testing component/directive
-    └── src
-        ├── components         # (optional) Folder for your component(s)
-        │   ├── Component.js   # (optional) Code for your component(s)
-        │   └── Component.sass # (optional) Sass for your component(s)
-        ├── directives         # (optional) Folder for your directive(s)
-        │   ├── Directive.js   # (optional) Code for your directive(s)
-        │   └── Directive.sass # (optional) Sass for your directive(s)
-        ├── mixins             # (optional) Where to put your mixin sources
-        ├── index.js           # Exports and Vue injection
-        └── index.sass         # Sass imports
-```
+<doc-tree :def="scope.appExtensionTree" />
+
+The ui kit:
+
+<doc-tree :def="scope.uiKitTree" />
 
 Except for `src/index.js` (from the `app-extension` kit) or `app-extension/src/index.js` (from the `ui` kit) , all the other files are optional. You can manually add or remove them at any point in time.
 

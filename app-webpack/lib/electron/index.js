@@ -86,77 +86,63 @@ class ElectronRunner {
     return Promise.all([ resolveMain, resolvePreload ])
   }
 
-  build (quasarConfFile) {
+  async build (quasarConfFile) {
     const cfg = quasarConfFile.quasarConf
 
-    return new Promise(resolve => {
-      spawn(
-        nodePackager.name,
-        [ 'install', '--production' ].concat(cfg.electron.unPackagedInstallParams),
-        { cwd: cfg.build.distDir },
-        code => {
-          if (code) {
-            fatal(`${nodePackager.name} failed installing dependencies`, 'FAIL')
-          }
+    nodePackager.install({
+      cwd: cfg.build.distDir,
+      params: cfg.electron.unPackagedInstallParams,
+      displayName: 'UnPackaged folder production',
+      env: 'production'
+    })
+
+    if (typeof cfg.electron.beforePackaging === 'function') {
+      log('Running beforePackaging()')
+      log()
+
+      const result = cfg.electron.beforePackaging({
+        appPaths,
+        unpackagedDir: cfg.build.distDir
+      })
+
+      if (result && result.then) {
+        await result
+      }
+
+      log()
+      log('[SUCCESS] Done running beforePackaging()')
+    }
+
+    const bundlerName = cfg.electron.bundler
+    const bundlerConfig = cfg.electron[ bundlerName ]
+    const bundler = require('./bundler').getBundler(bundlerName)
+    const pkgName = `electron-${ bundlerName }`
+
+    return new Promise((resolve, reject) => {
+      log(`Bundling app with electron-${ bundlerName }...`)
+      log()
+
+      const bundlePromise = bundlerName === 'packager'
+        ? bundler({
+          ...bundlerConfig,
+          electronVersion: getPackageJson('electron').version
+        })
+        : bundler.build(bundlerConfig)
+
+      bundlePromise
+        .then(() => {
+          log()
+          success(`${ pkgName } built the app`, 'SUCCESS')
+          log()
           resolve()
-        }
-      )
-    }).then(() => {
-      return new Promise(resolve => {
-        if (typeof cfg.electron.beforePackaging === 'function') {
-          log('Running beforePackaging()')
+        })
+        .catch(err => {
           log()
-
-          const result = cfg.electron.beforePackaging({
-            appPaths,
-            unpackagedDir: cfg.build.distDir
-          })
-
-          if (result && result.then) {
-            return result.then(() => {
-              log()
-              log('[SUCCESS] Done running beforePackaging()')
-              resolve()
-            })
-          }
-
+          warn(`${ pkgName } could not build`, 'FAIL')
           log()
-          log('[SUCCESS] Done running beforePackaging()')
-        }
-        resolve()
-      })
-    }).then(() => {
-      const bundlerName = cfg.electron.bundler
-      const bundlerConfig = cfg.electron[bundlerName]
-      const bundler = require('./bundler').getBundler(bundlerName)
-      const pkgName = `electron-${bundlerName}`
-
-      return new Promise((resolve, reject) => {
-        log(`Bundling app with electron-${bundlerName}...`)
-        log()
-
-        const bundlePromise = bundlerName === 'packager'
-          ? bundler({
-            ...bundlerConfig,
-            electronVersion: getPackageJson('electron').version
-          })
-          : bundler.build(bundlerConfig)
-
-        bundlePromise
-          .then(() => {
-            log()
-            success(`${pkgName} built the app`, 'SUCCESS')
-            log()
-            resolve()
-          })
-          .catch(err => {
-            log()
-            warn(`${pkgName} could not build`, 'FAIL')
-            log()
-            console.error(err + '\n')
-            reject()
-          })
-      })
+          console.error(err + '\n')
+          reject()
+        })
     })
   }
 
@@ -165,7 +151,7 @@ class ElectronRunner {
 
     this.__stopElectron()
 
-    ;[ this.mainWatcher, this.preloadWatcher]
+    ;[ this.mainWatcher, this.preloadWatcher ]
       .forEach(w => {
         if (w) {
           w.close()
@@ -200,7 +186,7 @@ class ElectronRunner {
         }
         else if (code) {
           warn()
-          fatal(`Electron process ended with error code: ${code}`)
+          fatal(`Electron process ended with error code: ${ code }`)
         }
         else { // else it wasn't killed by us
           warn()

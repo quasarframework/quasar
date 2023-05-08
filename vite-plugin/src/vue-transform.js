@@ -1,7 +1,7 @@
 import autoImportData from 'quasar/dist/transforms/auto-import.json'
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
-import { jsProdTransform } from './js-transform.js'
+import { mapQuasarImports, removeQuasarImports } from './js-transform.js'
 
 const compRegex = {
   'kebab': new RegExp(`_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`, 'g'),
@@ -12,7 +12,7 @@ const compRegex = {
 const dirRegex = new RegExp(`_resolveDirective\\("${autoImportData.regex.directives.replace(/v-/g, '')}"\\)`, 'g')
 const lengthSortFn = (a, b) => b.length - a.length
 
-export function vueTransform (content, autoImportComponentCase, isDev) {
+export function vueTransform (content, autoImportComponentCase, useTreeshaking) {
   const importList = []
   const importMap = {}
 
@@ -20,9 +20,9 @@ export function vueTransform (content, autoImportComponentCase, isDev) {
   const dirList = []
 
   const reverseMap = {}
-  const jsImportTransformed = isDev === true
-    ? content
-    : jsProdTransform(content, importMap)
+  const jsImportTransformed = useTreeshaking === true
+    ? mapQuasarImports(content, importMap)
+    : removeQuasarImports(content, importMap, importList, reverseMap)
 
   let code = jsImportTransformed
     .replace(compRegex[autoImportComponentCase], (_, match) => {
@@ -60,23 +60,23 @@ export function vueTransform (content, autoImportComponentCase, isDev) {
     return code
   }
 
-  if (compList.length > 0) {
+  if (compList.length !== 0) {
     const list = compList.sort(lengthSortFn).join('|')
     code = code
       .replace(new RegExp(`const _component_(${list}) = `, 'g'), '')
       .replace(new RegExp(`_component_(${list})`, 'g'), (_, match) => reverseMap[match])
   }
 
-  if (dirList.length > 0) {
+  if (dirList.length !== 0) {
     const list = dirList.sort(lengthSortFn).join('|')
     code = code
       .replace(new RegExp(`const _directive_(${list}) = `, 'g'), '')
       .replace(new RegExp(`_directive_(${list})`, 'g'), (_, match) => reverseMap[match])
   }
 
-  const codePrefix = isDev === true // is it dev?
-    ? `import {${importList.join(',')}} from 'quasar'`
-    : importList.map(name => `import ${name} from '${importTransformation(name)}'`).join(`;`)
+  const codePrefix = useTreeshaking === true
+    ? importList.map(name => `import ${name} from '${importTransformation(name)}'`).join(`;`)
+    : `import {${importList.join(',')}} from 'quasar'`
 
   return codePrefix + ';' + code
 }

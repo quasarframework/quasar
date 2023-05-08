@@ -337,6 +337,22 @@
               </q-list>
             </q-menu>
           </q-img>
+          <div>With offset [ 24, 24 ]</div>
+          <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
+            <q-menu :touch-position="touchPosition" :context-menu="contextMenu" :offset="[24,24]">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-popup
+                  clickable
+                  @click="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
           <div>With model: {{ menuModelTouch }}</div>
           <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
             <q-menu v-model="menuModelTouch" :touch-position="touchPosition" :context-menu="contextMenu">

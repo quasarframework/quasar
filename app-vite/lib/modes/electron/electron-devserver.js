@@ -118,7 +118,7 @@ class ElectronDevServer extends AppDevserver {
       getPackage('electron'),
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        appPaths.resolve.app(`.quasar/electron/electron-main.js`)
+        appPaths.resolve.app('.quasar/electron/electron-main.js')
       ].concat(this.argv._),
       { cwd: appPaths.appDir },
       code => {
@@ -127,7 +127,7 @@ class ElectronDevServer extends AppDevserver {
         }
         else if (code) {
           warn()
-          fatal(`Electron process ended with error code: ${code}`)
+          fatal(`Electron process ended with error code: ${ code }`)
         }
         else { // else it wasn't killed by us
           warn()

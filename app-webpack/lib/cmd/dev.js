@@ -18,8 +18,8 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     d: 'devtools'
   },
-  boolean: ['h', 'i', 'd'],
-  string: ['m', 'T', 'H'],
+  boolean: [ 'h', 'i', 'd' ],
+  string: [ 'm', 'T', 'H' ],
   default: {
     m: 'spa'
   }
@@ -99,8 +99,8 @@ async function parseAddress ({ host, port }) {
     host = this.chosenHost
   }
   else if (
-    ['cordova', 'capacitor'].includes(argv.mode) &&
-    (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
+    [ 'cordova', 'capacitor' ].includes(argv.mode)
+    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
   ) {
     const getExternalIP = require('../helpers/get-external-ip')
     host = await getExternalIP()
@@ -111,7 +111,7 @@ async function parseAddress ({ host, port }) {
     const openPort = await findPort(port, host)
     if (port !== openPort) {
       warn()
-      warn(`️️Setting port to closest one available: ${openPort}`)
+      warn(`️️Setting port to closest one available: ${ openPort }`)
       warn()
 
       port = openPort
@@ -121,13 +121,13 @@ async function parseAddress ({ host, port }) {
     warn()
 
     if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
-      warn(`Could not find an open port. Please configure a lower one to start searching with.`)
+      warn('Could not find an open port. Please configure a lower one to start searching with.')
     }
     else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
-      warn(`Invalid host specified. No network address matches. Please specify another one.`)
+      warn('Invalid host specified. No network address matches. Please specify another one.')
     }
     else {
-      warn(`Unknown network error occurred`)
+      warn('Unknown network error occurred')
       console.log(e)
     }
 
@@ -151,7 +151,7 @@ function startVueDevtools () {
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
 
   function run () {
-    log(`Booting up remote Vue Devtools...`)
+    log('Booting up remote Vue Devtools...')
     spawn(vueDevtoolsBin, [], {})
   }
 
@@ -162,7 +162,7 @@ function startVueDevtools () {
 
   const nodePackager = require('../helpers/node-packager')
 
-  nodePackager.installPackage('@vue/devtools', { isDev: true })
+  nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
   // after a yarn/npm install will fail
@@ -204,11 +204,11 @@ async function goLive () {
     host: argv.hostname,
     onAddress: parseAddress,
     onBuildChange () {
-      log(`Rebuilding app...`)
+      log('Rebuilding app...')
       dev = dev.then(startDev)
     },
     onAppChange () {
-      log(`Updating app...`)
+      log('Updating app...')
       generator.build()
     }
   })
@@ -237,14 +237,14 @@ async function goLive () {
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
-    log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
+    log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
   const generator = new Generator(quasarConfFile)
   let runMode
 
-  if (['cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr'].includes(argv.mode)) {
+  if ([ 'cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr' ].includes(argv.mode)) {
     const ModeRunner = require('../' + (argv.mode === 'ssr' ? 'pwa' : argv.mode))
     ModeRunner.init(ctx)
     runMode = () => ModeRunner.run(quasarConfFile, argv)
@@ -262,7 +262,7 @@ async function goLive () {
         oldDevServer = void 0
       }
 
-      generator.build()  // Update generated files
+      generator.build() // Update generated files
       devServer = new DevServer(quasarConfFile) // Create new devserver
 
       return devServer.listen() // Start listening
@@ -286,7 +286,7 @@ async function goLive () {
     }
     // run possible afterDev hooks
     await extensionRunner.runHook('afterDev', async hook => {
-      log(`Extension(${hook.api.extId}): Running afterDev hook...`)
+      log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
       await hook.fn(hook.api, { quasarConf })
     })
 

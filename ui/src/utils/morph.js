@@ -1,4 +1,4 @@
-import { isObject } from './private/is'
+import { isObject } from './is'
 
 let id = 0
 let offsetBase = void 0
@@ -149,14 +149,18 @@ function normalizeOptions (options) {
     waitFor: options.waitFor === void 0 ? 0 : options.waitFor,
 
     duration: isNaN(options.duration) === true ? 300 : parseInt(options.duration, 10),
-    easing: typeof options.easing === 'string' && options.easing.length > 0 ? options.easing : 'ease-in-out',
+    easing: typeof options.easing === 'string' && options.easing.length !== 0 ? options.easing : 'ease-in-out',
     delay: isNaN(options.delay) === true ? 0 : parseInt(options.delay, 10),
-    fill: typeof options.fill === 'string' && options.fill.length > 0 ? options.fill : 'none',
+    fill: typeof options.fill === 'string' && options.fill.length !== 0 ? options.fill : 'none',
 
     resize: options.resize === true,
-    useCSS: options.useCSS === true,
-    hideFromClone: options.hideFromClone === true,
-    keepToClone: options.keepToClone === true,
+
+    // account for UMD too where modifiers will be lowercased to work
+    useCSS: options.useCSS === true || options.usecss === true,
+    // account for UMD too where modifiers will be lowercased to work
+    hideFromClone: options.hideFromClone === true || options.hidefromclone === true,
+    // account for UMD too where modifiers will be lowercased to work
+    keepToClone: options.keepToClone === true || options.keeptoclone === true,
 
     tween: options.tween === true,
     tweenFromOpacity: isNaN(options.tweenFromOpacity) === true ? 0.6 : parseFloat(options.tweenFromOpacity),
@@ -946,12 +950,11 @@ export default function morph (_options) {
         : (
             options.waitFor === 'transitionend'
               ? new Promise(resolve => {
-                const timer = setTimeout(() => {
-                  endFn()
-                }, 400)
-
-                const endFn = ev => {
-                  clearTimeout(timer)
+                const endFn = () => {
+                  if (timer !== null) {
+                    clearTimeout(timer)
+                    timer = null
+                  }
 
                   if (elTo) {
                     elTo.removeEventListener('transitionend', endFn)
@@ -960,6 +963,8 @@ export default function morph (_options) {
 
                   resolve()
                 }
+
+                let timer = setTimeout(endFn, 400)
 
                 elTo.addEventListener('transitionend', endFn)
                 elTo.addEventListener('transitioncancel', endFn)

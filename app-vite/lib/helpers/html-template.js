@@ -20,57 +20,57 @@ const minifyOptions = {
 function injectPublicPath (html, publicPath) {
   return html.replace(
     /(href|src)\s*=\s*(['"])(.+)(['"])/ig,
-    (_, att, pre, val, post) => absoluteUrlRE.test(val.trim()) === true
-      ? `${att}=${pre}${val}${post}`
-      : `${att}=${pre}${publicPath + val}${post}`
+    (_, att, pre, val, post) => (absoluteUrlRE.test(val.trim()) === true
+      ? `${ att }=${ pre }${ val }${ post }`
+      : `${ att }=${ pre }${ publicPath + val }${ post }`)
   )
 }
 
 function injectRuntimeInterpolation (html) {
   return html
-  .replace(
-    /(<html[^>]*)(>)/i,
-    (found, start, end) => {
-      let matches
+    .replace(
+      /(<html[^>]*)(>)/i,
+      (found, start, end) => {
+        let matches
 
-      matches = found.match(/\sdir\s*=\s*['"]([^'"]*)['"]/i)
-      if (matches) {
-        start = start.replace(matches[0], '')
-      }
-
-      matches = found.match(/\slang\s*=\s*['"]([^'"]*)['"]/i)
-      if (matches) {
-        start = start.replace(matches[0], '')
-      }
-
-      return `${start} {{ _meta.htmlAttrs }}${end}`
-    }
-  )
-  .replace(
-    /(<head[^>]*)(>)/i,
-    (_, start, end) => `${start}${end}{{ _meta.headTags }}`
-  )
-  .replace(
-    /(<\/head>)/i,
-    (_, tag) => `{{ _meta.endingHeadTags || '' }}${tag}`
-  )
-  .replace(
-    /(<body[^>]*)(>)/i,
-    (found, start, end) => {
-      let classes = '{{ _meta.bodyClasses }}'
-
-      const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
-
-      if (matches) {
-        if (matches[1].length > 0) {
-          classes += ` ${matches[1]}`
+        matches = found.match(/\sdir\s*=\s*['"]([^'"]*)['"]/i)
+        if (matches) {
+          start = start.replace(matches[ 0 ], '')
         }
-        start = start.replace(matches[0], '')
-      }
 
-      return `${start} class="${classes.trim()}" {{ _meta.bodyAttrs }}${end}{{ _meta.bodyTags }}`
-    }
-  )
+        matches = found.match(/\slang\s*=\s*['"]([^'"]*)['"]/i)
+        if (matches) {
+          start = start.replace(matches[ 0 ], '')
+        }
+
+        return `${ start } {{ _meta.htmlAttrs }}${ end }`
+      }
+    )
+    .replace(
+      /(<head[^>]*)(>)/i,
+      (_, start, end) => `${ start }${ end }{{ _meta.headTags }}`
+    )
+    .replace(
+      /(<\/head>)/i,
+      (_, tag) => `{{ _meta.endingHeadTags || '' }}${ tag }`
+    )
+    .replace(
+      /(<body[^>]*)(>)/i,
+      (found, start, end) => {
+        let classes = '{{ _meta.bodyClasses }}'
+
+        const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
+
+        if (matches) {
+          if (matches[ 1 ].length > 0) {
+            classes += ` ${ matches[ 1 ] }`
+          }
+          start = start.replace(matches[ 0 ], '')
+        }
+
+        return `${ start } class="${ classes.trim() }" {{ _meta.bodyAttrs }}${ end }{{ _meta.bodyTags }}`
+      }
+    )
 }
 
 module.exports.entryPointMarkup = entryPointMarkup
@@ -140,7 +140,7 @@ module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `${entryPointMarkup}${entryScript}`
+    `${ entryPointMarkup }${ entryScript }`
   )
 
   return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
@@ -162,7 +162,7 @@ module.exports.getProdSsrTemplateFn = function (viteHtmlContent, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `<div id="q-app">{{ _meta.runtimePageContent }}</div>`
+    '<div id="q-app">{{ _meta.runtimePageContent }}</div>'
   )
 
   if (quasarConf.build.minify !== false) {

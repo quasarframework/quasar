@@ -14,7 +14,9 @@ export default {
     create: 'Vytvořit',
     search: 'Hledat',
     filter: 'Filtrovat',
-    refresh: 'Obnovit'
+    refresh: 'Obnovit',
+    expand: label => (label ? `Rozbalit "${ label }"` : 'Rozšířit'),
+    collapse: label => (label ? `Sbalit "${ label }"` : 'Kolaps')
   },
   date: {
     days: 'Neděle_Pondělí_Úterý_Středa_Čtvrtek_Pátek_Sobota'.split('_'),

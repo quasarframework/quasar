@@ -1,30 +1,33 @@
-const fs = require('fs')
+
+const { existsSync } = require('fs')
 const { normalize, resolve, join, sep } = require('path')
 
-let quasarConfigFilename
+const quasarConfigFilenameList = [
+  'quasar.config.js',
+  'quasar.config.cjs',
+  'quasar.conf.js' // legacy
+]
 
-function getAppDir () {
-  let dir = process.cwd()
+function getAppInfo () {
+  let appDir = process.cwd()
 
-  while (dir.length && dir[dir.length - 1] !== sep) {
-    if (fs.existsSync(join(dir, 'quasar.config.js'))) {
-      quasarConfigFilename = 'quasar.config.js'
-      return dir
+  while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
+    for (const name of quasarConfigFilenameList) {
+      const filename = join(appDir, name)
+      if (existsSync(filename)) {
+        return { appDir, quasarConfigFilename: filename }
+      }
     }
-    if (fs.existsSync(join(dir, 'quasar.conf.js'))) {
-      quasarConfigFilename = 'quasar.conf.js'
-      return dir
-    }
 
-    dir = normalize(join(dir, '..'))
+    appDir = normalize(join(appDir, '..'))
   }
 
   const { fatal } = require('./helpers/logger')
-
-  fatal(`Error. This command must be executed inside a Quasar project folder.`)
+  fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 
-const appDir = getAppDir()
+const { appDir, quasarConfigFilename } = getAppInfo()
+
 const cliDir = resolve(__dirname, '..')
 const publicDir = resolve(appDir, 'public')
 const srcDir = resolve(appDir, 'src')
@@ -46,7 +49,8 @@ module.exports = {
   capacitorDir,
   electronDir,
   bexDir,
-  quasarConfigFilename: resolve(appDir, quasarConfigFilename),
+
+  quasarConfigFilename,
 
   resolve: {
     cli: dir => join(cliDir, dir),

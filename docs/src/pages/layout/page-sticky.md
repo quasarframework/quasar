@@ -2,6 +2,7 @@
 title: Layout QPageSticky
 desc: How to use the QPageSticky component. Statically place components on the layout without overlapping with header/footer/sidebars.
 keys: QPageSticky
+examples: QPageSticky
 related:
   - /layout/layout
   - /layout/page
@@ -12,7 +13,6 @@ The QPageSticky component helps in placing DOM elements / components wrapped by 
 The great advantage of this is that the elements wrapped by this component will never overlap the layout header, footer or drawer(s), even if those are not configured to be fixed. In the latter case, the position will be offset so that the overlap won't occur.
 Try it out with a non-fixed footer for example. When user reaches bottom of screen and footer comes into view, the component will shift up so it won't overlap with the footer.
 
-## QPageSticky API
 <doc-api file="QPageSticky" />
 
 ## Usage
@@ -28,11 +28,11 @@ Since QPageSticky needs a layout and QLayout by default manages the entire windo
 ### Basic
 In the example below, click on the menu buttons to show/hide Drawers, scroll the inner page, and resize the browser window so that the enclosing QLayout hits the Drawer's 700px and 500px breakpoints.
 
-<doc-example title="Basic" file="QPageSticky/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 ### Expanded
 In the example below, click on the menu buttons to show/hide Drawers, scroll the inner page, and resize the browser window so that the enclosing QLayout hits the Drawer's 700px and 500px breakpoints.
 
 By using expanded QPageSticky you can, for example, have a page-specific QToolbar as below.
 
-<doc-example title="Expanded" file="QPageSticky/Expanded" />
+<doc-example title="Expanded" file="Expanded" />

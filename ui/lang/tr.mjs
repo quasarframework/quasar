@@ -14,7 +14,9 @@ export default {
     create: 'Oluştur',
     search: 'Ara',
     filter: 'Süz',
-    refresh: 'Yenile'
+    refresh: 'Yenile',
+    expand: label => (label ? `"${ label }" genişlet` : 'Genişletmek'),
+    collapse: label => (label ? `"${ label }" daralt` : 'Yıkılmak')
   },
   date: {
     days: 'Pazar_Pazartesi_Salı_Çarşamba_Perşembe_Cuma_Cumartesi'.split('_'),

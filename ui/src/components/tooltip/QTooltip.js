@@ -93,8 +93,8 @@ export default createComponent({
     const hideOnRouteChange = computed(() => props.persistent !== true)
 
     const { registerTick, removeTick } = useTick()
-    const { registerTimeout, removeTimeout } = useTimeout()
-    const { transition, transitionStyle } = useTransition(props, showing)
+    const { registerTimeout } = useTimeout()
+    const { transitionProps, transitionStyle } = useTransition(props)
     const { localScrollTarget, changeScrollEvent, unconfigureScrollTarget } = useScrollTarget(props, configureScrollTarget)
 
     const { anchorEl, canShow, anchorEvents } = useAnchor({ showing, configureAnchorEl })
@@ -107,7 +107,7 @@ export default createComponent({
 
     Object.assign(anchorEvents, { delayShow, delayHide })
 
-    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent)
+    const { showPortal, hidePortal, renderPortal } = usePortal(vm, innerRef, renderPortalContent, 'tooltip')
 
     // if we're on mobile, let's improve the experience
     // by closing it when user taps outside of it
@@ -147,11 +147,9 @@ export default createComponent({
     }
 
     function handleShow (evt) {
-      removeTick()
-      removeTimeout()
-
       showPortal()
 
+      // should removeTick() if this gets removed
       registerTick(() => {
         observer = new MutationObserver(() => updatePosition())
         observer.observe(innerRef.value, { attributes: false, childList: true, characterData: true, subtree: true })
@@ -166,6 +164,7 @@ export default createComponent({
         )
       }
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         showPortal(true) // done showing portal
         emit('show', evt)
@@ -174,11 +173,11 @@ export default createComponent({
 
     function handleHide (evt) {
       removeTick()
-      removeTimeout()
       hidePortal()
 
       anchorCleanup()
 
+      // should removeTimeout() if this gets removed
       registerTimeout(() => {
         hidePortal(true) // done hiding, now destroy
         emit('hide', evt)
@@ -230,14 +229,10 @@ export default createComponent({
         addEvt(anchorEvents, 'tooltipTemp', evts)
       }
 
-      registerTimeout(() => {
-        show(evt)
-      }, props.delay)
+      registerTimeout(() => { show(evt) }, props.delay)
     }
 
     function delayHide (evt) {
-      removeTimeout()
-
       if ($q.platform.is.mobile === true) {
         cleanEvt(anchorEvents, 'tooltipTemp')
         clearSelection()
@@ -247,9 +242,8 @@ export default createComponent({
         }, 10)
       }
 
-      registerTimeout(() => {
-        hide(evt)
-      }, props.hideDelay)
+      // should removeTimeout() if this gets removed
+      registerTimeout(() => { hide(evt) }, props.hideDelay)
     }
 
     function configureAnchorEl () {
@@ -291,16 +285,13 @@ export default createComponent({
             attrs.style,
             transitionStyle.value
           ],
-          role: 'complementary'
+          role: 'tooltip'
         }, hSlot(slots.default))
         : null
     }
 
     function renderPortalContent () {
-      return h(Transition, {
-        name: transition.value,
-        appear: true
-      }, getTooltipContent)
+      return h(Transition, transitionProps.value, getTooltipContent)
     }
 
     onBeforeUnmount(anchorCleanup)

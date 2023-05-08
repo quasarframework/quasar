@@ -16,7 +16,6 @@
       "type": [ "Number", "String" ],
       "desc": "Number of icons to display",
       "default": 5,
-      "examples": [ "3", ":max=\"5\"" ],
       "category": "general"
     },
 
@@ -54,6 +53,17 @@
         "img:path/to/some_image.png"
       ],
       "category": "content"
+    },
+
+    "icon-aria-label": {
+      "type": [ "String", "Array" ],
+      "desc": "Label to be set on aria-label for Icon; If an array is provided each rating value will use the corresponding aria-label in the array (0 based); If string value is provided the rating value will be appended; If not provided the name of the icon will be used",
+      "examples": [
+        "Rating",
+        "[\"Bad\", \"Normal\", \"Good\"]"
+      ],
+      "category": "accessibility",
+      "addedIn": "v1.20.3"
     },
 
     "color": {

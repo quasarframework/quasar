@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <q-dialog attr="test" v-model="alert" class="test-class" no-esc-dismiss>
+    <q-dialog ref="dialog1" attr="test" v-model="alert" class="test-class" no-esc-dismiss>
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -53,6 +53,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
+          <q-btn flat label="Print contentEl" no-caps color="primary" @click="printContentEl" />
           <q-btn flat label="OK" color="primary" v-close-popup="!preventCloseToggle" :disable="preventCloseToggle" />
         </q-card-actions>
       </q-card>
@@ -923,6 +924,10 @@ export default {
         const needle = val.toLowerCase()
         this.selectOptionsFiltered = this.selectOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
+    },
+
+    printContentEl () {
+      console.log(this.$refs.dialog1.contentEl)
     }
   }
 }

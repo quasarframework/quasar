@@ -17,21 +17,29 @@ export default createComponent({
 
   setup (props, { slots, emit }) {
     let animating = false, doneFn, element
-    let timer, timerFallback, animListener, lastEvent
+    let timer = null, timerFallback = null, animListener, lastEvent
 
     function cleanup () {
       doneFn && doneFn()
       doneFn = null
       animating = false
 
-      clearTimeout(timer)
-      clearTimeout(timerFallback)
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
+      }
+
+      if (timerFallback !== null) {
+        clearTimeout(timerFallback)
+        timerFallback = null
+      }
+
       element !== void 0 && element.removeEventListener('transitionend', animListener)
       animListener = null
     }
 
     function begin (el, height, done) {
-      el.style.overflowY = 'hidden'
+      // here overflowY is 'hidden'
       if (height !== void 0) {
         el.style.height = `${ height }px`
       }
@@ -53,19 +61,24 @@ export default createComponent({
       let pos = 0
       element = el
 
+      // if animationg overflowY is already 'hidden'
       if (animating === true) {
         cleanup()
         pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
       }
       else {
         lastEvent = 'hide'
+        el.style.overflowY = 'hidden'
       }
 
       begin(el, pos, done)
 
       timer = setTimeout(() => {
+        timer = null
         el.style.height = `${ el.scrollHeight }px`
         animListener = evt => {
+          timerFallback = null
+
           if (Object(evt) !== evt || evt.target === el) {
             end(el, 'show')
           }
@@ -84,14 +97,20 @@ export default createComponent({
       }
       else {
         lastEvent = 'show'
+        // we need to set overflowY 'hidden' before calculating the height
+        // or else we get small differences
+        el.style.overflowY = 'hidden'
         pos = el.scrollHeight
       }
 
       begin(el, pos, done)
 
       timer = setTimeout(() => {
+        timer = null
         el.style.height = 0
         animListener = evt => {
+          timerFallback = null
+
           if (Object(evt) !== evt || evt.target === el) {
             end(el, 'hide')
           }

@@ -9,12 +9,14 @@
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.ts,.vue ./",
     <% if (lintConfig === 'prettier') { %>"format": "prettier --write \"**/*.{js,ts,vue,<% if (css !== 'sass') { %><%= css %><% } %>,html,md,json}\" --ignore-path .gitignore",<% } %>
     <% } %>
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
   },
   "dependencies": {
     <% if (typescriptConfig === 'class') { %>"vue-class-component": "^8.0.0-rc.1",<% } %>
-    <% if (preset.axios) { %>"axios": "^0.21.1",<% } %>
-    <% if (preset.i18n) { %>"vue-i18n": "^9.0.0",<% } %>
+    <% if (preset.axios) { %>"axios": "^1.2.1",<% } %>
+    <% if (preset.i18n) { %>"vue-i18n": "^9.2.2",<% } %>
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.0.0",

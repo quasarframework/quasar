@@ -7,10 +7,10 @@ const argv = parseArgs(process.argv.slice(2), {
     y: 'yes',
     h: 'help'
   },
-  boolean: ['y', 'h']
+  boolean: [ 'y', 'h' ]
 })
 
-function showHelp() {
+function showHelp () {
   console.log(`
   Description
     Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
@@ -36,7 +36,7 @@ if (argv.help) {
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
-  warn(`Wrong number of parameters (${argv._.length}).`)
+  warn(`Wrong number of parameters (${ argv._.length }).`)
   showHelp()
   process.exit(1)
 }
@@ -44,59 +44,59 @@ if (argv._.length !== 0 && argv._.length !== 2) {
 const { green, gray } = require('kolorist')
 
 async function run () {
-  let [ action, mode ] = argv._
+  const [ action, mode ] = argv._
 
-  if (!['add', 'remove'].includes(action)) {
+  if (![ 'add', 'remove' ].includes(action)) {
     console.log()
     warn(`Unknown action specified (${ action }).`)
     showHelp()
     process.exit(1)
   }
 
-  if (![undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(mode)) {
-    fatal(`Unknown mode "${ mode }" to ${action}`)
+  if (![ undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex' ].includes(mode)) {
+    fatal(`Unknown mode "${ mode }" to ${ action }`)
   }
 
-  const installation = require(`../modes/${mode}/${mode}-installation`)
+  const installation = require(`../modes/${ mode }/${ mode }-installation`)
 
   if (action === 'remove' && argv.yes !== true && installation.isInstalled()) {
     console.log()
 
     const inquirer = require('inquirer')
-    const answer = await inquirer.prompt([{
+    const answer = await inquirer.prompt([ {
       name: 'go',
       type: 'confirm',
-      message: `Will also remove /src-${mode} folder. Are you sure?`,
+      message: `Will also remove /src-${ mode } folder. Are you sure?`,
       default: false
-    }])
+    } ])
 
     if (!answer.go) {
       console.log()
-      console.log(`⚠️  Aborted...`)
+      console.log('⚠️  Aborted...')
       console.log()
       process.exit(0)
     }
   }
 
-  await installation[action]()
+  await installation[ action ]()
 }
 
 function displayModes () {
-  log(`Detecting installed modes...`)
+  log('Detecting installed modes...')
 
   const info = []
-  ;['pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex'].forEach(mode => {
-    const { isInstalled } = require(`../modes/${mode}/${mode}-installation`)
+  ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
+    const { isInstalled } = require(`../modes/${ mode }/${ mode }-installation`)
     info.push([
-      `Mode ${mode.toUpperCase()}`,
+      `Mode ${ mode.toUpperCase() }`,
       isInstalled() ? green('yes') : gray('no')
     ])
   })
 
   console.log(
-    '\n' +
-    info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
     '\n'
+    + info.map(msg => ' ' + msg[ 0 ].padEnd(16, '.') + ' ' + msg[ 1 ]).join('\n')
+    + '\n'
   )
 }
 

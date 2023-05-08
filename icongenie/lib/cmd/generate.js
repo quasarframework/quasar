@@ -1,5 +1,6 @@
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
+
 const processArgv = process.argv.slice(2)
 
 const argv = parseArgs(processArgv, {
@@ -27,15 +28,19 @@ const argv = parseArgs(processArgv, {
 // if user hasn't explicitly specified this, then
 // we shouldn't take it into account
 if (processArgv.includes('--skip-trim') === false) {
-  delete argv['skip-trim']
+  delete argv[ 'skip-trim' ]
 }
 
-const { green } = require('kolorist')
+import { green } from 'kolorist'
 
 if (argv.help) {
-  const modes = Object.keys(require('../modes')).join('|')
-  const generators = Object.keys(require('../generators')).join('|')
-  const defaultParams = require('../utils/default-params')
+  const { defaultParams } = await import('../utils/default-params.js')
+
+  const { modes } = await import('../modes/index.js')
+  const modesList = Object.keys(modes).join('|')
+
+  const { generators } = await import('../generators/index.js')
+  const generatorsList = Object.keys(generators).join('|')
 
   console.log(`
   Description
@@ -62,7 +67,7 @@ if (argv.help) {
     $ icongenie generate -p ./folder-containing-profile-files
 
   Options
-    --icon, -i            ${green('Required')};
+    --icon, -i            ${ green('Required') };
                           Path to source file for icon; must be:
                             - a .png file
                             - min resolution: 64x64 px (the higher the better!!)
@@ -86,15 +91,15 @@ if (argv.help) {
 
     --mode, -m            For which Quasar mode(s) to generate the assets;
                           Default: all
-                            [all|${modes}]
+                            [all|${ modesList }]
                           Multiple can be specified, separated by ",":
                             spa,cordova
 
     --filter, -f          Filter the available generators; when used, it can
                           generate only one type of asset instead of all
-                            [${generators}]
+                            [${ generatorsList }]
 
-    --quality             Quality of the files [1 - 12] (default: ${defaultParams.quality})
+    --quality             Quality of the files [1 - 12] (default: ${ defaultParams.quality })
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
 
@@ -113,7 +118,7 @@ if (argv.help) {
                           Examples: 1976D2, eee
 
     --svg-color           Color to use for the generated monochrome svgs
-                          Default (if no theme-color is specified): ${defaultParams.svgColor.slice(1)}
+                          Default (if no theme-color is specified): ${ defaultParams.svgColor.slice(1) }
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
@@ -121,13 +126,13 @@ if (argv.help) {
     --png-color           Background color to use for the png generator, when
                           "background: true" in the asset definition (like for
                           the cordova/capacitor iOS icons);
-                          Default (if no theme-color is specified): ${defaultParams.pngColor.slice(1)}
+                          Default (if no theme-color is specified): ${ defaultParams.pngColor.slice(1) }
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
 
     --splashscreen-color  Background color to use for the splashscreen generator;
-                          Default (if no theme-color is specified): ${defaultParams.splashscreenColor.slice(1)}
+                          Default (if no theme-color is specified): ${ defaultParams.splashscreenColor.slice(1) }
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
                           Examples: 1976D2, eee
@@ -136,7 +141,7 @@ if (argv.help) {
                                (whichever is smaller) of the resulting splashscreen;
                                Represents percentages; Valid values: 0 - 100
                                If 0 then it doesn't add the icon of top of background
-                               Default: ${defaultParams.splashscreenIconRatio}
+                               Default: ${ defaultParams.splashscreenIconRatio }
 
     --profile, -p         Use JSON profile file(s):
                             - path to folder (absolute or relative to current folder)
@@ -157,19 +162,19 @@ if (argv.help) {
   process.exit(0)
 }
 
-const parseArgv = require('../utils/parse-argv')
-const generate = require('../runner/generate')
-const getProfileFiles = require('../utils/get-profile-files')
-const filterArgvParams = require('../utils/filter-argv-params')
-const { log } = require('../utils/logger')
+import { generate } from '../runner/generate.js'
+import { parseArgv } from '../utils/parse-argv.js'
+import { getProfileFiles } from '../utils/get-profile-files.js'
+import { filterArgvParams } from '../utils/filter-argv-params.js'
+import { log } from '../utils/logger.js'
 
 async function runProfiles (params, profileFiles) {
   for (let i = 0; i < profileFiles.length; i++) {
-    const profile = profileFiles[i]
+    const profile = profileFiles[ i ]
 
     console.log(`\n`)
     log(`---------------------`)
-    log(`Generating by profile: ${profile}`)
+    log(`Generating by profile: ${ profile }`)
     log(`---------------------`)
     console.log(`\n`)
 

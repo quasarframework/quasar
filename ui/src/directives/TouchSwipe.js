@@ -107,6 +107,13 @@ export default createDirective(__QUASAR_SSR_SERVER__
                 return
               }
             }
+            // is user trying to select text?
+            // if so, then something should be reported here
+            // (previous selection, if any, was discarded when swipe started)
+            else if (window.getSelection().toString() !== '') {
+              ctx.end(evt)
+              return
+            }
             else if (absX < ctx.sensitivity[ 2 ] && absY < ctx.sensitivity[ 2 ]) {
               return
             }
@@ -228,13 +235,20 @@ export default createDirective(__QUASAR_SSR_SERVER__
 
         el.__qtouchswipe = ctx
 
-        modifiers.mouse === true && addEvt(ctx, 'main', [
-          [ el, 'mousedown', 'mouseStart', `passive${ mouseCapture }` ]
-        ])
+        if (modifiers.mouse === true) {
+          // account for UMD too where modifiers will be lowercased to work
+          const capture = modifiers.mouseCapture === true || modifiers.mousecapture === true
+            ? 'Capture'
+            : ''
+
+          addEvt(ctx, 'main', [
+            [ el, 'mousedown', 'mouseStart', `passive${ capture }` ]
+          ])
+        }
 
         client.has.touch === true && addEvt(ctx, 'main', [
           [ el, 'touchstart', 'touchStart', `passive${ modifiers.capture === true ? 'Capture' : '' }` ],
-          [ el, 'touchmove', 'noop', 'notPassiveCapture' ]
+          [ el, 'touchmove', 'noop', 'notPassiveCapture' ] // cannot be passive (ex: iOS scroll)
         ])
       },
 

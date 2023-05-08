@@ -1,11 +1,125 @@
 {
   "name": "@quasar/extras",
-  "version": "1.15.1",
+  "version": "1.16.3",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
   },
   "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./animate/animate-list.common": {
+      "types": "./animate/animate-list.d.ts",
+      "import": "./animate/animate-list.mjs",
+      "require": "./animate/animate-list.common.js"
+    },
+    "./bootstrap-icons": {
+      "types": "./bootstrap-icons/index.d.ts",
+      "import": "./bootstrap-icons/index.mjs",
+      "require": "./bootstrap-icons/index.js"
+    },
+    "./eva-icons": {
+      "types": "./eva-icons/index.d.ts",
+      "import": "./eva-icons/index.mjs",
+      "require": "./eva-icons/index.js"
+    },
+    "./fontawesome-v5": {
+      "types": "./fontawesome-v5/index.d.ts",
+      "import": "./fontawesome-v5/index.mjs",
+      "require": "./fontawesome-v5/index.js"
+    },
+    "./fontawesome-v6": {
+      "types": "./fontawesome-v6/index.d.ts",
+      "import": "./fontawesome-v6/index.mjs",
+      "require": "./fontawesome-v6/index.js"
+    },
+    "./ionicons-v4": {
+      "types": "./ionicons-v4/index.d.ts",
+      "import": "./ionicons-v4/index.mjs",
+      "require": "./ionicons-v4/index.js"
+    },
+    "./ionicons-v5": {
+      "types": "./ionicons-v5/index.d.ts",
+      "import": "./ionicons-v5/index.mjs",
+      "require": "./ionicons-v5/index.js"
+    },
+    "./ionicons-v6": {
+      "types": "./ionicons-v6/index.d.ts",
+      "import": "./ionicons-v6/index.mjs",
+      "require": "./ionicons-v6/index.js"
+    },
+    "./ionicons-v7": {
+      "types": "./ionicons-v7/index.d.ts",
+      "import": "./ionicons-v7/index.mjs",
+      "require": "./ionicons-v7/index.js"
+    },
+    "./line-awesome": {
+      "types": "./line-awesome/index.d.ts",
+      "import": "./line-awesome/index.mjs",
+      "require": "./line-awesome/index.js"
+    },
+    "./material-icons": {
+      "types": "./material-icons/index.d.ts",
+      "import": "./material-icons/index.mjs",
+      "require": "./material-icons/index.js"
+    },
+    "./material-icons-outlined": {
+      "types": "./material-icons-outlined/index.d.ts",
+      "import": "./material-icons-outlined/index.mjs",
+      "require": "./material-icons-outlined/index.js"
+    },
+    "./material-icons-round": {
+      "types": "./material-icons-round/index.d.ts",
+      "import": "./material-icons-round/index.mjs",
+      "require": "./material-icons-round/index.js"
+    },
+    "./material-icons-sharp": {
+      "types": "./material-icons-sharp/index.d.ts",
+      "import": "./material-icons-sharp/index.mjs",
+      "require": "./material-icons-sharp/index.js"
+    },
+    "./material-symbols-outlined": {
+      "types": "./material-symbols-outlined/index.d.ts",
+      "import": "./material-symbols-outlined/index.mjs",
+      "require": "./material-symbols-outlined/index.js"
+    },
+    "./material-symbols-rounded": {
+      "types": "./material-symbols-rounded/index.d.ts",
+      "import": "./material-symbols-rounded/index.mjs",
+      "require": "./material-symbols-rounded/index.js"
+    },
+    "./material-symbols-sharp": {
+      "types": "./material-symbols-sharp/index.d.ts",
+      "import": "./material-symbols-sharp/index.mjs",
+      "require": "./material-symbols-sharp/index.js"
+    },
+    "./mdi-v4": {
+      "types": "./mdi-v4/index.d.ts",
+      "import": "./mdi-v4/index.mjs",
+      "require": "./mdi-v4/index.js"
+    },
+    "./mdi-v5": {
+      "types": "./mdi-v5/index.d.ts",
+      "import": "./mdi-v5/index.mjs",
+      "require": "./mdi-v5/index.js"
+    },
+    "./mdi-v6": {
+      "types": "./mdi-v6/index.d.ts",
+      "import": "./mdi-v6/index.mjs",
+      "require": "./mdi-v6/index.js"
+    },
+    "./mdi-v7": {
+      "types": "./mdi-v7/index.d.ts",
+      "import": "./mdi-v7/index.mjs",
+      "require": "./mdi-v7/index.js"
+    },
+    "./themify": {
+      "types": "./themify/index.d.ts",
+      "import": "./themify/index.mjs",
+      "require": "./themify/index.js"
+    },
+    "./*": "./*"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quasarframework/quasar.git"
@@ -24,7 +138,8 @@
       "email": "jeff@quasar.dev",
       "url": "https://jeffgalbraith.dev"
     }
-  ],"license": "MIT",
+  ],
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/quasarframework/quasar/issues"
   },
@@ -37,19 +152,19 @@
     "access": "public"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "6.1.2",
-    "@mdi/font": "7.0.96",
-    "@mdi/svg": "7.0.96",
+    "@fortawesome/fontawesome-free": "6.4.0",
+    "@mdi/font": "7.2.96",
+    "@mdi/svg": "7.2.96",
     "animate.css": "4.1.1",
-    "bootstrap-icons": "^1.9.1",
+    "bootstrap-icons": "^1.10.3",
     "cross-fetch": "^3.1.5",
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",
-    "fs-extra": "10.1.0",
-    "glob": "8.0.3",
-    "ionicons": "6.0.2",
+    "fs-extra": "11.1.1",
+    "glob": "9.3.4",
+    "ionicons": "7.1.0",
     "line-awesome": "1.3.0",
     "themify-icons": "https://github.com/lykmapipo/themify-icons",
-    "@xmldom/xmldom": "0.8.2"
+    "@xmldom/xmldom": "0.8.7"
   }
 }

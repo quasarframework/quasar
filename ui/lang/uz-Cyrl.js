@@ -19,7 +19,9 @@ module.exports = {
     create: 'Яратиш',
     search: 'Қидириш',
     filter: 'Филтрлаш',
-    refresh: 'Янгилаш'
+    refresh: 'Янгилаш',
+    expand: label => (label ? `"${ label }" ни кенгайтириш` : 'ъКенгайтиришъ'),
+    collapse: label => (label ? `"${ label }" ни йиғиш` : 'ъЙиқилишъ')
   },
   date: {
     days: 'Якшанба_Душанба_Сешанба_Чоршанба_Пайшанба_Жума_Шанба'.split('_'),

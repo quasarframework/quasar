@@ -1,14 +1,13 @@
-const os = require('os')
+import os from 'os'
 
-module.exports.getExternalNetworkInterface = function () {
-  const
-    networkInterfaces = os.networkInterfaces();
-    const devices = []
+export function getExternalNetworkInterface () {
+  const networkInterfaces = os.networkInterfaces()
+  const devices = []
 
-  for (let deviceName of Object.keys(networkInterfaces)) {
-    const networkInterface = networkInterfaces[deviceName]
+  for (const deviceName of Object.keys(networkInterfaces)) {
+    const networkInterface = networkInterfaces[ deviceName ]
 
-    for (let networkAddress of networkInterface) {
+    for (const networkAddress of networkInterface) {
       if (!networkAddress.internal && networkAddress.family === 'IPv4') {
         devices.push({ deviceName, ...networkAddress })
       }

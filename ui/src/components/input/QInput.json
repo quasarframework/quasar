@@ -28,21 +28,18 @@
         "text", "password", "textarea", "email", "search",
         "tel", "file", "number", "url", "time", "date"
       ],
-      "examples": [ "password" ],
       "category": "general"
     },
 
     "debounce": {
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds) when updating model",
-      "examples": [ "0", "530" ],
       "category": "model"
     },
 
     "maxlength": {
       "type": [ "String", "Number" ],
       "desc": "Specify a max length of model",
-      "examples": [ "12" ],
       "category": "model"
     },
 
@@ -118,12 +115,21 @@
     },
 
     "getNativeElement": {
-      "desc": "Get the native input/textarea DOM Element",
+      "desc": "DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element",
       "returns": {
-        "type": "Object",
-        "desc": "The underlying native input/textarea DOM Element",
-        "__exemption": [ "examples" ]
+        "type": "Element",
+        "tsType": "QInputNativeElement",
+        "desc": "The underlying native input/textarea DOM Element"
       }
+    }
+  },
+
+  "computedProps": {
+    "nativeEl": {
+      "type": "Element",
+      "tsType": "QInputNativeElement",
+      "desc": "The native input/textarea DOM Element",
+      "addedIn": "v2.10.1"
     }
   }
 }

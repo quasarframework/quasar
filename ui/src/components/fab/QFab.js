@@ -9,6 +9,7 @@ import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 import { fabKey } from '../../utils/private/symbols.js'
+import uid from '../../utils/uid.js'
 
 const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]
@@ -48,6 +49,7 @@ export default createComponent({
   setup (props, { slots }) {
     const triggerRef = ref(null)
     const showing = ref(props.modelValue === true)
+    const targetUid = uid()
 
     const { proxy: { $q } } = getCurrentInstance()
     const { formClass, labelProps } = useFab(props, showing)
@@ -72,6 +74,19 @@ export default createComponent({
       + ` q-fab__actions--${ props.direction }`
       + ` q-fab__actions--${ showing.value === true ? 'opened' : 'closed' }`
     )
+
+    const actionAttrs = computed(() => {
+      const attrs = {
+        id: targetUid,
+        role: 'menu'
+      }
+
+      if (showing.value !== true) {
+        attrs[ 'aria-hidden' ] = 'true'
+      }
+
+      return attrs
+    })
 
     const iconHolderClass = computed(() =>
       'q-fab__icon-holder '
@@ -134,10 +149,11 @@ export default createComponent({
         fab: true,
         'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
+        'aria-controls': targetUid,
         onClick: toggle
       }, getTriggerContent),
 
-      h('div', { class: actionClass.value }, hSlot(slots.default))
+      h('div', { class: actionClass.value, ...actionAttrs.value }, hSlot(slots.default))
     ])
   }
 })

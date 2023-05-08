@@ -5,12 +5,12 @@ const ext = cssVariables.appFile.sass
   : (cssVariables.appFile.scss ? 'scss' : false)
 
 const prefix = ext !== false
-  ? `@import '~src/css/quasar.variables.${ext}', 'quasar/src/css/variables.sass'\n`
-  : `@import 'quasar/src/css/variables.sass'\n`
+  ? `@import '~src/css/quasar.variables.${ ext }', 'quasar/src/css/variables.sass'\n`
+  : '@import \'quasar/src/css/variables.sass\'\n'
 
 module.exports = function (content) {
   if (content.indexOf('$') !== -1) {
-    let useIndex = Math.max(
+    const useIndex = Math.max(
       content.lastIndexOf('@use '),
       content.lastIndexOf('@forward ')
     )

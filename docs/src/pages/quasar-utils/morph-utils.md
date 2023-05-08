@@ -2,6 +2,7 @@
 title: Morph Utils
 desc: Morph one DOM element into another (with animation) or between two states of the same element using Quasar's morph util.
 keys: morph
+examples: MorphUtils
 related:
   - /vue-directives/morph
 ---
@@ -69,12 +70,12 @@ Regarding the cancel() function (the return value of a call to morph()):
 
 ## Examples
 
-<doc-example title="Morphing the same element" file="MorphUtils/SameElement" />
+<doc-example title="Morphing the same element" file="SameElement" />
 
-<doc-example title="Morphing a QCard from a QFabAction" file="MorphUtils/FabCard" />
+<doc-example title="Morphing a QCard from a QFabAction" file="FabCard" />
 
-<doc-example title="Image gallery " file="MorphUtils/ImageGallery" />
+<doc-example title="Image gallery " file="ImageGallery" />
 
-<doc-example title="Horizontal image strip " file="MorphUtils/ImageStripHorizontal" />
+<doc-example title="Horizontal image strip " file="ImageStripHorizontal" />
 
-<doc-example title="Vertical image strip " file="MorphUtils/ImageStripVertical" />
+<doc-example title="Vertical image strip " file="ImageStripVertical" />

@@ -25,8 +25,15 @@ export function parseViteRequest (id) {
 
   const is = query.vue !== void 0 // is vue query?
     ? {
+        // Almost all code might get merged into a single request with no 'type' (App.vue?vue)
+        // or stay with their original 'type's (App.vue?vue&type=script&lang.ts)
         vue: () => true,
-        template: () => query.type === void 0 || query.type === 'template',
+        template: () =>
+          query.type === void 0 ||
+          query.type === 'template' ||
+          // On prod, TS code turns into a separate 'script' request.
+          // See: https://github.com/vitejs/vite/pull/7909
+          (query.type === 'script' && (query['lang.ts'] !== void 0 || query['lang.tsx'] !== void 0)),
         script: (extensions = scriptExt) =>
           (query.type === void 0 || query.type === 'script') &&
           isOfExt({ query, extensions }) === true,
@@ -49,7 +56,7 @@ export function parseViteRequest (id) {
 
 const vueExt = [ '.vue' ]
 const scriptExt = [ '.js', '.jsx', '.ts', '.tsx', '.vue' ]
-const styleExt = [ '.css', '.scss', '.sass' ]
+const styleExt = [ '.css', '.scss', '.module.scss', '.sass', '.module.sass' ]
 
 const isOfExt = ({ extensions, filename, query }) =>
   extensions.some(

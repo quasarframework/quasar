@@ -42,11 +42,11 @@ module.exports = function (chain, cfg) {
     // Register our plugin, update the manifest and package the browser extension.
     const BexPackager = require('./plugin.bex-packager')
     chain.plugin('webpack-bex-packager')
-      .use(BexPackager, [{
+      .use(BexPackager, [ {
         src: cfg.bex.builder.directories.input,
         dest: cfg.bex.builder.directories.output,
         name: require(appPaths.resolve.app('package.json')).name
-      }])
+      } ])
 
     // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
     copyPatterns.push({
@@ -69,5 +69,5 @@ module.exports = function (chain, cfg) {
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [{ patterns: copyPatterns }])
+    .use(CopyWebpackPlugin, [ { patterns: copyPatterns } ])
 }

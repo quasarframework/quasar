@@ -7,14 +7,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": [ "Object", "Promise<any>" ],
-        "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, formFields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value",
-        "__exemption": [ "examples" ]
+        "desc": "Optional configuration for the upload process; You can override QUploader props in this Object (url, method, headers, formFields, fieldName, withCredentials, sendRaw); Props of these Object can also be Functions with the form of (file[s]) => value"
       },
       "category": "upload"
     },
@@ -26,14 +24,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "String",
-        "desc": "URL or path to the server which handles the upload",
-        "__exemption": [ "examples" ]
+        "desc": "URL or path to the server which handles the upload"
       },
       "category": "upload"
     },
@@ -47,14 +43,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "String",
-        "desc": "HTTP method to use for upload",
-        "__exemption": [ "examples" ]
+        "desc": "HTTP method to use for upload"
       },
       "category": "upload"
     },
@@ -70,14 +64,12 @@
       "params": {
         "files": {
           "type": "File",
-          "desc": "The current file being processed",
-          "__exemption": [ "examples" ]
+          "desc": "The current file being processed"
         }
       },
       "returns": {
         "type": "String",
-        "desc": "Field name for the current file upload",
-        "__exemption": [ "examples" ]
+        "desc": "Field name for the current file upload"
       },
       "category": "upload"
     },
@@ -107,14 +99,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "String",
-        "desc": "An array consisting of objects with header definitions",
-        "__exemption": [ "examples" ]
+        "desc": "An array consisting of objects with header definitions"
       },
       "category": "upload"
     },
@@ -144,14 +134,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "String",
-        "desc": "An array consists of objects with additional fields definitions (used by Form to be uploaded)",
-        "__exemption": [ "examples" ]
+        "desc": "An array consists of objects with additional fields definitions (used by Form to be uploaded)"
       },
       "category": "upload"
     },
@@ -163,14 +151,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "Boolean",
-        "desc": "If true, withCredentials will be set to true on the XHR that manages the upload",
-        "__exemption": [ "examples" ]
+        "desc": "If true, withCredentials will be set to true on the XHR that manages the upload"
       },
       "category": "upload"
     },
@@ -182,14 +168,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "Boolean",
-        "desc": "If true, raw files will get sent without wrapping into a Form()",
-        "__exemption": [ "examples" ]
+        "desc": "If true, raw files will get sent without wrapping into a Form()"
       },
       "category": "upload"
     },
@@ -201,14 +185,12 @@
       "params": {
         "files": {
           "type": "Array",
-          "desc": "Uploaded files",
-          "__exemption": [ "examples" ]
+          "desc": "Uploaded files"
         }
       },
       "returns": {
         "type": "Boolean",
-        "desc": "If true, files will be uploaded in a batch (in one XHR request)",
-        "__exemption": [ "examples" ]
+        "desc": "If true, files will be uploaded in a batch (in one XHR request)"
       },
       "category": "upload"
     }
@@ -225,14 +207,12 @@
             "files": {
               "type": "Array",
               "required": true,
-              "desc": "Uploaded files",
-              "__exemption": [ "examples" ]
+              "desc": "Uploaded files"
             },
             "xhr": {
               "type": "Object",
               "required": true,
-              "desc": "XMLHttpRequest that has been used to upload this batch of files",
-              "__exemption": [ "examples" ]
+              "desc": "XMLHttpRequest that has been used to upload this batch of files"
             }
           }
         }
@@ -249,14 +229,12 @@
             "files": {
               "type": "Array",
               "required": true,
-              "desc": "Files which encountered error",
-              "__exemption": [ "examples" ]
+              "desc": "Files which encountered error"
             },
             "xhr": {
               "type": "Object",
               "required": true,
-              "desc": "XMLHttpRequest that has been used to upload this batch of files",
-              "__exemption": [ "examples" ]
+              "desc": "XMLHttpRequest that has been used to upload this batch of files"
             }
           }
         }
@@ -273,14 +251,12 @@
             "files": {
               "type": "Array",
               "required": true,
-              "desc": "Files which are now uploading",
-              "__exemption": [ "examples" ]
+              "desc": "Files which are now uploading"
             },
             "xhr": {
               "type": "Object",
               "required": true,
-              "desc": "XMLHttpRequest used for uploading",
-              "__exemption": [ "examples" ]
+              "desc": "XMLHttpRequest used for uploading"
             }
           }
         }
@@ -296,8 +272,7 @@
         },
         "files": {
           "type": "Array",
-          "desc": "Files which were to get uploaded",
-          "__exemption": [ "examples" ]
+          "desc": "Files which were to get uploaded"
         }
       }
     }

@@ -19,7 +19,9 @@ module.exports = {
     create: 'സൃഷ്ടിക്കുക',
     search: 'തിരയുക',
     filter: 'അരിക്കുക',
-    refresh: 'പുതുക്കുക'
+    refresh: 'പുതുക്കുക',
+    expand: label => (label ? `"${ label }" വികസിപ്പിക്കുക` : 'വികസിപ്പിക്കുക'),
+    collapse: label => (label ? `"${ label }" ചുരുക്കുക` : 'ചുരുക്കുക')
   },
   date: {
     days: 'ഞായർ_തിങ്കൾ_ചൊവ്വ_ബുധൻ_വ്യാഴം_വെള്ളി_ശനി'.split('_'),

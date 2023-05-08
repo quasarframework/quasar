@@ -1,12 +1,14 @@
 // Partly used with babel-plugin-transform-imports
 // and by @quasar/app auto-import feature
 
-const glob = require('glob')
+const glob = require('fast-glob')
 const path = require('path')
 
 const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
 const { writeFile, kebabCase } = require('./build.utils')
+
+const sourceFileSuffixRE = /__tests__/
 
 function relative (name) {
   return path.relative(root, name).split('\\').join('/')
@@ -23,6 +25,7 @@ function lowerCamelCase (name) {
 
 function addComponents (map, autoImport) {
   glob.sync(resolvePath('src/components/**/Q*.js'))
+    .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
       const
@@ -40,7 +43,7 @@ function addComponents (map, autoImport) {
 
 function addDirectives (map, autoImport) {
   glob.sync(resolvePath('src/directives/*.js'))
-    .filter(file => file.endsWith('.ssr.js') === false)
+    .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
       const
@@ -56,6 +59,7 @@ function addDirectives (map, autoImport) {
 
 function addPlugins (map) {
   glob.sync(resolvePath('src/plugins/*.js'))
+    .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
@@ -65,6 +69,7 @@ function addPlugins (map) {
 
 function addComposables (map) {
   glob.sync(resolvePath('src/composables/*.js'))
+    .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))
@@ -74,6 +79,7 @@ function addComposables (map) {
 
 function addUtils (map) {
   glob.sync(resolvePath('src/utils/*.js'))
+    .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
       const name = getWithoutExtension(path.basename(file))

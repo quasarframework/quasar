@@ -6,9 +6,9 @@
       </div>
 
       <div class="column q-gutter-md" style="font-size: 2rem; margin-top: 20px;">
-        <q-rating v-model="ratingModel" max="3" @change="onChange" @update:model-value="onInput" />
+        <q-rating v-model="ratingModel" max="3" :icon-aria-label="['Bad', 'Normal', 'Good']" @change="onChange" @update:model-value="onInput" />
         <q-rating v-model="ratingModel" color="primary" max="5" icon="pets" @update:model-value="onInput" />
-        <q-rating color="teal" v-model="ratingModel" max="9" icon="thumb_up" />
+        <q-rating color="teal" v-model="ratingModel" max="9" icon="thumb_up" icon-aria-label="Thumbs" />
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border" />
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="img:https://cdn.quasar.dev/logo-v2/svg/logo.svg" />
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="star_border" icon-selected="star" />

@@ -112,6 +112,10 @@
     "nativeName": "日本語 (にほんご)"
   },
   {
+    "isoName": "kk",
+    "nativeName": "Қазақша"
+  },
+  {
     "isoName": "km",
     "nativeName": "ខ្មែរ"
   },
@@ -124,10 +128,6 @@
     "nativeName": "کوردی سۆرانی"
   },
   {
-    "isoName": "kz",
-    "nativeName": "Қазақша"
-  },
-  {
     "isoName": "lt",
     "nativeName": "Lithuanian"
   },
@@ -138,6 +138,10 @@
   {
     "isoName": "lv",
     "nativeName": "Latviešu valoda"
+  },
+  {
+    "isoName": "mk",
+    "nativeName": "Македонски"
   },
   {
     "isoName": "ml",

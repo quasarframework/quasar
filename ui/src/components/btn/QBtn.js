@@ -26,10 +26,12 @@ export default createComponent({
     ...useBtnProps,
 
     percentage: Number,
-    darkPercentage: Boolean
+    darkPercentage: Boolean,
+
+    onTouchstart: [ Function, Array ]
   },
 
-  emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
+  emits: [ 'click', 'keydown', 'mousedown', 'keyup' ],
 
   setup (props, { slots, emit }) {
     const { proxy } = getCurrentInstance()
@@ -37,14 +39,14 @@ export default createComponent({
     const {
       classes, style, innerClasses,
       attributes,
-      hasRouterLink, hasLink, linkTag, navigateToRouterLink,
+      hasLink, linkTag, navigateOnClick,
       isActionable
     } = useBtn(props)
 
     const rootRef = ref(null)
     const blurTargetRef = ref(null)
 
-    let localTouchTargetEl = null, avoidMouseRipple, mouseTimer
+    let localTouchTargetEl = null, avoidMouseRipple, mouseTimer = null
 
     const hasLabel = computed(() =>
       props.label !== void 0 && props.label !== null && props.label !== ''
@@ -72,7 +74,7 @@ export default createComponent({
       if (props.loading === true) {
         return {
           onMousedown: onLoadingEvt,
-          onTouchstartPassive: onLoadingEvt,
+          onTouchstart: onLoadingEvt,
           onClick: onLoadingEvt,
           onKeydown: onLoadingEvt,
           onKeyup: onLoadingEvt
@@ -80,12 +82,21 @@ export default createComponent({
       }
 
       if (isActionable.value === true) {
-        return {
+        const acc = {
           onClick,
           onKeydown,
-          onMousedown,
-          onTouchstart
+          onMousedown
         }
+
+        if (proxy.$q.platform.has.touch === true) {
+          const suffix = props.onTouchstart !== void 0
+            ? ''
+            : 'Passive'
+
+          acc[ `onTouchstart${ suffix }` ] = onTouchstart
+        }
+
+        return acc
       }
 
       return {
@@ -135,18 +146,7 @@ export default createComponent({
         }
       }
 
-      if (hasRouterLink.value === true) {
-        const go = () => {
-          e.__qNavigate = true
-          navigateToRouterLink(e)
-        }
-
-        emit('click', e, go)
-        e.defaultPrevented !== true && go()
-      }
-      else {
-        emit('click', e)
-      }
+      navigateOnClick(e)
     }
 
     function onKeydown (e) {
@@ -192,8 +192,9 @@ export default createComponent({
       // avoid duplicated mousedown event
       // triggering another early ripple
       avoidMouseRipple = true
-      clearTimeout(mouseTimer)
+      mouseTimer !== null && clearTimeout(mouseTimer)
       mouseTimer = setTimeout(() => {
+        mouseTimer = null
         avoidMouseRipple = false
       }, 200)
     }

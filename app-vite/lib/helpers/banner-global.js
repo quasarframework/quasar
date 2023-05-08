@@ -31,42 +31,42 @@ module.exports = function (argv, cmd, details = {}) {
   let banner = ''
 
   if (details.buildOutputFolder) {
-    banner += ` ${underline('Build succeeded')}\n`
+    banner += ` ${ underline('Build succeeded') }\n`
   }
 
   banner += `
- ${cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............'} ${green(argv.mode)}
- Pkg quasar............. ${green('v' + quasarVersion)}
- Pkg @quasar/app-vite... ${green('v' + cliAppVersion)}
- Pkg vite............... ${green('v' + viteVersion)}
- Debugging.............. ${cmd === 'dev' || argv.debug ? green('enabled') : gray('no')}`
+ ${ cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............' } ${ green(argv.mode) }
+ Pkg quasar............. ${ green('v' + quasarVersion) }
+ Pkg @quasar/app-vite... ${ green('v' + cliAppVersion) }
+ Pkg vite............... ${ green('v' + viteVersion) }
+ Debugging.............. ${ cmd === 'dev' || argv.debug ? green('enabled') : gray('no') }`
 
   if (cmd === 'build') {
-    banner += `\n Publishing............. ${argv.publish !== void 0 ? green('yes') : gray('no')}`
+    banner += `\n Publishing............. ${ argv.publish !== void 0 ? green('yes') : gray('no') }`
   }
 
   if ([ 'cordova', 'capacitor' ].includes(argv.mode)) {
-    const packaging = argv['skip-pkg']
+    const packaging = argv[ 'skip-pkg' ]
       ? gray('skip')
       : green(getPackager(argv, cmd))
 
     banner += cmd === 'build'
-      ? `\n Packaging mode......... ${packaging}`
-      : `\n Running mode........... ${packaging}`
+      ? `\n Packaging mode......... ${ packaging }`
+      : `\n Running mode........... ${ packaging }`
   }
 
   if (details.target) {
-    banner += `\n Browser target......... ${getCompilationTarget(details.target.browser)}`
+    banner += `\n Browser target......... ${ getCompilationTarget(details.target.browser) }`
     if ([ 'electron', 'ssr' ].includes(argv.mode)) {
-      banner += `\n Node target............ ${getCompilationTarget(details.target.node)}`
+      banner += `\n Node target............ ${ getCompilationTarget(details.target.node) }`
     }
   }
 
   if (details.buildOutputFolder) {
-    if (argv['skip-pkg'] !== true) {
+    if (argv[ 'skip-pkg' ] !== true) {
       banner += `
  =======================
- Output folder.......... ${green(details.buildOutputFolder)}`
+ Output folder.......... ${ green(details.buildOutputFolder) }`
     }
 
     if (argv.mode === 'ssr') {
@@ -104,7 +104,7 @@ module.exports = function (argv, cmd, details = {}) {
       "npx capacitor <params>") or change any files in "src-capacitor", except
       for the "www" folder which must be built by Quasar CLI.`
     }
-    else if (['spa', 'pwa'].includes(argv.mode)) {
+    else if ([ 'spa', 'pwa' ].includes(argv.mode)) {
       banner += `
 
  Tip: Built files are meant to be served over an HTTP server

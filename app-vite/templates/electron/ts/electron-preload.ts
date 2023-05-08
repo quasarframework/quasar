@@ -14,4 +14,16 @@
  *   contextBridge.exposeInMainWorld('myAPI', {
  *     doAThing: () => {}
  *   })
+ *
+ * WARNING!
+ * If accessing Node functionality (like importing @electron/remote) then in your
+ * electron-main.ts you will need to set the following when you instantiate BrowserWindow:
+ *
+ * mainWindow = new BrowserWindow({
+ *   // ...
+ *   webPreferences: {
+ *     // ...
+ *     sandbox: false // <-- to be able to import @electron/remote in preload script
+ *   }
+ * }
  */

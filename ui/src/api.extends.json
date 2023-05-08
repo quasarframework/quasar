@@ -161,8 +161,7 @@
         "value": {
           "type": "Any",
           "desc": "New model value",
-          "required": true,
-          "__exemption": [ "examples" ]
+          "required": true
         }
       }
     },

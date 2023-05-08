@@ -145,7 +145,7 @@ It is likely that you will need to copy static or external files to your Quasar 
   build: {
   ...
     vitePlugins: [
-      [ 
+      [
         'rollup-plugin-copy', {
           targets: [
             { // Syntax code, check doc in https://www.npmjs.com/package/rollup-plugin-copy
@@ -156,7 +156,7 @@ It is likely that you will need to copy static or external files to your Quasar 
               src: 'config/firebase/firebase-messaging-sw.js',
               dest: 'dest/spa'    // example when building SPA
             }
-        } 
+        }
        ],
        // other vite/rollup plugins
     ]
@@ -222,4 +222,4 @@ module.exports = function (ctx) {
 
 Styles in `*.vue` files (and all other style files) are piped through PostCSS by default, so you don't need to use a specific loader for it.
 
-By default, PostCSS is configured to use Autoprefixer. Take a look at `/postcss.config.js` where you can tweak it if you need to.
+By default, PostCSS is configured to use Autoprefixer. Take a look at `/postcss.config.cjs` where you can tweak it if you need to.

@@ -111,10 +111,7 @@ export default createComponent({
 
     const directives = computed(() => {
       // if props.disable === false
-      const modifiers = {
-        down: true,
-        mightPrevent: true
-      }
+      const modifiers = { down: true }
 
       if (props.noMouse !== true) {
         modifiers.mouse = true
@@ -140,6 +137,8 @@ export default createComponent({
       })
     }
 
+    let $el, localScrollTarget, timer = null
+
     function animateTo ({ pos, ratio }, done) {
       animating.value = true
       pullPosition.value = pos
@@ -148,17 +147,13 @@ export default createComponent({
         pullRatio.value = ratio
       }
 
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
       timer = setTimeout(() => {
+        timer = null
         animating.value = false
         done && done()
       }, 300)
     }
-
-    // expose public methods
-    Object.assign(proxy, { trigger, updateScrollTarget })
-
-    let $el, localScrollTarget, timer
 
     function updateScrollTarget () {
       localScrollTarget = getScrollTarget($el, props.scrollTarget)
@@ -172,8 +167,11 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
-      clearTimeout(timer)
+      timer !== null && clearTimeout(timer)
     })
+
+    // expose public methods
+    Object.assign(proxy, { trigger, updateScrollTarget })
 
     return () => {
       const child = [

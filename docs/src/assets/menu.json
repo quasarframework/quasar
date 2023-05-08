@@ -1,16 +1,6 @@
 [
   {
-    "name": "Why Quasar?",
-    "icon": "room",
-    "path": "introduction-to-quasar"
-  },
-  {
-    "name": "Sponsors and Backers",
-    "icon": "favorite",
-    "path": "sponsors-and-backers"
-  },
-  {
-    "name": "Why Donations Are Important",
+    "name": "Why donate",
     "icon": "assignment_late",
     "path": "why-donate"
   },
@@ -20,77 +10,9 @@
     "path": "api-explorer"
   },
   {
-    "name": "Video Tutorials",
-    "icon": "ondemand_video",
-    "path": "video-tutorials"
-  },
-  {
-    "name": "Meet the Team",
-    "icon": "people",
-    "path": "meet-the-team"
-  },
-  {
-    "name": "Getting Started",
-    "icon": "flight_takeoff",
-    "path": "start",
-    "children": [
-      {
-        "name": "Pick Quasar Flavour",
-        "path": "pick-quasar-flavour"
-      },
-      {
-        "name": "Quasar Flavours",
-        "opened": true,
-        "children": [
-          {
-            "name": "Quasar CLI",
-            "path": "quasar-cli"
-          },
-          {
-            "name": "UMD / Standalone",
-            "path": "umd"
-          },
-          {
-            "name": "Vite Plugin",
-            "path": "vite-plugin"
-          },
-          {
-            "name": "Vue CLI Plugin",
-            "path": "vue-cli-plugin"
-          }
-        ]
-      },
-      {
-        "name": "How to use Vue",
-        "path": "how-to-use-vue"
-      },
-      {
-        "name": "Playground",
-        "path": "playground"
-      },
-      {
-        "name": "Release notes",
-        "path": "release-notes"
-      },
-      {
-        "name": "Roadmap",
-        "path": "roadmap"
-      },
-      {
-        "name": "Upgrade guide",
-        "badge": "update",
-        "path": "upgrade-guide"
-      },
-      {
-        "name": "VS Code Configuration",
-        "path": "vs-code-configuration"
-      }
-    ]
-  },
-  {
-    "name": "Contribution Guide",
+    "name": "How to contribute",
     "icon": "code",
-    "path": "contribution-guide",
+    "path": "how-to-contribute",
     "children": [
       {
         "name": "Contribution Guide",
@@ -628,7 +550,7 @@
       },
       {
         "name": "Material Ripples",
-        "path": "material-ripple"
+        "path": "material-ripples"
       },
       {
         "name": "Mutation",
@@ -835,7 +757,7 @@
         "path": "testing-and-auditing"
       },
       {
-        "name": "Developing SPA",
+        "name": "SPA mode",
         "path": "developing-spa",
         "children": [
           {
@@ -857,7 +779,7 @@
         ]
       },
       {
-        "name": "Developing SSR",
+        "name": "SSR mode",
         "path": "developing-ssr",
         "children": [
           {
@@ -917,7 +839,7 @@
             "path": "ssr-with-pwa"
           },
           {
-            "name": "SSR Frequently Asked Questions",
+            "name": "SSR FAQ",
             "path": "ssr-frequently-asked-questions"
           },
           {
@@ -935,7 +857,7 @@
         ]
       },
       {
-        "name": "Developing PWA",
+        "name": "PWA mode",
         "path": "developing-pwa",
         "children": [
           {
@@ -977,7 +899,7 @@
         "path": "developing-mobile-apps"
       },
       {
-        "name": "Developing Capacitor Apps",
+        "name": "Capacitor mode",
         "path": "developing-capacitor-apps",
         "children": [
           {
@@ -1023,7 +945,7 @@
         ]
       },
       {
-        "name": "Developing Cordova Apps",
+        "name": "Cordova mode",
         "path": "developing-cordova-apps",
         "children": [
           {
@@ -1065,7 +987,7 @@
         ]
       },
       {
-        "name": "Developing Electron Apps",
+        "name": "Electron mode",
         "path": "developing-electron-apps",
         "children": [
           {
@@ -1123,7 +1045,7 @@
         ]
       },
       {
-        "name": "Developing Browser Extensions",
+        "name": "Browser Extensions mode",
         "path": "developing-browser-extensions",
         "children": [
           {
@@ -1260,7 +1182,7 @@
         "path": "testing-and-auditing"
       },
       {
-        "name": "Developing SPA",
+        "name": "SPA mode",
         "path": "developing-spa",
         "children": [
           {
@@ -1282,7 +1204,7 @@
         ]
       },
       {
-        "name": "Developing SSR",
+        "name": "SSR mode",
         "path": "developing-ssr",
         "children": [
           {
@@ -1295,7 +1217,6 @@
           },
           {
             "name": "Upgrade guide",
-            "badge": "new",
             "path": "ssr-upgrade-guide"
           },
           {
@@ -1308,22 +1229,18 @@
           },
           {
             "name": "ssrContext",
-            "badge": "update",
             "path": "ssr-context"
           },
           {
             "name": "SSR Middleware",
-            "badge": "new",
             "path": "ssr-middleware"
           },
           {
             "name": "SSR Production Export",
-            "badge": "new",
             "path": "ssr-production-export"
           },
           {
             "name": "Vue SSR Directives",
-            "badge": "new",
             "path": "vue-ssr-directives"
           },
           {
@@ -1356,7 +1273,6 @@
           },
           {
             "name": "SSR with Typescript",
-            "badge": "new",
             "path": "ssr-with-typescript"
           },
           {
@@ -1366,7 +1282,7 @@
         ]
       },
       {
-        "name": "Developing PWA",
+        "name": "PWA mode",
         "path": "developing-pwa",
         "children": [
           {
@@ -1399,7 +1315,6 @@
           },
           {
             "name": "PWA with Typescript",
-            "badge": "new",
             "path": "pwa-with-typescript"
           }
         ]
@@ -1409,7 +1324,7 @@
         "path": "developing-mobile-apps"
       },
       {
-        "name": "Developing Capacitor Apps",
+        "name": "Capacitor mode",
         "path": "developing-capacitor-apps",
         "children": [
           {
@@ -1455,7 +1370,7 @@
         ]
       },
       {
-        "name": "Developing Cordova Apps",
+        "name": "Cordova mode",
         "path": "developing-cordova-apps",
         "children": [
           {
@@ -1497,7 +1412,7 @@
         ]
       },
       {
-        "name": "Developing Electron Apps",
+        "name": "Electron mode",
         "path": "developing-electron-apps",
         "children": [
           {
@@ -1506,8 +1421,7 @@
           },
           {
             "name": "Upgrade guide",
-            "path": "electron-upgrade-guide",
-            "badge": "new"
+            "path": "electron-upgrade-guide"
           },
           {
             "name": "Preparation",
@@ -1556,7 +1470,7 @@
         ]
       },
       {
-        "name": "Developing Browser Extensions",
+        "name": "Browser Extensions mode",
         "path": "developing-browser-extensions",
         "children": [
           {
@@ -1745,7 +1659,18 @@
         "path": "scrolling-utils"
       },
       {
+        "name": "Type Checking Utils",
+        "badge": "new",
+        "path": "type-checking-utils"
+      },
+      {
+        "name": "EventBus Util",
+        "badge": "new",
+        "path": "event-bus-util"
+      },
+      {
         "name": "Other Utils",
+        "badge": "update",
         "path": "other-utils"
       }
     ]

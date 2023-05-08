@@ -9,7 +9,7 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 * a SSR (Server-side Rendered App/Website),
 * a PWA (Progressive Web App),
 * a BEX (Browser Extensions),
-* a Mobile App (through Cordova),
+* a Mobile App (through Cordova or Capacitor),
 * an Electron App
 
 ...within the same project folder, ensuring you are **following the best Quasar practices while everything will simply work out of the box**.
@@ -19,13 +19,13 @@ Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
 You can try Quasar CLI online directly in the browser, without installing anything!
 You will also be able to use the command line, so it will be almost identical to creating a project locally.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/quasarframework)
+<q-btn no-wrap href="https://stackblitz.quasar.dev" target="_blank" label="Open in Stackblitz" />
 
 ## TL;DR
 
 ::: tip Requirements:
 * Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
-* Yarn v1 (strongly recommended) or NPM.
+* Yarn v1 (strongly recommended), PNPM, or NPM.
 :::
 
 ```bash
@@ -36,6 +36,11 @@ $ yarn create quasar
 
 $ npm i -g @quasar/cli
 $ npm init quasar
+
+# or:
+
+$ pnpm add -g @quasar/cli # experimental support
+$ pnpm create quasar # experimental support
 ```
 
 Pick `Quasar CLI with Vite` if you want:
@@ -44,13 +49,13 @@ Pick `Quasar CLI with Vite` if you want:
 * Faster build
 * Superior PWA, SSR and BEX Quasar modes (more features)
 
-<q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
+<q-btn icon-right="launch" no-wrap label="View Components" to="/components" />
 
 ## Installation / Project Scaffolding
 
 ::: tip Requirements:
 * Node 12+ for Quasar CLI with Webpack, Node 14+ for Quasar CLI with Vite.
-* Yarn v1 (strongly recommended) or NPM.
+* Yarn v1 (strongly recommended), PNPM, or NPM.
 :::
 
 1. Let's create a Quasar app:
@@ -59,8 +64,14 @@ Pick `Quasar CLI with Vite` if you want:
     $ yarn create quasar
     # or:
     $ npm init quasar
+    # or:
+    $ pnpm create quasar # experimental support
     ```
     <br>
+
+    ::: tip
+    You may be presented with a confirmation to install the `create-quasar` package, press the enter key to confirm.
+    :::
 
 2. Pick the `App with Quasar CLI` option then `Quasar v2`.
 
@@ -83,6 +94,8 @@ Pick `Quasar CLI with Vite` if you want:
     $ yarn global add @quasar/cli
     # or
     $ npm install -g @quasar/cli
+    # or
+    $ pnpm add -g @quasar/cli # experimental support
     ```
 
     ::: tip
@@ -100,11 +113,11 @@ Pick `Quasar CLI with Vite` if you want:
     Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`.
     <br>
     Or to do this easily, enter the following code in the terminal:
-    
+
     ```bash
     # If you're using Yarn:
     setx path "%path%;%LocalAppData%\yarn\bin"
-    
+
     # Or if you're using NPM:
     setx path "%path%;%AppData%\npm",
     ```
@@ -120,7 +133,7 @@ Pick `Quasar CLI with Vite` if you want:
 
 Quasar CLI (`@quasar/cli`) works in tandem with either `@quasar/app-vite` or `@quasar/app-webpack`. The first one is optional (but **strongly recommended**) and allows you to run Quasar CLI commands directly and some other useful commands like `quasar upgrade` (upgrade Quasar packages seamlessly) or `quasar serve` (serve your distributable with an ad-hoc webserver). The second package is the heart of it (runs the important commands - dev, build, inspect, info, describe etc) and it gets installed locally into every Quasar project folder.
 
-#### Running without the global `@quasar/cli`
+#### Running without the global @quasar/cli
 
 However, should you want independence of the globally installed `@quasar/cli` package, you have the possibility to directly run the Quasar CLI commands. It is `@quasar/app-vite` or `@quasar/app-webpack` (which is specific to each project folder) that will run all the CLI commands.
 
@@ -154,10 +167,10 @@ Here are the options:
 
     ```bash
     $ npx quasar dev
-    $ yarn quasar inspect
+    $ npx quasar inspect
     # ..etc
     ```
 
 ## What next?
 
-<q-btn color="brand-primary" no-caps no-wrap push label="Go to User Interface Components" to="/vue-components" />
+<q-btn icon-right="launch" no-wrap label="View Components" to="/components" />

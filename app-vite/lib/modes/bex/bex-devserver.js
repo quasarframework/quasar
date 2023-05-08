@@ -77,7 +77,7 @@ class BexDevServer extends AppDevserver {
     for (const name of quasarConf.bex.contentScripts) {
       const contentConfig = await config.contentScript(quasarConf, name)
 
-      await this.buildWithEsbuild(`Content Script (${name})`, contentConfig, rebuilt)
+      await this.buildWithEsbuild(`Content Script (${ name })`, contentConfig, rebuilt)
         .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
     }
 

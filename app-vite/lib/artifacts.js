@@ -19,16 +19,24 @@ function getArtifacts () {
 function save (content) {
   fse.mkdirp(path.dirname(filePath))
   fs.writeFileSync(filePath, JSON.stringify(content), 'utf-8')
+
+  // clear require cache so subsequent reads will get the updated content
+  delete require.cache[ filePath ]
 }
 
 module.exports.add = function (entry) {
   const content = getArtifacts()
 
-  if (!content.folders.includes(entry)) {
+  // add folder if it doesn't exist
+  if (content.folders.some(asset => entry.startsWith(asset)) === false) {
+    // if there's a folder that is a subfolder of this one, remove it
+    content.folders = content.folders.filter(asset => asset.startsWith(entry) === false)
+
+    // finally add the folder
     content.folders.push(entry)
+
+    // and save the file
     save(content)
-    log(`Added build artifact "${entry}"`)
-    log()
   }
 }
 
@@ -46,8 +54,6 @@ module.exports.clean = function (folder) {
   else {
     fse.removeSync(folder)
   }
-
-  log(`Cleaned build artifact: "${folder}"`)
 }
 
 module.exports.cleanAll = function () {
@@ -59,17 +65,17 @@ module.exports.cleanAll = function () {
       fse.removeSync(folder)
     }
 
-    log(`Cleaned build artifact: "${folder}"`)
+    log(`Cleaned build artifact: "${ folder }"`)
   })
 
-  let folder = appPaths.resolve.app('.quasar')
+  const folder = appPaths.resolve.app('.quasar')
   fse.removeSync(folder)
-  log(`Cleaned build artifact: "${folder}"`)
+  log(`Cleaned build artifact: "${ folder }"`)
 
   const distFolder = appPaths.resolve.app('dist')
 
   if (fs.existsSync(distFolder)) {
     fse.emptyDirSync(distFolder)
-    log(`Emptied dist folder`)
+    log('Emptied dist folder')
   }
 }

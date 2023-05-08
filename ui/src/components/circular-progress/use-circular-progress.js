@@ -18,6 +18,7 @@ export const useCircularCommonProps = {
   trackColor: String,
 
   fontSize: String,
+  rounded: Boolean,
 
   // ratio
   thickness: {

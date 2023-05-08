@@ -37,7 +37,7 @@ class CapacitorBuilder extends AppBuilder {
       let html = this.readFile(indexHtmlFile)
       html = html.replace(
         /(<head[^>]*)(>)/i,
-        (_, start, end) => `${start}${end}<script src="cordova.js"></script>`
+        (_, start, end) => `${ start }${ end }<script src="cordova.js"></script>`
       )
       this.writeFile(indexHtmlFile, html)
     }
@@ -67,16 +67,16 @@ class CapacitorBuilder extends AppBuilder {
 
     this.#cordovaConfigFile.prepare(this.quasarConf)
 
-    const args = this.argv['skip-pkg'] || this.argv.ide
-      ? ['prepare', target]
-      : ['build', this.ctx.debug ? '--debug' : '--release', target]
+    const args = this.argv[ 'skip-pkg' ] || this.argv.ide
+      ? [ 'prepare', target ]
+      : [ 'build', this.ctx.debug ? '--debug' : '--release', target ]
 
     await this.#runCordovaCommand(
       args.concat(this.argv._),
       target
     )
 
-    if (this.argv['skip-pkg'] !== true) {
+    if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide) {
         await openIde('cordova', this.quasarConf.bin, target)
         process.exit(0)
@@ -92,7 +92,7 @@ class CapacitorBuilder extends AppBuilder {
 
   #runCordovaCommand (args, target) {
     if (target === 'ios' && this.quasarConf.cordova.noIosLegacyBuildFlag !== true) {
-      args.push(`--buildFlag=-UseModernBuildSystem=0`)
+      args.push('--buildFlag=-UseModernBuildSystem=0')
     }
 
     return new Promise(resolve => {

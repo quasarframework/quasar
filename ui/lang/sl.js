@@ -8,7 +8,7 @@ module.exports = {
   nativeName: 'Slovenski Jezik',
   label: {
     clear: 'Počisti',
-    ok: 'Vredu',
+    ok: 'V redu',
     cancel: 'Prekliči',
     close: 'Zapri',
     set: 'Postavi',
@@ -19,7 +19,9 @@ module.exports = {
     create: 'Ustvari',
     search: 'Išči',
     filter: 'Filtriraj',
-    refresh: 'Ponovno naloži'
+    refresh: 'Ponovno naloži',
+    expand: label => (label ? `Razširi "${ label }"` : 'Razširi'),
+    collapse: label => (label ? `Strni "${ label }"` : 'Strni')
   },
   date: {
     days: 'Nedelja_Ponedeljek_Torek_Sreda_Četrtek_Petek_Sobota'.split('_'),

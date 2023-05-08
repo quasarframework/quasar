@@ -9,7 +9,7 @@ const { warn, fatal } = require('./logger')
 function findXcodeWorkspace (folder) {
   const root = fs.readdirSync(folder)
 
-  for (let item of root) {
+  for (const item of root) {
     const __path = path.join(folder, item)
 
     if (item.endsWith('.xcworkspace')) {
@@ -54,7 +54,7 @@ function getLinuxPath (bin) {
     canonicalPaths.unshift(bin.linuxAndroidStudio)
   }
 
-  for (let studioPath of canonicalPaths) {
+  for (const studioPath of canonicalPaths) {
     if (fs.existsSync(studioPath)) {
       return studioPath
     }
@@ -78,12 +78,12 @@ function runLinux (mode, bin, target) {
     }
   }
   else if (target === 'ios') {
-    fatal(`iOS target not supported on Linux`)
+    fatal('iOS target not supported on Linux')
   }
 
-  warn(`Cannot determine path to IDE executable`)
+  warn('Cannot determine path to IDE executable')
   console.log(' Please set quasar.config.js > bin > linuxAndroidStudio with the escaped path to your studio.sh')
-  console.log(` Example: '/usr/local/android-studio/bin/studio.sh'`)
+  console.log(' Example: \'/usr/local/android-studio/bin/studio.sh\'')
   process.exit(1)
 }
 
@@ -109,7 +109,9 @@ function getWindowsPath (bin) {
       }
     }
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }
 
 function runWindows (mode, bin, target) {
@@ -133,36 +135,36 @@ function runWindows (mode, bin, target) {
     }
   }
   else if (target === 'ios') {
-    fatal(`iOS target not supported on Windows`)
+    fatal('iOS target not supported on Windows')
   }
 
-  warn(`Cannot determine path to IDE executable`)
+  warn('Cannot determine path to IDE executable')
   console.log(' Please set quasar.config.js > bin > windowsAndroidStudio with the escaped path to your studio64.exe')
-  console.log(` Example: 'C:\\\\Program Files\\\\Android\\\\Android Studio\\\\bin\\\\studio64.exe'`)
+  console.log(' Example: \'C:\\\\Program Files\\\\Android\\\\Android Studio\\\\bin\\\\studio64.exe\'')
   process.exit(1)
 }
 
 module.exports = function (mode, bin, target, dev) {
   console.log()
-  console.log(` ⚠️  `)
-  console.log(` ⚠️  Opening ${target === 'ios' ? 'XCode' : 'Android Studio'} IDE...`)
+  console.log(' ⚠️  ')
+  console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
 
   if (dev) {
-    console.log(` ⚠️  From there, use the IDE to run the app.`)
-    console.log(` ⚠️  `)
-    console.log(` ⚠️  DO NOT close the terminal as this will kill the devserver.`)
+    console.log(' ⚠️  From there, use the IDE to run the app.')
+    console.log(' ⚠️  ')
+    console.log(' ⚠️  DO NOT close the terminal as this will kill the devserver.')
   }
   else {
-    console.log(` ⚠️  From there, use the IDE to build the final package.`)
+    console.log(' ⚠️  From there, use the IDE to build the final package.')
   }
 
   if (target === 'android') {
-    console.log(` ⚠️  `)
-    console.log(` ⚠️  DO NOT upgrade Gradle or any other deps as Android Studio will suggest.`)
-    console.log(` ⚠️  If you encounter any IDE errors then click on File > Invalidate caches and restart.`)
+    console.log(' ⚠️  ')
+    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps as Android Studio will suggest.')
+    console.log(' ⚠️  If you encounter any IDE errors then click on File > Invalidate caches and restart.')
   }
 
-  console.log(` ⚠️  `)
+  console.log(' ⚠️  ')
   console.log()
 
   switch (process.platform) {
@@ -173,6 +175,6 @@ module.exports = function (mode, bin, target, dev) {
     case 'win32':
       return runWindows(mode, bin, target)
     default:
-      fatal(`Unsupported host OS for opening the IDE`)
+      fatal('Unsupported host OS for opening the IDE')
   }
 }

@@ -23,11 +23,11 @@ module.exports = class ApiBase {
    * Private-ish methods
    */
 
-   __getHooks () {
+  __getHooks () {
     return this.__hooks
   }
 
   __addHook (name, fn) {
-    this.__hooks[name].push({ fn, api: this })
+    this.__hooks[ name ].push({ fn, api: this })
   }
 }

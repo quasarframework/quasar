@@ -2,7 +2,7 @@
 title: ESLint
 desc: (@quasar/app-webpack) How to configure a code linter in a Quasar app.
 ---
-Having a code linter (like [ESLint](https://eslint.org/) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
+Having a code linter (like [ESLint](https://eslint.org/)) in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
 
 When you scaffold a Quasar project folder it will ask you if you want a linter and which setup you want for ESLint:
 
@@ -13,10 +13,10 @@ When you scaffold a Quasar project folder it will ask you if you want a linter a
 
 Two dot files will be created:
 
-* .eslintrc.js -- ESLint configuration, including rules
+* .eslintrc.cjs -- ESLint configuration, including rules
 * .eslintignore -- what ESLint should ignore when linting
 
-Further extension of one of the Eslint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at `.eslintrc.js` and notice it:
+Further extension of one of the Eslint setups above can be made. Your project will by default use `eslint-plugin-vue` to handle your Vue files. Take a quick look at `.eslintrc.cjs` and notice it:
 
 ```js
 extends: [
@@ -47,7 +47,7 @@ You can add/remove/change rules by first visiting [https://eslint.org/docs/rules
 
 Example of ESLint rules below:
 ```js
-// .eslintrc.js
+// .eslintrc.cjs
 
 'rules': {
   'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],

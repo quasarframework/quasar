@@ -1,3 +1,7 @@
+/**
+ * client entry-point used by @quasar/vite-plugin for DEV only
+ */
+
 import installQuasar from './install-quasar.js'
 import lang from './lang.js'
 import iconSet from './icon-set.js'

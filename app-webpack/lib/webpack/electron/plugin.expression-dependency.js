@@ -3,8 +3,8 @@ module.exports = class ExpressionDependency {
     compiler.hooks.done.tap('expression-dependency', stats => {
       stats.compilation.warnings = stats.compilation.warnings.filter(
         warn => !(
-          warn.name === 'ModuleDependencyWarning' &&
-          warn.message.includes(`the request of a dependency is an expression`)
+          warn.name === 'ModuleDependencyWarning'
+          && warn.message.includes('the request of a dependency is an expression')
         )
       )
     })

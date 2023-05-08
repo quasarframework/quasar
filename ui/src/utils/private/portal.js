@@ -1,56 +1,56 @@
-import { getParentVm } from './vm.js'
+import { getParentProxy } from './vm.js'
 
-export const portalList = []
+export const portalProxyList = []
 
-export function getPortalVm (el) {
-  return portalList.find(vm =>
-    vm.__qPortalInnerRef.value !== null
-    && vm.__qPortalInnerRef.value.contains(el)
+export function getPortalProxy (el) {
+  return portalProxyList.find(proxy =>
+    proxy.contentEl !== null
+    && proxy.contentEl.contains(el)
   )
 }
 
-export function closePortalMenus (vm, evt) {
+export function closePortalMenus (proxy, evt) {
   do {
-    if (vm.$options.name === 'QMenu') {
-      vm.hide(evt)
+    if (proxy.$options.name === 'QMenu') {
+      proxy.hide(evt)
 
       // is this a point of separation?
-      if (vm.$props.separateClosePopup === true) {
-        return getParentVm(vm)
+      if (proxy.$props.separateClosePopup === true) {
+        return getParentProxy(proxy)
       }
     }
-    else if (vm.__qPortalInnerRef !== void 0) {
+    else if (proxy.__qPortal === true) {
       // treat it as point of separation if parent is QPopupProxy
       // (so mobile matches desktop behavior)
       // and hide it too
-      const parent = getParentVm(vm)
+      const parent = getParentProxy(proxy)
 
       if (parent !== void 0 && parent.$options.name === 'QPopupProxy') {
-        vm.hide(evt)
+        proxy.hide(evt)
         return parent
       }
       else {
-        return vm
+        return proxy
       }
     }
 
-    vm = getParentVm(vm)
-  } while (vm !== void 0 && vm !== null)
+    proxy = getParentProxy(proxy)
+  } while (proxy !== void 0 && proxy !== null)
 }
 
-export function closePortals (vm, evt, depth) {
-  while (depth !== 0 && vm !== void 0 && vm !== null) {
-    if (vm.__qPortalInnerRef !== void 0) {
+export function closePortals (proxy, evt, depth) {
+  while (depth !== 0 && proxy !== void 0 && proxy !== null) {
+    if (proxy.__qPortal === true) {
       depth--
 
-      if (vm.$options.name === 'QMenu') {
-        vm = closePortalMenus(vm, evt)
+      if (proxy.$options.name === 'QMenu') {
+        proxy = closePortalMenus(proxy, evt)
         continue
       }
 
-      vm.hide(evt)
+      proxy.hide(evt)
     }
 
-    vm = getParentVm(vm)
+    proxy = getParentProxy(proxy)
   }
 }

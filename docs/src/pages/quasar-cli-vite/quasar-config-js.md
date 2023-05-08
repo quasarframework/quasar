@@ -3,7 +3,7 @@ title: Configuring quasar.config.js
 desc: (@quasar/app-vite) Where, how and what you can configure in a Quasar CLI with Vite app.
 ---
 
-Notice that you scaffolded project folder contains a `/quasar.config.js` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
+Notice that your scaffolded project folder contains a `/quasar.config.js` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
 
 * Quasar components, directives and plugins that you'll be using in your website/app
 * Default [Quasar Language Pack](/options/quasar-language-packs)
@@ -174,7 +174,7 @@ preFetch?: boolean;
 
 ### eslint
 
-You will need the linting files already installed. If you don't know which those are, scaffold a new Quasar project folder (`yarn create quasar` or `npm init quasar`) and pick "Linting" when asked about it.
+You will need the linting files already installed. If you don't know which those are, scaffold a new Quasar project folder (`yarn create quasar` or `npm init quasar` or the experimental `pnpm create quasar`) and pick "Linting" when asked about it.
 
 ```js
 /** Options with which Quasar CLI will use ESLint */
@@ -437,7 +437,8 @@ interface QuasarStaticBuildConfiguration {
   vueRouterBase?: string;
 
   /**
-   * Should the Vue Options API be available?
+   * Should the Vue Options API be available? If all your components only use Composition API
+   * it would make sense performance-wise to disable Vue Options API for a compile speedup.
    * @default true
    */
   vueOptionsAPI?: boolean;
@@ -479,6 +480,29 @@ interface QuasarStaticBuildConfiguration {
   rawDefine?: { [index: string]: string };
 
   /**
+   * (requires @quasar/app-vite v1.1+)
+   *
+   * Build production assets with or without the hash part in filenames.
+   * Example: "454d87bd" in "assets/index.454d87bd.js"
+   *
+   * When used, please be careful how you configure your web server cache strategy as
+   * files will not change name so your client might get 304 (Not Modified) even when
+   * it's not the case.
+   *
+   * Will not change anything if your Vite config already touches the
+   * build.rollupOptions.output.entryFileNames/chunkFileNames/assetFileNames props.
+   *
+   * Gets applied to production builds only.
+   *
+   * Useful especially for (but not restricted to) PWA. If set to false then updating the
+   * PWA will force to re-download all assets again, regardless if they were changed or
+   * not (due to how Rollup works through Vite).
+   *
+   * @default true
+   */
+  useFilenameHashes?: boolean;
+
+  /**
    * whether to inject module preload polyfill.
    * @default false
    */
@@ -507,6 +531,15 @@ interface QuasarStaticBuildConfiguration {
    * @default false
    */
   sourcemap?: boolean | 'inline' | 'hidden';
+
+  /**
+   * (requires @quasar/app-vite v1.1.1+)
+   *
+   * Treeshake Quasar's UI on dev too?
+   * Recommended to leave this as false for performance reasons.
+   * @default false
+   */
+  devQuasarTreeshaking?: boolean;
 
   /**
    * Prepare external services before `$ quasar dev` command runs

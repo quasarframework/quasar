@@ -30,7 +30,6 @@
     "keep-alive-max": {
       "type": "Number",
       "desc": "Equivalent to using Vue's native max prop for <keep-alive>",
-      "examples": [ "2" ],
       "category": "behavior"
     },
 
@@ -76,7 +75,6 @@
       "type": [ "String", "Number" ],
       "desc": "Transition duration (in milliseconds, without unit)",
       "default": 300,
-      "examples": [ 500, "1200" ],
       "category": "transition",
       "addedIn": "v2.2"
     }

@@ -14,7 +14,9 @@ export default {
     create: 'Създай',
     search: 'Търси',
     filter: 'Филтър',
-    refresh: 'Презареди'
+    refresh: 'Презареди',
+    expand: label => (label ? `Разширете "${ label }"` : 'Разширяване'),
+    collapse: label => (label ? `Свиване на "${ label }"` : 'Свиване')
   },
   date: {
     days: 'Неделя_Понеделник_Вторник_Сряда_Четвъртък_Петък_Събота'.split('_'),

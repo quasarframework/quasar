@@ -1,6 +1,17 @@
 ---
 title: App Icons for SPA
 desc: (@quasar/app-vite) How to manage the app icons for a Quasar Single Page Application.
+scope:
+  spaTree:
+    l: public
+    c:
+    - l: favicon.ico
+    - l: icons
+      c:
+      - l: favicon-128x128.png
+      - l: favicon-96x96.png
+      - l: favicon-32x32.png
+      - l: favicon-16x16.png
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
@@ -21,15 +32,7 @@ $ icongenie generate -m spa -i /path/to/source/icon.png
 
 ## Manual instructions
 
-```
-public/
-   favicon.ico
-   icons/
-      favicon-128x128.png
-      favicon-96x96.png
-      favicon-32x32.png
-      favicon-16x16.png
-```
+<doc-tree :def="scope.spaTree" />
 
 The required HTML code that goes into `/index.html` to reference the above files:
 

@@ -1,5 +1,5 @@
-const getDevlandFile = require('../helpers/get-devland-file')
-const importTransformation = getDevlandFile('quasar/dist/transforms/import-transformation.js')
+const getPackage = require('../helpers/get-package')
+const importTransformation = getPackage('quasar/dist/transforms/import-transformation.js')
 
 const regex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g
 
@@ -18,9 +18,9 @@ module.exports = function (content, map) {
         }
 
         const data = id.split(' as ')
-        const name = data[0].trim()
+        const name = data[ 0 ].trim()
 
-        return `import ${data[1] !== void 0 ? data[1].trim() : name} from '${importTransformation(name)}';`
+        return `import ${ data[ 1 ] !== void 0 ? data[ 1 ].trim() : name } from '${ importTransformation(name) }';`
       })
       .join('')
   )

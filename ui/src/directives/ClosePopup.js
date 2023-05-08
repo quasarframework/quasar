@@ -1,5 +1,5 @@
 import { createDirective } from '../utils/private/create.js'
-import { closePortals, getPortalVm } from '../utils/private/portal.js'
+import { closePortals, getPortalProxy } from '../utils/private/portal.js'
 import { isKeyCode } from '../utils/private/key-composition.js'
 import getSSRProps from '../utils/private/noop-ssr-directive-transform.js'
 
@@ -34,9 +34,9 @@ export default createDirective(__QUASAR_SSR_SERVER__
           handler (evt) {
             // allow @click to be emitted
             ctx.depth !== 0 && setTimeout(() => {
-              const vm = getPortalVm(el)
-              if (vm !== void 0) {
-                closePortals(vm, evt, ctx.depth)
+              const proxy = getPortalProxy(el)
+              if (proxy !== void 0) {
+                closePortals(proxy, evt, ctx.depth)
               }
             })
           },

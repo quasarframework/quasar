@@ -6,11 +6,11 @@ const { log } = require('./logger')
 const getMode = require('../mode/index')
 const appPaths = require('../app-paths')
 
-function getStoreFlagPath(storeIndexPath) {
+function getStoreFlagPath (storeIndexPath) {
   return path.join(path.parse(storeIndexPath).dir, 'store-flag.d.ts')
 }
 
-module.exports = function regenerateTypesFeatureFlags(quasarConf) {
+module.exports = function regenerateTypesFeatureFlags (quasarConf) {
   // Flags must be available even in pure JS codebases,
   //    because boot and configure wrappers functions files will
   //    provide autocomplete based on them also to JS users
@@ -25,21 +25,21 @@ module.exports = function regenerateTypesFeatureFlags(quasarConf) {
     'store',
     'bex'
   ]) {
-    const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
+    const [ isFeatureInstalled, sourceFlagPath, destFlagPath ] = feature === 'store'
       ? [
-        quasarConf.store,
-        appPaths.resolve.cli('templates/store/store-flag.d.ts'),
-        appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
-      ]
+          quasarConf.store,
+          appPaths.resolve.cli('templates/store/store-flag.d.ts'),
+          appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
+        ]
       : [
-        getMode(feature).isInstalled,
-        appPaths.resolve.cli(`templates/${feature}/${feature}-flag.d.ts`),
-        appPaths.resolve[feature](`${feature}-flag.d.ts`)
-      ]
+          getMode(feature).isInstalled,
+          appPaths.resolve.cli(`templates/${ feature }/${ feature }-flag.d.ts`),
+          appPaths.resolve[ feature ](`${ feature }-flag.d.ts`)
+        ]
 
     if (isFeatureInstalled && !fs.existsSync(destFlagPath)) {
       fse.copySync(sourceFlagPath, destFlagPath)
-      log(`'${feature}' feature flag was missing and has been regenerated`)
+      log(`'${ feature }' feature flag was missing and has been regenerated`)
     }
   }
 }

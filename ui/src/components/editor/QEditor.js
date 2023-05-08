@@ -76,7 +76,13 @@ export default createComponent({
     ...useFullscreenEmits,
     'update:modelValue',
     'keydown', 'click', 'mouseup', 'keyup', 'touchend',
-    'focus', 'blur'
+    'focus', 'blur',
+    'dropdownShow',
+    'dropdownHide',
+    'dropdownBeforeShow',
+    'dropdownBeforeHide',
+    'linkShow',
+    'linkHide'
   ],
 
   setup (props, { slots, emit, attrs }) {
@@ -233,6 +239,7 @@ export default createComponent({
       $q,
       props,
       slots,
+      emit,
       // caret (will get injected after mount)
       inFullscreen,
       toggleFullscreen,
@@ -253,7 +260,11 @@ export default createComponent({
       }
     })
 
-    const hasToolbar = computed(() => props.toolbar && props.toolbar.length > 0)
+    watch(editLinkUrl, v => {
+      emit(`link-${ v ? 'Show' : 'Hide' }`)
+    })
+
+    const hasToolbar = computed(() => props.toolbar && props.toolbar.length !== 0)
 
     const keys = computed(() => {
       const
@@ -453,11 +464,6 @@ export default createComponent({
       return contentRef.value
     }
 
-    // expose public methods
-    Object.assign(proxy, {
-      runCmd, refreshToolbar, focus, getContentEl
-    })
-
     onMounted(() => {
       eVm.caret = proxy.caret = new Caret(contentRef.value, eVm)
       setContent(props.modelValue)
@@ -468,6 +474,11 @@ export default createComponent({
 
     onBeforeUnmount(() => {
       document.removeEventListener('selectionchange', onSelectionchange)
+    })
+
+    // expose public methods
+    Object.assign(proxy, {
+      runCmd, refreshToolbar, focus, getContentEl
     })
 
     return () => {

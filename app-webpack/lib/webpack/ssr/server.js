@@ -9,7 +9,7 @@ function getModuleDirs () {
   const folders = []
   let dir = appPaths.resolve.app('..')
 
-  while (dir.length && dir[dir.length - 1] !== sep) {
+  while (dir.length && dir[ dir.length - 1 ] !== sep) {
     const newFolder = join(dir, 'node_modules')
     if (existsSync(newFolder)) {
       folders.push(newFolder)
@@ -35,7 +35,7 @@ module.exports = function (chain, cfg) {
 
   chain.output
     .filename('render-app.js')
-    .chunkFilename(`chunk-[name].js`)
+    .chunkFilename('chunk-[name].js')
     .libraryTarget('commonjs2')
 
   chain.externals(nodeExternals({
@@ -55,17 +55,17 @@ module.exports = function (chain, cfg) {
 
   chain.plugin('define')
     .tap(args => {
-      return [{
-        ...args[0],
+      return [ {
+        ...args[ 0 ],
         'process.env.CLIENT': false,
         'process.env.SERVER': true
-      }]
+      } ]
     })
 
   if (cfg.ctx.prod) {
     chain.plugin('quasar-ssr-server')
-      .use(QuasarSSRServerPlugin, [{
+      .use(QuasarSSRServerPlugin, [ {
         filename: '../quasar.server-manifest.json'
-      }])
+      } ])
   }
 }

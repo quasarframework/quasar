@@ -1,0 +1,57 @@
+{
+  "name": "@quasar/render-ssr-error",
+  "version": "1.0.0",
+  "description": "Renders SSR errors for Quasar CLI",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "scripts": {
+    "lint": "eslint ./ --ext .js,.vue --fix",
+    "dev": "cd src-ui && quasar dev",
+    "build": "yarn build:ui && yarn build:package",
+    "build:ui": "cd src-ui && quasar build",
+    "build:package": "node ./build/index.js"
+  },
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "engines": {
+    "node": ">= 14.17.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "stack-trace": "^1.0.0-pre2"
+  },
+  "devDependencies": {
+    "@quasar/app-vite": "^1.0.0",
+    "@quasar/extras": "^1.0.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.10.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "fs-extra": "^11.1.1",
+    "postcss": "^8.4.14",
+    "prismjs": "^1.29.0",
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0"
+  }
+}

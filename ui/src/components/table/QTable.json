@@ -46,24 +46,21 @@
     "virtual-scroll-slice-size": {
       "type": [ "Number", "String" ],
       "desc": "Minimum number of rows to render in the virtual list",
-      "default": "30",
-      "examples": [ "virtual-scroll-slice-size=\"60\"" ],
+      "default": 30,
       "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-before": {
       "type": [ "Number", "String" ],
       "desc": "Ratio of number of rows in visible zone to render before it",
-      "default": "1",
-      "examples": [ "virtual-scroll-slice-ratio-before=\"0.3\"" ],
+      "default": 1,
       "category": "virtual-scroll"
     },
 
     "virtual-scroll-slice-ratio-after": {
       "type": [ "Number", "String" ],
       "desc": "Ratio of number of rows in visible zone to render after it",
-      "default": "1",
-      "examples": [ "virtual-scroll-slice-ratio-after=\"2\"" ],
+      "default": 1,
       "category": "virtual-scroll"
     },
 
@@ -71,30 +68,26 @@
       "type": [ "Number", "String" ],
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
-      "examples": [ "virtual-scroll-item-size=\"48\"" ],
       "category": "virtual-scroll"
     },
 
     "virtual-scroll-sticky-size-start": {
       "type": [ "Number", "String" ],
-      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
+      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision; Will be also used for non-virtual-scroll tables for fixing top alignment when using scrollTo method",
       "default": "0",
-      "examples": [ "virtual-scroll-sticky-size-start=\"48\"" ],
-      "category": "virtual-scroll"
+      "category": "virtual-scroll|behavior"
     },
 
     "virtual-scroll-sticky-size-end": {
       "type": [ "Number", "String" ],
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [ "virtual-scroll-sticky-size-end=\"48\"" ],
       "category": "virtual-scroll"
     },
 
     "table-colspan": {
       "type": [ "Number", "String" ],
       "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
-      "examples": [ "table-colspan=\"12\"" ],
       "category": "virtual-scroll|content"
     },
 
@@ -271,7 +264,7 @@
           },
           "returns": {
             "type": "String",
-            "__exemption": [ "desc", "examples" ]
+            "__exemption": [ "desc" ]
           },
           "examples": [
             "'width: 500px'",
@@ -291,7 +284,7 @@
           },
           "returns": {
             "type": "String",
-            "__exemption": [ "desc", "examples" ]
+            "__exemption": [ "desc" ]
           },
           "examples": [
             "'my-special-class bg-primary'",
@@ -435,8 +428,7 @@
       "params": {
         "numberOfRows": {
           "type": "Number",
-          "desc": "Number of rows available",
-          "examples": [ 12 ]
+          "desc": "Number of rows available"
         }
       },
       "returns": {
@@ -461,18 +453,15 @@
       "params": {
         "firstRowIndex": {
           "type": "Number",
-          "desc": "Index of first displayed row",
-          "examples": [ 1 ]
+          "desc": "Index of first displayed row"
         },
         "endRowIndex": {
           "type": "Number",
-          "desc": "Index of last displayed row",
-          "examples": [ 10 ]
+          "desc": "Index of last displayed row"
         },
         "totalRowsNumber": {
           "type": "Number",
-          "desc": "Number of total rows available in data",
-          "examples": [ 132 ]
+          "desc": "Number of total rows available in data"
         }
       },
       "returns": {
@@ -598,18 +587,15 @@
       "params": {
         "rows": {
           "type": "Array",
-          "desc": "Array of rows",
-          "__exemption": [ "examples" ]
+          "desc": "Array of rows"
         },
         "terms": {
           "type": [ "String", "Object" ],
-          "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-          "__exemption": [ "examples" ]
+          "desc": "Terms to filter with (is essentially the 'filter' prop value)"
         },
         "cols": {
           "type": "Array",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "getCellValue": {
           "type": "Function",
@@ -618,14 +604,12 @@
             "col": {
               "type": "Object",
               "required": true,
-              "desc": "Column name from column definitions",
-              "__exemption": [ "examples" ]
+              "desc": "Column name from column definitions"
             },
             "row": {
               "type": "Object",
               "required": true,
-              "desc": "The row object",
-              "__exemption": [ "examples" ]
+              "desc": "The row object"
             }
           },
           "returns": {
@@ -637,8 +621,7 @@
       },
       "returns": {
         "type": "Array",
-        "desc": "Filtered rows",
-        "__exemption": [ "examples" ]
+        "desc": "Filtered rows"
       },
       "default": "(see source code)",
       "examples": [
@@ -662,18 +645,15 @@
         },
         "page": {
           "type": "Number",
-          "desc": "Page number (1-based)",
-          "examples": [ 3 ]
+          "desc": "Page number (1-based)"
         },
         "rowsPerPage": {
           "type": "Number",
-          "desc": "How many rows per page? 0 means Infinite",
-          "examples": [ 10 ]
+          "desc": "How many rows per page? 0 means Infinite"
         },
         "rowsNumber": {
           "type": "Number",
-          "desc": "For server-side fetching only. How many total database rows are there to be added to the table. If set, causes the QTable to emit @request when data is required.",
-          "examples": [ 100, 200 ]
+          "desc": "For server-side fetching only. How many total database rows are there to be added to the table. If set, causes the QTable to emit @request when data is required."
         }
       },
       "syncable": true,
@@ -699,7 +679,6 @@
       "desc": "Selection type",
       "default": "none",
       "values": [ "single", "multiple", "none" ],
-      "examples": [ "multiple" ],
       "category": "selection"
     },
 
@@ -731,8 +710,7 @@
       "params": {
         "rows": {
           "type": "Array",
-          "desc": "Array with rows",
-          "__exemption": [ "examples" ]
+          "desc": "Array with rows"
         },
         "sortBy": {
           "type": "String",
@@ -746,8 +724,7 @@
       },
       "returns": {
         "type": "Array",
-        "desc": "Sorted rows",
-        "__exemption": [ "examples" ]
+        "desc": "Sorted rows"
       },
       "default": "(see source code)",
       "examples": [
@@ -767,33 +744,27 @@
       "scope": {
         "key": {
           "type": "Any",
-          "desc": "Row/Item's key",
-          "__exemption": [ "examples" ]
+          "desc": "Row/Item's key"
         },
         "row": {
           "type": "Object",
-          "desc": "Row/Item object",
-          "__exemption": [ "examples" ]
+          "desc": "Row/Item object"
         },
         "rowIndex": {
           "type": "Number",
-          "desc": "Row/Item's index (0 based) in the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row/Item's index (0 based) in the filtered and sorted table"
         },
         "pageIndex": {
           "type": "Number",
-          "desc": "Row/Item's index (0 based) in the current page of the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row/Item's index (0 based) in the current page of the filtered and sorted table"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -835,33 +806,27 @@
       "scope": {
         "key": {
           "type": "Any",
-          "desc": "Row's key",
-          "__exemption": [ "examples" ]
+          "desc": "Row's key"
         },
         "row": {
           "type": "Object",
-          "desc": "Row object",
-          "__exemption": [ "examples" ]
+          "desc": "Row object"
         },
         "rowIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the filtered and sorted table"
         },
         "pageIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -897,8 +862,7 @@
         },
         "__trClass": {
           "type": "String",
-          "desc": "Internal prop passed down to QTr (if used)",
-          "__exemption": [ "examples" ]
+          "desc": "Internal prop passed down to QTr (if used)"
         }
       }
     },
@@ -908,43 +872,35 @@
       "scope": {
         "col": {
           "type": "Object",
-          "desc": "Column definition for column associated with table cell",
-          "__exemption": [ "examples" ]
+          "desc": "Column definition for column associated with table cell"
         },
         "value": {
           "type": "Any",
-          "desc": "Parsed/Formatted value of table cell",
-          "__exemption": [ "examples" ]
+          "desc": "Parsed/Formatted value of table cell"
         },
         "key": {
           "type": "Any",
-          "desc": "Row's key",
-          "__exemption": [ "examples" ]
+          "desc": "Row's key"
         },
         "row": {
           "type": "Object",
-          "desc": "Row object",
-          "__exemption": [ "examples" ]
+          "desc": "Row object"
         },
         "rowIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the filtered and sorted table"
         },
         "pageIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -986,43 +942,35 @@
       "scope": {
         "col": {
           "type": "Object",
-          "desc": "Column definition for column associated with table cell",
-          "__exemption": [ "examples" ]
+          "desc": "Column definition for column associated with table cell"
         },
         "value": {
           "type": "Any",
-          "desc": "Parsed/Formatted value of table cell",
-          "__exemption": [ "examples" ]
+          "desc": "Parsed/Formatted value of table cell"
         },
         "key": {
           "type": "Any",
-          "desc": "Row's key",
-          "__exemption": [ "examples" ]
+          "desc": "Row's key"
         },
         "row": {
           "type": "Object",
-          "desc": "Row object",
-          "__exemption": [ "examples" ]
+          "desc": "Row object"
         },
         "rowIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the filtered and sorted table"
         },
         "pageIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -1064,13 +1012,11 @@
       "scope": {
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -1106,8 +1052,7 @@
         },
         "__trClass": {
           "type": "String",
-          "desc": "Internal prop passed down to QTr (if used)",
-          "__exemption": [ "examples" ]
+          "desc": "Internal prop passed down to QTr (if used)"
         },
         "header": {
           "type": "Boolean",
@@ -1121,18 +1066,15 @@
       "scope": {
         "col": {
           "type": "Object",
-          "desc": "Column definition associated to header cell",
-          "__exemption": [ "examples" ]
+          "desc": "Column definition associated to header cell"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -1174,18 +1116,15 @@
       "scope": {
         "col": {
           "type": "Object",
-          "desc": "Column definition associated to header cell",
-          "__exemption": [ "examples" ]
+          "desc": "Column definition associated to header cell"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -1227,33 +1166,27 @@
       "scope": {
         "key": {
           "type": "Any",
-          "desc": "Row's key",
-          "__exemption": [ "examples" ]
+          "desc": "Row's key"
         },
         "row": {
           "type": "Object",
-          "desc": "Row object",
-          "__exemption": [ "examples" ]
+          "desc": "Row object"
         },
         "rowIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the filtered and sorted table"
         },
         "pageIndex": {
           "type": "Number",
-          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
-          "__exemption": [ "examples" ]
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table"
         },
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -1295,13 +1228,11 @@
       "scope": {
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         },
         "colsMap": {
           "type": "Object",
-          "desc": "Column mapping (key is column name, value is column object)",
-          "__exemption": [ "examples" ]
+          "desc": "Column mapping (key is column name, value is column object)"
         },
         "sort": {
           "type": "Function",
@@ -1343,8 +1274,7 @@
       "scope": {
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         }
       }
     },
@@ -1354,8 +1284,7 @@
       "scope": {
         "cols": {
           "type": "Object",
-          "desc": "Column definitions",
-          "__exemption": [ "examples" ]
+          "desc": "Column definitions"
         }
       }
     },
@@ -1381,21 +1310,18 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
         "pagesNumber": {
           "type": "Number",
-          "desc": "Number of pages available",
-          "examples": [ 5 ]
+          "desc": "Number of pages available"
         },
         "isFirstPage": {
           "type": "Boolean",
@@ -1463,21 +1389,18 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
         "pagesNumber": {
           "type": "Number",
-          "desc": "Number of pages available",
-          "examples": [ 5 ]
+          "desc": "Number of pages available"
         },
         "isFirstPage": {
           "type": "Boolean",
@@ -1545,21 +1468,18 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
         "pagesNumber": {
           "type": "Number",
-          "desc": "Number of pages available",
-          "examples": [ 5 ]
+          "desc": "Number of pages available"
         },
         "isFirstPage": {
           "type": "Boolean",
@@ -1627,21 +1547,18 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
         "pagesNumber": {
           "type": "Number",
-          "desc": "Number of pages available",
-          "examples": [ 5 ]
+          "desc": "Number of pages available"
         },
         "isFirstPage": {
           "type": "Boolean",
@@ -1709,21 +1626,18 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
         "pagesNumber": {
           "type": "Number",
-          "desc": "Number of pages available",
-          "examples": [ 5 ]
+          "desc": "Number of pages available"
         },
         "isFirstPage": {
           "type": "Boolean",
@@ -1791,21 +1705,18 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
         "pagesNumber": {
           "type": "Number",
-          "desc": "Number of pages available",
-          "examples": [ 5 ]
+          "desc": "Number of pages available"
         },
         "isFirstPage": {
           "type": "Boolean",
@@ -1879,14 +1790,12 @@
 
         "row": {
           "type": "Object",
-          "desc": "The row upon which user has clicked/tapped",
-          "__exemption": [ "examples" ]
+          "desc": "The row upon which user has clicked/tapped"
         },
 
         "index": {
           "type": "Number",
-          "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ]
+          "desc": "Index of the row in the current page"
         }
       }
     },
@@ -1900,14 +1809,12 @@
 
         "row": {
           "type": "Object",
-          "desc": "The row upon which user has double clicked/tapped",
-          "__exemption": [ "examples" ]
+          "desc": "The row upon which user has double clicked/tapped"
         },
 
         "index": {
           "type": "Number",
-          "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ]
+          "desc": "Index of the row in the current page"
         }
       }
     },
@@ -1921,14 +1828,12 @@
 
         "row": {
           "type": "Object",
-          "desc": "The row upon which user has right clicked/long tapped",
-          "__exemption": [ "examples" ]
+          "desc": "The row upon which user has right clicked/long tapped"
         },
 
         "index": {
           "type": "Number",
-          "desc": "Index of the row in the current page",
-          "__exemption": [ "examples" ]
+          "desc": "Index of the row in the current page"
         }
       }
     },
@@ -1959,68 +1864,18 @@
                 "page": {
                   "type": "Number",
                   "required": true,
-                  "desc": "Page number (1-based)",
-                  "examples": [ 3 ]
+                  "desc": "Page number (1-based)"
                 },
                 "rowsPerPage": {
                   "type": "Number",
                   "required": true,
-                  "desc": "How many rows per page? 0 means Infinite",
-                  "examples": [ 10 ]
+                  "desc": "How many rows per page? 0 means Infinite"
                 }
               }
             },
             "filter": {
-              "type": "Function",
-              "required": true,
-              "desc": "Filter method (the 'filter-method' prop)",
-              "params": {
-                "rows": {
-                  "type": "Array",
-                  "required": true,
-                  "desc": "Array of rows",
-                  "__exemption": [ "examples" ]
-                },
-                "terms": {
-                  "type": [ "String", "Object" ],
-                  "required": true,
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-                  "__exemption": [ "examples" ]
-                },
-                "cols": {
-                  "type": "Array",
-                  "desc": "Optional column definitions",
-                  "__exemption": [ "examples" ]
-                },
-                "getCellValue": {
-                  "type": "Function",
-                  "desc": "Optional function to get a cell value",
-                  "params": {
-                    "col": {
-                      "type": "Object",
-                      "required": true,
-                      "desc": "Column name from column definitions",
-                      "__exemption": [ "examples" ]
-                    },
-                    "row": {
-                      "type": "Object",
-                      "required": true,
-                      "desc": "The row object",
-                      "__exemption": [ "examples" ]
-                    }
-                  },
-                  "returns": {
-                    "type": "Any",
-                    "desc": "Parsed/Processed cell value",
-                    "examples": [ "Ice Cream Sandwich" ]
-                  }
-                }
-              },
-              "returns": {
-                "type": "Array",
-                "desc": "Filtered rows",
-                "__exemption": [ "examples" ]
-              }
+              "type": [ "String", "Object" ],
+              "desc": "String/Object to filter table with (the 'filter' prop)"
             },
             "getCellValue": {
               "type": "Function",
@@ -2030,14 +1885,12 @@
                 "col": {
                   "type": "Object",
                   "required": true,
-                  "desc": "Column name from column definitions",
-                  "__exemption": [ "examples" ]
+                  "desc": "Column name from column definitions"
                 },
                 "row": {
                   "type": "Object",
                   "required": true,
-                  "desc": "The row object",
-                  "__exemption": [ "examples" ]
+                  "desc": "The row object"
                 }
               },
               "returns": {
@@ -2061,14 +1914,12 @@
             "rows": {
               "type": "Array",
               "required": true,
-              "desc": "Array of row objects that were selected/unselected",
-              "__exemption": [ "examples" ]
+              "desc": "Array of row objects that were selected/unselected"
             },
             "keys": {
               "type": "Array",
               "required": true,
-              "desc": "Array of the keys of rows that were selected/unselected",
-              "__exemption": [ "examples" ]
+              "desc": "Array of the keys of rows that were selected/unselected"
             },
             "added": {
               "type": "Boolean",
@@ -2105,20 +1956,17 @@
             "page": {
               "type": "Number",
               "required": true,
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
               "required": true,
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             },
             "rowsNumber": {
               "type": "Number",
               "required": false,
-              "desc": "For server-side fetching only. How many total database rows are there to be added to the table.",
-              "examples": [ 100, 200 ]
+              "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
             }
           }
         }
@@ -2161,20 +2009,17 @@
             "index": {
               "type": "Number",
               "required": true,
-              "desc": "Index of the list item that was scrolled into view (0 based)",
-              "examples": [ 30 ]
+              "desc": "Index of the list item that was scrolled into view (0 based)"
             },
             "from": {
               "type": "Number",
               "required": true,
-              "desc": "The index of the first list item that is rendered (0 based)",
-              "examples": [ 10 ]
+              "desc": "The index of the first list item that is rendered (0 based)"
             },
             "to": {
               "type": "Number",
               "required": true,
-              "desc": "The index of the last list item that is rendered (0 based)",
-              "examples": [ 50 ]
+              "desc": "The index of the last list item that is rendered (0 based)"
             },
             "direction": {
               "type": "String",
@@ -2213,13 +2058,15 @@
                 },
                 "page": {
                   "type": "Number",
-                  "desc": "Page number (1-based)",
-                  "examples": [ 3 ]
+                  "desc": "Page number (1-based)"
                 },
                 "rowsPerPage": {
                   "type": "Number",
-                  "desc": "How many rows per page? 0 means Infinite",
-                  "examples": [ 10 ]
+                  "desc": "How many rows per page? 0 means Infinite"
+                },
+                "rowsNumber": {
+                  "type": "Number",
+                  "desc": "For server-side fetching only. How many total database rows are there to be added to the table."
                 }
               }
             },
@@ -2230,19 +2077,16 @@
                 "rows": {
                   "type": "Array",
                   "required": true,
-                  "desc": "Array of rows",
-                  "__exemption": [ "examples" ]
+                  "desc": "Array of rows"
                 },
                 "terms": {
                   "type": [ "String", "Object" ],
                   "required": true,
-                  "desc": "Terms to filter with (is essentially the 'filter' prop value)",
-                  "__exemption": [ "examples" ]
+                  "desc": "Terms to filter with (is essentially the 'filter' prop value)"
                 },
                 "cols": {
                   "type": "Array",
-                  "desc": "Optional column definitions",
-                  "__exemption": [ "examples" ]
+                  "desc": "Optional column definitions"
                 },
                 "getCellValue": {
                   "type": "Function",
@@ -2250,13 +2094,11 @@
                   "params": {
                     "col": {
                       "type": "Object",
-                      "desc": "Column name from column definitions",
-                      "__exemption": [ "examples" ]
+                      "desc": "Column name from column definitions"
                     },
                     "row": {
                       "type": "Object",
-                      "desc": "The row object",
-                      "__exemption": [ "examples" ]
+                      "desc": "The row object"
                     }
                   },
                   "returns": {
@@ -2268,8 +2110,7 @@
               },
               "returns": {
                 "type": "Array",
-                "desc": "Filtered rows",
-                "__exemption": [ "examples" ]
+                "desc": "Filtered rows"
               }
             }
           }
@@ -2296,13 +2137,11 @@
             },
             "page": {
               "type": "Number",
-              "desc": "Page number (1-based)",
-              "examples": [ 3 ]
+              "desc": "Page number (1-based)"
             },
             "rowsPerPage": {
               "type": "Number",
-              "desc": "How many rows per page? 0 means Infinite",
-              "examples": [ 10 ]
+              "desc": "How many rows per page? 0 means Infinite"
             }
           }
         },
@@ -2403,8 +2242,7 @@
         "index": {
           "type": [ "String", "Number" ],
           "required": true,
-          "desc": "The index of the row in page (0 based)",
-          "examples": [ "1", 23 ]
+          "desc": "The index of the row in page (0 based)"
         },
         "edge": {
           "type": "String",
@@ -2413,6 +2251,25 @@
           "default": "end (if scrolling towards the end) / start (if scrolling towards the start)"
         }
       }
+    }
+  },
+
+  "computedProps": {
+    "filteredSortedRows": {
+      "desc": "The filtered and sorted rows (same as the rows prop if using server-side fetching)",
+      "type": "Array",
+      "examples": [ "[ { name: 'Ice Cream Sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: 8, iron: 1 }, ... ]" ]
+    },
+
+    "computedRows": {
+      "desc": "Paginated, filtered, and sorted rows (same as the rows prop if using server-side fetching)",
+      "type": "Array",
+      "examples": [ "[ { name: 'Ice Cream Sandwich', calories: 237, fat: 9.0, carbs: 37, protein: 4.3, sodium: 129, calcium: 8, iron: 1 }, ... ]" ]
+    },
+
+    "computedRowsNumber": {
+      "desc": "The number of computed rows",
+      "type": "Number"
     }
   }
 }

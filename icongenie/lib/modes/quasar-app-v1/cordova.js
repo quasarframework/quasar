@@ -1,13 +1,14 @@
+
 const iosIconRegex = /icon-(\d+\.?\d?)@?(\d+)?x?\.png/
 
 function getAndroidIcon (entry) {
   return {
     generator: 'png',
-    name: `${entry[0]}.png`,
+    name: `${ entry[ 0 ] }.png`,
     folder: 'src-cordova/res/android',
-    sizes: [ entry[1] ],
+    sizes: [ entry[ 1 ] ],
     platform: 'cordova-android',
-    density: entry[0]
+    density: entry[ 0 ]
   }
 }
 
@@ -17,24 +18,24 @@ function getAndroidSplashscreens (entries) {
   entries.forEach(entry => {
     list.push({
       generator: 'splashscreen',
-      name: `splash-land-${entry[0]}.png`,
+      name: `splash-land-${ entry[ 0 ] }.png`,
       folder: 'src-cordova/res/screen/android',
       sizes: [
-        [ entry[1], entry[2] ]
+        [ entry[ 1 ], entry[ 2 ] ]
       ],
       platform: 'cordova-android',
-      density: `land-${entry[0]}`
+      density: `land-${ entry[ 0 ] }`
     })
 
     list.push({
       generator: 'splashscreen',
-      name: `splash-port-${entry[0]}.png`,
+      name: `splash-port-${ entry[ 0 ] }.png`,
       folder: 'src-cordova/res/screen/android',
       sizes: [
-        [ entry[2], entry[1] ]
+        [ entry[ 2 ], entry[ 1 ] ]
       ],
       platform: 'cordova-android',
-      density: `port-${entry[0]}`
+      density: `port-${ entry[ 0 ] }`
     })
   })
 
@@ -42,7 +43,7 @@ function getAndroidSplashscreens (entries) {
 }
 
 function getIosIcon (name) {
-  const [,size,multiplier] = name.match(iosIconRegex)
+  const [ ,size,multiplier ] = name.match(iosIconRegex)
 
   return {
     generator: 'png',
@@ -61,16 +62,16 @@ function getIosIcon (name) {
 function getIosSplashscreen (entry) {
   return {
     generator: 'splashscreen',
-    name: entry[0],
+    name: entry[ 0 ],
     folder: 'src-cordova/res/screen/ios',
     sizes: [
-      [ entry[1], entry[2] ]
+      [ entry[ 1 ], entry[ 2 ] ]
     ],
     platform: 'cordova-ios'
   }
 }
 
-module.exports = [
+export default [
   /***************
    *** Android ***
    ***************/

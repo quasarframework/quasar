@@ -1,16 +1,17 @@
 const appPaths = require('../app-paths')
+const getPackagePath = require('./get-package-path')
 
-module.exports = function (pkgName, folder = appPaths.appDir) {
-  if (pkgName === '@quasar/app-webpack') {
-    return require('../../package.json')
-  }
-
+/**
+ * Get package.json of a host package.
+ *
+ * Don't use it for direct dependencies of this project.
+ * Use plain `require('pkg')` and `require.resolve('pkg')` instead.
+ */
+module.exports = function getPackageJson (pkgName, folder = appPaths.appDir) {
   try {
-    return require(
-      require.resolve(`${pkgName}/package.json`, {
-        paths: [ folder ]
-      })
-    )
+    return require(getPackagePath(`${ pkgName }/package.json`, folder))
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

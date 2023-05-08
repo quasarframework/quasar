@@ -9,7 +9,7 @@ const requestShortener = new RequestShortener(process.cwd())
  See: https://github.com/webpack/webpack/blob/2f618e733aab4755deb42e9d8e859609005607c0/lib/Stats.js#L89
 */
 
-function getOriginalErrorStack(e) {
+function getOriginalErrorStack (e) {
   while (e.error != null) {
     e = e.error
   }
@@ -40,7 +40,7 @@ function getOrigin (e) {
 
     e.dependencies.forEach(function (dep) {
       if (!dep.loc) return
-      if (typeof dep.loc === "string") return
+      if (typeof dep.loc === 'string') return
       if (!dep.loc.start) return
       if (!dep.loc.end) return
 

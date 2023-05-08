@@ -7,7 +7,7 @@ import usePanel, { usePanelProps, usePanelEmits } from '../../composables/privat
 import useFullscreen, { useFullscreenProps, useFullscreenEmits } from '../../composables/private/use-fullscreen.js'
 
 import { createComponent } from '../../utils/private/create.js'
-import { isNumber } from '../../utils/private/is.js'
+import { isNumber } from '../../utils/is.js'
 import { hMergeSlot, hDir } from '../../utils/private/render.js'
 
 const navigationPositionOptions = [ 'top', 'right', 'bottom', 'left' ]
@@ -68,7 +68,7 @@ export default createComponent({
 
     const isDark = useDark(props, $q)
 
-    let timer, panelsLen
+    let timer = null, panelsLen
 
     const {
       updatePanelsList, getPanelContent,
@@ -122,7 +122,6 @@ export default createComponent({
 
     watch(() => props.modelValue, () => {
       if (props.autoplay) {
-        clearInterval(timer)
         startTimer()
       }
     })
@@ -131,20 +130,28 @@ export default createComponent({
       if (val) {
         startTimer()
       }
-      else {
-        clearInterval(timer)
+      else if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
       }
     })
 
     function startTimer () {
       const duration = isNumber(props.autoplay) === true
-        ? props.autoplay
+        ? Math.abs(props.autoplay)
         : 5000
 
-      timer = setTimeout(
-        duration >= 0 ? nextPanel : previousPanel,
-        Math.abs(duration)
-      )
+      timer !== null && clearTimeout(timer)
+      timer = setTimeout(() => {
+        timer = null
+
+        if (duration >= 0) {
+          nextPanel()
+        }
+        else {
+          previousPanel()
+        }
+      }, duration)
     }
 
     onMounted(() => {
@@ -152,7 +159,7 @@ export default createComponent({
     })
 
     onBeforeUnmount(() => {
-      clearInterval(timer)
+      timer !== null && clearTimeout(timer)
     })
 
     function getNavigationContainer (type, mapping) {

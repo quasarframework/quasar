@@ -260,4 +260,4 @@ Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
 ## Flex Playground
 To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
-<q-btn push color="brand-primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
+<q-btn icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
