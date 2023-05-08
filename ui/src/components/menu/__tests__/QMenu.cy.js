@@ -80,7 +80,7 @@ describe('Menu API', () => {
           cy.dataCy('menu')
             .should('exist')
           cy.get('body')
-            .click(499, 0, { waitForAnimations: 300 }) // Await menu animation otherwise it always passes
+            .click(499, 0, { waitForAnimations: true }) // Await menu animation otherwise it always passes
           cy.get('body')
             .dataCy('menu')
             .should('exist')
@@ -98,7 +98,7 @@ describe('Menu API', () => {
           cy.dataCy('menu')
             .should('exist')
           cy.get('body')
-            .type('{esc}', { waitForAnimations: 300 }) // Await menu animation otherwise it always passes
+            .type('{esc}', { waitForAnimations: true }) // Await menu animation otherwise it always passes
           cy.get('body')
             .dataCy('menu')
             .should('exist')
@@ -120,7 +120,7 @@ describe('Menu API', () => {
           cy.dataCy('menu')
             .should('exist')
             .dataCy('keep-open')
-            .click({ waitForAnimations: 300 }) // Await menu animation otherwise it always passes
+            .click({ waitForAnimations: true }) // Await menu animation otherwise it always passes
           cy.dataCy('menu')
             .should('exist')
         })
@@ -137,7 +137,7 @@ describe('Menu API', () => {
           cy.dataCy('menu')
             .should('exist')
             .dataCy('keep-open')
-            .click({ waitForAnimations: 300 }) // Await menu animation otherwise it always passes
+            .click({ waitForAnimations: true }) // Await menu animation otherwise it always passes
           cy.dataCy('menu')
             .should('not.exist')
         })
@@ -164,7 +164,7 @@ describe('Menu API', () => {
             .should('have.focus')
           cy.dataCy('menu')
             .dataCy('close-popup')
-            .click({ waitForAnimations: 300 }) // Wait for menu transition
+            .click({ waitForAnimations: true }) // Wait for menu transition
           cy.dataCy('wrapper')
             .get('.q-focus-helper')
             .should('have.focus')
@@ -187,7 +187,7 @@ describe('Menu API', () => {
             .should('have.focus')
           cy.dataCy('menu')
             .dataCy('close-popup')
-            .click({ waitForAnimations: 300 }) // Wait for menu transition
+            .click({ waitForAnimations: true }) // Wait for menu transition
           cy.dataCy('wrapper')
             .get('.q-focus-helper')
             .should('not.have.focus')
@@ -531,7 +531,7 @@ describe('Menu API', () => {
         let left = null
 
         cy.dataCy('wrapper')
-          .click({ waitForAnimations: 300 })
+          .click({ waitForAnimations: true })
         cy.dataCy('menu')
           .should('exist')
           .checkVerticalPosition('wrapper', 'bottom', 'bottom')
