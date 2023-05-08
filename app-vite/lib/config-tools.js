@@ -151,7 +151,9 @@ function createViteConfig (quasarConf, quasarRunMode) {
   }
 
   if (ctx.dev) {
-    viteConf.server = quasarConf.devServer
+    // deep clone it, otherwise it might get modified by extendViteConfig()
+    // and trigger multiple config diffs
+    viteConf.server = merge({}, quasarConf.devServer)
   }
   else {
     viteConf.build.outDir = build.distDir
