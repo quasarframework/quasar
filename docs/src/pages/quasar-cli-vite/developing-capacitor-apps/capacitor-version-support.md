@@ -16,7 +16,7 @@ If you previously used a lower version of Capacitor and you want to upgrade to a
 
 It would also be wise to check the changelog of Capacitor itself to see what breaking changes it has.
 
-## Capacitor v4
+## Capacitor v4 <q-badge label="@quasar/app-vite v1.4+" />
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in /src-capacitor/package.json should look like:
 
@@ -34,7 +34,7 @@ The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Q
 ## Capacitor v3
 
 ::: warning Known issue
-HTTPS devserver (through quasar.config.js > devServer > https: true) is not **yet** supported. If you are using Capacitor plugins that depend on it, it's better to upgrade to Capacitor v4.
+HTTPS devserver (through quasar.config.js > devServer > https: true) is not supported. If you are using Capacitor plugins that depend on it, it's better to upgrade to the newer supported Capacitor versions.
 :::
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in /src-capacitor/package.json should look like:
