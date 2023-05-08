@@ -262,13 +262,36 @@ class CapacitorConfigFile {
 
       if (add) {
         // Allow unsigned certificates in MainActivity
-        if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
-          mainActivity = mainActivity.replace(
-            /this\.init\(.*}}\);/ms,
-            match => `${ match }
-${ sslString }
-              `
-          )
+        if (capVersion >= 4) {
+          if (!/super\.onCreate/.test(mainActivity)) {
+            mainActivity = mainActivity.replace('{}',
+            `{
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+}`
+            );
+            mainActivity = mainActivity.replace('import com.getcapacitor.BridgeActivity;',
+            `import android.os.Bundle;
+import com.getcapacitor.BridgeActivity;`);
+          }
+          if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+            mainActivity = mainActivity.replace(
+              /super\.onCreate\(.*\);/ms,
+              match => `${match}
+              ${sslString}`
+            )
+          }
+        } else {
+          if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+            mainActivity = mainActivity.replace(
+              /this\.init\(.*}}\);/ms,
+              match => `${match}
+  ${sslString}
+                `
+            )
+          }
         }
 
         // Add helper file

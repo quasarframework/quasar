@@ -109,7 +109,7 @@ class Mode {
 
     if (capVersion >= 3) {
       nodePackager.installPackage(
-        `@capacitor/${ target }@^${ capVersion }.0.0-beta.0`,
+        `@capacitor/${target}@^${capVersion}.0.0`,
         { displayName: 'Capacitor platform', cwd: appPaths.capacitorDir }
       )
     }
