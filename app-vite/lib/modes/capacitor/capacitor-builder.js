@@ -41,11 +41,9 @@ class CapacitorBuilder extends AppBuilder {
       this.#cleanup()
     })
 
-    this.#capacitorConfigFile.prepare(this.quasarConf)
+    this.#capacitorConfigFile.prepare(this.quasarConf, target)
 
     await this.#runCapacitorCommand(this.quasarConf.capacitor.capacitorCliPreparationParams)
-
-    this.#capacitorConfigFile.prepareSSL(false, target)
 
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide === true) {

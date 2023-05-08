@@ -8,6 +8,11 @@ const { capVersion } = require('./cap-cli')
 
 const pkg = require(appPaths.resolve.app('package.json'))
 
+// necessary for Capacitor 4+
+const nodePackager = require('../../helpers/node-packager')
+const getPackageJson = require('../../helpers/get-package-json')
+
+// Capacitor 1 & 2
 function getAndroidMainActivity (capVersion, appId) {
   if (capVersion === 1) {
     return `
@@ -29,7 +34,7 @@ public class EnableHttpsSelfSigned {
 }`
   }
 
-  // capVersion > 1
+  // capVersion 2+
   return `
 package ${ appId };
 import android.net.http.SslError;
@@ -49,10 +54,11 @@ public class EnableHttpsSelfSigned {
   }
 }`
 }
+
 class CapacitorConfigFile {
   #tamperedFiles = []
 
-  prepare (quasarConf) {
+  prepare (quasarConf, target) {
     ensureConsistency()
 
     this.#updateCapPkg(quasarConf, pkg)
@@ -71,6 +77,7 @@ class CapacitorConfigFile {
     })
 
     this.#save()
+    this.#updateSSL(quasarConf, target)
   }
 
   reset () {
@@ -129,7 +136,28 @@ class CapacitorConfigFile {
     fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
   }
 
-  prepareSSL (add, target) {
+  #updateSSL (quasarConf, target) {
+    const add = quasarConf.ctx.dev ? quasarConf.devServer.https : false
+
+    if (capVersion >= 4) {
+      const hasPlugin = getPackageJson('@jcesarmobile/ssl-skip', appPaths.capacitorDir) !== void 0
+
+      if (add ? hasPlugin : !hasPlugin) {
+        // nothing to do
+        return
+      }
+
+      const fn = `${ add ? '' : 'un' }installPackage`
+
+      nodePackager[ fn ]('@jcesarmobile/ssl-skip@^0.2.0', {
+        cwd: appPaths.capacitorDir,
+        displayName: 'Capacitor (DEVELOPMENT ONLY) SSL support'
+      })
+
+      // make sure "cap sync" is run before triggering IDE or build
+      return
+    }
+
     if (target === 'ios') {
       this.#handleSSLonIOS(add)
     }

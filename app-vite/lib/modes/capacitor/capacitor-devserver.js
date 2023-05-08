@@ -61,11 +61,9 @@ class CapacitorDevServer extends AppDevserver {
 
   async #runCapacitor (quasarConf) {
     this.#stopCapacitor()
-    this.#capacitorConfig.prepare(quasarConf)
+    this.#capacitorConfig.prepare(quasarConf, this.#target)
 
     await this.#runCapacitorCommand(quasarConf.capacitor.capacitorCliPreparationParams)
-
-    this.#capacitorConfig.prepareSSL(quasarConf.devServer.https !== false, this.#target)
 
     await openIde('capacitor', quasarConf.bin, this.#target, true)
   }

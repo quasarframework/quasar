@@ -7,7 +7,6 @@
   "dependencies": {
     "@capacitor/app": "^4.0.0",
     "@capacitor/cli": "^4.0.0",
-    "@capacitor/core": "^4.0.0",
-    "@capacitor/splash-screen": "^4.0.0"
+    "@capacitor/core": "^4.0.0"
   }
 }
