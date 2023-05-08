@@ -177,6 +177,7 @@ describe('Chip API', () => {
           cy.get('.q-chip')
             .should('have.css', 'cursor', 'pointer')
             .click()
+          cy.get('.q-chip')
             .then(() => expect(fn).to.be.calledOnce)
         })
       })
@@ -194,7 +195,9 @@ describe('Chip API', () => {
 
           cy.get('.q-chip')
             .get('.q-icon.q-chip__icon--remove')
+            .as('clicked')
             .click()
+          cy.get('@clicked')
             .then(() => expect(fn).to.be.calledOnce)
         })
       })
@@ -213,6 +216,7 @@ describe('Chip API', () => {
           cy.get('.q-chip')
             .should('not.have.css', 'cursor', 'pointer')
             .click()
+          cy.get('.q-chip')
             .then(() => expect(fn).to.not.be.called)
         })
       })
@@ -332,7 +336,8 @@ describe('Chip API', () => {
             }
           })
 
-          cy.get('.q-chip').click().get('.q-ripple').should('exist')
+          cy.get('.q-chip').click()
+          cy.get('.q-chip').get('.q-ripple').should('exist')
         })
 
         it('should not have a ripple effect when "ripple" prop is false', () => {
@@ -342,7 +347,8 @@ describe('Chip API', () => {
             }
           })
 
-          cy.get('.q-chip').click().get('.q-ripple').should('not.exist')
+          cy.get('.q-chip').click()
+          cy.get('.q-chip').get('.q-ripple').should('not.exist')
         })
       })
     })
@@ -380,6 +386,7 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
+        cy.get('.q-chip')
           .then(() => expect(fn).to.be.calledOnce)
       })
 
@@ -395,6 +402,7 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
+        cy.get('.q-chip')
           .then(() => expect(fn).to.not.be.called)
       })
     })
@@ -412,6 +420,7 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
+        cy.get('.q-chip')
           .then(() => expect(fn).to.be.calledOnce)
       })
 
@@ -427,6 +436,7 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
+        cy.get('.q-chip')
           .then(() => expect(fn).to.not.be.called)
       })
     })
@@ -444,7 +454,9 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .get('.q-icon.q-chip__icon--remove')
+          .as('clicked')
           .click()
+        cy.get('@clicked')
           .then(() => expect(fn).to.be.calledOnce)
       })
 
@@ -460,6 +472,7 @@ describe('Chip API', () => {
 
         cy.get('.q-chip')
           .click()
+        cy.get('.q-chip')
           .then(() => expect(fn).to.not.be.called)
       })
     })

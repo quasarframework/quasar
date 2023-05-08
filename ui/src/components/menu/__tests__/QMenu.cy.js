@@ -51,7 +51,7 @@ describe('Menu API', () => {
             .should('exist')
           cy.get('body')
             .click(499, 0)
-            .dataCy('menu')
+          cy.get('body').dataCy('menu')
             .should('not.exist')
         })
 
@@ -64,7 +64,7 @@ describe('Menu API', () => {
             .should('exist')
           cy.get('body')
             .type('{esc}')
-            .dataCy('menu')
+          cy.get('body').dataCy('menu')
             .should('not.exist')
         })
 
@@ -79,10 +79,9 @@ describe('Menu API', () => {
             .click()
           cy.dataCy('menu')
             .should('exist')
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.get('body')
-            .click(499, 0)
-            .wait(300) // Await menu animation otherwise it always passes
+            .click(499, 0, { waitForAnimations: true }) // Await menu animation otherwise it always passes
+          cy.get('body')
             .dataCy('menu')
             .should('exist')
         })
@@ -98,10 +97,9 @@ describe('Menu API', () => {
             .click()
           cy.dataCy('menu')
             .should('exist')
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.get('body')
-            .type('{esc}')
-            .wait(300) // Await menu animation otherwise it always passes
+            .type('{esc}', { waitForAnimations: true }) // Await menu animation otherwise it always passes
+          cy.get('body')
             .dataCy('menu')
             .should('exist')
         })
@@ -119,12 +117,10 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .click()
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .dataCy('keep-open')
-            .click()
-            .wait(300) // Await menu animation otherwise it always passes
+            .click({ waitForAnimations: true }) // Await menu animation otherwise it always passes
           cy.dataCy('menu')
             .should('exist')
         })
@@ -138,12 +134,10 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .click()
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .dataCy('keep-open')
-            .click()
-            .wait(300) // Await menu animation otherwise it always passes
+            .click({ waitForAnimations: true }) // Await menu animation otherwise it always passes
           cy.dataCy('menu')
             .should('not.exist')
         })
@@ -162,15 +156,15 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .focus()
+          cy.dataCy('wrapper')
             .should('have.focus')
             .click()
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .should('have.focus')
+          cy.dataCy('menu')
             .dataCy('close-popup')
-            .click()
-            .wait(300) // Wait for menu transition
+            .click({ waitForAnimations: true }) // Wait for menu transition
           cy.dataCy('wrapper')
             .get('.q-focus-helper')
             .should('have.focus')
@@ -185,15 +179,15 @@ describe('Menu API', () => {
 
           cy.dataCy('wrapper')
             .focus()
+          cy.dataCy('wrapper')
             .should('have.focus')
             .click()
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('menu')
             .should('exist')
             .should('have.focus')
+          cy.dataCy('menu')
             .dataCy('close-popup')
-            .click()
-            .wait(300) // Wait for menu transition
+            .click({ waitForAnimations: true }) // Wait for menu transition
           cy.dataCy('wrapper')
             .get('.q-focus-helper')
             .should('not.have.focus')
@@ -490,6 +484,7 @@ describe('Menu API', () => {
           })
         cy.get('body')
           .type('{esc}')
+        cy.get('body')
           .then(() => {
             expect(fn).to.be.called
           })
@@ -514,6 +509,7 @@ describe('Menu API', () => {
           })
         cy.get('body')
           .type('{esc}')
+        cy.get('body')
           .then(() => {
             expect(fn).not.to.be.called
           })
@@ -534,10 +530,8 @@ describe('Menu API', () => {
         let bottom = null
         let left = null
 
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.dataCy('wrapper')
-          .click()
-          .wait(300)
+          .click({ waitForAnimations: true })
         cy.dataCy('menu')
           .should('exist')
           .checkVerticalPosition('wrapper', 'bottom', 'bottom')
