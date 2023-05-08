@@ -60,20 +60,20 @@ describe('use-transition API', () => {
       describe('(prop): transition-duration', () => {
         it('should be done with transitioning after 300ms passed', () => {
           cy.mount(WrapperOne)
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
-            .wait(300)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(300)
           cy.dataCy('menu', { timeout: 350 })
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
 
         it('should not be done with transitioning before 300ms passed', () => {
           cy.mount(WrapperOne)
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
-            .wait(200) // Commands take some time so a high value can fail, just take a decent margin
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(200) // Commands take some time so a high value can fail, just take a decent margin
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
             .should('have.class', 'q-transition--fade-enter-active')
         })
@@ -84,10 +84,10 @@ describe('use-transition API', () => {
               transitionDuration: 1000
             }
           })
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
-            .wait(1000)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000)
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
@@ -98,10 +98,10 @@ describe('use-transition API', () => {
               transitionDuration: 1000
             }
           })
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.dataCy('wrapper')
             .click()
-            .wait(900)
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(900)
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
             .should('have.class', 'q-transition--fade-enter-active')
         })
