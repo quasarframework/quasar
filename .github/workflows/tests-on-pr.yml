@@ -90,7 +90,9 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           install: false
-          command: yarn test:component:run --browser ${{ matrix.browser }} --reporter json --reporter-options output=dist/test-results/${{ matrix.browser }}.json
+          env:
+            CYPRESS_JSON_RESULTS_FILENAME=dist/test-results/${{ matrix.browser }}.json
+          command: yarn test:component:run --browser ${{ matrix.browser }}
           working-directory: ui
 
       # Upload required artifacts to be used in tests-on-pr-report.yml

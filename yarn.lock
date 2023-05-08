@@ -2092,7 +2092,7 @@ commander@~2.13.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
   integrity sha512-MVuS359B+YzaWqjCL/c+22gfryv+mCBPHAv3zyVI2GN8EY6IRP8VwtasXn8jyyhvvq84R4ImN1OKRtcbIasjYA==
 
-common-tags@^1.8.0:
+common-tags@^1.8.0, common-tags@^1.8.2:
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.2.tgz#94ebb3c076d26032745fd54face7f688ef5ac9c6"
   integrity sha512-gk/Z852D2Wtb//0I+kRFNKKE9dIIVirjoqPoA1wJU+XePVXZfGeBpk45+A1rKO4Q43prqWBNY/MiIeRLbPWUaA==
@@ -2316,6 +2316,13 @@ csstype@^2.6.8:
   version "2.6.21"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.21.tgz#2efb85b7cc55c80017c66a5ad7cbd931fda3a90e"
   integrity sha512-Z1PhmomIfypOpoMjRQB70jfvy/wxT50qW08YXO5lMIJkrdq4yOTR+AW7FqutScmB9NkLwxo+jU+kZLbofZZq/w==
+
+cypress-json-results@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/cypress-json-results/-/cypress-json-results-1.2.1.tgz#21b0afd516b7f5a8bdbfd2a43eea4ae641ceb9c4"
+  integrity sha512-A88O5g4qTDv1jX8mZpOvIGT9rlCm714h2MQGZRkU/EOKbdgvXU4B+vmcanNNoSm/SdxvK5tW2k26D7RCHIOSsA==
+  dependencies:
+    common-tags "^1.8.2"
 
 cypress@^12.10.0:
   version "12.10.0"
