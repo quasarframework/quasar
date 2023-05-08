@@ -63,8 +63,7 @@ describe('use-transition API', () => {
           cy.dataCy('wrapper')
             .click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.dataCy('wrapper')
-            .wait(300)
+          cy.wait(300)
           cy.dataCy('menu', { timeout: 350 })
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
@@ -74,8 +73,7 @@ describe('use-transition API', () => {
           cy.dataCy('wrapper')
             .click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.dataCy('wrapper')
-            .wait(200) // Commands take some time so a high value can fail, just take a decent margin
+          cy.wait(200) // Commands take some time so a high value can fail, just take a decent margin
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
             .should('have.class', 'q-transition--fade-enter-active')
         })
@@ -89,8 +87,7 @@ describe('use-transition API', () => {
           cy.dataCy('wrapper')
             .click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.dataCy('wrapper')
-            .wait(1000)
+          cy.wait(1000)
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
             .should('not.have.class', 'q-transition--fade-enter-active')
         })
@@ -104,8 +101,7 @@ describe('use-transition API', () => {
           cy.dataCy('wrapper')
             .click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.dataCy('wrapper')
-            .wait(900)
+          cy.wait(900)
           cy.dataCy('menu', { timeout: 0 }) // Disable retry
             .should('have.class', 'q-transition--fade-enter-active')
         })
