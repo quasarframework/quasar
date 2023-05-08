@@ -83,7 +83,7 @@
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
-    "electron-builder": "23.6.0",
+    "electron-builder": "^24.3.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.11.0",
     "eslint-config-standard": "^17.0.0",
@@ -100,8 +100,8 @@
     "workbox-build": "^6.5.3"
   },
   "peerDependencies": {
-    "electron-builder": "^22.0.0",
-    "electron-packager": "^15.0.0",
+    "electron-builder": ">= 22",
+    "electron-packager": ">= 15",
     "eslint": "^8.11.0",
     "pinia": "^2.0.0",
     "quasar": "^2.8.0",

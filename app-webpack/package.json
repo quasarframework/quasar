@@ -110,7 +110,7 @@
     "webpack-node-externals": "3.0.0"
   },
   "devDependencies": {
-    "electron-builder": "23.6.0",
+    "electron-builder": "^24.3.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.11.0",
     "eslint-config-standard": "^17.0.0",
@@ -125,8 +125,8 @@
     "vuex": "^4.0.0"
   },
   "peerDependencies": {
-    "electron-builder": "^22.0.0",
-    "electron-packager": "^15.0.0",
+    "electron-builder": ">= 22",
+    "electron-packager": ">= 15",
     "pinia": "^2.0.0",
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
