@@ -7,7 +7,7 @@
   },
   "type": "module",
   "scripts": {
-    "lint": "eslint --ext .js ./ --fix"
+    "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
   },
   "repository": {
     "type": "git",

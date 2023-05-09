@@ -7,7 +7,7 @@
     "quasar": "./bin/quasar.js"
   },
   "scripts": {
-    "lint": "eslint --ext .js ./ --fix"
+    "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
   },
   "files": [
     "assets",

@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
-    "lint": "eslint ./ --ext .js,.vue --fix",
+    "lint": "eslint ./ --ext .js,.vue --fix --report-unused-disable-directives",
     "dev": "cd src-ui && quasar dev",
     "build": "yarn build:ui && yarn build:package",
     "build:ui": "cd src-ui && quasar build",

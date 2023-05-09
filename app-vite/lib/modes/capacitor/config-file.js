@@ -299,24 +299,25 @@ class CapacitorConfigFile {
     super.onCreate(savedInstanceState);
   }
 }`
-            );
+            )
             mainActivity = mainActivity.replace('import com.getcapacitor.BridgeActivity;',
             `import android.os.Bundle;
-import com.getcapacitor.BridgeActivity;`);
+import com.getcapacitor.BridgeActivity;`)
           }
           if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
             mainActivity = mainActivity.replace(
               /super\.onCreate\(.*\);/ms,
-              match => `${match}
-              ${sslString}`
+              match => `${ match }
+              ${ sslString }`
             )
           }
-        } else {
+        }
+        else {
           if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
             mainActivity = mainActivity.replace(
               /this\.init\(.*}}\);/ms,
-              match => `${match}
-  ${sslString}
+              match => `${ match }
+  ${ sslString }
                 `
             )
           }

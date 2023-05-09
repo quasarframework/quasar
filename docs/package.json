@@ -10,7 +10,7 @@
     "dev:ssr": "quasar dev -m ssr",
     "build": "node build/search.js && cp node_modules/quasar/dist/api/* public/quasar-api/ && quasar build -m ssr && mkdir -p dist/quasar.dev/client/examples/ && cp -R src/examples/* dist/quasar.dev/client/examples/",
     "relnotes": "node build/release-notes/index.js",
-    "lint": "eslint --ext .js,.vue ./ --fix",
+    "lint": "eslint --ext .js,.vue ./ --fix --report-unused-disable-directives",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
