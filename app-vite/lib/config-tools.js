@@ -44,17 +44,22 @@ function parseVitePlugins (entries) {
     const [ name, opts ] = entry
 
     if (typeof name === 'function') {
-      acc.push(name(opts))
+      acc.push(
+        // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
+        name(merge({}, opts))
+      )
       return
     }
 
     if (Object(name) === name) {
-      acc.push(name)
+      acc.push(
+        // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
+        merge({}, name)
+      )
       return
     }
 
     if (typeof name !== 'string') {
-      console.log(name)
       warn('quasar.config.js > invalid Vite plugin specified: ' + name)
       warn('Correct form: [ \'my-vite-plugin-name\', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]')
       return
@@ -67,7 +72,12 @@ function parseVitePlugins (entries) {
       return
     }
 
-    acc.push((plugin.default || plugin)(opts))
+    acc.push(
+      (plugin.default || plugin)(
+        // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
+        merge({}, opts)
+      )
+    )
   })
 
   if (showTip === true) {
@@ -86,12 +96,13 @@ function createViteConfig (quasarConf, quasarRunMode) {
     removeSync(cacheDir)
   }
 
-  const vueVitePluginOptions = quasarRunMode !== 'ssr-server'
-    ? build.viteVuePluginOptions
-    : merge({
-      ssr: true,
-      template: { ssr: true }
-    }, build.viteVuePluginOptions)
+  // protect against Vite mutating its own options and triggering endless cfg diff loop
+  const vueVitePluginOptions = merge(
+    quasarRunMode !== 'ssr-server'
+      ? {}
+      : { ssr: true, template: { ssr: true } },
+    build.viteVuePluginOptions
+  )
 
   const viteConf = {
     configFile: false,
@@ -151,8 +162,8 @@ function createViteConfig (quasarConf, quasarRunMode) {
   }
 
   if (ctx.dev) {
-    // deep clone it, otherwise it might get modified by extendViteConfig()
-    // and trigger multiple config diffs
+    // protect against Vite (or a Vite plugin) mutating the original
+    // and triggering endless cfg diff loop
     viteConf.server = merge({}, quasarConf.devServer)
   }
   else {
