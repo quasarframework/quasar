@@ -11,6 +11,10 @@
 <script>
 import { defineComponent } from 'vue'
 
+import Component from './2-Imports.vue?raw'
+
+console.log(Component)
+
 export default defineComponent({
   name: 'RSBasic'
 })

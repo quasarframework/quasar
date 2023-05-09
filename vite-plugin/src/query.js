@@ -23,29 +23,39 @@ export function parseViteRequest (id) {
   const [ filename, rawQuery ] = id.split('?', 2)
   const query = Object.fromEntries(new URLSearchParams(rawQuery))
 
-  const is = query.vue !== void 0 // is vue query?
+  const is = query.raw !== void 0
     ? {
-        // Almost all code might get merged into a single request with no 'type' (App.vue?vue)
-        // or stay with their original 'type's (App.vue?vue&type=script&lang.ts)
-        vue: () => true,
-        template: () =>
-          query.type === void 0 ||
-          query.type === 'template' ||
-          // On prod, TS code turns into a separate 'script' request.
-          // See: https://github.com/vitejs/vite/pull/7909
-          (query.type === 'script' && (query['lang.ts'] !== void 0 || query['lang.tsx'] !== void 0)),
-        script: (extensions = scriptExt) =>
-          (query.type === void 0 || query.type === 'script') &&
-          isOfExt({ query, extensions }) === true,
-        style: (extensions = styleExt) =>
-          query.type === 'style' && isOfExt({ query, extensions }) === true
+        // if it's a ?raw request, then don't touch it at all
+        vue: () => false,
+        template: () => false,
+        script: () => false,
+        style: () => false
       }
-    : {
-        vue: () => isOfExt({ extensions: vueExt, filename }),
-        template: () => isOfExt({ filename, extensions: vueExt }),
-        script: (extensions = scriptExt) => isOfExt({ filename, extensions }),
-        style: (extensions = styleExt) => isOfExt({ filename, extensions })
-      }
+    : (
+        query.vue !== void 0 // is vue query?
+        ? {
+            // Almost all code might get merged into a single request with no 'type' (App.vue?vue)
+            // or stay with their original 'type's (App.vue?vue&type=script&lang.ts)
+            vue: () => true,
+            template: () =>
+              query.type === void 0 ||
+              query.type === 'template' ||
+              // On prod, TS code turns into a separate 'script' request.
+              // See: https://github.com/vitejs/vite/pull/7909
+              (query.type === 'script' && (query['lang.ts'] !== void 0 || query['lang.tsx'] !== void 0)),
+            script: (extensions = scriptExt) =>
+              (query.type === void 0 || query.type === 'script') &&
+              isOfExt({ query, extensions }) === true,
+            style: (extensions = styleExt) =>
+              query.type === 'style' && isOfExt({ query, extensions }) === true
+          }
+        : {
+            vue: () => isOfExt({ extensions: vueExt, filename }),
+            template: () => isOfExt({ filename, extensions: vueExt }),
+            script: (extensions = scriptExt) => isOfExt({ filename, extensions }),
+            style: (extensions = styleExt) => isOfExt({ filename, extensions })
+          }
+      )
 
   return {
     filename,
