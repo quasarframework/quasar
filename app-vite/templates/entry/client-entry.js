@@ -59,15 +59,6 @@ import { addPreFetchHooks } from './client-prefetch.js'
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
 <% } %>
 
-<% if (ctx.mode.cordova && ctx.target.ios) { %>
-import '@quasar/fastclick'
-<% } else if (ctx.mode.pwa) { %>
-// Needed only for iOS PWAs
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-  import('@quasar/fastclick')
-}
-<% } %>
-
 const publicPath = `<%= build.publicPath %>`
 
 async function start ({

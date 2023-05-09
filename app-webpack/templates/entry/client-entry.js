@@ -59,15 +59,6 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr &&
 <% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
-<% if (ctx.mode.cordova && ctx.target.ios) { %>
-import '@quasar/fastclick'
-<% } else if (ctx.mode.pwa) { %>
-// Needed only for iOS PWAs
-if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-  import(/* webpackChunkName: "fastclick"  */ '@quasar/fastclick')
-}
-<% } %>
-
 const publicPath = `<%= build.publicPath %>`
 <% if (build.publicPath.length > 1) { %>
 const doubleSlashRE = /\/\//

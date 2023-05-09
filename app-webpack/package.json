@@ -48,7 +48,6 @@
   "dependencies": {
     "@quasar/babel-preset-app": "2.0.2",
     "@quasar/render-ssr-error": "^1.0.0",
-    "@quasar/fastclick": "1.1.5",
     "@quasar/ssr-helpers": "2.2.2",
     "@types/chrome": "^0.0.208",
     "@types/compression": "^1.7.2",

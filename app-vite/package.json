@@ -46,7 +46,6 @@
     "lint": "eslint --ext .js ./ ./bin/quasar --fix --report-unused-disable-directives"
   },
   "dependencies": {
-    "@quasar/fastclick": "1.1.5",
     "@quasar/render-ssr-error": "^1.0.0",
     "@quasar/vite-plugin": "^1.3.3",
     "@rollup/pluginutils": "^4.1.2",
