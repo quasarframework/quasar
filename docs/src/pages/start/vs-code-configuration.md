@@ -104,7 +104,7 @@ Then you need to tell VSCode to add a configuration to the debugger. The easiest
 
 In the example below, replace `package-name` with the `name` property from your `package.json` file:
 
-```json
+```jsonc
 {
   "type": "chrome",
   "request": "launch",
