@@ -13,7 +13,7 @@ const dirRegex = new RegExp(`_resolveDirective\\("${autoImportData.regex.directi
 const lengthSortFn = (a, b) => b.length - a.length
 
 export function vueTransform (content, autoImportComponentCase, useTreeshaking) {
-  const importList = []
+  const importSet = new Set()
   const importMap = {}
 
   const compList = []
@@ -22,7 +22,7 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
   const reverseMap = {}
   const jsImportTransformed = useTreeshaking === true
     ? mapQuasarImports(content, importMap)
-    : removeQuasarImports(content, importMap, importList, reverseMap)
+    : removeQuasarImports(content, importMap, importSet, reverseMap)
 
   let code = jsImportTransformed
     .replace(compRegex[autoImportComponentCase], (_, match) => {
@@ -30,7 +30,7 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
       const reverseName = match.replace(/-/g, '_')
 
       if (importMap[name] === void 0) {
-        importList.push( name )
+        importSet.add( name )
         reverseMap[reverseName] = name
       }
       else {
@@ -45,7 +45,7 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
       const reverseName = match.replace(/-/g, '_')
 
       if (importMap[name] === void 0) {
-        importList.push( name )
+        importSet.add( name )
         reverseMap[reverseName] = name
       }
       else {
@@ -56,7 +56,7 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
       return ''
     })
 
-  if (importList.length === 0) {
+  if (importSet.size === 0) {
     return code
   }
 
@@ -74,6 +74,7 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
       .replace(new RegExp(`_directive_(${list})`, 'g'), (_, match) => reverseMap[match])
   }
 
+  const importList = [ ...importSet ]
   const codePrefix = useTreeshaking === true
     ? importList.map(name => `import ${name} from '${importTransformation(name)}'`).join(`;`)
     : `import {${importList.join(',')}} from 'quasar'`

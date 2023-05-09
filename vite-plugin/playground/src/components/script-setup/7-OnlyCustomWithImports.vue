@@ -1,5 +1,5 @@
 <template>
-  <h3>Only Custom Component and Imports</h3>
+  <h3>With only Custom Component and Imports</h3>
 
   <div>
     <custom-component />

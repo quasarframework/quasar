@@ -1,5 +1,5 @@
 <template>
-  <h3>With Custom Component and Aliased Imports</h3>
+  <h3>With Custom Component with Aliased Imports</h3>
 
   <div>
     <q-btn label="Click me" />

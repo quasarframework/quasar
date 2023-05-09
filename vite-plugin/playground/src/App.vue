@@ -1,7 +1,6 @@
 <template>
   <VueTransformAssetUrls />
 
-  <h1>Vue SFC Script Transforms</h1>
   <ScriptSetup />
   <RegularScript />
   <!-- TODO: Add tests for 'pascal' and 'combined' too -->

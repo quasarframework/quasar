@@ -1,5 +1,5 @@
 <template>
-  <h2>SFC Regular Script Tag</h2>
+  <h1>SFC Regular Script Tag Transforms</h1>
 
   <div>
     <div id="script-basic">
@@ -33,6 +33,18 @@
     <div id="script-only-custom-with-aliased-imports">
       <OnlyCustomWithAliasedImports />
     </div>
+
+    <div id="script-mixed-case">
+      <MixedCase />
+    </div>
+
+    <div id="script-mixed-case-with-duplicates">
+      <MixedCaseWithDuplicates />
+    </div>
+
+    <div id="script-mixed-case-with-duplicates-and-aliased-imports">
+      <MixedCaseWithDuplicatesAndAliasedImports />
+    </div>
   </div>
 </template>
 
@@ -45,4 +57,7 @@ import CustomWithImports from './5-CustomWithImports.vue';
 import CustomWithAliasedImports from './6-CustomWithAliasedImports.vue';
 import OnlyCustomWithImports from './7-OnlyCustomWithImports.vue';
 import OnlyCustomWithAliasedImports from './8-OnlyCustomWithAliasedImports.vue';
+import MixedCase from './9-MixedCase.vue';
+import MixedCaseWithDuplicates from './10-MixedCaseWithDuplicates.vue';
+import MixedCaseWithDuplicatesAndAliasedImports from './11-MixedCaseWithDuplicatesAndAliasedImports.vue';
 </script>

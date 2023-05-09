@@ -6,7 +6,10 @@ const types = [
   'custom-with-imports',
   'custom-with-aliased-imports',
   'only-custom-with-imports',
-  'only-custom-with-aliased-imports'
+  'only-custom-with-aliased-imports',
+  'mixed-case',
+  'mixed-case-with-duplicates',
+  'mixed-case-with-duplicates-and-aliased-imports'
 ]
 
 describe('Script Transform', () => {
@@ -19,7 +22,7 @@ describe('Script Transform', () => {
       cy.get(`#script-setup-${type}`)
         .find('*')
         .each(($el) => {
-          expect($el.prop('tagName')).not.to.match(/^q-/)
+          expect($el.prop('tagName')).not.to.match(/^[qQ]/)
         })
     })
   })
@@ -29,7 +32,7 @@ describe('Script Transform', () => {
       cy.get(`#script-${type}`)
         .find('*')
         .each(($el) => {
-          expect($el.prop('tagName')).not.to.match(/^q-/)
+          expect($el.prop('tagName')).not.to.match(/^[qQ]/)
         })
     })
   })

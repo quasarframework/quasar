@@ -43,7 +43,7 @@ export function mapQuasarImports (code, importMap = {}) {
  *    (removing original is required so that the end file will have
  *     only one import from Quasar statement)
  */
-export function removeQuasarImports (code, importMap, importList, reverseMap) {
+export function removeQuasarImports (code, importMap, importSet, reverseMap) {
   return code.replace(
     importQuasarRegex,
     (_, match) => {
@@ -59,7 +59,7 @@ export function removeQuasarImports (code, importMap, importList, reverseMap) {
             ? data[1].trim()
             : importName
 
-          importList.push(importName + (importAs !== importName ? ` as ${ importAs }` : ''))
+          importSet.add(importName + (importAs !== importName ? ` as ${ importAs }` : ''))
           importMap[importName] = importAs
           reverseMap[importName.replace(/-/g, '_')] = importAs
         }
