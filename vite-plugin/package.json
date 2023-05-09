@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "rollup --config rollup.config.js",
+    "build": "rm -rf ./dist/* && rollup --config rollup.config.js",
     "test": "yarn test:unit:ci && yarn test:e2e:ci",
     "test:unit:dev": "vitest",
     "test:unit:ci": "vitest run",
