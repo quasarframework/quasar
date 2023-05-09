@@ -185,8 +185,6 @@ class Npm extends PackageManager {
     if (!versionList) return null
     if (versionList.type === 'error') return null
 
-    versionList = versionList.data
-
     return !versionList || !Array.isArray(versionList) || versionList.length === 0
       ? null
       : versionList
@@ -292,8 +290,6 @@ class Pnpm extends PackageManager {
 
     if (!versionList) return null
     if (versionList.type === 'error') return null
-
-    versionList = versionList.data
 
     return !versionList || !Array.isArray(versionList) || versionList.length === 0
       ? null
