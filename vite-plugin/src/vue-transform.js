@@ -4,12 +4,12 @@ import importTransformation from 'quasar/dist/transforms/import-transformation.j
 import { mapQuasarImports, removeQuasarImports } from './js-transform.js'
 
 const compRegex = {
-  'kebab': new RegExp(`_resolveComponent\\("${autoImportData.regex.kebabComponents}"\\)`, 'g'),
-  'pascal': new RegExp(`_resolveComponent\\("${autoImportData.regex.pascalComponents}"\\)`, 'g'),
-  'combined': new RegExp(`_resolveComponent\\("${autoImportData.regex.components}"\\)`, 'g')
+  kebab: new RegExp(`_resolveComponent\\("${ autoImportData.regex.kebabComponents }"\\)`, 'g'),
+  pascal: new RegExp(`_resolveComponent\\("${ autoImportData.regex.pascalComponents }"\\)`, 'g'),
+  combined: new RegExp(`_resolveComponent\\("${ autoImportData.regex.components }"\\)`, 'g')
 }
 
-const dirRegex = new RegExp(`_resolveDirective\\("${autoImportData.regex.directives.replace(/v-/g, '')}"\\)`, 'g')
+const dirRegex = new RegExp(`_resolveDirective\\("${ autoImportData.regex.directives.replace(/v-/g, '') }"\\)`, 'g')
 const lengthSortFn = (a, b) => b.length - a.length
 
 export function vueTransform (content, autoImportComponentCase, useTreeshaking) {
@@ -25,31 +25,31 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
     : removeQuasarImports(content, importMap, importSet, reverseMap)
 
   let code = jsImportTransformed
-    .replace(compRegex[autoImportComponentCase], (_, match) => {
-      const name = autoImportData.importName[match]
+    .replace(compRegex[ autoImportComponentCase ], (_, match) => {
+      const name = autoImportData.importName[ match ]
       const reverseName = match.replace(/-/g, '_')
 
-      if (importMap[name] === void 0) {
-        importSet.add( name )
-        reverseMap[reverseName] = name
+      if (importMap[ name ] === void 0) {
+        importSet.add(name)
+        reverseMap[ reverseName ] = name
       }
       else {
-        reverseMap[reverseName] = importMap[name]
+        reverseMap[ reverseName ] = importMap[ name ]
       }
 
       compList.push(reverseName)
       return ''
     })
     .replace(dirRegex, (_, match) => {
-      const name = autoImportData.importName['v-' + match]
+      const name = autoImportData.importName[ 'v-' + match ]
       const reverseName = match.replace(/-/g, '_')
 
-      if (importMap[name] === void 0) {
-        importSet.add( name )
-        reverseMap[reverseName] = name
+      if (importMap[ name ] === void 0) {
+        importSet.add(name)
+        reverseMap[ reverseName ] = name
       }
       else {
-        reverseMap[reverseName] = importMap[name]
+        reverseMap[ reverseName ] = importMap[ name ]
       }
 
       dirList.push(reverseName)
@@ -63,21 +63,21 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
   if (compList.length !== 0) {
     const list = compList.sort(lengthSortFn).join('|')
     code = code
-      .replace(new RegExp(`const _component_(${list}) = `, 'g'), '')
-      .replace(new RegExp(`_component_(${list})`, 'g'), (_, match) => reverseMap[match])
+      .replace(new RegExp(`const _component_(${ list }) = `, 'g'), '')
+      .replace(new RegExp(`_component_(${ list })`, 'g'), (_, match) => reverseMap[ match ])
   }
 
   if (dirList.length !== 0) {
     const list = dirList.sort(lengthSortFn).join('|')
     code = code
-      .replace(new RegExp(`const _directive_(${list}) = `, 'g'), '')
-      .replace(new RegExp(`_directive_(${list})`, 'g'), (_, match) => reverseMap[match])
+      .replace(new RegExp(`const _directive_(${ list }) = `, 'g'), '')
+      .replace(new RegExp(`_directive_(${ list })`, 'g'), (_, match) => reverseMap[ match ])
   }
 
   const importList = [ ...importSet ]
   const codePrefix = useTreeshaking === true
-    ? importList.map(name => `import ${name} from '${importTransformation(name)}'`).join(`;`)
-    : `import {${importList.join(',')}} from 'quasar'`
+    ? importList.map(name => `import ${ name } from '${ importTransformation(name) }'`).join(';')
+    : `import {${ importList.join(',') }} from 'quasar'`
 
   return codePrefix + ';' + code
 }

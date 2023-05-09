@@ -1,3 +1,4 @@
+
 export default {
   input: 'src/index.js',
   output: {
@@ -6,6 +7,6 @@ export default {
   },
   external: [
     'vite',
-    /quasar[\\/][dist|package\.json]/,
+    /quasar[\\/][dist|package.json]/
   ]
 }

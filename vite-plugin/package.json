@@ -6,6 +6,7 @@
   "types": "index.d.ts",
   "scripts": {
     "build": "rm -rf ./dist/* && rollup --config rollup.config.js",
+    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "test": "yarn test:unit:ci && yarn test:e2e:ci",
     "test:unit:dev": "vitest",
     "test:unit:ci": "vitest run",
@@ -40,7 +41,13 @@
     "rollup": "^2.58.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.0.4",
-    "vitest": "^0.30.1"
+    "vitest": "^0.30.1",
+    "eslint": "^8.10.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.0.0"
   },
   "peerDependencies": {
     "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",

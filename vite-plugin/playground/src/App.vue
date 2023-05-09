@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import VueTransformAssetUrls from './components/VueTransformAssetUrls.vue';
-import ScriptSetup from './components/script-setup/ScriptSetup.vue';
-import RegularScript from './components/regular-script/RegularScript.vue';
+import VueTransformAssetUrls from './components/VueTransformAssetUrls.vue'
+import ScriptSetup from './components/script-setup/ScriptSetup.vue'
+import RegularScript from './components/regular-script/RegularScript.vue'
 </script>
 
 <style>

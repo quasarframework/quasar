@@ -1,5 +1,5 @@
 export function createScssTransform (fileExtension, sassVariables) {
-  const sassImportCode = [ `@import 'quasar/src/css/variables.sass'`, '' ]
+  const sassImportCode = [ '@import \'quasar/src/css/variables.sass\'', '' ]
 
   if (typeof sassVariables === 'string') {
     sassImportCode.unshift(`@import '${ sassVariables }'`)
@@ -10,7 +10,7 @@ export function createScssTransform (fileExtension, sassVariables) {
     : sassImportCode.join(';\n')
 
   return content => {
-    let useIndex = Math.max(
+    const useIndex = Math.max(
       content.lastIndexOf('@use '),
       content.lastIndexOf('@forward ')
     )
@@ -20,7 +20,7 @@ export function createScssTransform (fileExtension, sassVariables) {
     }
 
     const newLineIndex = content.indexOf('\n', useIndex)
-    
+
     if (newLineIndex !== -1) {
       const index = newLineIndex + 1
       return content.substring(0, index) + prefix + content.substring(index)

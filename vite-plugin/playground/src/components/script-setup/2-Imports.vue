@@ -9,8 +9,8 @@
 </template>
 
 <script setup>
-import { QBtn, Notify } from "quasar";
+import { QBtn, Notify } from 'quasar'
 
-console.log(QBtn);
-console.log('Notify', Notify);
+console.log(QBtn)
+console.log('Notify', Notify)
 </script>

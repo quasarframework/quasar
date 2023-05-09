@@ -11,5 +11,5 @@
 </template>
 
 <script setup>
-import CustomComponent from './custom-component.js';
+import CustomComponent from './custom-component.js'
 </script>

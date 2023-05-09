@@ -11,9 +11,9 @@
 </template>
 
 <script setup>
-import { QBtn, Notify } from "quasar";
-import CustomComponent from './custom-component.js';
+import { QBtn, Notify } from 'quasar'
+import CustomComponent from './custom-component.js'
 
-console.log(QBtn);
-console.log('Notify', Notify);
+console.log(QBtn)
+console.log('Notify', Notify)
 </script>
