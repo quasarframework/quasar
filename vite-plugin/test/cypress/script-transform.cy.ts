@@ -4,7 +4,9 @@ const types = [
   'aliased-imports',
   'custom',
   'custom-with-imports',
-  'custom-with-aliased-imports'
+  'custom-with-aliased-imports',
+  'only-custom-with-imports',
+  'only-custom-with-aliased-imports'
 ]
 
 describe('Script Transform', () => {

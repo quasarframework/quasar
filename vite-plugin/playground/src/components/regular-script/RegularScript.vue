@@ -25,6 +25,14 @@
     <div id="script-custom-with-aliased-imports">
       <CustomWithAliasedImports />
     </div>
+
+    <div id="script-only-custom-with-imports">
+      <OnlyCustomWithImports />
+    </div>
+
+    <div id="script-only-custom-with-aliased-imports">
+      <OnlyCustomWithAliasedImports />
+    </div>
   </div>
 </template>
 
@@ -35,4 +43,6 @@ import AliasedImports from './3-AliasedImports.vue';
 import Custom from './4-Custom.vue';
 import CustomWithImports from './5-CustomWithImports.vue';
 import CustomWithAliasedImports from './6-CustomWithAliasedImports.vue';
+import OnlyCustomWithImports from './7-OnlyCustomWithImports.vue';
+import OnlyCustomWithAliasedImports from './8-OnlyCustomWithAliasedImports.vue';
 </script>
