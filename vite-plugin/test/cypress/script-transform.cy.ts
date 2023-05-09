@@ -14,7 +14,13 @@ const types = [
 
 describe('Script Transform', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/', {
+      onBeforeLoad (win) {
+        cy.spy(win.console, 'warn').as('consoleWarn')
+      }
+    })
+
+    cy.get('@consoleWarn').should('not.have.been.called')
   })
 
   it('should transform <script setup> correctly', () => {
