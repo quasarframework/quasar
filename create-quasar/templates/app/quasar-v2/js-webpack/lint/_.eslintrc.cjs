@@ -6,7 +6,7 @@ module.exports = {
 
   parserOptions: {
     parser: '@babel/eslint-parser',
-    ecmaVersion: 2023, // Allows for the parsing of modern ECMAScript features
+    ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module' // Allows for the use of imports
   },
 
