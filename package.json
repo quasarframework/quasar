@@ -4,6 +4,7 @@
   "packageManager": "yarn@1.22.19",
   "//": "Currently, workspaces feature is only used for Vite/Vue Ecosystem CIs, so not all packages are included. Use individual folders for usual development.",
   "workspaces": [
+    "app-vite",
     "vite-plugin",
     "vite-plugin/playground",
     "ui"
