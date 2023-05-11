@@ -1,7 +1,8 @@
 
 const { normalizePath } = require('vite')
-const getLinter = require('../eslint')
-const { warning, error, success } = require('../helpers/logger')
+
+const getLinter = require('../eslint.js')
+const { warning, error, success } = require('../helpers/logger.js')
 
 const errorFiles = new Set()
 

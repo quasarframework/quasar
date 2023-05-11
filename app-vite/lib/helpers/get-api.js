@@ -1,5 +1,5 @@
-const appPaths = require('../app-paths')
-const { fatal } = require('./logger')
+const appPaths = require('../app-paths.js')
+const { fatal } = require('./logger.js')
 
 module.exports = async function getApi (item) {
   try {
@@ -16,7 +16,7 @@ module.exports = async function getApi (item) {
     /* do nothing */
   }
 
-  const extensionJson = require('../app-extension/extension-json')
+  const extensionJson = require('../app-extension/extension-json.js')
   const extensions = Object.keys(extensionJson.getList())
 
   if (extensions.length > 0) {
@@ -27,8 +27,8 @@ module.exports = async function getApi (item) {
       const hooks = await instance.run({})
 
       if (hooks.describeApi !== void 0 && hooks.describeApi[ item ]) {
-        const fs = require('fs')
-        const path = require('path')
+        const fs = require('node:fs')
+        const path = require('node:path')
 
         let file
         const {

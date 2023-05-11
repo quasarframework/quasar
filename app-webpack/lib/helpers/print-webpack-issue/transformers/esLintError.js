@@ -1,5 +1,5 @@
 
-const eslintError = require('../formatters/eslintError')
+const eslintError = require('../formatters/eslintError.js')
 
 module.exports = function transform (error) {
   return error.__formatter === void 0 && (

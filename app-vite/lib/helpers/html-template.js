@@ -1,5 +1,5 @@
 
-const compileTemplate = require('lodash/template')
+const compileTemplate = require('lodash/template.js')
 const { minify } = require('html-minifier')
 
 const absoluteUrlRE = /^(https?:\/\/|\/)/i

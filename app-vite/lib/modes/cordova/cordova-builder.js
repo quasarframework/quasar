@@ -1,16 +1,16 @@
 
 const fse = require('fs-extra')
-const { join } = require('path')
+const { join } = require('node:path')
 
-const AppBuilder = require('../../app-builder')
-const config = require('./cordova-config')
+const AppBuilder = require('../../app-builder.js')
+const config = require('./cordova-config.js')
 
-const { fatal } = require('../../helpers/logger')
-const appPaths = require('../../app-paths')
-const CordovaConfigFile = require('./config-file')
-const { spawn } = require('../../helpers/spawn')
-const openIde = require('../../helpers/open-ide')
-const onShutdown = require('../../helpers/on-shutdown')
+const { fatal } = require('../../helpers/logger.js')
+const appPaths = require('../../app-paths.js')
+const CordovaConfigFile = require('./config-file.js')
+const { spawn } = require('../../helpers/spawn.js')
+const openIde = require('../../helpers/open-ide.js')
+const onShutdown = require('../../helpers/on-shutdown.js')
 
 class CapacitorBuilder extends AppBuilder {
   #cordovaConfigFile = new CordovaConfigFile()
@@ -49,7 +49,7 @@ class CapacitorBuilder extends AppBuilder {
     const target = this.ctx.targetName
 
     if (target === 'android') {
-      require('../../helpers/fix-android-cleartext')('cordova')
+      require('../../helpers/fix-android-cleartext.js')('cordova')
     }
 
     const buildPath = appPaths.resolve.cordova(

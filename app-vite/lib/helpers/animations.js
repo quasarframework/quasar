@@ -1,4 +1,4 @@
-const getPackage = require('./get-package')
+const getPackage = require('./get-package.js')
 
 const {
   generalAnimations,

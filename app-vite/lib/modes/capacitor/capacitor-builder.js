@@ -1,17 +1,17 @@
-const { join } = require('path')
+const { join } = require('node:path')
 const fse = require('fs-extra')
 
-const AppBuilder = require('../../app-builder')
-const config = require('./capacitor-config')
+const AppBuilder = require('../../app-builder.js')
+const config = require('./capacitor-config.js')
 
-const { log, warn, fatal } = require('../../helpers/logger')
-const appPaths = require('../../app-paths')
-const CapacitorConfigFile = require('./config-file')
-const { spawn, spawnSync } = require('../../helpers/spawn')
-const openIde = require('../../helpers/open-ide')
-const onShutdown = require('../../helpers/on-shutdown')
+const { log, warn, fatal } = require('../../helpers/logger.js')
+const appPaths = require('../../app-paths.js')
+const CapacitorConfigFile = require('./config-file.js')
+const { spawn, spawnSync } = require('../../helpers/spawn.js')
+const openIde = require('../../helpers/open-ide.js')
+const onShutdown = require('../../helpers/on-shutdown.js')
 
-const { capBin } = require('./cap-cli')
+const { capBin } = require('./cap-cli.js')
 
 class CapacitorBuilder extends AppBuilder {
   #capacitorConfigFile = new CapacitorConfigFile()
@@ -34,7 +34,7 @@ class CapacitorBuilder extends AppBuilder {
     const target = this.ctx.targetName
 
     if (target === 'android') {
-      require('../../helpers/fix-android-cleartext')('capacitor')
+      require('../../helpers/fix-android-cleartext.js')('capacitor')
     }
 
     onShutdown(() => {

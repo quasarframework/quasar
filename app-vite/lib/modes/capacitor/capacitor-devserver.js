@@ -1,15 +1,15 @@
 const { createServer } = require('vite')
 
-const AppDevserver = require('../../app-devserver')
-const appPaths = require('../../app-paths')
-const CapacitorConfigFile = require('./config-file')
-const { log, fatal } = require('../../helpers/logger')
-const { spawn } = require('../../helpers/spawn')
-const onShutdown = require('../../helpers/on-shutdown')
-const openIde = require('../../helpers/open-ide')
-const config = require('./capacitor-config')
+const AppDevserver = require('../../app-devserver.js')
+const appPaths = require('../../app-paths.js')
+const CapacitorConfigFile = require('./config-file.js')
+const { log, fatal } = require('../../helpers/logger.js')
+const { spawn } = require('../../helpers/spawn.js')
+const onShutdown = require('../../helpers/on-shutdown.js')
+const openIde = require('../../helpers/open-ide.js')
+const config = require('./capacitor-config.js')
 
-const { capBin } = require('./cap-cli')
+const { capBin } = require('./cap-cli.js')
 
 class CapacitorDevServer extends AppDevserver {
   #pid = 0
@@ -28,7 +28,7 @@ class CapacitorDevServer extends AppDevserver {
     this.#target = opts.quasarConf.ctx.targetName
 
     if (this.#target === 'android') {
-      require('../../helpers/fix-android-cleartext')('capacitor')
+      require('../../helpers/fix-android-cleartext.js')('capacitor')
     }
 
     onShutdown(() => {

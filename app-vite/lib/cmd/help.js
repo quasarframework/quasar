@@ -1,6 +1,6 @@
 console.log(
-  require('fs').readFileSync(
-    require('path').join(__dirname, '../../assets/logo.art'),
+  require('node:fs').readFileSync(
+    require('node:path').join(__dirname, '../../assets/logo.art'),
     'utf8'
   )
 )

@@ -1,8 +1,8 @@
 const { green, dim } = require('kolorist')
-const { join } = require('path')
+const { join } = require('node:path')
 
-const appPaths = require('../app-paths')
-const { quasarVersion, cliAppVersion, getCompilationTarget } = require('../helpers/banner-global')
+const appPaths = require('../app-paths.js')
+const { quasarVersion, cliAppVersion, getCompilationTarget } = require('../helpers/banner-global.js')
 
 const greenBanner = green('»')
 const line = dim('   ———————————————————————')
@@ -11,7 +11,7 @@ const cache = {}
 function getIPList () {
   // expensive operation, so cache the response
   if (cache.ipList === void 0) {
-    const { getIPs } = require('../helpers/net')
+    const { getIPs } = require('../helpers/net.js')
     cache.ipList = getIPs().map(ip => (ip === '127.0.0.1' ? 'localhost' : ip))
   }
 

@@ -1,5 +1,5 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
-import path from 'path';
+import path from 'node:path';
 import os from 'os';
 
 // needed in case process is undefined under Linux
@@ -7,7 +7,7 @@ const platform = process.platform || os.platform();
 
 try {
   if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
-    require('fs').unlinkSync(
+    require('node:fs').unlinkSync(
       path.join(app.getPath('userData'), 'DevTools Extensions')
     );
   }

@@ -1,20 +1,20 @@
-const fs = require('fs')
-const { join } = require('path')
+const fs = require('node:fs')
+const { join } = require('node:path')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const chokidar = require('chokidar')
-
 const express = require('express')
-const createRenderer = require('@quasar/ssr-helpers/create-renderer')
-const { getClientManifest } = require('./webpack/ssr/plugin.client-side')
-const { getServerManifest } = require('./webpack/ssr/plugin.server-side')
-const { doneExternalWork } = require('./webpack/plugin.progress')
-const { webpackNames } = require('./webpack/symbols')
 
-const appPaths = require('./app-paths')
-const getPackage = require('./helpers/get-package')
-const { renderToString } = getPackage('@vue/server-renderer')
-const openBrowser = require('./helpers/open-browser')
+const createRenderer = require('@quasar/ssr-helpers/create-renderer.js')
+const { getClientManifest } = require('./webpack/ssr/plugin.client-side.js')
+const { getServerManifest } = require('./webpack/ssr/plugin.server-side.js')
+const { doneExternalWork } = require('./webpack/plugin.progress.js')
+const { webpackNames } = require('./webpack/symbols.js')
+
+const appPaths = require('./app-paths.js')
+const getPackage = require('./helpers/get-package.js')
+const { renderToString } = getPackage('@vue/server-renderer.js')
+const openBrowser = require('./helpers/open-browser.js')
 
 const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
@@ -118,7 +118,7 @@ module.exports = class DevServer {
       })
     }
 
-    const { getIndexHtml } = require('./ssr/html-template')
+    const { getIndexHtml } = require('./ssr/html-template.js')
     const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
 
     function updateTemplate () {

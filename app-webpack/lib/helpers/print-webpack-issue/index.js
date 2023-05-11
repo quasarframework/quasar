@@ -2,9 +2,9 @@
  * Initially forked from friendly-errors-webpack-plugin 2.0.0-beta.2
  */
 
-const { uniqueBy } = require('./utils')
-const transformErrors = require('./transformErrors')
-const { getError, getWarning, infoPill } = require('../logger')
+const { uniqueBy } = require('./utils.js')
+const transformErrors = require('./transformErrors.js')
+const { getError, getWarning, infoPill } = require('../logger.js')
 
 function extract (stats, severity) {
   const type = severity + 's'

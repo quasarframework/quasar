@@ -1,10 +1,10 @@
 
-const fs = require('fs')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const appPaths = require('../../app-paths')
-const { log, warn, fatal } = require('../../helpers/logger')
-const { spawnSync } = require('../../helpers/spawn')
+const appPaths = require('../../app-paths.js')
+const { log, warn, fatal } = require('../../helpers/logger.js')
+const { spawnSync } = require('../../helpers/spawn.js')
 
 function isInstalled () {
   return fs.existsSync(appPaths.cordovaDir)
@@ -55,7 +55,7 @@ async function add (silent, target) {
     }
   )
 
-  const { ensureWWW } = require('./ensure-consistency')
+  const { ensureWWW } = require('./ensure-consistency.js')
   ensureWWW(true)
 
   log('Cordova support was installed')
@@ -91,7 +91,7 @@ function remove () {
 }
 
 function addPlatform (target) {
-  const ensureConsistency = require('./ensure-consistency')
+  const ensureConsistency = require('./ensure-consistency.js')
   ensureConsistency()
 
   // if it has the platform

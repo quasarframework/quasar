@@ -1,7 +1,7 @@
 
 const parseArgs = require('minimist')
 
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, warn, fatal } = require('../helpers/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -42,7 +42,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const getMode = require('../mode')
+const getMode = require('../mode/index.js')
 const { green, grey } = require('chalk')
 
 async function run () {

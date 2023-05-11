@@ -1,17 +1,17 @@
-const { readFileSync } = require('fs')
-const { join } = require('path')
+const { readFileSync } = require('node:fs')
+const { join } = require('node:path')
 const { createServer } = require('vite')
 const chokidar = require('chokidar')
-const debounce = require('lodash/debounce')
+const debounce = require('lodash/debounce.js')
 const serialize = require('serialize-javascript')
 
-const AppDevserver = require('../../app-devserver')
-const appPaths = require('../../app-paths')
-const getPackage = require('../../helpers/get-package')
-const openBrowser = require('../../helpers/open-browser')
-const config = require('./ssr-config')
-const { log, warn, info, dot, progress } = require('../../helpers/logger')
-const { entryPointMarkup, getDevSsrTemplateFn } = require('../../helpers/html-template')
+const AppDevserver = require('../../app-devserver.js')
+const appPaths = require('../../app-paths.js')
+const getPackage = require('../../helpers/get-package.js')
+const openBrowser = require('../../helpers/open-browser.js')
+const config = require('./ssr-config.js')
+const { log, warn, info, dot, progress } = require('../../helpers/logger.js')
+const { entryPointMarkup, getDevSsrTemplateFn } = require('../../helpers/html-template.js')
 
 const { renderToString } = getPackage('vue/server-renderer')
 
@@ -21,7 +21,7 @@ const templatePath = appPaths.resolve.app('index.html')
 const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')
 const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.js')
 
-const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils')
+const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils.js')
 
 function resolvePublicFolder () {
   return join(publicFolder, ...arguments)

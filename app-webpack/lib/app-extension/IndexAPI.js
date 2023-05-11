@@ -1,11 +1,11 @@
 const semver = require('semver')
 const { merge } = require('webpack-merge')
 
-const { fatal } = require('../helpers/logger')
-const getPackageJson = require('../helpers/get-package-json')
-const getCallerPath = require('../helpers/get-caller-path')
-const extensionJson = require('./extension-json')
-const BaseAPI = require('./BaseAPI')
+const { fatal } = require('../helpers/logger.js')
+const getPackageJson = require('../helpers/get-package-json.js')
+const getCallerPath = require('../helpers/get-caller-path.js')
+const extensionJson = require('./extension-json.js')
+const BaseAPI = require('./BaseAPI.js')
 
 // for backward compatibility
 function getPackageName (packageName) {

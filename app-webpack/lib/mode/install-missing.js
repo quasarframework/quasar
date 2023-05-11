@@ -1,5 +1,5 @@
-const { warn } = require('../helpers/logger')
-const getMode = require('./index')
+const { warn } = require('../helpers/logger.js')
+const getMode = require('./index.js')
 
 module.exports = async function (mode, target) {
   const Mode = getMode(mode)

@@ -1,4 +1,4 @@
-const { fatal } = require('./logger')
+const { fatal } = require('./logger.js')
 
 module.exports = function (argv, cmd) {
   if (argv.mode) {

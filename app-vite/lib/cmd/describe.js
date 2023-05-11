@@ -1,8 +1,8 @@
 const parseArgs = require('minimist')
 const { green, red, italic, underline } = require('kolorist')
 
-const getApi = require('../helpers/get-api')
-const { fatal, dot } = require('../helpers/logger')
+const getApi = require('../helpers/get-api.js')
+const { fatal, dot } = require('../helpers/logger.js')
 
 const partArgs = {
   p: 'props',
@@ -495,7 +495,7 @@ async function run () {
 
     if (apiParts.docs) {
       if (api.meta && api.meta.docsUrl) {
-        const openBrowser = require('../helpers/open-browser')
+        const openBrowser = require('../helpers/open-browser.js')
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
@@ -524,7 +524,7 @@ async function run () {
 }
 
 function listElements () {
-  const getPackage = require('../helpers/get-package')
+  const getPackage = require('../helpers/get-package.js')
   let api = getPackage('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {

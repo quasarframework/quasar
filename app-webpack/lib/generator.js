@@ -1,8 +1,8 @@
-const fs = require('fs')
-const path = require('path')
-const compileTemplate = require('lodash/template')
+const fs = require('node:fs')
+const path = require('node:path')
+const compileTemplate = require('lodash/template.js')
 
-const appPaths = require('./app-paths')
+const appPaths = require('./app-paths.js')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {

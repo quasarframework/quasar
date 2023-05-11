@@ -1,7 +1,7 @@
-const { warn, fatal } = require('./logger')
+const { warn, fatal } = require('./logger.js')
 
 module.exports = async function () {
-  const { getExternalNetworkInterface } = require('./net')
+  const { getExternalNetworkInterface } = require('./net.js')
   const interfaces = await getExternalNetworkInterface()
 
   if (interfaces.length === 0) {

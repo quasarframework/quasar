@@ -1,13 +1,13 @@
 const { ProgressPlugin } = require('webpack')
-const throttle = require('lodash/throttle')
+const throttle = require('lodash/throttle.js')
 const chalk = require('chalk')
 
-const appPaths = require('../app-paths')
-const { success, info, error, warning, clearConsole } = require('../helpers/logger')
-const { quasarVersion, cliAppVersion } = require('../helpers/banner')
-const isMinimalTerminal = require('../helpers/is-minimal-terminal')
-const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-webpack-issue')
-const progressLog = require('../helpers/progress-log')
+const appPaths = require('../app-paths.js')
+const { success, info, error, warning, clearConsole } = require('../helpers/logger.js')
+const { quasarVersion, cliAppVersion } = require('../helpers/banner.js')
+const isMinimalTerminal = require('../helpers/is-minimal-terminal.js')
+const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-webpack-issue/index.js')
+const progressLog = require('../helpers/progress-log.js')
 
 let maxLengthName = 0
 let isDev = false
@@ -26,7 +26,7 @@ function isExternalProgressIdle () {
 function getIPList () {
   // expensive operation, so cache the response
   if (ipList === void 0) {
-    const { getIPs } = require('../helpers/net')
+    const { getIPs } = require('../helpers/net.js')
     ipList = getIPs().map(ip => (ip === '127.0.0.1' ? 'localhost' : ip))
   }
 

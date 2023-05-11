@@ -1,9 +1,9 @@
 const fs = require('fs-extra')
-const path = require('path')
+const path = require('node:path')
 
-const { log, warn, fatal } = require('../helpers/logger')
-const appPaths = require('../app-paths')
-const extensionJson = require('./extension-json')
+const { log, warn, fatal } = require('../helpers/logger.js')
+const appPaths = require('../app-paths.js')
+const extensionJson = require('./extension-json.js')
 
 async function promptOverwrite ({ targetPath, options }) {
   const inquirer = require('inquirer')
@@ -28,7 +28,7 @@ async function promptOverwrite ({ targetPath, options }) {
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
   const { isBinaryFileSync: isBinary } = require('isbinaryfile')
-  const compileTemplate = require('lodash/template')
+  const compileTemplate = require('lodash/template.js')
 
   if (overwritePrompt === true && fs.existsSync(targetPath)) {
     const answer = await promptOverwrite({
@@ -230,7 +230,7 @@ module.exports = class Extension {
     }
 
     const script = this.__getScript('index', true)
-    const IndexAPI = require('./IndexAPI')
+    const IndexAPI = require('./IndexAPI.js')
 
     const api = new IndexAPI({
       extId: this.extId,
@@ -267,13 +267,13 @@ module.exports = class Extension {
   }
 
   __installPackage () {
-    const nodePackager = require('../helpers/node-packager')
+    const nodePackager = require('../helpers/node-packager.js')
 
     nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
   }
 
   __uninstallPackage () {
-    const nodePackager = require('../helpers/node-packager')
+    const nodePackager = require('../helpers/node-packager.js')
 
     nodePackager.uninstallPackage(this.packageFullName)
   }
@@ -328,7 +328,7 @@ module.exports = class Extension {
 
     log('Running App Extension install script...')
 
-    const InstallAPI = require('./InstallAPI')
+    const InstallAPI = require('./InstallAPI.js')
 
     const api = new InstallAPI({
       extId: this.extId,
@@ -352,7 +352,7 @@ module.exports = class Extension {
     }
 
     if (api.__needsNodeModulesUpdate) {
-      const nodePackager = require('../helpers/node-packager')
+      const nodePackager = require('../helpers/node-packager.js')
 
       nodePackager.install()
     }
@@ -369,7 +369,7 @@ module.exports = class Extension {
 
     log('Running App Extension uninstall script...')
 
-    const UninstallAPI = require('./UninstallAPI')
+    const UninstallAPI = require('./UninstallAPI.js')
     const api = new UninstallAPI({
       extId: this.extId,
       prompts

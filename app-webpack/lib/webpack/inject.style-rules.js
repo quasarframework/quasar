@@ -1,9 +1,9 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 const { merge } = require('webpack-merge')
-const path = require('path')
+const path = require('node:path')
 
-const appPaths = require('../app-paths')
-const cssVariables = require('../helpers/css-variables')
+const appPaths = require('../app-paths.js')
+const cssVariables = require('../helpers/css-variables.js')
 const quasarCssPaths = [
   path.join('node_modules', 'quasar', 'dist'),
   path.join('node_modules', 'quasar', 'src'),

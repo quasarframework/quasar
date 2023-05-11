@@ -1,14 +1,14 @@
 
-const { join } = require('path')
+const { join } = require('node:path')
 
-const appPaths = require('../../app-paths')
-const escapeRegexString = require('../../helpers/escape-regex-string')
+const appPaths = require('../../app-paths.js')
+const escapeRegexString = require('../../helpers/escape-regex-string.js')
 const {
   createViteConfig, extendViteConfig,
   createBrowserEsbuildConfig, extendEsbuildConfig
-} = require('../../config-tools')
+} = require('../../config-tools.js')
 
-const quasarVitePluginPwaResources = require('./vite-plugin.pwa-resources')
+const quasarVitePluginPwaResources = require('./vite-plugin.pwa-resources.js')
 const appPkg = require(appPaths.resolve.app('package.json'))
 
 module.exports = {

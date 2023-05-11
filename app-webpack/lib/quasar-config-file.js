@@ -1,21 +1,21 @@
-const path = require('path')
-const { existsSync } = require('fs')
+const path = require('node:path')
+const { existsSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash/debounce')
+const debounce = require('lodash/debounce.js')
 const { green } = require('chalk')
 const { build: esBuild } = require('esbuild')
 
-const appPaths = require('./app-paths')
-const { log, warn, fatal } = require('./helpers/logger')
-const extensionRunner = require('./app-extension/extensions-runner')
-const appFilesValidations = require('./helpers/app-files-validations')
-const cssVariables = require('./helpers/css-variables')
-const getPackage = require('./helpers/get-package')
-const getPackageMajorVersion = require('./helpers/get-package-major-version')
-const storeProvider = require('./helpers/store-provider')
-const { quasarVersion } = require('./helpers/banner')
+const appPaths = require('./app-paths.js')
+const { log, warn, fatal } = require('./helpers/logger.js')
+const extensionRunner = require('./app-extension/extensions-runner.js')
+const appFilesValidations = require('./helpers/app-files-validations.js')
+const cssVariables = require('./helpers/css-variables.js')
+const getPackage = require('./helpers/get-package.js')
+const getPackageMajorVersion = require('./helpers/get-package-major-version.js')
+const storeProvider = require('./helpers/store-provider.js')
+const { quasarVersion } = require('./helpers/banner.js')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -281,7 +281,7 @@ class QuasarConfFile {
     }, userCfg)
 
     if (cfg.animations === 'all') {
-      cfg.animations = require('./helpers/animations')
+      cfg.animations = require('./helpers/animations.js')
     }
 
     if (!cfg.framework.plugins) {
@@ -628,7 +628,7 @@ class QuasarConfFile {
       }
 
       if (cfg.ssr.pwa) {
-        await require('./mode/install-missing')('pwa')
+        await require('./mode/install-missing.js')('pwa')
         cfg.__rootDefines.__QUASAR_SSR_PWA__ = true
       }
 
@@ -747,7 +747,7 @@ class QuasarConfFile {
       }
 
       if (cfg.devServer.open) {
-        const isMinimalTerminal = require('./helpers/is-minimal-terminal')
+        const isMinimalTerminal = require('./helpers/is-minimal-terminal.js')
         if (isMinimalTerminal) {
           cfg.devServer.open = false
         }
@@ -878,7 +878,7 @@ class QuasarConfFile {
       })
     }
     else if (this.ctx.mode.electron && this.ctx.prod) {
-      const bundler = require('./electron/bundler')
+      const bundler = require('./electron/bundler.js')
 
       const icon = appPaths.resolve.electron('icons/icon.png')
       const builderIcon = process.platform === 'linux'
@@ -921,7 +921,7 @@ class QuasarConfFile {
       }
 
       if (this.opts.argv !== void 0) {
-        const { ensureElectronArgv } = require('./helpers/ensure-argv')
+        const { ensureElectronArgv } = require('./helpers/ensure-argv.js')
         ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
       }
 
@@ -992,7 +992,7 @@ class QuasarConfFile {
     }
 
     if (this.ctx.mode.capacitor) {
-      const { capVersion } = require('./capacitor/cap-cli')
+      const { capVersion } = require('./capacitor/cap-cli.js')
       cfg.__versions.capacitor = capVersion
 
       const getCapPluginVersion = capVersion <= 2
@@ -1021,7 +1021,7 @@ class QuasarConfFile {
     this.quasarConf = cfg
 
     if (this.webpackConfChanged !== false) {
-      this.webpackConf = await require('./webpack')(cfg)
+      this.webpackConf = await require('./webpack/index.js')(cfg)
     }
   }
 }

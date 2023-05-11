@@ -1,13 +1,13 @@
 
-const { join } = require('path')
-const { readFileSync, writeFileSync } = require('fs')
+const { join } = require('node:path')
+const { readFileSync, writeFileSync } = require('node:fs')
 
 const {
   createViteConfig, extendViteConfig,
   createBrowserEsbuildConfig, extendEsbuildConfig
-} = require('../../config-tools')
+} = require('../../config-tools.js')
 
-const appPaths = require('../../app-paths')
+const appPaths = require('../../app-paths.js')
 const contentScriptTemplate = readFileSync(
   appPaths.resolve.cli('templates/bex/entry-content-script.js'),
   'utf-8'

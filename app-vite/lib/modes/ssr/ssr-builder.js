@@ -1,14 +1,14 @@
 
-const { join } = require('path')
-const { writeFileSync } = require('fs')
+const { join } = require('node:path')
+const { writeFileSync } = require('node:fs')
 
-const AppBuilder = require('../../app-builder')
-const config = require('./ssr-config')
-const appPaths = require('../../app-paths')
-const getFixedDeps = require('../../helpers/get-fixed-deps')
-const { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } = require('../../helpers/html-template')
+const AppBuilder = require('../../app-builder.js')
+const config = require('./ssr-config.js')
+const appPaths = require('../../app-paths.js')
+const getFixedDeps = require('../../helpers/get-fixed-deps.js')
+const { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } = require('../../helpers/html-template.js')
 
-const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils')
+const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils.js')
 
 class SsrBuilder extends AppBuilder {
   async build () {

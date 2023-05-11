@@ -1,7 +1,7 @@
-const fs = require('fs')
+const fs = require('node:fs')
 
-const { warn } = require('./logger')
-const appPaths = require('../app-paths')
+const { warn } = require('./logger.js')
+const appPaths = require('../app-paths.js')
 
 module.exports = function (cfg) {
   let error = false

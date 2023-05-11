@@ -2,10 +2,10 @@ const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 const { existsSync } = require('fs-extra')
 
-const appPaths = require('../../app-paths')
+const appPaths = require('../../app-paths.js')
 const WebserverAssetsPlugin = require('./plugin.webserver-assets')
-const injectNodeTypescript = require('../inject.node-typescript')
-const WebpackProgressPlugin = require('../plugin.progress')
+const injectNodeTypescript = require('../inject.node-typescript.js')
+const WebpackProgressPlugin = require('../plugin.progress.js')
 
 const nodeEnvBanner = 'if(process.env.NODE_ENV===void 0){process.env.NODE_ENV=\'production\'}'
 const prodExportFile = {

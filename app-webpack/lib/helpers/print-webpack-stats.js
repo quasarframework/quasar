@@ -1,11 +1,11 @@
-const { readFileSync } = require('fs')
-const { join, basename } = require('path')
+const { readFileSync } = require('node:fs')
+const { join, basename } = require('node:path')
 const { gzipSync } = require('zlib')
 const { table } = require('table')
 const { bold, underline, green, blue, magenta } = require('chalk')
 
-const { warn } = require('./logger')
-const { printWebpackWarnings } = require('./print-webpack-issue')
+const { warn } = require('./logger.js')
+const { printWebpackWarnings } = require('./print-webpack-issue/index.js')
 
 const colorFn = {
   js: green,

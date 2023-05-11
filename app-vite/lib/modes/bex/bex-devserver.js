@@ -1,13 +1,13 @@
 
-const debounce = require('lodash/debounce')
+const debounce = require('lodash/debounce.js')
 const chokidar = require('chokidar')
 const { copySync } = require('fs-extra')
 
-const AppDevserver = require('../../app-devserver')
-const appPaths = require('../../app-paths')
-const config = require('./bex-config')
-const { createManifest, copyBexAssets } = require('./utils')
-const artifacts = require('../../artifacts')
+const AppDevserver = require('../../app-devserver.js')
+const appPaths = require('../../app-paths.js')
+const config = require('./bex-config.js')
+const { createManifest, copyBexAssets } = require('./utils.js')
+const artifacts = require('../../artifacts.js')
 
 class BexDevServer extends AppDevserver {
   #uiWatchers = []

@@ -1,10 +1,10 @@
-const path = require('path')
+const path = require('node:path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const appPaths = require('../../app-paths')
-const parseBuildEnv = require('../../helpers/parse-build-env')
-const WebpackProgressPlugin = require('../plugin.progress')
+const appPaths = require('../../app-paths.js')
+const parseBuildEnv = require('../../helpers/parse-build-env.js')
+const WebpackProgressPlugin = require('../plugin.progress.js')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return

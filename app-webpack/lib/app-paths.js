@@ -1,6 +1,6 @@
 
-const { existsSync } = require('fs')
-const { normalize, resolve, join, sep } = require('path')
+const { existsSync } = require('node:fs')
+const { normalize, resolve, join, sep } = require('node:path')
 
 const quasarConfigFilenameList = [
   'quasar.config.js',
@@ -24,7 +24,7 @@ function getAppInfo () {
     appDir = normalize(join(appDir, '..'))
   }
 
-  const { fatal } = require('./helpers/logger')
+  const { fatal } = require('./helpers/logger.js')
   fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 

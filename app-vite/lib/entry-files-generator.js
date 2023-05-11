@@ -1,10 +1,10 @@
 
-const { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } = require('fs')
+const { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } = require('node:fs')
 const { removeSync, copySync } = require('fs-extra')
-const path = require('path')
-const compileTemplate = require('lodash/template')
+const path = require('node:path')
+const compileTemplate = require('lodash/template.js')
 
-const appPaths = require('./app-paths')
+const appPaths = require('./app-paths.js')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
 class EntryFilesGenerator {

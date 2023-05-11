@@ -1,5 +1,5 @@
-const appPaths = require('../app-paths')
-const getPackageJson = require('./get-package-json')
+const appPaths = require('../app-paths.js')
+const getPackageJson = require('./get-package-json.js')
 
 function getMajorVersion (version) {
   const matches = version.match(/^(\d)\./)

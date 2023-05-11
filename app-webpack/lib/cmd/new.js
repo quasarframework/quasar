@@ -1,13 +1,13 @@
 const parseArgs = require('minimist')
 
-const path = require('path')
-const fs = require('fs')
+const path = require('node:path')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const { log, warn } = require('../helpers/logger')
-const appPaths = require('../app-paths')
-const storeProvider = require('../helpers/store-provider')
-const hasTypescript = require('../helpers/has-typescript')
+const { log, warn } = require('../helpers/logger.js')
+const appPaths = require('../app-paths.js')
+const storeProvider = require('../helpers/store-provider.js')
+const hasTypescript = require('../helpers/has-typescript.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

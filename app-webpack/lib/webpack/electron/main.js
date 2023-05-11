@@ -1,5 +1,5 @@
-const appPaths = require('../../app-paths')
-const createNodeChain = require('./create-node-chain')
+const appPaths = require('../../app-paths.js')
+const createNodeChain = require('./create-node-chain.js')
 
 module.exports = function (cfg, configName) {
   const chain = createNodeChain('main', cfg, configName)
@@ -10,7 +10,7 @@ module.exports = function (cfg, configName) {
     ))
 
   if (cfg.ctx.prod) {
-    const ElectronPackageJson = require('./plugin.electron-package-json')
+    const ElectronPackageJson = require('./plugin.electron-package-json.js')
 
     // write package.json file
     chain.plugin('package-json')

@@ -1,6 +1,6 @@
 const parseArgs = require('minimist')
 
-const { log, warn, fatal } = require('../helpers/logger')
+const { log, warn, fatal } = require('../helpers/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -57,7 +57,7 @@ async function run () {
     fatal(`Unknown mode "${ mode }" to ${ action }`)
   }
 
-  const installation = require(`../modes/${ mode }/${ mode }-installation`)
+  const installation = require(`../modes/${ mode }/${ mode }-installation.js`)
 
   if (action === 'remove' && argv.yes !== true && installation.isInstalled()) {
     console.log()
@@ -86,7 +86,7 @@ function displayModes () {
 
   const info = []
   ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
-    const { isInstalled } = require(`../modes/${ mode }/${ mode }-installation`)
+    const { isInstalled } = require(`../modes/${ mode }/${ mode }-installation.js`)
     info.push([
       `Mode ${ mode.toUpperCase() }`,
       isInstalled() ? green('yes') : gray('no')

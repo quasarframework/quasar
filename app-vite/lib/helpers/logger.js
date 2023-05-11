@@ -7,7 +7,7 @@ const {
   underline
 } = require('kolorist')
 
-const readline = require('readline')
+const readline = require('node:readline')
 
 /**
  * Pills

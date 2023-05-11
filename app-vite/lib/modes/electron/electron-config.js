@@ -1,8 +1,8 @@
-const { join } = require('path')
-const appPaths = require('../../app-paths')
+const { join } = require('node:path')
 
-const { createViteConfig, extendViteConfig, extendEsbuildConfig, createNodeEsbuildConfig } = require('../../config-tools')
-const parseEnv = require('../../parse-env')
+const appPaths = require('../../app-paths.js')
+const { createViteConfig, extendViteConfig, extendEsbuildConfig, createNodeEsbuildConfig } = require('../../config-tools.js')
+const parseEnv = require('../../parse-env.js')
 
 module.exports = {
   vite: quasarConf => {

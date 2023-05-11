@@ -1,13 +1,13 @@
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const ExpressionDependency = require('./plugin.expression-dependency')
-const parseBuildEnv = require('../../helpers/parse-build-env')
-const injectNodeBabel = require('../inject.node-babel')
-const injectNodeTypescript = require('../inject.node-typescript')
+const ExpressionDependency = require('./plugin.expression-dependency.js')
+const parseBuildEnv = require('../../helpers/parse-build-env.js')
+const injectNodeBabel = require('../inject.node-babel.js')
+const injectNodeTypescript = require('../inject.node-typescript.js')
 
-const appPaths = require('../../app-paths')
-const WebpackProgressPlugin = require('../plugin.progress')
+const appPaths = require('../../app-paths.js')
+const WebpackProgressPlugin = require('../plugin.progress.js')
 
 const tempElectronDir = '.quasar/electron'
 

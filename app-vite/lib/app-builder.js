@@ -1,11 +1,11 @@
 
-const { lstatSync } = require('fs')
+const { lstatSync } = require('node:fs')
 const { readFileSync, writeFileSync, copySync, existsSync, ensureDirSync, moveSync, removeSync } = require('fs-extra')
-const { join, isAbsolute, basename, dirname } = require('path')
+const { join, isAbsolute, basename, dirname } = require('node:path')
 
-const AppTool = require('./app-tool')
-const appPaths = require('./app-paths')
-const printBuildSummary = require('../lib/helpers/print-build-summary')
+const AppTool = require('./app-tool.js')
+const appPaths = require('./app-paths.js')
+const printBuildSummary = require('../lib/helpers/print-build-summary.js')
 
 class AppBuilder extends AppTool {
   quasarConf

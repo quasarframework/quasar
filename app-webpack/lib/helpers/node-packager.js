@@ -1,10 +1,10 @@
-const fs = require('fs')
-const { normalize, join, sep } = require('path')
+const fs = require('node:fs')
+const { normalize, join, sep } = require('node:path')
 const { sync: crossSpawnSync } = require('cross-spawn')
 
-const appPaths = require('../app-paths')
-const { log, fatal } = require('./logger')
-const { spawnSync } = require('./spawn')
+const appPaths = require('../app-paths.js')
+const { log, fatal } = require('./logger.js')
+const { spawnSync } = require('./spawn.js')
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 

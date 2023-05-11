@@ -1,7 +1,7 @@
-const path = require('path')
+const path = require('node:path')
 
-const injectHtml = require('../inject.html')
-const { QuasarSSRClientPlugin } = require('./plugin.client-side')
+const injectHtml = require('../inject.html.js')
+const { QuasarSSRClientPlugin } = require('./plugin.client-side.js')
 
 module.exports = function (chain, cfg) {
   if (cfg.ctx.prod) {

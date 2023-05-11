@@ -1,11 +1,11 @@
 const fse = require('fs-extra')
 
-const { log, fatal } = require('../helpers/logger')
-const CordovaConfig = require('./cordova-config')
-const { spawn } = require('../helpers/spawn')
-const onShutdown = require('../helpers/on-shutdown')
-const appPaths = require('../app-paths')
-const openIde = require('../helpers/open-ide')
+const { log, fatal } = require('../helpers/logger.js')
+const CordovaConfig = require('./cordova-config.js')
+const { spawn } = require('../helpers/spawn.js')
+const onShutdown = require('../helpers/on-shutdown.js')
+const appPaths = require('../app-paths.js')
+const openIde = require('../helpers/open-ide.js')
 
 class CordovaRunner {
   constructor () {
@@ -22,7 +22,7 @@ class CordovaRunner {
     this.target = ctx.targetName
 
     if (this.target === 'android') {
-      require('../helpers/fix-android-cleartext')('cordova')
+      require('../helpers/fix-android-cleartext.js')('cordova')
     }
   }
 

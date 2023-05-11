@@ -1,13 +1,13 @@
 
-const { join } = require('path')
+const { join } = require('node:path')
 const { createWriteStream } = require('fs-extra')
 const archiver = require('archiver')
 
-const AppBuilder = require('../../app-builder')
-const appPaths = require('../../app-paths')
-const { progress } = require('../../helpers/logger')
-const config = require('./bex-config')
-const { createManifest, copyBexAssets } = require('./utils')
+const AppBuilder = require('../../app-builder.js')
+const appPaths = require('../../app-paths.js')
+const { progress } = require('../../helpers/logger.js')
+const config = require('./bex-config.js')
+const { createManifest, copyBexAssets } = require('./utils.js')
 
 const { name } = require(appPaths.resolve.app('package.json'))
 

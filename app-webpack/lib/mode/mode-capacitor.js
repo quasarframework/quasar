@@ -1,11 +1,11 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const fse = require('fs-extra')
-const compileTemplate = require('lodash/template')
+const compileTemplate = require('lodash/template.js')
 
-const appPaths = require('../app-paths')
-const { log, warn } = require('../helpers/logger')
-const { spawnSync } = require('../helpers/spawn')
-const nodePackager = require('../helpers/node-packager')
+const appPaths = require('../app-paths.js')
+const { log, warn } = require('../helpers/logger.js')
+const { spawnSync } = require('../helpers/spawn.js')
+const nodePackager = require('../helpers/node-packager.js')
 
 class Mode {
   get isInstalled () {
@@ -63,10 +63,10 @@ class Mode {
       fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
     })
 
-    const { ensureDeps } = require('../capacitor/ensure-consistency')
+    const { ensureDeps } = require('../capacitor/ensure-consistency.js')
     ensureDeps()
 
-    const { capBin } = require('../capacitor/cap-cli')
+    const { capBin } = require('../capacitor/cap-cli.js')
 
     log('Initializing capacitor...')
     spawnSync(
@@ -98,14 +98,14 @@ class Mode {
   }
 
   addPlatform (target) {
-    const ensureConsistency = require('../capacitor/ensure-consistency')
+    const ensureConsistency = require('../capacitor/ensure-consistency.js')
     ensureConsistency()
 
     if (this.hasPlatform(target)) {
       return
     }
 
-    const { capBin, capVersion } = require('../capacitor/cap-cli')
+    const { capBin, capVersion } = require('../capacitor/cap-cli.js')
 
     if (capVersion >= 3) {
       nodePackager.installPackage(

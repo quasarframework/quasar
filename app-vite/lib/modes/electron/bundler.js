@@ -1,6 +1,6 @@
-const appPaths = require('../../app-paths')
-const getPackage = require('../../helpers/get-package')
-const { fatal } = require('../../helpers/logger')
+const appPaths = require('../../app-paths.js')
+const getPackage = require('../../helpers/get-package.js')
+const { fatal } = require('../../helpers/logger.js')
 
 const versions = {
   packager: '17.1.1',
@@ -12,7 +12,7 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName) {
-  const nodePackager = require('../../helpers/node-packager')
+  const nodePackager = require('../../helpers/node-packager.js')
 
   nodePackager.installPackage(
     `electron-${ bundlerName }@^${ versions[ bundlerName ] }`,

@@ -1,7 +1,7 @@
 const { sources } = require('webpack')
 
-const appPaths = require('../../app-paths')
-const getFixedDeps = require('../../helpers/get-fixed-deps')
+const appPaths = require('../../app-paths.js')
+const getFixedDeps = require('../../helpers/get-fixed-deps.js')
 
 module.exports = class ElectronPackageJson {
   constructor (cfg = {}) {

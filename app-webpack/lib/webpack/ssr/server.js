@@ -1,9 +1,9 @@
-const { existsSync } = require('fs')
-const { join, sep, normalize } = require('path')
+const { existsSync } = require('node:fs')
+const { join, sep, normalize } = require('node:path')
 const nodeExternals = require('webpack-node-externals')
 
-const appPaths = require('../../app-paths')
-const { QuasarSSRServerPlugin } = require('./plugin.server-side')
+const appPaths = require('../../app-paths.js')
+const { QuasarSSRServerPlugin } = require('./plugin.server-side.js')
 
 function getModuleDirs () {
   const folders = []

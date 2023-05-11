@@ -1,9 +1,9 @@
 const { removeSync } = require('fs-extra')
 const semver = require('semver')
 
-const extensionJson = require('./extension-json')
-const getPackageJson = require('../helpers/get-package-json')
-const BaseAPI = require('./BaseAPI')
+const extensionJson = require('./extension-json.js')
+const getPackageJson = require('../helpers/get-package-json.js')
+const BaseAPI = require('./BaseAPI.js')
 
 // for backward compatibility
 function getPackageName (packageName) {

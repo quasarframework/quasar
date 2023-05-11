@@ -1,9 +1,9 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const appPaths = require('../../app-paths')
-const { spawnSync } = require('../../helpers/spawn')
-const { log, fatal } = require('../../helpers/logger')
+const appPaths = require('../../app-paths.js')
+const { spawnSync } = require('../../helpers/spawn.js')
+const { log, fatal } = require('../../helpers/logger.js')
 
 function ensureWWW (forced) {
   const www = appPaths.resolve.cordova('www')

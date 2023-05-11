@@ -1,24 +1,24 @@
-const path = require('path')
-const { existsSync } = require('fs')
+const path = require('node:path')
+const { existsSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
-const debounce = require('lodash/debounce')
+const debounce = require('lodash/debounce.js')
 const { build: esBuild } = require('esbuild')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
-const appPaths = require('./app-paths')
-const { log, warn, tip } = require('./helpers/logger')
-const extensionRunner = require('./app-extension/extensions-runner')
-const appFilesValidations = require('./helpers/app-files-validations')
-const cssVariables = require('./helpers/css-variables')
-const getPackageMajorVersion = require('./helpers/get-package-major-version')
-const resolveExtension = require('./helpers/resolve-extension')
-const storeProvider = require('./helpers/store-provider')
+const appPaths = require('./app-paths.js')
+const { log, warn, tip } = require('./helpers/logger.js')
+const extensionRunner = require('./app-extension/extensions-runner.js')
+const appFilesValidations = require('./helpers/app-files-validations.js')
+const cssVariables = require('./helpers/css-variables.js')
+const getPackageMajorVersion = require('./helpers/get-package-major-version.js')
+const resolveExtension = require('./helpers/resolve-extension.js')
+const storeProvider = require('./helpers/store-provider.js')
 
 const urlRegex = /^http(s)?:\/\//i
-const { findClosestOpenPort } = require('../lib/helpers/net')
-const isMinimalTerminal = require('./helpers/is-minimal-terminal')
+const { findClosestOpenPort } = require('../lib/helpers/net.js')
+const isMinimalTerminal = require('./helpers/is-minimal-terminal.js')
 
 const appPkg = require(appPaths.resolve.app('package.json'))
 
@@ -100,7 +100,7 @@ async function onAddress ({ host, port }, mode) {
     [ 'cordova', 'capacitor' ].includes(mode)
     && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
   ) {
-    const getExternalIP = require('../lib/helpers/get-external-ip')
+    const getExternalIP = require('../lib/helpers/get-external-ip.js')
     host = await getExternalIP()
     this.chosenHost = host
   }
@@ -157,7 +157,7 @@ class QuasarConfFile {
       // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {
-      const { capVersion } = require('./modes/capacitor/cap-cli')
+      const { capVersion } = require('./modes/capacitor/cap-cli.js')
       const getCapPluginVersion = capVersion <= 2
         ? () => true
         : name => {
@@ -312,7 +312,7 @@ class QuasarConfFile {
     }
 
     if (rawQuasarConf.animations === 'all') {
-      rawQuasarConf.animations = require('./helpers/animations')
+      rawQuasarConf.animations = require('./helpers/animations.js')
     }
 
     try {
@@ -555,7 +555,7 @@ class QuasarConfFile {
 
       if (cfg.ssr.pwa === true) {
         // install pwa mode if it's missing
-        const { add } = require('../lib/modes/pwa/pwa-installation')
+        const { add } = require('../lib/modes/pwa/pwa-installation.js')
         await add(true)
       }
 
@@ -646,7 +646,7 @@ class QuasarConfFile {
     }
 
     if (this.#ctx.mode.electron && this.#ctx.prod) {
-      const bundler = require('./modes/electron/bundler')
+      const bundler = require('./modes/electron/bundler.js')
 
       const icon = appPaths.resolve.electron('icons/icon.png')
       const builderIcon = process.platform === 'linux'
@@ -690,7 +690,7 @@ class QuasarConfFile {
       }
 
       if (this.#opts.argv !== void 0) {
-        const { ensureElectronArgv } = require('./helpers/ensure-argv')
+        const { ensureElectronArgv } = require('./helpers/ensure-argv.js')
         ensureElectronArgv(cfg.electron.bundler, this.#opts.argv)
       }
 

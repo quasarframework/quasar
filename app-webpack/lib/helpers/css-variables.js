@@ -1,7 +1,7 @@
-const fs = require('fs')
-const { join } = require('path')
+const fs = require('node:fs')
+const { join } = require('node:path')
 
-const appPaths = require('../app-paths')
+const appPaths = require('../app-paths.js')
 
 const cssVariables = {
   quasarSrcExt: 'css',

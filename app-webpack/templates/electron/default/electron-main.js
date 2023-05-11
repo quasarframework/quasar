@@ -1,5 +1,5 @@
 import { app, BrowserWindow, nativeTheme } from 'electron'
-import path from 'path'
+import path from 'node:path'
 import os from 'os'
 
 // needed in case process is undefined under Linux
@@ -7,9 +7,10 @@ const platform = process.platform || os.platform()
 
 try {
   if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
-    require('fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'))
+    require('node:fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'))
   }
-} catch (_) { }
+}
+catch (_) { }
 
 let mainWindow
 
@@ -34,7 +35,8 @@ function createWindow () {
   if (process.env.DEBUGGING) {
     // if on DEV or Production with debug enabled
     mainWindow.webContents.openDevTools()
-  } else {
+  }
+  else {
     // we're on production; no access to devtools pls
     mainWindow.webContents.on('devtools-opened', () => {
       mainWindow.webContents.closeDevTools()

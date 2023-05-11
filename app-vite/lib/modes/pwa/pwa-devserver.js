@@ -1,12 +1,12 @@
 const { createServer } = require('vite')
 const chokidar = require('chokidar')
-const debounce = require('lodash/debounce')
+const debounce = require('lodash/debounce.js')
 
-const AppDevserver = require('../../app-devserver')
-const openBrowser = require('../../helpers/open-browser')
-const config = require('./pwa-config')
-const { injectPwaManifest, buildPwaServiceWorker } = require('./utils')
-const { log } = require('../../helpers/logger')
+const AppDevserver = require('../../app-devserver.js')
+const openBrowser = require('../../helpers/open-browser.js')
+const config = require('./pwa-config.js')
+const { injectPwaManifest, buildPwaServiceWorker } = require('./utils.js')
+const { log } = require('../../helpers/logger.js')
 
 class PwaDevServer extends AppDevserver {
   #server

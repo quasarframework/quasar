@@ -1,8 +1,8 @@
-const fs = require('fs')
+const fs = require('node:fs')
 
-const { warn } = require('./logger')
-const appPaths = require('../app-paths')
-const { entryPointMarkup, attachMarkup } = require('../helpers/html-template')
+const { warn } = require('./logger.js')
+const appPaths = require('../app-paths.js')
+const { entryPointMarkup, attachMarkup } = require('../helpers/html-template.js')
 
 const file = appPaths.resolve.app('index.html')
 

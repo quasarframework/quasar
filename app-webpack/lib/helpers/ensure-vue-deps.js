@@ -1,7 +1,7 @@
-const { log } = require('../helpers/logger')
-const nodePackager = require('../helpers/node-packager')
+const { log } = require('../helpers/logger.js')
+const nodePackager = require('../helpers/node-packager.js')
 
-const getPackagePath = require('./get-package-path')
+const getPackagePath = require('./get-package-path.js')
 
 module.exports = function () {
   const packagesToInstall = [

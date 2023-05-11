@@ -1,8 +1,8 @@
-const { join } = require('path')
+const { join } = require('node:path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const appPaths = require('../app-paths')
-const HtmlAddonsPlugin = require('./plugin.html-addons').plugin
+const appPaths = require('../app-paths.js')
+const { plugin: HtmlAddonsPlugin } = require('./plugin.html-addons.js')
 
 function getHtmlFilename (cfg) {
   if (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa) {

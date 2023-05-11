@@ -2,8 +2,8 @@
 const { normalizePath } = require('vite')
 const { dim, underline, bold } = require('kolorist')
 
-const { warning, error, success } = require('../helpers/logger')
-const getLinter = require('../eslint')
+const { warning, error, success } = require('../helpers/logger.js')
+const getLinter = require('../eslint.js')
 
 const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
 const errorFiles = new Set()

@@ -1,6 +1,6 @@
 const { green, gray, underline } = require('kolorist')
 
-const getPackageJson = require('./get-package-json')
+const getPackageJson = require('./get-package-json.js')
 const quasarVersion = getPackageJson('quasar').version
 const cliAppVersion = require('../../package.json').version
 const viteVersion = require('vite/package.json').version

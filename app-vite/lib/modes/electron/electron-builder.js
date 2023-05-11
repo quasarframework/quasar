@@ -1,14 +1,14 @@
 
-const { join } = require('path')
+const { join } = require('node:path')
 
-const AppBuilder = require('../../app-builder')
-const config = require('./electron-config')
+const AppBuilder = require('../../app-builder.js')
+const config = require('./electron-config.js')
 
-const { log, warn, progress } = require('../../helpers/logger')
-const appPaths = require('../../app-paths')
-const nodePackager = require('../../helpers/node-packager')
-const getPackageJson = require('../../helpers/get-package-json')
-const getFixedDeps = require('../../helpers/get-fixed-deps')
+const { log, warn, progress } = require('../../helpers/logger.js')
+const appPaths = require('../../app-paths.js')
+const nodePackager = require('../../helpers/node-packager.js')
+const getPackageJson = require('../../helpers/get-package-json.js')
+const getFixedDeps = require('../../helpers/get-fixed-deps.js')
 
 class ElectronBuilder extends AppBuilder {
   async build () {
@@ -111,7 +111,7 @@ class ElectronBuilder extends AppBuilder {
 
     const bundlerName = this.quasarConf.electron.bundler
     const bundlerConfig = this.quasarConf.electron[ bundlerName ]
-    const bundler = require('./bundler').getBundler(bundlerName)
+    const bundler = require('./bundler.js').getBundler(bundlerName)
     const pkgName = `electron-${ bundlerName }`
 
     return new Promise((resolve, reject) => {

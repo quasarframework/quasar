@@ -1,10 +1,10 @@
 
-const { writeFileSync } = require('fs')
-const { join } = require('path')
+const { writeFileSync } = require('node:fs')
+const { join } = require('node:path')
 
-const AppBuilder = require('../../app-builder')
-const config = require('./pwa-config')
-const { injectPwaManifest, buildPwaServiceWorker } = require('./utils')
+const AppBuilder = require('../../app-builder.js')
+const config = require('./pwa-config.js')
+const { injectPwaManifest, buildPwaServiceWorker } = require('./utils.js')
 
 class PwaBuilder extends AppBuilder {
   async build () {

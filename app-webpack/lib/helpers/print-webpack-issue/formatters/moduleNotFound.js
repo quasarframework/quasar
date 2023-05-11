@@ -1,7 +1,7 @@
 
 const { bold } = require('chalk')
-const { removeFileLoaders } = require('../utils')
-const nodePackager = require('../../node-packager')
+const { removeFileLoaders } = require('../utils.js')
+const nodePackager = require('../../node-packager.js')
 
 const depRE = /Can't resolve '(.*)' in/
 const relativeRE = /^(\.\/|\.\.\/)/

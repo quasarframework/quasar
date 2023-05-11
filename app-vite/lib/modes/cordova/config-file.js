@@ -1,9 +1,9 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const et = require('elementtree')
 
-const appPaths = require('../../app-paths')
-const { log, warn } = require('../../helpers/logger')
-const ensureConsistency = require('./ensure-consistency')
+const appPaths = require('../../app-paths.js')
+const { log, warn } = require('../../helpers/logger.js')
+const ensureConsistency = require('./ensure-consistency.js')
 
 const pkg = require(appPaths.resolve.app('package.json'))
 const filePath = appPaths.resolve.cordova('config.xml')

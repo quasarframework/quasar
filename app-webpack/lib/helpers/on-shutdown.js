@@ -1,4 +1,4 @@
-const { log } = require('./logger')
+const { log } = require('./logger.js')
 
 module.exports = function (fn, msg) {
   const cleanup = () => {

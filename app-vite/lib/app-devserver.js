@@ -1,8 +1,8 @@
 
-const AppTool = require('./app-tool')
-const printDevBanner = require('./helpers/print-dev-banner')
-const encodeForDiff = require('./helpers/encode-for-diff')
-const createEntryFilesGenerator = require('./entry-files-generator')
+const AppTool = require('./app-tool.js')
+const printDevBanner = require('./helpers/print-dev-banner.js')
+const encodeForDiff = require('./helpers/encode-for-diff.js')
+const createEntryFilesGenerator = require('./entry-files-generator.js')
 
 function getConfSnapshot (extractFn, quasarConf) {
   return extractFn(quasarConf).map(item => (item ? encodeForDiff(item) : ''))

@@ -1,5 +1,5 @@
 
-const defaultError = require('../formatters/defaultError')
+const defaultError = require('../formatters/defaultError.js')
 
 module.exports = function transform (error) {
   return error.__formatter === void 0

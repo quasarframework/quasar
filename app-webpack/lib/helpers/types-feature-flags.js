@@ -1,10 +1,10 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('node:path')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const { log } = require('./logger')
-const getMode = require('../mode/index')
-const appPaths = require('../app-paths')
+const { log } = require('./logger.js')
+const getMode = require('../mode/index.js')
+const appPaths = require('../app-paths.js')
 
 function getStoreFlagPath (storeIndexPath) {
   return path.join(path.parse(storeIndexPath).dir, 'store-flag.d.ts')

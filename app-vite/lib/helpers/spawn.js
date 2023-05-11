@@ -1,5 +1,6 @@
-const { log, warn, fatal } = require('./logger')
 const crossSpawn = require('cross-spawn')
+
+const { log, warn, fatal } = require('./logger.js')
 
 /*
  Returns pid, takes onClose

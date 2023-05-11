@@ -1,6 +1,6 @@
-const appPaths = require('../../app-paths')
-const { createViteConfig, extendViteConfig } = require('../../config-tools')
-const cordovaPlatformInject = require('./vite-plugin.dev.cordova-platform-inject')
+const appPaths = require('../../app-paths.js')
+const { createViteConfig, extendViteConfig } = require('../../config-tools.js')
+const cordovaPlatformInject = require('./vite-plugin.dev.cordova-platform-inject.js')
 
 module.exports = {
   vite: quasarConf => {

@@ -5,18 +5,19 @@ const vueVitePlugin = require('@vitejs/plugin-vue')
 const { merge } = require('webpack-merge')
 const { removeSync } = require('fs-extra')
 
-const appPaths = require('./app-paths')
-const getPackage = require('./helpers/get-package')
-const parseEnv = require('./parse-env')
-const { log, warn, tip } = require('./helpers/logger')
-const extensionRunner = require('./app-extension/extensions-runner')
+const appPaths = require('./app-paths.js')
+const getPackage = require('./helpers/get-package.js')
+const parseEnv = require('./parse-env.js')
+const { log, warn, tip } = require('./helpers/logger.js')
+const extensionRunner = require('./app-extension/extensions-runner.js')
 
-const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform')
-const quasarViteStripFilenameHashes = require('./plugins/vite.strip-filename-hashes')
+const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform.js')
+const quasarViteStripFilenameHashes = require('./plugins/vite.strip-filename-hashes.js')
 
 const { dependencies: cliDepsObject } = require(appPaths.resolve.cli('package.json'))
 const appPkgFile = appPaths.resolve.app('package.json')
 const cliDeps = Object.keys(cliDepsObject)
+
 function parseVitePlugins (entries) {
   const acc = []
   let showTip = false
@@ -184,7 +185,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
     const { warnings, errors } = quasarConf.eslint
     if (warnings === true || errors === true) {
       // require only if actually needed (as it imports app's eslint pkg)
-      const quasarVitePluginESLint = require('./plugins/vite.eslint')
+      const quasarVitePluginESLint = require('./plugins/vite.eslint.js')
       viteConf.plugins.push(
         quasarVitePluginESLint(quasarConf, { cacheSuffix })
       )
@@ -237,7 +238,7 @@ function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
   const { warnings, errors } = quasarConf.eslint
   if (warnings === true || errors === true) {
     // require only if actually needed (as it imports app's eslint pkg)
-    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint')
+    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint.js')
     cfg.plugins = [
       quasarEsbuildPluginESLint(quasarConf, getLinterOpts)
     ]
@@ -261,7 +262,7 @@ function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
   const { warnings, errors } = quasarConf.eslint
   if (warnings === true || errors === true) {
     // require only if actually needed (as it imports app's eslint pkg)
-    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint')
+    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint.js')
     cfg.plugins = [
       quasarEsbuildPluginESLint(quasarConf, getLinterOpts)
     ]

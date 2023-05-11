@@ -1,6 +1,6 @@
-const path = require('path')
+const path = require('node:path')
 
-const appPaths = require('../../app-paths')
+const appPaths = require('../../app-paths.js')
 
 module.exports = function (chain, cfg) {
   const outputPath = path.join(cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir, 'www')

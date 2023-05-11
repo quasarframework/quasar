@@ -1,9 +1,9 @@
 
 const { writeFileSync, copySync, existsSync } = require('fs-extra')
-const { join } = require('path')
+const { join } = require('node:path')
 
-const appPaths = require('../../app-paths')
-const { warn } = require('../../helpers/logger')
+const appPaths = require('../../app-paths.js')
+const { warn } = require('../../helpers/logger.js')
 
 const { name, productName, description, version } = require(appPaths.resolve.app('package.json'))
 const assetsFolder = appPaths.resolve.bex('assets')

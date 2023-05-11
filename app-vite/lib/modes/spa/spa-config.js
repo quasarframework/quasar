@@ -1,5 +1,5 @@
 
-const { createViteConfig, extendViteConfig } = require('../../config-tools')
+const { createViteConfig, extendViteConfig } = require('../../config-tools.js')
 
 module.exports = {
   vite: quasarConf => {

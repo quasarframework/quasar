@@ -1,4 +1,4 @@
-const appPaths = require('../app-paths')
+const appPaths = require('../app-paths.js')
 
 /**
  * Get the resolved path of a host package.

@@ -1,8 +1,8 @@
-const path = require('path')
+const path = require('node:path')
 
-const appPaths = require('../../app-paths')
-const { createViteConfig, extendViteConfig } = require('../../config-tools')
-const escapeRegexString = require('../../helpers/escape-regex-string')
+const appPaths = require('../../app-paths.js')
+const { createViteConfig, extendViteConfig } = require('../../config-tools.js')
+const escapeRegexString = require('../../helpers/escape-regex-string.js')
 
 const { dependencies } = require(appPaths.resolve.capacitor('package.json'))
 const target = appPaths.resolve.capacitor('node_modules')

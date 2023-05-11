@@ -1,11 +1,11 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const appPaths = require('../../app-paths')
-const { log, warn } = require('../../helpers/logger')
-const nodePackager = require('../../helpers/node-packager')
-const hasTypescript = require('../../helpers/has-typescript')
-const { bundlerIsInstalled } = require('./bundler')
+const appPaths = require('../../app-paths.js')
+const { log, warn } = require('../../helpers/logger.js')
+const nodePackager = require('../../helpers/node-packager.js')
+const hasTypescript = require('../../helpers/has-typescript.js')
+const { bundlerIsInstalled } = require('./bundler.js')
 
 const electronDeps = {
   electron: 'latest'

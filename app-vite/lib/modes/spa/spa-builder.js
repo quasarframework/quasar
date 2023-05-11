@@ -1,6 +1,6 @@
 
-const AppBuilder = require('../../app-builder')
-const config = require('./spa-config')
+const AppBuilder = require('../../app-builder.js')
+const config = require('./spa-config.js')
 
 class SpaBuilder extends AppBuilder {
   async build () {

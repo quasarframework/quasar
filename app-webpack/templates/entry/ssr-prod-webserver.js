@@ -3,7 +3,7 @@
  * DO NOT EDIT.
  **/
 
-import { join } from 'path'
+import { join } from 'node:path'
 import express from 'express'
 import { renderToString } from '@vue/server-renderer'
 import createRenderer from '@quasar/ssr-helpers/create-renderer'

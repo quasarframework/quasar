@@ -1,5 +1,5 @@
 
-const appPaths = require('../app-paths')
+const appPaths = require('../app-paths.js')
 const { name } = require('../../package.json')
 
 module.exports = class ApiBase {

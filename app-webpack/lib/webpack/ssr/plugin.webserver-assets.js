@@ -1,9 +1,9 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const { sources } = require('webpack')
 
-const appPaths = require('../../app-paths')
-const getFixedDeps = require('../../helpers/get-fixed-deps')
-const { getIndexHtml } = require('../../ssr/html-template')
+const appPaths = require('../../app-paths.js')
+const getFixedDeps = require('../../helpers/get-fixed-deps.js')
+const { getIndexHtml } = require('../../ssr/html-template.js')
 
 module.exports = class WebserverAssetsPlugin {
   constructor (cfg = {}) {

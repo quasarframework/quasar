@@ -1,10 +1,10 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('node:fs')
+const path = require('node:path')
 const open = require('open')
 const { execSync } = require('child_process')
 
-const appPaths = require('../app-paths')
-const { warn, fatal } = require('./logger')
+const appPaths = require('../app-paths.js')
+const { warn, fatal } = require('./logger.js')
 
 function findXcodeWorkspace (folder) {
   const root = fs.readdirSync(folder)

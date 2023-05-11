@@ -1,7 +1,7 @@
 const { green, grey, underline } = require('chalk')
 
-const { getBrowsersBanner } = require('./browsers-support')
-const getPackageJson = require('./get-package-json')
+const { getBrowsersBanner } = require('./browsers-support.js')
+const getPackageJson = require('./get-package-json.js')
 const quasarVersion = getPackageJson('quasar').version
 const cliAppVersion = require('../../package.json').version
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('../lib/node-version-check')
+require('../lib/node-version-check.js')
 
 const commands = [
   'dev',
@@ -49,7 +49,7 @@ if (cmd) {
       process.exit(0)
     }
 
-    const { log, warn } = require('../lib/helpers/logger')
+    const { log, warn } = require('../lib/helpers/logger.js')
 
     if (cmd === '-h' || cmd === '--help') {
       cmd = 'help'
@@ -64,7 +64,7 @@ if (cmd) {
       const exit = process.exit
       process.exit = (code, reason) => {
         if (reason === 'ext-missing') {
-          require('../lib/cmd/help')
+          require('../lib/cmd/help.js')
           exit(0)
         }
         else {
@@ -80,4 +80,4 @@ else {
   cmd = 'help'
 }
 
-require(`../lib/cmd/${ cmd }`)
+require(`../lib/cmd/${ cmd }.js`)

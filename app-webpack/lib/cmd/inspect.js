@@ -7,7 +7,7 @@ const argv = parseArgs(process.argv.slice(2), {
     m: 'mode',
 
     d: 'depth',
-    p: 'path',
+    p: 'node:path',
 
     h: 'help'
   },
@@ -43,26 +43,26 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../helpers/ensure-argv')(argv, 'inspect')
-require('../helpers/banner')(argv, argv.cmd)
+require('../helpers/ensure-argv.js')(argv, 'inspect')
+require('../helpers/banner.js')(argv, argv.cmd)
 
-const { log, fatal } = require('../helpers/logger')
+const { log, fatal } = require('../helpers/logger.js')
 
 if (argv.mode !== 'spa') {
-  const getMode = require('../mode/index')
+  const getMode = require('../mode/index.js')
   if (getMode(argv.mode).isInstalled !== true) {
     fatal('Requested mode for inspection is NOT installed.')
   }
 }
 
-const QuasarConfFile = require('../quasar-config-file')
-const { splitWebpackConfig } = require('../webpack/symbols')
+const QuasarConfFile = require('../quasar-config-file.js')
+const { splitWebpackConfig } = require('../webpack/symbols.js')
 
 const depth = parseInt(argv.depth, 10) || Infinity
 
 async function inspect () {
-  const extensionRunner = require('../app-extension/extensions-runner')
-  const getQuasarCtx = require('../helpers/get-quasar-ctx')
+  const extensionRunner = require('../app-extension/extensions-runner.js')
+  const getQuasarCtx = require('../helpers/get-quasar-ctx.js')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
@@ -89,7 +89,7 @@ async function inspect () {
 
   await quasarConfFile.compile()
 
-  const util = require('util')
+  const util = require('node:util')
   const cfgEntries = splitWebpackConfig(quasarConfFile.webpackConf, argv.mode)
 
   if (argv.path) {

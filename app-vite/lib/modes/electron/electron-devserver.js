@@ -1,11 +1,11 @@
 const { createServer } = require('vite')
 
-const AppDevserver = require('../../app-devserver')
-const appPaths = require('../../app-paths')
-const { log, warn, fatal } = require('../../helpers/logger')
-const { spawn } = require('../../helpers/spawn')
-const getPackage = require('../../helpers/get-package')
-const config = require('./electron-config')
+const AppDevserver = require('../../app-devserver.js')
+const appPaths = require('../../app-paths.js')
+const { log, warn, fatal } = require('../../helpers/logger.js')
+const { spawn } = require('../../helpers/spawn.js')
+const getPackage = require('../../helpers/get-package.js')
+const config = require('./electron-config.js')
 
 function wait (time) {
   return new Promise(resolve => {

@@ -1,8 +1,8 @@
 const { createServer } = require('vite')
 
-const AppDevserver = require('../../app-devserver')
-const openBrowser = require('../../helpers/open-browser')
-const config = require('./spa-config')
+const AppDevserver = require('../../app-devserver.js')
+const openBrowser = require('../../helpers/open-browser.js')
+const config = require('./spa-config.js')
 
 class SpaDevServer extends AppDevserver {
   #server

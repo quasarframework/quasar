@@ -1,7 +1,7 @@
 const browserslist = require('browserslist')
 
-const appPaths = require('../app-paths')
-const { warn, fatal } = require('./logger')
+const appPaths = require('../app-paths.js')
+const { warn, fatal } = require('./logger.js')
 
 const NAMES = {
   ie: 'IE',

@@ -1,9 +1,9 @@
 
 const { build: viteBuild } = require('vite')
 const { build: esBuild, context: esContextBuild } = require('esbuild')
-const { clean } = require('./artifacts')
 
-const { progress } = require('./helpers/logger')
+const { clean } = require('./artifacts.js')
+const { progress } = require('./helpers/logger.js')
 
 class AppTool {
   argv

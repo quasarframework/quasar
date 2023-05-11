@@ -1,7 +1,7 @@
-const appPaths = require('../../app-paths')
-const PwaManifestPlugin = require('./plugin.pwa-manifest')
-const HtmlPwaPlugin = require('./plugin.html-pwa').plugin
-const getPackage = require('../../helpers/get-package')
+const appPaths = require('../../app-paths.js')
+const PwaManifestPlugin = require('./plugin.pwa-manifest.js')
+const { plugin: HtmlPwaPlugin } = require('./plugin.html-pwa.js')
+const getPackage = require('../../helpers/get-package.js')
 const WorkboxPlugin = getPackage('workbox-webpack-plugin')
 
 module.exports = function (chain, cfg) {
@@ -11,7 +11,7 @@ module.exports = function (chain, cfg) {
 
   let defaultOptions
   const pluginMode = cfg.pwa.workboxPluginMode
-  const { log } = require('../../helpers/logger')
+  const { log } = require('../../helpers/logger.js')
 
   if (pluginMode === 'GenerateSW') {
     const pkg = require(appPaths.resolve.app('package.json'))

@@ -1,9 +1,9 @@
-const path = require('path')
+const path = require('node:path')
 const fse = require('fs-extra')
 
-const appPaths = require('../../app-paths')
-const artifacts = require('../../artifacts')
-const injectHtml = require('../inject.html')
+const appPaths = require('../../app-paths.js')
+const artifacts = require('../../artifacts.js')
+const injectHtml = require('../inject.html.js')
 
 module.exports = function (chain, cfg) {
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
@@ -40,7 +40,7 @@ module.exports = function (chain, cfg) {
     cfg.build.htmlFilename = path.join('www', 'index.html')
 
     // Register our plugin, update the manifest and package the browser extension.
-    const BexPackager = require('./plugin.bex-packager')
+    const BexPackager = require('./plugin.bex-packager.js')
     chain.plugin('webpack-bex-packager')
       .use(BexPackager, [ {
         src: cfg.bex.builder.directories.input,

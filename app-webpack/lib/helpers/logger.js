@@ -5,7 +5,7 @@ const {
   bgYellow, yellow
 } = require('chalk')
 
-const readline = require('readline')
+const readline = require('node:readline')
 
 /**
  * Main approach - App CLI related

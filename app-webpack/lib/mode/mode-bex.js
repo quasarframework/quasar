@@ -1,8 +1,8 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const appPaths = require('../app-paths')
-const { log, warn } = require('../helpers/logger')
+const appPaths = require('../app-paths.js')
+const { log, warn } = require('../helpers/logger.js')
 
 class Mode {
   get isInstalled () {

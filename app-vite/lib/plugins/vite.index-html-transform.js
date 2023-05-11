@@ -1,5 +1,5 @@
 
-const { transformHtml } = require('../helpers/html-template')
+const { transformHtml } = require('../helpers/html-template.js')
 
 module.exports = quasarConf => {
   return {

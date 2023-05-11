@@ -1,9 +1,9 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const fse = require('fs-extra')
 
-const appPaths = require('../app-paths')
-const { log, warn, fatal } = require('../helpers/logger')
-const { spawnSync } = require('../helpers/spawn')
+const appPaths = require('../app-paths.js')
+const { log, warn, fatal } = require('../helpers/logger.js')
+const { spawnSync } = require('../helpers/spawn.js')
 
 class Mode {
   get isInstalled () {
@@ -49,7 +49,7 @@ class Mode {
       }
     )
 
-    const { ensureWWW } = require('../cordova/ensure-consistency')
+    const { ensureWWW } = require('../cordova/ensure-consistency.js')
     ensureWWW(true)
 
     log('Cordova support was installed')
@@ -79,7 +79,7 @@ class Mode {
   }
 
   addPlatform (target) {
-    const ensureConsistency = require('../cordova/ensure-consistency')
+    const ensureConsistency = require('../cordova/ensure-consistency.js')
     ensureConsistency()
 
     if (this.hasPlatform(target)) {

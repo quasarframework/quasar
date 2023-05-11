@@ -2,7 +2,7 @@
 const parseArgs = require('minimist')
 const chalk = require('chalk')
 
-const getPackageJson = require('../helpers/get-package-json')
+const getPackageJson = require('../helpers/get-package-json.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -28,7 +28,7 @@ if (argv.help) {
 const os = require('os')
 const spawn = require('cross-spawn').sync
 
-const appPaths = require('../app-paths')
+const appPaths = require('../app-paths.js')
 
 function getSpawnOutput (command) {
   try {
@@ -103,7 +103,7 @@ print({ key: 'Important local packages', section: true })
 
 print({ key: 'Quasar App Extensions', section: true })
 
-const extensionJson = require('../app-extension/extension-json')
+const extensionJson = require('../app-extension/extension-json.js')
 const extensions = Object.keys(extensionJson.getList())
 
 if (extensions.length > 0) {
@@ -120,7 +120,7 @@ else {
 print({ key: 'Networking', section: true })
 print({ key: '  Host', value: chalk.green(os.hostname()) })
 
-const getExternalIPs = require('../helpers/net').getExternalNetworkInterface
+const getExternalIPs = require('../helpers/net.js').getExternalNetworkInterface
 getExternalIPs().forEach(intf => {
   print({
     key: `  ${ intf.deviceName }`,

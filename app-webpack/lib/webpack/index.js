@@ -1,7 +1,7 @@
-const createChain = require('./create-chain')
-const { log } = require('../helpers/logger')
-const { webpackNames } = require('./symbols')
-const extensionRunner = require('../app-extension/extensions-runner')
+const createChain = require('./create-chain.js')
+const { log } = require('../helpers/logger.js')
+const { webpackNames } = require('./symbols.js')
+const extensionRunner = require('../app-extension/extensions-runner.js')
 
 async function getWebpackConfig (chain, cfg, {
   name,
@@ -46,7 +46,7 @@ async function getWebpackConfig (chain, cfg, {
 }
 
 function getCSW (cfg) {
-  const createCSW = require('./pwa/create-custom-sw')
+  const createCSW = require('./pwa/create-custom-sw.js')
 
   // csw - custom service worker
   return getWebpackConfig(createCSW(cfg, webpackNames.pwa.csw), cfg, {
@@ -61,7 +61,7 @@ function getCSW (cfg) {
 async function getSPA (cfg) {
   const chain = createChain(cfg, webpackNames.spa.renderer)
 
-  require('./spa')(chain, cfg)
+  require('./spa/index.js')(chain, cfg)
 
   return {
     renderer: await getWebpackConfig(chain, cfg, {
@@ -78,8 +78,8 @@ async function getPWA (cfg) {
   function getRenderer () {
     const chain = createChain(cfg, webpackNames.pwa.renderer)
 
-    require('./spa')(chain, cfg) // extending a SPA
-    require('./pwa')(chain, cfg)
+    require('./spa/index.js')(chain, cfg) // extending a SPA
+    require('./pwa/index.js')(chain, cfg)
 
     return getWebpackConfig(chain, cfg, {
       name: webpackNames.pwa.renderer,
@@ -96,7 +96,7 @@ async function getPWA (cfg) {
 async function getCordova (cfg) {
   const chain = createChain(cfg, webpackNames.cordova.renderer)
 
-  require('./cordova')(chain, cfg)
+  require('./cordova/index.js')(chain, cfg)
 
   return {
     renderer: await getWebpackConfig(chain, cfg, {
@@ -108,7 +108,7 @@ async function getCordova (cfg) {
 
 async function getCapacitor (cfg) {
   const chain = createChain(cfg, webpackNames.capacitor.renderer)
-  require('./capacitor')(chain, cfg)
+  require('./capacitor/index.js')(chain, cfg)
 
   return {
     renderer: await getWebpackConfig(chain, cfg, {
@@ -120,10 +120,10 @@ async function getCapacitor (cfg) {
 
 async function getElectron (cfg) {
   const rendererChain = createChain(cfg, webpackNames.electron.renderer)
-  const preloadChain = require('./electron/preload')(cfg, webpackNames.electron.preload)
-  const mainChain = require('./electron/main')(cfg, webpackNames.electron.main)
+  const preloadChain = require('./electron/preload.js')(cfg, webpackNames.electron.preload)
+  const mainChain = require('./electron/main.js')(cfg, webpackNames.electron.main)
 
-  require('./electron/renderer')(rendererChain, cfg)
+  require('./electron/renderer.js')(rendererChain, cfg)
 
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {
@@ -149,16 +149,16 @@ async function getElectron (cfg) {
 
 async function getSSR (cfg) {
   const client = createChain(cfg, webpackNames.ssr.clientSide)
-  require('./ssr/client')(client, cfg)
+  require('./ssr/client.js')(client, cfg)
 
   if (cfg.ctx.mode.pwa) {
-    require('./pwa')(client, cfg) // extending a PWA
+    require('./pwa/index.js')(client, cfg) // extending a PWA
   }
 
   const server = createChain(cfg, webpackNames.ssr.serverSide)
-  require('./ssr/server')(server, cfg)
+  require('./ssr/server.js')(server, cfg)
 
-  const webserver = require('./ssr/webserver')(cfg, webpackNames.ssr.webserver)
+  const webserver = require('./ssr/webserver.js')(cfg, webpackNames.ssr.webserver)
 
   return {
     ...(cfg.pwa.workboxPluginMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
@@ -185,10 +185,10 @@ async function getSSR (cfg) {
 
 async function getBEX (cfg) {
   const rendererChain = createChain(cfg, webpackNames.bex.renderer)
-  require('./bex/renderer')(rendererChain, cfg)
+  require('./bex/renderer.js')(rendererChain, cfg)
 
   const mainChain = createChain(cfg, webpackNames.bex.main)
-  require('./bex/main')(mainChain, cfg)
+  require('./bex/main.js')(mainChain, cfg)
 
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {

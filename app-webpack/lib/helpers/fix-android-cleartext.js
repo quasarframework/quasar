@@ -1,5 +1,5 @@
-const fs = require('fs')
-const appPaths = require('../app-paths')
+const fs = require('node:fs')
+const appPaths = require('../app-paths.js')
 
 module.exports = function (mode) {
   const androidManifestPath = appPaths.resolve[ mode ](

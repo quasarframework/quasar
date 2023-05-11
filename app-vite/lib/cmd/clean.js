@@ -1,6 +1,6 @@
 const parseArgs = require('minimist')
 
-const { log } = require('../helpers/logger')
+const { log } = require('../helpers/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -21,8 +21,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const Artifacts = require('../artifacts')
-Artifacts.cleanAll()
+const { cleanAll } = require('../artifacts.js')
+cleanAll()
 
 console.log()
 log('Done cleaning build artifacts\n')

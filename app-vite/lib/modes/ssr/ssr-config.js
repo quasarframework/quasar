@@ -1,15 +1,15 @@
 
-const { join } = require('path')
+const { join } = require('node:path')
 
 const {
   createViteConfig, extendViteConfig, mergeViteConfig,
   createNodeEsbuildConfig, extendEsbuildConfig
-} = require('../../config-tools')
+} = require('../../config-tools.js')
 
-const appPaths = require('../../app-paths')
+const appPaths = require('../../app-paths.js')
 
-const pwaConfig = require('../pwa/pwa-config')
-const quasarVitePluginPwaResources = require('../pwa/vite-plugin.pwa-resources')
+const pwaConfig = require('../pwa/pwa-config.js')
+const quasarVitePluginPwaResources = require('../pwa/vite-plugin.pwa-resources.js')
 
 module.exports = {
   viteClient: quasarConf => {

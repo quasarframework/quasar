@@ -1,4 +1,4 @@
-const getPackageJson = require('./get-package-json')
+const getPackageJson = require('./get-package-json.js')
 
 const urlRangePattern = /^[a-zA-Z]/
 

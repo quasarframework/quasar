@@ -1,17 +1,17 @@
-const path = require('path')
+const path = require('node:path')
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const { VueLoaderPlugin } = require('vue-loader')
 
-const WebpackProgressPlugin = require('./plugin.progress')
-const BootDefaultExport = require('./plugin.boot-default-export')
-const parseBuildEnv = require('../helpers/parse-build-env')
-const getPackagePath = require('../helpers/get-package-path')
+const WebpackProgressPlugin = require('./plugin.progress.js')
+const BootDefaultExport = require('./plugin.boot-default-export.js')
+const parseBuildEnv = require('../helpers/parse-build-env.js')
+const getPackagePath = require('../helpers/get-package-path.js')
 
-const appPaths = require('../app-paths')
-const injectStyleRules = require('./inject.style-rules')
-const { webpackNames } = require('./symbols')
+const appPaths = require('../app-paths.js')
+const injectStyleRules = require('./inject.style-rules.js')
+const { webpackNames } = require('./symbols.js')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return
@@ -280,7 +280,7 @@ module.exports = function (cfg, configName) {
 
   if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
     // need to place it here before the status plugin
-    const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning')
+    const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning.js')
     chain.plugin('custom-sw-warning')
       .use(CustomSwWarningPlugin)
   }

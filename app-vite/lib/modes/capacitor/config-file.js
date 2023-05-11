@@ -1,16 +1,16 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('node:fs')
+const path = require('node:path')
 
-const appPaths = require('../../app-paths')
-const { log, warn } = require('../../helpers/logger')
-const ensureConsistency = require('./ensure-consistency')
-const { capVersion } = require('./cap-cli')
+const appPaths = require('../../app-paths.js')
+const { log, warn } = require('../../helpers/logger.js')
+const ensureConsistency = require('./ensure-consistency.js')
+const { capVersion } = require('./cap-cli.js')
 
 const pkg = require(appPaths.resolve.app('package.json'))
 
 // necessary for Capacitor 4+
-const nodePackager = require('../../helpers/node-packager')
-const getPackageJson = require('../../helpers/get-package-json')
+const nodePackager = require('../../helpers/node-packager.js')
+const getPackageJson = require('../../helpers/get-package-json.js')
 
 // Capacitor 1 & 2
 function getAndroidMainActivity (capVersion, appId) {

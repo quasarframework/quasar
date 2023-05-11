@@ -1,4 +1,4 @@
-const { log, warn } = require('./logger')
+const { log, warn } = require('./logger.js')
 
 module.exports = function openBrowser ({ url, opts, wait = true }) {
   const open = require('open')
