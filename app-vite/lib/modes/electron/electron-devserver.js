@@ -79,22 +79,22 @@ class ElectronDevServer extends AppDevserver {
     const cfgPreload = await config.preload(quasarConf)
 
     return Promise.all([
-      this.buildWithEsbuild('Electron Main', cfgMain, () => {
+      this.watchWithEsbuild('Electron Main', cfgMain, () => {
         if (preloadReady === true) {
           this.#runElectron(quasarConf)
         }
-      }).then(result => {
+      }).then(esbuildCtx => {
         mainReady = true
-        this.#stopMain = result.stop
+        this.#stopMain = esbuildCtx.dispose
       }),
 
-      this.buildWithEsbuild('Electron Preload', cfgPreload, () => {
+      this.watchWithEsbuild('Electron Preload', cfgPreload, () => {
         if (mainReady === true) {
           this.#runElectron(quasarConf)
         }
-      }).then(result => {
+      }).then(esbuildCtx => {
         preloadReady = true
-        this.#stopPreload = result.stop
+        this.#stopPreload = esbuildCtx.dispose
       })
     ]).then(() => {
       return this.#runElectron(quasarConf)

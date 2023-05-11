@@ -1,8 +1,10 @@
 const path = require('path')
 const { existsSync } = require('fs')
+const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash/debounce')
+const { build: esBuild } = require('esbuild')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths')
@@ -174,21 +176,21 @@ class QuasarConfFile {
   }
 
   watch (onChange) {
-    // Watch for quasar.conf(ig).js changes
+    // Watch for quasar.config file changes
     chokidar
       .watch(appPaths.quasarConfigFilename, { ignoreInitial: true })
       .on('change', debounce(async () => {
         console.log()
-        log('Reading quasar.config.js as it changed')
+        log('Reading quasar.config file as it changed')
 
         const result = await this.read()
 
         if (result.error !== void 0) {
           warn(result.error)
-          warn('Changes to quasar.config.js have NOT been applied due to error above')
+          warn('Changes to quasar.config file have NOT been applied due to error above')
         }
         else {
-          log('Applying quasar.config.js changes')
+          log('Applying quasar.config file changes')
           log()
 
           onChange(result)
@@ -196,26 +198,58 @@ class QuasarConfFile {
       }, 550))
   }
 
-  async read () {
-    let quasarConfigFunction
+  async #getQuasarConfigFn () {
+    if (existsSync(appPaths.quasarConfigFilename)) {
+      const tempFile = `${ appPaths.quasarConfigFilename }.${ Date.now() }.cjs`
 
-    try {
-      delete require.cache[ appPaths.quasarConfigFilename ]
-      quasarConfigFunction = require(appPaths.quasarConfigFilename)
+      const cleanup = deleteCache => {
+        removeSync(tempFile)
+
+        if (deleteCache === true) {
+          delete require.cache[ tempFile ]
+        }
+      }
+
+      try {
+        await esBuild({
+          platform: 'node',
+          format: 'cjs',
+          bundle: true,
+          packages: 'external',
+          entryPoints: [ appPaths.quasarConfigFilename ],
+          outfile: tempFile
+        })
+
+        const result = require(tempFile)
+
+        cleanup(true)
+        return result.default || result
+      }
+      catch (e) {
+        cleanup()
+        console.error(e)
+        return { error: 'Could not compile quasar.config file because it has errors' }
+      }
     }
-    catch (e) {
-      console.error(e)
-      return { error: 'quasar.config.js has JS errors' }
+
+    fatal('Could not load quasar.config file', 'FAIL')
+  }
+
+  async read () {
+    const quasarConfigFn = await this.#getQuasarConfigFn()
+
+    if (quasarConfigFn.error !== void 0) {
+      return quasarConfigFn
     }
 
     let userCfg
 
     try {
-      userCfg = await quasarConfigFunction(this.#ctx)
+      userCfg = await quasarConfigFn(this.#ctx)
     }
     catch (e) {
       console.error(e)
-      return { error: 'quasar.config.js has JS errors' }
+      return { error: 'quasar.config file has runtime errors' }
     }
 
     const rawQuasarConf = merge({
@@ -283,7 +317,7 @@ class QuasarConfFile {
 
     try {
       await extensionRunner.runHook('extendQuasarConf', async hook => {
-        log(`Extension(${ hook.api.extId }): Extending quasar.config.js...`)
+        log(`Extension(${ hook.api.extId }): Extending quasar.config file configuration...`)
         await hook.fn(rawQuasarConf, hook.api)
       })
     }
@@ -326,7 +360,7 @@ class QuasarConfFile {
           + (this.#ctx.mode.ssr === true && cfg.ssr.pwa === true ? 50 : 0)
       }
       else {
-        tip('You specified an explicit quasar.config.js > devServer > port. It is recommended to use a different devServer > port for each Quasar mode to avoid browser cache issues. Example: ctx.mode.ssr ? 9100 : ...')
+        tip('You specified an explicit quasar.config file > devServer > port. It is recommended to use a different devServer > port for each Quasar mode to avoid browser cache issues. Example: ctx.mode.ssr ? 9100 : ...')
       }
 
       if (
@@ -348,7 +382,7 @@ class QuasarConfFile {
 
         // if network error while running
         if (to === null) {
-          return { error: 'Network error encountered while following the quasar.config.js host/port config' }
+          return { error: 'Network error encountered while following the quasar.config file host/port config' }
         }
 
         cfg.devServer = merge({ open: true }, cfg.devServer, to)
@@ -569,7 +603,7 @@ class QuasarConfFile {
       if (![ 'generateSW', 'injectManifest' ].includes(cfg.pwa.workboxMode)) {
         return {
           error: `Workbox strategy "${ cfg.pwa.workboxMode }" is invalid. `
-            + 'Valid quasar.config.js > pwa > workboxMode options are: generateSW or injectManifest\n'
+            + 'Valid quasar.config file > pwa > workboxMode options are: generateSW or injectManifest\n'
         }
       }
 

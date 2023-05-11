@@ -164,15 +164,15 @@ class SsrDevServer extends AppDevserver {
     }
 
     const esbuildConfig = await config.webserver(quasarConf)
-    await this.buildWithEsbuild('SSR Webserver', esbuildConfig, () => {
+    await this.watchWithEsbuild('SSR Webserver', esbuildConfig, () => {
       if (this.#closeWebserver !== void 0) {
         queue(async () => {
           await this.#closeWebserver()
           return this.#bootWebserver(quasarConf)
         })
       }
-    }).then(result => {
-      this.#webserverWatcher = { close: result.stop }
+    }).then(esbuildCtx => {
+      this.#webserverWatcher = { close: esbuildCtx.dispose }
     })
   }
 
@@ -406,10 +406,10 @@ class SsrDevServer extends AppDevserver {
 
     if (quasarConf.pwa.workboxMode === 'injectManifest') {
       const esbuildConfig = await config.customSw(quasarConf)
-      await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
+      await this.watchWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
         queue(() => buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
-      }).then(result => {
-        this.#pwaServiceWorkerWatcher = { close: result.stop }
+      }).then(esbuildCtx => {
+        this.#pwaServiceWorkerWatcher = { close: esbuildCtx.dispose }
       })
     }
 

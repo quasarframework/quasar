@@ -1,4 +1,4 @@
-module.exports = function parseEnv (env, rawDefine) {
+module.exports = function parseEnv (env, rawDefine, convertRaw = false) {
   const acc = {}
 
   const flatEnv = flattenObject(env)
@@ -7,7 +7,14 @@ module.exports = function parseEnv (env, rawDefine) {
     acc[ `process.env.${ key }` ] = JSON.stringify(flatEnv[ key ])
   }
 
-  Object.assign(acc, rawDefine)
+  if (convertRaw === true) {
+    for (const key in rawDefine) {
+      acc[ key ] = JSON.stringify(rawDefine[ key ])
+    }
+  }
+  else {
+    Object.assign(acc, rawDefine)
+  }
 
   return acc
 }

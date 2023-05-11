@@ -71,19 +71,19 @@ class BexDevServer extends AppDevserver {
     }
 
     const backgroundConfig = await config.backgroundScript(quasarConf)
-    await this.buildWithEsbuild('Background Script', backgroundConfig, rebuilt)
-      .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
+    await this.watchWithEsbuild('Background Script', backgroundConfig, rebuilt)
+      .then(esbuildCtx => { this.#scriptWatchers.push({ close: esbuildCtx.dispose }) })
 
     for (const name of quasarConf.bex.contentScripts) {
       const contentConfig = await config.contentScript(quasarConf, name)
 
-      await this.buildWithEsbuild(`Content Script (${ name })`, contentConfig, rebuilt)
-        .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
+      await this.watchWithEsbuild(`Content Script (${ name })`, contentConfig, rebuilt)
+        .then(esbuildCtx => { this.#scriptWatchers.push({ close: esbuildCtx.dispose }) })
     }
 
     const domConfig = await config.domScript(quasarConf)
-    await this.buildWithEsbuild('Dom Script', domConfig, rebuilt)
-      .then(result => { this.#scriptWatchers.push({ close: result.stop }) })
+    await this.watchWithEsbuild('Dom Script', domConfig, rebuilt)
+      .then(esbuildCtx => { this.#scriptWatchers.push({ close: esbuildCtx.dispose }) })
   }
 
   async #compileUI (quasarConf, queue) {

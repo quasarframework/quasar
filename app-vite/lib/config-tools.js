@@ -2,11 +2,11 @@
 const { mergeConfig } = require('vite')
 const { quasar: quasarVitePlugin } = require('@quasar/vite-plugin')
 const vueVitePlugin = require('@vitejs/plugin-vue')
-const getPackage = require('./helpers/get-package')
 const { merge } = require('webpack-merge')
 const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths')
+const getPackage = require('./helpers/get-package')
 const parseEnv = require('./parse-env')
 const { log, warn, tip } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
@@ -17,7 +17,6 @@ const quasarViteStripFilenameHashes = require('./plugins/vite.strip-filename-has
 const { dependencies: cliDepsObject } = require(appPaths.resolve.cli('package.json'))
 const appPkgFile = appPaths.resolve.app('package.json')
 const cliDeps = Object.keys(cliDepsObject)
-
 function parseVitePlugins (entries) {
   const acc = []
   let showTip = false
@@ -225,13 +224,14 @@ function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
     format: 'cjs',
     bundle: true,
     sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
+    minify: quasarConf.build.minify !== false,
+    alias: quasarConf.build.alias,
     external: [
       ...cliDeps,
       ...Object.keys(appDeps),
       ...Object.keys(appDevDeps)
     ],
-    minify: quasarConf.build.minify !== false,
-    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
+    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine, true)
   }
 
   const { warnings, errors } = quasarConf.eslint
@@ -254,7 +254,8 @@ function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
     bundle: true,
     sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     minify: quasarConf.build.minify !== false,
-    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine)
+    alias: quasarConf.build.alias,
+    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine, true)
   }
 
   const { warnings, errors } = quasarConf.eslint
