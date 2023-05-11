@@ -80,7 +80,9 @@ module.exports = function (cfg, configName) {
     })
 
   chain.externals([
+    'vue/server-renderer',
     '@vue/server-renderer',
+    'vue/compiler-sfc',
     '@vue/compiler-sfc',
     '@quasar/ssr-helpers/create-renderer',
     './render-template.js',

@@ -204,7 +204,7 @@ module.exports = function (cfg, configName) {
             extensions: {
               vue: {
                 enabled: true,
-                compiler: '@vue/compiler-sfc'
+                compiler: 'vue/compiler-sfc'
               }
             }
           }

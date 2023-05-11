@@ -5,7 +5,7 @@
 
 import { join } from 'node:path'
 import express from 'express'
-import { renderToString } from '@vue/server-renderer'
+import { renderToString } from 'vue/server-renderer'
 import createRenderer from '@quasar/ssr-helpers/create-renderer'
 
 import renderTemplate from './render-template.js'

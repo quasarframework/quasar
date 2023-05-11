@@ -13,7 +13,7 @@ const { webpackNames } = require('./webpack/symbols.js')
 
 const appPaths = require('./app-paths.js')
 const getPackage = require('./helpers/get-package.js')
-const { renderToString } = getPackage('@vue/server-renderer')
+const { renderToString } = getPackage('vue/server-renderer')
 const openBrowser = require('./helpers/open-browser.js')
 
 const banner = '[Quasar Dev Webserver]'
