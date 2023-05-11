@@ -735,7 +735,7 @@ export default Vue.extend({
         return
       }
 
-      if (e.target === void 0 || e.target.id !== this.targetUid) { return }
+      if (e.target === void 0 || e.target.id !== this.targetUid || this.editable !== true) { return }
 
       // down
       if (
