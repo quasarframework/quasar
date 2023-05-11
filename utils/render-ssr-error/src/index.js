@@ -7,7 +7,7 @@ import { getEnv } from './env.js'
 
 function readFile (target) {
   return readFileSync(
-    new URL(`../compiled-assets/${ target }-injection`, import.meta.url).pathname,
+    new URL(`../compiled-assets/${ target }-injection`, import.meta.url),
     'utf8'
   )
 }
@@ -29,7 +29,7 @@ export default function renderSSRError ({ err, req, res, projectRootFolder }) {
 
   res.status(500).send(
     before
-    + JSON.stringify(data).replaceAll(/<\/script>/g, '<\\/script>')
+    + JSON.stringify(data).replace(/<\/script>/g, '<\\/script>')
     + after
   )
 }
