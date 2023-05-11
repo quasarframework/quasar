@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist/* && rollup --config rollup.config.js",
+    "build": "rm -rf ./dist/ && rollup --config rollup.config.js",
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "test": "yarn test:unit:ci && yarn test:e2e:ci",
     "test:unit:dev": "vitest",
