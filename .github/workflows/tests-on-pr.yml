@@ -111,12 +111,14 @@ jobs:
       # Upload required artifacts to be used in tests-on-pr-report.yml
 
       - name: Upload test results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: test-results-${{ matrix.browser }}
           path: ui/dist/test-results/${{ matrix.browser }}.json
 
       - name: Upload GitHub Actions event data
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: event-data
