@@ -22,7 +22,6 @@ export interface QuasarAppPaths {
   bexDir: string;
 
   quasarConfigFilename: string;
-  quasarConfigFileFormat: string;
 
   resolve: IResolve;
 }

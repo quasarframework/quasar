@@ -3,20 +3,21 @@ const { existsSync } = require('fs')
 const { normalize, resolve, join, sep } = require('path')
 
 const quasarConfigFilenameList = [
-  { name: 'quasar.config.js', quasarConfigFileFormat: 'module' },
-  { name: 'quasar.config.mjs', quasarConfigFileFormat: 'module' },
-  { name: 'quasar.config.ts', quasarConfigFileFormat: 'ts' },
-  { name: 'quasar.config.cjs', quasarConfigFileFormat: 'cjs' }
+  'quasar.config.js',
+  'quasar.config.mjs',
+  'quasar.config.ts',
+  'quasar.config.cjs',
+  'quasar.conf.js' // legacy (removed during v2)
 ]
 
 function getAppInfo () {
   let appDir = process.cwd()
 
   while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
-    for (const { name, quasarConfigFileFormat } of quasarConfigFilenameList) {
+    for (const name of quasarConfigFilenameList) {
       const quasarConfigFilename = join(appDir, name)
       if (existsSync(quasarConfigFilename)) {
-        return { appDir, quasarConfigFilename, quasarConfigFileFormat }
+        return { appDir, quasarConfigFilename }
       }
     }
 
@@ -27,7 +28,7 @@ function getAppInfo () {
   fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 
-const { appDir, quasarConfigFilename, quasarConfigFileFormat } = getAppInfo()
+const { appDir, quasarConfigFilename } = getAppInfo()
 
 const cliDir = resolve(__dirname, '..')
 const publicDir = resolve(appDir, 'public')
@@ -52,7 +53,6 @@ module.exports = {
   bexDir,
 
   quasarConfigFilename,
-  quasarConfigFileFormat,
 
   resolve: {
     cli: dir => join(cliDir, dir),
