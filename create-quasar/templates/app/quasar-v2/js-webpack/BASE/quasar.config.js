@@ -9,15 +9,15 @@
 // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js
 
 <% if (preset.lint) { %>
-const ESLintPlugin = require('eslint-webpack-plugin')
+import ESLintPlugin from 'eslint-webpack-plugin'
 <% if (lintConfig === 'airbnb') { %>
 /* eslint func-names: 0 */
 /* eslint global-require: 0 */
 <% } %>
 <% } %>
-const { configure } = require('quasar/wrappers');
+import { configure } from 'quasar/wrappers';
 
-module.exports = configure(function (ctx) {
+export default configure((ctx) => {
   return {
     // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
     supportTS: false,

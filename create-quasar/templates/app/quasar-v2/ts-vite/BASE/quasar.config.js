@@ -11,10 +11,10 @@
 <% if (preset.lint && lintConfig === 'airbnb') { %>/* eslint func-names: 0 */
 /* eslint global-require: 0 */
 <% } %>
-const { configure } = require('quasar/wrappers');
-<% if (preset.i18n) { %>const path = require('path');<% } %>
+import { configure } from 'quasar/wrappers';
+<% if (preset.i18n) { %>import path from 'node:path';<% } %>
 
-module.exports = configure(function (/* ctx */) {
+export default configure((/* ctx */) => {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,

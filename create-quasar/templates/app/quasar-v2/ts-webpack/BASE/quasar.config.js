@@ -15,9 +15,9 @@
 /* eslint global-require: 0 */
 <% } %>
 <% } %>
-const { configure } = require('quasar/wrappers');
+import { configure } from 'quasar/wrappers';
 
-module.exports = configure(function (ctx) {
+export default configure((ctx) => {
   return {
     // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
     supportTS: <% if (preset.lint) { %>{
