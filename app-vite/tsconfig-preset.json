@@ -20,7 +20,7 @@
     "lib": ["esnext", "dom"],
     "paths": {
       "src/*": ["src/*"],
-      "app/*": ["*"],
+      "app/*": ["."],
       "components/*": ["src/components/*"],
       "layouts/*": ["src/layouts/*"],
       "pages/*": ["src/pages/*"],
