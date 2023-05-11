@@ -16,7 +16,7 @@ If you previously used a lower version of Capacitor and you want to upgrade to a
 
 It would also be wise to check the changelog of Capacitor itself to see what breaking changes it has.
 
-## Capacitor v5 <q-badge label="@quasar/app-vite v1.4+" />
+## Capacitor v5 <q-badge label="@quasar/app-webpack v3.9+" />
 
 ::: warning Requirements
 * Xcode 14.1+ (for iOS)

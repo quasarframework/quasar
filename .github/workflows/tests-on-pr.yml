@@ -103,20 +103,21 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           install: false
-          env:
-            CYPRESS_JSON_RESULTS_FILENAME=dist/test-results/${{ matrix.browser }}.json
+          env: CYPRESS_JSON_RESULTS_FILENAME=test-results-${{ matrix.browser }}.json
           command: yarn test:component:run --browser ${{ matrix.browser }}
           working-directory: ui
 
       # Upload required artifacts to be used in tests-on-pr-report.yml
 
       - name: Upload test results
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: test-results-${{ matrix.browser }}
-          path: ui/dist/test-results/${{ matrix.browser }}.json
+          path: ui/dev/test-results-${{ matrix.browser }}.json
 
       - name: Upload GitHub Actions event data
+        if: ${{ always() }}
         uses: actions/upload-artifact@v3
         with:
           name: event-data
