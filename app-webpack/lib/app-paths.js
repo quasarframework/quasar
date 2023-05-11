@@ -4,8 +4,10 @@ const { normalize, resolve, join, sep } = require('path')
 
 const quasarConfigFilenameList = [
   'quasar.config.js',
+  'quasar.config.mjs',
+  'quasar.config.ts',
   'quasar.config.cjs',
-  'quasar.conf.js' // legacy
+  'quasar.conf.js' // legacy (removed during v2)
 ]
 
 function getAppInfo () {
@@ -13,9 +15,9 @@ function getAppInfo () {
 
   while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
     for (const name of quasarConfigFilenameList) {
-      const filename = join(appDir, name)
-      if (existsSync(filename)) {
-        return { appDir, quasarConfigFilename: filename }
+      const quasarConfigFilename = join(appDir, name)
+      if (existsSync(quasarConfigFilename)) {
+        return { appDir, quasarConfigFilename }
       }
     }
 

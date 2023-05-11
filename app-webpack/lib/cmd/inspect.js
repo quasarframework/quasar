@@ -55,7 +55,7 @@ if (argv.mode !== 'spa') {
   }
 }
 
-const QuasarConfFile = require('../quasar-conf-file')
+const QuasarConfFile = require('../quasar-config-file')
 const { splitWebpackConfig } = require('../webpack/symbols')
 
 const depth = parseInt(argv.depth, 10) || Infinity

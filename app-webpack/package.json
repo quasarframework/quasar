@@ -67,6 +67,7 @@
     "css-minimizer-webpack-plugin": "4.2.2",
     "cssnano": "5.1.14",
     "dot-prop": "6.0.1",
+    "esbuild": "^0.17.8",
     "elementtree": "0.1.7",
     "error-stack-parser": "2.1.4",
     "express": "4.18.2",

@@ -1,9 +1,11 @@
 const path = require('path')
-const fs = require('fs')
+const { existsSync } = require('fs')
+const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash/debounce')
 const { green } = require('chalk')
+const { build: esBuild } = require('esbuild')
 
 const appPaths = require('./app-paths')
 const { log, warn, fatal } = require('./helpers/logger')
@@ -17,6 +19,8 @@ const { quasarVersion } = require('./helpers/banner')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
+
+const appPkg = require(appPaths.resolve.app('package.json'))
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -96,25 +100,31 @@ function uniqueRegexFilter (value, index, self) {
 }
 
 /*
- * this.quasarConf          - Compiled Object from quasar.conf(ig).js
+ * this.quasarConf          - Compiled Object from quasar.config file
  * this.webpackConf         - Webpack config(s)
  */
 
 class QuasarConfFile {
+  ctx
+  opts
+  quasarConf
+  webpackConf
+
+  #watch
+
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
-    this.filename = appPaths.quasarConfigFilename
-    this.pkg = require(appPaths.resolve.app('package.json'))
-    this.watch = opts.onBuildChange || opts.onAppChange
 
-    if (this.watch) {
-      // Start watching for quasar.conf(ig).js changes
+    this.#watch = opts.onBuildChange || opts.onAppChange
+
+    if (this.#watch) {
+      // Start watching for quasar.config file changes
       chokidar
-        .watch(this.filename, { ignoreInitial: true })
+        .watch(appPaths.quasarConfigFilename, { ignoreInitial: true })
         .on('change', debounce(async () => {
           console.log()
-          log('quasar.config.js changed')
+          log('quasar.config file changed')
 
           const result = await this.reboot()
 
@@ -130,6 +140,43 @@ class QuasarConfFile {
     }
   }
 
+  async #getQuasarConfigFn () {
+    if (existsSync(appPaths.quasarConfigFilename)) {
+      const tempFile = `${ appPaths.quasarConfigFilename }.${ Date.now() }.cjs`
+
+      const cleanup = deleteCache => {
+        removeSync(tempFile)
+
+        if (deleteCache === true) {
+          delete require.cache[ tempFile ]
+        }
+      }
+
+      try {
+        await esBuild({
+          platform: 'node',
+          format: 'cjs',
+          bundle: true,
+          packages: 'external',
+          entryPoints: [ appPaths.quasarConfigFilename ],
+          outfile: tempFile
+        })
+
+        const result = require(tempFile)
+
+        cleanup(true)
+        return result.default || result
+      }
+      catch (e) {
+        cleanup()
+        console.error(e)
+        return { error: 'Could not compile quasar.config file because it has errors' }
+      }
+    }
+
+    fatal('Could not load quasar.config file', 'FAIL')
+  }
+
   async reboot () {
     try {
       await this.prepare()
@@ -137,7 +184,7 @@ class QuasarConfFile {
     catch (e) {
       if (e.message !== 'NETWORK_ERROR') {
         console.error(e)
-        warn('quasar.config.js has JS errors. Please fix them then save file again.\n')
+        warn('quasar.config file has JS errors. Please fix them then save file again.\n')
       }
 
       return false
@@ -147,26 +194,33 @@ class QuasarConfFile {
   }
 
   async prepare () {
-    let quasarConfigFunction
+    const quasarConfigFn = await this.#getQuasarConfigFn()
 
-    if (fs.existsSync(this.filename)) {
-      delete require.cache[ this.filename ]
-      quasarConfigFunction = require(this.filename)
-    }
-    else {
-      fatal('Could not load quasar.config.js config file', 'FAIL')
+    if (quasarConfigFn.error !== void 0) {
+      return quasarConfigFn
     }
 
-    const initialConf = await quasarConfigFunction(this.ctx)
+    let userCfg
+
+    try {
+      userCfg = await quasarConfigFn(this.ctx)
+    }
+    catch (e) {
+      console.error(e)
+      return { error: 'quasar.config file has runtime errors' }
+    }
 
     const cfg = merge({
       ctx: this.ctx,
+
       css: [],
       boot: [],
+
       vendor: {
         add: [],
         remove: []
       },
+
       build: {
         transpileDependencies: [],
         vueLoaderOptions: {
@@ -182,17 +236,21 @@ class QuasarConfFile {
           mangle: {}
         }
       },
+
       devServer: {
         server: {}
       },
+
       framework: {
         components: [],
         directives: [],
         plugins: []
       },
+
       animations: [],
       extras: [],
       sourceFiles: {},
+
       ssr: {
         middlewares: []
       },
@@ -212,14 +270,15 @@ class QuasarConfFile {
       capacitor: {
         capacitorCliPreparationParams: []
       },
-      bin: {},
       bex: {
         builder: {
           directories: {}
         }
       },
+
+      bin: {},
       htmlVariables: {}
-    }, initialConf)
+    }, userCfg)
 
     if (cfg.animations === 'all') {
       cfg.animations = require('./helpers/animations')
@@ -287,13 +346,13 @@ class QuasarConfFile {
     const cfg = this.sourceCfg
 
     await extensionRunner.runHook('extendQuasarConf', async hook => {
-      log(`Extension(${ hook.api.extId }): Extending quasar.config.js...`)
+      log(`Extension(${ hook.api.extId }): Extending quasar.config file...`)
       await hook.fn(cfg, hook.api)
     })
 
     // If watching for changes then determine the type of them (webpack or not).
     // The snapshot below should only contain webpack config:
-    if (this.watch) {
+    if (this.#watch) {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
         cfg.ssr && cfg.ssr.pwa ? encode(cfg.ssr.pwa) : '',
@@ -391,8 +450,8 @@ class QuasarConfFile {
       },
 
       showProgress: true,
-      productName: this.pkg.productName,
-      productDescription: this.pkg.description,
+      productName: appPkg.productName,
+      productDescription: appPkg.description,
       // need to force extraction for SSR due to
       // missing functionality in vue-loader
       extractCSS: this.ctx.prod || this.ctx.mode.ssr,
@@ -536,9 +595,9 @@ class QuasarConfFile {
     // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
     cfg.store = (
-      fs.existsSync(storePath)
-      || fs.existsSync(storePath + '.js')
-      || fs.existsSync(storePath + '.ts')
+      existsSync(storePath)
+      || existsSync(storePath + '.js')
+      || existsSync(storePath + '.ts')
     )
 
     // make sure we have preFetch in config
@@ -733,9 +792,9 @@ class QuasarConfFile {
         workboxOptions: {},
         useCredentials: false,
         manifest: {
-          name: this.pkg.productName || this.pkg.name || 'Quasar App',
-          short_name: this.pkg.name || 'quasar-pwa',
-          description: this.pkg.description,
+          name: appPkg.productName || appPkg.name || 'Quasar App',
+          short_name: appPkg.name || 'quasar-pwa',
+          description: appPkg.description,
           display: 'standalone',
           start_url: '.'
         },
@@ -754,7 +813,7 @@ class QuasarConfFile {
 
       if (cfg.pwa.manifest.icons.length === 0) {
         warn()
-        warn('PWA manifest in quasar.config.js > pwa > manifest is missing "icons" prop.\n')
+        warn('PWA manifest in quasar.config file > pwa > manifest is missing "icons" prop.\n')
         process.exit(1)
       }
 
@@ -824,7 +883,7 @@ class QuasarConfFile {
       const icon = appPaths.resolve.electron('icons/icon.png')
       const builderIcon = process.platform === 'linux'
         // backward compatible (linux-512x512.png)
-        ? (fs.existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
+        ? (existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
         : appPaths.resolve.electron('icons/icon')
 
       cfg.electron = merge({
@@ -836,7 +895,7 @@ class QuasarConfFile {
         builder: {
           appId: 'quasar-app',
           icon: builderIcon,
-          productName: this.pkg.productName || this.pkg.name || 'Quasar App',
+          productName: appPkg.productName || appPkg.name || 'Quasar App',
           directories: {
             buildResources: appPaths.resolve.electron('')
           }

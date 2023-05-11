@@ -151,7 +151,7 @@ async function build () {
     await installMissing(argv.mode, argv.target)
   }
 
-  const QuasarConfFile = require('../quasar-conf-file')
+  const QuasarConfFile = require('../quasar-config-file')
   const Generator = require('../generator')
   const artifacts = require('../artifacts')
   const getQuasarCtx = require('../helpers/get-quasar-ctx')

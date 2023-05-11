@@ -182,7 +182,7 @@ async function goLive () {
   const DevServer = argv.mode === 'ssr'
     ? require('../dev-server-ssr')
     : require('../dev-server-regular')
-  const QuasarConfFile = require('../quasar-conf-file')
+  const QuasarConfFile = require('../quasar-config-file')
   const Generator = require('../generator')
   const getQuasarCtx = require('../helpers/get-quasar-ctx')
   const extensionRunner = require('../app-extension/extensions-runner')
