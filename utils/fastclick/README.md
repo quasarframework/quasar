@@ -2,7 +2,8 @@
 
 # Fastclick for Quasar Framework
 > This is a fork of the original Fastclick and is being used and maintained by Quasar Framework.<br>
-> **This is injected only for iOS platform (PWA or Cordova) and assumes you're already on that platform.**
+> This is injected only for iOS platform (PWA or Cordova) and assumes you're already on that platform.<br>
+> **!!! LEGACY. Not being used anymore. !!!**
 
 <img src="https://img.shields.io/npm/v/%40quasar/fastclick.svg?label=@quasar/fastclick">
 

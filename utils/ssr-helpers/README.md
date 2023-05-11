@@ -2,7 +2,7 @@
 
 # SSR helpers for Quasar Framework
 > This package contains forks of multiple other packages and is being used and maintained by Quasar Framework.<br>
-> **Used internally by Quasar CLI.**
+> **Used internally by Quasar CLI (@quasar/app-webpack).**
 
 <img src="https://img.shields.io/npm/v/%40quasar/ssr-helpers.svg?label=@quasar/ssr-helpers">
 
