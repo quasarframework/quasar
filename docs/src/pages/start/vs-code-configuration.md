@@ -38,7 +38,7 @@ Depending on which features/presets you are using, you can add the related optio
 
 ### Common Configuration
 
-```json
+```jsonc
 {
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": true
@@ -47,7 +47,7 @@ Depending on which features/presets you are using, you can add the related optio
 
 ### ESLint
 
-```json
+```jsonc
 {
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": [
@@ -59,7 +59,7 @@ Depending on which features/presets you are using, you can add the related optio
 
 #### Without Prettier
 
-```json
+```jsonc
 {
   "editor.defaultFormatter": "dbaeumer.vscode-eslint"
 }
@@ -67,7 +67,7 @@ Depending on which features/presets you are using, you can add the related optio
 
 #### With Prettier
 
-```json
+```jsonc
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
@@ -75,7 +75,7 @@ Depending on which features/presets you are using, you can add the related optio
 
 ### TypeScript
 
-```json
+```jsonc
 {
   "typescript.tsdk": "node_modules/typescript/lib"
 }
@@ -104,7 +104,7 @@ Then you need to tell VSCode to add a configuration to the debugger. The easiest
 
 In the example below, replace `package-name` with the `name` property from your `package.json` file:
 
-```json
+```jsonc
 {
   "type": "chrome",
   "request": "launch",

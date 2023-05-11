@@ -26,7 +26,7 @@ module.exports = function (ctx) {
 
 Then create `/tsconfig.json` file at the root of you project with this content:
 
-```json
+```jsonc
 {
   "extends": "@quasar/app-webpack/tsconfig-preset",
   "compilerOptions": {

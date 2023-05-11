@@ -116,11 +116,11 @@ You should consider adding some additional configurations to your project.
 * Important: Vercel expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default, so you will need to override the `Output Directory` in your Vercel project. Set it to `dist/spa` through the Vercel web ui under your project's settings > Build & Development Settings.
 
 * Since Vercel expects the _build_ script to be defined, you may add in `package.json` the following scripts:
-```json
+```jsonc
   {
-    ..
+    // ...
     "scripts": {
-      ...
+      //... 
       "build": "quasar build",
       "deploy": "vercel"
     }
@@ -164,7 +164,7 @@ app.listen(port)
 
 Heroku assumes a set of npm scripts to be available, so we have to alter our `package.json` and add the following under the `script` section:
 
-```js
+```jsonc
 "build": "quasar build",
 "start": "node server.js",
 "heroku-postbuild": "yarn && yarn build"
@@ -241,7 +241,7 @@ $ yarn add --dev push-dir
 
 Then add a `deploy` script command to your `package.json`:
 
-```json
+```jsonc
 "scripts": {
   "deploy": "push-dir --dir=dist/spa --remote=gh-pages --branch=master"
 }
