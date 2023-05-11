@@ -8,7 +8,7 @@ const { build: esBuild } = require('esbuild')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths.js')
-const { log, warn, tip } = require('./helpers/logger.js')
+const { log, warn, fatal, tip } = require('./helpers/logger.js')
 const extensionRunner = require('./app-extension/extensions-runner.js')
 const appFilesValidations = require('./helpers/app-files-validations.js')
 const cssVariables = require('./helpers/css-variables.js')
