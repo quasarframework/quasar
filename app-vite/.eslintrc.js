@@ -3,8 +3,7 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    ecmaVersion: 2021,
-    sourceType: 'module'
+    ecmaVersion: 2021
   },
 
   env: {
