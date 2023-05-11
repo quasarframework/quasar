@@ -1,7 +1,7 @@
 const prism = require('prismjs')
 const loadLanguages = require('prismjs/components/index')
 
-loadLanguages([ 'markup', 'bash', 'javascript', 'typescript', 'sass', 'scss', 'css', 'json', 'xml', 'nginx' ])
+loadLanguages([ 'markup', 'bash', 'javascript', 'typescript', 'sass', 'scss', 'css', 'json', 'xml' ])
 
 module.exports = function (str, lang) {
   if (lang === '') {
