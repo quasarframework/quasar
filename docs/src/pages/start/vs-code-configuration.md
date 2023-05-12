@@ -110,8 +110,9 @@ In the example below, replace `package-name` with the `name` property from your 
   "request": "launch",
   "name": "Quasar App: chrome",
   "url": "http://localhost:8080",
+  // To properly reflect changes after HMR with Vite
+  "enableContentValidation": false,
   "webRoot": "${workspaceFolder}/src",
-  "breakOnLoad": true,
   // No need to configure sourcemap explicitly for vite.
   "sourceMapPathOverrides": {
     "webpack://package-name/./src/*": "${webRoot}/*"
