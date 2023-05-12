@@ -1,11 +1,13 @@
 const fs = require('node:fs')
 const { sources } = require('webpack')
+const { merge } = require('webpack-merge')
 
 const appPaths = require('../../app-paths.js')
-const getFixedDeps = require('../../helpers/get-fixed-deps.js')
+const { appPkg, cliPkg } = require('../../app-pkg.js')
+const { getFixedDeps } = require('../../helpers/get-fixed-deps.js')
 const { getIndexHtml } = require('../../ssr/html-template.js')
 
-module.exports = class WebserverAssetsPlugin {
+module.exports.WebserverAssetsPlugin = class WebserverAssetsPlugin {
   constructor (cfg = {}) {
     this.cfg = cfg
     this.initPackageJson()
@@ -20,21 +22,20 @@ module.exports = class WebserverAssetsPlugin {
   }
 
   initPackageJson () {
-    const appPkg = require(appPaths.resolve.app('package.json'))
-    const cliPkg = require(appPaths.resolve.cli('package.json'))
+    const localAppPkg = merge({}, appPkg)
 
-    if (appPkg.dependencies !== void 0) {
-      delete appPkg.dependencies[ '@quasar/extras' ]
+    if (localAppPkg.dependencies !== void 0) {
+      delete localAppPkg.dependencies[ '@quasar/extras' ]
     }
 
-    const appDeps = getFixedDeps(appPkg.dependencies || {})
+    const appDeps = getFixedDeps(localAppPkg.dependencies || {})
     const cliDeps = getFixedDeps(cliPkg.dependencies)
 
     const pkg = {
-      name: appPkg.name,
-      version: appPkg.version,
-      description: appPkg.description,
-      author: appPkg.author,
+      name: localAppPkg.name,
+      version: localAppPkg.version,
+      description: localAppPkg.description,
+      author: localAppPkg.author,
       private: true,
       scripts: {
         start: 'node index.js'

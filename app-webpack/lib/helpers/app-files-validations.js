@@ -3,7 +3,7 @@ const fs = require('node:fs')
 const { warn } = require('./logger.js')
 const appPaths = require('../app-paths.js')
 
-module.exports = function (cfg) {
+module.exports.appFilesValidations = function appFilesValidations (cfg) {
   let error = false
 
   const file = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)

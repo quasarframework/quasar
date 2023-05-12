@@ -89,10 +89,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-const ensureArgv = require('../helpers/ensure-argv.js')
+const { ensureArgv } = require('../helpers/ensure-argv.js')
 ensureArgv(argv, 'build')
 
-const ensureVueDeps = require('../helpers/ensure-vue-deps.js')
+const { ensureVueDeps } = require('../helpers/ensure-vue-deps.js')
 ensureVueDeps()
 
 const path = require('node:path')
@@ -104,8 +104,8 @@ console.log(
   )
 )
 
-const banner = require('../helpers/banner.js')
-banner(argv, 'build')
+const { displayBanner } = require('../helpers/banner.js')
+displayBanner(argv, 'build')
 
 const { log, fatal } = require('../helpers/logger.js')
 const { printWebpackErrors } = require('../helpers/print-webpack-issue/index.js')
@@ -148,15 +148,15 @@ function finalizeBuild (mode, ctx, quasarConfFile) {
 
 async function build () {
   if (argv.mode !== 'spa') {
-    const installMissing = require('../mode/install-missing.js')
+    const { installMissing } = require('../mode/install-missing.js')
     await installMissing(argv.mode, argv.target)
   }
 
-  const QuasarConfFile = require('../quasar-config-file.js')
-  const Generator = require('../generator.js')
-  const artifacts = require('../artifacts.js')
-  const getQuasarCtx = require('../helpers/get-quasar-ctx.js')
-  const extensionRunner = require('../app-extension/extensions-runner.js')
+  const { QuasarConfigFile } = require('../quasar-config-file.js')
+  const { Generator } = require('../generator.js')
+  const { cleanArtifacts, addArtifacts } = require('../artifacts.js')
+  const { getQuasarCtx } = require('../helpers/get-quasar-ctx.js')
+  const { extensionsRunner } = require('../app-extension/extensions-runner.js')
   const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags.js')
 
   const ctx = getQuasarCtx({
@@ -170,9 +170,9 @@ async function build () {
   })
 
   // register app extensions
-  await extensionRunner.registerExtensions(ctx)
+  await extensionsRunner.registerExtensions(ctx)
 
-  const quasarConfFile = new QuasarConfFile(ctx, argv)
+  const quasarConfFile = new QuasarConfigFile(ctx, argv)
 
   try {
     await quasarConfFile.prepare()
@@ -192,9 +192,9 @@ async function build () {
 
   let outputFolder = quasarConf.build.packagedDistDir || quasarConf.build.distDir
 
-  artifacts.clean(quasarConf.build.distDir)
+  cleanArtifacts(quasarConf.build.distDir)
   if (quasarConf.build.packagedDistDir) {
-    artifacts.clean(quasarConf.build.packagedDistDir)
+    cleanArtifacts(quasarConf.build.packagedDistDir)
   }
 
   generator.build()
@@ -204,7 +204,7 @@ async function build () {
   }
 
   // run possible beforeBuild hooks
-  await extensionRunner.runHook('beforeBuild', async hook => {
+  await extensionsRunner.runHook('beforeBuild', async hook => {
     log(`Extension(${ hook.api.extId }): Running beforeBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
@@ -232,9 +232,9 @@ async function build () {
       process.exit(1)
     }
 
-    artifacts.add(quasarConf.build.distDir)
+    addArtifacts(quasarConf.build.distDir)
     if (quasarConf.build.packagedDistDir) {
-      artifacts.add(quasarConf.build.packagedDistDir)
+      addArtifacts(quasarConf.build.packagedDistDir)
     }
 
     const statsArray = stats.stats
@@ -249,7 +249,7 @@ async function build () {
       fatal(`for "${ webpackData.name[ index ] }" with ${ summary }. Please check the log above.`, 'COMPILATION FAILED')
     })
 
-    const printWebpackStats = require('../helpers/print-webpack-stats.js')
+    const { printWebpackStats } = require('../helpers/print-webpack-stats.js')
 
     console.log()
     statsArray.forEach((stats, index) => {
@@ -264,14 +264,14 @@ async function build () {
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      banner(argv, 'build', { outputFolder, transpileBanner: quasarConf.__transpileBanner })
+      displayBanner(argv, 'build', { outputFolder, transpileBanner: quasarConf.__transpileBanner })
 
       if (typeof quasarConf.build.afterBuild === 'function') {
         await quasarConf.build.afterBuild({ quasarConf })
       }
 
       // run possible beforeBuild hooks
-      await extensionRunner.runHook('afterBuild', async hook => {
+      await extensionsRunner.runHook('afterBuild', async hook => {
         log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
         await hook.fn(hook.api, { quasarConf })
       })
@@ -288,7 +288,7 @@ async function build () {
         }
 
         // run possible onPublish hooks
-        await extensionRunner.runHook('onPublish', async hook => {
+        await extensionsRunner.runHook('onPublish', async hook => {
           log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
           await hook.fn(hook.api, opts)
         })

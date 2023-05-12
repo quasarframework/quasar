@@ -118,7 +118,7 @@ function htmlTagObjectToString (tagDefinition) {
     + (tagDefinition.voidTag ? '' : '</' + tagDefinition.tagName + '>')
 }
 
-module.exports.getIndexHtml = function (template, cfg) {
+module.exports.getIndexHtml = function getIndexHtml (template, cfg) {
   const compiled = compileTemplate(template)
   let html = compiled(cfg.htmlVariables)
 

@@ -6,7 +6,7 @@ const filterFn = warn => !(
   && msgRE.test(warn.message) === true
 )
 
-module.exports = class CustomSwWarningPlugin {
+module.exports.CustomSwWarningPlugin = class CustomSwWarningPlugin {
   apply (compiler) {
     compiler.hooks.done.tap('pwa-custom-sw-warning', stats => {
       stats.compilation.warnings = stats.compilation.warnings.filter(filterFn)

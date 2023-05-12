@@ -1,4 +1,6 @@
 
+const { cliPkg } = require('../app-pkg.js')
+
 console.log()
 console.log(
   require('node:fs').readFileSync(
@@ -10,7 +12,7 @@ console.log(
 if (process.env.QUASAR_CLI_VERSION) {
   console.log('  Running @quasar/cli v' + process.env.QUASAR_CLI_VERSION)
 }
-console.log('  Running @quasar/app-webpack v' + require('../../package.json').version)
+console.log('  Running @quasar/app-webpack v' + cliPkg.version)
 
 console.log(`
   Example usage

@@ -5,7 +5,7 @@ const { log, warn, fatal } = require('./logger.js')
 /*
  Returns pid, takes onClose
  */
-module.exports.spawn = function (cmd, params, opts, onClose) {
+module.exports.spawn = function spawn (cmd, params, opts, onClose) {
   if (!cmd) {
     fatal('Command name was not available. Please run again.')
   }
@@ -42,7 +42,7 @@ module.exports.spawn = function (cmd, params, opts, onClose) {
 /*
  Returns nothing, takes onFail
  */
-module.exports.spawnSync = function (cmd, params, opts, onFail) {
+module.exports.spawnSync = function spawnSync (cmd, params, opts, onFail) {
   const targetFolder = opts && opts.cwd
     ? ` in ${ opts.cwd }`
     : ''

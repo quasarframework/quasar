@@ -2,7 +2,7 @@ const { join } = require('node:path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const appPaths = require('../app-paths.js')
-const { plugin: HtmlAddonsPlugin } = require('./plugin.html-addons.js')
+const { HtmlAddonsPlugin } = require('./plugin.html-addons.js')
 
 function getHtmlFilename (cfg) {
   if (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa) {
@@ -16,7 +16,7 @@ function getHtmlFilename (cfg) {
     : join(cfg.build.distDir, cfg.build.htmlFilename)
 }
 
-module.exports = function (chain, cfg, templateParam) {
+module.exports.injectHtml = function injectHtml (chain, cfg, templateParam) {
   chain.plugin('html-webpack')
     .use(HtmlWebpackPlugin, [ {
       filename: getHtmlFilename(cfg),

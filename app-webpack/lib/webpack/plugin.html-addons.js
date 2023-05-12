@@ -25,7 +25,7 @@ function fillBaseTag (html, base) {
 
 module.exports.fillBaseTag = fillBaseTag
 
-module.exports.plugin = class HtmlAddonsPlugin {
+module.exports.HtmlAddonsPlugin = class HtmlAddonsPlugin {
   constructor (cfg = {}) {
     this.cfg = cfg
   }

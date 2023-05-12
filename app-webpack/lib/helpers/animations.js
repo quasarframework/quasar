@@ -1,4 +1,4 @@
-const getPackage = require('./get-package.js')
+const { getPackage } = require('./get-package.js')
 
 const {
   generalAnimations,
@@ -6,4 +6,4 @@ const {
   outAnimations
 } = getPackage('@quasar/extras/animate/animate-list.common')
 
-module.exports = generalAnimations.concat(inAnimations).concat(outAnimations)
+module.exports.animations = generalAnimations.concat(inAnimations).concat(outAnimations)

@@ -43,7 +43,7 @@ function getArgv (argv) {
 }
 
 async function run () {
-  const Extension = require('../app-extension/Extension.js')
+  const { Extension } = require('../app-extension/Extension.js')
   const extension = new Extension('@quasar/testing')
 
   const hooks = await extension.run()

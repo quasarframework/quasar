@@ -144,7 +144,7 @@ function runWindows (mode, bin, target) {
   process.exit(1)
 }
 
-module.exports = function (mode, bin, target, dev) {
+module.exports.openIDE = function openIDE (mode, bin, target, dev) {
   console.log()
   console.log(' ⚠️  ')
   console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)

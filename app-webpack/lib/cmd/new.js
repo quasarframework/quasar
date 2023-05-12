@@ -7,7 +7,7 @@ const fse = require('fs-extra')
 const { log, warn } = require('../helpers/logger.js')
 const appPaths = require('../app-paths.js')
 const storeProvider = require('../helpers/store-provider.js')
-const hasTypescript = require('../helpers/has-typescript.js')
+const { hasTypescript } = require('../helpers/has-typescript.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

@@ -24,4 +24,4 @@ for (const ext of Object.keys(cssVariables.appFile)) {
   }
 }
 
-module.exports = cssVariables
+module.exports.cssVariables = cssVariables

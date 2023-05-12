@@ -1,9 +1,7 @@
 const { green, grey, underline } = require('chalk')
 
+const { quasarPkg, cliPkg } = require('../app-pkg.js')
 const { getBrowsersBanner } = require('./browsers-support.js')
-const getPackageJson = require('./get-package-json.js')
-const quasarVersion = getPackageJson('quasar').version
-const cliAppVersion = require('../../package.json').version
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
@@ -19,7 +17,7 @@ function getPackager (argv, cmd) {
     : 'gradle'
 }
 
-module.exports = function (argv, cmd, details) {
+module.exports.displayBanner = function displayBanner (argv, cmd, details) {
   let banner = ''
 
   if (details) {
@@ -28,8 +26,8 @@ module.exports = function (argv, cmd, details) {
 
   banner += `
  ${ cmd === 'dev' ? 'Dev mode..................' : 'Build mode................' } ${ green(argv.mode) }
- Pkg quasar................ ${ green('v' + quasarVersion) }
- Pkg @quasar/app-webpack... ${ green('v' + cliAppVersion) }
+ Pkg quasar................ ${ green('v' + quasarPkg.version) }
+ Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }
  Pkg webpack............... ${ green('v5') }
  Debugging................. ${ cmd === 'dev' || argv.debug ? green('enabled') : grey('no') }`
 
@@ -109,6 +107,3 @@ module.exports = function (argv, cmd, details) {
     console.log(getBrowsersBanner())
   }
 }
-
-module.exports.quasarVersion = quasarVersion
-module.exports.cliAppVersion = cliAppVersion

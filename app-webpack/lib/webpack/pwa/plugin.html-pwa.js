@@ -89,7 +89,7 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, u
 
 module.exports.fillPwaTags = fillPwaTags
 
-module.exports.plugin = class HtmlPwaPlugin {
+module.exports.HtmlPwaPlugin = class HtmlPwaPlugin {
   constructor (cfg = {}) {
     this.cfg = cfg
   }

@@ -7,7 +7,7 @@ function findAndReplaceInSection (sectionArray, find, replace) {
   sectionArray[ index ] = replace
 }
 
-class BexPackager {
+module.exports.BexPackagerPlugin = class BexPackagerPlugin {
   constructor (options) {
     this.options = options
     this.chromeDir = path.join(options.dest, 'chrome')
@@ -65,5 +65,3 @@ class BexPackager {
     archive.finalize()
   }
 }
-
-module.exports = BexPackager

@@ -1,7 +1,7 @@
 const fs = require('node:fs')
 const appPaths = require('../app-paths.js')
 
-module.exports = function (mode) {
+module.exports.fixAndroidCleartext = function fixAndroidCleartext (mode) {
   const androidManifestPath = appPaths.resolve[ mode ](
     mode === 'cordova'
       ? 'platforms/android/app/src/main/AndroidManifest.xml'

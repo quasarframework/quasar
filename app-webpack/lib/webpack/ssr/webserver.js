@@ -3,9 +3,10 @@ const WebpackChain = require('webpack-chain')
 const { existsSync } = require('fs-extra')
 
 const appPaths = require('../../app-paths.js')
-const WebserverAssetsPlugin = require('./plugin.webserver-assets')
-const injectNodeTypescript = require('../inject.node-typescript.js')
-const WebpackProgressPlugin = require('../plugin.progress.js')
+const { appPkg, cliPkg } = require('../../app-pkg.js')
+const { WebserverAssetsPlugin } = require('./plugin.webserver-assets')
+const { injectNodeTypescript } = require('../inject.node-typescript.js')
+const { WebpackProgressPlugin } = require('../plugin.progress.js')
 
 const nodeEnvBanner = 'if(process.env.NODE_ENV===void 0){process.env.NODE_ENV=\'production\'}'
 const prodExportFile = {
@@ -13,6 +14,23 @@ const prodExportFile = {
   ts: appPaths.resolve.ssr('production-export.ts'),
   fallback: appPaths.resolve.app('.quasar/ssr-fallback-production-export.js')
 }
+
+const { dependencies: appDeps = {} } = appPkg
+const { dependencies: cliDeps = {} } = cliPkg
+const externalsList = [
+  'vue/server-renderer',
+  '@vue/server-renderer',
+  'vue/compiler-sfc',
+  '@vue/compiler-sfc',
+  '@quasar/ssr-helpers/create-renderer',
+  './render-template.js',
+  './quasar.server-manifest.json',
+  './quasar.client-manifest.json',
+  'compression',
+  'express',
+  ...Object.keys(cliDeps),
+  ...Object.keys(appDeps)
+]
 
 const flattenObject = (obj, prefix = 'process.env') => {
   return Object.keys(obj)
@@ -30,10 +48,7 @@ const flattenObject = (obj, prefix = 'process.env') => {
     }, {})
 }
 
-module.exports = function (cfg, configName) {
-  const { dependencies: appDeps = {} } = require(appPaths.resolve.app('package.json'))
-  const { dependencies: cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
-
+module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, configName) {
   const chain = new WebpackChain()
   const resolveModules = [
     'node_modules',
@@ -79,20 +94,7 @@ module.exports = function (cfg, configName) {
       export: 'default'
     })
 
-  chain.externals([
-    'vue/server-renderer',
-    '@vue/server-renderer',
-    'vue/compiler-sfc',
-    '@vue/compiler-sfc',
-    '@quasar/ssr-helpers/create-renderer',
-    './render-template.js',
-    './quasar.server-manifest.json',
-    './quasar.client-manifest.json',
-    'compression',
-    'express',
-    ...Object.keys(cliDeps),
-    ...Object.keys(appDeps)
-  ])
+  chain.externals(externalsList)
 
   chain.node
     .merge({

@@ -42,7 +42,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const getMode = require('../mode/index.js')
+const { getQuasarMode } = require('../mode/index.js')
 const { green, grey } = require('chalk')
 
 async function run () {
@@ -59,7 +59,7 @@ async function run () {
     fatal(`Unknown mode "${ mode }" to ${ action }`)
   }
 
-  const cliMode = getMode(mode)
+  const cliMode = getQuasarMode(mode)
 
   if (action === 'remove' && argv.yes !== true && cliMode.isInstalled) {
     console.log()
@@ -90,7 +90,7 @@ function displayModes () {
   ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
     info.push([
       `Mode ${ mode.toUpperCase() }`,
-      getMode(mode).isInstalled ? green('yes') : grey('no')
+      getQuasarMode(mode).isInstalled ? green('yes') : grey('no')
     ])
   })
 

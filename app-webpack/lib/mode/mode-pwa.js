@@ -3,15 +3,15 @@ const fse = require('fs-extra')
 
 const appPaths = require('../app-paths.js')
 const { log, warn } = require('../helpers/logger.js')
-const nodePackager = require('../helpers/node-packager.js')
-const hasTypescript = require('../helpers/has-typescript.js')
+const { nodePackager } = require('../helpers/node-packager.js')
+const { hasTypescript } = require('../helpers/has-typescript.js')
 const { hasEslint } = require('../helpers/has-eslint.js')
 
 const pwaDeps = {
   'workbox-webpack-plugin': '^6.0.0'
 }
 
-class Mode {
+module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {
     return fs.existsSync(appPaths.pwaDir)
   }
@@ -68,5 +68,3 @@ class Mode {
     log('PWA support was removed')
   }
 }
-
-module.exports = Mode

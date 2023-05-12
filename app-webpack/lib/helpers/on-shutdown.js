@@ -1,6 +1,6 @@
 const { log } = require('./logger.js')
 
-module.exports = function (fn, msg) {
+module.exports.onShutdown = function onShutdown (fn, msg) {
   const cleanup = () => {
     try {
       msg && log(msg)

@@ -4,13 +4,13 @@ const { merge } = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const { VueLoaderPlugin } = require('vue-loader')
 
-const WebpackProgressPlugin = require('./plugin.progress.js')
-const BootDefaultExport = require('./plugin.boot-default-export.js')
-const parseBuildEnv = require('../helpers/parse-build-env.js')
-const getPackagePath = require('../helpers/get-package-path.js')
+const { WebpackProgressPlugin } = require('./plugin.progress.js')
+const { BootDefaultExportPlugin } = require('./plugin.boot-default-export.js')
+const { parseBuildEnv } = require('../helpers/parse-build-env.js')
+const { getPackagePath } = require('../helpers/get-package-path.js')
 
 const appPaths = require('../app-paths.js')
-const injectStyleRules = require('./inject.style-rules.js')
+const { injectStyleRules } = require('./inject.style-rules.js')
 const { webpackNames } = require('./symbols.js')
 
 function getDependenciesRegex (list) {
@@ -46,7 +46,7 @@ const extrasPath = (() => {
     : false
 })()
 
-module.exports = function (cfg, configName) {
+module.exports.createChain = function createChain (cfg, configName) {
   const chain = new WebpackChain()
 
   const useFastHash = cfg.ctx.dev || [ 'electron', 'cordova', 'capacitor', 'bex' ].includes(cfg.ctx.modeName)
@@ -280,7 +280,7 @@ module.exports = function (cfg, configName) {
 
   if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
     // need to place it here before the status plugin
-    const CustomSwWarningPlugin = require('./pwa/plugin.custom-sw-warning.js')
+    const { CustomSwWarningPlugin } = require('./pwa/plugin.custom-sw-warning.js')
     chain.plugin('custom-sw-warning')
       .use(CustomSwWarningPlugin)
   }
@@ -289,7 +289,7 @@ module.exports = function (cfg, configName) {
     .use(WebpackProgressPlugin, [ { name: configName, cfg } ])
 
   chain.plugin('boot-default-export')
-    .use(BootDefaultExport)
+    .use(BootDefaultExportPlugin)
 
   chain.performance
     .hints(false)

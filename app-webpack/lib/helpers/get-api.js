@@ -1,7 +1,7 @@
 const appPaths = require('../app-paths.js')
 const { fatal } = require('./logger.js')
 
-module.exports = async function getApi (item) {
+module.exports.getApi = async function (item) {
   try {
     const api = require(
       require.resolve(`quasar/dist/api/${ item }.json`, {
@@ -16,11 +16,11 @@ module.exports = async function getApi (item) {
     /* do nothing */
   }
 
-  const extensionJson = require('../app-extension/extension-json.js')
+  const { extensionJson } = require('../app-extension/extension-json.js')
   const extensions = Object.keys(extensionJson.getList())
 
   if (extensions.length > 0) {
-    const Extension = require('../app-extension/Extension.js')
+    const { Extension } = require('../app-extension/Extension.js')
 
     for (const ext of extensions) {
       const instance = new Extension(ext)

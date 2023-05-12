@@ -2,10 +2,11 @@ const path = require('node:path')
 const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths.js')
-const artifacts = require('../../artifacts.js')
-const injectHtml = require('../inject.html.js')
+const { appPkg } = require('../../app-pkg.js')
+const { cleanArtifacts } = require('../../artifacts.js')
+const { injectHtml } = require('../inject.html.js')
 
-module.exports = function (chain, cfg) {
+module.exports.injectBexRenderer = function injectBexRenderer (chain, cfg) {
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 
@@ -32,7 +33,7 @@ module.exports = function (chain, cfg) {
 
   if (cfg.ctx.dev) {
     // Clean old dir
-    artifacts.clean(outputPath)
+    cleanArtifacts(outputPath)
   }
   else {
     // We need this bundled in with the rest of the source to match the manifest instructions.
@@ -40,12 +41,12 @@ module.exports = function (chain, cfg) {
     cfg.build.htmlFilename = path.join('www', 'index.html')
 
     // Register our plugin, update the manifest and package the browser extension.
-    const BexPackager = require('./plugin.bex-packager.js')
+    const { BexPackagerPlugin } = require('./plugin.bex-packager.js')
     chain.plugin('webpack-bex-packager')
-      .use(BexPackager, [ {
+      .use(BexPackagerPlugin, [ {
         src: cfg.bex.builder.directories.input,
         dest: cfg.bex.builder.directories.output,
-        name: require(appPaths.resolve.app('package.json')).name
+        name: appPkg.name
       } ])
 
     // Copy our user edited BEX files to the dist dir (excluding the already built www folder)

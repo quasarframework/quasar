@@ -3,11 +3,12 @@ const fse = require('fs-extra')
 const compileTemplate = require('lodash/template.js')
 
 const appPaths = require('../app-paths.js')
+const { appPkg } = require('../app-pkg.js')
 const { log, warn } = require('../helpers/logger.js')
 const { spawnSync } = require('../helpers/spawn.js')
-const nodePackager = require('../helpers/node-packager.js')
+const { nodePackager } = require('../helpers/node-packager.js')
 
-class Mode {
+module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {
     return fs.existsSync(appPaths.capacitorDir)
   }
@@ -18,9 +19,7 @@ class Mode {
       return
     }
 
-    const pkgPath = appPaths.resolve.app('package.json')
-    const pkg = require(pkgPath)
-    const appName = pkg.productName || pkg.name || 'Quasar App'
+    const appName = appPkg.productName || appPkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(
@@ -50,7 +49,7 @@ class Mode {
     const scope = {
       appName,
       appId: answer.appId,
-      pkg,
+      pkg: appPkg,
       nodePackager
     }
 
@@ -98,7 +97,7 @@ class Mode {
   }
 
   addPlatform (target) {
-    const ensureConsistency = require('../capacitor/ensure-consistency.js')
+    const { ensureConsistency } = require('../capacitor/ensure-consistency.js')
     ensureConsistency()
 
     if (this.hasPlatform(target)) {
@@ -134,5 +133,3 @@ class Mode {
     log('Capacitor support was removed')
   }
 }
-
-module.exports = Mode

@@ -1,5 +1,5 @@
-const getPackagePath = require('./get-package-path')
-const nodePackager = require('./node-packager')
+const { getPackagePath } = require('./get-package-path')
+const { nodePackager } = require('./node-packager')
 
 function getStoreProvider () {
   /** @type {'pinia' | 'vuex'} */

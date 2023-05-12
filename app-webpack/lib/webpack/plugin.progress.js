@@ -3,11 +3,11 @@ const throttle = require('lodash/throttle.js')
 const chalk = require('chalk')
 
 const appPaths = require('../app-paths.js')
+const { quasarPkg, cliPkg } = require('../app-pkg.js')
 const { success, info, error, warning, clearConsole } = require('../helpers/logger.js')
-const { quasarVersion, cliAppVersion } = require('../helpers/banner.js')
-const isMinimalTerminal = require('../helpers/is-minimal-terminal.js')
+const { isMinimalTerminal } = require('../helpers/is-minimal-terminal.js')
 const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-webpack-issue/index.js')
-const progressLog = require('../helpers/progress-log.js')
+const { progressLog } = require('../helpers/progress-log.js')
 
 let maxLengthName = 0
 let isDev = false
@@ -129,8 +129,8 @@ function getReadyBanner (cfg) {
     return [
       ` ${ greenBanner } App dir................... ${ chalk.green(appPaths.appDir) }`,
       ` ${ greenBanner } Dev mode.................. ${ chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
-      ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarVersion) }`,
-      ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliAppVersion) }`,
+      ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarPkg.version) }`,
+      ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliPkg.version) }`,
       ` ${ greenBanner } Transpiled JS..... ${ cfg.__transpileBanner }`,
       ' ----------------------------',
       ` ${ greenBanner } Load the dev extension from:`,
@@ -151,8 +151,8 @@ function getReadyBanner (cfg) {
     ` ${ greenBanner } App dir................... ${ chalk.green(appPaths.appDir) }`,
     ` ${ greenBanner } App URL................... ${ urlList }`,
     ` ${ greenBanner } Dev mode.................. ${ chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
-    ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarVersion) }`,
-    ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliAppVersion) }`,
+    ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarPkg.version) }`,
+    ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliPkg.version) }`,
     ` ${ greenBanner } Transpiled JS............. ${ cfg.__transpileBanner }`
   ].join('\n') + '\n'
 }
@@ -194,7 +194,7 @@ function printStatus () {
   }
 }
 
-module.exports = class WebpackProgressPlugin extends ProgressPlugin {
+module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends ProgressPlugin {
   constructor ({ name, cfg, hasExternalWork }) {
     const useBars = isMinimalTerminal !== true && cfg.build.showProgress === true
 

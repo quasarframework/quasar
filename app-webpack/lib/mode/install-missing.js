@@ -1,8 +1,8 @@
 const { warn } = require('../helpers/logger.js')
-const getMode = require('./index.js')
+const { getQuasarMode } = require('./index.js')
 
-module.exports = async function (mode, target) {
-  const Mode = getMode(mode)
+module.exports.installMissing = async function (mode, target) {
+  const Mode = getQuasarMode(mode)
 
   if (Mode.isInstalled) {
     if ([ 'cordova', 'capacitor' ].includes(mode)) {

@@ -8,19 +8,18 @@ const { green } = require('chalk')
 const { build: esBuild } = require('esbuild')
 
 const appPaths = require('./app-paths.js')
+const { appPkg, quasarPkg } = require('./app-pkg.js')
 const { log, warn, fatal } = require('./helpers/logger.js')
-const extensionRunner = require('./app-extension/extensions-runner.js')
-const appFilesValidations = require('./helpers/app-files-validations.js')
-const cssVariables = require('./helpers/css-variables.js')
-const getPackage = require('./helpers/get-package.js')
+const { extensionsRunner } = require('./app-extension/extensions-runner.js')
+const { appFilesValidations } = require('./helpers/app-files-validations.js')
+const { cssVariables } = require('./helpers/css-variables.js')
+const { getPackage } = require('./helpers/get-package.js')
 const getPackageMajorVersion = require('./helpers/get-package-major-version.js')
 const storeProvider = require('./helpers/store-provider.js')
-const { quasarVersion } = require('./helpers/banner.js')
+const { createWebpackConfig } = require('./webpack/index.js')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
-
-const appPkg = require(appPaths.resolve.app('package.json'))
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -104,7 +103,7 @@ function uniqueRegexFilter (value, index, self) {
  * this.webpackConf         - Webpack config(s)
  */
 
-class QuasarConfFile {
+module.exports.QuasarConfigFile = class QuasarConfigFile {
   ctx
   opts
   quasarConf
@@ -281,7 +280,8 @@ class QuasarConfFile {
     }, userCfg)
 
     if (cfg.animations === 'all') {
-      cfg.animations = require('./helpers/animations.js')
+      const { animations } = require('./helpers/animations.js')
+      cfg.animations = animations
     }
 
     if (!cfg.framework.plugins) {
@@ -345,7 +345,7 @@ class QuasarConfFile {
   async compile () {
     const cfg = this.sourceCfg
 
-    await extensionRunner.runHook('extendQuasarConf', async hook => {
+    await extensionsRunner.runHook('extendQuasarConf', async hook => {
       log(`Extension(${ hook.api.extId }): Extending quasar.config file...`)
       await hook.fn(cfg, hook.api)
     })
@@ -378,7 +378,7 @@ class QuasarConfFile {
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
 
       // quasar
-      __QUASAR_VERSION__: JSON.stringify(quasarVersion),
+      __QUASAR_VERSION__: JSON.stringify(quasarPkg.version),
       __QUASAR_SSR__: this.ctx.mode.ssr === true,
       __QUASAR_SSR_SERVER__: false,
       __QUASAR_SSR_CLIENT__: false,
@@ -628,7 +628,8 @@ class QuasarConfFile {
       }
 
       if (cfg.ssr.pwa) {
-        await require('./mode/install-missing.js')('pwa')
+        const { installMissing } = require('./mode/install-missing.js')
+        await installMissing('pwa')
         cfg.__rootDefines.__QUASAR_SSR_PWA__ = true
       }
 
@@ -747,7 +748,7 @@ class QuasarConfFile {
       }
 
       if (cfg.devServer.open) {
-        const isMinimalTerminal = require('./helpers/is-minimal-terminal.js')
+        const { isMinimalTerminal } = require('./helpers/is-minimal-terminal.js')
         if (isMinimalTerminal) {
           cfg.devServer.open = false
         }
@@ -1021,9 +1022,7 @@ class QuasarConfFile {
     this.quasarConf = cfg
 
     if (this.webpackConfChanged !== false) {
-      this.webpackConf = await require('./webpack/index.js')(cfg)
+      this.webpackConf = await createWebpackConfig(cfg)
     }
   }
 }
-
-module.exports = QuasarConfFile

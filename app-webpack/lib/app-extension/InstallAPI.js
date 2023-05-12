@@ -4,10 +4,10 @@ const { merge } = require('webpack-merge')
 const semver = require('semver')
 
 const { warn, fatal } = require('../helpers/logger.js')
-const getPackageJson = require('../helpers/get-package-json.js')
-const getCallerPath = require('../helpers/get-caller-path.js')
-const extensionJson = require('./extension-json.js')
-const BaseAPI = require('./BaseAPI.js')
+const { getPackageJson } = require('../helpers/get-package-json.js')
+const { getCallerPath } = require('../helpers/get-caller-path.js')
+const { extensionJson } = require('./extension-json.js')
+const { BaseAPI } = require('./BaseAPI.js')
 
 // for backward compatibility
 function getPackageName (packageName) {
@@ -19,7 +19,7 @@ function getPackageName (packageName) {
 /**
  * API for extension's /install.js script
  */
-module.exports = class InstallAPI extends BaseAPI {
+module.exports.InstallAPI = class InstallAPI extends BaseAPI {
   __hooks = {
     renderFolders: [],
     renderFiles: [],

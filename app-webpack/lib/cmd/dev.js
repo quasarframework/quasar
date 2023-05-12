@@ -76,10 +76,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-const ensureArgv = require('../helpers/ensure-argv.js')
+const { ensureArgv } = require('../helpers/ensure-argv.js')
 ensureArgv(argv, 'dev')
 
-const ensureVueDeps = require('../helpers/ensure-vue-deps.js')
+const { ensureVueDeps } = require('../helpers/ensure-vue-deps.js')
 ensureVueDeps()
 
 console.log(
@@ -89,8 +89,8 @@ console.log(
   )
 )
 
-const banner = require('../helpers/banner.js')
-banner(argv, 'dev')
+const { displayBanner } = require('../helpers/banner.js')
+displayBanner(argv, 'dev')
 
 const findPort = require('../helpers/net.js').findClosestOpenPort
 
@@ -102,7 +102,7 @@ async function parseAddress ({ host, port }) {
     [ 'cordova', 'capacitor' ].includes(argv.mode)
     && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
   ) {
-    const getExternalIP = require('../helpers/get-external-ip.js')
+    const { getExternalIP } = require('../helpers/get-external-ip.js')
     host = await getExternalIP()
     this.chosenHost = host
   }
@@ -146,7 +146,7 @@ async function parseAddress ({ host, port }) {
 
 function startVueDevtools () {
   const { spawn } = require('../helpers/spawn.js')
-  const getPackagePath = require('../helpers/get-package-path.js')
+  const { getPackagePath } = require('../helpers/get-package-path.js')
 
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
 
@@ -160,8 +160,7 @@ function startVueDevtools () {
     return
   }
 
-  const nodePackager = require('../helpers/node-packager.js')
-
+  const { nodePackager } = require('../helpers/node-packager.js')
   nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
@@ -175,17 +174,17 @@ function startVueDevtools () {
 
 async function goLive () {
   if (argv.mode !== 'spa') {
-    const installMissing = require('../mode/install-missing.js')
+    const { installMissing } = require('../mode/install-missing.js')
     await installMissing(argv.mode, argv.target)
   }
 
-  const DevServer = argv.mode === 'ssr'
+  const { DevServer } = argv.mode === 'ssr'
     ? require('../dev-server-ssr.js')
     : require('../dev-server-regular.js')
-  const QuasarConfFile = require('../quasar-config-file.js')
-  const Generator = require('../generator.js')
-  const getQuasarCtx = require('../helpers/get-quasar-ctx.js')
-  const extensionRunner = require('../app-extension/extensions-runner.js')
+  const { QuasarConfigFile } = require('../quasar-config-file.js')
+  const { Generator } = require('../generator.js')
+  const { getQuasarCtx } = require('../helpers/get-quasar-ctx.js')
+  const { extensionsRunner } = require('../app-extension/extensions-runner.js')
   const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags.js')
 
   const ctx = getQuasarCtx({
@@ -197,9 +196,9 @@ async function goLive () {
   })
 
   // register app extensions
-  await extensionRunner.registerExtensions(ctx)
+  await extensionsRunner.registerExtensions(ctx)
 
-  const quasarConfFile = new QuasarConfFile(ctx, {
+  const quasarConfFile = new QuasarConfigFile(ctx, {
     port: argv.port,
     host: argv.hostname,
     onAddress: parseAddress,
@@ -236,7 +235,7 @@ async function goLive () {
   }
 
   // run possible beforeDev hooks
-  await extensionRunner.runHook('beforeDev', async hook => {
+  await extensionsRunner.runHook('beforeDev', async hook => {
     log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
@@ -285,7 +284,7 @@ async function goLive () {
       await quasarConf.build.afterDev({ quasarConf })
     }
     // run possible afterDev hooks
-    await extensionRunner.runHook('afterDev', async hook => {
+    await extensionsRunner.runHook('afterDev', async hook => {
       log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
       await hook.fn(hook.api, { quasarConf })
     })

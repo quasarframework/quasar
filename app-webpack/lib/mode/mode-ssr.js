@@ -3,9 +3,9 @@ const fse = require('fs-extra')
 
 const appPaths = require('../app-paths.js')
 const { log, warn } = require('../helpers/logger.js')
-const hasTypescript = require('../helpers/has-typescript.js')
+const { hasTypescript } = require('../helpers/has-typescript.js')
 
-class Mode {
+module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {
     return fs.existsSync(appPaths.ssrDir)
   }
@@ -43,5 +43,3 @@ class Mode {
     log('SSR support was removed')
   }
 }
-
-module.exports = Mode

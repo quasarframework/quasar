@@ -2,13 +2,14 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const appPaths = require('../app-paths.js')
+const { appPkg } = require('../app-pkg.js')
 const { log, warn } = require('../helpers/logger.js')
-const ensureConsistency = require('./ensure-consistency.js')
+const { ensureConsistency } = require('./ensure-consistency.js')
 const { capVersion } = require('./cap-cli.js')
 
 // necessary for Capacitor 4+
-const nodePackager = require('../helpers/node-packager.js')
-const getPackageJson = require('../helpers/get-package-json.js')
+const { nodePackager } = require('../helpers/node-packager.js')
+const { getPackageJson } = require('../helpers/get-package-json.js')
 
 // Capacitor 1 & 2
 function getAndroidMainActivity (capVersion, appId) {
@@ -54,20 +55,20 @@ public class EnableHttpsSelfSigned {
 }
 
 class CapacitorConfig {
+  #tamperedFiles
+
   prepare (quasarConf, target) {
     ensureConsistency()
 
-    this.pkg = require(appPaths.resolve.app('package.json'))
-
-    this.#updateCapPkg(quasarConf, this.pkg)
+    this.#updateCapPkg(quasarConf)
     log('Updated src-capacitor/package.json')
 
-    this.tamperedFiles = []
+    this.#tamperedFiles = []
 
     const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
     const capJson = require(capJsonPath)
 
-    this.tamperedFiles.push({
+    this.#tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
       content: this.#updateCapJson(quasarConf, capJson),
@@ -79,16 +80,16 @@ class CapacitorConfig {
   }
 
   reset () {
-    this.tamperedFiles.forEach(file => {
+    this.#tamperedFiles.forEach(file => {
       file.content = file.originalContent
     })
 
     this.#save()
-    this.tamperedFiles = []
+    this.#tamperedFiles = []
   }
 
   #save () {
-    this.tamperedFiles.forEach(file => {
+    this.#tamperedFiles.forEach(file => {
       fs.writeFileSync(file.path, file.content, 'utf8')
       log(`Updated ${ file.name }`)
     })
@@ -97,7 +98,7 @@ class CapacitorConfig {
   #updateCapJson (quasarConf, originalCapCfg) {
     const capJson = { ...originalCapCfg }
 
-    capJson.appName = quasarConf.capacitor.appName || this.pkg.productName || 'Quasar App'
+    capJson.appName = quasarConf.capacitor.appName || appPkg.productName || 'Quasar App'
     capJson.bundledWebRuntime = false
 
     if (quasarConf.ctx.dev) {
@@ -116,15 +117,15 @@ class CapacitorConfig {
     return JSON.stringify(capJson, null, 2)
   }
 
-  #updateCapPkg (quasarConf, pkg) {
+  #updateCapPkg (quasarConf) {
     const capPkgPath = appPaths.resolve.capacitor('package.json')
     const capPkg = require(capPkgPath)
 
     Object.assign(capPkg, {
-      name: quasarConf.capacitor.appName || pkg.name,
-      version: quasarConf.capacitor.version || pkg.version,
-      description: quasarConf.capacitor.description || pkg.description,
-      author: pkg.author
+      name: quasarConf.capacitor.appName || appPkg.name,
+      version: quasarConf.capacitor.version || appPkg.version,
+      description: quasarConf.capacitor.description || appPkg.description,
+      author: appPkg.author
     })
 
     fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
@@ -142,8 +143,9 @@ class CapacitorConfig {
       }
 
       const fn = `${ add ? '' : 'un' }installPackage`
+      const nameParam = add ? '@jcesarmobile/ssl-skip@^0.2.0' : '@jcesarmobile/ssl-skip'
 
-      nodePackager[ fn ]('@jcesarmobile/ssl-skip@^0.2.0', {
+      nodePackager[ fn ](nameParam, {
         cwd: appPaths.capacitorDir,
         displayName: 'Capacitor (DEVELOPMENT ONLY) SSL support'
       })
@@ -346,4 +348,4 @@ import com.getcapacitor.BridgeActivity;`)
   }
 }
 
-module.exports = CapacitorConfig
+module.exports.CapacitorConfig = CapacitorConfig

@@ -2,7 +2,7 @@
 const { existsSync } = require('node:fs')
 
 const appPaths = require('../app-paths.js')
-const appPkg = require(appPaths.resolve.app('package.json'))
+const { appPkg } = require('../app-pkg.js')
 
 const eslintConfigFile = [
   '.eslintrc.cjs',

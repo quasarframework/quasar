@@ -1,20 +1,25 @@
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
-const ExpressionDependency = require('./plugin.expression-dependency.js')
-const parseBuildEnv = require('../../helpers/parse-build-env.js')
-const injectNodeBabel = require('../inject.node-babel.js')
-const injectNodeTypescript = require('../inject.node-typescript.js')
-
 const appPaths = require('../../app-paths.js')
-const WebpackProgressPlugin = require('../plugin.progress.js')
+const { appPkg, cliPkg } = require('../../app-pkg.js')
+const { parseBuildEnv } = require('../../helpers/parse-build-env.js')
+const { injectNodeBabel } = require('../inject.node-babel.js')
+const { injectNodeTypescript } = require('../inject.node-typescript.js')
+const { ExpressionDependencyPlugin } = require('./plugin.expression-dependency.js')
+const { WebpackProgressPlugin } = require('../plugin.progress.js')
 
 const tempElectronDir = '.quasar/electron'
 
-module.exports = (nodeType, cfg, configName) => {
-  const { dependencies: appDeps = {} } = require(appPaths.resolve.app('package.json'))
-  const { dependencies: cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
+const { dependencies: appDeps = {} } = appPkg
+const { dependencies: cliDeps = {} } = cliPkg
 
+const externalsList = [
+  ...Object.keys(cliDeps),
+  ...Object.keys(appDeps)
+]
+
+module.exports.createNodeChain = (nodeType, cfg, configName) => {
   const chain = new WebpackChain()
   const resolveModules = [
     'node_modules',
@@ -39,13 +44,10 @@ module.exports = (nodeType, cfg, configName) => {
         : cfg.build.distDir
     )
 
-  chain.externals([
-    ...Object.keys(cliDeps),
-    ...Object.keys(appDeps)
-  ])
+  chain.externals(externalsList)
 
   chain.plugin('expression-dependency')
-    .use(ExpressionDependency)
+    .use(ExpressionDependencyPlugin)
 
   injectNodeBabel(cfg, chain)
   injectNodeTypescript(cfg, chain)

@@ -2,7 +2,7 @@
 const parseArgs = require('minimist')
 const chalk = require('chalk')
 
-const getPackageJson = require('../helpers/get-package-json.js')
+const { getPackageJson } = require('../helpers/get-package-json.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -103,11 +103,11 @@ print({ key: 'Important local packages', section: true })
 
 print({ key: 'Quasar App Extensions', section: true })
 
-const extensionJson = require('../app-extension/extension-json.js')
+const { extensionJson } = require('../app-extension/extension-json.js')
 const extensions = Object.keys(extensionJson.getList())
 
 if (extensions.length > 0) {
-  const Extension = require('../app-extension/Extension.js')
+  const { Extension } = require('../app-extension/Extension.js')
   extensions.forEach(ext => {
     const instance = new Extension(ext)
     print(safePkgInfo(instance.packageName))

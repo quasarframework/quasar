@@ -1,4 +1,4 @@
-module.exports = class BootDefaultExport {
+module.exports.BootDefaultExportPlugin = class BootDefaultExportPlugin {
   apply (compiler) {
     compiler.hooks.done.tap('boot-default-export', stats => {
       // we filter out warnings about the default export

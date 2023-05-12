@@ -2,6 +2,9 @@
 
 require('../lib/node-version-check.js')
 
+const { log, warn } = require('../lib/helpers/logger.js')
+const { cliPkg } = require('../lib/app-pkg.js')
+
 const commands = [
   'dev',
   'build',
@@ -41,15 +44,12 @@ if (cmd) {
   }
   else {
     if (cmd === '-v' || cmd === '--version') {
-      const pkg = require('../package.json')
       console.log(
-        `${ pkg.name } ${ pkg.version }`
+        `${ cliPkg.name } ${ cliPkg.version }`
         + (process.env.QUASAR_CLI_VERSION ? ` (@quasar/cli ${ process.env.QUASAR_CLI_VERSION })` : '')
       )
       process.exit(0)
     }
-
-    const { log, warn } = require('../lib/helpers/logger.js')
 
     if (cmd === '-h' || cmd === '--help') {
       cmd = 'help'

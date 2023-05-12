@@ -1,6 +1,6 @@
 const { log, warn } = require('./logger.js')
 
-module.exports = function openBrowser ({ url, opts, wait = true }) {
+module.exports.openBrowser = function openBrowser ({ url, opts, wait = true }) {
   const open = require('open')
 
   const openDefault = () => {

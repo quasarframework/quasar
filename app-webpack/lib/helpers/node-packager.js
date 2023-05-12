@@ -334,4 +334,4 @@ function getPackager () {
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
-module.exports = getPackager()
+module.exports.nodePackager = getPackager()

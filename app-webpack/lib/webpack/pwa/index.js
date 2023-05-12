@@ -1,23 +1,24 @@
+const { merge } = require('webpack-merge')
+
 const appPaths = require('../../app-paths.js')
-const PwaManifestPlugin = require('./plugin.pwa-manifest.js')
-const { plugin: HtmlPwaPlugin } = require('./plugin.html-pwa.js')
-const getPackage = require('../../helpers/get-package.js')
+const { appPkg } = require('../../app-pkg.js')
+const { log } = require('../../helpers/logger.js')
+const { PwaManifestPlugin } = require('./plugin.pwa-manifest.js')
+const { HtmlPwaPlugin } = require('./plugin.html-pwa.js')
+const { getPackage } = require('../../helpers/get-package.js')
 const WorkboxPlugin = getPackage('workbox-webpack-plugin')
 
-module.exports = function (chain, cfg) {
+module.exports.injectPwa = function injectPwa (chain, cfg) {
   // write manifest.json file
   chain.plugin('pwa-manifest')
     .use(PwaManifestPlugin, [ cfg ])
 
   let defaultOptions
   const pluginMode = cfg.pwa.workboxPluginMode
-  const { log } = require('../../helpers/logger.js')
 
   if (pluginMode === 'GenerateSW') {
-    const pkg = require(appPaths.resolve.app('package.json'))
-
     defaultOptions = {
-      cacheId: pkg.name || 'quasar-pwa-app'
+      cacheId: appPkg.name || 'quasar-pwa-app'
     }
 
     log('[GenerateSW] Will generate a service-worker file. Ignoring your custom written one.')
@@ -44,7 +45,6 @@ module.exports = function (chain, cfg) {
   if (cfg.ctx.mode.ssr) {
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
-      const { merge } = require('webpack-merge')
       opts = merge({}, opts, cfg.ssr.pwa)
     }
 

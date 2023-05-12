@@ -1,5 +1,5 @@
-const injectHtml = require('../inject.html.js')
+const { injectHtml } = require('../inject.html.js')
 
-module.exports = function (chain, cfg) {
+module.exports.injectSpa = function injectPwa (chain, cfg) {
   injectHtml(chain, cfg)
 }

@@ -4,9 +4,9 @@ const debounce = require('lodash/debounce.js')
 const { log, warn, fatal, success } = require('../helpers/logger.js')
 const { spawn } = require('../helpers/spawn.js')
 const appPaths = require('../app-paths.js')
-const nodePackager = require('../helpers/node-packager.js')
-const getPackageJson = require('../helpers/get-package-json.js')
-const getPackage = require('../helpers/get-package.js')
+const { nodePackager } = require('../helpers/node-packager.js')
+const { getPackageJson } = require('../helpers/get-package-json.js')
+const { getPackage } = require('../helpers/get-package.js')
 
 class ElectronRunner {
   constructor () {

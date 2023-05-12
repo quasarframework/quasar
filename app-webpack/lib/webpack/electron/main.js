@@ -1,7 +1,7 @@
 const appPaths = require('../../app-paths.js')
-const createNodeChain = require('./create-node-chain.js')
+const { createNodeChain } = require('./create-node-chain.js')
 
-module.exports = function (cfg, configName) {
+module.exports.injectElectronMain = function injectElectronMain (cfg, configName) {
   const chain = createNodeChain('main', cfg, configName)
 
   chain.entry('electron-main')
@@ -10,11 +10,11 @@ module.exports = function (cfg, configName) {
     ))
 
   if (cfg.ctx.prod) {
-    const ElectronPackageJson = require('./plugin.electron-package-json.js')
+    const { ElectronPackageJsonPlugin } = require('./plugin.electron-package-json.js')
 
     // write package.json file
     chain.plugin('package-json')
-      .use(ElectronPackageJson, [ cfg ])
+      .use(ElectronPackageJsonPlugin, [ cfg ])
 
     const patterns = [
       appPaths.resolve.app('.npmrc'),

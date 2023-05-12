@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge')
 const path = require('node:path')
 
 const appPaths = require('../app-paths.js')
-const cssVariables = require('../helpers/css-variables.js')
+const { cssVariables } = require('../helpers/css-variables.js')
 const quasarCssPaths = [
   path.join('node_modules', 'quasar', 'dist'),
   path.join('node_modules', 'quasar', 'src'),
@@ -173,7 +173,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   }
 }
 
-module.exports = function (chain, pref) {
+module.exports.injectStyleRules = function injectStyleRules (chain, pref) {
   injectRule(chain, pref, 'css', /\.css$/)
   injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', pref.stylusLoaderOptions)
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', merge(

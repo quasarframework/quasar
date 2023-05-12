@@ -1,6 +1,6 @@
 const { sources } = require('webpack')
 
-module.exports = class PwaManifest {
+module.exports.PwaManifestPlugin = class PwaManifestPlugin {
   constructor (cfg = {}) {
     this.manifest = JSON.stringify(cfg.pwa.manifest)
   }

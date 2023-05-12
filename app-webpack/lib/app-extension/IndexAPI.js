@@ -2,10 +2,10 @@ const semver = require('semver')
 const { merge } = require('webpack-merge')
 
 const { fatal } = require('../helpers/logger.js')
-const getPackageJson = require('../helpers/get-package-json.js')
-const getCallerPath = require('../helpers/get-caller-path.js')
-const extensionJson = require('./extension-json.js')
-const BaseAPI = require('./BaseAPI.js')
+const { getPackageJson } = require('../helpers/get-package-json.js')
+const { getCallerPath } = require('../helpers/get-caller-path.js')
+const { extensionJson } = require('./extension-json.js')
+const { BaseAPI } = require('./BaseAPI.js')
 
 // for backward compatibility
 function getPackageName (packageName) {
@@ -17,7 +17,7 @@ function getPackageName (packageName) {
 /**
  * API for extension's /index.js script
  */
-module.exports = class IndexAPI extends BaseAPI {
+module.exports.IndexAPI = class IndexAPI extends BaseAPI {
   ctx
 
   __hooks = {

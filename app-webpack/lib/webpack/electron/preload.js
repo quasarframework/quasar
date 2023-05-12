@@ -1,8 +1,8 @@
 
 const appPaths = require('../../app-paths.js')
-const createNodeChain = require('./create-node-chain.js')
+const { createNodeChain } = require('./create-node-chain.js')
 
-module.exports = function (cfg, configName) {
+module.exports.injectElectronPreload = function injectElectronPreload (cfg, configName) {
   const chain = createNodeChain('preload', cfg, configName)
 
   chain.entry('electron-preload')

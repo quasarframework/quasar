@@ -1,11 +1,12 @@
 const fse = require('fs-extra')
 
-const { log, fatal } = require('../helpers/logger.js')
-const CordovaConfig = require('./cordova-config.js')
-const { spawn } = require('../helpers/spawn.js')
-const onShutdown = require('../helpers/on-shutdown.js')
 const appPaths = require('../app-paths.js')
-const openIde = require('../helpers/open-ide.js')
+const { log, fatal } = require('../helpers/logger.js')
+const { CordovaConfig } = require('./cordova-config.js')
+const { spawn } = require('../helpers/spawn.js')
+const { onShutdown } = require('../helpers/on-shutdown.js')
+const { openIDE } = require('../helpers/open-ide.js')
+const { fixAndroidCleartext } = require('../helpers/fix-android-cleartext.js')
 
 class CordovaRunner {
   constructor () {
@@ -22,7 +23,7 @@ class CordovaRunner {
     this.target = ctx.targetName
 
     if (this.target === 'android') {
-      require('../helpers/fix-android-cleartext.js')('cordova')
+      fixAndroidCleartext('cordova')
     }
   }
 
@@ -46,7 +47,7 @@ class CordovaRunner {
         [ 'prepare', this.target ].concat(argv._)
       )
 
-      await openIde('cordova', cfg.bin, this.target, true)
+      await openIDE('cordova', cfg.bin, this.target, true)
       return
     }
 
@@ -87,7 +88,7 @@ class CordovaRunner {
     }
 
     if (argv.ide) {
-      await openIde('cordova', cfg.bin, this.target)
+      await openIDE('cordova', cfg.bin, this.target)
       process.exit(0)
     }
 

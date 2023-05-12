@@ -1,7 +1,7 @@
-const createChain = require('./create-chain.js')
+const { createChain } = require('./create-chain.js')
 const { log } = require('../helpers/logger.js')
 const { webpackNames } = require('./symbols.js')
-const extensionRunner = require('../app-extension/extensions-runner.js')
+const { extensionsRunner } = require('../app-extension/extensions-runner.js')
 
 async function getWebpackConfig (chain, cfg, {
   name,
@@ -10,7 +10,7 @@ async function getWebpackConfig (chain, cfg, {
   cmdSuffix = '',
   invokeParams
 }) {
-  await extensionRunner.runHook('chainWebpack' + hookSuffix, async hook => {
+  await extensionsRunner.runHook('chainWebpack' + hookSuffix, async hook => {
     log(`Extension(${ hook.api.extId }): Chaining "${ name }" Webpack config`)
     await hook.fn(chain, invokeParams, hook.api)
   })
@@ -22,7 +22,7 @@ async function getWebpackConfig (chain, cfg, {
 
   const webpackConfig = chain.toConfig()
 
-  await extensionRunner.runHook('extendWebpack' + hookSuffix, async hook => {
+  await extensionsRunner.runHook('extendWebpack' + hookSuffix, async hook => {
     log(`Extension(${ hook.api.extId }): Extending "${ name }" Webpack config`)
     await hook.fn(webpackConfig, invokeParams, hook.api)
   })
@@ -46,10 +46,10 @@ async function getWebpackConfig (chain, cfg, {
 }
 
 function getCSW (cfg) {
-  const createCSW = require('./pwa/create-custom-sw.js')
+  const { createCustomSw } = require('./pwa/create-custom-sw.js')
 
   // csw - custom service worker
-  return getWebpackConfig(createCSW(cfg, webpackNames.pwa.csw), cfg, {
+  return getWebpackConfig(createCustomSw(cfg, webpackNames.pwa.csw), cfg, {
     name: webpackNames.pwa.csw,
     cfgExtendBase: cfg.pwa,
     hookSuffix: 'PwaCustomSW',
@@ -59,9 +59,9 @@ function getCSW (cfg) {
 }
 
 async function getSPA (cfg) {
+  const { injectSpa } = require('./spa/index.js')
   const chain = createChain(cfg, webpackNames.spa.renderer)
-
-  require('./spa/index.js')(chain, cfg)
+  injectSpa(chain, cfg)
 
   return {
     renderer: await getWebpackConfig(chain, cfg, {
@@ -78,8 +78,11 @@ async function getPWA (cfg) {
   function getRenderer () {
     const chain = createChain(cfg, webpackNames.pwa.renderer)
 
-    require('./spa/index.js')(chain, cfg) // extending a SPA
-    require('./pwa/index.js')(chain, cfg)
+    const { injectSpa } = require('./spa/index.js')
+    injectSpa(chain, cfg) // extending a SPA
+
+    const { injectPwa } = require('./pwa/index.js')
+    injectPwa(chain, cfg)
 
     return getWebpackConfig(chain, cfg, {
       name: webpackNames.pwa.renderer,
@@ -94,9 +97,9 @@ async function getPWA (cfg) {
 }
 
 async function getCordova (cfg) {
+  const { injectCordova } = require('./cordova/index.js')
   const chain = createChain(cfg, webpackNames.cordova.renderer)
-
-  require('./cordova/index.js')(chain, cfg)
+  injectCordova(chain, cfg)
 
   return {
     renderer: await getWebpackConfig(chain, cfg, {
@@ -107,8 +110,10 @@ async function getCordova (cfg) {
 }
 
 async function getCapacitor (cfg) {
+  const { injectCapacitor } = require('./capacitor/index.js')
   const chain = createChain(cfg, webpackNames.capacitor.renderer)
-  require('./capacitor/index.js')(chain, cfg)
+
+  injectCapacitor(chain, cfg)
 
   return {
     renderer: await getWebpackConfig(chain, cfg, {
@@ -120,10 +125,15 @@ async function getCapacitor (cfg) {
 
 async function getElectron (cfg) {
   const rendererChain = createChain(cfg, webpackNames.electron.renderer)
-  const preloadChain = require('./electron/preload.js')(cfg, webpackNames.electron.preload)
-  const mainChain = require('./electron/main.js')(cfg, webpackNames.electron.main)
 
-  require('./electron/renderer.js')(rendererChain, cfg)
+  const { injectElectronPreload } = require('./electron/preload.js')
+  const preloadChain = injectElectronPreload(cfg, webpackNames.electron.preload)
+
+  const { injectElectronMain } = require('./electron/main.js')
+  const mainChain = injectElectronMain(cfg, webpackNames.electron.main)
+
+  const { injectElectronRenderer } = require('./electron/renderer.js')
+  injectElectronRenderer(rendererChain, cfg)
 
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {
@@ -148,17 +158,21 @@ async function getElectron (cfg) {
 }
 
 async function getSSR (cfg) {
+  const { injectSSRClient } = require('./ssr/client.js')
   const client = createChain(cfg, webpackNames.ssr.clientSide)
-  require('./ssr/client.js')(client, cfg)
+  injectSSRClient(client, cfg)
 
   if (cfg.ctx.mode.pwa) {
-    require('./pwa/index.js')(client, cfg) // extending a PWA
+    const { injectPwa } = require('./pwa/index.js')
+    injectPwa(client, cfg) // extending a PWA
   }
 
+  const { injectSSRServer } = require('./ssr/server.js')
   const server = createChain(cfg, webpackNames.ssr.serverSide)
-  require('./ssr/server.js')(server, cfg)
+  injectSSRServer(server, cfg)
 
-  const webserver = require('./ssr/webserver.js')(cfg, webpackNames.ssr.webserver)
+  const { createSSRWebserverChain } = require('./ssr/webserver.js')
+  const webserver = createSSRWebserverChain(cfg, webpackNames.ssr.webserver)
 
   return {
     ...(cfg.pwa.workboxPluginMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
@@ -184,11 +198,13 @@ async function getSSR (cfg) {
 }
 
 async function getBEX (cfg) {
+  const { injectBexRenderer } = require('./bex/renderer.js')
   const rendererChain = createChain(cfg, webpackNames.bex.renderer)
-  require('./bex/renderer.js')(rendererChain, cfg)
+  injectBexRenderer(rendererChain, cfg)
 
+  const { injectBexMain } = require('./bex/main.js')
   const mainChain = createChain(cfg, webpackNames.bex.main)
-  require('./bex/main.js')(mainChain, cfg)
+  injectBexMain(mainChain, cfg)
 
   return {
     renderer: await getWebpackConfig(rendererChain, cfg, {
@@ -204,28 +220,32 @@ async function getBEX (cfg) {
   }
 }
 
-module.exports = async function (cfg) {
+module.exports.createWebpackConfig = async function (cfg) {
   const mode = cfg.ctx.mode
 
   if (mode.ssr) {
     return await getSSR(cfg)
   }
-  else if (mode.electron) {
+
+  if (mode.electron) {
     return await getElectron(cfg)
   }
-  else if (mode.cordova) {
+
+  if (mode.cordova) {
     return await getCordova(cfg)
   }
-  else if (mode.capacitor) {
+
+  if (mode.capacitor) {
     return await getCapacitor(cfg)
   }
-  else if (mode.pwa) {
+
+  if (mode.pwa) {
     return await getPWA(cfg)
   }
-  else if (mode.bex) {
+
+  if (mode.bex) {
     return await getBEX(cfg)
   }
-  else {
-    return await getSPA(cfg)
-  }
+
+  return await getSPA(cfg)
 }

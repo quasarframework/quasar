@@ -1,4 +1,4 @@
-const getPackageJson = require('./get-package-json.js')
+const { getPackageJson } = require('./get-package-json.js')
 
 const urlRangePattern = /^[a-zA-Z]/
 
@@ -12,7 +12,7 @@ const urlRangePattern = /^[a-zA-Z]/
  * // { 'quasar': '2.7.1', 'whatever': 'https://some.url' }
  * ```
  */
-module.exports = function getFixedDeps (deps) {
+module.exports.getFixedDeps = function getFixedDeps (deps) {
   if (!deps) {
     return {}
   }

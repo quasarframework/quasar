@@ -22,8 +22,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { cleanAll } = require('../artifacts.js')
-cleanAll()
+const { cleanAllArtifacts } = require('../artifacts.js')
+cleanAllArtifacts()
 
 console.log()
 log('Done cleaning build artifacts\n')

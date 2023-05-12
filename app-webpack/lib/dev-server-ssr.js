@@ -12,9 +12,9 @@ const { doneExternalWork } = require('./webpack/plugin.progress.js')
 const { webpackNames } = require('./webpack/symbols.js')
 
 const appPaths = require('./app-paths.js')
-const getPackage = require('./helpers/get-package.js')
+const { getPackage } = require('./helpers/get-package.js')
 const { renderToString } = getPackage('vue/server-renderer')
-const openBrowser = require('./helpers/open-browser.js')
+const { openBrowser } = require('./helpers/open-browser.js')
 
 const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
@@ -32,7 +32,7 @@ const doubleSlashRE = /\/\//g
 
 let openedBrowser = false
 
-module.exports = class DevServer {
+module.exports.DevServer = class DevServer {
   constructor (quasarConfFile) {
     this.quasarConfFile = quasarConfFile
     this.setInitialState()

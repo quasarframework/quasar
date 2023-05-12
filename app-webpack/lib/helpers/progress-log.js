@@ -55,4 +55,4 @@ progressLog.stop = function () {
   console.error = consoleError
 }
 
-module.exports = progressLog
+module.exports.progressLog = progressLog

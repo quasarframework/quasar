@@ -3,8 +3,8 @@ const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
 const appPaths = require('../../app-paths.js')
-const parseBuildEnv = require('../../helpers/parse-build-env.js')
-const WebpackProgressPlugin = require('../plugin.progress.js')
+const { parseBuildEnv } = require('../../helpers/parse-build-env.js')
+const { WebpackProgressPlugin } = require('../plugin.progress.js')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return
@@ -20,7 +20,7 @@ function getDependenciesRegex (list) {
   return new RegExp(deps.join('|'))
 }
 
-module.exports = function (cfg, configName) {
+module.exports.createCustomSw = function createCustomSw (cfg, configName) {
   const chain = new WebpackChain()
 
   const resolveModules = [

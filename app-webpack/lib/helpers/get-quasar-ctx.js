@@ -1,4 +1,4 @@
-module.exports = function (opts) {
+module.exports.getQuasarCtx = function getQuasarCtx (opts) {
   const ctx = {
     dev: opts.dev || false,
     prod: opts.prod || false,

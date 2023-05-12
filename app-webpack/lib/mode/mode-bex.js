@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 const appPaths = require('../app-paths.js')
 const { log, warn } = require('../helpers/logger.js')
 
-class Mode {
+module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {
     return fs.existsSync(appPaths.bexDir)
   }
@@ -31,5 +31,3 @@ class Mode {
     log('Browser Extension support was removed')
   }
 }
-
-module.exports = Mode

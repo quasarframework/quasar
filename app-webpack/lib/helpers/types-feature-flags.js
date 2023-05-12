@@ -3,7 +3,7 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const { log } = require('./logger.js')
-const getMode = require('../mode/index.js')
+const { getQuasarMode } = require('../mode/index.js')
 const appPaths = require('../app-paths.js')
 
 function getStoreFlagPath (storeIndexPath) {
@@ -32,7 +32,7 @@ module.exports = function regenerateTypesFeatureFlags (quasarConf) {
           appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
         ]
       : [
-          getMode(feature).isInstalled,
+          getQuasarMode(feature).isInstalled,
           appPaths.resolve.cli(`templates/${ feature }/${ feature }-flag.d.ts`),
           appPaths.resolve[ feature ](`${ feature }-flag.d.ts`)
         ]

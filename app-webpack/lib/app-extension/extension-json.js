@@ -90,4 +90,4 @@ class ExtensionJson {
   }
 }
 
-module.exports = new ExtensionJson()
+module.exports.extensionJson = new ExtensionJson()

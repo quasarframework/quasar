@@ -1,6 +1,6 @@
 const path = require('node:path')
 
-module.exports = function getCallerPath () {
+module.exports.getCallerPath = function getCallerPath () {
   const _prepareStackTrace = Error.prepareStackTrace
   Error.prepareStackTrace = (_, stack) => stack
   const stack = new Error().stack.slice(1)

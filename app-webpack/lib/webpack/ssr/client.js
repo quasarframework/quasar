@@ -1,9 +1,9 @@
 const path = require('node:path')
 
-const injectHtml = require('../inject.html.js')
+const { injectHtml } = require('../inject.html.js')
 const { QuasarSSRClientPlugin } = require('./plugin.client-side.js')
 
-module.exports = function (chain, cfg) {
+module.exports.injectSSRClient = function injectSSRClient (chain, cfg) {
   if (cfg.ctx.prod) {
     chain.output
       .path(path.join(cfg.build.distDir, 'www'))

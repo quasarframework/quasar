@@ -1,11 +1,12 @@
 const fse = require('fs-extra')
 
 const { log, warn, fatal } = require('../helpers/logger.js')
-const CapacitorConfig = require('./capacitor-config.js')
-const { spawn, spawnSync } = require('../helpers/spawn.js')
-const onShutdown = require('../helpers/on-shutdown.js')
 const appPaths = require('../app-paths.js')
-const openIde = require('../helpers/open-ide.js')
+const { CapacitorConfig } = require('./capacitor-config.js')
+const { spawn, spawnSync } = require('../helpers/spawn.js')
+const { onShutdown } = require('../helpers/on-shutdown.js')
+const { openIDE } = require('../helpers/open-ide.js')
+const { fixAndroidCleartext } = require('../helpers/fix-android-cleartext.js')
 
 const { capBin } = require('./cap-cli.js')
 
@@ -24,7 +25,7 @@ class CapacitorRunner {
     this.target = ctx.targetName
 
     if (this.target === 'android') {
-      require('../helpers/fix-android-cleartext.js')('capacitor')
+      fixAndroidCleartext('capacitor')
     }
   }
 
@@ -45,7 +46,7 @@ class CapacitorRunner {
 
     await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
-    await openIde('capacitor', cfg.bin, this.target, true)
+    await openIDE('capacitor', cfg.bin, this.target, true)
   }
 
   async build (quasarConfFile, argv) {
@@ -60,7 +61,7 @@ class CapacitorRunner {
     }
 
     if (argv.ide === true) {
-      await openIde('capacitor', cfg.bin, this.target)
+      await openIDE('capacitor', cfg.bin, this.target)
       process.exit(0)
     }
 

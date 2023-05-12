@@ -23,7 +23,7 @@ function getModuleDirs () {
 
 const additionalModuleDirs = getModuleDirs()
 
-module.exports = function (chain, cfg) {
+module.exports.injectSSRServer = function injectSSRServer (chain, cfg) {
   chain.entry('app')
     .clear()
     .add(appPaths.resolve.app('.quasar/server-entry.js'))

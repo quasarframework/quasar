@@ -2,10 +2,11 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths.js')
+const { appPkg } = require('../app-pkg.js')
 const { log, warn, fatal } = require('../helpers/logger.js')
 const { spawnSync } = require('../helpers/spawn.js')
 
-class Mode {
+module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {
     return fs.existsSync(appPaths.cordovaDir)
   }
@@ -16,8 +17,7 @@ class Mode {
       return
     }
 
-    const pkg = require(appPaths.resolve.app('package.json'))
-    const appName = pkg.productName || pkg.name || 'Quasar App'
+    const appName = appPkg.productName || appPkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(
@@ -79,7 +79,7 @@ class Mode {
   }
 
   addPlatform (target) {
-    const ensureConsistency = require('../cordova/ensure-consistency.js')
+    const { ensureConsistency } = require('../cordova/ensure-consistency.js')
     ensureConsistency()
 
     if (this.hasPlatform(target)) {
@@ -108,5 +108,3 @@ class Mode {
     log('Cordova support was removed')
   }
 }
-
-module.exports = Mode

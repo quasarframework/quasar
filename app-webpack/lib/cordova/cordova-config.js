@@ -2,8 +2,9 @@ const fs = require('node:fs')
 const et = require('elementtree')
 
 const appPaths = require('../app-paths.js')
+const { appPkg } = require('../app-pkg.js')
 const { log, warn } = require('../helpers/logger.js')
-const ensureConsistency = require('./ensure-consistency.js')
+const { ensureConsistency } = require('./ensure-consistency.js')
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
@@ -36,35 +37,38 @@ function setFields (root, cfg) {
 }
 
 class CordovaConfig {
+  #tamperedFiles
+  #AppURL
+
   prepare (cfg) {
     ensureConsistency()
 
     const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
-    this.pkg = require(appPaths.resolve.app('package.json'))
-    this.APP_URL = cfg.build.APP_URL
-    this.tamperedFiles = []
+
+    this.#AppURL = cfg.build.APP_URL
+    this.#tamperedFiles = []
 
     const root = doc.getroot()
 
-    root.set('version', cfg.cordova.version || this.pkg.version)
+    root.set('version', cfg.cordova.version || appPkg.version)
 
     if (cfg.cordova.androidVersionCode) {
       root.set('android-versionCode', cfg.cordova.androidVersionCode)
     }
 
     setFields(root, {
-      content: { src: this.APP_URL },
-      description: cfg.cordova.description || this.pkg.description
+      content: { src: this.#AppURL },
+      description: cfg.cordova.description || appPkg.description
     })
 
-    if (this.APP_URL !== 'index.html' && !root.find(`allow-navigation[@href='${ this.APP_URL }']`)) {
-      et.SubElement(root, 'allow-navigation', { href: this.APP_URL })
+    if (this.#AppURL !== 'index.html' && !root.find(`allow-navigation[@href='${ this.#AppURL }']`)) {
+      et.SubElement(root, 'allow-navigation', { href: this.#AppURL })
 
       if (cfg.devServer.server.type === 'https' && cfg.ctx.targetName === 'ios') {
         const node = root.find('name')
         if (node) {
-          this.__prepareAppDelegate(node)
-          this.__prepareWkWebEngine(node)
+          this.#prepareAppDelegate(node)
+          this.#prepareWkWebEngine(node)
         }
       }
     }
@@ -74,11 +78,11 @@ class CordovaConfig {
       et.SubElement(root, 'allow-navigation', { href: 'about:*' })
     }
 
-    this.__save(doc)
+    this.#save(doc)
   }
 
   reset () {
-    if (!this.APP_URL || this.APP_URL === 'index.html') {
+    if (!this.#AppURL || this.#AppURL === 'index.html') {
       return
     }
 
@@ -87,32 +91,32 @@ class CordovaConfig {
 
     root.find('content').set('src', 'index.html')
 
-    const nav = root.find(`allow-navigation[@href='${ this.APP_URL }']`)
+    const nav = root.find(`allow-navigation[@href='${ this.#AppURL }']`)
     if (nav) {
       root.remove(nav)
     }
 
-    this.tamperedFiles.forEach(file => {
+    this.#tamperedFiles.forEach(file => {
       file.content = file.originalContent
     })
 
-    this.__save(doc)
+    this.#save(doc)
 
-    this.tamperedFiles = []
+    this.#tamperedFiles = []
   }
 
-  __save (doc) {
+  #save (doc) {
     const content = doc.write({ indent: 4 })
     fs.writeFileSync(filePath, content, 'utf8')
     log('Updated Cordova config.xml')
 
-    this.tamperedFiles.forEach(file => {
+    this.#tamperedFiles.forEach(file => {
       fs.writeFileSync(file.path, file.content, 'utf8')
       log(`Updated ${ file.name }`)
     })
   }
 
-  __prepareAppDelegate (node) {
+  #prepareAppDelegate (node) {
     const appDelegatePath = appPaths.resolve.cordova(
       `platforms/ios/${ node.text }/Classes/AppDelegate.m`
     )
@@ -149,12 +153,12 @@ return YES;
 }
 @end
 `
-        this.tamperedFiles.push(tamperedFile)
+        this.#tamperedFiles.push(tamperedFile)
       }
     }
   }
 
-  __prepareWkWebEngine (node) {
+  #prepareWkWebEngine (node) {
     [
       'cordova-plugin-ionic-webview',
       'cordova-plugin-wkwebview-engine'
@@ -187,11 +191,11 @@ return YES;
   }
   ` + tamperedFile.originalContent.substring(insertIndex)
 
-          this.tamperedFiles.push(tamperedFile)
+          this.#tamperedFiles.push(tamperedFile)
         }
       }
     })
   }
 }
 
-module.exports = CordovaConfig
+module.exports.CordovaConfig = CordovaConfig

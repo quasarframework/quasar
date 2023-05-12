@@ -5,12 +5,16 @@ const compileTemplate = require('lodash/template.js')
 const appPaths = require('./app-paths.js')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
-class Generator {
+module.exports.Generator = class Generator {
+  #alreadyGenerated
+  #quasarConfFile
+  #files
+
   constructor (quasarConfFile) {
     const { ctx } = quasarConfFile.quasarConf
 
-    this.alreadyGenerated = false
-    this.quasarConfFile = quasarConfFile
+    this.#alreadyGenerated = false
+    this.#quasarConfFile = quasarConfFile
 
     const paths = [
       'app.js',
@@ -33,7 +37,7 @@ class Generator {
       }
     }
 
-    this.files = paths.map(file => {
+    this.#files = paths.map(file => {
       const content = fs.readFileSync(
         appPaths.resolve.cli(`templates/entry/${ file }`),
         'utf-8'
@@ -50,7 +54,7 @@ class Generator {
   }
 
   build () {
-    const data = this.quasarConfFile.quasarConf
+    const data = this.#quasarConfFile.quasarConf
 
     // ensure .quasar folder
     if (!fs.existsSync(quasarFolder)) {
@@ -62,20 +66,18 @@ class Generator {
       fs.mkdirSync(quasarFolder)
     }
 
-    this.files.forEach(file => {
+    this.#files.forEach(file => {
       fs.writeFileSync(file.dest, file.template(data), 'utf-8')
     })
 
-    if (!this.alreadyGenerated) {
+    if (!this.#alreadyGenerated) {
       const then = Date.now() / 1000 - 120
 
-      this.files.forEach(file => {
+      this.#files.forEach(file => {
         fs.utimes(file.dest, then, then, function (err) { if (err) throw err })
       })
 
-      this.alreadyGenerated = true
+      this.#alreadyGenerated = true
     }
   }
 }
-
-module.exports = Generator

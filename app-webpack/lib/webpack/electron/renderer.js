@@ -1,6 +1,6 @@
-const injectHtml = require('../inject.html.js')
+const { injectHtml } = require('../inject.html.js')
 
-module.exports = function (chain, cfg) {
+module.exports.injectElectronRenderer = function injectElectronRenderer (chain, cfg) {
   injectHtml(chain, cfg)
 
   if (cfg.ctx.build) {

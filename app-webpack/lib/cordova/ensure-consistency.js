@@ -35,7 +35,7 @@ function ensureDeps () {
   )
 }
 
-module.exports = function () {
+module.exports.ensureConsistency = function ensureConsistency () {
   ensureWWW()
   ensureDeps()
 }
