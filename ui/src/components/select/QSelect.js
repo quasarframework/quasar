@@ -724,7 +724,11 @@ export default createComponent({
         return
       }
 
-      if (e.target === void 0 || e.target.id !== state.targetUid.value) { return }
+      if (
+        e.target === void 0
+        || e.target.id !== state.targetUid.value
+        || state.editable.value !== true
+      ) { return }
 
       // down
       if (
