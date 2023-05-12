@@ -82,15 +82,7 @@ async function inspect () {
 
   const quasarConfFile = new QuasarConfigFile(ctx)
 
-  try {
-    await quasarConfFile.prepare()
-  }
-  catch (e) {
-    console.log(e)
-    fatal('quasar.config file has JS errors', 'FAIL')
-  }
-
-  await quasarConfFile.compile()
+  await quasarConfFile.prepare()
 
   const util = require('node:util')
   const cfgEntries = splitWebpackConfig(quasarConfFile.webpackConf, argv.mode)

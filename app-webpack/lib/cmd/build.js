@@ -174,19 +174,10 @@ async function build () {
 
   const quasarConfFile = new QuasarConfigFile(ctx, argv)
 
-  try {
-    await quasarConfFile.prepare()
-  }
-  catch (e) {
-    console.error(e)
-    fatal('quasar.config file has JS errors', 'FAIL')
-  }
-
-  await quasarConfFile.compile()
+  await quasarConfFile.prepare()
 
   const generator = new Generator(quasarConfFile)
-  const quasarConf = quasarConfFile.quasarConf
-  const webpackConf = quasarConfFile.webpackConf
+  const { quasarConf, webpackConf } = quasarConfFile
 
   regenerateTypesFeatureFlags(quasarConf)
 

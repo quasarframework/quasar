@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const { log, warn, fatal } = require('../helpers/logger.js')
+const { log, warn } = require('../helpers/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -203,26 +203,18 @@ async function goLive () {
     host: argv.hostname,
     onAddress: parseAddress,
     onBuildChange () {
-      log('Rebuilding app...')
+      log('Rebuilding app due to quasar.config file changes...')
       dev = dev.then(startDev)
     },
     onAppChange () {
-      log('Updating app...')
+      log('Regenerating entry files due to quasar.config changes...')
       generator.build()
     }
   })
 
-  try {
-    await quasarConfFile.prepare()
-  }
-  catch (e) {
-    console.log(e)
-    fatal('quasar.config file has JS errors', 'FAIL')
-  }
+  await quasarConfFile.prepare()
 
-  await quasarConfFile.compile()
-
-  const quasarConf = quasarConfFile.quasarConf
+  const { quasarConf } = quasarConfFile
 
   regenerateTypesFeatureFlags(quasarConf)
 

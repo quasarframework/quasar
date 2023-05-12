@@ -2,10 +2,9 @@ const path = require('node:path')
 const { existsSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
-const chokidar = require('chokidar')
-const debounce = require('lodash/debounce.js')
 const { green } = require('chalk')
-const { build: esBuild } = require('esbuild')
+const { build: esBuild, context: esContextBuild } = require('esbuild')
+const debounce = require('lodash/debounce.js')
 
 const appPaths = require('./app-paths.js')
 const { appPkg, quasarPkg } = require('./app-pkg.js')
@@ -98,11 +97,6 @@ function uniqueRegexFilter (value, index, self) {
   return self.map(regex => regex.toString()).indexOf(value.toString()) === index
 }
 
-/*
- * this.quasarConf          - Compiled Object from quasar.config file
- * this.webpackConf         - Webpack config(s)
- */
-
 module.exports.QuasarConfigFile = class QuasarConfigFile {
   ctx
   opts
@@ -110,93 +104,149 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
   webpackConf
 
   #watch
+  #configSnapshot
+  #webpackConfChanged
 
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
-
     this.#watch = opts.onBuildChange || opts.onAppChange
-
-    if (this.#watch) {
-      // Start watching for quasar.config file changes
-      chokidar
-        .watch(appPaths.quasarConfigFilename, { ignoreInitial: true })
-        .on('change', debounce(async () => {
-          console.log()
-          log('quasar.config file changed')
-
-          const result = await this.reboot()
-
-          if (result !== false) {
-            if (this.webpackConfChanged === true) {
-              opts.onBuildChange()
-            }
-            else {
-              opts.onAppChange()
-            }
-          }
-        }, 1000))
-    }
-  }
-
-  async #getQuasarConfigFn () {
-    if (existsSync(appPaths.quasarConfigFilename)) {
-      const tempFile = `${ appPaths.quasarConfigFilename }.${ Date.now() }.cjs`
-
-      const cleanup = deleteCache => {
-        removeSync(tempFile)
-
-        if (deleteCache === true) {
-          delete require.cache[ tempFile ]
-        }
-      }
-
-      try {
-        await esBuild({
-          platform: 'node',
-          format: 'cjs',
-          bundle: true,
-          packages: 'external',
-          entryPoints: [ appPaths.quasarConfigFilename ],
-          outfile: tempFile
-        })
-
-        const result = require(tempFile)
-
-        cleanup(true)
-        return result.default || result
-      }
-      catch (e) {
-        cleanup()
-        console.error(e)
-        return { error: 'Could not compile quasar.config file because it has errors' }
-      }
-    }
-
-    fatal('Could not load quasar.config file', 'FAIL')
-  }
-
-  async reboot () {
-    try {
-      await this.prepare()
-    }
-    catch (e) {
-      if (e.message !== 'NETWORK_ERROR') {
-        console.error(e)
-        warn('quasar.config file has JS errors. Please fix them then save file again.\n')
-      }
-
-      return false
-    }
-
-    await this.compile()
   }
 
   async prepare () {
-    const quasarConfigFn = await this.#getQuasarConfigFn()
+    const tempFile = `${ appPaths.quasarConfigFilename }.${ Date.now() }.cjs`
+    const esbuildConfig = {
+      platform: 'node',
+      format: 'cjs',
+      bundle: true,
+      packages: 'external',
+      entryPoints: [ appPaths.quasarConfigFilename ],
+      outfile: tempFile,
+      plugins: []
+    }
 
-    if (quasarConfigFn.error !== void 0) {
-      return quasarConfigFn
+    if (this.#watch) {
+      let firstBuildIsDone
+
+      esbuildConfig.plugins.push({
+        name: 'quasar:watcher',
+        setup: build => {
+          let isFirst = true
+          let updateFn
+
+          const scheduleUpdate = debounce(() => {
+            this.opts[ updateFn ]()
+            updateFn = null
+          }, 1000)
+
+          build.onStart(() => {
+            if (isFirst === false) {
+              log('The quasar.config file changed. Reading it and applying the changes...')
+            }
+          })
+
+          build.onEnd(async result => {
+            delete require.cache[ tempFile ]
+
+            if (result.errors.length !== 0) {
+              removeSync(tempFile)
+
+              if (isFirst === true) {
+                fatal('Could not compile quasar.config file because it has errors', 'FAIL')
+              }
+
+              warn('Could not compile quasar.config file because it has errors. Please fix them then save the file again.\n')
+              return
+            }
+
+            let quasarConfigFn
+
+            try {
+              const result = require(tempFile)
+              quasarConfigFn = result.default || result
+            }
+            catch (e) {
+              removeSync(tempFile)
+              console.log()
+              console.error(e)
+
+              if (isFirst === true) {
+                fatal('Importing quasar.config file results in error', 'FAIL')
+              }
+
+              warn('Importing quasar.config file results in error. Please review the file then save it again.\n')
+              return
+            }
+
+            removeSync(tempFile)
+            delete require.cache[ tempFile ]
+
+            const hasComputed = await this.#computeConfig(quasarConfigFn, isFirst)
+
+            if (isFirst === true) {
+              isFirst = false
+              firstBuildIsDone()
+              return
+            }
+
+            if (hasComputed === true) {
+              // if triggering updates too fast, then remember
+              // if any of them required the rebuild
+              updateFn = updateFn === 'onBuildChange' || this.#webpackConfChanged === true
+                ? 'onBuildChange'
+                : 'onAppChange'
+
+              log('Planning to apply quasar.config changes in 1s')
+
+              scheduleUpdate()
+            }
+          })
+        }
+      })
+
+      const esbuildCtx = await esContextBuild(esbuildConfig)
+      await esbuildCtx.watch()
+
+      return new Promise(res => { // eslint-disable-line promise/param-names
+        firstBuildIsDone = res
+      })
+    }
+
+    try {
+      await esBuild(esbuildConfig)
+    }
+    catch (e) {
+      removeSync(tempFile)
+      console.log()
+      console.error(e)
+      fatal('Could not compile quasar.config file because it has errors', 'FAIL')
+    }
+
+    let fnResult
+    try {
+      fnResult = require(tempFile)
+    }
+    catch (e) {
+      removeSync(tempFile)
+      console.log()
+      console.error(e)
+      fatal('The quasar.config file has runtime errors', 'FAIL')
+    }
+
+    removeSync(tempFile)
+
+    const quasarConfigFn = fnResult.default || fnResult
+    await this.#computeConfig(quasarConfigFn, true)
+  }
+
+  async #computeConfig (quasarConfigFn, failOnError) {
+    if (typeof quasarConfigFn !== 'function') {
+      if (failOnError === true) {
+        fatal('The default export value of the quasar.config file is not a function', 'FAIL')
+      }
+
+      warn('The default export value of the quasar.config file is not a function. Please fix it then save the file again.\n')
+      return false
     }
 
     let userCfg
@@ -206,7 +256,22 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
     catch (e) {
       console.error(e)
-      return { error: 'quasar.config file has runtime errors' }
+
+      if (failOnError === true) {
+        fatal('The quasar.config file has runtime errors', 'FAIL')
+      }
+
+      warn('The quasar.config file has runtime errors. Please fix them then save the file again.\n')
+      return false
+    }
+
+    if (Object(userCfg) !== userCfg) {
+      if (failOnError === true) {
+        fatal('The quasar.config file does not default exports an Object', 'FAIL')
+      }
+
+      warn('The quasar.config file does not default exports an Object. Please fix it then save the file again.\n')
+      return false
     }
 
     const cfg = merge({
@@ -339,12 +404,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
     }
 
-    this.sourceCfg = cfg
-  }
-
-  async compile () {
-    const cfg = this.sourceCfg
-
     await extensionsRunner.runHook('extendQuasarConf', async hook => {
       log(`Extension(${ hook.api.extId }): Extending quasar.config file...`)
       await hook.fn(cfg, hook.api)
@@ -364,11 +423,11 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         cfg.htmlVariables ? encode(cfg.htmlVariables) : ''
       ].join('')
 
-      if (this.oldConfigSnapshot) {
-        this.webpackConfChanged = newConfigSnapshot !== this.oldConfigSnapshot
+      if (this.#configSnapshot) {
+        this.#webpackConfChanged = newConfigSnapshot !== this.#configSnapshot
       }
 
-      this.oldConfigSnapshot = newConfigSnapshot
+      this.#configSnapshot = newConfigSnapshot
     }
 
     // make sure these exist
@@ -1021,8 +1080,10 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     this.quasarConf = cfg
 
-    if (this.webpackConfChanged !== false) {
+    if (this.#webpackConfChanged !== false) {
       this.webpackConf = await createWebpackConfig(cfg)
     }
+
+    return true
   }
 }
