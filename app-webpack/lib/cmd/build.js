@@ -179,7 +179,7 @@ async function build () {
   }
   catch (e) {
     console.error(e)
-    fatal('quasar.config.js has JS errors', 'FAIL')
+    fatal('quasar.config file has JS errors', 'FAIL')
   }
 
   await quasarConfFile.compile()
@@ -211,7 +211,7 @@ async function build () {
 
   // using quasarConfFile.ctx instead of argv.mode
   // because SSR might also have PWA enabled but we
-  // can only know it after parsing the quasar.config.js file
+  // can only know it after parsing the quasar.config file
   if (quasarConfFile.ctx.mode.pwa === true) {
     // need to build the custom service worker before renderer
     const Runner = require('../pwa/index.js')

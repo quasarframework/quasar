@@ -60,7 +60,7 @@ function parseVitePlugins (entries) {
     }
 
     if (typeof name !== 'string') {
-      warn('quasar.config.js > invalid Vite plugin specified: ' + name)
+      warn('quasar.config file > invalid Vite plugin specified: ' + name)
       warn('Correct form: [ \'my-vite-plugin-name\', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]')
       return
     }
@@ -68,7 +68,7 @@ function parseVitePlugins (entries) {
     const plugin = getPackage(name)
 
     if (!plugin) {
-      warn('quasar.config.js > invalid Vite plugin specified (cannot find it): ' + name)
+      warn('quasar.config file > invalid Vite plugin specified (cannot find it): ' + name)
       return
     }
 
@@ -81,7 +81,7 @@ function parseVitePlugins (entries) {
   })
 
   if (showTip === true) {
-    tip('If you want changes to quasar.config.js > build > vitePlugins to be picked up, specify them in this form: [ [ \'plugin-name\', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]')
+    tip('If you want changes to quasar.config file > build > vitePlugins to be picked up, specify them in this form: [ [ \'plugin-name\', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]')
   }
 
   return acc

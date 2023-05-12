@@ -3,7 +3,7 @@
 /*
  * This file (which will be your service worker)
  * is picked up by the build system ONLY if
- * quasar.config.js > pwa > workboxMode is set to "injectManifest"
+ * quasar.config file > pwa > workboxMode is set to "injectManifest"
  */
 
 import { clientsClaim } from 'workbox-core'

@@ -187,12 +187,12 @@ const mapping = {
   boot: {
     folder: 'src/boot',
     ext: isTypeScript ? '.ts' : '.js',
-    reference: 'quasar.config.js > boot'
+    reference: 'quasar.config file > boot'
   },
   ssrmiddleware: {
     folder: 'src-ssr/middlewares',
     ext: isTypeScript ? '.ts' : '.js',
-    reference: 'quasar.config.js > ssr > middlewares'
+    reference: 'quasar.config file > ssr > middlewares'
   }
 }
 

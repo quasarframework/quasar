@@ -22,7 +22,7 @@ interface SsrMiddlewareServe {
    * It's essentially a wrapper over express.static() with a few convenient tweaks:
    * - the pathFromPublicFolder is a path resolved to the "public" folder out of the box
    * - the opts are the same as for express.static()
-   * - opts.maxAge is used by default, taking into account the quasar.config.js > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
+   * - opts.maxAge is used by default, taking into account the quasar.config file > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
    */
   static(
     path: string,
@@ -44,7 +44,7 @@ interface SsrMiddlewareFolders {
 
 interface SsrMiddlewareResolve {
   /**
-   * Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the resolve.urlPath() method so that you'll also keep into account the configured publicPath (quasar.config.js > build > publicPath).
+   * Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the resolve.urlPath() method so that you'll also keep into account the configured publicPath (quasar.config file > build > publicPath).
    */
   urlPath(url: string): string;
   /**

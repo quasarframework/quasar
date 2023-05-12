@@ -87,7 +87,7 @@ async function inspect () {
   }
   catch (e) {
     console.log(e)
-    fatal('quasar.config.js has JS errors', 'FAIL')
+    fatal('quasar.config file has JS errors', 'FAIL')
   }
 
   await quasarConfFile.compile()

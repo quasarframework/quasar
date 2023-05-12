@@ -1,7 +1,7 @@
 /*
  * This file (which will be your service worker)
  * is picked up by the build system ONLY if
- * quasar.config.js > pwa > workboxPluginMode is set to "InjectManifest"
+ * quasar.config file > pwa > workboxPluginMode is set to "InjectManifest"
  */
 
 declare const self: ServiceWorkerGlobalScope & typeof globalThis;
