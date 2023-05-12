@@ -1,6 +1,6 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
 import path from 'node:path';
-import os from 'os';
+import os from 'node:os';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
