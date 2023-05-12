@@ -28,7 +28,7 @@ The web server requires no special setup (unless you built with Vue Router in "h
 
 An example config for nginx may look like this:
 
-```
+```nginx
 server {
     listen 80 http2;
     server_name quasar.myapp.com;
