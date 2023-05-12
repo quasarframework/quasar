@@ -103,7 +103,7 @@ console.log(
 const banner = require('../helpers/banner-global.js')
 banner(argv, 'build')
 
-const { log, fatal } = require('../helpers/logger.js')
+const { log } = require('../helpers/logger.js')
 
 async function build () {
   // install mode if it's missing
@@ -125,7 +125,7 @@ async function build () {
   const extensionRunner = require('../app-extension/extensions-runner.js')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../quasar-config-file.js')
+  const { QuasarConfFile } = require('../quasar-config-file.js')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
@@ -133,9 +133,6 @@ async function build () {
   })
 
   const quasarConf = await quasarConfFile.read()
-  if (quasarConf.error !== void 0) {
-    fatal(quasarConf.error, 'FAIL')
-  }
 
   const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags.js')
   regenerateTypesFeatureFlags(quasarConf)

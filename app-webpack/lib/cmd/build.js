@@ -174,10 +174,9 @@ async function build () {
 
   const quasarConfFile = new QuasarConfigFile(ctx, argv)
 
-  await quasarConfFile.prepare()
+  const { quasarConf, webpackConf } = await quasarConfFile.read()
 
   const generator = new Generator(quasarConfFile)
-  const { quasarConf, webpackConf } = quasarConfFile
 
   regenerateTypesFeatureFlags(quasarConf)
 

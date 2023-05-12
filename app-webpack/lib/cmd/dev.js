@@ -202,19 +202,19 @@ async function goLive () {
     port: argv.port,
     host: argv.hostname,
     onAddress: parseAddress,
-    onBuildChange () {
-      log('Rebuilding app due to quasar.config file changes...')
-      dev = dev.then(startDev)
-    },
-    onAppChange () {
-      log('Regenerating entry files due to quasar.config changes...')
-      generator.build()
+    watch: {
+      onBuildChange () {
+        log('Rebuilding app due to quasar.config file changes...')
+        dev = dev.then(startDev)
+      },
+      onAppChange () {
+        log('Regenerating entry files due to quasar.config changes...')
+        generator.build()
+      }
     }
   })
 
-  await quasarConfFile.prepare()
-
-  const { quasarConf } = quasarConfFile
+  const { quasarConf } = await quasarConfFile.read()
 
   regenerateTypesFeatureFlags(quasarConf)
 
@@ -280,6 +280,8 @@ async function goLive () {
       log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
       await hook.fn(hook.api, { quasarConf })
     })
+
+    quasarConfFile.watch()
 
     return payload
   })

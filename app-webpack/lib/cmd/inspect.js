@@ -82,10 +82,10 @@ async function inspect () {
 
   const quasarConfFile = new QuasarConfigFile(ctx)
 
-  await quasarConfFile.prepare()
+  const { webpackConf } = await quasarConfFile.read()
 
   const util = require('node:util')
-  const cfgEntries = splitWebpackConfig(quasarConfFile.webpackConf, argv.mode)
+  const cfgEntries = splitWebpackConfig(webpackConf, argv.mode)
 
   if (argv.path) {
     const dot = require('dot-prop')

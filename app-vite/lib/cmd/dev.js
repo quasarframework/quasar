@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const { log, fatal } = require('../helpers/logger.js')
+const { log } = require('../helpers/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -132,17 +132,18 @@ async function goLive () {
   const extensionRunner = require('../app-extension/extensions-runner.js')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../quasar-config-file.js')
+  const { QuasarConfFile } = require('../quasar-config-file.js')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
-    host: argv.hostname
+    host: argv.hostname,
+    watch: quasarConf => {
+      log('Applying quasar.config file changes...')
+      devServer.run(quasarConf)
+    }
   })
 
   const quasarConf = await quasarConfFile.read()
-  if (quasarConf.error !== void 0) {
-    fatal(quasarConf.error, 'FAIL')
-  }
 
   const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags.js')
   regenerateTypesFeatureFlags(quasarConf)
@@ -164,20 +165,18 @@ async function goLive () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  devServer.run(quasarConf)
-    .then(async () => {
-      if (typeof quasarConf.build.afterDev === 'function') {
-        await quasarConf.build.afterDev({ quasarConf })
-      }
-      // run possible afterDev hooks
-      await extensionRunner.runHook('afterDev', async hook => {
-        log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
-        await hook.fn(hook.api, { quasarConf })
-      })
+  devServer.run(quasarConf).then(async () => {
+    if (typeof quasarConf.build.afterDev === 'function') {
+      await quasarConf.build.afterDev({ quasarConf })
+    }
+
+    // run possible afterDev hooks
+    await extensionRunner.runHook('afterDev', async hook => {
+      log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
+      await hook.fn(hook.api, { quasarConf })
     })
 
-  quasarConfFile.watch(quasarConf => {
-    devServer.run(quasarConf)
+    quasarConfFile.watch()
   })
 }
 

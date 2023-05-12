@@ -72,7 +72,7 @@ async function inspect () {
   const extensionRunner = require('../app-extension/extensions-runner.js')
   await extensionRunner.registerExtensions(ctx)
 
-  const QuasarConfFile = require('../quasar-config-file.js')
+  const { QuasarConfFile } = require('../quasar-config-file.js')
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
@@ -80,9 +80,6 @@ async function inspect () {
   })
 
   const quasarConf = await quasarConfFile.read()
-  if (quasarConf.error !== void 0) {
-    fatal(quasarConf.error, 'FAIL')
-  }
 
   const generateConfig = require(`../modes/${ argv.mode }/${ argv.mode }-config.js`)
 
