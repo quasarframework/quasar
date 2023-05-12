@@ -126,7 +126,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 :::
 
 ::: tip
-Fixed table header or column is implemented by CSS, so please pay attention to the code in the "style" section in the following examples, especially the `position: sticky` property.
+Pay attention to the code in the "style" section in the following examples, especially around `position: sticky`.
 :::
 
 <doc-example title="Sticky header" file="StickyHeader" />
