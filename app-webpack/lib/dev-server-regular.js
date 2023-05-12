@@ -3,6 +3,7 @@ const WebpackDevServer = require('webpack-dev-server')
 
 const { openBrowser } = require('./helpers/open-browser.js')
 
+let appUrl
 let openedBrowser = false
 
 module.exports.DevServer = class DevServer {
@@ -30,11 +31,12 @@ module.exports.DevServer = class DevServer {
 
         resolve()
 
-        if (openedBrowser === false) {
+        if (openedBrowser === false || appUrl !== cfg.build.APP_URL) {
+          appUrl = cfg.build.APP_URL
           openedBrowser = true
 
           if (cfg.__devServer.open && [ 'spa', 'pwa' ].includes(cfg.ctx.modeName)) {
-            openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+            openBrowser({ url: appUrl, opts: cfg.__devServer.openOptions })
           }
         }
       })

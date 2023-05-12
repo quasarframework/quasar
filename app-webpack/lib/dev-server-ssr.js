@@ -30,6 +30,7 @@ const renderError = ({ err, req, res }) => {
 
 const doubleSlashRE = /\/\//g
 
+let appUrl
 let openedBrowser = false
 
 module.exports.DevServer = class DevServer {
@@ -87,11 +88,12 @@ module.exports.DevServer = class DevServer {
       if (serverManifest && clientManifest && webpackServerListening === true) {
         tryToFinalize = () => {}
 
-        if (openedBrowser === false) {
+        if (openedBrowser === false || appUrl !== cfg.build.APP_URL) {
+          appUrl = cfg.build.APP_URL
           openedBrowser = true
 
           if (cfg.__devServer.open) {
-            openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
+            openBrowser({ url: appUrl, opts: cfg.__devServer.openOptions })
           }
         }
       }
