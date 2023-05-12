@@ -125,11 +125,19 @@ You can omit specifying the `columns`. QTable will infer the columns from the pr
 Sticky headers and columns are achieved through CSS with `position: sticky`. This is NOT supported on all browsers. Check [caniuse.com](https://caniuse.com/#search=sticky) before using this technique.
 :::
 
+::: tip
+Pay attention to the code in the "style" section in the following examples, especially around `position: sticky`.
+:::
+
 <doc-example title="Sticky header" file="StickyHeader" />
 
-<doc-example title="Sticky column" file="StickyColumn" />
+<doc-example title="Sticky fist column" file="StickyColumn" />
+
+<doc-example title="Sticky last column" file="StickyLastColumn" />
 
 <doc-example title="Sticky header and column" file="StickyHeaderAndColumn" />
+
+<doc-example title="Sticky header and last column" file="StickyHeaderAndLastColumn" />
 
 ## Separators
 
