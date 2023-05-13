@@ -11,9 +11,15 @@ const { fixAndroidCleartext } = require('../utils/fix-android-cleartext.js')
 const { capBin } = require('./cap-cli.js')
 
 class CapacitorRunner {
+  #pid
+  #capacitorConfig
+  #url
+  #ctx
+  #target
+
   constructor () {
-    this.pid = 0
-    this.capacitorConfig = new CapacitorConfig()
+    this.#pid = 0
+    this.#capacitorConfig = new CapacitorConfig()
 
     onShutdown(() => {
       this.stop()
@@ -21,10 +27,10 @@ class CapacitorRunner {
   }
 
   init (ctx) {
-    this.ctx = ctx
-    this.target = ctx.targetName
+    this.#ctx = ctx
+    this.#target = ctx.targetName
 
-    if (this.target === 'android') {
+    if (this.#target === 'android') {
       fixAndroidCleartext('capacitor')
     }
   }
@@ -33,48 +39,48 @@ class CapacitorRunner {
     const cfg = quasarConfFile.quasarConf
     const url = cfg.build.APP_URL
 
-    if (this.url === url) {
+    if (this.#url === url) {
       return
     }
 
-    if (this.pid) {
+    if (this.#pid) {
       this.stop()
     }
 
-    this.url = url
-    this.capacitorConfig.prepare(cfg, this.target)
+    this.#url = url
+    this.#capacitorConfig.prepare(cfg, this.#target)
 
-    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
+    await this.#runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
-    await openIDE('capacitor', cfg.bin, this.target, true)
+    await openIDE('capacitor', cfg.bin, this.#target, true)
   }
 
   async build (quasarConfFile, argv) {
     const cfg = quasarConfFile.quasarConf
 
-    this.capacitorConfig.prepare(cfg, this.target)
+    this.#capacitorConfig.prepare(cfg, this.#target)
 
-    await this.__runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
+    await this.#runCapacitorCommand(cfg.capacitor.capacitorCliPreparationParams)
 
     if (argv[ 'skip-pkg' ] === true) {
       return
     }
 
     if (argv.ide === true) {
-      await openIDE('capacitor', cfg.bin, this.target)
+      await openIDE('capacitor', cfg.bin, this.#target)
       process.exit(0)
     }
 
-    if (this.target === 'ios') {
-      await this.__buildIos(argv, cfg)
+    if (this.#target === 'ios') {
+      await this.#buildIos(argv, cfg)
     }
     else {
-      await this.__buildAndroid(argv, cfg)
+      await this.#buildAndroid(argv, cfg)
     }
   }
 
-  async __buildIos (argv, cfg) {
-    const buildType = this.ctx.debug ? 'debug' : 'release'
+  async #buildIos (argv, cfg) {
+    const buildType = this.#ctx.debug ? 'debug' : 'release'
     const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${ buildType } -derivedDataPath`
 
     log('Building iOS app...')
@@ -97,7 +103,7 @@ class CapacitorRunner {
     )
   }
 
-  async __buildAndroid (argv, cfg) {
+  async #buildAndroid (argv, cfg) {
     const buildPath = appPaths.resolve.capacitor(
       'android/app/build/outputs'
     )
@@ -109,7 +115,7 @@ class CapacitorRunner {
 
     await spawnSync(
       `./gradlew${ process.platform === 'win32' ? '.bat' : '' }`,
-      [ `assemble${ this.ctx.debug ? 'Debug' : 'Release' }` ].concat(argv._),
+      [ `assemble${ this.#ctx.debug ? 'Debug' : 'Release' }` ].concat(argv._),
       { cwd: appPaths.resolve.capacitor('android') },
       () => {
         warn()
@@ -123,21 +129,21 @@ class CapacitorRunner {
   }
 
   stop () {
-    if (!this.pid) { return }
+    if (!this.#pid) { return }
 
     log('Shutting down Capacitor process...')
-    process.kill(this.pid)
-    this.__cleanup()
+    process.kill(this.#pid)
+    this.#cleanup()
   }
 
-  __runCapacitorCommand (args) {
+  #runCapacitorCommand (args) {
     return new Promise(resolve => {
-      this.pid = spawn(
+      this.#pid = spawn(
         capBin,
         args,
         { cwd: appPaths.capacitorDir },
         code => {
-          this.__cleanup()
+          this.#cleanup()
 
           if (code) {
             fatal('Capacitor CLI has failed', 'FAIL')
@@ -149,9 +155,9 @@ class CapacitorRunner {
     })
   }
 
-  __cleanup () {
-    this.pid = 0
-    this.capacitorConfig.reset()
+  #cleanup () {
+    this.#pid = 0
+    this.#capacitorConfig.reset()
   }
 }
 

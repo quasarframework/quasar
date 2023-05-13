@@ -1,8 +1,10 @@
 const webpack = require('webpack')
 
 class PwaRunner {
+  #cswWatcher
+
   constructor () {
-    this.cswWatcher = null
+    this.#cswWatcher = null
   }
 
   init () {}
@@ -15,7 +17,7 @@ class PwaRunner {
   }
 
   async run (quasarConfFile) {
-    if (this.cswWatcher) {
+    if (this.#cswWatcher) {
       await this.stop()
     }
 
@@ -26,7 +28,7 @@ class PwaRunner {
     const cswCompiler = webpack(quasarConfFile.webpackConf.csw)
 
     return new Promise(resolve => {
-      this.cswWatcher = cswCompiler.watch({}, async (err, stats) => {
+      this.#cswWatcher = cswCompiler.watch({}, async (err, stats) => {
         if (err) {
           console.log(err)
           return
@@ -64,10 +66,10 @@ class PwaRunner {
   }
 
   stop () {
-    if (this.cswWatcher) {
+    if (this.#cswWatcher) {
       return new Promise(resolve => {
-        this.cswWatcher.close(resolve)
-        this.cswWatcher = null
+        this.#cswWatcher.close(resolve)
+        this.#cswWatcher = null
       })
     }
   }

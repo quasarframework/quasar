@@ -1,8 +1,10 @@
 const webpack = require('webpack')
 
 class BexRunner {
+  #watcher
+
   constructor () {
-    this.watcher = null
+    this.#watcher = null
   }
 
   init () {}
@@ -13,7 +15,7 @@ class BexRunner {
     const compiler = webpack(quasarConfFile.webpackConf.main)
 
     return new Promise(resolve => {
-      this.watcher = compiler.watch({}, (err, stats) => {
+      this.#watcher = compiler.watch({}, (err, stats) => {
         if (err) {
           console.log(err)
           return
@@ -27,9 +29,9 @@ class BexRunner {
   }
 
   stop () {
-    if (this.watcher) {
-      this.watcher.close()
-      this.watcher = null
+    if (this.#watcher) {
+      this.#watcher.close()
+      this.#watcher = null
     }
   }
 }

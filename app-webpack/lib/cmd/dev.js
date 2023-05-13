@@ -236,7 +236,7 @@ async function goLive () {
   let runMode
 
   if ([ 'cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr' ].includes(argv.mode)) {
-    const ModeRunner = require('../' + (argv.mode === 'ssr' ? 'pwa' : argv.mode) + '/index.js')
+    const ModeRunner = require(`../${ argv.mode === 'ssr' ? 'pwa' : argv.mode }/index.js`)
     ModeRunner.init(ctx)
     runMode = () => ModeRunner.run(quasarConfFile, argv)
   }

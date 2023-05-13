@@ -92,7 +92,7 @@ interface BaseQuasarConfiguration {
   framework?: QuasarFrameworkConfiguration;
   /**
    * What [CSS animations](/options/animations) to import.
-   * Example: _['bounceInLeft', 'bounceOutRight']_
+   * Example: [ 'bounceInLeft', 'bounceOutRight' ]
    * */
   animations?: QuasarAnimationsConfiguration | 'all';
   /**

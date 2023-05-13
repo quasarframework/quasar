@@ -132,7 +132,7 @@ function finalizeBuild (mode, ctx, quasarConfFile) {
   let Runner
 
   if ([ 'cordova', 'capacitor' ].includes(mode)) {
-    Runner = require('../' + mode + '/index.js')
+    Runner = require(`../${ mode }/index.js`)
   }
   else if (argv[ 'skip-pkg' ] !== true && mode === 'electron') {
     Runner = require('../electron/index.js')

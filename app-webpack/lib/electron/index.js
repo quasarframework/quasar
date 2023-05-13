@@ -9,14 +9,22 @@ const { getPackageJson } = require('../utils/get-package-json.js')
 const { getPackage } = require('../utils/get-package.js')
 
 class ElectronRunner {
-  constructor () {
-    this.pid = 0
-    this.mainWatcher = null
-    this.preloadWatcher = null
+  #pid
+  #mainWatcher
+  #preloadWatcher
+  #url
+  #inspectPort
+  #justKilledIt
+  #restartElectron
 
-    this.__restartElectron = debounce(params => {
-      this.__stopElectron()
-      this.__startElectron(params)
+  constructor () {
+    this.#pid = 0
+    this.#mainWatcher = null
+    this.#preloadWatcher = null
+
+    this.#restartElectron = debounce(params => {
+      this.#stopElectron()
+      this.#startElectron(params)
     }, 1000)
   }
 
@@ -26,16 +34,16 @@ class ElectronRunner {
     const { APP_URL: url } = quasarConfFile.quasarConf.build
     const { inspectPort } = quasarConfFile.quasarConf.electron
 
-    if (this.url === url && this.inspectPort === inspectPort) {
+    if (this.#url === url && this.#inspectPort === inspectPort) {
       return
     }
 
-    if (this.pid) {
+    if (this.#pid) {
       this.stop()
     }
 
-    this.url = url
-    this.inspectPort = inspectPort
+    this.#url = url
+    this.#inspectPort = inspectPort
 
     const mainCompiler = webpack(quasarConfFile.webpackConf.main)
     const preloadCompiler = webpack(quasarConfFile.webpackConf.preload)
@@ -44,7 +52,7 @@ class ElectronRunner {
     let preloadReady = false
 
     const resolveMain = new Promise(resolve => {
-      this.mainWatcher = mainCompiler.watch({}, async (err, stats) => {
+      this.#mainWatcher = mainCompiler.watch({}, async (err, stats) => {
         if (err) {
           console.log(err)
           return
@@ -57,7 +65,7 @@ class ElectronRunner {
         mainReady = true
 
         if (preloadReady === true) {
-          this.__restartElectron(argv._)
+          this.#restartElectron(argv._)
         }
 
         resolve()
@@ -65,7 +73,7 @@ class ElectronRunner {
     })
 
     const resolvePreload = new Promise(resolve => {
-      this.preloadWatcher = preloadCompiler.watch({}, async (err, stats) => {
+      this.#preloadWatcher = preloadCompiler.watch({}, async (err, stats) => {
         if (err) {
           console.log(err)
           return
@@ -78,7 +86,7 @@ class ElectronRunner {
         preloadReady = true
 
         if (mainReady === true) {
-          this.__restartElectron(argv._)
+          this.#restartElectron(argv._)
         }
 
         resolve()
@@ -149,42 +157,42 @@ class ElectronRunner {
   }
 
   stop () {
-    this.__restartElectron.cancel()
+    this.#restartElectron.cancel()
 
-    this.__stopElectron()
+    this.#stopElectron()
 
-    ;[ this.mainWatcher, this.preloadWatcher ]
+    ;[ this.#mainWatcher, this.#preloadWatcher ]
       .forEach(w => {
         if (w) {
           w.close()
         }
       })
 
-    this.mainWatcher = null
-    this.preloadWatcher = null
+    this.#mainWatcher = null
+    this.#preloadWatcher = null
   }
 
-  __stopElectron () {
-    if (!this.pid) { return }
+  #stopElectron () {
+    if (!this.#pid) { return }
 
     log('Shutting down Electron process...')
-    process.kill(this.pid)
+    process.kill(this.#pid)
 
-    this.pid = 0
-    this.__justKilledIt = true
+    this.#pid = 0
+    this.#justKilledIt = true
   }
 
-  __startElectron (extraParams) {
-    this.pid = spawn(
+  #startElectron (extraParams) {
+    this.#pid = spawn(
       getPackage('electron'),
       [
-        '--inspect=' + this.inspectPort,
+        '--inspect=' + this.#inspectPort,
         appPaths.resolve.app('.quasar/electron/electron-main.js')
       ].concat(extraParams),
       { cwd: appPaths.appDir },
       code => {
-        if (this.__justKilledIt === true) {
-          this.__justKilledIt = false
+        if (this.#justKilledIt === true) {
+          this.#justKilledIt = false
         }
         else if (code) {
           warn()
