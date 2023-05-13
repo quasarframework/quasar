@@ -21,6 +21,9 @@ sourceFiles: {
 
 // electron configuration
 electron: {
+  // specify the debugging port to use for the Electron app when running in development mode
+  inspectPort: 5858,
+
   bundler: 'packager', // or 'builder'
 
   // electron-packager options
@@ -38,7 +41,7 @@ electron: {
   // Specify additional parameters when yarn/npm installing
   // the UnPackaged folder, right before bundling with either
   // electron packager or electron builder;
-  // Example: [ '--ignore-optional', '--some-other-param' ]
+  // Example: [ 'install', '--production', '--ignore-optional', '--some-other-param' ]
   unPackagedInstallParams: [],
 
   // optional; add/remove/change properties
