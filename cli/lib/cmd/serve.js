@@ -88,7 +88,8 @@ if (argv.help) {
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
 import path from 'node:path'
 
-const { fatal } = await import('../logger.js')
+import { cliPkg } from '../cli-pkg.js'
+import { fatal } from '../logger.js'
 
 const root = getAbsolutePath(argv._[ 0 ] || '.')
 const resolve = p => path.resolve(root, p)
@@ -354,10 +355,9 @@ if (ssrDetected === false) {
   const server = await getServer(app)
   server.listen(argv.port, argv.hostname, async () => {
     const url = `http${ argv.https ? 's' : '' }://${ getHostname(argv.hostname) }:${ argv.port }`
-    const { version } = await import('../version.js')
 
     const info = [
-      [ 'Quasar CLI', `v${ version }` ],
+      [ 'Quasar CLI', `v${ cliPkg.version }` ],
       [ 'Listening at', url ],
       [ 'Web server root', root ],
       argv.https ? [ 'HTTPS', 'enabled' ] : '',

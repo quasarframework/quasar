@@ -25,7 +25,7 @@ import os from 'os'
 import { sync as spawn } from 'cross-spawn'
 
 import { getExternalNetworkInterface as getExternalIPs } from '../net.js'
-import { version } from '../version.js'
+import { cliPkg } from '../cli-pkg.js'
 
 function getSpawnOutput (command) {
   try {
@@ -45,7 +45,7 @@ const output = [
   { key: 'Global packages', section: true },
   { key: '  NPM', value: getSpawnOutput('npm') },
   { key: '  yarn', value: getSpawnOutput('yarn') },
-  { key: '  @quasar/cli', value: green(version) },
+  { key: '  @quasar/cli', value: green(cliPkg.version) },
   { key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') },
   { key: '  cordova', value: getSpawnOutput('cordova') }
 ]

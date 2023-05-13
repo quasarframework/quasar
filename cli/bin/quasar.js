@@ -2,14 +2,10 @@
 
 import '../lib/node-version-check.js'
 
+import { cliPkg } from '../lib/cli-pkg.js'
 import updateNotifier from 'update-notifier'
-import { readFileSync } from 'node:fs'
 
-const pkg = JSON.parse(
-  readFileSync(new URL('../package.json', import.meta.url), 'utf8')
-)
-
-updateNotifier({ pkg }).notify()
+updateNotifier({ pkg: cliPkg }).notify()
 
 let cmd = process.argv[ 2 ]
 
@@ -39,7 +35,7 @@ else {
     : void 0
 
   if (localFile) {
-    process.env.QUASAR_CLI_VERSION = pkg.version
+    process.env.QUASAR_CLI_VERSION = cliPkg.version
 
     global.quasarCli = {
       help: `
@@ -81,7 +77,7 @@ else {
       }
       else {
         if (cmd === '-v' || cmd === '--version' || cmd === '-V') {
-          console.log(`${ pkg.name } v${ pkg.version }`)
+          console.log(`${ cliPkg.name } v${ cliPkg.version }`)
           process.exit(0)
         }
 

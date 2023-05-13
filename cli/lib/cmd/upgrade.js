@@ -61,9 +61,7 @@ if (!fs.existsSync(appPaths.resolve.app('node_modules'))) {
   fatal('Please run "yarn" / "npm install" / "pnpm install" first\n', 'Error')
 }
 
-const pkg = JSON.parse(
-  fs.readFileSync(appPaths.resolve.app('package.json'), 'utf8')
-)
+import { appPkg } from '../app-pkg.js'
 
 const deps = {
   dependencies: [],
@@ -77,11 +75,13 @@ console.log()
 log(`Gathering information with ${ nodePackager.name }...`)
 console.log()
 
+let quasarVersion = null
 let updateAvailable = false
+let skippedVersions = false
 let removeDeprecatedAppPkg = false
 
 for (const type of Object.keys(deps)) {
-  for (let packageName of Object.keys(pkg[ type ] || {})) {
+  for (let packageName of Object.keys(appPkg[ type ] || {})) {
     // is it a Quasar package?
     if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
       continue
@@ -112,6 +112,7 @@ for (const type of Object.keys(deps)) {
     if (latestVersion === null) {
       console.log(` ${ green(packageName) }: ${ current } → ${ red('Skipping!') }`)
       console.log('   (⚠️  NPM registry server returned an error, so we cannot detect latest version)')
+      skippedVersions = true
     }
     else if (currentVersion !== latestVersion) {
       deps[ type ].push({
@@ -123,14 +124,32 @@ for (const type of Object.keys(deps)) {
 
       console.log(` ${ green(packageName) }: ${ current } → ${ latestVersion }`)
     }
+
+    if (packageName === 'quasar') {
+      quasarVersion = latestVersion
+    }
   }
 }
 
 if (!updateAvailable) {
-  // The string `Congrats!` in the following log line is parsed by
-  // @quasar/wizard AE. Do not change under any circumstances.
-  log('Congrats! All Quasar packages are up to date.\n')
+  if (skippedVersions) {
+    fatal('Some packages were skipped due to errors in the NPM registry server. Please try again later.\n')
+  }
+  else {
+    log('Congrats! All Quasar packages are up to date.\n')
+  }
+
   process.exit(0)
+}
+
+function getQuasarVersionPrefix (version) {
+  if (!version) return ''
+
+  const matches = version.match(/^(\d)/)
+  if (!matches || !matches[ 1 ]) return ''
+
+  const major = parseInt(matches[ 1 ], 10)
+  return isNaN(major) ? '' : `v${ major }.`
 }
 
 if (!argv.install) {
@@ -138,8 +157,12 @@ if (!argv.install) {
   argv.prerelease && params.push('-p')
   argv.major && params.push('-m')
 
+  const urlPrefix = argv.major
+    ? ''
+    : getQuasarVersionPrefix(quasarVersion)
+
   console.log()
-  console.log(` See ${ green('https://quasar.dev/start/release-notes') } for release notes.`)
+  console.log(` See ${ green(`https://${ urlPrefix }quasar.dev/start/release-notes`) } for release notes.`)
   console.log(` Run "quasar upgrade ${ params.join(' ') }" to do the actual upgrade.`)
   console.log()
   process.exit(0)
@@ -189,8 +212,8 @@ for (const type of Object.keys(deps)) {
     removeSync(appPaths.resolve.app('node_modules/' + dep.packageName))
 
     const pinned = /^\d/.test(
-      pkg.dependencies[ dep.packageName ]
-      || pkg.devDependencies[ dep.packageName ]
+      appPkg.dependencies[ dep.packageName ]
+      || appPkg.devDependencies[ dep.packageName ]
       || '^' // fallback, just in case
     )
 
@@ -210,4 +233,10 @@ for (const type of Object.keys(deps)) {
 }
 
 console.log()
-success('Successfully upgraded Quasar packages.\n')
+
+if (skippedVersions) {
+  fatal('Partially upgraded Quasar packages. Some of them were skipped due to errors in the NPM registry server. Please try again later for those ones.')
+}
+else {
+  success('Successfully upgraded Quasar packages.\n')
+}

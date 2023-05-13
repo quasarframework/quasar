@@ -2,7 +2,7 @@
 import { readFileSync } from 'node:fs'
 import { italic } from 'kolorist'
 
-import { version } from '../version.js'
+import { cliPkg } from '../cli-pkg.js'
 
 console.log()
 console.log(
@@ -11,7 +11,7 @@ console.log(
     'utf8'
   )
 )
-console.log('  Running @quasar/cli v' + version)
+console.log('  Running @quasar/cli v' + cliPkg.version)
 
 console.log(`
   Example usage
