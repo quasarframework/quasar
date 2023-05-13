@@ -347,6 +347,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         metaVariables: {}
       },
       electron: {
+        inspectPort: 5858,
         unPackagedInstallParams: [],
         packager: {},
         builder: {}

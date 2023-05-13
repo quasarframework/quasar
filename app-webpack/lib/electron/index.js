@@ -23,9 +23,10 @@ class ElectronRunner {
   init () {}
 
   async run (quasarConfFile, argv) {
-    const url = quasarConfFile.quasarConf.build.APP_URL
+    const { APP_URL: url } = quasarConfFile.quasarConf.build
+    const { inspectPort } = quasarConfFile.quasarConf.electron
 
-    if (this.url === url) {
+    if (this.url === url && this.inspectPort === inspectPort) {
       return
     }
 
@@ -34,6 +35,7 @@ class ElectronRunner {
     }
 
     this.url = url
+    this.inspectPort = inspectPort
 
     const mainCompiler = webpack(quasarConfFile.webpackConf.main)
     const preloadCompiler = webpack(quasarConfFile.webpackConf.preload)
@@ -176,7 +178,7 @@ class ElectronRunner {
     this.pid = spawn(
       getPackage('electron'),
       [
-        '--inspect=5858',
+        '--inspect=' + this.inspectPort,
         appPaths.resolve.app('.quasar/electron/electron-main.js')
       ].concat(extraParams),
       { cwd: appPaths.appDir },
