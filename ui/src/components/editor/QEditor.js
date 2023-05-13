@@ -261,7 +261,7 @@ export default createComponent({
     })
 
     watch(editLinkUrl, v => {
-      emit(`link-${ v ? 'Show' : 'Hide' }`)
+      emit(`link${ v ? 'Show' : 'Hide' }`)
     })
 
     const hasToolbar = computed(() => props.toolbar && props.toolbar.length !== 0)
