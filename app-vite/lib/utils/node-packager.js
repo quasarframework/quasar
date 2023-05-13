@@ -17,6 +17,21 @@ function run ({ name, params, cwd, onFail, env = 'development' }) {
   )
 }
 
+function getMajorVersion (name) {
+  try {
+    const child = crossSpawnSync(name, [ '--version' ])
+    if (child.status === 0) {
+      const version = String(child.output[ 1 ]).trim()
+      return parseInt(version.split('.')[ 0 ], 10)
+    }
+  }
+  catch (_) {
+    /* do nothing; we return null below */
+  }
+
+  return null
+}
+
 class PackageManager {
   /**
    * To be declared by subclasses
@@ -44,39 +59,18 @@ class PackageManager {
    * Implementation of the actual package manager
    */
 
-  get majorVersion () {
-    try {
-      const child = crossSpawnSync(this.name, [ '--version' ])
-      if (child.status === 0) {
-        const version = String(child.output[ 1 ]).trim()
-        return parseInt(version.split('.')[ 0 ], 10)
-      }
-    }
-    catch (_) {
-      /* do nothing; we return null below */
-    }
-
-    return null
-  }
-
-  isUsed () {
-    let directory = appPaths.appDir
-
-    // Recursively checks for presence of the lock file by traversing
-    // the directory tree up to the root
-    while (directory.length && directory[ directory.length - 1 ] !== sep) {
-      if (fs.existsSync(join(directory, this.lockFile))) {
-        return true
-      }
-
-      directory = normalize(join(directory, '..'))
-    }
-
-    return false
-  }
+  majorVersion = null
+  cachedIsInstalled = null
 
   isInstalled () {
-    return this.majorVersion !== null
+    if (this.cachedIsInstalled !== null) {
+      return this.cachedIsInstalled
+    }
+
+    this.majorVersion = getMajorVersion(this.name)
+    this.cachedIsInstalled = this.majorVersion !== null
+
+    return this.cachedIsInstalled
   }
 
   install ({ cwd, params, displayName, env = 'development' } = {}) {
@@ -297,41 +291,50 @@ class Pnpm extends PackageManager {
   }
 }
 
+const packageManagersList = [
+  new Yarn(),
+  new Pnpm(),
+  new Npm()
+]
+
 /**
  * @returns {PackageManager}
  */
-function getPackager () {
-  const yarn = new Yarn()
+function getProjectPackageManager (folder) {
+  // Recursively checks for presence of the lock file by traversing
+  // the folder tree up to the root
+  while (folder.length && folder[ folder.length - 1 ] !== sep) {
+    for (const pm of packageManagersList) {
+      if (fs.existsSync(join(folder, pm.lockFile))) {
+        return pm
+      }
+    }
 
-  if (yarn.isUsed()) {
-    return yarn
+    folder = normalize(join(folder, '..'))
+  }
+}
+
+/**
+ * @returns {PackageManager}
+ */
+function getNodePackager (folder = appPaths.appDir) {
+  const projectPackageManager = getProjectPackageManager(folder)
+
+  // if the project folder uses a supported package manager
+  // and it is installed on this machine then use it
+  if (projectPackageManager !== void 0 && projectPackageManager.isInstalled()) {
+    return projectPackageManager
   }
 
-  const pnpm = new Pnpm()
-
-  if (pnpm.isUsed()) {
-    return pnpm
-  }
-
-  const npm = new Npm()
-
-  if (npm.isUsed()) {
-    return npm
-  }
-
-  if (yarn.isInstalled()) {
-    return yarn
-  }
-
-  if (pnpm.isInstalled()) {
-    return pnpm
-  }
-
-  if (npm.isInstalled()) {
-    return npm
+  // otherwise, use the first installed package manager
+  for (const pm of packageManagersList) {
+    if (pm.isInstalled()) {
+      return pm
+    }
   }
 
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
-module.exports.nodePackager = getPackager()
+module.exports.nodePackager = getNodePackager()
+module.exports.getNodePackager = getNodePackager

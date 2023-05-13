@@ -301,27 +301,25 @@ const packageManagersList = [
 /**
  * @returns {PackageManager}
  */
-function getProjectPackageManager () {
-  let directory = appPaths.appDir
-
+function getProjectPackageManager (folder) {
   // Recursively checks for presence of the lock file by traversing
-  // the directory tree up to the root
-  while (directory.length && directory[ directory.length - 1 ] !== sep) {
+  // the folder tree up to the root
+  while (folder.length && folder[ folder.length - 1 ] !== sep) {
     for (const pm of packageManagersList) {
-      if (fs.existsSync(join(directory, pm.lockFile))) {
+      if (fs.existsSync(join(folder, pm.lockFile))) {
         return pm
       }
     }
 
-    directory = normalize(join(directory, '..'))
+    folder = normalize(join(folder, '..'))
   }
 }
 
 /**
  * @returns {PackageManager}
  */
-function getPackager () {
-  const projectPackageManager = getProjectPackageManager()
+export function getNodePackager (folder = appPaths.appDir) {
+  const projectPackageManager = getProjectPackageManager(folder)
 
   // if the project folder uses a supported package manager
   // and it is installed on this machine then use it
@@ -339,4 +337,4 @@ function getPackager () {
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
-export const nodePackager = getPackager()
+export const nodePackager = getNodePackager()
