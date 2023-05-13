@@ -224,12 +224,6 @@ if (ssrDetected === false) {
     }
   })
 
-  const getHostname = host => {
-    return host === '0.0.0.0'
-      ? 'localhost'
-      : host
-  }
-
   const getServer = async app => {
     if (!argv.https) {
       return app
@@ -353,12 +347,36 @@ if (ssrDetected === false) {
   }
 
   const server = await getServer(app)
-  server.listen(argv.port, argv.hostname, async () => {
-    const url = `http${ argv.https ? 's' : '' }://${ getHostname(argv.hostname) }:${ argv.port }`
 
+  const getListeningUrl = hostname => {
+    return `http${ argv.https ? 's' : '' }://${ hostname }:${ argv.port }`
+  }
+
+  const { getIPs } = await import('../net.js')
+
+  const getListeningBanner = () => {
+    let { hostname } = argv
+
+    if (hostname === '0.0.0.0') {
+      const acc = getIPs().map(ip => ([ '', getListeningUrl(ip) ]))
+      if (acc.length !== 0) {
+        acc[ 0 ][ 0 ] = 'Listening at'
+        return acc
+      }
+
+      hostname = 'localhost'
+    }
+
+    return [
+      [ 'Listening at', getListeningUrl(hostname) ]
+    ]
+  }
+
+  server.listen(argv.port, argv.hostname, async () => {
+    const filler = ''.padEnd(20, ' ')
     const info = [
       [ 'Quasar CLI', `v${ cliPkg.version }` ],
-      [ 'Listening at', url ],
+      ...getListeningBanner(),
       [ 'Web server root', root ],
       argv.https ? [ 'HTTPS', 'enabled' ] : '',
       argv.gzip ? [ 'Gzip', 'enabled' ] : '',
@@ -370,7 +388,7 @@ if (ssrDetected === false) {
       argv.proxy ? [ 'Proxy definitions', argv.proxy ] : ''
     ]
       .filter(msg => msg)
-      .map(msg => ' ' + msg[ 0 ].padEnd(20, '.') + ' ' + green(msg[ 1 ]))
+      .map(msg => ' ' + (msg[ 0 ] !== '' ? msg[ 0 ].padEnd(20, '.') : filler) + ' ' + green(msg[ 1 ]))
 
     console.log('\n' + info.join('\n') + '\n')
 
