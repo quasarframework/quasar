@@ -1,7 +1,7 @@
 
 const parseArgs = require('minimist')
 
-const { log, warn, fatal } = require('../helpers/logger.js')
+const { log, warn, fatal } = require('../utils/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

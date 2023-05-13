@@ -5,16 +5,16 @@ const WebpackDevServer = require('webpack-dev-server')
 const chokidar = require('chokidar')
 const express = require('express')
 
-const createRenderer = require('@quasar/ssr-helpers/create-renderer.js')
+const createRenderer = require('@quasar/ssr-utils/create-renderer.js')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side.js')
 const { getServerManifest } = require('./webpack/ssr/plugin.server-side.js')
 const { doneExternalWork } = require('./webpack/plugin.progress.js')
 const { webpackNames } = require('./webpack/symbols.js')
 
 const appPaths = require('./app-paths.js')
-const { getPackage } = require('./helpers/get-package.js')
+const { getPackage } = require('./utils/get-package.js')
 const { renderToString } = getPackage('vue/server-renderer')
-const { openBrowser } = require('./helpers/open-browser.js')
+const { openBrowser } = require('./utils/open-browser.js')
 
 const banner = '[Quasar Dev Webserver]'
 const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')

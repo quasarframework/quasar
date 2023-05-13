@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
-const { openBrowser } = require('./helpers/open-browser.js')
+const { openBrowser } = require('./utils/open-browser.js')
 
 let appUrl
 let openedBrowser = false

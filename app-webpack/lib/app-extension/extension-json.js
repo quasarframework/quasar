@@ -1,7 +1,7 @@
 const fs = require('node:fs')
 const chalk = require('chalk')
 
-const { log, fatal } = require('../helpers/logger.js')
+const { log, fatal } = require('../utils/logger.js')
 const appPaths = require('../app-paths.js')
 
 const extensionPath = appPaths.resolve.app('quasar.extensions.json')

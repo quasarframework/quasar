@@ -3,9 +3,9 @@ const path = require('node:path')
 const { merge } = require('webpack-merge')
 const semver = require('semver')
 
-const { warn, fatal } = require('../helpers/logger.js')
-const { getPackageJson } = require('../helpers/get-package-json.js')
-const { getCallerPath } = require('../helpers/get-caller-path.js')
+const { warn, fatal } = require('../utils/logger.js')
+const { getPackageJson } = require('../utils/get-package-json.js')
+const { getCallerPath } = require('../utils/get-caller-path.js')
 const { extensionJson } = require('./extension-json.js')
 const { BaseAPI } = require('./BaseAPI.js')
 

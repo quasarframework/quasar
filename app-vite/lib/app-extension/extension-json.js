@@ -1,7 +1,7 @@
 const fs = require('node:fs')
 const { green } = require('kolorist')
 
-const { log, fatal } = require('../helpers/logger.js')
+const { log, fatal } = require('../utils/logger.js')
 const appPaths = require('../app-paths.js')
 
 const extensionPath = appPaths.resolve.app('quasar.extensions.json')
@@ -90,4 +90,4 @@ class ExtensionJson {
   }
 }
 
-module.exports = new ExtensionJson()
+module.exports.extensionJson = new ExtensionJson()

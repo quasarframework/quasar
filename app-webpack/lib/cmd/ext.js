@@ -42,7 +42,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { warn } = require('../helpers/logger.js')
+const { warn } = require('../utils/logger.js')
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()

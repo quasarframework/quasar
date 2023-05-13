@@ -3,20 +3,21 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../helpers/logger.js')
-const nodePackager = require('../../helpers/node-packager.js')
-const hasTypescript = require('../../helpers/has-typescript.js')
+const { log, warn } = require('../../utils/logger.js')
+const { nodePackager } = require('../../utils/node-packager.js')
+const { hasTypescript } = require('../../utils/has-typescript.js')
 
 const bexDeps = {
   events: '^3.3.0'
 }
 
-function isInstalled () {
+function isModeInstalled () {
   return fs.existsSync(appPaths.bexDir)
 }
+module.exports.isModeInstalled = isModeInstalled
 
-async function add (silent) {
-  if (isInstalled()) {
+module.exports.addMode = async function addMode (silent) {
+  if (isModeInstalled()) {
     if (silent !== true) {
       warn('Browser Extension support detected already. Aborting.')
     }
@@ -52,8 +53,8 @@ async function add (silent) {
   log('Browser Extension support was added')
 }
 
-function remove () {
-  if (!isInstalled()) {
+module.exports.removeMode = function removeMode () {
+  if (!isModeInstalled()) {
     warn('No Browser Extension support detected. Aborting.')
     return
   }
@@ -67,10 +68,4 @@ function remove () {
   )
 
   log('Browser Extension support was removed')
-}
-
-module.exports = {
-  isInstalled,
-  add,
-  remove
 }

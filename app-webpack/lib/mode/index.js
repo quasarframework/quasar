@@ -1,4 +1,4 @@
-const { fatal } = require('../helpers/logger.js')
+const { fatal } = require('../utils/logger.js')
 
 module.exports.getQuasarMode = function getQuasarMode (mode) {
   if (![ 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex' ].includes(mode)) {

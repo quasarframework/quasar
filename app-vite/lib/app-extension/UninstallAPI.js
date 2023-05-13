@@ -1,14 +1,14 @@
 const { removeSync } = require('fs-extra')
 const semver = require('semver')
 
-const extensionJson = require('./extension-json.js')
-const getPackageJson = require('../helpers/get-package-json.js')
-const BaseAPI = require('./BaseAPI.js')
+const { extensionJson } = require('./extension-json.js')
+const { getPackageJson } = require('../utils/get-package-json.js')
+const { BaseAPI } = require('./BaseAPI.js')
 
 /**
  * API for extension's /uninstall.js script
  */
-module.exports = class UninstallAPI extends BaseAPI {
+module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
   __hooks = {
     exitLog: []
   }

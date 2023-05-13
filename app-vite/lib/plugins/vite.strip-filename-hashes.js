@@ -15,7 +15,7 @@
  * PWA will force to re-download all assets again, regardless if they were changed or
  * not (due to how Rollup works through Vite).
  */
-module.exports = () => {
+module.exports.quasarViteStripFilenameHashesPlugin = function quasarViteStripFilenameHashesPlugin () {
   return {
     name: 'quasar:strip-filename-hashes',
 

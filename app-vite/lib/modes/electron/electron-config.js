@@ -2,9 +2,9 @@ const { join } = require('node:path')
 
 const appPaths = require('../../app-paths.js')
 const { createViteConfig, extendViteConfig, extendEsbuildConfig, createNodeEsbuildConfig } = require('../../config-tools.js')
-const parseEnv = require('../../parse-env.js')
+const { parseEnv } = require('../../parse-env.js')
 
-module.exports = {
+module.exports.quasarElectronConfig = {
   vite: quasarConf => {
     const cfg = createViteConfig(quasarConf)
 
@@ -61,3 +61,5 @@ module.exports = {
     return extendEsbuildConfig(cfg, quasarConf.electron, 'ElectronPreload')
   }
 }
+
+module.exports.modeConfig = module.exports.quasarElectronConfig

@@ -3,7 +3,7 @@ const path = require('node:path')
 const fse = require('fs-extra')
 
 const appPaths = require('./app-paths.js')
-const { log } = require('./helpers/logger.js')
+const { log } = require('./utils/logger.js')
 
 const filePath = appPaths.resolve.app('.quasar/artifacts.json')
 

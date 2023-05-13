@@ -4,10 +4,10 @@ const chalk = require('chalk')
 
 const appPaths = require('../app-paths.js')
 const { quasarPkg, cliPkg } = require('../app-pkg.js')
-const { success, info, error, warning, clearConsole } = require('../helpers/logger.js')
-const { isMinimalTerminal } = require('../helpers/is-minimal-terminal.js')
-const { printWebpackWarnings, printWebpackErrors } = require('../helpers/print-webpack-issue/index.js')
-const { progressLog } = require('../helpers/progress-log.js')
+const { success, info, error, warning, clearConsole } = require('../utils/logger.js')
+const { isMinimalTerminal } = require('../utils/is-minimal-terminal.js')
+const { printWebpackWarnings, printWebpackErrors } = require('../utils/print-webpack-issue/index.js')
+const { progressLog } = require('../utils/progress-log.js')
 
 let maxLengthName = 0
 let isDev = false
@@ -26,7 +26,7 @@ function isExternalProgressIdle () {
 function getIPList () {
   // expensive operation, so cache the response
   if (ipList === void 0) {
-    const { getIPs } = require('../helpers/net.js')
+    const { getIPs } = require('../utils/net.js')
     ipList = getIPs().map(ip => (ip === '127.0.0.1' ? 'localhost' : ip))
   }
 

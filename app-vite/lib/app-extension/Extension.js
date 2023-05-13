@@ -1,9 +1,10 @@
 const fs = require('fs-extra')
 const path = require('node:path')
 
-const { log, warn, fatal } = require('../helpers/logger.js')
+const { log, warn, fatal } = require('../utils/logger.js')
 const appPaths = require('../app-paths.js')
-const extensionJson = require('./extension-json.js')
+const { extensionJson } = require('./extension-json.js')
+const { nodePackager } = require('../utils/node-packager.js')
 
 async function promptOverwrite ({ targetPath, options }) {
   const inquirer = require('inquirer')
@@ -99,7 +100,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
   }
 }
 
-module.exports = class Extension {
+module.exports.Extension = class Extension {
   constructor (name) {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
@@ -230,7 +231,7 @@ module.exports = class Extension {
     }
 
     const script = this.__getScript('index', true)
-    const IndexAPI = require('./IndexAPI.js')
+    const { IndexAPI } = require('./IndexAPI.js')
 
     const api = new IndexAPI({
       extId: this.extId,
@@ -267,14 +268,10 @@ module.exports = class Extension {
   }
 
   __installPackage () {
-    const nodePackager = require('../helpers/node-packager.js')
-
     nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
   }
 
   __uninstallPackage () {
-    const nodePackager = require('../helpers/node-packager.js')
-
     nodePackager.uninstallPackage(this.packageFullName)
   }
 
@@ -328,7 +325,7 @@ module.exports = class Extension {
 
     log('Running App Extension install script...')
 
-    const InstallAPI = require('./InstallAPI.js')
+    const { InstallAPI } = require('./InstallAPI.js')
 
     const api = new InstallAPI({
       extId: this.extId,
@@ -352,8 +349,6 @@ module.exports = class Extension {
     }
 
     if (api.__needsNodeModulesUpdate) {
-      const nodePackager = require('../helpers/node-packager.js')
-
       nodePackager.install()
     }
 
@@ -369,7 +364,7 @@ module.exports = class Extension {
 
     log('Running App Extension uninstall script...')
 
-    const UninstallAPI = require('./UninstallAPI.js')
+    const { UninstallAPI } = require('./UninstallAPI.js')
     const api = new UninstallAPI({
       extId: this.extId,
       prompts

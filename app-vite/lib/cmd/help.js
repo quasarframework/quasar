@@ -1,3 +1,5 @@
+const { cliPkg } = require('../app-pkg.js')
+
 console.log(
   require('node:fs').readFileSync(
     require('node:path').join(__dirname, '../../assets/logo.art'),
@@ -8,7 +10,7 @@ console.log(
 if (process.env.QUASAR_CLI_VERSION) {
   console.log('  Running @quasar/cli v' + process.env.QUASAR_CLI_VERSION)
 }
-console.log('  Running @quasar/app-vite v' + require('../../package.json').version)
+console.log('  Running @quasar/app-vite v' + cliPkg.version)
 
 console.log(`
   Example usage

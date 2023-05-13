@@ -94,7 +94,7 @@ module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, 
       export: 'default'
     })
 
-  chain.externals(externalsList)
+  chain.externals([ ...externalsList ])
 
   chain.node
     .merge({

@@ -1,19 +1,19 @@
 const { join } = require('node:path')
 const fse = require('fs-extra')
 
-const AppBuilder = require('../../app-builder.js')
-const config = require('./capacitor-config.js')
+const { AppBuilder } = require('../../app-builder.js')
+const { quasarCapacitorConfig } = require('./capacitor-config.js')
 
-const { log, warn, fatal } = require('../../helpers/logger.js')
 const appPaths = require('../../app-paths.js')
-const CapacitorConfigFile = require('./config-file.js')
-const { spawn, spawnSync } = require('../../helpers/spawn.js')
-const openIde = require('../../helpers/open-ide.js')
-const onShutdown = require('../../helpers/on-shutdown.js')
-
+const { log, warn, fatal } = require('../../utils/logger.js')
+const { CapacitorConfigFile } = require('./config-file.js')
+const { spawn, spawnSync } = require('../../utils/spawn.js')
+const { openIDE } = require('../../utils/open-ide.js')
+const { onShutdown } = require('../../utils/on-shutdown.js')
+const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
 const { capBin } = require('./cap-cli.js')
 
-class CapacitorBuilder extends AppBuilder {
+module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   #capacitorConfigFile = new CapacitorConfigFile()
   #packagedDir
 
@@ -25,7 +25,7 @@ class CapacitorBuilder extends AppBuilder {
   }
 
   async #buildFiles () {
-    const viteConfig = await config.vite(this.quasarConf)
+    const viteConfig = await quasarCapacitorConfig.vite(this.quasarConf)
     await this.buildWithVite('Capacitor UI', viteConfig)
     this.printSummary(viteConfig.build.outDir)
   }
@@ -34,7 +34,7 @@ class CapacitorBuilder extends AppBuilder {
     const target = this.ctx.targetName
 
     if (target === 'android') {
-      require('../../helpers/fix-android-cleartext.js')('capacitor')
+      fixAndroidCleartext('capacitor')
     }
 
     onShutdown(() => {
@@ -47,7 +47,7 @@ class CapacitorBuilder extends AppBuilder {
 
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide === true) {
-        await openIde('capacitor', this.quasarConf.bin, target)
+        await openIDE('capacitor', this.quasarConf.bin, target)
         process.exit(0)
       }
 
@@ -130,5 +130,3 @@ class CapacitorBuilder extends AppBuilder {
     fse.copySync(buildPath, this.#packagedDir)
   }
 }
-
-module.exports = CapacitorBuilder

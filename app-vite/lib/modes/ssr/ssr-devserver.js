@@ -5,13 +5,13 @@ const chokidar = require('chokidar')
 const debounce = require('lodash/debounce.js')
 const serialize = require('serialize-javascript')
 
-const AppDevserver = require('../../app-devserver.js')
 const appPaths = require('../../app-paths.js')
-const getPackage = require('../../helpers/get-package.js')
-const openBrowser = require('../../helpers/open-browser.js')
-const config = require('./ssr-config.js')
-const { log, warn, info, dot, progress } = require('../../helpers/logger.js')
-const { entryPointMarkup, getDevSsrTemplateFn } = require('../../helpers/html-template.js')
+const { AppDevserver } = require('../../app-devserver.js')
+const { getPackage } = require('../../utils/get-package.js')
+const { openBrowser } = require('../../utils/open-browser.js')
+const { quasarSsrConfig } = require('./ssr-config.js')
+const { log, warn, info, dot, progress } = require('../../utils/logger.js')
+const { entryPointMarkup, getDevSsrTemplateFn } = require('../../utils/html-template.js')
 
 const { renderToString } = getPackage('vue/server-renderer')
 
@@ -73,7 +73,7 @@ function renderStoreState (ssrContext) {
   return `<script${ nonce }>window.__INITIAL_STATE__=${ state };${ autoRemove }</script>`
 }
 
-class SsrDevServer extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
   #closeWebserver
   #viteClient
   #viteServer
@@ -163,7 +163,7 @@ class SsrDevServer extends AppDevserver {
       await this.#webserverWatcher.close()
     }
 
-    const esbuildConfig = await config.webserver(quasarConf)
+    const esbuildConfig = await quasarSsrConfig.webserver(quasarConf)
     await this.watchWithEsbuild('SSR Webserver', esbuildConfig, () => {
       if (this.#closeWebserver !== void 0) {
         queue(async () => {
@@ -191,8 +191,8 @@ class SsrDevServer extends AppDevserver {
       ? url => url || '/'
       : url => (url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath)
 
-    const viteClient = this.#viteClient = await createServer(await config.viteClient(quasarConf))
-    const viteServer = this.#viteServer = await createServer(await config.viteServer(quasarConf))
+    const viteClient = this.#viteClient = await createServer(await quasarSsrConfig.viteClient(quasarConf))
+    const viteServer = this.#viteServer = await createServer(await quasarSsrConfig.viteServer(quasarConf))
 
     if (quasarConf.ssr.pwa === true) {
       injectPwaManifest(quasarConf, true)
@@ -402,10 +402,10 @@ class SsrDevServer extends AppDevserver {
       await this.#pwaServiceWorkerWatcher.close()
     }
 
-    const workboxConfig = await config.workbox(quasarConf)
+    const workboxConfig = await quasarSsrConfig.workbox(quasarConf)
 
     if (quasarConf.pwa.workboxMode === 'injectManifest') {
-      const esbuildConfig = await config.customSw(quasarConf)
+      const esbuildConfig = await quasarSsrConfig.customSw(quasarConf)
       await this.watchWithEsbuild('injectManifest Custom SW', esbuildConfig, () => {
         queue(() => buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
       }).then(esbuildCtx => {
@@ -416,5 +416,3 @@ class SsrDevServer extends AppDevserver {
     await buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
   }
 }
-
-module.exports = SsrDevServer

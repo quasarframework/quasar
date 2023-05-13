@@ -2,7 +2,7 @@
 const parseArgs = require('minimist')
 const chalk = require('chalk')
 
-const { getPackageJson } = require('../helpers/get-package-json.js')
+const { getPackageJson } = require('../utils/get-package-json.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -120,7 +120,7 @@ else {
 print({ key: 'Networking', section: true })
 print({ key: '  Host', value: chalk.green(os.hostname()) })
 
-const getExternalIPs = require('../helpers/net.js').getExternalNetworkInterface
+const getExternalIPs = require('../utils/net.js').getExternalNetworkInterface
 getExternalIPs().forEach(intf => {
   print({
     key: `  ${ intf.deviceName }`,

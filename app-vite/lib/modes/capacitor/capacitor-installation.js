@@ -4,16 +4,18 @@ const fse = require('fs-extra')
 const compileTemplate = require('lodash/template.js')
 
 const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../helpers/logger.js')
-const { spawnSync } = require('../../helpers/spawn.js')
-const nodePackager = require('../../helpers/node-packager.js')
+const { appPkg } = require('../../app-pkg.js')
+const { log, warn } = require('../../utils/logger.js')
+const { spawnSync } = require('../../utils/spawn.js')
+const { nodePackager } = require('../../utils/node-packager.js')
 
-function isInstalled () {
+function isModeInstalled () {
   return fs.existsSync(appPaths.capacitorDir)
 }
+module.exports.isModeInstalled = isModeInstalled
 
-async function add (silent, target) {
-  if (isInstalled()) {
+module.exports.addMode = async function addMode (silent, target) {
+  if (isModeInstalled()) {
     if (target) {
       addPlatform(target)
     }
@@ -24,9 +26,7 @@ async function add (silent, target) {
     return
   }
 
-  const pkgPath = appPaths.resolve.app('package.json')
-  const pkg = require(pkgPath)
-  const appName = pkg.productName || pkg.name || 'Quasar App'
+  const appName = appPkg.productName || appPkg.name || 'Quasar App'
 
   if (/^[0-9]/.test(appName)) {
     warn(
@@ -56,7 +56,7 @@ async function add (silent, target) {
   const scope = {
     appName,
     appId: answer.appId,
-    pkg,
+    pkg: appPkg,
     nodePackager: nodePackager.name
   }
 
@@ -99,8 +99,8 @@ async function add (silent, target) {
   addPlatform(target)
 }
 
-function remove () {
-  if (!isInstalled()) {
+module.exports.removeMode = function removeMode () {
+  if (!isModeInstalled()) {
     warn('No Capacitor support detected. Aborting.')
     return
   }
@@ -112,7 +112,7 @@ function remove () {
 }
 
 function addPlatform (target) {
-  const ensureConsistency = require('./ensure-consistency.js')
+  const { ensureConsistency } = require('./ensure-consistency.js')
   ensureConsistency()
 
   // if it has the platform
@@ -135,10 +135,4 @@ function addPlatform (target) {
     [ 'add', target ],
     { cwd: appPaths.capacitorDir }
   )
-}
-
-module.exports = {
-  isInstalled,
-  add,
-  remove
 }

@@ -3,7 +3,7 @@ const { merge } = require('webpack-merge')
 const path = require('node:path')
 
 const appPaths = require('../app-paths.js')
-const { cssVariables } = require('../helpers/css-variables.js')
+const { cssVariables } = require('../utils/css-variables.js')
 const quasarCssPaths = [
   path.join('node_modules', 'quasar', 'dist'),
   path.join('node_modules', 'quasar', 'src'),

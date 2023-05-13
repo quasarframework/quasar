@@ -4,8 +4,8 @@ const { resolve } = require('node:path')
 const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths.js')
-const encodeForDiff = require('./helpers/encode-for-diff.js')
-const getPackage = require('./helpers/get-package.js')
+const { encodeForDiff } = require('./utils/encode-for-diff.js')
+const { getPackage } = require('./utils/get-package.js')
 
 const { ESLint } = getPackage('eslint')
 
@@ -75,7 +75,7 @@ function extractStore ({
   }
 }
 
-module.exports = function getLinter (quasarConf, cacheSuffix) {
+module.exports.getLinter = function getLinter (quasarConf, cacheSuffix) {
   const { eslint } = quasarConf
   const cache = encodeForDiff(eslint)
 

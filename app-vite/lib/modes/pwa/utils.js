@@ -1,11 +1,10 @@
 
 const { readFileSync } = require('node:fs')
 
-const appPaths = require('../../app-paths.js')
-const getPackage = require('../../helpers/get-package.js')
-const { progress } = require('../../helpers/logger.js')
+const { appPkg } = require('../../app-pkg.js')
+const { getPackage } = require('../../utils/get-package.js')
+const { progress } = require('../../utils/logger.js')
 
-const appPkg = require(appPaths.resolve.app('package.json'))
 const workboxBuild = getPackage('workbox-build')
 
 module.exports.createHeadTags = function createHeadTags (quasarConf) {

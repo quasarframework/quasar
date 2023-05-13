@@ -89,10 +89,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { ensureArgv } = require('../helpers/ensure-argv.js')
+const { ensureArgv } = require('../utils/ensure-argv.js')
 ensureArgv(argv, 'build')
 
-const { ensureVueDeps } = require('../helpers/ensure-vue-deps.js')
+const { ensureVueDeps } = require('../utils/ensure-vue-deps.js')
 ensureVueDeps()
 
 const path = require('node:path')
@@ -104,11 +104,11 @@ console.log(
   )
 )
 
-const { displayBanner } = require('../helpers/banner.js')
+const { displayBanner } = require('../utils/banner.js')
 displayBanner(argv, 'build')
 
-const { log, fatal } = require('../helpers/logger.js')
-const { printWebpackErrors } = require('../helpers/print-webpack-issue/index.js')
+const { log, fatal } = require('../utils/logger.js')
+const { printWebpackErrors } = require('../utils/print-webpack-issue/index.js')
 const { webpackNames, splitWebpackConfig } = require('../webpack/symbols.js')
 
 const webpack = require('webpack')
@@ -155,9 +155,9 @@ async function build () {
   const { QuasarConfigFile } = require('../quasar-config-file.js')
   const { Generator } = require('../generator.js')
   const { cleanArtifacts, addArtifacts } = require('../artifacts.js')
-  const { getQuasarCtx } = require('../helpers/get-quasar-ctx.js')
+  const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
   const { extensionsRunner } = require('../app-extension/extensions-runner.js')
-  const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags.js')
+  const regenerateTypesFeatureFlags = require('../utils/types-feature-flags.js')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
@@ -239,7 +239,7 @@ async function build () {
       fatal(`for "${ webpackData.name[ index ] }" with ${ summary }. Please check the log above.`, 'COMPILATION FAILED')
     })
 
-    const { printWebpackStats } = require('../helpers/print-webpack-stats.js')
+    const { printWebpackStats } = require('../utils/print-webpack-stats.js')
 
     console.log()
     statsArray.forEach((stats, index) => {

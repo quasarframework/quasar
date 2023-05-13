@@ -2,7 +2,7 @@
 
 require('../lib/node-version-check.js')
 
-const { log, warn } = require('../lib/helpers/logger.js')
+const { log, warn } = require('../lib/utils/logger.js')
 const { cliPkg } = require('../lib/app-pkg.js')
 
 const commands = [

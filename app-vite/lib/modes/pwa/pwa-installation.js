@@ -3,10 +3,10 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../helpers/logger.js')
-const nodePackager = require('../../helpers/node-packager.js')
-const hasTypescript = require('../../helpers/has-typescript.js')
-const { hasEslint } = require('../../helpers/has-eslint.js')
+const { log, warn } = require('../../utils/logger.js')
+const { nodePackager } = require('../../utils/node-packager.js')
+const { hasTypescript } = require('../../utils/has-typescript.js')
+const { hasEslint } = require('../../utils/has-eslint.js')
 
 const defaultVersion = '^6.5.0'
 
@@ -20,12 +20,13 @@ const pwaDeps = {
   'workbox-build': defaultVersion
 }
 
-function isInstalled () {
+function isModeInstalled () {
   return fs.existsSync(appPaths.pwaDir)
 }
+module.exports.isModeInstalled = isModeInstalled
 
-function add (silent) {
-  if (isInstalled()) {
+module.exports.addMode = function addMode (silent) {
+  if (isModeInstalled()) {
     if (silent !== true) {
       warn('PWA support detected already. Aborting.')
     }
@@ -62,8 +63,8 @@ function add (silent) {
   log('PWA support was added')
 }
 
-function remove () {
-  if (!isInstalled()) {
+module.exports.removeMode = function removeMode () {
+  if (!isModeInstalled()) {
     warn('No PWA support detected. Aborting.')
     return
   }
@@ -76,10 +77,4 @@ function remove () {
   })
 
   log('PWA support was removed')
-}
-
-module.exports = {
-  isInstalled,
-  add,
-  remove
 }

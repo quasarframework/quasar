@@ -1,6 +1,6 @@
 const parseArgs = require('minimist')
 
-const { log, warn, fatal } = require('../helpers/logger.js')
+const { log, warn, fatal } = require('../utils/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -57,9 +57,10 @@ async function run () {
     fatal(`Unknown mode "${ mode }" to ${ action }`)
   }
 
-  const installation = require(`../modes/${ mode }/${ mode }-installation.js`)
+  const { isModeInstalled, addMode, removeMode } = require(`../modes/${ mode }/${ mode }-installation.js`)
+  const actionMap = { add: addMode, remove: removeMode }
 
-  if (action === 'remove' && argv.yes !== true && installation.isInstalled()) {
+  if (action === 'remove' && argv.yes !== true && isModeInstalled()) {
     console.log()
 
     const inquirer = require('inquirer')
@@ -78,7 +79,7 @@ async function run () {
     }
   }
 
-  await installation[ action ]()
+  await actionMap[ action ]()
 }
 
 function displayModes () {
@@ -86,10 +87,10 @@ function displayModes () {
 
   const info = []
   ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
-    const { isInstalled } = require(`../modes/${ mode }/${ mode }-installation.js`)
+    const { isModeInstalled } = require(`../modes/${ mode }/${ mode }-installation.js`)
     info.push([
       `Mode ${ mode.toUpperCase() }`,
-      isInstalled() ? green('yes') : gray('no')
+      isModeInstalled() ? green('yes') : gray('no')
     ])
   })
 

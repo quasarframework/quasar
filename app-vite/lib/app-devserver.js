@@ -1,14 +1,14 @@
 
-const AppTool = require('./app-tool.js')
-const printDevBanner = require('./helpers/print-dev-banner.js')
-const encodeForDiff = require('./helpers/encode-for-diff.js')
-const createEntryFilesGenerator = require('./entry-files-generator.js')
+const { AppTool } = require('./app-tool.js')
+const { printDevBanner } = require('./utils/print-dev-banner.js')
+const { encodeForDiff } = require('./utils/encode-for-diff.js')
+const { EntryFilesGenerator } = require('./entry-files-generator.js')
 
 function getConfSnapshot (extractFn, quasarConf) {
   return extractFn(quasarConf).map(item => (item ? encodeForDiff(item) : ''))
 }
 
-class AppDevserver extends AppTool {
+module.exports.AppDevserver = class AppDevserver extends AppTool {
   #diffList = {}
   #entryFiles
   #runQueue = Promise.resolve()
@@ -17,7 +17,7 @@ class AppDevserver extends AppTool {
   constructor ({ argv, ctx }) {
     super(argv)
 
-    this.#entryFiles = createEntryFilesGenerator(ctx)
+    this.#entryFiles = new EntryFilesGenerator(ctx)
 
     this.registerDiff('entryFiles', quasarConf => ([
       quasarConf.boot,
@@ -125,5 +125,3 @@ class AppDevserver extends AppTool {
     printDevBanner(quasarConf)
   }
 }
-
-module.exports = AppDevserver

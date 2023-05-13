@@ -33,7 +33,7 @@ if (!extId && argv.help) {
   process.exit(0)
 }
 
-const { log, warn } = require('../helpers/logger.js')
+const { log, warn } = require('../utils/logger.js')
 
 function getArgv (argv) {
   const { _, ...params } = argv
@@ -45,7 +45,7 @@ function getArgv (argv) {
 }
 
 async function run () {
-  const Extension = require('../app-extension/Extension.js')
+  const { Extension } = require('../app-extension/Extension.js')
   const extension = new Extension(extId)
 
   const hooks = await extension.run({})

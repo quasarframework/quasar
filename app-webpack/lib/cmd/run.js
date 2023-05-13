@@ -34,7 +34,7 @@ if (!extId && argv.help) {
   process.exit(0)
 }
 
-const { log, warn } = require('../helpers/logger.js')
+const { log, warn } = require('../utils/logger.js')
 
 function getArgv (argv) {
   const { _, ...params } = argv

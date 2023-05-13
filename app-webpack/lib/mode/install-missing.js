@@ -1,4 +1,4 @@
-const { warn } = require('../helpers/logger.js')
+const { warn } = require('../utils/logger.js')
 const { getQuasarMode } = require('./index.js')
 
 module.exports.installMissing = async function (mode, target) {

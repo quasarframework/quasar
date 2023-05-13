@@ -3,13 +3,13 @@ const path = require('node:path')
 
 const appPaths = require('../app-paths.js')
 const { appPkg } = require('../app-pkg.js')
-const { log, warn } = require('../helpers/logger.js')
+const { log, warn } = require('../utils/logger.js')
 const { ensureConsistency } = require('./ensure-consistency.js')
 const { capVersion } = require('./cap-cli.js')
 
 // necessary for Capacitor 4+
-const { nodePackager } = require('../helpers/node-packager.js')
-const { getPackageJson } = require('../helpers/get-package-json.js')
+const { nodePackager } = require('../utils/node-packager.js')
+const { getPackageJson } = require('../utils/get-package-json.js')
 
 // Capacitor 1 & 2
 function getAndroidMainActivity (capVersion, appId) {

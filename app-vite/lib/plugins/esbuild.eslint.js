@@ -2,8 +2,8 @@
 const { normalizePath } = require('vite')
 const { dim, underline, bold } = require('kolorist')
 
-const { warning, error, success } = require('../helpers/logger.js')
-const getLinter = require('../eslint.js')
+const { warning, error, success } = require('../utils/logger.js')
+const { getLinter } = require('../eslint.js')
 
 const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
 const errorFiles = new Set()
@@ -31,7 +31,7 @@ function parseIssue (path, reportEntry) {
   })
 }
 
-module.exports = function eslintPlugin (quasarConf, getLinterOpts) {
+module.exports.quasarEsbuildESLingPlugin = function quasarEsbuildESLingPlugin (quasarConf, getLinterOpts) {
   const {
     eslint,
     filter,

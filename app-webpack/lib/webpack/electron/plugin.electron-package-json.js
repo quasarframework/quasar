@@ -2,7 +2,7 @@ const { sources } = require('webpack')
 const { merge } = require('webpack-merge')
 
 const { appPkg } = require('../../app-pkg.js')
-const { getFixedDeps } = require('../../helpers/get-fixed-deps.js')
+const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
 
 module.exports.ElectronPackageJsonPlugin = class ElectronPackageJsonPlugin {
   constructor (cfg = {}) {

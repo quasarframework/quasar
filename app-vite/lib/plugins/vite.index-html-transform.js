@@ -1,7 +1,7 @@
 
-const { transformHtml } = require('../helpers/html-template.js')
+const { transformHtml } = require('../utils/html-template.js')
 
-module.exports = quasarConf => {
+module.exports.quasarViteIndexHtmlTransformPlugin = function quasarViteIndexHtmlTransformPlugin (quasarConf) {
   return {
     name: 'quasar:index-html-transform',
     enforce: 'pre',

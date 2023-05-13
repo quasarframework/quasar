@@ -24,7 +24,7 @@ function getAppInfo () {
     appDir = normalize(join(appDir, '..'))
   }
 
-  const { fatal } = require('./helpers/logger.js')
+  const { fatal } = require('./utils/logger.js')
   fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 

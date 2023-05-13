@@ -4,7 +4,7 @@ const { merge } = require('webpack-merge')
 
 const appPaths = require('../../app-paths.js')
 const { appPkg, cliPkg } = require('../../app-pkg.js')
-const { getFixedDeps } = require('../../helpers/get-fixed-deps.js')
+const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
 const { getIndexHtml } = require('../../ssr/html-template.js')
 
 module.exports.WebserverAssetsPlugin = class WebserverAssetsPlugin {

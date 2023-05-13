@@ -1,7 +1,7 @@
 const parseArgs = require('minimist')
 const { green, gray } = require('kolorist')
 
-const getPackageJson = require('../helpers/get-package-json.js')
+const { getPackageJson } = require('../utils/get-package-json.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -24,7 +24,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-const os = require('os')
+const os = require('node:os')
 const spawn = require('cross-spawn').sync
 
 const appPaths = require('../app-paths.js')
@@ -99,11 +99,11 @@ print({ key: 'Important local packages', section: true })
 
 print({ key: 'Quasar App Extensions', section: true })
 
-const extensionJson = require('../app-extension/extension-json.js')
+const { extensionJson } = require('../app-extension/extension-json.js')
 const extensions = Object.keys(extensionJson.getList())
 
 if (extensions.length > 0) {
-  const Extension = require('../app-extension/Extension.js')
+  const { Extension } = require('../app-extension/Extension.js')
   extensions.forEach(ext => {
     const instance = new Extension(ext)
     print(safePkgInfo(instance.packageName))
@@ -116,7 +116,7 @@ else {
 print({ key: 'Networking', section: true })
 print({ key: '  Host', value: green(os.hostname()) })
 
-const getExternalIPs = require('../helpers/net.js').getExternalNetworkInterface
+const getExternalIPs = require('../utils/net.js').getExternalNetworkInterface
 getExternalIPs().forEach(intf => {
   print({
     key: `  ${ intf.deviceName }`,

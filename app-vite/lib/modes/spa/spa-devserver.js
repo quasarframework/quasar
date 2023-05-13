@@ -1,10 +1,10 @@
 const { createServer } = require('vite')
 
-const AppDevserver = require('../../app-devserver.js')
-const openBrowser = require('../../helpers/open-browser.js')
-const config = require('./spa-config.js')
+const { AppDevserver } = require('../../app-devserver.js')
+const { openBrowser } = require('../../utils/open-browser.js')
+const { quasarSpaConfig } = require('./spa-config.js')
 
-class SpaDevServer extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
   #server
 
   run (quasarConf, __isRetry) {
@@ -20,7 +20,7 @@ class SpaDevServer extends AppDevserver {
       this.#server.close()
     }
 
-    const viteConfig = await config.vite(quasarConf)
+    const viteConfig = await quasarSpaConfig.vite(quasarConf)
 
     this.#server = await createServer(viteConfig)
     await this.#server.listen()
@@ -36,5 +36,3 @@ class SpaDevServer extends AppDevserver {
     }
   }
 }
-
-module.exports = SpaDevServer

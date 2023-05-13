@@ -2,10 +2,10 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths.js')
-const { log, warn } = require('../helpers/logger.js')
-const { nodePackager } = require('../helpers/node-packager.js')
-const { hasTypescript } = require('../helpers/has-typescript.js')
-const { hasEslint } = require('../helpers/has-eslint.js')
+const { log, warn } = require('../utils/logger.js')
+const { nodePackager } = require('../utils/node-packager.js')
+const { hasTypescript } = require('../utils/has-typescript.js')
+const { hasEslint } = require('../utils/has-eslint.js')
 
 const pwaDeps = {
   'workbox-webpack-plugin': '^6.0.0'

@@ -2,17 +2,18 @@
 const fse = require('fs-extra')
 const { join } = require('node:path')
 
-const AppBuilder = require('../../app-builder.js')
-const config = require('./cordova-config.js')
+const { AppBuilder } = require('../../app-builder.js')
+const { quasarCordovaConfig } = require('./cordova-config.js')
 
-const { fatal } = require('../../helpers/logger.js')
 const appPaths = require('../../app-paths.js')
-const CordovaConfigFile = require('./config-file.js')
-const { spawn } = require('../../helpers/spawn.js')
-const openIde = require('../../helpers/open-ide.js')
-const onShutdown = require('../../helpers/on-shutdown.js')
+const { fatal } = require('../../utils/logger.js')
+const { CordovaConfigFile } = require('./config-file.js')
+const { spawn } = require('../../utils/spawn.js')
+const { openIDE } = require('../../utils/open-ide.js')
+const { onShutdown } = require('../../utils/on-shutdown.js')
+const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
 
-class CapacitorBuilder extends AppBuilder {
+module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   #cordovaConfigFile = new CordovaConfigFile()
 
   async build () {
@@ -21,7 +22,7 @@ class CapacitorBuilder extends AppBuilder {
   }
 
   async #buildFiles () {
-    const viteConfig = await config.vite(this.quasarConf)
+    const viteConfig = await quasarCordovaConfig.vite(this.quasarConf)
     await this.buildWithVite('Cordova UI', viteConfig)
 
     /**
@@ -49,7 +50,7 @@ class CapacitorBuilder extends AppBuilder {
     const target = this.ctx.targetName
 
     if (target === 'android') {
-      require('../../helpers/fix-android-cleartext.js')('cordova')
+      fixAndroidCleartext('cordova')
     }
 
     const buildPath = appPaths.resolve.cordova(
@@ -78,7 +79,7 @@ class CapacitorBuilder extends AppBuilder {
 
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide) {
-        await openIde('cordova', this.quasarConf.bin, target)
+        await openIDE('cordova', this.quasarConf.bin, target)
         process.exit(0)
       }
 
@@ -113,5 +114,3 @@ class CapacitorBuilder extends AppBuilder {
     })
   }
 }
-
-module.exports = CapacitorBuilder

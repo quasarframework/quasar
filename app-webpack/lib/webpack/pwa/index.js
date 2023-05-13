@@ -2,10 +2,10 @@ const { merge } = require('webpack-merge')
 
 const appPaths = require('../../app-paths.js')
 const { appPkg } = require('../../app-pkg.js')
-const { log } = require('../../helpers/logger.js')
+const { log } = require('../../utils/logger.js')
 const { PwaManifestPlugin } = require('./plugin.pwa-manifest.js')
 const { HtmlPwaPlugin } = require('./plugin.html-pwa.js')
-const { getPackage } = require('../../helpers/get-package.js')
+const { getPackage } = require('../../utils/get-package.js')
 const WorkboxPlugin = getPackage('workbox-webpack-plugin')
 
 module.exports.injectPwa = function injectPwa (chain, cfg) {

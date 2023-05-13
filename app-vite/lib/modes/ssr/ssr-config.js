@@ -8,10 +8,10 @@ const {
 
 const appPaths = require('../../app-paths.js')
 
-const pwaConfig = require('../pwa/pwa-config.js')
-const quasarVitePluginPwaResources = require('../pwa/vite-plugin.pwa-resources.js')
+const { quasarPwaConfig } = require('../pwa/pwa-config.js')
+const { quasarVitePluginPwaResources } = require('../pwa/vite-plugin.pwa-resources.js')
 
-module.exports = {
+module.exports.quasarSsrConfig = {
   viteClient: quasarConf => {
     let cfg = createViteConfig(quasarConf, 'ssr-client')
 
@@ -105,6 +105,8 @@ module.exports = {
     return extendEsbuildConfig(cfg, quasarConf.ssr, 'SSRWebserver')
   },
 
-  workbox: pwaConfig.workbox,
-  customSw: pwaConfig.customSw
+  workbox: quasarPwaConfig.workbox,
+  customSw: quasarPwaConfig.customSw
 }
+
+module.exports.modeConfig = module.exports.quasarSsrConfig

@@ -1,8 +1,8 @@
 
 const appPaths = require('../app-paths.js')
-const { name } = require('../../package.json')
+const { cliPkg: { name } } = require('../app-pkg.js')
 
-module.exports = class ApiBase {
+module.exports.BaseAPI = class BaseAPI {
   engine = name
   hasWebpack = false
   hasVite = true

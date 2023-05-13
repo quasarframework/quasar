@@ -8,13 +8,13 @@ const debounce = require('lodash/debounce.js')
 
 const appPaths = require('./app-paths.js')
 const { appPkg, quasarPkg } = require('./app-pkg.js')
-const { log, warn, fatal } = require('./helpers/logger.js')
+const { log, warn, fatal } = require('./utils/logger.js')
 const { extensionsRunner } = require('./app-extension/extensions-runner.js')
-const { appFilesValidations } = require('./helpers/app-files-validations.js')
-const { cssVariables } = require('./helpers/css-variables.js')
-const { getPackage } = require('./helpers/get-package.js')
-const getPackageMajorVersion = require('./helpers/get-package-major-version.js')
-const storeProvider = require('./helpers/store-provider.js')
+const { appFilesValidations } = require('./utils/app-files-validations.js')
+const { cssVariables } = require('./utils/css-variables.js')
+const { getPackage } = require('./utils/get-package.js')
+const getPackageMajorVersion = require('./utils/get-package-major-version.js')
+const storeProvider = require('./utils/store-provider.js')
 const { createWebpackConfig } = require('./webpack/index.js')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
@@ -366,7 +366,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }, userCfg)
 
     if (cfg.animations === 'all') {
-      const { animations } = require('./helpers/animations.js')
+      const { animations } = require('./utils/animations.js')
       cfg.animations = animations
     }
 
@@ -828,7 +828,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       if (cfg.devServer.open) {
-        const { isMinimalTerminal } = require('./helpers/is-minimal-terminal.js')
+        const { isMinimalTerminal } = require('./utils/is-minimal-terminal.js')
         if (isMinimalTerminal) {
           cfg.devServer.open = false
         }
@@ -1002,7 +1002,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       if (this.opts.argv !== void 0) {
-        const { ensureElectronArgv } = require('./helpers/ensure-argv.js')
+        const { ensureElectronArgv } = require('./utils/ensure-argv.js')
         ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
       }
 

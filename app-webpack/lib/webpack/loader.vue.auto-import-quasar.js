@@ -1,6 +1,6 @@
 const hash = require('hash-sum')
 
-const { getPackage } = require('../helpers/get-package.js')
+const { getPackage } = require('../utils/get-package.js')
 
 const autoImportData = getPackage('quasar/dist/transforms/auto-import.json')
 const importTransformation = getPackage('quasar/dist/transforms/import-transformation.js')

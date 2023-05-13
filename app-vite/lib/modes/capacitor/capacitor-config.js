@@ -2,7 +2,7 @@ const path = require('node:path')
 
 const appPaths = require('../../app-paths.js')
 const { createViteConfig, extendViteConfig } = require('../../config-tools.js')
-const escapeRegexString = require('../../helpers/escape-regex-string.js')
+const { escapeRegexString } = require('../../utils/escape-regex-string.js')
 
 const { dependencies } = require(appPaths.resolve.capacitor('package.json'))
 const target = appPaths.resolve.capacitor('node_modules')
@@ -10,7 +10,7 @@ const target = appPaths.resolve.capacitor('node_modules')
 const depsList = Object.keys(dependencies)
 const capacitorRE = new RegExp('^(' + depsList.map(escapeRegexString).join('|') + ')')
 
-module.exports = {
+module.exports.quasarCapacitorConfig = {
   vite: quasarConf => {
     const cfg = createViteConfig(quasarConf)
 
@@ -37,3 +37,5 @@ module.exports = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   }
 }
+
+module.exports.modeConfig = module.exports.quasarCapacitorConfig

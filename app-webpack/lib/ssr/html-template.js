@@ -4,8 +4,8 @@ const { fillBaseTag } = require('../webpack/plugin.html-addons.js')
 const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa.js')
 
 /*
- * _meta is initialized from ssr-helpers/create-renderer
- * _meta.resource[X] is generated from ssr-helpers/create-renderer
+ * _meta is initialized from ssr-utils/create-renderer
+ * _meta.resource[X] is generated from ssr-utils/create-renderer
  */
 
 function injectSsrInterpolation (html) {

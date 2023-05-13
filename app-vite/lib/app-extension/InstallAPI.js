@@ -3,16 +3,16 @@ const path = require('node:path')
 const { merge } = require('webpack-merge')
 const semver = require('semver')
 
-const { warn, fatal } = require('../helpers/logger.js')
-const getPackageJson = require('../helpers/get-package-json.js')
-const getCallerPath = require('../helpers/get-caller-path.js')
-const extensionJson = require('./extension-json.js')
-const BaseAPI = require('./BaseAPI.js')
+const { warn, fatal } = require('../utils/logger.js')
+const { getPackageJson } = require('../utils/get-package-json.js')
+const { getCallerPath } = require('../utils/get-caller-path.js')
+const { extensionJson } = require('./extension-json.js')
+const { BaseAPI } = require('./BaseAPI.js')
 
 /**
  * API for extension's /install.js script
  */
-module.exports = class InstallAPI extends BaseAPI {
+module.exports.InstallAPI = class InstallAPI extends BaseAPI {
   __hooks = {
     renderFolders: [],
     renderFiles: [],

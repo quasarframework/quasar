@@ -6,8 +6,8 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const { WebpackProgressPlugin } = require('./plugin.progress.js')
 const { BootDefaultExportPlugin } = require('./plugin.boot-default-export.js')
-const { parseBuildEnv } = require('../helpers/parse-build-env.js')
-const { getPackagePath } = require('../helpers/get-package-path.js')
+const { parseBuildEnv } = require('../utils/parse-build-env.js')
+const { getPackagePath } = require('../utils/get-package-path.js')
 
 const appPaths = require('../app-paths.js')
 const { injectStyleRules } = require('./inject.style-rules.js')

@@ -6,17 +6,20 @@ const { merge } = require('webpack-merge')
 const { removeSync } = require('fs-extra')
 
 const appPaths = require('./app-paths.js')
-const getPackage = require('./helpers/get-package.js')
-const parseEnv = require('./parse-env.js')
-const { log, warn, tip } = require('./helpers/logger.js')
-const extensionRunner = require('./app-extension/extensions-runner.js')
+const { cliPkg, appPkg } = require('./app-pkg.js')
+const { getPackage } = require('./utils/get-package.js')
+const { parseEnv } = require('./parse-env.js')
+const { log, warn, tip } = require('./utils/logger.js')
+const { extensionRunner } = require('./app-extension/extensions-runner.js')
 
-const quasarVitePluginIndexHtmlTransform = require('./plugins/vite.index-html-transform.js')
-const quasarViteStripFilenameHashes = require('./plugins/vite.strip-filename-hashes.js')
+const { quasarViteIndexHtmlTransformPlugin } = require('./plugins/vite.index-html-transform.js')
+const { quasarViteStripFilenameHashesPlugin } = require('./plugins/vite.strip-filename-hashes.js')
 
-const { dependencies: cliDepsObject } = require(appPaths.resolve.cli('package.json'))
-const appPkgFile = appPaths.resolve.app('package.json')
-const cliDeps = Object.keys(cliDepsObject)
+const externalsList = [
+  ...Object.keys(cliPkg.dependencies || {}),
+  ...Object.keys(appPkg.dependencies || {}),
+  ...Object.keys(appPkg.devDependencies || {})
+]
 
 function parseVitePlugins (entries) {
   const acc = []
@@ -87,7 +90,7 @@ function parseVitePlugins (entries) {
   return acc
 }
 
-function createViteConfig (quasarConf, quasarRunMode) {
+module.exports.createViteConfig = function createViteConfig (quasarConf, quasarRunMode) {
   const { ctx, build } = quasarConf
   const cacheSuffix = quasarRunMode || ctx.modeName
   const cacheDir = appPaths.resolve.app(`node_modules/.q-cache/vite/${ cacheSuffix }`)
@@ -151,12 +154,12 @@ function createViteConfig (quasarConf, quasarRunMode) {
 
   if (quasarRunMode !== 'ssr-server') {
     if (ctx.prod === true && quasarConf.build.useFilenameHashes !== true) {
-      viteConf.plugins.push(quasarViteStripFilenameHashes())
+      viteConf.plugins.push(quasarViteStripFilenameHashesPlugin())
     }
 
     if (quasarRunMode !== 'ssr-client' || quasarConf.ctx.prod === true) {
       viteConf.plugins.unshift(
-        quasarVitePluginIndexHtmlTransform(quasarConf)
+        quasarViteIndexHtmlTransformPlugin(quasarConf)
       )
     }
   }
@@ -185,9 +188,9 @@ function createViteConfig (quasarConf, quasarRunMode) {
     const { warnings, errors } = quasarConf.eslint
     if (warnings === true || errors === true) {
       // require only if actually needed (as it imports app's eslint pkg)
-      const quasarVitePluginESLint = require('./plugins/vite.eslint.js')
+      const { quasarViteESLintPlugin } = require('./plugins/vite.eslint.js')
       viteConf.plugins.push(
-        quasarVitePluginESLint(quasarConf, { cacheSuffix })
+        quasarViteESLintPlugin(quasarConf, { cacheSuffix })
       )
     }
   }
@@ -195,7 +198,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
   return viteConf
 }
 
-function extendViteConfig (viteConf, quasarConf, invokeParams) {
+module.exports.extendViteConfig = function extendViteConfig (viteConf, quasarConf, invokeParams) {
   const opts = {
     isClient: false,
     isServer: false,
@@ -214,11 +217,7 @@ function extendViteConfig (viteConf, quasarConf, invokeParams) {
   return promise.then(() => viteConf)
 }
 
-function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
-  // fetch fresh copy; user might have installed something new
-  delete require.cache[ appPkgFile ]
-  const { dependencies: appDeps = {}, devDependencies: appDevDeps = {} } = require(appPkgFile)
-
+module.exports.createNodeEsbuildConfig = function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
   const cfg = {
     platform: 'node',
     target: quasarConf.build.target.node,
@@ -227,27 +226,23 @@ function createNodeEsbuildConfig (quasarConf, getLinterOpts) {
     sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     minify: quasarConf.build.minify !== false,
     alias: quasarConf.build.alias,
-    external: [
-      ...cliDeps,
-      ...Object.keys(appDeps),
-      ...Object.keys(appDevDeps)
-    ],
+    external: [ ...externalsList ],
     define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine, true)
   }
 
   const { warnings, errors } = quasarConf.eslint
   if (warnings === true || errors === true) {
     // require only if actually needed (as it imports app's eslint pkg)
-    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint.js')
+    const { quasarEsbuildESLingPlugin } = require('./plugins/esbuild.eslint.js')
     cfg.plugins = [
-      quasarEsbuildPluginESLint(quasarConf, getLinterOpts)
+      quasarEsbuildESLingPlugin(quasarConf, getLinterOpts)
     ]
   }
 
   return cfg
 }
 
-function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
+module.exports.createBrowserEsbuildConfig = function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
   const cfg = {
     platform: 'browser',
     target: quasarConf.build.target.browser,
@@ -262,16 +257,16 @@ function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
   const { warnings, errors } = quasarConf.eslint
   if (warnings === true || errors === true) {
     // require only if actually needed (as it imports app's eslint pkg)
-    const quasarEsbuildPluginESLint = require('./plugins/esbuild.eslint.js')
+    const { quasarEsbuildESLingPlugin } = require('./plugins/esbuild.eslint.js')
     cfg.plugins = [
-      quasarEsbuildPluginESLint(quasarConf, getLinterOpts)
+      quasarEsbuildESLingPlugin(quasarConf, getLinterOpts)
     ]
   }
 
   return cfg
 }
 
-function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
+module.exports.extendEsbuildConfig = function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
   const method = `extend${ threadName }Conf`
 
   // example: quasarConf.ssr.extendSSRWebserverConf
@@ -287,10 +282,4 @@ function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
   return promise.then(() => esbuildConf)
 }
 
-module.exports.createViteConfig = createViteConfig
-module.exports.extendViteConfig = extendViteConfig
 module.exports.mergeViteConfig = mergeConfig
-
-module.exports.createNodeEsbuildConfig = createNodeEsbuildConfig
-module.exports.createBrowserEsbuildConfig = createBrowserEsbuildConfig
-module.exports.extendEsbuildConfig = extendEsbuildConfig

@@ -25,7 +25,7 @@ function createScript (quasarConf, scriptName, entry) {
   return extendEsbuildConfig(cfg, quasarConf.bex, 'BexScripts')
 }
 
-module.exports = {
+module.exports.quasarBexConfig = {
   vite: quasarConf => {
     const cfg = createViteConfig(quasarConf)
 
@@ -48,3 +48,5 @@ module.exports = {
   },
   domScript: quasarConf => createScript(quasarConf, 'dom')
 }
+
+module.exports.modeConfig = module.exports.quasarBexConfig

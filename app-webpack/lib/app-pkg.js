@@ -1,5 +1,5 @@
 
-const { getPackageJson } = require('./helpers/get-package-json.js')
+const { getPackageJson } = require('./utils/get-package-json.js')
 
 const appPaths = require('./app-paths.js')
 

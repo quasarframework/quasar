@@ -1,12 +1,12 @@
 const fse = require('fs-extra')
 
-const { log, warn, fatal } = require('../helpers/logger.js')
+const { log, warn, fatal } = require('../utils/logger.js')
 const appPaths = require('../app-paths.js')
 const { CapacitorConfig } = require('./capacitor-config.js')
-const { spawn, spawnSync } = require('../helpers/spawn.js')
-const { onShutdown } = require('../helpers/on-shutdown.js')
-const { openIDE } = require('../helpers/open-ide.js')
-const { fixAndroidCleartext } = require('../helpers/fix-android-cleartext.js')
+const { spawn, spawnSync } = require('../utils/spawn.js')
+const { onShutdown } = require('../utils/on-shutdown.js')
+const { openIDE } = require('../utils/open-ide.js')
+const { fixAndroidCleartext } = require('../utils/fix-android-cleartext.js')
 
 const { capBin } = require('./cap-cli.js')
 

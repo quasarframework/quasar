@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const { log, warn } = require('../helpers/logger.js')
+const { log, warn } = require('../utils/logger.js')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -76,10 +76,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { ensureArgv } = require('../helpers/ensure-argv.js')
+const { ensureArgv } = require('../utils/ensure-argv.js')
 ensureArgv(argv, 'dev')
 
-const { ensureVueDeps } = require('../helpers/ensure-vue-deps.js')
+const { ensureVueDeps } = require('../utils/ensure-vue-deps.js')
 ensureVueDeps()
 
 console.log(
@@ -89,10 +89,10 @@ console.log(
   )
 )
 
-const { displayBanner } = require('../helpers/banner.js')
+const { displayBanner } = require('../utils/banner.js')
 displayBanner(argv, 'dev')
 
-const findPort = require('../helpers/net.js').findClosestOpenPort
+const findPort = require('../utils/net.js').findClosestOpenPort
 
 async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
@@ -102,7 +102,7 @@ async function parseAddress ({ host, port }) {
     [ 'cordova', 'capacitor' ].includes(argv.mode)
     && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
   ) {
-    const { getExternalIP } = require('../helpers/get-external-ip.js')
+    const { getExternalIP } = require('../utils/get-external-ip.js')
     host = await getExternalIP()
     this.chosenHost = host
   }
@@ -145,8 +145,8 @@ async function parseAddress ({ host, port }) {
 }
 
 function startVueDevtools () {
-  const { spawn } = require('../helpers/spawn.js')
-  const { getPackagePath } = require('../helpers/get-package-path.js')
+  const { spawn } = require('../utils/spawn.js')
+  const { getPackagePath } = require('../utils/get-package-path.js')
 
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
 
@@ -160,7 +160,7 @@ function startVueDevtools () {
     return
   }
 
-  const { nodePackager } = require('../helpers/node-packager.js')
+  const { nodePackager } = require('../utils/node-packager.js')
   nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
@@ -183,9 +183,9 @@ async function goLive () {
     : require('../dev-server-regular.js')
   const { QuasarConfigFile } = require('../quasar-config-file.js')
   const { Generator } = require('../generator.js')
-  const { getQuasarCtx } = require('../helpers/get-quasar-ctx.js')
+  const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
   const { extensionsRunner } = require('../app-extension/extensions-runner.js')
-  const regenerateTypesFeatureFlags = require('../helpers/types-feature-flags.js')
+  const regenerateTypesFeatureFlags = require('../utils/types-feature-flags.js')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,

@@ -1,4 +1,4 @@
-const { getPackage } = require('../helpers/get-package.js')
+const { getPackage } = require('../utils/get-package.js')
 const importTransformation = getPackage('quasar/dist/transforms/import-transformation.js')
 
 const regex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g

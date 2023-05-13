@@ -2,7 +2,7 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths.js')
-const nodePackager = require('../../helpers/node-packager.js')
+const { nodePackager } = require('../../utils/node-packager.js')
 
 function ensureWWW (forced) {
   const www = appPaths.resolve.capacitor('www')
@@ -28,7 +28,7 @@ function ensureDeps () {
   })
 }
 
-module.exports = function () {
+module.exports.ensureConsistency = function ensureConsistency () {
   ensureWWW()
   ensureDeps()
 }

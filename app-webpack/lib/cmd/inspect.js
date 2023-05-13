@@ -43,13 +43,13 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { ensureArgv } = require('../helpers/ensure-argv.js')
+const { ensureArgv } = require('../utils/ensure-argv.js')
 ensureArgv(argv, 'inspect')
 
-const { displayBanner } = require('../helpers/banner.js')
+const { displayBanner } = require('../utils/banner.js')
 displayBanner(argv, argv.cmd)
 
-const { log, fatal } = require('../helpers/logger.js')
+const { log, fatal } = require('../utils/logger.js')
 
 if (argv.mode !== 'spa') {
   const { getQuasarMode } = require('../mode/index.js')
@@ -65,7 +65,7 @@ const depth = parseInt(argv.depth, 10) || Infinity
 
 async function inspect () {
   const { extensionsRunner } = require('../app-extension/extensions-runner.js')
-  const { getQuasarCtx } = require('../helpers/get-quasar-ctx.js')
+  const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,

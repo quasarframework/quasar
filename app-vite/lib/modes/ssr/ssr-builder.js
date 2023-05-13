@@ -1,16 +1,17 @@
 
 const { join } = require('node:path')
 const { writeFileSync } = require('node:fs')
+const { merge } = require('webpack-merge')
 
-const AppBuilder = require('../../app-builder.js')
-const config = require('./ssr-config.js')
-const appPaths = require('../../app-paths.js')
-const getFixedDeps = require('../../helpers/get-fixed-deps.js')
-const { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } = require('../../helpers/html-template.js')
+const { AppBuilder } = require('../../app-builder.js')
+const { quasarSsrConfig } = require('./ssr-config.js')
+const { appPkg, cliPkg } = require('../../app-pkg.js')
+const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
+const { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } = require('../../utils/html-template.js')
 
 const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils.js')
 
-class SsrBuilder extends AppBuilder {
+module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   async build () {
     await this.#buildWebserver()
     await this.#copyWebserverFiles()
@@ -21,7 +22,7 @@ class SsrBuilder extends AppBuilder {
       injectPwaManifest(this.quasarConf)
     }
 
-    const viteClientConfig = await config.viteClient(this.quasarConf)
+    const viteClientConfig = await quasarSsrConfig.viteClient(this.quasarConf)
     await this.buildWithVite('SSR Client', viteClientConfig)
 
     this.moveFile(
@@ -49,26 +50,26 @@ class SsrBuilder extends AppBuilder {
 
       // also update pwa-builder.js when changing here
       if (this.quasarConf.pwa.workboxMode === 'injectManifest') {
-        const esbuildConfig = await config.customSw(this.quasarConf)
+        const esbuildConfig = await quasarSsrConfig.customSw(this.quasarConf)
         await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig)
       }
 
       // also update pwa-builder.js when changing here
-      const workboxConfig = await config.workbox(this.quasarConf)
+      const workboxConfig = await quasarSsrConfig.workbox(this.quasarConf)
       await buildPwaServiceWorker(this.quasarConf.pwa.workboxMode, workboxConfig)
 
       // restore distDir
       this.quasarConf.build.distDir = originalDistDir
     }
 
-    const viteServerConfig = await config.viteServer(this.quasarConf)
+    const viteServerConfig = await quasarSsrConfig.viteServer(this.quasarConf)
     await this.buildWithVite('SSR Server', viteServerConfig)
 
     this.printSummary(this.quasarConf.build.distDir, true)
   }
 
   async #buildWebserver () {
-    const esbuildConfig = await config.webserver(this.quasarConf)
+    const esbuildConfig = await quasarSsrConfig.webserver(this.quasarConf)
     await this.buildWithEsbuild('SSR Webserver', esbuildConfig)
   }
 
@@ -85,31 +86,29 @@ class SsrBuilder extends AppBuilder {
   }
 
   async #writePackageJson () {
-    const appPkg = require(appPaths.resolve.app('package.json'))
-    const { dependencies: cliDeps } = require(appPaths.resolve.cli('package.json'))
-
-    const appDeps = getFixedDeps(appPkg.dependencies || {})
+    const localAppPkg = merge({}, appPkg)
+    const appDeps = getFixedDeps(localAppPkg.dependencies || {})
 
     const pkg = {
-      name: appPkg.name,
-      version: appPkg.version,
-      description: appPkg.description,
-      author: appPkg.author,
+      name: localAppPkg.name,
+      version: localAppPkg.version,
+      description: localAppPkg.description,
+      author: localAppPkg.author,
       private: true,
       scripts: {
         start: 'node index.js'
       },
       dependencies: Object.assign(appDeps, {
-        compression: cliDeps.compression,
-        express: cliDeps.express
+        compression: cliPkg.dependencies.compression,
+        express: cliPkg.dependencies.express
       }),
-      engines: appPkg.engines,
-      browserslist: appPkg.browserslist,
+      engines: localAppPkg.engines,
+      browserslist: localAppPkg.browserslist,
       quasar: { ssr: true }
     }
 
     if (this.quasarConf.ssr.manualStoreSerialization !== true) {
-      pkg.dependencies[ 'serialize-javascript' ] = cliDeps[ 'serialize-javascript' ]
+      pkg.dependencies[ 'serialize-javascript' ] = cliPkg.dependencies[ 'serialize-javascript' ]
     }
 
     if (typeof this.quasarConf.ssr.extendPackageJson === 'function') {
@@ -137,5 +136,3 @@ class SsrBuilder extends AppBuilder {
     this.removeFile(htmlFile)
   }
 }
-
-module.exports = SsrBuilder

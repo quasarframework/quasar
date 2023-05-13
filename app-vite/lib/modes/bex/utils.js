@@ -3,9 +3,10 @@ const { writeFileSync, copySync, existsSync } = require('fs-extra')
 const { join } = require('node:path')
 
 const appPaths = require('../../app-paths.js')
-const { warn } = require('../../helpers/logger.js')
+const { appPkg } = require('../../app-pkg.js')
+const { warn } = require('../../utils/logger.js')
 
-const { name, productName, description, version } = require(appPaths.resolve.app('package.json'))
+const { name, productName, description, version } = appPkg
 const assetsFolder = appPaths.resolve.bex('assets')
 const iconsFolder = appPaths.resolve.bex('icons')
 const localesFolder = appPaths.resolve.bex('_locales')

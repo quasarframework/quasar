@@ -3,8 +3,8 @@ const fse = require('fs-extra')
 
 const appPaths = require('../app-paths.js')
 const { appPkg } = require('../app-pkg.js')
-const { log, warn, fatal } = require('../helpers/logger.js')
-const { spawnSync } = require('../helpers/spawn.js')
+const { log, warn, fatal } = require('../utils/logger.js')
+const { spawnSync } = require('../utils/spawn.js')
 
 module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {

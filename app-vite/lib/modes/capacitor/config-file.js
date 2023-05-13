@@ -2,15 +2,14 @@ const fs = require('node:fs')
 const path = require('node:path')
 
 const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../helpers/logger.js')
-const ensureConsistency = require('./ensure-consistency.js')
+const { appPkg } = require('../../app-pkg.js')
+const { log, warn } = require('../../utils/logger.js')
+const { ensureConsistency } = require('./ensure-consistency.js')
 const { capVersion } = require('./cap-cli.js')
 
-const pkg = require(appPaths.resolve.app('package.json'))
-
 // necessary for Capacitor 4+
-const nodePackager = require('../../helpers/node-packager.js')
-const getPackageJson = require('../../helpers/get-package-json.js')
+const { nodePackager } = require('../../utils/node-packager.js')
+const { getPackageJson } = require('../../utils/get-package-json.js')
 
 // Capacitor 1 & 2
 function getAndroidMainActivity (capVersion, appId) {
@@ -55,13 +54,13 @@ public class EnableHttpsSelfSigned {
 }`
 }
 
-class CapacitorConfigFile {
+module.exports.CapacitorConfigFile = class CapacitorConfigFile {
   #tamperedFiles = []
 
   prepare (quasarConf, target) {
     ensureConsistency()
 
-    this.#updateCapPkg(quasarConf, pkg)
+    this.#updateCapPkg(quasarConf)
     log('Updated src-capacitor/package.json')
 
     this.#tamperedFiles = []
@@ -103,7 +102,7 @@ class CapacitorConfigFile {
   #updateCapJson (quasarConf, originalCapCfg) {
     const capJson = { ...originalCapCfg }
 
-    capJson.appName = quasarConf.capacitor.appName || pkg.productName || 'Quasar App'
+    capJson.appName = quasarConf.capacitor.appName || appPkg.productName || 'Quasar App'
     capJson.bundledWebRuntime = false
 
     if (quasarConf.ctx.dev) {
@@ -122,15 +121,15 @@ class CapacitorConfigFile {
     return JSON.stringify(capJson, null, 2)
   }
 
-  #updateCapPkg (cfg, pkg) {
+  #updateCapPkg (cfg) {
     const capPkgPath = appPaths.resolve.capacitor('package.json')
     const capPkg = require(capPkgPath)
 
     Object.assign(capPkg, {
-      name: cfg.capacitor.appName || pkg.name,
-      version: cfg.capacitor.version || pkg.version,
-      description: cfg.capacitor.description || pkg.description,
-      author: pkg.author
+      name: cfg.capacitor.appName || appPkg.name,
+      version: cfg.capacitor.version || appPkg.version,
+      description: cfg.capacitor.description || appPkg.description,
+      author: appPkg.author
     })
 
     fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
@@ -348,5 +347,3 @@ import com.getcapacitor.BridgeActivity;`)
     }
   }
 }
-
-module.exports = CapacitorConfigFile

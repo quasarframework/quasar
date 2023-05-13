@@ -2,10 +2,10 @@
 const { build: viteBuild } = require('vite')
 const { build: esBuild, context: esContextBuild } = require('esbuild')
 
-const { clean } = require('./artifacts.js')
-const { progress } = require('./helpers/logger.js')
+const { cleanArtifacts } = require('./artifacts.js')
+const { progress } = require('./utils/logger.js')
 
-class AppTool {
+module.exports.AppTool = class AppTool {
   argv
 
   constructor (argv) {
@@ -14,7 +14,7 @@ class AppTool {
 
   async buildWithVite (threadName, viteConfig) {
     // ensure clean build
-    clean(viteConfig.build.outDir)
+    cleanArtifacts(viteConfig.build.outDir)
 
     const done = progress(
       'Compiling of ___ with Vite in progress...',
@@ -85,5 +85,3 @@ class AppTool {
     return esbuildResult
   }
 }
-
-module.exports = AppTool

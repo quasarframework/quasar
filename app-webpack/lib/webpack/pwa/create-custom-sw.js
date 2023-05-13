@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
 const appPaths = require('../../app-paths.js')
-const { parseBuildEnv } = require('../../helpers/parse-build-env.js')
+const { parseBuildEnv } = require('../../utils/parse-build-env.js')
 const { WebpackProgressPlugin } = require('../plugin.progress.js')
 
 function getDependenciesRegex (list) {

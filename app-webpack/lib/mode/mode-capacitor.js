@@ -4,9 +4,9 @@ const compileTemplate = require('lodash/template.js')
 
 const appPaths = require('../app-paths.js')
 const { appPkg } = require('../app-pkg.js')
-const { log, warn } = require('../helpers/logger.js')
-const { spawnSync } = require('../helpers/spawn.js')
-const { nodePackager } = require('../helpers/node-packager.js')
+const { log, warn } = require('../utils/logger.js')
+const { spawnSync } = require('../utils/spawn.js')
+const { nodePackager } = require('../utils/node-packager.js')
 
 module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {

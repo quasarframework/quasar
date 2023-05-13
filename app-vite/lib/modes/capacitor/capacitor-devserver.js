@@ -1,17 +1,17 @@
 const { createServer } = require('vite')
 
-const AppDevserver = require('../../app-devserver.js')
 const appPaths = require('../../app-paths.js')
-const CapacitorConfigFile = require('./config-file.js')
-const { log, fatal } = require('../../helpers/logger.js')
-const { spawn } = require('../../helpers/spawn.js')
-const onShutdown = require('../../helpers/on-shutdown.js')
-const openIde = require('../../helpers/open-ide.js')
-const config = require('./capacitor-config.js')
-
+const { AppDevserver } = require('../../app-devserver.js')
+const { CapacitorConfigFile } = require('./config-file.js')
+const { log, fatal } = require('../../utils/logger.js')
+const { spawn } = require('../../utils/spawn.js')
+const { onShutdown } = require('../../utils/on-shutdown.js')
+const { openIDE } = require('../../utils/open-ide.js')
+const { quasarCapacitorConfig } = require('./capacitor-config.js')
+const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
 const { capBin } = require('./cap-cli.js')
 
-class CapacitorDevServer extends AppDevserver {
+module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
   #pid = 0
   #server
   #target
@@ -28,7 +28,7 @@ class CapacitorDevServer extends AppDevserver {
     this.#target = opts.quasarConf.ctx.targetName
 
     if (this.#target === 'android') {
-      require('../../helpers/fix-android-cleartext.js')('capacitor')
+      fixAndroidCleartext('capacitor')
     }
 
     onShutdown(() => {
@@ -53,7 +53,7 @@ class CapacitorDevServer extends AppDevserver {
       this.#server.close()
     }
 
-    const viteConfig = await config.vite(quasarConf)
+    const viteConfig = await quasarCapacitorConfig.vite(quasarConf)
 
     this.#server = await createServer(viteConfig)
     await this.#server.listen()
@@ -65,7 +65,7 @@ class CapacitorDevServer extends AppDevserver {
 
     await this.#runCapacitorCommand(quasarConf.capacitor.capacitorCliPreparationParams)
 
-    await openIde('capacitor', quasarConf.bin, this.#target, true)
+    await openIDE('capacitor', quasarConf.bin, this.#target, true)
   }
 
   #stopCapacitor () {
@@ -100,5 +100,3 @@ class CapacitorDevServer extends AppDevserver {
     this.#capacitorConfig.reset()
   }
 }
-
-module.exports = CapacitorDevServer

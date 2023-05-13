@@ -1,10 +1,10 @@
 const fs = require('fs-extra')
 const path = require('node:path')
 
-const { log, warn, fatal } = require('../helpers/logger.js')
+const { log, warn, fatal } = require('../utils/logger.js')
 const appPaths = require('../app-paths.js')
 const { extensionJson } = require('./extension-json.js')
-const { nodePackager } = require('../helpers/node-packager.js')
+const { nodePackager } = require('../utils/node-packager.js')
 
 async function promptOverwrite ({ targetPath, options }) {
   const inquirer = require('inquirer')

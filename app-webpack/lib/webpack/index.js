@@ -1,5 +1,5 @@
 const { createChain } = require('./create-chain.js')
-const { log } = require('../helpers/logger.js')
+const { log } = require('../utils/logger.js')
 const { webpackNames } = require('./symbols.js')
 const { extensionsRunner } = require('../app-extension/extensions-runner.js')
 

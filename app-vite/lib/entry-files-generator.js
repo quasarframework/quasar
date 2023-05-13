@@ -7,7 +7,7 @@ const compileTemplate = require('lodash/template.js')
 const appPaths = require('./app-paths.js')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
-class EntryFilesGenerator {
+module.exports.EntryFilesGenerator = class EntryFilesGenerator {
   #files
   #folders
 
@@ -72,5 +72,3 @@ class EntryFilesGenerator {
     })
   }
 }
-
-module.exports = ctx => new EntryFilesGenerator(ctx)

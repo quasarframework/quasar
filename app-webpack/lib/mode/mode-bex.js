@@ -2,7 +2,7 @@ const fs = require('node:fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths.js')
-const { log, warn } = require('../helpers/logger.js')
+const { log, warn } = require('../utils/logger.js')
 
 module.exports.QuasarMode = class QuasarMode {
   get isInstalled () {

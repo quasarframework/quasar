@@ -7,19 +7,18 @@ const { build: esBuild, context: esContextBuild } = require('esbuild')
 const { transformAssetUrls } = require('@quasar/vite-plugin')
 
 const appPaths = require('./app-paths.js')
-const { log, warn, fatal, tip } = require('./helpers/logger.js')
-const extensionRunner = require('./app-extension/extensions-runner.js')
-const appFilesValidations = require('./helpers/app-files-validations.js')
-const cssVariables = require('./helpers/css-variables.js')
-const getPackageMajorVersion = require('./helpers/get-package-major-version.js')
-const resolveExtension = require('./helpers/resolve-extension.js')
-const storeProvider = require('./helpers/store-provider.js')
+const { log, warn, fatal, tip } = require('./utils/logger.js')
+const { extensionRunner } = require('./app-extension/extensions-runner.js')
+const { appFilesValidations } = require('./utils/app-files-validations.js')
+const { cssVariables } = require('./utils/css-variables.js')
+const { getPackageMajorVersion } = require('./utils/get-package-major-version.js')
+const { resolveExtension } = require('./utils/resolve-extension.js')
+const { storeProvider } = require('./utils/store-provider.js')
+const { appPkg } = require('./app-pkg.js')
 
 const urlRegex = /^http(s)?:\/\//i
-const { findClosestOpenPort } = require('../lib/helpers/net.js')
-const isMinimalTerminal = require('./helpers/is-minimal-terminal.js')
-
-const appPkg = require(appPaths.resolve.app('package.json'))
+const { findClosestOpenPort } = require('../lib/utils/net.js')
+const { isMinimalTerminal } = require('./utils/is-minimal-terminal.js')
 
 const defaultPortMapping = {
   spa: 9000,
@@ -113,7 +112,7 @@ async function onAddress ({ host, port }, mode) {
     [ 'cordova', 'capacitor' ].includes(mode)
     && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
   ) {
-    const getExternalIP = require('../lib/helpers/get-external-ip.js')
+    const { getExternalIP } = require('../lib/utils/get-external-ip.js')
     host = await getExternalIP()
     this.chosenHost = host
   }
@@ -411,7 +410,7 @@ module.exports.QuasarConfFile = class QuasarConfFile {
     }
 
     if (rawQuasarConf.animations === 'all') {
-      rawQuasarConf.animations = require('./helpers/animations.js')
+      rawQuasarConf.animations = require('./utils/animations.js')
     }
 
     try {
@@ -421,8 +420,15 @@ module.exports.QuasarConfFile = class QuasarConfFile {
       })
     }
     catch (e) {
+      console.log()
       console.error(e)
-      return { error: 'One of your installed App Extensions failed to run' }
+
+      if (failOnError === true) {
+        fatal('One of your installed App Extensions failed to run', 'FAIL')
+      }
+
+      warn('One of your installed App Extensions failed to run.\n')
+      return
     }
 
     const cfg = {
@@ -481,7 +487,12 @@ module.exports.QuasarConfFile = class QuasarConfFile {
 
         // if network error while running
         if (to === null) {
-          return { error: 'Network error encountered while following the quasar.config file host/port config' }
+          if (failOnError === true) {
+            fatal('Network error encountered while following the quasar.config file host/port config', 'FAIL')
+          }
+
+          warn('Network error encountered while following the quasar.config file host/port config. Reconfigure and save the file again.\n')
+          return
         }
 
         cfg.devServer = merge({ open: true }, cfg.devServer, to)
@@ -625,8 +636,13 @@ module.exports.QuasarConfFile = class QuasarConfFile {
       electronPreload: 'src-electron/electron-preload'
     }, cfg.sourceFiles)
 
-    if (appFilesValidations(cfg) === false) {
-      return { error: 'Files validation not passed successfully' }
+    if (appFilesValidations() === false) {
+      if (failOnError === true) {
+        fatal('Files validation not passed successfully', 'FAIL')
+      }
+
+      warn('Files validation not passed successfully. Please fix the issues then save the file again.\n')
+      return
     }
 
     // do we have a store?
@@ -654,8 +670,8 @@ module.exports.QuasarConfFile = class QuasarConfFile {
 
       if (cfg.ssr.pwa === true) {
         // install pwa mode if it's missing
-        const { add } = require('../lib/modes/pwa/pwa-installation.js')
-        await add(true)
+        const { addMode } = require('../lib/modes/pwa/pwa-installation.js')
+        await addMode(true)
       }
 
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
@@ -700,10 +716,15 @@ module.exports.QuasarConfFile = class QuasarConfFile {
       }, cfg.pwa)
 
       if (![ 'generateSW', 'injectManifest' ].includes(cfg.pwa.workboxMode)) {
-        return {
-          error: `Workbox strategy "${ cfg.pwa.workboxMode }" is invalid. `
-            + 'Valid quasar.config file > pwa > workboxMode options are: generateSW or injectManifest\n'
+        const msg = `Workbox strategy "${ cfg.pwa.workboxMode }" is invalid. `
+          + 'Valid quasar.config file > pwa > workboxMode options are: generateSW or injectManifest.'
+
+        if (failOnError === true) {
+          fatal(msg, 'FAIL')
         }
+
+        warn(msg + ' Please fix it then save the file again.\n')
+        return
       }
 
       cfg.build.env.SERVICE_WORKER_FILE = `${ cfg.build.publicPath }${ cfg.pwa.swFilename }`
@@ -789,7 +810,7 @@ module.exports.QuasarConfFile = class QuasarConfFile {
       }
 
       if (this.#opts.argv !== void 0) {
-        const { ensureElectronArgv } = require('./helpers/ensure-argv.js')
+        const { ensureElectronArgv } = require('./utils/ensure-argv.js')
         ensureElectronArgv(cfg.electron.bundler, this.#opts.argv)
       }
 

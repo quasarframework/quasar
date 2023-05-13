@@ -1,6 +1,6 @@
 const { appPkg } = require('../app-pkg.js')
-const { getPackage } = require('../helpers/get-package.js')
-const { fatal } = require('../helpers/logger.js')
+const { getPackage } = require('../utils/get-package.js')
+const { fatal } = require('../utils/logger.js')
 
 const versions = {
   packager: '17.1.1',
@@ -12,7 +12,7 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName) {
-  const { nodePackager } = require('../helpers/node-packager.js')
+  const { nodePackager } = require('../utils/node-packager.js')
 
   nodePackager.installPackage(
     `electron-${ bundlerName }@^${ versions[ bundlerName ] }`,
