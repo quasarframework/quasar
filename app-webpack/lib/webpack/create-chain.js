@@ -6,7 +6,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const { WebpackProgressPlugin } = require('./plugin.progress.js')
 const { BootDefaultExportPlugin } = require('./plugin.boot-default-export.js')
-const { parseBuildEnv } = require('../utils/parse-build-env.js')
+const { parseEnv } = require('../utils/parse-env.js')
 const { getPackagePath } = require('../utils/get-package-path.js')
 
 const appPaths = require('../app-paths.js')
@@ -27,7 +27,7 @@ function getDependenciesRegex (list) {
   return new RegExp(deps.join('|'))
 }
 
-function getRootDefines (rootDefines, configName) {
+function getRawDefine (rootDefines, configName) {
   if (configName === webpackNames.ssr.serverSide) {
     return { ...rootDefines, __QUASAR_SSR_SERVER__: true }
   }
@@ -272,7 +272,7 @@ module.exports.createChain = function createChain (cfg, configName) {
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(cfg.build.env, getRootDefines(cfg.__rootDefines, configName))
+      parseEnv(cfg.build.env, getRawDefine(cfg.build.rawDefine, configName))
     ])
 
   chain.optimization

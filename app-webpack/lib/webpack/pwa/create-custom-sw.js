@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 
 const appPaths = require('../../app-paths.js')
-const { parseBuildEnv } = require('../../utils/parse-build-env.js')
+const { parseEnv } = require('../../utils/parse-env.js')
 const { WebpackProgressPlugin } = require('../plugin.progress.js')
 
 function getDependenciesRegex (list) {
@@ -124,7 +124,7 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(cfg.build.env, cfg.__rootDefines)
+      parseEnv(cfg.build.env, cfg.build.rawDefine)
     ])
 
   // we include it already in cfg.build.env

@@ -1,3 +1,23 @@
+module.exports.parseEnv = function parseEnv (env, rawDefine, convertRaw = false) {
+  const acc = {}
+
+  const flatEnv = flattenObject(env)
+
+  for (const key in flatEnv) {
+    acc[ `process.env.${ key }` ] = JSON.stringify(flatEnv[ key ])
+  }
+
+  if (convertRaw === true) {
+    for (const key in rawDefine) {
+      acc[ key ] = JSON.stringify(rawDefine[ key ])
+    }
+  }
+  else {
+    Object.assign(acc, rawDefine)
+  }
+
+  return acc
+}
 
 /**
  * Flattens the object to a single level.
@@ -51,20 +71,4 @@ const flattenObject = obj => {
   }
 
   return result
-}
-
-module.exports.parseBuildEnv = function parseBuildEnv (envDefinitions, rootDefinitions) {
-  const env = {}
-
-  const flatEnv = flattenObject(envDefinitions)
-
-  for (const key in flatEnv) {
-    env[ `process.env.${ key }` ] = JSON.stringify(flatEnv[ key ])
-  }
-
-  if (rootDefinitions !== void 0) {
-    Object.assign(env, rootDefinitions)
-  }
-
-  return env
 }

@@ -316,6 +316,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         stylusLoaderOptions: {},
         lessLoaderOptions: {},
         env: {},
+        rawDefine: {},
         uglifyOptions: {
           compress: {},
           mangle: {}
@@ -452,8 +453,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       this.#configSnapshot = newConfigSnapshot
     }
 
-    // make sure these exist
-    cfg.__rootDefines = {
+    const rawDefine = {
       // vue
       __VUE_OPTIONS_API__: cfg.build.vueOptionsApi !== false,
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
@@ -711,7 +711,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       if (cfg.ssr.pwa) {
         const { installMissing } = require('./mode/install-missing.js')
         await installMissing('pwa')
-        cfg.__rootDefines.__QUASAR_SSR_PWA__ = true
+        rawDefine.__QUASAR_SSR_PWA__ = true
       }
 
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
@@ -930,7 +930,12 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
-      cfg.__rootDefines[ 'process.env.APP_URL' ] = '"file://" + __dirname + "/index.html"'
+      rawDefine[ 'process.env.APP_URL' ] = '"file://" + __dirname + "/index.html"'
+    }
+
+    cfg.build.rawDefine = {
+      ...rawDefine,
+      ...cfg.build.rawDefine
     }
 
     Object.assign(cfg.build.env, {

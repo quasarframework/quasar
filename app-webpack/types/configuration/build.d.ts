@@ -133,6 +133,12 @@ interface QuasarStaticBuildConfiguration {
    */
   env?: { [index: string]: string };
   /**
+   * Defines constants that get replaced in your app.
+   *
+   * @example { SOMETHING: JSON.stringify('someValue') } -> console.log(SOMETHING) // console.log('someValue')
+   */
+  rawDefine?: { [index: string]: string };
+  /**
    * Gzip the distributables.
    * Could be either a boolean or compression plugin options object.
    * In addition, you can specify which file extension you want to

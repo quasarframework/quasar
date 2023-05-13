@@ -5,7 +5,7 @@ const WebpackDevServer = require('webpack-dev-server')
 const chokidar = require('chokidar')
 const express = require('express')
 
-const createRenderer = require('@quasar/ssr-utils/create-renderer.js')
+const createRenderer = require('@quasar/ssr-helpers/create-renderer.js')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side.js')
 const { getServerManifest } = require('./webpack/ssr/plugin.server-side.js')
 const { doneExternalWork } = require('./webpack/plugin.progress.js')

@@ -120,8 +120,8 @@ else {
 print({ key: 'Networking', section: true })
 print({ key: '  Host', value: chalk.green(os.hostname()) })
 
-const getExternalIPs = require('../utils/net.js').getExternalNetworkInterface
-getExternalIPs().forEach(intf => {
+const { getExternalNetworkInterface } = require('../utils/net.js')
+getExternalNetworkInterface().forEach(intf => {
   print({
     key: `  ${ intf.deviceName }`,
     value: chalk.green(intf.address)

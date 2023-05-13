@@ -3,7 +3,7 @@ const WebpackChain = require('webpack-chain')
 
 const appPaths = require('../../app-paths.js')
 const { appPkg, cliPkg } = require('../../app-pkg.js')
-const { parseBuildEnv } = require('../../utils/parse-build-env.js')
+const { parseEnv } = require('../../utils/parse-env.js')
 const { injectNodeBabel } = require('../inject.node-babel.js')
 const { injectNodeTypescript } = require('../inject.node-typescript.js')
 const { ExpressionDependencyPlugin } = require('./plugin.expression-dependency.js')
@@ -78,7 +78,7 @@ module.exports.createNodeChain = function createNodeChain (nodeType, cfg, config
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseBuildEnv(env, cfg.__rootDefines)
+      parseEnv(env, cfg.build.rawDefine)
     ])
 
   // we include it already in cfg.build.env

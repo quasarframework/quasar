@@ -120,7 +120,7 @@ module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, 
     .use(webpack.DefinePlugin, [
       // flatten the object keys
       // example: some: { object } becomes 'process.env.some.object'
-      { ...flattenObject(cfg.build.env), ...cfg.__rootDefines }
+      { ...flattenObject(cfg.build.env), ...cfg.build.rawDefine }
     ])
 
   // we include it already in cfg.build.env
