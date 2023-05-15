@@ -133,6 +133,36 @@ build: {
 }
 ```
 
+#### Using env dotfiles <q-badge label="@quasar/app-vite v2+" />
+
+The following files (in your project root folder) will be picked up automatically (the order matters):
+
+```
+.env                                # loaded in all cases
+.env.local                          # loaded in all cases, ignored by git
+.env.[dev|prod]                     # loaded for dev or prod only
+.env.local.[dev|prod]               # loaded for dev or prod only, ignored by git
+.env.[quasarMode]                   # loaded for specific Quasar CLI mode only
+.env.local.[quasarMode]             # loaded for specific Quasar CLI mode only, ignored by git
+.env.[dev|prod].[quasarMode]        # loaded for specific Quasar CLI mode and dev|prod only
+.env.local.[dev|prod].[quasarMode]  # loaded for specific Quasar CLI mode and dev|prod only, ignored by git
+```
+
+...where "ignored by git" assumes that your `/.gitignore` file contains this entry: `.env.local*`. Project folders created after the `@quasar/app-vite` v2 release have this by default.
+
+You can also configure the files above to be picked up from a different folder or even add more files to the list:
+
+```js
+// quasar.config file
+
+build: {
+  envFolder: '../' // absolute or relative path to root project folder
+  envFiles: [
+    // Path strings to your custom files --- absolute or relative path to root project folder
+  ]
+}
+```
+
 #### Using dotenv
 
 Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmjs.com/package/dotenv) package. The following is an example that passes env variables from the `.env` file to your UI code:

@@ -134,7 +134,6 @@ Let's take each option one by one:
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli-webpack/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
-| supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli-webpack/supporting-ts) |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
@@ -334,6 +333,9 @@ build: {
 | ignorePublicFolder | Boolean | Ignores the /public folder. If you depend on a statics folder then you will need to configure it yourself (outside of Quasar or through the extendWebpack/chainWebpack), so make sure that you know what you are doing. |
 | devtool | String | Source map [strategy](https://webpack.js.org/configuration/devtool/) to use. |
 | env | Object | Add properties to `process.env` that you can use in your website/app JS code. |
+| rawDefine | Object | Defines constants that get replaced in your app. Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans. Everything defined here will not be prefixed with `process.env`. (**@quasar/app-webpack v4+) |
+| envFolder | String | Where to look for env dotfiles. Can be an absolute path or a relative path to project root directory. Default: the project root folder. (**@quasar/app-webpack v4+) |
+| envFiles | Array of String | Additional env dotfiles to use. Each entry can be an absolute path or a relative path to quasar.config > build > envFolder. (**@quasar/app-webpack v4+) |
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
@@ -343,6 +345,8 @@ build: {
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |
+| tsLoaderOptions | Object | Options to supply to `ts-loader`. (**@quasar/app-webpack v4+) |
+| tsCheckerOptions | Object | Options to supply to `ts-checker`. (**@quasar/app-webpack v4+) |
 
 The following properties of `build` are automatically configured by Quasar CLI depending on dev/build commands and Quasar mode. But if you like to override some (make sure you know what you are doing), you can do so:
 

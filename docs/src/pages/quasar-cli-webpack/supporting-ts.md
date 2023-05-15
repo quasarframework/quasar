@@ -1,6 +1,7 @@
 ---
 title: Supporting TypeScript
 desc: (@quasar/app-webpack) How to enable support for TypeScript in a Quasar app.
+badge: @quasar/app-webpack v4+
 related:
   - /quasar-cli-webpack/quasar-config-js
 ---
@@ -13,15 +14,16 @@ The following steps are only required when you **have not** selected TypeScript 
 
 ## Installation of TypeScript Support
 
-In order to support TypeScript, you'll need to edit `/quasar.config.js`:
+In order to support TypeScript, you'll need to change the extension of your quasar.config file: `/quasar.config.ts` (notice the `.ts` ending):
 
 ```js
-module.exports = function (ctx) {
+import { configure } from "quasar/wrappers";
+
+export default configure((ctx) => {
   return {
-    supportTS: true,
-    ....
+    // ...
   }
-}
+});
 ```
 
 Then create `/tsconfig.json` file at the root of you project with this content:
@@ -42,10 +44,10 @@ Remember that you must change the extension of your JavaScript files to `.ts` to
 :::
 
 ::: warning
-If you enable the `supportTS` flag but fail to add the `tsconfig.json` file, the application will break at compile time!
+If you fail to add the `tsconfig.json` file, the application will break at compile time!
 :::
 
-## Handling TS Webpack loaders
+## Handling TS Webpack loaders <q-badge label="@quasar/app-webpack v4+" />
 
 Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `supportTS` property like so:
 
@@ -53,12 +55,12 @@ Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin
 // quasar.config.js
 module.exports = function (ctx) {
   return {
-    supportTS: {
-      tsLoaderConfig: {
+    build: {
+      tsLoaderOptions: {
         // `appendTsSuffixTo: [/\.vue$/]` and `transpileOnly: true` are added by default and cannot be overridden
         ...
       },
-      tsCheckerConfig: {
+      tsCheckerOptions: {
         // `vue: true` is added by default and cannot be overridden
         ...
       }
@@ -161,8 +163,8 @@ If you setup TypeScript linting and want `fork-ts-checker-webpack-plugin` (provi
 // quasar.config.js
 module.exports = function (ctx) {
   return {
-    supportTS: {
-      tsCheckerConfig: {
+    build: {
+      tsCheckerOptions: {
         eslint: {
           enabled: true,
           files: './src/**/*.{ts,tsx,js,jsx,vue}'

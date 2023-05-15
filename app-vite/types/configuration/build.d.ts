@@ -77,7 +77,9 @@ interface QuasarStaticBuildConfiguration {
    */
   vueRouterBase?: string;
   /**
-   * Should the Vue Options API be available?
+   * Should the Vue Options API be available? If all your components only use Composition API
+   * it would make sense performance-wise to disable Vue Options API for a compile speedup.
+   *
    * @default true
    */
   vueOptionsAPI?: boolean;
@@ -110,6 +112,7 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Defines constants that get replaced in your app.
    * Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans.
+   * Also, these will not be prefixed with `process.env.`.
    *
    * @example { SOMETHING: JSON.stringify('someValue') } -> console.log(SOMETHING) // console.log('someValue')
    */

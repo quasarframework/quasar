@@ -181,7 +181,12 @@ interface QuasarStaticBuildConfiguration {
   analyze?: boolean | BundleAnalyzerPlugin.Options;
   /** Include vue runtime + compiler version, instead of default Vue runtime-only. */
   vueCompiler?: boolean;
-  /** Include support for Vue Options API (default is: true) */
+  /**
+   * Should the Vue Options API be available? If all your components only use Composition API
+   * it would make sense performance-wise to disable Vue Options API for a compile speedup.
+   *
+   * @default true
+   */
   vueOptionsApi?: boolean;
   /**
    * Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify).
