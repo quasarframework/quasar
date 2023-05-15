@@ -197,6 +197,10 @@ interface QuasarStaticBuildConfiguration {
   lessLoaderOptions?: object;
   /** Options to supply to `vue-loader` */
   vueLoaderOptions?: object;
+  /** Options to supply to `ts-loader` */
+  tsLoaderOptions?: object;
+  /** Options to supply to `ts-checker` */
+  tsCheckerOptions?: object;
   /**
    * RTL options. [Full list](https://github.com/vkalinichev/postcss-rtl).
    * When providing an object, it is the configuration for postcss-rtl plugin, and if fromRTL is present it will only be used for client styles

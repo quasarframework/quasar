@@ -77,12 +77,6 @@ interface BaseQuasarConfiguration {
     add: string[];
     remove: string[];
   };
-  /**
-   * Add support for TypeScript.
-   *
-   * @default false
-   */
-  supportTS?: boolean | { tsLoaderConfig: object; tsCheckerConfig: object };
   /** Add variables that you can use in index.template.html. */
   htmlVariables?: { [index: string]: string };
   /**

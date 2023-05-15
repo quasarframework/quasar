@@ -12,6 +12,7 @@ const { getPackagePath } = require('../utils/get-package-path.js')
 const appPaths = require('../app-paths.js')
 const { injectStyleRules } = require('./inject.style-rules.js')
 const { webpackNames } = require('./symbols.js')
+const { hasTypescript } = require('../utils/has-typescript.js')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return
@@ -77,7 +78,7 @@ module.exports.createChain = function createChain (cfg, configName) {
 
   chain.resolve.extensions
     .merge(
-      cfg.supportTS !== false
+      hasTypescript === true
         ? [ '.mjs', '.ts', '.js', '.vue', '.json', '.wasm' ]
         : [ '.mjs', '.js', '.vue', '.json', '.wasm' ]
     )
@@ -179,7 +180,7 @@ module.exports.createChain = function createChain (cfg, configName) {
       })
   }
 
-  if (cfg.supportTS !== false) {
+  if (hasTypescript === true) {
     chain.module
       .rule('typescript')
       .test(/\.ts$/)
@@ -187,7 +188,7 @@ module.exports.createChain = function createChain (cfg, configName) {
       .loader('ts-loader')
       .options({
         // custom config is merged if present, but vue setup and type checking disable are always applied
-        ...(cfg.supportTS.tsLoaderConfig || {}),
+        ...cfg.build.tsLoaderOptions,
         appendTsSuffixTo: [ /\.vue$/ ],
         // Type checking is handled by fork-ts-checker-webpack-plugin
         transpileOnly: true
@@ -199,7 +200,7 @@ module.exports.createChain = function createChain (cfg, configName) {
       // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
       .use(ForkTsCheckerWebpackPlugin, [
         // custom config is merged if present, but vue option is always enabled
-        merge({}, cfg.supportTS.tsCheckerConfig || {}, {
+        merge({}, cfg.build.tsCheckerOptions, {
           typescript: {
             extensions: {
               vue: {

@@ -316,6 +316,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         scssLoaderOptions: {},
         stylusLoaderOptions: {},
         lessLoaderOptions: {},
+        tsLoaderOptions: {},
+        tsCheckerOptions: {},
         env: {},
         rawDefine: {},
         envFiles: [],
@@ -476,7 +478,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
-    cfg.supportTS = cfg.supportTS || false
 
     if (cfg.vendor.disable !== true) {
       cfg.vendor.add = cfg.vendor.add.length > 0

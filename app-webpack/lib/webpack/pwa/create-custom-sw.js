@@ -5,6 +5,7 @@ const WebpackChain = require('webpack-chain')
 const appPaths = require('../../app-paths.js')
 const { getBuildSystemDefine } = require('../../utils/env.js')
 const { WebpackProgressPlugin } = require('../plugin.progress.js')
+const { hasTypescript } = require('../../utils/has-typescript.js')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return
@@ -48,7 +49,7 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
 
   chain.resolve.extensions
     .merge(
-      cfg.supportTS !== false
+      hasTypescript === true
         ? [ '.mjs', '.ts', '.js', '.json', '.wasm' ]
         : [ '.mjs', '.js', '.json', '.wasm' ]
     )
@@ -95,7 +96,7 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
       })
   }
 
-  if (cfg.supportTS !== false) {
+  if (hasTypescript === true) {
     chain.resolve.extensions
       .merge([ '.ts' ])
 

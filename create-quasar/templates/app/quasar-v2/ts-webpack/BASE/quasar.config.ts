@@ -14,16 +14,6 @@ import { configure } from 'quasar/wrappers';
 
 export default configure((ctx) => {
   return {
-    // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
-    supportTS: <% if (preset.lint) { %>{
-      tsCheckerConfig: {
-        eslint: {
-          enabled: true,
-          files: './src/**/*.{ts,tsx,js,jsx,vue}',
-        },
-      }
-    }<% } else { %>true<% } %>,
-
     // https://v2.quasar.dev/quasar-cli-webpack/prefetch-feature
     // preFetch: true,
 
@@ -56,6 +46,15 @@ export default configure((ctx) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
+      <% if (preset.lint) { %>
+      tsCheckerOptions: {
+        eslint: {
+          enabled: true,
+          files: './src/**/*.{ts,tsx,js,jsx,vue}',
+        },
+      },
+
+      <% } %>
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,

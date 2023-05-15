@@ -1,5 +1,7 @@
+const { hasTypescript } = require('../utils/has-typescript.js')
+
 module.exports.injectNodeTypescript = function injectNodeTypescript (cfg, chain) {
-  if (cfg.supportTS !== false) {
+  if (hasTypescript === true) {
     chain.resolve.extensions
       .merge([ '.ts' ])
 
