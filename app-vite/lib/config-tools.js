@@ -8,7 +8,7 @@ const { removeSync } = require('fs-extra')
 const appPaths = require('./app-paths.js')
 const { cliPkg, appPkg } = require('./app-pkg.js')
 const { getPackage } = require('./utils/get-package.js')
-const { parseEnv } = require('./parse-env.js')
+const { getBuildSystemDefine } = require('./utils/env.js')
 const { log, warn, tip } = require('./utils/logger.js')
 const { extensionRunner } = require('./app-extension/extensions-runner.js')
 
@@ -91,7 +91,7 @@ function parseVitePlugins (entries) {
 }
 
 module.exports.createViteConfig = function createViteConfig (quasarConf, quasarRunMode) {
-  const { ctx, build } = quasarConf
+  const { ctx, build, metaConf } = quasarConf
   const cacheSuffix = quasarRunMode || ctx.modeName
   const cacheDir = appPaths.resolve.app(`node_modules/.q-cache/vite/${ cacheSuffix }`)
 
@@ -118,7 +118,11 @@ module.exports.createViteConfig = function createViteConfig (quasarConf, quasarR
     logLevel: 'warn',
     mode: ctx.dev === true ? 'development' : 'production',
     cacheDir,
-    define: parseEnv(build.env, build.rawDefine),
+    define: getBuildSystemDefine({
+      buildEnv: build.env,
+      buildRawDefine: build.rawDefine,
+      fileEnv: metaConf.fileEnv
+    }),
 
     resolve: {
       alias: build.alias
@@ -227,7 +231,11 @@ module.exports.createNodeEsbuildConfig = function createNodeEsbuildConfig (quasa
     minify: quasarConf.build.minify !== false,
     alias: quasarConf.build.alias,
     external: [ ...externalsList ],
-    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine, true)
+    define: getBuildSystemDefine({
+      buildEnv: quasarConf.build.env,
+      buildRawDefine: quasarConf.build.rawDefine,
+      fileEnv: quasarConf.metaConf.fileEnv
+    })
   }
 
   const { warnings, errors } = quasarConf.eslint
@@ -251,7 +259,11 @@ module.exports.createBrowserEsbuildConfig = function createBrowserEsbuildConfig 
     sourcemap: quasarConf.metaConf.debugging === true ? 'inline' : false,
     minify: quasarConf.build.minify !== false,
     alias: quasarConf.build.alias,
-    define: parseEnv(quasarConf.build.env, quasarConf.build.rawDefine, true)
+    define: getBuildSystemDefine({
+      buildEnv: quasarConf.build.env,
+      buildRawDefine: quasarConf.build.rawDefine,
+      fileEnv: quasarConf.metaConf.fileEnv
+    })
   }
 
   const { warnings, errors } = quasarConf.eslint

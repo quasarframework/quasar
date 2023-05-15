@@ -19,6 +19,7 @@ const { appPkg } = require('./app-pkg.js')
 const urlRegex = /^http(s)?:\/\//i
 const { findClosestOpenPort } = require('../lib/utils/net.js')
 const { isMinimalTerminal } = require('./utils/is-minimal-terminal.js')
+const { readFileEnv } = require('./utils/env.js')
 
 const defaultPortMapping = {
   spa: 9000,
@@ -380,6 +381,7 @@ module.exports.QuasarConfFile = class QuasarConfFile {
         vitePlugins: [],
         env: {},
         rawDefine: {},
+        envFiles: [],
         resolve: {}
       },
 
@@ -764,6 +766,14 @@ module.exports.QuasarConfFile = class QuasarConfFile {
     if (cfg.metaConf.APP_URL) {
       cfg.build.env.APP_URL = cfg.metaConf.APP_URL
     }
+
+    // get the env variables from host project env files
+    cfg.metaConf.fileEnv = readFileEnv({
+      quasarMode: this.#ctx.modeName,
+      buildType: this.#ctx.dev ? 'dev' : 'prod',
+      envFolder: cfg.build.envFolder,
+      envFiles: cfg.build.envFiles
+    })
 
     if (this.#ctx.mode.electron && this.#ctx.prod) {
       const bundler = require('./modes/electron/bundler.js')

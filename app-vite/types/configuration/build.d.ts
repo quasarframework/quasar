@@ -100,6 +100,7 @@ interface QuasarStaticBuildConfiguration {
    * @default 'src-cordova/www' For Cordova mode.
    */
   distDir?: string;
+
   /**
    * Add properties to `process.env` that you can use in your website/app JS code.
    *
@@ -108,10 +109,25 @@ interface QuasarStaticBuildConfiguration {
   env?: { [index: string]: string };
   /**
    * Defines constants that get replaced in your app.
+   * Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans.
    *
    * @example { SOMETHING: JSON.stringify('someValue') } -> console.log(SOMETHING) // console.log('someValue')
    */
   rawDefine?: { [index: string]: string };
+  /**
+   * Folder where Quasar CLI should look for .env* files.
+   * Can be an absolute path or a relative path to project root directory.
+   *
+   * @default project root directory
+   */
+  envFolder?: string;
+  /**
+   * Additional .env* files to be loaded.
+   * Each entry can be an absolute path or a relative path to quasar.config > build > envFolder.
+   *
+   * @example ['.env.somefile', '../.env.someotherfile']
+   */
+  envFiles?: string[];
 
   /**
    * Build production assets with or without the hash part in filenames.

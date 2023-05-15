@@ -60,6 +60,8 @@
     "compression": "^1.7.4",
     "cross-spawn": "^7.0.3",
     "dot-prop": "6.0.1",
+    "dotenv": "^16.0.3",
+    "dotenv-expand": "^10.0.0",
     "elementtree": "0.1.7",
     "esbuild": "^0.17.19",
     "express": "^4.17.3",
