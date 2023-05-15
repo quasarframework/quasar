@@ -135,6 +135,7 @@ interface QuasarStaticBuildConfiguration {
   env?: { [index: string]: string };
   /**
    * Defines constants that get replaced in your app.
+   * Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans.
    *
    * @example { SOMETHING: JSON.stringify('someValue') } -> console.log(SOMETHING) // console.log('someValue')
    */
