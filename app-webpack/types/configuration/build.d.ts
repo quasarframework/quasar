@@ -126,6 +126,7 @@ interface QuasarStaticBuildConfiguration {
    * Source map [strategy](https://webpack.js.org/configuration/devtool/) to use.
    */
   devtool?: WebpackConfiguration["devtool"];
+
   /**
    * Add properties to `process.env` that you can use in your website/app JS code.
    *
@@ -138,6 +139,21 @@ interface QuasarStaticBuildConfiguration {
    * @example { SOMETHING: JSON.stringify('someValue') } -> console.log(SOMETHING) // console.log('someValue')
    */
   rawDefine?: { [index: string]: string };
+  /**
+   * Folder where Quasar CLI should look for .env* files.
+   * Can be an absolute path or a relative path to project root directory.
+   *
+   * @default project root directory
+   */
+  envFolder?: string;
+  /**
+   * Additional .env* files to be loaded.
+   * Each entry can be an absolute path or a relative path to quasar.config > build > envFolder.
+   *
+   * @example ['.env.somefile', '../.env.someotherfile']
+   */
+  envFiles?: string[];
+
   /**
    * Gzip the distributables.
    * Could be either a boolean or compression plugin options object.

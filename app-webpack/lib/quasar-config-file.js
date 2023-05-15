@@ -16,6 +16,7 @@ const { getPackage } = require('./utils/get-package.js')
 const getPackageMajorVersion = require('./utils/get-package-major-version.js')
 const storeProvider = require('./utils/store-provider.js')
 const { createWebpackConfig } = require('./webpack/index.js')
+const { readFileEnv } = require('./utils/env.js')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -317,6 +318,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         lessLoaderOptions: {},
         env: {},
         rawDefine: {},
+        envFiles: [],
         uglifyOptions: {
           compress: {},
           mangle: {}
@@ -1104,6 +1106,13 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     if (this.ctx.mode.capacitor && cfg.__versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
       cfg.__needsAppMountHook = true
     }
+
+    cfg.__fileEnv = readFileEnv({
+      quasarMode: this.ctx.modeName,
+      buildType: this.ctx.dev ? 'dev' : 'prod',
+      envFolder: cfg.build.envFolder,
+      envFiles: cfg.build.envFiles
+    })
 
     this.quasarConf = cfg
 

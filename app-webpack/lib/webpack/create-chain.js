@@ -6,7 +6,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const { WebpackProgressPlugin } = require('./plugin.progress.js')
 const { BootDefaultExportPlugin } = require('./plugin.boot-default-export.js')
-const { parseEnv } = require('../utils/parse-env.js')
+const { getBuildSystemDefine } = require('../utils/env.js')
 const { getPackagePath } = require('../utils/get-package-path.js')
 
 const appPaths = require('../app-paths.js')
@@ -272,7 +272,11 @@ module.exports.createChain = function createChain (cfg, configName) {
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      parseEnv(cfg.build.env, getRawDefine(cfg.build.rawDefine, configName))
+      getBuildSystemDefine({
+        buildEnv: cfg.build.env,
+        buildRawDefine: getRawDefine(cfg.build.rawDefine, configName),
+        fileEnv: cfg.__fileEnv
+      })
     ])
 
   chain.optimization
