@@ -5,14 +5,6 @@ import os from 'node:os';
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
 
-try {
-  if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
-    require('node:fs').unlinkSync(
-      path.join(app.getPath('userData'), 'DevTools Extensions')
-    );
-  }
-} catch (_) {}
-
 let mainWindow: BrowserWindow | undefined;
 
 function createWindow() {
