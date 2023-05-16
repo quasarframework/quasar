@@ -1,4 +1,6 @@
 import QInput from '../QInput'
+import { ref } from 'vue'
+import { vModelAdapter } from '@quasar/quasar-app-extension-testing-e2e-cypress'
 
 function getHostElement () {
   return cy.get('.q-field')
@@ -7,8 +9,215 @@ function getHostElement () {
 function mountQInput (options) {
   return cy.mount(QInput, options)
 }
+
 describe('Input API', () => {
   describe('Props', () => {
+    describe('Category: behaviour', () => {
+      describe('(prop): mask', () => {
+        it('should respect the mask set', () => {
+          const masks = [
+            {
+              mask: 'card',
+              value: '4242424242424242',
+              valueWithMask: '4242 4242 4242 4242'
+            },
+            {
+              mask: 'phone',
+              value: '2374234234',
+              valueWithMask: '(237) 423 - 4234'
+            },
+            {
+              mask: '###@#*#',
+              value: '22222',
+              valueWithMask: '222@2*2'
+            },
+            {
+              mask: 'fulltime',
+              value: '222222',
+              valueWithMask: '22:22:22'
+            },
+            {
+              mask: 'time',
+              value: '222222',
+              valueWithMask: '22:22'
+            },
+            {
+              mask: 'date',
+              value: '20230501',
+              valueWithMask: '2023/05/01'
+            },
+            {
+              mask: 'datetime',
+              value: '2023050106:33',
+              valueWithMask: '2023/05/01 06:33'
+            },
+            {
+              fillMask: true,
+              mask: '###-###',
+              value: '222',
+              valueWithMask: '222-___'
+            },
+            {
+              fillMask: '@',
+              mask: '###-###',
+              value: '222',
+              valueWithMask: '222-@@@'
+            },
+            {
+              fillMask: true,
+              reverseFillMask: true,
+              mask: '###-###',
+              value: '12345',
+              valueWithMask: '_12-345'
+            }
+          ]
+
+          masks.forEach(({ value, valueWithMask, ...res }) => {
+            cy.mount(QInput, {
+              props: res
+            })
+
+            getHostElement().get('input').type(value)
+
+            getHostElement().get('input')
+              .should('not.have.value', value)
+              .should('have.value', valueWithMask)
+          })
+        })
+      })
+
+      describe('(prop): error', () => {
+        it('should mark the field as having an error', () => {
+          mountQInput()
+          getHostElement().should('not.have.class', 'q-field--error')
+
+          mountQInput({
+            props: {
+              error: true
+            }
+          })
+
+          getHostElement().should('have.class', 'q-field--error')
+        })
+      })
+
+      describe('(prop): rules', () => {
+        it('should validate value using custom validation logic', () => {
+          const errorMessage = 'Use a max 3 of characters'
+          const model = ref('')
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              rules: [ val => val.length <= 3 || errorMessage ]
+            }
+          })
+          getHostElement().get('input').type('1234')
+          getHostElement().get('.q-field__messages').should('contain', errorMessage)
+        })
+
+        it('should validate email using inbuilt validation logic', () => {
+          const errorMessage = 'Enter a valid email address'
+          const model = ref('')
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              rules: [ (val, rules) => rules.email(val) || errorMessage ]
+            }
+          })
+          getHostElement().get('input').type('1234')
+          getHostElement().get('.q-field__messages').should('contain', errorMessage)
+        })
+      })
+
+      describe('(prop): loading', () => {
+        it('should should set the component into a loading state', () => {
+          mountQInput({
+            props: {
+              loading: true
+            }
+          })
+
+          getHostElement().get('.q-spinner').should('exist')
+        })
+      })
+
+      describe('(prop): clearable', () => {
+        it('should append a cancel icon', () => {
+          const model = ref('')
+
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              clearable: true
+            }
+          })
+
+          getHostElement().get('input').type('1')
+          getHostElement().get('button').should('exist').should('contain', 'cancel')
+        })
+      })
+
+      describe('(prop): autofocus', () => {
+        it('should autofocus on component', () => {
+          mountQInput({
+            props: {
+              autofocus: true
+            }
+          })
+
+          getHostElement()
+            .get('.q-field--focused')
+            .should('exist')
+            .get('input')
+            .should('have.focus')
+        })
+      })
+
+      describe('(prop): lazy-rules', () => {
+        it('should validate the input only when component loses focus', () => {
+          const errorMessage = 'Use a max 3 of characters'
+          const model = ref('')
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              rules: [ val => val.length <= 3 || errorMessage ],
+              lazyRules: true
+            }
+          })
+
+          getHostElement().get('input').type('1234')
+          getHostElement().get('.q-field__messages').should('not.contain', errorMessage)
+
+          getHostElement().get('input').then(() => {
+            Cypress.vueWrapper.vm.blur()
+            getHostElement().get('.q-field__messages').should('contain', errorMessage)
+          })
+        })
+
+        it('should validate the input only when component\'s validate() method is called', () => {
+          const errorMessage = 'Use a max 3 of characters'
+          const model = ref('')
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              rules: [ val => val.length <= 3 || errorMessage ],
+              lazyRules: 'ondemand'
+            }
+          })
+
+          getHostElement().get('input').type('1234')
+          getHostElement().get('.q-field__messages').should('not.contain', errorMessage)
+
+          getHostElement().get('input').then(() => {
+            Cypress.vueWrapper.vm.blur()
+            getHostElement().get('.q-field__messages').should('not.contain', errorMessage)
+            Cypress.vueWrapper.vm.validate()
+            getHostElement().get('.q-field__messages').should('contain', errorMessage)
+          })
+        })
+      })
+    })
+
     describe('Category: content', () => {
       describe('(prop): shadow-text', () => {
         it.skip(' ', () => {
