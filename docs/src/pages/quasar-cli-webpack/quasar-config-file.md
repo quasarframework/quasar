@@ -22,10 +22,6 @@ So what can you configure through the `/quasar.config` file?
 You'll notice that changing any of these settings does not require you to manually reload the dev server. Quasar detects and reloads the necessary processes. You won't lose your development flow, because you can just sit back while Quasar CLI quickly reloads the changed code, even keeping the current state. This saves tons of your time!
 :::
 
-::: warning
-The `/quasar.config` file is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack', and so on. Make sure the ES features that you want to use in this file are [supported by your Node version](https://node.green/) (which should be >= 12).
-:::
-
 ## Structure
 
 ### The basics

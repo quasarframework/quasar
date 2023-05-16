@@ -43,7 +43,7 @@ import { app, BrowserWindow, nativeTheme } from 'electron'
 
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
-    require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
+    require('node:fs').unlinkSync(require('node:path').join(app.getPath('userData'), 'DevTools Extensions'))
   }
 } catch (_) { }
 ```

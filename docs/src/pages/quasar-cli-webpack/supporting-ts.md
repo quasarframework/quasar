@@ -82,7 +82,7 @@ Then update your ESLint configuration accordingly, like in the following example
 
 ```js
 // .eslintrc.cjs
-const { resolve } = require('path');
+const { resolve } = require('node:path');
 
 module.exports = {
   // https://eslint.org/docs/user-guide/configuring#configuration-cascading-and-hierarchy

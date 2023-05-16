@@ -119,8 +119,8 @@ const
   express = require('express'),
   app = express(),
   formidable = require('formidable'),
-  path = require('path'),
-  fs = require('fs'),
+  path = require('node:path'),
+  fs = require('node:fs'),
   throttle = require('express-throttle-bandwidth')
 
 const

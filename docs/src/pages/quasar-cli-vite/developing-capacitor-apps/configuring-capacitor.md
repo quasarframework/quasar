@@ -73,7 +73,7 @@ Should you want to tamper with the Vite config for UI in /src:
 
 ```js
 // quasar.config file
-module.exports = function (ctx) {
+export default function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {
