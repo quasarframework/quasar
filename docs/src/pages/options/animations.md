@@ -11,7 +11,7 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 
 ## Installation
 
-Edit `/quasar.config.js`.
+Edit the `/quasar.config` file:
 
 ```js
 // embedding all animations
@@ -24,7 +24,7 @@ animations: [
 ]
 ```
 
-If you are building a website, you can also skip configuring quasar.config.js and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within quasar.config.js.
+If you are building a website, you can also skip configuring the quasar.config file and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within the quasar.config file.
 
 ```html
 <!-- src/index.template.html -->

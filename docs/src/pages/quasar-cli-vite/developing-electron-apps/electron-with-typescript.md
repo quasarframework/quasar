@@ -7,6 +7,6 @@ In order to support Electron with Typescript, you will need to rename the extens
 
 ::: tip
 `electron-packager` and `electron-builder` export their configuration types from their own packages.
-Since autocomplete into `quasar.config.js` relies on those types, properties `electron.packager` and `electron.builder` will be fully typed only after the respective package is installed.
+Since autocomplete into the `quasar.config` file relies on those types, properties `electron.packager` and `electron.builder` will be fully typed only after the respective package is installed.
 You can force the installation of the selected bundler (depending on your `electron.bundler` option) by running a build command in Electron mode: `quasar build -m electron`
 :::

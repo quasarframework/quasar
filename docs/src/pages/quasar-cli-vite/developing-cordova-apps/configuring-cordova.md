@@ -2,7 +2,7 @@
 title: Configuring Cordova
 desc: (@quasar/app-vite) How to manage your Cordova apps with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 ---
 
 We'll be using Quasar CLI (and Cordova CLI) to develop and build a Mobile App. The difference between building a SPA, PWA, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
@@ -14,11 +14,11 @@ The most important config file for your mobile app is `/src-cordova/config.xml`.
 
 Some properties from this file will get overwritten as we'll see in next section.
 
-## quasar.config.js
+## quasar.config file
 Quasar CLI helps you in setting some properties of the mobile Apps automatically (from config.xml): the Cordova "id", app version, description and android-versionCode. This is for convenience so you'll be able to have a single point where, for example, you change the version of your app, not multiple files that you need to simultaneously touch which is error prone.
 
 For determining the values for each of the properties mentioned above, Quasar CLI:
-1. Looks in `/quasar.config.js` for a "cordova" Object. Does it have "version", "description" and/or "androidVersionCode"? If yes, it will use them.
+1. Looks in the `/quasar.config` file for a "cordova" Object. Does it have "version", "description" and/or "androidVersionCode"? If yes, it will use them.
 2. If not, then it looks into your `/package.json` for "cordovaId", "version" and "description" fields.
 
 ```js
@@ -67,8 +67,8 @@ return {
 Should you want to tamper with the Vite config for UI in /src:
 
 ```js
-// quasar.config.js
-module.exports = function (ctx) {
+// quasar.config file
+export default function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {

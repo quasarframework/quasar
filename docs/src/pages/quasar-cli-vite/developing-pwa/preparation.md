@@ -2,7 +2,7 @@
 title: Preparation for PWA
 desc: (@quasar/app-vite) How to add PWA mode with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 scope:
   tree:
     l: src-pwa
@@ -41,10 +41,10 @@ All the files above are going to be detailed in the next pages, but the high ove
 * The `manifest.json` is the PWA manifest file.
 * When using InjectManifest, you can write your own custom service worker (`custom-service-worker.[js|ts]`).
 
-Should you want to use different filenames, you can do so by editing `/quasar.config.js`:
+Should you want to use different filenames, you can do so by editing the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 sourceFiles: {
   pwaRegisterServiceWorker: 'src-pwa/register-service-worker',

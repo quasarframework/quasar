@@ -68,7 +68,7 @@ export default ({ router }) => {
 }
 ```
 
-Finally we register the app boot file in `/quasar.config.js`. We can do so only for Cordova wrapped apps if we want:
+Finally we register the app boot file in the `/quasar.config` file. We can do so only for Cordova wrapped apps if we want:
 
 ```js
 boot: [

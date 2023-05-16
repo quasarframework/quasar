@@ -62,7 +62,7 @@ When you are ready, upload the APK for the release build and publish the listing
 ### Updating your App
 As you develop your app, you’ll want to update it periodically.
 
-In order for the Google Play Store to accept updated APKs, you’ll need to bump the app version (from `/package.json` or from `/quasar.config.js > cordova > version`, then rebuild the app for release.
+In order for the Google Play Store to accept updated APKs, you’ll need to bump the app version (from `/package.json` or from `/quasar.config file > cordova > version`, then rebuild the app for release.
 
 ## iOS Publishing
 First, you need to enroll in [Apple Developer Program](https://developer.apple.com/programs/). As with Google, if you have a personal account with Apple, you can create an additional one for your applications.
@@ -151,6 +151,6 @@ After you submit your app for review you’ll see the status of it in the My App
 Apple prides itself with a manual review process, which basically means it can take several days for your app to be reviewed. You’ll be notified of any issues or updates to your app status.
 
 ### Updating the app
-Since you’ll probably want to update your app at some point you’ll first need to bump the app version (from `/package.json` or from `/quasar.config.js > cordova > version`, then rebuild the app for release. Finally, you'll have to open it up from the Xcode and follow the same steps all over again.
+Since you’ll probably want to update your app at some point you’ll first need to bump the app version (from `/package.json` or from `/quasar.config file > cordova > version`, then rebuild the app for release. Finally, you'll have to open it up from the Xcode and follow the same steps all over again.
 
 Once you submit for the review, you’ll have to wait for the review process again.

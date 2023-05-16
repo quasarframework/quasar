@@ -56,7 +56,7 @@ If, however, you have a nested importing statement and the file from which you a
 </style>
 ```
 
-Same is required for .sass/.scss files that are included from quasar.config.js > css.
+Same is required for .sass/.scss files that are included from quasar.config file > css.
 
 ## Customizing
 If you want to customize the variables (or add your own) and your project does not yet have a `src/css/quasar.variables.sass` (or `src/css/quasar.variables.scss`) file, create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**

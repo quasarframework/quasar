@@ -1,9 +1,9 @@
 ---
-title: Configuring quasar.config.js
+title: Configuring quasar.config file
 desc: (@quasar/app-vite) Where, how and what you can configure in a Quasar CLI with Vite app.
 ---
 
-Notice that your scaffolded project folder contains a `/quasar.config.js` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
+Notice that your scaffolded project folder contains a `/quasar.config` file. So what can you configure through it? Basically anything that Quasar CLI does for you.
 
 * Quasar components, directives and plugins that you'll be using in your website/app
 * Default [Quasar Language Pack](/options/quasar-language-packs)
@@ -22,17 +22,17 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ::: warning
-`/quasar.config.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', Vite plugins, and so on. Make sure the ES features that you want to use in this file are [supported by your Node version](https://node.green/) (which should be >= 14.19.0).
+The `/quasar.config` file is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', Vite plugins, and so on. Make sure the ES features that you want to use in this file are [supported by your Node version](https://node.green/) (which should be >= 14.19.0).
 :::
 
 ## Structure
 
 ### The basics
 
-You'll notice that `/quasar.config.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
+You'll notice that the `/quasar.config` file exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
-module.exports = function (ctx) { // can be async too
+export default function (ctx) { // can be async too
   console.log(ctx)
 
   // Example output on console:
@@ -56,7 +56,7 @@ module.exports = function (ctx) { // can be async too
 What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
 
 ```js
-module.exports = function (ctx) {
+export default function (ctx) {
   extras: [
     ctx.mode.pwa // we're adding only if working on a PWA
       ? 'roboto-font'
@@ -68,7 +68,7 @@ module.exports = function (ctx) {
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
 
 ```js
-module.exports = function (ctx) {
+export default function (ctx) {
   css: [
     ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
     ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
@@ -79,7 +79,7 @@ module.exports = function (ctx) {
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
 
 ```js
-module.exports = function (ctx) {
+export default function (ctx) {
   devServer: {
     port: ctx.mode.spa
       ? 8000
@@ -91,7 +91,7 @@ module.exports = function (ctx) {
 You can also do async work before returning the quasar configuration:
 
 ```js
-module.exports = async function (ctx) {
+export default async function (ctx) {
   const data = await someAsyncFunction()
   return {
     // ... use "data"
@@ -99,7 +99,7 @@ module.exports = async function (ctx) {
 }
 
 // or:
-module.exports = function (ctx) {
+export default function (ctx) {
   return new Promise(resolve => {
     // some async work then:
     // resolve() with the quasar config
@@ -139,7 +139,7 @@ css?: string[];
 Example:
 
 ```js
-// quasar.config.js
+// quasar.config file
 return {
   css: [
     'app.sass', // referring to /src/css/app.sass
@@ -311,10 +311,10 @@ devServer?: ServerOptions;
 
 Apart from these options, Quasar CLI tampers with some and you will experience them differently than on a Vite app:
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config.js > devSever > open with. Some examples:
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 // opens Google Chrome
 devServer: {
@@ -343,8 +343,7 @@ devServer: {
 You can also configure automatically opening remote Vue Devtools:
 
 ```js
-// quasar.config.js
-
+// quasar.config file
 devServer: {
   vueDevtools: true
 }
@@ -644,8 +643,8 @@ htmlVariables: {
 One more example:
 
 ```js
-// quasar.config.js
-module.exports = function (ctx) {
+// quasar.config file
+export default function (ctx) {
   return {
     htmlVariables: {
       title: 'test name',

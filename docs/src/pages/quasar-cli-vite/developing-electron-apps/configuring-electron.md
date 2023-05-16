@@ -2,14 +2,14 @@
 title: Configuring Electron
 desc: (@quasar/app-vite) How to manage your Electron apps with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 ---
 We'll be using Quasar CLI to develop and build an Electron App. The difference between building a SPA, PWA, Mobile App or an Electron App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
 
 But first, let's learn how we can configure the Electron build.
 
-## quasar.config.js
-You may notice that `/quasar.config.js` contains a property called `electron`.
+## quasar.config file
+You may notice that the `/quasar.config` file contains a property called `electron`.
 
 ```js
 // should you wish to change default files
@@ -72,8 +72,8 @@ The "builder" prop refers to [electron-builder options](https://www.electron.bui
 Should you want to tamper with the "Renderer" thread (UI in /src) Vite config:
 
 ```js
-// quasar.config.js
-module.exports = function (ctx) {
+// quasar.config file
+export default function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {

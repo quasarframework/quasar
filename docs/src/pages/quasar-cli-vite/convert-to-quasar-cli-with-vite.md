@@ -63,9 +63,9 @@ import MyComponent from './MyComponent'
 import MyComponent from './MyComponent.vue'
 ```
 
-### Step 4: Check the new quasar.config.js
+### Step 4: Check the new quasar.config file
 
-There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in [quasar.config.js](/quasar-cli-vite/quasar-config-js) page. You will have to manually port your configuration to the Quasar CLI with Vite architecture.
+There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in the [quasar.config file](/quasar-cli-vite/quasar-config-file) page. You will have to manually port your configuration to the Quasar CLI with Vite architecture.
 
 ### Step 5: Browser compatibility
 
@@ -81,9 +81,9 @@ More info: [Configuring SSR](/quasar-cli-vite/developing-ssr/configuring-ssr)
 ### Step 7: PWA related
 
 * **VERY important: BEFORE porting your files over, run command `quasar mode add pwa`. Otherwise all the needed packages will not be added, and your build will fail.**
-* The default name of the outputted service worker file has changed from `service-worker.js` to `sw.js`. This can break your update process the first time the new app is loaded. So, if your app is in production, to ensure smooth upgrades from the previous Webpack builds, make sure the name matches the name of your previous service worker file. You can set it through [quasar.config.js > pwa > swFilename](/quasar-cli-vite/developing-pwa/configuring-pwa#quasar-config-js).
-* Quasar CLI with Webpack relies on `quasar.config.js > manifest` to specify the manifest, but you will need to use `/src-pwa/manifest.json` to declare it for Quasar CLI with Vite. After declaring the manifest in `/src-pwa/manifest.json`, delete `quasar.config.js > manifest` section.
-* There were also some props in `quasar.config.js` that are no longer available. Most notably: `metaVariables`, `metaVariablesFn`. Simply edit `/index.html` and add those tags directly there.
+* The default name of the outputted service worker file has changed from `service-worker.js` to `sw.js`. This can break your update process the first time the new app is loaded. So, if your app is in production, to ensure smooth upgrades from the previous Webpack builds, make sure the name matches the name of your previous service worker file. You can set it through [quasar.config file > pwa > swFilename](/quasar-cli-vite/developing-pwa/configuring-pwa#quasar-config-file).
+* Quasar CLI with Webpack relies on `quasar.config file > manifest` to specify the manifest, but you will need to use `/src-pwa/manifest.json` to declare it for Quasar CLI with Vite. After declaring the manifest in `/src-pwa/manifest.json`, delete `quasar.config file > manifest` section.
+* There were also some props in the `quasar.config` file that are no longer available. Most notably: `metaVariables`, `metaVariablesFn`. Simply edit `/index.html` and add those tags directly there.
 
 ```html
 <!-- index.html -->

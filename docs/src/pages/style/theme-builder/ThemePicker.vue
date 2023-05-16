@@ -191,7 +191,7 @@ const scssExport = computed(() => {
 })
 
 const quasarCliExport = computed(() => {
-  return `// quasar.config.js
+  return `// quasar.config file
 
 return {
   framework: {

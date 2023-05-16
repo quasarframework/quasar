@@ -136,4 +136,4 @@ Please remember that calling `Loading.hide()` with no parameters will hide all t
 :::
 
 ### Setting Up Defaults
-Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config.js > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.
+Should you wish to set up some defaults, rather than specifying them each time, you can do so by using quasar.config file > framework > config > loading: {...} or by calling `Loading.setDefaults({...})` or `$q.loading.setDefaults({...})`.

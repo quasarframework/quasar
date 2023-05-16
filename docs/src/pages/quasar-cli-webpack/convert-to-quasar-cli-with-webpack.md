@@ -50,9 +50,9 @@ history: createHistory(process.env.VUE_ROUTER_BASE)
 history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
 ```
 
-### Step 3: Check the new quasar.config.js
+### Step 3: Check the new quasar.config file
 
-There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in [quasar.config.js](/quasar-cli-webpack/quasar-config-js) page. You will have to manually port your configuration to the Quasar CLI with Webpack architecture.
+There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in the [quasar.config file](/quasar-cli-webpack/quasar-config-file) page. You will have to manually port your configuration to the Quasar CLI with Webpack architecture.
 
 ### Step 4: Browser compatibility
 
@@ -66,9 +66,9 @@ More info: [Configuring SSR](/quasar-cli-webpack/developing-ssr/configuring-ssr)
 
 ### Step 6: PWA related
 
-The `/src-pwa/manifest.json` has no meaning for a Quasar CLI with Webpack project. You will need to use `quasar.config.js > manifest` to declare it there. After that then delete the `/src-pwa/manifest.json` file.
+The `/src-pwa/manifest.json` has no meaning for a Quasar CLI with Webpack project. You will need to use `quasar.config file > manifest` to declare it there. After that then delete the `/src-pwa/manifest.json` file.
 
-Also check `quasar.config.js > pwa` > `metaVariables` and `metaVariablesFn`.
+Also check `quasar.config file > pwa` > `metaVariables` and `metaVariablesFn`.
 
 More info: [Configuring PWA](/quasar-cli-webpack/developing-pwa/configuring-pwa)
 

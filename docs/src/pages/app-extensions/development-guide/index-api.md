@@ -14,7 +14,7 @@ module.exports = function (api) {
 ```
 
 ### api.ctx
-Same as the `ctx` from `/quasar.config.js`. Helps you make decisions based on the context in which `quasar dev` or `quasar build` runs.
+Same as the `ctx` from the `/quasar.config` file. Helps you make decisions based on the context in which `quasar dev` or `quasar build` runs.
 
 Example: You might want to use one of the api methods if running for electron mode only.
 
@@ -152,7 +152,7 @@ console.log( api.getPackageVersion(packageName) )
 ```
 
 ### api.extendQuasarConf
-Extends quasar.config.js
+Extends quasar.config file
 
 ```js
 /**
@@ -160,7 +160,7 @@ Extends quasar.config.js
  *   (cfg: Object, ctx: Object) => undefined
  */
 api.extendQuasarConf ((conf, api) => {
-  // do something with quasar.config.js:
+  // do something with quasar.config file:
   // add, change anything
 })
 ```
@@ -169,11 +169,11 @@ api.extendQuasarConf ((conf, api) => {
 // a more complex example:
 api.extendQuasarConf ((conf, api) => {
   if (api.hasVite === true) {
-    // do something with quasar.config.js that is specific
+    // do something with quasar.config file that is specific
     // to @quasar/app-vite
   }
   else { // api.hasWebpack === true
-    // do something with quasar.config.js that is specific
+    // do something with quasar.config file that is specific
     // to @quasar/app-webpack
   }
 })

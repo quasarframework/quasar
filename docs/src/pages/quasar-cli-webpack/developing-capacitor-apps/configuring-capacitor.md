@@ -2,7 +2,7 @@
 title: Configuring Capacitor
 desc: (@quasar/app-webpack) How to manage your Capacitor apps with Quasar CLI.
 related:
-  - /quasar-cli-webpack/quasar-config-js
+  - /quasar-cli-webpack/quasar-config-file
 ---
 
 We'll be using Quasar CLI to develop and build a Mobile App. The difference between building a SPA, PWA, Electron App or a Mobile App is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
@@ -14,8 +14,8 @@ The most important config file for your mobile app is `/src-capacitor/capacitor.
 
 Some properties from this file will get overwritten as we'll see in next section.
 
-## quasar.config.js
-There are two places in `/quasar.config.js` where you can configure Quasar specific features for Capacitor.
+## quasar.config file
+There are two places in the `/quasar.config` file where you can configure Quasar specific features for Capacitor.
 
 ```js
 return {

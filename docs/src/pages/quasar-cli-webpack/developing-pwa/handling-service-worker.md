@@ -53,14 +53,14 @@ This file is automatically bundled into your website/app by Quasar CLI because i
 ## SSL certificate
 
 You may notice in some dev environments, that Workbox will not load your service workers during `quasar dev` if you are not using HTTPS to serve - even on localhost. You will see that there are two scripts that can't load. The Chrome browser console is relatively tight-lipped about this, but Firefox tells you what is going on. The three options you have are:
- - set quasar.config.js > devServer > `https: true`
+ - set quasar.config file > devServer > `https: true`
  - setup a loopback from localhost to 127.0.0.1 (but this is not without security implications)
  - serve your localhost over ngrok and use the https address that ngrok provides
 
-When you set `devServer > https: true` in your quasar.config.js file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config.js > devServer > https` should look like this:
+When you set `devServer > https: true` in your `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > https` should look like this:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 devServer: {
   server: {

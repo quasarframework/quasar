@@ -2,7 +2,7 @@
 title: PreFetch Feature
 desc: (@quasar/app-webpack) How to prefetch data and initialize your Vuex store, validate the route and redirect to another page in a Quasar app.
 related:
-  - /quasar-cli-webpack/quasar-config-js
+  - /quasar-cli-webpack/quasar-config-file
 ---
 
 The PreFetch is a feature (**only available when using Quasar CLI**) which allows the components picked up by Vue Router (defined in `/src/router/routes.js`) to:
@@ -19,7 +19,7 @@ All the above will run before the actual route component is rendered.
 ## Installation
 
 ```js
-// quasar.config.js
+// quasar.config file
 return {
   preFetch: true
 }

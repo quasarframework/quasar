@@ -90,9 +90,9 @@ scope:
       - l: electron
         e: Example when building Electron
       - l: "..."
-    - l: quasar.config.js
+    - l: quasar.config.[js|ts|...]
       e: Quasar App Config file
-      url: "/quasar-cli-webpack/quasar-config-js"
+      url: "/quasar-cli-webpack/quasar-config-file"
     - l: ".gitignore"
       e: GIT ignore paths
       url: https://git-scm.com/docs/gitignore
@@ -127,7 +127,7 @@ scope:
 This is the structure of a project with all modes installed. There's no reason to be intimidated though!
 
 ::: tip
-If you are a beginner, all you'll need to care about is `/quasar.config.js` (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
+If you are a beginner, all you'll need to care about is the `/quasar.config` file (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
 :::
 
 <doc-tree :def="scope.tree" />

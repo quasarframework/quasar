@@ -59,10 +59,10 @@ For browser-only APIs, the common approach is to lazily access them inside clien
 ## Boot Files
 Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into a server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
 
-When you add a 3rd party library to your project (through a [Boot File](/quasar-cli-webpack/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.config.js:
+When you add a 3rd party library to your project (through a [Boot File](/quasar-cli-webpack/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 return {
   // ...
   boot: [

@@ -19,6 +19,9 @@ const routes = [
   { path: '/quasar-cli/quasar-conf-js', redirect: '/quasar-cli-webpack/quasar-config-js' },
   { path: '/contribution-guide', redirect: '/how-to-contribute/contribution-guide' },
 
+  { path: '/quasar-cli-webpack/quasar-config-js', redirect: '/quasar-cli-webpack/quasar-config-file' },
+  { path: '/quasar-cli-vite/quasar-config-js', redirect: '/quasar-cli-vite/quasar-config-file' },
+
   // shortcuts
   { path: '/start', redirect: '/start/quick-start' },
   { path: '/vue-components', redirect: '/components' },

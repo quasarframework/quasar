@@ -44,7 +44,7 @@ scope:
         e: Described in Uninstall API
 ---
 
-This guide is for when you want to create what essentially is a "starter kit" that adds stuff (/quasar.config.js configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.
+This guide is for when you want to create what essentially is a "starter kit" that adds stuff (/quasar.config file configuration, folders, files, CLI hooks) on top of the official starter kit. This allows you to have multiple projects sharing a common structure/logic (and only one package to manage them rather than having to change all projects individually to match your common pattern), and also allows you to share all this with the community.
 
 ::: tip
 In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
@@ -58,7 +58,7 @@ We'll be creating an example App Extension which does the following:
 
 * it prompts the user what features it wants this App Extension to install
 * renders (copies) files into the hosting folder, according to the answers he gave
-* it extends /quasar.config.js
+* it extends the /quasar.config file
 * it extends the Webpack configuration
 * it uses an App Extension hook (onPublish)
 * it removes the added files when the App Extension gets uninstalled
@@ -114,7 +114,7 @@ Notice that we use the prompts to decide what to render into the hosting project
 
 ## The index script
 
-We do a few things in the index script, like extending /quasar.config.js, hooking into one of the many Index API hooks (onPublish in this case), and chaining the Webpack configuration:
+We do a few things in the index script, like extending the /quasar.config file, hooking into one of the many Index API hooks (onPublish in this case), and chaining the Webpack configuration:
 
 ```js
 // src/index.js
@@ -133,7 +133,7 @@ module.exports = function (api) {
     api.compatibleWith('@quasar/app-webpack', '^3.0.0')
   }
 
-  // Here we extend /quasar.config.js;
+  // Here we extend the /quasar.config file;
   // (extendQuasarConf() will be defined later in this tutorial, continue reading)
   api.extendQuasarConf(extendQuasarConf)
 

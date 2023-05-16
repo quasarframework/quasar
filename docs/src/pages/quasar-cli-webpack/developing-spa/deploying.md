@@ -24,7 +24,7 @@ To serve your production files it is *required* to use a web server, so to serve
 
 Common choices for web servers are [nginx](https://www.nginx.com/), [Caddy](https://caddyserver.com/), [Apache](https://httpd.apache.org/), [Express](https://expressjs.com/); but you should be able to use whatever web server you want.
 
-The web server requires no special setup (unless you built with Vue Router in "history" mode in `quasar.config.js`). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
+The web server requires no special setup (unless you built with Vue Router in "history" mode in the `/quasar.config` file). The main requirement is to be able to serve static files from a directory, so consult the documentation of your web server on how to set up static file serving.
 
 An example config for nginx may look like this:
 

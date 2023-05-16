@@ -164,8 +164,8 @@ Detailing the Object:
 {
   app,     // Expressjs app instance (or whatever you return from create())
 
-  port,    // on production: process.env.PORT or quasar.config.js > ssr > prodPort
-           // on development: quasar.config.js > devServer > port
+  port,    // on production: process.env.PORT or quasar.config file > ssr > prodPort
+           // on development: quasar.config file > devServer > port
 
   isReady, // Function to call returning a Promise
            // when app is ready to serve clients
@@ -228,7 +228,7 @@ export function create (/* { ... } */) {
 
 ### Listen on a port
 
-This is the default option that you get when adding SSR support in a Quasar CLI project. It starts listening on the configured port (process.env.PORT or quasar.config.js > ssr > prodPort).
+This is the default option that you get when adding SSR support in a Quasar CLI project. It starts listening on the configured port (process.env.PORT or quasar.config file > ssr > prodPort).
 
 ``` js
 // src-ssr/server.[js|ts]

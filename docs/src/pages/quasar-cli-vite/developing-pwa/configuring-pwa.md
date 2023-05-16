@@ -2,7 +2,7 @@
 title: Configuring PWA
 desc: (@quasar/app-vite) How to manage your Progressive Web Apps with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 scope:
   tree:
     l: src-pwa
@@ -22,15 +22,15 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 
 You can freely edit these files. Notice a few things:
 
-1. `register-service-worker.[js|ts]` is automatically imported into your app (like any other /src file). It registers the service worker (created by Workbox or your custom one, depending on workbox plugin mode -- quasar.config.js > pwa > workboxPluginMode) and you can listen for Service Worker's events. You can use ES6 code.
-2. `custom-service-worker.[js|ts]` will be your service worker file ONLY if workbox plugin mode is set to "injectManifest" (quasar.config.js > pwa > workboxMode: 'injectManifest'). Otherwise, Quasar and Workbox will create a service-worker file for you.
+1. `register-service-worker.[js|ts]` is automatically imported into your app (like any other /src file). It registers the service worker (created by Workbox or your custom one, depending on workbox plugin mode -- quasar.config file > pwa > workboxPluginMode) and you can listen for Service Worker's events. You can use ES6 code.
+2. `custom-service-worker.[js|ts]` will be your service worker file ONLY if workbox plugin mode is set to "injectManifest" (quasar.config file > pwa > workboxMode: 'injectManifest'). Otherwise, Quasar and Workbox will create a service-worker file for you.
 3. It makes sense to run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) tests on production builds only.
 
 ::: tip
 Read more on `register-service-worker.[js|ts]` and how to interact with the Service Worker on [Handling Service Worker](/quasar-cli-vite/developing-pwa/handling-service-worker) documentation page.
 :::
 
-## quasar.config.js
+## quasar.config file
 This is the place where you can configure Workbox behavior and also tweak your manifest.json.
 
 ```js
@@ -56,8 +56,8 @@ sourceFiles: {
 Should you want to tamper with the Vite config for UI in /src:
 
 ```js
-// quasar.config.js
-module.exports = function (ctx) {
+// quasar.config file
+export default function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {
@@ -74,10 +74,10 @@ More information: [Workbox](https://developers.google.com/web/tools/workbox).
 
 ## Adding your own meta tags in index.html
 
-Quasar CLI adds (dynamically) some PWA oriented meta tags into your index.html. Should you wish to customize the tags, first disable this behavior in `/quasar.config.js`:
+Quasar CLI adds (dynamically) some PWA oriented meta tags into your index.html. Should you wish to customize the tags, first disable this behavior in the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 pwa: {
   injectPwaMetaTags: false
 }
@@ -111,10 +111,10 @@ Notice that you have access to your PWA manifest through `pwaManifest` above.
 
 There are two Workbox operating modes: **generateSW** (default) and **injectManifest**.
 
-Setting the mode that you want to use is done through quasar.config.js:
+Setting the mode that you want to use is done through the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 pwa: {
   workboxMode: 'generateSW',
@@ -171,7 +171,7 @@ The following snippet is the default code for a custom service worker (`/src-pwa
 /*
  * This file (which will be your service worker)
  * is picked up by the build system ONLY if
- * quasar.config.js > pwa > workboxMode is set to "injectManifest"
+ * quasar.config file > pwa > workboxMode is set to "injectManifest"
  */
 
 import { clientsClaim } from 'workbox-core'
@@ -202,10 +202,10 @@ if (process.env.MODE !== 'ssr' || process.env.PROD) {
 ## Configuring Manifest File
 The Manifest file is located at `/src-pwa/manifest.json`. You can freely edit it.
 
-Should you need to change it dynamically at build time, you can do so by editing `/quasar.config.js`:
+Should you need to change it dynamically at build time, you can do so by editing the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 pwa: {
   extendManifestJson (json) {
     // tamper with the json
@@ -220,7 +220,7 @@ Note that you don't need to edit your index.html file (generated from `/index.ht
 ::::
 
 ::: tip
-If your PWA is behind basic auth or requires an Authorization header, set quasar.config.js > pwa > useCredentialsForManifestTag to `true` to include `crossorigin="use-credentials"` on the manifest.json meta tag.
+If your PWA is behind basic auth or requires an Authorization header, set quasar.config file > pwa > useCredentialsForManifestTag to `true` to include `crossorigin="use-credentials"` on the manifest.json meta tag.
 ::::
 
 ## PWA Checklist
@@ -235,7 +235,7 @@ Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on 
 For those who don't want to manually reload the page when the service worker is updated **and are using the default generateSW workbox mode**, Quasar CLI has configured Workbox to activate it at once. Should you need to disable this behavior:
 
 ```js
-// quasar.config.js
+// quasar.config file
 pwa: {
   extendGenerateSWOptions (cfg) {
     cfg.skipWaiting = false
@@ -248,10 +248,10 @@ pwa: {
 
 Due to how Rollup builds the assets (through Vite), when you change any of your script source files (.js) this will also change the hash part of (almost) ALL .js files (ex: `454d87bd` in `assets/index.454d87bd.js`). The revision number of all assets will get changed in your service worker file and this means that when PWA updates it will re-download ALL your assets again. What a waste of bandwidth and such a longer time to get the PWA updated!
 
-By default, Vite builds all filenames **with the hash part**. However, should you want your filenames to NOT contain the hash part, you need to edit quasar.config.js file:
+By default, Vite builds all filenames **with the hash part**. However, should you want your filenames to NOT contain the hash part, you need to edit the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 build: {
   useFilenameHashes: false // true by default
 }

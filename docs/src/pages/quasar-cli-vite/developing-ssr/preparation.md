@@ -2,7 +2,7 @@
 title: Preparation for SSR
 desc: (@quasar/app-vite) How to add SSR mode with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 scope:
   nodeJsTree:
     l: src-ssr

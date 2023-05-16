@@ -87,10 +87,10 @@ The best approach is to open that in a browser beside this page so you can revie
 
 The first step to properly start debugging is enabling source maps. Quasar automatically enables source maps for development mode. Here is [a good article](https://blog.scottlogic.com/2017/11/01/webpack-source-map-options-quick-guide.html) that describes the different values for the [Webpack's devtool setting](https://webpack.js.org/configuration/devtool/)(_the one that controls the source maps_). Quasar uses _eval-cheap-module-source-map_ by default.
 
-`eval-cheap-module-source-map` builds slow(_not the slowest_), rebuilds fast(_not the fastest_), and preserves the original lines(_not the best quality_). If you want faster builds while giving up on some accuracy, or more accuracy while giving up on speed, you can choose other values. The slowest but the most accurate(_the original_) value of the `devtool` is `source-map`. This makes debugging in VS Code work properly due to your full Vue source files being available in the built-in Chrome debugger. So, it will be easier to find your original source and locate the line that you want to set the breakpoint to. If you want to enable this, you need to update [`quasar.config.js > build > devtool`](/quasar-cli-webpack/quasar-config-js#property-build) like this:
+`eval-cheap-module-source-map` builds slow(_not the slowest_), rebuilds fast(_not the fastest_), and preserves the original lines(_not the best quality_). If you want faster builds while giving up on some accuracy, or more accuracy while giving up on speed, you can choose other values. The slowest but the most accurate(_the original_) value of the `devtool` is `source-map`. This makes debugging in VS Code work properly due to your full Vue source files being available in the built-in Chrome debugger. So, it will be easier to find your original source and locate the line that you want to set the breakpoint to. If you want to enable this, you need to update [`quasar.config file > build > devtool`](/quasar-cli-webpack/quasar-config-file#property-build) like this:
 
 ```js
-// quasar.config.js
+// quasar.config file
 build: {
   // ...
 

@@ -19,7 +19,7 @@ In regards to webfont icons, you can choose to install one or more of these icon
 ## Installing Webfonts
 If you are building a website only, then using a CDN (Content Delivery Network) approach can be an option you can follow. However, when building a mobile or Electron app, you most likely do not want to depend on an Internet connection and Quasar comes with a solution to this problem:
 
-Edit `/quasar.config.js`:
+Edit the `/quasar.config` file:
 
 ```js
 extras: [
@@ -27,7 +27,7 @@ extras: [
 ]
 ```
 
-Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.config.js` as indicated above.
+Webfont icons are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure the `/quasar.config` file as indicated above.
 
 Adding more than one set:
 ```js
@@ -50,7 +50,7 @@ You're now ready to use the [QIcon](/vue-components/icon) component.
 ## Using CDN as alternative
 If you want to make use of a CDN (Content Delivery Network), all you need to do is to include style tags in your `index.template.html` which point to the CDN URL.
 
-In case you follow this path, do not also add the icon sets that you want in `/quasar.config.js > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
+In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
 
 ## Using Fontawesome-Pro
 If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
@@ -69,7 +69,7 @@ If you have a Fontawesome v6 Pro license and want to use it instead of the Fonta
   ```bash
   $ quasar new boot fontawesome-pro [--format ts]
   ```
-5. Edit `/quasar.config.js`:
+5. Edit the `/quasar.config` file:
   ```js
   boot: [
     ...

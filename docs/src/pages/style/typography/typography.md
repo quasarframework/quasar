@@ -41,7 +41,7 @@ Roboto comes with 5 different font weights you can use: 100, 300, 400, 500, 700.
 This is where Roboto font comes embedded by default, if you are looking to remove it:
 
 ```js
-// file: /quasar.config.js
+// quasar.config file
 extras: [
   'roboto-font'
 ]

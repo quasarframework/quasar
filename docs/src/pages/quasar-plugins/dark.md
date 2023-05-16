@@ -76,9 +76,9 @@ Dark.set(true) // or false or "auto"
 Dark.toggle()
 ```
 
-### Through quasar.config.js
+### Through quasar.config file
 
-You can also use `/quasar.config.js` to set the Dark mode status:
+You can also use the `/quasar.config` file to set the Dark mode status:
 
 ```js
 framework: {
@@ -92,7 +92,7 @@ framework: {
 
 When on a SSR build:
 
-* `import { Dark } from 'quasar'` method of using Dark mode will not error out but it will not work (won't do anything). But you can use the other two ways (see previous section). We recommend through quasar.config.js.
+* `import { Dark } from 'quasar'` method of using Dark mode will not error out but it will not work (won't do anything). But you can use the other two ways (see previous section). We recommend through the `/quasar.config` file.
 * It's preferred to avoid setting Dark mode to 'auto' for SSR builds. It's because the client dark mode preference cannot be inferred, so SSR will always render in light mode then when the client takes over, it will switch to Dark (if it will be the case). As a result, a quick flicker of the screen will occur.
 
 ## Watching for status change

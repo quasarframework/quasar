@@ -25,7 +25,7 @@ $ quasar
     new, n        Quickly scaffold page/layout/component/... vue file
     mode, m       Add/remove Quasar Modes for your App
     inspect       Inspect Vite/esbuild configs used under the hood
-                    - keeps into account your quasar.config.js
+                    - keeps into account your quasar.config file
                       and your installed App Extensions
     ext, e        Manage Quasar App Extensions
     run, r        Run specific command provided by an installed
@@ -183,7 +183,7 @@ $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
-* Edit '/quasar.config.js':
+* Edit the '/quasar.config' file:
   ```js
   devServer: {
     host: '...',

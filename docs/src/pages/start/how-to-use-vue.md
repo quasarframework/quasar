@@ -95,7 +95,7 @@ Example of a Quasar directive:
 ```
 
 ## Using Quasar Components
-Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in `/quasar.config.js`.
+Quasar components have names beginning with "Q" like "QBtn" or "QElementResizeObserver". In order to use them, you need to add a reference to them in the `/quasar.config` file.
 
 Let's take the following example with a QBtn and QIcon and then we'll see how to embed these components in our app:
 
@@ -112,7 +112,7 @@ Let's take the following example with a QBtn and QIcon and then we'll see how to
 Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
 ::: warning
-**Before using them in your app**, you need to add a reference to them in `/quasar.config.js` (as shown below).
+**Before using them in your app**, you need to add a reference to them in the `/quasar.config` file (as shown below).
 :::
 
 ```js

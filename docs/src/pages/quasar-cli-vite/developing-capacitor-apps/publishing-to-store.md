@@ -63,7 +63,7 @@ When you are ready, upload the APK for the release build and publish the listing
 
 As you develop your app, you’ll want to update it periodically.
 
-In order for the Google Play Store to accept updated APKs, you’ll need to bump the app version (from `/package.json` or from `/quasar.config.js > capacitor > version`, then rebuild the app for release.
+In order for the Google Play Store to accept updated APKs, you’ll need to bump the app version (from `/package.json` or from `/quasar.config file > capacitor > version`, then rebuild the app for release.
 
 ## iOS Publishing
 

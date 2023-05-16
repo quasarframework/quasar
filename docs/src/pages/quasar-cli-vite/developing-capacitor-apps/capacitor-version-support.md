@@ -54,7 +54,7 @@ The `@capacitor/app` and `@capacitor/splash-screen` are optional, but it helps Q
 ## Capacitor v3
 
 ::: warning Known issue
-HTTPS devserver (through quasar.config.js > devServer > https: true) is not supported. If you are using Capacitor plugins that depend on it, it's better to upgrade to the newer supported Capacitor versions.
+HTTPS devserver (through quasar.config file > devServer > https: true) is not supported. If you are using Capacitor plugins that depend on it, it's better to upgrade to the newer supported Capacitor versions.
 :::
 
 Assuming that you've installed Capacitor mode already, this is how your dependencies in /src-capacitor/package.json should look like:

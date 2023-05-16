@@ -132,7 +132,7 @@ This is the default content of `electron-preload.js`:
  */
 ```
 
-### quasar.config.js changes
+### quasar.config file changes
 
 ```js
 // OLD way

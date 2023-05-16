@@ -18,8 +18,8 @@ You do not need a new Quasar App per BEX type above as a single Quasar Applicati
 Should you want to tamper with the Vite config for UI in /src:
 
 ```js
-// quasar.config.js
-module.exports = function (ctx) {
+// quasar.config file
+export default function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {

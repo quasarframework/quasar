@@ -86,9 +86,9 @@ ipcMain.handle('myAPI:load-prefs', () => {
 ```
 
 ## Custom path to the preload script
-Should you wish to change the location of the preload script (and/or even the main thread file) then edit `/quasar.config.js`:
+Should you wish to change the location of the preload script (and/or even the main thread file) then edit the `/quasar.config` file:
 
-```
+```js
 // should you wish to change default files
 sourceFiles: {
   electronMain: 'src-electron/electron-main.js',

@@ -2,7 +2,7 @@
 title: Configuring SSR
 desc: (@quasar/app-vite) How to manage your server-side rendered apps with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 scope:
   nodeJsTree:
     l: src-ssr
@@ -13,7 +13,7 @@ scope:
       e: SSR webserver
 ---
 
-## quasar.config.js
+## quasar.config file
 
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
@@ -76,8 +76,8 @@ return {
 Should you want to tamper with the Vite config for UI in /src:
 
 ```js
-// quasar.config.js
-module.exports = function (ctx) {
+// quasar.config file
+export default function (ctx) {
   return {
     build: {
       extendViteConf (viteConf, { isClient, isServer }) {
@@ -94,7 +94,7 @@ module.exports = function (ctx) {
 
 By default, Quasar CLI takes care of hydrating the Vuex store (if you use it) on client-side.
 
-However, should you wish to manually hydrate it yourself, you need to set quasar.config.js > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-vite/boot-files):
+However, should you wish to manually hydrate it yourself, you need to set quasar.config file > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-vite/boot-files):
 
 ```js
 // some_boot_file
@@ -114,7 +114,7 @@ export default ({ store }) => {
 
 By default, Quasar CLI wraps your App component and calls `$q.onSSRHydrated()` on the client-side when this wrapper component gets mounted. This is the moment that the client-side takes over. You don't need to configure anything for this to happen.
 
-However should you wish to override the moment when this happens, you need to set quasar.config.js > ssr > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
+However should you wish to override the moment when this happens, you need to set quasar.config file > ssr > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
 
 ```js
 // App.vue - Composition API
@@ -156,7 +156,7 @@ Notice a few things:
 
 2. If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
 
-3. The `/src-ssr/middlewares` is built through a separate Esbuild config. You can extend the Esbuild configuration of these files through quasar.config.js:
+3. The `/src-ssr/middlewares` is built through a separate Esbuild config. You can extend the Esbuild configuration of these files through the `/quasar.config` file:
 
 ```js
 return {
@@ -183,7 +183,7 @@ When running on SSR mode, your application code needs to be isomorphic or "unive
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 
 ```js
-// quasar.config.js
+// quasar.config file
 return {
   // ...
   boot: [

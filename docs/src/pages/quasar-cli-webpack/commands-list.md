@@ -181,7 +181,7 @@ $ quasar dev -m electron '--' --no-sandbox --disable-setuid-sandbox
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
-* Edit '/quasar.config.js':
+* Edit the `/quasar.config` file:
   ```js
   devServer: {
     host: '...',

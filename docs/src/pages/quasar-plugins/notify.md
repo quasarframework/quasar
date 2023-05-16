@@ -162,7 +162,7 @@ dismiss()
 ```
 
 ### Setting defaults
-There are two ways of setting default configuration that will apply to all Notifications: through quasar.config.js > framework > config > notify Object (see Installation section) or programmatically (see below).
+There are two ways of setting default configuration that will apply to all Notifications: through quasar.config file > framework > config > notify Object (see Installation section) or programmatically (see below).
 
 We'll describe setting the defaults through a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files) (works the same anywhere in your code, but a boot file ensures this is run before your app starts):
 
@@ -172,10 +172,10 @@ First we create the boot file. Let's name it "notify-defaults.js".
 $ quasar new boot notify-defaults [--format ts]
 ```
 
-Add the created notify-defaults.js file to the boot array in `quasar.config.js`:
+Add the created notify-defaults.js file to the boot array in the `/quasar.config` file:
 
 ```js
-module.exports = function(ctx) {
+export default function(ctx) {
   return {
     // ...
     boot: ['notify-defaults'],
@@ -197,7 +197,7 @@ Notify.setDefaults({
 ```
 
 ::: warning
-You can only set default `actions` through this method. Specifying `actions` with handlers in quasar.config.js cannot and will NOT work.
+You can only set default `actions` through this method. Specifying `actions` with handlers in the `/quasar.config` file cannot and will NOT work.
 :::
 
 We could also set the defaults in some Vue file:

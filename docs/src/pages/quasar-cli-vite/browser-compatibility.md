@@ -2,13 +2,13 @@
 title: Browser compatibility
 desc: (@quasar/app-vite) How to handle the browser support with Quasar CLI.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 ---
 
-In order to configure the browser compatibility for your app, you will need to edit `/quasar.config.js`:
+In order to configure the browser compatibility for your app, you will need to edit the `/quasar.config` file:
 
 ```js
-// quasar.config.js
+// quasar.config file
 build: {
   target: {
     browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
@@ -22,7 +22,7 @@ Based on the Quasar Mode that you will be using (SPA/SSR/PWA/Electron/... etc) y
 Also, independent of this configuration, you need to decide if you want the [module preload polyfill](https://guybedford.com/es-module-preloading-integrity#modulepreload-polyfill) since all the script tags will be injected as modules. By default, the polyfill is NOT included:
 
 ```js
-// quasar.config.js
+// quasar.config file
 build: {
   polyfillModulePreload: false
 }

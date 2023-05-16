@@ -183,7 +183,7 @@ $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iO
 ```
 
 ### Enabling modern build
-By default, Xcode modern build for iOS is disabled due to Cordova issues. However, if you know what you are doing and you want to enable it, do so from `/quasar.config.js`:
+By default, Xcode modern build for iOS is disabled due to Cordova issues. However, if you know what you are doing and you want to enable it, do so from the `/quasar.config` file:
 
 ```js
 cordova: {

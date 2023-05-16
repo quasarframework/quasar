@@ -23,7 +23,7 @@ In order for creating an App Extension project folder, please first read the [De
 To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/v2/chain-webpack), which is a GitHub repo with this App Extension.
 :::
 
-We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.config.js from the host app to include our Webpack chaining.
+We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure the quasar.config file from the host app to include our Webpack chaining.
 
 <doc-tree :def="scope.tree" />
 

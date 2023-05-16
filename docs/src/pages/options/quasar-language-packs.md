@@ -26,7 +26,7 @@ Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack b
 If the default Quasar Language Pack is not dynamically determined (does not depend on cookies for example), then you can:
 
 #### Quasar CLI
-Edit `/quasar.config.js`:
+Edit the `/quasar.config` file:
 
 ```js
 framework: {
@@ -129,7 +129,7 @@ export default async () => {
 }
 ```
 
-Then register this boot file into `/quasar.config.js`:
+Then register this boot file into the `/quasar.config` file:
 
 ```js
 boot: [
@@ -284,7 +284,7 @@ By default, Quasar will add `dir` and `lang` HTML attributes to the `<html>` tag
 If, for whatever reason you want this behavior disabled, then you can:
 
 ```js
-// Quasar CLI > quasar.config.js
+// Quasar CLI > quasar.config file
 framework: {
   config: {
     lang: {

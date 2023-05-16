@@ -49,10 +49,10 @@ export default ({ app }) => {
 
 3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the "import messages from 'src/i18n'" from step 2. This is step where you write the content that gets imported.
 
-4. Now reference this file in `quasar.config.js` in the `boot` section:
+4. Now reference this file in `quasar.config` one in the `boot` section:
 
 ```js
-// quasar.config.js
+// quasar.config file
 return {
   boot: [
     // ...
@@ -77,10 +77,10 @@ $ yarn add --dev @intlify/vue-i18n-loader
 $ npm i --save-dev @intlify/vue-i18n-loader
 ```
 
-We then edit `quasar.config.js` at the root of our project. We have to include the following:
+We then edit the `quasar.config` file at the root of our project. We have to include the following:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 const path = require('path')
 

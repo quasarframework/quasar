@@ -610,7 +610,7 @@ Let's assume we have our own webfont called "My App Icon".
 }
 ```
 
-We should then edit our `quasar.config.js` (if using Quasar CLI) to add the newly created CSS file into our app:
+We should then edit our `/quasar.config` file (if using Quasar CLI) to add the newly created CSS file into our app:
 
 ```js
 css: [

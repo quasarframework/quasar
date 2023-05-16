@@ -84,25 +84,25 @@ if (process.env.MODE === 'electron') {
 
 ## Adding to process.env
 
-You can add your own definitions to `process.env` through the `/quasar.config.js` file.
+You can add your own definitions to `process.env` through the the `/quasar.config` file.
 
 It's important to understand the different types of environment variables.
 
-* The env variables from the terminal that are defined in the `/quasar.config.js` file
+* The env variables from the terminal that are defined in the `/quasar.config` file
 * The environment variables that you pass to your UI code
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 // Accessing terminal variables
 console.log(process.env)
 
-module.exports = function (ctx) {
+export default function (ctx) {
   return {
     // ...
 
     build: {
-      // passing down to UI code from quasar.config.js
+      // passing down to UI code from the quasar.config file
       env: {
         API: ctx.dev
           ? 'https://dev.api.com'
@@ -123,7 +123,7 @@ $ MY_API=api.com quasar build
 ```
 
 ```js
-// then we pick it up in /quasar.config.js
+// then we pick it up in the /quasar.config file
 build: {
   env: {
     API: ctx.dev
@@ -171,7 +171,7 @@ Should you wish to use `.env` file(s), you can use the [dotenv](https://www.npmj
 $ yarn add --dev dotenv
 ```
 
-Then, in your `/quasar.config.js`:
+Then, in your `/quasar.config` file:
 
 ```js
 build: {
@@ -186,7 +186,7 @@ Note that the approach above will pass only what's defined in the `.env` file an
 If you want to be able to override what's inside `.env` or want to make the `.env` file completely optional, you have to follow another approach. If you are using CI/CD, Docker, etc. you probably don't want to stay limited to the `.env` file. Here is an example:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 // This will load from `.env` if it exists, but not override existing `process.env.*` values
 require('dotenv').config()
@@ -217,7 +217,7 @@ You might be getting `process is not defined` errors in the browser console if y
 ### Wrong usage
 
 ```js
-// quasar.config.js > build
+// quasar.config file > build
 env: {
   FOO: 'hello',
 }
@@ -234,7 +234,7 @@ function getEnv(name) {
 console.log(process)     // ❌
 console.log(process.env) // ❌
 // If you want to see a list of available env variables,
-// you can log the object you are passing to `build > env` inside `quasar.config.js`
+// you can log the object you are passing to `build > env` inside the `quasar.config` file
 
 console.log(process.env.FOO) // ✅
 console.log(process.env.foo) // ❌ Case sensitive
@@ -246,7 +246,7 @@ console.log(process.env.F0O) // ❌ Typo in the variable name (middle o is 0(zer
 #### Manual definition
 
 ```js
-// quasar.config.js > build
+// quasar.config file > build
 env: {
   FOO: 'hello',
 }
@@ -260,7 +260,7 @@ console.log(process.env.BAR) // ❌ It's not defined in `build > env`
 #### dotenv
 
 ```js
-// quasar.config.js > build
+// quasar.config file > build
 env: require('dotenv').config(/* ... */).parsed
 ```
 

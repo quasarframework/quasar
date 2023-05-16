@@ -2,17 +2,17 @@
 title: API Proxying for Dev
 desc: (@quasar/app-vite) How to use an API proxy with the Quasar dev server.
 related:
-  - /quasar-cli-vite/quasar-config-js
+  - /quasar-cli-vite/quasar-config-file
 ---
 
 When integrating a project folder (created by Quasar CLI) with an existing backend, a common need is to access the backend API when using the dev server. To achieve this, we can run the dev server and the API backend side-by-side (or remotely), and let the dev server proxy all API requests to the actual backend.
 
 This is useful if you access relative paths in your API requests. Obviously, these relative paths will probably not work while you are developing. In order to create an environment similar to the one used by your deployed website/app, you can proxy your API requests.
 
-To configure the proxy rules, edit `/quasar.config.js` in `devServer.proxy`. Under the hood, it uses `http-proxy`. Full list of its options [here](https://github.com/http-party/node-http-proxy#options).
+To configure the proxy rules, edit the `/quasar.config` file in `devServer.proxy`. Under the hood, it uses `http-proxy`. Full list of its options [here](https://github.com/http-party/node-http-proxy#options).
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 devServer: {
   proxy: {

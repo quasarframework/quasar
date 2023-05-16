@@ -484,7 +484,7 @@ describe.injection = (_, injection) => {
 describe.quasarConfOptions = (openState, conf) => {
   const child = []
   const entry = [
-    getNameDiv(conf, conf.propName, 0, false, 'quasar.config.js > framework > config > ')
+    getNameDiv(conf, conf.propName, 0, false, 'quasar.config file > framework > config > ')
   ]
 
   for (const def in conf.definition) {

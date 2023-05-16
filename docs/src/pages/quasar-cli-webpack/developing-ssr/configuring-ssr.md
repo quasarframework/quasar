@@ -2,7 +2,7 @@
 title: Configuring SSR
 desc: (@quasar/app-webpack) How to manage your server-side rendered apps with Quasar CLI.
 related:
-  - /quasar-cli-webpack/quasar-config-js
+  - /quasar-cli-webpack/quasar-config-file
 scope:
   nodeJsTree:
     l: src-ssr
@@ -15,7 +15,7 @@ scope:
       e: SSR webserver production export
 ---
 
-## quasar.config.js
+## quasar.config file
 
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
@@ -96,19 +96,19 @@ return {
 When building, `extendWebpack()` and `chainWebpack()` will receive one more parameter (Object), currently containing `isServer` or `isClient` boolean props, because there will be two Webpack builds (one for the server-side and one for the client-side).
 
 ```js
-// quasar.config.js
+// quasar.config file
 build: {
   extendWebpack(cfg, { isServer, isClient }) { ... }
 }
 ```
 
-If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli-webpack/handling-webpack) in the `quasar.config.js` file.
+If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli-webpack/handling-webpack) in the `/quasar.config` file.
 
 ### Manually triggering store hydration
 
 By default, Quasar CLI takes care of hydrating the Vuex store (if you use it) on client-side.
 
-However, should you wish to manually hydrate it yourself, you need to set quasar.config.js > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-webpack/boot-files):
+However, should you wish to manually hydrate it yourself, you need to set quasar.config file > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-webpack/boot-files):
 
 ```js
 // some_boot_file
@@ -128,7 +128,7 @@ export default ({ store }) => {
 
 By default, Quasar CLI wraps your App component and calls `$q.onSSRHydrated()` on the client-side when this wrapper component gets mounted. This is the moment that the client-side takes over. You don't need to configure anything for this to happen.
 
-However should you wish to override the moment when this happens, you need to set quasar.config.js > ssr > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
+However should you wish to override the moment when this happens, you need to set quasar.config file > ssr > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
 
 ```js
 // App.vue - Composition API
@@ -170,7 +170,7 @@ Notice a few things:
 
 2. If you import anything from node_modules, then make sure that the package is specified in package.json > "dependencies" and NOT in "devDependencies".
 
-3. The `/src-ssr/middlewares` is built through a separate Webpack config. **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.config.js:
+3. The `/src-ssr/middlewares` is built through a separate Webpack config. **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through the `/quasar.config` file:
 
 ```js
 return {
@@ -210,7 +210,7 @@ When running on SSR mode, your application code needs to be isomorphic or "unive
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 
 ```js
-// quasar.config.js
+// quasar.config file
 return {
   // ...
   boot: [

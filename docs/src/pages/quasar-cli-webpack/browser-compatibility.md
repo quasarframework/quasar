@@ -2,7 +2,7 @@
 title: Browser compatibility
 desc: (@quasar/app-webpack) How to handle the browser support with Quasar CLI.
 related:
-  - /quasar-cli-webpack/quasar-config-js
+  - /quasar-cli-webpack/quasar-config-file
 ---
 
 ## Configuring compatibility

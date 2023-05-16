@@ -228,7 +228,7 @@ Also check [Visibility](/style/visibility#window-width-related) Style page to se
 
 ## Flex Addons
 
-When enabled (through `quasar.config.js > framework > cssAddon: true`) it provides breakpoint aware versions for all flex (and display) related CSS classes.
+When enabled (through `quasar.config file > framework > cssAddon: true`) it provides breakpoint aware versions for all flex (and display) related CSS classes.
 
 ::: warning
 Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.

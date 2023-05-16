@@ -27,7 +27,7 @@ Unless configured otherwise, Quasar uses Material Icons webfont as the icon set 
 If the default Quasar Icon Set is not dynamically determined (does not depends on cookies for example), then you can:
 
 #### Quasar CLI Way
-We edit `/quasar.config.js` again:
+We edit the `/quasar.config` file again:
 
 ```js
 framework: {
@@ -154,7 +154,7 @@ export default async () => {
 }
 ```
 
-Then register this boot file into `/quasar.config.js`:
+Then register this boot file into the `/quasar.config` file:
 
 ```js
 boot: [

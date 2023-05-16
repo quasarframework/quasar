@@ -56,7 +56,7 @@ module.exports = function (api) {
     api.compatibleWith('@quasar/app-webpack', '^3.0.0')
   }
 
-  // Here we extend /quasar.config.js, so we can add
+  // Here we extend the /quasar.config file, so we can add
   // a boot file which registers our new Vue directive;
   // "extendConf" will be defined below (keep reading the tutorial)
   api.extendQuasarConf(extendConf)

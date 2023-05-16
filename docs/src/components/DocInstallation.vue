@@ -83,7 +83,7 @@ const QuasarCli = computed(() => {
     }`)
   }
 
-  return `// quasar.config.js
+  return `// quasar.config file
 
 return {
   framework: {

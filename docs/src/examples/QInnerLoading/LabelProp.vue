@@ -35,7 +35,7 @@
 import { ref } from 'vue'
 
 // Don't forget to specify which animations
-// you are using in quasar.config.js > animations.
+// you are using in quasar.config file > animations.
 // Alternatively, if using UMD, load animate.css from CDN.
 export default {
   setup () {

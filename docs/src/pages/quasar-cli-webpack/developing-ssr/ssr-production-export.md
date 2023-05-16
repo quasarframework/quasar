@@ -63,7 +63,7 @@ Detailing the Object:
 {
   app,     // Expressjs app instance
 
-  port,    // process.env.PORT or quasar.config.js > ssr > prodPort
+  port,    // process.env.PORT or quasar.config file > ssr > prodPort
 
   isReady, // Function to call returning a Promise
            // when app is ready to serve clients
@@ -120,7 +120,7 @@ export default ssrProductionExport(({ app, port, isReady }) => {
 
 ### Listen on a port
 
-This is the default option that you get when adding SSR support in a Quasar CLI project. It starts listening on the configured port (process.env.PORT or quasar.config.js > ssr > prodPort).
+This is the default option that you get when adding SSR support in a Quasar CLI project. It starts listening on the configured port (process.env.PORT or quasar.config file > ssr > prodPort).
 
 ``` js
 // src-ssr/production-export.[js|ts]

@@ -2,12 +2,12 @@
 title: SSR Middleware
 desc: (@quasar/app-webpack) Managing the SSR middleware in a Quasar app.
 related:
-  - /quasar-cli-webpack/quasar-config-js
+  - /quasar-cli-webpack/quasar-config-file
 ---
 
 The SSR middleware files fulfill one special purpose: they prepare the Nodejs server that runs your SSR app with additional functionality (Expressjs compatible middleware).
 
-With SSR middleware files, it is possible to split the middleware logic into self-contained, easy to maintain files. It is also trivial to disable any of the SSR middleware files or even contextually determine which of the SSR middleware files get into the build through `quasar.config.js` configuration.
+With SSR middleware files, it is possible to split the middleware logic into self-contained, easy to maintain files. It is also trivial to disable any of the SSR middleware files or even contextually determine which of the SSR middleware files get into the build through the `/quasar.config` file configuration.
 
 ::: tip
 For more advanced usage, you will need to get acquainted to the [Expressjs API](https://expressjs.com/en/4x/api.html).
@@ -92,13 +92,13 @@ This is the Expressjs app instance. The "bread and butter" of any middleware sin
 
 | Prop name | Description |
 | --- | --- |
-| `urlPath(path)` | Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the `resolve.urlPath()` method so that you'll also keep into account the configured publicPath (quasar.config.js > build > publicPath). |
+| `urlPath(path)` | Whenever you define a route (with app.use(), app.get(), app.post() etc), you should use the `resolve.urlPath()` method so that you'll also keep into account the configured publicPath (quasar.config file > build > publicPath). |
 | `root(path1[, path2, ...pathN])` | Resolve folder path to the root (of the project in dev and of the distributables in production). Under the hood, it does a `path.join()`. |
 | `public(path1[, path2, ...pathN])` | Resolve folder path to the "public" folder. Under the hood, it does a `path.join()`. |
 
 #### publicPath
 
-The configured quasar.config.js > build > publicPath
+The configured quasar.config file > build > publicPath
 
 #### folders
 
@@ -123,7 +123,7 @@ serve.static():
 * Description: It's essentially a wrapper over `express.static()` with a few convenient tweaks:
   * the `pathFromPublicFolder` is a path resolved to the "public" folder out of the box
   * the `opts` are the same as for `express.static()`
-  * `opts.maxAge` is used by default, taking into account the quasar.config.js > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
+  * `opts.maxAge` is used by default, taking into account the quasar.config file > ssr > maxAge configuration; this sets how long the respective file(s) can live in browser's cache
 
   ```js
   serve.static('my-file.json')
@@ -131,7 +131,7 @@ serve.static():
   // is equivalent to:
 
   express.static(resolve.public('my-file.json'), {
-    maxAge: ... // quasar.config.js > ssr > maxAge
+    maxAge: ... // quasar.config file > ssr > maxAge
   })
   ```
 
@@ -177,10 +177,10 @@ export default ({ app, resolve, publicPath, folders, render, serve }) => {
 
 You can now add content to that file depending on the intended use of your SSR middleware file.
 
-The last step is to tell Quasar to use your new SSR middleware file. For this to happen you need to add the file in `/quasar.config.js`
+The last step is to tell Quasar to use your new SSR middleware file. For this to happen you need to add the file in the `/quasar.config` file
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 ssr: {
   middlewares: [
@@ -193,7 +193,7 @@ ssr: {
 When building a SSR app, you may want some boot files to run only on production or only on development, in which case you can do so like below:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 ssr: {
   middlewares: [
@@ -206,7 +206,7 @@ ssr: {
 In case you want to specify SSR middleware file from node_modules, you can do so by prepending the path with `~` (tilde) character:
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 ssr: {
   middlewares: [
@@ -229,7 +229,7 @@ Out of all the possible SSR middlewares in your app, **this one is absolutely re
 In the example below we highlight that this middleware needs to be the last in the list. This is because it also responds to the client (as we'll see in the second code sample below) with the HTML of the page. So any subsequent middleware cannot set headers.
 
 ```js
-// quasar.config.js
+// quasar.config file
 
 ssr: {
   middlewares: [
@@ -330,7 +330,7 @@ export default ({ app }) => {
 
 ### Logger / Interceptor
 
-The order in which the SSR middlewares are applied matters. So it might be wise to set the following one as the first (in quasar.config.js > ssr > middlewares) so that it will be able to intercept all client requests.
+The order in which the SSR middlewares are applied matters. So it might be wise to set the following one as the first (in quasar.config file > ssr > middlewares) so that it will be able to intercept all client requests.
 
 ```js
 export default ({ app, resolve }) => {
