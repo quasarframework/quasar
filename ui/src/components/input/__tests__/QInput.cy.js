@@ -219,43 +219,328 @@ describe('Input API', () => {
     })
 
     describe('Category: content', () => {
+      describe('(prop): error-message', () => {
+        it('should display validation error message if error = true', () => {
+          const errorMessage = 'Username must have at least 3 characters'
+          mountQInput({
+            props: {
+              errorMessage
+            }
+          })
+          getHostElement().should('not.contain', errorMessage)
+
+          mountQInput({
+            props: {
+              error: true,
+              errorMessage
+            }
+          })
+          getHostElement().should('contain', errorMessage)
+        })
+      })
+
+      describe('(prop): no-error-icon', () => {
+        it('should hide error icon when there is an error', () => {
+          mountQInput({
+            props: {
+              error: true,
+              errorMessage: 'error message'
+            }
+          })
+
+          getHostElement().get('i[.q-icon role="presentation"]').should('contain', 'error')
+
+          mountQInput({
+            props: {
+              error: true,
+              errorMessage: 'error message',
+              noErrorIcon: true
+            }
+          })
+
+          getHostElement().get('.q-field__append').get('.q-icon').should('not.exist').should('not.contain', 'error')
+        })
+      })
+
+      describe('(prop): label', () => {
+        it('should display the label set', () => {
+          const label = 'Hello there!'
+
+          mountQInput({
+            props: {
+              label
+            }
+          })
+
+          getHostElement().get('.q-field__label').should('contain', label)
+        })
+      })
+
+      describe('(prop): stack-label', () => {
+        it('should stack label', () => {
+          const label = 'Hello there!'
+          mountQInput({
+            props: {
+              label
+            }
+          })
+          getHostElement().should('not.have.class', 'q-field--float')
+
+          mountQInput({
+            props: {
+              label,
+              stackLabel: true
+            }
+          })
+
+          getHostElement().should('have.class', 'q-field--float')
+        })
+      })
+
+      describe('(prop): hint', () => {
+        it('should display the hint message', () => {
+          const hint = 'hint message'
+          mountQInput({
+            props: {
+              hint
+            }
+          })
+
+          getHostElement().get('.q-field__messages').should('contain', hint)
+        })
+      })
+
+      describe('(prop): hide-hint', () => {
+        it('should hide hint when element is not focused', () => {
+          const hint = 'hint message'
+          mountQInput({
+            props: {
+              hint,
+              hideHint: true
+            }
+          })
+          getHostElement().get('.q-field__messages').should('not.contain', hint)
+
+          getHostElement().get('input').then(() => {
+            Cypress.vueWrapper.vm.focus()
+            getHostElement().get('.q-field__messages').should('contain', hint)
+          })
+        })
+      })
+
+      describe('(prop): prefix', () => {
+        it('should display a prefix', () => {
+          const prefix = 'Hello there!'
+          mountQInput({
+            props: {
+              prefix
+            }
+          })
+
+          getHostElement().get('.q-field__prefix').should('exist').should('contain', prefix)
+        })
+      })
+
+      describe('(prop): suffix', () => {
+        it('should display a suffix', () => {
+          const suffix = 'Hello there!'
+          mountQInput({
+            props: {
+              suffix
+            }
+          })
+
+          getHostElement().get('.q-field__suffix').should('exist').should('contain', suffix)
+        })
+      })
+
+      describe('(prop): clear-icon', () => {
+        it('should display custom clear-icon when one is set', () => {
+          const model = ref('')
+          const clearIcon = 'custom-clear-icon'
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              clearable: true,
+              clearIcon
+            }
+          })
+
+          getHostElement().get('input').type('123')
+          getHostElement().get('.q-field__append').get('button').should('contain', clearIcon)
+        })
+      })
+
+      describe('(prop): label-slot', () => {
+        it('should force use the label slot when a label is not set', () => {
+          const labelSlot = 'Hello there'
+          mountQInput({
+            props: {
+              labelSlot: true
+            },
+            slots: {
+              label: () => labelSlot
+            }
+          })
+
+          getHostElement().get('.q-field__label').should('contain', labelSlot)
+        })
+      })
+
+      describe('(prop): counter', () => {
+        it('should show an automatic counter on bottom right', () => {
+          const model = ref('')
+          mountQInput({
+            props: {
+              ...vModelAdapter(model),
+              counter: true
+            }
+          })
+
+          const value = '1234'
+          getHostElement().get('input').type(value)
+          getHostElement().get('.q-field__counter').should('contain', value.length)
+        })
+      })
+
       describe('(prop): shadow-text', () => {
-        it.skip(' ', () => {
-          //
+        it('should render shadow-text', () => {
+          const shadowText = 'Shadow Text'
+
+          mountQInput({
+            props: {
+              shadowText
+            }
+          })
+
+          getHostElement().get('.q-field__shadow').should('exist').contains(shadowText)
         })
       })
 
       describe('(prop): autogrow', () => {
-        it.skip(' ', () => {
-          //
+        it('should use textarea for input field', () => {
+          cy.mount(QInput)
+          getHostElement().get('textarea').should('not.exist').get('input').should('exist')
+
+          cy.mount(QInput, {
+            props: {
+              autogrow: true
+            }
+          })
+
+          getHostElement().get('textarea').should('exist')
+          getHostElement().get('input').should('not.exist')
         })
       })
     })
 
     describe('Category: general', () => {
       describe('(prop): type', () => {
-        it.skip(' ', () => {
-          //
+        it('should render an input text type by default', () => {
+          mountQInput()
+
+          getHostElement().get('input[type=text]').should('exist')
+        })
+
+        it('should render with the appropriate type set', () => {
+          const types = [ 'text', 'password', 'email', 'search', 'tel', 'file', 'number', 'url', 'time', 'date' ]
+
+          types.forEach((type) => {
+            mountQInput({
+              props: {
+                type
+              }
+            })
+
+            getHostElement().get(`input[type="${ type }"]`).should('exist')
+          })
+
+          mountQInput({
+            props: {
+              type: 'textarea'
+            }
+          })
+
+          getHostElement().get('input').should('not.exist').get('textarea').should('exist')
         })
       })
     })
 
     describe('Category: model', () => {
       describe('(prop): model-value', () => {
-        it.skip(' ', () => {
-          //
+        it('should render with the correct model value', () => {
+          const model = ref('Input Model Value')
+          mountQInput()
+          getHostElement().get('input').should('not.have.value', model.value)
+
+          cy.mount(QInput, {
+            props: {
+              modelValue: model.value
+            }
+          })
+
+          getHostElement().get('input').should('have.value', model.value)
         })
       })
 
       describe('(prop): debounce', () => {
-        it.skip(' ', () => {
-          //
+        it('should no input debounce by default', () => {
+          const fn = cy.stub()
+          const text = 'Hello there'
+          mountQInput({
+            props: {
+              'onUpdate:modelValue': fn
+            }
+          })
+          getHostElement()
+            .get('input')
+            .type(text)
+            .then(() => {
+              expect(fn).to.be.calledWith(text)
+            })
+        })
+
+        it('should use a custom input-debounce', () => {
+          const fn = cy.stub()
+          const text = 'Hello there'
+          mountQInput({
+            props: {
+              'onUpdate:modelValue': fn,
+              debounce: 800
+            }
+          })
+          getHostElement()
+            .get('input')
+            .type(text)
+            .wait(500)
+            .then(() => {
+              expect(fn).not.to.be.calledWith(text)
+            })
+            .wait(300)
+            .then(() => {
+              expect(fn).to.be.calledWith(text)
+            })
         })
       })
 
       describe('(prop): maxlength', () => {
-        it.skip(' ', () => {
-          //
+        it('should respect the maxLength specified', () => {
+          mountQInput()
+          getHostElement()
+            .get('input')
+            .type('1234567890abcdefghij')
+            .should('have.value', '1234567890abcdefghij')
+
+          mountQInput({
+            props: {
+              maxlength: 10
+            }
+          })
+
+          getHostElement()
+            .get('input')
+            .type('1234567890abcdefghij')
+            .should('have.value', '1234567890')
         })
       })
     })
