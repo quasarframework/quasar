@@ -66,7 +66,7 @@ if (argv.help) {
     --https                 Enable HTTPS
     --cert, -C [path]       Path to SSL cert file (Optional)
     --key, -K [path]        Path to SSL key file (Optional)
-    --proxy <file.js>       Proxy specific requests defined in file;
+    --proxy <file.mjs>      Proxy specific requests defined in file;
                             File must export Array ({ path, rule })
                             See example below. "rule" is defined at:
                             https://github.com/chimurai/http-proxy-middleware
@@ -74,7 +74,7 @@ if (argv.help) {
     --help, -h              Displays this message
 
   Proxy file example
-    module.exports = [
+    export default [
       {
         path: '/api',
         rule: { target: 'http://www.example.org' }
