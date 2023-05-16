@@ -1,3 +1,12 @@
+import QInput from '../QInput'
+
+function getHostElement () {
+  return cy.get('.q-field')
+}
+
+function mountQInput (options) {
+  return cy.mount(QInput, options)
+}
 describe('Input API', () => {
   describe('Props', () => {
     describe('Category: content', () => {
@@ -79,14 +88,43 @@ describe('Input API', () => {
 
   describe('Methods', () => {
     describe('(method): focus', () => {
-      it.skip(' ', () => {
-        //
+      it('should focus the component', () => {
+        mountQInput()
+
+        getHostElement()
+          .get('.q-field--focused')
+          .should('not.exist')
+          .get('input')
+          .should('not.have.focus')
+        getHostElement()
+          .then(() => {
+            Cypress.vueWrapper.vm.focus()
+          })
+        getHostElement()
+          .get('.q-field--focused')
+          .should('exist')
+          .get('input')
+          .should('have.focus')
       })
     })
 
     describe('(method): blur', () => {
-      it.skip(' ', () => {
-        //
+      it('should blur the component', () => {
+        mountQInput()
+        getHostElement()
+          .get('input').focus()
+        getHostElement()
+          .get('.q-field--focused')
+          .should('exist')
+          .get('input')
+          .should('have.focus')
+
+        getHostElement()
+          .then(() => {
+            Cypress.vueWrapper.vm.blur()
+          })
+
+        getHostElement().get('.q-field--focused').should('not.exist').get('input').should('not.have.focus')
       })
     })
 
