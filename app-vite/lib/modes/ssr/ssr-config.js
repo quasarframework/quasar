@@ -7,6 +7,7 @@ const {
 } = require('../../config-tools.js')
 
 const appPaths = require('../../app-paths.js')
+const { getBuildSystemDefine } = require('../../utils/env.js')
 
 const { quasarPwaConfig } = require('../pwa/pwa-config.js')
 const { quasarVitePluginPwaResources } = require('../pwa/vite-plugin.pwa-resources.js')
@@ -16,11 +17,15 @@ module.exports.quasarSsrConfig = {
     let cfg = createViteConfig(quasarConf, 'ssr-client')
 
     cfg = mergeViteConfig(cfg, {
-      define: {
-        'process.env.CLIENT': true,
-        'process.env.SERVER': false,
-        __QUASAR_SSR_PWA__: quasarConf.ssr.pwa === true
-      },
+      define: getBuildSystemDefine({
+        buildEnv: {
+          CLIENT: true,
+          SERVER: false
+        },
+        buildRawDefine: {
+          __QUASAR_SSR_PWA__: quasarConf.ssr.pwa === true
+        }
+      }),
       server: {
         middlewareMode: true
       },
@@ -51,11 +56,15 @@ module.exports.quasarSsrConfig = {
 
     cfg = mergeViteConfig(cfg, {
       target: quasarConf.build.target.node,
-      define: {
-        'process.env.CLIENT': false,
-        'process.env.SERVER': true,
-        __QUASAR_SSR_PWA__: quasarConf.ssr.pwa === true
-      },
+      define: getBuildSystemDefine({
+        buildEnv: {
+          CLIENT: false,
+          SERVER: true
+        },
+        buildRawDefine: {
+          __QUASAR_SSR_PWA__: quasarConf.ssr.pwa === true
+        }
+      }),
       server: {
         hmr: false, // let client config deal with it
         middlewareMode: 'ssr'
@@ -81,8 +90,14 @@ module.exports.quasarSsrConfig = {
   webserver: quasarConf => {
     const cfg = createNodeEsbuildConfig(quasarConf, { cacheSuffix: 'ssr-webserver' })
 
-    cfg.define[ 'process.env.CLIENT' ] = 'false'
-    cfg.define[ 'process.env.SERVER' ] = 'true'
+    Object.assign(cfg.define, getBuildSystemDefine({
+      buildEnv: {
+        CLIENT: false,
+        SERVER: true
+      }
+    }))
+
+    console.log(cfg.define)
 
     if (quasarConf.ctx.dev) {
       cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-dev-webserver.js') ]
