@@ -68,20 +68,60 @@ describe('Input API', () => {
 
   describe('Events', () => {
     describe('(event): update:model-value', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit onUpdate:modelValue event', () => {
+        const fn = cy.stub()
+        const text = 'Hello there'
+        mountQInput({
+          props: {
+            'onUpdate:modelValue': fn
+          }
+        })
+        getHostElement()
+          .get('input')
+          .type(text)
+          .then(() => {
+            expect(fn).to.be.calledWith(text)
+          })
       })
     })
 
     describe('(event): focus', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit focus event', () => {
+        const fn = cy.stub()
+        mountQInput({
+          props: {
+            onfocus: fn,
+            autoFocus: true
+          }
+        })
+
+        getHostElement()
+          .get('input')
+          .as('input')
+          .focus()
+
+        cy.get('@input').then(() => {
+          expect(fn).to.be.calledWith()
+        })
       })
     })
 
     describe('(event): blur', () => {
-      it.skip(' ', () => {
-        //
+      it('should emit blur event', () => {
+        const fn = cy.stub()
+        mountQInput({
+          props: {
+            onblur: fn
+          }
+        })
+
+        getHostElement()
+          .get('input')
+          .focus()
+          .blur()
+          .then(() => {
+            expect(fn).to.be.calledWith()
+          })
       })
     })
   })
