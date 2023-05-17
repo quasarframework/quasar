@@ -7,6 +7,7 @@ const { appPkg, cliPkg } = require('../../app-pkg.js')
 const { WebserverAssetsPlugin } = require('./plugin.webserver-assets')
 const { injectNodeTypescript } = require('../inject.node-typescript.js')
 const { WebpackProgressPlugin } = require('../plugin.progress.js')
+const { getBuildSystemDefine } = require('../../utils/env.js')
 
 const nodeEnvBanner = 'if(process.env.NODE_ENV===void 0){process.env.NODE_ENV=\'production\'}'
 const prodExportFile = {
@@ -26,27 +27,12 @@ const externalsList = [
   './render-template.js',
   './quasar.server-manifest.json',
   './quasar.client-manifest.json',
+  './server/server-entry.js',
   'compression',
   'express',
   ...Object.keys(cliDeps),
   ...Object.keys(appDeps)
 ]
-
-const flattenObject = (obj, prefix = 'process.env') => {
-  return Object.keys(obj)
-    .reduce((acc, k) => {
-      const pre = prefix.length ? prefix + '.' : ''
-
-      if (Object(obj[ k ]) === obj[ k ]) {
-        Object.assign(acc, flattenObject(obj[ k ], pre + k))
-      }
-      else {
-        acc[ pre + k ] = JSON.stringify(obj[ k ])
-      }
-
-      return acc
-    }, {})
-}
 
 module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, configName) {
   const chain = new WebpackChain()
@@ -68,18 +54,14 @@ module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, 
 
   chain.resolve.alias.set('src-ssr', appPaths.ssrDir)
 
+  chain.entry('webserver')
+    .add(appPaths.resolve.app(`.quasar/ssr-${ cfg.ctx.dev ? 'dev' : 'prod' }-webserver.js`))
   if (cfg.ctx.dev) {
-    chain.entry('webserver')
-      .add(appPaths.resolve.app('.quasar/ssr-middlewares.js'))
-
     chain.output
-      .filename('compiled-middlewares.js')
+      .filename('compiled-dev-webserver.js')
       .path(appPaths.resolve.app('.quasar/ssr'))
   }
   else {
-    chain.entry('webserver')
-      .add(appPaths.resolve.app('.quasar/ssr-prod-webserver.js'))
-
     chain.output
       .filename('index.js')
       .path(cfg.build.distDir)
@@ -87,12 +69,6 @@ module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, 
 
   chain.output
     .libraryTarget('commonjs2')
-
-  chain.output
-    .library({
-      type: 'commonjs2',
-      export: 'default'
-    })
 
   chain.externals([ ...externalsList ])
 
@@ -118,9 +94,11 @@ module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, 
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
-      // flatten the object keys
-      // example: some: { object } becomes 'process.env.some.object'
-      { ...flattenObject(cfg.build.env), ...cfg.build.rawDefine }
+      getBuildSystemDefine({
+        buildEnv: cfg.build.env,
+        buildRawDefine: cfg.build.rawDefine,
+        fileEnv: cfg.__fileEnv
+      })
     ])
 
   // we include it already in cfg.build.env

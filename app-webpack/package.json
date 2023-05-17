@@ -108,6 +108,7 @@
     "webpack-bundle-analyzer": "4.8.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.15.0",
+    "webpack-hot-middleware": "^2.25.3",
     "webpack-merge": "5.8.0",
     "webpack-node-externals": "3.0.0"
   },

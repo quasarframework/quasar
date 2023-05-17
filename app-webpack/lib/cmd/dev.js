@@ -182,7 +182,7 @@ async function goLive () {
     ? require('../dev-server-ssr.js')
     : require('../dev-server-regular.js')
   const { QuasarConfigFile } = require('../quasar-config-file.js')
-  const { Generator } = require('../generator.js')
+  const { EntryFilesGenerator } = require('../entry-files-generator.js')
   const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
   const { extensionsRunner } = require('../app-extension/extensions-runner.js')
   const regenerateTypesFeatureFlags = require('../utils/types-feature-flags.js')
@@ -232,7 +232,7 @@ async function goLive () {
     await hook.fn(hook.api, { quasarConf })
   })
 
-  const generator = new Generator(quasarConfFile)
+  const generator = new EntryFilesGenerator(quasarConfFile)
   let runMode
 
   if ([ 'cordova', 'capacitor', 'electron', 'bex', 'pwa', 'ssr' ].includes(argv.mode)) {

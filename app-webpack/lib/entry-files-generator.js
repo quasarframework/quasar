@@ -5,7 +5,7 @@ const compileTemplate = require('lodash/template.js')
 const appPaths = require('./app-paths.js')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
-module.exports.Generator = class Generator {
+module.exports.EntryFilesGenerator = class EntryFilesGenerator {
   #alreadyGenerated
   #quasarConfFile
   #files
@@ -26,15 +26,9 @@ module.exports.Generator = class Generator {
     if (ctx.mode.ssr) {
       paths.push(
         'server-entry.js',
-        'ssr-middlewares.js'
+        'ssr-middlewares.js',
+        `ssr-${ ctx.dev ? 'dev' : 'prod' }-webserver.js`
       )
-
-      if (ctx.prod) {
-        paths.push(
-          'ssr-prod-webserver.js',
-          'ssr-fallback-production-export.js'
-        )
-      }
     }
 
     this.#files = paths.map(file => {

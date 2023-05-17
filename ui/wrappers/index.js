@@ -43,7 +43,7 @@ module.exports.bexDom = function (callback) {
 }
 
 /**
- * Below only for @quasar/app-webpack
+ * Below only for @quasar/app-webpack v3
  */
 
 module.exports.ssrProductionExport = function (callback) {
@@ -51,7 +51,7 @@ module.exports.ssrProductionExport = function (callback) {
 }
 
 /**
- * Below only for @quasar/app-vite
+ * Below only for @quasar/app-vite & @quasar/app-webpack v4+
  */
 
 module.exports.ssrCreate = function (callback) {

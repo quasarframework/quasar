@@ -1,9 +1,10 @@
 const fs = require('node:fs')
 const { join } = require('node:path')
 const webpack = require('webpack')
-const WebpackDevServer = require('webpack-dev-server')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpackHotMiddleware = require('webpack-hot-middleware')
 const chokidar = require('chokidar')
-const express = require('express')
+const { green } = require('kolorist')
 
 const createRenderer = require('@quasar/ssr-helpers/create-renderer.js')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side.js')
@@ -12,18 +13,24 @@ const { doneExternalWork } = require('./webpack/plugin.progress.js')
 const { webpackNames } = require('./webpack/symbols.js')
 
 const appPaths = require('./app-paths.js')
+const { log, warn, info, dot } = require('./utils/logger.js')
+
 const { getPackage } = require('./utils/get-package.js')
 const { renderToString } = getPackage('vue/server-renderer')
 const { openBrowser } = require('./utils/open-browser.js')
 
-const banner = '[Quasar Dev Webserver]'
-const compiledMiddlewareFile = appPaths.resolve.app('.quasar/ssr/compiled-middlewares.js')
+const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')
+
+function logServerMessage (title, msg, additional) {
+  log()
+  info(`${ msg }${ additional !== void 0 ? ` ${ green(dot) } ${ additional }` : '' }`, title)
+}
 
 let renderSSRError
 const renderError = ({ err, req, res }) => {
-  console.log()
-  console.error(`${ banner } ${ req.url } -> error during render`)
+  log()
   console.error(err.stack)
+  warn(req.url, 'Render failed')
 
   renderSSRError({ err, req, res })
 }
@@ -33,70 +40,81 @@ const doubleSlashRE = /\/\//g
 let appUrl
 let openedBrowser = false
 
-module.exports.DevServer = class DevServer {
-  constructor (quasarConfFile) {
-    this.quasarConfFile = quasarConfFile
-    this.setInitialState()
+function getClientHMRScriptQuery (devServerCfg) {
+  const { overlay } = devServerCfg.client
+  const acc = []
+
+  if (!overlay) {
+    acc.push('overlay=false')
+  }
+  else if (overlay !== true) {
+    if (overlay.warnings === false) {
+      acc.push('warn=false')
+    }
+    if (overlay.timeout) {
+      acc.push(`timeout=${ overlay.timeout }`)
+    }
   }
 
-  setInitialState () {
-    this.handlers = []
+  return acc.length === 0
+    ? ''
+    : '&' + acc.join('&')
+}
 
-    this.htmlWatcher = null
-    this.webpackServer = null
+function injectHMREntryPoints (webpackConf, devServerCfg) {
+  const entryPoint = 'webpack-hot-middleware/client?reload=true' + getClientHMRScriptQuery(devServerCfg)
+
+  for (const key in webpackConf.entry) {
+    webpackConf.entry[ key ].unshift(entryPoint)
+  }
+
+  return webpackConf
+}
+
+function promisify (fn) {
+  return () => new Promise(resolve => fn(resolve))
+}
+
+module.exports.DevServer = class DevServer {
+  #quasarConfFile
+  #stopWatcherList
+  #htmlWatcher
+  #stopWebserver
+  #isDestroyed = false
+
+  constructor (quasarConfFile) {
+    this.#quasarConfFile = quasarConfFile
+    this.#setInitialState()
+  }
+
+  #setInitialState () {
+    this.#stopWatcherList = []
+    this.#htmlWatcher = null
+    this.#stopWebserver = null
   }
 
   async listen () {
-    const cfg = this.quasarConfFile.quasarConf
-    const webpackConf = this.quasarConfFile.webpackConf
+    const cfg = this.#quasarConfFile.quasarConf
+    const webpackConf = this.#quasarConfFile.webpackConf
+
+    const clientHMR = !!cfg.devServer.hot
+
+    if (clientHMR === true) {
+      injectHMREntryPoints(webpackConf.clientSide, cfg.devServer)
+    }
 
     const webserverCompiler = webpack(webpackConf.webserver)
     const serverCompiler = webpack(webpackConf.serverSide)
+    const clientCompiler = webpack(webpackConf.clientSide)
 
-    let clientCompiler, serverManifest, clientManifest, renderTemplate, renderWithVue, webpackServerListening = false
+    let serverManifest, clientManifest
+    let renderTemplate, renderWithVue
+    let webserverListening = false
+    let webpackClientHMRMiddleware
 
     if (renderSSRError === void 0) {
       const { default: render } = await import('@quasar/render-ssr-error')
       renderSSRError = render
-    }
-
-    async function startClient () {
-      if (clientCompiler) {
-        clientManifest = void 0
-        await new Promise(resolve => {
-          clientCompiler.close(resolve)
-        })
-      }
-
-      clientCompiler = webpack(webpackConf.clientSide)
-      clientCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
-        compilation.hooks.processAssets.tapAsync(
-          { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
-          (_, callback) => {
-            if (compilation.errors.length === 0) {
-              clientManifest = getClientManifest(compilation)
-              update()
-            }
-
-            callback()
-          }
-        )
-      })
-    }
-
-    let tryToFinalize = () => {
-      if (serverManifest && clientManifest && webpackServerListening === true) {
-        tryToFinalize = () => {}
-
-        if (openedBrowser === false || appUrl !== cfg.build.APP_URL) {
-          appUrl = cfg.build.APP_URL
-          openedBrowser = true
-
-          if (cfg.__devServer.open) {
-            openBrowser({ url: appUrl, opts: cfg.__devServer.openOptions })
-          }
-        }
-      }
     }
 
     const publicPath = cfg.build.publicPath
@@ -111,13 +129,43 @@ module.exports.DevServer = class DevServer {
       return join(publicFolder, ...arguments)
     }
 
-    const serveStatic = (path, opts = {}) => {
-      return express.static(resolvePublicFolder(path), {
-        ...opts,
-        maxAge: opts.maxAge === void 0
-          ? cfg.ssr.maxAge
-          : opts.maxAge
-      })
+    clientCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
+      compilation.hooks.processAssets.tapAsync(
+        { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
+        (_, callback) => {
+          if (compilation.errors.length === 0) {
+            clientManifest = getClientManifest(compilation)
+            update()
+          }
+
+          callback()
+        }
+      )
+    })
+
+    if (clientHMR === true) {
+      webpackClientHMRMiddleware = webpackHotMiddleware(clientCompiler, { log: () => {} })
+      this.#stopWatcherList.push(() => webpackClientHMRMiddleware.close())
+    }
+
+    const webpackClientMiddleware = webpackDevMiddleware(clientCompiler, cfg.devServer.devMiddleware)
+    this.#stopWatcherList.push(
+      promisify(callback => webpackClientMiddleware.close(callback))
+    )
+
+    let tryToFinalize = () => {
+      if (serverManifest && clientManifest && webserverListening === true) {
+        tryToFinalize = () => {}
+
+        if (openedBrowser === false || appUrl !== cfg.build.APP_URL) {
+          appUrl = cfg.build.APP_URL
+          openedBrowser = true
+
+          if (cfg.__devServer.open) {
+            openBrowser({ url: appUrl, opts: cfg.__devServer.openOptions })
+          }
+        }
+      }
     }
 
     const { getIndexHtml } = require('./ssr/html-template.js')
@@ -127,16 +175,16 @@ module.exports.DevServer = class DevServer {
       renderTemplate = getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
     }
 
-    this.htmlWatcher = chokidar.watch(templatePath).on('change', () => {
+    this.#htmlWatcher = chokidar.watch(templatePath).on('change', () => {
       updateTemplate()
-      console.log(`${ banner } index.template.html template updated.`)
+      logServerMessage('Updated', 'index.template.html')
     })
 
     updateTemplate()
 
     const renderOptions = {
       vueRenderToString: renderToString,
-      basedir: appPaths.resolve.app('.'),
+      basedir: appPaths.appDir,
       manualStoreSerialization: cfg.ssr.manualStoreSerialization === true
     }
 
@@ -154,7 +202,7 @@ module.exports.DevServer = class DevServer {
 
           return renderer(ssrContext, renderTemplate)
             .then(html => {
-              console.log(`${ banner } ${ ssrContext.req.url } -> request took: ${ Date.now() - startTime }ms`)
+              logServerMessage('Rendered', ssrContext.req.url, `${ Date.now() - startTime }ms`)
               return html
             })
         }
@@ -165,44 +213,13 @@ module.exports.DevServer = class DevServer {
 
     webserverCompiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
-        delete require.cache[ compiledMiddlewareFile ]
-        const injectMiddleware = require(compiledMiddlewareFile)
-
-        startWebpackServer()
-          .then(app => {
-            if (this.destroyed === true) { return }
-
-            return injectMiddleware({
-              app,
-              resolve: {
-                urlPath: resolveUrlPath,
-                root () { return join(rootFolder, ...arguments) },
-                public: resolvePublicFolder
-              },
-              publicPath,
-              folders: {
-                root: rootFolder,
-                public: publicFolder
-              },
-              render: ssrContext => renderWithVue(ssrContext),
-              serve: {
-                static: serveStatic,
-                error: renderError
-              }
-            })
-          })
-          .then(() => {
-            if (this.destroyed === true) { return }
-
-            webpackServerListening = true
-            tryToFinalize()
-            doneExternalWork(webpackNames.ssr.webserver)
-          })
+        startWebserver()
       }
     })
 
-    this.handlers.push(
-      webserverCompiler.watch({}, () => {})
+    const webserverWatcher = webserverCompiler.watch({}, () => {})
+    this.#stopWatcherList.push(
+      promisify(callback => webserverWatcher.close(callback))
     )
 
     serverCompiler.hooks.thisCompilation.tap('quasar-ssr-server-plugin', compilation => {
@@ -219,73 +236,139 @@ module.exports.DevServer = class DevServer {
       )
     })
 
-    this.handlers.push(
-      serverCompiler.watch({}, () => {})
+    const serverWatcher = serverCompiler.watch({}, () => {})
+    this.#stopWatcherList.push(
+      promisify(callback => serverWatcher.close(callback))
     )
 
-    const startWebpackServer = async () => {
-      if (this.destroyed === true) { return }
+    const startWebserver = async () => {
+      if (this.#isDestroyed === true) { return }
 
-      if (this.webpackServer !== null) {
-        const server = this.webpackServer
-        this.webpackServer = null
-        webpackServerListening = false
+      const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
+      delete require.cache[ serverFile ]
 
-        await server.stop()
+      const middlewareParams = {
+        port: cfg.devServer.port,
+        resolve: {
+          urlPath: resolveUrlPath,
+          root () { return join(rootFolder, ...arguments) },
+          public: resolvePublicFolder
+        },
+        publicPath,
+        folders: {
+          root: rootFolder,
+          public: publicFolder
+        },
+        render: ssrContext => renderWithVue(ssrContext),
+        serve: {
+          static: (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts),
+          error: renderError
+        }
       }
 
-      if (this.destroyed === true) { return }
+      const app = middlewareParams.app = create(middlewareParams)
 
-      await startClient()
+      clientHMR === true && app.use(webpackClientHMRMiddleware)
+      app.use(webpackClientMiddleware)
 
-      if (this.destroyed === true) { return }
+      if (cfg.build.ignorePublicFolder !== true) {
+        app.use(resolveUrlPath('/'), middlewareParams.serve.static('.'))
+      }
 
-      return new Promise(resolve => {
-        this.webpackServer = new WebpackDevServer({
-          ...cfg.devServer,
+      await injectMiddlewares(middlewareParams)
 
-          setupMiddlewares: (middlewares, opts) => {
-            const { app } = opts
+      if (this.#stopWebserver !== null) {
+        const stop = this.#stopWebserver
+        this.#stopWebserver = null
 
-            if (cfg.build.ignorePublicFolder !== true) {
-              app.use(resolveUrlPath('/'), serveStatic('.', { maxAge: 0 }))
-            }
+        await stop()
 
-            const newMiddlewares = cfg.devServer.setupMiddlewares(middlewares, opts)
+        if (this.#isDestroyed === true) { return }
 
-            if (this.destroyed !== true) {
-              resolve(app)
-            }
+        webserverListening = false
+      }
 
-            return newMiddlewares
+      if (this.#isDestroyed === true) { return }
+
+      publicPath !== '/' && app.use((req, res, next) => {
+        const pathname = new URL(req.url, `http://${ req.headers.host }`).pathname || '/'
+
+        if (pathname.startsWith(publicPath) === true) {
+          next()
+          return
+        }
+
+        if (req.url === '/' || req.url === '/index.html') {
+          res.writeHead(302, { Location: publicPath })
+          res.end()
+          return
+        }
+        else if (req.headers.accept && req.headers.accept.includes('text/html')) {
+          const parsedPath = pathname.slice(1)
+          const redirectPaths = [ publicPath + parsedPath ]
+          const splitted = parsedPath.split('/')
+
+          if (splitted.length > 1) {
+            redirectPaths.push(publicPath + splitted.slice(1).join('/'))
           }
-        }, clientCompiler)
 
-        this.webpackServer.start()
+          if (redirectPaths[ redirectPaths.length - 1 ] !== publicPath) {
+            redirectPaths.push(publicPath)
+          }
+
+          const linkList = redirectPaths
+            .map(link => `<a href="${ link }">${ link }</a>`)
+            .join(' or ')
+
+          res.writeHead(404, { 'Content-Type': 'text/html' })
+          res.end(
+            `<div>The Quasar CLI devserver is configured with a publicPath of "${ publicPath }"</div>`
+            + `<div> - Did you mean to visit ${ linkList } instead?</div>`
+          )
+          return
+        }
+
+        next()
       })
+
+      const isReady = () => Promise.resolve()
+
+      const listenResult = await listen({
+        isReady,
+        ssrHandler: (req, res, next) => {
+          return isReady().then(() => app(req, res, next))
+        },
+        ...middlewareParams
+      })
+
+      if (this.#isDestroyed === true) { return }
+
+      this.#stopWebserver = () => close({
+        ...middlewareParams,
+        listenResult
+      })
+
+      webserverListening = true
+      tryToFinalize()
+      doneExternalWork(webpackNames.ssr.webserver)
     }
   }
 
   stop () {
-    this.destroyed = true
+    this.#isDestroyed = true
 
-    if (this.htmlWatcher !== null) {
-      this.htmlWatcher.close()
+    if (this.#htmlWatcher !== null) {
+      this.#htmlWatcher.close()
     }
 
-    if (this.webpackServer !== null) {
-      this.handlers.push({
-        // normalize to syntax of the other handlers
-        close: doneFn => {
-          this.webpackServer.stop().finally(() => { doneFn() })
-        }
-      })
+    if (this.#stopWebserver !== null) {
+      this.#stopWatcherList.push(this.#stopWebserver)
     }
 
     return Promise.all(
-      this.handlers.map(handler => new Promise(resolve => { handler.close(resolve) }))
+      this.#stopWatcherList.map(handler => handler())
     ).finally(() => {
-      this.setInitialState()
+      this.#setInitialState()
     })
   }
 }
