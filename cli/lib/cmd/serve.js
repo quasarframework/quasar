@@ -85,11 +85,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import path from 'node:path'
 
 import { cliPkg } from '../cli-pkg.js'
-import { fatal } from '../logger.js'
+import { log, fatal } from '../logger.js'
 
 const root = getAbsolutePath(argv._[ 0 ] || '.')
 const resolve = p => path.resolve(root, p)
@@ -250,93 +250,8 @@ if (ssrDetected === false) {
       }
     }
     else {
-      // Use a self-signed certificate if no certificate was configured.
-      // Cycle certs every 24 hours
-      const certPath = new URL('../../ssl-server.pem', import.meta.url)
-      let certExists = existsSync(certPath)
-
-      if (certExists) {
-        const certStat = statSync(certPath)
-        const certTtl = 1000 * 60 * 60 * 24
-        const now = new Date()
-
-        // cert is more than 30 days old
-        if ((now - certStat.ctime) / certTtl > 30) {
-          console.log(' SSL Certificate is more than 30 days old. Removing.')
-          const { removeSync } = await import('fs-extra')
-          removeSync(certPath)
-          certExists = false
-        }
-      }
-
-      if (!certExists) {
-        console.log(' Generating self signed SSL Certificate...')
-        console.log(' DO NOT use this self-signed certificate in production!')
-
-        const selfsigned = await import('selfsigned')
-        const pems = selfsigned.generate(
-          [ { name: 'commonName', value: 'localhost' } ],
-          {
-            algorithm: 'sha256',
-            days: 30,
-            keySize: 2048,
-            extensions: [ {
-              name: 'basicConstraints',
-              cA: true
-            }, {
-              name: 'keyUsage',
-              keyCertSign: true,
-              digitalSignature: true,
-              nonRepudiation: true,
-              keyEncipherment: true,
-              dataEncipherment: true
-            }, {
-              name: 'subjectAltName',
-              altNames: [
-                {
-                  // type 2 is DNS
-                  type: 2,
-                  value: 'localhost'
-                },
-                {
-                  type: 2,
-                  value: 'localhost.localdomain'
-                },
-                {
-                  type: 2,
-                  value: 'lvh.me'
-                },
-                {
-                  type: 2,
-                  value: '*.lvh.me'
-                },
-                {
-                  type: 2,
-                  value: '[::1]'
-                },
-                {
-                  // type 7 is IP
-                  type: 7,
-                  ip: '127.0.0.1'
-                },
-                {
-                  type: 7,
-                  ip: 'fe80::1'
-                }
-              ]
-            } ]
-          }
-        )
-
-        try {
-          writeFileSync(certPath, pems.private + pems.cert, { encoding: 'utf-8' })
-        }
-        catch (err) {
-          fatal(' Cannot write certificate file ' + certPath + '. Aborting...')
-        }
-      }
-
-      fakeCert = readFileSync(certPath)
+      const { getCertificate } = await import('@quasar/ssl-certificate')
+      fakeCert = getCertificate({ log, fatal })
     }
 
     const https = await import('node:https')
