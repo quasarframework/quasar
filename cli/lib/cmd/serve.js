@@ -396,7 +396,7 @@ if (ssrDetected === false) {
       const { isMinimalTerminal } = await import('../is-minimal-terminal.js')
       if (!isMinimalTerminal) {
         const { default: open } = await import('open')
-        open(url, { url: true })
+        open(getListeningUrl(argv.hostname), { url: true })
       }
     }
   })
