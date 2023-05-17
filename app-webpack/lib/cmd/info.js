@@ -1,6 +1,6 @@
 
 const parseArgs = require('minimist')
-const chalk = require('chalk')
+const { green, gray } = require('kolorist')
 
 const { getPackageJson } = require('../utils/get-package-json.js')
 
@@ -34,11 +34,11 @@ function getSpawnOutput (command) {
   try {
     const child = spawn(command, [ '--version' ])
     return child.status === 0
-      ? chalk.green(String(child.output[ 1 ]).trim())
-      : chalk.grey('Not installed')
+      ? green(String(child.output[ 1 ]).trim())
+      : gray('Not installed')
   }
   catch (err) {
-    return chalk.grey('Not installed')
+    return gray('Not installed')
   }
 }
 
@@ -48,13 +48,13 @@ function safePkgInfo (pkg, folder) {
   if (json !== void 0) {
     return {
       key: `  ${ String(json.name).trim() }`,
-      value: `${ chalk.green(String(json.version).trim()) }${ json.description ? ` -- ${ json.description }` : '' }`
+      value: `${ green(String(json.version).trim()) }${ json.description ? ` -- ${ json.description }` : '' }`
     }
   }
   else {
     return {
       key: `  ${ pkg }`,
-      value: chalk.grey('Not installed')
+      value: gray('Not installed')
     }
   }
 }
@@ -63,12 +63,12 @@ function print (m) {
   console.log(`${ m.section ? '\n' : '' }${ m.key }${ m.value === undefined ? '' : ' - ' + m.value }`)
 }
 
-print({ key: 'Operating System', value: chalk.green(`${ os.type() }(${ os.release() }) - ${ os.platform() }/${ os.arch() }`), section: true })
-print({ key: 'NodeJs', value: chalk.green(process.version.slice(1)) })
+print({ key: 'Operating System', value: green(`${ os.type() }(${ os.release() }) - ${ os.platform() }/${ os.arch() }`), section: true })
+print({ key: 'NodeJs', value: green(process.version.slice(1)) })
 print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })
 print({ key: '  yarn', value: getSpawnOutput('yarn') })
-print({ key: '  @quasar/cli', value: chalk.green(process.env.QUASAR_CLI_VERSION) })
+print({ key: '  @quasar/cli', value: green(process.env.QUASAR_CLI_VERSION) })
 print({ key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
 
@@ -118,13 +118,13 @@ else {
 }
 
 print({ key: 'Networking', section: true })
-print({ key: '  Host', value: chalk.green(os.hostname()) })
+print({ key: '  Host', value: green(os.hostname()) })
 
 const { getExternalNetworkInterface } = require('../utils/net.js')
 getExternalNetworkInterface().forEach(intf => {
   print({
     key: `  ${ intf.deviceName }`,
-    value: chalk.green(intf.address)
+    value: green(intf.address)
   })
 })
 

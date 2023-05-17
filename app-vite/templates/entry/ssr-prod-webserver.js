@@ -115,7 +115,7 @@ async function render (ssrContext) {
   }
 }
 
-const serveStatic = (path, opts = {}) => serveStaticContent(resolvePublicFolder(path), opts)
+const serveStatic = (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts)
 
 const middlewareParams = {
   port,

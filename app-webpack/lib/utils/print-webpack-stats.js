@@ -2,7 +2,7 @@ const { readFileSync } = require('node:fs')
 const { join, basename } = require('node:path')
 const { gzipSync } = require('zlib')
 const { table } = require('table')
-const { bold, underline, green, blue, magenta } = require('chalk')
+const { bold, underline, green, blue, magenta } = require('kolorist')
 
 const { warn } = require('./logger.js')
 const { printWebpackWarnings } = require('./print-webpack-issue/index.js')

@@ -2,10 +2,21 @@ const {
   bgGreen, green,
   inverse,
   bgRed, red,
-  bgYellow, yellow
-} = require('chalk')
+  bgYellow, yellow,
+  black, white,
+  underline
+} = require('kolorist')
 
 const readline = require('node:readline')
+
+/**
+ * Pills
+ */
+
+const successPill = msg => bgGreen(black(` ${ msg } `))
+const infoPill = msg => inverse(` ${ msg } `)
+const errorPill = msg => bgRed(white(` ${ msg } `))
+const warningPill = msg => bgYellow(black(` ${ msg } `))
 
 /**
  * Main approach - App CLI related
@@ -16,6 +27,9 @@ const banner = 'App ' + dot
 const greenBanner = green(banner)
 const redBanner = red(banner)
 const yellowBanner = yellow(banner)
+const tipBanner = `${ green('App') } ${ dot } ${ successPill('TIP') } ${ dot } 🚀 `
+
+module.exports.dot = dot
 
 module.exports.clearConsole = process.stdout.isTTY
   ? () => {
@@ -27,6 +41,10 @@ module.exports.clearConsole = process.stdout.isTTY
     }
   : () => {}
 
+module.exports.tip = function tip (msg) {
+  console.log(msg ? ` ${ tipBanner } ${ msg }` : '')
+}
+
 module.exports.log = function log (msg) {
   console.log(msg ? ` ${ greenBanner } ${ msg }` : '')
 }
@@ -34,7 +52,7 @@ module.exports.log = function log (msg) {
 module.exports.warn = function warn (msg, pill) {
   if (msg !== void 0) {
     const pillBanner = pill !== void 0
-      ? bgYellow.black('', pill, '') + ' '
+      ? bgYellow(black('', pill, '')) + ' '
       : ''
 
     console.warn(` ${ yellowBanner } ⚠️  ${ pillBanner }${ msg }`)
@@ -62,11 +80,6 @@ module.exports.fatal = function fatal (msg, pill) {
 /**
  * Extended approach - Compilation status & pills
  */
-
-const successPill = msg => bgGreen.black('', msg, '')
-const infoPill = msg => inverse('', msg, '')
-const errorPill = msg => bgRed.white('', msg, '')
-const warningPill = msg => bgYellow.black('', msg, '')
 
 module.exports.successPill = successPill
 module.exports.success = function success (msg, title = 'SUCCESS') {
@@ -98,4 +111,24 @@ module.exports.warning = function warning (msg, title = 'WARNING') {
 }
 module.exports.getWarning = function getWarning (msg, title = 'WARNING') {
   return ` ${ yellowBanner } ${ warningPill(title) } ${ yellow(dot + ' ' + msg) }`
+}
+
+/**
+ * Progress related
+ */
+
+module.exports.progress = function progress (msg, token) {
+  const parseMsg = token !== void 0
+    ? text => text.replace('___', underline(green(token)))
+    : text => text
+
+  module.exports.info(parseMsg(msg), 'WAIT')
+
+  const startTime = Date.now()
+
+  return msg => {
+    const diffTime = +new Date() - startTime
+    module.exports.success(`${ parseMsg(msg) } ${ dot } ${ diffTime }ms`, 'DONE')
+    module.exports.log()
+  }
 }

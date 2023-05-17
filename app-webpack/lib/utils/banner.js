@@ -1,4 +1,4 @@
-const { green, grey, underline } = require('chalk')
+const { green, gray, underline } = require('kolorist')
 
 const { quasarPkg, cliPkg } = require('../app-pkg.js')
 const { getBrowsersBanner } = require('./browsers-support.js')
@@ -29,15 +29,15 @@ module.exports.displayBanner = function displayBanner (argv, cmd, details) {
  Pkg quasar................ ${ green('v' + quasarPkg.version) }
  Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }
  Pkg webpack............... ${ green('v5') }
- Debugging................. ${ cmd === 'dev' || argv.debug ? green('enabled') : grey('no') }`
+ Debugging................. ${ cmd === 'dev' || argv.debug ? green('enabled') : gray('no') }`
 
   if (cmd === 'build') {
-    banner += `\n Publishing................ ${ argv.publish !== void 0 ? green('yes') : grey('no') }`
+    banner += `\n Publishing................ ${ argv.publish !== void 0 ? green('yes') : gray('no') }`
   }
 
   if ([ 'cordova', 'capacitor' ].includes(argv.mode)) {
     const packaging = argv[ 'skip-pkg' ]
-      ? grey('skip')
+      ? gray('skip')
       : green(getPackager(argv, cmd))
 
     banner += `\n ${ cmd === 'build' ? 'Packaging' : 'Running' } mode............${ cmd === 'build' ? '' : '..' } ${ packaging }`

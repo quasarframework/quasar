@@ -269,8 +269,8 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
   async #bootWebserver (quasarConf) {
     const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
 
-    delete require.cache[ serverFile ]
     const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
+    delete require.cache[ serverFile ]
 
     const { publicPath } = this.#appOptions
 
@@ -288,7 +288,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       },
       render: this.#appOptions.render,
       serve: {
-        static: (path, opts = {}) => serveStaticContent(resolvePublicFolder(path), opts),
+        static: (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts),
         error: renderError
       }
     }

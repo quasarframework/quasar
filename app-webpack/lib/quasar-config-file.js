@@ -2,7 +2,7 @@ const path = require('node:path')
 const { existsSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
-const { green } = require('chalk')
+const { green } = require('kolorist')
 const { build: esBuild, context: esContextBuild } = require('esbuild')
 const debounce = require('lodash/debounce.js')
 
@@ -749,7 +749,9 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       },
       this.ctx.mode.ssr === true
         ? {
-            devMiddleware: { index: false },
+            devMiddleware: {
+              index: false
+            },
             static: {
               serveIndex: false
             }

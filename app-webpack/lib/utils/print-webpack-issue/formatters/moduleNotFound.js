@@ -1,5 +1,6 @@
 
-const { bold } = require('chalk')
+const { bold, underline, yellow } = require('kolorist')
+
 const { removeFileLoaders } = require('../utils.js')
 const { nodePackager } = require('../../node-packager.js')
 
@@ -22,7 +23,7 @@ module.exports = function format (error, printLog, titleFn) {
 
   const dependency = depMatch[ 1 ]
 
-  printLog(`Module not found: Can't resolve imported dependency "${ bold.underline.yellow(dependency) }"`)
+  printLog(`Module not found: Can't resolve imported dependency "${ bold(underline(yellow(dependency))) }"`)
 
   if (relativeRE.test(dependency) === false) {
     printLog(`Did you forget to install it? You can run: ${ bold(`${ cmd } ${ dependency }`) }`)

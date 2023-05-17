@@ -1,10 +1,10 @@
 const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash/throttle.js')
-const chalk = require('chalk')
+const { green, gray, bold, trueColor } = require('kolorist')
 
 const appPaths = require('../app-paths.js')
 const { quasarPkg, cliPkg } = require('../app-pkg.js')
-const { success, info, error, warning, clearConsole } = require('../utils/logger.js')
+const { success, info, error, warning, clearConsole, dot } = require('../utils/logger.js')
 const { isMinimalTerminal } = require('../utils/is-minimal-terminal.js')
 const { printWebpackWarnings, printWebpackErrors } = require('../utils/print-webpack-issue/index.js')
 const { progressLog } = require('../utils/progress-log.js')
@@ -65,11 +65,11 @@ const barProgressFactor = barLength / 100
 const barString = Array.apply(null, { length: barLength })
   .map((_, index) => {
     const p = index / barLength
-    const color = p <= 0.5
-      ? chalk.rgb(255, Math.round(p * 510), 0)
-      : chalk.rgb(255 - Math.round(p * 122), 255, 0)
+    const colorize = p <= 0.5
+      ? trueColor(255, Math.round(p * 510), 0)
+      : trueColor(255 - Math.round(p * 122), 255, 0)
 
-    return color('█')
+    return colorize('█')
   })
 
 function printBars () {
@@ -82,7 +82,7 @@ function printBars () {
   const lines = compilations.map((state, index) => {
     const prefix = index < prefixLen ? '├──' : '└──'
 
-    const name = chalk.green(state.name.padEnd(maxLengthName))
+    const name = green(state.name.padEnd(maxLengthName))
 
     const barWidth = Math.floor(state.progress * barProgressFactor)
     const bar = barString
@@ -96,10 +96,10 @@ function printBars () {
       ].filter(m => m).join(' '))
       : 'idle'
 
-    return ` ${ prefix } ${ name } ${ bar } ${ chalk.grey(details) }\n`
+    return ` ${ prefix } ${ name } ${ bar } ${ gray(details) }\n`
   })
 
-  progressLog(`\n • ${ chalk.green.bold('Compiling') }:\n` + lines.join(''))
+  progressLog(`\n ${ dot } ${ green(bold('Compiling')) }:\n` + lines.join(''))
 }
 
 const renderBars = throttle(printBars, 200)
@@ -108,7 +108,7 @@ const renderBars = throttle(printBars, 200)
  * Status related
  */
 
-const greenBanner = chalk.green('»')
+const greenBanner = green('»')
 
 let readyBanner = false
 
@@ -127,15 +127,15 @@ function printReadyBanner () {
 function getReadyBanner (cfg) {
   if (cfg.ctx.mode.bex === true) {
     return [
-      ` ${ greenBanner } App dir................... ${ chalk.green(appPaths.appDir) }`,
-      ` ${ greenBanner } Dev mode.................. ${ chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
-      ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarPkg.version) }`,
-      ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliPkg.version) }`,
+      ` ${ greenBanner } App dir................... ${ green(appPaths.appDir) }`,
+      ` ${ greenBanner } Dev mode.................. ${ green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
+      ` ${ greenBanner } Pkg quasar................ ${ green('v' + quasarPkg.version) }`,
+      ` ${ greenBanner } Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }`,
       ` ${ greenBanner } Transpiled JS..... ${ cfg.__transpileBanner }`,
       ' ----------------------------',
       ` ${ greenBanner } Load the dev extension from:`,
-      `   · Chrome(ium): ${ chalk.green(appPaths.bexDir) }`,
-      `   · Firefox:     ${ chalk.green(appPaths.resolve.bex('manifest.json')) }`
+      `   · Chrome(ium): ${ green(appPaths.bexDir) }`,
+      `   · Firefox:     ${ green(appPaths.resolve.bex('manifest.json')) }`
     ].join('\n') + '\n'
   }
 
@@ -144,15 +144,15 @@ function getReadyBanner (cfg) {
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => chalk.green(cfg.__getUrl(ip))).join('\n                              ')
-    : chalk.green(cfg.build.APP_URL)
+    ? getIPList().map(ip => green(cfg.__getUrl(ip))).join('\n                              ')
+    : green(cfg.build.APP_URL)
 
   return [
-    ` ${ greenBanner } App dir................... ${ chalk.green(appPaths.appDir) }`,
+    ` ${ greenBanner } App dir................... ${ green(appPaths.appDir) }`,
     ` ${ greenBanner } App URL................... ${ urlList }`,
-    ` ${ greenBanner } Dev mode.................. ${ chalk.green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
-    ` ${ greenBanner } Pkg quasar................ ${ chalk.green('v' + quasarPkg.version) }`,
-    ` ${ greenBanner } Pkg @quasar/app-webpack... ${ chalk.green('v' + cliPkg.version) }`,
+    ` ${ greenBanner } Dev mode.................. ${ green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
+    ` ${ greenBanner } Pkg quasar................ ${ green('v' + quasarPkg.version) }`,
+    ` ${ greenBanner } Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }`,
     ` ${ greenBanner } Transpiled JS............. ${ cfg.__transpileBanner }`
   ].join('\n') + '\n'
 }
@@ -291,13 +291,13 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
       const diffTime = +new Date() - this.state.startTime
 
       if (this.state.errors !== null) {
-        error(`"${ this.state.name }" compiled with errors • ${ diffTime }ms`, 'DONE')
+        error(`"${ this.state.name }" compiled with errors ${ dot } ${ diffTime }ms`, 'DONE')
       }
       else if (this.state.warnings !== null) {
-        warning(`"${ this.state.name }" compiled, but with warnings • ${ diffTime }ms`, 'DONE')
+        warning(`"${ this.state.name }" compiled, but with warnings ${ dot } ${ diffTime }ms`, 'DONE')
       }
       else {
-        success(`"${ this.state.name }" compiled with success • ${ diffTime }ms`, 'DONE')
+        success(`"${ this.state.name }" compiled with success ${ dot } ${ diffTime }ms`, 'DONE')
       }
 
       printStatus()

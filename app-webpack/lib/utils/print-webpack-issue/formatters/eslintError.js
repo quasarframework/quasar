@@ -1,5 +1,5 @@
 
-const { yellow } = require('chalk')
+const { yellow } = require('kolorist')
 
 const tips = 'You may use special comments to disable some warnings:'
   + '\n · ' + yellow('// eslint-disable-next-line') + ' to ignore the next line.'
