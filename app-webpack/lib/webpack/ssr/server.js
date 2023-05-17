@@ -4,6 +4,7 @@ const nodeExternals = require('webpack-node-externals')
 
 const appPaths = require('../../app-paths.js')
 const { QuasarSSRServerPlugin } = require('./plugin.server-side.js')
+const { getBuildSystemDefine } = require('../../utils/env.js')
 
 function getModuleDirs () {
   const folders = []
@@ -57,8 +58,12 @@ module.exports.injectSSRServer = function injectSSRServer (chain, cfg) {
     .tap(args => {
       return [ {
         ...args[ 0 ],
-        'process.env.CLIENT': false,
-        'process.env.SERVER': true
+        ...getBuildSystemDefine({
+          buildEnv: {
+            CLIENT: false,
+            SERVER: true
+          }
+        })
       } ]
     })
 
