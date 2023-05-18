@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@quasar/babel-preset-app": "2.0.2",
+    "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/render-ssr-error": "^1.0.1",
     "@quasar/ssr-helpers": "2.2.2",
     "@types/chrome": "^0.0.235",

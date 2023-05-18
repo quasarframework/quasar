@@ -13,7 +13,7 @@ const { doneExternalWork } = require('./webpack/plugin.progress.js')
 const { webpackNames } = require('./webpack/symbols.js')
 
 const appPaths = require('./app-paths.js')
-const { log, warn, info, dot } = require('./utils/logger.js')
+const { log, warn, fatal, info, dot } = require('./utils/logger.js')
 
 const { getPackage } = require('./utils/get-package.js')
 const { renderToString } = getPackage('vue/server-renderer')
@@ -333,10 +333,22 @@ module.exports.DevServer = class DevServer {
 
       const isReady = () => Promise.resolve()
 
+      if (cfg.devServer.server.type === 'https') {
+        const { getCertificate } = await import('@quasar/ssl-certificate')
+        const fakeCert = getCertificate({ log, fatal })
+
+        const https = await import('node:https')
+        middlewareParams.devHttpsApp = https.createServer({
+          key: fakeCert,
+          cert: fakeCert
+        }, app)
+      }
+
+      const server = middlewareParams.devHttpsApp || app
       const listenResult = await listen({
         isReady,
         ssrHandler: (req, res, next) => {
-          return isReady().then(() => app(req, res, next))
+          return isReady().then(() => server(req, res, next))
         },
         ...middlewareParams
       })
