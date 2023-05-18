@@ -254,7 +254,7 @@ devServer: {
 }
 ```
 
-When you set `devServer > https: true` in your the `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > https` should look like this:
+When you set `devServer > server > type: 'https'` in your the `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > server` should look like this:
 
 ```js
 // quasar.config file
