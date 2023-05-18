@@ -2,7 +2,7 @@
 const appPaths = require('../app-paths.js')
 const { appPkg } = require('../app-pkg.js')
 
-module.exports.ApiBase = class ApiBase {
+module.exports.BaseAPI = class BaseAPI {
   engine = appPkg.name
   hasWebpack = true
   hasVite = false
