@@ -688,12 +688,6 @@ module.exports.QuasarConfFile = class QuasarConfFile {
         }
       }
 
-      if (this.#ctx.mode.ssr && cfg.devServer.https === true) {
-        // TODO SSR + HTTPS
-        warn('SSR on HTTPS is not currently supported, so disabling it.')
-        cfg.devServer.https = false
-      }
-
       if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron) {
         if (this.#ctx.mode.electron) {
           cfg.devServer.https = false
@@ -768,7 +762,7 @@ module.exports.QuasarConfFile = class QuasarConfFile {
     }
 
     // get the env variables from host project env files
-    const { fileEnv, usedEnvFiles } = readFileEnv({
+    const { fileEnv, usedEnvFiles, envFromCache } = readFileEnv({
       quasarMode: this.#ctx.modeName,
       buildType: this.#ctx.dev ? 'dev' : 'prod',
       envFolder: cfg.build.envFolder,
@@ -777,7 +771,7 @@ module.exports.QuasarConfFile = class QuasarConfFile {
 
     cfg.metaConf.fileEnv = fileEnv
 
-    if (usedEnvFiles.length !== 0) {
+    if (envFromCache === false && usedEnvFiles.length !== 0) {
       log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
     }
 
