@@ -350,6 +350,11 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
 
     const isReady = () => Promise.resolve()
 
+    if (quasarConf.devServer.https) {
+      const https = await import('node:https')
+      middlewareParams.devHttpsApp = https.createServer(quasarConf.devServer.https, app)
+    }
+
     const listenResult = await listen({
       isReady,
       ssrHandler: (req, res, next) => {

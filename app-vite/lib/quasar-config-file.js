@@ -677,6 +677,15 @@ module.exports.QuasarConfFile = class QuasarConfFile {
       }
 
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
+
+      if (cfg.devServer.https === true) {
+        const { getCertificate } = await import('@quasar/ssl-certificate')
+        const sslCertificate = getCertificate({ log, fatal })
+        cfg.devServer.https = {
+          key: sslCertificate,
+          cert: sslCertificate
+        }
+      }
     }
 
     if (this.#ctx.dev) {
