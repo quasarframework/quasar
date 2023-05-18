@@ -2,7 +2,7 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: '2021'
   },
 
   env: {
