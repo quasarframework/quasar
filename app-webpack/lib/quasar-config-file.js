@@ -1110,12 +1110,18 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       cfg.__needsAppMountHook = true
     }
 
-    cfg.__fileEnv = readFileEnv({
+    const { fileEnv, usedEnvFiles } = readFileEnv({
       quasarMode: this.ctx.modeName,
       buildType: this.ctx.dev ? 'dev' : 'prod',
       envFolder: cfg.build.envFolder,
       envFiles: cfg.build.envFiles
     })
+
+    cfg.__fileEnv = fileEnv
+
+    if (usedEnvFiles.length !== 0) {
+      log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
+    }
 
     this.quasarConf = cfg
 
