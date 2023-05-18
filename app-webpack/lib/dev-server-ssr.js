@@ -334,14 +334,8 @@ module.exports.DevServer = class DevServer {
       const isReady = () => Promise.resolve()
 
       if (cfg.devServer.server.type === 'https') {
-        const { getCertificate } = await import('@quasar/ssl-certificate')
-        const fakeCert = getCertificate({ log, fatal })
-
         const https = await import('node:https')
-        middlewareParams.devHttpsApp = https.createServer({
-          key: fakeCert,
-          cert: fakeCert
-        }, app)
+        middlewareParams.devHttpsApp = https.createServer(cfg.devServer.server.options, app)
       }
 
       const server = middlewareParams.devHttpsApp || app
