@@ -768,12 +768,18 @@ module.exports.QuasarConfFile = class QuasarConfFile {
     }
 
     // get the env variables from host project env files
-    cfg.metaConf.fileEnv = readFileEnv({
+    const { fileEnv, usedEnvFiles } = readFileEnv({
       quasarMode: this.#ctx.modeName,
       buildType: this.#ctx.dev ? 'dev' : 'prod',
       envFolder: cfg.build.envFolder,
       envFiles: cfg.build.envFiles
     })
+
+    cfg.metaConf.fileEnv = fileEnv
+
+    if (usedEnvFiles.length !== 0) {
+      log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
+    }
 
     if (this.#ctx.mode.electron && this.#ctx.prod) {
       const bundler = require('./modes/electron/bundler.js')

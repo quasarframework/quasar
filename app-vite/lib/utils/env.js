@@ -53,6 +53,7 @@ module.exports.readFileEnv = function readFileEnv ({
     ...envFiles
   ]
 
+  const usedEnvFiles = []
   const folder = isAbsolute(envFolder) === true
     ? envFolder
     : join(appPaths.appDir, envFolder)
@@ -63,11 +64,14 @@ module.exports.readFileEnv = function readFileEnv ({
         ? file
         : join(folder, file)
 
-      return existsSync(filePath) === false
-        ? []
-        : Object.entries(
-          dotEnvParse(readFileSync(filePath, 'utf-8'))
-        )
+      if (existsSync(filePath) === false) {
+        return []
+      }
+
+      usedEnvFiles.push(file)
+      return Object.entries(
+        dotEnvParse(readFileSync(filePath, 'utf-8'))
+      )
     })
   )
 
@@ -75,8 +79,12 @@ module.exports.readFileEnv = function readFileEnv ({
     return {}
   }
 
-  const { parsed } = dotEnvExpand({ parsed: env })
-  return parsed
+  const { parsed: fileEnv } = dotEnvExpand({ parsed: env })
+
+  return {
+    fileEnv,
+    usedEnvFiles
+  }
 }
 
 /**
