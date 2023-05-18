@@ -1,5 +1,5 @@
 const path = require('node:path')
-const { existsSync } = require('node:fs')
+const { existsSync, readFileSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
 const debounce = require('lodash/debounce.js')
@@ -678,12 +678,34 @@ module.exports.QuasarConfFile = class QuasarConfFile {
 
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
 
-      if (cfg.devServer.https === true) {
-        const { getCertificate } = await import('@quasar/ssl-certificate')
-        const sslCertificate = getCertificate({ log, fatal })
-        cfg.devServer.https = {
-          key: sslCertificate,
-          cert: sslCertificate
+      if (this.#ctx.dev) {
+        if (cfg.devServer.https === true) {
+          const { getCertificate } = await import('@quasar/ssl-certificate')
+          const sslCertificate = getCertificate({ log, fatal })
+          cfg.devServer.https = {
+            key: sslCertificate,
+            cert: sslCertificate
+          }
+        }
+        else if (Object(cfg.devServer.https) === cfg.devServer.https) {
+          const { https } = cfg.devServer
+
+          // we now check if config is specifying a file path
+          // and we actually read the contents so we can later supply correct
+          // params to the node HTTPS server
+          ;[ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
+            if (typeof https[ prop ] === 'string') {
+              try {
+                https[ prop ] = readFileSync(https[ prop ])
+              }
+              catch (e) {
+                console.error(e)
+                console.log()
+                delete https[ prop ]
+                warn(`The devServer.https.${ prop } file could not be read. Removed the config.`)
+              }
+            }
+          })
         }
       }
     }
