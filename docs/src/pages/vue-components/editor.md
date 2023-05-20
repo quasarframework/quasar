@@ -132,7 +132,7 @@ There may be occasions where you want to turn off the integrated autocorrect, au
   autocomplete="off"
   spellcheck="false"
 >
-  <q-editor model="editor" />
+  <q-editor v-model="editor" />
 </form>
 ```
 
@@ -141,7 +141,7 @@ Pasting from the buffer and drag & dropping images into the editor is unfortunat
 
 ```html
 <q-editor
-  model="editor"
+  v-model="editor"
   @paste.native="evt => pasteCapture(evt)"
   @drop.native="evt => dropCapture(evt)"
  />
