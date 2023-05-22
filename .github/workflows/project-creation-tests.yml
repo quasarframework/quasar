@@ -96,5 +96,5 @@ jobs:
       - name: Test the development server
         run: |
           ${{ matrix.package-manager }} run dev &
-          npx wait-on -t 5000 http://localhost:9000
+          npx wait-on@7.0.1 -t 5000 http://localhost:9000
           kill $!
