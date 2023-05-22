@@ -1,0 +1,90 @@
+name: Project creation tests
+
+on:
+  release:
+    types:
+      - released # A release was published, or a pre-release was changed to a release.
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/project-creation-tests.yml'
+      - 'create-quasar/**'
+
+jobs:
+  lint:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: create-quasar
+
+    name: Lint create-quasar
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Lint the code
+        run: yarn lint
+
+  test:
+    needs: lint
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        script-type: [js, ts]
+        app-engine: [vite, webpack]
+        node-version: [16, 18]
+        package-manager: [yarn, npm, pnpm]
+
+    name: Test project creation (${{ matrix.script-type }}-${{ matrix.app-engine }}) (Node v${{ matrix.node-version }} - ${{ matrix.package-manager }})
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        working-directory: create-quasar
+        run: yarn
+        
+      - name: Create the test project
+        working-directory: create-quasar
+        run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
+
+      - name: Lint the project
+        working-directory: test-project
+        run: ${{ matrix.package-manager }} run lint
+        
+      - name: Test the build
+        working-directory: test-project
+        run: ${{ matrix.package-manager }} run build
+
+      - name: Test the development server
+        run: |
+          ${{ matrix.package-manager }} run dev &
+          npx wait-on -t 5000 http://localhost:8080
+          kill $!
