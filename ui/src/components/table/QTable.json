@@ -635,7 +635,7 @@
       "desc": "Pagination object; You can also use the 'v-model:pagination' for synching; When not synching it simply initializes the pagination on first render",
       "definition": {
         "sortBy": {
-          "type": "String",
+          "type": ["String", "null"],
           "desc": "Column name (from column definition)",
           "examples": [ "calories" ]
         },
@@ -1297,7 +1297,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -1376,7 +1376,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -1455,7 +1455,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -1534,7 +1534,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -1613,7 +1613,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -1692,7 +1692,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -1943,7 +1943,7 @@
           "desc": "The updated pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "required": true,
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
@@ -2127,7 +2127,7 @@
           "desc": "Pagination object",
           "definition": {
             "sortBy": {
-              "type": "String",
+              "type": ["String", "null"],
               "desc": "Column name (from column definition)",
               "examples": [ "calories" ]
             },
