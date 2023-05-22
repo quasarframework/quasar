@@ -44,7 +44,7 @@ function parseVitePlugins (entries) {
       return
     }
 
-    const [ name, opts ] = entry
+    const [ name, opts = {} ] = entry
 
     if (typeof name === 'function') {
       acc.push(
