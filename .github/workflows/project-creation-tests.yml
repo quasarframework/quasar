@@ -14,6 +14,16 @@ on:
 
 jobs:
   lint:
+    if: >-
+      ${{
+        github.event_name == 'pull_request' ||
+
+        startsWith(github.event.release.tag_name, 'quasar') ||
+        startsWith(github.event.release.tag_name, '@quasar/extras') ||
+        startsWith(github.event.release.tag_name, '@quasar/app-webpack') ||
+        startsWith(github.event.release.tag_name, '@quasar/app-vite')
+      }}
+
     permissions:
       contents: read # to fetch code (actions/checkout)
 
