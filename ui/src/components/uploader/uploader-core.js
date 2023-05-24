@@ -461,6 +461,13 @@ export function getRenderer (getPlugin) {
   // expose public api (methods & computed props)
   Object.assign(proxy, publicApi)
 
+  // Re-assign getters enumerable on proxy object
+  for (const key in state) {
+    if (isRef(state[ key ]) === true) {
+      injectProp(proxy, key, () => state[ key ].value)
+    }
+  }
+
   return () => {
     const children = [
       h('div', { class: colorClass.value }, getHeader()),
