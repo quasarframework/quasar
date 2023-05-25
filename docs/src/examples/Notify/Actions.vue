@@ -31,6 +31,15 @@ export default {
             { label: 'Dismiss', color: 'white', handler: () => { /* ... */ } }
           ]
         })
+
+        $q.notify({
+          message: 'Jim just pinged you.',
+          color: 'primary',
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+          actions: [
+            { icon: 'close', color: 'white', round: true, handler: () => { /* ... */ } }
+          ]
+        })
       }
     }
   }
