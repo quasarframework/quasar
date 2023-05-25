@@ -199,10 +199,12 @@ export default createComponent({
             document.activeElement.scrollIntoView()
           }
 
-          // required in order to avoid the "double-tap needed" issue
-          avoidAutoClose = true
-          innerRef.value.click()
-          avoidAutoClose = false
+          if (innerRef.value !== null) {
+            // required in order to avoid the "double-tap needed" issue
+            avoidAutoClose = true
+            innerRef.value.click()
+            avoidAutoClose = false
+          }
         }
 
         showPortal(true) // done showing portal
