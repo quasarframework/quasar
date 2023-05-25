@@ -154,6 +154,7 @@ interface InjectPluginFnOptions<Props> {
   props: ExtractPropTypes<Props>;
   emit: SetupContext["emit"];
   helpers: InjectPluginFnHelpers;
+  exposeApi: (api: Record<string, any>) => void;
 }
 
 interface InjectPluginFnReturn {
