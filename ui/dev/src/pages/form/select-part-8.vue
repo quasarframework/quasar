@@ -45,7 +45,9 @@
                   <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
                     <q-item v-bind="itemProps">
                       <q-item-section>
-                        <q-item-label v-html="opt.label" />
+                        <q-item-label>
+                          <div v-html="scope.opt.label" />
+                        </q-item-label>
                       </q-item-section>
                       <q-item-section side>
                         <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
@@ -171,7 +173,9 @@
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
               <q-item-section>
-                <q-item-label v-html="opt.label" />
+                <q-item-label>
+                  <div v-html="opt.label" />
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
@@ -192,7 +196,9 @@
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
               <q-item-section>
-                <q-item-label v-html="opt.label" />
+                <q-item-label>
+                  <div v-html="opt.label" />
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />
@@ -223,7 +229,9 @@
           <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
             <q-item v-bind="itemProps">
               <q-item-section>
-                <q-item-label v-html="opt.label" />
+                <q-item-label>
+                  <div v-html="opt.label" />
+                </q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-toggle :model-value="selected" @update:model-value="toggleOption(opt)" />

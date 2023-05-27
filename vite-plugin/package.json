@@ -37,17 +37,17 @@
   },
   "devDependencies": {
     "cypress": "^12.10.0",
+    "eslint": "^8.41.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.14.1",
     "quasar": "^2.11.10",
     "rollup": "^2.58.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.0.4",
-    "vitest": "^0.30.1",
-    "eslint": "^8.10.0",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-vue": "^9.0.0"
+    "vitest": "^0.30.1"
   },
   "peerDependencies": {
     "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",

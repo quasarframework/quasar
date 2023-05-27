@@ -5,6 +5,7 @@
   "//": "Currently, workspaces feature is only used for Vite/Vue Ecosystem CIs, so not all packages are included. Use individual folders for usual development.",
   "workspaces": [
     "app-vite",
+    "@quasar/extras",
     "vite-plugin",
     "vite-plugin/playground",
     "ui"
