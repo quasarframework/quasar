@@ -3,7 +3,9 @@ export interface QRejectedEntry {
     | "accept"
     | "max-file-size"
     | "max-total-size"
-    | "filter";
+    | "filter"
+    | "max-files"
+    | "duplicate";
   file: File;
 }
 
