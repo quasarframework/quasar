@@ -36,6 +36,7 @@ Then create `/tsconfig.json` file at the root of you project with this content:
   }
 }
 ```
+For a **vite app**, change `"extends": "@quasar/app-webpack/tsconfig-preset"` to `"extends": "@quasar/app-vite/tsconfig-preset.json"`
 
 Now you can start using TypeScript into your project.
 
