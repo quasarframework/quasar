@@ -25,7 +25,7 @@ export default {
     monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    pluralDay: 'dias'
+    pluralDay: 'días'
   },
   table: {
     noData: 'Sin datos disponibles',
@@ -44,9 +44,9 @@ export default {
   editor: {
     url: 'URL',
     bold: 'Negrita',
-    italic: 'Itálico',
-    strikethrough: 'Tachado',
-    underline: 'Subrayado',
+    italic: 'Cursiva',
+    strikethrough: 'Tachada',
+    underline: 'Subrayada',
     unorderedList: 'Lista Desordenada',
     orderedList: 'Lista Ordenada',
     subscript: 'Subíndice',
@@ -87,7 +87,7 @@ export default {
     viewSource: 'Ver fuente'
   },
   tree: {
-    noNodes: 'Sin nodos disponibles',
-    noResults: 'No se encontraron nodos correspondientes'
+    noNodes: 'No hay nodos disponibles',
+    noResults: 'No se encontraron los nodos correspondientes'
   }
 }
