@@ -85,6 +85,7 @@
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
+    "@types/eslint": "^8.40.0",
     "electron-builder": "^24.3.0",
     "electron-packager": "^17.1.1",
     "eslint": "^8.11.0",
