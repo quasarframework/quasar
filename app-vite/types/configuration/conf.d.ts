@@ -14,7 +14,7 @@ import { Options as OpenOptions } from "open";
 import { ServerOptions as ViteServerOptions } from "vite";
 
 type DevServerOptions = Omit<ViteServerOptions, "open"> & {
-  open?: Omit<OpenOptions, "wait"> | false;
+  open?: Omit<OpenOptions, "wait"> | boolean;
 };
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];

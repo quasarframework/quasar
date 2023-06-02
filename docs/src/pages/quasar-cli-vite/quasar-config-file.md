@@ -301,7 +301,7 @@ More info: [Vite server options](https://vitejs.dev/config/#server-options)
 import { ServerOptions as ViteServerOptions } from "vite";
 import { Options as OpenOptions } from "open";
 type DevServerOptions = Omit<ViteServerOptions, "open"> & {
-  open?: Omit<OpenOptions, "wait"> | false;
+  open?: Omit<OpenOptions, "wait"> | boolean;
 };
 
 /**
