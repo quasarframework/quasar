@@ -23,6 +23,11 @@ interface QuasarDevServerConfiguration
    * @link https://github.com/sindresorhus/open/blob/ed757758dd556ae561b58b80ec7dee5e7c6ffddc/index.d.ts#L26-L33
    */
   open: boolean | string;
+
+  /**
+   * Automatically open remote Vue Devtools when running in development mode.
+   */
+  vueDevtools?: boolean;
 }
 
 /**
