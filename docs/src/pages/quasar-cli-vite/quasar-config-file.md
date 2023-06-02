@@ -176,6 +176,8 @@ You will need the linting files already installed. If you don't know which those
 /** Options with which Quasar CLI will use ESLint */
 eslint?: QuasarEslintConfiguration;
 
+import { ESLint } from "eslint";
+
 interface QuasarEslintConfiguration {
   /**
    * Should it report warnings?
@@ -197,7 +199,10 @@ interface QuasarEslintConfiguration {
   /**
    * Raw options to send to ESLint
    */
-  rawOptions?: object;
+  rawOptions?: Omit<
+    ESLint.Options,
+    "cache" | "cacheLocation" | "fix" | "errorOnUnmatchedPattern"
+  >;
 
   /**
    * Files to include (can be in glob format)

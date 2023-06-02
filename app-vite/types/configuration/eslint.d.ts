@@ -1,3 +1,4 @@
+import { ESLint } from "eslint";
 
 export interface QuasarEslintConfiguration {
   /**
@@ -20,7 +21,10 @@ export interface QuasarEslintConfiguration {
   /**
    * Raw options to send to ESLint
    */
-  rawOptions?: object;
+  rawOptions?: Omit<
+    ESLint.Options,
+    "cache" | "cacheLocation" | "fix" | "errorOnUnmatchedPattern"
+  >;
 
   /**
    * Files to include (can be in glob format)
