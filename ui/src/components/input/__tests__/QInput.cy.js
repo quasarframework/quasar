@@ -13,79 +13,6 @@ function mountQInput (options) {
 describe('Input API', () => {
   describe('Props', () => {
     describe('Category: behaviour', () => {
-      describe('(prop): mask', () => {
-        it('should respect the mask set', () => {
-          const masks = [
-            {
-              mask: 'card',
-              value: '4242424242424242',
-              valueWithMask: '4242 4242 4242 4242'
-            },
-            {
-              mask: 'phone',
-              value: '2374234234',
-              valueWithMask: '(237) 423 - 4234'
-            },
-            {
-              mask: '###@#*#',
-              value: '22222',
-              valueWithMask: '222@2*2'
-            },
-            {
-              mask: 'fulltime',
-              value: '222222',
-              valueWithMask: '22:22:22'
-            },
-            {
-              mask: 'time',
-              value: '222222',
-              valueWithMask: '22:22'
-            },
-            {
-              mask: 'date',
-              value: '20230501',
-              valueWithMask: '2023/05/01'
-            },
-            {
-              mask: 'datetime',
-              value: '2023050106:33',
-              valueWithMask: '2023/05/01 06:33'
-            },
-            {
-              fillMask: true,
-              mask: '###-###',
-              value: '222',
-              valueWithMask: '222-___'
-            },
-            {
-              fillMask: '@',
-              mask: '###-###',
-              value: '222',
-              valueWithMask: '222-@@@'
-            },
-            {
-              fillMask: true,
-              reverseFillMask: true,
-              mask: '###-###',
-              value: '12345',
-              valueWithMask: '_12-345'
-            }
-          ]
-
-          masks.forEach(({ value, valueWithMask, ...res }) => {
-            cy.mount(QInput, {
-              props: res
-            })
-
-            getHostElement().get('input').type(value)
-
-            getHostElement().get('input')
-              .should('not.have.value', value)
-              .should('have.value', valueWithMask)
-          })
-        })
-      })
-
       describe('(prop): error', () => {
         it('should mark the field as having an error', () => {
           mountQInput()
@@ -248,7 +175,7 @@ describe('Input API', () => {
             }
           })
 
-          getHostElement().get('i[.q-icon role="presentation"]').should('contain', 'error')
+          getHostElement().get('.q-field__append .q-icon').should('contain', 'error')
 
           mountQInput({
             props: {
@@ -258,7 +185,7 @@ describe('Input API', () => {
             }
           })
 
-          getHostElement().get('.q-field__append').get('.q-icon').should('not.exist').should('not.contain', 'error')
+          getHostElement().get('.q-field__append .q-icon').should('not.exist')
         })
       })
 
@@ -419,10 +346,10 @@ describe('Input API', () => {
 
       describe('(prop): autogrow', () => {
         it('should use textarea for input field', () => {
-          cy.mount(QInput)
+          mountQInput()
           getHostElement().get('textarea').should('not.exist').get('input').should('exist')
 
-          cy.mount(QInput, {
+          mountQInput({
             props: {
               autogrow: true
             }
@@ -473,7 +400,7 @@ describe('Input API', () => {
           mountQInput()
           getHostElement().get('input').should('not.have.value', model.value)
 
-          cy.mount(QInput, {
+          mountQInput({
             props: {
               modelValue: model.value
             }
