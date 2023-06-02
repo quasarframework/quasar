@@ -292,8 +292,12 @@ animations?: QuasarAnimationsConfiguration | 'all';
 
 More info: [Vite server options](https://vitejs.dev/config/#server-options)
 
-```js
-import { ServerOptions } from "vite";
+```ts
+import type { ViteServerOptions } from "vite";
+import type { OpenOptions } from "open";
+type DevServerOptions = Omit<ViteServerOptions, "open"> & {
+  open?: Omit<OpenOptions, "wait">;
+};
 
 /**
  * Vite "server" options.
@@ -302,7 +306,7 @@ import { ServerOptions } from "vite";
  * Note: if you're proxying the development server (i.e. using a cloud IDE),
  * set the `public` setting to your public application URL.
  */
-devServer?: ServerOptions;
+devServer?: DevServerOptions;
 ```
 
 Apart from these options, Quasar CLI tampers with some and you will experience them differently than on a Vite app:
