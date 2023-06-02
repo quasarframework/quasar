@@ -1,5 +1,6 @@
 import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import { Options as OpenOptions } from "open";
 import { QuasarBootConfiguration } from "./boot";
 import { QuasarBuildConfiguration } from "./build";
 import { QuasarCapacitorConfiguration } from "./capacitor-conf";
@@ -13,16 +14,7 @@ type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
 interface QuasarDevServerConfiguration
   extends Omit<WebpackDevServerConfiguration, "open"> {
-  /**
-   * Behind the scenes, webpack devServer `open` property is always set to false
-   *  and that feature is delegated to `open` library.
-   * When a string is provided, it's used as if it was `open.Options.app` value
-   *  to define which browser must be open.
-   *
-   * @link https://github.com/sindresorhus/open/blob/ed757758dd556ae561b58b80ec7dee5e7c6ffddc/test.js#L10-L21
-   * @link https://github.com/sindresorhus/open/blob/ed757758dd556ae561b58b80ec7dee5e7c6ffddc/index.d.ts#L26-L33
-   */
-  open: boolean | string;
+  open?: Omit<OpenOptions, "wait"> | false;
 
   /**
    * Automatically open remote Vue Devtools when running in development mode.
