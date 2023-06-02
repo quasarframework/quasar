@@ -298,10 +298,10 @@ animations?: QuasarAnimationsConfiguration | 'all';
 More info: [Vite server options](https://vitejs.dev/config/#server-options)
 
 ```ts
-import type { ViteServerOptions } from "vite";
-import type { OpenOptions } from "open";
+import { ServerOptions as ViteServerOptions } from "vite";
+import { Options as OpenOptions } from "open";
 type DevServerOptions = Omit<ViteServerOptions, "open"> & {
-  open?: Omit<OpenOptions, "wait">;
+  open?: Omit<OpenOptions, "wait"> | false;
 };
 
 /**
