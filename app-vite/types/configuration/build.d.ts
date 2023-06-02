@@ -49,12 +49,13 @@ interface QuasarStaticBuildConfiguration {
    */
   vitePlugins?: object[];
   /**
-   * @example setting an alias for a custom folder
-   *    {
-   *       locales: path.join(__dirname, 'src/locales')
-   *    }
+   * @example
+   * {
+   *   // import { ... } from 'locales/...'
+   *   locales: path.join(__dirname, 'src/locales')
+   * }
    */
-  alias?: object[];
+  alias?: { [key: string]: string };
   /**
    * Public path of your app.
    * Use it when your public path is something else,
