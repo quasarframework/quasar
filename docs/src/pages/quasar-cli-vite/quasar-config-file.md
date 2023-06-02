@@ -340,15 +340,6 @@ devServer: {
 }
 ```
 
-You can also configure automatically opening remote Vue Devtools:
-
-```js
-// quasar.config file
-devServer: {
-  vueDevtools: true
-}
-```
-
 ### build
 
 ```js
@@ -459,6 +450,10 @@ interface QuasarStaticBuildConfiguration {
    * Should not need to configure this, unless absolutely needed.
    */
   vueRouterBase?: string;
+  /**
+   * Automatically open remote Vue Devtools when running in development mode.
+   */
+  vueDevtools?: boolean;
   /**
    * Should the Vue Options API be available? If all your components only use Composition API
    * it would make sense performance-wise to disable Vue Options API for a compile speedup.

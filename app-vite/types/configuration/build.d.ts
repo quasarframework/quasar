@@ -104,6 +104,10 @@ interface QuasarStaticBuildConfiguration {
    */
   vueRouterBase?: string;
   /**
+   * Automatically open remote Vue Devtools when running in development mode.
+   */
+  vueDevtools?: boolean;
+  /**
    * Should the Vue Options API be available? If all your components only use Composition API
    * it would make sense performance-wise to disable Vue Options API for a compile speedup.
    *
