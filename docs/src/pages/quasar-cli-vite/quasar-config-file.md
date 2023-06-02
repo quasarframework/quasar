@@ -355,7 +355,7 @@ devServer: {
 /** Build configuration options. */
 build?: QuasarBuildConfiguration;
 
-import { UserConfig as ViteUserConfig } from "vite";
+import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
 
 interface InvokeParams {
@@ -373,6 +373,14 @@ interface BuildTargetOptions {
    */
   node: string;
 }
+
+type PluginEntry =
+  | [pluginName: string, options?: any]
+  | [pluginFactory: (options?: any) => Plugin, options?: any]
+  | Plugin
+  | null
+  | undefined
+  | false;
 
 interface QuasarStaticBuildConfiguration {
   /**
@@ -397,13 +405,31 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Vite plugins
    *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#adding-vite-plugins
+   *
    * @example
-   *   [
-   *     [ 'package-name', { ..options.. } ],
-   *     [ require('some-plugin'), { ...options... } ]
-   *   ]
+   * // ESM
+   * import { somePlugin } from 'some-plugin'
+   * // ...
+   * [
+   *   [ 'some-plugin', { ...options... } ],
+   *
+   *   [ somePlugin, { ...options... } ],
+   *
+   *   somePlugin(options)
+   * ]
+   *
+   * @example
+   * // CJS
+   * [
+   *   [ 'some-plugin', { ...options... } ],
+   *
+   *   [ require('some-plugin'), { ...options... } ],
+   *
+   *   require('some-plugin')(options)
+   * ]
    */
-  vitePlugins?: object[];
+  vitePlugins?: PluginEntry[];
   /**
    * @example
    * {
