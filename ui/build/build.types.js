@@ -129,7 +129,9 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
   let jsDoc = ''
 
   if (docs) {
-    jsDoc += `/**\n * ${ definition.desc }\n`
+    if (definition.desc) {
+      jsDoc += ` * ${ definition.desc }\n`
+    }
 
     if (definition.default) {
       jsDoc += ` * Default value: ${ definition.default }\n`
@@ -144,7 +146,9 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
       jsDoc += ` * @returns ${ returns.desc }\n`
     }
 
-    jsDoc += ' */\n'
+    if (jsDoc.length > 0) {
+      jsDoc = '/**\n' + jsDoc + ' */\n'
+    }
   }
 
   return `${ jsDoc }${ isReadonly ? 'readonly ' : '' }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
@@ -304,9 +308,11 @@ function getIndexDts (apis) {
   writeLine(quasarTypeContents, 'export * from \'./lang\'')
   writeLine(quasarTypeContents, 'export * from \'./api\'')
   writeLine(quasarTypeContents, 'export * from \'./plugin\'')
+  writeLine(quasarTypeContents, 'export * from \'./config\'')
   writeLine(quasarTypeContents)
 
   const injections = {}
+  const quasarConfOptions = []
 
   apis.forEach(data => {
     const content = data.api
@@ -478,6 +484,17 @@ function getIndexDts (apis) {
 
       injections[ target ].push(getInjectionDefinition(property, content, typeName))
     }
+
+    if (content.quasarConfOptions) {
+      const confOptions = content.quasarConfOptions
+
+      const definition = getPropDefinition({
+        name: confOptions.propName,
+        definition: confOptions
+      })
+
+      quasarConfOptions.push(definition)
+    }
   })
 
   Object.keys(extraInterfaces).forEach(name => {
@@ -542,6 +559,11 @@ function getIndexDts (apis) {
   }
 
   writeLine(contents, '}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
+
+  writeLine(contents, 'declare module \'./config.d.ts\' {')
+  writeInterface(contents, 'QuasarConfOptions', quasarConfOptions)
   writeLine(contents, '}')
   writeLine(contents)
 
