@@ -5,6 +5,7 @@
 
   "quasarConfOptions": {
     "propName": "ripple",
+    "type": ["Boolean", "Object"],
     "definition": {
       "early": {
         "type": "Boolean",

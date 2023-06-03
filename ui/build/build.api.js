@@ -145,8 +145,10 @@ const objectTypes = {
   },
 
   quasarConfOptions: {
-    props: [ 'propName', 'definition', 'link', 'addedIn' ],
-    required: [ 'propName', 'definition' ]
+    props: [ 'propName', 'definition', 'values', 'tsType', 'desc', 'examples', 'link', 'addedIn' ],
+    required: [ 'propName' ],
+    isObject: [ 'definition' ],
+    isArray: [ 'values' ]
   }
 }
 
