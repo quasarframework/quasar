@@ -3,6 +3,8 @@
     "docsUrl": "https://v2.quasar.dev/options/quasar-language-packs"
   },
 
+  "internal": true,
+
   "quasarConfOptions": {
     "propName": "lang",
     "type": "Object",

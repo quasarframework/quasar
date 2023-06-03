@@ -335,7 +335,9 @@ function getIndexDts (apis) {
       write(directives, propTypeDef)
     }
     else if (content.type === 'plugin') {
-      write(plugins, propTypeDef)
+      if (content.internal !== true) {
+        write(plugins, propTypeDef)
+      }
 
       const makeRequiredRecursive = (definition) => transformObject(definition, (prop) => {
         makeRequired(prop)
@@ -364,7 +366,9 @@ function getIndexDts (apis) {
     })
 
     // Declare class
-    writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+    if (content.internal !== true) {
+      writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+    }
 
     if (content.events) {
       for (const [ name, definition ] of Object.entries(content.events)) {
@@ -449,7 +453,7 @@ function getIndexDts (apis) {
 
       writeLine(contents, `export interface ${ typeName } extends ComponentPublicInstance<${ propsTypeName }> {`)
     }
-    else {
+    else if (content.internal !== true) {
       writeLine(contents, `export interface ${ typeName } {`)
 
       // Write props to the body directly
@@ -470,8 +474,10 @@ function getIndexDts (apis) {
     }
 
     // Close class declaration
-    writeLine(contents, '}')
-    writeLine(contents)
+    if (content.internal !== true) {
+      writeLine(contents, '}')
+      writeLine(contents)
+    }
 
     // Copy Injections for type declaration
     if (content.type === 'plugin' && content.injection) {

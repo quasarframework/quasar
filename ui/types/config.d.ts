@@ -9,7 +9,5 @@ export interface QuasarUIConfiguration {
   capacitor?: NativeMobileWrapperConfiguration;
   cordova?: NativeMobileWrapperConfiguration;
 
-  // TODO: Involve brand and lang in code generation
-
   // The rest will be augmented by auto-generated code
 }

@@ -3,6 +3,8 @@
     "docsUrl": "https://v2.quasar.dev/style/color-palette"
   },
 
+  "internal": true,
+
   "quasarConfOptions": {
     "propName": "brand",
     "type": "Object",
