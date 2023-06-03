@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/options/quasar-language-packs"
+  },
+
+  "quasarConfOptions": {
+    "propName": "lang",
+    "type": "Object",
+    "definition": {
+      "noHtmlAttrs": {
+        "type": "Boolean",
+        "addedIn": "v2.11.3",
+        "desc": "Whether to disable `dir` and `lang` HTML attributes getting added to the `<html>` tag. Disable this only if you know what you are doing."
+      }
+    }
+  }
+}
