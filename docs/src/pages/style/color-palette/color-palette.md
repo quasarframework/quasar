@@ -9,6 +9,10 @@ related:
 ---
 Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.
 
+<doc-api file="Brand" />
+
+<doc-installation config="brand" />
+
 ## Brand Colors
 Most of the colors that Quasar Components use are strongly linked with these three colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
 
@@ -160,45 +164,29 @@ setCssVar('primary-darkened', lighten(newPrimaryColor, -10))
 
 ## Setting Up Defaults
 
-This is how you can set up some brand colors without tampering with the Sass variables:
+You can set up some brand colors without tampering with the Sass/SCSS variables.
+
+See the [Configuration](/style/color-palette#configuration) section above for setting it during initial configuration for Quasar CLI, Vite plugin/Vue CLI, and UMD projects.
+
+If you are using Quasar CLI, you can also use a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files).
+This is especially useful if you want to change the colors dynamically at initial load time, perhaps after fetching them from an API.
 
 ```js
-// Quasar CLI - /quasar.config file
-return {
-  framework: {
-    config: {
-      brand: {
-        primary: '#ff0000',
-        // ...
-      }
-    }
-  }
-}
-```
-
-Or with a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files):
-
-```js
-// For Quasar CLI
-// Do NOT run this boot file for SSR mode
+// src/boot/brand-colors.js - or any other name
 
 import { setCssVar } from 'quasar'
+import { boot } from 'quasar/wrappers'
 
-export default () => {
+export default boot(() => {
   setCssVar('primary', '#ff0000')
-}
+})
 ```
 
-If you are using the Quasar UMD version or the Quasar Vite plugin or Vue CLI:
-
+If using SSR mode, disable this boot file when running on server-side:
 ```js
-// UMD or Quasar Vite plugin or Vue CLI
-app.use(Quasar, {
-  config: {
-    brand: {
-      primary: '#ff0000',
-      // ...
-    }
-  }
-})
+// quasar.config file
+boot: [
+  { server: false, path: 'brand-colors' }, // or the name you gave it
+  // ...
+],
 ```
