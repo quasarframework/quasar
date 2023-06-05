@@ -40,6 +40,10 @@
       "warning": {
         "type": "String",
         "desc": "Warning color of your app"
+      },
+      "...customColors": {
+        "type": "String",
+        "desc": "Custom colors of your app, if any"
       }
     }
   }

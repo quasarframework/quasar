@@ -104,7 +104,8 @@ function getTypeVal (def) {
 function getPropDefinition ({ name, definition, docs = true, isMethodParam = false, isCompProps = false, escapeName = true, isReadonly = false }) {
   let propName = escapeName ? toCamelCase(name) : name
 
-  if (propName.startsWith('...')) {
+  const isRestParam = propName.startsWith('...')
+  if (isRestParam) {
     if (isMethodParam) {
       // A rest parameter must be of an array type. e.g. '...params: any[]'
       definition.type = 'Array'
@@ -113,8 +114,10 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
     }
     else {
       propName = `[${ propName.replace('...', '') || 'key' }: string]`
-      // Optionality with index signature types works differently and use of '?:' is invalid and not required, so always mark it as required
-      definition.required = true
+      // Optionality with index signature types works differently and use of '?:' is invalid and not required.
+      // So, we have to not use '?:' for index signature types but use '| undefined' for the property type instead.
+      // e.g. '[key: string]: any | undefined'
+      // It's being handled in the return statement on the bottom of this function.
     }
   }
 
@@ -122,7 +125,7 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
 
   let propType = getTypeVal(definition)
 
-  if (isCompProps === true && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
+  if ((isCompProps === true || isRestParam) && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
     propType += ' | undefined;'
   }
 
@@ -151,7 +154,7 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
     }
   }
 
-  return `${ jsDoc }${ isReadonly ? 'readonly ' : '' }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
+  return `${ jsDoc }${ isReadonly ? 'readonly ' : '' }${ propName }${ !definition.required && !isRestParam ? '?' : '' }: ${ propType }`
 }
 
 function getPropDefinitions ({ definitions, docs = true, areMethodParams = false, isCompProps = false }) {
