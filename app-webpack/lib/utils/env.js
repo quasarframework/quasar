@@ -5,6 +5,7 @@ const { parse: dotEnvParse } = require('dotenv')
 const { expand: dotEnvExpand } = require('dotenv-expand')
 
 const appPaths = require('../app-paths.js')
+let cachedFileEnv = null
 
 /**
  * Get the raw env definitions from the host
@@ -16,6 +17,10 @@ module.exports.readFileEnv = function readFileEnv ({
   envFolder = appPaths.appDir,
   envFiles = []
 }) {
+  if (cachedFileEnv !== null) {
+    return cachedFileEnv
+  }
+
   const fileList = [
     // .env
     // loaded in all cases
@@ -53,6 +58,7 @@ module.exports.readFileEnv = function readFileEnv ({
     ...envFiles
   ]
 
+  const usedEnvFiles = []
   const folder = isAbsolute(envFolder) === true
     ? envFolder
     : join(appPaths.appDir, envFolder)
@@ -63,11 +69,14 @@ module.exports.readFileEnv = function readFileEnv ({
         ? file
         : join(folder, file)
 
-      return existsSync(filePath) === false
-        ? []
-        : Object.entries(
-          dotEnvParse(readFileSync(filePath, 'utf-8'))
-        )
+      if (existsSync(filePath) === false) {
+        return []
+      }
+
+      usedEnvFiles.push(file)
+      return Object.entries(
+        dotEnvParse(readFileSync(filePath, 'utf-8'))
+      )
     })
   )
 
@@ -75,8 +84,19 @@ module.exports.readFileEnv = function readFileEnv ({
     return {}
   }
 
-  const { parsed } = dotEnvExpand({ parsed: env })
-  return parsed
+  const { parsed: fileEnv } = dotEnvExpand({ parsed: env })
+
+  cachedFileEnv = {
+    fileEnv,
+    usedEnvFiles,
+    envFromCache: true
+  }
+
+  return {
+    fileEnv,
+    usedEnvFiles,
+    envFromCache: false
+  }
 }
 
 /**

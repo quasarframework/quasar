@@ -44,7 +44,7 @@ export const coreEmits = [
   'start', 'finish', 'added', 'removed'
 ]
 
-export function getRenderer (getPlugin) {
+export function getRenderer (getPlugin, expose) {
   const vm = getCurrentInstance()
   const { props, slots, emit, proxy } = vm
   const { $q } = proxy
@@ -105,7 +105,13 @@ export function getRenderer (getPlugin) {
     maxTotalSizeNumber
   } = useFile({ editable, dnd, getFileInput, addFilesToQueue })
 
-  Object.assign(state, getPlugin({ props, slots, emit, helpers: state }))
+  Object.assign(state, getPlugin({
+    props,
+    slots,
+    emit,
+    helpers: state,
+    exposeApi: obj => { Object.assign(state, obj) }
+  }))
 
   if (state.isBusy === void 0) {
     state.isBusy = ref(false)
@@ -459,7 +465,23 @@ export function getRenderer (getPlugin) {
   })
 
   // expose public api (methods & computed props)
-  Object.assign(proxy, publicApi)
+  expose({
+    ...state,
+
+    upload,
+    reset,
+    removeUploadedFiles,
+    removeQueuedFiles,
+    removeFile,
+
+    pickFiles,
+    addFiles,
+
+    canAddFiles,
+    canUpload,
+    uploadSizeLabel,
+    uploadProgressLabel
+  })
 
   return () => {
     const children = [

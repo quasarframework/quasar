@@ -7,14 +7,17 @@ let appUrl
 let openedBrowser = false
 
 module.exports.DevServer = class DevServer {
+  #quasarConfFile
+  #server
+
   constructor (quasarConfFile) {
-    this.quasarConfFile = quasarConfFile
-    this.server = null
+    this.#quasarConfFile = quasarConfFile
+    this.#server = null
   }
 
   listen () {
-    const cfg = this.quasarConfFile.quasarConf
-    const webpackConf = this.quasarConfFile.webpackConf
+    const cfg = this.#quasarConfFile.quasarConf
+    const webpackConf = this.#quasarConfFile.webpackConf
 
     return new Promise(resolve => {
       const compiler = webpack(webpackConf.renderer)
@@ -42,14 +45,14 @@ module.exports.DevServer = class DevServer {
       })
 
       // start building & launch server
-      this.server = new WebpackDevServer(cfg.devServer, compiler)
-      this.server.start()
+      this.#server = new WebpackDevServer(cfg.devServer, compiler)
+      this.#server.start()
     })
   }
 
   stop () {
-    return this.server !== null
-      ? this.server.stop().finally(() => { this.server = null })
+    return this.#server !== null
+      ? this.#server.stop().finally(() => { this.#server = null })
       : Promise.resolve()
   }
 }

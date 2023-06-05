@@ -29,7 +29,7 @@
     "url": "https://donate.quasar.dev"
   },
   "engines": {
-    "node": ">= 14.17.0"
+    "node": ">= 16"
   },
   "publishConfig": {
     "access": "public"

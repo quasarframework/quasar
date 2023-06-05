@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-webpack",
-  "version": "4.0.0-alpha.1",
+  "version": "4.0.0-alpha.3",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
     "quasar": "./bin/quasar"
@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@quasar/babel-preset-app": "2.0.2",
+    "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/render-ssr-error": "^1.0.1",
     "@quasar/ssr-helpers": "2.2.2",
     "@types/chrome": "^0.0.235",
@@ -57,7 +58,6 @@
     "archiver": "5.3.1",
     "autoprefixer": "10.4.14",
     "browserslist": "^4.12.0",
-    "chalk": "4.1.2",
     "chokidar": "3.5.3",
     "ci-info": "3.8.0",
     "compression-webpack-plugin": "10.0.0",
@@ -82,6 +82,7 @@
     "html-webpack-plugin": "5.5.1",
     "inquirer": "8.2.2",
     "isbinaryfile": "5.0.0",
+    "kolorist": "^1.8.0",
     "launch-editor-middleware": "2.6.0",
     "lodash": "^4.17.21",
     "log-update": "4.0.0",
@@ -108,6 +109,7 @@
     "webpack-bundle-analyzer": "4.8.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "4.15.0",
+    "webpack-hot-middleware": "^2.25.3",
     "webpack-merge": "5.8.0",
     "webpack-node-externals": "3.0.0"
   },

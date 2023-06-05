@@ -4,18 +4,16 @@
  **/
 
 import { join } from 'node:path'
-import express from 'express'
 import { renderToString } from 'vue/server-renderer'
 import createRenderer from '@quasar/ssr-helpers/create-renderer'
 
 import renderTemplate from './render-template.js'
 import serverManifest from './quasar.server-manifest.json'
 import clientManifest from './quasar.client-manifest.json'
+
+import { create, listen, serveStaticContent } from '../src-ssr/server.js'
 import injectMiddlewares from './ssr-middlewares.js'
 
-import productionExport from 'src-ssr/production-export'
-
-const app = express()
 const port = process.env.PORT || <%= ssr.prodPort %>
 
 const doubleSlashRE = /\/\//g
@@ -31,14 +29,30 @@ function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
 }
 
-const serveStatic = (path, opts = {}) => {
-  return express.static(resolvePublicFolder(path), {
-    ...opts,
-    maxAge: opts.maxAge === void 0
-      ? <%= ssr.maxAge %>
-      : opts.maxAge
-  })
+const serveStatic = (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts)
+
+const middlewareParams = {
+  port,
+  resolve: {
+    urlPath: resolveUrlPath,
+    root () { return join(rootFolder, ...arguments) },
+    public: resolvePublicFolder
+  },
+  publicPath,
+  folders: {
+    root: rootFolder,
+    public: publicFolder
+  },
+  render: ssrContext => render(ssrContext, renderTemplate),
+  serve: {
+    static: serveStatic
+  }
 }
+
+const app = create(middlewareParams)
+
+// fill in "app" for next calls
+middlewareParams.app = app
 
 // create the renderer
 const render = createRenderer({
@@ -57,35 +71,14 @@ app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', {
 // serve "www" folder (includes the "public" folder)
 app.use(resolveUrlPath('/'), serveStatic('.'))
 
-const middlewareParams = {
-  app,
-  resolve: {
-    urlPath: resolveUrlPath,
-    root () { return join(rootFolder, ...arguments) },
-    public: resolvePublicFolder
-  },
-  publicPath,
-  folders: {
-    root: rootFolder,
-    public: publicFolder
-  },
-  render: ssrContext => render(ssrContext, renderTemplate),
-  serve: {
-    static: serveStatic
-  }
-}
 
-// inject custom middleware
-const appPromise = injectMiddlewares(middlewareParams)
-
-const isReady = () => appPromise
+const isReady = () => injectMiddlewares(middlewareParams)
 
 const ssrHandler = (req, res, next) => {
   return isReady().then(() => app(req, res, next))
 }
 
-export default productionExport({
-  port,
+export default listen({
   isReady,
   ssrHandler,
   ...middlewareParams

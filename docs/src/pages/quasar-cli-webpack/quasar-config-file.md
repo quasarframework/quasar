@@ -217,14 +217,14 @@ Most used properties are:
 | --- | --- | --- |
 | port | Number | Port of dev server |
 | host | String | Local IP/Host to use for dev server |
-| open | Boolean/String | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. Uses [open](https://github.com/sindresorhus/open#usage) package params. For more details, please see below. |
+| open | Boolean/Object | Unless it's set to `false`, Quasar will open up a browser pointing to dev server address automatically. Applies to SPA, PWA and SSR modes. Uses [open](https://github.com/sindresorhus/open#usage) package params. For more details, please see below. |
 | proxy | Object/Array | Proxying some URLs can be useful when you have a separate API backend development server and you want to send API requests on the same domain. |
 | devMiddleware | Object | Configuration supplied to webpack-dev-middleware v4 |
 | server | Object | Here you can configure HTTPS instead of HTTP (see below) |
 | onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
 | onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devServer > open with. Some examples:
 
 ```js
 // quasar.config file
@@ -254,7 +254,7 @@ devServer: {
 }
 ```
 
-When you set `devServer > https: true` in your the `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > https` should look like this:
+When you set `devServer > server > type: 'https'` in your the `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > server` should look like this:
 
 ```js
 // quasar.config file

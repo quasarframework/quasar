@@ -55,8 +55,11 @@ export default [
   },
 
   ...[
-    [ 1284, 2778, 3, '<!-- iPhone 12 Pro Max -->' ],
-    [ 1170, 2532, 3, '<!-- iPhone 12, 12 Pro -->' ],
+    [ 1290, 2796, 3, '<!-- iPhone 14 Pro, 14 Pro Max -->' ],
+    [ 1179, 2556, 3, '<!-- iPhone 14, 14 Pro -->' ],
+    [ 1284, 2778, 3, '<!-- iPhone 12 Pro Max, 13 Pro Max -->' ],
+    [ 1170, 2532, 3, '<!-- iPhone 12, 12 Pro, 13, 13 Pro -->' ],
+    [ 1080, 2340, 3, '<!-- iPhone 13 Mini -->' ],
     [ 828, 1792, 2, '<!-- iPhone XR, 11 -->' ],
     [ 1125, 2436, 3, '<!-- iPhone X, XS, 12 mini, 11 Pro -->' ],
     [ 1242, 2688, 3, '<!-- iPhone XS Max, 11 Pro Max -->' ],

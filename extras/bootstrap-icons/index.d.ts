@@ -1,4 +1,4 @@
-/* Bootstrap v1.10.3 */
+/* Bootstrap v1.10.5 */
 
 export declare const bi0Circle: string;
 export declare const bi0CircleFill: string;

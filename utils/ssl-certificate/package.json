@@ -1,0 +1,44 @@
+{
+  "name": "@quasar/ssl-certificate",
+  "version": "1.0.0",
+  "description": "SSL Certificate for localhost - used by Quasar CLI(s)",
+  "type": "module",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "scripts": {
+    "lint": "eslint ./ --ext .js --fix --report-unused-disable-directives"
+  },
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "engines": {
+    "node": ">= 16"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "selfsigned": "^2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.1.1"
+  }
+}

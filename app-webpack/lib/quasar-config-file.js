@@ -1,8 +1,8 @@
 const path = require('node:path')
-const { existsSync } = require('node:fs')
+const { existsSync, readFileSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
-const { green } = require('chalk')
+const { green } = require('kolorist')
 const { build: esBuild, context: esContextBuild } = require('esbuild')
 const debounce = require('lodash/debounce.js')
 
@@ -718,6 +718,37 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = !!cfg.ssr.pwa
+
+      if (this.ctx.dev && cfg.devServer.server.type === 'https') {
+        const { options } = cfg.devServer.server
+
+        if (options === void 0) {
+          const { getCertificate } = await import('@quasar/ssl-certificate')
+          const sslCertificate = getCertificate({ log, fatal })
+          cfg.devServer.server.options = {
+            key: sslCertificate,
+            cert: sslCertificate
+          }
+        }
+        else {
+          // we now check if config is specifying a file path
+          // and we actually read the contents so we can later supply correct
+          // params to the node HTTPS server
+          ;[ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
+            if (typeof options[ prop ] === 'string') {
+              try {
+                options[ prop ] = readFileSync(options[ prop ])
+              }
+              catch (e) {
+                console.error(e)
+                console.log()
+                delete options[ prop ]
+                warn(`The devServer.server.options.${ prop } file could not be read. Removed the config.`)
+              }
+            }
+          })
+        }
+      }
     }
 
     if (this.ctx.dev) {
@@ -749,7 +780,9 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       },
       this.ctx.mode.ssr === true
         ? {
-            devMiddleware: { index: false },
+            devMiddleware: {
+              index: false
+            },
             static: {
               serveIndex: false
             }
@@ -1108,12 +1141,18 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       cfg.__needsAppMountHook = true
     }
 
-    cfg.__fileEnv = readFileEnv({
+    const { fileEnv, usedEnvFiles, envFromCache } = readFileEnv({
       quasarMode: this.ctx.modeName,
       buildType: this.ctx.dev ? 'dev' : 'prod',
       envFolder: cfg.build.envFolder,
       envFiles: cfg.build.envFiles
     })
+
+    cfg.__fileEnv = fileEnv
+
+    if (envFromCache === false && usedEnvFiles.length !== 0) {
+      log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
+    }
 
     this.quasarConf = cfg
 

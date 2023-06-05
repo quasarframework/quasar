@@ -187,15 +187,15 @@ Before starting, it is highly suggested to make a copy of your current working p
   Also upgrade ESLint deps. Example:
 
   ```js
-  "@babel/eslint-parser": "^7.0.0", // replaces babel-eslint !
-  "eslint": "^7.14.0",
-  "eslint-config-standard": "^16.0.2",
+  "@babel/eslint-parser": "^7.13.14",  // replaces babel-eslint !
+  "eslint": "^8.10.0",
+  "eslint-plugin-vue": "^9.0.0",
+  "eslint-webpack-plugin": "^3.1.1", // replaces eslint-loader !
+  "eslint-config-standard": "^17.0.0",
   "eslint-plugin-import": "^2.19.1",
-  "eslint-plugin-node": "^11.0.0",
-  "eslint-plugin-promise": "^5.1.0",
-  "eslint-plugin-quasar": "^1.0.0",
-  "eslint-plugin-vue": "^7.0.0",
-  "eslint-webpack-plugin": "^2.4.0" // replaces eslint-loader !
+  "eslint-plugin-n": "^15.0.0",
+  "eslint-plugin-promise": "^6.0.0",
+  "eslint-plugin-quasar": "^1.0.0"
   ```
 
   In the `/quasar.config` file, before the `export default function (ctx)` add:

@@ -15,7 +15,10 @@ declare module "quasar/wrappers" {
     RouteCallback,
     StoreCallback,
     SsrMiddlewareCallback,
-    SsrProductionExportCallback,
+    SsrCreateCallback,
+    SsrListenCallback,
+    SsrCloseCallback,
+    SsrServeStaticContentCallback,
     BexBackgroundCallback,
     BexContentCallback,
     BexDomCallback,
@@ -42,9 +45,21 @@ declare module "quasar/wrappers" {
     callback: SsrMiddlewareCallback
   ): SsrMiddlewareCallback;
 
-  function ssrProductionExport(
-    callback: SsrProductionExportCallback
-  ): SsrProductionExportCallback;
+  function ssrCreate(
+    callback: SsrCreateCallback
+  ): SsrCreateCallback;
+
+  function ssrListen(
+    callback: SsrListenCallback
+  ): SsrListenCallback;
+
+  function ssrClose(
+    callback: SsrCloseCallback
+  ): SsrCloseCallback;
+
+  function ssrServeStaticContent(
+    callback: SsrServeStaticContentCallback
+  ): SsrServeStaticContentCallback;
 
   function bexBackground(
     callback: BexBackgroundCallback

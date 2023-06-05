@@ -215,8 +215,10 @@
               </q-menu>
             </q-item-section>
             <q-item-section>
-              <q-item-label v-if="scope.html" v-html="scope.opt.label" />
-              <q-item-label v-else >
+              <q-item-label v-if="scope.html">
+                <div v-html="scope.opt.label" />
+              </q-item-label>
+              <q-item-label v-else>
                 {{ scope.opt.label }}
               </q-item-label>
               <q-item-label caption>
@@ -240,7 +242,9 @@
               <q-icon tabindex="0" :name="scope.opt.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label v-if="scope.html" v-html="scope.opt.label" />
+              <q-item-label v-if="scope.html">
+                <div v-html="scope.opt.label" />
+              </q-item-label>
               <q-item-label v-else >
                 {{ scope.opt.label }}
               </q-item-label>

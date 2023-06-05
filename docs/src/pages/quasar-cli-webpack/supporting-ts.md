@@ -49,7 +49,7 @@ If you fail to add the `tsconfig.json` file, the application will break at compi
 
 ## Handling TS Webpack loaders <q-badge label="@quasar/app-webpack v4+" />
 
-Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `supportTS` property like so:
+Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin` (provided by `@quasar/app-webpack` package) to manage TS files. If you ever need to provide a custom configuration for these libs you can do so by making `build` property like so:
 
 ```js
 // quasar.config file

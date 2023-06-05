@@ -685,7 +685,7 @@
     "path": "quasar-cli-vite",
     "children": [
       {
-        "name": "/quasar.config file",
+        "name": "The quasar.config file",
         "path": "quasar-config-file"
       },
       {
@@ -1106,7 +1106,7 @@
     "path": "quasar-cli-webpack",
     "children": [
       {
-        "name": "/quasar.config file",
+        "name": "The quasar.config file",
         "path": "quasar-config-file"
       },
       {

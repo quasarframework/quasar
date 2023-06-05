@@ -10,7 +10,6 @@
  * anything you import here (except for express and compression).
  */
 import express from 'express'
-import compression from 'compression'
 
 /**
   * Create your webserver and return its instance.
@@ -25,12 +24,6 @@ export function create (/* { ... } */) {
   // attackers can use this header to detect apps running Express
   // and then launch specifically-targeted attacks
   app.disable('x-powered-by')
-
-  // place here any middlewares that
-  // absolutely need to run before anything else
-  if (process.env.PROD) {
-    app.use(compression())
-  }
 
   return app
 }

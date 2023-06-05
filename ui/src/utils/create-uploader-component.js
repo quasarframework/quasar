@@ -18,7 +18,7 @@ export default ({ name, props, emits, injectPlugin }) => createComponent({
     ? { ...coreEmitsObject, ...emits }
     : [ ...coreEmits, ...emits ],
 
-  setup () {
-    return getRenderer(injectPlugin)
+  setup (_, { expose }) {
+    return getRenderer(injectPlugin, expose)
   }
 })

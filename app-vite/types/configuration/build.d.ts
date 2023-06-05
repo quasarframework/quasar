@@ -1,4 +1,4 @@
-import { UserConfig as ViteUserConfig } from "vite";
+import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
 import { QuasarHookParams } from "./conf";
 
@@ -17,6 +17,14 @@ interface BuildTargetOptions {
    */
   node: string;
 }
+
+type PluginEntry =
+  | [pluginName: string, options?: any]
+  | [pluginFactory: (options?: any) => Plugin, options?: any]
+  | Plugin
+  | null
+  | undefined
+  | false;
 
 interface QuasarStaticBuildConfiguration {
   /**
@@ -41,20 +49,39 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Vite plugins
    *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#adding-vite-plugins
+   *
    * @example
-   *   [
-   *     [ 'package-name', { ..options.. } ],
-   *     [ require('some-plugin'), { ...options... } ]
-   *   ]
+   * // ESM
+   * import { somePlugin } from 'some-plugin'
+   * // ...
+   * [
+   *   [ 'some-plugin', { ...options... } ],
+   *
+   *   [ somePlugin, { ...options... } ],
+   *
+   *   somePlugin(options)
+   * ]
+   *
+   * @example
+   * // CJS
+   * [
+   *   [ 'some-plugin', { ...options... } ],
+   *
+   *   [ require('some-plugin'), { ...options... } ],
+   *
+   *   require('some-plugin')(options)
+   * ]
    */
-  vitePlugins?: object[];
+  vitePlugins?: PluginEntry[];
   /**
-   * @example setting an alias for a custom folder
-   *    {
-   *       locales: path.join(__dirname, 'src/locales')
-   *    }
+   * @example
+   * {
+   *   // import { ... } from 'locales/...'
+   *   locales: path.join(__dirname, 'src/locales')
+   * }
    */
-  alias?: object[];
+  alias?: { [key: string]: string };
   /**
    * Public path of your app.
    * Use it when your public path is something else,
@@ -76,6 +103,10 @@ interface QuasarStaticBuildConfiguration {
    * Should not need to configure this, unless absolutely needed.
    */
   vueRouterBase?: string;
+  /**
+   * Automatically open remote Vue Devtools when running in development mode.
+   */
+  vueDevtools?: boolean;
   /**
    * Should the Vue Options API be available? If all your components only use Composition API
    * it would make sense performance-wise to disable Vue Options API for a compile speedup.
@@ -108,7 +139,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * @example { SOMETHING: 'someValue' }
    */
-  env?: { [index: string]: string };
+  env?: { [index: string]: string | undefined | null };
   /**
    * Defines constants that get replaced in your app.
    * Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans.

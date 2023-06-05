@@ -10,7 +10,12 @@ import { QuasarPwaConfiguration } from "./pwa-conf";
 import { QuasarSsrConfiguration } from "./ssr-conf";
 import { QuasarBexConfiguration } from "./bex";
 
-import { ServerOptions } from "vite";
+import { Options as OpenOptions } from "open";
+import { ServerOptions as ViteServerOptions } from "vite";
+
+type DevServerOptions = Omit<ViteServerOptions, "open"> & {
+  open?: Omit<OpenOptions, "wait"> | boolean;
+};
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
@@ -81,7 +86,7 @@ interface BaseQuasarConfiguration {
    * Note: if you're proxying the development server (i.e. using a cloud IDE),
    * set the `public` setting to your public application URL.
    */
-  devServer?: ServerOptions;
+  devServer?: DevServerOptions;
   /** Build configuration options. */
   build?: QuasarBuildConfiguration;
   /** Change the default name of parts of your app. */

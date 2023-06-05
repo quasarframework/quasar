@@ -43,7 +43,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
 }
 
 const { getQuasarMode } = require('../mode/index.js')
-const { green, grey } = require('chalk')
+const { green, gray } = require('kolorist')
 
 async function run () {
   const [ action, mode ] = argv._
@@ -90,7 +90,7 @@ function displayModes () {
   ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
     info.push([
       `Mode ${ mode.toUpperCase() }`,
-      getQuasarMode(mode).isInstalled ? green('yes') : grey('no')
+      getQuasarMode(mode).isInstalled ? green('yes') : gray('no')
     ])
   })
 

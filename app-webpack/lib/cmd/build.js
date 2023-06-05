@@ -153,7 +153,7 @@ async function build () {
   }
 
   const { QuasarConfigFile } = require('../quasar-config-file.js')
-  const { Generator } = require('../generator.js')
+  const { EntryFilesGenerator } = require('../entry-files-generator.js')
   const { cleanArtifacts, addArtifacts } = require('../artifacts.js')
   const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
   const { extensionsRunner } = require('../app-extension/extensions-runner.js')
@@ -176,7 +176,7 @@ async function build () {
 
   const { quasarConf, webpackConf } = await quasarConfFile.read()
 
-  const generator = new Generator(quasarConfFile)
+  const generator = new EntryFilesGenerator(quasarConfFile)
 
   regenerateTypesFeatureFlags(quasarConf)
 

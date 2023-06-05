@@ -1,5 +1,6 @@
 import { Express, Request, RequestHandler, Response, NextFunction } from "express";
 import { Server } from "http";
+import { Server as HttpsServer } from "https";
 import { ServeStaticOptions } from "serve-static";
 
 interface RenderParams {
@@ -101,6 +102,16 @@ interface SsrListenParams extends SsrMiddlewareParams {
    * before starting to listen for clients
    */
   isReady(): Promise<void>;
+  /**
+   * If you use HTTPS in development, this will be the
+   * actual server that listens for clients.
+   * It is a Node https.Server instance wrapper over the original "app".
+   */
+  devHttpsApp?: HttpsServer;
+  /**
+   * SSR handler to be used on production should
+   * you wish to use a serverless approach.
+   */
   ssrHandler(
     params: SsrHandlerParams
   ): Promise<void>;

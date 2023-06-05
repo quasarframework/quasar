@@ -62,7 +62,7 @@ export default createComponent({
           + (props.autoWidth === true ? ' q-table--col-auto-width' : ''),
         style: col.headerStyle,
         onClick: evt => {
-          col.sortable === true && props.props.sort(col) // eslint-disable-line
+          col.sortable === true && props.props.sort(col)
           onClick(evt)
         }
       }

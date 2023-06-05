@@ -1,9 +1,9 @@
 
 const parseArgs = require('minimist')
-const chalk = require('chalk')
+const { green, red, italic, underline } = require('kolorist')
 
 const { getApi } = require('../utils/get-api.js')
-const { fatal } = require('../utils/logger.js')
+const { fatal, dot } = require('../utils/logger.js')
 
 const partArgs = {
   p: 'props',
@@ -144,7 +144,7 @@ function printProp (prop, propName, indentLevel) {
   const type = getStringType(prop.type)
 
   if (propName !== void 0) {
-    console.log(`${ indent }${ chalk.green(propName) } ${ type ? `(${ type })` : '' }${ type !== 'Function' && prop.required ? chalk.red(' [Required]') : '' }${ prop.reactive ? chalk.red(' [Reactive]') : '' }`)
+    console.log(`${ indent }${ green(propName) } ${ type ? `(${ type })` : '' }${ type !== 'Function' && prop.required ? red(' [Required]') : '' }${ prop.reactive ? red(' [Reactive]') : '' }`)
 
     indentLevel += 2
     indent += '  '
@@ -199,10 +199,10 @@ function printProp (prop, propName, indentLevel) {
 function printProperties ({ props }) {
   const keys = Object.keys(props || {})
 
-  console.log('\n ' + chalk.underline('Properties'))
+  console.log('\n ' + underline('Properties'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No properties*'))
+    console.log('\n   ' + italic('*No properties*'))
     return
   }
 
@@ -213,7 +213,7 @@ function printProperties ({ props }) {
       }
     })
     if (Object.keys(props).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching properties*'))
+      console.log('\n   ' + italic('*No matching properties*'))
       return
     }
   }
@@ -227,10 +227,10 @@ function printProperties ({ props }) {
 function printSlots ({ slots }) {
   const keys = Object.keys(slots || {})
 
-  console.log('\n ' + chalk.underline('Slots'))
+  console.log('\n ' + underline('Slots'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No slots*'))
+    console.log('\n   ' + italic('*No slots*'))
     return
   }
 
@@ -241,7 +241,7 @@ function printSlots ({ slots }) {
       }
     })
     if (Object.keys(slots).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching slots*'))
+      console.log('\n   ' + italic('*No matching slots*'))
       return
     }
   }
@@ -255,10 +255,10 @@ function printSlots ({ slots }) {
 function printEvents ({ events }) {
   const keys = Object.keys(events || {})
 
-  console.log('\n ' + chalk.underline('Events'))
+  console.log('\n ' + underline('Events'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No events*'))
+    console.log('\n   ' + italic('*No events*'))
     return
   }
 
@@ -269,7 +269,7 @@ function printEvents ({ events }) {
       }
     })
     if (Object.keys(events).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching events*'))
+      console.log('\n   ' + italic('*No matching events*'))
       return
     }
   }
@@ -277,10 +277,10 @@ function printEvents ({ events }) {
   for (const eventName in events) {
     const event = events[ eventName ]
 
-    console.log('\n   @' + chalk.green(eventName) + getEventParams(event))
+    console.log('\n   @' + green(eventName) + getEventParams(event))
     console.log('     Description: ' + event.desc)
     if (!event.params) {
-      console.log('     Parameters: ' + chalk.italic('*None*'))
+      console.log('     Parameters: ' + italic('*None*'))
     }
     else {
       console.log('     Parameters:')
@@ -294,10 +294,10 @@ function printEvents ({ events }) {
 function printMethods ({ methods }) {
   const keys = Object.keys(methods || {})
 
-  console.log('\n ' + chalk.underline('Methods'))
+  console.log('\n ' + underline('Methods'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No methods*'))
+    console.log('\n   ' + italic('*No methods*'))
     return
   }
 
@@ -308,14 +308,14 @@ function printMethods ({ methods }) {
       }
     })
     if (Object.keys(methods).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching methods*'))
+      console.log('\n   ' + italic('*No matching methods*'))
       return
     }
   }
 
   for (const methodName in methods) {
     const method = methods[ methodName ]
-    console.log('\n   ' + chalk.green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
+    console.log('\n   ' + green(methodName) + getMethodParams(method) + getMethodReturnValue(method))
     console.log('     ' + method.desc)
     if (method.params !== void 0) {
       console.log('     Parameters:')
@@ -334,10 +334,10 @@ function printMethods ({ methods }) {
 function printComputedProps ({ computedProps }) {
   const keys = Object.keys(computedProps || {})
 
-  console.log('\n ' + chalk.underline('Computed Properties'))
+  console.log('\n ' + underline('Computed Properties'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No computed properties*'))
+    console.log('\n   ' + italic('*No computed properties*'))
     return
   }
 
@@ -348,7 +348,7 @@ function printComputedProps ({ computedProps }) {
       }
     })
     if (Object.keys(computedProps).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching computed properties*'))
+      console.log('\n   ' + italic('*No matching computed properties*'))
       return
     }
   }
@@ -360,10 +360,10 @@ function printComputedProps ({ computedProps }) {
 }
 
 function printValue ({ value }) {
-  console.log('\n ' + chalk.underline('Value'))
+  console.log('\n ' + underline('Value'))
 
   if (value === void 0) {
-    console.log('\n   ' + chalk.italic('*No value*'))
+    console.log('\n   ' + italic('*No value*'))
   }
   else {
     console.log('\n   Type:', value.type)
@@ -372,10 +372,10 @@ function printValue ({ value }) {
 }
 
 function printArg ({ arg }) {
-  console.log('\n ' + chalk.underline('Arg'))
+  console.log('\n ' + underline('Arg'))
 
   if (arg === void 0) {
-    console.log('\n   ' + chalk.italic('*No arg*'))
+    console.log('\n   ' + italic('*No arg*'))
   }
   else {
     console.log('\n   Type:', arg.type)
@@ -386,10 +386,10 @@ function printArg ({ arg }) {
 function printModifiers ({ modifiers }) {
   const keys = Object.keys(modifiers || {})
 
-  console.log('\n ' + chalk.underline('Modifiers'))
+  console.log('\n ' + underline('Modifiers'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No modifiers*'))
+    console.log('\n   ' + italic('*No modifiers*'))
     return
   }
 
@@ -400,26 +400,26 @@ function printModifiers ({ modifiers }) {
       }
     })
     if (Object.keys(modifiers).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching modifiers*'))
+      console.log('\n   ' + italic('*No matching modifiers*'))
       return
     }
   }
 
   for (const modifierName in modifiers) {
     const modifier = modifiers[ modifierName ]
-    console.log('\n   ' + chalk.green(modifierName))
+    console.log('\n   ' + green(modifierName))
     printProp(modifier, modifierName, 5)
   }
 }
 
 function printInjection ({ injection }) {
-  console.log('\n ' + chalk.underline('Injection'))
+  console.log('\n ' + underline('Injection'))
 
   if (injection === void 0) {
-    console.log('\n   ' + chalk.italic('*No injection*'))
+    console.log('\n   ' + italic('*No injection*'))
   }
   else {
-    console.log('\n   ' + chalk.green(injection))
+    console.log('\n   ' + green(injection))
   }
 }
 
@@ -429,10 +429,10 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
     : {}
   const keys = Object.keys(conf)
 
-  console.log('\n ' + chalk.underline('quasar.config file > framework > config'))
+  console.log('\n ' + underline('quasar.config file > framework > config'))
 
   if (keys.length === 0) {
-    console.log('\n   ' + chalk.italic('*No configuration options*'))
+    console.log('\n   ' + italic('*No configuration options*'))
     return
   }
 
@@ -443,12 +443,12 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
       }
     })
     if (Object.keys(conf).length === 0) {
-      console.log('\n   ' + chalk.italic('*No matching configuration options*'))
+      console.log('\n   ' + italic('*No matching configuration options*'))
       return
     }
   }
 
-  console.log('\n   Property name: ' + chalk.green(quasarConfOptions.propName))
+  console.log('\n   Property name: ' + green(quasarConfOptions.propName))
   console.log('   Definition:')
   for (const propName in conf) {
     console.log()
@@ -483,8 +483,8 @@ function describe (api) {
   }
 
   if (api.meta && api.meta.docsUrl) {
-    console.log('\n ' + chalk.underline('Documentation URL'))
-    console.log('\n   ' + chalk.green(api.meta.docsUrl))
+    console.log('\n ' + underline('Documentation URL'))
+    console.log('\n   ' + green(api.meta.docsUrl))
   }
 }
 
@@ -506,13 +506,13 @@ async function run () {
       }
     }
     else {
-      console.log(` Describing ${ chalk.green(item) } ${ api.type } API`)
+      console.log(` Describing ${ green(item) } ${ api.type } API`)
 
       if (supplier === void 0) {
-        console.log(` ${ chalk.italic('Description is based on your project\'s Quasar version') }`)
+        console.log(` ${ italic('Description is based on your project\'s Quasar version') }`)
       }
       else {
-        console.log(` ${ chalk.italic(`Supplied by "${ supplier }" App Extension`) }`)
+        console.log(` ${ italic(`Supplied by "${ supplier }" App Extension`) }`)
       }
 
       describe(api)
@@ -536,7 +536,7 @@ function listElements () {
 
   if (filter) {
     const needle = filter.toLowerCase()
-    const filterBanner = chalk.green(filter)
+    const filterBanner = green(filter)
     api = api.filter(entry => entry.toLowerCase().indexOf(needle) !== -1)
 
     if (api.length === 0) {
@@ -550,10 +550,10 @@ function listElements () {
     console.log('\n The complete list of API elements:\n')
   }
 
-  const dot = chalk.green('  • ')
+  const prefix = green(`  ${ dot } `)
 
   api.forEach(entry => {
-    console.log(dot + entry)
+    console.log(prefix + entry)
   })
   console.log()
 }

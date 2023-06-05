@@ -61,8 +61,13 @@
                 },
 
                 "avatar": {
-                  "type": "Boolean",
-                  "desc": "Display img as avatar (round borders)"
+                  "type": "String",
+                  "desc": "Path to an avatar image for this action",
+                  "examples": [
+                    "(public folder) img/avatar.png",
+                    "(relative path format) :src=\"require('./my_img.jpg')\"",
+                    "(URL) https://some-site.net/some-img.gif"
+                  ]
                 },
 
                 "label": {

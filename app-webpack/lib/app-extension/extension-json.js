@@ -1,5 +1,5 @@
 const fs = require('node:fs')
-const chalk = require('chalk')
+const { green } = require('kolorist')
 
 const { log, fatal } = require('../utils/logger.js')
 const appPaths = require('../app-paths.js')
@@ -33,7 +33,7 @@ class ExtensionJson {
     log()
 
     for (const ext in this.extensions) {
-      console.log('Extension name: ' + chalk.green(ext))
+      console.log('Extension name: ' + green(ext))
       console.log('Extension prompts: ' + JSON.stringify(this.extensions[ ext ], null, 2))
       console.log()
     }

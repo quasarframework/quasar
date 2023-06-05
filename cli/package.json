@@ -1,6 +1,6 @@
 {
   "name": "@quasar/cli",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Quasar Framework - the Global CLI",
   "type": "module",
   "bin": {
@@ -47,6 +47,7 @@
     "yarn": ">= 1.6.0"
   },
   "dependencies": {
+    "@quasar/ssl-certificate": "^1.0.0",
     "ci-info": "^3.8.0",
     "compression": "^1.7.4",
     "connect-history-api-fallback": "^2.0.0",

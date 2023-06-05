@@ -97,8 +97,6 @@ module.exports.quasarSsrConfig = {
       }
     }))
 
-    console.log(cfg.define)
-
     if (quasarConf.ctx.dev) {
       cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-dev-webserver.js') ]
       cfg.outfile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')

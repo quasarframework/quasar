@@ -1,4 +1,6 @@
-import { Express, Request, RequestHandler, Response, Handler, NextFunction } from "express";
+import { Express, Request, RequestHandler, Response, NextFunction } from "express";
+import { Server } from "http";
+import { Server as HttpsServer } from "https";
 import { ServeStaticOptions } from "serve-static";
 
 interface RenderParams {
@@ -59,8 +61,12 @@ interface SsrMiddlewareResolve {
   public(...paths: string[]): string;
 }
 
-interface SsrMiddlewareParams {
-  app: Express;
+interface SsrCreateParams {
+  /**
+   * Terminal PORT env var or the default configured port
+   * for the SSR webserver
+   */
+  port: number;
   resolve: SsrMiddlewareResolve;
   publicPath: string;
   folders: SsrMiddlewareFolders;
@@ -70,6 +76,14 @@ interface SsrMiddlewareParams {
    */
   render: SsrMiddlewareRender;
   serve: SsrMiddlewareServe;
+}
+
+export type SsrCreateCallback = (
+  params: SsrCreateParams
+) => Express | any;
+
+interface SsrMiddlewareParams extends SsrCreateParams {
+  app: Express;
 }
 
 export type SsrMiddlewareCallback = (
@@ -82,22 +96,44 @@ interface SsrHandlerParams {
   next: NextFunction;
 }
 
-interface SsrProductionExportParams extends SsrMiddlewareParams {
-  /**
-   * Terminal PORT env var or the default configured port
-   * for the SSR webserver
-   */
-  port: number;
+interface SsrListenParams extends SsrMiddlewareParams {
   /**
    * Wait for app to be initialized (run all SSR middlewares)
    * before starting to listen for clients
    */
   isReady(): Promise<void>;
+  /**
+   * If you use HTTPS in development, this will be the
+   * actual server that listens for clients.
+   * It is a Node https.Server instance wrapper over the original "app".
+   */
+  devHttpsApp?: HttpsServer;
+  /**
+   * SSR handler to be used on production should
+   * you wish to use a serverless approach.
+   */
   ssrHandler(
     params: SsrHandlerParams
   ): Promise<void>;
 }
 
-export type SsrProductionExportCallback = (
-  params: SsrProductionExportParams
-) => any;
+export type SsrListenCallback = (
+  params: SsrListenParams
+) => Promise<Server>;
+
+interface SsrCloseParams extends SsrListenParams {
+  listenResult: Server;
+}
+
+export type SsrCloseCallback = (
+  params: SsrCloseParams
+) => void;
+
+export type SsrServeStaticContentCallback = (
+  path: string,
+  opts?: ServeStaticOptions<Response>
+) => RequestHandler<Response>;
+
+export type SsrRenderPreloadTagCallback = (
+  file: string
+) => string;

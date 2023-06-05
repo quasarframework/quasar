@@ -176,6 +176,8 @@ You will need the linting files already installed. If you don't know which those
 /** Options with which Quasar CLI will use ESLint */
 eslint?: QuasarEslintConfiguration;
 
+import { ESLint } from "eslint";
+
 interface QuasarEslintConfiguration {
   /**
    * Should it report warnings?
@@ -197,7 +199,10 @@ interface QuasarEslintConfiguration {
   /**
    * Raw options to send to ESLint
    */
-  rawOptions?: object;
+  rawOptions?: Omit<
+    ESLint.Options,
+    "cache" | "cacheLocation" | "fix" | "errorOnUnmatchedPattern"
+  >;
 
   /**
    * Files to include (can be in glob format)
@@ -292,8 +297,12 @@ animations?: QuasarAnimationsConfiguration | 'all';
 
 More info: [Vite server options](https://vitejs.dev/config/#server-options)
 
-```js
-import { ServerOptions } from "vite";
+```ts
+import { ServerOptions as ViteServerOptions } from "vite";
+import { Options as OpenOptions } from "open";
+type DevServerOptions = Omit<ViteServerOptions, "open"> & {
+  open?: Omit<OpenOptions, "wait"> | boolean;
+};
 
 /**
  * Vite "server" options.
@@ -302,7 +311,7 @@ import { ServerOptions } from "vite";
  * Note: if you're proxying the development server (i.e. using a cloud IDE),
  * set the `public` setting to your public application URL.
  */
-devServer?: ServerOptions;
+devServer?: DevServerOptions;
 ```
 
 Apart from these options, Quasar CLI tampers with some and you will experience them differently than on a Vite app:
@@ -336,22 +345,13 @@ devServer: {
 }
 ```
 
-You can also configure automatically opening remote Vue Devtools:
-
-```js
-// quasar.config file
-devServer: {
-  vueDevtools: true
-}
-```
-
 ### build
 
 ```js
 /** Build configuration options. */
 build?: QuasarBuildConfiguration;
 
-import { UserConfig as ViteUserConfig } from "vite";
+import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
 
 interface InvokeParams {
@@ -369,6 +369,14 @@ interface BuildTargetOptions {
    */
   node: string;
 }
+
+type PluginEntry =
+  | [pluginName: string, options?: any]
+  | [pluginFactory: (options?: any) => Plugin, options?: any]
+  | Plugin
+  | null
+  | undefined
+  | false;
 
 interface QuasarStaticBuildConfiguration {
   /**
@@ -393,20 +401,39 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Vite plugins
    *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#adding-vite-plugins
+   *
    * @example
-   *   [
-   *     [ 'package-name', { ..options.. } ],
-   *     [ require('some-plugin'), { ...options... } ]
-   *   ]
+   * // ESM
+   * import { somePlugin } from 'some-plugin'
+   * // ...
+   * [
+   *   [ 'some-plugin', { ...options... } ],
+   *
+   *   [ somePlugin, { ...options... } ],
+   *
+   *   somePlugin(options)
+   * ]
+   *
+   * @example
+   * // CJS
+   * [
+   *   [ 'some-plugin', { ...options... } ],
+   *
+   *   [ require('some-plugin'), { ...options... } ],
+   *
+   *   require('some-plugin')(options)
+   * ]
    */
-  vitePlugins?: object[];
+  vitePlugins?: PluginEntry[];
   /**
-   * @example setting an alias for a custom folder
-   *    {
-   *       locales: path.join(__dirname, 'src/locales')
-   *    }
+   * @example
+   * {
+   *   // import { ... } from 'locales/...'
+   *   locales: path.join(__dirname, 'src/locales')
+   * }
    */
-  alias?: object[];
+  alias?: { [key: string]: string };
   /**
    * Public path of your app.
    * Use it when your public path is something else,
@@ -428,6 +455,10 @@ interface QuasarStaticBuildConfiguration {
    * Should not need to configure this, unless absolutely needed.
    */
   vueRouterBase?: string;
+  /**
+   * Automatically open remote Vue Devtools when running in development mode.
+   */
+  vueDevtools?: boolean;
   /**
    * Should the Vue Options API be available? If all your components only use Composition API
    * it would make sense performance-wise to disable Vue Options API for a compile speedup.

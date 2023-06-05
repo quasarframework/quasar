@@ -102,7 +102,7 @@ export default createComponent({
     const editable = computed(() => !props.readonly && !props.disable)
 
     let defaultFont, offsetBottom
-    let lastEmit = props.modelValue // eslint-disable-line
+    let lastEmit = props.modelValue
 
     if (__QUASAR_SSR_SERVER__ !== true) {
       document.execCommand('defaultParagraphSeparator', false, props.paragraphTag)

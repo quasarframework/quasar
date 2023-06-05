@@ -1,5 +1,5 @@
 const path = require('node:path')
-const { existsSync } = require('node:fs')
+const { existsSync, readFileSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
 const debounce = require('lodash/debounce.js')
@@ -677,6 +677,37 @@ module.exports.QuasarConfFile = class QuasarConfFile {
       }
 
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
+
+      if (this.#ctx.dev) {
+        if (cfg.devServer.https === true) {
+          const { getCertificate } = await import('@quasar/ssl-certificate')
+          const sslCertificate = getCertificate({ log, fatal })
+          cfg.devServer.https = {
+            key: sslCertificate,
+            cert: sslCertificate
+          }
+        }
+        else if (Object(cfg.devServer.https) === cfg.devServer.https) {
+          const { https } = cfg.devServer
+
+          // we now check if config is specifying a file path
+          // and we actually read the contents so we can later supply correct
+          // params to the node HTTPS server
+          ;[ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
+            if (typeof https[ prop ] === 'string') {
+              try {
+                https[ prop ] = readFileSync(https[ prop ])
+              }
+              catch (e) {
+                console.error(e)
+                console.log()
+                delete https[ prop ]
+                warn(`The devServer.https.${ prop } file could not be read. Removed the config.`)
+              }
+            }
+          })
+        }
+      }
     }
 
     if (this.#ctx.dev) {
@@ -686,12 +717,6 @@ module.exports.QuasarConfFile = class QuasarConfFile {
           host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
           port: 8098
         }
-      }
-
-      if (this.#ctx.mode.ssr && cfg.devServer.https === true) {
-        // TODO SSR + HTTPS
-        warn('SSR on HTTPS is not currently supported, so disabling it.')
-        cfg.devServer.https = false
       }
 
       if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron) {
@@ -768,12 +793,18 @@ module.exports.QuasarConfFile = class QuasarConfFile {
     }
 
     // get the env variables from host project env files
-    cfg.metaConf.fileEnv = readFileEnv({
+    const { fileEnv, usedEnvFiles, envFromCache } = readFileEnv({
       quasarMode: this.#ctx.modeName,
       buildType: this.#ctx.dev ? 'dev' : 'prod',
       envFolder: cfg.build.envFolder,
       envFiles: cfg.build.envFiles
     })
+
+    cfg.metaConf.fileEnv = fileEnv
+
+    if (envFromCache === false && usedEnvFiles.length !== 0) {
+      log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
+    }
 
     if (this.#ctx.mode.electron && this.#ctx.prod) {
       const bundler = require('./modes/electron/bundler.js')
