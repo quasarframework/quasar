@@ -12,7 +12,7 @@
       "noHtmlAttrs": {
         "type": "Boolean",
         "addedIn": "v2.11.3",
-        "desc": "Whether to disable `dir` and `lang` HTML attributes getting added to the `<html>` tag. Disable this only if you know what you are doing."
+        "desc": "Whether to disable `dir` and `lang` HTML attributes getting added to the `<html>` tag. `dir` attribute is crucial when using RTL support. Disable this only if you need to handle these yourself for some reason."
       }
     }
   }
