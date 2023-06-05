@@ -4,7 +4,6 @@ desc: Quasar plugin that helps in writing a dynamic and responsive UI through Ja
 ---
 The Quasar Screen plugin allows you to have a dynamic and responsive UI when dealing with your Javascript code. When possible, it is recommended to use the [responsive CSS classes](/style/visibility#window-width-related) instead, for performance reasons.
 
-## API
 <doc-api file="Screen" />
 
 ## Usage
