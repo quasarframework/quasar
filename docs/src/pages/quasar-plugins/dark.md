@@ -13,7 +13,7 @@ For a better understanding of this Quasar plugin, please head to the Style & Ide
 
 <doc-api file="Dark" />
 
-<doc-installation config="dark" />
+<doc-installation title="Configuration" config="dark" />
 
 ## Usage
 

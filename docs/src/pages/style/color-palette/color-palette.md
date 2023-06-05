@@ -11,7 +11,7 @@ Quasar Framework offers a wide selection of colors out of the box. You can use t
 
 <doc-api file="Brand" />
 
-<doc-installation config="brand" />
+<doc-installation title="Configuration" config="brand" />
 
 ## Brand Colors
 Most of the colors that Quasar Components use are strongly linked with these three colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.

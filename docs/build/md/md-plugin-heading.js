@@ -7,7 +7,7 @@ const { slugify } = require('../utils')
 const titleRE = /<\/?[^>]+(>|$)/g
 const apiRE = /^<doc-api /
 const apiNameRE = /file="([^"]+)"/
-const installationRE = /^<doc-installation /
+const installationRE = /^<doc-installation(?:\s+title="([^"]*)")?\s*/
 
 function parseContent (str) {
   const title = String(str)
@@ -54,8 +54,11 @@ module.exports = function (md) {
         md.$data.toc.push({ id: slugify(title), title, deep: true })
       }
     }
-    else if (installationRE.test(token.content) === true) {
-      md.$data.toc.push({ id: 'installation', title: 'Installation', deep: true })
+
+    const match = token.content.match(installationRE)
+    if (match !== null) {
+      const title = match[ 1 ] ?? 'Installation'
+      md.$data.toc.push({ id: slugify(title), title, deep: true })
     }
 
     return tokens[ idx ].content
