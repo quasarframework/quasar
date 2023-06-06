@@ -115,6 +115,9 @@ const entry = computed(() => {
         background: rgba(#fff, .2)
         pointer-events: none
 
+      code
+        display: inline-block
+
   &__links
     //
 
