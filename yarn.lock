@@ -1654,17 +1654,17 @@
   resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.16.4.tgz#34fc2517fffecb5c27e4cea1b69b62aaf890ff73"
   integrity sha512-q2kPTNHI5aprgE2yQfRIf6aud+qSXH3YTNmhcfRp/rENh7kRjoM+b5BBPxgHlO1si1ARddbmr+Fxu/L05hfXnQ==
 
-"@quasar/quasar-app-extension-testing-e2e-cypress@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-testing-e2e-cypress/-/quasar-app-extension-testing-e2e-cypress-5.1.0.tgz#7154e16d9f2806ee0d86dd0065e5e0b292e315ea"
-  integrity sha512-v9ENWIeYZD7jhMbyPJ3UcVsR6UNmgz64Z4VpEhNFdmM/CH9LPDbu+wPcTbb7DGVxQUuvnj+8LwJQo58fk446rg==
+"@quasar/quasar-app-extension-testing-e2e-cypress@^5.2.0-alpha.1":
+  version "5.2.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-testing-e2e-cypress/-/quasar-app-extension-testing-e2e-cypress-5.2.0-alpha.1.tgz#ed05384eeb8484ab79f919c8e78101059f938408"
+  integrity sha512-qNxU+1baAzBwC90LpLMPphWoqs3S3w/DBX28EoUqPCdEt9verIc9t8ar+E+GSiKsJdET25xtJ8/u+4YHEz8FKg==
   dependencies:
     "@cypress/code-coverage" "^3.10.0"
     cross-env "^7.0.3"
     lodash "^4.17.21"
     nyc "^15.1.0"
-    start-server-and-test "^1.15.2"
-    vite-plugin-istanbul "^3.0.4"
+    start-server-and-test "^2.0.0"
+    vite-plugin-istanbul "^4.0.1"
 
 "@quasar/render-ssr-error@^1.0.1":
   version "1.0.1"
@@ -3883,10 +3883,10 @@ cypress@^12.10.0:
     untildify "^4.0.0"
     yauzl "^2.10.0"
 
-cypress@^12.7.0:
-  version "12.11.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.11.0.tgz#b46dc6a1d0387f59a4b5c6a18cc03884fd61876e"
-  integrity sha512-TJE+CCWI26Hwr5Msb9GpQhFLubdYooW0fmlPwTsfiyxmngqc7+SZGLPeIkj2dTSSZSEtpQVzOzvcnzH0o8G7Vw==
+cypress@^12.13.0:
+  version "12.13.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-12.13.0.tgz#725b6617ea19e41e5c59cc509fc3e08097142b01"
+  integrity sha512-QJlSmdPk+53Zhy69woJMySZQJoWfEWun3X5OOenGsXjRPVfByVTHorxNehbzhZrEzH9RDUDqVcck0ahtlS+N/Q==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -8613,20 +8613,6 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
-start-server-and-test@^1.15.2:
-  version "1.15.5"
-  resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-1.15.5.tgz#5c9103bd87c06678fc62658fbe97d09501714011"
-  integrity sha512-o3EmkX0++GV+qsvIJ/OKWm3w91fD8uS/bPQVPrh/7loaxkpXSuAIHdnmN/P/regQK9eNAK76aBJcHt+OSTk+nA==
-  dependencies:
-    arg "^5.0.2"
-    bluebird "3.7.2"
-    check-more-types "2.24.0"
-    debug "4.3.4"
-    execa "5.1.1"
-    lazy-ass "1.6.0"
-    ps-tree "1.2.0"
-    wait-on "7.0.1"
-
 start-server-and-test@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-2.0.0.tgz#0644809d63036a8a001efb70582f3e37ebfdd33d"
@@ -9335,10 +9321,10 @@ vite-node@0.30.1:
     picocolors "^1.0.0"
     vite "^3.0.0 || ^4.0.0"
 
-vite-plugin-istanbul@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/vite-plugin-istanbul/-/vite-plugin-istanbul-3.0.4.tgz#a8367e393fc51c9e071607de5bacf46ddcac698f"
-  integrity sha512-DJy3cq6yOFbsM3gLQf/3zeuaJNJsfBv5dLFdZdv8sUV30xLtZI+66QeYfHUyP/5vBUYyLA+xNUCSG5uHY6w+5g==
+vite-plugin-istanbul@^4.0.1:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/vite-plugin-istanbul/-/vite-plugin-istanbul-4.1.0.tgz#d58245969997d87a4d471d7ad9f53f4970d6c940"
+  integrity sha512-d8FRxaswOUYlGqCCNv2BTbt9pyqt7J4RPgab3WmMf+T2TflLlCmC7S26zDRfL9Ve4JSHrcf5bdzt+E0n9CrPvA==
   dependencies:
     "@istanbuljs/load-nyc-config" "^1.1.0"
     istanbul-lib-instrument "^5.1.0"
