@@ -8,6 +8,7 @@ import { QuasarElectronConfiguration } from "./electron-conf";
 import { QuasarFrameworkConfiguration } from "./framework-conf";
 import { QuasarPwaConfiguration } from "./pwa-conf";
 import { QuasarSsrConfiguration } from "./ssr-conf";
+import { QuasarMobileConfiguration } from "./mobile-conf";
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
@@ -113,7 +114,7 @@ export interface QuasarHookParams {
   quasarConf: QuasarConf;
 }
 
-export type QuasarConf = BaseQuasarConfiguration & {
+export type QuasarConf = BaseQuasarConfiguration & QuasarMobileConfiguration & {
   /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
   pwa?: QuasarPwaConfiguration;
 } & {
