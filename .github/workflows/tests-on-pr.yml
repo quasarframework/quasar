@@ -101,9 +101,10 @@ jobs:
 
       - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v5
+        env:
+          CYPRESS_JSON_RESULTS_FILENAME: test-results-${{ matrix.browser }}.json
         with:
           install: false
-          env: CYPRESS_JSON_RESULTS_FILENAME=test-results-${{ matrix.browser }}.json
           command: yarn test:component:run --browser ${{ matrix.browser }}
           working-directory: ui
 
