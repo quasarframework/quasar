@@ -12,6 +12,8 @@ Do not use this directive on components that already have material ripples baked
 
 <doc-api file="Ripple" />
 
+<doc-installation title="Configuration" config="ripple" />
+
 ## Usage
 
 ::: warning
