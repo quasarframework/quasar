@@ -20,7 +20,7 @@
 import { Quasar } from 'quasar'
 import { ref, reactive, computed, nextTick } from 'vue'
 
-import { slugify } from 'assets/page-utils'
+import { slugify } from 'assets/page-utils.js'
 
 const cssResources = [
   'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons',

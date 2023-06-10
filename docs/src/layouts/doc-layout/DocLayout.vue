@@ -34,7 +34,7 @@
 import { computed } from 'vue'
 import { mdiArrowUp } from '@quasar/extras/mdi-v6'
 
-import { provideDocStore } from './store'
+import { provideDocStore } from './store/index.js'
 
 import DocHeader from './DocHeader.vue'
 import DocDrawerMenu from './DocDrawerMenu.vue'

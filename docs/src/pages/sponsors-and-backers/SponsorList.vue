@@ -18,5 +18,5 @@
 
 <script setup>
 import SponsorTile from './SponsorTile.vue'
-import { sponsors } from 'src/assets/sponsors'
+import { sponsors } from 'src/assets/sponsors.js'
 </script>

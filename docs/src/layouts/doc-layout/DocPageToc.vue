@@ -18,6 +18,6 @@
 </template>
 
 <script setup>
-import { useDocStore } from './store'
+import { useDocStore } from './store/index.js'
 const docStore = useDocStore()
 </script>

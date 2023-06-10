@@ -2,8 +2,8 @@ import { computed, inject, provide, ref, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRoute, useRouter } from 'vue-router'
 
-import injectToc from './inject-toc'
-import injectScroll from './inject-scroll'
+import injectToc from './inject-toc.js'
+import injectScroll from './inject-scroll.js'
 
 export const docStoreKey = '_q_ds_'
 

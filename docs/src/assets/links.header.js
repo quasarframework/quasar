@@ -7,7 +7,7 @@ import {
   mdiStarCircle, mdiThemeLightDark, mdiViewDashboard, mdiSecurity, mdiMathIntegralBox
 } from '@quasar/extras/mdi-v6'
 
-import { socialLinks } from './links.social'
+import { socialLinks } from './links.social.js'
 
 export const versionLinks = [{
   name: `v${Quasar.version}`,

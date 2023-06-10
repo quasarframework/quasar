@@ -22,9 +22,9 @@
 <script setup>
 import { mdiClose } from '@quasar/extras/mdi-v6'
 
-import { useDocStore } from './store'
+import { useDocStore } from './store/index.js'
 
-import DocPageMenu from './DocPageMenu'
+import DocPageMenu from './DocPageMenu.js'
 
 const docStore = useDocStore()
 </script>

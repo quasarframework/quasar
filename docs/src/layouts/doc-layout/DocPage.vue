@@ -91,8 +91,8 @@ import {
 import DocLink from 'src/components/DocLink.vue'
 import DocPageToc from './DocPageToc.vue'
 
-import getMeta from 'assets/get-meta'
-import { useDocStore } from './store'
+import getMeta from 'assets/get-meta.js'
+import { useDocStore } from './store/index.js'
 
 const props = defineProps({
   title: String,

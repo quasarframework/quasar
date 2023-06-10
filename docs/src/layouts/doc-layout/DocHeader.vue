@@ -91,14 +91,14 @@
 import { computed } from 'vue'
 import { mdiCompare, mdiFolderPound } from '@quasar/extras/mdi-v6'
 
-import { versionLinks, primaryToolbarLinks, secondaryToolbarLinks, moreLinks } from 'src/assets/links.header'
-import { socialLinks } from 'src/assets/links.social'
+import { versionLinks, primaryToolbarLinks, secondaryToolbarLinks, moreLinks } from 'src/assets/links.header.js'
+import { socialLinks } from 'src/assets/links.social.js'
 
 import DocSearch from './DocSearch.vue'
 import DocHeaderTextLinks from './DocHeaderTextLinks.vue'
 import DocHeaderIconLinks from './DocHeaderIconLinks.vue'
 
-import { useDocStore } from './store'
+import { useDocStore } from './store/index.js'
 const docStore = useDocStore()
 
 const logo = computed(() => {

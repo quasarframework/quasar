@@ -1,4 +1,4 @@
-import { socialLinks } from './links.social'
+import { socialLinks } from './links.social.js'
 
 export const footerLinks = [
   {

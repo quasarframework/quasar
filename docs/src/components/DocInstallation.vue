@@ -33,7 +33,8 @@ import { ref, computed } from 'vue'
 
 import DocCode from './DocCode.vue'
 import DocCardTitle from './DocCardTitle.vue'
-import { slugify } from 'src/assets/page-utils'
+
+import { slugify } from 'src/assets/page-utils.js'
 
 const props = defineProps({
   components: [ Array, String ],
@@ -47,8 +48,8 @@ const props = defineProps({
 })
 
 const tabList = [ 'Quasar CLI', 'Vite plugin / Vue CLI', 'UMD' ]
-
 const currentTab = ref('Quasar CLI')
+const id = computed(() => slugify(props.title))
 
 function nameAsString (name, indent, quotes = true) {
   const wrapper = quotes

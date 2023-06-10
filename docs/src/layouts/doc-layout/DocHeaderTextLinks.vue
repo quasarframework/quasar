@@ -23,7 +23,7 @@
 <script setup>
 import { mdiMenuDown } from '@quasar/extras/mdi-v6'
 
-import DocHeaderMenu from './DocHeaderMenu'
+import DocHeaderMenu from './DocHeaderMenu.js'
 
 const props = defineProps({
   menu: Array,

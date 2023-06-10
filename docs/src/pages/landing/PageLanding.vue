@@ -148,8 +148,8 @@ import TwitterCards from './TwitterCards.vue'
 import WhyQuasarCard from './WhyQuasarCard.vue'
 import SponsorTile from '../sponsors-and-backers/SponsorTile.vue'
 
-import { socialLinks } from 'src/assets/links.social'
-import { sponsors } from 'src/assets/sponsors'
+import { socialLinks } from 'src/assets/links.social.js'
+import { sponsors } from 'src/assets/sponsors.js'
 
 useMeta({
   title: 'Quasar Framework',
