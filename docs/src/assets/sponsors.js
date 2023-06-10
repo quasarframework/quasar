@@ -17,6 +17,7 @@ export const sponsors = {
     { src: 'iBL.svg', name: 'IB Langenthal AG', href: 'https://ib-langenthal.ch/' },
     { src: 'JuggleSt.svg', name: 'Juggle Street', href: 'https://jugglestreet.com.au/' },
     { src: 'Nodesol.svg', name: 'Nodesol', href: 'https://www.nodesol.com/' },
-    { src: 'AcornFinance.svg', name: 'Acorn Finance', href: 'https://www.acornfinance.com' }
+    { src: 'AcornFinance.svg', name: 'Acorn Finance', href: 'https://www.acornfinance.com' },
+    { src: 'Certible.svg', name: 'Certible - International Certification Body', href: 'https://www.certible.com/' }
   ]
 }

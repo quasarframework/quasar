@@ -139,6 +139,16 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
         </a>
       </td>
     </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://www.certible.com" target="_blank">
+          <img width="222px" height="74px" style="background-color:white;" src="https://cdn.quasar.dev/logo-sponsors-v2/light/Certible.svg">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+      </td>
+    </tr>
   </tbody>
 </table>
 
