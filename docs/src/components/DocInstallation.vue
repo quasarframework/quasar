@@ -1,7 +1,7 @@
 <template>
-  <q-card :id="slugify(title)" class="doc-installation q-my-xl" flat bordered>
+  <q-card :id="id" class="doc-installation q-my-xl" flat bordered>
     <div class="header-toolbar row items-center">
-      <doc-card-title :title="title" />
+      <doc-card-title :title="props.title" />
     </div>
 
     <q-tabs class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>
@@ -49,6 +49,7 @@ const props = defineProps({
 
 const tabList = [ 'Quasar CLI', 'Vite plugin / Vue CLI', 'UMD' ]
 const currentTab = ref('Quasar CLI')
+
 const id = computed(() => slugify(props.title))
 
 function nameAsString (name, indent, quotes = true) {
@@ -63,7 +64,7 @@ function nameAsString (name, indent, quotes = true) {
 
 const quasarConf = computed(() => {
   return props.config !== void 0
-    ? `${props.config}: { /* look at QuasarConfOptions from the API card */ }`
+    ? `${props.config}: /* look at QuasarConfOptions from the API card */`
     : null
 })
 

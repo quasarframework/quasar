@@ -484,7 +484,7 @@ describe.injection = (_, injection) => {
 describe.quasarConfOptions = (openState, conf) => {
   const entry = [
     getNameDiv(conf, conf.propName, 0, false, 'quasar.config file > framework > config > '),
-    getDiv(12, 'Type', getStringType(conf.type ?? 'Object')),
+    getDiv(12, 'Type', getStringType(conf.type || 'Object')),
     conf.desc ? getDiv(12, 'Description', conf.desc) : null,
     getPropDetails(openState, 'quasarConfOptions', conf, 0)
   ]
