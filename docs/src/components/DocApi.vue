@@ -269,7 +269,8 @@ function parseApiFile (name, { type, behavior, meta, addedIn, ...api }) {
   nameBanner.value = `${ name } API`
   docPath.value = meta.docsUrl.replace(/^https:\/\/v[\d]+\.quasar\.dev/, '')
 
-  const tabs = Object.keys(api)
+  const { internal: _, ...apiSections } = api
+  const tabs = Object.keys(apiSections)
 
   if (tabs.length === 0) {
     nothingToShow.value = true

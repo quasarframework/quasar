@@ -7,12 +7,10 @@
 
   "quasarConfOptions": {
     "propName": "loadingBar",
-    "definition": {
-      "...props": {
-        "type": "Object",
-        "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter'"
-      }
-    }
+    "type": "Object",
+    "tsType": "QLoadingBarOptions",
+    "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter'",
+    "examples": [ "{ position: 'bottom', reverse: true }" ]
   },
 
   "props": {
@@ -54,8 +52,9 @@
       "params": {
         "props": {
           "type": "Object",
+          "tsType": "QLoadingBarOptions",
           "required": true,
-          "desc": "QAjaxBar component props",
+          "desc": "QAjaxBar component props, EXCEPT for 'hijack-filter'",
           "examples": [ "{ position: 'bottom', reverse: true }" ]
         }
       }

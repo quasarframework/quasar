@@ -7,6 +7,10 @@ related:
 ---
 A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.
 
+<doc-api file="Lang" />
+
+<doc-installation title="Configuration" config="lang" />
+
 ::: warning
 It should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.
 :::
@@ -275,30 +279,4 @@ setup () {
   const $q = useQuasar()
   $q.lang.getLocale() // returns a string
 }
-```
-
-## Disabling HTML attributes <q-badge label="v2.11.3+" />
-
-By default, Quasar will add `dir` and `lang` HTML attributes to the `<html>` tag for you. The `dir` attribute is especially important to the way CSS is preprocesses with Sass when [RTL is enabled](/options/rtl-support).
-
-If, for whatever reason you want this behavior disabled, then you can:
-
-```js
-// Quasar CLI > quasar.config file
-framework: {
-  config: {
-    lang: {
-      noHtmlAttrs: true // add this
-    }
-  }
-}
-
-// Vite plugin / Vue plugin / UMD
-app.use(Quasar, {
-  config: {
-    lang: {
-      noHtmlAttrs: true // add this
-    }
-  }
-})
 ```

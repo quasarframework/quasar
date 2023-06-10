@@ -5,6 +5,17 @@
 
   "injection": "$q.screen",
 
+  "quasarConfOptions": {
+    "propName": "screen",
+    "type": "Object",
+    "definition": {
+      "bodyClasses": {
+        "type": "Boolean",
+        "desc": "Whether to apply CSS classes for the current window breakpoint to the body element"
+      }
+    }
+  },
+
   "props": {
     "width": {
       "type": "Number",

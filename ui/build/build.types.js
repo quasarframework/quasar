@@ -104,7 +104,8 @@ function getTypeVal (def) {
 function getPropDefinition ({ name, definition, docs = true, isMethodParam = false, isCompProps = false, escapeName = true, isReadonly = false }) {
   let propName = escapeName ? toCamelCase(name) : name
 
-  if (propName.startsWith('...')) {
+  const isRestParam = propName.startsWith('...')
+  if (isRestParam) {
     if (isMethodParam) {
       // A rest parameter must be of an array type. e.g. '...params: any[]'
       definition.type = 'Array'
@@ -113,8 +114,10 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
     }
     else {
       propName = `[${ propName.replace('...', '') || 'key' }: string]`
-      // Optionality with index signature types works differently and use of '?:' is invalid and not required, so always mark it as required
-      definition.required = true
+      // Optionality with index signature types works differently and use of '?:' is invalid and not required.
+      // So, we have to not use '?:' for index signature types but use '| undefined' for the property type instead.
+      // e.g. '[key: string]: any | undefined'
+      // It's being handled in the return statement on the bottom of this function.
     }
   }
 
@@ -122,14 +125,16 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
 
   let propType = getTypeVal(definition)
 
-  if (isCompProps === true && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
+  if ((isCompProps === true || isRestParam) && name !== 'model-value' && !definition.required && propType.indexOf(' undefined') === -1) {
     propType += ' | undefined;'
   }
 
   let jsDoc = ''
 
   if (docs) {
-    jsDoc += `/**\n * ${ definition.desc }\n`
+    if (definition.desc) {
+      jsDoc += ` * ${ definition.desc }\n`
+    }
 
     if (definition.default) {
       jsDoc += ` * Default value: ${ definition.default }\n`
@@ -144,10 +149,12 @@ function getPropDefinition ({ name, definition, docs = true, isMethodParam = fal
       jsDoc += ` * @returns ${ returns.desc }\n`
     }
 
-    jsDoc += ' */\n'
+    if (jsDoc.length > 0) {
+      jsDoc = '/**\n' + jsDoc + ' */\n'
+    }
   }
 
-  return `${ jsDoc }${ isReadonly ? 'readonly ' : '' }${ propName }${ !definition.required ? '?' : '' }: ${ propType }`
+  return `${ jsDoc }${ isReadonly ? 'readonly ' : '' }${ propName }${ !definition.required && !isRestParam ? '?' : '' }: ${ propType }`
 }
 
 function getPropDefinitions ({ definitions, docs = true, areMethodParams = false, isCompProps = false }) {
@@ -304,9 +311,11 @@ function getIndexDts (apis) {
   writeLine(quasarTypeContents, 'export * from \'./lang\'')
   writeLine(quasarTypeContents, 'export * from \'./api\'')
   writeLine(quasarTypeContents, 'export * from \'./plugin\'')
+  writeLine(quasarTypeContents, 'export * from \'./config\'')
   writeLine(quasarTypeContents)
 
   const injections = {}
+  const quasarConfOptions = []
 
   apis.forEach(data => {
     const content = data.api
@@ -329,7 +338,9 @@ function getIndexDts (apis) {
       write(directives, propTypeDef)
     }
     else if (content.type === 'plugin') {
-      write(plugins, propTypeDef)
+      if (content.internal !== true) {
+        write(plugins, propTypeDef)
+      }
 
       const makeRequiredRecursive = (definition) => transformObject(definition, (prop) => {
         makeRequired(prop)
@@ -358,7 +369,9 @@ function getIndexDts (apis) {
     })
 
     // Declare class
-    writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+    if (content.internal !== true) {
+      writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+    }
 
     if (content.events) {
       for (const [ name, definition ] of Object.entries(content.events)) {
@@ -443,7 +456,7 @@ function getIndexDts (apis) {
 
       writeLine(contents, `export interface ${ typeName } extends ComponentPublicInstance<${ propsTypeName }> {`)
     }
-    else {
+    else if (content.internal !== true) {
       writeLine(contents, `export interface ${ typeName } {`)
 
       // Write props to the body directly
@@ -464,8 +477,10 @@ function getIndexDts (apis) {
     }
 
     // Close class declaration
-    writeLine(contents, '}')
-    writeLine(contents)
+    if (content.internal !== true) {
+      writeLine(contents, '}')
+      writeLine(contents)
+    }
 
     // Copy Injections for type declaration
     if (content.type === 'plugin' && content.injection) {
@@ -477,6 +492,17 @@ function getIndexDts (apis) {
       }
 
       injections[ target ].push(getInjectionDefinition(property, content, typeName))
+    }
+
+    if (content.quasarConfOptions) {
+      const confOptions = content.quasarConfOptions
+
+      const definition = getPropDefinition({
+        name: confOptions.propName,
+        definition: confOptions
+      })
+
+      quasarConfOptions.push(definition)
     }
   })
 
@@ -542,6 +568,11 @@ function getIndexDts (apis) {
   }
 
   writeLine(contents, '}', 1)
+  writeLine(contents, '}')
+  writeLine(contents)
+
+  writeLine(contents, 'declare module \'./config.d.ts\' {')
+  writeInterface(contents, 'QuasarConfOptions', quasarConfOptions)
   writeLine(contents, '}')
   writeLine(contents)
 

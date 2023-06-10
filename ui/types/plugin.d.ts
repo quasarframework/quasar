@@ -1,3 +1,4 @@
+import { QuasarUIConfiguration } from "./config";
 import { QuasarIconSet } from "./extras";
 import { QuasarLanguage } from "./lang";
 
@@ -9,7 +10,7 @@ export interface QuasarPlugins {}
 
 export interface QuasarPluginOptions {
   lang: QuasarLanguage;
-  config: any;
+  config: QuasarUIConfiguration;
   iconSet: QuasarIconSet;
   components: QuasarComponents;
   directives: QuasarDirectives;
