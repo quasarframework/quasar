@@ -15,10 +15,10 @@ export type EmbeddedValidationRule =
   | "hexaOrRgbaColor"
   | "anyColor";
 
-type EmbeddedValidationRuleFn<T = any> = (value: T) => boolean;
+type EmbeddedValidationRuleFn = (value: any) => boolean;
 export type ValidationRule<T = any> =
   | EmbeddedValidationRule
   | ((
       value: T,
-      rules: Record<EmbeddedValidationRule, EmbeddedValidationRuleFn<T>>
+      rules: Record<EmbeddedValidationRule, EmbeddedValidationRuleFn>
     ) => boolean | string | Promise<boolean | string>);
