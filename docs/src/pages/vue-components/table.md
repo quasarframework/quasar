@@ -359,7 +359,7 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 ## Exporting data
 
-Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
+Below is an example of a native csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
 
 ::: tip
 You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
