@@ -231,7 +231,7 @@ Note that you don't need to edit your index.html file (generated from `/src/inde
 ::::
 
 ::: tip
-If your PWA is behind basic auth or requires an Authorization header, set quasar.config file > pwa > useCredentials to true to include `crossorigin="use-credentials"` on the manifest.json meta tag.
+If your PWA is behind basic auth or requires an Authorization header, set quasar.config file > pwa > useCredentialsForManifestTag to true to include `crossorigin="use-credentials"` on the manifest.json meta tag.
 ::::
 
 ## PWA Checklist
