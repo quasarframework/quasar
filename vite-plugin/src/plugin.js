@@ -76,7 +76,7 @@ function getScriptTransformsPlugin (opts) {
     name: 'vite:quasar:script',
 
     configResolved (resolvedConfig) {
-      if (opts.devTreeshaking === false && resolvedConfig.mode === 'development') {
+      if (opts.devTreeshaking === false && resolvedConfig.mode !== 'production') {
         useTreeshaking = false
       }
     },
