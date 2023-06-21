@@ -9,7 +9,8 @@ const types = [
   'only-custom-with-aliased-imports',
   'mixed-case',
   'mixed-case-with-duplicates',
-  'mixed-case-with-duplicates-and-aliased-imports'
+  'mixed-case-with-duplicates-and-aliased-imports',
+  'extended'
 ]
 
 describe('Script Transform', () => {
