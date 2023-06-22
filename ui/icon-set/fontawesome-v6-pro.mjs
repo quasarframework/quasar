@@ -23,7 +23,7 @@ export default {
     palette: 'fal fa-swatchbook'
   },
   pullToRefresh: {
-    icon: 'fal fa-sync-alt'
+    icon: 'fal fa-rotate'
   },
   carousel: {
     left: 'fal fa-chevron-left',
