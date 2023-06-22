@@ -140,7 +140,7 @@ export default createComponent({
         const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : props.tickStrategy)
         const
           key = node[ props.nodeKey ],
-          isParent = node[ props.childrenKey ] && node[ props.childrenKey ].length !== 0,
+          isParent = node[ props.childrenKey ] && Array.isArray(node[ props.childrenKey ]) && node[ props.childrenKey ].length !== 0,
           selectable = node.disabled !== true && hasSelection.value === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
