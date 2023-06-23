@@ -88,7 +88,7 @@ describe('quasar plugin', () => {
       const scriptTransformed = scriptPlugin.transform(code, 'test.js')
       const templateTransformed = scriptPlugin.transform(code, 'test.vue')
 
-      expect(templateTransformed).toMatchObject({code: `import {QBtn} from 'quasar'`})
+      expect(templateTransformed).toMatchObject({code: `import {QBtn} from 'quasar';`})
       expect(scriptTransformed).toBeNull()
     })
   })
