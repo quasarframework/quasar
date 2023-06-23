@@ -45,6 +45,12 @@
     <div id="script-setup-mixed-case-with-duplicates-and-aliased-imports">
       <MixedCaseWithDuplicatesAndAliasedImports />
     </div>
+
+    <div id="script-setup-extended">
+      <Extended label="Click me">
+        <q-icon name="map" />
+      </Extended>
+    </div>
   </div>
 </template>
 
@@ -60,4 +66,5 @@ import OnlyCustomWithAliasedImports from './8-OnlyCustomWithAliasedImports.vue'
 import MixedCase from './9-MixedCase.vue'
 import MixedCaseWithDuplicates from './10-MixedCaseWithDuplicates.vue'
 import MixedCaseWithDuplicatesAndAliasedImports from './11-MixedCaseWithDuplicatesAndAliasedImports.vue'
+import Extended from './12-Extended.vue'
 </script>

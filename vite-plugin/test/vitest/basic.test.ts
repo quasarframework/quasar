@@ -78,5 +78,18 @@ describe('quasar plugin', () => {
       const scriptPlugin = plugins.find(({ name }) => name === 'vite:quasar:script')
       expect(scriptPlugin).toBeUndefined()
     })
+
+    it('should not map Quasar imports if devTreeshaking is disabled and mode is not production', () => {
+      const plugins = quasar({ devTreeshaking: false})
+      const scriptPlugin = plugins.find(({ name }) => name === 'vite:quasar:script')
+      scriptPlugin.configResolved({mode: 'test'})
+
+      const code = `import {QBtn} from 'quasar'`
+      const scriptTransformed = scriptPlugin.transform(code, 'test.js')
+      const templateTransformed = scriptPlugin.transform(code, 'test.vue')
+
+      expect(templateTransformed).toMatchObject({code: `import {QBtn} from 'quasar'`})
+      expect(scriptTransformed).toBeNull()
+    })
   })
 })

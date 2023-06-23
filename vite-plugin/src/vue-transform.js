@@ -63,10 +63,6 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
       return ''
     })
 
-  if (importSet.size === 0) {
-    return code
-  }
-
   if (compList.length !== 0) {
     const list = compList.sort(lengthSortFn).join('|')
     code = code
@@ -79,6 +75,10 @@ export function vueTransform (content, autoImportComponentCase, useTreeshaking) 
     code = code
       .replace(new RegExp(`const _directive_(${ list }) = `, 'g'), '')
       .replace(new RegExp(`_directive_(${ list })`, 'g'), (_, match) => reverseMap[ match ])
+  }
+
+  if (importSet.size === 0) {
+    return code
   }
 
   const importList = [ ...importSet ]

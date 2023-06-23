@@ -13,6 +13,7 @@ export default defineConfig(() => {
       }),
 
       quasar({
+        devTreeshaking: true,
         sassVariables: 'src/quasar-variables.sass',
         autoImportComponentCase: 'combined'
       })

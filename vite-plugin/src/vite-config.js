@@ -33,7 +33,7 @@ export function getViteConfig (runMode, viteMode, externalViteCfg) {
   else {
     // Alias "quasar" package to its dev file (which has flags)
     // to reduce the number of HTTP requests while in DEV mode
-    if (viteMode === 'development') {
+    if (viteMode !== 'production') {
       viteCfg.resolve = {
         alias: [
           { find: /^quasar$/, replacement: 'quasar/dist/quasar.esm.js' }
