@@ -8,6 +8,8 @@
     "@quasar/extras",
     "vite-plugin",
     "vite-plugin/playground",
+    "utils/render-ssr-error",
+    "utils/ssl-certificate",
     "ui"
   ],
   "scripts": {

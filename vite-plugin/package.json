@@ -1,8 +1,15 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "Vite plugin for Quasar Framework",
-  "main": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./*": "./*"
+  },
   "types": "index.d.ts",
   "scripts": {
     "build": "rm -rf ./dist/ && rollup --config rollup.config.js",
@@ -17,6 +24,7 @@
   },
   "files": [
     "dist",
+    "src",
     "index.d.ts"
   ],
   "keywords": [

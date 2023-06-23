@@ -1,3 +1,4 @@
+
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
 const importQuasarRegex = /import\s*\{([\w,\s]+)\}\s*from\s*(['"])quasar\2;?/g

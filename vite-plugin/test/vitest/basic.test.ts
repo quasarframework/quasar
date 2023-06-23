@@ -15,7 +15,7 @@ describe('quasar plugin', () => {
   describe('vite:quasar:vite-conf', () => {
     it('should throw an error if it is not added after Vite Vue plugin', () => {
       const [viteConfPlugin] = quasar() as Plugin[]
-      
+
       const configResolved = viteConfPlugin.configResolved
       if (typeof configResolved !== 'function') {
         throw new Error('configResolved hook is not a function. Adjust the test code accordingly')

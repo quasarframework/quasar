@@ -1,7 +1,14 @@
-import autoImportData from 'quasar/dist/transforms/auto-import.json'
+
+import { join } from 'node:path'
+import { readFileSync } from 'node:fs'
 import importTransformation from 'quasar/dist/transforms/import-transformation.js'
 
 import { mapQuasarImports, removeQuasarImports } from './js-transform.js'
+import { quasarPath } from './quasar-path.js'
+
+const autoImportData = JSON.parse(
+  readFileSync(join(quasarPath, 'dist/transforms/auto-import.json'), 'utf-8')
+)
 
 const compRegex = {
   kebab: new RegExp(`_resolveComponent\\("${ autoImportData.regex.kebabComponents }"\\)`, 'g'),

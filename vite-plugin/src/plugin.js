@@ -1,10 +1,11 @@
+
 import { normalizePath } from 'vite'
 
-import { getViteConfig } from './vite-config'
-import { vueTransform } from './vue-transform'
-import { createScssTransform } from './scss-transform'
-import { parseViteRequest } from './query'
-import { mapQuasarImports } from './js-transform'
+import { getViteConfig } from './vite-config.js'
+import { vueTransform } from './vue-transform.js'
+import { createScssTransform } from './scss-transform.js'
+import { parseViteRequest } from './query.js'
+import { mapQuasarImports } from './js-transform.js'
 
 const defaultOptions = {
   runMode: 'web-client',

@@ -1,4 +1,12 @@
-import { version } from 'quasar/package.json'
+
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+import { quasarPath } from './quasar-path.js'
+
+const { version } = JSON.parse(
+  readFileSync(join(quasarPath, 'package.json'), 'utf-8')
+)
 
 export function getViteConfig (runMode, viteMode, externalViteCfg) {
   const viteCfg = {

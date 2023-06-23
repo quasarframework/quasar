@@ -30,7 +30,7 @@
     "rtlcss": "^2.6.1",
     "sass": "1.32.0",
     "quasar": "^2.0.0",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.16.4",
     "core-js": "^3.0.0",
     "@quasar/app-webpack": "^3.0.0",
     "open": "^7.3.0",

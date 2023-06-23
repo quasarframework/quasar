@@ -1,3 +1,4 @@
+
 /**
  * @typedef {{
  *  vue: () => boolean;

@@ -38,8 +38,8 @@
     "stack-trace": "^1.0.0-pre2"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^1.0.0",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/app-vite": "^1.3.0",
+    "@quasar/extras": "^1.16.4",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.10.0",
     "eslint-config-standard": "^17.0.0",
