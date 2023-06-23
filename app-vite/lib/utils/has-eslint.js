@@ -1,10 +1,10 @@
 
-const { existsSync } = require('node:fs')
+import { existsSync } from 'node:fs'
 
-const appPaths = require('../app-paths.js')
-const { appPkg } = require('../app-pkg.js')
+import appPaths from '../app-paths.js'
+import { appPkg } from '../app-pkg.js'
 
-const eslintConfigFile = [
+export const eslintConfigFile = [
   '.eslintrc.cjs',
   '.eslintrc.js',
   '.eslintrc.yaml',
@@ -12,5 +12,4 @@ const eslintConfigFile = [
   '.eslintrc.json'
 ].find(path => existsSync(appPaths.resolve.app(path)))
 
-module.exports.eslintConfigFile = eslintConfigFile
-module.exports.hasEslint = appPkg.eslintConfig || eslintConfigFile
+export const hasEslint = appPkg.eslintConfig || eslintConfigFile

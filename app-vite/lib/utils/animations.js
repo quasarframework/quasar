@@ -1,9 +1,9 @@
-const { getPackage } = require('./get-package.js')
+import { getPackage } from './get-package.js'
 
 const {
   generalAnimations,
   inAnimations,
   outAnimations
-} = getPackage('@quasar/extras/animate/animate-list.common')
+} = await getPackage('@quasar/extras/animate/animate-list.common')
 
-module.exports = generalAnimations.concat(inAnimations).concat(outAnimations)
+export default generalAnimations.concat(inAnimations).concat(outAnimations)

@@ -1,8 +1,8 @@
-const parseArgs = require('minimist')
-const { green, red, italic, underline } = require('kolorist')
+import parseArgs from 'minimist'
+import { green, red, italic, underline } from 'kolorist'
 
-const { getApi } = require('../utils/get-api.js')
-const { fatal, dot } = require('../utils/logger.js')
+import { getApi } from '../utils/get-api.js'
+import { fatal, dot } from '../utils/logger.js'
 
 const partArgs = {
   p: 'props',
@@ -495,7 +495,7 @@ async function run () {
 
     if (apiParts.docs) {
       if (api.meta && api.meta.docsUrl) {
-        const { openBrowser } = require('../utils/open-browser.js')
+        const { openBrowser } = await import('../utils/open-browser.js')
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
@@ -523,9 +523,9 @@ async function run () {
   }
 }
 
-function listElements () {
-  const { getPackage } = require('../utils/get-package.js')
-  let api = getPackage('quasar/dist/transforms/api-list.json')
+async function listElements () {
+  const { getPackage } = await import('../utils/get-package.js')
+  let api = await getPackage('quasar/dist/transforms/api-list.json')
 
   if (api === void 0) {
     fatal(' Could not retrieve list...')

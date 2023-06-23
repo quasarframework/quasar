@@ -1,20 +1,24 @@
 
-const fs = require('node:fs')
-const fse = require('fs-extra')
-const compileTemplate = require('lodash/template.js')
+import fs from 'node:fs'
+import fse from 'fs-extra'
+import compileTemplate from 'lodash/template.js'
+import inquirer from 'inquirer'
+import fglob from 'fast-glob'
 
-const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
-const { log, warn } = require('../../utils/logger.js')
-const { spawnSync } = require('../../utils/spawn.js')
-const { nodePackager } = require('../../utils/node-packager.js')
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { log, warn } from '../../utils/logger.js'
+import { spawnSync } from '../../utils/spawn.js'
+import { nodePackager } from '../../utils/node-packager.js'
 
-function isModeInstalled () {
+import { ensureDeps, ensureConsistency } from './ensure-consistency.js'
+import { capBin, capVersion } from './cap-cli.js'
+
+export function isModeInstalled () {
   return fs.existsSync(appPaths.capacitorDir)
 }
-module.exports.isModeInstalled = isModeInstalled
 
-module.exports.addMode = async function addMode (silent, target) {
+export async function addMode (silent, target) {
   if (isModeInstalled()) {
     if (target) {
       addPlatform(target)
@@ -36,8 +40,6 @@ module.exports.addMode = async function addMode (silent, target) {
     return
   }
 
-  const inquirer = require('inquirer')
-
   console.log()
   const answer = await inquirer.prompt([ {
     name: 'appId',
@@ -52,7 +54,6 @@ module.exports.addMode = async function addMode (silent, target) {
   // Create /src-capacitor from template
   fse.ensureDirSync(appPaths.capacitorDir)
 
-  const fglob = require('fast-glob')
   const scope = {
     appName,
     appId: answer.appId,
@@ -69,10 +70,7 @@ module.exports.addMode = async function addMode (silent, target) {
     fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
   })
 
-  const { ensureDeps } = require('./ensure-consistency.js')
   ensureDeps()
-
-  const { capBin } = require('./cap-cli.js')
 
   log('Initializing capacitor...')
   spawnSync(
@@ -99,7 +97,7 @@ module.exports.addMode = async function addMode (silent, target) {
   addPlatform(target)
 }
 
-module.exports.removeMode = function removeMode () {
+export function removeMode () {
   if (!isModeInstalled()) {
     warn('No Capacitor support detected. Aborting.')
     return
@@ -112,15 +110,12 @@ module.exports.removeMode = function removeMode () {
 }
 
 function addPlatform (target) {
-  const { ensureConsistency } = require('./ensure-consistency.js')
   ensureConsistency()
 
   // if it has the platform
   if (fs.existsSync(appPaths.resolve.capacitor(target))) {
     return
   }
-
-  const { capBin, capVersion } = require('./cap-cli.js')
 
   if (capVersion >= 3) {
     nodePackager.installPackage(

@@ -1,11 +1,14 @@
-const { cliPkg } = require('../app-pkg.js')
+
+import { readFileSync } from 'node:fs'
 
 console.log(
-  require('node:fs').readFileSync(
-    require('node:path').join(__dirname, '../../assets/logo.art'),
+  readFileSync(
+    new URL('../../assets/logo.art', import.meta.url),
     'utf8'
   )
 )
+
+import { cliPkg } from '../app-pkg.js'
 
 if (process.env.QUASAR_CLI_VERSION) {
   console.log('  Running @quasar/cli v' + process.env.QUASAR_CLI_VERSION)

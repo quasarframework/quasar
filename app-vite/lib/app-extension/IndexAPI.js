@@ -1,16 +1,16 @@
-const semver = require('semver')
-const { merge } = require('webpack-merge')
+import semver from 'semver'
+import { merge } from 'webpack-merge'
 
-const { fatal } = require('../utils/logger.js')
-const { getPackageJson } = require('../utils/get-package-json.js')
-const { getCallerPath } = require('../utils/get-caller-path.js')
-const { extensionJson } = require('./extension-json.js')
-const { BaseAPI } = require('./BaseAPI.js')
+import { fatal } from '../utils/logger.js'
+import { getPackageJson } from '../utils/get-package-json.js'
+import { getCallerPath } from '../utils/get-caller-path.js'
+import { extensionJson } from './extension-json.js'
+import { BaseAPI } from './BaseAPI.js'
 
 /**
  * API for extension's /index.js script
  */
-module.exports.IndexAPI = class IndexAPI extends BaseAPI {
+export class IndexAPI extends BaseAPI {
   ctx
 
   __hooks = {

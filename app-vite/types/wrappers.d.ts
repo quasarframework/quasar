@@ -4,7 +4,7 @@
 // They are placed in a standalone file into `ui` because they must be reachable as `quasar/wrappers`.
 // Not being exposed from `quasar`, they won't trigger the package side-effects when required into
 //  a file evaluated by Node (in `quasar.config` file, `configure` would be imported as
-//  `const { configure } = require('quasar')`).
+//  `import { configure } from 'quasar'`).
 // This is a precaution measure to avoid future hard-to-backtrack bugs.
 
 declare module "quasar/wrappers" {

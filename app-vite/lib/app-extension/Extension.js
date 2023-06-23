@@ -1,14 +1,24 @@
-const fs = require('fs-extra')
-const path = require('node:path')
 
-const { log, warn, fatal } = require('../utils/logger.js')
-const appPaths = require('../app-paths.js')
-const { extensionJson } = require('./extension-json.js')
-const { nodePackager } = require('../utils/node-packager.js')
+import path from 'node:path'
+import fse from 'fs-extra'
+import { createRequire } from 'node:module'
+import inquirer from 'inquirer'
+import { isBinaryFileSync as isBinary } from 'isbinaryfile'
+import compileTemplate from 'lodash/template.js'
+
+import appPaths from '../app-paths.js'
+import { log, warn, fatal } from '../utils/logger.js'
+import { extensionJson } from './extension-json.js'
+import { nodePackager } from '../utils/node-packager.js'
+
+import { IndexAPI } from './IndexAPI.js'
+import { InstallAPI } from './InstallAPI.js'
+import { UninstallAPI } from './UninstallAPI.js'
+import { getPackagePath } from '../utils/get-package-path.js'
+
+const require = createRequire(import.meta.url)
 
 async function promptOverwrite ({ targetPath, options }) {
-  const inquirer = require('inquirer')
-
   const choices = [
     { name: 'Overwrite', value: 'overwrite' },
     { name: 'Overwrite all', value: 'overwriteAll' },
@@ -28,10 +38,7 @@ async function promptOverwrite ({ targetPath, options }) {
 }
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
-  const { isBinaryFileSync: isBinary } = require('isbinaryfile')
-  const compileTemplate = require('lodash/template.js')
-
-  if (overwritePrompt === true && fs.existsSync(targetPath)) {
+  if (overwritePrompt === true && fse.existsSync(targetPath)) {
     const answer = await promptOverwrite({
       targetPath,
       options: [ 'overwrite', 'skip' ]
@@ -42,22 +49,21 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
     }
   }
 
-  fs.ensureFileSync(targetPath)
+  fse.ensureFileSync(targetPath)
 
   if (rawCopy || isBinary(sourcePath)) {
-    fs.copyFileSync(sourcePath, targetPath)
+    fse.copyFileSync(sourcePath, targetPath)
   }
   else {
-    const rawContent = fs.readFileSync(sourcePath, 'utf-8')
+    const rawContent = fse.readFileSync(sourcePath, 'utf-8')
     const template = compileTemplate(rawContent, { interpolate: /<%=([\s\S]+?)%>/g })
-    fs.writeFileSync(targetPath, template(scope), 'utf-8')
+    fse.writeFileSync(targetPath, template(scope), 'utf-8')
   }
 }
 
 async function renderFolders ({ source, rawCopy, scope }) {
-  const fglob = require('fast-glob')
-
   let overwrite
+  const { default: fglob } = await import('fast-glob')
   const files = fglob.sync([ '**/*' ], { cwd: source })
 
   for (const rawPath of files) {
@@ -76,7 +82,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
     const targetPath = appPaths.resolve.app(targetRelativePath)
     const sourcePath = path.resolve(source, rawPath)
 
-    if (overwrite !== 'overwriteAll' && fs.existsSync(targetPath)) {
+    if (overwrite !== 'overwriteAll' && fse.existsSync(targetPath)) {
       if (overwrite === 'skipAll') {
         continue
       }
@@ -100,7 +106,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
   }
 }
 
-module.exports.Extension = class Extension {
+export class Extension {
   constructor (name) {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
@@ -112,24 +118,36 @@ module.exports.Extension = class Extension {
         + 'quasar-app-extension-'
         + name.substring(slashIndex + 1)
 
-      this.packageName = '@' + this.__stripVersion(this.packageFullName.substring(1))
-      this.extId = '@' + this.__stripVersion(name.substring(1))
+      this.packageName = '@' + this.#stripVersion(this.packageFullName.substring(1))
+      this.extId = '@' + this.#stripVersion(name.substring(1))
     }
     else {
       this.packageFullName = 'quasar-app-extension-' + name
-      this.packageName = this.__stripVersion('quasar-app-extension-' + name)
-      this.extId = this.__stripVersion(name)
+      this.packageName = this.#stripVersion('quasar-app-extension-' + name)
+      this.extId = this.#stripVersion(name)
     }
   }
 
   isInstalled () {
     try {
-      this.__getScriptFile('index')
+      const packagePath = getPackagePath(path.join(this.packageFullName, 'package.json'))
+      if (packagePath === void 0) {
+        return false
+      }
+
+      const packageJsonPath = packagePath
+      const pkg = JSON.parse(
+        fse.readFileSync(packageJsonPath, 'utf-8')
+      )
+
+      this.packageFormat = pkg.type === 'module' ? 'esm' : 'cjs'
+      this.packagePath = path.dirname(packagePath)
+
+      return true
     }
-    catch (e) {
+    catch (_) {
       return false
     }
-    return true
   }
 
   async install (skipPkgInstall) {
@@ -154,7 +172,6 @@ module.exports.Extension = class Extension {
       }
     }
     else if (isInstalled) {
-      const inquirer = require('inquirer')
       const answer = await inquirer.prompt([ {
         name: 'reinstall',
         type: 'confirm',
@@ -168,14 +185,14 @@ module.exports.Extension = class Extension {
     }
 
     // yarn/npm install
-    skipPkgInstall !== true && this.__installPackage()
+    skipPkgInstall !== true && this.#installPackage()
 
-    const prompts = await this.__getPrompts()
+    const prompts = await this.#getPrompts()
 
     extensionJson.set(this.extId, prompts)
 
     // run extension install
-    const hooks = await this.__runInstallScript(prompts)
+    const hooks = await this.#runInstallScript(prompts)
 
     log(`Quasar App Extension "${ this.extId }" successfully installed.`)
     log()
@@ -206,12 +223,12 @@ module.exports.Extension = class Extension {
     }
 
     const prompts = extensionJson.getPrompts(this.extId)
-    const hooks = await this.__runUninstallScript(prompts)
+    const hooks = await this.#runUninstallScript(prompts)
 
     extensionJson.remove(this.extId)
 
     // yarn/npm uninstall
-    skipPkgUninstall !== true && this.__uninstallPackage()
+    skipPkgUninstall !== true && this.#uninstallPackage()
 
     log(`Quasar App Extension "${ this.extId }" successfully removed.`)
     log()
@@ -230,8 +247,7 @@ module.exports.Extension = class Extension {
       process.exit(1, 'ext-missing')
     }
 
-    const script = this.__getScript('index', true)
-    const { IndexAPI } = require('./IndexAPI.js')
+    const script = await this.#getScript('index', true)
 
     const api = new IndexAPI({
       extId: this.extId,
@@ -245,7 +261,7 @@ module.exports.Extension = class Extension {
     return api.__getHooks()
   }
 
-  __stripVersion (packageFullName) {
+  #stripVersion (packageFullName) {
     const index = packageFullName.indexOf('@')
 
     return index > -1
@@ -253,25 +269,24 @@ module.exports.Extension = class Extension {
       : packageFullName
   }
 
-  async __getPrompts () {
-    const questions = this.__getScript('prompts')
+  async #getPrompts () {
+    const questions = await this.#getScript('prompts')
 
     if (!questions) {
       return {}
     }
 
-    const inquirer = require('inquirer')
     const prompts = await inquirer.prompt(questions())
 
     console.log()
     return prompts
   }
 
-  __installPackage () {
-    nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
+  #installPackage () {
+    nodePackager.installPackage(this.packageFullName, { isDev: true })
   }
 
-  __uninstallPackage () {
+  #uninstallPackage () {
     nodePackager.uninstallPackage(this.packageFullName)
   }
 
@@ -282,30 +297,32 @@ module.exports.Extension = class Extension {
    * This allows to use preprocessors (eg. TypeScript) for all AE files (even index, install and other Quasar-specific scripts)
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
-  __getScriptFile (scriptName) {
-    let script
-
-    try {
-      script = require.resolve(`${ this.packageName }/src/${ scriptName }`, {
-        paths: [ appPaths.appDir ]
-      })
-    }
-    catch (e) {
-      script = require.resolve(`${ this.packageName }/dist/${ scriptName }`, {
-        paths: [ appPaths.appDir ]
-      })
+  #getScriptFile (scriptName) {
+    let scriptFile = path.join(this.packagePath, `src/${ scriptName }.js`)
+    if (fse.existsSync(scriptFile)) {
+      return scriptFile
     }
 
-    return script
+    scriptFile = path.join(this.packagePath, `dist/${ scriptName }.js`)
+    if (fse.existsSync(scriptFile)) {
+      return scriptFile
+    }
+
+    scriptFile = path.join(this.packagePath, `src/${ scriptName }.ts`)
+    if (fse.existsSync(scriptFile)) {
+      return scriptFile
+    }
+
+    scriptFile = path.join(this.packagePath, `dist/${ scriptName }.ts`)
+    if (fse.existsSync(scriptFile)) {
+      return scriptFile
+    }
   }
 
-  __getScript (scriptName, fatalError) {
-    let script
+  async #getScript (scriptName, fatalError) {
+    const script = this.#getScriptFile(scriptName)
 
-    try {
-      script = this.__getScriptFile(scriptName)
-    }
-    catch (e) {
+    if (!script) {
       if (fatalError) {
         fatal(`App Extension "${ this.extId }" has missing ${ scriptName } script...`)
       }
@@ -313,19 +330,22 @@ module.exports.Extension = class Extension {
       return
     }
 
+    if (this.packageFormat === 'esm') {
+      const { default: fn } = await import(script)
+      return fn
+    }
+
     return require(script)
   }
 
-  async __runInstallScript (prompts) {
-    const script = this.__getScript('install')
+  async #runInstallScript (prompts) {
+    const script = await this.#getScript('install')
 
     if (!script) {
       return
     }
 
     log('Running App Extension install script...')
-
-    const { InstallAPI } = require('./InstallAPI.js')
 
     const api = new InstallAPI({
       extId: this.extId,
@@ -355,8 +375,8 @@ module.exports.Extension = class Extension {
     return hooks
   }
 
-  async __runUninstallScript (prompts) {
-    const script = this.__getScript('uninstall')
+  async #runUninstallScript (prompts) {
+    const script = await this.#getScript('uninstall')
 
     if (!script) {
       return
@@ -364,7 +384,6 @@ module.exports.Extension = class Extension {
 
     log('Running App Extension uninstall script...')
 
-    const { UninstallAPI } = require('./UninstallAPI.js')
     const api = new UninstallAPI({
       extId: this.extId,
       prompts

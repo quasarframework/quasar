@@ -1,19 +1,19 @@
 
-const fse = require('fs-extra')
-const { join } = require('node:path')
+import fse from 'fs-extra'
+import { join } from 'node:path'
 
-const { AppBuilder } = require('../../app-builder.js')
-const { quasarCordovaConfig } = require('./cordova-config.js')
+import { AppBuilder } from '../../app-builder.js'
+import { quasarCordovaConfig } from './cordova-config.js'
 
-const appPaths = require('../../app-paths.js')
-const { fatal } = require('../../utils/logger.js')
-const { CordovaConfigFile } = require('./config-file.js')
-const { spawn } = require('../../utils/spawn.js')
-const { openIDE } = require('../../utils/open-ide.js')
-const { onShutdown } = require('../../utils/on-shutdown.js')
-const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
+import appPaths from '../../app-paths.js'
+import { fatal } from '../../utils/logger.js'
+import { CordovaConfigFile } from './config-file.js'
+import { spawn } from '../../utils/spawn.js'
+import { openIDE } from '../../utils/open-ide.js'
+import { onShutdown } from '../../utils/on-shutdown.js'
+import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
 
-module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
+export class QuasarModeBuilder extends AppBuilder {
   #cordovaConfigFile = new CordovaConfigFile()
 
   async build () {

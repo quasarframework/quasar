@@ -1,7 +1,7 @@
-const { merge } = require('webpack-merge')
+import { merge } from 'webpack-merge'
 
-const { extensionJson } = require('./extension-json.js')
-const { Extension } = require('./Extension.js')
+import { extensionJson } from './extension-json.js'
+import { Extension } from './Extension.js'
 
 class ExtensionsRunner {
   constructor () {
@@ -28,4 +28,4 @@ class ExtensionsRunner {
   }
 }
 
-module.exports.extensionRunner = new ExtensionsRunner()
+export const extensionRunner = new ExtensionsRunner()

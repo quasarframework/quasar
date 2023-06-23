@@ -1,13 +1,13 @@
 
-const { lstatSync } = require('node:fs')
-const { readFileSync, writeFileSync, copySync, existsSync, ensureDirSync, moveSync, removeSync } = require('fs-extra')
-const { join, isAbsolute, basename, dirname } = require('node:path')
+import { lstatSync } from 'node:fs'
+import fse from 'fs-extra'
+import { join, isAbsolute, basename, dirname } from 'node:path'
 
-const appPaths = require('./app-paths.js')
-const { AppTool } = require('./app-tool.js')
-const { printBuildSummary } = require('../lib/utils/print-build-summary.js')
+import appPaths from './app-paths.js'
+import { AppTool } from './app-tool.js'
+import { printBuildSummary } from '../lib/utils/print-build-summary.js'
 
-module.exports.AppBuilder = class AppBuilder extends AppTool {
+export class AppBuilder extends AppTool {
   quasarConf
   ctx
 
@@ -23,7 +23,7 @@ module.exports.AppBuilder = class AppBuilder extends AppTool {
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
-    return readFileSync(target, 'utf-8')
+    return fse.readFileSync(target, 'utf-8')
   }
 
   writeFile (filename, content) {
@@ -31,8 +31,8 @@ module.exports.AppBuilder = class AppBuilder extends AppTool {
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
-    ensureDirSync(dirname(target))
-    writeFileSync(target, content, 'utf-8')
+    fse.ensureDirSync(dirname(target))
+    fse.writeFileSync(target, content, 'utf-8')
   }
 
   copyFiles (patterns, targetFolder = this.quasarConf.build.distDir) {
@@ -41,7 +41,7 @@ module.exports.AppBuilder = class AppBuilder extends AppTool {
         ? entry.from
         : appPaths.resolve.app(entry.from)
 
-      if (existsSync(from) !== true) {
+      if (fse.existsSync(from) !== true) {
         return
       }
 
@@ -49,7 +49,7 @@ module.exports.AppBuilder = class AppBuilder extends AppTool {
         ? entry.to
         : join(targetFolder, entry.to)
 
-      copySync(
+      fse.copySync(
         from,
         lstatSync(from).isDirectory() === true ? to : join(to, basename(from))
       )
@@ -65,7 +65,7 @@ module.exports.AppBuilder = class AppBuilder extends AppTool {
       ? destination
       : join(this.quasarConf.build.distDir, destination)
 
-    moveSync(input, output)
+    fse.moveSync(input, output)
   }
 
   removeFile (filename) {
@@ -73,7 +73,7 @@ module.exports.AppBuilder = class AppBuilder extends AppTool {
       ? filename
       : join(this.quasarConf.build.distDir, filename)
 
-    removeSync(target)
+    fse.removeSync(target)
   }
 
   printSummary (folder, showGzipped) {

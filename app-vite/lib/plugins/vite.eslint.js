@@ -1,12 +1,12 @@
 
-const { normalizePath } = require('vite')
+import { normalizePath } from 'vite'
 
-const { getLinter } = require('../eslint.js')
-const { warning, error, success } = require('../utils/logger.js')
+import { getLinter } from '../eslint.js'
+import { warning, error, success } from '../utils/logger.js'
 
 const errorFiles = new Set()
 
-module.exports.quasarViteESLintPlugin = function quasarViteESLintPlugin (quasarConf, getLinterOpts) {
+export function quasarViteESLintPlugin (quasarConf, getLinterOpts) {
   const {
     eslint,
     filter,

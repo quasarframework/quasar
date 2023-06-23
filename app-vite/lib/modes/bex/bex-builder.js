@@ -1,15 +1,15 @@
 
-const { join } = require('node:path')
-const { createWriteStream } = require('fs-extra')
-const archiver = require('archiver')
+import { join } from 'node:path'
+import fse from 'fs-extra'
+import archiver from 'archiver'
 
-const { appPkg } = require('../../app-pkg.js')
-const { AppBuilder } = require('../../app-builder.js')
-const { progress } = require('../../utils/logger.js')
-const { quasarBexConfig } = require('./bex-config.js')
-const { createManifest, copyBexAssets } = require('./utils.js')
+import { appPkg } from '../../app-pkg.js'
+import { AppBuilder } from '../../app-builder.js'
+import { progress } from '../../utils/logger.js'
+import { quasarBexConfig } from './bex-config.js'
+import { createManifest, copyBexAssets } from './utils.js'
 
-module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
+export class QuasarModeBuilder extends AppBuilder {
   async build () {
     const viteConfig = await quasarBexConfig.vite(this.quasarConf)
     await this.buildWithVite('BEX UI', viteConfig)
@@ -39,7 +39,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const zipName = `Packaged.${ appPkg.name }.zip`
     const file = join(folder, zipName)
 
-    const output = createWriteStream(file)
+    const output = fse.createWriteStream(file)
     const archive = archiver('zip', {
       zlib: { level: 9 } // Sets the compression level.
     })

@@ -1,14 +1,14 @@
-const { createServer } = require('vite')
-const chokidar = require('chokidar')
-const debounce = require('lodash/debounce.js')
+import { createServer } from 'vite'
+import chokidar from 'chokidar'
+import debounce from 'lodash/debounce.js'
 
-const { AppDevserver } = require('../../app-devserver.js')
-const { openBrowser } = require('../../utils/open-browser.js')
-const { quasarPwaConfig } = require('./pwa-config.js')
-const { injectPwaManifest, buildPwaServiceWorker } = require('./utils.js')
-const { log } = require('../../utils/logger.js')
+import { AppDevserver } from '../../app-devserver.js'
+import { openBrowser } from '../../utils/open-browser.js'
+import { quasarPwaConfig } from './pwa-config.js'
+import { injectPwaManifest, buildPwaServiceWorker } from './utils.js'
+import { log } from '../../utils/logger.js'
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+export class QuasarModeDevserver extends AppDevserver {
   #server
 
   // also update ssr-devserver.js when changing here
@@ -71,11 +71,9 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       this.#server.close()
     }
 
-    const viteConfig = await quasarPwaConfig.vite(quasarConf)
-
     injectPwaManifest(quasarConf, true)
 
-    this.#server = await createServer(viteConfig)
+    this.#server = await createServer(await quasarPwaConfig.vite(quasarConf))
     await this.#server.listen()
 
     this.printBanner(quasarConf)

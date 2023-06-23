@@ -1,17 +1,16 @@
 
-const fs = require('node:fs')
-const fse = require('fs-extra')
+import fs from 'node:fs'
+import fse from 'fs-extra'
 
-const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../utils/logger.js')
-const { hasTypescript } = require('../../utils/has-typescript.js')
+import appPaths from '../../app-paths.js'
+import { log, warn } from '../../utils/logger.js'
+import { hasTypescript } from '../../utils/has-typescript.js'
 
-function isModeInstalled () {
+export function isModeInstalled () {
   return fs.existsSync(appPaths.ssrDir)
 }
-module.exports.isModeInstalled = isModeInstalled
 
-module.exports.addMode = function addMode (silent) {
+export function addMode (silent) {
   if (isModeInstalled()) {
     if (silent !== true) {
       warn('SSR support detected already. Aborting.')
@@ -35,7 +34,7 @@ module.exports.addMode = function addMode (silent) {
   log('SSR support was added')
 }
 
-module.exports.removeMode = function removeMode () {
+export function removeMode () {
   if (!isModeInstalled()) {
     warn('No SSR support detected. Aborting.')
     return

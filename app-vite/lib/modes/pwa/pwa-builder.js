@@ -1,12 +1,12 @@
 
-const { writeFileSync } = require('node:fs')
-const { join } = require('node:path')
+import { writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 
-const { AppBuilder } = require('../../app-builder.js')
-const { quasarPwaConfig } = require('./pwa-config.js')
-const { injectPwaManifest, buildPwaServiceWorker } = require('./utils.js')
+import { AppBuilder } from '../../app-builder.js'
+import { quasarPwaConfig } from './pwa-config.js'
+import { injectPwaManifest, buildPwaServiceWorker } from './utils.js'
 
-module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
+export class QuasarModeBuilder extends AppBuilder {
   async build () {
     injectPwaManifest(this.quasarConf)
 

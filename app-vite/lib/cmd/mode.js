@@ -1,6 +1,6 @@
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
-const { log, warn, fatal } = require('../utils/logger.js')
+import { log, warn, fatal } from '../utils/logger.js'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -41,7 +41,7 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const { green, gray } = require('kolorist')
+import { green, gray } from 'kolorist'
 
 async function run () {
   const [ action, mode ] = argv._
@@ -57,13 +57,13 @@ async function run () {
     fatal(`Unknown mode "${ mode }" to ${ action }`)
   }
 
-  const { isModeInstalled, addMode, removeMode } = require(`../modes/${ mode }/${ mode }-installation.js`)
+  const { isModeInstalled, addMode, removeMode } = await import(`../modes/${ mode }/${ mode }-installation.js`)
   const actionMap = { add: addMode, remove: removeMode }
 
   if (action === 'remove' && argv.yes !== true && isModeInstalled()) {
     console.log()
 
-    const inquirer = require('inquirer')
+    const inquirer = await import('inquirer')
     const answer = await inquirer.prompt([ {
       name: 'go',
       type: 'confirm',
@@ -82,17 +82,17 @@ async function run () {
   await actionMap[ action ]()
 }
 
-function displayModes () {
+async function displayModes () {
   log('Detecting installed modes...')
 
   const info = []
-  ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
-    const { isModeInstalled } = require(`../modes/${ mode }/${ mode }-installation.js`)
+  for (const mode of [ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ]) {
+    const { isModeInstalled } = await import(`../modes/${ mode }/${ mode }-installation.js`)
     info.push([
       `Mode ${ mode.toUpperCase() }`,
       isModeInstalled() ? green('yes') : gray('no')
     ])
-  })
+  }
 
   console.log(
     '\n'

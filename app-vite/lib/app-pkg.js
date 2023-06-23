@@ -1,14 +1,22 @@
 
-const { getPackageJson } = require('./utils/get-package-json.js')
+import { readFileSync } from 'node:fs'
 
-const appPaths = require('./app-paths.js')
+import { getPackageJson } from './utils/get-package-json.js'
+import appPaths from './app-paths.js'
 
-const cliPkg = require('../package.json')
-const appPkg = require(appPaths.resolve.app('package.json'))
-const quasarPkg = getPackageJson('quasar')
-const vitePkg = getPackageJson('vite')
+export const cliPkg = JSON.parse(
+  readFileSync(
+    new URL('../package.json', import.meta.url),
+    'utf-8'
+  )
+)
 
-module.exports.cliPkg = cliPkg
-module.exports.appPkg = appPkg
-module.exports.quasarPkg = quasarPkg
-module.exports.vitePkg = vitePkg
+export const appPkg = JSON.parse(
+  readFileSync(
+    appPaths.resolve.app('package.json'),
+    'utf-8'
+  )
+)
+
+export const quasarPkg = getPackageJson('quasar')
+export const vitePkg = getPackageJson('vite')

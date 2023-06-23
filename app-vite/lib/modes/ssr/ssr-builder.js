@@ -1,17 +1,17 @@
 
-const { join } = require('node:path')
-const { writeFileSync } = require('node:fs')
-const { merge } = require('webpack-merge')
+import { join } from 'node:path'
+import { writeFileSync } from 'node:fs'
+import { merge } from 'webpack-merge'
 
-const { AppBuilder } = require('../../app-builder.js')
-const { quasarSsrConfig } = require('./ssr-config.js')
-const { appPkg, cliPkg } = require('../../app-pkg.js')
-const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
-const { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } = require('../../utils/html-template.js')
+import { AppBuilder } from '../../app-builder.js'
+import { quasarSsrConfig } from './ssr-config.js'
+import { appPkg, cliPkg } from '../../app-pkg.js'
+import { getFixedDeps } from '../../utils/get-fixed-deps.js'
+import { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } from '../../utils/html-template.js'
 
-const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils.js')
+import { injectPwaManifest, buildPwaServiceWorker } from '../pwa/utils.js'
 
-module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
+export class QuasarModeBuilder extends AppBuilder {
   async build () {
     await this.#buildWebserver()
     await this.#copyWebserverFiles()
@@ -95,6 +95,8 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
       description: localAppPkg.description,
       author: localAppPkg.author,
       private: true,
+      type: 'module',
+      module: 'index.js',
       scripts: {
         start: 'node index.js'
       },
@@ -124,7 +126,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
 
-    this.writeFile('render-template.js', `module.exports=${ templateFn.source }`)
+    this.writeFile('render-template.cjs', `module.exports=${ templateFn.source }`)
 
     if (this.quasarConf.ssr.pwa === true) {
       this.writeFile(

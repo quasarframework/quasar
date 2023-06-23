@@ -1,9 +1,9 @@
 
 // Nothing to do... installed by default
 
-module.exports.isModeInstalled = function isModeInstalled () {
+export function isModeInstalled () {
   return true
 }
 
-module.exports.addMode = function addMode () {}
-module.exports.removeMode = function removeMode () {}
+export function addMode () {}
+export function removeMode () {}

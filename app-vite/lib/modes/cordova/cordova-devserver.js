@@ -1,16 +1,16 @@
-const { createServer } = require('vite')
+import { createServer } from 'vite'
 
-const appPaths = require('../../app-paths.js')
-const { AppDevserver } = require('../../app-devserver.js')
-const { CordovaConfigFile } = require('./config-file.js')
-const { log, fatal } = require('../../utils/logger.js')
-const { spawn } = require('../../utils/spawn.js')
-const { onShutdown } = require('../../utils/on-shutdown.js')
-const { openIDE } = require('../../utils/open-ide.js')
-const { quasarCordovaConfig } = require('./cordova-config.js')
-const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
+import appPaths from '../../app-paths.js'
+import { AppDevserver } from '../../app-devserver.js'
+import { CordovaConfigFile } from './config-file.js'
+import { log, fatal } from '../../utils/logger.js'
+import { spawn } from '../../utils/spawn.js'
+import { onShutdown } from '../../utils/on-shutdown.js'
+import { openIDE } from '../../utils/open-ide.js'
+import { quasarCordovaConfig } from './cordova-config.js'
+import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+export class QuasarModeDevserver extends AppDevserver {
   #pid = 0
   #server
   #ctx

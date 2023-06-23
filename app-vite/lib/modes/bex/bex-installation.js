@@ -1,22 +1,22 @@
 
-const fs = require('node:fs')
-const fse = require('fs-extra')
+import fs from 'node:fs'
+import fse from 'fs-extra'
+import inquirer from 'inquirer'
 
-const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../utils/logger.js')
-const { nodePackager } = require('../../utils/node-packager.js')
-const { hasTypescript } = require('../../utils/has-typescript.js')
+import appPaths from '../../app-paths.js'
+import { log, warn } from '../../utils/logger.js'
+import { nodePackager } from '../../utils/node-packager.js'
+import { hasTypescript } from '../../utils/has-typescript.js'
 
 const bexDeps = {
   events: '^3.3.0'
 }
 
-function isModeInstalled () {
+export function isModeInstalled () {
   return fs.existsSync(appPaths.bexDir)
 }
-module.exports.isModeInstalled = isModeInstalled
 
-module.exports.addMode = async function addMode (silent) {
+export async function addMode (silent) {
   if (isModeInstalled()) {
     if (silent !== true) {
       warn('Browser Extension support detected already. Aborting.')
@@ -28,8 +28,6 @@ module.exports.addMode = async function addMode (silent) {
     Object.entries(bexDeps).map(([ name, version ]) => `${ name }@${ version }`),
     { displayName: 'BEX dependencies' }
   )
-
-  const inquirer = require('inquirer')
 
   console.log()
   const answer = await inquirer.prompt([ {
@@ -53,7 +51,7 @@ module.exports.addMode = async function addMode (silent) {
   log('Browser Extension support was added')
 }
 
-module.exports.removeMode = function removeMode () {
+export function removeMode () {
   if (!isModeInstalled()) {
     warn('No Browser Extension support detected. Aborting.')
     return

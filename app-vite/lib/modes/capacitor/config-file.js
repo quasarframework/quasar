@@ -1,15 +1,16 @@
-const fs = require('node:fs')
-const path = require('node:path')
+import fs from 'node:fs'
+import path from 'node:path'
+import fglob from 'fast-glob'
 
-const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
-const { log, warn } = require('../../utils/logger.js')
-const { ensureConsistency } = require('./ensure-consistency.js')
-const { capVersion } = require('./cap-cli.js')
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { log, warn } from '../../utils/logger.js'
+import { ensureConsistency } from './ensure-consistency.js'
+import { capVersion } from './cap-cli.js'
 
 // necessary for Capacitor 4+
-const { nodePackager } = require('../../utils/node-packager.js')
-const { getPackageJson } = require('../../utils/get-package-json.js')
+import { nodePackager } from '../../utils/node-packager.js'
+import { getPackageJson } from '../../utils/get-package-json.js'
 
 // Capacitor 1 & 2
 function getAndroidMainActivity (capVersion, appId) {
@@ -54,7 +55,7 @@ public class EnableHttpsSelfSigned {
 }`
 }
 
-module.exports.CapacitorConfigFile = class CapacitorConfigFile {
+export class CapacitorConfigFile {
   #tamperedFiles = []
 
   prepare (quasarConf, target) {
@@ -66,7 +67,9 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     this.#tamperedFiles = []
 
     const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
-    const capJson = require(capJsonPath)
+    const capJson = JSON.parse(
+      fs.readFileSync(capJsonPath, 'utf-8')
+    )
 
     this.#tamperedFiles.push({
       path: capJsonPath,
@@ -126,7 +129,9 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
 
   #updateCapPkg (cfg) {
     const capPkgPath = appPaths.resolve.capacitor('package.json')
-    const capPkg = require(capPkgPath)
+    const capPkg = JSON.parse(
+      fs.readFileSync(capPkgPath, 'utf-8')
+    )
 
     Object.assign(capPkg, {
       name: cfg.capacitor.appName || appPkg.name,
@@ -263,7 +268,6 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
   }
 
   #handleSSLonAndroid (add) {
-    const fglob = require('fast-glob')
     const capacitorSrcPath = appPaths.resolve.capacitor('android/app/src/main/java')
     let mainActivityPath = fglob.sync('**/MainActivity.java', { cwd: capacitorSrcPath, absolute: true })
 

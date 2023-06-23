@@ -1,6 +1,6 @@
-const fs = require('node:fs')
+import fs from 'node:fs'
 
-const appPaths = require('../app-paths.js')
+import appPaths from '../app-paths.js'
 
 const cssVariables = {
   quasarSrcExt: 'css',
@@ -16,4 +16,4 @@ for (const ext of [ 'scss', 'sass' ]) {
   }
 }
 
-module.exports.cssVariables = cssVariables
+export { cssVariables }

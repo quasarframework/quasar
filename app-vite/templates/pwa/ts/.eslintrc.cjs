@@ -1,4 +1,4 @@
-const { resolve } = require('node:path');
+import { resolve } from 'node:path';
 
 module.exports = {
   parserOptions: {

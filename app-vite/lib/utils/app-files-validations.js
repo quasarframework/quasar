@@ -1,12 +1,12 @@
-const fs = require('node:fs')
+import fs from 'node:fs'
 
-const { warn } = require('./logger.js')
-const appPaths = require('../app-paths.js')
-const { entryPointMarkup, attachMarkup } = require('../utils/html-template.js')
+import { warn } from './logger.js'
+import appPaths from '../app-paths.js'
+import { entryPointMarkup, attachMarkup } from '../utils/html-template.js'
 
 const file = appPaths.resolve.app('index.html')
 
-module.exports.appFilesValidations = function appFilesValidations () {
+export function appFilesValidations () {
   let valid = true
 
   if (fs.existsSync(file) === false) {

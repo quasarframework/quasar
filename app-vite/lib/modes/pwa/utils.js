@@ -1,13 +1,13 @@
 
-const { readFileSync } = require('node:fs')
+import { readFileSync } from 'node:fs'
 
-const { appPkg } = require('../../app-pkg.js')
-const { getPackage } = require('../../utils/get-package.js')
-const { progress } = require('../../utils/logger.js')
+import { appPkg } from '../../app-pkg.js'
+import { getPackage } from '../../utils/get-package.js'
+import { progress } from '../../utils/logger.js'
 
-const workboxBuild = getPackage('workbox-build')
+const workboxBuild = await getPackage('workbox-build')
 
-module.exports.createHeadTags = function createHeadTags (quasarConf) {
+export function createHeadTags (quasarConf) {
   const { publicPath } = quasarConf.build
   const { pwaManifest } = quasarConf.htmlVariables
   const { useCredentialsForManifestTag, injectPwaMetaTags, manifestFilename } = quasarConf.pwa
@@ -38,7 +38,7 @@ module.exports.createHeadTags = function createHeadTags (quasarConf) {
   return headTags
 }
 
-module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
+export function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
   if (ifNotAlreadyGenerated === true && quasarConf.htmlVariables.pwaManifest !== void 0) {
     return
   }
@@ -61,7 +61,7 @@ module.exports.injectPwaManifest = function injectPwaManifest (quasarConf, ifNot
   quasarConf.htmlVariables.pwaManifest = pwaManifest
 }
 
-module.exports.buildPwaServiceWorker = async function buildPwaServiceWorker (workboxMode, workboxConfig) {
+export async function buildPwaServiceWorker (workboxMode, workboxConfig) {
   const done = progress('Compiling of the ___ with Workbox in progress...', 'Service Worker')
   await workboxBuild[ workboxMode ](workboxConfig)
   done('The ___ compiled with success')

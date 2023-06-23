@@ -1,15 +1,18 @@
 
-const { join } = require('node:path')
+import { join } from 'node:path'
+import { merge } from 'webpack-merge'
 
-const appPaths = require('../../app-paths.js')
-const { log, warn, progress } = require('../../utils/logger.js')
-const { AppBuilder } = require('../../app-builder.js')
-const { quasarElectronConfig } = require('./electron-config.js')
-const { nodePackager } = require('../../utils/node-packager.js')
-const { getPackageJson } = require('../../utils/get-package-json.js')
-const { getFixedDeps } = require('../../utils/get-fixed-deps.js')
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { log, warn, progress } from '../../utils/logger.js'
+import { AppBuilder } from '../../app-builder.js'
+import { quasarElectronConfig } from './electron-config.js'
+import { nodePackager } from '../../utils/node-packager.js'
+import { getPackageJson } from '../../utils/get-package-json.js'
+import { getFixedDeps } from '../../utils/get-fixed-deps.js'
+import { getBundler } from './bundler.js'
 
-module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
+export class QuasarModeBuilder extends AppBuilder {
   async build () {
     await this.#buildFiles()
     await this.#writePackageJson()
@@ -43,7 +46,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writePackageJson () {
-    const pkg = require(appPaths.resolve.app('package.json'))
+    const pkg = merge({}, appPkg)
 
     if (pkg.dependencies) {
       pkg.dependencies = getFixedDeps(pkg.dependencies)
@@ -110,7 +113,7 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     const bundlerName = this.quasarConf.electron.bundler
     const bundlerConfig = this.quasarConf.electron[ bundlerName ]
-    const bundler = require('./bundler.js').getBundler(bundlerName)
+    const bundler = await getBundler(bundlerName)
     const pkgName = `electron-${ bundlerName }`
 
     return new Promise((resolve, reject) => {

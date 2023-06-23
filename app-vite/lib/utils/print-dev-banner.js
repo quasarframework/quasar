@@ -1,9 +1,10 @@
-const { green, dim } = require('kolorist')
-const { join } = require('node:path')
+import { green, dim } from 'kolorist'
+import { join } from 'node:path'
 
-const appPaths = require('../app-paths.js')
-const { quasarPkg, cliPkg } = require('../app-pkg.js')
-const { getCompilationTarget } = require('../utils/banner-global.js')
+import appPaths from '../app-paths.js'
+import { quasarPkg, cliPkg } from '../app-pkg.js'
+import { getCompilationTarget } from '../utils/banner-global.js'
+import { getIPs } from '../utils/net.js'
 
 const greenBanner = green('»')
 const line = dim('   ———————————————————————')
@@ -12,7 +13,6 @@ const cache = {}
 function getIPList () {
   // expensive operation, so cache the response
   if (cache.ipList === void 0) {
-    const { getIPs } = require('../utils/net.js')
     cache.ipList = getIPs().map(ip => (ip === '127.0.0.1' ? 'localhost' : ip))
   }
 
@@ -59,7 +59,7 @@ function getBanner (quasarConf) {
   return banner.join('\n')
 }
 
-module.exports.printDevBanner = function printDevBanner (quasarConf) {
+export function printDevBanner (quasarConf) {
   console.log()
   console.log(getBanner(quasarConf))
   console.log()

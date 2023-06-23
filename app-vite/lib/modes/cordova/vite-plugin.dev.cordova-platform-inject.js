@@ -1,13 +1,13 @@
 
-const { static: serveStatic } = require('express')
-const appPaths = require('../../app-paths.js')
+import { static as serveStatic } from 'express'
+import appPaths from '../../app-paths.js'
 
-const { entryPointMarkup } = require('../../utils/html-template.js')
+import { entryPointMarkup } from '../../utils/html-template.js'
 
 /**
  * It is applied for dev only!
  */
-module.exports.quasarVitePluginDevCordovaPlatformInject = function quasarVitePluginDevCordovaPlatformInject (quasarConf) {
+export function quasarVitePluginDevCordovaPlatformInject (quasarConf) {
   return {
     name: 'quasar:cordova-platform-inject',
     enforce: 'pre',
@@ -18,7 +18,7 @@ module.exports.quasarVitePluginDevCordovaPlatformInject = function quasarVitePlu
     },
 
     transformIndexHtml: {
-      enforce: 'pre',
+      order: 'pre',
       transform: html => html.replace(
         entryPointMarkup,
         `<script src="cordova.js"></script>${ entryPointMarkup }`

@@ -1,4 +1,4 @@
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -29,7 +29,7 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { log, warn } = require('../utils/logger.js')
+import { log, warn } from '../utils/logger.js'
 
 function getArgv (argv) {
   const { _, ...allParams } = argv
@@ -41,41 +41,37 @@ function getArgv (argv) {
   }
 }
 
-async function run () {
-  const { Extension } = require('../app-extension/Extension.js')
-  const extension = new Extension('@quasar/testing')
+import { Extension } from '../app-extension/Extension.js'
+const extension = new Extension('@quasar/testing')
 
-  const hooks = await extension.run()
-  const command = hooks.commands[ argv.cmd ]
+const hooks = await extension.run()
+const command = hooks.commands[ argv.cmd ]
 
-  const list = () => {
-    if (Object.keys(hooks.commands).length === 0) {
-      warn('"@quasar/testing" app extension has no commands registered')
-      return
-    }
-
-    log('Listing "@quasar/testing" app extension commands')
-    log()
-
-    for (const cmd in hooks.commands) {
-      console.log(`  > ${ cmd }`)
-    }
-
-    console.log()
+const list = () => {
+  if (Object.keys(hooks.commands).length === 0) {
+    warn('"@quasar/testing" app extension has no commands registered')
+    return
   }
 
-  if (!command) {
-    warn()
-    warn(`"@quasar/testing" app extension has no command called "${ argv.cmd }"`)
-    warn()
-    list()
-    process.exit(1)
-  }
-
-  log(`Running "@quasar/testing" > "${ argv.cmd }" command`)
+  log('Listing "@quasar/testing" app extension commands')
   log()
 
-  await command(getArgv(argv))
+  for (const cmd in hooks.commands) {
+    console.log(`  > ${ cmd }`)
+  }
+
+  console.log()
 }
 
-run()
+if (!command) {
+  warn()
+  warn(`"@quasar/testing" app extension has no command called "${ argv.cmd }"`)
+  warn()
+  list()
+  process.exit(1)
+}
+
+log(`Running "@quasar/testing" > "${ argv.cmd }" command`)
+log()
+
+await command(getArgv(argv))

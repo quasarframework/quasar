@@ -1,7 +1,7 @@
-const { existsSync } = require('node:fs')
-const appPaths = require('../app-paths.js')
+import { existsSync } from 'node:fs'
+import appPaths from '../app-paths.js'
 
-module.exports.hasTypescript = (
+export const hasTypescript = (
   appPaths.quasarConfigFilename.endsWith('.ts')
   || existsSync(appPaths.resolve.app('tsconfig.json'))
 )

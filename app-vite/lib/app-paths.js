@@ -1,36 +1,37 @@
 
-const { existsSync } = require('node:fs')
-const { normalize, resolve, join, sep } = require('node:path')
+import { existsSync } from 'node:fs'
+import { normalize, resolve, join, sep } from 'node:path'
 
-const quasarConfigFilenameList = [
-  'quasar.config.js',
-  'quasar.config.mjs',
-  'quasar.config.ts',
-  'quasar.config.cjs',
-  'quasar.conf.js' // legacy (removed during v2)
+import { fatal } from './utils/logger.js'
+
+const quasarConfigList = [
+  { name: 'quasar.config.js', format: 'esm' },
+  { name: 'quasar.config.mjs', format: 'esm' },
+  { name: 'quasar.config.ts', format: 'ts' },
+  { name: 'quasar.config.cjs', format: 'cjs' },
+  { name: 'quasar.conf.js', format: 'cjs' } // legacy (removed during v2)
 ]
 
 function getAppInfo () {
   let appDir = process.cwd()
 
   while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
-    for (const name of quasarConfigFilenameList) {
+    for (const { name, format } of quasarConfigList) {
       const quasarConfigFilename = join(appDir, name)
       if (existsSync(quasarConfigFilename)) {
-        return { appDir, quasarConfigFilename }
+        return { appDir, quasarConfigFilename, quasarConfigFormat: format }
       }
     }
 
     appDir = normalize(join(appDir, '..'))
   }
 
-  const { fatal } = require('./utils/logger.js')
   fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 
-const { appDir, quasarConfigFilename } = getAppInfo()
+const { appDir, quasarConfigFilename, quasarConfigFormat } = getAppInfo()
 
-const cliDir = resolve(__dirname, '..')
+const cliDir = new URL('..', import.meta.url).pathname
 const publicDir = resolve(appDir, 'public')
 const srcDir = resolve(appDir, 'src')
 const pwaDir = resolve(appDir, 'src-pwa')
@@ -40,7 +41,7 @@ const capacitorDir = resolve(appDir, 'src-capacitor')
 const electronDir = resolve(appDir, 'src-electron')
 const bexDir = resolve(appDir, 'src-bex')
 
-module.exports = {
+export default {
   cliDir,
   appDir,
   srcDir,
@@ -53,6 +54,7 @@ module.exports = {
   bexDir,
 
   quasarConfigFilename,
+  quasarConfigFormat,
 
   resolve: {
     cli: dir => join(cliDir, dir),

@@ -1,22 +1,24 @@
 
-const { writeFileSync, copySync, existsSync } = require('fs-extra')
-const { join } = require('node:path')
+import fse from 'fs-extra'
+import { join } from 'node:path'
 
-const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
-const { warn } = require('../../utils/logger.js')
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { warn } from '../../utils/logger.js'
 
 const { name, productName, description, version } = appPkg
 const assetsFolder = appPaths.resolve.bex('assets')
 const iconsFolder = appPaths.resolve.bex('icons')
 const localesFolder = appPaths.resolve.bex('_locales')
 
-module.exports.createManifest = function createManifest (quasarConf) {
+export function createManifest (quasarConf) {
   let json
   const filename = appPaths.resolve.bex('manifest.json')
 
   try {
-    json = require(filename)
+    json = JSON.parse(
+      fse.readFileSync(filename, 'utf-8')
+    )
   }
   catch (err) {
     warn('Could not compile BEX manifest.json. Please check its syntax.')
@@ -51,7 +53,7 @@ module.exports.createManifest = function createManifest (quasarConf) {
     quasarConf.bex.extendBexManifestJson(json)
   }
 
-  writeFileSync(
+  fse.writeFileSync(
     join(quasarConf.build.distDir, 'manifest.json'),
     JSON.stringify(json, null, quasarConf.build.minify === true ? void 0 : 2),
     'utf-8'
@@ -60,15 +62,15 @@ module.exports.createManifest = function createManifest (quasarConf) {
   return { filename }
 }
 
-module.exports.copyBexAssets = function copyBexAssets (quasarConf) {
+export function copyBexAssets (quasarConf) {
   const folders = [ assetsFolder, iconsFolder ]
 
-  copySync(assetsFolder, join(quasarConf.build.distDir, 'assets'))
-  copySync(iconsFolder, join(quasarConf.build.distDir, 'icons'))
+  fse.copySync(assetsFolder, join(quasarConf.build.distDir, 'assets'))
+  fse.copySync(iconsFolder, join(quasarConf.build.distDir, 'icons'))
 
-  if (existsSync(localesFolder) === true) {
+  if (fse.existsSync(localesFolder) === true) {
     folders.push(localesFolder)
-    copySync(localesFolder, join(quasarConf.build.distDir, '_locales'))
+    fse.copySync(localesFolder, join(quasarConf.build.distDir, '_locales'))
   }
 
   return folders

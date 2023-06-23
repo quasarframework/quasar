@@ -1,19 +1,19 @@
-const { join } = require('node:path')
-const fse = require('fs-extra')
+import { join } from 'node:path'
+import fse from 'fs-extra'
 
-const { AppBuilder } = require('../../app-builder.js')
-const { quasarCapacitorConfig } = require('./capacitor-config.js')
+import { AppBuilder } from '../../app-builder.js'
+import { quasarCapacitorConfig } from './capacitor-config.js'
 
-const appPaths = require('../../app-paths.js')
-const { log, warn, fatal } = require('../../utils/logger.js')
-const { CapacitorConfigFile } = require('./config-file.js')
-const { spawn, spawnSync } = require('../../utils/spawn.js')
-const { openIDE } = require('../../utils/open-ide.js')
-const { onShutdown } = require('../../utils/on-shutdown.js')
-const { fixAndroidCleartext } = require('../../utils/fix-android-cleartext.js')
-const { capBin } = require('./cap-cli.js')
+import appPaths from '../../app-paths.js'
+import { log, warn, fatal } from '../../utils/logger.js'
+import { CapacitorConfigFile } from './config-file.js'
+import { spawn, spawnSync } from '../../utils/spawn.js'
+import { openIDE } from '../../utils/open-ide.js'
+import { onShutdown } from '../../utils/on-shutdown.js'
+import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
+import { capBin } from './cap-cli.js'
 
-module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
+export class QuasarModeBuilder extends AppBuilder {
   #capacitorConfigFile = new CapacitorConfigFile()
   #packagedDir
 

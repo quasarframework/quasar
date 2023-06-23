@@ -1,11 +1,19 @@
-const { createServer } = require('vite')
+import { readFileSync } from 'node:fs'
+import { join, dirname } from 'node:path'
+import { createServer } from 'vite'
 
-const appPaths = require('../../app-paths.js')
-const { AppDevserver } = require('../../app-devserver.js')
-const { log, warn, fatal } = require('../../utils/logger.js')
-const { spawn } = require('../../utils/spawn.js')
-const { getPackage } = require('../../utils/get-package.js')
-const { quasarElectronConfig } = require('./electron-config.js')
+import appPaths from '../../app-paths.js'
+import { AppDevserver } from '../../app-devserver.js'
+import { log, warn, fatal } from '../../utils/logger.js'
+import { spawn } from '../../utils/spawn.js'
+import { getPackagePath } from '../../utils/get-package-path.js'
+import { quasarElectronConfig } from './electron-config.js'
+
+const electronPkgPath = getPackagePath('electron/package.json')
+const electronPkg = JSON.parse(
+  readFileSync(electronPkgPath, 'utf-8')
+)
+const electronExecutable = join(dirname(electronPkgPath), electronPkg.bin.electron)
 
 function wait (time) {
   return new Promise(resolve => {
@@ -13,7 +21,7 @@ function wait (time) {
   })
 }
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+export class QuasarModeDevserver extends AppDevserver {
   #pid = 0
   #server
   #stopMain
@@ -115,7 +123,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
 
     this.#pid = spawn(
-      getPackage('electron'),
+      electronExecutable,
       [
         '--inspect=' + quasarConf.electron.inspectPort,
         appPaths.resolve.app('.quasar/electron/electron-main.js')

@@ -1,10 +1,10 @@
-const appPaths = require('../../app-paths.js')
-const { createViteConfig, extendViteConfig } = require('../../config-tools.js')
-const { quasarVitePluginDevCordovaPlatformInject } = require('./vite-plugin.dev.cordova-platform-inject.js')
+import appPaths from '../../app-paths.js'
+import { createViteConfig, extendViteConfig } from '../../config-tools.js'
+import { quasarVitePluginDevCordovaPlatformInject } from './vite-plugin.dev.cordova-platform-inject.js'
 
-module.exports.quasarCordovaConfig = {
-  vite: quasarConf => {
-    const cfg = createViteConfig(quasarConf)
+const quasarCordovaConfig = {
+  vite: async quasarConf => {
+    const cfg = await createViteConfig(quasarConf)
 
     if (quasarConf.ctx.dev === true) {
       cfg.plugins.unshift(
@@ -19,4 +19,9 @@ module.exports.quasarCordovaConfig = {
   }
 }
 
-module.exports.modeConfig = module.exports.quasarCordovaConfig
+const modeConfig = quasarCordovaConfig
+
+export {
+  modeConfig,
+  quasarCordovaConfig
+}

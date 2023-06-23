@@ -1,18 +1,22 @@
-const path = require('node:path')
+import path from 'node:path'
+import { readFileSync } from 'node:fs'
 
-const appPaths = require('../../app-paths.js')
-const { createViteConfig, extendViteConfig } = require('../../config-tools.js')
-const { escapeRegexString } = require('../../utils/escape-regex-string.js')
+import appPaths from '../../app-paths.js'
+import { createViteConfig, extendViteConfig } from '../../config-tools.js'
+import { escapeRegexString } from '../../utils/escape-regex-string.js'
 
-const { dependencies } = require(appPaths.resolve.capacitor('package.json'))
+const { dependencies } = JSON.parse(
+  readFileSync(appPaths.resolve.capacitor('package.json'), 'utf-8')
+)
+
 const target = appPaths.resolve.capacitor('node_modules')
 
 const depsList = Object.keys(dependencies)
 const capacitorRE = new RegExp('^(' + depsList.map(escapeRegexString).join('|') + ')')
 
-module.exports.quasarCapacitorConfig = {
-  vite: quasarConf => {
-    const cfg = createViteConfig(quasarConf)
+export const quasarCapacitorConfig = {
+  vite: async quasarConf => {
+    const cfg = await createViteConfig(quasarConf)
 
     // we need to set alias as capacitor deps
     // are installed in /src-capacitor and not in root
@@ -38,4 +42,4 @@ module.exports.quasarCapacitorConfig = {
   }
 }
 
-module.exports.modeConfig = module.exports.quasarCapacitorConfig
+export const modeConfig = quasarCapacitorConfig

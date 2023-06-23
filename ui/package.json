@@ -71,7 +71,7 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
-    "@quasar/app-vite": "^1.3.0",
+    "@quasar/app-vite": "^2.0.0-alpha.0",
     "@quasar/extras": "^1.16.4",
     "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.2.0-alpha.1",
     "@rollup/plugin-node-resolve": "^11.2.1",

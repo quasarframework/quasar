@@ -1,10 +1,10 @@
-const { createServer } = require('vite')
+import { createServer } from 'vite'
 
-const { AppDevserver } = require('../../app-devserver.js')
-const { openBrowser } = require('../../utils/open-browser.js')
-const { quasarSpaConfig } = require('./spa-config.js')
+import { AppDevserver } from '../../app-devserver.js'
+import { openBrowser } from '../../utils/open-browser.js'
+import { quasarSpaConfig } from './spa-config.js'
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+export class QuasarModeDevserver extends AppDevserver {
   #server
 
   run (quasarConf, __isRetry) {

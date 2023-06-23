@@ -1,4 +1,4 @@
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -33,7 +33,7 @@ if (!extId && argv.help) {
   process.exit(0)
 }
 
-const { log, warn } = require('../utils/logger.js')
+import { log, warn } from '../utils/logger.js'
 
 function getArgv (argv) {
   const { _, ...params } = argv
@@ -44,46 +44,42 @@ function getArgv (argv) {
   }
 }
 
-async function run () {
-  const { Extension } = require('../app-extension/Extension.js')
-  const extension = new Extension(extId)
+import { Extension } from '../app-extension/Extension.js'
+const extension = new Extension(extId)
 
-  const hooks = await extension.run({})
+const hooks = await extension.run({})
 
-  const list = () => {
-    if (Object.keys(hooks.commands).length === 0) {
-      warn(`"${ extId }" app extension has no commands registered`)
-      return
-    }
-
-    log(`Listing "${ extId }" app extension commands`)
-    log()
-
-    for (const cmd in hooks.commands) {
-      console.log(`  > ${ cmd }`)
-    }
-
-    console.log()
+const list = () => {
+  if (Object.keys(hooks.commands).length === 0) {
+    warn(`"${ extId }" app extension has no commands registered`)
+    return
   }
 
-  if (!cmd) {
-    list()
-    process.exit(0)
-  }
-  if (!hooks.commands[ cmd ]) {
-    warn()
-    warn(`"${ extId }" app extension has no command called "${ cmd }"`)
-    warn()
-    list()
-    process.exit(1)
-  }
-
-  const command = hooks.commands[ cmd ]
-
-  log(`Running "${ extId }" > "${ cmd }" command`)
+  log(`Listing "${ extId }" app extension commands`)
   log()
 
-  await command(getArgv(argv))
+  for (const cmd in hooks.commands) {
+    console.log(`  > ${ cmd }`)
+  }
+
+  console.log()
 }
 
-run()
+if (!cmd) {
+  list()
+  process.exit(0)
+}
+if (!hooks.commands[ cmd ]) {
+  warn()
+  warn(`"${ extId }" app extension has no command called "${ cmd }"`)
+  warn()
+  list()
+  process.exit(1)
+}
+
+const command = hooks.commands[ cmd ]
+
+log(`Running "${ extId }" > "${ cmd }" command`)
+log()
+
+await command(getArgv(argv))

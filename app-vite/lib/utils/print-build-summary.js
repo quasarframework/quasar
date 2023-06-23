@@ -1,9 +1,9 @@
-const { readFileSync, statSync } = require('node:fs')
-const { join, dirname, basename } = require('node:path')
-const { gzipSync } = require('zlib')
-const { table } = require('table')
-const { underline, green, blue, magenta, cyan, gray } = require('kolorist')
-const fglob = require('fast-glob')
+import { readFileSync, statSync } from 'node:fs'
+import { join, dirname, basename } from 'node:path'
+import { gzipSync } from 'zlib'
+import { table } from 'table'
+import { underline, green, blue, magenta, cyan, gray } from 'kolorist'
+import fglob from 'fast-glob'
 
 const colorFn = {
   js: green,
@@ -85,7 +85,7 @@ function getTableIndexDelimiters (assets) {
   return delimiters
 }
 
-module.exports.printBuildSummary = function printBuildSummary (distDir, showGzipped) {
+export function printBuildSummary (distDir, showGzipped) {
   const assets = getAssets(distDir)
   const tableLines = getTableLines(assets, showGzipped)
   const tableIndexDelimiters = getTableIndexDelimiters(assets)

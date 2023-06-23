@@ -1,27 +1,27 @@
-const { readFileSync } = require('node:fs')
-const { join } = require('node:path')
-const { createServer } = require('vite')
-const chokidar = require('chokidar')
-const debounce = require('lodash/debounce.js')
-const serialize = require('serialize-javascript')
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { createServer } from 'vite'
+import chokidar from 'chokidar'
+import debounce from 'lodash/debounce.js'
+import serialize from 'serialize-javascript'
 
-const appPaths = require('../../app-paths.js')
-const { AppDevserver } = require('../../app-devserver.js')
-const { getPackage } = require('../../utils/get-package.js')
-const { openBrowser } = require('../../utils/open-browser.js')
-const { quasarSsrConfig } = require('./ssr-config.js')
-const { log, warn, info, dot, progress } = require('../../utils/logger.js')
-const { entryPointMarkup, getDevSsrTemplateFn } = require('../../utils/html-template.js')
+import appPaths from '../../app-paths.js'
+import { AppDevserver } from '../../app-devserver.js'
+import { getPackage } from '../../utils/get-package.js'
+import { openBrowser } from '../../utils/open-browser.js'
+import { quasarSsrConfig } from './ssr-config.js'
+import { log, warn, info, dot, progress } from '../../utils/logger.js'
+import { entryPointMarkup, getDevSsrTemplateFn } from '../../utils/html-template.js'
 
-const { renderToString } = getPackage('vue/server-renderer')
+const { renderToString } = await getPackage('vue/server-renderer')
 
 const rootFolder = appPaths.appDir
 const publicFolder = appPaths.resolve.app('public')
 const templatePath = appPaths.resolve.app('index.html')
-const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.js')
+const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.mjs')
 const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.js')
 
-const { injectPwaManifest, buildPwaServiceWorker } = require('../pwa/utils.js')
+import { injectPwaManifest, buildPwaServiceWorker } from '../pwa/utils.js'
 
 function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
@@ -73,7 +73,7 @@ function renderStoreState (ssrContext) {
   return `<script${ nonce }>window.__INITIAL_STATE__=${ state };${ autoRemove }</script>`
 }
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+export class QuasarModeDevserver extends AppDevserver {
   #closeWebserver
   #viteClient
   #viteServer
@@ -191,8 +191,11 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       ? url => url || '/'
       : url => (url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath)
 
+    console.log('1')
     const viteClient = this.#viteClient = await createServer(await quasarSsrConfig.viteClient(quasarConf))
+    console.log('2')
     const viteServer = this.#viteServer = await createServer(await quasarSsrConfig.viteServer(quasarConf))
+    console.log('3')
 
     if (quasarConf.ssr.pwa === true) {
       injectPwaManifest(quasarConf, true)
@@ -237,6 +240,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
         }
 
         let html = renderTemplate(ssrContext)
+
         html = await viteClient.transformIndexHtml(ssrContext.req.url, html, ssrContext.req.url)
         html = html.replace(
           entryPointMarkup,
@@ -269,9 +273,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
   async #bootWebserver (quasarConf) {
     const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
 
-    const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
-    delete require.cache[ serverFile ]
-
+    const { create, listen, close, injectMiddlewares, serveStaticContent } = await import(serverFile + '?t=' + Date.now())
     const { publicPath } = this.#appOptions
 
     const middlewareParams = {

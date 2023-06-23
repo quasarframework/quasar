@@ -1,20 +1,22 @@
-const fs = require('node:fs')
-const { green } = require('kolorist')
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { green } from 'kolorist'
 
-const { log, fatal } = require('../utils/logger.js')
-const appPaths = require('../app-paths.js')
+import { log, fatal } from '../utils/logger.js'
+import appPaths from '../app-paths.js'
 
 const extensionPath = appPaths.resolve.app('quasar.extensions.json')
 
 class ExtensionJson {
   constructor () {
-    if (!fs.existsSync(extensionPath)) {
+    if (!existsSync(extensionPath)) {
       this.extensions = {}
       return
     }
 
     try {
-      this.extensions = require(extensionPath)
+      this.extensions = JSON.parse(
+        readFileSync(extensionPath, 'utf-8')
+      )
     }
     catch (e) {
       console.log(e)
@@ -46,7 +48,7 @@ class ExtensionJson {
   set (extId, opts) {
     log(`Updating /quasar.extensions.json for "${ extId }" extension ...`)
     this.extensions[ extId ] = opts
-    this.__save()
+    this.#save()
   }
 
   setInternal (extId, opts) {
@@ -59,7 +61,7 @@ class ExtensionJson {
     if (this.has(extId)) {
       log(`Removing "${ extId }" extension from /quasar.extensions.json ...`)
       delete this.extensions[ extId ]
-      this.__save()
+      this.#save()
     }
   }
 
@@ -81,8 +83,8 @@ class ExtensionJson {
     return this.extensions[ extId ] !== void 0
   }
 
-  __save () {
-    fs.writeFileSync(
+  #save () {
+    writeFileSync(
       extensionPath,
       JSON.stringify(this.extensions, null, 2),
       'utf-8'
@@ -90,4 +92,4 @@ class ExtensionJson {
   }
 }
 
-module.exports.extensionJson = new ExtensionJson()
+export const extensionJson = new ExtensionJson()

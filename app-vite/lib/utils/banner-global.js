@@ -1,6 +1,6 @@
-const { green, gray, underline } = require('kolorist')
+import { green, gray, underline } from 'kolorist'
 
-const { quasarPkg, cliPkg, vitePkg } = require('../app-pkg.js')
+import { quasarPkg, cliPkg, vitePkg } from '../app-pkg.js'
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
@@ -16,7 +16,7 @@ function getPackager (argv, cmd) {
     : 'gradle'
 }
 
-function getCompilationTarget (target) {
+export function getCompilationTarget (target) {
   return green(
     Array.isArray(target) === true
       ? target.join('|')
@@ -24,9 +24,7 @@ function getCompilationTarget (target) {
   )
 }
 
-module.exports.getCompilationTarget = getCompilationTarget
-
-module.exports.displayBanner = function displayBanner (argv, cmd, details = {}) {
+export function displayBanner (argv, cmd, details = {}) {
   let banner = ''
 
   if (details.buildOutputFolder) {

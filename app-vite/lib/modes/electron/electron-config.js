@@ -1,12 +1,12 @@
-const { join } = require('node:path')
+import { join } from 'node:path'
 
-const appPaths = require('../../app-paths.js')
-const { createViteConfig, extendViteConfig, extendEsbuildConfig, createNodeEsbuildConfig } = require('../../config-tools.js')
-const { getBuildSystemDefine } = require('../../utils/env.js')
+import appPaths from '../../app-paths.js'
+import { createViteConfig, extendViteConfig, extendEsbuildConfig, createNodeEsbuildConfig } from '../../config-tools.js'
+import { getBuildSystemDefine } from '../../utils/env.js'
 
-module.exports.quasarElectronConfig = {
-  vite: quasarConf => {
-    const cfg = createViteConfig(quasarConf)
+export const quasarElectronConfig = {
+  vite: async quasarConf => {
+    const cfg = await createViteConfig(quasarConf)
 
     if (quasarConf.ctx.prod === true) {
       cfg.build.outDir = join(quasarConf.build.distDir, 'UnPackaged')
@@ -15,8 +15,8 @@ module.exports.quasarElectronConfig = {
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  main: quasarConf => {
-    const cfg = createNodeEsbuildConfig(quasarConf, { cacheSuffix: 'electron-main' })
+  main: async quasarConf => {
+    const cfg = await createNodeEsbuildConfig(quasarConf, 'cjs', { cacheSuffix: 'electron-main' })
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronMain ]
     cfg.outfile = quasarConf.ctx.dev === true
@@ -40,8 +40,8 @@ module.exports.quasarElectronConfig = {
     return extendEsbuildConfig(cfg, quasarConf.electron, 'ElectronMain')
   },
 
-  preload: quasarConf => {
-    const cfg = createNodeEsbuildConfig(quasarConf, { cacheSuffix: 'electron-preload' })
+  preload: async quasarConf => {
+    const cfg = await createNodeEsbuildConfig(quasarConf, 'cjs', { cacheSuffix: 'electron-preload' })
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronPreload ]
     cfg.outfile = quasarConf.ctx.dev === true
@@ -66,4 +66,4 @@ module.exports.quasarElectronConfig = {
   }
 }
 
-module.exports.modeConfig = module.exports.quasarElectronConfig
+export const modeConfig = quasarElectronConfig

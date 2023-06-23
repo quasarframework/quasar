@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('../lib/node-version-check.js')
+import '../lib/node-version-check.js'
 
 const commands = [
   'dev',
@@ -41,7 +41,7 @@ if (cmd) {
   }
   else {
     if (cmd === '-v' || cmd === '--version') {
-      const { cliPkg } = require('../lib/app-pkg.js')
+      const { cliPkg } = await import('../lib/app-pkg.js')
 
       console.log(
         `${ cliPkg.name } ${ cliPkg.version }`
@@ -51,7 +51,7 @@ if (cmd) {
       process.exit(0)
     }
 
-    const { log, warn } = require('../lib/utils/logger.js')
+    const { log, warn } = await import('../lib/utils/logger.js')
 
     if (cmd === '-h' || cmd === '--help') {
       cmd = 'help'
@@ -66,8 +66,9 @@ if (cmd) {
       const exit = process.exit
       process.exit = (code, reason) => {
         if (reason === 'ext-missing') {
-          require('../lib/cmd/help.js')
-          exit(0)
+          import('../lib/cmd/help.js').then(() => {
+            exit(0)
+          })
         }
         else {
           exit(code)
@@ -82,4 +83,4 @@ else {
   cmd = 'help'
 }
 
-require(`../lib/cmd/${ cmd }.js`)
+import(`../lib/cmd/${ cmd }.js`)

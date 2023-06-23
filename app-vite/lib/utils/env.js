@@ -1,17 +1,17 @@
 
-const { existsSync, readFileSync } = require('node:fs')
-const { join, isAbsolute } = require('node:path')
-const { parse: dotEnvParse } = require('dotenv')
-const { expand: dotEnvExpand } = require('dotenv-expand')
+import { existsSync, readFileSync } from 'node:fs'
+import { join, isAbsolute } from 'node:path'
+import { parse as dotEnvParse } from 'dotenv'
+import { expand as dotEnvExpand } from 'dotenv-expand'
 
-const appPaths = require('../app-paths.js')
+import appPaths from '../app-paths.js'
 let cachedFileEnv = null
 
 /**
  * Get the raw env definitions from the host
  * project env files.
  */
-module.exports.readFileEnv = function readFileEnv ({
+export function readFileEnv ({
   quasarMode,
   buildType,
   envFolder = appPaths.appDir,
@@ -103,7 +103,7 @@ module.exports.readFileEnv = function readFileEnv ({
  * Get the final env definitions to supply to
  * the build system (Vite or Esbuild).
  */
-module.exports.getBuildSystemDefine = function getBuildSystemDefine ({
+export function getBuildSystemDefine ({
   fileEnv = {},
   buildEnv = {},
   buildRawDefine = {}

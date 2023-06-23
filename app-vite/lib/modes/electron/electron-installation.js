@@ -1,22 +1,21 @@
-const fs = require('node:fs')
-const fse = require('fs-extra')
+import fs from 'node:fs'
+import fse from 'fs-extra'
 
-const appPaths = require('../../app-paths.js')
-const { log, warn } = require('../../utils/logger.js')
-const { nodePackager } = require('../../utils/node-packager.js')
-const { hasTypescript } = require('../../utils/has-typescript.js')
-const { bundlerIsInstalled } = require('./bundler.js')
+import appPaths from '../../app-paths.js'
+import { log, warn } from '../../utils/logger.js'
+import { nodePackager } from '../../utils/node-packager.js'
+import { hasTypescript } from '../../utils/has-typescript.js'
+import { bundlerIsInstalled } from './bundler.js'
 
 const electronDeps = {
   electron: 'latest'
 }
 
-function isModeInstalled () {
+export function isModeInstalled () {
   return fs.existsSync(appPaths.electronDir)
 }
-module.exports.isModeInstalled = isModeInstalled
 
-module.exports.addMode = function addMode (silent) {
+export function addMode (silent) {
   if (isModeInstalled()) {
     if (silent !== true) {
       warn('Electron support detected already. Aborting.')
@@ -50,7 +49,7 @@ module.exports.addMode = function addMode (silent) {
   log('Electron support was added')
 }
 
-module.exports.removeMode = function removeMode () {
+export function removeMode () {
   if (!isModeInstalled()) {
     warn('No Electron support detected. Aborting.')
     return

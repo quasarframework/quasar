@@ -1,35 +1,34 @@
-const appPaths = require('../app-paths.js')
-const { fatal } = require('./logger.js')
 
-module.exports.getApi = async function getApi (item) {
+import fs from 'node:fs'
+import path from 'node:path'
+import { createRequire } from 'node:module'
+
+import { fatal } from './logger.js'
+import { getPackage } from './get-package.js'
+import appPaths from '../app-paths.js'
+
+const require = createRequire(import.meta.url)
+
+export async function getApi (item) {
   try {
-    const api = require(
-      require.resolve(`quasar/dist/api/${ item }.json`, {
-        paths: [ appPaths.appDir ]
-      })
-    )
-    return {
-      api
+    const api = await getPackage(`quasar/dist/api/${ item }.json`)
+    if (api !== void 0) {
+      return { api }
     }
   }
-  catch (_) {
-    /* do nothing */
-  }
+  catch (e) {}
 
-  const { extensionJson } = require('../app-extension/extension-json.js')
+  const { extensionJson } = await import('../app-extension/extension-json.js')
   const extensions = Object.keys(extensionJson.getList())
 
   if (extensions.length > 0) {
-    const { Extension } = require('../app-extension/Extension.js')
+    const { Extension } = await import('../app-extension/Extension.js')
 
     for (const ext of extensions) {
       const instance = new Extension(ext)
       const hooks = await instance.run({})
 
       if (hooks.describeApi !== void 0 && hooks.describeApi[ item ]) {
-        const fs = require('node:fs')
-        const path = require('node:path')
-
         let file
         const {
           callerPath,
@@ -45,7 +44,7 @@ module.exports.getApi = async function getApi (item) {
               }
             )
           }
-          catch (e) {
+          catch (_) {
             fatal(`Extension(${ instance.extId }): registerDescribeApi - there is no package "${ file }" installed`)
           }
         }
@@ -59,7 +58,9 @@ module.exports.getApi = async function getApi (item) {
 
         try {
           return {
-            api: require(file),
+            api: JSON.parse(
+              fs.readFileSync(file, 'utf-8')
+            ),
             supplier: instance.extId
           }
         }

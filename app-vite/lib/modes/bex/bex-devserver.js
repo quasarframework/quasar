@@ -1,15 +1,15 @@
 
-const debounce = require('lodash/debounce.js')
-const chokidar = require('chokidar')
-const { copySync } = require('fs-extra')
+import debounce from 'lodash/debounce.js'
+import chokidar from 'chokidar'
+import fse from 'fs-extra'
 
-const appPaths = require('../../app-paths.js')
-const { AppDevserver } = require('../../app-devserver.js')
-const { quasarBexConfig } = require('./bex-config.js')
-const { createManifest, copyBexAssets } = require('./utils.js')
-const { addArtifacts, cleanArtifacts } = require('../../artifacts.js')
+import appPaths from '../../app-paths.js'
+import { AppDevserver } from '../../app-devserver.js'
+import { quasarBexConfig } from './bex-config.js'
+import { createManifest, copyBexAssets } from './utils.js'
+import { addArtifacts, cleanArtifacts } from '../../artifacts.js'
 
-module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevserver {
+export class QuasarModeDevserver extends AppDevserver {
   #uiWatchers = []
   #scriptWatchers = []
 
@@ -137,7 +137,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     const watcher = chokidar.watch(appPaths.publicDir, { ignoreInitial: true })
 
     const copy = debounce(() => {
-      copySync(appPaths.publicDir, quasarConf.build.distDir)
+      fse.copySync(appPaths.publicDir, quasarConf.build.distDir)
       this.printBanner(quasarConf)
     }, 1000)
 

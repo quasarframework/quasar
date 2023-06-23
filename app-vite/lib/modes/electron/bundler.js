@@ -1,7 +1,7 @@
-const { appPkg } = require('../../app-pkg.js')
-const { getPackage } = require('../../utils/get-package.js')
-const { fatal } = require('../../utils/logger.js')
-const { nodePackager } = require('../../utils/node-packager.js')
+import { appPkg } from '../../app-pkg.js'
+import { getPackage } from '../../utils/get-package.js'
+import { fatal } from '../../utils/logger.js'
+import { nodePackager } from '../../utils/node-packager.js'
 
 const versions = {
   packager: '17.1.1',
@@ -19,7 +19,7 @@ function installBundler (bundlerName) {
   )
 }
 
-function bundlerIsInstalled (bundlerName) {
+export function bundlerIsInstalled (bundlerName) {
   const pgkName = `electron-${ bundlerName }`
   return (
     (appPkg.devDependencies && appPkg.devDependencies[ pgkName ])
@@ -27,9 +27,7 @@ function bundlerIsInstalled (bundlerName) {
   ) !== void 0
 }
 
-module.exports.bundlerIsInstalled = bundlerIsInstalled
-
-module.exports.ensureInstall = function ensureInstall (bundlerName) {
+export function ensureInstall (bundlerName) {
   if (!isValidName(bundlerName)) {
     fatal(`Unknown bundler "${ bundlerName }" for Electron`)
   }
@@ -39,7 +37,7 @@ module.exports.ensureInstall = function ensureInstall (bundlerName) {
   }
 }
 
-module.exports.getDefaultName = function getDefaultName () {
+export function getDefaultName () {
   if (bundlerIsInstalled('packager')) {
     return 'packager'
   }
@@ -51,6 +49,6 @@ module.exports.getDefaultName = function getDefaultName () {
   return 'packager'
 }
 
-module.exports.getBundler = function getBundler (bundlerName) {
+export function getBundler (bundlerName) {
   return getPackage(`electron-${ bundlerName }`)
 }

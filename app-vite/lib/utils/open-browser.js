@@ -1,8 +1,9 @@
-const { log, warn } = require('./logger.js')
 
-module.exports.openBrowser = function openBrowser ({ url, opts, wait = true }) {
-  const open = require('open')
+import open from 'open'
 
+import { log, warn } from './logger.js'
+
+export function openBrowser ({ url, opts, wait = true }) {
   const openDefault = () => {
     log('Opening default browser at ' + url + '\n')
 

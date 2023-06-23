@@ -1,18 +1,19 @@
 
-const fs = require('node:fs')
-const fse = require('fs-extra')
+import fs from 'node:fs'
+import fse from 'fs-extra'
+import inquirer from 'inquirer'
 
-const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
-const { log, warn, fatal } = require('../../utils/logger.js')
-const { spawnSync } = require('../../utils/spawn.js')
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { log, warn, fatal } from '../../utils/logger.js'
+import { spawnSync } from '../../utils/spawn.js'
+import { ensureWWW, ensureConsistency } from './ensure-consistency.js'
 
-function isModeInstalled () {
+export function isModeInstalled () {
   return fs.existsSync(appPaths.cordovaDir)
 }
-module.exports.isModeInstalled = isModeInstalled
 
-module.exports.addMode = async function addMode (silent, target) {
+export async function addMode (silent, target) {
   if (isModeInstalled()) {
     if (target) {
       addPlatform(target)
@@ -34,8 +35,6 @@ module.exports.addMode = async function addMode (silent, target) {
     return
   }
 
-  const inquirer = require('inquirer')
-
   console.log()
   const answer = await inquirer.prompt([ {
     name: 'appId',
@@ -56,7 +55,6 @@ module.exports.addMode = async function addMode (silent, target) {
     }
   )
 
-  const { ensureWWW } = require('./ensure-consistency.js')
   ensureWWW(true)
 
   log('Cordova support was installed')
@@ -81,7 +79,7 @@ module.exports.addMode = async function addMode (silent, target) {
   addPlatform(target)
 }
 
-module.exports.removeMode = function removeMode () {
+export function removeMode () {
   if (!isModeInstalled()) {
     warn('No Cordova support detected. Aborting.')
     return
@@ -92,7 +90,6 @@ module.exports.removeMode = function removeMode () {
 }
 
 function addPlatform (target) {
-  const { ensureConsistency } = require('./ensure-consistency.js')
   ensureConsistency()
 
   // if it has the platform

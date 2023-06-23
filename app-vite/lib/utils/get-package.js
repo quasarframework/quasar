@@ -1,14 +1,18 @@
-const appPaths = require('../app-paths.js')
-const { getPackagePath } = require('./get-package-path.js')
+
+import { readFileSync } from 'node:fs'
+
+import appPaths from '../app-paths.js'
+import { getPackagePath } from './get-package-path.js'
 
 /**
  * Import a host package.
  */
-module.exports.getPackage = function getPackage (pkgName, folder = appPaths.appDir) {
+export async function getPackage (pkgName, folder = appPaths.appDir) {
   try {
-    return require(getPackagePath(pkgName, folder))
+    const pkgPath = getPackagePath(pkgName, folder)
+    return pkgPath.endsWith('.json') === true
+      ? JSON.parse(readFileSync(pkgPath, 'utf-8'))
+      : await import(pkgPath)
   }
-  catch (_) {
-    /* do and return nothing */
-  }
+  catch (e) {}
 }

@@ -2,9 +2,9 @@ if (process.env.NODE_ENV === void 0) {
   process.env.NODE_ENV = 'development'
 }
 
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
-const { log } = require('../utils/logger.js')
+import { log } from '../utils/logger.js'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -75,19 +75,21 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { ensureArgv } = require('../utils/ensure-argv.js')
+import { ensureArgv } from '../utils/ensure-argv.js'
 ensureArgv(argv, 'dev')
 
+import { readFileSync } from 'node:fs'
+
 console.log(
-  require('node:fs').readFileSync(
-    require('node:path').join(__dirname, '../../assets/logo.art'),
+  readFileSync(
+    new URL('../../assets/logo.art', import.meta.url),
     'utf8'
   )
 )
 
-function startVueDevtools () {
-  const { spawn } = require('../utils/spawn.js')
-  const { getPackagePath } = require('../utils/get-package-path.js')
+async function startVueDevtools () {
+  const { spawn } = await import('../utils/spawn.js')
+  const { getPackagePath } = await import('../utils/get-package-path.js')
 
   let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
 
@@ -101,7 +103,7 @@ function startVueDevtools () {
     return
   }
 
-  const { nodePackager } = require('../utils/node-packager.js')
+  const { nodePackager } = await import('../utils/node-packager.js')
 
   nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
@@ -114,70 +116,68 @@ function startVueDevtools () {
   })
 }
 
-async function goLive () {
-  // install mode if it's missing
-  const { addMode } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
-  await addMode(true, argv.target)
+// install mode if it's missing
+const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+await addMode(true, argv.target)
 
-  const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
-  const ctx = getQuasarCtx({
-    mode: argv.mode,
-    target: argv.target,
-    emulator: argv.emulator,
-    dev: true,
-    vueDevtools: argv.devtools
-  })
+import { getQuasarCtx } from '../utils/get-quasar-ctx.js'
+const ctx = getQuasarCtx({
+  mode: argv.mode,
+  target: argv.target,
+  emulator: argv.emulator,
+  dev: true,
+  vueDevtools: argv.devtools
+})
 
-  // register app extensions
-  const { extensionRunner } = require('../app-extension/extensions-runner.js')
-  await extensionRunner.registerExtensions(ctx)
+// register app extensions
+import { extensionRunner } from '../app-extension/extensions-runner.js'
+await extensionRunner.registerExtensions(ctx)
 
-  const { QuasarConfFile } = require('../quasar-config-file.js')
-  const quasarConfFile = new QuasarConfFile({
-    ctx,
-    port: argv.port,
-    host: argv.hostname,
-    watch: quasarConf => {
-      log('Applying quasar.config file changes...')
-      devServer.run(quasarConf)
-    }
-  })
+import { QuasarConfFile } from '../quasar-config-file.js'
+const quasarConfFile = new QuasarConfFile({
+  ctx,
+  port: argv.port,
+  host: argv.hostname,
+  watch: quasarConf => {
+    log('Applying quasar.config file changes...')
+    devServer.run(quasarConf)
+  }
+})
 
-  const quasarConf = await quasarConfFile.read()
+await quasarConfFile.init()
 
-  const { regenerateTypesFeatureFlags } = require('../utils/types-feature-flags.js')
-  regenerateTypesFeatureFlags(quasarConf)
+const quasarConf = await quasarConfFile.read()
 
-  if (quasarConf.metaConf.vueDevtools !== false) {
-    await startVueDevtools()
+import { regenerateTypesFeatureFlags } from '../utils/types-feature-flags.js'
+await regenerateTypesFeatureFlags(quasarConf)
+
+if (quasarConf.metaConf.vueDevtools !== false) {
+  await startVueDevtools()
+}
+
+const { QuasarModeDevserver } = await import(`../modes/${ argv.mode }/${ argv.mode }-devserver.js`)
+const devServer = new QuasarModeDevserver({ argv, ctx, quasarConf })
+
+if (typeof quasarConf.build.beforeDev === 'function') {
+  await quasarConf.build.beforeDev({ quasarConf })
+}
+
+// run possible beforeDev hooks
+await extensionRunner.runHook('beforeDev', async hook => {
+  log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
+  await hook.fn(hook.api, { quasarConf })
+})
+
+devServer.run(quasarConf).then(async () => {
+  if (typeof quasarConf.build.afterDev === 'function') {
+    await quasarConf.build.afterDev({ quasarConf })
   }
 
-  const { QuasarModeDevserver } = require(`../modes/${ argv.mode }/${ argv.mode }-devserver.js`)
-  const devServer = new QuasarModeDevserver({ argv, ctx, quasarConf })
-
-  if (typeof quasarConf.build.beforeDev === 'function') {
-    await quasarConf.build.beforeDev({ quasarConf })
-  }
-
-  // run possible beforeDev hooks
-  await extensionRunner.runHook('beforeDev', async hook => {
-    log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
+  // run possible afterDev hooks
+  await extensionRunner.runHook('afterDev', async hook => {
+    log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
 
-  devServer.run(quasarConf).then(async () => {
-    if (typeof quasarConf.build.afterDev === 'function') {
-      await quasarConf.build.afterDev({ quasarConf })
-    }
-
-    // run possible afterDev hooks
-    await extensionRunner.runHook('afterDev', async hook => {
-      log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
-      await hook.fn(hook.api, { quasarConf })
-    })
-
-    quasarConfFile.watch()
-  })
-}
-
-goLive()
+  quasarConfFile.watch()
+})

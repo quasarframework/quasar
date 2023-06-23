@@ -1,10 +1,10 @@
-const fs = require('node:fs')
-const et = require('elementtree')
+import fs from 'node:fs'
+import et from 'elementtree'
 
-const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
-const { log, warn } = require('../../utils/logger.js')
-const { ensureConsistency } = require('./ensure-consistency.js')
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { log, warn } from '../../utils/logger.js'
+import { ensureConsistency } from './ensure-consistency.js'
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
@@ -36,7 +36,7 @@ function setFields (root, cfg) {
   })
 }
 
-module.exports.CordovaConfigFile = class CordovaConfigFile {
+export class CordovaConfigFile {
   #appURL
   #tamperedFiles
 

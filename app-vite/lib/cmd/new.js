@@ -1,13 +1,13 @@
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
-const path = require('node:path')
-const fs = require('node:fs')
-const fse = require('fs-extra')
+import path from 'node:path'
+import fs from 'node:fs'
+import fse from 'fs-extra'
 
-const appPaths = require('../app-paths.js')
-const { log, warn } = require('../utils/logger.js')
-const { storeProvider } = require('../utils/store-provider.js')
-const { hasTypescript } = require('../utils/has-typescript.js')
+import appPaths from '../app-paths.js'
+import { log, warn } from '../utils/logger.js'
+import { storeProvider } from '../utils/store-provider.js'
+import { hasTypescript } from '../utils/has-typescript.js'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

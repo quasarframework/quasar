@@ -1,18 +1,19 @@
-const fs = require('fs-extra')
-const path = require('node:path')
-const { merge } = require('webpack-merge')
-const semver = require('semver')
+import fs from 'fs-extra'
+import path from 'node:path'
+import { merge } from 'webpack-merge'
+import semver from 'semver'
 
-const { warn, fatal } = require('../utils/logger.js')
-const { getPackageJson } = require('../utils/get-package-json.js')
-const { getCallerPath } = require('../utils/get-caller-path.js')
-const { extensionJson } = require('./extension-json.js')
-const { BaseAPI } = require('./BaseAPI.js')
+import { appPkg } from '../app-pkg.js'
+import { warn, fatal } from '../utils/logger.js'
+import { getPackageJson } from '../utils/get-package-json.js'
+import { getCallerPath } from '../utils/get-caller-path.js'
+import { extensionJson } from './extension-json.js'
+import { BaseAPI } from './BaseAPI.js'
 
 /**
  * API for extension's /install.js script
  */
-module.exports.InstallAPI = class InstallAPI extends BaseAPI {
+export class InstallAPI extends BaseAPI {
   __hooks = {
     renderFolders: [],
     renderFiles: [],
@@ -155,7 +156,9 @@ module.exports.InstallAPI = class InstallAPI extends BaseAPI {
       }
 
       try {
-        extPkg = require(source)
+        extPkg = JSON.parse(
+          fs.readFileSync(source, 'utf-8')
+        )
       }
       catch (e) {
         warn(`Extension(${ this.extId }): extendPackageJson() - "${ extPkg }" is malformed`)
@@ -169,7 +172,7 @@ module.exports.InstallAPI = class InstallAPI extends BaseAPI {
     }
 
     const filePath = this.resolve.app('package.json')
-    const pkg = merge({}, require(filePath), extPkg)
+    const pkg = merge({}, appPkg, extPkg)
 
     fs.writeFileSync(
       filePath,
@@ -205,7 +208,7 @@ module.exports.InstallAPI = class InstallAPI extends BaseAPI {
       //  for example JSON with comments or JSON5.
       // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
       try {
-        const data = merge({}, fs.existsSync(filePath) ? require(filePath) : {}, newData)
+        const data = merge({}, fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, 'utf-8')) : {}, newData)
 
         fs.writeFileSync(
           this.resolve.app(file),

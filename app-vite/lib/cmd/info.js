@@ -1,7 +1,7 @@
-const parseArgs = require('minimist')
-const { green, gray } = require('kolorist')
+import parseArgs from 'minimist'
+import { green, gray } from 'kolorist'
 
-const { getPackageJson } = require('../utils/get-package-json.js')
+import { getPackageJson } from '../utils/get-package-json.js'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -24,14 +24,14 @@ if (argv.help) {
   process.exit(0)
 }
 
-const os = require('node:os')
-const spawn = require('cross-spawn').sync
+import os from 'node:os'
+import { sync as spawnSync } from 'cross-spawn'
 
-const appPaths = require('../app-paths.js')
+import appPaths from '../app-paths.js'
 
 function getSpawnOutput (command) {
   try {
-    const child = spawn(command, [ '--version' ])
+    const child = spawnSync(command, [ '--version' ])
     return child.status === 0
       ? green(String(child.output[ 1 ]).trim())
       : gray('Not installed')
@@ -99,11 +99,11 @@ print({ key: 'Important local packages', section: true })
 
 print({ key: 'Quasar App Extensions', section: true })
 
-const { extensionJson } = require('../app-extension/extension-json.js')
+import { extensionJson } from '../app-extension/extension-json.js'
 const extensions = Object.keys(extensionJson.getList())
 
 if (extensions.length > 0) {
-  const { Extension } = require('../app-extension/Extension.js')
+  const { Extension } = await import('../app-extension/Extension.js')
   extensions.forEach(ext => {
     const instance = new Extension(ext)
     print(safePkgInfo(instance.packageName))
@@ -116,8 +116,8 @@ else {
 print({ key: 'Networking', section: true })
 print({ key: '  Host', value: green(os.hostname()) })
 
-const getExternalIPs = require('../utils/net.js').getExternalNetworkInterface
-getExternalIPs().forEach(intf => {
+import { getExternalNetworkInterface } from '../utils/net.js'
+getExternalNetworkInterface().forEach(intf => {
   print({
     key: `  ${ intf.deviceName }`,
     value: green(intf.address)

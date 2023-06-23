@@ -1,13 +1,13 @@
 
-const { createFilter } = require('@rollup/pluginutils')
-const { resolve } = require('node:path')
-const { removeSync } = require('fs-extra')
+import { createFilter } from '@rollup/pluginutils'
+import { resolve } from 'node:path'
+import fse from 'fs-extra'
 
-const appPaths = require('./app-paths.js')
-const { encodeForDiff } = require('./utils/encode-for-diff.js')
-const { getPackage } = require('./utils/get-package.js')
+import appPaths from './app-paths.js'
+import { encodeForDiff } from './utils/encode-for-diff.js'
+import { getPackage } from './utils/get-package.js'
 
-const { ESLint } = getPackage('eslint')
+const { ESLint } = await getPackage('eslint')
 
 let optionsCache = null
 let store = {}
@@ -46,7 +46,7 @@ function extractStore ({
     )
 
     if (quasarConf.build.rebuildCache === true) {
-      removeSync(eslintOptions.cacheLocation)
+      fse.removeSync(eslintOptions.cacheLocation)
     }
   }
 
@@ -75,7 +75,7 @@ function extractStore ({
   }
 }
 
-module.exports.getLinter = function getLinter (quasarConf, cacheSuffix) {
+export function getLinter (quasarConf, cacheSuffix) {
   const { eslint } = quasarConf
   const cache = encodeForDiff(eslint)
 

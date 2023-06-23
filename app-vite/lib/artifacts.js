@@ -1,10 +1,11 @@
-const fs = require('node:fs')
-const path = require('node:path')
-const fse = require('fs-extra')
+import fs from 'node:fs'
+import path from 'node:path'
+import fse from 'fs-extra'
 
-const appPaths = require('./app-paths.js')
+import appPaths from './app-paths.js'
+import { log } from './utils/logger.js'
+
 const filePath = appPaths.resolve.app('.quasar/artifacts.json')
-const { log } = require('./utils/logger.js')
 
 function exists () {
   return fs.existsSync(filePath)
@@ -12,19 +13,16 @@ function exists () {
 
 function getArtifacts () {
   return exists()
-    ? require(filePath)
+    ? JSON.parse(fs.readFileSync(filePath, 'utf-8'))
     : { folders: [] }
 }
 
 function save (content) {
   fse.mkdirp(path.dirname(filePath))
   fs.writeFileSync(filePath, JSON.stringify(content), 'utf-8')
-
-  // clear require cache so subsequent reads will get the updated content
-  delete require.cache[ filePath ]
 }
 
-module.exports.addArtifacts = function addArtifacts (entry) {
+export function addArtifacts (entry) {
   const content = getArtifacts()
 
   // add folder if it doesn't exist
@@ -40,7 +38,7 @@ module.exports.addArtifacts = function addArtifacts (entry) {
   }
 }
 
-module.exports.cleanArtifacts = function cleanArtifacts (folder) {
+export function cleanArtifacts (folder) {
   if (folder.endsWith(path.join('src-cordova', 'www'))) {
     fse.emptyDirSync(folder)
   }
@@ -56,7 +54,7 @@ module.exports.cleanArtifacts = function cleanArtifacts (folder) {
   }
 }
 
-module.exports.cleanAllArtifacts = function cleanAllArtifacts () {
+export function cleanAllArtifacts () {
   getArtifacts().folders.forEach(folder => {
     if (folder.endsWith(path.join('src-cordova', 'www'))) {
       fse.emptyDirSync(folder)

@@ -1,10 +1,10 @@
-const fs = require('node:fs')
-const { normalize, join, sep } = require('node:path')
-const { sync: crossSpawnSync } = require('cross-spawn')
+import fs from 'node:fs'
+import { normalize, join, sep } from 'node:path'
+import { sync as crossSpawnSync } from 'cross-spawn'
 
-const appPaths = require('../app-paths.js')
-const { log, fatal } = require('./logger.js')
-const { spawnSync } = require('./spawn.js')
+import appPaths from '../app-paths.js'
+import { log, fatal } from './logger.js'
+import { spawnSync } from './spawn.js'
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
@@ -317,7 +317,7 @@ function getProjectPackageManager (folder) {
 /**
  * @returns {PackageManager}
  */
-function getNodePackager (folder = appPaths.appDir) {
+export function getNodePackager (folder = appPaths.appDir) {
   const projectPackageManager = getProjectPackageManager(folder)
 
   // if the project folder uses a supported package manager
@@ -336,5 +336,4 @@ function getNodePackager (folder = appPaths.appDir) {
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
 
-module.exports.nodePackager = getNodePackager()
-module.exports.getNodePackager = getNodePackager
+export const nodePackager = getNodePackager()

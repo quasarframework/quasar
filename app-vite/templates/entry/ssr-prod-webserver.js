@@ -5,17 +5,17 @@
  **/
 
 import { join, basename } from 'node:path'
+import { readFileSync } from 'node:fs'
 import { renderToString } from 'vue/server-renderer'
 <% if (store && ssr.manualStoreSerialization !== true) { %>
 import serialize from 'serialize-javascript'
 <% } %>
 
-import renderTemplate from './render-template.js'
-import clientManifest from './quasar.manifest.json'
-import serverEntry from './server/server-entry.js'
+import renderTemplate from './render-template.cjs'
+import serverEntry from './server/server-entry.mjs'
 
 import { create, listen, renderPreloadTag, serveStaticContent } from '../src-ssr/server'
-import injectMiddlewares from './ssr-middlewares.js'
+import injectMiddlewares from './ssr-middlewares'
 
 const port = process.env.PORT || <%= ssr.prodPort %>
 
@@ -25,8 +25,14 @@ const resolveUrlPath = publicPath === '/'
   ? url => url || '/'
   : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
-const rootFolder = __dirname
-const publicFolder = join(__dirname, 'client')
+const rootFolder = new URL('.', import.meta.url).pathname
+const publicFolder = join(rootFolder, 'client')
+
+const clientManifest = JSON.parse(
+  readFileSync(join(rootFolder, './quasar.manifest.json'),
+  'utf-8'
+  )
+)
 
 function resolvePublicFolder () {
   return join(publicFolder, ...arguments)

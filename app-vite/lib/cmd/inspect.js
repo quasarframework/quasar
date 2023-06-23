@@ -1,4 +1,4 @@
-const parseArgs = require('minimist')
+import parseArgs from 'minimist'
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -45,14 +45,14 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { ensureArgv } = require('../utils/ensure-argv.js')
+import { ensureArgv } from '../utils/ensure-argv.js'
 ensureArgv(argv, 'inspect')
 
-const { displayBanner } = require('../utils/banner-global.js')
+import { displayBanner } from '../utils/banner-global.js'
 displayBanner(argv, argv.cmd)
 
-const { log, fatal } = require('../utils/logger.js')
-const { isModeInstalled } = require(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+import { log, fatal } from '../utils/logger.js'
+const { isModeInstalled } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
 
 if (isModeInstalled() !== true) {
   fatal('Requested mode for inspection is NOT installed.')
@@ -60,78 +60,76 @@ if (isModeInstalled() !== true) {
 
 const depth = parseInt(argv.depth, 10) || Infinity
 
-async function inspect () {
-  const { getQuasarCtx } = require('../utils/get-quasar-ctx.js')
-  const ctx = getQuasarCtx({
-    mode: argv.mode,
-    target: argv.mode === 'cordova' || argv.mode === 'capacitor'
-      ? 'android'
-      : void 0,
-    debug: argv.debug,
-    dev: argv.cmd === 'dev',
-    prod: argv.cmd === 'build'
-  })
+import { getQuasarCtx } from '../utils/get-quasar-ctx.js'
+const ctx = getQuasarCtx({
+  mode: argv.mode,
+  target: argv.mode === 'cordova' || argv.mode === 'capacitor'
+    ? 'android'
+    : void 0,
+  debug: argv.debug,
+  dev: argv.cmd === 'dev',
+  prod: argv.cmd === 'build'
+})
 
-  const { extensionRunner } = require('../app-extension/extensions-runner.js')
-  await extensionRunner.registerExtensions(ctx)
+import { extensionRunner } from '../app-extension/extensions-runner.js'
+await extensionRunner.registerExtensions(ctx)
 
-  const { QuasarConfFile } = require('../quasar-config-file.js')
-  const quasarConfFile = new QuasarConfFile({
-    ctx,
-    port: argv.port,
-    host: argv.hostname
-  })
+import { QuasarConfFile } from '../quasar-config-file.js'
+const quasarConfFile = new QuasarConfFile({
+  ctx,
+  port: argv.port,
+  host: argv.hostname
+})
 
-  const quasarConf = await quasarConfFile.read()
+await quasarConfFile.init()
 
-  const { modeConfig } = require(`../modes/${ argv.mode }/${ argv.mode }-config.js`)
+const quasarConf = await quasarConfFile.read()
 
-  const cfgEntries = []
-  let threadList = Object.keys(modeConfig)
+const { modeConfig } = await import(`../modes/${ argv.mode }/${ argv.mode }-config.js`)
 
-  if (argv.thread) {
-    if (threadList.includes(argv.thread) === false) {
-      fatal('Requested thread for inspection is NOT available for selected mode.')
-    }
+const cfgEntries = []
+let threadList = Object.keys(modeConfig)
 
-    threadList = [ argv.thread ]
+if (argv.thread) {
+  if (threadList.includes(argv.thread) === false) {
+    fatal('Requested thread for inspection is NOT available for selected mode.')
   }
 
-  for (const name of threadList) {
-    cfgEntries.push({
-      name,
-      object: await modeConfig[ name ](quasarConf)
-    })
-  }
-
-  if (argv.path) {
-    const dot = require('dot-prop')
-    cfgEntries.forEach(cfgEntry => {
-      cfgEntry.object = dot.get(cfgEntry.object, argv.path)
-    })
-  }
-
-  const util = require('node:util')
-
-  cfgEntries.forEach(cfgEntry => {
-    const tool = cfgEntry.object.configFile !== void 0
-      ? 'Vite'
-      : 'esbuild'
-
-    console.log()
-    log(`Showing "${ cfgEntry.name }" config (for ${ tool }) with depth of ${ depth }`)
-    console.log()
-    console.log(
-      util.inspect(cfgEntry.object, {
-        showHidden: true,
-        depth,
-        colors: true,
-        compact: false
-      })
-    )
-  })
-
-  console.log(`\n  Depth used: ${ depth }. You can change it with "-d" / "--depth" parameter.\n`)
+  threadList = [ argv.thread ]
 }
 
-inspect()
+for (const name of threadList) {
+  cfgEntries.push({
+    name,
+    object: await modeConfig[ name ](quasarConf)
+  })
+}
+
+if (argv.path) {
+  const dot = await import('dot-prop')
+  cfgEntries.forEach(cfgEntry => {
+    cfgEntry.object = dot.get(cfgEntry.object, argv.path)
+  })
+}
+
+import util from 'node:util'
+
+cfgEntries.forEach(cfgEntry => {
+  const tool = cfgEntry.object.configFile !== void 0
+    ? 'Vite'
+    : 'esbuild'
+
+  console.log()
+  log(`Showing "${ cfgEntry.name }" config (for ${ tool }) with depth of ${ depth }`)
+  console.log()
+  console.log(
+    util.inspect(cfgEntry.object, {
+      showHidden: true,
+      depth,
+      colors: true,
+      compact: false
+    })
+  )
+})
+
+console.log(`\n  Depth used: ${ depth }. You can change it with "-d" / "--depth" parameter.\n`)

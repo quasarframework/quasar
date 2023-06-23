@@ -1,11 +1,11 @@
 
-const { build: viteBuild } = require('vite')
-const { build: esBuild, context: esContextBuild } = require('esbuild')
+import { build as viteBuild } from 'vite'
+import { build as esBuild, context as esContextBuild } from 'esbuild'
 
-const { cleanArtifacts } = require('./artifacts.js')
-const { progress } = require('./utils/logger.js')
+import { cleanArtifacts } from './artifacts.js'
+import { progress } from './utils/logger.js'
 
-module.exports.AppTool = class AppTool {
+export class AppTool {
   argv
 
   constructor (argv) {

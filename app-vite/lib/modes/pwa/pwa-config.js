@@ -1,19 +1,19 @@
 
-const { join } = require('node:path')
+import { join } from 'node:path'
 
-const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
-const { escapeRegexString } = require('../../utils/escape-regex-string.js')
-const {
+import appPaths from '../../app-paths.js'
+import { appPkg } from '../../app-pkg.js'
+import { escapeRegexString } from '../../utils/escape-regex-string.js'
+import {
   createViteConfig, extendViteConfig,
   createBrowserEsbuildConfig, extendEsbuildConfig
-} = require('../../config-tools.js')
+} from '../../config-tools.js'
 
-const { quasarVitePluginPwaResources } = require('./vite-plugin.pwa-resources.js')
+import { quasarVitePluginPwaResources } from './vite-plugin.pwa-resources.js'
 
-module.exports.quasarPwaConfig = {
-  vite: quasarConf => {
-    const cfg = createViteConfig(quasarConf)
+export const quasarPwaConfig = {
+  vite: async quasarConf => {
+    const cfg = await createViteConfig(quasarConf)
 
     // also update ssr-config.js when changing here
     cfg.plugins.push(
@@ -121,8 +121,8 @@ module.exports.quasarPwaConfig = {
   },
 
   // exported to ssr-config.js as well
-  customSw: quasarConf => {
-    const cfg = createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
+  customSw: async quasarConf => {
+    const cfg = await createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
 
     cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = JSON.stringify(
       quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
@@ -137,4 +137,4 @@ module.exports.quasarPwaConfig = {
   }
 }
 
-module.exports.modeConfig = module.exports.quasarPwaConfig
+export const modeConfig = quasarPwaConfig

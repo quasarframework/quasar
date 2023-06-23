@@ -1,11 +1,12 @@
 
-const compileTemplate = require('lodash/template.js')
-const { minify } = require('html-minifier')
+import compileTemplate from 'lodash/template.js'
+import { minify } from 'html-minifier'
 
 const absoluteUrlRE = /^(https?:\/\/|\/)/i
-const entryPointMarkup = '<!-- quasar:entry-point -->'
 const entryScript = '<script type="module" src="/.quasar/client-entry.js"></script>'
-const attachMarkup = '<div id="q-app"></div>'
+
+export const entryPointMarkup = '<!-- quasar:entry-point -->'
+export const attachMarkup = '<div id="q-app"></div>'
 
 const minifyOptions = {
   removeComments: true,
@@ -73,10 +74,7 @@ function injectRuntimeInterpolation (html) {
     )
 }
 
-module.exports.entryPointMarkup = entryPointMarkup
-module.exports.attachMarkup = attachMarkup
-
-module.exports.transformHtml = function (template, quasarConf) {
+export function transformHtml (template, quasarConf) {
   const { publicPath } = quasarConf.build
   const compiled = compileTemplate(template)
 
@@ -105,7 +103,7 @@ module.exports.transformHtml = function (template, quasarConf) {
  * Used by production SSR only.
  * Gets index.html generated content as param.
  */
-module.exports.transformProdSsrPwaOfflineHtml = function (html, quasarConf) {
+export function transformProdSsrPwaOfflineHtml (html, quasarConf) {
   html = html.replace(
     entryPointMarkup,
     attachMarkup
@@ -128,7 +126,7 @@ module.exports.transformProdSsrPwaOfflineHtml = function (html, quasarConf) {
  * html = await vite.transformIndexHtml(html)
  * html = html.replace('<!-- quasar:entry-point -->', '<div id="q-app">...</div>')
  */
-module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
+export function getDevSsrTemplateFn (template, quasarConf) {
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
@@ -157,7 +155,7 @@ module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
  * // ... at runtime:
  * const html = fn(ssrContext)
  */
-module.exports.getProdSsrTemplateFn = function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
+export function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
   let html = injectRuntimeInterpolation(viteHtmlContent)
 
   html = html.replace(

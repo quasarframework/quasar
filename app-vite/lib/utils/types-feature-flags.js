@@ -1,20 +1,20 @@
-const path = require('node:path')
-const fs = require('node:fs')
-const fse = require('fs-extra')
+import path from 'node:path'
+import fs from 'node:fs'
+import fse from 'fs-extra'
 
-const { log } = require('./logger.js')
-const appPaths = require('../app-paths.js')
+import { log } from './logger.js'
+import appPaths from '../app-paths.js'
 
 function getStoreFlagPath (storeIndexPath) {
   return path.join(path.parse(storeIndexPath).dir, 'store-flag.d.ts')
 }
 
-function isInstalled (mode) {
-  const { isModeInstalled } = require(`../modes/${ mode }/${ mode }-installation.js`)
+async function isInstalled (mode) {
+  const { isModeInstalled } = await import(`../modes/${ mode }/${ mode }-installation.js`)
   return isModeInstalled()
 }
 
-module.exports.regenerateTypesFeatureFlags = function regenerateTypesFeatureFlags (quasarConf) {
+export async function regenerateTypesFeatureFlags (quasarConf) {
   // Flags must be available even in pure JS codebases,
   //    because boot and configure wrappers functions files will
   //    provide autocomplete based on them also to JS users
@@ -36,7 +36,7 @@ module.exports.regenerateTypesFeatureFlags = function regenerateTypesFeatureFlag
           appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
         ]
       : [
-          isInstalled(feature),
+          await isInstalled(feature),
           appPaths.resolve.cli(`templates/${ feature }/${ feature }-flag.d.ts`),
           appPaths.resolve[ feature ](`${ feature }-flag.d.ts`)
         ]
