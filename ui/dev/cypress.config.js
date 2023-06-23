@@ -1,6 +1,8 @@
 const registerCodeCoverageTasks = require('@cypress/code-coverage/task')
-const { injectQuasarDevServerConfig } = require('@quasar/quasar-app-extension-testing-e2e-cypress/cct-dev-server')
 const { defineConfig } = require('cypress')
+
+const viteVuePlugin = require('@vitejs/plugin-vue')
+const { quasar, transformAssetUrls } = require('@quasar/vite-plugin')
 
 const moduleAlias = require('module-alias')
 const { join } = require('path')
@@ -47,6 +49,15 @@ module.exports = defineConfig({
     supportFile: '../test/cypress/support/component.js',
     specPattern: '../src/components/**/*.cy.{js,jsx,ts,tsx}',
     indexHtmlFile: '../test/cypress/support/component-index.html',
-    devServer: injectQuasarDevServerConfig()
+    devServer: {
+      framework: 'vue',
+      bundler: 'vite',
+      viteConfig: {
+        plugins: [
+          viteVuePlugin({ template: { transformAssetUrls } }),
+          quasar()
+        ]
+      }
+    }
   }
 })

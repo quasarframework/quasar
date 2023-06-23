@@ -1,6 +1,7 @@
 {
+  "//": "Need a package.json here because Quasar CLI expects it to exist and it will also read it",
   "name": "dev-app",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A Quasar Framework app",
   "productName": "Quasar App",
   "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
@@ -8,12 +9,8 @@
   "scripts": {
     "test": "echo \"No test specified\" && exit 0"
   },
-  "//": "@quasar/app-vite dependency is needed to make Cypress AE app-* detection work, since it reads the project package.json",
-  "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-alpha.2"
-  },
   "engines": {
-    "node": ">= 12.22.1",
+    "node": ">= 16",
     "npm": ">= 6.14.12",
     "yarn": ">= 1.21.1"
   }
