@@ -1,5 +1,5 @@
 <template>
-  <h3>Extended</h3>
+  <h3>Extend Btn</h3>
 
   <q-btn
     v-bind="{
@@ -16,7 +16,7 @@ import { defineComponent } from 'vue'
 import { QBtn } from 'quasar'
 
 export default defineComponent({
-  name: 'ExtendedBtn',
+  name: 'ExtendBtn',
   extends: QBtn,
   props: {
     variant: {

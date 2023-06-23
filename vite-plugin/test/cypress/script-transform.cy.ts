@@ -10,7 +10,7 @@ const types = [
   'mixed-case',
   'mixed-case-with-duplicates',
   'mixed-case-with-duplicates-and-aliased-imports',
-  'extended'
+  'extend-btn'
 ]
 
 describe('Script Transform', () => {

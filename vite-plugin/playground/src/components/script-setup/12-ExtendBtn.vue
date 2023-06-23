@@ -1,5 +1,5 @@
 <template>
-  <h3>Extended</h3>
+  <h3>Extend Btn</h3>
 
   <q-btn
     v-bind="{
