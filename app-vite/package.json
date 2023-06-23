@@ -48,7 +48,7 @@
     "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
   },
   "dependencies": {
-    "@quasar/render-ssr-error": "^1.0.1",
+    "@quasar/render-ssr-error": "^1.0.2",
     "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/vite-plugin": "^1.4.0",
     "@rollup/pluginutils": "^4.1.2",
