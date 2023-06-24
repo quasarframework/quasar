@@ -1,7 +1,7 @@
 const { join } = require('path')
 
 const menu = require('../../src/assets/menu.json')
-const prefix = join(__dirname, '../../src/pages')
+const prefix = join(__dirname, 'src/pages')
 
 let prev = null
 const flatMenu = {}

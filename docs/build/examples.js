@@ -4,13 +4,13 @@ const { sync: fgSync } = require('fast-glob')
 const moduleIdRE = /^examples:/
 const resolvedIdPrefix = '\0examples:'
 
-const targetFolder = join(__dirname, '../src/examples')
+const targetFolder = join(__dirname, 'src/examples')
 
 function devLoad (id) {
   if (id.startsWith(resolvedIdPrefix) === true) {
-    const folder = id.substring(id.indexOf(':') + 1)
-    return `export const code = import.meta.globEager('./src/examples/${folder}/*.vue')` +
-      `\nexport const source = import.meta.globEager('./src/examples/${folder}/*.vue', { as: 'raw' })`
+    const query = `'/src/examples/${ id.substring(id.indexOf(':') + 1) }/*.vue'`
+    return `export const code = import.meta.glob(${ query }, { eager: true })` +
+      `\nexport const source = import.meta.glob(${ query }, { as: 'raw', eager: true })`
   }
 }
 

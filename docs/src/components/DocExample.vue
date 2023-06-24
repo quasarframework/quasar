@@ -139,13 +139,13 @@ process.env.CLIENT && onMounted(() => {
   examples.list.then(list => {
     component.value = markRaw(
       process.env.DEV
-        ? list.code[ `./src/examples/${ examples.name }/${ props.file }.vue` ].default
+        ? list.code[ `/src/examples/${ examples.name }/${ props.file }.vue` ].default
         : list[ props.file ]
     )
 
     parseComponent(
       process.env.DEV
-        ? list.source[ `./src/examples/${ examples.name }/${ props.file }.vue` ]
+        ? list.source[ `/src/examples/${ examples.name }/${ props.file }.vue` ]
         : list[ `Raw${ props.file }` ]
     )
 

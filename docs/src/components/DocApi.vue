@@ -228,7 +228,7 @@ function getApiCount (parsedApi, tabs, innerTabs) {
 }
 
 const getJsonUrl = process.env.DEV === true
-  ? file => `/node_modules/quasar/dist/api/${ file }.json`
+  ? file => `/@fs/${ process.env.FS_QUASAR_FOLDER }/dist/api/${ file }.json`
   : file => `/quasar-api/${ file }.json`
 
 const props = defineProps({

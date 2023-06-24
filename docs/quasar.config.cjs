@@ -1,13 +1,15 @@
 
-const mdPlugin = require('./build/md')
-const examplesPlugin = require('./build/examples')
-const manualChunks = require('./build/chunks')
+import { join } from 'node:path'
+
+import mdPlugin from './build/md/index.js'
+import examplesPlugin from './build/examples.js'
+import manualChunks from './build/chunks.js'
 
 module.exports = ctx => ({
-  eslint: {
-    warnings: true,
-    errors: true
-  },
+  // eslint: {
+  //   warnings: true,
+  //   errors: true
+  // },
 
   boot: [
     { path: 'gdpr', server: false }
@@ -18,6 +20,7 @@ module.exports = ctx => ({
   ],
 
   build: {
+    minify: false,
     vueRouterMode: 'history',
     distDir: 'dist/quasar.dev',
     useFilenameHashes: false,
@@ -26,7 +29,11 @@ module.exports = ctx => ({
 
     env: {
       DOCS_BRANCH: 'dev',
-      SEARCH_INDEX: 'quasar-v2'
+      SEARCH_INDEX: 'quasar-v2',
+      ...(ctx.dev
+        ? { FS_QUASAR_FOLDER: join(__dirname, '../node_modules/quasar').replace('\\', '/') }
+        : {}
+      )
     },
 
     viteVuePluginOptions: {
