@@ -32,7 +32,7 @@ async function parseVitePlugins (entries) {
       //   ctx.dev ? [ ... ] : null,
       //   // ...
       // ]
-      return
+      continue
     }
 
     if (Array.isArray(entry) === false) {
@@ -41,7 +41,7 @@ async function parseVitePlugins (entries) {
       }
 
       acc.push(entry)
-      return
+      continue
     }
 
     const [ name, opts = {} ] = entry
@@ -51,7 +51,7 @@ async function parseVitePlugins (entries) {
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
         name(merge({}, opts))
       )
-      return
+      continue
     }
 
     if (Object(name) === name) {
@@ -59,20 +59,20 @@ async function parseVitePlugins (entries) {
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
         merge({}, name)
       )
-      return
+      continue
     }
 
     if (typeof name !== 'string') {
       warn('quasar.config file > invalid Vite plugin specified: ' + name)
       warn('Correct form: [ \'my-vite-plugin-name\', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]')
-      return
+      continue
     }
 
     const plugin = await getPackage(name)
 
     if (!plugin) {
       warn('quasar.config file > invalid Vite plugin specified (cannot find it): ' + name)
-      return
+      continue
     }
 
     acc.push(
