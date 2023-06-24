@@ -34,7 +34,7 @@
       </q-btn>
 
       <q-btn color="primary" label="Content Style Menu">
-        <q-menu :style="{ backgroundColor: '#eee', color: 'blue'}">
+        <q-menu :style="{ backgroundColor: '#9C27B0', color: 'white'}">
           <q-list style="min-width: 100px">
             <q-item clickable>
               <q-item-section>New tab</q-item-section>
