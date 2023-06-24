@@ -88,26 +88,55 @@ function getAbsoluteAnchorProps (el, absoluteOffset, offset) {
   }
 }
 
-export function getTargetProps (el) {
+function getTargetProps (width, height) {
   return {
     top: 0,
-    center: el.offsetHeight / 2,
-    bottom: el.offsetHeight,
+    center: height / 2,
+    bottom: height,
     left: 0,
-    middle: el.offsetWidth / 2,
-    right: el.offsetWidth
+    middle: width / 2,
+    right: width
   }
 }
 
-function getTopLeftProps (anchorProps, targetProps, cfg) {
+function getTopLeftProps (anchorProps, targetProps, anchorOrigin, selfOrigin) {
   return {
-    top: anchorProps[ cfg.anchorOrigin.vertical ] - targetProps[ cfg.selfOrigin.vertical ],
-    left: anchorProps[ cfg.anchorOrigin.horizontal ] - targetProps[ cfg.selfOrigin.horizontal ]
+    top: anchorProps[ anchorOrigin.vertical ] - targetProps[ selfOrigin.vertical ],
+    left: anchorProps[ anchorOrigin.horizontal ] - targetProps[ selfOrigin.horizontal ]
   }
 }
 
-// cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit, maxHeight, maxWidth }
-export function setPosition (cfg) {
+export function setPosition (cfg, retryNumber = 0) {
+  if (
+    cfg.targetEl === null
+    || cfg.anchorEl === null
+    || retryNumber > 5 // we should try only a few times
+  ) {
+    return
+  }
+
+  // some browsers report zero height or width because
+  // we are trying too early to get these dimensions
+  if (cfg.targetEl.offsetHeight === 0 || cfg.targetEl.offsetWidth === 0) {
+    setTimeout(() => {
+      setPosition(cfg, retryNumber + 1)
+    }, 10)
+    return
+  }
+
+  const {
+    targetEl,
+    offset,
+    anchorEl,
+    anchorOrigin,
+    selfOrigin,
+    absoluteOffset,
+    fit,
+    cover,
+    maxHeight,
+    maxWidth
+  } = cfg
+
   if (client.is.ios === true && window.visualViewport !== void 0) {
     // uses the q-position-engine CSS class
 
@@ -128,45 +157,58 @@ export function setPosition (cfg) {
   // if max-height/-width changes, so we
   // need to restore it after we calculate
   // the new positioning
-  const { scrollLeft, scrollTop } = cfg.el
+  const { scrollLeft, scrollTop } = targetEl
 
-  const anchorProps = cfg.absoluteOffset === void 0
-    ? getAnchorProps(cfg.anchorEl, cfg.cover === true ? [ 0, 0 ] : cfg.offset)
-    : getAbsoluteAnchorProps(cfg.anchorEl, cfg.absoluteOffset, cfg.offset)
+  const anchorProps = absoluteOffset === void 0
+    ? getAnchorProps(anchorEl, cover === true ? [ 0, 0 ] : offset)
+    : getAbsoluteAnchorProps(anchorEl, absoluteOffset, offset)
 
-  let elStyle = {
-    maxHeight: cfg.maxHeight,
-    maxWidth: cfg.maxWidth,
+  // we "reset" the critical CSS properties
+  // so we can take an accurate measurement
+  Object.assign(targetEl.style, {
+    top: 0,
+    left: 0,
+    minWidth: null,
+    minHeight: null,
+    maxWidth: maxWidth || '100vw',
+    maxHeight: maxHeight || '100vh',
     visibility: 'visible'
-  }
+  })
 
-  if (cfg.fit === true || cfg.cover === true) {
+  const { width: origElWidth, height: origElHeight } = targetEl.getBoundingClientRect()
+  const { elWidth, elHeight } = fit === true || cover === true
+    ? { elWidth: Math.max(anchorProps.width, origElWidth), elHeight: cover === true ? Math.max(anchorProps.height, origElHeight) : origElHeight }
+    : { elWidth: origElWidth, elHeight: origElHeight }
+
+  let elStyle = { maxWidth, maxHeight }
+
+  if (fit === true || cover === true) {
     elStyle.minWidth = anchorProps.width + 'px'
-    if (cfg.cover === true) {
+    if (cover === true) {
       elStyle.minHeight = anchorProps.height + 'px'
     }
   }
 
-  Object.assign(cfg.el.style, elStyle)
+  Object.assign(targetEl.style, elStyle)
 
-  const targetProps = getTargetProps(cfg.el)
-  let props = getTopLeftProps(anchorProps, targetProps, cfg)
+  const targetProps = getTargetProps(elWidth, elHeight)
+  let props = getTopLeftProps(anchorProps, targetProps, anchorOrigin, selfOrigin)
 
-  if (cfg.absoluteOffset === void 0 || cfg.offset === void 0) {
-    applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+  if (absoluteOffset === void 0 || offset === void 0) {
+    applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
   }
   else { // we have touch position or context menu with offset
     const { top, left } = props // cache initial values
 
     // apply initial boundaries
-    applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+    applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
 
     let hasChanged = false
 
     // did it flip vertically?
     if (props.top !== top) {
       hasChanged = true
-      const offsetY = 2 * cfg.offset[ 1 ]
+      const offsetY = 2 * offset[ 1 ]
       anchorProps.center = anchorProps.top -= offsetY
       anchorProps.bottom -= offsetY + 2
     }
@@ -174,17 +216,17 @@ export function setPosition (cfg) {
     // did it flip horizontally?
     if (props.left !== left) {
       hasChanged = true
-      const offsetX = 2 * cfg.offset[ 0 ]
+      const offsetX = 2 * offset[ 0 ]
       anchorProps.middle = anchorProps.left -= offsetX
       anchorProps.right -= offsetX + 2
     }
 
     if (hasChanged === true) {
       // re-calculate props with the new anchor
-      props = getTopLeftProps(anchorProps, targetProps, cfg)
+      props = getTopLeftProps(anchorProps, targetProps, anchorOrigin, selfOrigin)
 
       // and re-apply boundaries
-      applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
+      applyBoundaries(props, anchorProps, targetProps, anchorOrigin, selfOrigin)
     }
   }
 
@@ -208,14 +250,14 @@ export function setPosition (cfg) {
     }
   }
 
-  Object.assign(cfg.el.style, elStyle)
+  Object.assign(targetEl.style, elStyle)
 
   // restore scroll position
-  if (cfg.el.scrollTop !== scrollTop) {
-    cfg.el.scrollTop = scrollTop
+  if (targetEl.scrollTop !== scrollTop) {
+    targetEl.scrollTop = scrollTop
   }
-  if (cfg.el.scrollLeft !== scrollLeft) {
-    cfg.el.scrollLeft = scrollLeft
+  if (targetEl.scrollLeft !== scrollLeft) {
+    targetEl.scrollLeft = scrollLeft
   }
 }
 

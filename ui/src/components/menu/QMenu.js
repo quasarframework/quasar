@@ -328,14 +328,8 @@ export default createComponent({
     }
 
     function updatePosition () {
-      const el = innerRef.value
-
-      if (el === null || anchorEl.value === null) {
-        return
-      }
-
       setPosition({
-        el,
+        targetEl: innerRef.value,
         offset: props.offset,
         anchorEl: anchorEl.value,
         anchorOrigin: anchorOrigin.value,
