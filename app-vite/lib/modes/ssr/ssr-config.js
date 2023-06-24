@@ -71,12 +71,6 @@ export const quasarSsrConfig = {
         hmr: false, // let client config deal with it
         middlewareMode: true
       },
-      ssr: {
-        noExternal: [
-          /\/esm\/.*\.js$/,
-          /\.(es|esm|esm-browser|esm-bundler).js$/
-        ]
-      },
       build: {
         ssr: true,
         outDir: join(quasarConf.build.distDir, 'server'),
