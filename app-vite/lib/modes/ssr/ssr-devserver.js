@@ -191,11 +191,8 @@ export class QuasarModeDevserver extends AppDevserver {
       ? url => url || '/'
       : url => (url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath)
 
-    console.log('1')
     const viteClient = this.#viteClient = await createServer(await quasarSsrConfig.viteClient(quasarConf))
-    console.log('2')
     const viteServer = this.#viteServer = await createServer(await quasarSsrConfig.viteServer(quasarConf))
-    console.log('3')
 
     if (quasarConf.ssr.pwa === true) {
       injectPwaManifest(quasarConf, true)

@@ -86,7 +86,6 @@ export const quasarSsrConfig = {
       }
     })
 
-    console.log(cfg)
     return extendViteConfig(cfg, quasarConf, { isServer: true })
   },
 
