@@ -51,6 +51,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'template-curly-spacing': 'off',
+    'no-multiple-empty-lines': 'off',
 
     'import/export': 'off',
     'import/first': 'off',
