@@ -697,6 +697,10 @@ export default [
         path: 'browser-compatibility'
       },
       {
+        name: 'Supporting TypeScript',
+        path: 'supporting-ts'
+      },
+      {
         name: 'Directory Structure',
         path: 'directory-structure'
       },
