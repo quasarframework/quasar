@@ -59,6 +59,7 @@ export class QuasarModeBuilder extends AppBuilder {
     delete pkg.scripts
 
     pkg.main = './electron-main.js'
+    pkg.type = 'commonjs'
 
     if (typeof this.quasarConf.electron.extendPackageJson === 'function') {
       this.quasarConf.electron.extendPackageJson(pkg)
