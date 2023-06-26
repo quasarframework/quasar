@@ -31,7 +31,7 @@ function parseIssue (path, reportEntry) {
   })
 }
 
-export function quasarEsbuildESLingPlugin (quasarConf, getLinterOpts) {
+export function quasarEsbuildESLintPlugin (quasarConf, getLinterOpts) {
   const {
     eslint,
     filter,

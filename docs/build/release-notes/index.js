@@ -4,7 +4,7 @@ import fse from 'fs-extra'
 
 import request from './request.js'
 
-const thisFolder = new URL('.', import.meta.url).pathname
+const rootFolder = new URL('../..', import.meta.url).pathname
 
 const api = {
   v2: {
@@ -32,7 +32,7 @@ async function runRequests () {
     console.log(`Requesting release notes for Quasar v${ quasarVersion }...`)
 
     await request(packages, versionRE).then(content => {
-      const dir = join(thisFolder, '../../dist/release-notes')
+      const dir = join(rootFolder, 'dist/release-notes')
       const file = join(dir, `${ quasarVersion }.json`)
 
       fse.ensureDir(dir)

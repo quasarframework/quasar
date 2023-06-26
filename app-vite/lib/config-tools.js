@@ -248,9 +248,9 @@ export async function createNodeEsbuildConfig (quasarConf, format, getLinterOpts
   const { warnings, errors } = quasarConf.eslint
   if (warnings === true || errors === true) {
     // import only if actually needed (as it imports app's eslint pkg)
-    const { quasarEsbuildESLingPlugin } = await import('./plugins/esbuild.eslint.js')
+    const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
     cfg.plugins = [
-      quasarEsbuildESLingPlugin(quasarConf, getLinterOpts)
+      quasarEsbuildESLintPlugin(quasarConf, getLinterOpts)
     ]
   }
 
@@ -276,9 +276,9 @@ export async function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
   const { warnings, errors } = quasarConf.eslint
   if (warnings === true || errors === true) {
     // import only if actually needed (as it imports app's eslint pkg)
-    const { quasarEsbuildESLingPlugin } = await import('./plugins/esbuild.eslint.js')
+    const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
     cfg.plugins = [
-      quasarEsbuildESLingPlugin(quasarConf, getLinterOpts)
+      quasarEsbuildESLintPlugin(quasarConf, getLinterOpts)
     ]
   }
 

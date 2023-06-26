@@ -16,6 +16,7 @@ import { resolveExtension } from './utils/resolve-extension.js'
 import { storeProvider } from './utils/store-provider.js'
 import { appPkg } from './app-pkg.js'
 import { ensureElectronArgv } from './utils/ensure-argv.js'
+import { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } from './plugins/esbuild.inject-replacements.js'
 
 const urlRegex = /^http(s)?:\/\//i
 import { findClosestOpenPort } from '../lib/utils/net.js'
@@ -43,10 +44,11 @@ function createEsbuildConfig () {
     alias: {
       'quasar/wrappers': appPaths.quasarConfigFormat === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
     },
+    define: quasarEsbuildInjectReplacementsDefine,
     resolveExtensions: [ appPaths.quasarConfigFormat === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
     entryPoints: [ appPaths.quasarConfigFilename ],
     outfile: tempFile,
-    plugins: []
+    plugins: [ quasarEsbuildInjectReplacementsPlugin ]
   }
 }
 

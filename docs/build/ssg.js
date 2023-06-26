@@ -5,12 +5,12 @@ import fg from 'fast-glob'
 
 axios.defaults.withCredentials = true
 
-const rootFolder = new URL('.', import.meta.url).pathname
+const rootFolder = new URL('..', import.meta.url).pathname
 const baseUrl = 'http://localhost:3111'
-const clientDir = join(rootFolder, '../dist/quasar.dev/client')
+const clientDir = join(rootFolder, 'dist/quasar.dev/client')
 const themeList = [ 'light', 'dark' ]
 
-const mdPagesDir = join(rootFolder, '../src/pages')
+const mdPagesDir = join(rootFolder, 'src/pages')
 const mdPagesLen = mdPagesDir.length + 1
 const themedRouteList = [
   '', // landing page
@@ -27,7 +27,7 @@ const themedRouteList = [
   )
 ]
 
-const layoutGalleryDir = join(rootFolder, '../src/layouts/gallery')
+const layoutGalleryDir = join(rootFolder, 'src/layouts/gallery')
 const layoutGalleryLen = layoutGalleryDir.length + 1
 const lowerCaseRE = /^[a-z]/
 const lightRouteList = [
