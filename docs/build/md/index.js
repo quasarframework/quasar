@@ -1,8 +1,9 @@
 
-const mdParse = require('./md-parse')
+import mdParse from './md-parse.js'
+
 const mdRE = /.md$/
 
-module.exports = {
+export default {
   name: 'quasar-docs:md',
   enforce: 'pre',
 

@@ -2,7 +2,7 @@
 const vendorRE = /node_modules[\\/](vue|@vue|quasar|vue-router)[\\/](.*)\.(m?js|css|sass)$/
 const exampleRE = /examples:([a-zA-Z0-9]+)$|src[\\/]examples[\\/]([a-zA-Z0-9-]+)/
 
-module.exports = function manualChunks (id) {
+export default function manualChunks (id) {
   if (vendorRE.test(id) === true) {
     return 'vendor'
   }

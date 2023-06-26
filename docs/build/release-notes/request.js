@@ -1,12 +1,12 @@
-const { Octokit } = require('@octokit/core')
+import { Octokit } from '@octokit/core'
 
-const md = require('./md')
+import md from './md.js'
 
 const gitFetch = new Octokit({ auth: process.env.TOKEN })
 const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
 const ghLinkRE = /#([\d]+)/g
 
-module.exports = async (packages, versionRE) => {
+export default async (packages, versionRE) => {
   const packageNameList = Object.keys(packages)
 
   async function query (page) {

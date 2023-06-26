@@ -1,8 +1,8 @@
-const md = require('./md')
-const { convertToRelated, flatMenu } = require('./flat-menu')
-const { getVueComponent, parseFrontMatter } = require('./md-parse-utils')
+import md from './md.js'
+import { convertToRelated, flatMenu } from './flat-menu.js'
+import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
 
-module.exports = function (code, id) {
+export default function mdParse (code, id) {
   const { data, content } = parseFrontMatter(code)
 
   data.id = id

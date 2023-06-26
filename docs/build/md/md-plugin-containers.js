@@ -20,7 +20,7 @@
  * :::
  */
 
-const container = require('markdown-it-container')
+import container from 'markdown-it-container'
 
 function createContainer (className, defaultTitle) {
   return [
@@ -41,7 +41,7 @@ function createContainer (className, defaultTitle) {
   ]
 }
 
-module.exports = function (md) {
+export default function mdPluginContainers (md) {
   md
     .use(...createContainer('tip', 'TIP'))
     .use(...createContainer('warning', 'WARNING'))

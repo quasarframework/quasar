@@ -2,7 +2,7 @@
  * Adds class 'doc-token' to inline code
  */
 
-module.exports = function (md) {
+export default function mdPluginToken (md) {
   const defaultRender = md.renderer.rules.code_inline
 
   md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {

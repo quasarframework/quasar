@@ -1,15 +1,16 @@
-const axios = require('axios')
-const fse = require('fs-extra')
-const fg = require('fast-glob')
-const { join } = require('path')
+import { join } from 'node:path'
+import axios from 'axios'
+import fse from 'fs-extra'
+import fg from 'fast-glob'
 
 axios.defaults.withCredentials = true
 
+const rootFolder = new URL('.', import.meta.url).pathname
 const baseUrl = 'http://localhost:3111'
-const clientDir = join(__dirname, '../dist/quasar.dev/client')
+const clientDir = join(rootFolder, '../dist/quasar.dev/client')
 const themeList = [ 'light', 'dark' ]
 
-const mdPagesDir = join(__dirname, '../src/pages')
+const mdPagesDir = join(rootFolder, '../src/pages')
 const mdPagesLen = mdPagesDir.length + 1
 const themedRouteList = [
   '', // landing page
@@ -26,7 +27,7 @@ const themedRouteList = [
   )
 ]
 
-const layoutGalleryDir = join(__dirname, '../src/layouts/gallery')
+const layoutGalleryDir = join(rootFolder, '../src/layouts/gallery')
 const layoutGalleryLen = layoutGalleryDir.length + 1
 const lowerCaseRE = /^[a-z]/
 const lightRouteList = [
@@ -41,7 +42,7 @@ const lightRouteList = [
 
 async function generate () {
   // start server
-  require('../dist/quasar.dev/index.js')
+  await import('../dist/quasar.dev/index.js')
 
   for (const theme of themeList) {
     await axios.get(baseUrl + '/get-a-404', {

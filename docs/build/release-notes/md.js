@@ -1,9 +1,9 @@
-const markdownIt = require('markdown-it')
+import markdownIt from 'markdown-it'
 
-const highlight = require('../md/highlight')
-const mdPluginContainers = require('../md/md-plugin-containers')
-const mdToken = require('../md/md-plugin-token')
-const mdBlockquote = require('../md/md-plugin-blockquote')
+import highlight from '../md/highlight.js'
+import mdPluginContainers from '../md/md-plugin-containers.js'
+import mdToken from '../md/md-plugin-token.js'
+import mdBlockquote from '../md/md-plugin-blockquote.js'
 
 const opts = {
   html: true,
@@ -27,4 +27,4 @@ function mdPlugins (md) {
   mdBlockquote(md)
 }
 
-module.exports = markdownIt(opts).use(mdPlugins)
+export default markdownIt(opts).use(mdPlugins)

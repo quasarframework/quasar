@@ -1,17 +1,19 @@
-const fs = require('fs')
-const { join } = require('path')
-const fg = require('fast-glob')
-const path = require('path')
-const md = require('markdown-ast')
-const { parseFrontMatter } = require('./md/md-parse-utils.js')
+import fs from 'node:fs'
+import { join, resolve } from 'node:path'
+import fg from 'fast-glob'
+import md from 'markdown-ast'
 
-const { slugify, capitalize } = require('./utils')
+import { parseFrontMatter } from './md/md-parse-utils.js'
+
+import { slugify, capitalize } from './utils.js'
 
 const apiRE = /<doc-api .*file="([^"]+)".*\n/
 const installationRE = /<doc-installation /
 const hiddenPageRE = /[\\/]__[a-zA-Z0-9_-]+\.md$/
 
-const mdPagesDir = join(__dirname, '../src/pages')
+const thisFolder = new URL('.', import.meta.url).pathname
+
+const mdPagesDir = join(thisFolder, '../src/pages')
 const mdPagesLen = mdPagesDir.length + 1
 const mdPagesList = fg.sync(join(mdPagesDir, '**/*.md'))
   .filter(file => hiddenPageRE.test(file) === false)
@@ -49,7 +51,7 @@ function parseRank (rank) {
 }
 
 const createFolder = folder => {
-  const dir = path.join(__dirname, '../..', folder)
+  const dir = join(thisFolder, '../..', folder)
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir)
   }
@@ -102,7 +104,7 @@ const addItem = (entries, item) => {
 
 // returns the contents of the associated file
 const getFileContents = (mdPath) => {
-  const page = path.resolve(__dirname, mdPath)
+  const page = resolve(thisFolder, mdPath)
   return fs.readFileSync(page, {
     encoding: 'utf8'
   })
@@ -291,7 +293,7 @@ const run = () => {
     processPage(page, entries)
   })
 
-  const fileName = path.resolve(__dirname, '../dist/indices.json')
+  const fileName = resolve(thisFolder, '../dist/indices.json')
   const content = JSON.stringify(entries, null, 2)
   fs.writeFileSync(fileName, content, () => {})
 

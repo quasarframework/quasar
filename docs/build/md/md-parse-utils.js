@@ -1,5 +1,5 @@
-const matter = require('gray-matter')
-const toml = require('toml')
+import matter from 'gray-matter'
+import toml from 'toml'
 
 function getComponentsImport (componentsList) {
   return componentsList.map(c => {
@@ -36,7 +36,7 @@ function parseToc (toc) {
   return JSON.stringify(list)
 }
 
-module.exports.getVueComponent = function (data, mdPageContent) {
+export function getVueComponent (data, mdPageContent) {
   return `<template>
   <doc-page
     title="${ data.title }"
@@ -66,7 +66,7 @@ ${ data.scope !== void 0 ? `const scope = ${ JSON.stringify(data.scope) }` : '' 
 </script>`
 }
 
-module.exports.parseFrontMatter = function (content) {
+export function parseFrontMatter (content) {
   return matter(content, {
     excerpt_separator: '<!-- more -->',
     engines: {

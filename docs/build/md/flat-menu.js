@@ -1,10 +1,13 @@
-const { join } = require('path')
+import { join } from 'node:path'
 
-const menu = require('../../src/assets/menu.json')
-const prefix = join(__dirname, 'src/pages')
+import menu from '../../src/assets/menu.js'
+
+const rootFolder = new URL('.', import.meta.url).pathname
+
+const prefix = join(rootFolder, 'src/pages')
 
 let prev = null
-const flatMenu = {}
+export const flatMenu = {}
 
 function menuWalk (node, path, parentName) {
   const newPath = path + (node.path ? `/${node.path}` : '')
@@ -46,9 +49,7 @@ menu.forEach(n => {
   menuWalk(n, '', null)
 })
 
-module.exports.flatMenu = flatMenu
-
-module.exports.convertToRelated = function (entry, id) {
+export function convertToRelated (entry, id) {
   const menu = flatMenu[ join(prefix, entry + '.md') ]
 
   if (!menu) {

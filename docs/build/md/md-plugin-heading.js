@@ -2,7 +2,7 @@
  * Manages headings
  */
 
-const { slugify } = require('../utils')
+import { slugify } from '../utils.js'
 
 const titleRE = /<\/?[^>]+(>|$)/g
 const apiRE = /^<doc-api /
@@ -20,8 +20,8 @@ function parseContent (str) {
   }
 }
 
-module.exports = function (md) {
-  md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
+export default function mdPluginHeading (md) {
+  md.renderer.rules.heading_open = (tokens, idx, options, _env, self) => {
     const token = tokens[ idx ]
 
     const content = tokens[ idx + 1 ]

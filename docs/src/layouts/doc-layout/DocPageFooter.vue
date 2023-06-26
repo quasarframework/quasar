@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import menu from 'assets/menu.json'
+import menu from 'assets/menu.js'
 import { footerLinks } from 'assets/links.footer.js'
 
 /**

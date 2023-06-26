@@ -1,11 +1,9 @@
 
-import { join } from 'node:path'
-
 import mdPlugin from './build/md/index.js'
 import examplesPlugin from './build/examples.js'
 import manualChunks from './build/chunks.js'
 
-module.exports = ctx => ({
+export default ctx => ({
   // eslint: {
   //   warnings: true,
   //   errors: true
@@ -31,7 +29,7 @@ module.exports = ctx => ({
       DOCS_BRANCH: 'dev',
       SEARCH_INDEX: 'quasar-v2',
       ...(ctx.dev
-        ? { FS_QUASAR_FOLDER: join(__dirname, '../node_modules/quasar').replace('\\', '/') }
+        ? { FS_QUASAR_FOLDER: new URL('../node_modules/quasar', import.meta.url).pathname.replace('\\', '/') }
         : {}
       )
     },

@@ -1,4 +1,5 @@
 import { Notify } from 'quasar'
+import { slugify } from '../../build/utils.js'
 
 export function copyToClipboard (text) {
   const textArea = document.createElement('textarea')
@@ -43,16 +44,4 @@ export function copyHeading (id) {
   })
 }
 
-// eslint-disable-next-line
-const specialRE = /[\s·/_\\,:;\.\(\)\[\]]+/g
-const andRE = /&/g
-const nonWordRE = /[^\w-]+/g
-const multipleDashRE = /--+/g
-
-export function slugify (str) {
-  return String(str).toLowerCase()
-    .replace(specialRE, '-')
-    .replace(andRE, '-and-')
-    .replace(nonWordRE, '')
-    .replace(multipleDashRE, '-')
-}
+export { slugify }
