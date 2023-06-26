@@ -75,7 +75,7 @@ export const quasarSsrConfig = {
         ssr: true,
         outDir: join(quasarConf.build.distDir, 'server'),
         rollupOptions: {
-          input: appPaths.resolve.app('.quasar/server-entry.js')
+          input: appPaths.resolve.app('.quasar/server-entry.mjs')
         }
       }
     })
@@ -94,7 +94,7 @@ export const quasarSsrConfig = {
     }))
 
     if (quasarConf.ctx.dev) {
-      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-dev-webserver.js') ]
+      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-dev-webserver.mjs') ]
       cfg.outfile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.mjs')
     }
     else {
@@ -104,10 +104,14 @@ export const quasarSsrConfig = {
         'vue/compiler-sfc',
         './render-template.cjs',
         './quasar.manifest.json',
+
+        // based on project's package.json > type (module | commonjs), one of the
+        // following will be compiled:
+        './server/server-entry.js',
         './server/server-entry.mjs'
       ]
 
-      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-prod-webserver.js') ]
+      cfg.entryPoints = [ appPaths.resolve.app('.quasar/ssr-prod-webserver.mjs') ]
       cfg.outfile = join(quasarConf.build.distDir, 'index.js')
     }
 

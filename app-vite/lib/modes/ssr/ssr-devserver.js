@@ -19,7 +19,7 @@ const rootFolder = appPaths.appDir
 const publicFolder = appPaths.resolve.app('public')
 const templatePath = appPaths.resolve.app('index.html')
 const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.mjs')
-const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.js')
+const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.mjs')
 
 import { injectPwaManifest, buildPwaServiceWorker } from '../pwa/utils.js'
 

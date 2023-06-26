@@ -718,6 +718,9 @@ export class QuasarConfFile {
           })
         }
       }
+      else {
+        cfg.metaConf.ssrServerEntryPointExtension = appPkg.type === 'module' ? 'js' : 'mjs'
+      }
     }
 
     if (this.#ctx.dev) {

@@ -22,9 +22,9 @@ export class EntryFilesGenerator {
 
     if (ctx.mode.ssr) {
       filePaths.push(
-        'server-entry.js',
-        'ssr-middlewares.js',
-        `ssr-${ ctx.dev ? 'dev' : 'prod' }-webserver.js`
+        'server-entry.mjs',
+        'ssr-middlewares.mjs',
+        `ssr-${ ctx.dev ? 'dev' : 'prod' }-webserver.mjs`
       )
     }
 
