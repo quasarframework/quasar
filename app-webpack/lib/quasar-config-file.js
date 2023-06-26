@@ -17,6 +17,7 @@ const getPackageMajorVersion = require('./utils/get-package-major-version.js')
 const storeProvider = require('./utils/store-provider.js')
 const { createWebpackConfig } = require('./webpack/index.js')
 const { readFileEnv } = require('./utils/env.js')
+const { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } = require('./plugin.esbuild.inject-replacements.js')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -29,9 +30,10 @@ function getEsbuildConfig () {
     format: 'cjs',
     bundle: true,
     packages: 'external',
+    define: quasarEsbuildInjectReplacementsDefine,
     entryPoints: [ appPaths.quasarConfigFilename ],
     outfile: tempFile,
-    plugins: []
+    plugins: [ quasarEsbuildInjectReplacementsPlugin ]
   }
 }
 
@@ -734,7 +736,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           // we now check if config is specifying a file path
           // and we actually read the contents so we can later supply correct
           // params to the node HTTPS server
-          ;[ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
+          [ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
             if (typeof options[ prop ] === 'string') {
               try {
                 options[ prop ] = readFileSync(options[ prop ])
