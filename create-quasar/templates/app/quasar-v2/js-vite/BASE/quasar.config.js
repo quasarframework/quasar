@@ -1,14 +1,19 @@
 /* eslint-env node */
 
+/*
+ * This file runs in a Node context (it's NOT transpiled by Babel), so use only
+ * the ES6 features that are supported by your Node version. https://node.green/
+ */
+
 // Configuration for your app
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 <% if (preset.lint && lintConfig === 'airbnb') { %>/* eslint func-names: 0 */
 /* eslint global-require: 0 */<% } %>
-import { configure } from 'quasar/wrappers'
-<% if (preset.i18n) { %>import path from 'node:path';<% } %>
+const { configure } = require('quasar/wrappers');
+<% if (preset.i18n) { %>const path = require('path');<% } %>
 
-export default configure((/* ctx */) => {
+module.exports = configure(function (/* ctx */) {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,
