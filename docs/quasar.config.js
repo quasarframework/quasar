@@ -4,10 +4,13 @@ import examplesPlugin from './build/examples.js'
 import manualChunks from './build/chunks.js'
 
 export default ctx => ({
-  // eslint: {
-  //   warnings: true,
-  //   errors: true
-  // },
+  eslint: {
+    warnings: true,
+    errors: true,
+    exclude: [
+      /(node_modules|ui[\\/])/
+    ]
+  },
 
   boot: [
     { path: 'gdpr', server: false }
@@ -29,7 +32,7 @@ export default ctx => ({
       DOCS_BRANCH: 'dev',
       SEARCH_INDEX: 'quasar-v2',
       ...(ctx.dev
-        ? { FS_QUASAR_FOLDER: new URL('../node_modules/quasar', import.meta.url).pathname.replace('\\', '/') }
+        ? { FS_QUASAR_FOLDER: new URL('../ui', import.meta.url).pathname.replace('\\', '/') }
         : {}
       )
     },
