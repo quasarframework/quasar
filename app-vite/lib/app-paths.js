@@ -5,21 +5,21 @@ import { normalize, resolve, join, sep } from 'node:path'
 import { fatal } from './utils/logger.js'
 
 const quasarConfigList = [
-  { name: 'quasar.config.js', format: 'esm' },
-  { name: 'quasar.config.mjs', format: 'esm' },
-  { name: 'quasar.config.ts', format: 'ts' },
-  { name: 'quasar.config.cjs', format: 'cjs' },
-  { name: 'quasar.conf.js', format: 'cjs' } // legacy (removed during v2)
+  { name: 'quasar.config.js', inputFormat: 'esm', outputFormat: 'esm' },
+  { name: 'quasar.config.mjs', inputFormat: 'esm', outputFormat: 'esm' },
+  { name: 'quasar.config.ts', inputFormat: 'ts', outputFormat: 'esm' },
+  { name: 'quasar.config.cjs', inputFormat: 'cjs', outputFormat: 'cjs' },
+  { name: 'quasar.conf.js', inputFormat: 'cjs', outputFormat: 'cjs' } // legacy (removed during v2)
 ]
 
 function getAppInfo () {
   let appDir = process.cwd()
 
   while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
-    for (const { name, format } of quasarConfigList) {
+    for (const { name, inputFormat, outputFormat } of quasarConfigList) {
       const quasarConfigFilename = join(appDir, name)
       if (existsSync(quasarConfigFilename)) {
-        return { appDir, quasarConfigFilename, quasarConfigFormat: format }
+        return { appDir, quasarConfigFilename, quasarConfigInputFormat: inputFormat, quasarConfigOutputFormat: outputFormat }
       }
     }
 
@@ -29,7 +29,7 @@ function getAppInfo () {
   fatal('Error. This command must be executed inside a Quasar project folder.')
 }
 
-const { appDir, quasarConfigFilename, quasarConfigFormat } = getAppInfo()
+const { appDir, quasarConfigFilename, quasarConfigInputFormat, quasarConfigOutputFormat } = getAppInfo()
 
 const cliDir = new URL('..', import.meta.url).pathname
 const publicDir = resolve(appDir, 'public')
@@ -54,7 +54,8 @@ export default {
   bexDir,
 
   quasarConfigFilename,
-  quasarConfigFormat,
+  quasarConfigInputFormat,
+  quasarConfigOutputFormat,
 
   resolve: {
     cli: dir => join(cliDir, dir),

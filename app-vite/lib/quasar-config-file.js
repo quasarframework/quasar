@@ -32,20 +32,20 @@ const defaultPortMapping = {
   capacitor: 9500
 }
 
-const quasarConfigFileExtension = appPaths.quasarConfigFormat === 'esm' ? 'mjs' : appPaths.quasarConfigFormat
+const quasarConfigFileExtension = appPaths.quasarConfigOutputFormat === 'esm' ? 'mjs' : appPaths.quasarConfigOutputFormat
 const tempFile = `${ appPaths.quasarConfigFilename }.temporary.compiled.${ quasarConfigFileExtension }`
 
 function createEsbuildConfig () {
   return {
     platform: 'node',
-    format: appPaths.quasarConfigFormat,
+    format: appPaths.quasarConfigOutputFormat,
     bundle: true,
     packages: 'external',
     alias: {
-      'quasar/wrappers': appPaths.quasarConfigFormat === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
+      'quasar/wrappers': appPaths.quasarConfigOutputFormat === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
     },
     define: quasarEsbuildInjectReplacementsDefine,
-    resolveExtensions: [ appPaths.quasarConfigFormat === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
+    resolveExtensions: [ appPaths.quasarConfigOutputFormat === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
     entryPoints: [ appPaths.quasarConfigFilename ],
     outfile: tempFile,
     plugins: [ quasarEsbuildInjectReplacementsPlugin ]
