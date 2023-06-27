@@ -4,6 +4,7 @@ const { merge } = require('webpack-merge')
 const semver = require('semver')
 
 const { warn, fatal } = require('../utils/logger.js')
+const { appPkg, updateAppPackageJson } = require('../app-pkg.js')
 const { getPackageJson } = require('../utils/get-package-json.js')
 const { getCallerPath } = require('../utils/get-caller-path.js')
 const { extensionJson } = require('./extension-json.js')
@@ -179,14 +180,16 @@ module.exports.InstallAPI = class InstallAPI extends BaseAPI {
       return
     }
 
-    const filePath = this.resolve.app('package.json')
-    const pkg = merge({}, require(filePath), extPkg)
+    const pkg = merge({}, appPkg, extPkg)
 
     fs.writeFileSync(
-      filePath,
+      this.resolve.app('package.json'),
       JSON.stringify(pkg, null, 2),
       'utf-8'
     )
+
+    // we mingled with it, time to notify there's a need to update it
+    updateAppPackageJson()
 
     if (
       extPkg.dependencies
