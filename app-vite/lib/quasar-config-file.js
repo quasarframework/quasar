@@ -1,5 +1,6 @@
-import path from 'node:path'
+import { join, isAbsolute, basename } from 'node:path'
 import { existsSync, readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import fse from 'fs-extra'
 import { merge } from 'webpack-merge'
 import debounce from 'lodash/debounce.js'
@@ -22,6 +23,10 @@ const urlRegex = /^http(s)?:\/\//i
 import { findClosestOpenPort } from '../lib/utils/net.js'
 import { isMinimalTerminal } from './utils/is-minimal-terminal.js'
 import { readFileEnv } from './utils/env.js'
+
+const require = appPaths.quasarConfigOutputFormat === 'cjs'
+  ? createRequire(import.meta.url)
+  : () => {}
 
 const defaultPortMapping = {
   spa: 9000,
@@ -179,6 +184,8 @@ export class QuasarConfFile {
     if (watch !== void 0) {
       this.#opts.watch = debounce(watch, 550)
     }
+
+    log(`Using ${ basename(appPaths.quasarConfigFilename) }`)
   }
 
   async init () {
@@ -280,9 +287,15 @@ export class QuasarConfFile {
 
           let quasarConfigFn
 
+          if (appPaths.quasarConfigOutputFormat === 'cjs') {
+            delete require.cache[ tempFile ]
+          }
+
           try {
-            // we also need to cache bust it, hence the ?t= param
-            const result = await import(tempFile + '?t=' + Date.now())
+            const result = appPaths.quasarConfigOutputFormat === 'esm'
+              ? await import(tempFile + '?t=' + Date.now()) // we also need to cache bust it, hence the ?t= param
+              : require(tempFile)
+
             quasarConfigFn = result.default || result
           }
           catch (e) {
@@ -575,7 +588,7 @@ export class QuasarConfFile {
 
       vueOptionsAPI: true,
       polyfillModulePreload: false,
-      distDir: path.join('dist', this.#ctx.modeName),
+      distDir: join('dist', this.#ctx.modeName),
 
       rawDefine: {
         // vue
@@ -622,7 +635,7 @@ export class QuasarConfFile {
       cfg.build.vueRouterMode = 'hash'
     }
 
-    if (!path.isAbsolute(cfg.build.distDir)) {
+    if (!isAbsolute(cfg.build.distDir)) {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
@@ -846,13 +859,13 @@ export class QuasarConfFile {
         }
       }, cfg.electron, {
         packager: {
-          dir: path.join(cfg.build.distDir, 'UnPackaged'),
-          out: path.join(cfg.build.distDir, 'Packaged')
+          dir: join(cfg.build.distDir, 'UnPackaged'),
+          out: join(cfg.build.distDir, 'Packaged')
         },
         builder: {
           directories: {
-            app: path.join(cfg.build.distDir, 'UnPackaged'),
-            output: path.join(cfg.build.distDir, 'Packaged')
+            app: join(cfg.build.distDir, 'UnPackaged'),
+            output: join(cfg.build.distDir, 'Packaged')
           }
         }
       })
