@@ -147,7 +147,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * @example { SOMETHING: JSON.stringify('someValue') } -> console.log(SOMETHING) // console.log('someValue')
    */
-  rawDefine?: { [index: string]: string };
+  rawDefine?: { [index: string]: string | boolean | undefined | null };
   /**
    * Folder where Quasar CLI should look for .env* files.
    * Can be an absolute path or a relative path to project root directory.
