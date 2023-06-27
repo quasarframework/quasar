@@ -126,7 +126,7 @@ export class QuasarModeDevserver extends AppDevserver {
       electronExecutable,
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        appPaths.resolve.app('.quasar/electron/electron-main.js')
+        appPaths.resolve.app('.quasar/electron/electron-main.cjs')
       ].concat(this.argv._),
       { cwd: appPaths.appDir },
       code => {

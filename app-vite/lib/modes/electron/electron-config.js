@@ -20,16 +20,16 @@ export const quasarElectronConfig = {
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronMain ]
     cfg.outfile = quasarConf.ctx.dev === true
-      ? appPaths.resolve.app('.quasar/electron/electron-main.js')
-      : join(quasarConf.build.distDir, 'UnPackaged/electron-main.js')
+      ? appPaths.resolve.app('.quasar/electron/electron-main.cjs')
+      : join(quasarConf.build.distDir, 'UnPackaged/electron-main.cjs')
 
     cfg.define = {
       ...cfg.define,
       ...getBuildSystemDefine({
         buildEnv: {
           QUASAR_ELECTRON_PRELOAD: quasarConf.ctx.dev === true
-            ? appPaths.resolve.app('.quasar/electron/electron-preload.js')
-            : 'electron-preload.js',
+            ? appPaths.resolve.app('.quasar/electron/electron-preload.cjs')
+            : 'electron-preload.cjs',
           QUASAR_PUBLIC_FOLDER: quasarConf.ctx.dev === true
             ? appPaths.publicDir
             : '.'
@@ -45,16 +45,16 @@ export const quasarElectronConfig = {
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronPreload ]
     cfg.outfile = quasarConf.ctx.dev === true
-      ? appPaths.resolve.app('.quasar/electron/electron-preload.js')
-      : join(quasarConf.build.distDir, 'UnPackaged/electron-preload.js')
+      ? appPaths.resolve.app('.quasar/electron/electron-preload.cjs')
+      : join(quasarConf.build.distDir, 'UnPackaged/electron-preload.cjs')
 
     cfg.define = {
       ...cfg.define,
       ...getBuildSystemDefine({
         buildEnv: {
           QUASAR_ELECTRON_PRELOAD: quasarConf.ctx.dev === true
-            ? appPaths.resolve.app('.quasar/electron/electron-preload.js')
-            : 'electron-preload.js',
+            ? appPaths.resolve.app('.quasar/electron/electron-preload.cjs')
+            : 'electron-preload.cjs',
           QUASAR_PUBLIC_FOLDER: quasarConf.ctx.dev === true
             ? appPaths.publicDir
             : '.'
