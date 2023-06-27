@@ -139,7 +139,7 @@ interface QuasarStaticBuildConfiguration {
    *
    * @example { SOMETHING: 'someValue' }
    */
-  env?: { [index: string]: string | undefined | null };
+  env?: { [index: string]: string | boolean | undefined | null };
   /**
    * Defines constants that get replaced in your app.
    * Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans.
