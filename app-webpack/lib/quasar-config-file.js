@@ -218,9 +218,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
             return
           }
 
-          // ensure we grab the latest version
-          delete require.cache[ tempFile ]
-
           if (result.errors.length !== 0) {
             removeSync(tempFile)
 
@@ -230,7 +227,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
               fatal(msg, 'FAIL')
             }
 
-            warn(msg + ' Please fix them then save the file again.\n')
+            warn(msg + ' Please fix them.\n')
             return
           }
 
@@ -247,7 +244,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
             console.log()
             console.error(e)
 
-            const msg = 'Importing quasar.config file results in error. Please check the'
+            const msg = 'The quasar.config file has runtime errors. Please check the'
               + ` Node.js stack above against the temporarily created ${ basename(tempFile) } file and fix the original file.`
 
             if (isFirst === true) {
@@ -263,22 +260,24 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
           const { quasarConf, webpackConf } = await this.#computeConfig(quasarConfigFn, isFirst)
 
+          if (quasarConf === void 0) {
+            return
+          }
+
           if (isFirst === true) {
             isFirst = false
             firstBuildIsDone({ quasarConf, webpackConf })
             return
           }
 
-          if (quasarConf !== void 0) {
-            // if triggering updates too fast, then remember
-            // if any of them required the rebuild
-            updateFn = updateFn === 'onBuildChange' || this.#webpackConfChanged === true
-              ? 'onBuildChange'
-              : 'onAppChange'
+          // if triggering updates too fast, then remember
+          // if any of them required the rebuild
+          updateFn = updateFn === 'onBuildChange' || this.#webpackConfChanged === true
+            ? 'onBuildChange'
+            : 'onAppChange'
 
-            log('Scheduled to apply quasar.config changes in 1s')
-            scheduleUpdate()
-          }
+          log('Scheduled to apply quasar.config changes in 1s')
+          scheduleUpdate()
         })
       }
     })
@@ -304,7 +303,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix it.\n')
-      return
+      return {}
     }
 
     let userCfg
@@ -325,7 +324,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix the errors in the original file.\n')
-      return
+      return {}
     }
 
     if (Object(userCfg) !== userCfg) {
@@ -338,7 +337,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix it.\n')
-      return
+      return {}
     }
 
     removeSync(tempFile)
