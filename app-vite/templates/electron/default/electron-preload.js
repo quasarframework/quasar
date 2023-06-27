@@ -17,7 +17,7 @@
  *
  * WARNING!
  * If accessing Node functionality (like importing @electron/remote) then in your
- * electron-main.cjs you will need to set the following when you instantiate BrowserWindow:
+ * electron-main.js you will need to set the following when you instantiate BrowserWindow:
  *
  * mainWindow = new BrowserWindow({
  *   // ...

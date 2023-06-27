@@ -187,7 +187,7 @@ class ElectronRunner {
       getPackage('electron'),
       [
         '--inspect=' + this.#inspectPort,
-        appPaths.resolve.app('.quasar/electron/electron-main.js')
+        appPaths.resolve.app('.quasar/electron/electron-main.cjs')
       ].concat(extraParams),
       { cwd: appPaths.appDir },
       code => {

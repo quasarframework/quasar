@@ -20,7 +20,9 @@ module.exports.ElectronPackageJsonPlugin = class ElectronPackageJsonPlugin {
     delete pkg.browserslist
     delete pkg.scripts
 
-    pkg.main = './electron-main.js'
+    // Electron only supports commonjs, so...
+    pkg.type = 'commonjs'
+    pkg.main = './electron-main.cjs'
 
     if (this.cfg.electron.extendPackageJson) {
       this.cfg.electron.extendPackageJson(pkg)
