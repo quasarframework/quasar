@@ -64,24 +64,24 @@ function escapeHTMLAttribute (str) {
   return str ? str.replace(/\"/g, '') : ''
 }
 
-function formatPublicPath (path) {
-  if (!path) {
+function formatPublicPath (publicPath) {
+  if (!publicPath) {
     return '/'
   }
 
-  if (!path.endsWith('/')) {
-    path = `${ path }/`
+  if (!publicPath.endsWith('/')) {
+    publicPath = `${ publicPath }/`
   }
 
-  if (urlRegex.test(path) === true) {
-    return path
+  if (urlRegex.test(publicPath) === true) {
+    return publicPath
   }
 
-  if (!path.startsWith('/')) {
-    path = `/${ path }`
+  if (!publicPath.startsWith('/')) {
+    publicPath = `/${ publicPath }`
   }
 
-  return path
+  return publicPath
 }
 
 function formatRouterBase (publicPath) {
@@ -185,7 +185,7 @@ export class QuasarConfFile {
       this.#opts.watch = debounce(watch, 550)
     }
 
-    log(`Using ${ basename(appPaths.quasarConfigFilename) }`)
+    log(`Using ${ basename(appPaths.quasarConfigFilename) } in "${ appPaths.quasarConfigInputFormat }" format`)
   }
 
   async init () {
