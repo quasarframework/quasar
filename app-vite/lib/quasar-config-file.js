@@ -251,7 +251,7 @@ export class QuasarConfFile {
       fse.removeSync(tempFile)
       console.log()
       console.error(e)
-      fatal('Could not compile the quasar.config file because it has errors', 'FAIL')
+      fatal('Could not compile the quasar.config file because it has errors.', 'FAIL')
     }
 
     let quasarConfigFn
@@ -309,6 +309,7 @@ export class QuasarConfFile {
 
           let quasarConfigFn
 
+          // ensure we grab the latest version
           if (appPaths.quasarConfigOutputFormat === 'cjs') {
             delete require.cache[ tempFile ]
           }
@@ -321,6 +322,11 @@ export class QuasarConfFile {
             quasarConfigFn = result.default || result
           }
           catch (e) {
+            // free up memory immediately
+            if (appPaths.quasarConfigOutputFormat === 'cjs') {
+              delete require.cache[ tempFile ]
+            }
+
             console.log()
             console.error(e)
 
@@ -335,7 +341,16 @@ export class QuasarConfFile {
             return
           }
 
+          // free up memory immediately
+          if (appPaths.quasarConfigOutputFormat === 'cjs') {
+            delete require.cache[ tempFile ]
+          }
+
           const quasarConf = await this.#computeConfig(quasarConfigFn, isFirst)
+
+          if (quasarConf === void 0) {
+            return
+          }
 
           if (isFirst === true) {
             isFirst = false
@@ -343,10 +358,8 @@ export class QuasarConfFile {
             return
           }
 
-          if (quasarConf !== void 0) {
-            log('Scheduled to apply quasar.config changes in 550ms')
-            this.#opts.watch(quasarConf)
-          }
+          log('Scheduled to apply quasar.config changes in 550ms')
+          this.#opts.watch(quasarConf)
         })
       }
     })
@@ -709,7 +722,7 @@ export class QuasarConfFile {
         fatal('Files validation not passed successfully', 'FAIL')
       }
 
-      warn('Files validation not passed successfully. Please fix the issues then save the file again.\n')
+      warn('Files validation not passed successfully. Please fix the issues.\n')
       return
     }
 
@@ -819,7 +832,7 @@ export class QuasarConfFile {
           fatal(msg, 'FAIL')
         }
 
-        warn(msg + ' Please fix it then save the file again.\n')
+        warn(msg + ' Please fix it.\n')
         return
       }
 

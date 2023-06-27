@@ -7,3 +7,4 @@
 .eslintrc.js
 babel.config.js
 /src-ssr
+/quasar.config.*.temporary.compiled*
