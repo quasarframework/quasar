@@ -7,7 +7,7 @@ const { build: esBuild, context: esContextBuild } = require('esbuild')
 const debounce = require('lodash/debounce.js')
 
 const appPaths = require('./app-paths.js')
-const { appPkg, quasarPkg } = require('./app-pkg.js')
+const { appPkg, quasarPkg, updateAppPackageJson } = require('./app-pkg.js')
 const { log, warn, fatal } = require('./utils/logger.js')
 const { extensionsRunner } = require('./app-extension/extensions-runner.js')
 const { appFilesValidations } = require('./utils/app-files-validations.js')
@@ -187,7 +187,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
         build.onStart(() => {
           if (isFirst === false) {
-            log('The quasar.config file changed. Reading it...')
+            log('The quasar.config file (or its dependencies) changed. Reading it...')
+            updateAppPackageJson()
           }
         })
 
