@@ -263,7 +263,7 @@ export class QuasarConfFile {
         build.onStart(() => {
           if (isFirst === false) {
             log()
-            log('The quasar.config file changed. Reading it...')
+            log('The quasar.config file (or its dependencies) changed. Reading it...')
             updateAppPackageJson()
           }
         })
