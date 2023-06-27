@@ -14,7 +14,7 @@ import { cssVariables } from './utils/css-variables.js'
 import { getPackageMajorVersion } from './utils/get-package-major-version.js'
 import { resolveExtension } from './utils/resolve-extension.js'
 import { storeProvider } from './utils/store-provider.js'
-import { appPkg } from './app-pkg.js'
+import { appPkg, updateAppPackageJson } from './app-pkg.js'
 import { ensureElectronArgv } from './utils/ensure-argv.js'
 import { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } from './plugins/esbuild.inject-replacements.js'
 
@@ -257,6 +257,7 @@ export class QuasarConfFile {
           if (isFirst === false) {
             log()
             log('The quasar.config file changed. Reading it...')
+            updateAppPackageJson()
           }
         })
 
