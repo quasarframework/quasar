@@ -22,6 +22,9 @@ export interface QuasarAppPaths {
   bexDir: string;
 
   quasarConfigFilename: string;
+  quasarConfigInputFormat: "esm" | "cjs" | "ts";
+  quasarConfigOutputFormat: "esm" | "cjs";
+
   postcssConfigFilename: string;
   babelConfigFilename: string;
 

@@ -1,4 +1,4 @@
-const path = require('node:path')
+const { join, isAbsolute, basename } = require('node:path')
 const { existsSync, readFileSync } = require('node:fs')
 const { removeSync } = require('fs-extra')
 const { merge } = require('webpack-merge')
@@ -56,24 +56,24 @@ function escapeHTMLAttribute (str) {
   return str ? str.replace(/\"/g, '') : ''
 }
 
-function formatPublicPath (path) {
-  if (!path) {
+function formatPublicPath (publicPath) {
+  if (!publicPath) {
     return ''
   }
 
-  if (!path.endsWith('/')) {
-    path = `${ path }/`
+  if (!publicPath.endsWith('/')) {
+    publicPath = `${ publicPath }/`
   }
 
-  if (urlRegex.test(path) === true) {
-    return path
+  if (urlRegex.test(publicPath) === true) {
+    return publicPath
   }
 
-  if (!path.startsWith('/')) {
-    path = `/${ path }`
+  if (!publicPath.startsWith('/')) {
+    publicPath = `/${ publicPath }`
   }
 
-  return path
+  return publicPath
 }
 
 function formatRouterBase (publicPath) {
@@ -127,6 +127,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
+
+    log(`Using ${ basename(appPaths.quasarConfigFilename) } in "${ appPaths.quasarConfigInputFormat }" format`)
   }
 
   read () {
@@ -543,7 +545,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       extractCSS: this.ctx.prod || this.ctx.mode.ssr,
       sourceMap: this.ctx.dev,
       minify: this.ctx.prod && this.ctx.mode.bex !== true,
-      distDir: path.join('dist', this.ctx.modeName),
+      distDir: join('dist', this.ctx.modeName),
       htmlFilename: 'index.html',
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
       // will mess up SSR
@@ -632,12 +634,12 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       })
     }
 
-    if (!path.isAbsolute(cfg.build.distDir)) {
+    if (!isAbsolute(cfg.build.distDir)) {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
     if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
-      cfg.build.packagedDistDir = path.join(cfg.build.distDir, this.ctx.targetName)
+      cfg.build.packagedDistDir = join(cfg.build.distDir, this.ctx.targetName)
     }
 
     if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
@@ -645,7 +647,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
     else if (this.ctx.mode.electron || this.ctx.mode.bex) {
       cfg.build.packagedDistDir = cfg.build.distDir
-      cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
+      cfg.build.distDir = join(cfg.build.distDir, 'UnPackaged')
     }
 
     cfg.build.publicPath
@@ -997,7 +999,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         builder: {
           directories: {
             input: cfg.build.distDir,
-            output: path.join(cfg.build.packagedDistDir, 'Packaged')
+            output: join(cfg.build.packagedDistDir, 'Packaged')
           }
         }
       })
@@ -1033,7 +1035,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         builder: {
           directories: {
             app: cfg.build.distDir,
-            output: path.join(cfg.build.packagedDistDir, 'Packaged')
+            output: join(cfg.build.packagedDistDir, 'Packaged')
           }
         }
       })

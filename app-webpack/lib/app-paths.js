@@ -2,22 +2,22 @@
 const { existsSync } = require('node:fs')
 const { normalize, resolve, join, sep } = require('node:path')
 
-const quasarConfigFilenameList = [
-  'quasar.config.js',
-  'quasar.config.mjs',
-  'quasar.config.ts',
-  'quasar.config.cjs',
-  'quasar.conf.js' // legacy (removed during v2)
+const quasarConfigList = [
+  { name: 'quasar.config.js', inputFormat: 'esm', outputFormat: 'cjs' },
+  { name: 'quasar.config.mjs', inputFormat: 'esm', outputFormat: 'cjs' },
+  { name: 'quasar.config.ts', inputFormat: 'ts', outputFormat: 'cjs' },
+  { name: 'quasar.config.cjs', inputFormat: 'cjs', outputFormat: 'cjs' },
+  { name: 'quasar.conf.js', inputFormat: 'cjs', outputFormat: 'cjs' } // legacy (removed during v2)
 ]
 
 function getAppInfo () {
   let appDir = process.cwd()
 
   while (appDir.length && appDir[ appDir.length - 1 ] !== sep) {
-    for (const name of quasarConfigFilenameList) {
+    for (const { name, inputFormat, outputFormat } of quasarConfigList) {
       const quasarConfigFilename = join(appDir, name)
       if (existsSync(quasarConfigFilename)) {
-        return { appDir, quasarConfigFilename }
+        return { appDir, quasarConfigFilename, quasarConfigInputFormat: inputFormat, quasarConfigOutputFormat: outputFormat }
       }
     }
 
@@ -65,7 +65,7 @@ function getBabelConfigFile (appDir) {
   }
 }
 
-const { appDir, quasarConfigFilename } = getAppInfo()
+const { appDir, quasarConfigFilename, quasarConfigInputFormat, quasarConfigOutputFormat } = getAppInfo()
 
 const cliDir = resolve(__dirname, '..')
 const srcDir = resolve(appDir, 'src')
@@ -88,6 +88,9 @@ module.exports = {
   bexDir,
 
   quasarConfigFilename,
+  quasarConfigInputFormat,
+  quasarConfigOutputFormat,
+
   postcssConfigFilename: getPostcssConfigFile(appDir),
   babelConfigFilename: getBabelConfigFile(appDir),
 
