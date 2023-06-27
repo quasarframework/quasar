@@ -3,8 +3,8 @@ import path from 'node:path'
 import { merge } from 'webpack-merge'
 import semver from 'semver'
 
-import { appPkg } from '../app-pkg.js'
 import { warn, fatal } from '../utils/logger.js'
+import { appPkg, updateAppPackageJson } from '../app-pkg.js'
 import { getPackageJson } from '../utils/get-package-json.js'
 import { getCallerPath } from '../utils/get-caller-path.js'
 import { extensionJson } from './extension-json.js'
@@ -171,14 +171,16 @@ export class InstallAPI extends BaseAPI {
       return
     }
 
-    const filePath = this.resolve.app('package.json')
     const pkg = merge({}, appPkg, extPkg)
 
     fs.writeFileSync(
-      filePath,
+      this.resolve.app('package.json'),
       JSON.stringify(pkg, null, 2),
       'utf-8'
     )
+
+    // we mingled with it, time to notify there's a need to update it
+    updateAppPackageJson()
 
     if (
       extPkg.dependencies
