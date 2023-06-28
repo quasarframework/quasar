@@ -58,8 +58,10 @@ function renderModulesPreload (modules) {
 
       if (clientManifest[filename] !== void 0) {
         for (const depFile of clientManifest[filename]) {
-          links += renderPreloadTag(depFile)
-          seen.add(depFile)
+          if (seen.has(depFile) === false) {
+            links += renderPreloadTag(depFile)
+            seen.add(depFile)
+          }
         }
       }
 
