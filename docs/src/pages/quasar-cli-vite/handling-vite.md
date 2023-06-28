@@ -119,7 +119,7 @@ build: {
 Moreover, don't forget that your `/quasar.config` file exports a function that receives `ctx` as parameter. You can use it throughout the whole config file to apply settings only to certain Quasar modes or only to dev or prod:
 
 ```js
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     build: {
       extendViteConf (viteConf, { isClient, isServer }) {
@@ -187,9 +187,9 @@ To add your own alias there are two ways:
 
 ```js
 // quasar.config file
-import path from 'node:path'
+const path = require('node:path')
 
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     build: {
       alias: {
@@ -204,9 +204,9 @@ export default function (ctx) {
 
 ```js
 // quasar.config file
-import path from 'node:path'
+const path = require('node:path')
 
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     build: {
       extendViteConf (viteConf, { isServer, isClient }) {

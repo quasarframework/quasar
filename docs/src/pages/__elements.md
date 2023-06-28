@@ -139,7 +139,7 @@ For a full list of our `wonderful` people who make Quasar happen, visit the [Bac
 ## Inline example
 
 ```js
-export default function (ctx) { // can be async too
+module.exports = function (ctx) { // can be async too
   console.log(ctx)
 
   // Example output on console:

@@ -73,7 +73,7 @@ Should you want to tamper with the "Renderer" thread (UI in /src) Vite config:
 
 ```js
 // quasar.config file
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {

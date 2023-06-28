@@ -103,9 +103,9 @@ Use the `path.resolve` helper to resolve the path to your intended alias.
 
 ```js
 // quasar.config file
-import path from 'node:path'
+const path = require('node:path')
 
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     build: {
       extendWebpack (cfg, { isServer, isClient }) {
@@ -125,9 +125,9 @@ Equivalent with chainWebpack():
 
 ```js
 // quasar.config file
-import path from 'node:path'
+const path = require('node:path')
 
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     build: {
       chainWebpack (chain, { isServer, isClient }) {

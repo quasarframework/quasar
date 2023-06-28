@@ -14,13 +14,14 @@ The following steps are only required when you **have not** selected TypeScript 
 
 ## Installation of TypeScript Support
 
-In order to support TypeScript, you'll need to change the extension of your quasar.config file: `/quasar.config.ts` (notice the `.ts` ending):
+In order to support TypeScript, you'll need to change the extension of your quasar.config file: `/quasar.config` file:
 
 ```js
 import { configure } from "quasar/wrappers";
 
-export default configure((ctx) => {
+module.exports = configure((ctx) => {
   return {
+    supportTS: true,
     // ...
   }
 });
@@ -53,14 +54,14 @@ Behind the curtains, Quasar uses `ts-loader` and `fork-ts-checker-webpack-plugin
 
 ```js
 // quasar.config file
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
-    build: {
-      tsLoaderOptions: {
+    supportTS: {
+      tsLoaderConfig: {
         // `appendTsSuffixTo: [/\.vue$/]` and `transpileOnly: true` are added by default and cannot be overridden
         ...
       },
-      tsCheckerOptions: {
+      tsCheckerConfig: {
         // `vue: true` is added by default and cannot be overridden
         ...
       }
@@ -161,10 +162,10 @@ If you setup TypeScript linting and want `fork-ts-checker-webpack-plugin` (provi
 
 ```js
 // quasar.config file
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
-    build: {
-      tsCheckerOptions: {
+    supportTS: {
+      tsCheckerConfig: {
         eslint: {
           enabled: true,
           files: './src/**/*.{ts,tsx,js,jsx,vue}'

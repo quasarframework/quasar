@@ -198,7 +198,7 @@ Before starting, it is highly suggested to make a copy of your current working p
   "eslint-plugin-quasar": "^1.0.0"
   ```
 
-  In the `/quasar.config` file, before the `export default function (ctx)` add:
+  In the `/quasar.config` file, before the `module.exports = function (ctx)` add:
   ```js
   const ESLintPlugin = require('eslint-webpack-plugin')
   ```

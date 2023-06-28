@@ -97,7 +97,7 @@ It's important to understand the different types of environment variables.
 // Accessing terminal variables
 console.log(process.env)
 
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     // ...
 
@@ -130,36 +130,6 @@ build: {
       ? 'https://dev.' + process.env.MY_API
       : 'https://prod.' + process.env.MY_API
   }
-}
-```
-
-#### Using env dotfiles <q-badge label="@quasar/app-vite v2+" />
-
-The following files (in your project root folder) will be picked up automatically (the order matters):
-
-```
-.env                                # loaded in all cases
-.env.local                          # loaded in all cases, ignored by git
-.env.[dev|prod]                     # loaded for dev or prod only
-.env.local.[dev|prod]               # loaded for dev or prod only, ignored by git
-.env.[quasarMode]                   # loaded for specific Quasar CLI mode only
-.env.local.[quasarMode]             # loaded for specific Quasar CLI mode only, ignored by git
-.env.[dev|prod].[quasarMode]        # loaded for specific Quasar CLI mode and dev|prod only
-.env.local.[dev|prod].[quasarMode]  # loaded for specific Quasar CLI mode and dev|prod only, ignored by git
-```
-
-...where "ignored by git" assumes that your `/.gitignore` file contains this entry: `.env.local*`. Project folders created after the `@quasar/app-vite` v2 release have this by default.
-
-You can also configure the files above to be picked up from a different folder or even add more files to the list:
-
-```js
-// quasar.config file
-
-build: {
-  envFolder: '../' // absolute or relative path to root project folder
-  envFiles: [
-    // Path strings to your custom files --- absolute or relative path to root project folder
-  ]
 }
 ```
 
@@ -217,9 +187,11 @@ You might be getting `process is not defined` errors in the browser console if y
 ### Wrong usage
 
 ```js
-// quasar.config file > build
-env: {
-  FOO: 'hello',
+// quasar.config file
+build: {
+  env: {
+    FOO: 'hello',
+  }
 }
 ```
 
@@ -246,9 +218,11 @@ console.log(process.env.F0O) // ❌ Typo in the variable name (middle o is 0(zer
 #### Manual definition
 
 ```js
-// quasar.config file > build
-env: {
-  FOO: 'hello',
+// quasar.config file
+build: {
+  env: {
+    FOO: 'hello',
+  }
 }
 ```
 
@@ -260,8 +234,10 @@ console.log(process.env.BAR) // ❌ It's not defined in `build > env`
 #### dotenv
 
 ```js
-// quasar.config file > build
-env: require('dotenv').config(/* ... */).parsed
+// quasar.config file
+build: {
+  env: require('dotenv').config(/* ... */).parsed
+}
 ```
 
 If the `.env` doesn't exist or there is a typo in the file name:

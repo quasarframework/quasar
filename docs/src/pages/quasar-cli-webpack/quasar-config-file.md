@@ -22,6 +22,10 @@ So what can you configure through the `/quasar.config` file?
 You'll notice that changing any of these settings does not require you to manually reload the dev server. Quasar detects and reloads the necessary processes. You won't lose your development flow, because you can just sit back while Quasar CLI quickly reloads the changed code, even keeping the current state. This saves tons of your time!
 :::
 
+::: warning
+The `/quasar.config` file is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack', and so on. Make sure the ES features that you want to use in this file are [supported by your Node version](https://node.green/) (which should be >= 14).
+:::
+
 ## Structure
 
 ### The basics
@@ -29,7 +33,7 @@ You'll notice that changing any of these settings does not require you to manual
 You'll notice that the `/quasar.config` file exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
-export default function (ctx) { // can be async too
+module.exports = function (ctx) { // can be async too
   console.log(ctx)
 
   // Example output on console:
@@ -53,7 +57,7 @@ export default function (ctx) { // can be async too
 What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
 
 ```js
-export default function (ctx) {
+module.exports = function (ctx) {
   extras: [
     ctx.mode.pwa // we're adding only if working on a PWA
       ? 'roboto-font'
@@ -65,7 +69,7 @@ export default function (ctx) {
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
 
 ```js
-export default function (ctx) {
+module.exports = function (ctx) {
   css: [
     ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
     ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
@@ -76,7 +80,7 @@ export default function (ctx) {
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
 
 ```js
-export default function (ctx) {
+module.exports = function (ctx) {
   devServer: {
     port: ctx.mode.spa
       ? 8000
@@ -88,7 +92,7 @@ export default function (ctx) {
 You can also do async work before returning the quasar configuration:
 
 ```js
-export default async function (ctx) {
+module.exports = async function (ctx) {
   const data = await someAsyncFunction()
   return {
     // ... use "data"
@@ -96,7 +100,7 @@ export default async function (ctx) {
 }
 
 // or:
-export default function (ctx) {
+module.exports = function (ctx) {
   return new Promise(resolve => {
     // some async work then:
     // resolve() with the quasar config
@@ -116,7 +120,7 @@ You can wrap the returned function with `configure()` helper to get a better IDE
 ```js
 const { configure } = require('quasar/wrappers')
 
-export default configure(function (ctx) {
+module.exports = configure(function (ctx) {
   /* configuration options */
 })
 ```
@@ -130,6 +134,7 @@ Let's take each option one by one:
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli-webpack/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
+| supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli-webpack/supporting-ts) |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
@@ -224,7 +229,7 @@ Most used properties are:
 | onBeforeSetupMiddleware | Function | Configure the dev middlewares before webpack-dev-server applies its own config. |
 | onAfterSetupMiddleware | Function | Configure the dev middlewares after webpack-dev-server applies its own config. |
 
-Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devServer > open with. Some examples:
+Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
 
 ```js
 // quasar.config file
@@ -329,9 +334,6 @@ build: {
 | ignorePublicFolder | Boolean | Ignores the /public folder. If you depend on a statics folder then you will need to configure it yourself (outside of Quasar or through the extendWebpack/chainWebpack), so make sure that you know what you are doing. |
 | devtool | String | Source map [strategy](https://webpack.js.org/configuration/devtool/) to use. |
 | env | Object | Add properties to `process.env` that you can use in your website/app JS code. |
-| rawDefine | Object | Defines constants that get replaced in your app. Unlike `env`, you will need to use JSON.stringify() on the values yourself except for booleans. Everything defined here will not be prefixed with `process.env`. (**@quasar/app-webpack v4+) |
-| envFolder | String | Where to look for env dotfiles. Can be an absolute path or a relative path to project root directory. Default: the project root folder. (**@quasar/app-webpack v4+) |
-| envFiles | Array of String | Additional env dotfiles to use. Each entry can be an absolute path or a relative path to quasar.config > build > envFolder. (**@quasar/app-webpack v4+) |
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
@@ -341,8 +343,6 @@ build: {
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |
-| tsLoaderOptions | Object | Options to supply to `ts-loader`. (**@quasar/app-webpack v4+) |
-| tsCheckerOptions | Object | Options to supply to `ts-checker`. (**@quasar/app-webpack v4+) |
 
 The following properties of `build` are automatically configured by Quasar CLI depending on dev/build commands and Quasar mode. But if you like to override some (make sure you know what you are doing), you can do so:
 
@@ -359,7 +359,7 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
 // quasar.config file
-export default function (ctx) {
+module.exports = function (ctx) {
   return {
     htmlVariables: {
       title: 'test name',

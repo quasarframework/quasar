@@ -90,7 +90,7 @@ scope:
       - l: electron
         e: Example when building Electron
       - l: "..."
-    - l: quasar.config.[js|ts|...]
+    - l: quasar.config.js
       e: Quasar App Config file
       url: "/quasar-cli-vite/quasar-config-file"
     - l: ".gitignore"

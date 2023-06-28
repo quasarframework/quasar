@@ -82,7 +82,7 @@ We then edit the `quasar.config` file at the root of our project. We have to inc
 ```js
 // quasar.config file
 
-import path from 'node:path'
+const path = require('node:path')
 
 build: {
   chainWebpack: chain => {

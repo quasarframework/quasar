@@ -13,19 +13,7 @@ The following steps are only required when you **have not** selected TypeScript 
 
 ## Installation of TypeScript Support
 
-In order to support TypeScript, you'll need to change the extension of your quasar.config file: `/quasar.config.ts` (notice the `.ts` ending):
-
-```js
-import { configure } from "quasar/wrappers";
-
-export default configure((ctx) => {
-  return {
-    // ...
-  }
-});
-```
-
-Then create `/tsconfig.json` file at the root of you project with this content:
+Create `/tsconfig.json` file at the root of you project with this content:
 
 ```json
 {
@@ -125,7 +113,10 @@ module.exports = {
 
     // TypeScript
     'quotes': ['warn', 'single'],
+    // this rule, if on, would require explicit return type on the `render` function
     '@typescript-eslint/explicit-function-return-type': 'off',
+    // in plain CommonJS modules, you can't use `import foo = require('foo')` to pass this rule, so it has to be disabled
+    '@typescript-eslint/no-var-requires': 'off',
   }
 }
 ```
