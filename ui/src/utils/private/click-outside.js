@@ -30,6 +30,12 @@ function globalHandler (evt) {
   while (portalIndex >= 0) {
     const proxy = portalProxyList[ portalIndex ].$
 
+    // skip QTooltip portals
+    if (proxy.type.name === 'QTooltip') {
+      portalIndex--
+      continue
+    }
+
     if (proxy.type.name !== 'QDialog') {
       break
     }
