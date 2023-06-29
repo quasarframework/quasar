@@ -32,7 +32,7 @@ export function createHeadTags (quasarConf) {
       + `<link rel="apple-touch-icon" sizes="180x180" href="${ publicPath }icons/apple-icon-180x180.png">`
   }
   else if (typeof injectPwaMetaTags === 'function') {
-    headTags += injectPwaMetaTags()
+    headTags += injectPwaMetaTags({ publicPath, pwaManifest })
   }
 
   return headTags

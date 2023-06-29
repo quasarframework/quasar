@@ -66,6 +66,11 @@ interface PwaManifestOptions {
   theme_color?: string;
 }
 
+interface InjectPwaMetaTagsParams {
+  pwaManifest: PwaManifestOptions;
+  publicPath: string;
+}
+
 /**
  * This is the place where you can configure
  * [Workbox](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin)’s
@@ -84,7 +89,7 @@ export interface QuasarPwaConfiguration {
    * Auto inject the PWA meta tags?
    * @default true
    */
-  injectPwaMetaTags?: boolean;
+  injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);
 
   /**
    * Generated service worker filename to use (needs to end with .js)
