@@ -8,7 +8,7 @@ const { hasTypescript } = require('../utils/has-typescript.js')
 const { hasEslint } = require('../utils/has-eslint.js')
 
 const pwaDeps = {
-  'workbox-webpack-plugin': '^6.0.0'
+  'workbox-webpack-plugin': '^7.0.0'
 }
 
 module.exports.QuasarMode = class QuasarMode {

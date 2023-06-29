@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-webpack",
-  "version": "4.0.0-alpha.7",
+  "version": "4.0.0-alpha.8",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
     "quasar": "./bin/quasar"
@@ -135,7 +135,7 @@
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",
-    "workbox-webpack-plugin": "^6.0.0"
+    "workbox-webpack-plugin": ">= 6"
   },
   "peerDependenciesMeta": {
     "electron-builder": {
