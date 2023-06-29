@@ -21,7 +21,6 @@ export default ctx => ({
   ],
 
   build: {
-    minify: false,
     vueRouterMode: 'history',
     distDir: 'dist/quasar.dev',
     useFilenameHashes: false,
