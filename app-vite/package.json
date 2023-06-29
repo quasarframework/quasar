@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "2.0.0-alpha.10",
+  "version": "2.0.0-alpha.11",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar.js"
@@ -101,7 +101,7 @@
     "vue": "^3.3.4",
     "vue-router": "^4.2.1",
     "vuex": "^4.0.0",
-    "workbox-build": "^6.6.0"
+    "workbox-build": "^7.0.0"
   },
   "peerDependencies": {
     "electron-builder": ">= 22",
@@ -112,7 +112,7 @@
     "vue": "^3.2.29",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.0",
-    "workbox-build": "^6.5.0"
+    "workbox-build": ">= 6"
   },
   "peerDependenciesMeta": {
     "electron-builder": {

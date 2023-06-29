@@ -39,7 +39,7 @@
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
     "toml": "^3.0.0",
-    "workbox-build": "^6.5.1"
+    "workbox-build": "^7.0.0"
   },
   "engines": {
     "node": ">= 14.19.0",

@@ -209,7 +209,7 @@ export class QuasarConfFile {
 
   async init () {
     if (this.#ctx.mode.pwa) {
-      // Enable this when workbox bumps version (as of writing these lines, we're handling v6)
+      // Enable this when workbox bumps version (as of writing these lines, we're handling v6 & v7)
       // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {

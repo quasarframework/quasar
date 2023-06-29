@@ -8,7 +8,7 @@ import { nodePackager } from '../../utils/node-packager.js'
 import { hasTypescript } from '../../utils/has-typescript.js'
 import { hasEslint } from '../../utils/has-eslint.js'
 
-const defaultVersion = '^6.5.0'
+const defaultVersion = '^7.0.0'
 
 const pwaDeps = {
   'workbox-core': defaultVersion,
