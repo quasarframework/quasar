@@ -47,6 +47,7 @@ export default ctx => ({
 
     extendViteConf (config, { isClient }) {
       if (ctx.prod && isClient) {
+        config.build.chunkSizeWarningLimit = 650
         config.build.rollupOptions = {
           output: { manualChunks }
         }
