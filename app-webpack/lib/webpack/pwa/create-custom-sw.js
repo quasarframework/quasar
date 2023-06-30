@@ -131,12 +131,10 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
           ...cfg.build.env,
           PWA_FALLBACK_HTML: cfg.ctx.mode.ssr === true && cfg.ctx.prod === true
             ? cfg.ssr.pwaOfflineHtmlFilename
-            : 'index.html'
+            : 'index.html',
+          PWA_SERVICE_WORKER_REGEX: `${ escapeRegexString(cfg.pwa.swFilename) }$`
         },
-        buildRawDefine: {
-          ...cfg.build.rawDefine,
-          'process.env.PWA_SERVICE_WORKER_REGEX': `/${ escapeRegexString(cfg.pwa.swFilename) }$/`
-        },
+        buildRawDefine: cfg.build.rawDefine,
         fileEnv: cfg.__fileEnv
       })
     ])
