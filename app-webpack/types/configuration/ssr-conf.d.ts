@@ -4,12 +4,35 @@ import * as WebpackChain from "webpack-chain";
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.
-   * When used in object form, you can specify Workbox options
-   *  which will be applied on top of `pwa > workboxOptions`.
-   *
    * @default false
    */
-  pwa?: boolean | object;
+  pwa?: boolean;
+
+  /**
+   * When using SSR+PWA, this is the name of the
+   * PWA index html file.
+   *
+   * Do NOT use index.html as name as it will mess SSR up!
+   *
+   * @default 'offline.html'
+   */
+  pwaOfflineHtmlFilename?: string;
+
+  /**
+   * Extend/configure the Workbox generateSW options
+   * Specify Workbox options which will be applied on top of
+   *  `pwa > extendGenerateSWOptions()`.
+   * More info: https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+   */
+  pwaExtendGenerateSWOptions?: (config: object) => void;
+
+  /**
+   * Extend/configure the Workbox injectManifest options
+   * Specify Workbox options which will be applied on top of
+   *  `pwa > extendInjectManifestOptions()`.
+   * More info: https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
+   */
+  pwaExtendInjectManifestOptions?: (config: object) => void;
 
   /**
    * Manually serialize the store state and provide it yourself

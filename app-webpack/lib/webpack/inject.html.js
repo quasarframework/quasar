@@ -7,8 +7,8 @@ const { HtmlAddonsPlugin } = require('./plugin.html-addons.js')
 function getHtmlFilename (cfg) {
   if (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa) {
     return cfg.ctx.dev
-      ? cfg.build.ssrPwaHtmlFilename
-      : join(cfg.build.distDir, 'www', cfg.build.ssrPwaHtmlFilename)
+      ? cfg.ssr.pwaOfflineHtmlFilename
+      : join(cfg.build.distDir, 'www', cfg.ssr.pwaOfflineHtmlFilename)
   }
 
   return cfg.ctx.dev

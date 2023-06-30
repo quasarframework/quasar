@@ -65,7 +65,7 @@ const render = createRenderer({
 
 <% if (ssr.pwa) { %>
 // serve this with no cache, if built with PWA:
-app.use(resolveUrlPath('/service-worker.js'), serveStatic('service-worker.js', { maxAge: 0 }))
+app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilename %>', { maxAge: 0 }))
 <% } %>
 
 // serve "www" folder (includes the "public" folder)

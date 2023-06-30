@@ -8,18 +8,88 @@ function makeTag (tagName, attributes) {
   }
 }
 
-function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, useCredentials } }) {
+function fillPwaTags (
+  data,
+  {
+    build: { publicPath },
+    pwa: { manifest, manifestFilename, injectPwaMetaTags, useCredentialsForManifestTag }
+  }
+) {
   data.headTags.push(
     // Add to home screen for Android and modern mobile browsers
     makeTag('link', {
       rel: 'manifest',
-      href: 'manifest.json',
-      ...(useCredentials ? { crossorigin: 'use-credentials' } : {})
+      href: `${ publicPath }${ manifestFilename }`,
+      ...(useCredentialsForManifestTag ? { crossorigin: 'use-credentials' } : {})
     })
   )
 
-  if (typeof metaVariablesFn === 'function') {
-    const tags = metaVariablesFn(manifest)
+  if (injectPwaMetaTags === true) {
+    if (manifest.theme_color !== void 0) {
+      data.headTags.push(
+        makeTag('meta', {
+          name: 'theme-color',
+          content: manifest.theme_color
+        }),
+
+        makeTag('link', {
+          rel: 'mask-icon',
+          href: `${ publicPath }icons/safari-pinned-tab.svg`,
+          color: manifest.theme_color
+        })
+      )
+    }
+
+    if (manifest.name !== void 0) {
+      makeTag('meta', {
+        name: 'apple-mobile-web-app-title',
+        content: manifest.name
+      })
+    }
+
+    data.headTags.push(
+      // Add to home screen for Safari on iOS
+      makeTag('meta', {
+        name: `${ publicPath }apple-mobile-web-app-capable`,
+        content: 'yes'
+      }),
+      makeTag('meta', {
+        name: 'apple-mobile-web-app-status-bar-style',
+        content: 'default'
+      }),
+      makeTag('link', {
+        rel: 'apple-touch-icon',
+        href: `${ publicPath }icons/apple-icon-120x120.png`
+      }),
+      makeTag('link', {
+        rel: 'apple-touch-icon',
+        sizes: '152x152',
+        href: `${ publicPath }icons/apple-icon-152x152.png`
+      }),
+      makeTag('link', {
+        rel: 'apple-touch-icon',
+        sizes: '167x167',
+        href: `${ publicPath }icons/apple-icon-167x167.png`
+      }),
+      makeTag('link', {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: `${ publicPath }icons/apple-icon-180x180.png`
+      }),
+
+      // Add to home screen for Windows
+      makeTag('meta', {
+        name: 'msapplication-TileImage',
+        content: `${ publicPath }icons/ms-icon-144x144.png`
+      }),
+      makeTag('meta', {
+        name: 'msapplication-TileColor',
+        content: '#000000'
+      })
+    )
+  }
+  else if (typeof injectPwaMetaTags === 'function') {
+    const tags = injectPwaMetaTags({ manifest, publicPath })
 
     Array.isArray(tags) && tags.forEach(tag => {
       data.headTags.push({
@@ -28,62 +98,6 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn, u
         closeTag: tag.closeTag || false
       })
     })
-  }
-  else {
-    data.headTags.push(
-      makeTag('meta', {
-        name: 'theme-color',
-        content: manifest.theme_color
-      }),
-
-      // Add to home screen for Safari on iOS
-      makeTag('meta', {
-        name: 'apple-mobile-web-app-capable',
-        content: metaVariables.appleMobileWebAppCapable
-      }),
-      makeTag('meta', {
-        name: 'apple-mobile-web-app-status-bar-style',
-        content: metaVariables.appleMobileWebAppStatusBarStyle
-      }),
-      makeTag('meta', {
-        name: 'apple-mobile-web-app-title',
-        content: manifest.name
-      }),
-      makeTag('link', {
-        rel: 'apple-touch-icon',
-        href: metaVariables.appleTouchIcon120
-      }),
-      makeTag('link', {
-        rel: 'apple-touch-icon',
-        sizes: '152x152',
-        href: metaVariables.appleTouchIcon152
-      }),
-      makeTag('link', {
-        rel: 'apple-touch-icon',
-        sizes: '167x167',
-        href: metaVariables.appleTouchIcon167
-      }),
-      makeTag('link', {
-        rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: metaVariables.appleTouchIcon180
-      }),
-      makeTag('link', {
-        rel: 'mask-icon',
-        href: metaVariables.appleSafariPinnedTab,
-        color: manifest.theme_color
-      }),
-
-      // Add to home screen for Windows
-      makeTag('meta', {
-        name: 'msapplication-TileImage',
-        content: metaVariables.msapplicationTileImage
-      }),
-      makeTag('meta', {
-        name: 'msapplication-TileColor',
-        content: metaVariables.msapplicationTileColor
-      })
-    )
   }
 }
 

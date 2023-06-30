@@ -283,11 +283,11 @@ module.exports.createChain = function createChain (cfg, configName) {
   chain.optimization
     .nodeEnv(false)
 
-  if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa && cfg.pwa.workboxPluginMode === 'InjectManifest') {
+  if (cfg.ctx.dev && configName !== webpackNames.ssr.serverSide && cfg.ctx.mode.pwa) {
     // need to place it here before the status plugin
-    const { CustomSwWarningPlugin } = require('./pwa/plugin.custom-sw-warning.js')
-    chain.plugin('custom-sw-warning')
-      .use(CustomSwWarningPlugin)
+    const { WorkboxWarningPlugin } = require('./pwa/plugin.workbox-warning.js')
+    chain.plugin('workbox-warning')
+      .use(WorkboxWarningPlugin)
   }
 
   chain.plugin('progress')

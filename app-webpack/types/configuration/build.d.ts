@@ -102,15 +102,6 @@ interface QuasarStaticBuildConfiguration {
    */
   htmlFilename?: string;
   /**
-   * When using SSR+PWA, this is the name of the
-   * PWA index html file.
-   *
-   * Do NOT use index.html as name as it will mess SSR up!
-   *
-   * @default 'offline.html'
-   */
-  ssrPwaHtmlFilename?: string;
-  /**
    * Folder where Quasar CLI should generate the distributables.
    * Relative path to project root directory.
    *

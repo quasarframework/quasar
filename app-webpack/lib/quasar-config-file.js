@@ -391,11 +391,9 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         middlewares: []
       },
       pwa: {
-        workboxOptions: {},
         manifest: {
           icons: []
-        },
-        metaVariables: {}
+        }
       },
       electron: {
         inspectPort: 5858,
@@ -589,7 +587,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       minify: this.ctx.prod && this.ctx.mode.bex !== true,
       distDir: join('dist', this.ctx.modeName),
       htmlFilename: 'index.html',
-      ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
       // will mess up SSR
       vueRouterMode: 'hash',
       transpile: true,
@@ -740,6 +737,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
+        pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
         prodPort: 3000, // gets superseded in production by an eventual process.env.PORT
@@ -952,45 +950,30 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     if (this.ctx.mode.pwa) {
       cfg.pwa = merge({
-        workboxPluginMode: 'GenerateSW',
-        workboxOptions: {},
-        useCredentials: false,
+        workboxMode: 'GenerateSW',
+        injectPwaMetaTags: true,
+        swFilename: 'service-worker.js', // should be .js (as it's the distribution file, not the input file)
+        manifestFilename: 'manifest.json',
+        useCredentialsForManifestTag: false,
         manifest: {
           name: appPkg.productName || appPkg.name || 'Quasar App',
           short_name: appPkg.name || 'quasar-pwa',
           description: appPkg.description,
           display: 'standalone',
           start_url: '.'
-        },
-        metaVariables: {
-          appleMobileWebAppCapable: 'yes',
-          appleMobileWebAppStatusBarStyle: 'default',
-          appleTouchIcon120: 'icons/apple-icon-120x120.png',
-          appleTouchIcon152: 'icons/apple-icon-152x152.png',
-          appleTouchIcon167: 'icons/apple-icon-167x167.png',
-          appleTouchIcon180: 'icons/apple-icon-180x180.png',
-          appleSafariPinnedTab: 'icons/safari-pinned-tab.svg',
-          msapplicationTileImage: 'icons/ms-icon-144x144.png',
-          msapplicationTileColor: '#000000'
         }
       }, cfg.pwa)
 
-      if (cfg.pwa.manifest.icons.length === 0) {
+      if (![ 'GenerateSW', 'InjectManifest' ].includes(cfg.pwa.workboxMode)) {
         warn()
-        warn('PWA manifest in quasar.config file > pwa > manifest is missing "icons" prop.\n')
-        process.exit(1)
-      }
-
-      if (![ 'GenerateSW', 'InjectManifest' ].includes(cfg.pwa.workboxPluginMode)) {
-        warn()
-        warn(`Workbox webpack plugin mode "${ cfg.pwa.workboxPluginMode }" is invalid.`)
+        warn(`Workbox webpack plugin mode "${ cfg.pwa.workboxMode }" is invalid.`)
         warn('Valid Workbox modes are: GenerateSW, InjectManifest\n')
         process.exit(1)
       }
 
-      cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
-        if (urlRegex.test(icon.src) === false) {
-          icon.src = `${ cfg.build.publicPath }${ icon.src }`
+      cfg.pwa.manifest.icons = (cfg.pwa.manifest.icons || []).map(icon => {
+        if (urlRegex.test(icon.src) === false || (cfg.build.publicPath && icon.src.startsWith(cfg.build.publicPath) === false)) {
+          icon.src = `${ cfg.build.publicPath }${ icon.src }`.replaceAll('//', '/')
         }
         return icon
       })
@@ -1034,7 +1017,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     })
 
     if (this.ctx.mode.pwa) {
-      cfg.build.env.SERVICE_WORKER_FILE = `${ cfg.build.publicPath }service-worker.js`
+      cfg.build.env.SERVICE_WORKER_FILE = `${ cfg.build.publicPath }${ cfg.pwa.swFilename }`
     }
     else if (this.ctx.mode.bex) {
       cfg.bex = merge({}, cfg.bex, {

@@ -6,6 +6,7 @@ const appPaths = require('../../app-paths.js')
 const { getBuildSystemDefine } = require('../../utils/env.js')
 const { WebpackProgressPlugin } = require('../plugin.progress.js')
 const { hasTypescript } = require('../../utils/has-typescript.js')
+const { escapeRegexString } = require('../../utils/escape-regex-string.js')
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return
@@ -32,11 +33,11 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
   chain.entry('custom-sw').add(
     appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
   )
-  chain.mode(cfg.ctx.dev ? 'development' : 'production')
+  chain.mode(cfg.ctx.debug || cfg.ctx.dev ? 'development' : 'production')
   chain.devtool(cfg.build.sourceMap ? cfg.build.devtool : false)
 
   chain.output
-    .filename('service-worker.js')
+    .filename(cfg.pwa.swFilename)
     .libraryTarget('commonjs2') // need it to correctly reference externalized libs
     .path(
       appPaths.resolve.app('.quasar/pwa')
@@ -126,8 +127,16 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
   chain.plugin('define')
     .use(webpack.DefinePlugin, [
       getBuildSystemDefine({
-        builEnv: cfg.build.env,
-        buildRawDefine: cfg.build.rawDefine,
+        buildEnv: {
+          ...cfg.build.env,
+          PWA_FALLBACK_HTML: cfg.ctx.mode.ssr === true && cfg.ctx.prod === true
+            ? cfg.ssr.pwaOfflineHtmlFilename
+            : 'index.html'
+        },
+        buildRawDefine: {
+          ...cfg.build.rawDefine,
+          'process.env.PWA_SERVICE_WORKER_REGEX': `/${ escapeRegexString(cfg.pwa.swFilename) }$/`
+        },
         fileEnv: cfg.__fileEnv
       })
     ])

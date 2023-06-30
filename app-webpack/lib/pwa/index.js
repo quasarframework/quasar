@@ -11,7 +11,7 @@ class PwaRunner {
 
   shouldAbort (quasarConfFile) {
     return (
-      quasarConfFile.quasarConf.pwa.workboxPluginMode !== 'InjectManifest'
+      quasarConfFile.quasarConf.pwa.workboxMode !== 'InjectManifest'
       || (quasarConfFile.quasarConf.ctx.mode.ssr === true && quasarConfFile.quasarConf.ctx.mode.pwa !== true)
     )
   }

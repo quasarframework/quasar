@@ -71,58 +71,68 @@ interface PwaMetaVariablesEntry {
   closeTag?: boolean;
 }
 
+interface InjectPwaMetaTagsParams {
+  pwaManifest: PwaManifestOptions;
+  publicPath: string;
+}
+
 /**
  * This is the place where you can configure
- * [Workbox](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin)’s
+ * [Workbox](https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin/)’s
  * behavior and also tweak your `manifest.json`.
  */
 export interface QuasarPwaConfiguration {
-  workboxPluginMode?: "GenerateSW" | "InjectManifest";
+  workboxMode?: "GenerateSW" | "InjectManifest";
+
   /**
-   * Full option list can be found
-   *  [here](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#full_generatesw_config).
+   * Generated service worker filename to use (needs to end with .js)
+   * @default service-worker.js
    */
-  workboxOptions?: object;
+  swFilename?: string;
+
+  /**
+   * PWA manifest filename to use (relative to /src-pwa or absolute path)
+   * @default manifest.json
+   */
+  manifestFilename?: string;
+
+  /**
+   * Extend the default PWA manifest JSON.
+   */
   manifest?: PwaManifestOptions;
 
   /**
+   * Does the PWA manifest tag requires crossorigin auth?
+   */
+  useCredentialsForManifestTag?: boolean;
+
+  /**
+   * Auto inject the PWA meta tags?
+   * @default true
+   */
+  injectPwaMetaTags: boolean | ((injectParam: InjectPwaMetaTagsParams) => PwaMetaVariablesEntry[]);
+
+  /**
    * Webpack config object for the custom service worker ONLY (`/src-pwa/custom-service-worker`)
-   *  when pwa > workboxPluginMode is set to InjectManifest
+   *  when pwa > workboxMode is set to InjectManifest
    */
   extendWebpackCustomSW?: (config: WebpackConfiguration) => void;
   /**
    * Equivalent to `extendWebpackCustomSW()` but uses `webpack-chain` instead,
    *  for the custom service worker ONLY (`/src-pwa/custom-service-worker`)
-   *  when pwa > workboxPluginMode is set to InjectManifest
+   *  when pwa > workboxMode is set to InjectManifest
    */
   chainWebpackCustomSW?: (chain: WebpackChain) => void;
 
   /**
-   * @default
-   * ```typescript
-   * {
-   *    appleMobileWebAppCapable: 'yes';
-   *    appleMobileWebAppStatusBarStyle: 'default';
-   *    appleTouchIcon120: 'icons/apple-icon-120x120.png';
-   *    appleTouchIcon180: 'icons/apple-icon-180x180.png';
-   *    appleTouchIcon152: 'icons/apple-icon-152x152.png';
-   *    appleTouchIcon167: 'icons/apple-icon-167x167.png';
-   *    appleSafariPinnedTab: 'icons/safari-pinned-tab.svg';
-   *    msapplicationTileImage: 'icons/ms-icon-144x144.png';
-   *    msapplicationTileColor: '#000000';
-   * }
-   * ```
+   * Extend/configure the Workbox generateSW options
+   * More info [here](https://developer.chrome.com/docs/workbox/reference/workbox-webpack-plugin/)
    */
-  metaVariables?: {
-    appleMobileWebAppCapable: string;
-    appleMobileWebAppStatusBarStyle: string;
-    appleTouchIcon120: string;
-    appleTouchIcon180: string;
-    appleTouchIcon152: string;
-    appleTouchIcon167: string;
-    appleSafariPinnedTab: string;
-    msapplicationTileImage: string;
-    msapplicationTileColor: string;
-  };
-  metaVariablesFn?: (manifest?: PwaManifestOptions) => PwaMetaVariablesEntry[];
+  extendGenerateSWOptions?: (config: object) => void;
+
+  /**
+   * Extend/configure the Workbox injectManifest options
+   * More info: [here](https://developer.chrome.com/docs/workbox/reference/workbox-webpack-plugin/)
+   */
+  extendInjectManifestOptions?: (config: object) => void;
 }

@@ -91,7 +91,7 @@ async function getPWA (cfg) {
   }
 
   return {
-    ...(cfg.pwa.workboxPluginMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
+    ...(cfg.pwa.workboxMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
     renderer: await getRenderer()
   }
 }
@@ -175,7 +175,7 @@ async function getSSR (cfg) {
   const webserver = createSSRWebserverChain(cfg, webpackNames.ssr.webserver)
 
   return {
-    ...(cfg.pwa.workboxPluginMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
+    ...(cfg.pwa.workboxMode === 'InjectManifest' ? { csw: await getCSW(cfg) } : {}),
 
     webserver: await getWebpackConfig(webserver, cfg, {
       name: webpackNames.ssr.webserver,
