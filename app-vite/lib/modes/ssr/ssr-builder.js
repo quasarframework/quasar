@@ -130,7 +130,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     if (this.quasarConf.ssr.pwa === true) {
       this.writeFile(
-        `client/${ this.quasarConf.ssr.ssrPwaHtmlFilename }`,
+        `client/${ this.quasarConf.ssr.pwaOfflineHtmlFilename }`,
         transformProdSsrPwaOfflineHtml(html, this.quasarConf)
       )
     }

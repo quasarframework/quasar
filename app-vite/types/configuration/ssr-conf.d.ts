@@ -17,7 +17,7 @@ export interface QuasarSsrConfiguration {
    *
    * @default offline.html
    */
-  ssrPwaHtmlFilename?: string;
+  pwaOfflineHtmlFilename?: string;
 
   /**
    * Manually serialize the store state and provide it yourself

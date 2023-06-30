@@ -515,7 +515,7 @@ export class QuasarConfFile {
     if (this.#ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
-        ssrPwaHtmlFilename: 'offline.html',
+        pwaOfflineHtmlFilename: 'offline.html',
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
         prodPort: 3000 // gets superseded in production by an eventual process.env.PORT

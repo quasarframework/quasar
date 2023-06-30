@@ -80,33 +80,33 @@ export interface QuasarPwaConfiguration {
   workboxMode?: "generateSW" | "injectManifest";
 
   /**
-   * Should you need some dynamic changes to the /src-pwa/manifest.json,
-   * use this method to do it.
-   */
-  extendManifestJson?: (json: PwaManifestOptions) => void;
-
-  /**
-   * Auto inject the PWA meta tags?
-   * @default true
-   */
-  injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);
-
-  /**
    * Generated service worker filename to use (needs to end with .js)
    * @default sw.js
    */
   swFilename?: string;
 
   /**
-   * PWA manifest filename to use
+   * PWA manifest filename to use (relative to /src-pwa or absolute path)
    * @default manifest.json
    */
   manifestFilename?: string;
 
   /**
+   * Should you need some dynamic changes to the /src-pwa/manifest.json,
+   * use this method to do it.
+   */
+  extendManifestJson?: (json: PwaManifestOptions) => void;
+
+  /**
    * Does the PWA manifest tag requires crossorigin auth?
    */
   useCredentialsForManifestTag?: boolean;
+
+  /**
+   * Auto inject the PWA meta tags?
+   * @default true
+   */
+  injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);
 
   /**
    * Extend the esbuild config that is used for the custom service worker
