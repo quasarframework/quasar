@@ -36,7 +36,7 @@ This is the place where you can configure Workbox behavior and also tweak your m
 ```js
 pwa: {
   workboxMode: 'generateSW', // or 'injectManifest'
-  injectPwaMetaTags: true,
+  injectPwaMetaTags: true, // boolean | (() => string)
   swFilename: 'sw.js',
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
@@ -106,6 +106,18 @@ Then, edit your `/index.html` file. The following are the actual meta tags that 
 ```
 
 Notice that you have access to your PWA manifest through `pwaManifest` above.
+
+Alternatively, you can assign a function to injectPwaMetaTags like below:
+
+```js
+// quasar.config file
+pwa: {
+  injectPwaMetaTags () {
+    return `<meta name="apple-mobile-web-app-capable" content="yes">`
+      + `<meta name="apple-mobile-web-app-status-bar-style" content="default">`
+  }
+}
+```
 
 ## Picking Workbox mode
 
