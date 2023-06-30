@@ -107,6 +107,17 @@ export const quasarPwaConfig = {
         quasarConf.pwa.extendInjectManifestOptions(opts)
       }
 
+      if (quasarConf.ctx.mode.ssr === true) {
+        if (workboxMode === 'GenerateSW') {
+          if (typeof quasarConf.ssr.pwaExtendGenerateSWOptions === 'function') {
+            quasarConf.ssr.pwaExtendGenerateSWOptions(opts)
+          }
+        }
+        else if (typeof quasarConf.ssr.pwaExtendInjectManifestOptions === 'function') {
+          quasarConf.ssr.pwaExtendInjectManifestOptions(opts)
+        }
+      }
+
       opts.swSrc = appPaths.resolve.app('.quasar/pwa-sw/compiled-sw.js')
       opts.swDest = quasarConf.ctx.dev === true
         ? appPaths.resolve.app(`.quasar/pwa/${ quasarConf.pwa.swFilename }`)
@@ -120,11 +131,15 @@ export const quasarPwaConfig = {
   customSw: async quasarConf => {
     const cfg = await createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
 
-    cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
-      ? quasarConf.ssr.pwaOfflineHtmlFilename
-      : 'index.html'
+    cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = JSON.stringify(
+      quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
+        ? quasarConf.ssr.pwaOfflineHtmlFilename
+        : 'index.html'
+    )
 
-    cfg.define[ 'process.env.PWA_SERVICE_WORKER_REGEX' ] = `/${ escapeRegexString(quasarConf.pwa.swFilename) }$/`
+    cfg.define[ 'process.env.PWA_SERVICE_WORKER_REGEX' ] = JSON.stringify(
+      `${ escapeRegexString(quasarConf.pwa.swFilename) }$`
+    )
 
     cfg.entryPoints = [ quasarConf.sourceFiles.pwaServiceWorker ]
     cfg.outfile = appPaths.resolve.app('.quasar/pwa-sw/compiled-sw.js')

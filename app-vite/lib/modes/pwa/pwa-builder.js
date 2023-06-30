@@ -27,7 +27,7 @@ export class QuasarModeBuilder extends AppBuilder {
     // also update ssr-builder.js when changing here
     if (this.quasarConf.pwa.workboxMode === 'injectManifest') {
       const esbuildConfig = await quasarPwaConfig.customSw(this.quasarConf)
-      await this.buildWithEsbuild('injectManifest Custom SW', esbuildConfig)
+      await this.buildWithEsbuild('InjectManifest Custom SW', esbuildConfig)
     }
 
     // also update ssr-builder.js when changing here
