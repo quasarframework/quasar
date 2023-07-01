@@ -27,6 +27,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            import { mkdir, writeFile } from 'node:fs/promises';
+            import { join } from 'node:path';
+            import markdown from './docs/build/release-notes/md.js';
+
             /**
             * `/[\w/\-@]+/` is the name of the package. (e.g. @quasar/app-vite)
             * `v` is the literal letter v between the package name and the version.
@@ -42,10 +46,6 @@ jobs:
                 gitHubReferencePattern,
                 `[$1](https://github.com/${context.repo.owner}/${context.repo.repo}/issues/$1)`
               );
-
-            const { mkdir, writeFile } = require('node:fs/promises');
-            const { join } = require('node:path');
-            const markdown = require('./docs/build/release-notes/md.js');
 
             const groups = {
               v2: {
