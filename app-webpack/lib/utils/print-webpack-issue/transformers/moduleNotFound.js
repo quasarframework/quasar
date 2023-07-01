@@ -1,4 +1,3 @@
-
 const moduleNotFound = require('../formatters/moduleNotFound.js')
 
 module.exports = function transform (error) {

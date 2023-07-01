@@ -1,4 +1,3 @@
-
 const parseArgs = require('minimist')
 
 const { log } = require('../utils/logger.js')

@@ -1,4 +1,3 @@
-
 const msgRE = /^(GenerateSW|InjectManifest) has been called multiple times/
 
 const filterFn = warn => !(

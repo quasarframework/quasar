@@ -1,4 +1,3 @@
-
 const defaultError = require('../formatters/defaultError.js')
 
 module.exports = function transform (error) {

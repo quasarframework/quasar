@@ -1,4 +1,3 @@
-
 const babelError = require('../formatters/babelError.js')
 
 module.exports = function transform (error) {

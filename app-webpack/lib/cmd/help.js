@@ -1,4 +1,3 @@
-
 const { cliPkg } = require('../app-pkg.js')
 
 console.log()

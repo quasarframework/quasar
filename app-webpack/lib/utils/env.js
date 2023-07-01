@@ -1,4 +1,3 @@
-
 const { existsSync, readFileSync } = require('node:fs')
 const { join, isAbsolute } = require('node:path')
 const { parse: dotEnvParse } = require('dotenv')

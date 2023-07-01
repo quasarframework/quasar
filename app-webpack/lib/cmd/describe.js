@@ -1,4 +1,3 @@
-
 const parseArgs = require('minimist')
 const { green, red, italic, underline } = require('kolorist')
 

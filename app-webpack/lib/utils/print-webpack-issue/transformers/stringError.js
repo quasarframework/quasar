@@ -1,4 +1,3 @@
-
 const stringError = require('../formatters/stringError.js')
 
 module.exports = function transform (error) {

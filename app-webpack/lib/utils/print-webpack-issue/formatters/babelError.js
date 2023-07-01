@@ -1,4 +1,3 @@
-
 const { removeFileLoaders } = require('../utils.js')
 
 const stackStart = '  \u001b[0m\u001b[90m-\u001b[0m \u001b[0m\u001b[93mindex.js\u001b[0m\u001b[90m:'

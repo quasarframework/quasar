@@ -1,4 +1,3 @@
-
 const { yellow } = require('kolorist')
 
 const tips = 'You may use special comments to disable some warnings:'

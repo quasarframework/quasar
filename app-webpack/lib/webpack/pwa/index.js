@@ -1,6 +1,3 @@
-const { join } = require('node:path')
-const { merge } = require('webpack-merge')
-
 const appPaths = require('../../app-paths.js')
 const { appPkg } = require('../../app-pkg.js')
 const { log } = require('../../utils/logger.js')

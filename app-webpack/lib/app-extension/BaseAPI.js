@@ -1,4 +1,3 @@
-
 const appPaths = require('../app-paths.js')
 const { appPkg } = require('../app-pkg.js')
 

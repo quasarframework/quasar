@@ -1,4 +1,3 @@
-
 const { existsSync } = require('node:fs')
 
 const appPaths = require('../app-paths.js')

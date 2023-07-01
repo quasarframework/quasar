@@ -952,7 +952,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       cfg.pwa = merge({
         workboxMode: 'GenerateSW',
         injectPwaMetaTags: true,
-        swFilename: 'service-worker.js', // should be .js (as it's the distribution file, not the input file)
+        swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
         useCredentialsForManifestTag: false,
         manifest: {

@@ -1,4 +1,3 @@
-
 const appPaths = require('../../app-paths.js')
 const { createNodeChain } = require('./create-node-chain.js')
 

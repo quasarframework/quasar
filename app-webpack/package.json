@@ -47,8 +47,8 @@
   },
   "dependencies": {
     "@quasar/babel-preset-app": "2.0.2",
-    "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/render-ssr-error": "^1.0.2",
+    "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/ssr-helpers": "2.2.2",
     "@types/chrome": "^0.0.235",
     "@types/compression": "^1.7.2",
@@ -108,6 +108,7 @@
     "webpack": "^5.58.1",
     "webpack-bundle-analyzer": "4.8.0",
     "webpack-chain": "6.5.1",
+    "webpack-dev-middleware": "^6.1.1",
     "webpack-dev-server": "4.15.0",
     "webpack-hot-middleware": "^2.25.3",
     "webpack-merge": "5.8.0",

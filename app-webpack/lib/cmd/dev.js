@@ -1,4 +1,3 @@
-
 if (process.env.NODE_ENV === void 0) {
   process.env.NODE_ENV = 'development'
 }

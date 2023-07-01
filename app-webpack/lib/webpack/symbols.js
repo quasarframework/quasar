@@ -1,4 +1,3 @@
-
 const webpackNames = {
   spa: {
     renderer: 'UI'

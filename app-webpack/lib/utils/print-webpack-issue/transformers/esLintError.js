@@ -1,4 +1,3 @@
-
 const eslintError = require('../formatters/eslintError.js')
 
 module.exports = function transform (error) {

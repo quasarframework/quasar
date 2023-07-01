@@ -86,7 +86,7 @@ export interface QuasarPwaConfiguration {
 
   /**
    * Generated service worker filename to use (needs to end with .js)
-   * @default service-worker.js
+   * @default sw.js
    */
   swFilename?: string;
 

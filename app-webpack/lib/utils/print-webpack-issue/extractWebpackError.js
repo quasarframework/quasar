@@ -1,4 +1,3 @@
-
 const ErrorStackParser = require('error-stack-parser')
 const RequestShortener = require('webpack/lib/RequestShortener')
 
