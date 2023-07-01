@@ -29,7 +29,7 @@ jobs:
           script: |
             import { mkdir, writeFile } from 'node:fs/promises';
             import { join } from 'node:path';
-            import markdown from './docs/build/release-notes/md.js';
+            const markdown = await import('./docs/build/release-notes/md.js');
 
             /**
             * `/[\w/\-@]+/` is the name of the package. (e.g. @quasar/app-vite)
