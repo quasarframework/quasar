@@ -817,16 +817,16 @@ export class QuasarConfigFile {
 
     if (this.#ctx.mode.pwa) {
       cfg.pwa = merge({
-        workboxMode: 'generateSW',
+        workboxMode: 'GenerateSW',
         injectPwaMetaTags: true,
         swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
         useCredentialsForManifestTag: false
       }, cfg.pwa)
 
-      if (![ 'generateSW', 'injectManifest' ].includes(cfg.pwa.workboxMode)) {
+      if (![ 'GenerateSW', 'InjectManifest' ].includes(cfg.pwa.workboxMode)) {
         const msg = `Workbox strategy "${ cfg.pwa.workboxMode }" is invalid. `
-          + 'Valid quasar.config file > pwa > workboxMode options are: generateSW or injectManifest.'
+          + 'Valid quasar.config file > pwa > workboxMode options are: GenerateSW or InjectManifest.'
 
         if (failOnError === true) {
           fatal(msg, 'FAIL')

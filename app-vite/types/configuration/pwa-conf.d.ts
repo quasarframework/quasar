@@ -77,7 +77,7 @@ interface InjectPwaMetaTagsParams {
  * behavior and also tweak your `manifest.json`.
  */
 export interface QuasarPwaConfiguration {
-  workboxMode?: "generateSW" | "injectManifest";
+  workboxMode?: "GenerateSW" | "InjectManifest";
 
   /**
    * Generated service worker filename to use (needs to end with .js)
@@ -110,17 +110,17 @@ export interface QuasarPwaConfiguration {
 
   /**
    * Extend the esbuild config that is used for the custom service worker
-   * (if using it through workboxMode: 'injectManifest')
+   * (if using it through workboxMode: 'InjectManifest')
    */
   extendPWACustomSWConf?: (config: EsbuildConfiguration) => void;
 
   /**
-   * Extend/configure the Workbox generateSW options
+   * Extend/configure the Workbox GenerateSW options
    */
   extendGenerateSWOptions?: (config: GenerateSWOptions) => void;
 
   /**
-   * Extend/configure the Workbox injectManifest options
+   * Extend/configure the Workbox InjectManifest options
    */
   extendInjectManifestOptions?: (config: InjectManifestOptions) => void;
 }

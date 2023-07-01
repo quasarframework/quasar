@@ -34,7 +34,7 @@ export const quasarPwaConfig = {
       opts.maximumFileSizeToCacheInBytes = Number.MAX_SAFE_INTEGER
     }
 
-    if (workboxMode === 'generateSW') {
+    if (workboxMode === 'GenerateSW') {
       Object.assign(opts, {
         sourcemap: quasarConf.build.sourcemap !== false,
         mode: quasarConf.metaConf.debugging === true || quasarConf.build.minify === false ? 'development' : 'production',

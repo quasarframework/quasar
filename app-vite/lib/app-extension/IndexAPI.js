@@ -194,7 +194,7 @@ export class IndexAPI extends BaseAPI {
 
   /**
    * Extend PWA custom service worker esbuild config
-   * (when using Workbox injectManifest mode)
+   * (when using Workbox InjectManifest mode)
    *
    * @param {function} fn
    *   (cfg: Object, api) => undefined

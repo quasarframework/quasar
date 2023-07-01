@@ -122,11 +122,11 @@ export class QuasarModeDevserver extends AppDevserver {
       quasarConf.pwa.precacheFromPublicFolder,
       quasarConf.pwa.swFilename,
       quasarConf.pwa[
-        quasarConf.pwa.workboxMode === 'generateSW'
+        quasarConf.pwa.workboxMode === 'GenerateSW'
           ? 'extendGenerateSWOptions'
           : 'extendInjectManifestOptions'
       ],
-      quasarConf.pwa.workboxMode === 'injectManifest'
+      quasarConf.pwa.workboxMode === 'InjectManifest'
         ? [ quasarConf.build.env, quasarConf.build.rawDefine ]
         : ''
     ])
@@ -408,7 +408,7 @@ export class QuasarModeDevserver extends AppDevserver {
 
     const workboxConfig = await quasarSsrConfig.workbox(quasarConf)
 
-    if (quasarConf.pwa.workboxMode === 'injectManifest') {
+    if (quasarConf.pwa.workboxMode === 'InjectManifest') {
       const esbuildConfig = await quasarSsrConfig.customSw(quasarConf)
       await this.watchWithEsbuild('InjectManifest Custom SW', esbuildConfig, () => {
         queue(() => buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))

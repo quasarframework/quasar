@@ -109,6 +109,7 @@ export default ctx => ({
   },
 
   pwa: {
+    workboxMode: 'GenerateSW',
     injectPwaMetaTags: false,
     swFilename: 'service-worker.js',
 

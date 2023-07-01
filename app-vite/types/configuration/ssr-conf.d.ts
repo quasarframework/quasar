@@ -20,7 +20,7 @@ export interface QuasarSsrConfiguration {
   pwaOfflineHtmlFilename?: string;
 
   /**
-   * Extend/configure the Workbox generateSW options
+   * Extend/configure the Workbox GenerateSW options
    * Specify Workbox options which will be applied on top of
    *  `pwa > extendGenerateSWOptions()`.
    * More info: https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
@@ -28,7 +28,7 @@ export interface QuasarSsrConfiguration {
   pwaExtendGenerateSWOptions?: (config: object) => void;
 
   /**
-   * Extend/configure the Workbox injectManifest options
+   * Extend/configure the Workbox InjectManifest options
    * Specify Workbox options which will be applied on top of
    *  `pwa > extendInjectManifestOptions()`.
    * More info: https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
