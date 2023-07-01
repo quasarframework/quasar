@@ -10,7 +10,8 @@ export interface QuasarSsrConfiguration {
 
   /**
    * When using SSR+PWA, this is the name of the
-   * PWA index html file.
+   * PWA index html file that the client-side fallbacks to.
+   * For production only.
    *
    * Do NOT use index.html as name as it will mess SSR up!
    *
@@ -19,7 +20,7 @@ export interface QuasarSsrConfiguration {
   pwaOfflineHtmlFilename?: string;
 
   /**
-   * Extend/configure the Workbox generateSW options
+   * Extend/configure the Workbox GenerateSW options
    * Specify Workbox options which will be applied on top of
    *  `pwa > extendGenerateSWOptions()`.
    * More info: https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
@@ -27,7 +28,7 @@ export interface QuasarSsrConfiguration {
   pwaExtendGenerateSWOptions?: (config: object) => void;
 
   /**
-   * Extend/configure the Workbox injectManifest options
+   * Extend/configure the Workbox InjectManifest options
    * Specify Workbox options which will be applied on top of
    *  `pwa > extendInjectManifestOptions()`.
    * More info: https://developer.chrome.com/docs/workbox/the-ways-of-workbox/
@@ -37,13 +38,11 @@ export interface QuasarSsrConfiguration {
   /**
    * Manually serialize the store state and provide it yourself
    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-   * (Requires @quasar/app-webpack v3.5+)
    */
   manualStoreSerialization?: boolean;
 
   /**
    * Manually inject the store state into ssrContext.state
-   * (Requires @quasar/app-webpack v3.5+)
    */
   manualStoreSsrContextInjection?: boolean;
 

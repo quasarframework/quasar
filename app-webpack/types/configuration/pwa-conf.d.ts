@@ -44,6 +44,7 @@ interface PwaManifestIcon {
 }
 
 interface PwaManifestOptions {
+  id?: string;
   background_color?: string;
   categories?: string[];
   description?: string;

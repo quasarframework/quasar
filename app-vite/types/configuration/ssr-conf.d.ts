@@ -15,7 +15,7 @@ export interface QuasarSsrConfiguration {
    *
    * Do NOT use index.html as name as it will mess SSR up!
    *
-   * @default offline.html
+   * @default 'offline.html'
    */
   pwaOfflineHtmlFilename?: string;
 
@@ -38,13 +38,11 @@ export interface QuasarSsrConfiguration {
   /**
    * Manually serialize the store state and provide it yourself
    * as window.__INITIAL_STATE__ to the client-side (through a <script> tag)
-   * (Requires @quasar/app-vite v1.0.0-beta.14+)
    */
   manualStoreSerialization?: boolean;
 
   /**
    * Manually inject the store state into ssrContext.state
-   * (Requires @quasar/app-vite v1.0.0-beta.14+)
    */
   manualStoreSsrContextInjection?: boolean;
 

@@ -73,7 +73,7 @@ interface InjectPwaMetaTagsParams {
 
 /**
  * This is the place where you can configure
- * [Workbox](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin)’s
+ * [Workbox](https://developers.google.com/web/tools/workbox)’s
  * behavior and also tweak your `manifest.json`.
  */
 export interface QuasarPwaConfiguration {
