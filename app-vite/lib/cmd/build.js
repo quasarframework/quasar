@@ -125,8 +125,8 @@ const ctx = getQuasarCtx({
 import { extensionRunner } from '../app-extension/extensions-runner.js'
 await extensionRunner.registerExtensions(ctx)
 
-import { QuasarConfFile } from '../quasar-config-file.js'
-const quasarConfFile = new QuasarConfFile({
+import { QuasarConfigFile } from '../quasar-config-file.js'
+const quasarConfFile = new QuasarConfigFile({
   ctx,
   port: argv.port,
   host: argv.hostname

@@ -189,10 +189,10 @@ async function onAddress ({ host, port }, mode) {
   return { host, port }
 }
 
-export class QuasarConfFile {
+export class QuasarConfigFile {
   #ctx
   #opts
-  #initialVersions = {}
+  #versions = {}
   #address
   #isWatching = false
 
@@ -210,7 +210,7 @@ export class QuasarConfFile {
   async init () {
     if (this.#ctx.mode.pwa) {
       // Enable this when workbox bumps version (as of writing these lines, we're handling v6 & v7)
-      // this.#initialVersions.workbox = getPackageMajorVersion('workbox-build')
+      // this.#versions.workbox = getPackageMajorVersion('workbox-build')
     }
     else if (this.#ctx.mode.capacitor) {
       const { capVersion } = await import('./modes/capacitor/cap-cli.js')
@@ -223,7 +223,7 @@ export class QuasarConfFile {
             : version || true
         }
 
-      Object.assign(this.#initialVersions, {
+      Object.assign(this.#versions, {
         capacitor: capVersion,
         capacitorPluginApp: getCapPluginVersion('@capacitor/app'),
         capacitorPluginSplashscreen: getCapPluginVersion('@capacitor/splash-screen')
@@ -480,7 +480,7 @@ export class QuasarConfFile {
       debugging: this.#ctx.dev === true || this.#ctx.debug === true,
       needsAppMountHook: false,
       vueDevtools: false,
-      versions: { ...this.#initialVersions }, // used by .quasar entry templates
+      versions: { ...this.#versions }, // used by .quasar entry templates
       css: { ...cssVariables }
     }
 
