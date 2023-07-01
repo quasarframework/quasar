@@ -27,9 +27,9 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            import { mkdir, writeFile } from 'node:fs/promises';
-            import { join } from 'node:path';
-            const markdown = await import('./docs/build/release-notes/md.js');
+            const { mkdir, writeFile } = require('node:fs/promises');
+            const { join } = require('node:path');
+            const markdown = await import('./docs/build/release-notes/md.mjs');
 
             /**
             * `/[\w/\-@]+/` is the name of the package. (e.g. @quasar/app-vite)

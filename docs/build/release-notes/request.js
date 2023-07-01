@@ -1,6 +1,6 @@
 import { Octokit } from '@octokit/core'
 
-import md from './md.js'
+import md from './md.mjs'
 
 const gitFetch = new Octokit({ auth: process.env.TOKEN })
 const versionMatchRE = /([\w/\-@]+)[- ]v([\d.\-\w]+)/
