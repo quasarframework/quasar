@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "import": "./src/index.js",
       "require": "./dist/index.cjs"
     },
