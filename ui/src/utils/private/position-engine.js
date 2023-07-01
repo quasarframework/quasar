@@ -175,7 +175,7 @@ export function setPosition (cfg, retryNumber = 0) {
     visibility: 'visible'
   })
 
-  const { width: origElWidth, height: origElHeight } = targetEl.getBoundingClientRect()
+  const { offsetWidth: origElWidth, offsetHeight: origElHeight } = targetEl
   const { elWidth, elHeight } = fit === true || cover === true
     ? { elWidth: Math.max(anchorProps.width, origElWidth), elHeight: cover === true ? Math.max(anchorProps.height, origElHeight) : origElHeight }
     : { elWidth: origElWidth, elHeight: origElHeight }
