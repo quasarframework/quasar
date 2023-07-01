@@ -80,7 +80,7 @@ module.exports.createNodeChain = function createNodeChain (nodeType, cfg, config
       getBuildSystemDefine({
         buildEnv: env,
         buildRawDefine: cfg.build.rawDefine,
-        fileEnv: cfg.__fileEnv
+        fileEnv: cfg.metaConf.fileEnv
       })
     ])
 

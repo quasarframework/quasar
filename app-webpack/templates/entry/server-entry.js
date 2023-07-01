@@ -20,7 +20,7 @@ import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
 // We load Quasar stylesheet file
-import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
+import 'quasar/dist/quasar.<%= metaConf.css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
@@ -89,7 +89,7 @@ const { components, directives, ...qUserOptions } = quasarUserOptions
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
     const {
-      app, router<%= store ? ', store' + (__storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+      app, router<%= store ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
     } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
     <% if (bootNames.length > 0) { %>
@@ -123,7 +123,7 @@ export default ssrContext => {
     <% } %>
 
     app.use(router)
-    <% if (store && __storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
+    <% if (store && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
     const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)

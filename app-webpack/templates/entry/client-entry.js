@@ -32,7 +32,7 @@ import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
 // We load Quasar stylesheet file
-import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
+import 'quasar/dist/quasar.<%= metaConf.css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
@@ -47,7 +47,7 @@ import createQuasarApp<% if (ctx.mode.ssr && ctx.mode.pwa) { %>, { ssrIsRunningO
 import quasarUserOptions from './quasar-user-options.js'
 
 <% if (ctx.mode.pwa) { %>
-import 'app/<%= sourceFiles.registerServiceWorker %>'
+import 'app/<%= sourceFiles.pwaRegisterServiceWorker %>'
 <% } %>
 
 <% if (preFetch) { %>
@@ -68,9 +68,9 @@ const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 async function start ({
   app,
   router
-  <%= store ? ', store' + (__storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+  <%= store ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
 }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
-  <% if (ctx.mode.ssr && store && __storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
+  <% if (ctx.mode.ssr && store && metaConf.storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
     // prime the store with server-initialized state.
     // the state is determined during SSR and inlined in the page markup.
     if (<%= ctx.mode.pwa ? 'ssrIsRunningOnClientPWA !== true &&' : '' %>window.__INITIAL_STATE__ !== void 0) {
@@ -138,7 +138,7 @@ async function start ({
   <% } %>
 
   app.use(router)
-  <% if (store && __storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
+  <% if (store && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
   <% if (ctx.mode.ssr) { %>
     <% if (ctx.mode.pwa) { %>

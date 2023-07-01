@@ -141,7 +141,7 @@ module.exports.getIndexHtml = function getIndexHtml (template, cfg) {
   if (cfg.build.minify) {
     const { minify } = require('html-minifier')
     html = minify(html, {
-      ...cfg.__html.minifyOptions,
+      ...cfg.metaConf.html.minifyOptions,
       ignoreCustomFragments: [ /{{ [\s\S]*? }}/ ]
     })
   }

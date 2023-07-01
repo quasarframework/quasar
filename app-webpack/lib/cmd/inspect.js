@@ -81,6 +81,8 @@ async function inspect () {
 
   const quasarConfFile = new QuasarConfigFile(ctx)
 
+  await quasarConfFile.init()
+
   const { webpackConf } = await quasarConfFile.read()
 
   const util = require('node:util')

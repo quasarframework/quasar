@@ -11,44 +11,44 @@
  **/
 
 <% if (ctx.mode.capacitor) { %>
-  <% if (__versions.capacitor <= 2) { %>
+  <% if (metaConf.versions.capacitor <= 2) { %>
   import { Plugins } from '@capacitor/core'
   const { SplashScreen } = Plugins
   <% } else /* Capacitor v3+ */ { %>
   import '@capacitor/core'
-    <% if (__versions.capacitorPluginApp) { %>
+    <% if (metaConf.versions.capacitorPluginApp) { %>
     // importing it so it can install itself (used by Quasar UI)
     import { App as CapApp } from '@capacitor/app'
     <% } %>
-    <% if (__versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
+    <% if (metaConf.versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
     import { SplashScreen } from '@capacitor/splash-screen'
     <% } %>
   <% } %>
 <% } %>
 
-<% if (__vueDevtools !== false) { %>
+<% if (metaConf.vueDevtools !== false) { %>
 import vueDevtools from '@vue/devtools'
 <% } %>
 
 import { Quasar } from 'quasar'
 import { markRaw } from 'vue'
-import <%= __needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
+import <%= metaConf.needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
 <% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-<% if (__needsAppMountHook === true) { %>
+<% if (metaConf.needsAppMountHook === true) { %>
 import { defineComponent, h, onMounted<%= ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true ? ', getCurrentInstance' : '' %> } from 'vue'
 const RootComponent = defineComponent({
   name: 'AppWrapper',
   setup (props) {
     onMounted(() => {
-      <% if (ctx.mode.capacitor && __versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
+      <% if (ctx.mode.capacitor && metaConf.versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
       SplashScreen.hide()
       <% } %>
 
-      <% if (__vueDevtools !== false) { %>
-      vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
+      <% if (metaConf.vueDevtools !== false) { %>
+      vueDevtools.connect('<%= metaConf.vueDevtools.host %>', <%= metaConf.vueDevtools.port %>)
       <% } %>
 
       <% if (ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true) { %>
@@ -87,10 +87,10 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
       ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
       : createStore
 
-    <% if (__storePackage === 'vuex') { %>
+    <% if (metaConf.storePackage === 'vuex') { %>
       // obtain Vuex injection key in case we use TypeScript
       const { storeKey } = await import('app/<%= sourceFiles.store %>')
-    <% } else if (__storePackage === 'pinia') { %>
+    <% } else if (metaConf.storePackage === 'pinia') { %>
       app.use(store)
 
       <% if (ctx.mode.ssr && ssr.manualStoreHydration !== true) { %>
@@ -113,9 +113,9 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
 
   <% if (store) { %>
     // make router instance available in store
-    <% if (__storePackage === 'vuex') { %>
+    <% if (metaConf.storePackage === 'vuex') { %>
       store.$router = router
-    <% } else if (__storePackage === 'pinia') { %>
+    <% } else if (metaConf.storePackage === 'pinia') { %>
       store.use(({ store }) => { store.router = router })
     <% } %>
   <% } %>
@@ -125,7 +125,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <%= store ? 'store,' + (__storePackage === 'vuex' ? ' storeKey,' : '') : '' %>
+    <%= store ? 'store,' + (metaConf.storePackage === 'vuex' ? ' storeKey,' : '') : '' %>
     router
   }
 }

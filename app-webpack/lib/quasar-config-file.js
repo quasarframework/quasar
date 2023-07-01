@@ -142,12 +142,39 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
   #isWatching = false
   #configSnapshot
   #webpackConfChanged
+  #versions = {}
 
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
 
     log(`Using ${ basename(appPaths.quasarConfigFilename) } in "${ appPaths.quasarConfigInputFormat }" format`)
+  }
+
+  // mimicking q/app-vite which is already in ESM format
+  // for the future of q/app-webpack itself
+  // (example: async here is useless, but it's here for consistency)
+  async init () {
+    if (this.ctx.mode.pwa) {
+      this.#versions.workboxWebpackPlugin = getPackageMajorVersion('workbox-webpack-plugin')
+    }
+    else if (this.ctx.mode.capacitor) {
+      const { capVersion } = require('./capacitor/cap-cli.js')
+      const getCapPluginVersion = capVersion <= 2
+        ? () => true
+        : name => {
+          const version = getPackageMajorVersion(name, appPaths.capacitorDir)
+          return version === void 0
+            ? false
+            : version || true
+        }
+
+      Object.assign(this.#versions, {
+        capacitor: capVersion,
+        capacitorPluginApp: getCapPluginVersion('@capacitor/app'),
+        capacitorPluginSplashscreen: getCapPluginVersion('@capacitor/splash-screen')
+      })
+    }
   }
 
   read () {
@@ -342,7 +369,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     removeSync(tempFile)
 
-    const cfg = merge({
+    const rawQuasarConf = merge({
       ctx: this.ctx,
 
       css: [],
@@ -390,11 +417,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       ssr: {
         middlewares: []
       },
-      pwa: {
-        manifest: {
-          icons: []
-        }
-      },
+      pwa: {},
       electron: {
         inspectPort: 5858,
         unPackagedInstallParams: [],
@@ -415,16 +438,40 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       htmlVariables: {}
     }, userCfg)
 
-    if (cfg.animations === 'all') {
-      const { animations } = require('./utils/animations.js')
-      cfg.animations = animations
+    const metaConf = {
+      debugging: this.ctx.dev === true || this.ctx.debug === true,
+      needsAppMountHook: false,
+      vueDevtools: false,
+      versions: { ...this.#versions }, // used by .quasar entry templates
+      css: { ...cssVariables }
     }
 
-    if (!cfg.framework.plugins) {
-      cfg.framework.plugins = []
+    if (rawQuasarConf.animations === 'all') {
+      const { animations } = require('./utils/animations.js')
+      rawQuasarConf.animations = animations
     }
-    if (!cfg.framework.config) {
-      cfg.framework.config = {}
+
+    try {
+      await extensionsRunner.runHook('extendQuasarConf', async hook => {
+        log(`Extension(${ hook.api.extId }): Extending quasar.config file...`)
+        await hook.fn(rawQuasarConf, hook.api)
+      })
+    }
+    catch (e) {
+      console.log()
+      console.error(e)
+
+      if (failOnError === true) {
+        fatal('One of your installed App Extensions failed to run', 'FAIL')
+      }
+
+      warn('One of your installed App Extensions failed to run.\n')
+      return {}
+    }
+
+    const cfg = {
+      ...rawQuasarConf,
+      metaConf
     }
 
     if (this.ctx.dev) {
@@ -475,11 +522,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
     }
 
-    await extensionsRunner.runHook('extendQuasarConf', async hook => {
-      log(`Extension(${ hook.api.extId }): Extending quasar.config file...`)
-      await hook.fn(cfg, hook.api)
-    })
-
     // If watching for changes then determine the type of them (webpack or not).
     // The snapshot below should only contain webpack config:
     if (this.opts.watch !== void 0) {
@@ -519,9 +561,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       __VUE_I18N_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
       __INTLIFY_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true
     }
-
-    cfg.__needsAppMountHook = false
-    cfg.__vueDevtools = false
 
     if (cfg.vendor.disable !== true) {
       cfg.vendor.add = cfg.vendor.add.length > 0
@@ -635,14 +674,13 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
-      cfg.__transpileBanner = green('yes (Babel)')
+      cfg.metaConf.transpileBanner = green('yes (Babel)')
     }
     else {
-      cfg.__transpileBanner = 'no'
+      cfg.metaConf.transpileBanner = 'no'
     }
 
-    cfg.__loadingBar = cfg.framework.plugins.includes('LoadingBar')
-    cfg.__meta = cfg.framework.plugins.includes('Meta')
+    cfg.metaConf.loadingBar = cfg.framework.plugins.includes('LoadingBar')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
@@ -709,15 +747,16 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       router: 'src/router/index',
       store: `src/${ storeProvider.pathKey }/index`,
       indexHtmlTemplate: 'src/index.template.html',
-      registerServiceWorker: 'src-pwa/register-service-worker',
-      serviceWorker: 'src-pwa/custom-service-worker',
+      pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
+      pwaServiceWorker: 'src-pwa/custom-service-worker',
+      pwaManifestFile: 'src-pwa/manifest.json',
       electronMain: 'src-electron/electron-main',
       electronPreload: 'src-electron/electron-preload'
     }, cfg.sourceFiles)
 
     appFilesValidations(cfg)
 
-    cfg.__storePackage = storeProvider.name
+    cfg.metaConf.storePackage = storeProvider.name
 
     // do we have a store?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
@@ -740,12 +779,11 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         pwaOfflineHtmlFilename: 'offline.html', // do NOT use index.html as name!
         manualStoreHydration: false,
         manualPostHydrationTrigger: false,
-        prodPort: 3000, // gets superseded in production by an eventual process.env.PORT
-        maxAge: 1000 * 60 * 60 * 24 * 30
+        prodPort: 3000 // gets superseded in production by an eventual process.env.PORT
       }, cfg.ssr)
 
       if (cfg.ssr.manualPostHydrationTrigger !== true) {
-        cfg.__needsAppMountHook = true
+        cfg.metaConf.needsAppMountHook = true
       }
 
       if (cfg.ssr.middlewares.length > 0) {
@@ -888,8 +926,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
-        cfg.__needsAppMountHook = true
-        cfg.__vueDevtools = {
+        cfg.metaConf.needsAppMountHook = true
+        cfg.metaConf.vueDevtools = {
           host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
           port: 8098
         }
@@ -916,7 +954,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       if (cfg.devServer.open) {
-        cfg.__devServer = {
+        cfg.metaConf.devServer = {
           open: !!cfg.devServer.open,
           openOptions: cfg.devServer.open !== true
             ? cfg.devServer.open
@@ -925,7 +963,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         cfg.devServer.open = false
       }
       else {
-        cfg.__devServer = {}
+        cfg.metaConf.devServer = {}
       }
     }
 
@@ -954,21 +992,19 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         injectPwaMetaTags: true,
         swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
         manifestFilename: 'manifest.json',
-        useCredentialsForManifestTag: false,
-        manifest: {
-          name: appPkg.productName || appPkg.name || 'Quasar App',
-          short_name: appPkg.name || 'quasar-pwa',
-          description: appPkg.description,
-          display: 'standalone',
-          start_url: '.'
-        }
+        useCredentialsForManifestTag: false
       }, cfg.pwa)
 
       if (![ 'GenerateSW', 'InjectManifest' ].includes(cfg.pwa.workboxMode)) {
-        warn()
-        warn(`Workbox webpack plugin mode "${ cfg.pwa.workboxMode }" is invalid.`)
-        warn('Valid Workbox modes are: GenerateSW, InjectManifest\n')
-        process.exit(1)
+        const msg = `Workbox strategy "${ cfg.pwa.workboxMode }" is invalid. `
+          + 'Valid quasar.config file > pwa > workboxMode options are: GenerateSW or InjectManifest.'
+
+        if (failOnError === true) {
+          fatal(msg, 'FAIL')
+        }
+
+        warn(msg + ' Please fix it.\n')
+        return {}
       }
 
       cfg.pwa.manifest.icons = (cfg.pwa.manifest.icons || []).map(icon => {
@@ -984,8 +1020,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         ? (cfg.build.htmlFilename !== 'index.html' ? (cfg.build.publicPath ? '' : '/') + cfg.build.htmlFilename : '')
         : ''
 
-      cfg.__getUrl = hostname => `http${ cfg.devServer.server.type === 'https' ? 's' : '' }://${ hostname }:${ cfg.devServer.port }${ cfg.build.publicPath }${ urlPath }`
-      cfg.build.APP_URL = cfg.__getUrl(
+      cfg.metaConf.getUrl = hostname => `http${ cfg.devServer.server.type === 'https' ? 's' : '' }://${ hostname }:${ cfg.devServer.port }${ cfg.build.publicPath }${ urlPath }`
+      cfg.build.APP_URL = cfg.metaConf.getUrl(
         cfg.devServer.host === '0.0.0.0'
           ? 'localhost'
           : cfg.devServer.host
@@ -1018,6 +1054,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     if (this.ctx.mode.pwa) {
       cfg.build.env.SERVICE_WORKER_FILE = `${ cfg.build.publicPath }${ cfg.pwa.swFilename }`
+      cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
     }
     else if (this.ctx.mode.bex) {
       cfg.bex = merge({}, cfg.bex, {
@@ -1116,14 +1153,12 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     cfg.htmlVariables = merge({
       ctx: cfg.ctx,
-      process: {
-        env: cfg.build.env
-      },
+      process: { env: cfg.build.env },
       productName: escapeHTMLTagContent(cfg.build.productName),
       productDescription: escapeHTMLAttribute(cfg.build.productDescription)
     }, cfg.htmlVariables)
 
-    cfg.__html = {
+    cfg.metaConf.html = {
       minifyOptions: cfg.build.minify
         ? {
             removeComments: true,
@@ -1137,37 +1172,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         : false
     }
 
-    // used by .quasar entry templates
-    cfg.__versions = {}
-    cfg.__css = {
-      quasarSrcExt: cssVariables.quasarSrcExt
-    }
-
-    if (this.ctx.mode.capacitor) {
-      const { capVersion } = require('./capacitor/cap-cli.js')
-      cfg.__versions.capacitor = capVersion
-
-      const getCapPluginVersion = capVersion <= 2
-        ? () => true
-        : name => {
-          const version = getPackageMajorVersion(name, appPaths.capacitorDir)
-          return version === void 0
-            ? false
-            : version || true
-        }
-
-      Object.assign(cfg.__versions, {
-        capacitor: capVersion,
-        capacitorPluginApp: getCapPluginVersion('@capacitor/app'),
-        capacitorPluginSplashscreen: getCapPluginVersion('@capacitor/splash-screen')
-      })
-    }
-    else if (this.ctx.mode.pwa) {
-      cfg.__versions.workboxWebpackPlugin = getPackageMajorVersion('workbox-webpack-plugin')
-    }
-
-    if (this.ctx.mode.capacitor && cfg.__versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
-      cfg.__needsAppMountHook = true
+    if (this.ctx.mode.capacitor && cfg.metaConf.versions.capacitorPluginSplashscreen && cfg.capacitor.hideSplashscreen !== false) {
+      cfg.metaConf.needsAppMountHook = true
     }
 
     const { fileEnv, usedEnvFiles, envFromCache } = readFileEnv({
@@ -1177,7 +1183,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       envFiles: cfg.build.envFiles
     })
 
-    cfg.__fileEnv = fileEnv
+    cfg.metaConf.fileEnv = fileEnv
 
     if (envFromCache === false && usedEnvFiles.length !== 0) {
       log(`Using .env files: ${ usedEnvFiles.join(', ') }`)

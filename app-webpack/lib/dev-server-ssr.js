@@ -161,8 +161,8 @@ module.exports.DevServer = class DevServer {
           appUrl = cfg.build.APP_URL
           openedBrowser = true
 
-          if (cfg.__devServer.open) {
-            openBrowser({ url: appUrl, opts: cfg.__devServer.openOptions })
+          if (cfg.metaConf.devServer.open) {
+            openBrowser({ url: appUrl, opts: cfg.metaConf.devServer.openOptions })
           }
         }
       }

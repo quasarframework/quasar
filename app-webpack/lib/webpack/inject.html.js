@@ -21,7 +21,7 @@ module.exports.injectHtml = function injectHtml (chain, cfg, templateParam) {
     .use(HtmlWebpackPlugin, [ {
       filename: getHtmlFilename(cfg),
       template: appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate),
-      minify: cfg.__html.minifyOptions,
+      minify: cfg.metaConf.html.minifyOptions,
       templateParameters: templateParam || cfg.htmlVariables,
       chunksSortMode: 'none',
       // inject script tags for bundle

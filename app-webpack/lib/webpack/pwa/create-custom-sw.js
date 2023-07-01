@@ -31,7 +31,7 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
   ]
 
   chain.entry('custom-sw').add(
-    appPaths.resolve.app(cfg.sourceFiles.serviceWorker)
+    appPaths.resolve.app(cfg.sourceFiles.pwaServiceWorker)
   )
   chain.mode(cfg.ctx.debug || cfg.ctx.dev ? 'development' : 'production')
   chain.devtool(cfg.build.sourceMap ? cfg.build.devtool : false)
@@ -135,7 +135,7 @@ module.exports.createCustomSw = function createCustomSw (cfg, configName) {
           PWA_SERVICE_WORKER_REGEX: `${ escapeRegexString(cfg.pwa.swFilename) }$`
         },
         buildRawDefine: cfg.build.rawDefine,
-        fileEnv: cfg.__fileEnv
+        fileEnv: cfg.metaConf.fileEnv
       })
     ])
 

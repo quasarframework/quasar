@@ -35,11 +35,11 @@ interface QuasarDevServerConfiguration
  *  store: 'src/stores/index', // for Pinia
  *  // store: 'src/store/index' // for Vuex
  *  indexHtmlTemplate: 'src/index.template.html',
- *  registerServiceWorker: 'src-pwa/register-service-worker',
- *  serviceWorker: 'src-pwa/custom-service-worker',
+ *  pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
+ *  pwaServiceWorker: 'src-pwa/custom-service-worker',
+ *  pwaManifestFile: 'src-pwa/manifest.json',
  *  electronMain: 'src-electron/electron-main',
  *  electronPreload: 'src-electron/electron-preload'
- *  ssrServerIndex: 'src-ssr/index.js'
  * }
  * ```
  */
@@ -48,11 +48,11 @@ interface QuasarSourceFilesConfiguration {
   router?: string;
   store?: string;
   indexHtmlTemplate?: string;
-  registerServiceWorker?: string;
-  serviceWorker?: string;
+  pwaRegisterServiceWorker?: string;
+  pwaServiceWorker?: string;
+  pwaManifestFile?: string;
   electronMain?: string;
   electronPreload?: string;
-  ssrServerIndex?: string;
 }
 
 interface BaseQuasarConfiguration {

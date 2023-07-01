@@ -131,7 +131,7 @@ function getReadyBanner (cfg) {
       ` ${ greenBanner } Dev mode.................. ${ green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
       ` ${ greenBanner } Pkg quasar................ ${ green('v' + quasarPkg.version) }`,
       ` ${ greenBanner } Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }`,
-      ` ${ greenBanner } Transpiled JS..... ${ cfg.__transpileBanner }`,
+      ` ${ greenBanner } Transpiled JS..... ${ cfg.metaConf.transpileBanner }`,
       ' ----------------------------',
       ` ${ greenBanner } Load the dev extension from:`,
       `   · Chrome(ium): ${ green(appPaths.bexDir) }`,
@@ -144,7 +144,7 @@ function getReadyBanner (cfg) {
   }
 
   const urlList = cfg.devServer.host === '0.0.0.0'
-    ? getIPList().map(ip => green(cfg.__getUrl(ip))).join('\n                              ')
+    ? getIPList().map(ip => green(cfg.metaConf.getUrl(ip))).join('\n                              ')
     : green(cfg.build.APP_URL)
 
   return [
@@ -153,7 +153,7 @@ function getReadyBanner (cfg) {
     ` ${ greenBanner } Dev mode.................. ${ green(cfg.ctx.modeName + (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa ? ' + pwa' : '')) }`,
     ` ${ greenBanner } Pkg quasar................ ${ green('v' + quasarPkg.version) }`,
     ` ${ greenBanner } Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }`,
-    ` ${ greenBanner } Transpiled JS............. ${ cfg.__transpileBanner }`
+    ` ${ greenBanner } Transpiled JS............. ${ cfg.metaConf.transpileBanner }`
   ].join('\n') + '\n'
 }
 

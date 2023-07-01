@@ -38,8 +38,8 @@ module.exports.DevServer = class DevServer {
           appUrl = cfg.build.APP_URL
           openedBrowser = true
 
-          if (cfg.__devServer.open && [ 'spa', 'pwa' ].includes(cfg.ctx.modeName)) {
-            openBrowser({ url: appUrl, opts: cfg.__devServer.openOptions })
+          if (cfg.metaConf.devServer.open && [ 'spa', 'pwa' ].includes(cfg.ctx.modeName)) {
+            openBrowser({ url: appUrl, opts: cfg.metaConf.devServer.openOptions })
           }
         }
       })

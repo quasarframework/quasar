@@ -276,7 +276,7 @@ module.exports.createChain = function createChain (cfg, configName) {
       getBuildSystemDefine({
         buildEnv: cfg.build.env,
         buildRawDefine: getRawDefine(cfg.build.rawDefine, configName),
-        fileEnv: cfg.__fileEnv
+        fileEnv: cfg.metaConf.fileEnv
       })
     ])
 

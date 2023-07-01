@@ -173,6 +173,8 @@ async function build () {
 
   const quasarConfFile = new QuasarConfigFile(ctx, argv)
 
+  await quasarConfFile.init()
+
   const { quasarConf, webpackConf } = await quasarConfFile.read()
 
   const generator = new EntryFilesGenerator(quasarConfFile)
@@ -253,7 +255,7 @@ async function build () {
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      displayBanner(argv, 'build', { outputFolder, transpileBanner: quasarConf.__transpileBanner })
+      displayBanner(argv, 'build', { outputFolder, transpileBanner: quasarConf.metaConf.transpileBanner })
 
       if (typeof quasarConf.build.afterBuild === 'function') {
         await quasarConf.build.afterBuild({ quasarConf })

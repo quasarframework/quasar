@@ -97,9 +97,10 @@ export interface QuasarPwaConfiguration {
   manifestFilename?: string;
 
   /**
-   * Extend the default PWA manifest JSON.
+   * Should you need some dynamic changes to the /src-pwa/manifest.json,
+   * use this method to do it.
    */
-  manifest?: PwaManifestOptions;
+  extendManifestJson?: (json: PwaManifestOptions) => void;
 
   /**
    * Does the PWA manifest tag requires crossorigin auth?

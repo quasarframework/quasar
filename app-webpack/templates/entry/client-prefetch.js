@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-<% if (__loadingBar) { %>
+<% if (metaConf.loadingBar) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
 
@@ -91,13 +91,13 @@ export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', 
       next(url)
     }
     const proceed = () => {
-      <% if (__loadingBar) { %>
+      <% if (metaConf.loadingBar) { %>
       LoadingBar.stop()
       <% } %>
       if (hasRedirected === false) { next() }
     }
 
-    <% if (__loadingBar) { %>
+    <% if (metaConf.loadingBar) { %>
     LoadingBar.start()
     <% } %>
 
