@@ -10,7 +10,53 @@ Opening your dev server to the public poses security risks. Be absolutely cautio
 When you've finished with your demonstration or testing, make sure to stop localhost.run or ngrok. This will prevent any unwanted access of your computer through them.
 :::
 
-## Using localhost.run (easiest)
+## Using Tunnelmole
+Tunnelmole will work on any machine with NodeJS 16+ installed and has no non-JavaScript dependencies.
+
+First, install Tunnelmole from NPM: `npm install -g tunnelmole`.
+
+Then, assuming you are running quasar on port `80`, run the following
+```
+tmole 80
+```
+
+If your port is different to `80`, change `80` to your port.
+
+Here's the full command with output:
+```bash
+$ tmole 80
+http://b8ootd-ip-157-211-195-182.tunnelmole.com is forwarding to localhost:80
+https://b8ootd-ip-157-211-195-182.tunnelmole.com is forwarding to localhost:80
+```
+
+If you are self hosting your own Tunnelmole service or you have a set an API key for the official service, you can run the following to use a custom subdomain (again, replace `80` with your port if it is different).
+```
+tmole 80 as mysubdomain.tunnelmole.com
+```
+Its also possible to launch tunnelmole from code if you add it as a dependency to your project (`npm install --save-dev tunnelmole`)
+
+First import tunnelmole. Both ES and CommonJS modules are supported.
+
+Importing tunnelmole as an ES module
+
+```js
+import { tunnelmole } from 'tunnelmole';
+```
+
+Importing tunnelmole as a CommonJS module
+```js
+const tunnelmole = require('tunnelmole/cjs');
+```
+Once the module is imported you can start tunnelmole with the code below, changing port `80` to the port your application listens on if it is different.
+```js
+const url = await tunnelmole({
+    port: 80
+    // Optionally, add "domain: 'mysubdomain.tunnelmole.com'" if using a custom subdomain
+});
+// url = https://idsq6j-ip-157-211-195-169.tunnelmole.com
+```
+
+## Using localhost.run
 
 1. Assuming you have an SSH shell, you only need issue the following command (substituting your details)
 ``` bash

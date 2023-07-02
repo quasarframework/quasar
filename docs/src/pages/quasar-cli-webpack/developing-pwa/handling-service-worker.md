@@ -55,7 +55,15 @@ This file is automatically bundled into your website/app by Quasar CLI because i
 You may notice in some dev environments, that Workbox will not load your service workers during `quasar dev` if you are not using HTTPS to serve - even on localhost. You will see that there are two scripts that can't load. The Chrome browser console is relatively tight-lipped about this, but Firefox tells you what is going on. The three options you have are:
  - set quasar.config file > devServer > `https: true`
  - setup a loopback from localhost to 127.0.0.1 (but this is not without security implications)
- - serve your localhost over ngrok and use the https address that ngrok provides
+ - serve your localhost over [tunnelmole](https://github.com/robbie-cahill/tunnelmole-client), [localhost.run](https://localhost.run/) or [ngrok](https://ngrok.com/) and use the https address provided by them.
+
+Here is a tunnelmole example (install it first with `npm install -g tunnelmole`)
+```bash
+$ tmole 80
+http://b8ootd-ip-157-211-195-182.tunnelmole.com is forwarding to localhost:80
+https://b8ootd-ip-157-211-195-182.tunnelmole.com is forwarding to localhost:80
+```
+Use the HTTPs url shown in the output.
 
 When you set `devServer > https: true` in your `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > https` should look like this:
 
