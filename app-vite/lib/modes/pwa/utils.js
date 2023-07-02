@@ -6,6 +6,10 @@ import { getPackage } from '../../utils/get-package.js'
 import { progress } from '../../utils/logger.js'
 
 const workboxBuild = await getPackage('workbox-build')
+const workboxMethodMap = {
+  GenerateSW: 'generateSW',
+  InjectManifest: 'injectManifest'
+}
 
 export function createHeadTags (quasarConf) {
   const { publicPath } = quasarConf.build
@@ -63,6 +67,9 @@ export function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
 
 export async function buildPwaServiceWorker (workboxMode, workboxConfig) {
   const done = progress('Compiling of the ___ with Workbox in progress...', 'Service Worker')
-  await workboxBuild[ workboxMode ](workboxConfig)
+
+  const buildMethod = workboxMethodMap[ workboxMode ]
+  await workboxBuild[ buildMethod ](workboxConfig)
+
   done('The ___ compiled with success')
 }
