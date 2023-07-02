@@ -17,8 +17,8 @@ First, install Tunnelmole from NPM: `yarn global add tunnelmole` or `npm i -g tu
 
 Then, assuming you are running quasar on port `80`, run the following:
 
-```
-tmole 80
+```bash
+$ tmole 80
 ```
 
 If your port is different to `80`, change `80` to your port.
@@ -59,7 +59,6 @@ const url = await tunnelmole({
     // Optionally, add "domain: 'mysubdomain.tunnelmole.com'" if using a custom subdomain
 });
 // url = https://idsq6j-ip-157-211-195-169.tunnelmole.com
-
 ```
 
 ## Using localhost.run
