@@ -572,7 +572,7 @@ function getIndexDts (apis) {
   writeLine(contents)
 
   writeLine(contents, 'declare module \'./config.d.ts\' {')
-  writeInterface(contents, 'QuasarConfOptions', quasarConfOptions)
+  writeInterface(contents, 'QuasarUIConfiguration', quasarConfOptions)
   writeLine(contents, '}')
   writeLine(contents)
 
