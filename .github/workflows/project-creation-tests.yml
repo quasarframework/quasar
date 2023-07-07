@@ -86,11 +86,58 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      # pnpm
       - name: Install pnpm
         if: ${{ matrix.package-manager == 'pnpm' }}
         uses: pnpm/action-setup@v2
         with:
           version: 8
+      - name: Get pnpm store directory
+        if: ${{ matrix.package-manager == 'pnpm' }}
+        id: pnpm-cache
+        run: |
+          echo "PNPM_CACHE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+      - name: Setup pnpm cache
+        if: ${{ matrix.package-manager == 'pnpm' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.PNPM_CACHE_PATH }}
+          key: pnpm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
+          restore-keys: |
+            pnpm-cache-${{ matrix.app-engine }}-
+            pnpm-cache-
+
+      # yarn
+      - name: Get yarn cache directory
+        if: ${{ matrix.package-manager == 'yarn' }}
+        id: yarn-cache
+        run: |
+          echo "YARN_CACHE_PATH=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: Setup yarn cache
+        if: ${{ matrix.package-manager == 'yarn' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache.outputs.YARN_CACHE_PATH }}
+          key: yarn-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
+          restore-keys: |
+            yarn-cache-${{ matrix.app-engine }}-
+            yarn-cache-
+
+      # npm
+      - name: Get npm cache directory
+        if: ${{ matrix.package-manager == 'npm' }}
+        id: npm-cache
+        run: |
+          echo "NPM_CACHE_PATH=$(npm config get cache)" >> $GITHUB_OUTPUT
+      - name: Setup npm cache
+        if: ${{ matrix.package-manager == 'npm' }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.npm-cache.outputs.NPM_CACHE_PATH }}
+          key: npm-cache-${{ matrix.app-engine }}-${{ matrix.script-type }}
+          restore-keys: |
+            npm-cache-${{ matrix.app-engine }}-
+            npm-cache-
 
       - name: Create the test project
         run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
