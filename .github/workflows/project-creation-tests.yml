@@ -152,7 +152,17 @@ jobs:
 
       - name: Test the development server
         working-directory: create-quasar/test-project
+        env:
+          # https://github.com/jeffbski/wait-on/issues/78#issuecomment-867813529
+          WAIT_ON_CONFIG: |
+            {
+              "headers": {
+                "accept": "text/html"
+              }
+            }
+
         run: |
           ${{ matrix.package-manager }} run dev &
-          npx wait-on@7.0.1 -t 5000 http://localhost:9000
+          echo $WAIT_ON_CONFIG > wait-on.json
+          npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           kill $!
