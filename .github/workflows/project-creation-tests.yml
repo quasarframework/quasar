@@ -1,6 +1,7 @@
 name: Project creation tests
 
 on:
+  workflow_dispatch:
   release:
     types:
       - released # A release was published, or a pre-release was changed to a release.
