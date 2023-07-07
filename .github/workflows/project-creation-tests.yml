@@ -86,6 +86,12 @@ jobs:
       - name: Install dependencies
         run: yarn
 
+      - name: Install pnpm
+        if: ${{ matrix.package-manager == 'pnpm' }}
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
       - name: Create the test project
         run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
 
