@@ -90,15 +90,15 @@ jobs:
         run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
 
       - name: Lint the project
-        working-directory: test-project
+        working-directory: create-quasar/test-project
         run: ${{ matrix.package-manager }} run lint
 
       - name: Test the build
-        working-directory: test-project
+        working-directory: create-quasar/test-project
         run: ${{ matrix.package-manager }} run build
 
       - name: Test the development server
-        working-directory: test-project
+        working-directory: create-quasar/test-project
         run: |
           ${{ matrix.package-manager }} run dev &
           npx wait-on@7.0.1 -t 5000 http://localhost:9000
