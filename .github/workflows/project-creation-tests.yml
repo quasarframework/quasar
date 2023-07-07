@@ -42,6 +42,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn
@@ -56,6 +57,10 @@ jobs:
       contents: read # to fetch code (actions/checkout)
 
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: create-quasar
 
     strategy:
       fail-fast: false
@@ -78,22 +83,21 @@ jobs:
           cache: 'yarn'
 
       - name: Install dependencies
-        working-directory: create-quasar
         run: yarn
-        
+
       - name: Create the test project
-        working-directory: create-quasar
         run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
 
       - name: Lint the project
         working-directory: test-project
         run: ${{ matrix.package-manager }} run lint
-        
+
       - name: Test the build
         working-directory: test-project
         run: ${{ matrix.package-manager }} run build
 
       - name: Test the development server
+        working-directory: test-project
         run: |
           ${{ matrix.package-manager }} run dev &
           npx wait-on@7.0.1 -t 5000 http://localhost:9000
