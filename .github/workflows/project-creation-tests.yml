@@ -71,7 +71,7 @@ jobs:
         node-version: [16, 18]
         package-manager: [yarn, npm, pnpm]
 
-    name: Test project creation (${{ matrix.script-type }}-${{ matrix.app-engine }}) (Node v${{ matrix.node-version }} - ${{ matrix.package-manager }})
+    name: Test ${{ matrix.script-type }}-${{ matrix.app-engine }} (Node v${{ matrix.node-version }} - ${{ matrix.package-manager }})
 
     steps:
       - name: Checkout code
