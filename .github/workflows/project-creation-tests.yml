@@ -162,13 +162,13 @@ jobs:
             }
 
         run: |
-          # For npm, we need to pass '--' to be able to pass extra arguments to the script
-          # Other package managers don't need this but works fine with it, so we use it for all
-          ${{ matrix.package-manager }} run dev -- --port 9000 &
+          ${{ matrix.package-manager }} run dev &
 
           if [ '${{ matrix.app-engine }}' = 'vite' ]; then
             echo $WAIT_ON_CONFIG > wait-on.json
+            npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
+          else
+            npx wait-on@7.0.1 --timeout 5000 http-get://127.0.0.1:8080
           fi
 
-          npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           kill $!
