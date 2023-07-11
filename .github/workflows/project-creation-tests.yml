@@ -168,7 +168,7 @@ jobs:
             echo $WAIT_ON_CONFIG > wait-on.json
             npx wait-on@7.0.1 --config wait-on.json --timeout 5000 http-get://127.0.0.1:9000
           else
-            npx wait-on@7.0.1 --timeout 10000 http-get://127.0.0.1:8080
+            npx wait-on@7.0.1 --timeout 15000 http-get://127.0.0.1:8080
           fi
 
           kill $!
