@@ -29,7 +29,7 @@
     <% if (preset.lint) { %>
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
     "eslint-webpack-plugin": "^4.0.1",
     <% if (lintConfig === 'standard') { %>
