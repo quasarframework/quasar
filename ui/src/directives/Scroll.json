@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Function to call when scrolling occurs (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Function to call when scrolling occurs (use undefined to disable)",
     "params": {
       "verticalScrollPosition": {
         "type": "Number",
@@ -17,6 +17,6 @@
       }
     },
     "returns": null,
-    "examples": [ "v-scroll=\"fnToCall\"", "v-scroll=\"void 0\"" ]
+    "examples": [ "v-scroll=\"fnToCall\"", "v-scroll=\"undefined\"" ]
   }
 }

@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Function to call when scrolling and element comes into the viewport (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Function to call when scrolling and element comes into the viewport (use undefined to disable)",
     "params": {
       "el": {
         "type": "Element",
@@ -13,6 +13,6 @@
       }
     },
     "returns": null,
-    "examples": [ "v-scroll-fire=\"fnToCall\"", "v-scroll-fire=\"void 0\"" ]
+    "examples": [ "v-scroll-fire=\"fnToCall\"", "v-scroll-fire=\"undefined\"" ]
   }
 }
