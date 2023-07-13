@@ -101,7 +101,7 @@
       },
 
       "waitFor": {
-        "type": [ "Number", "String", "Promise" ],
+        "type": [ "Number", "String", "Promise<void>" ],
         "desc": "Delay animation start for that number of milliseconds, or until a 'transitionend' event is emitted by the destination element, or until the promise is resolved (if the promise is rejected the morphing will abort, but the `toggle function` was already called)",
         "default": "0",
         "examples": [ "300", "transitionend" ]

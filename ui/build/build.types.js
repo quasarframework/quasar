@@ -297,7 +297,7 @@ function getIndexDts (apis) {
   writeLine(headerContents, '/// <reference types="@quasar/app-vite" />')
 
   // ----
-  writeLine(contents, 'import { App, Component, ComponentPublicInstance, VNode } from \'vue\'')
+  writeLine(contents, 'import { App, Component, ComponentPublicInstance, Directive, VNode } from \'vue\'')
   writeLine(contents, 'import { ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
@@ -325,6 +325,18 @@ function getIndexDts (apis) {
     const typeValue = `${ extendsVue ? `ComponentConstructor<${ typeName }>` : typeName }`
     // Add Type to the appropriate section of types
     const propTypeDef = `${ typeName }?: ${ typeValue }`
+
+    if (content.quasarConfOptions) {
+      const confOptions = content.quasarConfOptions
+
+      const definition = getPropDefinition({
+        name: confOptions.propName,
+        definition: confOptions
+      })
+
+      quasarConfOptions.push(definition)
+    }
+
     if (content.type === 'component') {
       write(components, propTypeDef)
 
@@ -335,7 +347,19 @@ function getIndexDts (apis) {
       })
     }
     else if (content.type === 'directive') {
+      // If it's a function, make all params required (1-level deep) since function values are working as callbacks
+      content.value.params = transformObject(content.value.params, makeRequired)
+
+      const valueType = getTypeVal(content.value)
+
+      const directiveValueType = `${ typeName }Value`
+      writeLine(contents, `export type ${ directiveValueType } = ${ valueType }`)
+      writeLine(contents, `export type ${ typeName } = Directive<any, ${ directiveValueType }>`)
+
       write(directives, propTypeDef)
+
+      // Nothing else to do for directives
+      return
     }
     else if (content.type === 'plugin') {
       if (content.internal !== true) {
@@ -493,17 +517,6 @@ function getIndexDts (apis) {
 
       injections[ target ].push(getInjectionDefinition(property, content, typeName))
     }
-
-    if (content.quasarConfOptions) {
-      const confOptions = content.quasarConfOptions
-
-      const definition = getPropDefinition({
-        name: confOptions.propName,
-        definition: confOptions
-      })
-
-      quasarConfOptions.push(definition)
-    }
   })
 
   Object.keys(extraInterfaces).forEach(name => {
@@ -554,6 +567,16 @@ function getIndexDts (apis) {
   for (const key in injections) {
     writeLine(contents, `${ key }: ${ getSafeInjectionKey(key) }VueGlobals`, 2)
   }
+
+  // The only way Volar offers until a related feature is implemented in Vue itself is to use the approach below.
+  // See: https://github.com/vuejs/language-tools/issues/465#issuecomment-1229166260
+  // See: https://github.com/vuejs/core/pull/3399
+  writeLine(contents)
+  writeLine(contents, '// Directives')
+  directives.forEach(directive => {
+    // Example: `ClosePopup?: ClosePopup` -> `vClosePopup: ClosePopup`
+    writeLine(contents, `v${ directive.replace('?', '') }`, 2)
+  })
 
   writeLine(contents, '}', 1)
   writeLine(contents, '}')
