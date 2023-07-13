@@ -353,10 +353,21 @@ function getIndexDts (apis) {
       const valueType = getTypeVal(content.value)
 
       const directiveValueType = `${ typeName }Value`
+      const comments = [
+        '/**',
+        ` * ${ content.value.desc }`,
+        ' *',
+        ` * @see ${ content.meta.docsUrl }`,
+        ' */'
+      ].join('\n')
+
+      write(contents, comments + '\n')
       writeLine(contents, `export type ${ directiveValueType } = ${ valueType }`)
+      write(contents, comments + '\n')
       writeLine(contents, `export type ${ typeName } = Directive<any, ${ directiveValueType }>`)
 
-      write(directives, propTypeDef)
+      write(directives, comments)
+      writeLine(directives, `v${ typeName }: ${ typeValue }`)
 
       // Nothing else to do for directives
       return
@@ -572,11 +583,9 @@ function getIndexDts (apis) {
   // See: https://github.com/vuejs/language-tools/issues/465#issuecomment-1229166260
   // See: https://github.com/vuejs/core/pull/3399
   writeLine(contents)
-  writeLine(contents, '// Directives')
-  directives.forEach(directive => {
-    // Example: `ClosePopup?: ClosePopup` -> `vClosePopup: ClosePopup`
-    writeLine(contents, `v${ directive.replace('?', '') }`, 2)
-  })
+  writeLine(contents, '// Directives', 2)
+  writeLine(contents)
+  writeLines(contents, directives.join('\n'), 2)
 
   writeLine(contents, '}', 1)
   writeLine(contents, '}')
