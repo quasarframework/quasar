@@ -353,16 +353,43 @@ function getIndexDts (apis) {
       const valueType = getTypeVal(content.value)
 
       const directiveValueType = `${ typeName }Value`
-      const comments = [
+      const argComments = content.arg ? [
+        ' * Directive argument:',
+        ' *  - type: ' + getTypeVal(content.arg),
+        ...(content.arg.default ? [ ' *  - default: ' + content.arg.default ] : []),
+        ' *  - description: ' + content.arg.desc,
+        ' *  - examples:',
+        ...content.arg.examples.map(example => ' *    - ' + example),
+        ' *'
+      ] : []
+      const modifiersComments = content.modifiers ? [
+        ' * Modifiers:',
+        ...Object.entries(content.modifiers).map(([ name, modifier ]) => [
+          ' *  - ' + name + ':',
+          ' *    - type: ' + getTypeVal(modifier),
+          ' *    - description: ' + modifier.desc,
+          ...(modifier.examples && modifier.examples.length > 0 ? [
+            ' *    - examples:',
+            ...modifier.examples.map(example => ' *      - ' + example)
+          ] : [])
+        ].join('\n')),
+        ' *'
+      ] : []
+      const getComments = (withExtra) => [
         '/**',
         ` * ${ content.value.desc }`,
         ' *',
+        ...(withExtra ? [ ...argComments, ...modifiersComments ] : []),
         ` * @see ${ content.meta.docsUrl }`,
         ' */'
       ].join('\n')
 
-      write(contents, comments + '\n')
+      // We don't need the comments for args and modifiers in the value type
+      write(contents, getComments(false) + '\n')
       writeLine(contents, `export type ${ directiveValueType } = ${ valueType }`)
+
+      const comments = getComments(true)
+
       write(contents, comments + '\n')
       writeLine(contents, `export type ${ typeName } = Directive<any, ${ directiveValueType }>`)
 
