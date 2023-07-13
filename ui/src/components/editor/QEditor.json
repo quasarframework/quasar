@@ -368,5 +368,11 @@
       "tsType": "QEditorCaret",
       "desc": "The current caret state"
     }
+  },
+
+  "slots": {
+    "[command]": {
+      "desc": "Content for the given command in the toolbar"
+    }
   }
 }
