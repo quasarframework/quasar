@@ -297,7 +297,7 @@ function getIndexDts (apis) {
   writeLine(headerContents, '/// <reference types="@quasar/app-vite" />')
 
   // ----
-  writeLine(contents, 'import { App, Component, ComponentPublicInstance, VNode } from \'vue\'')
+  writeLine(contents, 'import { App, Component, ComponentPublicInstance, Directive, VNode } from \'vue\'')
   writeLine(contents, 'import { ComponentConstructor, GlobalComponentConstructor } from \'./ts-helpers\'')
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
@@ -325,6 +325,18 @@ function getIndexDts (apis) {
     const typeValue = `${ extendsVue ? `ComponentConstructor<${ typeName }>` : typeName }`
     // Add Type to the appropriate section of types
     const propTypeDef = `${ typeName }?: ${ typeValue }`
+
+    if (content.quasarConfOptions) {
+      const confOptions = content.quasarConfOptions
+
+      const definition = getPropDefinition({
+        name: confOptions.propName,
+        definition: confOptions
+      })
+
+      quasarConfOptions.push(definition)
+    }
+
     if (content.type === 'component') {
       write(components, propTypeDef)
 
@@ -335,7 +347,57 @@ function getIndexDts (apis) {
       })
     }
     else if (content.type === 'directive') {
-      write(directives, propTypeDef)
+      // If it's a function, make all params required (1-level deep) since function values are working as callbacks
+      content.value.params = transformObject(content.value.params, makeRequired)
+
+      const valueType = getTypeVal(content.value)
+
+      const directiveValueType = `${ typeName }Value`
+      const argComments = content.arg ? [
+        ' * Directive argument:',
+        ' *  - type: ' + getTypeVal(content.arg),
+        ...(content.arg.default ? [ ' *  - default: ' + content.arg.default ] : []),
+        ' *  - description: ' + content.arg.desc,
+        ' *  - examples:',
+        ...content.arg.examples.map(example => ' *    - ' + example),
+        ' *'
+      ] : []
+      const modifiersComments = content.modifiers ? [
+        ' * Modifiers:',
+        ...Object.entries(content.modifiers).map(([ name, modifier ]) => [
+          ' *  - ' + name + ':',
+          ' *    - type: ' + getTypeVal(modifier),
+          ' *    - description: ' + modifier.desc,
+          ...(modifier.examples && modifier.examples.length > 0 ? [
+            ' *    - examples:',
+            ...modifier.examples.map(example => ' *      - ' + example)
+          ] : [])
+        ].join('\n')),
+        ' *'
+      ] : []
+      const getComments = (withExtra) => [
+        '/**',
+        ` * ${ content.value.desc }`,
+        ' *',
+        ...(withExtra ? [ ...argComments, ...modifiersComments ] : []),
+        ` * @see ${ content.meta.docsUrl }`,
+        ' */'
+      ].join('\n')
+
+      // We don't need the comments for args and modifiers in the value type
+      write(contents, getComments(false) + '\n')
+      writeLine(contents, `export type ${ directiveValueType } = ${ valueType }`)
+
+      const comments = getComments(true)
+
+      write(contents, comments + '\n')
+      writeLine(contents, `export type ${ typeName } = Directive<any, ${ directiveValueType }>`)
+
+      write(directives, comments)
+      writeLine(directives, `v${ typeName }: ${ typeValue }`)
+
+      // Nothing else to do for directives
+      return
     }
     else if (content.type === 'plugin') {
       if (content.internal !== true) {
@@ -493,17 +555,6 @@ function getIndexDts (apis) {
 
       injections[ target ].push(getInjectionDefinition(property, content, typeName))
     }
-
-    if (content.quasarConfOptions) {
-      const confOptions = content.quasarConfOptions
-
-      const definition = getPropDefinition({
-        name: confOptions.propName,
-        definition: confOptions
-      })
-
-      quasarConfOptions.push(definition)
-    }
   })
 
   Object.keys(extraInterfaces).forEach(name => {
@@ -554,6 +605,14 @@ function getIndexDts (apis) {
   for (const key in injections) {
     writeLine(contents, `${ key }: ${ getSafeInjectionKey(key) }VueGlobals`, 2)
   }
+
+  // The only way Volar offers until a related feature is implemented in Vue itself is to use the approach below.
+  // See: https://github.com/vuejs/language-tools/issues/465#issuecomment-1229166260
+  // See: https://github.com/vuejs/core/pull/3399
+  writeLine(contents)
+  writeLine(contents, '// Directives', 2)
+  writeLine(contents)
+  writeLines(contents, directives.join('\n'), 2)
 
   writeLine(contents, '}', 1)
   writeLine(contents, '}')

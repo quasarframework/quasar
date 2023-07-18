@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Handler for panning (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Handler for panning (use undefined to disable)",
     "params": {
       "details": {
         "type": "Object",
@@ -102,7 +102,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-pan=\"fnToCall\"", "v-touch-pan=\"void 0\"" ]
+    "examples": [ "v-touch-pan=\"fnToCall\"", "v-touch-pan=\"undefined\"" ]
   },
 
   "modifiers": {

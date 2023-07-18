@@ -4,8 +4,8 @@
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Function to call after user has hold touch/click for the specified amount of time (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Function to call after user has hold touch/click for the specified amount of time (use undefined to disable)",
     "params": {
       "details": {
         "type": "Object",
@@ -45,7 +45,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-hold=\"fnToCall\"", "v-touch-hold=\"void 0\"" ]
+    "examples": [ "v-touch-hold=\"fnToCall\"", "v-touch-hold=\"undefined\"" ]
   },
 
   "arg": {
