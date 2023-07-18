@@ -18,6 +18,7 @@ export const sponsors = {
     { src: 'JuggleSt.svg', name: 'Juggle Street', href: 'https://jugglestreet.com.au/' },
     { src: 'Nodesol.svg', name: 'Nodesol', href: 'https://www.nodesol.com/' },
     { src: 'AcornFinance.svg', name: 'Acorn Finance', href: 'https://www.acornfinance.com' },
-    { src: 'Certible.svg', name: 'Certible - International Certification Body', href: 'https://www.certible.com/' }
+    { src: 'Certible.svg', name: 'Certible - International Certification Body', href: 'https://www.certible.com/' },
+    { src: 'BairesDev.svg', name: 'BairesDev', href: 'https://www.bairesdev.com/sponsoring-open-source-projects/' }
   ]
 }
