@@ -96,7 +96,10 @@ interface MorphOptions {
 
 export function morph(options: MorphOptions): (abort?: boolean) => boolean;
 
-export function getCssVar(varName: LiteralUnion<BrandColor>, element?: Element): string | null;
+export function getCssVar(
+  varName: LiteralUnion<BrandColor>,
+  element?: Element
+): string | null;
 
 export function setCssVar(
   varName: LiteralUnion<BrandColor>,
