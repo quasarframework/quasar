@@ -53,7 +53,7 @@ const objectTypes = {
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'syncable', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls', 'internal' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'syncable', 'transformAssetUrls', 'internal' ],
     isArray: [ 'examples', 'values' ]

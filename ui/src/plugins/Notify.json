@@ -20,7 +20,7 @@
       },
 
       "textColor": {
-        "extends": "color"
+        "extends": "text-color"
       },
 
       "message": {
@@ -205,7 +205,7 @@
             },
 
             "textColor": {
-              "extends": "color"
+              "extends": "text-color"
             },
 
             "message": {

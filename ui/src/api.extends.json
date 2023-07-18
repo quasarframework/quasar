@@ -14,15 +14,17 @@
 
     "color": {
       "type": "String",
+      "tsType": "NamedColor",
       "desc": "Color name for component from the Quasar Color Palette",
-      "examples": [ "primary", "teal-10" ],
+      "examples": [ "primary", "teal", "teal-10" ],
       "category": "style"
     },
 
     "text-color": {
       "type": "String",
+      "tsType": "NamedColor",
       "desc": "Overrides text color (if needed); Color name from the Quasar Color Palette",
-      "examples": [ "primary", "teal-10" ],
+      "examples": [ "primary", "teal", "teal-10" ],
       "category": "style"
     },
 
