@@ -1,8 +1,8 @@
 
-import mdPageList from 'src/pages/listing'
+import mdPageList from 'src/pages/listing.js'
 
 import layoutGallery from 'assets/layout-gallery.js'
-import vueGalleryPageList from 'src/layouts/gallery/listing'
+import vueGalleryPageList from 'src/layouts/gallery/listing.js'
 
 import DocLayout from 'src/layouts/doc-layout/DocLayout.vue'
 
