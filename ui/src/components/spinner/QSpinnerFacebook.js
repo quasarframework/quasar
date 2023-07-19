@@ -11,7 +11,7 @@ const svg = [
     h('rect', {
       x: '-10',
       y: '-30',
-      width: ' 20',
+      width: '20',
       height: '60',
       fill: 'currentColor',
       opacity: '0.6'
@@ -37,7 +37,7 @@ const svg = [
     h('rect', {
       x: '-10',
       y: '-30',
-      width: ' 20',
+      width: '20',
       height: '60',
       fill: 'currentColor',
       opacity: '0.8'
@@ -63,7 +63,7 @@ const svg = [
     h('rect', {
       x: '-10',
       y: '-30',
-      width: ' 20',
+      width: '20',
       height: '60',
       fill: 'currentColor',
       opacity: '0.9'
