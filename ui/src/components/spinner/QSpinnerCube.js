@@ -8,7 +8,7 @@ const svg = [
   h('rect', {
     x: '0',
     y: '0',
-    width: ' 100',
+    width: '100',
     height: '100',
     fill: 'none'
   }),
@@ -18,7 +18,7 @@ const svg = [
     h('rect', {
       x: '-20',
       y: '-20',
-      width: ' 40',
+      width: '40',
       height: '40',
       fill: 'currentColor',
       opacity: '0.9'
@@ -43,7 +43,7 @@ const svg = [
     h('rect', {
       x: '-20',
       y: '-20',
-      width: ' 40',
+      width: '40',
       height: '40',
       fill: 'currentColor',
       opacity: '0.8'
@@ -68,7 +68,7 @@ const svg = [
     h('rect', {
       x: '-20',
       y: '-20',
-      width: ' 40',
+      width: '40',
       height: '40',
       fill: 'currentColor',
       opacity: '0.7'
@@ -93,7 +93,7 @@ const svg = [
     h('rect', {
       x: '-20',
       y: '-20',
-      width: ' 40',
+      width: '40',
       height: '40',
       fill: 'currentColor',
       opacity: '0.6'

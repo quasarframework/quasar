@@ -19,7 +19,7 @@ const svg = [
       h('rect', {
         x: '15',
         y: '20',
-        width: ' 70',
+        width: '70',
         height: '25'
       }, [
         h('animate', {
@@ -48,7 +48,7 @@ const svg = [
       h('rect', {
         x: '15',
         y: '55',
-        width: ' 70',
+        width: '70',
         height: '25'
       }, [
         h('animate', {
