@@ -90,7 +90,7 @@ The `opts` parameter is optional and can be a String (mimeType) or an Object wit
 
  * **mimeType** (optional)
 
-   Examples: 'application/octect-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
+   Examples: 'application/octet-stream' (default), 'text/plain', 'application/json', 'text/plain;charset=UTF-8', 'video/mp4', 'image/png', 'application/pdf'
    [https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types)
 
  * **byteOrderMark** (optional)
@@ -474,4 +474,25 @@ node.addEventListener('click', evt => {
   // call stopPropagation and preventDefault
   event.stopAndPrevent(evt)
 })
+```
+
+## testPattern
+
+Test against particular patterns.
+
+```js
+import { patterns } from 'quasar'
+
+const { testPattern } = patterns
+
+testPattern.email('foo@bar.com') // true
+testPattern.email('foo') // false
+
+testPattern.hexColor('#fff') // true
+testPattern.hexColor('#ffffff') // true
+testPattern.hexColor('#FFF') // true
+testPattern.hexColor('#gggggg') // false
+
+// See the full list of patterns here:
+// https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js
 ```
