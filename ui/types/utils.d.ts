@@ -18,6 +18,7 @@ export * from "./utils/event";
 export * from "./utils/format";
 export * from "./utils/scroll";
 export * from "./utils/is";
+export * from "./utils/patterns";
 export * from "./utils/run-sequential-promises";
 
 import { BrandColor } from "./api/color";
