@@ -53,7 +53,7 @@ If you want to make use of a CDN (Content Delivery Network), all you need to do 
 In case you follow this path, do not also add the icon sets that you want in `/quasar.config file > extras`. Play with the [UMD Installation Guide](/start/umd#installation) and edit `index.template.html` as described there.
 
 ## Using Fontawesome-Pro
-If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions:
+If you have a Fontawesome v6 Pro license and want to use it instead of the Fontawesome Free version, follow these instructions. Optionally, you will be able to use Font Awesome's Kit functionality to specify just the icons you use in your project. See step 6 below.
 
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file (file path same as package.json):
@@ -83,8 +83,16 @@ If you have a Fontawesome v6 Pro license and want to use it instead of the Fonta
     iconSet: 'fontawesome-v6-pro'
   }
   ```
-6. Edit `/src/boot/fontawesome-pro.js`:
+6. (Optional) Create a [Font Awesome kit](https://fontawesome.com/kits) in order to specify just the icons you use in your project.
+  ```
+  You will be using the webfonts approach to rendering the icons because that is what Quasar expects for Font Awesome.
+  Download the kit zip file for hosting yourself.
+  Copy the css/All.css file and put it in /src/<path you store the kit>/css/all.css
+  Copy the webfonts directory to /src/<path you store the kit>/webfonts
+  ```
+7. Edit `/src/boot/fontawesome-pro.js`:
   ```js
+  // When not using a Kit
   // required
   import '@fortawesome/fontawesome-pro/css/fontawesome.css'
   import '@fortawesome/fontawesome-pro/css/light.css'
@@ -94,8 +102,11 @@ If you have a Fontawesome v6 Pro license and want to use it instead of the Fonta
   // import '@fortawesome/fontawesome-pro/css/brands.css'
   // import '@fortawesome/fontawesome-pro/css/solid.css'
   // import '@fortawesome/fontawesome-pro/css/regular.css'
+
+  // When using a Kit
+  import 'src/<path you store the kit>/css/all.css'
   ```
-7. (Optional) Override default icons:
+8. (Optional) Override default icons:
 
 Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some icons used by the framework components may not be desirable. The best way to handle this is to override it in the boot file that you created.
 
@@ -122,4 +133,61 @@ import '@fortawesome/fontawesome-pro/css/light.min.css'
 export default ({ app }) => {
   app.config.globalProperties.$q.iconSet.chip.remove = 'fas fa-times-circle'
 }
+```
+Or, if you are changing all of the icons in the iconSet, you can make a copy of the Quasar Fontawesome v6 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v6-pro.js) and store it in your source. Modify all the icons to be the font weight and icons you desire and then set the entire iconSet with one call. If you are using typescript, this has the benefit of type checking that you are setting all the icons and will give you an error when you upgrade Quasar to a new version that introduces more icons in the iconSet.
+```
+import { boot } from 'quasar/wrappers';
+import 'src/<path you store the kit>/css/all.css';
+import iconSet from 'src/<path you store the iconSet>/iconSet';
+
+export default boot(({ app }) => {
+  app.config.globalProperties.$q.iconSet.set(iconSet);
+});
+```
+
+9. (Optional) If you use Cypress for component testing, you need to load your icons in the cypress component configuration file ```test/cypress/support/components.ts```
+```js
+// ICON SETS
+// If you use multiple or different icon-sets then the default, be sure to import them here.
+import 'quasar/dist/icon-set/material-icons.umd.prod';
+import '@quasar/extras/material-icons/material-icons.css';
+
+is replaced with: (not using Kit)
+// ICON SETS
+// If you use multiple or different icon-sets then the default, be sure to import them here.
+import '@fortawesome/fontawesome-pro/css/fontawesome.css'
+// add any font awesome icon packs that you used in the boot file
+import '@fortawesome/fontawesome-pro/css/light.css'
+
+is replaced with: (using Kit)
+// ICON SETS
+// If you use multiple or different icon-sets then the default, be sure to import them here.
+import 'src/<path you store the kit>/css/all.css';
+...
+```
+10. (Optional) Create a central ```icons.ts``` in order to ensure consistency across your app
+You can give the icons names that are more meaningful and easier to remember by introducing an ```icons.ts``` file in the following form:
+```js
+export default {
+  positive: 'far fa-check',
+  negative: 'fas fa-octagon-exclamation',
+  info: 'fas fa-circle-info',
+  warning: 'far fa-triangle-exclamation',
+  menu: 'fas fa-bars',
+  close: 'far fa-xmark',
+  trash: 'far fa-trash',
+}
+```
+Then you can use the icons like this:
+```js
+<script setup lang='ts'>
+import icons from 'src/fontAwesome/icons.ts`
+
+const { menu, close } = icons;
+</script>
+
+<template>
+  <q-icon :name="menu" />  
+  <q-icon :name="close" />  
+</template>
 ```
