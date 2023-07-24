@@ -169,6 +169,26 @@
         "default": 5000
       },
 
+      "actions": {
+        "type": "Array",
+        "tsType": "QNotifyAction",
+        "desc": "Notification actions (buttons); Unless 'noDismiss' is true, clicking/tapping on the button will close the notification; Also check 'closeBtn' convenience prop",
+        "definition": {
+          "noDismiss": {
+            "type": "Boolean",
+            "desc": "Do not dismiss the notification when the button is clicked/tapped"
+          },
+          "...": {
+            "type": "Any",
+            "desc": "Any other QBtn prop expect 'onClick' (use 'handler' instead)",
+            "examples": [ "label: 'Learn more'", "color: 'primary'" ]
+          }
+        },
+        "examples": [
+          "[ { label: 'Show', handler: () => {}, 'aria-label': 'Button label' }, { icon: 'map', handler: () => {}, color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: () => {} } ]"
+        ]
+      },
+
       "closeBtn": {
         "type": [ "Boolean", "String" ],
         "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label according to the current Quasar language",
