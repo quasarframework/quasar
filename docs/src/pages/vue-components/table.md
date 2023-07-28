@@ -131,7 +131,7 @@ Pay attention to the code in the "style" section in the following examples, espe
 
 <doc-example title="Sticky header" file="StickyHeader" />
 
-<doc-example title="Sticky fist column" file="StickyColumn" />
+<doc-example title="Sticky first column" file="StickyColumn" />
 
 <doc-example title="Sticky last column" file="StickyLastColumn" />
 
