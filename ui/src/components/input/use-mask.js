@@ -444,6 +444,11 @@ export default function (props, emit, emitValue, inputRef) {
     }
 
     if (e.keyCode === 37 || e.keyCode === 39) { // Left / Right
+      if (e.altKey) {
+        // let common browser navigation shortcut (Alt+Left / Alt+Right) pass through (issue #15801)
+        return
+      }
+      
       if (e.shiftKey && selectionAnchor === void 0) {
         selectionAnchor = inp.selectionDirection === 'forward' ? start : end
       }
