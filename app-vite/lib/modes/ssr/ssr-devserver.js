@@ -293,6 +293,16 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     const app = middlewareParams.app = create(middlewareParams)
+    const { proxy: proxyConf } = quasarConf.devServer
+
+    if (Object(proxyConf) === proxyConf) {
+      const { createProxyMiddleware } = await import('http-proxy-middleware')
+
+      Object.keys(proxyConf).forEach(path => {
+        const cfg = quasarConf.devServer.proxy[ path ]
+        app.use(path, createProxyMiddleware(cfg))
+      })
+    }
 
     // vite devmiddleware modifies req.url to account for publicPath
     // but we'll break usage in the webserver if we do so
