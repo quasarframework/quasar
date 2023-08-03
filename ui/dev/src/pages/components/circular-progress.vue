@@ -152,7 +152,7 @@ export default {
       reverse: false,
       indeterminate: false,
       rounded: false,
-      borderWidth: 3,
+      borderWidth: 0,
       borderColor: 'secondary'
     }
   },
