@@ -104,10 +104,22 @@ export default createComponent({
         })
       )
 
+      if (props.rounded === true && props.borderWidth > 0) {
+        svgChild.push(
+          getCircle({
+            cls: 'circle',
+            thickness: strokeWidth.value,
+            offset: strokeDashOffset.value,
+            color: props.borderColor,
+            rounded: props.rounded === true ? 'round' : void 0
+          })
+        )
+      }
+
       svgChild.push(
         getCircle({
           cls: 'circle',
-          thickness: strokeWidth.value,
+          thickness: strokeWidth.value - props.borderWidth,
           offset: strokeDashOffset.value,
           color: props.color,
           rounded: props.rounded === true ? 'round' : void 0

@@ -19,6 +19,11 @@ export const useCircularCommonProps = {
 
   fontSize: String,
   rounded: Boolean,
+  borderWidth: {
+    type: Number,
+    default: 0
+  },
+  borderColor: String,
 
   // ratio
   thickness: {
