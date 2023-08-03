@@ -65,6 +65,7 @@ export default createComponent({
     ))
 
     const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
+    const borderWidth = computed(() => ((props.borderWidth > 0 && props.rounded === true) ? props.borderWidth : 0))
 
     function getCircle ({ thickness, offset, color, cls, rounded }) {
       return h('circle', {
@@ -104,7 +105,7 @@ export default createComponent({
         })
       )
 
-      if (props.rounded === true && props.borderWidth > 0) {
+      if (borderWidth.value > 0) {
         svgChild.push(
           getCircle({
             cls: 'circle',
@@ -119,7 +120,7 @@ export default createComponent({
       svgChild.push(
         getCircle({
           cls: 'circle',
-          thickness: strokeWidth.value - props.borderWidth,
+          thickness: strokeWidth.value - borderWidth.value,
           offset: strokeDashOffset.value,
           color: props.color,
           rounded: props.rounded === true ? 'round' : void 0

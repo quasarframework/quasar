@@ -59,7 +59,7 @@
 
     "borderWidth": {
       "type": "Number",
-      "desc": "Width of the progress arc boundary",
+      "desc": "(Only works if rounded === true) Width of progress arc boundary",
       "default": 0,
       "category": "style"
     },
