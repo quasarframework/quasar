@@ -1,7 +1,7 @@
 
 import { existsSync } from 'node:fs'
 import { normalize, join, sep } from 'node:path'
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath } from 'node:url'
 
 const quasarConfigFilenameList = [
   'quasar.config.js',
