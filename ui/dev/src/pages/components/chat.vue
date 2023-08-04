@@ -123,8 +123,10 @@ export default {
       },
       {
         name: 'Jane',
-        text: [ 'And you?' ],
+        text: [ 'And you?', 'This bg color is #497ef2ff' ],
         sent: true,
+        bgColor: '#497ef2ff',
+        textColor: '#e4f7f6',
         avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
         stamp: 'Yesterday at 13:51'
       },
@@ -133,7 +135,9 @@ export default {
       },
       {
         name: 'Vladimir',
-        text: [ 'Fine. Nice weather today, right?', 'Hmm...' ],
+        text: [ 'Fine. Nice weather today, right?', 'Hmm...', 'This bg color is rgba(176,76,176,0.8), and text color is #f2d3f2ff' ],
+        bgColor: 'rgba(176,76,176,0.8)',
+        textColor: '#f2d3f2ff',
         avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
         stamp: '13:55'
       },
@@ -143,7 +147,9 @@ export default {
       },
       {
         name: 'Vladimir',
-        text: [ 'How are you?' ],
+        text: [ 'How are you?', 'This bg color is secondary, and text color is accent' ],
+        bgColor: 'secondary',
+        textColor: 'accent',
         avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
         stamp: 'Yesterday 13:34'
       },

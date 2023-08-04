@@ -1,7 +1,8 @@
-import { h, computed } from 'vue'
+import { h, computed, toRef } from 'vue'
 
 import { createComponent } from '../../utils/private/create.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
+import { useTextColor } from '../../composables/private/use-color.js'
 
 export default createComponent({
   name: 'QChatMessage',
@@ -25,15 +26,22 @@ export default createComponent({
   setup (props, { slots }) {
     const op = computed(() => (props.sent === true ? 'sent' : 'received'))
 
+    const { textColorClasses: backgroundColorClasses, textColorStyles: backgroundColorStyles } = useTextColor(toRef(props, 'bgColor'))
+    const { textColorClasses, textColorStyles } = useTextColor(toRef(props, 'textColor'))
+
     const textClass = computed(() =>
-      `q-message-text-content q-message-text-content--${ op.value }`
-      + (props.textColor !== void 0 ? ` text-${ props.textColor }` : '')
+      `q-message-text-content q-message-text-content--${ op.value } ${ textColorClasses.value }`
     )
+    const textStyle = computed(() => ({
+      ...textColorStyles.value
+    }))
 
     const messageClass = computed(() =>
-      `q-message-text q-message-text--${ op.value }`
-      + (props.bgColor !== void 0 ? ` text-${ props.bgColor }` : '')
+      `q-message-text q-message-text--${ op.value } ${ backgroundColorClasses.value }`
     )
+    const messageStyle = computed(() => ({
+      ...backgroundColorStyles.value
+    }))
 
     const containerClass = computed(() =>
       'q-message-container row items-end no-wrap'
@@ -74,9 +82,10 @@ export default createComponent({
 
       return contentList.map((msg, index) => h('div', {
         key: index,
-        class: messageClass.value
+        class: messageClass.value,
+        style: messageStyle.value
       }, [
-        h('div', { class: textClass.value }, wrapStamp(content(msg)))
+        h('div', { class: textClass.value, style: textStyle.value }, wrapStamp(content(msg)))
       ]))
     }
 
