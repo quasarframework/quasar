@@ -1,6 +1,7 @@
 
 import { existsSync, lstatSync } from 'node:fs'
 import { resolve, normalize, isAbsolute } from 'node:path'
+import { fileURLToPath } from 'node:url';
 import untildify from 'untildify'
 
 import { getPngSize } from './get-png-size.js'
@@ -148,8 +149,8 @@ function parseIconPath (value) {
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
-    argv.icon = normalize(
-      new URL('../../samples/icongenie-icon.png', import.meta.url).pathname
+    argv.icon = normalize(fileURLToPath(
+      new URL('../../samples/icongenie-icon.png', import.meta.url))
     )
     return
   }
