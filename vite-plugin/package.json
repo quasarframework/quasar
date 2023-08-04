@@ -13,7 +13,7 @@
   },
   "types": "index.d.ts",
   "scripts": {
-    "build": "rm -rf ./dist/ && rollup --config rollup.config.js",
+    "build": "rimraf ./dist/ && rollup --config rollup.config.js",
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
     "test": "yarn test:unit:ci && yarn test:e2e:ci",
     "test:unit:dev": "vitest",
@@ -53,6 +53,7 @@
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.14.1",
     "quasar": "^2.11.10",
+    "rimraf": "^3.0.1",
     "rollup": "^2.58.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.0.4",
