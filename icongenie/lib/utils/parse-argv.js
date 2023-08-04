@@ -1,7 +1,7 @@
 
 import { existsSync, lstatSync } from 'node:fs'
 import { resolve, normalize, isAbsolute } from 'node:path'
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath } from 'node:url'
 import untildify from 'untildify'
 
 import { getPngSize } from './get-png-size.js'
