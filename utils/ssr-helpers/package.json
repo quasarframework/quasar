@@ -1,6 +1,6 @@
 {
   "name": "@quasar/ssr-helpers",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "description": "Quasar Framework helper package for SSR",
   "author": {
     "name": "Razvan Stoenescu",

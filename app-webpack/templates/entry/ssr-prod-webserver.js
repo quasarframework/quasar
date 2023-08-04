@@ -5,13 +5,13 @@
 
 import { join } from 'node:path'
 import { renderToString } from 'vue/server-renderer'
-import createRenderer from '@quasar/ssr-helpers/create-renderer'
+import { getProdRenderFunction } from '@quasar/ssr-helpers/create-renderer'
 
-import renderTemplate from './render-template.js'
-import serverManifest from './quasar.server-manifest.json'
-import clientManifest from './quasar.client-manifest.json'
+import renderTemplate from './render-template.cjs'
+import clientManifest from './quasar.manifest.json'
+import serverEntry from './server/entry.js'
 
-import { create, listen, serveStaticContent } from '../src-ssr/server.js'
+import { create, listen, serveStaticContent, renderPreloadTag } from '../src-ssr/server.js'
 import injectMiddlewares from './ssr-middlewares.js'
 
 const port = process.env.PORT || <%= ssr.prodPort %>
@@ -23,13 +23,24 @@ const resolveUrlPath = publicPath === '/'
   : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
 const rootFolder = __dirname
-const publicFolder = join(__dirname, 'www')
+const publicFolder = join(__dirname, 'client')
 
 function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
 }
 
 const serveStatic = (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts)
+
+// create the production render fn
+const render = getProdRenderFunction({
+  vueRenderToString: renderToString,
+  basedir: __dirname,
+  clientManifest,
+  serverEntry,
+  renderTemplate,
+  renderPreloadTag,
+  manualStoreSerialization: <%= ssr.manualStoreSerialization === true %>
+})
 
 const middlewareParams = {
   port,
@@ -43,7 +54,7 @@ const middlewareParams = {
     root: rootFolder,
     public: publicFolder
   },
-  render: ssrContext => render(ssrContext, renderTemplate),
+  render,
   serve: {
     static: serveStatic
   }
@@ -53,15 +64,6 @@ const app = create(middlewareParams)
 
 // fill in "app" for next calls
 middlewareParams.app = app
-
-// create the renderer
-const render = createRenderer({
-  vueRenderToString: renderToString,
-  basedir: __dirname,
-  serverManifest,
-  clientManifest,
-  manualStoreSerialization: <%= ssr.manualStoreSerialization === true %>
-})
 
 <% if (ssr.pwa) { %>
 // serve this with no cache, if built with PWA:

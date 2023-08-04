@@ -7,7 +7,7 @@ const { QuasarSSRClientPlugin } = require('./plugin.client-side.js')
 module.exports.injectSSRClient = function injectSSRClient (chain, cfg) {
   if (cfg.ctx.prod) {
     chain.output
-      .path(path.join(cfg.build.distDir, 'www'))
+      .path(path.join(cfg.build.distDir, 'client'))
   }
   else if (cfg.devServer.hot) {
     chain.plugin('hot-module-replacement')
@@ -32,8 +32,6 @@ module.exports.injectSSRClient = function injectSSRClient (chain, cfg) {
 
   if (cfg.ctx.prod) {
     chain.plugin('quasar-ssr-client')
-      .use(QuasarSSRClientPlugin, [ {
-        filename: '../quasar.client-manifest.json'
-      } ])
+      .use(QuasarSSRClientPlugin)
   }
 }

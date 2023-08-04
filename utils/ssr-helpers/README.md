@@ -6,6 +6,13 @@
 
 <img src="https://img.shields.io/npm/v/%40quasar/ssr-helpers.svg?label=@quasar/ssr-helpers">
 
+## Version mapping
+
+| @quasar/app-webpack | @quasar/ssr-helpers |
+| --- | --- |
+| v4 | v3 |
+| v3 | v2 |
+
 ## Contents
 * @quasar/ssr-helpers/webpack-client-plugin
 * @quasar/ssr-helpers/webpack-server-plugin

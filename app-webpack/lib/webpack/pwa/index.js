@@ -96,7 +96,7 @@ module.exports.injectPwa = function injectPwa (chain, cfg) {
     }
 
     opts.exclude = opts.exclude || []
-    opts.exclude.push('../quasar.client-manifest.json')
+    opts.exclude.push('../quasar.manifest.json')
   }
 
   chain.plugin('workbox')

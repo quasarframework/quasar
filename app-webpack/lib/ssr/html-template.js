@@ -34,7 +34,7 @@ function injectSsrInterpolation (html) {
     )
     .replace(
       /(<\/head>)/i,
-      (_, tag) => `{{ _meta.resourceStyles }}{{ _meta.endingHeadTags || '' }}${ tag }`
+      (_, tag) => `{{ _meta.endingHeadTags || '' }}${ tag }`
     )
     .replace(
       /(<body[^>]*)(>)/i,
@@ -55,7 +55,7 @@ function injectSsrInterpolation (html) {
     )
     .replace(
       '<div id="q-app"></div>',
-      '<div id="q-app">{{ _meta.resourceApp }}</div>{{ _meta.resourceScripts }}'
+      '<div id="q-app">{{ _meta.runtimePageContent }}</div>{{ _meta.afterRuntimePageContent }}'
     )
 }
 

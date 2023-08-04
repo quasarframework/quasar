@@ -32,10 +32,18 @@ module.exports.injectSSRServer = function injectSSRServer (chain, cfg) {
   chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.cjs.prod.js')
 
   chain.target('node')
-  chain.devtool('source-map')
+
+  if (cfg.ctx.dev || cfg.ctx.debug) {
+    chain.devtool('source-map')
+  }
+
+  if (cfg.ctx.prod) {
+    chain.output
+      .path(join(cfg.build.distDir, 'server'))
+  }
 
   chain.output
-    .filename('render-app.js')
+    .filename('entry.js')
     .chunkFilename('chunk-[name].js')
     .libraryTarget('commonjs2')
 
@@ -69,8 +77,6 @@ module.exports.injectSSRServer = function injectSSRServer (chain, cfg) {
 
   if (cfg.ctx.prod) {
     chain.plugin('quasar-ssr-server')
-      .use(QuasarSSRServerPlugin, [ {
-        filename: '../quasar.server-manifest.json'
-      } ])
+      .use(QuasarSSRServerPlugin)
   }
 }

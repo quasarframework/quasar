@@ -19,6 +19,7 @@ declare module "quasar/wrappers" {
     SsrListenCallback,
     SsrCloseCallback,
     SsrServeStaticContentCallback,
+    SsrRenderPreloadTagCallback,
     BexBackgroundCallback,
     BexContentCallback,
     BexDomCallback,
@@ -60,6 +61,10 @@ declare module "quasar/wrappers" {
   function ssrServeStaticContent(
     callback: SsrServeStaticContentCallback
   ): SsrServeStaticContentCallback;
+
+  function ssrRenderPreloadTag(
+    callback: SsrRenderPreloadTagCallback
+  ): SsrRenderPreloadTagCallback;
 
   function bexBackground(
     callback: BexBackgroundCallback

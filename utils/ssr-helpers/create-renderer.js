@@ -1,148 +1,76 @@
 /*
- * Forked from vue-bundle-runner v0.0.3 NPM package
+ * Inspired from vue-bundle-runner v0.0.3 NPM package
  */
 
-const { extname } = require('path')
 const serialize = require('serialize-javascript')
-
 const createBundle = require('./lib/create-bundle')
 
-const jsRE = /\.js(\?[^.]+)?$/
-const cssRE = /\.css(\?[^.]+)?$/
-const jsCssRE = /\.(js|css)($|\?)/
-const queryRE = /\?.*/
-const trailingSlashRE = /([^/])$/
+function createRenderContext (clientManifest) {
+  const { publicPath, initial, modules } = clientManifest
+  const addPublicPath = file => publicPath + file
+  const [ firstBodyFile, ...otherBodyFiles ] = initial.b.map(addPublicPath)
 
-/**
- * Creates a mapper that maps components used during a server-side render
- * to async chunk files in the client-side build, so that we can inline them
- * directly in the rendered HTML to avoid waterfall requests.
-*/
-function createMapper (clientManifest) {
-  const map = new Map()
+  return {
+    initialHeadFiles: initial.h.map(addPublicPath),
 
-  Object.keys(clientManifest.modules).forEach(id => {
-    map.set(id, mapIdToFile(id, clientManifest))
-  })
+    getBodyFiles: firstBodyFile
+      ? asyncFiles => ([ firstBodyFile, ...asyncFiles, ...otherBodyFiles ])
+      : asyncFiles => asyncFiles,
 
-  // map server-side moduleIds to client-side files
-  return function mapper (moduleIds) {
-    const res = new Set()
-    for (let i = 0; i < moduleIds.length; i++) {
-      const mapped = map.get(moduleIds[i])
-      if (mapped) {
-        for (let j = 0; j < mapped.length; j++) {
-          const entry = mapped[j]
-          if (entry !== void 0) {
-            res.add(mapped[j])
-          }
-        }
+    getAsyncFiles: moduleIds => {
+      const head = new Set()
+      const body = new Set()
+
+      for (let i = 0; i < moduleIds.length; i++) {
+        const list = modules[ moduleIds[ i ] ]
+
+        // if it has no mapping...
+        if (list === void 0) continue
+
+        if (list.h !== void 0) list.h.forEach(file => head.add(file))
+        if (list.b !== void 0) list.b.forEach(file => body.add(file))
+      }
+
+      return {
+        head: Array.from(head).map(addPublicPath),
+        body: Array.from(body).map(addPublicPath)
       }
     }
-    return Array.from(res)
   }
-}
-
-function mapIdToFile (id, clientManifest) {
-  const files = []
-  const fileIndices = clientManifest.modules[id]
-
-  if (fileIndices !== void 0) {
-    fileIndices.forEach(index => {
-      const file = clientManifest.all[index]
-
-      // only include async files or non-js, non-css assets
-      if (
-        clientManifest.async.includes(file) ||
-        (jsCssRE.test(file) === false)
-      ) {
-        files.push(file)
-      }
-    })
-  }
-
-  return files
-}
-
-function normalizeFile (file) {
-  const fileWithoutQuery = file.replace(queryRE, '')
-  const extension = extname(fileWithoutQuery).slice(1)
-
-  return {
-    file,
-    extension,
-    fileWithoutQuery
-  }
-}
-
-function ensureTrailingSlash (path) {
-  return path === ''
-    ? path
-    : path.replace(trailingSlashRE, '$1/')
-}
-
-function createRenderContext (clientManifest) {
-  return {
-    clientManifest,
-    publicPath: ensureTrailingSlash(clientManifest.publicPath || '/'),
-    preloadFiles: (clientManifest.initial || []).map(normalizeFile),
-    mapFiles: createMapper(clientManifest)
-  }
-}
-
-function renderStyles (renderContext, usedAsyncFiles, ssrContext) {
-  const initial = renderContext.preloadFiles
-  const cssFiles = initial.concat(usedAsyncFiles).filter(({ file }) => cssRE.test(file))
-
-  return (
-    // render links for css files
-    (
-      cssFiles.length
-        ? cssFiles.map(({ file }) => `<link rel="stylesheet" href="${renderContext.publicPath}${file}">`).join('')
-        : ''
-    ) +
-    // ssrContext.styles is a getter exposed by vue-style-loader which contains
-    // the inline component styles collected during SSR
-    (ssrContext.styles || '')
-  )
 }
 
 const autoRemove = 'document.currentScript.remove()'
 
-function renderStoreState (ssrContext, nonce) {
+function renderStoreState (ssrContext) {
+  const nonceAttr = ssrContext.nonce !== void 0
+    ? ` nonce="${ ssrContext.nonce }"`
+    : ''
   const state = serialize(ssrContext.state, { isJSON: true })
-  return `<script${nonce}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
+  return `<script${nonceAttr}>window.__INITIAL_STATE__=${state};${autoRemove}</script>`
 }
 
-function renderScripts(renderContext, usedAsyncFiles, nonce) {
-  if (renderContext.preloadFiles.length > 0) {
-    const initial = renderContext.preloadFiles.filter(({ file }) => jsRE.test(file))
-    const async = usedAsyncFiles.filter(({ file }) => jsRE.test(file))
-
-    return [ initial[0] ].concat(async, initial.slice(1))
-      .map(({ file }) => `<script${nonce} src="${renderContext.publicPath}${file}" defer></script>`)
+function renderHeadTags ({ renderContext, asyncFiles, renderPreloadTagMap, ssrContext }) {
+  return (
+    // render head assets
+    [ ...renderContext.initialHeadFiles, ...asyncFiles.head ]
+      .map(renderPreloadTagMap)
       .join('')
-  }
 
-  return ''
+    // ssrContext.styles is a getter exposed by vue-style-loader which contains
+    // the inline component styles collected during SSR
+    + (ssrContext.styles || '')
+  )
 }
 
-module.exports = function createRenderer (opts) {
-  const renderContext = createRenderContext(opts.clientManifest)
-  const { evaluateEntry, rewriteErrorTrace } = createBundle(opts)
+function renderBodyTags ({ renderContext, asyncFiles, renderPreloadTagMap }) {
+  return renderContext.getBodyFiles(asyncFiles.body)
+    .filter(entry => entry !== void 0)
+    .map(renderPreloadTagMap)
+    .join('')
+}
 
-  async function runApp(ssrContext) {
-    try {
-      const entry = await evaluateEntry()
-      return await entry(ssrContext)
-    }
-    catch (err) {
-      await rewriteErrorTrace(err)
-      throw err
-    }
-  }
-
-  return async function renderToString (ssrContext, renderTemplate) {
+function createRenderToStringFn (data) {
+  return async function renderToString (ssrContext) {
     try {
       const onRenderedList = []
 
@@ -152,11 +80,8 @@ module.exports = function createRenderer (opts) {
         onRendered: fn => { onRenderedList.push(fn) }
       })
 
-      const app = await runApp(ssrContext)
-      const resourceApp = await opts.vueRenderToString(app, ssrContext)
-      const usedAsyncFiles = renderContext
-        .mapFiles(Array.from(ssrContext._modules))
-        .map(normalizeFile)
+      const runtimePageContent = await data.getRuntimePageContent(ssrContext)
+
 
       onRenderedList.forEach(fn => { fn() })
 
@@ -164,24 +89,98 @@ module.exports = function createRenderer (opts) {
       // like @vue/apollo-ssr:
       typeof ssrContext.rendered === 'function' && ssrContext.rendered()
 
-      const nonce = ssrContext.nonce !== void 0
-        ? ` nonce="${ ssrContext.nonce }" `
-        : ''
+      const renderTagOptions = {
+        renderContext: data.renderContext,
+        asyncFiles: data.renderContext.getAsyncFiles(Array.from(ssrContext._modules)),
+        renderPreloadTagMap: file => data.renderPreloadTag(file, ssrContext),
+        ssrContext
+      }
 
       Object.assign(ssrContext._meta, {
-        resourceApp,
-        resourceStyles: renderStyles(renderContext, usedAsyncFiles, ssrContext),
-        resourceScripts: (
-          (opts.manualStoreSerialization !== true && ssrContext.state !== void 0 ? renderStoreState(ssrContext, nonce) : '')
-          + renderScripts(renderContext, usedAsyncFiles, nonce)
+        endingHeadTags: renderHeadTags(renderTagOptions) + ssrContext._meta.endingHeadTags,
+        runtimePageContent,
+        afterRuntimePageContent: (
+          (data.manualStoreSerialization !== true && ssrContext.state !== void 0 ? renderStoreState(ssrContext) : '')
+          + renderBodyTags(renderTagOptions)
         )
       })
 
-      return renderTemplate(ssrContext)
+      return data.renderTemplate(ssrContext)
     }
     catch (err) {
-      await rewriteErrorTrace(err)
+      if (data.rewriteErrorTrace !== void 0) {
+        await data.rewriteErrorTrace(err)
+      }
+
       throw err
     }
+  }
+}
+
+module.exports.getProdRenderFunction = function getProdRenderFunction (opts) {
+  return createRenderToStringFn({
+    renderContext: createRenderContext(opts.clientManifest),
+    renderTemplate: opts.renderTemplate,
+    renderPreloadTag: opts.renderPreloadTag,
+    manualStoreSerialization: opts.manualStoreSerialization,
+    getRuntimePageContent: async ssrContext => {
+      const app = await opts.serverEntry(ssrContext)
+      return await opts.vueRenderToString(app, ssrContext)
+    }
+  })
+}
+
+module.exports.createDevRenderer = function createDevRenderer (opts) {
+  const data = {
+    renderContext: null,
+    evaluateEntry: null,
+    rewriteErrorTrace: null,
+    renderTemplate: null,
+    renderPreloadTag: null,
+    manualStoreSerialization: opts.manualStoreSerialization,
+    getRuntimePageContent: async ssrContext => {
+      const entry = await data.evaluateEntry()
+      const app = await entry(ssrContext)
+      return await opts.vueRenderToString(app, ssrContext)
+    }
+  }
+
+  const dataKeys = Object.keys(data)
+
+  let checkIfReady = () => {
+    if (dataKeys.every(key => data[ key ] !== null)) {
+      checkIfReady = () => {}
+      opts.onReady()
+    }
+  }
+
+  const updateClientManifest = clientManifest => {
+    data.renderContext = createRenderContext(clientManifest)
+    checkIfReady()
+  }
+
+  const updateServerManifest = serverManifest => {
+    const { evaluateEntry, rewriteErrorTrace } = createBundle(serverManifest, opts.basedir)
+    data.evaluateEntry = evaluateEntry
+    data.rewriteErrorTrace = rewriteErrorTrace
+    checkIfReady()
+  }
+
+  const updateRenderTemplate = renderTemplate => {
+    data.renderTemplate = renderTemplate
+    checkIfReady()
+  }
+
+  const updateRenderPreloadTag = renderPreloadTag => {
+    data.renderPreloadTag = renderPreloadTag
+    checkIfReady()
+  }
+
+  return {
+    renderToString: createRenderToStringFn(data),
+    updateClientManifest,
+    updateServerManifest,
+    updateRenderTemplate,
+    updateRenderPreloadTag
   }
 }

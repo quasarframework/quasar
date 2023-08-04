@@ -66,11 +66,7 @@ module.exports.createChain = function createChain (cfg, configName) {
 
   if (cfg.ctx.prod || cfg.ctx.mode.ssr) {
     chain.output
-      .path(
-        cfg.ctx.mode.ssr
-          ? path.join(cfg.build.distDir, 'www')
-          : cfg.build.distDir
-      )
+      .path(cfg.build.distDir)
       .publicPath(cfg.build.publicPath)
       .filename(`js/[name]${ fileHash }.js`)
       .chunkFilename(`js/[name]${ useFastHash === true ? '' : '.[chunkhash:8]' }.js`)

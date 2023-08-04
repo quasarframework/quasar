@@ -17,7 +17,7 @@ module.exports.WebserverAssetsPlugin = class WebserverAssetsPlugin {
   apply (compiler) {
     compiler.hooks.thisCompilation.tap('package.json', compilation => {
       compilation.emitAsset('package.json', new sources.RawSource(this.pkg))
-      compilation.emitAsset('render-template.js', new sources.RawSource(this.htmlTemplate))
+      compilation.emitAsset('render-template.cjs', new sources.RawSource(this.htmlTemplate))
     })
   }
 

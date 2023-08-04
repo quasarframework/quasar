@@ -76,7 +76,7 @@ function createModule (options) {
   }
 }
 
-function createEvaluateModule (files, { basedir, runningScriptOptions }) {
+function createEvaluateModule (files, basedir) {
   const _evalCache = {}
   const compile = createCompile()
   const require = createRequire(basedir || process.cwd(), files, evaluateModule)
@@ -89,7 +89,7 @@ function createEvaluateModule (files, { basedir, runningScriptOptions }) {
     const code = files[filename]
     const script = compile(filename, code)
 
-    const compiledWrapper = script.runInThisContext(runningScriptOptions)
+    const compiledWrapper = script.runInThisContext()
 
     const module = createModule({ filename, id: filename, require })
 
@@ -179,9 +179,9 @@ function loadBundle(bundle, basedir) {
   }
 }
 
-module.exports = function createBundle (opts) {
-  const bundle = loadBundle(opts.serverManifest, opts.basedir)
-  const evaluateModule = createEvaluateModule(bundle.files, opts)
+module.exports = function createBundle (serverManifest, basedir) {
+  const bundle = loadBundle(serverManifest, basedir)
+  const evaluateModule = createEvaluateModule(bundle.files, basedir)
 
   return {
     evaluateEntry () { return evaluateModule(bundle.entry) },

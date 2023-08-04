@@ -6,9 +6,9 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
 const chokidar = require('chokidar')
 const { green } = require('kolorist')
 
-const createRenderer = require('@quasar/ssr-helpers/create-renderer.js')
+const { createDevRenderer } = require('@quasar/ssr-helpers/create-renderer.js')
 const { getClientManifest } = require('./webpack/ssr/plugin.client-side.js')
-const { getServerManifest } = require('./webpack/ssr/plugin.server-side.js')
+const { getServerDevManifest } = require('./webpack/ssr/plugin.server-side.js')
 const { doneExternalWork } = require('./webpack/plugin.progress.js')
 const { webpackNames } = require('./webpack/symbols.js')
 
@@ -107,10 +107,30 @@ module.exports.DevServer = class DevServer {
     const serverCompiler = webpack(webpackConf.serverSide)
     const clientCompiler = webpack(webpackConf.clientSide)
 
-    let serverManifest, clientManifest
-    let renderTemplate, renderWithVue
     let webserverListening = false
     let webpackClientHMRMiddleware
+
+    const rendererOptions = {
+      vueRenderToString: renderToString,
+      basedir: appPaths.appDir,
+      manualStoreSerialization: cfg.ssr.manualStoreSerialization === true,
+      onReady: () => {
+        if (webserverListening === true) {
+          rendererOptions.onReady = () => {}
+
+          if (openedBrowser === false || appUrl !== cfg.build.APP_URL) {
+            appUrl = cfg.build.APP_URL
+            openedBrowser = true
+
+            if (cfg.metaConf.devServer.open) {
+              openBrowser({ url: appUrl, opts: cfg.metaConf.devServer.openOptions })
+            }
+          }
+        }
+      }
+    }
+
+    const renderer = createDevRenderer(rendererOptions)
 
     if (renderSSRError === void 0) {
       const { default: render } = await import('@quasar/render-ssr-error')
@@ -134,8 +154,9 @@ module.exports.DevServer = class DevServer {
         { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
         (_, callback) => {
           if (compilation.errors.length === 0) {
-            clientManifest = getClientManifest(compilation)
-            update()
+            renderer.updateClientManifest(
+              getClientManifest(compilation)
+            )
           }
 
           callback()
@@ -153,26 +174,13 @@ module.exports.DevServer = class DevServer {
       promisify(callback => webpackClientMiddleware.close(callback))
     )
 
-    let tryToFinalize = () => {
-      if (serverManifest && clientManifest && webserverListening === true) {
-        tryToFinalize = () => {}
-
-        if (openedBrowser === false || appUrl !== cfg.build.APP_URL) {
-          appUrl = cfg.build.APP_URL
-          openedBrowser = true
-
-          if (cfg.metaConf.devServer.open) {
-            openBrowser({ url: appUrl, opts: cfg.metaConf.devServer.openOptions })
-          }
-        }
-      }
-    }
-
     const { getIndexHtml } = require('./ssr/html-template.js')
     const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
 
     function updateTemplate () {
-      renderTemplate = getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
+      renderer.updateRenderTemplate(
+        getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
+      )
     }
 
     this.#htmlWatcher = chokidar.watch(templatePath).on('change', () => {
@@ -181,35 +189,6 @@ module.exports.DevServer = class DevServer {
     })
 
     updateTemplate()
-
-    const renderOptions = {
-      vueRenderToString: renderToString,
-      basedir: appPaths.appDir,
-      manualStoreSerialization: cfg.ssr.manualStoreSerialization === true
-    }
-
-    const update = () => {
-      if (serverManifest && clientManifest) {
-        Object.assign(renderOptions, {
-          serverManifest,
-          clientManifest
-        })
-
-        const renderer = createRenderer(renderOptions)
-
-        renderWithVue = ssrContext => {
-          const startTime = Date.now()
-
-          return renderer(ssrContext, renderTemplate)
-            .then(html => {
-              logServerMessage('Rendered', ssrContext.req.url, `${ Date.now() - startTime }ms`)
-              return html
-            })
-        }
-
-        tryToFinalize()
-      }
-    }
 
     webserverCompiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
@@ -227,8 +206,9 @@ module.exports.DevServer = class DevServer {
         { name: 'quasar-ssr-server-plugin', state: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
         (_, callback) => {
           if (compilation.errors.length === 0) {
-            serverManifest = getServerManifest(compilation)
-            update()
+            renderer.updateServerManifest(
+              getServerDevManifest(compilation)
+            )
           }
 
           callback()
@@ -244,8 +224,10 @@ module.exports.DevServer = class DevServer {
     const startWebserver = async () => {
       if (this.#isDestroyed === true) { return }
 
-      const { create, listen, close, injectMiddlewares, serveStaticContent } = require(serverFile)
+      const { create, listen, close, injectMiddlewares, serveStaticContent, renderPreloadTag } = require(serverFile)
       delete require.cache[ serverFile ]
+
+      renderer.updateRenderPreloadTag(renderPreloadTag)
 
       const middlewareParams = {
         port: cfg.devServer.port,
@@ -259,7 +241,15 @@ module.exports.DevServer = class DevServer {
           root: rootFolder,
           public: publicFolder
         },
-        render: ssrContext => renderWithVue(ssrContext),
+        render: ssrContext => {
+          const startTime = Date.now()
+
+          return renderer.renderToString(ssrContext)
+            .then(html => {
+              logServerMessage('Rendered', ssrContext.req.url, `${ Date.now() - startTime }ms`)
+              return html
+            })
+        },
         serve: {
           static: (pathToServe, opts = {}) => serveStaticContent(resolvePublicFolder(pathToServe), opts),
           error: renderError
@@ -355,7 +345,7 @@ module.exports.DevServer = class DevServer {
       })
 
       webserverListening = true
-      tryToFinalize()
+      rendererOptions.onReady()
       doneExternalWork(webpackNames.ssr.webserver)
     }
   }

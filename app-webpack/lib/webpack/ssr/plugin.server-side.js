@@ -2,7 +2,7 @@
  * Forked from vue-server-renderer/server-plugin.js v2.6.12 NPM package
  */
 
-const { sources, Compilation } = require('webpack')
+const { Compilation } = require('webpack')
 
 const jsRE = /\.js(\?[^.]+)?$/
 const jsMapRE = /\.js\.map$/
@@ -18,7 +18,7 @@ function error (msg) {
   console.error(msg ? ` [error] ${ banner } ⚠️  ${ msg }` : '')
 }
 
-function getServerManifest (compilation) {
+function extractAndValidateCompilationStats (compilation) {
   const stats = compilation.getStats().toJson()
   const entryName = Object.keys(stats.entrypoints)[ 0 ]
   const entryInfo = stats.entrypoints[ entryName ]
@@ -37,6 +37,12 @@ function getServerManifest (compilation) {
       ('Entry "' + entryName + '" not found. Did you specify the correct entry option?')
     )
   }
+
+  return { entry, stats }
+}
+
+module.exports.getServerDevManifest = function getServerDevManifest (compilation) {
+  const { entry, stats } = extractAndValidateCompilationStats(compilation)
 
   const serverManifest = {
     entry: entry.name,
@@ -61,13 +67,8 @@ function getServerManifest (compilation) {
   return serverManifest
 }
 
-module.exports.getServerManifest = getServerManifest
-
+// Production only
 module.exports.QuasarSSRServerPlugin = class QuasarSSRServerPlugin {
-  constructor (cfg = {}) {
-    this.cfg = cfg
-  }
-
   apply (compiler) {
     if (compiler.options.target !== 'node') {
       error('webpack config `target` should be "node".')
@@ -88,17 +89,7 @@ module.exports.QuasarSSRServerPlugin = class QuasarSSRServerPlugin {
       compilation.hooks.processAssets.tapAsync(
         { name: 'quasar-ssr-server-plugin', state: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL },
         (_, callback) => {
-          const serverManifest = getServerManifest(compilation)
-          const json = JSON.stringify(serverManifest, null, 2)
-          const content = new sources.RawSource(json)
-
-          if (compilation.getAsset(this.cfg.filename) !== void 0) {
-            compilation.updateAsset(this.cfg.filename, content)
-          }
-          else {
-            compilation.emitAsset(this.cfg.filename, content)
-          }
-
+          extractAndValidateCompilationStats(compilation)
           callback()
         }
       )

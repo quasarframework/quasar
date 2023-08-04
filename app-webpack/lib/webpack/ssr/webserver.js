@@ -24,10 +24,9 @@ const externalsList = [
   'vue/compiler-sfc',
   '@vue/compiler-sfc',
   '@quasar/ssr-helpers/create-renderer',
-  './render-template.js',
-  './quasar.server-manifest.json',
-  './quasar.client-manifest.json',
-  './server/server-entry.js',
+  './render-template.cjs',
+  './quasar.manifest.json',
+  './server/entry.js',
   'compression',
   'express',
   ...Object.keys(cliDeps),
@@ -56,6 +55,7 @@ module.exports.createSSRWebserverChain = function createSSRWebserverChain (cfg, 
 
   chain.entry('webserver')
     .add(appPaths.resolve.app(`.quasar/ssr-${ cfg.ctx.dev ? 'dev' : 'prod' }-webserver.js`))
+
   if (cfg.ctx.dev) {
     chain.output
       .filename('compiled-dev-webserver.js')
