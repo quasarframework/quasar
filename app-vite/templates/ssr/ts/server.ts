@@ -15,8 +15,8 @@ import {
   ssrClose,
   ssrCreate,
   ssrListen,
-  ssrRenderPreloadTag,
   ssrServeStaticContent,
+  ssrRenderPreloadTag,
 } from 'quasar/wrappers';
 
 /**
@@ -102,7 +102,7 @@ const pngRE = /\.png$/;
  * Should return a String with HTML output
  * (if any) for preloading indicated file
  */
-export const renderPreloadTag = ssrRenderPreloadTag((file) => {
+export const renderPreloadTag = ssrRenderPreloadTag((file/* , { ssrContext } */) => {
   if (jsRE.test(file) === true) {
     return `<link rel="modulepreload" href="${file}" crossorigin>`;
   }
@@ -120,15 +120,15 @@ export const renderPreloadTag = ssrRenderPreloadTag((file) => {
   }
 
   if (gifRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/gif">`;
+    return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`;
   }
 
   if (jpgRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/jpeg">`;
+    return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`;
   }
 
   if (pngRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/png">`;
+    return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`;
   }
 
   return '';

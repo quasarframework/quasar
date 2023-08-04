@@ -38,7 +38,7 @@ function resolvePublicFolder () {
   return join(publicFolder, ...arguments)
 }
 
-function renderModulesPreload (modules) {
+function renderModulesPreload (modules, opts) {
   let links = ''
   const seen = new Set()
 
@@ -59,13 +59,13 @@ function renderModulesPreload (modules) {
       if (clientManifest[filename] !== void 0) {
         for (const depFile of clientManifest[filename]) {
           if (seen.has(depFile) === false) {
-            links += renderPreloadTag(depFile)
+            links += renderPreloadTag(depFile, opts)
             seen.add(depFile)
           }
         }
       }
 
-      links += renderPreloadTag(file)
+      links += renderPreloadTag(file, opts)
     })
   })
 
@@ -77,7 +77,7 @@ const autoRemove = 'document.currentScript.remove()'
 
 function renderStoreState (ssrContext) {
   const nonce = ssrContext.nonce !== void 0
-    ? ' nonce="' + ssrContext.nonce + '" '
+    ? ' nonce="' + ssrContext.nonce + '"'
     : ''
 
   const state = serialize(ssrContext.state, { isJSON: true })
@@ -114,7 +114,7 @@ async function render (ssrContext) {
     // @vitejs/plugin-vue injects code into a component's setup() that registers
     // itself on ctx.modules. After the render, ctx.modules would contain all the
     // components that have been instantiated during this render call.
-    ssrContext._meta.endingHeadTags += renderModulesPreload(ssrContext.modules)
+    ssrContext._meta.endingHeadTags += renderModulesPreload(ssrContext.modules, { ssrContext })
 
     return renderTemplate(ssrContext)
   }

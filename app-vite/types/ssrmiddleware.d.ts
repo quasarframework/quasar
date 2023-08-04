@@ -134,6 +134,11 @@ export type SsrServeStaticContentCallback = (
   opts?: ServeStaticOptions<Response>
 ) => RequestHandler<Response>;
 
+interface SsrRenderPreloadTagCallbackOptions {
+  ssrContext: RenderVueParams;
+}
+
 export type SsrRenderPreloadTagCallback = (
-  file: string
+  file: string,
+  options: SsrRenderPreloadTagCallbackOptions
 ) => string;
