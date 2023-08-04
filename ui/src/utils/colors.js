@@ -280,6 +280,10 @@ export function getPaletteColor (colorName) {
   return rgbToHex(textToRgb(result))
 }
 
+export function isCssColor (color){
+  return !!color && /^(#|var\(--|(rgb|hsl)a?\()/.test(color)
+}
+
 export default {
   rgbToHex,
   hexToRgb,
@@ -291,5 +295,6 @@ export default {
   brightness,
   blend,
   changeAlpha,
-  getPaletteColor
+  getPaletteColor,
+  isCssColor
 }
