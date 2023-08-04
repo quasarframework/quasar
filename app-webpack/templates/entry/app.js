@@ -26,10 +26,6 @@
   <% } %>
 <% } %>
 
-<% if (metaConf.vueDevtools !== false) { %>
-import vueDevtools from '@vue/devtools'
-<% } %>
-
 import { Quasar } from 'quasar'
 import { markRaw } from 'vue'
 import <%= metaConf.needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
@@ -45,10 +41,6 @@ const RootComponent = defineComponent({
     onMounted(() => {
       <% if (ctx.mode.capacitor && metaConf.versions.capacitorPluginSplashscreen && capacitor.hideSplashscreen !== false) { %>
       SplashScreen.hide()
-      <% } %>
-
-      <% if (metaConf.vueDevtools !== false) { %>
-      vueDevtools.connect('<%= metaConf.vueDevtools.host %>', <%= metaConf.vueDevtools.port %>)
       <% } %>
 
       <% if (ctx.mode.ssr && ssr.manualPostHydrationTrigger !== true) { %>

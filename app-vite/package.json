@@ -71,6 +71,7 @@
     "fast-glob": "3.2.12",
     "fs-extra": "^11.1.0",
     "html-minifier": "^4.0.0",
+    "http-proxy-middleware": "^2.0.6",
     "inquirer": "^8.2.1",
     "isbinaryfile": "^5.0.0",
     "kolorist": "^1.5.1",

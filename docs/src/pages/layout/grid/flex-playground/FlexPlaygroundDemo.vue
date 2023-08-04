@@ -6,6 +6,7 @@
         @click="toggleFullscreen"
         :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
         :label="$q.fullscreen.isActive ? 'Exit Fullscreen' : 'Try playground in Fullscreen'"
+        no-caps
       />
     </div>
 
@@ -327,7 +328,7 @@ const classes = computed(() => {
 })
 
 const resultClasses = computed(() => ($q.dark.isActive ? 'bg-grey-9 text-white' : 'bg-grey-2 text-dark'))
-const demoClasses = computed(() => ($q.fullscreen.isActive ? 'bg-white q-pa-md' : null))
+const demoClasses = computed(() => ($q.fullscreen.isActive ? 'doc-technical q-pa-md' : null))
 const containerClass = computed(() => `flex-playground-demo__container--${ $q.dark.isActive ? 'dark' : 'light' }`)
 
 function toggleFullscreen () {

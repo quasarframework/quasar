@@ -430,7 +430,10 @@ export default function (props, emit, emitValue, inputRef) {
   function onMaskedKeydown (e) {
     emit('keydown', e)
 
-    if (shouldIgnoreKey(e) === true) {
+    if (
+      shouldIgnoreKey(e) === true
+      || e.altKey === true // let browser handle these
+    ) {
       return
     }
 
