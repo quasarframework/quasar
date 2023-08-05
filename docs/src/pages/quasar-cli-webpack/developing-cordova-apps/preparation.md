@@ -50,6 +50,9 @@ Then you will have to set environment variables. You will need to set the follow
 * add `ANDROID_SDK_ROOT`. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
 * add two `ANDROID_SDK_ROOT` directories to your path: %ANDROID_SDK_ROOT%\tools;%ANDROID_SDK_ROOT%\platform-tools
 * add Gradle to your path. Note that Gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
+* add `JAVA_HOME`. Its value depends on where you installed it. You can [download the JDK here](https://www.oracle.com/java/technologies/downloads/)
+
+> You can check the value of an environment variable by typing in console `echo %ENVIRONMENT_VARIABLE%`.
 
 If you have an init script for your command prompt or powershell, you can try this:
 ```bash
