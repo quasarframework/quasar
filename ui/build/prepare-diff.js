@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { sync: fastGlob } = require('fast-glob')
+const { sync: fastGlob, convertPathToPattern } = require('fast-glob')
 const { createPatch } = require('diff')
 const { highlight } = require('cli-highlight')
 
@@ -21,20 +21,21 @@ function relative (_path) {
  * @param {string} locationPath
  */
 module.exports = function prepareDiff (locationPath) {
-  let absolutePath = resolve(locationPath)
+  const absolutePath = resolve(locationPath)
 
   // If there is no "old" file/folder, then there is no diff (everything will be new)
   if (!fs.existsSync(absolutePath)) {
     return
   }
 
+  let pattern = convertPathToPattern(absolutePath)
   // If it's a directory, then query all files in it
   if (fs.lstatSync(absolutePath).isDirectory()) {
-    absolutePath += '/*'
+    pattern += '/*'
   }
 
   const originalsMap = new Map()
-  const originalFiles = fastGlob(absolutePath)
+  const originalFiles = fastGlob(pattern)
 
   // If no files, then there is no diff (everything will be new)
   if (originalFiles.length === 0) {
@@ -50,7 +51,7 @@ module.exports = function prepareDiff (locationPath) {
   process.on('exit', code => {
     if (code !== 0) { return }
 
-    const currentFiles = fastGlob(absolutePath)
+    const currentFiles = fastGlob(pattern)
     const currentMap = new Map()
 
     let somethingChanged = false

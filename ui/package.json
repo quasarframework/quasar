@@ -94,7 +94,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.14.1",
-    "fast-glob": "^3.2.7",
+    "fast-glob": "^3.3.0",
     "module-alias": "^2.2.2",
     "postcss-rtlcss": "^4.0.6",
     "prettier": "^2.8.3",

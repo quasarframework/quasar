@@ -705,19 +705,19 @@ module.exports.generate = function () {
   return new Promise((resolve) => {
     const list = []
 
-    const plugins = [
-      ...glob.sync(resolvePath('src/plugins/*.json')),
-      resolvePath('src/Brand.json'),
-      resolvePath('src/Lang.json')
-    ]
+    const plugins = glob.sync([
+      'src/plugins/*.json',
+      'src/Brand.json',
+      'src/Lang.json'
+    ], { cwd: root, absolute: true })
       .filter(file => !path.basename(file).startsWith('__'))
       .map(fillAPI('plugin', list))
 
-    const directives = glob.sync(resolvePath('src/directives/*.json'))
+    const directives = glob.sync('src/directives/*.json', { cwd: root, absolute: true })
       .filter(file => !path.basename(file).startsWith('__'))
       .map(fillAPI('directive', list))
 
-    const components = glob.sync(resolvePath('src/components/**/Q*.json'))
+    const components = glob.sync('src/components/**/Q*.json', { cwd: root, absolute: true })
       .filter(file => !path.basename(file).startsWith('__'))
       .map(fillAPI('component', list))
 

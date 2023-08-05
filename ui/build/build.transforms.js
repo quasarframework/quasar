@@ -24,7 +24,7 @@ function lowerCamelCase (name) {
 }
 
 function addComponents (map, autoImport) {
-  glob.sync(resolvePath('src/components/**/Q*.js'))
+  glob.sync('src/components/**/Q*.js', { cwd: root, absolute: true })
     .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
@@ -42,7 +42,7 @@ function addComponents (map, autoImport) {
 }
 
 function addDirectives (map, autoImport) {
-  glob.sync(resolvePath('src/directives/*.js'))
+  glob.sync('src/directives/*.js', { cwd: root, absolute: true })
     .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
@@ -58,7 +58,7 @@ function addDirectives (map, autoImport) {
 }
 
 function addPlugins (map) {
-  glob.sync(resolvePath('src/plugins/*.js'))
+  glob.sync('src/plugins/*.js', { cwd: root, absolute: true })
     .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
@@ -68,7 +68,7 @@ function addPlugins (map) {
 }
 
 function addComposables (map) {
-  glob.sync(resolvePath('src/composables/*.js'))
+  glob.sync('src/composables/*.js', { cwd: root, absolute: true })
     .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {
@@ -78,7 +78,7 @@ function addComposables (map) {
 }
 
 function addUtils (map) {
-  glob.sync(resolvePath('src/utils/*.js'))
+  glob.sync('src/utils/*.js', { cwd: root, absolute: true })
     .filter(file => sourceFileSuffixRE.test(file) === false)
     .map(relative)
     .forEach(file => {

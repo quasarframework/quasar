@@ -4,8 +4,9 @@ const glob = require('fast-glob')
 
 const { writeFile, convertToCjs, logError } = require('./build.utils')
 
+const root = path.resolve(__dirname, '..')
 function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
+  return path.resolve(root, _path)
 }
 
 const cjsBanner = setName => `/**
@@ -194,9 +195,8 @@ function generateSvgFile (type) {
 
 function generateCjsCounterparts () {
   const promises = []
-
   try {
-    glob.sync(resolve('icon-set/*.mjs'))
+    glob.sync(resolve('icon-set/*.mjs'), { cwd: root , absolute:true })
       .forEach(file => {
         const content = fs.readFileSync(file, 'utf-8')
         const cjsFile = file.replace('.mjs', '.js')

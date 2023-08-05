@@ -32,9 +32,8 @@ function parse (prop, txt) {
 module.exports.generate = function () {
   const languages = []
   const promises = []
-
   try {
-    glob.sync(resolve('lang/*.mjs'))
+    glob.sync('lang/*.mjs', { cwd: root, absolute: true })
       .forEach(file => {
         const content = fs.readFileSync(file, 'utf-8')
         const isoName = parse('isoName', content)
