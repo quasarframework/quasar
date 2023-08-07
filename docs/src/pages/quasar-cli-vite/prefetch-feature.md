@@ -140,6 +140,41 @@ export default {
 <script setup>....</script>
 ```
 
+definePreFetch <q-badge label="@quasar/app-vite v1.4.3+" />
+
+If you have upgrade `@quasar/app-vite` to v1.4.3+, you can use `<script setup>` with `definePreFetch` macros.
+
+Example:
+
+```html
+<!-- some .vue component used as route -->
+<template>
+  <div>{{ item.title }}</div>
+</template>
+
+<script setup>
+import { useStore } from 'vuex'
+
+// galobal macro, use directly without importing
+definePreFetch(({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath })=>{
+  // fetch data, validate route and optionally redirect to some other route...
+
+  // ssrContext is available only server-side in SSR mode
+
+  // No access to "this" here
+
+  // Return a Promise if you are running an async job
+  // Example:
+  return store.dispatch('fetchItem', currentRoute.params.id)
+})
+
+const $store = useStore()
+
+// display the item from store state.
+const item = computed(() => $store.state.items[this.$route.params.id])
+</script>
+```
+
 ::: tip
 If you are developing a SSR app, then you can check out the [ssrContext](/quasar-cli-vite/developing-ssr/ssr-context) Object that gets supplied server-side.
 :::

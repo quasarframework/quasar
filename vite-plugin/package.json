@@ -77,5 +77,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@vue-macros/common": "^1.6.2"
   }
 }

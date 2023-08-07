@@ -20,4 +20,10 @@ declare module "@vue/runtime-core" {
   interface ComponentCustomOptions {
     preFetch?: PrefetchCallback;
   }
+
+}
+
+
+declare global {
+  const definePreFetch: PrefetchCallback
 }

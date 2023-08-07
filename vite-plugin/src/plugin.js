@@ -4,6 +4,7 @@ import { normalizePath } from 'vite'
 import { getViteConfig } from './vite-config.js'
 import { vueTransform } from './vue-transform.js'
 import { createScssTransform } from './scss-transform.js'
+import { definePreFetchTransform } from './pre-fetch-transform.js'
 import { parseViteRequest } from './query.js'
 import { mapQuasarImports } from './js-transform.js'
 
@@ -104,6 +105,16 @@ function getScriptTransformsPlugin (opts) {
   }
 }
 
+function getDefinePreFetchTransformPlugin (opts) {
+  return {
+    name: 'vite:quasar:definePreFetch',
+    enforce: 'pre',
+    transform (code, id) {
+      return definePreFetchTransform(code, id)
+    }
+  }
+}
+
 export default function (userOpts = {}) {
   const opts = {
     ...defaultOptions,
@@ -111,7 +122,8 @@ export default function (userOpts = {}) {
   }
 
   const plugins = [
-    getConfigPlugin(opts)
+    getConfigPlugin(opts),
+    getDefinePreFetchTransformPlugin(opts)
   ]
 
   if (opts.sassVariables) {

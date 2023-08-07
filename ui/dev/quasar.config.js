@@ -38,6 +38,7 @@ export default ctx => ({
     'material-icons'
   ],
 
+  preFetch: true,
   framework: {
     // iconSet: 'svg-mdi-v6',
     // config: { ripple: { early: true } },
