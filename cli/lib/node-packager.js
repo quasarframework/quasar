@@ -1,4 +1,3 @@
-
 import fs from 'node:fs'
 import { normalize, join, sep } from 'node:path'
 import { sync as crossSpawnSync } from 'cross-spawn'

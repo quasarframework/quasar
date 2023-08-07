@@ -1,4 +1,3 @@
-
 console.log(`
  · For scaffolding an official Quasar project please use this instead:
 

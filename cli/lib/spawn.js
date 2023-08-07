@@ -1,4 +1,3 @@
-
 import crossSpawn from 'cross-spawn'
 import { log, warn, fatal } from './logger.js'
 

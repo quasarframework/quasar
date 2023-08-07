@@ -1,4 +1,3 @@
-
 import parseArgs from 'minimist'
 import { green, red } from 'kolorist'
 

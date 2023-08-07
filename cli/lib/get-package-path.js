@@ -1,4 +1,3 @@
-
 import { createRequire } from 'node:module'
 import appPaths from './app-paths.js'
 

@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 import appPaths from './app-paths.js'

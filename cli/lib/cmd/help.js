@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 import { italic } from 'kolorist'
 
