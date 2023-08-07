@@ -515,7 +515,6 @@ describe('use-field API', () => {
           .should('not.have.focus')
         getHostElement()
           .then(() => {
-            console.log(Cypress.vueWrapper.vm)
             Cypress.vueWrapper.vm.focusMethod()
           })
         getHostElement()
