@@ -1,6 +1,7 @@
 
 import { existsSync } from 'node:fs'
 import { normalize, resolve, join, sep } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import { fatal } from './utils/logger.js'
 
@@ -31,7 +32,7 @@ function getAppInfo () {
 
 const { appDir, quasarConfigFilename, quasarConfigInputFormat, quasarConfigOutputFormat } = getAppInfo()
 
-const cliDir = new URL('..', import.meta.url).pathname
+const cliDir = fileURLToPath(new URL('..', import.meta.url))
 const publicDir = resolve(appDir, 'public')
 const srcDir = resolve(appDir, 'src')
 const pwaDir = resolve(appDir, 'src-pwa')

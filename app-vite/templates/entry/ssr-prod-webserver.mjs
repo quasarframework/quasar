@@ -6,6 +6,7 @@
 
 import { join, basename } from 'node:path'
 import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { renderToString } from 'vue/server-renderer'
 <% if (store && ssr.manualStoreSerialization !== true) { %>
 import serialize from 'serialize-javascript'
@@ -25,7 +26,7 @@ const resolveUrlPath = publicPath === '/'
   ? url => url || '/'
   : url => url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath
 
-const rootFolder = new URL('.', import.meta.url).pathname
+const rootFolder = fileURLToPath(new URL('.', import.meta.url))
 const publicFolder = join(rootFolder, 'client')
 
 const clientManifest = JSON.parse(
