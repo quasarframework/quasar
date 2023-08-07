@@ -24,7 +24,7 @@ export default function renderSSRError ({ err, req, res, projectRootFolder }) {
 
   // Uncomment this to debug the data
   // writeFileSync(
-  //   new URL('./data.json', import.meta.url).pathname, JSON.stringify(data, null, 2), 'utf8'
+  //   new URL('./data.json', import.meta.url), JSON.stringify(data, null, 2), 'utf8'
   // )
 
   res.status(500).send(
