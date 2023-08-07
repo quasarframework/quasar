@@ -27,8 +27,7 @@ export class EntryFilesGenerator {
         `ssr-${ ctx.dev ? 'dev' : 'prod' }-webserver.mjs`
       )
     }
-
-    if (ctx.mode.bex) {
+    else if (ctx.mode.bex) {
       folderPaths.push('bex')
     }
 

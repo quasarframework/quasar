@@ -13,7 +13,7 @@ const localesFolder = appPaths.resolve.bex('_locales')
 
 export function createManifest (quasarConf) {
   let json
-  const filename = appPaths.resolve.bex('manifest.json')
+  const filename = quasarConf.metaConf.bexManifestFile
 
   try {
     json = JSON.parse(
@@ -21,12 +21,12 @@ export function createManifest (quasarConf) {
     )
   }
   catch (err) {
-    warn('Could not compile BEX manifest.json. Please check its syntax.')
+    warn('Could not read BEX manifest. Please check its syntax.')
     return { err, filename }
   }
 
   if (json.manifest_version === void 0) {
-    warn('The BEX manifest.json requires a "manifest_version" prop, which is currently missing.')
+    warn('The BEX manifest requires a "manifest_version" prop, which is currently missing.')
     return { err: true, filename }
   }
 

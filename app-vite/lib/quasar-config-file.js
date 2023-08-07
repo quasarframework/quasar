@@ -714,7 +714,8 @@ export class QuasarConfigFile {
       pwaServiceWorker: 'src-pwa/custom-service-worker',
       pwaManifestFile: 'src-pwa/manifest.json',
       electronMain: 'src-electron/electron-main',
-      electronPreload: 'src-electron/electron-preload'
+      electronPreload: 'src-electron/electron-preload',
+      bexManifestFile: 'src-bex/manifest.json'
     }, cfg.sourceFiles)
 
     if (appFilesValidations() === false) {
@@ -842,6 +843,9 @@ export class QuasarConfigFile {
       // resolve extension
       const swPath = appPaths.resolve.app(cfg.sourceFiles.pwaServiceWorker)
       cfg.sourceFiles.pwaServiceWorker = resolveExtension(swPath) || cfg.sourceFiles.pwaServiceWorker
+    }
+    else if (this.#ctx.mode.bex) {
+      cfg.metaConf.bexManifestFile = appPaths.resolve.app(cfg.sourceFiles.bexManifestFile)
     }
 
     if (this.#ctx.dev) {
