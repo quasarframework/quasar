@@ -149,8 +149,10 @@ function parseIconPath (value) {
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
-    argv.icon = normalize(fileURLToPath(
-      new URL('../../samples/icongenie-icon.png', import.meta.url))
+    argv.icon = normalize(
+      fileURLToPath(
+        new URL('../../samples/icongenie-icon.png', import.meta.url)
+      )
     )
     return
   }
