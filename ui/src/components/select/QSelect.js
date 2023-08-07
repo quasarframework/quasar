@@ -872,11 +872,11 @@ export default createComponent({
             mode = props.newValueMode
           }
 
+          updateInputValue('', props.multiple !== true, true)
+
           if (val === void 0 || val === null) {
             return
           }
-
-          updateInputValue('', props.multiple !== true, true)
 
           const fn = mode === 'toggle' ? toggleOption : add
           fn(val, mode === 'add-unique')
