@@ -8,7 +8,7 @@ const jsRE = /\.js(\?[^.]+)?$/
 const jsMapRE = /\.js\.map$/
 const mapRE = /\.map$/
 
-const banner = '@quasar/ssr/webpack-server-plugin'
+const banner = 'QuasarSSRServerPlugin'
 
 function warn (msg) {
   console.warn(msg ? ` [warn] ${ banner } ⚠️  ${ msg }` : '')

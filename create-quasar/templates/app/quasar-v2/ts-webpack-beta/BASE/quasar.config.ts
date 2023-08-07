@@ -225,6 +225,12 @@ export default configure((ctx) => {
         // do something with the Electron main process Webpack cfg
         // extendWebpackPreload also available besides this chainWebpackPreload
       }
+    },
+
+    bex: {
+      contentScripts: [
+        'my-content-script'
+      ]
     }
   }
 });

@@ -91,10 +91,14 @@ module.exports.createChain = function createChain (cfg, configName) {
       pages: appPaths.resolve.src('pages'),
       assets: appPaths.resolve.src('assets'),
       boot: appPaths.resolve.src('boot'),
-      stores: appPaths.resolve.src('stores'),
+      stores: appPaths.resolve.src('stores')
+    })
 
+  if (cfg.ctx.mode.bex) {
+    chain.resolve.alias.merge({
       'src-bex': appPaths.bexDir // needed for app/templates
     })
+  }
 
   if (extrasPath) {
     // required so quasar/icon-sets/* with imports to work correctly

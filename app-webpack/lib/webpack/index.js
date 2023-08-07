@@ -214,7 +214,9 @@ async function getBEX (cfg) {
 
     main: await getWebpackConfig(mainChain, cfg, {
       name: webpackNames.bex.main,
+      cfgExtendBase: cfg.bex,
       hookSuffix: 'MainBexProcess',
+      cmdSuffix: 'Main',
       invokeParams: { isClient: true, isServer: false }
     })
   }

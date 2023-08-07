@@ -1,16 +1,23 @@
-const path = require('node:path')
+const { join } = require('node:path')
 const fse = require('fs-extra')
 
 const appPaths = require('../../app-paths.js')
-const { appPkg } = require('../../app-pkg.js')
 const { cleanArtifacts } = require('../../artifacts.js')
 const { injectHtml } = require('../inject.html.js')
 
-module.exports.injectBexRenderer = function injectBexRenderer (chain, cfg) {
-  const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
-  const outputPath = path.join(rootPath, 'www')
+const assetsFolder = appPaths.resolve.bex('assets')
+const iconsFolder = appPaths.resolve.bex('icons')
+const localesFolder = appPaths.resolve.bex('_locales')
 
-  const copyPatterns = []
+module.exports.injectBexRenderer = function injectBexRenderer (chain, cfg) {
+  const rootPath = cfg.build.distDir
+  const outputPath = join(rootPath, 'www')
+
+  const copyPatterns = [
+    { from: assetsFolder, to: join(cfg.build.distDir, 'assets'), noErrorOnMissing: true },
+    { from: iconsFolder, to: join(cfg.build.distDir, 'icons'), noErrorOnMissing: true },
+    { from: localesFolder, to: join(cfg.build.distDir, '_locales'), noErrorOnMissing: true }
+  ]
 
   // Add a copy config to copy the static folder for both dev and build.
   if (cfg.build.ignorePublicFolder !== true) {
@@ -25,7 +32,7 @@ module.exports.injectBexRenderer = function injectBexRenderer (chain, cfg) {
   fse.copySync(appPaths.resolve.cli('templates/entry/bex'), appPaths.resolve.app('.quasar/bex'))
 
   chain.output
-    .path(outputPath) // Output to our src-bex/www folder or dist/bex/unpacked/www.
+    .path(outputPath)
 
   // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
   // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
@@ -33,36 +40,17 @@ module.exports.injectBexRenderer = function injectBexRenderer (chain, cfg) {
 
   if (cfg.ctx.dev) {
     // Clean old dir
-    cleanArtifacts(outputPath)
+    cleanArtifacts(outputPath) // TODO still necessary?
   }
   else {
     // We need this bundled in with the rest of the source to match the manifest instructions.
     // Could use Webpack Copy here but this is more straight forward.
-    cfg.build.htmlFilename = path.join('www', 'index.html')
+    cfg.build.htmlFilename = join('www', 'index.html')
 
-    // Register our plugin, update the manifest and package the browser extension.
+    // Package the browser extension
     const { BexPackagerPlugin } = require('./plugin.bex-packager.js')
     chain.plugin('webpack-bex-packager')
-      .use(BexPackagerPlugin, [ {
-        src: cfg.bex.builder.directories.input,
-        dest: cfg.bex.builder.directories.output,
-        name: appPkg.name
-      } ])
-
-    // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
-    copyPatterns.push({
-      from: appPaths.bexDir,
-      to: cfg.build.distDir,
-      noErrorOnMissing: true,
-      globOptions: {
-        dot: false,
-        // These ignores are relative to the "from" path so no need for full paths here.
-        ignore: [
-          '**/www/**/*',
-          '**/bex-flag.d.ts'
-        ]
-      }
-    })
+      .use(BexPackagerPlugin, [ cfg ])
   }
 
   injectHtml(chain, cfg)

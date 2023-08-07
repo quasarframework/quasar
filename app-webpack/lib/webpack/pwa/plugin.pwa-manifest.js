@@ -3,6 +3,12 @@ const { readFileSync } = require('node:fs')
 
 const { appPkg } = require('../../app-pkg.js')
 
+const banner = 'PwaManifestPlugin'
+
+function warn (msg) {
+  console.warn(msg ? ` [warn] ${ banner } ⚠️  ${ msg }` : '')
+}
+
 module.exports.PwaManifestPlugin = class PwaManifestPlugin {
   #quasarConf
 
@@ -12,6 +18,18 @@ module.exports.PwaManifestPlugin = class PwaManifestPlugin {
 
   #createManifest () {
     const id = appPkg.name || 'quasar-pwa'
+
+    let json
+    try {
+      json = JSON.parse(
+        readFileSync(this.#quasarConf.metaConf.pwaManifestFile, 'utf-8')
+      )
+    }
+    catch (err) {
+      warn('Could not compile PWA manifest.json. Please check its syntax.')
+      json = {}
+    }
+
     const pwaManifest = {
       id,
       name: appPkg.productName || appPkg.name || 'Quasar App',
@@ -19,7 +37,7 @@ module.exports.PwaManifestPlugin = class PwaManifestPlugin {
       description: appPkg.description,
       display: 'standalone',
       start_url: this.#quasarConf.build.publicPath,
-      ...JSON.parse(readFileSync(this.#quasarConf.metaConf.pwaManifestFile, 'utf-8'))
+      ...json
     }
 
     if (typeof this.#quasarConf.pwa.extendManifestJson === 'function') {

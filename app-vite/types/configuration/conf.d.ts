@@ -36,6 +36,7 @@ type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
  *  pwaManifestFile: 'src-pwa/manifest.json',
  *  electronMain: 'src-electron/electron-main',
  *  electronPreload: 'src-electron/electron-preload'
+ *  bexManifestFile: 'src-bex/manifest.json
  * }
  * ```
  */
@@ -48,6 +49,7 @@ interface QuasarSourceFilesConfiguration {
   pwaManifestFile?: string;
   electronMain?: string;
   electronPreload?: string;
+  bexManifestFile?: string;
 }
 
 interface BaseQuasarConfiguration {

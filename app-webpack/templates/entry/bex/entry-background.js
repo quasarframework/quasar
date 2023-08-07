@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -9,8 +10,8 @@
 
 /* global chrome */
 
-import attachBackgroundHooks from 'src-bex/js/background-hooks'
-import Bridge from '../bridge'
+import Bridge from './bridge'
+import runDevlandBackgroundScript from 'src-bex/background'
 
 const connections = {}
 
@@ -87,7 +88,7 @@ chrome.runtime.onConnect.addListener(port => {
     }
   })
 
-  attachBackgroundHooks(bridge, connections)
+  runDevlandBackgroundScript(bridge, connections)
 
   // Map a messaging layer between the App and ContentScript
   for (let connectionId in connections) {

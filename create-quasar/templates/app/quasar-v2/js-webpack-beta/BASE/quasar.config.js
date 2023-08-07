@@ -247,6 +247,12 @@ export default configure((ctx) => {
       <% } else { %>
       chainWebpackPreload (/* chain */) {},
       <% } %>
-    }
+    },
+
+    bex: {
+      contentScripts: [
+        'my-content-script'
+      ]
+    },
   }
 });

@@ -1,19 +1,37 @@
-// Hooks added here have a bridge allowing communication between the BEX Background Script and the BEX Content Script.
-// Note: Events sent from this background script using `bridge.send` can be `listen`'d for by all client BEX bridges for this BEX
-
-// More info: https://quasar.dev/quasar-cli/developing-browser-extensions/background-hooks
 import { bexBackground } from 'quasar/wrappers'
 
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.action.onClicked.addListener((/* tab */) => {
+    // Opens our extension in a new browser window.
+    // Only if a popup isn't defined in the manifest.
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('www/index.html')
+    }, (/* newTab */) => {
+      // Tab opened.
+    })
+  })
+})
+
 export default bexBackground((bridge /* , allActiveConnections */) => {
+  bridge.on('log', ({ data, respond }) => {
+    console.log(`[BEX] ${data.message}`, ...(data.data || []))
+    respond()
+  })
+
+  bridge.on('getTime', ({ respond }) => {
+    respond(Date.now())
+  })
+
   bridge.on('storage.get', ({ data, respond }) => {
-    if (data.key === null) {
+    const { key } = data
+    if (key === null) {
       chrome.storage.local.get(null, items => {
         // Group the values up into an array to take advantage of the bridge's chunk splitting.
         respond(Object.values(items))
       })
     } else {
-      chrome.storage.local.get([data.key], items => {
-        respond(items[data.key])
+      chrome.storage.local.get([key], items => {
+        respond(items[key])
       })
     }
   })

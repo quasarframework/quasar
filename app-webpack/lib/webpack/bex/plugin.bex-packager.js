@@ -1,67 +1,35 @@
-const path = require('node:path')
+const { join } = require('node:path')
 const fse = require('fs-extra')
 const archiver = require('archiver')
 
-function findAndReplaceInSection (sectionArray, find, replace) {
-  const index = sectionArray.indexOf(find)
-  sectionArray[ index ] = replace
-}
+const { appPkg } = require('../../app-pkg.js')
 
 module.exports.BexPackagerPlugin = class BexPackagerPlugin {
-  constructor (options) {
-    this.options = options
-    this.chromeDir = path.join(options.dest, 'chrome')
-    this.firefoxDir = path.join(options.dest, 'firefox')
+  #quasarConf
+
+  constructor (cfg) {
+    this.#quasarConf = cfg
   }
 
   apply (compiler) {
     compiler.hooks.done.tap('done-compiling', stats => {
       if (stats.hasErrors() === false) {
-        this.setupDirectories()
-        this.fixManifest()
-        this.bundleChrome()
-        this.bundleFirefox()
+        this.#bundlePackage(this.#quasarConf.build.distDir)
       }
     })
   }
 
-  /**
-   * This will fix some of the paths in the manifest file which are different in the build version vs dev version.
-   */
-  fixManifest () {
-    const manifestFilePath = path.join(this.options.src, 'manifest.json')
-    if (fse.existsSync(manifestFilePath) === true) {
-      const manifestFileData = fse.readFileSync(manifestFilePath)
-      const manifestData = JSON.parse(manifestFileData.toString())
+  #bundlePackage (folder) {
+    const zipName = `Packaged.${ appPkg.name }.zip`
+    const file = join(folder, zipName)
 
-      findAndReplaceInSection(manifestData.background.scripts, 'www/bex-background.js', 'www/js/bex-background.js')
-      findAndReplaceInSection(manifestData.content_scripts[ 0 ].js, 'www/bex-content-script.js', 'www/js/bex-content-script.js')
-      const newValue = JSON.stringify(manifestData)
-      fse.writeFileSync(manifestFilePath, newValue, 'utf-8')
-    }
-  }
-
-  setupDirectories () {
-    fse.ensureDirSync(this.chromeDir)
-    fse.ensureDirSync(this.firefoxDir)
-  }
-
-  bundleChrome () {
-    this.outputToZip(this.options.src, this.chromeDir, this.options.name)
-  }
-
-  bundleFirefox () {
-    this.outputToZip(this.options.src, this.firefoxDir, this.options.name)
-  }
-
-  outputToZip (src, dest, fileName) {
-    const output = fse.createWriteStream(path.join(dest, fileName + '.zip'))
+    const output = fse.createWriteStream(file)
     const archive = archiver('zip', {
       zlib: { level: 9 } // Sets the compression level.
     })
 
     archive.pipe(output)
-    archive.directory(src, false)
+    archive.directory(folder, false, entryData => ((entryData.name !== zipName) ? entryData : false))
     archive.finalize()
   }
 }

@@ -1,3 +1,4 @@
+const { join } = require('node:path')
 const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash/throttle.js')
 const { green, gray, bold, trueColor } = require('kolorist')
@@ -132,10 +133,12 @@ function getReadyBanner (cfg) {
       ` ${ greenBanner } Pkg quasar................ ${ green('v' + quasarPkg.version) }`,
       ` ${ greenBanner } Pkg @quasar/app-webpack... ${ green('v' + cliPkg.version) }`,
       ` ${ greenBanner } Transpiled JS..... ${ cfg.metaConf.transpileBanner }`,
-      ' ----------------------------',
+      ' ------------------------------',
       ` ${ greenBanner } Load the dev extension from:`,
-      `   · Chrome(ium): ${ green(appPaths.bexDir) }`,
-      `   · Firefox:     ${ green(appPaths.resolve.bex('manifest.json')) }`
+      `   · Chrome(ium): ${ green(cfg.build.distDir) }`,
+      `   · Firefox:     ${ green(join(cfg.build.distDir, 'manifest.json')) }`,
+      ' ------------------------------',
+      ` ${ greenBanner } You will need to manually refresh the browser page to see changes after recompilations.`
     ].join('\n') + '\n'
   }
 

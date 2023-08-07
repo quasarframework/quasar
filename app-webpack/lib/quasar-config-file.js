@@ -429,9 +429,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         capacitorCliPreparationParams: []
       },
       bex: {
-        builder: {
-          directories: {}
-        }
+        contentScripts: []
       },
 
       bin: {},
@@ -722,7 +720,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
       cfg.build.distDir = appPaths.resolve[ this.ctx.modeName ]('www')
     }
-    else if (this.ctx.mode.electron || this.ctx.mode.bex) {
+    else if (this.ctx.mode.electron) {
       cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = join(cfg.build.distDir, 'UnPackaged')
     }
@@ -751,7 +749,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       pwaServiceWorker: 'src-pwa/custom-service-worker',
       pwaManifestFile: 'src-pwa/manifest.json',
       electronMain: 'src-electron/electron-main',
-      electronPreload: 'src-electron/electron-preload'
+      electronPreload: 'src-electron/electron-preload',
+      bexManifestFile: 'src-bex/manifest.json'
     }, cfg.sourceFiles)
 
     appFilesValidations(cfg)
@@ -1057,14 +1056,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       cfg.metaConf.pwaManifestFile = appPaths.resolve.app(cfg.sourceFiles.pwaManifestFile)
     }
     else if (this.ctx.mode.bex) {
-      cfg.bex = merge({}, cfg.bex, {
-        builder: {
-          directories: {
-            input: cfg.build.distDir,
-            output: join(cfg.build.packagedDistDir, 'Packaged')
-          }
-        }
-      })
+      cfg.metaConf.bexManifestFile = appPaths.resolve.app(cfg.sourceFiles.bexManifestFile)
     }
     else if (this.ctx.mode.electron && this.ctx.prod) {
       const bundler = require('./electron/bundler.js')
