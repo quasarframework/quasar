@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 
 import mdPlugin from './build/md/index.js'
 import examplesPlugin from './build/examples.js'
@@ -31,7 +32,7 @@ export default ctx => ({
       DOCS_BRANCH: 'dev',
       SEARCH_INDEX: 'quasar-v2',
       ...(ctx.dev
-        ? { FS_QUASAR_FOLDER: new URL('../ui', import.meta.url).pathname.replace('\\', '/') }
+        ? { FS_QUASAR_FOLDER: fileURLToPath(new URL('../ui', import.meta.url)).replace('\\', '/') }
         : {}
       )
     },

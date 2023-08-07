@@ -1,9 +1,10 @@
 // cp node_modules/quasar/dist/api/* public/quasar-api/
 
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import fse from 'fs-extra'
 
-const rootFolder = new URL('..', import.meta.url).pathname
+const rootFolder = fileURLToPath(new URL('..', import.meta.url))
 
 const sourceList = [
   join(rootFolder, 'node_modules/quasar/dist/api'),
@@ -23,5 +24,4 @@ function getSource () {
 
 const source = getSource()
 
-console.log(rootFolder)
 fse.copySync(source, join(rootFolder, 'public/quasar-api'))

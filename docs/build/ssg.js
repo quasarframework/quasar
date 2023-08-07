@@ -1,11 +1,12 @@
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import axios from 'axios'
 import fse from 'fs-extra'
 import fg from 'fast-glob'
 
 axios.defaults.withCredentials = true
 
-const rootFolder = new URL('..', import.meta.url).pathname
+const rootFolder = fileURLToPath(new URL('..', import.meta.url))
 const baseUrl = 'http://localhost:3111'
 const clientDir = join(rootFolder, 'dist/quasar.dev/client')
 const themeList = [ 'light', 'dark' ]

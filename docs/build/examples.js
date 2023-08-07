@@ -1,10 +1,11 @@
 import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import fg from 'fast-glob'
 
 const moduleIdRE = /^examples:/
 const resolvedIdPrefix = '\0examples:'
 
-const targetFolder = new URL('../src/examples', import.meta.url).pathname
+const targetFolder = fileURLToPath(new URL('../src/examples', import.meta.url))
 
 function devLoad (id) {
   if (id.startsWith(resolvedIdPrefix) === true) {
