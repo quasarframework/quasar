@@ -123,19 +123,21 @@ export default {
 </script>
 ```
 
-If you are using `<script setup>`, then add a `<script>` section besides it which simply returns an Object with the preFetch() method:
+If you are using `<script setup>` (and Vue 3.3+):
 
 ```html
-<script>
-export default {
+<script setup>
+/**
+ * The defineOptions is a macro.
+ * The options will be hoisted to module scope and cannot access local
+ * variables in <script setup> that are not literal constants.
+ */
+defineOptions({
   preFetch () {
     console.log('running preFetch')
   }
-}
+})
 </script>
-
-
-<script setup>....</script>
 ```
 
 ::: tip
