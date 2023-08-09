@@ -32,7 +32,7 @@
       <q-slide-transition>
         <div v-show="expanded">
           <q-separator />
-          <q-card-section class="text-subitle2">
+          <q-card-section class="text-subtitle2">
             {{ lorem }}
           </q-card-section>
         </div>
