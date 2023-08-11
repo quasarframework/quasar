@@ -378,7 +378,7 @@ export default createComponent({
       ]
     }
 
-    function getTBodyTR (row, bodySlot, pageIndex) {
+    function getTBodyTR (row, bodySlot, pageIndex) {      
       const key = getRowKey.value(row),
         selected = isRowSelected(key)
       let selectionNode = null
@@ -403,16 +403,26 @@ export default createComponent({
         selectionNode = h('td', { class: 'q-table--col-auto-width' }, content)
       }
 
-      // fixed selection bug with body slot, trNode's children type  ┄┄  () => h('q-tr') []
+      // fixed selection bug with body slot, trNode iss children type  ┄┄  () => h('q-tr') []
       if (bodySlot !== void 0) {
         const bodyNodes = bodySlot(getBodyScope({ key, row, pageIndex, __trClass: selected ? 'selected' : '' }))
-        const trNode = bodyNodes[ 0 ] 
+        const trNode = bodyNodes[ 0 ]
 
         if (hasSelectionMode.value === true && selectionNode) {
           if (trNode.children && typeof trNode.children.default === 'function' && trNode.type.name === 'QTr') {
             const originalDefaultSlot = trNode.children.default
+            // Lazy evaluation keep compatibility after bug fixes
             trNode.children.default = () => {
-              return [ selectionNode, ...originalDefaultSlot() ]
+              console.log('ccc_1', originalDefaultSlot)
+              const originalChildren = originalDefaultSlot()
+
+              // Check if the originalChildren length is less than expected
+              // Adjust this check based on your exact requirements
+              if (originalChildren[ 0 ].children.length === computedCols.value.length) {
+                return [ selectionNode, ...originalChildren ]
+              }
+              // If length is as expected, return originalChildren
+              return originalChildren
             }
           }
         }
@@ -637,7 +647,7 @@ export default createComponent({
     }
 
     function getTHeadTR () {
-     const header = slots.header,
+      const header = slots.header,
         headerCell = slots[ 'header-cell' ]
       let selectionNode
 
@@ -668,8 +678,18 @@ export default createComponent({
         if (hasSelectionMode.value === true && selectionNode) {
           if (trNode.children && typeof trNode.children.default === 'function' && trNode.type.name === 'QTr') {
             const originalDefaultSlot = trNode.children.default
+
+            // Lazy evaluation keep compatibility after bug fixes
             trNode.children.default = () => {
-              return [ selectionNode, ...originalDefaultSlot() ]
+              const originalChildren = originalDefaultSlot()
+
+              // Check if the originalChildren length is less than expected
+              // Adjust this check based on your exact requirements
+              if (originalChildren[ 0 ].children.length === computedCols.value.length) {
+                return [ selectionNode, ...originalChildren ]
+              }
+              // If length is as expected, return originalChildren
+              return originalChildren
             }
           }
         }
