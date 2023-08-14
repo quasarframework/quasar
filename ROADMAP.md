@@ -47,8 +47,17 @@ We are updating this section constantly in order to keep you up to date with our
 ### Q2 2023
 * Support Capacitor 4 and related bugfixes ([#14226](https://github.com/quasarframework/quasar/pull/14226))
 * Add Quasar entry in [Vite ecosystem CI](https://github.com/vitejs/vite-ecosystem-ci)
-* Add SSG mode ([#2299](https://github.com/quasarframework/quasar/issues/2299)) ([community support](https://github.com/freddy38510/quasar-app-extension-ssg))
 * June 30th 2023 marks the end of life for Quasar v1. It will no longer receive updates. (postponed for the second time, previously reported EOL was 31th of December 2022)
+
+### Q3 2023
+* New `@quasar/app-vite` major version -- beta release
+* New `@quasar/app-webpack` major version -- beta release
+
+### Q4 2023
+* Release of the new major version of `@quasar/app-vite`
+* Release of the new major version of `@quasar/app-webpack`
+* CLI Auto-routing
+* CLI SSG mode ([#2299](https://github.com/quasarframework/quasar/issues/2299)) ([community support](https://github.com/freddy38510/quasar-app-extension-ssg))
 
 ## Archive
 
