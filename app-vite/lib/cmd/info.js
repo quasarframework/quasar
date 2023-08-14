@@ -27,7 +27,8 @@ if (argv.help) {
 import os from 'node:os'
 import { sync as spawnSync } from 'cross-spawn'
 
-import appPaths from '../app-paths.js'
+import { getCtx } from '../utils/get-ctx.js'
+const { appPaths, appExt: { extensionList } } = getCtx()
 
 function getSpawnOutput (command) {
   try {
@@ -41,8 +42,8 @@ function getSpawnOutput (command) {
   }
 }
 
-function safePkgInfo (pkg, folder) {
-  const json = getPackageJson(pkg, folder)
+function safePkgInfo (pkg, dir) {
+  const json = getPackageJson(pkg, dir)
 
   if (json !== void 0) {
     return {
@@ -99,14 +100,9 @@ print({ key: 'Important local packages', section: true })
 
 print({ key: 'Quasar App Extensions', section: true })
 
-import { extensionJson } from '../app-extension/extension-json.js'
-const extensions = Object.keys(extensionJson.getList())
-
-if (extensions.length > 0) {
-  const { Extension } = await import('../app-extension/Extension.js')
-  extensions.forEach(ext => {
-    const instance = new Extension(ext)
-    print(safePkgInfo(instance.packageName))
+if (extensionList.length !== 0) {
+  extensionList.forEach(ext => {
+    print(safePkgInfo(ext.packageName, appPaths.appDir))
   })
 }
 else {

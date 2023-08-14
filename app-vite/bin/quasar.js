@@ -41,7 +41,7 @@ if (cmd) {
   }
   else {
     if (cmd === '-v' || cmd === '--version') {
-      const { cliPkg } = await import('../lib/app-pkg.js')
+      const { cliPkg } = await import('../lib/utils/cli-runtime.js')
 
       console.log(
         `${ cliPkg.name } ${ cliPkg.version }`

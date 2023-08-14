@@ -5,7 +5,7 @@ import { merge } from 'webpack-merge'
 
 import { AppBuilder } from '../../app-builder.js'
 import { quasarSsrConfig } from './ssr-config.js'
-import { appPkg, cliPkg } from '../../app-pkg.js'
+import { cliPkg } from '../../utils/cli-runtime.js'
 import { getFixedDeps } from '../../utils/get-fixed-deps.js'
 import { getProdSsrTemplateFn, transformProdSsrPwaOfflineHtml } from '../../utils/html-template.js'
 
@@ -56,7 +56,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
       // also update pwa-builder.js when changing here
       const workboxConfig = await quasarSsrConfig.workbox(this.quasarConf)
-      await buildPwaServiceWorker(this.quasarConf.pwa.workboxMode, workboxConfig)
+      await buildPwaServiceWorker(this.quasarConf, workboxConfig)
 
       // restore distDir
       this.quasarConf.build.distDir = originalDistDir
@@ -86,8 +86,10 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #writePackageJson () {
+    const { appPkg } = this.ctx.pkg
+
     const localAppPkg = merge({}, appPkg)
-    const appDeps = getFixedDeps(localAppPkg.dependencies || {})
+    const appDeps = getFixedDeps(localAppPkg.dependencies || {}, this.ctx.appPaths.appDir)
 
     const pkg = {
       name: localAppPkg.name,

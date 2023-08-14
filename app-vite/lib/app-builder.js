@@ -3,19 +3,15 @@ import { lstatSync } from 'node:fs'
 import fse from 'fs-extra'
 import { join, isAbsolute, basename, dirname } from 'node:path'
 
-import appPaths from './app-paths.js'
 import { AppTool } from './app-tool.js'
 import { printBuildSummary } from '../lib/utils/print-build-summary.js'
 
 export class AppBuilder extends AppTool {
   quasarConf
-  ctx
 
   constructor ({ argv, quasarConf }) {
-    super(argv)
-
+    super({ argv, ctx: quasarConf.ctx })
     this.quasarConf = quasarConf
-    this.ctx = quasarConf.ctx
   }
 
   readFile (filename) {
@@ -39,7 +35,7 @@ export class AppBuilder extends AppTool {
     patterns.forEach(entry => {
       const from = isAbsolute(entry.from) === true
         ? entry.from
-        : appPaths.resolve.app(entry.from)
+        : this.ctx.appPaths.resolve.app(entry.from)
 
       if (fse.existsSync(from) !== true) {
         return

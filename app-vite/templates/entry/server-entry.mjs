@@ -10,7 +10,7 @@
  *
  * Boot files are your "main.js"
  **/
-import { createApp<%= store && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
+import { createApp<%= metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
 
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -89,7 +89,7 @@ export default ssrContext => {
     <% } %>
 
     const {
-      app, router<%= store ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+      app, router<%= metaConf.hasStore ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
     } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
     <% if (bootEntries.length !== 0) { %>
@@ -104,7 +104,7 @@ export default ssrContext => {
         await bootFunctions[i]({
           app,
           router,
-          <%= store ? 'store,' : '' %>
+          <%= metaConf.hasStore ? 'store,' : '' %>
           ssrContext,
           redirect,
           urlPath: ssrContext.req.url,
@@ -123,7 +123,7 @@ export default ssrContext => {
     <% } %>
 
     app.use(router)
-    <% if (store && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
+    <% if (metaConf.hasStore && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
     const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)
@@ -173,7 +173,7 @@ export default ssrContext => {
       matchedComponents
       .reduce(
         (promise, preFetchFn) => promise.then(() => hasRedirected === false && preFetchFn({
-          <% if (store) { %>store,<% } %>
+          <% if (metaConf.hasStore) { %>store,<% } %>
           ssrContext,
           currentRoute: router.currentRoute.value,
           redirect,
@@ -185,7 +185,7 @@ export default ssrContext => {
       .then(() => {
         if (hasRedirected === true) { return }
 
-        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
         resolve(app)
       })
@@ -193,7 +193,7 @@ export default ssrContext => {
 
       <% } else { %>
 
-        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
         resolve(app)
 

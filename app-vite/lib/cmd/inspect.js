@@ -48,20 +48,8 @@ if (argv.help) {
 import { ensureArgv } from '../utils/ensure-argv.js'
 ensureArgv(argv, 'inspect')
 
-import { displayBanner } from '../utils/banner-global.js'
-displayBanner(argv, argv.cmd)
-
-import { log, fatal } from '../utils/logger.js'
-const { isModeInstalled } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
-
-if (isModeInstalled() !== true) {
-  fatal('Requested mode for inspection is NOT installed.')
-}
-
-const depth = parseInt(argv.depth, 10) || Infinity
-
-import { getQuasarCtx } from '../utils/get-quasar-ctx.js'
-const ctx = getQuasarCtx({
+import { getCtx } from '../utils/get-ctx.js'
+const ctx = getCtx({
   mode: argv.mode,
   target: argv.mode === 'cordova' || argv.mode === 'capacitor'
     ? 'android'
@@ -71,8 +59,17 @@ const ctx = getQuasarCtx({
   prod: argv.cmd === 'build'
 })
 
-import { extensionRunner } from '../app-extension/extensions-runner.js'
-await extensionRunner.registerExtensions(ctx)
+import { displayBanner } from '../utils/banner-global.js'
+displayBanner(argv, ctx, argv.cmd)
+
+import { log, fatal } from '../utils/logger.js'
+const { isModeInstalled } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+
+if (isModeInstalled(ctx.appPaths) !== true) {
+  fatal('Requested mode for inspection is NOT installed.')
+}
+
+const depth = parseInt(argv.depth, 10) || Infinity
 
 import { QuasarConfigFile } from '../quasar-config-file.js'
 const quasarConfFile = new QuasarConfigFile({

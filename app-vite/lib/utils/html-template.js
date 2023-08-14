@@ -3,7 +3,6 @@ import compileTemplate from 'lodash/template.js'
 import { minify } from 'html-minifier'
 
 const absoluteUrlRE = /^(https?:\/\/|\/)/i
-const entryScript = '<script type="module" src="/.quasar/client-entry.js"></script>'
 
 export const entryPointMarkup = '<!-- quasar:entry-point -->'
 export const attachMarkup = '<div id="q-app"></div>'
@@ -83,7 +82,7 @@ export function transformHtml (template, quasarConf) {
   html = html.replace(
     entryPointMarkup,
     (quasarConf.ctx.mode.ssr === true ? entryPointMarkup : attachMarkup)
-      + entryScript
+      + quasarConf.metaConf.entryScript
   )
 
   // publicPath will be handled by Vite middleware
@@ -138,7 +137,7 @@ export function getDevSsrTemplateFn (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `${ entryPointMarkup }${ entryScript }`
+    `${ entryPointMarkup }${ quasarConf.metaConf.entryScript }`
   )
 
   return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })

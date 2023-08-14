@@ -1,8 +1,9 @@
 import parseArgs from 'minimist'
 import { green, red, italic, underline } from 'kolorist'
 
-import { getApi } from '../utils/get-api.js'
 import { fatal, dot } from '../utils/logger.js'
+import { getApi } from '../utils/get-api.js'
+import { getCtx } from '../utils/get-ctx.js'
 
 const partArgs = {
   p: 'props',
@@ -78,6 +79,7 @@ if (!item || argv.help) {
   process.exit(0)
 }
 
+const ctx = getCtx()
 const apiParts = {}
 
 if (partArgsKeys.some(part => argv[ part ])) {
@@ -489,7 +491,7 @@ function describe (api) {
 
 async function run () {
   try {
-    const { api, supplier } = await getApi(item)
+    const { api, supplier } = await getApi(item, ctx)
 
     console.log()
 
@@ -525,7 +527,8 @@ async function run () {
 
 async function listElements () {
   const { getPackage } = await import('../utils/get-package.js')
-  let api = await getPackage('quasar/dist/transforms/api-list.json')
+
+  let api = await getPackage('quasar/dist/transforms/api-list.json', ctx.appPaths.appDir)
 
   if (api === void 0) {
     fatal(' Could not retrieve list...')

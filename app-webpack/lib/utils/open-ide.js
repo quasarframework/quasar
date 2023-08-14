@@ -160,7 +160,7 @@ module.exports.openIDE = function openIDE (mode, bin, target, dev) {
 
   if (target === 'android') {
     console.log(' ⚠️  ')
-    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps as Android Studio will suggest.')
+    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps if Android Studio will suggest.')
     console.log(' ⚠️  If you encounter any IDE errors then click on File > Invalidate caches and restart.')
   }
 

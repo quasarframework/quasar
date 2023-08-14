@@ -3,24 +3,19 @@ import path from 'node:path'
 import { merge } from 'webpack-merge'
 import semver from 'semver'
 
-import { warn, fatal } from '../utils/logger.js'
-import { appPkg, updateAppPackageJson } from '../app-pkg.js'
-import { getPackageJson } from '../utils/get-package-json.js'
-import { getCallerPath } from '../utils/get-caller-path.js'
-import { extensionJson } from './extension-json.js'
+import { warn, fatal } from '../../utils/logger.js'
+import { getPackageJson } from '../../utils/get-package-json.js'
+import { getCallerPath } from '../../utils/get-caller-path.js'
 import { BaseAPI } from './BaseAPI.js'
 
 /**
  * API for extension's /install.js script
  */
 export class InstallAPI extends BaseAPI {
-  __hooks = {
-    renderFolders: [],
-    renderFiles: [],
-    exitLog: []
+  constructor (opts, appExtJson) {
+    super(opts)
+    this.#appExtJson = appExtJson
   }
-
-  __needsNodeModulesUpdate = false
 
   /**
    * Get the internal persistent config of this extension.
@@ -29,7 +24,7 @@ export class InstallAPI extends BaseAPI {
    * @return {object} cfg
    */
   getPersistentConf () {
-    return extensionJson.getInternal(this.extId)
+    return this.#appExtJson.getInternal(this.extId)
   }
 
   /**
@@ -39,7 +34,7 @@ export class InstallAPI extends BaseAPI {
    * @param {object} cfg
    */
   setPersistentConf (cfg) {
-    extensionJson.setInternal(this.extId, cfg || {})
+    this.#appExtJson.setInternal(this.extId, cfg || {})
   }
 
   /**
@@ -69,7 +64,7 @@ export class InstallAPI extends BaseAPI {
    * @param {string} semverCondition
    */
   compatibleWith (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
       fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
@@ -92,7 +87,7 @@ export class InstallAPI extends BaseAPI {
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
       return false
@@ -111,7 +106,7 @@ export class InstallAPI extends BaseAPI {
    * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
-    return extensionJson.has(extId)
+    return this.#appExtJson.has(extId)
   }
 
   /**
@@ -121,7 +116,7 @@ export class InstallAPI extends BaseAPI {
    * @return {string|undefined} version of app's package
    */
   getPackageVersion (packageName) {
-    const json = getPackageJson(packageName)
+    const json = getPackageJson(packageName, this.appDir)
     return json !== void 0
       ? json.version
       : void 0
@@ -171,7 +166,7 @@ export class InstallAPI extends BaseAPI {
       return
     }
 
-    const pkg = merge({}, appPkg, extPkg)
+    const pkg = merge({}, this.ctx.pkg.appPkg, extPkg)
 
     fs.writeFileSync(
       this.resolve.app('package.json'),
@@ -180,7 +175,7 @@ export class InstallAPI extends BaseAPI {
     )
 
     // we mingled with it, time to notify there's a need to update it
-    updateAppPackageJson()
+    this.ctx.pkg.updateAppPackageJson()
 
     if (
       extPkg.dependencies
@@ -189,7 +184,7 @@ export class InstallAPI extends BaseAPI {
       || extPkg.bundleDependencies
       || extPkg.peerDependencies
     ) {
-      this.__needsNodeModulesUpdate = true
+      this.#needsNodeModulesUpdate = true
     }
   }
 
@@ -250,7 +245,7 @@ export class InstallAPI extends BaseAPI {
       return
     }
 
-    this.__hooks.renderFolders.push({
+    this.#hooks.renderFolders.push({
       source,
       rawCopy,
       scope
@@ -282,7 +277,7 @@ export class InstallAPI extends BaseAPI {
       return
     }
 
-    this.__hooks.renderFiles.push({
+    this.#hooks.renderFiles.push({
       sourcePath,
       targetPath,
       rawCopy,
@@ -297,6 +292,33 @@ export class InstallAPI extends BaseAPI {
    * @param {string} msg
    */
   onExitLog (msg) {
-    this.__hooks.exitLog.push(msg)
+    this.#hooks.exitLog.push(msg)
+  }
+
+  /**
+   * Private stuff; to NOT be used in devland
+   */
+
+  #appExtJson
+  #needsNodeModulesUpdate = false
+
+  __getNodeModuleNeedsUpdate (appExtJson) {
+    // protect against external access
+    if (appExtJson === this.#appExtJson) {
+      return this.#needsNodeModulesUpdate
+    }
+  }
+
+  #hooks = {
+    renderFolders: [],
+    renderFiles: [],
+    exitLog: []
+  }
+
+  __getHooks (appExtJson) {
+    // protect against external access
+    if (appExtJson === this.#appExtJson) {
+      return this.#hooks
+    }
   }
 }

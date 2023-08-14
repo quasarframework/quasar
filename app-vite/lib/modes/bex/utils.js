@@ -2,14 +2,7 @@
 import fse from 'fs-extra'
 import { join } from 'node:path'
 
-import appPaths from '../../app-paths.js'
-import { appPkg } from '../../app-pkg.js'
 import { warn } from '../../utils/logger.js'
-
-const { name, productName, description, version } = appPkg
-const assetsFolder = appPaths.resolve.bex('assets')
-const iconsFolder = appPaths.resolve.bex('icons')
-const localesFolder = appPaths.resolve.bex('_locales')
 
 export function createManifest (quasarConf) {
   let json
@@ -29,6 +22,10 @@ export function createManifest (quasarConf) {
     warn('The BEX manifest requires a "manifest_version" prop, which is currently missing.')
     return { err: true, filename }
   }
+
+  const {
+    appPkg: { productName, name, description, version }
+  } = quasarConf.ctx.pkg
 
   if (json.name === void 0) { json.name = productName || name }
   if (json.short_name === void 0) { json.short_name = json.name }
@@ -63,6 +60,14 @@ export function createManifest (quasarConf) {
 }
 
 export function copyBexAssets (quasarConf) {
+  const { appPaths, cacheProxy } = quasarConf.ctx
+
+  const { assetsFolder, iconsFolder, localesFolder } = cacheProxy.getRuntime('runtimeBexUtils', () => ({
+    assetsFolder: appPaths.resolve.bex('assets'),
+    iconsFolder: appPaths.resolve.bex('icons'),
+    localesFolder: appPaths.resolve.bex('_locales')
+  }))
+
   const folders = [ assetsFolder, iconsFolder ]
 
   fse.copySync(assetsFolder, join(quasarConf.build.distDir, 'assets'))

@@ -5,7 +5,6 @@ import { join } from 'node:path'
 import { AppBuilder } from '../../app-builder.js'
 import { quasarCordovaConfig } from './cordova-config.js'
 
-import appPaths from '../../app-paths.js'
 import { fatal } from '../../utils/logger.js'
 import { CordovaConfigFile } from './config-file.js'
 import { spawn } from '../../utils/spawn.js'
@@ -48,9 +47,10 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #packageFiles () {
     const target = this.ctx.targetName
+    const { appPaths } = this.ctx
 
     if (target === 'android') {
-      fixAndroidCleartext('cordova')
+      fixAndroidCleartext(appPaths, 'cordova')
     }
 
     const buildPath = appPaths.resolve.cordova(
@@ -79,7 +79,12 @@ export class QuasarModeBuilder extends AppBuilder {
 
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide) {
-        await openIDE('cordova', this.quasarConf.bin, target)
+        await openIDE({
+          mode: 'cordova',
+          bin: this.quasarConf.bin,
+          target,
+          appPaths
+        })
         process.exit(0)
       }
 
@@ -100,7 +105,7 @@ export class QuasarModeBuilder extends AppBuilder {
       spawn(
         'cordova',
         args,
-        { cwd: appPaths.cordovaDir },
+        { cwd: this.ctx.appPaths.cordovaDir },
         code => {
           this.#cleanup()
 

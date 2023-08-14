@@ -1,11 +1,8 @@
 
 import { readFileSync } from 'node:fs'
 
-import { appPkg } from '../../app-pkg.js'
-import { getPackage } from '../../utils/get-package.js'
 import { progress } from '../../utils/logger.js'
 
-const workboxBuild = await getPackage('workbox-build')
 const workboxMethodMap = {
   GenerateSW: 'generateSW',
   InjectManifest: 'injectManifest'
@@ -47,6 +44,8 @@ export function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
     return
   }
 
+  const { appPkg } = quasarConf.ctx.pkg
+
   const id = appPkg.name || 'quasar-pwa'
   const pwaManifest = {
     id,
@@ -65,10 +64,14 @@ export function injectPwaManifest (quasarConf, ifNotAlreadyGenerated) {
   quasarConf.htmlVariables.pwaManifest = pwaManifest
 }
 
-export async function buildPwaServiceWorker (workboxMode, workboxConfig) {
+export async function buildPwaServiceWorker (quasarConf, workboxConfig) {
+  const { ctx: { cacheProxy }, pwa: { workboxMode } } = quasarConf
+
   const done = progress('Compiling of the ___ with Workbox in progress...', 'Service Worker')
 
   const buildMethod = workboxMethodMap[ workboxMode ]
+  const workboxBuild = await cacheProxy.getModule('workboxBuild')
+
   await workboxBuild[ buildMethod ](workboxConfig)
 
   done('The ___ compiled with success')

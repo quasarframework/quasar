@@ -1,13 +1,12 @@
 import fs from 'node:fs'
 
 import { warn } from './logger.js'
-import appPaths from '../app-paths.js'
 import { entryPointMarkup, attachMarkup } from '../utils/html-template.js'
 
-const file = appPaths.resolve.app('index.html')
-
-export function appFilesValidations () {
+export function appFilesValidations (appPaths) {
   let valid = true
+
+  const file = appPaths.resolve.app('index.html')
 
   if (fs.existsSync(file) === false) {
     warn('The file /index.html is missing. Please add it back.\n')

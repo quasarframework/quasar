@@ -1,11 +1,10 @@
 import fs from 'node:fs'
 import fse from 'fs-extra'
 
-import appPaths from '../../app-paths.js'
 import { spawnSync } from '../../utils/spawn.js'
 import { log, fatal } from '../../utils/logger.js'
 
-export function ensureWWW (forced) {
+export function ensureWWW ({ appPaths, forced }) {
   const www = appPaths.resolve.cordova('www')
 
   forced === true && fse.removeSync(www)
@@ -18,7 +17,7 @@ export function ensureWWW (forced) {
   }
 }
 
-export function ensureDeps () {
+export function ensureDeps ({ appPaths }) {
   if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
     return
   }
@@ -34,7 +33,7 @@ export function ensureDeps () {
   )
 }
 
-export function ensureConsistency () {
-  ensureWWW()
-  ensureDeps()
+export function ensureConsistency (opts) {
+  ensureWWW(opts)
+  ensureDeps(opts)
 }

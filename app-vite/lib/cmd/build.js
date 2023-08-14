@@ -88,11 +88,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-import { ensureArgv } from '../utils/ensure-argv.js'
+const { ensureArgv } = await import('../utils/ensure-argv.js')
 ensureArgv(argv, 'build')
 
-import path from 'node:path'
-import { readFileSync } from 'node:fs'
+const path = await import('node:path')
+const { readFileSync } = await import('node:fs')
 
 console.log(
   readFileSync(
@@ -101,17 +101,8 @@ console.log(
   )
 )
 
-import { displayBanner } from '../utils/banner-global.js'
-displayBanner(argv, 'build')
-
-import { log } from '../utils/logger.js'
-
-// install mode if it's missing
-const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
-await addMode(true, argv.target)
-
-import { getQuasarCtx } from '../utils/get-quasar-ctx.js'
-const ctx = getQuasarCtx({
+const { getCtx } = await import('../utils/get-ctx.js')
+const ctx = getCtx({
   mode: argv.mode,
   target: argv.target,
   arch: argv.arch,
@@ -121,11 +112,16 @@ const ctx = getQuasarCtx({
   publish: argv.publish
 })
 
-// register app extensions
-import { extensionRunner } from '../app-extension/extensions-runner.js'
-await extensionRunner.registerExtensions(ctx)
+const { displayBanner } = await import('../utils/banner-global.js')
+displayBanner(argv, ctx, 'build')
 
-import { QuasarConfigFile } from '../quasar-config-file.js'
+const { log } = await import('../utils/logger.js')
+
+// install mode if it's missing
+const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+await addMode({ ctx, silent: true, target: argv.target })
+
+const { QuasarConfigFile } = await import('../quasar-config-file.js')
 const quasarConfFile = new QuasarConfigFile({
   ctx,
   port: argv.port,
@@ -136,17 +132,17 @@ await quasarConfFile.init()
 
 const quasarConf = await quasarConfFile.read()
 
-import { regenerateTypesFeatureFlags } from '../utils/types-feature-flags.js'
+const { regenerateTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
 await regenerateTypesFeatureFlags(quasarConf)
 
 const { QuasarModeBuilder } = await import(`../modes/${ argv.mode }/${ argv.mode }-builder.js`)
 const appBuilder = new QuasarModeBuilder({ argv, quasarConf })
 
-import { addArtifacts, cleanArtifacts } from '../artifacts.js'
+const { default: fse } = await import('fs-extra')
 let outputFolder = quasarConf.build.distDir
-cleanArtifacts(outputFolder)
+fse.removeSync(outputFolder)
 
-import { EntryFilesGenerator } from '../entry-files-generator.js'
+const { EntryFilesGenerator } = await import('../entry-files-generator.js')
 const entryFiles = new EntryFilesGenerator(ctx)
 entryFiles.generate(quasarConf)
 
@@ -155,19 +151,17 @@ if (typeof quasarConf.build.beforeBuild === 'function') {
 }
 
 // run possible beforeBuild hooks
-await extensionRunner.runHook('beforeBuild', async hook => {
+await ctx.appExt.runAppExtensionHook('beforeBuild', async hook => {
   log(`Extension(${ hook.api.extId }): Running beforeBuild hook...`)
   await hook.fn(hook.api, { quasarConf })
 })
 
 appBuilder.build().then(async () => {
-  addArtifacts(outputFolder)
-
   outputFolder = argv.mode === 'cordova'
     ? path.join(outputFolder, '..')
     : outputFolder
 
-  displayBanner(argv, 'build', {
+  displayBanner(argv, ctx, 'build', {
     buildOutputFolder: outputFolder,
     target: quasarConf.build.target
   })
@@ -177,7 +171,7 @@ appBuilder.build().then(async () => {
   }
 
   // run possible beforeBuild hooks
-  await extensionRunner.runHook('afterBuild', async hook => {
+  await ctx.appExt.runAppExtensionHook('afterBuild', async hook => {
     log(`Extension(${ hook.api.extId }): Running afterBuild hook...`)
     await hook.fn(hook.api, { quasarConf })
   })
@@ -194,7 +188,7 @@ appBuilder.build().then(async () => {
     }
 
     // run possible onPublish hooks
-    await extensionRunner.runHook('onPublish', async hook => {
+    await ctx.appExt.runAppExtensionHook('onPublish', async hook => {
       log(`Extension(${ hook.api.extId }): Running onPublish hook...`)
       await hook.fn(hook.api, opts)
     })

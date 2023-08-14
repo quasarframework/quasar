@@ -7,36 +7,36 @@ import {
   createBrowserEsbuildConfig, extendEsbuildConfig
 } from '../../config-tools.js'
 
-import appPaths from '../../app-paths.js'
+import { resolveToCliDir } from '../../utils/cli-runtime.js'
+
 const contentScriptTemplate = readFileSync(
-  appPaths.resolve.cli('templates/bex/entry-content-script.js'),
+  resolveToCliDir('templates/bex/entry-content-script.js'),
   'utf-8'
 )
 
 async function createScript (quasarConf, scriptName, entry) {
-  const cfg = await createBrowserEsbuildConfig(quasarConf, { cacheSuffix: `bex-${ scriptName }` })
+  const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: `browser-bex-${ scriptName }` })
 
   cfg.entryPoints = [
-    entry || appPaths.resolve.app(`.quasar/bex/entry-${ scriptName }.js`)
+    entry || quasarConf.ctx.appPaths.resolve.entry(`bex-entry-${ scriptName }.js`)
   ]
 
   cfg.outfile = join(quasarConf.build.distDir, `${ scriptName }.js`)
 
-  return extendEsbuildConfig(cfg, quasarConf.bex, 'BexScripts')
+  return extendEsbuildConfig(cfg, quasarConf.bex, quasarConf.ctx, 'BexScripts')
 }
 
 export const quasarBexConfig = {
   vite: async quasarConf => {
-    const cfg = await createViteConfig(quasarConf)
+    const cfg = await createViteConfig(quasarConf, { compileId: 'vite-bex' })
 
     cfg.build.outDir = join(quasarConf.build.distDir, 'www')
 
     return extendViteConfig(cfg, quasarConf, { isClient: true })
   },
 
-  backgroundScript: quasarConf => createScript(quasarConf, 'background'),
   contentScript: (quasarConf, name) => {
-    const entry = appPaths.resolve.app(`.quasar/bex/entry-content-script-${ name }.js`)
+    const entry = quasarConf.ctx.appPaths.resolve.entry(`bex-entry-content-script-${ name }.js`)
 
     writeFileSync(
       entry,
@@ -46,6 +46,8 @@ export const quasarBexConfig = {
 
     return createScript(quasarConf, name, entry)
   },
+
+  backgroundScript: quasarConf => createScript(quasarConf, 'background'),
   domScript: quasarConf => createScript(quasarConf, 'dom')
 }
 

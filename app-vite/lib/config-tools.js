@@ -1,27 +1,19 @@
 
-import { mergeConfig as mergeViteConfig } from 'vite'
 import { quasar as quasarVitePlugin } from '@quasar/vite-plugin'
 import vueVitePlugin from '@vitejs/plugin-vue'
 import { merge } from 'webpack-merge'
-import fse from 'fs-extra'
 
-import appPaths from './app-paths.js'
-import { cliPkg, appPkg } from './app-pkg.js'
+import { cliPkg } from './utils/cli-runtime.js'
 import { getPackage } from './utils/get-package.js'
 import { getBuildSystemDefine } from './utils/env.js'
 import { log, warn, tip } from './utils/logger.js'
-import { extensionRunner } from './app-extension/extensions-runner.js'
 
 import { quasarViteIndexHtmlTransformPlugin } from './plugins/vite.index-html-transform.js'
 import { quasarViteStripFilenameHashesPlugin } from './plugins/vite.strip-filename-hashes.js'
 
-const externalsList = [
-  ...Object.keys(cliPkg.dependencies || {}),
-  ...Object.keys(appPkg.dependencies || {}),
-  ...Object.keys(appPkg.devDependencies || {})
-]
+const cliPkgDependencies = Object.keys(cliPkg.dependencies || {})
 
-async function parseVitePlugins (entries) {
+async function parseVitePlugins (entries, appDir) {
   const acc = []
   let showTip = false
 
@@ -68,7 +60,7 @@ async function parseVitePlugins (entries) {
       continue
     }
 
-    const plugin = await getPackage(name)
+    const plugin = await getPackage(name, appDir)
 
     if (!plugin) {
       warn('quasar.config file > invalid Vite plugin specified (cannot find it): ' + name)
@@ -96,18 +88,21 @@ async function parseVitePlugins (entries) {
   return acc
 }
 
-export async function createViteConfig (quasarConf, quasarRunMode) {
-  const { ctx, build, metaConf } = quasarConf
-  const cacheSuffix = quasarRunMode || ctx.modeName
-  const cacheDir = appPaths.resolve.app(`node_modules/.q-cache/vite/${ cacheSuffix }`)
+function getQuasarVitePluginRunMode (compileId) {
+  if (compileId === 'vite-ssr-client') return 'ssr-client'
+  if (compileId === 'vite-ssr-server') return 'ssr-server'
+  return 'web-client'
+}
 
-  if (quasarConf.build.rebuildCache === true) {
-    fse.removeSync(cacheDir)
-  }
+export async function createViteConfig (quasarConf, { compileId }) {
+  const { ctx, build, metaConf } = quasarConf
+  const { appPaths } = ctx
+
+  const cacheDir = appPaths.resolve.cache(compileId)
 
   // protect against Vite mutating its own options and triggering endless cfg diff loop
   const vueVitePluginOptions = merge(
-    quasarRunMode !== 'ssr-server'
+    compileId !== 'vite-ssr-server'
       ? {}
       : { ssr: true, template: { ssr: true } },
     build.viteVuePluginOptions
@@ -135,7 +130,7 @@ export async function createViteConfig (quasarConf, quasarRunMode) {
     },
 
     build: {
-      target: quasarRunMode === 'ssr-server'
+      target: compileId === 'vite-ssr-server'
         ? build.target.node
         : build.target.browser,
       modulePreload: build.polyfillModulePreload === true
@@ -155,21 +150,21 @@ export async function createViteConfig (quasarConf, quasarRunMode) {
     plugins: [
       vueVitePlugin(vueVitePluginOptions),
       quasarVitePlugin({
-        runMode: quasarRunMode || 'web-client',
+        runMode: getQuasarVitePluginRunMode(compileId),
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
         sassVariables: quasarConf.metaConf.css.variablesFile,
         devTreeshaking: quasarConf.build.devQuasarTreeshaking === true
       }),
-      ...(await parseVitePlugins(build.vitePlugins))
+      ...(await parseVitePlugins(build.vitePlugins, appPaths.appDir))
     ]
   }
 
-  if (quasarRunMode !== 'ssr-server') {
+  if (compileId !== 'vite-ssr-server') {
     if (ctx.prod === true && quasarConf.build.useFilenameHashes !== true) {
       viteConf.plugins.push(quasarViteStripFilenameHashesPlugin())
     }
 
-    if (quasarRunMode !== 'ssr-client' || quasarConf.ctx.prod === true) {
+    if (compileId !== 'vite-ssr-client' || quasarConf.ctx.prod === true) {
       viteConf.plugins.unshift(
         quasarViteIndexHtmlTransformPlugin(quasarConf)
       )
@@ -190,21 +185,24 @@ export async function createViteConfig (quasarConf, quasarRunMode) {
       viteConf.plugins.push(
         rollupPluginVisualizer.visualizer({
           open: true,
-          filename: `.quasar/stats-${ quasarRunMode }.html`,
+          filename: appPaths.resolve.cache('stats.html'),
           ...(Object(analyze) === analyze ? analyze : {})
         })
       )
     }
   }
 
-  if (quasarRunMode !== 'ssr-server') {
-    const { warnings, errors } = quasarConf.eslint
-    if (warnings === true || errors === true) {
-      // import only if actually needed (as it imports app's eslint pkg)
-      const { quasarViteESLintPlugin } = await import('./plugins/vite.eslint.js')
-      viteConf.plugins.push(
-        quasarViteESLintPlugin(quasarConf, { cacheSuffix })
-      )
+  if (compileId !== 'vite-ssr-server') {
+    const { hasEslint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
+    if (hasEslint === true) {
+      const { warnings, errors } = quasarConf.eslint
+      if (warnings === true || errors === true) {
+        // import only if actually needed (as it imports app's eslint pkg)
+        const { quasarViteESLintPlugin } = await import('./plugins/vite.eslint.js')
+        viteConf.plugins.push(
+          await quasarViteESLintPlugin(quasarConf, compileId)
+        )
+      }
     }
   }
 
@@ -222,7 +220,8 @@ export function extendViteConfig (viteConf, quasarConf, invokeParams) {
     quasarConf.build.extendViteConf(viteConf, opts)
   }
 
-  const promise = extensionRunner.runHook('extendViteConf', async hook => {
+  const { appExt } = quasarConf.ctx
+  const promise = appExt.runAppExtensionHook('extendViteConf', async hook => {
     log(`Extension(${ hook.api.extId }): Extending Vite config`)
     await hook.fn(viteConf, opts, hook.api)
   })
@@ -230,7 +229,20 @@ export function extendViteConfig (viteConf, quasarConf, invokeParams) {
   return promise.then(() => viteConf)
 }
 
-export async function createNodeEsbuildConfig (quasarConf, format, getLinterOpts) {
+export async function createNodeEsbuildConfig (quasarConf, { compileId, format }) {
+  const {
+    ctx: {
+      pkg: { appPkg },
+      cacheProxy
+    }
+  } = quasarConf
+
+  const externalsList = cacheProxy.getRuntime('externalEsbuildParam', () => [
+    ...cliPkgDependencies,
+    ...Object.keys(appPkg.dependencies || {}),
+    ...Object.keys(appPkg.devDependencies || {})
+  ])
+
   const cfg = {
     platform: 'node',
     target: quasarConf.build.target.node,
@@ -243,6 +255,7 @@ export async function createNodeEsbuildConfig (quasarConf, format, getLinterOpts
       'quasar/wrappers': format === 'esm' ? 'quasar/wrappers/index.mjs' : 'quasar/wrappers/index.js'
     },
     resolveExtensions: [ format === 'esm' ? '.mjs' : '.cjs', '.js', '.mts', '.ts', '.json' ],
+    // we use a fresh list since this can be tampered with by the user:
     external: [ ...externalsList ],
     define: getBuildSystemDefine({
       buildEnv: quasarConf.build.env,
@@ -251,19 +264,22 @@ export async function createNodeEsbuildConfig (quasarConf, format, getLinterOpts
     })
   }
 
-  const { warnings, errors } = quasarConf.eslint
-  if (warnings === true || errors === true) {
-    // import only if actually needed (as it imports app's eslint pkg)
-    const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
-    cfg.plugins = [
-      quasarEsbuildESLintPlugin(quasarConf, getLinterOpts)
-    ]
+  const { hasEslint } = await cacheProxy.getModule('eslint')
+  if (hasEslint === true) {
+    const { warnings, errors } = quasarConf.eslint
+    if (warnings === true || errors === true) {
+      // import only if actually needed (as it imports app's eslint pkg)
+      const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
+      cfg.plugins = [
+        await quasarEsbuildESLintPlugin(quasarConf, compileId)
+      ]
+    }
   }
 
   return cfg
 }
 
-export async function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
+export async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
   const cfg = {
     platform: 'browser',
     target: quasarConf.build.target.browser,
@@ -279,19 +295,22 @@ export async function createBrowserEsbuildConfig (quasarConf, getLinterOpts) {
     })
   }
 
-  const { warnings, errors } = quasarConf.eslint
-  if (warnings === true || errors === true) {
-    // import only if actually needed (as it imports app's eslint pkg)
-    const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
-    cfg.plugins = [
-      quasarEsbuildESLintPlugin(quasarConf, getLinterOpts)
-    ]
+  const { hasEslint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
+  if (hasEslint === true) {
+    const { warnings, errors } = quasarConf.eslint
+    if (warnings === true || errors === true) {
+      // import only if actually needed (as it imports app's eslint pkg)
+      const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
+      cfg.plugins = [
+        await quasarEsbuildESLintPlugin(quasarConf, compileId)
+      ]
+    }
   }
 
   return cfg
 }
 
-export function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) {
+export function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, threadName) {
   const method = `extend${ threadName }Conf`
 
   // example: quasarConf.ssr.extendSSRWebserverConf
@@ -299,12 +318,10 @@ export function extendEsbuildConfig (esbuildConf, quasarConfTarget, threadName) 
     quasarConfTarget[ method ](esbuildConf)
   }
 
-  const promise = extensionRunner.runHook(method, async hook => {
+  const promise = ctx.appExt.runAppExtensionHook(method, async hook => {
     log(`Extension(${ hook.api.extId }): Extending "${ threadName }" Esbuild config`)
     await hook.fn(esbuildConf, hook.api)
   })
 
   return promise.then(() => esbuildConf)
 }
-
-export { mergeViteConfig }

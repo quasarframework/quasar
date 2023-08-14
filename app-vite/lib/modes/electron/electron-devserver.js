@@ -2,18 +2,11 @@ import { readFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { createServer } from 'vite'
 
-import appPaths from '../../app-paths.js'
 import { AppDevserver } from '../../app-devserver.js'
 import { log, warn, fatal } from '../../utils/logger.js'
 import { spawn } from '../../utils/spawn.js'
 import { getPackagePath } from '../../utils/get-package-path.js'
 import { quasarElectronConfig } from './electron-config.js'
-
-const electronPkgPath = getPackagePath('electron/package.json')
-const electronPkg = JSON.parse(
-  readFileSync(electronPkgPath, 'utf-8')
-)
-const electronExecutable = join(dirname(electronPkgPath), electronPkg.bin.electron)
 
 function wait (time) {
   return new Promise(resolve => {
@@ -27,9 +20,17 @@ export class QuasarModeDevserver extends AppDevserver {
   #stopMain
   #stopPreload
   #killedPid = false
+  #electronExecutable
 
   constructor (opts) {
     super(opts)
+
+    const electronPkgPath = getPackagePath('electron/package.json', this.ctx.appPaths.appDir)
+    const electronPkg = JSON.parse(
+      readFileSync(electronPkgPath, 'utf-8')
+    )
+
+    this.#electronExecutable = join(dirname(electronPkgPath), electronPkg.bin.electron)
 
     this.registerDiff('electron', quasarConf => [
       quasarConf.eslint,
@@ -123,12 +124,12 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     this.#pid = spawn(
-      electronExecutable,
+      this.#electronExecutable,
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        appPaths.resolve.app('.quasar/electron/electron-main.cjs')
+        this.ctx.appPaths.resolve.entry('electron-main.cjs')
       ].concat(this.argv._),
-      { cwd: appPaths.appDir },
+      { cwd: this.ctx.appPaths.appDir },
       code => {
         if (this.#killedPid === true) {
           this.#killedPid = false

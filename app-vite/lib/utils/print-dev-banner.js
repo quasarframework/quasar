@@ -1,8 +1,7 @@
 import { green, dim } from 'kolorist'
 import { join } from 'node:path'
 
-import appPaths from '../app-paths.js'
-import { quasarPkg, cliPkg } from '../app-pkg.js'
+import { cliPkg } from './cli-runtime.js'
 import { getCompilationTarget } from '../utils/banner-global.js'
 import { getIPs } from '../utils/net.js'
 
@@ -21,9 +20,10 @@ function getIPList () {
 
 function getBanner (quasarConf) {
   const { ctx } = quasarConf
+
   const banner = [
     ` ${ greenBanner } Reported at............ ${ dim(new Date().toLocaleDateString()) } ${ dim(new Date().toLocaleTimeString()) }`,
-    ` ${ greenBanner } App dir................ ${ green(appPaths.appDir) }`
+    ` ${ greenBanner } App dir................ ${ green(ctx.appPaths.appDir) }`
   ]
 
   if (ctx.mode.bex !== true) {
@@ -36,7 +36,7 @@ function getBanner (quasarConf) {
 
   banner.push(
     ` ${ greenBanner } Dev mode............... ${ green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : '')) }`,
-    ` ${ greenBanner } Pkg quasar............. ${ green('v' + quasarPkg.version) }`,
+    ` ${ greenBanner } Pkg quasar............. ${ green('v' + ctx.pkg.quasarPkg.version) }`,
     ` ${ greenBanner } Pkg @quasar/app-vite... ${ green('v' + cliPkg.version) }`,
     ` ${ greenBanner } Browser target......... ${ getCompilationTarget(quasarConf.build.target.browser) }`
   )

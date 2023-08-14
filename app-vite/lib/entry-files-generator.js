@@ -1,19 +1,15 @@
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync, lstatSync } from 'node:fs'
+import { readFileSync } from 'node:fs'
 import fse from 'fs-extra'
-import path from 'node:path'
 import compileTemplate from 'lodash/template.js'
 
-import appPaths from './app-paths.js'
-const quasarFolder = appPaths.resolve.app('.quasar')
-
 export class EntryFilesGenerator {
-  #files
-  #folders
+  #templateFiles // templated
+  #regularFiles // copied as-is
 
   constructor (ctx) {
-    const folderPaths = []
-    const filePaths = [
+    const regularFiles = []
+    const templateFiles = [
       'app.js',
       'client-entry.js',
       'client-prefetch.js',
@@ -21,53 +17,50 @@ export class EntryFilesGenerator {
     ]
 
     if (ctx.mode.ssr) {
-      filePaths.push(
+      templateFiles.push(
         'server-entry.mjs',
         'ssr-middlewares.mjs',
         `ssr-${ ctx.dev ? 'dev' : 'prod' }-webserver.mjs`
       )
     }
     else if (ctx.mode.bex) {
-      folderPaths.push('bex')
+      regularFiles.push(
+        'bex-bridge.js',
+        'bex-entry-background.js',
+        'bex-entry-dom.js',
+        'bex-window-event-listener.js'
+      )
     }
 
-    this.#files = filePaths.map(file => {
+    const { appPaths } = ctx
+
+    this.#templateFiles = templateFiles.map(file => {
       const content = readFileSync(
         appPaths.resolve.cli(`templates/entry/${ file }`),
         'utf-8'
       )
 
-      const filename = path.basename(file)
-
       return {
-        filename,
-        dest: path.join(quasarFolder, filename),
-        template: compileTemplate(content)
+        template: compileTemplate(content),
+        dest: appPaths.resolve.entry(file)
       }
     })
 
-    this.#folders = folderPaths.map(folder => ({
-      src: appPaths.resolve.cli(`templates/entry/${ folder }`),
-      dest: path.join(quasarFolder, folder)
+    this.#regularFiles = regularFiles.map(file => ({
+      src: appPaths.resolve.cli(`templates/entry/${ file }`),
+      dest: appPaths.resolve.entry(file)
     }))
   }
 
   generate (quasarConf) {
-    // ensure .quasar folder
-    if (!existsSync(quasarFolder)) {
-      mkdirSync(quasarFolder)
-    }
-    else if (!lstatSync(quasarFolder).isDirectory()) {
-      fse.removeSync(quasarFolder)
-      mkdirSync(quasarFolder)
-    }
-
-    this.#files.forEach(file => {
-      writeFileSync(file.dest, file.template(quasarConf), 'utf-8')
+    this.#templateFiles.forEach(file => {
+      fse.ensureFileSync(file.dest)
+      fse.writeFileSync(file.dest, file.template(quasarConf), 'utf-8')
     })
 
-    this.#folders.forEach(folder => {
-      fse.copySync(folder.src, folder.dest)
+    this.#regularFiles.forEach(file => {
+      fse.ensureFileSync(file.dest)
+      fse.copySync(file.src, file.dest)
     })
   }
 }

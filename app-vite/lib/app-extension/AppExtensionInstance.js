@@ -1,24 +1,21 @@
 
-import path from 'node:path'
+import { join, relative, resolve, dirname } from 'node:path'
 import fse from 'fs-extra'
 import { createRequire } from 'node:module'
 import inquirer from 'inquirer'
 import { isBinaryFileSync as isBinary } from 'isbinaryfile'
 import compileTemplate from 'lodash/template.js'
 
-import appPaths from '../app-paths.js'
 import { log, warn, fatal } from '../utils/logger.js'
-import { extensionJson } from './extension-json.js'
-import { nodePackager } from '../utils/node-packager.js'
 
-import { IndexAPI } from './IndexAPI.js'
-import { InstallAPI } from './InstallAPI.js'
-import { UninstallAPI } from './UninstallAPI.js'
+import { IndexAPI } from './api-classes/IndexAPI.js'
+import { InstallAPI } from './api-classes/InstallAPI.js'
+import { UninstallAPI } from './api-classes/UninstallAPI.js'
 import { getPackagePath } from '../utils/get-package-path.js'
 
 const require = createRequire(import.meta.url)
 
-async function promptOverwrite ({ targetPath, options }) {
+async function promptOverwrite ({ targetPath, options, ctx }) {
   const choices = [
     { name: 'Overwrite', value: 'overwrite' },
     { name: 'Overwrite all', value: 'overwriteAll' },
@@ -29,7 +26,7 @@ async function promptOverwrite ({ targetPath, options }) {
   return await inquirer.prompt([ {
     name: 'action',
     type: 'list',
-    message: `Overwrite "${ path.relative(appPaths.appDir, targetPath) }"?`,
+    message: `Overwrite "${ relative(ctx.appPaths.appDir, targetPath) }"?`,
     choices: options !== void 0
       ? choices.filter(choice => options.includes(choice.value))
       : choices,
@@ -37,11 +34,12 @@ async function promptOverwrite ({ targetPath, options }) {
   } ])
 }
 
-async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
+async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }, ctx) {
   if (overwritePrompt === true && fse.existsSync(targetPath)) {
     const answer = await promptOverwrite({
       targetPath,
-      options: [ 'overwrite', 'skip' ]
+      options: [ 'overwrite', 'skip' ],
+      ctx
     })
 
     if (answer.action === 'skip') {
@@ -61,7 +59,7 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
   }
 }
 
-async function renderFolders ({ source, rawCopy, scope }) {
+async function renderFolders ({ source, rawCopy, scope }, ctx) {
   let overwrite
   const { default: fglob } = await import('fast-glob')
   const files = fglob.sync([ '**/*' ], { cwd: source })
@@ -79,15 +77,15 @@ async function renderFolders ({ source, rawCopy, scope }) {
       return name
     }).join('/')
 
-    const targetPath = appPaths.resolve.app(targetRelativePath)
-    const sourcePath = path.resolve(source, rawPath)
+    const targetPath = ctx.appPaths.resolve.app(targetRelativePath)
+    const sourcePath = resolve(source, rawPath)
 
     if (overwrite !== 'overwriteAll' && fse.existsSync(targetPath)) {
       if (overwrite === 'skipAll') {
         continue
       }
       else {
-        const answer = await promptOverwrite({ targetPath })
+        const answer = await promptOverwrite({ targetPath, ctx })
 
         if (answer.action === 'overwriteAll') {
           overwrite = 'overwriteAll'
@@ -102,35 +100,49 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
-    await renderFile({ sourcePath, targetPath, rawCopy, scope })
+    await renderFile({ sourcePath, targetPath, rawCopy, scope }, ctx)
   }
 }
 
-export class Extension {
-  constructor (name) {
-    if (name.charAt(0) === '@') {
-      const slashIndex = name.indexOf('/')
+export class AppExtensionInstance {
+  #ctx
+  #appExtJson
+
+  extId
+  packageFullName
+  packageName
+
+  constructor ({ extName, ctx, appExtJson }) {
+    this.#ctx = ctx
+    this.#appExtJson = appExtJson
+
+    if (extName.charAt(0) === '@') {
+      const slashIndex = extName.indexOf('/')
       if (slashIndex === -1) {
-        fatal(`Invalid Quasar App Extension name: "${ name }"`)
+        fatal(`Invalid Quasar App Extension name: "${ extName }"`)
       }
 
-      this.packageFullName = name.substring(0, slashIndex + 1)
+      this.packageFullName = extName.substring(0, slashIndex + 1)
         + 'quasar-app-extension-'
-        + name.substring(slashIndex + 1)
+        + extName.substring(slashIndex + 1)
 
       this.packageName = '@' + this.#stripVersion(this.packageFullName.substring(1))
-      this.extId = '@' + this.#stripVersion(name.substring(1))
+      this.extId = '@' + this.#stripVersion(extName.substring(1))
     }
     else {
-      this.packageFullName = 'quasar-app-extension-' + name
-      this.packageName = this.#stripVersion('quasar-app-extension-' + name)
-      this.extId = this.#stripVersion(name)
+      this.packageFullName = `quasar-app-extension-${ extName }`
+      this.packageName = this.#stripVersion(this.packageFullName)
+      this.extId = this.#stripVersion(extName)
     }
   }
 
   isInstalled () {
     try {
-      const packagePath = getPackagePath(path.join(this.packageFullName, 'package.json'))
+      const packagePath = getPackagePath(
+        join(this.packageFullName, 'package.json'),
+        this.#ctx.appPaths.appDir
+      )
+
       if (packagePath === void 0) {
         return false
       }
@@ -141,7 +153,7 @@ export class Extension {
       )
 
       this.packageFormat = pkg.type === 'module' ? 'esm' : 'cjs'
-      this.packagePath = path.dirname(packagePath)
+      this.packagePath = dirname(packagePath)
 
       return true
     }
@@ -185,11 +197,13 @@ export class Extension {
     }
 
     // yarn/npm install
-    skipPkgInstall !== true && this.#installPackage()
+    if (skipPkgInstall !== true) {
+      await this.#installPackage()
+    }
 
-    const prompts = await this.#getPrompts()
+    const prompts = await this.#getScriptPrompts()
 
-    extensionJson.set(this.extId, prompts)
+    this.#appExtJson.set(this.extId, prompts)
 
     // run extension install
     const hooks = await this.#runInstallScript(prompts)
@@ -222,13 +236,15 @@ export class Extension {
       return
     }
 
-    const prompts = extensionJson.getPrompts(this.extId)
+    const prompts = this.getPrompts()
     const hooks = await this.#runUninstallScript(prompts)
 
-    extensionJson.remove(this.extId)
+    this.#appExtJson.remove(this.extId)
 
     // yarn/npm uninstall
-    skipPkgUninstall !== true && this.#uninstallPackage()
+    if (skipPkgUninstall !== true) {
+      await this.#uninstallPackage()
+    }
 
     log(`Quasar App Extension "${ this.extId }" successfully removed.`)
     log()
@@ -241,7 +257,7 @@ export class Extension {
     }
   }
 
-  async run (ctx) {
+  async run () {
     if (!this.isInstalled()) {
       warn(`Quasar App Extension "${ this.extId }" is missing...`)
       process.exit(1, 'ext-missing')
@@ -250,15 +266,15 @@ export class Extension {
     const script = await this.#getScript('index', true)
 
     const api = new IndexAPI({
+      ctx: this.#ctx,
       extId: this.extId,
-      prompts: extensionJson.getPrompts(this.extId),
-      ctx
-    })
+      prompts: this.getPrompts()
+    }, this.#appExtJson)
 
     log(`Running "${ this.extId }" Quasar App Extension...`)
     await script(api)
 
-    return api.__getHooks()
+    return api.__getHooks(this.#appExtJson)
   }
 
   #stripVersion (packageFullName) {
@@ -269,7 +285,11 @@ export class Extension {
       : packageFullName
   }
 
-  async #getPrompts () {
+  getPrompts () {
+    return this.#appExtJson.getPrompts(this.extId)
+  }
+
+  async #getScriptPrompts () {
     const questions = await this.#getScript('prompts')
 
     if (!questions) {
@@ -282,11 +302,13 @@ export class Extension {
     return prompts
   }
 
-  #installPackage () {
+  async #installPackage () {
+    const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.installPackage(this.packageFullName, { isDev: true })
   }
 
-  #uninstallPackage () {
+  async #uninstallPackage () {
+    const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.uninstallPackage(this.packageFullName)
   }
 
@@ -298,22 +320,22 @@ export class Extension {
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
   #getScriptFile (scriptName) {
-    let scriptFile = path.join(this.packagePath, `src/${ scriptName }.js`)
+    let scriptFile = join(this.packagePath, `src/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = path.join(this.packagePath, `dist/${ scriptName }.js`)
+    scriptFile = join(this.packagePath, `dist/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = path.join(this.packagePath, `src/${ scriptName }.ts`)
+    scriptFile = join(this.packagePath, `src/${ scriptName }.ts`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = path.join(this.packagePath, `dist/${ scriptName }.ts`)
+    scriptFile = join(this.packagePath, `dist/${ scriptName }.ts`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
@@ -348,27 +370,29 @@ export class Extension {
     log('Running App Extension install script...')
 
     const api = new InstallAPI({
+      ctx: this.#ctx,
       extId: this.extId,
       prompts
-    })
+    }, this.#appExtJson)
 
     await script(api)
 
-    const hooks = api.__getHooks()
+    const hooks = api.__getHooks(this.#appExtJson)
 
     if (hooks.renderFolders.length > 0) {
       for (const entry of hooks.renderFolders) {
-        await renderFolders(entry)
+        await renderFolders(entry, this.#ctx)
       }
     }
 
     if (hooks.renderFiles.length > 0) {
       for (const entry of hooks.renderFiles) {
-        await renderFile(entry)
+        await renderFile(entry, this.#ctx)
       }
     }
 
-    if (api.__needsNodeModulesUpdate) {
+    if (api.__getNodeModuleNeedsUpdate(this.#appExtJson) === true) {
+      const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
       nodePackager.install()
     }
 
@@ -385,12 +409,13 @@ export class Extension {
     log('Running App Extension uninstall script...')
 
     const api = new UninstallAPI({
+      ctx: this.#ctx,
       extId: this.extId,
       prompts
-    })
+    }, this.#appExtJson)
 
     await script(api)
 
-    return api.__getHooks()
+    return api.__getHooks(this.#appExtJson)
   }
 }

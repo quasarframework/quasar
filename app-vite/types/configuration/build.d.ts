@@ -115,11 +115,6 @@ interface QuasarStaticBuildConfiguration {
    */
   vueOptionsAPI?: boolean;
   /**
-   * Should we invalidate the Vite and ESLint cache on startup?
-   * @default false
-   */
-  rebuildCache?: boolean;
-  /**
    * Do you want to analyze the production bundles?
    * Generates and opens an html report.
    * @default false

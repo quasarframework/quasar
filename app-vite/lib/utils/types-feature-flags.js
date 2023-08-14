@@ -1,18 +1,8 @@
-import path from 'node:path'
-import fs from 'node:fs'
+import { join, dirname } from 'node:path'
+import { existsSync } from 'node:fs'
 import fse from 'fs-extra'
 
 import { log } from './logger.js'
-import appPaths from '../app-paths.js'
-
-function getStoreFlagPath (storeIndexPath) {
-  return path.join(path.parse(storeIndexPath).dir, 'store-flag.d.ts')
-}
-
-async function isInstalled (mode) {
-  const { isModeInstalled } = await import(`../modes/${ mode }/${ mode }-installation.js`)
-  return isModeInstalled()
-}
 
 export async function regenerateTypesFeatureFlags (quasarConf) {
   // Flags must be available even in pure JS codebases,
@@ -21,29 +11,35 @@ export async function regenerateTypesFeatureFlags (quasarConf) {
   // Flags files should be copied over, for every enabled mode,
   //    every time `quasar dev` and `quasar build` are run:
   //    this automatize the upgrade for existing codebases
-  for (const feature of [
-    'pwa',
-    'cordova',
-    'capacitor',
-    'ssr',
-    'store',
-    'bex'
-  ]) {
-    const [ isFeatureInstalled, sourceFlagPath, destFlagPath ] = feature === 'store'
-      ? [
-          quasarConf.store,
-          appPaths.resolve.cli('templates/store/store-flag.d.ts'),
-          appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
-        ]
-      : [
-          await isInstalled(feature),
-          appPaths.resolve.cli(`templates/${ feature }/${ feature }-flag.d.ts`),
-          appPaths.resolve[ feature ](`${ feature }-flag.d.ts`)
-        ]
+  const { appPaths, mode } = quasarConf.ctx
 
-    if (isFeatureInstalled && !fs.existsSync(destFlagPath)) {
-      fse.copySync(sourceFlagPath, destFlagPath)
-      log(`"${ feature }" feature flag was missing and has been regenerated`)
+  if (quasarConf.metaConf.hasStore === true) {
+    const destFlagPath = appPaths.resolve.app(
+      join(dirname(quasarConf.sourceFiles.store), 'store-flag.d.ts')
+    )
+
+    if (!existsSync(destFlagPath)) {
+      fse.copySync(
+        appPaths.resolve.cli('templates/store/store-flag.d.ts'),
+        destFlagPath
+      )
+      log('"store" feature flag was missing and has been regenerated')
+    }
+  }
+
+  for (const modeName of Object.keys(mode)) {
+    if (modeName === 'spa' || mode[ modeName ] !== true) {
+      continue
+    }
+
+    const destFlagPath = appPaths.resolve[ modeName ](`${ modeName }-flag.d.ts`)
+
+    if (!existsSync(destFlagPath)) {
+      fse.copySync(
+        appPaths.resolve.cli(`templates/${ modeName }/${ modeName }-flag.d.ts`),
+        destFlagPath
+      )
+      log(`"${ modeName }" feature flag was missing and has been regenerated`)
     }
   }
 }

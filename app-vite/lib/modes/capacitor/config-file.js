@@ -2,14 +2,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import fglob from 'fast-glob'
 
-import appPaths from '../../app-paths.js'
-import { appPkg } from '../../app-pkg.js'
 import { log, warn } from '../../utils/logger.js'
 import { ensureConsistency } from './ensure-consistency.js'
-import { capVersion } from './cap-cli.js'
 
 // necessary for Capacitor 4+
-import { nodePackager } from '../../utils/node-packager.js'
 import { getPackageJson } from '../../utils/get-package-json.js'
 
 // Capacitor 1 & 2
@@ -56,10 +52,15 @@ public class EnableHttpsSelfSigned {
 }
 
 export class CapacitorConfigFile {
+  #ctx
   #tamperedFiles = []
 
-  prepare (quasarConf, target) {
-    ensureConsistency()
+  async prepare (quasarConf, target) {
+    this.#ctx = quasarConf.ctx
+
+    const { appPaths, cacheProxy } = quasarConf.ctx
+
+    await ensureConsistency(this.#ctx)
 
     this.#updateCapPkg(quasarConf)
     log('Updated src-capacitor/package.json')
@@ -71,15 +72,18 @@ export class CapacitorConfigFile {
       fs.readFileSync(capJsonPath, 'utf-8')
     )
 
+    const { capVersion } = await cacheProxy.getModule('capCli')
+
     this.#tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
-      content: this.#updateCapJson(quasarConf, capJson),
+      content: this.#updateCapJson(quasarConf, capJson, capVersion),
       originalContent: JSON.stringify(capJson, null, 2)
     })
 
     this.#save()
-    this.#updateSSL(quasarConf, target)
+
+    await this.#updateSSL(quasarConf, target, capVersion)
   }
 
   reset () {
@@ -102,10 +106,10 @@ export class CapacitorConfigFile {
     })
   }
 
-  #updateCapJson (quasarConf, originalCapCfg) {
+  #updateCapJson (quasarConf, originalCapCfg, capVersion) {
     const capJson = { ...originalCapCfg }
 
-    capJson.appName = quasarConf.capacitor.appName || appPkg.productName || 'Quasar App'
+    capJson.appName = quasarConf.capacitor.appName || this.#ctx.pkg.appPkg.productName || 'Quasar App'
 
     if (capVersion < 5) {
       capJson.bundledWebRuntime = false
@@ -128,6 +132,11 @@ export class CapacitorConfigFile {
   }
 
   #updateCapPkg (cfg) {
+    const {
+      appPaths,
+      pkg: { appPkg }
+    } = this.#ctx
+
     const capPkgPath = appPaths.resolve.capacitor('package.json')
     const capPkg = JSON.parse(
       fs.readFileSync(capPkgPath, 'utf-8')
@@ -143,7 +152,8 @@ export class CapacitorConfigFile {
     fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
   }
 
-  #updateSSL (quasarConf, target) {
+  async #updateSSL (quasarConf, target, capVersion) {
+    const { appPaths, cacheProxy } = this.#ctx
     const add = quasarConf.ctx.dev ? quasarConf.devServer.https : false
 
     if (capVersion >= 4) {
@@ -157,6 +167,7 @@ export class CapacitorConfigFile {
       const fn = `${ add ? '' : 'un' }installPackage`
       const nameParam = add ? '@jcesarmobile/ssl-skip@^0.2.0' : '@jcesarmobile/ssl-skip'
 
+      const nodePackager = await cacheProxy.getModule('nodePackager')
       nodePackager[ fn ](nameParam, {
         cwd: appPaths.capacitorDir,
         displayName: 'Capacitor (DEVELOPMENT ONLY) SSL support'
@@ -170,11 +181,13 @@ export class CapacitorConfigFile {
       this.#handleSSLonIOS(add)
     }
     else {
-      this.#handleSSLonAndroid(add)
+      this.#handleSSLonAndroid(add, capVersion)
     }
   }
 
   #getIosCapacitorBridgeFile () {
+    const { appPaths } = this.#ctx
+
     // we need to try multiple files because
     // @capacitor/ios changed the location during its v2
     const fileList = [
@@ -267,7 +280,9 @@ export class CapacitorConfigFile {
     }
   }
 
-  #handleSSLonAndroid (add) {
+  #handleSSLonAndroid (add, capVersion) {
+    const { appPaths } = this.#ctx
+
     const capacitorSrcPath = appPaths.resolve.capacitor('android/app/src/main/java')
     let mainActivityPath = fglob.sync('**/MainActivity.java', { cwd: capacitorSrcPath, absolute: true })
 

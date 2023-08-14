@@ -1,8 +1,6 @@
 
 import { join } from 'node:path'
 
-import appPaths from '../../app-paths.js'
-import { appPkg } from '../../app-pkg.js'
 import { escapeRegexString } from '../../utils/escape-regex-string.js'
 import {
   createViteConfig, extendViteConfig,
@@ -13,7 +11,7 @@ import { quasarVitePluginPwaResources } from './vite-plugin.pwa-resources.js'
 
 export const quasarPwaConfig = {
   vite: async quasarConf => {
-    const cfg = await createViteConfig(quasarConf)
+    const cfg = await createViteConfig(quasarConf, { compileId: 'vite-pwa' })
 
     // also update ssr-config.js when changing here
     cfg.plugins.push(
@@ -24,8 +22,9 @@ export const quasarPwaConfig = {
   },
 
   // exported to ssr-config.js as well
-  workbox: quasarConf => {
+  workbox: async quasarConf => {
     const { workboxMode } = quasarConf.pwa
+    const { appPaths, pkg } = quasarConf.ctx
     const opts = {}
 
     if (quasarConf.ctx.dev === true) {
@@ -35,6 +34,8 @@ export const quasarPwaConfig = {
     }
 
     if (workboxMode === 'GenerateSW') {
+      const { appPkg } = pkg
+
       Object.assign(opts, {
         sourcemap: quasarConf.build.sourcemap !== false,
         mode: quasarConf.metaConf.debugging === true || quasarConf.build.minify === false ? 'development' : 'production',
@@ -88,11 +89,18 @@ export const quasarPwaConfig = {
         quasarConf.pwa.extendGenerateSWOptions(opts)
       }
 
+      if (
+        quasarConf.ctx.mode.ssr === true
+        && typeof quasarConf.ssr.pwaExtendGenerateSWOptions === 'function'
+      ) {
+        quasarConf.ssr.pwaExtendGenerateSWOptions(opts)
+      }
+
       opts.swDest = quasarConf.ctx.dev === true
-        ? appPaths.resolve.app(`.quasar/pwa/${ quasarConf.pwa.swFilename }`)
+        ? appPaths.resolve.entry(`service-worker/${ quasarConf.pwa.swFilename }`)
         : join(quasarConf.build.distDir, quasarConf.pwa.swFilename)
     }
-    else {
+    else { // else workboxMode is "InjectManifest"
       if (quasarConf.ctx.prod === true || quasarConf.build.ignorePublicFolder !== true) {
         Object.assign(opts, {
           globDirectory: quasarConf.ctx.dev === true
@@ -107,20 +115,16 @@ export const quasarPwaConfig = {
         quasarConf.pwa.extendInjectManifestOptions(opts)
       }
 
-      if (quasarConf.ctx.mode.ssr === true) {
-        if (workboxMode === 'GenerateSW') {
-          if (typeof quasarConf.ssr.pwaExtendGenerateSWOptions === 'function') {
-            quasarConf.ssr.pwaExtendGenerateSWOptions(opts)
-          }
-        }
-        else if (typeof quasarConf.ssr.pwaExtendInjectManifestOptions === 'function') {
-          quasarConf.ssr.pwaExtendInjectManifestOptions(opts)
-        }
+      if (
+        quasarConf.ctx.mode.ssr === true
+        && typeof quasarConf.ssr.pwaExtendInjectManifestOptions === 'function'
+      ) {
+        quasarConf.ssr.pwaExtendInjectManifestOptions(opts)
       }
 
-      opts.swSrc = appPaths.resolve.app('.quasar/pwa-sw/compiled-sw.js')
+      opts.swSrc = appPaths.resolve.entry('compiled-custom-sw.js')
       opts.swDest = quasarConf.ctx.dev === true
-        ? appPaths.resolve.app(`.quasar/pwa/${ quasarConf.pwa.swFilename }`)
+        ? appPaths.resolve.entry(`service-worker/${ quasarConf.pwa.swFilename }`)
         : join(quasarConf.build.distDir, quasarConf.pwa.swFilename)
     }
 
@@ -129,7 +133,8 @@ export const quasarPwaConfig = {
 
   // exported to ssr-config.js as well
   customSw: async quasarConf => {
-    const cfg = await createBrowserEsbuildConfig(quasarConf, { cacheSuffix: 'inject-manifest-custom-sw' })
+    const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: 'browser-custom-sw' })
+    const { appPaths } = quasarConf.ctx
 
     cfg.define[ 'process.env.PWA_FALLBACK_HTML' ] = JSON.stringify(
       quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
@@ -142,9 +147,9 @@ export const quasarPwaConfig = {
     )
 
     cfg.entryPoints = [ quasarConf.sourceFiles.pwaServiceWorker ]
-    cfg.outfile = appPaths.resolve.app('.quasar/pwa-sw/compiled-sw.js')
+    cfg.outfile = appPaths.resolve.entry('compiled-custom-sw.js')
 
-    return extendEsbuildConfig(cfg, quasarConf.pwa, 'CustomSW')
+    return extendEsbuildConfig(cfg, quasarConf.pwa, quasarConf.ctx, 'CustomSW')
   }
 }
 

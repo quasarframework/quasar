@@ -4,14 +4,15 @@ import { join, isAbsolute } from 'node:path'
 import { parse as dotEnvParse } from 'dotenv'
 import { expand as dotEnvExpand } from 'dotenv-expand'
 
-import appPaths from '../app-paths.js'
 let cachedFileEnv = null
+/** TODO instance instead of fn so we can cache it */
 
 /**
  * Get the raw env definitions from the host
  * project env files.
  */
 export function readFileEnv ({
+  appPaths,
   quasarMode,
   buildType,
   envFolder = appPaths.appDir,

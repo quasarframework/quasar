@@ -1,6 +1,6 @@
 import { green, gray, underline } from 'kolorist'
 
-import { quasarPkg, cliPkg, vitePkg } from '../app-pkg.js'
+import { cliPkg } from '../utils/cli-runtime.js'
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
@@ -24,7 +24,7 @@ export function getCompilationTarget (target) {
   )
 }
 
-export function displayBanner (argv, cmd, details = {}) {
+export function displayBanner (argv, ctx, cmd, details = {}) {
   let banner = ''
 
   if (details.buildOutputFolder) {
@@ -33,9 +33,9 @@ export function displayBanner (argv, cmd, details = {}) {
 
   banner += `
  ${ cmd === 'dev' ? 'Dev mode...............' : 'Build mode.............' } ${ green(argv.mode) }
- Pkg quasar............. ${ green('v' + quasarPkg.version) }
+ Pkg quasar............. ${ green('v' + ctx.pkg.quasarPkg.version) }
  Pkg @quasar/app-vite... ${ green('v' + cliPkg.version) }
- Pkg vite............... ${ green('v' + vitePkg.version) }
+ Pkg vite............... ${ green('v' + ctx.pkg.vitePkg.version) }
  Debugging.............. ${ cmd === 'dev' || argv.debug ? green('enabled') : gray('no') }`
 
   if (cmd === 'build') {

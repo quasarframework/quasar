@@ -1,13 +1,14 @@
 
 import { static as serveStatic } from 'express'
 
-import appPaths from '../../app-paths.js'
 import { createHeadTags } from './utils.js'
 
 export function quasarVitePluginPwaResources (quasarConf) {
   let pwaManifest = null
   let headTags
   let manifestContent
+
+  const serviceWorkerDir = quasarConf.ctx.appPaths.resolve.entry('service-worker')
 
   function updateCache () {
     if (quasarConf.htmlVariables.pwaManifest === pwaManifest) {
@@ -46,7 +47,7 @@ export function quasarVitePluginPwaResources (quasarConf) {
 
       server.middlewares.use(
         quasarConf.build.publicPath,
-        serveStatic(appPaths.resolve.app('.quasar/pwa'), { maxAge: 0 })
+        serveStatic(serviceWorkerDir, { maxAge: 0 })
       )
     }
   }

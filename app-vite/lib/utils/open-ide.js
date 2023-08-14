@@ -3,7 +3,6 @@ import path from 'node:path'
 import open from 'open'
 import { execSync } from 'child_process'
 
-import appPaths from '../app-paths.js'
 import { warn, fatal } from './logger.js'
 
 function findXcodeWorkspace (folder) {
@@ -18,7 +17,7 @@ function findXcodeWorkspace (folder) {
   }
 }
 
-function runMacOS (mode, target) {
+function runMacOS (mode, target, appPaths) {
   if (target === 'ios') {
     const folder = mode === 'cordova'
       ? appPaths.resolve.cordova('platforms/ios')
@@ -61,7 +60,7 @@ function getLinuxPath (bin) {
   }
 }
 
-function runLinux (mode, bin, target) {
+function runLinux (mode, bin, target, appPaths) {
   if (target === 'android') {
     const studioPath = getLinuxPath(bin)
     if (studioPath) {
@@ -114,7 +113,7 @@ function getWindowsPath (bin) {
   }
 }
 
-function runWindows (mode, bin, target) {
+function runWindows (mode, bin, target, appPaths) {
   if (target === 'android') {
     const studioPath = getWindowsPath(bin)
     if (studioPath) {
@@ -144,7 +143,7 @@ function runWindows (mode, bin, target) {
   process.exit(1)
 }
 
-export function openIDE (mode, bin, target, dev) {
+export function openIDE ({ mode, bin, target, dev, appPaths }) {
   console.log()
   console.log(' ⚠️  ')
   console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
@@ -160,7 +159,7 @@ export function openIDE (mode, bin, target, dev) {
 
   if (target === 'android') {
     console.log(' ⚠️  ')
-    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps as Android Studio will suggest.')
+    console.log(' ⚠️  DO NOT upgrade Gradle or any other deps if Android Studio will suggest.')
     console.log(' ⚠️  If you encounter any IDE errors then click on File > Invalidate caches and restart.')
   }
 
@@ -169,11 +168,11 @@ export function openIDE (mode, bin, target, dev) {
 
   switch (process.platform) {
     case 'darwin':
-      return runMacOS(mode, target)
+      return runMacOS(mode, target, appPaths)
     case 'linux':
-      return runLinux(mode, bin, target)
+      return runLinux(mode, bin, target, appPaths)
     case 'win32':
-      return runWindows(mode, bin, target)
+      return runWindows(mode, bin, target, appPaths)
     default:
       fatal('Unsupported host OS for opening the IDE')
   }

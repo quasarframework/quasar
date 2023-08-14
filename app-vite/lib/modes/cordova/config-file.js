@@ -1,12 +1,8 @@
 import fs from 'node:fs'
 import et from 'elementtree'
 
-import appPaths from '../../app-paths.js'
-import { appPkg } from '../../app-pkg.js'
 import { log, warn } from '../../utils/logger.js'
 import { ensureConsistency } from './ensure-consistency.js'
-
-const filePath = appPaths.resolve.cordova('config.xml')
 
 function setFields (root, cfg) {
   Object.keys(cfg).forEach(key => {
@@ -39,15 +35,24 @@ function setFields (root, cfg) {
 export class CordovaConfigFile {
   #appURL
   #tamperedFiles
+  #filePath
+  #ctx
 
   prepare (quasarConf) {
-    ensureConsistency()
+    const { ctx } = quasarConf
+    const { appPaths } = ctx
 
-    const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
+    ensureConsistency({ appPaths })
+
+    this.#ctx = ctx
+    this.#filePath = appPaths.resolve.cordova('config.xml')
+
+    const doc = et.parse(fs.readFileSync(this.#filePath, 'utf-8'))
     this.#appURL = quasarConf.metaConf.APP_URL
     this.#tamperedFiles = []
 
     const root = doc.getroot()
+    const { appPkg } = ctx.pkg
 
     root.set('version', quasarConf.cordova.version || appPkg.version)
 
@@ -85,7 +90,7 @@ export class CordovaConfigFile {
       return
     }
 
-    const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
+    const doc = et.parse(fs.readFileSync(this.#filePath, 'utf-8'))
     const root = doc.getroot()
 
     root.find('content').set('src', 'index.html')
@@ -106,7 +111,7 @@ export class CordovaConfigFile {
 
   #save (doc) {
     const content = doc.write({ indent: 4 })
-    fs.writeFileSync(filePath, content, 'utf8')
+    fs.writeFileSync(this.#filePath, content, 'utf8')
     log('Updated Cordova config.xml')
 
     this.#tamperedFiles.forEach(file => {
@@ -116,7 +121,7 @@ export class CordovaConfigFile {
   }
 
   #prepareAppDelegate (node) {
-    const appDelegatePath = appPaths.resolve.cordova(
+    const appDelegatePath = this.#ctx.appPaths.resolve.cordova(
       `platforms/ios/${ node.text }/Classes/AppDelegate.m`
     )
 
@@ -162,7 +167,7 @@ return YES;
       'cordova-plugin-ionic-webview',
       'cordova-plugin-wkwebview-engine'
     ].forEach(plugin => {
-      const wkWebViewEnginePath = appPaths.resolve.cordova(
+      const wkWebViewEnginePath = this.#ctx.appPaths.resolve.cordova(
         `platforms/ios/${ node.text }/Plugins/${ plugin }/CDVWKWebViewEngine.m`
       )
 

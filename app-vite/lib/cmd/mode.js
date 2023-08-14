@@ -43,6 +43,9 @@ if (argv._.length !== 0 && argv._.length !== 2) {
 
 import { green, gray } from 'kolorist'
 
+import { getCtx } from '../utils/get-ctx.js'
+const ctx = getCtx()
+
 async function run () {
   const [ action, mode ] = argv._
 
@@ -60,7 +63,7 @@ async function run () {
   const { isModeInstalled, addMode, removeMode } = await import(`../modes/${ mode }/${ mode }-installation.js`)
   const actionMap = { add: addMode, remove: removeMode }
 
-  if (action === 'remove' && argv.yes !== true && isModeInstalled()) {
+  if (action === 'remove' && argv.yes !== true && isModeInstalled(ctx.appPaths)) {
     console.log()
 
     const inquirer = await import('inquirer')
@@ -79,7 +82,7 @@ async function run () {
     }
   }
 
-  await actionMap[ action ]()
+  await actionMap[ action ](ctx)
 }
 
 async function displayModes () {
@@ -90,7 +93,7 @@ async function displayModes () {
     const { isModeInstalled } = await import(`../modes/${ mode }/${ mode }-installation.js`)
     info.push([
       `Mode ${ mode.toUpperCase() }`,
-      isModeInstalled() ? green('yes') : gray('no')
+      isModeInstalled(ctx.appPaths) ? green('yes') : gray('no')
     ])
   }
 

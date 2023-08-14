@@ -14,10 +14,10 @@ export class AppDevserver extends AppTool {
   #runQueue = Promise.resolve()
   #runId = 0
 
-  constructor ({ argv, ctx }) {
-    super(argv)
+  constructor (opts) {
+    super(opts)
 
-    this.#entryFiles = new EntryFilesGenerator(ctx)
+    this.#entryFiles = new EntryFilesGenerator(this.ctx)
 
     this.registerDiff('entryFiles', quasarConf => ([
       quasarConf.boot,

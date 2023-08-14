@@ -75,10 +75,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-import { ensureArgv } from '../utils/ensure-argv.js'
+const { ensureArgv } = await import('../utils/ensure-argv.js')
 ensureArgv(argv, 'dev')
 
-import { readFileSync } from 'node:fs'
+const { readFileSync } = await import('node:fs')
 
 console.log(
   readFileSync(
@@ -87,11 +87,13 @@ console.log(
   )
 )
 
-async function startVueDevtools () {
+async function startVueDevtools (ctx) {
+  const { appDir, cacheProxy } = ctx
+
   const { spawn } = await import('../utils/spawn.js')
   const { getPackagePath } = await import('../utils/get-package-path.js')
 
-  let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
+  let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
 
   function run () {
     log('Booting up remote Vue Devtools...')
@@ -103,25 +105,20 @@ async function startVueDevtools () {
     return
   }
 
-  const { nodePackager } = await import('../utils/node-packager.js')
-
+  const nodePackager = await cacheProxy.getModule('nodePackager')
   nodePackager.installPackage('@vue/devtools', { isDevDependency: true })
 
   // a small delay is a must, otherwise require.resolve
   // after a yarn/npm install will fail
   return new Promise(resolve => {
-    vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
+    vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
     run()
     resolve()
   })
 }
 
-// install mode if it's missing
-const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
-await addMode(true, argv.target)
-
-import { getQuasarCtx } from '../utils/get-quasar-ctx.js'
-const ctx = getQuasarCtx({
+const { getCtx } = await import('../utils/get-ctx.js')
+const ctx = getCtx({
   mode: argv.mode,
   target: argv.target,
   emulator: argv.emulator,
@@ -129,11 +126,11 @@ const ctx = getQuasarCtx({
   vueDevtools: argv.devtools
 })
 
-// register app extensions
-import { extensionRunner } from '../app-extension/extensions-runner.js'
-await extensionRunner.registerExtensions(ctx)
+// install mode if it's missing
+const { addMode } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
+await addMode({ ctx, silent: true, target: argv.target })
 
-import { QuasarConfigFile } from '../quasar-config-file.js'
+const { QuasarConfigFile } = await import('../quasar-config-file.js')
 const quasarConfFile = new QuasarConfigFile({
   ctx,
   port: argv.port,
@@ -152,18 +149,18 @@ import { regenerateTypesFeatureFlags } from '../utils/types-feature-flags.js'
 await regenerateTypesFeatureFlags(quasarConf)
 
 if (quasarConf.metaConf.vueDevtools !== false) {
-  await startVueDevtools()
+  await startVueDevtools(ctx)
 }
 
 const { QuasarModeDevserver } = await import(`../modes/${ argv.mode }/${ argv.mode }-devserver.js`)
-const devServer = new QuasarModeDevserver({ argv, ctx, quasarConf })
+const devServer = new QuasarModeDevserver({ argv, ctx })
 
 if (typeof quasarConf.build.beforeDev === 'function') {
   await quasarConf.build.beforeDev({ quasarConf })
 }
 
 // run possible beforeDev hooks
-await extensionRunner.runHook('beforeDev', async hook => {
+await ctx.appExt.runAppExtensionHook('beforeDev', async hook => {
   log(`Extension(${ hook.api.extId }): Running beforeDev hook...`)
   await hook.fn(hook.api, { quasarConf })
 })
@@ -174,7 +171,7 @@ devServer.run(quasarConf).then(async () => {
   }
 
   // run possible afterDev hooks
-  await extensionRunner.runHook('afterDev', async hook => {
+  await ctx.appExt.runAppExtensionHook('afterDev', async hook => {
     log(`Extension(${ hook.api.extId }): Running afterDev hook...`)
     await hook.fn(hook.api, { quasarConf })
   })

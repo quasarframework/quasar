@@ -4,21 +4,19 @@ import fse from 'fs-extra'
 import { AppBuilder } from '../../app-builder.js'
 import { quasarCapacitorConfig } from './capacitor-config.js'
 
-import appPaths from '../../app-paths.js'
 import { log, warn, fatal } from '../../utils/logger.js'
 import { CapacitorConfigFile } from './config-file.js'
 import { spawn, spawnSync } from '../../utils/spawn.js'
 import { openIDE } from '../../utils/open-ide.js'
 import { onShutdown } from '../../utils/on-shutdown.js'
 import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
-import { capBin } from './cap-cli.js'
 
 export class QuasarModeBuilder extends AppBuilder {
   #capacitorConfigFile = new CapacitorConfigFile()
   #packagedDir
 
   async build () {
-    this.#packagedDir = join(this.quasarConf.build.distDir, this.quasarConf.ctx.targetName)
+    this.#packagedDir = join(this.quasarConf.build.distDir, this.ctx.targetName)
 
     await this.#buildFiles()
     await this.#packageFiles()
@@ -32,22 +30,34 @@ export class QuasarModeBuilder extends AppBuilder {
 
   async #packageFiles () {
     const target = this.ctx.targetName
+    const { appPaths, cacheProxy } = this.ctx
 
     if (target === 'android') {
-      fixAndroidCleartext('capacitor')
+      fixAndroidCleartext(appPaths, 'capacitor')
     }
 
     onShutdown(() => {
       this.#cleanup()
     })
 
-    this.#capacitorConfigFile.prepare(this.quasarConf, target)
+    await this.#capacitorConfigFile.prepare(this.quasarConf, target)
 
-    await this.#runCapacitorCommand(this.quasarConf.capacitor.capacitorCliPreparationParams)
+    const { capBin } = await cacheProxy.getModule('capCli')
+
+    await this.#runCapacitorCommand(
+      this.quasarConf.capacitor.capacitorCliPreparationParams,
+      capBin
+    )
 
     if (this.argv[ 'skip-pkg' ] !== true) {
       if (this.argv.ide === true) {
-        await openIDE('capacitor', this.quasarConf.bin, target)
+        await openIDE({
+          mode: 'capacitor',
+          bin: this.quasarConf.bin,
+          target,
+          appPaths
+        })
+
         process.exit(0)
       }
 
@@ -64,12 +74,12 @@ export class QuasarModeBuilder extends AppBuilder {
     this.#capacitorConfigFile.reset()
   }
 
-  #runCapacitorCommand (args) {
+  #runCapacitorCommand (args, capBin) {
     return new Promise(resolve => {
       spawn(
         capBin,
         args,
-        { cwd: appPaths.capacitorDir },
+        { cwd: this.ctx.appPaths.capacitorDir },
         code => {
           this.#cleanup()
 
@@ -92,7 +102,7 @@ export class QuasarModeBuilder extends AppBuilder {
     await spawnSync(
       'xcrun',
       args.split(' ').concat([ this.#packagedDir ]).concat(this.argv._),
-      { cwd: appPaths.resolve.capacitor('ios/App') },
+      { cwd: this.ctx.appPaths.resolve.capacitor('ios/App') },
       () => {
         console.log()
         console.log(' ⚠️  xcodebuild command failed!')
@@ -106,7 +116,7 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #buildAndroid () {
-    const buildPath = appPaths.resolve.capacitor(
+    const buildPath = this.ctx.appPaths.resolve.capacitor(
       'android/app/build/outputs'
     )
 
@@ -118,7 +128,7 @@ export class QuasarModeBuilder extends AppBuilder {
     await spawnSync(
       `./gradlew${ process.platform === 'win32' ? '.bat' : '' }`,
       [ `assemble${ this.ctx.debug ? 'Debug' : 'Release' }` ].concat(this.argv._),
-      { cwd: appPaths.resolve.capacitor('android') },
+      { cwd: this.ctx.appPaths.resolve.capacitor('android') },
       () => {
         warn()
         warn('Gradle build failed!')

@@ -1,40 +1,18 @@
 import semver from 'semver'
 import { merge } from 'webpack-merge'
 
-import { fatal } from '../utils/logger.js'
-import { getPackageJson } from '../utils/get-package-json.js'
-import { getCallerPath } from '../utils/get-caller-path.js'
-import { extensionJson } from './extension-json.js'
+import { fatal } from '../../utils/logger.js'
+import { getPackageJson } from '../../utils/get-package-json.js'
+import { getCallerPath } from '../../utils/get-caller-path.js'
 import { BaseAPI } from './BaseAPI.js'
 
 /**
  * API for extension's /index.js script
  */
 export class IndexAPI extends BaseAPI {
-  ctx
-
-  __hooks = {
-    extendQuasarConf: [],
-
-    extendViteConf: [],
-    extendSSRWebserverConf: [],
-    extendElectronMainConf: [],
-    extendElectronPreloadConf: [],
-    extendPWACustomSWConf: [],
-    extendBexScriptsConf: [],
-
-    beforeDev: [],
-    afterDev: [],
-    beforeBuild: [],
-    afterBuild: [],
-    onPublish: [],
-    commands: {},
-    describeApi: {}
-  }
-
-  constructor ({ ctx, ...opts }) {
+  constructor (opts, appExtJson) {
     super(opts)
-    this.ctx = ctx
+    this.#appExtJson = appExtJson
   }
 
   /**
@@ -44,7 +22,7 @@ export class IndexAPI extends BaseAPI {
    * @return {object} cfg
    */
   getPersistentConf () {
-    return extensionJson.getInternal(this.extId)
+    return this.#appExtJson.getInternal(this.extId)
   }
 
   /**
@@ -54,7 +32,7 @@ export class IndexAPI extends BaseAPI {
    * @param {object} cfg
    */
   setPersistentConf (cfg) {
-    extensionJson.setInternal(this.extId, cfg || {})
+    this.#appExtJson.setInternal(this.extId, cfg || {})
   }
 
   /**
@@ -84,7 +62,7 @@ export class IndexAPI extends BaseAPI {
    * @param {string} semverCondition
    */
   compatibleWith (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
       fatal(`Extension(${ this.extId }): Dependency not found - ${ packageName }. Please install it.`)
@@ -107,7 +85,7 @@ export class IndexAPI extends BaseAPI {
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {
-    const json = getPackageJson(packageName)
+    const json = getPackageJson(packageName, this.appDir)
 
     if (json === void 0) {
       return false
@@ -126,7 +104,7 @@ export class IndexAPI extends BaseAPI {
    * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
-    return extensionJson.has(extId)
+    return this.#appExtJson.has(extId)
   }
 
   /**
@@ -136,7 +114,7 @@ export class IndexAPI extends BaseAPI {
    * @return {string|undefined} version of app's package
    */
   getPackageVersion (packageName) {
-    const json = getPackageJson(packageName)
+    const json = getPackageJson(packageName, this.appDir)
     return json !== void 0
       ? json.version
       : void 0
@@ -149,7 +127,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, ctx: Object) => undefined
    */
   extendQuasarConf (fn) {
-    this.__addHook('extendQuasarConf', fn)
+    this.#addHook('extendQuasarConf', fn)
   }
 
   /**
@@ -159,7 +137,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, invoke: Object {isClient, isServer}, api) => undefined
    */
   extendViteConf (fn) {
-    this.__addHook('extendViteConf', fn)
+    this.#addHook('extendViteConf', fn)
   }
 
   /**
@@ -169,7 +147,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, api) => undefined
    */
   extendSSRWebserverConf (fn) {
-    this.__addHook('extendSSRWebserverConf', fn)
+    this.#addHook('extendSSRWebserverConf', fn)
   }
 
   /**
@@ -179,7 +157,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, api) => undefined
    */
   extendElectronMainConf (fn) {
-    this.__addHook('extendElectronMainConf', fn)
+    this.#addHook('extendElectronMainConf', fn)
   }
 
   /**
@@ -189,7 +167,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, api) => undefined
    */
   extendElectronPreloadConf (fn) {
-    this.__addHook('extendElectronPreloadConf', fn)
+    this.#addHook('extendElectronPreloadConf', fn)
   }
 
   /**
@@ -200,7 +178,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, api) => undefined
    */
   extendPWACustomSWConf (fn) {
-    this.__addHook('extendPWACustomSWConf', fn)
+    this.#addHook('extendPWACustomSWConf', fn)
   }
 
   /**
@@ -210,7 +188,7 @@ export class IndexAPI extends BaseAPI {
    *   (cfg: Object, api) => undefined
    */
   extendBexScriptsConf (fn) {
-    this.__addHook('extendBexScriptsConf', fn)
+    this.#addHook('extendBexScriptsConf', fn)
   }
 
   /**
@@ -222,7 +200,7 @@ export class IndexAPI extends BaseAPI {
    *   ({ args: [ string, ... ], params: {object} }) => ?Promise
    */
   registerCommand (commandName, fn) {
-    this.__hooks.commands[ commandName ] = fn
+    this.#hooks.commands[ commandName ] = fn
   }
 
   /**
@@ -235,7 +213,7 @@ export class IndexAPI extends BaseAPI {
   registerDescribeApi (name, relativePath) {
     const callerPath = getCallerPath()
 
-    this.__hooks.describeApi[ name ] = {
+    this.#hooks.describeApi[ name ] = {
       callerPath,
       relativePath
     }
@@ -248,7 +226,7 @@ export class IndexAPI extends BaseAPI {
    *   (api, { quasarConf }) => ?Promise
    */
   beforeDev (fn) {
-    this.__addHook('beforeDev', fn)
+    this.#addHook('beforeDev', fn)
   }
 
   /**
@@ -260,7 +238,7 @@ export class IndexAPI extends BaseAPI {
    *   (api, { quasarConf }) => ?Promise
    */
   afterDev (fn) {
-    this.__addHook('afterDev', fn)
+    this.#addHook('afterDev', fn)
   }
 
   /**
@@ -271,7 +249,7 @@ export class IndexAPI extends BaseAPI {
    *   (api, { quasarConf }) => ?Promise
    */
   beforeBuild (fn) {
-    this.__addHook('beforeBuild', fn)
+    this.#addHook('beforeBuild', fn)
   }
 
   /**
@@ -283,7 +261,7 @@ export class IndexAPI extends BaseAPI {
    *   (api, { quasarConf }) => ?Promise
    */
   afterBuild (fn) {
-    this.__addHook('afterBuild', fn)
+    this.#addHook('afterBuild', fn)
   }
 
   /**
@@ -298,6 +276,42 @@ export class IndexAPI extends BaseAPI {
    *      * distDir - folder where distributables were built
    */
   onPublish (fn) {
-    this.__addHook('onPublish', fn)
+    this.#addHook('onPublish', fn)
+  }
+
+  /**
+   * Private stuff; to NOT be used in devland
+   */
+
+  #appExtJson
+
+  #hooks = {
+    extendQuasarConf: [],
+
+    extendViteConf: [],
+    extendSSRWebserverConf: [],
+    extendElectronMainConf: [],
+    extendElectronPreloadConf: [],
+    extendPWACustomSWConf: [],
+    extendBexScriptsConf: [],
+
+    beforeDev: [],
+    afterDev: [],
+    beforeBuild: [],
+    afterBuild: [],
+    onPublish: [],
+    commands: {},
+    describeApi: {}
+  }
+
+  __getHooks (appExtJson) {
+    // protect against external access
+    if (appExtJson === this.#appExtJson) {
+      return this.#hooks
+    }
+  }
+
+  #addHook (name, fn) {
+    this.#hooks[ name ].push({ fn, api: this })
   }
 }

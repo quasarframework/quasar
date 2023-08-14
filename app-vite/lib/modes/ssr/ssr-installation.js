@@ -2,16 +2,17 @@
 import fs from 'node:fs'
 import fse from 'fs-extra'
 
-import appPaths from '../../app-paths.js'
 import { log, warn } from '../../utils/logger.js'
-import { hasTypescript } from '../../utils/has-typescript.js'
 
-export function isModeInstalled () {
+export function isModeInstalled (appPaths) {
   return fs.existsSync(appPaths.ssrDir)
 }
 
-export function addMode (silent) {
-  if (isModeInstalled()) {
+export async function addMode ({
+  ctx: { appPaths, cacheProxy },
+  silent
+}) {
+  if (isModeInstalled(appPaths)) {
     if (silent !== true) {
       warn('SSR support detected already. Aborting.')
     }
@@ -19,7 +20,7 @@ export function addMode (silent) {
   }
 
   log('Creating SSR source folder...')
-
+  const hasTypescript = await cacheProxy.getModule('hasTypescript')
   const format = hasTypescript ? 'ts' : 'default'
   fse.copySync(
     appPaths.resolve.cli(`templates/ssr/${ format }`),
@@ -34,8 +35,10 @@ export function addMode (silent) {
   log('SSR support was added')
 }
 
-export function removeMode () {
-  if (!isModeInstalled()) {
+export function removeMode ({
+  ctx: { appPaths }
+}) {
+  if (!isModeInstalled(appPaths)) {
     warn('No SSR support detected. Aborting.')
     return
   }

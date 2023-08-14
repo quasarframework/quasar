@@ -9,9 +9,9 @@
 
 /* global chrome */
 
-import Bridge from './bridge'
-import { listenForWindowEvents } from './window-event-listener'
-import runDevlandContentScript from '../../src-bex/__NAME__'
+import Bridge from './bex-bridge.js'
+import { listenForWindowEvents } from './bex-window-event-listener.js'
+import runDevlandContentScript from 'app/src-bex/__NAME__'
 
 const port = chrome.runtime.connect({
   name: 'contentScript'

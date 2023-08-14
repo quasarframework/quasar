@@ -7,9 +7,9 @@
  * src-bex/js/dom-hooks.js which is injected into the web page and has a communication bridge
  **/
 
-import Bridge from './bridge'
-import { listenForWindowEvents } from './window-event-listener'
-import runDevlandDom from '../../src-bex/dom'
+import Bridge from './bex-bridge.js'
+import { listenForWindowEvents } from './bex-window-event-listener.js'
+import runDevlandDom from 'app/src-bex/dom'
 
 let bridge = new Bridge({
   listen (_fn) { },

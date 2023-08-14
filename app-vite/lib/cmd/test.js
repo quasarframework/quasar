@@ -41,10 +41,12 @@ function getArgv (argv) {
   }
 }
 
-import { Extension } from '../app-extension/Extension.js'
-const extension = new Extension('@quasar/testing')
+import { getCtx } from '../utils/get-ctx.js'
+const { appExt } = getCtx()
 
-const hooks = await extension.run()
+const ext = appExt.getInstance('@quasar/testing')
+
+const hooks = await ext.run()
 const command = hooks.commands[ argv.cmd ]
 
 const list = () => {

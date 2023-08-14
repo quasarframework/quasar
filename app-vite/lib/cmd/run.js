@@ -44,10 +44,12 @@ function getArgv (argv) {
   }
 }
 
-import { Extension } from '../app-extension/Extension.js'
-const extension = new Extension(extId)
+import { getCtx } from '../utils/get-ctx.js'
+const { appExt } = getCtx()
 
-const hooks = await extension.run({})
+const ext = appExt.getInstance(extId)
+
+const hooks = await ext.run()
 
 const list = () => {
   if (Object.keys(hooks.commands).length === 0) {

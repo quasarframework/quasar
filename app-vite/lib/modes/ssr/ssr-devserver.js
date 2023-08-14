@@ -1,31 +1,18 @@
 import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { join, relative } from 'node:path'
 import { createServer } from 'vite'
 import chokidar from 'chokidar'
 import debounce from 'lodash/debounce.js'
 import serialize from 'serialize-javascript'
 
-import appPaths from '../../app-paths.js'
 import { AppDevserver } from '../../app-devserver.js'
 import { getPackage } from '../../utils/get-package.js'
 import { openBrowser } from '../../utils/open-browser.js'
-import { quasarSsrConfig } from './ssr-config.js'
 import { log, warn, info, dot, progress } from '../../utils/logger.js'
 import { entryPointMarkup, getDevSsrTemplateFn } from '../../utils/html-template.js'
 
-const { renderToString } = await getPackage('vue/server-renderer')
-
-const rootFolder = appPaths.appDir
-const publicFolder = appPaths.resolve.app('public')
-const templatePath = appPaths.resolve.app('index.html')
-const serverFile = appPaths.resolve.app('.quasar/ssr/compiled-dev-webserver.mjs')
-const serverEntryFile = appPaths.resolve.app('.quasar/server-entry.mjs')
-
+import { quasarSsrConfig } from './ssr-config.js'
 import { injectPwaManifest, buildPwaServiceWorker } from '../pwa/utils.js'
-
-function resolvePublicFolder () {
-  return join(publicFolder, ...arguments)
-}
 
 const doubleSlashRE = /\/\//g
 const autoRemove = 'document.currentScript.remove()'
@@ -43,7 +30,7 @@ function renderError ({ err, req, res }) {
   renderSSRError({ err, req, res })
 }
 
-async function warmupServer (viteClient, viteServer) {
+async function warmupServer ({ viteClient, viteServer, pathMap }) {
   const done = progress('Warming up...')
 
   if (renderSSRError === void 0) {
@@ -52,8 +39,8 @@ async function warmupServer (viteClient, viteServer) {
   }
 
   try {
-    await viteServer.ssrLoadModule(serverEntryFile)
-    await viteClient.transformRequest('.quasar/client-entry.js')
+    await viteServer.ssrLoadModule(pathMap.serverEntryFile)
+    await viteClient.transformRequest(pathMap.clientEntryFile)
   }
   catch (err) {
     warn('Warmup failed!', 'FAIL')
@@ -93,8 +80,26 @@ export class QuasarModeDevserver extends AppDevserver {
   #pwaManifestWatcher
   #pwaServiceWorkerWatcher
 
+  #pathMap = {}
+  #vueRenderToString = null
+
   constructor (opts) {
     super(opts)
+
+    const { appPaths } = this.ctx
+
+    const publicFolder = appPaths.resolve.app('public')
+    this.#pathMap = {
+      rootFolder: appPaths.appDir,
+      publicFolder,
+      templatePath: appPaths.resolve.app('index.html'),
+      serverFile: appPaths.resolve.entry('compiled-dev-webserver.mjs'),
+      serverEntryFile: appPaths.resolve.entry('server-entry.mjs'),
+      clientEntryFile: relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/'),
+      resolvePublicFolder () {
+        return join(publicFolder, ...arguments)
+      }
+    }
 
     this.registerDiff('webserver', quasarConf => [
       quasarConf.eslint,
@@ -200,16 +205,21 @@ export class QuasarModeDevserver extends AppDevserver {
 
     let renderTemplate
 
-    function updateTemplate () {
+    const updateTemplate = () => {
       renderTemplate = getDevSsrTemplateFn(
-        readFileSync(templatePath, 'utf-8'),
+        readFileSync(this.#pathMap.templatePath, 'utf-8'),
         quasarConf
       )
     }
 
     updateTemplate()
 
-    this.#htmlWatcher = chokidar.watch(templatePath).on('change', updateTemplate)
+    this.#htmlWatcher = chokidar.watch(this.#pathMap.templatePath).on('change', updateTemplate)
+
+    if (this.#vueRenderToString === null) {
+      const { renderToString } = await getPackage('vue/server-renderer', quasarConf.ctx.appPaths.appDir)
+      this.#vueRenderToString = renderToString
+    }
 
     this.#appOptions.render = async (ssrContext) => {
       const startTime = Date.now()
@@ -221,10 +231,10 @@ export class QuasarModeDevserver extends AppDevserver {
       })
 
       try {
-        const renderApp = await viteServer.ssrLoadModule(serverEntryFile)
+        const renderApp = await viteServer.ssrLoadModule(this.#pathMap.serverEntryFile)
 
         const app = await renderApp.default(ssrContext)
-        const runtimePageContent = await renderToString(app, ssrContext)
+        const runtimePageContent = await this.#vueRenderToString(app, ssrContext)
 
         onRenderedList.forEach(fn => { fn() })
 
@@ -254,7 +264,7 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     }
 
-    await warmupServer(viteClient, viteServer)
+    await warmupServer({ viteClient, viteServer, pathMap: this.#pathMap })
 
     await this.#bootWebserver(quasarConf)
 
@@ -270,20 +280,21 @@ export class QuasarModeDevserver extends AppDevserver {
   async #bootWebserver (quasarConf) {
     const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
 
-    const { create, listen, close, injectMiddlewares, serveStaticContent } = await import(serverFile + '?t=' + Date.now())
+    const { create, listen, close, injectMiddlewares, serveStaticContent } = await import(this.#pathMap.serverFile + '?t=' + Date.now())
     const { publicPath } = this.#appOptions
+    const { resolvePublicFolder } = this.#pathMap
 
     const middlewareParams = {
       port: this.#appOptions.port,
       resolve: {
         urlPath: this.#appOptions.resolveUrlPath,
-        root () { return join(rootFolder, ...arguments) },
+        root () { return join(this.#pathMap.rootFolder, ...arguments) },
         public: resolvePublicFolder
       },
       publicPath,
       folders: {
-        root: rootFolder,
-        public: publicFolder
+        root: this.#pathMap.rootFolder,
+        public: this.#pathMap.publicFolder
       },
       render: this.#appOptions.render,
       serve: {
@@ -421,12 +432,12 @@ export class QuasarModeDevserver extends AppDevserver {
     if (quasarConf.pwa.workboxMode === 'InjectManifest') {
       const esbuildConfig = await quasarSsrConfig.customSw(quasarConf)
       await this.watchWithEsbuild('InjectManifest Custom SW', esbuildConfig, () => {
-        queue(() => buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig))
+        queue(() => buildPwaServiceWorker(quasarConf, workboxConfig))
       }).then(esbuildCtx => {
         this.#pwaServiceWorkerWatcher = { close: esbuildCtx.dispose }
       })
     }
 
-    await buildPwaServiceWorker(quasarConf.pwa.workboxMode, workboxConfig)
+    await buildPwaServiceWorker(quasarConf, workboxConfig)
   }
 }

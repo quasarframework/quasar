@@ -10,8 +10,8 @@
 
 /* global chrome */
 
-import Bridge from './bridge'
-import runDevlandBackgroundScript from '../../src-bex/background'
+import Bridge from './bex-bridge.js'
+import runDevlandBackgroundScript from 'app/src-bex/background'
 
 const connections = {}
 

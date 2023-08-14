@@ -3,7 +3,6 @@ import { join } from 'node:path'
 import fse from 'fs-extra'
 import archiver from 'archiver'
 
-import { appPkg } from '../../app-pkg.js'
 import { AppBuilder } from '../../app-builder.js'
 import { progress } from '../../utils/logger.js'
 import { quasarBexConfig } from './bex-config.js'
@@ -31,13 +30,14 @@ export class QuasarModeBuilder extends AppBuilder {
     copyBexAssets(this.quasarConf)
 
     this.printSummary(this.quasarConf.build.distDir)
+
     this.#bundlePackage(this.quasarConf.build.distDir)
   }
 
-  #bundlePackage (folder) {
+  #bundlePackage (dir) {
     const done = progress('Bundling in progress...')
-    const zipName = `Packaged.${ appPkg.name }.zip`
-    const file = join(folder, zipName)
+    const zipName = `Packaged.${ this.ctx.pkg.appPkg.name }.zip`
+    const file = join(dir, zipName)
 
     const output = fse.createWriteStream(file)
     const archive = archiver('zip', {
@@ -45,7 +45,7 @@ export class QuasarModeBuilder extends AppBuilder {
     })
 
     archive.pipe(output)
-    archive.directory(folder, false, entryData => ((entryData.name !== zipName) ? entryData : false))
+    archive.directory(dir, false, entryData => ((entryData.name !== zipName) ? entryData : false))
     archive.finalize()
 
     done(`Bundle has been generated at: ${ file }`)

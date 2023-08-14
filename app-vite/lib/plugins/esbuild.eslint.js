@@ -3,10 +3,9 @@ import { normalizePath } from 'vite'
 import { dim, underline, bold } from 'kolorist'
 
 import { warning, error, success } from '../utils/logger.js'
-import { getLinter } from '../eslint.js'
+import { getLinter } from '../utils/eslint.js'
 
 const eslintUrl = underline(dim('http://eslint.org/docs/rules/'))
-const errorFiles = new Set()
 
 function parseIssue (path, reportEntry) {
   const source = reportEntry.source.split('\n')
@@ -31,15 +30,16 @@ function parseIssue (path, reportEntry) {
   })
 }
 
-export function quasarEsbuildESLintPlugin (quasarConf, getLinterOpts) {
+export async function quasarEsbuildESLintPlugin (quasarConf, compileId) {
   const {
     eslint,
     filter,
     errors,
     warnings,
     fix,
-    outputFixes
-  } = getLinter(quasarConf, getLinterOpts)
+    outputFixes,
+    errorFiles
+  } = await getLinter(quasarConf, compileId)
 
   return {
     name: 'quasar:eslint',

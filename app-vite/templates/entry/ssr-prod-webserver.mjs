@@ -8,14 +8,14 @@ import { join, basename } from 'node:path'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { renderToString } from 'vue/server-renderer'
-<% if (store && ssr.manualStoreSerialization !== true) { %>
+<% if (metaConf.hasStore && ssr.manualStoreSerialization !== true) { %>
 import serialize from 'serialize-javascript'
 <% } %>
 
 import renderTemplate from './render-template.cjs'
 import serverEntry from './server/server-entry.<%= metaConf.ssrServerEntryPointExtension %>'
 
-import { create, listen, renderPreloadTag, serveStaticContent } from '../src-ssr/server'
+import { create, listen, renderPreloadTag, serveStaticContent } from 'app/src-ssr/server'
 import injectMiddlewares from './ssr-middlewares'
 
 const port = process.env.PORT || <%= ssr.prodPort %>
@@ -73,7 +73,7 @@ function renderModulesPreload (modules, opts) {
   return links
 }
 
-<% if (store && ssr.manualStoreSerialization !== true) { %>
+<% if (metaConf.hasStore && ssr.manualStoreSerialization !== true) { %>
 const autoRemove = 'document.currentScript.remove()'
 
 function renderStoreState (ssrContext) {
@@ -106,7 +106,7 @@ async function render (ssrContext) {
 
     ssrContext._meta.runtimePageContent = runtimePageContent
 
-    <% if (store && ssr.manualStoreSerialization !== true) { %>
+    <% if (metaConf.hasStore && ssr.manualStoreSerialization !== true) { %>
       if (ssrContext.state !== void 0) {
         ssrContext._meta.headTags = renderStoreState(ssrContext) + ssrContext._meta.headTags
       }

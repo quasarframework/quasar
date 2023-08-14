@@ -1,12 +1,10 @@
 
 import { normalizePath } from 'vite'
 
-import { getLinter } from '../eslint.js'
 import { warning, error, success } from '../utils/logger.js'
+import { getLinter } from '../utils/eslint.js'
 
-const errorFiles = new Set()
-
-export function quasarViteESLintPlugin (quasarConf, getLinterOpts) {
+export async function quasarViteESLintPlugin (quasarConf, compileId) {
   const {
     eslint,
     filter,
@@ -14,8 +12,9 @@ export function quasarViteESLintPlugin (quasarConf, getLinterOpts) {
     warnings,
     fix,
     outputFixes,
-    formatter
-  } = getLinter(quasarConf, getLinterOpts)
+    formatter,
+    errorFiles
+  } = await getLinter(quasarConf, compileId)
 
   return {
     name: 'quasar:eslint',

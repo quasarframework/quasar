@@ -3,20 +3,22 @@ import fs from 'node:fs'
 import fse from 'fs-extra'
 import inquirer from 'inquirer'
 
-import appPaths from '../../app-paths.js'
-import { appPkg } from '../../app-pkg.js'
 import { log, warn, fatal } from '../../utils/logger.js'
 import { spawnSync } from '../../utils/spawn.js'
 import { ensureWWW, ensureConsistency } from './ensure-consistency.js'
 
-export function isModeInstalled () {
+export function isModeInstalled (appPaths) {
   return fs.existsSync(appPaths.cordovaDir)
 }
 
-export async function addMode (silent, target) {
-  if (isModeInstalled()) {
+export async function addMode ({
+  ctx: { appPaths, pkg: { appPkg } },
+  silent,
+  target
+}) {
+  if (isModeInstalled(appPaths)) {
     if (target) {
-      addPlatform(target)
+      addPlatform(appPaths, target)
     }
     else if (silent !== true) {
       warn('Cordova support detected already. Aborting.')
@@ -55,7 +57,7 @@ export async function addMode (silent, target) {
     }
   )
 
-  ensureWWW(true)
+  ensureWWW({ appPaths, forced: true })
 
   log('Cordova support was installed')
   log(`App name was taken from package.json: "${ appName }"`)
@@ -76,11 +78,13 @@ export async function addMode (silent, target) {
     return
   }
 
-  addPlatform(target)
+  addPlatform(appPaths, target)
 }
 
-export function removeMode () {
-  if (!isModeInstalled()) {
+export function removeMode ({
+  ctx: { appPaths }
+}) {
+  if (!isModeInstalled(appPaths)) {
     warn('No Cordova support detected. Aborting.')
     return
   }
@@ -89,8 +93,8 @@ export function removeMode () {
   log('Cordova support was removed')
 }
 
-function addPlatform (target) {
-  ensureConsistency()
+function addPlatform (appPaths, target) {
+  ensureConsistency({ appPaths })
 
   // if it has the platform
   if (fs.existsSync(appPaths.resolve.cordova(`platforms/${ target }`))) {

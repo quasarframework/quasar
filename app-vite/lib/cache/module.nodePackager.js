@@ -2,9 +2,8 @@ import fs from 'node:fs'
 import { normalize, join, sep } from 'node:path'
 import { sync as crossSpawnSync } from 'cross-spawn'
 
-import appPaths from '../app-paths.js'
-import { log, fatal } from './logger.js'
-import { spawnSync } from './spawn.js'
+import { log, fatal } from '../utils/logger.js'
+import { spawnSync } from '../utils/spawn.js'
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
@@ -12,7 +11,7 @@ function run ({ name, params, cwd, onFail, env = 'development' }) {
   spawnSync(
     name,
     params.filter(param => typeof param === 'string' && param.length !== 0),
-    { cwd: cwd || appPaths.appDir, env: { ...process.env, NODE_ENV: env } },
+    { cwd, env: { ...process.env, NODE_ENV: env } },
     onFail
   )
 }
@@ -33,6 +32,12 @@ function getMajorVersion (name) {
 }
 
 class PackageManager {
+  appDir
+
+  constructor (appDir) {
+    this.appDir = appDir
+  }
+
   /**
    * To be declared by subclasses
    */
@@ -73,7 +78,7 @@ class PackageManager {
     return this.cachedIsInstalled
   }
 
-  install ({ cwd, params, displayName, env = 'development' } = {}) {
+  install ({ cwd = this.appDir, params, displayName, env = 'development' } = {}) {
     displayName = displayName ? displayName + ' ' : ''
 
     log(`Installing ${ displayName }dependencies...`)
@@ -88,7 +93,7 @@ class PackageManager {
     })
   }
 
-  installPackage (name, { cwd, displayName = name, isDevDependency = false } = {}) {
+  installPackage (name, { cwd = this.appDir, displayName = name, isDevDependency = false } = {}) {
     log(`Installing ${ displayName }...`)
     run({
       name: this.name,
@@ -98,7 +103,7 @@ class PackageManager {
     })
   }
 
-  uninstallPackage (name, { cwd, displayName = name } = {}) {
+  uninstallPackage (name, { cwd = this.appDir, displayName = name } = {}) {
     log(`Uninstalling ${ displayName }...`)
     run({
       name: this.name,
@@ -291,34 +296,33 @@ class Pnpm extends PackageManager {
   }
 }
 
-const packageManagersList = [
-  new Yarn(),
-  new Pnpm(),
-  new Npm()
-]
-
 /**
  * @returns {PackageManager}
  */
-function getProjectPackageManager (folder) {
+function getProjectPackageManager (packageManagersList, dir) {
   // Recursively checks for presence of the lock file by traversing
-  // the folder tree up to the root
-  while (folder.length && folder[ folder.length - 1 ] !== sep) {
+  // the dir tree up to the root
+  while (dir.length && dir[ dir.length - 1 ] !== sep) {
     for (const pm of packageManagersList) {
-      if (fs.existsSync(join(folder, pm.lockFile))) {
+      if (fs.existsSync(join(dir, pm.lockFile))) {
         return pm
       }
     }
 
-    folder = normalize(join(folder, '..'))
+    dir = normalize(join(dir, '..'))
   }
 }
 
-/**
- * @returns {PackageManager}
- */
-export function getNodePackager (folder = appPaths.appDir) {
-  const projectPackageManager = getProjectPackageManager(folder)
+export function createInstance ({ appPaths }) {
+  const { appDir } = appPaths
+
+  const packageManagersList = [
+    new Yarn(appDir),
+    new Pnpm(appDir),
+    new Npm(appDir)
+  ]
+
+  const projectPackageManager = getProjectPackageManager(packageManagersList, appDir)
 
   // if the project folder uses a supported package manager
   // and it is installed on this machine then use it
@@ -335,5 +339,3 @@ export function getNodePackager (folder = appPaths.appDir) {
 
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
 }
-
-export const nodePackager = getNodePackager()

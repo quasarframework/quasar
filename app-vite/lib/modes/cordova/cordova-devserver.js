@@ -1,6 +1,5 @@
 import { createServer } from 'vite'
 
-import appPaths from '../../app-paths.js'
 import { AppDevserver } from '../../app-devserver.js'
 import { CordovaConfigFile } from './config-file.js'
 import { log, fatal } from '../../utils/logger.js'
@@ -13,7 +12,6 @@ import { fixAndroidCleartext } from '../../utils/fix-android-cleartext.js'
 export class QuasarModeDevserver extends AppDevserver {
   #pid = 0
   #server
-  #ctx
   #target
   #cordovaConfigFile = new CordovaConfigFile()
 
@@ -25,11 +23,10 @@ export class QuasarModeDevserver extends AppDevserver {
       quasarConf.cordova
     ])
 
-    this.#ctx = opts.quasarConf.ctx
-    this.#target = opts.quasarConf.ctx.targetName
+    this.#target = this.ctx.targetName
 
     if (this.#target === 'android') {
-      fixAndroidCleartext('cordova')
+      fixAndroidCleartext(this.ctx.appPaths, 'cordova')
     }
 
     onShutdown(() => {
@@ -69,14 +66,21 @@ export class QuasarModeDevserver extends AppDevserver {
         [ 'prepare', this.#target ].concat(this.argv._)
       )
 
-      await openIDE('cordova', quasarConf.bin, this.#target, true)
+      await openIDE({
+        mode: 'cordova',
+        bin: quasarConf.bin,
+        target: this.#target,
+        dev: true,
+        appPaths: this.ctx.appPaths
+      })
+
       return
     }
 
     const args = [ 'run', this.#target ]
 
-    if (this.#ctx.emulator) {
-      args.push(`--target=${ this.#ctx.emulator }`)
+    if (this.ctx.emulator) {
+      args.push(`--target=${ this.ctx.emulator }`)
     }
 
     await this.#runCordovaCommand(
@@ -104,7 +108,7 @@ export class QuasarModeDevserver extends AppDevserver {
       this.#pid = spawn(
         'cordova',
         args,
-        { cwd: appPaths.cordovaDir },
+        { cwd: this.ctx.appPaths.cordovaDir },
         code => {
           this.#cleanup()
           if (code) {
