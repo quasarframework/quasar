@@ -15,7 +15,7 @@ export const quasarElectronConfig = {
   },
 
   main: async quasarConf => {
-    const cfg = await createNodeEsbuildConfig(quasarConf, 'cjs', { cacheLocation: 'node-electron-main' })
+    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-electron-main', format: 'cjs' })
     const { appPaths } = quasarConf.ctx
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronMain ]
@@ -41,7 +41,7 @@ export const quasarElectronConfig = {
   },
 
   preload: async quasarConf => {
-    const cfg = await createNodeEsbuildConfig(quasarConf, 'cjs', { cacheLocation: 'node-electron-preload' })
+    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-electron-preload', format: 'cjs' })
     const { appPaths } = quasarConf.ctx
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronPreload ]

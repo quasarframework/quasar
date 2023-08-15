@@ -86,7 +86,7 @@ export const quasarSsrConfig = {
   },
 
   webserver: async quasarConf => {
-    const cfg = await createNodeEsbuildConfig(quasarConf, { format: 'esm', compileId: 'node-ssr-webserver' })
+    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-ssr-webserver', format: 'esm' })
     const { appPaths } = quasarConf.ctx
 
     Object.assign(cfg.define, getBuildSystemDefine({
