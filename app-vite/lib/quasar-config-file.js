@@ -831,7 +831,6 @@ export class QuasarConfigFile {
 
     if (this.#ctx.dev) {
       if (this.#ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
-        cfg.metaConf.needsAppMountHook = true
         cfg.metaConf.vueDevtools = {
           host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
           port: 8098
