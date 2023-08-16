@@ -29,6 +29,8 @@ const defaultPortMapping = {
   capacitor: 9500
 }
 
+const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
+
 function escapeHTMLTagContent (str) {
   return str ? str.replace(/[<>]/g, '') : ''
 }
@@ -96,7 +98,7 @@ async function onAddress ({ host, port }, mode) {
   }
   else if (
     [ 'cordova', 'capacitor' ].includes(mode)
-    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
+    && (!host || localHostList.includes(host.toLowerCase()))
   ) {
     const getExternalIP = require('../lib/helpers/get-external-ip')
     host = await getExternalIP()
@@ -145,6 +147,7 @@ class QuasarConfFile {
   #opts
   #initialVersions = {}
   #address
+  #vueDevtools
 
   constructor ({ ctx, host, port }) {
     this.#ctx = ctx
@@ -530,11 +533,18 @@ class QuasarConfFile {
 
     if (this.#ctx.dev) {
       if (this.#ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
-        cfg.metaConf.needsAppMountHook = true
-        cfg.metaConf.vueDevtools = {
-          host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
-          port: 8098
+        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+          ? '0.0.0.0' // match the listening host of Vue Devtools itself
+          : cfg.devServer.host
+
+        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
+          this.#vueDevtools = {
+            host,
+            port: await findClosestOpenPort(11111, host)
+          }
         }
+
+        cfg.metaConf.vueDevtools = { ...this.#vueDevtools }
       }
 
       if (this.#ctx.mode.ssr && cfg.devServer.https === true) {

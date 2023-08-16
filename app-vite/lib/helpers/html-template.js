@@ -26,7 +26,7 @@ function injectPublicPath (html, publicPath) {
   )
 }
 
-function injectRuntimeInterpolation (html) {
+function injectSsrRuntimeInterpolation (html) {
   return html
     .replace(
       /(<html[^>]*)(>)/i,
@@ -76,11 +76,28 @@ function injectRuntimeInterpolation (html) {
 module.exports.entryPointMarkup = entryPointMarkup
 module.exports.attachMarkup = attachMarkup
 
+function injectVueDevtools (html, { host, port }, nonce = '') {
+  const scripts = (
+    `<script${ nonce }>window.__VUE_DEVTOOLS_HOST__='${ host }';window.__VUE_DEVTOOLS_PORT__='${ port }';</script>`
+    + `<script src="http://${ host }:${ port }"></script>`
+  )
+
+  return html.replace(
+    /(<\/head>)/i,
+    (_, tag) => `${ scripts }${ tag }`
+  )
+}
+
 module.exports.transformHtml = function (template, quasarConf) {
   const { publicPath } = quasarConf.build
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
+
+  // should be dev only
+  if (quasarConf.metaConf.vueDevtools !== false) {
+    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools)
+  }
 
   html = html.replace(
     entryPointMarkup,
@@ -136,7 +153,11 @@ module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
   // publicPath will be handled by Vite middleware
   // if src/href are not relative, which is what we need
   html = injectPublicPath(html, '/')
-  html = injectRuntimeInterpolation(html)
+  html = injectSsrRuntimeInterpolation(html)
+
+  if (quasarConf.metaConf.vueDevtools !== false) {
+    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools, '{{ typeof nonce !== \'undefined\' ? \' nonce="\' + nonce + \'"\' : \'\' }}')
+  }
 
   html = html.replace(
     entryPointMarkup,
@@ -158,7 +179,7 @@ module.exports.getDevSsrTemplateFn = function (template, quasarConf) {
  * const html = fn(ssrContext)
  */
 module.exports.getProdSsrTemplateFn = function (viteHtmlContent, quasarConf) {
-  let html = injectRuntimeInterpolation(viteHtmlContent)
+  let html = injectSsrRuntimeInterpolation(viteHtmlContent)
 
   html = html.replace(
     entryPointMarkup,
