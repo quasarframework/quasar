@@ -60,8 +60,8 @@ scope:
           e: Vuex Store Module...
       - l: App.vue
         e: Root Vue component of your App
-    - l: index.html
-      e: Template for index.html
+      - l: index.template.html
+        e: Template for index.html
     - l: src-ssr/
       e: SSR specific code (like production Node webserver)
       url: "/quasar-cli-webpack/developing-ssr/introduction"
