@@ -23,7 +23,7 @@ module.exports = function (ctx) {
   return {
     build: {
       extendViteConf (viteConf) {
-        if (ctx.mode.cordova) {
+        if (ctx.mode.bex) {
           // do something with ViteConf
         }
       }
