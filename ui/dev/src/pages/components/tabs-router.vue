@@ -94,7 +94,7 @@ export default {
   color: black
   padding: 12px
   border: 1px solid black
-  minwidth: 50px
+  min-width: 50px
 
   &--active
     background-color: #ee9
