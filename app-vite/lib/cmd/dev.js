@@ -87,8 +87,8 @@ console.log(
   )
 )
 
-async function startVueDevtools (ctx) {
-  const { appDir, cacheProxy } = ctx
+async function startVueDevtools (ctx, devtoolsPort) {
+  const { appPaths: { appDir }, cacheProxy } = ctx
 
   const { spawn } = await import('../utils/spawn.js')
   const { getPackagePath } = await import('../utils/get-package-path.js')
@@ -97,11 +97,21 @@ async function startVueDevtools (ctx) {
 
   function run () {
     log('Booting up remote Vue Devtools...')
-    spawn(vueDevtoolsBin, [], {})
+    spawn(vueDevtoolsBin, [], {
+      env: {
+        ...process.env,
+        PORT: devtoolsPort
+      }
+    })
+
+    log('Waiting for remote Vue Devtools to initialize...')
+    return new Promise(resolve => {
+      setTimeout(resolve, 1000)
+    })
   }
 
   if (vueDevtoolsBin !== void 0) {
-    run()
+    await run()
     return
   }
 
@@ -112,8 +122,7 @@ async function startVueDevtools (ctx) {
   // after a yarn/npm install will fail
   return new Promise(resolve => {
     vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
-    run()
-    resolve()
+    run().then(resolve)
   })
 }
 
@@ -149,7 +158,7 @@ import { regenerateTypesFeatureFlags } from '../utils/types-feature-flags.js'
 await regenerateTypesFeatureFlags(quasarConf)
 
 if (quasarConf.metaConf.vueDevtools !== false) {
-  await startVueDevtools(ctx)
+  await startVueDevtools(ctx, quasarConf.metaConf.vueDevtools.port)
 }
 
 const { QuasarModeDevserver } = await import(`../modes/${ argv.mode }/${ argv.mode }-devserver.js`)

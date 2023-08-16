@@ -28,6 +28,8 @@ const defaultPortMapping = {
   capacitor: 9500
 }
 
+const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
+
 const quasarConfigBanner = `/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
@@ -105,19 +107,21 @@ function uniquePathFilter (value, index, self) {
   return self.map(obj => obj.path).indexOf(value.path) === index
 }
 
-let addressChosenHost, addressRunning = false
+let cachedExternalHost, addressRunning = false
 
 async function onAddress ({ host, port }, mode) {
-  if (addressChosenHost) {
-    host = addressChosenHost
-  }
-  else if (
+  if (
     [ 'cordova', 'capacitor' ].includes(mode)
-    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
+    && (!host || localHostList.includes(host.toLowerCase()))
   ) {
-    const { getExternalIP } = await import('../lib/utils/get-external-ip.js')
-    host = await getExternalIP()
-    addressChosenHost = host
+    if (cachedExternalHost) {
+      host = cachedExternalHost
+    }
+    else {
+      const { getExternalIP } = await import('../lib/utils/get-external-ip.js')
+      host = await getExternalIP()
+      cachedExternalHost = host
+    }
   }
 
   try {
@@ -169,6 +173,7 @@ export class QuasarConfigFile {
 
   #cssVariables
   #storeProvider
+  #vueDevtools
 
   constructor ({ ctx, host, port, watch }) {
     this.#ctx = ctx
@@ -831,10 +836,18 @@ export class QuasarConfigFile {
 
     if (this.#ctx.dev) {
       if (this.#ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
-        cfg.metaConf.vueDevtools = {
-          host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
-          port: 8098
+        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+          ? '0.0.0.0' // match the listening host of Vue Devtools itself
+          : cfg.devServer.host
+
+        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
+          this.#vueDevtools = {
+            host,
+            port: await findClosestOpenPort(11111, host)
+          }
         }
+
+        cfg.metaConf.vueDevtools = { ...this.#vueDevtools }
       }
 
       if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.electron) {

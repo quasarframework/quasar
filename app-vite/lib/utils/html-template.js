@@ -73,11 +73,28 @@ function injectRuntimeInterpolation (html) {
     )
 }
 
+function injectVueDevtools (html, { host, port }, nonce = '') {
+  const scripts = (
+    `<script${ nonce }>window.__VUE_DEVTOOLS_HOST__='${ host }';window.__VUE_DEVTOOLS_PORT__='${ port }';</script>`
+    + `<script src="http://${ host }:${ port }"></script>`
+  )
+
+  return html.replace(
+    /(<\/head>)/i,
+    (_, tag) => `${ scripts }${ tag }`
+  )
+}
+
 export function transformHtml (template, quasarConf) {
   const { publicPath } = quasarConf.build
   const compiled = compileTemplate(template)
 
   let html = compiled(quasarConf.htmlVariables)
+
+  // should be dev only
+  if (quasarConf.metaConf.vueDevtools !== false) {
+    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools)
+  }
 
   html = html.replace(
     entryPointMarkup,
@@ -134,6 +151,10 @@ export function getDevSsrTemplateFn (template, quasarConf) {
   // if src/href are not relative, which is what we need
   html = injectPublicPath(html, '/')
   html = injectRuntimeInterpolation(html)
+
+  if (quasarConf.metaConf.vueDevtools !== false) {
+    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools, '{{ nonce ? \' nonce="\' + nonce + \'"\' : \'\' }}')
+  }
 
   html = html.replace(
     entryPointMarkup,

@@ -53,7 +53,7 @@ async function warmupServer ({ viteClient, viteServer, pathMap }) {
 
 function renderStoreState (ssrContext) {
   const nonce = ssrContext.nonce !== void 0
-    ? ` nonce="${ ssrContext.nonce }" `
+    ? ` nonce="${ ssrContext.nonce }"`
     : ''
 
   const state = serialize(ssrContext.state, { isJSON: true })
