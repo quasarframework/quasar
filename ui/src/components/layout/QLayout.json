@@ -43,7 +43,7 @@
             "width": {
               "type": "Number",
               "required": true,
-              "desc": "Layout height"
+              "desc": "Layout width"
             }
           }
         }
