@@ -12,7 +12,7 @@ import { renderToString } from 'vue/server-renderer'
 import serialize from 'serialize-javascript'
 <% } %>
 
-import renderTemplate from './render-template.cjs'
+import renderTemplate from './render-template.js'
 import serverEntry from './server/server-entry.<%= metaConf.ssrServerEntryPointExtension %>'
 
 import { create, listen, renderPreloadTag, serveStaticContent } from 'app/src-ssr/server'

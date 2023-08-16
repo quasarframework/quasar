@@ -26,7 +26,7 @@ function injectPublicPath (html, publicPath) {
   )
 }
 
-function injectRuntimeInterpolation (html) {
+function injectSsrRuntimeInterpolation (html) {
   return html
     .replace(
       /(<html[^>]*)(>)/i,
@@ -43,21 +43,21 @@ function injectRuntimeInterpolation (html) {
           start = start.replace(matches[ 0 ], '')
         }
 
-        return `${ start } {{ _meta.htmlAttrs }}${ end }`
+        return `${ start } {{ ssrContext._meta.htmlAttrs }}${ end }`
       }
     )
     .replace(
       /(<head[^>]*)(>)/i,
-      (_, start, end) => `${ start }${ end }{{ _meta.headTags }}`
+      (_, start, end) => `${ start }${ end }{{ ssrContext._meta.headTags }}`
     )
     .replace(
       /(<\/head>)/i,
-      (_, tag) => `{{ _meta.endingHeadTags || '' }}${ tag }`
+      (_, tag) => `{{ ssrContext._meta.endingHeadTags || '' }}${ tag }`
     )
     .replace(
       /(<body[^>]*)(>)/i,
       (found, start, end) => {
-        let classes = '{{ _meta.bodyClasses }}'
+        let classes = '{{ ssrContext._meta.bodyClasses }}'
 
         const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
 
@@ -68,7 +68,7 @@ function injectRuntimeInterpolation (html) {
           start = start.replace(matches[ 0 ], '')
         }
 
-        return `${ start } class="${ classes.trim() }" {{ _meta.bodyAttrs }}${ end }{{ _meta.bodyTags }}`
+        return `${ start } class="${ classes.trim() }" {{ ssrContext._meta.bodyAttrs }}${ end }{{ ssrContext._meta.bodyTags }}`
       }
     )
 }
@@ -150,10 +150,10 @@ export function getDevSsrTemplateFn (template, quasarConf) {
   // publicPath will be handled by Vite middleware
   // if src/href are not relative, which is what we need
   html = injectPublicPath(html, '/')
-  html = injectRuntimeInterpolation(html)
+  html = injectSsrRuntimeInterpolation(html)
 
   if (quasarConf.metaConf.vueDevtools !== false) {
-    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools, '{{ nonce ? \' nonce="\' + nonce + \'"\' : \'\' }}')
+    html = injectVueDevtools(html, quasarConf.metaConf.vueDevtools, '{{ ssrContext.nonce ? \' nonce="\' + ssrContext.nonce + \'"\' : \'\' }}')
   }
 
   html = html.replace(
@@ -161,7 +161,7 @@ export function getDevSsrTemplateFn (template, quasarConf) {
     `${ entryPointMarkup }${ quasarConf.metaConf.entryScript }`
   )
 
-  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
+  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g, variable: 'ssrContext' })
 }
 
 /**
@@ -176,11 +176,11 @@ export function getDevSsrTemplateFn (template, quasarConf) {
  * const html = fn(ssrContext)
  */
 export function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
-  let html = injectRuntimeInterpolation(viteHtmlContent)
+  let html = injectSsrRuntimeInterpolation(viteHtmlContent)
 
   html = html.replace(
     entryPointMarkup,
-    '<div id="q-app">{{ _meta.runtimePageContent }}</div>'
+    '<div id="q-app">{{ ssrContext._meta.runtimePageContent }}</div>'
   )
 
   if (quasarConf.build.minify !== false) {
@@ -190,5 +190,5 @@ export function getProdSsrTemplateFn (viteHtmlContent, quasarConf) {
     })
   }
 
-  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
+  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g, variable: 'ssrContext' })
 }

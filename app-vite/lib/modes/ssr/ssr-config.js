@@ -105,7 +105,7 @@ export const quasarSsrConfig = {
         ...(cfg.external || []),
         'vue/server-renderer',
         'vue/compiler-sfc',
-        './render-template.cjs',
+        './render-template.js',
         './quasar.manifest.json',
 
         // based on project's package.json > type (module | commonjs), one of the
