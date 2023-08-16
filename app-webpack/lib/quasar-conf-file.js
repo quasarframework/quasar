@@ -14,9 +14,12 @@ const getPackage = require('./helpers/get-package')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const storeProvider = require('./helpers/store-provider')
 const { quasarVersion } = require('./helpers/banner')
+const { findClosestOpenPort } = require('./helpers/net')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
+
+const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -95,12 +98,68 @@ function uniqueRegexFilter (value, index, self) {
   return self.map(regex => regex.toString()).indexOf(value.toString()) === index
 }
 
+let cachedExternalHost, addressRunning = false
+
+async function onAddress ({ host, port }, mode) {
+  if (
+    [ 'cordova', 'capacitor' ].includes(mode)
+    && (!host || localHostList.includes(host.toLowerCase()))
+  ) {
+    if (cachedExternalHost) {
+      host = cachedExternalHost
+    }
+    else {
+      const { getExternalIP } = require('./helpers/get-external-ip.js')
+      host = await getExternalIP()
+      cachedExternalHost = host
+    }
+  }
+
+  try {
+    const openPort = await findClosestOpenPort(port, host)
+    if (port !== openPort) {
+      warn()
+      warn(`️️Setting port to closest one available: ${ openPort }`)
+      warn()
+
+      port = openPort
+    }
+  }
+  catch (e) {
+    warn()
+
+    if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
+      warn('Could not find an open port. Please configure a lower one to start searching with.')
+    }
+    else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
+      warn('Invalid host specified. No network address matches. Please specify another one.')
+    }
+    else {
+      warn('Unknown network error occurred')
+      console.log(e)
+    }
+
+    warn()
+
+    if (addressRunning === false) {
+      process.exit(1)
+    }
+
+    return null
+  }
+
+  addressRunning = true
+  return { host, port }
+}
+
 /*
  * this.quasarConf          - Compiled Object from quasar.conf(ig).js
  * this.webpackConf         - Webpack config(s)
  */
 
 class QuasarConfFile {
+  #vueDevtools
+
   constructor (ctx, opts = {}) {
     this.ctx = ctx
     this.opts = opts
@@ -260,8 +319,8 @@ class QuasarConfFile {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = this.opts.onAddress !== void 0
-          ? await this.opts.onAddress(addr)
+        const to = this.opts.verifyAddress === true
+          ? await onAddress(addr)
           : addr
 
         // if network error while running
@@ -667,11 +726,18 @@ class QuasarConfFile {
       }
 
       if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
-        cfg.__needsAppMountHook = true
-        cfg.__vueDevtools = {
-          host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
-          port: 8098
+        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+          ? '0.0.0.0' // match the listening host of Vue Devtools itself
+          : cfg.devServer.host
+
+        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
+          this.#vueDevtools = {
+            host,
+            port: await findClosestOpenPort(11111, host)
+          }
         }
+
+        cfg.__vueDevtools = { ...this.#vueDevtools }
       }
 
       // make sure the prop is not supplied to webpack dev server

@@ -149,9 +149,9 @@ class QuasarConfFile {
   #address
   #vueDevtools
 
-  constructor ({ ctx, host, port }) {
+  constructor ({ ctx, host, port, verifyAddress }) {
     this.#ctx = ctx
-    this.#opts = { host, port }
+    this.#opts = { host, port, verifyAddress }
 
     if (this.#ctx.mode.pwa) {
       // Enable this when workbox bumps version (as of writing these lines, we're handling v6)
@@ -345,7 +345,7 @@ class QuasarConfFile {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = this.#ctx.dev === true
+        const to = this.#opts.verifyAddress === true
           ? await onAddress(addr, this.#ctx.modeName)
           : addr
 

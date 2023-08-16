@@ -145,7 +145,8 @@ async function goLive () {
   const quasarConfFile = new QuasarConfFile({
     ctx,
     port: argv.port,
-    host: argv.hostname
+    host: argv.hostname,
+    verifyAddress: true
   })
 
   const quasarConf = await quasarConfFile.read()

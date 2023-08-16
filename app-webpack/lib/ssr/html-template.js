@@ -8,7 +8,7 @@ const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
  * _meta.resource[X] is generated from ssr-helpers/create-renderer
  */
 
-function injectSsrInterpolation (html) {
+function injectSsrRuntimeInterpolation (html) {
   return html
     .replace(
       /(<html[^>]*)(>)/i,
@@ -57,6 +57,18 @@ function injectSsrInterpolation (html) {
       '<div id="q-app"></div>',
       '<div id="q-app">{{ _meta.resourceApp }}</div>{{ _meta.resourceScripts }}'
     )
+}
+
+function injectVueDevtools (html, { host, port }, nonce = '') {
+  const scripts = (
+    `<script${ nonce }>window.__VUE_DEVTOOLS_HOST__='${ host }';window.__VUE_DEVTOOLS_PORT__='${ port }';</script>`
+    + `<script src="http://${ host }:${ port }"></script>`
+  )
+
+  return html.replace(
+    /(<\/head>)/i,
+    (_, tag) => `${ scripts }${ tag }`
+  )
 }
 
 const htmlRegExp = /(<html[^>]*>)/i
@@ -136,7 +148,12 @@ module.exports.getIndexHtml = function (template, cfg) {
     html = fillBaseTag(html, cfg.build.appBase)
   }
 
-  html = injectSsrInterpolation(html)
+  html = injectSsrRuntimeInterpolation(html)
+
+  // should be dev only
+  if (cfg.__vueDevtools !== false) {
+    html = injectVueDevtools(html, cfg.__vueDevtools, '{{ typeof nonce !== \'undefined\' ? \' nonce="\' + nonce + \'"\' : \'\' }}')
+  }
 
   if (cfg.build.minify) {
     const { minify } = require('html-minifier')
