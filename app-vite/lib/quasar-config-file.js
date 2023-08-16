@@ -1,6 +1,7 @@
 import { join, isAbsolute, basename, dirname } from 'node:path'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { pathToFileURL } from 'node:url'
 import fse from 'fs-extra'
 import { merge } from 'webpack-merge'
 import debounce from 'lodash/debounce.js'
@@ -269,7 +270,7 @@ export class QuasarConfigFile {
 
     let quasarConfigFn
     try {
-      const fnResult = await import(this.#tempFile)
+      const fnResult = await import(pathToFileURL(this.#tempFile))
       quasarConfigFn = fnResult.default || fnResult
     }
     catch (e) {
@@ -333,7 +334,7 @@ export class QuasarConfigFile {
 
           try {
             const result = appPaths.quasarConfigOutputFormat === 'esm'
-              ? await import(tempFile + '?t=' + Date.now()) // we also need to cache bust it, hence the ?t= param
+              ? await import(pathToFileURL(tempFile) + '?t=' + Date.now()) // we also need to cache bust it, hence the ?t= param
               : this.#require(tempFile)
 
             quasarConfigFn = result.default || result
