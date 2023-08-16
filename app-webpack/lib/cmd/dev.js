@@ -91,59 +91,7 @@ console.log(
 const { displayBanner } = require('../utils/banner.js')
 displayBanner(argv, 'dev')
 
-const findPort = require('../utils/net.js').findClosestOpenPort
-
-async function parseAddress ({ host, port }) {
-  if (this.chosenHost) {
-    host = this.chosenHost
-  }
-  else if (
-    [ 'cordova', 'capacitor' ].includes(argv.mode)
-    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
-  ) {
-    const { getExternalIP } = require('../utils/get-external-ip.js')
-    host = await getExternalIP()
-    this.chosenHost = host
-  }
-
-  try {
-    const openPort = await findPort(port, host)
-    if (port !== openPort) {
-      warn()
-      warn(`️️Setting port to closest one available: ${ openPort }`)
-      warn()
-
-      port = openPort
-    }
-  }
-  catch (e) {
-    warn()
-
-    if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
-      warn('Could not find an open port. Please configure a lower one to start searching with.')
-    }
-    else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
-      warn('Invalid host specified. No network address matches. Please specify another one.')
-    }
-    else {
-      warn('Unknown network error occurred')
-      console.log(e)
-    }
-
-    warn()
-
-    if (!this.running) {
-      process.exit(1)
-    }
-
-    return null
-  }
-
-  this.running = true
-  return { host, port }
-}
-
-function startVueDevtools () {
+async function startVueDevtools (devtoolsPort) {
   const { spawn } = require('../utils/spawn.js')
   const { getPackagePath } = require('../utils/get-package-path.js')
 
@@ -151,11 +99,21 @@ function startVueDevtools () {
 
   function run () {
     log('Booting up remote Vue Devtools...')
-    spawn(vueDevtoolsBin, [], {})
+    spawn(vueDevtoolsBin, [], {
+      env: {
+        ...process.env,
+        PORT: devtoolsPort
+      }
+    })
+
+    log('Waiting for remote Vue Devtools to initialize...')
+    return new Promise(resolve => {
+      setTimeout(resolve, 1000)
+    })
   }
 
   if (vueDevtoolsBin !== void 0) {
-    run()
+    await run()
     return
   }
 
@@ -166,8 +124,7 @@ function startVueDevtools () {
   // after a yarn/npm install will fail
   return new Promise(resolve => {
     vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
-    run()
-    resolve()
+    run().then(resolve)
   })
 }
 
@@ -200,7 +157,6 @@ async function goLive () {
   const quasarConfFile = new QuasarConfigFile(ctx, {
     port: argv.port,
     host: argv.hostname,
-    onAddress: parseAddress,
     watch: {
       onBuildChange () {
         log('Rebuilding app due to quasar.config file changes...')
@@ -220,7 +176,7 @@ async function goLive () {
   regenerateTypesFeatureFlags(quasarConf)
 
   if (quasarConf.metaConf.vueDevtools !== false) {
-    await startVueDevtools()
+    await startVueDevtools(quasarConf.metaConf.vueDevtools.port)
   }
 
   if (typeof quasarConf.build.beforeDev === 'function') {

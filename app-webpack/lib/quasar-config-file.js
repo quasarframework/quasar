@@ -16,6 +16,7 @@ const { getPackage } = require('./utils/get-package.js')
 const getPackageMajorVersion = require('./utils/get-package-major-version.js')
 const storeProvider = require('./utils/store-provider.js')
 const { createWebpackConfig } = require('./webpack/index.js')
+const { findClosestOpenPort } = require('./utils/net.js')
 const { readFileEnv } = require('./utils/env.js')
 const { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } = require('./plugin.esbuild.inject-replacements.js')
 
@@ -40,21 +41,7 @@ const quasarConfigBanner = `/* eslint-disable */
  **/
 `
 
-function getEsbuildConfig () {
-  return {
-    platform: 'node',
-    format: 'cjs',
-    bundle: true,
-    packages: 'external',
-    banner: {
-      js: quasarConfigBanner
-    },
-    define: quasarEsbuildInjectReplacementsDefine,
-    entryPoints: [ appPaths.quasarConfigFilename ],
-    outfile: tempFile,
-    plugins: [ quasarEsbuildInjectReplacementsPlugin ]
-  }
-}
+const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -133,6 +120,60 @@ function uniqueRegexFilter (value, index, self) {
   return self.map(regex => regex.toString()).indexOf(value.toString()) === index
 }
 
+let cachedExternalHost, addressRunning = false
+
+async function onAddress ({ host, port }, mode) {
+  if (
+    [ 'cordova', 'capacitor' ].includes(mode)
+    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
+  ) {
+    if (cachedExternalHost) {
+      host = cachedExternalHost
+    }
+    else {
+      const { getExternalIP } = require('../lib/utils/get-external-ip.js')
+      host = await getExternalIP()
+      cachedExternalHost = host
+    }
+  }
+
+  try {
+    const openPort = await findClosestOpenPort(port, host)
+    if (port !== openPort) {
+      warn()
+      warn(`️️Setting port to closest one available: ${ openPort }`)
+      warn()
+
+      port = openPort
+    }
+  }
+  catch (e) {
+    warn()
+
+    if (e.message === 'ERROR_NETWORK_PORT_NOT_AVAIL') {
+      warn('Could not find an open port. Please configure a lower one to start searching with.')
+    }
+    else if (e.message === 'ERROR_NETWORK_ADDRESS_NOT_AVAIL') {
+      warn('Invalid host specified. No network address matches. Please specify another one.')
+    }
+    else {
+      warn('Unknown network error occurred')
+      console.log(e)
+    }
+
+    warn()
+
+    if (addressRunning === false) {
+      process.exit(1)
+    }
+
+    return null
+  }
+
+  addressRunning = true
+  return { host, port }
+}
+
 module.exports.QuasarConfigFile = class QuasarConfigFile {
   ctx
   opts
@@ -143,6 +184,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
   #configSnapshot
   #webpackConfChanged
   #versions = {}
+  #vueDevtools
 
   constructor (ctx, opts = {}) {
     this.ctx = ctx
@@ -178,7 +220,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
   }
 
   read () {
-    const esbuildConfig = getEsbuildConfig()
+    const esbuildConfig = this.#createEsbuildConfig()
     return this.opts.watch !== void 0
       ? this.#buildAndWatch(esbuildConfig)
       : this.#build(esbuildConfig)
@@ -187,6 +229,22 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
   // start watching for changes
   watch () {
     this.#isWatching = true
+  }
+
+  #createEsbuildConfig () {
+    return {
+      platform: 'node',
+      format: 'cjs',
+      bundle: true,
+      packages: 'external',
+      banner: {
+        js: quasarConfigBanner
+      },
+      define: quasarEsbuildInjectReplacementsDefine,
+      entryPoints: [ appPaths.quasarConfigFilename ],
+      outfile: tempFile,
+      plugins: [ quasarEsbuildInjectReplacementsPlugin ]
+    }
   }
 
   async #build (esbuildConfig) {
@@ -440,7 +498,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       debugging: this.ctx.dev === true || this.ctx.debug === true,
       needsAppMountHook: false,
       vueDevtools: false,
-      versions: { ...this.#versions }, // used by .quasar entry templates
+      versions: { ...this.#versions }, // used by .quasar entry points
       css: { ...cssVariables }
     }
 
@@ -500,9 +558,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = this.opts.onAddress !== void 0
-          ? await this.opts.onAddress(addr)
-          : addr
+        const to = await onAddress(addr, this.ctx.modeName)
 
         // if network error while running
         if (to === null) {
@@ -924,16 +980,19 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         }
       }
 
-      if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
-        cfg.metaConf.vueDevtools = {
-          host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
-          port: 8098
-        }
-      }
+      if (this.ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
+        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+          ? '0.0.0.0' // match the listening host of Vue Devtools itself
+          : cfg.devServer.host
 
-      // make sure the prop is not supplied to webpack dev server
-      if (cfg.devServer.vueDevtools !== void 0) {
-        delete cfg.devServer.vueDevtools
+        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
+          this.#vueDevtools = {
+            host,
+            port: await findClosestOpenPort(11111, host)
+          }
+        }
+
+        cfg.metaConf.vueDevtools = { ...this.#vueDevtools }
       }
 
       if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {

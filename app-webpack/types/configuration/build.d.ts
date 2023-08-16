@@ -94,6 +94,10 @@ interface QuasarStaticBuildConfiguration {
    */
   vueRouterMode?: "hash" | "history";
   /**
+   * Automatically open remote Vue Devtools when running in development mode.
+   */
+  vueDevtools?: boolean;
+  /**
    * Should the Vue Options API be available?
    */
   vueOptionsAPI?: boolean;

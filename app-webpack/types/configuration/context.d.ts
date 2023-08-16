@@ -21,6 +21,8 @@ interface BaseQuasarContext {
   modeName: QuasarModes;
   /** True if debugging is enabled */
   debug: boolean;
+  /** True if opening remote Vue Devtools in development mode. */
+  vueDevtools: boolean;
 }
 
 interface CapacitorQuasarContext extends BaseQuasarContext {

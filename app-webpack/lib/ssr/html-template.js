@@ -4,11 +4,11 @@ const { fillBaseTag } = require('../webpack/plugin.html-addons.js')
 const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa.js')
 
 /*
- * _meta is initialized from ssr-helpers/create-renderer
- * _meta.resource[X] is generated from ssr-helpers/create-renderer
+ * ssrContext._meta is initialized from ssr-helpers/create-renderer
+ * ssrContext._meta.resource[X] is generated from ssr-helpers/create-renderer
  */
 
-function injectSsrInterpolation (html) {
+function injectSsrRuntimeInterpolation (html) {
   return html
     .replace(
       /(<html[^>]*)(>)/i,
@@ -25,21 +25,21 @@ function injectSsrInterpolation (html) {
           start = start.replace(matches[ 0 ], '')
         }
 
-        return `${ start } {{ _meta.htmlAttrs }}${ end }`
+        return `${ start } {{ ssrContext._meta.htmlAttrs }}${ end }`
       }
     )
     .replace(
       /(<head[^>]*)(>)/i,
-      (_, start, end) => `${ start }${ end }{{ _meta.headTags }}`
+      (_, start, end) => `${ start }${ end }{{ ssrContext._meta.headTags }}`
     )
     .replace(
       /(<\/head>)/i,
-      (_, tag) => `{{ _meta.endingHeadTags || '' }}${ tag }`
+      (_, tag) => `{{ ssrContext._meta.endingHeadTags || '' }}${ tag }`
     )
     .replace(
       /(<body[^>]*)(>)/i,
       (found, start, end) => {
-        let classes = '{{ _meta.bodyClasses }}'
+        let classes = '{{ ssrContext._meta.bodyClasses }}'
 
         const matches = found.match(/\sclass\s*=\s*['"]([^'"]*)['"]/i)
 
@@ -50,13 +50,25 @@ function injectSsrInterpolation (html) {
           start = start.replace(matches[ 0 ], '')
         }
 
-        return `${ start } class="${ classes.trim() }" {{ _meta.bodyAttrs }}${ end }{{ _meta.bodyTags }}`
+        return `${ start } class="${ classes.trim() }" {{ ssrContext._meta.bodyAttrs }}${ end }{{ ssrContext._meta.bodyTags }}`
       }
     )
     .replace(
       '<div id="q-app"></div>',
-      '<div id="q-app">{{ _meta.runtimePageContent }}</div>{{ _meta.afterRuntimePageContent }}'
+      '<div id="q-app">{{ ssrContext._meta.runtimePageContent }}</div>{{ ssrContext._meta.afterRuntimePageContent }}'
     )
+}
+
+function injectVueDevtools (html, { host, port }, nonce = '') {
+  const scripts = (
+    `<script${ nonce }>window.__VUE_DEVTOOLS_HOST__='${ host }';window.__VUE_DEVTOOLS_PORT__='${ port }';</script>`
+    + `<script src="http://${ host }:${ port }"></script>`
+  )
+
+  return html.replace(
+    /(<\/head>)/i,
+    (_, tag) => `${ scripts }${ tag }`
+  )
 }
 
 const htmlRegExp = /(<html[^>]*>)/i
@@ -136,7 +148,12 @@ module.exports.getIndexHtml = function getIndexHtml (template, cfg) {
     html = fillBaseTag(html, cfg.build.appBase)
   }
 
-  html = injectSsrInterpolation(html)
+  html = injectSsrRuntimeInterpolation(html)
+
+  // should be dev only
+  if (cfg.metaConf.vueDevtools !== false) {
+    html = injectVueDevtools(html, cfg.metaConf.vueDevtools, '{{ ssrContext.nonce ? \' nonce="\' + ssrContext.nonce + \'"\' : \'\' }}')
+  }
 
   if (cfg.build.minify) {
     const { minify } = require('html-minifier')
@@ -146,5 +163,5 @@ module.exports.getIndexHtml = function getIndexHtml (template, cfg) {
     })
   }
 
-  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g })
+  return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g, variable: 'ssrContext' })
 }

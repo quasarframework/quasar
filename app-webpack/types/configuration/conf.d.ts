@@ -16,11 +16,6 @@ type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 interface QuasarDevServerConfiguration
   extends Omit<WebpackDevServerConfiguration, "open"> {
   open?: Omit<OpenOptions, "wait"> | boolean;
-
-  /**
-   * Automatically open remote Vue Devtools when running in development mode.
-   */
-  vueDevtools?: boolean;
 }
 
 /**

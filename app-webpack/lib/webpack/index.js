@@ -223,7 +223,7 @@ async function getBEX (cfg) {
 }
 
 module.exports.createWebpackConfig = async function (cfg) {
-  const mode = cfg.ctx.mode
+  const { mode } = cfg.ctx
 
   if (mode.ssr) {
     return await getSSR(cfg)
