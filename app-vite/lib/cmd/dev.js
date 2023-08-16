@@ -144,6 +144,7 @@ const quasarConfFile = new QuasarConfigFile({
   ctx,
   port: argv.port,
   host: argv.hostname,
+  verifyAddress: true,
   watch: quasarConf => {
     log('Applying quasar.config file changes...')
     devServer.run(quasarConf)

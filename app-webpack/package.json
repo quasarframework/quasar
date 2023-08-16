@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-webpack",
-  "version": "4.0.0-alpha.12",
+  "version": "4.0.0-alpha.13",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
     "quasar": "./bin/quasar"

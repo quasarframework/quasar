@@ -157,6 +157,7 @@ async function goLive () {
   const quasarConfFile = new QuasarConfigFile(ctx, {
     port: argv.port,
     host: argv.hostname,
+    verifyAddress: true,
     watch: {
       onBuildChange () {
         log('Rebuilding app due to quasar.config file changes...')

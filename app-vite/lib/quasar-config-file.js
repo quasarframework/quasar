@@ -175,9 +175,9 @@ export class QuasarConfigFile {
   #storeProvider
   #vueDevtools
 
-  constructor ({ ctx, host, port, watch }) {
+  constructor ({ ctx, host, port, verifyAddress, watch }) {
     this.#ctx = ctx
-    this.#opts = { host, port }
+    this.#opts = { host, port, verifyAddress }
 
     if (watch !== void 0) {
       this.#opts.watch = debounce(watch, 550)
@@ -585,7 +585,9 @@ export class QuasarConfigFile {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = await onAddress(addr, this.#ctx.modeName)
+        const to = this.#opts.verifyAddress === true
+          ? await onAddress(addr, this.#ctx.modeName)
+          : addr
 
         // if network error while running
         if (to === null) {

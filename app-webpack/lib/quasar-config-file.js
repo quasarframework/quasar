@@ -125,7 +125,7 @@ let cachedExternalHost, addressRunning = false
 async function onAddress ({ host, port }, mode) {
   if (
     [ 'cordova', 'capacitor' ].includes(mode)
-    && (!host || [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ].includes(host.toLowerCase()))
+    && (!host || localHostList.includes(host.toLowerCase()))
   ) {
     if (cachedExternalHost) {
       host = cachedExternalHost
@@ -558,7 +558,9 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = await onAddress(addr, this.ctx.modeName)
+        const to = this.opts.verifyAddress === true
+          ? await onAddress(addr, this.ctx.modeName)
+          : addr
 
         // if network error while running
         if (to === null) {
