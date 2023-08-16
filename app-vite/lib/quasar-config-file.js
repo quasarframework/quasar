@@ -585,9 +585,7 @@ export class QuasarConfigFile {
           host: cfg.devServer.host,
           port: cfg.devServer.port
         }
-        const to = this.#ctx.dev === true
-          ? await onAddress(addr, this.#ctx.modeName)
-          : addr
+        const to = await onAddress(addr, this.#ctx.modeName)
 
         // if network error while running
         if (to === null) {
