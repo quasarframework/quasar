@@ -320,7 +320,7 @@ class QuasarConfFile {
           port: cfg.devServer.port
         }
         const to = this.opts.verifyAddress === true
-          ? await onAddress(addr)
+          ? await onAddress(addr, this.ctx.modeName)
           : addr
 
         // if network error while running
