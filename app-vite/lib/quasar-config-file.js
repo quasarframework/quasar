@@ -15,7 +15,7 @@ const resolveExtension = require('./helpers/resolve-extension')
 const storeProvider = require('./helpers/store-provider')
 
 const urlRegex = /^http(s)?:\/\//i
-const { findClosestOpenPort } = require('../lib/helpers/net')
+const { findClosestOpenPort, localHostList } = require('./helpers/net')
 const isMinimalTerminal = require('./helpers/is-minimal-terminal')
 
 const appPkg = require(appPaths.resolve.app('package.json'))
@@ -28,8 +28,6 @@ const defaultPortMapping = {
   cordova: 9400,
   capacitor: 9500
 }
-
-const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
 function escapeHTMLTagContent (str) {
   return str ? str.replace(/[<>]/g, '') : ''
@@ -100,7 +98,7 @@ async function onAddress ({ host, port }, mode) {
     [ 'cordova', 'capacitor' ].includes(mode)
     && (!host || localHostList.includes(host.toLowerCase()))
   ) {
-    const getExternalIP = require('../lib/helpers/get-external-ip')
+    const getExternalIP = require('./helpers/get-external-ip')
     host = await getExternalIP()
     this.chosenHost = host
   }
@@ -533,14 +531,14 @@ class QuasarConfFile {
 
     if (this.#ctx.dev) {
       if (this.#ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
-        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
-          ? '0.0.0.0' // match the listening host of Vue Devtools itself
-          : cfg.devServer.host
+        if (this.#vueDevtools === void 0) {
+          const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+            ? 'localhost'
+            : cfg.devServer.host
 
-        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
           this.#vueDevtools = {
             host,
-            port: await findClosestOpenPort(11111, host)
+            port: await findClosestOpenPort(11111, '0.0.0.0')
           }
         }
 
