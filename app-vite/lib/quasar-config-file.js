@@ -15,7 +15,7 @@ import { ensureElectronArgv } from './utils/ensure-argv.js'
 import { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } from './plugins/esbuild.inject-replacements.js'
 
 const urlRegex = /^http(s)?:\/\//i
-import { findClosestOpenPort } from '../lib/utils/net.js'
+import { findClosestOpenPort, localHostList } from './utils/net.js'
 import { isMinimalTerminal } from './utils/is-minimal-terminal.js'
 import { readFileEnv } from './utils/env.js'
 
@@ -27,8 +27,6 @@ const defaultPortMapping = {
   cordova: 9400,
   capacitor: 9500
 }
-
-const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
 const quasarConfigBanner = `/* eslint-disable */
 /**
@@ -118,7 +116,7 @@ async function onAddress ({ host, port }, mode) {
       host = cachedExternalHost
     }
     else {
-      const { getExternalIP } = await import('../lib/utils/get-external-ip.js')
+      const { getExternalIP } = await import('./utils/get-external-ip.js')
       host = await getExternalIP()
       cachedExternalHost = host
     }
@@ -835,17 +833,16 @@ export class QuasarConfigFile {
     }
 
     if (this.#ctx.dev) {
-      if (this.#ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
+      if (this.#vueDevtools === void 0) {
         const host = localHostList.includes(cfg.devServer.host.toLowerCase())
-          ? '0.0.0.0' // match the listening host of Vue Devtools itself
+          ? 'localhost'
           : cfg.devServer.host
 
-        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
-          this.#vueDevtools = {
-            host,
-            port: await findClosestOpenPort(11111, host)
-          }
+        this.#vueDevtools = {
+          host,
+          port: await findClosestOpenPort(11111, '0.0.0.0')
         }
+      }
 
         cfg.metaConf.vueDevtools = { ...this.#vueDevtools }
       }

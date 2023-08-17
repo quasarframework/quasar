@@ -1,6 +1,8 @@
 import os from 'node:os'
 import net from 'node:net'
 
+export const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
+
 export function getExternalNetworkInterface () {
   const networkInterfaces = os.networkInterfaces()
   const devices = []
