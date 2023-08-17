@@ -11,9 +11,9 @@ const argv = parseArgs(process.argv.slice(2), {
   },
   boolean: [ 'h', 'e', 'c', 'd' ],
   default: {
-    e: true,
-    c: true,
-    d: true
+    e: false,
+    c: false,
+    d: false
   }
 })
 
@@ -41,6 +41,14 @@ import { getCtx } from '../utils/get-ctx.js'
 const { appPaths } = getCtx()
 
 console.log()
+
+if (argv.entry !== true && argv.cache !== true && argv.dist !== true) {
+  Object.assign(argv, {
+    entry: true,
+    cache: true,
+    dist: true
+  })
+}
 
 if (argv.entry === true) {
   fse.removeSync(appPaths.resolve.app('.quasar'))
