@@ -2,7 +2,13 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    extraFileExtensions: [ '.vue' ],
+    parser: '@typescript-eslint/parser',
+    project: resolve(__dirname, './tsconfig.json'),
+    tsconfigRootDir: __dirname,
+    ecmaVersion: 2021, // Allows for the parsing of modern ECMAScript features
+    sourceType: 'module' // Allows for the use of imports
   },
 
   env: {
@@ -11,6 +17,8 @@ module.exports = {
   },
 
   extends: [
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/vue3-essential',

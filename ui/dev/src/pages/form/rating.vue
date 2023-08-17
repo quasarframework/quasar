@@ -84,7 +84,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   data () {
     return {
@@ -106,10 +106,10 @@ export default {
     }
   },
   methods: {
-    onChange (val) {
+    onChange (val: any) {
       console.log('@change', JSON.stringify(val))
     },
-    onInput (val) {
+    onInput (val: any) {
       console.log('@update:model-value', JSON.stringify(val))
     }
   }
