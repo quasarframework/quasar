@@ -396,6 +396,8 @@ function getIndexDts (apis) {
       write(directives, comments)
       writeLine(directives, `v${ typeName }: ${ typeValue }`)
 
+      writeLine(quasarTypeContents, `export const ${ typeName }: ${ typeValue }`)
+
       // Nothing else to do for directives
       return
     }
