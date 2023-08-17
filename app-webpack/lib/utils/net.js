@@ -1,6 +1,8 @@
 const os = require('os')
 const net = require('net')
 
+module.exports.localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
+
 module.exports.getExternalNetworkInterface = function getExternalNetworkInterface () {
   const networkInterfaces = os.networkInterfaces()
   const devices = []

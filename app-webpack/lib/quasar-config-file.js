@@ -16,7 +16,7 @@ const { getPackage } = require('./utils/get-package.js')
 const getPackageMajorVersion = require('./utils/get-package-major-version.js')
 const storeProvider = require('./utils/store-provider.js')
 const { createWebpackConfig } = require('./webpack/index.js')
-const { findClosestOpenPort } = require('./utils/net.js')
+const { findClosestOpenPort, localHostList } = require('./utils/net.js')
 const { readFileEnv } = require('./utils/env.js')
 const { quasarEsbuildInjectReplacementsDefine, quasarEsbuildInjectReplacementsPlugin } = require('./plugin.esbuild.inject-replacements.js')
 
@@ -40,8 +40,6 @@ const quasarConfigBanner = `/* eslint-disable */
  * deleted automatically.
  **/
 `
-
-const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -131,7 +129,7 @@ async function onAddress ({ host, port }, mode) {
       host = cachedExternalHost
     }
     else {
-      const { getExternalIP } = require('../lib/utils/get-external-ip.js')
+      const { getExternalIP } = require('./utils/get-external-ip.js')
       host = await getExternalIP()
       cachedExternalHost = host
     }
@@ -983,14 +981,14 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       if (this.ctx.vueDevtools === true || cfg.build.vueDevtools === true) {
-        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
-          ? '0.0.0.0' // match the listening host of Vue Devtools itself
-          : cfg.devServer.host
+        if (this.#vueDevtools === void 0) {
+          const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+            ? 'localhost'
+            : cfg.devServer.host
 
-        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
           this.#vueDevtools = {
             host,
-            port: await findClosestOpenPort(11111, host)
+            port: await findClosestOpenPort(11111, '0.0.0.0')
           }
         }
 

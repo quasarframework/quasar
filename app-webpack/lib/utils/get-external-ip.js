@@ -1,6 +1,6 @@
 const { warn, fatal } = require('./logger.js')
 
-module.exports.getExternalIP = async function () {
+module.exports.getExternalIP = async function getExternalIP () {
   const { getExternalNetworkInterface } = require('./net.js')
   const interfaces = await getExternalNetworkInterface()
 
