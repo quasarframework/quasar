@@ -176,6 +176,7 @@ function isClassStyleType (type) {
   return hits === 3
 }
 
+// See https://github.com/quasarframework/quasar/issues/16046#issuecomment-1666395268 for more info
 const serializableTypes = [ 'Any', 'Boolean', 'Number', 'String', 'Array', 'Object' ]
 function isSerializable (value) {
   const types = Array.isArray(value.type) ? value.type : [ value.type ]
@@ -236,6 +237,11 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
     for (const prop in obj) {
       // These props are always valid and doesn't need to be specified in 'props' of 'objectTypes' entries
       if ([ 'type', '__exemption' ].includes(prop)) {
+        continue
+      }
+
+      // 'configFileType' is always valid in any level of 'quasarConfOptions' and nothing else
+      if (prop === 'configFileType' && banner.includes('"quasarConfOptions"')) {
         continue
       }
 
@@ -350,8 +356,8 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
       }
     }
 
-    if (verifySerializable && isSerializable(obj) === false) {
-      logError(`${ banner } object's type is non-serializable but props in "quasarConfOptions" can only consist of ${ serializableTypes.join('/') }:`)
+    if (verifySerializable && obj.configFileType === undefined && isSerializable(obj) === false) {
+      logError(`${ banner } object's type is non-serializable but props in "quasarConfOptions" can only consist of ${ serializableTypes.join('/') } to be used in quasar.config file. Use "configFileType" prop to specify a serializable type for quasar.config file, or set to null if there is no suitable type:`)
       console.error(obj)
       console.log()
       process.exit(1)

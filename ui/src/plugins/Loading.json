@@ -52,7 +52,8 @@
         "desc": "Color name for background from the Quasar Color Palette"
       },
       "spinner": {
-        "type": "String",
+        "type": "Component",
+        "configFileType": "String",
         "desc": "One of the QSpinners",
         "examples": [ "QSpinnerAudio" ]
       },
