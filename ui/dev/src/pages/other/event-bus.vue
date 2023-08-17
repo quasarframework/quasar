@@ -9,6 +9,8 @@
       <li>called onSomeOtherEvent</li>
       <li>called onMyEvent</li>
       <li>called onMyEvent2</li>
+      <li>['a', 'b']</li>
+      <li>['a', 'b']</li>
     </ul>
   </div>
 </template>
@@ -53,4 +55,14 @@ bus.on('my-event', onMyEvent2)
 bus.emit('my-event')
 bus.off('my-event')
 bus.emit('my-event')
+
+bus.once('foo', (a, b) => {
+  console.log([a, b])
+})
+
+bus.on('foo', (a, b) => {
+  console.log([a, b])
+})
+
+bus.emit('foo', 'a', 'b')
 </script>
