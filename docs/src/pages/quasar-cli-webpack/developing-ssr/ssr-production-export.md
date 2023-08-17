@@ -63,7 +63,7 @@ Detailing the Object:
 {
   app,     // Expressjs app instance
 
-  port,    // process.env.PORT or quasar.config file > ssr > prodPort
+  port,    // process∙env∙PORT or quasar.config file > ssr > prodPort
 
   isReady, // Function to call returning a Promise
            // when app is ready to serve clients

@@ -208,7 +208,6 @@ if (process.env.MODE !== 'ssr' || process.env.PROD) {
     )
   )
 }
-
 ```
 
 ## Configuring Manifest File

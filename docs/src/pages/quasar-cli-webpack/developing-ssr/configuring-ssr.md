@@ -52,7 +52,7 @@ return {
     manualPostHydrationTrigger: false,
 
     prodPort: 3000, // The default port that the production server should use
-                    // (gets superseded if process.env.PORT is specified at runtime)
+                    // (gets superseded if process∙env∙PORT is specified at runtime)
 
     maxAge: 1000 * 60 * 60 * 24 * 30,
         // Tell browser when a file from the server should expire from cache

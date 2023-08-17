@@ -10,7 +10,7 @@ Accessing `process.env` can help you in many ways:
 
 ## Values supplied by Quasar CLI
 
-| `process.env.<name>` | Type | Meaning |
+| `process∙env∙<name>` | Type | Meaning |
 | --- | --- | --- |
 | `DEV` | Boolean | Code runs in development mode |
 | `PROD` | Boolean | Code runs in production mode |
@@ -27,7 +27,7 @@ if (process.env.DEV) {
   console.log(`I'm on a development build`)
 }
 
-// process.env. MODE is the <mode> in
+// process∙env∙MODE is the <mode> in
 // "quasar dev/build -m <mode>"
 // (defaults to 'spa' if -m parameter is not specified)
 
@@ -106,7 +106,7 @@ module.exports = function (ctx) {
 }
 ```
 
-Then in your website/app you can access `process.env. API` and it's gonna point to one of those two links above, based on dev or production build type.
+Then in your website/app you can access `process∙env∙API` and it's gonna point to one of those two links above, based on dev or production build type.
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
 
@@ -151,7 +151,7 @@ If you want to be able to override what's inside `.env` or want to make the `.en
 ```js
 // quasar.config file
 
-// This will load from `.env` if it exists, but not override existing `process.env.*` values
+// This will load from `.env` if it exists, but not override existing `process∙env∙*` values
 require('dotenv').config()
 
 // process.env now contains the terminal variables and the ones from the .env file
