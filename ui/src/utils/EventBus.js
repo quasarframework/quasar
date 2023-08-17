@@ -18,9 +18,9 @@ export default class EventBus {
   }
 
   once (name, callback, ctx) {
-    const listener = () => {
+    const listener = (...args) => {
       this.off(name, listener)
-      callback.apply(ctx, arguments)
+      callback.apply(ctx, args)
     }
 
     listener.__callback = callback
