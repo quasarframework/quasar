@@ -833,16 +833,17 @@ export class QuasarConfigFile {
     }
 
     if (this.#ctx.dev) {
-      if (this.#vueDevtools === void 0) {
-        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
-          ? 'localhost'
-          : cfg.devServer.host
+      if (this.#ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
+        if (this.#vueDevtools === void 0) {
+          const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+            ? 'localhost'
+            : cfg.devServer.host
 
-        this.#vueDevtools = {
-          host,
-          port: await findClosestOpenPort(11111, '0.0.0.0')
+          this.#vueDevtools = {
+            host,
+            port: await findClosestOpenPort(11111, '0.0.0.0')
+          }
         }
-      }
 
         cfg.metaConf.vueDevtools = { ...this.#vueDevtools }
       }
