@@ -14,12 +14,10 @@ const getPackage = require('./helpers/get-package')
 const getPackageMajorVersion = require('./helpers/get-package-major-version')
 const storeProvider = require('./helpers/store-provider')
 const { quasarVersion } = require('./helpers/banner')
-const { findClosestOpenPort } = require('./helpers/net')
+const { findClosestOpenPort, localHostList } = require('./helpers/net')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
-
-const localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -109,7 +107,7 @@ async function onAddress ({ host, port }, mode) {
       host = cachedExternalHost
     }
     else {
-      const { getExternalIP } = require('./helpers/get-external-ip.js')
+      const getExternalIP = require('./helpers/get-external-ip.js')
       host = await getExternalIP()
       cachedExternalHost = host
     }
@@ -726,14 +724,14 @@ class QuasarConfFile {
       }
 
       if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
-        const host = localHostList.includes(cfg.devServer.host.toLowerCase())
-          ? '0.0.0.0' // match the listening host of Vue Devtools itself
-          : cfg.devServer.host
+        if (this.#vueDevtools === void 0) {
+          const host = localHostList.includes(cfg.devServer.host.toLowerCase())
+            ? 'localhost'
+            : cfg.devServer.host
 
-        if (this.#vueDevtools === void 0 || this.#vueDevtools.host !== host) {
           this.#vueDevtools = {
             host,
-            port: await findClosestOpenPort(11111, host)
+            port: await findClosestOpenPort(11111, '0.0.0.0')
           }
         }
 
