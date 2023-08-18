@@ -99,7 +99,7 @@ export function transformHtml (template, quasarConf) {
   html = html.replace(
     entryPointMarkup,
     (quasarConf.ctx.mode.ssr === true ? entryPointMarkup : attachMarkup)
-      + quasarConf.metaConf.entryScript
+      + quasarConf.metaConf.entryScriptTag
   )
 
   // publicPath will be handled by Vite middleware
@@ -158,7 +158,7 @@ export function getDevSsrTemplateFn (template, quasarConf) {
 
   html = html.replace(
     entryPointMarkup,
-    `${ entryPointMarkup }${ quasarConf.metaConf.entryScript }`
+    `${ entryPointMarkup }${ quasarConf.metaConf.entryScriptTag }`
   )
 
   return compileTemplate(html, { interpolate: /{{([\s\S]+?)}}/g, variable: 'ssrContext' })

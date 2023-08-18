@@ -1,5 +1,6 @@
 
 import { readFileSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 
 import { getPackagePath } from './get-package-path.js'
 
@@ -16,7 +17,7 @@ export async function getPackage (pkgName, dir) {
     const pkgPath = getPackagePath(pkgName, dir)
     return pkgPath.endsWith('.json') === true
       ? JSON.parse(readFileSync(pkgPath, 'utf-8'))
-      : await import(pkgPath)
+      : await import(pathToFileURL(pkgPath))
   }
   catch (e) {}
 }

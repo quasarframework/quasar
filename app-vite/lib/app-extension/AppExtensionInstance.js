@@ -1,5 +1,6 @@
 
 import { join, relative, resolve, dirname } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import fse from 'fs-extra'
 import { createRequire } from 'node:module'
 import inquirer from 'inquirer'
@@ -353,7 +354,10 @@ export class AppExtensionInstance {
     }
 
     if (this.packageFormat === 'esm') {
-      const { default: fn } = await import(script)
+      const { default: fn } = await import(
+        pathToFileURL(script)
+      )
+
       return fn
     }
 

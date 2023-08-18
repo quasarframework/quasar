@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { createServer } from 'vite'
 import chokidar from 'chokidar'
 import debounce from 'lodash/debounce.js'
@@ -30,7 +31,7 @@ function renderError ({ err, req, res }) {
   renderSSRError({ err, req, res })
 }
 
-async function warmupServer ({ viteClient, viteServer, pathMap }) {
+async function warmupServer ({ viteClient, viteServer, clientEntry, serverEntry }) {
   const done = progress('Warming up...')
 
   if (renderSSRError === void 0) {
@@ -39,8 +40,8 @@ async function warmupServer ({ viteClient, viteServer, pathMap }) {
   }
 
   try {
-    await viteServer.ssrLoadModule(pathMap.serverEntryFile)
-    await viteClient.transformRequest(pathMap.clientEntryFile)
+    await viteServer.ssrLoadModule(serverEntry)
+    await viteClient.transformRequest(clientEntry)
   }
   catch (err) {
     warn('Warmup failed!', 'FAIL')
@@ -95,7 +96,6 @@ export class QuasarModeDevserver extends AppDevserver {
       templatePath: appPaths.resolve.app('index.html'),
       serverFile: appPaths.resolve.entry('compiled-dev-webserver.mjs'),
       serverEntryFile: appPaths.resolve.entry('server-entry.mjs'),
-      clientEntryFile: relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/'),
       resolvePublicFolder () {
         return join(publicFolder, ...arguments)
       }
@@ -264,7 +264,12 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     }
 
-    await warmupServer({ viteClient, viteServer, pathMap: this.#pathMap })
+    await warmupServer({
+      viteClient,
+      viteServer,
+      clientEntry: quasarConf.metaConf.entryScriptWebPath,
+      serverEntry: this.#pathMap.serverEntryFile
+    })
 
     await this.#bootWebserver(quasarConf)
 
@@ -280,7 +285,9 @@ export class QuasarModeDevserver extends AppDevserver {
   async #bootWebserver (quasarConf) {
     const done = progress(`${ this.#closeWebserver !== void 0 ? 'Restarting' : 'Starting' } webserver...`)
 
-    const { create, listen, close, injectMiddlewares, serveStaticContent } = await import(this.#pathMap.serverFile + '?t=' + Date.now())
+    const { create, listen, close, injectMiddlewares, serveStaticContent } = await import(
+      pathToFileURL(this.#pathMap.serverFile) + '?t=' + Date.now()
+    )
     const { publicPath } = this.#appOptions
     const { resolvePublicFolder } = this.#pathMap
 

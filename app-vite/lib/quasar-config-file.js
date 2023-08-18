@@ -1,4 +1,5 @@
-import { join, isAbsolute, basename, dirname } from 'node:path'
+import { join, isAbsolute, basename, dirname, relative } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { existsSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import fse from 'fs-extra'
@@ -272,7 +273,10 @@ export class QuasarConfigFile {
 
     let quasarConfigFn
     try {
-      const fnResult = await import(this.#tempFile)
+      const fnResult = await import(
+        pathToFileURL(this.#tempFile)
+      )
+
       quasarConfigFn = fnResult.default || fnResult
     }
     catch (e) {
@@ -336,7 +340,7 @@ export class QuasarConfigFile {
 
           try {
             const result = appPaths.quasarConfigOutputFormat === 'esm'
-              ? await import(tempFile + '?t=' + Date.now()) // we also need to cache bust it, hence the ?t= param
+              ? await import(pathToFileURL(tempFile) + '?t=' + Date.now()) // we also need to cache bust it, hence the ?t= param
               : this.#require(tempFile)
 
             quasarConfigFn = result.default || result
@@ -503,7 +507,6 @@ export class QuasarConfigFile {
       needsAppMountHook: false,
       vueDevtools: false,
       versions: { ...this.#versions }, // used by entry templates
-      entryScript: `<script type="module" src="${ appPaths.resolve.entry('client-entry.js').replaceAll('\\', '/') }"></script>`,
       css: { ...this.#cssVariables }
     }
 
@@ -1023,6 +1026,12 @@ export class QuasarConfigFile {
 
       ensureInstall(cfg.electron.bundler)
     }
+
+    const entryScriptWebPath = cfg.build.publicPath + relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/')
+    Object.assign(cfg.metaConf, {
+      entryScriptWebPath,
+      entryScriptTag: `<script type="module" src="${ entryScriptWebPath }"></script>`
+    })
 
     cfg.htmlVariables = merge({
       ctx: cfg.ctx,
