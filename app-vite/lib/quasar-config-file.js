@@ -189,7 +189,7 @@ export class QuasarConfigFile {
       : () => {}
 
     const quasarConfigFileExtension = appPaths.quasarConfigOutputFormat === 'esm' ? 'mjs' : appPaths.quasarConfigOutputFormat
-    this.#tempFile = `${ appPaths.quasarConfigFilename }.temporary.compiled.${ quasarConfigFileExtension }`
+    this.#tempFile = `${ appPaths.quasarConfigFilename }.temporary.compiled.${ Date.now() }.${ quasarConfigFileExtension }`
 
     log(`Using ${ basename(appPaths.quasarConfigFilename) } in "${ appPaths.quasarConfigInputFormat }" format`)
   }
@@ -284,7 +284,7 @@ export class QuasarConfigFile {
       console.error(e)
       fatal(
         'The quasar.config file has runtime errors. Please check the Node.js stack above against the'
-        + ` temporarily created ${ basename(this.#tempFile) } file and fix the original file.`,
+        + ` temporarily created ${ basename(this.#tempFile) } file, fix the original file then DELETE the temporary one.`,
         'FAIL'
       )
     }
@@ -423,7 +423,8 @@ export class QuasarConfigFile {
 
       const msg = 'The quasar.config file has runtime errors.'
         + ' Please check the Node.js stack above against the'
-        + ` temporarily created ${ basename(this.#tempFile) } file.`
+        + ` temporarily created ${ basename(this.#tempFile) } file`
+        + ' then DELETE it.'
 
       if (failOnError === true) {
         fatal(msg, 'FAIL')
