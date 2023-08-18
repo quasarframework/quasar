@@ -48,7 +48,10 @@ else {
     // deferring to locally installed Quasar CLI
     if (localFile.endsWith('.js')) {
       // local CLI is in ESM format by convention
-      import(localFile)
+      const { pathToFileURL } = await import('node:url')
+      import(
+        pathToFileURL(localFile)
+      )
     }
     else {
       const { createRequire } = await import('node:module')
