@@ -353,7 +353,9 @@ export default createComponent({
     }
 
     function onMouseenter () {
-      hover.value = true
+      setTimeout(() => {
+        hover.value = true
+      }, proxy.$q.platform.is.ios ? 50 : 0)
     }
 
     function onMouseleave () {
