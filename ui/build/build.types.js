@@ -96,6 +96,11 @@ function getTypeVal (def) {
     return 'QNotifyCreateOptions | string'
   }
 
+  // fix https://github.com/quasarframework/quasar/issues/16204
+  if (Array.isArray(def.type) && def.tsType === 'NamedColor') {
+    return def.type.map(type => `${ def.tsType }${ type === 'Array' ? '[]' : '' }`).join(' | ')
+  }
+
   return Array.isArray(def.type)
     ? def.tsType || def.type.map(type => convertTypeVal(type, def)).join(' | ')
     : convertTypeVal(def.type, def)
