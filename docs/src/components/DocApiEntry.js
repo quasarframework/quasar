@@ -1,5 +1,5 @@
 import { h, ref } from 'vue'
-import { QBadge, QBtn, Notify } from 'quasar'
+import { QBadge, QBtn, Notify, QBtnToggle } from 'quasar'
 import { copyToClipboard } from 'assets/page-utils.js'
 import { mdiMinusBox, mdiPlusBox } from '@quasar/extras/mdi-v6'
 
@@ -270,7 +270,17 @@ function getPropDetails (openState, masterKey, prop, level) {
 }
 
 function getProp (openState, masterKey, prop, propName, level, onlyChildren) {
-  const type = getStringType(prop.type)
+  const configToggle = useConfigToggle(openState)
+  if (configToggle.enabled && configToggle.type === 'configFile' && prop.configFileType === null) {
+    return
+  }
+
+  const rawType = configToggle.enabled
+    ? configToggle.type === 'configFile'
+      ? prop.configFileType || prop.type
+      : prop.type
+    : prop.type
+  const type = getStringType(rawType)
   const child = []
 
   if (propName !== void 0) {
@@ -481,13 +491,65 @@ describe.injection = (_, injection) => {
   ]
 }
 
+function useConfigToggle (openState) {
+  return {
+    enabled: openState.value.quasarConfOptions !== undefined,
+    type: openState.value.quasarConfOptions
+      ? 'uiConfig'
+      : 'configFile',
+    setType: (type) => {
+      openState.value.quasarConfOptions = type === 'uiConfig'
+    }
+  }
+}
 describe.quasarConfOptions = (openState, conf) => {
-  const entry = [
-    getNameDiv(conf, conf.propName, 0, false, 'quasar.config file > framework > config > '),
-    getDiv(12, 'Type', getStringType(conf.type || 'Object')),
-    conf.desc ? getDiv(12, 'Description', conf.desc) : null,
-    getPropDetails(openState, 'quasarConfOptions', conf, 0)
-  ]
+  const configToggle = useConfigToggle(openState)
+
+  if (configToggle.enabled === false) {
+    const needsConfigToggle = conf.definition && Object.values(conf.definition).some(({ configFileType }) => configFileType !== undefined)
+    if (needsConfigToggle) {
+      openState.value.quasarConfOptions = false
+    }
+  }
+
+  const configFileName = () => getNameDiv(conf, conf.propName, 0, false, 'quasar.config file > framework > config > ')
+  const uiConfigName = () => getNameDiv(conf, conf.propName, 0, '... }})', 'app.use(Quasar, { config: { ')
+
+  const entry = configToggle.enabled
+    ? [
+        configToggle.type === 'configFile'
+          ? configFileName()
+          : uiConfigName(),
+        getDiv(8, 'Type', getStringType(conf.configFileType || conf.type || 'Object')),
+        h(
+          'div',
+          { class: 'doc-api-entry__item col row justify-end items-center' },
+          [
+            h(QBtnToggle, {
+              modelValue: configToggle.type,
+              'onUpdate:modelValue': configToggle.setType,
+              options: [
+                { label: 'quasar.config file', value: 'configFile' },
+                { label: 'UI config', value: 'uiConfig' }
+              ],
+              noCaps: true,
+              rounded: true,
+              outline: true,
+              toggleColor: 'orange-8'
+            })
+          ])
+      ]
+    : [
+        configFileName(),
+        uiConfigName(),
+        getDiv(12, 'Type', getStringType(conf.type || 'Object'))
+      ]
+
+  if (conf.desc) {
+    entry.push(getDiv(12, 'Description', conf.desc))
+  }
+
+  entry.push(getPropDetails(openState, 'quasarConfOptions', conf, 0))
 
   return [
     h('div', { class: 'doc-api-entry row' }, entry)
