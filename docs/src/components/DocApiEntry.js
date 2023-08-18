@@ -551,6 +551,15 @@ describe.quasarConfOptions = (openState, conf) => {
 
   entry.push(getPropDetails(openState, 'quasarConfOptions', conf, 0))
 
+  if (conf.definition && Object.keys(conf.definition).length === 0) {
+    entry.push(
+      h('div', { class: 'q-pa-md doc-api__nothing-to-show' }, [
+        h('div', 'No matching props found.'),
+        h('div', 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.')
+      ])
+    )
+  }
+
   return [
     h('div', { class: 'doc-api-entry row' }, entry)
   ]
