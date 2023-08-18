@@ -19,7 +19,7 @@ import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 
 <% if (ctx.mode.bex) { %>
 import { uid } from 'quasar'
-import BexBridge from './bex/bridge'
+import BexBridge from './bex-bridge'
 <% } %>
 
 <% const bootEntries = boot.filter(asset => asset.client !== false) %>
