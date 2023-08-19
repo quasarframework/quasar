@@ -18,6 +18,7 @@ const { findClosestOpenPort, localHostList } = require('./helpers/net')
 
 const transformAssetUrls = getPackage('quasar/dist/transforms/loader-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
+const quasarComponentRE = /^(Q[A-Z]|q-)/
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -245,7 +246,8 @@ class QuasarConfFile {
       framework: {
         components: [],
         directives: [],
-        plugins: []
+        plugins: [],
+        config: {}
       },
       animations: [],
       extras: [],
@@ -430,11 +432,19 @@ class QuasarConfFile {
     }
 
     // special case where a component can be designated for a framework > config prop
-    if (cfg.framework.config && cfg.framework.config.loading) {
-      const component = cfg.framework.config.loading.spinner
-      // Is a component and is a QComponent
-      if (component !== void 0 && /^(Q[A-Z]|q-)/.test(component) === true) {
-        cfg.framework.components.push(component)
+    const { config } = cfg.framework
+
+    if (config.loading) {
+      const { spinner } = config.loading
+      if (quasarComponentRE.test(spinner)) {
+        cfg.framework.components.push(spinner)
+      }
+    }
+
+    if (config.notify) {
+      const { spinner } = config.notify
+      if (quasarComponentRE.test(spinner)) {
+        cfg.framework.components.push(spinner)
       }
     }
 

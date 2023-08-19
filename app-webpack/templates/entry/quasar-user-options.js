@@ -41,9 +41,14 @@ import iconSet from '<%= framework.iconSet.includes('/') ? '' : 'quasar/icon-set
 import <%= '{' + importStatement.join(',') + '}' %> from 'quasar'
 <% } %>
 
-<% if (framework.config && framework.config.loading && framework.config.loading.spinner) { %>
+<% if (framework.config.loading?.spinner || framework.config.notify?.spinner) { %>
 const userOptions = { <%= useStatement.join(',') %> }
+  <% if (framework.config.loading?.spinner) { %>
 userOptions.config.loading.spinner = <%= framework.config.loading.spinner %>
+  <% } %>
+  <% if (framework.config.notify?.spinner) { %>
+userOptions.config.notify.spinner = <%= framework.config.notify.spinner %>
+  <% } %>
 export default userOptions
 <% } else { %>
 export default { <%= useStatement.join(',') %> }
