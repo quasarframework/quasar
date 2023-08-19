@@ -462,6 +462,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       },
 
       framework: {
+        config: {},
         components: [],
         directives: [],
         plugins: []
@@ -653,7 +654,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       cfg.framework.autoImportComponentCase = 'kebab'
     }
 
-    // special case where a component can be designated for a framework > config prop
     // special case where a component can be designated for a framework > config prop
     const { config } = cfg.framework
 
