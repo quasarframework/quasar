@@ -65,7 +65,8 @@
       },
 
       "spinner": {
-        "type": "Boolean",
+        "type": [ "Boolean", "Component" ],
+        "configFileType": [ "Boolean", "String" ],
         "desc": "Useful for notifications that are updated; Displays a Quasar spinner instead of an avatar or icon; If value is Boolean 'true' then the default QSpinner is shown",
         "examples": [ true, "QSpinnerBars" ]
       },

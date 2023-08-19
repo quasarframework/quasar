@@ -641,11 +641,23 @@ export class QuasarConfigFile {
     }
 
     // special case where a component can be designated for a framework > config prop
-    if (cfg.framework.config && cfg.framework.config.loading) {
-      const component = cfg.framework.config.loading.spinner
+    if (cfg.framework.config) {
+      const config = cfg.framework.config
       // Is a component and is a QComponent
-      if (component !== void 0 && /^(Q[A-Z]|q-)/.test(component) === true) {
-        cfg.framework.components.push(component)
+      const isComponent = (component) => component !== void 0 && /^(Q[A-Z]|q-)/.test(component) === true
+
+      if (config.loading) {
+        const component = config.loading.spinner
+        if (isComponent(component)) {
+          cfg.framework.components.push(component)
+        }
+      }
+
+      if (config.notify) {
+        const component = config.notify.spinner
+        if (isComponent(component)) {
+          cfg.framework.components.push(component)
+        }
       }
     }
 
