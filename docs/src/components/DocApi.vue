@@ -182,7 +182,7 @@ function getFilteredApi (parsedApi, filter, tabs, innerTabs) {
       }
       const result = acc[ tab ][ defaultInnerTabName ]
 
-      for (const name in (api.definition ?? {})) {
+      for (const name in (api.definition || {})) {
         const entry = api.definition[ name ]
         if (passesFilter(filter, name, entry.desc) === true) {
           result.definition[ name ] = entry
