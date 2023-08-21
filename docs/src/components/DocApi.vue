@@ -164,6 +164,38 @@ function getFilteredApi (parsedApi, filter, tabs, innerTabs) {
   const acc = {}
 
   tabs.forEach(tab => {
+    if (tab === 'injection') {
+      const name = parsedApi[ tab ][ defaultInnerTabName ]
+      acc[ tab ] = {}
+      acc[ tab ][ defaultInnerTabName ] = passesFilter(filter, name, '') === true
+        ? name
+        : {}
+      return
+    }
+
+    if (tab === 'quasarConfOptions') {
+      const api = parsedApi[ tab ][ defaultInnerTabName ]
+      acc[ tab ] = {}
+      acc[ tab ][ defaultInnerTabName ] = {
+        ...api,
+        definition: {}
+      }
+      const result = acc[ tab ][ defaultInnerTabName ]
+
+      for (const name in (api.definition || {})) {
+        const entry = api.definition[ name ]
+        if (passesFilter(filter, name, entry.desc) === true) {
+          result.definition[ name ] = entry
+        }
+      }
+
+      if (Object.keys(result.definition).length === 0 && passesFilter(filter, api.propName, '') === false) {
+        acc[ tab ][ defaultInnerTabName ] = {}
+      }
+
+      return
+    }
+
     const tabApi = parsedApi[ tab ]
     const tabCategories = innerTabs[ tab ]
 
@@ -193,11 +225,23 @@ function getApiCount (parsedApi, tabs, innerTabs) {
     const tabApi = parsedApi[ tab ]
     const tabCategories = innerTabs[ tab ]
 
-    if ([ 'value', 'arg', 'quasarConfOptions', 'injection' ].includes(tab)) {
+    if ([ 'value', 'arg', 'injection' ].includes(tab)) {
       acc[ tab ] = {
         overall: Object.keys(tabApi[ tabCategories[ 0 ] ]).length === 0
           ? 0
           : 1
+      }
+      return
+    }
+
+    if (tab === 'quasarConfOptions') {
+      const api = tabApi[ tabCategories[ 0 ] ]
+      acc[ tab ] = {
+        overall: Object.keys(api).length === 0
+          ? 0
+          : api.definition === void 0
+            ? 1
+            : Object.keys(api.definition).length
       }
       return
     }
