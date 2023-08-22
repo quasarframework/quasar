@@ -21,5 +21,7 @@ export function getPackageJson (pkgName, dir) {
       )
     )
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

@@ -17,5 +17,7 @@ export function getPackagePath (pkgName, dir) {
       paths: [ dir ]
     })
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

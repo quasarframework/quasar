@@ -1,6 +1,6 @@
 
 import { AppTool } from './app-tool.js'
-import { printDevBanner } from './utils/print-dev-banner.js'
+import { printDevRunningBanner } from './utils/banner.js'
 import { encodeForDiff } from './utils/encode-for-diff.js'
 import { EntryFilesGenerator } from './entry-files-generator.js'
 
@@ -122,6 +122,6 @@ export class AppDevserver extends AppTool {
   }
 
   printBanner (quasarConf) {
-    printDevBanner(quasarConf)
+    printDevRunningBanner(quasarConf)
   }
 }

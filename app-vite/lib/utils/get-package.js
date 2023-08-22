@@ -19,5 +19,7 @@ export async function getPackage (pkgName, dir) {
       ? JSON.parse(readFileSync(pkgPath, 'utf-8'))
       : await import(pathToFileURL(pkgPath))
   }
-  catch (e) {}
+  catch (_) {
+    /* do and return nothing */
+  }
 }

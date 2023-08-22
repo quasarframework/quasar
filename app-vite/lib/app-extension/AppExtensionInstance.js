@@ -112,6 +112,8 @@ export class AppExtensionInstance {
   extId
   packageFullName
   packageName
+  packageFormat
+  packagePath
 
   constructor ({ extName, ctx, appExtJson }) {
     this.#ctx = ctx
@@ -197,7 +199,7 @@ export class AppExtensionInstance {
       }
     }
 
-    // yarn/npm install
+    // yarn/npm/pnpm install
     if (skipPkgInstall !== true) {
       await this.#installPackage()
     }
@@ -242,7 +244,7 @@ export class AppExtensionInstance {
 
     this.#appExtJson.remove(this.extId)
 
-    // yarn/npm uninstall
+    // yarn/npm/pnpm uninstall
     if (skipPkgUninstall !== true) {
       await this.#uninstallPackage()
     }
@@ -305,7 +307,7 @@ export class AppExtensionInstance {
 
   async #installPackage () {
     const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
-    nodePackager.installPackage(this.packageFullName, { isDev: true })
+    nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
   }
 
   async #uninstallPackage () {

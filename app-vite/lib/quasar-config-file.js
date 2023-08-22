@@ -196,16 +196,16 @@ export class QuasarConfigFile {
   }
 
   async init () {
-    const { cacheProxy, appExt } = this.#ctx
+    const { appPaths, cacheProxy, appExt } = this.#ctx
 
     this.#cssVariables = await cacheProxy.getModule('cssVariables')
     this.#storeProvider = await cacheProxy.getModule('storeProvider')
 
-    appExt.registerAppExtensions()
+    await appExt.registerAppExtensions()
 
     if (this.#ctx.mode.pwa) {
       // Enable this when workbox bumps version (as of writing these lines, we're handling v6 & v7)
-      // this.#versions.workbox = getPackageMajorVersion('workbox-build', this.#ctx.appPaths.appDir)
+      // this.#versions.workbox = getPackageMajorVersion('workbox-build', appPaths.appDir)
     }
     else if (this.#ctx.mode.capacitor) {
       const { capVersion } = await cacheProxy.getModule('capCli')
@@ -213,7 +213,7 @@ export class QuasarConfigFile {
       const getCapPluginVersion = capVersion <= 2
         ? () => true
         : name => {
-          const version = getPackageMajorVersion(name, this.#ctx.appPaths.capacitorDir)
+          const version = getPackageMajorVersion(name, appPaths.capacitorDir)
           return version === void 0
             ? false
             : version || true
@@ -371,7 +371,7 @@ export class QuasarConfigFile {
             delete this.#require.cache[ tempFile ]
           }
 
-          const quasarConf = await this.#computeConfig(quasarConfigFn, isFirst)
+          const { quasarConf } = await this.#computeConfig(quasarConfigFn, isFirst)
 
           if (quasarConf === void 0) {
             return
@@ -379,7 +379,7 @@ export class QuasarConfigFile {
 
           if (isFirst === true) {
             isFirst = false
-            firstBuildIsDone(quasarConf)
+            firstBuildIsDone({ quasarConf })
             return
           }
 
@@ -410,7 +410,7 @@ export class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix it.\n')
-      return
+      return {}
     }
 
     let userCfg
@@ -432,7 +432,7 @@ export class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix the errors in the original file.\n')
-      return
+      return {}
     }
 
     if (Object(userCfg) !== userCfg) {
@@ -445,7 +445,7 @@ export class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix it.\n')
-      return
+      return {}
     }
 
     fse.removeSync(this.#tempFile)
@@ -531,7 +531,7 @@ export class QuasarConfigFile {
       }
 
       warn('One of your installed App Extensions failed to run.\n')
-      return
+      return {}
     }
 
     const cfg = {
@@ -996,9 +996,7 @@ export class QuasarConfigFile {
         cfg.electron.bundler = getDefaultName()
       }
 
-      if (this.#opts.argv !== void 0) {
-        ensureElectronArgv(cfg.electron.bundler, this.#opts.argv)
-      }
+      ensureElectronArgv(cfg.electron.bundler, this.#ctx)
 
       if (cfg.electron.bundler === 'packager') {
         if (cfg.ctx.targetName) {
@@ -1054,6 +1052,6 @@ export class QuasarConfigFile {
       cfg.metaConf.needsAppMountHook = true
     }
 
-    return cfg
+    return { quasarConf: cfg }
   }
 }

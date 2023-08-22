@@ -59,8 +59,8 @@ const ctx = getCtx({
   prod: argv.cmd === 'build'
 })
 
-import { displayBanner } from '../utils/banner-global.js'
-displayBanner(argv, ctx, argv.cmd)
+import { displayBanner } from '../utils/banner.js'
+displayBanner({ argv, ctx, cmd: argv.cmd })
 
 import { log, fatal } from '../utils/logger.js'
 const { isModeInstalled } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
@@ -80,7 +80,7 @@ const quasarConfFile = new QuasarConfigFile({
 
 await quasarConfFile.init()
 
-const quasarConf = await quasarConfFile.read()
+const { quasarConf } = await quasarConfFile.read()
 
 const { modeConfig } = await import(`../modes/${ argv.mode }/${ argv.mode }-config.js`)
 

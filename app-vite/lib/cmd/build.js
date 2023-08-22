@@ -112,8 +112,8 @@ const ctx = getCtx({
   publish: argv.publish
 })
 
-const { displayBanner } = await import('../utils/banner-global.js')
-displayBanner(argv, ctx, 'build')
+const { displayBanner } = await import('../utils/banner.js')
+displayBanner({ argv, ctx, cmd: 'build' })
 
 const { log } = await import('../utils/logger.js')
 
@@ -130,7 +130,7 @@ const quasarConfFile = new QuasarConfigFile({
 
 await quasarConfFile.init()
 
-const quasarConf = await quasarConfFile.read()
+const { quasarConf } = await quasarConfFile.read()
 
 const { regenerateTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
 await regenerateTypesFeatureFlags(quasarConf)
@@ -161,9 +161,14 @@ appBuilder.build().then(async () => {
     ? path.join(outputFolder, '..')
     : outputFolder
 
-  displayBanner(argv, ctx, 'build', {
-    buildOutputFolder: outputFolder,
-    target: quasarConf.build.target
+  displayBanner({
+    argv,
+    ctx,
+    cmd: 'build',
+    details: {
+      buildOutputFolder: outputFolder,
+      target: quasarConf.build.target
+    }
   })
 
   if (typeof quasarConf.build.afterBuild === 'function') {

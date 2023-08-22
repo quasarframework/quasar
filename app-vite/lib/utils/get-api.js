@@ -17,7 +17,9 @@ export async function getApi (item, ctx) {
       return { api }
     }
   }
-  catch (e) {}
+  catch (_) {
+    /* do nothing */
+  }
 
   if (extensionList.length === 0) {
     fatal(`No API found for requested "${ item }"`)
@@ -65,7 +67,7 @@ export async function getApi (item, ctx) {
         supplier: ext.extId
       }
     }
-    catch (e) {
+    catch (_) {
       fatal(`Extension(${ ext.extId }): Malformed API file at ${ file }`)
     }
   }

@@ -1,6 +1,8 @@
-import { green, gray, underline } from 'kolorist'
+import { green, gray, underline, dim } from 'kolorist'
+import { join } from 'node:path'
 
 import { cliPkg } from '../utils/cli-runtime.js'
+import { getIPs } from '../utils/net.js'
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
@@ -16,7 +18,7 @@ function getPackager (argv, cmd) {
     : 'gradle'
 }
 
-export function getCompilationTarget (target) {
+function getCompilationTarget (target) {
   return green(
     Array.isArray(target) === true
       ? target.join('|')
@@ -24,10 +26,10 @@ export function getCompilationTarget (target) {
   )
 }
 
-export function displayBanner (argv, ctx, cmd, details = {}) {
+export function displayBanner ({ argv, ctx, cmd, details }) {
   let banner = ''
 
-  if (details.buildOutputFolder) {
+  if (details?.buildOutputFolder) {
     banner += ` ${ underline('Build succeeded') }\n`
   }
 
@@ -52,14 +54,14 @@ export function displayBanner (argv, ctx, cmd, details = {}) {
       : `\n Running mode........... ${ packaging }`
   }
 
-  if (details.target) {
+  if (details?.target) {
     banner += `\n Browser target......... ${ getCompilationTarget(details.target.browser) }`
     if ([ 'electron', 'ssr' ].includes(argv.mode)) {
       banner += `\n Node target............ ${ getCompilationTarget(details.target.node) }`
     }
   }
 
-  if (details.buildOutputFolder) {
+  if (details?.buildOutputFolder) {
     if (argv[ 'skip-pkg' ] !== true) {
       banner += `
  =======================
@@ -117,4 +119,60 @@ export function displayBanner (argv, ctx, cmd, details = {}) {
   }
 
   console.log(banner + '\n')
+}
+
+const greenBanner = green('»')
+const line = dim('   ———————————————————————')
+const cache = {}
+
+function getIPList () {
+  // expensive operation, so cache the response
+  if (cache.ipList === void 0) {
+    cache.ipList = getIPs().map(ip => (ip === '127.0.0.1' ? 'localhost' : ip))
+  }
+
+  return cache.ipList
+}
+
+export function printDevRunningBanner (quasarConf) {
+  const { ctx } = quasarConf
+
+  const banner = [
+    ` ${ greenBanner } Reported at............ ${ dim(new Date().toLocaleDateString()) } ${ dim(new Date().toLocaleTimeString()) }`,
+    ` ${ greenBanner } App dir................ ${ green(ctx.appPaths.appDir) }`
+  ]
+
+  if (ctx.mode.bex !== true) {
+    const urlList = quasarConf.devServer.host === '0.0.0.0'
+      ? getIPList().map(ip => green(quasarConf.metaConf.getUrl(ip))).join('\n                           ')
+      : green(quasarConf.metaConf.APP_URL)
+
+    banner.push(` ${ greenBanner } App URL................ ${ urlList }`)
+  }
+
+  banner.push(
+    ` ${ greenBanner } Dev mode............... ${ green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : '')) }`,
+    ` ${ greenBanner } Pkg quasar............. ${ green('v' + ctx.pkg.quasarPkg.version) }`,
+    ` ${ greenBanner } Pkg @quasar/app-vite... ${ green('v' + cliPkg.version) }`,
+    ` ${ greenBanner } Browser target......... ${ getCompilationTarget(quasarConf.build.target.browser) }`
+  )
+
+  if ([ 'electron', 'ssr' ].includes(ctx.modeName) === true) {
+    banner.push(` ${ greenBanner } Node target............ ${ getCompilationTarget(quasarConf.build.target.node) }`)
+  }
+
+  if (ctx.mode.bex === true) {
+    banner.push(
+      line,
+      ` ${ greenBanner } Load the dev extension from:`,
+      `   · Chrome(ium): ${ green(quasarConf.build.distDir) }`,
+      `   · Firefox:     ${ green(join(quasarConf.build.distDir, 'manifest.json')) }`,
+      line,
+      ` ${ greenBanner } You will need to manually refresh the browser page to see changes after recompilations.`
+    )
+  }
+
+  console.log()
+  console.log(banner.join('\n'))
+  console.log()
 }

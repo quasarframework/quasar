@@ -53,25 +53,25 @@ export function ensureArgv (argv, cmd) {
   }
 }
 
-export function ensureElectronArgv (bundlerName, argv) {
+export function ensureElectronArgv (bundlerName, ctx) {
   if (![ 'packager', 'builder' ].includes(bundlerName)) {
     fatal(`Unknown bundler "${ bundlerName }" for Electron`)
   }
 
   if (bundlerName === 'packager') {
-    if (![ undefined, 'all', 'darwin', 'win32', 'linux', 'mas' ].includes(argv.target)) {
-      fatal(`Unknown target "${ argv.target }" for electron-packager`)
+    if (![ undefined, 'all', 'darwin', 'win32', 'linux', 'mas' ].includes(ctx.targetName)) {
+      fatal(`Unknown target "${ ctx.targetName }" for electron-packager`)
     }
-    if (![ undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'mips64el', 'all' ].includes(argv.arch)) {
-      fatal(`Unknown architecture "${ argv.arch }" for electron-packager`)
+    if (![ undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'mips64el', 'all' ].includes(ctx.archName)) {
+      fatal(`Unknown architecture "${ ctx.archName }" for electron-packager`)
     }
   }
   else { // electron-builder bundler
-    if (![ undefined, 'all', 'darwin', 'mac', 'win32', 'win', 'linux' ].includes(argv.target)) {
-      fatal(`Unknown target "${ argv.target }" for electron-builder`)
+    if (![ undefined, 'all', 'darwin', 'mac', 'win32', 'win', 'linux' ].includes(ctx.targetName)) {
+      fatal(`Unknown target "${ ctx.targetName }" for electron-builder`)
     }
-    if (![ undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all' ].includes(argv.arch)) {
-      fatal(`Unknown architecture "${ argv.arch }" for electron-builder`)
+    if (![ undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all' ].includes(ctx.archName)) {
+      fatal(`Unknown architecture "${ ctx.archName }" for electron-builder`)
     }
   }
 }
