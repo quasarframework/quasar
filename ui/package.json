@@ -31,7 +31,7 @@
     "lint-fix": "eslint --ext .js,.vue src dev --fix --report-unused-disable-directives",
     "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
     "test:create": "node ./test/cypress/helpers/create-spec.js -c",
-    "test:build": "node build/script.build.js js api && node build/script.build.js js transforms",
+    "test:build": "yarn build",
     "test:e2e": "yarn test:build && cross-env NODE_ENV=test start-test \"node ./dev/script.dev.js\" http-get://localhost:9000 \"cypress open --project ./dev --e2e\"",
     "test:e2e:run": "cross-env NODE_ENV=test start-test \"node ./dev/script.dev.js\" http-get://localhost:9000 \"cypress run --project ./dev --e2e\"",
     "test:e2e:ci": "yarn test:build && yarn test:e2e:run",
