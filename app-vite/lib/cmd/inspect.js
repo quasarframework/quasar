@@ -63,6 +63,7 @@ import { displayBanner } from '../utils/banner.js'
 displayBanner({ argv, ctx, cmd: argv.cmd })
 
 import { log, fatal } from '../utils/logger.js'
+
 const { isModeInstalled } = await import(`../modes/${ argv.mode }/${ argv.mode }-installation.js`)
 
 if (isModeInstalled(ctx.appPaths) !== true) {
@@ -80,7 +81,7 @@ const quasarConfFile = new QuasarConfigFile({
 
 await quasarConfFile.init()
 
-const { quasarConf } = await quasarConfFile.read()
+const quasarConf = await quasarConfFile.read()
 
 const { modeConfig } = await import(`../modes/${ argv.mode }/${ argv.mode }-config.js`)
 

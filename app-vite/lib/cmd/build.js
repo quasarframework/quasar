@@ -130,7 +130,7 @@ const quasarConfFile = new QuasarConfigFile({
 
 await quasarConfFile.init()
 
-const { quasarConf } = await quasarConfFile.read()
+const quasarConf = await quasarConfFile.read()
 
 const { regenerateTypesFeatureFlags } = await import('../utils/types-feature-flags.js')
 await regenerateTypesFeatureFlags(quasarConf)

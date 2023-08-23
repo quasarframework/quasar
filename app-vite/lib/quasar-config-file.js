@@ -371,7 +371,7 @@ export class QuasarConfigFile {
             delete this.#require.cache[ tempFile ]
           }
 
-          const { quasarConf } = await this.#computeConfig(quasarConfigFn, isFirst)
+          const quasarConf = await this.#computeConfig(quasarConfigFn, isFirst)
 
           if (quasarConf === void 0) {
             return
@@ -379,7 +379,7 @@ export class QuasarConfigFile {
 
           if (isFirst === true) {
             isFirst = false
-            firstBuildIsDone({ quasarConf })
+            firstBuildIsDone(quasarConf)
             return
           }
 
@@ -410,7 +410,7 @@ export class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix it.\n')
-      return {}
+      return
     }
 
     let userCfg
@@ -432,7 +432,7 @@ export class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix the errors in the original file.\n')
-      return {}
+      return
     }
 
     if (Object(userCfg) !== userCfg) {
@@ -445,7 +445,7 @@ export class QuasarConfigFile {
       }
 
       warn(msg + ' Please fix it.\n')
-      return {}
+      return
     }
 
     fse.removeSync(this.#tempFile)
@@ -531,7 +531,7 @@ export class QuasarConfigFile {
       }
 
       warn('One of your installed App Extensions failed to run.\n')
-      return {}
+      return
     }
 
     const cfg = {
@@ -1052,6 +1052,6 @@ export class QuasarConfigFile {
       cfg.metaConf.needsAppMountHook = true
     }
 
-    return { quasarConf: cfg }
+    return cfg
   }
 }

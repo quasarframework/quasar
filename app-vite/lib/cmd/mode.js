@@ -82,7 +82,7 @@ async function run () {
     }
   }
 
-  await actionMap[ action ](ctx)
+  await actionMap[ action ]({ ctx })
 }
 
 async function displayModes () {

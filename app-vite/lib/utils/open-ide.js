@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { execSync } from 'node:child_process'
 import open from 'open'
-import { execSync } from 'child_process'
 
 import { warn, fatal } from './logger.js'
 

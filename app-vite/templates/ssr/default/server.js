@@ -110,7 +110,7 @@ export const renderPreloadTag = ssrRenderPreloadTag((file/* , { ssrContext } */)
   }
 
   if (cssRE.test(file) === true) {
-    return `<link rel="stylesheet" href="${file}">`
+    return `<link rel="stylesheet" href="${file}" crossorigin>`
   }
 
   if (woffRE.test(file) === true) {
