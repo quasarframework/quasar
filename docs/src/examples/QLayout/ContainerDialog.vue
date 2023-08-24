@@ -3,8 +3,8 @@
     <q-btn color="teal" label="Open Dialog" @click="dialog = true" />
 
     <q-dialog v-model="dialog">
-      <q-layout view="lhh LpR lff" container style="height: 500px" class="bg-grey-3">
-        <q-header class="bg-black">
+      <q-layout view="lhh LpR lff" container style="height: 500px" class="shadow-2" :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'">
+        <q-header :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
           <q-toolbar>
             <q-btn flat @click="drawerLeft = !drawerLeft" round dense icon="menu" />
             <q-toolbar-title>Header</q-toolbar-title>
@@ -69,12 +69,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      dialog: false,
-      drawerLeft: false,
-      drawerRight: true
+      dialog: ref(false),
+      drawerLeft: ref(false),
+      drawerRight: ref(true)
     }
   }
 }

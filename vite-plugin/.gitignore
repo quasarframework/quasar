@@ -1,0 +1,15 @@
+.DS_Store
+.Thumbs.db
+dist/
+node_modules/
+npm-debug.log
+*.sublime*
+.idea/
+debug.log
+yarn.lock
+package-lock.json
+.vscode
+
+test/cypress/videos/
+test/cypress/screenshots/
+test/cypress/downloads/

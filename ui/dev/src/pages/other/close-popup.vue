@@ -844,7 +844,7 @@ export default {
       text: 'text',
 
       selection: 'item 1',
-      options: ['item 1', 'item 2']
+      options: [ 'item 1', 'item 2' ]
     }
   },
   methods: {

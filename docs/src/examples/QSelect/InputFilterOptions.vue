@@ -44,35 +44,36 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ]
 
 export default {
-  data () {
+  setup () {
+    const options = ref(stringOptions)
+
     return {
-      model: null,
-      options: stringOptions
-    }
-  },
+      model: ref(null),
+      options,
 
-  methods: {
-    filterFn (val, update) {
-      if (val === '') {
+      filterFn (val, update) {
+        if (val === '') {
+          update(() => {
+            options.value = stringOptions
+
+            // here you have access to "ref" which
+            // is the Vue reference of the QSelect
+          })
+          return
+        }
+
         update(() => {
-          this.options = stringOptions
-
-          // with Quasar v1.7.4+
-          // here you have access to "ref" which
-          // is the Vue reference of the QSelect
+          const needle = val.toLowerCase()
+          options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
         })
-        return
       }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
     }
   }
 }

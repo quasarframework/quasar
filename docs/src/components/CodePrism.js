@@ -1,36 +1,21 @@
 import 'prismjs'
+import { h, computed } from 'vue'
 
 export default {
-  functional: true,
+  name: 'CodePrism',
 
   props: {
-    code: {
-      type: String
-    },
-
+    code: String,
     lang: String
   },
 
-  render (h, ctx) {
-    const
-      code = ctx.props.code || ctx.children[0].text,
-      language = ctx.props.lang,
-      prismLanguage = Prism.languages[language],
-      className = `language-${language}`
+  setup (props) {
+    const html = computed(() => Prism.highlight(
+      props.code,
+      Prism.languages[ props.lang ],
+      props.lang
+    ))
 
-    return h(
-      'pre',
-      Object.assign({}, ctx.data, {
-        class: 'doc-code ' + className
-      }),
-      [
-        h('code', {
-          class: 'doc-code__inner ' + className,
-          domProps: {
-            innerHTML: Prism.highlight(code, prismLanguage, language)
-          }
-        })
-      ]
-    )
+    return () => h('pre', { class: `doc-code language-${ props.lang }`, innerHTML: html.value })
   }
 }

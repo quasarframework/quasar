@@ -13,11 +13,14 @@
     </q-card>
   </div>
 </template>
+
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      editor: 'What you see is <b>what</b> you get.'
+      editor: ref('What you see is <b>what</b> you get.')
     }
   }
 }

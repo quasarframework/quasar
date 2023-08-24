@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md example-column-variable-height">
 
     <div class="column justify-center" style="height: 250px">
       <div class="col col-md-4">
@@ -28,13 +28,14 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.column
-  background: rgba(255, 0, 0, .1)
-.column > div
-  padding: 10px 15px
-  background: rgba(86, 61, 124, .15)
-  border: 1px solid rgba(86, 61, 124, .2)
-.column + .column
-  margin-top: 1rem
+<style lang="sass">
+.example-column-variable-height
+  .column
+    background: rgba(#aa0, .1)
+  .column > div
+    padding: 10px 15px
+    background: rgba(#999, .15)
+    border: 1px solid rgba(#999, .2)
+  .column + .column
+    margin-top: 1rem
 </style>

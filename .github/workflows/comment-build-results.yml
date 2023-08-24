@@ -1,0 +1,159 @@
+name: Comment build results
+
+# We are not using using a single workflow on `pull_request_target`, and have two workflows on `pull_request` -> `workflow_run`:
+# https://securitylab.github.com/research/github-actions-preventing-pwn-requests/
+
+on:
+  workflow_run:
+    workflows:
+      - Build types
+    types:
+      - completed
+
+jobs:
+  check-current-build:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read # to list the workflow runs
+
+    if: >-
+      ${{
+        github.event.workflow_run.event == 'pull_request' &&
+        github.event.workflow_run.conclusion == 'success'
+      }}
+
+    outputs:
+      run-id: ${{ fromJSON(steps.current-workflow-run.outputs.result).id }}
+
+    steps:
+      - name: Check current types build workflow run
+        id: current-workflow-run
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: { workflow_runs: [workflowRun] } } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              branch: 'dev', // TODO: Get the PR target branch to support branches other than dev
+              workflow_id: 'build-types.yml',
+              event: 'push',
+              status: 'success',
+            });
+
+            return {
+              id: workflowRun?.id || -1,
+            }
+
+  comment-build-results:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read # to download artifacts
+      pull-requests: write # to comment to the PR
+
+    needs: check-current-build
+
+    if: ${{ needs.check-current-build.outputs.run-id != -1 }}
+
+    steps:
+      - name: Download the current types build
+        uses: actions/github-script@v6
+        env:
+          CURRENT_RUN_ID: ${{ needs.check-current-build.outputs.run-id }}
+        with:
+          script: |
+            const { writeFile, unlink } = require('node:fs/promises');
+            const { resolve } = require('node:path');
+            const __dirname = process.env.GITHUB_WORKSPACE;
+
+            const { data: { artifacts } } = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: process.env.CURRENT_RUN_ID,
+            });
+            const artifact = artifacts.find(({ name }) => name === 'types-build');
+            const { data: artifactData } = await github.rest.actions.downloadArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: artifact.id,
+              archive_format: 'zip',
+            });
+
+            const zipPath = resolve(__dirname, './current-build.zip');
+            await writeFile(zipPath, Buffer.from(artifactData));
+            await exec.exec('unzip', [zipPath, '-d', './current-build']);
+            await unlink(zipPath);
+
+      - name: Download the PR information artifact
+        id: pr-info
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { readFile, writeFile, unlink } = require('node:fs/promises');
+            const { resolve } = require('node:path');
+            const __dirname = process.env.GITHUB_WORKSPACE;
+
+            const { data: { artifacts } } = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+            const artifact = artifacts.find(({ name }) => name === 'types-build');
+            const { data: artifactData } = await github.rest.actions.downloadArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: artifact.id,
+              archive_format: 'zip',
+            });
+
+            const zipPath = resolve(__dirname, './pr-info.zip');
+            await writeFile(zipPath, Buffer.from(artifactData));
+            await exec.exec('unzip', [zipPath, '-d', './pr-build']);
+            await unlink(zipPath);
+
+            const prNumberPath = resolve(__dirname, './pr-build/.pr-number');
+            const prNumberString = await readFile(prNumberPath, { encoding: 'utf-8' })
+            await unlink(prNumberPath);
+
+            return {
+              number: Number(prNumberString)
+            }
+
+      - name: Prepare build results
+        run: |
+          echo "# Build Results" >> build-results.md
+          echo "" >> build-results.md
+
+          echo "## JSON API" >> build-results.md
+          echo "" >> build-results.md
+          # git diff exits with 1 if there is no diff, which evaluates to true
+          if $(git diff --no-index ./current-build/api ./pr-build/api > ./api.diff); then
+            echo "📜 No changes detected." >> build-results.md
+          else
+            echo "📜 Changes detected:" >> build-results.md
+            echo '```diff' >> build-results.md
+            cat ./api.diff >> build-results.md
+            echo '```' >> build-results.md
+          fi
+          echo "" >> build-results.md
+
+          echo "## Types" >> build-results.md
+          echo "" >> build-results.md
+          # git diff exits with 1 if there is no diff, which evaluates to true
+          if $(git diff --no-index ./current-build/types ./pr-build/types > ./types.diff); then
+            echo "📜 No changes detected." >> build-results.md
+          else
+            echo "📜 Changes detected:" >> build-results.md
+            echo '```diff' >> build-results.md
+            cat ./types.diff >> build-results.md
+            echo '```' >> build-results.md
+          fi
+          echo "" >> build-results.md
+
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          number: ${{ fromJSON(steps.pr-info.outputs.result).number }}
+          hide_and_recreate: true
+          hide_classify: 'OUTDATED'
+          path: build-results.md
+
+      - run: cat build-results.md >> $GITHUB_STEP_SUMMARY

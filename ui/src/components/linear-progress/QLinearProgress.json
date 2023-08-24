@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/linear-progress"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/linear-progress"
   },
 
   "props": {
@@ -14,14 +10,12 @@
       "type": "Number",
       "desc": "Progress value (0.0 < x < 1.0)",
       "default": 0,
-      "examples": [ ":value=\"0.28\"" ],
       "category": "model"
     },
 
     "buffer": {
       "type": "Number",
       "desc": "Optional buffer value (0.0 < x < 1.0)",
-      "examples": [ ":buffer=\"0.78\"" ],
       "category": "behavior"
     },
 
@@ -69,8 +63,13 @@
     "instant-feedback": {
       "type": "Boolean",
       "desc": "No transition when model changes",
-      "category": "behavior",
-      "addedIn": "v1.11.2"
+      "category": "behavior"
+    },
+
+    "animation-speed": {
+      "extends": "animation-speed",
+      "default": 2100,
+      "addedIn": "v2.3"
     }
   },
 

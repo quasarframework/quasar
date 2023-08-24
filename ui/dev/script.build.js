@@ -3,4 +3,7 @@ const moduleAlias = require('module-alias')
 
 moduleAlias.addAlias('quasar', path.join(__dirname, '..'))
 
-require('@quasar/app/bin/quasar-build')
+// Ensure cwd is set to ui/dev
+process.chdir(__dirname)
+
+import('@quasar/app-vite/lib/cmd/build.js')

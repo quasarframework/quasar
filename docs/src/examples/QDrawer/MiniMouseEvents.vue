@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header elevated class="bg-black">
+      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -19,9 +19,9 @@
         :width="200"
         :breakpoint="500"
         bordered
-        content-class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
-        <q-scroll-area class="fit">
+        <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
           <q-list padding>
             <q-item clickable v-ripple>
               <q-item-section avatar>
@@ -80,11 +80,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      drawer: false,
-      miniState: true
+      drawer: ref(false),
+      miniState: ref(true)
     }
   }
 }

@@ -5,7 +5,7 @@
     </q-badge>
 
     <q-color
-      :value="hex"
+      :model-value="hex"
       @change="val => { hex = val }"
       style="max-width: 250px"
     />
@@ -13,10 +13,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      hex: '#112e1b'
+      hex: ref('#112e1b')
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="bg-red position-relative" style="width: 507px; height: 150px;">
       <div class="row">
         <q-btn color="black" class="col-auto q-ml-auto no-border-radius" label="Button">
-          <q-menu :value="true" persistent content-class="bg-grey-9 text-white q-pa-md" anchor="bottom right" self="top right" square>
+          <q-menu :model-value="true" persistent class="bg-grey-9 text-white q-pa-md" anchor="bottom right" self="top right" square>
             Menu item
           </q-menu>
         </q-btn>
@@ -41,13 +41,13 @@
     >
       <div class="row justify-around">
         <q-btn color="black" class="col-auto no-border-radius" :label="`Button ${index} L`">
-          <q-menu :value="true" persistent content-class="bg-grey-9 text-white q-pa-md" square :anchor="`center ${anchorOrigin}`" :self="`top ${selfOrigin}`">
+          <q-menu :model-value="true" persistent class="bg-grey-9 text-white q-pa-md" square :anchor="`center ${anchorOrigin}`" :self="`top ${selfOrigin}`">
             Menu item {{ index }} L
           </q-menu>
         </q-btn>
 
         <q-btn color="black" class="col-auto no-border-radius" :label="`Button ${index} R`">
-          <q-menu :value="true" persistent content-class="bg-grey-9 text-white q-pa-md" square :anchor="`center ${anchorOrigin}`" :self="`top ${selfOrigin}`">
+          <q-menu :model-value="true" persistent class="bg-grey-9 text-white q-pa-md" square :anchor="`center ${anchorOrigin}`" :self="`top ${selfOrigin}`">
             Menu item {{ index }} R
           </q-menu>
         </q-btn>

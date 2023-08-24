@@ -16,13 +16,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      teal: true,
-      orange: false,
-      red: false,
-      cyan: true
+      teal: ref(true),
+      orange: ref(false),
+      red: ref(false),
+      cyan: ref(true)
     }
   }
 }

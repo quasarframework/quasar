@@ -18,7 +18,7 @@
 
     <div class="row justify-around items-center q-mt-md">
       <div
-        ref="editor"
+        ref="editorRef"
         v-mutation="handler"
         contentEditable="true"
         class="editable rounded-borders q-pa-sm overflow-auto"
@@ -28,72 +28,81 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
-    return {
-      maxStack: 100,
-      undoStack: [],
-      redoStack: [],
-      undoBlocked: false
+  setup () {
+    const maxStack = ref(100)
+    const undoStack = ref([])
+    const redoStack = ref([])
+    const undoBlocked = ref(false)
+
+    const editorRef = ref(null)
+
+    function checkStack (stack) {
+      if (stack.length > maxStack.value) {
+        stack.splice(maxStack.value)
+      }
     }
-  },
 
-  methods: {
-    undo () {
-      // shift the stack
-      const data = this.undoStack.shift()
-      if (data !== void 0) {
-        // block undo from receiving its own data
-        this.undoBlocked = true
-        this.$refs.editor.innerText = data
-      }
-    },
-
-    redo () {
-      // shift the stack
-      const data = this.redoStack.shift()
-      if (data !== void 0) {
-        // unblock undo from receiving redo data
-        this.undoBlocked = false
-        this.$refs.editor.innerText = data
-      }
-    },
-
-    handler (mutationRecords) {
-      mutationRecords.forEach(record => {
-        if (record.type === 'characterData') {
-          this.undoStack.unshift(record.oldValue)
-          this.checkStack(this.undoStack)
-          this.clearStack(this.redoStack)
-        }
-        else if (record.type === 'childList') {
-          record.removedNodes.forEach(node => {
-            if (this.undoBlocked === false) {
-              // comes from redo
-              this.undoStack.unshift(node.textContent)
-            }
-            else {
-              // comes from undo
-              this.redoStack.unshift(node.textContent)
-            }
-          })
-
-          // check stacks
-          this.checkStack(this.undoStack)
-          this.checkStack(this.redoStack)
-          this.undoBlocked = false
-        }
-      })
-    },
-
-    checkStack (stack) {
-      if (stack.length > this.maxStack) {
-        stack.splice(this.maxStack)
-      }
-    },
-
-    clearStack (stack) {
+    function clearStack (stack) {
       stack.splice(0)
+    }
+
+    return {
+      maxStack,
+      undoStack,
+      redoStack,
+      undoBlocked,
+
+      editorRef,
+
+      undo () {
+        // shift the stack
+        const data = undoStack.value.shift()
+        if (data !== void 0) {
+          // block undo from receiving its own data
+          undoBlocked.value = true
+          editorRef.value.innerText = data
+        }
+      },
+
+      redo () {
+        // shift the stack
+        const data = redoStack.value.shift()
+        if (data !== void 0) {
+          // unblock undo from receiving redo data
+          undoBlocked.value = false
+          editorRef.value.innerText = data
+        }
+      },
+
+      handler (mutationRecords) {
+        mutationRecords.forEach(record => {
+          if (record.type === 'characterData') {
+            undoStack.value.unshift(record.oldValue)
+            checkStack(undoStack.value)
+            clearStack(redoStack.value)
+          }
+          else if (record.type === 'childList') {
+            record.removedNodes.forEach(node => {
+              if (undoBlocked.value === false) {
+                // comes from redo
+                undoStack.value.unshift(node.textContent)
+              }
+              else {
+                // comes from undo
+                redoStack.value.unshift(node.textContent)
+              }
+            })
+
+            // check stacks
+            checkStack(undoStack.value)
+            checkStack(redoStack.value)
+            undoBlocked.value = false
+          }
+        })
+      }
     }
   }
 }

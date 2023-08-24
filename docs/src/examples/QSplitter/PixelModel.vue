@@ -25,10 +25,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      splitterModel: 150 // start at 150px
+      splitterModel: ref(150) // start at 150px
     }
   }
 }

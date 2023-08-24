@@ -11,7 +11,9 @@
         :max="50"
         vertical
         label
+        switch-label-side
       />
+
       <q-range
         v-model="standard"
         :min="0"
@@ -25,13 +27,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      standard: {
+      standard: ref({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

@@ -23,23 +23,33 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    checkFileSize (files) {
+  setup () {
+    const $q = useQuasar()
+
+    function checkFileSize (files) {
       return files.filter(file => file.size < 2048)
-    },
+    }
 
-    checkFileType (files) {
+    function checkFileType (files) {
       return files.filter(file => file.type === 'image/png')
-    },
+    }
 
-    onRejected (rejectedEntries) {
+    function onRejected (rejectedEntries) {
       // Notify plugin needs to be installed
       // https://quasar.dev/quasar-plugins/notify#Installation
-      this.$q.notify({
+      $q.notify({
         type: 'negative',
         message: `${rejectedEntries.length} file(s) did not pass validation constraints`
       })
+    }
+
+    return {
+      checkFileSize,
+      checkFileType,
+      onRejected
     }
   }
 }

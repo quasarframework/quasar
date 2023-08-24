@@ -1,61 +1,53 @@
-<template lang="pug">
-.relative
-  q-btn(
-    color="primary"
-    round
-    dense
-    flat
-    :icon="mdiContentCopy"
-    @click="copy"
-  )
-    q-tooltip Copy to Clipboard
+<template>
+  <div class="relative">
+    <q-btn class="header-btn copy-button__action" color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
+      <q-tooltip>Copy to Clipboard</q-tooltip>
+    </q-btn>
 
-  transition(
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut"
-  )
-    q-badge.absolute(
-      v-show="copied"
-      style="top: 8px; right: 58px;"
-    ) Copied to clipboard
+    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <q-badge
+        class="absolute copy-button__badge header-badge"
+        v-show="copied"
+        label="Copied to clipboard"
+      />
+    </transition>
+  </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
 import { copyToClipboard } from 'quasar'
-import { mdiContentCopy } from '@quasar/extras/mdi-v5'
+import { mdiContentCopy } from '@quasar/extras/mdi-v6'
 
-export default {
-  props: {
-    text: [ Function, String ]
-  },
+const props = defineProps({
+  text: String
+})
 
-  created () {
-    this.mdiContentCopy = mdiContentCopy
-  },
+let timer
+const copied = ref(false)
 
-  data () {
-    return {
-      copied: false
-    }
-  },
-
-  methods: {
-    copy () {
-      const text = typeof this.text === 'function'
-        ? this.text()
-        : this.text
-
-      copyToClipboard(text)
-        .then(() => {
-          this.copied = true
-          clearTimeout(this.timer)
-          this.timer = setTimeout(() => {
-            this.copied = false
-            this.timer = null
-          }, 2000)
-        })
-        .catch(() => {})
-    }
-  }
+function copy () {
+  copyToClipboard(props.text)
+    .then(() => {
+      copied.value = true
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        copied.value = false
+        timer = null
+      }, 2000)
+    })
+    .catch(() => {})
 }
 </script>
+
+<style lang="sass">
+.copy-button
+
+  &__action
+    .q-icon
+      font-size: 18px !important
+
+  &__badge
+    top: 5px
+    right: 38px
+</style>

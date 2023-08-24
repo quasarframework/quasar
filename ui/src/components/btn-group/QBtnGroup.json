@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/button-group"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/button-group"
   },
 
   "props": {
@@ -36,6 +32,11 @@
       "type": "Boolean",
       "desc": "Applies a more prominent border-radius for squared shape buttons",
       "category": "style"
+    },
+
+    "square": {
+      "extends": "square",
+      "addedIn": "v2.7.6"
     },
 
     "push": {

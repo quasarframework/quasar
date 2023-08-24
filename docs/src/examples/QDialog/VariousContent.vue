@@ -130,21 +130,23 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      carousel: false,
-      card: false,
-      sliders: false,
+import { ref } from 'vue'
 
-      slide: 1,
+export default {
+  setup () {
+    return {
+      carousel: ref(false),
+      card: ref(false),
+      sliders: ref(false),
+
+      slide: ref(1),
       lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
 
-      stars: 3,
+      stars: ref(3),
 
-      slideVol: 39,
-      slideAlarm: 56,
-      slideVibration: 63
+      slideVol: ref(39),
+      slideAlarm: ref(56),
+      slideVibration: ref(63)
     }
   }
 }

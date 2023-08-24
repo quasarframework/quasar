@@ -29,7 +29,7 @@
       <q-toolbar class="bg-primary text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
         <q-avatar>
-          <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+          <img src="https://cdn.quasar.dev/logo-v2/128/logo.png">
         </q-avatar>
 
         <q-toolbar-title>Quasar Framework</q-toolbar-title>

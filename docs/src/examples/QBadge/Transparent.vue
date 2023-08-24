@@ -15,7 +15,7 @@
     <div class="text-h4">
       Title
       <q-badge transparent align="middle" color="orange">
-        app v1.0.0
+        app v3.0.0
       </q-badge>
     </div>
   </div>

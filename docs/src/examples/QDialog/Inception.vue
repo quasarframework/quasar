@@ -38,11 +38,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      inception: false,
-      secondDialog: false
+      inception: ref(false),
+      secondDialog: ref(false)
     }
   }
 }

@@ -24,10 +24,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      seamless: false
+      seamless: ref(false)
     }
   }
 }

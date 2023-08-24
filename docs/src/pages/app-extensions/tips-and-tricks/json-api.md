@@ -66,8 +66,6 @@ The unfilled schema typically looks like this:
   },
   "slots": {
   },
-  "scopedSlots": {
-  },
   "methods": {
   }
 }
@@ -232,16 +230,6 @@ All items are optional, but in the very least you should provide a description.
       "desc": "Slot for displaying an avatar (suggestions: QIcon, QAvatar)"
     },
 
-    "action": {
-      "desc": "Slot for Banner action (suggestions: QBtn)"
-    }
-  }
-```
-
-### ScopedSlots example
-
-```json
-  "scopedSlots": {
     "selected-item": {
       "desc": "Override default selection slot; Suggestion: QChip",
       "scope": {
@@ -264,6 +252,7 @@ All items are optional, but in the very least you should provide a description.
           "params": {
             "index": {
               "type": "Number",
+              "required": true,
               "desc": "Index at which to remove selection",
               "examples": [ 0 ]
             }
@@ -276,7 +265,9 @@ All items are optional, but in the very least you should provide a description.
           "params": {
             "opt": {
               "type": "Any",
-              "desc": "Option to add to model"
+              "required": true,
+              "desc": "Option to add to model",
+              "__exemption": [ "examples" ]
             }
           },
           "returns": null

@@ -33,13 +33,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: {
+      model: ref({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

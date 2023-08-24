@@ -1,43 +1,66 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import CheckboxMixin from '../../mixins/checkbox.js'
+import QIcon from '../icon/QIcon.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import useCheckbox, { useCheckboxProps, useCheckboxEmits } from './use-checkbox.js'
+
+const bgNode = h('div', {
+  key: 'svg',
+  class: 'q-checkbox__bg absolute'
+}, [
+  h('svg', {
+    class: 'q-checkbox__svg fit absolute-full',
+    viewBox: '0 0 24 24'
+  }, [
+    h('path', {
+      class: 'q-checkbox__truthy',
+      fill: 'none',
+      d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
+    }),
+
+    h('path', {
+      class: 'q-checkbox__indet',
+      d: 'M4,14H20V10H4'
+    })
+  ])
+])
+
+export default createComponent({
   name: 'QCheckbox',
 
-  mixins: [ CheckboxMixin ],
+  props: useCheckboxProps,
+  emits: useCheckboxEmits,
 
-  methods: {
-    __getInner (h) {
-      return [
-        h('div', {
-          staticClass: 'q-checkbox__bg absolute'
-        }, [
-          h('svg', {
-            staticClass: 'q-checkbox__svg fit absolute-full',
-            attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
-          }, [
-            h('path', {
-              staticClass: 'q-checkbox__truthy',
-              attrs: {
-                fill: 'none',
-                d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
-              }
-            }),
+  setup (props) {
+    function getInner (isTrue, isIndeterminate) {
+      const icon = computed(() =>
+        (isTrue.value === true
+          ? props.checkedIcon
+          : (isIndeterminate.value === true
+              ? props.indeterminateIcon
+              : props.uncheckedIcon
+            )
+        ) || null
+      )
 
-            h('path', {
-              staticClass: 'q-checkbox__indet',
-              attrs: {
-                d: 'M4,14H20V10H4'
-              }
-            })
-          ])
-        ])
-      ]
+      return () => (
+        icon.value !== null
+          ? [
+              h('div', {
+                key: 'icon',
+                class: 'q-checkbox__icon-container absolute-full flex flex-center no-wrap'
+              }, [
+                h(QIcon, {
+                  class: 'q-checkbox__icon',
+                  name: icon.value
+                })
+              ])
+            ]
+          : [ bgNode ]
+      )
     }
-  },
 
-  created () {
-    this.type = 'checkbox'
+    return useCheckbox('checkbox', getInner)
   }
 })

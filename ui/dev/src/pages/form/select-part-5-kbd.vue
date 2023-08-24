@@ -483,7 +483,7 @@ export default {
     return {
       modelS: null,
       modelM: null,
-      modelO: [3, 4, 5],
+      modelO: [ 3, 4, 5 ],
       modelK: null,
       modelKO: null,
       options,

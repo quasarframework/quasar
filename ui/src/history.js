@@ -1,19 +1,19 @@
-import { isSSR, client } from './plugins/Platform.js'
+import { client } from './plugins/Platform.js'
 import { noop } from './utils/event.js'
 
 const getTrue = () => true
 
 function filterInvalidPath (path) {
-  return typeof path === 'string' &&
-    path !== '' &&
-    path !== '/' &&
-    path !== '#/'
+  return typeof path === 'string'
+    && path !== ''
+    && path !== '/'
+    && path !== '#/'
 }
 
 function normalizeExitPath (path) {
-  path.startsWith('#') === true && (path = path.substr(1))
+  path.startsWith('#') === true && (path = path.substring(1))
   path.startsWith('/') === false && (path = '/' + path)
-  path.endsWith('/') === true && (path = path.substr(0, path.length - 1))
+  path.endsWith('/') === true && (path = path.substring(0, path.length - 1))
   return '#' + path
 }
 
@@ -42,10 +42,8 @@ export default {
   add: noop,
   remove: noop,
 
-  install (cfg) {
-    if (isSSR === true) {
-      return
-    }
+  install ({ $q }) {
+    if (__QUASAR_SSR_SERVER__ || this.__installed === true) { return }
 
     const { cordova, capacitor } = client.is
 
@@ -53,9 +51,20 @@ export default {
       return
     }
 
-    const qConf = cfg[cordova === true ? 'cordova' : 'capacitor']
+    const qConf = $q.config[ cordova === true ? 'cordova' : 'capacitor' ]
 
     if (qConf !== void 0 && qConf.backButton === false) {
+      return
+    }
+
+    // if the '@capacitor/app' plugin is not installed
+    // then we got nothing to do
+    if (
+      // if we're on Capacitor mode
+      capacitor === true
+      // and it's also not in Capacitor's main instance
+      && (window.Capacitor === void 0 || window.Capacitor.Plugins.App === void 0)
+    ) {
       return
     }
 
@@ -82,7 +91,7 @@ export default {
 
     const backHandler = () => {
       if (this.__history.length) {
-        const entry = this.__history[this.__history.length - 1]
+        const entry = this.__history[ this.__history.length - 1 ]
 
         if (entry.condition() === true) {
           this.__history.pop()

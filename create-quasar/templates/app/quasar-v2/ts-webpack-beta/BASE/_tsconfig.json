@@ -1,0 +1,8 @@
+{
+  "extends": "@quasar/app-webpack/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": "."<% if (typescriptConfig === 'class') { %>,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true<% } %>
+  }
+}

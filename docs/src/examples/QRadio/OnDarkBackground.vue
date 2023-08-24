@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-sm">
       <q-radio dark v-model="shape" val="line" label="Line" />
       <q-radio dark v-model="shape" val="rectangle" label="Rectangle" />
@@ -13,10 +13,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      shape: 'line'
+      shape: ref('line')
     }
   }
 }

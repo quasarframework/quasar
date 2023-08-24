@@ -1,14 +1,20 @@
 ---
 title: Cookies
 desc: A Quasar plugin which manages browser cookies over the standardized 'document.cookie', making it easy to read and write cookies even with SSR apps.
+keys: Cookies
 ---
 This is a wrapper over the standardized `document.cookie`.
 
-> **NOTE**
->
-> In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
+::: tip NOTE
+In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
+:::
 
-## Installation
+<doc-api file="Cookies" />
+
+::: tip
+With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
+:::
+
 <doc-installation plugins="Cookies" />
 
 ## Notes on SSR
@@ -27,32 +33,36 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in [boot files](/quasar-cli/boot-files) or [preFetch feature](/quasar-cli/prefetch-feature) where it is supplied as parameter.
+The `ssrContext` is available in [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files). And also in the [@quasar/app-vite preFetch](/quasar-cli-vite/prefetch-feature) or [@quasar/app-webpack preFetch](/quasar-cli-webpack/prefetch-feature) feature, where it is supplied as a parameter.
 
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
 
+
 ## Read a Cookie
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
-
-var value = Cookies.get('cookie_name')
+const value = Cookies.get('cookie_name')
 ```
 
 When cookie is not set, the return value is `null`.
 
 ```js
 // inside of a Vue file
-this.$q.cookies.get('cookie_name')
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  const value = $q.cookies.get('cookie_name')
+}
 ```
 
 ## Read All Cookies
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
-
 const cookies = Cookies.getAll()
 ```
 
@@ -60,26 +70,35 @@ const cookies = Cookies.getAll()
 
 ```js
 // inside of a Vue file
-this.$q.cookies.getAll()
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  const allCookies = $q.cookies.getAll()
+}
 ```
 
 ## Verify if Cookie is Set
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
-
-(Boolean) Cookies.has('cookie_name')
+Cookies.has('cookie_name') // Boolean
 ```
 
 ```js
 // inside of a Vue file
-this.$q.cookies.has('cookie_name')
+import { useQuasar } from 'quasar'
+
+setup () {
+  const $q = useQuasar()
+  const hasIt = $q.cookies.has('cookie_name')
+}
 ```
 
 ## Write a Cookie
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -89,7 +108,7 @@ Cookies.set('cookie_name', cookie_value)
 Cookies.set('cookie_name', cookie_value, options)
 ```
 
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -100,25 +119,26 @@ Cookies.set('quasar', 'framework', {
 
 ```js
 // inside of a Vue file
+import { useQuasar } from 'quasar'
 
-this.$q.cookies.set('cookie_name', cookie_value)
+setup () {
+  const $q = useQuasar()
 
-// or pass in options also:
-this.$q.cookies.set('cookie_name', cookie_value, options)
+  $q.cookies.set('cookie_name', cookie_value)
+  // or pass in options also:
+  $q.cookies.set('cookie_name', cookie_value, options)
+}
 ```
 
 The (optional) `options` parameter is an Object which is explained below, property by property.
 
 ### Option: expires
 
-``` js
+```js
 expires: 10 // in 10 days
 expires: -1 // yesterday
 expires: 'Mon, 06 Jan 2020 12:52:55 GMT'
 expires: new Date() // some JS Date Object
-
-// Following formats require Quasar v1.7+:
-
 expires: '1d 3h 5m' // in 1 day, 3 hours, 5 minutes
 expires: '2d' // in 2 days
 expires: '15m 10s' // in 15 minutes, 10 seconds
@@ -128,7 +148,7 @@ Define lifetime of the cookie. Value can be a Number which will be interpreted a
 
 ### Option: path
 
-``` js
+```js
 path: '/'
 ```
 
@@ -136,7 +156,7 @@ Define the path where the cookie is valid. By default the path of the cookie is 
 
 ### Option: domain
 
-``` js
+```js
 domain: 'quasar.dev'
 ```
 
@@ -144,7 +164,7 @@ Define the domain where the cookie is valid. Default: domain of page where the c
 
 ### Option: sameSite
 
-``` js
+```js
 sameSite: 'Strict'
 // or
 sameSite: 'Lax'
@@ -156,9 +176,11 @@ SameSite cookies let servers require that a cookie shouldn't be sent with cross-
 
 **Lax** - If the attribute is set to Lax, same-site cookies are withheld on cross-site subrequests, such as calls to load images or frames, but will be sent when a user navigates to the URL from an external site, for example, by following a link.
 
+For more information on the `same-site` setting, go [here](https://web.dev/samesite-cookies-explained/).
+
 ### Option: httpOnly
 
-``` js
+```js
 httpOnly: true
 ```
 
@@ -166,26 +188,26 @@ To help mitigate cross-site scripting (XSS) attacks, HttpOnly cookies are inacce
 
 ### Option: secure
 
-``` js
+```js
 secure: true
 ```
 
 If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT be sent over HTTP. Default value is `false`.
 
 ::: tip
-If using Quasar CLI and [on dev mode](/quasar-cli/quasar-conf-js#Property%3A-devServer), you can enable HTTPS through quasar.conf.js > devServer > https: true.
+If using Quasar CLI and on dev mode, you can enable HTTPS through quasar.config file > devServer > https: true.
 :::
 
 ### Option: other
 
-``` js
+```js
 other: 'SomeNewProp'
 ```
 
 Raw string for other cookie options. To be used as a last resort for possible newer props that are currently not yet implemented in Quasar.
 
 ## Remove a Cookie
-``` js
+```js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
@@ -198,16 +220,19 @@ Cookies.remove('cookie_name', options)
 
 ```js
 // inside of a Vue file
-this.$q.cookies.remove('cookie_name')
+import { useQuasar } from 'quasar'
 
-// if cookie was set with specific options like path and/or domain
-// then you need to also supply them when removing:
-this.$q.cookies.remove('cookie_name', options)
+setup () {
+  const $q = useQuasar()
+
+  $q.cookies.remove('cookie_name')
+
+  // if cookie was set with specific options like path and/or domain
+  // then you need to also supply them when removing:
+  $q.cookies.remove('cookie_name', options)
+}
 ```
 
 ::: warning
 When a cookie was previously set with specific `path` and/or `domain` then it can be successfully removed only if the same attributes are passed in to remove() through the `options` parameter. This is in accordance to RFC6265.
 :::
-
-## Cookies API
-<doc-api file="Cookies" />

@@ -1,26 +1,31 @@
 ---
 title: Chain Webpack
 desc: Tips and tricks on how to use a Quasar App Extension to configure the host app to use a Webpack loader.
+scope:
+  tree:
+    l: "."
+    c:
+    - l: package.json
+    - l: src
+      c:
+      - l: index.js
+        e: Described in Index API
 ---
 
 This guide is for when you want to ensure that a [Webpack Loader](https://webpack.js.org/loaders/) is chained into the hosting app, because you depend on it for your own App Extension to work.
+We are assuming we will release this App Extension for `@quasar/app-webpack`, as it does not makes sense for `@quasar/app-vite` (which does not uses Webpack at all).
 
 ::: tip
 In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
 :::
 
 ::: tip Full Example
-To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/master/chain-webpack), which is a github repo with this App Extension.
+To see an example of what we will build, head over to [full example](https://github.com/quasarframework/app-extension-examples/tree/v2/chain-webpack), which is a GitHub repo with this App Extension.
 :::
 
-We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.conf.js from the host app to include our Webpack chaining.
+We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure the quasar.config file from the host app to include our Webpack chaining.
 
-```bash
-.
-├── package.json
-└── src
-    └── index.js              # Described in Index API
-```
+<doc-tree :def="scope.tree" />
 
 And /index.js would look like this:
 
@@ -30,9 +35,9 @@ module.exports = function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
-  // package or a minimum version of "@quasar/app" CLI
-  api.compatibleWith('quasar', '^1.0.0')
-  api.compatibleWith('@quasar/app', '^1.0.0')
+  // package or a minimum version of Quasar App CLI
+  api.compatibleWith('quasar', '^2.0.0')
+  api.compatibleWith('@quasar/app-webpack', '^3.0.0')
 
   // chain webpack
   api.chainWebpack((chain) => chainWebpack(api.ctx, chain))
@@ -55,9 +60,6 @@ const chainWebpack = function (ctx, chain) {
     .loader('vue-loader')
     .options({
       productionMode: ctx.prod,
-      compilerOptions: {
-        preserveWhitespace: false
-      },
       transformAssetUrls: {
         video: 'src',
         source: 'src',
@@ -79,4 +81,3 @@ const chainWebpack = function (ctx, chain) {
     })
 }
 ```
-

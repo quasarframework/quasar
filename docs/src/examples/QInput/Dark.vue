@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-y-md column" style="max-width: 300px">
       <div>
         <q-toggle v-model="readonly" label="Readonly" dark />
@@ -21,7 +21,7 @@
       <q-input dark outlined v-model="text" :readonly="readonly" :disable="disable">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-dark.svg">
           </q-avatar>
         </template>
       </q-input>
@@ -49,13 +49,14 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: '',
+import { ref } from 'vue'
 
-      readonly: false,
-      disable: false
+export default {
+  setup () {
+    return {
+      text: ref(''),
+      readonly: ref(false),
+      disable: ref(false)
     }
   }
 }

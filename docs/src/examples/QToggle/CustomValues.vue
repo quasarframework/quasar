@@ -32,13 +32,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      blueModel: true,
-      pinkModel: 'Agreed',
-      greenModel: 42,
-      redModel: true
+      blueModel: ref(true),
+      pinkModel: ref('Agreed'),
+      greenModel: ref(42),
+      redModel: ref(true)
     }
   }
 }

@@ -1,8 +1,10 @@
 .non-selectable
   user-select: none !important
 
-.scroll
+.scroll,
+body.mobile .scroll--mobile
   overflow: auto
+
 .scroll, .scroll-x, .scroll-y
   -webkit-overflow-scrolling: touch
   will-change: scroll-position
@@ -33,8 +35,7 @@
 [aria-busy='true']
   cursor: progress
 
-[aria-controls],
-[role='button']
+[aria-controls]
   cursor: pointer
 
 [aria-disabled]

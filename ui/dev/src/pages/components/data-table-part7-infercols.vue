@@ -2,9 +2,9 @@
   <div class="q-layout-padding">
     <q-table
       bordered
-      :data="rows"
+      :rows="rows"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       row-key="name"
       :pagination="{rowsPerPage: 3}"
     />

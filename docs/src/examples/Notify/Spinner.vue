@@ -8,24 +8,28 @@
 </template>
 
 <script>
-import { QSpinnerGears } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
 
 export default {
-  methods: {
-    showDefault () {
-      this.$q.notify({
-        spinner: true,
-        message: 'Please wait...',
-        timeout: 2000
-      })
-    },
+  setup () {
+    const $q = useQuasar()
 
-    showCustom () {
-      this.$q.notify({
-        spinner: QSpinnerGears,
-        message: 'Working...',
-        timeout: 2000
-      })
+    return {
+      showDefault () {
+        $q.notify({
+          spinner: true,
+          message: 'Please wait...',
+          timeout: 2000
+        })
+      },
+
+      showCustom () {
+        $q.notify({
+          spinner: QSpinnerGears,
+          message: 'Working...',
+          timeout: 2000
+        })
+      }
     }
   }
 }

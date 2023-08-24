@@ -27,12 +27,12 @@
 
           <q-tab-panel name="alarms">
             <div class="text-h6">Alarms</div>
-            Ad molestiae non facere animi nobis, similique nemo velit reiciendis corporis impedit nam in.
+            Ad molestiae non facere animi nobis, similique nemo velit.
           </q-tab-panel>
 
           <q-tab-panel name="movies">
             <div class="text-h6">Movies</div>
-            Nostrum necessitatibus expedita dolores? Voluptatem repudiandae magni ea.
+            Nostrum necessitatibus expedita dolores? Voluptatem.
           </q-tab-panel>
         </q-tab-panels>
 
@@ -50,12 +50,12 @@
 
           <q-tab-panel name="alarms">
             <div class="text-h6">Alarms</div>
-            Ad molestiae non facere animi nobis, similique nemo velit reiciendis corporis impedit nam in.
+            Ad molestiae non facere animi nobis, similique nemo.
           </q-tab-panel>
 
           <q-tab-panel name="movies">
             <div class="text-h6">Movies</div>
-            Nostrum necessitatibus expedita dolores? Voluptatem repudiandae magni ea.
+            Nostrum necessitatibus expedita dolores? Voluptatem.
           </q-tab-panel>
         </q-tab-panels>
 
@@ -73,12 +73,12 @@
 
           <q-tab-panel name="alarms">
             <div class="text-h6">Alarms</div>
-            Ad molestiae non facere animi nobis, similique nemo velit reiciendis corporis impedit nam in.
+            Ad molestiae non facere animi nobis, similique nemo.
           </q-tab-panel>
 
           <q-tab-panel name="movies">
             <div class="text-h6">Movies</div>
-            Nostrum necessitatibus expedita dolores? Voluptatem repudiandae magni ea.
+            Nostrum necessitatibus expedita dolores? Voluptatem.
           </q-tab-panel>
         </q-tab-panels>
       </div>
@@ -87,10 +87,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'mails'
+      tab: ref('mails')
     }
   }
 }

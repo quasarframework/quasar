@@ -1,4 +1,4 @@
-![Quasar Framework logo](https://cdn.quasar.dev/logo/svg/quasar-logo-full-inline.svg)
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
 
 ## Quasar Framework Documentation
 
@@ -12,6 +12,10 @@
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
 
 **Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
+
+## Quasar Roadmap
+
+For our roadmap, please visit: [https://roadmap.quasar.dev](https://roadmap.quasar.dev)
 
 ## Documentation
 

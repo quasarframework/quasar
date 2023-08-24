@@ -1,48 +1,45 @@
 const
   toString = Object.prototype.toString,
   hasOwn = Object.prototype.hasOwnProperty,
-  class2type = {}
-
-'Boolean Number String Function Array Date RegExp Object'.split(' ').forEach(name => {
-  class2type['[object ' + name + ']'] = name.toLowerCase()
-})
-
-function type (obj) {
-  return obj === null ? String(obj) : class2type[toString.call(obj)] || 'object'
-}
+  notPlainObject = new Set(
+    [ 'Boolean', 'Number', 'String', 'Function', 'Array', 'Date', 'RegExp' ]
+      .map(name => '[object ' + name + ']')
+  )
 
 function isPlainObject (obj) {
-  if (!obj || type(obj) !== 'object') {
+  if (obj !== Object(obj) || notPlainObject.has(toString.call(obj)) === true) {
     return false
   }
 
-  if (obj.constructor &&
-    !hasOwn.call(obj, 'constructor') &&
-    !hasOwn.call(obj.constructor.prototype, 'isPrototypeOf')) {
+  if (
+    obj.constructor
+    && hasOwn.call(obj, 'constructor') === false
+    && hasOwn.call(obj.constructor.prototype, 'isPrototypeOf') === false
+  ) {
     return false
   }
 
   let key
-  for (key in obj) {}
+  for (key in obj) {} // eslint-disable-line
 
-  return key === undefined || hasOwn.call(obj, key)
+  return key === void 0 || hasOwn.call(obj, key)
 }
 
 export default function extend () {
   let
     options, name, src, copy, copyIsArray, clone,
-    target = arguments[0] || {},
+    target = arguments[ 0 ] || {},
     i = 1,
     deep = false
   const length = arguments.length
 
   if (typeof target === 'boolean') {
     deep = target
-    target = arguments[1] || {}
+    target = arguments[ 1 ] || {}
     i = 2
   }
 
-  if (Object(target) !== target && type(target) !== 'function') {
+  if (Object(target) !== target && typeof target !== 'function') {
     target = {}
   }
 
@@ -52,28 +49,31 @@ export default function extend () {
   }
 
   for (; i < length; i++) {
-    if ((options = arguments[i]) !== null) {
+    if ((options = arguments[ i ]) !== null) {
       for (name in options) {
-        src = target[name]
-        copy = options[name]
+        src = target[ name ]
+        copy = options[ name ]
 
         if (target === copy) {
           continue
         }
 
-        if (deep && copy && (isPlainObject(copy) || (copyIsArray = type(copy) === 'array'))) {
-          if (copyIsArray) {
-            copyIsArray = false
-            clone = src && type(src) === 'array' ? src : []
+        if (
+          deep === true
+          && copy
+          && ((copyIsArray = Array.isArray(copy)) || isPlainObject(copy) === true)
+        ) {
+          if (copyIsArray === true) {
+            clone = Array.isArray(src) === true ? src : []
           }
           else {
-            clone = src && isPlainObject(src) ? src : {}
+            clone = isPlainObject(src) === true ? src : {}
           }
 
-          target[name] = extend(deep, clone, copy)
+          target[ name ] = extend(deep, clone, copy)
         }
-        else if (copy !== undefined) {
-          target[name] = copy
+        else if (copy !== void 0) {
+          target[ name ] = copy
         }
       }
     }

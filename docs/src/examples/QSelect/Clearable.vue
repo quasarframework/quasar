@@ -6,7 +6,7 @@
       <!-- equivalent -->
       <q-select color="orange" filled v-model="model" :options="options" label="Label">
         <template v-if="model" v-slot:append>
-          <q-icon name="cancel" @click.stop="model = null" class="cursor-pointer" />
+          <q-icon name="cancel" @click.stop.prevent="model = null" class="cursor-pointer" />
         </template>
       </q-select>
     </div>
@@ -14,10 +14,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: 'Google',
+      model: ref('Google'),
 
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'

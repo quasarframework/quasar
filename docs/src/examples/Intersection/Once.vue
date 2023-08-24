@@ -20,28 +20,26 @@
 </template>
 
 <script>
+import { ref, computed } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const visible = ref(false)
+
     return {
-      visible: false
-    }
-  },
+      visible,
 
-  computed: {
-    visibleClass () {
-      return `bg-${this.visible ? 'positive' : 'negative'}`
-    },
+      visibleClass: computed(
+        () => `bg-${visible.value ? 'positive' : 'negative'}`
+      ),
 
-    message () {
-      return this.visible
-        ? `Visible. We're done.`
-        : 'Hidden'
-    }
-  },
+      message: computed(
+        () => visible.value ? 'Visible. We\'re done.' : 'Hidden'
+      ),
 
-  methods: {
-    onIntersection (entry) {
-      this.visible = entry.isIntersecting
+      onIntersection (entry) {
+        visible.value = entry.isIntersecting
+      }
     }
   }
 }
@@ -59,7 +57,7 @@ export default {
   width: 100%
   font-size: 20px
   color: #ccc
-  background: #282a37
+  background: #424242
   padding: 10px
 
 .example-area

@@ -92,75 +92,78 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const status1 = ref([])
+    const status2 = ref([])
+
     return {
-      status1: [],
-      status2: []
-    }
-  },
+      status1,
+      status2,
 
-  methods: {
-    handler1 (mutationRecords) {
-      this.status1 = []
-      for (const index in mutationRecords) {
-        const record = mutationRecords[index]
-        const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
-        this.status1.push(info)
-      }
-    },
+      handler1 (mutationRecords) {
+        status1.value = []
+        for (const index in mutationRecords) {
+          const record = mutationRecords[ index ]
+          const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
+          status1.value.push(info)
+        }
+      },
 
-    handler2 (mutationRecords) {
-      this.status2 = []
-      for (const index in mutationRecords) {
-        const record = mutationRecords[index]
-        const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
-        this.status2.push(info)
-      }
-    },
+      handler2 (mutationRecords) {
+        status2.value = []
+        for (const index in mutationRecords) {
+          const record = mutationRecords[ index ]
+          const info = `type: ${record.type}, nodes added: ${record.addedNodes.length > 0 ? 'true' : 'false'}, nodes removed: ${record.removedNodes.length > 0 ? 'true' : 'false'}, oldValue: ${record.oldValue}`
+          status2.value.push(info)
+        }
+      },
 
-    // store the id of the draggable element
-    onDragStart (e) {
-      e.dataTransfer.setData('text', e.target.id)
-      e.dataTransfer.dropEffect = 'move'
-    },
+      // store the id of the draggable element
+      onDragStart (e) {
+        e.dataTransfer.setData('text', e.target.id)
+        e.dataTransfer.dropEffect = 'move'
+      },
 
-    onDragEnter (e) {
-      // don't drop on other draggables
-      if (e.target.draggable !== true) {
-        e.target.classList.add('drag-enter')
-      }
-    },
+      onDragEnter (e) {
+        // don't drop on other draggables
+        if (e.target.draggable !== true) {
+          e.target.classList.add('drag-enter')
+        }
+      },
 
-    onDragLeave (e) {
-      e.target.classList.remove('drag-enter')
-    },
-
-    onDragOver (e) {
-      e.preventDefault()
-    },
-
-    onDrop (e) {
-      e.preventDefault()
-
-      // don't drop on other draggables
-      if (e.target.draggable === true) {
-        return
-      }
-
-      const draggedId = e.dataTransfer.getData('text')
-      const draggedEl = document.getElementById(draggedId)
-
-      // check if original parent node
-      if (draggedEl.parentNode === e.target) {
+      onDragLeave (e) {
         e.target.classList.remove('drag-enter')
-        return
-      }
+      },
 
-      // make the exchange
-      draggedEl.parentNode.removeChild(draggedEl)
-      e.target.appendChild(draggedEl)
-      e.target.classList.remove('drag-enter')
+      onDragOver (e) {
+        e.preventDefault()
+      },
+
+      onDrop (e) {
+        e.preventDefault()
+
+        // don't drop on other draggables
+        if (e.target.draggable === true) {
+          return
+        }
+
+        const draggedId = e.dataTransfer.getData('text')
+        const draggedEl = document.getElementById(draggedId)
+
+        // check if original parent node
+        if (draggedEl.parentNode === e.target) {
+          e.target.classList.remove('drag-enter')
+          return
+        }
+
+        // make the exchange
+        draggedEl.parentNode.removeChild(draggedEl)
+        e.target.appendChild(draggedEl)
+        e.target.classList.remove('drag-enter')
+      }
     }
   }
 }

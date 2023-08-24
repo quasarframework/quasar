@@ -1,9 +1,10 @@
-const { writeFile } = require('fs')
-const png2icons = require('png2icons')
 
-const getSquareIcon = require('../utils/get-square-icon')
+import { writeFile } from 'node:fs'
+import png2icons from 'png2icons'
 
-module.exports = async function (file, opts, done) {
+import { getSquareIcon } from '../utils/get-square-icon.js'
+
+export default async function (file, opts, done) {
   const img = getSquareIcon({
     file,
     icon: opts.icon,

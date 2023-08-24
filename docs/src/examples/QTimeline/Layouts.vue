@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-lg">
-    <div class="row q-gutter-md q-mb-sm">
+    <div class="row q-gutter-md q-mb-lg">
       <q-option-group
         type="radio"
         dense
@@ -106,11 +106,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      layout: 'dense',
-      side: 'right'
+      layout: ref('dense'),
+      side: ref('right')
     }
   }
 }

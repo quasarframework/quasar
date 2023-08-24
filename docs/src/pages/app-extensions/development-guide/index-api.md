@@ -13,13 +13,13 @@ module.exports = function (api) {
 }
 ```
 
-## api.ctx
-Same as the `ctx` from `/quasar.conf.js`. Helps you make decisions based on the context in which `quasar dev` or `quasar build` runs.
+### api.ctx
+Same as the `ctx` from the `/quasar.config` file. Helps you make decisions based on the context in which `quasar dev` or `quasar build` runs.
 
 Example: You might want to use one of the api methods if running for electron mode only.
 
 ```js
-if (api.ctx.dev === true && api.ctx.mode === 'electron') {
+if (api.ctx.dev === true && api.ctx.mode.electron === true) {
   api.beforeDev((api) => {
     // do something when running quasar dev and
     // with Electron mode
@@ -27,13 +27,22 @@ if (api.ctx.dev === true && api.ctx.mode === 'electron') {
 }
 ```
 
-## api.extId
+### api.engine
+Contains the Quasar CLI engine (as String) being used. Examples: `@quasar/app-vite` or `@quasar/app-webpack`.
+
+### api.hasVite
+Boolean - is running on `@quasar/app-vite` or not.
+
+### api.hasWebpack
+Boolean - is running on `@quasar/app-webpack` or not.
+
+### api.extId
 Contains the `ext-id` (String) of this App Extension.
 
-## api.prompts
+### api.prompts
 Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
-## api.resolve
+### api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
 
 ```js
@@ -42,6 +51,10 @@ api.resolve.app('src/my-file.js')
 
 // resolves to root/src of app
 api.resolve.src('my-file.js')
+
+// resolves to root/public of app
+// (@quasar/app-webpack v3.4+ or @quasar/app-vite v1+)
+api.resolve.public('my-image.png')
 
 // resolves to root/src-pwa of app
 api.resolve.pwa('some-file.js')
@@ -54,12 +67,15 @@ api.resolve.cordova('config.xml')
 
 // resolves to root/src-electron of app
 api.resolve.electron('some-file.js')
+
+// resolves to root/src-electron of app
+api.resolve.electron('some-file.js')
 ```
 
-## api.appDir
+### api.appDir
 Contains the full path (String) to the root of the app on which this App Extension is running.
 
-## api.compatibleWith
+### api.compatibleWith
 
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
@@ -75,7 +91,17 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 api.compatibleWith('@quasar/app', '1.x')
 ```
 
-## api.hasPackage
+```js
+// a more complex example:
+if (api.hasVite === true) {
+  api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+}
+else {
+  api.compatbileWith('@quasar/app-webpack', '^3.4.0')
+}
+```
+
+### api.hasPackage
 
 Determine if some package is installed in the host app through a semver condition.
 
@@ -95,7 +121,7 @@ if (api.hasPackage('quasar', '^1.0.0')) {
 }
 ```
 
-## api.hasExtension
+### api.hasExtension
 Check if another app extension is npm installed and Quasar CLI has invoked it.
 
 ```js
@@ -110,7 +136,7 @@ if (api.hasExtension(extId)) {
 }
 ```
 
-## api.getPackageVersion
+### api.getPackageVersion
 
 Get the version of a host app package.
 
@@ -125,8 +151,8 @@ console.log( api.getPackageVersion(packageName) )
 //   undefined (when package not found)
 ```
 
-## api.extendQuasarConf
-Extends quasar.conf.js
+### api.extendQuasarConf
+Extends quasar.config file
 
 ```js
 /**
@@ -134,12 +160,26 @@ Extends quasar.conf.js
  *   (cfg: Object, ctx: Object) => undefined
  */
 api.extendQuasarConf ((conf, api) => {
-  // do something with quasar.conf.js:
+  // do something with quasar.config file:
   // add, change anything
 })
 ```
 
-### Registering boot and css files
+```js
+// a more complex example:
+api.extendQuasarConf ((conf, api) => {
+  if (api.hasVite === true) {
+    // do something with quasar.config file that is specific
+    // to @quasar/app-vite
+  }
+  else { // api.hasWebpack === true
+    // do something with quasar.config file that is specific
+    // to @quasar/app-webpack
+  }
+})
+```
+
+#### Registering boot and css files
 
 ```js
 module.exports = function (api, ctx) {
@@ -147,13 +187,15 @@ module.exports = function (api, ctx) {
     // make sure my-ext boot file is registered
     conf.boot.push('~quasar-app-extension-my-ext/src/boot/my-ext-bootfile.js')
 
-    // make sure boot file transpiles
-    conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
-    // if boot file imports anything, make sure that
-    // the regex above matches those files too!
+    if (api.hasVite !== true) {
+      // make sure boot file transpiles
+      conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
+      // if boot file imports anything, make sure that
+      // the regex above matches those files too!
+    }
 
     // make sure my-ext css goes through webpack
-    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.styl')
+    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.sass')
   })
 }
 ```
@@ -162,89 +204,7 @@ module.exports = function (api, ctx) {
 Notice the tidle (`~`) in front of the paths. This tells Quasar CLI that the path is a dependency from node_modules instead of a relative path to App Extension index script file.
 :::
 
-## api.chainWebpack
-Chain webpack config
-
-```js
-/**
- * @param {function} fn
- *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
- */
-api.chainWebpack((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
-})
-```
-
-The configuration is a Webpack chain Object. The API for it is described on [webpack-chain](https://github.com/neutrinojs/webpack-chain) docs.
-
-## api.extendWebpack
-Extend webpack config
-
-```js
-/**
- * @param {function} fn
- *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
- */
-api.extendWebpack((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack configuration Object)
-})
-```
-
-## api.chainWebpackMainElectronProcess
-Chain webpack config of main electron process
-
-```js
-/**
- * @param {function} fn
- *   (cfg: ChainObject) => undefined
- */
-api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
-})
-```
-
-## api.extendWebpackMainElectronProcess
-Extend webpack config Object of main electron process
-
-```js
-/**
- * @param {function} fn
- *   (cfg: Object) => undefined
- */
-api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack configuration Object)
-})
-```
-
-## api.chainWebpackWebserver <q-badge align="top" label="@quasar/app v1.5+" />
-
-Chain webpack config of SSR webserver (content of /src-ssr)
-
-```js
-/**
- * @param {function} fn
- *   (cfg: ChainObject) => undefined
- */
-api.chainWebpackWebserver ((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack chain Object)
-})
-```
-
-## api.extendWebpackWebserver <q-badge align="top" label="@quasar/app v1.5+" />
-
-Extend webpack config Object of SSR webserver (content of /src-ssr)
-
-```js
-/**
- * @param {function} fn
- *   (cfg: Object) => undefined
- */
-api.extendWebpackWebserver((cfg, { isClient, isServer }, api) => {
-  // add/remove/change cfg (Webpack configuration Object)
-})
-```
-
-## api.registerCommand
+### api.registerCommand
 Register a command that will become available as `quasar run <ext-id> <cmd> [args]` (or the short form: `quasar <ext-id> <cmd> [args]`).
 
 ```js
@@ -262,7 +222,7 @@ api.registerCommand('start', ({ args, params }) => {
 })
 ```
 
-## api.registerDescribeApi
+### api.registerDescribeApi
 Register an API file for `$ quasar describe` command.
 
 ```js
@@ -294,7 +254,7 @@ For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in yo
 Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.
 :::
 
-## api.getPersistentConf
+### api.getPersistentConf
 
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
@@ -305,7 +265,7 @@ Get the internal persistent config of this extension. Returns empty object if it
 api.getPersistentConf()
 ```
 
-## api.setPersistentConf
+### api.setPersistentConf
 
 Set the internal persistent config of this extension. If it already exists, it is overwritten.
 
@@ -318,7 +278,7 @@ api.setPersistentConf({
 })
 ```
 
-## api.mergePersistentConf
+### api.mergePersistentConf
 
 Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
 
@@ -331,7 +291,7 @@ api.mergePersistentConf({
 })
 ```
 
-## api.beforeDev
+### api.beforeDev
 
 Prepare external services before `$ quasar dev` command runs, like starting some backend or any other service that the app relies on.
 
@@ -347,7 +307,7 @@ api.beforeDev((api, { quasarConf }) => {
 })
 ```
 
-## api.afterDev
+### api.afterDev
 
 Run hook after Quasar dev server is started (`$ quasar build`). At this point, the dev server has been started and is available should you wish to do something with it.
 
@@ -363,7 +323,7 @@ api.afterDev((api, { quasarConf }) => {
 })
 ```
 
-## api.beforeBuild
+### api.beforeBuild
 
 Run hook before Quasar builds app for production (`$ quasar build`). At this point, the distributables folder hasn't been created yet.
 
@@ -379,7 +339,7 @@ api.beforeBuild((api, { quasarConf }) => {
 })
 ```
 
-## api.afterBuild
+### api.afterBuild
 
 Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
 
@@ -395,7 +355,7 @@ api.afterBuild((api, { quasarConf }) => {
 })
 ```
 
-## api.onPublish <q-badge align="top" label="@quasar/app v1.0.0-rc.7+" />
+### api.onPublish
 
 Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.
 
@@ -412,4 +372,255 @@ Can use async/await or directly return a Promise.
 api.onPublish((api, opts) => {
   // do something
 })
+```
+
+## @quasar/app-vite only
+
+### api.extendViteConf
+
+```js
+/**
+ * @param {function} fn
+ *   (viteConf: Object, invoke: Object {isClient, isServer}, api) => undefined
+ */
+if (api.hasVite === true) {
+  api.extendViteConf((viteConf, { isClient, isServer }, api) => {
+    // add/remove/change Quasar CLI generated Vite config object
+  })
+}
+```
+
+### api.extendSSRWebserverConf
+
+```js
+/**
+ * @param {function} fn
+ *   (esbuildConf: Object, api) => undefined
+ */
+if (api.hasVite === true) {
+  api.extendSSRWebserverConf((esbuildConf, api) => {
+    // add/remove/change Quasar CLI generated esbuild config object
+    // that is used for the SSR webserver (includes SSR middlewares)
+  })
+}
+```
+
+### api.extendElectronMainConf
+
+```js
+/**
+ * @param {function} fn
+ *   (esbuildConf: Object, api) => undefined
+ */
+if (api.hasVite === true) {
+  api.extendElectronMainConf((esbuildConf, api) => {
+    // add/remove/change Quasar CLI generated esbuild config object
+    // that is used for the SSR webserver (includes SSR middlewares)
+  })
+}
+```
+
+### api.extendElectronPreloadConf
+
+```js
+/**
+ * @param {function} fn
+ *   (esbuildConf: Object, api) => undefined
+ */
+if (api.hasVite === true) {
+  api.extendElectronPreloadConf((esbuildConf, api) => {
+    // add/remove/change Quasar CLI generated esbuild config object
+    // that is used for the SSR webserver (includes SSR middlewares)
+  })
+}
+```
+
+### api.extendPWACustomSWConf
+
+```js
+/**
+ * @param {function} fn
+ *   (esbuildConf: Object, api) => undefined
+ */
+if (api.hasVite === true) {
+  api.extendPWACustomSWConf((esbuildConf, api) => {
+    // add/remove/change Quasar CLI generated esbuild config object
+    // that is used for the SSR webserver (includes SSR middlewares)
+  })
+}
+```
+
+### api.extendBexScriptsConf
+
+```js
+/**
+ * @param {function} fn
+ *   (esbuildConf: Object, api) => undefined
+ */
+if (api.hasVite === true) {
+  api.extendBexScriptsConf((esbuildConf, api) => {
+    // add/remove/change Quasar CLI generated esbuild config object
+    // that is used for the SSR webserver (includes SSR middlewares)
+  })
+}
+```
+
+## @quasar/app-webpack only
+
+### api.chainWebpack
+Chain webpack config
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: ChainObject, invoke: Object {isClient, isServer}, api) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.chainWebpack((chain, { isClient, isServer }, api) => {
+    // add/remove/change chain (Webpack chain Object)
+  })
+}
+```
+
+The configuration is a Webpack chain Object. The API for it is described on [webpack-chain](https://github.com/neutrinojs/webpack-chain) docs.
+
+### api.extendWebpack
+Extend webpack config
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object, invoke: Object {isClient, isServer}, api) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.extendWebpack((cfg, { isClient, isServer }, api) => {
+    // add/remove/change cfg (Webpack configuration Object)
+  })
+}
+```
+
+### api.chainWebpackMainElectronProcess
+Chain webpack config of the main electron process
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: ChainObject) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.chainWebpackMainElectronProcess((chain, { isClient, isServer }, api) => {
+    // add/remove/change chain (Webpack chain Object)
+  })
+}
+```
+
+### api.extendWebpackMainElectronProcess
+Extend webpack config Object of the main electron process
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
+    // add/remove/change cfg (Webpack configuration Object)
+  })
+}
+```
+
+### api.chainWebpackPreloadElectronProcess
+Chain webpack config of the preload electron process
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: ChainObject) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.chainWebpackPreloadElectronProcess((chain, { isClient, isServer }, api) => {
+    // add/remove/change chain (Webpack chain Object)
+  })
+}
+```
+
+### api.extendWebpackPreloadElectronProcess
+Extend webpack config Object of the preload electron process
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.extendWebpackPreloadElectronProcess((cfg, { isClient, isServer }, api) => {
+    // add/remove/change cfg (Webpack configuration Object)
+  })
+}
+```
+
+### api.chainWebpackWebserver
+
+Chain webpack config of SSR webserver (includes the SSR middlewares from /src-ssr/middlewares)
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: ChainObject) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.chainWebpackWebserver ((chain, { isClient, isServer }, api) => {
+    // add/remove/change chain (Webpack chain Object)
+    // isClient is always "false" and isServer is always "true"
+  })
+}
+```
+
+### api.extendWebpackWebserver
+
+Extend webpack config Object of SSR webserver (includes the SSR middlewares from /src-ssr/middlewares)
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.extendWebpackWebserver((cfg, { isClient, isServer }, api) => {
+    // add/remove/change cfg (Webpack configuration Object)
+    // isClient is always "false" and isServer is always "true"
+  })
+}
+```
+
+### api.chainWebpackCustomSW
+
+Chain webpack config for the custom service worker when using InjectManifest (content of /src-pwa/custom-service-worker.js):
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: ChainObject) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.chainWebpackCustomSW ((cfg, { isClient, isServer }, api) => {
+    // add/remove/change cfg (Webpack chain Object)
+  })
+}
+```
+
+### api.extendWebpackCustomSW
+
+Extend webpack config Object for the custom service worker when using InjectManifest (content of /src-pwa/custom-service-worker.js):
+
+```js
+/**
+ * @param {function} fn
+ *   (chain: Object) => undefined
+ */
+if (api.hasWebpack === true) {
+  api.extendWebpackCustomSW((chain, { isClient, isServer }, api) => {
+    // add/remove/change chain (Webpack configuration Object)
+  })
+}
 ```

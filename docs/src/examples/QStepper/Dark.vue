@@ -4,7 +4,7 @@
       v-model="step"
       ref="stepper"
       dark
-      class="bg-grey-10"
+      class="bg-grey-9"
       active-color="deep-orange"
       done-color="secondary"
       animated
@@ -51,10 +51,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      step: 1
+      step: ref(1)
     }
   }
 }

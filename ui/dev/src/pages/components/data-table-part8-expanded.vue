@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding q-gutter-md" style="max-width: 1400px;">
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
       title="Inner expanded"
@@ -51,11 +51,11 @@
     </q-table>
 
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       row-key="name"
-      :expanded.sync="expanded"
-      title="With expanded.sync"
+      v-model:expanded="expanded"
+      title="With v-model:expanded"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
@@ -115,7 +115,7 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `~${val}`,
+          format: val => `~${ val }`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -249,9 +249,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .q-table + .q-table
-  margin-top 25px
+  margin-top: 25px
 .text-pre-wrap
-  white-space pre-wrap
+  white-space: pre-wrap
 </style>

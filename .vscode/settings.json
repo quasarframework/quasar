@@ -1,6 +1,10 @@
 {
-  "eslint.workingDirectories": [
-    "./docs",
-    "./ui"
-  ]
+  "eslint.format.enable": false,
+  "editor.formatOnSave": false,
+  "eslint.workingDirectories": ["./docs", "./ui"],
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.validate": ["javascript", "vue"],
 }

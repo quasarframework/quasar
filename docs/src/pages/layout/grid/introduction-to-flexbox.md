@@ -40,7 +40,7 @@ One of the following CSS classes is mandatory for the parent in order for ones o
 | `column reverse` | Flex column with `flex-direction` set to `column-reverse` |
 
 Example:
-``` html
+```html
 <div class="row">
   <div>First column</div>
   <div>Second column</div>
@@ -73,6 +73,10 @@ Also, if you want to wrap in reverse order, then `reverse-wrap` is available.
 
 ![Flexbox Items Align](https://cdn.quasar.dev/img/flexbox-cross-axis-align.svg)
 
+::: tip
+There is also the convenience `flex-center` CSS class which is equivalent to `items-center` + `justify-center`. Use it along with `flex`, `row` or `column`.
+:::
+
 The next classes **align a flex container's lines** within when there is extra space in the cross-axis, similar to how horizontal-* aligns individual items within the main-axis.
 
 ![Flexbox Content Align](https://cdn.quasar.dev/img/flexbox-content-align.svg)
@@ -83,7 +87,7 @@ The next classes **align a flex container's lines** within when there is extra s
 Quasar uses a 12 point column system for distributing the size of row children. Here are some examples of the available CSS helper classes:
 
 
-``` html
+```html
 <div class="row">
   <div class="col-8">two thirds</div>
   <div class="col-2">one sixth</div>
@@ -160,7 +164,7 @@ This allows you, among other things, to dynamically stack rows vertically on sma
 By default, flex items are laid out in source order. However, the order property controls the order in which they appear in the flex container. If you need more granularity, use `order` CSS property and assign the desired value.
 
 Example:
-``` html
+```html
 <div class="row">
   <div style="order: 2">Second column</div>
   <div class="order-last">Third column</div>
@@ -175,21 +179,23 @@ Here is how the CSS `order` property works:
 ## Responsive Design
 Quasar Flex CSS classes can be applied based on the width of the screen, to help you in making a responsive UI. The 12 points grid is inspired by Bootstrap's, so there are a lot of similarities.
 
+Breakpoint specifiers use a mobile-first approach, where the larger breakpoint definitions will override the smaller ones.
+
 What we've learned so far is that, for example, we can size the columns regardless of window width. If we are to create a responsive UI, we need to dynamically change the sizing while taking window width into account. First, let's learn about some tokens that you can inject in middle of `col-*`, `offset-*` and `col-auto` helper classes (look at table below for tokens).
 
-| Token | Max window width | Description / When it applies |
+| Token | Min window width | Description / When it applies if not overridden by another larger breakpoint |
 | --- | --- | --- |
-| `xs` | 599px | Extra small sized window |
-| `sm` | 1023px | Small sized window |
-| `md` | 1439px | Medium-sized window |
-| `lg` | 1919px | Large sized window |
-| `xl` | Infinite | Extra large sized window |
+| `xs` | 0px | All window sizes (same as no breakpoint specifier) |
+| `sm` | 600px | Larger than extra small sized window |
+| `md` | 1024px | Larger than small window |
+| `lg` | 1440px | Larger than medium-sized sized window |
+| `xl` | 1920px | Larger than large sized window |
 
 Example: `col-md-7`, `offset-lg-3`, `col-xs-auto`.
 
 A full example: let's say we have a row with three children. In extra small windows, we need to stack the children vertically, In small windows we need to display them side by side (each having equal width), and starting with medium windows we should display them all on same line:
 
-``` html
+```html
 <div class="row">
   <div class="col-xs-12 col-sm-6 col-md-4">
     col
@@ -218,11 +224,11 @@ Like previously mentioned, rows wrap content by default, so when 12 (or more) gr
 </div>
 ```
 
-Also check [Visibility](/style/visibility#Window-Width-Related) Style page to see thresholds on window width and these tokens (xs, sm, md, lg, xl) used on their own to hide or show DOM elements.
+Also check [Visibility](/style/visibility#window-width-related) Style page to see thresholds on window width and these tokens (xs, sm, md, lg, xl) used on their own to hide or show DOM elements.
 
 ## Flex Addons
 
-When enabled (through `quasar.conf > framework > cssAddon: true`) it provides breakpoint aware versions for all flex (and display) related CSS classes.
+When enabled (through `quasar.config file > framework > cssAddon: true`) it provides breakpoint aware versions for all flex (and display) related CSS classes.
 
 ::: warning
 Note that there will be a noticeable bump in CSS footprint when enabling it. So only do it if you really need it.
@@ -230,7 +236,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 
 ```
 .flex-<bp>-(block|inline)
-.(row|column|flex)-<bp>(|-inline)
+.(row|column|flex)-<bp>(|-inline-<bp>)
 .reverse-<bp>
 .(wrap|no-wrap|reverse-wrap)-<bp>
 .order-<bp>-(first|last|none)
@@ -239,15 +245,14 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .content-<bp>-(start|end|center|between|around)
 .self-<bp>-(start|end|center|baseline|stretch)
 .flex-<bp>-center
-.gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
-.(col|offset)-<bp>(|0..12)
+.q-gutter-<bp>(|-x|-y)-(xs|sm|md|lg|xl)
+.(col|offset)-<bp>-(|0..12)
 ```
 
 There are also responsive classes for spacing, both for padding and for margin:
 
 ```
 .q-(p|m)(t|r|b|l|a|x|y)-<bp>-(none|auto|xs|sm|md|lg|xl)
-.q-my-<bp>-form
 ```
 
 Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
@@ -255,4 +260,4 @@ Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
 ## Flex Playground
 To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
-<q-btn push color="primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />
+<q-btn icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

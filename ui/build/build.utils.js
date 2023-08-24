@@ -13,9 +13,9 @@ process.on('exit', code => {
     const { table } = require('table')
 
     tableData.sort((a, b) => {
-      return a[0] === b[0]
-        ? a[1] < b[1] ? -1 : 1
-        : a[0] < b[0] ? -1 : 1
+      return a[ 0 ] === b[ 0 ]
+        ? a[ 1 ] < b[ 1 ] ? -1 : 1
+        : a[ 0 ] < b[ 0 ] ? -1 : 1
     })
 
     tableData.unshift([
@@ -35,7 +35,7 @@ process.on('exit', code => {
     })
 
     console.log()
-    console.log(` Summary of Quasar v${version}:`)
+    console.log(` Summary of Quasar v${ version }:`)
     console.log(output)
   }
 })
@@ -60,7 +60,7 @@ function getDestinationInfo (dest) {
     }
   }
 
-  if (dest.endsWith('.js')) {
+  if (dest.endsWith('.js') || dest.endsWith('.mjs')) {
     return {
       banner: green('[js]  '),
       tableEntryType: green('js'),
@@ -84,7 +84,7 @@ function getDestinationInfo (dest) {
     }
   }
 
-  logError(`Unknown file type using buildUtils.writeFile: ${dest}`)
+  logError(`Unknown file type using buildUtils.writeFile: ${ dest }`)
   process.exit(1)
 }
 
@@ -96,7 +96,7 @@ module.exports.writeFile = function (dest, code, zip) {
 
   return new Promise((resolve, reject) => {
     function report (gzippedString, gzippedSize) {
-      console.log(`${banner} ${filePath.padEnd(49)} ${fileSize.padStart(8)}${gzippedString || ''}`)
+      console.log(`${ banner } ${ filePath.padEnd(49) } ${ fileSize.padStart(8) }${ gzippedString || '' }`)
 
       if (toTable) {
         tableData.push([
@@ -116,7 +116,7 @@ module.exports.writeFile = function (dest, code, zip) {
         zlib.gzip(code, (err, zipped) => {
           if (err) return reject(err)
           const size = getSize(zipped)
-          report(` (gzipped: ${size.padStart(8)})`, size)
+          report(` (gzipped: ${ size.padStart(8) })`, size)
         })
       }
       else {
@@ -130,6 +130,25 @@ module.exports.readFile = function (file) {
   return fs.readFileSync(file, 'utf-8')
 }
 
+module.exports.writeFileIfChanged = function (dest, newContent, zip) {
+  let currentContent = ''
+  try {
+    currentContent = fs.readFileSync(dest, 'utf-8')
+  }
+  catch (e) {}
+
+  return newContent.split(/[\n\r]+/).join('\n') !== currentContent.split(/[\n\r]+/).join('\n')
+    ? module.exports.writeFile(dest, newContent, zip)
+    : Promise.resolve()
+}
+
+module.exports.convertToCjs = function (content, banner = '') {
+  return banner + content
+    .replace(/export default {/, 'module.exports = {')
+    .replace(/import {/g, 'const {')
+    .replace(/} from '(.*)'/g, (_, pkg) => `} = require('${ pkg }')`)
+}
+
 function logError (err) {
   console.error('\n' + red('[Error]'), err)
   console.log()
@@ -137,20 +156,17 @@ function logError (err) {
 
 module.exports.logError = logError
 
-module.exports.rollupQuasarUMD = function (config = {}) {
-  return {
-    name: 'quasar-umd',
-    transform (code) {
-      return {
-        code: `Quasar.${config.type}.set(${code.replace('export default ', '')})`
-      }
-    }
-  }
-}
-
 module.exports.kebabCase = function (str) {
   return str.replace(
     kebabRegex,
     match => '-' + match.toLowerCase()
   ).substring(1)
+}
+
+module.exports.clone = function clone (data) {
+  const str = JSON.stringify(data)
+
+  if (str) {
+    return JSON.parse(str)
+  }
 }

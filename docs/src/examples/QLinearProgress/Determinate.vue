@@ -17,16 +17,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      progress: 0.4
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    randomize () {
-      this.progress = Math.random()
+export default {
+  setup () {
+    const progress = ref(0.4)
+
+    return {
+      progress,
+      randomize () {
+        progress.value = Math.random()
+      }
     }
   }
 }

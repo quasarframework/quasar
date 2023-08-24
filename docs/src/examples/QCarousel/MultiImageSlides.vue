@@ -6,12 +6,12 @@
       transition-next="slide-left"
       swipeable
       animated
-      control-color="primary"
+      control-color="amber"
       navigation
       padding
       arrows
       height="300px"
-      class="bg-grey-1 shadow-2 rounded-borders"
+      class="bg-grey-9 shadow-2 rounded-borders"
     >
       <q-carousel-slide :name="1" class="column no-wrap">
         <div class="row fit justify-start items-center q-gutter-xs q-col-gutter no-wrap">
@@ -42,10 +42,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slide: 1
+      slide: ref(1)
     }
   }
 }

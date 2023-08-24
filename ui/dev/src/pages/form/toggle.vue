@@ -11,7 +11,7 @@
       <p class="caption">
         Standalone
       </p>
-      <q-toggle @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-toggle @change="onChange" @update:model-value="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" color="orange" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-toggle v-model="checked" color="teal" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -107,7 +107,7 @@
         type="toggle"
         v-model="group"
         @change="onChange"
-        @input="onInput"
+        @update:model-value="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -158,8 +158,8 @@
         <q-field v-model="checked" label="Toggle field" stack-label :dark="dark" :dense="dense">
           <template v-slot:control="{ value, emitValue }">
             <q-toggle
-              :value="value"
-              @input="emitValue"
+              :model-value="value"
+              @update:model-value="emitValue"
               color="orange"
               :dark="dark"
               :dense="dense"
@@ -219,8 +219,8 @@ export default {
   data () {
     return {
       checked: true,
-      group: ['op3'],
-      selection: ['two'],
+      group: [ 'op3' ],
+      selection: [ 'two' ],
       indModel: null,
       dark: null,
       dense: false,
@@ -229,13 +229,13 @@ export default {
   },
   watch: {
     checked (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     group (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     selection (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -243,7 +243,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     }
   }
 }

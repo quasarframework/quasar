@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md example-row-column-wrapping">
 
     <div class="row">
       <div class="col-9">.col-9</div>
@@ -18,13 +18,14 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.row > div
-  padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
-.row + .row
-  margin-top: 1rem
-.row
-  background: rgba(255,0,0,.1)
+<style lang="sass">
+.example-row-column-wrapping
+  .row > div
+    padding: 10px 15px
+    background: rgba(#999,.15)
+    border: 1px solid rgba(#999,.2)
+  .row + .row
+    margin-top: 1rem
+  .row
+    background: rgba(#aa0, .1)
 </style>

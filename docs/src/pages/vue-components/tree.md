@@ -1,29 +1,42 @@
 ---
 title: Tree
 desc: The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.
+keys: QTree
+examples: QTree
 ---
+
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
-## Installation
-<doc-installation components="QTree" />
+<doc-api file="QTree" />
 
 ## Usage
 
 ### Basic
 
-<doc-example title="Basic" file="QTree/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-### No connector lines <q-badge align="top" label="v1.5.10+" />
+### No connector lines
 
-<doc-example title="No connectors" file="QTree/NoConnectors" />
+<doc-example title="No connectors" file="NoConnectors" />
 
-### Dark
+### Dense <q-badge label="v2.2.4+" />
 
-<doc-example title="Dark" file="QTree/Dark" dark />
+<doc-example title="Dense" file="DenseTree" />
+
+### Force dark mode
+
+<doc-example title="Force dark mode" file="Dark" />
+
+### Perf considerations <q-badge label="v2.9.2+" />
+When using relatively large data, for performance we recommend using the `no-transition` Boolean prop which will account for a significant runtime speed improvement.
+
+```html
+<q-tree no-transition ...
+```
 
 ### Integrated example
 
-<doc-example title="With QSplitter and QTabPanels" file="QTree/Splitter" />
+<doc-example title="With QSplitter and QTabPanels" file="Splitter" />
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
 
@@ -31,11 +44,11 @@ More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/t
 
 Notice (in the example below) the default header and body slot customization.
 
-<doc-example title="Default header and body slots" file="QTree/SlotsDefault" />
+<doc-example title="Default header and body slots" file="SlotsDefault" />
 
 Notice (in the example below) the custom header and body slots.
 
-<doc-example title="Customizing nodes" file="QTree/SlotsCustomized" />
+<doc-example title="Customizing nodes" file="SlotsCustomized" />
 
 ::: warning
 Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
@@ -47,25 +60,28 @@ If you don't want this to happen just wrap the content of the custom header in a
 
 In the example below, sibling nodes get contracted when one gets expanded.
 
-<doc-example title="Accordion mode" file="QTree/Accordion" />
+<doc-example title="Accordion mode" file="Accordion" />
 
-<doc-example title="Filtering nodes" file="QTree/FilterDefault" />
+<doc-example title="Filtering nodes" file="FilterDefault" />
 
-<doc-example title="Selectable nodes" file="QTree/Selectable" />
+<doc-example title="Selectable nodes" file="Selectable" />
 
 ### Lazy loading
 
-<doc-example title="Lazy loading nodes" file="QTree/LazyLoad" />
+<doc-example title="Lazy loading nodes" file="LazyLoad" />
 
 ### Selection vs ticking, expansion
+
 * Selection (through QTree `selected` prop) refers to the currently selected node (gets highlighted with different background).
 * Ticking (through QTree `ticked` prop) refers to the checkbox associated with each node.
 * Expansion (through QTree `expanded` prop) refers to the nodes that are expanded.
 
-All properties above require to be dynamically bound using `.sync` modifier in order for them to work correctly (`v-bind:<prop_name>.sync` or `:<prop_name>.sync`).
-<doc-example title="Syncing node properties" file="QTree/Sync" />
+All properties above require to be dynamically bound using `v-model:<prop_name>` directive in order for them to work correctly (example: `v-model:expanded`).
+
+<doc-example title="Syncing node properties" file="Sync" />
 
 ### Tick strategy
+
 There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an additional (and default) 'none' which disables ticking.
 
 | Strategy | Description |
@@ -76,15 +92,12 @@ There are three ticking strategy: 'leaf', 'leaf-filtered', 'strict' with an addi
 
 You can apply a global tick strategy for a QTree and locally change the ticking strategy for a certain node by specifying the `tickStrategy` in the `nodes` model.
 
-<doc-example title="Tick strategy" file="QTree/TickStrategy" />
+<doc-example title="Tick strategy" file="TickStrategy" />
 
 ### Custom filter method
 You can customize the filtering method by specifying the `filter-method` prop. The method below filters by input if it also has '(*)':
 
-<doc-example title="Custom filter" file="QTree/FilterCustom" />
-
-## QTree API
-<doc-api file="QTree" />
+<doc-example title="Custom filter" file="FilterCustom" />
 
 ### Nodes model structure
 The following describes a node's properties that are taken into account by QTree's v-model.

@@ -22,25 +22,25 @@
     >
       <q-carousel-slide name="style" class="column no-wrap flex-center">
         <q-icon name="style" size="56px" />
-        <div class="q-mt-md text-center text-black">
+        <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="tv" class="column no-wrap flex-center">
         <q-icon name="live_tv" size="56px" />
-        <div class="q-mt-md text-center text-black">
+        <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="layers" class="column no-wrap flex-center">
         <q-icon name="layers" size="56px" />
-        <div class="q-mt-md text-center text-black">
+        <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="map" class="column no-wrap flex-center">
         <q-icon name="terrain" size="56px" />
-        <div class="q-mt-md text-center text-black">
+        <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
@@ -49,10 +49,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      controlType: 'flat',
+      controlType: ref('flat'),
       controlTypeOptions: [
         { value: 'regular', label: 'regular' },
         { value: 'unelevated', label: 'unelevated' },
@@ -61,7 +63,7 @@ export default {
         { value: 'push', label: 'push' }
       ],
 
-      slide: 'style',
+      slide: ref('style'),
       lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
     }
   }

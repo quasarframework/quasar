@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       skeletonTypes: [
         'text', 'rect', 'circle',

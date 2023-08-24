@@ -8,13 +8,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      hex: '#FF00FF',
-      hexa: '#FF00FFCC',
-      rgb: 'rgb(0,0,0)',
-      rgba: 'rgba(255,0,255,0.8)'
+      hex: ref('#FF00FF'),
+      hexa: ref('#FF00FFCC'),
+      rgb: ref('rgb(0,0,0)'),
+      rgba: ref('rgba(255,0,255,0.8)')
     }
   }
 }

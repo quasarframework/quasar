@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/style/color-palette"
+  },
+
+  "internal": true,
+
+  "quasarConfOptions": {
+    "propName": "brand",
+    "type": "Object",
+    "definition": {
+      "primary": {
+        "type": "String",
+        "desc": "Main color of your app"
+      },
+      "secondary": {
+        "type": "String",
+        "desc": "Secondary color of your app"
+      },
+      "accent": {
+        "type": "String",
+        "desc": "Accent color of your app"
+      },
+      "dark": {
+        "type": "String",
+        "desc": "Dark color of your app"
+      },
+      "positive": {
+        "type": "String",
+        "desc": "Positive color of your app"
+      },
+      "negative": {
+        "type": "String",
+        "desc": "Negative color of your app"
+      },
+      "info": {
+        "type": "String",
+        "desc": "Info color of your app"
+      },
+      "warning": {
+        "type": "String",
+        "desc": "Warning color of your app"
+      },
+      "...customColors": {
+        "type": "String",
+        "desc": "Custom colors of your app, if any"
+      }
+    }
+  }
+}

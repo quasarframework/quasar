@@ -7,12 +7,12 @@
             <q-input
               style="min-width: 10em"
               type="number"
-              :value="virtualListIndex"
+              :model-value="virtualListIndex"
               :min="0"
               :max="99999"
               label="Scroll to index"
               input-class="text-right"
-              @input="onIndexChange"
+              @update:model-value="onIndexChange"
             />
 
             <q-option-group type="radio" v-model="alignMode" :options="alignModes" inline />

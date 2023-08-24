@@ -1,8 +1,8 @@
 {
-  "mixins": [ "utils/global-dialog" ],
+  "mixins": [ "utils/private/global-dialog" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/dialog"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/dialog"
   },
 
   "injection": "$q.dialog",
@@ -14,6 +14,7 @@
         "opts": {
           "desc": "Dialog options",
           "tsType": "QDialogOptions",
+          "autoDefineTsType": true,
           "definition": {
             "title": {
               "type": "String",
@@ -41,14 +42,14 @@
 
             "prompt": {
               "type": "Object",
+              "tsType": "QDialogInputPrompt",
               "desc": "An object definition of the input field for the prompting question.",
               "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
               "definition": {
                 "model": {
                   "type": "String",
-                  "desc": "The initial value of the input",
                   "required": true,
-                  "__exemption": [ "examples" ]
+                  "desc": "The initial value of the input"
                 },
 
                 "type": {
@@ -64,8 +65,8 @@
                   "params": {
                     "val": {
                       "type": "String",
-                      "desc": "The value of the input",
-                      "__exemption": [ "examples" ]
+                      "required": true,
+                      "desc": "The value of the input"
                     }
                   },
                   "returns": {
@@ -74,97 +75,35 @@
                   }
                 },
 
-                "attrs": {
-                  "type": "Object",
-                  "desc": "Attributes to pass to prompt control",
-                  "examples": [ "{ autocomplete: 'off' }" ],
-                  "addedIn": "v1.9.12"
-                },
-
-                "label": {
-                  "type": "String",
-                  "desc": "A text label that will “float” up above the input field, once the field gets focus",
-                  "examples": [ "Username" ],
-                  "addedIn": "v1.9.3"
-                },
-
-                "stackLabel": {
-                  "type": "Boolean",
-                  "desc": "Label will be always shown above the field regardless of field content (if any)",
-                  "addedIn": "v1.9.3"
-                },
-
-                "filled": {
-                  "type": "Boolean",
-                  "desc": "Use 'filled' design for the field",
-                  "addedIn": "v1.9.3"
-                },
-
-                "outlined": {
-                  "type": "Boolean",
-                  "desc": "Use 'outlined' design for the field",
-                  "addedIn": "v1.9.3"
-                },
-
-                "standout": {
-                  "type": [ "Boolean", "String" ],
-                  "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+                "...QInputProps": {
+                  "type": "Any",
+                  "desc": "Any QInput props, like color, label, stackLabel, filled, outlined, rounded, prefix etc",
                   "examples": [
-                    "standout",
-                    "standout=\"bg-primary text-white\""
-                  ],
-                  "addedIn": "v1.9.3"
+                    "label: 'My Label'",
+                    "standout: true",
+                    "counter: true",
+                    "maxlength: 12"
+                  ]
                 },
 
-                "rounded": {
-                  "extends": "rounded",
-                  "addedIn": "v1.12.3"
-                },
-
-                "square": {
-                  "type": "Boolean",
-                  "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop",
-                  "addedIn": "v1.12.3"
-                },
-
-                "counter": {
-                  "type": "Boolean",
-                  "desc": "Show an automatic counter on bottom right",
-                  "addedIn": "v1.12.3"
-                },
-
-                "maxlength": {
-                  "type": [ "String", "Number" ],
-                  "desc": "Specify a max length of model",
-                  "examples": [ "12" ],
-                  "addedIn": "v1.12.3"
-                },
-
-                "prefix": {
-                  "type": "String",
-                  "desc": "Prefix",
-                  "examples": [ "$" ],
-                  "addedIn": "v1.12.3"
-                },
-
-                "suffix": {
-                  "type": "String",
-                  "desc": "Suffix",
-                  "examples": [ "@gmail.com" ],
-                  "addedIn": "v1.12.3"
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the prompt control",
+                  "examples": [ "autocomplete: 'off'" ]
                 }
               }
             },
 
             "options": {
               "type": "Object",
+              "tsType": "QDialogSelectionPrompt",
               "desc": "An object definition for creating the selection form content",
               "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
               "definition": {
                 "model": {
                   "type": [ "String", "Array" ],
-                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
                   "required": true,
+                  "desc": "The value of the selection (String if it's of type radio or Array otherwise)",
                   "examples": [ "[]" ]
                 },
 
@@ -177,7 +116,7 @@
 
                 "items": {
                   "type": "Array",
-                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionsGroup component",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionGroup component",
                   "examples": [
                     "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
                   ]
@@ -189,6 +128,7 @@
                   "params": {
                     "model": {
                       "type": [ "String", "Array" ],
+                      "required": true,
                       "desc": "The current model (String if it's of type radio or Array otherwise)",
                       "examples": [
                         "opt2",
@@ -202,6 +142,22 @@
                     "type": "Boolean",
                     "desc": "The selection passed validation or not"
                   }
+                },
+
+                "...QOptionGroupProps": {
+                  "type": "Any",
+                  "desc": "Any QOptionGroup props",
+                  "examples": [
+                    "color: 'deep-purple-4'",
+                    "inline: true",
+                    "dense: true",
+                    "leftLabel: true"
+                  ]
+                },
+
+                "...nativeAttributes": {
+                  "type": "Object",
+                  "desc": "Any native attributes to pass to the inner QOptionGroup"
                 }
               }
             },
@@ -217,8 +173,7 @@
                 "color": {
                   "extends": "color"
                 }
-              },
-              "addedIn": "v1.14.0"
+              }
             },
 
             "ok": {
@@ -227,8 +182,7 @@
               "definition": {
                 "...props": {
                   "type": "Any",
-                  "desc": "See QBtn for available props",
-                  "__exemption": [ "examples" ]
+                  "desc": "See QBtn for available props"
                 }
               }
             },
@@ -239,8 +193,7 @@
               "definition": {
                 "...props": {
                   "type": "Any",
-                  "desc": "See QBtn for available props",
-                  "__exemption": [ "examples" ]
+                  "desc": "See QBtn for available props"
                 }
               }
             },
@@ -249,8 +202,7 @@
               "type": "String",
               "desc": "What button to focus, unless you also have 'prompt' or 'options'",
               "values": [ "ok", "cancel", "none" ],
-              "default": "ok",
-              "addedIn": "v1.5.0"
+              "default": "ok"
             },
 
             "stackButtons": {
@@ -318,27 +270,14 @@
             },
 
             "component": {
-              "type": "Any",
-              "desc": "Use custom dialog component; use along with 'parent' prop where possible; if using this prop, all others described here will be supplied to your custom component",
-              "__exemption": [ "examples" ]
+              "type": [ "Component", "String" ],
+              "desc": "Use custom dialog component; use along with 'componentProps' prop where possible",
+              "examples": [ "CustomComponent", "'custom-component'" ]
             },
 
-            "parent": {
+            "componentProps": {
               "type": "Object",
-              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify Vue parent component",
-              "examples": [ "parent: this" ]
-            },
-
-            "root": {
-              "type": "Object",
-              "desc": "Deprecated alias for parent",
-              "examples": [ "root: this" ]
-            },
-
-            "...props": {
-              "type": "Any",
-              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
-              "__exemption": [ "examples" ]
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used"
             }
           }
         }

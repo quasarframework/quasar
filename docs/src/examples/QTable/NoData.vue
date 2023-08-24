@@ -1,8 +1,9 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      flat bordered
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       no-data-label="I didn't find anything for you"
       row-key="name"
@@ -12,9 +13,9 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
-      data: [],
+      rows: [],
 
       columns: [
         {

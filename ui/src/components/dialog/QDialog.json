@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/portal" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-portal", "composables/private/use-transition" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/dialog"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/dialog"
   },
 
   "props": {
@@ -69,20 +65,7 @@
       "desc": "Stick dialog to one of the sides (top, right, bottom or left)",
       "default": "standard",
       "values": [ "standard", "top", "right", "bottom", "left" ],
-      "examples": [ "top", "right" ],
       "category": "content"
-    },
-
-    "transition-show": {
-      "extends": "transition",
-      "default": "scale",
-      "category": "behavior"
-    },
-
-    "transition-hide": {
-      "extends": "transition",
-      "default": "scale",
-      "category": "behavior"
     },
 
     "square": {
@@ -101,12 +84,26 @@
       "type": "Boolean",
       "desc": "(Accessibility) When Dialog gets shown, do not switch focus on it",
       "category": "behavior"
+    },
+
+    "no-shake": {
+      "type": "Boolean",
+      "desc": "Do not shake up the Dialog to catch user's attention",
+      "category": "behavior",
+      "addedIn": "v2.1.1"
+    },
+
+    "allow-focus-outside": {
+      "type": "Boolean",
+      "desc": "Allow elements outside of the Dialog to be focusable; By default, for accessibility reasons, QDialog does not allow outer focus",
+      "category": "behavior",
+      "addedIn": "v2.7.2"
     }
   },
 
   "events": {
     "shake": {
-      "desc": "Shakes up the Dialog in order to catch user's attention"
+      "desc": "Emitted when the Dialog shakes in order to catch user's attention, unless the 'no-shake' property is set"
     },
 
     "escape-key": {
@@ -116,11 +113,28 @@
 
   "methods": {
     "focus": {
-      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it"
+      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it",
+      "params": {
+        "selector": {
+          "type": "String",
+          "required": false,
+          "desc": "Optional CSS selector to override default focusable element",
+          "examples": [ "[tabindex]:not([tabindex=\"-1\"])" ],
+          "addedIn": "v2.6.5"
+        }
+      }
     },
 
     "shake": {
-      "desc": "Shakes dialog"
+      "desc": "Shakes dialog",
+      "params": {
+        "focusTarget": {
+          "type": "Element",
+          "desc": "Optional DOM Element to be focused after shake",
+          "examples": [ "document.getElementById('example')" ],
+          "addedIn": "v2.10.1"
+        }
+      }
     }
   },
 

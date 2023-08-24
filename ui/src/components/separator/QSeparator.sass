@@ -3,6 +3,7 @@
   background: $separator-color
   margin: 0
   transition: background .3s, opacity .3s
+  flex-shrink: 0
 
   &--dark
     background: $separator-dark-color
@@ -10,24 +11,20 @@
   &--horizontal
     display: block
     height: 1px
-    width: 100%
 
     &-inset
       margin-left: 16px
       margin-right: 16px
-      width: calc(100% - 32px)
     &-item-inset
       margin-left: 72px
       margin-right: 0
-      width: calc(100% - 72px)
     &-item-thumbnail-inset
       margin-left: 116px
       margin-right: 0
-      width: calc(100% - 116px)
 
   &--vertical
     width: 1px
-    height: inherit
+    height: auto
     align-self: stretch
 
     &-inset

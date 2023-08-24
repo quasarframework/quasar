@@ -29,12 +29,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      basicModel: 50,
-      redModel: 25,
-      greenModel: 2
+      basicModel: ref(50),
+      redModel: ref(25),
+      greenModel: ref(2)
     }
   }
 }

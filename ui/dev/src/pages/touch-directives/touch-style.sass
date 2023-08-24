@@ -1,0 +1,42 @@
+.docs-touch
+  .custom-area
+    height: 450px
+    border-radius: 3px
+    cursor: pointer
+    color: white
+    background: $primary
+    box-shadow: $shadow-2
+    position: relative
+    font-size: 12px
+
+    &:focus,
+    &-placeholder:focus
+      outline: 1px solid $grey
+      outline-offset: 3px
+
+    &-placeholder
+      position: relative
+
+      &:after
+        content: ''
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        pointer-events: none
+        background-color: rgba(150, 150, 150, .3)
+
+  .custom-info pre
+    width: 250px
+
+  .touch-signal
+    position: absolute
+    bottom: 16px
+    right: 16px
+    width: 35px
+    height: 35px
+    font-size: 25px
+    border-radius: 50%
+    text-align: center
+    background: rgba(255, 255, 255, .2)

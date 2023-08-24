@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "docsUrl": "https://v2.quasar.dev/vue-components/floating-action-button"
+  },
+
+  "props": {
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "default": "a",
+      "values": [
+        "a", "submit", "button", "reset"
+      ],
+      "category": "general"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for Fab button",
+      "category": "style"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for Fab button",
+      "category": "style"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for Fab button",
+      "category": "style"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow",
+      "category": "style"
+    },
+
+    "padding": {
+      "type": "String",
+      "desc": "Apply custom padding (vertical [horizontal]); Size in CSS units, including unit name or standard size name (none|xs|sm|md|lg|xl); Also removes the min width and height when set",
+      "examples": [ "16px", "10px 5px", "2rem", "xs", "md lg" ],
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button",
+      "category": "style"
+    },
+
+    "external-label": {
+      "type": "Boolean",
+      "desc": "Display label besides the FABs, as external content",
+      "category": "style|content"
+    },
+
+    "label": {
+      "type": [ "String", "Number" ],
+      "desc": "The label that will be shown when Fab is extended",
+      "examples": [ "Button Label" ],
+      "category": "content"
+    },
+
+    "label-position": {
+      "type": "String",
+      "desc": "Position of the label around the icon",
+      "values": [ "top", "right", "bottom", "left" ],
+      "category": "style|content"
+    },
+
+    "hide-label": {
+      "type": "Boolean",
+      "desc": "Hide the label; Useful for animation purposes where you toggle the visibility of the label",
+      "category": "style|content"
+    },
+
+    "label-class": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
+      "desc": "Class definitions to be attributed to the label container",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "label-style": {
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
+      "desc": "Style definitions to be attributed to the label container",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Apply a rectangle aspect to the FAB",
+      "category": "style"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    }
+  }
+}

@@ -1,18 +1,19 @@
 ---
 title: Uploader
 desc: The QUploader Vue component is a way for the user to upload files to a backend server.
+keys: QUploader
+examples: QUploader
 related:
   - /vue-components/file-picker
 ---
 
 Quasar supplies a way for you to upload files through the QUploader component.
 
-:::tip
+::: tip
 If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
 :::
 
-## Installation
-<doc-installation components="QUploader" />
+<doc-api file="QUploader" />
 
 ## Usage
 
@@ -30,37 +31,37 @@ When using vee-validate, you have to rename the "fieldBagName" configuration of 
 
 ### Design
 
-<doc-example title="Basic" file="QUploader/Basic" />
+<doc-example title="Basic" file="Basic" />
 
-<doc-example title="Dark" file="QUploader/Dark" />
+<doc-example title="Force dark mode" file="Dark" />
 
 ### Uploading multiple files
 
 By default, multiple files will be uploaded individually (one thread per file). Should you want all files to be uploaded in a single thread, use the `batch` property (second QUploader in the example below).
 
-<doc-example title="Multiple" file="QUploader/Multiple" />
+<doc-example title="Multiple" file="Multiple" />
 
 ### Restricting upload
 
-<doc-example title="Basic restrictions" file="QUploader/RestrictionBasic" />
+<doc-example title="Basic restrictions" file="RestrictionBasic" />
 
 ::: tip
 In the example above, we're using `accept` property. Its value must be a comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element. [More info](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Unique_file_type_specifiers).
 :::
 
 ::: warning
-Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/png", "image/png". QUploader uses an `<input type="file">` under the covers and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
+Recommended format for the `accept` property is `<mediatype>/<extension>`. Examples: "image/jpeg", "image/png". QUploader uses an `<input type="file">` under the hood and it relies entirely on the host browser to trigger the file picker. If the `accept` property (that gets applied to the input) is not correct, no file picker will appear on screen or it will appear but it will accept all file types.
 :::
 
 You can also apply custom filters (which are executed after user picks files):
 
-<doc-example title="Filter" file="QUploader/RestrictionFilter" />
+<doc-example title="Filter" file="RestrictionFilter" />
 
 ### Adding headers
 
 Use `headers` for setting additional XHR headers to be sent along the upload request. Also check `form-fields` prop in the API, if you need additional fields to be embedded.
 
-<doc-example title="Headers" file="QUploader/Headers" />
+<doc-example title="Headers" file="Headers" />
 
 ::: tip
 These two props (`headers` and `form-fields`) can be used as a function too (`(files) => Array`), allowing you to dynamically set them based on the files that are to be uploaded.
@@ -70,9 +71,9 @@ There is also the `with-credentials` property, which sets `withCredentials` to `
 
 ### Handling upload
 
-<doc-example title="Auto upload on file selection" file="QUploader/UploadAuto" />
+<doc-example title="Auto upload on file selection" file="UploadAuto" />
 
-<doc-example title="Custom upload URL" file="QUploader/UploadURL" />
+<doc-example title="Custom upload URL" file="UploadURL" />
 
 ::: tip
 You can also customize the HTTP headers and HTTP method through `headers` and `method` props. Check QUploader API section.
@@ -83,11 +84,11 @@ There is a `factory` prop you can use which must be a Function. This function ca
 
 The Object described above can override the following QUploader props: `url`, `method`, `headers`, `formFields`, `fieldName`, `withCredentials`, `sendRaw`). The props of this Object can be Functions as well (of form `(file[s]) => value`):
 
-<doc-example title="Promise-based factory function" file="QUploader/FactoryPromise" />
+<doc-example title="Promise-based factory function" file="FactoryPromise" />
 
 You can also use the `factory` Function prop and return immediately the same Object. This is useful if you want to set multiple props (described above) simultaneously:
 
-<doc-example title="Immediate return factory function" file="QUploader/FactoryImmediate" />
+<doc-example title="Immediate return factory function" file="FactoryImmediate" />
 
 ### Slots
 
@@ -97,13 +98,9 @@ In the example below we're showing the equivalent of the default header. Also no
 Notice that you must install and use one more component (QUploaderAddTrigger) in order to be able to add files to the queue. This component needs to be placed under a DOM node which has `position: relative` (hint: QBtn has it already) and will automatically inject the necessary events when user clicks on its parent (do NOT manually add `@click="scope.pickFiles"`). If the trigger is not working, check if you have an element rendered above it and change the zIndex of QUploaderAddTrigger accordingly.
 :::
 
-::: tip IE11 Support with custom header
-For the file picker to work on IE11 when wrapping QUploaderAddTrigger with a QBtn, make sure that this button has `type="a"` specified.
-:::
+<doc-example title="Custom header" file="SlotHeader" />
 
-<doc-example title="Custom header" file="QUploader/SlotHeader" />
-
-<doc-example title="Custom files list" file="QUploader/SlotList" />
+<doc-example title="Custom files list" file="SlotList" />
 
 ## Server endpoint examples
 
@@ -122,8 +119,8 @@ const
   express = require('express'),
   app = express(),
   formidable = require('formidable'),
-  path = require('path'),
-  fs = require('fs'),
+  path = require('node:path'),
+  fs = require('node:fs'),
   throttle = require('express-throttle-bandwidth')
 
 const
@@ -275,7 +272,7 @@ cors = CORS()
 cors.init_app(app, resource={r"/api/*": {"origins": "*"}})
 
 @app.route('/upload', methods=['POST'])
-def upload():        
+def upload():
     for fname in request.files:
         f = request.files.get(fname)
         print(f)
@@ -289,75 +286,158 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
+
+### Julia/Genie
+
+```
+# Julia Genie
+
+using Genie, Genie.Requests, Genie.Renderer
+
+Genie.config.cors_headers["Access-Control-Allow-Origin"]  =  "*"
+Genie.config.cors_headers["Access-Control-Allow-Headers"] = "Content-Type"
+Genie.config.cors_headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,DELETE,OPTIONS"
+Genie.config.cors_allowed_origins = ["*"]
+
+#== server ==#
+
+route("/") do
+  "File Upload"
+end
+
+route("/upload", method = POST) do
+  if infilespayload(:img)                 # :img is file-name
+    @info filename(filespayload(:img))    # file-name="img"
+    @info filespayload(:img).data
+
+    open("upload/file.jpg", "w") do io
+      write(io, filespayload(:img).data)
+    end
+  else
+    @info "No image uploaded"
+  end
+
+  Genie.Renderer.redirect(:get)
+end
+
+isrunning(:webserver) || up()
+```
+
+### Perl/Mojolicious
+
+```
+# Perl
+
+use Mojolicious::Lite -signatures;
+
+# CORS
+app->hook(after_dispatch => sub {
+    my $c = shift;
+    $c->res->headers->header('Access-Control-Allow-Origin' => '*');
+});
+options '*' => sub ($c) {
+   $c->res->headers->header('Access-Control-Allow-Methods' => 'GET, OPTIONS, POST, DELETE, PUT');
+   $c->res->headers->header('Access-Control-Allow-Headers' => 'Content-Type');
+   $c->render(text => '');
+};
+
+post '/upload' => sub ($c) {
+   my $uploads = $c->req->uploads('files');
+
+   foreach my $f (@{$uploads}) {
+      $f->move_to('/tmp/' . $f->filename);
+   }
+
+   $c->render(text => 'Saved!');
+};
+
+app->start;
+```
+
 ## Supporting other services
-QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
-
-Below is an example with the API that you need to supply. **You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.**
-
-Basically, QUploader is QUploaderBase + the xhr mixin. Your component will be QUploaderBase + your service mixin.
-
-::: tip
-For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
-:::
+QUploader currently supports uploading through the HTTP(S) protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
 ::: warning Help appreciated
-We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit.
+We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit. Hit the `Edit this page in browser` link at bottom of this page or the pencil icon at the top of the page.
 :::
 
-For the UMD version, you can extend `Quasar.components.QUploaderBase`.
+Below is an example with the API that you need to supply to the `createUploaderComponent()` Quasar util. This will create a Vue component that you can import in your app.
 
 ```js
 // MyUploader.js
-import { QUploaderBase } from 'quasar'
+import { createUploaderComponent } from 'quasar'
+import { computed } from 'vue'
 
-export default {
-  name: 'MyUploader',
+// export a Vue component
+export default createUploaderComponent({
+  // defining the QUploader plugin here
 
-  mixins: [ QUploaderBase ],
+  name: 'MyUploader', // your component's name
 
-  computed: {
-    // [REQUIRED]
-    // we're working on uploading files
-    isUploading () {
-      // return <Boolean>
-    },
-
-    // [optional]
-    // shows overlay on top of the
-    // uploader signaling it's waiting
-    // on something (blocks all controls)
-    isBusy () {
-      // return <Boolean>
-    }
+  props: {
+    // ...your custom props
   },
 
-  methods: {
-    // [REQUIRED]
-    // abort and clean up any process
+  emits: [
+    // ...your custom events name list
+  ],
+
+  injectPlugin ({ props, emit, helpers }) {
+    // can call any other composables here
+    // as this function will run in the component's setup()
+
+    // [ REQUIRED! ]
+    // We're working on uploading files
+    const isUploading = computed(() => {
+      // return <Boolean>
+    })
+
+    // [ optional ]
+    // Shows overlay on top of the
+    // uploader signaling it's waiting
+    // on something (blocks all controls)
+    const isBusy = computed(() => {
+      // return <Boolean>
+    })
+
+    // [ REQUIRED! ]
+    // Abort and clean up any process
     // that is in progress
-    abort () {
-      // ...
-    },
-
-    // [REQUIRED]
-    upload () {
-      if (this.canUpload === false) {
-        return
-      }
-
+    function abort () {
       // ...
     }
+
+    // [ REQUIRED! ]
+    // Start the uploading process
+    function upload () {
+      // ...
+    }
+
+    return {
+      isUploading,
+      isBusy,
+
+      abort,
+      upload
+    }
   }
-}
+})
 ```
+
+::: tip TIPS
+* For the default XHR implementation in the form of such a plugin, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/xhr-uploader-plugin.js).
+* For the UMD version use `Quasar.createUploaderComponent({ ... })`.
+:::
 
 Then you register this component globally with Vue or you import it and add it to the "components: {}" in your Vue components.
 
 ```js
-// globally registering your component
-import Vue from 'vue'
+// globally registering your component in a boot file
 import MyUploader from '../../path/to/MyUploader' // the file from above
-Vue.component('MyUploader', MyUploader)
+
+export default ({ app }) {
+  app.component('MyUploader', MyUploader)
+}
 
 // or declaring it in a .vue file
 import MyUploader from '../../path/to/MyUploader' // the file from above
@@ -370,5 +450,25 @@ export default {
 }
 ```
 
-## QUploader API
-<doc-api file="QUploader" />
+If you're using TypeScript, you'd need to register the new component types to allow Volar to autocomplete props and slots for you.
+
+```js
+import {
+  GlobalComponentConstructor,
+  QUploaderProps,
+  QUploaderSlots,
+} from 'quasar';
+
+interface MyUploaderProps extends QUploaderProps {
+  // .. add custom props
+  freeze: boolean;
+  // .. add custom events
+  onFreeze: boolean;
+}
+
+declare module '@vue/runtime-core' {
+  interface GlobalComponents {
+    MyUploader: GlobalComponentConstructor<MyUploaderProps, QUploaderSlots>;
+  }
+}
+```

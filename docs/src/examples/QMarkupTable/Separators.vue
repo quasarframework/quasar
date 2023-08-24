@@ -4,12 +4,7 @@
       v-model="separator"
       inline
       class="q-mb-md"
-      :options="[
-        { label: 'Horizontal', value: 'horizontal' },
-        { label: 'Vertical', value: 'vertical' },
-        { label: 'Cell', value: 'cell' },
-        { label: 'None', value: 'none' }
-      ]"
+      :options="separatorOptions"
     />
 
     <q-markup-table :separator="separator" flat bordered>
@@ -70,10 +65,18 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      separator: 'vertical'
+      separator: ref('vertical'),
+      separatorOptions: [
+        { label: 'Horizontal', value: 'horizontal' },
+        { label: 'Vertical', value: 'vertical' },
+        { label: 'Cell', value: 'cell' },
+        { label: 'None', value: 'none' }
+      ]
     }
   }
 }

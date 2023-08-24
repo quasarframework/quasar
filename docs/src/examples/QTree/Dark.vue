@@ -1,19 +1,22 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <q-tree
       :nodes="simple"
       node-key="label"
-      :expanded.sync="expanded"
+      v-model:expanded="expanded"
       dark
     />
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      expanded: [ 'Satisfied customers (with avatar)', 'Good food (with icon)' ],
+      expanded: ref([ 'Satisfied customers (with avatar)', 'Good food (with icon)' ]),
+
       simple: [
         {
           label: 'Satisfied customers (with avatar)',

@@ -1,38 +1,63 @@
-import Vue from 'vue'
-
-import { mergeSlot } from '../../utils/slot.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import { h, computed } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+import { hMergeSlot } from '../../utils/private/render.js'
+import useRouterLink, { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+
+export default createComponent({
   name: 'QBreadcrumbsEl',
 
-  mixins: [ ListenersMixin, RouterLinkMixin ],
-
   props: {
+    ...useRouterLinkProps,
+
     label: String,
-    icon: String
+    icon: String,
+
+    tag: {
+      type: String,
+      default: 'span'
+    }
   },
 
-  render (h) {
-    const child = []
+  emits: [ 'click' ],
 
-    this.icon !== void 0 && child.push(
-      h(QIcon, {
-        staticClass: 'q-breadcrumbs__el-icon',
-        class: this.label !== void 0 ? 'q-breadcrumbs__el-icon--with-label' : null,
-        props: { name: this.icon }
-      })
+  setup (props, { slots }) {
+    const { linkTag, linkAttrs, linkClass, navigateOnClick } = useRouterLink()
+
+    const data = computed(() => {
+      return {
+        class: 'q-breadcrumbs__el q-link '
+          + 'flex inline items-center relative-position '
+          + (props.disable !== true ? 'q-link--focusable' + linkClass.value : 'q-breadcrumbs__el--disable'),
+        ...linkAttrs.value,
+        onClick: navigateOnClick
+      }
+    })
+
+    const iconClass = computed(() =>
+      'q-breadcrumbs__el-icon'
+      + (props.label !== void 0 ? ' q-breadcrumbs__el-icon--with-label' : '')
     )
 
-    this.label && child.push(this.label)
+    return () => {
+      const child = []
 
-    return h(this.hasRouterLink === true ? 'router-link' : 'span', {
-      staticClass: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
-      props: this.hasRouterLink === true ? this.routerLinkProps : null,
-      [this.hasRouterLink === true ? 'nativeOn' : 'on']: { ...this.qListeners }
-    }, mergeSlot(child, this, 'default'))
+      props.icon !== void 0 && child.push(
+        h(QIcon, {
+          class: iconClass.value,
+          name: props.icon
+        })
+      )
+
+      props.label !== void 0 && child.push(props.label)
+
+      return h(
+        linkTag.value,
+        { ...data.value },
+        hMergeSlot(slots.default, child)
+      )
+    }
   }
 })

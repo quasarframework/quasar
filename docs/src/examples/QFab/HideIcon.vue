@@ -15,16 +15,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      fab: true
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onClick () {
-      // console.log('Clicked on a fab action')
+export default {
+  setup () {
+    return {
+      fab: ref(true),
+      onClick () {
+        // console.log('Clicked on a fab action')
+      }
     }
   }
 }

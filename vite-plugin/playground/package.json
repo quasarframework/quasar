@@ -1,0 +1,21 @@
+{
+  "name": "quasar-vite-plugin-playground",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "start": "yarn build && yarn serve",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "quasar": "^2.11.10",
+    "vue": "^3.3.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "1.32.0",
+    "vite": "^4.3.9"
+  }
+}

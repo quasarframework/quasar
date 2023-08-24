@@ -6,7 +6,7 @@
       <!-- equivalent -->
       <q-input color="orange" filled v-model="text" label="Label">
         <template v-if="text" v-slot:append>
-          <q-icon name="cancel" @click.stop="text = null" class="cursor-pointer" />
+          <q-icon name="cancel" @click.stop.prevent="text = null" class="cursor-pointer" />
         </template>
       </q-input>
 
@@ -24,10 +24,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Some text'
+      text: ref('Some text')
     }
   }
 }

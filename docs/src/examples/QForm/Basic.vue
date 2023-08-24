@@ -39,40 +39,46 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const $q = useQuasar()
+
+    const name = ref(null)
+    const age = ref(null)
+    const accept = ref(false)
+
     return {
-      name: null,
-      age: null,
+      name,
+      age,
+      accept,
 
-      accept: false
-    }
-  },
+      onSubmit () {
+        if (accept.value !== true) {
+          $q.notify({
+            color: 'red-5',
+            textColor: 'white',
+            icon: 'warning',
+            message: 'You need to accept the license and terms first'
+          })
+        }
+        else {
+          $q.notify({
+            color: 'green-4',
+            textColor: 'white',
+            icon: 'cloud_done',
+            message: 'Submitted'
+          })
+        }
+      },
 
-  methods: {
-    onSubmit () {
-      if (this.accept !== true) {
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'warning',
-          message: 'You need to accept the license and terms first'
-        })
+      onReset () {
+        name.value = null
+        age.value = null
+        accept.value = false
       }
-      else {
-        this.$q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Submitted'
-        })
-      }
-    },
-
-    onReset () {
-      this.name = null
-      this.age = null
-      this.accept = false
     }
   }
 }

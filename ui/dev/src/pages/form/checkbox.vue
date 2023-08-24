@@ -11,8 +11,16 @@
       <p class="caption">
         Standalone
       </p>
-      <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <div>
+        <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" color="primary" :keep-color="keepColor" />
+      </div>
+      <div>
+        <q-checkbox v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" checked-icon="star" unchecked-icon="star_border" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" color="primary" :keep-color="keepColor" checked-icon="star" unchecked-icon="star_border" />
+        <q-checkbox v-model="checked" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" color="green" checked-icon="star" unchecked-icon="star_border" />
+      </div>
 
       <p class="caption">
         Sizes
@@ -24,6 +32,15 @@
         :label="size"
         v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor"
       />
+      <div />
+      <q-checkbox
+        v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+        :key="size"
+        :size="size"
+        :label="size"
+        checked-icon="star" unchecked-icon="star_border"
+        v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor"
+      />
 
       <p class="caption">
         Indeterminate
@@ -32,6 +49,11 @@
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" label="Three states" />
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
+      <div />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" indeterminate-icon="help" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" label="Three states" />
+      <q-checkbox checked-icon="star" unchecked-icon="star_border" v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
 
       <p class="caption">
         Order ({{ JSON.stringify(orderModel) }})
@@ -53,7 +75,7 @@
       <p class="caption">
         Tests
       </p>
-      <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      <q-checkbox @change="onChange" @update:model-value="onInput" v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" label="Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <q-checkbox v-model="checked" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -135,7 +157,7 @@
         type="checkbox"
         color="secondary"
         v-model="group"
-        @input="onInput"
+        @update:model-value="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -187,8 +209,8 @@
         <q-field v-model="checked" label="Checkbox field" stack-label :dark="dark" :dense="dense">
           <template v-slot:control="{ value, emitValue }">
             <q-checkbox
-              :value="value"
-              @input="emitValue"
+              :model-value="value"
+              @update:model-value="emitValue"
               color="orange"
               :dark="dark"
               :dense="dense"
@@ -243,16 +265,16 @@
 export default {
   data () {
     const
-      trueVal = [true],
-      falseVal = [false]
+      trueVal = [ true ],
+      falseVal = [ false ]
 
     return {
       val: true,
       ind: false,
       checked: true,
       orderModel: 'bogus',
-      group: ['op2'],
-      selection: ['one', 'two', 'three'],
+      group: [ 'op2' ],
+      selection: [ 'one', 'two', 'three' ],
       dark: null,
       dense: false,
       keepColor: false,
@@ -261,12 +283,12 @@ export default {
       trueVal,
       falseVal,
       modelArr: falseVal,
-      modelArrComplex: [falseVal, trueVal]
+      modelArrComplex: [ falseVal, trueVal ]
     }
   },
   watch: {
     group (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -274,7 +296,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     onFocus () {
       console.log('focused')

@@ -1,31 +1,23 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/mask", "mixins/form" ],
+  "mixins": [ "composables/private/use-field", "components/input/use-mask", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/input"
-  },
-
-  "behavior": {
-    "$listeners": {
-      "target": "to the inner native input element"
-    }
+    "docsUrl": "https://v2.quasar.dev/vue-components/input"
   },
 
   "props": {
-    "value": {
-      "type": [ "String", "Number" ],
-      "desc": "Model of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "required": true,
-      "examples": [ "v-model=\"myText\"" ],
-      "category": "model"
+    "model-value": {
+      "extends": "model-value",
+      "type": [ "String", "Number", "null", "undefined" ],
+      "desc": "Model of the component; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "examples": [ "v-model=\"myText\"" ]
     },
 
     "shadow-text": {
       "type": "String",
       "desc": "Text to be displayed as shadow at the end of the text in the control; Does NOT applies to type=file",
       "examples": [ "rest of the fill value" ],
-      "category": "content",
-      "addedIn": "v1.10.0"
+      "category": "content"
     },
 
     "type": {
@@ -36,21 +28,18 @@
         "text", "password", "textarea", "email", "search",
         "tel", "file", "number", "url", "time", "date"
       ],
-      "examples": [ "password" ],
       "category": "general"
     },
 
     "debounce": {
       "type": [ "String", "Number" ],
       "desc": "Debounce amount (in milliseconds) when updating model",
-      "examples": [ "0", "530" ],
       "category": "model"
     },
 
     "maxlength": {
       "type": [ "String", "Number" ],
       "desc": "Specify a max length of model",
-      "examples": [ "12" ],
       "category": "model"
     },
 
@@ -61,7 +50,8 @@
     },
 
     "input-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Class definitions to be attributed to the underlying input tag",
       "examples": [
         "my-special-class",
@@ -71,7 +61,8 @@
     },
 
     "input-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Style definitions to be attributed to the underlying input tag",
       "examples": [
         "background-color: #ff0000",
@@ -82,11 +73,11 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "params": {
         "value": {
-          "type": [ "String", "Number" ]
+          "type": [ "String", "Number", "null" ]
         }
       }
     },
@@ -95,9 +86,7 @@
       "desc": "Emitted when component gets focused",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -106,9 +95,7 @@
       "desc": "Emitted when component loses focus",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }
@@ -125,6 +112,24 @@
 
     "select": {
       "desc": "Select input text"
+    },
+
+    "getNativeElement": {
+      "desc": "DEPRECATED; Access 'nativeEl' directly instead; Get the native input/textarea DOM Element",
+      "returns": {
+        "type": "Element",
+        "tsType": "QInputNativeElement",
+        "desc": "The underlying native input/textarea DOM Element"
+      }
+    }
+  },
+
+  "computedProps": {
+    "nativeEl": {
+      "type": "Element",
+      "tsType": "QInputNativeElement",
+      "desc": "The native input/textarea DOM Element",
+      "addedIn": "v2.10.1"
     }
   }
 }

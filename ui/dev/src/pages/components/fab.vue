@@ -30,7 +30,7 @@
 
         <br>
 
-        <q-fab :value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
+        <q-fab :model-value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
           <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" disable />
           <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />
@@ -54,7 +54,7 @@
 
       <q-fab
         class="fixed-bottom-right"
-        style="right: 18px; bottom: 86px;"
+        style="inset-inline-end: 18px; bottom: 86px;"
         icon="fas fa-address-book"
         direction="up"
         color="primary"
@@ -73,9 +73,42 @@
         </q-fab-action>
       </q-fab>
 
-      <div style="height: 1000px">
-&nbsp;
-      </div>
+      <q-fab
+        class="fixed-bottom"
+        style="right: auto; bottom: 18px; left: 50%; transform: translateX(-50%)"
+        direction="up"
+        color="primary"
+      >
+        <template #icon="{ opened }">
+          <q-icon :class="{ 'test-fab-animate--hover': opened !== true }" :name="mdiMenu" />
+        </template>
+        <template #active-icon="{ opened }">
+          <q-icon :class="{ 'test-fab-animate': opened === true }" name="close" />
+        </template>
+        <template #label="{ opened }">
+          <div :class="{ 'test-fab-animate--hover': opened === true }">Label</div>
+        </template>
+
+        <q-fab-action color="blue" class="white" external-label>
+          <template #icon>
+            <q-icon name="person_add" />
+          </template>
+          <template #label>
+            Label
+          </template>
+
+          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">
+            Add person
+          </q-tooltip>
+        </q-fab-action>
+        <q-fab-action color="blue" class="white" icon="group_add">
+          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">
+            Add group
+          </q-tooltip>
+        </q-fab-action>
+      </q-fab>
+
+      <div style="height: 1000px">&nbsp;</div>
 
       <div class="q-gutter-lg">
         <q-btn fab :icon="mdiMenu" />
@@ -90,11 +123,14 @@
         direction="up"
         class="fixed-bottom-right"
         :icon="mdiMenu"
-        style="right: 18px; bottom: 18px;"
+        style="inset-inline-end: 18px; bottom: 18px;"
       >
-        <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">
-          Tooltip in FAB
-        </q-tooltip>
+        <template v-slot:tooltip>
+          <q-tooltip ref="tooltip0" anchor="center left" self="center right" :offset="[20, 0]">
+            Tooltip in FAB
+          </q-tooltip>
+        </template>
+
         <q-fab-action color="purple" @click="notify('mail')" icon="mail">
           <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">
             Mail
@@ -111,7 +147,7 @@
 </template>
 
 <script>
-import { mdiMenu } from '@quasar/extras/mdi-v4'
+import { mdiMenu } from '@quasar/extras/mdi-v6'
 
 export default {
   created () {
@@ -150,3 +186,21 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.test-fab-animate,
+.q-fab:hover .test-fab-animate--hover
+  animation: test-fab-animate 0.82s cubic-bezier(.36,.07,.19,.97) both
+  transform: translate3d(0, 0, 0)
+  backface-visibility: hidden
+  perspective: 1000px
+@keyframes test-fab-animate
+  10%, 90%
+    transform: translate3d(-1px, 0, 0)
+  20%, 80%
+    transform: translate3d(2px, 0, 0)
+  30%, 50%, 70%
+    transform: translate3d(-4px, 0, 0)
+  40%, 60%
+    transform: translate3d(4px, 0, 0)
+ </style>

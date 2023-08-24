@@ -1,0 +1,60 @@
+{
+  "name": "quasar-ui-<%= name %>",
+  "version": "0.0.1",
+  "author": "<%= author %>",
+  "description": "<%= packageDescription %>",
+  "license": "<%= license %>",
+  "module": "dist/index.esm.js",
+  "main": "dist/index.common.js",
+  "scripts": {
+    "dev": "cd dev && yarn dev && cd ..",
+    "dev:umd": "yarn build && node build/script.open-umd.js",
+    "dev:ssr": "cd dev && yarn 'dev:ssr' && cd ..",
+    "dev:ios": "cd dev && yarn 'dev:ios' && cd ..",
+    "dev:android": "cd dev && yarn 'dev:android' && cd ..",
+    "dev:electron": "cd dev && yarn 'dev:electron' && cd ..",
+    "build": "node build/index.js",
+    "build:js": "node build/script.javascript.js",
+    "build:css": "node build/script.css.js"
+  },
+  "repository": {
+    "type": "<%= repositoryType %>",
+    "url": "<%= repositoryURL %>"
+  },
+  "bugs": "<%= bugs %>",
+  "homepage": "<%= homepage %>",
+  "devDependencies": {
+    "autoprefixer": "^10.0.2",
+    "cssnano": "^4.1.10",
+    "postcss": "^8.1.9",
+    "rtlcss": "^2.6.1",
+    "sass": "1.32.0",
+    "quasar": "^2.0.0",
+    "@quasar/extras": "^1.16.4",
+    "core-js": "^3.0.0",
+    "@quasar/app-webpack": "^3.0.0",
+    "open": "^7.3.0",
+    "fs-extra": "^8.1.0",
+    "chalk": "^4.1.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^2.45.0",
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "@rollup/plugin-replace": "^2.4.2",
+    "uglify-js": "^3.13.3",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.0",
+    "zlib": "^1.0.5"
+  },
+  "browserslist": [
+    "last 4 Chrome versions",
+    "last 4 Firefox versions",
+    "last 2 Edge versions",
+    "last 4 Safari versions",
+    "last 4 Android versions",
+    "last 4 ChromeAndroid versions",
+    "last 4 FirefoxAndroid versions",
+    "last 4 iOS versions"
+  ]
+}

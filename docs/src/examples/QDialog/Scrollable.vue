@@ -44,11 +44,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      basic: false,
-      fixed: false
+      basic: ref(false),
+      fixed: ref(false)
     }
   }
 }

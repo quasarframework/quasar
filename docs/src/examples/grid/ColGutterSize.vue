@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md example-col-gutter-size">
 
     <div class="row q-col-gutter-none">
       <div class="col-4" v-for="n in 5" :key="`none-${n}`">
@@ -50,9 +50,10 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.my-content
-  padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
+<style lang="sass">
+.example-col-gutter-size
+  .my-content
+    padding: 10px 15px
+    background: rgba(#999,.15)
+    border: 1px solid rgba(#999,.2)
 </style>

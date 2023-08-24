@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header elevated class="bg-black">
+      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -14,13 +14,13 @@
         :width="200"
         :breakpoint="500"
         bordered
-        content-class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
           <q-list>
 
-            <template v-for="(menuItem, index) in menuList">
-              <q-item :key="index" clickable :active="menuItem.label === 'Outbox'" v-ripple>
+            <template v-for="(menuItem, index) in menuList" :key="index">
+              <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
                 <q-item-section avatar>
                   <q-icon :name="menuItem.icon" />
                 </q-item-section>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const menuList = [
   {
     icon: 'inbox',
@@ -87,9 +89,9 @@ const menuList = [
 ]
 
 export default {
-  data () {
+  setup () {
     return {
-      drawer: false,
+      drawer: ref(false),
       menuList
     }
   }

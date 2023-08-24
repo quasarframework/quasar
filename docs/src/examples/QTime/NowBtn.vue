@@ -8,10 +8,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      time: '04:56'
+      time: ref('04:56')
     }
   }
 }

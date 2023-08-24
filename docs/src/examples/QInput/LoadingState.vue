@@ -13,11 +13,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: '',
-      loadingState: false
+      text: ref(''),
+      loadingState: ref(false)
     }
   }
 }

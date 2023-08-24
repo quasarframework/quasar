@@ -1,0 +1,6 @@
+/app-vite/templates
+/app-webpack/templates
+/icongenie/samples
+/ui/types
+/utils/render-ssr-error/src-ui/dist
+/utils/render-ssr-error/src-ui/.quasar

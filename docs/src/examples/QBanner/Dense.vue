@@ -8,7 +8,7 @@
       </template>
     </q-banner>
 
-    <q-banner dense class="bg-grey-3">
+    <q-banner dense :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
       <template v-slot:avatar>
         <q-icon name="signal_wifi_off" color="primary" />
       </template>

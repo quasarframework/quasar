@@ -14,16 +14,17 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      url: 'https://cdn.quasar.dev/img/no-image-src.png'
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    refresh () {
-      this.url = 'https://cdn.quasar.dev/img/no-image-src.png?t=' + Math.random()
+export default {
+  setup () {
+    const url = ref('https://cdn.quasar.dev/img/no-image-src.png')
+
+    return {
+      url,
+      refresh () {
+        url.value = 'https://cdn.quasar.dev/img/no-image-src.png?t=' + Math.random()
+      }
     }
   }
 }

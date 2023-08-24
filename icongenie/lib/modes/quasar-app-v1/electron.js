@@ -1,13 +1,14 @@
-module.exports = [
+
+export default [
   {
-    // macos
+    // macos (embedded icons)
     generator: 'icns',
     name: 'icon.icns',
     folder: 'src-electron/icons'
   },
 
   {
-    // windows
+    // windows (embedded icon)
     generator: 'ico',
     name: 'icon.ico',
     folder: 'src-electron/icons'

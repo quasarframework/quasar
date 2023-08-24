@@ -11,6 +11,7 @@
         :max="50"
         vertical
         label
+        switch-label-side
       />
 
       <q-slider
@@ -27,10 +28,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      standard: 10
+      standard: ref(10)
     }
   }
 }

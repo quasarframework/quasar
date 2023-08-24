@@ -51,15 +51,15 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .animate-bounce
-  animation q-bounce 2s infinite /* rtl:ignore */
+  animation: q-bounce 2s infinite /* rtl:ignore */
 
 @keyframes q-bounce
   0%, 20%, 50%, 80%, 100%
-    transform translateY(0)
+    transform: translateY(0)
   40%
-    transform translateY(-30px)
+    transform: translateY(-30px)
   60%
-    transform translateY(-15px)
+    transform: translateY(-15px)
 </style>

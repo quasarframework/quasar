@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, shallowReactive, ref, computed, watch, withDirectives, getCurrentInstance, vShow, onBeforeUnmount } from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
@@ -7,22 +7,26 @@ import QIcon from '../icon/QIcon.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
-import { RouterLinkMixin } from '../../mixins/router-link.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
-import DarkMixin from '../../mixins/dark.js'
+import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
+import { hSlot } from '../../utils/private/render.js'
+import uid from '../../utils/uid.js'
 
-const eventName = 'q:expansion-item:close'
+const itemGroups = shallowReactive({})
+const LINK_PROPS = Object.keys(useRouterLinkProps)
 
-export default Vue.extend({
+export default createComponent({
   name: 'QExpansionItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, ModelToggleMixin ],
-
   props: {
+    ...useRouterLinkProps,
+    ...useModelToggleProps,
+    ...useDarkProps,
+
     icon: String,
 
     label: String,
@@ -33,6 +37,7 @@ export default Vue.extend({
 
     dense: Boolean,
 
+    toggleAriaLabel: String,
     expandIcon: String,
     expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
@@ -43,253 +48,322 @@ export default Vue.extend({
 
     expandSeparator: Boolean,
     defaultOpened: Boolean,
+    hideExpandIcon: Boolean,
     expandIconToggle: Boolean,
     switchToggleSide: Boolean,
     denseToggle: Boolean,
     group: String,
     popup: Boolean,
 
-    headerStyle: [Array, String, Object],
-    headerClass: [Array, String, Object]
+    headerStyle: [ Array, String, Object ],
+    headerClass: [ Array, String, Object ]
   },
 
-  data () {
-    return {
-      showing: this.value !== void 0
-        ? this.value
-        : this.defaultOpened
-    }
-  },
+  emits: [
+    ...useModelToggleEmits,
+    'click', 'afterShow', 'afterHide'
+  ],
 
-  watch: {
-    showing (val) {
-      val === true && this.group !== void 0 && this.$root.$emit(eventName, this)
-    },
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+    const isDark = useDark(props, $q)
 
-    group (newVal, oldVal) {
-      if (newVal !== void 0 && oldVal === void 0) {
-        this.$root.$on(eventName, this.__eventHandler)
+    const showing = ref(
+      props.modelValue !== null
+        ? props.modelValue
+        : props.defaultOpened
+    )
+
+    const blurTargetRef = ref(null)
+    const targetUid = uid()
+
+    const { show, hide, toggle } = useModelToggle({ showing })
+
+    let uniqueId, exitGroup
+
+    const classes = computed(() =>
+      'q-expansion-item q-item-type'
+      + ` q-expansion-item--${ showing.value === true ? 'expanded' : 'collapsed' }`
+      + ` q-expansion-item--${ props.popup === true ? 'popup' : 'standard' }`
+    )
+
+    const contentStyle = computed(() => {
+      if (props.contentInsetLevel === void 0) {
+        return null
       }
-      else if (newVal === void 0 && oldVal !== void 0) {
-        this.$root.$off(eventName, this.__eventHandler)
+
+      const dir = $q.lang.rtl === true ? 'Right' : 'Left'
+      return {
+        [ 'padding' + dir ]: (props.contentInsetLevel * 56) + 'px'
       }
-    }
-  },
+    })
 
-  computed: {
-    classes () {
-      return `q-expansion-item--${this.showing === true ? 'expanded' : 'collapsed'}` +
-        ` q-expansion-item--${this.popup === true ? 'popup' : 'standard'}`
-    },
+    const hasLink = computed(() =>
+      props.disable !== true && (
+        props.href !== void 0
+        || (props.to !== void 0 && props.to !== null && props.to !== '')
+      )
+    )
 
-    contentStyle () {
-      if (this.contentInsetLevel !== void 0) {
-        const dir = this.$q.lang.rtl === true ? 'Right' : 'Left'
-        return {
-          ['padding' + dir]: (this.contentInsetLevel * 56) + 'px'
-        }
+    const linkProps = computed(() => {
+      const acc = {}
+      LINK_PROPS.forEach(key => {
+        acc[ key ] = props[ key ]
+      })
+      return acc
+    })
+
+    const isClickable = computed(() =>
+      hasLink.value === true || props.expandIconToggle !== true
+    )
+
+    const expansionIcon = computed(() => (
+      props.expandedIcon !== void 0 && showing.value === true
+        ? props.expandedIcon
+        : props.expandIcon || $q.iconSet.expansionItem[ props.denseToggle === true ? 'denseIcon' : 'icon' ]
+    ))
+
+    const activeToggleIcon = computed(() =>
+      props.disable !== true && (hasLink.value === true || props.expandIconToggle === true)
+    )
+
+    const headerSlotScope = computed(() => ({
+      expanded: showing.value === true,
+      detailsId: props.targetUid,
+      toggle,
+      show,
+      hide
+    }))
+
+    const toggleAriaAttrs = computed(() => {
+      const toggleAriaLabel = props.toggleAriaLabel !== void 0
+        ? props.toggleAriaLabel
+        : $q.lang.label[ showing.value === true ? 'collapse' : 'expand' ](props.label)
+
+      return {
+        role: 'button',
+        'aria-expanded': showing.value === true ? 'true' : 'false',
+        'aria-controls': targetUid,
+        'aria-label': toggleAriaLabel
       }
-    },
+    })
 
-    isClickable () {
-      return this.hasRouterLink === true || this.expandIconToggle !== true
-    },
+    watch(() => props.group, name => {
+      exitGroup !== void 0 && exitGroup()
+      name !== void 0 && enterGroup()
+    })
 
-    expansionIcon () {
-      return this.expandedIcon !== void 0 && this.showing === true
-        ? this.expandedIcon
-        : this.expandIcon || this.$q.iconSet.expansionItem[this.denseToggle === true ? 'denseIcon' : 'icon']
-    },
-
-    activeToggleIcon () {
-      return this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
+    function onHeaderClick (e) {
+      hasLink.value !== true && toggle(e)
+      emit('click', e)
     }
-  },
 
-  methods: {
-    __onHeaderClick (e) {
-      this.hasRouterLink !== true && this.toggle(e)
-      this.$emit('click', e)
-    },
+    function toggleIconKeyboard (e) {
+      e.keyCode === 13 && toggleIcon(e, true)
+    }
 
-    __toggleIconKeyboard (e) {
-      e.keyCode === 13 && this.__toggleIcon(e, true)
-    },
-
-    __toggleIcon (e, keyboard) {
-      keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
-      this.toggle(e)
+    function toggleIcon (e, keyboard) {
+      keyboard !== true && blurTargetRef.value !== null && blurTargetRef.value.focus()
+      toggle(e)
       stopAndPrevent(e)
-    },
+    }
 
-    __eventHandler (comp) {
-      this !== comp && this.group === comp.group && this.hide()
-    },
+    function onShow () {
+      emit('afterShow')
+    }
 
-    __getToggleIcon (h) {
-      const data = {
-        staticClass: `q-focusable relative-position cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
-        class: this.expandIconClass,
-        props: {
-          side: this.switchToggleSide !== true,
-          avatar: this.switchToggleSide
+    function onHide () {
+      emit('afterHide')
+    }
+
+    function enterGroup () {
+      if (uniqueId === void 0) {
+        uniqueId = uid()
+      }
+
+      if (showing.value === true) {
+        itemGroups[ props.group ] = uniqueId
+      }
+
+      const show = watch(showing, val => {
+        if (val === true) {
+          itemGroups[ props.group ] = uniqueId
         }
+        else if (itemGroups[ props.group ] === uniqueId) {
+          delete itemGroups[ props.group ]
+        }
+      })
+
+      const group = watch(
+        () => itemGroups[ props.group ],
+        (val, oldVal) => {
+          if (oldVal === uniqueId && val !== void 0 && val !== uniqueId) {
+            hide()
+          }
+        }
+      )
+
+      exitGroup = () => {
+        show()
+        group()
+
+        if (itemGroups[ props.group ] === uniqueId) {
+          delete itemGroups[ props.group ]
+        }
+
+        exitGroup = void 0
+      }
+    }
+
+    function getToggleIcon () {
+      const data = {
+        class: [
+          'q-focusable relative-position cursor-pointer'
+            + `${ props.denseToggle === true && props.switchToggleSide === true ? ' items-end' : '' }`,
+          props.expandIconClass
+        ],
+        side: props.switchToggleSide !== true,
+        avatar: props.switchToggleSide
       }
 
       const child = [
         h(QIcon, {
-          staticClass: 'q-expansion-item__toggle-icon',
-          class: this.expandedIcon === void 0 && this.showing === true
-            ? 'q-expansion-item__toggle-icon--rotated'
-            : void 0,
-          props: { name: this.expansionIcon }
+          class: 'q-expansion-item__toggle-icon'
+            + (props.expandedIcon === void 0 && showing.value === true
+              ? ' q-expansion-item__toggle-icon--rotated'
+              : ''),
+          name: expansionIcon.value
         })
       ]
 
-      if (this.activeToggleIcon === true) {
+      if (activeToggleIcon.value === true) {
         Object.assign(data, {
-          attrs: { tabindex: 0 },
-          on: cache(this, 'inpExt', {
-            click: this.__toggleIcon,
-            keyup: this.__toggleIconKeyboard
-          })
+          tabindex: 0,
+          ...toggleAriaAttrs.value,
+          onClick: toggleIcon,
+          onKeyup: toggleIconKeyboard
         })
 
         child.unshift(
           h('div', {
-            ref: 'blurTarget',
-            staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
-            attrs: { tabindex: -1 }
+            ref: blurTargetRef,
+            class: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
+            tabindex: -1
           })
         )
       }
 
-      return h(QItemSection, data, child)
-    },
+      return h(QItemSection, data, () => child)
+    }
 
-    __getHeader (h) {
+    function getHeaderChild () {
       let child
 
-      if (this.$scopedSlots.header !== void 0) {
-        child = this.$scopedSlots.header().slice()
+      if (slots.header !== void 0) {
+        child = [].concat(slots.header(headerSlotScope.value))
       }
       else {
         child = [
-          h(QItemSection, [
-            h(QItemLabel, {
-              props: { lines: this.labelLines }
-            }, [ this.label || '' ]),
+          h(QItemSection, () => [
+            h(QItemLabel, { lines: props.labelLines }, () => props.label || ''),
 
-            this.caption
-              ? h(QItemLabel, {
-                props: { lines: this.captionLines, caption: true }
-              }, [ this.caption ])
+            props.caption
+              ? h(QItemLabel, { lines: props.captionLines, caption: true }, () => props.caption)
               : null
           ])
         ]
 
-        this.icon && child[this.switchToggleSide === true ? 'push' : 'unshift'](
+        props.icon && child[ props.switchToggleSide === true ? 'push' : 'unshift' ](
           h(QItemSection, {
-            props: {
-              side: this.switchToggleSide === true,
-              avatar: this.switchToggleSide !== true
-            }
-          }, [
-            h(QIcon, {
-              props: { name: this.icon }
-            })
-          ])
+            side: props.switchToggleSide === true,
+            avatar: props.switchToggleSide !== true
+          }, () => h(QIcon, { name: props.icon }))
         )
       }
 
-      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
-        this.__getToggleIcon(h)
-      )
+      if (props.disable !== true && props.hideExpandIcon !== true) {
+        child[ props.switchToggleSide === true ? 'unshift' : 'push' ](
+          getToggleIcon()
+        )
+      }
 
+      return child
+    }
+
+    function getHeader () {
       const data = {
         ref: 'item',
-        style: this.headerStyle,
-        class: this.headerClass,
-        props: {
-          dark: this.isDark,
-          disable: this.disable,
-          dense: this.dense,
-          insetLevel: this.headerInsetLevel
-        }
+        style: props.headerStyle,
+        class: props.headerClass,
+        dark: isDark.value,
+        disable: props.disable,
+        dense: props.dense,
+        insetLevel: props.headerInsetLevel
       }
 
-      if (this.isClickable === true) {
-        const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
+      if (isClickable.value === true) {
+        data.clickable = true
+        data.onClick = onHeaderClick
 
-        data.props.clickable = true
-        data[evtProp] = {
-          ...this.qListeners,
-          click: this.__onHeaderClick
-        }
-
-        this.hasRouterLink === true && Object.assign(
-          data.props,
-          this.routerLinkProps
+        Object.assign(
+          data,
+          hasLink.value === true ? linkProps.value : toggleAriaAttrs.value
         )
       }
 
-      return h(QItem, data, child)
-    },
+      return h(QItem, data, getHeaderChild)
+    }
 
-    __getContent (h) {
+    function getTransitionChild () {
+      return withDirectives(
+        h('div', {
+          key: 'e-content',
+          class: 'q-expansion-item__content relative-position',
+          style: contentStyle.value,
+          id: targetUid
+        }, hSlot(slots.default)),
+        [ [
+          vShow,
+          showing.value
+        ] ]
+      )
+    }
+
+    function getContent () {
       const node = [
-        this.__getHeader(h),
+        getHeader(),
 
         h(QSlideTransition, {
-          props: { duration: this.duration },
-          on: cache(this, 'slide', {
-            show: () => { this.$emit('after-show') },
-            hide: () => { this.$emit('after-hide') }
-          })
-        }, [
-          h('div', {
-            staticClass: 'q-expansion-item__content relative-position',
-            style: this.contentStyle,
-            directives: [{ name: 'show', value: this.showing }]
-          }, slot(this, 'default'))
-        ])
+          duration: props.duration,
+          onShow,
+          onHide
+        }, getTransitionChild)
       ]
 
-      if (this.expandSeparator) {
+      if (props.expandSeparator === true) {
         node.push(
           h(QSeparator, {
-            staticClass: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
-            props: { dark: this.isDark }
+            class: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
+            dark: isDark.value
           }),
           h(QSeparator, {
-            staticClass: 'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
-            props: { dark: this.isDark }
+            class: 'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
+            dark: isDark.value
           })
         )
       }
 
       return node
     }
-  },
 
-  render (h) {
-    return h('div', {
-      staticClass: 'q-expansion-item q-item-type',
-      class: this.classes
-    }, [
-      h(
-        'div',
-        { staticClass: 'q-expansion-item__container relative-position' },
-        this.__getContent(h)
-      )
+    props.group !== void 0 && enterGroup()
+
+    onBeforeUnmount(() => {
+      exitGroup !== void 0 && exitGroup()
+    })
+
+    return () => h('div', { class: classes.value }, [
+      h('div', { class: 'q-expansion-item__container relative-position' }, getContent())
     ])
-  },
-
-  created () {
-    this.group !== void 0 && this.$root.$on(eventName, this.__eventHandler)
-  },
-
-  beforeDestroy () {
-    this.group !== void 0 && this.$root.$off(eventName, this.__eventHandler)
   }
 })

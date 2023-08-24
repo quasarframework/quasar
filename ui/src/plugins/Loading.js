@@ -1,130 +1,206 @@
-import Vue from 'vue'
+import { h, Transition, onMounted } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
-import { isSSR } from './Platform.js'
-import cache from '../utils/cache.js'
-import { preventScroll } from '../mixins/prevent-scroll.js'
+
+import { createChildApp } from '../install-quasar.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
+import { createGlobalNode, removeGlobalNode } from '../utils/private/global-nodes.js'
+import preventScroll from '../utils/prevent-scroll.js'
+import { isObject } from '../utils/is.js'
 
 let
+  app,
   vm,
   uid = 0,
-  timeout,
-  props = {}
-const
-  originalDefaults = {
-    delay: 0,
-    message: false,
-    spinnerSize: 80,
-    spinnerColor: 'white',
-    messageColor: 'white',
-    backgroundColor: 'black',
-    spinner: QSpinner,
-    customClass: ''
-  },
-  defaults = { ...originalDefaults }
+  timeout = null,
+  props = {},
+  activeGroups = {}
 
-const Loading = {
-  isActive: false,
+const originalDefaults = {
+  group: '__default_quasar_group__',
+  delay: 0,
+  message: false,
+  html: false,
+  spinnerSize: 80,
+  spinnerColor: '',
+  messageColor: '',
+  backgroundColor: '',
+  boxClass: '',
+  spinner: QSpinner,
+  customClass: ''
+}
 
+const defaults = { ...originalDefaults }
+
+function registerProps (opts) {
+  if (opts && opts.group !== void 0 && activeGroups[ opts.group ] !== void 0) {
+    return Object.assign(activeGroups[ opts.group ], opts)
+  }
+
+  const newProps = isObject(opts) === true && opts.ignoreDefaults === true
+    ? { ...originalDefaults, ...opts }
+    : { ...defaults, ...opts }
+
+  activeGroups[ newProps.group ] = newProps
+  return newProps
+}
+
+const Plugin = defineReactivePlugin({
+  isActive: false
+}, {
   show (opts) {
-    if (isSSR === true) { return }
+    if (__QUASAR_SSR_SERVER__) { return }
 
-    props = opts === Object(opts) && opts.ignoreDefaults === true
-      ? { ...originalDefaults, ...opts }
-      : { ...defaults, ...opts }
+    props = registerProps(opts)
+    const { group } = props
 
-    props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${uid++}`
+    Plugin.isActive = true
 
-    this.isActive = true
-
-    if (vm !== void 0) {
+    if (app !== void 0) {
+      props.uid = uid
       vm.$forceUpdate()
-      return
     }
+    else {
+      props.uid = ++uid
+      timeout !== null && clearTimeout(timeout)
 
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      timeout = void 0
+      timeout = setTimeout(() => {
+        timeout = null
 
-      const node = document.createElement('div')
-      document.body.appendChild(node)
+        const el = createGlobalNode('q-loading')
 
-      vm = new Vue({
-        name: 'QLoading',
+        app = createChildApp({
+          name: 'QLoading',
 
-        el: node,
-
-        mounted () {
-          preventScroll(true)
-        },
-
-        render: (h) => {
-          return h('transition', {
-            props: {
-              name: 'q-transition--fade',
-              appear: true
-            },
-            on: cache(this, 'tr', {
-              'after-leave': () => {
-                // might be called to finalize
-                // previous leave, even if it was cancelled
-                if (this.isActive !== true && vm !== void 0) {
-                  preventScroll(false)
-                  vm.$destroy()
-                  vm.$el.remove()
-                  vm = void 0
-                }
-              }
+          setup () {
+            onMounted(() => {
+              preventScroll(true)
             })
-          }, [
-            this.isActive === true ? h('div', {
-              staticClass: 'q-loading fullscreen column flex-center z-max',
-              key: props.uid,
-              class: props.customClass.trim()
-            }, [
-              h(props.spinner, {
-                props: {
+
+            function onAfterLeave () {
+              // might be called to finalize
+              // previous leave, even if it was cancelled
+              if (Plugin.isActive !== true && app !== void 0) {
+                preventScroll(false)
+                app.unmount(el)
+                removeGlobalNode(el)
+                app = void 0
+                vm = void 0
+              }
+            }
+
+            function getContent () {
+              if (Plugin.isActive !== true) {
+                return null
+              }
+
+              const content = [
+                h(props.spinner, {
+                  class: 'q-loading__spinner',
                   color: props.spinnerColor,
                   size: props.spinnerSize
-                }
-              }),
-              (props.message && h('div', {
-                class: `text-${props.messageColor}`,
-                domProps: {
-                  [props.sanitize === true ? 'textContent' : 'innerHTML']: props.message
-                }
-              })) || void 0
-            ]) : null
-          ])
-        }
-      })
-    }, props.delay)
-  },
+                })
+              ]
 
-  hide () {
-    if (this.isActive === true) {
-      if (timeout !== void 0) {
-        clearTimeout(timeout)
-        timeout = void 0
+              props.message && content.push(
+                h('div', {
+                  class: 'q-loading__message'
+                    + (props.messageColor ? ` text-${ props.messageColor }` : ''),
+                  [ props.html === true ? 'innerHTML' : 'textContent' ]: props.message
+                })
+              )
+
+              return h('div', {
+                class: 'q-loading fullscreen flex flex-center z-max ' + props.customClass.trim(),
+                key: props.uid
+              }, [
+                h('div', {
+                  class: 'q-loading__backdrop'
+                    + (props.backgroundColor ? ` bg-${ props.backgroundColor }` : '')
+                }),
+
+                h('div', {
+                  class: 'q-loading__box column items-center ' + props.boxClass
+                }, content)
+              ])
+            }
+
+            return () => h(Transition, {
+              name: 'q-transition--fade',
+              appear: true,
+              onAfterLeave
+            }, getContent)
+          }
+        }, Plugin.__parentApp)
+
+        vm = app.mount(el)
+      }, props.delay)
+    }
+
+    return paramProps => {
+      // if we don't have params (or not an Object param) then we need to hide this group
+      if (paramProps === void 0 || Object(paramProps) !== paramProps) {
+        Plugin.hide(group)
+        return
       }
 
-      this.isActive = false
+      // else we have params so we need to update this group
+      Plugin.show({ ...paramProps, group })
+    }
+  },
+
+  hide (group) {
+    if (__QUASAR_SSR_SERVER__ !== true && Plugin.isActive === true) {
+      if (group === void 0) {
+        // clear out any active groups
+        activeGroups = {}
+      }
+      else if (activeGroups[ group ] === void 0) {
+        // we've already hidden it so nothing to do
+        return
+      }
+      else {
+        // remove active group
+        delete activeGroups[ group ]
+
+        const keys = Object.keys(activeGroups)
+
+        // if there are other groups registered then
+        // show last registered one since that one is still active
+        if (keys.length !== 0) {
+          // get last registered group
+          const lastGroup = keys[ keys.length - 1 ]
+          Plugin.show({ group: lastGroup })
+          return
+        }
+      }
+
+      if (timeout !== null) {
+        clearTimeout(timeout)
+        timeout = null
+      }
+
+      Plugin.isActive = false
     }
   },
 
   setDefaults (opts) {
-    opts === Object(opts) && Object.assign(defaults, opts)
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      isObject(opts) === true && Object.assign(defaults, opts)
+    }
   },
 
-  install ({ $q, cfg: { loading } }) {
-    this.setDefaults(loading)
+  install ({ $q, parentApp }) {
     $q.loading = this
+
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      Plugin.__parentApp = parentApp
+
+      if ($q.config.loading !== void 0) {
+        this.setDefaults($q.config.loading)
+      }
+    }
   }
-}
+})
 
-if (isSSR === false) {
-  Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
-}
-
-export default Loading
+export default Plugin

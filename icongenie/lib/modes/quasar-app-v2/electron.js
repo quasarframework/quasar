@@ -1,22 +1,23 @@
-module.exports = [
+
+export default [
   {
-    // macos
+    // macos (embedded icons)
     generator: 'icns',
     name: 'icon.icns',
     folder: 'src-electron/icons'
   },
 
   {
-    // windows
+    // windows (embedded icon)
     generator: 'ico',
     name: 'icon.ico',
     folder: 'src-electron/icons'
   },
 
   {
-    // linux
+    // tray icon (all platforms)
     generator: 'png',
-    name: 'linux-512x512.png',
+    name: 'icon.png',
     folder: 'src-electron/icons',
     sizes: [ 512 ]
   }

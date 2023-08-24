@@ -7,7 +7,7 @@
         direction="up"
         icon="add"
         color="accent"
-        @input="val => val === true && morph(false)"
+        @update:model-value="val => val === true && morph(false)"
       >
         <q-fab-action color="primary" @click="morph(true)" icon="alarm" />
       </q-fab>
@@ -33,29 +33,34 @@
 
 <script>
 import { morph } from 'quasar'
+import { ref } from 'vue'
 
 export default {
-  data () {
+  setup () {
+    const toggle = ref(false)
+    const refFab = ref(null)
+    const refCard = ref(null)
+
     return {
-      toggle: false,
-      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    }
-  },
+      toggle,
+      refFab,
+      refCard,
+      lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
 
-  methods: {
-    morph (state) {
-      if (state !== this.toggle) {
-        const getFab = () => this.$refs.refFab
-        const getCard = () => this.$refs.refCard ? this.$refs.refCard.$el : void 0
+      morph (state) {
+        if (state !== toggle.value) {
+          const getFab = () => refFab.value
+          const getCard = () => refCard.value ? refCard.value.$el : void 0
 
-        morph({
-          from: this.toggle === true ? getCard : getFab,
-          to: this.toggle === true ? getFab : getCard,
-          onToggle: () => {
-            this.toggle = state
-          },
-          duration: 500
-        })
+          morph({
+            from: toggle.value === true ? getCard : getFab,
+            to: toggle.value === true ? getFab : getCard,
+            onToggle: () => {
+              toggle.value = state
+            },
+            duration: 500
+          })
+        }
       }
     }
   }

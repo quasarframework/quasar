@@ -1,13 +1,9 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/stepper"
+    "docsUrl": "https://v2.quasar.dev/vue-components/stepper"
   },
 
-  "mixins": [ "mixins/panel-child" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "composables/private/use-panel.child" ],
 
   "props": {
     "icon": {
@@ -49,6 +45,7 @@
 
     "done-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 
@@ -59,6 +56,7 @@
 
     "active-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 
@@ -69,6 +67,7 @@
 
     "error-icon": {
       "extends": "icon",
+      "desc": "Icon name following Quasar convention; If 'none' (String) is used as value, then it will defer to prefix or the regular icon for this state; Make sure you have the icon library installed unless you are using 'img:' prefix",
       "category": "header"
     },
 

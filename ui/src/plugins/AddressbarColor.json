@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/quasar-plugins/addressbar-color"
+    "docsUrl": "https://v2.quasar.dev/quasar-plugins/addressbar-color"
   },
 
   "injection": "$q.addressbarColor",

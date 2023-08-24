@@ -1,16 +1,13 @@
-import Vue from 'vue'
+import { h } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
+import { createComponent } from '../../utils/private/create.js'
 
-export default Vue.extend({
+const space = h('div', { class: 'q-space' })
+
+export default createComponent({
   name: 'QSpace',
 
-  mixins: [ ListenersMixin ],
-
-  render (h) {
-    return h('div', {
-      staticClass: 'q-space',
-      on: { ...this.qListeners }
-    })
+  setup () {
+    return () => space
   }
 })

@@ -150,13 +150,13 @@ export default {
         progress: true,
         actions: twoActions
           ? [
-            { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
-            { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
-          ]
+              { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
+              { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
+            ]
           : (random > 40
-            ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
-            : null
-          ),
+              ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
+              : null
+            ),
         timeout: Math.random() * 5000 + 8000
       })
       /*
@@ -183,9 +183,16 @@ export default {
       avatar: 'https://cdn.quasar.dev/img/mountains.jpg'
     })
 
+    this.$q.notify({
+      type: 'positive',
+      icon: 'done'
+    })
+
     this.$q.notify.registerType('my-error', {
       icon: 'warning',
-      color: 'purple',
+      color: 'yellow',
+      textColor: 'black',
+      iconColor: 'blue',
       position: 'top'
     })
 
@@ -249,7 +256,7 @@ export default {
       html: true
     })
     // this.$q.notify.setDefaults({
-    //   actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
+    //   actions: [ { icon: 'close', handler () { console.log('cloooose') } } ]
     // })
     this.$q.notify({
       message: 'You need to know about this!',
@@ -258,7 +265,8 @@ export default {
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
       attrs: {
         role: 'alertdialog'
-      }
+      },
+      position: 'bottom-right'
     })
     this.$q.notify({
       message: 'You need to know about this!',
@@ -268,7 +276,8 @@ export default {
       textColor: 'black',
       multiLine: true,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [ { label: 'Reply', handler: () => console.log('wooow'), attrs: { 'aria-label': 'Reply' } } ]
+      actions: [ { label: 'Reply', handler: () => console.log('wooow'), attrs: { 'aria-label': 'Reply' } } ],
+      position: 'bottom-right'
     })
     this.$q.notify({
       html: true,
@@ -276,7 +285,8 @@ export default {
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
       message: 'HTML; You need to know about this!',
       caption: 'This is a caption',
-      timeout: 0
+      timeout: 0,
+      position: 'bottom-right'
     })
     this.$q.notify({
       html: true,
@@ -288,7 +298,8 @@ export default {
       textColor: 'black',
       multiLine: true,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ]
+      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ],
+      position: 'bottom-right'
     })
   }
 }

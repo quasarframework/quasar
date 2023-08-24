@@ -2,8 +2,9 @@
   <div class="q-pa-md">
     <q-table
       class="my-sticky-dynamic"
+      flat bordered
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       :loading="loading"
       row-key="index"
@@ -18,6 +19,32 @@
 </template>
 
 <script>
+import { ref, computed, nextTick } from 'vue'
+
+const columns = [
+  {
+    name: 'index',
+    label: '#',
+    field: 'index'
+  },
+  {
+    name: 'name',
+    required: true,
+    label: 'Dessert (100g serving)',
+    align: 'left',
+    field: row => row.name,
+    format: val => val,
+    sortable: true
+  },
+  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
+  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+  { name: 'protein', label: 'Protein (g)', field: 'protein' },
+  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+]
+
 const seed = [
   {
     name: 'Frozen Yogurt',
@@ -122,81 +149,47 @@ const seed = [
 ]
 
 // we generate lots of rows here
-let data = []
+let allRows = []
 for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.slice(0).map(r => ({ ...r })))
+  allRows = allRows.concat(seed.slice(0).map(r => ({ ...r })))
 }
-data.forEach((row, index) => {
+allRows.forEach((row, index) => {
   row.index = index
 })
 
-// we are not going to change this array,
-// so why not freeze it to avoid Vue adding overhead
-// with state change detection
-Object.freeze(data)
-
 const pageSize = 50
-const nextPage = 2
-const lastPage = Math.ceil(data.length / pageSize)
+const lastPage = Math.ceil(allRows.length / pageSize)
 
 export default {
-  data () {
+  setup () {
+    const nextPage = ref(2)
+    const loading = ref(false)
+
+    const rows = computed(() => allRows.slice(0, pageSize * (nextPage.value - 1)))
+
     return {
+      columns,
+      rows,
+
       nextPage,
+      loading,
 
-      loading: false,
+      pagination: { rowsPerPage: 0 },
 
-      pagination: {
-        rowsPerPage: 0,
-        rowsNumber: data.length
-      },
+      onScroll ({ to, ref }) {
+        const lastIndex = rows.value.length - 1
 
-      columns: [
-        {
-          name: 'index',
-          label: '#',
-          field: 'index'
-        },
-        {
-          name: 'name',
-          required: true,
-          label: 'Dessert (100g serving)',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      ]
-    }
-  },
+        if (loading.value !== true && nextPage.value < lastPage && to === lastIndex) {
+          loading.value = true
 
-  computed: {
-    data () {
-      return Object.freeze(data.slice(0, pageSize * (this.nextPage - 1)))
-    }
-  },
-
-  methods: {
-    onScroll ({ to, ref }) {
-      const lastIndex = this.data.length - 1
-
-      if (this.loading !== true && this.nextPage < lastPage && to === lastIndex) {
-        this.loading = true
-
-        setTimeout(() => {
-          this.nextPage++
-          this.$nextTick(() => {
-            ref.refresh()
-            this.loading = false
-          })
-        }, 500)
+          setTimeout(() => {
+            nextPage.value++
+            nextTick(() => {
+              ref.refresh()
+              loading.value = false
+            })
+          }, 500)
+        }
       }
     }
   }
@@ -211,7 +204,7 @@ export default {
   .q-table__top,
   .q-table__bottom,
   thead tr:first-child th /* bg color is important for th; just specify one */
-    background-color: #fff
+    background-color: #00b4ff
 
   thead tr th
     position: sticky
@@ -222,4 +215,9 @@ export default {
     top: 48px
   thead tr:first-child th
     top: 0
+
+  /* prevent scrolling behind sticky top row on focus */
+  tbody
+    /* height of all previous header rows */
+    scroll-margin-top: 48px
 </style>

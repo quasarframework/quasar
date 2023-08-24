@@ -47,10 +47,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      navPos: 'bottom',
+      navPos: ref('bottom'),
       navigationPositions: [
         { value: 'top', label: 'top' },
         { value: 'right', label: 'right' },
@@ -58,7 +60,7 @@ export default {
         { value: 'left', label: 'left' }
       ],
 
-      slide: 'style',
+      slide: ref('style'),
       lorem: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque voluptatem totam, architecto cupiditate officia rerum, error dignissimos praesentium libero ab nemo.'
     }
   }

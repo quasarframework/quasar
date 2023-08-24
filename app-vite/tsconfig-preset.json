@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    // `baseUrl` must be placed on the extending configuration in devland, or paths won't be recognized
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    // Needed to address https://github.com/quasarframework/app-extension-typescript/issues/36
+    "noEmit": true,
+    "resolveJsonModule": true,
+    // Avoid cross-os errors due to inconsistent file casing
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext",
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "src/*": ["src/*"],
+      "app/*": ["*"],
+      "components/*": ["src/components/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["src/assets/*"],
+      "boot/*": ["src/boot/*"],
+      "stores/*": ["src/stores/*"]
+    }
+  },
+  // Needed to avoid files copied into 'dist' folder (e.g. a `.d.ts` file inside `src-ssr` folder)
+  // to be evaluated by TS when their original files has been updated
+  "exclude": ["dist", ".quasar", "node_modules"]
+}

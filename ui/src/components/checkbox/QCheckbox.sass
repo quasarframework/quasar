@@ -3,6 +3,14 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 .q-checkbox
   vertical-align: middle
 
+  &__native
+    width: 1px
+    height: 1px
+
+  &__bg,
+  &__icon-container
+    user-select: none
+
   &__bg
     top: 25%
     left: 25%
@@ -11,10 +19,11 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     border: 2px solid currentColor
     border-radius: 2px
     transition: background $checkbox-transition
+    -webkit-print-color-adjust: exact
 
-  &__native
-    width: 1px
-    height: 1px
+  &__icon
+    color: currentColor
+    font-size: .5em
 
   &__svg
     color: #fff
@@ -40,8 +49,7 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     color: rgba(0,0,0,.54)
 
     &--truthy, &--indet
-      color: $primary
-      color: var(--q-color-primary)
+      color: var(--q-primary)
       .q-checkbox__bg
         background: currentColor
 
@@ -64,8 +72,7 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
       &:before
         opacity: .32 !important
       &--truthy, &--indet
-        color: $primary
-        color: var(--q-color-primary)
+        color: var(--q-primary)
 
   &--dense
 

@@ -1,14 +1,15 @@
 {
-  "mixins": [ "mixins/model-toggle", "mixins/router-link" ],
+  "mixins": [ "composables/private/use-model-toggle", "composables/private/use-router-link" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/expansion-item"
+    "docsUrl": "https://v2.quasar.dev/vue-components/expansion-item"
   },
 
   "props": {
-    "value": {
-      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'input' event) OR use v-model directive",
-      "category": "model"
+    "model-value": {
+      "extends": "model-value",
+      "desc": "Model of the component defining 'open' state; Either use this property (along with a listener for 'update:modelValue' event) OR use v-model directive",
+      "required": false
     },
 
     "icon": {
@@ -21,15 +22,23 @@
 
     "expanded-icon": {
       "extends": "icon",
-      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.4.5"
+      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "expand-icon-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Apply custom class(es) to the expand icon item section",
       "examples": [ "text-purple" ],
       "category": "style"
+    },
+
+    "toggle-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the expansion toggle element",
+      "examples": [ "Open details" ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
     },
 
     "label": {
@@ -72,7 +81,6 @@
       "type": "Number",
       "desc": "Animation duration (in milliseconds)",
       "default": 300,
-      "examples": [ ":duration=\"1000\"" ],
       "category": "behavior"
     },
 
@@ -100,6 +108,13 @@
       "type": "Boolean",
       "desc": "Puts expansion item into open state on initial render; Overridden by v-model if used",
       "category": "behavior"
+    },
+
+    "hide-expand-icon": {
+      "type": "Boolean",
+      "desc": "Do not show the expand icon",
+      "category": "content",
+      "addedIn": "v2.8.4"
     },
 
     "expand-icon-toggle": {
@@ -134,7 +149,8 @@
     },
 
     "header-style": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueStyleProp",
       "desc": "Apply custom style to the header",
       "examples": [
         "background: '#ff0000'",
@@ -144,7 +160,8 @@
     },
 
     "header-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": [ "String", "Array", "Object" ],
+      "tsType": "VueClassProp",
       "desc": "Apply custom class(es) to the header",
       "examples": [
         "my-custom-class",
@@ -160,19 +177,72 @@
     },
 
     "header": {
-      "desc": "Slot used for overriding default header"
+      "desc": "Slot used for overriding default header",
+      "scope": {
+        "expanded": {
+          "type": "Boolean",
+          "desc": "QExpansionItem expanded status",
+          "addedIn": "v2.7.6"
+        },
+
+        "detailsId": {
+          "type": "String",
+          "desc": "QExpansionItem details panel id (for use in aria-controls)",
+          "addedIn": "v2.8.4"
+        },
+
+        "show": {
+          "type": "Function",
+          "desc": "Triggers component to show",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        },
+
+        "hide": {
+          "type": "Function",
+          "desc": "Triggers component to hide",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        },
+
+        "toggle": {
+          "type": "Function",
+          "desc": "Triggers component to toggle between show/hide",
+          "params": {
+            "evt": {
+              "type": "Object",
+              "required": false,
+              "desc": "JS event object"
+            }
+          },
+          "returns": null,
+          "addedIn": "v2.8.4"
+        }
+      }
     }
   },
 
   "events": {
     "after-show": {
-      "extends": "after-show",
-      "addedIn": "v1.9.0"
+      "extends": "after-show"
     },
 
     "after-hide": {
-      "extends": "after-hide",
-      "addedIn": "v1.9.0"
+      "extends": "after-hide"
     }
   }
 }

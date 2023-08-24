@@ -1,9 +1,7 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/intersection"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/intersection"
   },
-
-  "addedIn": "v1.3.0",
 
   "value": {
     "type": [ "Object", "Function" ],
@@ -29,55 +27,45 @@
               "boundingClientRect": {
                 "type": "Object",
                 "desc": "Object containing the client rect information",
-                "__exemption": [ "examples" ],
                 "definition": {
                   "bottom": {
                     "type": "Number",
-                    "desc": "The bottom of the client rect",
-                    "examples": [ "1770" ]
+                    "desc": "The bottom of the client rect"
                   },
                   "height": {
                     "type": "Number",
-                    "desc": "The height of the client rect",
-                    "examples": [ "50" ]
+                    "desc": "The height of the client rect"
                   },
                   "left": {
                     "type": "Number",
-                    "desc": "The left of the client rect",
-                    "examples": [ "49" ]
+                    "desc": "The left of the client rect"
                   },
                   "right": {
                     "type": "Number",
-                    "desc": "The right of the client rect",
-                    "examples": [ "384" ]
+                    "desc": "The right of the client rect"
                   },
                   "top": {
                     "type": "Number",
-                    "desc": "The top of the client rect",
-                    "examples": [ "1720" ]
+                    "desc": "The top of the client rect"
                   },
                   "width": {
                     "type": "Number",
-                    "desc": "The width of the client rect",
-                    "examples": [ "335" ]
+                    "desc": "The width of the client rect"
                   },
                   "x": {
                     "type": "Number",
-                    "desc": "The x position of the client rect",
-                    "examples": [ "49" ]
+                    "desc": "The x position of the client rect"
                   },
                   "y": {
                     "type": "Number",
-                    "desc": "The y position of the client rect",
-                    "examples": [ "1720" ]
+                    "desc": "The y position of the client rect"
                   }
                 }
               },
 
               "intersectionRatio": {
                 "type": "Number",
-                "desc": "The ratio of the observed objects visibility",
-                "examples": [ "0.5" ]
+                "desc": "The ratio of the observed objects visibility"
               },
 
               "intersectionRect": {
@@ -86,43 +74,35 @@
                 "definition": {
                   "bottom": {
                     "type": "Number",
-                    "desc": "The bottom of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The bottom of the client rect"
                   },
                   "height": {
                     "type": "Number",
-                    "desc": "The height of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The height of the client rect"
                   },
                   "left": {
                     "type": "Number",
-                    "desc": "The left of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The left of the client rect"
                   },
                   "right": {
                     "type": "Number",
-                    "desc": "The right of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The right of the client rect"
                   },
                   "top": {
                     "type": "Number",
-                    "desc": "The top of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The top of the client rect"
                   },
                   "width": {
                     "type": "Number",
-                    "desc": "The width of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The width of the client rect"
                   },
                   "x": {
                     "type": "Number",
-                    "desc": "The x position of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The x position of the client rect"
                   },
                   "y": {
                     "type": "Number",
-                    "desc": "The y position of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The y position of the client rect"
                   }
                 }
               },
@@ -138,51 +118,42 @@
                 "definition": {
                   "bottom": {
                     "type": "Number",
-                    "desc": "The bottom of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The bottom of the client rect"
                   },
                   "height": {
                     "type": "Number",
-                    "desc": "The height of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The height of the client rect"
                   },
                   "left": {
                     "type": "Number",
-                    "desc": "The left of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The left of the client rect"
                   },
                   "right": {
                     "type": "Number",
-                    "desc": "The right of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The right of the client rect"
                   },
                   "top": {
                     "type": "Number",
-                    "desc": "The top of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The top of the client rect"
                   },
                   "width": {
                     "type": "Number",
-                    "desc": "The width of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The width of the client rect"
                   },
                   "x": {
                     "type": "Number",
-                    "desc": "The x position of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The x position of the client rect"
                   },
                   "y": {
                     "type": "Number",
-                    "desc": "The y position of the client rect",
-                    "examples": [ "0" ]
+                    "desc": "The y position of the client rect"
                   }
                 }
               },
 
               "target": {
                 "type": "Element",
-                "desc": "The target element",
-                "__exemption": [ "examples" ]
+                "desc": "The target element"
               },
 
               "time": {

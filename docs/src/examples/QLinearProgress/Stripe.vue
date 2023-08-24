@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       progress1: 0.4,
       progress2: 0.725

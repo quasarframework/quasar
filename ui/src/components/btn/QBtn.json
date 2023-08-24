@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/btn" ],
+  "mixins": [ "components/btn/use-btn" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/button"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/button"
   },
 
   "props": {
@@ -19,7 +15,6 @@
     "percentage": {
       "type": "Number",
       "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
-      "examples": [ 23 ],
       "category": "behavior"
     },
 
@@ -45,9 +40,7 @@
       "desc": "Emulate click on QBtn",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }
@@ -55,18 +48,51 @@
 
   "events": {
     "click": {
-      "desc": "Emitted when component is clicked (activated)",
+      "desc": "Emitted when the component is clicked",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "desc": "JS event object; If you are using route navigation ('to'/'replace' props) and you want to cancel navigation then call evt.preventDefault() synchronously in your event handler"
         },
-        "navigateFn": {
+        "go": {
           "type": "Function",
-          "desc": "When you need to control the time at which the button should trigger the route navigation then set 'evt.navigate' to false and call this function; Useful if you have async work to be done before the actual route navigation",
-          "params": null,
-          "returns": null
+          "desc": "Available ONLY if you are using route navigation ('to'/'replace' props); When you need to control the time at which the component should trigger the route navigation then call evt.preventDefault() synchronously and then call this function at your convenience; Useful if you have async work to be done before the actual route navigation or if you want to redirect somewhere else",
+          "required": false,
+          "addedIn": "v2.9",
+          "params": {
+            "opts": {
+              "type": "Object",
+              "desc": "Optional options",
+              "required": false,
+              "definition": {
+                "to": {
+                  "type": [ "String", "Object" ],
+                  "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
+                  "required": false,
+                  "examples": [
+                    "/home/dashboard",
+                    "{ name: 'my-route-name' }"
+                  ]
+                },
+
+                "replace": {
+                  "type": "Boolean",
+                  "desc": "Equivalent to Vue Router <router-link> 'replace' property; Specify it explicitly otherwise it will be set with same value as component's 'replace' prop",
+                  "required": false
+                },
+
+                "returnRouterError": {
+                  "type": "Boolean",
+                  "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill",
+                  "required": false
+                }
+              }
+            }
+          },
+          "returns": {
+            "type": "Promise<any>",
+            "desc": "Returns the router's navigation promise"
+          }
         }
       }
     }

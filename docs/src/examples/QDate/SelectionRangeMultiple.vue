@@ -9,13 +9,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      days: [
+      days: ref([
         { from: '2020/07/01', to: '2020/07/10' },
         { from: '2020/07/21', to: '2020/07/25' }
-      ]
+      ])
     }
   }
 }

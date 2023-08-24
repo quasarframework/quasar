@@ -24,7 +24,7 @@
           <th class="text-right">Protein (g)</th>
         </tr>
       </thead>
-      <tbody class="bg-grey-3">
+      <tbody :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'">
         <tr>
           <td class="text-left">Frozen Yogurt</td>
           <td class="text-right">159</td>

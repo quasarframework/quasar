@@ -40,7 +40,7 @@
       <q-field color="teal" outlined label="Label" stack-label>
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
         </template>
         <template v-slot:control>
@@ -48,7 +48,7 @@
         </template>
       </q-field>
 
-      <q-field color="orange" standout bottom-slots :value="text" label="Label" stack-label counter clearable>
+      <q-field color="orange" standout bottom-slots :model-value="text" label="Label" stack-label counter clearable>
         <template v-slot:prepend>
           <q-icon name="place" />
         </template>
@@ -68,10 +68,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Field content'
+      text: ref('Field content')
     }
   }
 }

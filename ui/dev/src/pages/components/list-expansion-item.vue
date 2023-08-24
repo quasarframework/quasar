@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
-      <p class="caption">
+      <h6>
         Explore the possibilities
-      </p>
+      </h6>
       <pre>Model: {{ open }}</pre>
       <q-list bordered>
         <q-expansion-item
@@ -13,6 +13,7 @@
           label-lines="1"
           caption="John Dowwwwwwwwwwww wwwwwwwwwww wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwe"
           caption-lines="1"
+          toggle-aria-label="Toggle details"
         >
           <q-card>
             <q-card-section>
@@ -37,7 +38,7 @@
         </q-expansion-item>
 
         <q-expansion-item
-          :value="open"
+          :model-value="open"
           expand-separator
           icon="perm_identity"
           label="With a model and events - decoupled"
@@ -61,7 +62,7 @@
           </q-item-section>
         </q-item>
 
-        <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
+        <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle toggle-aria-label="Toggle details">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -92,7 +93,7 @@
         </q-expansion-item>
 
         <q-expansion-item expand-separator>
-          <template slot="header">
+          <template v-slot:header="{ expanded }">
             <q-item-section avatar>
               <q-avatar icon="bluetooth" color="primary" text-color="white" />
             </q-item-section>
@@ -100,7 +101,7 @@
             <q-item-section>
               <div>
                 <q-chip dense color="secondary" text-color="white" class="q-mr-sm">
-                  Using slot
+                  Using slot - {{ expanded ? 'Expanded' : 'Collapsed' }}
                 </q-chip>
                 <q-badge color="secondary">
                   Using slot
@@ -124,8 +125,35 @@
           </q-card>
         </q-expansion-item>
 
+        <q-expansion-item expand-separator expand-icon-toggle hide-expand-icon>
+          <template #header="{ expanded, toggle, detailsId }">
+            <q-item-section>
+              <div>
+                Using slot and toggle icon - {{ expanded ? 'Expanded' : 'Collapsed' }}
+              </div>
+            </q-item-section>
+
+            <q-item-section side>
+              <q-btn
+                flat
+                dense
+                label="Toggle content"
+                :aria-expanded="expanded === true ? 'true' : 'false'"
+                :aria-controls="detailsId"
+                @click="toggle"
+              />
+            </q-item-section>
+          </template>
+
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
         <q-expansion-item expand-separator>
-          <template slot="header">
+          <template v-slot:header>
             <q-item-section avatar>
               <q-avatar>
                 <img src="https://cdn.quasar.dev/img/boy-avatar.png">
@@ -179,9 +207,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Links
-      </p>
+      </h6>
       <q-list bordered>
         <q-expansion-item expand-separator to="/" exact icon="home" label="Inactive link">
           <q-card>
@@ -221,11 +249,35 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+
+        <q-expansion-item expand-separator href="/" icon="home" label="Href">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator href="/" target="_blank" icon="home" label="Href + _blank">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item expand-separator disable href="/" icon="home" label="Href + disable">
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Testing icon toggle attached events
-      </p>
+      </h6>
       <q-expansion-item expand-separator icon="shopping_cart" label="Toggle by right-side icon only" expand-icon-toggle>
         <q-card>
           <q-card-section>
@@ -262,9 +314,9 @@
         </q-card>
       </q-expansion-item>
 
-      <p class="caption">
+      <h6>
         Make use of events
-      </p>
+      </h6>
       <q-expansion-item class="shadow-1 overflow-hidden" style="border-radius: 30px" icon="explore" label="Counter" @show="startCounting" @hide="stopCounting">
         <q-card>
           <q-card-section>
@@ -276,9 +328,9 @@
         </q-card>
       </q-expansion-item>
 
-      <p class="caption">
+      <h6>
         On dark Background
-      </p>
+      </h6>
       <q-expansion-item dark class="bg-black" icon="shopping_cart" label="Toggle me">
         <q-card dark class="bg-black">
           <q-card-section>
@@ -287,9 +339,9 @@
         </q-card>
       </q-expansion-item>
 
-      <p class="caption">
+      <h6>
         Multiline
-      </p>
+      </h6>
       <q-list bordered inset-separator>
         <q-expansion-item icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
@@ -307,9 +359,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Switch toggle side
-      </p>
+      </h6>
       <q-list bordered padding inset-separator>
         <q-expansion-item expand-icon-toggle switch-toggle-side icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
@@ -342,9 +394,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Popups
-      </p>
+      </h6>
       <div>
         <q-expansion-item popup icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
@@ -369,9 +421,9 @@
         </q-expansion-item>
       </div>
 
-      <p class="caption">
+      <h6>
         Menu
-      </p>
+      </h6>
       <q-list bordered>
         <q-expansion-item expand-separator icon="mail" label="Inbox" :content-inset-level="1" caption="5 unread emails" default-opened>
           <q-expansion-item expand-separator icon="receipt" label="Receipts">
@@ -484,9 +536,13 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6 class="q-mb-md">
         Group a.k.a Accordion (opening one closes the other)
-      </p>
+      </h6>
+      <div class="q-mb-sm">
+        <q-toggle v-model="somegroup" true-value="somegroup" false-value="othergroup" label="Last two have same group" />
+      </div>
+
       <q-list bordered>
         <q-expansion-item group="somegroup" icon="explore" label="First" default-opened>
           <q-card>
@@ -508,7 +564,7 @@
 
         <q-separator />
 
-        <q-expansion-item group="somegroup" icon="shopping_cart" label="Third" header-class="text-primary">
+        <q-expansion-item :group="somegroup" icon="shopping_cart" label="Third" header-class="text-primary">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -518,7 +574,7 @@
 
         <q-separator />
 
-        <q-expansion-item group="somegroup" icon="bluetooth" label="Fourth">
+        <q-expansion-item :group="somegroup" icon="bluetooth" label="Fourth">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -527,9 +583,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Preselected/Opened Collapsible (or use a model)
-      </p>
+      </h6>
       <q-list bordered separator>
         <q-expansion-item icon="explore" label="First">
           <q-card>
@@ -548,9 +604,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Ubiquity. Using Cards as content.
-      </p>
+      </h6>
       <q-list bordered class="q-pa-none">
         <q-expansion-item icon="explore" label="First Card">
           <q-card class="bg-grey-3">
@@ -641,9 +697,9 @@
         </q-expansion-item>
       </q-list>
 
-      <p class="caption">
+      <h6>
         Events test
-      </p>
+      </h6>
       <q-expansion-item @click="onClick(1)" @keyup="onKeyup(1)" expand-separator icon="shopping_cart" label="1. Toggle by right-side icon only">
         <q-card>
           <q-card-section>
@@ -683,6 +739,7 @@ export default {
     return {
       open: true,
       counter: 0,
+      somegroup: 'somegroup',
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore, nemo minus dolore facere saepe molestias, fugiat officia aspernatur expedita pariatur, accusantium hic exercitationem perspiciatis voluptate possimus nobis temporibus ipsa officiis!'
     }
   },
@@ -716,10 +773,10 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-expand-link
-  color $secondary
-  background alpha($secondary, .1)
+  color: $secondary
+  background: rgba($secondary, .1)
   .q-item__section--side .q-icon
-    color $secondary
+    color: $secondary
 </style>

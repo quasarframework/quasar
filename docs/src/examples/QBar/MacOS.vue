@@ -59,11 +59,11 @@
 </template>
 
 <script>
-import { fabApple } from '@quasar/extras/fontawesome-v5'
+import { fabApple } from '@quasar/extras/fontawesome-v6'
 
 export default {
-  created () {
-    this.fabApple = fabApple
+  setup () {
+    return { fabApple }
   }
 }
 </script>

@@ -43,11 +43,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slide: 1,
-      autoplay: false
+      slide: ref(1),
+      autoplay: ref(false)
     }
   }
 }

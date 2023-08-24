@@ -8,7 +8,7 @@
       <q-btn flat round dense icon="more_vert" />
     </q-toolbar>
 
-    <q-toolbar class="bg-grey-3">
+    <q-toolbar class="bg-grey-9 text-white">
       <q-btn flat round dense>
         <q-icon name="menu" />
       </q-btn>

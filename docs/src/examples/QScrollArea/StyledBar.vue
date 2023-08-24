@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       thumbStyle: {
         right: '4px',

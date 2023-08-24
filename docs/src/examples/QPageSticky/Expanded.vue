@@ -19,7 +19,7 @@
         :breakpoint="700"
         behavior="desktop"
         bordered
-        content-class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -35,7 +35,7 @@
         :width="150"
         :breakpoint="500"
         behavior="desktop"
-        content-class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -54,7 +54,7 @@
           <q-page-sticky expand position="top">
             <q-toolbar class="bg-accent text-white">
               <q-avatar>
-                <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+                <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
               </q-avatar>
               <q-toolbar-title>
                 Page Title
@@ -68,11 +68,16 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const $q = useQuasar()
+
     return {
-      drawerLeft: this.$q.screen.width > 700,
-      drawerRight: this.$q.screen.width > 500
+      drawerLeft: ref($q.screen.width > 700),
+      drawerRight: ref($q.screen.width > 500)
     }
   }
 }

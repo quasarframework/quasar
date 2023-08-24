@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <q-toggle
       color="blue"
       dark
@@ -27,13 +27,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      blue: false,
-      green: true,
-      yellow: true,
-      red: false
+      blue: ref(false),
+      green: ref(true),
+      yellow: ref(true),
+      red: ref(false)
     }
   }
 }

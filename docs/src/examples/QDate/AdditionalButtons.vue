@@ -7,7 +7,7 @@
     </div>
 
     <q-btn icon="event" round color="primary">
-      <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+      <q-popup-proxy @before-show="updateProxy" cover transition-show="scale" transition-hide="scale">
         <q-date v-model="proxyDate">
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="primary" flat v-close-popup />
@@ -20,21 +20,24 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const date = ref('2019/03/01')
+    const proxyDate = ref('2019/03/01')
+
     return {
-      date: '2019/03/01',
-      proxyDate: '2019/03/01'
-    }
-  },
+      date,
+      proxyDate,
 
-  methods: {
-    updateProxy () {
-      this.proxyDate = this.date
-    },
+      updateProxy () {
+        proxyDate.value = date.value
+      },
 
-    save () {
-      this.date = this.proxyDate
+      save () {
+        date.value = proxyDate.value
+      }
     }
   }
 }

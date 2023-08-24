@@ -1,6 +1,6 @@
 <template>
   <div ref="virtualListScrollTargetRef" class="scroll" style="max-height: 230px">
-    <div class="q-pa-md bg-yellow">
+    <div class="q-pa-md bg-purple text-white">
       Above the list - scrolls with the list
     </div>
 
@@ -8,28 +8,29 @@
       :scroll-target="scrollTarget"
       :items="heavyList"
       separator
+      v-slot="{ item, index }"
     >
-      <template v-slot="{ item, index }">
-        <q-item
-          :key="index"
-          dense
-        >
-          <q-item-section>
-            <q-item-label>
-              #{{ index }} - {{ item.label }}
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </template>
+      <q-item
+        :key="index"
+        dense
+      >
+        <q-item-section>
+          <q-item-label>
+            #{{ index }} - {{ item.label }}
+          </q-item-label>
+        </q-item-section>
+      </q-item>
     </q-virtual-scroll>
 
-    <div class="q-pa-md bg-yellow">
+    <div class="q-pa-md bg-purple text-white">
       Below the list - scrolls with the list
     </div>
   </div>
 </template>
 
 <script>
+import { ref, onMounted } from 'vue'
+
 const maxSize = 10000
 const heavyList = []
 
@@ -42,15 +43,19 @@ for (let i = 0; i < maxSize; i++) {
 Object.freeze(heavyList)
 
 export default {
-  data () {
+  setup () {
+    const virtualListScrollTargetRef = ref(null)
+    const scrollTarget = ref(null)
+
+    onMounted(() => {
+      scrollTarget.value = virtualListScrollTargetRef.value
+    })
+
     return {
       heavyList,
-      scrollTarget: void 0
+      virtualListScrollTargetRef,
+      scrollTarget
     }
-  },
-
-  mounted () {
-    this.scrollTarget = this.$refs.virtualListScrollTargetRef
   }
 }
 </script>

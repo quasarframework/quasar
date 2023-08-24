@@ -1,0 +1,11 @@
+{
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,<% if (preset.lint) { %>
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": <% if (lintConfig === 'prettier') { %>"esbenp.prettier-vscode"<% } else { %>"dbaeumer.vscode-eslint"<% } %>,
+  "editor.codeActionsOnSave": [
+    "source.fixAll.eslint"
+  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],<% } %>
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

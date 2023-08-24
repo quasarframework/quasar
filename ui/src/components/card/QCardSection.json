@@ -1,25 +1,19 @@
 {
-  "mixins": [ "mixins/tag" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/card"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/card"
   },
 
   "props": {
     "horizontal": {
       "type": "Boolean",
       "desc": "Display a horizontal section (will have no padding and can contain other QCardSection)",
-      "category": "content",
-      "addedIn": "v1.7.0"
+      "category": "content"
     },
 
     "tag": {
-      "examples": [ "div", "form" ],
-      "addedIn": "v1.8.4"
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "form" ]
     }
   },
 

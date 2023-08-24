@@ -10,7 +10,7 @@
       <q-resize-observer @resize="onResize" />
     </div>
 
-    <div class="q-gutter-sm">
+    <div v-if="report" class="q-gutter-sm">
       Reported:
       <q-badge>width: {{ report.width }}</q-badge>
       <q-badge>height: {{ report.height }}</q-badge>
@@ -19,27 +19,30 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const style = ref({ width: '200px', height: '200px' })
+    const report = ref(null)
+
     return {
-      style: { width: '200px', height: '200px' },
-      report: ''
-    }
-  },
+      style,
+      report,
 
-  methods: {
-    onResize (size) {
-      this.report = size
-      // {
-      //   width: 20 // width of container (in px)
-      //   height: 50 // height of container (in px)
-      // }
-    },
+      onResize (size) {
+        report.value = size
+        // {
+        //   width: 20 // width of container (in px)
+        //   height: 50 // height of container (in px)
+        // }
+      },
 
-    setRandomSize () {
-      this.style = {
-        width: Math.floor(100 + Math.random() * 200) + 'px',
-        height: Math.floor(100 + Math.random() * 200) + 'px'
+      setRandomSize () {
+        style.value = {
+          width: Math.floor(100 + Math.random() * 200) + 'px',
+          height: Math.floor(100 + Math.random() * 200) + 'px'
+        }
       }
     }
   }

@@ -7,7 +7,9 @@
           https://cdn.quasar.dev/img/image-3x.png 3x, https://cdn.quasar.dev/img/image-4x.png 4x"
         height="280px"
         style="height: 280px; max-width: 300px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
+        @click="onClick"
+        gigi
       >
         <div class="absolute-bottom text-body1 text-center">
           With srcset
@@ -24,7 +26,7 @@
           (min-width: 1200px) 1600w"
         height="280px"
         style="max-width: 300px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           With srcset & sizes
@@ -35,7 +37,6 @@
         src="https://cdn.quasar.dev/img/image-src.png"
         height="220px"
         width="220px"
-        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           With forced width & height
@@ -45,25 +46,28 @@
     </div>
 
     <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />
-    <q-toggle v-model="nativeContextMenu" label="Enable context menu" />
+    <q-toggle v-model="noNativeMenu" label="No native menu" />
 
     <div class="q-gutter-lg row items-start">
       <q-img
         :src="url"
         alt="Image"
         style="max-width: 400px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
+        draggable
       >
-        <div slot="loading" class="text-h2 text-white">
-          Loading...
-        </div>
+        <template v-slot:loading>
+          <div class="text-h2 text-white">
+            Loading...
+          </div>
+        </template>
       </q-img>
 
       <q-img
         :src="url"
         alt="Image"
         style="max-width: 400px; border-radius: 50%"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Radius 50%
@@ -74,7 +78,7 @@
         :src="url"
         alt="Image"
         style="max-width: 400px; border-radius: 15px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Radius 15px
@@ -86,11 +90,13 @@
         alt="Image"
         style="max-width: 400px"
         img-class="blurry"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
-        <div slot="loading" class="text-h2 text-white">
-          Loading...
-        </div>
+        <template v-slot:loading>
+          <div class="text-h2 text-white">
+            Loading...
+          </div>
+        </template>
 
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Caption
@@ -103,10 +109,10 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
-          Caption
+          Caption 16/9
         </div>
       </q-img>
 
@@ -116,8 +122,7 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        transition="slide-left"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       />
 
       <q-img
@@ -127,28 +132,29 @@
         ratio="1"
         class="rounded-borders"
         style="max-width: 225px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       />
 
       <q-img
         :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
         ratio="1"
-        transition="slide-up"
         spinner-color="white"
         style="max-width: 225px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
-        <q-spinner-facebook slot="loading" color="white" />
+        <template v-slot:loading>
+          <q-spinner-facebook color="white" />
+        </template>
       </q-img>
 
       <q-img
         src="https://picsum.photos/300/300/"
         basic
         placeholder-src="https://picsum.photos/500/300/?blur"
-        contain
+        fit="contain"
         style="max-width: 400px; height: 200px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           Contain
@@ -158,18 +164,36 @@
 
     <div class="q-mt-lg">
       <q-btn label="Set null src" @click="bogusSrc = null" />
-      <q-btn label="Set good src" @click="bogusSrc = 'https://placeimg.com/500/300/nature?t=' + Math.random()" />
+      <q-btn label="Set good src" @click="bogusSrc = 'https://picsum.photos/500/300?t=' + Math.random()" />
       <q-btn label="Set bogus src" @click="bogusSrc = 'https://bogu.bogus'" />
 
       <q-img
         :src="bogusSrc"
         spinner-color="white"
+        ratio="1"
         style="min-height: 100px; max-width: 225px"
-        :native-context-menu="nativeContextMenu"
+        :no-native-menu="noNativeMenu"
       >
-        <div slot="error">
-          Error...
-        </div>
+        <template v-slot:error>
+          <div class="absolute-full bg-negative text-white flex flex-center">
+            Error...
+          </div>
+        </template>
+      </q-img>
+
+      <q-img
+        :src="bogusSrc"
+        :placeholder-src="placeholderSrc"
+        spinner-color="white"
+        ratio="1"
+        style="min-height: 100px; max-width: 225px"
+        :no-native-menu="noNativeMenu"
+      >
+        <template v-slot:error>
+          <div class="absolute-full bg-negative text-white flex flex-center">
+            Error...
+          </div>
+        </template>
       </q-img>
     </div>
   </div>
@@ -179,17 +203,24 @@
 export default {
   data () {
     return {
-      url: 'https://placeimg.com/500/300/nature',
+      url: 'https://picsum.photos/500/300',
       bogusSrc: 'https://bogu.bogus',
-      nativeContextMenu: false
+      noNativeMenu: false,
+      placeholderSrc: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIzLjYxMiAyMy42MTIiIHZpZXdCb3g9IjAgMCAyMy42MTIgMjMuNjEyIj48cGF0aCBkPSJNMTYuMTkyIDUuMjI0di0uNzM3aC04Ljc3di43MzdzMS4zMzQgMy43MTMgMy44MzggNS40Mjh2MS43ODVzLTIuNzYxIDIuNjg2LTMuODM4IDUuNzc1di44NDJoOC43N3YtLjg0MmMtMS4zOTktMy40MS0zLjgzNy01Ljc3NS0zLjgzNy01Ljc3NXYtMS43ODVjMy40MDQtMi45MjYgMy44MzctNS40MjggMy44MzctNS40Mjh6IiBzdHlsZT0iZmlsbDojMDEwMDAyIi8+PHBhdGggZD0iTTE5LjM1MyAzLjg1NlYyLjUyOWgxLjI1OFYwSDMuMDAydjIuNTI5aDEuMjU5djEuMzI3YzAgMi4wMjUgMy42MzQgNy41NTUgMy44MDQgNy45NTUtLjE2Ny4zOTctMy44MDQgNS45MjktMy44MDQgNy45NDZ2MS4zMjVIMy4wMDJ2Mi41M2gxNy42MDl2LTIuNTNoLTEuMjU4di0xLjMyNWMwLTIuMDI1LTMuNjM1LTcuNTIxLTMuODI5LTcuOTUxLjE5NC0uNDMgMy44MjktNS45MjYgMy44MjktNy45NXptLTEuMjU3IDE1LjkwMXYxLjMyNUg1LjUxOXYtMS4zMjVjMC0xLjQ1NSAzLjg1NC03LjIyMiAzLjg1NC03Ljk1MXMtMy44NTQtNi40OTUtMy44NTQtNy45NVYyLjUyOWgxMi41Nzh2MS4zMjdjMCAxLjQ1NS0zLjg4NiA3LjIyMS0zLjg4NiA3Ljk1LS4wMDEuNzI5IDMuODg1IDYuNDk2IDMuODg1IDcuOTUxeiIgc3R5bGU9ImZpbGw6IzAxMDAwMiIvPjwvc3ZnPg=='
     }
   },
 
   methods: {
     refresh () {
-      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+      this.url = 'https://picsum.photos/500/300?t=' + Math.random()
+    },
+
+    onClick () {
+      console.log('@click')
     }
-  }
+  } // ,
+
+  // async setup () {}
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
-    <q-card class="my-card">
+    <q-card class="my-card" flat bordered>
       <img src="https://cdn.quasar.dev/img/parallax2.jpg">
 
       <q-list>
@@ -39,7 +39,7 @@
       </q-list>
     </q-card>
 
-    <q-card class="my-card">
+    <q-card class="my-card" flat bordered>
       <img src="https://cdn.quasar.dev/img/mountains.jpg">
 
       <q-card-actions align="right">
@@ -49,7 +49,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-card class="my-card">
+    <q-card class="my-card" flat bordered>
       <q-card-section>
         <div class="text-h6 q-mb-xs">Our Changing Planet</div>
         <div class="row no-wrap items-center">
@@ -61,7 +61,7 @@
       <img src="https://cdn.quasar.dev/img/mountains.jpg">
     </q-card>
 
-    <q-card class="my-card">
+    <q-card class="my-card" flat bordered>
       <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
 
       <q-card-section>
@@ -108,10 +108,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      stars: 4
+      stars: ref(4)
     }
   }
 }

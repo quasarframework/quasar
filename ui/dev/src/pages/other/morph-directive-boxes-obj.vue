@@ -101,7 +101,7 @@ export default {
 
       while (value === this.boxesModel.model) {
         const i = Math.floor(Math.random() * boxValues.length)
-        value = boxValues[i]
+        value = boxValues[ i ]
       }
 
       this.boxesModel.model = value

@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       skeletonAnimations: [
         'wave', 'pulse', 'pulse-x', 'pulse-y', 'fade', 'blink', 'none'

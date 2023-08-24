@@ -40,16 +40,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      menu: false
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onItemClick () {
-      // console.log('Clicked on an Item')
+export default {
+  setup () {
+    return {
+      menu: ref(false),
+      onItemClick () {
+        // console.log('Clicked on an Item')
+      }
     }
   }
 }

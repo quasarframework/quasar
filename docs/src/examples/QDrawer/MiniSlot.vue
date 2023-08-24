@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="hHh Lpr lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header elevated class="bg-black">
+      <q-header elevated :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -18,12 +18,12 @@
         :width="200"
         :breakpoint="500"
         bordered
-        content-class="bg-grey-3"
+        :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
       >
         <template v-slot:mini>
           <q-scroll-area class="fit mini-slot cursor-pointer">
             <div class="q-py-lg">
-              <div class="column items-center">
+              <div class="column items-start">
                 <q-icon name="inbox" color="blue" class="mini-icon" />
                 <q-icon name="star" color="orange" class="mini-icon" />
                 <q-icon name="send" color="purple" class="mini-icon" />
@@ -90,25 +90,27 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const miniState = ref(true)
+
     return {
-      drawer: false,
-      miniState: true
-    }
-  },
+      drawer: ref(false),
+      miniState,
 
-  methods: {
-    drawerClick (e) {
-      // if in "mini" state and user
-      // click on drawer, we switch it to "normal" mode
-      if (this.miniState) {
-        this.miniState = false
+      drawerClick (e) {
+        // if in "mini" state and user
+        // click on drawer, we switch it to "normal" mode
+        if (miniState.value) {
+          miniState.value = false
 
-        // notice we have registered an event with capture flag;
-        // we need to stop further propagation as this click is
-        // intended for switching drawer to "normal" mode only
-        e.stopPropagation()
+          // notice we have registered an event with capture flag;
+          // we need to stop further propagation as this click is
+          // intended for switching drawer to "normal" mode only
+          e.stopPropagation()
+        }
       }
     }
   }
@@ -123,6 +125,7 @@ export default {
 
 .mini-icon
   font-size: 1.718em
+  padding: 2px 16px
 
   & + &
     margin-top: 18px

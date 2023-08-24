@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/separator"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/separator"
   },
 
   "props": {
@@ -24,8 +20,8 @@
 
     "inset": {
       "type": [ "Boolean", "String" ],
-      "desc": "if set to true, the left and right margins will be set to 16px. If set to item, the left and right margins will be set to 72px. If set to item-thumbnail, the left margin is set to 116px and right margin is set to 0px",
-      "examples": [ "item", "item-thumbnail" ],
+      "desc": "If set to Boolean true, the left and right margins will be set to 16px. If set to 'item' then it will match a QItem's design. If set to 'item-thumbnail' then it will match the design of a QItem with a thumbnail on the left side",
+      "values": [ "(Boolean) true", "(Boolean) false", "item", "item-thumbnail" ],
       "category": "content"
     },
 
@@ -36,8 +32,7 @@
     },
 
     "size": {
-      "extends": "size",
-      "addedIn": "v1.12.0"
+      "extends": "size"
     },
 
     "color": {

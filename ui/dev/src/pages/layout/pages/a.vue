@@ -72,13 +72,13 @@ export default {
   created () {
     console.log('A created')
   },
-  beforeDestroy () {
-    console.log('A beforeDestroy')
+  beforeUnmount () {
+    console.log('A beforeUnmount')
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .page-a-padding
-  padding 55px 125px
+  padding: 55px 125px
 </style>

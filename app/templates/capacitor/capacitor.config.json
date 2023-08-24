@@ -1,7 +1,0 @@
-{
-  "appId": "<%= appId %>",
-  "appName": "<%= appName %>",
-  "bundledWebRuntime": false,
-  "npmClient": "<%= nodePackager %>",
-  "webDir": "www"
-}

@@ -7,7 +7,7 @@
         direction="up"
         icon="add"
         color="accent"
-        @input="val => val === true && morph(false)"
+        @update:model-value="val => val === true && morph(false)"
       >
         <q-fab-action color="primary" @click="morph(true)" icon="alarm" />
       </q-fab>
@@ -47,7 +47,7 @@ export default {
     morph (state) {
       if (state !== this.toggle) {
         const getFab = () => this.$refs.refFab
-        const getCard = () => this.$refs.refCard ? this.$refs.refCard.$el : void 0
+        const getCard = () => (this.$refs.refCard ? this.$refs.refCard.$el : void 0)
 
         morph({
           from: this.toggle === true ? getCard : getFab,

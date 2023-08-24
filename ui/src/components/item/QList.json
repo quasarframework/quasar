@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/list-and-list-items"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/list-and-list-items"
   },
 
   "props": {
@@ -30,6 +26,13 @@
       "type": "Boolean",
       "desc": "Applies a material design-like padding on top and bottom",
       "category": "content"
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "ul", "ol" ],
+      "addedIn": "v2.10.1"
     }
   },
 

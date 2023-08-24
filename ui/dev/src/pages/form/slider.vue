@@ -1,6 +1,6 @@
 <template>
   <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-9' : 'bg-grey-3'" style="z-index: 1">
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-9' : 'bg-grey-3'" style="z-index: 10">
       <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" label="Dense" />
       <q-toggle v-model="vertical" :dark="dark" label="Vertical" />
@@ -17,10 +17,22 @@
       </p>
 
       <div class="row justify-around">
-        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
-        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:model-value="onInput" v-model="standalone" :min="0" :max="50" />
+        <q-slider :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @update:model-value="onInput" :model-value="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
         <q-slider :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
         <q-slider :vertical="vertical" :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label :label-value="labelValue(standalone)" />
+      </div>
+
+      <p class="caption">
+        Inner min/max
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ innerMinMax }}</em> &nbsp;&nbsp;(0 to 50, inner 10 to 35 or 15 to 40)</span>
+        </span>
+      </p>
+      <div>
+        <q-slider v-model="nullInnerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-slider v-model="innerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-slider v-model="innerMinMax" :dark="dark" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" markers />
       </div>
 
       <p class="caption">
@@ -78,6 +90,14 @@
         </span>
       </p>
       <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="orange" v-model="marker" :min="0" :max="10" :step="2" label :label-value="labelValue(marker)" snap markers />
+
+      <p class="caption">
+        With Markers. Snaps to Steps
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ marker }}</em> &nbsp;&nbsp;(0 to 10, step 1, markers=3)</span>
+        </span>
+      </p>
+      <q-slider :vertical="vertical" :dark="dark" :dense="dense" color="orange" v-model="marker" :min="0" :max="10" :step="1" label :label-value="labelValue(marker)" snap :markers="3" />
 
       <p class="caption">
         Display Label Always
@@ -181,6 +201,8 @@ export default {
       nullValue: null,
       nullValueMin: null,
       standalone: 20,
+      nullInnerMinMax: null,
+      innerMinMax: 25,
       stepZero: 30.05,
       precision: 0.4,
       step: 30,
@@ -198,10 +220,10 @@ export default {
   },
   watch: {
     standalone (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     step (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -209,7 +231,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     }
   }
 }

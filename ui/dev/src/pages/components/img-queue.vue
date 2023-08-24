@@ -45,7 +45,7 @@ const generateImageList = () => {
     list.push({
       id: i + Math.random(),
       bogus: i === length,
-      src: i === length ? 'https://bogu.bogus' : imageUrls[i]
+      src: i === length ? 'https://bogu.bogus' : imageUrls[ i ]
     })
   }
 

@@ -36,24 +36,24 @@ export default {
       return this.conf.split(' ')
     },
     first () {
-      return this.split[0]
+      return this.split[ 0 ]
     },
     second () {
-      return this.split[1]
+      return this.split[ 1 ]
     },
     last () {
-      return this.split[2]
+      return this.split[ 2 ]
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .ex
-  border 1px solid #ccc
-  padding 2px
+  border: 1px solid #ccc
+  padding: 2px
   > div
-    background #ddd
-    border 1px solid #ccc
-    padding 5px
+    background: #ddd
+    border: 1px solid #ccc
+    padding: 5px
 </style>

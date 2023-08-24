@@ -61,12 +61,12 @@
         <div class="q-pa-md">
           <q-input
             type="number"
-            :value="listIndex"
+            :model-value="listIndex"
             :min="0"
             :max="listSize"
             label="Scroll to index"
             input-class="text-right"
-            @input="onIndexChange"
+            @update:model-value="onIndexChange"
           />
         </div>
       </q-page>
@@ -74,7 +74,7 @@
   </q-layout>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .test-virtual-table--fixed
   max-height: 70vh
 
@@ -86,17 +86,17 @@
 
   .thead-sticky tr > *,
   .tfoot-sticky tr > *
-    position sticky
-    opacity 1
-    z-index 1
-    background-color black
-    color white
+    position: sticky
+    opacity: 1
+    z-index: 1
+    background-color: black
+    color: white
 
   .thead-sticky tr:last-child > *
-    top 0
+    top: 0
 
   .tfoot-sticky tr:first-child > *
-    bottom 0
+    bottom: 0
 </style>
 
 <script>
@@ -113,7 +113,7 @@ for (let i = 0; i <= listSize; i++) {
   const row = {}
 
   for (let j = 0; j < columns.length; j++) {
-    row[columns[j]] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
+    row[ columns[ j ] ] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
   }
   heavyList.push(row)
 }

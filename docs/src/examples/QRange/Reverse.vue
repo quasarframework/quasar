@@ -21,13 +21,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      standard: {
+      standard: ref({
         min: 5,
         max: 15
-      }
+      })
     }
   }
 }

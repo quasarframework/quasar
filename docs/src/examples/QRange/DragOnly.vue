@@ -17,13 +17,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      onlyRange: {
+      onlyRange: ref({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

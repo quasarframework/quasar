@@ -41,20 +41,22 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const number = ref(110)
+
     return {
-      number: 110
-    }
-  },
+      number,
 
-  methods: {
-    decrement () {
-      this.number--
-    },
+      increment () {
+        number.value++
+      },
 
-    increment () {
-      this.number++
+      decrement () {
+        number.value--
+      }
     }
   }
 }

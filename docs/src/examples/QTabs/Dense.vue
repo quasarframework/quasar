@@ -4,7 +4,7 @@
       <q-tabs
         v-model="tab"
         dense
-        class="bg-grey-2 text-teal"
+        class="bg-indigo text-white"
       >
         <q-tab name="mails" icon="mail" label="Mails" />
         <q-tab name="alarms" icon="alarm" label="Alarms" />
@@ -47,10 +47,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'mails'
+      tab: ref('mails')
     }
   }
 }

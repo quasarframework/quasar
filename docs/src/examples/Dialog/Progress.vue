@@ -6,12 +6,14 @@
 </template>
 
 <script>
-import { QSpinnerGears } from 'quasar'
+import { useQuasar, QSpinnerGears } from 'quasar'
 
 export default {
-  methods: {
-    showDefault () {
-      const dialog = this.$q.dialog({
+  setup () {
+    const $q = useQuasar()
+
+    function showDefault () {
+      const dialog = $q.dialog({
         message: 'Uploading... 0%',
         progress: true, // we enable default settings
         persistent: true, // we want the user to not be able to close it
@@ -36,10 +38,10 @@ export default {
           }, 350)
         }
       }, 500)
-    },
+    }
 
-    showCustom () {
-      const dialog = this.$q.dialog({
+    function showCustom () {
+      const dialog = $q.dialog({
         title: 'Uploading...',
         dark: true,
         message: '0%',
@@ -67,13 +69,15 @@ export default {
 
           dialog.update({
             title: 'Done!',
-            message: `Upload completed successfully`,
+            message: 'Upload completed successfully',
             progress: false,
             ok: true
           })
         }
       }, 500)
     }
+
+    return { showDefault, showCustom }
   }
 }
 </script>

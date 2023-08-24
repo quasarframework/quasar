@@ -1,6 +1,6 @@
 <template>
   <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-8' : 'bg-grey-2'" style="z-index: 1">
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-8' : 'bg-grey-2'" style="z-index: 10">
       <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" label="Dense" />
       <q-toggle v-model="vertical" :dark="dark" label="Vertical" />
@@ -18,10 +18,22 @@
       </p>
 
       <div class="row justify-around">
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:model-value="onInput" v-model="standalone" :min="0" :max="50" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @update:model-value="onInput" :model-value="standalone" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label :left-label-value="labelLeftValue(standalone.min)" :right-label-value="labelRightValue(standalone.max)" />
+      </div>
+
+      <p class="caption">
+        Inner min/max
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ innerMinMax.min }} to {{ innerMinMax.max }}</em> &nbsp;&nbsp;(0 to 50, inner 10 to 35 or 15 to 40)</span>
+        </span>
+      </p>
+      <div>
+        <q-range v-model="nullInnerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-range v-model="innerMinMax" :dark="dark" :min="0" :max="50" :inner-min="10" :inner-max="35" />
+        <q-range v-model="innerMinMax" :dark="dark" :min="0" :max="50" color="green" :inner-min="15" :inner-max="40" markers />
       </div>
 
       <p class="caption">
@@ -89,6 +101,14 @@
       <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="marker" :min="-6" :max="10" :step="2" label :left-label-value="labelLeftValue(marker.min)" :right-label-value="labelRightValue(marker.max)" snap markers />
 
       <p class="caption">
+        With Markers + Snap to Step
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ marker.min }} to {{ marker.max }}</em> &nbsp;&nbsp;(-6 to 10, step 1, markers=3)</span>
+        </span>
+      </p>
+      <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="marker" :min="-6" :max="10" :step="1" label :left-label-value="labelLeftValue(marker.min)" :right-label-value="labelRightValue(marker.max)" snap :markers="3" />
+
+      <p class="caption">
         Display Label Always
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ label.min }} to {{ label.max }}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
@@ -112,8 +132,8 @@
       </p>
 
       <div class="row justify-around">
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @input="onInput" :value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="onChange" @update:model-value="onInput" v-model="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" @change="val => { range = val; onChange(val); }" @update:model-value="onInput" :model-value="range" :min="0" :max="100" label :left-label-value="labelLeftValue(range.min)" :right-label-value="labelRightValue(range.max)" drag-range />
       </div>
 
       <p class="caption">
@@ -133,7 +153,8 @@
 
       <div class="row justify-around">
         <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
-        <q-range :vertical="vertical" :dark="dark" :dense="dense" :value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" :model-value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label :left-label-value="labelLeftValue(onlyRange.min)" :right-label-value="labelRightValue(onlyRange.max)" />
+        <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range />
       </div>
 
       <p class="caption">
@@ -238,6 +259,15 @@ export default {
         max: 35
       },
 
+      nullInnerMinMax: {
+        min: null,
+        max: null
+      },
+      innerMinMax: {
+        min: 20,
+        max: 25
+      },
+
       stepZero: {
         min: 34.05,
         max: 64.023
@@ -299,16 +329,16 @@ export default {
   },
   watch: {
     'standalone.min' (val, old) {
-      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [min] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'standalone.max' (val, old) {
-      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [max] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'range.min' (val, old) {
-      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [min] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     'range.max' (val, old) {
-      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed [max] from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -316,7 +346,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     },
     getNullLabel (val) {
       return val === null ? 'null' : val

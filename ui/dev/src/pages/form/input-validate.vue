@@ -63,7 +63,9 @@
           val => val.length <= 3 || 'Please use maximum 3 characters'
         ]"
       >
-        <q-icon slot="append" name="close" @click="model2 = ''" class="cursor-pointer" />
+        <template v-slot:append>
+          <q-icon name="close" @click="model2 = ''" class="cursor-pointer" />
+        </template>
       </q-input>
 
       <q-input
@@ -107,7 +109,7 @@
         v-bind="{[type]: true}"
         label="Slider - >= 10, Lazy"
         stack-label
-        :value="num"
+        :model-value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
@@ -128,7 +130,7 @@
         v-bind="{[type]: true}"
         label="Date - required, Lazy"
         stack-label
-        :value="date"
+        :model-value="date"
         :rules="[
           val => !!val || '* Required',
         ]"
@@ -145,7 +147,7 @@
         v-bind="{[type]: true}"
         label="Time - required, Lazy"
         stack-label
-        :value="time"
+        :model-value="time"
         :rules="[
           val => !!val || '* Required',
         ]"
@@ -162,7 +164,7 @@
         v-bind="{[type]: true}"
         label="Knob - >= 10, Lazy"
         stack-label
-        :value="num"
+        :model-value="num"
         :rules="[
           val => val >= 10 || 'Select at least 10',
         ]"
@@ -330,12 +332,11 @@
         :error="error"
         style="margin-bottom: 30px"
       >
-        <div slot="error">
-          Slotted error message
-        </div>
-        <div slot="error">
-          Second slotted error message
-        </div>
+        <template v-slot:error>
+          <div>
+            Slotted error message
+          </div>
+        </template>
       </q-input>
     </div>
   </div>
@@ -368,7 +369,7 @@ export default {
     }
 
     for (let i = 1; i <= n; i++) {
-      data['model' + i] = ''
+      data[ 'model' + i ] = ''
     }
 
     return data
@@ -378,18 +379,18 @@ export default {
     testRule () {
       return this.testRule20 === true
         ? [
-          val => val >= 20 || 'Select at least 20'
-        ]
+            val => val >= 20 || 'Select at least 20'
+          ]
         : [
-          val => val >= 10 || 'Select at least 10'
-        ]
+            val => val >= 10 || 'Select at least 10'
+          ]
     }
   },
 
   methods: {
     reset () {
       for (let i = 1; i <= this.n; i++) {
-        this.$refs['input' + i].resetValidation()
+        this.$refs[ 'input' + i ].resetValidation()
       }
     },
 

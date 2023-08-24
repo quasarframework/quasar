@@ -2,10 +2,10 @@
   <div class="q-pa-md row q-col-gutter-sm">
     <q-tree class="col-12 col-sm-6"
       :nodes="simple"
+      v-model:ticked="ticked"
+      v-model:expanded="expanded"
       node-key="label"
       :tick-strategy="tickStrategy"
-      :ticked.sync="ticked"
-      :expanded.sync="expanded"
       default-expand-all
     />
     <div class="col-12 col-sm-6">
@@ -25,9 +25,22 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
+      ticked: ref(['Pleasant surroundings']),
+      expanded: ref(['Good service (disabled node)']),
+      tickStrategy: ref('strict'),
+
+      tickStrategies: [
+        { value: 'none', label: 'None' },
+        { value: 'strict', label: 'Strict' },
+        { value: 'leaf', label: 'Leaf' },
+        { value: 'leaf-filtered', label: 'Leaf Filtered' }
+      ],
+
       simple: [
         {
           label: 'Satisfied customers',
@@ -57,16 +70,6 @@ export default {
             }
           ]
         }
-      ],
-
-      ticked: [ 'Pleasant surroundings' ],
-      expanded: [ 'Good service (disabled node)' ],
-      tickStrategy: 'strict',
-      tickStrategies: [
-        { value: 'none', label: 'None' },
-        { value: 'strict', label: 'Strict' },
-        { value: 'leaf', label: 'Leaf' },
-        { value: 'leaf-filtered', label: 'Leaf Filtered' }
       ]
     }
   }

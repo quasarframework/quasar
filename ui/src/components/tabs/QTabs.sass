@@ -93,7 +93,11 @@
       .q-tabs__arrow--faded
         display: none
 
-  &--not-scrollable
+  &--not-scrollable,
+  body.mobile &--scrollable.q-tabs--mobile-without-arrows
+    &.q-tabs__arrows--outside
+      padding-left: 0
+      padding-right: 0
     .q-tabs__arrow
       display: none
     .q-tabs__content
@@ -181,13 +185,3 @@
       min-height: 36px
       &--full
         min-height: 52px
-
-body.mobile .q-tabs
-
-  &__content
-    overflow: auto
-
-@media (min-width: $breakpoint-lg-min)
-  .q-header, .q-footer
-    .q-tab__content
-      min-width: 128px

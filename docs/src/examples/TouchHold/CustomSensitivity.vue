@@ -15,19 +15,21 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const info = ref(null)
+
     return {
-      info: null
-    }
-  },
+      info,
 
-  methods: {
-    handleHold ({ evt, ...info }) {
-      this.info = info
+      handleHold ({ evt, ...newInfo }) {
+        info.value = newInfo
 
-      // native Javascript event
-      // console.log(evt)
+        // native Javascript event
+        // console.log(evt)
+      }
     }
   }
 }

@@ -37,7 +37,7 @@
         inline-label
         switch-indicator
         indicator-color="primary"
-        class="bg-lime shadow-2"
+        class="bg-lime text-dark shadow-2"
       >
         <q-tab name="mails" icon="mail" label="Mails" />
         <q-tab name="alarms" icon="alarm" label="Alarms" />
@@ -59,10 +59,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'mails'
+      tab: ref('mails')
     }
   }
 }

@@ -1,0 +1,125 @@
+name: UI tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - 'dev'
+    paths:
+      - '.github/workflows/tests-on-pr.yml'
+      - 'ui/**/*.js'
+      - 'ui/package.json'
+      - 'ui/dev/package.json'
+
+jobs:
+  build:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+
+    runs-on: ubuntu-latest
+
+    # Check if the build cache exists, and if it does, do nothing else.
+    # Otherwise, run the build and cache it.
+    name: Build the packages
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build the UI package
+        working-directory: ui
+        run: yarn build
+
+      - name: Upload UI build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-build
+          path: ui/dist
+
+      - name: Build vite-plugin package
+        working-directory: vite-plugin
+        run: yarn build
+
+      - name: Upload vite-plugin build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vite-plugin-build
+          path: vite-plugin/dist
+
+  tests:
+    # If the build pipeline doesn't succeed, we don't need to run tests at all
+    needs: build
+
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      actions: read # to correctly identify workflow run (cypress-io/github-action)
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ui
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chrome, firefox]
+
+    name: Tests on ${{ matrix.browser }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Download UI build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ui-build
+          path: ui/dist
+
+      - name: Download vite-plugin build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: vite-plugin-build
+          path: vite-plugin/dist
+
+      - name: Run tests in ${{ matrix.browser }} browser
+        uses: cypress-io/github-action@v5
+        env:
+          CYPRESS_JSON_RESULTS_FILENAME: test-results-${{ matrix.browser }}.json
+        with:
+          install: false
+          command: yarn test:component:run --browser ${{ matrix.browser }}
+          working-directory: ui
+
+      # Upload required artifacts to be used in tests-on-pr-report.yml
+
+      - name: Upload test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.browser }}
+          path: ui/dev/test-results-${{ matrix.browser }}.json
+
+      - name: Upload GitHub Actions event data
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: event-data
+          path: ${{ github.event_path }}

@@ -15,35 +15,42 @@
 </template>
 
 <script>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const progress = ref(0.01)
+    const buffer = ref(0.01)
+
+    let interval, bufferInterval
+
+    onMounted(() => {
+      interval = setInterval(() => {
+        if (progress.value >= 1) {
+          progress.value = 0.01
+          buffer.value = 0.01
+          return
+        }
+
+        progress.value = Math.min(1, buffer.value, progress.value + 0.1)
+      }, 700 + Math.random() * 1000)
+
+      bufferInterval = setInterval(() => {
+        if (buffer.value < 1) {
+          buffer.value = Math.min(1, buffer.value + Math.random() * 0.2)
+        }
+      }, 700)
+    })
+
+    onBeforeUnmount(() => {
+      clearInterval(interval)
+      clearInterval(bufferInterval)
+    })
+
     return {
-      progress: 0.01,
-      buffer: 0.01
+      progress,
+      buffer
     }
-  },
-
-  mounted () {
-    this.interval = setInterval(() => {
-      if (this.progress >= 1) {
-        this.progress = 0.01
-        this.buffer = 0.01
-        return
-      }
-
-      this.progress = Math.min(1, this.buffer, this.progress + 0.1)
-    }, 700 + Math.random() * 1000)
-
-    this.bufferInterval = setInterval(() => {
-      if (this.buffer < 1) {
-        this.buffer = Math.min(1, this.buffer + Math.random() * 0.2)
-      }
-    }, 700)
-  },
-
-  beforeDestroy () {
-    clearInterval(this.interval)
-    clearInterval(this.bufferInterval)
   }
 }
 </script>

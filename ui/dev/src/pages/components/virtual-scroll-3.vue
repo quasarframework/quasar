@@ -68,7 +68,7 @@ export default {
         items.push({
           avatarColor: 'red',
           avatarLetter: 'A',
-          label: `Item ${from + i + 1}`
+          label: `Item ${ from + i + 1 }`
         })
       }
 
@@ -82,7 +82,7 @@ export default {
     }, 3000)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.intervalTimer)
   }
 }

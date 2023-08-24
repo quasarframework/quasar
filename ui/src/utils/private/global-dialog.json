@@ -1,0 +1,134 @@
+{
+  "methods": {
+    "create": {
+      "desc": "Creates an ad-hoc Dialog; Same as calling $q.dialog(...)",
+      "params": {
+        "opts": {
+          "type": "Object",
+          "required": true,
+          "definition": {
+            "class": {
+              "type": [ "String", "Array", "Object" ],
+              "tsType": "VueClassProp",
+              "desc": "CSS Class name to apply to the Dialog's QCard",
+              "examples": [ "my-class" ]
+            },
+
+            "style": {
+              "type": [ "String", "Array", "Object" ],
+              "tsType": "VueStyleProp",
+              "desc": "CSS style to apply to the Dialog's QCard",
+              "examples": [ "border: 2px solid black" ]
+            }
+          }
+        }
+      },
+
+      "returns": {
+        "type": "Object",
+        "desc": "Chainable Object",
+        "tsType": "DialogChainObject",
+        "autoDefineTsType": true,
+        "definition": {
+          "onOk": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function param to tell what to do when OK is pressed / option is selected",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": {
+                  "payload": {
+                    "type": "Any",
+                    "desc": "The payload if called onDialogOK with the parameter or emitted one with the 'ok' event",
+                    "required": false,
+                    "examples": [ "'Quasar Framework'", "[ 1, 2, 6, 3 ]", "{ book: { id: 1, name: 'Lorem Ipsum' }, user: { name: 'Lorem J. Ipsum', role: 'admin' } }" ]
+                  }
+                },
+                "returns": null,
+                "examples": [ "() => console.log('OK!')", "(payload) => Notify.create({ type: 'positive', message: `Successfully saved '${payload.book.name}' book!` })" ]
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+
+          "onCancel": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function as param to tell what to do when Cancel is pressed / dialog is dismissed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+
+          "onDismiss": {
+            "type": "Function",
+            "required": true,
+            "desc": "Receives a Function param to tell what to do when the dialog is closed",
+            "params": {
+              "callbackFn": {
+                "type": "Function",
+                "desc": "Tell what to do",
+                "required": true,
+                "params": null,
+                "returns": null
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+
+          "hide": {
+            "type": "Function",
+            "required": true,
+            "desc": "Hides the dialog when called",
+            "params": null,
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          },
+
+          "update": {
+            "type": "Function",
+            "required": true,
+            "desc": "Updates the initial properties (given as create() param) except for 'component'",
+            "params": {
+              "opts": {
+                "type": "Object",
+                "required": true,
+                "desc": "Props (except 'component') which will overwrite the initial create() params; If create() was invoked with a custom dialog component then this param should contain the new componentProps"
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@
       <template v-slot:list="scope">
         <q-list separator>
 
-          <q-item v-for="file in scope.files" :key="file.name">
+          <q-item v-for="file in scope.files" :key="file.__key">
             <q-item-section>
               <q-item-label class="full-width ellipsis">
                 {{ file.name }}

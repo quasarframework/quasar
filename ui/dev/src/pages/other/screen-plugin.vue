@@ -8,12 +8,18 @@
       <span class="md">md</span>
       <span class="gt-md">gt-md</span>
     </div>
-    <pre>{{ $q.screen }}</pre>
+    <pre>{{ screen }}</pre>
   </div>
 </template>
 
 <script>
 export default {
+  computed: {
+    screen () {
+      const { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl } = this.$q.screen
+      return { width, height, name, sizes, lt, gt, xs, sm, md, lg, xl }
+    }
+  },
   watch: {
     '$q.screen.gt.md' (state) {
       console.log('watcher $q.screen.gt.md', state)

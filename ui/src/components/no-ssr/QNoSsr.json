@@ -1,16 +1,12 @@
 {
-  "mixins": [ "mixins/tag" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/no-ssr"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/no-ssr"
   },
 
   "props": {
     "tag": {
+      "extends": "tag",
+      "default": "div",
       "examples": [ "div", "span", "blockquote" ]
     },
 

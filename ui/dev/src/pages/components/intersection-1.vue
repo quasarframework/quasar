@@ -25,6 +25,10 @@
             </div>
           </q-card-section>
         </q-card>
+
+        <template #hidden>
+          Card #{{ index }}
+        </template>
       </q-intersection>
     </div>
   </div>

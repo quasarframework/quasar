@@ -1,17 +1,20 @@
-import Vue from 'vue'
-
 import Platform from '../plugins/Platform.js'
 
-import { noop } from '../utils/event.js'
+import { noop } from './event.js'
+import { isNumber } from './is.js'
 
 function parseFeatures (winFeatures) {
   const cfg = Object.assign({ noopener: true }, winFeatures)
   const feat = []
-  Object.keys(cfg).forEach(key => {
-    if (cfg[key] === true) {
+  for (const key in cfg) {
+    const value = cfg[ key ]
+    if (value === true) {
       feat.push(key)
     }
-  })
+    else if (isNumber(value) || (typeof value === 'string' && value !== '')) {
+      feat.push(key + '=' + value)
+    }
+  }
   return feat.join(',')
 }
 
@@ -28,9 +31,6 @@ function openWindow (url, reject, windowFeatures) {
       })
     }
   }
-  else if (Vue.prototype.$q.electron !== void 0) {
-    return Vue.prototype.$q.electron.shell.openExternal(url)
-  }
 
   const win = open(url, '_blank', parseFeatures(windowFeatures))
 
@@ -45,8 +45,8 @@ function openWindow (url, reject, windowFeatures) {
 
 export default (url, reject, windowFeatures) => {
   if (
-    Platform.is.ios === true &&
-    window.SafariViewController !== void 0
+    Platform.is.ios === true
+    && window.SafariViewController !== void 0
   ) {
     window.SafariViewController.isAvailable(available => {
       if (available) {

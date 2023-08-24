@@ -17,10 +17,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: '2019-02-22 21:02'
+      model: ref('2019-02-22 21:02')
     }
   }
 }

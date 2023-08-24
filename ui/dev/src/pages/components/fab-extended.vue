@@ -198,7 +198,7 @@ export default {
 
   methods: {
     logEvt (evt) {
-      console.log(`@${evt.type}`, evt)
+      console.log(`@${ evt.type }`, evt)
     }
   }
 }

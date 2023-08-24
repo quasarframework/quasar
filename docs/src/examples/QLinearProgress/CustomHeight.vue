@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       progress: 0.4
     }

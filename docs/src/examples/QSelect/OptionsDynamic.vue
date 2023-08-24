@@ -1,59 +1,54 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
-    <div class="q-gutter-md">
-      <q-select
-        filled
-        v-model="model"
-        multiple
-        :options="options"
-        :loading="loading"
-        @virtual-scroll="onScroll"
-      />
-    </div>
+    <q-select
+      filled
+      v-model="model"
+      multiple
+      :options="options"
+      :loading="loading"
+      @virtual-scroll="onScroll"
+    />
   </div>
 </template>
 
 <script>
-const options = []
+import { ref, computed, nextTick } from 'vue'
+
+const allOptions = []
 for (let i = 0; i <= 100000; i++) {
-  options.push('Opt ' + i)
+  allOptions.push('Opt ' + i)
 }
 
 const pageSize = 50
-const nextPage = 2
-const lastPage = Math.ceil(options.length / pageSize)
+const lastPage = Math.ceil(allOptions.length / pageSize)
 
 export default {
-  data () {
+  setup () {
+    const loading = ref(false)
+    const nextPage = ref(2)
+    const options = computed(() => allOptions.slice(0, pageSize * (nextPage.value - 1)))
+
     return {
-      model: null,
+      model: ref(null),
+      loading,
 
-      loading: false,
+      nextPage,
+      options,
 
-      nextPage
-    }
-  },
+      onScroll ({ to, ref }) {
+        const lastIndex = options.value.length - 1
 
-  computed: {
-    options () {
-      return Object.freeze(options.slice(0, pageSize * (this.nextPage - 1)))
-    }
-  },
+        if (loading.value !== true && nextPage.value < lastPage && to === lastIndex) {
+          loading.value = true
 
-  methods: {
-    onScroll ({ to, ref }) {
-      const lastIndex = this.options.length - 1
-
-      if (this.loading !== true && this.nextPage < lastPage && to === lastIndex) {
-        this.loading = true
-
-        setTimeout(() => {
-          this.nextPage++
-          this.$nextTick(() => {
-            ref.refresh()
-            this.loading = false
-          })
-        }, 500)
+          setTimeout(() => {
+            nextPage.value++
+            nextTick(() => {
+              ref.refresh()
+              loading.value = false
+            })
+          }, 500)
+        }
       }
     }
   }

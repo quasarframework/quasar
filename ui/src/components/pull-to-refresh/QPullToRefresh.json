@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/pull-to-refresh"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/pull-to-refresh"
   },
 
   "props": {
@@ -15,8 +11,7 @@
 
     "bg-color": {
       "desc": "Color name for background of the icon container from the Quasar Color Palette",
-      "extends": "color",
-      "addedIn": "v1.9.5"
+      "extends": "color"
     },
 
     "icon": {

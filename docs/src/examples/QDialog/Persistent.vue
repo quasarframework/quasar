@@ -21,10 +21,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      persistent: false
+      persistent: ref(false)
     }
   }
 }

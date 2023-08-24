@@ -1,18 +1,13 @@
 {
-  "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
+  "mixins": [ "composables/private/use-panel", "composables/private/use-fullscreen" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/carousel"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/carousel"
   },
 
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "height": {
@@ -33,21 +28,19 @@
 
     "control-text-color": {
       "extends": "color",
-      "desc": "Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette",
-      "addedIn": "v1.9.0"
+      "desc": "Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette"
     },
 
     "control-type": {
       "type": "String",
       "desc": "Type of button to use for controls (arrows, navigation)",
       "values": [ "regular", "flat", "outline", "push", "unelevated" ],
-      "category": "style",
-      "addedIn": "v1.9.0"
+      "category": "style"
     },
 
     "autoplay": {
       "type": [ "Number", "Boolean" ],
-      "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
+      "desc": "Jump to next slide (if 'true' or val > 0) or previous slide (if val < 0) at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
       "default": false,
       "examples": [
         ":autoplay=\"2500\"",
@@ -82,9 +75,7 @@
       "desc": "Side to stick navigation to",
       "default": "bottom/right",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "left" ],
-      "category": "content",
-      "addedIn": "v1.9.0"
+      "category": "content"
     },
 
     "navigation-icon": {
@@ -93,14 +84,21 @@
 
     "navigation-active-icon": {
       "extends": "icon",
-      "desc": "Icon name following Quasar convention for the active (current slide) navigation icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
-      "addedIn": "v1.13.2"
+      "desc": "Icon name following Quasar convention for the active (current slide) navigation icon; Make sure you have the icon library installed unless you are using 'img:' prefix"
     },
 
     "thumbnails": {
       "type": "Boolean",
       "desc": "Show thumbnails",
       "category": "content"
+    },
+
+    "transition-prev": {
+      "default": "fade"
+    },
+
+    "transition-next": {
+      "default": "fade"
     }
   },
 
@@ -111,27 +109,22 @@
 
     "control": {
       "desc": "Slot specific for QCarouselControl"
-    }
-  },
+    },
 
-  "scopedSlots": {
     "navigation-icon": {
       "desc": "Slot for navigation icon/btn; Suggestion: QBtn",
       "scope": {
         "index": {
           "type": "Number",
-          "desc": "The 0-based index of corresponding slide",
-          "__exemption": [ "examples" ]
+          "desc": "The 0-based index of corresponding slide"
         },
         "maxIndex": {
           "type": "Number",
-          "desc": "The available number of slides",
-          "__exemption": [ "examples" ]
+          "desc": "The available number of slides"
         },
         "name": {
           "type": "Any",
-          "desc": "The name of the corresponding slide",
-          "__exemption": [ "examples" ]
+          "desc": "The name of the corresponding slide"
         },
         "active": {
           "type": "Boolean",
@@ -139,24 +132,20 @@
         },
         "btnProps": {
           "type": "Object",
-          "desc": "Default QBtn props that can be binded to your own QBtn",
-          "__exemption": [ "examples" ]
+          "desc": "Default QBtn props that can be binded to your own QBtn"
         },
         "onClick": {
           "type": "Function",
           "desc": "Default trigger when clicked/tapped on",
           "params": {
             "evt": {
-              "type": "Object",
-              "desc": "JS event object",
-              "required": true,
-              "__exemption": [ "examples" ]
+              "extends": "evt",
+              "required": true
             }
           },
           "returns": null
         }
-      },
-      "addedIn": "v1.13.2"
+      }
     }
   }
 }

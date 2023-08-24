@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/resize-observer"
+    "docsUrl": "https://v2.quasar.dev/vue-components/resize-observer"
   },
 
   "props": {
@@ -23,13 +23,13 @@
           "definition": {
             "height": {
               "type": "Number",
-              "desc": "Layout height",
-              "examples": [ 822 ]
+              "required": true,
+              "desc": "Layout height"
             },
             "width": {
               "type": "Number",
-              "desc": "Layout width",
-              "examples": [ 822 ]
+              "required": true,
+              "desc": "Layout width"
             }
           }
         }

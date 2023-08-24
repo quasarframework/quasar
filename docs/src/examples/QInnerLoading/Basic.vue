@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <q-btn color="primary" @click="showTextLoading">
-      Show Text Loading
+      Show it
     </q-btn>
 
-    <q-card class="bg-grey-3 relative-position card-example">
+    <q-card class="relative-position card-example" flat bordered>
       <q-card-section class="q-pb-none">
         <div class="text-h6">Lorem Ipsum</div>
       </q-card-section>
@@ -29,25 +29,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 // Don't forget to specify which animations
-// you are using in quasar.conf.js > animations.
+// you are using in quasar.config file > animations.
 // Alternatively, if using UMD, load animate.css from CDN.
 export default {
-  data () {
-    return {
-      visible: false,
-      showSimulatedReturnData: false
-    }
-  },
+  setup () {
+    const visible = ref(false)
+    const showSimulatedReturnData = ref(false)
 
-  methods: {
-    showTextLoading () {
-      this.visible = true
-      this.showSimulatedReturnData = false
-      setTimeout(() => {
-        this.visible = false
-        this.showSimulatedReturnData = true
-      }, 3000)
+    return {
+      visible,
+      showSimulatedReturnData,
+
+      showTextLoading () {
+        visible.value = true
+        showSimulatedReturnData.value = false
+
+        setTimeout(() => {
+          visible.value = false
+          showSimulatedReturnData.value = true
+        }, 3000)
+      }
     }
   }
 }

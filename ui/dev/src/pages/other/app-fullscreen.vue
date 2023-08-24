@@ -49,7 +49,11 @@ import { AppFullscreen } from 'quasar'
 export default {
   watch: {
     '$q.fullscreen.activeEl' (val) {
-      console.log(val)
+      console.log('watcher $q.fullscreen.activeEl', val, AppFullscreen.activeEl)
+    },
+
+    '$q.fullscreen.isActive' (val) {
+      console.log('watcher $q.fullscreen.isActive', val, AppFullscreen.isActive)
     }
   },
 
@@ -58,7 +62,7 @@ export default {
       AppFullscreen.toggle()
         .then(() => {
           setTimeout(() => {
-            console.log(AppFullscreen.isActive)
+            console.log('setTimeout AppFullscreen.isActive', AppFullscreen.isActive)
           }, 1000)
         })
         .catch(err => {

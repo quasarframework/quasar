@@ -1,14 +1,14 @@
 <template>
   <div class="q-layout-padding">
     <div>{{ n }} {{ typeof n }}</div>
-    <q-input @input="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
-    <q-input @input="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
-    <q-input label="Debounced" @input="onInput" type="number" v-model.number="n" debounce="300" input-class="text-right" class="q-ml-md col" />
+    <q-input @update:model-value="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
+    <q-input @update:model-value="onInput" type="number" v-model.number="n" input-class="text-right" class="q-ml-md col" />
+    <q-input label="Debounced" @update:model-value="onInput" type="number" v-model.number="n" debounce="300" input-class="text-right" class="q-ml-md col" />
 
     <div class="q-mt-lg">
       Update if &lt; 4 and set on blur 1: {{ num1 }} {{ typeof num1 }}
     </div>
-    <q-input type="number" :value="num1" @input="setNum1" @blur="num1 = 1" input-class="text-right" class="q-ml-md col" />
+    <q-input type="number" :model-value="num1" @update:model-value="setNum1" @blur="num1 = 1" input-class="text-right" class="q-ml-md col" />
 
     <div class="q-mt-lg">
       Big debounce (3000): {{ num2 }} {{ typeof num2 }}

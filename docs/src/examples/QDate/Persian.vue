@@ -11,10 +11,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      date: '1397/08/12'
+      date: ref('1397/08/12')
     }
   }
 }

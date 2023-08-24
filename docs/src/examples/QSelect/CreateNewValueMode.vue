@@ -44,12 +44,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      modelAdd: null,
-      modelAddUnique: null,
-      modelToggle: null
+      modelAdd: ref(null),
+      modelAddUnique: ref(null),
+      modelToggle: ref(null)
     }
   }
 }

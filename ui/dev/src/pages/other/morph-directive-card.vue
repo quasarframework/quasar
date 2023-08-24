@@ -70,7 +70,7 @@ export default {
 
   methods: {
     nextMorph () {
-      this.morphModel = nextMorph[this.morphModel]
+      this.morphModel = nextMorph[ this.morphModel ]
     }
   }
 }

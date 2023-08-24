@@ -1,18 +1,13 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tab-panels"
+    "docsUrl": "https://v2.quasar.dev/vue-components/tab-panels"
   },
 
-  "mixins": [ "mixins/panel-child" ],
-
-  "behavior": {
-    "$listeners": true
-  },
+  "mixins": [ "composables/private/use-panel.child" ],
 
   "props": {
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     }
   },
 

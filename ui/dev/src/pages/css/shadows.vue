@@ -3,13 +3,13 @@
     <p class="caption text-left">
       Standard shadows
     </p>
-    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-' + n]" :key="`a-${n}`">
+    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="'shadow-' + n" :key="`a-${n}`">
       .shadow-{{ n }}
     </div>
     <p class="caption text-left">
       Shadows pointing up
     </p>
-    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-up-' + n]" :key="`b-${n}`">
+    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="'shadow-up-' + n" :key="`b-${n}`">
       .shadow-up-{{ n }}
     </div>
     <p class="caption text-left">
@@ -27,10 +27,10 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .shadow-box
-  width 110px
-  height 110px
-  margin 25px
-  border-radius 5px
+  width: 110px
+  height: 110px
+  margin: 25px
+  border-radius: 5px
 </style>

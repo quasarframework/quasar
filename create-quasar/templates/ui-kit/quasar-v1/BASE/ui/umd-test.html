@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+
+    <title>UMD test</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.min.css" rel="stylesheet" type="text/css">
+    <link href="dist/index.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="q-app">
+      <q-layout view="lHh Lpr fff">
+        <q-header class="glossy bg-primary">
+          <q-toolbar>
+            <q-toolbar-title>
+              quasar-ui-<%= name %> v{{ version }}
+            </q-toolbar-title>
+
+            <div>Quasar v{{ $q.version }}</div>
+          </q-toolbar>
+        </q-header>
+
+        <q-page-container>
+          <q-page padding>
+            <ul class="q-mb-lg">
+              <li>In /ui, run: "yarn build"</li>
+              <li class="text-red">You need to build & refresh page on each change manually.</li>
+              <li>Use self-closing tags only!</li>
+              <li>Example: &lt;my-component&gt;&lt;/my-component&gt;</li>
+            </ul>
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.ie.polyfills.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.umd.min.js"></script>
+    <script src="dist/index.umd.js"></script>
+
+    <script>
+      new Vue({
+        el: '#q-app',
+
+        data: function () {
+          return {
+            version: <%= umdExportName %>.version
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md doc-container">
+  <div class="q-pa-md example-row-horizontal-alignment">
     <q-badge>justify-start</q-badge>
     <div class="row justify-start">
       <div class="col-4">
@@ -62,13 +62,14 @@
   </div>
 </template>
 
-<style lang="sass" scoped>
-.row
-  background: rgba(255,0,0,.1)
-.row > div
-  padding: 10px 15px
-  background: rgba(86,61,124,.15)
-  border: 1px solid rgba(86,61,124,.2)
-.doc-container > div + div
-  margin-top: 1rem
+<style lang="sass">
+.example-row-horizontal-alignment
+  .row
+    background: rgba(#aa0, .1)
+  .row > div
+    padding: 10px 15px
+    background: rgba(#999,.15)
+    border: 1px solid rgba(#999,.2)
+  > div + div
+    margin-top: 1rem
 </style>

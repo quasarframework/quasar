@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <q-dialog attr="test" v-model="alert" content-class="test-class" no-esc-dismiss>
+    <q-dialog ref="dialog1" attr="test" v-model="alert" class="test-class" no-esc-dismiss>
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -53,12 +53,13 @@
         </q-card-section>
 
         <q-card-actions align="right">
+          <q-btn flat label="Print contentEl" no-caps color="primary" @click="printContentEl" />
           <q-btn flat label="OK" color="primary" v-close-popup="!preventCloseToggle" :disable="preventCloseToggle" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <q-dialog attr="test" :value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
+    <q-dialog attr="test" :model-value="alert" class="test-class" no-esc-dismiss seamless position="bottom">
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -150,7 +151,7 @@
           <q-space />
 
           <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-white text-primary">
+            <q-tooltip class="bg-white text-primary">
               Close
             </q-tooltip>
           </q-btn>
@@ -172,7 +173,7 @@
       <q-card>
         <q-toolbar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
 
           <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
@@ -186,7 +187,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="confirm" persistent>
+    <q-dialog v-model="confirm" persistent :transition-duration="2000">
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
@@ -296,17 +297,17 @@
           <q-space />
 
           <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
-            <q-tooltip v-if="maximizedToggle" content-class="bg-white text-primary">
+            <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">
               Minimize
             </q-tooltip>
           </q-btn>
           <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
-            <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">
+            <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">
               Maximize
             </q-tooltip>
           </q-btn>
           <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-white text-primary">
+            <q-tooltip class="bg-white text-primary">
               Close
             </q-tooltip>
           </q-btn>
@@ -514,7 +515,7 @@
 
     <q-dialog v-model="complexCard">
       <q-card>
-        <q-img :src="require('assets/donuts.png')" />
+        <q-img src="~assets/donuts.png" />
 
         <q-card-section>
           <q-btn
@@ -612,19 +613,19 @@
 
         <q-card-section class="q-gutter-md">
           <q-icon size="30px" name="event" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-date v-model="date" />
             </q-popup-proxy>
           </q-icon>
 
           <q-icon size="30px" name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-color v-model="color" />
             </q-popup-proxy>
           </q-icon>
 
           <q-icon size="30px" name="view_carousel" class="cursor-pointer">
-            <q-popup-proxy>
+            <q-popup-proxy cover>
               <q-carousel
                 transition-prev="slide-right"
                 transition-next="slide-left"
@@ -741,6 +742,7 @@
           <q-toggle v-model="testDialog.seamless" label="Seamless" />
           <q-toggle v-model="testDialog.persistent" label="Persistent" />
           <q-toggle v-model="testDialog.noBackdropDismiss" label="No Backdrop Dismiss" />
+          <q-toggle v-model="testDialog.noShake" label="No Shake" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -850,7 +852,8 @@ export default {
       testDialog: {
         seamless: false,
         persistent: false,
-        noBackdropDismiss: false
+        noBackdropDismiss: false,
+        noShake: false
       },
 
       address: '',
@@ -876,7 +879,7 @@ export default {
 
       select: 'ten',
       selectMultiple: [],
-      selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+      selectOptions: [ 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten' ],
       selectOptionsFiltered: [],
 
       closePopupTest: false,
@@ -900,7 +903,7 @@ export default {
     openSpecialPosition (position) {
       this.$q.dialog({
         title: 'Positioned',
-        message: `This dialog appears from ${position}.`,
+        message: `This dialog appears from ${ position }.`,
         position
       })
     },
@@ -921,6 +924,10 @@ export default {
         const needle = val.toLowerCase()
         this.selectOptionsFiltered = this.selectOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
       })
+    },
+
+    printContentEl () {
+      console.log(this.$refs.dialog1.contentEl)
     }
   }
 }

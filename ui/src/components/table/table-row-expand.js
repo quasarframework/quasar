@@ -1,54 +1,56 @@
+import { ref, watch } from 'vue'
+
 function getVal (val) {
   return Array.isArray(val)
     ? val.slice()
     : []
 }
 
-export default {
-  props: {
-    expanded: Array // sync
-  },
+export const useTableRowExpandProps = {
+  expanded: Array // v-model:expanded
+}
 
-  data () {
-    return {
-      innerExpanded: getVal(this.expanded)
+export const useTableRowExpandEmits = [ 'update:expanded' ]
+
+export function useTableRowExpand (props, emit) {
+  const innerExpanded = ref(getVal(props.expanded))
+
+  watch(() => props.expanded, val => {
+    innerExpanded.value = getVal(val)
+  })
+
+  function isRowExpanded (key) {
+    return innerExpanded.value.includes(key)
+  }
+
+  function setExpanded (val) {
+    if (props.expanded !== void 0) {
+      emit('update:expanded', val)
     }
-  },
-
-  watch: {
-    expanded (val) {
-      this.innerExpanded = getVal(val)
+    else {
+      innerExpanded.value = val
     }
-  },
+  }
 
-  methods: {
-    isRowExpanded (key) {
-      return this.innerExpanded.includes(key)
-    },
+  function updateExpanded (key, add) {
+    const target = innerExpanded.value.slice()
+    const index = target.indexOf(key)
 
-    setExpanded (val) {
-      if (this.expanded !== void 0) {
-        this.$emit('update:expanded', val)
-      }
-      else {
-        this.innerExpanded = val
-      }
-    },
-
-    __updateExpanded (key, add) {
-      const target = this.innerExpanded.slice()
-      const index = target.indexOf(key)
-
-      if (add === true) {
-        if (index === -1) {
-          target.push(key)
-          this.setExpanded(target)
-        }
-      }
-      else if (index !== -1) {
-        target.splice(index, 1)
-        this.setExpanded(target)
+    if (add === true) {
+      if (index === -1) {
+        target.push(key)
+        setExpanded(target)
       }
     }
+    else if (index !== -1) {
+      target.splice(index, 1)
+      setExpanded(target)
+    }
+  }
+
+  return {
+    isRowExpanded,
+    setExpanded,
+    updateExpanded
   }
 }

@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       contentStyle: {
         backgroundColor: 'rgba(0,0,0,0.02)',
@@ -34,7 +34,7 @@ export default {
         borderRadius: '5px',
         backgroundColor: '#027be3',
         width: '5px',
-        opacity: 0.75
+        opacity: '0.75'
       }
     }
   }

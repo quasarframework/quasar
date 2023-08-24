@@ -3,6 +3,8 @@
 .thumbs.db
 node_modules
 /dist
+/public/examples/
+/public/quasar-api
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins

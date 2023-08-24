@@ -12,17 +12,18 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
+const options = []
+for (let i = 0; i <= 100000; i++) {
+  options.push('Opt ' + i)
+}
+
 export default {
-  data () {
-    const options = []
-    for (let i = 0; i <= 100000; i++) {
-      options.push('Opt ' + i)
-    }
-
+  setup () {
     return {
-      model: null,
-
-      options: Object.freeze(options)
+      model: ref(null),
+      options
     }
   }
 }

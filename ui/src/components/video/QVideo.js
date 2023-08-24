@@ -1,44 +1,57 @@
-import Vue from 'vue'
+import { h, computed } from 'vue'
 
-import RatioMixin from '../../mixins/ratio.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QVideo',
 
-  mixins: [ RatioMixin, ListenersMixin ],
-
   props: {
+    ...useRatioProps,
+
     src: {
       type: String,
       required: true
-    }
-  },
-
-  computed: {
-    iframeData () {
-      return {
-        attrs: {
-          src: this.src,
-          frameborder: '0',
-          allowfullscreen: true
-        }
-      }
     },
 
-    classes () {
-      return 'q-video' +
-        (this.ratio !== void 0 ? ' q-video--responsive' : '')
+    title: String,
+
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
+    loading: {
+      type: String,
+      default: 'eager'
+    },
+    referrerpolicy: {
+      type: String,
+      default: 'strict-origin-when-cross-origin'
     }
   },
 
-  render (h) {
-    return h('div', {
-      class: this.classes,
-      style: this.ratioStyle,
-      on: { ...this.qListeners }
+  setup (props) {
+    const ratioStyle = useRatio(props)
+
+    const classes = computed(() =>
+      'q-video'
+      + (props.ratio !== void 0 ? ' q-video--responsive' : '')
+    )
+
+    return () => h('div', {
+      class: classes.value,
+      style: ratioStyle.value
     }, [
-      h('iframe', this.iframeData)
+      h('iframe', {
+        src: props.src,
+        title: props.title,
+        fetchpriority: props.fetchpriority,
+        loading: props.loading,
+        referrerpolicy: props.referrerpolicy,
+        frameborder: '0',
+        allowfullscreen: true
+      })
     ])
   }
 })

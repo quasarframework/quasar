@@ -14,8 +14,8 @@
       </q-card-section>
 
       <q-card-actions>
-        <q-btn flat color="dark" label="Share" />
-        <q-btn flat color="primary" label="Book" />
+        <q-btn flat color="primary" label="Share" />
+        <q-btn flat color="secondary" label="Book" />
 
         <q-space />
 
@@ -32,7 +32,7 @@
       <q-slide-transition>
         <div v-show="expanded">
           <q-separator />
-          <q-card-section class="text-subitle2">
+          <q-card-section class="text-subtitle2">
             {{ lorem }}
           </q-card-section>
         </div>
@@ -42,10 +42,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      expanded: false,
+      expanded: ref(false),
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
   }

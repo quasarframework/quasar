@@ -1,20 +1,19 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-swipe"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-swipe"
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Handler for swipe (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Handler for swipe (use undefined to disable)",
     "params": {
       "details": {
         "type": "Object",
         "desc": "Event details",
         "definition": {
           "evt": {
-            "type": "Object",
-            "desc": "Original JS event Object",
-            "__exemption": [ "examples" ]
+            "extends": "evt",
+            "desc": "Original JS event Object"
           },
           "touch": {
             "type": "Boolean",
@@ -31,8 +30,7 @@
           },
           "duration": {
             "type": "Number",
-            "desc": "How long it took to trigger the event (in milliseconds)",
-            "examples": [ 612 ]
+            "desc": "How long it took to trigger the event (in milliseconds)"
           },
           "distance": {
             "type": "Object",
@@ -40,13 +38,11 @@
             "definition": {
               "x": {
                 "type": "Number",
-                "desc": "Absolute distance horizontally",
-                "examples": [ 231 ]
+                "desc": "Absolute distance horizontally"
               },
               "y": {
                 "type": "Number",
-                "desc": "Absolute distance vertically",
-                "examples": [ 231 ]
+                "desc": "Absolute distance vertically"
               }
             }
           }
@@ -54,7 +50,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-swipe=\"fnToCall\"", "v-touch-swipe=\"void 0\"" ]
+    "examples": [ "v-touch-swipe=\"fnToCall\"", "v-touch-swipe=\"undefined\"" ]
   },
 
   "arg": {

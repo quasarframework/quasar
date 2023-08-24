@@ -11,8 +11,8 @@
           input-class="text-right"
           style="width: 10em;"
           label="List size"
-          :value="size"
-          @input="val => { size = Math.max(0, Math.min(maxSize, parseInt(val, 10))); }"
+          :model-value="size"
+          @update:model-value="val => { size = Math.max(0, Math.min(maxSize, parseInt(val, 10))); }"
         />
         <div class="text-h6 q-mt-lg">
           Heavy test - Different components ({{ size.toLocaleString() }} items)
@@ -24,8 +24,8 @@
           >
             <template v-slot="{ item, index }">
               <q-item
+                :key="'a'+index"
                 v-if="(index % 3) === 0"
-                :key="index"
                 dense
                 dark
                 clickable
@@ -36,7 +36,8 @@
                   </q-item-label>
                 </q-item-section>
               </q-item>
-              <q-banner v-else-if="(index % 5) === 0" class="bg-negative" :key="index">
+
+              <q-banner :key="'b'+index" v-else-if="(index % 5) === 0" class="bg-negative">
                 <template v-slot:avatar>
                   <q-avatar square color="warning" text-color="negative">
                     {{ item.value }}
@@ -44,7 +45,8 @@
                 </template>
                 {{ item.label }} #{{ index }}
               </q-banner>
-              <div v-else class="bg-yellow q-py-lg text-center" :key="index">
+
+              <div :key="'c'+index" v-else class="bg-yellow q-py-lg text-center">
                 {{ item.label }} #{{ index }}
               </div>
             </template>
@@ -61,8 +63,8 @@
             :max="maxSize - 1"
             input-class="text-right"
             label="Scroll to index"
-            :value="scrollTo"
-            @input="val => { scrollTo = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
+            :model-value="scrollTo"
+            @update:model-value="val => { scrollTo = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
             @change="$refs.vList.scrollTo(scrollTo)"
           />
         </div>
@@ -100,8 +102,8 @@
             :max="maxSize - 1"
             input-class="text-right"
             label="Scroll to index"
-            :value="scrollToH"
-            @input="val => { scrollToH = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
+            :model-value="scrollToH"
+            @update:model-value="val => { scrollToH = Math.max(0, Math.min(maxSize - 1, parseInt(val, 10))); }"
             @change="$refs.vListH.scrollTo(scrollToH)"
           />
         </div>

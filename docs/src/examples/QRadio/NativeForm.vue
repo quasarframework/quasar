@@ -11,7 +11,12 @@
       </div>
     </q-form>
 
-    <q-card v-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
+    <q-card
+      v-if="submitResult.length > 0"
+      flat bordered
+      class="q-mt-md"
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'"
+    >
       <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
       <q-separator />
       <q-card-section class="row q-gutter-sm items-center">
@@ -26,27 +31,29 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const submitResult = ref([])
+
     return {
-      shape: 'line',
-      submitResult: []
-    }
-  },
+      shape: ref('line'),
+      submitResult,
 
-  methods: {
-    onSubmit (evt) {
-      const formData = new FormData(evt.target)
-      const submitResult = []
+      onSubmit (evt) {
+        const formData = new FormData(evt.target)
+        const data = []
 
-      for (const [ name, value ] of formData.entries()) {
-        submitResult.push({
-          name,
-          value
-        })
+        for (const [ name, value ] of formData.entries()) {
+          data.push({
+            name,
+            value
+          })
+        }
+
+        submitResult.value = data
       }
-
-      this.submitResult = submitResult
     }
   }
 }

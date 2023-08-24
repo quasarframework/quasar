@@ -17,11 +17,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Field content',
-      loadingState: false
+      text: ref('Field content'),
+      loadingState: ref(false)
     }
   }
 }

@@ -55,7 +55,7 @@
           <q-space />
 
           <q-btn dense flat icon="close" v-close-popup>
-            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            <q-tooltip class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>
 
@@ -73,7 +73,7 @@
       <q-card>
         <q-toolbar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
 
           <q-toolbar-title><span class="text-weight-bold">Quasar</span> Framework</q-toolbar-title>
@@ -90,13 +90,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      icon: false,
-      bar: false,
-      bar2: false,
-      toolbar: false
+      icon: ref(false),
+      bar: ref(false),
+      bar2: ref(false),
+      toolbar: ref(false)
     }
   }
 }

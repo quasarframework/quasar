@@ -50,10 +50,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      step: 2
+      step: ref(2)
     }
   }
 }

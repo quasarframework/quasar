@@ -1,5 +1,8 @@
+import { Notify } from 'quasar'
+import { slugify } from '../../build/utils.js'
+
 export function copyToClipboard (text) {
-  var textArea = document.createElement('textarea')
+  const textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
   document.body.appendChild(textArea)
@@ -19,7 +22,7 @@ export function copyHeading (id) {
   }
 
   if ('replaceState' in history) {
-    history.replaceState('', '', `${location.pathname}#${id}`)
+    history.replaceState(history.state, '', `${location.pathname}#${id}`)
   }
   else {
     window.location.hash = '#' + id
@@ -33,16 +36,12 @@ export function copyHeading (id) {
 
   copyToClipboard(text)
 
-  this.$q.notify({
+  Notify.create({
     message: 'Anchor has been copied to clipboard.',
-    color: 'white',
-    textColor: 'primary',
     position: 'top',
-    actions: [ { icon: 'close', color: 'primary', dense: true, round: true } ],
+    actions: [{ icon: 'cancel', color: 'white', dense: true, round: true }],
     timeout: 2000
   })
 }
 
-export function slugify (str) {
-  return encodeURIComponent(String(str).trim().replace(/\s+/g, '-'))
-}
+export { slugify }

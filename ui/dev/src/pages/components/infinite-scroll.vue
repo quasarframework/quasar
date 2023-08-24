@@ -19,9 +19,11 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </div>
 
-          <div slot="loading" class="row justify-center q-my-md">
-            <q-spinner color="primary" name="dots" :size="40" />
-          </div>
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" :size="40" />
+            </div>
+          </template>
         </q-infinite-scroll>
         <div v-else style="height: 300vh">
           Placeholder for scroll
@@ -37,9 +39,11 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </div>
 
-          <div slot="loading" class="row justify-center q-my-md">
-            <q-spinner color="primary" name="dots" :size="40" />
-          </div>
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md">
+              <q-spinner-dots color="primary" :size="40" />
+            </div>
+          </template>
         </q-infinite-scroll>
         <div v-else style="height: 300vh">
           Placeholder for scroll
@@ -50,7 +54,7 @@
         <q-infinite-scroll @load="loadReverse" :disable="disable" :reverse="reverse === false" v-if="active" scroll-target="#reverse-target">
           <template v-slot:loading>
             <div class="row justify-center q-my-md">
-              <q-spinner color="primary" name="dots" size="40px" />
+              <q-spinner-dots color="primary" size="40px" />
             </div>
           </template>
 
@@ -73,9 +77,9 @@
 export default {
   data () {
     return {
-      itemsReverse: [{}, {}, {}, {}, {}],
-      itemsRef: [{}, {}, {}, {}, {}],
-      itemsId: [{}, {}, {}, {}, {}],
+      itemsReverse: [ {}, {}, {}, {}, {} ],
+      itemsRef: [ {}, {}, {}, {}, {} ],
+      itemsId: [ {}, {}, {}, {}, {} ],
       disable: false,
       container: false,
       reverse: false,
@@ -89,7 +93,7 @@ export default {
   },
   methods: {
     loadReverse (index, done) {
-      console.log('load reverse called')
+      console.log('load reverse called', index)
       setTimeout(() => {
         this.itemsReverse.splice(0, 0, {}, {}, {}, {}, {}, {}, {})
         done()
@@ -97,7 +101,7 @@ export default {
     },
 
     loadRef (index, done) {
-      console.log('load ref called')
+      console.log('load ref called', index)
       setTimeout(() => {
         this.itemsRef.push({}, {}, {}, {}, {}, {}, {})
         done()
@@ -105,7 +109,7 @@ export default {
     },
 
     loadId (index, done) {
-      console.log('load id called')
+      console.log('load id called', index)
       setTimeout(() => {
         this.itemsId.push({}, {}, {}, {}, {}, {}, {})
         done()

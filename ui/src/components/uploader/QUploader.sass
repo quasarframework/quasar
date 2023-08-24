@@ -22,7 +22,7 @@
     &::-webkit-file-upload-button
       cursor: pointer
 
-  &__header, &__file
+  &__file
     &:before
       content: ''
       border-top-left-radius: inherit
@@ -40,8 +40,7 @@
     position: relative
     border-top-left-radius: inherit
     border-top-right-radius: inherit
-    background-color: $primary
-    background-color: var(--q-color-primary)
+    background-color: var(--q-primary)
     color: #fff
     width: 100%
 
@@ -126,6 +125,7 @@
 
   &--dark
     border-color: $separator-dark-color
+    box-shadow: $dark-shadow-2
 
     .q-uploader__file
       border-color: $separator-dark-color

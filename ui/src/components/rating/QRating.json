@@ -1,26 +1,21 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": [ "composables/private/use-size", "composables/private/use-form" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/rating"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/rating"
   },
 
   "props": {
-    "value": {
-      "extends": "value",
+    "model-value": {
+      "extends": "model-value",
       "type": "Number",
-      "examples": [ ":value=\"2\"" ]
+      "examples": [ "v-model=\"rating\"", ":model-value=\"rating\"", ":model-value=\"2\"" ]
     },
 
     "max": {
       "type": [ "Number", "String" ],
       "desc": "Number of icons to display",
       "default": 5,
-      "examples": [ "3", ":max=\"5\"" ],
       "category": "general"
     },
 
@@ -30,8 +25,8 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
       ],
       "category": "content"
     },
@@ -42,11 +37,10 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.1.0"
+      "category": "content"
     },
 
     "icon-half": {
@@ -55,11 +49,21 @@
       "examples": [
         "map",
         "ion-add",
-        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
-        "img:statics/path/to/some_image.png"
+        "img:https://cdn.quasar.dev/logo-v2/svg/logo.svg",
+        "img:path/to/some_image.png"
       ],
-      "category": "content",
-      "addedIn": "v1.7.4"
+      "category": "content"
+    },
+
+    "icon-aria-label": {
+      "type": [ "String", "Array" ],
+      "desc": "Label to be set on aria-label for Icon; If an array is provided each rating value will use the corresponding aria-label in the array (0 based); If string value is provided the rating value will be appended; If not provided the name of the icon will be used",
+      "examples": [
+        "Rating",
+        "[\"Bad\", \"Normal\", \"Good\"]"
+      ],
+      "category": "accessibility",
+      "addedIn": "v1.20.3"
     },
 
     "color": {
@@ -72,22 +76,19 @@
     "color-selected": {
       "extends": "color",
       "type": [ "String", "Array" ],
-      "desc": "Color name from the Quasar Palette for selected icons",
-      "addedIn": "v1.5.0"
+      "desc": "Color name from the Quasar Palette for selected icons"
     },
 
     "color-half": {
       "extends": "color",
       "type": [ "String", "Array" ],
-      "desc": "Color name from the Quasar Palette for half selected icons",
-      "addedIn": "v1.7.4"
+      "desc": "Color name from the Quasar Palette for half selected icons"
     },
 
     "no-dimming": {
       "type": "Boolean",
       "desc": "Does not lower opacity for unselected icons",
-      "category": "style",
-      "addedIn": "v1.7.4"
+      "category": "style"
     },
 
     "no-reset": {
@@ -106,15 +107,14 @@
   },
 
   "events": {
-    "input": {
-      "extends": "input"
+    "update:model-value": {
+      "extends": "update:model-value"
     }
   },
 
   "slots": {
-    "tip-[index]": {
-      "desc": "Slot to define the tooltip of icon at '[index]' (1-based); Suggestion: QTooltip",
-      "addedIn": "v1.5.0"
+    "tip-[name]": {
+      "desc": "Slot to define the tooltip of icon at '[name]' where name is a 1-based index; Suggestion: QTooltip"
     }
   }
 }

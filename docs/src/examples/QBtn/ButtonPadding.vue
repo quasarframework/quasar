@@ -55,7 +55,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       sizes: [ 'xs', 'sm', 'md', 'lg', 'xl' ],
       icons: [

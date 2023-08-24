@@ -1,319 +1,306 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onMounted, onBeforeUnmount, Transition } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import RatioMixin from '../../mixins/ratio.js'
-import ListenersMixin from '../../mixins/listeners.js'
+import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
-import { slot } from '../../utils/slot.js'
+import { createComponent } from '../../utils/private/create.js'
+import { hSlot } from '../../utils/private/render.js'
 
-export default Vue.extend({
+const defaultRatio = 16 / 9
+
+export default createComponent({
   name: 'QImg',
 
-  mixins: [ ListenersMixin, RatioMixin ],
-
   props: {
+    ...useRatioProps,
+
     src: String,
     srcset: String,
     sizes: String,
+
     alt: String,
+    crossorigin: String,
+    decoding: String,
+    referrerpolicy: String,
+
+    draggable: Boolean,
+
+    loading: {
+      type: String,
+      default: 'lazy'
+    },
+    fetchpriority: {
+      type: String,
+      default: 'auto'
+    },
     width: String,
     height: String,
+    initialRatio: {
+      type: [ Number, String ],
+      default: defaultRatio
+    },
 
     placeholderSrc: String,
 
-    basic: Boolean,
-    contain: Boolean,
+    fit: {
+      type: String,
+      default: 'cover'
+    },
     position: {
       type: String,
       default: '50% 50%'
     },
 
-    transition: {
-      type: String,
-      default: 'fade'
-    },
-
-    imgClass: [ Array, String, Object ],
+    imgClass: String,
     imgStyle: Object,
 
-    nativeContextMenu: Boolean,
+    noSpinner: Boolean,
+    noNativeMenu: Boolean,
+    noTransition: Boolean,
 
-    noDefaultSpinner: Boolean,
     spinnerColor: String,
     spinnerSize: String
   },
 
-  data () {
-    return {
-      currentSrc: '',
-      image: null,
-      isLoading: !!this.src,
-      hasError: false,
-      naturalRatio: void 0
-    }
-  },
+  emits: [ 'load', 'error' ],
 
-  watch: {
-    src () {
-      this.__load()
-    },
+  setup (props, { slots, emit }) {
+    const naturalRatio = ref(props.initialRatio)
+    const ratioStyle = useRatio(props, naturalRatio)
 
-    srcset (val) {
-      this.__updateWatcher(val)
-    }
-  },
+    let loadTimer = null, isDestroyed = false
 
-  computed: {
-    url () {
-      return this.currentSrc || this.placeholderSrc || void 0
-    },
+    const images = [
+      ref(null),
+      ref(getPlaceholderSrc())
+    ]
 
-    attrs () {
-      const att = { role: 'img' }
-      if (this.alt !== void 0) {
-        att['aria-label'] = this.alt
-      }
-      return att
-    },
+    const position = ref(0)
 
-    imgContainerStyle () {
-      return Object.assign(
-        {
-          backgroundSize: this.contain === true ? 'contain' : 'cover',
-          backgroundPosition: this.position
-        },
-        this.imgStyle,
-        { backgroundImage: `url("${this.url}")` })
-    },
+    const isLoading = ref(false)
+    const hasError = ref(false)
 
-    style () {
-      return {
-        width: this.width,
-        height: this.height
-      }
-    },
+    const classes = computed(() =>
+      `q-img q-img--${ props.noNativeMenu === true ? 'no-' : '' }menu`
+    )
 
-    classes () {
-      return 'q-img overflow-hidden' +
-        (this.nativeContextMenu === true ? ' q-img--menu' : '')
-    }
-  },
+    const style = computed(() => ({
+      width: props.width,
+      height: props.height
+    }))
 
-  methods: {
-    __onLoad (img) {
-      this.isLoading = false
-      this.hasError = false
-      this.__computeRatio(img)
-      this.__updateSrc()
-      this.__updateWatcher(this.srcset)
-      this.$emit('load', this.currentSrc)
-    },
+    const imgClass = computed(() =>
+      `q-img__image ${ props.imgClass !== void 0 ? props.imgClass + ' ' : '' }`
+      + `q-img__image--with${ props.noTransition === true ? 'out' : '' }-transition`
+    )
 
-    __onError (err) {
-      clearTimeout(this.ratioTimer)
-      this.isLoading = false
-      this.hasError = true
-      this.currentSrc = ''
-      this.$emit('error', err)
-    },
+    const imgStyle = computed(() => ({
+      ...props.imgStyle,
+      objectFit: props.fit,
+      objectPosition: props.position
+    }))
 
-    __updateSrc () {
-      if (this.image !== void 0 && this.isLoading === false) {
-        const src = this.image.currentSrc || this.image.src
-        if (this.currentSrc !== src) {
-          this.currentSrc = src
-        }
-      }
-    },
+    watch(() => getCurrentSrc(), addImage)
 
-    __updateWatcher (srcset) {
-      if (srcset) {
-        if (this.unwatch === void 0) {
-          this.unwatch = this.$watch('$q.screen.width', this.__updateSrc)
-        }
-      }
-      else if (this.unwatch !== void 0) {
-        this.unwatch()
-        this.unwatch = void 0
-      }
-    },
-
-    __load () {
-      clearTimeout(this.ratioTimer)
-      this.hasError = false
-
-      if (!this.src) {
-        this.isLoading = false
-        this.image = void 0
-        this.currentSrc = ''
-        return
-      }
-
-      this.isLoading = true
-
-      const img = new Image()
-      this.image = img
-
-      img.onerror = err => {
-        // if we are still rendering same image
-        if (this.image === img && this.destroyed !== true) {
-          this.__onError(err)
-        }
-      }
-
-      img.onload = () => {
-        if (this.destroyed === true) {
-          return
-        }
-
-        // if we are still rendering same image
-        if (this.image === img) {
-          if (img.decode !== void 0) {
-            img
-              .decode()
-              .catch(err => {
-                if (this.image === img && this.destroyed !== true) {
-                  this.__onError(err)
-                }
-              })
-              .then(() => {
-                if (this.image === img && this.destroyed !== true) {
-                  this.__onLoad(img)
-                }
-              })
+    function getCurrentSrc () {
+      return props.src || props.srcset || props.sizes
+        ? {
+            src: props.src,
+            srcset: props.srcset,
+            sizes: props.sizes
           }
-          else {
-            this.__onLoad(img)
-          }
-        }
-      }
-
-      img.src = this.src
-
-      if (this.srcset) {
-        img.srcset = this.srcset
-      }
-
-      if (this.sizes !== void 0) {
-        img.sizes = this.sizes
-      }
-      else {
-        Object.assign(img, {
-          height: this.height,
-          width: this.width
-        })
-      }
-    },
-
-    __computeRatio (img) {
-      const { naturalHeight, naturalWidth } = img
-
-      if (naturalHeight || naturalWidth) {
-        this.naturalRatio = naturalHeight === 0
-          ? 1
-          : naturalWidth / naturalHeight
-      }
-      else {
-        this.ratioTimer = setTimeout(() => {
-          if (this.image === img && this.destroyed !== true) {
-            this.__computeRatio(img)
-          }
-        }, 100)
-      }
-    },
-
-    __getImage (h) {
-      const nativeImg = this.nativeContextMenu === true
-        ? [
-          h('img', {
-            staticClass: 'absolute-full fit',
-            attrs: { src: this.url, 'aria-hidden': 'true' }
-          })
-        ]
-        : void 0
-
-      const content = this.url !== void 0
-        ? h('div', {
-          key: this.url,
-          staticClass: 'q-img__image absolute-full',
-          class: this.imgClass,
-          style: this.imgContainerStyle
-        }, nativeImg)
         : null
+    }
 
-      return this.basic === true
-        ? content
-        : h('transition', {
-          props: { name: 'q-transition--' + this.transition }
-        }, [ content ])
-    },
+    function getPlaceholderSrc () {
+      return props.placeholderSrc !== void 0
+        ? { src: props.placeholderSrc }
+        : null
+    }
 
-    __getContent (h) {
-      const slotVm = slot(this, this.hasError === true ? 'error' : 'default')
+    function addImage (imgProps) {
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
 
-      if (this.basic === true) {
+      hasError.value = false
+
+      if (imgProps === null) {
+        isLoading.value = false
+        images[ position.value ^ 1 ].value = getPlaceholderSrc()
+      }
+      else {
+        isLoading.value = true
+      }
+
+      images[ position.value ].value = imgProps
+    }
+
+    function onLoad ({ target }) {
+      if (isDestroyed === true) { return }
+
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
+
+      naturalRatio.value = target.naturalHeight === 0
+        ? 0.5
+        : target.naturalWidth / target.naturalHeight
+
+      waitForCompleteness(target, 1)
+    }
+
+    function waitForCompleteness (target, count) {
+      // protect against running forever
+      if (isDestroyed === true || count === 1000) { return }
+
+      if (target.complete === true) {
+        onReady(target)
+      }
+      else {
+        loadTimer = setTimeout(() => {
+          loadTimer = null
+          waitForCompleteness(target, count + 1)
+        }, 50)
+      }
+    }
+
+    function onReady (img) {
+      if (isDestroyed === true) { return }
+
+      position.value = position.value ^ 1
+      images[ position.value ].value = null
+      isLoading.value = false
+      hasError.value = false
+      emit('load', img.currentSrc || img.src)
+    }
+
+    function onError (err) {
+      if (loadTimer !== null) {
+        clearTimeout(loadTimer)
+        loadTimer = null
+      }
+
+      isLoading.value = false
+      hasError.value = true
+      images[ position.value ].value = null
+      images[ position.value ^ 1 ].value = getPlaceholderSrc()
+      emit('error', err)
+    }
+
+    function getImage (index) {
+      const img = images[ index ].value
+
+      const data = {
+        key: 'img_' + index,
+        class: imgClass.value,
+        style: imgStyle.value,
+        crossorigin: props.crossorigin,
+        decoding: props.decoding,
+        referrerpolicy: props.referrerpolicy,
+        height: props.height,
+        width: props.width,
+        loading: props.loading,
+        fetchpriority: props.fetchpriority,
+        'aria-hidden': 'true',
+        draggable: props.draggable,
+        ...img
+      }
+
+      if (position.value === index) {
+        data.class += ' q-img__image--waiting'
+        Object.assign(data, { onLoad, onError })
+      }
+      else {
+        data.class += ' q-img__image--loaded'
+      }
+
+      return h(
+        'div',
+        { class: 'q-img__container absolute-full', key: 'img' + index },
+        h('img', data)
+      )
+    }
+
+    function getContent () {
+      if (isLoading.value !== true) {
         return h('div', {
           key: 'content',
-          staticClass: 'q-img__content absolute-full'
-        }, slotVm)
+          class: 'q-img__content absolute-full q-anchor--skip'
+        }, hSlot(slots[ hasError.value === true ? 'error' : 'default' ]))
       }
 
-      const content = this.isLoading === true
-        ? h('div', {
-          key: 'placeholder',
-          staticClass: 'q-img__loading absolute-full flex flex-center'
-        }, this.$scopedSlots.loading !== void 0
-          ? this.$scopedSlots.loading()
+      return h('div', {
+        key: 'loading',
+        class: 'q-img__loading absolute-full flex flex-center'
+      }, (
+        slots.loading !== void 0
+          ? slots.loading()
           : (
-            this.noDefaultSpinner === false
-              ? [
-                h(QSpinner, {
-                  props: {
-                    color: this.spinnerColor,
-                    size: this.spinnerSize
-                  }
-                })
-              ]
-              : void 0
-          )
+              props.noSpinner === true
+                ? void 0
+                : [
+                    h(QSpinner, {
+                      color: props.spinnerColor,
+                      size: props.spinnerSize
+                    })
+                  ]
+            )
+      ))
+    }
+
+    if (__QUASAR_SSR_SERVER__ !== true) {
+      if (__QUASAR_SSR_CLIENT__) {
+        onMounted(() => {
+          addImage(getCurrentSrc())
+        })
+      }
+      else {
+        addImage(getCurrentSrc())
+      }
+
+      onBeforeUnmount(() => {
+        isDestroyed = true
+
+        if (loadTimer !== null) {
+          clearTimeout(loadTimer)
+          loadTimer = null
+        }
+      })
+    }
+
+    return () => {
+      const content = []
+
+      if (ratioStyle.value !== null) {
+        content.push(
+          h('div', { key: 'filler', style: ratioStyle.value })
         )
-        : h('div', {
-          key: 'content',
-          staticClass: 'q-img__content absolute-full'
-        }, slotVm)
+      }
 
-      return h('transition', {
-        props: { name: 'q-transition--fade' }
-      }, [ content ])
+      if (hasError.value !== true) {
+        if (images[ 0 ].value !== null) {
+          content.push(getImage(0))
+        }
+
+        if (images[ 1 ].value !== null) {
+          content.push(getImage(1))
+        }
+      }
+
+      content.push(
+        h(Transition, { name: 'q-transition--fade' }, getContent)
+      )
+
+      return h('div', {
+        class: classes.value,
+        style: style.value,
+        role: 'img',
+        'aria-label': props.alt
+      }, content)
     }
-  },
-
-  render (h) {
-    return h('div', {
-      class: this.classes,
-      style: this.style,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
-    }, [
-      h('div', { style: this.ratioStyle }),
-      this.__getImage(h),
-      this.__getContent(h)
-    ])
-  },
-
-  beforeMount () {
-    if (this.placeholderSrc !== void 0 && this.ratio === void 0) {
-      const img = new Image()
-      img.src = this.placeholderSrc
-      this.__computeRatio(img)
-    }
-    this.isLoading === true && this.__load()
-  },
-
-  beforeDestroy () {
-    this.destroyed = true
-    clearTimeout(this.ratioTimer)
-    this.unwatch !== void 0 && this.unwatch()
   }
 })

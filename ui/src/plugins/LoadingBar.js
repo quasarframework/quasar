@@ -1,54 +1,77 @@
-import Vue from 'vue'
+import { h, ref } from 'vue'
 
-import { isSSR } from './Platform.js'
+import defineReactivePlugin from '../utils/private/define-reactive-plugin.js'
 import { noop } from '../utils/event.js'
-import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
+import { createGlobalNode } from '../utils/private/global-nodes.js'
+import { createChildApp } from '../install-quasar.js'
 
-export default {
-  isActive: false,
+import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
+import { isObject } from '../utils/is.js'
+
+const barRef = ref(null)
+
+const Plugin = defineReactivePlugin({
+  isActive: false
+}, {
   start: noop,
   stop: noop,
   increment: noop,
   setDefaults: noop,
 
-  install ({ $q, cfg }) {
-    if (isSSR === true) {
-      $q.loadingBar = this
+  install ({ $q, parentApp }) {
+    $q.loadingBar = this
+
+    if (__QUASAR_SSR_SERVER__) { return }
+
+    if (this.__installed === true) {
+      if ($q.config.loadingBar !== void 0) {
+        this.setDefaults($q.config.loadingBar)
+      }
       return
     }
 
-    const props = cfg.loadingBar !== void 0
-      ? { ...cfg.loadingBar }
-      : {}
+    const props = ref(
+      $q.config.loadingBar !== void 0
+        ? { ...$q.config.loadingBar }
+        : {}
+    )
 
-    const bar = $q.loadingBar = new Vue({
+    function onStart () {
+      Plugin.isActive = true
+    }
+
+    function onStop () {
+      Plugin.isActive = false
+    }
+
+    const el = createGlobalNode('q-loading-bar')
+
+    createChildApp({
       name: 'LoadingBar',
-      render: h => h(QAjaxBar, {
-        ref: 'bar',
-        props
-      })
-    }).$mount().$refs.bar
+
+      // hide App from Vue devtools
+      devtools: { hide: true },
+
+      setup: () => () => h(QAjaxBar, { ...props.value, onStart, onStop, ref: barRef })
+    }, parentApp).mount(el)
 
     Object.assign(this, {
-      start: speed => {
-        bar.start(speed)
-        this.isActive = bar.isActive = bar.calls > 0
+      start (speed) {
+        barRef.value.start(speed)
       },
-      stop: () => {
-        bar.stop()
-        this.isActive = bar.isActive = bar.calls > 0
+      stop () {
+        barRef.value.stop()
       },
-      increment: bar.increment,
-      setDefaults: opts => {
-        opts === Object(opts) && Object.assign(props, opts)
-        bar.$parent.$forceUpdate()
+      increment () {
+        barRef.value.increment.apply(null, arguments)
+      },
+      setDefaults (opts) {
+        if (isObject(opts) === true) {
+          Object.assign(props.value, opts)
+        }
       }
     })
-
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
-    Vue.util.defineReactive(bar, 'isActive', this.isActive)
-    bar.setDefaults = this.setDefaults
-
-    document.body.appendChild(bar.$parent.$el)
   }
-}
+})
+
+export default Plugin

@@ -1,0 +1,164 @@
+name: Process Created Issue
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  issue-automation:
+    permissions:
+      contents: read # to fetch code (actions/checkout)
+      issues: write # to comment and add labels to issues
+    if: >-
+      ${{
+        contains(github.event.issue.labels.*.name, 'kind/bug 🐞') ||
+        contains(github.event.issue.labels.*.name, 'kind/docs 📄')
+      }}
+    runs-on: ubuntu-latest
+    env:
+      # Mimic ternary operator, see https://github.com/actions/runner/issues/409#issuecomment-752775072
+      TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug 🐞') && 'bug' || 'docs' }}
+      TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv1') && 'v1' || 'v2' }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: stefanbuck/github-issue-parser@v3
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/${{ env.TEMPLATE_TYPE }}-report--quasar-${{ env.TEMPLATE_VERSION }}.yml
+
+      - uses: actions/github-script@v6
+        env:
+          ISSUE_MODEL: ${{ steps.issue-parser.outputs.jsonString }}
+          INVALID_REPRO_MESSAGE: |
+            Hi @${{ github.event.issue.user.login }}! 👋
+
+            It looks like you provided an invalid or unsupported reproduction URL.
+            Do not use any service other than [Codepen](https://codepen.io), [jsFiddle](https://jsfiddle.net), [StackBlitz](https://stackblitz.com), [Codesandbox](https://codesandbox.io), and [GitHub](https://github.com).
+            Make sure the URL you provided is correct and reachable. You can test it by visiting it in a private tab, another device, etc.
+            Please **edit your original post above** and provide a valid reproduction URL as explained.
+
+            Without a proper reproduction, your issue will have to get closed.
+
+            Thank you for your collaboration. 👏
+        with:
+          script: |
+            const templateType = process.env.TEMPLATE_TYPE;
+            // Use it to differentiate the behavior between different template versions, if needed
+            // const templateVersion = process.env.TEMPLATE_VERSION;
+
+            const issueModel = JSON.parse(process.env.ISSUE_MODEL);
+            const labelsToAdd = [];
+            // Strip out the extra information like package names in between parantheses, e.g. 'Webpack-based Quasar CLI (@quasar/cli | @quasar/app-webpack)' -> 'Webpack-based Quasar CLI'
+            const processValue = value => value.replace(/\s?\(.+\)$/, '');
+
+            if (issueModel.flavour) {
+              const flavourLabelMap = {
+                'Quasar CLI with Vite': 'flavour/quasar-cli-vite',
+                'Quasar CLI with Webpack': 'flavour/quasar-cli-webpack',
+                'UMD': 'flavour/umd',
+                'Vite Plugin': 'flavour/vite-plugin',
+                'Vue CLI Plugin': 'flavour/vue-cli-plugin',
+              };
+
+              const flavour = processValue(issueModel.flavour);
+              const flavourLabel = flavourLabelMap[flavour];
+
+              if (flavourLabel) {
+                labelsToAdd.push(flavourLabel);
+              }
+            }
+
+            if (issueModel.areas) {
+              const areasLabelMap = {
+                'Quasar CLI Commands/Configuration': 'area/cli',
+                'Components': 'area/components',
+                'Directives': 'area/directives',
+                'Plugins': 'area/plugins',
+                'Composables': 'area/composables',
+                'Style & Identity': 'area/style',
+                'Accessibility [a11y]': 'area/a11y',
+
+                'Project Creation': 'area/project-creation',
+                'Quasar Extras': 'area/extras',
+                'TypeScript Support': 'area/typescript',
+                'App Extension API': 'area/app-ext',
+                'Icon Genie CLI': 'area/icongenie',
+
+                'SPA Mode': 'mode/spa',
+                'SSR Mode': 'mode/ssr',
+                'PWA Mode': 'mode/pwa',
+                'Electron Mode': 'mode/electron',
+                'Cordova Mode': 'mode/cordova',
+                'Capacitor Mode': 'mode/capacitor',
+                'BEX Mode': 'mode/bex',
+              };
+
+              const areaLabels = issueModel.areas
+                .split(', ')
+                .map(rawArea => {
+                  const area = processValue(rawArea);
+                  return areasLabelMap[area];
+                })
+                .filter(Boolean);
+
+              labelsToAdd.push(...areaLabels);
+            }
+
+            if (templateType === 'bug') {
+              try {
+                const reproURL = new URL(issueModel['repro-url']);
+
+                if (reproURL.protocol !== 'https:') {
+                  throw Error();
+                }
+
+                switch(reproURL.hostname) {
+                  case 'codepen.io':
+                    if (/^\/.+\/(pen|project)\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'jsfiddle.net':
+                    if (/^\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'stackblitz.com':
+                    if (/^\/edit\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'codesandbox.io':
+                    if (/^\/s\/.+$/.test(reproURL.pathname)) {
+                      break;
+                    }
+                  case 'github.com':
+                    if (/^\/.+\/.+$/.test(reproURL.pathname)) {
+                      labelsToAdd.push('bug/1-hard-to-reproduce');
+                      break;
+                    }
+                  default:
+                    throw new Error();
+                }
+
+                labelsToAdd.push('bug/1-repro-available');
+              } catch {
+                labelsToAdd.push('bug/0-needs-info');
+              }
+            }
+
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: labelsToAdd
+              });
+            }
+
+            if (labelsToAdd.includes('bug/0-needs-info')) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: process.env.INVALID_REPRO_MESSAGE
+              });
+            }

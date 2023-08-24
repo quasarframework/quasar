@@ -4,18 +4,18 @@
       <!--
         Due to browser security policy,
         we can only read the value, but not
-        write to it, so we only have an @input listener
+        write to it, so we only have an @update:model-value listener
       -->
 
       <q-input
-        @input="val => { file = val[0] }"
+        @update:model-value="val => { file = val[0] }"
         filled
         type="file"
         hint="Native file"
       />
 
       <q-input
-        @input="val => { files = val }"
+        @update:model-value="val => { files = val }"
         multiple
         filled
         type="file"
@@ -26,11 +26,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      file: null,
-      files: null
+      file: ref(null),
+      files: ref(null)
     }
   }
 }

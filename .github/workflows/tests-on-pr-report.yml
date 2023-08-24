@@ -1,0 +1,74 @@
+name: Test results
+
+on:
+  workflow_run:
+    workflows:
+      - UI tests
+    types:
+      - completed
+
+jobs:
+  test-results:
+    name: Test Results
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion != 'skipped' }}
+
+    permissions:
+      checks: write
+
+      # for commenting the test results
+      pull-requests: write
+
+      # for using the artifacts API
+      actions: read
+
+    steps:
+      - name: Download the tests results artifacts
+        id: results
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { readFile, writeFile, unlink } = require('node:fs/promises');
+            const { resolve } = require('node:path');
+            const __dirname = process.env.GITHUB_WORKSPACE;
+
+            const { data: { artifacts } } = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.payload.workflow_run.id,
+            });
+
+            const resultArtifacts = artifacts.filter(({ name }) => name.startsWith('test-results-'));
+            for (const artifact of resultArtifacts) {
+              const { data: artifactData } = await github.rest.actions.downloadArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id,
+                archive_format: 'zip',
+              });
+              const zipPath = resolve(__dirname, './test-results.zip');
+              await writeFile(zipPath, Buffer.from(artifactData));
+              await exec.exec('unzip', [zipPath, '-d', './test-results']);
+              await unlink(zipPath);
+            }
+
+            const eventDataArtifact = artifacts.find(({ name }) => name === 'event-data');
+            const { data: eventDataArtifactData } = await github.rest.actions.downloadArtifact({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              artifact_id: eventDataArtifact.id,
+              archive_format: 'zip',
+            });
+            const eventDataZipPath = resolve(__dirname, './event-data.zip');
+            await writeFile(eventDataZipPath, Buffer.from(eventDataArtifactData));
+            await exec.exec('unzip', [eventDataZipPath, '-d', './event-data']);
+            await unlink(eventDataZipPath);
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          commit: ${{ github.event.workflow_run.head_sha }}
+          event_file: event-data/event.json
+          event_name: ${{ github.event.workflow_run.event }}
+          files: 'test-results/*.json'
+          check_name: 'UI Tests Results'

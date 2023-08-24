@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md column items-start q-gutter-y-md">
     <q-file
-      :value="files"
-      @input="updateFiles"
+      :model-value="files"
+      @update:model-value="updateFiles"
       label="Pick files"
       outlined
       multiple
@@ -53,71 +53,22 @@
 </template>
 
 <script>
+import { ref, computed, onBeforeUnmount } from 'vue'
+
 export default {
-  data () {
-    return {
-      files: null,
-      uploadProgress: [],
-      uploading: null
+  setup () {
+    const files = ref(null)
+    const uploadProgress = ref([])
+    const uploading = ref(null)
+
+    function cleanUp () {
+      clearTimeout(uploading.value)
     }
-  },
 
-  computed: {
-    isUploading () {
-      return this.uploading !== null
-    },
-
-    canUpload () {
-      return this.files !== null
-    }
-  },
-
-  methods: {
-    cancelFile (index) {
-      this.uploadProgress[index] = {
-        ...this.uploadProgress[index],
-        error: true,
-        color: 'orange-2'
-      }
-    },
-
-    updateFiles (files) {
-      this.files = files
-      this.uploadProgress = (files || []).map(file => ({
-        error: false,
-        color: 'green-2',
-        percent: 0,
-        icon: file.type.indexOf('video/') === 0
-          ? 'movie'
-          : (file.type.indexOf('image/') === 0
-            ? 'photo'
-            : (file.type.indexOf('audio/') === 0
-              ? 'audiotrack'
-              : 'insert_drive_file'
-            )
-          )
-      }))
-    },
-
-    upload () {
-      clearTimeout(this.uploading)
-
-      const allDone = this.uploadProgress.every(progress => progress.percent === 1)
-
-      this.uploadProgress = this.uploadProgress.map(progress => ({
-        ...progress,
-        error: false,
-        color: 'green-2',
-        percent: allDone === true ? 0 : progress.percent
-      }))
-
-      this.__updateUploadProgress()
-    },
-
-    __updateUploadProgress () {
+    function updateUploadProgress () {
       let done = true
 
-      this.uploadProgress = this.uploadProgress.map(progress => {
+      uploadProgress.value = uploadProgress.value.map(progress => {
         if (progress.percent === 1 || progress.error === true) {
           return progress
         }
@@ -137,14 +88,62 @@ export default {
         }
       })
 
-      this.uploading = done !== true
-        ? setTimeout(this.__updateUploadProgress, 300)
+      uploading.value = done !== true
+        ? setTimeout(updateUploadProgress, 300)
         : null
     }
-  },
 
-  beforeDestroy () {
-    clearTimeout(this.uploading)
+    onBeforeUnmount(cleanUp)
+
+    return {
+      files,
+      uploadProgress,
+      uploading,
+
+      isUploading: computed(() => uploading.value !== null),
+      canUpload: computed(() => files.value !== null),
+
+      cancelFile (index) {
+        this.uploadProgress[ index ] = {
+          ...this.uploadProgress[ index ],
+          error: true,
+          color: 'orange-2'
+        }
+      },
+
+      updateFiles (newFiles) {
+        files.value = newFiles
+        uploadProgress.value = (newFiles || []).map(file => ({
+          error: false,
+          color: 'green-2',
+          percent: 0,
+          icon: file.type.indexOf('video/') === 0
+            ? 'movie'
+            : (file.type.indexOf('image/') === 0
+                ? 'photo'
+                : (file.type.indexOf('audio/') === 0
+                    ? 'audiotrack'
+                    : 'insert_drive_file'
+                  )
+              )
+        }))
+      },
+
+      upload () {
+        cleanUp()
+
+        const allDone = uploadProgress.value.every(progress => progress.percent === 1)
+
+        uploadProgress.value = uploadProgress.value.map(progress => ({
+          ...progress,
+          error: false,
+          color: 'green-2',
+          percent: allDone === true ? 0 : progress.percent
+        }))
+
+        updateUploadProgress()
+      }
+    }
   }
 }
 </script>

@@ -29,17 +29,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      test: '',
-      submitting: false
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    simulateSubmit () {
-      this.submitting = true
+export default {
+  setup () {
+    const test = ref('')
+    const submitting = ref(false)
+
+    function simulateSubmit () {
+      submitting.value = true
 
       // Simulating a delay here.
       // When we are done, we reset "submitting"
@@ -48,8 +46,14 @@ export default {
       setTimeout(() => {
         // delay simulated, we are done,
         // now restoring submit to its initial state
-        this.submitting = false
+        submitting.value = false
       }, 3000)
+    }
+
+    return {
+      test,
+      submitting,
+      simulateSubmit
     }
   }
 }

@@ -50,37 +50,39 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ]
 
 export default {
-  data () {
+  setup () {
+    const options = ref(stringOptions)
+
     return {
-      model: null,
-      options: stringOptions
-    }
-  },
+      model: ref(null),
+      options,
 
-  methods: {
-    filterFn (val, update, abort) {
-      // call abort() at any time if you can't retrieve data somehow
+      filterFn (val, update, abort) {
+        // call abort() at any time if you can't retrieve data somehow
 
-      setTimeout(() => {
-        update(() => {
-          if (val === '') {
-            this.options = stringOptions
-          }
-          else {
-            const needle = val.toLowerCase()
-            this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-          }
-        })
-      }, 1500)
-    },
+        setTimeout(() => {
+          update(() => {
+            if (val === '') {
+              options.value = stringOptions
+            }
+            else {
+              const needle = val.toLowerCase()
+              options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+            }
+          })
+        }, 1500)
+      },
 
-    abortFilterFn () {
-      // console.log('delayed filter aborted')
+      abortFilterFn () {
+        // console.log('delayed filter aborted')
+      }
     }
   }
 }

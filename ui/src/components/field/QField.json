@@ -1,20 +1,25 @@
 {
-  "mixins": [ "components/field/__QField" ],
+  "mixins": [ "composables/private/use-field" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/field"
+    "docsUrl": "https://v2.quasar.dev/vue-components/field"
   },
 
   "props": {
     "maxlength": {
       "type": [ "String", "Number" ],
       "desc": "Specify a max length of model",
-      "examples": [ "12" ],
       "category": "model"
+    },
+
+    "max-values": {
+      "type": [ "Number", "String" ],
+      "desc": "Used internally by QSelect",
+      "internal": true
     }
   },
 
-  "scopedSlots": {
+  "slots": {
     "control": {
       "desc": "Slot for controls; Suggestion QSlider, QRange, QKnob, ...",
       "scope": {
@@ -24,9 +29,8 @@
           "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
         },
         "field": {
-          "type": "Object",
-          "desc": "DOM element of the field",
-          "__exemption": [ "examples" ]
+          "type": "Element",
+          "desc": "DOM element of the field"
         },
         "editable": {
           "type": "Boolean",
@@ -40,7 +44,7 @@
           "type": "Boolean",
           "desc": "Field's label is floating"
         },
-        "value": {
+        "modelValue": {
           "type": "Any",
           "desc": "Field's value",
           "examples": [ 0.241, "Text" ]
@@ -51,6 +55,7 @@
           "params": {
             "value": {
               "type": "Any",
+              "required": true,
               "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }
@@ -58,12 +63,16 @@
           "returns": null
         }
       }
+    },
+
+    "rawControl": {
+      "internal": true
     }
   },
 
   "events": {
-    "input": {
-      "extends": "input",
+    "update:model-value": {
+      "extends": "update:model-value",
       "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot."
     },
 
@@ -71,9 +80,7 @@
       "desc": "Emitted when component gets focused",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -82,9 +89,7 @@
       "desc": "Emitted when component loses focus",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     }

@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div class="row items-start q-gutter-md">
       <q-responsive :ratio="4/3" class="col" style="max-height: 100px">
-        <q-card class="column">
+        <q-card class="column" flat bordered>
           <q-img class="col" src="https://cdn.quasar.dev/img/parallax1.jpg" />
 
           <q-card-section>
@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slide: 1
+      slide: ref(1)
     }
   }
 }

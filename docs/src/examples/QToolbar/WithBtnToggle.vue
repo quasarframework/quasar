@@ -9,21 +9,25 @@
         v-model="model"
         flat stretch
         toggle-color="yellow"
-        :options="[
-          {label: 'One', value: 'one'},
-          {label: 'Two', value: 'two'},
-          {label: 'Three', value: 'three'}
-        ]"
+        :options="options"
       />
     </q-toolbar>
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: 'one'
+      model: ref('one'),
+
+      options: [
+        { label: 'One', value: 'one' },
+        { label: 'Two', value: 'two' },
+        { label: 'Three', value: 'three' }
+      ]
     }
   }
 }

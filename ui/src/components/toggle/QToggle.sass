@@ -46,14 +46,14 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
     min-width: 1.4em
     height: 1em
     padding: .325em .3em
+    -webkit-print-color-adjust: exact
 
     &--indet
       .q-toggle__thumb
         left: .45em
 
     &--truthy
-      color: $primary
-      color: var(--q-color-primary)
+      color: var(--q-primary)
       .q-toggle__track
         opacity: .54
       .q-toggle__thumb
@@ -73,10 +73,12 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
     .q-toggle__inner
       color: #fff
       &--truthy
-        color: $primary
-        color: var(--q-color-primary)
-    .q-toggle__thumb:before
-      opacity: .32 !important
+        color: var(--q-primary)
+    .q-toggle__thumb
+      &:after
+        box-shadow: none
+      &:before
+        opacity: .32 !important
 
   &--dense
 
@@ -130,4 +132,3 @@ body.desktop
     &:hover
       .q-toggle__thumb:before
         transform: scale3d(1.5, 1.5, 1)
-

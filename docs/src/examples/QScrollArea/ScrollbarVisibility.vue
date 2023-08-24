@@ -18,10 +18,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      visible: true
+      visible: ref(true)
     }
   }
 }

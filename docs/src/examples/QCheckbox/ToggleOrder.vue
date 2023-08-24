@@ -12,22 +12,27 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      teal: null,
-      orange: null,
-      red: true,
-      cyan: false
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    resetModels () {
-      this.teal = null
-      this.orange = null
-      this.red = true
-      this.cyan = false
+export default {
+  setup () {
+    const teal = ref(null)
+    const orange = ref(null)
+    const red = ref(true)
+    const cyan = ref(false)
+
+    return {
+      teal,
+      orange,
+      red,
+      cyan,
+
+      resetModels () {
+        teal.value = null
+        orange.value = null
+        red.value = null
+        cyan.value = null
+      }
     }
   }
 }

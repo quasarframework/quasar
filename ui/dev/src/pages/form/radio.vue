@@ -12,10 +12,16 @@
         Standalone
       </p>
       <div class="q-gutter-md">
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
-        <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:model-value="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:model-value="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:model-value="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio @change="onChange" @update:model-value="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
+      </div>
+      <div class="q-gutter-md">
+        <q-radio :checked-icon="mdiCheckboxMarkedCircleOutline" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio checked-icon="task_alt" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio checked-icon="task_alt" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        <q-radio checked-icon="task_alt" unchecked-icon="circle" @change="onChange" @update:model-value="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :dense="dense" :keep-color="keepColor" />
       </div>
 
       <p class="caption">
@@ -26,6 +32,15 @@
         :key="size"
         :size="size"
         :label="size"
+        v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
+      />
+      <div />
+      <q-radio
+        v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+        :key="size"
+        :size="size"
+        :label="size"
+        checked-icon="task_alt" unchecked-icon="circle"
         v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
       />
 
@@ -52,7 +67,7 @@
         type="radio"
         v-model="group"
         @change="onChange"
-        @input="onInput"
+        @update:model-value="onInput"
         :dark="dark" :dense="dense"
         :keep-color="keepColor"
         :options="[
@@ -134,9 +149,9 @@
             <template v-slot:control="{ id, value, emitValue }">
               <q-radio
                 :for="id"
-                :value="value"
+                :model-value="value"
                 val="opt1"
-                @input="emitValue"
+                @update:model-value="emitValue"
                 color="orange"
                 :dark="dark"
                 :dense="dense"
@@ -147,9 +162,9 @@
           <q-field v-model="option" label="Radio Opt 2 field" stack-label :dark="dark" :dense="dense" class="col">
             <template v-slot:control="{ value, emitValue }">
               <q-radio
-                :value="value"
+                :model-value="value"
                 val="opt2"
-                @input="emitValue"
+                @update:model-value="emitValue"
                 color="orange"
                 :dark="dark"
                 :dense="dense"
@@ -200,7 +215,12 @@
 </template>
 
 <script>
+import { mdiCheckboxMarkedCircleOutline } from '@quasar/extras/mdi-v6'
+
 export default {
+  created () {
+    this.mdiCheckboxMarkedCircleOutline = mdiCheckboxMarkedCircleOutline
+  },
   data () {
     return {
       option: 'opt1',
@@ -212,10 +232,10 @@ export default {
   },
   watch: {
     option (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     },
     group (val, old) {
-      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+      console.log(`Changed from ${ JSON.stringify(old) } to ${ JSON.stringify(val) }`)
     }
   },
   methods: {
@@ -223,7 +243,7 @@ export default {
       console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', JSON.stringify(val))
+      console.log('@update:model-value', JSON.stringify(val))
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <q-list dark padding bordered class="rounded-borders" style="max-width: 328px">
       <q-expansion-item
         icon="perm_identity"

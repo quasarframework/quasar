@@ -44,7 +44,7 @@
       </q-card-actions>
     </q-card>
 
-    <q-card flat bordered class="my-card bg-grey-1">
+    <q-card flat bordered class="my-card" :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-2'">
       <q-card-section>
         <div class="row items-center no-wrap">
           <div class="col">
@@ -88,7 +88,7 @@
 
 <script>
 export default {
-  data () {
+  setup () {
     return {
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     }

@@ -5,23 +5,31 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  methods: {
-    showLoading () {
-      this.$q.loading.show()
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-      // hiding in 2s
-      this.timer = setTimeout(() => {
-        this.$q.loading.hide()
-        this.timer = void 0
-      }, 2000)
-    }
-  },
+    onBeforeUnmount(() => {
+      if (timer !== void 0) {
+        clearTimeout(timer)
+        $q.loading.hide()
+      }
+    })
 
-  beforeDestroy () {
-    if (this.timer !== void 0) {
-      clearTimeout(this.timer)
-      this.$q.loading.hide()
+    return {
+      showLoading () {
+        $q.loading.show()
+
+        // hiding in 2s
+        timer = setTimeout(() => {
+          $q.loading.hide()
+          timer = void 0
+        }, 2000)
+      }
     }
   }
 }

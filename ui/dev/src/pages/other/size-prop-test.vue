@@ -51,7 +51,7 @@
         v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']"
         :key="size + 'icon'"
         :size="size"
-        :value="3"
+        :model-value="3"
         color="primary"
         icon="directions"
       />

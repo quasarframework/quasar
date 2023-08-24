@@ -122,12 +122,48 @@
           </div>
         </div>
       </div>
+
+      <p class="caption q-mt-xl">
+        Should not swipe in tab panel below if user is selecting text with the mouse:
+      </p>
+      <q-tab-panels
+        v-model="tab"
+        animated
+        swipeable
+        transition-prev="jump-up"
+        transition-next="jump-up"
+      >
+        <q-tab-panel name="mails">
+          <div class="text-h4 q-mb-md">Mails</div>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <textarea>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea>
+          <input v-model="text" />
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+        </q-tab-panel>
+
+        <q-tab-panel name="alarms">
+          <div class="text-h4 q-mb-md">Alarms</div>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <textarea>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea>
+          <input v-model="text" />
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+        </q-tab-panel>
+
+        <q-tab-panel name="movies">
+          <div class="text-h4 q-mb-md">Movies</div>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <textarea>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</textarea>
+          <input v-model="text" />
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.</p>
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </div>
 </template>
 
 <script>
-import './touch-style.styl'
+import './touch-style.sass'
 
 export default {
   data () {
@@ -138,7 +174,10 @@ export default {
       infoTest: null,
       infoTestCapture: null,
       swipeTestStopPropagation: true,
-      disable: false
+      disable: false,
+
+      tab: 'mails',
+      text: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis praesentium cumque magnam odio iure quidem, quod illum numquam possimus obcaecati commodi minima assumenda consectetur culpa fuga nulla ullam. In, libero.'
     }
   },
 

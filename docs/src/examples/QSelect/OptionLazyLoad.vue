@@ -31,35 +31,37 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ]
 
 export default {
-  data () {
+  setup () {
+    const options = ref(null)
+
     return {
-      model: null,
-      options: null
-    }
-  },
+      model: ref(null),
+      options,
 
-  methods: {
-    filterFn (val, update, abort) {
-      if (this.options !== null) {
-        // already loaded
-        update()
-        return
+      filterFn (val, update, abort) {
+        if (options.value !== null) {
+          // already loaded
+          update()
+          return
+        }
+
+        setTimeout(() => {
+          update(() => {
+            options.value = stringOptions
+          })
+        }, 2000)
+      },
+
+      abortFilterFn () {
+        // console.log('delayed filter aborted')
       }
-
-      setTimeout(() => {
-        update(() => {
-          this.options = stringOptions
-        })
-      }, 2000)
-    },
-
-    abortFilterFn () {
-      // console.log('delayed filter aborted')
     }
   }
 }

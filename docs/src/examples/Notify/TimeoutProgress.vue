@@ -5,41 +5,47 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+
 export default {
-  methods: {
-    showNotifs () {
-      this.$q.notify({
-        progress: true,
-        message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quisquam non ad sit assumenda consequuntur esse inventore officia. Corrupti reiciendis impedit vel, fugit odit quisquam quae porro exercitationem eveniet quasi.',
-        color: 'primary',
-        multiLine: true,
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } }
-        ]
-      })
+  setup () {
+    const $q = useQuasar()
 
-      setTimeout(() => {
-        this.$q.notify({
+    return {
+      showNotifs () {
+        $q.notify({
           progress: true,
-          message: 'Jim emailed you.',
-          icon: 'mail',
-          color: 'white',
-          textColor: 'primary'
-        })
-      }, 2000)
-
-      setTimeout(() => {
-        this.$q.notify({
-          progress: true,
-          message: 'Jim pinged you.',
-          color: 'purple',
+          message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quisquam non ad sit assumenda consequuntur esse inventore officia. Corrupti reiciendis impedit vel, fugit odit quisquam quae porro exercitationem eveniet quasi.',
+          color: 'primary',
+          multiLine: true,
           avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
           actions: [
             { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } }
           ]
         })
-      }, 3200)
+
+        setTimeout(() => {
+          $q.notify({
+            progress: true,
+            message: 'Jim emailed you.',
+            icon: 'mail',
+            color: 'white',
+            textColor: 'primary'
+          })
+        }, 2000)
+
+        setTimeout(() => {
+          $q.notify({
+            progress: true,
+            message: 'Jim pinged you.',
+            color: 'purple',
+            avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+            actions: [
+              { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } }
+            ]
+          })
+        }, 3200)
+      }
     }
   }
 }

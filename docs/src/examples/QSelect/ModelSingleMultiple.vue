@@ -22,11 +22,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      single: null,
-      multiple: null,
+      single: ref(null),
+      multiple: ref(null),
 
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'

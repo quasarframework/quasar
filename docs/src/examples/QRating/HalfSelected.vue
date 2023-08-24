@@ -47,20 +47,24 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      model1: 3.5,
-      model2: 2.3,
-      model3: 4.5
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    resetModels () {
-      this.model1 = 3.5
-      this.model2 = 2.3
-      this.model3 = 4.5
+export default {
+  setup () {
+    const model1 = ref(3.5)
+    const model2 = ref(2.3)
+    const model3 = ref(4.5)
+
+    return {
+      model1,
+      model2,
+      model3,
+
+      resetModels () {
+        model1.value = 3.5
+        model2.value = 2.3
+        model3.value = 4.5
+      }
     }
   }
 }

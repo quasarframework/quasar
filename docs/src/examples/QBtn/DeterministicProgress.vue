@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
     <q-btn
-      :loading="loading1"
-      :percentage="percentage1"
+      :loading="progress[0].loading"
+      :percentage="progress[0].percentage"
       color="primary"
-      @click="startComputing(1)"
+      @click="startComputing(0)"
       style="width: 150px"
     >
       Compute PI
@@ -15,22 +15,22 @@
     </q-btn>
 
     <q-btn
-      :loading="loading2"
-      :percentage="percentage2"
+      :loading="progress[1].loading"
+      :percentage="progress[1].percentage"
       round
       color="secondary"
-      @click="startComputing(2)"
+      @click="startComputing(1)"
       icon="cloud_upload"
     />
 
     <q-btn
-      :loading="loading3"
-      :percentage="percentage3"
+      :loading="progress[2].loading"
+      :percentage="progress[2].percentage"
       dark-percentage
       unelevated
       color="orange"
       text-color="grey-9"
-      @click="startComputing(3)"
+      @click="startComputing(2)"
       icon="cloud_upload"
       style="width: 100px"
     />
@@ -38,37 +38,41 @@
 </template>
 
 <script>
+import { ref, onBeforeUnmount } from 'vue'
+
 export default {
-  data () {
-    return {
-      loading1: false,
-      percentage1: 0,
+  setup () {
+    const progress = ref([
+      { loading: false, percentage: 0 },
+      { loading: false, percentage: 0 },
+      { loading: false, percentage: 0 }
+    ])
 
-      loading2: false,
-      percentage2: 0,
+    const intervals = [ null, null, null ]
 
-      loading3: false,
-      percentage3: 0
-    }
-  },
+    function startComputing (id) {
+      progress.value[ id ].loading = true
+      progress.value[ id ].percentage = 0
 
-  methods: {
-    startComputing (id) {
-      this[`loading${id}`] = true
-      this[`percentage${id}`] = 0
-      this[`interval${id}`] = setInterval(() => {
-        this[`percentage${id}`] += Math.floor(Math.random() * 8 + 10)
-        if (this[`percentage${id}`] >= 100) {
-          clearInterval(this[`interval${id}`])
-          this[`loading${id}`] = false
+      intervals[ id ] = setInterval(() => {
+        progress.value[ id ].percentage += Math.floor(Math.random() * 8 + 10)
+        if (progress.value[ id ].percentage >= 100) {
+          clearInterval(intervals[ id ])
+          progress.value[ id ].loading = false
         }
       }, 700)
     }
-  },
 
-  beforeDestroy () {
-    clearInterval(this.interval1)
-    clearInterval(this.interval2)
+    onBeforeUnmount(() => {
+      intervals.forEach(val => {
+        clearInterval(val)
+      })
+    })
+
+    return {
+      progress,
+      startComputing
+    }
   }
 }
 </script>

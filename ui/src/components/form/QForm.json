@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/form"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/form"
   },
 
   "props": {
@@ -29,8 +25,7 @@
     "greedy": {
       "type": "Boolean",
       "desc": "Validate all fields in form (by default it stops after finding the first invalid field with synchronous validation)",
-      "category": "behavior",
-      "addedIn": "v1.1.1"
+      "category": "behavior"
     }
   },
 
@@ -42,7 +37,13 @@
 
   "events": {
     "submit": {
-      "desc": "Emitted when all validations have passed when tethered to a submit button"
+      "desc": "Emitted when all validations have passed when tethered to a submit button",
+      "params": {
+        "evt": {
+          "type": [ "Event", "SubmitEvent" ],
+          "desc": "Form submission event object"
+        }
+      }
     },
 
     "reset": {
@@ -57,12 +58,10 @@
       "desc": "Emitted after a validation was triggered and at least one of the inner Quasar components models are NOT valid",
       "params": {
         "ref": {
-          "type": "Object",
-          "desc": "Vue reference to the first component that triggered the validation error",
-          "__exemption": [ "examples" ]
+          "type": "Component",
+          "desc": "Vue reference to the first component that triggered the validation error"
         }
-      },
-      "addedIn": "v1.9.9"
+      }
     }
   },
 
@@ -96,9 +95,7 @@
       "desc": "Manually trigger form validation and submit",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
@@ -107,21 +104,18 @@
       "desc": "Manually trigger form reset",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
 
     "getValidationComponents": {
-      "desc": "Get array of children vue components that support validation",
+      "desc": "Get an array of children Vue component instances that support Quasar validation API (derived from QField, or using useFormChild()/QFormChildMixin)",
       "returns": {
         "type": "Array",
-        "desc": "Vue components that support Quasar validation API",
-        "__exemption": [ "examples" ]
-      },
-      "addedIn": "v1.10.0"
+        "tsType": "QFormChildComponent",
+        "desc": "Quasar validation API-compatible Vue component instances"
+      }
     }
   }
 }

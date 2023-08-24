@@ -6,7 +6,7 @@
           <div class="self-center full-width no-outline" tabindex="0">Text is <q>{{text === null ? 'null' : text}}</q></div>
         </template>
         <template v-if="text === null" v-slot:append>
-          <q-icon name="short_text" @click.stop="text = 'Some text'" class="cursor-pointer" />
+          <q-icon name="short_text" @click.stop.prevent="text = 'Some text'" class="cursor-pointer" />
         </template>
       </q-field>
     </div>
@@ -14,10 +14,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      text: 'Some text'
+      text: ref('Some text')
     }
   }
 }

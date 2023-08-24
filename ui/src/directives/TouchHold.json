@@ -1,20 +1,19 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-hold"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/touch-hold"
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Function to call after user has hold touch/click for the specified amount of time (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Function to call after user has hold touch/click for the specified amount of time (use undefined to disable)",
     "params": {
       "details": {
         "type": "Object",
         "desc": "Event details",
         "definition": {
           "evt": {
-            "type": "Object",
-            "desc": "Original JS event Object",
-            "__exemption": [ "examples" ]
+            "extends": "evt",
+            "desc": "Original JS event Object"
           },
           "touch": {
             "type": "Boolean",
@@ -30,26 +29,23 @@
             "definition": {
               "top": {
                 "type": "Number",
-                "desc": "Vertical offset from top of window",
-                "examples": [ 235 ]
+                "desc": "Vertical offset from top of window"
               },
               "left": {
                 "type": "Number",
-                "desc": "Horizontal offset from left of window",
-                "examples": [ 235 ]
+                "desc": "Horizontal offset from left of window"
               }
             }
           },
           "duration": {
             "type": "Number",
-            "desc": "How long it took to trigger the event (in milliseconds)",
-            "examples": [ 612 ]
+            "desc": "How long it took to trigger the event (in milliseconds)"
           }
         }
       }
     },
     "returns": null,
-    "examples": [ "v-touch-hold=\"fnToCall\"", "v-touch-hold=\"void 0\"" ]
+    "examples": [ "v-touch-hold=\"fnToCall\"", "v-touch-hold=\"undefined\"" ]
   },
 
   "arg": {

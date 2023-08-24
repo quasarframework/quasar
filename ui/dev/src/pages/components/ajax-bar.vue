@@ -57,12 +57,47 @@
         </q-card-section>
       </q-card>
     </div>
-    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" />
+
+    <div class="q-ma-md row items-center q-gutter-md">
+      <q-btn label="xhr /server (trigger)" color="primary" @click="triggerXhr1" no-caps />
+      <q-btn label="xhr /second-server (NO trigger)" color="primary" @click="triggerXhr2" no-caps />
+      <div>Loading bar status: {{ loadingState }}</div>
+    </div>
+
+    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" skip-hijack />
   </div>
 </template>
 
 <script>
+import { LoadingBar } from 'quasar'
+
+function sendXhr (url) {
+  const xhr = new XMLHttpRequest()
+
+  xhr.open('GET', url, true)
+  xhr.send(null)
+
+  // setTimeout(() => {
+  //   xhr.open('GET', '/mimi', true)
+  //   xhr.send(null)
+  // }, 500)
+}
+
 export default {
+  created () {
+    LoadingBar.setDefaults({
+      hijackFilter (url) {
+        const res = /\/server/.test(url) === true
+          && /\/other-server/.test(url) === false
+
+        console.log(url, res)
+        return res
+      }
+    })
+  },
+  beforeUnmount () {
+    LoadingBar.setDefaults({ hijackFilter: void 0 })
+  },
   data () {
     return {
       position: 'top',
@@ -75,6 +110,10 @@ export default {
   computed: {
     computedSize () {
       return this.size + 'px'
+    },
+
+    loadingState () {
+      return LoadingBar.isActive === true ? 'active' : 'idle'
     }
   },
   methods: {
@@ -98,6 +137,14 @@ export default {
 
     stop () {
       this.$refs.bar.stop()
+    },
+
+    triggerXhr1 () {
+      sendXhr('https://deelay.me/5000/server')
+    },
+
+    triggerXhr2 () {
+      sendXhr('https://deelay.me/2000/second-server')
     }
   }
 }

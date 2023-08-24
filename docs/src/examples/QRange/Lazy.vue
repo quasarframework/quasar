@@ -5,7 +5,7 @@
     </q-badge>
 
     <q-range
-      :value="lazy"
+      :model-value="lazy"
       @change="val => { lazy = val }"
       :min="0"
       :max="50"
@@ -15,13 +15,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      lazy: {
+      lazy: ref({
         min: 10,
         max: 35
-      }
+      })
     }
   }
 }

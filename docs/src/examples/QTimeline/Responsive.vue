@@ -1,5 +1,5 @@
 <template>
-  <div class="q-px-lg q-pb-md">
+  <div class="q-px-lg q-py-md">
     <q-timeline :layout="layout" color="secondary">
       <q-timeline-entry heading>
         Timeline heading
@@ -86,10 +86,17 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
+
 export default {
-  computed: {
-    layout () {
-      return this.$q.screen.lt.sm ? 'dense' : (this.$q.screen.lt.md ? 'comfortable' : 'loose')
+  setup () {
+    const $q = useQuasar()
+
+    return {
+      layout: computed(() => {
+        return $q.screen.lt.sm ? 'dense' : ($q.screen.lt.md ? 'comfortable' : 'loose')
+      })
     }
   }
 }

@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      hex: '#FF00FF'
+      hex: ref('#FF00FF')
     }
   }
 }

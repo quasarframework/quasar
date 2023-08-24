@@ -1,0 +1,12 @@
+{
+  "name": "<%= pkg.name %>",
+  "version": "<%= pkg.version %>",
+  "description": "<%= pkg.description %>",
+<% if (pkg.author) { %>  "author": <%= JSON.stringify(pkg.author) %>,<% } %>
+  "private": true,
+  "dependencies": {
+    "@capacitor/app": "^5.0.0",
+    "@capacitor/cli": "^5.0.0",
+    "@capacitor/core": "^5.0.0"
+  }
+}

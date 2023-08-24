@@ -4,7 +4,7 @@
       <q-header elevated>
         <q-toolbar>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
           </q-avatar>
           <q-toolbar-title>
             <strong>Quasar</strong> Framework

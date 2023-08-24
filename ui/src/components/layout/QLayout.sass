@@ -1,5 +1,6 @@
 .q-layout
   width: 100%
+  outline: 0
 
 .q-layout-container
   position: relative
@@ -26,8 +27,7 @@
     box-shadow: $layout-shadow
 
 .q-layout__section--marginal
-  background-color: $primary
-  background-color: var(--q-color-primary)
+  background-color: var(--q-primary)
   color: #fff
 
 .q-header
@@ -101,7 +101,7 @@
     .q-mini-drawer-hide, .q-expansion-item__content
       display: none
   &--mini-animate &__content
-    overflow-x: hidden
+    overflow-x: hidden !important
     white-space: nowrap
   &--standard
     .q-mini-drawer-only
@@ -173,6 +173,8 @@ body:not(.q-body--layout-animate)
 body.body--dark
   .q-header, .q-footer, .q-drawer
     border-color: $separator-dark-color
+  .q-layout__shadow:after
+    box-shadow: $layout-shadow-dark
 
 body.platform-ios
   .q-layout--containerized

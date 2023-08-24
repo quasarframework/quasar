@@ -2,15 +2,14 @@
   <q-virtual-scroll
     :items="heavyList"
     virtual-scroll-horizontal
+    v-slot="{ item, index }"
   >
-    <template v-slot="{ item, index }">
-      <div
-        :key="index"
-        :class="item.class"
-      >
-        #{{ index }} - {{ item.label }}
-      </div>
-    </template>
+    <div
+      :key="index"
+      :class="item.class"
+    >
+      #{{ index }} - {{ item.label }}
+    </div>
   </q-virtual-scroll>
 </template>
 
@@ -25,10 +24,8 @@ for (let i = 0; i < maxSize; i++) {
   })
 }
 
-Object.freeze(heavyList)
-
 export default {
-  data () {
+  setup () {
     return {
       heavyList
     }

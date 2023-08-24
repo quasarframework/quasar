@@ -1,12 +1,8 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "composables/private/use-size" ],
 
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/avatar"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/avatar"
   },
 
   "props": {

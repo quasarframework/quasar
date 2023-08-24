@@ -5,7 +5,7 @@
         <q-tabs
           v-model="tab"
           dense
-          class="bg-grey-3 text-grey-7"
+          class="bg-grey-2 text-grey-7"
           active-color="primary"
           indicator-color="purple"
           align="justify"
@@ -47,18 +47,18 @@
 
         <q-separator />
 
-        <q-tab-panels v-model="tab" animated class="bg-purple-1 text-center">
+        <q-tab-panels v-model="tab" animated class="bg-orange-1 text-dark text-center">
           <q-tab-panel name="mails">
             <div class="text-h6">Mails</div>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </q-tab-panel>
 
-          <q-tab-panel name="alarms" class="bg-purple-2">
+          <q-tab-panel name="alarms" class="bg-grey-9 text-white">
             <div class="text-h6">Alarms</div>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </q-tab-panel>
 
-          <q-tab-panel name="movies">
+          <q-tab-panel name="movies" class="bg-lime-1 text-dark">
             <div class="text-h6">Movies</div>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
           </q-tab-panel>
@@ -69,10 +69,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'mails'
+      tab: ref('mails')
     }
   }
 }

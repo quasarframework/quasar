@@ -34,9 +34,9 @@
           </div>
         </template>
 
-        <q-item class="bg-grey-3">
+        <q-item class="bg-grey-9 text-white">
           <q-item-section avatar>
-            <q-icon color="purple" name="event" />
+            <q-icon color="amber" name="event" />
           </q-item-section>
           <q-item-section>Custom colors 2</q-item-section>
         </q-item>
@@ -47,27 +47,35 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { onBeforeUnmount } from 'vue'
+
 export default {
-  methods: {
-    onLeft ({ reset }) {
-      this.$q.notify('Left action triggered. Resetting in 1 second.')
-      this.finalize(reset)
-    },
+  setup () {
+    const $q = useQuasar()
+    let timer
 
-    onRight ({ reset }) {
-      this.$q.notify('Right action triggered. Resetting in 1 second.')
-      this.finalize(reset)
-    },
-
-    finalize (reset) {
-      this.timer = setTimeout(() => {
+    function finalize (reset) {
+      timer = setTimeout(() => {
         reset()
       }, 1000)
     }
-  },
 
-  beforeDestroy () {
-    clearTimeout(this.timer)
+    onBeforeUnmount(() => {
+      clearTimeout(timer)
+    })
+
+    return {
+      onLeft ({ reset }) {
+        $q.notify('Left action triggered. Resetting in 1 second.')
+        finalize(reset)
+      },
+
+      onRight ({ reset }) {
+        $q.notify('Right action triggered. Resetting in 1 second.')
+        finalize(reset)
+      }
+    }
   }
 }
 </script>

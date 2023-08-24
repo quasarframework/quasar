@@ -24,11 +24,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      dialog: false,
-      cancelEnabled: false
+      dialog: ref(false),
+      cancelEnabled: ref(false)
     }
   }
 }

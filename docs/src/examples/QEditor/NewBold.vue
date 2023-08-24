@@ -8,11 +8,14 @@
     />
   </div>
 </template>
+
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      editor: 'Here we are overriding the <b>bold</b> command to include a label instead of an icon and also changing its tooltip.'
+      editor: ref('Here we are overriding the <b>bold</b> command to include a label instead of an icon and also changing its tooltip.')
     }
   }
 }

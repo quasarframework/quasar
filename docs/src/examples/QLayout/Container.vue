@@ -1,7 +1,13 @@
 <template>
   <div class="q-pa-md">
-    <q-layout view="lhh LpR lff" container style="height: 500px" class="shadow-2 rounded-borders">
-      <q-header reveal class="bg-black">
+    <q-layout
+      view="lhh LpR lff"
+      container
+      style="height: 500px"
+      class="shadow-2 rounded-borders"
+      :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+    >
+      <q-header reveal :class="$q.dark.isActive ? 'bg-secondary' : 'bg-black'">
         <q-toolbar>
           <q-btn flat @click="drawerLeft = !drawerLeft" round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>
@@ -20,7 +26,6 @@
         :width="200"
         :breakpoint="700"
         bordered
-        content-class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -35,7 +40,6 @@
         bordered
         :width="200"
         :breakpoint="500"
-        content-class="bg-grey-3"
       >
         <q-scroll-area class="fit">
           <div class="q-pa-sm">
@@ -63,7 +67,7 @@
             <q-btn round color="primary" icon="arrow_forward" class="rotate-45" />
           </q-page-sticky>
 
-          <q-page-sticky position="top" expand class="bg-accent text-white">
+          <q-page-sticky position="top" expand class="bg-primary text-white">
             <q-toolbar>
               <q-btn flat round dense icon="map" />
               <q-toolbar-title>Title</q-toolbar-title>
@@ -80,11 +84,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      drawerLeft: false,
-      drawerRight: true
+      drawerLeft: ref(false),
+      drawerRight: ref(true)
     }
   }
 }

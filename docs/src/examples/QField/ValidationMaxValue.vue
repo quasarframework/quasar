@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <q-field
-      ref="slider"
+      ref="fieldRef"
       filled
-      :value="slider"
+      :model-value="slider"
       label="Maximum 60"
       stack-label
       :rules="[ val => val <= 60 || 'Please set value to maximum 60' ]"
@@ -18,16 +18,19 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      slider: 50
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    reset () {
-      this.$refs.slider.resetValidation()
+export default {
+  setup () {
+    const fieldRef = ref(null)
+
+    return {
+      slider: ref(50),
+      fieldRef,
+
+      reset () {
+        fieldRef.value.resetValidation()
+      }
     }
   }
 }

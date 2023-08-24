@@ -1,12 +1,6 @@
 {
-  "mixins": [ "mixins/tag" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/card"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/vue-components/card"
   },
 
   "props": {
@@ -27,8 +21,9 @@
     },
 
     "tag": {
-      "examples": [ "div", "form" ],
-      "addedIn": "v1.8.4"
+      "extends": "tag",
+      "default": "div",
+      "examples": [ "div", "form" ]
     }
   },
 

@@ -1,0 +1,23 @@
+{
+  <% if (needOrgName) { %>"name": "@<%= orgName %>/quasar-app-extension-<%= name %>",
+  <% } else { %>"name": "quasar-app-extension-<%= name %>",<% } %>
+  "version": "0.0.1",
+  "description": "<%= description %>",
+  "author": "<%= author %>",
+  "license": "<%= license %>",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "<%= repositoryType %>",
+    "url": "<%= repositoryURL %>"
+  },
+  "bugs": "<%= bugs %>",
+  "homepage": "<%= homepage %>",
+  "engines": {
+    "node": ">= 12.2.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  }
+}

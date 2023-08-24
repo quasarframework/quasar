@@ -17,7 +17,7 @@
 
     <br><br>
 
-    <q-tabs inverted align="center" v-model="tab" @input="onInput" @select="onSelect">
+    <q-tabs inverted align="center" v-model="tab" @update:model-value="onInput" @select="onSelect">
       <q-tab name="one" label="One" @select="onTabSelect" />
       <q-tab name="two" label="Two" @select="onTabSelect" />
       <q-tab name="three" label="Three" @select="onTabSelect" />
@@ -27,7 +27,7 @@
     </q-tabs>
     <br>
 
-    <q-tabs inverted @input="onInput" @select="onSelect">
+    <q-tabs inverted @update:model-value="onInput" @select="onSelect">
       <q-tab name="one" label="One" @select="onTabSelect" />
       <q-tab name="two" label="Two" @select="onTabSelect" />
       <q-tab name="three" label="Three" @select="onTabSelect" />
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     onInput (val) {
-      console.log('@input', val)
+      console.log('@update:model-value', val)
     },
     onSelect (val) {
       console.log('@select', val)

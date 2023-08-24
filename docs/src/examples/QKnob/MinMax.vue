@@ -61,14 +61,16 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      value1: 6,
-      value2: 70,
-      value3: 102,
-      value4: 35,
-      value5: 95
+      value1: ref(6),
+      value2: ref(70),
+      value3: ref(102),
+      value4: ref(35),
+      value5: ref(95)
     }
   }
 }

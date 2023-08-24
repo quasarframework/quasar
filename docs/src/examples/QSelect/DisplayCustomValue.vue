@@ -18,7 +18,7 @@
             v-if="model !== null"
             class="cursor-pointer"
             name="clear"
-            @click.stop="model = null"
+            @click.stop.prevent="model = null"
           />
         </template>
       </q-select>
@@ -27,10 +27,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      model: 'Twitter',
+      model: ref('Twitter'),
       options: [
         'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
       ]

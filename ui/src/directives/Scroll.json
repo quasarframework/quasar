@@ -1,24 +1,22 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-directives/scroll"
+    "docsUrl": "https://v2.quasar.dev/vue-directives/scroll"
   },
 
   "value": {
-    "type": "Function",
-    "desc": "Function to call when scrolling occurs (use a non-function to disable)",
+    "type": ["Function", "undefined"],
+    "desc": "Function to call when scrolling occurs (use undefined to disable)",
     "params": {
       "verticalScrollPosition": {
         "type": "Number",
-        "desc": "Scroll offset from top",
-        "examples": [ 350 ]
+        "desc": "Scroll offset from top"
       },
       "horizontalScrollPosition": {
         "type": "Number",
-        "desc": "Scroll offset from left",
-        "examples": [ 350 ]
+        "desc": "Scroll offset from left"
       }
     },
     "returns": null,
-    "examples": [ "v-scroll=\"fnToCall\"", "v-scroll=\"void 0\"" ]
+    "examples": [ "v-scroll=\"fnToCall\"", "v-scroll=\"undefined\"" ]
   }
 }

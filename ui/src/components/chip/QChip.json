@@ -1,8 +1,6 @@
 {
-  "mixins": [ "mixins/ripple" ],
-
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/chip"
+    "docsUrl": "https://v2.quasar.dev/vue-components/chip"
   },
 
   "props": {
@@ -14,13 +12,11 @@
       "type": "String",
       "desc": "QChip size name or a CSS unit including unit name",
       "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
-      "category": "style",
-      "addedIn": "v1.2.2"
+      "category": "style"
     },
 
     "dark": {
-      "extends": "dark",
-      "addedIn": "v1.3.0"
+      "extends": "dark"
     },
 
     "icon": {
@@ -36,8 +32,7 @@
     },
 
     "icon-selected": {
-      "extends": "icon",
-      "addedIn": "v1.14.6"
+      "extends": "icon"
     },
 
     "label": {
@@ -55,17 +50,21 @@
       "extends": "text-color"
     },
 
-    "value": {
+    "model-value": {
+      "extends": "model-value",
       "type": "Boolean",
       "desc": "Model of the component determining if QChip should be rendered or not",
-      "default": true,
-      "category": "model"
+      "required": false,
+      "default": true
     },
 
     "selected": {
       "type": "Boolean",
       "sync": true,
       "desc": "Model for QChip if it's selected or not",
+      "examples": [
+        "v-model:selected=\"myState\""
+      ],
       "category": "model"
     },
 
@@ -92,6 +91,18 @@
       "category": "state"
     },
 
+    "ripple": {
+      "extends": "ripple"
+    },
+
+    "remove-aria-label": {
+      "type": "String",
+      "desc": "aria-label to be used on the remove icon",
+      "examples": [ "Remove item" ],
+      "category": "accessibility",
+      "addedIn": "v2.8.4"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     },
@@ -112,15 +123,13 @@
       "desc": "Emitted on QChip click if 'clickable' property is set",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object",
-          "__exemption": [ "examples" ]
+          "extends": "evt"
         }
       }
     },
 
     "update:selected": {
-      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "desc": "Used by Vue on 'v-model:selected' for updating its value",
       "params": {
         "state": {
           "type": "Boolean",

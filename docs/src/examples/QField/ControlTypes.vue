@@ -4,13 +4,13 @@
       <q-field
         filled
         :hint="`Slider with value ${ slider }`"
-        :value="slider"
-        @input="val => (val === null && (slider = 50))"
+        :model-value="slider"
+        @update:model-value="val => (val === null && (slider = 50))"
         clearable
       >
         <template v-slot:control>
           <q-slider
-            :value="slider"
+            :model-value="slider"
             @change="val => { slider = val }"
             :min="0"
             :max="100"
@@ -24,13 +24,13 @@
       <q-field
         filled
         :hint="`Range between ${ range.min } and ${ range.max }`"
-        :value="range"
-        @input="val => (val === null && (range = { min: 0, max: 100}))"
+        :model-value="range"
+        @update:model-value="val => (val === null && (range = { min: 0, max: 100}))"
         clearable
       >
         <template v-slot:control>
           <q-range
-            :value="range"
+            :model-value="range"
             @change="val => { range = val }"
             :min="0"
             :max="100"
@@ -41,14 +41,14 @@
       <q-field
         filled
         :hint="`Knob with value ${ knob }`"
-        :value="knob"
-        @input="val => (val === null && (knob = 50))"
+        :model-value="knob"
+        @update:model-value="val => (val === null && (knob = 50))"
         clearable
       >
         <template v-slot:control>
           <div class="full-width">
             <q-knob
-              :value="knob"
+              :model-value="knob"
               @change="val => { knob = val }"
               :min="0"
               :max="100"
@@ -79,19 +79,21 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      slider: 50,
-      range: {
+      slider: ref(50),
+      range: ref({
         min: 10,
         max: 30
-      },
+      }),
 
-      knob: 50,
+      knob: ref(50),
 
-      time: '',
-      date: ''
+      time: ref(''),
+      date: ref('')
     }
   }
 }

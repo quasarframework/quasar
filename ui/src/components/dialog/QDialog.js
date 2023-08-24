@@ -1,16 +1,19 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, Transition, getCurrentInstance } from 'vue'
 
-import HistoryMixin from '../../mixins/history.js'
-import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PortalMixin from '../../mixins/portal.js'
-import PreventScrollMixin from '../../mixins/prevent-scroll.js'
-import AttrsMixin, { ariaHidden } from '../../mixins/attrs.js'
+import useHistory from '../../composables/private/use-history.js'
+import useTimeout from '../../composables/private/use-timeout.js'
+import useTick from '../../composables/private/use-tick.js'
+import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
+import useTransition, { useTransitionProps } from '../../composables/private/use-transition.js'
+import usePortal from '../../composables/private/use-portal.js'
+import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
 
+import { createComponent } from '../../utils/private/create.js'
 import { childHasFocus } from '../../utils/dom.js'
-import EscapeKey from '../../utils/escape-key.js'
-import { slot } from '../../utils/slot.js'
-import { create, stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
+import { hSlot } from '../../utils/private/render.js'
+import { addEscapeKey, removeEscapeKey } from '../../utils/private/escape-key.js'
+import { addFocusout, removeFocusout } from '../../utils/private/focusout.js'
+import { addFocusFn } from '../../utils/private/focus-manager.js'
 
 let maximizedModals = 0
 
@@ -22,34 +25,36 @@ const positionClass = {
   left: 'fixed-left items-center'
 }
 
-const transitions = {
-  standard: ['scale', 'scale'],
-  top: ['slide-down', 'slide-up'],
-  bottom: ['slide-up', 'slide-down'],
-  right: ['slide-left', 'slide-right'],
-  left: ['slide-right', 'slide-left']
+const defaultTransitions = {
+  standard: [ 'scale', 'scale' ],
+  top: [ 'slide-down', 'slide-up' ],
+  bottom: [ 'slide-up', 'slide-down' ],
+  right: [ 'slide-left', 'slide-right' ],
+  left: [ 'slide-right', 'slide-left' ]
 }
 
-export default Vue.extend({
+export default createComponent({
   name: 'QDialog',
 
-  mixins: [
-    AttrsMixin,
-    HistoryMixin,
-    ModelToggleMixin,
-    PortalMixin,
-    PreventScrollMixin
-  ],
+  inheritAttrs: false,
 
   props: {
+    ...useModelToggleProps,
+    ...useTransitionProps,
+
+    transitionShow: String, // override useTransitionProps
+    transitionHide: String, // override useTransitionProps
+
     persistent: Boolean,
     autoClose: Boolean,
+    allowFocusOutside: Boolean,
 
     noEscDismiss: Boolean,
     noBackdropDismiss: Boolean,
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
+    noShake: Boolean,
 
     seamless: Boolean,
 
@@ -62,157 +67,119 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'standard',
-      validator: val => val === 'standard' ||
-        ['top', 'bottom', 'left', 'right'].includes(val)
-    },
-
-    transitionShow: String,
-    transitionHide: String
-  },
-
-  data () {
-    return {
-      transitionState: this.showing
+      validator: val => val === 'standard'
+        || [ 'top', 'bottom', 'left', 'right' ].includes(val)
     }
   },
 
-  watch: {
-    showing (val) {
-      if (this.transitionShowComputed !== this.transitionHideComputed) {
-        this.$nextTick(() => {
-          this.transitionState = val
-        })
+  emits: [
+    ...useModelToggleEmits,
+    'shake', 'click', 'escapeKey'
+  ],
+
+  setup (props, { slots, emit, attrs }) {
+    const vm = getCurrentInstance()
+
+    const innerRef = ref(null)
+    const showing = ref(false)
+    const animating = ref(false)
+
+    let shakeTimeout = null, refocusTarget = null, isMaximized, avoidAutoClose
+
+    const hideOnRouteChange = computed(() =>
+      props.persistent !== true
+      && props.noRouteDismiss !== true
+      && props.seamless !== true
+    )
+
+    const { preventBodyScroll } = usePreventScroll()
+    const { registerTimeout } = useTimeout()
+    const { registerTick, removeTick } = useTick()
+
+    const { transitionProps, transitionStyle } = useTransition(
+      props,
+      () => defaultTransitions[ props.position ][ 0 ],
+      () => defaultTransitions[ props.position ][ 1 ]
+    )
+
+    const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
+      vm, innerRef, renderPortalContent, 'dialog'
+    )
+
+    const { hide } = useModelToggle({
+      showing,
+      hideOnRouteChange,
+      handleShow,
+      handleHide,
+      processOnMount: true
+    })
+
+    const { addToHistory, removeFromHistory } = useHistory(showing, hide, hideOnRouteChange)
+
+    const classes = computed(() =>
+      'q-dialog__inner flex no-pointer-events'
+      + ` q-dialog__inner--${ props.maximized === true ? 'maximized' : 'minimized' }`
+      + ` q-dialog__inner--${ props.position } ${ positionClass[ props.position ] }`
+      + (animating.value === true ? ' q-dialog__inner--animating' : '')
+      + (props.fullWidth === true ? ' q-dialog__inner--fullwidth' : '')
+      + (props.fullHeight === true ? ' q-dialog__inner--fullheight' : '')
+      + (props.square === true ? ' q-dialog__inner--square' : '')
+    )
+
+    const useBackdrop = computed(() => showing.value === true && props.seamless !== true)
+
+    const onEvents = computed(() => (
+      props.autoClose === true
+        ? { onClick: onAutoClose }
+        : {}
+    ))
+
+    const rootClasses = computed(() => [
+      'q-dialog fullscreen no-pointer-events '
+        + `q-dialog--${ useBackdrop.value === true ? 'modal' : 'seamless' }`,
+      attrs.class
+    ])
+
+    watch(() => props.maximized, state => {
+      showing.value === true && updateMaximized(state)
+    })
+
+    watch(useBackdrop, val => {
+      preventBodyScroll(val)
+
+      if (val === true) {
+        addFocusout(onFocusChange)
+        addEscapeKey(onEscapeKey)
       }
-    },
-
-    maximized (state) {
-      this.showing === true && this.__updateMaximized(state)
-    },
-
-    useBackdrop (v) {
-      this.__preventScroll(v)
-      this.__preventFocusout(v)
-    }
-  },
-
-  computed: {
-    classes () {
-      return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
-        `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
-        (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
-        (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
-        (this.square === true ? ' q-dialog__inner--square' : '')
-    },
-
-    transitionShowComputed () {
-      return 'q-transition--' + (this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow)
-    },
-
-    transitionHideComputed () {
-      return 'q-transition--' + (this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide)
-    },
-
-    transition () {
-      return this.transitionState === true
-        ? this.transitionHideComputed
-        : this.transitionShowComputed
-    },
-
-    useBackdrop () {
-      return this.showing === true && this.seamless !== true
-    },
-
-    hideOnRouteChange () {
-      return this.persistent !== true &&
-        this.noRouteDismiss !== true &&
-        this.seamless !== true
-    },
-
-    onEvents () {
-      const on = {
-        ...this.qListeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
+      else {
+        removeFocusout(onFocusChange)
+        removeEscapeKey(onEscapeKey)
       }
+    })
 
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
+    function handleShow (evt) {
+      addToHistory()
 
-      return on
-    }
-  },
-
-  methods: {
-    focus () {
-      let node = this.__getInnerNode()
-
-      if (node === void 0 || node.contains(document.activeElement) === true) {
-        return
-      }
-
-      node = node.querySelector('[autofocus], [data-autofocus]') || node
-      node.focus()
-    },
-
-    shake () {
-      this.focus()
-      this.$emit('shake')
-
-      const node = this.__getInnerNode()
-
-      if (node !== void 0) {
-        node.classList.remove('q-animate--scale')
-        node.classList.add('q-animate--scale')
-        clearTimeout(this.shakeTimeout)
-        this.shakeTimeout = setTimeout(() => {
-          node.classList.remove('q-animate--scale')
-        }, 170)
-      }
-    },
-
-    __getInnerNode () {
-      return this.__portal !== void 0 && this.__portal.$refs !== void 0
-        ? this.__portal.$refs.inner
-        : void 0
-    },
-
-    __show (evt) {
-      this.__addHistory()
-
-      // IE can have null document.activeElement
-      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
+      refocusTarget = props.noRefocus === false && document.activeElement !== null
         ? document.activeElement
-        : void 0
+        : null
 
-      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
-      this.__updateMaximized(this.maximized)
+      updateMaximized(props.maximized)
+      showPortal()
+      animating.value = true
 
-      EscapeKey.register(this, () => {
-        if (this.seamless !== true) {
-          if (this.persistent === true || this.noEscDismiss === true) {
-            this.maximized !== true && this.shake()
-          }
-          else {
-            this.$emit('escape-key')
-            this.hide()
-          }
-        }
-      })
-
-      this.__showPortal()
-
-      if (this.noFocus !== true) {
-        // IE can have null document.activeElement
+      if (props.noFocus !== true) {
         document.activeElement !== null && document.activeElement.blur()
-        this.__nextTick(this.focus)
+        registerTick(focus)
+      }
+      else {
+        removeTick()
       }
 
-      this.__setTimeout(() => {
-        if (this.$q.platform.is.ios === true) {
-          if (this.seamless !== true && document.activeElement) {
+      // should removeTimeout() if this gets removed
+      registerTimeout(() => {
+        if (vm.proxy.$q.platform.is.ios === true) {
+          if (props.seamless !== true && document.activeElement) {
             const
               { top, bottom } = document.activeElement.getBoundingClientRect(),
               { innerHeight } = window,
@@ -233,134 +200,216 @@ export default Vue.extend({
           }
 
           // required in order to avoid the "double-tap needed" issue
-          this.__portal.$el.click()
+          avoidAutoClose = true
+          innerRef.value.click()
+          avoidAutoClose = false
         }
 
-        this.$emit('show', evt)
-      }, 300)
-    },
+        showPortal(true) // done showing portal
+        animating.value = false
+        emit('show', evt)
+      }, props.transitionDuration)
+    }
 
-    __hide (evt) {
-      this.__removeHistory()
-      this.__cleanup(true)
+    function handleHide (evt) {
+      removeTick()
+      removeFromHistory()
+      cleanup(true)
+      animating.value = true
+      hidePortal()
 
-      // check null for IE
-      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
-        this.__refocusTarget.focus()
+      if (refocusTarget !== null) {
+        ((evt && evt.type.indexOf('key') === 0
+          ? refocusTarget.closest('[tabindex]:not([tabindex^="-"])')
+          : void 0
+        ) || refocusTarget).focus()
+        refocusTarget = null
       }
 
-      this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+      // should removeTimeout() if this gets removed
+      registerTimeout(() => {
+        hidePortal(true) // done hiding, now destroy
+        animating.value = false
+        emit('hide', evt)
+      }, props.transitionDuration)
+    }
 
-      this.__setTimeout(() => {
-        this.__hidePortal()
-        this.$emit('hide', evt)
-      }, 300)
-    },
+    function focus (selector) {
+      addFocusFn(() => {
+        let node = innerRef.value
 
-    __cleanup (hiding) {
-      clearTimeout(this.shakeTimeout)
+        if (node === null || node.contains(document.activeElement) === true) {
+          return
+        }
 
-      if (hiding === true || this.showing === true) {
-        EscapeKey.pop(this)
-        this.__updateMaximized(false)
+        node = (selector !== '' ? node.querySelector(selector) : null)
+          || node.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
+          || node.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')
+          || node.querySelector('[autofocus], [data-autofocus]')
+          || node
+        node.focus({ preventScroll: true })
+      })
+    }
 
-        if (this.seamless !== true) {
-          this.__preventScroll(false)
-          this.__preventFocusout(false)
+    function shake (focusTarget) {
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus({ preventScroll: true })
+      }
+      else {
+        focus()
+      }
+
+      emit('shake')
+
+      const node = innerRef.value
+
+      if (node !== null) {
+        node.classList.remove('q-animate--scale')
+        node.classList.add('q-animate--scale')
+        shakeTimeout !== null && clearTimeout(shakeTimeout)
+        shakeTimeout = setTimeout(() => {
+          shakeTimeout = null
+          if (innerRef.value !== null) {
+            node.classList.remove('q-animate--scale')
+            // some platforms (like desktop Chrome)
+            // require calling focus() again
+            focus()
+          }
+        }, 170)
+      }
+    }
+
+    function onEscapeKey () {
+      if (props.seamless !== true) {
+        if (props.persistent === true || props.noEscDismiss === true) {
+          props.maximized !== true && props.noShake !== true && shake()
+        }
+        else {
+          emit('escapeKey')
+          hide()
         }
       }
-    },
+    }
 
-    __updateMaximized (active) {
+    function cleanup (hiding) {
+      if (shakeTimeout !== null) {
+        clearTimeout(shakeTimeout)
+        shakeTimeout = null
+      }
+
+      if (hiding === true || showing.value === true) {
+        updateMaximized(false)
+
+        if (props.seamless !== true) {
+          preventBodyScroll(false)
+          removeFocusout(onFocusChange)
+          removeEscapeKey(onEscapeKey)
+        }
+      }
+
+      if (hiding !== true) {
+        refocusTarget = null
+      }
+    }
+
+    function updateMaximized (active) {
       if (active === true) {
-        if (this.isMaximized !== true) {
+        if (isMaximized !== true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
           maximizedModals++
 
-          this.isMaximized = true
+          isMaximized = true
         }
       }
-      else if (this.isMaximized === true) {
+      else if (isMaximized === true) {
         if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
 
         maximizedModals--
-        this.isMaximized = false
+        isMaximized = false
       }
-    },
+    }
 
-    __preventFocusout (state) {
-      if (this.$q.platform.is.desktop === true) {
-        const action = `${state === true ? 'add' : 'remove'}EventListener`
-        document.body[action]('focusin', this.__onFocusChange)
+    function onAutoClose (e) {
+      if (avoidAutoClose !== true) {
+        hide(e)
+        emit('click', e)
       }
-    },
+    }
 
-    __onAutoClose (e) {
-      this.hide(e)
-      this.qListeners.click !== void 0 && this.$emit('click', e)
-    },
-
-    __onBackdropClick (e) {
-      if (this.persistent !== true && this.noBackdropDismiss !== true) {
-        this.hide(e)
+    function onBackdropClick (e) {
+      if (props.persistent !== true && props.noBackdropDismiss !== true) {
+        hide(e)
       }
-      else {
-        this.shake()
+      else if (props.noShake !== true) {
+        shake()
       }
-    },
+    }
 
-    __onFocusChange (e) {
+    function onFocusChange (evt) {
       // the focus is not in a vue child component
       if (
-        this.showing === true &&
-        this.__portal !== void 0 &&
-        childHasFocus(this.__portal.$el, e.target) !== true
+        props.allowFocusOutside !== true
+        && portalIsAccessible.value === true
+        && childHasFocus(innerRef.value, evt.target) !== true
       ) {
-        this.focus()
+        focus('[tabindex]:not([tabindex="-1"])')
       }
-    },
+    }
 
-    __renderPortal (h) {
+    Object.assign(vm.proxy, {
+      // expose public methods
+      focus, shake,
+
+      // private but needed by QSelect
+      __updateRefocusTarget (target) {
+        refocusTarget = target || null
+      }
+    })
+
+    onBeforeUnmount(cleanup)
+
+    function renderPortalContent () {
       return h('div', {
-        staticClass: `q-dialog fullscreen no-pointer-events q-dialog--${this.useBackdrop === true ? 'modal' : 'seamless'}`,
-        class: this.contentClass,
-        style: this.contentStyle,
-        attrs: this.qAttrs
+        role: 'dialog',
+        'aria-modal': useBackdrop.value === true ? 'true' : 'false',
+        ...attrs,
+        class: rootClasses.value
       }, [
-        h('transition', {
-          props: { name: 'q-transition--fade' }
-        }, this.useBackdrop === true ? [
-          h('div', {
-            staticClass: 'q-dialog__backdrop fixed-full',
-            attrs: ariaHidden,
-            on: cache(this, 'bkdrop', {
-              click: this.__onBackdropClick
+        h(Transition, {
+          name: 'q-transition--fade',
+          appear: true
+        }, () => (
+          useBackdrop.value === true
+            ? h('div', {
+              class: 'q-dialog__backdrop fixed-full',
+              style: transitionStyle.value,
+              'aria-hidden': 'true',
+              tabindex: -1,
+              onClick: onBackdropClick
             })
-          })
-        ] : null),
+            : null
+        )),
 
-        h('transition', {
-          props: { name: this.transition }
-        }, [
-          this.showing === true ? h('div', {
-            ref: 'inner',
-            staticClass: 'q-dialog__inner flex no-pointer-events',
-            class: this.classes,
-            attrs: { tabindex: -1 },
-            on: this.onEvents
-          }, slot(this, 'default')) : null
-        ])
+        h(
+          Transition,
+          transitionProps.value,
+          () => (
+            showing.value === true
+              ? h('div', {
+                ref: innerRef,
+                class: classes.value,
+                style: transitionStyle.value,
+                tabindex: -1,
+                ...onEvents.value
+              }, hSlot(slots.default))
+              : null
+          )
+        )
       ])
     }
-  },
 
-  mounted () {
-    this.__processModelChange(this.value)
-  },
-
-  beforeDestroy () {
-    this.__cleanup()
+    return renderPortal
   }
 })

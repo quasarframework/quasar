@@ -1,56 +1,60 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
+    "docsUrl": "https://v2.quasar.dev/vue-components/tabs"
   },
 
-  "mixins": [ "components/tabs/QTab", "mixins/router-link" ],
-
-  "props": {
-    "to": {
-      "required": true,
-      "category": "general"
-    }
-  },
+  "mixins": [ "components/tabs/QTab", "composables/private/use-router-link" ],
 
   "events": {
     "click": {
-      "desc": "Emitted when component is clicked (activated)",
+      "desc": "Emitted when the component is clicked",
       "params": {
         "evt": {
-          "type": "Object",
-          "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
-          "__exemption": [ "examples" ]
+          "extends": "evt",
+          "desc": "JS event object; If you want to cancel navigation then call evt.preventDefault() synchronously in your event handler"
         },
-        "navigateFn": {
+        "go": {
           "type": "Function",
-          "desc": "When you need to control the time at which the tab should trigger the route navigation then set 'evt.navigate' to false and call this function; Useful if you have async work to be done before the actual route navigation",
+          "desc": "When you need to control the time at which the component should trigger the route navigation then call evt.preventDefault() synchronously and then call this function at your convenience; Useful if you have async work to be done before the actual route navigation or if you want to redirect somewhere else",
+          "required": false,
           "params": {
-            "to": {
-              "type": [ "String", "Object" ],
-              "desc": "Equivalent to Vue Router <router-link> 'to' property",
-              "examples": [
-                "/home/dashboard",
-                "{ name: 'my-route-name' }"
-              ],
-              "default": "Tab's 'to' property"
-            },
+            "opts": {
+              "type": "Object",
+              "desc": "Optional options",
+              "required": false,
+              "definition": {
+                "to": {
+                  "type": [ "String", "Object" ],
+                  "desc": "Equivalent to Vue Router <router-link> 'to' property; Specify it explicitly otherwise it will be set with same value as component's 'to' prop",
+                  "required": false,
+                  "examples": [
+                    "/home/dashboard",
+                    "{ name: 'my-route-name' }"
+                  ]
+                },
 
-            "append": {
-              "type": "Boolean",
-              "desc": "Equivalent to Vue Router <router-link> 'append' property",
-              "default": "Tab's 'append' property"
-            },
+                "replace": {
+                  "type": "Boolean",
+                  "desc": "Equivalent to Vue Router <router-link> 'replace' property; Specify it explicitly otherwise it will be set with same value as component's 'replace' prop",
+                  "required": false
+                },
 
-            "replace": {
-              "type": "Boolean",
-              "desc": "Equivalent to Vue Router <router-link> 'replace' property",
-              "default": "Tab's 'replace' property"
+                "returnRouterError": {
+                  "type": "Boolean",
+                  "desc": "Return the router error, if any; Otherwise the returned Promise will always fulfill",
+                  "required": false
+                }
+              },
+              "addedIn": "v2.9"
             }
           },
-          "returns": null
+          "returns": {
+            "type": "Promise<any>",
+            "desc": "Returns the router's navigation promise",
+            "addedIn": "v2.9"
+          }
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     }
   }
 }

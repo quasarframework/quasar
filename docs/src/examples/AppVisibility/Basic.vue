@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <p>
+    <div>
       Switch to another browser tab or app then come back here to see some changes.
-    </p>
+    </div>
 
-    <q-markup-table v-if="eventList.length > 0">
+    <q-markup-table v-if="eventList.length > 0" class="q-mt-md">
       <tbody>
         <tr v-for="evt in eventList" :key="evt.timestamp">
           <td>{{ evt.timestamp }}</td>
@@ -16,26 +16,30 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
+import { ref, watch } from 'vue'
+
 function pad (number) {
   return (number < 10 ? '0' : '') + number
 }
 
 export default {
-  data () {
-    return {
-      eventList: []
-    }
-  },
+  setup () {
+    const $q = useQuasar()
+    const eventList = ref([])
 
-  watch: {
-    '$q.appVisible' (state) {
+    watch(() => $q.appVisible, state => {
       const date = new Date()
-      this.eventList.unshift({
+      eventList.value.unshift({
         timestamp: pad(date.getHours()) + ':' +
             pad(date.getMinutes()) + ':' + pad(date.getSeconds()) + '.' +
             date.getMilliseconds(),
         label: `App became ${state ? 'visible' : 'hidden'}`
       })
+    })
+
+    return {
+      eventList
     }
   }
 }

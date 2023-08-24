@@ -1,5 +1,5 @@
 
-export const generalAnimations = [
+module.exports.generalAnimations = [
   'bounce',
   'flash',
   'flip',
@@ -17,7 +17,7 @@ export const generalAnimations = [
   'wobble'
 ]
 
-export const inAnimations = [
+module.exports.inAnimations = [
   'backInDown',
   'backInLeft',
   'backInRight',
@@ -62,7 +62,7 @@ export const inAnimations = [
   'zoomInUp'
 ]
 
-export const outAnimations = [
+module.exports.outAnimations = [
   'backOutDown',
   'backOutLeft',
   'backOutRight',

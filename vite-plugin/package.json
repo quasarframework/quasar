@@ -1,0 +1,81 @@
+{
+  "name": "@quasar/vite-plugin",
+  "version": "1.4.1",
+  "description": "Vite plugin for Quasar Framework",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./src/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./*": "./*"
+  },
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "rimraf ./dist/ && rollup --config rollup.config.js",
+    "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "test": "yarn test:unit:ci && yarn test:e2e:ci",
+    "test:unit:dev": "vitest",
+    "test:unit:ci": "vitest run",
+    "test:e2e:start:dev": "cd ./playground && yarn dev --port 9000",
+    "test:e2e:start:serve": "cd ./playground && yarn start --port 9000",
+    "test:e2e:dev": "start-test \"yarn test:e2e:start:dev\" http-get://localhost:9000 \"yarn cypress open --e2e\"",
+    "test:e2e:ci": "start-test \"yarn test:e2e:start:serve\" http-get://localhost:9000 \"yarn cypress run --e2e\""
+  },
+  "files": [
+    "dist",
+    "src",
+    "index.d.ts"
+  ],
+  "keywords": [
+    "vite-plugin",
+    "quasar",
+    "vite",
+    "vue",
+    "vuejs"
+  ],
+  "author": {
+    "name": "Razvan Stoenescu",
+    "email": "razvan.stoenescu@gmail.com",
+    "url": "https://github.com/quasarframework"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quasarframework/quasar"
+  },
+  "devDependencies": {
+    "cypress": "^12.10.0",
+    "eslint": "^8.41.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-vue": "^9.14.1",
+    "quasar": "^2.11.10",
+    "rimraf": "^3.0.1",
+    "rollup": "^2.58.0",
+    "start-server-and-test": "^2.0.0",
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
+  },
+  "peerDependencies": {
+    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "quasar": "^2.8.0",
+    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "vue": "^3.0.0"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/quasarframework/quasar/issues",
+  "homepage": "https://quasar.dev",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md bg-grey-10 text-white">
+  <div class="q-pa-md bg-grey-9 text-white">
     <div class="q-gutter-sm">
       <q-checkbox dark v-model="teal" label="Teal" color="teal" />
       <q-checkbox dark v-model="orange" label="Orange" color="orange" />
@@ -10,13 +10,15 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      teal: true,
-      orange: false,
-      red: true,
-      cyan: false
+      teal: ref(true),
+      orange: ref(false),
+      red: ref(true),
+      cyan: ref(false)
     }
   }
 }

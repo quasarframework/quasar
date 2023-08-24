@@ -7,7 +7,7 @@
       @keyup.enter="handleEditorEnter"
       @focus="logFocus('editor')"
       @blur="logBlur('editor')"
-      @input="logInput('editor')"
+      @update:model-value="logInput('editor')"
       :definitions="{
         test: {
           tip: 'Enter some text, then click this button',

@@ -1,0 +1,154 @@
+const path = require('node:path')
+const webpack = require('webpack')
+const WebpackChain = require('webpack-chain')
+
+const appPaths = require('../../app-paths.js')
+const { getBuildSystemDefine } = require('../../utils/env.js')
+const { WebpackProgressPlugin } = require('../plugin.progress.js')
+const { hasTypescript } = require('../../utils/has-typescript.js')
+const { escapeRegexString } = require('../../utils/escape-regex-string.js')
+
+function getDependenciesRegex (list) {
+  const deps = list.map(dep => { // eslint-disable-line array-callback-return
+    if (typeof dep === 'string') {
+      return path.join('node_modules', dep, '/')
+        .replace(/\\/g, '[\\\\/]') // windows support
+    }
+    if (dep instanceof RegExp) {
+      return dep.source
+    }
+  }).filter(e => e)
+
+  return new RegExp(deps.join('|'))
+}
+
+module.exports.createCustomSw = function createCustomSw (cfg, configName) {
+  const chain = new WebpackChain()
+
+  const resolveModules = [
+    'node_modules',
+    appPaths.resolve.app('node_modules')
+  ]
+
+  chain.entry('custom-sw').add(
+    appPaths.resolve.app(cfg.sourceFiles.pwaServiceWorker)
+  )
+  chain.mode(cfg.ctx.debug || cfg.ctx.dev ? 'development' : 'production')
+  chain.devtool(cfg.build.sourceMap ? cfg.build.devtool : false)
+
+  chain.output
+    .filename(cfg.pwa.swFilename)
+    .libraryTarget('commonjs2') // need it to correctly reference externalized libs
+    .path(
+      appPaths.resolve.app('.quasar/pwa')
+    )
+
+  // externalize all workbox-* deps
+  chain.externals([ /^workbox-/ ])
+
+  chain.resolve.symlinks(false)
+
+  chain.resolve.extensions
+    .merge(
+      hasTypescript === true
+        ? [ '.mjs', '.ts', '.js', '.json', '.wasm' ]
+        : [ '.mjs', '.js', '.json', '.wasm' ]
+    )
+
+  chain.resolve.modules
+    .merge(resolveModules)
+
+  chain.resolve.alias
+    .merge({
+      src: appPaths.srcDir,
+      app: appPaths.appDir
+    })
+
+  chain.resolveLoader.modules
+    .merge(resolveModules)
+
+  chain.module.rule('js-transform-quasar-imports')
+    .test(/\.(t|j)sx?$/)
+    .use('transform-quasar-imports')
+    .loader(path.join(__dirname, '../loader.js.transform-quasar-imports.js'))
+
+  if (cfg.build.transpile === true) {
+    const nodeModulesRegex = /[\\/]node_modules[\\/]/
+    const exceptionsRegex = getDependenciesRegex(
+      [ /\.vue\.js$/, 'quasar', '@babel/runtime' ]
+        .concat(cfg.build.transpileDependencies)
+    )
+
+    chain.module.rule('babel')
+      .test(/\.js$/)
+      .exclude
+      .add(filepath => (
+        // Transpile the exceptions:
+        exceptionsRegex.test(filepath) === false
+          // Don't transpile anything else in node_modules:
+          && nodeModulesRegex.test(filepath)
+      ))
+      .end()
+      .use('babel-loader')
+      .loader('babel-loader')
+      .options({
+        compact: false,
+        extends: appPaths.babelConfigFilename
+      })
+  }
+
+  if (hasTypescript === true) {
+    chain.resolve.extensions
+      .merge([ '.ts' ])
+
+    chain.module
+      .rule('typescript')
+      .test(/\.ts$/)
+      .use('ts-loader')
+      .loader('ts-loader')
+      .options({
+        onlyCompileBundledFiles: true,
+        transpileOnly: false,
+        // While `noEmit: true` is needed in the tsconfig preset to prevent VSCode errors,
+        // it prevents emitting transpiled files when run into node context
+        compilerOptions: {
+          noEmit: false
+        }
+      })
+  }
+
+  chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
+    .rule('mjs')
+    .test(/\.mjs$/)
+    .type('javascript/auto')
+    .include
+    .add(/[\\/]node_modules[\\/]/)
+
+  chain.plugin('define')
+    .use(webpack.DefinePlugin, [
+      getBuildSystemDefine({
+        buildEnv: {
+          ...cfg.build.env,
+          PWA_FALLBACK_HTML: cfg.ctx.mode.ssr === true && cfg.ctx.prod === true
+            ? cfg.ssr.pwaOfflineHtmlFilename
+            : 'index.html',
+          PWA_SERVICE_WORKER_REGEX: `${ escapeRegexString(cfg.pwa.swFilename) }$`
+        },
+        buildRawDefine: cfg.build.rawDefine,
+        fileEnv: cfg.metaConf.fileEnv
+      })
+    ])
+
+  // we include it already in cfg.build.env
+  chain.optimization
+    .nodeEnv(false)
+
+  chain.performance
+    .hints(false)
+    .maxAssetSize(500000)
+
+  chain.plugin('progress')
+    .use(WebpackProgressPlugin, [ { name: configName, cfg } ])
+
+  return chain
+}

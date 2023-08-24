@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
    <q-table
-      :data="data"
+      :rows="rows"
       :columns="columns"
       title="QDataTable with QPopupEdit"
       :rows-per-page-options="[]"
@@ -11,50 +11,50 @@
         <q-tr :props="props">
           <q-td key="desc" :props="props">
             {{ props.row.name }}
-            <q-popup-edit v-model="props.row.name" buttons>
-              <q-input v-model="props.row.name" dense autofocus counter />
+            <q-popup-edit v-model="props.row.name" buttons v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus counter @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model.number="props.row.calories" buttons>
-              <q-input type="number" v-model.number="props.row.calories" dense autofocus />
+            <q-popup-edit v-model.number="props.row.calories" buttons v-slot="scope">
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model.number="props.row.fat" buttons>
-              <q-input type="number" v-model.number="props.row.fat" dense autofocus />
+            <q-popup-edit v-model.number="props.row.fat" buttons v-slot="scope">
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
             {{ props.row.carbs }}
-            <q-popup-edit v-model.number="props.row.carbs" buttons persistent>
-              <q-input type="number" v-model.number="props.row.carbs"  dense autofocus />
+            <q-popup-edit v-model.number="props.row.carbs" buttons persistent v-slot="scope">
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="protein" :props="props">
             {{ props.row.protein }}
-            <q-popup-edit v-model.number="props.row.protein" buttons label-set="Save" label-cancel="Close">
-              <q-input type="number" v-model.number="props.row.protein" dense autofocus />
+            <q-popup-edit v-model.number="props.row.protein" buttons label-set="Save" label-cancel="Close" v-slot="scope">
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="sodium" :props="props">
             {{ props.row.sodium }}
-            <q-popup-edit v-model.number="props.row.sodium" buttons>
-              <q-input type="number" v-model.number="props.row.sodium" dense autofocus />
+            <q-popup-edit v-model.number="props.row.sodium" buttons v-slot="scope">
+              <q-input type="number" v-model.number="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="calcium" :props="props">
             {{ props.row.calcium }}
-            <q-popup-edit v-model="props.row.calcium" buttons>
-              <q-input v-model="props.row.calcium" dense autofocus />
+            <q-popup-edit v-model="props.row.calcium" buttons v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
           <q-td key="iron" :props="props">
             {{ props.row.iron }}
-            <q-popup-edit v-model="props.row.iron" buttons>
-              <q-input v-model="props.row.iron" dense autofocus />
+            <q-popup-edit v-model="props.row.iron" buttons v-slot="scope">
+              <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set" />
             </q-popup-edit>
           </q-td>
         </q-tr>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const columns = [
   { name: 'desc', align: 'left', label: 'Dessert (100g serving)', field: 'name' },
   { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
@@ -75,7 +77,7 @@ const columns = [
   { name: 'iron', label: 'Iron (%)', field: 'iron' }
 ]
 
-const data = [
+const rows = [
   {
     name: 'Frozen Yogurt',
     calories: 159,
@@ -179,9 +181,9 @@ const data = [
 ]
 
 export default {
-  data () {
+  setup () {
     return {
-      data,
+      rows: ref(rows),
       columns
     }
   }

@@ -92,6 +92,8 @@
         <div class="q-mt-sm q-gutter-md">
           <q-btn label="Show simple dialog" @click="showSimpleDialog" />
 
+          <q-btn label="Show dlg in dlg" @click="dlgInDlg1 = true" />
+
           <q-btn label="Show bottom sheet" @click="showBottomSheet" />
 
           <q-btn label="Show dialog" @click="dialog1 = true" />
@@ -269,6 +271,43 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="dlgInDlg1" persistent>
+      <q-card ref="dlgInDlg1Target">
+        <q-card-section>
+          <div class="text-h6">Inception</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis laudantium minus earum totam modi laborum illo, corporis fuga saepe animi aliquam ea enim assumenda ut nulla natus aperiam quis. Iste.
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Open another dialog" @click="dlgInDlg2 = true" />
+          <q-btn flat label="Fullscreen" @click="dlgInDlg1Fullscreen" />
+          <q-btn flat label="Show notif" @click="showNotif" />
+          <q-btn flat label="Close" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="dlgInDlg2" persistent transition-show="scale" transition-hide="scale">
+      <q-card class="bg-teal text-white" style="width: 300px" ref="dlgInDlg2Target">
+        <q-card-section>
+          <div class="text-h6">Persistent</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          Click/Tap on the backdrop.
+        </q-card-section>
+
+        <q-card-actions align="right" class="bg-white text-teal">
+          <q-btn flat label="OK" v-close-popup />
+          <q-btn flat label="Show notif" @click="showNotif" />
+          <q-btn flat label="Fullscreen" @click="dlgInDlg2Fullscreen" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -277,12 +316,15 @@ export default {
   data () {
     return {
       model: null,
-      options: ['Option 1', 'Option 2', 'Option 3'],
+      options: [ 'Option 1', 'Option 2', 'Option 3' ],
 
       dialog1: false,
       dialog2: false,
       dialog3: false,
-      dialog4: false
+      dialog4: false,
+
+      dlgInDlg1: false,
+      dlgInDlg2: false
     }
   },
   methods: {
@@ -305,17 +347,15 @@ export default {
 
     showSimpleDialog () {
       this.$q.dialog({
-        html: true,
-        parent: this.$refs.panel,
         title: 'Confirmation required',
-        message: `Are you sure?`,
+        message: 'Are you sure?',
         cancel: {
           flat: true,
-          'no-caps': true,
+          noCaps: true,
           label: 'Cancel'
         },
         ok: {
-          'no-caps': true,
+          noCaps: true,
           color: 'negative',
           label: 'Confirm'
         },
@@ -349,6 +389,20 @@ export default {
           this.showBottomSheet()
           this.fullscreenNone()
         }
+      })
+    },
+
+    dlgInDlg1Fullscreen () {
+      this.$refs.dlgInDlg1Target.$el.requestFullscreen()
+    },
+
+    dlgInDlg2Fullscreen () {
+      this.$refs.dlgInDlg2Target.$el.requestFullscreen()
+    },
+
+    showNotif () {
+      this.$q.notify({
+        message: 'Notification message'
       })
     }
   }

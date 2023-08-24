@@ -1,14 +1,16 @@
-import Vue from 'vue'
+import { h, ref, computed, watch, onBeforeUnmount, getCurrentInstance, Transition } from 'vue'
 
-import QPageSticky from '../page-sticky/QPageSticky.js'
-import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
+import usePageSticky, { usePageStickyProps } from '../page-sticky/use-page-sticky.js'
+import { getScrollTarget, setVerticalScrollPosition } from '../../utils/scroll.js'
 
-export default Vue.extend({
+import { createComponent } from '../../utils/private/create.js'
+
+export default createComponent({
   name: 'QPageScroller',
 
-  mixins: [ QPageSticky ],
-
   props: {
+    ...usePageStickyProps,
+
     scrollOffset: {
       type: Number,
       default: 1000
@@ -22,106 +24,95 @@ export default Vue.extend({
     },
 
     offset: {
-      default: () => [18, 18]
+      default: () => [ 18, 18 ]
     }
   },
 
-  inject: {
-    layout: {
-      default () {
-        console.error('QPageScroller needs to be used within a QLayout')
+  emits: [ 'click' ],
+
+  setup (props, { slots, emit }) {
+    const { proxy: { $q } } = getCurrentInstance()
+    const { $layout, getStickyContent } = usePageSticky()
+    const rootRef = ref(null)
+
+    let heightWatcher
+
+    const scrollHeight = computed(() => $layout.height.value - (
+      $layout.isContainer.value === true
+        ? $layout.containerHeight.value
+        : $q.screen.height
+    ))
+
+    function isVisible () {
+      return props.reverse === true
+        ? scrollHeight.value - $layout.scroll.value.position > props.scrollOffset
+        : $layout.scroll.value.position > props.scrollOffset
+    }
+
+    const showing = ref(isVisible())
+
+    function updateVisibility () {
+      const newVal = isVisible()
+      if (showing.value !== newVal) {
+        showing.value = newVal
       }
     }
-  },
 
-  data () {
-    return {
-      showing: this.__isVisible()
-    }
-  },
-
-  computed: {
-    height () {
-      return this.layout.container === true
-        ? this.layout.containerHeight
-        : this.layout.height
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        click: this.__onClick
-      }
-    }
-  },
-
-  watch: {
-    'layout.scroll.position' () {
-      this.__updateVisibility()
-    },
-
-    reverse: {
-      handler (val) {
-        if (val === true) {
-          if (this.heightWatcher === void 0) {
-            this.heightWatcher = this.$watch('height', this.__updateVisibility)
-          }
+    function updateReverse () {
+      if (props.reverse === true) {
+        if (heightWatcher === void 0) {
+          heightWatcher = watch(scrollHeight, updateVisibility)
         }
-        else if (this.heightWatcher !== void 0) {
-          this.__cleanup()
-        }
-      },
-      immediate: true
-    }
-  },
-
-  methods: {
-    __isVisible () {
-      return this.reverse === true
-        ? this.height - this.layout.scroll.position > this.scrollOffset
-        : this.layout.scroll.position > this.scrollOffset
-    },
-
-    __onClick (e) {
-      const target = this.layout.container === true
-        ? getScrollTarget(this.$el)
-        : getScrollTarget(this.layout.$el)
-
-      setScrollPosition(target, this.reverse === true ? this.layout.height : 0, this.duration)
-      this.$emit('click', e)
-    },
-
-    __updateVisibility () {
-      const newVal = this.__isVisible()
-      if (this.showing !== newVal) {
-        this.showing = newVal
       }
-    },
-
-    __cleanup () {
-      this.heightWatcher()
-      this.heightWatcher = void 0
+      else {
+        cleanup()
+      }
     }
-  },
 
-  render (h) {
-    return h('transition', {
-      props: { name: 'q-transition--fade' }
-    },
-    this.showing === true
-      ? [
-        h('div', {
-          staticClass: 'q-page-scroller',
-          on: this.onEvents
-        }, [
-          QPageSticky.options.render.call(this, h)
-        ])
-      ]
-      : null
+    watch($layout.scroll, updateVisibility)
+    watch(() => props.reverse, updateReverse)
+
+    function cleanup () {
+      if (heightWatcher !== void 0) {
+        heightWatcher()
+        heightWatcher = void 0
+      }
+    }
+
+    function onClick (e) {
+      const target = getScrollTarget(
+        $layout.isContainer.value === true
+          ? rootRef.value
+          : $layout.rootRef.value
+      )
+
+      setVerticalScrollPosition(
+        target,
+        props.reverse === true ? $layout.height.value : 0,
+        props.duration
+      )
+
+      emit('click', e)
+    }
+
+    function getContent () {
+      return showing.value === true
+        ? h('div', {
+          ref: rootRef,
+          class: 'q-page-scroller',
+          onClick
+        }, getStickyContent(slots))
+        : null
+    }
+
+    updateReverse()
+
+    onBeforeUnmount(cleanup)
+
+    return () => h(
+      Transition,
+      { name: 'q-transition--fade' },
+      getContent
     )
-  },
-
-  beforeDestroy () {
-    this.heightWatcher !== void 0 && this.__cleanup()
   }
 })

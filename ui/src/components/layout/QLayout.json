@@ -1,10 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/layout/layout"
-  },
-
-  "behavior": {
-    "$listeners": true
+    "docsUrl": "https://v2.quasar.dev/layout/layout"
   },
 
   "props": {
@@ -41,13 +37,13 @@
           "definition": {
             "height": {
               "type": "Number",
-              "desc": "Layout height",
-              "examples": [ 575 ]
+              "required": true,
+              "desc": "Layout height"
             },
             "width": {
               "type": "Number",
-              "desc": "Layout height",
-              "examples": [ 575 ]
+              "required": true,
+              "desc": "Layout width"
             }
           }
         }
@@ -63,22 +59,31 @@
           "definition": {
             "position": {
               "type": "Number",
-              "desc": "Scroll offset (from top)",
-              "examples": [ 575 ]
+              "required": true,
+              "desc": "Scroll offset from top (vertical)"
             },
+
             "direction": {
               "type": "String",
+              "required": true,
               "desc": "Direction of scroll",
               "values": [ "up", "down" ]
             },
             "directionChanged": {
               "type": "Boolean",
+              "required": true,
               "desc": "Has scroll direction changed since event was last emitted?"
             },
-            "inflexionPosition": {
+            "delta": {
               "type": "Number",
-              "desc": "Last scroll offset where scroll direction has changed",
-              "examples": [ 575 ]
+              "required": true,
+              "desc": "Vertical delta distance since event was last emitted"
+            },
+
+            "inflectionPoint": {
+              "type": "Number",
+              "required": true,
+              "desc": "Scroll offset from top (vertical)"
             }
           }
         }
@@ -90,8 +95,7 @@
       "params": {
         "height": {
           "type": "Number",
-          "desc": "New scroll height of layout",
-          "examples": [1442]
+          "desc": "New scroll height of layout"
         }
       }
     }

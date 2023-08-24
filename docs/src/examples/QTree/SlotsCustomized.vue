@@ -7,7 +7,7 @@
     >
       <template v-slot:header-root="prop">
         <div class="row items-center">
-          <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" class="avatar q-mr-sm">
+          <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg" class="q-mr-sm" style="width:50px;height:50px">
           <div>
             {{ prop.node.label }}
             <q-badge color="orange" class="q-ml-sm">New!</q-badge>
@@ -35,10 +35,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      customize: [
+      customize: ref([
         {
           label: 'Satisfied customers',
           header: 'root',
@@ -82,7 +84,7 @@ export default {
             }
           ]
         }
-      ]
+      ])
     }
   }
 }

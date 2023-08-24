@@ -20,10 +20,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      ratingModel: 2
+      ratingModel: ref(2)
     }
   }
 }

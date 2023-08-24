@@ -54,5 +54,4 @@ export type HasPwa<T, U = {}> = IsFeatureEnabled<"pwa", T, U>;
 
 export type HasCapacitor<T, U = {}> = IsFeatureEnabled<"capacitor", T, U>;
 export type HasCordova<T, U = {}> = IsFeatureEnabled<"cordova", T, U>;
-export type HasElectron<T, U = {}> = IsFeatureEnabled<"electron", T, U>;
 export type HasBex<T, U = {}> = IsFeatureEnabled<"bex", T, U>;

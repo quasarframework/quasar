@@ -36,12 +36,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      id: null,
-      phone: null,
-      card: null
+      id: ref(null),
+      phone: ref(null),
+      card: ref(null)
     }
   }
 }

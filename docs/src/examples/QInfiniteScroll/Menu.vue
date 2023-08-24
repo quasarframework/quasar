@@ -1,17 +1,19 @@
 <template>
   <div class="flex flex-center" style="height: 100px">
-    <q-btn color="brown" label="Menu with QInfiniteScroll">
+    <q-btn color="brown" label="Menu with QInfiniteScroll" no-caps>
       <q-menu
         anchor="bottom middle"
         self="top middle"
         :offset="[ 0, 8 ]"
-        @show="scrollTarget = $refs.scrollTargetRef"
       >
         <q-item-label header>
           Notifications
         </q-item-label>
+
+        <q-separator />
+
         <q-list ref="scrollTargetRef" class="scroll" style="max-height: 250px">
-          <q-infinite-scroll @load="onLoadMenu" :offset="250" :scroll-target="scrollTarget">
+          <q-infinite-scroll @load="onLoadMenu" :offset="250" :scroll-target="scrollTargetRef">
             <q-item v-for="(item, index) in itemsMenu" :key="index">
               <q-item-section>
                 {{ index + 1 }}. Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -33,28 +35,29 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      scrollTarget: void 0,
-      itemsMenu: [ {}, {}, {}, {}, {}, {}, {} ]
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    onLoadMenu (index, done) {
-      if (index > 1) {
-        setTimeout(() => {
-          if (this.itemsMenu) {
-            this.itemsMenu.push({}, {}, {}, {}, {}, {}, {})
+export default {
+  setup () {
+    const itemsMenu = ref([ {}, {}, {}, {}, {}, {}, {} ])
+    const scrollTargetRef = ref(null)
+
+    return {
+      itemsMenu,
+      scrollTargetRef,
+
+      onLoadMenu (index, done) {
+        if (index > 1) {
+          setTimeout(() => {
+            itemsMenu.value.push({}, {}, {}, {}, {}, {}, {})
             done()
-          }
-        }, 2000)
-      }
-      else {
-        setTimeout(() => {
-          done()
-        }, 200)
+          }, 2000)
+        }
+        else {
+          setTimeout(() => {
+            done()
+          }, 200)
+        }
       }
     }
   }

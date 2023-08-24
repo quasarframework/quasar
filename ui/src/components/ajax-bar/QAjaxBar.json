@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsUrl": "https://v1.quasar.dev/vue-components/ajax-bar"
+    "docsUrl": "https://v2.quasar.dev/vue-components/ajax-bar"
   },
 
   "props": {
@@ -9,8 +9,7 @@
       "desc": "Position within window of where QAjaxBar should be displayed",
       "default": "top",
       "values": [ "top", "right", "bottom", "left" ],
-      "examples": [ "bottom" ],
-      "category": "content"
+      "category": "style"
     },
 
     "size": {
@@ -22,16 +21,34 @@
       "extends": "color"
     },
 
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
+    },
+
     "skip-hijack": {
       "type": "Boolean",
       "desc": "Skip Ajax hijacking (not a reactive prop)",
       "category": "behavior"
     },
 
-    "reverse": {
-      "type": "Boolean",
-      "desc": "Reverse direction of progress",
-      "category": "behavior"
+    "hijack-filter": {
+      "type": "Function",
+      "desc": "Filter which URL should trigger start() + stop()",
+      "params": {
+        "url": {
+          "type": "String",
+          "desc": "The URL being triggered",
+          "examples": [ "https://some.url/path" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Should the URL received as param trigger start() + stop()?"
+      },
+      "category": "behavior",
+      "addedIn": "v2.4.5"
     }
   },
 
@@ -52,9 +69,12 @@
         "speed": {
           "type": "Number",
           "default": 300,
-          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing",
-          "examples": [ 400, 0 ]
+          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing"
         }
+      },
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions"
       }
     },
 
@@ -63,14 +83,21 @@
       "params": {
         "amount": {
           "type": "Number",
-          "desc": "Amount (0 < x <= 100) to increment with",
-          "examples": [ 1 ]
+          "desc": "Amount (0 < x <= 100) to increment with"
         }
+      },
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions"
       }
     },
 
     "stop": {
-      "desc": "Notify bar that one process you were waiting has finished"
+      "desc": "Notify bar that one process you were waiting has finished",
+      "returns": {
+        "type": "Number",
+        "desc": "Number of active simultaneous sessions"
+      }
     }
   }
 }

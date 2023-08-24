@@ -229,7 +229,7 @@
       </q-card>
 
       <q-card class="bigger">
-        <q-img :src="require('assets/donuts.png')" />
+        <q-img src="~assets/donuts.png" />
 
         <q-card-section>
           <q-btn
@@ -538,6 +538,35 @@
         </q-card-actions>
       </q-card>
 
+      <q-card flat bordered>
+        <q-img
+          src="https://cdn.quasar.dev/img/parallax2.jpg"
+        />
+
+        <q-card-section>
+          <div class="text-overline text-orange-9">Overline</div>
+          <div class="text-h5 q-mt-sm q-mb-xs">Title</div>
+          <div class="text-caption text-grey">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </div>
+        </q-card-section>
+
+        <q-card-actions>
+          <q-btn flat color="dark" label="Share" />
+          <q-btn flat color="primary" label="Book" />
+
+          <q-space />
+
+          <q-btn
+            color="grey"
+            round
+            flat
+            dense
+            icon="keyboard_arrow_down"
+          />
+        </q-card-actions>
+      </q-card>
+
       <q-card>
         <img src="~assets/mountains.jpg">
 
@@ -557,7 +586,7 @@
 
       <q-card>
         <q-img
-          :src="require('assets/parallax2.jpg')"
+          src="~assets/parallax2.jpg"
           basic
         >
           <div class="absolute-bottom text-subtitle2 text-center">
@@ -1101,13 +1130,13 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .card-examples
   .q-card
-    width 300px
+    width: 300px
   .bigger
-    width 450px
+    width: 450px
   @media (max-width $breakpoint-xs-max)
     .q-card
-      width 100%
+      width: 100%
 </style>

@@ -1,6 +1,8 @@
 ---
 title: Tab Panels
 desc: The QTabPanel Vue component is a way of displaying more information using less window real estate.
+keys: QTabPanel,QTabPanels
+examples: QTabPanels
 related:
   - /vue-components/tabs
 ---
@@ -10,8 +12,9 @@ Tab panels are a way of displaying more information using less window real estat
 Works great along with [QTabs](/vue-components/tabs) but it is not required to be used with it.
 :::
 
-## Installation
-<doc-installation :components="['QTabPanels', 'QTabPanel']" />
+<doc-api file="QTabPanels" />
+
+<doc-api file="QTabPanel" />
 
 ## Usage
 
@@ -24,13 +27,14 @@ Works great along with [QTabs](/vue-components/tabs) but it is not required to b
 Do not be mistaken by the "QTabPanels" component name. Panels do not require QTabs. They can be used as standalone too.
 :::
 
-::: danger
-Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+::: danger Keep Alive
+* Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+* Should you need the `keep-alive-include` or `keep-alive-exclude` props then the QTabPanel `name`s must be valid Vue component names (no spaces allowed, don't start with a number etc).
 :::
 
 ### Basic
 
-<doc-example title="Basic" file="QTabPanels/Basic" />
+<doc-example title="Basic" file="Basic" />
 
 ### With QTabs
 
@@ -38,38 +42,30 @@ Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need 
 QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near QTabs.
 :::
 
-<doc-example title="With QTabs" file="QTabPanels/WithQTabs" />
+<doc-example title="With QTabs" file="WithQTabs" />
 
-<doc-example title="A more complex example" file="QTabPanels/WithNestedQTabs" />
+<doc-example title="A more complex example" file="WithNestedQTabs" />
 
 ### Coloring
 
-<doc-example title="Coloring" file="QTabPanels/Coloring" />
+<doc-example title="Coloring" file="Coloring" />
 
 ### With vertical QTabs and QSplitter
 
-<doc-example title="With vertical QTabs and QSplitter" file="QTabs/Vertical" />
+<doc-example title="With vertical QTabs and QSplitter" file="TabsAndSplitter" />
 
 For a full list of transitions, please check out [Transitions](/options/transitions).
 
 ### Custom transitions
 
-<doc-example title="Custom transition examples" file="QTabPanels/Transition" />
+<doc-example title="Custom transition examples" file="Transition" />
 
 In the example below, use your mouse to swipe through the panels or, if on a touch capable device, swipe with your fingers.
 
 ### Swipeable and infinite
 
-<doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
+<doc-example title="Swipeable and infinite" file="Swipeable" />
 
-### Vertical swipeable and infinite <q-badge align="top" label="v1.9+" />
+### Vertical swipeable and infinite
 
-<doc-example title="Vertical swipeable and infinite" file="QTabPanels/VerticalSwipeable" />
-
-## QTabPanels API
-
-<doc-api file="QTabPanels" />
-
-## QTabPanel API
-
-<doc-api file="QTabPanel" />
+<doc-example title="Vertical swipeable and infinite" file="VerticalSwipeable" />

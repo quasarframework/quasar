@@ -18,7 +18,7 @@
         narrow-indicator
         dense
         align="justify"
-        class="text-purple"
+        class="text-secondary"
       >
         <q-tab :ripple="{ color: 'orange' }" name="mails" icon="mail" label="Mails" />
         <q-tab :ripple="{ color: 'orange' }" name="alarms" icon="alarm" label="Alarms" />
@@ -29,10 +29,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'mails'
+      tab: ref('mails')
     }
   }
 }

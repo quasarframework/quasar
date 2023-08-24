@@ -5,7 +5,7 @@
     </q-badge>
 
     <q-slider
-      :value="lazy"
+      :model-value="lazy"
       @change="val => { lazy = val }"
       :min="0"
       :max="45"
@@ -17,10 +17,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      lazy: 6
+      lazy: ref(6)
     }
   }
 }

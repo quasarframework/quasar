@@ -47,8 +47,8 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .avatar-page .q-avatar
-  margin 4px
+  margin: 4px
   // box-shadow: $shadow-4
 </style>

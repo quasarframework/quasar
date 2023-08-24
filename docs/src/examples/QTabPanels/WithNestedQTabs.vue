@@ -82,12 +82,14 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      tab: 'mails',
-      innerTab: 'innerMails',
-      splitterModel: 20
+      tab: ref('mails'),
+      innerTab: ref('innerMails'),
+      splitterModel: ref(20)
     }
   }
 }

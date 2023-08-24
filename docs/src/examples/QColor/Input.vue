@@ -8,7 +8,7 @@
       >
         <template v-slot:append>
           <q-icon name="colorize" class="cursor-pointer">
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
               <q-color v-model="color" />
             </q-popup-proxy>
           </q-icon>
@@ -24,7 +24,7 @@
       >
         <template v-slot:append>
           <q-icon name="colorize" class="cursor-pointer">
-            <q-popup-proxy transition-show="scale" transition-hide="scale">
+            <q-popup-proxy cover transition-show="scale" transition-hide="scale">
               <q-color v-model="secondColor" />
             </q-popup-proxy>
           </q-icon>
@@ -35,11 +35,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      color: '#FF00FF',
-      secondColor: '#027be3'
+      color: ref('#FF00FF'),
+      secondColor: ref('#027be3')
     }
   }
 }

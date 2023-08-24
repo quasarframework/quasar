@@ -20,16 +20,15 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      files: null
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    counterLabelFn ({ totalSize, filesNumber, maxFiles }) {
-      return `${filesNumber} files of ${maxFiles} | ${totalSize}`
+export default {
+  setup () {
+    return {
+      files: ref(null),
+      counterLabelFn ({ totalSize, filesNumber, maxFiles }) {
+        return `${filesNumber} files of ${maxFiles} | ${totalSize}`
+      }
     }
   }
 }

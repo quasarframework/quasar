@@ -81,7 +81,7 @@ const offline = [ {
 } ]
 
 export default {
-  data () {
+  setup () {
     return {
       contacts,
       offline

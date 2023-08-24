@@ -15,7 +15,9 @@
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
             <q-toggle v-model="dark" label="On dark background" :false-value="null" />
+            <q-toggle v-model="dense" label="Dense" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
+            <q-toggle v-model="noSelectionUnset" label="noSelectionUnset" />
             <q-toggle v-model="noConnectors" label="No connectors" />
           </div>
           <div class="col-xs-12 col-md-4">
@@ -28,11 +30,14 @@
             <span class="text-bold">Expanded</span>:<br>{{ expanded }}
           </div>
           <div v-if="selectableNodes" class="col-xs-12 col-md-6" style="min-height: 60px">
-            <span class="text-bold">Selected</span>:<br>{{ selected }}
+            <span class="text-bold">Selected</span>:<br>{{ selected || 'null' }}
           </div>
-          <div class="col-xs-12 col-md-6">
+          <div class="col-xs-12 col-md-6 q-gutter-x-sm">
             <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
+            <q-toggle v-model="isBigTree" label="Load Big Tree"/>
+            <q-toggle v-model="noTransition" label="noTransition"/>
             <q-btn @click="expandAll" no-caps label="Expand all" />
+            <q-btn @click="collapseAll" no-caps label="Collapse all" />
           </div>
         </div>
       </div>
@@ -43,15 +48,18 @@
           :nodes="nodes"
           node-key="key"
           children-key="subnodes"
-          :selected.sync="selected"
+          v-model:selected="selected"
           :tick-strategy="tickStrategy"
-          :ticked.sync="ticked"
-          :expanded.sync="expanded"
+          v-model:ticked="ticked"
+          v-model:expanded="expanded"
           :dark="dark"
+          :dense="dense"
           :accordion="accordion"
           :color="color"
           :filter="filter"
           :no-connectors="noConnectors"
+          :no-transition="noTransition"
+          :no-selection-unset="noSelectionUnset"
           @lazy-load="onLazyLoad"
         >
           <!--
@@ -85,6 +93,10 @@
           <template v-slot:body-2-1-2-1="prop">
             Content for: {{ prop.key }}
           </template>
+
+          <template v-slot:body-2-1-2-2-1="prop">
+            Content for: {{ prop.key }}
+          </template>
         </q-tree>
       </div>
 
@@ -96,6 +108,18 @@
 </template>
 
 <script>
+import smallTree from '../../../mock-data/tree/smallTree.json'
+
+const findNode = (key, nodes) => {
+  for (let node of nodes) {
+    if (node.key === key) return node
+    if (node.subnodes) {
+      node = findNode(key, node.subnodes)
+      if (node) return node
+    }
+  }
+}
+
 export default {
   computed: {
     color () {
@@ -107,6 +131,9 @@ export default {
       this.selected = v
         ? this.selected || null
         : undefined
+    },
+    async isBigTree (v) {
+      this.nodes = v ? (await import('../../../mock-data/tree/bigTree.json')).default : smallTree
     }
   },
   data () {
@@ -119,10 +146,14 @@ export default {
       })
     }
     */
+    // Patch the smallTree's node 1.3 as we can't save function to JSON
+    findNode('KEY: Node 1.3 - tap on me!', smallTree).handler = () => this.$q.notify('Tapped on node 1.3')
 
     return {
       noConnectors: false,
+      noTransition: false,
       selected: null,
+      noSelectionUnset: false,
       tickStrategy: 'leaf',
       ticked: [
         'KEY: Node 2.2',
@@ -143,318 +174,12 @@ export default {
       ],
       selectableNodes: true,
       dark: null,
+      dense: false,
       accordion: false,
       filter: '',
       defaultExpandAll: false,
-      nodes: [
-        {
-          key: 'KEY: Node 1 - filter',
-          label: 'Node 1 - filter',
-          icon: 'alarm',
-          iconColor: 'red',
-          subnodes: [
-            {
-              key: 'KEY: Node 1.1 - accordion test on children',
-              label: 'Node 1.1 - accordion test on children',
-              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-              subnodes: [
-                {
-                  key: 'KEY: Node 1.1.1 - tick strategy leaf-filtered',
-                  label: 'Node 1.1.1 - tick strategy leaf-filtered',
-                  tickStrategy: 'leaf-filtered',
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 1.1.1.1 - lots of leafs',
-                      label: 'Node 1.1.1.1 - lots of leafs'/* ,
-                      children */
-                    }
-                  ]
-                },
-                {
-                  key: 'KEY: Node 1.1.2 - tick strategy leaf',
-                  label: 'Node 1.1.2 - tick strategy leaf',
-                  tickStrategy: 'leaf',
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 1.1.2.1',
-                      label: 'Node 1.1.2.1'
-                    }
-                  ]
-                },
-                {
-                  key: 'KEY: Node 1.1.3 -- not selectable',
-                  label: 'Node 1.1.3 -- not selectable',
-                  selectable: false
-                },
-                {
-                  key: 'KEY: Node 1.1.4 - not tickable',
-                  label: 'Node 1.1.4 - not tickable',
-                  tickable: false,
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 1.1.4.1',
-                      label: 'Node 1.1.4.1'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              key: 'KEY: Node 1.2',
-              label: 'Node 1.2',
-              icon: 'map',
-              header: 'custom'
-            },
-            {
-              key: 'KEY: Node 1.3 - tap on me!',
-              label: 'Node 1.3 - tap on me!',
-              img: 'https://cdn.quasar.dev/img/mountains.jpg',
-              handler: () => {
-                this.$q.notify('Tapped on node 1.3')
-              }
-            }
-          ]
-        },
-        {
-          key: 'KEY: Node 2',
-          label: 'Node 2',
-          subnodes: [
-            {
-              key: 'KEY: Node 2.1',
-              label: 'Node 2.1',
-              subnodes: [
-                {
-                  key: 'KEY: Node 2.1.1',
-                  label: 'Node 2.1.1'
-                },
-                {
-                  key: 'KEY: Node 2.1.1 BIS - no tick present',
-                  label: 'Node 2.1.1 BIS - no tick present',
-                  noTick: true
-                },
-                {
-                  key: 'KEY: Node 2.1.2 - tick strategy strict',
-                  label: 'Node 2.1.2 - tick strategy strict',
-                  tickStrategy: 'strict',
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 2.1.2.1 - body slot',
-                      label: 'Node 2.1.2.1 - body slot',
-                      body: '2-1-2-1',
-                      subnodes: [
-                        {
-                          key: 'KEY: Node q',
-                          label: 'Node q',
-                          lazy: true
-                        },
-                        {
-                          key: 'KEY: Node a',
-                          label: 'Node a',
-                          lazy: true
-                        }
-                      ]
-                    },
-                    {
-                      key: 'KEY: Node 2.1.2.2 - body slot & children',
-                      label: 'Node 2.1.2.2 - body slot & children',
-                      body: '2-1-2-1',
-                      subnodes: [
-                        {
-                          key: 'KEY: Node 2.1.2.2.1',
-                          label: 'Node 2.1.2.2.1'
-                        },
-                        {
-                          key: 'KEY: Node 2.1.2.2.2',
-                          label: 'Node 2.1.2.2.2'
-                        }
-                      ]
-                    },
-                    {
-                      key: 'KEY: Node 2.1.2.3 - header slot',
-                      label: 'Node 2.1.2.3 - header slot',
-                      header: '2-1-2-2'
-                    }
-                  ]
-                },
-                {
-                  key: 'KEY: Node 2.1.x - Disabled',
-                  label: 'Node 2.1.x - Disabled',
-                  disabled: true,
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 2.1.x.1',
-                      label: 'Node 2.1.x.1'
-                    },
-                    {
-                      key: 'KEY: Node 2.1.x.2',
-                      label: 'Node 2.1.x.2'
-                    }
-                  ]
-                },
-                {
-                  key: 'KEY: Node 2.1.3 - freeze exp / tickable',
-                  label: 'Node 2.1.3 - freeze exp / tickable',
-                  expandable: false,
-                  tickable: true,
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 2.1.3.1',
-                      label: 'Node 2.1.3.1'
-                    },
-                    {
-                      key: 'KEY: Node 2.1.3.2',
-                      label: 'Node 2.1.3.2'
-                    }
-                  ]
-                },
-                {
-                  key: 'KEY: Node 2.1.4 - Disabled',
-                  label: 'Node 2.1.4 - Disabled',
-                  disabled: true,
-                  subnodes: [
-                    {
-                      key: 'KEY: Node 2.1.4.1',
-                      label: 'Node 2.1.4.1'
-                    },
-                    {
-                      key: 'KEY: Node 2.1.4.2',
-                      label: 'Node 2.1.4.2'
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              key: 'KEY: Node 2.2',
-              label: 'Node 2.2'
-            },
-            {
-              key: 'KEY: Node 2.3',
-              label: 'Node 2.3',
-              subnodes: [
-                {
-                  key: 'KEY: Node 2.3.1',
-                  label: 'Node 2.3.1',
-                  body: '2-1-2-1'
-                },
-                {
-                  key: 'KEY: Node 2.3.2',
-                  label: 'Node 2.3.2',
-                  body: '2-1-2-1'
-                }
-              ]
-            },
-            {
-              key: 'KEY: Node 2.4 - Lazy load',
-              label: 'Node 2.4 - Lazy load',
-              lazy: true
-            },
-            {
-              key: 'KEY: Node 2.5 - Lazy load empty',
-              label: 'Node 2.5 - Lazy load empty',
-              lazy: true
-            }
-          ]
-        },
-        {
-          key: 'KEY: Node parent - untickable ticked child',
-          label: 'Node parent - untickable ticked child',
-          subnodes: [
-            {
-              key: 'KEY: Node child - 1 - disabled',
-              label: 'Node child - 1 - disabled',
-              disabled: true
-            },
-            {
-              key: 'KEY: Node child - 1 - enabled - 1',
-              label: 'Node child - 1 - enabled - 1'
-            },
-            {
-              key: 'KEY: Node child - 1 - enabled - 2',
-              label: 'Node child - 1 - enabled - 2'
-            },
-            {
-              key: 'KEY: Node child - 1 - enabled - untickable',
-              label: 'Node child - 1 - enabled - untickable',
-              tickable: false
-            }
-          ]
-        },
-        {
-          key: 'KEY: Node parent - untickable unticked child',
-          label: 'Node parent - untickable unticked child',
-          subnodes: [
-            {
-              key: 'KEY: Node child - 2 - disabled',
-              label: 'Node child - 2 - disabled',
-              disabled: true
-            },
-            {
-              key: 'KEY: Node child - 2 - enabled - 1',
-              label: 'Node child - 2 - enabled - 1'
-            },
-            {
-              key: 'KEY: Node child - 2 - enabled - 2',
-              label: 'Node child - 2 - enabled - 2'
-            },
-            {
-              key: 'KEY: Node child - 2 - enabled - untickable',
-              label: 'Node child - 2 - enabled - untickable',
-              tickable: false
-            }
-          ]
-        },
-        {
-          key: 'KEY: Node parent - all untickable ticked children',
-          label: 'Node parent - all untickable ticked children',
-          subnodes: [
-            {
-              key: 'KEY: Node child - 3 - disabled',
-              label: 'Node child - 3 - disabled',
-              disabled: true
-            }
-          ]
-        },
-        {
-          key: 'KEY: Node parent - all untickable mix ticked children',
-          label: 'Node parent - all untickable mix ticked children',
-          subnodes: [
-            {
-              key: 'KEY: Node child - 4 - disabled',
-              label: 'Node child - 4 - disabled',
-              disabled: true
-            },
-            {
-              key: 'KEY: Node child - 4 - enabled - untickable',
-              label: 'Node child - 4 - enabled - untickable',
-              tickable: false
-            }
-          ]
-        },
-        {
-          key: 'KEY: Node parent - all untickable unticked children',
-          label: 'Node parent - all untickable unticked children',
-          subnodes: [
-            {
-              key: 'KEY: Node child - 5 - disabled',
-              label: 'Node child - 5 - disabled',
-              disabled: true,
-              subnodes: [
-                {
-                  key: 'KEY: Node child - 5.1 - disabled',
-                  label: 'Node child - 5.1 - disabled',
-                  disabled: true
-                },
-                {
-                  key: 'KEY: Node child - 5.2 - enabled - untickable',
-                  label: 'Node child - 5.2 - enabled - untickable',
-                  tickable: false
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      isBigTree: false,
+      nodes: smallTree
     }
   },
   methods: {
@@ -463,6 +188,9 @@ export default {
     },
     expandAll () {
       this.$refs.tree.expandAll()
+    },
+    collapseAll () {
+      this.$refs.tree.collapseAll()
     },
     onLazyLoad ({ node, key, done, fail }) {
       // call fail() if any error occurs
@@ -476,14 +204,15 @@ export default {
         const label = node.label.replace(' - Lazy load', '')
 
         done([
-          { label: `${label}.1` },
-          { label: `${label}.2` },
-          { label: `${label}.3`, lazy: true },
+          { label: `${ label }.1`, key: `${ label }.1` },
+          { label: `${ label }.2`, key: `${ label }.2` },
+          { label: `${ label }.3`, key: `${ label }.3`, lazy: true },
           {
-            label: `${label}.4`,
+            label: `${ label }.4`,
+            key: `${ label }.4`,
             subnodes: [
-              { label: `${label}.4.1`, lazy: true },
-              { label: `${label}.4.2`, lazy: true }
+              { label: `${ label }.4.1`, key: `${ label }.4.1`, lazy: true },
+              { label: `${ label }.4.2`, key: `${ label }.4.2`, lazy: true }
             ]
           }
         ])

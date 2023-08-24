@@ -3,7 +3,7 @@
     <div class="q-gutter-md row">
       <q-select
         filled
-        :value="model"
+        :model-value="model"
         use-input
         hide-selected
         fill-input
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ].reduce((acc, opt) => {
@@ -37,23 +39,24 @@ const stringOptions = [
 }, [])
 
 export default {
-  data () {
+  setup () {
+    const model = ref(null)
+    const options = ref(stringOptions)
+
     return {
-      model: null,
-      options: stringOptions
-    }
-  },
+      model,
+      options,
 
-  methods: {
-    filterFn (val, update, abort) {
-      update(() => {
-        const needle = val.toLocaleLowerCase()
-        this.options = stringOptions.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
-      })
-    },
+      filterFn (val, update, abort) {
+        update(() => {
+          const needle = val.toLocaleLowerCase()
+          options.value = stringOptions.filter(v => v.toLocaleLowerCase().indexOf(needle) > -1)
+        })
+      },
 
-    setModel (val) {
-      this.model = val
+      setModel (val) {
+        model.value = val
+      }
     }
   }
 }

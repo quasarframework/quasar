@@ -7,7 +7,7 @@
     <q-toggle v-model="hasSelection" label="Selection" :dark="dark" />
 
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       :grid="$q.screen.lt.md"
       row-key="name"
@@ -27,7 +27,7 @@
     </q-table>
 
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       title="Responsive with grid (no slot)"
       row-key="name"
@@ -38,7 +38,7 @@
       class="q-my-lg"
       :color="$q.dark.isActive || dark ? 'amber' : 'primary'"
       :selection="selection"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :dark="dark"
       flat
       bordered
@@ -46,7 +46,7 @@
     />
 
     <q-table
-      :data="data"
+      :rows="data"
       :columns="columns"
       title="Responsive with grid item slot"
       row-key="name"
@@ -56,7 +56,7 @@
       :dense="dense"
       selection="multiple"
       :rows-per-page-options="[1, 3, 5, 50, 0]"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :dark="dark"
       @row-click="onRowClick"
     >

@@ -57,10 +57,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      value: true
+      value: ref(true)
     }
   }
 }

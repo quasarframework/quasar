@@ -22,7 +22,7 @@
       <q-input v-model="text" :dense="dense">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo.svg">
           </q-avatar>
         </template>
       </q-input>
@@ -100,13 +100,14 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      text: '',
-      ph: '',
+import { ref } from 'vue'
 
-      dense: false
+export default {
+  setup () {
+    return {
+      text: ref(''),
+      ph: ref(''),
+      dense: ref(false)
     }
   }
 }

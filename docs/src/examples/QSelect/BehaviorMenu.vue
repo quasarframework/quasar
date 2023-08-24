@@ -34,32 +34,34 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
 ]
 
 export default {
-  data () {
+  setup () {
+    const options = ref(stringOptions)
+
     return {
-      model: null,
+      model: ref(null),
       stringOptions,
-      options: stringOptions
-    }
-  },
+      options,
 
-  methods: {
-    filterFn (val, update) {
-      if (val === '') {
+      filterFn (val, update) {
+        if (val === '') {
+          update(() => {
+            options.value = stringOptions
+          })
+          return
+        }
+
         update(() => {
-          this.options = stringOptions
+          const needle = val.toLowerCase()
+          options.value = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
         })
-        return
       }
-
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-      })
     }
   }
 }

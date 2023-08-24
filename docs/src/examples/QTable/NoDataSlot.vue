@@ -1,8 +1,9 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      flat bordered
       title="Treats"
-      :data="data"
+      :rows="rows"
       :columns="columns"
       :filter="filter"
       no-data-label="I didn't find anything for you"
@@ -11,7 +12,9 @@
     >
       <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
-          <q-icon slot="append" name="search" />
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
         </q-input>
       </template>
 
@@ -29,11 +32,13 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
     return {
-      data: [],
-      filter: '',
+      rows: [],
+      filter: ref(''),
 
       columns: [
         {

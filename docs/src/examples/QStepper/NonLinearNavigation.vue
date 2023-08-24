@@ -59,22 +59,27 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      step: 1,
-      done1: false,
-      done2: false,
-      done3: false
-    }
-  },
+import { ref } from 'vue'
 
-  methods: {
-    reset () {
-      this.done1 = false
-      this.done2 = false
-      this.done3 = false
-      this.step = 1
+export default {
+  setup () {
+    const step = ref(1)
+    const done1 = ref(false)
+    const done2 = ref(false)
+    const done3 = ref(false)
+
+    return {
+      step,
+      done1,
+      done2,
+      done3,
+
+      reset () {
+        done1.value = false
+        done2.value = false
+        done3.value = false
+        step.value = 1
+      }
     }
   }
 }

@@ -23,30 +23,37 @@
     />
   </div>
 </template>
+
 <script>
+import { useQuasar } from 'quasar'
+import { ref } from 'vue'
+
 export default {
-  data () {
+  setup () {
+    const $q = useQuasar()
+
     return {
-      editor: 'After you define a new button,' +
+      editor: ref(
+        'After you define a new button,' +
         ' you have to make sure to put it in the toolbar too!'
-    }
-  },
-  methods: {
-    saveWork () {
-      this.$q.notify({
-        message: 'Saved your text to local storage',
-        color: 'green-4',
-        textColor: 'white',
-        icon: 'cloud_done'
-      })
-    },
-    uploadIt () {
-      this.$q.notify({
-        message: 'Server unavailable. Check connectivity.',
-        color: 'red-5',
-        textColor: 'white',
-        icon: 'warning'
-      })
+      ),
+
+      saveWork () {
+        $q.notify({
+          message: 'Saved your text to local storage',
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done'
+        })
+      },
+      uploadIt () {
+        $q.notify({
+          message: 'Server unavailable. Check connectivity.',
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning'
+        })
+      }
     }
   }
 }

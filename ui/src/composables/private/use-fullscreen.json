@@ -1,0 +1,44 @@
+{
+  "props": {
+    "fullscreen": {
+      "type": "Boolean",
+      "sync": true,
+      "desc": "Fullscreen mode",
+      "examples": [
+        "v-model:fullscreen=\"isFullscreen\""
+      ],
+      "category": "behavior"
+    },
+
+    "no-route-fullscreen-exit": {
+      "type": "Boolean",
+      "desc": "Changing route app won't exit fullscreen",
+      "category": "behavior"
+    }
+  },
+
+  "events": {
+    "fullscreen": {
+      "desc": "Emitted when fullscreen state changes",
+      "params": {
+        "value": {
+          "type": "Boolean",
+          "desc": "Fullscreen state (showing/hidden)"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "toggleFullscreen": {
+      "desc": "Toggle the view to be fullscreen or not fullscreen"
+    },
+    "setFullscreen": {
+      "desc": "Enter the fullscreen view"
+    },
+
+    "exitFullscreen": {
+      "desc": "Leave the fullscreen view"
+    }
+  }
+}
