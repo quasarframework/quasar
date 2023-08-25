@@ -108,7 +108,7 @@ function createRenderToStringFn (data) {
       return data.renderTemplate(ssrContext)
     }
     catch (err) {
-      if (data.rewriteErrorTrace !== void 0) {
+      if (data.rewriteErrorTrace) {
         await data.rewriteErrorTrace(err)
       }
 
@@ -135,7 +135,7 @@ module.exports.createDevRenderer = function createDevRenderer (opts) {
     renderContext: null,
     evaluateEntry: null,
     rewriteErrorTrace: null,
-    renderTemplate: null,
+    renderTemplate: void 0, // "void 0" not a mistake (we check everything else then call onReadyForTemplate()
     renderPreloadTag: null,
     manualStoreSerialization: opts.manualStoreSerialization,
     getRuntimePageContent: async ssrContext => {
@@ -147,33 +147,32 @@ module.exports.createDevRenderer = function createDevRenderer (opts) {
 
   const dataKeys = Object.keys(data)
 
-  let checkIfReady = () => {
+  let checkIfReadyForTemplate = () => {
     if (dataKeys.every(key => data[ key ] !== null)) {
-      checkIfReady = () => {}
-      opts.onReady()
+      checkIfReadyForTemplate = () => {}
+      opts.onReadyForTemplate()
     }
   }
 
   const updateClientManifest = clientManifest => {
     data.renderContext = createRenderContext(clientManifest)
-    checkIfReady()
+    checkIfReadyForTemplate()
   }
 
   const updateServerManifest = serverManifest => {
     const { evaluateEntry, rewriteErrorTrace } = createBundle(serverManifest, opts.basedir)
     data.evaluateEntry = evaluateEntry
     data.rewriteErrorTrace = rewriteErrorTrace
-    checkIfReady()
+    checkIfReadyForTemplate()
   }
 
   const updateRenderTemplate = renderTemplate => {
     data.renderTemplate = renderTemplate
-    checkIfReady()
   }
 
   const updateRenderPreloadTag = renderPreloadTag => {
     data.renderPreloadTag = renderPreloadTag
-    checkIfReady()
+    checkIfReadyForTemplate()
   }
 
   return {
