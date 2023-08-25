@@ -1,28 +1,32 @@
-const fs = require('node:fs')
+const { existsSync, readFileSync } = require('node:fs')
 
 const { warn } = require('./logger.js')
-const appPaths = require('../app-paths.js')
+const { entryPointMarkup, attachMarkup } = require('../utils/html-template.js')
 
-module.exports.appFilesValidations = function appFilesValidations (cfg) {
-  let error = false
+module.exports.appFilesValidations = function appFilesValidations (appPaths, sourceFiles) {
+  const file = appPaths.resolve.app(
+    sourceFiles.indexHtmlTemplate
+  )
 
-  const file = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
-  const content = fs.readFileSync(file, 'utf-8')
-
-  if (content.indexOf('<base href') > -1) {
-    warn(`Please remove the <base> tag from /src/index.template.html
-   This is taken care of by Quasar automatically.
-  `)
-    error = true
+  if (existsSync(file) === false) {
+    warn(`The file ${ sourceFiles.indexHtmlTemplate } is missing. Please add it back.\n`)
+    return false
   }
 
-  if (!/<div id=['"]q-app/.test(content)) {
-    warn(`Please add back <div id="q-app"></div> to
-    /src/index.template.html inside of <body>\n`)
-    error = true
+  let valid = true
+  const content = readFileSync(file, 'utf-8')
+
+  if (content.indexOf(attachMarkup) !== -1) {
+    warn(`Please remove ${ attachMarkup } from
+       ${ sourceFiles.indexHtmlTemplate } inside of <body>\n`)
+    valid = false
   }
 
-  if (error === true) {
-    process.exit(1)
+  if (content.indexOf(entryPointMarkup) === -1) {
+    warn(`Please add ${ entryPointMarkup } to
+       ${ sourceFiles.indexHtmlTemplate } inside of <body>\n`)
+    valid = false
   }
+
+  return valid
 }

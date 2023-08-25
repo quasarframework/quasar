@@ -41,7 +41,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const { warn } = require('../utils/logger.js')
+const { log, warn } = require('../utils/logger.js')
+const { green } = require('kolorist')
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
@@ -50,23 +51,11 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-async function run (action, name) {
-  const { Extension } = require('../app-extension/Extension.js')
-  const extension = new Extension(name)
+const { getCtx } = require('../utils/get-ctx.js')
+const { appExt } = getCtx()
 
-  await extension[
-    action === 'add' || action === 'invoke'
-      ? 'install'
-      : 'uninstall'
-  ](action === 'invoke' || action === 'uninvoke')
-}
-
-if (argv._.length === 0) {
-  const { extensionJson } = require('../app-extension/extension-json.js')
-  extensionJson.list()
-}
-else {
-  const [ action, name ] = argv._
+async function runExtAction () {
+  const [ action, extName ] = argv._
 
   if (![ 'add', 'remove', 'invoke', 'uninvoke' ].includes(action)) {
     console.log()
@@ -75,5 +64,36 @@ else {
     process.exit(1)
   }
 
-  run(action, name)
+  const ext = appExt.createInstance(extName)
+
+  await ext[
+    action === 'add' || action === 'invoke'
+      ? 'install'
+      : 'uninstall'
+  ](action === 'invoke' || action === 'uninvoke')
+}
+
+if (argv._.length === 0) {
+  if (appExt.extensionList.length === 0) {
+    log(' No App Extensions are installed')
+    log(' You can look for "quasar-app-extension-*" in npm registry.')
+  }
+  else {
+    console.log()
+
+    for (const ext of appExt.extensionList) {
+      const prompts = ext.getPrompts()
+      const hasPrompts = Object.keys(prompts).length !== 0
+
+      console.log(`App Extension [ ${ green(ext.extId) } ]${ hasPrompts === true ? ' with prompts:' : '' }`)
+
+      if (hasPrompts === true) {
+        console.log(JSON.stringify(prompts, null, 2))
+        console.log()
+      }
+    }
+  }
+}
+else {
+  runExtAction()
 }

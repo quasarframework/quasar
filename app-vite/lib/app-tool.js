@@ -28,7 +28,7 @@ export class AppTool {
     )
 
     await viteBuild(viteConfig)
-    done('___ compiled with success')
+    done('___ compiled with success by Vite')
   }
 
   async watchWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
@@ -56,7 +56,7 @@ export class AppTool {
             return
           }
 
-          done('___ compiled with success')
+          done('___ compiled with success by Esbuild')
 
           if (isFirst === true) {
             isFirst = false
@@ -87,7 +87,7 @@ export class AppTool {
 
     const esbuildResult = await esBuild(esbuildConfig)
 
-    done('___ compiled with success')
+    done('___ compiled with success by Esbuild')
     return esbuildResult
   }
 

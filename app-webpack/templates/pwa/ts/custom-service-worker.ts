@@ -1,7 +1,7 @@
 /*
  * This file (which will be your service worker)
  * is picked up by the build system ONLY if
- * quasar.config file > pwa > workboxMode is set to "injectManifest"
+ * quasar.config file > pwa > workboxMode is set to "InjectManifest"
  */
 
 declare const self: ServiceWorkerGlobalScope & typeof globalThis;
@@ -22,8 +22,8 @@ precacheAndRoute(self.__WB_MANIFEST);
 
 cleanupOutdatedCaches();
 
-// Non-SSR fallback to index.html
-// Production SSR fallback to offline.html (except for dev)
+// Non-SSR fallbacks to index.html
+// Production SSR fallbacks to offline.html (except for dev)
 if (process.env.MODE !== 'ssr' || process.env.PROD) {
   registerRoute(
     new NavigationRoute(

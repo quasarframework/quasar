@@ -9,13 +9,11 @@ interface QuasarBexConfiguration {
    */
   contentScripts?: string[];
 
-  /** Webpack config object for the Main Process ONLY (`/src-bex`) */
-  extendWebpackMain?: (config: WebpackConfiguration) => void;
   /**
-   * Equivalent to `extendWebpackMain()` but uses `webpack-chain` instead,
-   *  for the Main Process ONLY (`/src-bex/`)
+   * Extend the esbuild config that is used for the bex scripts
+   * (background, content scripts, dom script)
    */
-  chainWebpackMain?: (chain: WebpackChain) => void;
+  extendBexScriptsConf?: (config: EsbuildConfiguration) => void;
 
   /**
    * Should you need some dynamic changes to the Browser Extension manifest file

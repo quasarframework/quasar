@@ -1,9 +1,8 @@
 const fs = require('node:fs')
 const path = require('node:path')
+const { execSync } = require('node:child_process')
 const open = require('open')
-const { execSync } = require('child_process')
 
-const appPaths = require('../app-paths.js')
 const { warn, fatal } = require('./logger.js')
 
 function findXcodeWorkspace (folder) {
@@ -18,7 +17,7 @@ function findXcodeWorkspace (folder) {
   }
 }
 
-function runMacOS (mode, target) {
+function runMacOS (mode, target, appPaths) {
   if (target === 'ios') {
     const folder = mode === 'cordova'
       ? appPaths.resolve.cordova('platforms/ios')
@@ -61,7 +60,7 @@ function getLinuxPath (bin) {
   }
 }
 
-function runLinux (mode, bin, target) {
+function runLinux (mode, bin, target, appPaths) {
   if (target === 'android') {
     const studioPath = getLinuxPath(bin)
     if (studioPath) {
@@ -114,7 +113,7 @@ function getWindowsPath (bin) {
   }
 }
 
-function runWindows (mode, bin, target) {
+function runWindows (mode, bin, target, appPaths) {
   if (target === 'android') {
     const studioPath = getWindowsPath(bin)
     if (studioPath) {
@@ -144,7 +143,7 @@ function runWindows (mode, bin, target) {
   process.exit(1)
 }
 
-module.exports.openIDE = function openIDE (mode, bin, target, dev) {
+module.exports.openIDE = function openIDE ({ mode, bin, target, dev, appPaths }) {
   console.log()
   console.log(' ⚠️  ')
   console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
@@ -169,11 +168,11 @@ module.exports.openIDE = function openIDE (mode, bin, target, dev) {
 
   switch (process.platform) {
     case 'darwin':
-      return runMacOS(mode, target)
+      return runMacOS(mode, target, appPaths)
     case 'linux':
-      return runLinux(mode, bin, target)
+      return runLinux(mode, bin, target, appPaths)
     case 'win32':
-      return runWindows(mode, bin, target)
+      return runWindows(mode, bin, target, appPaths)
     default:
       fatal('Unsupported host OS for opening the IDE')
   }

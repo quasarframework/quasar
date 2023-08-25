@@ -1,3 +1,4 @@
+import { QuasarAppPaths } from "../app-paths";
 import * as ElectronBuilder from "electron-builder";
 import { QuasarCapacitorTargets } from "./capacitor-conf";
 import {
@@ -23,6 +24,8 @@ interface BaseQuasarContext {
   debug: boolean;
   /** True if opening remote Vue Devtools in development mode. */
   vueDevtools: boolean;
+  /** Util dealing with app paths */
+  appPaths: QuasarAppPaths
 }
 
 interface CapacitorQuasarContext extends BaseQuasarContext {

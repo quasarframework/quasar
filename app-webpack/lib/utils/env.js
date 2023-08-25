@@ -3,14 +3,15 @@ const { join, isAbsolute } = require('node:path')
 const { parse: dotEnvParse } = require('dotenv')
 const { expand: dotEnvExpand } = require('dotenv-expand')
 
-const appPaths = require('../app-paths.js')
 let cachedFileEnv = null
+/** TODO instance instead of fn so we can cache it */
 
 /**
  * Get the raw env definitions from the host
  * project env files.
  */
 module.exports.readFileEnv = function readFileEnv ({
+  appPaths,
   quasarMode,
   buildType,
   envFolder = appPaths.appDir,
@@ -100,7 +101,7 @@ module.exports.readFileEnv = function readFileEnv ({
 
 /**
  * Get the final env definitions to supply to
- * the build system (Vite or Esbuild).
+ * the build system (Webpack or Esbuild).
  */
 module.exports.getBuildSystemDefine = function getBuildSystemDefine ({
   fileEnv = {},

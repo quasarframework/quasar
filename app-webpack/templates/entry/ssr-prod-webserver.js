@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -7,12 +8,12 @@ import { join } from 'node:path'
 import { renderToString } from 'vue/server-renderer'
 import { getProdRenderFunction } from '@quasar/ssr-helpers/create-renderer'
 
-import renderTemplate from './render-template.cjs'
+import renderTemplate from './render-template.js'
 import clientManifest from './quasar.manifest.json'
-import serverEntry from './server/entry.js'
+import serverEntry from './server/server-entry.js'
 
-import { create, listen, serveStaticContent, renderPreloadTag } from '../src-ssr/server.js'
-import injectMiddlewares from './ssr-middlewares.js'
+import { create, listen, serveStaticContent, renderPreloadTag } from 'app/src-ssr/server'
+import injectMiddlewares from './ssr-middlewares'
 
 const port = process.env.PORT || <%= ssr.prodPort %>
 
@@ -66,13 +67,12 @@ const app = create(middlewareParams)
 middlewareParams.app = app
 
 <% if (ssr.pwa) { %>
-// serve this with no cache, if built with PWA:
+// serve the service worker with no cache
 app.use(resolveUrlPath('/<%= pwa.swFilename %>'), serveStatic('<%= pwa.swFilename %>', { maxAge: 0 }))
 <% } %>
 
-// serve "www" folder (includes the "public" folder)
+// serve "client" folder (includes the "public" folder)
 app.use(resolveUrlPath('/'), serveStatic('.'))
-
 
 const isReady = () => injectMiddlewares(middlewareParams)
 

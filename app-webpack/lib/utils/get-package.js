@@ -1,12 +1,17 @@
-const appPaths = require('../app-paths.js')
 const { getPackagePath } = require('./get-package-path.js')
 
 /**
  * Import a host package.
  */
-module.exports.getPackage = function getPackage (pkgName, folder = appPaths.appDir) {
+module.exports.getPackage = function getPackage (pkgName, dir) {
+  if (dir === void 0) {
+    console.error('getPackage() -> dir param is required')
+    process.exit(1)
+  }
+
   try {
-    return require(getPackagePath(pkgName, folder))
+    const pkgPath = getPackagePath(pkgName, dir)
+    return require(pkgPath)
   }
   catch (_) {
     /* do and return nothing */

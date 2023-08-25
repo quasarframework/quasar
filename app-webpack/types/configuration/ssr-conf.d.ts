@@ -1,5 +1,4 @@
-import { Configuration as WebpackConfiguration } from "webpack";
-import * as WebpackChain from "webpack-chain";
+import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
 export interface QuasarSsrConfiguration {
   /**
@@ -66,6 +65,13 @@ export interface QuasarSsrConfiguration {
   prodPort?: number;
 
   /**
+   * Tell browser when a file from the server should expire from cache
+   * (the default value, in ms)
+   * Has effect only when server.static() is used
+   */
+  maxAge?: number;
+
+  /**
    * List of middleware files in src-ssr/middlewares
    * Order is important.
    */
@@ -77,14 +83,8 @@ export interface QuasarSsrConfiguration {
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
 
   /**
-   * Webpack config object for the Webserver
-   * which includes the SSR middleware
+   * Extend the esbuild config that is used for the SSR webserver
+   * (which includes the SSR middlewares)
    */
-  extendWebpackWebserver?: (config: WebpackConfiguration) => void;
-
-  /**
-   * Equivalent to `extendWebpackWebserver()` but uses `webpack-chain` instead.
-   * Handles the Webserver webpack config ONLY which includes the SSR middleware
-   */
-  chainWebpackWebserver?: (chain: WebpackChain) => void;
+  extendSSRWebserverConf?: (config: EsbuildConfiguration) => void;
 }

@@ -1,10 +1,10 @@
 ![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
 
-# Quasar Framework App CLI (Local)
+# Quasar Framework App CLI with Webpack (Local)
 
 > Build high-performance VueJS user interfaces in record time: responsive Single Page Apps, SSR Apps, PWAs, Browser extensions, Hybrid Mobile Apps and Electron Apps. If you want, all using the same codebase!
 
-<img src="https://img.shields.io/npm/v/%40quasar/app?label=@quasar/app-webpack">
+<img src="https://img.shields.io/npm/v/%40quasar/app-webpack?label=@quasar/app-webpack">
 
 [![Join the chat at https://chat.quasar.dev](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://chat.quasar.dev)
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>

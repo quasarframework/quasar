@@ -1,9 +1,10 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  **/
 
-export default (opts) => {
+export default function injectMiddlewares (opts) {
   return Promise.all([
     <% ssr.middlewares.forEach((asset, index) => { %>
     import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < ssr.middlewares.length - 1 ? ',' : '' %>

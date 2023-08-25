@@ -14,9 +14,6 @@ import { configure } from 'quasar/wrappers';
 
 export default configure((ctx) => {
   return {
-    // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
-    supportTS: false,
-
     // https://v2.quasar.dev/quasar-cli-webpack/prefetch-feature
     // preFetch: true,
 
@@ -68,16 +65,12 @@ export default configure((ctx) => {
       // Options below are automatically set depending on the env, set them if you want to override
       // extractCSS: false,
 
+      // esbuildEslintOptions: {}
+      // webpackEslintPluginOptions: {}
+
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      <% if (preset.lint) { %>
-      chainWebpack (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: [ 'js', 'vue' ] }])
-      }
-      <% } else { %>
       chainWebpack (/* chain */) {}
-      <% } %>
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-devServer
@@ -124,73 +117,18 @@ export default configure((ctx) => {
       maxAge: 1000 * 60 * 60 * 24 * 30,
         // Tell browser when a file from the server should expire from cache (in ms)
 
-      <% if (preset.lint) { %>
-      chainWebpackWebserver (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-      },
-      <% } else { %>
-      chainWebpackWebserver (/* chain */) {},
-      <% } %>
-
       middlewares: [
-        ctx.prod ? 'compression' : '',
         'render' // keep this as last one
       ]
     },
 
     // https://v2.quasar.dev/quasar-cli-webpack/developing-pwa/configuring-pwa
     pwa: {
-      workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
 
       // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
       // if using workbox in InjectManifest mode
-      <% if (preset.lint) { %>
-      chainWebpackCustomSW (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-      },
-      <% } else { %>
-      chainWebpackCustomSW (/* chain */) {},
-      <% } %>
-
-      manifest: {
-        name: `<%= productName %>`,
-        short_name: `<%= productName %>`,
-        description: `<%= description %>`,
-        display: 'standalone',
-        orientation: 'portrait',
-        background_color: '#ffffff',
-        theme_color: '#027be3',
-        icons: [
-          {
-            src: 'icons/icon-128x128.png',
-            sizes: '128x128',
-            type: 'image/png'
-          },
-          {
-            src: 'icons/icon-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'icons/icon-256x256.png',
-            sizes: '256x256',
-            type: 'image/png'
-          },
-          {
-            src: 'icons/icon-384x384.png',
-            sizes: '384x384',
-            type: 'image/png'
-          },
-          {
-            src: 'icons/icon-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
+      extendPWACustomSWConf (/* cfg */) {}
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/developing-cordova-apps/configuring-cordova
@@ -229,24 +167,8 @@ export default configure((ctx) => {
         appId: '<%= name %>'
       },
 
-      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
-      <% if (preset.lint) { %>
-      chainWebpackMain (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-      },
-      <% } else { %>
-      chainWebpackMain (/* chain */) {},
-      <% } %>
-
-      <% if (preset.lint) { %>
-      chainWebpackPreload (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: [ 'js' ] }])
-      },
-      <% } else { %>
-      chainWebpackPreload (/* chain */) {},
-      <% } %>
+      extendElectronMainConf (/* cfg */) {},
+      extendElectronPreloadConf (/* cfg */) {}
     },
 
     bex: {

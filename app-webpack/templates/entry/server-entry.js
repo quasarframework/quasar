@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -9,7 +10,7 @@
  *
  * Boot files are your "main.js"
  **/
-import { createApp<%= store && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
+import { createApp<%= metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
 
 <% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
@@ -46,27 +47,12 @@ const appPrefetch = typeof App.preFetch === 'function'
     )
 <% } %>
 
-<%
-const bootNames = []
-if (boot.length > 0) {
-  function hash (str) {
-    const name = str.replace(/\W+/g, '')
-    return name.charAt(0).toUpperCase() + name.slice(1)
-  }
-  boot.filter(asset => asset.server !== false).forEach(asset => {
-    let importName = 'qboot_' + hash(asset.path)
-    bootNames.push(importName)
-%>
-import <%= importName %> from '<%= asset.path %>'
-<% }) } %>
-
 const publicPath = `<%= build.publicPath %>`
 <% if (build.publicPath !== '/') { %>
 const doubleSlashRE = /\/\//
 const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
 <% } %>
 
-const bootFiles = [<%= bootNames.join(',') %>].filter(boot => typeof boot === 'function')
 const httpRE = /^https?:\/\//
 
 function getRedirectUrl (url, router) {
@@ -82,29 +68,43 @@ function getRedirectUrl (url, router) {
 
 const { components, directives, ...qUserOptions } = quasarUserOptions
 
+<%
+  const bootEntries = boot.filter(asset => asset.server !== false)
+  if (bootEntries.length !== 0) { %>
+const bootFiles = Promise.all([
+  <% bootEntries.forEach((asset, index) => { %>
+  import(/* webpackMode: "eager" */ '<%= asset.path %>')<%= index < bootEntries.length - 1 ? ',' : '' %>
+  <% }) %>
+]).then(bootFiles => bootFiles.map(entry => entry.default).filter(entry => typeof entry === 'function'))
+<% } %>
+
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default ssrContext => {
   return new Promise(async (resolve, reject) => {
+    <% if (bootEntries.length !== 0) { %>
+    const bootFunctions = await bootFiles
+    <% } %>
+
     const {
-      app, router<%= store ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+      app, router<%= metaConf.hasStore ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
     } = await createQuasarApp(createApp, qUserOptions, ssrContext)
 
-    <% if (bootNames.length > 0) { %>
+    <% if (bootEntries.length !== 0) { %>
     let hasRedirected = false
     const redirect = (url, httpStatusCode) => {
       hasRedirected = true
       reject({ url: getRedirectUrl(url, router), code: httpStatusCode })
     }
 
-    for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
+    for (let i = 0; hasRedirected === false && i < bootFunctions.length; i++) {
       try {
-        await bootFiles[i]({
+        await bootFunctions[i]({
           app,
           router,
-          <%= store ? 'store,' : '' %>
+          <%= metaConf.hasStore ? 'store,' : '' %>
           ssrContext,
           redirect,
           urlPath: ssrContext.req.url,
@@ -123,7 +123,7 @@ export default ssrContext => {
     <% } %>
 
     app.use(router)
-    <% if (store && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
+    <% if (metaConf.hasStore && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
     const url = ssrContext.req.url<% if (build.publicPath !== '/') { %>.replace(publicPath, '/')<% } %>
     const { fullPath } = router.resolve(url)
@@ -173,7 +173,7 @@ export default ssrContext => {
       matchedComponents
       .reduce(
         (promise, preFetchFn) => promise.then(() => hasRedirected === false && preFetchFn({
-          <% if (store) { %>store,<% } %>
+          <% if (metaConf.hasStore) { %>store,<% } %>
           ssrContext,
           currentRoute: router.currentRoute.value,
           redirect,
@@ -185,7 +185,7 @@ export default ssrContext => {
       .then(() => {
         if (hasRedirected === true) { return }
 
-        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
         resolve(app)
       })
@@ -193,7 +193,7 @@ export default ssrContext => {
 
       <% } else { %>
 
-        <% if (store && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
+        <% if (metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true) { %>ssrContext.state = unref(store.state)<% } %>
 
         resolve(app)
 

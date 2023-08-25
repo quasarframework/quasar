@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -56,21 +57,16 @@ import { addPreFetchHooks } from './client-prefetch.js'
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
-<% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
 const publicPath = `<%= build.publicPath %>`
-<% if (build.publicPath.length > 1) { %>
-const doubleSlashRE = /\/\//
-const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
-<% } %>
 
 async function start ({
   app,
   router
-  <%= store ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
+  <%= metaConf.hasStore ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
 }<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
-  <% if (ctx.mode.ssr && store && metaConf.storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
+  <% if (ctx.mode.ssr && metaConf.hasStore && metaConf.storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
     // prime the store with server-initialized state.
     // the state is determined during SSR and inlined in the page markup.
     if (<%= ctx.mode.pwa ? 'ssrIsRunningOnClientPWA !== true &&' : '' %>window.__INITIAL_STATE__ !== void 0) {
@@ -83,7 +79,7 @@ async function start ({
   <% if (bootEntries.length > 0) { %>
   let hasRedirected = false
   const getRedirectUrl = url => {
-    try { return <%= build.publicPath.length <= 1 ? 'router.resolve(url).href' : 'addPublicPath(router.resolve(url).href)' %> }
+    try { return router.resolve(url).href }
     catch (err) {}
 
     return Object(url) === url
@@ -114,7 +110,7 @@ async function start ({
       await bootFiles[i]({
         app,
         router,
-        <%= store ? 'store,' : '' %>
+        <%= metaConf.hasStore ? 'store,' : '' %>
         ssrContext: null,
         redirect,
         urlPath,
@@ -138,13 +134,13 @@ async function start ({
   <% } %>
 
   app.use(router)
-  <% if (store && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
+  <% if (metaConf.hasStore && metaConf.storePackage === 'vuex') { %>app.use(store, storeKey)<% } %>
 
   <% if (ctx.mode.ssr) { %>
     <% if (ctx.mode.pwa) { %>
       if (ssrIsRunningOnClientPWA === true) {
         <% if (preFetch) { %>
-        addPreFetchHooks({ router, ssrIsRunningOnClientPWA<%= store ? ', store' : '' %> })
+        addPreFetchHooks({ router, ssrIsRunningOnClientPWA<%= metaConf.hasStore ? ', store' : '' %> })
         <% } %>
         app.mount('#q-app')
       }
@@ -154,7 +150,7 @@ async function start ({
     // and async components...
     router.isReady().then(() => {
       <% if (preFetch) { %>
-      addPreFetchHooks({ router<%= store ? ', store' : '' %>, publicPath })
+      addPreFetchHooks({ router<%= metaConf.hasStore ? ', store' : '' %>, publicPath })
       <% } %>
       app.mount('#q-app')
     })
@@ -165,7 +161,7 @@ async function start ({
   <% } else { // not SSR %>
 
     <% if (preFetch) { %>
-    addPreFetchHooks({ router<%= store ? ', store' : '' %> })
+    addPreFetchHooks({ router<%= metaConf.hasStore ? ', store' : '' %> })
     <% } %>
 
     <% if (ctx.mode.cordova) { %>

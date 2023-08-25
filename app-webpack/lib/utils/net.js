@@ -1,5 +1,5 @@
-const os = require('os')
-const net = require('net')
+const os = require('node:os')
+const net = require('node:net')
 
 module.exports.localHostList = [ '0.0.0.0', 'localhost', '127.0.0.1', '::1' ]
 
@@ -41,7 +41,7 @@ module.exports.findClosestOpenPort = async function findClosestOpenPort (port, h
   let portProposal = port
 
   do {
-    if (await module.exports.isPortAvailable(portProposal, host)) {
+    if (await isPortAvailable(portProposal, host)) {
       return portProposal
     }
     portProposal++
@@ -51,7 +51,7 @@ module.exports.findClosestOpenPort = async function findClosestOpenPort (port, h
   throw new Error('ERROR_NETWORK_PORT_NOT_AVAIL')
 }
 
-module.exports.isPortAvailable = async function isPortAvailable (port, host) {
+async function isPortAvailable (port, host) {
   return new Promise((resolve, reject) => {
     const tester = net.createServer()
       .once('error', err => {
@@ -77,3 +77,5 @@ module.exports.isPortAvailable = async function isPortAvailable (port, host) {
       .listen(port, host)
   })
 }
+
+module.exports.isPortAvailable = isPortAvailable

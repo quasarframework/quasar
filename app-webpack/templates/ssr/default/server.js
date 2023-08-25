@@ -1,6 +1,6 @@
 /**
  * More info about this file:
- * https://v2.quasar.dev/quasar-cli-vite/developing-ssr/ssr-webserver
+ * https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/ssr-webserver
  *
  * Runs in Node context.
  */
@@ -15,7 +15,8 @@ import {
   ssrClose,
   ssrCreate,
   ssrListen,
-  ssrServeStaticContent
+  ssrServeStaticContent,
+  ssrRenderPreloadTag
 } from 'quasar/wrappers'
 
 /**

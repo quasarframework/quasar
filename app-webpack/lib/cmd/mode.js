@@ -41,8 +41,10 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const { getQuasarMode } = require('../mode/index.js')
 const { green, gray } = require('kolorist')
+
+const { getCtx } = require('../utils/get-ctx.js')
+const ctx = getCtx()
 
 async function run () {
   const [ action, mode ] = argv._
@@ -58,9 +60,10 @@ async function run () {
     fatal(`Unknown mode "${ mode }" to ${ action }`)
   }
 
-  const cliMode = getQuasarMode(mode)
+  const { isModeInstalled, addMode, removeMode } = require(`../modes/${ mode }/${ mode }-installation.js`)
+  const actionMap = { add: addMode, remove: removeMode }
 
-  if (action === 'remove' && argv.yes !== true && cliMode.isInstalled) {
+  if (action === 'remove' && argv.yes !== true && isModeInstalled(ctx.appPaths)) {
     console.log()
 
     const inquirer = require('inquirer')
@@ -79,19 +82,20 @@ async function run () {
     }
   }
 
-  await cliMode[ action ]()
+  await actionMap[ action ]({ ctx })
 }
 
-function displayModes () {
+async function displayModes () {
   log('Detecting installed modes...')
 
   const info = []
-  ;[ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ].forEach(mode => {
+  for (const mode of [ 'pwa', 'ssr', 'cordova', 'capacitor', 'electron', 'bex' ]) {
+    const { isModeInstalled } = require(`../modes/${ mode }/${ mode }-installation.js`)
     info.push([
       `Mode ${ mode.toUpperCase() }`,
-      getQuasarMode(mode).isInstalled ? green('yes') : gray('no')
+      isModeInstalled(ctx.appPaths) ? green('yes') : gray('no')
     ])
-  })
+  }
 
   console.log(
     '\n'

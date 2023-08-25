@@ -1,4 +1,3 @@
-const appPaths = require('../app-paths.js')
 const { getPackageJson } = require('./get-package-json.js')
 
 function getMajorVersion (version) {
@@ -9,8 +8,13 @@ function getMajorVersion (version) {
 /**
  * Get major version of a host package.
  */
-module.exports = function getPackageMajorVersion (pkgName, folder = appPaths.appDir) {
-  const pkg = getPackageJson(pkgName, folder)
+module.exports.getPackageMajorVersion = function getPackageMajorVersion (pkgName, dir) {
+  if (dir === void 0) {
+    console.error('getPackageMajorVersion() -> dir param is required')
+    process.exit(1)
+  }
+
+  const pkg = getPackageJson(pkgName, dir)
 
   if (pkg) {
     return getMajorVersion(pkg.version)

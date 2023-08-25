@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-declare module '@quasar/app-vite' {
+declare module '@quasar/app-webpack' {
   interface BexEventMap {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     log: [{ message: string; data?: any[] }, never];

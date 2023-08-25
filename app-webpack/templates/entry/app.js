@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -30,7 +31,7 @@ import { Quasar } from 'quasar'
 import { markRaw } from 'vue'
 import <%= metaConf.needsAppMountHook === true ? 'AppComponent' : 'RootComponent' %> from 'app/<%= sourceFiles.rootComponent %>'
 
-<% if (store) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
+<% if (metaConf.hasStore) { %>import createStore from 'app/<%= sourceFiles.store %>'<% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
 <% if (metaConf.needsAppMountHook === true) { %>
@@ -74,7 +75,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   app.config.globalProperties.$q.capacitor = window.Capacitor
   <% } %>
 
-  <% if (store) { %>
+  <% if (metaConf.hasStore) { %>
     const store = typeof createStore === 'function'
       ? await createStore({<%= ctx.mode.ssr ? 'ssrContext' : '' %>})
       : createStore
@@ -99,11 +100,11 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
 
   const router = markRaw(
     typeof createRouter === 'function'
-      ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ',' : '') : '' %><%= store ? 'store' : '' %>})
+      ? await createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (metaConf.hasStore ? ',' : '') : '' %><%= metaConf.hasStore ? 'store' : '' %>})
       : createRouter
   )
 
-  <% if (store) { %>
+  <% if (metaConf.hasStore) { %>
     // make router instance available in store
     <% if (metaConf.storePackage === 'vuex') { %>
       store.$router = router
@@ -117,7 +118,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    <%= store ? 'store,' + (metaConf.storePackage === 'vuex' ? ' storeKey,' : '') : '' %>
+    <%= metaConf.hasStore ? 'store,' + (metaConf.storePackage === 'vuex' ? ' storeKey,' : '') : '' %>
     router
   }
 }

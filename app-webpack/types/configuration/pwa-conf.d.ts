@@ -1,5 +1,5 @@
-import { Configuration as WebpackConfiguration } from "webpack";
-import * as WebpackChain from "webpack-chain";
+import { BuildOptions as EsbuildConfiguration } from "esbuild";
+import { GenerateSWOptions, InjectManifestOptions } from "workbox-build";
 
 // Derived from https://developer.mozilla.org/en-US/docs/Web/Manifest
 type PwaManifestDirection = "ltr" | "rtl" | "auto";
@@ -66,12 +66,6 @@ interface PwaManifestOptions {
   theme_color?: string;
 }
 
-interface PwaMetaVariablesEntry {
-  tagName: string;
-  attributes: object;
-  closeTag?: boolean;
-}
-
 interface InjectPwaMetaTagsParams {
   pwaManifest: PwaManifestOptions;
   publicPath: string;
@@ -79,7 +73,7 @@ interface InjectPwaMetaTagsParams {
 
 /**
  * This is the place where you can configure
- * [Workbox](https://developer.chrome.com/docs/workbox/modules/workbox-webpack-plugin/)’s
+ * [Workbox](https://developers.google.com/web/tools/workbox)’s
  * behavior and also tweak your `manifest.json`.
  */
 export interface QuasarPwaConfiguration {
@@ -112,29 +106,21 @@ export interface QuasarPwaConfiguration {
    * Auto inject the PWA meta tags?
    * @default true
    */
-  injectPwaMetaTags: boolean | ((injectParam: InjectPwaMetaTagsParams) => PwaMetaVariablesEntry[]);
+  injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);
 
   /**
-   * Webpack config object for the custom service worker ONLY (`/src-pwa/custom-service-worker`)
-   *  when pwa > workboxMode is set to InjectManifest
+   * Extend the esbuild config that is used for the custom service worker
+   * (if using it through workboxMode: 'InjectManifest')
    */
-  extendWebpackCustomSW?: (config: WebpackConfiguration) => void;
-  /**
-   * Equivalent to `extendWebpackCustomSW()` but uses `webpack-chain` instead,
-   *  for the custom service worker ONLY (`/src-pwa/custom-service-worker`)
-   *  when pwa > workboxMode is set to InjectManifest
-   */
-  chainWebpackCustomSW?: (chain: WebpackChain) => void;
+  extendPWACustomSWConf?: (config: EsbuildConfiguration) => void;
 
   /**
-   * Extend/configure the Workbox generateSW options
-   * More info [here](https://developer.chrome.com/docs/workbox/reference/workbox-webpack-plugin/)
+   * Extend/configure the Workbox GenerateSW options
    */
-  extendGenerateSWOptions?: (config: object) => void;
+  extendGenerateSWOptions?: (config: GenerateSWOptions) => void;
 
   /**
-   * Extend/configure the Workbox injectManifest options
-   * More info: [here](https://developer.chrome.com/docs/workbox/reference/workbox-webpack-plugin/)
+   * Extend/configure the Workbox InjectManifest options
    */
-  extendInjectManifestOptions?: (config: object) => void;
+  extendInjectManifestOptions?: (config: InjectManifestOptions) => void;
 }

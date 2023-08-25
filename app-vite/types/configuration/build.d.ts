@@ -289,13 +289,14 @@ interface QuasarDynamicBuildConfiguration {
   minify?: boolean | 'terser' | 'esbuild';
   /**
    * Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier)
-   * Default: {
+   * @default
+   *  {
    *    removeComments: true,
    *    collapseWhitespace: true,
    *    removeAttributeQuotes: true,
    *    collapseBooleanAttributes: true,
    *    removeScriptTypeAttributes: true
-   * }
+   *  }
    */
   htmlMinifyOptions?: HtmlMinifierOptions;
   /**

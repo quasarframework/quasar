@@ -41,41 +41,39 @@ function getArgv (argv) {
   }
 }
 
-async function run () {
-  const { Extension } = require('../app-extension/Extension.js')
-  const extension = new Extension('@quasar/testing')
+const { getCtx } = require('../utils/get-ctx.js')
+const { appExt } = getCtx()
 
-  const hooks = await extension.run()
-  const command = hooks.commands[ argv.cmd ]
+const ext = appExt.getInstance('@quasar/testing')
 
-  const list = () => {
-    if (Object.keys(hooks.commands).length === 0) {
-      warn('"@quasar/testing" app extension has no commands registered')
-      return
-    }
+const hooks = await ext.run()
+const command = hooks.commands[ argv.cmd ]
 
-    log('Listing "@quasar/testing" app extension commands')
-    log()
-
-    for (const cmd in hooks.commands) {
-      console.log(`  > ${ cmd }`)
-    }
-
-    console.log()
+const list = () => {
+  if (Object.keys(hooks.commands).length === 0) {
+    warn('"@quasar/testing" app extension has no commands registered')
+    return
   }
 
-  if (!command) {
-    warn()
-    warn(`"@quasar/testing" app extension has no command called "${ argv.cmd }"`)
-    warn()
-    list()
-    process.exit(1)
-  }
-
-  log(`Running "@quasar/testing" > "${ argv.cmd }" command`)
+  log('Listing "@quasar/testing" app extension commands')
   log()
 
-  await command(getArgv(argv))
+  for (const cmd in hooks.commands) {
+    console.log(`  > ${ cmd }`)
+  }
+
+  console.log()
 }
 
-run()
+if (!command) {
+  warn()
+  warn(`"@quasar/testing" app extension has no command called "${ argv.cmd }"`)
+  warn()
+  list()
+  process.exit(1)
+}
+
+log(`Running "@quasar/testing" > "${ argv.cmd }" command`)
+log()
+
+await command(getArgv(argv))

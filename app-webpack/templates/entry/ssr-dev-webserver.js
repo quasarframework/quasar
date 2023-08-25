@@ -4,8 +4,8 @@
  * DO NOT EDIT.
  **/
 
-import { create, listen, close, serveStaticContent, renderPreloadTag } from '../src-ssr/server'
-import injectMiddlewares from './ssr-middlewares'
+import { create, listen, close, serveStaticContent, renderPreloadTag } from 'app/src-ssr/server'
+import injectMiddlewares from './ssr-middlewares.js'
 
 export {
   create,

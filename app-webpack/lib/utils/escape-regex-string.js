@@ -1,3 +1,4 @@
+
 /**
  * Escape a string to then be supplied
  * to new RegExp()

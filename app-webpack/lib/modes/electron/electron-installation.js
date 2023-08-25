@@ -1,0 +1,78 @@
+const fs = require('node:fs')
+const fse = require('fs-extra')
+
+const { log, warn } = require('../../utils/logger.js')
+
+const electronDeps = {
+  electron: 'latest'
+}
+
+function isModeInstalled (appPaths) {
+  return fs.existsSync(appPaths.electronDir)
+}
+module.exports.isModeInstalled = isModeInstalled
+
+module.exports.addMode = function addMode ({
+  ctx: { appPaths, cacheProxy },
+  silent
+}) {
+  if (isModeInstalled(appPaths)) {
+    if (silent !== true) {
+      warn('Electron support detected already. Aborting.')
+    }
+    return
+  }
+
+  const nodePackager = cacheProxy.getModule('nodePackager')
+  nodePackager.installPackage(
+    Object.entries(electronDeps).map(([ name, version ]) => `${ name }@${ version }`),
+    { isDevDependency: true, displayName: 'Electron dependencies' }
+  )
+
+  log('Creating Electron source folder...')
+  const hasTypescript = cacheProxy.getModule('hasTypescript')
+  const format = hasTypescript ? 'ts' : 'default'
+  fse.copySync(
+    appPaths.resolve.cli(`templates/electron/${ format }`),
+    appPaths.electronDir
+  )
+
+  fse.copySync(
+    appPaths.resolve.cli('templates/electron/electron-flag.d.ts'),
+    appPaths.resolve.electron('electron-flag.d.ts')
+  )
+
+  log('Creating Electron icons folder...')
+  fse.copySync(
+    appPaths.resolve.cli('templates/electron/icons'),
+    appPaths.resolve.electron('icons')
+  )
+
+  log('Electron support was added')
+}
+
+module.exports.removeMode = function removeMode ({
+  ctx: { appPaths, cacheProxy }
+}) {
+  if (!isModeInstalled(appPaths)) {
+    warn('No Electron support detected. Aborting.')
+    return
+  }
+
+  log('Removing Electron source folder')
+  fse.removeSync(appPaths.electronDir)
+
+  const deps = Object.keys(electronDeps)
+
+  const { bundlerIsInstalled } = cacheProxy.getModule('electron')
+  ;[ 'packager', 'builder' ].forEach(bundlerName => {
+    if (bundlerIsInstalled(bundlerName)) {
+      deps.push(`electron-${ bundlerName }`)
+    }
+  })
+
+  const nodePackager = cacheProxy.getModule('nodePackager')
+  nodePackager.uninstallPackage(deps, { displayName: 'Electron dependencies' })
+
+  log('Electron support was removed')
+}

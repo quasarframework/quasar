@@ -1,6 +1,6 @@
 /**
  * More info about this file:
- * https://v2.quasar.dev/quasar-cli-vite/developing-ssr/ssr-webserver
+ * https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/ssr-webserver
  *
  * Runs in Node context.
  */
@@ -90,13 +90,13 @@ export const serveStaticContent = ssrServeStaticContent((path, opts) => {
   });
 });
 
-const jsRE = /\.js$/
-const cssRE = /\.css$/
-const woffRE = /\.woff$/
-const woff2RE = /\.woff2$/
-const gifRE = /\.gif$/
-const jpgRE = /\.jpe?g$/
-const pngRE = /\.png$/
+const jsRE = /\.js$/;
+const cssRE = /\.css$/;
+const woffRE = /\.woff$/;
+const woff2RE = /\.woff2$/;
+const gifRE = /\.gif$/;
+const jpgRE = /\.jpe?g$/;
+const pngRE = /\.png$/;
 
 /**
  * Should return a String with HTML output
@@ -108,28 +108,28 @@ export const renderPreloadTag = ssrRenderPreloadTag((file/* , { ssrContext } */)
   }
 
   if (cssRE.test(file) === true) {
-    return `<link rel="stylesheet" href="${file}" crossorigin>`
+    return `<link rel="stylesheet" href="${file}" crossorigin>`;
   }
 
   if (woffRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`
+    return `<link rel="preload" href="${file}" as="font" type="font/woff" crossorigin>`;
   }
 
   if (woff2RE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`
+    return `<link rel="preload" href="${file}" as="font" type="font/woff2" crossorigin>`;
   }
 
   if (gifRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`
+    return `<link rel="preload" href="${file}" as="image" type="image/gif" crossorigin>`;
   }
 
   if (jpgRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`
+    return `<link rel="preload" href="${file}" as="image" type="image/jpeg" crossorigin>`;
   }
 
   if (pngRE.test(file) === true) {
-    return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`
+    return `<link rel="preload" href="${file}" as="image" type="image/png" crossorigin>`;
   }
 
-  return ''
+  return '';
 });

@@ -1,13 +1,9 @@
 const { bold, underline, yellow } = require('kolorist')
 
 const { removeFileLoaders } = require('../utils.js')
-const { nodePackager } = require('../../node-packager.js')
 
 const depRE = /Can't resolve '(.*)' in/
 const relativeRE = /^(\.\/|\.\.\/)/
-const cmd = nodePackager.name === 'yarn'
-  ? 'yarn add'
-  : 'npm install --save'
 
 module.exports = function format (error, printLog, titleFn) {
   printLog(titleFn(removeFileLoaders(error.file)))
@@ -25,6 +21,6 @@ module.exports = function format (error, printLog, titleFn) {
   printLog(`Module not found: Can't resolve imported dependency "${ bold(underline(yellow(dependency))) }"`)
 
   if (relativeRE.test(dependency) === false) {
-    printLog(`Did you forget to install it? You can run: ${ bold(`${ cmd } ${ dependency }`) }`)
+    printLog('Did you forget to install it?')
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -9,7 +10,7 @@
  *
  * Boot files are your "main.js"
  **/
-<% if (metaConf.loadingBar) { %>
+<% if (metaConf.hasLoadingBarPlugin) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
 
@@ -47,7 +48,7 @@ function getMatchedComponents (to, router) {
   }))
 }
 
-export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', ssrIsRunningOnClientPWA' : '' %><%= store ? ', store' : '' %>, publicPath }) {
+export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', ssrIsRunningOnClientPWA' : '' %><%= metaConf.hasStore ? ', store' : '' %>, publicPath }) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
@@ -91,19 +92,19 @@ export function addPreFetchHooks ({ router<%= ctx.mode.ssr && ctx.mode.pwa ? ', 
       next(url)
     }
     const proceed = () => {
-      <% if (metaConf.loadingBar) { %>
+      <% if (metaConf.hasLoadingBarPlugin) { %>
       LoadingBar.stop()
       <% } %>
       if (hasRedirected === false) { next() }
     }
 
-    <% if (metaConf.loadingBar) { %>
+    <% if (metaConf.hasLoadingBarPlugin) { %>
     LoadingBar.start()
     <% } %>
 
     preFetchList.reduce(
       (promise, preFetch) => promise.then(() => hasRedirected === false && preFetch({
-        <% if (store) { %>store,<% } %>
+        <% if (metaConf.hasStore) { %>store,<% } %>
         currentRoute: to,
         previousRoute: from,
         redirect,
