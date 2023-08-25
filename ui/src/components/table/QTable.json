@@ -2026,6 +2026,11 @@
               "required": true,
               "desc": "Direction of change",
               "values": [ "increase", "decrease" ]
+            },
+            "ref": {
+              "type": "Component",
+              "required": true,
+              "desc": "Vue reference to the underlying QVirtualScroll instance"
             }
           }
         }
