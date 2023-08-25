@@ -16,9 +16,9 @@ desc: Quasar's active projects, goals and maintainers.
 | Apollo Client AE | Creator and maintainer | Scott | [repo](https://github.com/quasarframework/app-extension-apollo) |
 
 ## List of Projects Where New Maintainer is Needed
-These projects are an inevitable part of the Quasar framework, but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
+These projects are an inevitable part of the Quasar Framework, but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
 
-If you are interested, read [The Role of the Project Maintainer](/contribution-guide/project-maintainer) and let Razvan know via [Discord chat](https://chat.quasar.dev/).
+If you are interested, read [The Role of the Project Maintainer](/how-to-contribute/project-maintainer) and let Razvan know via [Discord chat](https://chat.quasar.dev/).
 
 We can promise you that your Javascript and Vue.js skills will reach the stars!
 
