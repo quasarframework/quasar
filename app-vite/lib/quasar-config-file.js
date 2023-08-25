@@ -174,6 +174,7 @@ export class QuasarConfigFile {
   #cssVariables
   #storeProvider
   #vueDevtools
+  #electronInspectPort
 
   constructor ({ ctx, host, port, verifyAddress, watch }) {
     this.#ctx = ctx
@@ -963,6 +964,10 @@ export class QuasarConfigFile {
       log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
     }
 
+    if (this.#ctx.mode.electron && this.#electronInspectPort === void 0) {
+      this.#electronInspectPort = await findClosestOpenPort(5858, '0.0.0.0')
+    }
+
     if (this.#ctx.mode.electron && this.#ctx.prod) {
       const { ensureInstall, getDefaultName } = await this.#ctx.cacheProxy.getModule('electron')
 
@@ -973,7 +978,7 @@ export class QuasarConfigFile {
         : appPaths.resolve.electron('icons/icon')
 
       cfg.electron = merge({
-        inspectPort: 5858,
+        inspectPort: this.#electronInspectPort,
         packager: {
           asar: true,
           icon: appPaths.resolve.electron('icons/icon'),
