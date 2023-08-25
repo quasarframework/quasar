@@ -93,7 +93,7 @@
     "register-service-worker": "1.7.2",
     "sass": "1.32.12",
     "sass-loader": "13.2.0",
-    "semver": "7.3.8",
+    "semver": "^7.3.8",
     "table": "6.8.1",
     "terser-webpack-plugin": "5.3.6",
     "ts-loader": "9.4.2",
