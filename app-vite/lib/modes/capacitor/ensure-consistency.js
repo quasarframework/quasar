@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import { existsSync } from 'node:fs'
 import fse from 'fs-extra'
 
 export function ensureWWW ({ appPaths, forced }) {
@@ -6,16 +6,16 @@ export function ensureWWW ({ appPaths, forced }) {
 
   forced === true && fse.removeSync(www)
 
-  if (!fs.existsSync(www)) {
+  if (!existsSync(www)) {
     fse.copySync(
       appPaths.resolve.cli('templates/capacitor/www'),
-      appPaths.resolve.capacitor('www')
+      www
     )
   }
 }
 
 export async function ensureDeps ({ appPaths, cacheProxy }) {
-  if (fs.existsSync(appPaths.resolve.capacitor('node_modules'))) {
+  if (existsSync(appPaths.resolve.capacitor('node_modules'))) {
     return
   }
 

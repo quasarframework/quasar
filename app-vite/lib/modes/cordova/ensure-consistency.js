@@ -1,4 +1,4 @@
-import fs from 'node:fs'
+import { existsSync } from 'node:fs'
 import fse from 'fs-extra'
 
 import { spawnSync } from '../../utils/spawn.js'
@@ -9,16 +9,16 @@ export function ensureWWW ({ appPaths, forced }) {
 
   forced === true && fse.removeSync(www)
 
-  if (!fs.existsSync(www)) {
+  if (!existsSync(www)) {
     fse.copySync(
-      appPaths.resolve.cli('templates/cordova'),
-      appPaths.cordovaDir
+      appPaths.resolve.cli('templates/cordova/www'),
+      www
     )
   }
 }
 
 export function ensureDeps ({ appPaths }) {
-  if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
+  if (existsSync(appPaths.resolve.cordova('node_modules'))) {
     return
   }
 

@@ -11,7 +11,6 @@
     "assets",
     "bin",
     "lib",
-    "public",
     "templates",
     "types",
     "tsconfig-preset.json"

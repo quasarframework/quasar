@@ -3,7 +3,6 @@ import { BuildOptions as EsbuildConfiguration } from "esbuild";
 export interface QuasarSsrConfiguration {
   /**
    * If a PWA should take over or just a SPA.
-   *
    * @default false
    */
   pwa?: boolean;

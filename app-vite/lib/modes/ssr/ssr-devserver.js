@@ -124,16 +124,16 @@ export class QuasarModeDevserver extends AppDevserver {
     // also update pwa-devserver.js when changing here
     this.registerDiff('pwaServiceWorker', quasarConf => [
       quasarConf.pwa.workboxMode,
-      quasarConf.pwa.precacheFromPublicFolder,
       quasarConf.pwa.swFilename,
-      quasarConf.pwa[
-        quasarConf.pwa.workboxMode === 'GenerateSW'
-          ? 'extendGenerateSWOptions'
-          : 'extendInjectManifestOptions'
-      ],
-      quasarConf.pwa.workboxMode === 'InjectManifest'
-        ? [ quasarConf.build.env, quasarConf.build.rawDefine ]
-        : ''
+      quasarConf.build,
+      quasarConf.pwa.workboxMode === 'GenerateSW'
+        ? quasarConf.pwa.extendGenerateSWOptions
+        : [
+            quasarConf.pwa.extendInjectManifestOptions,
+            quasarConf.pwa.extendPWACustomSWConf,
+            quasarConf.sourceFiles.pwaServiceWorker,
+            quasarConf.ssr.pwaOfflineHtmlFilename
+          ]
     ])
   }
 
