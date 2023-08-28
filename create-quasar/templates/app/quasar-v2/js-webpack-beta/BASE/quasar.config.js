@@ -14,6 +14,17 @@ import { configure } from 'quasar/wrappers';
 
 export default configure((ctx) => {
   return {
+    <% if (preset.lint) { %>eslint: {
+      // fix: true,
+      // include: [],
+      // exclude: [],
+      // cache: false,
+      // rawEsbuildEslintOptions: {},
+      // rawWebpackEslintPluginOptions: {},
+      warnings: true,
+      errors: true
+    },<% } %>
+
     // https://v2.quasar.dev/quasar-cli-webpack/prefetch-feature
     // preFetch: true,
 

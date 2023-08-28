@@ -14,6 +14,7 @@ export default configure((/* ctx */) => {
       // fix: true,
       // include: [],
       // exclude: [],
+      // cache: false,
       // rawOptions: {},
       warnings: true,
       errors: true
