@@ -34,7 +34,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     this.#electronExecutable = join(dirname(electronPkgPath), electronPkg.bin.electron)
 
     this.registerDiff('electron', quasarConf => [
-      quasarConf.build.esbuildEslintOptions,
+      quasarConf.eslint,
       quasarConf.devServer.host,
       quasarConf.devServer.port,
       quasarConf.devServer.https,

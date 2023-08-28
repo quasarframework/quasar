@@ -18,7 +18,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     super(opts)
 
     this.registerDiff('bexScripts', quasarConf => [
-      quasarConf.build.esbuildEslintOptions,
+      quasarConf.eslint,,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
       quasarConf.bex.contentScripts,

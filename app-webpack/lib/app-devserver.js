@@ -47,6 +47,7 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('webpack', quasarConf => ([
+      quasarConf.eslint,
       quasarConf.htmlVariables,
       quasarConf.devServer,
       quasarConf.build,

@@ -489,11 +489,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       },
 
       build: {
-        esbuildEslintOptions: {
-          include: [],
-          exclude: [],
-          rawOptions: {}
-        },
         esbuildTarget: {},
         vueLoaderOptions: {
           transformAssetUrls: {}

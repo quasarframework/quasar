@@ -102,7 +102,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     }
 
     this.registerDiff('webserver', quasarConf => [
-      quasarConf.build.esbuildEslintOptions,
+      quasarConf.eslint,
       quasarConf.build.env,
       quasarConf.build.rawDefine,
       quasarConf.ssr.extendSSRWebserverConf
