@@ -86,7 +86,7 @@ export default configure((ctx) => {
       // extractCSS: false,
 
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
-      // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
+      // "chain" is a webpack-chain object https://github.com/sorrycc/webpack-chain
       // chainWebpack (/* chain, { isClient, isServer } */) {}
     },
 
