@@ -40,7 +40,14 @@ export default defineComponent({
       compRef.value.blur()
     }
 
-    return { compRef, show, hide, toggle, focusMethod, blur }
+    function validate () {
+      compRef.value.validate()
+    }
+
+    function resetValidation () {
+      compRef.value.resetValidation()
+    }
+    return { compRef, show, hide, toggle, focusMethod, blur, validate, resetValidation }
   }
 })
 
