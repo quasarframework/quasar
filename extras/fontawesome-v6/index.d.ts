@@ -1,4 +1,4 @@
-/* Fontawesome Free v6.4.0 */
+/* Fontawesome Free v6.4.2 */
 
 export declare const fab42Group: string;
 export declare const fab500px: string;
@@ -100,6 +100,7 @@ export declare const fabDAndD: string;
 export declare const fabDAndDBeyond: string;
 export declare const fabDailymotion: string;
 export declare const fabDashcube: string;
+export declare const fabDebian: string;
 export declare const fabDeezer: string;
 export declare const fabDelicious: string;
 export declare const fabDeploydog: string;
@@ -371,11 +372,13 @@ export declare const fabSquarePinterest: string;
 export declare const fabSquareReddit: string;
 export declare const fabSquareSnapchat: string;
 export declare const fabSquareSteam: string;
+export declare const fabSquareThreads: string;
 export declare const fabSquareTumblr: string;
 export declare const fabSquareTwitter: string;
 export declare const fabSquareViadeo: string;
 export declare const fabSquareVimeo: string;
 export declare const fabSquareWhatsapp: string;
+export declare const fabSquareXTwitter: string;
 export declare const fabSquareXing: string;
 export declare const fabSquareYoutube: string;
 export declare const fabSquarespace: string;
@@ -405,6 +408,7 @@ export declare const fabTheRedYeti: string;
 export declare const fabThemeco: string;
 export declare const fabThemeisle: string;
 export declare const fabThinkPeaks: string;
+export declare const fabThreads: string;
 export declare const fabTiktok: string;
 export declare const fabTradeFederation: string;
 export declare const fabTrello: string;
@@ -455,6 +459,7 @@ export declare const fabWpbeginner: string;
 export declare const fabWpexplorer: string;
 export declare const fabWpforms: string;
 export declare const fabWpressr: string;
+export declare const fabXTwitter: string;
 export declare const fabXbox: string;
 export declare const fabXing: string;
 export declare const fabYCombinator: string;
