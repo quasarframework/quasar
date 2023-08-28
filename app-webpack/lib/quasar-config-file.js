@@ -918,7 +918,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     // along with deprecation notices; so we transform it automatically
     // for a better experience for our developers
     if (cfg.devServer.https !== void 0) {
-      // TODO: output a notice on terminal
       const { https } = cfg.devServer
 
       delete cfg.devServer.https
@@ -1171,11 +1170,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
 
     // get the env variables from host project env files
     const { fileEnv, usedEnvFiles, envFromCache } = readFileEnv({
-      appPaths,
-      quasarMode: this.#ctx.modeName,
-      buildType: this.#ctx.dev ? 'dev' : 'prod',
-      envFolder: cfg.build.envFolder,
-      envFiles: cfg.build.envFiles
+      ctx: this.#ctx,
+      quasarConf: cfg
     })
 
     cfg.metaConf.fileEnv = fileEnv
