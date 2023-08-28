@@ -467,7 +467,11 @@ export class QuasarConfigFile {
         config: {}
       },
 
-      eslint: {},
+      eslint: {
+        include: [],
+        exclude: [],
+        rawOptions: {}
+      },
 
       sourceFiles: {},
       bin: {},
@@ -668,6 +672,17 @@ export class QuasarConfigFile {
       hasLoadingBarPlugin: cfg.framework.plugins.includes('LoadingBar'),
       hasMetaPlugin: cfg.framework.plugins.includes('Meta')
     })
+
+    cfg.eslint = merge({
+      warnings: false,
+      errors: false,
+      fix: false,
+      formatter: 'stylish',
+      cache: true,
+      include: [],
+      exclude: [],
+      rawOptions: {}
+    }, cfg.eslint)
 
     cfg.build = merge({
       viteVuePluginOptions: {

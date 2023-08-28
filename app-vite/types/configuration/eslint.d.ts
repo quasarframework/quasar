@@ -3,13 +3,13 @@ import { ESLint } from "eslint";
 export interface QuasarEslintConfiguration {
   /**
    * Should it report warnings?
-   * @default true
+   * @default false
    */
   warnings?: boolean;
 
   /**
    * Should it report errors?
-   * @default true
+   * @default false
    */
   errors?: boolean;
 

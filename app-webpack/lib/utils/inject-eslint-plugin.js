@@ -3,13 +3,13 @@ const fse = require('fs-extra')
 const { encodeForDiff } = require('./encode-for-diff.js')
 
 function extractPluginConfig ({
-  cache = true,
+  cache,
   cacheLocation, // injected by us
 
-  formatter = 'stylish',
-  fix = false,
-  warnings = true,
-  errors = true,
+  formatter,
+  fix,
+  warnings,
+  errors,
   exclude = [],
 
   rawWebpackEslintPluginOptions = {}

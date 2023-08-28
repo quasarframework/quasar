@@ -44,15 +44,15 @@ function parseIssue (path, reportEntry) {
 }
 
 function extractStore ({
-  cache = true,
+  cache,
   cacheLocation, // injected by us
 
-  formatter = 'stylish',
-  fix = false,
-  warnings = true,
-  errors = true,
-  include = [],
-  exclude = [],
+  formatter,
+  fix,
+  warnings,
+  errors,
+  include,
+  exclude,
 
   rawEsbuildEslintOptions = {}
 }, {

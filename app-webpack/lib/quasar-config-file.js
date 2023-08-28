@@ -473,6 +473,13 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         remove: []
       },
 
+      eslint: {
+        include: [],
+        exclude: [],
+        rawWebpackEslintPluginOptions: {},
+        rawEsbuildEslintOptions: {}
+      },
+
       sourceFiles: {},
       bin: {},
       htmlVariables: {},
@@ -689,6 +696,18 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       hasMetaPlugin: cfg.framework.plugins.includes('Meta')
     })
 
+    cfg.eslint = merge({
+      warnings: false,
+      errors: false,
+      fix: false,
+      formatter: 'stylish',
+      cache: true,
+      include: [],
+      exclude: [],
+      rawWebpackEslintPluginOptions: {},
+      rawEsbuildEslintOptions: {}
+    }, cfg.eslint)
+
     cfg.build = merge({
       vueLoaderOptions: {
         transformAssetUrls: clone(this.#transformAssetUrls)
@@ -706,23 +725,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       webpackDevtool: this.#ctx.dev
         ? 'eval-cheap-module-source-map'
         : 'source-map',
-      webpackEslintPluginOptions: {
-        cache: true,
-        fix: false,
-        exclude: [ 'node_modules' ],
-        extensions: ['js', 'vue']
-      },
-      esbuildEslintOptions: {
-        cache: false,
-        formatter: 'stylish',
-        fix: false,
-        warnings: true,
-        errors: true,
-        include: [],
-        exclude: [],
-        rawEsbuildEslintOptions: {},
-        rawWebpackEslintPluginOptions: {}
-      },
       // env: {}, // leaving here for completeness
       uglifyOptions: {
         compress: {
