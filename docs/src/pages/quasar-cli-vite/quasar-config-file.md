@@ -260,6 +260,9 @@ interface QuasarFrameworkConfiguration {
   /* if you want the Quasar CSS Addons (see specific docs page) */
   cssAddon?: boolean;
 
+  /* if you don't want to include the default color palette Quasar provides by default */
+  excludeColorPalette?: boolean;
+
   /**
    * Format in which you will write your Vue templates when
    * using Quasar components.
@@ -286,6 +289,8 @@ interface QuasarFrameworkConfiguration {
 ```
 
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
+<!-- TODO: Make this refer to an actual page -->
+More on excludeColorPalette [here](/)
 
 ### animations
 
