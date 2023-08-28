@@ -26,6 +26,10 @@ Also check [Theme Builder](/style/theme-builder) for a tool on customizing the b
 
 Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) in `<style lang="...">` tags.
 
+::: tip Reduce CSS footprint
+If you do not use any of the colors listed below, you can exclude the colors from being included in the bundle. This will reduce the CSS footprint of your application. You can configure this under `quasar.config file > framework > excludeColorPalette: true`. 
+:::
+
 <color-list />
 
 ## Using as CSS Classes

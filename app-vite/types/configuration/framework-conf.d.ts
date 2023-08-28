@@ -17,6 +17,7 @@ interface QuasarFrameworkConfiguration {
   iconSet?: QuasarIconSets;
   lang?: QuasarLanguageCodes;
   cssAddon?: boolean;
+  excludeColorPalette?: boolean;
   /** @default 'kebab' */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
   components?: (keyof QuasarPluginOptions["components"])[];

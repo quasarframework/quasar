@@ -207,6 +207,7 @@ return {
     lang: 'de', // Tell Quasar which language pack to use for its own components
 
     cssAddon: true // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
+    excludeColorPalette: false // Remove the color-palette CSS classes (reduces CSS footprint)
   }
 }
 ```

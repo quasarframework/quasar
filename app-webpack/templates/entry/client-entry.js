@@ -40,6 +40,11 @@ import 'quasar/dist/quasar.<%= metaConf.css.quasarSrcExt %>'
 import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
+<% if (!framework.excludeColorPalette) { %>
+  // Don't include the Quasar palette if the user indicates it
+import 'quasar/src/css/color-palette.sass'
+<% } %>
+
 <% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
 import '<%= asset.path %>'
 <% }) %>
