@@ -14,7 +14,8 @@ export interface QuasarEslintConfiguration {
   errors?: boolean;
 
   /**
-   * Fix on save
+   * Fix on save.
+   * @default false
    */
   fix?: boolean;
 
@@ -34,6 +35,19 @@ export interface QuasarEslintConfiguration {
   /**
    * Files to exclude (can be in glob format).
    * Recommending to use .eslintignore file instead.
+   * @default ['node_modules']
    */
   exclude?: string[];
+
+  /**
+   * Enable or disable caching of the linting results.
+   * @default true
+   */
+  cache?: boolean;
+
+  /**
+   * Formatter to use
+   * @default 'stylish'
+   */
+  formatter?: ESLint.Formatter;
 }

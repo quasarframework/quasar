@@ -429,8 +429,11 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   if (hasTypescript === false) {
     const { hasEslint, EslintWebpackPlugin } = cacheProxy.getModule('eslint')
     if (hasEslint === true && EslintWebpackPlugin !== void 0) {
-      const { injectESLintPlugin } = require('./utils/inject-eslint-plugin.js')
-      injectESLintPlugin(chain, quasarConf, compileId)
+      const { warnings, errors } = quasarConf.eslint
+      if (warnings === true || errors === true) {
+        const { injectESLintPlugin } = require('./utils/inject-eslint-plugin.js')
+        injectESLintPlugin(chain, quasarConf, compileId)
+      }
     }
   }
 
@@ -512,7 +515,7 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
 
   const { hasEslint, ESLint } = cacheProxy.getModule('eslint')
   if (hasEslint === true && ESLint !== void 0) {
-    const { warnings, errors } = quasarConf.build.esbuildEslintOptions
+    const { warnings, errors } = quasarConf.eslint
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
       const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
@@ -543,7 +546,7 @@ module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildC
 
   const { hasEslint, ESLint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
   if (hasEslint === true && ESLint !== void 0) {
-    const { warnings, errors } = quasarConf.build.esbuildEslintOptions
+    const { warnings, errors } = quasarConf.eslint
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
       const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')

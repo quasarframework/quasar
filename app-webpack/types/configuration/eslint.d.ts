@@ -1,4 +1,5 @@
 import { ESLint } from "eslint";
+import { Options as WebpackEslintOptions } from 'eslint-webpack-plugin';
 
 export interface QuasarEslintConfiguration {
   /**
@@ -19,21 +20,39 @@ export interface QuasarEslintConfiguration {
   fix?: boolean;
 
   /**
-   * Raw options to send to ESLint
+   * Raw options to send to ESLint for Esbuild
    */
-  rawOptions?: Omit<
+  rawEsbuildEslintOptions?: Omit<
     ESLint.Options,
     "cache" | "cacheLocation" | "fix" | "errorOnUnmatchedPattern"
   >;
 
   /**
-   * Files to include (can be in glob format)
+   * Raw options to send to ESLint Webpack plugin
+   */
+  rawWebpackEslintPluginOptions?: WebpackEslintOptions;
+
+  /**
+   * Files to include (can be in glob format; for Esbuild ESLint only)
    */
   include?: string[];
 
   /**
    * Files to exclude (can be in glob format).
    * Recommending to use .eslintignore file instead.
+   * @default ['node_modules']
    */
   exclude?: string[];
+
+  /**
+   * Enable or disable caching of the linting results.
+   * @default true
+   */
+  cache?: boolean;
+
+  /**
+   * Formatter to use
+   * @default 'stylish'
+   */
+  formatter?: ESLint.Formatter;
 }

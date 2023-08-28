@@ -2,26 +2,54 @@ const fse = require('fs-extra')
 
 const { encodeForDiff } = require('./encode-for-diff.js')
 
-// TODO: a way to disable eslint webpack plugin even if hasEslint is true
+function extractPluginConfig ({
+  cache = true,
+  cacheLocation, // injected by us
+
+  formatter = 'stylish',
+  fix = false,
+  warnings = true,
+  errors = true,
+  exclude = [],
+
+  rawWebpackEslintPluginOptions = {}
+}) {
+  return {
+    cache,
+    cacheLocation,
+    formatter,
+    emitError: errors,
+    emitWarning: warnings,
+    extensions: [ 'js', 'jsx', 'vue' ],
+    exclude: [
+      'node_modules',
+      ...exclude
+    ],
+    fix,
+    ...rawWebpackEslintPluginOptions
+  }
+}
+
 module.exports.injectESLintPlugin = function injectESLintPlugin (webpackChain, quasarConf, compileId) {
   const { appPaths, cacheProxy } = quasarConf.ctx
 
   const cacheId = `eslint-${ compileId }`
   const cacheLocation = appPaths.resolve.cache(cacheId)
+  const { rawEsbuildEslintOptions, ...eslintOptions } = quasarConf.eslint
 
-  const eslintPluginConfig = {
-    ...quasarConf.build.webpackEslintPluginOptions,
+  const config = {
+    ...eslintOptions,
     cacheLocation
   }
 
-  if (eslintPluginConfig.cache === true) {
-    const configHash = encodeForDiff(eslintPluginConfig)
+  if (config.cache === true) {
+    const configHash = encodeForDiff(config)
     const cachedHash = cacheProxy.getRuntime(cacheId, () => '')
 
     if (cachedHash !== configHash) {
       cacheProxy.setRuntime(cacheId, configHash)
 
-      if (eslintPluginConfig.cache === true) {
+      if (config.cache === true) {
         // clear cache as we have a new config
         fse.removeSync(cacheLocation)
         fse.ensureDirSync(cacheLocation)
@@ -31,5 +59,5 @@ module.exports.injectESLintPlugin = function injectESLintPlugin (webpackChain, q
 
   const { EslintWebpackPlugin } = cacheProxy.getModule('eslint')
   webpackChain.plugin('eslint-webpack-plugin')
-    .use(EslintWebpackPlugin, [ eslintPluginConfig ])
+    .use(EslintWebpackPlugin, [ extractPluginConfig(config) ])
 }

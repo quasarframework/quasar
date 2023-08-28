@@ -501,10 +501,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         rawDefine: {},
         envFiles: [],
         webpackTranspileDependencies: [],
-        webpackEslintPluginOptions: {
-          exclude: [],
-          extensions: []
-        },
         uglifyOptions: {
           compress: {},
           mangle: {}
@@ -724,7 +720,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         errors: true,
         include: [],
         exclude: [],
-        rawOptions: {}
+        rawEsbuildEslintOptions: {},
+        rawWebpackEslintPluginOptions: {}
       },
       // env: {}, // leaving here for completeness
       uglifyOptions: {

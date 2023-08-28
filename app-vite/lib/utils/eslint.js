@@ -4,9 +4,7 @@ import { createFilter } from '@rollup/pluginutils'
 import { encodeForDiff } from './encode-for-diff.js'
 
 function extractStore ({
-  cache = false, // Note that cache is broken in ESLint
-  // at the time of writing these lines
-  // which is why we disable it by default
+  cache = true,
   cacheLocation, // injected by us
 
   formatter = 'stylish',
