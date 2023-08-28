@@ -4,24 +4,55 @@ import { join, isAbsolute } from 'node:path'
 import { parse as dotEnvParse } from 'dotenv'
 import { expand as dotEnvExpand } from 'dotenv-expand'
 
-let cachedFileEnv = null
-/** TODO instance instead of fn so we can cache it */
+import { encodeForDiff } from './encode-for-diff.js'
+
+const readFileEnvCacheKey = 'readFileEnv'
 
 /**
  * Get the raw env definitions from the host
  * project env files.
  */
-export function readFileEnv ({
-  appPaths,
-  quasarMode,
-  buildType,
-  envFolder = appPaths.appDir,
-  envFiles = []
-}) {
-  if (cachedFileEnv !== null) {
-    return cachedFileEnv
+export function readFileEnv ({ ctx, quasarConf }) {
+  const { cacheProxy } = ctx
+
+  const opts = {
+    envFolder: quasarConf.build.envFolder,
+    envFiles: quasarConf.build.envFiles
   }
 
+  const configHash = encodeForDiff(opts)
+  const cache = cacheProxy.getRuntime(readFileEnvCacheKey, () => ({}))
+
+  if (cache.configHash !== configHash) {
+    const result = getFileEnvResult(ctx.appPaths, {
+      ...opts,
+      quasarMode: ctx.modeName,
+      buildType: ctx.dev ? 'dev' : 'prod'
+    })
+
+    cacheProxy.setRuntime(readFileEnvCacheKey, {
+      configHash,
+      result: {
+        ...result,
+        envFromCache: true
+      }
+    })
+
+    return result
+  }
+
+  return cache.result
+}
+
+function getFileEnvResult (
+  appPaths,
+  {
+    quasarMode,
+    buildType,
+    envFolder = appPaths.appDir,
+    envFiles = []
+  }
+) {
   const fileList = [
     // .env
     // loaded in all cases
@@ -86,12 +117,6 @@ export function readFileEnv ({
   }
 
   const { parsed: fileEnv } = dotEnvExpand({ parsed: env })
-
-  cachedFileEnv = {
-    fileEnv,
-    usedEnvFiles,
-    envFromCache: true
-  }
 
   return {
     fileEnv,

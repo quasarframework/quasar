@@ -966,11 +966,8 @@ export class QuasarConfigFile {
 
     // get the env variables from host project env files
     const { fileEnv, usedEnvFiles, envFromCache } = readFileEnv({
-      appPaths,
-      quasarMode: this.#ctx.modeName,
-      buildType: this.#ctx.dev ? 'dev' : 'prod',
-      envFolder: cfg.build.envFolder,
-      envFiles: cfg.build.envFiles
+      ctx: this.#ctx,
+      quasarConf: cfg
     })
 
     cfg.metaConf.fileEnv = fileEnv
