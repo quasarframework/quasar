@@ -969,15 +969,15 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           // we now check if config is specifying a file path
           // and we actually read the contents so we can later supply correct
           // params to the node HTTPS server
-          ;[ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
-            if (typeof https[ prop ] === 'string') {
+          [ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
+            if (typeof options[ prop ] === 'string') {
               try {
-                https[ prop ] = readFileSync(https[ prop ])
+                options[ prop ] = readFileSync(options[ prop ])
               }
               catch (e) {
                 console.error(e)
                 console.log()
-                delete https[ prop ]
+                delete options[ prop ]
                 warn(`The devServer.server.options.${ prop } file could not be read. Removed the config.`)
               }
             }
