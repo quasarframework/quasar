@@ -109,7 +109,7 @@ export interface QuasarPwaConfiguration {
   injectPwaMetaTags?: boolean | ((injectParam: InjectPwaMetaTagsParams) => string);
 
   /**
-   * Extend the esbuild config that is used for the custom service worker
+   * Extend the Esbuild config that is used for the custom service worker
    * (if using it through workboxMode: 'InjectManifest')
    */
   extendPWACustomSWConf?: (config: EsbuildConfiguration) => void;

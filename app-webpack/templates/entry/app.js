@@ -65,7 +65,7 @@ export default async function (createAppFn, quasarUserOptions<%= ctx.mode.ssr ? 
   // Here we inject into it the Quasar UI, the router & possibly the store.
   const app = createAppFn(RootComponent)
 
-  <% if (ctx.dev || ctx.debug) { %>
+  <% if (metaConf.debugging) { %>
   app.config.performance = true
   <% } %>
 

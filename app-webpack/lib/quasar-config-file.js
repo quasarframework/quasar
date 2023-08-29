@@ -462,12 +462,14 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       css: [],
       extras: [],
       animations: [],
+
       framework: {
         components: [],
         directives: [],
         plugins: [],
         config: {}
       },
+
       vendor: {
         add: [],
         remove: []

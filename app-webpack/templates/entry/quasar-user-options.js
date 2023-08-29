@@ -31,13 +31,13 @@ import iconSet from '<%= framework.iconSet.includes('/') ? '' : 'quasar/icon-set
 
   ;['components', 'directives', 'plugins'].forEach(type => {
     let items = framework[type]
-    if (items.length > 0) {
+    if (items.length !== 0) {
       useStatement.push(type + ': {' + items.join(',') + '}')
       importStatement = importStatement.concat(items)
     }
   })
 
-  if (importStatement.length > 0) {
+  if (importStatement.length !== 0) {
 %>
 import <%= '{' + importStatement.join(',') + '}' %> from 'quasar'
 <% } %>

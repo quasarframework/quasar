@@ -13,6 +13,7 @@ const { WebpackProgressPlugin } = require('./plugins/webpack.progress.js')
 const { BootDefaultExportPlugin } = require('./plugins/webpack.boot-default-export.js')
 
 const cliPkgDependencies = Object.keys(cliPkg.dependencies || {})
+const nodeModulesRegex = /[\\/]node_modules[\\/]/
 
 function getDependenciesRegex (list) {
   const deps = list.map(dep => { // eslint-disable-line array-callback-return
@@ -153,7 +154,6 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
   }
 
   if (quasarConf.build.webpackTranspile === true) {
-    const nodeModulesRegex = /[\\/]node_modules[\\/]/
     const exceptionsRegex = getDependenciesRegex(
       [ /\.vue\.js$/, isSsrServer ? 'quasar/src' : 'quasar', '@babel/runtime' ]
         .concat(quasarConf.build.webpackTranspileDependencies)
@@ -262,7 +262,7 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     .test(/\.mjs$/)
     .type('javascript/auto')
     .include
-    .add(/[\\/]node_modules[\\/]/)
+    .add(nodeModulesRegex)
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin, [ quasarConf.build.vueLoaderOptions ])
@@ -298,7 +298,6 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
 
   if (isSsrServer === false && quasarConf.vendor.disable !== true) {
     const { add, remove } = quasarConf.vendor
-    const regex = /[\\/]node_modules[\\/]/
 
     chain.optimization.splitChunks({
       cacheGroups: {
@@ -313,9 +312,9 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
                 if (remove !== void 0 && remove.test(module.resource)) { return false }
                 if (add !== void 0 && add.test(module.resource)) { return true }
               }
-              return regex.test(module.resource)
+              return nodeModulesRegex.test(module.resource)
             }
-            : regex
+            : nodeModulesRegex
         },
         common: {
           name: 'chunk-common',
@@ -376,14 +375,17 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     chain.optimization
       .emitOnErrors(false)
 
-    chain.infrastructureLogging({ colors: true, level: 'warn' })
+    chain.infrastructureLogging({
+      colors: true,
+      level: 'warn'
+    })
   }
   // ctx.prod
   else {
     chain.optimization
       .concatenateModules(ctx.mode.ssr !== true)
 
-    if (ctx.debug) {
+    if (quasarConf.metaConf.debugging === true) {
       // reset default webpack 4 minimizer
       chain.optimization.minimizers.delete('js')
       // also:

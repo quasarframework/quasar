@@ -4,12 +4,13 @@ const { printDevRunningBanner } = require('./utils/banner.js')
 const { encodeForDiff } = require('./utils/encode-for-diff.js')
 const { EntryFilesGenerator } = require('./entry-files-generator.js')
 
-function getConfSnapshot (extractFn, quasarConf) {
-  return extractFn(quasarConf).map(item => (item ? encodeForDiff(item) : ''))
+function getConfSnapshot (extractFn, quasarConf, diffExtractFnMap) {
+  return extractFn(quasarConf, diffExtractFnMap).map(item => (item ? encodeForDiff(item) : ''))
 }
 
 module.exports.AppDevserver = class AppDevserver extends AppTool {
   #diffList = {}
+  #diffExtractFnMap = {}
   #entryFiles
   #runQueue = Promise.resolve()
   #runId = 0
@@ -41,9 +42,7 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('webpackUrl', quasarConf => ([
-      quasarConf.devServer.host,
-      quasarConf.devServer.port,
-      quasarConf.devServer.server.type === 'https'
+      quasarConf.metaConf.APP_URL
     ]))
 
     this.registerDiff('webpack', quasarConf => ([
@@ -54,6 +53,16 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
       quasarConf.vendor,
       quasarConf.sourceFiles
     ]))
+
+    this.registerDiff('esbuild', quasarConf => [
+      quasarConf.eslint,
+      quasarConf.build.env,
+      quasarConf.build.rawDefine,
+      quasarConf.metaConf.fileEnv,
+      quasarConf.build.alias,
+      quasarConf.build.minify,
+      quasarConf.build.esbuildTarget
+    ])
   }
 
   // to be called from inheriting class
@@ -92,18 +101,15 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
       snapshot: null,
       extractFn
     }
+
+    this.#diffExtractFnMap[ name ] = extractFn
   }
 
   #diff (name, quasarConf) {
-    if (Array.isArray(name) === true) {
-      const list = name.map(entry => this.#diff(entry, quasarConf))
-      return list.some(entry => entry === true)
-    }
-
     const target = this.#diffList[ name ]
     const { snapshot, extractFn } = target
 
-    const newSnapshot = getConfSnapshot(extractFn, quasarConf)
+    const newSnapshot = getConfSnapshot(extractFn, quasarConf, this.#diffExtractFnMap)
     target.snapshot = newSnapshot
 
     if (snapshot === null) {

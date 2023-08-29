@@ -102,7 +102,7 @@ const quasarSsrConfig = {
 
     webpackChain.target('node')
 
-    if (ctx.dev || ctx.debug) {
+    if (quasarConf.metaConf.debugging) {
       webpackChain.devtool('source-map')
     }
 

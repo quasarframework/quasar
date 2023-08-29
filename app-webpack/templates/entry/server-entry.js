@@ -12,11 +12,11 @@
  **/
 import { createApp<%= metaConf.hasStore && ssr.manualStoreSsrContextInjection !== true ? ', unref' : '' %> } from 'vue'
 
-<% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
+<% extras.length !== 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
-<% animations.length > 0 && animations.filter(asset => asset).forEach(asset => { %>
+<% animations.length !== 0 && animations.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
@@ -28,7 +28,7 @@ import 'quasar/dist/quasar.<%= metaConf.css.quasarSrcExt %>'
 import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
-<% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
+<% css.length !== 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
 import '<%= asset.path %>'
 <% }) %>
 

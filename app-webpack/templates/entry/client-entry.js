@@ -19,16 +19,16 @@ import { <%= ctx.mode.ssr ? 'createSSRApp' : 'createApp' %> } from 'vue'
 
 <% if (ctx.mode.bex) { %>
 import { uid } from 'quasar'
-import BexBridge from './bex-bridge'
+import BexBridge from './bex-bridge.js'
 <% } %>
 
 <% const bootEntries = boot.filter(asset => asset.client !== false) %>
 
-<% extras.length > 0 && extras.filter(asset => asset).forEach(asset => { %>
+<% extras.length !== 0 && extras.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 <% }) %>
 
-<% animations.length > 0 && animations.filter(asset => asset).forEach(asset => { %>
+<% animations.length !== 0 && animations.filter(asset => asset).forEach(asset => { %>
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
@@ -40,7 +40,7 @@ import 'quasar/dist/quasar.<%= metaConf.css.quasarSrcExt %>'
 import 'quasar/src/css/flex-addon.sass'
 <% } %>
 
-<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
+<% css.length !== 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
 import '<%= asset.path %>'
 <% }) %>
 
@@ -59,13 +59,15 @@ import { addPreFetchHooks } from './client-prefetch.js'
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
 <% } %>
 
+<% if (preFetch || bootEntries.length !== 0) { %>
 const publicPath = `<%= build.publicPath %>`
+<% } %>
 
 async function start ({
   app,
   router
   <%= metaConf.hasStore ? ', store' + (metaConf.storePackage === 'vuex' ? ', storeKey' : '') : '' %>
-}<%= bootEntries.length > 0 ? ', bootFiles' : '' %>) {
+}<%= bootEntries.length !== 0 ? ', bootFiles' : '' %>) {
   <% if (ctx.mode.ssr && metaConf.hasStore && metaConf.storePackage === 'vuex' && ssr.manualStoreHydration !== true) { %>
     // prime the store with server-initialized state.
     // the state is determined during SSR and inlined in the page markup.
@@ -76,7 +78,7 @@ async function start ({
     }
   <% } %>
 
-  <% if (bootEntries.length > 0) { %>
+  <% if (bootEntries.length !== 0) { %>
   let hasRedirected = false
   const getRedirectUrl = url => {
     try { return router.resolve(url).href }
@@ -251,7 +253,7 @@ createQuasarApp(<%=
     ? (ctx.mode.pwa ? 'ssrIsRunningOnClientPWA ? createApp : createSSRApp' : 'createSSRApp')
     : 'createApp'
 %>, quasarUserOptions)
-<% if (bootEntries.length > 0) { %>
+<% if (bootEntries.length !== 0) { %>
   .then(app => {
     // eventually remove this when Cordova/Capacitor/Electron support becomes old
     const [ method, mapFn ] = Promise.allSettled !== void 0
