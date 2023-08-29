@@ -110,6 +110,10 @@ function uniquePathFilter (value, index, self) {
   return self.map(obj => obj.path).indexOf(value.path) === index
 }
 
+function uniqueRegexFilter (value, index, self) {
+  return self.map(regex => regex.toString()).indexOf(value.toString()) === index
+}
+
 let cachedExternalHost, addressRunning = false
 
 async function onAddress ({ host, port }, mode) {
