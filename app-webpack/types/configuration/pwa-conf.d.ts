@@ -99,6 +99,7 @@ export interface QuasarPwaConfiguration {
 
   /**
    * Does the PWA manifest tag requires crossorigin auth?
+   * @default false
    */
   useCredentialsForManifestTag?: boolean;
 

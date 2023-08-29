@@ -709,20 +709,25 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       vueLoaderOptions: {
         transformAssetUrls: clone(this.#transformAssetUrls)
       },
-
       vueOptionsAPI: true,
+      vueRouterMode: 'hash',
+
+      minify: cfg.metaConf.debugging !== true
+        && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
+
+      sourcemap: cfg.metaConf.debugging === true,
+
       // need to force extraction for SSR due to
       // missing functionality in vue-loader
       extractCSS: this.#ctx.prod || this.#ctx.mode.ssr,
       distDir: join('dist', this.#ctx.modeName),
       webpackTranspile: true,
       htmlFilename: 'index.html',
-      // webpackTranspileDependencies: [], // leaving here for completeness
       webpackShowProgress: true,
       webpackDevtool: this.#ctx.dev
         ? 'eval-cheap-module-source-map'
         : 'source-map',
-      // env: {}, // leaving here for completeness
+
       uglifyOptions: {
         compress: {
           // turn off flags with small gains to speed up minification
@@ -798,13 +803,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         assets: appPaths.resolve.src('assets'),
         boot: appPaths.resolve.src('boot'),
         stores: appPaths.resolve.src('stores')
-      },
-
-      useFilenameHashes: true,
-      vueRouterMode: 'hash',
-      minify: cfg.metaConf.debugging !== true
-        && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
-      sourcemap: cfg.metaConf.debugging === true
+      }
     }, cfg.build)
 
     if (cfg.vendor.disable !== true) {

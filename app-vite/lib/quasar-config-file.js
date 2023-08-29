@@ -693,8 +693,15 @@ export class QuasarConfigFile {
           transformAssetUrls
         }
       },
-
       vueOptionsAPI: true,
+      vueRouterMode: 'hash',
+
+      minify: cfg.metaConf.debugging !== true
+        && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
+
+      sourcemap: cfg.metaConf.debugging === true,
+
+      useFilenameHashes: true,
       polyfillModulePreload: false,
       distDir: join('dist', this.#ctx.modeName),
 
@@ -729,13 +736,7 @@ export class QuasarConfigFile {
         assets: appPaths.resolve.src('assets'),
         boot: appPaths.resolve.src('boot'),
         stores: appPaths.resolve.src('stores')
-      },
-
-      useFilenameHashes: true,
-      vueRouterMode: 'hash',
-      minify: cfg.metaConf.debugging !== true
-        && (this.#ctx.mode.bex !== true || cfg.bex.minify === true),
-      sourcemap: cfg.metaConf.debugging === true
+      }
     }, cfg.build)
 
     if (!cfg.build.target.browser) {
