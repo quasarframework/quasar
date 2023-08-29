@@ -141,17 +141,17 @@ export class IndexAPI extends BaseAPI {
   }
 
   /**
-   * Extend SSR Webserver esbuild config
+   * Extend Bex scripts (background/content/dom) Esbuild config
    *
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendSSRWebserverConf (fn) {
-    this.#addHook('extendSSRWebserverConf', fn)
+  extendBexScriptsConf (fn) {
+    this.#addHook('extendBexScriptsConf', fn)
   }
 
   /**
-   * Extend Electron Main thread esbuild config
+   * Extend Electron Main thread Esbuild config
    *
    * @param {function} fn
    *   (cfg: Object, api) => undefined
@@ -161,7 +161,7 @@ export class IndexAPI extends BaseAPI {
   }
 
   /**
-   * Extend Electron Preload thread esbuild config
+   * Extend Electron Preload thread Esbuild config
    *
    * @param {function} fn
    *   (cfg: Object, api) => undefined
@@ -171,7 +171,7 @@ export class IndexAPI extends BaseAPI {
   }
 
   /**
-   * Extend PWA custom service worker esbuild config
+   * Extend PWA custom service worker Esbuild config
    * (when using Workbox InjectManifest mode)
    *
    * @param {function} fn
@@ -182,13 +182,13 @@ export class IndexAPI extends BaseAPI {
   }
 
   /**
-   * Extend Bex scripts (background/content/dom) esbuild config
+   * Extend SSR Webserver Esbuild config
    *
    * @param {function} fn
    *   (cfg: Object, api) => undefined
    */
-  extendBexScriptsConf (fn) {
-    this.#addHook('extendBexScriptsConf', fn)
+  extendSSRWebserverConf (fn) {
+    this.#addHook('extendSSRWebserverConf', fn)
   }
 
   /**

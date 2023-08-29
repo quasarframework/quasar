@@ -51,7 +51,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     if (diff('bexScripts', quasarConf)) {
-      return queue(() => this.#compileScripts(quasarConf))
+      return queue(() => this.#compileBexScripts(quasarConf))
     }
 
     if (diff('viteBex', quasarConf)) {
@@ -59,7 +59,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
   }
 
-  async #compileScripts (quasarConf) {
+  async #compileBexScripts (quasarConf) {
     this.#scriptWatchers.forEach(watcher => { watcher.close() })
     this.#scriptWatchers = []
 

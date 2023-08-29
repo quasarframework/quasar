@@ -1,6 +1,7 @@
 import { IResolve } from "./app-paths";
 import { QuasarConf } from "./configuration/conf";
 import { DeepRequired, DeepNonNullable } from "ts-essentials";
+import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
 type QuasarConfProxy = DeepRequired<DeepNonNullable<QuasarConf>>;
 type ExtractQuasarConfParameters<
@@ -11,17 +12,9 @@ type ExtractQuasarConfParameters<
   ? Parameters<MaybeFunction>
   : never;
 
-type chainWebpack = (
+type extendVite = (
   fn: (
-    ...args: [...ExtractQuasarConfParameters<"build", "chainWebpack">, IndexAPI]
-  ) => void
-) => void;
-type extendWebpack = (
-  fn: (
-    ...args: [
-      ...ExtractQuasarConfParameters<"build", "extendWebpack">,
-      IndexAPI
-    ]
+    ...args: [...ExtractQuasarConfParameters<"build", "extendViteConf">, IndexAPI]
   ) => void
 ) => void;
 
@@ -44,21 +37,22 @@ interface SharedAPI {
 
 export interface IndexAPI extends SharedAPI {
   extendQuasarConf: (cfg: QuasarConf, api: IndexAPI) => void;
-  chainWebpack: chainWebpack;
-  extendWebpack: extendWebpack;
-  chainWebpackMainElectronProcess: chainWebpack;
-  extendWebpackMainElectronProcess: extendWebpack;
-  chainWebpackPreloadElectronProcess: chainWebpack;
-  extendWebpackPreloadElectronProcess: extendWebpack;
-  chainWebpackWebserver: chainWebpack;
-  extendWebpackWebserver: extendWebpack;
-  chainWebpackCustomSW: chainWebpack;
-  extendWebpackCustomSW: extendWebpack;
+
+  extendViteConf: extendVite;
+
+  extendBexScriptsConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
+  extendElectronMainConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
+  extendElectronPreloadConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
+  extendPWACustomSWConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
+  extendSSRWebserverConf: (cfg: EsbuildConfiguration, api: IndexAPI) => void;
+
   registerCommand: (
     commandName: string,
     fn: { args: string[]; params: Record<string, any> }
   ) => void;
+
   registerDescribeApi: (name: string, relativePath: string) => void;
+
   beforeDev: (
     api: IndexAPI,
     payload: { quasarConf: QuasarConf }

@@ -37,7 +37,7 @@ export const quasarElectronConfig = {
       })
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.electron, quasarConf.ctx, 'ElectronMain')
+    return extendEsbuildConfig(cfg, quasarConf.electron, quasarConf.ctx, 'extendElectronMainConf')
   },
 
   preload: async quasarConf => {
@@ -63,7 +63,7 @@ export const quasarElectronConfig = {
       })
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.electron, quasarConf.ctx, 'ElectronPreload')
+    return extendEsbuildConfig(cfg, quasarConf.electron, quasarConf.ctx, 'extendElectronPreloadConf')
   }
 }
 

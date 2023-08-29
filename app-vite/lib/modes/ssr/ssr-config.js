@@ -118,7 +118,7 @@ export const quasarSsrConfig = {
       cfg.outfile = join(quasarConf.build.distDir, 'index.js')
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.ssr, quasarConf.ctx, 'SSRWebserver')
+    return extendEsbuildConfig(cfg, quasarConf.ssr, quasarConf.ctx, 'extendSSRWebserverConf')
   },
 
   workbox: quasarPwaConfig.workbox,

@@ -310,16 +310,14 @@ export async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
   return cfg
 }
 
-export function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, threadName) {
-  const method = `extend${ threadName }Conf`
-
+export function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, methodName) {
   // example: quasarConf.ssr.extendSSRWebserverConf
-  if (typeof quasarConfTarget[ method ] === 'function') {
-    quasarConfTarget[ method ](esbuildConf)
+  if (typeof quasarConfTarget[ methodName ] === 'function') {
+    quasarConfTarget[ methodName ](esbuildConf)
   }
 
-  const promise = ctx.appExt.runAppExtensionHook(method, async hook => {
-    log(`Extension(${ hook.api.extId }): Extending "${ threadName }" Esbuild config`)
+  const promise = ctx.appExt.runAppExtensionHook(methodName, async hook => {
+    log(`Extension(${ hook.api.extId }): Running "${ methodName }(esbuildConf)"`)
     await hook.fn(esbuildConf, hook.api)
   })
 
