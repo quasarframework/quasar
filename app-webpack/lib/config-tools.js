@@ -455,6 +455,10 @@ module.exports.extendWebpackChain = async function extendWebpackChain (webpackCh
 
   const { appExt } = quasarConf.ctx
 
+  if (typeof quasarConf.build.chainWebpack === 'function') {
+    quasarConf.build.chainWebpack(webpackChain, opts)
+  }
+
   await appExt.runAppExtensionHook('chainWebpack', async hook => {
     log(`Extension(${ hook.api.extId }): Chaining Webpack config`)
     await hook.fn(webpackChain, invokeParams, hook.api)
@@ -555,16 +559,14 @@ module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildC
   return cfg
 }
 
-module.exports.extendEsbuildConfig = function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, threadName) {
-  const method = `extend${ threadName }Conf`
-
+module.exports.extendEsbuildConfig = function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, methodName) {
   // example: quasarConf.ssr.extendSSRWebserverConf
-  if (typeof quasarConfTarget[ method ] === 'function') {
-    quasarConfTarget[ method ](esbuildConf)
+  if (typeof quasarConfTarget[ methodName ] === 'function') {
+    quasarConfTarget[ methodName ](esbuildConf)
   }
 
-  const promise = ctx.appExt.runAppExtensionHook(method, async hook => {
-    log(`Extension(${ hook.api.extId }): Extending "${ threadName }" Esbuild config`)
+  const promise = ctx.appExt.runAppExtensionHook(methodName, async hook => {
+    log(`Extension(${ hook.api.extId }): Running "${ methodName }(esbuildConf)"`)
     await hook.fn(esbuildConf, hook.api)
   })
 

@@ -16,10 +16,10 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
     this.registerDiff('webpackPWA', (quasarConf, diffMap) => [
       quasarConf.pwa.workboxMode,
       quasarConf.pwa.swFilename,
-      quasarConf.pwa.injectPwaMetaTags,
       quasarConf.pwa.manifestFilename,
       quasarConf.pwa.extendManifestJson,
       quasarConf.pwa.useCredentialsForManifestTag,
+      quasarConf.pwa.injectPwaMetaTags,
       quasarConf.build.htmlFilename, // non-ssr only
       quasarConf.pwa[
         quasarConf.pwa.workboxMode === 'GenerateSW'

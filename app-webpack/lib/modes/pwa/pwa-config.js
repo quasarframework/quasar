@@ -147,7 +147,7 @@ const quasarPwaConfig = {
       quasarConf.pwa.extendPWACustomSWConf(cfg)
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.pwa, quasarConf.ctx, 'CustomSW')
+    return extendEsbuildConfig(cfg, quasarConf.pwa, quasarConf.ctx, 'extendPWACustomSWConf')
   }
 }
 

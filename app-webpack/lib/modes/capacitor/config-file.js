@@ -130,7 +130,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     return JSON.stringify(capJson, null, 2)
   }
 
-  #updateCapPkg (cfg) {
+  #updateCapPkg (quasarConf) {
     const {
       appPaths,
       pkg: { appPkg }
@@ -142,9 +142,9 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     )
 
     Object.assign(capPkg, {
-      name: cfg.capacitor.appName || appPkg.name,
-      version: cfg.capacitor.version || appPkg.version,
-      description: cfg.capacitor.description || appPkg.description,
+      name: quasarConf.capacitor.appName || appPkg.name,
+      version: quasarConf.capacitor.version || appPkg.version,
+      description: quasarConf.capacitor.description || appPkg.description,
       author: appPkg.author
     })
 

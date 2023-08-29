@@ -115,10 +115,10 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
         ? [
           quasarConf.pwa.workboxMode,
           quasarConf.pwa.swFilename,
-          quasarConf.pwa.injectPwaMetaTags,
           quasarConf.pwa.manifestFilename,
           quasarConf.pwa.extendManifestJson,
           quasarConf.pwa.useCredentialsForManifestTag,
+          quasarConf.pwa.injectPwaMetaTags,
           quasarConf.ssr.pwaOfflineHtmlFilename, // ssr only
           quasarConf.pwa[
             quasarConf.pwa.workboxMode === 'GenerateSW'
@@ -141,12 +141,12 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
           quasarConf.pwa.extendInjectManifestOptions,
           quasarConf.pwa.swFilename,
           quasarConf.pwa.extendPWACustomSWConf,
-          quasarConf.sourceFiles.pwaServiceWorker
-        ]
-        : '',
+          quasarConf.sourceFiles.pwaServiceWorker,
 
-      // extends 'esbuild' diff
-      ...diffMap.esbuild(quasarConf)
+          // extends 'esbuild' diff
+          ...diffMap.esbuild(quasarConf)
+        ]
+        : ''
     ])
   }
 

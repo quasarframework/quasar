@@ -189,7 +189,7 @@ const quasarSsrConfig = {
       cfg.outfile = join(quasarConf.build.distDir, 'index.js')
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.ssr, ctx, 'SSRWebserver')
+    return extendEsbuildConfig(cfg, quasarConf.ssr, ctx, 'extendSSRWebserverConf')
   },
 
   customSw: quasarPwaConfig.customSw
