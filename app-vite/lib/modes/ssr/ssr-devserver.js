@@ -101,16 +101,19 @@ export class QuasarModeDevserver extends AppDevserver {
       }
     }
 
-    this.registerDiff('webserver', quasarConf => [
-      quasarConf.eslint,
-      quasarConf.build.env,
-      quasarConf.build.rawDefine,
-      quasarConf.ssr.extendSSRWebserverConf
+    this.registerDiff('webserver', (quasarConf, diffMap) => [
+      quasarConf.ssr.extendSSRWebserverConf,
+
+      // extends 'esbuild' diff
+      ...diffMap.esbuild(quasarConf)
     ])
 
-    this.registerDiff('pwaSsr', quasarConf => [
+    this.registerDiff('viteSSR', (quasarConf, diffMap) => [
       quasarConf.ssr.pwa,
-      quasarConf.ssr.pwa === true ? quasarConf.pwa.swFilename : ''
+      quasarConf.ssr.pwa === true ? quasarConf.pwa.swFilename : '',
+
+      // extends 'vite' diff
+      ...diffMap.vite(quasarConf)
     ])
 
     // also update pwa-devserver.js when changing here
@@ -158,7 +161,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     // also update pwa-devserver.js when changing here
-    if (diff([ 'vite', 'pwaSsr' ], quasarConf) === true) {
+    if (diff('viteSSR', quasarConf) === true) {
       return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
     }
   }

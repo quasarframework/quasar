@@ -460,6 +460,7 @@ export class QuasarConfigFile {
       css: [],
       extras: [],
       animations: [],
+
       framework: {
         components: [],
         directives: [],

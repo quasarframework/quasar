@@ -94,7 +94,7 @@ export class QuasarModeBuilder extends AppBuilder {
   }
 
   async #buildIos () {
-    const buildType = this.ctx.debug ? 'debug' : 'release'
+    const buildType = this.quasarConf.metaConf.debugging ? 'debug' : 'release'
     const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${ buildType } -derivedDataPath`
 
     log('Building iOS app...')
@@ -127,7 +127,7 @@ export class QuasarModeBuilder extends AppBuilder {
 
     await spawnSync(
       `./gradlew${ process.platform === 'win32' ? '.bat' : '' }`,
-      [ `assemble${ this.ctx.debug ? 'Debug' : 'Release' }` ].concat(this.argv._),
+      [ `assemble${ this.quasarConf.metaConf.debugging ? 'Debug' : 'Release' }` ].concat(this.argv._),
       { cwd: this.ctx.appPaths.resolve.capacitor('android') },
       () => {
         warn()

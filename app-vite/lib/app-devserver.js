@@ -4,12 +4,13 @@ import { printDevRunningBanner } from './utils/banner.js'
 import { encodeForDiff } from './utils/encode-for-diff.js'
 import { EntryFilesGenerator } from './entry-files-generator.js'
 
-function getConfSnapshot (extractFn, quasarConf) {
-  return extractFn(quasarConf).map(item => (item ? encodeForDiff(item) : ''))
+function getConfSnapshot (extractFn, quasarConf, diffExtractFnMap) {
+  return extractFn(quasarConf, diffExtractFnMap).map(item => (item ? encodeForDiff(item) : ''))
 }
 
 export class AppDevserver extends AppTool {
   #diffList = {}
+  #diffExtractFnMap = {}
   #entryFiles
   #runQueue = Promise.resolve()
   #runId = 0
@@ -37,9 +38,7 @@ export class AppDevserver extends AppTool {
     ]))
 
     this.registerDiff('viteUrl', quasarConf => ([
-      quasarConf.devServer.host,
-      quasarConf.devServer.port,
-      quasarConf.devServer.https
+      quasarConf.metaConf.APP_URL
     ]))
 
     this.registerDiff('vite', quasarConf => ([
@@ -49,6 +48,16 @@ export class AppDevserver extends AppTool {
       quasarConf.build,
       quasarConf.sourceFiles
     ]))
+
+    this.registerDiff('esbuild', quasarConf => [
+      quasarConf.eslint,
+      quasarConf.build.env,
+      quasarConf.build.rawDefine,
+      quasarConf.metaConf.fileEnv,
+      quasarConf.build.alias,
+      quasarConf.build.minify,
+      quasarConf.build.target
+    ])
   }
 
   // to be called from inheriting class
@@ -87,18 +96,15 @@ export class AppDevserver extends AppTool {
       snapshot: null,
       extractFn
     }
+
+    this.#diffExtractFnMap[ name ] = extractFn
   }
 
   #diff (name, quasarConf) {
-    if (Array.isArray(name) === true) {
-      const list = name.map(entry => this.#diff(entry, quasarConf))
-      return list.some(entry => entry === true)
-    }
-
     const target = this.#diffList[ name ]
     const { snapshot, extractFn } = target
 
-    const newSnapshot = getConfSnapshot(extractFn, quasarConf)
+    const newSnapshot = getConfSnapshot(extractFn, quasarConf, this.#diffExtractFnMap)
     target.snapshot = newSnapshot
 
     if (snapshot === null) {

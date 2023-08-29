@@ -19,11 +19,15 @@ export class QuasarModeDevserver extends AppDevserver {
     super(opts)
 
     // also update ssr-devserver.js when changing here
-    this.registerDiff('pwaManifest', quasarConf => [
+    this.registerDiff('vitePWA', (quasarConf, diffMap) => [
       quasarConf.pwa.injectPwaMetaTags,
       quasarConf.pwa.manifestFilename,
       quasarConf.pwa.extendManifestJson,
-      quasarConf.pwa.useCredentialsForManifestTag
+      quasarConf.pwa.useCredentialsForManifestTag,
+      quasarConf.pwa.swFilename,
+
+      // extends 'vite' diff
+      ...diffMap.vite(quasarConf)
     ])
 
     // also update ssr-devserver.js when changing here
@@ -61,7 +65,7 @@ export class QuasarModeDevserver extends AppDevserver {
     }
 
     // also update ssr-devserver.js when changing here
-    if (diff([ 'vite', 'pwaFilenames' ], quasarConf) === true) {
+    if (diff('vitePWA', quasarConf) === true) {
       return queue(() => this.#runVite(quasarConf, diff('viteUrl', quasarConf)))
     }
   }

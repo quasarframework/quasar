@@ -32,18 +32,16 @@ export class QuasarModeDevserver extends AppDevserver {
 
     this.#electronExecutable = join(dirname(electronPkgPath), electronPkg.bin.electron)
 
-    this.registerDiff('electron', quasarConf => [
-      quasarConf.eslint,
-      quasarConf.devServer.host,
-      quasarConf.devServer.port,
-      quasarConf.devServer.https,
-      quasarConf.build.env,
-      quasarConf.build.rawDefine,
+    this.registerDiff('electron', (quasarConf, diffMap) => [
+      quasarConf.devServer,
       quasarConf.electron.extendElectronMainConf,
       quasarConf.electron.extendElectronPreloadConf,
       quasarConf.electron.inspectPort,
       quasarConf.sourceFiles.electronMain,
-      quasarConf.sourceFiles.electronPreload
+      quasarConf.sourceFiles.electronPreload,
+
+      // extends 'esbuild' diff
+      ...diffMap.esbuild(quasarConf)
     ])
   }
 

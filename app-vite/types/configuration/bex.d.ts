@@ -10,7 +10,7 @@ interface QuasarBexConfiguration {
   contentScripts?: string[];
 
   /**
-   * Extend the esbuild config that is used for the bex scripts
+   * Extend the Esbuild config that is used for the bex scripts
    * (background, content scripts, dom script)
    */
   extendBexScriptsConf?: (config: EsbuildConfiguration) => void;

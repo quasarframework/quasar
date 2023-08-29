@@ -16,12 +16,12 @@ interface QuasarBaseElectronConfiguration {
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
 
   /**
-   * Extend the esbuild config that is used for the electron-main thread
+   * Extend the Esbuild config that is used for the electron-main thread
    */
   extendElectronMainConf?: (config: EsbuildConfiguration) => void;
 
   /**
-   * Extend the esbuild config that is used for the electron-preload thread
+   * Extend the Esbuild config that is used for the electron-preload thread
    */
   extendElectronPreloadConf?: (config: EsbuildConfiguration) => void;
 
