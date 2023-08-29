@@ -1,7 +1,5 @@
-
 const debounce = require('lodash/debounce.js')
 const chokidar = require('chokidar')
-const fse = require('fs-extra')
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
