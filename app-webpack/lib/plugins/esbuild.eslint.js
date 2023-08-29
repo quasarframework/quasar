@@ -137,7 +137,6 @@ function getLinter (quasarConf, compileId) {
   return cachedLinter.store
 }
 
-
 module.exports.quasarEsbuildESLintPlugin = async function quasarEsbuildESLintPlugin (quasarConf, compileId) {
   const {
     eslint,

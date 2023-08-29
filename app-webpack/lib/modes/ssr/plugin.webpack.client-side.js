@@ -24,7 +24,7 @@ function groupFiles (fileList) {
   const head = []
   const body = []
 
-  for (file of fileList) {
+  for (const file of fileList) {
     const target = jsRE.test(file) ? body : head
     target.push(file)
   }

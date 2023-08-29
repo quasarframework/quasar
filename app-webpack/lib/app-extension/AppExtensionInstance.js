@@ -1,4 +1,3 @@
-
 const { join, relative, resolve, dirname } = require('node:path')
 const { pathToFileURL } = require('node:url')
 const fse = require('fs-extra')

@@ -1,4 +1,3 @@
-
 const { join } = require('node:path')
 const fse = require('fs-extra')
 const archiver = require('archiver')

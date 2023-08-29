@@ -1,4 +1,3 @@
-
 const { cliPkg } = require('../../utils/cli-runtime.js')
 
 module.exports.BaseAPI = class BaseAPI {

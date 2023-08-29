@@ -1,4 +1,3 @@
-
 const { merge } = require('webpack-merge')
 
 const { AppBuilder } = require('../../app-builder.js')

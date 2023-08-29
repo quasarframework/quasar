@@ -1,4 +1,3 @@
-
 const { AppBuilder } = require('../../app-builder.js')
 const { quasarSpaConfig } = require('./spa-config.js')
 

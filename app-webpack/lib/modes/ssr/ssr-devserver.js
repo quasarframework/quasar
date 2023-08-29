@@ -113,19 +113,19 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       quasarConf.ssr.pwa,
       quasarConf.ssr.pwa === true
         ? [
-          quasarConf.pwa.workboxMode,
-          quasarConf.pwa.swFilename,
-          quasarConf.pwa.manifestFilename,
-          quasarConf.pwa.extendManifestJson,
-          quasarConf.pwa.useCredentialsForManifestTag,
-          quasarConf.pwa.injectPwaMetaTags,
-          quasarConf.ssr.pwaOfflineHtmlFilename, // ssr only
-          quasarConf.pwa[
-            quasarConf.pwa.workboxMode === 'GenerateSW'
-              ? 'extendGenerateSWOptions'
-              : 'extendInjectManifestOptions'
+            quasarConf.pwa.workboxMode,
+            quasarConf.pwa.swFilename,
+            quasarConf.pwa.manifestFilename,
+            quasarConf.pwa.extendManifestJson,
+            quasarConf.pwa.useCredentialsForManifestTag,
+            quasarConf.pwa.injectPwaMetaTags,
+            quasarConf.ssr.pwaOfflineHtmlFilename, // ssr only
+            quasarConf.pwa[
+              quasarConf.pwa.workboxMode === 'GenerateSW'
+                ? 'extendGenerateSWOptions'
+                : 'extendInjectManifestOptions'
+            ]
           ]
-        ]
         : '',
 
       // extends 'webpack' diff
@@ -137,15 +137,15 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       quasarConf.pwa.workboxMode,
       quasarConf.pwa.workboxMode === 'InjectManifest'
         ? [
-          quasarConf.build,
-          quasarConf.pwa.extendInjectManifestOptions,
-          quasarConf.pwa.swFilename,
-          quasarConf.pwa.extendPWACustomSWConf,
-          quasarConf.sourceFiles.pwaServiceWorker,
+            quasarConf.build,
+            quasarConf.pwa.extendInjectManifestOptions,
+            quasarConf.pwa.swFilename,
+            quasarConf.pwa.extendPWACustomSWConf,
+            quasarConf.sourceFiles.pwaServiceWorker,
 
-          // extends 'esbuild' diff
-          ...diffMap.esbuild(quasarConf)
-        ]
+            // extends 'esbuild' diff
+            ...diffMap.esbuild(quasarConf)
+          ]
         : ''
     ])
   }

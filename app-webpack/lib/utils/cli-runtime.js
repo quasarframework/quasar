@@ -1,4 +1,3 @@
-
 const { join } = require('node:path')
 const { readFileSync } = require('node:fs')
 

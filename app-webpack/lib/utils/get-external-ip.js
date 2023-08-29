@@ -1,4 +1,3 @@
-
 const inquirer = require('inquirer')
 
 const { warn, fatal } = require('./logger.js')

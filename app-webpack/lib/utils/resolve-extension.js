@@ -1,4 +1,3 @@
-
 const { existsSync } = require('node:fs')
 
 const extensions = [ '', '.js', '.ts', '.jsx', '.tsx' ]

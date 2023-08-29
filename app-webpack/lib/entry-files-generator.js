@@ -1,4 +1,3 @@
-
 const { readFileSync } = require('node:fs')
 const fse = require('fs-extra')
 const compileTemplate = require('lodash/template.js')

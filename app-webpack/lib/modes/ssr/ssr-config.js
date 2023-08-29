@@ -46,7 +46,7 @@ const quasarSsrConfig = {
         )
 
       webpackChain.plugin('quasar-ssr-client')
-          .use(QuasarSSRClientPlugin)
+        .use(QuasarSSRClientPlugin)
     }
     else if (quasarConf.devServer.hot) {
       webpackChain.plugin('hot-module-replacement')

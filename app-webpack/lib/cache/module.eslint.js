@@ -1,4 +1,3 @@
-
 const { existsSync } = require('node:fs')
 
 const { getPackage } = require('../utils/get-package.js')

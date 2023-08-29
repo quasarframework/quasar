@@ -36,15 +36,15 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       quasarConf.pwa.workboxMode,
       quasarConf.pwa.workboxMode === 'InjectManifest'
         ? [
-          quasarConf.build,
-          quasarConf.pwa.extendInjectManifestOptions,
-          quasarConf.pwa.swFilename,
-          quasarConf.pwa.extendPWACustomSWConf,
-          quasarConf.sourceFiles.pwaServiceWorker,
+            quasarConf.build,
+            quasarConf.pwa.extendInjectManifestOptions,
+            quasarConf.pwa.swFilename,
+            quasarConf.pwa.extendPWACustomSWConf,
+            quasarConf.sourceFiles.pwaServiceWorker,
 
-          // extends 'esbuild' diff
-          ...diffMap.esbuild(quasarConf)
-        ]
+            // extends 'esbuild' diff
+            ...diffMap.esbuild(quasarConf)
+          ]
         : ''
     ])
   }

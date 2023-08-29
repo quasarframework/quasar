@@ -1,4 +1,3 @@
-
 const { readFileSync } = require('node:fs')
 
 const { getPackageJson } = require('../utils/get-package-json.js')

@@ -1,4 +1,3 @@
-
 const { lstatSync } = require('node:fs')
 const fse = require('fs-extra')
 const { join, isAbsolute, basename, dirname } = require('node:path')

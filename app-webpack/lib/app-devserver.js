@@ -1,4 +1,3 @@
-
 const { AppTool } = require('./app-tool.js')
 const { printDevRunningBanner } = require('./utils/banner.js')
 const { encodeForDiff } = require('./utils/encode-for-diff.js')
@@ -31,13 +30,13 @@ module.exports.AppDevserver = class AppDevserver extends AppTool {
       quasarConf.build.publicPath,
       quasarConf.ctx.mode.ssr === true
         ? [
-          quasarConf.ssr.pwa,
-          quasarConf.ssr.middlewares,
-          quasarConf.ssr.manualStoreSsrContextInjection,
-          quasarConf.ssr.manualStoreSerialization,
-          quasarConf.ssr.manualStoreHydration,
-          quasarConf.ssr.manualPostHydrationTrigger
-        ]
+            quasarConf.ssr.pwa,
+            quasarConf.ssr.middlewares,
+            quasarConf.ssr.manualStoreSsrContextInjection,
+            quasarConf.ssr.manualStoreSerialization,
+            quasarConf.ssr.manualStoreHydration,
+            quasarConf.ssr.manualPostHydrationTrigger
+          ]
         : ''
     ]))
 

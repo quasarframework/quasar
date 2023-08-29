@@ -1,4 +1,3 @@
-
 const {
   createWebpackChain, extendWebpackChain,
   createBrowserEsbuildConfig, extendEsbuildConfig
@@ -114,7 +113,6 @@ module.exports.injectWebpackPwa = injectWebpackPwa
 
 const quasarPwaConfig = {
   webpack: async quasarConf => {
-
     const webpackChain = await createWebpackChain(quasarConf, { compileId: 'webpack-pwa', threadName: 'PWA UI' })
 
     injectWebpackPwa(webpackChain, quasarConf)

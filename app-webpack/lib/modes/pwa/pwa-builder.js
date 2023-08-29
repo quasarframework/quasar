@@ -1,4 +1,3 @@
-
 const { AppBuilder } = require('../../app-builder.js')
 const { quasarPwaConfig } = require('./pwa-config.js')
 
