@@ -58,7 +58,7 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
 
 async function renderFolders ({ source, rawCopy, scope }, ctx) {
   let overwrite
-  const { default: fglob } = await import('fast-glob')
+  const fglob = require('fast-glob')
   const files = fglob.sync([ '**/*' ], { cwd: source })
 
   for (const rawPath of files) {

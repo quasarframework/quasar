@@ -917,7 +917,12 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     // webpack-dev-server 4.5.0 introduced a change in behavior
     // along with deprecation notices; so we transform it automatically
     // for a better experience for our developers
-    if (cfg.devServer.https !== void 0) {
+    if (typeof cfg.devServer.server === 'string') {
+      cfg.devServer.server = {
+        type: cfg.devServer.server
+      }
+    }
+    else if (cfg.devServer.https !== void 0) {
       const { https } = cfg.devServer
 
       delete cfg.devServer.https
@@ -930,6 +935,37 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         if (Object(https) === https) {
           cfg.devServer.server.options = https
         }
+      }
+    }
+
+    if (this.#ctx.dev && cfg.devServer.server.type === 'https') {
+      const { options } = cfg.devServer.server
+
+      if (options === void 0) {
+        const { getCertificate } = await import('@quasar/ssl-certificate')
+        const sslCertificate = getCertificate({ log, fatal })
+        cfg.devServer.server.options = {
+          key: sslCertificate,
+          cert: sslCertificate
+        }
+      }
+      else {
+        // we now check if config is specifying a file path
+        // and we actually read the contents so we can later supply correct
+        // params to the node HTTPS server
+        [ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
+          if (typeof options[ prop ] === 'string') {
+            try {
+              options[ prop ] = readFileSync(options[ prop ])
+            }
+            catch (e) {
+              console.error(e)
+              console.log()
+              delete options[ prop ]
+              warn(`The devServer.server.options.${ prop } file could not be read. Removed the config.`)
+            }
+          }
+        })
       }
     }
 
@@ -953,37 +989,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       }
 
       this.#ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa === true
-
-      if (this.#ctx.dev && cfg.devServer.server.type === 'https') {
-        const { options } = cfg.devServer.server
-
-        if (options === void 0) {
-          const { getCertificate } = await import('@quasar/ssl-certificate')
-          const sslCertificate = getCertificate({ log, fatal })
-          cfg.devServer.server.options = {
-            key: sslCertificate,
-            cert: sslCertificate
-          }
-        }
-        else {
-          // we now check if config is specifying a file path
-          // and we actually read the contents so we can later supply correct
-          // params to the node HTTPS server
-          [ 'ca', 'pfx', 'key', 'cert' ].forEach(prop => {
-            if (typeof options[ prop ] === 'string') {
-              try {
-                options[ prop ] = readFileSync(options[ prop ])
-              }
-              catch (e) {
-                console.error(e)
-                console.log()
-                delete options[ prop ]
-                warn(`The devServer.server.options.${ prop } file could not be read. Removed the config.`)
-              }
-            }
-          })
-        }
-      }
     }
 
     if (this.#ctx.dev) {

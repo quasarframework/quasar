@@ -153,7 +153,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
 
   #updateSSL (quasarConf, target, capVersion) {
     const { appPaths, cacheProxy } = this.#ctx
-    const add = quasarConf.ctx.dev ? quasarConf.devServer.https : false
+    const add = quasarConf.ctx.dev ? quasarConf.devServer.server.type === 'https' : false
 
     if (capVersion >= 4) {
       const hasPlugin = getPackageJson('@jcesarmobile/ssl-skip', appPaths.capacitorDir) !== void 0
