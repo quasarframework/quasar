@@ -55,6 +55,8 @@ export async function createInstance ({
   }
 
   function getBundler (bundlerName) {
+    // May return "{ default }" (electron-packager) or directly the package (electron-builder);
+    // The getPackage() fn is async, so the result of getBundler() should be awaited
     return getPackage(`electron-${ bundlerName }`, appPaths.appDir)
   }
 
