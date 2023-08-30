@@ -66,7 +66,7 @@ async function run () {
   if (action === 'remove' && argv.yes !== true && isModeInstalled(ctx.appPaths)) {
     console.log()
 
-    const inquirer = await import('inquirer')
+    const { default: inquirer } = await import('inquirer')
     const answer = await inquirer.prompt([ {
       name: 'go',
       type: 'confirm',
