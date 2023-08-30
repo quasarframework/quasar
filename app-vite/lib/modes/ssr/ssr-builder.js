@@ -128,13 +128,9 @@ export class QuasarModeBuilder extends AppBuilder {
 
     const templateFn = getProdSsrTemplateFn(html, this.quasarConf)
 
-    const prefix = this.ctx.pkg.appPkg.type === 'module'
-      ? 'export default '
-      : 'module.exports='
-
     this.writeFile(
       'render-template.js',
-      `${ prefix }${ templateFn.source }`
+      `export default ${ templateFn.source }`
     )
 
     if (this.quasarConf.ssr.pwa === true) {
