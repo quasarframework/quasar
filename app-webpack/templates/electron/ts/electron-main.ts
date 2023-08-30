@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from 'electron';
-import path from 'node:path';
-import os from 'node:os';
+import path from 'path';
+import os from 'os';
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform();
