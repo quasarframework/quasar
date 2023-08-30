@@ -12,9 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "strict": true,
-    "target": "esnext",
-    "isolatedModules": true,
-    "useDefineForClassFields": true,
+    "target": "es6",
     // Fix Volar issue https://github.com/johnsoncodehk/volar/issues/1153
     "jsx": "preserve",
     "lib": ["esnext", "dom"],
