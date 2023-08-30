@@ -4,7 +4,8 @@
  * quasar.config.js > pwa > workboxMode is set to "injectManifest"
  */
 
-declare const self: ServiceWorkerGlobalScope & typeof globalThis;
+declare const self: ServiceWorkerGlobalScope &
+  typeof globalThis & { skipWaiting: () => void };
 
 import { clientsClaim } from 'workbox-core';
 import {
