@@ -2,6 +2,7 @@ const fse = require('fs-extra')
 const semver = require('semver')
 
 const { getPackageJson } = require('../../utils/get-package-json.js')
+const { getBackwardCompatiblePackageName } = require('../utils.app-extension.js')
 const { BaseAPI } = require('./BaseAPI.js')
 
 /**
@@ -35,7 +36,8 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    * @return {boolean} package is installed and meets optional semver condition
    */
   hasPackage (packageName, semverCondition) {
-    const json = getPackageJson(packageName, this.appDir)
+    const name = getBackwardCompatiblePackageName(packageName)
+    const json = getPackageJson(name, this.appDir)
 
     if (json === void 0) {
       return false
@@ -63,7 +65,8 @@ module.exports.UninstallAPI = class UninstallAPI extends BaseAPI {
    * @return {string|undefined} version of app's package
    */
   getPackageVersion (packageName) {
-    const json = getPackageJson(packageName, this.appDir)
+    const name = getBackwardCompatiblePackageName(packageName)
+    const json = getPackageJson(name, this.appDir)
     return json !== void 0
       ? json.version
       : void 0
