@@ -84,6 +84,7 @@ print({ key: 'Important local packages', section: true })
   'pinia',
   'vuex',
   'vite',
+  'esbuild',
   'eslint',
   'electron',
   'electron-packager',

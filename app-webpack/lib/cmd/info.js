@@ -88,6 +88,7 @@ print({ key: 'Important local packages', section: true })
   'electron-packager',
   'electron-builder',
   '@babel/core',
+  'esbuild',
   'webpack',
   'webpack-dev-server',
   'workbox-webpack-plugin',
