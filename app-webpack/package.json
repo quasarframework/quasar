@@ -100,7 +100,7 @@
     "rollup-plugin-visualizer": "^5.5.4",
     "sass": "1.32.12",
     "sass-loader": "13.2.2",
-    "semver": "^7.5.2",
+    "semver": "^7.5.3",
     "serialize-javascript": "^6.0.0",
     "table": "^6.8.0",
     "terser-webpack-plugin": "^5.3.8",
