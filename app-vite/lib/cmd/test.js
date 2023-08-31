@@ -46,6 +46,13 @@ const { appExt } = getCtx()
 
 const ext = appExt.getInstance('@quasar/testing')
 
+if (ext === void 0) {
+  warn()
+  warn('"@quasar/testing" app extension is not installed')
+  warn()
+  process.exit(1)
+}
+
 const hooks = await ext.run()
 const command = hooks.commands[ argv.cmd ]
 
