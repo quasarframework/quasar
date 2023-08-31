@@ -1,6 +1,5 @@
 const fs = require('node:fs')
 const fse = require('fs-extra')
-const inquirer = require('inquirer')
 
 const { log, warn, fatal } = require('../../utils/logger.js')
 const { spawnSync } = require('../../utils/spawn.js')
@@ -38,6 +37,7 @@ module.exports.addMode = async function addMode ({
   }
 
   console.log()
+  const { default: inquirer } = await import('inquirer')
   const answer = await inquirer.prompt([ {
     name: 'appId',
     type: 'input',

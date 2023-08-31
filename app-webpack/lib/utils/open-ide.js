@@ -1,7 +1,6 @@
 const fs = require('node:fs')
 const path = require('node:path')
 const { execSync } = require('node:child_process')
-const open = require('open')
 
 const { warn, fatal } = require('./logger.js')
 
@@ -17,7 +16,7 @@ function findXcodeWorkspace (folder) {
   }
 }
 
-function runMacOS (mode, target, appPaths) {
+function runMacOS ({ mode, target, appPaths, open }) {
   if (target === 'ios') {
     const folder = mode === 'cordova'
       ? appPaths.resolve.cordova('platforms/ios')
@@ -60,7 +59,7 @@ function getLinuxPath (bin) {
   }
 }
 
-function runLinux (mode, bin, target, appPaths) {
+function runLinux ({ mode, bin, target, appPaths, open }) {
   if (target === 'android') {
     const studioPath = getLinuxPath(bin)
     if (studioPath) {
@@ -113,7 +112,7 @@ function getWindowsPath (bin) {
   }
 }
 
-function runWindows (mode, bin, target, appPaths) {
+function runWindows ({ mode, bin, target, appPaths, open }) {
   if (target === 'android') {
     const studioPath = getWindowsPath(bin)
     if (studioPath) {
@@ -143,7 +142,7 @@ function runWindows (mode, bin, target, appPaths) {
   process.exit(1)
 }
 
-module.exports.openIDE = function openIDE ({ mode, bin, target, dev, appPaths }) {
+module.exports.openIDE = async function openIDE ({ mode, bin, target, dev, appPaths }) {
   console.log()
   console.log(' ⚠️  ')
   console.log(` ⚠️  Opening ${ target === 'ios' ? 'XCode' : 'Android Studio' } IDE...`)
@@ -166,13 +165,15 @@ module.exports.openIDE = function openIDE ({ mode, bin, target, dev, appPaths })
   console.log(' ⚠️  ')
   console.log()
 
+  const { default: open } = await import('open')
+
   switch (process.platform) {
     case 'darwin':
-      return runMacOS(mode, target, appPaths)
+      return runMacOS({ mode, target, appPaths, open })
     case 'linux':
-      return runLinux(mode, bin, target, appPaths)
+      return runLinux({ mode, bin, target, appPaths, open })
     case 'win32':
-      return runWindows(mode, bin, target, appPaths)
+      return runWindows({ mode, bin, target, appPaths, open })
     default:
       fatal('Unsupported host OS for opening the IDE')
   }

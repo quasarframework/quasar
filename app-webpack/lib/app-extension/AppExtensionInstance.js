@@ -1,7 +1,6 @@
 const { join, relative, resolve, dirname } = require('node:path')
 const { pathToFileURL } = require('node:url')
 const fse = require('fs-extra')
-const inquirer = require('inquirer')
 const { isBinaryFileSync: isBinary } = require('isbinaryfile')
 const compileTemplate = require('lodash/template.js')
 
@@ -20,6 +19,7 @@ async function promptOverwrite ({ targetPath, options, ctx }) {
     { name: 'Skip all (might break extension)', value: 'skipAll' }
   ]
 
+  const { default: inquirer } = await import('inquirer')
   return await inquirer.prompt([ {
     name: 'action',
     type: 'list',
@@ -183,6 +183,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       }
     }
     else if (isInstalled) {
+      const { default: inquirer } = await import('inquirer')
       const answer = await inquirer.prompt([ {
         name: 'reinstall',
         type: 'confirm',
@@ -295,6 +296,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       return {}
     }
 
+    const { default: inquirer } = await import('inquirer')
     const prompts = await inquirer.prompt(questions())
 
     console.log()

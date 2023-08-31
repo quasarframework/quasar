@@ -41,7 +41,7 @@ module.exports.addMode = async function addMode ({
 
   console.log()
 
-  const inquirer = require('inquirer')
+  const { default: inquirer } = await import('inquirer')
   const answer = await inquirer.prompt([ {
     name: 'appId',
     type: 'input',

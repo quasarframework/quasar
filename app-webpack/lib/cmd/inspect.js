@@ -105,9 +105,9 @@ async function run () {
   }
 
   if (argv.path) {
-    const dot = require('dot-prop')
+    const { getProperty } = await import('dot-prop')
     cfgEntries.forEach(cfgEntry => {
-      cfgEntry.object = dot.get(cfgEntry.object, argv.path)
+      cfgEntry.object = getProperty(cfgEntry.object, argv.path)
     })
   }
 
