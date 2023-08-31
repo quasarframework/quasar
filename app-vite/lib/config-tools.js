@@ -41,7 +41,7 @@ function parseVitePlugins (entries) {
       return
     }
 
-    const [ name, opts ] = entry
+    const [ name, opts = {} ] = entry
 
     if (typeof name === 'function') {
       acc.push(
@@ -72,8 +72,14 @@ function parseVitePlugins (entries) {
       return
     }
 
+    const pluginFn = (
+      plugin.default?.default // example: vite-plugin-checker
+      || plugin.default
+      || plugin
+    )
+
     acc.push(
-      (plugin.default || plugin)(
+      pluginFn(
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
         merge({}, opts)
       )
