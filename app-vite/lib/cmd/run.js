@@ -10,7 +10,7 @@ const argv = parseArgs(process.argv.slice(2), {
 const extId = argv._[ 0 ]
 const cmd = argv._[ 1 ]
 
-if (!extId && argv.help) {
+if (!extId || argv.help) {
   console.log(`
   Description
     Run app extension provided commands
@@ -48,6 +48,13 @@ import { getCtx } from '../utils/get-ctx.js'
 const { appExt } = getCtx()
 
 const ext = appExt.getInstance(extId)
+
+if (ext === void 0) {
+  warn()
+  warn(`"${ extId }" app extension is not installed`)
+  warn()
+  process.exit(1)
+}
 
 const hooks = await ext.run()
 
