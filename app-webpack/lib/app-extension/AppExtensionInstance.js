@@ -108,8 +108,10 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   extId
   packageFullName
   packageName
-  packageFormat
-  packagePath
+
+  #isInstalled = null
+  #packageFormat = null
+  #packagePath = null
 
   constructor ({ extName, ctx, appExtJson }) {
     this.#ctx = ctx
@@ -135,30 +137,60 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     }
   }
 
-  isInstalled () {
+  get isInstalled () {
+    if (this.#isInstalled !== null) {
+      return this.#isInstalled
+    }
+
+    this.#loadPackageInfo()
+    return this.#isInstalled
+  }
+
+  get packageFormat () {
+    if (this.#packageFormat !== null) {
+      return this.#packageFormat || void 0
+    }
+
+    this.#loadPackageInfo()
+    return this.#packageFormat || void 0
+  }
+
+  get packagePath () {
+    if (this.#packagePath !== null) {
+      return this.#packagePath || void 0
+    }
+
+    this.#loadPackageInfo()
+    return this.#packagePath || void 0
+  }
+
+  #loadPackageInfo () {
     try {
       const packagePath = getPackagePath(
         join(this.packageFullName, 'package.json'),
         this.#ctx.appPaths.appDir
       )
 
-      if (packagePath === void 0) {
-        return false
+      if (packagePath !== void 0) {
+        const pkg = JSON.parse(
+          fse.readFileSync(packagePath, 'utf-8')
+        )
+
+        this.#isInstalled = true
+        this.#packageFormat = pkg.type === 'module' ? 'esm' : 'cjs'
+        this.#packagePath = dirname(packagePath)
+        return
       }
-
-      const packageJsonPath = packagePath
-      const pkg = JSON.parse(
-        fse.readFileSync(packageJsonPath, 'utf-8')
-      )
-
-      this.packageFormat = pkg.type === 'module' ? 'esm' : 'cjs'
-      this.packagePath = dirname(packagePath)
-
-      return true
     }
-    catch (_) {
-      return false
-    }
+    catch (_) {}
+
+    this.#markAsNotInstalled()
+  }
+
+  #markAsNotInstalled () {
+    this.#isInstalled = false
+    this.#packageFormat = false
+    this.#packagePath = false
   }
 
   async install (skipPkgInstall) {
@@ -174,15 +206,13 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     log(`${ skipPkgInstall ? 'Invoking' : 'Installing' } "${ this.extId }" Quasar App Extension`)
     log()
 
-    const isInstalled = this.isInstalled()
-
     // verify if already installed
     if (skipPkgInstall === true) {
-      if (!isInstalled) {
+      if (!this.isInstalled) {
         fatal(`Tried to invoke App Extension "${ this.extId }" but its npm package is not installed`)
       }
     }
-    else if (isInstalled) {
+    else if (this.isInstalled) {
       const { default: inquirer } = await import('inquirer')
       const answer = await inquirer.prompt([ {
         name: 'reinstall',
@@ -223,15 +253,13 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     log(`${ skipPkgUninstall ? 'Uninvoking' : 'Uninstalling' } "${ this.extId }" Quasar App Extension`)
     log()
 
-    const isInstalled = this.isInstalled()
-
     // verify if already installed
     if (skipPkgUninstall === true) {
-      if (!isInstalled) {
+      if (!this.isInstalled) {
         fatal(`Tried to uninvoke App Extension "${ this.extId }" but there's no npm package installed for it.`)
       }
     }
-    else if (!isInstalled) {
+    else if (!this.isInstalled) {
       warn(`Quasar App Extension "${ this.packageName }" is not installed...`)
       return
     }
@@ -258,7 +286,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   }
 
   async run () {
-    if (!this.isInstalled()) {
+    if (!this.isInstalled) {
       warn(`Quasar App Extension "${ this.extId }" is missing...`)
       process.exit(1, 'ext-missing')
     }
@@ -306,11 +334,13 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   async #installPackage () {
     const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.installPackage(this.packageFullName, { isDevDependency: true })
+    this.#loadPackageInfo()
   }
 
   async #uninstallPackage () {
     const nodePackager = await this.#ctx.cacheProxy.getModule('nodePackager')
     nodePackager.uninstallPackage(this.packageFullName)
+    this.#markAsNotInstalled()
   }
 
   /**
