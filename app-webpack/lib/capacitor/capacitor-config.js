@@ -98,7 +98,10 @@ class CapacitorConfig {
     const capJson = { ...originalCapCfg }
 
     capJson.appName = quasarConf.capacitor.appName || this.pkg.productName || 'Quasar App'
-    capJson.bundledWebRuntime = false
+
+    if (capVersion < 5) {
+      capJson.bundledWebRuntime = false
+    }
 
     if (quasarConf.ctx.dev) {
       capJson.server = capJson.server || {}
