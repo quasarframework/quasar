@@ -191,6 +191,8 @@ export class QuasarConfigFile {
       : () => {}
 
     const quasarConfigFileExtension = appPaths.quasarConfigOutputFormat === 'esm' ? 'mjs' : appPaths.quasarConfigOutputFormat
+
+    // if filename syntax gets changed, then also update the "clean" cmd
     this.#tempFile = `${ appPaths.quasarConfigFilename }.temporary.compiled.${ Date.now() }.${ quasarConfigFileExtension }`
 
     log(`Using ${ basename(appPaths.quasarConfigFilename) } in "${ appPaths.quasarConfigInputFormat }" format`)

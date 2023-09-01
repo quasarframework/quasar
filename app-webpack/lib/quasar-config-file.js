@@ -194,6 +194,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     const { appPaths } = ctx
 
     const quasarConfigFileExtension = appPaths.quasarConfigOutputFormat === 'esm' ? 'mjs' : appPaths.quasarConfigOutputFormat
+
+    // if filename syntax gets changed, then also update the "clean" cmd
     this.#tempFile = `${ appPaths.quasarConfigFilename }.temporary.compiled.${ Date.now() }.${ quasarConfigFileExtension }`
 
     log(`Using ${ basename(appPaths.quasarConfigFilename) } in "${ appPaths.quasarConfigInputFormat }" format`)
@@ -292,7 +294,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       console.error(e)
       fatal(
         'The quasar.config file has runtime errors. Please check the Node.js stack above against the'
-        + ` temporarily created ${ basename(this.#tempFile) } file, fix the original file then DELETE the temporary one.`,
+        + ` temporarily created ${ basename(this.#tempFile) } file, fix the original file`
+        + ' then DELETE the temporary one ("quasar clean --qconf" can be used).',
         'FAIL'
       )
     }
@@ -363,7 +366,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
             console.error(e)
 
             const msg = 'Importing quasar.config file results in error. Please check the'
-              + ` Node.js stack above against the temporarily created ${ basename(tempFile) } file and fix the original file.`
+              + ` Node.js stack above against the temporarily created ${ basename(tempFile) } file`
+              + ' and fix the original file then DELETE the temporary one ("quasar clean --qconf" can be used).'
 
             if (isFirst === true) {
               fatal(msg, 'FAIL')
@@ -432,7 +436,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       const msg = 'The quasar.config file has runtime errors.'
         + ' Please check the Node.js stack above against the'
         + ` temporarily created ${ basename(this.#tempFile) } file`
-        + ' then DELETE it.'
+        + ' then DELETE it ("quasar clean --qconf" can be used).'
 
       if (failOnError === true) {
         fatal(msg, 'FAIL')
