@@ -1,5 +1,6 @@
 const fs = require('fs-extra')
 const path = require('path')
+const { pathToFileURL } = require('url')
 
 const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
@@ -229,7 +230,7 @@ module.exports = class Extension {
       process.exit(1, 'ext-missing')
     }
 
-    const script = this.__getScript('index', true)
+    const script = await this.__getScript('index', true)
     const IndexAPI = require('./IndexAPI')
 
     const api = new IndexAPI({
@@ -253,7 +254,7 @@ module.exports = class Extension {
   }
 
   async __getPrompts () {
-    const questions = this.__getScript('prompts')
+    const questions = await this.__getScript('prompts')
 
     if (!questions) {
       return {}
@@ -302,7 +303,7 @@ module.exports = class Extension {
     return script
   }
 
-  __getScript (scriptName, fatalError) {
+  async __getScript (scriptName, fatalError) {
     let script
 
     try {
@@ -316,11 +317,15 @@ module.exports = class Extension {
       return
     }
 
-    return require(script)
+    const { default: fn } = await import(
+      pathToFileURL(script)
+    )
+
+    return fn
   }
 
   async __runInstallScript (prompts) {
-    const script = this.__getScript('install')
+    const script = await this.__getScript('install')
 
     if (!script) {
       return
@@ -361,7 +366,7 @@ module.exports = class Extension {
   }
 
   async __runUninstallScript (prompts) {
-    const script = this.__getScript('uninstall')
+    const script = await this.__getScript('uninstall')
 
     if (!script) {
       return
