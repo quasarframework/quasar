@@ -580,7 +580,7 @@ export class QuasarConfigFile {
       }
       else {
         tip(
-          'You specified an explicit quasar.config file > devServer > port. It is recommended to use'
+          'You (or an AE) specified an explicit quasar.config file > devServer > port. It is recommended to use'
           + ' a different devServer > port for each Quasar mode to avoid browser cache issues.'
           + ' Example: ctx.mode.ssr ? 9100 : ...'
         )

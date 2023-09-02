@@ -2,7 +2,6 @@
 import { join, relative, resolve, dirname } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import fse from 'fs-extra'
-import { createRequire } from 'node:module'
 import inquirer from 'inquirer'
 import { isBinaryFileSync as isBinary } from 'isbinaryfile'
 import compileTemplate from 'lodash/template.js'
@@ -13,8 +12,6 @@ import { IndexAPI } from './api-classes/IndexAPI.js'
 import { InstallAPI } from './api-classes/InstallAPI.js'
 import { UninstallAPI } from './api-classes/UninstallAPI.js'
 import { getPackagePath } from '../utils/get-package-path.js'
-
-const require = createRequire(import.meta.url)
 
 async function promptOverwrite ({ targetPath, options, ctx }) {
   const choices = [
@@ -114,7 +111,6 @@ export class AppExtensionInstance {
   packageName
 
   #isInstalled = null
-  #packageFormat = null
   #packagePath = null
 
   constructor ({ extName, ctx, appExtJson }) {
@@ -150,15 +146,6 @@ export class AppExtensionInstance {
     return this.#isInstalled
   }
 
-  get packageFormat () {
-    if (this.#packageFormat !== null) {
-      return this.#packageFormat || void 0
-    }
-
-    this.#loadPackageInfo()
-    return this.#packageFormat || void 0
-  }
-
   get packagePath () {
     if (this.#packagePath !== null) {
       return this.#packagePath || void 0
@@ -176,12 +163,7 @@ export class AppExtensionInstance {
       )
 
       if (packagePath !== void 0) {
-        const pkg = JSON.parse(
-          fse.readFileSync(packagePath, 'utf-8')
-        )
-
         this.#isInstalled = true
-        this.#packageFormat = pkg.type === 'module' ? 'esm' : 'cjs'
         this.#packagePath = dirname(packagePath)
         return
       }
@@ -193,7 +175,6 @@ export class AppExtensionInstance {
 
   #markAsNotInstalled () {
     this.#isInstalled = false
-    this.#packageFormat = false
     this.#packagePath = false
   }
 
@@ -352,22 +333,24 @@ export class AppExtensionInstance {
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
   #getScriptFile (scriptName) {
-    let scriptFile = join(this.packagePath, `src/${ scriptName }.js`)
+    const { packagePath } = this
+
+    let scriptFile = join(packagePath, `src/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(this.packagePath, `dist/${ scriptName }.js`)
+    scriptFile = join(packagePath, `dist/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(this.packagePath, `src/${ scriptName }.ts`)
+    scriptFile = join(packagePath, `src/${ scriptName }.ts`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(this.packagePath, `dist/${ scriptName }.ts`)
+    scriptFile = join(packagePath, `dist/${ scriptName }.ts`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
@@ -384,15 +367,11 @@ export class AppExtensionInstance {
       return
     }
 
-    if (this.packageFormat === 'esm') {
-      const { default: fn } = await import(
-        pathToFileURL(script)
-      )
+    const { default: fn } = await import(
+      pathToFileURL(script)
+    )
 
-      return fn
-    }
-
-    return require(script)
+    return fn
   }
 
   async #runInstallScript (prompts) {
