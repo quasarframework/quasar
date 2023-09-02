@@ -344,16 +344,6 @@ export class AppExtensionInstance {
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
-
-    scriptFile = join(packagePath, `src/${ scriptName }.ts`)
-    if (fse.existsSync(scriptFile)) {
-      return scriptFile
-    }
-
-    scriptFile = join(packagePath, `dist/${ scriptName }.ts`)
-    if (fse.existsSync(scriptFile)) {
-      return scriptFile
-    }
   }
 
   async #getScript (scriptName, fatalError) {
