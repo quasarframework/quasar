@@ -31,7 +31,7 @@ And /index.js would look like this:
 
 ```js
 // file: /index.js
-module.exports = function (api) {
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"

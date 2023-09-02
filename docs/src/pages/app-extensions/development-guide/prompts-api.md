@@ -10,7 +10,7 @@ The user's answers are stored into `/quasar.extensions.json` (root of project fo
 Example of basic structure of the file:
 
 ```js
-module.exports = function () {
+export default function () {
   return [
     // questions
   ]

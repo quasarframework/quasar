@@ -8,7 +8,7 @@ This page refers to `src/uninstall.js` file which is executed when the App Exten
 Example of basic structure of the file:
 
 ```js
-module.exports = function (api) {
+export default function (api) {
   // props and methods for "api" Object
   // are described below
 }

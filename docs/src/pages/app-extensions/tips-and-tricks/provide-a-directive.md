@@ -42,7 +42,7 @@ Let's break it down.
 
 ```js
 // file: /index.js
-module.exports = function (api) {
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"

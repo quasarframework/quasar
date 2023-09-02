@@ -8,7 +8,7 @@ This page refers to `src/index.js` file, which is executed on `quasar dev` and `
 Example of basic structure of the file:
 
 ```js
-module.exports = function (api) {
+export default function (api) {
   // props & methods for "api" Object described below
 }
 ```
@@ -182,7 +182,7 @@ api.extendQuasarConf ((conf, api) => {
 #### Registering boot and css files
 
 ```js
-module.exports = function (api, ctx) {
+export default function (api, ctx) {
   api.extendQuasarConf((conf, api) => {
     // make sure my-ext boot file is registered
     conf.boot.push('~quasar-app-extension-my-ext/src/boot/my-ext-bootfile.js')

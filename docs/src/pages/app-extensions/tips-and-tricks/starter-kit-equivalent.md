@@ -77,7 +77,7 @@ The install script below is only rendering files into the hosted app. Notice the
 ```js
 // src/install.js
 
-module.exports = function (api) {
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
@@ -119,7 +119,7 @@ We do a few things in the index script, like extending the /quasar.config file, 
 ```js
 // src/index.js
 
-module.exports = function (api) {
+export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
   // hard dependencies, as in a minimum version of the "quasar"
@@ -222,7 +222,7 @@ When the App Extension gets uninstall, we need to do some cleanup. But beware wh
 // so we can import the following:
 const rimraf = require('rimraf')
 
-module.exports = function (api) {
+export default function (api) {
   // Careful when you remove folders!
   // You don't want to delete files that are still needed by the Project,
   // or files that are not owned by this app extension.
