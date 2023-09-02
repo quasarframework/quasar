@@ -110,7 +110,6 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   packageName
 
   #isInstalled = null
-  #packageFormat = null
   #packagePath = null
 
   constructor ({ extName, ctx, appExtJson }) {
@@ -146,15 +145,6 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
     return this.#isInstalled
   }
 
-  get packageFormat () {
-    if (this.#packageFormat !== null) {
-      return this.#packageFormat || void 0
-    }
-
-    this.#loadPackageInfo()
-    return this.#packageFormat || void 0
-  }
-
   get packagePath () {
     if (this.#packagePath !== null) {
       return this.#packagePath || void 0
@@ -172,12 +162,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       )
 
       if (packagePath !== void 0) {
-        const pkg = JSON.parse(
-          fse.readFileSync(packagePath, 'utf-8')
-        )
-
         this.#isInstalled = true
-        this.#packageFormat = pkg.type === 'module' ? 'esm' : 'cjs'
         this.#packagePath = dirname(packagePath)
         return
       }
@@ -189,7 +174,6 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
 
   #markAsNotInstalled () {
     this.#isInstalled = false
-    this.#packageFormat = false
     this.#packagePath = false
   }
 
@@ -351,22 +335,24 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
   #getScriptFile (scriptName) {
-    let scriptFile = join(this.packagePath, `src/${ scriptName }.js`)
+    const { packagePath } = this
+
+    let scriptFile = join(packagePath, `src/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(this.packagePath, `dist/${ scriptName }.js`)
+    scriptFile = join(packagePath, `dist/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(this.packagePath, `src/${ scriptName }.ts`)
+    scriptFile = join(packagePath, `src/${ scriptName }.ts`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(this.packagePath, `dist/${ scriptName }.ts`)
+    scriptFile = join(packagePath, `dist/${ scriptName }.ts`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
@@ -383,15 +369,11 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       return
     }
 
-    if (this.packageFormat === 'esm') {
-      const { default: fn } = await import(
-        pathToFileURL(script)
-      )
+    const { default: fn } = await import(
+      pathToFileURL(script)
+    )
 
-      return fn
-    }
-
-    return require(script)
+    return fn
   }
 
   async #runInstallScript (prompts) {

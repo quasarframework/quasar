@@ -80,7 +80,7 @@ if (cleanAll === true || argv.qconf === true) {
     )
   })
 
-  log(`Cleaned ${ fileList.length } temporary compiled quasar.config file${ fileList.length === 1 ? '' : 's'}`)
+  log(`Cleaned ${ fileList.length } temporary compiled quasar.config file${ fileList.length === 1 ? '' : 's' }`)
 }
 
 console.log()
