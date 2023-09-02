@@ -202,37 +202,41 @@ const mapping = {
 
 const asset = mapping[ type ]
 
-if (asset.install) {
-  const folder = appPaths.resolve.app(asset.folder)
+async function run () {
+  if (asset.install) {
+    const folder = appPaths.resolve.app(asset.folder)
 
-  if (!storeProvider.isInstalled) {
-    await storeProvider.install()
-  }
+    if (!storeProvider.isInstalled) {
+      await storeProvider.install()
+    }
 
-  if (!fs.existsSync(folder)) {
-    fse.ensureDir(folder)
-    fse.copy(
-      appPaths.resolve.cli(`templates/store/${ storeProvider.name }/${ format }`),
-      folder,
-      err => {
-        if (err) {
-          console.warn(err)
-          warn(`Could not generate ${ asset.folder }.`, 'FAIL')
-          return
+    if (!fs.existsSync(folder)) {
+      fse.ensureDir(folder)
+      fse.copy(
+        appPaths.resolve.cli(`templates/store/${ storeProvider.name }/${ format }`),
+        folder,
+        err => {
+          if (err) {
+            console.warn(err)
+            warn(`Could not generate ${ asset.folder }.`, 'FAIL')
+            return
+          }
+
+          log(`Generated ${ asset.folder }`)
+          log()
         }
-
-        log(`Generated ${ asset.folder }`)
-        log()
-      }
-    )
+      )
+    }
   }
+
+  names.forEach(name => {
+    const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
+    const ext = hasExtension ? '' : asset.ext
+
+    const file = appPaths.resolve.app(path.join(asset.folder, name + ext))
+
+    createFile(asset, file)
+  })
 }
 
-names.forEach(name => {
-  const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
-  const ext = hasExtension ? '' : asset.ext
-
-  const file = appPaths.resolve.app(path.join(asset.folder, name + ext))
-
-  createFile(asset, file)
-})
+run()
