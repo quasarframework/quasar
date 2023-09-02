@@ -46,7 +46,7 @@ jobs:
                 artifact_id: artifact.id,
                 archive_format: 'zip',
               });
-              const zipPath = resolve(__dirname, './test-results.zip'');
+              const zipPath = resolve(__dirname, './test-results.zip');
               await writeFile(zipPath, Buffer.from(artifactData));
               await exec.exec('unzip', [zipPath, '-d', './test-results']);
               await unlink(zipPath);
@@ -59,7 +59,7 @@ jobs:
               artifact_id: eventDataArtifact.id,
               archive_format: 'zip',
             });
-            const eventDataZipPath = resolve(__dirname, './event-data.zip'');
+            const eventDataZipPath = resolve(__dirname, './event-data.zip');
             await writeFile(eventDataZipPath, Buffer.from(eventDataArtifactData));
             await exec.exec('unzip', [eventDataZipPath, '-d', './event-data']);
             await unlink(eventDataZipPath);
