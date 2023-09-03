@@ -29,6 +29,10 @@
 
       <doc-search />
 
+      <div  class="doc-header-icon-links q-ml-sm row no-wrap items-center">
+        <q-btn  class="header-btn" type="a" flat round :icon="mdiTranslate" to="/translations" />
+      </div>
+
       <div v-if="showThemeChanger" class="doc-header-icon-links q-ml-sm row no-wrap items-center">
         <q-btn
           class="header-btn"
@@ -89,7 +93,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { mdiCompare, mdiFolderPound } from '@quasar/extras/mdi-v6'
+import { mdiCompare, mdiFolderPound, mdiTranslate } from '@quasar/extras/mdi-v6'
 
 import { versionLinks, primaryToolbarLinks, secondaryToolbarLinks, moreLinks } from 'src/assets/links.header.js'
 import { socialLinks } from 'src/assets/links.social.js'
