@@ -106,7 +106,7 @@ build: {
 
 ## How to use
 
-There are 3 main cases:
+There are 4 main cases:
 
 ```html
 <template>
@@ -126,11 +126,19 @@ export default {
   }
 }
 </script>
+
+<script setup>
+import { useI18n } from "vue-i18n"
+const { t } = useI18n()
+
+const content = ref(t('mykey4'))
+</script>
 ```
 
 1. `mykey1` in HTML body
 2. `mykey2` in attribute
-3. `mykey3` programmatically
+3. `mykey3` programmatically with option api
+3. `mykey4` programmatically with composition api
 
 ## Add new language
 
