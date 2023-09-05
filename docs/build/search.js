@@ -296,6 +296,13 @@ const run = () => {
 
   const fileName = resolve(thisFolder, '../dist/indices.json')
   const content = JSON.stringify(entries, null, 2)
+
+  try {
+    // create the folder if it doesn't exists yet
+    fs.mkdirSync(resolve(thisFolder, '../dist'))
+  }
+  catch (_) {}
+
   fs.writeFileSync(fileName, content, () => {})
 
   const end = new Date().getTime()
