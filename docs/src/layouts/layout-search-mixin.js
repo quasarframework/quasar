@@ -25,7 +25,7 @@ function fetchQuery (val, onResult, onError) {
 
   xhr.open('POST', 'https://search.quasar.dev/indexes/quasar-v1/search')
   xhr.setRequestHeader('Content-Type', 'application/json')
-  xhr.setRequestHeader('Authorization', 'Bearer 5c73c61cadf524afe10aa315cd1428cbd3136541ad969decc99b2bf7c7a0870b')
+  xhr.setRequestHeader('Authorization', 'Bearer 50dc8e7bbf5818999851a134539ff47e544e352b275ad9cd124a95d60aec36cf')
   xhr.send(data)
 }
 
