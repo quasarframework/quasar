@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
-    "build": "quasar build -m pwa && node build/search.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider quasar build -m pwa && node build/search.js",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
