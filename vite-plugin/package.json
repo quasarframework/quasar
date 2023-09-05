@@ -1,6 +1,6 @@
 {
   "name": "@quasar/vite-plugin",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Vite plugin for Quasar Framework",
   "type": "module",
   "exports": {
@@ -60,9 +60,9 @@
     "vitest": "^0.30.1"
   },
   "peerDependencies": {
-    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "@vitejs/plugin-vue": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-beta.0",
     "quasar": "^2.8.0",
-    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0",
+    "vite": "^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-beta.0",
     "vue": "^3.0.0"
   },
   "license": "MIT",
