@@ -25,7 +25,7 @@ function fetchQuery (val, onResult, onError) {
 
   xhr.open('POST', 'https://search.quasar.dev/indexes/quasar-v1/search')
   xhr.setRequestHeader('Content-Type', 'application/json')
-  xhr.setRequestHeader('X-Meili-API-Key', 'a7c3283824a29d1b0e8042f0266690670b00f7c81d92021b80117563577d2106')
+  xhr.setRequestHeader('Authorization', 'Bearer 5c73c61cadf524afe10aa315cd1428cbd3136541ad969decc99b2bf7c7a0870b')
   xhr.send(data)
 }
 
