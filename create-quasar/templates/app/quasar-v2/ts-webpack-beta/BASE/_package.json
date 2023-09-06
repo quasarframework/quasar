@@ -44,8 +44,9 @@
     "eslint-config-prettier": "^9.0.0",
     "prettier": "^3.0.3",
     <% } } %>
-    "@types/node": "^20.5.9",
-    "@quasar/app-webpack": "^4.0.0-alpha.0"
+    "@quasar/app-webpack": "^4.0.0-alpha.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.2.2"
   },
   "browserslist": [
     "last 10 Chrome versions",

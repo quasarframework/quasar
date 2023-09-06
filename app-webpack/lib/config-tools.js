@@ -184,11 +184,11 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
       .use('ts-loader')
       .loader('ts-loader')
       .options({
-        // custom config is merged if present, but vue setup and type checking disable are always applied
-        ...quasarConf.build.tsLoaderOptions,
         appendTsSuffixTo: [ /\.vue$/ ],
         // Type checking is handled by fork-ts-checker-webpack-plugin
-        transpileOnly: true
+        transpileOnly: true,
+        // custom config is merged if present, but vue setup and type checking disable are always applied
+        ...quasarConf.build.tsLoaderOptions
       })
   }
 
