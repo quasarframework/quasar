@@ -190,24 +190,6 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
         // Type checking is handled by fork-ts-checker-webpack-plugin
         transpileOnly: true
       })
-
-    const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-    chain
-      .plugin('ts-checker')
-      // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
-      .use(ForkTsCheckerWebpackPlugin, [
-        // custom config is merged if present, but vue option is always enabled
-        merge({}, quasarConf.build.tsCheckerOptions, {
-          typescript: {
-            extensions: {
-              vue: {
-                enabled: true,
-                compiler: 'vue/compiler-sfc'
-              }
-            }
-          }
-        })
-      ])
   }
 
   chain.module.rule('images')
@@ -432,14 +414,12 @@ module.exports.createWebpackChain = async function createWebpackChain (quasarCon
     }
   }
 
-  if (hasTypescript === false) {
-    const { hasEslint, EslintWebpackPlugin } = cacheProxy.getModule('eslint')
-    if (hasEslint === true && EslintWebpackPlugin !== void 0) {
-      const { warnings, errors } = quasarConf.eslint
-      if (warnings === true || errors === true) {
-        const { injectESLintPlugin } = require('./utils/inject-eslint-plugin.js')
-        injectESLintPlugin(chain, quasarConf, compileId)
-      }
+  const { hasEslint, EslintWebpackPlugin } = cacheProxy.getModule('eslint')
+  if (hasEslint === true && EslintWebpackPlugin !== void 0) {
+    const { warnings, errors } = quasarConf.eslint
+    if (warnings === true || errors === true) {
+      const { injectESLintPlugin } = require('./utils/inject-eslint-plugin.js')
+      injectESLintPlugin(chain, quasarConf, compileId)
     }
   }
 

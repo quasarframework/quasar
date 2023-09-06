@@ -20,7 +20,7 @@ function extractPluginConfig ({
     formatter,
     emitError: errors,
     emitWarning: warnings,
-    extensions: [ 'js', 'jsx', 'vue' ],
+    extensions: [ 'js', 'jsx', 'ts', 'tsx', 'vue' ],
     exclude: [
       'node_modules',
       ...exclude

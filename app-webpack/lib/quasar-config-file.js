@@ -508,7 +508,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         stylusLoaderOptions: {},
         lessLoaderOptions: {},
         tsLoaderOptions: {},
-        tsCheckerOptions: {},
         env: {},
         rawDefine: {},
         envFiles: [],

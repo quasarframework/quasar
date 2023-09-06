@@ -12,7 +12,7 @@
 <% } %>
 import { configure } from 'quasar/wrappers';
 
-export default configure((ctx) => {
+export default configure((/* ctx */) => {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,
@@ -56,16 +56,6 @@ export default configure((ctx) => {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
-      <% if (preset.lint) { %>
-      tsCheckerOptions: {
-        eslint: {
-          enabled: true,
-          files: './src/**/*.{ts,tsx,js,jsx,vue}',
-        },
-      },
-
-      <% } %>
-
       // publicPath: '/',
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
