@@ -36,8 +36,8 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.20.1",
     <% } else if (lintConfig === 'prettier') { %>
-    "eslint-config-prettier": "^8.1.0",
-    "prettier": "^2.5.1",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
     <% } } %>
     <% if (preset.i18n) { %>"@intlify/vite-plugin-vue-i18n": "^3.3.1",<% } %>
     "@quasar/app-vite": "^2.0.0-alpha.0",

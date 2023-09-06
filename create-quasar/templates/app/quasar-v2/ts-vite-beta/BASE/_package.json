@@ -26,8 +26,8 @@
   },
   "devDependencies": {
     <% if (preset.lint) { %>
-    "@typescript-eslint/eslint-plugin": "^5.10.0",
-    "@typescript-eslint/parser": "^5.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
     "eslint": "^8.10.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
@@ -39,14 +39,14 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.20.1",
     <% } else if (lintConfig === 'prettier') { %>
-    "eslint-config-prettier": "^8.1.0",
-    "prettier": "^2.5.1",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
     <% } } %>
-    "@types/node": "^12.20.21",
+    "@types/node": "^20.5.9",
     <% if (preset.i18n) { %>"@intlify/vite-plugin-vue-i18n": "^3.3.1",<% } %>
     "@quasar/app-vite": "^2.0.0-alpha.0",
     "autoprefixer": "^10.4.2",
-    "typescript": "^4.5.4"
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": "^24 || ^22 || ^20 || ^18",
