@@ -238,7 +238,8 @@ class QuasarConfFile {
         uglifyOptions: {
           compress: {},
           mangle: {}
-        }
+        },
+        htmlMinifyOptions: {}
       },
       devServer: {
         server: {}
@@ -511,6 +512,15 @@ class QuasarConfFile {
         mangle: {
           safari10: true
         }
+      },
+      htmlMinifyOptions: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        collapseBooleanAttributes: true,
+        removeScriptTypeAttributes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
       }
     }, cfg.build)
 
@@ -985,20 +995,6 @@ class QuasarConfFile {
       productName: escapeHTMLTagContent(cfg.build.productName),
       productDescription: escapeHTMLAttribute(cfg.build.productDescription)
     }, cfg.htmlVariables)
-
-    cfg.__html = {
-      minifyOptions: cfg.build.minify
-        ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeAttributeQuotes: true,
-            collapseBooleanAttributes: true,
-            removeScriptTypeAttributes: true
-          // more options:
-          // https://github.com/kangax/html-minifier#options-quick-reference
-          }
-        : false
-    }
 
     // used by .quasar entry templates
     cfg.__versions = {}
