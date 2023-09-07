@@ -23,13 +23,16 @@ type getPersistentConf = () => Record<string, unknown>;
 type hasExtension = (extId: string) => boolean;
 
 interface BaseAPI {
-  engine: 'vite';
+  engine: '@quasar/app-vite';
 
   ctx: QuasarContext;
   extId: string;
   prompts: Record<string, unknown>;
   resolve: IResolve;
   appDir: string;
+
+  hasVite: true;
+  hasWebpack: false;
 
   hasTypescript: () => Promise<boolean>;
   hasLint: () => Promise<boolean>;

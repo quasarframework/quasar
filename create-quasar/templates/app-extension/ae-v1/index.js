@@ -25,7 +25,7 @@ module.exports = async function ({ scope, utils }) {
     {
       type: 'select',
       name: 'codeFormat',
-      message: 'Pick AE format:',
+      message: 'Pick AE code format:',
       initial: 0,
       choices: [
         { title: 'ESM (q/app-vite >= 1.5, q/app-webpack >= 3.10)', value: 'esm', description: 'recommended' },

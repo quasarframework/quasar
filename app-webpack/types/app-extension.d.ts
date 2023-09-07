@@ -1,5 +1,6 @@
 import { IResolve } from "./app-paths";
 import { QuasarConf } from "./configuration/conf";
+import { QuasarContext } from "./configuration/context";
 import { DeepRequired, DeepNonNullable } from "ts-essentials";
 import { BuildOptions as EsbuildConfiguration } from "esbuild";
 
@@ -29,11 +30,25 @@ type extendWebpack = (
 type getPersistentConf = () => Record<string, unknown>;
 type hasExtension = (extId: string) => boolean;
 
-interface SharedAPI {
+interface BaseAPI {
+  engine: '@quasar/app-webpack';
+
+  ctx: QuasarContext;
   extId: string;
   prompts: Record<string, unknown>;
   resolve: IResolve;
   appDir: string;
+
+  hasVite: false;
+  hasWebpack: true;
+
+  hasTypescript: () => Promise<boolean>;
+  hasLint: () => Promise<boolean>;
+  getStorePackageName: () => 'pinia' | 'vuex' | undefined;
+  getNodePackagerName: () => 'npm' | 'yarn' | 'pnpm';
+}
+
+interface SharedIndexInstallAPI {
   getPersistentConf: getPersistentConf;
   setPersistentConf: (cfg: Record<string, unknown>) => void;
   mergePersistentConf: (cfg: Record<string, unknown>) => void;
@@ -43,7 +58,7 @@ interface SharedAPI {
   getPackageVersion: (packageName: string) => string | undefined;
 }
 
-export interface IndexAPI extends SharedAPI {
+export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
   extendQuasarConf: (cfg: QuasarConf, api: IndexAPI) => void;
 
   chainWebpack: chainWebpack;
@@ -85,7 +100,7 @@ export interface IndexAPI extends SharedAPI {
 }
 
 type onExitLog = (msg: string) => void;
-export interface InstallAPI extends SharedAPI {
+export interface InstallAPI extends BaseAPI, SharedIndexInstallAPI {
   extendPackageJson: (extPkg: object | string) => void;
   extendJsonFile: (file: string, newData: object) => void;
   render: (templatePath: string, scope?: object) => void;
@@ -97,7 +112,7 @@ export interface InstallAPI extends SharedAPI {
   onExitLog: onExitLog;
 }
 
-export interface UninstallAPI {
+export interface UninstallAPI extends BaseAPI {
   getPersistentConf: getPersistentConf;
   hasExtension: hasExtension;
   removePath: (__path: string) => void;
