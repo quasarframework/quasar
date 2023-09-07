@@ -290,12 +290,12 @@ module.exports = class Extension {
     let script
 
     try {
-      script = require.resolve(`${ this.packageName }/src/${ scriptName }`, {
+      script = require.resolve(`${ this.packageName }/dist/${ scriptName }`, {
         paths: [ appPaths.appDir ]
       })
     }
-    catch (e) {
-      script = require.resolve(`${ this.packageName }/dist/${ scriptName }`, {
+    catch (_) {
+      script = require.resolve(`${ this.packageName }/src/${ scriptName }`, {
         paths: [ appPaths.appDir ]
       })
     }
