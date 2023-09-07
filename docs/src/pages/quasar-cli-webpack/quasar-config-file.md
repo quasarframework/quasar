@@ -337,7 +337,8 @@ build: {
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
-| uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
+| uglifyOptions | Object | JS minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify) |
+| htmlMinifyOptions | Object | (requires @quasar/app-webpack v3.10.2+) Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier) |
 | vueLoaderOptions | Object | Options (compilerOptions, compiler, transformAssetUrls, etc) for [vue-loader](https://vue-loader.vuejs.org/options.html). |
 | scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { additionalData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
