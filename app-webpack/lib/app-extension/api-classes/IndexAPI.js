@@ -141,7 +141,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
    */
   chainWebpack (fn) {
-    this.__addHook('chainWebpack', fn)
+    this.#addHook('chainWebpack', fn)
   }
 
   /**
@@ -151,7 +151,7 @@ module.exports.IndexAPI = class IndexAPI extends BaseAPI {
    *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
    */
   extendWebpack (fn) {
-    this.__addHook('extendWebpack', fn)
+    this.#addHook('extendWebpack', fn)
   }
 
   /**
