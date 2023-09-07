@@ -4,7 +4,7 @@
   "description": "<%= aeDescription %>",
   "author": "<%= author %>",
   "license": "<%= license %>",
-  "main": "src/index.js",
+  "type": "<%= aeCodeFormat === 'esm' ? 'module' : 'commonjs' %>",
   "repository": {
     "type": "<%= repositoryType %>",
     "url": "<%= repositoryURL %>"

@@ -96,6 +96,17 @@ module.exports = async function ({ scope, utils }) {
       ]
     },
 
+    {
+      type: (_, { quasarVersion, features }) => quasarVersion === 'v2' && features.ae ? 'select' : null,
+      name: 'aeCodeFormat',
+      message: 'Pick the App Extension format:',
+      initial: 0,
+      choices: [
+        { title: 'ESM (q/app-vite >= 1.5, q/app-webpack >= 3.10)', value: 'esm', description: 'recommended' },
+        { title: 'CommonJS', value: 'commonjs' }
+      ]
+    },
+
     utils.commonPrompts.repositoryType,
     utils.commonPrompts.repositoryURL,
     utils.commonPrompts.homepage,
