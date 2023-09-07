@@ -335,12 +335,12 @@ export class AppExtensionInstance {
   #getScriptFile (scriptName) {
     const { packagePath } = this
 
-    let scriptFile = join(packagePath, `src/${ scriptName }.js`)
+    let scriptFile = join(packagePath, `dist/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
 
-    scriptFile = join(packagePath, `dist/${ scriptName }.js`)
+    scriptFile = join(packagePath, `src/${ scriptName }.js`)
     if (fse.existsSync(scriptFile)) {
       return scriptFile
     }
