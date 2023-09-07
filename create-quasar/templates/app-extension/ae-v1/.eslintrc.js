@@ -12,7 +12,9 @@ module.exports = {
       'repositoryType',
       'repositoryURL',
       'homepage',
-      'bugs'
+      'bugs',
+
+      'codeFormat'
     ]
   },
 

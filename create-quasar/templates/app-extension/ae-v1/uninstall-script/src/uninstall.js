@@ -5,6 +5,6 @@
  * API: https://github.com/quasarframework/quasar/blob/master/app/lib/app-extension/UninstallAPI.js
  */
 
-module.exports = function (api) {
+<%= codeFormat === 'esm' ? 'export default' : 'module.exports =' %> function (api) {
   //
 }

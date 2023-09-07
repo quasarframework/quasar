@@ -22,6 +22,17 @@ module.exports = async function ({ scope, utils }) {
         utils.isValidPackageName(val) || 'Invalid App Extension name'
     },
 
+    {
+      type: 'select',
+      name: 'codeFormat',
+      message: 'Pick AE format:',
+      initial: 0,
+      choices: [
+        { title: 'ESM (q/app-vite >= 1.5, q/app-webpack >= 3.10)', value: 'esm', description: 'recommended' },
+        { title: 'CommonJS', value: 'commonjs' }
+      ]
+    },
+
     utils.commonPrompts.description,
     utils.commonPrompts.author,
     {
