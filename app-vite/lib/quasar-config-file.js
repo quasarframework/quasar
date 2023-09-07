@@ -250,7 +250,8 @@ class QuasarConfFile {
         vitePlugins: [],
         env: {},
         rawDefine: {},
-        resolve: {}
+        resolve: {},
+        htmlMinifyOptions: {}
       },
 
       ssr: {
@@ -429,6 +430,16 @@ class QuasarConfFile {
       vueOptionsAPI: true,
       polyfillModulePreload: false,
       distDir: path.join('dist', this.#ctx.modeName),
+
+      htmlMinifyOptions: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        collapseBooleanAttributes: true,
+        removeScriptTypeAttributes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
 
       rawDefine: {
         // vue

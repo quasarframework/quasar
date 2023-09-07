@@ -7,16 +7,6 @@ const entryPointMarkup = '<!-- quasar:entry-point -->'
 const entryScript = '<script type="module" src="/.quasar/client-entry.js"></script>'
 const attachMarkup = '<div id="q-app"></div>'
 
-const minifyOptions = {
-  removeComments: true,
-  collapseWhitespace: true,
-  removeAttributeQuotes: true,
-  collapseBooleanAttributes: true,
-  removeScriptTypeAttributes: true
-  // more options:
-  // https://github.com/kangax/html-minifier#options-quick-reference
-}
-
 function injectPublicPath (html, publicPath) {
   return html.replace(
     /(href|src)\s*=\s*(['"])(.+)(['"])/ig,
@@ -112,7 +102,7 @@ module.exports.transformHtml = function (template, quasarConf) {
   }
 
   if (quasarConf.ctx.mode.ssr !== true && quasarConf.build.minify !== false) {
-    html = minify(html, minifyOptions)
+    html = minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
   return html
@@ -129,7 +119,7 @@ module.exports.transformProdSsrPwaOfflineHtml = function (html, quasarConf) {
   )
 
   if (quasarConf.build.minify !== false) {
-    html = minify(html, minifyOptions)
+    html = minify(html, quasarConf.build.htmlMinifyOptions)
   }
 
   return html
@@ -188,7 +178,7 @@ module.exports.getProdSsrTemplateFn = function (viteHtmlContent, quasarConf) {
 
   if (quasarConf.build.minify !== false) {
     html = minify(html, {
-      ...minifyOptions,
+      ...quasarConf.build.htmlMinifyOptions,
       ignoreCustomFragments: [ /{{([\s\S]+?)}}/ ]
     })
   }
