@@ -316,7 +316,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
 
     const { default: inquirer } = await import('inquirer')
     const prompts = await inquirer.prompt(
-      getPromptsObject(api)
+      await getPromptsObject(api)
     )
 
     console.log()

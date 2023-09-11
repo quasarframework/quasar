@@ -315,7 +315,7 @@ export class AppExtensionInstance {
     }, this.#appExtJson)
 
     const prompts = await inquirer.prompt(
-      getPromptsObject(api)
+      await getPromptsObject(api)
     )
 
     console.log()

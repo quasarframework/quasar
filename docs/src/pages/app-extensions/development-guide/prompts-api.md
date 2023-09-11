@@ -10,6 +10,9 @@ The user's answers are stored into `/quasar.extensions.json` (root of project fo
 Example of basic structure of the file:
 
 ```js
+// For @quasar/app-vite 1.6+ and @quasar/app-webpack v3.11+
+//   1. It can be async
+//   2. It receives the "api" param
 export default function (api) {
   return [
     // questions
