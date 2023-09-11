@@ -8,6 +8,7 @@ This page refers to `src/install.js` file which is executed on the installation 
 Example of basic structure of the file:
 
 ```js
+// can be async
 export default function (api) {
   // props and methods for "api" Object
   // are described below

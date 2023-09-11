@@ -8,6 +8,7 @@ This page refers to `src/index.js` file, which is executed on `quasar dev` and `
 Example of basic structure of the file:
 
 ```js
+// can be async
 export default function (api) {
   // props & methods for "api" Object described below
 }
