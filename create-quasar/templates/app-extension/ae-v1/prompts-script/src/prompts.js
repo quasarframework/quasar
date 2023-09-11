@@ -39,6 +39,6 @@
 
  */
 
-<%= codeFormat === 'esm' ? 'export default' : 'module.exports =' %> function () {
+<%= codeFormat === 'esm' ? 'export default' : 'module.exports =' %> function (api) {
   return []
 }
