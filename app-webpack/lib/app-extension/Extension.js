@@ -254,8 +254,13 @@ module.exports = class Extension {
       return {}
     }
 
+    const PromptsAPI = require('./PromptsAPI')
+    const api = new PromptsAPI({ extId: this.extId })
+
     const inquirer = require('inquirer')
-    const prompts = await inquirer.prompt(getPromptsObject())
+    const prompts = await inquirer.prompt(
+      getPromptsObject(api)
+    )
 
     console.log()
     return prompts
