@@ -9,8 +9,15 @@ const BaseAPI = require('./BaseAPI')
  * API for extension's /uninstall.js script
  */
 module.exports = class UninstallAPI extends BaseAPI {
+  prompts
+
   __hooks = {
     exitLog: []
+  }
+
+  constructor (opts) {
+    super(opts)
+    this.prompts = opts.prompts
   }
 
   /**

@@ -12,6 +12,7 @@ const BaseAPI = require('./BaseAPI')
  */
 module.exports = class IndexAPI extends BaseAPI {
   ctx
+  prompts
 
   __hooks = {
     extendQuasarConf: [],
@@ -32,9 +33,10 @@ module.exports = class IndexAPI extends BaseAPI {
     describeApi: {}
   }
 
-  constructor ({ ctx, ...opts }) {
+  constructor (opts) {
     super(opts)
-    this.ctx = ctx
+    this.ctx = opts.ctx
+    this.prompts = opts.prompts
   }
 
   /**

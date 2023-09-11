@@ -1,8 +1,8 @@
-const { removeSync } = require('fs-extra')
 const semver = require('semver')
 
-const extensionJson = require('./extension-json')
+const { fatal } = require('../helpers/logger')
 const getPackageJson = require('../helpers/get-package-json')
+const extensionJson = require('./extension-json')
 const BaseAPI = require('./BaseAPI')
 
 // for backward compatibility
@@ -13,28 +13,34 @@ function getPackageName (packageName) {
 }
 
 /**
- * API for extension's /uninstall.js script
+ * API for extension's /prompts.js script
  */
-module.exports = class UninstallAPI extends BaseAPI {
-  prompts
-
-  __hooks = {
-    exitLog: []
-  }
-
-  constructor (opts) {
-    super(opts)
-    this.prompts = opts.prompts
-  }
-
+module.exports = class PromptsAPI extends BaseAPI {
   /**
-   * Get the internal persistent config of this extension.
-   * Returns empty object if it has none.
+   * Ensure the App Extension is compatible with
+   * host app installed package through a
+   * semver condition.
    *
-   * @return {object} internal persistent config of this extension
+   * If the semver condition is not met, then
+   * @quasar/app-webpack errors out and halts execution
+   *
+   * Example of semver condition:
+   *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+   *
+   * @param {string} packageName
+   * @param {string} semverCondition
    */
-  getPersistentConf () {
-    return extensionJson.getInternal(this.extId)
+  compatibleWith (packageName, semverCondition) {
+    const name = getPackageName(packageName)
+    const json = getPackageJson(name)
+
+    if (json === void 0) {
+      fatal(`Extension(${ this.extId }): Dependency not found - ${ name }. Please install it.`)
+    }
+
+    if (!semver.satisfies(json.version, semverCondition)) {
+      fatal(`Extension(${ this.extId }): is not compatible with ${ name } v${ json.version }. Required version: ${ semverCondition }`)
+    }
   }
 
   /**
@@ -62,10 +68,11 @@ module.exports = class UninstallAPI extends BaseAPI {
   }
 
   /**
-   * Check if another app extension is installed.
+   * Check if another app extension is installed
+   * (app extension npm package is installed and it was invoked)
    *
    * @param {string} extId
-   * @return {boolean} has the extension installed.
+   * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
     return extensionJson.has(extId)
@@ -84,30 +91,5 @@ module.exports = class UninstallAPI extends BaseAPI {
     return json !== void 0
       ? json.version
       : void 0
-  }
-
-  /**
-   * Remove a file or folder from devland which the
-   * extension has installed and is no longer needed.
-   *
-   * Be careful about it and do not delete the files
-   * that would break developer's app.
-   *
-   * The __path (file or folder) needs to be relative
-   * to project's root folder.
-   *
-   * @param {string} __path
-   */
-  removePath (__path) {
-    removeSync(this.resolve.app(__path))
-  }
-
-  /**
-   * Add a message to be printed after App CLI finishes up install.
-   *
-   * @param {string} msg
-   */
-  onExitLog (msg) {
-    this.__hooks.exitLog.push(msg)
   }
 }

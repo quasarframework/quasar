@@ -13,6 +13,8 @@ const BaseAPI = require('./BaseAPI')
  * API for extension's /install.js script
  */
 module.exports = class InstallAPI extends BaseAPI {
+  prompts
+
   __hooks = {
     renderFolders: [],
     renderFiles: [],
@@ -20,6 +22,11 @@ module.exports = class InstallAPI extends BaseAPI {
   }
 
   __needsNodeModulesUpdate = false
+
+  constructor (opts) {
+    super(opts)
+    this.prompts = opts.prompts
+  }
 
   /**
    * Get the internal persistent config of this extension.
