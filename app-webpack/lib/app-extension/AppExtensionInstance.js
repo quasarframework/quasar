@@ -302,14 +302,14 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   }
 
   async #getScriptPrompts () {
-    const questions = await this.#getScript('prompts')
+    const getPromptsObject = await this.#getScript('prompts')
 
-    if (!questions) {
+    if (typeof getPromptsObject !== 'function') {
       return {}
     }
 
     const { default: inquirer } = await import('inquirer')
-    const prompts = await inquirer.prompt(questions())
+    const prompts = await inquirer.prompt(getPromptsObject())
 
     console.log()
     return prompts
@@ -359,9 +359,30 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
       return
     }
 
-    const { default: fn } = await import(
-      pathToFileURL(script)
-    )
+    let fn
+
+    try {
+      const { default: defaultFn } = await import(
+        pathToFileURL(script)
+      )
+
+      fn = defaultFn
+    }
+    catch (err) {
+      console.error(err)
+
+      if (fatalError) {
+        fatal(`App Extension "${ this.extId }" > ${ scriptName } script has thrown the error from above.`)
+      }
+    }
+
+    if (typeof fn !== 'function') {
+      if (fatalError) {
+        fatal(`App Extension "${ this.extId }" > ${ scriptName } script does not have a default export as a function...`)
+      }
+
+      return
+    }
 
     return fn
   }
@@ -369,7 +390,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   async #runInstallScript (prompts) {
     const script = await this.#getScript('install')
 
-    if (!script) {
+    if (typeof script !== 'function') {
       return
     }
 
@@ -408,7 +429,7 @@ module.exports.AppExtensionInstance = class AppExtensionInstance {
   async #runUninstallScript (prompts) {
     const script = await this.#getScript('uninstall')
 
-    if (!script) {
+    if (typeof script !== 'function') {
       return
     }
 
