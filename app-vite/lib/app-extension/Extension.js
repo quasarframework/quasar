@@ -259,7 +259,7 @@ module.exports = class Extension {
 
     const inquirer = require('inquirer')
     const prompts = await inquirer.prompt(
-      getPromptsObject(api)
+      await getPromptsObject(api)
     )
 
     console.log()
