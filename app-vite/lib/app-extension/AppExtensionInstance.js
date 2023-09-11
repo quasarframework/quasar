@@ -11,6 +11,7 @@ import { log, warn, fatal } from '../utils/logger.js'
 import { IndexAPI } from './api-classes/IndexAPI.js'
 import { InstallAPI } from './api-classes/InstallAPI.js'
 import { UninstallAPI } from './api-classes/UninstallAPI.js'
+import { PromptsAPI } from './api-classes/PromptsAPI.js'
 import { getPackagePath } from '../utils/get-package-path.js'
 
 async function promptOverwrite ({ targetPath, options, ctx }) {
@@ -308,7 +309,14 @@ export class AppExtensionInstance {
       return {}
     }
 
-    const prompts = await inquirer.prompt(getPromptsObject())
+    const api = new PromptsAPI({
+      ctx: this.#ctx,
+      extId: this.extId
+    }, this.#appExtJson)
+
+    const prompts = await inquirer.prompt(
+      getPromptsObject(api)
+    )
 
     console.log()
     return prompts

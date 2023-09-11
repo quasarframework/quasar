@@ -27,7 +27,6 @@ interface BaseAPI {
 
   ctx: QuasarContext;
   extId: string;
-  prompts: Record<string, unknown>;
   resolve: IResolve;
   appDir: string;
 
@@ -51,6 +50,8 @@ interface SharedIndexInstallAPI {
 }
 
 export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
+  prompts: Record<string, unknown>;
+
   extendQuasarConf: (cfg: QuasarConf, api: IndexAPI) => void;
 
   extendViteConf: extendVite;
@@ -92,6 +93,8 @@ export interface IndexAPI extends BaseAPI, SharedIndexInstallAPI {
 
 type onExitLog = (msg: string) => void;
 export interface InstallAPI extends BaseAPI, SharedIndexInstallAPI {
+  prompts: Record<string, unknown>;
+
   extendPackageJson: (extPkg: object | string) => void;
   extendJsonFile: (file: string, newData: object) => void;
   render: (templatePath: string, scope?: object) => void;
@@ -104,8 +107,17 @@ export interface InstallAPI extends BaseAPI, SharedIndexInstallAPI {
 }
 
 export interface UninstallAPI extends BaseAPI {
+  prompts: Record<string, unknown>;
+
   getPersistentConf: getPersistentConf;
   hasExtension: hasExtension;
   removePath: (__path: string) => void;
   onExitLog: onExitLog;
+}
+
+export interface PromptsAPI extends BaseAPI {
+  compatibleWith: (packageName: string, semverCondition?: string) => void;
+  hasPackage: (packageName: string, semverCondition?: string) => boolean;
+  hasExtension: hasExtension;
+  getPackageVersion: (packageName: string) => string | undefined;
 }

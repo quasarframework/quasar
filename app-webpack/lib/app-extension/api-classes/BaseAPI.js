@@ -9,14 +9,12 @@ module.exports.BaseAPI = class BaseAPI {
 
   ctx
   extId
-  prompts
   resolve
   appDir
 
-  constructor ({ ctx, extId, prompts }) {
+  constructor ({ ctx, extId }) {
     this.ctx = ctx
     this.extId = extId
-    this.prompts = prompts
     this.resolve = ctx.appPaths.resolve
     this.appDir = ctx.appPaths.appDir
   }

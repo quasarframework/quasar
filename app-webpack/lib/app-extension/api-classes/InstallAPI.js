@@ -13,8 +13,12 @@ const { BaseAPI } = require('./BaseAPI.js')
  * API for extension's /install.js script
  */
 module.exports.InstallAPI = class InstallAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 

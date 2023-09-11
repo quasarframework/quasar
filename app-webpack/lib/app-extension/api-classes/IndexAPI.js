@@ -11,8 +11,12 @@ const { BaseAPI } = require('./BaseAPI.js')
  * API for extension's /index.js script
  */
 module.exports.IndexAPI = class IndexAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 

@@ -12,8 +12,12 @@ import { BaseAPI } from './BaseAPI.js'
  * API for extension's /install.js script
  */
 export class InstallAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 

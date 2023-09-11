@@ -10,8 +10,12 @@ import { BaseAPI } from './BaseAPI.js'
  * API for extension's /index.js script
  */
 export class IndexAPI extends BaseAPI {
+  prompts
+
   constructor (opts, appExtJson) {
     super(opts)
+
+    this.prompts = opts.prompts
     this.#appExtJson = appExtJson
   }
 
