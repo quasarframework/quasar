@@ -123,13 +123,7 @@ module.exports = class Extension {
   }
 
   isInstalled () {
-    try {
-      this.__getScriptFile('index')
-    }
-    catch (e) {
-      return false
-    }
-    return true
+    return this.__getScriptFile('index') !== void 0
   }
 
   async install (skipPkgInstall) {
@@ -254,14 +248,14 @@ module.exports = class Extension {
   }
 
   async __getPrompts () {
-    const questions = await this.__getScript('prompts')
+    const getPromptsObject = await this.__getScript('prompts')
 
-    if (!questions) {
+    if (typeof getPromptsObject !== 'function') {
       return {}
     }
 
     const inquirer = require('inquirer')
-    const prompts = await inquirer.prompt(questions())
+    const prompts = await inquirer.prompt(getPromptsObject())
 
     console.log()
     return prompts
@@ -287,29 +281,29 @@ module.exports = class Extension {
    * as long as the corresponding file isn't available into the `src` folder, making the feature opt-in
    */
   __getScriptFile (scriptName) {
-    let script
+    try {
+      const script = require.resolve(`${ this.packageName }/dist/${ scriptName }`, {
+        paths: [ appPaths.appDir ]
+      })
+
+      return script
+    }
+    catch (_) {}
 
     try {
-      script = require.resolve(`${ this.packageName }/dist/${ scriptName }`, {
+      const script = require.resolve(`${ this.packageName }/src/${ scriptName }`, {
         paths: [ appPaths.appDir ]
       })
-    }
-    catch (_) {
-      script = require.resolve(`${ this.packageName }/src/${ scriptName }`, {
-        paths: [ appPaths.appDir ]
-      })
-    }
 
-    return script
+      return script
+    }
+    catch (_) {}
   }
 
   async __getScript (scriptName, fatalError) {
-    let script
+    const script = this.__getScriptFile(scriptName)
 
-    try {
-      script = this.__getScriptFile(scriptName)
-    }
-    catch (e) {
+    if (!script) {
       if (fatalError) {
         fatal(`App Extension "${ this.extId }" has missing ${ scriptName } script...`)
       }
@@ -317,9 +311,30 @@ module.exports = class Extension {
       return
     }
 
-    const { default: fn } = await import(
-      pathToFileURL(script)
-    )
+    let fn
+
+    try {
+      const { default: defaultFn } = await import(
+        pathToFileURL(script)
+      )
+
+      fn = defaultFn
+    }
+    catch (err) {
+      console.error(err)
+
+      if (fatalError) {
+        fatal(`App Extension "${ this.extId }" > ${ scriptName } script has thrown the error from above.`)
+      }
+    }
+
+    if (typeof fn !== 'function') {
+      if (fatalError) {
+        fatal(`App Extension "${ this.extId }" > ${ scriptName } script does not have a default export as a function...`)
+      }
+
+      return
+    }
 
     return fn
   }
@@ -327,7 +342,7 @@ module.exports = class Extension {
   async __runInstallScript (prompts) {
     const script = await this.__getScript('install')
 
-    if (!script) {
+    if (typeof script !== 'function') {
       return
     }
 
@@ -368,7 +383,7 @@ module.exports = class Extension {
   async __runUninstallScript (prompts) {
     const script = await this.__getScript('uninstall')
 
-    if (!script) {
+    if (typeof script !== 'function') {
       return
     }
 
