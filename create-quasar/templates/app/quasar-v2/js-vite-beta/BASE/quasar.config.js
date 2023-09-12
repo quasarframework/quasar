@@ -20,12 +20,12 @@ export default configure((/* ctx */) => {
       errors: true
     },<% } %>
 
-    // https://v2.quasar.dev/quasar-cli/prefetch-feature
+    // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
 
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
-    // https://v2.quasar.dev/quasar-cli/boot-files
+    // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
       <% if (preset.i18n) { %>'i18n',<% } %>
       <% if (preset.axios) { %>'axios',<% } %>
@@ -135,7 +135,7 @@ export default configure((/* ctx */) => {
     //   bexManifestFile: 'src-bex/manifest.json
     // },
 
-    // https://v2.quasar.dev/quasar-cli/developing-ssr/configuring-ssr
+    // https://v2.quasar.dev/quasar-cli-vite/developing-ssr/configuring-ssr
     ssr: {
       prodPort: 3000, // The default port that the production server should use
                       // (gets superseded if process.env.PORT is specified at runtime)
@@ -161,7 +161,7 @@ export default configure((/* ctx */) => {
       // pwaExtendInjectManifestOptions (cfg) {}
     },
 
-    // https://v2.quasar.dev/quasar-cli/developing-pwa/configuring-pwa
+    // https://v2.quasar.dev/quasar-cli-vite/developing-pwa/configuring-pwa
     pwa: {
       workboxMode: 'GenerateSW' // 'GenerateSW' or 'InjectManifest'
       // swFilename: 'sw.js',
@@ -174,17 +174,17 @@ export default configure((/* ctx */) => {
       // extendInjectManifestOptions (cfg) {}
     },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
+    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-cordova-apps/configuring-cordova
     cordova: {
       // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
     },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
+    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor
     capacitor: {
       hideSplashscreen: true
     },
 
-    // Full list of options: https://v2.quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
+    // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron
     electron: {
       // extendElectronMainConf (esbuildConf) {},
       // extendElectronPreloadConf (esbuildConf) {},
