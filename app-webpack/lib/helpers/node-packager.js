@@ -297,6 +297,34 @@ class Pnpm extends PackageManager {
   }
 }
 
+class Bun extends PackageManager {
+  name = 'bun'
+  lockFile = 'bun.lockb'
+
+  getInstallParams (env) {
+    return env === 'development'
+      ? [ 'install' ]
+      : [ 'install', '--production' ]
+  }
+
+  getInstallPackageParams (names, isDevDependency) {
+    return [
+      'add',
+      isDevDependency ? '--dev' : '',
+      ...names
+    ]
+  }
+
+  getUninstallPackageParams (names) {
+    return [ 'remove', ...names ]
+  }
+
+  getPackageVersionList (_packageName) {
+    // Bun v1.0.0 does not have a way to get the list of versions
+    return null
+  }
+}
+
 /**
  * @returns {PackageManager}
  */
@@ -319,6 +347,12 @@ function getPackager () {
     return npm
   }
 
+  const bun = new Bun()
+
+  if (bun.isUsed()) {
+    return bun
+  }
+
   if (yarn.isInstalled()) {
     return yarn
   }
@@ -329,6 +363,10 @@ function getPackager () {
 
   if (npm.isInstalled()) {
     return npm
+  }
+
+  if (bun.isInstalled()) {
+    return bun
   }
 
   fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
