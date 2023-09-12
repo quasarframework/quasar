@@ -37,7 +37,11 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
   async #copyWebserverFiles () {
     const patterns = [
       '.npmrc',
-      '.yarnrc'
+      'package-lock.json',
+      '.yarnrc',
+      'yarn.lock',
+      'pnpm-lock.yaml',
+      'bun.lockb'
     ].map(filename => ({
       from: filename,
       to: '.'
