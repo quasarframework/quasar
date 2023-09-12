@@ -499,6 +499,7 @@ export default createComponent({
       let body = node.body
         ? slots[ `body-${ node.body }` ] || slots[ 'default-body' ]
         : slots[ 'default-body' ]
+
       const slotScope = header !== void 0 || body !== void 0
         ? getSlotScope(node, m, key)
         : null
@@ -586,16 +587,20 @@ export default createComponent({
         isParent === true
           ? (
               props.noTransition === true
-                ? h('div', {
-                  class: 'q-tree__node-collapsible' + textColorClass.value,
-                  key: `${ key }__q`
-                }, [
-                  body,
-                  h('div', {
-                    class: 'q-tree__children'
-                      + (m.disabled === true ? ' q-tree__node--disabled' : '')
-                  }, m.expanded ? children : null)
-                ])
+                ? (
+                    m.expanded === true
+                      ? h('div', {
+                        class: 'q-tree__node-collapsible' + textColorClass.value,
+                        key: `${ key }__q`
+                      }, [
+                        body,
+                        h('div', {
+                          class: 'q-tree__children'
+                            + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                        }, children)
+                      ])
+                      : null
+                  )
 
                 : h(QSlideTransition, {
                   duration: props.duration,
