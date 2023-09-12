@@ -22,16 +22,12 @@ getScrollTarget(DomElement) // returns a DOM Element (or window Object)
 
 This method searches for a parent DOM element which has one of the `scroll` or `overflow-auto` Quasar CSS Helper class attached to it. If none is found, then it considers that the scrolling takes place on the document itself.
 
-Please note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example, with: CSS `overflow: hidden` and a height smaller than its inner content height).
+Please note that simply attaching `scroll` CSS class to a DOM element or on a Vue component will have no effect if the respective element is not overflowed (example: a height smaller than its inner content height).
 
 Example of good container:
 
 ```html
-<!--
-  Quasar CSS helper 'overflow-hidden' is
-  equivalent to style="overflow: hidden"
--->
-<div class="scroll overflow-hidden" style="height: 100px">
+<div class="scroll" style="height: 100px">
   ...content expanding over the 100px height from container...
 </div>
 ```
