@@ -123,11 +123,13 @@ const quasarPwaConfig = {
 
   // used by ssr-config.js as well
   customSw: async quasarConf => {
+    const { ctx } = quasarConf
+    const { appPaths } = ctx
+
     const cfg = await createBrowserEsbuildConfig(quasarConf, { compileId: 'browser-custom-sw' })
-    const { appPaths } = quasarConf.ctx
 
     const fallbackHtmlFile = quasarConf.build.publicPath + (
-      quasarConf.ctx.mode.ssr === true && quasarConf.ctx.prod === true
+      ctx.mode.ssr === true && ctx.prod === true
         ? quasarConf.ssr.pwaOfflineHtmlFilename
         : quasarConf.build.htmlFilename
     )
@@ -145,7 +147,7 @@ const quasarPwaConfig = {
       quasarConf.pwa.extendPWACustomSWConf(cfg)
     }
 
-    return extendEsbuildConfig(cfg, quasarConf.pwa, quasarConf.ctx, 'extendPWACustomSWConf')
+    return extendEsbuildConfig(cfg, quasarConf.pwa, ctx, 'extendPWACustomSWConf')
   }
 }
 
