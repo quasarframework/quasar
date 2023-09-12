@@ -220,9 +220,12 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
     + (props.innerTrackColor !== void 0 ? ` bg-${ props.innerTrackColor }` : '')
   )
   const innerBarStyle = computed(() => {
+    const innerDiff = innerMaxRatio.value - innerMinRatio.value
     const acc = {
       [ positionProp.value ]: `${ 100 * innerMinRatio.value }%`,
-      [ sizeProp.value ]: `${ 100 * (innerMaxRatio.value - innerMinRatio.value) }%`
+      [ sizeProp.value ]: innerDiff === 0
+        ? '2px'
+        : `${ 100 * innerDiff }%`
     }
     if (props.innerTrackImg !== void 0) {
       acc.backgroundImage = `url(${ props.innerTrackImg }) !important`
@@ -316,18 +319,16 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
   }))
 
   const markerStyle = computed(() => {
-    if (innerBarLen.value !== 0) {
-      const size = 100 * markerStep.value / innerBarLen.value
+    const size = innerBarLen.value === 0
+      ? '2px'
+      : 100 * markerStep.value / innerBarLen.value
 
-      return {
-        ...innerBarStyle.value,
-        backgroundSize: props.vertical === true
-          ? `2px ${ size }%`
-          : `${ size }% 2px`
-      }
+    return {
+      ...innerBarStyle.value,
+      backgroundSize: props.vertical === true
+        ? `2px ${ size }%`
+        : `${ size }% 2px`
     }
-
-    return null
   })
 
   function getMarkerList (def) {
