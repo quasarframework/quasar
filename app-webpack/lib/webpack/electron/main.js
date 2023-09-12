@@ -20,7 +20,9 @@ module.exports = function (cfg, configName) {
       appPaths.resolve.app('.npmrc'),
       appPaths.resolve.app('package-lock.json'),
       appPaths.resolve.app('.yarnrc'),
-      appPaths.resolve.app('yarn.lock')
+      appPaths.resolve.app('yarn.lock'),
+      appPaths.resolve.app('pnpm-lock.yaml'),
+      appPaths.resolve.app('bun.lockb')
     ].map(filename => ({
       from: filename,
       to: '.',

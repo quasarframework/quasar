@@ -70,7 +70,9 @@ class ElectronBuilder extends AppBuilder {
       '.npmrc',
       'package-lock.json',
       '.yarnrc',
-      'yarn.lock'
+      'yarn.lock',
+      'pnpm-lock.yaml',
+      'bun.lockb'
     ].map(filename => ({
       from: filename,
       to: './UnPackaged'
