@@ -8,6 +8,41 @@ import { spawnSync } from './spawn.js'
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
+async function getPackageVersionList (packageName) {
+  const https = await import('node:https')
+  const url = `https://registry.npmjs.org/${ packageName }`
+
+  return new Promise(resolve => {
+    https.get(url, async response => {
+      let data = ''
+
+      try {
+        for await (const chunk of response) {
+          data += chunk
+        }
+      }
+      catch (_) {
+        resolve(null)
+        return
+      }
+
+      try {
+        const json = JSON.parse(data)
+        const versionList = Object.keys(json.versions)
+
+        resolve(
+          versionList.length !== 0
+            ? versionList
+            : null
+        )
+      }
+      catch (_) {
+        resolve(null)
+      }
+    })
+  })
+}
+
 function run ({ name, params, cwd, onFail, env = 'development' }) {
   spawnSync(
     name,
@@ -49,10 +84,6 @@ class PackageManager {
 
   getUninstallPackageParams (_names) {
     return []
-  }
-
-  getPackageVersionList (_packageName) {
-    return null
   }
 
   /**
@@ -108,13 +139,13 @@ class PackageManager {
     })
   }
 
-  getPackageLatestVersion ({
+  async getPackageLatestVersion ({
     packageName,
     currentVersion = null,
     majorVersion = false,
     preReleaseVersion = false
   }) {
-    const versionList = this.getPackageVersionList(packageName)
+    const versionList = await getPackageVersionList(packageName)
 
     if (versionList === null) {
       return null
@@ -162,27 +193,6 @@ class Npm extends PackageManager {
   getUninstallPackageParams (names) {
     return [ 'uninstall', ...names ]
   }
-
-  getPackageVersionList (packageName) {
-    let versionList
-
-    try {
-      const child = crossSpawnSync(this.name, [ 'info', packageName, 'versions', '--json' ])
-      if (child.status === 0) {
-        versionList = JSON.parse(String(child.output[ 1 ]))
-      }
-    }
-    catch (_) {
-      return null
-    }
-
-    if (!versionList) return null
-    if (versionList.type === 'error') return null
-
-    return !versionList || !Array.isArray(versionList) || versionList.length === 0
-      ? null
-      : versionList
-  }
 }
 
 class Yarn extends PackageManager {
@@ -218,33 +228,6 @@ class Yarn extends PackageManager {
   getUninstallPackageParams (names) {
     return [ 'remove', ...names ]
   }
-
-  getPackageVersionList (packageName) {
-    let versionList
-
-    try {
-      const params = this.majorVersion >= 2
-        ? [ 'npm', 'info', packageName, '--fields', 'versions', '--json' ]
-        : [ 'info', packageName, 'versions', '--json' ]
-
-      const child = crossSpawnSync(this.name, params)
-      if (child.status === 0) {
-        versionList = JSON.parse(String(child.output[ 1 ]))
-      }
-    }
-    catch (_) {
-      return null
-    }
-
-    if (!versionList) return null
-    if (versionList.type === 'error') return null
-
-    versionList = versionList[ this.majorVersion >= 2 ? 'versions' : 'data' ]
-
-    return !versionList || !Array.isArray(versionList) || versionList.length === 0
-      ? null
-      : versionList
-  }
 }
 
 class Pnpm extends PackageManager {
@@ -268,33 +251,36 @@ class Pnpm extends PackageManager {
   getUninstallPackageParams (names) {
     return [ 'remove', ...names ]
   }
+}
 
-  getPackageVersionList (packageName) {
-    let versionList
+class Bun extends PackageManager {
+  name = 'bun'
+  lockFile = 'bun.lockb'
 
-    try {
-      const child = crossSpawnSync(this.name, [ 'info', packageName, 'versions', '--json' ])
-      if (child.status === 0) {
-        versionList = JSON.parse(String(child.output[ 1 ]))
-      }
-    }
-    catch (_) {
-      return null
-    }
+  getInstallParams (env) {
+    return env === 'development'
+      ? [ 'install' ]
+      : [ 'install', '--production' ]
+  }
 
-    if (!versionList) return null
-    if (versionList.type === 'error') return null
+  getInstallPackageParams (names, isDevDependency) {
+    return [
+      'add',
+      isDevDependency ? '--dev' : '',
+      ...names
+    ]
+  }
 
-    return !versionList || !Array.isArray(versionList) || versionList.length === 0
-      ? null
-      : versionList
+  getUninstallPackageParams (names) {
+    return [ 'remove', ...names ]
   }
 }
 
 const packageManagersList = [
   new Yarn(),
   new Pnpm(),
-  new Npm()
+  new Npm(),
+  new Bun()
 ]
 
 /**
@@ -333,7 +319,7 @@ export function getNodePackager (folder = appPaths.appDir) {
     }
   }
 
-  fatal('Please install Yarn, PNPM, or NPM before running this command.\n')
+  fatal('Please install Yarn, PNPM, NPM or Bun before running this command.\n')
 }
 
 export const nodePackager = getNodePackager()

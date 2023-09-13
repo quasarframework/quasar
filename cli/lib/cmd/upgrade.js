@@ -71,7 +71,7 @@ import { nodePackager } from '../node-packager.js'
 import { getPackageJson } from '../get-package-json.js'
 
 console.log()
-log(`Gathering information with ${ nodePackager.name }...`)
+log('Gathering information from the NPM registry...')
 console.log()
 
 let quasarVersion = null
@@ -97,7 +97,7 @@ for (const type of Object.keys(deps)) {
       packageName = '@quasar/app-webpack'
     }
 
-    const latestVersion = nodePackager.getPackageLatestVersion({
+    const latestVersion = await nodePackager.getPackageLatestVersion({
       packageName,
       currentVersion,
       majorVersion: argv.major,
