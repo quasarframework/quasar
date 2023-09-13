@@ -13,7 +13,6 @@ const commands = [
   'mode',
   'info',
   'new',
-  'test',
   'help'
 ]
 
@@ -30,7 +29,6 @@ if (cmd) {
       m: 'mode',
       i: 'info',
       n: 'new',
-      t: 'test',
       h: 'help'
     }
     cmd = mapToCmd[ cmd ]
