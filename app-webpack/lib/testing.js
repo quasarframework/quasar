@@ -1,5 +1,5 @@
 /**
- * This endpoint is used exclusively by @quasar/testing
+ * This endpoint is used exclusively by @quasar/testing AEs
  */
 
 const { getCtx } = require('./utils/get-ctx.js')

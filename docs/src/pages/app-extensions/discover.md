@@ -19,7 +19,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 
 | Alias | Description |
 | --- | --- |
-| [@quasar/testing](https://github.com/quasarframework/quasar-testing) | Includes pre-configured sub-extensions for all of your testing needs |
+| [@quasar/testing AEs](https://github.com/quasarframework/quasar-testing) | Includes pre-configured sub-extensions for all of your testing needs |
 | [@quasar/apollo](https://github.com/quasarframework/app-extension-apollo/tree/v2) | Includes pre-configured Apollo integration |
 
 ### Components

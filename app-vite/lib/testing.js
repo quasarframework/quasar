@@ -1,5 +1,5 @@
 /**
- * This endpoint is used exclusively by @quasar/testing
+ * This endpoint is used exclusively by @quasar/testing AEs
  */
 
 import { getCtx } from './utils/get-ctx.js'

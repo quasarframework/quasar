@@ -7,7 +7,7 @@ Your Quasar projects have the ability to add unit and e2e testing harnesses. Thi
 
 ## High level overview
 
-You can install multiple pre-rigged testing harnesses to your existing Quasar application by running a simple command. This command will pull and install a node module (with dependencies) into your project's `package.json`, place necessary configuration files as appropriate and if you so choose, it will also add script commands that expose some of the functionality of the respective harness. You can add multiple harnesses and even use them for your continuous integration pipelines - as appropriate.
+You can install multiple pre-rigged testing harnesses to your existing Quasar application by running a simple command. This command will pull and install a node module (with dependencies) into your project's `package.json`, place necessary configuration files as appropriate and add script commands that expose some of the functionality of the respective harness. You can add multiple harnesses and even use them for your continuous integration pipelines - as appropriate.
 
 Testing is not in and of itself hard. The most complicated part is setting up the testing harness. The trick lies in knowing what to test. If you are new to testing, it is absolutely imperative that you familiarize yourself with some of the concepts and patterns. There are some links for further reading at the end of this document page.
 
@@ -15,29 +15,25 @@ Testing is not in and of itself hard. The most complicated part is setting up th
 
 You can find the documentation of testing AEs at https://testing.quasar.dev or into [`dev` branch](https://github.com/quasarframework/quasar-testing/tree/dev) of quasar-testing repo.
 
-You can find the documentation of testing AEs compatible with Quasar v1 into [`qv1` branch](https://github.com/quasarframework/quasar-testing/tree/qv1) of quasar-testing repo.
-
 <q-btn label="Testing AEs documentation" icon-right="launch" href="https://testing.quasar.dev" target="_blank" />
 
 ## Installing
 
 ```bash
 $ cd your-quasar-project
-$ quasar ext add @quasar/testing
+
+$ quasar ext add @quasar/testing-e2e-cypress
+# or
+$ quasar ext add @quasar/testing-unit-jest
+# or
+$ quasar ext add @quasar/testing-unit-vitest
 ```
 
-The lightweight extension installer will ask you which testing harnesses you want to install. Then it will install the respective extensions for these harnesses, which you can configure as you like. It is how multiple testing harnesses are ideally managed within a Quasar project.
+These extension will install the respective harnesses, which you can configure as you like.
+It is how multiple testing harnesses are ideally managed within a Quasar project.
+If you ever need to review your installation choices you can take a look at `quasar.extensions.json`.
 
-It will provide you with a new `quasar run` command that you can use to execute test-runners - and even your HMR dev environment at the same time. This approach can, for example, be quite helpful if you need to pass quasar.ctx to the test runner...
-
-```bash
-# Example to run jest && dev server in pwa mode
-$ quasar test --unit jest --dev="-m pwa"
-```
-
-If you ever need to review your choices you can take a look at `quasar.extensions.json`.
-
-If you don't want to install the helper package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone, but you won't have the `quasar test` command functionality.
+> Note that we previously suggested to use `@quasar/testing` AE to manage all testing harnesses in a project. This is no longer the case, as [it is now deprecated](https://github.com/quasarframework/quasar-testing/tree/dev/packages/testing/README.md#DEPRECATION-NOTICE). Please use the above commands instead.
 
 ## Further Reading
 
@@ -47,7 +43,6 @@ If you don't want to install the helper package, you don't have to do so. You ca
 
 ### Tutorials
 - [Unit Testing Vue Router with Jest](https://medium.com/js-dojo/unit-testing-vue-router-1d091241312)
-- ... add your suggestions here
 
 ### Documentation
 - [@vue/test-utils](https://test-utils.vuejs.org)
