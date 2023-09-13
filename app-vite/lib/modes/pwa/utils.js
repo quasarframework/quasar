@@ -74,5 +74,5 @@ export async function buildPwaServiceWorker (quasarConf, workboxConfig) {
 
   await workboxBuild[ buildMethod ](workboxConfig)
 
-  done('The ___ compiled with success')
+  done('The ___ compiled with success by Workbox')
 }
