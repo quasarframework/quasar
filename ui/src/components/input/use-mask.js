@@ -304,7 +304,12 @@ export default function (props, emit, emitValue, inputRef) {
       ? unmaskValue(masked)
       : masked
 
-    String(props.modelValue) !== val && emitValue(val, true)
+    if (
+      String(props.modelValue) !== val
+      && (props.modelValue !== null || val !== '')
+    ) {
+      emitValue(val, true)
+    }
   }
 
   function moveCursorForPaste (inp, start, end) {
