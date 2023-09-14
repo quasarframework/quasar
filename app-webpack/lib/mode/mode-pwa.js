@@ -8,7 +8,7 @@ const hasTypescript = require('../helpers/has-typescript')
 const { hasEslint } = require('../helpers/has-eslint')
 
 const pwaDeps = {
-  'workbox-webpack-plugin': '^6.0.0'
+  'workbox-webpack-plugin': '^7.0.0'
 }
 
 class Mode {
