@@ -1,4 +1,3 @@
-
 const fs = require('fs')
 const fse = require('fs-extra')
 
@@ -8,7 +7,7 @@ const nodePackager = require('../../helpers/node-packager')
 const hasTypescript = require('../../helpers/has-typescript')
 const { hasEslint } = require('../../helpers/has-eslint')
 
-const defaultVersion = '^6.5.0'
+const defaultVersion = '^7.0.0'
 
 const pwaDeps = {
   'workbox-core': defaultVersion,
