@@ -1,15 +1,9 @@
-import { app, BrowserWindow, nativeTheme } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import path from 'path'
 import os from 'os'
 
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
-
-try {
-  if (platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
-    require('fs').unlinkSync(path.join(app.getPath('userData'), 'DevTools Extensions'))
-  }
-} catch (_) { }
 
 let mainWindow
 
