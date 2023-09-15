@@ -32,7 +32,6 @@ module.exports = (nodeType, cfg, configName) => {
 
   chain.output
     .filename(`electron-${ nodeType }.js`)
-    .libraryTarget('commonjs2')
     .path(
       cfg.ctx.dev
         ? appPaths.resolve.app(tempElectronDir)
