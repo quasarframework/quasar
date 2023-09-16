@@ -13,7 +13,7 @@ export interface QuasarPluginOpts {
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
 
   /**
-   * Auto import - which file extensions should be interpreted as Vue components?
+   * Auto import - which file extensions should be interpreted as referring to Vue SFC?
    * @default [ 'vue' ]
    */
   autoImportVueExtensions?: string[];

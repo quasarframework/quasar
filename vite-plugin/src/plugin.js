@@ -15,9 +15,19 @@ const defaultOptions = {
   autoImportVueExtensions: [ 'vue' ],
   autoImportScriptExtensions: [ 'js', 'jsx', 'ts', 'tsx' ]
 }
+const defaultOptionsKeys = Object.keys(defaultOptions)
 
-const scssExt = createExtMatcher([ 'scss', 'module.scss' ])
-const sassExt = createExtMatcher([ 'sass', 'module.sass' ])
+function parsePluginOptions (userOpts = {}) {
+  const opts = { ...userOpts }
+
+  for (const key of defaultOptionsKeys) {
+    if (opts[ key ] === void 0) {
+      opts[ key ] = defaultOptions[ key ]
+    }
+  }
+
+  return opts
+}
 
 function getConfigPlugin (opts) {
   return {
@@ -38,6 +48,9 @@ function getConfigPlugin (opts) {
   }
 }
 
+const scssMatcher = createExtMatcher([ 'scss', 'module.scss' ])
+const sassMatcher = createExtMatcher([ 'sass', 'module.sass' ])
+
 function getScssTransformsPlugin (opts) {
   const sassVariables = typeof opts.sassVariables === 'string'
     ? normalizePath(opts.sassVariables)
@@ -54,14 +67,14 @@ function getScssTransformsPlugin (opts) {
     transform (src, id) {
       const is = parseViteRequest(id)
 
-      if (is.style(scssExt) === true) {
+      if (is.style(scssMatcher) === true) {
         return {
           code: scssTransform(src),
           map: null
         }
       }
 
-      if (is.style(sassExt) === true) {
+      if (is.style(sassMatcher) === true) {
         return {
           code: sassTransform(src),
           map: null
@@ -76,8 +89,8 @@ function getScssTransformsPlugin (opts) {
 function getScriptTransformsPlugin (opts) {
   let useTreeshaking = true
 
-  const vueExt = createExtMatcher(opts.autoImportVueExtensions)
-  const scriptExt = createExtMatcher(opts.autoImportScriptExtensions)
+  const vueMatcher = createExtMatcher(opts.autoImportVueExtensions)
+  const scriptMatcher = createExtMatcher(opts.autoImportScriptExtensions)
 
   return {
     name: 'vite:quasar:script',
@@ -91,14 +104,14 @@ function getScriptTransformsPlugin (opts) {
     transform (src, id) {
       const is = parseViteRequest(id)
 
-      if (is.template(vueExt) === true) {
+      if (is.template(vueMatcher) === true) {
         return {
           code: vueTransform(src, opts.autoImportComponentCase, useTreeshaking),
           map: null // provide source map if available
         }
       }
 
-      if (useTreeshaking === true && is.script(scriptExt) === true) {
+      if (useTreeshaking === true && is.script(scriptMatcher) === true) {
         return {
           code: mapQuasarImports(src),
           map: null // provide source map if available
@@ -110,11 +123,8 @@ function getScriptTransformsPlugin (opts) {
   }
 }
 
-export default function (userOpts = {}) {
-  const opts = {
-    ...defaultOptions,
-    ...userOpts
-  }
+export default function (userOpts) {
+  const opts = parsePluginOptions(userOpts)
 
   const plugins = [
     getConfigPlugin(opts)

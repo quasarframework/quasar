@@ -1,10 +1,14 @@
 
 /**
  * @typedef {{
- *  vue: () => boolean;
- *  template: () => boolean;
- *  script: (extensions?: string | string[]) => boolean;
- *  style: (extensions?: string | string[]) => boolean;
+ *  extensionsList: string[];
+ *  filenameRegex: RegExp;
+ * }} ExtMatcher
+ *
+ * @typedef {{
+ *  template: (extMatcher: ExtMatcher) => boolean;
+ *  script: (extMatcher: ExtMatcher) => boolean;
+ *  style: (extMatcher: ExtMatcher) => boolean;
  * }} ViteQueryIs
  */
 
@@ -24,46 +28,45 @@ export function parseViteRequest (id) {
   const [ filename, rawQuery ] = id.split('?', 2)
   const query = Object.fromEntries(new URLSearchParams(rawQuery))
 
-  return query.raw !== void 0
+  if (query.raw !== void 0) {
+    return {
+      // if it's a ?raw request, then don't touch it at all
+      template: () => false,
+      script: () => false,
+      style: () => false
+    }
+  }
+
+  return query.vue !== void 0 // is vue query?
     ? {
-        // if it's a ?raw request, then don't touch it at all
-        vue: () => false,
-        template: () => false,
-        script: () => false,
-        style: () => false
+        template: () => (
+          query.type === void 0
+          || query.type === 'template'
+          // On prod, TS code turns into a separate 'script' request.
+          // See: https://github.com/vitejs/vite/pull/7909
+          || (query.type === 'script' && (query[ 'lang.ts' ] !== void 0 || query[ 'lang.tsx' ] !== void 0))
+        ),
+
+        script: matcher => (
+          (query.type === void 0 || query.type === 'script')
+          && matcher.extensionsList.some(ext => query[ `lang.${ ext }` ] !== void 0) === true
+        ),
+
+        style: matcher => (
+          query.type === 'style'
+          && matcher.extensionsList.some(ext => query[ `lang.${ ext }` ] !== void 0) === true
+        )
       }
-    : (
-        query.vue !== void 0 // is vue query?
-          ? {
-              template: () => (
-                query.type === void 0
-                || query.type === 'template'
-                // On prod, TS code turns into a separate 'script' request.
-                // See: https://github.com/vitejs/vite/pull/7909
-                || (query.type === 'script' && (query[ 'lang.ts' ] !== void 0 || query[ 'lang.tsx' ] !== void 0))
-              ),
-
-              script: ext => (
-                (query.type === void 0 || query.type === 'script')
-                && ext.list.some(x => query[ `lang.${ x }` ] !== void 0) === true
-              ),
-
-              style: ext => (
-                query.type === 'style'
-                && ext.list.some(x => query[ `lang.${ x }` ] !== void 0) === true
-              )
-            }
-          : {
-              template: ext => ext.regex.test(filename),
-              script: ext => ext.regex.test(filename),
-              style: ext => ext.regex.test(filename)
-            }
-      )
+    : {
+        template: matcher => matcher.filenameRegex.test(filename),
+        script: matcher => matcher.filenameRegex.test(filename),
+        style: matcher => matcher.filenameRegex.test(filename)
+      }
 }
 
-export function createExtMatcher (extList) {
+export function createExtMatcher (extensionsList) {
   return {
-    list: extList,
-    regex: new RegExp(`\\.(${ extList.join('|') })$`)
+    extensionsList,
+    filenameRegex: new RegExp(`\\.(${ extensionsList.join('|') })$`)
   }
 }

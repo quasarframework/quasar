@@ -152,8 +152,10 @@ export async function createViteConfig (quasarConf, { compileId }) {
       quasarVitePlugin({
         runMode: getQuasarVitePluginRunMode(compileId),
         autoImportComponentCase: quasarConf.framework.autoImportComponentCase,
-        sassVariables: quasarConf.metaConf.css.variablesFile,
-        devTreeshaking: quasarConf.build.devQuasarTreeshaking === true
+        autoImportVueExtensions: quasarConf.framework.autoImportVueExtensions,
+        autoImportScriptExtensions: quasarConf.framework.autoImportScriptExtensions,
+        devTreeshaking: quasarConf.framework.devTreeshaking === true,
+        sassVariables: quasarConf.metaConf.css.variablesFile
       }),
       ...(await parseVitePlugins(build.vitePlugins, appPaths.appDir))
     ]

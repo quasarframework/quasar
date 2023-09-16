@@ -2,6 +2,10 @@ import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
 import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
 
+const docApiRE = /<doc-api /
+const docInstallationRE = /<doc-installation /
+const docTreeRE = /<doc-tree /
+
 export default function mdParse (code, id) {
   const { data, content } = parseFrontMatter(code)
 
@@ -19,13 +23,13 @@ export default function mdParse (code, id) {
   if (data.examples !== void 0) {
     data.components.add('src/components/DocExample')
   }
-  if (code.indexOf('<doc-api') !== -1) {
+  if (docApiRE.test(code) === true) {
     data.components.add('src/components/DocApi')
   }
-  if (code.indexOf('<doc-installation') !== -1) {
+  if (docInstallationRE.test(code) === true) {
     data.components.add('src/components/DocInstallation')
   }
-  if (code.indexOf('<doc-tree') !== -1) {
+  if (docTreeRE.test(code) === true) {
     data.components.add('src/components/DocTree')
   }
 
