@@ -1,4 +1,3 @@
-
 export function createScssTransform (fileExtension, sassVariables) {
   const sassImportCode = [ '@import \'quasar/src/css/variables.sass\'', '' ]
 

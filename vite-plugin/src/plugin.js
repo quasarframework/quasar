@@ -1,4 +1,3 @@
-
 import { normalizePath } from 'vite'
 
 import { getViteConfig } from './vite-config.js'

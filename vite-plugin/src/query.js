@@ -1,4 +1,3 @@
-
 /**
  * @typedef {{
  *  extensionsList: string[];

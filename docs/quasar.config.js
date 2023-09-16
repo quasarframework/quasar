@@ -66,19 +66,14 @@ export default ctx => ({
   framework: {
     iconSet: 'svg-mdi-v6',
 
+    autoImportVueExtensions: [ 'vue', 'md' ],
+
     config: {
       loadingBar: {
         color: 'brand-primary',
         size: '4px'
       }
     },
-
-    components: [
-      'QMarkupTable', // required md-plugin-table
-      'QBtn', // used directly in some .md files
-      'QBadge', // used directly in some .md files
-      'QSeparator' // used directly in some .md files
-    ],
 
     plugins: [
       'AddressbarColor',
