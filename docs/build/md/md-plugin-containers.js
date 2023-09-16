@@ -13,6 +13,10 @@
  * My dangerous message
  * :::
  *
+ * ::: details
+ * These are some details that need to be expanded to be seen.
+ * :::
+ *
  * Custom title:
  *
  * ::: warning WATCH OUT
@@ -30,12 +34,16 @@ function createContainer (className, defaultTitle) {
       render (tokens, idx) {
         const token = tokens[ idx ]
         const info = token.info.trim().slice(className.length).trim()
-        if (token.nesting === 1) {
-          return `<div class="doc-note doc-note--${className}"><p class="doc-note__title">${info || defaultTitle}</p>\n`
+
+        if (className === 'details') {
+          return token.nesting === 1
+            ? `<details class="doc-note doc-note--${className}"><summary class="doc-note__title">${info || defaultTitle}</summary>\n`
+            : '</details>\n'
         }
-        else {
-          return '</div>\n'
-        }
+
+        return token.nesting === 1
+          ? `<div class="doc-note doc-note--${className}"><p class="doc-note__title">${info || defaultTitle}</p>\n`
+          : '</div>\n'
       }
     }
   ]
@@ -46,6 +54,7 @@ export default function mdPluginContainers (md) {
     .use(...createContainer('tip', 'TIP'))
     .use(...createContainer('warning', 'WARNING'))
     .use(...createContainer('danger', 'WARNING'))
+    .use(...createContainer('details', 'Details'))
 
     // explicitly escape Vue syntax
     .use(container, 'v-pre', {

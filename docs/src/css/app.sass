@@ -111,6 +111,15 @@ ul
     .doc-token
       border-color: $negative
 
+  &--details
+    .doc-note__title
+      cursor: pointer
+      display: list-item
+
+    &:not([open])
+      > .doc-note__title
+        padding-bottom: 0
+
   &__title
     font-weight: 700
     letter-spacing: $letter-spacing-brand
