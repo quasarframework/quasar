@@ -1,7 +1,7 @@
 import prism from 'prismjs'
 import loadLanguages from 'prismjs/components/index.js'
 
-loadLanguages([ 'markup', 'bash', 'javascript', 'typescript', 'sass', 'scss', 'css', 'json', 'xml', 'nginx' ])
+loadLanguages([ 'markup', 'bash', 'javascript', 'typescript', 'sass', 'scss', 'css', 'json', 'xml', 'nginx', 'diff' ])
 
 export default function highlight (str, lang) {
   if (lang === '') {

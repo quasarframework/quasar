@@ -174,6 +174,16 @@ export default function (ctx) { // can be async too
 /home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
 ```
 
+``` diff
+// diff
+{
+  min: 0
+- super: false
++ super: true
+  max: 100
+}
+```
+
 ## Tree
 
 <doc-tree :def="scope.tree" />
