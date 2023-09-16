@@ -4,15 +4,20 @@ import { normalizePath } from 'vite'
 import { getViteConfig } from './vite-config.js'
 import { vueTransform } from './vue-transform.js'
 import { createScssTransform } from './scss-transform.js'
-import { parseViteRequest } from './query.js'
+import { parseViteRequest, createExtMatcher } from './query.js'
 import { mapQuasarImports } from './js-transform.js'
 
 const defaultOptions = {
   runMode: 'web-client',
-  autoImportComponentCase: 'kebab',
   sassVariables: true,
-  devTreeshaking: false
+  devTreeshaking: false,
+  autoImportComponentCase: 'kebab',
+  autoImportVueExtensions: [ 'vue' ],
+  autoImportScriptExtensions: [ 'js', 'jsx', 'ts', 'tsx' ]
 }
+
+const scssExt = createExtMatcher([ 'scss', 'module.scss' ])
+const sassExt = createExtMatcher([ 'sass', 'module.sass' ])
 
 function getConfigPlugin (opts) {
   return {
@@ -40,8 +45,6 @@ function getScssTransformsPlugin (opts) {
 
   const scssTransform = createScssTransform('scss', sassVariables)
   const sassTransform = createScssTransform('sass', sassVariables)
-  const scssExt = [ '.scss', '.module.scss' ]
-  const sassExt = [ '.sass', '.module.sass' ]
 
   return {
     name: 'vite:quasar:scss',
@@ -49,7 +52,7 @@ function getScssTransformsPlugin (opts) {
     enforce: 'pre',
 
     transform (src, id) {
-      const { is } = parseViteRequest(id)
+      const is = parseViteRequest(id)
 
       if (is.style(scssExt) === true) {
         return {
@@ -73,6 +76,9 @@ function getScssTransformsPlugin (opts) {
 function getScriptTransformsPlugin (opts) {
   let useTreeshaking = true
 
+  const vueExt = createExtMatcher(opts.autoImportVueExtensions)
+  const scriptExt = createExtMatcher(opts.autoImportScriptExtensions)
+
   return {
     name: 'vite:quasar:script',
 
@@ -83,16 +89,16 @@ function getScriptTransformsPlugin (opts) {
     },
 
     transform (src, id) {
-      const { is } = parseViteRequest(id)
+      const is = parseViteRequest(id)
 
-      if (is.template() === true) {
+      if (is.template(vueExt) === true) {
         return {
           code: vueTransform(src, opts.autoImportComponentCase, useTreeshaking),
           map: null // provide source map if available
         }
       }
 
-      if (useTreeshaking === true && is.script() === true) {
+      if (useTreeshaking === true && is.script(scriptExt) === true) {
         return {
           code: mapQuasarImports(src),
           map: null // provide source map if available

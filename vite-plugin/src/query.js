@@ -24,7 +24,7 @@ export function parseViteRequest (id) {
   const [ filename, rawQuery ] = id.split('?', 2)
   const query = Object.fromEntries(new URLSearchParams(rawQuery))
 
-  const is = query.raw !== void 0
+  return query.raw !== void 0
     ? {
         // if it's a ?raw request, then don't touch it at all
         vue: () => false,
@@ -35,10 +35,6 @@ export function parseViteRequest (id) {
     : (
         query.vue !== void 0 // is vue query?
           ? {
-            // Almost all code might get merged into a single request with no 'type' (App.vue?vue)
-            // or stay with their original 'type's (App.vue?vue&type=script&lang.ts)
-              vue: () => true,
-
               template: () => (
                 query.type === void 0
                 || query.type === 'template'
@@ -47,36 +43,27 @@ export function parseViteRequest (id) {
                 || (query.type === 'script' && (query[ 'lang.ts' ] !== void 0 || query[ 'lang.tsx' ] !== void 0))
               ),
 
-              script: (extensions = scriptExt) => (
+              script: ext => (
                 (query.type === void 0 || query.type === 'script')
-                && isOfExt({ query, extensions }) === true
+                && ext.list.some(x => query[ `lang.${ x }` ] !== void 0) === true
               ),
 
-              style: (extensions = styleExt) => (
+              style: ext => (
                 query.type === 'style'
-                && isOfExt({ query, extensions }) === true
+                && ext.list.some(x => query[ `lang.${ x }` ] !== void 0) === true
               )
             }
           : {
-              vue: () => isOfExt({ extensions: vueExt, filename }),
-              template: () => isOfExt({ filename, extensions: vueExt }),
-              script: (extensions = scriptExt) => isOfExt({ filename, extensions }),
-              style: (extensions = styleExt) => isOfExt({ filename, extensions })
+              template: ext => ext.regex.test(filename),
+              script: ext => ext.regex.test(filename),
+              style: ext => ext.regex.test(filename)
             }
       )
-
-  return {
-    filename,
-    query,
-    is
-  }
 }
 
-const vueExt = [ '.vue' ]
-const scriptExt = [ '.js', '.jsx', '.ts', '.tsx', '.vue' ]
-const styleExt = [ '.css', '.scss', '.module.scss', '.sass', '.module.sass' ]
-
-const isOfExt = ({ extensions, filename, query }) =>
-  extensions.some(
-    ext => filename?.endsWith(ext) || query?.[ `lang${ ext }` ] !== void 0
-  )
+export function createExtMatcher (extList) {
+  return {
+    list: extList,
+    regex: new RegExp(`\\.(${ extList.join('|') })$`)
+  }
+}

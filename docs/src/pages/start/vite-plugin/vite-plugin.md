@@ -61,6 +61,10 @@ We have built a configurator to help you get started as quickly as possible:
 
 <vite-plugin-usage />
 
+## @quasar/vite-plugin options
+
+The full list of options can be found [here](https://github.com/quasarframework/quasar/blob/dev/vite-plugin/index.d.ts).
+
 ## RTL support
 
 For enabling, please check out our [RTL Support](/options/rtl-support) page and follow the instructions.
