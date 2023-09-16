@@ -9,7 +9,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1.16.6",
     "quasar": "^2.11.10",
     "vue": "^3.3.4"
   },

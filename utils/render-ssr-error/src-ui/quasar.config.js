@@ -1,9 +1,9 @@
 /* eslint-env node */
 
-const { configure } = require('quasar/wrappers')
-const singleFile = require('./build/vite.plugin.single-file.js')
+import { configure } from 'quasar/wrappers'
+import singleFile from './build/vite.plugin.single-file.js'
 
-module.exports = configure(() => ({
+export default configure(() => ({
   eslint: {
     fix: true,
     warnings: true,

@@ -22,7 +22,7 @@ function updateOutput (out) {
   out.inlineDynamicImports = true
 }
 
-module.exports = function viteSingleFile () {
+export default function viteSingleFile () {
   return {
     name: 'single-file',
     enforce: 'post',

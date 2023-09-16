@@ -16,11 +16,11 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1.16.6",
     "prismjs": "^1.26.0",
     "quasar": "^2.11.5",
     "vue": "^3.2.45",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.2.4"
   },
   "devDependencies": {
     "@quasar/app-vite": "^2.0.0-alpha.0",
