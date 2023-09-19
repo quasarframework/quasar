@@ -25,7 +25,7 @@ const routes = [
 
 You could configure your `manifest.json` file with the following so the options page is loaded from that route:
 
-```json
+```jsonc
 {
   "name": "My extension",
   ...

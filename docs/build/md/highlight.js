@@ -10,6 +10,11 @@ export default function highlight (str, lang) {
   else if (lang === 'vue' || lang === 'html') {
     lang = 'html'
   }
+  else if (lang === 'jsonc') {
+    // Prism permits comments in json blocks
+    // But github requires jsonc
+    lang = 'json'
+  }
 
   if (prism.languages[ lang ] !== void 0) {
     const code = prism.highlight(str, prism.languages[ lang ], lang)

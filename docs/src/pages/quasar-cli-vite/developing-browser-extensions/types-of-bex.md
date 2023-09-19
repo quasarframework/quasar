@@ -27,7 +27,7 @@ You could configure your `manifest.json` file with the following so the options 
 
 #### manifest v2
 
-```json
+```jsonc
 {
   "manifest_version": 2,
 
@@ -41,7 +41,7 @@ You could configure your `manifest.json` file with the following so the options 
 
 #### manifest v3
 
-```json
+```jsonc
 {
   "manifest_version": 3,
 
