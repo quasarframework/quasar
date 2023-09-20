@@ -51,6 +51,6 @@ function copy () {
 
 pre + .doc-copy-btn
   position: absolute
-  top: 8px
+  top: 5px
   right: 16px
 </style>

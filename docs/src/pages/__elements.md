@@ -163,6 +163,24 @@ export default function (ctx) { // can be async too
 }
 ```
 
+```js Titled code
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
 ```bash
 /home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
 ```
@@ -193,7 +211,6 @@ export default function (ctx) { // can be async too
 ```
 
 ```diff
-// diff example
 {
   min: 0
 - super: false
