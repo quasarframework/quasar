@@ -25,7 +25,13 @@ let timer
 const copied = ref(false)
 
 function copy () {
-  copyToClipboard(proxy.$el.previousSibling.innerText)
+  const target = proxy.$el.previousSibling
+  target.classList.add('doc-code--copying')
+
+  copyToClipboard(target.innerText)
+    .finally(() => {
+      target.classList.remove('doc-code--copying')
+    })
     .then(() => {
       copied.value = true
       clearTimeout(timer)
