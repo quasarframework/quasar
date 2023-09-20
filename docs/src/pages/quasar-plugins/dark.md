@@ -87,7 +87,7 @@ When on a SSR build:
 
 ## Watching for status change
 
-```vue
+```html
 <template>...</template>
 
 <script>

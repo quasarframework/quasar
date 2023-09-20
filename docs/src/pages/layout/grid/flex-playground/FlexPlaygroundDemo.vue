@@ -36,7 +36,7 @@
       <div>Resulting container classes:</div>
       <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
         <div class="text-subtitle2 q-mr-sm">{{ classes }}</div>
-        <copy-button :text="classes" />
+        <copy-button />
       </div>
     </div>
 
@@ -85,7 +85,7 @@
           <td>
             <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
               <div class="text-subtitle2 q-mr-sm">{{ classes }}</div>
-              <copy-button :text="classes" />
+              <copy-button />
             </div>
           </td>
         </tr>
@@ -95,7 +95,7 @@
           <td>
             <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
               <div class="text-subtitle2 q-mr-sm">{{ group.childClasses || '* none *' }}</div>
-              <copy-button v-if="group.childClasses" :text="group.childClasses" />
+              <copy-button v-if="group.childClasses" />
             </div>
           </td>
         </tr>
@@ -105,7 +105,7 @@
           <td>
             <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
               <div class="text-subtitle2 q-mr-sm">{{ group.childStyles || '* none *' }}</div>
-              <copy-button v-if="group.childStyles" :text="group.childStyles" />
+              <copy-button v-if="group.childStyles" />
             </div>
           </td>
         </tr>

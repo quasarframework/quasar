@@ -18,7 +18,7 @@ This is a Vue directive which takes one parameter (a Function) and fires when us
 
 ## Usage
 
-```vue
+```html
 <template>
   ...
   <div v-scroll="onScroll">...</div>

@@ -143,9 +143,31 @@ For a full list of our `wonderful` people who make Quasar happen, visit the [Bac
 - Linux: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 - Windows: <kbd>Ctrl</kbd> <kbd>Shift</kbd> <kbd>I</kbd> or <kbd>F12</kbd>
 
-## Inline example
+## Code containers
 
 ```js
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
+```bash
+/home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
+```
+
+```js [numbered]
 export default function (ctx) { // can be async too
   console.log(ctx)
 
@@ -170,12 +192,110 @@ export default function (ctx) { // can be async too
 }
 ```
 
-```bash
-/home/your_user/bin:/home/your_user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/home/your_user/Android/Sdk/tools:/home/your_user/Android/Sdk/platform-tools
+```diff
+// diff example
+{
+  min: 0
+- super: false
++ super: true
+  max: 100
+}
 ```
 
-``` diff
-// diff
+```diff
+@@ -26,23 +26,25 @@
+ import container from 'markdown-it-container'
+
+-function createContainer (className, defaultTitle) {
++function createContainer (containerType, defaultTitle) {
++  const containerTypeLen = containerType.length
++
+   return [
+     container,
+-    className,
++    containerType,
+     {
+       render (tokens, idx) {
+         const token = tokens[ idx ]
+-        const info = token.info.trim().slice(className.length).trim()
++        const title = token.info.trim().slice(containerTypeLen).trim() || defaultTitle
+
+-        if (className === 'details') {
++        if (containerType === 'details') {
+           return token.nesting === 1
+-            ? `<details class="doc-note doc-note--${className}"><summary class="doc-note__title">${info || defaultTitle}</summary>\n`
++            ? `<details class="doc-note doc-note--${ containerType }"><summary class="doc-note__title">${ title }</summary>\n`
+             : '</details>\n'
+         }
+
+         return token.nesting === 1
+-          ? `<div class="doc-note doc-note--${className}"><p class="doc-note__title">${info || defaultTitle}</p>\n`
++          ? `<div class="doc-note doc-note--${ containerType }"><p class="doc-note__title">${ title }</p>\n`
+           : '</div>\n'
+       }
+     }
+@@ -55,11 +57,4 @@ export default function mdPluginContainers (md) {
+     .use(...createContainer('warning', 'WARNING'))
+     .use(...createContainer('danger', 'WARNING'))
+     .use(...createContainer('details', 'Details'))
+-
+-    // explicitly escape Vue syntax
+-    .use(container, 'v-pre', {
+-      render: (tokens, idx) => tokens[ idx ].nesting === 1
+-        ? '<div v-pre>\n'
+-        : '</div>\n'
+-    })
+ }
+```
+
+
+```tabs
+<<| js [numbered] Config file |>>
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+<<| js Other file |>>
+const x = {
+  dev: true,
+  prod: false
+}
+```
+
+```tabs quasar.config file
+<<| js One |>>
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+<<| js [numbered] Two (numbered) |>>
+const x = {
+  dev: true,
+  prod: false
+}
+<<| diff Three (with diff) |>>
 {
   min: 0
 - super: false

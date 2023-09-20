@@ -1,9 +1,7 @@
 <template>
   <div class="relative-position">
     <code-prism :lang="props.lang" :code="props.code" :style="style" />
-    <div class="doc-code__copy absolute">
-      <copy-button :text="props.code" />
-    </div>
+    <copy-button />
   </div>
 </template>
 

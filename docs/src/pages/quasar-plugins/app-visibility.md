@@ -30,7 +30,7 @@ setup () {
 
 ## Watching for status change
 
-```vue
+```html
 <template>...</template>
 
 <script>

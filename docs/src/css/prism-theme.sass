@@ -15,24 +15,25 @@
   padding: 16px
   border-radius: inherit
 
-  &--prerendered
-    border-width: 1px 4px
-    border-style: solid
-    border-radius: $generic-border-radius
+  .token.line-number
+    position: sticky
+    pointer-events: none
+    user-select: none
+    left: -16px
+    padding-right: 8px
+    margin-left: -16px
 
-  &__copy
-    top: 8px
-    right: 16px
+  .token.inserted-sign
+    background: rgba($positive, .2)
 
 body.body--light
   .doc-code
     color: $grey-9
     background-color: $light-pill
 
-    &--prerendered
-      border-color: $separator-color
-      border-left-color: $brand-primary
-      border-right-color: $brand-primary
+    .token.line-number
+      color: $header-btn-color--light
+      background: linear-gradient(to left, transparent, $light-pill 7px)
 
   .token.comment,
   .token.block-comment,
@@ -62,6 +63,9 @@ body.body--light
   .token.symbol,
   .token.deleted
     color: #c92c2c
+
+  .token.deleted-sign
+    background: rgba($negative, .2)
 
   .token.selector,
   .token.attr-name,
@@ -106,10 +110,9 @@ body.body--dark
     color: #f8f8f2
     background-color: $dark-pill
 
-    &--prerendered
-      border-color: scale-color($brand-primary, $lightness: -50%)
-      border-left-color: scale-color($brand-primary, $lightness: -50%)
-      border-right-color: scale-color($brand-primary, $lightness: -50%)
+    .token.line-number
+      color: $header-btn-color--dark
+      background: linear-gradient(to left, transparent, $dark-pill 7px)
 
   .token.comment,
   .token.prolog,
@@ -126,6 +129,9 @@ body.body--dark
   .token.symbol,
   .token.deleted
     color: #ffa07a
+
+  .token.deleted-sign
+    background: rgba($negative, .4)
 
   .token.boolean,
   .token.number

@@ -1,12 +1,12 @@
 <template>
-  <div class="relative">
-    <q-btn class="header-btn copy-button__action" color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
+  <div class="doc-copy-btn">
+    <q-btn class="header-btn doc-copy-btn__action" color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
       <q-tooltip>Copy to Clipboard</q-tooltip>
     </q-btn>
 
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <q-badge
-        class="absolute copy-button__badge header-badge"
+        class="absolute doc-copy-btn__badge header-badge"
         v-show="copied"
         label="Copied to clipboard"
       />
@@ -15,19 +15,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, getCurrentInstance } from 'vue'
 import { copyToClipboard } from 'quasar'
 import { mdiContentCopy } from '@quasar/extras/mdi-v6'
 
-const props = defineProps({
-  text: String
-})
+const { proxy } = getCurrentInstance()
 
 let timer
 const copied = ref(false)
 
 function copy () {
-  copyToClipboard(props.text)
+  copyToClipboard(proxy.$el.previousSibling.innerText)
     .then(() => {
       copied.value = true
       clearTimeout(timer)
@@ -41,7 +39,7 @@ function copy () {
 </script>
 
 <style lang="sass">
-.copy-button
+.doc-copy-btn
 
   &__action
     .q-icon
@@ -50,4 +48,9 @@ function copy () {
   &__badge
     top: 5px
     right: 38px
+
+pre + .doc-copy-btn
+  position: absolute
+  top: 8px
+  right: 16px
 </style>

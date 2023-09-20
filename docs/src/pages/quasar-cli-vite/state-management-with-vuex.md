@@ -242,7 +242,7 @@ Just import the module in `src/store/index.ts` and add it to your `rootConfig`. 
 
 Using the typed store inside Vue files is pretty straightforward, here is an example:
 
-```vue
+```html
 <template>
   <q-page class="column items-center justify-center">
     <q-btn @click="store.mutations.add(3)" label="Add count" />

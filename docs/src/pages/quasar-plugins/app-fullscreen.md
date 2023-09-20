@@ -85,7 +85,7 @@ It all depends on the Web Fullscreen API support of the platform the code is run
 
 ## Watching for fullscreen changes
 
-```vue
+```html
 <template>...</template>
 
 <script>
