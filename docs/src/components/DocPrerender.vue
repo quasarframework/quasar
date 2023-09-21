@@ -1,7 +1,7 @@
 <template>
   <q-card flat bordered>
     <div v-if="props.title" class="header-toolbar row items-center">
-      <div class="doc-card-title q-my-xs q-mr-sm cursor-pointer">{{ props.title }}</div>
+      <div class="doc-card-title q-my-xs q-mr-sm">{{ props.title }}</div>
     </div>
 
     <q-tabs v-if="props.tabs" class="header-tabs" v-model="currentTab" align="left" active-color="brand-primary" indicator-color="brand-primary" dense :breakpoint="0" shrink>

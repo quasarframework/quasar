@@ -48,8 +48,8 @@ function copy () {
 .doc-copy-btn
 
   .q-icon
-    font-size: 16px
-    padding: 6px
+    font-size: 20px
+    padding: 4px
     border-radius: $generic-border-radius
     border: 1px solid $brand-primary
     cursor: pointer

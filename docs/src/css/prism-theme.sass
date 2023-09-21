@@ -61,6 +61,10 @@
     bottom: -2px
     z-index: -1
 
+.c-add:before,
+.token.inserted-sign:before
+  background: rgba($positive, .2)
+
 .token.deleted-sign,
 .token.inserted-sign
   position: relative
@@ -88,9 +92,6 @@ body.body--light
   .c-rem:before,
   .token.deleted-sign:before
     background: rgba($negative, .2)
-  .c-add:before,
-  .token.inserted-sign:before
-    background: rgba($positive, .2)
 
   .c-lnum
     color: $header-btn-color--light
@@ -173,10 +174,7 @@ body.body--dark
     background: rgba($grey-3, .2)
   .c-rem:before,
   .token.deleted-sign:before
-    background: rgba($negative, .4)
-  .c-add:before,
-  .token.inserted-sign:before
-    background: rgba($positive, .4)
+    background: rgba($red, .3)
 
   .c-lnum
     color: $header-btn-color--dark
