@@ -26,12 +26,15 @@ const copied = ref(false)
 
 function copy () {
   const target = proxy.$el.previousSibling
-  target.classList.add('doc-code--copying')
 
-  copyToClipboard(target.innerText)
-    .finally(() => {
-      target.classList.remove('doc-code--copying')
-    })
+  // We need to remove artifacts (like line numbers)
+  // before we copy the content.
+  // The doc-code--copying class will do that for us
+  target.classList.add('doc-code--copying')
+  const text = target.innerText
+  target.classList.remove('doc-code--copying')
+
+  copyToClipboard(text)
     .then(() => {
       copied.value = true
       clearTimeout(timer)
