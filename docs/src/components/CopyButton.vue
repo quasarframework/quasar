@@ -1,8 +1,6 @@
 <template>
   <div class="doc-copy-btn">
-    <q-btn class="header-btn doc-copy-btn__action" color="brand-primary" round dense flat :icon="mdiContentCopy" @click="copy">
-      <q-tooltip>Copy to Clipboard</q-tooltip>
-    </q-btn>
+    <q-icon name="content_paste" color="brand-primary" @click="copy" />
 
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <q-badge
@@ -17,7 +15,6 @@
 <script setup>
 import { ref, getCurrentInstance } from 'vue'
 import { copyToClipboard } from 'quasar'
-import { mdiContentCopy } from '@quasar/extras/mdi-v6'
 
 const { proxy } = getCurrentInstance()
 
@@ -50,16 +47,35 @@ function copy () {
 <style lang="sass">
 .doc-copy-btn
 
-  &__action
-    .q-icon
-      font-size: 18px !important
+  .q-icon
+    font-size: 16px
+    padding: 6px
+    border-radius: $generic-border-radius
+    border: 1px solid $brand-primary
+    cursor: pointer
+    color: $brand-primary
 
   &__badge
-    top: 5px
-    right: 38px
+    top: 4px
+    right: 34px
+
+body.body--light .doc-copy-btn
+  .q-icon
+    background-color: #fff
+
+body.body--dark .doc-copy-btn
+  .q-icon
+    background-color: $dark-pill
 
 pre + .doc-copy-btn
   position: absolute
-  top: 5px
-  right: 16px
+  top: 8px
+  right: 16px /* account for scrollbar */
+
+  .q-icon
+    opacity: .3
+    transition: opacity .28s
+
+    &:hover
+      opacity: 1
 </style>

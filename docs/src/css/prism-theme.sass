@@ -1,42 +1,100 @@
 .doc-code
   margin: 0
   position: relative
-  font-size: ($font-size - 2px)
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
-  line-height: 1.5em
-  tab-size: 2
-  text-align: left
-  white-space: pre
-  word-spacing: normal
-  word-break: normal
-  word-wrap: normal
-  hyphens: none
   overflow: auto
-  padding: 16px
   border-radius: inherit
 
-  .token.line-number
-    position: sticky
-    pointer-events: none
-    user-select: none
-    left: -16px
-    padding-right: 8px
-    margin-left: -16px
+  code
+    display: block
+    padding: 16px
+    width: fit-content
+    min-width: 100%
 
-  .token.inserted-sign
-    background: rgba($positive, .2)
+    font-size: ($font-size - 2px)
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+    line-height: 1.5em
+    tab-size: 2
+    text-align: left
+    white-space: pre
+    word-spacing: normal
+    word-break: normal
+    word-wrap: normal
+    hyphens: none
+
+    color: inherit
+    background-color: inherit
+    border-radius: inherit
 
   &--copying
-    .token.line-number
+    .c-lnum,
+    .c-line,
+    .token.deleted-sign,
+    .token.prefix
       display: none
+
+.c-line // code line
+  position: relative
+  display: block
+  width: 100%
+  height: 0
+  &:before
+    content: ' '
+    position: absolute
+    top: 0
+    left: -16px
+    right: -16px
+    height: 1.5em
+
+.c-lnum // code line number
+  position: sticky
+  pointer-events: none
+  user-select: none
+  left: 8px
+  padding: 0 8px
+  margin-left: -8px
+  &:before
+    content: ''
+    position: absolute
+    top: -1px
+    left: -8px
+    right: 0
+    bottom: -2px
+    z-index: -1
+
+.token.deleted-sign,
+.token.inserted-sign
+  position: relative
+  display: block
+  width: 100%
+
+  &:before
+    content: ''
+    position: absolute
+    top: 0
+    left: -16px
+    right: -16px
+    bottom: 0
+
+.token.prefix
+  margin-right: 8px
 
 body.body--light
   .doc-code
     color: $grey-9
     background-color: $light-pill
 
-    .token.line-number
-      color: $header-btn-color--light
+  .c-highlight:before
+    background: rgba($grey, .2)
+  .c-rem:before,
+  .token.deleted-sign:before
+    background: rgba($negative, .2)
+  .c-add:before,
+  .token.inserted-sign:before
+    background: rgba($positive, .2)
+
+  .c-lnum
+    color: $header-btn-color--light
+    &:before
       background: linear-gradient(to left, transparent, $light-pill 7px)
 
   .token.comment,
@@ -67,9 +125,6 @@ body.body--light
   .token.symbol,
   .token.deleted
     color: #c92c2c
-
-  .token.deleted-sign
-    background: rgba($negative, .2)
 
   .token.selector,
   .token.attr-name,
@@ -114,8 +169,18 @@ body.body--dark
     color: #f8f8f2
     background-color: $dark-pill
 
-    .token.line-number
-      color: $header-btn-color--dark
+  .c-highlight:before
+    background: rgba($grey-3, .2)
+  .c-rem:before,
+  .token.deleted-sign:before
+    background: rgba($negative, .4)
+  .c-add:before,
+  .token.inserted-sign:before
+    background: rgba($positive, .4)
+
+  .c-lnum
+    color: $header-btn-color--dark
+    &:before
       background: linear-gradient(to left, transparent, $dark-pill 7px)
 
   .token.comment,
@@ -133,9 +198,6 @@ body.body--dark
   .token.symbol,
   .token.deleted
     color: #ffa07a
-
-  .token.deleted-sign
-    background: rgba($negative, .4)
 
   .token.boolean,
   .token.number

@@ -13,6 +13,8 @@ const langList = [
   { name: 'xml' },
   { name: 'nginx' },
   { name: 'html' },
+
+  // special grammars:
   { name: 'diff' }
 ]
 
@@ -20,6 +22,16 @@ loadLanguages(langList.map(l => l.name))
 
 const langMatch = langList.map(l => l.aliases || l.name).join('|')
 
+/**
+ * lang -> one of the supported languages (langList)
+ * attrs -> optional attributes:
+ *    * numbered - lines are numbered
+ *    * highlight="1,2-4,6" - lines are highlighted
+ *    * add="1,2-4,6" - lines are added
+ *    * rem="1,2-4,6" - lines are removed
+ *    * maxheight="300px" - max height of the code block (including CSS unit)
+ * title -> optional card title
+ */
 const definitionLineRE = new RegExp(
   '^' +
   `(?<lang>(tabs|${ langMatch }))` + // then a language name
@@ -28,6 +40,10 @@ const definitionLineRE = new RegExp(
   '$'
 )
 
+/**
+ * <<| lang [attrs] [title] |>>
+ * ...content...
+ */
 const tabsLineRE = new RegExp(
   '^<<\\|\\s+' + // starts with "<<|" + at least one space char
   `(?<lang>${ langMatch })` + // then a language name
@@ -72,29 +88,84 @@ function extractTabs (content) {
       const props = tabMap[ tabName ]
       return (
         `<q-tab-panel class="q-pa-none" name="${ tabName }">` +
-        `<pre v-pre class="doc-code">${ highlight(props.content.join('\n'), props.attrs) }</pre>` +
-        '<copy-button />' +
+        applyHighlighting(props.content.join('\n'), props.attrs) +
         '</q-tab-panel>'
       )
     }).join('\n')
   }
 }
 
-function highlight (content, attrs) {
-  const { lang, numbered } = attrs
-  const highlightedText = prism.highlight(content, prism.languages[ lang ], lang)
+const magicCommentRE = / *\/\/\[! (?<type>[\w-]+)\] */
+const magicCommentGlobalRE = new RegExp(magicCommentRE, 'g')
 
-  if (numbered === true) {
-    const lines = highlightedText.split('\n')
-    const lineCount = ('' + highlightedText.length).length
+function addLineClasses (config, klass, list) {
+  const entries = config.split(',')
+  for (const entry of entries) {
+    let [ from, to ] = entry.split('-').map(i => parseInt(i, 10))
+    if (to === void 0) to = from
 
-    return lines
-      .slice(0, lines.length)
-      .map((line, index) => `<span class="token line-number">${ ('' + (index + 1)).padStart(lineCount, ' ') }.</span>${ line }`)
-      .join('\n')
+    for (let i = from; i <= to; i++) {
+      const target = list[ i - 1 ]
+      if (target !== void 0 && target.indexOf(klass) === -1) {
+        list[ i - 1 ] += ` ${ klass }`
+      }
+    }
   }
+}
 
-  return highlightedText
+function getLineClasses (content, attrs) {
+  const lines = content.split('\n')
+
+  const list = lines.map(line => {
+    let classList = ''
+    const match = line.match(magicCommentRE)
+
+    if (match !== null) {
+      const { groups: { type } } = match
+      classList += ` c-${ type }`
+    }
+
+    return classList
+  })
+
+  const { highlight, rem, add } = attrs
+  highlight !== void 0 && addLineClasses(highlight, 'c-highlight', list)
+  rem !== void 0 && addLineClasses(rem, 'c-rem', list)
+  add !== void 0 && addLineClasses(add, 'c-add', list)
+
+  return list
+}
+
+function applyHighlighting (rawContent, attrs) {
+  const content = rawContent.trim()
+  const { lang, numbered } = attrs
+
+  const lineClasses = getLineClasses(content, attrs)
+  const lineCount = ('' + lineClasses.length).length
+
+  const html = prism
+    .highlight(content.replace(magicCommentGlobalRE, ''), prism.languages[ lang ], lang)
+    .split('\n')
+    .map((line, lineIndex) => (
+      (
+        lineClasses[ lineIndex ] !== ''
+          ? `<span class="c-line${ lineClasses[ lineIndex ] || '' }"></span>`
+          : ''
+      ) +
+      (
+        numbered === true
+          ? `<span class="c-lnum">${ ('' + (lineIndex + 1)).padStart(lineCount, ' ') }</span>`
+          : ''
+      ) +
+      line
+    )).join('\n')
+
+  const { maxheight } = attrs
+  const preAttrs = maxheight !== void 0
+    ? ` style="max-height:${ maxheight }"`
+    : ''
+
+  return `<pre v-pre class="doc-code"${ preAttrs }><code>${ html }</code></pre><copy-button />`
 }
 
 function parseAttrs (rawAttrs) {
@@ -147,10 +218,7 @@ export default function mdPluginCodeblock (md) {
       (
         attrs.tabs !== void 0
           ? attrs.tabs.content
-          : (
-              `<pre v-pre class="doc-code">${ highlight(token.content, attrs) }</pre>` +
-              '<copy-button />'
-            )
+          : applyHighlighting(token.content, attrs)
       ) +
       '</doc-prerender>'
   }

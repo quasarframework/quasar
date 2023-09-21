@@ -15,7 +15,10 @@
     <q-tab-panels v-if="props.tabs" v-model="currentTab" animated>
       <slot />
     </q-tab-panels>
-    <slot v-else />
+    <div v-else class="relative-position">
+      <slot />
+
+    </div>
   </q-card>
 </template>
 

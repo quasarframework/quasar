@@ -163,6 +163,42 @@ export default function (ctx) { // can be async too
 }
 ```
 
+```js [highlight=2,5]
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
+```js [highlight=2,5,9,10 numbered add=3,6-7]
+export default function (ctx) { // can be async too
+  console.log(ctx)
+
+  // Example output on console:
+  {
+    dev: true,
+    prod: false
+  }
+
+  const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
+  process.env.FOO             // ✅ It can only replace direct usage like this
+
+  // context gets generated based on the parameters
+  // with which you run "quasar dev" or "quasar build"
+}
+```
+
 ```js Titled code
 export default function (ctx) { // can be async too
   console.log(ctx)
@@ -210,59 +246,81 @@ export default function (ctx) { // can be async too
 }
 ```
 
-```diff
+```json [numbered]
 {
   min: 0
-- super: false
-+ super: true
+  super: false //[! rem]
+  super: true //[! add]
+  max: 100
+}
+```
+
+```json [numbered]
+{
+  min: 0
+  super: false //[! highlight]
   max: 100
 }
 ```
 
 ```diff
-@@ -26,23 +26,25 @@
- import container from 'markdown-it-container'
-
--function createContainer (className, defaultTitle) {
-+function createContainer (containerType, defaultTitle) {
-+  const containerTypeLen = containerType.length
+@@ -13,6 +13,8 @@ const langList = [
+   { name: 'xml' },
+   { name: 'nginx' },
+   { name: 'html' },
 +
-   return [
-     container,
--    className,
-+    containerType,
-     {
-       render (tokens, idx) {
-         const token = tokens[ idx ]
--        const info = token.info.trim().slice(className.length).trim()
-+        const title = token.info.trim().slice(containerTypeLen).trim() || defaultTitle
++  // special grammars:
+   { name: 'diff' }
+ ]
 
--        if (className === 'details') {
-+        if (containerType === 'details') {
-           return token.nesting === 1
--            ? `<details class="doc-note doc-note--${className}"><summary class="doc-note__title">${info || defaultTitle}</summary>\n`
-+            ? `<details class="doc-note doc-note--${ containerType }"><summary class="doc-note__title">${ title }</summary>\n`
-             : '</details>\n'
-         }
+@@ -20,6 +22,12 @@ loadLanguages(langList.map(l => l.name))
 
-         return token.nesting === 1
--          ? `<div class="doc-note doc-note--${className}"><p class="doc-note__title">${info || defaultTitle}</p>\n`
-+          ? `<div class="doc-note doc-note--${ containerType }"><p class="doc-note__title">${ title }</p>\n`
-           : '</div>\n'
-       }
-     }
-@@ -55,11 +57,4 @@ export default function mdPluginContainers (md) {
-     .use(...createContainer('warning', 'WARNING'))
-     .use(...createContainer('danger', 'WARNING'))
-     .use(...createContainer('details', 'Details'))
--
--    // explicitly escape Vue syntax
--    .use(container, 'v-pre', {
--      render: (tokens, idx) => tokens[ idx ].nesting === 1
--        ? '<div v-pre>\n'
--        : '</div>\n'
--    })
+ const langMatch = langList.map(l => l.aliases || l.name).join('|')
+
++/**
++ * lang -> one of the supported languages (langList)
++ * attrs -> optional attributes:
++ *    * numbered - lines are numbered
++ * title -> optional card title
++ */
+ const definitionLineRE = new RegExp(
+   '^' +
+   `(?<lang>(tabs|${ langMatch }))` + // then a language name
+@@ -28,6 +36,10 @@ const definitionLineRE = new RegExp(
+   '$'
+ )
+
++/**
++ * <<| lang [attrs] [title] |>>
++ * ...content...
++ */
+ const tabsLineRE = new RegExp(
+   '^<<\\|\\s+' + // starts with "<<|" + at least one space char
+   `(?<lang>${ langMatch })` + // then a language name
+@@ -72,29 +84,65 @@ function extractTabs (content) {
+       const props = tabMap[ tabName ]
+       return (
+         `<q-tab-panel class="q-pa-none" name="${ tabName }">` +
+-        `<pre v-pre class="doc-code">${ highlight(props.content.join('\n'), props.attrs) }</pre>` +
+-        '<copy-button />' +
++        highlight(props.content.join('\n'), props.attrs) +
+         '</q-tab-panel>'
+       )
+     }).join('\n')
+   }
  }
+
+-function highlight (content, attrs) {
+-  const { lang, numbered } = attrs
+-  const highlightedText = prism.highlight(content, prism.languages[ lang ], lang)
++const magicCommentRE = / *\/\/\[! (?<klass>[\w-]+)\] */
++const magicCommentGlobalRE = new RegExp(magicCommentRE, 'g')
+
+-  if (numbered === true) {
+-    const lines = highlightedText.split('\n')
+-    const lineCount = ('' + highlightedText.length).length
++function getLineClasses (content, highlightedLines) {
++  const lines = content.split('\n')
 ```
 
 

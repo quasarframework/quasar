@@ -16,6 +16,10 @@ export default {
       props.lang
     ))
 
-    return () => h('pre', { class: `doc-code language-${ props.lang }`, innerHTML: html.value })
+    return () => h('pre', {
+      class: `doc-code language-${ props.lang }`
+    }, [
+      h('code', { innerHTML: html.value })
+    ])
   }
 }
