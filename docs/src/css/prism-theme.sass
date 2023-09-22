@@ -26,13 +26,13 @@
     border-radius: inherit
 
   &--copying
-    .c-lnum,
+    .c-lpref,
     .c-line,
     .token.deleted-sign,
     .token.prefix
       display: none
 
-.c-line // code line
+.c-line
   position: relative
   display: block
   width: 100%
@@ -45,19 +45,20 @@
     right: -16px
     height: 1.5em
 
-.c-lnum // code line number
+.c-lpref
   position: sticky
   pointer-events: none
   user-select: none
   left: 8px
-  padding: 0 8px
-  margin-left: -8px
+  padding: 0 16px 0 8px
+  margin: -16px 0 -16px -8px
   &:before
+    border-right: 1px solid
     content: ''
     position: absolute
     top: -1px
     left: -8px
-    right: 0
+    right: 8px
     bottom: -2px
     z-index: -1
 
@@ -93,10 +94,11 @@ body.body--light
   .token.deleted-sign:before
     background: rgba($negative, .2)
 
-  .c-lnum
+  .c-lpref
     color: $header-btn-color--light
     &:before
-      background: linear-gradient(to left, transparent, $light-pill 7px)
+      border-right-color: $separator-color
+      background: $light-pill
 
   .token.comment,
   .token.block-comment,
@@ -176,10 +178,11 @@ body.body--dark
   .token.deleted-sign:before
     background: rgba($red, .3)
 
-  .c-lnum
+  .c-lpref
     color: $header-btn-color--dark
     &:before
-      background: linear-gradient(to left, transparent, $dark-pill 7px)
+      border-right-color: $separator-dark-color
+      background: $dark-pill
 
   .token.comment,
   .token.prolog,

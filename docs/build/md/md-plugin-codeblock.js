@@ -95,70 +95,107 @@ function extractTabs (content) {
   }
 }
 
-const magicCommentRE = / *\/\/\[! (?<type>[\w-]+)\] */
+const magicCommentList = [ 'highlight', 'rem', 'add' ]
+const magicCommentRE = new RegExp(` *\\[\\[! (?<type>(${ magicCommentList.join('|') }))\\]\\] *`)
 const magicCommentGlobalRE = new RegExp(magicCommentRE, 'g')
 
-function addLineClasses (config, klass, list) {
-  const entries = config.split(',')
-  for (const entry of entries) {
-    let [ from, to ] = entry.split('-').map(i => parseInt(i, 10))
-    if (to === void 0) to = from
+function extractCodeLineProps (lines, attrs) {
+  const acc = {}
 
-    for (let i = from; i <= to; i++) {
-      const target = list[ i - 1 ]
-      if (target !== void 0 && target.indexOf(klass) === -1) {
-        list[ i - 1 ] += ` ${ klass }`
-      }
-    }
+  for (const type of magicCommentList) {
+    acc[ type ] = attrs[ type ] !== void 0
+      ? attrs[ type ].split(',')
+      : []
   }
-}
 
-function getLineClasses (content, attrs) {
-  const lines = content.split('\n')
-
-  const list = lines.map(line => {
-    let classList = ''
+  lines.forEach((line, lineIndex) => {
     const match = line.match(magicCommentRE)
 
     if (match !== null) {
       const { groups: { type } } = match
-      classList += ` c-${ type }`
+      acc[ type ].push('' + (lineIndex + 1))
     }
-
-    return classList
   })
 
-  const { highlight, rem, add } = attrs
-  highlight !== void 0 && addLineClasses(highlight, 'c-highlight', list)
-  rem !== void 0 && addLineClasses(rem, 'c-rem', list)
-  add !== void 0 && addLineClasses(add, 'c-add', list)
+  return acc
+}
 
-  return list
+function parseCodeLine (content, attrs) {
+  const lines = content.split('\n')
+
+  const props = extractCodeLineProps(lines, attrs)
+
+  const acc = lines.map(() => ({
+    prefix: [],
+    classList: []
+  }))
+
+  const hasRemOrAdd = props.rem.length !== 0 || props.add.length !== 0
+
+  for (const type of magicCommentList) {
+    const target = props[ type ]
+
+    for (const value of target) {
+      let [ from, to ] = value.split('-').map(i => parseInt(i, 10))
+      if (to === void 0) to = from
+
+      for (let i = from; i <= to; i++) {
+        acc[ i - 1 ].classList.push(`c-${ type }`)
+      }
+    }
+  }
+
+  if (attrs.numbered === true) {
+    const lineCount = ('' + lines.length).length
+
+    lines.forEach((_, lineIndex) => {
+      acc[ lineIndex ].prefix.push(
+        ('' + (lineIndex + 1)).padStart(lineCount, ' ')
+      )
+    })
+  }
+
+  hasRemOrAdd === true && lines.forEach((_, lineIndex) => {
+    const target = acc[ lineIndex ]
+
+    target.prefix.push(
+      target.classList.includes('c-add') === true
+        ? '+'
+        : (
+            target.classList.includes('c-rem') === true
+              ? '-'
+              : ' '
+          )
+    )
+  })
+
+  return acc
 }
 
 function applyHighlighting (rawContent, attrs) {
   const content = rawContent.trim()
-  const { lang, numbered } = attrs
-
-  const lineClasses = getLineClasses(content, attrs)
-  const lineCount = ('' + lineClasses.length).length
+  const lineList = parseCodeLine(content, attrs)
 
   const html = prism
-    .highlight(content.replace(magicCommentGlobalRE, ''), prism.languages[ lang ], lang)
+    .highlight(content.replace(magicCommentGlobalRE, ''), prism.languages[ attrs.lang ], attrs.lang)
     .split('\n')
-    .map((line, lineIndex) => (
-      (
-        lineClasses[ lineIndex ] !== ''
-          ? `<span class="c-line${ lineClasses[ lineIndex ] || '' }"></span>`
-          : ''
-      ) +
-      (
-        numbered === true
-          ? `<span class="c-lnum">${ ('' + (lineIndex + 1)).padStart(lineCount, ' ') }</span>`
-          : ''
-      ) +
-      line
-    )).join('\n')
+    .map((line, lineIndex) => {
+      const target = lineList[ lineIndex ]
+
+      return (
+        (
+          target.classList.length !== 0
+            ? `<span class="c-line ${ target.classList.join(' ') }"></span>`
+            : ''
+        ) +
+        (
+          target.prefix.length !== 0
+            ? `<span class="c-lpref">${ target.prefix.join(' ') }</span>`
+            : ''
+        ) +
+        line
+      )
+    }).join('\n')
 
   const { maxheight } = attrs
   const preAttrs = maxheight !== void 0

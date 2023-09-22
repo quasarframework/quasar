@@ -152,7 +152,7 @@ export default function (ctx) { // can be async too
   // Example output on console:
   {
     dev: true,
-    prod: false
+    prod: false [[! highlight]]
   }
 
   const { FOO } = process.env // ❌ It doesn't allow destructuring or similar
@@ -246,20 +246,37 @@ export default function (ctx) { // can be async too
 }
 ```
 
-```json [numbered]
+```json
 {
-  min: 0
-  super: false //[! rem]
-  super: true //[! add]
-  max: 100
+  "min": 0,
+  "super": false,
+  "max": 100
+}
+```
+
+```json [rem=1]
+{
+  "min": 0,
+  "super": false, [[! rem]]
+  "super": true, [[! add]]
+  "max": 100
 }
 ```
 
 ```json [numbered]
 {
-  min: 0
-  super: false //[! highlight]
-  max: 100
+  "min": 0,
+  "super": false, [[! rem]]
+  "super": true, [[! add]]
+  "max": 100
+}
+```
+
+```json [numbered]
+{
+  "min": 0,
+  "super": false, [[! highlight]]
+  "max": 100
 }
 ```
 
