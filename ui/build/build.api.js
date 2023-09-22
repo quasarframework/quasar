@@ -638,13 +638,17 @@ function fillAPI (apiType, list) {
         })
       }
 
-      if (api.props !== void 0) {
-        for (const key in api.props) {
-          if (api.props[ key ].internal === true) {
-            delete api.props[ key ]
+      Object.keys(api).forEach(section => {
+        const target = api[ section ]
+
+        if (Object(target) === target) {
+          for (const key in target) {
+            if (target[ key ]?.internal === true) {
+              delete target[ key ]
+            }
           }
         }
-      }
+      })
 
       if (hasError === true) {
         logError('Errors were found...exiting')
