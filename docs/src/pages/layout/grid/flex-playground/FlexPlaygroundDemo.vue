@@ -34,8 +34,8 @@
 
     <div class="row items-center q-gutter-md q-mb-md">
       <div>Resulting container classes:</div>
-      <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
-        <div class="text-subtitle2 q-mr-sm">{{ classes }}</div>
+      <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
+        <div class="text-subtitle2">{{ classes }}</div>
         <copy-button />
       </div>
     </div>
@@ -83,8 +83,8 @@
         <tr>
           <td>Container classes</td>
           <td>
-            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
-              <div class="text-subtitle2 q-mr-sm">{{ classes }}</div>
+            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
+              <div class="text-subtitle2">{{ classes }}</div>
               <copy-button />
             </div>
           </td>
@@ -93,8 +93,8 @@
         <tr>
           <td>Child #{{ selectedIndex + 1 }} classes</td>
           <td>
-            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
-              <div class="text-subtitle2 q-mr-sm">{{ group.childClasses || '* none *' }}</div>
+            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
+              <div class="text-subtitle2">{{ group.childClasses || '* none *' }}</div>
               <copy-button v-if="group.childClasses" />
             </div>
           </td>
@@ -103,8 +103,8 @@
         <tr>
           <td>Child #{{ selectedIndex + 1 }} styles</td>
           <td>
-            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position" :class="resultClasses">
-              <div class="text-subtitle2 q-mr-sm">{{ group.childStyles || '* none *' }}</div>
+            <div class="flex-playground-demo__result row inline no-wrap items-center no-wrap rounded-borders q-px-sm relative-position copybtn-hover" :class="resultClasses">
+              <div class="text-subtitle2">{{ group.childStyles || '* none *' }}</div>
               <copy-button v-if="group.childStyles" />
             </div>
           </td>

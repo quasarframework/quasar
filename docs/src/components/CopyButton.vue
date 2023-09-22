@@ -4,7 +4,7 @@
 
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
       <q-badge
-        class="absolute doc-copy-btn__badge header-badge"
+        class="absolute header-badge"
         v-show="copied"
         label="Copied to clipboard"
       />
@@ -46,36 +46,37 @@ function copy () {
 
 <style lang="sass">
 .doc-copy-btn
+  position: absolute
+  top: 8px
+  right: 16px // account for scrollbar
 
   .q-icon
+    cursor: pointer
+    color: $brand-primary
     font-size: 20px
     padding: 4px
     border-radius: $generic-border-radius
     border: 1px solid $brand-primary
-    cursor: pointer
-    color: $brand-primary
+    opacity: 0
+    transition: opacity .28s
 
-  &__badge
+  .q-badge
     top: 4px
     right: 34px
 
-body.body--light .doc-copy-btn
-  .q-icon
-    background-color: #fff
-
-body.body--dark .doc-copy-btn
-  .q-icon
-    background-color: $dark-pill
-
-pre + .doc-copy-btn
-  position: absolute
-  top: 8px
-  right: 16px /* account for scrollbar */
-
-  .q-icon
-    opacity: .3
-    transition: opacity .28s
-
+body.body--light
+  .doc-copy-btn .q-icon
+    background-color: $light-pill
     &:hover
-      opacity: 1
+      background-color: #fff
+
+body.body--dark
+  .doc-copy-btn .q-icon
+    background-color: $dark-pill
+    &:hover
+      background-color: #000
+
+.copybtn-hover:hover
+  .doc-copy-btn .q-icon
+    opacity: 1
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="relative-position">
+  <div class="relative-position copybtn-hover">
     <code-prism :lang="props.lang" :code="props.code" :style="style" />
     <copy-button />
   </div>

@@ -11,11 +11,6 @@ export default {
     const currentTab = ref(props.tabs !== void 0 ? props.tabs[ 0 ] : null)
 
     const hasHeader = computed(() => props.title !== void 0 || props.tabs !== void 0)
-    const classes = computed(() => (
-      hasHeader.value === true
-        ? { root: null, content: 'relative-position' }
-        : { root: 'relative-position', content: null }
-    ))
 
     function getContent () {
       const acc = []
@@ -46,28 +41,19 @@ export default {
         h(QSeparator)
       )
 
-      if (props.tabs !== void 0) {
-        acc.push(
-          h(QTabPanels, {
+      acc.push(
+        props.tabs !== void 0
+          ? h(QTabPanels, {
+            class: 'copybtn-hover',
             animated: true,
             modelValue: currentTab.value
           }, slots.default)
-        )
-      }
-      else if (classes.value.content !== null) {
-        acc.push(
-          h('div', { class: classes.value.content }, slots.default())
-        )
-      }
-      else {
-        acc.push(
-          slots.default()
-        )
-      }
+          : h('div', { class: 'copybtn-hover relative-position' }, slots.default())
+      )
 
       return acc
     }
 
-    return () => h(QCard, { flat: true, bordered: true, class: classes.value.root }, getContent)
+    return () => h(QCard, { flat: true, bordered: true }, getContent)
   }
 }
