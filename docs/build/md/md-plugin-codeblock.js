@@ -88,7 +88,7 @@ function extractTabs (content) {
       const props = tabMap[ tabName ]
       return (
         `<q-tab-panel class="q-pa-none" name="${ tabName }">` +
-        applyHighlighting(props.content.join('\n'), props.attrs) +
+        getHighlightedContent(props.content.join('\n'), props.attrs) +
         '</q-tab-panel>'
       )
     }).join('\n')
@@ -172,12 +172,14 @@ function parseCodeLine (content, attrs) {
   return acc
 }
 
-function applyHighlighting (rawContent, attrs) {
+function getHighlightedContent (rawContent, attrs) {
+  const { lang, maxheight } = attrs
+
   const content = rawContent.trim()
   const lineList = parseCodeLine(content, attrs)
 
   const html = prism
-    .highlight(content.replace(magicCommentGlobalRE, ''), prism.languages[ attrs.lang ], attrs.lang)
+    .highlight(content.replace(magicCommentGlobalRE, ''), prism.languages[ lang ], lang)
     .split('\n')
     .map((line, lineIndex) => {
       const target = lineList[ lineIndex ]
@@ -197,12 +199,15 @@ function applyHighlighting (rawContent, attrs) {
       )
     }).join('\n')
 
-  const { maxheight } = attrs
+  const codeClass = lang === 'css'
+    ? ' language-css' // we need this class explicitly
+    : '' // in all other cases it's useless (it doesn't have special token classes)
+
   const preAttrs = maxheight !== void 0
     ? ` style="max-height:${ maxheight }"`
     : ''
 
-  return `<pre v-pre class="doc-code"${ preAttrs }><code>${ html }</code></pre><copy-button />`
+  return `<pre v-pre class="doc-code${ codeClass }"${ preAttrs }><code>${ html }</code></pre><copy-button />`
 }
 
 function parseAttrs (rawAttrs) {
@@ -248,14 +253,14 @@ export default function mdPluginCodeblock (md) {
     const token = tokens[ idx ]
     const attrs = parseDefinitionLine(token)
 
-    md.$data.components.add('src/components/DocPrerender')
+    md.$data.components.add('src/components/DocPrerender.js')
     md.$data.components.add('src/components/CopyButton')
 
     return `<doc-prerender${ attrs.title !== null ? ` title="${ attrs.title }"` : ''}${ attrs.tabs !== void 0 ? ` :tabs="${ attrs.tabs.param }"` : '' }>` +
       (
         attrs.tabs !== void 0
           ? attrs.tabs.content
-          : applyHighlighting(token.content, attrs)
+          : getHighlightedContent(token.content, attrs)
       ) +
       '</doc-prerender>'
   }

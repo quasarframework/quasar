@@ -1,10 +1,16 @@
 import matter from 'gray-matter'
 import toml from 'toml'
 
+const extEndRE = /\.(js|vue)$/
+
 function getComponentsImport (componentsList) {
   return componentsList.map(c => {
     const parts = c.split('/')
-    return `import ${parts[ parts.length - 1 ]} from '${ c }.vue'\n`
+    const file = extEndRE.test(c) === false
+      ? `${ c }.vue`
+      : c
+
+    return `import ${ parts[ parts.length - 1 ].replace(extEndRE, '') } from '${ file }'\n`
   }).join('')
 }
 
