@@ -1,6 +1,6 @@
 export default {
   isoName: 'de-DE',
-  nativeName: 'Deutsch',
+  nativeName: 'Deutsch (DE)',
   label: {
     clear: 'Leeren',
     ok: 'Ok',
