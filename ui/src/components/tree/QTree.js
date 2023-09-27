@@ -523,6 +523,8 @@ export default createComponent({
             + (m.selected === true ? ' q-tree__node--selected' : '')
             + (m.disabled === true ? ' q-tree__node--disabled' : ''),
           tabindex: m.link === true ? 0 : -1,
+          ariaExpanded: children.length > 0 ? m.expanded : null,
+          role: 'treeitem',
           onClick: (e) => {
             onClick(node, m, e)
           },
@@ -596,7 +598,8 @@ export default createComponent({
                         body,
                         h('div', {
                           class: 'q-tree__children'
-                            + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                            + (m.disabled === true ? ' q-tree__node--disabled' : ''),
+                          role: 'group'
                         }, children)
                       ])
                       : null
@@ -614,7 +617,8 @@ export default createComponent({
                     body,
                     h('div', {
                       class: 'q-tree__children'
-                        + (m.disabled === true ? ' q-tree__node--disabled' : '')
+                        + (m.disabled === true ? ' q-tree__node--disabled' : ''),
+                      role: 'group'
                     }, children)
                   ]),
                   [ [ vShow, m.expanded ] ]
@@ -708,7 +712,8 @@ export default createComponent({
 
       return h(
         'div', {
-          class: classes.value
+          class: classes.value,
+          role: 'tree'
         },
         children.length === 0
           ? (
