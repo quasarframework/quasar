@@ -24,7 +24,7 @@ However, **you can also supply a component for the Dialog Plugin to render** (se
 With the QDialog plugin, you can programmatically build three types of dialogs with the following form content:
  1. A prompt dialog - asking the user to fill in some sort of data in an input field.
  2. A set of options for the user to select from using either radio buttons or toggles (singular selection only) or check boxes (for multiple selections).
- 3. A simple confirmation dialog, where the user can cancel or give her "ok" for a particular action or input.
+ 3. A simple confirmation dialog, where the user can cancel or give their "ok" for a particular action or input.
 
 In order to create #1, the prompting input form, you have the `prompt` property within the `opts` object.
 
