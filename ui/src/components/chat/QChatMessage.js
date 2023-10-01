@@ -19,7 +19,8 @@ export default createComponent({
     labelHtml: Boolean,
     nameHtml: Boolean,
     textHtml: Boolean,
-    stampHtml: Boolean
+    stampHtml: Boolean,
+    bordered: Boolean
   },
 
   setup (props, { slots }) {
@@ -33,6 +34,7 @@ export default createComponent({
     const messageClass = computed(() =>
       `q-message-text q-message-text--${ op.value }`
       + (props.bgColor !== void 0 ? ` text-${ props.bgColor }` : '')
+      + (props.bordered === true ? ' q-message-bordered' : '')
     )
 
     const containerClass = computed(() =>

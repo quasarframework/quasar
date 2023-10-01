@@ -178,7 +178,8 @@ export default {
         name: 'Vladimir',
         text: [ 'How are you?' ],
         avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        stamp: 'Yesterday 13:34'
+        stamp: 'Yesterday 13:34',
+        bordered: true
       },
       {
         name: 'Jane',
@@ -192,7 +193,8 @@ export default {
         text: [ 'And you?' ],
         sent: true,
         avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
-        stamp: 'Yesterday at 13:51'
+        stamp: 'Yesterday at 13:51',
+        bordered: true
       },
       {
         label: 'Sunday, 19th'

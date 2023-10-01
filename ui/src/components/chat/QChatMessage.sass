@@ -32,6 +32,7 @@
     border-right: 0 solid transparent
     border-left: 8px solid transparent
     border-bottom: 8px solid currentColor
+
 .q-message-text-content--received
   color: $chat-message-received-color
 
@@ -73,3 +74,9 @@
       bottom: 0
       width: 0
       height: 0
+
+.q-message-bordered
+  border: 3px solid red 
+  &:last-child:before
+    border-bottom: 10px solid red !important
+    margin-bottom: -3px

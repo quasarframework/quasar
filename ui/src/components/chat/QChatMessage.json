@@ -88,6 +88,12 @@
     "stamp-html": {
       "extends": "html",
       "desc": "Render the stamp as HTML; This can lead to XSS attacks so make sure that you sanitize the message first"
+    },
+    
+    "bordered": {
+      "type": "Boolean",
+      "desc": "Render the chat bubble with border",
+      "category": "style"
     }
   },
 
