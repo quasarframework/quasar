@@ -46,7 +46,7 @@ module.exports = defineConfig({
       }
     },
     supportFile: '../test/cypress/support/component.js',
-    specPattern: '../src/components/**/*.cy.{js,jsx,ts,tsx}',
+    specPattern: [ '../src/components/**/*.cy.{js,jsx,ts,tsx}', '../src/composables/**/*.cy.{js,jsx,ts,tsx}' ],
     indexHtmlFile: '../test/cypress/support/component-index.html',
     devServer: {
       framework: 'vue',
