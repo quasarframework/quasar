@@ -107,7 +107,7 @@ describe('use-field API', () => {
 
           getHostElement().find('input').should('exist').should('have.value', model.value)
           getHostElement().get('button[type="button"]').contains(Icons.field.clear).click()
-          getHostElement().get('input').should('not.have.value', model.value)
+          getHostElement().get('input').should('have.value', '')
         })
       })
     })
@@ -313,20 +313,16 @@ describe('use-field API', () => {
 
         it('should use a bottom counter slot', () => {
           const model = ref(selectOptions[ 0 ])
-          const bottomSlot = 'Hello there'
 
           mountQFieldWrapper({
             props: {
               ...vModelAdapter(model),
               options: selectOptions,
-              bottomSlots: true
-            },
-            slots: {
-              hint: () => bottomSlot
+              counter: true
             }
           })
 
-          getHostElement().find('.q-field__bottom').should('contain.text', bottomSlot)
+          getHostElement().find('.q-field__bottom').should('contain.text', model.value.length)
         })
       })
 
@@ -511,14 +507,14 @@ describe('use-field API', () => {
         mountQFieldWrapper()
 
         getHostElement()
-          .get('[tabindex="0"]')
+          .get('input')
           .should('not.have.focus')
         getHostElement()
           .then(() => {
             Cypress.vueWrapper.vm.focusMethod()
           })
         getHostElement()
-          .get('[tabindex="0"]')
+          .get('input')
           .should('have.focus')
       })
     })

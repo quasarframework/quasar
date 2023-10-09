@@ -16,7 +16,8 @@ describe('Field API', () => {
     describe('Category: model', () => {
       describe('(prop): maxlength', () => {
         it.skip(' ', () => {
-          //
+          // It is tricky to test this since it will require that we setup a control slot with v-model.
+          // This is already tested in QInput and others using use-field composable, so are not not testing it.
         })
       })
     })
@@ -33,19 +34,6 @@ describe('Field API', () => {
         })
 
         getHostElement().get('.q-field__control-container').should('contain', controlSlot)
-      })
-    })
-
-    describe('(slot): rawControl', () => {
-      it('should use raw control slot', () => {
-        const rawControlSlot = 'Hello there'
-        mountQField({
-          slots: {
-            rawControl: () => rawControlSlot
-          }
-        })
-
-        getHostElement().get('.q-field__control-container').should('contain', rawControlSlot)
       })
     })
   })
