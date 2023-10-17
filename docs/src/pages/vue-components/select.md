@@ -246,7 +246,7 @@ When QSelect is focused:
     - pressing <kbd>SHIFT</kbd> + <kbd>TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>TAB</kbd> will navigate forward through the QChips)
     - pressing <kbd>ENTER</kbd> when a QChip is selected will remove that option from the selection
     - pressing <kbd>BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
-  - pressing <kbd>BACKSPACE</bkd> when `clearable` is set then:
+  - pressing <kbd>BACKSPACE</kbd> when `clearable` is set then:
     - it clears the model (with `null` value) for single selection
     - it removes the last added value for multiple selection
   - pressing <kbd>TAB</kbd> (or <kbd>SHIFT</kbd> + <kbd>TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
