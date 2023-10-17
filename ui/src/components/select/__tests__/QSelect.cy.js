@@ -1258,7 +1258,8 @@ describe('QSelect API', () => {
           props: {
             modelValue: null,
             onInputValue: fn,
-            useInput: true
+            useInput: true,
+            inputDebounce: 0
           }
         })
 
