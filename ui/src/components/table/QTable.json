@@ -187,7 +187,7 @@
         },
         "sort": {
           "type": "Function",
-          "desc": "Compare function if you have some custom data or want a specific way to compare two rows",
+          "desc": "Compare function if you have some custom data or want a specific way to compare two rows; rows with null/undefined values will get sorted without triggering this method (use 'rawSort' instead if you want to handle those values too)",
           "examples": ["(a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)"],
           "params": {
             "a": {
@@ -220,6 +220,43 @@
             "desc": "Comparison result of term 'a' with term 'b'. Less than 0 when 'a' should come first; greater than 0 if 'b' should come first; equal to 0 if their position must not be changed with respect to each other",
             "examples": [ "-1", "0", "1" ]
           }
+        },
+        "rawSort": {
+          "type": "Function",
+          "desc": "Compare function if you have some custom data or want a specific way to compare two rows; includes rows with null/undefined values (use 'sort' instead if you don't want that)",
+          "examples": ["(a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)"],
+          "params": {
+            "a": {
+              "type": "Any",
+              "required": true,
+              "desc": "Value of the first comparison term",
+              "examples": [ 123, "abc" ]
+            },
+            "b": {
+              "type": "Any",
+              "required": true,
+              "desc": "Value of the second comparison term",
+              "examples": [ 123, "abc" ]
+            },
+            "rowA": {
+              "type": "Object",
+              "required": true,
+              "desc": "Full Row object in which is contained the first term",
+              "examples": [ "{ name: 'Potassium', value: 'K' }" ]
+            },
+            "rowB": {
+              "type": "Object",
+              "required": true,
+              "desc": "Full Row object in which is contained the second term",
+              "examples": [ "{ name: 'Fluorine', value: 'F' }" ]
+            }
+          },
+          "returns": {
+            "type": "Number",
+            "desc": "Comparison result of term 'a' with term 'b'. Less than 0 when 'a' should come first; greater than 0 if 'b' should come first; equal to 0 if their position must not be changed with respect to each other",
+            "examples": [ "-1", "0", "1" ]
+          },
+          "addedIn": "v2.12.8"
         },
         "sortOrder": {
           "type": "String",

@@ -64,11 +64,21 @@ columns: [ // array of Objects
 
     // (optional) compare function if you have
     // some custom data or want a specific way to compare two rows
+    // --> note that rows with null/undefined as value will get auto sorted
+    // without calling this method (if you want to handle those as well, use "rawSort" instead)
     sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
     // function return value:
     //   * is less than 0 then sort a to an index lower than b, i.e. a comes first
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
+
+    // (optional) requires Quasar v2.12.8+
+    // compare function if you have
+    // some custom data or want a specific way to compare two rows
+    // --> note that there is an alternative "sort" method (above) if you don't
+    // want to handle (by yourself) rows with null/undefined as value
+    rawSort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
+    // has the same return value as the alternative "sort" method above
 
     // (optional) override 'column-sort-order' prop;
     // sets column sort order: 'ad' (ascending-descending) or 'da' (descending-ascending)
