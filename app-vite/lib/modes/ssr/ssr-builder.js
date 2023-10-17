@@ -26,8 +26,12 @@ export class QuasarModeBuilder extends AppBuilder {
     await this.buildWithVite('SSR Client', viteClientConfig)
 
     this.moveFile(
-      viteClientConfig.build.outDir + '/ssr-manifest.json',
+      join(viteClientConfig.build.outDir, '.vite/ssr-manifest.json'),
       'quasar.manifest.json'
+    )
+
+    this.removeFile(
+      join(viteClientConfig.build.outDir, '.vite')
     )
 
     await this.#writeRenderTemplate(viteClientConfig.build.outDir)
