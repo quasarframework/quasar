@@ -352,14 +352,26 @@ export default createComponent({
       targetRef.value[ dirProps[ axis ].scroll ] = offset
     }
 
+    let mouseEventTimer = null
+
     function onMouseenter () {
-      // setTimeout needed for iOS, see #16210
-      setTimeout(() => {
+      if (mouseEventTimer !== null) {
+        clearTimeout(mouseEventTimer)
+      }
+
+      // setTimeout needed for iOS; see ticket #16210
+      mouseEventTimer = setTimeout(() => {
+        mouseEventTimer = null
         hover.value = true
       }, proxy.$q.platform.is.ios ? 50 : 0)
     }
 
     function onMouseleave () {
+      if (mouseEventTimer !== null) {
+        clearTimeout(mouseEventTimer)
+        mouseEventTimer = null
+      }
+
       hover.value = false
     }
 
