@@ -15,6 +15,9 @@ fs.symlinkSync(src, dest, 'dir')
 
 import('open').then(({ default: open }) => {
   open(
-    resolve(__dirname, '../dev-umd/index.umd.html')
+    resolve(__dirname, '../dev-umd/index.umd.html'),
+    {
+      app: { name: 'google chrome' }
+    }
   )
 })
