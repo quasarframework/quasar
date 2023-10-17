@@ -706,23 +706,36 @@ export default createComponent({
       }
     }
 
+    function goToViewWhenHasModel (newView) {
+      const model = props.modelValue
+      if (
+        view.value !== newView
+        && model !== void 0
+        && model !== null
+        && model !== ''
+        && typeof model !== 'string'
+      ) {
+        view.value = newView
+      }
+    }
+
     function verifyAndUpdate () {
       if (hourInSelection.value !== null && hourInSelection.value(innerModel.value.hour) !== true) {
         innerModel.value = __splitDate()
-        view.value = 'hour'
+        goToViewWhenHasModel('hour')
         return
       }
 
       if (minuteInSelection.value !== null && minuteInSelection.value(innerModel.value.minute) !== true) {
         innerModel.value.minute = null
         innerModel.value.second = null
-        view.value = 'minute'
+        goToViewWhenHasModel('minute')
         return
       }
 
       if (props.withSeconds === true && secondInSelection.value !== null && secondInSelection.value(innerModel.value.second) !== true) {
         innerModel.value.second = null
-        view.value = 'second'
+        goToViewWhenHasModel('second')
         return
       }
 
