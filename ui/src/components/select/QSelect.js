@@ -143,7 +143,8 @@ export default createComponent({
     const dialogFieldFocused = ref(false)
     const innerLoadingIndicator = ref(false)
 
-    let inputTimer = null, innerValueCache,
+    let filterTimer = null, inputValueTimer = null,
+      innerValueCache,
       hasDialog, userInputValue, filterId = null, defaultInputValue,
       transitionShowComputed, searchBuffer, searchBufferExp
 
@@ -588,9 +589,11 @@ export default createComponent({
           scrollTo(index)
 
           if (skipInputValue !== true && props.useInput === true && props.fillInput === true) {
-            setInputValue(index >= 0
-              ? getOptionLabel.value(props.options[ index ])
-              : defaultInputValue
+            setInputValue(
+              index >= 0
+                ? getOptionLabel.value(props.options[ index ])
+                : defaultInputValue,
+              true
             )
           }
         }
@@ -651,9 +654,13 @@ export default createComponent({
 
       e.target.value = ''
 
-      if (inputTimer !== null) {
-        clearTimeout(inputTimer)
-        inputTimer = null
+      if (filterTimer !== null) {
+        clearTimeout(filterTimer)
+        filterTimer = null
+      }
+      if (inputValueTimer !== null) {
+        clearTimeout(inputValueTimer)
+        inputValueTimer = null
       }
 
       resetInputValue()
@@ -838,7 +845,7 @@ export default createComponent({
             scrollTo(index)
 
             if (index >= 0 && props.useInput === true && props.fillInput === true) {
-              setInputValue(getOptionLabel.value(props.options[ index ]))
+              setInputValue(getOptionLabel.value(props.options[ index ]), true)
             }
           })
         }
@@ -1024,9 +1031,13 @@ export default createComponent({
     }
 
     function onInput (e) {
-      if (inputTimer !== null) {
-        clearTimeout(inputTimer)
-        inputTimer = null
+      if (filterTimer !== null) {
+        clearTimeout(filterTimer)
+        filterTimer = null
+      }
+      if (inputValueTimer !== null) {
+        clearTimeout(inputValueTimer)
+        inputValueTimer = null
       }
 
       if (e && e.target && e.target.qComposing === true) {
@@ -1047,17 +1058,26 @@ export default createComponent({
       }
 
       if (props.onFilter !== void 0) {
-        inputTimer = setTimeout(() => {
-          inputTimer = null
+        filterTimer = setTimeout(() => {
+          filterTimer = null
           filter(inputValue.value)
         }, props.inputDebounce)
       }
     }
 
-    function setInputValue (val) {
+    function setInputValue (val, emitImmediately) {
       if (inputValue.value !== val) {
         inputValue.value = val
-        emit('inputValue', val)
+
+        if (emitImmediately === true || props.inputDebounce === 0 || props.inputDebounce === '0') {
+          emit('inputValue', val)
+        }
+        else {
+          inputValueTimer = setTimeout(() => {
+            inputValueTimer = null
+            emit('inputValue', val)
+          }, props.inputDebounce)
+        }
       }
     }
 
@@ -1065,7 +1085,7 @@ export default createComponent({
       userInputValue = internal !== true
 
       if (props.useInput === true) {
-        setInputValue(val)
+        setInputValue(val, true)
 
         if (noFiltering === true || internal !== true) {
           defaultInputValue = val
@@ -1418,7 +1438,8 @@ export default createComponent({
     updatePreState()
 
     onBeforeUnmount(() => {
-      inputTimer !== null && clearTimeout(inputTimer)
+      filterTimer !== null && clearTimeout(filterTimer)
+      inputValueTimer !== null && clearTimeout(inputValueTimer)
     })
 
     // expose public methods

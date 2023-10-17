@@ -270,7 +270,7 @@
 
     "input-debounce": {
       "type": [ "Number", "String" ],
-      "desc": "Debounce the input model update with an amount of milliseconds",
+      "desc": "Debounce the input model update with an amount of milliseconds (also affects the 'filter' event, if used)",
       "default": 500,
       "category": "content"
     },
