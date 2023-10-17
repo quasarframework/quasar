@@ -72,7 +72,7 @@ columns: [ // array of Objects
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
-    // (optional) requires Quasar v2.12.8+
+    // (optional) requires Quasar v2.13+
     // compare function if you have
     // some custom data or want a specific way to compare two rows
     // --> note that there is an alternative "sort" method (above) if you don't
