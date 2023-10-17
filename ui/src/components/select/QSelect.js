@@ -751,6 +751,10 @@ export default createComponent({
       // backspace
       if (
         e.keyCode === 8
+        && (
+          props.useChips === true
+          || props.clearable === true
+        )
         && props.hideSelected !== true
         && inputValue.value.length === 0
       ) {
