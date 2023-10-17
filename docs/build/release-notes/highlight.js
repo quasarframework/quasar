@@ -12,8 +12,8 @@ export default function highlight (str, lang) {
   }
 
   if (prism.languages[ lang ] !== void 0) {
-    const code = prism.highlight(str, prism.languages[ lang ], lang)
-    return `<pre v-pre class="doc-code doc-code--prerendered language-${lang}">${code}</pre>`
+    const html = prism.highlight(str, prism.languages[ lang ], lang)
+    return `<pre v-pre class="doc-code language-${lang}"><code>${html}</code></pre>`
   }
 
   return ''
