@@ -26,7 +26,8 @@
       "default": "text",
       "values": [
         "text", "password", "textarea", "email", "search",
-        "tel", "file", "number", "url", "time", "date"
+        "tel", "file", "number", "url", "time", "date",
+        "datetime-local"
       ],
       "category": "general"
     },
