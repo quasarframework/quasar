@@ -3,6 +3,7 @@
     <div style="width: 100%; max-width: 400px">
       <q-chat-message
         name="<span class='text-positive'>Untrusted Source</span>"
+        name-html
         avatar="https://cdn.quasar.dev/img/avatar3.jpg"
         :text="['hey, how are <strong>you</strong>?']"
         stamp="7 minutes ago"
@@ -28,7 +29,7 @@
         avatar="https://cdn.quasar.dev/img/avatar5.jpg"
         :text="['<strong>Did it work?</strong>']"
         text-html
-        stamp="1 minutes ago"
+        stamp="1 minute ago"
         size="8"
         text-color="white"
         bg-color="primary"
