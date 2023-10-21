@@ -29,6 +29,45 @@ One great benefit of using Electron is the ability to access the user's file sys
 
 We can use the userData directory, which is reserved specifically for our application, so we can have confidence other programs or other user interactions should not tamper with this file space.
 
+### Setting up @electron/remote window
+Firstly, install the `@electron/remote` dependency into your app.
+
+```bash
+$ yarn add @electron/remote
+// or:
+$ npm install @electron/remote
+```
+
+Then, in your `src-electron/electron-main.js` file, make some edits to these lines:
+
+```js
+// src-electron/electron-main.js
+
+import { app, BrowserWindow, nativeTheme } from 'electron'
+import { initialize, enable } from '@electron/remote/main' // <-- add this
+import path from 'path'
+
+initialize() // <-- add this
+
+// ...
+
+mainWindow = new BrowserWindow({
+  // ...
+  webPreferences: {
+    sandbox: false // <-- to be able to import @electron/remote in preload script
+    // ...
+  }
+})
+
+enable(mainWindow.webContents) // <-- add this
+
+mainWindow.loadURL(process.env.APP_URL)
+
+// ...
+```
+
+then in your `src-electron/electron-main.js` or `src-electron/electron-preload.js` do this:
+
 ```js
 // electron-main or electron-preload
 
