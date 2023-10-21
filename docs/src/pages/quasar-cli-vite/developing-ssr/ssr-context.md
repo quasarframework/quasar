@@ -8,7 +8,7 @@ The `ssrContext` Object is the SSR context with which all the app's Vue componen
 ## Usage
 
 ::: warning
-The `ssrContext` Object is available only on SSR builds, on the server-side compilation (when `process.env.SERVER === true`).
+The `ssrContext` Object is available only on SSR builds, on the server-side compilation (when `process∙env∙SERVER === true`).
 :::
 
 Among other places, it is supplied as parameter to [boot files](/quasar-cli-vite/boot-files), to the [Vuex store](/quasar-cli-vite/state-management-pinia-vuex) and [Vue Router](/quasar-cli-vite/routing) initialization functions, and to the [preFetch](/quasar-cli-vite/prefetch-feature) method:
