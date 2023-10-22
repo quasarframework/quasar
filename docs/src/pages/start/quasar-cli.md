@@ -119,7 +119,7 @@ Pick `Quasar CLI with Vite` if you want:
     setx path "%path%;%LocalAppData%\yarn\bin"
 
     # Or if you're using NPM:
-    setx path "%path%;%AppData%\npm",
+    setx path "%path%;%AppData%\npm"
     ```
     :::
 
