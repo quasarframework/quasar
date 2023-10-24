@@ -33,5 +33,13 @@ module.exports = {
         node: true,
       },
     },
+  ],
+
+  // Due to conditional use of mixed ESM/CJS in certain files, they can't be properly parsed and checked
+  ignorePatterns: [
+    'BASE/src/index.js',
+    'install-script/src/install.js',
+    'prompts-script/src/prompts.js',
+    'uninstall-script/src/uninstall.js'
   ]
 }
