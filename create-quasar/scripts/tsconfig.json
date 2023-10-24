@@ -10,6 +10,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
 
+    // Scripts are meant to be consumed by tsx, not to be compiled
+    "noEmit": true,
+
     "allowJs": true
   }
 }
