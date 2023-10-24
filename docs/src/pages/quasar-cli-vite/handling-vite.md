@@ -157,9 +157,9 @@ It is likely that you will need to copy static or external files to your Quasar 
               src: 'config/firebase/firebase-messaging-sw.js',
               dest: 'dest/spa'    // example when building SPA
             }
-          ],
-        },
-      ],
+          ]
+        }
+      ]
       // other vite/rollup plugins
     ]
   }
