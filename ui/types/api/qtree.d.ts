@@ -1,7 +1,7 @@
 /**
  * @template TExtra Object type to add extra properties for the node, overrides the existing ones as well
  */
-export type QTreeNode<TExtra = { [index: string]: any }> = Omit<
+export type QTreeNode<TExtra = unknown> = Omit<
   {
     label?: string;
     icon?: string;
@@ -20,9 +20,9 @@ export type QTreeNode<TExtra = { [index: string]: any }> = Omit<
     header?: string;
     body?: string;
   },
-  keyof TExtra
+  unknown extends TExtra ? "" : keyof TExtra
 > &
-  TExtra;
+  (unknown extends TExtra ? Record<string, any> : TExtra);
 
 export interface QTreeLazyLoadParams<
   Node extends QTreeNode = QTreeNode,
