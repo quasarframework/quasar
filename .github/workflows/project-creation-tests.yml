@@ -43,7 +43,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+          # create-quasar is not included in workspaces, and it's yarn.lock is .gitignored, so we can't have caching
+          # cache: 'yarn'
 
       - name: Install dependencies
         run: yarn
@@ -81,7 +82,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          # create-quasar is not included in workspaces, and it's yarn.lock is .gitignored, so we can't have caching
+          # cache: 'yarn'
 
       - name: Install dependencies
         run: yarn
