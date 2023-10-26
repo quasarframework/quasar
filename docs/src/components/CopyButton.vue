@@ -16,6 +16,10 @@
 import { ref, getCurrentInstance } from 'vue'
 import { copyToClipboard } from 'quasar'
 
+const props = defineProps({
+  lang: String
+})
+
 const { proxy } = getCurrentInstance()
 
 let timer
@@ -28,8 +32,13 @@ function copy () {
   // before we copy the content.
   // The doc-code--copying class will do that for us
   target.classList.add('doc-code--copying')
-  const text = target.innerText
+  let text = target.innerText
   target.classList.remove('doc-code--copying')
+
+  if (props.lang === 'bash') {
+    const bashStartRE = /^\$ /
+    text = text.split('\n').map(line => line.replace(bashStartRE, '')).join('\n')
+  }
 
   copyToClipboard(text)
     .then(() => {

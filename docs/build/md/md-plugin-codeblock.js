@@ -3,7 +3,7 @@ import loadLanguages from 'prismjs/components/index.js'
 
 const langList = [
   { name: 'markup' },
-  { name: 'bash' },
+  { name: 'bash', customCopy: true },
   { name: 'javascript', aliases: 'javascript|js' },
   { name: 'typescript', aliases: 'typescript|ts' },
   { name: 'sass' },
@@ -17,6 +17,10 @@ const langList = [
   // special grammars:
   { name: 'diff' }
 ]
+
+const customCopyLangList = langList
+  .filter(l => l.customCopy === true)
+  .map(l => l.name)
 
 loadLanguages(langList.map(l => l.name))
 
@@ -207,7 +211,11 @@ function getHighlightedContent (rawContent, attrs) {
     ? ` style="max-height:${ maxheight }"`
     : ''
 
-  return `<pre v-pre class="doc-code${ codeClass }"${ preAttrs }><code>${ html }</code></pre><copy-button />`
+  const langProp = customCopyLangList.includes(lang) === true
+    ? ` lang="${ lang }"`
+    : ''
+
+  return `<pre v-pre class="doc-code${ codeClass }"${ preAttrs }><code>${ html }</code></pre><copy-button${ langProp } />`
 }
 
 function parseAttrs (rawAttrs) {
