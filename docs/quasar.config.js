@@ -67,9 +67,6 @@ export default ctx => ({
     iconSet: 'svg-mdi-v6',
 
     autoImportVueExtensions: [ 'vue', 'md' ],
-    components: [
-      'QMarkupTable' // used by md-plugin-table
-    ],
 
     config: {
       loadingBar: {
