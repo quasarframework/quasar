@@ -100,8 +100,7 @@ import('my-package')
 
 However, should you want to make Quasar CLI put `my-package` in its own chunk you'll have to edit the `/quasar.config` file:
 
-````js
-// quasar.config file
+````js /quasar.config file
 return {
   vendor: {
     remove: [ 'my-package' ]

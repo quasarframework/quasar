@@ -17,18 +17,16 @@ What our Vite plugin offers out of the box is tree-shaking for Quasar and also Q
 
 ## Creating a Vite project
 
-``` bash
-# yarn
+```tabs
+<<| bash Yarn |>>
 $ yarn create vite my-vue-app --template vue
-
-# or npm 6.x
-npm init vite@latest my-vue-app --template vue
-
-# npm 7+, extra double-dash is needed:
-npm init vite@latest my-vue-app -- --template vue
-
-# pnpm
-pnpm create vite my-vue-app -- --template vue
+<<| bash NPM |>>
+$ npm init vite my-vue-app -- --template vue
+<<| bash PNPM |>>
+$ pnpm create vite my-vue-app -- --template vue
+<<| bash Bun |>>
+$ bun create vite my-vue-app
+# then select "Vue"
 ```
 
 For the official (and full) guide, please visit the [Vite guide for scaffolding](https://vitejs.dev/guide/#scaffolding-your-first-vite-project) a Vite project. **Select "Vue" when asked.**
@@ -42,17 +40,19 @@ Navigate to your Vite project folder and install the necessary packages.
 * Also, add `sass@1.32.12` (notice the pinned version) only if you want to use the Quasar Sass/SCSS variables.
 :::
 
-``` bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add quasar @quasar/extras
-$ yarn add -D @quasar/vite-plugin sass@1.32.12
-
-# or
-$ npm install quasar @quasar/extras
-$ npm install -D @quasar/vite-plugin sass@1.32.12
-
-# or
-$ pnpm add quasar @quasar/extras # experimental support
-$ pnpm add -D @quasar/vite-plugin sass@1.32.12 # experimental support
+$ yarn add --dev @quasar/vite-plugin sass@1.32.12
+<<| bash NPM |>>
+$ npm install --save quasar @quasar/extras
+$ npm install --save-dev @quasar/vite-plugin sass@1.32.12
+<<| bash PNPM |>>
+$ pnpm add quasar @quasar/extras
+$ pnpm add -D @quasar/vite-plugin sass@1.32.12
+<<| bash Bun |>>
+$ bun add quasar @quasar/extras
+$ bun add --dev @quasar/vite-plugin sass@1.32.12
 ```
 
 ## Using Quasar

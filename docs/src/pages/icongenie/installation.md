@@ -11,12 +11,19 @@ Make sure that you have Node >=12.22.1 and NPM >=6.14.12 installed on your machi
 
 You will be installing the Icon Genie CLI globally. You don't need to install it in your project folder.
 
-```bash
-# Node.js >=12.22.1 is required.
-
+```tabs
+<<| bash Yarn |>>
+# Node.js >=16 is required.
 $ yarn global add @quasar/icongenie
-# or
-$ npm install -g @quasar/icongenie
+<<| bash NPM |>>
+# Node.js >=16 is required.
+$ npm i -g @quasar/icongenie
+<<| bash PNPM |>>
+# Node.js >=16 is required.
+$ pnpm add -g @quasar/icongenie
+<<| bash Bun |>>
+# Node.js >=16 is required.
+$ bun install -g @quasar/icongenie
 ```
 
 This will install the `icongenie` command line tool.

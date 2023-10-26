@@ -15,8 +15,7 @@ Notify is a Quasar plugin that can display animated messages (floating above eve
 
 ### Basic
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { Notify } from 'quasar'
 
 Notify.create('Danger, Will Robinson! Danger!')
@@ -24,8 +23,9 @@ Notify.create('Danger, Will Robinson! Danger!')
 Notify.create({
   message: 'Danger, Will Robinson! Danger!'
 })
+```
 
-// inside of a Vue file
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -105,9 +105,7 @@ Furthermore, you can register your own types or even override the predefined one
 
 <doc-example title="Custom type" file="PredefinedTypesCustom" />
 
-```js
-// How to register in a boot file:
-
+```js How to register in a boot file:
 import { Notify } from 'quasar'
 
 Notify.registerType('my-notif', {
@@ -202,8 +200,7 @@ You can only set default `actions` through this method. Specifying `actions` wit
 
 We could also set the defaults in some Vue file:
 
-```js
-// inside of a Vue component
+```js Inside of a Vue component
 import { useQuasar } from 'quasar'
 
 setup () {

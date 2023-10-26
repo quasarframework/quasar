@@ -42,8 +42,7 @@ Now, you need to handle registering your component. You do this with the `/index
 
 Let's break it down.
 
-```js
-// file: /index.js
+```js File: /index.js
 export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
@@ -73,8 +72,7 @@ Not only can you do a `api.compatibleWith()` to check against Quasar packages, b
 
 The second group tells Quasar to call our custom function when the `extendQuasarConf` CLI life-cycle hook is called. It would look something like this:
 
-```js
-// file: /index.js
+```js File: /index.js
 function extendConf (conf, api) {
   // make sure my-component boot file is registered
   conf.boot.push('~quasar-app-extension-my-component/src/boot/register-my-component.js')
@@ -92,8 +90,7 @@ function extendConf (conf, api) {
 
 Finally, let's see how the boot file would look like. Make sure that you read the [@quasar/app-vite Boot files](/quasar-cli-vite/boot-files) / [@quasar/app-webpack Boot files](/quasar-cli-webpack/boot-files) documentation and understand what a Boot file is first.
 
-```js
-// file: /src/boot/register-my-component.js
+```js File: /src/boot/register-my-component.js
 import MyComponent from '../component/MyComponent.vue'
 
 // we globally register our component with Vue

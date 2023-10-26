@@ -72,9 +72,7 @@ Valid options for `-P` are "onTag", "onTagOrDraft", "always" and "never" which a
 
 A very basic configuration to publish a Windows EXE setup file to Amazon S3 might look like this:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 electron: {
   bundler: 'builder', // set here instead of using command line flag --bundler
   builder: {

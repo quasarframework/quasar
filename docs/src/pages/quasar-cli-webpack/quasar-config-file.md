@@ -150,8 +150,7 @@ Let's take each option one by one:
 ### Property: css
 Global CSS/Sass/... files from `/src/css/`, except for theme files, which are included by default.
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   css: [
     'app.sass', // referring to /src/css/app.sass
@@ -163,8 +162,7 @@ return {
 ### Property: vendor
 By default, everything that comes from `node_modules` will be injected into the vendor chunk for performance & caching reasons. However, should you wish to add or remove something from this special chunk, you can do so:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   vendor: {
     /* optional;
@@ -181,8 +179,7 @@ Tells the CLI what Quasar components/directives/plugins to import, what Quasar I
 
 Filling "components" and "directives" is required only if "all" is set to `false`.
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   // a list with all options (all are optional)
   framework: {
@@ -231,8 +228,7 @@ Most used properties are:
 
 Using `open` prop to open with a specific browser and not with the default browser of your OS (check [supported values](https://github.com/sindresorhus/open#options)). The `options` param described in previous link is what you should configure quasar.config file > devSever > open with. Some examples:
 
-```js
-// quasar.config file
+```js /quasar.config file
 // (syntax below requires @quasar/app-webpack v3.3+)
 
 // opens Google Chrome
@@ -261,9 +257,7 @@ devServer: {
 
 When you set `devServer > server > type: 'https'` in your the `/quasar.config` file, Quasar will auto-generate a SSL certificate for you. However, if you want to create one yourself for your localhost, then check out this blog post by [Filippo](https://blog.filippo.io/mkcert-valid-https-certificates-for-localhost/). Then your `quasar.config file > devServer > server` should look like this:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   server: {
     type: 'https', // NECESSARY (alternative is type 'http')
@@ -282,9 +276,7 @@ devServer: {
 
 You can also configure automatically opening remote Vue Devtools:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   vueDevtools: true
 }
@@ -295,9 +287,7 @@ If you are using a Docker Container, you may find HMR stops working. HMR relies 
 A stop-gap solution can be achieved by using the polling mode to check for filesystem changes.
 This can be enabled with:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 build: {
   // ...
   extendWebpack(cfg) {
@@ -358,8 +348,8 @@ If, for example, you run "quasar build --debug", sourceMap and extractCSS will b
 ### Property: htmlVariables
 
 You can define and then reference variables in `src/index.template.html`, like this:
-```js
-// quasar.config file
+
+```js /quasar.config file
 module.exports = function (ctx) {
   return {
     htmlVariables: {
@@ -369,9 +359,10 @@ module.exports = function (ctx) {
       }
     }
 ```
+
 Then (just an example showing you how to reference a variable defined above, in this case `title`):
-```html
-<!-- src/index.template.html -->
+
+```html /src/index.template.html
 <%= title %>
 <%= some.prop %>
 ```
@@ -379,7 +370,7 @@ Then (just an example showing you how to reference a variable defined above, in 
 ### Property: sourceFiles
 Use this property to change the default names of some files of your website/app if you have to. All paths must be relative to the root folder of your project.
 
-```js
+```js /quasar.config file
 // default values:
 sourceFiles: {
   rootComponent: 'src/App.vue',

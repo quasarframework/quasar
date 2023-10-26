@@ -25,8 +25,7 @@ Make sure not to duplicate content that already exists in `/src/index.template.h
 
 We will be using the [useMeta](/vue-composables/use-meta) composable.
 
-```js
-// some .vue file
+```js Some .vue file
 import { useMeta } from 'quasar'
 
 const metaData = {
@@ -93,8 +92,7 @@ If you depend on the state of the component to compute the meta Object, then you
 
 ### Options API
 
-```js
-// some .vue file
+```js Some .vue file
 import { createMetaMixin } from 'quasar'
 
 const metaData = {
@@ -240,8 +238,7 @@ setup () {
 
 In the section above, you noticed all of the meta props are "static". But they can be dynamic (reactive) instead, should you wish. This is how you can manage them just as with a Vue computed property:
 
-```js
-// some .vue file
+```js Some .vue file
 import { useMeta } from 'quasar'
 import { ref } from 'vue'
 

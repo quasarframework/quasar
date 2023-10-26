@@ -19,7 +19,7 @@ scope:
 
 This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
 
-```js
+```js /quasar.config file
 return {
   // ...
   ssr: {
@@ -95,8 +95,7 @@ return {
 
 When building, `extendWebpack()` and `chainWebpack()` will receive one more parameter (Object), currently containing `isServer` or `isClient` boolean props, because there will be two Webpack builds (one for the server-side and one for the client-side).
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   extendWebpack(cfg, { isServer, isClient }) { ... }
 }
@@ -110,8 +109,7 @@ By default, Quasar CLI takes care of hydrating the Vuex store (if you use it) on
 
 However, should you wish to manually hydrate it yourself, you need to set quasar.config file > ssr > manualStoreHydration: true. One good example is doing it from [a boot file](/quasar-cli-webpack/boot-files):
 
-```js
-// some_boot_file
+```js Some boot file
 // MAKE SURE TO CONFIGURE THIS BOOT FILE
 // TO RUN ONLY ON CLIENT-SIDE
 
@@ -130,8 +128,9 @@ By default, Quasar CLI wraps your App component and calls `$q.onSSRHydrated()` o
 
 However should you wish to override the moment when this happens, you need to set quasar.config file > ssr > manualPostHydrationTrigger: true. For whatever your reason is (very custom use-case), this is an example of manually triggering the post hydration:
 
-```js
-// App.vue - Composition API
+```tabs
+<<| js Composition API |>>
+// App.vue
 
 import { onMounted } from 'vue'
 import { useQuasar } from 'quasar'
@@ -145,10 +144,9 @@ export default {
     })
   }
 }
-```
+<<| js Options API |>>
+// App.vue
 
-```js
-// App.vue - Options API
 export default {
   mounted () {
     this.$q.onSSRHydrated()
@@ -170,7 +168,7 @@ Notice a few things:
 
 2. The `/src-ssr/middlewares` is built through a separate Webpack config. **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through the `/quasar.config` file:
 
-```js
+```js /quasar.config file
 return {
   // ...
   ssr: {
@@ -207,8 +205,7 @@ When running on SSR mode, your application code needs to be isomorphic or "unive
 
 However, there are cases where you only want some boot files to run only on the server or only on the client-side. You can achieve that by specifying:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   // ...
   boot: [
@@ -223,8 +220,7 @@ Just make sure that your app is consistent, though.
 
 When a boot file runs on the server, you will have access to one more parameter (called [ssrContext](/quasar-cli-webpack/developing-ssr/ssr-context)) on the default exported function:
 
-```js
-// some boot file
+```js Some boot file
 export default ({ app, ..., ssrContext }) => {
   // You can add props to the ssrContext then use them in the src/index.template.html.
   // Example - let's say we ssrContext.someProp = 'some value', then in index template we can reference it:
@@ -234,7 +230,6 @@ export default ({ app, ..., ssrContext }) => {
 
 When you add such references (`someProp` surrounded by brackets in the example above) into your `src/index.template.html`, make sure you tell Quasar it’s only valid for SSR builds:
 
-```html
-<!-- index.template.html -->
+```html /src/index.template.html
 <% if (ctx.mode.ssr) { %>{{ someProp }} <% } %>
 ```

@@ -24,16 +24,14 @@ So, Quasar CLI creates a new root Vue instance with a new Router and Vuex Store 
 
 Instead of directly creating a Router and Vuex Store instances, you'll be exposing a factory function that can be repeatedly executed to create fresh app instances for each request:
 
-```js
-// src/router/index.js
+```js src/router/index.js
 export default function (/* { store, ssrContext } */) {
   const Router = new VueRouter({...})
   return Router
 }
 ```
 
-```js
-// src/store/index.js
+```js src/store/index.js
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({...})
   return Store
@@ -41,8 +39,7 @@ export default function (/* { ssrContext } */) {
 ```
 
 If you're using [Vuex modules](https://vuex.vuejs.org/guide/modules.html) don't forget to export the state as a function otherwise a singleton will be created:
-```js
-// src/store/myModule/state.js
+```js src/store/myModule/state.js
 export default () => ({
   ...
 })
@@ -61,8 +58,7 @@ Note that if a 3rd party library is not written with universal usage in mind, it
 
 When you add a 3rd party library to your project (through a [Boot File](/quasar-cli-vite/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in the `/quasar.config` file:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   // ...
   boot: [

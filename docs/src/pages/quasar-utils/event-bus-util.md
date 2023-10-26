@@ -52,9 +52,7 @@ Create a file in your app where you instantiate and export the new event bus the
 
 Alternatively, when on a Quasar CLI project, for your convenience (so NOT required) you can create a boot file and supply an event bus (make sure that you register it in quasar.config file > boot):
 
-```js
-// a Quasar CLI boot file (let's say /src/boot/bus.js)
-
+```js A Quasar CLI boot file (let's say /src/boot/bus.js)
 import { EventBus } from 'quasar'
 import { boot } from 'quasar/wrappers'
 

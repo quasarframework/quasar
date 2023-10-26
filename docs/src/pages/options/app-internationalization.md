@@ -18,14 +18,20 @@ Quasar documentation assumes you are already familiar with [vue-i18n](https://gi
 
 ## Setup manually
 
-If you missed enabling i18n during `yarn create quasar` (or `npm init quasar`) wizard, here is how you can set it up manually.
+If you missed enabling i18n during `yarn create quasar` (or `npm init quasar` or the pnpm or Bun equivalent) wizard, here is how you can set it up manually.
 
 1. Install the `vue-i18n` dependency into your app.
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add vue-i18n@next
-// or:
-$ npm install vue-i18n@next
+<<| bash NPM |>>
+$ npm install --save vue-i18n@next
+<<| bash PNPM |>>
+# experimental support
+$ pnpm add vue-i18n@next
+<<| bash Bun |>>
+$ bun add vue-i18n@next
 ```
 
 2. Create a file `src/boot/i18n.js` with following content:
@@ -51,8 +57,7 @@ export default ({ app }) => {
 
 4. Now reference this file in `quasar.config` one in the `boot` section:
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   boot: [
     // ...
@@ -71,17 +76,20 @@ If we want to add support to the `<i18n>` tag inside a SFC (single file componen
 
 We first install the `@intlify/vue-i18n-loader` package:
 
-``` bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add --dev @intlify/vue-i18n-loader
-# or
-$ npm i --save-dev @intlify/vue-i18n-loader
+<<| bash NPM |>>
+$ npm install --save-dev @intlify/vue-i18n-loader
+<<| bash PNPM |>>
+$ pnpm add -D @intlify/vue-i18n-loader
+<<| bash Bun |>>
+$ bun add --dev @intlify/vue-i18n-loader
 ```
 
 We then edit the `quasar.config` file at the root of our project. We have to include the following:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 const path = require('node:path')
 
 build: {
@@ -151,9 +159,7 @@ export default {
 
 ## Create language switcher
 
-```html
-<!-- some .vue file -->
-
+```html Some Vue file
 <template>
   <!-- ...... -->
   <q-select

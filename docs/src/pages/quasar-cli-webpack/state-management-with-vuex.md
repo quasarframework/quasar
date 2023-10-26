@@ -96,8 +96,7 @@ If you are developing a SSR app, then you can check out the [ssrContext](/quasar
 
 Now we can use this Vuex Module in our Vue files. Here is a quick example. Assume we configured `drawerState` in the state and added `updateDrawerState` mutation.
 
-```js
-// src/store/showcase/mutations.js
+```js /src/store/showcase/mutations.js
 export const updateDrawerState = (state, opened) => {
   state.drawerState = opened
 }
@@ -173,8 +172,15 @@ With Vuex, currently, only the state is strongly typed. If you want to use typed
 ### Using Vuex Smart Module
 One of the options for a fully typed store is a package called `vuex-smart-module`. You can add this package by running the following command:
 
-```bash
-yarn add vuex-smart-module
+```tabs
+<<| bash Yarn |>>
+$ yarn add vuex-smart-module
+<<| bash NPM |>>
+$ npm install --save vuex-smart-module
+<<| bash PNPM |>>
+$ pnpm add vuex-smart-module
+<<| bash Bun |>>
+$ bun add vuex-smart-module
 ```
 
 Once installed, you need to edit your `src/store/index.ts` file to use this package to create the store. Edit your store index file to resemble the following:
@@ -305,8 +311,7 @@ Code splitting with Vuex Smart Module works slightly different compared to regul
 
 Suppose we have the following module example:
 
-```js
-// store/modules/index.ts
+```js store/modules/index.ts
 // simple module example, with everything in one file
 import { Getters, Mutations, Actions, Module, createComposable } from 'vuex-smart-module';
 

@@ -95,12 +95,21 @@ If your objective is to install a 3rd-party library into Vue, then it depends up
 
 ### Creating the App Extension
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn create quasar
-# or
+# then pick the AppExtension option
+<<| bash NPM |>>
 $ npm init quasar
-
-# pick the AppExtension option
+# then pick the AppExtension option
+<<| bash PNPM |>>
+# experimental support
+$ pnpm create quasar
+# then pick the AppExtension option
+<<| bash Bun |>>
+# experimental support
+$ bun create quasar
+# then pick the AppExtension option
 ```
 
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.

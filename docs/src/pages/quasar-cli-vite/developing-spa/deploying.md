@@ -143,11 +143,20 @@ Unfortunately, Heroku does not support static sites out of the box. But don't wo
 In this example, we will use [Express](https://expressjs.com/) to create a minimal server which Heroku can use.
 
 First, we need to install the required dependencies to our project:
-```bash
+
+```tabs
+<<| bash Yarn |>>
 $ yarn add express serve-static connect-history-api-fallback
+<<| bash NPM |>>
+$ npm install --save express serve-static connect-history-api-fallback
+<<| bash PNPM |>>
+$ pnpm add express serve-static connect-history-api-fallback
+<<| bash Bun |>>
+$ bun add express serve-static connect-history-api-fallback
 ```
 
 Now that we have installed the required dependencies, we can add our server. Create a file called `server.js` in the root directory of your project.
+
 ```js
 const
   express = require('express'),
@@ -235,8 +244,15 @@ Manual copying all your files to your GitHub Pages repository can be a cumbersom
 
 First, install the package with:
 
-```js
+```tabs
+<<| bash Yarn |>>
 $ yarn add --dev push-dir
+<<| bash NPM |>>
+$ npm install --save-dev push-dir
+<<| bash PNPM |>>
+$ pnpm add -D push-dir
+<<| bash Bun |>>
+$ bun add --dev push-dir
 ```
 
 Then add a `deploy` script command to your `package.json`:
@@ -257,7 +273,7 @@ Now you can build and deploy your application using:
 
 ```bash
 $ quasar build
-$ yarn deploy
+$ yarn deploy # or npm/pnpm/bun equivalents
 ```
 
 which will push the content of your build directory to your master branch on your GitHub Pages repository.

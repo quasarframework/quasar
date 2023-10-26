@@ -62,8 +62,15 @@ If you have a Fontawesome v6 Pro license and want to use it instead of the Fonta
   //npm.fontawesome.com/:_authToken=TOKENID
   ```
 3. Install Fontawesome webfonts:
-  ```bash
+  ```tabs
+  <<| bash Yarn |>>
   $ yarn add @fortawesome/fontawesome-pro
+  <<| bash NPM |>>
+  $ npm install --save @fortawesome/fontawesome-pro
+  <<| bash PNPM |>>
+  $ pnpm add @fortawesome/fontawesome-pro
+  <<| bash Bun |>>
+  $ bun add @fortawesome/fontawesome-pro
   ```
 4. Create new boot file:
   ```bash
@@ -105,8 +112,7 @@ _First_, find the icon used for chip close in Quasar Fontawesome v6 Pro [icon-se
 
 (Alternatively, you can check inside the render function of the component you are overriding.)
 
-```js
-// example
+```js Example
 chip: {
   remove: 'fal fa-times-circle'
 ```

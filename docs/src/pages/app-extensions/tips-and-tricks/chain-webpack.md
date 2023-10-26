@@ -29,8 +29,7 @@ We will only need the /index.js script for this, because we can use the [Index A
 
 And /index.js would look like this:
 
-```js
-// file: /index.js
+```js File: /index.js
 export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
@@ -46,8 +45,7 @@ export default function (api) {
 
 Our "chainWebpack" method, in the same file as above:
 
-```js
-// file: /index.js
+```js File: /index.js
 const MarkdownIt = require('markdown-it')
 const md = new MarkdownIt()
 

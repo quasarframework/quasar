@@ -10,9 +10,7 @@ This is useful if you access relative paths in your API requests. Obviously, the
 
 To configure the proxy rules, edit the `/quasar.config` file in `devServer.proxy`. You should refer to [Webpack Dev Server Proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy) docs for detailed usage. But here's a simple example:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   proxy: {
     // proxy all requests starting with /api to jsonplaceholder

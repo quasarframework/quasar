@@ -131,8 +131,7 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 api.compatibleWith('@quasar/app', '1.x')
 ```
 
-```js
-// a more complex example:
+```js A more complex example
 if (api.hasVite === true) {
   api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
 }
@@ -205,8 +204,7 @@ api.extendQuasarConf ((conf, api) => {
 })
 ```
 
-```js
-// a more complex example:
+```js A more complex example:
 api.extendQuasarConf ((conf, api) => {
   if (api.hasVite === true) {
     // do something with quasar.config file that is specific

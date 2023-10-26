@@ -360,9 +360,7 @@ Let's take the example of Axios. Sometimes you want to access your Axios instanc
 
 Consider the following boot file for axios:
 
-```js
-// axios boot file (src/boot/axios.js)
-
+```js axios boot file (src/boot/axios.js)
 import axios from 'axios'
 
 // We create our own axios instance and set a custom base URL.

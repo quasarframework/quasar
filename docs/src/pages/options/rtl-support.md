@@ -44,12 +44,15 @@ build: {
 
 You first need to install `postcss-rtlcss` package:
 
-``` bash
-$ yarn add -D postcss-rtlcss
-# or
-$ npm install -D postcss-rtlcss
-# or
-$ pnpm add quasar -D postcss-rtlcss # experimental support
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev postcss-rtlcss
+<<| bash NPM |>>
+$ npm install --save-dev postcss-rtlcss
+<<| bash PNPM |>>
+$ pnpm add -D postcss-rtlcss
+<<| bash Bun |>>
+$ bun add --dev postcss-rtlcss
 ```
 
 Then create `/postcss.config.cjs` file if you don't have it already, and add this to it:

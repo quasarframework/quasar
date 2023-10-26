@@ -71,8 +71,7 @@ The "builder" prop refers to [electron-builder options](https://www.electron.bui
 
 Should you want to tamper with the "Renderer" thread (UI in /src) Vite config:
 
-```js
-// quasar.config file
+```js /quasar.config file
 module.exports = function (ctx) {
   return {
     build: {

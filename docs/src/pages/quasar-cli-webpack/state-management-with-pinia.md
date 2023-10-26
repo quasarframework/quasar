@@ -36,9 +36,7 @@ When you scaffold a Quasar project folder you can choose to add Pinia. It will c
 
 If you don't choose the Pinia option during project creation but would like to add it later then all you need to do is to check the next section and create the `src/stores/index.[js|ts]` file (it's automatically created when you run `quasar new store <name>`):
 
-```js
-// src/stores/index.js
-
+```js /src/stores/index.js
 import { store } from 'quasar/wrappers'
 import { createPinia } from 'pinia'
 

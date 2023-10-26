@@ -8,9 +8,7 @@ You probably want your app to only give access to the browser devtools on dev mo
 
 While we're at it, why not also open devtools by default when we're on dev mode.
 
-```js
-// electron-main.[js|ts]
-
+```js /src-electron/electron-main
 function createWindow () {
   mainWindow = new BrowserWindow({ ... })
 

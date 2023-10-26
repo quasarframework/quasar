@@ -105,9 +105,8 @@ app.use(Quasar, {
 ### Dynamic (on non-SSR)
 Quasar CLI: If your desired Quasar Icon Set must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-icon-set [--format ts]`. This will create `/src/boot/quasar-icon-set.js` file. Edit it to:
 
-```js
-// -- With @quasar/app-vite --
-
+```tabs
+<<| js With @quasar/app-vite |>>
 import { Quasar } from 'quasar'
 
 // relative path to your node_modules/quasar/..
@@ -129,11 +128,7 @@ export default async () => {
     // let's not break the app, so catching error
   }
 }
-```
-
-```js
-// -- With @quasar/app-webpack --
-
+<<| js With @quasar/app-webpack |>>
 import { Quasar } from 'quasar'
 
 export default async () => {
@@ -169,9 +164,8 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 ### Dynamic (on SSR)
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
-```js
-// -- With @quasar/app-vite --
-
+```tabs
+<<| js With @quasar/app-vite |>>
 import { Quasar } from 'quasar'
 
 // relative path to your node_modules/quasar/..
@@ -194,11 +188,7 @@ export default async ({ ssrContext }) => {
     // let's not break the app, so catching error
   }
 }
-```
-
-```js
-// -- With @quasar/app-webpack --
-
+<<| js With @quasar/app-webpack |>>
 import { Quasar } from 'quasar'
 
 // ! NOTICE ssrContext param:
@@ -225,8 +215,8 @@ export default async ({ ssrContext }) => {
 #### Changing Icon Set Dynamically
 Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
-```js
-// Composition API variant
+```tabs
+<<| js Composition API variant |>>
 import { useQuasar } from 'quasar'
 import mdiIconSet from 'quasar/icon-set/mdi-v7.js'
 
@@ -241,10 +231,7 @@ setup () {
     changeIconSetToMdiIconSet
   }
 }
-```
-
-```js
-// Options API variant
+<<| js Options API variant |>>
 import mdiIconSet from 'quasar/icon-set/mdi-v7.js'
 
 methods: {
@@ -257,8 +244,8 @@ methods: {
 #### Changing a Specific Icon Dynamically
 If you want to change a specific icon to another, you can. Here is an example:
 
-```js
-// Composition API variant
+```tabs
+<<| js Composition API variant |>>
 import { useQuasar } from 'quasar'
 
 setup () {
@@ -270,10 +257,7 @@ setup () {
 
   return { changeQEditorHeaderIcon }
 }
-```
-
-```js
-// Options API variant
+<<| js Options API variant |>>
 methods: {
   changeQEditorHeaderIcon () {
     this.$q.iconSet.editor.header1 = 'fas fa-font'

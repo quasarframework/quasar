@@ -13,7 +13,7 @@ However, Quasar can supply a big list of ready to use CSS animations. The animat
 
 Edit the `/quasar.config` file:
 
-```js
+```js /quasar.config file
 // embedding all animations
 animations: 'all'
 
@@ -27,7 +27,8 @@ animations: [
 If you are building a website, you can also skip configuring the quasar.config file and use a CDN link which points to Animate.css like this (following is just an example, Google for latest link). Remember this will require an Internet connection for your user, as opposed to bundling from within the quasar.config file.
 
 ```html
-<!-- src/index.template.html -->
+<!-- @quasar/app-vite: /index.html -->
+<!-- @quasar/app-webpack: src/index.template.html -->
 <head>
   ...
 
@@ -56,8 +57,7 @@ Try changing **Visual Effects** to **Adjust for Best Appearance**.
 ## Usage
 Notice the string "animated" in front of the actual animation name.
 
-```html
-<!-- Example with wrapping only one DOM element / component -->
+```html Example with wrapping only one DOM element / component
 <transition
   appear
   enter-active-class="animated fadeIn"
@@ -75,8 +75,7 @@ Notice the string "animated" in front of the actual animation name.
 ### Wrapping Multiple Elements
 You can also group components or DOM elements in a transition so that the same effects are applied to all of them simultaneously.
 
-```html
-<!-- Example with wrapping multiple DOM elements / components -->
+```html Example with wrapping multiple DOM elements / components
 <transition-group
   appear
   enter-active-class="animated fadeIn"

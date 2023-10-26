@@ -13,9 +13,7 @@ This is the default way in which a BEX will run. It is accessed by clicking on t
 
 These all follow the same pattern, set up a route and configure the `manifest.json` file to look at that route when it's trying to show either one of the types. For instance:
 
-```js
-// routes.js:
-
+```js routes.js:
 const routes = [
   { path: '/options', component: () => import('pages/OptionsPage.vue') },
   { path: '/popup', component: () => import('pages/PopupPage.vue') },
@@ -65,9 +63,7 @@ The idea here is to create an IFrame and add our Quasar app into it, then inject
 
 Given our Quasar App might need to take the full height of the window (and thus stop any interaction with the underlying page) we have an event to handle setting the height of the IFrame. By default the IFrame height is just high enough to allow for the Quasar toolbar to show (and in turn allowing interaction with the rest of the page).
 
-```js
-// src-bex/my-content-script.js
-
+```js /src-bex/my-content-script.js
 // Hooks added here have a bridge allowing communication between the BEX Content Script and the Quasar Application.
 // More info: https://quasar.dev/quasar-cli/developing-browser-extensions/content-hooks
 import { bexContent } from 'quasar/wrappers'

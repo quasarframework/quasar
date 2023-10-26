@@ -74,9 +74,7 @@ For the intents of this example, we'll be creating the following folder structur
 
 The install script below is only rendering files into the hosted app. Notice the `src/templates` folder above, where we decided to keep these templates.
 
-```js
-// src/install.js
-
+```js src/install.js
 export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
@@ -116,9 +114,7 @@ Notice that we use the prompts to decide what to render into the hosting project
 
 We do a few things in the index script, like extending the /quasar.config file, hooking into one of the many Index API hooks (onPublish in this case), and chaining the Webpack configuration:
 
-```js
-// src/index.js
-
+```js src/index.js
 export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need

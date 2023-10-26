@@ -687,18 +687,36 @@ $ node my-server.js
 
 ### Scaffolding a Quasar project folder
 
-Please use `yarn create quasar` or `npm init quasar` instead of this command, which is now considered "legacy".
+Please use `yarn create quasar` or `npm init quasar` (or PNPM or Bun equivalents) instead of this command, which is now considered "legacy".
 
 ### Scaffolding from a custom starter kit <q-badge align="top" color="brand-primary" label="legacy" />
 
 Should you wish to create a Quasar project (app, AppExtension or UI kit) from **CUSTOM** starter kits, please use the `@quasar/legacy-create` global installable CLI instead:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 # globally install the @quasar/legacy-create CLI
-
 $ yarn global add @quasar/legacy-create
-#  or:
+
+# then:
+$ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]
+<<| bash NPM |>>
+# globally install the @quasar/legacy-create CLI
 $ npm i -g @quasar/legacy-create
+
+# then:
+$ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]
+<<| bash PNPM |>>
+# globally install the @quasar/legacy-create CLI
+# experimental support
+$ pnpm add -g @quasar/legacy-create
+
+# then:
+$ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]
+<<| bash Bun |>>
+# globally install the @quasar/legacy-create CLI
+# experimental support
+$ bun install -g @quasar/legacy-create
 
 # then:
 $ quasar-legacy-create <folder_name> <address> [--branch <branch_name>]

@@ -28,9 +28,7 @@ extends: [
 
 If you chose ESLint when creating your project folder, you'll also notice that the `eslint` key is added to the `/quasar.config` file:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 eslint: {
   // fix: true,
   // include: [],
@@ -51,9 +49,7 @@ You can add/remove/change rules by first visiting [https://eslint.org/docs/rules
 
 Example of ESLint rules below:
 
-```js
-// .eslintrc.cjs
-
+```js /.eslintrc.cjs
 'rules': {
   'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
 
@@ -86,15 +82,13 @@ In order for you to disable ESLint later, all you need to do is to:
 
 1. Comment out (or remove) the key below:
 
-  ```js
-  // quasar.config file
+  ```js /quasar.config file
   eslint: { /* ... */ }
   ```
 
 2. Or, set `warnings` and `errors` to `false`:
 
-  ```js
-  // quasar.config file
+  ```js /quasar.config file
   eslint: {
     warnings: false,
     errors: false

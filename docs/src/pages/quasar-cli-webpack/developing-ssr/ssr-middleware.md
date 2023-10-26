@@ -179,9 +179,7 @@ You can now add content to that file depending on the intended use of your SSR m
 
 The last step is to tell Quasar to use your new SSR middleware file. For this to happen you need to add the file in the `/quasar.config` file
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 ssr: {
   middlewares: [
     // references /src-ssr/middlewares/<name>.js
@@ -192,9 +190,7 @@ ssr: {
 
 When building a SSR app, you may want some boot files to run only on production or only on development, in which case you can do so like below:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 ssr: {
   middlewares: [
     ctx.prod ? '<name>' : '', // I run only on production!
@@ -205,9 +201,7 @@ ssr: {
 
 In case you want to specify SSR middleware file from node_modules, you can do so by prepending the path with `~` (tilde) character:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 ssr: {
   middlewares: [
     // boot file from an npm package
@@ -228,9 +222,7 @@ Out of all the possible SSR middlewares in your app, **this one is absolutely re
 
 In the example below we highlight that this middleware needs to be the last in the list. This is because it also responds to the client (as we'll see in the second code sample below) with the HTML of the page. So any subsequent middleware cannot set headers.
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 ssr: {
   middlewares: [
     // ..... all other middlewares
@@ -244,9 +236,7 @@ ssr: {
 
 Now let's see what it contains:
 
-```js
-// src-ssr/middlewares/render.js
-
+```js /src-ssr/middlewares/render.js
 // This middleware should execute as last one
 // since it captures everything and tries to
 // render the page with Vue

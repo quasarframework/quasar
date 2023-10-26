@@ -11,9 +11,7 @@ This is useful if you access relative paths in your API requests. Obviously, the
 
 To configure the proxy rules, edit the `/quasar.config` file in `devServer.proxy`. Under the hood, it uses `http-proxy`. Full list of its options [here](https://github.com/http-party/node-http-proxy#options).
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 devServer: {
   proxy: {
     // string shorthand

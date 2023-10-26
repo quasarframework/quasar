@@ -29,8 +29,8 @@ preFetch ({ ..., ssrContext }) { /* ... */ }
 
 You can also access the ssrContext in your Vue components. Below are two examples, one with Composition API and one with Options API:
 
-```js
-// Composition API
+```tabs
+<<| js Composition API |>>
 import { useSSRContext } from 'vue'
 
 export default {
@@ -41,10 +41,7 @@ export default {
     // ...do something with it
   }
 }
-```
-
-```js
-// Options API
+<<| js Options API |>>
 export default {
   // ...
   created () { // can be any other Vue component lifecycle hook

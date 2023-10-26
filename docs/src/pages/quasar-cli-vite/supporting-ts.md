@@ -40,17 +40,26 @@ If you fail to add the `tsconfig.json` file, the application will break at compi
 TypeScript Linting is really slow due to type-checking overhead, we suggest you to disable it in `/quasar.config` file for dev builds.
 :::
 
-First add needed dependencies:
+First add the needed dependencies:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
-# you might also want to install the `eslint` and `eslint-plugin-vue` packages.
+# you might also want to install the `eslint-plugin-vue` package.
+<<| bash NPM |>>
+$ npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
+<<| bash PNPM |>>
+$ pnpm add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
+<<| bash Bun |>>
+$ bun add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+# you might also want to install the `eslint-plugin-vue` package.
 ```
 
 Then update your ESLint configuration accordingly, like in the following example:
 
-```js
-// .eslintrc.cjs
+```js /.eslintrc.cjs
 const { resolve } = require('node:path');
 
 module.exports = {
@@ -127,9 +136,7 @@ As a last step, update your `yarn lint` command to also lint `.ts` files.
 
 Finally, edit your `/quasar.config` file:
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 eslint: {
   // fix: true,
   // include: [],

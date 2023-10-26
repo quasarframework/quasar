@@ -85,13 +85,13 @@ Quasar handles the back button for you by default so it can hide any opened Dial
 
 However, should you wish to disable this behavior, edit your `/quasar.config` file:
 
-```js
-// quasar.config file;
-// for Cordova (only!):
+```tabs
+<<| js For Capacitor |>>
+// quasar.config file
 return {
   framework: {
     config: {
-      cordova: {
+      capacitor: {
         // Quasar handles app exit on mobile phone back button.
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 
@@ -102,13 +102,12 @@ return {
     }
   }
 }
-
-// quasar.config file;
-// for Capacitor (only!)
+<<| js For Cordova |>>
+// quasar.config file
 return {
   framework: {
     config: {
-      capacitor: {
+      cordova: {
         // Quasar handles app exit on mobile phone back button.
         backButtonExit: true/false/'*'/['/login', '/home', '/my-page'],
 

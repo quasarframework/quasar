@@ -40,8 +40,7 @@ Now, you need to handle registering your Vue directive. You do this with the `/i
 
 Let's break it down.
 
-```js
-// file: /index.js
+```js File: /index.js
 export default function (api) {
   // (Optional!)
   // Quasar compatibility check; you may need
@@ -71,8 +70,7 @@ Not only can you do a `api.compatibleWith()` to check against Quasar packages, b
 
 The second group tells Quasar to call our custom function when the `extendQuasarConf` CLI life-cycle hook is called. It would look something like this:
 
-```js
-// file: /index.js
+```js File: /index.js
 function extendConf (conf, api) {
   // make sure my-directive boot file is registered
   conf.boot.push('~quasar-app-extension-my-directive/src/boot/register-my-directive.js')
@@ -87,8 +85,7 @@ function extendConf (conf, api) {
 
 Finally, let's see how the boot file would look like. Make sure that you read the [@quasar/app-vite Boot files](/quasar-cli-vite/boot-files) / [@quasar/app-webpack Boot files](/quasar-cli-webpack/boot-files) documentation and understand what a Boot file is first.
 
-```js
-// file: /src/boot/my-directive.js
+```js File: /src/boot/my-directive.js
 import MyDirective from '../directive/MyDirective.js'
 
 // We globally register our directive with Vue;

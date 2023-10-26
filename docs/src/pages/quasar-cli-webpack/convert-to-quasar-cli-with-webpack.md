@@ -7,14 +7,21 @@ This page will guide you on how to convert a Quasar CLI with Vite (`@quasar/app-
 
 ### Step 1: Create a Quasar CLI with Webpack project folder:
 
-```bash
+```tabs
+<<| bash Yarn |>>
 $ yarn create quasar
-# or:
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
+<<| bash NPM |>>
 $ npm init quasar
-# or:
-$ pnpm create quasar # experimental support
-
-# pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
+<<| bash PNPM |>>
+# experimental support
+$ pnpm create quasar
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
+<<| bash Bun |>>
+# experimental support
+$ bun create quasar
+# then pick "App with Quasar CLI", "Quasar v2", "Quasar App CLI with Webpack"
 ```
 
 There are significant changes to the root files so it's easier to generate a new project folder rather than explaining each of the many changes.
@@ -43,11 +50,9 @@ Also move `/index.html` to `/src/index.template.html`. And make the following ch
 
 Also, edit `/src/router/index.js`:
 
-```js
-// Change:
-history: createHistory(process.env.VUE_ROUTER_BASE)
-// Into:
-history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+```diff
+- history: createHistory(process.env.VUE_ROUTER_BASE)
++ history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
 ```
 
 ### Step 3: Check the new quasar.config file

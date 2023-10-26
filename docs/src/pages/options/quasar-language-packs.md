@@ -32,7 +32,7 @@ If the default Quasar Language Pack is not dynamically determined (does not depe
 #### Quasar CLI
 Edit the `/quasar.config` file:
 
-```js
+```js /quasar.config file
 framework: {
   lang: 'de'
 }
@@ -84,9 +84,8 @@ Check what tags you need to include in your HTML files on [UMD / Standalone](/st
 ### Dynamical (non-SSR)
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack [--format ts]`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
-```js
-// -- With @quasar/app-vite --
-
+```tabs
+<<| js With @quasar/app-vite |>>
 import { Quasar } from 'quasar'
 
 // relative path to your node_modules/quasar/..
@@ -108,11 +107,7 @@ export default async () => {
     // let's not break the app, so catching error
   }
 }
-```
-
-```js
-// -- With @quasar/app-webpack --
-
+<<| js With @quasar/app-webpack |>>
 import { Quasar } from 'quasar'
 
 export default async () => {
@@ -148,9 +143,8 @@ Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-
 ### Dynamical (SSR)
 When dealing with SSR, we can't use singleton objects because that would pollute sessions. As a result, as opposed to the dynamical example above (read it first!), you must also specify the `ssrContext` from your boot file:
 
-```js
-// -- With @quasar/app-vite --
-
+```tabs
+<<| js With @quasar/app-vite |>>
 import { Quasar } from 'quasar'
 
 // relative path to your node_modules/quasar/..
@@ -173,11 +167,7 @@ export default async ({ ssrContext }) => {
     // let's not break the app, so catching error
   }
 }
-```
-
-```js
-// -- With @quasar/app-webpack --
-
+<<| js With @quasar/app-webpack |>>
 import { Quasar } from 'quasar'
 
 // ! NOTICE ssrContext param:

@@ -363,8 +363,7 @@ We'd be more than happy to accept PRs on supporting other upload services as wel
 
 Below is an example with the API that you need to supply to the `createUploaderComponent()` Quasar util. This will create a Vue component that you can import in your app.
 
-```js
-// MyUploader.js
+```js MyUploader.js
 import { createUploaderComponent } from 'quasar'
 import { computed } from 'vue'
 

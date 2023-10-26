@@ -36,9 +36,8 @@ In order for the user to be able to activate the `@submit` or `@reset` events on
 
 Alternatively, you can give the QForm a Vue ref name and call the `validate` and `resetValidation` functions directly:
 
-```js
-// Composition API variant
-
+```tabs
+<<| js Composition API variant |>>
 // <q-form ref="myForm">
 
 setup () {
@@ -66,11 +65,7 @@ setup () {
     // ...
   }
 }
-```
-
-```js
-// Options API variant
-
+<<| js Options API variant |>>
 // <q-form ref="myForm">
 
 this.$refs.myForm.validate().then(success => {
@@ -131,9 +126,8 @@ methods: {
 
 By default, all the Quasar form components communicate with the parent QForm instance. If, for some reason, you are creating your own form component (**that doesn't wrap a Quasar form component**), then you can make QForm aware of it by using:
 
-```js
-// Composition API variant
-
+```tabs
+<<| js Composition API variant |>>
 import { useFormChild } from 'quasar'
 
 setup () {
@@ -146,11 +140,7 @@ setup () {
     requiresQForm: true // should it error out if no parent QForm is found?
   })
 }
-```
-
-```js
-// Options API variant
-
+<<| js Options API variant |>>
 import { QFormChildMixin } from 'quasar'
 
 // some component

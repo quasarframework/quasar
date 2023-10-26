@@ -171,9 +171,7 @@ See the [Configuration](/style/color-palette#configuration) section above for se
 If you are using Quasar CLI, you can also use a [@quasar/app-vite Boot File](/quasar-cli-vite/boot-files) or a [@quasar/app-webpack Boot File](/quasar-cli-webpack/boot-files).
 This is especially useful if you want to change the colors dynamically at initial load time, perhaps after fetching them from an API.
 
-```js
-// src/boot/brand-colors.js - or any other name
-
+```js /src/boot/brand-colors.js - or any other name
 import { setCssVar } from 'quasar'
 import { boot } from 'quasar/wrappers'
 
@@ -183,8 +181,8 @@ export default boot(() => {
 ```
 
 If using SSR mode, disable this boot file when running on server-side:
-```js
-// quasar.config file
+
+```js /quasar.config file
 boot: [
   { server: false, path: 'brand-colors' }, // or the name you gave it
   // ...

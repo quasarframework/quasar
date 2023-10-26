@@ -37,7 +37,7 @@ If you are self hosting your own Tunnelmole service or you have a set an API key
 $ tmole 80 as mysubdomain.tunnelmole.com
 ```
 
-Its also possible to launch tunnelmole from code if you add it as a dependency to your project (`yarn add --dev tunnelmole` or `npm i --save-dev tunnelmole`)
+Its also possible to launch tunnelmole from code if you add it as a dependency to your project (`yarn add --dev tunnelmole` or `npm i --save-dev tunnelmole` or pnpm/bun equivalents)
 
 First import tunnelmole. Both ES and CommonJS modules are supported.
 
@@ -72,8 +72,8 @@ $ ssh -R 80:localhost:8080 ssh.localhost.run
 2. That's it, and you will now have a random subdomain based on your current system username assigned to you like so:
 ``` bash
 $ ssh -R 80:localhost:8080 ssh.localhost.run
-Connect to http://fakeusername-random4chars.localhost.run or https://fakeusername-random4chars.localhost.run
-Press ctrl-c to quit.
+# Connect to http://fakeusername-random4chars.localhost.run or https://fakeusername-random4chars.localhost.run
+# Press ctrl-c to quit.
 ```
 
 It's not currently possible to request your own subdomain.

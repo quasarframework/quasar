@@ -11,8 +11,7 @@ The build system uses [Vite](https://vitejs.dev) to create the UI of your websit
 
 For cases where you need to tweak the default Vite config you can do so by editing the `/quasar.config` file and configuring `build > extendViteConf (viteConf)` method.
 
-```js
-// quasar.config file
+```js /quasar.config file
 build: {
   extendViteConf (viteConf, { isServer, isClient }) {
     // do something with viteConf... change it in-place
@@ -139,9 +138,7 @@ module.exports = function (ctx) {
 ### Example: rollup-plugin-copy
 It is likely that you will need to copy static or external files to your Quasar project during the build to production process, rollup-plugin-copy allows you to copy files and folders when building your app.
 
-```js
-// quasar.config file
-
+```js /quasar.config file
 // ...
   build: {
   // ...
@@ -186,8 +183,7 @@ To add your own alias there are two ways:
 
 1. Edit the `/quasar.config` file:
 
-```js
-// quasar.config file
+```js /quasar.config file
 const path = require('node:path')
 
 module.exports = function (ctx) {
@@ -203,8 +199,7 @@ module.exports = function (ctx) {
 
 2. Alternatively, you can directly extend the Vite config and merge it with the existing alias list. Use the `path.join` helper to resolve the path to your intended alias.
 
-```js
-// quasar.config file
+```js /quasar.config file
 const path = require('node:path')
 
 module.exports = function (ctx) {

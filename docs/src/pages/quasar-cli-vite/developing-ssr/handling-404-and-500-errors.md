@@ -5,7 +5,7 @@ desc: (@quasar/app-vite) Managing the common 404 and 500 HTTP errors in a Quasar
 
 The handling of the 404 & 500 errors on SSR is a bit different than on the other modes (like SPA). If you check out `/src-ssr/middlewares/render.js`, you will notice the following section:
 
-```js
+```js /src-ssr/middlewares/render.js
 export default ({ app, resolve, render, serve }) => {
   // we capture any other Express route and hand it
   // over to Vue and Vue Router to render our page

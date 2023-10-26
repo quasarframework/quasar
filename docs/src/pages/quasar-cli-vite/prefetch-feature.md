@@ -18,8 +18,7 @@ All the above will run before the actual route component is rendered.
 
 ## Installation
 
-```js
-// quasar.config file
+```js /quasar.config file
 return {
   preFetch: true
 }
@@ -41,8 +40,7 @@ The `preFetch` hook (described in next sections) is determined by the route visi
 
 Let's take an example in order to understand when the hook is being called. Let's say we have these routes and we've written `preFetch` hooks for all these components:
 
-```js
-// routes
+```js Routes
 [
   {
     path: '/',
@@ -90,8 +88,7 @@ The hook is defined as a custom static function called `preFetch` on our route c
 
 Example below is when using Vuex:
 
-```html
-<!-- some .vue component used as route -->
+```html Some .vue component used as route
 <template>
   <div>{{ item.title }}</div>
 </template>
@@ -189,9 +186,8 @@ The `redirect()` method requires a Vue Router location Object.
 
 The `preFetch` hook runs only once, when the app boots up, so you can use this opportunity to initialize the Pinia store(s) or the Vuex Store here.
 
-```js
-// -- Pinia on Non SSR --
-
+```tabs
+<<| js Pinia on Non SSR |>>
 // App.vue - handling Pinia stores
 // example with a store named "myStore"
 // placed in /src/stores/myStore.js|ts
@@ -205,11 +201,7 @@ export default {
     // do something with myStore
   }
 }
-```
-
-```js
-// -- Pinia on SSR --
-
+<<| js Pinia on SSR |>>
 // App.vue - handling Pinia stores
 // example with a store named "myStore"
 // placed in /src/stores/myStore.js|ts
@@ -225,9 +217,7 @@ export default {
 }
 ```
 
-```js
-// App.vue - handling Vuex store
-
+```js App.vue - handling Vuex store
 export default {
   // ...
   preFetch ({ store }) {
@@ -239,8 +229,7 @@ export default {
 ### Vuex Store Code Splitting
 In a large application, your Vuex store will likely be split into multiple modules. Of course, it is also possible to code-split these modules into corresponding route component chunks. Suppose we have the following store module:
 
-```js
-// src/store/foo.js
+```js /src/store/foo.js
 // we've merged everything into one file here;
 // an initialized Quasar project splits every component of a Vuex module
 // into separate files, but for the sake of the example
@@ -264,8 +253,7 @@ export default {
 
 Now, we can use `store.registerModule()` to lazy-register this module in a route component's `preFetch()` hook:
 
-```html
-// inside a route component
+```html Inside a route component
 <template>
   <div>{{ fooCount }}</div>
 </template>
@@ -347,8 +335,7 @@ When you add Quasar [LoadingBar](/quasar-plugins/loading-bar) plugin to your app
 ### Loading
 There's also the possibility to use Quasar [Loading](/quasar-plugins/loading) plugin. Here's an example:
 
-```js
-// a route .vue component
+```js A route .vue component
 import { Loading } from 'quasar'
 
 export default {

@@ -20,8 +20,7 @@ Please note that the behavior is different depending on the platform the code is
 For an exhaustive list of properties and methods, please check out the API section.
 :::
 
-```js
-// outside of a Vue file
+```js Outside of a Vue file
 import { AppFullscreen } from 'quasar'
 
 // Requesting fullscreen mode:
@@ -43,9 +42,7 @@ AppFullscreen.exit()
   })
 ```
 
-```js
-// inside of a Vue file
-
+```js Inside of a Vue file
 import { useQuasar } from 'quasar'
 
 setup () {

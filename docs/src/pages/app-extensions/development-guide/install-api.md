@@ -115,8 +115,7 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 api.compatibleWith(packageName, '1.x')
 ```
 
-```js
-// a more complex example:
+```js A more complex example:
 if (api.hasVite === true) {
   api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
 }
@@ -253,8 +252,7 @@ You can also inject some decision-making code into the files to be rendered by i
 
 Example:
 
-```js
-// src/install.js
+```js src/install.js
 // (my-folder is located in same folder as
 // the file in which following call takes place)
 api.render('./my-folder', {
@@ -266,9 +264,7 @@ Let's imagine we use a [Prompts API](/app-extensions/development-guide/prompts-a
 
 We can take some decisions on what the files that we render look like, during rendering them. This removes the need of creating two folders and deciding which to render, based on some decision.
 
-```js
-// src/my-folder/some-file.js
-
+```js src/my-folder/some-file.js
 <% if (prompts.featureX) { %>
 const message = 'This is content when "Feature X" exists'
 <% } else { %>

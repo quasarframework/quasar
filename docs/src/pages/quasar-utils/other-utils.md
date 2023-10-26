@@ -31,9 +31,7 @@ If running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/E
 
 The optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not defers to using `window.open()`.
 
-```js
-// example of openURL() with windowFeatures:
-
+```js Example of openURL() with windowFeatures:
 openURL(
   'http://...',
   undefined, // in this example we don't care about the rejectFn()
