@@ -47,9 +47,12 @@ Move `/src/index.template.html` to `/index.html`. And make the following change:
 
 Also, edit `/src/router/index.js`:
 
-```diff
-- history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
-+ history: createHistory(process.env.VUE_ROUTER_BASE)
+```js
+// old way
+history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
+
+// new way
+history: createHistory(process.env.VUE_ROUTER_BASE)
 ```
 
 

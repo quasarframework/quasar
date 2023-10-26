@@ -637,7 +637,7 @@ When building a SPA or PWA, the distributable folder can be served by any static
 
 Or you can build your own server. Here are some examples:
 
-```js When using default Vue Router "hash" mode
+```js When using default Vue Router 'hash' mode
 const
   express = require('express'),
   serveStatic = require('serve-static'),
@@ -649,7 +649,7 @@ app.use(serveStatic(...path-to-dist...))
 app.listen(port)
 ```
 
-```js When using Vue Router "history" mode
+```js When using Vue Router 'history' mode
 const
   express = require('express'),
   serveStatic = require('serve-static'),
