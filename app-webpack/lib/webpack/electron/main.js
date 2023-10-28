@@ -4,6 +4,9 @@ const createNodeChain = require('./create-node-chain')
 module.exports = function (cfg, configName) {
   const chain = createNodeChain('main', cfg, configName)
 
+  chain.output
+    .libraryTarget('commonjs2')
+
   chain.entry('electron-main')
     .add(appPaths.resolve.app(
       cfg.sourceFiles.electronMain
