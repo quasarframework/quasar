@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { isSSR } from '../../plugins/Platform.js'
+import { getPortalsContainer } from '../../mixins/portal.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -105,7 +106,7 @@ export default function (DefaultComponent) {
       }
 
     const node = document.createElement('div')
-    document.body.appendChild(node)
+    getPortalsContainer(document.body).appendChild(node)
 
     let emittedOK = false
 
