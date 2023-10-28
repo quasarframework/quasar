@@ -1872,6 +1872,66 @@
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
 
+"@rollup/rollup-android-arm-eabi@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm-eabi/-/rollup-android-arm-eabi-4.1.5.tgz#aa13d291631fe72552ca2adba50f8d58ef2cde6f"
+  integrity sha512-/fwx6GS8cIbM2rTNyLMxjSCOegHywOdXO+kN9yFy018iCULcKZCyA3xvzw4bxyKbYfdSxQgdhbsl0egNcxerQw==
+
+"@rollup/rollup-android-arm64@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-android-arm64/-/rollup-android-arm64-4.1.5.tgz#b17d7262f00654296e8167b8b7a6708b79a29dc1"
+  integrity sha512-tmXh7dyEt+JEz/NgDJlB1UeL/1gFV0v8qYzUAU42WZH4lmUJ5rp6/HkR2qUNC5jCgYEwd8/EfbHKtGIEfS4CUg==
+
+"@rollup/rollup-darwin-arm64@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.1.5.tgz#7ddfe2dc9f369fc9560d007a5297492e2d289f45"
+  integrity sha512-lTDmLxdEVhzI3KCesZUrNbl3icBvPrDv/85JasY5gh4P2eAuDFmM4uj9HC5DdH0anLC0fwJ+1Uzasr4qOXcjRQ==
+
+"@rollup/rollup-darwin-x64@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-darwin-x64/-/rollup-darwin-x64-4.1.5.tgz#76d4b023964bfbf9dcfb9d968e3707841935f198"
+  integrity sha512-v6qEHZyjWnIgcc4oiy8AIeFsUJAx+Kg0sLj+RE7ICwv3u7YC/+bSClxAiBASRjMzqsq0Z+I/pfxj+OD8mjBYxg==
+
+"@rollup/rollup-linux-arm-gnueabihf@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-arm-gnueabihf/-/rollup-linux-arm-gnueabihf-4.1.5.tgz#ed0bff049b47126635908b095d421c699fe11996"
+  integrity sha512-WngCfwPEDUNbZR1FNO2TCROYUwJvRlbvPi3AS85bDUkkoRDBcjUIz42cuB1j4PKilmnZascL5xTMF/yU8YFayA==
+
+"@rollup/rollup-linux-arm64-gnu@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-arm64-gnu/-/rollup-linux-arm64-gnu-4.1.5.tgz#a79023f1fa1ca7f0fc8bec343e87ee48ce67d159"
+  integrity sha512-Q2A/PEP/UTPTOBwgar3mmCaApahoezai/8e/7f4GCLV6XWCpnU4YwkQQtla7d7nUnc792Ps7g1G0WMovzIknrA==
+
+"@rollup/rollup-linux-arm64-musl@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-arm64-musl/-/rollup-linux-arm64-musl-4.1.5.tgz#d9629d2cdd3a16a9001715e13a53de27030b9ba6"
+  integrity sha512-84aBKNAVzTU/eG3tb2+kR4NGRAtm2YVW/KHwkGGDR4z1k4hyrDbuImsfs/6J74t6y0YLOe9HOSu7ejRjzUBGVQ==
+
+"@rollup/rollup-linux-x64-gnu@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-gnu/-/rollup-linux-x64-gnu-4.1.5.tgz#1867e169a32f6d9d302df443dd0fbef25f5b34e0"
+  integrity sha512-mldtP9UEBurIq2+GYMdNeiqCLW1fdgf4KdkMR/QegAeXk4jFHkKQl7p0NITrKFVyVqzISGXH5gR6GSTBH4wszw==
+
+"@rollup/rollup-linux-x64-musl@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-linux-x64-musl/-/rollup-linux-x64-musl-4.1.5.tgz#fcd449c2838c61c2c320ae8de717961dc5c98d1b"
+  integrity sha512-36p+nMcSxjAEzfU47+by102HolUtf/EfgBAidocTKAofJMTqG5QD50qzaFLk4QO+z7Qvg4qd0wr99jGAwnKOig==
+
+"@rollup/rollup-win32-arm64-msvc@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-arm64-msvc/-/rollup-win32-arm64-msvc-4.1.5.tgz#d4a674b472b0a31d8a8f9406b79933a6ccdb9efb"
+  integrity sha512-5oxhubo0A3J8aF/tG+6jHBg785HF8/88kl1YnfbDKmnqMxz/EFiAQDH9cq6lbnxofjn8tlq5KiTf0crJGOGThg==
+
+"@rollup/rollup-win32-ia32-msvc@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-ia32-msvc/-/rollup-win32-ia32-msvc-4.1.5.tgz#a54c21255306f21429abf2a5c8b05909fe27b0e1"
+  integrity sha512-uVQyBREKX9ErofL8KAZ4iVlqzSZOXSIG+BOLYuz5FD+Cg6jh1eLIeUa3Q4SgX0QaTRFeeAgSNqCC+8kZrZBpSw==
+
+"@rollup/rollup-win32-x64-msvc@4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.1.5.tgz#121eb95664a46afbc58d4fe2226b9dd9f8dcc59b"
+  integrity sha512-FQ5qYqRJ2vUBSom3Fos8o/6UvAMOvlus4+HGCAifH1TagbbwVnVVe0o01J1V52EWnQ8kmfpJDJ0FMrfM5yzcSA==
+
 "@sideway/address@^4.1.3":
   version "4.1.4"
   resolved "https://registry.yarnpkg.com/@sideway/address/-/address-4.1.4.tgz#03dccebc6ea47fdc226f7d3d1ad512955d4783f0"
@@ -5437,7 +5497,7 @@ fs.realpath@^1.0.0:
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
-fsevents@~2.3.2:
+fsevents@~2.3.2, fsevents@~2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.3.tgz#cac6407785d03675a2a5e1a5305c697b347d90d6"
   integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
@@ -8246,6 +8306,25 @@ rollup@^3.28.0:
   optionalDependencies:
     fsevents "~2.3.2"
 
+rollup@^4.1.4:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-4.1.5.tgz#0838662dbf56f4b3fdbe4de5f232212a302b198c"
+  integrity sha512-AEw14/q4NHYQkQlngoSae2yi7hDBeT9w84aEzdgCr39+2RL+iTG84lGTkgC1Wp5igtquN64cNzuzZKVz+U6jOg==
+  optionalDependencies:
+    "@rollup/rollup-android-arm-eabi" "4.1.5"
+    "@rollup/rollup-android-arm64" "4.1.5"
+    "@rollup/rollup-darwin-arm64" "4.1.5"
+    "@rollup/rollup-darwin-x64" "4.1.5"
+    "@rollup/rollup-linux-arm-gnueabihf" "4.1.5"
+    "@rollup/rollup-linux-arm64-gnu" "4.1.5"
+    "@rollup/rollup-linux-arm64-musl" "4.1.5"
+    "@rollup/rollup-linux-x64-gnu" "4.1.5"
+    "@rollup/rollup-linux-x64-musl" "4.1.5"
+    "@rollup/rollup-win32-arm64-msvc" "4.1.5"
+    "@rollup/rollup-win32-ia32-msvc" "4.1.5"
+    "@rollup/rollup-win32-x64-msvc" "4.1.5"
+    fsevents "~2.3.2"
+
 rtlcss@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/rtlcss/-/rtlcss-4.1.0.tgz#f69b78d9752c970ddfe2aa590896f44353ab1c98"
@@ -9470,6 +9549,17 @@ vite@^5.0.0-beta.0:
     rollup "^3.28.0"
   optionalDependencies:
     fsevents "~2.3.2"
+
+vite@^5.0.0-beta.13:
+  version "5.0.0-beta.13"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-5.0.0-beta.13.tgz#a394504fbdac8219ab45f4ce2dfe12d438ac19f6"
+  integrity sha512-ggUGAMXe5rCqqtnbxZdAxxUGsYBQyGt9Jk4q/HVsHacRJq5PIV1S31EuFr6JQczgkwj4oHg3eljZ94ZoW66Kbg==
+  dependencies:
+    esbuild "^0.19.3"
+    postcss "^8.4.31"
+    rollup "^4.1.4"
+  optionalDependencies:
+    fsevents "~2.3.3"
 
 vitest@^0.30.1:
   version "0.30.1"

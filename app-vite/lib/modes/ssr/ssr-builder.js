@@ -24,21 +24,14 @@ export class QuasarModeBuilder extends AppBuilder {
     const viteClientConfig = await quasarSsrConfig.viteClient(this.quasarConf)
     await this.buildWithVite('SSR Client', viteClientConfig)
 
-    // TODO: remove when Vite bug below is fixes
     this.moveFile(
-      join(viteClientConfig.build.outDir, 'ssr-manifest.json'),
+      join(viteClientConfig.build.outDir, '.vite/ssr-manifest.json'),
       'quasar.manifest.json'
     )
 
-    // TODO: re-enable when Vite 5.0.0-beta.7 bug is fixed (regarding index.html transformations)
-    // this.moveFile(
-    //   join(viteClientConfig.build.outDir, '.vite/ssr-manifest.json'),
-    //   'quasar.manifest.json'
-    // )
-
-    // this.removeFile(
-    //   join(viteClientConfig.build.outDir, '.vite')
-    // )
+    this.removeFile(
+      join(viteClientConfig.build.outDir, '.vite')
+    )
 
     await this.#writeRenderTemplate(viteClientConfig.build.outDir)
 
