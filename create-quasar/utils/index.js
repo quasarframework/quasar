@@ -2,6 +2,7 @@
 const { readFileSync, writeFileSync, existsSync } = require('fs')
 const { sep, normalize, join, resolve, extname } = require('path')
 const { emptyDirSync, ensureDirSync, ensureFileSync, copySync } = require('fs-extra')
+const { initializeGit } = require('./git')
 const prompts = require('prompts')
 const compileTemplate = require('lodash/template')
 const fglob = require('fast-glob')
@@ -225,6 +226,8 @@ module.exports.ensureOutsideProject = function () {
     dir = normalize(join(dir, '..'))
   }
 }
+
+module.exports.initializeGit = initializeGit
 
 const QUASAR_VERSIONS = [
   { title: 'Quasar v2 (Vue 3 | latest and greatest)', value: 'v2', description: 'recommended' },
