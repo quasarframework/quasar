@@ -19,13 +19,13 @@
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.16.4",
-    "quasar": "^2.6.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "quasar": "^2.8.0",
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     <% if (preset.lint) { %>
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^17.0.0",
@@ -40,12 +40,12 @@
     "prettier": "^2.5.1",
     <% } } %>
     <% if (preset.i18n) { %>"@intlify/vite-plugin-vue-i18n": "^3.3.1",<% } %>
-    "@quasar/app-vite": "^1.3.0",
+    "@quasar/app-vite": "^1.4.3",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.14"
   },
   "engines": {
-    "node": "^18 || ^16 || ^14.19",
+    "node": "^20 || ^18 || ^16",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }

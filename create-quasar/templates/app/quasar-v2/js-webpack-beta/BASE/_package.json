@@ -19,15 +19,15 @@
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.16.4",
-    "core-js": "^3.6.5",
-    "quasar": "^2.6.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "core-js": "^3.31.1",
+    "quasar": "^2.8.0",
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     <% if (preset.lint) { %>
     "@babel/eslint-parser": "^7.13.14",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
     "eslint-webpack-plugin": "^3.1.1",
     <% if (lintConfig === 'standard') { %>

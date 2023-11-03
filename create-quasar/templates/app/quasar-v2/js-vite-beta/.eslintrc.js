@@ -1,4 +1,8 @@
 module.exports = {
+  parserOptions: {
+    sourceType: 'module'
+  },
+
   settings: {
     'lodash-template/globals': [
       // Base

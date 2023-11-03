@@ -20,16 +20,16 @@
     <% if (preset.pinia) { %>"pinia": "^2.0.11",<% } %>
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.16.4",
-    "core-js": "^3.6.5",
-    "quasar": "^2.6.0",
-    "vue": "^3.0.0",
-    "vue-router": "^4.0.0"
+    "core-js": "^3.31.1",
+    "quasar": "^2.8.0",
+    "vue": "^3.2.29",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     <% if (preset.lint) { %>
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^17.0.0",
@@ -44,7 +44,7 @@
     "prettier": "^2.5.1",
     <% } } %>
     "@types/node": "^12.20.21",
-    "@quasar/app-webpack": "^3.0.0"
+    "@quasar/app-webpack": "^3.9.2"
   },
   "browserslist": [
     "last 10 Chrome versions",
@@ -58,7 +58,7 @@
     "last 5 Opera versions"
   ],
   "engines": {
-    "node": ">= 12.22.1",
+    "node": "^20 || ^18 || ^16",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
   }

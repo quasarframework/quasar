@@ -13,4 +13,19 @@ module.exports = {
   rules: {
     'no-empty': 'off',
   },
+
+  overrides: [
+    {
+      files: './scripts/**/*.ts',
+
+      parserOptions: {
+        sourceType: 'module',
+      },
+
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+    }
+  ]
 }

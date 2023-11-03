@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2021"],
+    "module": "CommonJS",
+    "target": "ES2021",
+    "moduleResolution": "node",
+
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Scripts are meant to be consumed by tsx, not to be compiled
+    "noEmit": true,
+
+    "allowJs": true
+  }
+}
