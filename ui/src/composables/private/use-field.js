@@ -14,8 +14,10 @@ import uid from '../../utils/uid.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
 import { addFocusFn, removeFocusFn } from '../../utils/private/focus-manager.js'
 
-function getTargetUid (val) {
-  return val === void 0 ? `f_${ uid() }` : val
+function getTargetUid (val, requiredForAttr) {
+  return val === void 0
+    ? (requiredForAttr === true ? `f_${ uid() }` : void 0)
+    : val
 }
 
 export function fieldValueIsFilled (val) {
@@ -74,12 +76,13 @@ export const useFieldProps = {
 
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
 
-export function useFieldState () {
+export function useFieldState ({ requiredForAttr = true } = {}) {
   const { props, attrs, proxy, vnode } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
 
   return {
+    requiredForAttr,
     isDark,
 
     editable: computed(() =>
@@ -91,7 +94,9 @@ export function useFieldState () {
     hasPopupOpen: false,
 
     splitAttrs: useSplitAttrs(attrs, vnode),
-    targetUid: ref(getTargetUid(props.for)),
+    targetUid: ref(
+      getTargetUid(props.for, requiredForAttr)
+    ),
 
     rootRef: ref(null),
     targetRef: ref(null),
@@ -260,7 +265,7 @@ export default function (state) {
   watch(() => props.for, val => {
     // don't transform targetUid into a computed
     // prop as it will break SSR
-    state.targetUid.value = getTargetUid(val)
+    state.targetUid.value = getTargetUid(val, state.requiredForAttr)
   })
 
   function focusHandler () {
@@ -545,8 +550,12 @@ export default function (state) {
   })
 
   onMounted(() => {
-    if (isRuntimeSsrPreHydration.value === true && props.for === void 0) {
-      state.targetUid.value = getTargetUid()
+    if (
+      isRuntimeSsrPreHydration.value === true
+      && state.requiredForAttr === true
+      && props.for === void 0
+    ) {
+      state.targetUid.value = `f_${ uid() }` // getTargetUid(void 0, true)
     }
 
     props.autofocus === true && proxy.focus()

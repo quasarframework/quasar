@@ -12,6 +12,8 @@ export default createComponent({
   emits: useFieldEmits,
 
   setup () {
-    return useField(useFieldState())
+    return useField(
+      useFieldState({ requiredForAttr: false })
+    )
   }
 })
