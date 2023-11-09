@@ -12,7 +12,7 @@ const { resolve, join } = require('path')
 
 const skipped = []
 const distFolder = resolve(__dirname, `../${distName}`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const { defaultNameMapper, extract, writeExports, copyCssFile, getBanner } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
 const svgFiles = glob.sync(svgFolder + '/**/*.svg')
@@ -66,6 +66,19 @@ webfont.forEach(file => {
     resolve(__dirname, `../node_modules/@mdi/font/fonts/${file}`),
     resolve(__dirname, `../${distName}/${file}`)
   )
+})
+
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/@mdi/font/css/materialdesignicons.css`),
+  to: resolve(__dirname, `../mdi-v7/mdi-v7.css`),
+  replaceFn: content => {
+    return content
+      .replace('/* MaterialDesignIcons.com */', getBanner('MaterialDesignIcons.com', packageName))
+      .replace('/*# sourceMappingURL=materialdesignicons.css.map */', '')
+      // has two "src:" lines, remove first then replace second:
+      .replace(/src:[^;]+;/, '')
+      .replace(/src:[^;]+;/, `src: url("./materialdesignicons-webfont.woff2") format("woff2"), url("./materialdesignicons-webfont.woff") format("woff");`)
+  }
 })
 
 copySync(

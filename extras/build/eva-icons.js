@@ -12,7 +12,7 @@ const { resolve, join } = require('path')
 
 const skipped = []
 const distFolder = resolve(__dirname, `../eva-icons`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const { defaultNameMapper, extract, writeExports, copyCssFile, getBanner } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/`)
 const iconTypes = ['fill', 'outline']
@@ -26,16 +26,16 @@ iconTypes.forEach(type => {
 
   svgFiles.forEach(file => {
     const name = defaultNameMapper(file, prefix)
-  
+
     if (iconNames.has(name)) {
       return
     }
-  
+
     try {
       const { svgDef, typeDef } = extract(file, name)
       svgExports.push(svgDef)
       typeExports.push(typeDef)
-  
+
       iconNames.add(name)
     }
     catch(err) {
@@ -69,6 +69,19 @@ webfont.forEach(file => {
   copySync(
     resolve(__dirname, `../node_modules/${packageName}/style/fonts/${file}`),
     resolve(__dirname, `../eva-icons/${file}`)
+  )
+})
+
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/${packageName}/style/eva-icons.css`),
+  to: resolve(__dirname, `../eva-icons/eva-icons.css`),
+  replaceFn: content => (
+      getBanner('Eva Icons', packageName)
+      + (
+        content
+          .replace(`src: url("./fonts/Eva-Icons.eot");`, '')
+          .replace(/src:[^;]+;/, `src: url("./Eva-Icons.woff2") format("woff2"), url("./Eva-Icons.woff") format("woff");`)
+      )
   )
 })
 

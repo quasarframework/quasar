@@ -12,7 +12,7 @@ const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../bootstrap-icons`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const { defaultNameMapper, extract, writeExports, copyCssFile } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/icons/`)
 const svgFiles = glob.sync(svgFolder + '/*.svg')
@@ -68,9 +68,17 @@ webfont.forEach(file => {
   )
 })
 
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/${packageName}/font/bootstrap-icons.css`),
+  to: resolve(__dirname, `../bootstrap-icons/bootstrap-icons.css`),
+  replaceFn: content => {
+    return content.replace(/src:[^;]+;/, `src: url("./bootstrap-icons.woff2") format("woff2"), url("./bootstrap-icons.woff") format("woff");`)
+  }
+})
+
 copySync(
-  resolve(__dirname, `../node_modules/${packageName}/LICENSE.md`),
-  resolve(__dirname, `../bootstrap-icons/LICENSE.md`)
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
+  resolve(__dirname, `../bootstrap-icons/LICENSE`)
 )
 
 // write the JSON file

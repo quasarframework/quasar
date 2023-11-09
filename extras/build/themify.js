@@ -13,7 +13,7 @@ const { resolve, join } = require('path')
 
 const skipped = []
 const distFolder = resolve(__dirname, `../themify`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const { defaultNameMapper, extract, writeExports, copyCssFile, getBanner } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/SVG/`)
 const svgFiles = glob.sync(svgFolder + '/*.svg')
@@ -65,6 +65,21 @@ webfont.forEach(file => {
   copySync(
     resolve(__dirname, `../node_modules/${packageName}/fonts/${file}`),
     resolve(__dirname, `../themify/${file}`)
+  )
+})
+
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/${packageName}/css/themify-icons.css`),
+  to: resolve(__dirname, `../themify/themify.css`),
+  replaceFn: content => (
+    getBanner('Themify Icons', packageName)
+    + (
+      content
+        .replace(/src:[^;]+;/, '')
+        .replace(/src:[^;]+;/, `src: url('./themify.woff') format('woff');`)
+        .replace('font-display: swap;', 'font-display: block;')
+        .replace('[class^="ti-"], [class*=" ti-"]', '.themify-icon')
+    )
   )
 })
 

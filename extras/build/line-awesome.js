@@ -11,7 +11,7 @@ const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../line-awesome`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const { defaultNameMapper, extract, writeExports, copyCssFile, getBanner } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
 const svgFiles = glob.sync(svgFolder + `/*.svg`)
@@ -68,6 +68,23 @@ webfont.forEach(file => {
   copySync(
     resolve(__dirname, `../node_modules/${packageName}/dist/line-awesome/fonts/${file}`),
     resolve(__dirname, `../line-awesome/${file}`)
+  )
+})
+
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/${packageName}/dist/line-awesome/css/line-awesome.css`),
+  to: resolve(__dirname, `../line-awesome/line-awesome.css`),
+  replaceFn: content => (
+    getBanner('Line Awesome', packageName)
+    + (
+      content
+        .replace(/src:[^;]+la-brands-400[^;]+;/, '')
+        .replace(/src:[^;]+la-brands-400[^;]+;/, `src: url("./la-brands-400.woff2") format("woff2"), url("./la-brands-400.woff") format("woff");`)
+        .replace(/src:[^;]+la-regular-400[^;]+;/, '')
+        .replace(/src:[^;]+la-regular-400[^;]+;/, `src: url("./la-regular-400.woff2") format("woff2"), url("./la-regular-400.woff") format("woff");`)
+        .replace(/src:[^;]+la-solid-900[^;]+;/, '')
+        .replace(/src:[^;]+la-solid-900[^;]+;/, `src: url("./la-solid-900.woff2") format("woff2"), url("./la-solid-900.woff") format("woff");`)
+    )
   )
 })
 

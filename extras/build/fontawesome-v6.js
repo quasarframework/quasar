@@ -12,7 +12,7 @@ const { resolve, join } = require('path')
 
 let skipped = []
 const distFolder = resolve(__dirname, `../fontawesome-v6`)
-const { defaultNameMapper, extract, writeExports } = require('./utils')
+const { defaultNameMapper, extract, writeExports, copyCssFile } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svgs/`)
 const iconTypes = ['brands', 'regular', 'solid']
@@ -26,16 +26,16 @@ iconTypes.forEach(type => {
 
   svgFiles.forEach(file => {
     const name = defaultNameMapper(file, prefix + type.charAt(0))
-  
+
     if (iconNames.has(name)) {
       return
     }
-  
+
     try {
       const { svgDef, typeDef } = extract(file, name)
       svgExports.push(svgDef)
       typeExports.push(typeDef)
-  
+
       iconNames.add(name)
     }
     catch(err) {
@@ -78,15 +78,11 @@ webfont.forEach(file => {
   )
 })
 
-copySync(
-  resolve(__dirname, `../node_modules/${packageName}/css/all.css`),
-  resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`)
-)
-
-const cssFile = resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`)
-let cssData = readFileSync(cssFile, 'utf-8')
-cssData = cssData.replace(/\.\.\/webfonts/g, '\.')
-writeFileSync(cssFile, cssData, 'utf-8')
+copyCssFile({
+  from: resolve(__dirname, `../node_modules/${packageName}/css/all.css`),
+  to: resolve(__dirname, `../fontawesome-v6/fontawesome-v6.css`),
+  replaceFn: content => content.replace(/\.\.\/webfonts/g, '\.')
+})
 
 copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE.txt`),
