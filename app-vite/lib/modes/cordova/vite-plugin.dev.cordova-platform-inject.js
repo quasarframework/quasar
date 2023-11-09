@@ -21,7 +21,7 @@ export function quasarVitePluginDevCordovaPlatformInject (quasarConf) {
 
     transformIndexHtml: {
       order: 'pre',
-      transform: html => html.replace(
+      handler: html => html.replace(
         entryPointMarkup,
         `<script src="cordova.js"></script>${ entryPointMarkup }`
       )
