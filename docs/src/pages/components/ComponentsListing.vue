@@ -9,6 +9,7 @@
       >
         <input
           ref="inputRef"
+          name="listing-search"
           class="page-all__search-input text-white letter-spacing-225"
           v-model="searchTerms"
           placeholder="Search item"

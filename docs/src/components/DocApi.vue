@@ -11,6 +11,7 @@
           class="col doc-api__search text-right"
           ref="inputRef"
           v-model="filter"
+          name="filter"
           placeholder="Filter..."
         >
         <q-btn

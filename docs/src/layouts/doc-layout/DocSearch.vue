@@ -10,6 +10,7 @@
     <div class="doc-search__field rounded-borders row items-center no-wrap q-pl-sm q-pr-md">
       <input
         class="col"
+        name="search"
         ref="inputRef"
         placeholder="Search Quasar v2..."
         v-model="terms"

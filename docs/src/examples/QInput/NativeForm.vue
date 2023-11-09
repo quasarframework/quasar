@@ -3,6 +3,7 @@
     <q-form @submit="onSubmit" class="q-gutter-md">
       <q-input
         name="name"
+        autocomplete="name"
         v-model="name"
         color="primary"
         label="Full name"
