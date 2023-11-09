@@ -1,4 +1,4 @@
-/* Ionicons v7.1.2 */
+/* Ionicons v7.2.1 */
 
 export declare const ionAccessibility: string;
 export declare const ionAccessibilityOutline: string;

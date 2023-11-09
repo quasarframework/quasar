@@ -79,6 +79,7 @@ copyCssFile({
       getBanner('Eva Icons', packageName)
       + (
         content
+          .replace('@font-face {', '@font-face {\nfont-display: block;')
           .replace(`src: url("./fonts/Eva-Icons.eot");`, '')
           .replace(/src:[^;]+;/, `src: url("./Eva-Icons.woff2") format("woff2"), url("./Eva-Icons.woff") format("woff");`)
       )

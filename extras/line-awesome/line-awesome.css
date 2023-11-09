@@ -1,3 +1,5 @@
+/* Line Awesome v1.3.0 */
+
 .la,
 .las,
 .lar,
@@ -4389,7 +4391,8 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: normal;
   font-display: auto;
-  src: url("./la-brands-400.woff2") format("woff2"), url("./la-brands-400.woff") format("woff") }
+  
+  src: url("./la-brands-400.woff2") format("woff2"), url("./la-brands-400.woff") format("woff"); }
 
 .lab {
   font-family: 'Line Awesome Brands'; }
@@ -4398,7 +4401,8 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: 400;
   font-display: auto;
-  src: url("./la-regular-400.woff2") format("woff2"), url("./la-regular-400.woff") format("woff") }
+  
+  src: url("./la-regular-400.woff2") format("woff2"), url("./la-regular-400.woff") format("woff"); }
 
 .lar {
   font-family: 'Line Awesome Free';
@@ -4408,7 +4412,8 @@ readers do not read off random characters that represent icons */
   font-style: normal;
   font-weight: 900;
   font-display: auto;
-  src: url("./la-solid-900.woff2") format("woff2"), url("./la-solid-900.woff") format("woff") }
+  
+  src: url("./la-solid-900.woff2") format("woff2"), url("./la-solid-900.woff") format("woff"); }
 
 .la,
 .las {
