@@ -246,7 +246,7 @@
     "error": {
       "desc": "Emitted when browser could not load the image",
       "params": {
-        "src": {
+        "err": {
           "type": "Error",
           "desc": "JS Error object"
         }
