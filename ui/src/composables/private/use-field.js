@@ -76,13 +76,17 @@ export const useFieldProps = {
 
 export const useFieldEmits = [ 'update:modelValue', 'clear', 'focus', 'blur', 'popupShow', 'popupHide' ]
 
-export function useFieldState ({ requiredForAttr = true } = {}) {
+export function useFieldState ({ requiredForAttr = true, tagProp } = {}) {
   const { props, attrs, proxy, vnode } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
 
   return {
     requiredForAttr,
+    tag: tagProp === true
+      ? computed(() => props.tag)
+      : { value: 'label' },
+
     isDark,
 
     editable: computed(() =>
@@ -577,7 +581,7 @@ export default function (state) {
         }
       : attributes.value
 
-    return h('label', {
+    return h(state.tag.value, {
       ref: state.rootRef,
       class: [
         classes.value,

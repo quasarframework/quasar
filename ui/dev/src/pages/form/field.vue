@@ -10,7 +10,7 @@
 
       <h1>Field wrapper tests</h1>
 
-      <q-field model-value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
+      <q-field tag="div" model-value="We count this" :dark="dark" :dense="dense" label="Field label" stack-label bottom-slots counter tabindex="0">
         <template v-slot:before>
           <q-icon name="event" />
         </template>

@@ -16,6 +16,13 @@
       "type": [ "Number", "String" ],
       "desc": "Used internally by QSelect",
       "internal": true
+    },
+
+    "tag": {
+      "extends": "tag",
+      "default": "label",
+      "examples": [ "div", "label" ],
+      "addedIn": "v2.13.1"
     }
   },
 
