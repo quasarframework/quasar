@@ -36,7 +36,7 @@
       "desc": "What model value should be considered as 'indeterminate'?",
       "default": null,
       "examples": [ 0, "not_answered" ],
-      "category": "behavior"
+      "category": "model"
     },
 
     "toggle-order": {

@@ -7,7 +7,7 @@
     },
 
     "virtual-scroll-slice-size": {
-      "type": [ "Number", "String" ],
+      "type": [ "Number", "String", "null" ],
       "desc": "Minimum number of items to render in the virtual list",
       "default": "30",
       "examples": [ "virtual-scroll-slice-size=\"60\"" ],

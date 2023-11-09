@@ -70,5 +70,17 @@ function getPropDefinition (innerProp) {
     definition = JSON.parse(`{${ jsonContent }}`)
   }
 
+  if (Array.isArray(innerProp.value.properties) === true) {
+    const defaultVal = innerProp.value.properties.find(p => p.key.name === 'default')
+    if (defaultVal !== void 0 && defaultVal.value !== void 0 && defaultVal.value.type === 'NullLiteral') {
+      if (Array.isArray(definition.type) === true && definition.type.indexOf('null') === -1) {
+        definition.type.push('null')
+      }
+      else if (typeof definition.type === 'string') {
+        definition.type = [ definition.type, 'null' ]
+      }
+    }
+  }
+
   return definition
 }

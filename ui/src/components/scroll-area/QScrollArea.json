@@ -73,7 +73,8 @@
     },
 
     "visible": {
-      "type": "Boolean",
+      "type": [ "Boolean", "null" ],
+      "default": null,
       "desc": "Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
       "category": "behavior"
     },

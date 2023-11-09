@@ -105,12 +105,16 @@
 
     "max-height": {
       "extends": "size",
+      "type": [ "String", "null" ],
+      "default": null,
       "desc": "The maximum height of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
 
     "max-width": {
       "extends": "size",
+      "type": [ "String", "null" ],
+      "default": null,
       "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
     }

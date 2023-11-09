@@ -152,7 +152,8 @@
     },
 
     "options-dark": {
-      "type": "Boolean",
+      "type": [ "Boolean", "null" ],
+      "default": null,
       "desc": "Options menu will be colored with a dark color",
       "category": "options"
     },

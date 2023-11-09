@@ -7,10 +7,10 @@
 
   "props": {
     "active": {
-      "type": "Boolean",
+      "type": [ "Boolean", "null" ],
+      "default": null,
       "desc": "Put item into 'active' state",
-      "category": "state",
-      "default": null
+      "category": "state"
     },
 
     "dark": {

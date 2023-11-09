@@ -23,7 +23,8 @@
     },
 
     "root": {
-      "type": "Element",
+      "type": [ "Element", "null" ],
+      "default": null,
       "desc": "[Intersection API root prop] Lets you define an alternative to the viewport as your root (through its DOM element); It is important to keep in mind that root needs to be an ancestor of the observed element",
       "examples": [ "$refs.myTable.$el", "getElementById(\"myTable\")" ],
       "category": "behavior"

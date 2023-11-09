@@ -8,7 +8,7 @@
 
     "error": {
       "type": [ "Boolean", "null" ],
-      "default": "null",
+      "default": null,
       "desc": "Does field have validation errors?",
       "category": "behavior"
     },

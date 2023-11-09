@@ -16,9 +16,9 @@
     },
 
     "format24h": {
-      "type": "Boolean",
-      "desc": "Forces 24 hour time display instead of AM/PM system",
-      "default": "(based on Quasar lang language being used)",
+      "type": [ "Boolean", "null" ],
+      "default": null,
+      "desc": "Forces 24 hour time display instead of AM/PM system; If prop is not set, then the default is based on Quasar lang language being used",
       "category": "behavior"
     },
 
@@ -33,6 +33,7 @@
     },
 
     "mask": {
+      "type": [ "String", "null" ],
       "default": "HH:mm",
       "examples": [ "HH:mm:ss", "YYYY-MM-DD HH:mm:ss", "HH:mm MMMM Do, YYYY" ]
     },

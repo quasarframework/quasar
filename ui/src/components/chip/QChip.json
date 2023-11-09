@@ -59,7 +59,8 @@
     },
 
     "selected": {
-      "type": "Boolean",
+      "type": [ "Boolean", "null" ],
+      "default": null,
       "sync": true,
       "desc": "Model for QChip if it's selected or not",
       "examples": [

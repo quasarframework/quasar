@@ -8,12 +8,16 @@
   "props": {
     "max-height": {
       "extends": "size",
+      "type": [ "String", "null" ],
+      "default": null,
       "desc": "The maximum height of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
 
     "max-width": {
       "extends": "size",
+      "type": [ "String", "null" ],
+      "default": null,
       "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },

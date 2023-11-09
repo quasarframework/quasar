@@ -43,7 +43,7 @@
 
     "dark": {
       "type": [ "Boolean", "null" ],
-      "default": "null",
+      "default": null,
       "desc": "Notify the component that the background is a dark color",
       "category": "style"
     },
