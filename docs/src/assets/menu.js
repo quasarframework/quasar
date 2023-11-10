@@ -323,7 +323,7 @@ export default [
           },
           {
             name: 'File picker',
-            path: 'file-picker'
+            path: 'file'
           },
           {
             name: 'Form',

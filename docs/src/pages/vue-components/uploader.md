@@ -4,13 +4,13 @@ desc: The QUploader Vue component is a way for the user to upload files to a bac
 keys: QUploader
 examples: QUploader
 related:
-  - /vue-components/file-picker
+  - /vue-components/file
 ---
 
 Quasar supplies a way for you to upload files through the QUploader component.
 
 ::: tip
-If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
+If all you want is an input file, you might want to consider using [QFile](/vue-components/file) picker component instead.
 :::
 
 <doc-api file="QUploader" />
