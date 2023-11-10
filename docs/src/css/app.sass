@@ -1,3 +1,5 @@
+@use 'sass:math'
+
 @import './fonts.sass'
 @import './prism-theme.sass'
 
@@ -405,7 +407,7 @@ $text-size-list: 12, 14, 16, 20, 24, 36
 $letter-spacing-list: 40, 100, 225, 263, 300, 375, 450
 @each $letter-spacing in $letter-spacing-list
   .letter-spacing-#{$letter-spacing}
-    letter-spacing: ($letter-spacing/100) + px !important
+    letter-spacing: math.div($letter-spacing,100) + px !important
 
 body.body--dark
   .doc-technical

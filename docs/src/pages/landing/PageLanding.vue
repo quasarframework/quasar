@@ -192,6 +192,8 @@ const scrollSectionIntoView = {
 </script>
 
 <style lang="sass">
+@use 'sass:math'
+
 $support-quasar-background-padding: 35vw
 
 .landing-page
@@ -226,7 +228,7 @@ $support-quasar-background-padding: 35vw
     &:before
       background-image: url(https://cdn.quasar.dev/img/landing-page/astronaut-left-hand.png), url(https://cdn.quasar.dev/img/landing-page/astronaut-right-hand.png)
       background-size: 47%, 47%
-      background-position: left bottom, calc(100% + 25px) calc(100% - #{$support-quasar-background-padding / 3})
+      background-position: left bottom, calc(100% + 25px) calc(100% - #{math.div($support-quasar-background-padding, 3)})
       background-repeat: no-repeat, no-repeat
       bottom: 0px
       content: ''

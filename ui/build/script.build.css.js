@@ -20,9 +20,22 @@ const nano = postcss([
   })
 ])
 
+const sassUseRE = /@use\s+['"][^'"]+['"]/g
+
+function moveUseStatementsToTop (code) {
+  const useStatements = code.match(sassUseRE)
+
+  return useStatements === null
+    ? code
+    : Array.from(new Set(useStatements)).join('\n')
+      + '\n'
+      + code.replace(sassUseRE, '')
+}
+
 function getConcatenatedContent (src, noBanner) {
   return new Promise(resolve => {
-    let code = noBanner !== true
+    let code = ''
+    const banner = noBanner !== true
       ? buildConf.banner
       : ''
 
@@ -38,7 +51,9 @@ function getConcatenatedContent (src, noBanner) {
       // remove unnecessary newlines
       .replace(/[\r\n]+/g, '\r\n')
 
-    resolve(code)
+    resolve(
+      banner + moveUseStatementsToTop(code)
+    )
   })
 }
 

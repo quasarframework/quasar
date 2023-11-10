@@ -37,22 +37,24 @@ Navigate to your Vite project folder and install the necessary packages.
 
 ::: tip
 * Notice that `@quasar/extras` is optional.
-* Also, add `sass@1.32.12` (notice the pinned version) only if you want to use the Quasar Sass/SCSS variables.
+* Also, if you want to use the Quasar Sass/SCSS variables then you need to add the `sass` dependency, based on your version of Quasar UI:
+  * For Quasar >= v2.14 then add `sass@^1.33.0`
+  * For Quasar <= v2.13 add `sass@1.32.12` (**_notice the exact pinned version_**)
 :::
 
 ```tabs
 <<| bash Yarn |>>
 $ yarn add quasar @quasar/extras
-$ yarn add --dev @quasar/vite-plugin sass@1.32.12
+$ yarn add --dev @quasar/vite-plugin sass@^1.33.0
 <<| bash NPM |>>
 $ npm install --save quasar @quasar/extras
-$ npm install --save-dev @quasar/vite-plugin sass@1.32.12
+$ npm install --save-dev @quasar/vite-plugin sass@^1.33.0
 <<| bash PNPM |>>
 $ pnpm add quasar @quasar/extras
-$ pnpm add -D @quasar/vite-plugin sass@1.32.12
+$ pnpm add -D @quasar/vite-plugin sass@^1.33.0
 <<| bash Bun |>>
 $ bun add quasar @quasar/extras
-$ bun add --dev @quasar/vite-plugin sass@1.32.12
+$ bun add --dev @quasar/vite-plugin sass@^1.33.0
 ```
 
 ## Using Quasar
