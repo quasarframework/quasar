@@ -102,7 +102,7 @@ You'll be using `v-model.number` (notice the `number` modifier) along with `type
 #### Input of file type
 
 ::: tip ALTERNATIVES
-**Instead of using a QInput with `type="file"`, you might want to use [QFile](/vue-components/file-picker) picker instead or even [QUploader](/vue-components/uploader)**. However, should you wish to use QInput, please read the warning below.
+**Instead of using a QInput with `type="file"`, you might want to use [QFile](/vue-components/file) picker instead or even [QUploader](/vue-components/uploader)**. However, should you wish to use QInput, please read the warning below.
 :::
 
 ::: warning
