@@ -246,9 +246,9 @@
     "error": {
       "desc": "Emitted when browser could not load the image",
       "params": {
-        "err": {
-          "type": "Error",
-          "desc": "JS Error object"
+        "evt": {
+          "type": "Event",
+          "desc": "JS Event object (same as the browser's native 'error' event)"
         }
       }
     }
