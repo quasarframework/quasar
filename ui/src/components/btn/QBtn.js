@@ -297,7 +297,7 @@ export default createComponent({
       props.icon !== void 0 && inner.push(
         h(QIcon, {
           name: props.icon,
-          left: props.stack === false && hasLabel.value === true,
+          left: props.stack !== true && hasLabel.value === true,
           role: 'img',
           'aria-hidden': 'true'
         })
@@ -313,7 +313,7 @@ export default createComponent({
         inner.push(
           h(QIcon, {
             name: props.iconRight,
-            right: props.stack === false && hasLabel.value === true,
+            right: props.stack !== true && hasLabel.value === true,
             role: 'img',
             'aria-hidden': 'true'
           })
