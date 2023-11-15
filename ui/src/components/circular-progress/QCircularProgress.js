@@ -41,13 +41,14 @@ export default createComponent({
     const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
 
     const svgStyle = computed(() => {
-      const strokeWidthAngle = props.rounded === true ? 180 * strokeWidth.value / circumference : 0
+      const strokeLineCapHeight = props.rounded === true ? strokeWidth.value / 2 : 0
+      const offsetAngle = (strokeLineCapHeight / radius) * (180 / Math.PI)
       const angle = ($q.lang.rtl === true ? -1 : 1) * props.angle
 
       return {
         transform: props.reverse !== ($q.lang.rtl === true)
-          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${ -90 - angle + strokeWidthAngle }deg)`
-          : `rotate3d(0, 0, 1, ${ angle + strokeWidthAngle - 90 }deg)`
+          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${ -90 - angle + offsetAngle }deg)`
+          : `rotate3d(0, 0, 1, ${ angle + offsetAngle - 90 }deg)`
       }
     })
 
@@ -56,7 +57,6 @@ export default createComponent({
         ? { transition: `stroke-dashoffset ${ props.animationSpeed }ms ease 0s, stroke ${ props.animationSpeed }ms ease` }
         : ''
     ))
-
 
     const viewBoxAttr = computed(() =>
       `${ viewBox.value / 2 } ${ viewBox.value / 2 } ${ viewBox.value } ${ viewBox.value }`
