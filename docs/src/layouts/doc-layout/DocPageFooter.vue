@@ -2,7 +2,7 @@
   <div class="doc-page-footer doc-brand">
     <template v-if="fullscreen">
       <nav class="doc-page-footer__nav" v-once>
-        <q-list v-for="entry in links" :key="entry.name">
+        <q-list v-for="entry in links" :key="entry.name" role="list">
           <q-item-label
             class="doc-page-footer__title doc-page-footer__margin row items-end text-weight-bold letter-spacing-225 q-mb-md"
           >{{ entry.name }}</q-item-label>
