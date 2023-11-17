@@ -44,10 +44,16 @@
     <q-toolbar class="doc-header__secondary q-pl-lg q-pr-md no-wrap">
       <q-btn
         class="header-btn doc-header__leftmost q-mr-xs lt-1300"
-        flat round
+        flat
+        round
         icon="menu"
+        aria-label="Menu"
+        :aria-expanded="docStore.state.value.menuDrawer ? 'true' : 'false'"
+        aria-controls="menu-drawer"
         @click="docStore.toggleMenuDrawer"
-      />
+      >
+        <q-tooltip>Menu</q-tooltip>
+      </q-btn>
 
       <div class="doc-header__secondary-left-spacer gt-lg" />
 
@@ -80,8 +86,13 @@
           flat
           round
           :icon="mdiFolderPound"
+          aria-label="Table of Contents"
+          :aria-expanded="docStore.state.value.tocDrawer ? 'true' : 'false'"
+          aria-controls="toc-drawer"
           @click="docStore.toggleTocDrawer"
-        />
+        >
+        <q-tooltip>Table of Contents</q-tooltip>
+      </q-btn>
       </div>
     </q-toolbar>
   </q-header>
