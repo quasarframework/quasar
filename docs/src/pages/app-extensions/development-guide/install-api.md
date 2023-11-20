@@ -140,7 +140,7 @@ if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
 if (api.hasPackage('quasar', '^2.0.0')) {
-  // hey, this app has v1 installed
+  // hey, this app has Quasar UI v2 installed
 }
 ```
 
