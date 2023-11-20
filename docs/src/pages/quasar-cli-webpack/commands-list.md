@@ -246,8 +246,8 @@ $ quasar build -h
                         electron-builder as bundler
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables)
-                      - Cordova (it only fills in /src/cordova/www folder with the UI code)
-                      - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
+                      - Cordova (it only fills in /src-cordova/www folder with the UI code)
+                      - Capacitor (it only fills in /src-capacitor/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
 
