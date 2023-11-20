@@ -115,7 +115,8 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 api.compatibleWith(packageName, '1.x')
 ```
 
-```js A more complex example:
+```js 
+// A more complex example:
 if (api.hasVite === true) {
   api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
 }

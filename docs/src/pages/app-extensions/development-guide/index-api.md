@@ -204,7 +204,8 @@ api.extendQuasarConf ((conf, api) => {
 })
 ```
 
-```js A more complex example:
+```js 
+// A more complex example:
 api.extendQuasarConf ((conf, api) => {
   if (api.hasVite === true) {
     // do something with quasar.config file that is specific
