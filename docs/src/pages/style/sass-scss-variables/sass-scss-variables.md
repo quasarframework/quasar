@@ -63,6 +63,20 @@ If you want to customize the variables (or add your own) and your project does n
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 
+If you want to extend the variable you can achieve it in the next way:
+```scss
+@use "quasar/src/css/variables" as q;
+@use "sass:map";
+
+$space-xxl: (x: 64px, y: 64px);
+
+$new-spaces: (
+  xxl: $space-xxl,
+);
+
+$spaces: map.merge(q.$spaces, $new-spaces);
+```
+
 ::: tip
 Quasar is very easy to customize without the need of tampering with the Sass/SCSS variables, so make sure that you really need to do that. Not having one of the two files will actually speed up your build while the default variables will still be supplied to .sass/.scss/.vue files.
 :::
