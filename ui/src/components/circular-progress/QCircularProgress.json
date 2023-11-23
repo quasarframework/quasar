@@ -57,6 +57,18 @@
       "addedIn": "v2.8.4"
     },
 
+    "borderWidth": {
+      "type": "Number",
+      "desc": "(Only works if rounded === true) Width of progress arc boundary",
+      "default": 0,
+      "category": "style"
+    },
+
+    "borderColor": {
+      "extends": "color",
+      "desc": "Color name for the the arc progress boundary from the Quasar Color Palette"
+    },
+
     "thickness": {
       "type": "Number",
       "default": 0.2,

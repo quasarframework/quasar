@@ -11,6 +11,11 @@
       <q-slider v-model="angle" :min="0" :max="360" label />
       <div>Min/Max</div>
       <q-range v-model="range" :min="0" :max="360" label />
+
+      <div>Border Width</div>
+      <q-slider v-model="borderWidth" :min="0" :max="10" :step="0.1" label />
+      <div>Border Color</div>
+      <q-input v-model="borderColor"  />
       <div>
         <q-toggle v-model="reverse" label="Reverse" />
         <q-toggle v-model="showValue" label="Show Value" />
@@ -31,6 +36,8 @@
         :show-value="showValue"
         :indeterminate="indeterminate"
         :rounded="rounded"
+        :borderWidth="borderWidth"
+        :borderColor="borderColor"
       />
 
       <q-circular-progress
@@ -45,6 +52,8 @@
         :show-value="showValue"
         :indeterminate="indeterminate"
         :rounded="rounded"
+        :borderWidth="borderWidth"
+        :borderColor="borderColor"
         color="orange"
         center-color="grey-8"
         track-color="transparent"
@@ -61,6 +70,8 @@
         :reverse="reverse"
         :show-value="showValue"
         :indeterminate="indeterminate"
+        :borderWidth="borderWidth"
+        :borderColor="borderColor"
         color="grey-8"
         text-color="white"
         track-color="orange"
@@ -78,6 +89,8 @@
         :show-value="showValue"
         :indeterminate="indeterminate"
         :rounded="rounded"
+        :borderWidth="borderWidth"
+        :borderColor="borderColor"
         color="orange"
       />
 
@@ -92,6 +105,8 @@
         :reverse="reverse"
         :show-value="showValue"
         :indeterminate="indeterminate"
+        :borderWidth="borderWidth"
+        :borderColor="borderColor"
         track-color="grey-4"
         :rounded="rounded"
         color="orange"
@@ -110,6 +125,8 @@
         :show-value="showValue"
         :indeterminate="indeterminate"
         :rounded="rounded"
+        :borderWidth="borderWidth"
+        :borderColor="borderColor"
         color="orange"
         text-color="white"
         center-color="grey-8"
@@ -134,7 +151,9 @@ export default {
       showValue: true,
       reverse: false,
       indeterminate: false,
-      rounded: false
+      rounded: false,
+      borderWidth: 0,
+      borderColor: 'secondary'
     }
   },
   methods: {

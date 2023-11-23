@@ -35,4 +35,6 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <doc-example title="Rounded arc of progress (v2.8.4+)" file="RoundedStyle" />
 
+<doc-example title="Border arc of progress" file="Border" />
+
 <doc-example title="Standard sizes" file="StandardSizes" />
