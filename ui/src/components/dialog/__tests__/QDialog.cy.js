@@ -1,16 +1,16 @@
-import FieldWrapper from './DialogWrapper.vue'
+import DialogWrapper from './DialogWrapper.vue'
 import { ref } from 'vue'
 import { vModelAdapter } from '@quasar/quasar-app-extension-testing-e2e-cypress'
 
 function mountQDialogWrapper (options) {
-  return cy.mount(FieldWrapper, options)
+  return cy.mount(DialogWrapper, options)
 }
 
 function getHostElement () {
   return cy.dataCy('dialog-card')
 }
 
-function closeDialog () {
+function closeDialogViaBackdrop () {
   return cy.get('.q-dialog__backdrop').click({ force: true })
 }
 
@@ -23,17 +23,20 @@ describe('Dialog API', () => {
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
-              persistent: false
+              persistent: true
             }
           })
 
-          cy.withinDialog(() => {
-            closeDialog() // Closes dialog by clicking backdrop
-            getHostElement().should('exist')
-            Cypress.vueWrapper.setProps({ persistent: false })
-            closeDialog()
-            getHostElement().should('not.exist')
-          })
+          getHostElement()
+            .should('exist')
+            .then(() => {
+              closeDialogViaBackdrop()
+              getHostElement()
+                .should('exist')
+              cy.get('body').type('{esc}')
+              getHostElement()
+                .should('exist')
+            })
         })
       })
 
@@ -47,14 +50,18 @@ describe('Dialog API', () => {
             }
           })
 
-          getHostElement().then(() => {
-            getHostElement().trigger('keydown', { keyCode: 27 })
-            getHostElement().should('exist')
+          cy.dataCy('dialog-page').then(() => {
+            getHostElement().then(() => {
+              cy.get('body').type('{esc}')
+              getHostElement()
+                .should('exist')
 
-            Cypress.vueWrapper.setProps({ noEscDismiss: false })
+              Cypress.vueWrapper.setProps({ noEscDismiss: false })
 
-            cy.get('body').type('{esc}')
-            getHostElement().should('not.exist')
+              cy.get('body').type('{esc}')
+              getHostElement()
+                .should('not.exist')
+            })
           })
         })
       })
@@ -69,14 +76,19 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.withinDialog(() => {
-            closeDialog()
-            getHostElement().should('exist')
+          getHostElement()
+            .should('exist')
+            .then(() => {
+              closeDialogViaBackdrop()
+              getHostElement()
+                .should('exist')
+                .then(() => {
+                  Cypress.vueWrapper.setProps({ noBackDropClose: false })
+                })
 
-            Cypress.vueWrapper.setProps({ noBackDropClose: false })
-            closeDialog()
-            getHostElement().should('not.exist')
-          })
+              closeDialogViaBackdrop()
+              getHostElement().should('not.exist')
+            })
         })
       })
 
@@ -115,24 +127,38 @@ describe('Dialog API', () => {
           })
 
           cy.dataCy('dialog-page').then(() => {
-            cy.dataCy('input-field').focus()
-            model.value = true
+            cy.dataCy('input-field')
+              .type('Hello')
+            cy.dataCy('input-field')
+              .should('have.value', 'Hello').then(() => {
+                model.value = true
 
-            cy.withinDialog(() => {
-              closeDialog()
-            })
-            cy.dataCy('input-field').should('have.focus')
+                cy.withinDialog(() => {
+                  closeDialogViaBackdrop()
+                })
+                getHostElement()
+                  .should('not.exist').then(() => {
+                    cy.dataCy('input-field')
+                      .should('have.focus')
+                  })
+              })
           })
 
           cy.dataCy('dialog-page').then(() => {
-            cy.dataCy('input-field').focus()
-            Cypress.vueWrapper.setProps({ noRefocus: true })
-            model.value = true
+            cy.dataCy('input-field')
+              .type('Hello')
+            cy.dataCy('input-field')
+              .should('have.value', 'Hello')
+              .then(() => {
+                Cypress.vueWrapper.setProps({ noRefocus: true })
+                model.value = true
 
-            getHostElement().then(() => {
-              closeDialog()
-              cy.dataCy('input-field').should('not.have.focus')
-            })
+                getHostElement().then(() => {
+                  closeDialogViaBackdrop()
+                  cy.dataCy('input-field')
+                    .should('not.have.focus')
+                })
+              })
           })
         })
       })
@@ -150,8 +176,9 @@ describe('Dialog API', () => {
             model.value = true
 
             cy.withinDialog(() => {
-              cy.focused().should('exist').should('have.class', 'q-dialog__inner')
-              closeDialog()
+              cy.focused().should('exist')
+                .should('have.class', 'q-dialog__inner')
+              closeDialogViaBackdrop()
             })
           })
 
@@ -161,7 +188,7 @@ describe('Dialog API', () => {
 
             cy.withinDialog(() => {
               cy.focused().should('not.exist')
-              closeDialog()
+              closeDialogViaBackdrop()
             })
           })
         })
@@ -180,14 +207,20 @@ describe('Dialog API', () => {
           cy.dataCy('dialog-page').then(() => {
             model.value = true
 
-            getHostElement().then(() => {
-              closeDialog()
-              cy.get('.q-dialog__inner').should('have.class', 'q-animate--scale')
+            getHostElement()
+              .should('exist').then(() => {
+                closeDialogViaBackdrop()
+                cy.get('.q-dialog__inner')
+                  .should('have.class', 'q-animate--scale')
+              })
 
-              Cypress.vueWrapper.setProps({ noShake: true })
-              closeDialog()
-              cy.get('.q-dialog__inner').should('not.have.class', 'q-animate--scale')
-            })
+            getHostElement()
+              .should('exist').then(() => {
+                Cypress.vueWrapper.setProps({ noShake: true })
+                closeDialogViaBackdrop()
+                cy.get('.q-dialog__inner')
+                  .should('not.have.class', 'q-animate--scale')
+              })
           })
         })
       })
@@ -200,7 +233,6 @@ describe('Dialog API', () => {
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
-              persistent: true,
               seamless: true
             }
           })
@@ -208,13 +240,23 @@ describe('Dialog API', () => {
           cy.dataCy('dialog-page').then(() => {
             model.value = true
 
-            getHostElement().then(() => {
-              cy.dataCy('dialog-form').should('have.class', 'q-dialog--seamless')
-              cy.dataCy('input-field').should('be.visible')
-              Cypress.vueWrapper.setProps({ seamless: false })
-              cy.dataCy('dialog-form').should('not.have.class', 'q-dialog--seamless')
-              cy.dataCy('input-field').should('not.be.visible')
-            })
+            getHostElement()
+              .should('exist')
+              .then(() => {
+                cy.dataCy('dialog-form')
+                  .should('exist')
+                  .should('have.class', 'q-dialog--seamless')
+                cy.dataCy('input-field')
+                  .should('be.visible')
+                  .then(() => {
+                    Cypress.vueWrapper.setProps({ seamless: false })
+                  })
+
+                cy.dataCy('dialog-form')
+                  .should('not.have.class', 'q-dialog--seamless')
+                cy.dataCy('input-field')
+                  .should('not.be.visible')
+              })
           })
         })
       })
@@ -233,10 +275,18 @@ describe('Dialog API', () => {
             model.value = true
 
             getHostElement().then(() => {
-              cy.dataCy('dialog-form').get('.q-dialog__inner--maximized').should('exist')
-              cy.dataCy('input-field').should('not.be.visible')
-              Cypress.vueWrapper.setProps({ maximized: false })
-              cy.dataCy('dialog-form').get('.q-dialog__inner--maximized').should('not.exist')
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--maximized')
+                .should('exist')
+              cy.dataCy('input-field')
+                .should('not.be.visible')
+                .then(() => {
+                  Cypress.vueWrapper.setProps({ maximized: false })
+                })
+
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--maximized')
+                .should('not.exist')
             })
           })
         })
@@ -256,9 +306,15 @@ describe('Dialog API', () => {
             model.value = true
 
             getHostElement().then(() => {
-              cy.dataCy('dialog-form').get('.q-dialog__inner--fullwidth').should('exist')
-              Cypress.vueWrapper.setProps({ fullWidth: false })
-              cy.dataCy('dialog-form').get('.q-dialog__inner--fullwidth').should('not.exist')
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--fullwidth')
+                .should('exist').then(() => {
+                  Cypress.vueWrapper.setProps({ fullWidth: false })
+                })
+
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--fullwidth')
+                .should('not.exist')
             })
           })
         })
@@ -278,9 +334,16 @@ describe('Dialog API', () => {
             model.value = true
 
             getHostElement().then(() => {
-              cy.dataCy('dialog-form').get('.q-dialog__inner--fullheight').should('exist')
-              Cypress.vueWrapper.setProps({ fullHeight: false })
-              cy.dataCy('dialog-form').get('.q-dialog__inner--fullheight').should('not.exist')
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--fullheight')
+                .should('exist')
+                .then(() => {
+                  Cypress.vueWrapper.setProps({ fullHeight: false })
+                })
+
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--fullheight')
+                .should('not.exist')
             })
           })
         })
@@ -300,10 +363,14 @@ describe('Dialog API', () => {
 
             const positions = [ 'top', 'right', 'bottom', 'left' ]
             for (const position of positions) {
-              getHostElement().then(() => {
-                Cypress.vueWrapper.setProps({ position })
-                cy.dataCy('dialog-form').get(`.q-dialog__inner--${ position }.fixed-${ position }`).should('exist')
-              })
+              getHostElement()
+                .then(() => {
+                  Cypress.vueWrapper.setProps({ position })
+
+                  cy.dataCy('dialog-form')
+                    .get(`.q-dialog__inner--${ position }.fixed-${ position }`)
+                    .should('exist')
+                })
             }
           })
         })
@@ -325,9 +392,16 @@ describe('Dialog API', () => {
             model.value = true
 
             getHostElement().then(() => {
-              cy.dataCy('dialog-form').get('.q-dialog__inner--square').should('exist')
-              Cypress.vueWrapper.setProps({ square: false })
-              cy.dataCy('dialog-form').get('.q-dialog__inner--square').should('not.exist')
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--square')
+                .should('exist')
+                .then(() => {
+                  Cypress.vueWrapper.setProps({ square: false })
+                })
+
+              cy.dataCy('dialog-form')
+                .get('.q-dialog__inner--square')
+                .should('not.exist')
             })
           })
         })
@@ -368,12 +442,15 @@ describe('Dialog API', () => {
           }
         })
 
-        getHostElement().then(() => {
-          closeDialog()
-          cy.get('.q-dialog__inner').should('have.class', 'q-animate--scale').then(() => {
-            expect(fn).to.be.calledWith()
+        getHostElement()
+          .then(() => {
+            closeDialogViaBackdrop()
+            cy.get('.q-dialog__inner')
+              .should('have.class', 'q-animate--scale')
+              .then(() => {
+                expect(fn).to.be.calledWith()
+              })
           })
-        })
       })
     })
 
@@ -390,9 +467,11 @@ describe('Dialog API', () => {
 
         getHostElement().then(() => {
           cy.get('body').type('{esc}')
-          getHostElement().should('not.exist').then(() => {
-            expect(fn).to.be.calledWith()
-          })
+          getHostElement()
+            .should('not.exist')
+            .then(() => {
+              expect(fn).to.be.calledWith()
+            })
         })
       })
     })
@@ -410,16 +489,19 @@ describe('Dialog API', () => {
         })
 
         cy.dataCy('dialog-page').then(() => {
-          getHostElement().should('be.visible').then(() => {
-            cy.focused().should('have.class', 'q-dialog__inner')
-            cy.dataCy('input-field').type('Hello')
-            cy.focused().should('not.have.class', 'q-dialog__inner')
-          })
+          getHostElement()
+            .should('exist').then(() => {
+              cy.focused().should('have.class', 'q-dialog__inner')
+              cy.dataCy('input-field').type('Hello')
+              cy.focused().should('not.have.class', 'q-dialog__inner')
+            })
 
-          getHostElement().should('be.visible').then(() => {
-            Cypress.vueWrapper.vm.focus()
-            cy.focused().should('have.class', 'q-dialog__inner')
-          })
+          getHostElement()
+            .should('exist')
+            .then(() => {
+              Cypress.vueWrapper.vm.focus()
+              cy.focused().should('have.class', 'q-dialog__inner')
+            })
         })
       })
     })
@@ -434,14 +516,20 @@ describe('Dialog API', () => {
           }
         })
 
-        getHostElement().should('be.visible').then(() => {
-          cy.get('.q-dialog__inner').should('not.have.class', 'q-animate--scale')
-        })
+        getHostElement()
+          .should('exist')
+          .then(() => {
+            cy.get('.q-dialog__inner')
+              .should('not.have.class', 'q-animate--scale')
+          })
 
-        getHostElement().should('be.visible').then(() => {
-          Cypress.vueWrapper.vm.shake()
-          cy.get('.q-dialog__inner').should('have.class', 'q-animate--scale')
-        })
+        getHostElement()
+          .should('exist')
+          .then(() => {
+            Cypress.vueWrapper.vm.shake()
+            cy.get('.q-dialog__inner')
+              .should('have.class', 'q-animate--scale')
+          })
       })
     })
   })

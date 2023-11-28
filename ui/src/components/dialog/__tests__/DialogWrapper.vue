@@ -14,7 +14,6 @@
       </q-card>
     </q-dialog>
 
-    <q-btn data-cy="close-button" label="Open Dialog"/>
     <q-input data-cy="input-field"/>
   </div>
 </template>
@@ -28,7 +27,6 @@ export default defineComponent({
     const dialogRef = ref(null)
 
     function focus () {
-      console.log(dialogRef.value.focus, 'Attempting to focus')
       dialogRef.value.focus()
     }
 
