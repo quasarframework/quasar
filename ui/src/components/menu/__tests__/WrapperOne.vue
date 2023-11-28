@@ -1,7 +1,10 @@
 <template>
   <div style="margin: 150px auto" class="row justify-center">
+    <div data-cy="hidden" v-if="isHidden">
+      Menu is hidden
+    </div>
     <q-btn color="primary" data-cy="wrapper" label="Wrapper" style="width: 100px;">
-      <q-menu v-bind="$attrs" data-cy="menu" ref="menuRef">
+      <q-menu v-bind="$attrs" data-cy="menu" ref="menuRef" @show="isHidden = false" @hide="isHidden = true">
         <q-list style="min-width: 120px">
           <q-item clickable v-close-popup data-cy="close-popup">
             <q-item-section>VClosePopup</q-item-section>
@@ -27,6 +30,7 @@ export default defineComponent({
   inheritAttrs: false,
   setup () {
     const menuRef = ref(null)
+    const isHidden = ref(false)
 
     function show () {
       menuRef.value.show()
@@ -44,7 +48,7 @@ export default defineComponent({
       menuRef.value.focus()
     }
 
-    return { menuRef, show, hide, toggle, focusMethod }
+    return { menuRef, isHidden, show, hide, toggle, focusMethod }
   }
 })
 

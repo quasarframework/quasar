@@ -165,16 +165,21 @@ describe('use-model-toggle API', () => {
           .then(() => {
             expect(fn).not.to.be.called
           })
-        cy.get('body')
-          .click(499, 0)
+
         cy.dataCy('menu')
-          .should('not.exist')
-          .then(() => {
-            expect(fn).to.be.called
+          .should('exist').then(() => {
+            cy.get('body')
+              .click(499, 0)
+
+            cy.dataCy('hidden')
+              .should('exist')
+              .then(() => {
+                expect(fn).to.be.called
+              })
           })
       })
 
-      it('should emit @hide event when component is triggered with the show() method', () => {
+      it('should emit @hide event when component is triggered with the hide() method', () => {
         const fn = cy.stub()
         cy.mount(WrapperOne, {
           props: {
@@ -182,22 +187,31 @@ describe('use-model-toggle API', () => {
           }
         })
 
-        expect(fn).not.to.be.called
-        cy.dataCy('wrapper')
-        cy.dataCy('method-show')
-          .click({ force: true }) // Element is hidden to prevent clogging the window
-        cy.dataCy('menu')
-          .should('exist')
-          .then(() => {
-            expect(fn).not.to.be.called
-          })
-        cy.dataCy('method-hide')
-          .click({ force: true })
-        cy.dataCy('menu')
-          .should('not.exist') // Element is hidden to prevent clogging the window
-          .then(() => {
-            expect(fn).to.be.called
-          })
+        cy.dataCy('wrapper').then(() => {
+          expect(fn).not.to.be.called
+          cy.dataCy('wrapper')
+          expect(fn).not.to.be.called
+          cy.dataCy('wrapper')
+          cy.dataCy('method-show')
+            .click({ force: true }) // Element is hidden to prevent clogging the window
+          cy.dataCy('menu')
+            .should('exist')
+            .then(() => {
+              expect(fn).not.to.be.called
+            })
+
+          cy.dataCy('menu')
+            .should('exist')
+            .then(() => {
+              Cypress.vueWrapper.vm.hide()
+
+              cy.dataCy('hidden')
+                .should('exist')
+                .then(() => {
+                  expect(fn).to.be.called
+                })
+            })
+        })
       })
     })
 
@@ -245,14 +259,18 @@ describe('use-model-toggle API', () => {
           .then(() => {
             expect(fn).not.to.be.called
           })
-        cy.dataCy('method-hide')
-          .click({ force: true })
-        cy.dataCy('method-hide')
-          .then(() => {
-            expect(fn).to.be.called
-          })
         cy.dataCy('menu')
-          .should('not.exist')
+          .should('exist')
+          .then(() => {
+            cy.dataCy('method-hide')
+              .click({ force: true })
+            cy.dataCy('method-hide')
+              .then(() => {
+                expect(fn).to.be.called
+              })
+            cy.dataCy('menu')
+              .should('not.exist')
+          })
       })
     })
   })

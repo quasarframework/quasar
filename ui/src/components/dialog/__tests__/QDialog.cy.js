@@ -71,24 +71,34 @@ describe('Dialog API', () => {
           const model = ref(true)
           mountQDialogWrapper({
             props: {
-              ...vModelAdapter(model),
-              noBackDropClose: true
+              ...vModelAdapter(model)
             }
           })
 
-          getHostElement()
-            .should('exist')
-            .then(() => {
-              closeDialogViaBackdrop()
-              getHostElement()
-                .should('exist')
-                .then(() => {
-                  Cypress.vueWrapper.setProps({ noBackDropClose: false })
-                })
+          cy.dataCy('dialog-page').then(() => {
+            Cypress.vueWrapper.setProps({ noBackdropDismiss: false })
+            model.value = true
 
-              closeDialogViaBackdrop()
-              getHostElement().should('not.exist')
-            })
+            getHostElement()
+              .should('exist')
+              .then(() => {
+                closeDialogViaBackdrop()
+                getHostElement()
+                  .should('not.exist')
+              })
+          })
+          cy.dataCy('dialog-page').then(() => {
+            Cypress.vueWrapper.setProps({ noBackdropDismiss: true })
+            model.value = true
+
+            getHostElement()
+              .should('exist')
+              .then(() => {
+                closeDialogViaBackdrop()
+                getHostElement()
+                  .should('exist')
+              })
+          })
         })
       })
 
