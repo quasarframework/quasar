@@ -36,19 +36,13 @@ export default createComponent({
     const { proxy: { $q } } = getCurrentInstance()
     const sizeStyle = useSize(props)
 
-    const viewBox = computed(() => diameter / (1 - props.thickness / 2))
-
-    const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
-
     const svgStyle = computed(() => {
-      const strokeLineCapHeight = props.rounded === true ? strokeWidth.value / 2 : 0
-      const offsetAngle = (strokeLineCapHeight / radius) * (180 / Math.PI)
       const angle = ($q.lang.rtl === true ? -1 : 1) * props.angle
 
       return {
         transform: props.reverse !== ($q.lang.rtl === true)
-          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${ -90 - angle + offsetAngle }deg)`
-          : `rotate3d(0, 0, 1, ${ angle + offsetAngle - 90 }deg)`
+          ? `scale3d(-1, 1, 1) rotate3d(0, 0, 1, ${ -90 - angle }deg)`
+          : `rotate3d(0, 0, 1, ${ angle - 90 }deg)`
       }
     })
 
@@ -58,16 +52,23 @@ export default createComponent({
         : ''
     ))
 
+    const viewBox = computed(() => diameter / (1 - props.thickness / 2))
+
     const viewBoxAttr = computed(() =>
       `${ viewBox.value / 2 } ${ viewBox.value / 2 } ${ viewBox.value } ${ viewBox.value }`
     )
 
     const normalized = computed(() => between(props.value, props.min, props.max))
 
+    const range = computed(() => props.max - props.min)
+    const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
     const strokeDashOffset = computed(() => {
-      const strokeLength = circumference * (normalized.value - props.min) / (props.max - props.min)
+      const dashRatio = (props.max - normalized.value) / range.value
+      const dashGap = props.rounded === true && normalized.value < props.max && dashRatio < 0.25
+        ? strokeWidth.value / 2 * (1 - dashRatio / 0.25)
+        : 0
 
-      return circumference - strokeLength + (props.rounded === true && normalized.value !== props.max && strokeLength > strokeWidth.value ? strokeWidth.value : 0)
+      return circumference * dashRatio + dashGap
     })
 
     function getCircle ({ thickness, offset, color, cls, rounded }) {
