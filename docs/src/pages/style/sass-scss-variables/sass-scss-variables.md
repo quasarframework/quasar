@@ -63,7 +63,8 @@ If you want to customize the variables (or add your own) and your project does n
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 
-If you want to extend the variable you can achieve it in the next way:
+If you want more than to override a Quasar Sass variable, but to extend one, you can achieve it in the next way:
+
 ```scss
 @use "quasar/src/css/variables" as q;
 @use "sass:map";
