@@ -37,7 +37,7 @@ This is the place where you can configure Workbox behavior and also tweak your m
 pwa: {
   workboxMode: 'generateSW', // or 'injectManifest'
   injectPwaMetaTags: true, // boolean | (() => string)
-  swFilename: 'sw.js',
+  swFilename: 'sw.js', // should be .js (as it's the distribution file, not the input file)
   manifestFilename: 'manifest.json',
   useCredentialsForManifestTag: false,
   extendGenerateSWOptions (cfg) {},
