@@ -55,7 +55,10 @@
           "desc": "Seconds"
         }
       },
-      "returns": null,
+      "returns": {
+        "type": [ "Boolean", "null", "undefined" ],
+        "desc": "Is the user allowed to set the specified time?"
+      },
       "examples": [
         ":options=\"(hr, min, sec) => hr <= 6\""
       ],
