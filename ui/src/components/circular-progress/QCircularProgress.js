@@ -60,11 +60,16 @@ export default createComponent({
 
     const normalized = computed(() => between(props.value, props.min, props.max))
 
-    const strokeDashOffset = computed(() => circumference * (
-      1 - (normalized.value - props.min) / (props.max - props.min)
-    ))
-
+    const range = computed(() => props.max - props.min)
     const strokeWidth = computed(() => props.thickness / 2 * viewBox.value)
+    const strokeDashOffset = computed(() => {
+      const dashRatio = (props.max - normalized.value) / range.value
+      const dashGap = props.rounded === true && normalized.value < props.max && dashRatio < 0.25
+        ? strokeWidth.value / 2 * (1 - dashRatio / 0.25)
+        : 0
+
+      return circumference * dashRatio + dashGap
+    })
 
     function getCircle ({ thickness, offset, color, cls, rounded }) {
       return h('circle', {
