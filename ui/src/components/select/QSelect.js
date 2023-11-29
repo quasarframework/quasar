@@ -319,11 +319,12 @@ export default createComponent({
 
       return props.options.slice(from, to).map((opt, i) => {
         const disable = isOptionDisabled.value(opt) === true
+        const active = isOptionSelected(opt) === true
         const index = from + i
 
         const itemProps = {
           clickable: true,
-          active: false,
+          active,
           activeClass: computedOptionsSelectedClass.value,
           manualFocus: true,
           focused: false,
@@ -332,15 +333,13 @@ export default createComponent({
           dense: props.optionsDense,
           dark: isOptionsDark.value,
           role: 'option',
+          'aria-selected': active === true ? 'true' : 'false',
           id: `${ state.targetUid.value }_${ index }`,
           onClick: () => { toggleOption(opt) }
         }
 
         if (disable !== true) {
-          isOptionSelected(opt) === true && (itemProps.active = true)
           optionIndex.value === index && (itemProps.focused = true)
-
-          itemProps[ 'aria-selected' ] = itemProps.active === true ? 'true' : 'false'
 
           if ($q.platform.is.desktop === true) {
             itemProps.onMousemove = () => { menu.value === true && setOptionIndex(index) }
