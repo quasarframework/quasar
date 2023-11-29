@@ -728,10 +728,22 @@ export default createComponent({
     })
 
     function setToday () {
-      const date = today.value
-      const month = daysMap.value[ getMonthHash(date) ]
+      const { year, month, day } = today.value
 
-      if (month === void 0 || month.includes(date.day) === false) {
+      const date = {
+        // contains more props than needed (hour, minute, second, millisecond)
+        // but those aren't used in the processing of this "date" variable
+        ...viewModel.value,
+
+        // overwriting with today's date
+        year,
+        month,
+        day
+      }
+
+      const monthMap = daysMap.value[ getMonthHash(date) ]
+
+      if (monthMap === void 0 || monthMap.includes(date.day) === false) {
         addToModel(date)
       }
 
