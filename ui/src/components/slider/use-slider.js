@@ -235,7 +235,7 @@ export default function ({ updateValue, updatePosition, getDragging, formAttrs }
 
   function convertRatioToModel (ratio) {
     const { min, max, step } = props
-    let model = innerMin.value + (ratio - innerMinRatio.value) * (max - min)
+    let model = min + ratio * (max - min)
 
     if (step > 0) {
       const modulo = (model - innerMin.value) % step
