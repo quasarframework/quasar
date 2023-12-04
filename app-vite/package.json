@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar"
@@ -46,7 +46,7 @@
     "lint": "eslint --ext .js ./ ./bin/quasar --fix --report-unused-disable-directives"
   },
   "dependencies": {
-    "@quasar/render-ssr-error": "^1.0.1",
+    "@quasar/render-ssr-error": "^1.0.3",
     "@quasar/vite-plugin": "^1.3.3",
     "@rollup/pluginutils": "^4.1.2",
     "@types/chrome": "^0.0.208",
