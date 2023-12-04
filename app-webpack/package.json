@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-webpack",
-  "version": "3.12.0",
+  "version": "3.12.1",
   "description": "Quasar Framework App CLI with Webpack",
   "bin": {
     "quasar": "./bin/quasar"
@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@quasar/babel-preset-app": "2.0.2",
-    "@quasar/render-ssr-error": "^1.0.1",
+    "@quasar/render-ssr-error": "^1.0.3",
     "@quasar/ssr-helpers": "2.2.2",
     "@types/chrome": "^0.0.208",
     "@types/compression": "^1.7.2",
