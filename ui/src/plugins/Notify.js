@@ -116,7 +116,7 @@ function addNotification (config, $q, originalApi) {
     notif.timeout = 5000
   }
   else {
-    const t = parseInt(notif.timeout, 10)
+    const t = Number(notif.timeout)
     if (isNaN(t) || t < 0) {
       return logError('wrong timeout', config)
     }
