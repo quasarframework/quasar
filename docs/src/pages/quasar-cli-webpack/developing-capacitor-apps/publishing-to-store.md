@@ -29,6 +29,14 @@ You’ll first be prompted to create a password for the keystore. Then, answer t
 Make sure to save this file somewhere safe and secure, if you lose it you won’t be able to submit updates to your app!
 :::
 
+To sign align the APK:
+Sign key using jarsigner.exe(Jarsigner location)
+C:\Program Files\Java\jdk-15.0.1\bin
+
+```bash
+./jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.keystore <path-to-unsigned.apk> alias_name
+```
+
 Next, we need to *zip align* and to sign the APK. For this we use a couple of applications that can be found in the Android SDK `build-tools` folder, something like `/path/to/Android/Sdk/build-tools/VERSION/`. For example, on OS X with Android Studio installed, `zipalign` is in `~/Library/Android/Sdk/build-tools/VERSION/`.
 
 To zip align the APK:
@@ -37,11 +45,7 @@ To zip align the APK:
 $ zipalign -v 4 <path-to-same-apk-file> HelloWorld.apk
 ```
 
-To sign the APK:
 
-```bash
-apksigner sign --ks my-release-key.keystore --ks-key-alias alias_name <path-to-unsigned-apk-file>
-```
 
 Now we have our final release binary called HelloWorld.apk and we can release this on the Google Play Store for all the world to enjoy!
 
