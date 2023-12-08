@@ -749,7 +749,7 @@ export class QuasarConfigFile {
     }
 
     if (!cfg.build.target.node) {
-      cfg.build.target.node = 'node16'
+      cfg.build.target.node = 'node18'
     }
 
     if (this.#ctx.mode.ssr) {
@@ -950,7 +950,6 @@ export class QuasarConfigFile {
     else if (this.#ctx.mode.cordova || this.#ctx.mode.capacitor || this.#ctx.mode.bex) {
       cfg.metaConf.APP_URL = 'index.html'
     }
-    // Electron is handled in lib/modes/electron/electron-builder.js -> #replaceAppUrl()
 
     Object.assign(cfg.build.env, {
       NODE_ENV: this.#ctx.prod ? 'production' : 'development',
