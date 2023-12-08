@@ -121,7 +121,7 @@ const quasarSsrConfig = {
       .chunkFilename('chunk-[name].js')
       .libraryTarget('commonjs2')
 
-    const additionalModuleDirs = cacheProxy.getRuntime('ssrServerAdditionalModuleDirst', () => {
+    const additionalModuleDirs = cacheProxy.getRuntime('ssrServerAdditionalModuleDirs', () => {
       return getModuleDirs(
         appPaths.resolve.app('..')
       )

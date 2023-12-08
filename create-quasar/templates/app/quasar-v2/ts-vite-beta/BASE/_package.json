@@ -4,6 +4,7 @@
   "description": "<%= description %>",
   "productName": "<%= productName %>",
   "author": "<%= author %>",
+  "type": "module",
   "private": true,
   "scripts": {
     <% if (preset.lint) { %>"lint": "eslint --ext .js,.ts,.vue ./",
