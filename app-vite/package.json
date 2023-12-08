@@ -104,6 +104,7 @@
     "workbox-build": "^7.0.0"
   },
   "peerDependencies": {
+    "electron": ">= 28",
     "electron-builder": ">= 22",
     "electron-packager": ">= 15",
     "eslint": "^8.11.0",

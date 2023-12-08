@@ -13,7 +13,7 @@ import serialize from 'serialize-javascript'
 <% } %>
 
 import renderTemplate from './render-template.js'
-import serverEntry from './server/server-entry.<%= metaConf.ssrServerEntryPointExtension %>'
+import serverEntry from './server/server-entry.<%= metaConf.packageTypeBasedExtension %>'
 
 import { create, listen, renderPreloadTag, serveStaticContent } from 'app/src-ssr/server'
 import injectMiddlewares from './ssr-middlewares'
