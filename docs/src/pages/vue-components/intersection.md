@@ -56,4 +56,4 @@ Triggering only once means, however, that you lose the benefit of freeing up the
 
 The example below uses the `root` property and therefore can be seen in a Codepen (which hosts in an iframe).
 
-<doc-example title="Root viewport" file="Root" scrollable />
+<doc-example title="Root viewport" file="Root" />
