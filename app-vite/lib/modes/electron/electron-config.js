@@ -29,11 +29,11 @@ export const quasarElectronConfig = {
       ...getBuildSystemDefine({
         buildEnv: quasarConf.ctx.dev === true
           ? {
-              QUASAR_ELECTRON_PRELOAD: appPaths.resolve.entry(`electron-preload.${ ext }`),
+              QUASAR_ELECTRON_PRELOAD: appPaths.resolve.entry('electron-preload.cjs'),
               QUASAR_PUBLIC_FOLDER: appPaths.publicDir
             }
           : {
-              QUASAR_ELECTRON_PRELOAD: `electron-preload.${ ext }`,
+              QUASAR_ELECTRON_PRELOAD: 'electron-preload.cjs',
               QUASAR_PUBLIC_FOLDER: '.'
             }
       })
@@ -43,25 +43,33 @@ export const quasarElectronConfig = {
   },
 
   preload: async quasarConf => {
-    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-electron-preload', format: 'esm' })
+    /**
+     * We will be compiling to commonjs format because Electron requires
+     * ESM preload scripts to run with sandbox disabled, which is a security risk
+     * (Sandboxed preload scripts are run as plain JavaScript without an ESM context)
+     *
+     * However, should we decide going with ESM preload scripts at some point,
+     * we need to change the compiled file extension to .mjs (which is also an Electron requirement)
+     */
+
+    const cfg = await createNodeEsbuildConfig(quasarConf, { compileId: 'node-electron-preload', format: 'cjs' })
     const { appPaths } = quasarConf.ctx
-    const ext = quasarConf.metaConf.packageTypeBasedExtension
 
     cfg.entryPoints = [ quasarConf.sourceFiles.electronPreload ]
     cfg.outfile = quasarConf.ctx.dev === true
-      ? appPaths.resolve.entry(`electron-preload.${ ext }`)
-      : join(quasarConf.build.distDir, `UnPackaged/electron-preload.${ ext }`)
+      ? appPaths.resolve.entry('electron-preload.cjs')
+      : join(quasarConf.build.distDir, 'UnPackaged/electron-preload.cjs')
 
     cfg.define = {
       ...cfg.define,
       ...getBuildSystemDefine({
         buildEnv: quasarConf.ctx.dev === true
           ? {
-              QUASAR_ELECTRON_PRELOAD: appPaths.resolve.entry(`electron-preload.${ ext }`),
+              QUASAR_ELECTRON_PRELOAD: appPaths.resolve.entry('electron-preload.cjs'),
               QUASAR_PUBLIC_FOLDER: appPaths.publicDir
             }
           : {
-              QUASAR_ELECTRON_PRELOAD: `electron-preload.${ ext }`,
+              QUASAR_ELECTRON_PRELOAD: 'electron-preload.cjs',
               QUASAR_PUBLIC_FOLDER: '.'
             }
       })
