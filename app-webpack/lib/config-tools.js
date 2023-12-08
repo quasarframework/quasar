@@ -471,7 +471,7 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     ...Object.keys(appPkg.devDependencies || {})
   ])
 
-  const cfg = {
+  const esbuildConfig = {
     platform: 'node',
     target: quasarConf.build.esbuildTarget.node,
     format,
@@ -489,7 +489,8 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
       buildEnv: quasarConf.build.env,
       buildRawDefine: quasarConf.build.rawDefine,
       fileEnv: quasarConf.metaConf.fileEnv
-    })
+    }),
+    plugins: []
   }
 
   const { hasEslint, ESLint } = cacheProxy.getModule('eslint')
@@ -498,17 +499,17 @@ module.exports.createNodeEsbuildConfig = async function createNodeEsbuildConfig 
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
       const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
-      cfg.plugins = [
+      esbuildConfig.plugins.push(
         await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      ]
+      )
     }
   }
 
-  return cfg
+  return esbuildConfig
 }
 
 module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
-  const cfg = {
+  const esbuildConfig = {
     platform: 'browser',
     target: quasarConf.build.esbuildTarget.browser,
     format: 'iife',
@@ -520,7 +521,8 @@ module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildC
       buildEnv: quasarConf.build.env,
       buildRawDefine: quasarConf.build.rawDefine,
       fileEnv: quasarConf.metaConf.fileEnv
-    })
+    }),
+    plugins: []
   }
 
   const { hasEslint, ESLint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
@@ -529,13 +531,13 @@ module.exports.createBrowserEsbuildConfig = async function createBrowserEsbuildC
     if (warnings === true || errors === true) {
       // import only if actually needed (as it imports app's eslint pkg)
       const { quasarEsbuildESLintPlugin } = require('./plugins/esbuild.eslint.js')
-      cfg.plugins = [
+      esbuildConfig.plugins.push(
         await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      ]
+      )
     }
   }
 
-  return cfg
+  return esbuildConfig
 }
 
 module.exports.extendEsbuildConfig = function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, methodName) {

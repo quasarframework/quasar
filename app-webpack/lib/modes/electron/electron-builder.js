@@ -27,18 +27,9 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
 
     const mainConfig = await quasarElectronConfig.main(this.quasarConf)
     await this.buildWithEsbuild('Electron Main', mainConfig)
-    this.#replaceAppUrl(mainConfig.outfile)
 
     const preloadConfig = await quasarElectronConfig.preload(this.quasarConf)
     await this.buildWithEsbuild('Electron Preload', preloadConfig)
-    this.#replaceAppUrl(preloadConfig.outfile)
-  }
-
-  // we can't do it by define() cause esbuild
-  // does not accepts the syntax of the replacement
-  #replaceAppUrl (file) {
-    const content = this.readFile(file)
-    this.writeFile(file, content.replace(/process\.env\.APP_URL/g, '"file://" + __dirname + "/index.html"'))
   }
 
   async #writePackageJson () {
@@ -55,15 +46,18 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     delete pkg.browserslist
     delete pkg.scripts
 
-    // Electron only supports commonjs, so...
-    pkg.type = 'commonjs'
-    pkg.main = './electron-main.cjs'
+    pkg.main = './electron-main.mjs'
 
     if (typeof this.quasarConf.electron.extendPackageJson === 'function') {
       this.quasarConf.electron.extendPackageJson(pkg)
     }
 
-    this.writeFile('UnPackaged/package.json', JSON.stringify(pkg))
+    this.writeFile(
+      'UnPackaged/package.json',
+      this.quasarConf.metaConf.debugging === true
+        ? JSON.stringify(pkg, null, 2)
+        : JSON.stringify(pkg)
+    )
   }
 
   async #copyElectronFiles () {

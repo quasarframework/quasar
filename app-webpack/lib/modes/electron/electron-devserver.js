@@ -146,7 +146,7 @@ module.exports.QuasarModeDevserver = class QuasarModeDevserver extends AppDevser
       this.#electronExecutable,
       [
         '--inspect=' + quasarConf.electron.inspectPort,
-        this.ctx.appPaths.resolve.entry('electron-main.cjs')
+        this.ctx.appPaths.resolve.entry('electron-main.mjs')
       ].concat(this.argv._),
       { cwd: this.ctx.appPaths.appDir },
       code => {

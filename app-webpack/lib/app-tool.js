@@ -54,10 +54,6 @@ module.exports.AppTool = class AppTool {
   async watchWithEsbuild (threadName, esbuildConfig, onRebuildSuccess) {
     let resolve
 
-    if (esbuildConfig.plugins === void 0) {
-      esbuildConfig.plugins = []
-    }
-
     esbuildConfig.plugins.push({
       name: 'quasar:on-rebuild',
       setup (build) {
