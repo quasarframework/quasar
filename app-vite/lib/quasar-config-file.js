@@ -502,6 +502,7 @@ export class QuasarConfigFile {
       },
       pwa: {},
       electron: {
+        preloadScripts: [],
         unPackagedInstallParams: [],
         packager: {},
         builder: {}
@@ -797,7 +798,6 @@ export class QuasarConfigFile {
       pwaServiceWorker: 'src-pwa/custom-service-worker',
       pwaManifestFile: 'src-pwa/manifest.json',
       electronMain: 'src-electron/electron-main',
-      electronPreload: 'src-electron/electron-preload',
       bexManifestFile: 'src-bex/manifest.json'
     }, cfg.sourceFiles)
 
@@ -979,91 +979,98 @@ export class QuasarConfigFile {
       log(`Using .env files: ${ usedEnvFiles.join(', ') }`)
     }
 
-    if (this.#ctx.mode.electron && this.#electronInspectPort === void 0) {
-      this.#electronInspectPort = await findClosestOpenPort(5858, '0.0.0.0')
-    }
-
-    if (this.#ctx.mode.electron && this.#ctx.prod) {
-      const { ensureInstall, getDefaultName } = await this.#ctx.cacheProxy.getModule('electron')
-
-      const icon = appPaths.resolve.electron('icons/icon.png')
-      const builderIcon = process.platform === 'linux'
-        // backward compatible (linux-512x512.png)
-        ? (existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
-        : appPaths.resolve.electron('icons/icon')
-
-      cfg.electron = merge({
-        inspectPort: this.#electronInspectPort,
-        packager: {
-          asar: true,
-          icon: appPaths.resolve.electron('icons/icon'),
-          overwrite: true
-        },
-        builder: {
-          appId: 'quasar-app',
-          icon: builderIcon,
-          productName: this.#ctx.pkg.appPkg.productName || this.#ctx.pkg.appPkg.name || 'Quasar App',
-          directories: {
-            buildResources: appPaths.resolve.electron('')
-          }
-        }
-      }, cfg.electron, {
-        packager: {
-          dir: join(cfg.build.distDir, 'UnPackaged'),
-          out: join(cfg.build.distDir, 'Packaged')
-        },
-        builder: {
-          directories: {
-            app: join(cfg.build.distDir, 'UnPackaged'),
-            output: join(cfg.build.distDir, 'Packaged')
-          }
-        }
-      })
-
-      if (cfg.ctx.bundlerName) {
-        cfg.electron.bundler = cfg.ctx.bundlerName
-      }
-      else if (!cfg.electron.bundler) {
-        cfg.electron.bundler = getDefaultName()
+    if (this.#ctx.mode.electron) {
+      if (!userCfg.electron?.preloadScripts) {
+        cfg.electron.preloadScripts = [ 'electron-preload' ]
       }
 
-      ensureElectronArgv(cfg.electron.bundler, this.#ctx)
-
-      if (cfg.electron.bundler === 'packager') {
-        if (cfg.ctx.targetName) {
-          cfg.electron.packager.platform = cfg.ctx.targetName
-        }
-        if (cfg.ctx.archName) {
-          cfg.electron.packager.arch = cfg.ctx.archName
+      if (this.#ctx.dev) {
+        if (this.#electronInspectPort === void 0 && !cfg.electron.inspectPort) {
+          this.#electronInspectPort = await findClosestOpenPort(5858, '0.0.0.0')
+          cfg.electron.inspectPort = this.#electronInspectPort
         }
       }
       else {
-        cfg.electron.builder = {
-          config: cfg.electron.builder
+        const { ensureInstall, getDefaultName } = await this.#ctx.cacheProxy.getModule('electron')
+
+        const icon = appPaths.resolve.electron('icons/icon.png')
+        const builderIcon = process.platform === 'linux'
+          // backward compatible (linux-512x512.png)
+          ? (existsSync(icon) === true ? icon : appPaths.resolve.electron('icons/linux-512x512.png'))
+          : appPaths.resolve.electron('icons/icon')
+
+        cfg.electron = merge({
+          packager: {
+            asar: true,
+            icon: appPaths.resolve.electron('icons/icon'),
+            overwrite: true
+          },
+          builder: {
+            appId: 'quasar-app',
+            icon: builderIcon,
+            productName: this.#ctx.pkg.appPkg.productName || this.#ctx.pkg.appPkg.name || 'Quasar App',
+            directories: {
+              buildResources: appPaths.resolve.electron('')
+            }
+          }
+        }, cfg.electron, {
+          packager: {
+            dir: join(cfg.build.distDir, 'UnPackaged'),
+            out: join(cfg.build.distDir, 'Packaged')
+          },
+          builder: {
+            directories: {
+              app: join(cfg.build.distDir, 'UnPackaged'),
+              output: join(cfg.build.distDir, 'Packaged')
+            }
+          }
+        })
+
+        if (cfg.ctx.bundlerName) {
+          cfg.electron.bundler = cfg.ctx.bundlerName
+        }
+        else if (!cfg.electron.bundler) {
+          cfg.electron.bundler = getDefaultName()
         }
 
-        if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
-          cfg.electron.builder.mac = []
+        ensureElectronArgv(cfg.electron.bundler, this.#ctx)
+
+        if (cfg.electron.bundler === 'packager') {
+          if (cfg.ctx.targetName) {
+            cfg.electron.packager.platform = cfg.ctx.targetName
+          }
+          if (cfg.ctx.archName) {
+            cfg.electron.packager.arch = cfg.ctx.archName
+          }
+        }
+        else {
+          cfg.electron.builder = {
+            config: cfg.electron.builder
+          }
+
+          if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.mac = []
+          }
+
+          if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.linux = []
+          }
+
+          if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.win = []
+          }
+
+          if (cfg.ctx.archName) {
+            cfg.electron.builder[ cfg.ctx.archName ] = true
+          }
+
+          if (cfg.ctx.publish) {
+            cfg.electron.builder.publish = cfg.ctx.publish
+          }
         }
 
-        if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
-          cfg.electron.builder.linux = []
-        }
-
-        if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
-          cfg.electron.builder.win = []
-        }
-
-        if (cfg.ctx.archName) {
-          cfg.electron.builder[ cfg.ctx.archName ] = true
-        }
-
-        if (cfg.ctx.publish) {
-          cfg.electron.builder.publish = cfg.ctx.publish
-        }
+        ensureInstall(cfg.electron.bundler)
       }
-
-      ensureInstall(cfg.electron.bundler)
     }
 
     const entryScriptWebPath = cfg.build.publicPath + relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/')
