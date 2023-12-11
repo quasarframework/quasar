@@ -36,7 +36,7 @@ We'll handle the typography supplied by Quasar in the sections below.
 ## Default Font
 The default webfont embedded is [Roboto](https://fonts.google.com/specimen/Roboto). **But it is not required**. You can use whatever font(s) you like.
 
-Roboto comes with 5 different font weights you can use: 100, 300, 400, 500, 700.
+Roboto comes with 6 different font weights you can use: 100, 300, 400, 500, 700, 900.
 
 This is where Roboto font comes embedded by default, if you are looking to remove it:
 
