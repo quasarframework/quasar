@@ -28,8 +28,10 @@ module.exports.QuasarModeBuilder = class QuasarModeBuilder extends AppBuilder {
     const mainConfig = await quasarElectronConfig.main(this.quasarConf)
     await this.buildWithEsbuild('Electron Main', mainConfig)
 
-    const preloadConfig = await quasarElectronConfig.preload(this.quasarConf)
-    await this.buildWithEsbuild('Electron Preload', preloadConfig)
+    const preloadList = await quasarElectronConfig.preloadScriptList(this.quasarConf)
+    for (const preloadScript of preloadList) {
+      await this.buildWithEsbuild(`Electron Preload (${ preloadScript.scriptName })`, preloadScript.esbuildConfig)
+    }
   }
 
   async #writePackageJson () {

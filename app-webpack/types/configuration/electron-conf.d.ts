@@ -11,6 +11,15 @@ type ElectronPackagerOptions = ElectronPackager.Options;
 
 interface QuasarBaseElectronConfiguration {
   /**
+   * The list of content scripts (js/ts) that you want embedded.
+   * Each entry in the list should be a filename (WITHOUT its extension) from /src-electron/
+   *
+   * @default [ 'electron-preload' ]
+   * @example [ 'my-other-preload-script' ]
+   */
+  preloadScripts?: string[];
+
+  /**
    * Add/remove/change properties of production generated package.json
    */
   extendPackageJson?: (pkg: { [index in string]: any }) => void;
