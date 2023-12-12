@@ -1,4 +1,4 @@
-import { h, ref, markRaw, TransitionGroup } from 'vue'
+import { h, markRaw, ref, TransitionGroup } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
