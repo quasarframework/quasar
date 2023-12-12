@@ -1,4 +1,3 @@
-
 import { AppBuilder } from '../../app-builder.js'
 import { quasarSpaConfig } from './spa-config.js'
 

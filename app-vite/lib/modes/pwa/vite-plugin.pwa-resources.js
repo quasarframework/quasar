@@ -1,4 +1,3 @@
-
 import { static as serveStatic } from 'express'
 
 import { createHeadTags } from './utils.js'

@@ -1,4 +1,3 @@
-
 import { addFocusout, removeFocusout } from './private/focusout.js'
 
 function fallback (text) {

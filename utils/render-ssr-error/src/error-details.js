@@ -1,4 +1,3 @@
-
 export function getErrorDetails (err) {
   return {
     name: err.name,

@@ -1,4 +1,3 @@
-
 export const globalConfig = {}
 export let globalConfigIsFrozen = false
 

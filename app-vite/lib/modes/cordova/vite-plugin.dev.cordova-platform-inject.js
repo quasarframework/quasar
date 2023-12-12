@@ -1,4 +1,3 @@
-
 import { static as serveStatic } from 'express'
 
 import { entryPointMarkup } from '../../utils/html-template.js'

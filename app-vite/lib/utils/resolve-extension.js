@@ -1,4 +1,3 @@
-
 import { existsSync } from 'node:fs'
 
 const extensions = [ '', '.js', '.ts', '.jsx', '.tsx' ]
