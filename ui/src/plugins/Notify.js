@@ -55,7 +55,7 @@ const notifTypes = {
 
   ongoing: {
     group: false,
-    timeout: 0,
+    timeout: Infinity,
     spinner: true,
     color: 'grey-8'
   }
@@ -112,7 +112,7 @@ function addNotification (config, $q, originalApi) {
     notif.position = 'bottom'
   }
 
-  if (notif.timeout === void 0) {
+  if (notif.timeout === void 0 || notif.timeout === '') {
     notif.timeout = 5000
   }
   else {
@@ -123,7 +123,8 @@ function addNotification (config, $q, originalApi) {
     notif.timeout = t
   }
 
-  if (notif.timeout === 0) {
+  if (notif.timeout === 0 || notif.timeout > (1 << 31)) {
+    notif.timeout = Infinity
     notif.progress = false
   }
   else if (notif.progress === true) {
@@ -295,7 +296,7 @@ function addNotification (config, $q, originalApi) {
     Api = void 0
   }
 
-  if (notif.timeout > 0) {
+  if (Number.isFinite(notif.timeout)) {
     notif.meta.timer = setTimeout(() => {
       notif.meta.timer = void 0
       dismiss()

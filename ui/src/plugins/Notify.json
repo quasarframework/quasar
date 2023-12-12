@@ -363,7 +363,7 @@
 
             "progress": {
               "type": "Boolean",
-              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)"
+              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is Infinity)"
             },
             "progressClass": {
               "type": [ "String", "Array", "Object" ],
@@ -392,7 +392,7 @@
 
             "timeout": {
               "type": "Number",
-              "desc": "Amount of time to display (in milliseconds)",
+              "desc": "Amount of time to display (in milliseconds). If Infinity, the notification will never dismiss itself. 0 will be treated as Infinity.",
               "default": 5000,
               "examples": [ 2500 ]
             },
