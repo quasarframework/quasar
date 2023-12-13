@@ -3,7 +3,7 @@ process.env.BABEL_ENV = 'production'
 const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
-const uglify = require('uglify-es')
+const uglify = require('uglify-js')
 
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
