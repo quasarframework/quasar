@@ -742,7 +742,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           arrows: false,
           collapse_vars: false, // 0.3kb
           comparisons: false,
-          computed_props: false,
           hoist_funs: false,
           hoist_props: false,
           hoist_vars: false,
@@ -767,9 +766,6 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
           conditionals: true,
           dead_code: true,
           evaluate: true
-        },
-        mangle: {
-          safari10: true
         }
       },
 
