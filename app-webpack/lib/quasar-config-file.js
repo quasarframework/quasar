@@ -1195,10 +1195,8 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
       if (this.#ctx.dev) {
         if (this.#electronInspectPort === void 0) {
           this.#electronInspectPort = await findClosestOpenPort(userCfg.electron?.inspectPort || 5858, '127.0.0.1')
-          console.log('############ PORT', this.#electronInspectPort, 'from', userCfg.electron?.inspectPort || 5858)
         }
 
-        console.log('inspectPort in cfg', cfg.electron.inspectPort)
         cfg.electron.inspectPort = this.#electronInspectPort
       }
       else {
