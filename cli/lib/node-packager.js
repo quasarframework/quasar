@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import { normalize, join, sep } from 'node:path'
+import { execSync } from 'child_process'
 import { sync as crossSpawnSync } from 'cross-spawn'
 
 import appPaths from './app-paths.js'
@@ -10,7 +11,8 @@ const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
 async function getPackageVersionList (packageName) {
   const https = await import('node:https')
-  const url = `https://registry.npmjs.org/${ packageName }`
+  const npmRegistryUrl = execSync('npm config get registry')
+  const url = `${npmRegistryUrl}${packageName}`
 
   return new Promise(resolve => {
     https.get(url, async response => {
