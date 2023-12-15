@@ -21,6 +21,7 @@ export const useValidateProps = {
   reactiveRules: Boolean,
   lazyRules: {
     type: [ Boolean, String ],
+    default: false, // statement unneeded but avoids future vue implementation changes
     validator: v => lazyRulesValues.includes(v)
   }
 }
@@ -42,10 +43,14 @@ export default function (focused, innerLoading) {
     && props.rules.length !== 0
   )
 
-  const hasActiveRules = computed(() =>
+  const canDebounceValidate = computed(() => (
     props.disable !== true
     && hasRules.value === true
-  )
+    // Should not have a validation in progress already;
+    // It might mean that focus switched to submit btn and
+    // QForm's submit() has been called already (ENTER key)
+    && innerLoading.value === false
+  ))
 
   const hasError = computed(() =>
     props.error === true || innerError.value === true
@@ -58,15 +63,29 @@ export default function (focused, innerLoading) {
   ))
 
   watch(() => props.modelValue, () => {
-    validateIfNeeded()
+    isDirtyModel.value = true
+
+    if (
+      canDebounceValidate.value === true
+      // trigger validation if not using any kind of lazy-rules
+      && props.lazyRules === false
+    ) {
+      debouncedValidate()
+    }
   })
 
   watch(() => props.reactiveRules, val => {
     if (val === true) {
       if (unwatchRules === void 0) {
         unwatchRules = watch(() => props.rules, () => {
-          validateIfNeeded(true)
-        })
+          if (
+            canDebounceValidate.value === true
+            && isDirtyModel.value === true
+            && props.lazyRules !== 'ondemand'
+          ) {
+            debouncedValidate()
+          }
+        }, { immediate: true })
       }
     }
     else if (unwatchRules !== void 0) {
@@ -75,25 +94,32 @@ export default function (focused, innerLoading) {
     }
   }, { immediate: true })
 
+  watch(() => props.lazyRules, val => {
+    if (
+      val === false
+      && canDebounceValidate.value === true
+      && isDirtyModel.value === true
+    ) {
+      debouncedValidate()
+    }
+  })
+
   watch(focused, val => {
     if (val === true) {
       if (isDirtyModel.value === null) {
-        isDirtyModel.value = false
+        isDirtyModel.value = props.lazyRules === true
       }
     }
-    else if (isDirtyModel.value === false) {
-      isDirtyModel.value = true
-
-      if (
-        hasActiveRules.value === true
-        && props.lazyRules !== 'ondemand'
-        // Don't re-trigger if it's already in progress;
-        // It might mean that focus switched to submit btn and
-        // QForm's submit() has been called already (ENTER key)
-        && innerLoading.value === false
-      ) {
-        debouncedValidate()
-      }
+    else if (
+      canDebounceValidate.value === true
+      && (
+        // props.lazyRules can also be 'ondemand',
+        // hence the following form:
+        props.lazyRules === false
+        || (props.lazyRules === true && isDirtyModel.value === true)
+      )
+    ) {
+      debouncedValidate()
     }
   })
 
@@ -113,7 +139,10 @@ export default function (focused, innerLoading) {
    *   - Promise (pending async validation)
    */
   function validate (val = props.modelValue) {
-    if (hasActiveRules.value !== true) {
+    if (
+      props.disable === true
+      || hasRules.value === false
+    ) {
       return true
     }
 
@@ -180,16 +209,6 @@ export default function (focused, innerLoading) {
         return false
       }
     )
-  }
-
-  function validateIfNeeded (changedRules) {
-    if (
-      hasActiveRules.value === true
-      && props.lazyRules !== 'ondemand'
-      && (isDirtyModel.value === true || (props.lazyRules !== true && changedRules !== true))
-    ) {
-      debouncedValidate()
-    }
   }
 
   const debouncedValidate = debounce(validate, 0)
