@@ -259,9 +259,6 @@ export default function (state) {
     if (props.disable === true) {
       acc[ 'aria-disabled' ] = 'true'
     }
-    else if (props.readonly === true) {
-      acc[ 'aria-readonly' ] = 'true'
-    }
 
     return acc
   })
