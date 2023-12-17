@@ -323,7 +323,7 @@ export default createComponent({
     const attributes = computed(() => (
       props.disable === true
         ? { 'aria-disabled': 'true' }
-        : (props.readonly === true ? { 'aria-readonly': 'true' } : {})
+        : {}
     ))
 
     function onInput () {
