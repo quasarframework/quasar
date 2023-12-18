@@ -19,6 +19,7 @@ const notificationsList = {}
 const positionClass = {}
 const emptyRE = /^\s*$/
 const notifRefs = []
+const invalidTimeoutValues = [ void 0, null, true, false, '' ]
 
 const positionList = [
   'top-left', 'top-right',
@@ -112,15 +113,15 @@ function addNotification (config, $q, originalApi) {
     notif.position = 'bottom'
   }
 
-  if (notif.timeout === void 0) {
+  if (invalidTimeoutValues.includes(notif.timeout) === true) {
     notif.timeout = 5000
   }
   else {
-    const t = parseInt(notif.timeout, 10)
+    const t = Number(notif.timeout) // we catch exponential notation too with Number() casting
     if (isNaN(t) || t < 0) {
       return logError('wrong timeout', config)
     }
-    notif.timeout = t
+    notif.timeout = Number.isFinite(t) ? t : 0
   }
 
   if (notif.timeout === 0) {
