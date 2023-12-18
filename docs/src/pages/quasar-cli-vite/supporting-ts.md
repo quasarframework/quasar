@@ -44,16 +44,16 @@ First add the needed dependencies:
 
 ```tabs
 <<| bash Yarn |>>
-$ yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ yarn add --dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 <<| bash NPM |>>
-$ npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ npm install --save-dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 <<| bash PNPM |>>
-$ pnpm add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ pnpm add -D typescript eslint  @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 <<| bash Bun |>>
-$ bun add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ bun add --dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 ```
 
