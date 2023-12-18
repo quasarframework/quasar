@@ -288,9 +288,9 @@ export default createComponent({
         case dragType.RANGE:
           const
             ratioDelta = ratio - dragging.offsetRatio,
-            minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
+            minR = between(dragging.ratioMin + ratioDelta, state.innerMinRatio.value, state.innerMaxRatio.value - dragging.rangeRatio),
             modelDelta = localModel - dragging.offsetModel,
-            min = between(dragging.valueMin + modelDelta, props.min, props.max - dragging.rangeValue)
+            min = between(dragging.valueMin + modelDelta, state.innerMin.value, state.innerMax.value - dragging.rangeValue)
 
           pos = {
             minR,
