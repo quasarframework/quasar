@@ -24,7 +24,20 @@ Create `/tsconfig.json` file at the root of you project with this content:
 }
 ```
 
-Now you can start using TypeScript into your project.
+Then install the `typescript` package:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev typescript
+<<| bash NPM |>>
+$ npm install --save-dev typescript
+<<| bash PNPM |>>
+$ pnpm add -D typescript
+<<| bash Bun |>>
+$ bun add --dev typescript
+```
+
+Now you can start using TypeScript into your project. Note that some IDEs might require a restart for the new setup to fully kick in.
 
 ::: tip
 Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To write TS code into your components, instead, change the script opening tag like so `<script lang="ts">`.
