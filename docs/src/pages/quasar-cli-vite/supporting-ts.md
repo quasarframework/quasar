@@ -24,7 +24,20 @@ Create `/tsconfig.json` file at the root of you project with this content:
 }
 ```
 
-Now you can start using TypeScript into your project.
+Then install the `typescript` package:
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev typescript
+<<| bash NPM |>>
+$ npm install --save-dev typescript
+<<| bash PNPM |>>
+$ pnpm add -D typescript
+<<| bash Bun |>>
+$ bun add --dev typescript
+```
+
+Now you can start using TypeScript into your project. Note that some IDEs might require a restart for the new setup to fully kick in.
 
 ::: tip
 Remember that you must change the extension of your JavaScript files to `.ts` to be allowed to write TypeScript code inside them. To write TS code into your components, instead, change the script opening tag like so `<script lang="ts">`.
@@ -44,16 +57,16 @@ First add the needed dependencies:
 
 ```tabs
 <<| bash Yarn |>>
-$ yarn add --dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 <<| bash NPM |>>
-$ npm install --save-dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 <<| bash PNPM |>>
-$ pnpm add -D typescript eslint  @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ pnpm add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 <<| bash Bun |>>
-$ bun add --dev typescript eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+$ bun add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 # you might also want to install the `eslint-plugin-vue` package.
 ```
 
