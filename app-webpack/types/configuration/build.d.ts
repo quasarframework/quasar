@@ -57,7 +57,7 @@ interface EsbuildTargetOptions {
    */
   browser?: string[];
   /**
-   * @example 'node16'
+   * @example 'node20'
    */
   node?: string;
 }
@@ -79,7 +79,7 @@ interface QuasarStaticBuildConfiguration {
    * @example
    *    {
    *      browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
-   *      node: 'node16'
+   *      node: 'node20'
    *    }
    */
   esbuildTarget?: EsbuildTargetOptions;

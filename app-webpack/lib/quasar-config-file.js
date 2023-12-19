@@ -837,7 +837,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
 
     if (!cfg.build.esbuildTarget.node) {
-      cfg.build.esbuildTarget.node = 'node16'
+      cfg.build.esbuildTarget.node = 'node20'
     }
 
     if (this.#ctx.mode.ssr) {
