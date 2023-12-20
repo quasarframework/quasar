@@ -193,6 +193,8 @@ export default function (state) {
     || props.error !== null
   )
 
+  const shouldRenderErrorHintOrCounter = computed(() => props.bottomSlots === true)
+
   const styleType = computed(() => {
     if (props.filled === true) { return 'filled' }
     if (props.outlined === true) { return 'outlined' }
@@ -482,7 +484,7 @@ export default function (state) {
   function getBottom () {
     let msg, key
 
-    if (hasError.value === true) {
+    if (hasError.value === true && shouldRenderErrorHintOrCounter.value) {
       if (errorMessage.value !== null) {
         msg = [ h('div', { role: 'alert' }, errorMessage.value) ]
         key = `q--slot-error-${ errorMessage.value }`
@@ -492,7 +494,7 @@ export default function (state) {
         key = 'q--slot-error'
       }
     }
-    else if (props.hideHint !== true || state.focused.value === true) {
+    else if ((props.hideHint !== true || state.focused.value === true) && shouldRenderErrorHintOrCounter.value) {
       if (props.hint !== void 0) {
         msg = [ h('div', props.hint) ]
         key = `q--slot-hint-${ props.hint }`
@@ -503,7 +505,7 @@ export default function (state) {
       }
     }
 
-    const hasCounter = props.counter === true || slots.counter !== void 0
+    const hasCounter = (props.counter === true || slots.counter !== void 0) && shouldRenderErrorHintOrCounter.value
 
     if (props.hideBottomSpace === true && hasCounter === false && msg === void 0) {
       return
