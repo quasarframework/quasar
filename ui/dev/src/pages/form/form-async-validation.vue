@@ -26,7 +26,7 @@
             :rules="validationRules"
             filled
             label="Input"
-            hint="Field is required"
+            hint="Hint: field is required"
             lazy-rules
             reactive-rules
           />

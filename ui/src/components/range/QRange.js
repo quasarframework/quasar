@@ -288,15 +288,15 @@ export default createComponent({
         case dragType.RANGE:
           const
             ratioDelta = ratio - dragging.offsetRatio,
-            minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
+            minR = between(dragging.ratioMin + ratioDelta, state.innerMinRatio.value, state.innerMaxRatio.value - dragging.rangeRatio),
             modelDelta = localModel - dragging.offsetModel,
-            min = between(dragging.valueMin + modelDelta, props.min, props.max - dragging.rangeValue)
+            min = between(dragging.valueMin + modelDelta, state.innerMin.value, state.innerMax.value - dragging.rangeValue)
 
           pos = {
             minR,
             maxR: minR + dragging.rangeRatio,
-            min: parseFloat(min.toFixed(state.decimals.value)),
-            max: parseFloat((min + dragging.rangeValue).toFixed(state.decimals.value))
+            min: state.roundValueFn.value(min),
+            max: state.roundValueFn.value(min + dragging.rangeValue)
           }
 
           state.focus.value = 'both'
@@ -326,7 +326,7 @@ export default createComponent({
       stopAndPrevent(evt)
 
       const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.keyStep.value,
         offset = (
           ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1)
           * (state.isReversed.value === true ? -1 : 1)
@@ -336,14 +336,14 @@ export default createComponent({
       if (state.focus.value === 'both') {
         const interval = model.value.max - model.value.min
         const min = between(
-          parseFloat((model.value.min + offset).toFixed(state.decimals.value)),
+          state.roundValueFn.value(model.value.min + offset),
           state.innerMin.value,
           state.innerMax.value - interval
         )
 
         model.value = {
           min,
-          max: parseFloat((min + interval).toFixed(state.decimals.value))
+          max: state.roundValueFn.value(min + interval)
         }
       }
       else if (state.focus.value === false) {
@@ -355,7 +355,7 @@ export default createComponent({
         model.value = {
           ...model.value,
           [ which ]: between(
-            parseFloat((model.value[ which ] + offset).toFixed(state.decimals.value)),
+            state.roundValueFn.value(model.value[ which ] + offset),
             which === 'min' ? state.innerMin.value : model.value.min,
             which === 'max' ? state.innerMax.value : model.value.max
           )

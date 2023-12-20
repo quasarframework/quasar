@@ -133,7 +133,7 @@ export default createComponent({
       stopAndPrevent(evt)
 
       const
-        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.step.value,
+        stepVal = ([ 34, 33 ].includes(evt.keyCode) ? 10 : 1) * state.keyStep.value,
         offset = (
           ([ 34, 37, 40 ].includes(evt.keyCode) ? -1 : 1)
           * (state.isReversed.value === true ? -1 : 1)
@@ -141,7 +141,7 @@ export default createComponent({
         )
 
       model.value = between(
-        parseFloat((model.value + offset).toFixed(state.decimals.value)),
+        state.roundValueFn.value(model.value + offset),
         state.innerMin.value,
         state.innerMax.value
       )

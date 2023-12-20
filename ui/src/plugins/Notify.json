@@ -166,7 +166,7 @@
 
       "timeout": {
         "type": "Number",
-        "desc": "Amount of time to display (in milliseconds)",
+        "desc": "Amount of time to display (in milliseconds). Set to 0 to never dismiss automatically.",
         "default": 5000
       },
 
@@ -392,7 +392,7 @@
 
             "timeout": {
               "type": "Number",
-              "desc": "Amount of time to display (in milliseconds)",
+              "desc": "Amount of time to display (in milliseconds). Set to 0 to never dismiss automatically.",
               "default": 5000,
               "examples": [ 2500 ]
             },
