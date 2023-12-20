@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^6.6.0",
     "eslint": "^8.11.0",
     "eslint-plugin-lodash-template": "^0.21.0",
-    "tsx": "^3.14.0",
+    "tsx": "^4.7.0",
     "typescript": "^5.2.2"
   }
 }
