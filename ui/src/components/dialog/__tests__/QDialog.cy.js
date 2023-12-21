@@ -1,5 +1,5 @@
 import DialogWrapper from './DialogWrapper.vue'
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { vModelAdapter } from '@quasar/quasar-app-extension-testing-e2e-cypress'
 
 function mountQDialogWrapper (options) {
@@ -12,6 +12,24 @@ function getHostElement () {
 
 function closeDialogViaBackdrop () {
   return cy.get('.q-dialog__backdrop').click({ force: true })
+}
+
+// TODO: this only works in `withinDialog` context,
+// as when using it outside it `.root()` will yeld "html" tag
+// and Cypress won't be able to find anything with `.closest('body')`
+// since it only searches upwards
+function closeDialogViaEscKey () {
+  // Official way to escape `within` context
+  // https://docs.cypress.io/api/commands/within#Temporarily-escape
+  return cy.root().closest('body').type('{esc}')
+}
+
+// TODO: we'll add this check to the AE helper to automatically test persistent dialogs
+// TODO: take into consideration that seamless dialogs have always 'aria-modal' false
+// TODO: take into consideration that dialogs without backdrop have always 'aria-modal' false
+// Check if there's a more reliable way to check for persistent dialogs
+function assertPersistentDialogExists () {
+  cy.dataCy('dialog-form').should('not.have.attr', 'aria-modal', 'false')
 }
 
 describe('Dialog API', () => {
@@ -27,16 +45,23 @@ describe('Dialog API', () => {
             }
           })
 
-          getHostElement()
-            .should('exist')
-            .then(() => {
+          cy.withinDialog({
+            persistent: true,
+            fn: () => {
               closeDialogViaBackdrop()
-              getHostElement()
-                .should('exist')
-              cy.get('body').type('{esc}')
-              getHostElement()
-                .should('exist')
-            })
+            }
+          })
+
+          assertPersistentDialogExists()
+
+          cy.withinDialog({
+            persistent: true,
+            fn: () => {
+              closeDialogViaEscKey()
+            }
+          })
+
+          assertPersistentDialogExists()
         })
       })
 
@@ -50,18 +75,24 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            getHostElement().then(() => {
-              cy.get('body').type('{esc}')
-              getHostElement()
-                .should('exist')
+          cy.withinDialog({
+            persistent: true,
+            fn: () => {
+              closeDialogViaEscKey()
+            }
+          })
 
-              Cypress.vueWrapper.setProps({ noEscDismiss: false })
+          assertPersistentDialogExists()
 
-              cy.get('body').type('{esc}')
-              getHostElement()
-                .should('not.exist')
+          cy.wrap()
+            .then(async () => {
+              // Care as you need to wait setProps to complete its execution
+              // before moving on or the tests will fail due to the race condition
+              await Cypress.vueWrapper.setProps({ noEscDismiss: false })
             })
+
+          cy.withinDialog(() => {
+            closeDialogViaEscKey()
           })
         })
       })
@@ -71,33 +102,29 @@ describe('Dialog API', () => {
           const model = ref(true)
           mountQDialogWrapper({
             props: {
-              ...vModelAdapter(model)
+              ...vModelAdapter(model),
+              noBackdropDismiss: true
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            Cypress.vueWrapper.setProps({ noBackdropDismiss: false })
-            model.value = true
-
-            getHostElement()
-              .should('exist')
-              .then(() => {
-                closeDialogViaBackdrop()
-                getHostElement()
-                  .should('not.exist')
-              })
+          cy.withinDialog({
+            persistent: true,
+            fn: () => {
+              closeDialogViaBackdrop()
+            }
           })
-          cy.dataCy('dialog-page').then(() => {
-            Cypress.vueWrapper.setProps({ noBackdropDismiss: true })
-            model.value = true
 
-            getHostElement()
-              .should('exist')
-              .then(() => {
-                closeDialogViaBackdrop()
-                getHostElement()
-                  .should('exist')
-              })
+          assertPersistentDialogExists()
+
+          cy.wrap()
+            .then(async () => {
+              // Care as you need to wait setProps to complete its execution
+              // before moving on or the tests will fail due to the race condition
+              await Cypress.vueWrapper.setProps({ noBackdropDismiss: false })
+            })
+
+          cy.withinDialog(() => {
+            closeDialogViaBackdrop()
           })
         })
       })
@@ -120,7 +147,6 @@ describe('Dialog API', () => {
 
           cy.withinDialog(() => {
             cy.dataCy('dialog-button').click()
-            getHostElement().should('not.exist')
           })
         })
       })
@@ -136,77 +162,69 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            cy.dataCy('input-field')
-              .type('Hello')
-            cy.dataCy('input-field')
-              .should('have.value', 'Hello').then(() => {
-                model.value = true
-
-                cy.withinDialog(() => {
-                  closeDialogViaBackdrop()
-                })
-                getHostElement()
-                  .should('not.exist').then(() => {
-                    cy.dataCy('input-field')
-                      .should('have.focus')
-                  })
-              })
+          // Test the input field regaining focus
+          cy.dataCy('input-field')
+            .focus()
+          cy.dataCy('input-field')
+            .then(async () => {
+              model.value = true
+              await nextTick()
+            })
+          cy.withinDialog(() => {
+            closeDialogViaBackdrop()
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            cy.dataCy('input-field')
-              .type('Hello')
-            cy.dataCy('input-field')
-              .should('have.value', 'Hello')
-              .then(() => {
-                Cypress.vueWrapper.setProps({ noRefocus: true })
-                model.value = true
+          cy.dataCy('input-field')
+            .should('have.focus')
 
-                getHostElement().then(() => {
-                  closeDialogViaBackdrop()
-                  cy.dataCy('input-field')
-                    .should('not.have.focus')
-                })
-              })
+          // Test the input field not regaining focus
+          cy.dataCy('input-field')
+            .then(async () => {
+              await Cypress.vueWrapper.setProps({ noRefocus: true })
+              model.value = true
+              await nextTick()
+            })
+
+          cy.withinDialog(() => {
+            closeDialogViaBackdrop()
           })
+          cy.dataCy('input-field')
+            .should('not.have.focus')
         })
       })
 
       describe('(prop): no-focus', () => {
         it('should not focus on dialog when switching to it', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
-              ...vModelAdapter(model)
+              ...vModelAdapter(model),
+              noFocus: false
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
-
-            cy.withinDialog(() => {
-              cy.focused().should('exist')
-                .should('have.class', 'q-dialog__inner')
-              closeDialogViaBackdrop()
-            })
+          cy.withinDialog(() => {
+            cy.focused()
+              .should('have.class', 'q-dialog__inner')
+            closeDialogViaBackdrop()
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            Cypress.vueWrapper.setProps({ noFocus: true })
+          cy.wrap().then(async () => {
+            await Cypress.vueWrapper.setProps({ noFocus: true })
             model.value = true
+            await nextTick()
+          })
 
-            cy.withinDialog(() => {
-              cy.focused().should('not.exist')
-              closeDialogViaBackdrop()
-            })
+          cy.withinDialog(() => {
+            cy.focused().should('not.exist')
+            closeDialogViaBackdrop()
           })
         })
       })
 
       describe('(prop): no-shake', () => {
         it('should not shake dialog', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
@@ -214,24 +232,30 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
-
-            getHostElement()
-              .should('exist').then(() => {
-                closeDialogViaBackdrop()
-                cy.get('.q-dialog__inner')
-                  .should('have.class', 'q-animate--scale')
-              })
-
-            getHostElement()
-              .should('exist').then(() => {
-                Cypress.vueWrapper.setProps({ noShake: true })
-                closeDialogViaBackdrop()
-                cy.get('.q-dialog__inner')
-                  .should('not.have.class', 'q-animate--scale')
-              })
+          cy.withinDialog({
+            persistent: true,
+            fn: () => {
+              closeDialogViaBackdrop()
+              cy.get('.q-dialog__inner')
+                .should('have.class', 'q-animate--scale')
+            }
           })
+
+          assertPersistentDialogExists()
+
+          cy.wrap().then(async () => {
+            await Cypress.vueWrapper.setProps({ noShake: true })
+          })
+
+          cy.withinDialog({
+            persistent: true, fn: () => {
+              closeDialogViaBackdrop()
+              cy.get('.q-dialog__inner')
+                .should('not.have.class', 'q-animate--scale')
+            }
+          })
+
+          assertPersistentDialogExists()
         })
       })
     })
@@ -239,7 +263,7 @@ describe('Dialog API', () => {
     describe('Category: content', () => {
       describe('(prop): seamless', () => {
         it('should put the dialog in a seamless state', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
@@ -247,27 +271,19 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
+          cy.dataCy('dialog-form')
+            .should('have.class', 'q-dialog--seamless')
 
-            getHostElement()
-              .should('exist')
-              .then(() => {
-                cy.dataCy('dialog-form')
-                  .should('exist')
-                  .should('have.class', 'q-dialog--seamless')
-                cy.dataCy('input-field')
-                  .should('be.visible')
-                  .then(() => {
-                    Cypress.vueWrapper.setProps({ seamless: false })
-                  })
+          cy.dataCy('input-field')
+            .should('be.visible')
+            .then(async () => {
+              await Cypress.vueWrapper.setProps({ seamless: false })
+            })
 
-                cy.dataCy('dialog-form')
-                  .should('not.have.class', 'q-dialog--seamless')
-                cy.dataCy('input-field')
-                  .should('not.be.visible')
-              })
-          })
+          cy.dataCy('dialog-form')
+            .should('not.have.class', 'q-dialog--seamless')
+          cy.dataCy('input-field')
+            .should('not.be.visible')
         })
       })
 
@@ -475,13 +491,12 @@ describe('Dialog API', () => {
           }
         })
 
-        getHostElement().then(() => {
-          cy.get('body').type('{esc}')
-          getHostElement()
-            .should('not.exist')
-            .then(() => {
-              expect(fn).to.be.calledWith()
-            })
+        cy.withinDialog(() => {
+          closeDialogViaEscKey()
+        })
+
+        cy.wrap().then(() => {
+          expect(fn).to.be.calledWith()
         })
       })
     })
