@@ -6,10 +6,6 @@ function mountQDialogWrapper (options) {
   return cy.mount(DialogWrapper, options)
 }
 
-function getHostElement () {
-  return cy.dataCy('dialog-card')
-}
-
 function closeDialogViaBackdrop () {
   return cy.get('.q-dialog__backdrop').click({ force: true })
 }
@@ -29,7 +25,7 @@ function closeDialogViaEscKey () {
 // TODO: take into consideration that dialogs without backdrop have always 'aria-modal' false
 // Check if there's a more reliable way to check for persistent dialogs
 function assertPersistentDialogExists () {
-  cy.dataCy('dialog-form').should('not.have.attr', 'aria-modal', 'false')
+  cy.get('.q-dialog__inner').should('not.have.attr', 'aria-modal', 'false')
 }
 
 describe('Dialog API', () => {
@@ -271,25 +267,35 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-form')
-            .should('have.class', 'q-dialog--seamless')
+          cy.withinDialog(() => {
+            cy.root()
+              .closest('.q-dialog')
+              .should('have.class', 'q-dialog--seamless')
 
-          cy.dataCy('input-field')
-            .should('be.visible')
-            .then(async () => {
-              await Cypress.vueWrapper.setProps({ seamless: false })
-            })
+            cy.root()
+              .closest('body')
+              .dataCy('input-field')
+              .should('be.visible')
+              .then(async () => {
+                await Cypress.vueWrapper.setProps({ seamless: false })
+              })
 
-          cy.dataCy('dialog-form')
-            .should('not.have.class', 'q-dialog--seamless')
-          cy.dataCy('input-field')
-            .should('not.be.visible')
+            cy.root()
+              .closest('.q-dialog')
+              .should('not.have.class', 'q-dialog--seamless')
+            cy.root()
+              .closest('body')
+              .dataCy('input-field')
+              .should('not.be.visible')
+
+            closeDialogViaBackdrop()
+          })
         })
       })
 
       describe('(prop): maximized', () => {
         it('should maximize the dialog', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
@@ -297,30 +303,31 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
+          cy.withinDialog(() => {
+            cy.root()
+              .closest('.q-dialog')
+              .get('.q-dialog__inner--maximized')
+            cy.root()
+              .closest('body')
+              .dataCy('input-field')
+              .should('not.be.visible')
+              .then(async () => {
+                await Cypress.vueWrapper.setProps({ maximized: false })
+              })
 
-            getHostElement().then(() => {
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--maximized')
-                .should('exist')
-              cy.dataCy('input-field')
-                .should('not.be.visible')
-                .then(() => {
-                  Cypress.vueWrapper.setProps({ maximized: false })
-                })
+            cy.root()
+              .closest('.q-dialog')
+              .get('.q-dialog__inner--maximized')
+              .should('not.exist')
 
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--maximized')
-                .should('not.exist')
-            })
+            closeDialogViaBackdrop()
           })
         })
       })
 
       describe('(prop): full-width', () => {
         it('should use a full-width for the dialog', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
@@ -328,27 +335,26 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
+          cy.withinDialog(() => {
+            cy.get('.q-dialog__inner--fullwidth')
+              .should('exist')
+              .then(async () => {
+                await Cypress.vueWrapper.setProps({ fullWidth: false })
+              })
 
-            getHostElement().then(() => {
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--fullwidth')
-                .should('exist').then(() => {
-                  Cypress.vueWrapper.setProps({ fullWidth: false })
-                })
+            cy.get('.q-dialog__inner--fullwidth')
+              .should('not.exist')
 
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--fullwidth')
-                .should('not.exist')
-            })
+            // We are closing the dialog here and in other places where it is not necessary because
+            // withinDialog expects the dialog to be closed when called like this
+            closeDialogViaBackdrop()
           })
         })
       })
 
       describe('(prop): full-height', () => {
         it('should set the dialog to full-height', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
@@ -356,49 +362,45 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
+          cy.withinDialog(() => {
+            cy.get('.q-dialog__inner--fullheight')
+              .should('exist')
+              .then(async () => {
+                await Cypress.vueWrapper.setProps({ fullHeight: false })
+              })
 
-            getHostElement().then(() => {
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--fullheight')
-                .should('exist')
-                .then(() => {
-                  Cypress.vueWrapper.setProps({ fullHeight: false })
-                })
+            cy.get('.q-dialog__inner--fullheight')
+              .should('not.exist')
 
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--fullheight')
-                .should('not.exist')
-            })
+            closeDialogViaBackdrop()
           })
         })
       })
 
       describe('(prop): position', () => {
         it('should display the dialog at a specific position', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model)
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
+          const positions = [ 'top', 'right', 'bottom', 'left' ]
 
-            const positions = [ 'top', 'right', 'bottom', 'left' ]
-            for (const position of positions) {
-              getHostElement()
-                .then(() => {
-                  Cypress.vueWrapper.setProps({ position })
+          for (const position of positions) {
+            cy.wrap(position).then(async () => {
+              await Cypress.vueWrapper.setProps({ position })
+            })
 
-                  cy.dataCy('dialog-form')
-                    .get(`.q-dialog__inner--${ position }.fixed-${ position }`)
-                    .should('exist')
-                })
-            }
-          })
+            cy.withinDialog({
+              persistent: true,
+              fn: () => {
+                cy.get(`.q-dialog__inner--${ position }.fixed-${ position }`)
+                  .should('exist')
+              }
+            })
+          }
         })
       })
     })
@@ -406,7 +408,7 @@ describe('Dialog API', () => {
     describe('Category: style', () => {
       describe('(prop): square', () => {
         it('should use a square style for dialog', () => {
-          const model = ref(false)
+          const model = ref(true)
           mountQDialogWrapper({
             props: {
               ...vModelAdapter(model),
@@ -414,21 +416,17 @@ describe('Dialog API', () => {
             }
           })
 
-          cy.dataCy('dialog-page').then(() => {
-            model.value = true
+          cy.withinDialog(() => {
+            cy.get('.q-dialog__inner--square')
+              .should('exist')
+              .then(async () => {
+                await Cypress.vueWrapper.setProps({ square: false })
+              })
 
-            getHostElement().then(() => {
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--square')
-                .should('exist')
-                .then(() => {
-                  Cypress.vueWrapper.setProps({ square: false })
-                })
+            cy.get('.q-dialog__inner--square')
+              .should('not.exist')
 
-              cy.dataCy('dialog-form')
-                .get('.q-dialog__inner--square')
-                .should('not.exist')
-            })
+            closeDialogViaBackdrop()
           })
         })
       })
@@ -438,19 +436,15 @@ describe('Dialog API', () => {
   describe('Slots', () => {
     describe('(slot): default', () => {
       it('should display a default slot', () => {
-        const model = ref(false)
+        const model = ref(true)
         mountQDialogWrapper({
           props: {
             ...vModelAdapter(model)
           }
         })
 
-        cy.dataCy('dialog-page').then(() => {
-          model.value = true
-
-          // Host element is the default slot, so let's simply test that it exists
-          getHostElement().should('exist')
-        })
+        // Host element is the default slot, so let's simply test that it exists
+        cy.dataCy('dialog-button').should('exist')
       })
     })
   })
@@ -468,15 +462,18 @@ describe('Dialog API', () => {
           }
         })
 
-        getHostElement()
-          .then(() => {
+        cy.withinDialog({
+          persistent: true,
+          fn: () => {
             closeDialogViaBackdrop()
+
             cy.get('.q-dialog__inner')
               .should('have.class', 'q-animate--scale')
               .then(() => {
                 expect(fn).to.be.calledWith()
               })
-          })
+          }
+        })
       })
     })
 
@@ -513,21 +510,14 @@ describe('Dialog API', () => {
           }
         })
 
-        cy.dataCy('dialog-page').then(() => {
-          getHostElement()
-            .should('exist').then(() => {
-              cy.focused().should('have.class', 'q-dialog__inner')
-              cy.dataCy('input-field').type('Hello')
-              cy.focused().should('not.have.class', 'q-dialog__inner')
-            })
+        cy.focused().should('have.class', 'q-dialog__inner')
+        cy.dataCy('input-field').focus()
+        cy.focused().should('not.have.class', 'q-dialog__inner')
 
-          getHostElement()
-            .should('exist')
-            .then(() => {
-              Cypress.vueWrapper.vm.focus()
-              cy.focused().should('have.class', 'q-dialog__inner')
-            })
+        cy.wrap().then(async () => {
+          await Cypress.vueWrapper.vm.focus()
         })
+        cy.focused().should('have.class', 'q-dialog__inner')
       })
     })
 
@@ -541,20 +531,20 @@ describe('Dialog API', () => {
           }
         })
 
-        getHostElement()
-          .should('exist')
-          .then(() => {
+        cy.withinDialog({
+          persistent: true,
+          fn: () => {
             cy.get('.q-dialog__inner')
               .should('not.have.class', 'q-animate--scale')
-          })
 
-        getHostElement()
-          .should('exist')
-          .then(() => {
-            Cypress.vueWrapper.vm.shake()
+            cy.wrap().then(async () => {
+              await Cypress.vueWrapper.vm.shake()
+            })
+
             cy.get('.q-dialog__inner')
               .should('have.class', 'q-animate--scale')
-          })
+          }
+        })
       })
     })
   })

@@ -1,21 +1,13 @@
 <template>
-  <div data-cy="dialog-page">
-    <q-dialog ref="dialogRef" v-bind="$attrs" data-cy="dialog-form">
-      <q-card data-cy="dialog-card">
-        <q-card-section>
-          <div class="text-h6">
-            Dialog section
-          </div>
-        </q-card-section>
+<q-dialog ref="dialogRef" v-bind="$attrs">
+  <q-card>
+    <q-card-section>
+      <q-btn label="Dialog Button" data-cy="dialog-button"/>
+    </q-card-section>
+  </q-card>
+</q-dialog>
 
-        <q-card-section>
-          <q-btn label="Dialog Button" data-cy="dialog-button"/>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <q-input data-cy="input-field"/>
-  </div>
+<q-input data-cy="input-field"/>
 </template>
 
 <script>

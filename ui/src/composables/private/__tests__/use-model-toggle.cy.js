@@ -166,16 +166,15 @@ describe('use-model-toggle API', () => {
             expect(fn).not.to.be.called
           })
 
-        cy.dataCy('menu')
-          .should('exist').then(() => {
-            cy.get('body')
-              .click(499, 0)
+        // We are clicking x distance from the left to ensure it always clicks on the body
+        // For some reason it some times does not work without it
+        cy.get('body')
+          .click(499, 0)
 
-            cy.dataCy('hidden')
-              .should('exist')
-              .then(() => {
-                expect(fn).to.be.called
-              })
+        cy.dataCy('hidden')
+          .should('exist')
+          .then(() => {
+            expect(fn).to.be.called
           })
       })
 
@@ -187,31 +186,23 @@ describe('use-model-toggle API', () => {
           }
         })
 
-        cy.dataCy('wrapper').then(() => {
-          expect(fn).not.to.be.called
-          cy.dataCy('wrapper')
-          expect(fn).not.to.be.called
-          cy.dataCy('wrapper')
-          cy.dataCy('method-show')
-            .click({ force: true }) // Element is hidden to prevent clogging the window
-          cy.dataCy('menu')
-            .should('exist')
-            .then(() => {
-              expect(fn).not.to.be.called
-            })
+        expect(fn).not.to.be.called
+        cy.dataCy('method-show')
+          .click({ force: true }) // Element is hidden to prevent clogging the window
+        cy.dataCy('menu')
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
 
-          cy.dataCy('menu')
-            .should('exist')
-            .then(() => {
-              Cypress.vueWrapper.vm.hide()
-
-              cy.dataCy('hidden')
-                .should('exist')
-                .then(() => {
-                  expect(fn).to.be.called
-                })
-            })
-        })
+        cy.dataCy('menu')
+          .then(() => {
+            Cypress.vueWrapper.vm.hide()
+          })
+        cy.dataCy('hidden')
+          .should('exist')
+          .then(() => {
+            expect(fn).to.be.called
+          })
       })
     })
 
