@@ -269,9 +269,10 @@ describe('Dialog API', () => {
 
           cy.withinDialog(() => {
             cy.root()
-              .closest('.q-dialog')
               .should('have.class', 'q-dialog--seamless')
 
+            // When in seamless state, the dialog isn't modal
+            // We check this by checking out if the underlying input is visible
             cy.root()
               .closest('body')
               .dataCy('input-field')
@@ -281,8 +282,8 @@ describe('Dialog API', () => {
               })
 
             cy.root()
-              .closest('.q-dialog')
               .should('not.have.class', 'q-dialog--seamless')
+
             cy.root()
               .closest('body')
               .dataCy('input-field')
@@ -304,21 +305,14 @@ describe('Dialog API', () => {
           })
 
           cy.withinDialog(() => {
-            cy.root()
-              .closest('.q-dialog')
-              .get('.q-dialog__inner--maximized')
-            cy.root()
-              .closest('body')
-              .dataCy('input-field')
-              .should('not.be.visible')
+            cy.get('.q-dialog__inner')
+              .should('have.class', 'q-dialog__inner--maximized')
               .then(async () => {
                 await Cypress.vueWrapper.setProps({ maximized: false })
               })
 
-            cy.root()
-              .closest('.q-dialog')
-              .get('.q-dialog__inner--maximized')
-              .should('not.exist')
+            cy.get('.q-dialog__inner')
+              .should('not.have.class', 'q-dialog__inner--maximized')
 
             closeDialogViaBackdrop()
           })
@@ -336,14 +330,14 @@ describe('Dialog API', () => {
           })
 
           cy.withinDialog(() => {
-            cy.get('.q-dialog__inner--fullwidth')
-              .should('exist')
+            cy.get('.q-dialog__inner')
+              .should('have.class', 'q-dialog__inner--fullwidth')
               .then(async () => {
                 await Cypress.vueWrapper.setProps({ fullWidth: false })
               })
 
-            cy.get('.q-dialog__inner--fullwidth')
-              .should('not.exist')
+            cy.get('.q-dialog__inner')
+              .should('not.have.class', 'q-dialog__inner--fullwidth')
 
             // We are closing the dialog here and in other places where it is not necessary because
             // withinDialog expects the dialog to be closed when called like this
@@ -363,14 +357,14 @@ describe('Dialog API', () => {
           })
 
           cy.withinDialog(() => {
-            cy.get('.q-dialog__inner--fullheight')
-              .should('exist')
+            cy.get('.q-dialog__inner')
+              .should('have.class', 'q-dialog__inner--fullheight')
               .then(async () => {
                 await Cypress.vueWrapper.setProps({ fullHeight: false })
               })
 
-            cy.get('.q-dialog__inner--fullheight')
-              .should('not.exist')
+            cy.get('.q-dialog__inner')
+              .should('not.have.class', 'q-dialog__inner--fullheight')
 
             closeDialogViaBackdrop()
           })
@@ -389,15 +383,16 @@ describe('Dialog API', () => {
           const positions = [ 'top', 'right', 'bottom', 'left' ]
 
           for (const position of positions) {
-            cy.wrap(position).then(async () => {
+            cy.wrap().then(async () => {
               await Cypress.vueWrapper.setProps({ position })
             })
 
             cy.withinDialog({
               persistent: true,
               fn: () => {
-                cy.get(`.q-dialog__inner--${ position }.fixed-${ position }`)
-                  .should('exist')
+                cy.get('.q-dialog__inner')
+                  .should('have.class', `q-dialog__inner--${ position }`)
+                  .should('have.class', `fixed-${ position }`)
               }
             })
           }
@@ -417,14 +412,14 @@ describe('Dialog API', () => {
           })
 
           cy.withinDialog(() => {
-            cy.get('.q-dialog__inner--square')
-              .should('exist')
+            cy.get('.q-dialog__inner')
+              .should('have.class', 'q-dialog__inner--square')
               .then(async () => {
                 await Cypress.vueWrapper.setProps({ square: false })
               })
 
-            cy.get('.q-dialog__inner--square')
-              .should('not.exist')
+            cy.get('.q-dialog__inner')
+              .should('not.have.class', 'q-dialog__inner--square')
 
             closeDialogViaBackdrop()
           })
