@@ -93,7 +93,7 @@ spellcheck="false"
 ```
 
 ## Submitting to a URL (native form submit)
-If you are using the native `action` and `method` attributes on a QForm, please remember to use the `name` prop on each Quasar form component, so that the sent formData to actually contain what the user has filled in.
+If you are using the native `action` and `method` attributes on a QForm, please remember to use the `name` prop on each Quasar form component, so that the sent formData actually contains what the user has filled in.
 
 ```html
 <q-form action="https://some-url.com" method="post">
