@@ -377,6 +377,7 @@ class QuasarConfFile {
       // vue
       __VUE_OPTIONS_API__: cfg.build.vueOptionsApi !== false,
       __VUE_PROD_DEVTOOLS__: this.ctx.dev === true || this.ctx.debug === true,
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: this.ctx.dev === true || this.ctx.debug === true, // Vue 3.4+
 
       // quasar
       __QUASAR_VERSION__: JSON.stringify(quasarVersion),
