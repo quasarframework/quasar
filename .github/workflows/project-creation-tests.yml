@@ -17,6 +17,7 @@ jobs:
   lint:
     if: >-
       ${{
+        github.event_name == 'workflow_dispatch' ||
         github.event_name == 'pull_request' ||
 
         startsWith(github.event.release.tag_name, 'quasar') ||
