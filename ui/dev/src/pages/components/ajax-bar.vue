@@ -51,6 +51,12 @@
           <q-checkbox v-model="reverse" label="Reverse Direction" />
 
           <div class="text-h6 q-mt-md">
+            watchEffect
+          </div>
+          <q-checkbox v-model="watchUrl" label="active" />
+          <q-input v-model="url" label="URL" />
+
+          <div class="text-h6 q-mt-md">
             Size
           </div>
           <q-slider v-model="size" :min="2" :max="20" label-always :label-value="`${size}px`" />
@@ -70,6 +76,7 @@
 
 <script>
 import { LoadingBar } from 'quasar'
+import { defineComponent, watchEffect, ref } from 'vue'
 
 function sendXhr (url) {
   const xhr = new XMLHttpRequest()
@@ -83,7 +90,7 @@ function sendXhr (url) {
   // }, 500)
 }
 
-export default {
+export default defineComponent({
   created () {
     LoadingBar.setDefaults({
       hijackFilter (url) {
@@ -146,6 +153,14 @@ export default {
     triggerXhr2 () {
       sendXhr('https://deelay.me/2000/second-server')
     }
+  },
+  setup () {
+    const watchUrl = ref(false)
+    const url = ref('https://deelay.me/2000/server')
+    watchEffect(() => {
+      if (watchUrl.value) { sendXhr(url.value) }
+    })
+    return { watchUrl, url }
   }
-}
+})
 </script>
