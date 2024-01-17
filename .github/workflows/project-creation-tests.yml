@@ -42,7 +42,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           # create-quasar is not included in workspaces, and it's yarn.lock is .gitignored, so we can't have caching
           # cache: 'yarn'
 
@@ -69,7 +69,7 @@ jobs:
       matrix:
         script-type: [js, ts]
         app-engine: [vite, webpack]
-        node-version: [16, 18, 20]
+        node-version: [18, 20]
         package-manager: [yarn, npm, pnpm]
 
     name: Test ${{ matrix.script-type }}-${{ matrix.app-engine }} (Node v${{ matrix.node-version }} - ${{ matrix.package-manager }})
