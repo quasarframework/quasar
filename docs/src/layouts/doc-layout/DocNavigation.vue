@@ -1,12 +1,12 @@
 <template>
-  <q-dialog v-model:model-value="show" seamless position="top" >
+  <q-dialog v-model:model-value="docStore.state.value.quicklyNavigation" seamless position="top" >
     <q-card class="navigation">
       <q-form @submit="navigative" class="full-width">
         <q-select
           class="full-width"
           filled
           @update:model-value="navigative"
-          @blur="show = false"
+          @blur="docStore.closeQuicklyNavigation"
           use-input
           input-debounce="0"
           hide-selected
@@ -21,31 +21,32 @@
         </q-select>
       </q-form>
     </q-card>
-</q-dialog>
+  </q-dialog>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-
 import { useRouter } from 'vue-router'
+import { useDocStore } from './store'
 
-const show = ref(false)
 const router = useRouter()
 const allRoutes = router.getRoutes().map((r) => r.path)
 const options = ref(allRoutes)
 
+const docStore = useDocStore()
+
 onMounted(() => {
   window.addEventListener('keydown', (event) => {
-    if (event.key === 'p' && event.metaKey) {
+    if (event.key === 'p' && (event.metaKey || event.ctrlKey)) {
       event.preventDefault()
-      show.value = true
+      docStore.openQuicklyNavigation()
     }
   })
 })
 
 function navigative (val) {
   router.push(val)
-  show.value = false
+  docStore.closeQuicklyNavigation()
 }
 
 function filterFn (val, update) {

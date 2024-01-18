@@ -25,7 +25,8 @@ export function provideDocStore () {
     state: {
       dark: $q.cookies.get('theme') !== 'light',
       menuDrawer: false,
-      tocDrawer: false
+      tocDrawer: false,
+      quicklyNavigation: false
     },
 
     toggleDark () {
@@ -39,7 +40,16 @@ export function provideDocStore () {
 
     toggleTocDrawer () {
       store.state.value.tocDrawer = store.state.value.tocDrawer === false
+    },
+
+    openQuicklyNavigation () {
+      store.state.value.quicklyNavigation = true
+    },
+
+    closeQuicklyNavigation () {
+      store.state.value.quicklyNavigation = false
     }
+
   }
 
   injectToc(store)
