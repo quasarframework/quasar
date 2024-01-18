@@ -51,10 +51,12 @@
           <q-checkbox v-model="reverse" label="Reverse Direction" />
 
           <div class="text-h6 q-mt-md">
-            watchEffect
-          </div>
-          <q-checkbox v-model="watchUrl" label="active" />
-          <q-input v-model="url" label="URL" />
+             watchEffect
+           </div>
+           <div class="row items-center">
+             <q-checkbox v-model="watchUrl" label="active" />
+             <q-input class="q-ml-md col" v-model="url" prefix="URL:" dense />
+           </div>
 
           <div class="text-h6 q-mt-md">
             Size
@@ -75,8 +77,8 @@
 </template>
 
 <script>
+import { watchEffect } from 'vue'
 import { LoadingBar } from 'quasar'
-import { defineComponent, watchEffect, ref } from 'vue'
 
 function sendXhr (url) {
   const xhr = new XMLHttpRequest()
@@ -90,7 +92,7 @@ function sendXhr (url) {
   // }, 500)
 }
 
-export default defineComponent({
+export default {
   created () {
     LoadingBar.setDefaults({
       hijackFilter (url) {
@@ -99,6 +101,12 @@ export default defineComponent({
 
         console.log(url, res)
         return res
+      }
+    })
+
+    watchEffect(() => {
+      if (this.watchUrl) {
+        sendXhr(this.url)
       }
     })
   },
@@ -111,7 +119,10 @@ export default defineComponent({
       reverse: false,
       size: 20,
 
-      timeouts: []
+      timeouts: [],
+
+      watchUrl: false,
+      url: 'https://deelay.me/2000/server'
     }
   },
   computed: {
@@ -153,14 +164,6 @@ export default defineComponent({
     triggerXhr2 () {
       sendXhr('https://deelay.me/2000/second-server')
     }
-  },
-  setup () {
-    const watchUrl = ref(false)
-    const url = ref('https://deelay.me/2000/server')
-    watchEffect(() => {
-      if (watchUrl.value) { sendXhr(url.value) }
-    })
-    return { watchUrl, url }
   }
-})
+}
 </script>

@@ -184,6 +184,14 @@ export default createComponent({
 
       progress.value = 0
 
+      /**
+       * We're trying to avoid side effects if start() is called inside a watchEffect()
+       * so we're accessing the _value property directly (under the covers implementation detail of ref())
+       *
+       * Otherwise, any refs() accessed here would be marked as deps for the watchEffect()
+       * -- and we are changing them below, which would cause an infinite loop
+       */
+
       timer = setTimeout(() => {
         timer = null
         animate.value = true
