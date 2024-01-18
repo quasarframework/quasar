@@ -128,7 +128,7 @@ const logo = computed(() => {
 
 const showThemeChanger = computed(() => docStore.$route.meta.dark !== true)
 const hasToc = computed(() => docStore.$route.meta.fullwidth !== true && docStore.$route.meta.fullscreen !== true && docStore.state.value.toc.length !== 0)
-const keysLabel = computed(() => $q.platform.is.desktop === true ? ($q.platform.is.mac ? '⌘P' : 'Ctrl+P') : null)
+const keysLabel = computed(() => $q.platform.is.mac ? '⌘P' : 'Ctrl+P')
 
 </script>
 
