@@ -18,7 +18,7 @@ export default configure(() => ({
   build: {
     target: {
       browser: [ 'es2022' ],
-      node: 'node16'
+      node: 'node20'
     },
 
     distDir: 'dist',
