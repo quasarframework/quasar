@@ -188,9 +188,11 @@ export default createComponent({
         timer = null
         animate.value = true
         newSpeed > 0 && planNextStep()
-      }, onScreen.value === true ? 500 : 1)
+        // eslint-disable-next-line vue/no-ref-as-operand
+      }, onScreen._value === true ? 500 : 1)
 
-      if (onScreen.value !== true) {
+      // eslint-disable-next-line vue/no-ref-as-operand
+      if (onScreen._value !== true) {
         onScreen.value = true
         animate.value = false
       }
