@@ -11,6 +11,8 @@
           input-debounce="0"
           hide-selected
           autofocus
+          dense
+          options-dense
           placeholder="Search page by path"
           :options="options"
           @filter="filterFn"
