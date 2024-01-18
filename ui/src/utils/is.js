@@ -1,4 +1,3 @@
-
 export function isDeepEqual (a, b) {
   if (a === b) {
     return true

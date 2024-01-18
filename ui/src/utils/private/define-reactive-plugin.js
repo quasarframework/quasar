@@ -1,4 +1,3 @@
-
 import { reactive } from 'vue'
 import { injectProp } from './inject-obj-prop.js'
 

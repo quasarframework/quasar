@@ -1,4 +1,3 @@
-
 import os from 'node:os'
 
 const nodejsVersion = `Node.js ${ process.versions.node } ${ os.type() }`

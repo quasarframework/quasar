@@ -1,4 +1,3 @@
-
 import { existsSync, readFileSync, writeFileSync, statSync } from 'node:fs'
 import fse from 'fs-extra'
 import { generate } from 'selfsigned'

@@ -1,4 +1,3 @@
-
 // copied to docs too
 export function getParentProxy (proxy) {
   if (Object(proxy.$parent) === proxy.$parent) {

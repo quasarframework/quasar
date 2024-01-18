@@ -1,4 +1,3 @@
-
 import { lstatSync } from 'node:fs'
 import fse from 'fs-extra'
 import { join, isAbsolute, basename, dirname } from 'node:path'

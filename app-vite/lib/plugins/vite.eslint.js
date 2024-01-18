@@ -1,4 +1,3 @@
-
 import { normalizePath } from 'vite'
 
 import { warning, error, success } from '../utils/logger.js'
