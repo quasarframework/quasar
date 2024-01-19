@@ -140,12 +140,11 @@ export function addTypeDeclarations (code, id) {
         ? `
 ## Type Declarations
 
-<details>
-<summary class='cursor-pointer'>Show Type Declarations</summary>
+::: details Show Type Declarations
 
 ${typeCode}
 
-</details>
+:::
     `
         : `\n## Type Declarations\n\n${typeCode}`
 
