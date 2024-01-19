@@ -1,4 +1,3 @@
-
 import compileTemplate from 'lodash/template.js'
 import { minify } from 'html-minifier'
 

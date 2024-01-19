@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 import { progress } from '../../utils/logger.js'

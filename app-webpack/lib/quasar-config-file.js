@@ -790,6 +790,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         // vue
         __VUE_OPTIONS_API__: cfg.build.vueOptionsAPI !== false,
         __VUE_PROD_DEVTOOLS__: cfg.metaConf.debugging,
+        __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: cfg.metaConf.debugging, // Vue 3.4+
 
         // vue-i18n
         __VUE_I18N_FULL_INSTALL__: true,
@@ -833,7 +834,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
 
     if (!cfg.build.esbuildTarget.node) {
-      cfg.build.esbuildTarget.node = 'node16'
+      cfg.build.esbuildTarget.node = 'node20'
     }
 
     if (this.#ctx.mode.ssr) {

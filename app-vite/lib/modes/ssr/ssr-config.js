@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 import { mergeConfig as mergeViteConfig } from 'vite'
 

@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 

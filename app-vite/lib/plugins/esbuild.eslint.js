@@ -1,4 +1,3 @@
-
 import { normalizePath } from 'vite'
 import { dim, underline, bold } from 'kolorist'
 

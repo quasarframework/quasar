@@ -57,6 +57,9 @@ export default createComponent({
 
     const { proxy } = getCurrentInstance()
 
+    // expose public method
+    proxy.trigger = trigger
+
     if (hasObserver === true) {
       let observer
 
@@ -129,9 +132,6 @@ export default createComponent({
       })
 
       onBeforeUnmount(cleanup)
-
-      // expose public method
-      proxy.trigger = trigger
 
       return () => {
         if (canRender.value === true) {

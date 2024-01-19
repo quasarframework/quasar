@@ -1,4 +1,3 @@
-
 import { AppTool } from './app-tool.js'
 import { printDevRunningBanner } from './utils/banner.js'
 import { encodeForDiff } from './utils/encode-for-diff.js'

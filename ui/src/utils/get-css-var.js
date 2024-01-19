@@ -1,4 +1,3 @@
-
 export default function getCssVar (propName, element = document.body) {
   if (typeof propName !== 'string') {
     throw new TypeError('Expected a string as propName')

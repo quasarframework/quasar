@@ -1,4 +1,3 @@
-
 import { readFileSync } from 'node:fs'
 
 import { getPackageJson } from '../utils/get-package-json.js'

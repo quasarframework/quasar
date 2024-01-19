@@ -1,4 +1,3 @@
-
 import { join } from 'node:path'
 
 import { escapeRegexString } from '../../utils/escape-regex-string.js'

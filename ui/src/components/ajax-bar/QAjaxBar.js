@@ -184,13 +184,23 @@ export default createComponent({
 
       progress.value = 0
 
+      /**
+       * We're trying to avoid side effects if start() is called inside a watchEffect()
+       * so we're accessing the _value property directly (under the covers implementation detail of ref())
+       *
+       * Otherwise, any refs() accessed here would be marked as deps for the watchEffect()
+       * -- and we are changing them below, which would cause an infinite loop
+       */
+
       timer = setTimeout(() => {
         timer = null
         animate.value = true
         newSpeed > 0 && planNextStep()
-      }, onScreen.value === true ? 500 : 1)
+        // eslint-disable-next-line vue/no-ref-as-operand
+      }, onScreen._value === true ? 500 : 1)
 
-      if (onScreen.value !== true) {
+      // eslint-disable-next-line vue/no-ref-as-operand
+      if (onScreen._value !== true) {
         onScreen.value = true
         animate.value = false
       }

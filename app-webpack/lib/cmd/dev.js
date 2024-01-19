@@ -94,7 +94,7 @@ function startVueDevtools (ctx, devtoolsPort) {
   const { spawn } = require('../utils/spawn.js')
   const { getPackagePath } = require('../utils/get-package-path.js')
 
-  let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
+  let vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
 
   function run () {
     log('Booting up remote Vue Devtools...')
@@ -121,7 +121,7 @@ function startVueDevtools (ctx, devtoolsPort) {
   // a small delay is a must, otherwise require.resolve
   // after a yarn/npm install will fail
   return new Promise(resolve => {
-    vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js', appDir)
+    vueDevtoolsBin = getPackagePath('.bin/vue-devtools', appDir)
     run().then(resolve)
   })
 }

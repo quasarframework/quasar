@@ -176,15 +176,11 @@ export default createComponent({
       + (isDark.value === true ? ' q-color-picker--dark q-dark' : '')
     )
 
-    const attributes = computed(() => {
-      if (props.disable === true) {
-        return { 'aria-disabled': 'true' }
-      }
-      if (props.readonly === true) {
-        return { 'aria-readonly': 'true' }
-      }
-      return {}
-    })
+    const attributes = computed(() => (
+      props.disable === true
+        ? { 'aria-disabled': 'true' }
+        : {}
+    ))
 
     const spectrumDirective = computed(() => {
       // if editable.value === true

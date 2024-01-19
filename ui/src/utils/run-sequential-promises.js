@@ -1,4 +1,3 @@
-
 function parsePromises (sequentialPromises) {
   const isList = Array.isArray(sequentialPromises)
 
