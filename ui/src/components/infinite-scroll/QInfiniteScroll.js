@@ -236,7 +236,7 @@ export default createComponent({
     const vm = getCurrentInstance()
     Object.assign(vm.proxy, {
       poll: () => { poll !== void 0 && poll() },
-      trigger, stop, reset, resume, setIndex
+      trigger, stop, reset, resume, setIndex, updateScrollTarget
     })
 
     return () => {
