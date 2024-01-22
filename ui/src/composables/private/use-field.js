@@ -342,7 +342,7 @@ export default function (state) {
       document.activeElement.blur()
     }
 
-    if (props.type === 'file') { // TODO vue3
+    if (props.type === 'file') {
       // do not let focus be triggered
       // as it will make the native file dialog
       // appear for another selection
@@ -353,11 +353,9 @@ export default function (state) {
     emit('clear', props.modelValue)
 
     nextTick(() => {
+      const isDirty = isDirtyModel.value
       resetValidation()
-
-      if ($q.platform.is.mobile !== true) {
-        isDirtyModel.value = false
-      }
+      isDirtyModel.value = isDirty
     })
   }
 
