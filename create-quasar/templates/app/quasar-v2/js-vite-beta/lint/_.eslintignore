@@ -3,5 +3,5 @@
 /src-cordova
 /.quasar
 /node_modules
-.eslintrc.js
+.eslintrc.cjs
 /quasar.config.*.temporary.compiled*
