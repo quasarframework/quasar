@@ -7,7 +7,7 @@ export type QNotifyUpdateOptions = Omit<
 >;
 export type QNotifyOptions = Omit<QNotifyCreateOptions, "ignoreDefaults">;
 
-export interface NotifyCustomTypes {};
+export interface QNotifyCustomTypes {};
 
 type NotifyTypes =  
   | 'positive'
@@ -16,7 +16,7 @@ type NotifyTypes =
   | 'info'
   | 'ongoing';
 
-export type NotifyType = LiteralUnion<NotifyTypes | keyof NotifyCustomTypes>;
+export type QNotifyType = LiteralUnion<NotifyTypes | keyof QNotifyCustomTypes>;
 
 
 export type QNotifyAction = Omit<QBtnProps, "onClick"> &
