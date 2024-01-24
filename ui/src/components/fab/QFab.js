@@ -4,12 +4,12 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import useFab, { useFabProps } from './use-fab.js'
+import useId from '../../composables/private/use-id.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot, hMergeSlot } from '../../utils/private/render.js'
 import { fabKey } from '../../utils/private/symbols.js'
-import uid from '../../utils/uid.js'
 
 const directions = [ 'up', 'right', 'down', 'left' ]
 const alignValues = [ 'left', 'center', 'right' ]
@@ -49,7 +49,7 @@ export default createComponent({
   setup (props, { slots }) {
     const triggerRef = ref(null)
     const showing = ref(props.modelValue === true)
-    const targetUid = uid()
+    const targetUid = useId()
 
     const { proxy: { $q } } = getCurrentInstance()
     const { formClass, labelProps } = useFab(props, showing)
@@ -77,7 +77,7 @@ export default createComponent({
 
     const actionAttrs = computed(() => {
       const attrs = {
-        id: targetUid,
+        id: targetUid.value,
         role: 'menu'
       }
 
@@ -149,7 +149,7 @@ export default createComponent({
         fab: true,
         'aria-expanded': showing.value === true ? 'true' : 'false',
         'aria-haspopup': 'true',
-        'aria-controls': targetUid,
+        'aria-controls': targetUid.value,
         onClick: toggle
       }, getTriggerContent),
 
