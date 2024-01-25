@@ -111,7 +111,7 @@ Running on mobile means you can have this code running on a mobile device (phone
 :::
 
 ## Note about SSR
-When building for SSR, use only the `$q.platform` form. If you need to use the `import { Platform } from 'quasar'` (when on server-side), then you'll need to do it like this:
+When building for SSR, use only the `$q.platform` form. Alternatively, when on server-side, this is an example of how you can use it:
 
 ```js
 import { Platform } from 'quasar'
