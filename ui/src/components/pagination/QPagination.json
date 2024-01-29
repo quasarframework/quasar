@@ -73,7 +73,7 @@
       },
       "returns": {
         "type": [ "Object", "String" ],
-        "desc": "Object or String that can be passed to a <router-link> as `to` parameter"
+        "desc": "Object or String that can be passed to a <router-link> as 'to' parameter"
       },
       "examples": [ ":to-fn=\"page => ({ query: { page } })\"" ],
       "category": "content"

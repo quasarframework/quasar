@@ -32,7 +32,7 @@
       "scope": {
         "id": {
           "type": "String",
-          "desc": "Element id used in the `for` attribute of the field label. Can be used to link the control to the label",
+          "desc": "Element id used in the 'for' attribute of the field label. Can be used to link the control to the label",
           "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
         },
         "field": {
