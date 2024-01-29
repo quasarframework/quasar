@@ -55,7 +55,10 @@ Try changing **Visual Effects** to **Adjust for Best Appearance**.
 :::
 
 ## Usage
-Notice the string "animated" in front of the actual animation name.
+
+::: warning
+Notice the string `animated` in front of the actual animation class name.
+:::
 
 ```html Example with wrapping only one DOM element / component
 <transition
@@ -73,7 +76,8 @@ Notice the string "animated" in front of the actual animation name.
 ```
 ### Built-in animation classes
 Quasar also provides some built-in classes to animate the active state between both enter and leave transitions. the animations provided are separated into three groups:
-#### General
+
+::: details General classes
 ```js
 type generalAnimations =
   | 'bounce'
@@ -92,9 +96,12 @@ type generalAnimations =
   | 'tada'
   | 'wobble'
 ```
-#### In Animations
+:::
+
+
+::: details "In" classes
 ```js
-inAnimations =
+type inAnimations =
   | 'backInDown'
   | 'backInLeft'
   | 'backInRight'
@@ -137,8 +144,10 @@ inAnimations =
   | 'zoomInLeft'
   | 'zoomInRight'
   | 'zoomInUp'
-  ```
-#### Out animations
+```
+:::
+
+::: details "Out" classes
 ```js
 type outAnimations =
   | 'backOutDown'
@@ -183,7 +192,10 @@ type outAnimations =
   | 'zoomOutRight'
   | 'zoomOutUp'
 ```
-Go to the [official Vue documention](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for more information about the use of this classes
+:::
+
+You can also go to the [official Vue documention](https://vuejs.org/guide/built-ins/transition.html#custom-transition-classes) for more information about the use of these classes.
+
 ### Wrapping Multiple Elements
 You can also group components or DOM elements in a transition so that the same effects are applied to all of them simultaneously.
 
