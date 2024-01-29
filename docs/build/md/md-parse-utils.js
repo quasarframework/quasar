@@ -53,8 +53,7 @@ export function getVueComponent (data, mdPageContent) {
     ${ data.editLink !== false ? `edit-link="${ data.editLink }"` : '' }
     ${ data.toc.length !== 0 ? ':toc="toc"' : '' }
     ${ data.related !== void 0 ? ':related="related"' : '' }
-    ${ data.nav !== void 0 ? ':nav="nav"' : '' }
-    ${ data.scope !== void 0 ? ':scope="scope"' : '' }>${ mdPageContent }</doc-page>
+    ${ data.nav !== void 0 ? ':nav="nav"' : '' }>${ mdPageContent }</doc-page>
 </template>
 <script setup>
 import { copyHeading } from 'assets/page-utils'
