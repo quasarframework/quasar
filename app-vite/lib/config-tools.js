@@ -1,4 +1,3 @@
-
 import { quasar as quasarVitePlugin } from '@quasar/vite-plugin'
 import vueVitePlugin from '@vitejs/plugin-vue'
 import { merge } from 'webpack-merge'

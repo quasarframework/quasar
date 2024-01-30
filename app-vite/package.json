@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app-vite",
-  "version": "2.0.0-alpha.45",
+  "version": "2.0.0-alpha.46",
   "description": "Quasar Framework App CLI with Vite",
   "bin": {
     "quasar": "./bin/quasar.js"
@@ -83,7 +83,7 @@
     "semver": "^7.5.3",
     "serialize-javascript": "^6.0.0",
     "table": "^6.8.0",
-    "vite": "^5.0.0",
+    "vite": "^4.5.2",
     "webpack-merge": "^5.9.0"
   },
   "devDependencies": {
@@ -98,7 +98,7 @@
     "quasar": "^2.14.0",
     "ts-essentials": "^9.1.2",
     "typescript": "^5.2.2",
-    "vue": "^3.3.4",
+    "vue": "^3.4.15",
     "vue-router": "^4.2.1",
     "vuex": "^4.0.0",
     "workbox-build": "^7.0.0"

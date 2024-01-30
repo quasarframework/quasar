@@ -31,7 +31,7 @@ export default function (focused, innerLoading) {
 
   const innerError = ref(false)
   const innerErrorMessage = ref(null)
-  const isDirtyModel = ref(null)
+  const isDirtyModel = ref(false)
 
   useFormChild({ validate, resetValidation })
 
@@ -74,18 +74,20 @@ export default function (focused, innerLoading) {
     }
   })
 
+  function onRulesChange () {
+    if (
+      props.lazyRules !== 'ondemand'
+      && canDebounceValidate.value === true
+      && isDirtyModel.value === true
+    ) {
+      debouncedValidate()
+    }
+  }
+
   watch(() => props.reactiveRules, val => {
     if (val === true) {
       if (unwatchRules === void 0) {
-        unwatchRules = watch(() => props.rules, () => {
-          if (
-            canDebounceValidate.value === true
-            && isDirtyModel.value === true
-            && props.lazyRules !== 'ondemand'
-          ) {
-            debouncedValidate()
-          }
-        }, { immediate: true })
+        unwatchRules = watch(() => props.rules, onRulesChange, { immediate: true, deep: true })
       }
     }
     else if (unwatchRules !== void 0) {
@@ -94,30 +96,15 @@ export default function (focused, innerLoading) {
     }
   }, { immediate: true })
 
-  watch(() => props.lazyRules, val => {
-    if (
-      val === false
-      && canDebounceValidate.value === true
-      && isDirtyModel.value === true
-    ) {
-      debouncedValidate()
-    }
-  })
+  watch(() => props.lazyRules, onRulesChange)
 
   watch(focused, val => {
     if (val === true) {
-      if (isDirtyModel.value === null) {
-        isDirtyModel.value = props.lazyRules === true
-      }
+      isDirtyModel.value = true
     }
     else if (
       canDebounceValidate.value === true
-      && (
-        // props.lazyRules can also be 'ondemand',
-        // hence the following form:
-        props.lazyRules === false
-        || (props.lazyRules === true && isDirtyModel.value === true)
-      )
+      && props.lazyRules !== 'ondemand'
     ) {
       debouncedValidate()
     }
@@ -126,7 +113,7 @@ export default function (focused, innerLoading) {
   function resetValidation () {
     validateIndex++
     innerLoading.value = false
-    isDirtyModel.value = null
+    isDirtyModel.value = false
     innerError.value = false
     innerErrorMessage.value = null
     debouncedValidate.cancel()

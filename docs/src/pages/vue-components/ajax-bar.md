@@ -58,3 +58,4 @@ export default {
 
 * If multiple events are captured by Ajax Bar simultaneously, `@start` and `@stop` will still be triggered only once: when bar starts showing up and when it becomes hidden.
 * Each Ajax call makes a `start()` call when it is triggered. When it ends, it calls `stop()`. So yes, if you also manually trigger QAjaxBar you must call `start()` each time a new event is starting and `stop()` each time an event finished. QAjaxBar knows to handle multiple events simultaneously.
+* The automatic capture is designed to function exclusively with libraries utilizing [XMLHttpRequest (XHR)](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest). Consequently, if you opt for the native browser [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), it won't initiate the loading bar automatically.

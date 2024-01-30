@@ -105,9 +105,7 @@ const props = defineProps({
 
   toc: Array,
   related: Array,
-  nav: Array,
-
-  scope: Object
+  nav: Array
 })
 
 useMeta(

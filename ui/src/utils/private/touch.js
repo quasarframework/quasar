@@ -1,4 +1,3 @@
-
 const modifiersAll = {
   left: true,
   right: true,

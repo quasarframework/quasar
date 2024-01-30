@@ -1,4 +1,3 @@
-
 import { readFileSync, writeFileSync } from 'node:fs'
 
 const TARGET_STRING = '"<!-- inject:data -->"'

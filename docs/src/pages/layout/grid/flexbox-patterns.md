@@ -75,7 +75,7 @@ $x: 3;
 }
 ```
 
-Example, supossing you want a 4 column layout:
+Example, supposing you want a 4 column layout:
 
 ```sass
 .item:nth-child(4n+1)
@@ -94,7 +94,7 @@ For the HTML there are some requirements that should be followed:
 - the column breaking elements must be as many as the columns
 - the first column breaking element must be hidden (class `hidden` or style `display: none`)
 
-Example, supossing you want a 4 column layout:
+Example, supposing you want a 4 column layout:
 
 ```html
 <div class="column">

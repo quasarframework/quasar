@@ -51,6 +51,14 @@
           <q-checkbox v-model="reverse" label="Reverse Direction" />
 
           <div class="text-h6 q-mt-md">
+             watchEffect
+           </div>
+           <div class="row items-center">
+             <q-checkbox v-model="watchUrl" label="active" />
+             <q-input class="q-ml-md col" v-model="url" prefix="URL:" dense />
+           </div>
+
+          <div class="text-h6 q-mt-md">
             Size
           </div>
           <q-slider v-model="size" :min="2" :max="20" label-always :label-value="`${size}px`" />
@@ -69,6 +77,7 @@
 </template>
 
 <script>
+import { watchEffect } from 'vue'
 import { LoadingBar } from 'quasar'
 
 function sendXhr (url) {
@@ -94,6 +103,12 @@ export default {
         return res
       }
     })
+
+    watchEffect(() => {
+      if (this.watchUrl) {
+        sendXhr(this.url)
+      }
+    })
   },
   beforeUnmount () {
     LoadingBar.setDefaults({ hijackFilter: void 0 })
@@ -104,7 +119,10 @@ export default {
       reverse: false,
       size: 20,
 
-      timeouts: []
+      timeouts: [],
+
+      watchUrl: false,
+      url: 'https://deelay.me/2000/server'
     }
   },
   computed: {

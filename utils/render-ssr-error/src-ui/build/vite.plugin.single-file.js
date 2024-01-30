@@ -1,4 +1,3 @@
-
 const preloadRE = /"__VITE_PRELOAD__"/g
 
 const jsRE = /\.js$/

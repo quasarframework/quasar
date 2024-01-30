@@ -140,7 +140,7 @@ export default function (props, slots, emit, routeData) {
               if (
                 hardError === void 0 && (
                   softError === void 0
-                  || softError.message.startsWith('Avoided redundant navigation') === true
+                  || (softError.message !== void 0 && softError.message.startsWith('Avoided redundant navigation') === true)
                 )
               ) {
                 $tabs.updateModel({ name: props.name })

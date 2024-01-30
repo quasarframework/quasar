@@ -11,7 +11,7 @@ In order to configure the browser compatibility for your app, you will need to e
 build: {
   target: {
     browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
-    node: 'node16'
+    node: 'node20'
   }
 }
 ```

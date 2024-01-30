@@ -8,6 +8,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useId from '../../composables/private/use-id.js'
 import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
@@ -75,7 +76,7 @@ export default createComponent({
     )
 
     const blurTargetRef = ref(null)
-    const targetUid = uid()
+    const targetUid = useId()
 
     const { show, hide, toggle } = useModelToggle({ showing })
 
@@ -143,7 +144,7 @@ export default createComponent({
       return {
         role: 'button',
         'aria-expanded': showing.value === true ? 'true' : 'false',
-        'aria-controls': targetUid,
+        'aria-controls': targetUid.value,
         'aria-label': toggleAriaLabel
       }
     })
@@ -320,7 +321,7 @@ export default createComponent({
           key: 'e-content',
           class: 'q-expansion-item__content relative-position',
           style: contentStyle.value,
-          id: targetUid
+          id: targetUid.value
         }, hSlot(slots.default)),
         [ [
           vShow,

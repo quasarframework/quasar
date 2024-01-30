@@ -1,4 +1,3 @@
-
 import { createViteConfig, extendViteConfig } from '../../config-tools.js'
 
 export const quasarSpaConfig = {

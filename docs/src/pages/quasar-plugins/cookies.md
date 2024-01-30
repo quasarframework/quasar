@@ -18,7 +18,7 @@ With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Elect
 <doc-installation plugins="Cookies" />
 
 ## Notes on SSR
-When building for SSR, use only the `$q.cookies` form. If you need to use the `import { Cookies } from 'quasar'`, then you'll need to do it like this:
+When building for SSR, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:
 
 ```js
 import { Cookies } from 'quasar'

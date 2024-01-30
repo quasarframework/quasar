@@ -1,4 +1,3 @@
-
 import { transformHtml } from '../utils/html-template.js'
 
 export function quasarViteIndexHtmlTransformPlugin (quasarConf) {

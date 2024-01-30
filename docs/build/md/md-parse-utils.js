@@ -61,16 +61,15 @@ function parseToc (toc) {
 export function getVueComponent (data, mdPageContent) {
   return `<template>
   <doc-page
-    title="${data.title}"
-    ${data.desc !== void 0 ? `desc="${data.desc}"` : ''}
-    ${data.overline !== void 0 ? `overline="${data.overline}"` : ''}
-    ${data.badge !== void 0 ? `badge="${data.badge}"` : ''}
-    ${data.heading !== false ? 'heading' : ''}
-    ${data.editLink !== false ? `edit-link="${data.editLink}"` : ''}
-    ${data.toc.length !== 0 ? ':toc="toc"' : ''}
-    ${data.related !== void 0 ? ':related="related"' : ''}
-    ${data.nav !== void 0 ? ':nav="nav"' : ''}
-    ${data.scope !== void 0 ? ':scope="scope"' : ''}>${mdPageContent}</doc-page>
+    title="${ data.title }"
+    ${ data.desc !== void 0 ? `desc="${ data.desc }"` : '' }
+    ${ data.overline !== void 0 ? `overline="${ data.overline }"` : '' }
+    ${ data.badge !== void 0 ? `badge="${ data.badge }"` : '' }
+    ${ data.heading !== false ? 'heading' : '' }
+    ${ data.editLink !== false ? `edit-link="${ data.editLink }"` : '' }
+    ${ data.toc.length !== 0 ? ':toc="toc"' : '' }
+    ${ data.related !== void 0 ? ':related="related"' : '' }
+    ${ data.nav !== void 0 ? ':nav="nav"' : '' }>${ mdPageContent }</doc-page>
 </template>
 <script setup>
 import { copyHeading } from 'assets/page-utils'
