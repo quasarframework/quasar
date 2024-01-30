@@ -5,6 +5,6 @@
 /.quasar
 /node_modules
 .eslintrc.cjs
-babel.config.js
+babel.config.cjs
 /src-ssr
 /quasar.config.*.temporary.compiled*
