@@ -1,12 +1,14 @@
 import md from './md.js'
 import { convertToRelated, flatMenu } from './flat-menu.js'
-import { getVueComponent, parseFrontMatter } from './md-parse-utils.js'
+import { addTypeDeclarations, getVueComponent, parseFrontMatter } from './md-parse-utils.js'
 
 const docApiRE = /<doc-api /
 const docInstallationRE = /<doc-installation /
 const docTreeRE = /<doc-tree /
 
 export default function mdParse (code, id) {
+  code = addTypeDeclarations(code,id)
+  
   const { data, content } = parseFrontMatter(code)
 
   data.id = id
