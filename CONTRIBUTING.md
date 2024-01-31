@@ -6,7 +6,7 @@ Hi! We are really excited that you are interested in contributing to Quasar 👏
 - [Issue Reporting Guidelines](#issue-reporting-guidelines)
 - [Pull Request Guidelines](#pull-request-guidelines)
 - [Development Setup](#development-setup)
-- [Project Structure](#project-structure)
+- [Project Structure](#project-structure-ui)
 - [Financial Contribution](#financial-contribution)
 
 ## Issue Reporting Guidelines
@@ -111,6 +111,7 @@ $ yarn lint # or: npm run lint
 - **`dev`**: app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
 
 ## Dev Server for Quasar (/ui)
+
 Running `yarn dev` (or `npm run dev`) starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.
 
 ## Financial Contribution
