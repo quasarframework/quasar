@@ -183,7 +183,14 @@ Filling "components" and "directives" is required only if "all" is set to `false
 return {
   // a list with all options (all are optional)
   framework: {
-    // is using "auto" import strategy, you can also configure:
+    // If using "auto" import strategy, you can also configure the format in which you will write
+    // your Vue templates when using Quasar components.
+    //
+    // In case you'll be changing this value sometime during you project's lifetime,
+    // you might want to check-out a CLI utility called `xml-tag-caser`
+    // (it'll help you switch between different component casings).
+    //
+    // @see https://github.com/staszek998/xml-tag-caser
     autoImportComponentCase: 'pascal', // or 'kebab' (default) or 'combined'
 
     // For special cases outside of where auto-import can have an impact

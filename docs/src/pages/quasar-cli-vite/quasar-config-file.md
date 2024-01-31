@@ -253,10 +253,15 @@ interface QuasarFrameworkConfiguration {
   cssAddon?: boolean;
 
   /**
-   * Format in which you will write your Vue templates when
-   * using Quasar components.
+   * Format in which you will write your Vue templates when using Quasar components.
+   *
+   * In case you'll be changing this value sometime during you project's lifetime,
+   * you might want to check-out a CLI utility called `xml-tag-caser`
+   * (it'll help you switch between different component casings).
    *
    * @default 'kebab'
+   *
+   * @see https://github.com/staszek998/xml-tag-caser
    */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
 
