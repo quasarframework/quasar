@@ -173,6 +173,8 @@ Inside the testing Quasar project folder, we manually add our App Extension. Not
 $ yarn add --dev file://path/to/our/app/ext/app-extension
 # or
 $ yarn add --dev link://path/to/our/app/ext/app-extension
+# or
+$ npm add --save-dev file://path/to/our/app/ext/app-extension
 ```
 
 You will need to figure out which command works best for your environment.
