@@ -7,7 +7,7 @@ Before we can configure anything, we need to understand how the BEX is structure
 
 1. Runs in its own tab in the browser
 2. Runs in the [Developer Tools](https://developer.chrome.com/docs/extensions/how-to/devtools/extend-devtools) window.
-3. Runs in a [Popup](https://developer.chrome.com/docs/extensions/develop/ui#popups) window.
+3. Runs in a [Popup](https://developer.chrome.com/docs/extensions/develop/ui/add-popup) window.
 4. Runs as [Options](https://developer.chrome.com/docs/extensions/develop/ui/options-page) window.
 5. Runs in the context of a web page (injected into a website)
 
