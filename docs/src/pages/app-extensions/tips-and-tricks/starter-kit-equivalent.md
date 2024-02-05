@@ -68,7 +68,7 @@ We'll be creating an example App Extension which does the following:
 
 For the intents of this example, we'll be creating the following folder structure:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ## The install script
 

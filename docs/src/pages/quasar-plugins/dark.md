@@ -11,9 +11,9 @@ related:
 For a better understanding of this Quasar plugin, please head to the Style & Identity [Dark Mode](/style/dark-mode) page.
 :::
 
-<doc-api file="Dark" />
+<DocApi file="Dark" />
 
-<doc-installation title="Configuration" config="dark" />
+<DocInstallation title="Configuration" config="dark" />
 
 ## Usage
 

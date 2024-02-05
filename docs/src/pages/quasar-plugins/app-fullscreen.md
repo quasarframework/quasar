@@ -11,9 +11,9 @@ Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozi
 Please note that the behavior is different depending on the platform the code is running on, due to the fact that there isn't a fixed Web standard for Web Fullscreen API yet.
 :::
 
-<doc-api file="AppFullscreen" />
+<DocApi file="AppFullscreen" />
 
-<doc-installation plugins="AppFullscreen" />
+<DocInstallation plugins="AppFullscreen" />
 
 ## Usage
 ::: tip
@@ -68,9 +68,9 @@ setup () {
 }
 ```
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="On custom element" file="Targeted" />
+<DocExample title="On custom element" file="Targeted" />
 
 ::: warning
 On some phones this will have little effect:

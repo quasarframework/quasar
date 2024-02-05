@@ -1,7 +1,7 @@
 <template>
   <div class="relative-position copybtn-hover">
-    <code-prism :lang="props.lang" :code="props.code" :style="style" />
-    <copy-button />
+    <CodePrism :lang="props.lang" :code="props.code" :style="style" />
+    <CopyButton />
   </div>
 </template>
 

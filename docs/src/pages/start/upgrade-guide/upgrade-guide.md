@@ -1,8 +1,6 @@
 ---
 title: Upgrade Guide
 desc: How to upgrade Quasar from older versions to the latest one.
-components:
-  - ./UpgradeVideoLink
 ---
 
 ::: tip Quasar CLI with Vite or Webpack
@@ -17,7 +15,11 @@ You will notice that all of our documentation examples are using Vue 3's Composi
 
 Clicking on the poster below will open a Youtube playlist on the process of upgrading your Quasar CLI project from Quasar v1 to Quasar v2. It may get out of sync as we progress with Quasar v2, but it may help you get started.
 
-<upgrade-video-link />
+<script doc>
+import UpgradeVideoLink from './UpgradeVideoLink.vue'
+</script>
+
+<UpgradeVideoLink />
 
 ## Older v2 to latest v2
 

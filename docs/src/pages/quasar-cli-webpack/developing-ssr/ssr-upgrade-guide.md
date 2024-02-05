@@ -42,11 +42,11 @@ Please note that currently the only Nodejs supported server is [Expressjs](https
 
 The **old** structure:
 
-<doc-tree :def="scope.oldTree" />
+<DocTree :def="scope.oldTree" />
 
 The **NEW** structure:
 
-<doc-tree :def="scope.newTree" />
+<DocTree :def="scope.newTree" />
 
 ### Performing the upgrade
 

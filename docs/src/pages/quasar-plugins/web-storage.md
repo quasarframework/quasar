@@ -14,11 +14,11 @@ Web Storage API only retrieves strings. **Quasar retrieves data with its origina
 When running the code server-side on SSR builds, this feature can't work. Web Storage is a browser API only. You can however make use of it on the client-side with SSR.
 :::
 
-<doc-api file="LocalStorage" />
+<DocApi file="LocalStorage" />
 
-<doc-api file="SessionStorage" />
+<DocApi file="SessionStorage" />
 
-<doc-installation :plugins="['LocalStorage', 'SessionStorage']" />
+<DocInstallation :plugins="['LocalStorage', 'SessionStorage']" />
 
 ## Usage
 

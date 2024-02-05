@@ -18,39 +18,39 @@ List Items have the following pre-built child components:
 * **QItemSection** - An item section can have several uses for particular content. They are controlled via the `avatar`, `thumbnail` and `side` props. With no props, it will render the main section of your QItem (which spans to the fullest of available space).
 * **QItemLabel** - An item label is useful for predefined text content type within a QItemSection, or for header-like content of the QList itself.
 
-<doc-api file="QList" />
+<DocApi file="QList" />
 
-<doc-api file="QItem" />
+<DocApi file="QItem" />
 
-<doc-api file="QItemSection" />
+<DocApi file="QItemSection" />
 
-<doc-api file="QItemLabel" />
+<DocApi file="QItemLabel" />
 
 ## Usage
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
-<doc-example title="Force dark mode" file="Dark" />
+<DocExample title="Force dark mode" file="Dark" />
 
-<doc-example title="Dense" file="Dense" />
+<DocExample title="Dense" file="Dense" />
 
 ### QItemSection
 
-<doc-example title="Left avatar/thumbnail QItemSection" file="AvatarLeft" />
+<DocExample title="Left avatar/thumbnail QItemSection" file="AvatarLeft" />
 
-<doc-example title="Right avatar/thumbnail QItemSection" file="AvatarRight" />
+<DocExample title="Right avatar/thumbnail QItemSection" file="AvatarRight" />
 
 ::: tip
 When you have multi-line items, you could use `top` property on QItemSection side/avatar to align the sections to top, overriding default middle alignment.
 :::
 
-<doc-example title="Side QItemSection" file="SideSection" />
+<DocExample title="Side QItemSection" file="SideSection" />
 
 ### Active state
 
-<doc-example title="Active prop" file="ActiveState" />
+<DocExample title="Active prop" file="ActiveState" />
 
 ### QItemLabel
 
@@ -58,21 +58,21 @@ When you have multi-line items, you could use `top` property on QItemSection sid
 Notice you can handle label overflow with `lines` prop, telling it how many lines it can span. However, this feature uses Webkit specific CSS so won't work in IE/Edge.
 :::
 
-<doc-example title="ItemLabel" file="ItemLabel" />
+<DocExample title="ItemLabel" file="ItemLabel" />
 
 ### More involved examples
 
-<doc-example title="Contact list" file="ExampleContacts" />
+<DocExample title="Contact list" file="ExampleContacts" />
 
-<doc-example title="Settings" file="ExampleSettings" />
+<DocExample title="Settings" file="ExampleSettings" />
 
-<doc-example title="Emails" file="ExampleEmails" />
+<DocExample title="Emails" file="ExampleEmails" />
 
-<doc-example title="Folder listing" file="ExampleFolders" />
+<DocExample title="Folder listing" file="ExampleFolders" />
 
 For demoing purposes in the example below, we're using the `active` prop instead of QItem's router props (`to`, `exact`). UMD doesn't have Vue Router so you wouldn't be able to play with it in Codepen/jsFiddle.
 
-<doc-example title="Menu" file="ExampleMenu" />
+<DocExample title="Menu" file="ExampleMenu" />
 
 ::: tip
 For more complex menus, consider also using [QExpansionItem](/vue-components/expansion-item).
@@ -96,4 +96,4 @@ You can use QItems together with Vue Router through `<router-link>` properties b
 
 You can also delay, cancel or redirect navigation, as seen below. For a more in-depth description of the `@click` event being used below, please refer to QItem API card at the top of the page.
 
-<doc-example title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />
+<DocExample title="Links with delayed, cancelled or redirected navigation (v2.9+)" file="LinksWithGo" no-edit />

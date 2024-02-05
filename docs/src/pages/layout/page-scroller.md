@@ -15,7 +15,7 @@ Try it out with a non-fixed footer for example. When user reaches bottom of scre
 
 Essentially QPageScroller is very similar to QPageSticky. Whereas a QPageSticky component is always visible, a QPageScroller component only appears after a `scroll-offset` (property) is reached. Once visible, the user can click on it to quickly get back to the top of the page via `duration` property.
 
-<doc-api file="QPageScroller" />
+<DocApi file="QPageScroller" />
 
 ## Usage
 ::: tip
@@ -29,12 +29,12 @@ Since QPageScroller needs a layout and QLayout by default manages the entire win
 
 ### Basic
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 ### Expanded
 
-<doc-example title="Expanded" file="Expanded" />
+<DocExample title="Expanded" file="Expanded" />
 
 ### Reverse
 
-<doc-example title="Reverse" file="Reverse" />
+<DocExample title="Reverse" file="Reverse" />

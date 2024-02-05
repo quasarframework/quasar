@@ -127,4 +127,4 @@ This is the structure of a project with all modes installed. There's no reason t
 If you are a beginner, all you'll need to care about is the `/quasar.config` file (Quasar App Config file), `/src/router`, `/src/layouts`, `/src/pages` and optionally `/src/assets`.
 :::
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

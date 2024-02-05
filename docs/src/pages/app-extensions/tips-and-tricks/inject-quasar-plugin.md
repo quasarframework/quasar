@@ -24,7 +24,7 @@ To see an example of what we will build, head over to [full example](https://git
 
 We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.config file from the host app to include our required Quasar Plugin.
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 And /index.js would look like this:
 

@@ -70,12 +70,12 @@ Regarding the cancel() function (the return value of a call to morph()):
 
 ## Examples
 
-<doc-example title="Morphing the same element" file="SameElement" />
+<DocExample title="Morphing the same element" file="SameElement" />
 
-<doc-example title="Morphing a QCard from a QFabAction" file="FabCard" />
+<DocExample title="Morphing a QCard from a QFabAction" file="FabCard" />
 
-<doc-example title="Image gallery " file="ImageGallery" />
+<DocExample title="Image gallery " file="ImageGallery" />
 
-<doc-example title="Horizontal image strip " file="ImageStripHorizontal" />
+<DocExample title="Horizontal image strip " file="ImageStripHorizontal" />
 
-<doc-example title="Vertical image strip " file="ImageStripVertical" />
+<DocExample title="Vertical image strip " file="ImageStripVertical" />

@@ -43,7 +43,7 @@ $ quasar new page Profile Posts
 
 The commands above create the following folder structure:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ## Defining Routes
 Your Pages (`/src/pages`) and Layouts (`/src/layouts`) are injected into your website/app (and also managed) through Vue Router in `/src/router/routes.js`. Each Page and Layout needs to be referenced there.

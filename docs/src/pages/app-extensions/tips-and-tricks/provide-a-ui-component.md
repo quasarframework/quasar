@@ -36,7 +36,7 @@ To see an example of what we will build, head over to [MyComponent full example]
 
 Create a folder structure to keep your code modularized and organized. For instance, for a UI component, create a structure that looks like this:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 Now, you need to handle registering your component. You do this with the `/index.js` file (described in the [Index API](/app-extensions/development-guide/index-api)) that was created when you set up your new App Extension.
 

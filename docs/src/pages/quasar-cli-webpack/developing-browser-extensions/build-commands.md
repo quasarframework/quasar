@@ -116,7 +116,7 @@ When building for production, multiple directories are generated:
 
 The new folder has the following structure:
 
-<doc-tree :def="scope.prodTree" />
+<DocTree :def="scope.prodTree" />
 
 ::: tip
 If you want to test out the `your-project-name.zip` file, you can do this by dragging the file into the same place you load the Extension in development mode; for Chrome `chrome://extensions` and Firefox `about:debugging`. See the development screenshots above for more information.

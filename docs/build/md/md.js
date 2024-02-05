@@ -25,6 +25,6 @@ const md = markdownIt(opts)
   .use(mdPluginTable)
   .use(mdPluginCodeblock)
 
-md.$data = {}
+md.$frontMatter = {}
 
 export default md

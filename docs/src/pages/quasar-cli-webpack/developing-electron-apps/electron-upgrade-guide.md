@@ -75,11 +75,11 @@ The Electron mode for Quasar v2 is an almost complete overhaul of the previous v
 
 The **old** structure was:
 
-<doc-tree :def="scope.oldStructure" />
+<DocTree :def="scope.oldStructure" />
 
 The **NEW** structure is:
 
-<doc-tree :def="scope.newStructure" />
+<DocTree :def="scope.newStructure" />
 
 Notice that there's no `electron-main.dev.js` file anymore (not needed anymore) and that the `electron-preload/main.js` files need to be moved directly under `/src-electron`.
 

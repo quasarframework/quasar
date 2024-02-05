@@ -1,22 +1,23 @@
 ---
 title: Color Palette
 desc: How to use and customize the Quasar Color Palette.
-components:
-  - ./BrandColors
-  - ./ColorList
 related:
   - quasar-utils/color-utils
 ---
 Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS variables in your CSS code or directly as CSS classes in your HTML templates.
 
-<doc-api file="Brand" />
+<DocApi file="Brand" />
 
-<doc-installation title="Configuration" config="brand" />
+<DocInstallation title="Configuration" config="brand" />
 
 ## Brand Colors
 Most of the colors that Quasar Components use are strongly linked with these eight colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
 
-<brand-colors />
+<script doc>
+import BrandColors from './BrandColors.vue'
+</script>
+
+<BrandColors />
 
 ::: tip TIPS
 Also check [Theme Builder](/style/theme-builder) for a tool on customizing the brand colors of your website/app.
@@ -26,7 +27,11 @@ Also check [Theme Builder](/style/theme-builder) for a tool on customizing the b
 
 Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) in `<style lang="...">` tags.
 
-<color-list />
+<script doc>
+import ColorList from './ColorList.vue'
+</script>
+
+<ColorList />
 
 ## Using as CSS Classes
 Use `text-` or `bg-` prefixes as class names to change the color of text or the color of the background.

@@ -14,9 +14,9 @@ The Bottom Sheet always appears above any other components on the page, and must
 
 Bottom Sheets can be displayed as a list or as a grid, with icons or with avatars. They can be used either as a component in your Vue file templates, or as a globally available method.
 
-<doc-api file="BottomSheet" />
+<DocApi file="BottomSheet" />
 
-<doc-installation plugins="BottomSheet" />
+<DocInstallation plugins="BottomSheet" />
 
 ## Usage
 
@@ -38,9 +38,9 @@ When user hits the phone/tablet back button (only for Cordova apps), the Action 
 Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action Sheet.
 :::
 
-<doc-example title="List and Grid" file="Basic" />
+<DocExample title="List and Grid" file="Basic" />
 
-<doc-example title="Force dark mode" file="Dark" />
+<DocExample title="Force dark mode" file="Dark" />
 
 ::: tip
 For an exhaustive list of options, please check API section.
