@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-range
+      class="q-mt-lg"
       v-model="model"
       :min="-20"
       :max="20"
