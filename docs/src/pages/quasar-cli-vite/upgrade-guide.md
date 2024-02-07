@@ -92,6 +92,7 @@ Preparations:
   + "@quasar/app-vite": "^2.0.0-beta.0"
   }
   ```
+  <br>
 
 * Convert your `/quasar.config.js` file to the ESM format (which is recommended, otherwise rename the file extension to `.cjs` and use CommonJs format).
   ```js /quasar.config.js file
@@ -102,7 +103,10 @@ Preparations:
     }
   })
   ```
+
+  ::: tip Tip on Typescript
   You can now write this file in TS too should you wish (rename `/quasar.config.js` to `/quasar.config.ts` -- notice the `.ts` file extension).
+  :::
 
 * We **highly recommend** setting `type` to `module` in your `/package.json`. Based on it, the Quasar CLI will make decisions on the distributables that it builds (example: Electron in ESM or CJS form).
   ```diff /package.json
@@ -131,7 +135,7 @@ if (process.env.MODE !== 'ssr' || process.env.PROD) {
 
 There are some subtle changes in `/quasar.config` file too:
 
-```diff
+```diff /quasar.config file
 sourceFiles: {
 - registerServiceWorker: 'src-pwa/register-service-worker',
 - serviceWorker: 'src-pwa/custom-service-worker',
@@ -216,10 +220,14 @@ function createWindow () {
 ::: danger
 Edit `/quasar.config.js` to specify your preload script:
 <br><br>
-```js /quasar.config file
+```diff /quasar.config file
+sourceFiles: {
+- electronPreload?: string;
+},
+
 electron: {
-  // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
-  preloadScripts: [ 'electron-preload' ],
++ // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
++ preloadScripts: [ 'electron-preload' ],
 }
 ```
 <br>

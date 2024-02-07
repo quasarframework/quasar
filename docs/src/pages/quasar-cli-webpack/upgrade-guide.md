@@ -87,6 +87,7 @@ All other docs pages will refer to the old @quasar/app-webpack version (v3) spec
     * Improved reliability: same server code runs in dev and prod
     * More target webserver options: you can replace express() with whatever else you are using
     * Perf: client-side code no longer re-compiles from scratch when changing code in /src-ssr
+    * Faster & better compilation for files in /src-ssr (now built with Esbuild instead of Webpack)
   * PWA - some of the noticeable improvements:
     * Many new configuration options (while removing a lot of the old ones)
     * Faster & better compilation for files in /src-pwa (now built with Esbuild instead of Webpack)
@@ -97,6 +98,7 @@ All other docs pages will refer to the old @quasar/app-webpack version (v3) spec
   * BEX - some of the noticeable improvements:
     * Ported the superior implementation from @quasar/app-vite, which also means that when you spawn the mode you can choose between extension Manifest v2 and Manifest v3
     * The manifest is now held in a file of its own (/src-pwa/manifest.json) instead of inside the /quasar.config file
+* Webpack will now only compile the contents of `/src` folder, while the rest (/src-pwa, /src-electron, etc) are now handled by Esbuild. This translates to a superior build speed and handling of Node.js formats.
 * The "test" cmd was removed due to latest updates for @quasar/testing-* packages. See [here](https://testing.quasar.dev/packages/testing/)
 * The "clean" cmd has been re-designed. Type "quasar clean -h" in your upgraded Quasar project folder for more info.
 * Typescript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
@@ -177,6 +179,7 @@ Preparations:
   + "@quasar/app-webpack": "^4.0.0-beta.0"
   }
   ```
+  <br>
 
 * Convert your `/quasar.config.js` file to the ESM format (which is recommended, otherwise rename the file extension to `.cjs` and use CommonJs format).
   ```js /quasar.config.js file
@@ -187,7 +190,10 @@ Preparations:
     }
   })
   ```
+
+  ::: tip Tip on Typescript
   You can now write this file in TS too should you wish (rename `/quasar.config.js` to `/quasar.config.ts` -- notice the `.ts` file extension).
+  :::
 
 * For consistency with @quasar/app-vite (and easy switch between @quasar/app-webpack and it) move `/src/index.template.html` to `/index.html` and do the following changes:
   ```diff /index.html
@@ -434,10 +440,14 @@ function createWindow () {
 ::: danger
 Edit `/quasar.config.js` to specify your preload script:
 <br><br>
-```js /quasar.config file
+```diff /quasar.config file
+sourceFiles: {
+- electronPreload?: string;
+},
+
 electron: {
-  // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
-  preloadScripts: [ 'electron-preload' ],
++ // Electron preload scripts (if any) from /src-electron, WITHOUT file extension
++ preloadScripts: [ 'electron-preload' ],
 }
 ```
 <br>
@@ -888,7 +898,6 @@ There is a new prop for linting:
 
 ```js /quasar.config > eslint (New!)
 eslint: {
-  export interface QuasarEslintConfiguration {
   /**
    * Should it report warnings?
    * @default false
