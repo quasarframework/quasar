@@ -11,7 +11,7 @@ desc: (@quasar/app-vite) How to upgrade Quasar CLI with Vite from older versions
 :::
 
 ::: danger
-All other docs pages will refer to the old @quasar/app-vite version (v1) specs. Only this page will mention about how to use the v2 beta.
+All other docs pages will refer to the old @quasar/app-vite version (v1) specs. Only this page mentions (for now) about how to use the v2 beta.
 :::
 
 ### Notable breaking changes
@@ -21,6 +21,7 @@ All other docs pages will refer to the old @quasar/app-vite version (v1) specs. 
 * The "clean" cmd has been re-designed. Type "quasar clean -h" in your upgraded Quasar project folder for more info.
 * Typescript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
 * feat+refactor(app-vite): ability to run multiple modes + dev/build simultaneously (huge effort!)
+* SSR and Electron modes now build in ESM format.
 * **We will detail more breaking changes for each of the Quasar modes below**.
 
 ### Highlights on what's new
@@ -403,6 +404,16 @@ ssr: {
 }
 ```
 
+### Bex mode changes
+No need to change anything, however we are highlighting here an addition to the `/quasar.conf` file:
+
+```diff /quasar.config file
+sourceFiles: {
++ bexManifestFile: 'src-bex/manifest.json',
+  // ...
+},
+```
+
 ### Other /quasar.config file changes
 
 The `ctx` from `/quasar.config` file has an additional prop (`appPaths`):
@@ -540,16 +551,6 @@ build: {
    */
 + envFiles?: string[];
 }
-```
-
-### Bex mode changes
-No need to change anything, however we are highlighting here an addition to the `/quasar.conf` file:
-
-```diff /quasar.config file
-sourceFiles: {
-+ bexManifestFile: 'src-bex/manifest.json',
-  // ...
-},
 ```
 
 ### The env dotfiles support

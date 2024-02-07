@@ -75,7 +75,7 @@ scope:
 :::
 
 ::: danger
-All other docs pages will refer to the old @quasar/app-webpack version (v3) specs. Only this page will mention about how to use the v4 beta.
+All other docs pages will refer to the old @quasar/app-webpack version (v3) specs. Only this page mentions (for now) about how to use the v4 beta.
 :::
 
 ### Notable breaking changes
@@ -807,6 +807,52 @@ ssr: {
 }
 ```
 
+### Bex mode changes
+The implementation of the BEX mode has been ported from @quasar/app-vite, so when you spawn this Quasar mode it will now ask you what extension Manifest version you want (v2 or v3).
+
+But this also means that your `/src-bex` folder has suffered significant files and folders structure changes. It would be best to temporarily copy your /src-bex folder to a safe place, then remove and add back the BEX mode:
+
+```bash
+$ quasar mode remove bex
+$ quasar mode add bex
+```
+
+And then, try to understand the new structure and port your old /src-bex to it. There is unfortunately no other way to put it.
+
+But first, there are some changes to the `/quasar.config` file that you should be aware of:
+
+```diff /quasar.config file
+sourceFiles: {
++ bexManifestFile: 'src-bex/manifest.json',
+  // ...
+},
+
+bex: {
+- builder: {
+-   directories: {
+-     input: cfg.build.distDir,
+-     output: path.join(cfg.build.packagedDistDir, 'Packaged')
+-   }
+- }
+}
+```
+
+Some of the changes, like moving the background script from `/js/background.js` directly to the root folder, were required by external factors in order for future-proofing the extension structure.
+
+::: tip
+**Temporarily**, until this version of @quasar/app-webpack gets out of beta status, it would be a good idea to check the Quasar CLI with Vite docs on BEX since they will now mostly match.
+:::
+
+Click on the blocks below to expand and see the old and the new folder structure:
+
+::: details The *OLD* folder structure
+<DocTree :def="scope.oldBexTree" />
+:::
+
+::: details The *NEW* folder structure
+<DocTree :def="scope.newBexTree" />
+:::
+
 ### Other /quasar.config file changes
 
 The `ctx` from `/quasar.config` file has some additional props (`vueDevtools` and `appPaths`):
@@ -979,6 +1025,7 @@ build: {
    * @example { 'my-img-comp': 'src', 'my-avatar': [ 'src', 'placeholder-src' ]}
    */
 - transformAssetsUrls?: Record<string, string | string[]>;
+  // use vueLoaderOptions instead
 
   /** Show a progress bar while compiling. */
 - showProgress?: boolean;
@@ -1064,52 +1111,6 @@ interface EsbuildTargetOptions {
   node?: string;
 }
 ```
-
-### Bex mode changes
-The implementation of the BEX mode has been ported from @quasar/app-vite, so when you spawn this Quasar mode it will now ask you what extension Manifest version you want (v2 or v3).
-
-But this also means that your `/src-bex` folder has suffered significant files and folders structure changes. It would be best to temporarily copy your /src-bex folder to a safe place, then remove and add back the BEX mode:
-
-```bash
-$ quasar mode remove bex
-$ quasar mode add bex
-```
-
-And then, try to understand the new structure and port your old /src-bex to it. There is unfortunately no other way to put it.
-
-But first, there are some changes to the `/quasar.config` file that you should be aware of:
-
-```diff /quasar.config file
-sourceFiles: {
-+ bexManifestFile: 'src-bex/manifest.json',
-  // ...
-},
-
-bex: {
-- builder: {
--   directories: {
--     input: cfg.build.distDir,
--     output: path.join(cfg.build.packagedDistDir, 'Packaged')
--   }
-- }
-}
-```
-
-Some of the changes, like moving the background script from `/js/background.js` directly to the root folder, were required by external factors in order for future-proofing the extension structure.
-
-::: tip
-**Temporarily**, until this version of @quasar/app-webpack gets out of beta status, it would be a good idea to check the Quasar CLI with Vite docs on BEX since they will now mostly match.
-:::
-
-Click on the blocks below to expand and see the old and the new folder structure:
-
-::: details The *OLD* folder structure
-<DocTree :def="scope.oldBexTree" />
-:::
-
-::: details The *NEW* folder structure
-<DocTree :def="scope.newBexTree" />
-:::
 
 ### The env dotfiles support
 Expanding a bit on the env dotfiles support. These files will be detected and used (the order matters):
