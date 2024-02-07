@@ -94,6 +94,8 @@ Preparations:
   }
   ```
   <br>
+  Then yarn/npm/pnpm/bun install.
+  <br><br>
 
 * Convert your `/quasar.config.js` file to the ESM format (which is recommended, otherwise rename the file extension to `.cjs` and use CommonJs format).
   ```js /quasar.config.js file
