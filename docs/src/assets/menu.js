@@ -685,6 +685,11 @@ export default [
     path: 'quasar-cli-vite',
     children: [
       {
+        name: 'Upgrade guide',
+        badge: 'NEW!',
+        path: 'upgrade-guide'
+      },
+      {
         name: 'The quasar.config file',
         path: 'quasar-config-file'
       },
