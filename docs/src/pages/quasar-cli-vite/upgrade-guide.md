@@ -19,6 +19,7 @@ All other docs pages will refer to the old @quasar/app-vite version (v1) specs. 
 * We have shifted towards an ESM style for the whole Quasar project folder, so many default project files now require ESM code (although using `.cjs` as an extension for these files is supported, but you will most likely need to rename the extension should you not wish to change anything). One example is the `/quasar.config.js` file which now it's assumed to be ESM too (so change from `.js` to `.cjs` should you still want a CommonJs file).
 * The "test" cmd was removed due to latest updates for @quasar/testing-* packages. See [here](https://testing.quasar.dev/packages/testing/)
 * The "clean" cmd has been re-designed. Type "quasar clean -h" in your upgraded Quasar project folder for more info.
+* Typescript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
 * feat+refactor(app-vite): ability to run multiple modes + dev/build simultaneously (huge effort!)
 * **We will detail more breaking changes for each of the Quasar modes below**.
 
@@ -82,7 +83,7 @@ When asked to "Pick Quasar App CLI variant", answer with: "Quasar App CLI with V
 Preparations:
 
 * If using the global installation of Quasar CLI (`@quasar/cli`), make sure that you have the latest one. This is due to the support of quasar.config file in multiple formats.
-* Again, we highlight that the minimum supported version of Node.js is now v18 (always use the LTS versions of Node.js).
+* Again, we highlight that the minimum supported version of Node.js is now v18 (always use the LTS versions of Node.js - the higher the version the better).
 
 * Edit your `/package.json` on the `@quasar/app-vite` entry and assign it `^2.0.0-beta.0`:
   ```diff /package.json
@@ -101,7 +102,7 @@ Preparations:
     }
   })
   ```
-  You can now write this file in TS too should you wish (rename `/quasar.config.js` to `/quasar.config.ts` -- notice the `.ts` extension).
+  You can now write this file in TS too should you wish (rename `/quasar.config.js` to `/quasar.config.ts` -- notice the `.ts` file extension).
 
 * We **highly recommend** setting `type` to `module` in your `/package.json`. Based on it, the Quasar CLI will make decisions on the distributables that it builds (example: Electron in ESM or CJS form).
   ```diff /package.json
@@ -112,16 +113,6 @@ Preparations:
 
 ### SPA / Capacitor / Cordova modes changes
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
-
-### Bex mode changes
-No need to change anything, however we are highlighting here an addition to the `/quasar.conf` file:
-
-```diff /quasar.config file
-sourceFiles: {
-+ bexManifestFile: 'src-bex/manifest.json',
-  // ...
-},
-```
 
 ### PWA mode changes
 Most changes refer to editing your `/src-pwa/custom-service-worker.js` file:
@@ -146,6 +137,7 @@ sourceFiles: {
 - serviceWorker: 'src-pwa/custom-service-worker',
 + pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
 + pwaServiceWorker: 'src-pwa/custom-service-worker',
++ pwaManifestFile: 'src-pwa/manifes.json',
   // ...
 },
 
@@ -540,6 +532,16 @@ build: {
    */
 + envFiles?: string[];
 }
+```
+
+### Bex mode changes
+No need to change anything, however we are highlighting here an addition to the `/quasar.conf` file:
+
+```diff /quasar.config file
+sourceFiles: {
++ bexManifestFile: 'src-bex/manifest.json',
+  // ...
+},
 ```
 
 ### The env dotfiles support

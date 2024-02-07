@@ -86,7 +86,7 @@ export interface QuasarPwaConfiguration {
   swFilename?: string;
 
   /**
-   * PWA manifest filename to use (relative to /src-pwa or absolute path)
+   * PWA manifest filename to use on your browser
    * @default manifest.json
    */
   manifestFilename?: string;

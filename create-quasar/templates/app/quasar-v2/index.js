@@ -9,8 +9,8 @@ module.exports = async function ({ scope, utils }) {
       choices: [
         { title: 'Quasar App CLI with Vite 2 (stable | v1)', value: 'vite', description: 'recommended' },
         { title: 'Quasar App CLI with Vite 5 (BETA | next major version - v2)', value: 'vite-beta' },
-        { title: 'Quasar App CLI with Webpack (stable | v3)', value: 'webpack' }
-        // { title: 'Quasar App CLI with Webpack (BETA | next major version - v4)', value: 'webpack-beta' }
+        { title: 'Quasar App CLI with Webpack (stable | v3)', value: 'webpack' },
+        { title: 'Quasar App CLI with Webpack (BETA | next major version - v4)', value: 'webpack-beta' }
       ]
     },
     {
