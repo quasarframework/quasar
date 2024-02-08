@@ -86,7 +86,7 @@ export default configure((/* ctx */) => {
           // runtimeOnly: false,
 
           // you need to set i18n resource including paths !
-          include: [ fileURLToPath(new URL('./src/i18n/**', import.meta.url)) ],
+          include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
         }]
       ]<% } else { %>
       // vitePlugins: [
