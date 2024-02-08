@@ -570,6 +570,30 @@ build: {
 }
 ```
 
+### Other considerations
+You might want to upgrade/switch from `@intlify/vite-plugin-vue-i18n` to the newer `@intlify/unplugin-vue-i18n`.
+
+After removing the old package and installing the new one then update your `/quasar.config` file as follows:
+
+```diff /quasar.config
+- import path from 'node:path'
++ import { fileURLToPath } from 'node:url'
+
+export default configure((ctx) => {
+  return {
+    build: {
+      vitePlugins: [
+-       ['@intlify/vite-plugin-vue-i18n', {
++       ['@intlify/unplugin-vue-i18n/vite', {
+-         include: path.resolve(__dirname, './src/i18n/**')
++         include: [ fileURLToPath(new URL('./src/i18n/**', import.meta.url)) ]
+        }]
+      ]
+    }
+  }
+})
+```
+
 ### The env dotfiles support
 Expanding a bit on the env dotfiles support. These files will be detected and used (the order matters):
 
