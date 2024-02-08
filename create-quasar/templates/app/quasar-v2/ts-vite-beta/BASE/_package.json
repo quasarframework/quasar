@@ -22,7 +22,7 @@
     <% if (preset.vuex) { %>"vuex": "^4.0.1",<% } %>
     "@quasar/extras": "^1.16.4",
     "quasar": "^2.6.0",
-    "vue": "^3.2.29",
+    "vue": "3.4.15",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
