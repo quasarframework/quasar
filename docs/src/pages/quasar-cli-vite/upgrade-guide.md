@@ -14,6 +14,17 @@ desc: (@quasar/app-vite) How to upgrade Quasar CLI with Vite from older versions
 All other docs pages will refer to the old @quasar/app-vite version (v1) specs. Only this page mentions (for now) about how to use the v2 beta.
 :::
 
+### A note to App Extensions owners
+You might want to release new versions of your Quasar App Extensions with support for the new @quasar/app-vite. If you are not touching the quasar.config configuration, then it will be as easy as just changing the following:
+
+```diff
+api.compatibleWith(
+  '@quasar/app-vite',
+- '^1.0.0'
++ '^1.0.0 || ^2.0.0-beta.1'
+)
+```
+
 ### Notable breaking changes
 * Minimum Node.js version is now 18 (mainly due to Vite 5)
 * We have shifted towards an ESM style for the whole Quasar project folder, so many default project files now require ESM code (although using `.cjs` as an extension for these files is supported, but you will most likely need to rename the extension should you not wish to change anything). One example is the `/quasar.config.js` file which now it's assumed to be ESM too (so change from `.js` to `.cjs` should you still want a CommonJs file).
@@ -86,11 +97,11 @@ Preparations:
 * If using the global installation of Quasar CLI (`@quasar/cli`), make sure that you have the latest one. This is due to the support of quasar.config file in multiple formats.
 * Again, we highlight that the minimum supported version of Node.js is now v18 (always use the LTS versions of Node.js - the higher the version the better).
 
-* Edit your `/package.json` on the `@quasar/app-vite` entry and assign it `^2.0.0-beta.0`:
+* Edit your `/package.json` on the `@quasar/app-vite` entry and assign it `^2.0.0-beta.1`:
   ```diff /package.json
   "devDependencies": {
   - "@quasar/app-vite": "^1.0.0",
-  + "@quasar/app-vite": "^2.0.0-beta.0"
+  + "@quasar/app-vite": "^2.0.0-beta.1"
   }
   ```
   <br>
@@ -185,6 +196,10 @@ interface PwaManifestOptions {
 
 ::: warning
 The distributables (your production code) will be compiled to ESM form, thus also taking advantage of Electron in ESM form.
+:::
+
+::: tip
+You might want to upgrade the `electron` package to the latest so it can handle the ESM format.
 :::
 
 Most changes refer to editing your `/src-electron/electron-main.js` file:
