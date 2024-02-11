@@ -155,7 +155,7 @@ sourceFiles: {
 - serviceWorker: 'src-pwa/custom-service-worker',
 + pwaRegisterServiceWorker: 'src-pwa/register-service-worker',
 + pwaServiceWorker: 'src-pwa/custom-service-worker',
-+ pwaManifestFile: 'src-pwa/manifes.json',
++ pwaManifestFile: 'src-pwa/manifest.json',
   // ...
 },
 
