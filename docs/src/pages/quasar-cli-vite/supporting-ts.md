@@ -159,3 +159,63 @@ eslint: {
   errors: true
 },
 ```
+
+### TypeScript Declaration Files
+
+If you chose TypeScript support through the create-quasar CLI, these declaration files were automatically scaffolded for you. If TypeScript support wasn't enabled during project creation, you'll need to manually add the following files to your `/src` directory:
+
+```ts /src/shims-vue.d.ts file
+/* eslint-disable */
+
+/// <reference types="vite/client" />
+
+// Mocks all files ending in `.vue` showing them as plain Vue instances
+declare module '*.vue' {
+  import type { DefineComponent } from 'vue';
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}
+```
+
+```ts /src/quasar.d.ts file
+/* eslint-disable */
+
+// Forces TS to apply `@quasar/app-vite` augmentations of `quasar` package
+// Removing this would break `quasar/wrappers` imports as those typings are declared
+//  into `@quasar/app-vite`
+// As a side effect, since `@quasar/app-vite` reference `quasar` to augment it,
+//  this declaration also apply `quasar` own
+//  augmentations (eg. adds `$q` into Vue component context)
+/// <reference types="@quasar/app-vite" />
+```
+
+```ts /src/env.d.ts file
+/* eslint-disable */
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    NODE_ENV: string;
+    VUE_ROUTER_MODE: 'hash' | 'history' | 'abstract' | undefined;
+    VUE_ROUTER_BASE: string | undefined;
+  }
+}
+```
+
+#### Bex mode
+
+If your project is in [Bex mode](/quasar-cli-vite/developing-browser-extensions/introduction), you should include the interface below in your `src-bex/background.ts` file:
+
+```ts /src-bex/background.ts file
+declare module '@quasar/app-vite' {
+  interface BexEventMap {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    log: [{ message: string; data?: any[] }, never];
+    getTime: [never, number];
+
+    'storage.get': [{ key: string | null }, any];
+    'storage.set': [{ key: string; value: any }, any];
+    'storage.remove': [{ key: string }, any];
+    /* eslint-enable @typescript-eslint/no-explicit-any */
+  }
+}
+```
