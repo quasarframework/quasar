@@ -36,7 +36,7 @@ export default function (api) {
   // hard dependencies, as in a minimum version of the "quasar"
   // package or a minimum version of Quasar App CLI
   api.compatibleWith('quasar', '^2.0.0')
-  api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+  api.compatibleWith('@quasar/app-webpack', '^4.0.0-beta.1')
 
   // chain webpack
   api.chainWebpack((chain) => chainWebpack(api.ctx, chain))

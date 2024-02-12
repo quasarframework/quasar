@@ -72,7 +72,7 @@ const QuasarCli = computed(() => {
   if (props.plugins === void 0 && quasarConf.value === null) {
     return `/*
  * No installation step is necessary.
- * It gets installed by default by @quasar/app.
+ * It gets installed by default by @quasar/app-vite or @quasar/app-webpack.
  */`
   }
 
