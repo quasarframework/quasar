@@ -128,6 +128,14 @@ Preparations:
   + "type": "module"
   }
   ```
+  <br>
+  Rename some tools config files (in the root project folder):
+  <br><br>
+
+  | Old name | New name |
+  | -------- | -------- |
+  | postcss.config.js | postcss.config.cjs |
+  | .eslintrc.js | .eslintrc.cjs |
 
 ### SPA / Capacitor / Cordova modes changes
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.

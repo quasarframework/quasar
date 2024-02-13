@@ -216,6 +216,14 @@ Preparations:
   + <!-- quasar:entry-point -->
   </body>
   ```
+  <br>
+
+* (Optional, but recommended) For future-proofing some tools config files, rename the following files (in the root project folder):
+  | Old name | New name |
+  | -------- | -------- |
+  | postcss.config.js | postcss.config.cjs |
+  | .eslintrc.js | .eslintrc.cjs |
+  | babel.config.js | babel.config.cjs |
 
 ### SPA / Capacitor / Cordova modes changes
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
