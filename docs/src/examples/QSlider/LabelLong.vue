@@ -1,6 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-slider
+      class="q-mt-lg"
       v-model="value"
       :min="-20"
       :max="20"

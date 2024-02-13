@@ -7,9 +7,9 @@ related:
 ---
 A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.
 
-<doc-api file="Lang" />
+<DocApi file="Lang" />
 
-<doc-installation title="Configuration" config="lang" />
+<DocInstallation title="Configuration" config="lang" />
 
 ::: warning
 It should be noted that what is described below is the internationalization of Quasar components only. If you need to internationalize your own components, read [App Internationalization](/options/app-internationalization) documentation page.

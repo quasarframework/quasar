@@ -1,8 +1,6 @@
 ---
 title: Quasar UMD - CDN install
 desc: How to use the Unified Module Definition form of Quasar.
-components:
-  - ./UmdTags
 ---
 
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
@@ -11,7 +9,11 @@ If you want to embed Quasar into your existing website project, integrating it i
 
 UMD is all about adding Quasar style and javascript tags. Please select what you will be using and check out the output below it.
 
-<umd-tags />
+<script doc>
+import UmdTags from './UmdTags.vue'
+</script>
+
+<UmdTags />
 
 ::: warning
 * Please notice the `<!DOCTYPE html>` at the beginning of the document. Do not forget to add it, or else some browsers (notably Safari) will use some compatibility mode that breaks flex.

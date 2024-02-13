@@ -7,7 +7,7 @@
 /* eslint global-require: 0 */
 <% } %>
 import { configure } from 'quasar/wrappers';
-<% if (preset.i18n) { %>import path from 'node:path';<% } %>
+<% if (preset.i18n) { %>import { fileURLToPath } from 'node:url';<% } %>
 
 export default configure((/* ctx */) => {
   return {
@@ -40,7 +40,7 @@ export default configure((/* ctx */) => {
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
       // 'ionicons-v4',
-      // 'mdi-v5',
+      // 'mdi-v7',
       // 'fontawesome-v6',
       // 'eva-icons',
       // 'themify',
@@ -78,7 +78,7 @@ export default configure((/* ctx */) => {
       // viteVuePluginOptions: {},
 
       <% if (preset.i18n) { %>vitePlugins: [
-        ['@intlify/vite-plugin-vue-i18n', {
+        ['@intlify/unplugin-vue-i18n/vite', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
           // compositionOnly: false,
 
@@ -87,7 +87,7 @@ export default configure((/* ctx */) => {
           // runtimeOnly: false,
 
           // you need to set i18n resource including paths !
-          include: path.resolve(__dirname, './src/i18n/**')
+          include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
         }]
       ]<% } else { %>
       // vitePlugins: [

@@ -398,7 +398,7 @@ const x = {
 
 ## Tree
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 ## Table
 
@@ -431,12 +431,12 @@ Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do *eiusmod* te
 
 Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do *eiusmod* tempor incididunt ut labore et dolore magna aliqua.
 
-<doc-installation plugins="AppFullscreen" />
+<DocInstallation plugins="AppFullscreen" />
 
-<doc-api file="QSelect" />
+<DocApi file="QSelect" />
 
-<doc-api file="TouchSwipe" />
+<DocApi file="TouchSwipe" />
 
-<doc-api file="Loading" />
+<DocApi file="Loading" />
 
-<doc-example title="Title for example card" file="StandardSizes" />
+<DocExample title="Title for example card" file="StandardSizes" />

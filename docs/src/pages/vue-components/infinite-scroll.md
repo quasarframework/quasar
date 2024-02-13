@@ -12,7 +12,7 @@ related:
 
 The QInfiniteScroll component allows you to load new content as the user scrolls the page.
 
-<doc-api file="QInfiniteScroll" />
+<DocApi file="QInfiniteScroll" />
 
 ## Usage
 
@@ -26,11 +26,11 @@ In your `@load` function, don't forget to call the passed in `done()` function w
 
 Scroll to the bottom to see QInfiniteScroll in action.
 
-<doc-example title="Basic" file="Basic" scrollable />
+<DocExample title="Basic" file="Basic" scrollable />
 
-<doc-example title="Custom Scroll Target Container" file="Container" />
+<DocExample title="Custom Scroll Target Container" file="Container" />
 
-<doc-example title="Reverse (Messenger style)" file="Reverse" scrollable />
+<DocExample title="Reverse (Messenger style)" file="Reverse" scrollable />
 
 ### Tips
 
@@ -48,4 +48,4 @@ If you pass a custom scroll target container with `scroll-target` prop you must 
 If the scroll target container cannot be overflowed you'll get a forever loading situation.
 :::
 
-<doc-example title="Usage in QMenu" file="Menu" />
+<DocExample title="Usage in QMenu" file="Menu" />

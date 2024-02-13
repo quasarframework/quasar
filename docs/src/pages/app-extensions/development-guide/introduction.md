@@ -120,11 +120,11 @@ Based on your response, Quasar CLI will create a folder for your App Extensionâ€
 
 The app-extension kit:
 
-<doc-tree :def="scope.appExtensionTree" />
+<DocTree :def="scope.appExtensionTree" />
 
 The ui kit:
 
-<doc-tree :def="scope.uiKitTree" />
+<DocTree :def="scope.uiKitTree" />
 
 Except for `src/index.js` (from the `app-extension` kit) or `app-extension/src/index.js` (from the `ui` kit) , all the other files are optional. You can manually add or remove them at any point in time.
 

@@ -1,24 +1,16 @@
 import { h, ref, computed, watch, Transition, nextTick, onActivated, onDeactivated, onBeforeUnmount, onMounted, getCurrentInstance } from 'vue'
 
-import { isRuntimeSsrPreHydration } from '../../plugins/Platform.js'
-
 import QIcon from '../../components/icon/QIcon.js'
 import QSpinner from '../../components/spinner/QSpinner.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
+import useId, { getId } from './use-id.js'
 import useValidate, { useValidateProps } from './use-validate.js'
 import useSplitAttrs from './use-split-attrs.js'
 
 import { hSlot } from '../../utils/private/render.js'
-import uid from '../../utils/uid.js'
 import { prevent, stopAndPrevent } from '../../utils/event.js'
 import { addFocusFn, removeFocusFn } from '../../utils/private/focus-manager.js'
-
-function getTargetUid (val, requiredForAttr) {
-  return val === void 0
-    ? (requiredForAttr === true ? `f_${ uid() }` : void 0)
-    : val
-}
 
 export function fieldValueIsFilled (val) {
   return val !== void 0
@@ -80,6 +72,7 @@ export function useFieldState ({ requiredForAttr = true, tagProp } = {}) {
   const { props, attrs, proxy, vnode } = getCurrentInstance()
 
   const isDark = useDark(props, proxy.$q)
+  const targetUid = useId(props.for, requiredForAttr)
 
   return {
     requiredForAttr,
@@ -98,9 +91,7 @@ export function useFieldState ({ requiredForAttr = true, tagProp } = {}) {
     hasPopupOpen: false,
 
     splitAttrs: useSplitAttrs(attrs, vnode),
-    targetUid: ref(
-      getTargetUid(props.for, requiredForAttr)
-    ),
+    targetUid,
 
     rootRef: ref(null),
     targetRef: ref(null),
@@ -252,8 +243,10 @@ export default function (state) {
   }))
 
   const attributes = computed(() => {
-    const acc = {
-      for: state.targetUid.value
+    const acc = {}
+
+    if (state.targetUid.value) {
+      acc.for = state.targetUid.value
     }
 
     if (props.disable === true) {
@@ -266,7 +259,7 @@ export default function (state) {
   watch(() => props.for, val => {
     // don't transform targetUid into a computed
     // prop as it will break SSR
-    state.targetUid.value = getTargetUid(val, state.requiredForAttr)
+    state.targetUid.value = getId(val, state.requiredForAttr)
   })
 
   function focusHandler () {
@@ -342,7 +335,7 @@ export default function (state) {
       document.activeElement.blur()
     }
 
-    if (props.type === 'file') { // TODO vue3
+    if (props.type === 'file') {
       // do not let focus be triggered
       // as it will make the native file dialog
       // appear for another selection
@@ -353,11 +346,9 @@ export default function (state) {
     emit('clear', props.modelValue)
 
     nextTick(() => {
+      const isDirty = isDirtyModel.value
       resetValidation()
-
-      if ($q.platform.is.mobile !== true) {
-        isDirtyModel.value = false
-      }
+      isDirtyModel.value = isDirty
     })
   }
 
@@ -550,16 +541,8 @@ export default function (state) {
     shouldActivate === true && props.autofocus === true && proxy.focus()
   })
 
-  onMounted(() => {
-    if (
-      isRuntimeSsrPreHydration.value === true
-      && state.requiredForAttr === true
-      && props.for === void 0
-    ) {
-      state.targetUid.value = `f_${ uid() }` // getTargetUid(void 0, true)
-    }
-
-    props.autofocus === true && proxy.focus()
+  props.autofocus === true && onMounted(() => {
+    proxy.focus()
   })
 
   onBeforeUnmount(() => {

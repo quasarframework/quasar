@@ -35,7 +35,7 @@ type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
  *  pwaServiceWorker: 'src-pwa/custom-service-worker',
  *  pwaManifestFile: 'src-pwa/manifest.json',
  *  electronMain: 'src-electron/electron-main',
- *  bexManifestFile: 'src-bex/manifest.json
+ *  bexManifestFile: 'src-bex/manifest.json'
  * }
  * ```
  */

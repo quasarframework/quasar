@@ -38,7 +38,7 @@
     "stack-trace": "^1.0.0-pre2"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-alpha.0",
+    "@quasar/app-vite": "^2.0.0-beta.1",
     "@quasar/extras": "^1.16.6",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.49.0",
@@ -51,7 +51,7 @@
     "postcss": "^8.4.31",
     "prismjs": "^1.29.0",
     "quasar": "^2.6.0",
-    "vue": "^3.0.0",
+    "vue": "^3.4.18",
     "vue-router": "^4.2.4"
   }
 }

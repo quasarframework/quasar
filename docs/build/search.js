@@ -8,8 +8,8 @@ import { parseFrontMatter } from './md/md-parse-utils.js'
 
 import { slugify, capitalize } from './utils.js'
 
-const apiRE = /<doc-api .*file="([^"]+)".*\n/
-const installationRE = /<doc-installation /
+const apiRE = /<DocApi .*file="([^"]+)".*\n/
+const installationRE = /<DocInstallation /
 const hiddenPageRE = /[\\/]__[a-zA-Z0-9_-]+\.md$/
 
 const thisFolder = fileURLToPath(new URL('.', import.meta.url))

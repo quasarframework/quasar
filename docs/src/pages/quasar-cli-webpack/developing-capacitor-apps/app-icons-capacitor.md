@@ -133,4 +133,4 @@ Depending on what packager (electron-packager or electron-builder) you will be u
 
 Unless you are using the Icon Genie app extension, these are the files that you need to replace:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

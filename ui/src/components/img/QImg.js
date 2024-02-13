@@ -198,6 +198,7 @@ export default createComponent({
         key: 'img_' + index,
         class: imgClass.value,
         style: imgStyle.value,
+        alt: props.alt,
         crossorigin: props.crossorigin,
         decoding: props.decoding,
         referrerpolicy: props.referrerpolicy,

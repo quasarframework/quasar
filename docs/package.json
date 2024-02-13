@@ -19,11 +19,11 @@
     "@quasar/extras": "^1.16.6",
     "prismjs": "^1.26.0",
     "quasar": "^2.11.5",
-    "vue": "^3.2.45",
+    "vue": "^3.4.18",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
-    "@quasar/app-vite": "^2.0.0-alpha.0",
+    "@quasar/app-vite": "^2.0.0-beta.1",
     "autoprefixer": "^10.4.13",
     "axios": "^1.2.2",
     "eslint": "^8.31.0",

@@ -123,7 +123,7 @@ $ cordova plugin add cordova-plugin-splashscreen
 $ cordova plugin save
 ```
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 And here is part of what your config.xml should look like:
 

@@ -1,8 +1,6 @@
 ---
 title: Sass/SCSS Variables
 desc: How to use the Sass/SCSS variables defined by Quasar.
-components:
-  - ./SassVariables
 ---
 
 There are Sass/SCSS variables built into Quasar that you can change and/or use within devland should you wish to.
@@ -91,4 +89,8 @@ Quasar's own CSS is compiled using the variables file (if it exists), but there 
 
 ## Variables list
 
-<sass-variables />
+<script doc>
+import SassVariables from './SassVariables.vue'
+</script>
+
+<SassVariables />

@@ -34,7 +34,7 @@ To see an example of what we will build, head over to [MyDirective full example]
 
 Create a folder structure to keep your code modularized and organized. For instance, for a directive, create a structure that looks like this:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 Now, you need to handle registering your Vue directive. You do this with the `/index.js` file (described in the [Index API](/app-extensions/development-guide/index-api)) that was created when you set up your new App Extension.
 
@@ -49,10 +49,10 @@ export default function (api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite === true) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+    api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
   }
   else { // api.hasWebpack === true
-    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+    api.compatibleWith('@quasar/app-webpack', '^4.0.0-beta.1')
   }
 
   // Here we extend the /quasar.config file, so we can add

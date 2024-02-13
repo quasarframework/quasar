@@ -158,7 +158,7 @@ export default {
 
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files:
 
-<doc-tree :def="scope.nodeJsTree" />
+<DocTree :def="scope.nodeJsTree" />
 
 You can freely edit these files. Each of the two folders are detailed in their own doc pages (check left-side menu).
 

@@ -19,12 +19,12 @@ There are multiple types of icons in Quasar: webfont-based, svg-based and image-
 Related pages: [Installing Icon Libraries](/options/installing-icon-libraries) and [Quasar Icon Sets](/options/quasar-icon-sets).
 :::
 
-<doc-api file="QIcon" />
+<DocApi file="QIcon" />
 
 ## Size & colors
 The sizing of a QIcon is manipulated by the `font-size` CSS property. Also, QIcon inherits the current CSS text `color` used. For ease of use there are the QIcon `size` and `color` props.
 
-<doc-example title="Basic" file="Basic" />
+<DocExample title="Basic" file="Basic" />
 
 For `icon` properties on different Quasar components you won't have the means to specify an icon for each platform, but you can achieve the same effect with:
 
@@ -34,7 +34,7 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
-<doc-example title="Standard sizes" file="StandardSizes" />
+<DocExample title="Standard sizes" file="StandardSizes" />
 
 ## Webfont icons
 
@@ -512,7 +512,7 @@ It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically
 <q-icon name="img:data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' height='140' width='500'><ellipse cx='200' cy='80' rx='100' ry='50' style='fill:yellow;stroke:purple;stroke-width:2' /></svg>" />
 ```
 
-<doc-example title="Dynamic SVG" file="DynamicSvg" />
+<DocExample title="Dynamic SVG" file="DynamicSvg" />
 
 You can also base64 encode an image and supply it. The example below is with a QBtn, but the same principle is involved when dealing with any icon prop or with QIcon:
 

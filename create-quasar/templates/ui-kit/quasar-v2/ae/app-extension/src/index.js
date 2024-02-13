@@ -29,10 +29,10 @@ function extendConf (conf, api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite) {
-    api.compatibleWith('@quasar/app-vite', '^1.5.0 || ^2.0.0')
+    api.compatibleWith('@quasar/app-vite', '^1.5.0 || ^2.0.0-beta.1')
   }
   else if (api.hasWebpack) {
-    api.compatibleWith('@quasar/app-webpack', '^3.10.0 || ^4.0.0')
+    api.compatibleWith('@quasar/app-webpack', '^3.10.0 || ^4.0.0-beta.1')
   }
 
 <% if (features.component) { %>

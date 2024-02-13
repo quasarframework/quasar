@@ -24,7 +24,7 @@ To see an example of what we will build, head over to [full example](https://git
 
 We will only need the /index.js script for this, because we can use the [Index API](/app-extensions/development-guide/index-api) to configure quasar.config file from the host app to include our required Quasar Plugin.
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 And /index.js would look like this:
 
@@ -37,10 +37,10 @@ export default function (api) {
   api.compatibleWith('quasar', '^2.0.0')
 
   if (api.hasVite === true) {
-    api.compatibleWith('@quasar/app-vite', '^1.0.0')
+    api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
   }
   else { // api.hasWebpack === true
-    api.compatibleWith('@quasar/app-webpack', '^3.0.0')
+    api.compatibleWith('@quasar/app-webpack', '^4.0.0-beta.1')
   }
 
   // Here we extend /quasar.config file, so we can add

@@ -133,10 +133,10 @@ api.compatibleWith('@quasar/app', '1.x')
 
 ```js A more complex example
 if (api.hasVite === true) {
-  api.compatibleWith('@quasar/app-vite', '^1.0.0-beta.0')
+  api.compatibleWith('@quasar/app-vite', '^2.0.0-beta.1')
 }
 else {
-  api.compatbileWith('@quasar/app-webpack', '^3.4.0')
+  api.compatbileWith('@quasar/app-webpack', '^4.0.0-beta.1')
 }
 ```
 

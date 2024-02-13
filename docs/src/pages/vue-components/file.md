@@ -14,7 +14,7 @@ QFile is a component which handles the user interaction for picking file(s).
 If you also want a component to handle the upload for you, please consider using [QUploader](/vue-components/uploader) instead.
 :::
 
-<doc-api file="QFile" />
+<DocApi file="QFile" />
 
 ## Design
 
@@ -22,24 +22,24 @@ If you also want a component to handle the upload for you, please consider using
 For your QFile you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 :::
 
-<doc-example title="Design Overview" file="DesignOverview" />
+<DocExample title="Design Overview" file="DesignOverview" />
 
 ### Decorators
 
-<doc-example title="Decorators" file="Decorators" />
+<DocExample title="Decorators" file="Decorators" />
 
 ### Coloring
 
-<doc-example title="Coloring" file="Coloring" />
+<DocExample title="Coloring" file="Coloring" />
 
 ### Clearable
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QFile in the example below is the equivalent of using `clearable`.
 
-<doc-example title="Clearable" file="Clearable" />
+<DocExample title="Clearable" file="Clearable" />
 
 ### Disable and readonly
 
-<doc-example title="Disable and readonly" file="DisableReadonly" />
+<DocExample title="Disable and readonly" file="DisableReadonly" />
 
 ## Usage
 
@@ -49,9 +49,9 @@ Under the hood, QFile uses a native input. Due to browser security policy, it is
 
 ### Basic
 
-<doc-example title="Single file" file="BasicSingle" />
+<DocExample title="Single file" file="BasicSingle" />
 
-<doc-example title="Multiple files" file="BasicMultiple" />
+<DocExample title="Multiple files" file="BasicMultiple" />
 
 ### Appending files
 
@@ -59,27 +59,27 @@ By default, QFile replaces the model each time the user selects any files throug
 
 Below you can pick files multiple times and QFile will keep on appending them to the model:
 
-<doc-example title="Appending files" file="AppendingFiles" />
+<DocExample title="Appending files" file="AppendingFiles" />
 
 ### Counters
 
-<doc-example title="Basic counter" file="CounterBasic" />
+<DocExample title="Basic counter" file="CounterBasic" />
 
-<doc-example title="Counter label" file="CounterLabel" />
+<DocExample title="Counter label" file="CounterLabel" />
 
 ### Using chips
 
-<doc-example title="With chips" file="WithChips" />
+<DocExample title="With chips" file="WithChips" />
 
 ### Using file slot
 
 The example below highlights how you can customize the display of each file and even incorporate a possible upload progress indicator:
 
-<doc-example title="With progress indicator" file="WithProgress" />
+<DocExample title="With progress indicator" file="WithProgress" />
 
 ### Restricting files
 
-<doc-example title="Basic restrictions" file="RestrictionBasic" />
+<DocExample title="Basic restrictions" file="RestrictionBasic" />
 
 You can even combine the restrictions above.
 
@@ -93,11 +93,11 @@ Recommended format for the `accept` property is `<mediatype>/<extension>`. Examp
 
 You can also apply custom filters (which are executed after user picks files):
 
-<doc-example title="Filter" file="RestrictionFilter" />
+<DocExample title="Filter" file="RestrictionFilter" />
 
 
 ### Native form submit
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
 
-<doc-example title="Native form" file="NativeForm" />
+<DocExample title="Native form" file="NativeForm" />

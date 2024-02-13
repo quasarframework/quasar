@@ -68,7 +68,7 @@ $ icongenie generate -m ssr,pwa -i /path/to/source/icon.png [-b /path/to/backgro
 
 ## Manual instructions
 
-<doc-tree :def="scope.spaTree" />
+<DocTree :def="scope.spaTree" />
 
 The required HTML code that goes into `/src/index.template.html` to reference the above files:
 
@@ -82,7 +82,7 @@ The required HTML code that goes into `/src/index.template.html` to reference th
 
 However, if you are developing with SSR + PWA mode, then you'll also need the PWA assets:
 
-<doc-tree :def="scope.ssrTree" />
+<DocTree :def="scope.ssrTree" />
 
 And the corresponding HTML code to go into `/src/index.template.html` file (notice not all files need to be manually referenced as Quasar CLI automatically injects the other ones):
 

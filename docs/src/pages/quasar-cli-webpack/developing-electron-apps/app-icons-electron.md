@@ -30,4 +30,4 @@ $ icongenie generate -m electron -i /path/to/source/icon.png
 
 ## Manual instructions
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />

@@ -9,16 +9,16 @@ This is a wrapper over the standardized `document.cookie`.
 In addition to the standard way of dealing with cookies, with Cookie Plugin you can read and write cookies using JSON objects. It can also manage cookies from SSR.
 :::
 
-<doc-api file="Cookies" />
+<DocApi file="Cookies" />
 
 ::: tip
 With Electron version >= v1.12.2 the Cookie Plugin isn't functional in the Electron Enviroment. You may want to look up the [Electron Cookies](https://www.electronjs.org/docs/api/cookies) documentation.
 :::
 
-<doc-installation plugins="Cookies" />
+<DocInstallation plugins="Cookies" />
 
 ## Notes on SSR
-When building for SSR, use only the `$q.cookies` form. If you need to use the `import { Cookies } from 'quasar'`, then you'll need to do it like this:
+When building for SSR, use only the `$q.cookies` form. Alternatively, when on server-side, this is one more example of how you can use it:
 
 ```js
 import { Cookies } from 'quasar'

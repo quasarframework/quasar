@@ -2,12 +2,14 @@
 title: Video Tutorials
 desc: The list of video tutorials on Quasar created by the community.
 keys: Video Tutorials
-components:
-  - ./TutorialListing
-  - ../introduction-to-quasar/IntroductionVideo
 ---
 
-<introduction-video />
+<script doc>
+import IntroductionVideo from '../introduction-to-quasar/IntroductionVideo.vue'
+import TutorialListing from './TutorialListing.vue'
+</script>
+
+<IntroductionVideo />
 
 The video tutorials below have been created by the community.
 

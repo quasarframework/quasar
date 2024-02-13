@@ -1,13 +1,15 @@
 ---
 title: Why Quasar?
 desc: What Quasar is and how it can considerably reduce your development time and costs.
-components:
-  - ./IntroductionVideo
 ---
 
 Because it saves development costs drastically. Only Quasar can do:
 
-<introduction-video />
+<script doc>
+import IntroductionVideo from './IntroductionVideo.vue'
+</script>
+
+<IntroductionVideo />
 
 Also because:
 

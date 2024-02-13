@@ -32,7 +32,7 @@ $ icongenie generate -m spa -i /path/to/source/icon.png
 
 ## Manual instructions
 
-<doc-tree :def="scope.spaTree" />
+<DocTree :def="scope.spaTree" />
 
 The required HTML code that goes into `/src/index.template.html` to reference the above files:
 

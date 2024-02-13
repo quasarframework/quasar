@@ -16,7 +16,7 @@ scope:
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
 
-<doc-tree :def="scope.tree" />
+<DocTree :def="scope.tree" />
 
 You can freely edit these files. Notice a few things:
 

@@ -1,8 +1,6 @@
 ---
 title: Vite plugin for Quasar
 desc: How to embed Quasar into a Vite app.
-components:
-  - ./VitePluginUsage
 ---
 
 If you want to embed Quasar into your existing [Vite](https://vitejs.dev) project then follow this guide to install and use the `@quasar/vite-plugin`.
@@ -61,7 +59,11 @@ $ bun add --dev @quasar/vite-plugin sass@^1.33.0
 
 We have built a configurator to help you get started as quickly as possible:
 
-<vite-plugin-usage />
+<script doc>
+import VitePluginUsage from './VitePluginUsage.vue'
+</script>
+
+<VitePluginUsage />
 
 ## @quasar/vite-plugin options
 

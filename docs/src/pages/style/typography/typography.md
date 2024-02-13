@@ -1,9 +1,6 @@
 ---
 title: Typography
 desc: The typography of a Quasar app and its helper CSS classes.
-components:
-  - ./TypographyHeadings
-  - ./TypographyWeights
 related:
   - /style/visibility
   - /style/positioning
@@ -13,10 +10,20 @@ related:
 We'll handle the typography supplied by Quasar in the sections below.
 
 ## Headings
-<typography-headings />
+
+<script doc>
+import TypographyHeadings from './TypographyHeadings.vue'
+</script>
+
+<TypographyHeadings />
 
 ## Font Weights
-<typography-weights />
+
+<script doc>
+import TypographyWeights from './TypographyWeights.vue'
+</script>
+
+<TypographyWeights />
 
 ## CSS Helper Classes
 | Class Name | Description |
