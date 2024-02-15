@@ -187,6 +187,7 @@ export default createComponent({
         if (slots[ dir ] !== void 0) {
           content.push(
             h('div', {
+              key: dir,
               ref: el => { dirRefs[ dir ] = el },
               class: `q-slide-item__${ dir } absolute-full row no-wrap items-${ slotName[ 1 ] } justify-${ slotName[ 2 ] }`
                 + (props[ dir + 'Color' ] !== void 0 ? ` bg-${ props[ dir + 'Color' ] }` : '')
