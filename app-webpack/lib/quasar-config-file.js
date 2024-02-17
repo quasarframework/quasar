@@ -825,7 +825,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
         : void 0
     }
 
-    if (cfg.build.webpackTranspileDependencies === true) {
+    if (cfg.build.webpackTranspile === true) {
       cfg.build.webpackTranspileDependencies = cfg.build.webpackTranspileDependencies.filter(uniqueRegexFilter)
       cfg.metaConf.webpackTranspileBanner = green('yes (Babel)')
     }
