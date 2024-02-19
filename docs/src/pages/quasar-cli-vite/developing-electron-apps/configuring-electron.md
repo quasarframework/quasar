@@ -51,8 +51,6 @@ electron: {
     // no need to return anything
   },
 
-  inspectPort: 5858,
-
   extendElectronMainConf (cfg) {
     // do something with Esbuild config
     // for the Electron Main thread
