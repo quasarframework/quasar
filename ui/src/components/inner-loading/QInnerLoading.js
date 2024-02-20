@@ -33,7 +33,7 @@ export default createComponent({
     const { transitionProps, transitionStyle } = useTransition(props)
 
     const classes = computed(() =>
-      'q-inner-loading absolute-full column flex-center'
+      'q-inner-loading q--avoid-card-border absolute-full column flex-center'
       + (isDark.value === true ? ' q-inner-loading--dark' : '')
     )
 

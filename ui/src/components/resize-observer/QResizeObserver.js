@@ -136,6 +136,7 @@ export default createComponent({
       return () => {
         if (canRender.value === true) {
           return h('object', {
+            class: 'q--avoid-card-border',
             style: resizeProps.style,
             tabindex: -1, // fix for Firefox
             type: 'text/html',
