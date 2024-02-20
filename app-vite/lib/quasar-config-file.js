@@ -1075,10 +1075,11 @@ export class QuasarConfigFile {
       }
     }
 
-    const entryScriptWebPath = cfg.build.publicPath + relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/')
+    const entryScriptWebPath = relative(appPaths.appDir, appPaths.resolve.entry('client-entry.js')).replaceAll('\\', '/')
     Object.assign(cfg.metaConf, {
-      entryScriptWebPath,
-      entryScriptTag: `<script type="module" src="${ entryScriptWebPath }"></script>`
+      entryScriptWebPath: cfg.build.publicPath + entryScriptWebPath,
+      // publicPath will be handled by Vite middleware:
+      entryScriptTag: `<script type="module" src="/${ entryScriptWebPath }"></script>`
     })
 
     cfg.htmlVariables = merge({
