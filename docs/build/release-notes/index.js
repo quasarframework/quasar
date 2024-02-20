@@ -11,8 +11,8 @@ const api = {
   v2: {
     versionRE: {
       quasar: /^2./,
-      '@quasar/app-webpack': /^3./,
-      '@quasar/app-vite': /^1./
+      '@quasar/app-webpack': /^(3|4)./,
+      '@quasar/app-vite': /^(1|2)./
     },
     packages: {
       quasar: [],
