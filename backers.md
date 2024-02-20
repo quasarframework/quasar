@@ -162,6 +162,7 @@ You can join them in [supporting Quasar](https://donate.quasar.dev) development!
 - Vaidotas Beržinskas ($13.37)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
+- Koji Ogawa
 - Marek Urbanowicz
 - Matsumoto Takamasa
 - Josh Bodine
