@@ -85,7 +85,7 @@ export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% }
           // you need to set `runtimeOnly: false`
           // runtimeOnly: false,
 
-          ssr: ctx.mode.ssr,
+          ssr: ctx.modeName === 'ssr',
 
           // you need to set i18n resource including paths !
           include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
