@@ -594,7 +594,8 @@ export default configure((ctx) => {
 -       ['@intlify/vite-plugin-vue-i18n', {
 +       ['@intlify/unplugin-vue-i18n/vite', {
 -         include: path.resolve(__dirname, './src/i18n/**')
-+         include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ]
++         include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
++         ssr: ctx.mode.ssr
         }]
       ]
     }
