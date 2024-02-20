@@ -1,4 +1,3 @@
-
 module.exports = async function ({ scope, utils }) {
   await utils.prompts(scope, [
     {

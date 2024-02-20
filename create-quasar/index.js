@@ -13,10 +13,17 @@ console.log(
 
 const utils = require('./utils')
 
+const parseArgs = require('minimist')
+const argv = parseArgs(process.argv.slice(2), {
+  boolean: ['defaults'],
+})
+
+if(argv.defaults) {
+  require('prompts').override(utils.promptsDefaults)
+}
+
 // should error out if already inside of a Quasar project
 utils.ensureOutsideProject()
-
-const defaultProjectFolder = 'quasar-project'
 
 async function run () {
   const scope = {}
@@ -37,9 +44,9 @@ async function run () {
       type: 'text',
       name: 'projectFolder',
       message: 'Project folder:',
-      initial: defaultProjectFolder,
+      initial: utils.promptsDefaults.projectFolder,
       format: val => {
-        const name = (val && val.trim()) || defaultProjectFolder
+        const name = (val && val.trim()) || utils.promptsDefaults.projectFolder
         // inject the "short" name
         scope.projectFolderName = name
         return utils.join(process.cwd(), name)

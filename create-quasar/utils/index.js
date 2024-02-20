@@ -226,6 +226,26 @@ module.exports.ensureOutsideProject = function () {
   }
 }
 
+const defaultProjectFolder = 'quasar-project'
+
+module.exports.promptsDefaults = {
+  projectType: 'app',
+  projectFolder: defaultProjectFolder,
+  overwrite: 'n',
+  packageManager: module.exports.runningPackageManager ?? 'yarn',
+  quasarVersion: 'v2',
+  scriptType: 'js',
+  engine: 'webpack',
+  productName: 'Quasar App',
+  name: module.exports.inferPackageName(defaultProjectFolder),
+  description: 'A Quasar Project',
+  author: getGitUser(),
+  typescriptConfig: 'composition',
+  css: 'scss',
+  preset: ['lint'],
+  lintConfig: 'prettier',
+}
+
 const QUASAR_VERSIONS = [
   { title: 'Quasar v2 (Vue 3 | latest and greatest)', value: 'v2', description: 'recommended' },
   { title: 'Quasar v1 (Vue 2)', value: 'v1' }
@@ -256,7 +276,7 @@ module.exports.commonPrompts = {
     type: 'text',
     name: 'productName',
     message: 'Project product name: (must start with letter if building mobile apps)',
-    initial: 'Quasar App',
+    initial: module.exports.promptsDefaults.productName,
     validate: val =>
       val && val.length > 0 || 'Invalid product name'
   },
@@ -265,7 +285,7 @@ module.exports.commonPrompts = {
     type: 'text',
     name: 'description',
     message: 'Project description:',
-    initial: 'A Quasar Project',
+    initial: module.exports.promptsDefaults.description,
     format: module.exports.escapeString,
     validate: val =>
       val.length > 0 || 'Invalid project description'
@@ -274,7 +294,7 @@ module.exports.commonPrompts = {
   author: {
     type: 'text',
     name: 'author',
-    initial: () => getGitUser(),
+    initial: module.exports.promptsDefaults.author,
     message: 'Author:'
   },
 
