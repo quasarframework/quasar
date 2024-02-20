@@ -8,7 +8,7 @@
 import { configure } from 'quasar/wrappers'
 <% if (preset.i18n) { %>import { fileURLToPath } from 'node:url';<% } %>
 
-export default configure((/* ctx */) => {
+export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% } %>) => {
   return {
     <% if (preset.lint) { %>eslint: {
       // fix: true,
@@ -84,6 +84,8 @@ export default configure((/* ctx */) => {
           // if you want to use named tokens in your Vue I18n messages, such as 'Hello {name}',
           // you need to set `runtimeOnly: false`
           // runtimeOnly: false,
+
+          ssr: ctx.mode.ssr,
 
           // you need to set i18n resource including paths !
           include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
