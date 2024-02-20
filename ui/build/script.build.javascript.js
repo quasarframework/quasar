@@ -3,7 +3,7 @@ process.env.BABEL_ENV = 'production'
 const path = require('path')
 const fs = require('fs')
 const rollup = require('rollup')
-const uglify = require('uglify-es')
+const uglify = require('uglify-js')
 
 const { nodeResolve } = require('@rollup/plugin-node-resolve')
 // const typescript = require('rollup-plugin-typescript2')
@@ -41,7 +41,6 @@ const uglifyJsOptions = {
     arrows: false,
     collapse_vars: false,
     comparisons: false,
-    computed_props: false,
     hoist_funs: false,
     hoist_props: false,
     hoist_vars: false,
@@ -65,9 +64,6 @@ const uglifyJsOptions = {
     conditionals: true,
     dead_code: true,
     evaluate: true
-  },
-  mangle: {
-    safari10: true
   }
 }
 
