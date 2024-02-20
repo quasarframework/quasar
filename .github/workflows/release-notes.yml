@@ -1,6 +1,8 @@
 name: Generate and Publish Release Notes JSON
 
 on:
+  workflow_dispatch:
+
   release:
     types:
       - released # A release was published, or a pre-release was changed to a release.
