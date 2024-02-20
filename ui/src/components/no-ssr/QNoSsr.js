@@ -21,16 +21,16 @@ export default createComponent({
     const canRender = useCanRender()
 
     return () => {
-      const data = {}
-
       if (canRender.value === true) {
         const node = hSlot(slots.default)
         return node === void 0
           ? node
-          : (node.length > 1 ? h(props.tag, data, node) : node[ 0 ])
+          : (node.length > 1 ? h(props.tag, {}, node) : node[ 0 ])
       }
 
-      data.class = 'q-no-ssr-placeholder'
+      const data = {
+        class: 'q-no-ssr-placeholder'
+      }
 
       const node = hSlot(slots.placeholder)
       if (node !== void 0) {
