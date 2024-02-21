@@ -26,7 +26,7 @@ jobs:
         working-directory: docs
 
       - name: Generate Release Notes
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         with:
           script: |
             const { mkdir, writeFile } = require('node:fs/promises');
