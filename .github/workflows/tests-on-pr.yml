@@ -100,7 +100,7 @@ jobs:
           path: vite-plugin/dist
 
       - name: Run tests in ${{ matrix.browser }} browser
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         env:
           CYPRESS_JSON_RESULTS_FILENAME: test-results-${{ matrix.browser }}.json
         with:

@@ -92,7 +92,7 @@ jobs:
       # pnpm
       - name: Install pnpm
         if: ${{ matrix.package-manager == 'pnpm' }}
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3
         with:
           version: 8
       - name: Get pnpm store directory
