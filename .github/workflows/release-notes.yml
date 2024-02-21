@@ -151,7 +151,7 @@ jobs:
             );
 
       - name: Upload release notes JSON files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release-notes
           path: docs/dist/release-notes
@@ -170,7 +170,7 @@ jobs:
           token: ${{ secrets.CDN_REPO_PAT }}
 
       - name: Download generated release notes JSON files
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: release-notes
           path: release-notes
