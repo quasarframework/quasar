@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-         # No caching because we are not checking lock files in
+          cache: 'yarn'
 
       - run: yarn install
         working-directory: docs
