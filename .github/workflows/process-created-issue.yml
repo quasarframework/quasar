@@ -20,7 +20,7 @@ jobs:
       TEMPLATE_TYPE: ${{ contains(github.event.issue.labels.*.name, 'kind/bug 🐞') && 'bug' || 'docs' }}
       TEMPLATE_VERSION: ${{ contains(github.event.issue.labels.*.name, 'Qv1') && 'v1' || 'v2' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: stefanbuck/github-issue-parser@v3
         id: issue-parser

@@ -13,11 +13,11 @@ jobs:
       contents: read # to fetch code (actions/checkout) and to read releases (actions/github-script)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: dev
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
          # No caching because we are not checking lock files in
@@ -164,7 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: generate
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: quasarframework/cdn
           token: ${{ secrets.CDN_REPO_PAT }}
