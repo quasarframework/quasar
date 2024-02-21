@@ -43,7 +43,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           # create-quasar is not included in workspaces, and it's yarn.lock is .gitignored, so we can't have caching
           # cache: 'yarn'
 
