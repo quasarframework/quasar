@@ -13,8 +13,27 @@ describe('Date API', () => {
   describe('Props', () => {
     describe('Category: behavior', () => {
       describe('(prop): years-in-month-view', () => {
-        it.skip(' ', () => {
-          //
+        it('should show the years selector in months view', () => {
+          const model = ref('2018/06/03')
+
+          mountQDate({
+            props: {
+              ...vModelAdapter(model),
+              defaultView: 'Months',
+              yearsInMonthView: true
+            }
+          })
+
+          cy.get('.q-date__months .bg-primary')
+            .should('contain', 'Jun')
+          cy.get('.q-date__months')
+            .should('contain', '2018')
+            .then(async () => {
+              await Cypress.vueWrapper.setProps({ yearsInMonthView: false })
+            })
+
+          cy.get('.q-date__months')
+            .should('not.contain', '2018')
         })
       })
     })
