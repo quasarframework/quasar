@@ -5,8 +5,12 @@ import { date } from 'quasar'
 
 const { formatDate, addToDate } = date
 
+function mountQDate (options) {
+  return cy.mount(QDate, options)
+}
+
 describe('Date API', () => {
-  describe.skip('Props', () => {
+  describe('Props', () => {
     describe('Category: behavior', () => {
       describe('(prop): years-in-month-view', () => {
         it.skip(' ', () => {
@@ -15,12 +19,12 @@ describe('Date API', () => {
       })
     })
 
-    describe.skip('Category: content', () => {
+    describe('Category: content', () => {
       describe('(prop): title', () => {
         it('should override the default title header', () => {
           const title = 'Birthday'
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               title
             }
@@ -35,7 +39,7 @@ describe('Date API', () => {
         it('should override the default subtitle', () => {
           const subtitle = 'Birthday'
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               subtitle
             }
@@ -55,7 +59,7 @@ describe('Date API', () => {
 
           const today = formatDate(currentDate, format)
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(fiveDaysFromToday),
               todayBtn: true
@@ -89,7 +93,7 @@ describe('Date API', () => {
 
       describe('(prop): minimal', () => {
         it('should hide the header', () => {
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               minimal: true
             }
@@ -101,12 +105,12 @@ describe('Date API', () => {
       })
     })
 
-    describe.skip('Category: model', () => {
+    describe('Category: model', () => {
       describe('(prop): model-value', () => {
         it('should select the correct date based on the model value', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model)
             }
@@ -128,7 +132,7 @@ describe('Date API', () => {
 
       describe('(prop): default-year-month', () => {
         it('should display the date picker with a default year and month', () => {
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               defaultYearMonth: '1986/01'
             }
@@ -150,7 +154,7 @@ describe('Date API', () => {
         it('should display with a default years view', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               defaultView: 'Years'
@@ -168,7 +172,7 @@ describe('Date API', () => {
         it('should display with a default months view', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               defaultView: 'Months'
@@ -186,7 +190,7 @@ describe('Date API', () => {
         it('should display with a default calendar view', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               defaultView: 'Calendar'
@@ -207,7 +211,7 @@ describe('Date API', () => {
         it('should highlight a single event on the calendar', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               events: '2018/06/12'
@@ -223,7 +227,7 @@ describe('Date API', () => {
         it('should highlight multiple events on the calendar', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               events: [ '2018/06/12', '2018/06/17', '2018/06/20' ]
@@ -241,7 +245,7 @@ describe('Date API', () => {
         it('should highlight an event on the calendar using a function', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               events: (date) => date > '2018/06/28'
@@ -261,7 +265,7 @@ describe('Date API', () => {
           const model = ref('2018/06/03')
 
           const options = [ 10, 13, 15, 17, 30 ]
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               options: options.map((day) => `2018/06/${ day }`)
@@ -283,7 +287,7 @@ describe('Date API', () => {
         it('should set a limited options for selection using a function', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               options: (date) => date > '2018/06/28'
@@ -308,7 +312,7 @@ describe('Date API', () => {
         it('should set the first day of the week', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               firstDayOfWeek: '2'
@@ -340,7 +344,7 @@ describe('Date API', () => {
           const model = ref('2018/06/03')
 
           const fn = cy.stub()
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               'onUpdate:modelValue': fn,
@@ -368,7 +372,7 @@ describe('Date API', () => {
         it('should not select multiple days by default', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model)
             }
@@ -389,7 +393,7 @@ describe('Date API', () => {
         it('should select multiple days', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               multiple: true
@@ -413,7 +417,7 @@ describe('Date API', () => {
         it('should select a date range', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               range: true
@@ -453,7 +457,7 @@ describe('Date API', () => {
         it('should prevent user from navigating below a specific year+month', () => {
           const model = ref('2018/05/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               navigationMinYearMonth: '2018/03'
@@ -493,7 +497,7 @@ describe('Date API', () => {
         it('should prevent a user from navigating above a specific year+month', () => {
           const model = ref('2018/05/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               navigationMaxYearMonth: '2018/07'
@@ -533,7 +537,7 @@ describe('Date API', () => {
         it('should prevent deselecting a day after it has been selected', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               multiple: true
@@ -570,7 +574,7 @@ describe('Date API', () => {
         it('should mark an event on the calendar using a custom color', () => {
           const model = ref('2018/06/03')
 
-          cy.mount(QDate, {
+          mountQDate({
             props: {
               ...vModelAdapter(model),
               events: [ '2018/06/12' ],
@@ -592,7 +596,7 @@ describe('Date API', () => {
   describe('Slots', () => {
     describe('(slot): default', () => {
       it('should render a default slot', () => {
-        cy.mount(QDate, {
+        mountQDate({
           slots: {
             default: () => 'Default'
           }
@@ -604,13 +608,13 @@ describe('Date API', () => {
     })
   })
 
-  describe.skip('Events', () => {
+  describe('Events', () => {
     describe('(event): update:model-value', () => {
       it('should emit update:model-value event when selecting new date', () => {
         const model = ref('2018/06/03')
 
         const fn = cy.stub()
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model),
             todayBtn: true,
@@ -634,7 +638,7 @@ describe('Date API', () => {
         const model = ref('2018/06/03')
 
         const fn = cy.stub()
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model),
             onNavigation: fn
@@ -662,7 +666,7 @@ describe('Date API', () => {
         const model = ref('2018/06/03')
 
         const fn = cy.stub()
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model),
             range: true,
@@ -686,7 +690,7 @@ describe('Date API', () => {
         const model = ref('2018/06/03')
 
         const fn = cy.stub()
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model),
             range: true,
@@ -714,7 +718,7 @@ describe('Date API', () => {
       it('should set the selected date to today using the setToday method', () => {
         const model = ref('2018/06/03')
 
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model)
           }
@@ -738,7 +742,7 @@ describe('Date API', () => {
       it('should use the setView method to set the view', () => {
         const model = ref('2018/06/03')
 
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model)
           }
@@ -761,7 +765,7 @@ describe('Date API', () => {
       it('should decrement or increment the month or year calendar', () => {
         const model = ref('2018/06/03')
 
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model)
           }
@@ -799,7 +803,7 @@ describe('Date API', () => {
       it('should set the current month and year using the setCalendar method', () => {
         const model = ref('2018/06/03')
 
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model)
           }
@@ -823,7 +827,7 @@ describe('Date API', () => {
       it('should set the editing range using the setEditingRange method', () => {
         const model = ref('2018/06/03')
 
-        cy.mount(QDate, {
+        mountQDate({
           props: {
             ...vModelAdapter(model),
             range: true
