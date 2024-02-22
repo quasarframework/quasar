@@ -210,6 +210,35 @@ describe('use-model-toggle API', () => {
             expect(fn).to.be.called
           })
       })
+
+      it('should emit @hide event after transition duration', () => {
+        const fn = cy.stub()
+        cy.mount(WrapperOne, {
+          props: {
+            onHide: fn,
+            transitionDuration: 500
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('method-show')
+          .click({ force: true })
+
+        cy.dataCy('wrapper')
+        cy.dataCy('method-hide')
+          .click({ force: true })
+
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.dataCy('menu')
+          .wait(300)
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+          .wait(500)
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
     })
 
     describe('(event): before-hide', () => {
