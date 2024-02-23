@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import fse from 'fs-extra'
+import path from 'path'
 import compileTemplate from 'lodash/template.js'
 import inquirer from 'inquirer'
 import fglob from 'fast-glob'
@@ -59,6 +60,10 @@ export async function addMode ({
     appId: answer.appId,
     pkg: appPkg,
     nodePackager: nodePackager.name
+  }
+
+  if (nodePackager.name === 'yarn' && nodePackager.majorVersion > 1){
+    fse.ensureFileSync(path.resolve(appPaths.capacitorDir,'yarn.lock'))
   }
 
   fglob.sync([ '**/*' ], {
