@@ -153,7 +153,11 @@ describe('use-model-toggle API', () => {
         const fn = cy.stub()
         cy.mount(WrapperOne, {
           props: {
-            onHide: fn
+            onHide: fn,
+            // After the dialog has been closed, the hide event is fired only after transitionDuration.
+            // The default value for transitionDuration is 300ms. Hence, we cannot depend on the dialog closing
+            // to conclude that the event has been fired. So let's set it to 0 so that it fires immediately.
+            transitionDuration: 0
           }
         })
 
@@ -165,6 +169,9 @@ describe('use-model-toggle API', () => {
           .then(() => {
             expect(fn).not.to.be.called
           })
+
+        // We are clicking x distance from the left to ensure it always clicks on the body
+        // For some reason it some times does not work without it
         cy.get('body')
           .click(499, 0)
         cy.dataCy('menu')
@@ -174,11 +181,15 @@ describe('use-model-toggle API', () => {
           })
       })
 
-      it('should emit @hide event when component is triggered with the show() method', () => {
+      it('should emit @hide event when component is triggered with the hide() method', () => {
         const fn = cy.stub()
         cy.mount(WrapperOne, {
           props: {
-            onHide: fn
+            onHide: fn,
+            // After the dialog has been closed, the hide event is fired only after transitionDuration.
+            // The default value for transitionDuration is 300ms. Hence, we cannot depend on the dialog closing
+            // to conclude that the event has been fired. So let's set it to 0 so that it fires immediately.
+            transitionDuration: 0
           }
         })
 
@@ -195,6 +206,35 @@ describe('use-model-toggle API', () => {
           .click({ force: true })
         cy.dataCy('menu')
           .should('not.exist') // Element is hidden to prevent clogging the window
+          .then(() => {
+            expect(fn).to.be.called
+          })
+      })
+
+      it('should emit @hide event after transition duration', () => {
+        const fn = cy.stub()
+        cy.mount(WrapperOne, {
+          props: {
+            onHide: fn,
+            transitionDuration: 500
+          }
+        })
+
+        expect(fn).not.to.be.called
+        cy.dataCy('method-show')
+          .click({ force: true })
+
+        cy.dataCy('wrapper')
+        cy.dataCy('method-hide')
+          .click({ force: true })
+
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.dataCy('menu')
+          .wait(300)
+          .then(() => {
+            expect(fn).not.to.be.called
+          })
+          .wait(500)
           .then(() => {
             expect(fn).to.be.called
           })
