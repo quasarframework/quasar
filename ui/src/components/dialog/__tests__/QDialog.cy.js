@@ -1,5 +1,5 @@
 import DialogWrapper from './DialogWrapper.vue'
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 import { vModelAdapter } from '@quasar/quasar-app-extension-testing-e2e-cypress'
 
 function mountQDialogWrapper (options) {
@@ -162,9 +162,8 @@ describe('Dialog API', () => {
           cy.dataCy('input-field')
             .focus()
           cy.dataCy('input-field')
-            .then(async () => {
+            .then(() => {
               model.value = true
-              await nextTick()
             })
           cy.withinDialog(() => {
             closeDialogViaBackdrop()
@@ -178,7 +177,6 @@ describe('Dialog API', () => {
             .then(async () => {
               await Cypress.vueWrapper.setProps({ noRefocus: true })
               model.value = true
-              await nextTick()
             })
 
           cy.withinDialog(() => {
@@ -208,7 +206,6 @@ describe('Dialog API', () => {
           cy.wrap().then(async () => {
             await Cypress.vueWrapper.setProps({ noFocus: true })
             model.value = true
-            await nextTick()
           })
 
           cy.withinDialog(() => {

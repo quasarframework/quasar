@@ -73,7 +73,7 @@
   "devDependencies": {
     "@quasar/app-vite": "^2.0.0-beta.1",
     "@quasar/extras": "^1.16.4",
-    "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.2.0",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.2.1",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@rollup/plugin-replace": "^2.3.3",
     "autoprefixer": "^10.4.17",
@@ -81,7 +81,7 @@
     "cli-highlight": "^2.1.11",
     "cross-env": "^7.0.3",
     "cssnano": "^5.1.14",
-    "cypress": "^13.6.4",
+    "cypress": "^13.6.6",
     "cypress-json-results": "^1.2.1",
     "diff": "^5.2.0",
     "eslint": "^8.56.0",
