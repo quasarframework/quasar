@@ -4,7 +4,7 @@ desc: The QVirtualScroll component renders a big list of items as the user scrol
 keys: QVirtualScroll
 examples: QVirtualScroll
 related:
-  - /vue-components/select
+  - /vue-components/intersection
   - /vue-components/infinite-scroll
 ---
 
