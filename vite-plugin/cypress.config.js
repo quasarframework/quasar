@@ -1,6 +1,8 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
+  video: true, // required by Cypress v13
+
   supportFolder: 'test/cypress/support',
   fixturesFolder: 'test/cypress/fixtures',
   videosFolder: 'test/cypress/videos',
