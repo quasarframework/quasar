@@ -918,7 +918,7 @@ module.exports.QuasarConfigFile = class QuasarConfigFile {
     }
 
     // (backward compatibility for upstream)
-    // webpack-dev-server 4.5.0 introduced a change in behavior
+    // webpack-dev-server 4.5.0 / 5.0.0 introduced a change in behavior
     // along with deprecation notices; so we transform it automatically
     // for a better experience for our developers
     if (typeof cfg.devServer.server === 'string') {

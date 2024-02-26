@@ -90,7 +90,7 @@ api.compatibleWith(
 ```
 
 ### Notable breaking changes
-* Minimum Node.js version is now 16
+* Minimum Node.js version is now 18.12
 * We have shifted towards an ESM style for the whole Quasar project folder, so many default project files now require ESM code (although using `.cjs` as an extension for these files is supported, but you will most likely need to rename the extension should you not wish to change anything). One example is the `/quasar.config.js` file which now it's assumed to be ESM too (so change from `.js` to `.cjs` should you still want a CommonJs file).
 * Ported and adapted the superior devserver implementation from @quasar/app-vite for all Quasar modes. The benefits are huge.
 * Ported the superior implementation of SSR, PWA, Electron & BEX modes from @quasar/app-vite. We will detail each Quasar mode changes on this docs page.
@@ -156,6 +156,7 @@ Some of the work below has already been backported to the old @quasar/app-webpac
 * feat(app-webpack): Support for Bun as package manager #16335
 * feat(app-webpack): for default /src-ssr template -> prod ssr -> on error, print err stack if built with debugging enabled
 * fix(app-webpack): electron preload script triggering "module not found"
+* feat(app-webpack): upgrade to webpack-dev-server v5
 
 ### Beginning of the upgrade process
 
@@ -1134,6 +1135,26 @@ interface EsbuildTargetOptions {
    * @example 'node20'
    */
   node?: string;
+}
+```
+
+Due to the upgrade to `webpack-dev-server` v5 in `@quasar/app-webpack` v4.0.0-beta.3:
+
+```diff /quasar.config > devServer
+devServer: {
+- proxy: {
+-   "/api": {
+-     target: "http://localhost:3000",
+-     changeOrigin: true,
+-   },
+- }
++ proxy: [
++   {
++     context: ["/api"],
++     target: "http://localhost:3000",
++     changeOrigin: true,
++   },
++ ]
 }
 ```
 
