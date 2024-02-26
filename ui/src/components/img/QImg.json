@@ -197,7 +197,7 @@
     },
 
     "spinner-delay": {
-      "type": [ "Number" ],
+      "type": "Number",
       "desc": "Delay showing the spinner when image changes; gives time for the browser to load the image from cache to prevent flashing the spinner unnecesarily",
       "default": 0,
       "examples": [ 500, ":spinner-delay=\"550\"" ],
