@@ -102,7 +102,7 @@ const builds = [
         input: resolve('src/index.prod.js')
       },
       output: {
-        file: resolve('dist/quasar.esm.js'),
+        file: resolve('dist/quasar.esm.mjs'),
         format: 'es'
       }
     },
@@ -233,8 +233,9 @@ function genConfig (opts) {
 
 function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
-  const suffix = filename.slice(insertionPoint)
-  return `${ filename.slice(0, insertionPoint) }.${ ext }${ suffix === '.mjs' ? '.js' : suffix }`
+  let suffix = filename.slice(insertionPoint)
+  if (suffix === '.mjs' && !filename.includes('quasar.esm')) suffix = '.js'
+  return `${ filename.slice(0, insertionPoint) }.${ ext }${ suffix }`
 }
 
 function injectVueRequirement (code) {
