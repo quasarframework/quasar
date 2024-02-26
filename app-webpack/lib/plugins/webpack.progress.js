@@ -151,6 +151,14 @@ module.exports.WebpackProgressPlugin = class WebpackProgressPlugin extends Progr
       super.apply(compiler)
     }
 
+    compiler.hooks.beforeCompile.tapAsync('QuasarProgressPlugin',
+      (_, callback) => {
+        progressLog.init().then(() => {
+          callback()
+        })
+      }
+    )
+
     compiler.hooks.watchClose.tap('QuasarProgressPlugin', () => {
       const index = compilations.indexOf(this.state)
       compilations.splice(index, 1)
