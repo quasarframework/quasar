@@ -60,7 +60,11 @@ export default createComponent({
     noTransition: Boolean,
 
     spinnerColor: String,
-    spinnerSize: String
+    spinnerSize: String,
+    spinnerDelay: {
+      type: Number,
+      default: 0
+    },
   },
 
   emits: [ 'load', 'error' ],
@@ -69,7 +73,7 @@ export default createComponent({
     const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
 
-    let loadTimer = null, isDestroyed = false
+    let loadTimer = null, showSpinnerTimer = null, isDestroyed = false
 
     const images = [
       ref(null),
@@ -80,6 +84,7 @@ export default createComponent({
 
     const isLoading = ref(false)
     const hasError = ref(false)
+    const canShowSpinner = ref(false)
 
     const classes = computed(() =>
       `q-img q-img--${ props.noNativeMenu === true ? 'no-' : '' }menu`
@@ -133,6 +138,20 @@ export default createComponent({
       }
       else {
         isLoading.value = true
+
+        if (showSpinnerTimer !== null) {
+          clearTimeout(showSpinnerTimer)
+          showSpinnerTimer = null
+        }
+
+        canShowSpinner.value = props.spinnerDelay === 0
+
+        if (props.spinnerDelay) {
+          showSpinnerTimer = setTimeout(() => {
+            showSpinnerTimer = null
+            canShowSpinner.value = true
+          }, props.spinnerDelay)
+        }
       }
 
       images[ position.value ].value = imgProps
@@ -241,7 +260,7 @@ export default createComponent({
         slots.loading !== void 0
           ? slots.loading()
           : (
-              props.noSpinner === true
+              props.noSpinner === true || canShowSpinner.value === false
                 ? void 0
                 : [
                     h(QSpinner, {
