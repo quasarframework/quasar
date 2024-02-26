@@ -114,7 +114,11 @@ function getPlatform (UA) {
     || browser[ 'windows phone' ]
 
   // These are all considered mobile platforms, meaning they run a mobile browser
-  if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
+  if (
+    knownMobiles === true
+    || userAgent.indexOf('mobile') !== -1
+    || (navigator && navigator.userAgentData && navigator.userAgentData.mobile)
+  ) {
     browser.mobile = true
 
     if (browser.edga || browser.edgios) {
