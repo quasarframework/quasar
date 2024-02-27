@@ -77,6 +77,14 @@ The default view can be changed.
 
 <DocExample title="Default view" file="DefaultView" overflow />
 
+Limiting view to only years or months, and setting mask to `YYYY` or `MM`, respectively.
+
+<doc-example title="Limiting view" file="QDate/LimitingView" overflow />
+
+Allowing selection of years and months, without days, and setting mask to `YYYY/MM`.
+
+<doc-example title="Year/Month" file="QDate/YearMonthView" overflow />
+
 The first day of the week is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
 
 <DocExample title="First day of week" file="FirstDayOfWeek" overflow />
