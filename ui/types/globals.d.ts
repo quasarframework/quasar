@@ -44,7 +44,7 @@ export interface GlobalQuasarIconSetSingleton
   iconMapFn: GlobalQuasarIconMapFn;
 }
 
-type GlobalQuasarIconMapFn = (
+export type GlobalQuasarIconMapFn = (
   iconName: string
 ) => { icon: string } | { cls: string; content?: string } | void;
 
