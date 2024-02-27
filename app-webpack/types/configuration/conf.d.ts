@@ -75,7 +75,7 @@ interface BaseQuasarConfiguration {
     remove: string[];
   };
   /** Add variables that you can use in index.template.html. */
-  htmlVariables?: Record<string, string | Record<string, unknown>>;
+  htmlVariables?: Record<string, any>;
   /**
    * What Quasar language pack to use, what Quasar icon
    * set to use for Quasar components.
