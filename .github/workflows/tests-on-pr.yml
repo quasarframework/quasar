@@ -123,3 +123,4 @@ jobs:
         with:
           name: event-data
           path: ${{ github.event_path }}
+          overwrite: true
