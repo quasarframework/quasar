@@ -19,8 +19,7 @@ export const isRuntimeSsrPreHydration = __QUASAR_SSR_SERVER__
     )
   )
 
-export let iosEmulated = false
-export let iosCorrection
+let preHydrationBrowser
 
 function getMatch (userAgent, platformMatch) {
   const match = /(edg|edge|edga|edgios)\/([\w.]+)/.exec(userAgent)
@@ -66,24 +65,6 @@ const hasTouch = __QUASAR_SSR_SERVER__
   ? false
   : 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
 
-function applyIosCorrection (is) {
-  iosCorrection = { is: { ...is } }
-
-  delete is.mac
-  delete is.desktop
-
-  const platform = Math.min(window.innerHeight, window.innerWidth) > 414
-    ? 'ipad'
-    : 'iphone'
-
-  Object.assign(is, {
-    mobile: true,
-    ios: true,
-    platform,
-    [ platform ]: true
-  })
-}
-
 function getPlatform (UA) {
   const
     userAgent = UA.toLowerCase(),
@@ -117,22 +98,8 @@ function getPlatform (UA) {
   if (
     knownMobiles === true
     || userAgent.indexOf('mobile') !== -1
-    || (navigator && navigator.userAgentData && navigator.userAgentData.mobile)
   ) {
     browser.mobile = true
-
-    if (browser.edga || browser.edgios) {
-      browser.edge = true
-      matched.browser = 'edge'
-    }
-    else if (browser.crios) {
-      browser.chrome = true
-      matched.browser = 'chrome'
-    }
-    else if (browser.fxios) {
-      browser.firefox = true
-      matched.browser = 'firefox'
-    }
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
   // It's a workaround for anonymized user agents
@@ -141,22 +108,38 @@ function getPlatform (UA) {
     browser.desktop = true
   }
 
-  // Set iOS if on iPod, iPad or iPhone
-  if (browser.ipod || browser.ipad || browser.iphone) {
-    browser.ios = true
-  }
-
   if (browser[ 'windows phone' ]) {
     browser.winphone = true
     delete browser[ 'windows phone' ]
   }
 
+  if (browser.edga || browser.edgios) {
+    browser.edge = true
+    matched.browser = 'edge'
+  }
+  else if (browser.crios) {
+    browser.chrome = true
+    matched.browser = 'chrome'
+  }
+  else if (browser.fxios) {
+    browser.firefox = true
+    matched.browser = 'firefox'
+  }
+  // Set iOS if on iPod, iPad or iPhone
+  else if (browser.ipod || browser.ipad || browser.iphone) {
+    browser.ios = true
+  }
+
+  if (browser.vivaldi) {
+    matched.browser = 'vivaldi'
+    browser.vivaldi = true
+  }
+
   // TODO: The assumption about WebKit based browsers below is not completely accurate.
   // Google released Blink(a fork of WebKit) engine on April 3, 2013, which is really different than WebKit today.
   // Today, one might want to check for WebKit to deal with its bugs, which is used on all browsers on iOS, and Safari browser on all platforms.
-
-  // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
   if (
+    // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
     browser.chrome
     || browser.opr
     || browser.safari
@@ -171,52 +154,40 @@ function getPlatform (UA) {
     browser.webkit = true
   }
 
-  // TODO: (Qv3) rename the terms 'edge' to 'edge legacy'(or remove it) then 'edge chromium' to 'edge' to match with the known up-to-date terms
+  // TODO: (Qv3) rename the terms 'edge' to 'edge legacy' (or remove it) then 'edge chromium' to 'edge' to match with the known up-to-date terms
   // Microsoft Edge is the new Chromium-based browser. Microsoft Edge Legacy is the old EdgeHTML-based browser (EOL: March 9, 2021).
   if (browser.edg) {
     matched.browser = 'edgechromium'
     browser.edgeChromium = true
   }
-
-  // Blackberry browsers are marked as Safari on BlackBerry
-  if ((browser.safari && browser.blackberry) || browser.bb) {
-    matched.browser = 'blackberry'
-    browser.blackberry = true
-  }
-
-  // Playbook browsers are marked as Safari on Playbook
-  if (browser.safari && browser.playbook) {
-    matched.browser = 'playbook'
-    browser.playbook = true
-  }
-
   // Opera 15+ are identified as opr
-  if (browser.opr) {
+  else if (browser.opr) {
     matched.browser = 'opera'
     browser.opera = true
   }
 
-  // Stock Android browsers are marked as Safari on Android.
-  if (browser.safari && browser.android) {
-    matched.browser = 'android'
-    browser.android = true
-  }
-
-  // Kindle browsers are marked as Safari on Kindle
-  if (browser.safari && browser.kindle) {
-    matched.browser = 'kindle'
-    browser.kindle = true
-  }
-
-  // Kindle Silk browsers are marked as Safari on Kindle
-  if (browser.safari && browser.silk) {
-    matched.browser = 'silk'
-    browser.silk = true
-  }
-
-  if (browser.vivaldi) {
-    matched.browser = 'vivaldi'
-    browser.vivaldi = true
+  // Some browsers are marked as Safari but are not
+  if (browser.safari) {
+    if (browser.blackberry || browser.bb) {
+      matched.browser = 'blackberry'
+      browser.blackberry = true
+    }
+    else if (browser.playbook) {
+      matched.browser = 'playbook'
+      browser.playbook = true
+    }
+    else if (browser.android) {
+      matched.browser = 'android'
+      browser.android = true
+    }
+    else if (browser.kindle) {
+      matched.browser = 'kindle'
+      browser.kindle = true
+    }
+    else if (browser.silk) {
+      matched.browser = 'silk'
+      browser.silk = true
+    }
   }
 
   // Assign the name and platform variable
@@ -224,10 +195,10 @@ function getPlatform (UA) {
   browser.platform = matched.platform
 
   if (__QUASAR_SSR_SERVER__ !== true) {
-    if (userAgent.indexOf('electron') > -1) {
+    if (userAgent.indexOf('electron') !== -1) {
       browser.electron = true
     }
-    else if (document.location.href.indexOf('-extension://') > -1) {
+    else if (document.location.href.indexOf('-extension://') !== -1) {
       browser.bex = true
     }
     else {
@@ -241,6 +212,24 @@ function getPlatform (UA) {
         browser.nativeMobile = true
         browser.nativeMobileWrapper = 'cordova'
       }
+
+      if (isRuntimeSsrPreHydration.value === true) {
+        /*
+         * We need to remember the current state as
+         * everything that follows can only be corrected client-side,
+         * but we don't want to brake the hydration.
+         *
+         * The "client" object is imported throughout the UI and should
+         * be as accurate as possible given all the knowledge that we posses
+         * because decisions are required to be made immediately, even
+         * before the hydration occurs.
+         */
+        preHydrationBrowser = { is: { ...browser } }
+      }
+
+      /*
+       * All the following should be client-side corrections only
+       */
 
       if (
         hasTouch === true
@@ -256,13 +245,40 @@ function getPlatform (UA) {
         )
       ) {
         /*
-        * Correction needed for iOS since the default
-        * setting on iPad is to request desktop view; if we have
-        * touch support and the user agent says it's a
-        * desktop, we infer that it's an iPhone/iPad with desktop view
-        * so we must fix the false positives
-        */
-        applyIosCorrection(browser)
+         * Correction needed for iOS since the default
+         * setting on iPad is to request desktop view; if we have
+         * touch support and the user agent says it's a
+         * desktop, we infer that it's an iPhone/iPad with desktop view
+         * so we must fix the false positives
+         */
+
+        delete browser.mac
+        delete browser.desktop
+
+        const platform = Math.min(window.innerHeight, window.innerWidth) > 414
+          ? 'ipad'
+          : 'iphone'
+
+        Object.assign(browser, {
+          mobile: true,
+          ios: true,
+          platform,
+          [ platform ]: true
+        })
+      }
+
+      if (
+        browser.mobile !== true
+        && window.navigator.userAgentData
+        && window.navigator.userAgentData.mobile
+      ) {
+        /*
+         * Correction needed on client-side when
+         * we also have the navigator userAgentData
+         */
+
+        delete browser.desktop
+        browser.mobile = true
       }
     }
   }
@@ -314,7 +330,6 @@ const Platform = {
       opts.onSSRHydrated.push(() => {
         Object.assign($q.platform, client)
         isRuntimeSsrPreHydration.value = false
-        iosCorrection = void 0
       })
 
       // we need to make platform reactive
@@ -360,17 +375,16 @@ else {
     return false
   })
 
-  iosEmulated = client.is.ios === true
-    && window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+  Object.assign(Platform, client)
 
   if (isRuntimeSsrPreHydration.value === true) {
     // must match with server-side before
     // client taking over in order to prevent
     // hydration errors
-    Object.assign(Platform, client, iosCorrection, ssrClient)
-  }
-  else {
-    Object.assign(Platform, client)
+    Object.assign(Platform, preHydrationBrowser, ssrClient)
+
+    // free up memory
+    preHydrationBrowser = null
   }
 }
 
