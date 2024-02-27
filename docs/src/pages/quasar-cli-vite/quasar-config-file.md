@@ -642,7 +642,7 @@ interface QuasarSourceFilesConfiguration {
 
 ```js
 /** Add variables that you can use in /index.html. */
-  htmlVariables?: Record<string, any>;
+htmlVariables?: Record<string, any>;
 ```
 
 You can define and then reference variables in `/index.html`, like this:
