@@ -96,6 +96,12 @@
       "desc": "Configure Tooltip to disappear with delay",
       "default": 0,
       "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Prevents Tooltip from auto-closing when app's route changes",
+      "category": "behavior"
     }
   },
 

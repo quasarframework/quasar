@@ -72,7 +72,9 @@ export default createComponent({
     hideDelay: {
       type: Number,
       default: 0
-    }
+    },
+
+    persistent: Boolean
   },
 
   emits: [
