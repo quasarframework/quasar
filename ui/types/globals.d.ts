@@ -43,9 +43,11 @@ export interface GlobalQuasarIconSetSingleton
       // QSsrContext interface depends on q/app, making it available into UI package adds complexity without any real benefit
       { set(iconSet: QuasarIconSet, ssrContext: any): void },
       { set(iconSet: QuasarIconSet): void }
-    > {}
+    > {
+  iconMapFn: GlobalQuasarIconMapFn;
+}
 
-type GlobalQuasarIconMapFn = (
+export type GlobalQuasarIconMapFn = (
   iconName: string
 ) => { icon: string } | { cls: string; content?: string } | void;
 
