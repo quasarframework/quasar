@@ -6,23 +6,23 @@ desc: How to install the Icon Genie CLI on your development machine.
 Make sure that you have Node >=16 installed on your machine.
 
 ::: warning
-**Do not use uneven versions of Node i.e. 15, 17, 19 etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
+**Do not use uneven versions of Node i.e. 19, 21, 23 etc.** These versions aren't tested with Quasar and often cause issues due to their experimental nature. We highly recommend always using the LTS version of Node.
 :::
 
 You will be installing the Icon Genie CLI globally. You don't need to install it in your project folder.
 
 ```tabs
 <<| bash Yarn |>>
-# Node.js >=16 is required.
+# Node.js >=18 is required.
 $ yarn global add @quasar/icongenie
 <<| bash NPM |>>
-# Node.js >=16 is required.
+# Node.js >=18 is required.
 $ npm i -g @quasar/icongenie
 <<| bash PNPM |>>
-# Node.js >=16 is required.
+# Node.js >=18 is required.
 $ pnpm add -g @quasar/icongenie
 <<| bash Bun |>>
-# Node.js >=16 is required.
+# Node.js >=18 is required.
 $ bun install -g @quasar/icongenie
 ```
 
