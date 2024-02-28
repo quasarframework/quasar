@@ -10,7 +10,7 @@ In order to configure the browser compatibility for your app, you will need to e
 ```js /quasar.config file
 build: {
   target: {
-    browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
+    browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
     node: 'node20'
   }
 }

@@ -50,7 +50,7 @@ interface InvokeParams {
 
 interface BuildTargetOptions {
   /**
-   * @default ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1']
+   * @default ['es2022', 'firefox115', 'chrome115', 'safari14']
    */
   browser?: string[];
   /**
@@ -71,7 +71,7 @@ interface QuasarStaticBuildConfiguration {
   /**
    * @example
    *    {
-   *      browser: ['es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1'],
+   *      browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
    *      node: 'node20'
    *    }
    */

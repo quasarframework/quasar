@@ -57,17 +57,17 @@ export default configure((ctx) => {
       // publicPath: '/',
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
-      esbuildTarget: {
-        browser: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
-        node: 'node20'
-      },
-
       // webpackTranspile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
       // (from node_modules, which are by default not transpiled).
       // Applies only if "webpackTranspile" is set to true.
       // webpackTranspileDependencies: [],
+
+      esbuildTarget: {
+        browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
+        node: 'node20'
+      },
 
       // rtl: true, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,

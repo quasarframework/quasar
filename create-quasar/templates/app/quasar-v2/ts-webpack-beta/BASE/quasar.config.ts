@@ -66,6 +66,11 @@ export default configure((/* ctx */) => {
       // Applies only if "webpackTranspile" is set to true.
       // webpackTranspileDependencies: [],
 
+      esbuildTarget: {
+        browser: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
+        node: 'node20'
+      },
+
       // rtl: true, // https://quasar.dev/options/rtl-support
       // preloadChunks: true,
       // showProgress: false,
