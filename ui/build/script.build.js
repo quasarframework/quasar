@@ -12,34 +12,38 @@ const { green } = require('chalk')
   * css: yarn build css / npm run build css
  */
 
-console.log()
+async function run () {
+  console.log()
 
-if (!type) {
-  require('./script.clean.js')
+  if (!type) {
+    await import('./script.clean.mjs')
+  }
+  else if ([ 'js', 'css' ].includes(type) === false) {
+    console.error(` Unrecognized build type specified: ${ type }`)
+    console.error(' Available: js | css')
+    console.error()
+    process.exit(1)
+  }
+
+  console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').version) }...\n`)
+
+  createFolder('dist')
+
+  if (!type || type === 'js') {
+    createFolder('dist/vetur')
+    createFolder('dist/api')
+    createFolder('dist/transforms')
+    createFolder('dist/lang')
+    createFolder('dist/icon-set')
+    createFolder('dist/types')
+    createFolder('dist/web-types')
+
+    require('./script.build.javascript')(subtype || 'full')
+  }
+
+  if (!type || type === 'css') {
+    require('./script.build.css')(/* with diff */ type === 'css')
+  }
 }
-else if ([ 'js', 'css' ].includes(type) === false) {
-  console.error(` Unrecognized build type specified: ${ type }`)
-  console.error(' Available: js | css')
-  console.error()
-  process.exit(1)
-}
 
-console.log(` 📦 Building Quasar ${ green('v' + require('../package.json').version) }...\n`)
-
-createFolder('dist')
-
-if (!type || type === 'js') {
-  createFolder('dist/vetur')
-  createFolder('dist/api')
-  createFolder('dist/transforms')
-  createFolder('dist/lang')
-  createFolder('dist/icon-set')
-  createFolder('dist/types')
-  createFolder('dist/web-types')
-
-  require('./script.build.javascript')(subtype || 'full')
-}
-
-if (!type || type === 'css') {
-  require('./script.build.css')(/* with diff */ type === 'css')
-}
+run()
