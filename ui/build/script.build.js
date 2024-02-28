@@ -35,7 +35,6 @@ if (!type || type === 'js') {
   createFolder('dist/lang')
   createFolder('dist/icon-set')
   createFolder('dist/types')
-  createFolder('dist/ssr-directives')
 
   require('./script.build.javascript')(subtype || 'full')
 }
