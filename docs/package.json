@@ -35,9 +35,9 @@
     "eslint-plugin-vue": "^9.22.0",
     "fast-glob": "^3.2.12",
     "gray-matter": "^4.0.2",
-    "markdown-ast": "^0.2.1",
-    "markdown-it": "^12.3.2",
-    "markdown-it-container": "^3.0.0",
+    "markdown-ast": "^0.3.0",
+    "markdown-it": "^14.0.0",
+    "markdown-it-container": "^4.0.0",
     "toml": "^3.0.0",
     "workbox-build": "^7.0.0"
   },
