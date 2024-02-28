@@ -87,10 +87,6 @@ function addUtils (map) {
     })
 }
 
-function getImportMapContent (map) {
-  return JSON.stringify(map, null, 2)
-}
-
 function getImportTransformationsContent () {
   return `const map = require('./import-map.json')
 
@@ -104,13 +100,13 @@ module.exports = function (importName) {
 `
 }
 
-function getAutoImportFile (autoImport) {
+function getAutoImportFile (autoImport, encodeFn) {
   autoImport.kebabComponents.sort((a, b) => (a.length > b.length ? -1 : 1))
   autoImport.pascalComponents.sort((a, b) => (a.length > b.length ? -1 : 1))
   autoImport.components = autoImport.kebabComponents.concat(autoImport.pascalComponents)
   autoImport.directives.sort((a, b) => (a.length > b.length ? -1 : 1))
 
-  return JSON.stringify({
+  return encodeFn({
     importName: autoImport.importName,
     regex: {
       kebabComponents: '(' + autoImport.kebabComponents.join('|') + ')',
@@ -118,10 +114,14 @@ function getAutoImportFile (autoImport) {
       components: '(' + autoImport.components.join('|') + ')',
       directives: '(' + autoImport.directives.join('|') + ')'
     }
-  }, null, 2)
+  })
 }
 
-module.exports.generate = function () {
+module.exports.generate = function ({ compact = false } = {}) {
+  const encodeFn = compact === true
+    ? JSON.stringify
+    : json => JSON.stringify(json, null, 2)
+
   const map = {
     Quasar: relative(resolvePath('src/vue-plugin.js'))
   }
@@ -140,7 +140,7 @@ module.exports.generate = function () {
 
   writeFile(
     resolvePath('dist/transforms/import-map.json'),
-    getImportMapContent(map)
+    encodeFn(map)
   )
 
   writeFile(
@@ -150,6 +150,6 @@ module.exports.generate = function () {
 
   writeFile(
     resolvePath('dist/transforms/auto-import.json'),
-    getAutoImportFile(autoImport)
+    getAutoImportFile(autoImport, encodeFn)
   )
 }

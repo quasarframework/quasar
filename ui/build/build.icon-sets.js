@@ -196,7 +196,7 @@ function generateSvgFile (type) {
 function generateCjsCounterparts () {
   const promises = []
   try {
-    glob.sync(resolve('icon-set/*.mjs'), { cwd: root , absolute:true })
+    glob.sync(resolve('icon-set/*.mjs'), { cwd: root, absolute: true })
       .forEach(file => {
         const content = fs.readFileSync(file, 'utf-8')
         const cjsFile = file.replace('.mjs', '.js')

@@ -35,6 +35,7 @@ if (!type || type === 'js') {
   createFolder('dist/lang')
   createFolder('dist/icon-set')
   createFolder('dist/types')
+  createFolder('dist/web-types')
 
   require('./script.build.javascript')(subtype || 'full')
 }

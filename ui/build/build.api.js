@@ -527,7 +527,7 @@ function arrayHasError (name, key, property, expected, propApi) {
   }
 }
 
-function fillAPI (apiType, list) {
+function fillAPI (apiType, list, encodeFn) {
   return file => {
     const
       name = path.basename(file),
@@ -657,7 +657,7 @@ function fillAPI (apiType, list) {
     }
 
     // copy API file to dest
-    writeFile(filePath, JSON.stringify(api, null, 2))
+    writeFile(filePath, encodeFn(api))
 
     const shortName = name.substring(0, name.length - 5)
     list.push(shortName)
@@ -669,7 +669,7 @@ function fillAPI (apiType, list) {
   }
 }
 
-function writeTransformAssetUrls (components) {
+function writeTransformAssetUrls (components, encodeFn) {
   const transformAssetUrls = {
     base: null,
     includeAbsolute: false,
@@ -700,18 +700,22 @@ function writeTransformAssetUrls (components) {
 
   writeFile(
     path.join(root, 'dist/transforms/loader-asset-urls.json'),
-    JSON.stringify(transformAssetUrls, null, 2)
+    encodeFn(transformAssetUrls)
   )
 }
 
-function writeApiIndex (list) {
+function writeApiIndex (list, encodeFn) {
   writeFile(
     path.join(root, 'dist/transforms/api-list.json'),
-    JSON.stringify(list, null, 2)
+    encodeFn(list)
   )
 }
 
-module.exports.generate = function () {
+module.exports.generate = function ({ compact = false } = {}) {
+  const encodeFn = compact === true
+    ? JSON.stringify
+    : json => JSON.stringify(json, null, 2)
+
   return new Promise((resolve) => {
     const list = []
 
@@ -721,18 +725,18 @@ module.exports.generate = function () {
       'src/Lang.json'
     ], { cwd: root, absolute: true })
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('plugin', list))
+      .map(fillAPI('plugin', list, encodeFn))
 
     const directives = glob.sync('src/directives/*.json', { cwd: root, absolute: true })
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('directive', list))
+      .map(fillAPI('directive', list, encodeFn))
 
     const components = glob.sync('src/components/**/Q*.json', { cwd: root, absolute: true })
       .filter(file => !path.basename(file).startsWith('__'))
-      .map(fillAPI('component', list))
+      .map(fillAPI('component', list, encodeFn))
 
-    writeTransformAssetUrls(components)
-    writeApiIndex(list)
+    writeTransformAssetUrls(components, encodeFn)
+    writeApiIndex(list, encodeFn)
 
     resolve({ components, directives, plugins })
   }).catch(err => {

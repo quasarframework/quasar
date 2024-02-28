@@ -45,18 +45,16 @@ const vueNamedImportsCode = (() => {
   return { contents: `const { ${ namedImports } } = window.Vue;export { ${ namedImports } };` }
 })()
 
-const tempFilesList = []
+const umdTempFilesList = []
+const umdTargetAssetRE = /\.mjs$/
 process.on('exit', () => {
-  tempFilesList.forEach(file => {
+  umdTempFilesList.forEach(file => {
     fs.unlinkSync(file)
   })
 })
 
 const rootFolder = path.resolve(__dirname, '..')
-
-function resolve (_path) {
-  return path.resolve(rootFolder, _path)
-}
+const resolve = file => path.resolve(rootFolder, file)
 
 const quasarEsbuildPluginUmdGlobalExternals = {
   name: 'quasar:umd-global-externals',
@@ -167,7 +165,7 @@ function genConfig (opts) {
   return {
     platform: 'browser',
     external: [ 'vue', '@vue/compiler-dom' ],
-    target: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
+    target: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
     bundle: true,
     banner: {
       js: buildConf.banner
@@ -175,39 +173,6 @@ function genConfig (opts) {
     write: false,
     ...opts
   }
-}
-
-function addUmdAssets (builds, type, injectName) {
-  const files = fs.readdirSync(resolve(type))
-
-  files
-    .filter(file => file.endsWith('.mjs'))
-    .forEach(file => {
-      const name = file
-        .substring(0, file.length - 4)
-        .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
-
-      const inputFile = resolve(`${ type }/${ file }`)
-      const inputCode = fs.readFileSync(inputFile, 'utf-8')
-      const tempFile = resolve(`${ type }/temp.${ file }`)
-
-      fs.writeFileSync(
-        tempFile,
-        inputCode.replace('export default ', `window.Quasar.${ injectName }.${ name } = `),
-        'utf-8'
-      )
-
-      tempFilesList.push(tempFile)
-
-      builds.push({
-        format: 'iife',
-        minify: true,
-        entryPoints: [
-          tempFile
-        ],
-        outfile: addExtension(resolve(`dist/${ type }/${ file }`), 'umd.prod')
-      })
-    })
 }
 
 function build (builds) {
@@ -236,6 +201,38 @@ function build (builds) {
     })
 }
 
+function addUmdAssets (builds, type, injectName) {
+  const files = fs.readdirSync(resolve(type))
+
+  files.forEach(file => {
+    if (umdTargetAssetRE.test(file) === false) return
+
+    const name = file
+      .substring(0, file.length - 4)
+      .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
+
+    const inputCode = fs.readFileSync(resolve(`${ type }/${ file }`), 'utf-8')
+    const tempFile = resolve(`dist/${ type }/temp.${ file }`)
+
+    fs.writeFileSync(
+      tempFile,
+      inputCode.replace('export default ', `window.Quasar.${ injectName }.${ name } = `),
+      'utf-8'
+    )
+
+    umdTempFilesList.push(tempFile)
+
+    builds.push({
+      format: 'iife',
+      minify: true,
+      entryPoints: [
+        tempFile
+      ],
+      outfile: addExtension(resolve(`dist/${ type }/${ file }`), 'umd.prod')
+    })
+  })
+}
+
 function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
   const suffix = filename.slice(insertionPoint)
@@ -244,52 +241,49 @@ function addExtension (filename, ext = 'prod') {
 
 const runBuild = {
   async full () {
-    await require('./build.lang').generate()
-    await require('./build.icon-sets').generate()
-
-    const data = await require('./build.api').generate()
-
-    require('./build.transforms').generate()
-    require('./build.vetur').generate(data)
-    await require('./build.types').generate(data)
-    require('./build.web-types').generate(data)
+    require('./build.transforms').generate({ compact: true })
+    require('./build.icon-sets').generate()
 
     addUmdAssets(builds, 'lang', 'lang')
     addUmdAssets(builds, 'icon-set', 'iconSet')
 
-    await build(builds)
+    build(builds)
+
+    const api = await require('./build.api').generate({ compact: true })
+
+    require('./build.vetur').generate({ api, compact: true })
+    require('./build.web-types').generate({ api, compact: true })
+
+    const quasarLangIndex = await require('./build.lang').generate()
+    require('./build.types').generate({ api, quasarLangIndex })
   },
 
   async types () {
     prepareDiff('dist/types/index.d.ts')
 
-    const data = await require('./build.api').generate()
+    const api = await require('./build.api').generate({ compact: true })
 
-    require('./build.vetur').generate(data)
-    require('./build.web-types').generate(data)
-
-    // 'types' depends on 'lang-index'
-    await require('./build.lang').generate()
-    await require('./build.types').generate(data)
+    const quasarLangIndex = await require('./build.lang').generate()
+    require('./build.types').generate({ api, quasarLangIndex })
   },
 
   async api () {
     await prepareDiff('dist/api')
-    await require('./build.api').generate()
+    require('./build.api').generate()
   },
 
   async vetur () {
     await prepareDiff('dist/vetur')
 
-    const data = await require('./build.api').generate()
-    require('./build.vetur').generate(data)
+    const api = await require('./build.api').generate({ compact: true })
+    require('./build.vetur').generate({ api })
   },
 
   async webtypes () {
     await prepareDiff('dist/web-types')
 
-    const data = await require('./build.api').generate()
-    require('./build.web-types').generate(data)
+    const api = await require('./build.api').generate({ compact: true })
+    require('./build.web-types').generate({ api })
   },
 
   async transforms () {

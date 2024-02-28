@@ -49,13 +49,13 @@ module.exports.generate = function () {
 
     const
       langFile = resolve('lang/index.json'),
-      newLangJson = JSON.stringify(languages, null, 2)
+      quasarLangIndex = JSON.stringify(languages)
 
     promises.push(
-      writeFileIfChanged(langFile, newLangJson)
+      writeFileIfChanged(langFile, quasarLangIndex)
     )
 
-    return Promise.all(promises)
+    return Promise.all(promises).then(() => languages)
   }
   catch (err) {
     logError('build.lang.js: something went wrong...')

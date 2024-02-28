@@ -247,16 +247,12 @@ function writeInterface (contents, typeName, props) {
   writeLine(contents)
 }
 
-function addQuasarLangCodes (contents) {
-  // We are able to read this file only because
-  //  it's been generated before type generation take place
-  const langJson = require('../lang/index.json')
-
+function addQuasarLangCodes (contents, quasarLangIndex) {
   // Assure we are doing a module augmentation instead of a module overwrite
   writeLine(contents, 'import \'./lang\'')
   writeLine(contents, 'declare module \'./lang\' {')
   writeLine(contents, 'export interface QuasarLanguageCodesHolder {', 2)
-  langJson.forEach(({ isoName }) => writeLine(contents, `'${ isoName }': true`, 3))
+  quasarLangIndex.forEach(({ isoName }) => writeLine(contents, `'${ isoName }': true`, 3))
   writeLine(contents, '}', 2)
   writeLine(contents, '}')
 }
@@ -274,7 +270,7 @@ function transformObject (definition, handler) {
   return result
 }
 
-function getIndexDts (apis) {
+function getIndexDts (apis, quasarLangIndex) {
   const contents = []
   const quasarTypeContents = []
   const components = []
@@ -283,7 +279,7 @@ function getIndexDts (apis) {
   /** @type { { [componentName: string]: { props: string; slots: string; } } } */
   const componentToSubTypeMap = {}
 
-  addQuasarLangCodes(quasarTypeContents)
+  addQuasarLangCodes(quasarTypeContents, quasarLangIndex)
 
   // TODO: (Qv3) remove this reference to q/app and
   // rely on the shim provided by the starter kit with
@@ -702,15 +698,15 @@ function ensureTypeScriptValidity () {
   throw error
 }
 
-module.exports.generate = async function (data) {
-  const apis = data.plugins
-    .concat(data.directives)
-    .concat(data.components)
+module.exports.generate = async function ({ api, quasarLangIndex }) {
+  const apiList = api.plugins
+    .concat(api.directives)
+    .concat(api.components)
 
   try {
     await Promise.all(copyPredefinedTypes(typeRoot))
 
-    const { header, body } = getIndexDts(apis)
+    const { header, body } = getIndexDts(apiList, quasarLangIndex)
     const formattedBody = await prettier.format(body, { parser: 'typescript' })
 
     // The header contains stuff that breaks TS checking.
