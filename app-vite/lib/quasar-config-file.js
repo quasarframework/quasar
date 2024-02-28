@@ -747,7 +747,7 @@ export class QuasarConfigFile {
     }, cfg.build)
 
     if (!cfg.build.target.browser) {
-      cfg.build.target.browser = [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ]
+      cfg.build.target.browser = [ 'es2022', 'firefox115', 'chrome115', 'safari14' ]
     }
 
     if (!cfg.build.target.node) {
