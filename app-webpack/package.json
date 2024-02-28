@@ -46,7 +46,7 @@
     "lint": "eslint --ext .js ./ --fix --report-unused-disable-directives"
   },
   "dependencies": {
-    "@quasar/babel-preset-app": "2.0.2",
+    "@quasar/babel-preset-app": "^2.0.3",
     "@quasar/render-ssr-error": "^1.0.2",
     "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/ssr-helpers": "3.0.1",
