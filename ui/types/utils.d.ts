@@ -36,13 +36,13 @@ export function copyToClipboard(text: string): Promise<void>;
 export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
-  immediate?: boolean
+  immediate?: boolean,
 ): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
   cancel(): void;
 };
 
 export function frameDebounce<F extends (...args: any[]) => any>(
-  fn: F
+  fn: F,
 ): ((this: ThisParameterType<F>, ...args: Parameters<F>) => void) & {
   cancel(): void;
 };
@@ -50,7 +50,7 @@ export function frameDebounce<F extends (...args: any[]) => any>(
 export function exportFile(
   fileName: string,
   rawData: string | ArrayBuffer | ArrayBufferView | Blob,
-  opts?: string | ExportFileOpts
+  opts?: string | ExportFileOpts,
 ): true | Error;
 
 export function extend<R>(deep: boolean, target: any, ...sources: any[]): R;
@@ -59,12 +59,12 @@ export function extend<R>(target: object, ...sources: any[]): R;
 export function openURL<F extends (...args: any[]) => any>(
   url: string,
   reject?: F,
-  windowFeatures?: Object
+  windowFeatures?: Object,
 ): void;
 
 export function throttle<F extends (...args: any[]) => any>(
   fn: F,
-  limit: number
+  limit: number,
 ): F;
 
 export function uid(): string;
@@ -99,13 +99,13 @@ export function morph(options: MorphOptions): (abort?: boolean) => boolean;
 
 export function getCssVar(
   varName: LiteralUnion<BrandColor>,
-  element?: Element
+  element?: Element,
 ): string | null;
 
 export function setCssVar(
   varName: LiteralUnion<BrandColor>,
   value: string,
-  element?: Element
+  element?: Element,
 ): void;
 
 interface Callbacks {
@@ -136,11 +136,13 @@ interface CreateMetaMixinContext extends ComponentPublicInstance {
 }
 
 export function createMetaMixin<
-  CustomInstanceProperties extends Record<string, any> = {}
+  CustomInstanceProperties extends Record<string, any> = {},
 >(
   options:
     | MetaOptions
-    | ((this: CreateMetaMixinContext & CustomInstanceProperties) => MetaOptions)
+    | ((
+        this: CreateMetaMixinContext & CustomInstanceProperties,
+      ) => MetaOptions),
 ): ComponentOptionsMixin;
 
 interface InjectPluginFnHelpers {
@@ -150,7 +152,7 @@ interface InjectPluginFnHelpers {
   updateFileStatus: (
     file: File,
     status: "failed" | "idle" | "uploaded" | "uploading",
-    uploadedSize?: number
+    uploadedSize?: number,
   ) => void;
   isAlive: () => boolean;
 }
@@ -171,7 +173,7 @@ interface InjectPluginFnReturn {
 
 interface CreateUploaderComponentOptions<
   Props extends ComponentPropsOptions = {},
-  Emits extends EmitsOptions = []
+  Emits extends EmitsOptions = [],
 > {
   name: string;
   props?: Props;
@@ -181,7 +183,7 @@ interface CreateUploaderComponentOptions<
 
 export function createUploaderComponent<
   Props extends ComponentPropsOptions = {},
-  Emits extends EmitsOptions = []
+  Emits extends EmitsOptions = [],
 >(
-  options: CreateUploaderComponentOptions<Props, Emits>
+  options: CreateUploaderComponentOptions<Props, Emits>,
 ): QUploader & DefineComponent<Props, {}, {}, {}, {}, {}, {}, Emits>;

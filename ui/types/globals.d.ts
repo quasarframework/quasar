@@ -48,7 +48,7 @@ export interface GlobalQuasarIconSetSingleton
 }
 
 export type GlobalQuasarIconMapFn = (
-  iconName: string
+  iconName: string,
 ) => { icon: string } | { cls: string; content?: string } | void;
 
 // `import { Quasar } from 'quasar'` will contain these types

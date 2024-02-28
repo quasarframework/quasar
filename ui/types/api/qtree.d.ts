@@ -116,7 +116,7 @@ export type QTreeNode<TExtra = unknown> = Omit<
 
 export interface QTreeLazyLoadParams<
   Node extends QTreeNode = QTreeNode,
-  UpdatedNodes extends QTreeNode = Node
+  UpdatedNodes extends QTreeNode = Node,
 > {
   node: Node;
   key: string;
