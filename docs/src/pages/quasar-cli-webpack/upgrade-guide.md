@@ -226,6 +226,14 @@ Preparations:
   | .eslintrc.js | .eslintrc.cjs |
   | babel.config.js | babel.config.cjs |
 
+  <br>
+
+* You might want to add the following to your `/.gitignore` file. These kind of files are left for inspection purposes when something fails with your `/quasar.config` file (and can be removed by the `quasar clean` command):
+
+  ```bash /.gitignore
+  /quasar.config.*.temporary.compiled*
+  ```
+
 ### SPA / Capacitor / Cordova modes changes
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
 
