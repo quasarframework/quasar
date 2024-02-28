@@ -100,7 +100,7 @@
 
             "persistent": {
               "type": "Boolean",
-              "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key"
+              "desc": "User cannot dismiss Bottom Sheet if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
             }
           }
         }

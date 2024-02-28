@@ -89,7 +89,7 @@
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Prevents drawer from auto-closing when app's route changes",
+      "desc": "Prevents drawer from auto-closing when app's route changes; Also, an app route change won't hide it",
       "category": "behavior"
     },
 
