@@ -12,7 +12,11 @@ import * as plugins from './plugins.js'
 import * as utils from './utils.js'
 import * as composables from './composables.js'
 
-export default {
+if (window.Vue === void 0) {
+  console.error('[ Quasar ] Vue is required to run. Please add a script tag for it before loading Quasar.')
+}
+
+window.Quasar = {
   version: __QUASAR_VERSION__,
   install (app, opts) {
     installQuasar(app, {

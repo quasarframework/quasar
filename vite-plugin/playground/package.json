@@ -11,7 +11,7 @@
   "dependencies": {
     "@quasar/extras": "^1.16.6",
     "quasar": "^2.14.0",
-    "vue": "^3.4.19"
+    "vue": "^3.4.20"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

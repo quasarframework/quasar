@@ -711,7 +711,7 @@ module.exports.generate = async function (data) {
     await Promise.all(copyPredefinedTypes(typeRoot))
 
     const { header, body } = getIndexDts(apis)
-    const formattedBody = prettier.format(body, { parser: 'typescript' })
+    const formattedBody = await prettier.format(body, { parser: 'typescript' })
 
     // The header contains stuff that breaks TS checking.
     // So, write only the body at first to check the validity

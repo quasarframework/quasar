@@ -51,7 +51,7 @@
     "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/vite-plugin": "^1.6.0",
     "@rollup/pluginutils": "^5.0.4",
-    "@types/chrome": "^0.0.261",
+    "@types/chrome": "^0.0.262",
     "@types/compression": "^1.7.3",
     "@types/cordova": "^11.0.0",
     "@types/express": "^4.17.13",
@@ -98,7 +98,7 @@
     "quasar": "^2.14.0",
     "ts-essentials": "^9.1.2",
     "typescript": "^5.2.2",
-    "vue": "^3.4.18",
+    "vue": "^3.4.20",
     "vue-router": "^4.2.1",
     "vuex": "^4.0.0",
     "workbox-build": "^7.0.0"

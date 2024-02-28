@@ -1,13 +1,8 @@
 process.env.BABEL_ENV = 'production'
 
-const path = require('path')
-const fs = require('fs')
-const rollup = require('rollup')
-const uglify = require('uglify-es')
-
-const { nodeResolve } = require('@rollup/plugin-node-resolve')
-// const typescript = require('rollup-plugin-typescript2')
-const replace = require('@rollup/plugin-replace')
+const path = require('node:path')
+const fs = require('node:fs')
+const { build: esBuild } = require('esbuild')
 
 const { version } = require('../package.json')
 
@@ -15,157 +10,172 @@ const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
 const prepareDiff = require('./prepare-diff')
 
+const vueNamedImportsCode = (() => {
+  /**
+   * We could infer this automatically by reading and parsing each
+   * file for vue imports, but the runtime cost is too high and we
+   * want to achieve the best possible performance while building.
+   *
+   * Unfortunately, esbuild does not have an option to tell
+   * anything about what the named imports are from the target file.
+   *
+   * Add all the vue imports from the UI code to the list below
+   * otherwise the build will fail with the following error:
+   *   No matching export in "Search for vueNamedImportsCode in /ui/build :vue"
+   */
+  const namedImports = [
+    'h',
+    'ref', 'computed', 'watch',
+    'isRef', 'toRaw', 'unref', 'reactive', 'shallowReactive',
+    'nextTick',
+    'onActivated', 'onDeactivated',
+    'onBeforeMount', 'onMounted',
+    'onBeforeUnmount', 'onUnmounted',
+    'onBeforeUpdate', 'onUpdated',
+    'inject', 'provide',
+    'getCurrentInstance',
+    'markRaw',
+    'Transition', 'TransitionGroup', 'KeepAlive', 'Teleport',
+    'useSSRContext',
+    'withDirectives',
+    'vShow',
+    'defineComponent', 'createApp'
+  ].join(',')
+
+  return { contents: `const { ${ namedImports } } = window.Vue;export { ${ namedImports } };` }
+})()
+
+const tempFilesList = []
+process.on('exit', () => {
+  tempFilesList.forEach(file => {
+    fs.unlinkSync(file)
+  })
+})
+
 const rootFolder = path.resolve(__dirname, '..')
 
 function resolve (_path) {
   return path.resolve(rootFolder, _path)
 }
 
-// const tsConfig = {
-//   tsconfigOverride: {
-//     compilerOptions: {
-//       sourceMap: true
-//     },
-//     include: ['./src/**/*.ts']
-//   }
-// }
+const quasarEsbuildPluginUmdGlobalExternals = {
+  name: 'quasar:umd-global-externals',
+  setup (build) {
+    const namespace = 'Search for vueNamedImportsCode in /ui/build '
+    build.onResolve({ filter: /^vue$/ }, (args) => ({
+      path: args.path,
+      namespace
+    }))
 
-const commonRollupPlugins = [
-  // typescript(tsConfig),
-  nodeResolve()
-]
-
-const uglifyJsOptions = {
-  compress: {
-    // turn off flags with small gains to speed up minification
-    arrows: false,
-    collapse_vars: false,
-    comparisons: false,
-    computed_props: false,
-    hoist_funs: false,
-    hoist_props: false,
-    hoist_vars: false,
-    inline: false,
-    loops: false,
-    negate_iife: false,
-    properties: false,
-    reduce_funcs: false,
-    reduce_vars: false,
-    switches: false,
-    toplevel: false,
-    typeofs: false,
-
-    // a few flags with noticeable gains/speed ratio
-    booleans: true,
-    if_return: true,
-    sequences: true,
-    unused: true,
-
-    // required features to drop conditional branches
-    conditionals: true,
-    dead_code: true,
-    evaluate: true
-  },
-  mangle: {
-    safari10: true
+    build.onLoad(
+      { filter: /.*/, namespace },
+      () => vueNamedImportsCode
+    )
   }
 }
 
 const builds = [
+  // client entry-point used by @quasar/vite-plugin for DEV only
+  // (has flags untouched; required to replace them)
   {
-    // client entry-point used by @quasar/vite-plugin for DEV only
-    // (has flags untouched; required to replace them)
-    rollup: {
-      input: {
-        input: resolve('src/index.dev.js')
-      },
-      output: {
-        file: resolve('dist/quasar.esm.js'),
-        format: 'es'
-      }
+    format: 'esm',
+    define: {
+      __QUASAR_VERSION__: `'${ version }'`,
+      __QUASAR_SSR_SERVER__: 'false'
     },
-    build: {
-      unminified: true,
-      replace: {
-        __QUASAR_VERSION__: `'${ version }'`,
-        __QUASAR_SSR_SERVER__: false
-      }
-    }
+    entryPoints: [
+      resolve('src/index.dev.js')
+    ],
+    outfile: resolve('dist/quasar.esm.js')
   },
 
+  // client prod entry-point that is not used by Quasar CLI,
+  // but pointed to in package.json > module;
+  // (no flags; not required to replace them)
   {
-    // client prod entry-point that is not used by Quasar CLI,
-    // but pointed to in package.json > module;
-    // (no flags; not required to replace them)
-    rollup: {
-      input: {
-        input: resolve('src/index.prod.js')
-      },
-      output: {
-        file: resolve('dist/quasar.esm.js'),
-        format: 'es'
-      }
+    format: 'esm',
+    minify: true,
+    define: {
+      __QUASAR_VERSION__: `'${ version }'`,
+      __QUASAR_SSR__: 'false',
+      __QUASAR_SSR_SERVER__: 'false',
+      __QUASAR_SSR_CLIENT__: 'false',
+      __QUASAR_SSR_PWA__: 'false'
     },
-    build: {
-      minified: true,
-      replace: {
-        __QUASAR_VERSION__: `'${ version }'`,
-        __QUASAR_SSR__: false,
-        __QUASAR_SSR_SERVER__: false,
-        __QUASAR_SSR_CLIENT__: false,
-        __QUASAR_SSR_PWA__: false
-      }
-    }
+    entryPoints: [
+      resolve('src/index.prod.js')
+    ],
+    outfile: resolve('dist/quasar.esm.prod.js')
   },
 
+  // SSR server prod entry-point
+  // (no flags; not required to replace them)
   {
-    // SSR server prod entry-point
-    // (no flags; not required to replace them)
-    rollup: {
-      input: {
-        input: resolve('src/index.ssr.js')
-      },
-      output: {
-        file: resolve('dist/quasar.cjs.js'),
-        format: 'cjs'
-      }
+    format: 'cjs',
+    platform: 'node',
+    minify: true,
+    define: {
+      __QUASAR_VERSION__: `'${ version }'`,
+      __QUASAR_SSR__: 'true',
+      __QUASAR_SSR_SERVER__: 'true',
+      __QUASAR_SSR_CLIENT__: 'false',
+      __QUASAR_SSR_PWA__: 'false'
     },
-    build: {
-      minified: true,
-      replace: {
-        __QUASAR_VERSION__: `'${ version }'`,
-        __QUASAR_SSR__: true,
-        __QUASAR_SSR_SERVER__: true,
-        __QUASAR_SSR_CLIENT__: false,
-        __QUASAR_SSR_PWA__: false
-      }
-    }
+    entryPoints: [
+      resolve('src/index.ssr.js')
+    ],
+    outfile: resolve('dist/quasar.cjs.prod.js')
   },
 
+  // UMD dev entry
   {
-    // UMD entry
-    rollup: {
-      input: {
-        input: resolve('src/index.umd.js')
-      },
-      output: {
-        file: resolve('dist/quasar.umd.js'),
-        format: 'umd'
-      }
+    format: 'iife',
+    define: {
+      __QUASAR_VERSION__: `'${ version }'`,
+      __QUASAR_SSR__: 'false',
+      __QUASAR_SSR_SERVER__: 'false',
+      __QUASAR_SSR_CLIENT__: 'false',
+      __QUASAR_SSR_PWA__: 'false'
     },
-    build: {
-      unminified: true,
-      minified: true,
-      replace: {
-        __QUASAR_VERSION__: `'${ version }'`,
-        __QUASAR_SSR__: false,
-        __QUASAR_SSR_SERVER__: false,
-        __QUASAR_SSR_CLIENT__: false,
-        __QUASAR_SSR_PWA__: false
-      }
-    }
+    entryPoints: [
+      resolve('src/index.umd.js')
+    ],
+    outfile: resolve('dist/quasar.umd.js'),
+    plugins: [ quasarEsbuildPluginUmdGlobalExternals ]
+  },
+
+  // UMD prod entry
+  {
+    format: 'iife',
+    minify: true,
+    define: {
+      __QUASAR_VERSION__: `'${ version }'`,
+      __QUASAR_SSR__: 'false',
+      __QUASAR_SSR_SERVER__: 'false',
+      __QUASAR_SSR_CLIENT__: 'false',
+      __QUASAR_SSR_PWA__: 'false'
+    },
+    entryPoints: [
+      resolve('src/index.umd.js')
+    ],
+    outfile: resolve('dist/quasar.umd.prod.js'),
+    plugins: [ quasarEsbuildPluginUmdGlobalExternals ]
   }
 ]
+
+function genConfig (opts) {
+  return {
+    platform: 'browser',
+    external: [ 'vue', '@vue/compiler-dom' ],
+    target: [ 'es2019', 'edge88', 'firefox78', 'chrome87', 'safari13.1' ],
+    bundle: true,
+    banner: {
+      js: buildConf.banner
+    },
+    write: false,
+    ...opts
+  }
+}
 
 function addUmdAssets (builds, type, injectName) {
   const files = fs.readdirSync(resolve(type))
@@ -177,118 +187,59 @@ function addUmdAssets (builds, type, injectName) {
         .substring(0, file.length - 4)
         .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
 
+      const inputFile = resolve(`${ type }/${ file }`)
+      const inputCode = fs.readFileSync(inputFile, 'utf-8')
+      const tempFile = resolve(`${ type }/temp.${ file }`)
+
+      fs.writeFileSync(
+        tempFile,
+        inputCode.replace('export default ', `window.Quasar.${ injectName }.${ name } = `),
+        'utf-8'
+      )
+
+      tempFilesList.push(tempFile)
+
       builds.push({
-        rollup: {
-          input: {
-            input: resolve(`${ type }/${ file }`)
-          },
-          output: {
-            file: addExtension(resolve(`dist/${ type }/${ file }`), 'umd'),
-            format: 'umd',
-            name: `Quasar.${ injectName }.${ name }`
-          }
-        },
-        build: {
-          minified: true
-        }
+        format: 'iife',
+        minify: true,
+        entryPoints: [
+          tempFile
+        ],
+        outfile: addExtension(resolve(`dist/${ type }/${ file }`), 'umd.prod')
       })
     })
 }
 
 function build (builds) {
-  return Promise
-    .all(builds.map(genConfig).map(buildEntry))
-    .catch(buildUtils.logError)
-}
+  const promiseList = builds.map(genConfig)
+    .map(esbuildConfig => {
+      return esBuild(esbuildConfig).then(result => {
+        if (result.errors.length !== 0 || result.warnings.length !== 0) {
+          buildUtils.logError(`Errors encountered for ${ esbuildConfig.entryPoints[ 0 ] }`)
+          process.exit(1)
+        }
 
-function genConfig (opts) {
-  opts.rollup.input.plugins = [ ...commonRollupPlugins ]
-
-  if (opts.build.replace !== void 0) {
-    opts.rollup.input.plugins.unshift(
-      replace({
-        preventAssignment: true,
-        values: opts.build.replace
+        return buildUtils.writeFile(
+          esbuildConfig.outfile,
+          result.outputFiles[ 0 ].text,
+          esbuildConfig.minify === true
+        )
       })
-    )
-  }
+    })
 
-  opts.rollup.input.external = opts.rollup.input.external || []
-  opts.rollup.input.external.push('vue', '@vue/compiler-dom')
-
-  opts.rollup.output.banner = buildConf.banner
-
-  if (opts.rollup.output.name !== false) {
-    opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
-  }
-  else {
-    delete opts.rollup.output.name
-  }
-
-  opts.rollup.output.globals = opts.rollup.output.globals || {}
-  opts.rollup.output.globals.vue = 'Vue'
-
-  return opts
+  return Promise
+    .all(promiseList)
+    .catch(err => {
+      console.error(err)
+      buildUtils.logError('Errors encountered during the esbuild compilation. Exiting...')
+      process.exit(1)
+    })
 }
 
 function addExtension (filename, ext = 'prod') {
   const insertionPoint = filename.lastIndexOf('.')
   const suffix = filename.slice(insertionPoint)
   return `${ filename.slice(0, insertionPoint) }.${ ext }${ suffix === '.mjs' ? '.js' : suffix }`
-}
-
-function injectVueRequirement (code) {
-  const index = code.indexOf('Vue = Vue && Vue.hasOwnProperty(\'default\') ? Vue[\'default\'] : Vue')
-
-  if (index === -1) {
-    return code
-  }
-
-  const checkMe = ` if (Vue === void 0) {
-    console.error('[ Quasar ] Vue is required to run. Please add a script tag for it before loading Quasar.')
-    return
-  }
-  `
-
-  return code.substring(0, index - 1)
-    + checkMe
-    + code.substring(index)
-}
-
-function buildEntry (config) {
-  return rollup
-    .rollup(config.rollup.input)
-    .then(bundle => bundle.generate(config.rollup.output))
-    .then(({ output }) => {
-      const code = config.rollup.output.format === 'umd'
-        ? injectVueRequirement(output[ 0 ].code)
-        : output[ 0 ].code
-
-      return config.build.unminified
-        ? buildUtils.writeFile(config.rollup.output.file, code)
-        : code
-    })
-    .then(code => {
-      if (!config.build.minified) {
-        return code
-      }
-
-      const minified = uglify.minify(code, uglifyJsOptions)
-
-      if (minified.error) {
-        return Promise.reject(minified.error)
-      }
-
-      return buildUtils.writeFile(
-        addExtension(config.rollup.output.file),
-        buildConf.banner + minified.code,
-        true
-      )
-    })
-    .catch(err => {
-      console.error(err)
-      process.exit(1)
-    })
 }
 
 const runBuild = {
