@@ -121,7 +121,7 @@ export default createComponent({
 
     function removeFile (file) {
       const index = innerValue.value.indexOf(file)
-      if (index > -1) {
+      if (index !== -1) {
         removeAtIndex(index)
       }
     }

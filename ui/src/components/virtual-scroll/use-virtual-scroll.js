@@ -301,7 +301,7 @@ export function useVirtualScroll ({
       scrollDetails,
       Math.min(virtualScrollLength.value - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
       0,
-      scrollToEdges.indexOf(edge) > -1 ? edge : (prevToIndex > -1 && toIndex > prevToIndex ? 'end' : 'start')
+      scrollToEdges.indexOf(edge) !== -1 ? edge : (prevToIndex !== -1 && toIndex > prevToIndex ? 'end' : 'start')
     )
   }
 
@@ -391,7 +391,7 @@ export function useVirtualScroll ({
   }
 
   function setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
-    const alignForce = typeof align === 'string' && align.indexOf('-force') > -1
+    const alignForce = typeof align === 'string' && align.indexOf('-force') !== -1
     const alignEnd = alignForce === true ? align.replace('-force', '') : align
     const alignRange = alignEnd !== void 0 ? alignEnd : 'start'
 

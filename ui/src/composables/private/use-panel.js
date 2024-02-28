@@ -162,7 +162,7 @@ export default function () {
   function goToPanelByOffset (direction, startIndex = panelIndex.value) {
     let index = startIndex + direction
 
-    while (index > -1 && index < panels.length) {
+    while (index !== -1 && index < panels.length) {
       const opt = panels[ index ]
 
       if (

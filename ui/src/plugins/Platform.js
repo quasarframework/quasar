@@ -369,7 +369,7 @@ else {
         return true
       }
     }
-    catch (e) {}
+    catch (_) {}
 
     hasWebStorage = false
     return false

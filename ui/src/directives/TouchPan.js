@@ -191,7 +191,7 @@ export default createDirective(__QUASAR_SSR_SERVER__
                 // account for UMD too where modifiers will be lowercased to work
                 && (mouseEvent !== true || (ctx.modifiers.mouseAllDir !== true && ctx.modifiers.mousealldir !== true))
               ) {
-                const clone = evt.type.indexOf('mouse') > -1
+                const clone = evt.type.indexOf('mouse') !== -1
                   ? new MouseEvent(evt.type, evt)
                   : new TouchEvent(evt.type, evt)
 

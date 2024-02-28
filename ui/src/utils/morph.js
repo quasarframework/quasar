@@ -60,7 +60,7 @@ function getComputedStyle (el, props) {
 
         fixed[ prop ] = val
       }
-      else if ([ 'borderWidth', 'borderStyle', 'borderColor' ].indexOf(prop) > -1) {
+      else if ([ 'borderWidth', 'borderStyle', 'borderColor' ].indexOf(prop) !== -1) {
         const suffix = prop.replace('border', '')
         let val = ''
         for (let j = 0; j < styleEdges.length; j++) {

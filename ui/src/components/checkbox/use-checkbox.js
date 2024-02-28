@@ -70,7 +70,7 @@ export default function (type, getInner) {
 
   const isTrue = computed(() => (
     modelIsArray.value === true
-      ? index.value > -1
+      ? index.value !== -1
       : toRaw(props.modelValue) === toRaw(props.trueValue)
   ))
 

@@ -19,7 +19,7 @@ try {
   window.addEventListener('qtest', null, opts)
   window.removeEventListener('qtest', null, opts)
 }
-catch (e) {}
+catch (_) {}
 
 export function noop () {}
 

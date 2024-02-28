@@ -18,7 +18,7 @@ export function addFocusout (fn) {
 
 export function removeFocusout (fn) {
   const index = handlers.indexOf(fn)
-  if (index > -1) {
+  if (index !== -1) {
     handlers.splice(index, 1)
 
     if (handlers.length === 0) {

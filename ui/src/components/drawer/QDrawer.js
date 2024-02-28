@@ -193,7 +193,7 @@ export default createComponent({
     const fixed = computed(() =>
       props.overlay === true
       || props.miniToOverlay === true
-      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') > -1
+      || $layout.view.value.indexOf(rightSide.value ? 'R' : 'L') !== -1
       || ($q.platform.is.ios === true && $layout.isContainer.value === true)
     )
 

@@ -446,7 +446,7 @@ export default createComponent({
     }
 
     function removeAtIndex (index) {
-      if (index > -1 && index < innerValue.value.length) {
+      if (index !== -1 && index < innerValue.value.length) {
         if (props.multiple === true) {
           const model = props.modelValue.slice()
           emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
@@ -542,7 +542,7 @@ export default createComponent({
         model = props.modelValue.slice(),
         index = innerOptionsValue.value.findIndex(v => isDeepEqual(v, optValue))
 
-      if (index > -1) {
+      if (index !== -1) {
         emit('remove', { index, value: model.splice(index, 1)[ 0 ] })
       }
       else {
@@ -562,7 +562,7 @@ export default createComponent({
     function setOptionIndex (index) {
       if ($q.platform.is.desktop !== true) { return }
 
-      const val = index > -1 && index < virtualScrollLength.value
+      const val = index !== -1 && index < virtualScrollLength.value
         ? index
         : -1
 
@@ -716,7 +716,7 @@ export default createComponent({
 
       const tabShouldSelect = e.shiftKey !== true
         && props.multiple !== true
-        && (optionIndex.value > -1 || newValueModeValid === true)
+        && (optionIndex.value !== -1 || newValueModeValid === true)
 
       // escape
       if (e.keyCode === 27) {
@@ -828,7 +828,7 @@ export default createComponent({
           searchBuffer += char
         }
 
-        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => (reEscapeList.indexOf(l) > -1 ? '\\' + l : l)).join('.*'), 'i')
+        const searchRe = new RegExp('^' + searchBuffer.split('').map(l => (reEscapeList.indexOf(l) !== -1 ? '\\' + l : l)).join('.*'), 'i')
 
         let index = optionIndex.value
 
@@ -866,7 +866,7 @@ export default createComponent({
 
       e.keyCode !== 9 && stopAndPrevent(e)
 
-      if (optionIndex.value > -1 && optionIndex.value < optionsLength) {
+      if (optionIndex.value !== -1 && optionIndex.value < optionsLength) {
         toggleOption(props.options[ optionIndex.value ])
         return
       }

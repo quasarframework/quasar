@@ -32,7 +32,7 @@ function read (string) {
       string = parsed
     }
   }
-  catch (e) {}
+  catch (_) {}
 
   return string
 }

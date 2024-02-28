@@ -88,13 +88,13 @@ export default createComponent({
     const forceHex = computed(() => (
       props.formatModel === 'auto'
         ? null
-        : props.formatModel.indexOf('hex') > -1
+        : props.formatModel.indexOf('hex') !== -1
     ))
 
     const forceAlpha = computed(() => (
       props.formatModel === 'auto'
         ? null
-        : props.formatModel.indexOf('a') > -1
+        : props.formatModel.indexOf('a') !== -1
     ))
 
     const topView = ref(
@@ -230,7 +230,7 @@ export default createComponent({
         : (
             props.formatModel === 'auto'
               ? null
-              : props.formatModel.indexOf('a') > -1
+              : props.formatModel.indexOf('a') !== -1
           )
 
       if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {

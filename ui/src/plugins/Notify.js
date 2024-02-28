@@ -254,7 +254,7 @@ function addNotification (config, $q, originalApi) {
         )
       }
       else {
-        const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
+        const action = notif.position.indexOf('top') !== -1 ? 'unshift' : 'push'
         notificationsList[ notif.position ].value[ action ](notif)
       }
 
@@ -276,7 +276,7 @@ function addNotification (config, $q, originalApi) {
         }
       }
       else {
-        notif.badgePosition = `top-${ notif.position.indexOf('left') > -1 ? 'right' : 'left' }`
+        notif.badgePosition = `top-${ notif.position.indexOf('left') !== -1 ? 'right' : 'left' }`
       }
 
       notif.meta.uid = original.meta.uid
@@ -529,8 +529,8 @@ export default {
         notificationsList[ pos ] = ref([])
 
         const
-          vert = [ 'left', 'center', 'right' ].includes(pos) === true ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
-          align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
+          vert = [ 'left', 'center', 'right' ].includes(pos) === true ? 'center' : (pos.indexOf('top') !== -1 ? 'top' : 'bottom'),
+          align = pos.indexOf('left') !== -1 ? 'start' : (pos.indexOf('right') !== -1 ? 'end' : 'center'),
           classes = [ 'left', 'right' ].includes(pos) ? `items-${ pos === 'left' ? 'start' : 'end' } justify-center` : (pos === 'center' ? 'flex-center' : `items-${ align }`)
 
         positionClass[ pos ] = `q-notifications__list q-notifications__list--${ vert } fixed column no-wrap ${ classes }`
