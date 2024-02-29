@@ -5,7 +5,7 @@ const src = resolve(__dirname, '../dist')
 const dest = resolve(__dirname, '../dev-umd/dist')
 
 if (!fse.existsSync(src)) {
-  console.error('ERROR: please "yarn build" or "npm run build" first')
+  console.error('\nERROR: please "yarn build" or "npm run build" first\n')
   process.exit(0)
 }
 
