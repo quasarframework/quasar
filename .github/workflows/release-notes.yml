@@ -143,7 +143,7 @@ jobs:
             const writeJsonFile = (name, data) =>
               writeFile(
                 join(directory, `${name}.json`),
-                JSON.stringify(data, null, 2),
+                JSON.stringify(data),
                 'utf8'
               );
             await Promise.all(
