@@ -179,6 +179,6 @@ jobs:
         with:
           commit_message: |
             Generated release notes for Quasar packages
-            Triggered after "${{ github.event.release.name }}" got released
+            Triggered by: ${{ github.event.release.name || 'manual execution' }}
 
             ${{ github.event.release.html_url }}
