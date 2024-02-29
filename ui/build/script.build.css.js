@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const sass = require('sass')
 const rtl = require('postcss-rtlcss')
 const postcss = require('postcss')

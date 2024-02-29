@@ -13,6 +13,6 @@
     "express": "^4.16.4",
     "express-throttle-bandwidth": "^1.0.1",
     "formidable": "^1.2.1",
-    "rimraf": "^2.6.2"
+    "fs-extra": "^11.2.0"
   }
 }

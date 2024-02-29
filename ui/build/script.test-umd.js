@@ -1,17 +1,16 @@
-const fs = require('fs')
-const { resolve } = require('path')
-const rimraf = require('rimraf').sync
+const { resolve } = require('node:path')
+const fse = require('fs-extra')
 
 const src = resolve(__dirname, '../dist')
 const dest = resolve(__dirname, '../dev-umd/dist')
 
-if (!fs.existsSync(src)) {
+if (!fse.existsSync(src)) {
   console.error('ERROR: please "yarn build" or "npm run build" first')
   process.exit(0)
 }
 
-rimraf(dest)
-fs.symlinkSync(src, dest, 'dir')
+fse.removeSync(dest)
+fse.symlinkSync(src, dest, 'dir')
 
 import('open').then(({ default: open }) => {
   open(

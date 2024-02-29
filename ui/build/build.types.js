@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+const path = require('node:path')
+const fse = require('fs-extra')
 const prettier = require('prettier')
 
 const { logError, writeFile, clone } = require('./build.utils')
@@ -199,22 +199,20 @@ function getInjectionDefinition (propertyName, typeDef, typeName) {
  * @returns {Promise<void>[]}
  */
 function copyPredefinedTypes (dir, parentDir) {
-  return fs.readdirSync(dir)
+  return fse.readdirSync(dir)
     .filter(file => path.basename(file).startsWith('.') !== true)
     .flatMap(async file => {
       const fullPath = path.resolve(dir, file)
-      const stats = fs.lstatSync(fullPath)
+      const stats = fse.lstatSync(fullPath)
       if (stats.isFile()) {
         return writeFile(
           resolvePath(parentDir ? parentDir + file : file),
-          fs.readFileSync(fullPath)
+          fse.readFileSync(fullPath)
         )
       }
       else if (stats.isDirectory()) {
         const p = resolvePath(parentDir ? parentDir + file : file)
-        if (!fs.existsSync(p)) {
-          fs.mkdirSync(p)
-        }
+        fse.ensureDirSync(p)
         return copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
       }
     })

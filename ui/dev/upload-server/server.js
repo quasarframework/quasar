@@ -2,23 +2,18 @@ const express = require('express')
 const app = express()
 const formidable = require('formidable')
 const path = require('path')
-const rimraf = require('rimraf')
-const fs = require('fs')
+const fse = require('fs-extra')
 const throttle = require('express-throttle-bandwidth')
 
 const
   port = process.env.PORT || 4444,
   folder = path.join(__dirname, 'files')
 
-if (!fs.existsSync(folder)) {
-  fs.mkdirSync(folder)
-}
-else {
-  rimraf.sync(path.join(folder, '*'))
-}
+fse.removeSync(folder)
+fse.ensureDirSync(folder)
 
 process.on('exit', () => {
-  rimraf.sync(path.join(folder))
+  fse.removeSync(folder)
 })
 
 app.set('port', port)
@@ -31,7 +26,7 @@ app.use((_, res, next) => {
 })
 
 app.post('/upload', (req, res) => {
-  rimraf.sync(path.join(folder, '*'))
+  fse.empyDirSync(folder)
   const form = new formidable.IncomingForm()
 
   form.uploadDir = folder

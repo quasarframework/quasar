@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 
 const { logError, writeFile, kebabCase } = require('./build.utils')
 const resolve = file => path.resolve(__dirname, '../dist/vetur', file)

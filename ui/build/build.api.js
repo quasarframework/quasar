@@ -1,7 +1,7 @@
+const path = require('node:path')
 const glob = require('fast-glob')
-const path = require('path')
 const { merge } = require('webpack-merge')
-const fs = require('fs')
+const fse = require('fs-extra')
 
 const root = path.resolve(__dirname, '..')
 const resolvePath = file => path.resolve(root, file)
@@ -16,7 +16,7 @@ function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
     const mixinFile = resolvePath('src/' + mixin + '.json')
 
-    if (!fs.existsSync(mixinFile)) {
+    if (!fse.existsSync(mixinFile)) {
       logError(`build.api.js: ${ path.relative(root, mainFile) } -> no such mixin ${ mixin }`)
       process.exit(1)
     }
@@ -540,9 +540,9 @@ function fillAPI (apiType, list, encodeFn) {
 
       // QUploader has different definition
       if (name !== 'QUploader.json') {
-        const filePath = file.replace('.json', fs.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
+        const filePath = file.replace('.json', fse.existsSync(file.replace('.json', '.js')) ? '.js' : '.ts')
 
-        const definition = fs.readFileSync(filePath, 'utf-8')
+        const definition = fse.readFileSync(filePath, 'utf-8')
 
         let slotMatch
         while ((slotMatch = slotRegex.exec(definition)) !== null) {

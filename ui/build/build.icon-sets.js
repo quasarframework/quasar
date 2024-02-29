@@ -1,5 +1,5 @@
-const path = require('path')
-const fs = require('fs')
+const path = require('node:path')
+const fse = require('fs-extra')
 const glob = require('fast-glob')
 
 const { writeFile, convertToCjs, logError } = require('./build.utils')
@@ -151,7 +151,7 @@ function splitContent (str) {
 }
 
 function generateSvgFile (type) {
-  const original = fs.readFileSync(resolve(`icon-set/${ type.name }.mjs`), 'utf-8')
+  const original = fse.readFileSync(resolve(`icon-set/${ type.name }.mjs`), 'utf-8')
   const { outsideOfExport, insideOfExport } = splitContent(original)
 
   const importList = toObject(iconNames)
@@ -184,7 +184,7 @@ function generateSvgFile (type) {
   let oldContent = ''
 
   try {
-    oldContent = fs.readFileSync(iconFile, 'utf-8')
+    oldContent = fse.readFileSync(iconFile, 'utf-8')
   }
   catch (e) {}
 
@@ -198,7 +198,7 @@ function generateCjsCounterparts () {
   try {
     glob.sync(resolve('icon-set/*.mjs'), { cwd: root, absolute: true })
       .forEach(file => {
-        const content = fs.readFileSync(file, 'utf-8')
+        const content = fse.readFileSync(file, 'utf-8')
         const cjsFile = file.replace('.mjs', '.js')
         const banner = file.indexOf('svg') !== -1
           ? ''

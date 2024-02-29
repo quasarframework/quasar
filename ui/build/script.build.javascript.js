@@ -1,7 +1,7 @@
 process.env.BABEL_ENV = 'production'
 
 const path = require('node:path')
-const fs = require('node:fs')
+const fse = require('fs-extra')
 const { build: esBuild } = require('esbuild')
 
 const { version } = require('../package.json')
@@ -49,7 +49,7 @@ const umdTempFilesList = []
 const umdTargetAssetRE = /\.mjs$/
 process.on('exit', () => {
   umdTempFilesList.forEach(file => {
-    fs.unlinkSync(file)
+    fse.removeSync(file)
   })
 })
 
@@ -202,7 +202,7 @@ function build (builds) {
 }
 
 function addUmdAssets (builds, type, injectName) {
-  const files = fs.readdirSync(resolve(type))
+  const files = fse.readdirSync(resolve(type))
 
   files.forEach(file => {
     if (umdTargetAssetRE.test(file) === false) return
@@ -211,16 +211,16 @@ function addUmdAssets (builds, type, injectName) {
       .substring(0, file.length - 4)
       .replace(/-([a-zA-Z])/g, g => g[ 1 ].toUpperCase())
 
-    const inputCode = fs.readFileSync(resolve(`${ type }/${ file }`), 'utf-8')
+    const inputCode = fse.readFileSync(resolve(`${ type }/${ file }`), 'utf-8')
     const tempFile = resolve(`dist/${ type }/temp.${ file }`)
 
-    fs.writeFileSync(
+    umdTempFilesList.push(tempFile)
+
+    fse.writeFileSync(
       tempFile,
       inputCode.replace('export default ', `window.Quasar.${ injectName }.${ name } = `),
       'utf-8'
     )
-
-    umdTempFilesList.push(tempFile)
 
     builds.push({
       format: 'iife',
