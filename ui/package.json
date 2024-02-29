@@ -15,7 +15,7 @@
     "wrappers"
   ],
   "scripts": {
-    "clean": "node build/script.clean.mjs",
+    "clean": "node build/script.clean.js",
     "dev": "cd ./dev && node ./script.dev.js dev && cd ..",
     "dev:build": "cd ./dev && node ./script.build.js dev && cd ..",
     "dev:ssr": "cd ./dev && node ./script.dev.js dev -m ssr && cd ..",
@@ -24,7 +24,7 @@
     "dev:cordova:android": "cd ./dev && node ./script.dev.js dev -m cordova -T android && cd ..",
     "dev:capacitor:ios": "cd ./dev && node ./script.dev.js dev -m capacitor -T ios && cd ..",
     "dev:capacitor:android": "cd ./dev && node ./script.dev.js dev -m capacitor -T android && cd ..",
-    "dev:umd": "node build/script.test-umd.mjs",
+    "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
     "lint": "eslint --ext .js,.vue src dev --report-unused-disable-directives",
@@ -98,7 +98,7 @@
     "postcss-rtlcss": "^5.1.0",
     "prettier": "^3.0.0",
     "recast": "^0.23.4",
-    "rimraf": "^5.0.5",
+    "rimraf": "^3.0.0",
     "table": "^6.8.1",
     "typescript": "^5.3.3",
     "vue": "^3.4.20",
