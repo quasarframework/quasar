@@ -101,7 +101,7 @@ export default function ({
     })
 
     configureAnchorEl = function (context = props.contextMenu) {
-      if (props.noParentEvent === true || anchorEl.value === null) { return }
+      if (props.noParentEvent === true || anchorEl.value === null) return
 
       let evts
 

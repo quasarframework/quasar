@@ -31,7 +31,7 @@ export default createComponent({
         || props.props.col
       )
 
-      if (col === void 0) { return }
+      if (col === void 0) return
 
       const { row } = props.props
 

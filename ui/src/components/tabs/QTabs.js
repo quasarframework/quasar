@@ -188,7 +188,7 @@ export default createComponent({
       // it can be called faster than component being initialized
       // so we need to protect against that case
       // (one example of such case is the docs release notes page)
-      if (domProps.value === void 0 || contentRef.value === null) { return }
+      if (domProps.value === void 0 || contentRef.value === null) return
 
       const
         size = domSize[ domProps.value.container ],
@@ -279,7 +279,7 @@ export default createComponent({
 
     function updateArrows () {
       const content = contentRef.value
-      if (content === null) { return }
+      if (content === null) return
 
       const
         rect = content.getBoundingClientRect(),
@@ -328,7 +328,7 @@ export default createComponent({
       )
 
       const len = tabs.length
-      if (len === 0) { return }
+      if (len === 0) return
 
       if (keyCode === 36) { // Home
         scrollToTabEl(tabs[ 0 ])

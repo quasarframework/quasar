@@ -7,7 +7,7 @@ const Plugin = defineReactivePlugin({
   __media: void 0,
 
   set (val) {
-    if (__QUASAR_SSR_SERVER__) { return }
+    if (__QUASAR_SSR_SERVER__) return
 
     Plugin.mode = val
 

@@ -34,7 +34,7 @@ export default createComponent({
 
       if (name) {
         col = props.props.colsMap[ name ]
-        if (col === void 0) { return }
+        if (col === void 0) return
       }
       else {
         col = props.props.col

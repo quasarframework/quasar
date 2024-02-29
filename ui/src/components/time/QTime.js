@@ -567,7 +567,7 @@ export default createComponent({
             ? validHours.value.values
             : validHours.value[ isAM.value === true ? 'am' : 'pm' ].values
 
-          if (values.length === 0) { return }
+          if (values.length === 0) return
 
           if (innerModel.value.hour === null) {
             setHour(values[ 0 ])
@@ -603,7 +603,7 @@ export default createComponent({
         if (validMinutes.value !== null) {
           const values = validMinutes.value.values
 
-          if (values.length === 0) { return }
+          if (values.length === 0) return
 
           if (innerModel.value.minute === null) {
             setMinute(values[ 0 ])
@@ -635,7 +635,7 @@ export default createComponent({
         if (validSeconds.value !== null) {
           const values = validSeconds.value.values
 
-          if (values.length === 0) { return }
+          if (values.length === 0) return
 
           if (innerModel.value.seconds === null) {
             setSecond(values[ 0 ])

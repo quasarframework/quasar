@@ -261,7 +261,7 @@ export default createComponent({
 
     function changeSpectrum (left, top, change) {
       const panel = spectrumRef.value
-      if (panel === null) { return }
+      if (panel === null) return
 
       const
         width = panel.clientWidth,

@@ -394,7 +394,7 @@ export default createComponent({
     })
 
     onActivated(() => {
-      if (scrollPosition === null) { return }
+      if (scrollPosition === null) return
 
       const scrollTarget = targetRef.value
 

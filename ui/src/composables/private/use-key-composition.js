@@ -8,7 +8,7 @@ const isPlainText = /[a-z0-9_ -]$/i
 export default function (onInput) {
   return function onComposition (e) {
     if (e.type === 'compositionend' || e.type === 'change') {
-      if (e.target.qComposing !== true) { return }
+      if (e.target.qComposing !== true) return
       e.target.qComposing = false
       onInput(e)
     }

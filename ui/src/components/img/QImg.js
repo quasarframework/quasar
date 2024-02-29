@@ -175,7 +175,7 @@ export default createComponent({
 
     function waitForCompleteness (target, count) {
       // protect against running forever
-      if (count === 1000 || vmIsDestroyed(vm) === true) { return }
+      if (count === 1000 || vmIsDestroyed(vm) === true) return
 
       if (target.complete === true) {
         onReady(target)
@@ -188,7 +188,7 @@ export default createComponent({
     }
 
     function onReady (img) {
-      if (vmIsDestroyed(vm) === true) { return }
+      if (vmIsDestroyed(vm) === true) return
 
       position.value = position.value ^ 1
       images[ position.value ].value = null

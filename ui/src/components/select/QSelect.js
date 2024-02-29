@@ -560,7 +560,7 @@ export default createComponent({
     }
 
     function setOptionIndex (index) {
-      if ($q.platform.is.desktop !== true) { return }
+      if ($q.platform.is.desktop !== true) return
 
       const val = index !== -1 && index < virtualScrollLength.value
         ? index
@@ -734,7 +734,7 @@ export default createComponent({
         e.target === void 0
         || e.target.id !== state.targetUid.value
         || state.editable.value !== true
-      ) { return }
+      ) return
 
       // down
       if (
@@ -862,7 +862,7 @@ export default createComponent({
         e.keyCode !== 13
         && (e.keyCode !== 32 || props.useInput === true || searchBuffer !== '')
         && (e.keyCode !== 9 || tabShouldSelect === false)
-      ) { return }
+      ) return
 
       e.keyCode !== 9 && stopAndPrevent(e)
 

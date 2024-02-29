@@ -136,7 +136,7 @@ export default createComponent({
 
     function focus () {
       addFocusFn(() => {
-        if (rootRef.value === null) { return }
+        if (rootRef.value === null) return
 
         const target = rootRef.value.querySelector('[autofocus][tabindex], [data-autofocus][tabindex]')
           || rootRef.value.querySelector('[autofocus] [tabindex], [data-autofocus] [tabindex]')

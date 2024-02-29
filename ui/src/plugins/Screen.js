@@ -44,7 +44,7 @@ export default defineReactivePlugin({
   install ({ $q, onSSRHydrated }) {
     $q.screen = this
 
-    if (__QUASAR_SSR_SERVER__) { return }
+    if (__QUASAR_SSR_SERVER__) return
 
     if (this.__installed === true) {
       if ($q.config.screen !== void 0) {

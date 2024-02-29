@@ -243,7 +243,7 @@ export default createComponent({
     }
 
     function configureAnchorEl () {
-      if (props.noParentEvent === true || anchorEl.value === null) { return }
+      if (props.noParentEvent === true || anchorEl.value === null) return
 
       const evts = $q.platform.is.mobile === true
         ? [

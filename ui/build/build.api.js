@@ -379,7 +379,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory, verif
   }
 
   ;[ 'params', 'definition', 'scope', 'props' ].forEach(prop => {
-    if (!obj[ prop ]) { return }
+    if (!obj[ prop ]) return
 
     for (const item in obj[ prop ]) {
       parseObject({
@@ -569,7 +569,7 @@ function fillAPI (apiType, list, encodeFn) {
               .replace(/\s+/g, '-')
               .toLowerCase()
 
-            if (/^on-/.test(key) === true) { return }
+            if (/^on-/.test(key) === true) return
           }
 
           if (api[ prop ] === void 0 || api[ prop ][ key ] === void 0) {

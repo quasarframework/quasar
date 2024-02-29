@@ -21,7 +21,7 @@ const Plugin = defineReactivePlugin({
   install ({ $q, parentApp }) {
     $q.loadingBar = this
 
-    if (__QUASAR_SSR_SERVER__) { return }
+    if (__QUASAR_SSR_SERVER__) return
 
     if (this.__installed === true) {
       if ($q.config.loadingBar !== void 0) {

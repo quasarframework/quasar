@@ -119,7 +119,7 @@ export default createComponent({
     }
 
     function updateRevealed () {
-      if (props.reveal !== true) { return }
+      if (props.reveal !== true) return
 
       const { direction, position, inflectionPoint } = $layout.scroll.value
 

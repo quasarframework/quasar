@@ -1081,7 +1081,7 @@ export default createComponent({
     }
 
     function getHeader () {
-      if (props.minimal === true) { return }
+      if (props.minimal === true) return
 
       return h('div', {
         class: 'q-date__header ' + headerClass.value

@@ -182,7 +182,7 @@ export default createComponent({
     }
 
     return () => {
-      if (props.modelValue === false) { return }
+      if (props.modelValue === false) return
 
       const data = {
         class: classes.value,

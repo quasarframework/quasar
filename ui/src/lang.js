@@ -3,7 +3,7 @@ import defineReactivePlugin from './utils/private/define-reactive-plugin.js'
 import defaultLang from '../lang/en-US'
 
 function getLocale () {
-  if (__QUASAR_SSR_SERVER__) { return }
+  if (__QUASAR_SSR_SERVER__) return
 
   const val = Array.isArray(navigator.languages) === true && navigator.languages.length !== 0
     ? navigator.languages[ 0 ]

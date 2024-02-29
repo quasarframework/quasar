@@ -117,7 +117,7 @@ export default {
       return
     }
 
-    if (this.__installed === true) { return }
+    if (this.__installed === true) return
 
     if (isRuntimeSsrPreHydration.value === true) {
       applyClientSsrCorrections()

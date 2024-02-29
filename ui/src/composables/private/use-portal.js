@@ -74,7 +74,7 @@ export default function (vm, innerRef, renderPortalContent, type) {
   function hidePortal (isReady) {
     portalIsAccessible.value = false
 
-    if (isReady !== true) { return }
+    if (isReady !== true) return
 
     removeFocusWaitFlag(focusObj)
     portalIsActive.value = false

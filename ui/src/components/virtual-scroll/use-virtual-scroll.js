@@ -710,7 +710,7 @@ export function useVirtualScroll ({
   })
 
   onActivated(() => {
-    if (shouldActivate !== true) { return }
+    if (shouldActivate !== true) return
 
     const scrollEl = getVirtualScrollTarget()
 

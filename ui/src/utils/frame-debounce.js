@@ -3,7 +3,7 @@ export default function (fn) {
 
   function debounced (/* ...args */) {
     callArgs = arguments
-    if (wait === true) { return }
+    if (wait === true) return
 
     wait = true
     frame = requestAnimationFrame(() => {

@@ -49,7 +49,7 @@ module.exports = function prepareDiff (locationPath) {
 
   // Before exiting the process, read the new contents and output the diff
   process.on('exit', code => {
-    if (code !== 0) { return }
+    if (code !== 0) return
 
     const currentFiles = fastGlob(pattern)
     const currentMap = new Map()
