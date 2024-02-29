@@ -55,6 +55,7 @@
         style="max-width: 400px"
         :no-native-menu="noNativeMenu"
         draggable
+        loading-show-delay="500"
       >
         <template v-slot:loading>
           <div class="text-h2 text-white">
@@ -68,6 +69,7 @@
         alt="Image"
         style="max-width: 400px; border-radius: 50%"
         :no-native-menu="noNativeMenu"
+        :loading-show-delay="500"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Radius 50%

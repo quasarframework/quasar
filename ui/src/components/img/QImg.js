@@ -1,4 +1,4 @@
-import { h, ref, computed, watch, onMounted, onBeforeUnmount, Transition } from 'vue'
+import { h, ref, computed, watch, onMounted, Transition, getCurrentInstance } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
@@ -6,6 +6,8 @@ import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
+import { vmIsDestroyed } from '../../utils/private/vm.js'
+import useTimeout from '../../composables/private/use-timeout.js'
 
 const defaultRatio = 16 / 9
 
@@ -30,6 +32,11 @@ export default createComponent({
       type: String,
       default: 'lazy'
     },
+    loadingShowDelay: {
+      type: [ Number, String ],
+      default: 0
+    },
+
     fetchpriority: {
       type: String,
       default: 'auto'
@@ -68,8 +75,10 @@ export default createComponent({
   setup (props, { slots, emit }) {
     const naturalRatio = ref(props.initialRatio)
     const ratioStyle = useRatio(props, naturalRatio)
+    const vm = getCurrentInstance()
 
-    let loadTimer = null, isDestroyed = false
+    const { registerTimeout: registerLoadTimeout, removeTimeout: removeLoadTimeout } = useTimeout()
+    const { registerTimeout: registerLoadShowTimeout, removeTimeout: removeLoadShowTimeout } = useTimeout()
 
     const images = [
       ref(null),
@@ -103,6 +112,24 @@ export default createComponent({
 
     watch(() => getCurrentSrc(), addImage)
 
+    function setLoading () {
+      removeLoadShowTimeout()
+
+      if (props.loadingShowDelay === 0) {
+        isLoading.value = true
+        return
+      }
+
+      registerLoadShowTimeout(() => {
+        isLoading.value = true
+      }, props.loadingShowDelay)
+    }
+
+    function clearLoading () {
+      removeLoadShowTimeout()
+      isLoading.value = false
+    }
+
     function getCurrentSrc () {
       return props.src || props.srcset || props.sizes
         ? {
@@ -120,74 +147,64 @@ export default createComponent({
     }
 
     function addImage (imgProps) {
-      if (loadTimer !== null) {
-        clearTimeout(loadTimer)
-        loadTimer = null
-      }
-
+      removeLoadTimeout()
       hasError.value = false
 
       if (imgProps === null) {
-        isLoading.value = false
+        clearLoading()
         images[ position.value ^ 1 ].value = getPlaceholderSrc()
       }
       else {
-        isLoading.value = true
+        setLoading()
       }
 
       images[ position.value ].value = imgProps
     }
 
     function onLoad ({ target }) {
-      if (isDestroyed === true) { return }
+      if (vmIsDestroyed(vm) === false) {
+        removeLoadTimeout()
 
-      if (loadTimer !== null) {
-        clearTimeout(loadTimer)
-        loadTimer = null
+        naturalRatio.value = target.naturalHeight === 0
+          ? 0.5
+          : target.naturalWidth / target.naturalHeight
+
+        waitForCompleteness(target, 1)
       }
-
-      naturalRatio.value = target.naturalHeight === 0
-        ? 0.5
-        : target.naturalWidth / target.naturalHeight
-
-      waitForCompleteness(target, 1)
     }
 
     function waitForCompleteness (target, count) {
       // protect against running forever
-      if (isDestroyed === true || count === 1000) { return }
+      if (count === 1000 || vmIsDestroyed(vm) === true) { return }
 
       if (target.complete === true) {
         onReady(target)
       }
       else {
-        loadTimer = setTimeout(() => {
-          loadTimer = null
+        registerLoadTimeout(() => {
           waitForCompleteness(target, count + 1)
         }, 50)
       }
     }
 
     function onReady (img) {
-      if (isDestroyed === true) { return }
+      if (vmIsDestroyed(vm) === true) { return }
 
       position.value = position.value ^ 1
       images[ position.value ].value = null
-      isLoading.value = false
+      clearLoading()
       hasError.value = false
       emit('load', img.currentSrc || img.src)
     }
 
     function onError (err) {
-      if (loadTimer !== null) {
-        clearTimeout(loadTimer)
-        loadTimer = null
-      }
+      removeLoadTimeout()
+      clearLoading()
 
-      isLoading.value = false
       hasError.value = true
       images[ position.value ].value = null
       images[ position.value ^ 1 ].value = getPlaceholderSrc()
+
       emit('error', err)
     }
 
@@ -227,7 +244,7 @@ export default createComponent({
     }
 
     function getContent () {
-      if (isLoading.value !== true) {
+      if (isLoading.value === false) {
         return h('div', {
           key: 'content',
           class: 'q-img__content absolute-full q-anchor--skip'
@@ -262,15 +279,6 @@ export default createComponent({
       else {
         addImage(getCurrentSrc())
       }
-
-      onBeforeUnmount(() => {
-        isDestroyed = true
-
-        if (loadTimer !== null) {
-          clearTimeout(loadTimer)
-          loadTimer = null
-        }
-      })
     }
 
     return () => {

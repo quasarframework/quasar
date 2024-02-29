@@ -99,6 +99,14 @@
       "category": "behavior"
     },
 
+    "loading-show-delay": {
+      "type": [ "Number", "String" ],
+      "desc": "Delay showing the spinner when image changes; Gives time for the browser to load the image from cache to prevent flashing the spinner unnecessarily; Value should represent milliseconds",
+      "default": 0,
+      "examples": [ "500", "caption-lines=\"1000\"" ],
+      "category": "behavior"
+    },
+
     "crossorigin": {
       "type": "String",
       "desc": "Same syntax as <img> crossorigin attribute",
