@@ -164,7 +164,7 @@ const builds = [
 function genConfig (opts) {
   return {
     platform: 'browser',
-    external: [ 'vue', '@vue/compiler-dom' ],
+    packages: 'external',
     target: [ 'es2022', 'firefox115', 'chrome115', 'safari14' ],
     bundle: true,
     banner: {
