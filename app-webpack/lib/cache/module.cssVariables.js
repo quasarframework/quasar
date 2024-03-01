@@ -23,9 +23,8 @@ module.exports.createInstance = function createInstance ({ appPaths }) {
 
     if (fs.existsSync(file) === true) {
       cssVariables.quasarSrcExt = 'sass'
-      cssVariables[ ext ].prefix = ext === 'scss'
-        ? `@import '~src/css/quasar.variables.${ ext }', 'quasar/src/css/variables.sass';\n`
-        : `@import '~src/css/quasar.variables.${ ext }', 'quasar/src/css/variables.sass'\n`
+      cssVariables.scss.prefix = `@import '~src/css/quasar.variables.${ ext }', 'quasar/src/css/variables.sass';\n`
+      cssVariables.sass.prefix = `@import '~src/css/quasar.variables.${ ext }', 'quasar/src/css/variables.sass'\n`
       break
     }
   }
