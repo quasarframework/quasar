@@ -1,5 +1,4 @@
-
-module.exports = async function ({ scope, utils }) {
+export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
     {
       type: 'confirm',
@@ -8,11 +7,11 @@ module.exports = async function ({ scope, utils }) {
       message: 'Will you use an organization to publish it? Eg. "@my-org/..."'
     },
     {
-      type: (_, { needOrgName } = {}) => needOrgName ? 'text' : null,
+      type: (_, { needOrgName } = {}) => (needOrgName ? 'text' : null),
       name: 'orgName',
       message: 'Organization name, eg. "my-org":',
       validate: val =>
-        val && val.length > 0 || 'Please type the organization name'
+        (val && val.length > 0) || 'Please type the organization name'
     },
     {
       type: 'text',
@@ -85,11 +84,11 @@ module.exports = async function ({ scope, utils }) {
   ])
 
   utils.createTargetDir(scope)
-  utils.renderTemplate(utils.join(__dirname, 'BASE'), scope)
+  utils.renderTemplate(utils.join(import.meta.url, 'BASE'), scope)
 
-  if (scope.preset.prompts) utils.renderTemplate(utils.join(__dirname, 'prompts-script'), scope)
-  if (scope.preset.install) utils.renderTemplate(utils.join(__dirname, 'install-script'), scope)
-  if (scope.preset.uninstall) utils.renderTemplate(utils.join(__dirname, 'uninstall-script'), scope)
+  if (scope.preset.prompts) utils.renderTemplate(utils.join(import.meta.url, 'prompts-script'), scope)
+  if (scope.preset.install) utils.renderTemplate(utils.join(import.meta.url, 'install-script'), scope)
+  if (scope.preset.uninstall) utils.renderTemplate(utils.join(import.meta.url, 'uninstall-script'), scope)
 
   // nothing to install, so we'll skip it
   scope.skipDepsInstall = true

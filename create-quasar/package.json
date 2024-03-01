@@ -2,6 +2,7 @@
   "name": "create-quasar",
   "version": "1.5.6",
   "description": "Scaffolds Quasar Apps, AppExtensions or UI kits",
+  "type": "module",
   "author": {
     "name": "Razvan Stoenescu",
     "email": "razvan.stoenescu@gmail.com",
@@ -23,25 +24,25 @@
     "url": "https://donate.quasar.dev"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts ./ --fix",
     "create-test-project": "tsx scripts/create-test-project.ts"
   },
   "dependencies": {
-    "fast-glob": "^3.2.11",
-    "fs-extra": "^10.0.1",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
     "kolorist": "^1.5.1",
     "lodash": "^4.17.21",
     "prompts": "^2.4.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.6.7",
+    "@types/lodash": "^4.14.202",
     "@types/prompts": "^2.4.7",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
-    "eslint": "^8.11.0",
+    "eslint": "^8.57.0",
     "eslint-plugin-lodash-template": "^0.21.0",
     "tsx": "^4.7.0",
     "typescript": "^5.2.2"

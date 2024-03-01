@@ -1,5 +1,4 @@
-
-module.exports = async function ({ scope, utils }) {
+export async function script ({ scope, utils }) {
   await utils.prompts(scope, [
     {
       type: 'select',
@@ -50,7 +49,7 @@ module.exports = async function ({ scope, utils }) {
       }
     },
     {
-      type: (_, { preset }) => preset.lint ? 'select' : null,
+      type: (_, { preset }) => (preset.lint ? 'select' : null),
       name: 'lintConfig',
       message: 'Pick an ESLint preset:',
       choices: [
@@ -62,18 +61,18 @@ module.exports = async function ({ scope, utils }) {
   ])
 
   utils.createTargetDir(scope)
-  utils.renderTemplate(utils.join(__dirname, 'BASE'), scope)
-  utils.renderTemplate(utils.join(__dirname, scope.css), scope)
+  utils.renderTemplate(utils.join(import.meta.url, 'BASE'), scope)
+  utils.renderTemplate(utils.join(import.meta.url, scope.css), scope)
 
-  if (scope.preset.axios) utils.renderTemplate(utils.join(__dirname, 'axios'), scope)
-  if (scope.preset.i18n) utils.renderTemplate(utils.join(__dirname, 'i18n'), scope)
+  if (scope.preset.axios) utils.renderTemplate(utils.join(import.meta.url, 'axios'), scope)
+  if (scope.preset.i18n) utils.renderTemplate(utils.join(import.meta.url, 'i18n'), scope)
   if (scope.preset.lint) {
-    utils.renderTemplate(utils.join(__dirname, 'lint'), scope)
+    utils.renderTemplate(utils.join(import.meta.url, 'lint'), scope)
     if (scope.lintConfig === 'prettier') {
-      utils.renderTemplate(utils.join(__dirname, 'prettier'), scope)
+      utils.renderTemplate(utils.join(import.meta.url, 'prettier'), scope)
     }
   }
 
-  if (scope.preset.pinia) utils.renderTemplate(utils.join(__dirname, 'pinia'), scope)
-  else if (scope.preset.vuex) utils.renderTemplate(utils.join(__dirname, 'vuex'), scope)
+  if (scope.preset.pinia) utils.renderTemplate(utils.join(import.meta.url, 'pinia'), scope)
+  else if (scope.preset.vuex) utils.renderTemplate(utils.join(import.meta.url, 'vuex'), scope)
 }
