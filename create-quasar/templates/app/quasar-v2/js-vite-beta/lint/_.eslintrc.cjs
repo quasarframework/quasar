@@ -77,6 +77,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     <% } else if (lintConfig === 'airbnb') { %>
+    'no-plusplus': 'off',
     'no-param-reassign': 'off',
     'no-void': 'off',
     'no-nested-ternary': 'off',
