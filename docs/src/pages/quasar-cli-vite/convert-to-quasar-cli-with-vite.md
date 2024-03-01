@@ -72,9 +72,13 @@ import MyComponent from './MyComponent.vue'
 
 There are property changes in `build`, `devServer`, and all Quasar Modes (pwa, ssr, etc). The props are detailed in the [quasar.config file](/quasar-cli-vite/quasar-config-file) page. You will have to manually port your configuration to the Quasar CLI with Vite architecture.
 
+#### TypeScript Aliases
+
+If you are using TypeScript and defined custom path aliases in `tsconfig.json > compilerOptions > paths`, they will no longer be processed automatically. See [Folder aliases | Handling Vite](quasar-cli-vite/handling-vite#folder-aliases) for available ways to handle this.
+
 ### Step 5: Browser compatibility
 
-A Quasar CLI with Webpack project relies on `/package.json > browserslist` to specify which browsers you are targetting. That property no longer has any meaning. Projects managed by Quasar CLI with Vite work completely different and you might want to check the [Browser Compatibility](/quasar-cli-vite/browser-compatibility) page.
+A Quasar CLI with Webpack project relies on `/package.json > browserslist` to specify which browsers you are targeting. That property no longer has any meaning. Projects managed by Quasar CLI with Vite work completely different and you might want to check the [Browser Compatibility](/quasar-cli-vite/browser-compatibility) page.
 
 ### Step 6: SSR related
 
