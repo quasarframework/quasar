@@ -22,6 +22,7 @@
         "params": {
           "entry": {
             "type": "Object",
+            "tsType": "IntersectionObserverEntry",
             "desc": "The IntersectionObserverEntry object",
             "definition": {
               "boundingClientRect": {
@@ -189,6 +190,18 @@
           }
         }
       }
+    },
+
+    "params": {
+      "entry": {
+        "type": "Object",
+        "tsType": "IntersectionObserverEntry",
+        "desc": "The IntersectionObserverEntry object"
+      }
+    },
+    "returns": {
+      "type": "Boolean",
+      "desc": "If you return Boolean false from the handler, the observer stops"
     }
   },
 

@@ -261,7 +261,7 @@ const runBuild = {
   async types () {
     prepareDiff('dist/types/index.d.ts')
 
-    const api = await require('./build.api').generate({ compact: true })
+    const api = await require('./build.api').generate()
 
     const quasarLangIndex = await require('./build.lang').generate()
     require('./build.types').generate({ api, quasarLangIndex })
