@@ -218,6 +218,10 @@ function copyPredefinedTypes (dir, parentDir) {
     })
 }
 
+// Add types that should not be imported from ./api, but rather defined globally or generated in the final index.d.ts
+const extraInterfaceExclusions = [
+  'IntersectionObserverEntry'
+]
 function addToExtraInterfaces (def) {
   if (def !== void 0 && def !== null && def.tsType !== void 0) {
     // When a type name is found and it has autoDefineTsType and a definition,
@@ -232,7 +236,7 @@ function addToExtraInterfaces (def) {
         extraInterfaces[ def.tsType ] = getPropDefinitions({ definitions: def.definition })
       }
     }
-    else if (!extraInterfaces.hasOwnProperty(def.tsType)) {
+    else if (!extraInterfaces.hasOwnProperty(def.tsType) && !extraInterfaceExclusions.includes(def.tsType)) {
       extraInterfaces[ def.tsType ] = void 0
     }
   }
