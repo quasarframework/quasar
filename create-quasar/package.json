@@ -40,10 +40,10 @@
   "devDependencies": {
     "@types/lodash": "^4.14.202",
     "@types/prompts": "^2.4.7",
-    "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@typescript-eslint/parser": "^6.6.0",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
     "eslint": "^8.57.0",
-    "eslint-plugin-lodash-template": "^0.21.0",
+    "eslint-plugin-lodash-template": "^1.0.0",
     "tsx": "^4.7.0",
     "typescript": "^5.2.2"
   }
