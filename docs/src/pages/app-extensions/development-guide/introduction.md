@@ -223,7 +223,7 @@ chainWebpack (chain) {
 
 #### @quasar/app-vite
 
-You might want to extend the Vite config. Assuming you are using the [`extendViteConf`](/quasar-cli-vite/handling-vite#usage-with-quasar-conf-js) method, your `quasar.config file > build > extendViteConf` should look like this:
+You might want to extend the Vite config. Assuming you are using the [`extendViteConf`](/quasar-cli-vite/handling-vite#updating-vite-config) method, your `quasar.config file > build > extendViteConf` should look like this:
 
 ```js
 extendViteConf (viteConf, { isClient, isServer }) {
