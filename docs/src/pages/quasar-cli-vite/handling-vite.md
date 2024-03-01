@@ -179,9 +179,9 @@ Quasar comes with a bunch of useful folder aliases preconfigured. You can use th
 
 #### Adding folder aliases
 
-To add your own alias there are two ways:
+We will use `utils` as an example, which may be used as `import { formatTime } from 'utils/time'`. There are two ways to add a folder alias:
 
-1. Edit the `/quasar.config` file:
+1. Through `/quasar.config file > build > alias` property. This is the simplest way to add a folder alias. Use Node's `path.join` helper to get the absolute path to your alias. Example:
 
 ```js /quasar.config file
 const path = require('node:path')
@@ -190,14 +190,14 @@ module.exports = function (ctx) {
   return {
     build: {
       alias: {
-        myalias: path.join(__dirname, './src/somefolder')
+        utils: path.join(__dirname, './src/utils')
       }
     }
   }
 }
 ```
 
-2. Alternatively, you can directly extend the Vite config and merge it with the existing alias list. Use the `path.join` helper to resolve the path to your intended alias.
+2. By extending the Vite config directly. Do not assign to `viteConf.resolve.alias` directly to preserve the built-in aliases, use `Object.assign` instead. Use Node's `path.join` helper to resolve the path to your intended alias.
 
 ```js /quasar.config file
 const path = require('node:path')
@@ -207,9 +207,53 @@ module.exports = function (ctx) {
     build: {
       extendViteConf (viteConf, { isServer, isClient }) {
         Object.assign(viteConf.resolve.alias, {
-          myalias: path.join(__dirname, './src/somefolder')
+          utils: path.join(__dirname, './src/utils')
         })
       }
+    }
+  }
+}
+```
+
+##### Using with TypeScript
+
+If you are using TypeScript, you also have to add the aliases you defined in `quasar.config file` to your `tsconfig.json` file. To preserve the built-in aliases, you have to re-define them in your `tsconfig.json` file. Example:
+
+```json /tsconfig.json
+{
+  "extends": "@quasar/app-vite/tsconfig-preset",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["src/*"],
+      "app/*": ["*"],
+      "components/*": ["src/components/*"],
+      "layouts/*": ["src/layouts/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["src/assets/*"],
+      "boot/*": ["src/boot/*"],
+      "stores/*": ["src/stores/*"],
+
+      "utils/*": ["src/utils/*"]
+    }
+  }
+}
+```
+
+If you want to use `tsconfig.json` as the source of truth and let Vite pick them up from there automatically, you can use [`vite-tsconfig-paths`](https://github.com/aleclarson/vite-tsconfig-paths) plugin. This way, you will not have to update both `quasar.config file` and `tsconfig.json` whenever adding an alias, avoiding potential mistakes. Install it following the instructions in the link and then add it to your `quasar.config file`:
+
+```js /quasar.config file
+module.exports = function (ctx) {
+  return {
+    build: {
+      // no longer needed to define aliases here
+      // alias: {},
+
+      vitePlugins: [
+        ['vite-tsconfig-paths', {
+          // projects: ['./tsconfig.json', '../../tsconfig.json'] // if you have multiple tsconfig files (e.g. in a monorepo)
+        }]
+      ]
     }
   }
 }
