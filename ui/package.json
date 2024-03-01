@@ -73,7 +73,7 @@
   "devDependencies": {
     "@quasar/app-vite": "^2.0.0-beta.1",
     "@quasar/extras": "^1.16.4",
-    "@quasar/quasar-app-extension-testing-e2e-cypress": "^5.2.1",
+    "@quasar/quasar-app-extension-testing-e2e-cypress": "^6.0.0",
     "autoprefixer": "^10.4.17",
     "cli-highlight": "^2.1.11",
     "cross-env": "^7.0.3",

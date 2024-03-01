@@ -982,7 +982,7 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
-"@cypress/code-coverage@^3.12.15":
+"@cypress/code-coverage@^3.12.26":
   version "3.12.26"
   resolved "https://registry.yarnpkg.com/@cypress/code-coverage/-/code-coverage-3.12.26.tgz#c9ae218c8e637b90dad37400d166c050c0435105"
   integrity sha512-fJDELN3BNOPKm8JRZxHN/FrNebXpjX/PAsJYUbqp7SIn7Rk7MlDhKR5T0gFOzhrfvOpKmJ7t0dQf7kqRjb/LOQ==
@@ -1553,16 +1553,16 @@
   resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.16.9.tgz#6cdf9d34862e6f58009443a2d1e34b84a5e73ad0"
   integrity sha512-SlOhwzXyPQHWgQIS2ncyDdYdksCJvUYNtgsDQqzAKEG3r3d/ejOxvThle79HTK3Q6HB+gQWFG21Ux00Osr5XSw==
 
-"@quasar/quasar-app-extension-testing-e2e-cypress@^5.2.1":
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-testing-e2e-cypress/-/quasar-app-extension-testing-e2e-cypress-5.2.1.tgz#0f801e945535d4b96e55429f17a73895287a1837"
-  integrity sha512-GrXw6/vP72u0Ia9XGOC1YotHpm+bAHJNOgOu9oX4R8xJccWNpGBX6/aktTEbVDaY3+TSgS0ce7J6hoIMwzu7zA==
+"@quasar/quasar-app-extension-testing-e2e-cypress@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-testing-e2e-cypress/-/quasar-app-extension-testing-e2e-cypress-6.0.0.tgz#8fb8866f1a567c813f1f6f9ea29f1a739f72fccf"
+  integrity sha512-ja9hk6o2zQFlKwF3iu8HDfA/vJApALL/H0jSULGzIyKsx4GfqvEU7Fdg2+2V85jUFkuWasispmh1Xzhizx8c5w==
   dependencies:
-    "@cypress/code-coverage" "^3.12.15"
+    "@cypress/code-coverage" "^3.12.26"
     cross-env "^7.0.3"
     lodash "^4.17.21"
     nyc "^15.1.0"
-    start-server-and-test "2.0.0"
+    start-server-and-test "^2.0.3"
     vite-plugin-istanbul "^5.0.0"
 
 "@rollup/plugin-babel@^5.2.0":
@@ -2522,14 +2522,6 @@ aws4@^1.8.0:
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.12.0.tgz#ce1c9d143389679e253b314241ea9aa5cec980d3"
   integrity sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==
-
-axios@^0.27.2:
-  version "0.27.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
-  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
-  dependencies:
-    follow-redirects "^1.14.9"
-    form-data "^4.0.0"
 
 axios@^1.6.1, axios@^1.6.7:
   version "1.6.7"
@@ -4629,7 +4621,7 @@ flora-colossus@^2.0.0:
     debug "^4.3.4"
     fs-extra "^10.1.0"
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.9, follow-redirects@^1.15.4:
+follow-redirects@^1.0.0, follow-redirects@^1.15.4:
   version "1.15.5"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.5.tgz#54d4d6d062c0fa7d9d17feb008461550e3ba8020"
   integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
@@ -5712,7 +5704,7 @@ jest-worker@^26.2.1:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
 
-joi@^17.11.0, joi@^17.7.0:
+joi@^17.11.0:
   version "17.12.2"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.12.2.tgz#283a664dabb80c7e52943c557aab82faea09f521"
   integrity sha512-RonXAIzCiHLc8ss3Ibuz45u28GOsWE1UpfDXLbN/9NKbL4tCJf8TWYVKsoYuuh+sAUt7fsSNpA+r2+TBA6Wjmw==
@@ -6236,7 +6228,7 @@ minimatch@^9.0.1:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@^1.2.0, minimist@^1.2.6, minimist@^1.2.7, minimist@^1.2.8:
+minimist@^1.2.0, minimist@^1.2.6, minimist@^1.2.8:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
@@ -7610,7 +7602,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@^7.5.1, rxjs@^7.8.0, rxjs@^7.8.1:
+rxjs@^7.5.1, rxjs@^7.8.1:
   version "7.8.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
   integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
@@ -7991,21 +7983,7 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
-start-server-and-test@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-2.0.0.tgz#0644809d63036a8a001efb70582f3e37ebfdd33d"
-  integrity sha512-UqKLw0mJbfrsG1jcRLTUlvuRi9sjNuUiDOLI42r7R5fA9dsFoywAy9DoLXNYys9B886E4RCKb+qM1Gzu96h7DQ==
-  dependencies:
-    arg "^5.0.2"
-    bluebird "3.7.2"
-    check-more-types "2.24.0"
-    debug "4.3.4"
-    execa "5.1.1"
-    lazy-ass "1.6.0"
-    ps-tree "1.2.0"
-    wait-on "7.0.1"
-
-start-server-and-test@^2.0.0:
+start-server-and-test@^2.0.0, start-server-and-test@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/start-server-and-test/-/start-server-and-test-2.0.3.tgz#15c53c85e23cba7698b498b8a2598cab95f3f802"
   integrity sha512-QsVObjfjFZKJE6CS6bSKNwWZCKBG6975/jKRPPGFfFh+yOQglSeGXiNWjzgQNXdphcBI9nXbyso9tPfX4YAUhg==
@@ -8879,17 +8857,6 @@ vuex@^4.0.0:
   integrity sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ==
   dependencies:
     "@vue/devtools-api" "^6.0.0-beta.11"
-
-wait-on@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/wait-on/-/wait-on-7.0.1.tgz#5cff9f8427e94f4deacbc2762e6b0a489b19eae9"
-  integrity sha512-9AnJE9qTjRQOlTZIldAaf/da2eW0eSRSgcqq85mXQja/DW3MriHxkpODDSUEg+Gri/rKEcXUZHe+cevvYItaog==
-  dependencies:
-    axios "^0.27.2"
-    joi "^17.7.0"
-    lodash "^4.17.21"
-    minimist "^1.2.7"
-    rxjs "^7.8.0"
 
 wait-on@7.2.0:
   version "7.2.0"
