@@ -14,9 +14,23 @@ You may have noticed that the `vite.config.js`/`vite.config.ts` file does not ex
 In case you need to tweak it, you can do so through `quasar.config file > build > extendViteConf` like so:
 
 ```js /quasar.config file
+// use mergeConfig helper to avoid overwriting the default config
+const { mergeConfig } = require('vite')
+
+// ...
+
 build: {
   extendViteConf (viteConf, { isServer, isClient }) {
-    // do something with viteConf... change it in-place
+    // example: change the chunk size warning limit
+    viteConf.build = mergeConfig(viteConf.build, {
+      chunkSizeWarningLimit: 750
+    })
+    // equivalent of following vite.config.js/vite.config.ts:
+    // export default defineConfig({
+    //   build: {
+    //     chunkSizeWarningLimit: 750
+    //   }
+    // })
   }
 }
 ```
