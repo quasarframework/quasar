@@ -183,9 +183,31 @@ It is likely that you will need to copy static or external files to your Quasar 
 // ...
 ```
 
+## Vite Vue Plugin options
+
+If you need to tweak the Vite Vue Plugin([`@vitejs/plugin-vue`](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue)) options, you can do so through `quasar.config file > build > viteVuePluginOptions` like so:
+
+```js /quasar.config file
+build: {
+  viteVuePluginOptions: {
+    script: {
+      // example: enable experimental props destructuring
+      propsDestructure: true
+    },
+
+    template: {
+      compilerOptions: {
+        // example: enable custom/web element tag detection
+        isCustomElement: (tag) => tag.startsWith('my-')
+      }
+    }
+  }
+}
+```
+
 ## Folder aliases
 
-Quasar comes with a bunch of useful folder aliases preconfigured. You can use them anywhere in your project and Vite will resolve the correct path.
+Quasar comes with a bunch of useful folder aliases pre-configured. You can use them anywhere in your project and Vite will resolve the correct path.
 
 | Alias | Resolves to |
 | --- | --- |
