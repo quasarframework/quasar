@@ -173,7 +173,13 @@ preFetch?: boolean;
 
 ### eslint
 
-You will need the linting files already installed. If you don't know which those are, scaffold a new Quasar project folder (`yarn create quasar` or `npm init quasar` or the experimental `pnpm create quasar`) and pick "Linting" when asked about it.
+Quasar CLI will use [ESLint](https://eslint.org) to lint your code automatically when running `quasar dev` or `quasar build`.
+
+To use this, you need the linting packages already installed and configured in your project.
+If you [scaffolded a Quasar project](/start/quasar-cli#installation-project-scaffolding) and picked "Linting" when prompted, then you already have ESLint configured.
+Otherwise, scaffold a new project and pick "Linting" when prompted, then find the linting related differences and apply them to your project.
+
+If you have ESLint installed and configured in your project, this feature will be enabled by default. You can control the behavior of this feature through the `eslint` property in `/quasar.config` file:
 
 ```js
 /** Options with which Quasar CLI will use ESLint */
