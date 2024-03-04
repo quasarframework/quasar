@@ -288,7 +288,10 @@ interface QuasarDynamicBuildConfiguration {
    */
   minify?: boolean | 'terser' | 'esbuild';
   /**
-   * Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier)
+   * Minification options for html-minifier.
+   *
+   * @see https://github.com/kangax/html-minifier#options-quick-reference for complete list of options
+   *
    * @default
    *  {
    *    removeComments: true,

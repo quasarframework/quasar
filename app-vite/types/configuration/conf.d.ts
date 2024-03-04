@@ -68,7 +68,11 @@ interface BaseQuasarConfiguration {
    * @example ['material-icons', 'roboto-font', 'ionicons-v4']
    */
   extras?: (QuasarIconSets | QuasarFonts)[];
-  /** Add variables that you can use in index.template.html. */
+  /**
+   * Add variables that you can use in index.template.html
+   *
+   * @see https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#htmlvariables
+   */
   htmlVariables?: Record<string, any>;
   /**
    * What Quasar language pack to use, what Quasar icon

@@ -36,6 +36,7 @@ module.exports = function (ctx) { // can be async too
   console.log(ctx)
 
   // Example output on console:
+  /*
   {
     dev: true,
     prod: false,
@@ -47,16 +48,21 @@ module.exports = function (ctx) { // can be async too
     archName: undefined,
     debug: undefined
   }
+  */
 
   // context gets generated based on the parameters
   // with which you run "quasar dev" or "quasar build"
+
+  return {
+    // ... your config
+  }
 }
 ```
 
 What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
 
 ```js /quasar.config file
-module.exports = function (ctx) {
+{
   extras: [
     ctx.mode.pwa // we're adding only if working on a PWA
       ? 'roboto-font'
@@ -68,7 +74,7 @@ module.exports = function (ctx) {
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
 
 ```js /quasar.config file
-module.exports = function (ctx) {
+{
   css: [
     ctx.mode.spa ? 'app-spa.sass' : null, // looks for /src/css/app-spa.sass
     ctx.mode.cordova ? 'app-cordova.sass' : null  // looks for /src/css/app-cordova.sass
@@ -79,7 +85,7 @@ module.exports = function (ctx) {
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
 
 ```js /quasar.config file
-module.exports = function (ctx) {
+{
   devServer: {
     port: ctx.mode.spa
       ? 8000
@@ -114,7 +120,7 @@ The possibilities are endless.
 
 ### IDE autocompletion
 
-You can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
+You can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through TypeScript):
 
 ```js /quasar.config file
 const { configure } = require('quasar/wrappers')
@@ -139,7 +145,7 @@ css?: string[];
 Example:
 
 ```js /quasar.config file
-return {
+{
   css: [
     'app.sass', // referring to /src/css/app.sass
     '~some-library/style.css' // referring to node_modules/some-library/style.css
@@ -148,6 +154,8 @@ return {
 ```
 
 ### boot
+
+More on [Boot Files](/quasar-cli-vite/boot-files).
 
 ```js
 /** Boot files to load. Order is important. */
@@ -610,7 +618,10 @@ interface QuasarStaticBuildConfiguration {
   /**
    * (requires @quasar/app-vite v1.5.2+)
    *
-   * Minification options for html-minifier. [Full list](https://github.com/kangax/html-minifier)
+   * Minification options for html-minifier.
+   *
+   * @see https://github.com/kangax/html-minifier#options-quick-reference for complete list of options
+   *
    * @default
    *  {
    *    removeComments: true,
@@ -671,6 +682,14 @@ interface QuasarStaticBuildConfiguration {
 }
 ```
 
+See these references for more info:
+- [Vite server options](https://vitejs.dev/config/#server-options)
+- [Vite Vue Plugin options](/quasar-cli-vite/handling-vite#vite-vue-plugin-options)
+- [Adding Vite plugins](/quasar-cli-vite/handling-vite#adding-vite-plugins)
+- [Folder Aliases](/quasar-cli-vite/handling-vite#folder-aliases)
+- [Handling Process Env](/quasar-cli-vite/handling-process-env)
+- [html-minifier options](https://github.com/kangax/html-minifier#options-quick-reference)
+
 ### sourceFiles
 
 ```js
@@ -714,12 +733,19 @@ htmlVariables?: Record<string, any>;
 
 You can define and then reference variables in `/index.html`, like this:
 
-```js
-htmlVariables: {
-  myVar: 'some-content'
+```js /quasar.config file
+module.exports = function (ctx) {
+  return {
+    htmlVariables: {
+      myVar: 'some-content'
+    }
+  }
 }
+```
 
-// then in /index.html
+Then, as an example:
+
+```html /index.html
 <%= myVar %>
 <% if (myVar) { %>something<% } %>
 ```
@@ -735,13 +761,16 @@ module.exports = function (ctx) {
         prop: 'my-prop'
       }
     }
+  }
+}
 ```
 
-Then (just an example showing you how to reference a variable defined above, in this case `title`):
+Then, as an example:
 
 ```html /index.html
 <%= title %>
 <%= some.prop %>
+<% if (some.prop) { %><%= title %><% } %>
 ```
 
 ### Quasar Mode Specific
