@@ -385,10 +385,10 @@ type PluginEntry =
 interface QuasarStaticBuildConfiguration {
   /**
    * @example
-   *    {
-   *      browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
-   *      node: 'node20'
-   *    }
+   * {
+   *   browser: ['es2022', 'firefox115', 'chrome115', 'safari14'],
+   *   node: 'node20'
+   * }
    */
   target?: BuildTargetOptions;
 
@@ -402,24 +402,30 @@ interface QuasarStaticBuildConfiguration {
 
   /**
    * Options to supply to @vitejs/plugin-vue
+   *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#vite-vue-plugin-options
    */
   viteVuePluginOptions?: VuePluginOptions;
 
   /**
    * Vite plugins
    *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#adding-vite-plugins
+   *
    * @example
-   *   [
-   *     [ 'package-name', { ..options.. } ],
-   *     [ require('some-plugin'), { ...options... } ]
-   *   ]
+   * [
+   *   [ 'package-name', { ..options.. } ],
+   *   [ require('some-plugin'), { ...options... } ]
+   * ]
    */
   vitePlugins?: PluginEntry[];
 
   /**
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#folder-aliases
+   *
    * @example
    * {
-   *   // const { ... } = require('locales/...')
+   *   // import { ... } from 'locales/...'
    *   locales: path.join(__dirname, 'src/locales')
    * }
    */
@@ -468,7 +474,8 @@ interface QuasarStaticBuildConfiguration {
 
   /**
    * Do you want to analyze the production bundles?
-   * Generates and opens an html report.
+   * Generates and opens an HTML report.
+   *
    * @default false
    */
   analyze?: boolean;
@@ -484,6 +491,8 @@ interface QuasarStaticBuildConfiguration {
 
   /**
    * Add properties to `process.env` that you can use in your website/app JS code.
+   *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-process-env
    *
    * @example { SOMETHING: 'someValue' }
    */
