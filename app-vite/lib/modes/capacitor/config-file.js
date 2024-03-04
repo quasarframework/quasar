@@ -1,5 +1,5 @@
 const fs = require('fs')
-const path = require('path')
+const { basename, dirname, join } = require('path')
 
 const appPaths = require('../../app-paths')
 const { log, warn } = require('../../helpers/logger')
@@ -12,7 +12,7 @@ const pkg = require(appPaths.resolve.app('package.json'))
 const nodePackager = require('../../helpers/node-packager')
 const getPackageJson = require('../../helpers/get-package-json')
 
-// Capacitor 1 & 2
+// for Capacitor 1-3
 function getAndroidMainActivity (capVersion, appId) {
   if (capVersion === 1) {
     return `
@@ -170,22 +170,7 @@ class CapacitorConfigFile {
     }
   }
 
-  #getIosCapacitorBridgeFile () {
-    // we need to try multiple files because
-    // @capacitor/ios changed the location during its v2
-    const fileList = [
-      'node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift',
-      'node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'
-    ]
-
-    for (let i = 0; i < fileList.length; i++) {
-      const file = appPaths.resolve.capacitor(fileList[ i ])
-      if (fs.existsSync(file)) {
-        return file
-      }
-    }
-  }
-
+  // for Capacitor 1-3
   #handleSSLonIOS (add) {
     const file = this.#getIosCapacitorBridgeFile()
     const needle = 'public func getWebView() -> WKWebView {'
@@ -208,9 +193,27 @@ class CapacitorConfigFile {
     }
   }
 
+  // for Capacitor 1-3
+  #getIosCapacitorBridgeFile () {
+    // we need to try multiple files because
+    // @capacitor/ios changed the location during its v2
+    const fileList = [
+      'node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift',
+      'node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'
+    ]
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = appPaths.resolve.capacitor(fileList[ i ])
+      if (fs.existsSync(file)) {
+        return file
+      }
+    }
+  }
+
+  // for Capacitor 1-3
   #injectIntoFile (file, needle, content) {
     const sslWarn = () => {
-      const shortFilename = path.basename(file)
+      const shortFilename = basename(file)
 
       warn()
       warn()
@@ -249,6 +252,7 @@ class CapacitorConfigFile {
     fs.writeFileSync(file, newContent, 'utf-8')
   }
 
+  // for Capacitor 1-3
   #removeFromFile (file, content) {
     if (!file) {
       return
@@ -263,6 +267,7 @@ class CapacitorConfigFile {
     }
   }
 
+  // for Capacitor 1-3
   #handleSSLonAndroid (add) {
     const fglob = require('fast-glob')
     const capacitorSrcPath = appPaths.resolve.capacitor('android/app/src/main/java')
@@ -281,7 +286,7 @@ class CapacitorConfigFile {
       return
     }
 
-    const enableHttpsSelfSignedPath = path.join(path.dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
+    const enableHttpsSelfSignedPath = join(dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
 
     if (fs.existsSync(mainActivityPath)) {
       let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
