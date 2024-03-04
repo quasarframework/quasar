@@ -1,20 +1,22 @@
 import { bexBackground } from 'quasar/wrappers'
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.action.onClicked.addListener((/* tab */) => {
-    // Opens our extension in a new browser window.
-    // Only if a popup isn't defined in the manifest.
-    chrome.tabs.create({
+function openExtension () {
+  chrome.tabs.create(
+    {
       url: chrome.runtime.getURL('www/index.html')
-    }, (/* newTab */) => {
+    },
+    (/* newTab */) => {
       // Tab opened.
-    })
-  })
-})
+    }
+  )
+}
+
+chrome.runtime.onInstalled.addListener(openExtension)
+chrome.action.onClicked.addListener(openExtension)
 
 export default bexBackground((bridge /* , allActiveConnections */) => {
   bridge.on('log', ({ data, respond }) => {
-    console.log(`[BEX] ${data.message}`, ...(data.data || []))
+    console.log(`[BEX] ${ data.message }`, ...(data.data || []))
     respond()
   })
 
@@ -29,9 +31,10 @@ export default bexBackground((bridge /* , allActiveConnections */) => {
         // Group the values up into an array to take advantage of the bridge's chunk splitting.
         respond(Object.values(items))
       })
-    } else {
-      chrome.storage.local.get([key], items => {
-        respond(items[key])
+    }
+    else {
+      chrome.storage.local.get([ key ], items => {
+        respond(items[ key ])
       })
     }
   })
@@ -39,7 +42,7 @@ export default bexBackground((bridge /* , allActiveConnections */) => {
   // const { data } = await bridge.send('storage.get', { key: 'someKey' })
 
   bridge.on('storage.set', ({ data, respond }) => {
-    chrome.storage.local.set({ [data.key]: data.value }, () => {
+    chrome.storage.local.set({ [ data.key ]: data.value }, () => {
       respond()
     })
   })
