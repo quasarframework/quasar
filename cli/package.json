@@ -60,7 +60,6 @@
     "minimist": "^1.2.8",
     "open": "^9.1.0",
     "route-cache": "^0.5.0",
-    "selfsigned": "^2.0.0",
     "update-notifier": "^6.0.2"
   },
   "devDependencies": {
