@@ -68,6 +68,10 @@ $ quasar upgrade -p
 # checks for major new releases (includes breaking changes):
 $ quasar upgrade -m
 
+# use another npm registry url than what your machine is configured with:
+# (added in @quasar/cli v2.4)
+$ quasar upgrade -r https://registry.npmjs.org/
+
 # to perform the actual upgrade,
 # combine any of the params above and add "-i" (or "--install"):
 $ quasar upgrade -i

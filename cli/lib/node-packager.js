@@ -1,7 +1,7 @@
 import fs from 'node:fs'
 import { normalize, join, sep } from 'node:path'
-import { execSync } from 'child_process'
 import { sync as crossSpawnSync } from 'cross-spawn'
+import { execSync } from 'node:child_process'
 
 import appPaths from './app-paths.js'
 import { log, fatal } from './logger.js'
@@ -9,10 +9,23 @@ import { spawnSync } from './spawn.js'
 
 const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta|rc)?/
 
-async function getPackageVersionList (packageName) {
+function getNpmRegistryUrl () {
+  try {
+    const url = execSync('npm config get registry')
+    if (url) {
+      return url.endsWith('/')
+        ? url
+        : url + '/'
+    }
+  }
+  catch (_) {}
+
+  return 'https://registry.npmjs.org/'
+}
+
+async function getPackageVersionList (packageName, npmRegistryUrl) {
   const https = await import('node:https')
-  const npmRegistryUrl = execSync('npm config get registry')
-  const url = `${npmRegistryUrl}${packageName}`
+  const url = `${ npmRegistryUrl }${ packageName }`
 
   return new Promise(resolve => {
     https.get(url, async response => {
@@ -94,6 +107,7 @@ class PackageManager {
 
   majorVersion = null
   cachedIsInstalled = null
+  #npmRegistryUrl = null
 
   isInstalled () {
     if (this.cachedIsInstalled !== null) {
@@ -141,13 +155,29 @@ class PackageManager {
     })
   }
 
+  get npmRegistryUrl () {
+    if (this.#npmRegistryUrl === null) {
+      this.#npmRegistryUrl = getNpmRegistryUrl()
+    }
+    return this.#npmRegistryUrl
+  }
+
+  set npmRegistryUrl (url) {
+    if (url) {
+      this.#npmRegistryUrl = url.endsWith('/')
+        ? url
+        : url + '/'
+    }
+  }
+
   async getPackageLatestVersion ({
     packageName,
+    npmRegistryUrl = this.#npmRegistryUrl,
     currentVersion = null,
     majorVersion = false,
     preReleaseVersion = false
   }) {
-    const versionList = await getPackageVersionList(packageName)
+    const versionList = await getPackageVersionList(packageName, npmRegistryUrl)
 
     if (versionList === null) {
       return null
