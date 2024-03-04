@@ -72,11 +72,12 @@ interface BaseQuasarConfiguration {
   htmlVariables?: Record<string, any>;
   /**
    * What Quasar language pack to use, what Quasar icon
-   * set to use for Quasar components.
+   * set to use for Quasar components, etc.
    */
   framework?: QuasarFrameworkConfiguration;
   /**
    * What [CSS animations](/options/animations) to import.
+   *
    * @example: [ 'bounceInLeft', 'bounceOutRight' ]
    */
   animations?: QuasarAnimationsConfiguration | 'all';

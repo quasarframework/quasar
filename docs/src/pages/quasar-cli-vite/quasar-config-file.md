@@ -230,54 +230,106 @@ extras?: (QuasarIconSets | QuasarFonts)[];
 ```js
 /**
  * What Quasar language pack to use, what Quasar icon
- * set to use for Quasar components.
+ * set to use for Quasar components, etc.
  */
 framework?: QuasarFrameworkConfiguration;
 
 interface QuasarFrameworkConfiguration {
-  config?: /* Quasar UI config -- you'll notice in docs when you need it */;
-
   /**
-   * one of the Quasar IconSets (see specific docs page)
+   * @see - QuasarConfOptions tab in API cards throughout the docs
+   */
+  config?: SerializableConfiguration<QuasarUIConfiguration>;
+  /**
+   * One of the Quasar IconSets
+   *
+   * @see https://v2.quasar.dev/options/quasar-icon-sets
+   *
    * @example 'material-icons'
    */
   iconSet?: QuasarIconSets;
-
   /**
-   * one of the Quasar language pack in String format (see specific docs page)
-   * @example 'en-US' / 'es' / 'he' / ...
+   * One of the Quasar language packs
+   *
+   * @see https://v2.quasar.dev/options/quasar-language-packs
+   *
+   * @example 'en-US'
+   * @example 'es'
    */
   lang?: QuasarLanguageCodes;
-
-  /* if you want the Quasar CSS Addons (see specific docs page) */
+  /**
+   * Quasar CSS addons have breakpoint aware versions of flex and spacing classes
+   *
+   * @see https://quasar.dev/layout/grid/introduction-to-flexbox#flex-addons
+   * @see https://quasar.dev/style/spacing#flex-addons
+   */
   cssAddon?: boolean;
 
   /**
-   * Format in which you will write your Vue templates when
-   * using Quasar components.
+   * Auto import - how to detect components in your vue files
+   *   "kebab": q-carousel q-page
+   *   "pascal": QCarousel QPage
+   *   "combined": q-carousel QPage
    *
    * @default 'kebab'
    */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
+  /**
+   * Auto import - which file extensions should be interpreted as referring to Vue SFC?
+   *
+   * @default ['vue']
+   */
+  autoImportVueExtensions?: string[];
+  /**
+   * Auto import - which file extensions should be interpreted as referring to script files?
+   *
+   * @default ['js', 'jsx', 'ts', 'tsx']
+   */
+  autoImportScriptExtensions?: string[];
+  /**
+   * Treeshake Quasar's UI on dev too?
+   * Recommended to leave this as false for performance reasons.
+   *
+   * @default false
+   */
+  devTreeshaking?: boolean;
 
   /**
-   * For special cases outside of where the auto-import strategy can have an impact
-   * (like plain .js or .ts files),
-   * you can manually specify Quasar components/directives to be available everywhere.
-   * @example [ 'QAvatar', 'QChip' ]
+   * Quasar will auto import components based on your usage.
+   * But, in case you have a special case, you can manually specify Quasar components to be available everywhere.
+   *
+   * An example case would be having custom component definitions with plain string templates, inside .js or .ts files,
+   * in which you are using Quasar components (e.g. q-avatar).
+   *
+   * Another example would be that dynamically rendering components depending on an API response or similar (e.g. in a CMS),
+   * something like `<component :is="dynamicName">` where `dynamicName` is a string that matches a Quasar component name.
+   *
+   * @example ['QAvatar', 'QChip']
    */
-  components?: (keyof QuasarPluginOptions["components"])[];
-  directives?: (keyof QuasarPluginOptions["directives"])[];
-
+  components?: (keyof QuasarComponents)[];
   /**
-   * Quasar plugins.
-   * @example [ 'Notify', 'Loading', 'Meta', 'AppFullscreen' ]
+   * Quasar will auto import directives based on your usage.
+   * But, in case you have a special case, you can manually specify Quasar directives to be available everywhere.
+   *
+   * An example case would be having custom component definitions with plain string templates, inside .js or .ts files,
+   * in which you are using Quasar directives (e.g. v-intersection).
+   *
+   * @example ['Intersection', 'Mutation']
    */
-  plugins?: (keyof QuasarPluginOptions["plugins"])[];
+  directives?: (keyof QuasarDirectives)[];
+  /**
+   * Quasar plugins to be installed. Specify the ones you are using in your app.
+   *
+   * @example ['Notify', 'Loading', 'Meta', 'AppFullscreen']
+   */
+  plugins?: (keyof QuasarPlugins)[];
 }
 ```
 
-More on cssAddon [here](/layout/grid/introduction-to-flexbox#flex-addons).
+See these references for more info:
+- [Quasar Language Packs](/options/quasar-language-packs)
+- [Quasar Icon Sets](/options/quasar-icon-sets)
+- [Quasar CSS Addons - Flex](/layout/grid/introduction-to-flexbox#flex-addons)
+- [Quasar CSS Addons - Spacing](/style/spacing#flex-addons)
 
 ### animations
 
