@@ -1,5 +1,5 @@
 const fs = require('node:fs')
-const path = require('node:path')
+const { basename, dirname, join } = require('node:path')
 const fglob = require('fast-glob')
 
 const { log, warn } = require('../../utils/logger.js')
@@ -8,7 +8,7 @@ const { ensureConsistency } = require('./ensure-consistency.js')
 // necessary for Capacitor 4+
 const { getPackageJson } = require('../../utils/get-package-json.js')
 
-// Capacitor 1 & 2
+// for Capacitor 1-3
 function getAndroidMainActivity (capVersion, appId) {
   if (capVersion === 1) {
     return `
@@ -184,24 +184,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     }
   }
 
-  #getIosCapacitorBridgeFile () {
-    const { appPaths } = this.#ctx
-
-    // we need to try multiple files because
-    // @capacitor/ios changed the location during its v2
-    const fileList = [
-      'node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift',
-      'node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'
-    ]
-
-    for (let i = 0; i < fileList.length; i++) {
-      const file = appPaths.resolve.capacitor(fileList[ i ])
-      if (fs.existsSync(file)) {
-        return file
-      }
-    }
-  }
-
+  // for Capacitor 1-3
   #handleSSLonIOS (add) {
     const file = this.#getIosCapacitorBridgeFile()
     const needle = 'public func getWebView() -> WKWebView {'
@@ -224,9 +207,29 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     }
   }
 
+  // for Capacitor 1-3
+  #getIosCapacitorBridgeFile () {
+    const { appPaths } = this.#ctx
+
+    // we need to try multiple files because
+    // @capacitor/ios changed the location during its v2
+    const fileList = [
+      'node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift',
+      'node_modules/@capacitor/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'
+    ]
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = appPaths.resolve.capacitor(fileList[ i ])
+      if (fs.existsSync(file)) {
+        return file
+      }
+    }
+  }
+
+  // for Capacitor 1-3
   #injectIntoFile (file, needle, content) {
     const sslWarn = () => {
-      const shortFilename = path.basename(file)
+      const shortFilename = basename(file)
 
       warn()
       warn()
@@ -265,6 +268,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     fs.writeFileSync(file, newContent, 'utf-8')
   }
 
+  // for Capacitor 1-3
   #removeFromFile (file, content) {
     if (!file) {
       return
@@ -279,6 +283,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
     }
   }
 
+  // for Capacitor 1-3
   #handleSSLonAndroid (add, capVersion) {
     const { appPaths } = this.#ctx
 
@@ -298,7 +303,7 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
       return
     }
 
-    const enableHttpsSelfSignedPath = path.join(path.dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
+    const enableHttpsSelfSignedPath = join(dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
 
     if (fs.existsSync(mainActivityPath)) {
       let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
@@ -311,37 +316,13 @@ module.exports.CapacitorConfigFile = class CapacitorConfigFile {
 
       if (add) {
         // Allow unsigned certificates in MainActivity
-        if (capVersion >= 4) {
-          if (!/super\.onCreate/.test(mainActivity)) {
-            mainActivity = mainActivity.replace('{}',
-            `{
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
-}`
-            )
-            mainActivity = mainActivity.replace('import com.getcapacitor.BridgeActivity;',
-            `import android.os.Bundle;
-import com.getcapacitor.BridgeActivity;`)
-          }
-          if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
-            mainActivity = mainActivity.replace(
-              /super\.onCreate\(.*\);/ms,
-              match => `${ match }
-              ${ sslString }`
-            )
-          }
-        }
-        else {
-          if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
-            mainActivity = mainActivity.replace(
-              /this\.init\(.*}}\);/ms,
-              match => `${ match }
-  ${ sslString }
-                `
-            )
-          }
+        if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+          mainActivity = mainActivity.replace(
+            /this\.init\(.*}}\);/ms,
+            match => `${ match }
+${ sslString }
+              `
+          )
         }
 
         // Add helper file
