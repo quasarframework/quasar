@@ -15,6 +15,8 @@ export async function quasarViteESLintPlugin (quasarConf, compileId) {
     errorFiles
   } = await getLinter(quasarConf, compileId)
 
+  const format = await eslint.loadFormatter(formatter)
+
   return {
     name: 'quasar:eslint',
 
@@ -35,7 +37,6 @@ export async function quasarViteESLintPlugin (quasarConf, compileId) {
       } = report[ 0 ]
 
       if (errors === true && errorCount !== 0) {
-        const { format } = await eslint.loadFormatter(formatter)
         errorFiles.add(id)
         console.log()
         error('Error:', 'LINT')
@@ -43,7 +44,6 @@ export async function quasarViteESLintPlugin (quasarConf, compileId) {
         this.error(format(report))
       }
       else if (warnings === true && warningCount !== 0) {
-        const { format } = await eslint.loadFormatter(formatter)
         errorFiles.add(id)
         console.log()
         warning('Warning:', 'LINT')
