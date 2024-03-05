@@ -15,7 +15,7 @@ export async function quasarViteESLintPlugin (quasarConf, compileId) {
     errorFiles
   } = await getLinter(quasarConf, compileId)
 
-  const format = await eslint.loadFormatter(formatter)
+  const { format } = await eslint.loadFormatter(formatter)
 
   return {
     name: 'quasar:eslint',
