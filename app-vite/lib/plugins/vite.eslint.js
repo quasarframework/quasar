@@ -15,10 +15,15 @@ export async function quasarViteESLintPlugin (quasarConf, compileId) {
     errorFiles
   } = await getLinter(quasarConf, compileId)
 
+  let viteServer
   const { format } = await eslint.loadFormatter(formatter)
 
   return {
     name: 'quasar:eslint',
+
+    configureServer (server) {
+      viteServer = server
+    },
 
     async transform (_, id) {
       if (filter(id) === false || await eslint.isPathIgnored(normalizePath(id)) === true) {
@@ -59,7 +64,12 @@ export async function quasarViteESLintPlugin (quasarConf, compileId) {
         console.log()
         success(id, 'LINT OK')
         console.log()
+
         errorFiles.delete(id)
+        viteServer.hot.send({
+          type: 'full-reload',
+          path: '*'
+        })
       }
 
       return null
