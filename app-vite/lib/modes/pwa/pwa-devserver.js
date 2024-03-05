@@ -115,7 +115,7 @@ export class QuasarModeDevserver extends AppDevserver {
       inject()
 
       if (this.#server !== void 0) {
-        this.#server.ws.send({
+        this.#server.hot.send({
           type: 'full-reload',
           path: '*'
         })

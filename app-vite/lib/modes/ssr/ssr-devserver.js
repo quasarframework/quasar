@@ -421,7 +421,7 @@ export class QuasarModeDevserver extends AppDevserver {
       inject()
 
       if (this.#viteClient !== void 0) {
-        this.#viteClient.ws.send({
+        this.#viteClient.hot.send({
           type: 'full-reload',
           path: '*'
         })
