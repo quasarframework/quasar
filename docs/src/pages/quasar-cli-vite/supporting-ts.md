@@ -162,9 +162,9 @@ eslint: {
 
 ### TypeScript Declaration Files
 
-If you chose TypeScript support through the create-quasar CLI, these declaration files were automatically scaffolded for you. If TypeScript support wasn't enabled during project creation, you'll need to manually add the following files to your `/src` directory:
+If you chose TypeScript support when scaffolding the project, these declaration files were automatically scaffolded for you. If TypeScript support wasn't enabled during project creation, create the following files.
 
-```ts /src/shims-vue.d.ts file
+```ts /src/shims-vue.d.ts
 /* eslint-disable */
 
 /// <reference types="vite/client" />
@@ -177,7 +177,7 @@ declare module '*.vue' {
 }
 ```
 
-```ts /src/quasar.d.ts file
+```ts /src/quasar.d.ts
 /* eslint-disable */
 
 // Forces TS to apply `@quasar/app-vite` augmentations of `quasar` package
@@ -189,7 +189,7 @@ declare module '*.vue' {
 /// <reference types="@quasar/app-vite" />
 ```
 
-```ts /src/env.d.ts file
+```ts /src/env.d.ts
 /* eslint-disable */
 
 declare namespace NodeJS {
@@ -197,15 +197,151 @@ declare namespace NodeJS {
     NODE_ENV: string;
     VUE_ROUTER_MODE: 'hash' | 'history' | 'abstract' | undefined;
     VUE_ROUTER_BASE: string | undefined;
+    // Define any custom env variables you have here, if you wish
   }
 }
 ```
 
-#### Bex mode
+See the following sections depending on the features and build modes you are using.
 
-If your project is in [Bex mode](/quasar-cli-vite/developing-browser-extensions/introduction), you should include the interface below in your `src-bex/background.ts` file:
+#### Pinia
 
-```ts /src-bex/background.ts file
+If you are using [Pinia](/quasar-cli-vite/state-management-with-pinia), add the section below to your project. Quasar CLI provides the `router` property, you may need to add more global properties if you have them.
+
+```ts /src/stores/index.ts
+import { Router } from 'vue-router';
+
+/*
+ * When adding new properties to stores, you should also
+ * extend the `PiniaCustomProperties` interface.
+ * @see https://pinia.vuejs.org/core-concepts/plugins.html#typing-new-store-properties
+ */
+declare module 'pinia' {
+  export interface PiniaCustomProperties {
+    readonly router: Router;
+  }
+}
+```
+
+#### Vuex
+
+If you are using [Vuex](/quasar-cli-vite/state-management-with-vuex), add the section below to your project. Quasar CLI provides the `router` property, you may need to add more global properties if you have them. Adjust the state interface to suit your application.
+
+```ts /src/store/index.ts
+import { InjectionKey } from 'vue'
+import { Router } from 'vue-router'
+import {
+  createStore,
+  Store as VuexStore,
+  useStore as vuexUseStore,
+} from 'vuex'
+
+export interface StateInterface {
+  // Define your own store structure, using submodules if needed
+  // example: ExampleStateInterface;
+  // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
+  example: unknown
+}
+
+// provide typings for `this.$store`
+declare module '@vue/runtime-core' {
+  interface ComponentCustomProperties {
+    $store: VuexStore<StateInterface>
+  }
+}
+
+// Provide typings for `this.$router` inside Vuex stores
+declare module "vuex" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  export interface Store<S> {
+    readonly $router: Router;
+  }
+}
+
+// provide typings for `useStore` helper
+export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-key')
+
+export function useStore() {
+  return vuexUseStore(storeKey)
+}
+
+// createStore<StateInterface>({ ... })
+```
+
+#### PWA mode
+
+If you are using [PWA mode](/quasar-cli-vite/developing-pwa/introduction), make the following modifications to your project, and create any files that do not exist:
+
+```ts /src-pwa/pwa-env.d.ts
+/* eslint-disable */
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    SERVICE_WORKER_FILE: string;
+    PWA_FALLBACK_HTML: string;
+    PWA_SERVICE_WORKER_REGEX: string;
+  }
+}
+```
+
+```ts /src-pwa/custom-service-worker.ts
+// at the top of the file
+declare const self: ServiceWorkerGlobalScope &
+  typeof globalThis & { skipWaiting: () => void };
+```
+
+```json /src-pwa/tsconfig.json
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["WebWorker", "ESNext"]
+  },
+  "include": ["*.ts", "*.d.ts"]
+}
+```
+
+```js /src-pwa/.eslintrc.cjs
+const { resolve } = require('node:path');
+
+module.exports = {
+  parserOptions: {
+    project: resolve(__dirname, './tsconfig.json'),
+  },
+
+  overrides: [
+    {
+      files: ['custom-service-worker.ts'],
+
+      env: {
+        serviceworker: true,
+      },
+    },
+  ],
+};
+```
+
+#### Electron mode
+
+If you are using [Electron mode](/quasar-cli-vite/developing-electron-apps/introduction), add the section below to your project.
+
+```ts /src-electron/electron-env.d.ts
+/* eslint-disable */
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    QUASAR_PUBLIC_FOLDER: string;
+    QUASAR_ELECTRON_PRELOAD_FOLDER: string;
+    QUASAR_ELECTRON_PRELOAD_EXTENSION: string;
+    APP_URL: string;
+  }
+}
+```
+
+#### BEX mode
+
+If you are using [BEX mode](/quasar-cli-vite/developing-browser-extensions/introduction), add the section below to your project. You may need to adjust it to your needs depending on the events you are using. The key is the event name, the value is a tuple where the first element is the input and the second is the output type.
+
+```ts /src-bex/background.ts
 declare module '@quasar/app-vite' {
   interface BexEventMap {
     /* eslint-disable @typescript-eslint/no-explicit-any */
