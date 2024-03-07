@@ -39,6 +39,7 @@
     "markdown-it": "^14.0.0",
     "markdown-it-container": "^4.0.0",
     "toml": "^3.0.0",
+    "vite-plugin-checker": "^0.6.4",
     "workbox-build": "^7.0.0"
   },
   "engines": {

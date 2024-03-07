@@ -27,8 +27,8 @@
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
-    "lint": "eslint --ext .js,.vue src dev --report-unused-disable-directives",
-    "lint-fix": "eslint --ext .js,.vue src dev --fix --report-unused-disable-directives",
+    "lint": "eslint --ext .js,.cjs,.mjs,.vue src dev --report-unused-disable-directives",
+    "lint-fix": "eslint --ext .js,.cjs,.mjs,.vue src dev --fix --report-unused-disable-directives",
     "format:types": "prettier --write \"types/**/*.{d.ts,ts,json}\"",
     "test:create": "node ./test/cypress/helpers/create-spec.js -c",
     "test:build": "yarn build",
@@ -101,6 +101,7 @@
     "recast": "^0.23.4",
     "table": "^6.8.1",
     "typescript": "^5.3.3",
+    "vite-plugin-checker": "^0.6.4",
     "vue": "^3.4.20",
     "vue-router": "^4.2.1",
     "yargs": "^17.7.2"

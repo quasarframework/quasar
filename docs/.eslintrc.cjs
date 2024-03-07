@@ -48,8 +48,8 @@ module.exports = {
     'arrow-parens': 'off',
     'one-var': 'off',
     'no-void': 'off',
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    'no-console': 'error',
+    'no-debugger': 'error',
     'template-curly-spacing': 'off',
     'no-multiple-empty-lines': 'off',
 

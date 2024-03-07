@@ -1,0 +1,7 @@
+node_modules/
+.quasar/
+dist/
+/quasar.config.*.temporary.compiled*
+/src-capacitor
+/src-cordova
+/**/*.d.ts

@@ -52,11 +52,12 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.22.0",
-    "quasar": "^2.11.10",
     "fs-extra": "^11.2.0",
+    "quasar": "^2.11.10",
     "rollup": "^4.12.0",
     "start-server-and-test": "^2.0.0",
     "typescript": "^5.0.4",
+    "vite-plugin-checker": "^0.6.4",
     "vitest": "^1.3.1"
   },
   "peerDependencies": {

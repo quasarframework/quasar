@@ -1,5 +1,4 @@
 import { QuasarAnimations, QuasarFonts, QuasarIconSets } from "quasar";
-import { QuasarEslintConfiguration } from "./eslint";
 import { QuasarBootConfiguration } from "./boot";
 import { QuasarBuildConfiguration } from "./build";
 import { QuasarCapacitorConfiguration } from "./capacitor-conf";
@@ -51,9 +50,6 @@ interface QuasarSourceFilesConfiguration {
 }
 
 interface BaseQuasarConfiguration {
-  /** Options with which Quasar CLI will use ESLint */
-  eslint?: QuasarEslintConfiguration;
-
   /** Boot files to load. Order is important. */
   boot?: QuasarBootConfiguration;
   /**

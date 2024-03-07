@@ -1,18 +1,11 @@
 import { fileURLToPath } from 'node:url'
+import vitePluginChecker from 'vite-plugin-checker'
 
 import mdPlugin from './build/md/index.js'
 import examplesPlugin from './build/examples.js'
 import manualChunks from './build/chunks.js'
 
 export default ctx => ({
-  eslint: {
-    warnings: true,
-    errors: true,
-    exclude: [
-      /(node_modules|ui[\\/])/
-    ]
-  },
-
   boot: [
     { path: 'gdpr', server: false }
   ],
@@ -46,11 +39,21 @@ export default ctx => ({
       examplesPlugin(ctx.prod)
     ],
 
-    extendViteConf (config, { isClient }) {
-      if (ctx.prod && isClient) {
-        config.build.chunkSizeWarningLimit = 650
-        config.build.rollupOptions = {
-          output: { manualChunks }
+    extendViteConf (viteConf, { isClient }) {
+      if (isClient) {
+        viteConf.plugins.push(
+          vitePluginChecker({
+            eslint: {
+              lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
+            }
+          })
+        )
+
+        if (ctx.prod) {
+          viteConf.build.chunkSizeWarningLimit = 650
+          viteConf.build.rollupOptions = {
+            output: { manualChunks }
+          }
         }
       }
     }

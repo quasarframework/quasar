@@ -1,17 +1,12 @@
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { mergeConfig } from 'vite'
+import vitePluginChecker from 'vite-plugin-checker'
 
 const rootFolder = fileURLToPath(new URL('.', import.meta.url))
 const resolve = _path => join(rootFolder, _path)
 
 export default ctx => ({
-  eslint: {
-    fix: true,
-    warnings: true,
-    errors: true
-  },
-
   boot: [
     ctx.mode.ssr ? { path: 'ssr-client', server: false } : ''
   ],
@@ -94,6 +89,16 @@ export default ctx => ({
 
       if (isServer) {
         viteConf.resolve.alias.quasar = resolve('../src/index.ssr.js')
+      }
+      else {
+        viteConf.plugins.push(
+          vitePluginChecker({
+            root: resolve('../'),
+            eslint: {
+              lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
+            }
+          })
+        )
       }
     }
   },

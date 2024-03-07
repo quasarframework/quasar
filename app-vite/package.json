@@ -50,7 +50,6 @@
     "@quasar/render-ssr-error": "^1.0.2",
     "@quasar/ssl-certificate": "^1.0.0",
     "@quasar/vite-plugin": "^1.6.0",
-    "@rollup/pluginutils": "^5.0.4",
     "@types/chrome": "^0.0.262",
     "@types/compression": "^1.7.3",
     "@types/cordova": "^11.0.0",
@@ -106,7 +105,6 @@
   "peerDependencies": {
     "electron-builder": ">= 22",
     "electron-packager": ">= 15",
-    "eslint": "^8.11.0",
     "pinia": "^2.0.0",
     "quasar": "^2.14.0",
     "vue": "^3.2.29",

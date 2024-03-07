@@ -193,20 +193,6 @@ export async function createViteConfig (quasarConf, { compileId }) {
     }
   }
 
-  if (compileId !== 'vite-ssr-server') {
-    const { hasEslint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
-    if (hasEslint === true) {
-      const { warnings, errors } = quasarConf.eslint
-      if (warnings === true || errors === true) {
-        // import only if actually needed (as it imports app's eslint pkg)
-        const { quasarViteESLintPlugin } = await import('./plugins/vite.eslint.js')
-        viteConf.plugins.push(
-          await quasarViteESLintPlugin(quasarConf, compileId)
-        )
-      }
-    }
-  }
-
   return viteConf
 }
 
@@ -230,7 +216,7 @@ export function extendViteConfig (viteConf, quasarConf, invokeParams) {
   return promise.then(() => viteConf)
 }
 
-export async function createNodeEsbuildConfig (quasarConf, { compileId, format }) {
+export function createNodeEsbuildConfig (quasarConf, { format }) {
   const {
     ctx: {
       pkg: { appPkg },
@@ -244,7 +230,7 @@ export async function createNodeEsbuildConfig (quasarConf, { compileId, format }
     ...Object.keys(appPkg.devDependencies || {})
   ])
 
-  const esbuildConfig = {
+  return {
     platform: 'node',
     target: quasarConf.build.target.node,
     format,
@@ -265,24 +251,10 @@ export async function createNodeEsbuildConfig (quasarConf, { compileId, format }
     }),
     plugins: []
   }
-
-  const { hasEslint } = await cacheProxy.getModule('eslint')
-  if (hasEslint === true) {
-    const { warnings, errors } = quasarConf.eslint
-    if (warnings === true || errors === true) {
-      // import only if actually needed (as it imports app's eslint pkg)
-      const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
-      esbuildConfig.plugins.push(
-        await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      )
-    }
-  }
-
-  return esbuildConfig
 }
 
-export async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
-  const esbuildConfig = {
+export function createBrowserEsbuildConfig (quasarConf) {
+  return {
     platform: 'browser',
     target: quasarConf.build.target.browser,
     format: 'iife',
@@ -297,20 +269,6 @@ export async function createBrowserEsbuildConfig (quasarConf, { compileId }) {
     }),
     plugins: []
   }
-
-  const { hasEslint } = await quasarConf.ctx.cacheProxy.getModule('eslint')
-  if (hasEslint === true) {
-    const { warnings, errors } = quasarConf.eslint
-    if (warnings === true || errors === true) {
-      // import only if actually needed (as it imports app's eslint pkg)
-      const { quasarEsbuildESLintPlugin } = await import('./plugins/esbuild.eslint.js')
-      esbuildConfig.plugins.push(
-        await quasarEsbuildESLintPlugin(quasarConf, compileId)
-      )
-    }
-  }
-
-  return esbuildConfig
 }
 
 export function extendEsbuildConfig (esbuildConf, quasarConfTarget, ctx, methodName) {
