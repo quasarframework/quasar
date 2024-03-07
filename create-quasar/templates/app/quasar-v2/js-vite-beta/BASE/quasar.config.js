@@ -10,16 +10,6 @@ import { configure } from 'quasar/wrappers'
 
 export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% } %>) => {
   return {
-    <% if (preset.lint) { %>eslint: {
-      // fix: true,
-      // include: [],
-      // exclude: [],
-      // cache: false,
-      // rawOptions: {},
-      warnings: true,
-      errors: true
-    },<% } %>
-
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
 
@@ -76,7 +66,7 @@ export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% }
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
-      <% if (preset.i18n) { %>vitePlugins: [
+      <% if (preset.i18n || preset.lint) { %>vitePlugins: [<% if (preset.i18n) { %>
         ['@intlify/unplugin-vue-i18n/vite', {
           // if you want to use Vue I18n Legacy API, you need to set `compositionOnly: false`
           // compositionOnly: false,
@@ -89,10 +79,15 @@ export default configure((<% if (preset.i18n) { %>ctx<% } else { %>/* ctx */<% }
 
           // you need to set i18n resource including paths !
           include: [ fileURLToPath(new URL('./src/i18n', import.meta.url)) ],
-        }]
+        }]<% } %><% if (preset.lint) { %><% if (preset.i18n) { %>,<% } %>
+        ['vite-plugin-checker', {
+          eslint: {
+            lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"'
+          }
+        }, { server: false }]<% } %>
       ]<% } else { %>
       // vitePlugins: [
-      //   [ 'package-name', { ..options.. } ]
+      //   [ 'package-name', { ..pluginOptions.. }, { server: true, client: true } ]
       // ]<% } %>
     },
 

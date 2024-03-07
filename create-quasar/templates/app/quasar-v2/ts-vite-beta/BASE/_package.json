@@ -29,6 +29,8 @@
     <% if (preset.lint) { %>
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
+    "vite-plugin-checker": "^0.6.4",
+    "vue-tsc": "^1.8.22",
     "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>

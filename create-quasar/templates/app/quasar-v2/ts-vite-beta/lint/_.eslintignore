@@ -4,5 +4,4 @@
 /.quasar
 /node_modules
 .eslintrc.cjs
-/src-ssr
 /quasar.config.*.temporary.compiled*

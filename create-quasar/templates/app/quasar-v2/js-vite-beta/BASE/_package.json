@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     <% if (preset.lint) { %>
+    "vite-plugin-checker": "^0.6.4",
     "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
     <% if (lintConfig === 'standard') { %>
