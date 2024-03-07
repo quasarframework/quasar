@@ -85,11 +85,12 @@ print({ key: 'Important local packages', section: true })
   'vuex',
   'vite',
   'esbuild',
-  'eslint',
+  'typescript',
+  'workbox-build',
+  'register-service-worker',
   'electron',
   'electron-packager',
-  'electron-builder',
-  'register-service-worker'
+  'electron-builder'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
 
 ;[
