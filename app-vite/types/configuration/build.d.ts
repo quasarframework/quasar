@@ -59,9 +59,14 @@ interface BuildTargetOptions {
   node?: string;
 }
 
+interface PluginEntryRunOptions {
+  server?: boolean;
+  client?: boolean;
+}
+
 type PluginEntry =
-  | [pluginName: string, options?: any]
-  | [pluginFactory: (options?: any) => Plugin, options?: any]
+  | [pluginName: string, options?: any, runOptions?: PluginEntryRunOptions]
+  | [pluginFactory: (options?: any) => Plugin, options?: any, runOptions?: PluginEntryRunOptions]
   | Plugin
   | null
   | undefined
@@ -99,21 +104,33 @@ interface QuasarStaticBuildConfiguration {
    * import { somePlugin } from 'some-plugin'
    * // ...
    * [
-   *   [ 'some-plugin', { ...options... } ],
+   *   [ 'some-plugin', { ...pluginOptions... } ],
    *
-   *   [ somePlugin, { ...options... } ],
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ 'some-plugin', { ...pluginOptions... }, { server: true, client: true } ],
    *
-   *   somePlugin(options)
+   *   [ somePlugin, { ...pluginOptions... } ],
+   *
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ somePlugin, { ...pluginOptions... }, { server: true, client: true } ],
+   *
+   *   somePlugin({ ...pluginOptions... })
    * ]
    *
    * @example
    * // CJS
    * [
-   *   [ 'some-plugin', { ...options... } ],
+   *   [ 'some-plugin', { ...pluginOptions... } ],
    *
-   *   [ require('some-plugin'), { ...options... } ],
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ 'some-plugin', { ...pluginOptions... }, { server: true, client: true } ],
    *
-   *   require('some-plugin')(options)
+   *   [ require('some-plugin'), { ...pluginOptions... } ],
+   *
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ require('some-plugin'), { ...pluginOptions... }, { server: true, client: true } ],
+   *
+   *   require('some-plugin')({ ...pluginOptions... })
    * ]
    */
   vitePlugins?: PluginEntry[];

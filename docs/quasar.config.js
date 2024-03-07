@@ -1,5 +1,4 @@
 import { fileURLToPath } from 'node:url'
-import vitePluginChecker from 'vite-plugin-checker'
 
 import mdPlugin from './build/md/index.js'
 import examplesPlugin from './build/examples.js'
@@ -36,24 +35,23 @@ export default ctx => ({
 
     vitePlugins: [
       mdPlugin,
-      examplesPlugin(ctx.prod)
+      examplesPlugin(ctx.prod),
+      [
+        'vite-plugin-checker',
+        {
+          eslint: {
+            lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
+          }
+        },
+        { server: false }
+      ]
     ],
 
     extendViteConf (viteConf, { isClient }) {
-      if (isClient) {
-        viteConf.plugins.push(
-          vitePluginChecker({
-            eslint: {
-              lintCommand: 'eslint --report-unused-disable-directives "./**/*.{js,mjs,cjs,vue}"'
-            }
-          })
-        )
-
-        if (ctx.prod) {
-          viteConf.build.chunkSizeWarningLimit = 650
-          viteConf.build.rollupOptions = {
-            output: { manualChunks }
-          }
+      if (ctx.prod && isClient) {
+        viteConf.build.chunkSizeWarningLimit = 650
+        viteConf.build.rollupOptions = {
+          output: { manualChunks }
         }
       }
     }

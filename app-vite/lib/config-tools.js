@@ -12,7 +12,7 @@ import { quasarViteStripFilenameHashesPlugin } from './plugins/vite.strip-filena
 
 const cliPkgDependencies = Object.keys(cliPkg.dependencies || {})
 
-async function parseVitePlugins (entries, appDir) {
+async function parseVitePlugins (entries, appDir, compileId) {
   const acc = []
   let showTip = false
 
@@ -35,12 +35,21 @@ async function parseVitePlugins (entries, appDir) {
       continue
     }
 
-    const [ name, opts = {} ] = entry
+    const [ name, pluginOpts = {}, runOpts = { client: true, server: true } ] = entry
+
+    if (compileId === 'vite-ssr-server') {
+      // if it's configured to not run on server, then skip it
+      if (runOpts.server === false) continue
+    }
+    else if (runOpts.client === false) {
+      // if it's configured to not run on client, then skip it
+      continue
+    }
 
     if (typeof name === 'function') {
       acc.push(
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
-        name(merge({}, opts))
+        name(merge({}, pluginOpts))
       )
       continue
     }
@@ -55,7 +64,7 @@ async function parseVitePlugins (entries, appDir) {
 
     if (typeof name !== 'string') {
       warn('quasar.config file > invalid Vite plugin specified: ' + name)
-      warn('Correct form: [ \'my-vite-plugin-name\', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]')
+      warn('Correct form: [ \'my-vite-plugin-name\', { /* pluginOpts */ } ] or [ pluginFn, { /* pluginOpts */ } ]')
       continue
     }
 
@@ -75,13 +84,17 @@ async function parseVitePlugins (entries, appDir) {
     acc.push(
       pluginFn(
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
-        merge({}, opts)
+        merge({}, pluginOpts)
       )
     )
   }
 
   if (showTip === true) {
-    tip('If you want changes to quasar.config file > build > vitePlugins to be picked up, specify them in this form: [ [ \'plugin-name\', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]')
+    tip(
+      'If you want changes to quasar.config file > build > vitePlugins to be picked up,'
+      + ' specify them in this form:'
+      + '[ [ \'plugin-name\', { /* pluginOpts */ }, { client: true, server: true } ], ... ]'
+      + ' or [ [ pluginFn, { /* pluginOpts */ }, , { client: true, server: true } ], ... ]')
   }
 
   return acc
@@ -156,7 +169,7 @@ export async function createViteConfig (quasarConf, { compileId }) {
         devTreeshaking: quasarConf.framework.devTreeshaking === true,
         sassVariables: quasarConf.metaConf.css.variablesFile
       }),
-      ...(await parseVitePlugins(build.vitePlugins, appPaths.appDir))
+      ...(await parseVitePlugins(build.vitePlugins, appPaths.appDir, compileId))
     ]
   }
 
