@@ -11,7 +11,6 @@ module.exports = {
   env: {
     node: true,
     browser: true,
-    'vue/setup-compiler-macros': true
   },
 
   // Rules order is important, please avoid shuffling them
