@@ -84,16 +84,16 @@ print({ key: 'Important local packages', section: true })
   'pinia',
   'vuex',
   'eslint',
-  'electron',
-  'electron-packager',
-  'electron-builder',
-  '@babel/core',
   'esbuild',
+  'typescript',
+  '@babel/core',
   'webpack',
   'webpack-dev-server',
   'workbox-webpack-plugin',
   'register-service-worker',
-  'typescript'
+  'electron',
+  'electron-packager',
+  'electron-builder'
 ].forEach(pkg => print(safePkgInfo(pkg, appPaths.appDir)))
 
 ;[

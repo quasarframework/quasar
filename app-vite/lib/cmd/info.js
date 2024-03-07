@@ -84,6 +84,8 @@ print({ key: 'Important local packages', section: true })
   'pinia',
   'vuex',
   'vite',
+  'vite-plugin-checker',
+  'eslint',
   'esbuild',
   'typescript',
   'workbox-build',
