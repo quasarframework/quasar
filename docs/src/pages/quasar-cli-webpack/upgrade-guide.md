@@ -264,7 +264,7 @@ Editing your `/src-pwa/custom-service-worker.js` file:
 +  registerRoute(
 +    new NavigationRoute(
 +      createHandlerBoundToURL(process.env.PWA_FALLBACK_HTML),
-+      { denylist: [new RegExp(process.env.PWA_SERVICE_WORKER_REGEX), /workbox-(.)*\\.js$/] }
++      { denylist: [new RegExp(process.env.PWA_SERVICE_WORKER_REGEX), /workbox-(.)*\.js$/] }
 +    )
 +  )
 + }
