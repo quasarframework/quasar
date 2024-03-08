@@ -102,7 +102,7 @@ jobs:
       - name: Run tests in ${{ matrix.browser }} browser
         uses: cypress-io/github-action@v6
         env:
-          CYPRESS_JSON_RESULTS_FILENAME: test-results-${{ matrix.browser }}.json
+          CYPRESS_JUNIT_RESULTS_FILENAME: test-results/${{ matrix.browser }}/[hash].xml
         with:
           install: false
           command: yarn test:component:run --browser ${{ matrix.browser }}
@@ -115,7 +115,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.browser }}
-          path: ui/dev/test-results-${{ matrix.browser }}.json
+          path: ui/dev/test-results
 
       - name: Upload GitHub Actions event data
         if: ${{ always() }}

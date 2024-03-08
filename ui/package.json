@@ -79,7 +79,6 @@
     "cross-env": "^7.0.3",
     "cssnano": "^6.0.5",
     "cypress": "^13.6.6",
-    "cypress-json-results": "^1.2.1",
     "diff": "^5.2.0",
     "esbuild": "^0.20.1",
     "eslint": "^8.57.0",
