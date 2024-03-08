@@ -27,6 +27,7 @@
     <% if (preset.lint) { %>
     "eslint": "^8.11.0",
     "eslint-plugin-vue": "^9.0.0",
+    "vite-plugin-checker": "^0.6.4",
     <% if (lintConfig === 'standard') { %>
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.19.1",
@@ -40,7 +41,7 @@
     "prettier": "^2.5.1",
     <% } } %>
     <% if (preset.i18n) { %>"@intlify/vite-plugin-vue-i18n": "^3.3.1",<% } %>
-    "@quasar/app-vite": "^1.4.3",
+    "@quasar/app-vite": "^1.8.0",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.14"
   },
