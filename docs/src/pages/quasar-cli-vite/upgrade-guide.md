@@ -33,6 +33,7 @@ api.compatibleWith(
 * Typescript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
 * feat+refactor(app-vite): ability to run multiple modes + dev/build simultaneously (huge effort!)
 * SSR and Electron modes now build in ESM format.
+* Dropped support for our internal linting system (quasar.config file > eslint). Should use `vite-plugin-checker` instead.
 * **We will detail more breaking changes for each of the Quasar modes below**.
 
 ### Highlights on what's new
@@ -70,6 +71,7 @@ Some of the work below has already been backported to the old @quasar/app-vite v
 * refactor(app-vite): the "clean" cmd now works different, since the CLI can be run in multiple instances on the same project folder (multiple modes on dev or build)
 * feat(app-vite): Support for Bun as package manager #16335
 * feat(app-vite): for default /src-ssr template -> prod ssr -> on error, print err stack if built with debugging enabled
+* feat(app-vite): extend build > vitePlugins form (additional { server?: boolean, client?: boolean } param
 
 ### Beginning of the upgrade process
 
@@ -139,11 +141,143 @@ Preparations:
 
   <br>
 
-* You might want to add the following to your `/.gitignore` file. These kind of files are left for inspection purposes when something fails with your `/quasar.config` file (and can be removed by the `quasar clean` command):
+* You might want to add the following to your `/.gitignore` file. The `/quasar.config.*.temporary.compiled*` entry refers to files that are left for inspection purposes when something fails with your `/quasar.config` file (and can be removed by the `quasar clean` command):
 
-  ```bash /.gitignore
+  ```bash [highlight=8,11] /.gitignore
+  .DS_Store
+  .thumbs.db
+  node_modules
+
+  # Quasar core related directories
+  .quasar
+  /dist
   /quasar.config.*.temporary.compiled*
+
+  # local .env files
+  .env.local*
+
+  # Cordova related directories and files
+  /src-cordova/node_modules
+  /src-cordova/platforms
+  /src-cordova/plugins
+  /src-cordova/www
+
+  # Capacitor related directories and files
+  /src-capacitor/www
+  /src-capacitor/node_modules
+
+  # Log files
+  npm-debug.log*
+  yarn-debug.log*
+  yarn-error.log*
+
+  # Editor directories and files
+  .idea
+  *.suo
+  *.ntvs*
+  *.njsproj
+  *.sln
   ```
+
+### Linting (TS or JS)
+
+We dropped support for our internal linting (quasar.config file > eslint) in favor of the `vite-plugin-checker` package. We will detail below the changes that you need to make based on if you use TS or not.
+
+#### Typescript projects linting
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+<<| bash NPM |>>
+$ npm install --save-dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+<<| bash PNPM |>>
+$ pnpm add -D vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+<<| bash Bun |>>
+$ bun add --dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
+```
+
+::: warning
+Notice the `typescript` dependency is <= 5.3. There is currently an issue with ESLint and newer TS (5.4+). This is only a temporary thing until upstream fixes it.
+:::
+
+```bash [highlight=6,7] /.eslintignore
+/dist
+/src-capacitor
+/src-cordova
+/.quasar
+/node_modules
+.eslintrc.cjs
+/quasar.config.*.temporary.compiled*
+```
+
+Create a new file called `tsconfig-vue-tsc.json` in the root of your project folder:
+
+```json /tsconfig-vue-tsc.json
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": true
+  }
+}
+```
+
+```diff /quasar.config file
+- eslint: {
+-   // ...
+- },
+
+  build: {
+    vitePlugins: [
++    ['vite-plugin-checker', {
++       vueTsc: {
++         tsconfigPath: 'tsconfig-vue-tsc.json'
++       },
++       eslint: {
++         lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"'
++       }
++     }, { server: false }]
+    ]
+  }
+```
+
+#### Javascript projects linting
+
+```tabs
+<<| bash Yarn |>>
+$ yarn add --dev vite-plugin-checker
+<<| bash NPM |>>
+$ npm install --save-dev vite-plugin-checker
+<<| bash PNPM |>>
+$ pnpm add -D vite-plugin-checker
+<<| bash Bun |>>
+$ bun add --dev vite-plugin-checker
+```
+
+```bash [highlight=6,7] /.eslintignore
+/dist
+/src-capacitor
+/src-cordova
+/.quasar
+/node_modules
+.eslintrc.cjs
+/quasar.config.*.temporary.compiled*
+```
+
+```diff /quasar.config file
+- eslint: {
+-   // ...
+- },
+
+  build: {
+    vitePlugins: [
++    ['vite-plugin-checker', {
++       eslint: {
++         lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"'
++       }
++     }, { server: false }]
+    ]
+  }
+```
 
 ### SPA / Capacitor / Cordova modes changes
 * No need to change anything in the `/src`, `/src-capacitor` or `/src-cordova` folders.
