@@ -210,9 +210,9 @@ Notice the `typescript` dependency is <= 5.3. There is currently an issue with E
 /quasar.config.*.temporary.compiled*
 ```
 
-Create a new file called `tsconfig-vue-tsc.json` in the root of your project folder:
+Create a new file called `tsconfig.vue-tsc.json` in the root of your project folder:
 
-```json /tsconfig-vue-tsc.json
+```json /tsconfig.vue-tsc.json
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -230,7 +230,7 @@ Create a new file called `tsconfig-vue-tsc.json` in the root of your project fol
     vitePlugins: [
 +    ['vite-plugin-checker', {
 +       vueTsc: {
-+         tsconfigPath: 'tsconfig-vue-tsc.json'
++         tsconfigPath: 'tsconfig.vue-tsc.json'
 +       },
 +       eslint: {
 +         lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"'

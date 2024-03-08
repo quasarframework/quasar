@@ -96,9 +96,9 @@ $ bun add --dev vite-plugin-checker vue-tsc@^1.0.0 typescript@~5.3.0
 Notice the `typescript` dependency is <= 5.3. There is currently an issue with ESLint and newer TS (5.4+). This is only a temporary thing until upstream fixes it.
 :::
 
-Create a file called `tsconfig-vue-tsc.json` in the root of your project folder:
+Create a file called `tsconfig.vue-tsc.json` in the root of your project folder:
 
-```json /tsconfig-vue-tsc.json
+```json /tsconfig.vue-tsc.json
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
@@ -112,7 +112,7 @@ build: {
   vitePlugins: [
     ['vite-plugin-checker', {
       vueTsc: {
-        tsconfigPath: 'tsconfig-vue-tsc.json'
+        tsconfigPath: 'tsconfig.vue-tsc.json'
       },
       eslint: {
         lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"'
