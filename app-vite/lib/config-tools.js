@@ -94,7 +94,8 @@ async function parseVitePlugins (entries, appDir, compileId) {
       'If you want changes to quasar.config file > build > vitePlugins to be picked up,'
       + ' specify them in this form:'
       + '[ [ \'plugin-name\', { /* pluginOpts */ }, { client: true, server: true } ], ... ]'
-      + ' or [ [ pluginFn, { /* pluginOpts */ }, , { client: true, server: true } ], ... ]')
+      + ' or [ [ pluginFn, { /* pluginOpts */ }, { client: true, server: true } ], ... ]'
+    )
   }
 
   return acc
