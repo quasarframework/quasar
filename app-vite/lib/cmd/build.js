@@ -113,7 +113,7 @@ const ctx = getCtx({
 })
 
 const { displayBanner } = await import('../utils/banner.js')
-displayBanner({ argv, ctx, cmd: 'build' })
+await displayBanner({ argv, ctx, cmd: 'build' })
 
 const { log } = await import('../utils/logger.js')
 
@@ -161,7 +161,7 @@ appBuilder.build().then(async () => {
     ? path.join(outputFolder, '..')
     : outputFolder
 
-  displayBanner({
+  await displayBanner({
     argv,
     ctx,
     cmd: 'build',

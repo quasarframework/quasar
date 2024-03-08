@@ -26,7 +26,7 @@ function getCompilationTarget (target) {
   )
 }
 
-module.exports.displayBanner = function displayBanner ({ argv, ctx, cmd, details }) {
+module.exports.displayBanner = async function displayBanner ({ argv, ctx, cmd, details }) {
   let banner = ''
 
   if (details?.buildOutputFolder) {
@@ -75,16 +75,18 @@ module.exports.displayBanner = function displayBanner ({ argv, ctx, cmd, details
  Output folder............. ${ green(details.buildOutputFolder) }`
     }
 
-    // TODO: mention pnpm and Bun. Also update it such that we only display the package manager in use
     if (argv.mode === 'ssr') {
+      const packager = await ctx.cacheProxy.getModule('nodePackager')
       banner += `
 
- Tip: The output folder must be yarn/npm installed before using it,
-      except when it is run inside your already yarn/npm installed project folder.
+ Tip: The dependencies must be installed before running the app. You can do
+      this by running "$ ${ packager.name } install" inside the output folder.
+      If you are running the app from your project folder where dependencies
+      are already installed, then you can skip this step.
 
  Tip: Notice the package.json generated, where there's a script defined:
         "start": "node index.js"
-      Running "$ yarn start" or "$ npm run start" from the output folder will
+      Running "$ ${ packager.name === 'npm' ? 'npm run' : packager.name } start" from the output folder will
       start the webserver. Alternatively you can call "$ node index.js"
       yourself.`
     }
@@ -100,6 +102,7 @@ module.exports.displayBanner = function displayBanner ({ argv, ctx, cmd, details
       in "src-cordova", except for "www" folder which must be built by Quasar CLI.`
     }
     else if (argv.mode === 'capacitor') {
+      const packager = await ctx.cacheProxy.getModule('nodePackager')
       banner += `
 
  Tip: "src-capacitor" is a Capacitor project folder, so everything you know
@@ -107,9 +110,9 @@ module.exports.displayBanner = function displayBanner ({ argv, ctx, cmd, details
       for "src-capacitor/www" folder and then either opens the IDE or calls
       the platform's build commands to generate the final packaged file.
 
- Tip: Feel free to use Capacitor CLI ("yarn capacitor <params>" or
-      "npx capacitor <params>") or change any files in "src-capacitor", except
-      for the "www" folder which must be built by Quasar CLI.`
+ Tip: Feel free to use Capacitor CLI ("${ packager.name === 'npm' ? 'npx' : packager.name } capacitor <params>") or change
+      any files in "src-capacitor", except for the "www" folder which must
+      be built by Quasar CLI.`
     }
     else if ([ 'spa', 'pwa' ].includes(argv.mode)) {
       banner += `
