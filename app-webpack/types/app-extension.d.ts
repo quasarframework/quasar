@@ -44,7 +44,7 @@ interface BaseAPI {
   hasTypescript: () => Promise<boolean>;
   hasLint: () => Promise<boolean>;
   getStorePackageName: () => 'pinia' | 'vuex' | undefined;
-  getNodePackagerName: () => 'npm' | 'yarn' | 'pnpm';
+  getNodePackagerName: () => Promise<'npm' | 'yarn' | 'pnpm' | 'bun'>;
 }
 
 interface SharedIndexInstallAPI {

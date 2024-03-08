@@ -75,6 +75,7 @@ module.exports.displayBanner = function displayBanner ({ argv, ctx, cmd, details
  Output folder............. ${ green(details.buildOutputFolder) }`
     }
 
+    // TODO: mention pnpm and Bun. Also update it such that we only display the package manager in use
     if (argv.mode === 'ssr') {
       banner += `
 

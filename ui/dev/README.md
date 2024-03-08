@@ -1,3 +1,4 @@
 ## Quasar Development
 
-Run "yarn dev" (or "yarn dev:ssr") from /ui after a yarn install (in /ui)
+Make sure the dependencies are installed by running `pnpm i` in the root or in `/ui`.
+Then, run `pnpm dev" (or `pnpm dev:ssr`) inside `/ui`.

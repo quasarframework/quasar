@@ -7,9 +7,9 @@ const { green } = require('chalk')
 
 /*
   Build:
-  * all: yarn build     / npm run build
-  * js:  yarn build js  / npm run build js
-  * css: yarn build css / npm run build css
+  * all: pnpm build
+  * js:  pnpm build js
+  * css: pnpm build css
  */
 
 console.log()

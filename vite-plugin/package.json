@@ -15,13 +15,13 @@
   "scripts": {
     "build": "node ./build/clean.js && rollup --config ./build/rollup.config.js",
     "lint": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-    "test": "yarn test:unit:ci && yarn test:e2e:ci",
+    "test": "pnpm test:unit:ci && pnpm test:e2e:ci",
     "test:unit:dev": "vitest",
     "test:unit:ci": "vitest run",
-    "test:e2e:start:dev": "cd ./playground && yarn dev --port 9000",
-    "test:e2e:start:serve": "cd ./playground && yarn start --port 9000",
-    "test:e2e:dev": "start-test \"yarn test:e2e:start:dev\" http-get://localhost:9000 \"yarn cypress open --e2e\"",
-    "test:e2e:ci": "start-test \"yarn test:e2e:start:serve\" http-get://localhost:9000 \"yarn cypress run --e2e\""
+    "test:e2e:start:dev": "cd ./playground && pnpm dev --port 9000",
+    "test:e2e:start:serve": "cd ./playground && pnpm start --port 9000",
+    "test:e2e:dev": "start-test \"pnpm test:e2e:start:dev\" http-get://localhost:9000 \"pnpm cypress open --e2e\"",
+    "test:e2e:ci": "start-test \"pnpm test:e2e:start:serve\" http-get://localhost:9000 \"pnpm cypress run --e2e\""
   },
   "files": [
     "dist",

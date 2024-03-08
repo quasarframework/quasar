@@ -44,14 +44,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # create-quasar is not included in workspaces, and its yarn.lock is .gitignored, so we can't have caching
-          # cache: 'yarn'
+          # create-quasar is not included in workspaces, and its lock file is .gitignored, so we can't have caching
+          # cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       - name: Lint the code
-        run: yarn lint
+        run: pnpm lint
 
   test:
     needs: lint
@@ -83,11 +83,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          # create-quasar is not included in workspaces, and its yarn.lock is .gitignored, so we can't have caching
-          # cache: 'yarn'
+          # create-quasar is not included in workspaces, and its lock file is .gitignored, so we can't have caching
+          # cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       # pnpm
       - name: Install pnpm
@@ -143,7 +143,7 @@ jobs:
             npm-cache-
 
       - name: Create the test project
-        run: yarn create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
+        run: pnpm create-test-project ${{ matrix.script-type }} ${{ matrix.app-engine }} ${{ matrix.package-manager }}
 
       - name: Lint the project
         working-directory: create-quasar/test-project

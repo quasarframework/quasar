@@ -1,0 +1,11 @@
+# Not all packages are included.
+# Use individual folders for usual development of everything else.
+packages:
+  - app-vite
+  - '@quasar/extras'
+  - vite-plugin
+  - vite-plugin/playground
+  - utils/render-ssr-error
+  - utils/ssl-certificate
+  - ui
+  - docs

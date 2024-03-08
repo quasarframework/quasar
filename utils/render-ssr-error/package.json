@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint ./ --ext .js,.vue --fix --report-unused-disable-directives",
     "dev": "cd src-ui && quasar dev",
-    "build": "yarn build:ui && yarn build:package",
+    "build": "pnpm build:ui && pnpm build:package",
     "build:ui": "cd src-ui && quasar build",
     "build:package": "node ./build/index.js"
   },

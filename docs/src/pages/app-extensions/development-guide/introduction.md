@@ -112,6 +112,8 @@ $ bun create quasar
 # then pick the AppExtension option
 ```
 
+<!-- TODO: Add pnpm and bun instructions in relevant sections below -->
+
 It will prompt you about your specific needs. Do you need an install script, an uninstall script, will you be prompting the user with some questions? Pick only what you will be using. You can manually add these later if you decide otherwise.
 
 For the sake of this documentation page, let's assume we answered with `my-ext` to the App Extension `ext-id` question (regarding the prompts above). Remember that the folder name for the App Extension source folder can be different from the actual `ext-id`. At the end, we will publish our new npm package (`quasar-app-extension-my-ext`).

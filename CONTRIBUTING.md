@@ -54,12 +54,12 @@ Hi! We are really excited that you are interested in contributing to Quasar 👏
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **v16+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) **v16+** along [pnpm](https://pnpm.io/). Read `package.json` and take notice of the scripts you can use.
 
 After cloning the repo, in each subfolder run:
 
 ``` bash
-$ yarn # or: npm install
+$ pnpm i
 ```
 
 ### Commonly used NPM scripts
@@ -67,19 +67,19 @@ $ yarn # or: npm install
 ``` bash
 # Start dev server with a demo app. This app has Quasar source code linked directly so any change will trigger HMR (Hot Module Reload) on the dev server.
 # There's a section for each feature where tests are made.
-$ yarn dev [theme] # or: npm run dev [theme]
+$ pnpm dev [theme]
 
 # build all dist files, including npm packages
-$ yarn build      # or: npm run build
+$ pnpm build
 # build only js dist files
-$ yarn build js   # or: npm run build js
+$ pnpm build js
 # build only type related files
-$ yarn build js types  # or: npm run build js types
+$ pnpm build js types
 # build only css dist files
-$ yarn build css  # or: npm run build css
+$ pnpm build css
 
 # lint sources
-$ yarn lint # or: npm run lint
+$ pnpm lint
 ```
 
 ## Project Structure (/ui)
@@ -112,7 +112,7 @@ $ yarn lint # or: npm run lint
 
 ## Dev Server for Quasar (/ui)
 
-Running `yarn dev` (or `npm run dev`) starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.
+Running `pnpm dev` starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.
 
 ## Financial Contribution
 

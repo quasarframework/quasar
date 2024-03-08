@@ -1,23 +1,12 @@
 {
   "name": "quasar-monorepo",
   "private": true,
-  "packageManager": "yarn@1.22.19",
-  "//": "Not all packages are included. Use individual folders for usual development of everything else.",
-  "workspaces": [
-    "app-vite",
-    "@quasar/extras",
-    "vite-plugin",
-    "vite-plugin/playground",
-    "utils/render-ssr-error",
-    "utils/ssl-certificate",
-    "ui",
-    "docs"
-  ],
+  "packageManager": "pnpm@8.15.4",
   "scripts": {
-    "test": "yarn vite-ecosystem-ci:build && yarn vite-ecosystem-ci:test && yarn vue-ecosystem-ci:test",
-    "vite-ecosystem-ci:build": "yarn workspace @quasar/vite-plugin build && yarn workspace quasar test:build",
-    "vite-ecosystem-ci:test": "yarn workspace @quasar/vite-plugin test",
-    "vue-ecosystem-ci:build": "yarn vite-ecosystem-ci:build",
-    "vue-ecosystem-ci:test": "yarn workspace quasar test:component:run && yarn workspace @quasar/vite-plugin test:e2e:ci"
+    "test": "pnpm vite-ecosystem-ci:build && pnpm vite-ecosystem-ci:test && pnpm vue-ecosystem-ci:test",
+    "vite-ecosystem-ci:build": "pnpm workspace @quasar/vite-plugin build && pnpm workspace quasar test:build",
+    "vite-ecosystem-ci:test": "pnpm workspace @quasar/vite-plugin test",
+    "vue-ecosystem-ci:build": "pnpm vite-ecosystem-ci:build",
+    "vue-ecosystem-ci:test": "pnpm workspace quasar test:component:run && pnpm workspace @quasar/vite-plugin test:e2e:ci"
   }
 }

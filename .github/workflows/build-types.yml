@@ -57,16 +57,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          # No caching because we are not checking lock files in
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: yarn
+        run: pnpm i
 
       - name: Ensure types are formatted correctly
-        run: yarn format:types --write=false --check
+        run: pnpm format:types --write=false --check
 
       - name: Build the types
-        run: yarn build js types
+        run: pnpm build js types
 
       - if: ${{ github.event_name == 'pull_request' }}
         run: |

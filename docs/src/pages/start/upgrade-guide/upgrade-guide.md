@@ -1111,7 +1111,7 @@ For an in-depth look at the necessary UMD scripts and tags, please use our [gene
 
 This section refers to "@quasar/app" v3 package which supports Vue 3 and Quasar UI v2.
 
-* Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually yarn/npm install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
+* Dropped support for `src/css/quasar.variables.styl`. Also, if you still want to use Stylus as preprocessor (but without the Quasar Stylus variables) then you need to manually install `stylus` and `stylus-loader` as dev dependencies into your project ("@quasar/app" does not supply them anymore).
 * New quasar.config file > build > vueLoaderOptions prop
 * Remove quasar.config file > framework > importStrategy. Auto import works so great that is now used by default and as the only option.
 * The url-loader configuration has been enhanced so it now also supports "ico" files out of the box
