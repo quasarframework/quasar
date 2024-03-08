@@ -16,7 +16,7 @@ export async function script ({ scope, utils }) {
       name: 'preset',
       message: 'Check the features needed for your project:',
       choices: [
-        { title: 'vite-plugin-checker (ESLint)', value: 'lint', description: 'recommended', selected: true },
+        { title: 'Linting (vite-plugin-checker + ESLint)', value: 'lint', description: 'recommended', selected: true },
         { title: 'State Management (Pinia)', value: 'pinia', description: 'https://pinia.vuejs.org' },
         { title: 'State Management (Vuex) [DEPRECATED by Vue Team]', value: 'vuex', description: 'See https://vuejs.org/guide/scaling-up/state-management.html#pinia' },
         { title: 'axios', value: 'axios' },

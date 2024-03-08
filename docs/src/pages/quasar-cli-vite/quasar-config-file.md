@@ -172,62 +172,20 @@ type QuasarBootConfiguration = (string | BootConfigurationItem)[];
 
 ### preFetch
 
-More on the [PreFetch Feature](/quasar-cli-vite/prefetch-feature).
+More on the [PreFetch Feature](/quasar-cli-vite/prefetch-feature) page.
 
 ```js
 /** Enable the preFetch feature. */
 preFetch?: boolean;
 ```
 
-### eslint
+### eslint <q-badge label="deprecated" />
 
-Quasar CLI will use [ESLint](https://eslint.org) to lint your code automatically when running `quasar dev` or `quasar build`.
+::: warning
+This property has been deprecated in favour of using vite-plugin-checker.
+:::
 
-To use this, you need the linting packages already installed and configured in your project.
-If you [scaffolded a Quasar project](/start/quasar-cli#installation-project-scaffolding) and picked "Linting" when prompted, then you already have ESLint configured.
-Otherwise, scaffold a new project and pick "Linting" when prompted, then find the linting related differences and apply them to your project.
-
-If you have ESLint installed and configured in your project, this feature will be enabled by default. You can control the behavior of this feature through the `eslint` property in `/quasar.config` file:
-
-```js
-/** Options with which Quasar CLI will use ESLint */
-eslint?: QuasarEslintConfiguration;
-
-interface QuasarEslintConfiguration {
-  /**
-   * Should it report warnings?
-   * @default true
-   */
-  warnings?: boolean;
-
-  /**
-   * Should it report errors?
-   * @default true
-   */
-  errors?: boolean;
-
-  /**
-   * Fix on save
-   */
-  fix?: boolean;
-
-  /**
-   * Raw options to send to ESLint
-   */
-  rawOptions?: object;
-
-  /**
-   * Files to include (can be in glob format)
-   */
-  include?: string[];
-
-  /**
-   * Files to exclude (can be in glob format).
-   * Recommending to use .eslintignore file instead.
-   */
-  exclude?: string[];
-}
-```
+More on the [Linter](/quasar-cli-vite/linter) page.
 
 ### extras
 
@@ -440,9 +398,15 @@ interface BuildTargetOptions {
   node: string;
 }
 
+interface PluginEntryRunOptions {
+  server?: boolean;
+  client?: boolean;
+}
+
+/* requires @quasar/app-vite 1.8+ */
 type PluginEntry =
-  | [pluginName: string, options?: any]
-  | [pluginFactory: (options?: any) => Plugin, options?: any]
+  | [pluginName: string, options?: any, runOptions?: PluginEntryRunOptions]
+  | [pluginFactory: (options?: any) => Plugin, options?: any, runOptions?: PluginEntryRunOptions]
   | Plugin
   | null
   | undefined

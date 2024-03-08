@@ -9,9 +9,9 @@ The build system uses [Vite](https://vitejs.dev) to create the UI of your websit
 
 ## Updating Vite config
 
-You may have noticed that the `vite.config.js`/`vite.config.ts` file does not exist in your Quasar CLI with Vite project. This is because Quasar CLI generates the Vite configuration for you so that you don't have to worry about it.
+You may have noticed that the `vite.config.js` / `vite.config.ts` file does not exist in your Quasar CLI with Vite project. This is because Quasar CLI generates the Vite configuration for you so that you don't have to worry about it.
 
-In case you need to tweak it, you can do so through `quasar.config file > build > extendViteConf` like so:
+In case you need to tweak it, you can do so through quasar.config file > build > extendViteConf like so:
 
 ```js /quasar.config file
 // use mergeConfig helper to avoid overwriting the default config
@@ -66,32 +66,48 @@ $ quasar inspect -h
     --help, -h       Displays this message
 ```
 
-## Adding Vite plugins
+## Adding Vite plugins <q-badge label="@quasar/app-vite 1.8+" />
 
 Make sure to yarn/npm install the vite plugin package that you want to use, then edit the `/quasar.config` file:
 
-```js
+```js /quasar.config file
 build: {
   vitePlugins: [
-    [ '<plugin-name>', { /* plugin options */ } ]
+    // both are perfectly equivalent:
+    [ '<plugin-name>', { /* plugin options */ } ],
+    [ '<plugin-name>', { /* plugin options */ }, { server: true, client: true } ]
+  ]
+}
+```
+
+You can disable a plugin on the client-side or the server-side, which is especially useful when developing a SSR app:
+
+```js /quasar.config file
+build: {
+  vitePlugins: [
+    // disable on the server-side:
+    [ '<plugin-name>', { /* plugin options */ }, { server: false } ],
+
+    // disable on the client-side:
+    [ '<plugin-name>', { /* plugin options */ }, { client: false } ]
   ]
 }
 ```
 
 There are multiple syntaxes supported:
 
-```js
+```js /quasar.config file
 vitePlugins: [
-  [ '<plugin1-name>', { /* plugin1 options */ } ],
-  [ '<plugin2-name>', { /* plugin2 options */ } ],
+  [ '<plugin1-name>', { /* plugin1 options */ }, { server: true, client: true } ],
+  [ '<plugin2-name>', { /* plugin2 options */ }, { server: true, client: true } ],
   // ...
 ]
 
 // or:
 
 vitePlugins: [
-  [ require('<plugin1-name>'), { /* plugin1 options */ } ],
-  [ require('<plugin2-name>'), { /* plugin2 options */ } ],
+  [ require('<plugin1-name>'), { /* plugin1 options */ }, { server: true, client: true } ],
+  [ require('<plugin2-name>'), { /* plugin2 options */ }, { server: true, client: true } ],
   // ...
 ]
 

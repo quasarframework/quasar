@@ -33,7 +33,7 @@ api.compatibleWith(
 * Typescript detection is based on the quasar.config file being in TS form (quasar.config.ts) and tsconfig.json file presence.
 * feat+refactor(app-vite): ability to run multiple modes + dev/build simultaneously (huge effort!)
 * SSR and Electron modes now build in ESM format.
-* Dropped support for our internal linting system (quasar.config file > eslint). Should use `vite-plugin-checker` instead.
+* Dropped support for our internal linting system (quasar.config file > eslint). Should use [vite-plugin-checker](https://vite-plugin-checker.netlify.app/) instead.
 * **We will detail more breaking changes for each of the Quasar modes below**.
 
 ### Highlights on what's new
@@ -181,7 +181,7 @@ Preparations:
 
 ### Linting (TS or JS)
 
-We dropped support for our internal linting (quasar.config file > eslint) in favor of the `vite-plugin-checker` package. We will detail below the changes that you need to make based on if you use TS or not.
+We dropped support for our internal linting (quasar.config file > eslint) in favor of the [vite-plugin-checker](https://vite-plugin-checker.netlify.app/) package. We will detail below the changes that you need to make based on if you use TS or not.
 
 #### Typescript projects linting
 
@@ -233,7 +233,7 @@ Create a new file called `tsconfig-vue-tsc.json` in the root of your project fol
 +         tsconfigPath: 'tsconfig-vue-tsc.json'
 +       },
 +       eslint: {
-+         lintCommand: 'eslint "./**/*.{js,mjs,cjs,vue}"'
++         lintCommand: 'eslint "./**/*.{js,ts,mjs,cjs,vue}"'
 +       }
 +     }, { server: false }]
     ]
