@@ -1674,17 +1674,14 @@ export default [
       },
       {
         name: 'Type Checking Utils',
-        badge: 'new',
         path: 'type-checking-utils'
       },
       {
         name: 'EventBus Util',
-        badge: 'new',
         path: 'event-bus-util'
       },
       {
         name: 'Other Utils',
-        badge: 'update',
         path: 'other-utils'
       }
     ]
