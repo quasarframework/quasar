@@ -1,4 +1,4 @@
-import { UserConfig as ViteUserConfig } from "vite";
+import { Plugin, UserConfig as ViteUserConfig } from "vite";
 import { Options as VuePluginOptions } from "@vitejs/plugin-vue"
 import { QuasarHookParams } from "./conf";
 
@@ -59,6 +59,19 @@ interface BuildTargetOptions {
   node: string;
 }
 
+interface PluginEntryRunOptions {
+  server?: boolean;
+  client?: boolean;
+}
+
+type PluginEntry =
+  | [pluginName: string, options?: any, runOptions?: PluginEntryRunOptions]
+  | [pluginFactory: (options?: any) => Plugin, options?: any, runOptions?: PluginEntryRunOptions]
+  | Plugin
+  | null
+  | undefined
+  | false;
+
 interface QuasarStaticBuildConfiguration {
   /**
    * @example
@@ -82,13 +95,24 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Vite plugins
    *
+   * @see https://v2.quasar.dev/quasar-cli-vite/handling-vite#adding-vite-plugins
+   *
    * @example
-   *   [
-   *     [ 'package-name', { ..options.. } ],
-   *     [ require('some-plugin'), { ...options... } ]
-   *   ]
+   * [
+   *   [ 'some-plugin', { ...pluginOptions... } ],
+   *
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ 'some-plugin', { ...pluginOptions... }, { server: true, client: true } ],
+   *
+   *   [ require('some-plugin'), { ...pluginOptions... } ],
+   *
+   *   // disable running on client or server threads (set server/client to false):
+   *   [ require('some-plugin'), { ...pluginOptions... }, { server: true, client: true } ],
+   *
+   *   require('some-plugin')({ ...pluginOptions... })
+   * ]
    */
-  vitePlugins?: object[];
+  vitePlugins?: PluginEntry[];
   /**
    * @example setting an alias for a custom folder
    *    {
@@ -198,34 +222,34 @@ interface QuasarStaticBuildConfiguration {
    * like starting some backend or any other service that the app relies on.
    * Can use async/await or directly return a Promise.
    */
-   beforeDev?: (params: QuasarHookParams) => void;
-   /**
-    * Run hook after Quasar dev server is started (`$ quasar dev`).
-    * At this point, the dev server has been started and is available should you wish to do something with it.
-    * Can use async/await or directly return a Promise.
-    */
-   afterDev?: (params: QuasarHookParams) => void;
-   /**
-    * Run hook before Quasar builds app for production (`$ quasar build`).
-    * At this point, the distributables folder hasn’t been created yet.
-    * Can use async/await or directly return a Promise.
-    */
-   beforeBuild?: (params: QuasarHookParams) => void;
-   /**
-    * Run hook after Quasar built app for production (`$ quasar build`).
-    * At this point, the distributables folder has been created and is available
-    *  should you wish to do something with it.
-    * Can use async/await or directly return a Promise.
-    */
-   afterBuild?: (params: QuasarHookParams) => void;
-   /**
-    * Run hook if publishing was requested (`$ quasar build -P`),
-    *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
-    * Can use async/await or directly return a Promise.
-    * `opts` is Object of form `{arg, distDir}`,
-    * where “arg” is the argument supplied (if any) to -P parameter.
-    */
-   onPublish?: (ops: { arg: string; distDir: string }) => void;
+  beforeDev?: (params: QuasarHookParams) => void;
+  /**
+   * Run hook after Quasar dev server is started (`$ quasar dev`).
+   * At this point, the dev server has been started and is available should you wish to do something with it.
+   * Can use async/await or directly return a Promise.
+   */
+  afterDev?: (params: QuasarHookParams) => void;
+  /**
+   * Run hook before Quasar builds app for production (`$ quasar build`).
+   * At this point, the distributables folder hasn’t been created yet.
+   * Can use async/await or directly return a Promise.
+   */
+  beforeBuild?: (params: QuasarHookParams) => void;
+  /**
+   * Run hook after Quasar built app for production (`$ quasar build`).
+   * At this point, the distributables folder has been created and is available
+   *  should you wish to do something with it.
+   * Can use async/await or directly return a Promise.
+   */
+  afterBuild?: (params: QuasarHookParams) => void;
+  /**
+   * Run hook if publishing was requested (`$ quasar build -P`),
+   *  after Quasar built app for production and the afterBuild hook (if specified) was executed.
+   * Can use async/await or directly return a Promise.
+   * `opts` is Object of form `{arg, distDir}`,
+   * where “arg” is the argument supplied (if any) to -P parameter.
+   */
+  onPublish?: (ops: { arg: string; distDir: string }) => void;
 }
 
 /**

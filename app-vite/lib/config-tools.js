@@ -18,18 +18,18 @@ const { dependencies: cliDepsObject } = require(appPaths.resolve.cli('package.js
 const appPkgFile = appPaths.resolve.app('package.json')
 const cliDeps = Object.keys(cliDepsObject)
 
-function parseVitePlugins (entries) {
+function parseVitePlugins (entries, quasarRunMode) {
   const acc = []
   let showTip = false
 
-  entries.forEach(entry => {
+  for (const entry of entries) {
     if (!entry) {
       // example:
       // [
       //   ctx.dev ? [ ... ] : null,
       //   // ...
       // ]
-      return
+      continue
     }
 
     if (Array.isArray(entry) === false) {
@@ -38,17 +38,26 @@ function parseVitePlugins (entries) {
       }
 
       acc.push(entry)
-      return
+      continue
     }
 
-    const [ name, opts = {} ] = entry
+    const [ name, pluginOpts = {}, runOpts = { client: true, server: true } ] = entry
+
+    if (quasarRunMode === 'ssr-server') {
+      // if it's configured to not run on server, then skip it
+      if (runOpts.server === false) continue
+    }
+    else if (runOpts.client === false) {
+      // if it's configured to not run on client, then skip it
+      continue
+    }
 
     if (typeof name === 'function') {
       acc.push(
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
-        name(merge({}, opts))
+        name(merge({}, pluginOpts))
       )
-      return
+      continue
     }
 
     if (Object(name) === name) {
@@ -56,20 +65,20 @@ function parseVitePlugins (entries) {
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
         merge({}, name)
       )
-      return
+      continue
     }
 
     if (typeof name !== 'string') {
-      warn('quasar.config.js > invalid Vite plugin specified: ' + name)
-      warn('Correct form: [ \'my-vite-plugin-name\', { /* opts */ } ] or [ pluginFn, { /* opts */ } ]')
-      return
+      warn('quasar.config file > invalid Vite plugin specified: ' + name)
+      warn('Correct form: [ \'my-vite-plugin-name\', { /* pluginOpts */ } ] or [ pluginFn, { /* pluginOpts */ } ]')
+      continue
     }
 
     const plugin = getPackage(name)
 
     if (!plugin) {
       warn('quasar.config.js > invalid Vite plugin specified (cannot find it): ' + name)
-      return
+      continue
     }
 
     const pluginFn = (
@@ -81,13 +90,18 @@ function parseVitePlugins (entries) {
     acc.push(
       pluginFn(
         // protect against the Vite plugin mutating its own options and triggering endless cfg diff loop
-        merge({}, opts)
+        merge({}, pluginOpts)
       )
     )
-  })
+  }
 
   if (showTip === true) {
-    tip('If you want changes to quasar.config.js > build > vitePlugins to be picked up, specify them in this form: [ [ \'plugin-name\', { /* opts */ } ], ... ] or [ [ pluginFn, { /* opts */ } ], ... ]')
+    tip(
+      'If you want changes to quasar.config file > build > vitePlugins to be picked up,'
+      + ' specify them in this form:'
+      + '[ [ \'plugin-name\', { /* pluginOpts */ }, { client: true, server: true } ], ... ]'
+      + ' or [ [ pluginFn, { /* pluginOpts */ }, { client: true, server: true } ], ... ]'
+    )
   }
 
   return acc
@@ -151,7 +165,7 @@ function createViteConfig (quasarConf, quasarRunMode) {
         sassVariables: quasarConf.metaConf.css.variablesFile,
         devTreeshaking: quasarConf.build.devQuasarTreeshaking === true
       }),
-      ...parseVitePlugins(build.vitePlugins)
+      ...parseVitePlugins(build.vitePlugins, quasarRunMode)
     ]
   }
 
