@@ -232,6 +232,13 @@
       "category": "style"
     },
 
+    "popup-no-route-dismiss": {
+      "type": "Boolean",
+      "desc": "Changing route app won't dismiss the popup (menu or dialog)",
+      "category": "behavior",
+      "addedIn": "2.14.8"
+    },
+
     "use-input": {
       "type": "Boolean",
       "desc": "Use an input tag where users can type",

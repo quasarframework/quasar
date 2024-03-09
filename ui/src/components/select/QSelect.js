@@ -79,6 +79,7 @@ export default createComponent({
 
     popupContentClass: String,
     popupContentStyle: [ String, Array, Object ],
+    popupNoRouteDismiss: Boolean,
 
     useInput: Boolean,
     useChips: Boolean,
@@ -1186,6 +1187,7 @@ export default createComponent({
         noParentEvent: true,
         noRefocus: true,
         noFocus: true,
+        noRouteDismiss: props.popupNoRouteDismiss,
         square: squaredMenu.value,
         transitionShow: props.transitionShow,
         transitionHide: props.transitionHide,
@@ -1263,6 +1265,7 @@ export default createComponent({
         transitionShow: transitionShowComputed,
         transitionHide: props.transitionHide,
         transitionDuration: props.transitionDuration,
+        noRouteDismiss: props.popupNoRouteDismiss,
         onBeforeShow: onControlPopupShow,
         onBeforeHide: onDialogBeforeHide,
         onHide: onDialogHide,
