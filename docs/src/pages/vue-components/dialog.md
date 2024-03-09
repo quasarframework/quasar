@@ -38,6 +38,8 @@ It's best that your QDialog main content is a QCard. However, if you are plannin
 
 <DocExample title="Styling" file="Style" />
 
+<DocExample title="Backdrop filter (v2.14.8+)" file="BackdropFilter" />
+
 ### Positioning
 <DocExample title="Positions" file="Positioning" />
 

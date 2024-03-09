@@ -64,6 +64,8 @@ export default createComponent({
 
     square: Boolean,
 
+    backdropFilter: String,
+
     position: {
       type: String,
       default: 'standard',
@@ -101,6 +103,16 @@ export default createComponent({
       () => defaultTransitions[ props.position ][ 0 ],
       () => defaultTransitions[ props.position ][ 1 ]
     )
+
+    const backdropStyle = computed(() => (
+      transitionStyle.value
+      + (
+        props.backdropFilter !== void 0
+          // Safari requires the -webkit prefix
+          ? `;backdrop-filter:${ props.backdropFilter };-webkit-backdrop-filter:${ props.backdropFilter }`
+          : ''
+      )
+    ))
 
     const { showPortal, hidePortal, portalIsAccessible, renderPortal } = usePortal(
       vm, innerRef, renderPortalContent, 'dialog'
@@ -384,7 +396,7 @@ export default createComponent({
           useBackdrop.value === true
             ? h('div', {
               class: 'q-dialog__backdrop fixed-full',
-              style: transitionStyle.value,
+              style: backdropStyle.value,
               'aria-hidden': 'true',
               tabindex: -1,
               onClick: onBackdropClick

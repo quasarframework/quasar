@@ -42,6 +42,25 @@
       "category": "content"
     },
 
+    "backdrop-filter": {
+      "type": "String",
+      "desc": "Apply a backdrop filter; The value needs to be the same as in the CSS specs for backdrop-filter; The examples are not an exhaustive list",
+      "examples": [
+        "blur(4px)",
+        "blur(4px) saturate(150%)",
+        "brightness(60%)",
+        "invert(70%)",
+        "grayscale(100%)",
+        "contrast(40%)",
+        "hue-rotate(120deg)",
+        "sepia(90%)",
+        "saturate(80%)",
+        "none"
+      ],
+      "category": "style",
+      "addedIn": "v2.14.8"
+    },
+
     "maximized": {
       "type": "Boolean",
       "desc": "Put Dialog into maximized mode",

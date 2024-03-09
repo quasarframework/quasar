@@ -187,7 +187,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="confirm" persistent :transition-duration="2000">
+    <q-dialog v-model="confirm" persistent :transition-duration="2000" backdrop-filter="invert(70%)">
       <q-card>
         <q-card-section class="row items-center">
           <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
