@@ -668,6 +668,11 @@ export default [
         path: 'use-hydration'
       },
       {
+        name: 'useId',
+        badge: 'new',
+        path: 'use-id'
+      },
+      {
         name: 'useRenderCache',
         badge: 'new',
         path: 'use-render-cache'

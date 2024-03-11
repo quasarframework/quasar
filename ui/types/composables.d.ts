@@ -31,6 +31,13 @@ export function useHydration(): {
   isHydrated: Ref<boolean>;
 };
 
+export function useId(opts?: {
+  getValue?: () => string | null | undefined;
+  required?: boolean;
+}): {
+  id: Ref<string>;
+};
+
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
 export function useQuasar(): QVueGlobals;

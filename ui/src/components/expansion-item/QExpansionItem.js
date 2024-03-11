@@ -8,7 +8,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSeparator from '../separator/QSeparator.js'
 
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
-import useId from '../../composables/private/use-id.js'
+import useId from '../../composables/use-id.js'
 import { useRouterLinkProps } from '../../composables/private/use-router-link.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 
