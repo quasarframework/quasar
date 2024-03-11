@@ -666,6 +666,16 @@ export default [
         name: 'useRenderCache',
         badge: 'new',
         path: 'use-render-cache'
+      },
+      {
+        name: 'useTick',
+        badge: 'new',
+        path: 'use-tick'
+      },
+      {
+        name: 'useTimeout',
+        badge: 'new',
+        path: 'use-timeout'
       }
     ]
   },

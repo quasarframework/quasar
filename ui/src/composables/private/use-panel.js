@@ -2,7 +2,7 @@ import { h, ref, computed, watch, nextTick, getCurrentInstance, Transition, Keep
 
 import TouchSwipe from '../../directives/TouchSwipe.js'
 
-import useCache from '../../composables/private/use-cache.js'
+import useRenderCache from '../../composables/use-render-cache.js'
 
 import { hSlot } from '../../utils/private/render.js'
 import { getNormalizedVNodes } from '../../utils/private/vm.js'
@@ -48,7 +48,7 @@ export const usePanelEmits = [ 'update:modelValue', 'beforeTransition', 'transit
 
 export default function () {
   const { props, emit, proxy } = getCurrentInstance()
-  const { getCacheWithFn } = useCache()
+  const { getCacheByFn } = useRenderCache()
 
   let panels, forcedPanelTransition
 
@@ -207,7 +207,7 @@ export default function () {
           h(KeepAlive, keepAliveProps.value, [
             h(
               needsUniqueKeepAliveWrapper.value === true
-                ? getCacheWithFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
+                ? getCacheByFn(contentKey.value, () => ({ ...PanelWrapper, name: contentKey.value }))
                 : PanelWrapper,
               { key: contentKey.value, style: transitionStyle.value },
               () => panel

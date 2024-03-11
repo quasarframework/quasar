@@ -7,7 +7,7 @@ import useRatio, { useRatioProps } from '../../composables/private/use-ratio.js'
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'
 import { vmIsDestroyed } from '../../utils/private/vm.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useTimeout from '../../composables/use-timeout.js'
 
 const defaultRatio = 16 / 9
 

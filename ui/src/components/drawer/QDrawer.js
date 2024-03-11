@@ -3,7 +3,7 @@ import { h, withDirectives, ref, computed, watch, onMounted, onBeforeUnmount, ne
 import useHistory from '../../composables/private/use-history.js'
 import useModelToggle, { useModelToggleProps, useModelToggleEmits } from '../../composables/private/use-model-toggle.js'
 import usePreventScroll from '../../composables/private/use-prevent-scroll.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useTimeout from '../../composables/use-timeout.js'
 import useDark, { useDarkProps } from '../../composables/private/use-dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'

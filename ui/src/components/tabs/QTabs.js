@@ -3,8 +3,8 @@ import { h, ref, computed, watch, onBeforeUnmount, onActivated, onDeactivated, g
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import useTick from '../../composables/private/use-tick.js'
-import useTimeout from '../../composables/private/use-timeout.js'
+import useTick from '../../composables/use-tick.js'
+import useTimeout from '../../composables/use-timeout.js'
 
 import { createComponent } from '../../utils/private/create.js'
 import { hSlot } from '../../utils/private/render.js'

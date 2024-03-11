@@ -39,3 +39,17 @@ export function useFormChild(options: UseFormChildOptions): void;
 export function useMeta(options: MetaOptions | (() => MetaOptions)): void;
 
 export function useQuasar(): QVueGlobals;
+
+interface useTickObject {
+  registerTick(fn: () => void): void;
+  removeTick(): void;
+}
+
+export function useTick(): useTickObject;
+
+interface useTimeoutObject {
+  registerTimeout(fn: () => void, delay?: string | number): void;
+  removeTimeout(): void;
+}
+
+export function useTimeout(): useTimeoutObject;
